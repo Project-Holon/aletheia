@@ -15,12 +15,11 @@ can read, reassemble byte-identically, and eventually replace piece by piece.
 
 What was built, and where it landed:
 
-1. **BLZ decompression** (`tools/blz.py`). Decoder and encoder, with the
-   container's footer semantics documented in `docs/NOTES.md`. The decoder is
-   validated 230 ways: the ARM9 image and all 229 compressed overlays
-   decompress to exactly the size their tables declare. The *encoder*
-   round-trips but does not yet reproduce the SDK's choice of verbatim
-   prefix, so a matching recompressor is still outstanding; see below.
+1. **BLZ codec** (`tools/blz.py`). Decoder and encoder, with the container's
+   footer semantics documented in `docs/NOTES.md`. The decoder is validated
+   230 ways: the ARM9 image and all 229 compressed overlays decompress to
+   exactly the size their tables declare. The encoder was finished after the
+   milestone closed and now *matches*: see milestone 2.5 below.
 2. **Autoload/overlay layout** (`tools/delink.py`, `layout/layout.json`). The
    SDK5 build info is parsed, including a second TWL build-info structure and
    16-byte autoload entries, and the tool fails loudly if the recovered
@@ -49,17 +48,35 @@ What was built, and where it landed:
 
 Carried into milestone 3:
 
-- **Matching BLZ recompression.** The ROM `ndsrom.py build` produces still
-  embeds the original compressed `arm9.bin`, so a change to the assembly does
-  not yet reach the ROM. The decompressed image is proven byte-identical,
-  which is exactly the compressor's input, so this is the one missing link in
-  the chain and the first thing to fix.
 - **Translation units for the overlays**, and a whole-program link so that
   cross-region calls become label references instead of raw encodings.
 
 Output of this milestone: a disassembled, re-buildable source tree that
 matches the original image byte-for-byte and is organized enough to start
 decompiling incrementally.
+
+## Milestone 2.5: matching BLZ recompression (done)
+
+The item carried out of milestone 2. Until this was fixed, `ndsrom.py build`
+still embedded the *original* compressed `arm9.bin` and overlays, so a change
+to the assembly could not reach the ROM.
+
+- `blz.py compress` reproduces the SDK compressor exactly: 230 of 230
+  containers (`arm9.bin` and all 229 compressed overlays) byte-identical,
+  footer fields and alignment padding included. The recovered search policy
+  (greedy, no self-overlapping matches, nearest displacement wins ties) and
+  the retreat fixpoint that picks the verbatim prefix are documented under
+  "Matching BLZ compression" in `docs/NOTES.md`.
+- `tools/build.py --pack` turns the reassembled regions into ROM-ready
+  binaries (recompressed ARM9 plus all 237 overlay files) in `build/pack`.
+- `tools/ndsrom.py build --override DIR` prefers those over the extracted
+  originals. The result verifies at sha1
+  `26ad0b9967aa279c4a266ee69f52b9b2332399a5`, with 238 files coming from the
+  recompressed set, and still does so with the originals moved out of the
+  tree entirely.
+
+The chain is now closed end to end: edit `asm/`, assemble, link, recompress,
+repack, and the ROM is byte-identical when nothing was changed.
 
 ## Milestone 3: incremental decompilation
 

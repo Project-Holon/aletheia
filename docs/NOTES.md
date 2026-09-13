@@ -135,12 +135,9 @@ hold. Separately, all 229 compressed overlays decompress to exactly the size
 their overlay table entry declares, which is 229 independent end-to-end
 checks of the decoder.
 
-`blz.py compress` exists and round-trips (`decompress(compress(x)) == x`,
-checked by the CLI on every run), but it does not yet reproduce the SDK's
-choice of verbatim prefix, which the SDK sizes so that the hardware's
-*in place* decompression never lets the write pointer overtake the read
-pointer. Do not use it to build a ROM that has to boot until that property
-has been verified.
+`blz.py compress` reproduces the SDK's own output byte for byte, footer
+included, for all 230 compressed containers in this ROM. How that was
+recovered is written up under "Matching BLZ compression" below.
 
 ## Autoload table: the 4th field
 
@@ -448,18 +445,175 @@ python tools/disasm.py arm9 --split
 python tools/disasm.py overlay --all
 python tools/build.py --arm9-image          # 242 regions, monolithic
 python tools/build.py --split --only arm9   # ARM9 regions from their TUs
-python tools/ndsrom.py build extract -o build/pokeblack.nds
+python tools/build.py --pack                # + recompress into build/pack
+python tools/ndsrom.py build extract --override build/pack -o build/pokeblack.nds
 python tools/ndsrom.py verify extract build/pokeblack.nds
 ```
 
-## Known limitation: BLZ recompression
+The compressor can also be exercised on its own against the originals:
 
-The ROM produced by `ndsrom.py build` still embeds the *original* compressed
-`arm9.bin`, not a container recompressed from the reassembled image. Matching
-BLZ recompression is out of scope for this milestone: `blz.py compress`
-round-trips but does not yet reproduce the SDK's choice of verbatim prefix
-(see the BLZ section above), so it cannot be used for a matching build. The
-proof that the reassembly is correct is the byte-identity of the decompressed
-image, which is the input the compressor would take. Wiring a matching
-compressor in, so that a change to the assembly actually reaches the ROM, is
-the first piece of work after this milestone.
+```
+python tools/blz.py compress extract/arm9_dec.bin --arm9 --reference extract/arm9.bin
+python tools/blz.py compress extract/overlays_dec/y9_0012.bin \
+    --reference extract/overlays/y9_0012.bin
+```
+
+## Matching BLZ compression
+
+`blz.py compress` now reproduces the SDK compressor's output exactly. All 230
+compressed containers in this ROM (`arm9.bin` plus the 229 compressed
+overlays) are byte-identical, footer fields and alignment padding included,
+so the ROM can be rebuilt from reassembled source with no original compressed
+binary embedded anywhere.
+
+The oracle is the ROM itself: every original container is a known-correct
+answer for a known input. `sdk/TwlSDK/tools/bin/compBLZ.exe` was run as a
+*behavioural* reference to confirm the shape of the algorithm (its `-d` trace
+prints the retreat loop described below); none of its code was used, and the
+shipped implementation is the Python in `tools/blz.py`.
+
+### Search policy
+
+Decoding an original container back into its token stream and comparing that
+token-by-token with candidate encoders isolates each decision. Four rules
+account for every token in all 230 files, with zero divergences:
+
+* **greedy**, one decision per position, evaluated over the *reversed*
+  plaintext. No lazy matching: the encoder never gives up a match here to
+  take a longer one at the next position.
+* **matches may not overlap themselves**: `length <= displacement`. This was
+  the first divergence found. At offset 21 of overlay 12 the plaintext admits
+  a length-11 match at displacement 3; the original encodes length 5 at
+  displacement 5 instead. Forbidding self-overlap, so that a candidate at
+  displacement `d` can only be compared for `d` bytes, explains that and 443
+  other positions in the same file. The run-length trick a normal LZ77 gets
+  from `disp < len` is simply not used.
+* **nearest wins ties**: among all matches of the maximal length, the
+  *smallest* displacement is encoded. The opposite tie-break (farthest) costs
+  443 tokens in overlay 12, 795 in overlay 11 and 477 in overlay 14, so the
+  two policies are easy to tell apart.
+* the usual field limits: lengths 3..18, displacements 3..0x1002.
+
+Implementation note: written naively that is a 0x1000-wide scan per position.
+`tokenize` instead grows the needle one byte at a time and uses
+`bytes.rfind(needle, lo, i)`, which returns the last start position whose
+whole needle still fits below `i`. That is precisely "nearest non-overlapping
+occurrence", so the tie-break falls out of the primitive, and a position
+costs `best_len` C-level scans rather than thousands of Python comparisons.
+
+### Verbatim prefix, hdr_len and inc_len
+
+The decompressor runs in place: both pointers walk backwards, the write
+pointer starting `inc_len` bytes above the end of the container and the read
+pointer `hdr_len` bytes below it. The write pointer must never drop below the
+read pointer, or output would clobber input that has not been read yet.
+
+Track the encoder's own counters at each token boundary, in decode order:
+`produced` bytes of plaintext against `consumed` bytes of stream (flag bytes
+included). Then
+
+```
+  D = produced - consumed
+```
+
+is exactly the gap between the two pointers at that moment, and at the final
+boundary `D` equals `inc_len + hdr_len` identically, because
+
+```
+  raw_len = dec_len + enc_len + inc_len   and   enc_len = pak_len + hdr_len
+```
+
+So the encoded region is safe if and only if **no earlier boundary has a
+larger `D` than the last one**. `D` is not monotone: a run of literals holds
+it flat and loses one more byte per flag byte, so an incompressible stretch
+at the *start* of the image (which is the *end* of the reversed plaintext)
+drags the final value below an earlier peak.
+
+The SDK does not search for the best safe split. It compresses everything,
+and while the result is unsafe it retreats to the **first** boundary whose
+`D` exceeds the current total and tries again. That is a fixpoint of
+
+```
+  at  <-  min { k <= at : D[k] > D[at] }
+```
+
+which is what `_split_point` computes. The result is safe but not optimal:
+for overlay 12 the fixpoint sits at `D = 2290` while the global maximum
+further along is 2294, so a smarter compressor could have left 20 fewer bytes
+unencoded. Reproducing the suboptimality is the point.
+
+`compBLZ.exe -d` prints exactly this loop for that file:
+
+```
+  1: source size = 10880  compressed = 8591
+    !! Shrink back Compressed region to avoid overwriting.
+    !! Expand non-compressed region = +89
+  2: source size = 10791  compressed = 8501
+```
+
+Truncating never changes the tokens that survive it, because the search is
+causal and the cut falls on a token boundary, so the whole fixpoint is
+computed from a single compression pass. 122 of the 229 overlays need no
+retreat at all, 107 need exactly one, and the ARM9 needs one.
+
+Everything else follows:
+
+```
+  dec_len = start + (len(rev) - produced_at_split)
+  pak_len = consumed_at_split
+  hdr_len = 8 + (-(dec_len + pak_len) mod 4)      padding byte is 0xFF
+  enc_len = pak_len + hdr_len
+  inc_len = raw_len - (dec_len + enc_len)
+```
+
+The observed `hdr_len` distribution over the 229 overlays (102 / 33 / 54 / 40
+for 0x08 / 0x09 / 0x0A / 0x0B) matches that formula exactly, which also pins
+down that the file length, not the stream length, is what gets aligned to 4.
+
+### Two details that only show up at the seams
+
+* **Stale flag bits.** The SDK builds the whole stream and then cuts it
+  short, so the flag byte of the group the cut lands in keeps the bits of the
+  tokens that were dropped. Re-emitting only the surviving tokens produces a
+  cleaner flag byte and a one-byte difference: overlay 13 wants `0x88` at
+  file offset 76 where a clean re-emit gives `0x80`. The decoder stops on the
+  output count and never looks at those bits, but they are part of the bytes
+  we have to reproduce. 22 of the 229 overlays land mid-group and need this.
+* **The ARM9 secure area.** `compress` takes `start` as a *minimum* verbatim
+  prefix. For the ARM9 it must be `blz.ARM9_SECURE_AREA` (0x4000): the secure
+  area is never encoded. Left at 0, the retreat fixpoint happily settles at
+  `dec_len = 0xB3D` and produces a 2812-byte-smaller container that would be
+  wrong. With the floor in place the fixpoint lands at 0x400F, which is the
+  original's value, so the secure area never needed special casing beyond
+  being a lower bound.
+
+### Cost
+
+Single-threaded CPython 3.11: the ARM9 (0xA67C0 bytes in, 0x6F898 out)
+compresses in about 1.6 s, and all 229 overlays together in about 8 s.
+`tools/build.py --pack` recompresses the ARM9 plus all 237 overlays in about
+10 s, which is noise next to assembling 242 regions.
+
+## Source to ROM in one chain
+
+`tools/build.py --pack [DIR]` (default `build/pack`) reassembles every region
+as before, then writes ROM-ready binaries into `DIR`: `arm9.bin` compressed
+from the reassembled decompressed image with `start=0x4000`, and all 237
+overlay files, the 229 compressed ones through `blz.compress` and the 8
+stored ones verbatim. It fails loudly if a recompressed file does not fit its
+ROM slot.
+
+`tools/ndsrom.py build --override DIR` then prefers any file present in `DIR`
+over the extracted original, and reports how many it took. For the unmodified
+tree that is 238 files and the result still verifies:
+
+```
+  238 file(s) taken from the override directory
+  sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5
+  PASS: rebuilt ROM is byte-identical to the original
+```
+
+That was also checked with `extract/arm9.bin` and `extract/overlays/` moved
+out of the way entirely, so nothing can be silently falling back to an
+original. There are now no embedded original binaries anywhere in the ARM9
+side of the chain: assembly to ROM is closed.

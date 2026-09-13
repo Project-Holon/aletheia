@@ -593,17 +593,31 @@ def cmd_build(args):
     in_dir = os.path.abspath(args.dir)
     out_path = os.path.abspath(args.out)
     man = load_manifest(in_dir)
+    overrides = [os.path.abspath(d) for d in getattr(args, "override", [])]
 
     rom_size = man["rom_size"]
     pad = man.get("pad_byte", PAD_BYTE)
     print(f"[*] building 0x{rom_size:X} byte image, padding 0x{pad:02X}")
+    for d in overrides:
+        print(f"    override directory {d}")
     rom = bytearray([pad]) * rom_size
 
     written = 0
+    overridden = 0
+
+    def resolve(relpath):
+        nonlocal overridden
+        rel = relpath.replace("/", os.sep)
+        for d in overrides:
+            cand = os.path.join(d, rel)
+            if os.path.isfile(cand):
+                overridden += 1
+                return cand
+        return os.path.join(in_dir, rel)
 
     def place(relpath, offset, size, what):
         nonlocal written
-        full = os.path.join(in_dir, relpath.replace("/", os.sep))
+        full = resolve(relpath)
         try:
             with open(full, "rb") as f:
                 data = f.read()
@@ -640,6 +654,9 @@ def cmd_build(args):
     print(f"    placed {len(man['regions'])} region records + "
           f"{len(man['residue'])} residue blobs "
           f"(0x{written:X} bytes of content)")
+    if overrides:
+        print(f"    {overridden} file(s) taken from the override "
+              f"director{'y' if len(overrides) == 1 else 'ies'}")
     print(f"    sha1 {digest}")
     return 0
 
@@ -742,6 +759,12 @@ def main(argv=None):
     p = sub.add_parser("build", help="repack an extracted directory into a ROM")
     p.add_argument("dir")
     p.add_argument("-o", "--out", default=os.path.join("build", "out.nds"))
+    p.add_argument("--override", metavar="DIR", action="append", default=[],
+                   help="take any file that exists under DIR from there "
+                        "instead of from the extracted directory; may be "
+                        "given more than once, earliest wins. Used to build a "
+                        "ROM from recompressed binaries (tools/build.py "
+                        "--pack) without consulting the originals")
     p.set_defaults(func=cmd_build)
 
     p = sub.add_parser("verify", help="compare a built ROM against the manifest")

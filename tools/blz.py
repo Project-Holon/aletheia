@@ -66,6 +66,19 @@ The ARM9 secure area (first 0x4000 bytes) is never part of the compressed
 stream; it simply falls inside the verbatim prefix. Passing ``--start
 0x4000`` is therefore only an assertion about where the encoded region may
 begin, not a different decode -- both spellings produce the same image.
+
+For *compression* it is not optional: ``compress(image, ARM9_SECURE_AREA)``,
+spelled ``--arm9`` on the command line, is what reproduces the original
+container. Without that floor the encoder settles on a smaller verbatim
+prefix that would overlap the secure area.
+
+--------------------------------------------------------------------------
+Matching
+--------------------------------------------------------------------------
+``compress`` reproduces the SDK compressor's bytes exactly for all 230
+compressed containers in this ROM. The recovered search policy and the rule
+that picks the verbatim prefix are derived, with the evidence, under
+"Matching BLZ compression" in docs/NOTES.md.
 """
 
 import argparse
@@ -80,6 +93,10 @@ MIN_DISP = 3
 MAX_DISP = 0x1002
 HDR_LEN_MIN = 0x08
 HDR_LEN_MAX = 0x0B
+
+# An ARM9 binary's secure area is never part of the encoded region, so the
+# SDK compresses an ARM9 image with this as its minimum verbatim prefix.
+ARM9_SECURE_AREA = 0x4000
 
 
 class BlzError(Exception):
@@ -229,92 +246,168 @@ def decompress(data, start=0, expect_size=None):
 # encoding
 # ---------------------------------------------------------------------------
 
-def compress(image, start=0):
-    """Encode ``image[start:]`` into a BLZ container; returns the whole file.
+def tokenize(rev):
+    """Token stream for the reversed plaintext ``rev``.
 
-    This is a straightforward greedy encoder. It round-trips through
-    ``decompress`` exactly, but unlike the SDK's own compressor it makes no
-    attempt to leave a verbatim prefix large enough to guarantee that the
-    hardware's *in place* decompression never overtakes its read pointer.
-    Use it for tooling and experiments, not for producing a ROM that must
-    boot, until that property has been verified separately.
+    The search policy, recovered from the 230 compressed originals in this
+    ROM (see docs/NOTES.md, "Matching BLZ compression"):
+
+      * greedy, one decision per position, no lazy evaluation;
+      * a match may not overlap itself, i.e. ``length <= displacement``;
+      * among all matches of the maximal length the *smallest* displacement
+        wins;
+      * lengths 3..18, displacements 3..0x1002.
+
+    Returns a list of ``(length, displacement)``; ``(1, 0)`` is a literal.
     """
-    if start < 0 or start > len(image):
-        raise BlzError(f"start offset 0x{start:X} is outside the image")
-
-    prefix = bytes(image[:start])
-    body = bytes(image[start:])
-    rev = body[::-1]
-
-    # Greedy LZ77 over the reversed plaintext, with a simple 3-byte hash chain.
-    out = bytearray()
-    flag_pos = -1
-    mask = 0
-    heads = {}
-    prev = [-1] * len(rev)
-    i = 0
     n = len(rev)
+    toks = []
+    i = 0
     while i < n:
+        maxl = n - i
+        if maxl > MAX_MATCH:
+            maxl = MAX_MATCH
+        best_len = 0
+        best_disp = 0
+        if maxl >= MIN_MATCH and i >= MIN_DISP:
+            lo = i - MAX_DISP
+            if lo < 0:
+                lo = 0
+            # ``rfind`` over [lo, i) returns the *last* start position whose
+            # whole needle still fits below i, which is exactly "nearest
+            # non-overlapping occurrence". Growing the needle one byte at a
+            # time stops at the first length with no occurrence, so a
+            # position costs best_len scans, not 0x1000 comparisons.
+            j = rev.rfind(rev[i:i + MIN_MATCH], lo, i)
+            if j >= 0:
+                best_len, best_disp = MIN_MATCH, i - j
+                length = MIN_MATCH + 1
+                while length <= maxl:
+                    j = rev.rfind(rev[i:i + length], lo, i)
+                    if j < 0:
+                        break
+                    best_len, best_disp = length, i - j
+                    length += 1
+        if best_len:
+            toks.append((best_len, best_disp))
+            i += best_len
+        else:
+            toks.append((1, 0))
+            i += 1
+    return toks
+
+
+def emit(rev, toks):
+    """Serialise ``toks`` into the LZ77 byte stream (not yet reversed)."""
+    out = bytearray()
+    flag_pos = 0
+    mask = 0
+    i = 0
+    for length, disp in toks:
         if mask == 0:
             flag_pos = len(out)
             out.append(0)
             mask = 0x80
-
-        best_len = 0
-        best_disp = 0
-        if i + MIN_MATCH <= n:
-            key = rev[i:i + MIN_MATCH]
-            cand = heads.get(key, -1)
-            limit = i - MAX_DISP
-            tries = 0
-            while cand >= 0 and cand >= limit and tries < 64:
-                disp = i - cand
-                if disp >= MIN_DISP:
-                    ml = 0
-                    maxl = min(MAX_MATCH, n - i)
-                    while ml < maxl and rev[cand + ml] == rev[i + ml]:
-                        ml += 1
-                    if ml > best_len:
-                        best_len = ml
-                        best_disp = disp
-                        if ml == MAX_MATCH:
-                            break
-                cand = prev[cand]
-                tries += 1
-
-        if best_len >= MIN_MATCH:
-            token = ((best_len - MIN_MATCH) << 12) | (best_disp - MIN_DISP)
-            out.append((token >> 8) & 0xFF)
+        if disp:
+            token = ((length - MIN_MATCH) << 12) | (disp - MIN_DISP)
+            out.append(token >> 8)
             out.append(token & 0xFF)
             out[flag_pos] |= mask
-            step = best_len
         else:
             out.append(rev[i])
-            step = 1
-
-        for k in range(i, i + step):
-            if k + MIN_MATCH <= n:
-                key = rev[k:k + MIN_MATCH]
-                prev[k] = heads.get(key, -1)
-                heads[key] = k
-        i += step
+        i += length
         mask >>= 1
+    return bytes(out)
 
-    stream = bytes(out)[::-1]
-    pad = (-(start + len(stream))) % 4
-    hdr_len = FOOTER_SIZE + pad
-    enc_len = len(stream) + hdr_len
-    file_len = start + enc_len
-    inc_len = len(image) - file_len
 
-    if inc_len <= 0 or hdr_len > HDR_LEN_MAX:
+def _boundaries(toks):
+    """(produced, consumed) after each token, in decode order."""
+    res = []
+    produced = 0
+    consumed = 0
+    mask = 0
+    for length, disp in toks:
+        if mask == 0:
+            consumed += 1
+            mask = 0x80
+        consumed += 2 if disp else 1
+        produced += length
+        mask >>= 1
+        res.append((produced, consumed))
+    return res
+
+
+def _split_point(bounds):
+    """Index of the last token the SDK keeps in the encoded region.
+
+    ``D = produced - consumed`` at a token boundary is exactly how far the
+    in-place decompressor's write pointer sits above its read pointer at that
+    moment, and ``D`` at the final boundary is precisely ``inc_len +
+    hdr_len``. The encoded region is therefore safe if and only if no earlier
+    boundary has a larger ``D``.
+
+    The SDK does not look for the best safe split. It compresses everything,
+    and while the result is unsafe it retreats to the *first* boundary whose
+    ``D`` exceeds the current total, then tries again. Truncating never
+    changes the tokens that survive, so the whole fixpoint can be computed
+    from a single pass.
+    """
+    d = [p - c for p, c in bounds]
+    at = len(bounds) - 1
+    while True:
+        total = d[at]
+        nxt = None
+        for k in range(at + 1):
+            if d[k] > total:
+                nxt = k
+                break
+        if nxt is None:
+            return at
+        at = nxt
+
+
+def compress(image, start=0):
+    """Encode ``image[start:]`` into a BLZ container; returns the whole file.
+
+    Reproduces the SDK compressor byte for byte, footer included: same token
+    stream, same verbatim prefix, same padding. ``start`` is a *minimum*
+    verbatim prefix; the encoder may leave more of the image unencoded but
+    never less. For an ARM9 binary pass ``start=ARM9_SECURE_AREA``, which is
+    what the SDK's own build step does.
+    """
+    if start < 0 or start > len(image):
+        raise BlzError(f"start offset 0x{start:X} is outside the image")
+
+    image = bytes(image)
+    rev = image[start:][::-1]
+    toks = tokenize(rev) if rev else []
+    bounds = _boundaries(toks)
+
+    at = _split_point(bounds) if bounds else -1
+    if at < 0 or bounds[at][0] - bounds[at][1] <= 0:
         # Encoding did not pay off; store the image verbatim. A zero inc_len
         # is exactly how the format spells "not compressed".
-        return bytes(image) + struct.pack("<II", 0, 0)
+        return image + struct.pack("<II", 0, 0)
+
+    produced, pak_len = bounds[at]
+    # The SDK builds the whole stream and then cuts it short, so the flag
+    # byte of the group the cut lands in keeps the bits of the tokens that
+    # were dropped. The decoder stops on the output count and never looks at
+    # them, but they are part of the bytes we have to reproduce.
+    stream = emit(rev, toks)[:pak_len]
+
+    dec_len = start + (len(rev) - produced)
+    pad = (-(dec_len + pak_len)) % 4
+    hdr_len = FOOTER_SIZE + pad
+    enc_len = pak_len + hdr_len
+    file_len = dec_len + enc_len
+    inc_len = len(image) - file_len
+    if inc_len <= 0 or hdr_len > HDR_LEN_MAX:
+        return image + struct.pack("<II", 0, 0)
 
     blob = bytearray()
-    blob += prefix
-    blob += stream
+    blob += image[:dec_len]
+    blob += stream[::-1]
     blob += b"\xFF" * pad
     blob += struct.pack("<II", (hdr_len << 24) | enc_len, inc_len)
     if len(blob) != file_len:
@@ -362,15 +455,32 @@ def cmd_decompress(args):
 
 def cmd_compress(args):
     data = _read(args.input)
-    out = compress(data, args.start)
+    start = ARM9_SECURE_AREA if args.arm9 else args.start
+    out = compress(data, start)
     back = decompress(out, 0)
     if back != data:
         raise BlzError("self check failed: re-decompressing did not round trip")
+    dec_len, pak_len, raw_len, hdr_len, enc_len, inc_len = parse_footer(out)
     print(f"[*] {args.input}: 0x{len(data):X} -> 0x{len(out):X} bytes "
           f"(round trip verified)")
+    if inc_len:
+        print(f"    dec_len 0x{dec_len:X}  pak_len 0x{pak_len:X}  "
+              f"hdr_len 0x{hdr_len:02X}  inc_len 0x{inc_len:X}")
+    else:
+        print("    stored uncompressed (encoding did not pay off)")
     if args.output:
         _write(args.output, out)
         print(f"[*] wrote {args.output}")
+    if args.reference:
+        want = _read(args.reference)
+        if out == want:
+            print(f"[*] MATCH: identical to {args.reference}")
+        else:
+            where = next((i for i in range(min(len(out), len(want)))
+                          if out[i] != want[i]), min(len(out), len(want)))
+            print(f"[!] DIFFERS from {args.reference}: sizes 0x{len(out):X} vs "
+                  f"0x{len(want):X}, first difference at 0x{where:X}")
+            return 1
     return 0
 
 
@@ -411,7 +521,13 @@ def main(argv=None):
     p.add_argument("input")
     p.add_argument("-o", "--output")
     p.add_argument("--start", type=_hexint, default=0,
-                   help="leave this many leading bytes unencoded")
+                   help="minimum verbatim prefix, in bytes (default 0)")
+    p.add_argument("--arm9", action="store_true",
+                   help="the input is an ARM9 image: keep the 0x4000 byte "
+                        "secure area out of the encoded region")
+    p.add_argument("--reference", metavar="FILE",
+                   help="compare the result with FILE and report the first "
+                        "difference (exit 1 if they differ)")
     p.set_defaults(func=cmd_compress)
 
     p = sub.add_parser("info", help="print the footer fields only")

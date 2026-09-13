@@ -42,6 +42,7 @@ import subprocess
 import sys
 import tempfile
 import shutil
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -451,6 +452,54 @@ def rebuild_arm9_image(layout, results, extract_dir, out_path):
 
 
 # ---------------------------------------------------------------------------
+# recompression: turn reassembled images back into ROM-ready binaries
+# ---------------------------------------------------------------------------
+
+def pack_binaries(layout, results, arm9_image, pack_dir):
+    """Write BLZ-recompressed arm9.bin and all overlay files into pack_dir.
+
+    Nothing here reads the original compressed binaries: the ARM9 container is
+    built from the reassembled decompressed image and every overlay from its
+    reassembled region. Returns (written, problems).
+    """
+    import blz
+
+    by_key = {r.spec.key: r for r in results}
+    problems = []
+    written = 0
+
+    def put(relpath, data, want_size, what):
+        nonlocal written
+        if want_size is not None and len(data) != want_size:
+            problems.append("%s: recompressed to %d bytes, ROM slot is %d"
+                            % (what, len(data), want_size))
+            return
+        path = os.path.join(pack_dir, relpath.replace("/", os.sep))
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        with open(path, "wb") as fh:
+            fh.write(data)
+        written += 1
+
+    put("arm9.bin", blz.compress(arm9_image, blz.ARM9_SECURE_AREA),
+        layout["arm9"]["rom_size"], "arm9")
+
+    for o in layout["overlays"]:
+        key = "ov%03d" % o["id"]
+        r = by_key.get(key)
+        if r is None or r.rebuilt is None:
+            problems.append("%s: not reassembled in this run" % key)
+            continue
+        if len(r.rebuilt) != o["code_size"]:
+            problems.append("%s: reassembled to %d bytes, expected %d"
+                            % (key, len(r.rebuilt), o["code_size"]))
+            continue
+        data = blz.compress(r.rebuilt) if o["compressed"] else r.rebuilt
+        put(o["file"], data, o["file_size"], key)
+
+    return written, problems
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -476,6 +525,12 @@ def main(argv=None):
     ap.add_argument("--arm9-image", action="store_true",
                     help="also reassemble the whole decompressed ARM9 image "
                          "and compare with extract/arm9_dec.bin")
+    ap.add_argument("--pack", nargs="?", metavar="DIR",
+                    const=os.path.join(REPO, "build", "pack"),
+                    help="BLZ-recompress the reassembled ARM9 image and every "
+                         "overlay into DIR (default build/pack), ready for "
+                         "'ndsrom.py build --override DIR'. Implies "
+                         "--arm9-image")
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--keep", metavar="DIR",
                     help="keep intermediate objects in DIR (single region)")
@@ -580,10 +635,12 @@ def main(argv=None):
         print("[*] quirks: %d new address(es) -> %s"
               % (added, os.path.relpath(path, REPO).replace("\\", "/")))
 
-    if args.arm9_image:
+    arm9_image = None
+    if args.arm9_image or args.pack:
         out = os.path.join(args.build, "arm9_dec_rebuilt.bin")
         ok, covered, missing, tail = rebuild_arm9_image(
             layout, results, args.extract, out)
+        arm9_image = _read(out)
         print()
         print("[*] whole ARM9 image: %s" % ("PASS" if ok else "FAIL"))
         print("    0x%X bytes came from reassembly, 0x%X..end is the autoload "
@@ -592,6 +649,19 @@ def main(argv=None):
             print("    not rebuilt: %s" % ", ".join(missing))
         print("    wrote %s" % os.path.relpath(out, REPO).replace("\\", "/"))
         if not ok:
+            nfail += 1
+
+    if args.pack:
+        t0 = time.time()
+        written, problems = pack_binaries(layout, results, arm9_image,
+                                          args.pack)
+        print()
+        print("[*] BLZ recompression: %d file(s) -> %s (%.1fs)"
+              % (written, os.path.relpath(args.pack, REPO).replace("\\", "/"),
+                 time.time() - t0))
+        for p in problems:
+            print("    problem: %s" % p)
+        if problems:
             nfail += 1
 
     return 0 if nfail == 0 else 1
