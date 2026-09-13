@@ -283,8 +283,183 @@ Two things worth knowing about the output:
   not by sweeping.
 * Branch operands and PC-relative loads are rewritten to reference
   `func_`/`loc_`/`pool_` labels, so the listing says what the code means.
-  Where Capstone renders an instruction in a form GNU as would re-encode
-  differently (a modified immediate printed as `#imm, #rot`), the bytes are
-  emitted as `.word` with the decode in a comment instead. On this ROM that
-  case does not currently occur in any classified instruction. Reassembly has
-  not been demonstrated yet.
+  Where an instruction cannot be spelled in a way GNU as re-encodes
+  identically, the raw encoding is emitted instead; see the Reassembly
+  section below.
+
+# Reassembly
+
+Every region of the game's ARM9 side now assembles back to the exact original
+bytes. `tools/build.py` is the driver: it assembles the `asm/` listings, links
+them at the region's load address, flattens the result and compares it with
+the authoritative original bytes (the matching slice of `extract/arm9_dec.bin`
+for ARM9 regions, the `extract/overlays_dec/` file or the stored overlay file
+for overlays).
+
+## Toolchain
+
+GNU binutils 2.43.1 for `arm-none-eabi`, taken from the xPack
+`arm-none-eabi-gcc` 14.2.1-1.1 Windows x64 zip and unpacked, not installed,
+`arm-none-eabi-as`, `-ld` and `-objcopy` are used. `build.py` finds a
+toolchain via `--toolchain`, then `BW_ARM_TOOLCHAIN`, then any `bin/`
+directory under `tools/gcc-arm/`, then `PATH`, so a distro binutils works
+just as well. No compiler is involved yet.
+
+Flags that matter:
+
+* `as -mcpu=arm946e-s -EL -W`. The CPU choice is not cosmetic: it restricts
+  the assembler to ARMv5TE, which is what the hardware is, and makes it
+  reject the Thumb-2 instructions Capstone occasionally decodes out of data
+  (see "quirk list" below).
+* `.syntax unified` at the top of every listing. Without it GNU as reads the
+  divided dialect and rejects most of what Capstone prints, for example
+  `adds r4, r1, #0` or `strhne`.
+* `ld --use-blx`, and `.ARM.attributes` deliberately *not* discarded by the
+  linker script. `ld` decides whether an ARM-to-Thumb call may use a BLX
+  immediate from the architecture profile in that section; with the section
+  discarded it assumes a pre-v5 target, appends an interworking veneer and
+  rewrites the call to reach it. That showed up as a 16-byte-longer ITCM
+  block with one wrong instruction, and was the only size mismatch the whole
+  exercise produced.
+
+## Keeping the encoding exact
+
+Three mechanisms in `disasm.py`, in order of how much they carry:
+
+1. **`.org` guards.** Every label and every data run is preceded by
+   `.org <offset-within-the-region>`. If an instruction assembles to a
+   different size, the assembler says so at that exact spot instead of
+   silently shifting every following byte, which is what makes a
+   first-difference report from a 0xA5E80-byte region actionable at all.
+2. **A raw-encoding escape hatch.** Anything that cannot be spelled exactly
+   is emitted as `.inst` / `.inst.n` / `.inst.w` with the decode kept in the
+   trailing comment. `.inst` rather than `.word` so the assembler still
+   treats it as code and the mapping symbols stay right.
+3. **A committed quirk list**, `layout/reasm_quirks.json`: addresses only, no
+   game bytes. `build.py --write-quirks` fills it in from a real
+   assemble-and-compare run, mapping either a differing byte or an assembler
+   diagnostic back to the instruction that caused it via the
+   `/* ADDRESS  XX XX XX XX */` annotation every code line carries.
+   `disasm.py` then emits those addresses raw on the next run. 15 addresses
+   in total across 681920 + 3256320 bytes of image.
+
+## Mismatch classes that had to be fixed
+
+Each of these was found by assembling, diffing and mapping the difference
+back to a source line, then fixing the emission in `disasm.py` and
+regenerating. None of the `asm/` output was hand-edited.
+
+| class | why the bytes differed | fix |
+| --- | --- | --- |
+| divided vs unified syntax | GNU as defaults to the divided dialect and rejects `adds rX, rY, #0`, `eors`, `strhne`, ... | emit `.syntax unified` |
+| ARM modified immediates | the assembler always picks the smallest rotation, so an instruction encoded with a larger one comes back different even though the disassembly is right | `_arm_imm_is_canonical` re-derives the rotation the assembler would choose and forces `.inst` when it differs |
+| Thumb `add`/`sub` imm3 with `Rd == Rn` | written out, `adds r2, r2, #1` reads as the imm8 form (T2), so the original imm3 (T1) encoding is unspellable | detected from the encoding (`0x1C00` mask), emitted raw; by far the largest class |
+| Thumb high-register `add rX, rY` with two low registers | the assembler reads a flag-setting ADD and only Thumb-2 has the 32-bit non-flag-setting form, so it refuses outright | detected from the encoding (`0x4400` mask), emitted raw |
+| Thumb `add rX, sp, rX` | same shape, `Rm == SP`; the assembler reaches for a 32-bit encoding that does not exist here | detected from the encoding, emitted raw |
+| Thumb `mov rX, rY` with two low registers | on Thumb-1 that spelling means `lsls`, so the high-register MOV cannot be written | detected from the encoding (`0x4600` mask), emitted raw |
+| branches with no label | a call or branch leaving the region (ITCM calling into main, for instance) or landing on bytes not classified as code has nothing to be spelled relative to | emitted raw |
+| ARM-to-Thumb `blx` | `ld` inserted a veneer, see the toolchain notes | `--use-blx` plus keeping `.ARM.attributes` |
+| non-v5TE decodes | Capstone decodes ARMv7 by default, so a handful of data or jump-table bytes came out as `cbnz`, `cpsid`, `movw`/`movt`, `ldrh.w`, `smlabt r5, sl, r0, pc`, `ldm pc, {...}^` | the assembler rejects them for `arm946e-s`; `build.py` maps the diagnostic back to an address and they land in the quirk list (15 addresses) |
+
+How much ends up as a raw encoding, counted over the final listings:
+
+```
+  class                          arm9 main + itcm   237 overlays
+  branch leaving the region                   217          67317
+  Thumb add/sub imm3, Rd == Rn                829           8328
+  ARM non-canonical immediate                   0             54
+  Thumb high-reg add / mov, low regs            2             15
+  quirk list (non-v5TE decodes)                  3             12
+  unresolved pc-relative operand                 0              1
+  ------------------------------------------------------------
+  total .inst directives                      1051          75727
+```
+
+The overlay figure is dominated by one thing: an overlay calls into the ARM9
+static module constantly, and a call leaving the region has no label in that
+region to be spelled against. That is a consequence of verifying each region
+standalone, not a disassembly problem; the listing still shows the resolved
+target in the comment. Linking all regions together in one pass would turn
+most of those back into ordinary `bl func_...` lines, and is the natural next
+step once overlays get translation units of their own.
+
+## Translation units
+
+`python tools/disasm.py arm9 --split` additionally writes ordered chunks and a
+committed manifest, alongside the monolithic listing:
+
+```
+  region      units  files                  manifest
+  arm9_main      30  asm/arm9/src/          layout/units_arm9.json
+  arm9_itcm       3  asm/arm9/src_itcm/     layout/units_itcm.json
+```
+
+Files are named `<index>_<base address>.s`. ARM9 main units hold 146 to 180
+functions each (5366 total). A cut is made at a block boundary once the unit
+has collected enough functions, or earlier at a run of data of 0x800 bytes or
+more, which is the closest thing to an original object-file boundary a
+stripped image offers. Two constraints on where a cut may fall, both learned
+the hard way:
+
+* it must be 4-byte aligned, because a Thumb literal load rounds PC down to a
+  word boundary and the assembler can only get that right if the unit's own
+  base is aligned. Unaligned unit starts produced a flood of
+  `invalid offset, target not word aligned`;
+* it must not separate a PC-relative load from the pool word it reads.
+  `disasm.py` computes those spans and refuses to cut inside one, so no
+  literal load ever becomes a cross-object relocation.
+
+Within a unit, `.org` offsets are relative to the unit's own base, so each
+file assembles standalone. `func_`/`loc_` labels are global and cross-unit
+branches become ordinary relocations the linker resolves; `pool_` labels stay
+local by construction. The manifests carry file order, base addresses, sizes
+and function counts only, no game bytes.
+
+## Verification matrix
+
+```
+  region                     base         size      monolithic   from TUs
+  arm9 main                  0x02004000   0x0A5E80  PASS         PASS (30)
+  arm9 ITCM autoload         0x01FF8000   0x000820  PASS         PASS (3)
+  arm9 autoload 1 MAIN_TWL   0x02FE0000   0x0000A0  PASS         n/a
+  arm9 autoload 2 MAIN_TWL   0x02400000   0x000020  PASS         n/a
+  arm9 autoload 3 VRAM_LCDC  0x06898000   0x000020  PASS         n/a
+  overlays 0..236 (237)      various      0x31B000  PASS (237)   n/a
+  ---------------------------------------------------------------------
+  whole decompressed ARM9 image vs extract/arm9_dec.bin           PASS
+  ROM rebuild + verify                                            PASS
+```
+
+242 of 242 regions are byte-identical, by both the monolithic and the
+translation-unit path. The whole-image check reassembles the static module and
+all four autoload payloads back into their packed positions and compares with
+`extract/arm9_dec.bin`; the last 0x40 bytes of that image are the autoload
+info table, which is link-time data rather than disassembly and is taken from
+the original.
+
+## Reproduce
+
+```
+pip install capstone
+# unpack the xpack arm-none-eabi-gcc win32-x64 zip into tools/gcc-arm/
+python tools/ndsrom.py extract "Pokemon - Black Version (USA, Europe) (NDSi Enhanced).nds"
+python tools/delink.py
+python tools/disasm.py arm9 --split
+python tools/disasm.py overlay --all
+python tools/build.py --arm9-image          # 242 regions, monolithic
+python tools/build.py --split --only arm9   # ARM9 regions from their TUs
+python tools/ndsrom.py build extract -o build/pokeblack.nds
+python tools/ndsrom.py verify extract build/pokeblack.nds
+```
+
+## Known limitation: BLZ recompression
+
+The ROM produced by `ndsrom.py build` still embeds the *original* compressed
+`arm9.bin`, not a container recompressed from the reassembled image. Matching
+BLZ recompression is out of scope for this milestone: `blz.py compress`
+round-trips but does not yet reproduce the SDK's choice of verbatim prefix
+(see the BLZ section above), so it cannot be used for a matching build. The
+proof that the reassembly is correct is the byte-identity of the decompressed
+image, which is the input the compressor would take. Wiring a matching
+compressor in, so that a change to the assembly actually reaches the ROM, is
+the first piece of work after this milestone.

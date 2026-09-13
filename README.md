@@ -15,8 +15,9 @@ byte-matching ROM.
 
 - [x] Milestone 1: extract ROM and rebuild a byte-matching, launchable `.nds`
       with our own toolchain (`tools/ndsrom.py`)
-- [ ] Milestone 2: delink & disassemble the ARM9 binary + overlays with our
-      own tools
+- [x] Milestone 2: delink & disassemble the ARM9 binary + overlays with our
+      own tools, reassemble byte-identically (`tools/build.py`: 242 of 242
+      regions PASS) and split the ARM9 into ordered translation units
 - [ ] Milestone 3: incrementally decompile to C, keeping the build matching
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the planned approach, and
@@ -40,6 +41,22 @@ python tools/ndsrom.py verify extract build/pokeblack.nds
 ```
 
 The rebuilt ROM runs in melonDS, DeSmuME, or on real hardware via flashcart.
+
+To delink, disassemble and prove the disassembly reassembles byte-identically:
+
+```
+pip install capstone
+python tools/delink.py
+python tools/disasm.py arm9 --split
+python tools/disasm.py overlay --all
+python tools/build.py --arm9-image          # all 242 regions
+python tools/build.py --split --only arm9   # ARM9 from its translation units
+```
+
+`tools/build.py` needs GNU binutils for `arm-none-eabi`. Unpack the xPack
+`arm-none-eabi-gcc` Windows x64 zip into `tools/gcc-arm/` (no install needed)
+or point `--toolchain` / `BW_ARM_TOOLCHAIN` at any `bin/` directory that has
+`arm-none-eabi-as`. See [docs/NOTES.md](docs/NOTES.md) for details.
 
 ## Acknowledgments
 

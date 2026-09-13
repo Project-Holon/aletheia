@@ -1,0 +1,36 @@
+{
+ "note": "addresses of instructions GNU as re-encodes differently; disasm.py emits these as raw .inst/.word so the bytes stay exact. Addresses only, no game data.",
+ "regions": {
+  "arm9_main": [
+   "0x020A8FE8",
+   "0x020A8FEC",
+   "0x020A8FF4"
+  ],
+  "overlay_009": [
+   "0x021A2CFA",
+   "0x021A31D0",
+   "0x021A3288",
+   "0x021A328C"
+  ],
+  "overlay_016": [
+   "0x021D7D54"
+  ],
+  "overlay_018": [
+   "0x02183490"
+  ],
+  "overlay_172": [
+   "0x021C7C68"
+  ],
+  "overlay_176": [
+   "0x0217B558"
+  ],
+  "overlay_230": [
+   "0x021894A0",
+   "0x021894A4",
+   "0x021894B8",
+   "0x02189954"
+  ]
+ },
+ "tool": "build.py",
+ "version": 1
+}

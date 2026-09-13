@@ -12,10 +12,16 @@ boundary detection, code/data classification, output formatting) is original.
 Usage
 -----
     python tools/disasm.py arm9
+    python tools/disasm.py arm9 --split
     python tools/disasm.py overlay 12
     python tools/disasm.py overlay --all
 
-Output goes to asm/arm9/*.s and asm/overlays/ov###.s.
+Output goes to asm/arm9/*.s and asm/overlays/ov###.s. With ``--split`` the
+ARM9 static module and the ITCM autoload are additionally written as ordered
+translation units under asm/arm9/src/ and asm/arm9/src_itcm/, described by the
+committed manifests layout/units_arm9.json and layout/units_itcm.json.
+``tools/build.py`` reassembles either form and proves both produce the same
+bytes.
 
 How the analysis works
 ----------------------
@@ -56,13 +62,25 @@ rather than wrong, which is the useful failure mode for a decompilation.
    the listing says what the code means rather than where it happened to be
    assembled.
 
-Fidelity caveat
----------------
-The output is GNU as syntax and is meant to be reassembled eventually, but
-that has not been demonstrated yet. Where Capstone renders an instruction in
-a form that GNU as would reject or re-encode differently (notably rotated
-immediates printed as ``#imm, #rot``), the bytes are emitted as ``.word``
-with the decoded text in a comment instead of as an instruction.
+Reassembly
+----------
+The listings are meant to be assembled back into the original bytes, and
+``tools/build.py`` proves that they are. Three mechanisms keep the output
+exact:
+
+* ``.syntax unified`` plus ``-mcpu=arm946e-s``, so GNU as reads the same
+  dialect Capstone prints;
+* ``.org`` guards before every label, which pin each block to its offset
+  inside the region and turn any size drift into a loud assembler error
+  instead of a silent cascade of shifted bytes;
+* a raw-encoding escape hatch. Any instruction GNU as would re-encode
+  differently is emitted as ``.inst`` / ``.inst.n`` / ``.inst.w`` with the
+  decode kept in the comment. Three things trigger it: a non-canonical ARM
+  modified immediate (the assembler always picks the smallest rotation), a
+  branch whose target lies outside the region being assembled, and anything
+  listed for this region in ``layout/reasm_quirks.json``, which
+  ``tools/build.py --write-quirks`` fills in from a real assemble-and-compare
+  run.
 """
 
 import argparse
@@ -500,7 +518,12 @@ def _label_for(region, addr):
 
 
 def _rewrite_operands(region, rec):
-    """Replace raw immediates with labels where we know what they mean."""
+    """Replace raw immediates with labels where we know what they mean.
+
+    Returns ``(text, comment, raw)``. ``raw`` is True when the instruction
+    must be emitted as its literal encoding because no assemblable spelling
+    would reproduce the original bytes.
+    """
     text = rec.text
     parts = text.split("\t", 1)
     mnem = parts[0]
@@ -508,7 +531,7 @@ def _rewrite_operands(region, rec):
     base_mnem = mnem.split(".")[0]
 
     if not ops:
-        return text, None
+        return text, None, False
 
     # Branch and call targets.
     if ops.startswith("#") and (base_mnem in BRANCH_MNEMONICS
@@ -520,20 +543,104 @@ def _rewrite_operands(region, rec):
         if tgt is not None:
             lab = _label_for(region, tgt)
             if lab:
-                return "%s\t%s" % (mnem, lab), None
+                return "%s\t%s" % (mnem, lab), None, False
+            # A target with no label cannot be spelled relative to anything
+            # this region defines, so keep the encoding verbatim.
             if region.contains(tgt):
                 return ("%s\t0x%08X" % (mnem, tgt),
-                        "target not classified as code")
-            return "%s\t0x%08X" % (mnem, tgt), "outside this region"
+                        "target not classified as code", True)
+            return "%s\t0x%08X" % (mnem, tgt), "outside this region", True
 
     # PC-relative loads: point them at the pool label we created.
     if "[pc" in ops:
         tgt = _pc_relative_target(rec)
         if tgt is not None and tgt in region.pools:
             head = ops.split(",")[0].strip()
-            return "%s\t%s, pool_%08X" % (mnem, head, tgt), None
+            return "%s\t%s, pool_%08X" % (mnem, head, tgt), None, False
+        return text, "unresolved pc-relative operand", True
 
-    return text, None
+    return text, None, False
+
+
+# --- exactness filters -----------------------------------------------------
+
+def _arm_imm_is_canonical(word):
+    """False when an ARM modified immediate uses a non-minimal rotation.
+
+    GNU as always picks the smallest rotation that can express a value, so an
+    instruction encoded with any other rotation would come back with
+    different bytes even though the disassembly is correct.
+    """
+    if (word >> 25) & 0x7 != 0b001:
+        return True
+    op = (word >> 21) & 0xF
+    s = (word >> 20) & 1
+    if op in (0b1000, 0b1001, 0b1010, 0b1011) and not s:
+        # MSR immediate / undefined space: not a data-processing immediate.
+        return True
+    rot = (word >> 8) & 0xF
+    imm8 = word & 0xFF
+    value = ((imm8 >> (2 * rot)) | (imm8 << (32 - 2 * rot))) & 0xFFFFFFFF \
+        if rot else imm8
+    for i in range(0, 32, 2):
+        v = ((value << i) | (value >> (32 - i))) & 0xFFFFFFFF if i else value
+        if v <= 0xFF:
+            return (i // 2) == rot and v == imm8
+    return False
+
+
+def _thumb_encoding_is_preferred(hw):
+    """False when GNU as would pick the other 16-bit form for this spelling.
+
+    Two Thumb-1 pairs are ambiguous once the operands are written out:
+
+    * ``adds rX, rX, #imm3`` (T1, 0001 11x) versus ``adds rX, #imm8`` (T2).
+      When Rd == Rn the assembler always takes the imm8 form, so a T1
+      encoding of the same operands cannot be spelled.
+    * ``adds rX, rY, #0`` (T1 with imm3 == 0) versus ``movs rX, rY``, which
+      Capstone prints as ``adds``/``movs`` inconsistently; the imm3 == 0 case
+      is covered by the rule above only when Rd == Rn.
+    """
+    if (hw & 0xFC00) == 0x1C00:              # ADD/SUB register-plus-imm3, T1
+        rd = hw & 0x7
+        rn = (hw >> 3) & 0x7
+        if rd == rn:
+            return False
+    if (hw & 0xFF00) == 0x4400:               # ADD (register, high), T2
+        rd = (hw & 0x7) | ((hw >> 4) & 0x8)
+        rm = (hw >> 3) & 0xF
+        if rd < 8 and rm < 8:
+            # Written out as "add rX, rY" with two low registers, the
+            # assembler reads a flag-setting ADD and only Thumb-2 has a
+            # non-flag-setting 32-bit form, so it refuses outright.
+            return False
+        if rm == 13 and rd != 13:
+            # Capstone spells this "add rX, sp, rX"; the assembler reads the
+            # three-operand ADD and reaches for a 32-bit encoding.
+            return False
+    if (hw & 0xFF00) == 0x4600:                # MOV (register, high), T1
+        rd = (hw & 0x7) | ((hw >> 4) & 0x8)
+        rm = (hw >> 3) & 0xF
+        if rd < 8 and rm < 8:
+            # "mov rX, rY" with two low registers means LSLS on Thumb-1, so
+            # the assembler rejects the high-register form it would need.
+            return False
+    return True
+
+
+def _needs_raw(rec, text):
+    """True when this instruction has to be emitted as its literal encoding."""
+    if _is_unassemblable(text):
+        return True
+    if not rec.thumb and rec.size == 4:
+        word = struct.unpack("<I", rec.raw)[0]
+        if not _arm_imm_is_canonical(word):
+            return True
+    if rec.thumb and rec.size == 2:
+        if not _thumb_encoding_is_preferred(
+                struct.unpack("<H", rec.raw)[0]):
+            return True
+    return False
 
 
 def _pc_relative_target(rec):
@@ -605,12 +712,27 @@ def _is_unassemblable(text):
     return 0 < rot < 32
 
 
-def emit(region, out_path, all_regions, header_extra=""):
-    r = region
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+def emit(region, out_path, all_regions, header_extra="", quirks=None):
+    return emit_range(region, out_path, 0, len(region.data), all_regions,
+                      header_extra=header_extra, quirks=quirks)
 
-    code_bytes = sum(1 for v in r.kind if v == CODE)
-    data_bytes = len(r.kind) - code_bytes
+
+def emit_range(region, out_path, start_off, end_off, all_regions,
+               header_extra="", quirks=None, unit=None):
+    """Write the listing for ``region[start_off:end_off]`` to ``out_path``.
+
+    ``.org`` offsets are relative to ``start_off``, so a translation unit
+    assembles standalone and still pins every block to its own address.
+    """
+    r = region
+    quirks = quirks or frozenset()
+    if os.path.dirname(out_path):
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
+    code_bytes = sum(1 for v in r.kind[start_off:end_off] if v == CODE)
+    span = end_off - start_off
+    data_bytes = span - code_bytes
+    org_base = r.base + start_off
 
     lines = []
     add = lines.append
@@ -619,12 +741,15 @@ def emit(region, out_path, all_regions, header_extra=""):
     add(" * generated by tools/disasm.py; do not edit, do not commit")
     add(" *")
     add(" * source        %s" % r.source)
+    if unit is not None:
+        add(" * unit          %d of %s" % (unit[0], unit[1]))
     add(" * address range 0x%08X..0x%08X (0x%X bytes)"
-        % (r.base, r.end, len(r.data)))
+        % (org_base, r.base + end_off, span))
     add(" * classified    0x%X bytes code (%.1f%%), 0x%X bytes data (%.1f%%)"
-        % (code_bytes, 100.0 * code_bytes / max(1, len(r.data)),
-           data_bytes, 100.0 * data_bytes / max(1, len(r.data))))
-    add(" * functions     %d" % len(r.funcs))
+        % (code_bytes, 100.0 * code_bytes / max(1, span),
+           data_bytes, 100.0 * data_bytes / max(1, span)))
+    nfuncs = sum(1 for a in r.funcs if start_off <= a - r.base < end_off)
+    add(" * functions     %d" % nfuncs)
     if r.note:
         add(" *")
         add(" * %s" % r.note)
@@ -633,15 +758,16 @@ def emit(region, out_path, all_regions, header_extra=""):
             add(" * %s" % ln)
     add(" *")
     add(" * Anything not reached from a known entry point is emitted as data")
-    add(" * words rather than guessed at.")
+    add(" * words rather than guessed at. .org directives pin each block to")
+    add(" * its offset so the assembler catches any drift immediately.")
     add(" */")
     add("")
+    add("\t.syntax\tunified")
     add("\t.section\t.text.%s, \"ax\", %%progbits" % _ident(r.name))
     add("")
 
     cur_thumb = None
-    off = 0
-    n = len(r.data)
+    off = start_off
     pending_data = []
 
     def flush_data():
@@ -649,12 +775,13 @@ def emit(region, out_path, all_regions, header_extra=""):
             return
         start = pending_data[0]
         buf = bytes(r.data[start:pending_data[-1] + 1])
-        _emit_data(add, r, start, buf, all_regions)
+        _emit_data(add, r, start, buf, all_regions, org_base)
         pending_data.clear()
 
-    while off < n:
+    while off < end_off:
         addr = r.base + off
-        if r.kind[off] == CODE and off in r.insns:
+        if r.kind[off] == CODE and off in r.insns \
+                and off + r.insns[off].size <= end_off:
             flush_data()
             rec = r.insns[off]
             if rec.thumb != cur_thumb:
@@ -664,27 +791,23 @@ def emit(region, out_path, all_regions, header_extra=""):
             lab = _label_for(r, addr)
             if lab:
                 add("")
+                add("\t.org\t0x%X" % (addr - org_base))
                 if lab.startswith("func_"):
                     add("\t.global\t%s" % lab)
                     if rec.thumb:
                         add("\t.thumb_func")
                     add("\t.type\t%s, %%function" % lab)
+                elif lab.startswith("loc_"):
+                    add("\t.global\t%s" % lab)
                 add("%s:" % lab)
-            text, comment = _rewrite_operands(r, rec)
+            text, comment, force_raw = _rewrite_operands(r, rec)
+            if addr in quirks:
+                force_raw = True
+                comment = (comment + "; " if comment else "") + \
+                    "re-encoded by the assembler, kept verbatim"
             raw = " ".join("%02X" % b for b in rec.raw)
-            if _is_unassemblable(text):
-                # Keep the bytes exact; the decode stays as documentation.
-                for k in range(0, rec.size, 4):
-                    chunk = rec.raw[k:k + 4]
-                    if len(chunk) == 4:
-                        add("\t.word\t0x%08X"
-                            % struct.unpack("<I", chunk)[0]
-                            + "\t\t/* %08X  %s  (not reassemblable as "
-                              "written) */" % (addr + k,
-                                               text.replace("\t", " ")))
-                    else:
-                        add("\t.byte\t%s"
-                            % ", ".join("0x%02X" % b for b in chunk))
+            if force_raw or _needs_raw(rec, text):
+                _emit_raw_insn(add, rec, addr, text, comment)
             else:
                 line = "\t%s" % text
                 pad = max(1, 44 - len(line.expandtabs(8)))
@@ -698,6 +821,7 @@ def emit(region, out_path, all_regions, header_extra=""):
 
     flush_data()
     add("")
+    add("\t.org\t0x%X" % (end_off - start_off))
     add("\t.end")
     add("")
 
@@ -706,24 +830,51 @@ def emit(region, out_path, all_regions, header_extra=""):
 
     return {
         "region": r.name,
-        "base": r.base,
-        "size": len(r.data),
+        "base": org_base,
+        "size": span,
         "code_bytes": code_bytes,
         "data_bytes": data_bytes,
-        "functions": len(r.funcs),
-        "pools": len(r.pools),
+        "functions": nfuncs,
+        "pools": sum(1 for a in r.pools if start_off <= a - r.base < end_off),
         "conflicts": len(r.conflicts),
         "path": out_path,
     }
+
+
+def _emit_raw_insn(add, rec, addr, text, comment):
+    """Emit an instruction as its literal encoding.
+
+    ``.inst`` keeps the bytes exact while still telling the assembler this is
+    code, so mapping symbols and disassembly of the rebuilt object stay
+    right; a bare ``.word`` would not.
+    """
+    note = text.replace("\t", " ")
+    if comment:
+        note += "  (%s)" % comment
+    if rec.thumb:
+        if rec.size == 2:
+            value = struct.unpack("<H", rec.raw)[0]
+            directive = "\t.inst.n\t0x%04X" % value
+        else:
+            lo, hi = struct.unpack("<HH", rec.raw)
+            directive = "\t.inst.w\t0x%08X" % ((lo << 16) | hi)
+    else:
+        directive = "\t.inst\t0x%08X" % struct.unpack("<I", rec.raw)[0]
+    pad = max(1, 44 - len(directive.expandtabs(8)))
+    add(directive + " " * pad + "/* %08X  %s  %s */"
+        % (addr, " ".join("%02X" % b for b in rec.raw), note))
 
 
 def _ident(name):
     return "".join(c if c.isalnum() or c == "_" else "_" for c in name)
 
 
-def _emit_data(add, region, start, buf, all_regions):
+def _emit_data(add, region, start, buf, all_regions, org_base=None):
     r = region
+    if org_base is None:
+        org_base = r.base
     add("")
+    add("\t.org\t0x%X" % (r.base + start - org_base))
     i = 0
     while i < len(buf):
         addr = r.base + start + i
@@ -863,15 +1014,188 @@ def build_overlay_region(layout, extract_dir, ov_id):
 # CLI
 # ---------------------------------------------------------------------------
 
-def process(regions, out_dir, all_regions=None):
+def load_quirks(layout_dir, region_name):
+    """Addresses this region must emit verbatim, from build.py's findings."""
+    path = os.path.join(layout_dir, "reasm_quirks.json")
+    if not os.path.isfile(path):
+        return frozenset()
+    with open(path, "r", encoding="utf-8") as fh:
+        doc = json.load(fh)
+    return frozenset(int(a, 16)
+                     for a in doc.get("regions", {}).get(region_name, []))
+
+
+def process(regions, out_dir, all_regions=None, layout_dir="layout"):
     stats = []
     ctx = all_regions if all_regions is not None else regions
     for r in regions:
         Analyser(r).run()
     for r in regions:
         path = os.path.join(out_dir, _region_filename(r))
-        stats.append(emit(r, path, ctx))
+        stats.append(emit(r, path, ctx,
+                          quirks=load_quirks(layout_dir, r.name)))
     return stats
+
+
+# ---------------------------------------------------------------------------
+# translation unit splitting
+# ---------------------------------------------------------------------------
+
+# A unit is cut when it has collected at least this many functions and the
+# next block boundary is safe, or earlier at a large run of data.
+UNIT_TARGET_FUNCS = 180
+UNIT_MAX_FUNCS = 300
+UNIT_MIN_FUNCS = 40
+BIG_DATA_RUN = 0x800
+
+
+def _literal_spans(region):
+    """(lo, hi) byte spans an instruction and the pool word it loads cover.
+
+    A translation unit boundary must not fall inside one of these: GNU as
+    resolves a PC-relative literal load at assembly time and can only do so
+    when the pool sits in the same object file.
+    """
+    spans = []
+    for off, rec in region.insns.items():
+        tgt = _pc_relative_target(rec)
+        if tgt is None:
+            continue
+        width = region.pools.get(tgt, 4)
+        a, b = rec.addr, tgt + width
+        spans.append((min(a, tgt), max(b, rec.addr + rec.size)))
+    return spans
+
+
+def _block_starts(region):
+    """Offsets at which a new emitted block begins (a label or a data run)."""
+    starts = set()
+    off = 0
+    n = len(region.data)
+    in_data = False
+    while off < n:
+        addr = region.base + off
+        if region.kind[off] == CODE and off in region.insns:
+            in_data = False
+            if addr in region.funcs:
+                starts.add(off)
+            off += region.insns[off].size
+        else:
+            if not in_data:
+                starts.add(off)
+                in_data = True
+            off += 1
+    return sorted(starts)
+
+
+def plan_units(region):
+    """Choose ordered (start_off, end_off) spans covering the whole region.
+
+    A cut is made when the current unit has collected enough functions and
+    the next block boundary is safe, or earlier at a large run of data, which
+    is the closest thing to an object-file boundary a stripped image offers.
+    Small regions scale the thresholds down so they still split at their own
+    natural data boundaries instead of collapsing into one unit.
+    """
+    n = len(region.data)
+    total_funcs = len(region.funcs)
+    target = UNIT_TARGET_FUNCS
+    min_funcs = UNIT_MIN_FUNCS
+    big_run = BIG_DATA_RUN
+    if total_funcs < UNIT_TARGET_FUNCS:
+        # A region far smaller than one unit's worth of functions still gets
+        # split, into roughly three units, so the same manifest-driven build
+        # path is exercised for it instead of degenerating to one file.
+        target = max(3, (total_funcs + 2) // 3)
+        min_funcs = max(1, total_funcs // 4)
+        big_run = max(0x40, min(BIG_DATA_RUN, n // 8))
+    starts = _block_starts(region)
+    if 0 not in starts:
+        starts.insert(0, 0)
+    spans = _literal_spans(region)
+
+    def safe(off):
+        addr = region.base + off
+        # A Thumb literal load rounds PC down to a word boundary, and the
+        # assembler only gets that right if the unit's own start address is
+        # word aligned. It is also what keeps the linker from inserting
+        # padding between two units.
+        if addr & 3:
+            return False
+        for lo, hi in spans:
+            if lo < addr < hi:
+                return False
+        return True
+
+    # Length of the contiguous data run beginning at each block start.
+    def data_run(off):
+        if region.kind[off] == CODE:
+            return 0
+        end = off
+        while end < n and region.kind[end] != CODE:
+            end += 1
+        return end - off
+
+    units = []
+    cut = 0
+    funcs = 0
+    for off in starts:
+        if off <= cut:
+            if region.base + off in region.funcs:
+                funcs += 1
+            continue
+        addr = region.base + off
+        is_func = addr in region.funcs
+        big = data_run(off) >= big_run
+        want = (funcs >= target
+                or (big and funcs >= min_funcs)
+                or funcs >= UNIT_MAX_FUNCS)
+        if want and safe(off):
+            units.append((cut, off))
+            cut = off
+            funcs = 0
+        if is_func:
+            funcs += 1
+    if cut < n:
+        units.append((cut, n))
+    return units
+
+
+def split_region(region, out_dir, all_regions, layout_dir, manifest_name,
+                 repo_root):
+    units = plan_units(region)
+    quirks = load_quirks(layout_dir, region.name)
+    os.makedirs(out_dir, exist_ok=True)
+    entries = []
+    for i, (lo, hi) in enumerate(units):
+        base = region.base + lo
+        fname = "%03d_%08X.s" % (i, base)
+        path = os.path.join(out_dir, fname)
+        st = emit_range(region, path, lo, hi, all_regions, quirks=quirks,
+                        unit=(i, "%d translation units" % len(units)))
+        entries.append({
+            "index": i,
+            "file": os.path.relpath(path, repo_root).replace("\\", "/"),
+            "base": base,
+            "size": hi - lo,
+            "functions": st["functions"],
+            "code_bytes": st["code_bytes"],
+        })
+    manifest = {
+        "tool": "disasm.py --split",
+        "version": 1,
+        "note": "ordered translation units for %s; file order, base addresses "
+                "and sizes only, no game data" % region.name,
+        "region": region.name,
+        "base": region.base,
+        "size": len(region.data),
+        "units": entries,
+    }
+    mpath = os.path.join(layout_dir, manifest_name)
+    with open(mpath, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(manifest, fh, indent=1)
+        fh.write("\n")
+    return entries, mpath
 
 
 def _region_filename(r):
@@ -899,15 +1223,37 @@ def print_stats(stats):
                  100.0 * total_code / max(1, total_size)))
 
 
+SPLIT_MANIFESTS = {
+    "arm9_main": ("units_arm9.json", "src"),
+    "arm9_itcm": ("units_itcm.json", "src_itcm"),
+}
+
+
 def cmd_arm9(args):
     layout = load_layout(args.layout)
     regions = build_arm9_regions(layout, args.extract)
     out_dir = os.path.join(args.out, "arm9")
     print("[*] arm9: %d region(s)" % len(regions))
-    stats = process(regions, out_dir)
+    stats = process(regions, out_dir, layout_dir=args.layout)
     print_stats(stats)
     for s in stats:
         print("[*] wrote %s" % s["path"])
+    if args.split:
+        repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        for r in regions:
+            entry = SPLIT_MANIFESTS.get(r.name)
+            if not entry:
+                continue
+            manifest_name, sub = entry
+            units, mpath = split_region(
+                r, os.path.join(out_dir, sub), regions, args.layout,
+                manifest_name, repo)
+            print("[*] %s: %d translation unit(s) -> %s/%s/, manifest %s"
+                  % (r.name, len(units), out_dir.replace("\\", "/"), sub,
+                     mpath.replace("\\", "/")))
+            fc = [u["functions"] for u in units]
+            print("    functions per unit: min %d, max %d, total %d"
+                  % (min(fc), max(fc), sum(fc)))
     return 0
 
 
@@ -924,7 +1270,8 @@ def cmd_overlay(args):
     for ov_id in ids:
         r = build_overlay_region(layout, args.extract, ov_id)
         Analyser(r).run()
-        stats.append(emit(r, os.path.join(out_dir, _region_filename(r)), [r]))
+        stats.append(emit(r, os.path.join(out_dir, _region_filename(r)), [r],
+                          quirks=load_quirks(args.layout, r.name)))
     print("[*] overlays: %d region(s)" % len(stats))
     print_stats(stats)
     return 0
@@ -941,6 +1288,9 @@ def main(argv=None):
 
     p = sub.add_parser("arm9", help="disassemble the ARM9 static module and "
                                     "its autoload blocks")
+    p.add_argument("--split", action="store_true",
+                   help="also write ordered translation units under "
+                        "asm/arm9/src/ plus layout/units_*.json manifests")
     p.set_defaults(func=cmd_arm9)
 
     p = sub.add_parser("overlay", help="disassemble one or more overlays")
