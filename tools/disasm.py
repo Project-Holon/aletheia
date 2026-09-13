@@ -56,6 +56,18 @@ rather than wrong, which is the useful failure mode for a decompilation.
    ``str lr, [sp, #-4]!`` in ARM, ``push {..., lr}`` in Thumb. Each hit is a
    new seed and step 2 runs again. This repeats to a fixed point.
 
+   The sweep deliberately recognises only prologues that save ``lr``, because
+   that is the one pattern common enough in data to be worth the false
+   positives and rare enough elsewhere to stay safe. A leaf function that
+   saves no registers at all, or saves some without ``lr``, is invisible to
+   it. The analysis is per region, so a function whose only callers live in
+   another region (an overlay calling into the ARM9 static module) is
+   invisible too. ``layout/function_starts.txt`` is the escape hatch for
+   exactly those cases: a small committed list of addresses, each with the
+   call site elsewhere in the image that attests it. Entries are added as
+   seeds before the trace, so they are traced and validated like any other
+   seed rather than trusted blindly.
+
 5. Emission. Call targets become ``func_02xxxxxx``, other branch targets
    become ``loc_02xxxxxx``, pool words become ``pool_02xxxxxx``. Branch
    operands and PC-relative loads are rewritten to reference those labels so
@@ -936,7 +948,45 @@ def _init_array_from_pointer(data, base, ptr, limit=4096):
     return out
 
 
-def build_arm9_regions(layout, extract_dir):
+FUNCTION_STARTS = "function_starts.txt"
+
+
+def load_function_starts(layout_dir, region_name):
+    """Extra entry points for one region, from the committed override list.
+
+    The file is three whitespace separated columns plus a free-form comment:
+
+        arm9_main  0x020084D4  thumb  # bl from ov021 at 0x02193BA0
+
+    Only addresses that the region-local analysis provably cannot reach on
+    its own belong here, and the comment must name the evidence.  Each entry
+    is fed through ``add_seed`` like any other seed, so a wrong address does
+    not silently become plausible nonsense: the trace and, where a guess is
+    involved, ``validate`` still have to accept it.
+    """
+    path = os.path.join(layout_dir, FUNCTION_STARTS)
+    if not os.path.isfile(path):
+        return []
+    out = []
+    with open(path, "r", encoding="utf-8") as fh:
+        for lineno, raw in enumerate(fh, 1):
+            line = raw.split("#", 1)[0].strip()
+            if not line:
+                continue
+            parts = line.split()
+            if len(parts) != 3:
+                raise DisasmError("%s:%d: want 'region address isa'"
+                                  % (path, lineno))
+            reg, addr, isa = parts
+            if reg != region_name:
+                continue
+            if isa not in ("thumb", "arm"):
+                raise DisasmError("%s:%d: isa must be thumb or arm" % (path, lineno))
+            out.append((int(addr, 16), isa == "thumb"))
+    return out
+
+
+def build_arm9_regions(layout, extract_dir, layout_dir="layout"):
     a9 = layout["arm9"]
     image = read_file(os.path.join(extract_dir, "arm9_dec.bin"))
     if len(image) != a9["decompressed_size"]:
@@ -951,7 +1001,8 @@ def build_arm9_regions(layout, extract_dir):
         image[st["src_offset"]:st["src_offset"] + st["size"]],
         "extract/arm9_dec.bin + 0x%X (decompressed ARM9 static module)"
         % st["src_offset"],
-        seeds=[(a9["entry_point"], False)],
+        seeds=[(a9["entry_point"], False)]
+              + load_function_starts(layout_dir, "arm9_main"),
         note="bss 0x%08X..0x%08X is not part of this image"
              % (st["bss_start"], st["bss_end"]))
     regions.append(main)
@@ -973,13 +1024,14 @@ def build_arm9_regions(layout, extract_dir):
         if ptrs:
             note += "; %d static initialiser(s) at 0x%08X" % (
                 len(ptrs), init)
+        seeds += load_function_starts(layout_dir, name)
         regions.append(Region(name, al["ram_start"], data,
                               "extract/arm9_dec.bin + 0x%X" % al["src_offset"],
                               seeds=seeds, note=note))
     return regions
 
 
-def build_overlay_region(layout, extract_dir, ov_id):
+def build_overlay_region(layout, extract_dir, ov_id, layout_dir="layout"):
     ovs = layout["overlays"]
     if ov_id < 0 or ov_id >= len(ovs):
         raise DisasmError("overlay %d does not exist (0..%d)"
@@ -1001,6 +1053,7 @@ def build_overlay_region(layout, extract_dir, ov_id):
             val = struct.unpack_from("<I", data, off)[0]
             if val:
                 seeds.append((val & ~1, bool(val & 1)))
+    seeds += load_function_starts(layout_dir, "overlay_%03d" % ov_id)
     note = ("static initialisers 0x%08X..0x%08X (%d entry/entries); "
             "bss 0x%08X..0x%08X"
             % (lo, hi, o["static_init_count"], o["bss_start"], o["bss_end"]))
@@ -1231,7 +1284,7 @@ SPLIT_MANIFESTS = {
 
 def cmd_arm9(args):
     layout = load_layout(args.layout)
-    regions = build_arm9_regions(layout, args.extract)
+    regions = build_arm9_regions(layout, args.extract, args.layout)
     out_dir = os.path.join(args.out, "arm9")
     print("[*] arm9: %d region(s)" % len(regions))
     stats = process(regions, out_dir, layout_dir=args.layout)
@@ -1268,7 +1321,8 @@ def cmd_overlay(args):
     out_dir = os.path.join(args.out, "overlays")
     stats = []
     for ov_id in ids:
-        r = build_overlay_region(layout, args.extract, ov_id)
+        r = build_overlay_region(layout, args.extract, ov_id,
+                                 args.layout)
         Analyser(r).run()
         stats.append(emit(r, os.path.join(out_dir, _region_filename(r)), [r],
                           quirks=load_quirks(args.layout, r.name)))

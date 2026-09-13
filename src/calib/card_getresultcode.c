@@ -11,7 +11,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
+ *
+ * symbols:
+ *   cardi_common        0x02150200  data
  *
  * Original:
  *   ldr r0, [pc, #8]   ; &cardi_common
@@ -22,7 +25,10 @@
  *
  * Two chained loads off a file-scope object, so the object holds a pointer
  * whose first word is the value returned.  The literal is an ABS32
- * relocation in the object and is wildcarded by the harness.
+ * relocation, resolved to the address declared above; that address is
+ * attested by eighteen other pool words in the CARD code, which is also
+ * the evidence that cardi_common is one shared object rather than a
+ * per-function constant.
  */
 
 struct CARDiCommand {

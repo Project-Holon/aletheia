@@ -9,7 +9,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0200590C_Cur    0x020AA1AC  data
+ *   sub_0200590C_Table  0x020AA1B8  data
  *
  * Original (24 bytes, leaf, two ABS32 literals):
  *   ldr  r0, [pc, #0xc]   ; &sub_0200590C_Cur
@@ -28,7 +32,9 @@
  * offset is a real multiply; the trailing `adds r0, #8` is the member
  * offset, which is what makes this an address-of rather than a load.
  *
- * Two relocations, so MATCH is the best attainable verdict here.
+ * Both pool words are ABS32 relocations, resolved against the addresses
+ * declared above; each is attested by a dozen or more other functions that
+ * load the same address from their own pools.
  */
 
 typedef unsigned int u32;

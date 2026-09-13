@@ -1,0 +1,31 @@
+# Function entry points that tools/disasm.py cannot reach on its own.
+#
+# Columns: region  address  isa        (everything after '#' is a comment)
+#
+# disasm.py analyses one region at a time and seeds from entry points,
+# branch targets, pool words and a prologue sweep that only recognises
+# prologues saving lr.  Two kinds of function fall outside all of that:
+#
+#   - a leaf with no lr-saving prologue whose callers are all in another
+#     region, so no branch inside this region ever names it;
+#   - the same, reached only through a pointer held in another module.
+#
+# An address belongs here only when the evidence for it is a real
+# instruction somewhere else in the image, named in the comment.  Entries
+# are fed through Analyser.add_seed like any other seed, so the trace and
+# validate() still have to accept the bytes as code; a wrong address here
+# produces no listing change rather than plausible nonsense.
+#
+# Verify a line by grepping the listing it names, for example:
+#   grep -n "0x020084D4" asm/overlays/ov021.s
+
+# Argument-shuffling tail calls that reach func_0201F41C and func_02045A38.
+# Both are 16 bytes of "shuffle r0..r2, load the callee from the pool,
+# bx r3"; there is no push at all, so the prologue sweep cannot see them,
+# and inside arm9_main nothing branches to either.
+arm9_main  0x020084D4  thumb   # bl from ov021 at 0x02193BA0 and 0x021CC026, ov135 at 0x021F72DE
+arm9_main  0x020084E4  thumb   # bl from ov088 at 0x021BC4AA, ov116 at 0x021D6CA8, ov120 at 0x021D4658
+
+# A leaf that opens "push {r3, r4}": it saves registers but not lr, because
+# it calls nothing, so the lr-saving prologue sweep does not fire.
+arm9_main  0x0200A6F8  thumb   # bl from ov133 at 0x021B62A2

@@ -14,7 +14,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "MATCH"
+   "status": "EXACT"
   },
   {
    "name": "sub_0200590C",
@@ -26,7 +26,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "MATCH"
+   "status": "EXACT"
   },
   {
    "name": "sub_02005E50",
@@ -38,7 +38,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "MATCH"
+   "status": "EXACT"
   },
   {
    "name": "sub_02006E2C",
@@ -50,7 +50,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "MATCH"
+   "status": "EXACT"
   },
   {
    "name": "sub_020084BC",
@@ -62,7 +62,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
    "name": "unit_020084BC",
@@ -83,7 +83,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "MATCH"
+   "status": "EXACT"
   },
   {
    "name": "unit_0200852C",
@@ -149,7 +149,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
    "name": "CARD_GetResultCode",
@@ -161,7 +161,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "MATCH"
+   "status": "EXACT"
   },
   {
    "name": "CARD_GetOwnRomHeader",
@@ -197,7 +197,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "MATCH"
+   "status": "EXACT"
   }
  ]
 }

@@ -9,7 +9,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02005E50_State  0x020AA260  data
  *
  * Original (20 bytes, leaf, one ABS32 literal):
  *   ldr  r0, [pc, #0xc]   ; &sub_02005E50_State
@@ -25,6 +28,10 @@
  * The two-exit branch shape is what a boolean-valued != 0 compiles to in
  * Thumb, where there is no conditional move.  Returning the field itself
  * would have been three instructions with no branch at all.
+ *
+ * The pool word is an ABS32 relocation, resolved to the address declared
+ * above; eighteen other functions load the same address from their own
+ * pools.
  */
 
 typedef unsigned int u32;

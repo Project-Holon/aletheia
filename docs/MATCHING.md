@@ -20,25 +20,30 @@ far actually need it.
 | verdict | meaning |
 | --- | --- |
 | `EXACT` | every byte identical, relocation fields included |
-| `MATCH` | identical except where the linker would have written a value |
+| `MATCH` | identical except at relocation fields that stayed wildcarded |
 | `SIZE` | the compiler produced a different number of bytes |
 | `DIFF` | same size, concrete bytes differ; a two-column diff is printed |
 | `ISA` | the original is Thumb and the object is ARM, or the reverse |
 | `CCERR` | the compiler rejected the translation unit |
 
-Wildcards come from the object's own relocation table, not from a heuristic:
-an `R_ARM_ABS32` blanks four bytes, `R_ARM_PC24` the low three bytes of the
-word, a Thumb `BL` pair all four. That is the same policy `libmatch.py` uses
-to pattern SDK library functions, and it is what lets a function that
-references a global or calls out be judged before the project has a link
-step.
+The harness does the linker's job wherever it honestly can: it places the
+compiled code at its target address and writes each relocation field itself,
+so the comparison covers every byte and the verdict is `EXACT`. A site whose
+target address cannot be attested independently keeps its wildcard, and an
+entry with any such site is `MATCH` and prints why, per site. See
+"Relocation resolution" below; that is where the interesting rule lives.
+
+Wildcard widths, where a wildcard is still used, come from the object's own
+relocation table rather than a heuristic: an `R_ARM_ABS32` blanks four bytes,
+`R_ARM_PC24` the low three bytes of the word, a Thumb `BL` pair all four.
+That is the same policy `libmatch.py` uses to pattern SDK library functions.
 
 A trailing `*` on `EXACT` or `MATCH` means the comparison itself passed but
 the size disagrees with the extent `disasm.py` inferred for the original.
 The extent is the distance to the next `func_` label in the generated
-listing, which is a heuristic: a follower with no register-saving prologue
-(a tail call through `bx r3`, say) is not labelled, so the extent runs long.
-`sub_020084BC` is exactly that case and the `*` is expected there.
+listing, so a follower function that carries no label makes the extent run
+long. No entry carries a `*` any more; the two that did are covered under
+"The two missing labels" below.
 
 ## Usage
 
@@ -79,6 +84,168 @@ granularity" below for why that is the right model and what it establishes.
 `tu` does not infer the instruction set, because the first function of a unit
 often has no label in the generated listing; pass `--thumb` for game code.
 
+## Relocation resolution
+
+A compiler cannot know what address `sub_0201F41C` will end up at, so it
+emits a zero word and a relocation, and the linker fills it in. Comparing
+compiler output with a linked image therefore has a hole in it exactly where
+the interesting cross-references are. The old harness wildcarded those
+fields, which made every function that touches a global or calls out cap at
+`MATCH`; six of the fourteen entries were stuck there and one of them was
+stuck at `MATCH` while reproducing 112 bytes and seven functions.
+
+`match.py` now resolves them. It places the object at its target address,
+looks each relocation's target symbol up in a symbol map, and writes the
+value the linker would have written:
+
+* `R_ARM_ABS32`: the word becomes `(S + A) | T`, where `T` is the Thumb bit.
+  That bit is why the original's pool word at 0x020084E0 is 0x0201F41**D**
+  and the one at 0x020084F0 is 0x02045A3**8**: one target is Thumb, the other
+  ARM, and the same C produces both.
+* `R_ARM_THM_CALL` / `R_ARM_THM_XPC22`: the Thumb `BL` pair is encoded for
+  the displacement, **and the instruction is rewritten to `BLX` when the
+  target is ARM**. mwccarm always emits `BL` for a call to an extern, because
+  it cannot see the callee's instruction set; picking `BLX` is the linker's
+  decision and so it is made here. `BLX` word-aligns the PC before adding the
+  displacement, which is the `(P + 4) & 3` term in the encoder and the reason
+  the `blx` at 0x0200851A reproduces to the byte.
+* `R_ARM_PC24` / `R_ARM_CALL` / `R_ARM_JUMP24`: the ARM branch displacement.
+* anything else: left wildcarded rather than guessed at.
+
+mwccarm writes `SHT_RELA`, so addends are explicit, and they carry the PC
+bias (-4 for Thumb, -8 for ARM). The encoders use `X = (S + A) - P` straight
+out of the ARM ELF ABI rather than re-adding a bias of their own.
+
+### The honesty rule
+
+The rule is one sentence: **a relocation may only be resolved when its target
+address is attested by evidence outside the byte range under comparison.**
+
+Without it the whole exercise is circular. The address of
+`sub_0200575C_Table` is sitting right there in the pool word at 0x02005764,
+but that pool word is part of what the comparison checks. Reading the answer
+out of the bytes and then confirming that the bytes contain the answer is not
+a test; it would pass for any address whatsoever, and it would turn `EXACT`
+from a claim about the source into a tautology. So `match.py` records, for
+every address it knows, *where in the image it learned it*, and discards any
+witness that falls inside the range being compared.
+
+Three classes of evidence are accepted, and every resolved site prints its
+class, the number of witnesses and one witness address:
+
+| class | what it means |
+| --- | --- |
+| `local` | the symbol is defined in the object we just compiled, so its address follows from where the unit was placed. No image evidence at all. |
+| `label` | `disasm.py` put a `func_XXXXXXXX` label at that address, i.e. it traced real code there, **and** a branch somewhere else in the image calls that label. The strong class. |
+| `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
+
+The `literal` class needs a word of justification, because it does read an
+address out of the image. What it does not do is read it out of *this*
+function. `sub_02005E50` loads 0x020AA260; eighteen other functions load the
+same address from their own pools, at 0x02005B60, 0x02005BB8 and so on.
+Those eighteen words establish that a data object lives at 0x020AA260
+independently of the four bytes under test, and if the declared address were
+wrong the comparison would fail rather than pass. Witnesses are restricted to
+words at addresses `disasm.py` classified as literal pools, so the witness is
+always a word some instruction demonstrably loads, not a stray coincidence in
+a data blob. This matters for data because nothing else can ever attest it:
+bss is not in the image, so 0x020AA260 will never have a label.
+
+Addresses in `layout/symbols_sdk.txt` and `layout/matched.json` feed the map
+by name as well, but they are *lookups*, not evidence: a name found there
+still has to clear `attest()` before anything is written.
+
+All the evidence is read out of `asm/arm9/src/*.s` and `asm/arm9/src_itcm/*.s`,
+which are generated and not committed. On a fresh clone, run
+`python tools/disasm.py arm9 --split` before `match.py`, or every site will
+come back unresolved and every entry with a relocation will read `MATCH`.
+`match.py` says so on stderr rather than failing.
+
+Three behaviours are worth checking against, and all three hold:
+
+```
+declared address right   -> resolved, EXACT
+declared address wrong   -> resolved, DIFF        (the check still bites)
+declared address unknown -> unresolved, MATCH     (with the reason printed)
+```
+
+The middle line is the point. Resolution does not make the comparison easier
+to pass; it makes it cover four more bytes, and a wrong claim now fails
+loudly where it used to be hidden under a wildcard.
+
+### Where the addresses are written down
+
+In the source file's header comment, as a `symbols:` block:
+
+```c
+/*
+ * function: sub_0200590C
+ * address:  0x0200590C
+ * ...
+ * symbols:
+ *   sub_0200590C_Cur    0x020AA1AC  data
+ *   sub_0200590C_Table  0x020AA1B8  data
+ */
+```
+
+Three columns: the identifier as the C source spells it, its address, and
+`thumb` / `arm` / `data`. This was chosen over encoding the address in the
+identifier because it keeps names free to say what a thing *is*
+(`cardi_common`, `sVramLcdcMask`) while still pinning the address, and
+because it puts every external address a file depends on in one auditable
+block instead of scattered through the declarations.
+
+The naming convention still works as a fallback and needs no block: an extern
+called `func_02045A38` or `sub_02045A38` is taken to live at 0x02045A38, the
+same convention the generated listings use. `unit_020084BC.c` was written
+against that convention before any of this existed and resolved all six of
+its relocations without a single edit to its code.
+
+Either way the declaration is a *claim*. `attest()` is what decides whether
+to believe it.
+
+## The two missing labels
+
+Two entries used to be `EXACT*`: the comparison passed but `disasm.py`'s
+inferred extent for the original ran long, because the function immediately
+after the one being matched carried no label and the extent is measured to
+the next label.
+
+Both followers turned out to be real functions that the analysis could not
+reach, for the same two reasons:
+
+* `disasm.py`'s prologue sweep only recognises prologues that save `lr`
+  (`push {..., lr}`, `stmfd sp!, {..., lr}`, `str lr, [sp, #-4]!`). A leaf
+  that saves nothing, or saves registers without `lr`, is invisible to it.
+* the analysis runs one region at a time, so a function called only from an
+  overlay is never named by any branch inside the ARM9 static module.
+
+| address | what it is | why it was invisible |
+| --- | --- | --- |
+| 0x020084D4 | 16 bytes: shuffle `r0`..`r2`, load `func_0201F41C` from the pool, `bx r3`. An argument-swapping tail call. | no prologue at all; called from ov021 at 0x02193BA0 and 0x021CC026 and from ov135 |
+| 0x020084E4 | the same shape, tail-calling the ARM `func_02045A38` | no prologue; called from ov088, ov116, ov120, ov128, ov175 |
+| 0x0200A6F8 | 28 bytes: `push {r3, r4}`, then a loop storing zero into 32 bytes at offset 0x278 of the object. It clears the second of the two bitmaps `sub_0200A6BC` sets a bit in. | saves registers but not `lr`, because it calls nothing; called from ov133 at 0x021B62A2 |
+
+Loosening the prologue rule to accept any `push` was rejected: it would fire
+all over the data of a 3.9 MB image on the strength of one halfword, and
+`validate()` is not a strong enough filter to carry that. Seeding from
+cross-region branch targets is the sound general rule, but it needs a
+whole-image pass that `disasm.py` does not have yet.
+
+So the three addresses go in `layout/function_starts.txt`, a committed
+override list `disasm.py` reads as extra seeds, one line each, naming the
+instruction elsewhere in the image that attests the entry point:
+
+```
+arm9_main  0x020084D4  thumb   # bl from ov021 at 0x02193BA0 and 0x021CC026, ...
+```
+
+This is an escape hatch, not a licence to guess. An entry is fed through
+`add_seed` like any other seed, so the trace and `validate()` still have to
+accept the bytes as code: a wrong address changes nothing rather than
+producing plausible nonsense. The regenerated listings reassemble
+byte-identically, 5 of 5 regions.
+
 ## Flags
 
 The base set every configuration carries:
@@ -106,17 +273,18 @@ the game links were built with Metrowerks C/C++ for ARM 4.0.0.1024, which is
 C from their disassembly alone, without opening any source under `sdk/`, and
 run through the harness at `-O4,p` under that compiler.
 
-| address | function | bytes | ISA | verdict | source |
-| --- | --- | --- | --- | --- | --- |
-| 0x02075DD8 | `CARD_GetResultCode` | 20 | ARM | MATCH | `src/calib/card_getresultcode.c` |
-| 0x02075DF8 | `CARD_GetOwnRomHeader` | 12 | ARM | EXACT | `src/calib/card_getownromheader.c` |
-| 0x0207C958 | `FX_DivS32` | 60 | ARM | EXACT | `src/calib/fx_divs32.c` |
-| 0x0207D41C | `GX_GetBankForLCDC` | 16 | ARM | MATCH | `src/calib/gx_getbankforlcdc.c` |
+| address | function | bytes | ISA | verdict | relocations | source |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0x02075DD8 | `CARD_GetResultCode` | 20 | ARM | EXACT | 1 ABS32, `literal` x18 | `src/calib/card_getresultcode.c` |
+| 0x02075DF8 | `CARD_GetOwnRomHeader` | 12 | ARM | EXACT | none | `src/calib/card_getownromheader.c` |
+| 0x0207C958 | `FX_DivS32` | 60 | ARM | EXACT | none | `src/calib/fx_divs32.c` |
+| 0x0207D41C | `GX_GetBankForLCDC` | 16 | ARM | EXACT | 1 ABS32, `literal` x4 | `src/calib/gx_getbankforlcdc.c` |
 
-The two MATCH results are MATCH rather than EXACT only because their single
-literal is an `R_ARM_ABS32` relocation against a global the project has not
-named yet. The two EXACT results have no relocations at all: one returns a
-constant address, the other only touches hardware registers.
+Two of the four have no relocations at all: one returns a constant address,
+the other only touches hardware registers. The other two each hold a single
+`R_ARM_ABS32` against a file-scope object, `cardi_common` at 0x02150200 and
+`sVramLcdcMask` at 0x020A84BC; both were `MATCH` until those addresses were
+declared and attested, and both are `EXACT` now.
 
 `FX_DivS32` is the one that says something. Written the obvious way, with the
 divider's denominator as two separate 32-bit stores, it comes out DIFF with
@@ -140,30 +308,30 @@ are Thumb; the game's own code in the ARM9 static module is Thumb throughout,
 in contrast to the SDK libraries, which are ARM (`docs/SYMBOLS.md` shows the
 game links the non-`.thumb` library variants by a factor of twelve).
 
-| address | name | bytes | verdict | what it does |
-| --- | --- | --- | --- | --- |
-| 0x0200575C | `sub_0200575C` | 12 | MATCH | pointer table lookup, unchecked index |
-| 0x0200590C | `sub_0200590C` | 24 | MATCH | address of a member of a 0x1C-byte table entry |
-| 0x02005E50 | `sub_02005E50` | 20 | MATCH | boolean test of a field of a global |
-| 0x02006E2C | `sub_02006E2C` | 20 | MATCH | round a field up to a multiple of 32 |
-| 0x020084BC | `sub_020084BC` | 24 | EXACT* | are all eight halfwords zero |
-| 0x02008534 | `sub_02008534` | 8 | EXACT | word field read back as a halfword |
-| 0x02008954 | `sub_02008954` | 8 | EXACT | byte field copied out through a pointer |
-| 0x0200A6BC | `sub_0200A6BC` | 60 | EXACT* | set one bit in each of two parallel bitmaps |
+| address | name | bytes | verdict | relocations | what it does |
+| --- | --- | --- | --- | --- | --- |
+| 0x0200575C | `sub_0200575C` | 12 | EXACT | 1 ABS32, `literal` x1 | pointer table lookup, unchecked index |
+| 0x0200590C | `sub_0200590C` | 24 | EXACT | 2 ABS32, `literal` x14 and x12 | address of a member of a 0x1C-byte table entry |
+| 0x02005E50 | `sub_02005E50` | 20 | EXACT | 1 ABS32, `literal` x18 | boolean test of a field of a global |
+| 0x02006E2C | `sub_02006E2C` | 20 | EXACT | 1 ABS32, `literal` x5 | round a field up to a multiple of 32 |
+| 0x020084BC | `sub_020084BC` | 24 | EXACT | none | are all eight halfwords zero |
+| 0x02008534 | `sub_02008534` | 8 | EXACT | none | word field read back as a halfword |
+| 0x02008954 | `sub_02008954` | 8 | EXACT | none | byte field copied out through a pointer |
+| 0x0200A6BC | `sub_0200A6BC` | 60 | EXACT | none | set one bit in each of two parallel bitmaps |
 
 and two whole translation units, matched as byte ranges rather than function
 by function:
 
-| address | unit | bytes | functions | verdict |
-| --- | --- | --- | --- | --- |
-| 0x020084BC | `src/matched/unit_020084BC.c` | 112 | 7 | MATCH |
-| 0x0200852C | `src/matched/unit_0200852C.c` | 78 | 16 | EXACT |
+| address | unit | bytes | functions | verdict | relocations |
+| --- | --- | --- | --- | --- | --- |
+| 0x020084BC | `src/matched/unit_020084BC.c` | 112 | 7 | EXACT | 4 ABS32 + 2 THM_CALL, all resolved |
+| 0x0200852C | `src/matched/unit_0200852C.c` | 78 | 16 | EXACT | none |
 
 The two abut: 0x020084BC + 112 is 0x0200852C. Together they are 190
 contiguous bytes and 23 functions, with no gap and no overlap, and they are
 almost certainly two halves of one original source file. They are kept as two
-files so that the relocation-free half can carry an EXACT verdict rather than
-being diluted to MATCH by the other half's six relocations.
+files because that is how they were found; both are EXACT, the first only
+since its six relocations became resolvable.
 
 They do overlap the single-function entries at 0x020084BC and 0x02008534,
 which are kept because they are the documented single-function results;
@@ -221,9 +389,11 @@ read out of the bytes.
 before it, chosen because they have what the accessor run lacks: four
 literal pools, a padding gap, tail calls in both directions across the
 interworking boundary, and a call from one function of the unit to another.
-It comes out **MATCH**, its six relocations being ABS32 pool words and a
-Thumb BL. The two ranges abut, so 190 contiguous bytes and 23 consecutive
-functions of the original are now accounted for by two source files.
+It comes out **EXACT**, including all six of its relocations: four ABS32 pool
+words, an interworking call the compiler emitted as `BL` and the linker turns
+into `BLX`, and one `BL` internal to the unit. The two ranges abut, so 190
+contiguous bytes and 23 consecutive functions of the original are now
+accounted for by two source files.
 
 What the two ranges settle:
 
@@ -250,8 +420,8 @@ What the two ranges settle:
   dead-stripping is the linker's job and each function is its own section.
   Linkage is therefore not recoverable from the image at this level, and a
   matched unit makes no claim about it either way.
-* **The result is version-independent.** Both units are EXACT and MATCH
-  respectively under all nine front ends at `-O4,p`.
+* **The result is version-independent.** Both units are EXACT under all nine
+  front ends at `-O4,p`.
 
 The practical consequence is that a translation unit boundary is a testable
 hypothesis rather than a guess: propose a range, write the file, and `tu`
@@ -274,7 +444,7 @@ versions** at `-O4,p`. The matrices are flat:
 
 ```
   sub_020084BC       -O4,p   -O4,s  -O4    -O3    -O2    -O1    -O0
-  1.1 .. 1.6sp2      EXACT*  D24    D24    D24    D24    D24    D32
+  1.1 .. 1.6sp2      EXACT   D24    D24    D24    D24    D24    D32
 ```
 
 That is not a limitation of the harness. The same holds for input the game
@@ -601,10 +771,12 @@ Four details pin the source, in decreasing order of how long they took:
   intermediate is visible as a `lsls #24` / `lsrs #24` pair sitting between
   the modulo and the `movs r3, #1`, and moving it changes four instructions.
 
-The verdict is EXACT* rather than EXACT: the function at 0x0200A6F8 opens
-`push {r3, r4}` with no lr to save, so `disasm.py` does not label it and the
-inferred extent for 0x0200A6BC runs 88 bytes to the next label at 0x0200A714.
-The 60 bytes compared are the whole function.
+The verdict was EXACT* for a while, because the function at 0x0200A6F8 opens
+`push {r3, r4}` with no lr to save, so `disasm.py` did not label it and the
+inferred extent for 0x0200A6BC ran 88 bytes to the next label at 0x0200A714.
+That follower is now seeded from `layout/function_starts.txt` and the verdict
+is a clean EXACT; see "The two missing labels" above. It is, fittingly, the
+routine that clears the second of the two bitmaps this one sets a bit in.
 
 ## Not wired into the build
 
@@ -648,6 +820,11 @@ python tools/match.py tu --src src/matched/unit_020084BC.c \
 # the language evidence
 python tools/cppscan.py all --regions all --isa thumb
 python tools/cppscan.py runtime --cc 1.1p1
+
+# the listings the symbol map is read from, and the proof they still
+# reassemble to the original bytes after the function_starts.txt additions
+python tools/disasm.py arm9 --split
+python tools/build.py --split --only arm9
 ```
 
 `match.py` needs `capstone` for the diff and `show` output only; the verdict

@@ -33,10 +33,13 @@
  * bx lr` pair in the middle of the body.
  *
  * The address immediately after this function, 0x020084D4, carries another
- * function that disasm.py did not label (it has no register-saving
- * prologue, it is a tail call through bx r3), so tools/match.py reports the
- * listing extent as 56 bytes and flags the verdict EXACT* rather than
- * EXACT.  The 24 bytes compared are the whole of this function.
+ * function that disasm.py could not label on its own: it has no
+ * register-saving prologue (it is an argument shuffle and a tail call
+ * through bx r3) and nothing inside the ARM9 static module branches to it,
+ * because its callers are in overlays.  The verdict used to be EXACT* for
+ * that reason, the inferred extent running 56 bytes to the next label.
+ * 0x020084D4 is now in layout/function_starts.txt, attested by the bl at
+ * 0x02193BA0 in ov021, so the extent is the 24 bytes this file compiles.
  */
 
 typedef unsigned short u16;

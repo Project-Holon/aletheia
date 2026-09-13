@@ -10,19 +10,27 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0201F41C        0x0201F41C  thumb
+ *   sub_02045924        0x02045924  arm
+ *   sub_02045A38        0x02045A38  arm
+ *   sub_020457B0        0x020457B0  arm
  * function: sub_020084BC, sub_020084D4, sub_020084E4, sub_020084F4,
  *           sub_020084F8, sub_02008500, sub_02008510
  *
- * 0x020084BC..0x0200852C, 112 bytes, seven functions.  Three of the seven have
+ * 0x020084BC..0x0200852C, 112 bytes, seven functions.  Three of the seven had
  * no label in the generated listing because they have no register-saving
- * prologue; they are recovered here by reading the bytes.
+ * prologue; they were recovered here by reading the bytes, and two of them
+ * (0x020084D4 and 0x020084E4) are now seeded from layout/function_starts.txt
+ * on the strength of the overlay calls that reach them, so the listing shows
+ * them as code too.
  *
  * This range ends exactly where unit_0200852C.c begins, so the two files
  * together cover 0x020084BC..0x0200857C, 190 contiguous bytes and 23
  * functions, with no gap and no overlap.  They are almost certainly two
- * halves of one original source file; they are kept as two files only so that
- * the relocation-free half can carry an EXACT verdict rather than a MATCH.
+ * halves of one original source file, and both are EXACT.
  *
  * What this unit adds over unit_0200852C.c:
  *
@@ -37,8 +45,12 @@
  *   - a two-byte 0x00 gap after the empty function at 0x020084F4, which is
  *     the linker's inter-section fill.
  *
- * The verdict is MATCH rather than EXACT only because the three pool words are
- * ABS32 relocations against functions the project has not named.
+ * All six relocations resolve: the four pool words are ABS32 against
+ * functions the listings label and other code calls directly, the blx is a
+ * THM_CALL the compiler emitted as a plain bl (it cannot see that
+ * func_020457B0 is ARM) and match.py rewrites to BLX exactly as the linker
+ * would, and the bl to sub_02008500 is internal to this unit and follows
+ * from where the unit is placed.  So the verdict is EXACT.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020084BC.c \

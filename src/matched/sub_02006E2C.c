@@ -9,7 +9,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02006E2C_Ptr    0x02146164  data
  *
  * Original (20 bytes, leaf, one ABS32 literal):
  *   ldr  r0, [pc, #0xc]   ; &sub_02006E2C_Ptr
@@ -24,6 +27,9 @@
  * applied with bics because Thumb has no immediate form of bic; the
  * compiler hoists the movs above both loads, which is the schedule the
  * original shows.
+ *
+ * The pool word is an ABS32 relocation, resolved to the address declared
+ * above; five other functions load the same address from their own pools.
  */
 
 typedef unsigned int u32;

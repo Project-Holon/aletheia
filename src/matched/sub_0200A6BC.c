@@ -11,7 +11,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Original (60 bytes, leaf, no relocations):
  *   push {r4, r5}
@@ -82,11 +82,13 @@
  *     intermediate is the `lsls #24` / `lsrs #24` pair between the modulo and
  *     the `movs r3, #1`.
  *
- * The verdict is EXACT* rather than EXACT because the function at 0x0200A6F8
- * carries no label in the generated listing (its prologue is `push {r3, r4}`,
- * with no lr to save), so tools/match.py infers the extent of this function as
- * 88 bytes, running to the next label at 0x0200A714.  The 60 bytes compared
- * are the whole of this function.
+ * The verdict used to be EXACT* rather than EXACT because the function at
+ * 0x0200A6F8 carried no label in the generated listing: its prologue is
+ * `push {r3, r4}`, with no lr to save, so disasm.py's prologue sweep did not
+ * fire, and its only caller is in ov133.  The inferred extent for this
+ * function therefore ran 88 bytes, to the next label at 0x0200A714.
+ * 0x0200A6F8 is now in layout/function_starts.txt, attested by the bl at
+ * 0x021B62A2, and the extent is the 60 bytes this file compiles.
  */
 
 typedef unsigned char u8;

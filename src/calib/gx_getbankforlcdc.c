@@ -8,7 +8,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
+ *
+ * symbols:
+ *   sVramLcdcMask       0x020A84BC  data
  *
  * Original:
  *   ldr  r0, [pc, #4]   ; &sVramLcdcMask
@@ -19,7 +22,8 @@
  * One halfword read of a file-scope u16, returned widened.  ldrh already
  * zero-extends, so the return type has to be a 16-bit unsigned one for the
  * compiler to omit any further masking.  The literal is an ABS32
- * relocation and is wildcarded.
+ * relocation, resolved to the address declared above, which four other GX
+ * functions load from their own pools.
  */
 
 typedef unsigned short u16;

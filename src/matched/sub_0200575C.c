@@ -9,7 +9,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0200575C_Table  0x020A6C58  data
  *
  * Original (12 bytes, leaf, one ABS32 literal):
  *   lsls r1, r0, #2
@@ -20,8 +23,13 @@
  *
  * A plain pointer-table lookup with no bounds check.  The index is scaled
  * by 4 into a register rather than folded into the load offset, which is
- * what a variable index looks like in Thumb.  The literal is a relocation
- * and is wildcarded, so the verdict is MATCH rather than EXACT.
+ * what a variable index looks like in Thumb.
+ *
+ * The pool word is an ABS32 relocation.  match.py resolves it to the
+ * address declared above, which is attested by the pool word at 0x020055E0,
+ * outside this function: a different instruction, in a different function,
+ * loads the same address.  The pool word inside this function is never its
+ * own witness, so the comparison is not circular.
  */
 
 typedef unsigned int u32;
