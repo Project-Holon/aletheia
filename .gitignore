@@ -30,6 +30,9 @@ baserom*
 # Unpacked GNU binutils/gcc for ARM (xpack zip, several hundred MB)
 /tools/gcc-arm/
 
+# melonDS emulator (downloaded release zip, used to boot-test rebuilt ROMs)
+/tools/melonds/
+
 # Editor/OS noise
 .vscode/
 .idea/

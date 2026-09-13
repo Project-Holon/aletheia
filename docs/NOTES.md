@@ -623,3 +623,197 @@ That was also checked with `extract/arm9.bin` and `extract/overlays/` moved
 out of the way entirely, so nothing can be silently falling back to an
 original. There are now no embedded original binaries anywhere in the ARM9
 side of the chain: assembly to ROM is closed.
+
+# Modified rebuild boots
+
+Everything above only proves the chain can reproduce the original bytes. A
+byte-identical rebuild says nothing about whether a rebuild with *different*
+bytes is still a working cartridge image: the ROM carries DSi digest tables
+and an RSA signature over content we would be changing, and the ARM9 is BLZ
+containers whose size is pinned by the ROM layout. This section records the
+experiment that closed that gap.
+
+## Emulator
+
+melonDS 1.1, `melonDS-1.1-windows-x86_64.zip` from the upstream GitHub
+releases, unpacked into `tools/melonds/` (gitignored). It is a single
+43 MB exe with no installer and writes a portable `melonDS.toml` next to
+itself. `melonDS.exe <rom>` direct-boots. The defaults it writes are exactly
+what this test wants:
+
+```
+  [Emu]
+  DirectBoot          = true
+  ExternalBIOSEnable  = false     # use the built-in BIOS/firmware replacements
+  ConsoleType         = 0         # 0 = DS (NTR), 1 = DSi (TWL)
+```
+
+So no DS BIOS or firmware dump is needed, and the cartridge is booted as an
+NTR cartridge even though it is DSi-enhanced. `[Instance0.Gdb] Enabled = true`
+turns on melonDS's GDB stub (ARM9 on port 3333, ARM7 on 3334), which is how
+the RAM check below was done: connect, send a `0x03` interrupt, then an
+`m<addr>,<len>` packet. That is a much sharper instrument than a screenshot
+and does not need savestate-format knowledge.
+
+## Baseline
+
+`build/pokeblack.nds` (sha1 `26ad0b9967aa279c4a266ee69f52b9b2332399a5`, i.e.
+the byte-identical rebuild) boots. melonDS reaches 60/60 fps, plays the
+Game Freak / intro sequence and arrives at the Reshiram/Zekrom title art.
+Screenshots are not committed (binary, and they are game art); the window
+title alone, `[60/60] melonDS 1.1`, is already a useful signal because a
+crashed or spinning ARM9 does not hold the frame limiter at 60.
+
+## The change
+
+A detour patched into the ARM9 startup path, in
+`asm/arm9/src/000_02004000.s`. The stub body is placed in the random filler
+that occupies the head of the secure area (`0x02004000..0x020047FC`), which
+carries no labels and is referenced by nothing, and the entry path is
+diverted into it by overwriting one instruction:
+
+```
+  ; stub, replacing 7 words of unreferenced secure-area filler
+  bw_magic_stub:
+      ldr  r0, bw_magic_value     /* 020047D0 */
+      ldr  r1, bw_magic_addr      /* 020047D4 */
+      str  r0, [r1]               /* 020047D8 */
+      mov  r0, #0                 /* 020047DC   displaced from 0200480C */
+      b    bw_magic_return        /* 020047E0 */
+  bw_magic_value:
+      .word 0xBDEC0DE5            /* 020047E4 */
+  bw_magic_addr:
+      .word 0x02003F00            /* 020047E8 */
+
+  ; at the patch site, inside func_02004800
+      b    bw_magic_stub          /* 0200480C, was: mov r0, #0 */
+  bw_magic_return:
+      ldr  r1, pool_020049AC      /* 02004810 */
+```
+
+Three things make this a safe victim. `0x0200480C` is reached after
+`bl func_02004A14` at `0x02004808`, so the MPU and TCMs are already
+configured and a store to main RAM is legal. `r0` is dead on entry to that
+instruction (it is about to be overwritten with 0) and `r1` is dead as well
+(it is loaded at `0x02004810`), so the stub needs no save/restore.
+`0x02003F00` is in the 16 KB of main RAM below the ARM9 load address
+(`0x02004000`), which this build never touches.
+
+Note the constraint that shaped the choice of *where* to patch.
+`build.py --pack` requires the recompressed ARM9 container to be exactly
+`0x6F898` bytes, because that is the size the ROM header and the layout
+reserve for it, and it fails loudly otherwise. A general code change will
+not land on that size by luck. This patch does, and not by luck: it lives
+entirely inside the BLZ **verbatim prefix**, the first `dec_len = 0x400F`
+bytes of the decompressed image, which are stored uncompressed. Bytes
+`0x7D0..0x80F` are in that prefix, so the compressed token stream is
+untouched and the container is the same length with the same footer. Any
+change above `0x0200800E` would move the compressed size and the chain
+would need the ARM9 slot size, the header `arm9 size` field and the build
+info `compressed_code_end` to be recomputed together. That is the next real
+piece of work before arbitrary code changes are possible.
+
+## Chain
+
+```
+python tools/build.py --split --pack
+    241 PASS, 1 FAIL              # arm9_main FAILs on purpose: 32 bytes differ
+    whole ARM9 image: FAIL        # same 32 bytes
+    BLZ recompression: 238 file(s) -> build/pack
+python tools/ndsrom.py build extract --override build/pack -o build/pokeblack_mod.nds
+python tools/ndsrom.py verify extract build/pokeblack_mod.nds   # FAIL, expected
+```
+
+The `FAIL` lines are the point: the reassembly harness is comparing against
+the original bytes, and the bytes deliberately differ. Nothing else in the
+242 regions moved.
+
+## Results
+
+```
+  artefact                         sha1                                        size
+  original / baseline ROM          26ad0b9967aa279c4a266ee69f52b9b2332399a5    0x10000000
+  modified ROM                     281f64d2ffd0a84ca281295b665aa7cefa31439a    0x10000000
+  original arm9.bin container      b1d62c124b481f22040a36781ae3ed0f3c622379    0x6F898
+  modified arm9.bin container      25732d707235cf9423f31890bad94b9926d6979e    0x6F898
+```
+
+The two ROMs differ in exactly 32 bytes, at ROM offsets
+`0x000047D0..0x0000480F`, which is ARM9-container offsets `0x7D0..0x80F`.
+Same container length, same footer, no other region touched.
+
+The modified ROM boots. It reaches 60/60 fps and shows the same intro at the
+same wall-clock offsets as the baseline: the white flash at 12 s and the
+intro cutscene at 30 s are indistinguishable between the two runs.
+
+And the store landed. Read out of the running emulator over the GDB stub,
+eight seconds into the modified ROM:
+
+```
+  0x02003F00  BDEC0DE5 00000000 00000000 00000000    <- the magic
+  0x020047D0  E59F000C E59F100C E5810000 E3A00000    <- the stub, in RAM
+              EA00000A BDEC0DE5 02003F00 75497C85
+  0x0200480C  EAFFFFEF E59F1194                      <- b -0x44, the detour
+```
+
+`EAFFFFEF` at `0x0200480C` branches to `0x020047D0`; `EA00000A` at
+`0x020047E0` branches back to `0x02004810`. The decompressor ran over our
+recompressed container, our code executed, and the value is sitting in main
+RAM while the game plays. This is the first end-to-end demonstration that
+the project can produce a *modified* working ROM, not just a copy.
+
+## DSi digest tables and the TWL signature
+
+The header fields on this cart:
+
+```
+  digest NTR region      offset 0x00004000   length 0x0BFD5C00
+  digest TWL region      offset 0x0C403000   length 0x0005A400
+  digest sector table    offset 0x0BFD9C00   length 0x003C0F00
+  digest block table     offset 0x0C39AC00   length 0x0001E078
+```
+
+The tables are SHA1-HMAC, 20 bytes per entry. 0x3C0F00 / 20 = 196800 sector
+entries and 0x1E078 / 20 = 6150 block entries, so the sector size is 0x400
+and a block covers 32 sectors, which is the usual TWL shape. The digested
+NTR region starts at the ARM9 container, so our 32 changed bytes at ROM
+`0x47D0` sit in **sector 1 of block 0**, squarely inside the digest
+coverage. Both that sector hash and its block hash are now stale, the block
+table is in turn covered by the header, and the RSA signature in the header
+area (`extract/header_ext.bin`, the region above our 0x1000 header snapshot)
+no longer matches either. `ndsrom.py` replays all of that verbatim, so the
+modified ROM ships digests and a signature that do not describe its content.
+
+**None of it matters for an NTR-mode boot, confirmed empirically.** The
+modified ROM boots and runs on melonDS with `ConsoleType = 0`. This is the
+expected result and the reason is structural rather than emulator-specific:
+the digest tables and the signature are only consulted by the DSi launcher
+and the TWL cartridge path. An NTR boot reads the header, DMAs the ARM9 and
+ARM7 binaries and jumps; there is no hash check anywhere in that path, and
+the game's own startup code does not look at them either (nothing in the
+reassembled ARM9 references the digest table addresses). The residue pass in
+`ndsrom.py` preserving the stale tables byte for byte is therefore correct
+behaviour for this workflow, not an oversight: it keeps the image exact for
+the byte-identical case and is simply inert for the modified case.
+
+What is *not* shown here: whether the modified ROM would boot in TWL mode.
+That needs a DSi NAND and DSi BIOS images, which this project does not have
+and will not carry, so it stays untested. A decomp that wants DSi-mode
+output will have to recompute both hash tables and re-sign the header, and
+re-signing is not possible without the private key. The practical conclusion
+is that modified builds of this title are NTR-mode artefacts.
+
+No anti-tamper behaviour was observed in the game itself: no checksum
+mismatch screen, no boot stall, no difference from the baseline run.
+
+## Restoring the tree
+
+The change was reverted and the chain rerun, so the committed state still
+produces the byte-identical ROM:
+
+```
+  242 regions              241 PASS + 1 PASS (arm9_main back to PASS)
+  whole ARM9 image         PASS
+  sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5
+  PASS: rebuilt ROM is byte-identical to the original
+```
