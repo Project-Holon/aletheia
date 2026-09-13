@@ -1,5 +1,11 @@
 # Technical notes
 
+Function-level matching (compiling C and comparing it with the original
+bytes) is written up separately in `docs/MATCHING.md`. Nothing under `src/`
+is part of the build described below: `tools/build.py` still reassembles
+`asm/` and that is what produces the byte-identical ROM.
+
+
 Findings recorded during ROM analysis, for contributors picking up later
 milestones.
 

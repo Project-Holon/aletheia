@@ -1,0 +1,140 @@
+{
+ "tool": "tools/match.py",
+ "version": 1,
+ "note": "matched function inventory: addresses, names and compiler configuration only, no game bytes",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "sub_0200575C",
+   "address": "0x0200575C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0200575C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "MATCH"
+  },
+  {
+   "name": "sub_0200590C",
+   "address": "0x0200590C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0200590C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "MATCH"
+  },
+  {
+   "name": "sub_02005E50",
+   "address": "0x02005E50",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02005E50.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "MATCH"
+  },
+  {
+   "name": "sub_02006E2C",
+   "address": "0x02006E2C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02006E2C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "MATCH"
+  },
+  {
+   "name": "sub_020084BC",
+   "address": "0x020084BC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_020084BC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "sub_02008534",
+   "address": "0x02008534",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02008534.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_02008954",
+   "address": "0x02008954",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02008954.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "CARD_GetResultCode",
+   "address": "0x02075DD8",
+   "kind": "sdk_calibration",
+   "region": "arm9",
+   "source": "src/calib/card_getresultcode.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "MATCH"
+  },
+  {
+   "name": "CARD_GetOwnRomHeader",
+   "address": "0x02075DF8",
+   "kind": "sdk_calibration",
+   "region": "arm9",
+   "source": "src/calib/card_getownromheader.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FX_DivS32",
+   "address": "0x0207C958",
+   "kind": "sdk_calibration",
+   "region": "arm9",
+   "source": "src/calib/fx_divs32.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "GX_GetBankForLCDC",
+   "address": "0x0207D41C",
+   "kind": "sdk_calibration",
+   "region": "arm9",
+   "source": "src/calib/gx_getbankforlcdc.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "MATCH"
+  }
+ ]
+}
