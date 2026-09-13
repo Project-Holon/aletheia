@@ -147,3 +147,24 @@ Carried forward:
   to by name.
 - Translation units for the overlays, and a whole-program link so that
   cross-region calls become label references instead of raw encodings.
+
+## Planned: Pokémon White as a second build target
+
+Pokémon White (gamecode IRAO) is a planned second target of this same source
+tree, the way sibling versions are handled in other matching projects: one
+tree, a version flag, per-version data. This is a standing constraint on
+design decisions made today, before any White work starts:
+
+- Nothing may hard-code the Black target where a second one could exist:
+  extract paths, layout files, shard directories (`layout/matched/arm9/` will
+  gain a per-target dimension), manifest schemas, and build entry points must
+  stay parameterizable by target.
+- Addresses in `symbols:` blocks, shards, and the worklist are addresses in
+  the BLACK image. When White lands, entries gain per-version addresses and
+  verdicts; do not treat an address as version-neutral in new schema fields.
+- Version-specific behavior found while matching (a constant, a table, a
+  branch that smells like a version flag) should be noted in the source file
+  header when spotted, not silently folded in.
+- Expected payoff: most units verify byte-identical against White, and the
+  White binary becomes a second witness pool for attestation, likely closing
+  several single-caller near misses.

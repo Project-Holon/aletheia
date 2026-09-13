@@ -19,6 +19,9 @@ byte-matching ROM.
       own tools, reassemble byte-identically (`tools/build.py`: 242 of 242
       regions PASS) and split the ARM9 into ordered translation units
 - [ ] Milestone 3: incrementally decompile to C, keeping the build matching
+- [ ] Planned: Pokémon White (IRAO) as a second build target of the same
+      tree; tooling and schemas are kept target-parameterizable for this
+      (see docs/ROADMAP.md)
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the planned approach, and
 [docs/NOTES.md](docs/NOTES.md) for technical findings recorded along the way.

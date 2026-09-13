@@ -214,3 +214,12 @@ file" in `docs/MATCHING.md`.
 `--refresh` is idempotent: running it twice in a row produces the same file.
 The merge rule it implements is documented in full at the top of
 `tools/worklist.py`.
+
+## Pokemon White is planned
+
+A second build target (Pokemon White, IRAO) is planned for this tree; see
+docs/ROADMAP.md. For packet agents this means: all addresses you write in
+symbols: blocks and shards are addresses in the Black image; do not invent
+schema fields that assume a single version; and when a function or table
+smells version-specific (a version flag, an exclusive-species table), say so
+in the source file header.
