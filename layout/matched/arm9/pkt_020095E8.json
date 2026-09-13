@@ -1,0 +1,159 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_020095E8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_020095C8",
+   "address": "0x020095C8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020095C8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020095C8",
+    "sub_020095E8",
+    "sub_020095FC",
+    "sub_0200960C",
+    "sub_02009618",
+    "sub_02009628",
+    "sub_02009634",
+    "sub_02009698",
+    "sub_0200973C",
+    "sub_0200974C",
+    "sub_02009750",
+    "sub_02009794"
+   ]
+  },
+  {
+   "name": "unit_020097BC",
+   "address": "0x020097BC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020097BC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020097BC"
+   ]
+  },
+  {
+   "name": "unit_020097F0",
+   "address": "0x020097F0",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020097F0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020097F0"
+   ]
+  },
+  {
+   "name": "unit_02009860",
+   "address": "0x02009860",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02009860.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02009860",
+    "sub_02009864",
+    "sub_02009918",
+    "sub_020099C8",
+    "sub_020099D4",
+    "sub_020099E4",
+    "sub_02009A00",
+    "sub_02009A1C"
+   ]
+  },
+  {
+   "name": "unit_02009A34",
+   "address": "0x02009A34",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02009A34.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02009A34",
+    "sub_02009A54",
+    "sub_02009A74",
+    "sub_02009AE4",
+    "sub_02009B3C",
+    "sub_02009B80",
+    "sub_02009BB8"
+   ]
+  },
+  {
+   "name": "unit_02009C24",
+   "address": "0x02009C24",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02009C24.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02009C24",
+    "sub_02009CA8"
+   ]
+  },
+  {
+   "name": "unit_02009CE4",
+   "address": "0x02009CE4",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02009CE4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02009CE4",
+    "sub_02009D08",
+    "sub_02009D1C",
+    "sub_02009D50"
+   ]
+  },
+  {
+   "name": "unit_02009D9C",
+   "address": "0x02009D9C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02009D9C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02009D9C",
+    "sub_02009DA4"
+   ]
+  }
+ ]
+}

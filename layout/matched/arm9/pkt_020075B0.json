@@ -7,6 +7,22 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "unit_020075B0",
+   "address": "0x020075B0",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020075B0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020075B0",
+    "sub_02007610"
+   ]
+  },
+  {
    "name": "unit_02007664",
    "address": "0x02007664",
    "kind": "game_unit",

@@ -1,0 +1,153 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_020064F4",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_020064F4",
+   "address": "0x020064F4",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020064F4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020064F4",
+    "sub_02006504",
+    "sub_02006518"
+   ]
+  },
+  {
+   "name": "unit_020065D8",
+   "address": "0x020065D8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020065D8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020065D8",
+    "sub_020065FC",
+    "sub_02006650",
+    "sub_02006674"
+   ]
+  },
+  {
+   "name": "unit_020066E8",
+   "address": "0x020066E8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020066E8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020066E8",
+    "sub_02006734",
+    "sub_02006740",
+    "sub_0200674C",
+    "sub_02006768",
+    "sub_020067A4",
+    "sub_020067D0"
+   ]
+  },
+  {
+   "name": "unit_020067E0",
+   "address": "0x020067E0",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020067E0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020067E0",
+    "sub_02006868"
+   ]
+  },
+  {
+   "name": "unit_02006B20",
+   "address": "0x02006B20",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02006B20.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02006B20",
+    "sub_02006B3C",
+    "sub_02006B5C",
+    "sub_02006B78",
+    "sub_02006B94",
+    "sub_02006BB4",
+    "sub_02006BD0",
+    "sub_02006BE0",
+    "sub_02006C00"
+   ]
+  },
+  {
+   "name": "unit_02006CAC",
+   "address": "0x02006CAC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02006CAC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02006CAC"
+   ]
+  },
+  {
+   "name": "unit_02006D44",
+   "address": "0x02006D44",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02006D44.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02006D44",
+    "sub_02006D64",
+    "sub_02006D94"
+   ]
+  },
+  {
+   "name": "unit_02006DAC",
+   "address": "0x02006DAC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02006DAC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "the census is one witness image wide",
+    "one of them inside the"
+   ]
+  }
+ ]
+}

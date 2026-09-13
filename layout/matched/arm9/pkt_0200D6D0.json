@@ -1,0 +1,81 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0200D6D0",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_0200DA64",
+   "address": "0x0200DA64",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200DA64.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200DA64",
+    "func_0200DA6C",
+    "func_0200DA80",
+    "func_0200DA98",
+    "func_0200DABC",
+    "func_0200DAC0",
+    "func_0200DAC4",
+    "func_0200DAD8",
+    "func_0200DAEC",
+    "func_0200DB08",
+    "func_0200DB1C",
+    "func_0200DB30",
+    "func_0200DB44",
+    "func_0200DB60",
+    "func_0200DB80",
+    "func_0200DBA0",
+    "func_0200DBF0",
+    "func_0200DBFC",
+    "func_0200DC08",
+    "func_0200DC0C",
+    "func_0200DC50",
+    "func_0200DC74",
+    "func_0200DC94",
+    "func_0200DCF8",
+    "func_0200DCFC"
+   ]
+  },
+  {
+   "name": "unit_0200DD10",
+   "address": "0x0200DD10",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200DD10.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200DD10",
+    "func_0200DD18"
+   ]
+  },
+  {
+   "name": "unit_0200DD8C",
+   "address": "0x0200DD8C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200DD8C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200DD8C",
+    "func_0200DDA8"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02008CF8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_02008D1C",
+   "address": "0x02008D1C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008D1C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008D1C",
+    "sub_02008D58"
+   ]
+  },
+  {
+   "name": "unit_02008DAC",
+   "address": "0x02008DAC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008DAC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008DAC",
+    "sub_02008DF0",
+    "sub_02008DFC"
+   ]
+  },
+  {
+   "name": "unit_02008E68",
+   "address": "0x02008E68",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008E68.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008E68",
+    "sub_02008E78",
+    "sub_02008E88",
+    "sub_02008EA0"
+   ]
+  },
+  {
+   "name": "unit_02008EAC",
+   "address": "0x02008EAC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008EAC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008EAC"
+   ]
+  }
+ ]
+}
