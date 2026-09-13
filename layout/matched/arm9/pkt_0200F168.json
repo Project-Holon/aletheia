@@ -7,6 +7,30 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "sub_0200F0CC",
+   "address": "0x0200F0CC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0200F0CC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "sub_0200F128",
+   "address": "0x0200F128",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0200F128.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "unit_0200F168",
    "address": "0x0200F168",
    "kind": "game_unit",
@@ -28,6 +52,18 @@
    "kind": "game",
    "region": "arm9",
    "source": "src/matched/sub_0200F6B8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0200F800",
+   "address": "0x0200F800",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0200F800.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",
