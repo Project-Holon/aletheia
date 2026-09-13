@@ -1,4 +1,4 @@
-# ROMs and dumps — never commit copyrighted game data
+# ROMs and dumps: never commit copyrighted game data
 *.nds
 *.zip
 *.bin
@@ -7,8 +7,16 @@ baserom*
 # Extracted ROM contents (copyrighted game code/assets)
 /extract/
 
+# Disassembly listings (derived from game code, must not be committed)
+/asm/
+
 # Build output
 /build/
+
+# layout/ IS committed: layout.json and layout.txt hold addresses, sizes and
+# names only, never game bytes. The blanket *.bin rule above already keeps
+# any binary out of it.
+!/layout/
 
 # Downloaded tool binaries (fetched by setup script)
 /tools/*.exe
@@ -19,3 +27,6 @@ baserom*
 .idea/
 Thumbs.db
 .DS_Store
+
+# Python bytecode
+__pycache__/
