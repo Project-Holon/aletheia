@@ -42,8 +42,12 @@ A trailing `*` on `EXACT` or `MATCH` means the comparison itself passed but
 the size disagrees with the extent `disasm.py` inferred for the original.
 The extent is the distance to the next `func_` label in the generated
 listing, so a follower function that carries no label makes the extent run
-long. No entry carries a `*` any more; the two that did are covered under
-"The two missing labels" below.
+long. A `*` therefore only ever means an unlabelled follower, never a byte
+difference; the first two cases are covered under "The two missing labels"
+below, and `sub_0200F0CC` currently carries one (its follower at 0x0200F104
+is a documented near miss, so the label will appear when that function is
+matched). `manifest --verify` exits nonzero while any `*` entry exists,
+which is a prompt to label the follower, not a build failure.
 
 ## Usage
 
@@ -115,6 +119,28 @@ value the linker would have written:
 mwccarm writes `SHT_RELA`, so addends are explicit, and they carry the PC
 bias (-4 for Thumb, -8 for ARM). The encoders use `X = (S + A) - P` straight
 out of the ARM ELF ABI rather than re-adding a bias of their own.
+
+### The declared ISA of a call target is checked against the image
+
+Because `BL` against `BLX` is decided from the `thumb` / `arm` tag on the
+symbol's `symbols:` line, a wrong tag does not fail to resolve: it resolves to
+the other instruction, and the entry comes out `DIFF` for a reason that has
+nothing to do with the C. The tag is a claim about the image, so before a call
+relocation is encoded `isa_evidence()` asks the image what is at the target:
+
+1. a `func_XXXXXXXX` label in a generated listing, whose ISA is the one
+   `disasm.py` traced there (`asm/arm9` first, then the overlays that hold the
+   address);
+2. an ARM linker veneer at the address, which is ARM by construction;
+3. the per-symbol `thumb` flag of `layout/symbols_sdk.json`.
+
+A disagreement is a bug in the source file rather than a matching result, so
+`match.py` stops and names the symbol, the declared ISA and the evidence
+instead of resolving. Where the image has nothing to say the declaration is
+still trusted, and the per-site line says so (`declared thumb, no image
+evidence for the ISA`) so that the unchecked claims are visible. The same code
+path serves `one` and `tu`. `selftest` covers both directions of conflict and
+the unevidenced case.
 
 ### The honesty rule
 

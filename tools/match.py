@@ -1003,6 +1003,62 @@ def symbol_address(name, decls):
 
 
 # ---------------------------------------------------------------------------
+# the declared ISA of a call target
+# ---------------------------------------------------------------------------
+#
+# A `symbols:` line names an address AND an instruction set, and the
+# instruction set decides which instruction is written: _encode_thumb_branch()
+# emits BL for a Thumb target and BLX for an ARM one, which is exactly the
+# rewrite the linker performs.  A wrong tag therefore does not fail to
+# resolve, it resolves to the other instruction: a `thumb` tag on an ARM
+# callee writes BL where the original holds BLX and the entry comes out DIFF
+# for a reason that has nothing to do with the C.
+#
+# The declaration is a claim about the image, and the image usually knows the
+# answer independently of it: a func_ label carries the ISA disasm.py traced
+# at that address, an ARM linker veneer is ARM by construction, and every
+# entry of layout/symbols_sdk.json records a per-symbol ISA.  So the tag is
+# cross-checked against that evidence before a call is encoded.  A conflict is
+# a bug in the source file, not a matching result, and is refused loudly; an
+# address the image says nothing about keeps the declaration and says so in
+# the per-site report, so a reader can see which claims carried no check.
+
+def isa_evidence(addr):
+    """("thumb"/"arm", where) the image says `addr` is, or None.
+
+    Three readings, strongest first: a func_ label in a generated listing,
+    the ARM shape of a linker veneer, and the ISA flag of a recovered SDK
+    symbol.  None of these is an attestation of the ADDRESS -- that is
+    attest()'s job -- they only say what is at it if anything is.
+    """
+    th = evidence().labels.get(addr)
+    if th is not None:
+        return ("thumb" if th else "arm"), \
+            "the func_%08X label in asm/arm9" % addr
+    found = overlay_label(addr)
+    if found is not None:
+        region, th = found
+        return ("thumb" if th else "arm"), \
+            "the func_%08X label in %s" % (addr, region)
+    if veneer_at(addr) is not None:
+        return "arm", "the ARM linker veneer at %08X" % addr
+    th = sdk_addresses().get(addr)
+    if th is not None:
+        return ("thumb" if th else "arm"), "layout/symbols_sdk.json"
+    return None
+
+
+def isa_conflict(addr, kind):
+    """(image isa, where) when the image contradicts `kind`, else None."""
+    if kind not in ("thumb", "arm"):
+        return None
+    found = isa_evidence(addr)
+    if found is None or found[0] == kind:
+        return None
+    return found
+
+
+# ---------------------------------------------------------------------------
 # the `string` class
 # ---------------------------------------------------------------------------
 #
@@ -1234,7 +1290,7 @@ class Site:
     """One relocation site after an attempt to resolve it."""
 
     __slots__ = ("off", "rtype", "name", "addend", "resolved", "value",
-                 "cls", "witnesses", "witness", "reason")
+                 "cls", "witnesses", "witness", "reason", "note")
 
     def __init__(self, off, rtype, name, addend):
         self.off = off
@@ -1247,15 +1303,17 @@ class Site:
         self.witnesses = 0
         self.witness = 0
         self.reason = ""
+        self.note = ""
 
     def describe(self):
         what = "%s %s" % (RELOC_NAMES.get(self.rtype, "r%d" % self.rtype),
                           self.name)
         if self.resolved:
-            return "+%04X %-28s -> %08X  [%s%s]" % (
+            return "+%04X %-28s -> %08X  [%s%s%s]" % (
                 self.off, what, self.value, self.cls,
                 (" x%d, e.g. %08X" % (self.witnesses, self.witness))
-                if self.witnesses else "")
+                if self.witnesses else "",
+                ("; " + self.note) if self.note else "")
         return "+%04X %-28s -> unresolved: %s" % (self.off, what, self.reason)
 
 
@@ -1353,6 +1411,20 @@ def resolve_relocations(fb, place, decls, size=None):
                              "layout/symbols_sdk.json" % name)
                 continue
             target, kind, origin = info
+            if rtype in _THUMB_BRANCH or rtype in _ARM_BRANCH:
+                # The declared ISA picks BL against BLX, so a wrong tag
+                # resolves to the wrong instruction rather than failing to
+                # resolve.  Cross-check it against the image before encoding.
+                found = isa_evidence(target)
+                if found is not None and found[0] != kind:
+                    raise SystemExit(
+                        "ISA conflict for %s at %08X: the source declares "
+                        "%s, the image says %s (%s).  Fix the symbols: block "
+                        "(address from %s); refusing to resolve the call at "
+                        "+%04X." % (name, target, kind, found[0], found[1],
+                                    origin, off))
+                if found is None:
+                    st.note = "declared %s, no image evidence for the ISA" % kind
             proof = attest(target, kind, lo, hi)
             if proof is None:
                 st.reason = ("%08X (%s, from %s) has no witness outside "
@@ -2589,6 +2661,12 @@ OVERLAY_THUMB_THUNK = 0x021DFDB8
 # from many sites in ov093 and elsewhere.
 OVERLAY_FUNC = 0x021D5440
 
+# A Thumb entry point nothing labels: its only witness anywhere is the pool
+# word at 0x020049F8, so the `literal` class attests the ADDRESS while the
+# image says nothing at all about the instruction set at it.  This is the case
+# where a declared ISA has to be trusted, and noted.
+ISA_UNEVIDENCED = 0x02005124
+
 # "box_savedata.c": ten NUL bytes separate it from the terminator of
 # "save_control.c", which is more alignment than the string class used to
 # allow.  0x020A7068 is the empty string inside that run.
@@ -2600,6 +2678,30 @@ STR_FAR_NEIGHBOUR = 0x021A4618
 # The pair at 0x02008B08 / 0x02008B4C: OS_GetOwnerRtcOffset is reached from
 # 0x02008B26 and 0x02008B7C and from nowhere else in the ROM.
 OS_GETOWNERRTCOFFSET = 0x02087D08
+
+
+def _resolve_one_call(addr, kind, place=0x02008000):
+    """Resolve a lone Thumb BL whose target is declared `addr` / `kind`.
+
+    Four bytes of code and one R_ARM_THM_CALL, built by hand rather than
+    compiled: the point is the resolver's treatment of the declaration, not
+    the code around the call.
+    """
+    name = "isa_selftest_callee"
+    fb = FuncBytes("isa_selftest_caller", b"\x00\xF0\x00\xF8",
+                   bytearray(b"\x01\x01\x00\x00"), True, ".text",
+                   [(0, R_ARM_THM_CALL, name, -4)])
+    decls = {name: Decl(name, addr, kind, "header")}
+    return resolve_relocations(fb, place, decls)[0]
+
+
+def _call_refused(addr, kind):
+    """True when resolving such a call fails loudly instead of encoding it."""
+    try:
+        _resolve_one_call(addr, kind)
+    except SystemExit:
+        return True
+    return False
 
 
 def _check(results, name, got, want):
@@ -2714,6 +2816,35 @@ def cmd_selftest(args):
     _check(res, "pairwise: one range holding both call sites has none",
            cls(attest(OS_GETOWNERRTCOFFSET, "arm", 0x02008AEC, 0x02008C20)),
            None)
+
+    # --- the declared ISA of a call target ---------------------------------
+    def conflict(addr, kind):
+        return (isa_conflict(addr, kind) or (None, None))[0]
+
+    _check(res, "isa: a func_ label is read as the ISA of its address",
+           isa_evidence(FUNC_LABELLED)[0], "thumb")
+    _check(res, "isa: a veneer is ARM by construction",
+           isa_evidence(VENEER)[0], "arm")
+    _check(res, "isa: an overlay label carries an ISA too",
+           isa_evidence(OVERLAY_FUNC)[0], "thumb")
+    _check(res, "isa: a declaration the evidence agrees with is no conflict",
+           conflict(FUNC_LABELLED, "thumb"), None)
+    _check(res, "isa: a thumb declaration against ARM evidence conflicts",
+           conflict(VENEER, "thumb"), "arm")
+    _check(res, "isa: an arm declaration against Thumb evidence conflicts",
+           conflict(FUNC_LABELLED, "arm"), "thumb")
+    _check(res, "isa: a data declaration is not an ISA claim",
+           conflict(FUNC_LABELLED, "data"), None)
+    _check(res, "isa: an address the image says nothing about has no evidence",
+           isa_evidence(ISA_UNEVIDENCED), None)
+    _check(res, "isa: a call whose declared ISA conflicts is refused",
+           _call_refused(VENEER, "thumb"), True)
+    _check(res, "isa: a call whose declared ISA agrees resolves unremarked",
+           (lambda s: (s.resolved, s.note))(
+               _resolve_one_call(FUNC_LABELLED, "thumb")), (True, ""))
+    _check(res, "isa: a call the image cannot check resolves with a note",
+           (lambda s: (s.resolved, bool(s.note)))(
+               _resolve_one_call(ISA_UNEVIDENCED, "thumb")), (True, True))
 
     # --- the three documented end-to-end behaviours -----------------------
     if not args.quick:
