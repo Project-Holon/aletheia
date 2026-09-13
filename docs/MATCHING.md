@@ -316,16 +316,27 @@ game links the non-`.thumb` library variants by a factor of twelve).
 | 0x02006E2C | `sub_02006E2C` | 20 | EXACT | 1 ABS32, `literal` x5 | round a field up to a multiple of 32 |
 | 0x020084BC | `sub_020084BC` | 24 | EXACT | none | are all eight halfwords zero |
 | 0x02008534 | `sub_02008534` | 8 | EXACT | none | word field read back as a halfword |
-| 0x02008954 | `sub_02008954` | 8 | EXACT | none | byte field copied out through a pointer |
 | 0x0200A6BC | `sub_0200A6BC` | 60 | EXACT | none | set one bit in each of two parallel bitmaps |
 
-and two whole translation units, matched as byte ranges rather than function
+`sub_02008954`, an eight-byte "byte field copied out through a pointer", used
+to be an eighth entry here. It is now one of the twelve functions of
+`unit_0200894C.c` and its per-function file has been deleted; a unit file
+replaces the per-function files it subsumes.
+
+and six whole translation units, matched as byte ranges rather than function
 by function:
 
 | address | unit | bytes | functions | verdict | relocations |
 | --- | --- | --- | --- | --- | --- |
 | 0x020084BC | `src/matched/unit_020084BC.c` | 112 | 7 | EXACT | 4 ABS32 + 2 THM_CALL, all resolved |
 | 0x0200852C | `src/matched/unit_0200852C.c` | 78 | 16 | EXACT | none |
+| 0x020085A0 | `src/matched/unit_020085A0.c` | 352 | 14 | EXACT | 4 THM_CALL to a compiler runtime helper, 1 ABS32, 2 THM_CALL, all resolved |
+| 0x02008700 | `src/matched/unit_02008700.c` | 296 | 14 | EXACT | 15 THM_CALL + 1 ABS32, all resolved |
+| 0x02008828 | `src/matched/unit_02008828.c` | 260 | 10 | EXACT | 4 THM_CALL + 1 ABS32, all resolved |
+| 0x0200894C | `src/matched/unit_0200894C.c` | 92 | 12 | EXACT | none |
+
+The last four are the milestone 3 batch and are described under "The
+0x020085A0..0x020089A8 run" below.
 
 The two abut: 0x020084BC + 112 is 0x0200852C. Together they are 190
 contiguous bytes and 23 functions, with no gap and no overlap, and they are
@@ -778,6 +789,138 @@ That follower is now seeded from `layout/function_starts.txt` and the verdict
 is a clean EXACT; see "The two missing labels" above. It is, fittingly, the
 routine that clears the second of the two bitmaps this one sets a bit in.
 
+## The 0x020085A0..0x020089A8 run
+
+Four consecutive translation units, 48 functions and 1000 bytes, taken in one
+pass to turn the 190-byte beachhead at 0x020084BC into a contiguous stretch.
+What they cover, in address order:
+
+| range | bytes | functions | what it is |
+| --- | --- | --- | --- |
+| 0x0200857C..0x020085A0 | 36 | 1 | the constructor of the play-time object. Near miss, see below |
+| 0x020085A0..0x02008700 | 352 | 14 | `playtime.c`: the play-time counter and its calendar stamp |
+| 0x02008700..0x02008828 | 296 | 14 | the save block with id 0x1B and its accessors |
+| 0x02008828..0x0200892C | 260 | 10 | the save block with id 0x1C, first half |
+| 0x0200892C..0x0200894C | 32 | 2 | two accessors on the same block. Near miss, see below |
+| 0x0200894C..0x020089A8 | 92 | 12 | the same block, second half |
+
+The file boundaries are not guesses. Each of the three blocks opens with a
+four-byte function that returns its own size (0x68, 0x9C, and 0x658 for the one
+after this run), and the size it returns is exactly what the constructor two
+instructions later clears, so the seam between two of these files is visible in
+the bytes. Every accessor in a block file reaches its object through the same
+`sub_020071CC(sys, <id>)` call with the same constant id, and the id changes
+exactly at the seam.
+
+`playtime.c` is named by the image rather than inferred. The constructor at
+0x0200857C loads 0x020A70B8 as an argument to the debug allocator at
+0x02030734, and the bytes at 0x020A70B8 spell `playtime.c`; the string before
+it is `mystatus.c`. That is the first original source file name this project
+has recovered. The functions keep their `sub_<address>` names, because the file
+identity is attested and the individual entry points are not.
+
+### New compiler idioms
+
+Six, in the order they cost time.
+
+* **A compiler runtime helper is a named relocation and can be pinned like any
+  other extern.** `a / b` on `u32` compiles to a call to `_u32_div_f`, and
+  mwccarm leaves that as an undefined reference carrying exactly that name, so
+  a `symbols:` line `_u32_div_f 0x0209C2B0 arm` resolves it. The address is
+  attested as a `label` by 57 callers elsewhere in the image, so this is an
+  ordinary attested lookup and not a special case. Without the line the four
+  calls in `sub_020085D4` are wildcards and the unit caps at `MATCH`; with it
+  the unit is `EXACT`. Any function doing integer division needs this.
+* **`a / b` and `a % b` on the same operands are two calls, not one.** The
+  helper returns the quotient in `r0` and the remainder in `r1`, and the
+  original visibly calls it twice in a row with identical arguments. Common
+  subexpression elimination does not touch a call, so writing the division once
+  into a temporary and deriving the remainder from it is a different function.
+* **Locals are laid out with the later declaration at the lower stack
+  address.** `sub_02008658` puts a 0x10-byte `RTCDate` at `sp+0xC` and a
+  0xC-byte `RTCTime` at `sp+0`. Declaring the date first and the time second
+  produces that; the other order puts the date at `sp+0` and the function is
+  seven bytes wrong in the stack offsets and nothing else. This is a one-line
+  fix that is invisible unless the diff is read as offsets rather than as code.
+* **An aggregate assignment of up to about 32 bytes is inlined as ldm/stm.**
+  `obj->unk04 = src->unk20` on a 0x20-byte struct is four `ldm`/`stm` pairs and
+  no call, and 28 bytes comes out as three pairs plus a trailing `ldr`/`str`.
+  The size used is the padded `sizeof`, not the sum of the declared members.
+  The practical consequence is the reverse reading: a run of `ldm rX!, {r0, r1}`
+  / `stm rY!, {r0, r1}` in the middle of field-by-field moves says that those
+  particular bytes are one nested struct in the source, and getting that
+  grouping wrong changes the whole function rather than one instruction.
+* **`ldrsh` with a register offset is a signedness tell.** Thumb `ldrsh` has no
+  immediate-offset form, so a signed halfword field past the reach of the other
+  loads costs an extra `movs rN, #imm` and a register-offset load, sitting in a
+  function where every neighbouring read is a plain immediate `ldrh`. In
+  `sub_020088B8` that one instruction is the only evidence that the field at
+  +0x98 is `s16` and the ones on either side of it are not.
+* **The reach of the Thumb immediate decides whether a field access costs an
+  `adds`.** `str`/`ldr` scale a 5-bit immediate by 4 and reach 124;
+  `strh`/`ldrh` scale by 2 and stop at 62; `strb`/`ldrb` do not scale and stop
+  at 31. So in `unit_0200894C.c` the word at +0x78 is one instruction and the
+  halfword at +0x7C is two, with no difference in the source. Reading that
+  `adds r0, #imm` as an offset computation in the source rather than as an
+  encoding artefact invents a pointer variable that is not there.
+
+### The two near misses in this run
+
+Both are the same failure and it is not a codegen failure: every concrete byte
+is reproduced and the verdict is `MATCH`, held there by a relocation whose
+target address cannot be attested from outside the bytes under test. This is
+the honesty rule doing its job, and it is a real ceiling rather than a bug.
+
+**0x0200857C, 36 bytes, `playtime.c`'s constructor.** Written as
+
+```c
+void *sub_0200857C(u32 heap)
+{
+    struct PlayTime *p = sub_02030734(heap, 8, 1, sub_0200857C_File, 32);
+    sub_020085A0(p);
+    return p;
+}
+```
+
+it is `MATCH` with all 36 bytes right and one wildcard: the pool word holding
+0x020A70B8, the `playtime.c` string. Both calls resolve. The string does not,
+because 0x020A70B8 appears in exactly one literal pool in the whole image and
+that pool is this function's own, so `attest()` discards its only witness. The
+`literal` class needs a witness at a different address and there is none.
+
+Writing the string as `__FILE__`, which is almost certainly what the original
+said, does not help and makes it worse: the compiler then emits the string into
+this object's own `.rodata` and relocates against a local symbol, and `tu` lays
+out only executable sections, so the pool word would be filled with an address
+that has nothing to do with 0x020A70B8.
+
+There is honest evidence available that the harness cannot currently use.
+Strings are packed end to end and `mystatus.c` ends with its NUL at 0x020A70B6,
+so `playtime.c` begins at 0x020A70B8 by construction from the data, entirely
+independently of the pool word. A `string` attestation class, admitting the
+address of a NUL-terminated printable run whose start follows from the run
+before it, would resolve this and every other `__FILE__` argument in the image,
+of which there are many. That is a change to `attest()` and is left for a
+separate piece of work rather than smuggled in here.
+
+**0x0200892C and 0x0200893C, 32 bytes, two accessors on the id 0x1C block.**
+One calls 0x02014468 and the other tail-calls 0x02014464 through a pool word.
+These two sites are the only references to either address anywhere the harness
+looks: 0x02014468 is labelled in the listings, but the single `bl` that reaches
+it is the one inside this range, and 0x02014464 carries no label at all. So
+both targets fail `attest()` for want of an outside witness and the pair stays
+at `MATCH`.
+
+The consequence is structural rather than cosmetic. The functions sit in the
+middle of an otherwise contiguous 384-byte file, so that file is committed as
+two units, `unit_02008828.c` and `unit_0200894C.c`, with a 32-byte hole between
+them that the build still takes from the assembly. Splitting a translation unit
+around an unverifiable function is the right move: a unit is only worth
+committing if the whole of it is `EXACT`, and `csrc.py` refuses anything less.
+
+Neither near miss is a third consecutive failure: everything between them and
+on both sides of them is `EXACT`.
+
 ## How C enters the build
 
 `src/` is no longer inventory. `tools/build.py` compiles every entry of
@@ -817,14 +960,15 @@ fallback would mean the ROM still verifies while the C in the tree is wrong,
 which is the one failure mode worth engineering against here.
 
 ```
-error: matched C source regression: sub_02008954 (src/matched/sub_02008954.c)
-       is DIFF at 0x02008954, not EXACT; refusing to splice
-  offset     ORIGINAL @ 02008954                    | COMPILED
+error: matched C source regression: unit_0200894C
+       (src/matched/unit_0200894C.c) is DIFF at 0x0200894C, not EXACT;
+       refusing to splice
+  offset     ORIGINAL @ 0200894C                    | COMPILED
   ------------------------------------------------------------------------
-    +0000    adds r0, #0x73                         | adds r0, #0x73
-    +0002    ldrb r0, [r0]                          | ldrb r0, [r0]
-  * +0004    strb r0, [r1]                          | adds r0, r0, #1
-  * +0006    bx lr                                  | strb r0, [r1]
+    +0008    adds r0, #0x73                         | adds r0, #0x73
+    +000A    ldrb r0, [r0]                          | ldrb r0, [r0]
+  * +000C    strb r0, [r1]                          | adds r0, r0, #1
+  * +000E    bx lr                                  | strb r0, [r1]
 ```
 
 ### Overlapping entries
@@ -857,11 +1001,17 @@ right, which the `EXACT` requirement guarantees.
 
 ### What is spliced today
 
-12 entries, 442 bytes: the eight matched game functions and two units above
+15 entries, 1428 bytes: the seven matched game functions and six units above
 (minus the two single-function entries their units subsume), and the four SDK
 calibration functions. All 242 regions stay `PASS` with those bytes in place
 and the ROM still verifies at
 `26ad0b9967aa279c4a266ee69f52b9b2332399a5`.
+
+Coverage of the 0x02005000..0x0200B000 window the milestone 3 batch worked in:
+1326 bytes of the 17978 bytes the listings classify as instructions there are
+now produced by C, 7.4%, in one 908-byte contiguous stretch
+(0x020085A0..0x0200892C), one 92-byte stretch, the earlier 190-byte pair of
+units at 0x020084BC, and five single functions.
 
 ```
 python tools/csrc.py              # what the build would splice, and from where
@@ -896,6 +1046,14 @@ python tools/match.py tu --src src/matched/unit_0200852C.c \
     --addr 0x0200852C --thumb
 python tools/match.py tu --src src/matched/unit_020084BC.c \
     --addr 0x020084BC --thumb --diff
+python tools/match.py tu --src src/matched/unit_020085A0.c \
+    --addr 0x020085A0 --thumb
+python tools/match.py tu --src src/matched/unit_02008700.c \
+    --addr 0x02008700 --thumb
+python tools/match.py tu --src src/matched/unit_02008828.c \
+    --addr 0x02008828 --thumb
+python tools/match.py tu --src src/matched/unit_0200894C.c \
+    --addr 0x0200894C --thumb
 
 # the language evidence
 python tools/cppscan.py all --regions all --isa thumb
