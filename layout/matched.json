@@ -65,6 +65,57 @@
    "status": "EXACT*"
   },
   {
+   "name": "unit_020084BC",
+   "address": "0x020084BC",
+   "kind": "game_unit",
+   "functions": [
+    "sub_020084BC",
+    "sub_020084D4",
+    "sub_020084E4",
+    "sub_020084F4",
+    "sub_020084F8",
+    "sub_02008500",
+    "sub_02008510"
+   ],
+   "region": "arm9",
+   "source": "src/matched/unit_020084BC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "MATCH"
+  },
+  {
+   "name": "unit_0200852C",
+   "address": "0x0200852C",
+   "kind": "game_unit",
+   "functions": [
+    "sub_0200852C",
+    "sub_02008530",
+    "sub_02008534",
+    "sub_0200853C",
+    "sub_02008540",
+    "sub_0200854C",
+    "sub_02008550",
+    "sub_02008554",
+    "sub_02008558",
+    "sub_0200855C",
+    "sub_02008560",
+    "sub_02008564",
+    "sub_02008568",
+    "sub_0200856C",
+    "sub_02008570",
+    "sub_02008574"
+   ],
+   "region": "arm9",
+   "source": "src/matched/unit_0200852C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "sub_02008534",
    "address": "0x02008534",
    "kind": "game",
@@ -87,6 +138,18 @@
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT"
+  },
+  {
+   "name": "sub_0200A6BC",
+   "address": "0x0200A6BC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0200A6BC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
   },
   {
    "name": "CARD_GetResultCode",

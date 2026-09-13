@@ -25,6 +25,7 @@ Usage:
     python tools/match.py one  ... --diff            # two-column disassembly
     python tools/match.py sweep --src ... --func ... --addr ...
     python tools/match.py sweep ... --cpp            # also try -lang c++
+    python tools/match.py tu   --src ... --addr ...  # whole translation unit
     python tools/match.py manifest                   # rebuild layout/matched.json
 
 Nothing from ``sdk/`` or ``vendor/`` is copied here; SDK headers are only ever
@@ -646,7 +647,7 @@ def cmd_sweep(args):
                 rows.append({"cc": v, "lang": lang, "flags": " ".join(o),
                              "status": r.status, "diffs": len(r.diffs),
                              "size": r.size, "note": r.note})
-                if r.status in ("EXACT", "MATCH"):
+                if r.status.startswith(("EXACT", "MATCH")):
                     best.append((v, lang, " ".join(o), r.status))
             print("  %-9s" % v + "".join("%-12s" % c for c in cells))
     print()
@@ -671,27 +672,181 @@ def cmd_sweep(args):
 
 
 # ---------------------------------------------------------------------------
+# whole translation units
+# ---------------------------------------------------------------------------
+
+SHF_EXECINSTR = 0x4
+
+# The linker fills the gap between two code sections with zero bytes.  This is
+# not an assumption: it is what the original image shows at 0x0200854A and
+# 0x0200857A, and a TU comparison that reproduced everything except the fill
+# would come out DIFF rather than EXACT.
+SECTION_FILL = 0x00
+
+
+class TULayout:
+    """Every code section of one object, concatenated the way a linker would.
+
+    CodeWarrior emits one PROGBITS section per function, in source order, each
+    with its own alignment (4 for Thumb and ARM alike).  So the byte image of a
+    translation unit is not something the compiler hands over directly: it is
+    the sections laid end to end, each aligned up, with the gaps filled.  That
+    is what this builds, so that a whole source file can be compared against a
+    byte range of the original the same way one function is.
+    """
+
+    __slots__ = ("data", "mask", "parts", "relocs")
+
+    def __init__(self, data, mask, parts, relocs):
+        self.data = data        # bytes, the laid-out image
+        self.mask = mask        # bytearray, 1 = concrete
+        self.parts = parts      # [(offset, size, pad_before, [names])]
+        self.relocs = relocs    # [(offset, type, symbol)]
+
+    @property
+    def size(self):
+        return len(self.data)
+
+
+def layout_tu(obj_path):
+    """Lay out every executable section of an object end to end."""
+    with open(obj_path, "rb") as fh:
+        obj = Obj(os.path.basename(obj_path), fh.read())
+    if not obj.ok:
+        raise SystemExit("cannot parse %s as ELF32 ARM" % obj_path)
+    syms, _ = read_symbols(obj)
+
+    bysec = defaultdict(list)
+    for name, value, size, typ, bind, shndx in syms:
+        if typ == STT_FUNC and shndx and shndx < len(obj.sections):
+            bysec[shndx].append((value, name))
+
+    data = bytearray()
+    mask = bytearray()
+    parts = []
+    relocs = []
+    for i, s in enumerate(obj.sections):
+        if s[1] != SHT_PROGBITS or not (s[2] & SHF_EXECINSTR) or not s[5]:
+            continue
+        align = s[8] or 1
+        pad = (-len(data)) % align
+        data += bytes([SECTION_FILL]) * pad
+        mask += b"\x01" * pad
+        base = len(data)
+        body = obj.section_data(i)
+        data += body
+        mask += b"\x01" * len(body)
+        for off, rtype, sname in section_relocs(obj, i):
+            lo, width = RELOC_MASK.get(rtype, RELOC_DEFAULT)
+            start = base + off + lo
+            for k in range(start, min(start + width, len(mask))):
+                if k >= base:
+                    mask[k] = 0
+            relocs.append((base + off, rtype, sname))
+        names = [n for _v, n in sorted(bysec.get(i, []))]
+        parts.append((base, len(body), pad, names))
+    return TULayout(bytes(data), mask, parts, relocs)
+
+
+def run_tu(src, addr, version, flags, thumb, lang, region=None, keep=False,
+           sdk_include=True):
+    work = tempfile.mkdtemp(prefix="bwtu_")
+    try:
+        obj, cmd, log, rc = compile_tu(src, version, flags, thumb, lang, work,
+                                       sdk_include=sdk_include)
+        if obj is None:
+            r = Result("CCERR", note=first_line(log), log=log)
+            return r, None
+        tl = layout_tu(obj)
+        reg = find_region(addr, region)
+        rname, tgt = target_bytes(addr, tl.size, region=reg.name)
+        fake = FuncBytes("<tu>", tl.data, tl.mask, bool(thumb), ".text", tl.relocs)
+        status, diffs = compare(fake, tgt)
+        r = Result(status, log=log)
+        r.func = fake
+        r.target = tgt
+        r.region = rname
+        r.size = tl.size
+        r.diffs = diffs
+        return r, tl
+    finally:
+        if keep:
+            print("  kept %s" % work)
+        else:
+            shutil.rmtree(work, ignore_errors=True)
+
+
+def cmd_tu(args):
+    addr = parse_addr(args.addr)
+    thumb = resolve_isa(addr, args.region, args)
+    flags = args.flags.split() if args.flags else ["-O4,p"]
+    r, tl = run_tu(args.src, addr, args.cc, flags, thumb, args.lang,
+                   region=args.region, keep=args.keep,
+                   sdk_include=not args.no_sdk_include)
+    print("%-10s translation unit @ %08X (%s, %s)"
+          % (r.status, addr, r.region or args.region or "?",
+             "Thumb" if thumb else "ARM"))
+    print("  compiler dsi/%s  flags: %s%s%s"
+          % (args.cc, " ".join(BASE_FLAGS + flags),
+             " -thumb" if thumb else "",
+             (" -lang " + args.lang) if args.lang else ""))
+    if r.status == "CCERR":
+        print(r.log)
+        return 2
+    print("  %d code section(s), %d bytes laid out, %d relocation site(s)"
+          % (len(tl.parts), r.size, len(tl.relocs)))
+    print("  %-10s %-6s %-5s %s" % ("address", "size", "pad", "symbol(s)"))
+    for base, size, pad, names in tl.parts:
+        print("  %08X   %-6d %-5d %s"
+              % (addr + base, size, pad, ", ".join(names) or "(none)"))
+    if r.status in ("EXACT", "MATCH"):
+        if args.diff:
+            print_diff(r.func, r.target, addr, reloc_map(r.func))
+        return 0
+    if r.status == "SIZE":
+        print("  laid out %d bytes; nothing to compare against a fixed extent"
+              % r.size)
+        return 1
+    print("  %d concrete byte(s) differ" % len(r.diffs))
+    print_diff(r.func, r.target, addr, reloc_map(r.func))
+    return 1
+
+
+# ---------------------------------------------------------------------------
 # manifest
 # ---------------------------------------------------------------------------
 
 MANIFEST = os.path.join(ROOT, "layout", "matched.json")
 
 HEADER_RE = re.compile(
-    r"^\s*\*?\s*(address|region|compiler|flags|lang|isa|status|function)\s*:\s*(.+?)\s*$",
+    r"^\s*\*?\s*(address|region|compiler|flags|lang|isa|status|function|unit)\s*:\s*(.+?)\s*$",
     re.IGNORECASE)
+
+# A `function:` list can run over several lines; a continuation is a comment
+# line that is nothing but identifiers and commas.  Prose in the same comment
+# never looks like that, so this does not swallow the description.
+CONT_RE = re.compile(r"^\s*\*\s*([A-Za-z_][A-Za-z0-9_]*\s*,\s*)*"
+                     r"[A-Za-z_][A-Za-z0-9_]*\s*,?\s*$")
 
 
 def read_header(path):
     """Parse the leading block comment of a matched source file."""
     fields = {}
+    last = None
     with open(path, "r", errors="replace") as fh:
         for line in fh:
             if line.lstrip().startswith("*/"):
                 break
             m = HEADER_RE.match(line)
             if m:
-                fields[m.group(1).lower()] = m.group(2)
+                last = m.group(1).lower()
+                fields[last] = m.group(2)
                 continue
+            if last == "function" and CONT_RE.match(line):
+                fields["function"] = fields["function"].rstrip(",") + ", " + \
+                    line.strip().lstrip("*").strip()
+                continue
+            last = None
             s = line.strip()
             if s and not s.startswith(("/*", "*", "//")) and fields:
                 break
@@ -725,15 +880,21 @@ def cmd_manifest(args):
             thumb = (h.get("isa", "").lower() == "thumb")
             if not h.get("isa"):
                 thumb = resolve_isa(addr, region, argparse.Namespace(thumb=False, arm=False))
+            is_unit = h.get("unit", "").strip().lower() in ("yes", "true", "1")
             status = h.get("status", "")
             if args.verify:
-                r = run_one(path, names[0], addr, h.get("compiler", "1.1p1"),
-                            flags.split(), thumb, lang, region=region)
+                if is_unit:
+                    r, _tl = run_tu(path, addr, h.get("compiler", "1.1p1"),
+                                    flags.split(), thumb, lang, region=region)
+                else:
+                    r = run_one(path, names[0], addr, h.get("compiler", "1.1p1"),
+                                flags.split(), thumb, lang, region=region)
                 status = r.status
             entries.append({
-                "name": names[0],
+                "name": os.path.splitext(fn)[0] if is_unit else names[0],
                 "address": "0x%08X" % addr,
-                "kind": kind,
+                "kind": (kind + "_unit") if is_unit else kind,
+                "functions": names if is_unit else None,
                 "region": region,
                 "source": rel,
                 "compiler": "dsi/" + h.get("compiler", "1.1p1"),
@@ -743,6 +904,8 @@ def cmd_manifest(args):
                          (" -thumb" if thumb else "") + " -lang " + lang,
                 "status": status,
             })
+            if entries[-1]["functions"] is None:
+                del entries[-1]["functions"]
     entries.sort(key=lambda e: int(e["address"], 16))
     with open(MANIFEST, "w", newline="\n") as fh:
         json.dump({
@@ -815,6 +978,19 @@ def main(argv=None):
     p2.add_argument("--cpp", action="store_true", help="also sweep -lang c++")
     p2.add_argument("--json", help="write the full matrix here")
 
+    p5 = sub.add_parser("tu", help="compare a whole translation unit against a byte range")
+    p5.add_argument("--src", required=True, help="C/C++ translation unit")
+    p5.add_argument("--addr", required=True, help="address the unit starts at")
+    p5.add_argument("--region")
+    p5.add_argument("--thumb", action="store_true")
+    p5.add_argument("--arm", action="store_true")
+    p5.add_argument("--lang")
+    p5.add_argument("--no-sdk-include", action="store_true")
+    p5.add_argument("--cc", default="1.1p1")
+    p5.add_argument("--flags", default="-O4,p")
+    p5.add_argument("--diff", action="store_true")
+    p5.add_argument("--keep", action="store_true")
+
     p3 = sub.add_parser("manifest", help="rebuild layout/matched.json from src/matched/")
     p3.add_argument("--verify", action="store_true",
                     help="recompile each entry and record the live status")
@@ -827,7 +1003,7 @@ def main(argv=None):
     p4.add_argument("--arm", action="store_true")
 
     args = ap.parse_args(argv)
-    return {"one": cmd_one, "sweep": cmd_sweep,
+    return {"one": cmd_one, "sweep": cmd_sweep, "tu": cmd_tu,
             "manifest": cmd_manifest, "show": cmd_show}[args.command](args)
 
 
