@@ -1,0 +1,163 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02008A34",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_020089A8",
+   "address": "0x020089A8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020089A8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_020089A8",
+    "sub_020089B0",
+    "sub_020089C0",
+    "sub_020089CC",
+    "sub_020089D0",
+    "sub_020089F4",
+    "sub_02008A00",
+    "sub_02008A0C",
+    "sub_02008A14",
+    "sub_02008A1C",
+    "sub_02008A28",
+    "sub_02008A34",
+    "sub_02008A44"
+   ]
+  },
+  {
+   "name": "unit_02008A7C",
+   "address": "0x02008A7C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008A7C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008A7C",
+    "sub_02008ACC",
+    "sub_02008ADC"
+   ]
+  },
+  {
+   "name": "sub_02008AEC",
+   "address": "0x02008AEC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02008AEC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_02008B08",
+   "address": "0x02008B08",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008B08.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008B08",
+    "sub_02008B14",
+    "sub_02008B20"
+   ]
+  },
+  {
+   "name": "unit_02008B4C",
+   "address": "0x02008B4C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008B4C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008B4C",
+    "sub_02008B78",
+    "sub_02008B94",
+    "sub_02008B98",
+    "sub_02008B9C",
+    "sub_02008BD0",
+    "sub_02008BE0",
+    "sub_02008C00"
+   ]
+  },
+  {
+   "name": "sub_02008C20",
+   "address": "0x02008C20",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02008C20.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_02008C58",
+   "address": "0x02008C58",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008C58.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008C58",
+    "sub_02008C64",
+    "sub_02008C94",
+    "sub_02008CB4",
+    "sub_02008CD4"
+   ]
+  },
+  {
+   "name": "unit_02008EF8",
+   "address": "0x02008EF8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02008EF8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02008EF8"
+   ]
+  },
+  {
+   "name": "sub_02008F3C",
+   "address": "0x02008F3C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02008F3C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}
