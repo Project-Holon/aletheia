@@ -133,7 +133,7 @@ Done so far:
   14 entries are EXACT: eight game functions, two whole translation units and
   the four calibration functions. See `docs/MATCHING.md`.
 - **`src/` is wired into the shipping build.** `tools/build.py` compiles every
-  entry of `layout/matched.json` through `tools/csrc.py` and splices the
+  manifest entry through `tools/csrc.py` and splices the
   result into the region image before verifying it, so the byte-identical ROM
   is built from the C wherever C exists. A regression fails the build with a
   `match.py`-style diff instead of falling back to the assembly, and `--no-c`

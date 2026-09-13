@@ -12,7 +12,10 @@
  * status:   EXACT
  * function: sub_02008828, sub_0200882C, sub_02008844, sub_02008848,
  *           sub_0200884C, sub_02008850, sub_02008854, sub_02008860,
- *           sub_020088B8, sub_0200890C
+ *           sub_020088B8, sub_0200890C, sub_0200892C, sub_0200893C,
+ *           sub_0200894C, sub_02008954, sub_0200895C, sub_02008964,
+ *           sub_0200896C, sub_02008970, sub_02008978, sub_02008980,
+ *           sub_02008988, sub_02008990, sub_02008998, sub_020089A0
  *
  * symbols:
  *   MI_CpuFill8   0x02082BCC  arm
@@ -21,11 +24,16 @@
  * alias: the save block with id 0x1C, 0x9C bytes, and its accessors.  The
  * range is closed the same way unit_02008700.c is: it opens with the four
  * bytes that return the block size (0x9C, which is what sub_0200882C clears)
- * and ends where the next such function returns 0x658, at 0x020089A8.  Of that
- * 384-byte, twenty-four function range this file covers the first ten,
- * 0x02008828..0x0200892C; unit_0200894C.c covers the last twelve.  The two
- * functions between them, 0x0200892C and 0x0200893C, cannot be verified and
- * are recorded as a near miss in docs/MATCHING.md.
+ * and ends where the next such function returns 0x658, at 0x020089A8.  That is
+ * the whole 384-byte, twenty-four function file.
+ *
+ * It was committed as two files for a while, because the pair at 0x0200892C
+ * and 0x0200893C reach 0x02014468 and 0x02014464 and nothing else in
+ * arm9_main does, so neither address had a witness outside the bytes under
+ * test.  Both do have one: ov010 and ov020 branch to them, 0x02014464 is
+ * seeded into layout/function_starts.txt from those branches so disasm.py
+ * labels it, and cross-region branches now count as `label` evidence.  The
+ * file is one unit again and src/matched/unit_0200894C.c is gone.
  *
  * Layout, from the accessors:
  *
@@ -203,4 +211,83 @@ void sub_0200890C(void *sys, struct Sub02008828Rec *dest)
     struct Sub02008828Obj *obj = sub_02008854(sys);
 
     *dest = obj->unk80;
+}
+
+/* The getter/setter pair on some other object's byte at +6, through which the
+ * +0x72 field of this block is exchanged.  Both are four-byte leaves in the
+ * middle of a literal-pool run at 0x02014464 and 0x02014468, and neither is
+ * reachable from anything else in arm9_main, which is why these two functions
+ * were the last unverifiable ones in this file.  See "The two near misses in
+ * this run" in docs/MATCHING.md. */
+extern u8   sub_02014468(const void *src);
+extern void sub_02014464(void *dest, u8 value);
+
+void sub_0200892C(struct Sub02008828Obj *obj, const void *src)
+{
+    obj->unk72 = sub_02014468(src);
+}
+
+void sub_0200893C(const struct Sub02008828Obj *obj, void *dest)
+{
+    sub_02014464(dest, obj->unk72);
+}
+
+void sub_0200894C(struct Sub02008828Obj *obj, u8 value)
+{
+    obj->unk73 = value;
+}
+
+void sub_02008954(const struct Sub02008828Obj *obj, u8 *out)
+{
+    *out = obj->unk73;
+}
+
+void sub_0200895C(struct Sub02008828Obj *obj, u8 value)
+{
+    obj->unk74 = value;
+}
+
+void sub_02008964(const struct Sub02008828Obj *obj, u8 *out)
+{
+    *out = obj->unk74;
+}
+
+void sub_0200896C(struct Sub02008828Obj *obj, u32 value)
+{
+    obj->unk78 = value;
+}
+
+void sub_02008970(const struct Sub02008828Obj *obj, u32 *out)
+{
+    *out = obj->unk78;
+}
+
+u16 sub_02008978(const struct Sub02008828Obj *obj)
+{
+    return obj->unk7C;
+}
+
+void sub_02008980(struct Sub02008828Obj *obj, u16 value)
+{
+    obj->unk7C = value;
+}
+
+void sub_02008988(struct Sub02008828Obj *obj, u16 value)
+{
+    obj->unk7E = value;
+}
+
+u16 sub_02008990(const struct Sub02008828Obj *obj)
+{
+    return obj->unk7E;
+}
+
+u16 sub_02008998(const struct Sub02008828Obj *obj)
+{
+    return obj->unk76;
+}
+
+void sub_020089A0(struct Sub02008828Obj *obj, u16 value)
+{
+    obj->unk76 = value;
 }

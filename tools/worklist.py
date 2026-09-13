@@ -14,7 +14,8 @@ Inputs
   asm/arm9/src/*.s        function labels, instruction addresses, byte widths
   layout/units_arm9.json  translation unit file order, base addresses, sizes
   layout/symbols_sdk.txt  SDK symbols recovered by tools/libmatch.py
-  layout/matched.json     functions already matched by tools/match.py
+  layout/matched/         manifest shards, one per work packet, read through
+                          match.load_manifest_entries
 
 Output
 ------
@@ -27,10 +28,10 @@ Precedence is sdk > matched > open, with one documented exception:
   sdk       the function's address carries an SDK symbol in symbols_sdk.txt
             for region arm9.  These come from hybrid library linking and are
             NOT decompilation targets.  A handful of them are also listed in
-            matched.json as sdk_calibration entries; those stay classified
+            the manifest as sdk_calibration entries; those stay classified
             sdk and are counted separately as sdk_matched.
-  matched   covered by a layout/matched.json entry, either directly or as a
-            member of a game_unit entry's function list.  Read only.
+  matched   covered by a manifest entry, either directly or as a member of a
+            game_unit entry's function list.  Read only.
   open      everything else.  These are the decompilation targets and the
             only functions that end up inside packets.
 
@@ -100,7 +101,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 UNITS_JSON = os.path.join(ROOT, "layout", "units_arm9.json")
 SYMBOLS_SDK = os.path.join(ROOT, "layout", "symbols_sdk.txt")
-MATCHED_JSON = os.path.join(ROOT, "layout", "matched.json")
+MATCHED_DIR = os.path.join(ROOT, "layout", "matched")
 OUT_JSON = os.path.join(ROOT, "layout", "worklist.json")
 
 REGION = "arm9"
@@ -163,11 +164,18 @@ def load_sdk_symbols():
 
 
 def load_matched():
-    """address -> dict(name, entry, kind) for everything matched.json covers."""
-    with open(MATCHED_JSON, encoding="utf-8") as fh:
-        doc = json.load(fh)
+    """address -> dict(name, entry, kind) for everything the shards cover.
+
+    The manifest is sharded (layout/matched/<region>/<packet>.json), and
+    match.load_manifest_entries is its one reader: reading the files here as
+    well would mean two implementations of the shard union and of the check
+    that refuses a stale pre-shard layout/matched.json.
+    """
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import match  # noqa: E402
+
     cover = {}
-    for ent in doc.get("functions", []):
+    for ent in match.load_manifest_entries():
         if ent.get("region") != REGION:
             continue
         name = ent.get("name", "")
@@ -778,7 +786,7 @@ def print_summary(doc):
         )
     )
     print(
-        "    of which calibrated    %6d  (matched.json sdk_calibration entries)"
+        "    of which calibrated    %6d  (manifest sdk_calibration entries)"
         % s["functions_sdk_also_matched"]
     )
     print(

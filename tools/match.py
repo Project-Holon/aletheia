@@ -32,7 +32,14 @@ Usage:
     python tools/match.py sweep --src ... --func ... --addr ...
     python tools/match.py sweep ... --cpp            # also try -lang c++
     python tools/match.py tu   --src ... --addr ...  # whole translation unit
-    python tools/match.py manifest                   # rebuild layout/matched.json
+    python tools/match.py manifest --verify          # every shard of layout/matched/
+    python tools/match.py manifest --verify --shard pkt_0209CE10
+    python tools/match.py selftest                   # the attestation rules
+    python tools/match.py idioms                     # regenerate the idiom index
+
+The manifest is one file per work packet under ``layout/matched/<region>/``,
+so two agents working different packets never write the same file.  See
+"manifest shards" below and docs/PARALLEL.md.
 
 Nothing from ``sdk/`` or ``vendor/`` is copied here; SDK headers are only ever
 reached through ``-I sdk/TwlSDK/include`` at compile time.
@@ -443,13 +450,17 @@ def target_extent(addr, region):
 # address of the instruction or pool word it came from, and why
 # ``attest()`` rejects a witness that falls inside the compared range.
 #
-# Two classes of evidence are accepted, and the class is reported per site so
+# Four classes of evidence are accepted, and the class is reported per site so
 # a reader can weigh them separately:
 #
 #   label    disasm.py put a func_XXXXXXXX label at that address, i.e. it
 #            traced real code there, AND some branch elsewhere in the image
 #            calls that label.  This is the strong class: the address exists
-#            in the listings independently of any literal.
+#            in the listings independently of any literal.  "Elsewhere in the
+#            image" means the whole image: a branch from an overlay into
+#            arm9_main is the same kind of evidence as one from arm9_main,
+#            and a leaf whose callers all live in overlays is not less of a
+#            function for it.  See xregion_calls().
 #
 #   literal  the exact word appears in at least one literal pool at a
 #            different address.  bss and data addresses can only ever be
@@ -457,6 +468,12 @@ def target_extent(addr, region):
 #            weaker class, and the requirement that the witness be a pool
 #            word (a site some instruction actually loads from) rather than
 #            any stray matching word is what keeps it meaningful.
+#
+#   string   the address is the start of a NUL-terminated printable run whose
+#            position is fixed by the terminator of the run before it.  For
+#            __FILE__ arguments, whose address appears in exactly one literal
+#            pool in the whole image: the one under test.  See attest_string()
+#            for the seven conditions that keep it narrow.
 #
 #   local    the symbol is defined inside the object we just compiled, so its
 #            address follows from where we placed the translation unit.  No
@@ -471,6 +488,20 @@ _CALL_RE = re.compile(
     r"^\s*b[a-z]*\s+func_([0-9A-Fa-f]{8})\s+/\*\s*([0-9A-Fa-f]{8})")
 _WORD_RE = re.compile(
     r"^\s*\.word\s+0x([0-9A-Fa-f]{8})\s+/\*\s*([0-9A-Fa-f]{8})")
+
+# A branch whose target is in another region.  disasm.py cannot name such a
+# target with a label, so it emits the raw encoding and decodes the target in
+# the address comment:
+#
+#   .inst.w 0xF6B5FB9C   /* 0215ED2C  B5 F6 9C FB  bl 0x02014468  (outside this region) */
+#
+# The left group is the call site, the right one the target.  This is a real
+# branch instruction in the image, so it is `label`-class evidence exactly the
+# way an in-region `bl func_XXXXXXXX` is; the only difference is which file it
+# is written in.
+_XCALL_RE = re.compile(
+    r"/\*\s+([0-9A-Fa-f]{8})\s.*?\b(?:blx|bl|b)\s+0x([0-9A-Fa-f]{8})\s+"
+    r"\(outside this region\)")
 
 
 class Evidence:
@@ -551,6 +582,62 @@ def evidence():
     return ev
 
 
+# ---------------------------------------------------------------------------
+# cross-region call evidence
+# ---------------------------------------------------------------------------
+#
+# evidence() reads the ARM9 static module only, because that is where every
+# matched entry lives and scanning it is cheap.  But "a branch somewhere else
+# in the image calls that label" is not a claim about one region: a leaf in
+# arm9_main whose only callers sit in overlays is still a function, and the
+# instruction that proves it is still an instruction.  The 72 MB of overlay
+# listings are therefore scanned lazily, and only when the ARM9 evidence has
+# already failed to attest an address, so the common path never pays for it.
+#
+# Only branch instructions feed this index.  Pool words in overlays are
+# deliberately NOT admitted: the `literal` class is the weak one, its witness
+# has to be a word disasm.py classified as a literal pool, and widening it to
+# 237 regions would weaken it without closing anything.
+
+_XCALLS = {}
+
+
+def xregion_listing_files():
+    out = []
+    d = os.path.join(ROOT, "asm", "overlays")
+    if os.path.isdir(d):
+        out += [os.path.join(d, f) for f in sorted(os.listdir(d))
+                if f.endswith(".s")]
+    d = os.path.join(ROOT, "asm", "arm9")
+    if os.path.isdir(d):
+        out += [os.path.join(d, f) for f in sorted(os.listdir(d))
+                if f.endswith(".s")]
+    return out
+
+
+def xregion_calls():
+    """{target addr: [call site addr]} for branches that leave their region."""
+    if "x" in _XCALLS:
+        return _XCALLS["x"]
+    out = defaultdict(list)
+    for path in xregion_listing_files():
+        try:
+            fh = open(path, "r", errors="replace")
+        except OSError:
+            continue
+        with fh:
+            for line in fh:
+                # Cheap reject first; the marker is in every line that matters
+                # and in almost none that does not.
+                if "outside this region" not in line:
+                    continue
+                m = _XCALL_RE.search(line)
+                if m:
+                    out[int(m.group(2), 16)].append(int(m.group(1), 16))
+    _XCALLS["x"] = out
+    return out
+
+
 _SDK_SYMS = {}
 
 
@@ -572,15 +659,12 @@ _MATCHED_SYMS = {}
 
 
 def matched_symbols():
-    """{name: (address, thumb)} from layout/matched.json."""
+    """{name: (address, thumb)} from the manifest shards."""
     if "m" in _MATCHED_SYMS:
         return _MATCHED_SYMS["m"]
     out = {}
-    if os.path.exists(MANIFEST):
-        with open(MANIFEST) as fh:
-            for e in json.load(fh).get("functions", []):
-                out.setdefault(e["name"],
-                               (int(e["address"], 16), e["isa"] == "thumb"))
+    for e in load_manifest_entries():
+        out.setdefault(e["name"], (int(e["address"], 16), e["isa"] == "thumb"))
     _MATCHED_SYMS["m"] = out
     return out
 
@@ -634,11 +718,147 @@ def symbol_address(name, decls):
         th = evidence().labels.get(addr)
         return addr, ("thumb" if th else "arm"), "name"
     for src, tag in ((sdk_symbols(), "symbols_sdk"),
-                     (matched_symbols(), "matched.json")):
+                     (matched_symbols(), "manifest")):
         if name in src:
             addr, th = src[name]
             return addr, ("thumb" if th else "arm"), tag
     return None
+
+
+# ---------------------------------------------------------------------------
+# the `string` class
+# ---------------------------------------------------------------------------
+#
+# A __FILE__ argument to a debug allocator is a pointer into the packed string
+# area, and the address of a string there normally appears in exactly one
+# literal pool: the pool of the one function that passes it.  That pool is the
+# range under comparison, so the `literal` class discards its only witness and
+# the entry caps at MATCH even though every concrete byte is right.
+#
+# There is honest evidence the other classes cannot see, and it is in the data
+# rather than in any instruction.  Strings are emitted end to end, each one
+# NUL-terminated and the next one aligned up, so the START of a string is
+# fixed by the END of the string before it:
+#
+#   020A70AC  6D 79 73 74 61 74 75 73 2E 63 00 | 00 | 70 6C 61 79 ...
+#             m  y  s  t  a  t  u  s  .  c  \0  pad  p  l  a  y
+#                                          ^          ^
+#                                    terminator     0x020A70B8 follows
+#                                    at 020A70B6    by construction
+#
+# That derivation uses only bytes outside the compared range, so it satisfies
+# the honesty rule, and it is not circular: it never reads the pool word whose
+# value it is about to check.  What it establishes is that 0x020A70B8 is a
+# string start, not that it is THE string the source meant, exactly as the
+# `literal` class establishes that an object lives at an address without
+# saying it is the right one.  A wrong claim still fails: the resolved word is
+# compared against the original and comes out DIFF.
+#
+# The rule is deliberately narrow.  Every one of these must hold:
+#
+#   1. the declared kind is `data` (a string is not code);
+#   2. the bytes at `addr` are >= MIN_STRING_CHARS printable ASCII followed
+#      by a NUL, entirely inside one region;
+#   3. immediately before `addr` there are k NUL bytes, 1 <= k <= 4: one
+#      terminator plus at most three bytes of alignment padding;
+#   4. `addr` is where that padding rule has to land, i.e. k == 1 (packed) or
+#      `addr` is the first 4-aligned address after the terminator.  Without
+#      this the previous terminator would fix a range of candidate starts
+#      rather than one address;
+#   5. the bytes before those NULs are themselves >= MIN_STRING_CHARS
+#      printable ASCII, so the NUL at addr-k is a string terminator and not
+#      a zero word in a data blob;
+#   6. no func_ label falls anywhere in the two strings, so this is not being
+#      run over code that happens to decode as text;
+#   7. the whole witness neighbourhood lies outside the compared range.
+#
+# The forward direction ("a neighbouring string's start") adds nothing and is
+# not implemented: a string's own terminator already fixes its end, so only
+# its start needs an outside witness.  The other route to that start, a
+# reference from outside the compared range, is the existing `literal` class
+# and is tried first.
+
+MIN_STRING_CHARS = 4
+MAX_STRING_PAD = 4          # terminator plus at most three alignment bytes
+MAX_STRING_BYTES = 256      # a longer run is a text blob, not a literal
+
+
+def _printable_run_forward(data, off, limit):
+    """Length of the printable ASCII run at `off`, NUL-terminated, or None."""
+    n = 0
+    while off + n < limit and n <= MAX_STRING_BYTES:
+        b = data[off + n]
+        if b == 0:
+            return n if n else None
+        if b < 0x20 or b > 0x7E:
+            return None
+        n += 1
+    return None
+
+
+def _printable_run_backward(data, off):
+    """Length of the printable ASCII run ending at `off` inclusive."""
+    n = 0
+    while off - n >= 0 and n <= MAX_STRING_BYTES:
+        b = data[off - n]
+        if b < 0x20 or b > 0x7E:
+            break
+        n += 1
+    return n
+
+
+def attest_string(addr, lo, hi):
+    """The `string` class.  Returns (class, witnesses, site) or None.
+
+    See the commentary above for the seven conditions; each one of them is a
+    separate `return None` here so that a reader can check them off.
+    """
+    region = None
+    for r in load_all_regions():
+        if r.base <= addr < r.base + len(r.data):
+            region = r
+            break
+    if region is None:
+        return None
+    data = region.data
+    base = region.base
+    off = addr - base
+
+    # (2) a NUL-terminated printable run starts here
+    length = _printable_run_forward(data, off, len(data))
+    if length is None or length < MIN_STRING_CHARS:
+        return None
+
+    # (3) the terminator of the string before, plus its alignment padding
+    k = 0
+    while k < MAX_STRING_PAD and off - k - 1 >= 0 and data[off - k - 1] == 0:
+        k += 1
+    if k < 1:
+        return None
+
+    # (4) the padding rule has to put the string exactly here
+    prev_nul = addr - k
+    if k > 1 and addr != ((prev_nul + 1 + 3) & ~3):
+        return None
+
+    # (5) that NUL has to terminate a string, not sit in a zero blob
+    if off - k - 1 < 0:
+        return None
+    prev_len = _printable_run_backward(data, off - k - 1)
+    if prev_len < MIN_STRING_CHARS:
+        return None
+    prev_start = prev_nul - prev_len
+
+    # (6) neither run may be code
+    for lbl in evidence().labels:
+        if prev_start <= lbl <= addr + length:
+            return None
+
+    # (7) none of the witness bytes may be inside the compared range
+    if prev_start < hi and lo < addr + length + 1:
+        return None
+
+    return "string", 1, prev_nul
 
 
 def attest(addr, kind, lo, hi):
@@ -655,6 +875,14 @@ def attest(addr, kind, lo, hi):
             sites = [s for s in ev.calls.get(addr, ()) if not lo <= s < hi]
             if sites:
                 return "label", len(sites), sites[0]
+            # Nothing in this region calls the label.  A branch from another
+            # region is the same kind of evidence, so look there before
+            # falling back to the weaker classes.  The scan is lazy because
+            # it reads every overlay listing.
+            sites = [s for s in xregion_calls().get(addr, ())
+                     if not lo <= s < hi]
+            if sites:
+                return "label", len(sites), sites[0]
             # A labelled function nobody in this image calls directly is
             # still a real function (disasm.py traced code there), but the
             # only thing that names it may be the literal we are checking.
@@ -663,6 +891,10 @@ def attest(addr, kind, lo, hi):
     sites = [s for s in ev.pool_words.get(want, ()) if not lo <= s < hi]
     if sites:
         return "literal", len(sites), sites[0]
+    if kind == "data":
+        proof = attest_string(addr, lo, hi)
+        if proof is not None:
+            return proof
     return None
 
 
@@ -1281,10 +1513,18 @@ def cmd_tu(args):
 # manifest
 # ---------------------------------------------------------------------------
 
-MANIFEST = os.path.join(ROOT, "layout", "matched.json")
+# The manifest is sharded: one file per work packet, under
+# layout/matched/<region>/<shard>.json.  See "manifest shards" below.
+MANIFEST_DIR = os.path.join(ROOT, "layout", "matched")
+LEGACY_MANIFEST = os.path.join(ROOT, "layout", "matched.json")
+
+# Kept as a name because csrc.py and the docs referred to it; it is the shard
+# directory now, not a file.
+MANIFEST = MANIFEST_DIR
 
 HEADER_RE = re.compile(
-    r"^\s*\*?\s*(address|region|compiler|flags|lang|isa|status|function|unit)\s*:\s*(.+?)\s*$",
+    r"^\s*\*?\s*(address|region|compiler|flags|lang|isa|status|function|unit"
+    r"|packet)\s*:\s*(.+?)\s*$",
     re.IGNORECASE)
 
 # A `function:` list can run over several lines; a continuation is a comment
@@ -1352,9 +1592,158 @@ def read_header(path):
 
 SRC_DIRS = [("src/calib", "sdk_calibration"), ("src/matched", "game")]
 
+# Where an entry lands when its source names no packet.  Everything matched
+# before tools/worklist.py existed is in the first of these.
+DEFAULT_SHARD = {"src/matched": "legacy", "src/calib": "calib"}
 
-def cmd_manifest(args):
+SHARD_NOTE = ("matched function inventory for one work packet: addresses, "
+              "names and compiler configuration only, no game bytes")
+
+
+# ---------------------------------------------------------------------------
+# manifest shards
+# ---------------------------------------------------------------------------
+#
+# layout/matched.json used to be one file, which made a manifest write the one
+# genuinely serial step of a parallel wave: every agent that finished a packet
+# had to queue behind the integrator.  It is now one file per packet,
+#
+#     layout/matched/<region>/<shard>.json
+#
+# with <shard> taken from the `packet:` line in the source file's header, so
+# an agent working pkt_0209CE10 writes layout/matched/arm9/pkt_0209CE10.json
+# and nothing else.  Two agents never touch the same file, so the merge is a
+# directory union and needs no integrator in the loop.
+#
+# Shard ids are archival, not live: worklist.py dissolves a packet once its
+# functions stop being open, but the shard that recorded that work keeps its
+# name for ever.  That is why the id comes from the source header rather than
+# from a lookup in layout/worklist.json, which would move entries between
+# shards on every refresh.
+
+def shard_of(reldir, header):
+    """Which shard an entry belongs in: its packet, or the directory default."""
+    pkt = (header.get("packet") or "").strip()
+    if pkt:
+        if not re.match(r"^[A-Za-z0-9_.-]+$", pkt):
+            raise SystemExit("bad packet id %r: use pkt_XXXXXXXX" % pkt)
+        return pkt
+    return DEFAULT_SHARD.get(reldir, "legacy")
+
+
+def shard_path(region, shard):
+    return os.path.join(MANIFEST_DIR, region, shard + ".json")
+
+
+def shard_files():
+    """Every shard file on disk, in a stable order."""
+    out = []
+    if not os.path.isdir(MANIFEST_DIR):
+        return out
+    for region in sorted(os.listdir(MANIFEST_DIR)):
+        d = os.path.join(MANIFEST_DIR, region)
+        if not os.path.isdir(d):
+            continue
+        for fn in sorted(os.listdir(d)):
+            if fn.endswith(".json"):
+                out.append(os.path.join(d, fn))
+    return out
+
+
+def shard_doc(region, shard, entries):
+    return {
+        "tool": "tools/match.py",
+        "version": 2,
+        "note": SHARD_NOTE,
+        "region": region,
+        "shard": shard,
+        "base_flags": " ".join(BASE_FLAGS),
+        "functions": sorted(entries, key=lambda e: int(e["address"], 16)),
+    }
+
+
+def shard_text(doc):
+    return json.dumps(doc, indent=1) + "\n"
+
+
+_MANIFEST_ENTRIES = {}
+
+
+def load_manifest_entries(check_legacy=True):
+    """Every entry of every shard, address-sorted.
+
+    This is the one reader; csrc.py and worklist.py call it rather than
+    opening any manifest file of their own.
+    """
+    if "e" in _MANIFEST_ENTRIES:
+        return _MANIFEST_ENTRIES["e"]
     entries = []
+    seen = {}
+    for path in shard_files():
+        with open(path, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        for e in doc.get("functions", []):
+            key = (e["address"], e.get("kind", ""), e["name"])
+            if key in seen:
+                raise SystemExit(
+                    "manifest shards disagree: %s is in both %s and %s"
+                    % (e["name"], os.path.relpath(seen[key], ROOT),
+                       os.path.relpath(path, ROOT)))
+            seen[key] = path
+            entries.append(e)
+    entries.sort(key=lambda e: (int(e["address"], 16), e.get("kind", ""),
+                                e["name"]))
+    if check_legacy:
+        check_legacy_manifest(entries)
+    _MANIFEST_ENTRIES["e"] = entries
+    return entries
+
+
+def _entry_key(entries):
+    """A content fingerprint that ignores key order and entry order."""
+    return json.dumps(sorted((json.dumps(e, sort_keys=True) for e in entries)))
+
+
+def check_legacy_manifest(entries):
+    """Fail loudly if the pre-shard layout/matched.json is still around.
+
+    Leaving both in the tree is the one way this refactor can silently lose
+    work: a tool that reads the old file and a tool that reads the shards
+    would disagree about what is matched, and the build would splice one set
+    while the manifest recorded another.
+    """
+    if not os.path.exists(LEGACY_MANIFEST):
+        return
+    with open(LEGACY_MANIFEST, "r", encoding="utf-8") as fh:
+        old = json.load(fh).get("functions", [])
+    rel = os.path.relpath(LEGACY_MANIFEST, ROOT).replace("\\", "/")
+    if not entries:
+        raise SystemExit(
+            "%s still exists and there are no manifest shards.\n"
+            "  The manifest is sharded now.  Migrate once with:\n"
+            "      python tools/match.py manifest --migrate" % rel)
+    if _entry_key(old) != _entry_key(entries):
+        raise SystemExit(
+            "%s still exists and disagrees with layout/matched/ "
+            "(%d entries against %d).\n"
+            "  Two sources of truth for what is matched is exactly the "
+            "failure this refactor removes.\n"
+            "  Reconcile by hand, or re-run the one-time migration:\n"
+            "      python tools/match.py manifest --migrate"
+            % (rel, len(old), len(entries)))
+    raise SystemExit(
+        "%s still exists alongside layout/matched/ with the same content.\n"
+        "  Delete it; the shards are the manifest now:\n"
+        "      python tools/match.py manifest --migrate" % rel)
+
+
+# ---------------------------------------------------------------------------
+# building the manifest from the sources
+# ---------------------------------------------------------------------------
+
+def collect_sources():
+    """[(shard, region, source path, header, kind, reldir)] for every entry."""
+    out = []
     for reldir, kind in SRC_DIRS:
         srcdir = os.path.join(ROOT, *reldir.split("/"))
         if not os.path.isdir(srcdir):
@@ -1367,60 +1756,418 @@ def cmd_manifest(args):
             if "address" not in h:
                 continue
             addr = int(h["address"], 0)
-            rel = reldir + "/" + fn
-            flags = h.get("flags", "-O4,p")
-            lang = h.get("lang", "c99")
             region = h.get("region") or find_region(addr).name
-            names = [n.strip() for n in h.get("function", "").split(",") if n.strip()]
-            if not names:
-                names = [os.path.splitext(fn)[0]]
-            thumb = (h.get("isa", "").lower() == "thumb")
-            if not h.get("isa"):
-                thumb = resolve_isa(addr, region, argparse.Namespace(thumb=False, arm=False))
-            is_unit = h.get("unit", "").strip().lower() in ("yes", "true", "1")
-            status = h.get("status", "")
-            if args.verify:
-                if is_unit:
-                    r, _tl = run_tu(path, addr, h.get("compiler", "1.1p1"),
-                                    flags.split(), thumb, lang, region=region)
-                else:
-                    r = run_one(path, names[0], addr, h.get("compiler", "1.1p1"),
-                                flags.split(), thumb, lang, region=region)
-                status = r.status
-            entries.append({
-                "name": os.path.splitext(fn)[0] if is_unit else names[0],
-                "address": "0x%08X" % addr,
-                "kind": (kind + "_unit") if is_unit else kind,
-                "functions": names if is_unit else None,
-                "region": region,
-                "source": rel,
-                "compiler": "dsi/" + h.get("compiler", "1.1p1"),
-                "lang": lang,
-                "isa": "thumb" if thumb else "arm",
-                "flags": " ".join(BASE_FLAGS) + " " + flags +
-                         (" -thumb" if thumb else "") + " -lang " + lang,
-                "status": status,
-            })
-            if entries[-1]["functions"] is None:
-                del entries[-1]["functions"]
-    entries.sort(key=lambda e: int(e["address"], 16))
-    with open(MANIFEST, "w", newline="\n") as fh:
-        json.dump({
-            "tool": "tools/match.py",
-            "version": 1,
-            "note": "matched function inventory: addresses, names and compiler "
-                    "configuration only, no game bytes",
-            "base_flags": " ".join(BASE_FLAGS),
-            "functions": entries,
-        }, fh, indent=1)
-        fh.write("\n")
-    print("wrote %s (%d function(s))"
-          % (os.path.relpath(MANIFEST, ROOT), len(entries)))
-    for e in entries:
-        print("  %-10s %-16s %-30s %-8s %-10s %s"
-              % (e["address"], e["kind"], e["name"], e["region"],
-                 e["compiler"], e["status"]))
+            out.append((shard_of(reldir, h), region, path, h, kind,
+                        reldir + "/" + fn))
+    return out
+
+
+def entry_from_source(path, header, kind, rel, verify=False):
+    """One manifest entry, optionally recompiled to record a live status."""
+    h = header
+    fn = os.path.basename(path)
+    addr = int(h["address"], 0)
+    flags = h.get("flags", "-O4,p")
+    lang = h.get("lang", "c99")
+    region = h.get("region") or find_region(addr).name
+    names = [n.strip() for n in h.get("function", "").split(",") if n.strip()]
+    if not names:
+        names = [os.path.splitext(fn)[0]]
+    thumb = (h.get("isa", "").lower() == "thumb")
+    if not h.get("isa"):
+        thumb = resolve_isa(addr, region,
+                            argparse.Namespace(thumb=False, arm=False))
+    is_unit = h.get("unit", "").strip().lower() in ("yes", "true", "1")
+    status = h.get("status", "")
+    if verify:
+        if is_unit:
+            r, _tl = run_tu(path, addr, h.get("compiler", "1.1p1"),
+                            flags.split(), thumb, lang, region=region)
+        else:
+            r = run_one(path, names[0], addr, h.get("compiler", "1.1p1"),
+                        flags.split(), thumb, lang, region=region)
+        status = r.status
+    entry = {
+        "name": os.path.splitext(fn)[0] if is_unit else names[0],
+        "address": "0x%08X" % addr,
+        "kind": (kind + "_unit") if is_unit else kind,
+        "region": region,
+        "source": rel,
+        "compiler": "dsi/" + h.get("compiler", "1.1p1"),
+        "lang": lang,
+        "isa": "thumb" if thumb else "arm",
+        "flags": " ".join(BASE_FLAGS) + " " + flags +
+                 (" -thumb" if thumb else "") + " -lang " + lang,
+        "status": status,
+    }
+    if is_unit:
+        entry["functions"] = names
+    return entry
+
+
+def write_shards(by_shard, only=None):
+    """Write the shards whose content changed.  Returns [(path, changed)]."""
+    out = []
+    for (region, shard), entries in sorted(by_shard.items()):
+        if only is not None and (region, shard) not in only:
+            continue
+        path = shard_path(region, shard)
+        text = shard_text(shard_doc(region, shard, entries))
+        old = None
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8", newline="") as fh:
+                old = fh.read()
+        if old == text:
+            out.append((path, False))
+            continue
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(text)
+        out.append((path, True))
+    return out
+
+
+def match_shard_id(wanted, by_shard):
+    """Resolve a --shard argument to one (region, shard) key."""
+    keys = sorted(by_shard)
+    w = wanted.replace("\\", "/")
+    exact = [k for k in keys if "%s/%s" % k == w or k[1] == w]
+    if len(exact) == 1:
+        return exact[0]
+    if not exact:
+        raise SystemExit("no such shard: %s\n  known shards: %s"
+                         % (wanted, ", ".join("%s/%s" % k for k in keys)))
+    raise SystemExit("ambiguous shard %r: %s"
+                     % (wanted, ", ".join("%s/%s" % k for k in exact)))
+
+
+def cmd_manifest(args):
+    if args.migrate:
+        return migrate_manifest()
+
+    sources = collect_sources()
+    if os.path.exists(LEGACY_MANIFEST):
+        # A stale pre-shard file is never harmless: it would leave two
+        # disagreeing answers to "what is matched" in the tree.
+        check_legacy_manifest([entry_from_source(p, h, k, rel)
+                               for _s, _r, p, h, k, rel in sources])
+
+    meta = defaultdict(list)
+    for shard, region, path, header, kind, rel in sources:
+        meta[(region, shard)].append((path, header, kind, rel))
+    by_shard = {k: [] for k in meta}
+
+    only = None
+    if args.shard:
+        only = {match_shard_id(args.shard, by_shard)}
+
+    for key, items in sorted(meta.items()):
+        if only is not None and key not in only:
+            continue
+        for path, header, kind, rel in items:
+            by_shard[key].append(
+                entry_from_source(path, header, kind, rel, verify=args.verify))
+
+    written = write_shards(
+        {k: v for k, v in by_shard.items() if only is None or k in only},
+        only=only)
+
+    total = sum(len(v) for k, v in by_shard.items()
+                if only is None or k in only)
+    nchanged = sum(1 for _p, c in written if c)
+    print("%s: %d shard(s), %d entr(ies), %d rewritten"
+          % ("manifest" if only is None else "shard " + args.shard,
+             len(written), total, nchanged))
+    bad = 0
+    for key in sorted(by_shard):
+        if only is not None and key not in only:
+            continue
+        region, shard = key
+        print("  %s/%s.json" % (region, shard))
+        for e in sorted(by_shard[key], key=lambda e: int(e["address"], 16)):
+            print("    %-10s %-16s %-30s %-10s %s"
+                  % (e["address"], e["kind"], e["name"], e["compiler"],
+                     e["status"]))
+            if args.verify and e["status"] != "EXACT":
+                bad += 1
+    if args.verify and bad:
+        print("\n%d entr(ies) are not EXACT" % bad, file=sys.stderr)
+        return 1
     return 0
+
+
+def migrate_manifest():
+    """One-time move from layout/matched.json to layout/matched/<region>/."""
+    sources = collect_sources()
+    by_shard = defaultdict(list)
+    for shard, region, path, header, kind, rel in sources:
+        by_shard[(region, shard)].append(
+            entry_from_source(path, header, kind, rel))
+    if os.path.exists(LEGACY_MANIFEST):
+        with open(LEGACY_MANIFEST, "r", encoding="utf-8") as fh:
+            old = json.load(fh).get("functions", [])
+        fresh = [e for v in by_shard.values() for e in v]
+        old_addrs = {(e["address"], e.get("kind"), e["name"]) for e in old}
+        new_addrs = {(e["address"], e.get("kind"), e["name"]) for e in fresh}
+        if old_addrs - new_addrs:
+            raise SystemExit(
+                "refusing to migrate: %d entr(ies) in layout/matched.json "
+                "have no source file any more: %s"
+                % (len(old_addrs - new_addrs),
+                   ", ".join(sorted(n for _a, _k, n in old_addrs - new_addrs))))
+        if new_addrs - old_addrs:
+            print("  note: %d entr(ies) are new since layout/matched.json: %s"
+                  % (len(new_addrs - old_addrs),
+                     ", ".join(sorted(n for _a, _k, n in new_addrs - old_addrs))))
+    for path, changed in write_shards(by_shard):
+        print("  %-46s %s" % (os.path.relpath(path, ROOT).replace("\\", "/"),
+                              "written" if changed else "unchanged"))
+    if os.path.exists(LEGACY_MANIFEST):
+        os.remove(LEGACY_MANIFEST)
+        print("  removed layout/matched.json")
+    print("migrated %d entr(ies) into %d shard(s)"
+          % (sum(len(v) for v in by_shard.values()), len(by_shard)))
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# the idiom index
+# ---------------------------------------------------------------------------
+#
+# Compiler idioms used to live inside docs/MATCHING.md, which made them the
+# one piece of shared prose every packet agent wanted to append to, and so the
+# second serialisation point after the manifest.  They are one file each under
+# docs/idioms/ now, and MATCHING.md carries a generated index instead.  An
+# agent adds a file; the integrator runs this and the index catches up.
+#
+# Each file opens with an H1 title and a `summary:` line:
+#
+#     # ldrsh with a register offset is a signedness tell
+#
+#     summary: Thumb ldrsh has no immediate form, so one register-offset
+#     load among immediate ones says the field is signed.
+
+IDIOMS_DIR = os.path.join(ROOT, "docs", "idioms")
+MATCHING_DOC = os.path.join(ROOT, "docs", "MATCHING.md")
+IDIOM_BEGIN = "<!-- idioms:begin -->"
+IDIOM_END = "<!-- idioms:end -->"
+
+
+def read_idioms():
+    """[(slug, title, summary)] for every docs/idioms/*.md, slug-sorted."""
+    out = []
+    if not os.path.isdir(IDIOMS_DIR):
+        return out
+    for fn in sorted(os.listdir(IDIOMS_DIR)):
+        if not fn.endswith(".md") or fn == "README.md":
+            continue
+        path = os.path.join(IDIOMS_DIR, fn)
+        title = summary = ""
+        with open(path, "r", encoding="utf-8", errors="replace") as fh:
+            lines = fh.read().replace("\r\n", "\n").split("\n")
+        for i, line in enumerate(lines):
+            if not title and line.startswith("# "):
+                title = line[2:].strip()
+                continue
+            if line.lower().startswith("summary:"):
+                summary = line.split(":", 1)[1].strip()
+                j = i + 1
+                while j < len(lines) and lines[j].strip():
+                    summary += " " + lines[j].strip()
+                    j += 1
+                break
+        slug = fn[:-3]
+        if not title:
+            raise SystemExit("docs/idioms/%s has no '# title' line" % fn)
+        if not summary:
+            raise SystemExit("docs/idioms/%s has no 'summary:' line" % fn)
+        out.append((slug, title, " ".join(summary.split())))
+    return out
+
+
+def idiom_index_text(idioms):
+    lines = [IDIOM_BEGIN,
+             "",
+             "%d idiom%s, one file each under `docs/idioms/`."
+             % (len(idioms), "" if len(idioms) == 1 else "s"),
+             ""]
+    for slug, title, summary in idioms:
+        lines.append("- [%s](idioms/%s.md): %s" % (title, slug, summary))
+    lines += ["", IDIOM_END]
+    return "\n".join(lines)
+
+
+def cmd_idioms(args):
+    idioms = read_idioms()
+    with open(MATCHING_DOC, "r", encoding="utf-8", newline="") as fh:
+        doc = fh.read()
+    i = doc.find(IDIOM_BEGIN)
+    j = doc.find(IDIOM_END)
+    if i < 0 or j < 0 or j < i:
+        raise SystemExit(
+            "docs/MATCHING.md has no %s / %s block to regenerate"
+            % (IDIOM_BEGIN, IDIOM_END))
+    new = doc[:i] + idiom_index_text(idioms) + doc[j + len(IDIOM_END):]
+    if new == doc:
+        print("docs/MATCHING.md idiom index is up to date (%d idiom(s))"
+              % len(idioms))
+        return 0
+    if args.check:
+        print("docs/MATCHING.md idiom index is stale; run "
+              "python tools/match.py idioms")
+        return 1
+    with open(MATCHING_DOC, "w", encoding="utf-8", newline="") as fh:
+        fh.write(new)
+    print("rewrote the idiom index in docs/MATCHING.md (%d idiom(s))"
+          % len(idioms))
+    for slug, title, _s in idioms:
+        print("  %-34s %s" % (slug, title))
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# selftest
+# ---------------------------------------------------------------------------
+#
+# attest() is the whole honesty argument, so it is the thing worth testing.
+# Every case below is a NEGATIVE one or its matching positive: the point is
+# never that a witness was found, it is that a witness inside the compared
+# range, or no witness at all, is refused.
+
+# The packed string area these cases read.  0x020A70AC is "mystatus.c", whose
+# NUL at 0x020A70B6 fixes where "playtime.c" begins at 0x020A70B8.
+STR_MYSTATUS = 0x020A70AC
+STR_PLAYTIME = 0x020A70B8
+
+# 0x0201F41C is a labelled function called from all over arm9.
+FUNC_LABELLED = 0x0201F41C
+# 0x02014468 is labelled but called from arm9 only inside the id 0x1C range;
+# the witnesses that carry it are two `bl`s in ov010 and ov020.
+FUNC_XREGION = 0x02014468
+# 0x020AA260 is a data object eighteen literal pools name.
+DATA_LITERAL = 0x020AA260
+
+
+def _check(results, name, got, want):
+    ok = got == want
+    results.append((ok, name, got, want))
+    return ok
+
+
+def cmd_selftest(args):
+    res = []
+
+    def cls(proof):
+        return proof[0] if proof else None
+
+    # --- the label class -------------------------------------------------
+    _check(res, "label: an outside caller attests a labelled function",
+           cls(attest(FUNC_LABELLED, "thumb", 0, 0)), "label")
+    _check(res, "label: every witness inside the compared range is refused",
+           cls(attest(FUNC_LABELLED, "thumb", 0x02000000, 0x03000000)), None)
+
+    # --- the cross-region label class ------------------------------------
+    _check(res, "label: a bl from another region attests the target",
+           cls(attest(FUNC_XREGION, "thumb", 0x02008828, 0x020089A8)), "label")
+    _check(res, "label: an image-wide compared range refuses even those",
+           cls(attest(FUNC_XREGION, "thumb", 0x02000000, 0x03000000)), None)
+
+    # --- the literal class -----------------------------------------------
+    _check(res, "literal: eighteen pool words attest a data address",
+           cls(attest(DATA_LITERAL, "data", 0, 0)), "literal")
+    _check(res, "literal: pool words inside the compared range are refused",
+           cls(attest(DATA_LITERAL, "data", 0x02000000, 0x03000000)), None)
+
+    # --- the string class ------------------------------------------------
+    # The positive case: the pool word under test is the only thing in the
+    # image that names 0x020A70B8, so `literal` cannot carry it and only the
+    # neighbouring terminator can.
+    _check(res, "string: a preceding terminator attests a string start",
+           cls(attest(STR_PLAYTIME, "data", 0x0200857C, 0x020085A0)), "string")
+    # The negatives go straight at attest_string, because attest() would
+    # answer `literal` from the one pool word that does name the string and
+    # the point here is what the string rule alone accepts.
+    _check(res, "string: the witness bytes inside the compared range are "
+                "refused",
+           cls(attest_string(STR_PLAYTIME, 0x020A7000, 0x020A7100)), None)
+    _check(res, "string: a compared range that merely touches the neighbour "
+                "is refused",
+           cls(attest_string(STR_PLAYTIME, 0x020A70B6, 0x020A70B7)), None)
+    _check(res, "string: the middle of a string is not a string start",
+           cls(attest_string(STR_PLAYTIME + 1, 0, 0)), None)
+    _check(res, "string: the last character of a string is not one either",
+           cls(attest_string(STR_MYSTATUS + 9, 0, 0)), None)
+    _check(res, "string: a code address is refused even if it decodes as "
+                "text",
+           cls(attest_string(FUNC_LABELLED, 0, 0)), None)
+    _check(res, "string: the class never applies to a code symbol",
+           cls(attest(STR_PLAYTIME, "thumb", 0x0200857C, 0x020085A0)), None)
+    # Zero-filled data after the string area: a NUL run before it, but nothing
+    # printable, so condition (5) refuses it.
+    _check(res, "string: a zero blob is not a terminated neighbour",
+           cls(attest_string(0x020A70D0, 0, 0)), None)
+
+    # --- the three documented end-to-end behaviours -----------------------
+    if not args.quick:
+        res += _selftest_resolution()
+
+    bad = [r for r in res if not r[0]]
+    for ok, name, got, want in res:
+        print("  %-4s %s" % ("ok" if ok else "FAIL", name))
+        if not ok:
+            print("       got %r, want %r" % (got, want))
+    print("\n%d case(s), %d failure(s)" % (len(res), len(bad)))
+    return 1 if bad else 0
+
+
+_SELFTEST_SRC = """\
+/*
+ * selftest fixture, compiled from a string; not part of the tree.
+ * symbols:
+ *   sub_02005E50_Obj  %s  data
+ */
+typedef unsigned int u32;
+struct S { u32 unk00; u32 unk04; u32 unk08; };
+extern struct S sub_02005E50_Obj;
+
+int sub_02005E50(void)
+{
+    return sub_02005E50_Obj.unk08 != 0;
+}
+"""
+
+
+def _selftest_resolution():
+    """declared right -> EXACT, declared wrong -> DIFF, unknown -> MATCH.
+
+    These are the three behaviours docs/MATCHING.md claims for the resolver,
+    run end to end through the compiler against a function whose single ABS32
+    the `literal` class carries.
+    """
+    cases = [
+        ("0x020AA260", "EXACT", "resolver: the declared address is right"),
+        # Another address the literal class attests, so it resolves and then
+        # has to fail the byte comparison.  This is the case that proves
+        # resolution does not make matching easier to pass.
+        ("0x020AA1AC", "DIFF", "resolver: a wrong but attested address "
+                               "still fails"),
+        # Nothing in the image names this, so the field stays a wildcard.
+        ("0x020AFFF0", "MATCH", "resolver: an unattested address stays a "
+                                "wildcard"),
+    ]
+    out = []
+    work = tempfile.mkdtemp(prefix="bwself_")
+    try:
+        for addr_text, want, name in cases:
+            src = os.path.join(work, "selftest.c")
+            with open(src, "w", newline="\n") as fh:
+                fh.write(_SELFTEST_SRC % addr_text)
+            r = run_one(src, "sub_02005E50", 0x02005E50, "1.1p1", ["-O4,p"],
+                        True, "c99", region="arm9")
+            _check(out, name, r.status, want)
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+    return out
 
 
 def cmd_show(args):
@@ -1488,9 +2235,26 @@ def main(argv=None):
     p5.add_argument("--diff", action="store_true")
     p5.add_argument("--keep", action="store_true")
 
-    p3 = sub.add_parser("manifest", help="rebuild layout/matched.json from src/matched/")
+    p3 = sub.add_parser("manifest",
+                        help="rebuild the layout/matched/ shards from src/")
     p3.add_argument("--verify", action="store_true",
                     help="recompile each entry and record the live status")
+    p3.add_argument("--shard", metavar="ID",
+                    help="act on one shard only, e.g. pkt_0209CE10 or "
+                         "arm9/legacy; this is what a packet agent runs")
+    p3.add_argument("--migrate", action="store_true",
+                    help="one-time move from layout/matched.json to the "
+                         "shards, then delete the old file")
+
+    p6 = sub.add_parser("idioms",
+                        help="regenerate the docs/idioms index in docs/MATCHING.md")
+    p6.add_argument("--check", action="store_true",
+                    help="report whether the index is stale, write nothing")
+
+    p7 = sub.add_parser("selftest",
+                        help="exercise attest() and the relocation resolver")
+    p7.add_argument("--quick", action="store_true",
+                    help="skip the cases that invoke the compiler")
 
     p4 = sub.add_parser("show", help="disassemble the original bytes at an address")
     p4.add_argument("--addr", required=True)
@@ -1501,7 +2265,8 @@ def main(argv=None):
 
     args = ap.parse_args(argv)
     return {"one": cmd_one, "sweep": cmd_sweep, "tu": cmd_tu,
-            "manifest": cmd_manifest, "show": cmd_show}[args.command](args)
+            "manifest": cmd_manifest, "show": cmd_show,
+            "idioms": cmd_idioms, "selftest": cmd_selftest}[args.command](args)
 
 
 if __name__ == "__main__":

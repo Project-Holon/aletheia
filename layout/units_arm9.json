@@ -50,201 +50,201 @@
    "index": 5,
    "file": "asm/arm9/src/005_02013528.s",
    "base": 33633576,
-   "size": 18784,
+   "size": 18748,
    "functions": 180,
-   "code_bytes": 16070
+   "code_bytes": 16040
   },
   {
    "index": 6,
-   "file": "asm/arm9/src/006_02017E88.s",
-   "base": 33652360,
-   "size": 20396,
+   "file": "asm/arm9/src/006_02017E64.s",
+   "base": 33652324,
+   "size": 20428,
    "functions": 180,
-   "code_bytes": 14042
+   "code_bytes": 14072
   },
   {
    "index": 7,
-   "file": "asm/arm9/src/007_0201CE34.s",
-   "base": 33672756,
-   "size": 19216,
+   "file": "asm/arm9/src/007_0201CE30.s",
+   "base": 33672752,
+   "size": 19200,
    "functions": 180,
-   "code_bytes": 15932
+   "code_bytes": 15918
   },
   {
    "index": 8,
-   "file": "asm/arm9/src/008_02021944.s",
-   "base": 33691972,
-   "size": 16928,
+   "file": "asm/arm9/src/008_02021930.s",
+   "base": 33691952,
+   "size": 16904,
    "functions": 180,
-   "code_bytes": 14666
+   "code_bytes": 14648
   },
   {
    "index": 9,
-   "file": "asm/arm9/src/009_02025B64.s",
-   "base": 33708900,
-   "size": 14212,
+   "file": "asm/arm9/src/009_02025B38.s",
+   "base": 33708856,
+   "size": 14216,
    "functions": 180,
-   "code_bytes": 11384
+   "code_bytes": 11382
   },
   {
    "index": 10,
-   "file": "asm/arm9/src/010_020292E8.s",
-   "base": 33723112,
-   "size": 9124,
+   "file": "asm/arm9/src/010_020292C0.s",
+   "base": 33723072,
+   "size": 9148,
    "functions": 180,
-   "code_bytes": 7072
+   "code_bytes": 7094
   },
   {
    "index": 11,
-   "file": "asm/arm9/src/011_0202B68C.s",
-   "base": 33732236,
-   "size": 8404,
+   "file": "asm/arm9/src/011_0202B67C.s",
+   "base": 33732220,
+   "size": 8312,
    "functions": 180,
-   "code_bytes": 7124
+   "code_bytes": 7034
   },
   {
    "index": 12,
-   "file": "asm/arm9/src/012_0202D760.s",
-   "base": 33740640,
-   "size": 15500,
+   "file": "asm/arm9/src/012_0202D6F4.s",
+   "base": 33740532,
+   "size": 15532,
    "functions": 180,
-   "code_bytes": 13358
+   "code_bytes": 13388
   },
   {
    "index": 13,
-   "file": "asm/arm9/src/013_020313EC.s",
-   "base": 33756140,
-   "size": 19096,
+   "file": "asm/arm9/src/013_020313A0.s",
+   "base": 33756064,
+   "size": 19124,
    "functions": 180,
-   "code_bytes": 15980
+   "code_bytes": 16008
   },
   {
    "index": 14,
-   "file": "asm/arm9/src/014_02035E84.s",
-   "base": 33775236,
-   "size": 20808,
+   "file": "asm/arm9/src/014_02035E54.s",
+   "base": 33775188,
+   "size": 20716,
    "functions": 180,
-   "code_bytes": 19544
+   "code_bytes": 19464
   },
   {
    "index": 15,
-   "file": "asm/arm9/src/015_0203AFCC.s",
-   "base": 33796044,
-   "size": 19236,
+   "file": "asm/arm9/src/015_0203AF40.s",
+   "base": 33795904,
+   "size": 19144,
    "functions": 180,
-   "code_bytes": 14484
+   "code_bytes": 14384
   },
   {
    "index": 16,
-   "file": "asm/arm9/src/016_0203FAF0.s",
-   "base": 33815280,
-   "size": 29100,
+   "file": "asm/arm9/src/016_0203FA08.s",
+   "base": 33815048,
+   "size": 29324,
    "functions": 180,
-   "code_bytes": 22936
+   "code_bytes": 23156
   },
   {
    "index": 17,
-   "file": "asm/arm9/src/017_02046C9C.s",
-   "base": 33844380,
-   "size": 19064,
+   "file": "asm/arm9/src/017_02046C94.s",
+   "base": 33844372,
+   "size": 19024,
    "functions": 180,
-   "code_bytes": 16672
+   "code_bytes": 16648
   },
   {
    "index": 18,
-   "file": "asm/arm9/src/018_0204B714.s",
-   "base": 33863444,
-   "size": 21124,
+   "file": "asm/arm9/src/018_0204B6E4.s",
+   "base": 33863396,
+   "size": 21152,
    "functions": 180,
-   "code_bytes": 18644
+   "code_bytes": 18656
   },
   {
    "index": 19,
-   "file": "asm/arm9/src/019_02050998.s",
-   "base": 33884568,
-   "size": 38936,
+   "file": "asm/arm9/src/019_02050984.s",
+   "base": 33884548,
+   "size": 38904,
    "functions": 180,
-   "code_bytes": 33584
+   "code_bytes": 33556
   },
   {
    "index": 20,
-   "file": "asm/arm9/src/020_0205A1B0.s",
-   "base": 33923504,
-   "size": 27364,
+   "file": "asm/arm9/src/020_0205A17C.s",
+   "base": 33923452,
+   "size": 27360,
    "functions": 180,
-   "code_bytes": 24844
+   "code_bytes": 24836
   },
   {
    "index": 21,
-   "file": "asm/arm9/src/021_02060C94.s",
-   "base": 33950868,
-   "size": 22924,
+   "file": "asm/arm9/src/021_02060C5C.s",
+   "base": 33950812,
+   "size": 22640,
    "functions": 180,
-   "code_bytes": 20908
+   "code_bytes": 20688
   },
   {
    "index": 22,
-   "file": "asm/arm9/src/022_02066620.s",
-   "base": 33973792,
-   "size": 41700,
+   "file": "asm/arm9/src/022_020664CC.s",
+   "base": 33973452,
+   "size": 41828,
    "functions": 180,
-   "code_bytes": 40196
+   "code_bytes": 40264
   },
   {
    "index": 23,
-   "file": "asm/arm9/src/023_02070904.s",
-   "base": 34015492,
-   "size": 21416,
+   "file": "asm/arm9/src/023_02070830.s",
+   "base": 34015280,
+   "size": 21600,
    "functions": 180,
-   "code_bytes": 20056
+   "code_bytes": 20236
   },
   {
    "index": 24,
-   "file": "asm/arm9/src/024_02075CAC.s",
-   "base": 34036908,
-   "size": 23876,
+   "file": "asm/arm9/src/024_02075C90.s",
+   "base": 34036880,
+   "size": 23020,
    "functions": 180,
-   "code_bytes": 21406
+   "code_bytes": 20550
   },
   {
    "index": 25,
-   "file": "asm/arm9/src/025_0207B9F0.s",
-   "base": 34060784,
-   "size": 23016,
+   "file": "asm/arm9/src/025_0207B67C.s",
+   "base": 34059900,
+   "size": 23840,
    "functions": 180,
-   "code_bytes": 19848
+   "code_bytes": 20688
   },
   {
    "index": 26,
-   "file": "asm/arm9/src/026_020813D8.s",
-   "base": 34083800,
-   "size": 20904,
+   "file": "asm/arm9/src/026_0208139C.s",
+   "base": 34083740,
+   "size": 20944,
    "functions": 180,
-   "code_bytes": 17702
+   "code_bytes": 17726
   },
   {
    "index": 27,
-   "file": "asm/arm9/src/027_02086580.s",
-   "base": 34104704,
-   "size": 15440,
+   "file": "asm/arm9/src/027_0208656C.s",
+   "base": 34104684,
+   "size": 15424,
    "functions": 180,
-   "code_bytes": 12920
+   "code_bytes": 12908
   },
   {
    "index": 28,
-   "file": "asm/arm9/src/028_0208A1D0.s",
-   "base": 34120144,
-   "size": 28768,
+   "file": "asm/arm9/src/028_0208A1AC.s",
+   "base": 34120108,
+   "size": 28788,
    "functions": 180,
-   "code_bytes": 26872
+   "code_bytes": 26902
   },
   {
    "index": 29,
-   "file": "asm/arm9/src/029_02091230.s",
-   "base": 34148912,
-   "size": 101456,
-   "functions": 149,
-   "code_bytes": 42622
+   "file": "asm/arm9/src/029_02091220.s",
+   "base": 34148896,
+   "size": 101472,
+   "functions": 150,
+   "code_bytes": 42624
   }
  ]
 }

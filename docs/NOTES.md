@@ -3,7 +3,7 @@
 Function-level matching (compiling C and comparing it with the original
 bytes) is written up separately in `docs/MATCHING.md`. `src/` *is* part of
 the build described below: `tools/build.py` compiles every entry of
-`layout/matched.json` and splices the result into the region image before
+every `layout/matched/` shard and splices the result into the region image before
 verifying it, so the byte-identical ROM is built from the C wherever C
 exists and from `asm/` everywhere else. `--no-c` builds pure assembly.
 
@@ -620,7 +620,7 @@ verbatim.
 
 "Rebuilds every region" now means assemble `asm/`, link, and then splice in
 the bytes of every matched C source. That step is `tools/csrc.py`, which
-compiles each entry of `layout/matched.json` with mwccarm at the flags the
+compiles each manifest entry with mwccarm at the flags the
 entry was verified under, places and relocates it at its real address through
 `match.py`'s own resolver, and refuses anything that is not `EXACT` or that
 still carries a relocation wildcard. 12 entries, 442 bytes, all inside

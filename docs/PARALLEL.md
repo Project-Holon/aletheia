@@ -15,7 +15,7 @@ Every function in the region falls into exactly one class.
 | class | meaning | who touches it |
 | --- | --- | --- |
 | `sdk` | the address carries an SDK symbol recovered by `tools/libmatch.py` | nobody; these arrive from hybrid library linking and are not decompilation targets |
-| `matched` | covered by a `layout/matched.json` entry | nobody; read only, already proved |
+| `matched` | covered by an entry in a `layout/matched/` shard | nobody; read only, already proved |
 | `open` | everything else | one agent at a time, through a packet |
 
 Only `open` functions end up inside packets, so a packet never contains an
@@ -84,6 +84,38 @@ The top-level `summary` carries the counts and the coverage percentage,
 computed as matched code bytes over game (matched plus open) code bytes. SDK
 bytes are excluded from the denominator: they are not work.
 
+## The concurrency contract
+
+An agent working `pkt_0209CE10` writes exactly three kinds of file, and
+nothing else in the tree:
+
+| what | where | who else touches it |
+| --- | --- | --- |
+| its C sources | `src/matched/*.c`, for addresses inside its packet | nobody |
+| its manifest shard | `layout/matched/arm9/pkt_0209CE10.json` | nobody |
+| idiom notes | `docs/idioms/<short-slug>.md`, one file per finding | nobody |
+
+Every one of those is per packet, so two agents running at the same time
+cannot produce a conflicting write. What an agent must **not** touch: another
+packet's addresses, another shard, `layout/worklist.json`,
+`docs/MATCHING.md`, `layout/function_starts.txt`, or anything under `asm/`,
+the rest of `layout/`, or `tools/`. Those are the integrator's, and all of
+them are regenerated or reviewed once per wave.
+
+Two consequences are worth spelling out.
+
+* **Shared prose is not a shared file.** Compiler idioms used to live in one
+  section of `docs/MATCHING.md`, which made that document the second
+  serialisation point after the manifest. An idiom is now one file under
+  `docs/idioms/`, and `docs/MATCHING.md` carries only a generated index of
+  that directory. An agent adds a file; nobody merges prose.
+* **A shard id outlives its packet.** `worklist.py --refresh` dissolves a
+  packet once its functions stop being open, but
+  `layout/matched/arm9/pkt_0209CE10.json` keeps its name for ever, because it
+  is the record of that work rather than a view of the live worklist. The id
+  comes from a `packet:` line in each source file's header, so it never moves
+  when the worklist changes.
+
 ## Workflow
 
 **Orchestrator.** Reads `layout/worklist.json`, picks packets that are
@@ -94,39 +126,59 @@ else in the file is the orchestrator's to edit; `worklist.py --refresh`
 rewrites every derived field on the next pass.
 
 **Agent.** Works only inside its packet's address range. It writes C into
-`src/matched/`, verifies locally with
+`src/matched/`, putting its packet id in each file's header:
+
+```c
+/*
+ * unit:     yes
+ * address:  0x0209D728
+ * packet:   pkt_0209CE10
+ * ...
+ */
+```
+
+That one line is what routes the entry into the agent's own shard; without it
+the entry lands in `arm9/legacy.json`, which is a shared file and defeats the
+point. Verification is local:
 
 ```
 python tools/match.py show --addr 0x0209D728
 python tools/match.py one --src src/matched/sub_0209D728.c \
     --func sub_0209D728 --addr 0x0209D728 --cc 1.1p1
+python tools/match.py manifest --verify --shard pkt_0209CE10
 ```
 
-and reports the entries it wants added to the manifest. The `sdk_calls` and
-`entry_points` hints are there so the agent does not have to re-derive the
-packet's interface from the listing before writing the first line.
+The last of those is the agent's gate. It recompiles every entry of that one
+shard, records the verdict each one actually gets, and writes that one file.
+It reads the other shards, because the symbol map is drawn from all of them,
+and writes none of them. The `sdk_calls` and `entry_points` hints in the
+packet are there so the agent does not have to re-derive the packet's
+interface from the listing before writing the first line.
 
-An agent never edits another packet's addresses, and never edits
-`layout/matched.json` concurrently: see below.
+Anything an agent learns about the compiler that cost it time goes into a new
+`docs/idioms/<slug>.md`. `docs/idioms/README.md` has the format the index
+generator expects.
 
-**Integrator.** Once per wave, merges the agents' proposed manifest entries
-into `layout/matched.json`, runs the full chain (`tools/match.py manifest
---verify`, then the build), and then runs
+**Integrator.** Once per wave, with no agent running:
 
 ```
-python tools/worklist.py --refresh
+python tools/match.py manifest --verify     # every shard, live verdicts
+python tools/match.py selftest              # the attestation rules
+python tools/match.py idioms                # regenerate the MATCHING.md index
+python tools/build.py --split --pack        # the chain, byte for byte
+python tools/worklist.py --refresh          # matched functions leave the pool
 ```
 
-so the newly matched functions leave the open pool. Packets that shrank or
-whose functions changed class are dissolved and reported by name, and their
-status is dropped rather than silently carried onto different territory.
-Every other packet, claim included, survives the refresh untouched.
+`manifest --verify` rewrites only the shards whose entries changed, so a wave
+that landed three packets produces a three-file diff and the merge is a
+directory union rather than a hand edit. `--refresh` dissolves packets that
+shrank or whose functions changed class, reports them by name, and drops their
+status rather than silently carrying a claim onto different territory. Every
+other packet, claim included, survives untouched.
 
-`layout/matched.json` is a single file today, so manifest writes are the one
-genuinely serial step in a wave. Sharding it (one manifest fragment per
-packet, concatenated by a tool at verify time) is the planned follow-up that
-would remove the last serialisation point; until then the integrator owns the
-file and agents propose entries rather than writing them.
+The integrator is also the only one who may add to
+`layout/function_starts.txt` or rerun `tools/disasm.py`, because both change
+the listings every agent reads.
 
 ## Commands
 
@@ -137,6 +189,15 @@ python tools/worklist.py --check      would a refresh change anything?
 python tools/worklist.py --summary    coverage numbers
 python tools/worklist.py --packet pkt_0209CE10
 python tools/worklist.py --force      rebuild, discarding every status
+```
+
+The manifest side of the same wave:
+
+```
+python tools/match.py manifest --verify               verify and write all shards
+python tools/match.py manifest --verify --shard ID    one shard, for an agent
+python tools/match.py idioms                          regenerate the idiom index
+python tools/match.py selftest                        the attestation rules
 ```
 
 `--refresh` is idempotent: running it twice in a row produces the same file.

@@ -12,7 +12,7 @@ change to the matching rules cannot drift away from the shipping build.
 What it adds is the step ``match.py`` deliberately does not take: turning a
 verified comparison into *bytes that go into the image*.
 
-    entry in layout/matched.json
+    entry in a layout/matched/ shard
         -> compile with mwccarm at the recorded flags
         -> extract the function, or lay out the whole translation unit
         -> resolve every relocation at the entry's real address
@@ -92,7 +92,18 @@ class Splice:
 # ---------------------------------------------------------------------------
 
 def load_manifest(path=None):
-    path = path or MANIFEST
+    """Every manifest entry, from every shard under layout/matched/.
+
+    The manifest is one file per work packet now, so there is nothing to
+    concatenate here: match.load_manifest_entries is the single reader and it
+    is also what fails loudly if a pre-shard layout/matched.json is still in
+    the tree.  ``path`` names one shard file when a caller wants just that
+    one (a packet agent checking its own work), and is otherwise None.
+    """
+    if path is None or path == MANIFEST:
+        return match.load_manifest_entries()
+    if os.path.isdir(path):
+        raise CSourceError("%s: pass a single shard file or nothing" % path)
     if not os.path.isfile(path):
         return []
     with open(path, "r", encoding="utf-8") as fh:
@@ -202,7 +213,7 @@ def _diff_text(fb, target, addr, res):
 def select(entries, keep=None):
     """Drop manifest entries that duplicate a larger one.
 
-    layout/matched.json deliberately records both ``sub_020084BC`` and the
+    The manifest deliberately records both ``sub_020084BC`` and the
     unit ``unit_020084BC`` that contains it, because both are documented
     results.  For the build only one of them may own a byte, so overlapping
     entries are resolved in favour of the widest coverage.  ``keep`` is a
@@ -229,7 +240,7 @@ def resolve_overlaps(splices):
                 continue
             raise CSourceError(
                 "%s (0x%08X..0x%08X) partially overlaps %s "
-                "(0x%08X..0x%08X); layout/matched.json is inconsistent"
+                "(0x%08X..0x%08X); the manifest is inconsistent"
                 % (sp.name, sp.address, sp.end, kept[-1].name,
                    kept[-1].address, kept[-1].end))
         kept.append(sp)
@@ -284,7 +295,9 @@ def main(argv=None):
         prog="csrc.py",
         description="Compile the matched C sources and report what build.py "
                     "would splice into the image.")
-    ap.add_argument("--manifest", default=MANIFEST)
+    ap.add_argument("--manifest", default=None,
+                    help="one shard file under layout/matched/ instead of all "
+                         "of them")
     ap.add_argument("-j", "--jobs", type=int, default=4)
     args = ap.parse_args(argv)
 

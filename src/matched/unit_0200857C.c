@@ -3,23 +3,24 @@
  * disassembly in asm/arm9/src/001_02007664.s.
  *
  * unit:     yes
- * address:  0x020085A0
+ * address:  0x0200857C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020085A0, sub_020085D4, sub_0200863C, sub_0200864C,
- *           sub_02008650, sub_02008654, sub_02008658, sub_020086C8,
- *           sub_020086D0, sub_020086D8, sub_020086E0, sub_020086E8,
- *           sub_020086F0, sub_020086F8
+ * function: sub_0200857C, sub_020085A0, sub_020085D4, sub_0200863C,
+ *           sub_0200864C, sub_02008650, sub_02008654, sub_02008658,
+ *           sub_020086C8, sub_020086D0, sub_020086D8, sub_020086E0,
+ *           sub_020086E8, sub_020086F0, sub_020086F8
  *
  * symbols:
- *   _u32_div_f   0x0209C2B0  arm
- *   MI_CpuCopy8  0x02082D44  arm
- *   RTC_GetDate  0x02088864  arm
- *   RTC_GetTime  0x0208890C  arm
+ *   _u32_div_f          0x0209C2B0  arm
+ *   MI_CpuCopy8         0x02082D44  arm
+ *   RTC_GetDate         0x02088864  arm
+ *   RTC_GetTime         0x0208890C  arm
+ *   sub_0200857C_File   0x020A70B8  data
  *
  * alias: the original source file is named in the image.  The function at
  * 0x0200857C, immediately before this range, loads 0x020A70B8 into its literal
@@ -61,13 +62,20 @@
  *    right type to assign and the natural spellings all cost extra
  *    instructions.
  *
- * The unit starts at 0x020085A0 rather than at 0x0200857C, which is where the
- * original file begins, because 0x0200857C cannot be verified: see the
- * "playtime.c" entry in docs/MATCHING.md.
+ * The unit starts at 0x0200857C, where the original file begins: the
+ * constructor below is the function that names the file.  It passes
+ * 0x020A70B8 to the debug allocator, and the bytes there spell "playtime.c".
+ * That pool word is the only place in the image that names the string, so it
+ * used to be unresolvable and the unit had to start at 0x020085A0 instead.
+ * The `string` attestation class closes it: "mystatus.c" ends with its NUL at
+ * 0x020A70B6, which fixes where the next string begins without reading the
+ * pool word under test.  See "The string class" in docs/MATCHING.md.  This
+ * file supersedes src/matched/unit_020085A0.c, which covered all of it but
+ * the first 36 bytes.
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020085A0.c \
- *       --addr 0x020085A0 --thumb
+ *   python tools/match.py tu --src src/matched/unit_0200857C.c \
+ *       --addr 0x0200857C --thumb
  */
 
 typedef unsigned char  u8;
@@ -105,6 +113,23 @@ struct PlayTime {
     u8  seconds;
     struct PlayTimeStamp stamp;
 };
+
+/* The debug allocator: heap, size, alignment, __FILE__, __LINE__.  The last
+ * two arrive as a pointer into the packed string area and the constant 32. */
+extern void *sub_02030734(u32 heap, u32 size, u32 align, const char *file,
+                          u32 line);
+extern const char sub_0200857C_File[];
+
+void sub_020085A0(struct PlayTime *p);
+
+/* playtime.c's constructor, and the function that gives the file its name. */
+void *sub_0200857C(u32 heap)
+{
+    struct PlayTime *p = sub_02030734(heap, sizeof(struct PlayTime), 1,
+                                      sub_0200857C_File, 32);
+    sub_020085A0(p);
+    return p;
+}
 
 void sub_020085A0(struct PlayTime *p)
 {

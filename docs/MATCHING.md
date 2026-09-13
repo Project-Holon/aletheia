@@ -130,14 +130,36 @@ from a claim about the source into a tautology. So `match.py` records, for
 every address it knows, *where in the image it learned it*, and discards any
 witness that falls inside the range being compared.
 
-Three classes of evidence are accepted, and every resolved site prints its
+Four classes of evidence are accepted, and every resolved site prints its
 class, the number of witnesses and one witness address:
 
 | class | what it means |
 | --- | --- |
 | `local` | the symbol is defined in the object we just compiled, so its address follows from where the unit was placed. No image evidence at all. |
-| `label` | `disasm.py` put a `func_XXXXXXXX` label at that address, i.e. it traced real code there, **and** a branch somewhere else in the image calls that label. The strong class. |
+| `label` | `disasm.py` put a `func_XXXXXXXX` label at that address, i.e. it traced real code there, **and** a branch somewhere in the image calls that label. The strong class. |
 | `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
+| `string` | the address is the start of a NUL-terminated ASCII string whose position is fixed by the terminator of the string before it. For `__FILE__` arguments, which nothing else can attest. |
+
+The `label` class reads branches from the whole image, not just from the region
+being matched. `func_02014468` is called from exactly one place inside
+`arm9_main`, and that call is inside the range under test, but `ov010` and
+`ov020` each branch to it as well. Those are real instructions in the image, so
+they are the same kind of evidence as an in-region `bl`; the only difference is
+which generated file they are written in, and a leaf whose callers all live in
+overlays is not less of a function for it. `disasm.py` cannot name a target it
+cannot reach, so it emits the raw encoding with the target decoded in the
+address comment, and `match.py` reads that:
+
+```
+.inst.w 0xF6B5FB9C   /* 0215ED2C  B5 F6 9C FB  bl 0x02014468  (outside this region) */
+```
+
+The 72 MB of overlay listings are scanned lazily, only after the ARM9 evidence
+has already failed for an address, so the common path does not pay for it. Only
+branch instructions feed this index. Pool words in overlays are deliberately
+not admitted: `literal` is the weak class, its witness has to be a word
+`disasm.py` classified as a literal pool, and widening it to 237 regions would
+weaken it without closing anything.
 
 The `literal` class needs a word of justification, because it does read an
 address out of the image. What it does not do is read it out of *this*
@@ -151,9 +173,71 @@ always a word some instruction demonstrably loads, not a stray coincidence in
 a data blob. This matters for data because nothing else can ever attest it:
 bss is not in the image, so 0x020AA260 will never have a label.
 
-Addresses in `layout/symbols_sdk.txt` and `layout/matched.json` feed the map
-by name as well, but they are *lookups*, not evidence: a name found there
+Addresses in `layout/symbols_sdk.txt` and the `layout/matched/` shards feed the
+map by name as well, but they are *lookups*, not evidence: a name found there
 still has to clear `attest()` before anything is written.
+
+### The string class
+
+A `__FILE__` argument to the debug allocator is a pointer into the packed
+string area, and the address of one string there normally appears in exactly
+one literal pool: the pool of the single function that passes it. That pool is
+the range under comparison, so the `literal` class discards its only witness
+and the entry caps at `MATCH` with every concrete byte right. That is what held
+`playtime.c`'s constructor open.
+
+The evidence the other classes cannot see is in the data rather than in any
+instruction. Strings are emitted end to end, each NUL-terminated and the next
+aligned up, so the **start** of a string is fixed by the **end** of the string
+before it:
+
+```
+020A70AC  6D 79 73 74 61 74 75 73 2E 63 00 | 00 | 70 6C 61 79 ...
+          m  y  s  t  a  t  u  s  .  c  \0  pad  p  l  a  y
+                                       ^          ^
+                                 terminator     0x020A70B8 follows
+                                 at 020A70B6    by construction
+```
+
+That derivation reads only bytes outside the compared range, so it satisfies
+the honesty rule, and it is not circular: it never touches the pool word whose
+value it is about to check. What it establishes is that 0x020A70B8 is a string
+start, not that it is *the* string the source meant, exactly as `literal`
+establishes that an object lives at an address without saying it is the right
+one. A wrong claim still fails loudly, because the resolved word is then
+compared against the original and comes out `DIFF`.
+
+The rule is deliberately narrow. Every one of these has to hold, and each is a
+separate refusal in `attest_string()`:
+
+1. the declared kind is `data`; a string is not code,
+2. the bytes at the address are at least four printable ASCII characters
+   followed by a NUL, entirely inside one region,
+3. immediately before it there are `k` NUL bytes with `1 <= k <= 4`: one
+   terminator plus at most three bytes of alignment padding,
+4. the address is where that padding rule has to land, that is `k == 1`
+   (packed) or the address is the first 4-aligned address after the
+   terminator. Without this the previous terminator would fix a *range* of
+   candidate starts rather than one address,
+5. the bytes before those NULs are themselves at least four printable ASCII
+   characters, so the NUL is a string terminator and not a zero word in a data
+   blob,
+6. no `func_` label falls anywhere in either string, so the rule is never run
+   over code that happens to decode as text,
+7. the whole witness neighbourhood lies outside the compared range.
+
+The forward direction, a neighbouring string's *start*, adds nothing and is not
+implemented: a string's own terminator already fixes its end, so only its start
+needs an outside witness. The other route to that start, a reference from
+outside the compared range, is the existing `literal` class and is tried first.
+
+`python tools/match.py selftest` is the check. Its string cases are all
+negative bar one: a witness inside the compared range is refused, a compared
+range that merely touches the neighbouring terminator is refused, the middle of
+a string is not a string start, the last character of one is not either, a code
+address that decodes as text is refused, a zero blob is not a terminated
+neighbour, and the class never applies to a symbol declared `thumb` or `arm`.
+The same command runs the three end-to-end behaviours below.
 
 All the evidence is read out of `asm/arm9/src/*.s` and `asm/arm9/src_itcm/*.s`,
 which are generated and not committed. On a fresh clone, run
@@ -319,24 +403,26 @@ game links the non-`.thumb` library variants by a factor of twelve).
 | 0x0200A6BC | `sub_0200A6BC` | 60 | EXACT | none | set one bit in each of two parallel bitmaps |
 
 `sub_02008954`, an eight-byte "byte field copied out through a pointer", used
-to be an eighth entry here. It is now one of the twelve functions of
-`unit_0200894C.c` and its per-function file has been deleted; a unit file
+to be an eighth entry here. It is now one of the twenty-four functions of
+`unit_02008828.c` and its per-function file has been deleted; a unit file
 replaces the per-function files it subsumes.
 
-and six whole translation units, matched as byte ranges rather than function
+and five whole translation units, matched as byte ranges rather than function
 by function:
 
 | address | unit | bytes | functions | verdict | relocations |
 | --- | --- | --- | --- | --- | --- |
 | 0x020084BC | `src/matched/unit_020084BC.c` | 112 | 7 | EXACT | 4 ABS32 + 2 THM_CALL, all resolved |
 | 0x0200852C | `src/matched/unit_0200852C.c` | 78 | 16 | EXACT | none |
-| 0x020085A0 | `src/matched/unit_020085A0.c` | 352 | 14 | EXACT | 4 THM_CALL to a compiler runtime helper, 1 ABS32, 2 THM_CALL, all resolved |
+| 0x0200857C | `src/matched/unit_0200857C.c` | 386 | 15 | EXACT | 7 THM_CALL + 3 ABS32, all resolved |
 | 0x02008700 | `src/matched/unit_02008700.c` | 296 | 14 | EXACT | 15 THM_CALL + 1 ABS32, all resolved |
-| 0x02008828 | `src/matched/unit_02008828.c` | 260 | 10 | EXACT | 4 THM_CALL + 1 ABS32, all resolved |
-| 0x0200894C | `src/matched/unit_0200894C.c` | 92 | 12 | EXACT | none |
+| 0x02008828 | `src/matched/unit_02008828.c` | 382 | 24 | EXACT | 5 THM_CALL + 2 ABS32, all resolved |
 
-The last four are the milestone 3 batch and are described under "The
-0x020085A0..0x020089A8 run" below.
+The last three are the milestone 3 batch and are described under "The
+0x0200857C..0x020089A8 run" below.  Two of them used to be four: the
+constructor of `playtime.c` and the pair at 0x0200892C were held out as near
+misses, and closing both merged `unit_020085A0.c` and `unit_0200894C.c` into
+their neighbours.
 
 The two abut: 0x020084BC + 112 is 0x0200852C. Together they are 190
 contiguous bytes and 23 functions, with no gap and no overlap, and they are
@@ -346,14 +432,15 @@ since its six relocations became resolvable.
 
 They do overlap the single-function entries at 0x020084BC and 0x02008534,
 which are kept because they are the documented single-function results;
-`layout/matched.json` lists both, distinguished by `kind` (`game` against
+the manifest lists both, distinguished by `kind` (`game` against
 `game_unit`).
 
 Names are `sub_<address>` because the semantics are clear but the role in the
 game is not; renaming them later is a mechanical change to one file and the
-manifest. The inventory is `layout/matched.json`, regenerated with
-`python tools/match.py manifest --verify`, which recompiles every entry and
-records the verdict it actually gets rather than the one the header claims.
+manifest. The inventory is the shard set under `layout/matched/`, regenerated
+with `python tools/match.py manifest --verify`, which recompiles every entry
+and records the verdict it actually gets rather than the one the header
+claims.  See "The manifest is sharded" below.
 
 Two of the seven pinned their source shape on a detail rather than on luck:
 
@@ -492,7 +579,7 @@ So the honest statement is:
   evidence that narrows it is indirect, from `docs/SYMBOLS.md`: the libraries
   the game links were built by build 1024 (`dsi/1.1p1`), and a project
   normally builds its own code with the compiler that came with its SDK
-  drop. `layout/matched.json` therefore records `dsi/1.1p1`, but that is the
+  drop. The manifest therefore records `dsi/1.1p1`, but that is the
   SDK's compiler standing in for the game's, not a measurement.
 
 Narrowing this further needs a function big enough for the versions to
@@ -789,20 +876,21 @@ That follower is now seeded from `layout/function_starts.txt` and the verdict
 is a clean EXACT; see "The two missing labels" above. It is, fittingly, the
 routine that clears the second of the two bitmaps this one sets a bit in.
 
-## The 0x020085A0..0x020089A8 run
+## The 0x0200857C..0x020089A8 run
 
-Four consecutive translation units, 48 functions and 1000 bytes, taken in one
+Three consecutive translation units, 53 functions and 1068 bytes, taken in one
 pass to turn the 190-byte beachhead at 0x020084BC into a contiguous stretch.
 What they cover, in address order:
 
 | range | bytes | functions | what it is |
 | --- | --- | --- | --- |
-| 0x0200857C..0x020085A0 | 36 | 1 | the constructor of the play-time object. Near miss, see below |
-| 0x020085A0..0x02008700 | 352 | 14 | `playtime.c`: the play-time counter and its calendar stamp |
+| 0x0200857C..0x02008700 | 388 | 15 | `playtime.c`: its constructor, the play-time counter and the calendar stamp |
 | 0x02008700..0x02008828 | 296 | 14 | the save block with id 0x1B and its accessors |
-| 0x02008828..0x0200892C | 260 | 10 | the save block with id 0x1C, first half |
-| 0x0200892C..0x0200894C | 32 | 2 | two accessors on the same block. Near miss, see below |
-| 0x0200894C..0x020089A8 | 92 | 12 | the same block, second half |
+| 0x02008828..0x020089A8 | 384 | 24 | the save block with id 0x1C and its accessors |
+
+It was five units for a while, split around two near misses; both are closed
+and both files are whole again.  See "The two near misses in this run, both
+closed" below.
 
 The file boundaries are not guesses. Each of the three blocks opens with a
 four-byte function that returns its own size (0x68, 0x9C, and 0x658 for the one
@@ -819,112 +907,164 @@ it is `mystatus.c`. That is the first original source file name this project
 has recovered. The functions keep their `sub_<address>` names, because the file
 identity is attested and the individual entry points are not.
 
-### New compiler idioms
+### The two near misses in this run, both closed
 
-Six, in the order they cost time.
-
-* **A compiler runtime helper is a named relocation and can be pinned like any
-  other extern.** `a / b` on `u32` compiles to a call to `_u32_div_f`, and
-  mwccarm leaves that as an undefined reference carrying exactly that name, so
-  a `symbols:` line `_u32_div_f 0x0209C2B0 arm` resolves it. The address is
-  attested as a `label` by 57 callers elsewhere in the image, so this is an
-  ordinary attested lookup and not a special case. Without the line the four
-  calls in `sub_020085D4` are wildcards and the unit caps at `MATCH`; with it
-  the unit is `EXACT`. Any function doing integer division needs this.
-* **`a / b` and `a % b` on the same operands are two calls, not one.** The
-  helper returns the quotient in `r0` and the remainder in `r1`, and the
-  original visibly calls it twice in a row with identical arguments. Common
-  subexpression elimination does not touch a call, so writing the division once
-  into a temporary and deriving the remainder from it is a different function.
-* **Locals are laid out with the later declaration at the lower stack
-  address.** `sub_02008658` puts a 0x10-byte `RTCDate` at `sp+0xC` and a
-  0xC-byte `RTCTime` at `sp+0`. Declaring the date first and the time second
-  produces that; the other order puts the date at `sp+0` and the function is
-  seven bytes wrong in the stack offsets and nothing else. This is a one-line
-  fix that is invisible unless the diff is read as offsets rather than as code.
-* **An aggregate assignment of up to about 32 bytes is inlined as ldm/stm.**
-  `obj->unk04 = src->unk20` on a 0x20-byte struct is four `ldm`/`stm` pairs and
-  no call, and 28 bytes comes out as three pairs plus a trailing `ldr`/`str`.
-  The size used is the padded `sizeof`, not the sum of the declared members.
-  The practical consequence is the reverse reading: a run of `ldm rX!, {r0, r1}`
-  / `stm rY!, {r0, r1}` in the middle of field-by-field moves says that those
-  particular bytes are one nested struct in the source, and getting that
-  grouping wrong changes the whole function rather than one instruction.
-* **`ldrsh` with a register offset is a signedness tell.** Thumb `ldrsh` has no
-  immediate-offset form, so a signed halfword field past the reach of the other
-  loads costs an extra `movs rN, #imm` and a register-offset load, sitting in a
-  function where every neighbouring read is a plain immediate `ldrh`. In
-  `sub_020088B8` that one instruction is the only evidence that the field at
-  +0x98 is `s16` and the ones on either side of it are not.
-* **The reach of the Thumb immediate decides whether a field access costs an
-  `adds`.** `str`/`ldr` scale a 5-bit immediate by 4 and reach 124;
-  `strh`/`ldrh` scale by 2 and stop at 62; `strb`/`ldrb` do not scale and stop
-  at 31. So in `unit_0200894C.c` the word at +0x78 is one instruction and the
-  halfword at +0x7C is two, with no difference in the source. Reading that
-  `adds r0, #imm` as an offset computation in the source rather than as an
-  encoding artefact invents a pointer variable that is not there.
-
-### The two near misses in this run
-
-Both are the same failure and it is not a codegen failure: every concrete byte
-is reproduced and the verdict is `MATCH`, held there by a relocation whose
-target address cannot be attested from outside the bytes under test. This is
-the honesty rule doing its job, and it is a real ceiling rather than a bug.
+Both were the same failure and neither was a codegen failure: every concrete
+byte was reproduced and the verdict was `MATCH`, held there by a relocation
+whose target address could not be attested from outside the bytes under test.
+Both are `EXACT` now, and in each case what changed is the evidence the harness
+can reach, not the C and not the rule.
 
 **0x0200857C, 36 bytes, `playtime.c`'s constructor.** Written as
 
 ```c
 void *sub_0200857C(u32 heap)
 {
-    struct PlayTime *p = sub_02030734(heap, 8, 1, sub_0200857C_File, 32);
+    struct PlayTime *p = sub_02030734(heap, sizeof(struct PlayTime), 1,
+                                      sub_0200857C_File, 32);
     sub_020085A0(p);
     return p;
 }
 ```
 
-it is `MATCH` with all 36 bytes right and one wildcard: the pool word holding
-0x020A70B8, the `playtime.c` string. Both calls resolve. The string does not,
-because 0x020A70B8 appears in exactly one literal pool in the whole image and
-that pool is this function's own, so `attest()` discards its only witness. The
-`literal` class needs a witness at a different address and there is none.
+all 36 bytes were right and one word was a wildcard: the pool word holding
+0x020A70B8, the `playtime.c` string. 0x020A70B8 appears in exactly one literal
+pool in the whole image and that pool is this function's own, so `attest()`
+discarded its only witness and the `literal` class had nothing left.
 
-Writing the string as `__FILE__`, which is almost certainly what the original
-said, does not help and makes it worse: the compiler then emits the string into
-this object's own `.rodata` and relocates against a local symbol, and `tu` lays
-out only executable sections, so the pool word would be filled with an address
-that has nothing to do with 0x020A70B8.
+The `string` class closes it. `mystatus.c` ends with its NUL at 0x020A70B6, so
+0x020A70B8 is where the next string has to begin, by construction from data
+outside the compared range. See "The string class" above for the rule and its
+seven conditions. The site now reads `[string x1, e.g. 020A70B6]`.
 
-There is honest evidence available that the harness cannot currently use.
-Strings are packed end to end and `mystatus.c` ends with its NUL at 0x020A70B6,
-so `playtime.c` begins at 0x020A70B8 by construction from the data, entirely
-independently of the pool word. A `string` attestation class, admitting the
-address of a NUL-terminated printable run whose start follows from the run
-before it, would resolve this and every other `__FILE__` argument in the image,
-of which there are many. That is a change to `attest()` and is left for a
-separate piece of work rather than smuggled in here.
+The constructor is the first function of `playtime.c`, so it is no longer a
+file of its own: `src/matched/unit_020085A0.c` has become
+`src/matched/unit_0200857C.c`, 386 bytes and 15 functions,
+0x0200857C..0x02008700, which is the whole original file.
 
 **0x0200892C and 0x0200893C, 32 bytes, two accessors on the id 0x1C block.**
-One calls 0x02014468 and the other tail-calls 0x02014464 through a pool word.
-These two sites are the only references to either address anywhere the harness
-looks: 0x02014468 is labelled in the listings, but the single `bl` that reaches
-it is the one inside this range, and 0x02014464 carries no label at all. So
-both targets fail `attest()` for want of an outside witness and the pair stays
-at `MATCH`.
+One calls 0x02014468 and the other tail-calls 0x02014464 through a pool word,
+and these two sites were the only references to either address anywhere the
+harness looked. There is honest evidence for both, and it was in the overlays:
 
-The consequence is structural rather than cosmetic. The functions sit in the
-middle of an otherwise contiguous 384-byte file, so that file is committed as
-two units, `unit_02008828.c` and `unit_0200894C.c`, with a 32-byte hole between
-them that the build still takes from the assembly. Splitting a translation unit
-around an unverifiable function is the right move: a unit is only worth
-committing if the whole of it is `EXACT`, and `csrc.py` refuses anything less.
+```
+ov010 0x0215ED2C  bl 0x02014468        ov010 0x0215ED40  bl 0x02014464
+ov020 0x02185A4E  bl 0x02014468        ov010 0x02164404  bl 0x02014464
+```
 
-Neither near miss is a third consecutive failure: everything between them and
-on both sides of them is `EXACT`.
+Two changes make those reachable, and neither is a new class of evidence:
+
+* `attest()` reads branches from the whole image rather than from `arm9` alone,
+  which is what the `label` class always claimed to mean. See the honesty rule
+  above.
+* 0x02014464 carried no label, because it is four bytes with no prologue
+  (`strb r1, [r0, #6]; bx lr`, the setter whose getter is the labelled
+  0x02014468) and nothing inside `arm9_main` branches to it. It goes into
+  `layout/function_starts.txt` naming the two `bl`s that attest it, exactly
+  like the three addresses under "The two missing labels" above, and
+  `disasm.py`'s trace and `validate()` still have to accept the bytes as code.
+  They do; the listings reassemble byte-identically and the ARM9 function count
+  goes from 5369 to 5370.
+
+Both sites now read `[label x2]`. The 384-byte file is one unit again:
+`src/matched/unit_02008828.c` covers 0x02008828..0x020089A8 and all 24 of its
+functions, and `src/matched/unit_0200894C.c` is gone. It came out `EXACT` on
+the first attempt with the two functions written as
+
+```c
+void sub_0200892C(struct Sub02008828Obj *obj, const void *src)
+{
+    obj->unk72 = sub_02014468(src);
+}
+
+void sub_0200893C(const struct Sub02008828Obj *obj, void *dest)
+{
+    sub_02014464(dest, obj->unk72);
+}
+```
+
+What this does not change is the rule. Neither address is attested by anything
+inside the range under test; both are attested by instructions elsewhere in the
+image, which is what the rule asked for all along. A file that stays split
+around an unverifiable function is still the right move when the evidence is
+genuinely absent, because a unit is only worth committing if the whole of it is
+`EXACT` and `csrc.py` refuses anything less.
+
+## Compiler idioms
+
+One file per idiom under `docs/idioms/`, so that two agents working different
+packets never edit the same file. The index below is generated; regenerate it
+with
+
+```
+python tools/match.py idioms          # rewrite the index
+python tools/match.py idioms --check  # is it stale?
+```
+
+`docs/idioms/README.md` has the file format the generator expects.
+
+<!-- idioms:begin -->
+
+7 idioms, one file each under `docs/idioms/`.
+
+- [An aggregate assignment of about 32 bytes or less is inlined as ldm/stm](idioms/aggregate-assignment-is-ldm-stm.md): a run of `ldm rX!, {r0, r1}` / `stm rY!, {r0, r1}` pairs among field-by-field moves says those bytes are one nested struct in the source.
+- [a / b and a % b on the same operands are two calls](idioms/div-and-mod-are-two-calls.md): the division helper returns quotient and remainder together but the compiler does not know that, so the original calls it twice in a row with identical arguments.
+- [A __FILE__ argument is an ABS32 into the packed string area, not a local string](idioms/file-string-is-an-abs32-into-the-string-area.md): declare the file-name string as an extern array pinned to its address in the `symbols:` block; writing `__FILE__` puts the string in the object's own rodata and the pool word then points at the wrong place.
+- [ldrsh with a register offset is a signedness tell](idioms/ldrsh-register-offset-is-signedness.md): Thumb `ldrsh` has no immediate-offset form, so one register-offset load among immediate `ldrh`s is the only evidence that that field is `s16`.
+- [Locals are laid out with the later declaration at the lower stack address](idioms/local-declaration-order-is-stack-order.md): the last local declared sits at `sp+0`, so a wrong declaration order shows up only as wrong stack offsets and nothing else.
+- [A compiler runtime helper is a named relocation](idioms/runtime-helper-reloc.md): integer division calls `_u32_div_f`, which mwccarm leaves as an ordinary undefined reference, so it is pinned in the `symbols:` block like any other extern.
+- [The reach of the Thumb immediate decides whether a field access costs an adds](idioms/thumb-immediate-reach-costs-an-adds.md): `ldr` reaches +124, `ldrh` +62, `ldrb` +31, so a field past the limit costs an extra `adds rN, #imm` that is an encoding artefact and not a pointer in the source.
+
+<!-- idioms:end -->
+
+## The manifest is sharded
+
+`layout/matched.json` used to be one file, which made a manifest write the one
+genuinely serial step of a parallel wave: every agent that finished a packet
+had to queue behind the integrator. It is one file per packet now,
+
+```
+layout/matched/<region>/<shard>.json
+```
+
+with `<shard>` taken from a `packet:` line in the source file's header, so an
+agent working `pkt_0209CE10` writes
+`layout/matched/arm9/pkt_0209CE10.json` and nothing else. Two agents never
+touch the same file, so merging a wave is a directory union.
+
+Shard ids are archival, not live. `worklist.py` dissolves a packet as soon as
+its functions stop being open, but the shard that recorded that work keeps its
+name for ever. That is why the id comes out of the source header rather than a
+lookup in `layout/worklist.json`, which would move entries between shards on
+every refresh. Everything matched before `worklist.py` existed sits in
+`arm9/legacy.json`, and the SDK calibration entries in `arm9/calib.json`.
+
+```
+python tools/match.py manifest                     rebuild every shard
+python tools/match.py manifest --verify            recompile and verify all
+python tools/match.py manifest --verify --shard pkt_0209CE10
+python tools/match.py manifest --migrate           one-time, from matched.json
+```
+
+`--verify` rewrites only the shards whose entries actually changed, so a wave
+that adds one packet produces a one-file diff. `--shard` verifies one shard and
+writes one shard, which is what a packet agent runs against its own work
+without reading or touching anyone else's.
+
+`match.load_manifest_entries()` is the one reader: `csrc.py`, `build.py` and
+`worklist.py` all go through it rather than opening manifest files of their
+own, so there is one implementation of the shard union and one of the
+compatibility check. That check exists because leaving both the old
+`layout/matched.json` and the shards in the tree is the one way this refactor
+could silently lose work: two tools would disagree about what is matched, and
+the build would splice one set while the manifest recorded another. Any
+`layout/matched.json` found next to the shards is a hard error naming the
+migration, whether or not its content agrees.
 
 ## How C enters the build
 
 `src/` is no longer inventory. `tools/build.py` compiles every entry of
-`layout/matched.json` and puts the resulting bytes into the image it verifies
+every manifest shard and puts the resulting bytes into the image it verifies
 and packs, so the shipping ROM is built from the C wherever C exists and from
 `asm/` everywhere else. `--no-c` builds pure assembly, which is what to reach
 for when an assembly problem needs to be looked at without the compiler in
@@ -960,8 +1100,8 @@ fallback would mean the ROM still verifies while the C in the tree is wrong,
 which is the one failure mode worth engineering against here.
 
 ```
-error: matched C source regression: unit_0200894C
-       (src/matched/unit_0200894C.c) is DIFF at 0x0200894C, not EXACT;
+error: matched C source regression: unit_02008828
+       (src/matched/unit_02008828.c) is DIFF at 0x02008828, not EXACT;
        refusing to splice
   offset     ORIGINAL @ 0200894C                    | COMPILED
   ------------------------------------------------------------------------
@@ -973,7 +1113,7 @@ error: matched C source regression: unit_0200894C
 
 ### Overlapping entries
 
-`layout/matched.json` deliberately records both `sub_020084BC` and the unit
+The manifest deliberately records both `sub_020084BC` and the unit
 `unit_020084BC` that contains it, because both are documented results. For
 the build only one of them may own a byte, so `csrc.py` keeps the widest
 non-overlapping set and says which entries it dropped. A *partial* overlap
@@ -1001,17 +1141,20 @@ right, which the `EXACT` requirement guarantees.
 
 ### What is spliced today
 
-15 entries, 1428 bytes: the seven matched game functions and six units above
+14 entries, 1498 bytes: the seven matched game functions and five units above
 (minus the two single-function entries their units subsume), and the four SDK
-calibration functions. All 242 regions stay `PASS` with those bytes in place
-and the ROM still verifies at
+calibration functions. The manifest holds 16 entries; two of them are the
+single-function results their units subsume. All 242 regions stay `PASS` with
+those bytes in place and the ROM still verifies at
 `26ad0b9967aa279c4a266ee69f52b9b2332399a5`.
 
 Coverage of the 0x02005000..0x0200B000 window the milestone 3 batch worked in:
-1326 bytes of the 17978 bytes the listings classify as instructions there are
-now produced by C, 7.4%, in one 908-byte contiguous stretch
-(0x020085A0..0x0200892C), one 92-byte stretch, the earlier 190-byte pair of
-units at 0x020084BC, and five single functions.
+1396 bytes of the 17978 bytes the listings classify as instructions there are
+now produced by C, 7.8%, in one 1064-byte contiguous stretch
+(0x0200857C..0x020089A8), the earlier 190-byte pair of units at 0x020084BC,
+and five single functions. Across the whole of `arm9_main`,
+`tools/worklist.py --summary` reports 59 of 5370 functions and 1104 of 406204
+game code bytes matched, 0.2718%.
 
 ```
 python tools/csrc.py              # what the build would splice, and from where
@@ -1035,6 +1178,12 @@ python tools/match.py one --src src/calib/gx_getbankforlcdc.c \
 # every matched function and unit, recompiled and re-verified
 python tools/match.py manifest --verify
 
+# one shard only: what a packet agent runs on its own work
+python tools/match.py manifest --verify --shard pkt_0209CE10
+
+# the attestation rules, including the string class negatives
+python tools/match.py selftest
+
 # the two matrices that pin -O4,p
 python tools/match.py sweep --src src/matched/sub_020084BC.c \
     --func sub_020084BC --addr 0x020084BC --cpp
@@ -1046,14 +1195,12 @@ python tools/match.py tu --src src/matched/unit_0200852C.c \
     --addr 0x0200852C --thumb
 python tools/match.py tu --src src/matched/unit_020084BC.c \
     --addr 0x020084BC --thumb --diff
-python tools/match.py tu --src src/matched/unit_020085A0.c \
-    --addr 0x020085A0 --thumb
+python tools/match.py tu --src src/matched/unit_0200857C.c \
+    --addr 0x0200857C --thumb
 python tools/match.py tu --src src/matched/unit_02008700.c \
     --addr 0x02008700 --thumb
 python tools/match.py tu --src src/matched/unit_02008828.c \
     --addr 0x02008828 --thumb
-python tools/match.py tu --src src/matched/unit_0200894C.c \
-    --addr 0x0200894C --thumb
 
 # the language evidence
 python tools/cppscan.py all --regions all --isa thumb

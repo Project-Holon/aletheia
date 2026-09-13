@@ -659,9 +659,9 @@ def main(argv=None):
                     help="do not compile or splice the matched C sources; "
                          "build the regions from asm/ alone. For debugging an "
                          "assembly problem without the compiler in the way")
-    ap.add_argument("--c-manifest", default=csrc.MANIFEST,
-                    help="inventory of matched C entries "
-                         "(default layout/matched.json)")
+    ap.add_argument("--c-manifest", default=None,
+                    help="one manifest shard file instead of every shard "
+                         "under layout/matched/")
     ap.add_argument("--write-quirks", action="store_true",
                     help="record instructions the assembler re-encoded into "
                          "layout/reasm_quirks.json for tools/disasm.py")

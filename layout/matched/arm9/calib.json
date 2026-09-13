@@ -1,0 +1,58 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "calib",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "CARD_GetResultCode",
+   "address": "0x02075DD8",
+   "kind": "sdk_calibration",
+   "region": "arm9",
+   "source": "src/calib/card_getresultcode.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "CARD_GetOwnRomHeader",
+   "address": "0x02075DF8",
+   "kind": "sdk_calibration",
+   "region": "arm9",
+   "source": "src/calib/card_getownromheader.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FX_DivS32",
+   "address": "0x0207C958",
+   "kind": "sdk_calibration",
+   "region": "arm9",
+   "source": "src/calib/fx_divs32.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "GX_GetBankForLCDC",
+   "address": "0x0207D41C",
+   "kind": "sdk_calibration",
+   "region": "arm9",
+   "source": "src/calib/gx_getbankforlcdc.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}
