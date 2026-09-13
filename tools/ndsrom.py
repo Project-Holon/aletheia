@@ -141,6 +141,62 @@ def sha1_of(data):
     return hashlib.sha1(data).hexdigest()
 
 
+def crc16(data, init=0xFFFF):
+    """The CRC-16 the NDS header uses: reflected, poly 0xA001, init 0xFFFF.
+
+    Verified against this cartridge rather than assumed: the stored header CRC
+    at 0x15E reproduces over header[0x000..0x15D] and the stored Nintendo logo
+    CRC at 0x15C reproduces over header[0x0C0..0x15B].
+    """
+    crc = init
+    for b in data:
+        crc ^= b
+        for _ in range(8):
+            crc = (crc >> 1) ^ 0xA001 if crc & 1 else crc >> 1
+    return crc & 0xFFFF
+
+
+def header_crc(rom):
+    return crc16(rom[0x000:0x15E])
+
+
+def logo_crc(rom):
+    return crc16(rom[0x0C0:0x15C])
+
+
+# ---------------------------------------------------------------------------
+# ROM slots: how far a region may grow before it hits the next one
+# ---------------------------------------------------------------------------
+
+def slot_limits(man):
+    """{relpath: {offset, size, limit}} for every placed file in the manifest.
+
+    ``limit`` is how many bytes the file may occupy without colliding with
+    whatever the extracted layout puts next (another region, or a residue
+    blob), i.e. the size of its slot including the 0xFF padding that follows
+    it.  This is what makes a variable-size repack possible without moving
+    anything: a container may grow into its own padding and no further, and
+    exceeding it is a loud failure rather than a silently corrupted image.
+    """
+    iv = []
+    for r in man["regions"]:
+        if r["size"] and r.get("path"):
+            iv.append((r["offset"], r["size"], r["path"]))
+    for r in man.get("residue", []):
+        if r["size"]:
+            iv.append((r["offset"], r["size"], r["path"]))
+    iv.sort()
+    starts = sorted(s for s, _n, _p in iv)
+    rom_size = man["rom_size"]
+    out = {}
+    import bisect
+    for off, size, path in iv:
+        i = bisect.bisect_right(starts, off)
+        nxt = starts[i] if i < len(starts) else rom_size
+        out[path] = {"offset": off, "size": size, "limit": nxt - off}
+    return out
+
+
 def sanitize_name(raw):
     """Turn a raw FNT name into something safe to put on a Windows filesystem.
 
@@ -589,11 +645,117 @@ def load_manifest(in_dir):
         return json.load(f)
 
 
+RESIZABLE = ("arm9", "overlay_")
+
+
+def _is_resizable(rec):
+    name = rec["name"]
+    return name == "arm9" or name.startswith("overlay_")
+
+
+def apply_layout_patches(rom, man, resized, verbose=True):
+    """Make the header and the tables describe the image we actually built.
+
+    Called only when some container came out a different size than the one the
+    original ROM carried.  Everything patched here is a length that is written
+    down in more than one place, so leaving any of them stale means a ROM whose
+    tables disagree with its content:
+
+      * ROM header 0x2C, the ARM9 size the cartridge loader DMAs;
+      * the FAT entry of every resized overlay (its start stays put, its end
+        follows the new length);
+      * the y9 overlay table's ``compressed_size`` field, the low 24 bits of
+        the entry's last word;
+      * the header CRC at 0x15E, which covers all of the above that lives in
+        the header.
+
+    Deliberately NOT patched, and why:
+
+      * the DSi digest sector/block tables and the RSA signature above the
+        0x1000 header snapshot.  Those cannot be recomputed without the
+        signing key, they are consulted only by the DSi launcher and the TWL
+        cartridge path, and an NTR-mode boot of a modified ROM with stale
+        tables is proven to work (docs/NOTES.md, "Modified rebuild boots").
+      * the secure area CRC at 0x6C.  It describes the *encrypted* secure
+        area, and No-Intro dumps of this title carry a decrypted one: the
+        stored 0x8B9B does not reproduce over ROM[0x4000..0x8000] in any
+        spelling, so there is nothing here to recompute.  See
+        ``verify --structural``, which reports it rather than pretending.
+
+    ``resized`` is [(manifest record, new size)].
+    """
+    fat_off, fat_size = u32(rom, 0x48), u32(rom, 0x4C)
+    tables = {"y9": (u32(rom, 0x50), u32(rom, 0x54)),
+              "y7": (u32(rom, 0x58), u32(rom, 0x5C))}
+    notes = []
+
+    for rec, newsize in resized:
+        old = rec["size"]
+        if rec["name"] == "arm9":
+            struct.pack_into("<I", rom, 0x2C, newsize)
+            notes.append(f"header 0x2C arm9 size 0x{old:X} -> 0x{newsize:X}")
+            continue
+
+        fid = rec.get("file_id")
+        tag = rec.get("table")
+        if fid is None or tag not in tables:
+            raise RomError(
+                f"region {rec['name']!r} changed size but carries no file id "
+                "or overlay table tag; cannot update the tables"
+            )
+        if (fid + 1) * FAT_ENTRY_SIZE > fat_size:
+            raise RomError(f"file id {fid} is outside the FAT")
+        start = rec["offset"]
+        struct.pack_into("<II", rom, fat_off + fid * FAT_ENTRY_SIZE,
+                         start, start + newsize)
+
+        toff, tsize = tables[tag]
+        entry = None
+        for i in range(tsize // OVERLAY_ENTRY_SIZE):
+            e = toff + i * OVERLAY_ENTRY_SIZE
+            if u32(rom, e + 0x18) == fid:
+                entry = e
+                break
+        if entry is None:
+            raise RomError(
+                f"no {tag} entry references file id {fid}, so the overlay's "
+                "compressed size cannot be updated"
+            )
+        last = u32(rom, entry + 0x1C)
+        flags = last >> 24
+        if not (flags & 1):
+            raise RomError(
+                f"overlay {rec.get('overlay_id')} is stored uncompressed, so "
+                f"a size change from {old} to {newsize} means its code size "
+                "changed too; that needs the overlay table's size and bss "
+                "fields recomputed, which this tool does not attempt"
+            )
+        if newsize > 0xFFFFFF:
+            raise RomError(f"overlay {rec.get('overlay_id')} is too large for "
+                           "the 24-bit compressed size field")
+        struct.pack_into("<I", rom, entry + 0x1C,
+                         (flags << 24) | newsize)
+        notes.append(
+            f"overlay {rec.get('overlay_id')}: FAT end 0x{start + old:X} -> "
+            f"0x{start + newsize:X}, y9 compressed_size {old} -> {newsize}")
+
+    before = u16(rom, 0x15E)
+    after = header_crc(rom)
+    struct.pack_into("<H", rom, 0x15E, after)
+    notes.append(f"header CRC 0x{before:04X} -> 0x{after:04X}")
+
+    if verbose:
+        for n in notes:
+            print(f"    {n}")
+    return notes
+
+
 def cmd_build(args):
     in_dir = os.path.abspath(args.dir)
     out_path = os.path.abspath(args.out)
     man = load_manifest(in_dir)
     overrides = [os.path.abspath(d) for d in getattr(args, "override", [])]
+    allow_resize = not getattr(args, "fixed_size", False)
 
     rom_size = man["rom_size"]
     pad = man.get("pad_byte", PAD_BYTE)
@@ -601,9 +763,11 @@ def cmd_build(args):
     for d in overrides:
         print(f"    override directory {d}")
     rom = bytearray([pad]) * rom_size
+    slots = slot_limits(man)
 
     written = 0
     overridden = 0
+    resized = []
 
     def resolve(relpath):
         nonlocal overridden
@@ -615,7 +779,15 @@ def cmd_build(args):
                 return cand
         return os.path.join(in_dir, rel)
 
-    def place(relpath, offset, size, what):
+    def place(relpath, offset, size, what, rec=None):
+        """Write one file at its recorded offset.
+
+        A file whose length differs from the manifest is normally a bug, and
+        stays fatal.  The one case where it is legitimate is a recompressed
+        ARM9 container or overlay whose compressed size moved: that is allowed
+        as long as it still fits its slot, and the tables are fixed up
+        afterwards by apply_layout_patches().
+        """
         nonlocal written
         full = resolve(relpath)
         try:
@@ -623,27 +795,58 @@ def cmd_build(args):
                 data = f.read()
         except OSError as exc:
             raise RomError(f"{what}: cannot read {full!r}: {exc}") from exc
-        if len(data) != size:
+        n = len(data)
+        if n != size:
+            if not (allow_resize and rec is not None and _is_resizable(rec)):
+                raise RomError(
+                    f"{what}: {relpath!r} is {n} bytes but the manifest "
+                    f"says {size}"
+                )
+            limit = slots.get(relpath, {}).get("limit", size)
+            if n > limit:
+                raise RomError(
+                    f"{what}: {relpath!r} is {n} (0x{n:X}) bytes but its ROM "
+                    f"slot at 0x{offset:X} holds only {limit} (0x{limit:X}) "
+                    f"before the next file starts at 0x{offset + limit:X}. "
+                    f"The slot is {size} bytes of content plus "
+                    f"{limit - size} of padding, so this needs "
+                    f"{n - limit} byte(s) more than exist. Moving the files "
+                    "that follow is not implemented."
+                )
+            resized.append((rec, n))
+        if offset + n > rom_size:
             raise RomError(
-                f"{what}: {relpath!r} is {len(data)} bytes but the manifest "
-                f"says {size}"
+                f"{what}: 0x{offset:X}+0x{n:X} runs past the end of the ROM"
             )
-        if offset + size > rom_size:
-            raise RomError(
-                f"{what}: 0x{offset:X}+0x{size:X} runs past the end of the ROM"
-            )
-        rom[offset:offset + size] = data
-        written += size
+        rom[offset:offset + n] = data
+        written += n
 
     for rec in man["regions"]:
         if not rec["size"]:
             continue
         place(rec["path"], rec["offset"], rec["size"],
-              f"region {rec['name']!r}")
+              f"region {rec['name']!r}", rec)
 
     for rec in man["residue"]:
         place(rec["path"], rec["offset"], rec["size"],
               f"residue {rec['index']}")
+
+    if resized:
+        print(f"[*] {len(resized)} container(s) changed size; updating the "
+              "header and the tables")
+        for rec, n in resized:
+            slot = slots.get(rec["path"], {})
+            limit = slot.get("limit", rec["size"])
+            print(f"    {rec['name']:<16} 0x{rec['size']:X} -> 0x{n:X} "
+                  f"({n - rec['size']:+d}), slot 0x{limit:X}, "
+                  f"0x{limit - n:X} byte(s) of slack left")
+        apply_layout_patches(rom, man, resized)
+        used = max(rec["offset"] + n for rec, n in resized)
+        if used > man["used_rom_size_ntr"]:
+            raise RomError(
+                f"a resized container now ends at 0x{used:X}, past the "
+                f"header's used-ROM-size 0x{man['used_rom_size_ntr']:X}"
+            )
 
     ensure_parent(out_path)
     with open(out_path, "wb") as f:
@@ -678,6 +881,160 @@ def hexdump(data, base, highlight=None, width=16):
     return "\n".join(lines)
 
 
+def check_structure(rom, man=None):
+    """Header fields against the actual layout.  Returns (checks, problems).
+
+    This is the check that still says something about a ROM that is *not*
+    byte-identical to the original, which a sha1 comparison cannot.  Every
+    length and offset in the header and the tables is cross-checked against
+    the thing it describes, so a repack that grew a container and forgot to
+    update one of the several places its size is written down fails here
+    instead of failing on hardware.
+
+    What it cannot check, and says so rather than passing silently: the DSi
+    digest tables and the RSA signature (no key), and the secure area CRC at
+    0x6C, which describes the encrypted secure area that a decrypted dump does
+    not carry.
+    """
+    checks, problems = [], []
+
+    def ok(name, good, detail=""):
+        checks.append((name, bool(good), detail))
+        if not good:
+            problems.append(f"{name}: {detail}")
+
+    n = len(rom)
+    arm9_off, arm9_size = u32(rom, 0x20), u32(rom, 0x2C)
+    arm9_load = u32(rom, 0x28)
+    arm7_off, arm7_size = u32(rom, 0x30), u32(rom, 0x3C)
+    fnt_off, fnt_size = u32(rom, 0x40), u32(rom, 0x44)
+    fat_off, fat_size = u32(rom, 0x48), u32(rom, 0x4C)
+    used_ntr = u32(rom, 0x80)
+    header_size = u32(rom, 0x84)
+
+    ok("header CRC 0x15E", u16(rom, 0x15E) == header_crc(rom),
+       f"stored 0x{u16(rom, 0x15E):04X}, computed 0x{header_crc(rom):04X}")
+    ok("logo CRC 0x15C", u16(rom, 0x15C) == logo_crc(rom),
+       f"stored 0x{u16(rom, 0x15C):04X}, computed 0x{logo_crc(rom):04X}")
+    checks.append(("secure area CRC 0x6C", None,
+                   f"stored 0x{u16(rom, 0x6C):04X}; covers the *encrypted* "
+                   "secure area, not recomputable from a decrypted dump"))
+
+    fixed = [("arm9", arm9_off, arm9_size), ("arm7", arm7_off, arm7_size),
+             ("fnt", fnt_off, fnt_size), ("fat", fat_off, fat_size),
+             ("y9", u32(rom, 0x50), u32(rom, 0x54)),
+             ("y7", u32(rom, 0x58), u32(rom, 0x5C))]
+    for name, off, size in fixed:
+        if size:
+            ok(f"{name} within the ROM", off + size <= n,
+               f"0x{off:X}+0x{size:X} vs 0x{n:X}")
+    ok("used ROM size 0x80", used_ntr <= n,
+       f"0x{used_ntr:X} vs image 0x{n:X}")
+    ok("header size 0x84", header_size <= n, f"0x{header_size:X}")
+
+    # The ARM9 build info repeats the container's end address; it is inside
+    # the BLZ verbatim prefix, so it can be read straight out of the ROM.
+    bi = u32(rom, 0x88)
+    if bi and arm9_off + bi + 0x24 <= n:
+        want = arm9_load + arm9_size
+        got = u32(rom, arm9_off + bi + 0x14)
+        nitro = u32(rom, arm9_off + bi + 0x1C)
+        if nitro == 0xDEC00621:
+            ok("arm9 build info compressed_code_end", got == want,
+               f"build info says 0x{got:08X}, header 0x2C implies 0x{want:08X}")
+        else:
+            checks.append(("arm9 build info", None,
+                           f"no nitrocode at arm9+0x{bi:X}, not checked"))
+
+    # Every FAT file: inside the ROM, non-inverted, and not colliding with a
+    # fixed region or with another file.
+    spans = [(off, off + size, name) for name, off, size in fixed if size]
+    spans.append((0, header_size, "header area"))
+    bad_fat = 0
+    files = []
+    if fat_size % FAT_ENTRY_SIZE == 0 and fat_off + fat_size <= n:
+        for i in range(fat_size // FAT_ENTRY_SIZE):
+            s = u32(rom, fat_off + i * FAT_ENTRY_SIZE)
+            e = u32(rom, fat_off + i * FAT_ENTRY_SIZE + 4)
+            if e == 0 and s == 0:
+                continue
+            if e < s or e > n:
+                bad_fat += 1
+                continue
+            files.append((s, e, i))
+        ok("FAT entries well formed", bad_fat == 0,
+           f"{bad_fat} entr(ies) inverted or past the end of the image")
+        files.sort()
+        overlaps = 0
+        for k in range(1, len(files)):
+            if files[k][0] < files[k - 1][1]:
+                overlaps += 1
+        ok("FAT files do not overlap each other", overlaps == 0,
+           f"{overlaps} overlapping pair(s)")
+        clash = []
+        for s, e, i in files:
+            for a, b, name in spans:
+                if s < b and a < e:
+                    clash.append((i, name))
+        ok("FAT files clear of the fixed regions", not clash,
+           ", ".join(f"file {i} overlaps {nm}" for i, nm in clash[:4]))
+
+    # Overlay tables against the FAT.
+    byid = {i: (s, e) for s, e, i in files}
+    for tag, toff_f, tsize_f in (("y9", 0x50, 0x54), ("y7", 0x58, 0x5C)):
+        toff, tsize = u32(rom, toff_f), u32(rom, tsize_f)
+        if not tsize or toff + tsize > n or tsize % OVERLAY_ENTRY_SIZE:
+            continue
+        wrong = []
+        for i in range(tsize // OVERLAY_ENTRY_SIZE):
+            e = toff + i * OVERLAY_ENTRY_SIZE
+            ov_id = u32(rom, e + 0x00)
+            code_size = u32(rom, e + 0x08)
+            fid = u32(rom, e + 0x18)
+            last = u32(rom, e + 0x1C)
+            comp_size, flags = last & 0xFFFFFF, last >> 24
+            span = byid.get(fid)
+            if span is None:
+                wrong.append(f"overlay {ov_id}: file id {fid} has no FAT entry")
+                continue
+            length = span[1] - span[0]
+            if flags & 1:
+                if comp_size != length:
+                    wrong.append(
+                        f"overlay {ov_id}: compressed_size {comp_size} but "
+                        f"the FAT gives {length} bytes")
+            else:
+                if comp_size:
+                    wrong.append(f"overlay {ov_id}: stored but "
+                                 f"compressed_size is {comp_size}")
+                elif length != code_size:
+                    wrong.append(
+                        f"overlay {ov_id}: stored, FAT gives {length} bytes "
+                        f"but the table's code size is {code_size}")
+        ok(f"{tag} entries agree with the FAT", not wrong,
+           "; ".join(wrong[:4]) + (f" (+{len(wrong) - 4} more)"
+                                   if len(wrong) > 4 else ""))
+
+    if man is not None:
+        ok("image size", len(rom) == man["rom_size"],
+           f"{len(rom)} vs {man['rom_size']}")
+    return checks, problems
+
+
+def print_structure(rom, man=None):
+    checks, problems = check_structure(rom, man)
+    print("[*] structural checks (header and tables against the layout)")
+    for name, good, detail in checks:
+        mark = "PASS" if good else ("FAIL" if good is False else "note")
+        print(f"    {mark}  {name}" + (f"  --  {detail}" if detail else ""))
+    print()
+    if problems:
+        print(f"FAIL: {len(problems)} structural problem(s)")
+        return 1
+    print("PASS: the header and the tables describe this image consistently")
+    return 0
+
+
 def cmd_verify(args):
     in_dir = os.path.abspath(args.dir)
     built_path = os.path.abspath(args.built)
@@ -693,11 +1050,17 @@ def cmd_verify(args):
     print(f"    sha1     {digest}")
     print(f"    expected {expected}")
 
+    if getattr(args, "structural", False):
+        print()
+        return print_structure(built, man)
+
     if digest == expected and len(built) == man["rom_size"]:
         print("PASS: rebuilt ROM is byte-identical to the original")
         return 0
 
     print("FAIL: rebuilt ROM does not match the original")
+    print("      (a modified build is expected to; "
+          "run `verify --structural` for a check that still applies)")
 
     orig_path = man["rom_path"]
     if not os.path.isfile(orig_path):
@@ -765,11 +1128,20 @@ def main(argv=None):
                         "given more than once, earliest wins. Used to build a "
                         "ROM from recompressed binaries (tools/build.py "
                         "--pack) without consulting the originals")
+    p.add_argument("--fixed-size", action="store_true",
+                   help="refuse any override whose size differs from the "
+                        "original, instead of growing it into its slot and "
+                        "updating the header and the tables")
     p.set_defaults(func=cmd_build)
 
     p = sub.add_parser("verify", help="compare a built ROM against the manifest")
     p.add_argument("dir")
     p.add_argument("built")
+    p.add_argument("--structural", action="store_true",
+                   help="check the header fields and the tables against the "
+                        "actual layout instead of comparing sha1s. This is "
+                        "the check that still means something for a "
+                        "deliberately modified ROM")
     p.set_defaults(func=cmd_verify)
 
     args = ap.parse_args(argv)

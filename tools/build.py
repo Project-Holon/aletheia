@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-build.py -- reassemble the asm/ listings and prove they are byte-identical.
+build.py -- reassemble the asm/ listings, splice in the matched C, and prove
+the result is byte-identical.
 
 For every region described by layout/layout.json (the ARM9 static module, the
 ITCM autoload, the three data autoloads and every overlay) this driver:
@@ -9,10 +10,14 @@ ITCM autoload, the three data autoloads and every overlay) this driver:
      (-mcpu=arm946e-s, ARM/Thumb selected by the directives in the listing),
   2. links them at the region's load address with a generated linker script,
   3. objcopy's the result to a flat binary,
-  4. compares it byte for byte with the authoritative original bytes: the
+  4. splices in the bytes of every matched C source (see tools/csrc.py), which
+     are compiled with mwccarm, placed and relocated at their real addresses,
+     and required to be EXACT before they are allowed anywhere near the image;
+     --no-c builds pure assembly instead,
+  5. compares it byte for byte with the authoritative original bytes: the
      matching slice of extract/arm9_dec.bin for ARM9 regions, or the
      decompressed / stored overlay file for overlays,
-  5. prints PASS / FAIL with first-difference diagnostics.
+  6. prints PASS / FAIL with first-difference diagnostics.
 
 The listings carry the original encoding of every instruction in a trailing
 ``/* ADDRESS  XX XX XX XX */`` comment, so a differing byte can be mapped back
@@ -32,12 +37,14 @@ Usage
     python tools/build.py --only arm9_main itcm
     python tools/build.py --only arm9_main --write-quirks
     python tools/build.py --arm9-image          # rebuild whole arm9_dec.bin
+    python tools/build.py --no-c                # pure assembly, for debugging
 """
 
 import argparse
 import json
 import os
 import re
+import struct
 import subprocess
 import sys
 import tempfile
@@ -46,6 +53,10 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(REPO, "tools"))
+
+import csrc    # noqa: E402  (bridge to the matched C sources)
+import ndsrom  # noqa: E402  (slot_limits: one implementation of the layout)
 
 # /* 020048A0  10 40 2D E9 */   or  /* 020048A0 */  or with a trailing note
 _ANN = re.compile(r"/\*\s*([0-9A-F]{8})(?:\s\s((?:[0-9A-F]{2} ?)+))?")
@@ -125,10 +136,36 @@ class RegionSpec:
         self.original = original  # bytes
         self.sources = sources    # list of .s paths (monolithic: exactly one)
         self.manifest = manifest  # layout/units_*.json path, or None
+        self.splices = []         # csrc.Splice objects landing in this region
 
     @property
     def size(self):
         return len(self.original)
+
+    def contains(self, addr):
+        return self.base <= addr < self.base + self.size
+
+    def apply_splices(self, image):
+        """Overwrite the C-derived ranges in a freshly linked region image.
+
+        Splicing flat bytes is sound here because both sides are already
+        placed: the assembled region was linked at ``self.base`` and each
+        Splice was compiled, laid out and relocated at its own address by
+        tools/csrc.py.  A real mwld link of the C objects together with the
+        assembly objects is the eventual shape and would replace this, but it
+        would resolve the same addresses to the same bytes.
+        """
+        if not self.splices:
+            return image
+        out = bytearray(image)
+        for sp in self.splices:
+            off = sp.address - self.base
+            if off < 0 or off + sp.size > len(out):
+                raise BuildError(
+                    "C splice %s at 0x%08X+%d does not fit region %s"
+                    % (sp.name, sp.address, sp.size, self.key))
+            out[off:off + sp.size] = sp.data
+        return bytes(out)
 
 
 def _read(path):
@@ -184,6 +221,43 @@ def region_specs(layout, extract_dir, asm_dir, layout_dir, split=False):
                                 o["ram_start"], orig,
                                 [os.path.join(asm_dir, listing)]))
     return specs
+
+
+# ---------------------------------------------------------------------------
+# matched C sources
+# ---------------------------------------------------------------------------
+
+def attach_c_sources(specs, manifest, jobs=1):
+    """Compile every applicable matched entry and hang it on its region.
+
+    Only entries that land inside a region this run is actually building are
+    compiled, so ``--only ov012`` does not pay for the ARM9's C.  A failure
+    propagates as csrc.CSourceError and the caller turns it into a build
+    failure: there is no path here that quietly keeps the assembly.
+    """
+    def owner(addr):
+        for s in specs:
+            if s.contains(addr):
+                return s
+        return None
+
+    kept, dropped = csrc.build_splices(manifest,
+                                       keep=lambda a: owner(a) is not None,
+                                       jobs=jobs)
+    total = 0
+    for sp in kept:
+        s = owner(sp.address)
+        if s is None:                      # cannot happen; keep() filtered
+            continue
+        if sp.end > s.base + s.size:
+            raise csrc.CSourceError(
+                "%s at 0x%08X+%d runs past region %s"
+                % (sp.name, sp.address, sp.size, s.key))
+        s.splices.append(sp)
+        total += sp.size
+    for s in specs:
+        s.splices.sort(key=lambda sp: sp.address)
+    return len(kept), total
 
 
 # ---------------------------------------------------------------------------
@@ -389,7 +463,7 @@ def build_region(tc, spec, keep_dir=None, want_quirks=False):
     os.makedirs(workdir, exist_ok=True)
     try:
         objs = assemble(tc, spec, workdir)
-        rebuilt = link(tc, spec, objs, workdir)
+        rebuilt = spec.apply_splices(link(tc, spec, objs, workdir))
         res.rebuilt = rebuilt
         if rebuilt == spec.original:
             res.ok = True
@@ -455,33 +529,95 @@ def rebuild_arm9_image(layout, results, extract_dir, out_path):
 # recompression: turn reassembled images back into ROM-ready binaries
 # ---------------------------------------------------------------------------
 
-def pack_binaries(layout, results, arm9_image, pack_dir):
+def pack_arm9(layout, image):
+    """BLZ-recompress the ARM9 image, keeping its build info self-consistent.
+
+    The NTR build info at ``arm9 + build_info_offset`` carries
+    ``compressed_code_end``, which is the load address plus the *compressed*
+    container's length, and the startup code hands that address to the
+    in-place decompressor.  So the field depends on the compression and the
+    compression depends on the field.  The dependency is real rather than
+    theoretical: the field sits at image offset 0xFC4, inside the BLZ verbatim
+    prefix, and while a prefix byte is never itself encoded, back-references
+    from the encoded region can reach into the prefix, so changing it can move
+    a token.
+
+    It is also a contraction in practice, so the fixpoint is reached by
+    iterating: compress, write the length the result implies, compress again,
+    stop when the field the image carries is the one the container wants.
+
+    Returns (container, image, iterations).
+    """
+    import blz
+    img = bytearray(image)
+    off = layout["arm9"]["build_info_offset"] + 0x14
+    load = layout["arm9"]["load_address"]
+    data = None
+    for it in range(1, 9):
+        data = blz.compress(bytes(img), blz.ARM9_SECURE_AREA)
+        want = load + len(data)
+        if struct.unpack_from("<I", img, off)[0] == want:
+            return data, bytes(img), it
+        struct.pack_into("<I", img, off, want)
+    raise BuildError(
+        "the ARM9 build info's compressed_code_end did not settle after 8 "
+        "recompressions; the container length is oscillating")
+
+
+def pack_binaries(layout, results, arm9_image, pack_dir, slots=None,
+                  strict=False):
     """Write BLZ-recompressed arm9.bin and all overlay files into pack_dir.
 
     Nothing here reads the original compressed binaries: the ARM9 container is
     built from the reassembled decompressed image and every overlay from its
-    reassembled region. Returns (written, problems).
+    reassembled region.
+
+    A container that came out a different length than the original is not an
+    error any more.  It is checked against the *slot* it occupies in the ROM,
+    that is its offset up to wherever the extracted layout puts the next file,
+    padding included; ndsrom.py then updates the header and the tables.
+    ``strict`` restores the old behaviour of demanding the original size, and
+    ``slots`` is ndsrom.slot_limits() over the extract manifest.  Returns
+    (written, problems, changes).
     """
     import blz
 
     by_key = {r.spec.key: r for r in results}
     problems = []
+    changes = []
     written = 0
 
     def put(relpath, data, want_size, what):
         nonlocal written
-        if want_size is not None and len(data) != want_size:
-            problems.append("%s: recompressed to %d bytes, ROM slot is %d"
-                            % (what, len(data), want_size))
-            return
+        n = len(data)
+        if want_size is not None and n != want_size:
+            if strict:
+                problems.append("%s: recompressed to %d bytes, ROM slot is %d "
+                                "(--pack-fixed-size)" % (what, n, want_size))
+                return
+            limit = (slots or {}).get(relpath, {}).get("limit")
+            if limit is None:
+                problems.append("%s: recompressed to %d bytes, original %d, "
+                                "and no slot is recorded for %s"
+                                % (what, n, want_size, relpath))
+                return
+            if n > limit:
+                problems.append(
+                    "%s: recompressed to %d (0x%X) bytes but its ROM slot "
+                    "holds only %d (0x%X); %d byte(s) too many"
+                    % (what, n, n, limit, limit, n - limit))
+                return
+            changes.append((what, relpath, want_size, n, limit))
         path = os.path.join(pack_dir, relpath.replace("/", os.sep))
         os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
         with open(path, "wb") as fh:
             fh.write(data)
         written += 1
 
-    put("arm9.bin", blz.compress(arm9_image, blz.ARM9_SECURE_AREA),
-        layout["arm9"]["rom_size"], "arm9")
+    container, _img, iters = pack_arm9(layout, arm9_image)
+    if iters > 1:
+        changes.append(("arm9 build info", "arm9.bin", None, None, None))
+    put("arm9.bin", container, layout["arm9"]["rom_size"], "arm9")
 
     for o in layout["overlays"]:
         key = "ov%03d" % o["id"]
@@ -496,7 +632,7 @@ def pack_binaries(layout, results, arm9_image, pack_dir):
         data = blz.compress(r.rebuilt) if o["compressed"] else r.rebuilt
         put(o["file"], data, o["file_size"], key)
 
-    return written, problems
+    return written, problems, changes
 
 
 # ---------------------------------------------------------------------------
@@ -519,6 +655,13 @@ def main(argv=None):
                     help="build ARM9 regions from their translation units "
                          "(layout/units_*.json) instead of the monolithic "
                          "listing")
+    ap.add_argument("--no-c", action="store_true",
+                    help="do not compile or splice the matched C sources; "
+                         "build the regions from asm/ alone. For debugging an "
+                         "assembly problem without the compiler in the way")
+    ap.add_argument("--c-manifest", default=csrc.MANIFEST,
+                    help="inventory of matched C entries "
+                         "(default layout/matched.json)")
     ap.add_argument("--write-quirks", action="store_true",
                     help="record instructions the assembler re-encoded into "
                          "layout/reasm_quirks.json for tools/disasm.py")
@@ -531,6 +674,10 @@ def main(argv=None):
                          "overlay into DIR (default build/pack), ready for "
                          "'ndsrom.py build --override DIR'. Implies "
                          "--arm9-image")
+    ap.add_argument("--pack-fixed-size", action="store_true",
+                    help="fail if a recompressed container is not exactly the "
+                         "size the original ROM carried, instead of letting "
+                         "it grow into the padding of its ROM slot")
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--keep", metavar="DIR",
                     help="keep intermediate objects in DIR (single region)")
@@ -567,6 +714,29 @@ def main(argv=None):
 
     print("[*] %d region(s)%s" % (len(specs),
                                   " (translation units)" if args.split else ""))
+
+    if not args.no_c:
+        try:
+            nspliced, nbytes = attach_c_sources(specs, args.c_manifest,
+                                                jobs=args.jobs)
+        except csrc.CSourceError as exc:
+            print()
+            print("error: matched C source regression: %s" % exc,
+                  file=sys.stderr)
+            if exc.detail:
+                print(exc.detail, file=sys.stderr)
+            print("\n[*] the build does NOT fall back to asm/ for a matched "
+                  "entry.\n    Fix the C, or pass --no-c to build pure "
+                  "assembly while debugging.", file=sys.stderr)
+            return 1
+        if nspliced:
+            print("[*] C sources: %d entr(ies), 0x%X (%d) byte(s) spliced "
+                  "from src/" % (nspliced, nbytes, nbytes))
+        else:
+            print("[*] C sources: nothing applies to the selected region(s)")
+    else:
+        print("[*] C sources: disabled (--no-c), building pure assembly")
+
     results = []
     if args.keep and len(specs) == 1:
         results = [build_region(tc, specs[0], keep_dir=args.keep,
@@ -590,6 +760,9 @@ def main(argv=None):
             nfail += 1
             verdict = "FAIL"
         nunits = (" [%d TUs]" % len(s.sources)) if len(s.sources) > 1 else ""
+        if s.splices:
+            nunits += " [%d C, 0x%X bytes]" % (
+                len(s.splices), sum(sp.size for sp in s.splices))
         print("    %-14s 0x%08X   0x%07X   %s%s"
               % (s.key, s.base, s.size, verdict, nunits))
         if r.error:
@@ -653,12 +826,32 @@ def main(argv=None):
 
     if args.pack:
         t0 = time.time()
-        written, problems = pack_binaries(layout, results, arm9_image,
-                                          args.pack)
+        slots = None
+        mpath = os.path.join(args.extract, "manifest.json")
+        if os.path.isfile(mpath):
+            with open(mpath, "r", encoding="utf-8") as fh:
+                slots = ndsrom.slot_limits(json.load(fh))
+        written, problems, changes = pack_binaries(
+            layout, results, arm9_image, args.pack, slots,
+            strict=args.pack_fixed_size)
         print()
         print("[*] BLZ recompression: %d file(s) -> %s (%.1fs)"
               % (written, os.path.relpath(args.pack, REPO).replace("\\", "/"),
                  time.time() - t0))
+        if slots:
+            s = slots.get("arm9.bin", {})
+            print("    arm9 slot: 0x%X at 0x%X, original content 0x%X, "
+                  "0x%X byte(s) of padding to the next file"
+                  % (s.get("limit", 0), s.get("offset", 0), s.get("size", 0),
+                     s.get("limit", 0) - s.get("size", 0)))
+        for what, relpath, old, new, limit in changes:
+            if old is None:
+                print("    %s: compressed_code_end updated to match the new "
+                      "container length" % what)
+            else:
+                print("    %s: 0x%X -> 0x%X (%+d), slot 0x%X, 0x%X byte(s) "
+                      "of slack left" % (what, old, new, new - old, limit,
+                                         limit - new))
         for p in problems:
             print("    problem: %s" % p)
         if problems:

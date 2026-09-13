@@ -778,16 +778,96 @@ That follower is now seeded from `layout/function_starts.txt` and the verdict
 is a clean EXACT; see "The two missing labels" above. It is, fittingly, the
 routine that clears the second of the two bitmaps this one sets a bit in.
 
-## Not wired into the build
+## How C enters the build
 
-`tools/build.py` still assembles `asm/` and links that. None of `src/` is
-compiled or linked by it, and `layout/matched.json` is inventory, not a build
-input. Wiring a matched function into the link means replacing the
-corresponding range in its translation unit and keeping the region
-byte-identical, which needs the linker script and symbol work that is the
-next milestone. Until then a matched function is a proven claim about what
-the original source said, verified on demand by `match.py`, and the
-byte-identical rebuild continues to come from `asm/`.
+`src/` is no longer inventory. `tools/build.py` compiles every entry of
+`layout/matched.json` and puts the resulting bytes into the image it verifies
+and packs, so the shipping ROM is built from the C wherever C exists and from
+`asm/` everywhere else. `--no-c` builds pure assembly, which is what to reach
+for when an assembly problem needs to be looked at without the compiler in
+the way.
+
+The bridge is `tools/csrc.py`. It imports the compiler invocation, the ELF
+reader, the translation-unit layout and the relocation resolver from
+`match.py` rather than restating any of them, so there is one implementation
+of each and the rules that decide `EXACT` are literally the rules that decide
+what ships. Per entry it:
+
+1. reads the compiler version, optimisation flags, language and instruction
+   set back out of the manifest, so the build compiles the configuration the
+   entry was *verified* under rather than a default;
+2. calls `match.run_one` for a function entry or `match.run_tu` for a unit,
+   which compiles, extracts or lays out, and resolves every relocation at the
+   entry's real address;
+3. refuses anything that is not `EXACT`, and refuses an `EXACT` that still
+   carries a wildcard byte, because a byte a relocation left undetermined is
+   not a byte the source produced;
+4. hands `build.py` a `(address, bytes)` splice.
+
+`build.py` assembles and links the region as before and then overwrites those
+ranges. Splicing at function granularity falls out of this for free: an entry
+covering seven functions in the middle of a 0x5000-byte assembly translation
+unit replaces exactly those 112 bytes and the rest of the unit stays
+assembly.
+
+**A regression fails the build.** If a matched C file stops reproducing its
+range, `build.py` prints the same two-column diff `match.py` prints and exits
+non-zero. It never falls back to the assembly for that range. A silent
+fallback would mean the ROM still verifies while the C in the tree is wrong,
+which is the one failure mode worth engineering against here.
+
+```
+error: matched C source regression: sub_02008954 (src/matched/sub_02008954.c)
+       is DIFF at 0x02008954, not EXACT; refusing to splice
+  offset     ORIGINAL @ 02008954                    | COMPILED
+  ------------------------------------------------------------------------
+    +0000    adds r0, #0x73                         | adds r0, #0x73
+    +0002    ldrb r0, [r0]                          | ldrb r0, [r0]
+  * +0004    strb r0, [r1]                          | adds r0, r0, #1
+  * +0006    bx lr                                  | strb r0, [r1]
+```
+
+### Overlapping entries
+
+`layout/matched.json` deliberately records both `sub_020084BC` and the unit
+`unit_020084BC` that contains it, because both are documented results. For
+the build only one of them may own a byte, so `csrc.py` keeps the widest
+non-overlapping set and says which entries it dropped. A *partial* overlap
+is not resolvable and is a hard error: it would mean the manifest describes
+two different sources for the same bytes.
+
+### Byte splicing, not linking, and why that is honest
+
+The mechanism is a byte splice into the flat region image rather than an
+object-level `mwld` link. That is sufficient because both sides are already
+placed: the assembly is linked at the region's load address and each compiled
+unit is laid out and relocated at its own address by the resolver `match.py`
+already had to write. At that point the two are just bytes at known offsets.
+
+It is also not the end state. A real link, feeding the C objects and the
+assembly objects to one linker script, is what the project wants once whole
+translation units line up with the assembly split and symbols are shared
+rather than resolved per entry. Nothing here forecloses that: the placement
+and relocation work a link needs is exactly what `csrc.py` drives today, and
+the switch would move it from "resolve and splice" to "emit a linker input".
+What the splice cannot do, and a link would, is let the C define a symbol the
+assembly refers to by name: today the assembly still carries its own encoding
+of every call, and the C has to be byte-identical for the image to come out
+right, which the `EXACT` requirement guarantees.
+
+### What is spliced today
+
+12 entries, 442 bytes: the eight matched game functions and two units above
+(minus the two single-function entries their units subsume), and the four SDK
+calibration functions. All 242 regions stay `PASS` with those bytes in place
+and the ROM still verifies at
+`26ad0b9967aa279c4a266ee69f52b9b2332399a5`.
+
+```
+python tools/csrc.py              # what the build would splice, and from where
+python tools/build.py --split --pack
+python tools/build.py --no-c      # the same, pure assembly
+```
 
 ## Reproduce
 

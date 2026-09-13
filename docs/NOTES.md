@@ -1,9 +1,11 @@
 # Technical notes
 
 Function-level matching (compiling C and comparing it with the original
-bytes) is written up separately in `docs/MATCHING.md`. Nothing under `src/`
-is part of the build described below: `tools/build.py` still reassembles
-`asm/` and that is what produces the byte-identical ROM.
+bytes) is written up separately in `docs/MATCHING.md`. `src/` *is* part of
+the build described below: `tools/build.py` compiles every entry of
+`layout/matched.json` and splices the result into the region image before
+verifying it, so the byte-identical ROM is built from the C wherever C
+exists and from `asm/` everywhere else. `--no-c` builds pure assembly.
 
 
 Findings recorded during ROM analysis, for contributors picking up later
@@ -451,9 +453,17 @@ python tools/disasm.py arm9 --split
 python tools/disasm.py overlay --all
 python tools/build.py --arm9-image          # 242 regions, monolithic
 python tools/build.py --split --only arm9   # ARM9 regions from their TUs
-python tools/build.py --pack                # + recompress into build/pack
+python tools/build.py --split --pack        # + matched C + recompress to build/pack
+python tools/build.py --split --no-c        # the same, pure assembly
 python tools/ndsrom.py build extract --override build/pack -o build/pokeblack.nds
 python tools/ndsrom.py verify extract build/pokeblack.nds
+python tools/ndsrom.py verify extract build/pokeblack.nds --structural
+```
+
+The C side on its own, without building a ROM:
+
+```
+python tools/csrc.py                        # what build.py would splice
 ```
 
 The compressor can also be exercised on its own against the originals:
@@ -602,12 +612,28 @@ compresses in about 1.6 s, and all 229 overlays together in about 8 s.
 
 ## Source to ROM in one chain
 
-`tools/build.py --pack [DIR]` (default `build/pack`) reassembles every region
-as before, then writes ROM-ready binaries into `DIR`: `arm9.bin` compressed
-from the reassembled decompressed image with `start=0x4000`, and all 237
-overlay files, the 229 compressed ones through `blz.compress` and the 8
-stored ones verbatim. It fails loudly if a recompressed file does not fit its
-ROM slot.
+`tools/build.py --pack [DIR]` (default `build/pack`) rebuilds every region as
+before, then writes ROM-ready binaries into `DIR`: `arm9.bin` compressed from
+the rebuilt decompressed image with `start=0x4000`, and all 237 overlay
+files, the 229 compressed ones through `blz.compress` and the 8 stored ones
+verbatim.
+
+"Rebuilds every region" now means assemble `asm/`, link, and then splice in
+the bytes of every matched C source. That step is `tools/csrc.py`, which
+compiles each entry of `layout/matched.json` with mwccarm at the flags the
+entry was verified under, places and relocates it at its real address through
+`match.py`'s own resolver, and refuses anything that is not `EXACT` or that
+still carries a relocation wildcard. 12 entries, 442 bytes, all inside
+`arm9_main`. The build fails with a `match.py`-style diff rather than falling
+back to the assembly; see "How C enters the build" in `docs/MATCHING.md` for
+why the mechanism is a byte splice and what a real `mwld` link would change.
+
+```
+python tools/build.py --split --pack
+    [*] C sources: 12 entr(ies), 0x1BA (442) byte(s) spliced from src/
+    arm9_main   0x02004000   0x00A5E80   PASS [30 TUs] [12 C, 0x1BA bytes]
+    242 PASS, 0 FAIL
+```
 
 `tools/ndsrom.py build --override DIR` then prefers any file present in `DIR`
 over the extracted original, and reports how many it took. For the unmodified
@@ -699,19 +725,20 @@ instruction (it is about to be overwritten with 0) and `r1` is dead as well
 `0x02003F00` is in the 16 KB of main RAM below the ARM9 load address
 (`0x02004000`), which this build never touches.
 
-Note the constraint that shaped the choice of *where* to patch.
-`build.py --pack` requires the recompressed ARM9 container to be exactly
-`0x6F898` bytes, because that is the size the ROM header and the layout
-reserve for it, and it fails loudly otherwise. A general code change will
-not land on that size by luck. This patch does, and not by luck: it lives
-entirely inside the BLZ **verbatim prefix**, the first `dec_len = 0x400F`
-bytes of the decompressed image, which are stored uncompressed. Bytes
-`0x7D0..0x80F` are in that prefix, so the compressed token stream is
-untouched and the container is the same length with the same footer. Any
-change above `0x0200800E` would move the compressed size and the chain
-would need the ARM9 slot size, the header `arm9 size` field and the build
-info `compressed_code_end` to be recomputed together. That is the next real
-piece of work before arbitrary code changes are possible.
+Note the constraint that shaped the choice of *where* to patch, and which no
+longer applies. At the time, `build.py --pack` required the recompressed ARM9
+container to be exactly `0x6F898` bytes, because that is the size the ROM
+header and the layout reserve for it. A general code change will not land on
+that size by luck. This patch did, and not by luck: it lives entirely inside
+the BLZ **verbatim prefix**, the first `dec_len = 0x400F` bytes of the
+decompressed image, which are stored uncompressed. Bytes `0x7D0..0x80F` are
+in that prefix, so the compressed token stream was untouched and the
+container came out the same length with the same footer.
+
+Any change above `0x0200800E` moves the compressed size, and the chain then
+needs the ARM9 slot size, the header `arm9 size` field and the build info
+`compressed_code_end` recomputed together. That is what the next section
+does, so the restriction is gone.
 
 ## Chain
 
@@ -817,3 +844,191 @@ produces the byte-identical ROM:
   sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5
   PASS: rebuilt ROM is byte-identical to the original
 ```
+
+# Variable-size repack
+
+The experiment above had to be designed around a limitation: a recompressed
+container had to come out at exactly the length the original ROM carried,
+which meant only changes inside the BLZ verbatim prefix were possible. That
+limitation is gone. A container may now come out any length that still fits
+its slot, and the chain recomputes everything that describes it.
+
+## The slots, and how much slack there really is
+
+A file's slot is its ROM offset up to wherever the extracted layout puts the
+next thing, another region or a residue blob. `ndsrom.slot_limits()` computes
+that from `extract/manifest.json` and it is the single implementation both
+tools use, so `build.py --pack` and `ndsrom.py build` cannot disagree about
+what fits.
+
+```
+  file          offset     content    slot       padding to the next file
+  arm9.bin      0x004000   0x06F898   0x06FA00   0x168 (360 bytes)
+  y9_0172.bin   0x24F800   0x00CA74   0x00CC00   0x18C (396 bytes)
+```
+
+The ARM9's next neighbour is the overlay table `y9` at ROM `0x73A00`, not the
+FNT: the ARM9 container ends at `0x73898` and 360 bytes of 0xFF padding
+follow. Overlay slots are the same shape, each file padded up to the next
+0x200 boundary, so overlay slack runs from 0 (ov015, whose file already ends
+on the boundary) to 0x1F4. Exceeding a slot is a loud failure that names the
+numbers rather than a corrupted image:
+
+```
+error: region 'arm9': 'arm9.bin' is 457596 (0x6FB7C) bytes but its ROM slot at
+0x4000 holds only 457216 (0x6FA00) before the next file starts at 0x73A00.
+The slot is 456856 bytes of content plus 360 of padding, so this needs 380
+byte(s) more than exist. Moving the files that follow is not implemented.
+```
+
+Moving the files that follow would buy far more room (the NTR area ends at
+`0xC3B8E00` in a 0x10000000 image), but it means rewriting every FAT entry
+and every offset in the header, and it invalidates the DSi digest tables in a
+way the current slack-only approach does not. It is the obvious next step if
+a region ever needs more than its padding.
+
+## What has to be recomputed, and where each length is written down
+
+A container's length is recorded in more than one place, and every one of them
+has to move together or the ROM is inconsistent.
+
+| field | where | who recomputes it |
+| --- | --- | --- |
+| ARM9 container length | ROM header 0x2C | `ndsrom.py build` |
+| `compressed_code_end` | ARM9 build info, `arm9 + 0xFB0 + 0x14` | `build.py --pack` |
+| overlay file extent | FAT entry for its file id, start and end | `ndsrom.py build` |
+| overlay compressed size | y9 entry `+0x1C`, low 24 bits | `ndsrom.py build` |
+| header CRC | ROM header 0x15E | `ndsrom.py build` |
+
+`compressed_code_end` is the interesting one, because it is a fixpoint rather
+than an assignment. It holds `load_address + compressed length`, and the
+startup code hands that address to the in-place decompressor, so it has to be
+right or nothing boots. But it lives at image offset 0xFC4, which is *inside*
+the image being compressed. Being in the verbatim prefix means it is never
+itself encoded, but it does not mean it is irrelevant: back-references from
+the encoded region reach up to 0x1002 bytes into the prefix, so changing it
+can move a token and therefore change the very length it records.
+`pack_arm9()` iterates, compressing, writing the length the result implies
+and compressing again, until the field the image carries is the one the
+container wants. In the experiment below it converged on the second pass, and
+that second pass is where 4 of the 228 bytes of growth came from. The loop
+gives up loudly after 8 rounds rather than looping forever.
+
+The header CRC at 0x15E is recomputed unconditionally. The formula is not
+assumed: CRC-16 reflected, polynomial 0xA001, init 0xFFFF over
+`header[0x000..0x15D]` reproduces the stored 0x8485 on this cart, and the same
+routine reproduces the stored Nintendo logo CRC at 0x15C over
+`header[0x0C0..0x15B]`. Recomputing it is a no-op for the byte-identical
+build, which is how it is checked.
+
+## The secure area CRC at 0x6C, and why it is not recomputed
+
+GBATEK puts a secure area CRC-16 at header 0x6C, and this cart carries
+0x8B9B. It is **not recomputable from this dump**, and nothing pretends
+otherwise. The field covers the *encrypted* secure area as it exists on
+cartridge; No-Intro dumps of this title carry a decrypted one (the
+`E7FFDEFF` marker at ROM 0x4000). Measured, over the decrypted bytes:
+
+```
+  ROM[0x4000..0x8000]                       0x3DDE   (init 0xFFFF)
+  the same with 'encryObj' at 0x4000        0xB4B0
+  ROM[0x4000..0x4800]                       0xD474
+  stored                                    0x8B9B
+```
+
+Reproducing it would need the KEY1 Blowfish tables from an ARM7 BIOS to
+re-encrypt the first 2 KB, which this project does not carry. So the field is
+left as it is and `verify --structural` reports it as a note rather than a
+pass or a fail. This is the same class of residue as the DSi digest tables
+and the RSA signature, which are likewise left stale for the reasons recorded
+above: none of the three is consulted on an NTR boot.
+
+## The proof
+
+A deliberate size-changing edit in two places, both runs of zero data words
+that become incompressible when filled with a deterministic pseudorandom
+pattern:
+
+```
+  region      address                  words  bytes  what it is
+  arm9_main   0x020A10FC..0x020A11DC     56    224   blank glyphs in the font
+                                                     bitmap table at 0x020A1000
+  ov172       0x021C4E88..0x021C4F88     64    256   zero padding inside ov172
+```
+
+Both are edits to the tracked `asm/` listings, both are above the verbatim
+prefix so they land in the compressed token stream, and each grows its
+container by about the number of bytes it makes incompressible. The chain:
+
+```
+python tools/build.py --split --pack
+    240 PASS, 2 FAIL           # arm9_main 223 bytes, ov172 255 bytes, on purpose
+    whole ARM9 image: FAIL     # same bytes
+    arm9 slot: 0x6FA00 at 0x4000, original content 0x6F898, 0x168 of padding
+    arm9 build info: compressed_code_end updated to match the new container
+    arm9:   0x6F898 -> 0x6F97C (+228), slot 0x6FA00, 0x84 byte(s) of slack left
+    ov172:  0x0CA74 -> 0x0CB78 (+260), slot 0x0CC00, 0x88 byte(s) of slack left
+python tools/ndsrom.py build extract --override build/pack -o build/pokeblack_mod.nds
+    2 container(s) changed size; updating the header and the tables
+    header 0x2C arm9 size 0x6F898 -> 0x6F97C
+    overlay 172: FAT end 0x25C274 -> 0x25C378, y9 compressed_size 51828 -> 52088
+    header CRC 0x8485 -> 0x2C38
+python tools/ndsrom.py verify extract build/pokeblack_mod.nds --structural
+    PASS
+```
+
+Results:
+
+```
+  artefact                          sha1                                        size
+  baseline (byte-identical)         26ad0b9967aa279c4a266ee69f52b9b2332399a5    0x10000000
+  size-changed modified ROM         b101fcf0040a2f9d43a42e99b1c05188cb4239cb    0x10000000
+  arm9.bin container, baseline                                                  0x6F898
+  arm9.bin container, modified                                                  0x6F97C  (+228)
+  y9_0172.bin, baseline                                                         0x0CA74
+  y9_0172.bin, modified                                                         0x0CB78  (+260)
+```
+
+**It boots.** melonDS 1.1, `ConsoleType = 0`, direct boot: 60/60 fps
+throughout, the white flash at 12 s and the intro cutscene at 36 s are
+indistinguishable from the baseline run captured the same way. That is a
+sharper result than it looks: a wrong `compressed_code_end` or a wrong header
+0x2C would not produce a subtly wrong game, it would fail to decompress the
+ARM9 at all and never reach the first frame.
+
+What the boot does *not* cover is the overlay half. ov172 is not loaded
+during the intro, so the evidence that its FAT entry and its y9
+`compressed_size` were updated correctly is the structural check, which
+cross-references both against each other and against the file's actual
+extent, not the screen.
+
+The edit was then reverted and the chain rerun:
+
+```
+  242 PASS, 0 FAIL
+  whole ARM9 image: PASS
+  sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5
+  PASS: rebuilt ROM is byte-identical to the original
+```
+
+## Structural verification
+
+`ndsrom.py verify --structural` is the check that still says something about a
+ROM that is deliberately not byte-identical, where a sha1 comparison can only
+say "different". It reads the built image and cross-checks every length and
+offset against the thing it describes:
+
+* the header CRC at 0x15E and the logo CRC at 0x15C, recomputed;
+* the secure area CRC at 0x6C, reported as unrecomputable rather than passed;
+* ARM9, ARM7, FNT, FAT, y9 and y7 all inside the image;
+* the ARM9 build info's `compressed_code_end` against what header 0x2C
+  implies, which is the two independent records of the container length
+  agreeing;
+* every FAT entry well formed, no two FAT files overlapping, and no FAT file
+  colliding with the header area or any fixed region;
+* every y9 and y7 entry against the FAT: a compressed overlay's
+  `compressed_size` must equal its FAT extent, a stored one must have
+  `compressed_size` zero and a FAT extent equal to its code size.
+
+It passes on the baseline and on the size-changed ROM, and it is what would
+have caught any of the five fields above being left stale.

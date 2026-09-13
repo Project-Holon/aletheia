@@ -78,6 +78,39 @@ to the assembly could not reach the ROM.
 The chain is now closed end to end: edit `asm/`, assemble, link, recompress,
 repack, and the ROM is byte-identical when nothing was changed.
 
+## Milestone 2.75: variable-size repack (done)
+
+The item carried out of the "Modified rebuild boots" experiment. Until this
+was fixed, a recompressed container had to come out at exactly the length the
+original ROM carried, so only changes inside the BLZ verbatim prefix could
+ever reach a working ROM.
+
+- `build.py --pack` lets a container change length and checks it against its
+  ROM slot, that is its offset up to the next file, padding included. The
+  ARM9 slot is 0x6FA00 at 0x4000 against 0x6F898 of content, so 360 bytes of
+  slack; overlay slots give 0 to 0x1F4. Exceeding one is a loud failure that
+  names the numbers.
+- The ARM9 build info's `compressed_code_end` is recomputed to a fixpoint,
+  because the field lives inside the image being compressed.
+- `ndsrom.py build` updates the header's ARM9 size at 0x2C, the FAT entry of
+  every resized overlay, the y9 `compressed_size` field, and the header CRC
+  at 0x15E. The secure area CRC at 0x6C covers the encrypted secure area and
+  is not recomputable from a decrypted dump; the DSi digest tables and the
+  RSA signature stay stale, which an NTR boot does not care about.
+- `ndsrom.py verify --structural` cross-checks the header and the tables
+  against the actual layout, so a deliberately modified ROM gets a meaningful
+  check instead of only a sha1 mismatch.
+- Proven end to end: a 224-byte edit in the ARM9 and a 256-byte edit in ov172
+  grow their containers by 228 and 260 bytes, the ROM builds at sha1
+  `b101fcf0040a2f9d43a42e99b1c05188cb4239cb`, passes the structural check and
+  boots to the same intro as the baseline; reverting restores
+  `26ad0b9967aa279c4a266ee69f52b9b2332399a5`. Written up under "Variable-size
+  repack" in `docs/NOTES.md`.
+
+Carried forward: relocating the files that follow a region, which would buy
+far more than a slot's padding but means rewriting every FAT entry and every
+header offset.
+
 ## Milestone 3: incremental decompilation
 
 Goal: replace disassembly with C, function by function, without ever
@@ -92,3 +125,25 @@ Approach:
   intentionally, explicitly noted non-matching) code.
 - Repeat across the ARM9 and all overlays until the whole build is C, with
   the final ROM still verified byte-identical to the original dump.
+
+Done so far:
+
+- The matching harness, `tools/match.py`, with relocation resolution under an
+  attestation rule, plus the compiler calibration against four SDK functions.
+  14 entries are EXACT: eight game functions, two whole translation units and
+  the four calibration functions. See `docs/MATCHING.md`.
+- **`src/` is wired into the shipping build.** `tools/build.py` compiles every
+  entry of `layout/matched.json` through `tools/csrc.py` and splices the
+  result into the region image before verifying it, so the byte-identical ROM
+  is built from the C wherever C exists. A regression fails the build with a
+  `match.py`-style diff instead of falling back to the assembly, and `--no-c`
+  builds pure assembly for debugging. 12 entries, 442 bytes, 242 of 242
+  regions still PASS.
+
+Carried forward:
+
+- A real `mwld` link of the C objects together with the assembly objects,
+  replacing the byte splice, so that C can define symbols the assembly refers
+  to by name.
+- Translation units for the overlays, and a whole-program link so that
+  cross-region calls become label references instead of raw encodings.
