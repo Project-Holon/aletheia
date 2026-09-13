@@ -1,4 +1,7 @@
 /*
+ * A whole translation unit, matched as one byte range.  Written from the
+ * disassembly in asm/arm9/src/002_020095C8.s.
+ *
  * unit:     yes
  * address:  0x0200ADB8
  * packet:   pkt_0200ADB8
@@ -7,10 +10,62 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   WIP
+ * status:   EXACT
+ * function: func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0,
+ *           func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14,
+ *           func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8,
+ *           func_0200AFD4, func_0200B040, func_0200B074, func_0200B078,
+ *           func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4,
+ *           func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214,
+ *           func_0200B254
  *
  * symbols:
  *   func_0200ADF0_File  0x020A71B4  data
+ *
+ * alias: the original source file is named in the image.  The constructor at
+ * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
+ * bytes there spell "regulation.c"; the string before it is
+ * "mystery_data.c", which is what the `string` attestation class uses to fix
+ * the address without reading the pool word under test.  That makes this the
+ * second original source file name this project has recovered, after
+ * "playtime.c".  The functions keep their func_<address> names, because the
+ * file identity is attested and the individual entry points are not.
+ *
+ * 1260 bytes, 0x0200ADB8..0x0200B2A4, 25 functions, eleven of which carry no
+ * label in the generated listing.
+ *
+ * What a regulation is, read off the accessors: a 0xBC-byte record of
+ * battle-rule settings.  The pair at 0x0200AE54 and 0x0200AEE8 is its whole
+ * scalar interface, a get and a set indexed by a rule id in 0..22, and the
+ * set carries the legal range of every rule: ids 0 to 3 take a value under 7,
+ * 6 and 6 and 6; id 4 is capped at 100; id 6 at 600; ids 7, 8, 13, 17 and 19
+ * are booleans; id 11 is a u16 under 651; id 20 is capped at 99.  Ids 9, 10
+ * and 14 are missing from both tables because they are not scalars: they are
+ * the three bitmaps at +0x0A, +0x5C and +0xAC that func_0200AFD4 tests a bit
+ * of.  A second pair at 0x0200B078 and 0x0200B110 does the same job for a
+ * larger record that contains this one at offset 0, over ids 1..12 and a set
+ * of signed fields at 0x152..0x15D.  0x0200B1A8 checks the record against the
+ * checksum stored at +0x15E.
+ *
+ * Four things here are worth naming:
+ *
+ *  - a dense switch becomes a PC-relative halfword jump table, and the whole
+ *    of it, table included, comes out of ordinary C.  See
+ *    docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.  The table
+ *    is what reads the case list back: an entry pointing at the common exit
+ *    is a case that is absent from the source, which is how ids 9, 10 and 14
+ *    above are known to be missing rather than empty.
+ *  - func_0200B078 falls off the end of its switch with no return statement,
+ *    and the original's default arm is a bare `bx lr` that returns the
+ *    incoming pointer.  Adding a `return 0;` to make the C well-formed adds
+ *    an instruction and moves every case body.
+ *  - a 0x160-byte struct assignment is an inline eight-byte `ldm`/`stm` loop
+ *    rather than a call, but only when the struct is four-aligned; declared
+ *    as a `u8` array it is a byte loop instead.  See
+ *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
+ *  - `p->unk12 >> n` on a `u8` field is an *arithmetic* shift, because the
+ *    field promotes to `int` before the shift.  Writing the field as `u32`,
+ *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
  */
 
 typedef unsigned char  u8;

@@ -1,0 +1,88 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0200ADB8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_0200ADB8",
+   "address": "0x0200ADB8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200ADB8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200ADB8",
+    "func_0200ADD0",
+    "func_0200ADD8",
+    "func_0200ADE0",
+    "func_0200ADE8",
+    "func_0200ADF0",
+    "func_0200AE08",
+    "func_0200AE14",
+    "func_0200AE18",
+    "func_0200AE3C",
+    "func_0200AE54",
+    "func_0200AEE8",
+    "func_0200AFD4",
+    "func_0200B040",
+    "func_0200B074",
+    "func_0200B078",
+    "func_0200B110",
+    "func_0200B1A8",
+    "func_0200B1C4",
+    "func_0200B1D4",
+    "func_0200B1E0",
+    "func_0200B1F8",
+    "func_0200B204",
+    "func_0200B214",
+    "func_0200B254"
+   ]
+  },
+  {
+   "name": "unit_0200B348",
+   "address": "0x0200B348",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200B348.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200B348",
+    "func_0200B358",
+    "func_0200B364",
+    "func_0200B368"
+   ]
+  },
+  {
+   "name": "unit_0200B394",
+   "address": "0x0200B394",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200B394.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200B394",
+    "func_0200B3A4",
+    "func_0200B3A8",
+    "func_0200B3AC",
+    "func_0200B3B0",
+    "func_0200B3C8",
+    "func_0200B3DC"
+   ]
+  }
+ ]
+}

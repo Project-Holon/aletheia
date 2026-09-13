@@ -22,31 +22,37 @@
  * Two lookups, each abandoning the function when it comes back NULL, then
  * one call whose third argument is the result of another.
  *
- * The 24 bit mask is a `lsls #8` / `lsrs #8` pair rather than an `ands`,
- * because Thumb has no immediate AND and 0x00FFFFFF would have to come out
- * of a literal pool: two halfwords against six bytes.  That is the same
- * mechanism as `& 0xFFFF` compiling to `lsls #16` / `lsrs #16`, but here
- * there is no integer type of that width, so the shift pair is the mask
- * itself and not a conversion.
+ * The low 24 bits of the first word are read with a `lsls #8` / `lsrs #8`
+ * pair, which is a 24 bit unsigned bitfield and not a mask.  Written as
+ * `*p & 0xFFFFFF` this compiler puts 0x00FFFFFF in a literal pool and emits
+ * `ldr` plus `ands`, six bytes against two and a pool word more; written as
+ * `*p << 8 >> 8` it folds the two shifts back into exactly that `ands`.
+ * Only a bitfield declaration survives the folding, so the shift pair is
+ * evidence that the first word of this object is declared as bitfields.
  */
 
 typedef unsigned int u32;
 
-extern u32 *func_02074450(u32 a);
+struct Sub020064B8Head {
+    u32 unk00 : 24;
+    u32 unk03 : 8;
+};
+
+extern struct Sub020064B8Head *func_02074450(u32 a);
 extern u32 *func_0207466C(u32 a);
 extern void func_0208A640(u32 *a, u32 b, u32 c);
 extern u32  func_0208A674(u32 a, u32 b);
 
 int sub_020064B8(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 *p;
+    struct Sub020064B8Head *p;
     u32 *q;
 
     p = func_02074450(a);
     if (p == 0) {
         return 0;
     }
-    q = func_0207466C(*p << 8 >> 8);
+    q = func_0207466C(p->unk00);
     if (q == 0) {
         return 0;
     }

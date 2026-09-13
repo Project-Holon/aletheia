@@ -1,0 +1,70 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0200A6F8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_0200A6F8",
+   "address": "0x0200A6F8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200A6F8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200A6F8",
+    "func_0200A714",
+    "func_0200A73C",
+    "func_0200A750",
+    "func_0200A75C",
+    "func_0200A768",
+    "func_0200A780",
+    "func_0200A788",
+    "func_0200A7A0",
+    "func_0200A7AC",
+    "func_0200A7B8",
+    "func_0200A7C0",
+    "func_0200A7C8",
+    "func_0200A7D4",
+    "func_0200A7E0",
+    "func_0200A7EC",
+    "func_0200A800",
+    "func_0200A7F8",
+    "func_0200A81C",
+    "func_0200A828",
+    "func_0200A834"
+   ]
+  },
+  {
+   "name": "unit_0200A864",
+   "address": "0x0200A864",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200A864.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200A864",
+    "func_0200A870",
+    "func_0200A884",
+    "func_0200A890",
+    "func_0200A898",
+    "func_0200A8A0",
+    "func_0200A8AC",
+    "func_0200A8C8",
+    "func_0200A8D0",
+    "func_0200A8E4",
+    "func_0200A8F8"
+   ]
+  }
+ ]
+}
