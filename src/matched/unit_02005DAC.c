@@ -44,16 +44,22 @@
  * says nothing about the source, which is a plain call with the literals
  * written out.
  *
- * Near miss, recorded here because this function is the surviving part of
- * pkt_02005DAC.  The other five functions of the range, 0x02005DE4 through
- * 0x02005E64, were written and reproduce every concrete byte, but they cap
- * at MATCH: sub_02005DE4 calls the ARM routine at 0x02072E8C and
- * sub_02005E04 and sub_02005E30 call the one at 0x02072F5C, and those four
- * `blx` sites are the only references to either address anywhere in the
- * 3.9 MB image, overlays included.  The `label` class therefore has no
- * witness outside the compared range and the honesty rule discards the ones
- * inside it.  Nothing is wrong with the C; the evidence is absent.  See
- * "The honesty rule" in docs/MATCHING.md.
+ * The near miss this header used to record ran 0x02005DE4 through
+ * 0x02005E64 and is now mostly closed.  Three of the four calls involved
+ * reach func_02072F5C, from 0x02005E16 and 0x02005E22 inside sub_02005E04
+ * and from 0x02005E40 inside sub_02005E30, so they are not short of evidence
+ * at all: they are short of a cut.  Matched as one range all three witnesses
+ * are inside the bytes under test; cut between the two functions, each file
+ * is the other's witness.  That is src/matched/unit_02005DF8.c and
+ * src/matched/unit_02005E30.c, both EXACT, and `python tools/match.py tu
+ * --suggest-split` is what found the cut.  sub_02005E50 was already matched
+ * on its own as src/matched/sub_02005E50.c.
+ *
+ * sub_02005DE4, 20 bytes, stays open, and no cut can help: it is the only
+ * caller of 0x02072E8C anywhere in the 3.9 MB image, overlays included, so
+ * the single witness for that call is the call itself.  It closes the day
+ * the image acquires a second caller.  See "The honesty rule" in
+ * docs/MATCHING.md.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02005DAC.c \

@@ -12,37 +12,41 @@
  * isa:      thumb
  * status:   EXACT
  * function: sub_020079BC, sub_02007A18, sub_02007A68, sub_02007A80,
- *           sub_02007A9C
+ *           sub_02007A9C, sub_02007AA4
  *
  * symbols:
  *   sub_020079BC_File  0x020A7068  data
+ *   sub_02007AA4_File  0x020A706C  data
  *   sub_020074CC       0x020074CC  thumb
  *   sub_02007AF4       0x02007AF4  thumb
  *   sub_02017E88       0x02017E88  thumb
  *   func_02034714      0x02034714  arm
+ *   func_02030734      0x02030734  arm
  *
- * The checked entry accessor in its two forms, the flag byte at 0x3DC, and
- * the size of one box page.
+ * The checked entry accessor in its two forms, the flag byte at 0x3DC, the
+ * size of one box page, and the four byte allocation the box code hangs its
+ * per-save state on.
  *
- * The file identity is in the image and it is new: sub_02007AA4, the next
- * function after this range, passes 0x020A706C to the debug allocator at
- * 0x02030734, and the bytes at 0x020A706C spell "box_savedata.c".  That is
- * this code.  sub_02007B20, further down the same run, passes 0x020A707C
- * instead, and those bytes spell "perapvoice.c", so a translation unit
- * boundary falls between the two and the run 0x02007664..0x02007B54 is at
- * least two original files rather than one.  Neither name is used as a
- * source file name in this tree yet, because the boundary is bracketed
- * (somewhere in 0x02007AC8..0x02007B20) rather than located.
+ * alias: the file identity is in the image.  sub_02007AA4 passes 0x020A706C
+ * to the debug allocator at 0x02030734, and the bytes at 0x020A706C spell
+ * "box_savedata.c".  That is this code.  sub_02007B20, further down the same
+ * run, passes 0x020A707C instead, and those bytes spell "perapvoice.c", so a
+ * translation unit boundary falls between the two and the run
+ * 0x02007664..0x02007B54 is at least two original files rather than one.
+ * Neither name is used as a source file name in this tree yet, because the
+ * boundary is bracketed (somewhere in 0x02007AC8..0x02007B20) rather than
+ * located.
  *
- * The range stops at 0x02007AA4 for an evidence reason.  sub_02007AA4 is
- * reproduced byte for byte but caps at MATCH: 0x020A706C is named by
- * exactly one pool word in the image and it is that function's own, so the
- * `literal` class has no witness, and the `string` class cannot help either
- * because the nine NUL bytes between the end of "save_control.c" at
- * 0x020A7062 and 0x020A706C are more than the one terminator plus at most
- * three alignment bytes its rule allows.  See "The string class" in
- * docs/MATCHING.md; the neighbouring 0x020A707C does satisfy it, with two,
- * and resolves.
+ * The range used to stop at 0x02007AA4 for an evidence reason, and the
+ * `string` class now carries it.  0x020A706C is named by exactly one pool
+ * word in the image and it is this function's own, so `literal` has no
+ * witness; the ten NUL bytes between "save_control.c"'s terminator at
+ * 0x020A7062 and 0x020A706C used to be more padding than the class allowed.
+ * They are not dead bytes: 0x020A7068 is an empty string, and it is the one
+ * the five assert calls above pass.  The rule now walks the whole NUL run up
+ * to twelve bytes and demands that 0x020A706C be the only address in it at
+ * which a string begins, which it is: the empty string at 0x020A7068 is not
+ * one.  See "The string class" in docs/MATCHING.md.
  *
  * sub_02007A9C carries no label because it saves nothing: `movs r0, #0xFF`,
  * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
@@ -70,11 +74,14 @@ struct Sub020079BCHeader {
 };
 
 extern const char sub_020079BC_File[];
+extern const char sub_02007AA4_File[];
 
 extern struct Sub020079BCHeader *sub_020074CC(void *save);
 extern struct Sub020079BCEntry  *sub_02007AF4(void **save, u32 box);
 extern int  sub_02017E88(struct Sub020079BCEntry *entry, int field, int arg);
 extern void func_02034714(const char *file, int line, const char *msg);
+extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
+                           u32 line);
 
 int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg)
 {
@@ -128,4 +135,12 @@ int sub_02007A80(void *save, u32 bits)
 u32 sub_02007A9C(void)
 {
     return 0xFF0;
+}
+
+u32 *sub_02007AA4(u32 heap, u32 value)
+{
+    u32 *p = func_02030734(heap, 4, 0, sub_02007AA4_File, 0x3B9);
+
+    *p = value;
+    return p;
 }

@@ -74,13 +74,21 @@
  * part of the same original file.  Two separate reasons, either of which is
  * enough:
  *
- *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()`'s
- *     `label` class needs a `func_` label in the region's own listings, and
- *     an address that only exists in an overlay never has one, so the
- *     relocation stays a wildcard and the entry cannot be better than MATCH.
- *     The evidence is genuinely there in the image (a `bl` to it from
- *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378), it
- *     is just not evidence the current rule can see.
+ *  1. it calls 0x021DFDB8, which is an overlay address.  `attest()` now has a
+ *     rule for those: a target inside an overlay per layout/layout.json is
+ *     attested when that overlay's own listing carries a `func_` label at the
+ *     address, the label's ISA is the declared ISA, and some branch outside
+ *     the compared range targets it.  The third part holds here (a `bl` from
+ *     0x02006F42 inside arm9_main and another from ov088 at 0x021BC378); the
+ *     first does not.  0x021DFDB8 is inside seven overlays at once, because
+ *     overlays share load windows, and they disagree about what is there:
+ *     ov093 has an instruction in the middle of a function, ov119 a `movs`,
+ *     ov170 a data word, ov228 an eight byte Thumb thunk.  None of them
+ *     labels it, so nothing says which of the seven the call means and the
+ *     relocation stays a wildcard.  (The thunk in ov228 is the linker's Thumb
+ *     veneer shape, which the `veneer` class deliberately does not recognise:
+ *     mwccarm emits those same eight bytes for a Thumb tail call.  See "The
+ *     veneer class" in docs/MATCHING.md.)
  *  2. two concrete bytes are wrong regardless.  The original materialises the
  *     constant 0xE4 with `ldr r0, [pc, #0x10]` out of its own literal pool,
  *     where every spelling of the integer 228 tried here (decimal, hex,

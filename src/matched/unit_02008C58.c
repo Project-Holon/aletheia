@@ -24,7 +24,26 @@
  * file opens at 0x02008C20 with the four bytes that return that size
  * (src/matched/sub_02008C20.c) and this range follows the constructor; the
  * file runs on past 0x02008CF8, where it starts reaching into the static
- * tables at 0x0209DDA0 and 0x020A70C4, which is where this range stops.
+ * tables at 0x0209DDB4 and 0x020A70C4, which is where this range stops.
+ *
+ * What the attestation rules say about the run after it, checked with the
+ * indexes behind `python tools/match.py tu --suggest-split`:
+ *
+ *  - sub_02008CF8 itself stays blocked, and not for want of a cut.  It loads
+ *    0x020A70C4 and 0x0209DDB4, and each of those two addresses is named by
+ *    exactly one pool word in the whole image, its own, at 0x02008D14 and
+ *    0x02008D18.  The `literal` class has nothing outside the range, and the
+ *    `string` class cannot reach either: 0x020A70C4 is the data table
+ *    immediately after "playtime.c", not a string.  It closes the day
+ *    anything else in the image loads one of them.
+ *  - the four functions after it, 0x02008D1C..0x02008E30, are no longer
+ *    blocked by attestation at all, only by not having been written.  Each of
+ *    them calls sub_02008C64, sub_02008C94, sub_02008CB4, sub_02008CD4 and
+ *    sub_02008CF8, and the callers of each of those five are spread across
+ *    several of the four, so any range holding at most two of the four leaves
+ *    every one of the five a witness outside it.  0x02008D1C..0x02008DAC and
+ *    0x02008DAC..0x02008E30 is such a pair, and the twelve byte thunk at
+ *    0x02008DF0 is `local` to the second of them.
  *
  * The block is a flat table with two element widths and its own checksum:
  *

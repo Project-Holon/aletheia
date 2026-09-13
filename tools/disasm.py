@@ -163,6 +163,7 @@ class Region:
         self.locs = set()                           # addresses
         self.pools = {}                             # address -> width
         self.mode_at = {}                           # offset -> thumb bool
+        self.veneers = {}                           # address -> (size, target)
         self.conflicts = []
 
     def contains(self, addr):
@@ -494,6 +495,85 @@ class Analyser:
                 self.trace()
         return added
 
+    # -- linker veneers --------------------------------------------------
+    #
+    # mwld puts a stub in front of a call it cannot encode directly, and the
+    # stub is invisible to everything above: it has no register-saving
+    # prologue, so sweep_prologues() never fires on it, and nothing in the
+    # image branches to it, because the whole point of it is that the pool
+    # word the caller loads holds the stub's address rather than the real
+    # callee's.  So twelve perfectly good bytes of ARM code get emitted as
+    # three data words, and the address they sit at has no name.
+    #
+    # This labels them.  It is deliberately conservative in three ways:
+    #
+    #   * only the two ARM encodings are recognised, compared as whole 32-bit
+    #     words and not masked:
+    #         E59FC000 E12FFF1C <ptr>     ldr ip, [pc, #0]; bx ip
+    #         E51FF004 <ptr>              ldr pc, [pc, #-4]
+    #     The Thumb shape `ldr r3, [pc, #0]; bx r3; .word target` is NOT
+    #     recognised, because mwccarm emits exactly those eight bytes for a
+    #     Thumb tail call with no argument set-up and the shape therefore says
+    #     nothing about who wrote it;
+    #   * <ptr> has to name code this analysis already reached: with the Thumb
+    #     bit stripped it must be inside this region, aligned for the ISA its
+    #     low bit declares, and classified CODE in that mode.  A stray triple
+    #     of data words does not have a third word that points at traced code;
+    #   * nothing is seeded from a veneer and no byte changes classification.
+    #     The pass runs after the trace has settled and only over bytes that
+    #     are still UNK or DATA, so it adds a label and nothing else, and the
+    #     listing reassembles to the same bytes it did before.
+
+    VENEER_LDR_IP = 0xE59FC000          # ldr ip, [pc, #0]
+    VENEER_BX_IP = 0xE12FFF1C           # bx  ip
+    VENEER_LDR_PC = 0xE51FF004          # ldr pc, [pc, #-4]
+
+    def _points_at_traced_code(self, value):
+        r = self.r
+        thumb = bool(value & 1)
+        target = value & ~1
+        if not thumb and (target & 3):
+            return False
+        if not r.contains(target):
+            return False
+        o = r.off(target)
+        return r.kind[o] == CODE and r.mode_at.get(o) == thumb
+
+    def mark_veneers(self):
+        r = self.r
+        found = 0
+        for off in range(0, len(r.data) - 8, 4):
+            if r.kind[off] == CODE:
+                continue
+            w0 = struct.unpack_from("<I", r.data, off)[0]
+            if w0 == self.VENEER_LDR_IP:
+                if off + 12 > len(r.data):
+                    continue
+                if struct.unpack_from("<I", r.data, off + 4)[0] != \
+                        self.VENEER_BX_IP:
+                    continue
+                size, ptr_off = 12, 8
+            elif w0 == self.VENEER_LDR_PC:
+                size, ptr_off = 8, 4
+            else:
+                continue
+            if off + size > len(r.data) or any(
+                    r.kind[off + k] == CODE for k in range(size)):
+                continue
+            value = struct.unpack_from("<I", r.data, off + ptr_off)[0]
+            if (value & ~1) == r.base + off:
+                continue
+            if not self._points_at_traced_code(value):
+                continue
+            if r.base + off in r.pools or r.base + off in r.funcs \
+                    or r.base + off in r.locs:
+                # Something already names this address; leave that name alone
+                # rather than renaming a label the rest of the listing uses.
+                continue
+            r.veneers[r.base + off] = (size, value)
+            found += 1
+        return found
+
     def run(self):
         r = self.r
         for addr, thumb in r.seeds:
@@ -513,6 +593,7 @@ class Analyser:
         for off in list(r.insns):
             if r.kind[off] != CODE:
                 del r.insns[off]
+        self.mark_veneers()
 
 
 # ---------------------------------------------------------------------------
@@ -526,6 +607,11 @@ def _label_for(region, addr):
         return "loc_%08X" % addr
     if addr in region.pools:
         return "pool_%08X" % addr
+    # A linker veneer is code the trace never reached, so it comes out as data
+    # words; the label says what those words are.  It ranks last, so a veneer
+    # that already carries a name the rest of the listing refers to keeps it.
+    if addr in region.veneers:
+        return "veneer_%08X" % addr
     return None
 
 
@@ -762,6 +848,10 @@ def emit_range(region, out_path, start_off, end_off, all_regions,
            data_bytes, 100.0 * data_bytes / max(1, span)))
     nfuncs = sum(1 for a in r.funcs if start_off <= a - r.base < end_off)
     add(" * functions     %d" % nfuncs)
+    nven = sum(1 for a in r.veneers if start_off <= a - r.base < end_off)
+    if nven:
+        add(" * linker veneers %d (labelled veneer_XXXXXXXX; see"
+            " tools/disasm.py mark_veneers)" % nven)
     if r.note:
         add(" *")
         add(" * %s" % r.note)

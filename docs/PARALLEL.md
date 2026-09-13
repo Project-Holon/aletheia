@@ -198,7 +198,18 @@ python tools/match.py manifest --verify               verify and write all shard
 python tools/match.py manifest --verify --shard ID    one shard, for an agent
 python tools/match.py idioms                          regenerate the idiom index
 python tools/match.py selftest                        the attestation rules
+python tools/match.py tu --src ... --addr ... --suggest-split
+                                                      where to cut a MATCH unit
 ```
+
+When a range comes out `MATCH` with every concrete byte right, run
+`--suggest-split` before doing anything else. It prints, per unresolved site,
+how many witnesses the address has image wide and how many of them are inside
+the range, and then the cuts that would leave every site a witness outside. A
+site whose only witness is the call inside the function that needs it cannot
+be cut free at all, and the report says so; that is the point at which the
+function is left out and the rest of the range matched. See "Where to cut a
+file" in `docs/MATCHING.md`.
 
 `--refresh` is idempotent: running it twice in a row produces the same file.
 The merge rule it implements is documented in full at the top of

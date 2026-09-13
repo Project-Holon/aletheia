@@ -130,18 +130,20 @@ from a claim about the source into a tautology. So `match.py` records, for
 every address it knows, *where in the image it learned it*, and discards any
 witness that falls inside the range being compared.
 
-Four classes of evidence are accepted, and every resolved site prints its
+Five classes of evidence are accepted, and every resolved site prints its
 class, the number of witnesses and one witness address:
 
 | class | what it means |
 | --- | --- |
 | `local` | the symbol is defined in the object we just compiled, so its address follows from where the unit was placed. No image evidence at all. |
 | `label` | `disasm.py` put a `func_XXXXXXXX` label at that address, i.e. it traced real code there, **and** a branch somewhere in the image calls that label. The strong class. |
+| `veneer` | the address holds an ARM linker veneer: a fixed twelve-byte (or eight-byte) encoding that loads a constant into `ip` or `pc` and branches to it, with the constant naming a known function. For a call the linker redirected through a stub, which nothing else can attest. |
 | `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
 | `string` | the address is the start of a NUL-terminated ASCII string whose position is fixed by the terminator of the string before it. For `__FILE__` arguments, which nothing else can attest. |
 
 The `label` class reads branches from the whole image, not just from the region
-being matched. `func_02014468` is called from exactly one place inside
+being matched, and it reads labels from the whole image too. `func_02014468`
+is called from exactly one place inside
 `arm9_main`, and that call is inside the range under test, but `ov010` and
 `ov020` each branch to it as well. Those are real instructions in the image, so
 they are the same kind of evidence as an in-region `bl`; the only difference is
@@ -160,6 +162,105 @@ branch instructions feed this index. Pool words in overlays are deliberately
 not admitted: `literal` is the weak class, its witness has to be a word
 `disasm.py` classified as a literal pool, and widening it to 237 regions would
 weaken it without closing anything.
+
+#### Callees that live in an overlay
+
+The index above answers "who calls this ARM9 address". The other direction,
+"what is at this overlay address", used to have no answer at all: the `label`
+class only ever looked at the ARM9 listings, so an ARM9 function that calls an
+address inside an overlay could not attest the target and capped at `MATCH`.
+0x0200A3D0 calls 0x021DFDB8 and is the case that raised it.
+
+The rule is now the same rule with a wider index, and it has three parts, each
+a separate refusal in `attest_overlay_label()`:
+
+1. the address is inside at least one overlay region of `layout/layout.json`
+   and **that overlay's own generated listing carries a `func_` label there**,
+   so `disasm.py` traced real code at that address in that overlay;
+2. the ISA the label records is the ISA the source declares. An overlay that
+   decodes the address as Thumb is not evidence for an `arm` extern;
+3. at least one branch anywhere in the image targets the address from outside
+   the compared range, read from `image_call_sites()`, which unions the ARM9
+   in-region branches, the cross-region branches of all 242 listings, and the
+   in-region branches of whichever overlays hold the address.
+
+Part 1 is the part that does work, because overlay address space is shared:
+237 overlays are loaded into a handful of the same windows, so one address is
+inside several of them and they disagree about what is there. 0x021DFDB8 is
+inside seven overlays, and `ov093` has an instruction in the middle of a
+function there, `ov119` a `movs`, `ov170` a data word and `ov228` an
+eight-byte Thumb thunk. None of them labels it, so it is **not** attested and
+0x0200A3D0 stays open. The rule reaches 430 of the 553 overlay-space branch
+targets the cross-region index knows about, which is the measure of what it
+buys; demanding a label is what keeps the other 123 out.
+
+The scans are lazy and per region, so only the overlays that can hold the one
+address being asked about are ever read.
+
+#### The veneer class
+
+`mwld` puts a stub in front of a call it will not encode directly, and fills
+the caller's `R_ARM_ABS32` in with the stub's address rather than the callee's.
+The stub is invisible to everything else: it has no register-saving prologue,
+so `disasm.py`'s sweep never fires on it and the listing prints its twelve
+bytes as data; and nothing in the image branches to it, because reaching it
+through a pool word is the whole point of it.
+
+```
+02072788  E59FC000  ldr ip, [pc, #0]
+0207278C  E12FFF1C  bx  ip
+02072790  0208970C  .word SND_SetMasterVolume
+```
+
+The only two words in the 3.9 MB image that hold 0x02072788 are the two pool
+words of `src/matched/unit_02005794.c`, which is the range under test, so
+`label` has no label and `literal` discards its only witnesses. The stub
+itself is the evidence, and it is read entirely from outside the compared
+range, so the honesty rule is satisfied and a wrong claim still comes out
+`DIFF` exactly as it does for `literal` and `string`.
+
+Six conditions, each a separate refusal in `veneer_at()` and
+`attest_veneer()`:
+
+1. the declared kind is `arm`. A veneer body is ARM code; a claim that the
+   address is Thumb or data is refused;
+2. the address is four-aligned and inside a region;
+3. the words there are one of exactly two encodings, compared whole and not
+   masked: `E59FC000 E12FFF1C <ptr>` (`ldr ip, [pc, #0]; bx ip`) or
+   `E51FF004 <ptr>` (`ldr pc, [pc, #-4]`);
+4. `<ptr>` names code: with the Thumb bit stripped it is inside a region,
+   aligned for the ISA its low bit declares, and it is either a `func_` label
+   in that region's listing or a symbol of `layout/symbols_sdk.json`, with the
+   same ISA. A stray triple of data words does not have a third word that
+   names a known function, and this condition alone rejects 17 of the 116
+   shape matches in `arm9_main`;
+5. the veneer does not point at itself;
+6. every byte of it, the pointer word included, lies outside the compared
+   range.
+
+**The Thumb shape is deliberately not recognised.** The linker emits
+`ldr r3, [pc, #0]; bx r3; .word target` as well, and 0x021DFDB8 in `ov228` is
+one, but mwccarm emits exactly those eight bytes for a Thumb tail call with no
+argument set-up, and `src/matched/unit_02005C3C.c` is two committed instances
+of it compiled from ordinary C. A shape both the linker and the compiler emit
+carries no claim about what the address is. The ARM forms do: this front end
+compiles an ARM tail call to a direct `b` with a relocation, and `ip` is the
+procedure-call scratch register the ABI reserves for exactly this use.
+
+`disasm.py` labels the recognised ones `veneer_02072788` in the listings, over
+bytes that are still `UNK` or `DATA` after the trace has settled and only when
+the pointer names code the trace already reached, so it adds a label and never
+changes a classification. 59 of them are labelled in `arm9_main`, and a pool
+word that loads one now reads
+
+```
+	.word	0x02072788                  /* 0200579C  -> veneer_02072788 */
+```
+
+How the C is written against one is
+`docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md`:
+the extern is declared at the veneer's address, marked `arm`, and the name
+matches the listing's label.
 
 The `literal` class needs a word of justification, because it does read an
 address out of the image. What it does not do is read it out of *this*
@@ -213,12 +314,14 @@ separate refusal in `attest_string()`:
 1. the declared kind is `data`; a string is not code,
 2. the bytes at the address are at least four printable ASCII characters
    followed by a NUL, entirely inside one region,
-3. immediately before it there are `k` NUL bytes with `1 <= k <= 4`: one
-   terminator plus at most three bytes of alignment padding,
-4. the address is where that padding rule has to land, that is `k == 1`
-   (packed) or the address is the first 4-aligned address after the
-   terminator. Without this the previous terminator would fix a *range* of
-   candidate starts rather than one address,
+3. immediately before it there are `k` NUL bytes with `1 <= k <= 12`: one
+   terminator plus the padding after it, bounded as described under "the
+   padding window" below,
+4. the address is the **only** address in that padding window at which a
+   string begins: every address strictly between the terminator and it is
+   examined, and the rule refuses unless none of them starts a NUL-terminated
+   printable run of at least four characters. Without this the previous
+   terminator would fix a *range* of candidate starts rather than one address,
 5. the bytes before those NULs are themselves at least four printable ASCII
    characters, so the NUL is a string terminator and not a zero word in a data
    blob,
@@ -231,13 +334,52 @@ implemented: a string's own terminator already fixes its end, so only its start
 needs an outside witness. The other route to that start, a reference from
 outside the compared range, is the existing `literal` class and is tried first.
 
+#### The padding window
+
+Conditions 3 and 4 used to read `k <= 4` and "the first 4-aligned address after
+the terminator", which is one terminator plus at most three bytes of alignment.
+That refused 0x020A706C, which spells "box_savedata.c" and is the original
+source file name of `src/matched/unit_020079BC.c`: the terminator of
+"save_control.c" is at 0x020A7062, the next ten bytes are NUL, and the first
+4-aligned address after the terminator is 0x020A7064 rather than 0x020A706C.
+The function that passes it, `sub_02007AA4`, reproduced every concrete byte and
+capped at `MATCH`, and that is why the file stopped one function short of the
+end of its range.
+
+The extra padding is real and it is not alignment. Measured over the whole ARM9
+image, of the 404 string starts that have a well-formed string in front of them
+the distribution of `k` is
+
+```
+k =  1   2   3   4   5   7  10
+   265  47  40  47   2   2   1
+```
+
+and every `k > 4` sits at a 4-aligned address one or two whole words past the
+one alignment alone would have chosen: the linker left one or two dead words
+between two string sections. 10 is the largest run anywhere in the image, so
+the bound is 12, the next multiple of four above it: a terminator, up to three
+bytes of alignment, up to two dead words. A run of NULs longer than any the
+string area actually contains is refused rather than walked across, which is
+what the `ov009` case at 0x021A4618, with `k = 40`, checks.
+
+Widening the window costs nothing in soundness as long as the address stays
+uniquely determined, and that is what the new condition 4 checks directly
+rather than by proxy: it is the property the old 4-alignment test was standing
+in for. It is not vacuous. The nine bytes of padding in front of
+"box_savedata.c" are not dead: 0x020A7068 is an **empty string**, and it is the
+one the five assert calls in the same file pass. It is not a candidate start,
+because it is not four printable characters, and 0x020A706C is the only address
+in the run that is.
+
 `python tools/match.py selftest` is the check. Its string cases are all
-negative bar one: a witness inside the compared range is refused, a compared
+negative bar two: a witness inside the compared range is refused, a compared
 range that merely touches the neighbouring terminator is refused, the middle of
 a string is not a string start, the last character of one is not either, a code
 address that decodes as text is refused, a zero blob is not a terminated
-neighbour, and the class never applies to a symbol declared `thumb` or `arm`.
-The same command runs the three end-to-end behaviours below.
+neighbour, the empty string inside a padding window is not a start, a NUL run
+past the bound is refused, and the class never applies to a symbol declared
+`thumb` or `arm`. The same command runs the three end-to-end behaviours below.
 
 All the evidence is read out of `asm/arm9/src/*.s` and `asm/arm9/src_itcm/*.s`,
 which are generated and not committed. On a fresh clone, run
@@ -256,6 +398,119 @@ declared address unknown -> unresolved, MATCH     (with the reason printed)
 The middle line is the point. Resolution does not make the comparison easier
 to pass; it makes it cover four more bytes, and a wrong claim now fails
 loudly where it used to be hidden under a wildcard.
+
+### Where to cut a file: `--suggest-split`
+
+The honesty rule refuses a witness inside the compared range, and when the only
+callers of a helper are inside the file being matched, the remedy is not more
+evidence, it is a smaller range:
+`docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md`. Choosing the
+cut by hand means listing every external reference of the proposed range and
+counting its witnesses elsewhere in the image, which is what the attestation
+indexes already know, so
+
+```
+python tools/match.py tu --src src/matched/unit_XXXXXXXX.c \
+    --addr 0xXXXXXXXX --thumb --suggest-split
+```
+
+reports it. It **writes nothing**. It never edits a source, and a cut it calls
+viable still has to be written and still has to come out `EXACT`; what it
+establishes is the negative half, which is the expensive half to find by hand:
+which cuts cannot work, and which function is over-constrained and has to be
+left out.
+
+Three things come out of it:
+
+* **a witness census per site**: the target, how many witnesses exist image
+  wide, how many of them are inside this range, and the first few addresses,
+  so an unresolved site says at a glance whether it is short of evidence or
+  merely short of a cut;
+* **the viable cuts**, from a dynamic program over the unit's own function
+  sections. A piece `[i, j)` is feasible when every relocation in it either
+  targets a function inside the piece (the `local` class, which needs no
+  evidence) or has a witness outside the piece. The two constraints pull
+  against each other, and the program is what balances them: cutting a callee
+  out of a range breaks a site that was fine, and keeping the only caller with
+  the callee destroys the only witness there is. The answer minimises the
+  number of functions left out first and the number of pieces second;
+* **the neighbour option**: when an unresolved target is itself already
+  matched, the entry and source file that hold it are named, because pulling
+  that function across the boundary into this range would make the site
+  `local`. That is the "re-cut a neighbouring matched unit" case.
+
+`src/matched/unit_02005DF8.c` and `src/matched/unit_02005E30.c` are the first
+pair this found. `func_02072F5C` is reached from exactly three `blx` sites in
+the image, 0x02005E16 and 0x02005E22 in `sub_02005E04` and 0x02005E40 in
+`sub_02005E30`; one range holding all three has no witness left and caps at
+`MATCH`, and the cut between 0x02005E04 and 0x02005E30 leaves each file as the
+other's witness. Both are `EXACT`.
+
+#### The pairwise case across two files
+
+Two units attesting each other needs no machinery, and the manifest already
+handles it. `resolve_relocations()` sets the compared range to the one
+translation unit being compiled and to nothing else, so a call site sitting in
+a sibling file's range is simply *outside*, in exactly the way a call site in
+an overlay is. The two files are separate compilations, separate manifest
+entries and separate splices, and nothing about the pair is special except
+that neither may contain both call sites.
+
+`src/matched/unit_02008B08.c` and `src/matched/unit_02008B4C.c` are the
+committed instance: `OS_GetOwnerRtcOffset` is reached from 0x02008B26 and
+0x02008B7C and from nowhere else in the ROM, one in each file. So are
+`unit_0200902C.c` and `unit_02009050.c` over `sub_02008F3C`, and now
+`unit_02005DF8.c` and `unit_02005E30.c` over `func_02072F5C`. Two selftest
+cases pin the behaviour: with the compared range set to one of the pair the
+class is `label`, and with it set to the span of both there is no witness at
+all.
+
+The limit of the remedy is worth stating, because three of the open near
+misses are on the wrong side of it. When the **only** witness for a target is
+the call inside the very function that needs it, no cut helps: shrinking the
+range to that one function keeps the call in it. `sub_02005DE4` is the only
+caller of 0x02072E8C in the ROM, `sub_02005A98` the only caller of
+0x02074A6C, and `sub_020057C4` the only caller of 0x02035108. Each of those
+closes the day the image acquires a second caller and not before.
+
+### The near-miss backlog after the attestation wave
+
+Wave 1 left thirteen documented near misses. The three new rules and the cut
+finder close four of them; the rest are recorded here with the reason each one
+stays open, so that nobody re-derives it.
+
+Closed:
+
+| address | bytes | what carried it |
+| --- | --- | --- |
+| 0x02005794..0x020057C4 | 48 | `veneer`: 0x02072788 is a linker stub in front of `SND_SetMasterVolume` |
+| 0x02005DF8..0x02005E30 | 56 | cut: `func_02072F5C`'s other witness moved into the next file |
+| 0x02005E30..0x02005E50 | 32 | the other half of the same cut |
+| 0x02007AA4..0x02007AC8 | 36 | `string`: the padding window reaches "box_savedata.c" |
+
+Still open, and the reason is the evidence rather than the C:
+
+| address | why |
+| --- | --- |
+| 0x02005DE4 | only caller of 0x02072E8C in the ROM; the witness is the call itself |
+| 0x02005A98 | only caller of 0x02074A6C |
+| 0x020057C4 | only caller of 0x02035108, and needs 0x02005794 `local` as well |
+| 0x02008AF0 | needs `sub_02008B9C` `local`, and any range that does spans both callers of `OS_GetOwnerRtcOffset` |
+| 0x02009020 | needs `sub_02009074` `local`, and any range that does spans both callers of `sub_02008F3C` |
+| 0x020090B4 | 0x020A7174 is named by one pool word, its own, and is a table rather than a string |
+| 0x02008CF8 | 0x020A70C4 and 0x0209DDB4 are each named by one pool word, its own |
+| 0x0200A3D0 | 0x021DFDB8 is inside seven overlays and none of them labels it (and two bytes are wrong regardless) |
+
+Still open for codegen reasons, where the evidence was never the problem:
+0x02008A54 (17 bytes of register allocation), 0x02008C28 (3 bytes of register
+numbering), 0x020063B4 (64 bytes of block placement), 0x0200A908 (16 bytes of
+scheduling), 0x0200B2A4 and 0x0200B37C (a register the original spends and the
+source does not).
+
+The one range where attestation stopped being the blocker without anything
+being written is 0x02008D1C..0x02008E30: cut into two pieces of two functions
+each, every one of its five callees keeps a witness outside. See the header of
+`src/matched/unit_02008C58.c`.
 
 ### Where the addresses are written down
 
@@ -1005,8 +1260,9 @@ python tools/match.py idioms --check  # is it stale?
 
 <!-- idioms:begin -->
 
-18 idioms, one file each under `docs/idioms/`.
+19 idioms, one file each under `docs/idioms/`.
 
+- [A call through a linker veneer is an ordinary extern declared at the veneer, not at the function](idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md): when the pool word a tail call loads holds the address of a twelve byte `ldr ip, [pc, #0]; bx ip; .word target` stub instead of the callee, the C declares the extern at the stub's address and marks it `arm`; declaring the real callee reproduces a different word and the unit comes out DIFF.
 - [An aggregate assignment of about 32 bytes or less is inlined as ldm/stm](idioms/aggregate-assignment-is-ldm-stm.md): a run of `ldm rX!, {r0, r1}` / `stm rY!, {r0, r1}` pairs among field-by-field moves says those bytes are one nested struct in the source.
 - [A large struct assignment is an inline ldm/stm loop, and its step is the struct's alignment](idioms/big-struct-assignment-is-an-ldm-stm-loop.md): above the size where the compiler stops unrolling, a struct assignment becomes an inline counted `ldm`/`stm` loop rather than a call, and whether the step is eight bytes or one byte depends only on the declared alignment of the struct.
 - [A call result compared against memory only reaches `cmp`'s left slot when a named local holds it](idioms/cmp-operand-order-names-the-temporary.md): `cmp r0, r1` against `cmp r1, r0` is the one-byte tell that the function result was assigned to a local before the comparison; written inline on either side of the `!=`, this compiler always puts the memory operand first.
@@ -1152,20 +1408,28 @@ right, which the `EXACT` requirement guarantees.
 
 ### What is spliced today
 
-14 entries, 1498 bytes: the seven matched game functions and five units above
-(minus the two single-function entries their units subsume), and the four SDK
-calibration functions. The manifest holds 16 entries; two of them are the
-single-function results their units subsume. All 242 regions stay `PASS` with
-those bytes in place and the ROM still verifies at
+57 entries, 8774 bytes. The manifest holds 59: 47 units, 8 single functions
+and the 4 SDK calibration functions, naming 329 distinct functions; two of the
+single-function entries are subsumed by the units that contain them and are
+not spliced separately. All 242 regions stay `PASS` with those bytes in place
+and the ROM still verifies at
 `26ad0b9967aa279c4a266ee69f52b9b2332399a5`.
 
-Coverage of the 0x02005000..0x0200B000 window the milestone 3 batch worked in:
-1396 bytes of the 17978 bytes the listings classify as instructions there are
-now produced by C, 7.8%, in one 1064-byte contiguous stretch
-(0x0200857C..0x020089A8), the earlier 190-byte pair of units at 0x020084BC,
-and five single functions. Across the whole of `arm9_main`,
-`tools/worklist.py --summary` reports 59 of 5370 functions and 1104 of 406204
-game code bytes matched, 0.2718%.
+Across the whole of `arm9_main`, `tools/worklist.py --summary` reports 202 of
+5370 functions and 5888 of 406204 game code bytes matched, 1.4495%. That count
+is of functions the listings carry a label for, so it is lower than the
+manifest's 329: an accessor with no register-saving prologue is matched all the
+same, it just was never labelled.
+
+The attestation wave that followed wave 1 added 172 of those bytes and four
+entries, three of them new files:
+
+| range | bytes | what closed it |
+| --- | --- | --- |
+| 0x02005794..0x020057C4 | 48 | the `veneer` class |
+| 0x02005DF8..0x02005E30 | 56 | a cut `--suggest-split` found |
+| 0x02005E30..0x02005E50 | 32 | the other half of that cut |
+| 0x02007AA4..0x02007AC8 | 36 | the `string` class, padding window widened |
 
 ```
 python tools/csrc.py              # what the build would splice, and from where
@@ -1192,8 +1456,21 @@ python tools/match.py manifest --verify
 # one shard only: what a packet agent runs on its own work
 python tools/match.py manifest --verify --shard pkt_0209CE10
 
-# the attestation rules, including the string class negatives
+# the attestation rules: 35 cases, the label, veneer, literal, string and
+# pairwise classes with their negatives, plus the three resolver behaviours
 python tools/match.py selftest
+
+# where a MATCH-capped unit could be cut, and what the census says
+python tools/match.py tu --src src/matched/unit_02005DF8.c \
+    --addr 0x02005DF8 --thumb --suggest-split
+
+# the three ranges the new classes closed
+python tools/match.py tu --src src/matched/unit_02005794.c \
+    --addr 0x02005794 --thumb     # veneer
+python tools/match.py tu --src src/matched/unit_02005E30.c \
+    --addr 0x02005E30 --thumb     # the split
+python tools/match.py tu --src src/matched/unit_020079BC.c \
+    --addr 0x020079BC --thumb     # string, "box_savedata.c"
 
 # the two matrices that pin -O4,p
 python tools/match.py sweep --src src/matched/sub_020084BC.c \

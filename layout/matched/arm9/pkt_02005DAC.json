@@ -20,6 +20,37 @@
    "functions": [
     "sub_02005DAC"
    ]
+  },
+  {
+   "name": "unit_02005DF8",
+   "address": "0x02005DF8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02005DF8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02005DF8",
+    "sub_02005E04"
+   ]
+  },
+  {
+   "name": "unit_02005E30",
+   "address": "0x02005E30",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02005E30.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02005E30"
+   ]
   }
  ]
 }

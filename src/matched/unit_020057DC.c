@@ -48,18 +48,20 @@
  *    a 0 for the first store and derives the -1 for the next four from it
  *    with `subs r1, r4, #1`.
  *
- * Near miss, in the same packet and recorded here because this file is what
- * survived of it: the run 0x02005794..0x020057D8 cannot be attested.  It is
- * two twelve byte thunks that tail call the ARM veneer at 0x02072788, the
- * function at 0x020057AC that passes both of their addresses to
- * func_0203508C, and the function at 0x020057C4 that compares
- * func_02035108's result against the first of them.  0x02072788 carries no
- * label at all (disasm.py classifies it as data, it is a `ldr ip, [pc]`
- * veneer) and the only two pool words in the image that hold it are the two
- * inside those thunks; func_02035108 has exactly one caller image wide and
- * it is 0x020057C6.  Every witness is inside the range under test, so the
- * honesty rule discards all of them.  The C is not in doubt; the evidence
- * is absent.
+ * The near miss this header used to record, the run
+ * 0x02005794..0x020057D8, is now closed as far as the evidence allows.  The
+ * `veneer` attestation class carries 0x02072788, so the two twelve byte
+ * thunks and the function at 0x020057AC that passes both of their addresses
+ * to func_0203508C are src/matched/unit_02005794.c and are EXACT.
+ *
+ * What is left open is 0x020057C4 alone, 20 bytes, and the reason is
+ * unchanged and structural: func_02035108 has exactly one caller anywhere in
+ * the 3.9 MB image and it is the `blx` at 0x020057C6 inside that very
+ * function.  Shrinking the range cannot help, because the witness is the call
+ * itself, and the target is ARM library code that cannot be made `local`.
+ * The function also needs sub_02005794 `local`, for the pool word at
+ * 0x020057D8 that holds its address.  It closes the day anything else in the
+ * image calls 0x02035108.
  */
 
 typedef unsigned short u16;

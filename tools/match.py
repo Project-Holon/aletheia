@@ -32,6 +32,7 @@ Usage:
     python tools/match.py sweep --src ... --func ... --addr ...
     python tools/match.py sweep ... --cpp            # also try -lang c++
     python tools/match.py tu   --src ... --addr ...  # whole translation unit
+    python tools/match.py tu   ... --suggest-split   # where to cut a MATCH unit
     python tools/match.py manifest --verify          # every shard of layout/matched/
     python tools/match.py manifest --verify --shard pkt_0209CE10
     python tools/match.py selftest                   # the attestation rules
@@ -450,17 +451,24 @@ def target_extent(addr, region):
 # address of the instruction or pool word it came from, and why
 # ``attest()`` rejects a witness that falls inside the compared range.
 #
-# Four classes of evidence are accepted, and the class is reported per site so
+# Five classes of evidence are accepted, and the class is reported per site so
 # a reader can weigh them separately:
 #
 #   label    disasm.py put a func_XXXXXXXX label at that address, i.e. it
 #            traced real code there, AND some branch elsewhere in the image
 #            calls that label.  This is the strong class: the address exists
 #            in the listings independently of any literal.  "Elsewhere in the
-#            image" means the whole image: a branch from an overlay into
-#            arm9_main is the same kind of evidence as one from arm9_main,
-#            and a leaf whose callers all live in overlays is not less of a
-#            function for it.  See xregion_calls().
+#            image" means the whole image in both directions: a branch from
+#            an overlay into arm9_main is the same kind of evidence as one
+#            from arm9_main, and a callee that lives in an overlay is still a
+#            function.  See xregion_calls(), image_call_sites() and
+#            attest_overlay_label().
+#
+#   veneer   the address holds an ARM linker veneer: twelve (or eight) bytes
+#            at a fixed encoding that load a constant into ip or pc and branch
+#            to it, with the constant naming a known function.  A complete
+#            self-contained entry point nothing can fall into, read entirely
+#            from outside the compared range.  See attest_veneer().
 #
 #   literal  the exact word appears in at least one literal pool at a
 #            different address.  bss and data addresses can only ever be
@@ -638,6 +646,275 @@ def xregion_calls():
     return out
 
 
+# ---------------------------------------------------------------------------
+# overlay-resident callees
+# ---------------------------------------------------------------------------
+#
+# xregion_calls() indexes the branches that LEAVE a region.  The other half of
+# the picture is the region they arrive in: an ARM9 function that calls an
+# address inside an overlay (0x0200A3D0 calls 0x021DFDB8) had no way to attest
+# that target, because the `label` class only ever looked at the ARM9
+# listings and an overlay address never has a label there.
+#
+# The address space of the overlays is shared: 237 overlays are loaded into a
+# handful of the same windows, so one address is inside several of them and
+# they disagree about what is there.  That is why the rule below demands a
+# label rather than settling for "two branches point at it": the label says
+# some overlay's listing actually traced code at that address, and the branch
+# says something in the image calls it.  Both halves have to hold, and the
+# ISA the label carries has to be the ISA the source declares.
+#
+# The scans are lazy and per region: only the overlays that can hold the one
+# address being asked about are ever read.
+
+_REGIONS_AT = {}
+
+
+def regions_containing(addr):
+    """Names of every region whose address window holds `addr`.
+
+    More than one overlay can answer, because overlays share load windows.
+    """
+    if addr in _REGIONS_AT:
+        return _REGIONS_AT[addr]
+    out = [r.name for r in load_all_regions()
+           if r.base <= addr < r.base + len(r.data)]
+    _REGIONS_AT[addr] = out
+    return out
+
+
+_REGION_CALLS = {}
+
+
+def region_calls(name):
+    """{target: [site]} for branches inside one region's own listing."""
+    if name in _REGION_CALLS:
+        return _REGION_CALLS[name]
+    out = defaultdict(list)
+    for path in listing_files(name):
+        try:
+            fh = open(path, "r", errors="replace")
+        except OSError:
+            continue
+        with fh:
+            for line in fh:
+                m = _CALL_RE.match(line)
+                if m:
+                    out[int(m.group(1), 16)].append(int(m.group(2), 16))
+    _REGION_CALLS[name] = out
+    return out
+
+
+def overlay_label(addr):
+    """(region, thumb) if an overlay's own listing labels `addr`, else None."""
+    for name in regions_containing(addr):
+        if not name.startswith("ov"):
+            continue
+        starts = scan_listing(name)
+        if addr in starts:
+            return name, starts[addr]
+    return None
+
+
+def image_call_sites(addr):
+    """Every branch in the image that targets `addr`, from any region.
+
+    Three indexes feed this: the ARM9 in-region branches evidence() already
+    reads, the cross-region branches xregion_calls() reads from all 242
+    listings, and -- new here -- the in-region branches of whichever overlays
+    hold the address.
+    """
+    sites = set(evidence().calls.get(addr, ()))
+    sites |= set(xregion_calls().get(addr, ()))
+    for name in regions_containing(addr):
+        if name.startswith("ov"):
+            sites |= set(region_calls(name).get(addr, ()))
+    return sorted(sites)
+
+
+def attest_overlay_label(addr, kind, lo, hi):
+    """The `label` class for an address that lives in an overlay.
+
+    Three conditions, each a separate refusal:
+
+      1. the address is inside at least one overlay region of
+         layout/layout.json, and that overlay's generated listing carries a
+         `func_` label there, i.e. disasm.py traced real code at that address
+         in that overlay;
+      2. the ISA that label records is the ISA the source declares.  An
+         overlay that decodes the address as Thumb is not evidence for an
+         `arm` extern;
+      3. at least one branch anywhere in the image targets the address from
+         outside the compared range.
+
+    The verdict is reported as `label`, not as a class of its own, because it
+    is the same evidence with a wider index: a traced entry point plus a real
+    branch instruction that calls it.
+    """
+    found = overlay_label(addr)
+    if found is None:
+        return None
+    region, thumb = found
+    if kind not in ("thumb", "arm"):
+        return None
+    if thumb != (kind == "thumb"):
+        return None
+    sites = [s for s in image_call_sites(addr) if not lo <= s < hi]
+    if not sites:
+        return None
+    return "label", len(sites), sites[0]
+
+
+# ---------------------------------------------------------------------------
+# the `veneer` class
+# ---------------------------------------------------------------------------
+#
+# A tail call from Thumb game code to an ARM library routine goes through a
+# literal pool word and a `bx`, and sometimes the word the linker wrote is not
+# the routine's address but the address of a twelve-byte ARM stub that jumps
+# there.  0x02005794 and 0x020057A0 both load 0x02072788, and the bytes at
+# 0x02072788 are
+#
+#   E59FC000   ldr ip, [pc, #0]
+#   E12FFF1C   bx  ip
+#   0208970C   .word SND_SetMasterVolume
+#
+# That is a linker veneer.  It has no symbol, disasm.py classifies it as data
+# because it has no prologue and nothing branches to it, and the only words in
+# the whole image that name it are the two pool words inside the range under
+# test.  So `label` has no label, `literal` has no outside witness, and the
+# range caps at MATCH with every concrete byte right.
+#
+# The evidence the other classes cannot see is the stub itself.  Twelve bytes
+# at a fixed encoding that load a constant into ip and branch to it are a
+# complete, self-contained entry point: nothing falls into them, they cannot
+# be anything but a call target, and they lie outside the compared range.
+# Reading them never touches the pool word whose value is about to be checked,
+# so the honesty rule is satisfied, and a wrong claim still fails loudly as
+# DIFF exactly as it does for `literal` and `string`.
+#
+# The rule is deliberately narrow, and only ARM forms are admitted:
+#
+#   1. the declared kind is `arm`.  A veneer body is ARM code; a claim that
+#      the address is Thumb or data is refused;
+#   2. the address is four-aligned and inside a region;
+#   3. the words there are one of exactly two encodings, compared whole and
+#      not masked:
+#          E59FC000 E12FFF1C <ptr>     ldr ip, [pc, #0]; bx ip
+#          E51FF004 <ptr>              ldr pc, [pc, #-4]
+#   4. <ptr> names code: with the Thumb bit stripped it is inside a region,
+#      aligned for the ISA its low bit declares, and it is either a `func_`
+#      label in that region's listing or a symbol of layout/symbols_sdk.json,
+#      with the same ISA.  A stray triple of data words does not have a third
+#      word that names a known function;
+#   5. the veneer does not point at itself;
+#   6. every byte of the veneer, the pointer word included, lies outside the
+#      compared range.
+#
+# The Thumb shape `ldr r3, [pc, #0]; bx r3; .word target` is deliberately NOT
+# recognised, even though the linker also emits it (0x021DFDB8 in ov228 is
+# one).  mwccarm emits exactly those eight bytes for a Thumb tail call with no
+# argument set-up, and src/matched/unit_02005C3C.c is two committed instances
+# of it, so the shape is not a linker signature and could not carry a claim
+# about what the address is.  The ARM forms are: this front end compiles an
+# ARM tail call to a direct `b` with a relocation, and `ip` is the
+# procedure-call scratch register the ABI reserves for exactly this use.
+
+VENEER_ARM_LDR_IP = 0xE59FC000      # ldr ip, [pc, #0]
+VENEER_ARM_BX_IP = 0xE12FFF1C       # bx  ip
+VENEER_ARM_LDR_PC = 0xE51FF004      # ldr pc, [pc, #-4]
+
+
+def _region_at(addr):
+    for r in load_all_regions():
+        if r.base <= addr < r.base + len(r.data):
+            return r
+    return None
+
+
+_SDK_BY_ADDR = {}
+
+
+def sdk_addresses():
+    """{address: thumb} for every recovered SDK symbol."""
+    if "a" in _SDK_BY_ADDR:
+        return _SDK_BY_ADDR["a"]
+    out = {}
+    p = os.path.join(ROOT, "layout", "symbols_sdk.json")
+    if os.path.exists(p):
+        with open(p) as fh:
+            for e in json.load(fh)["symbols"]:
+                out.setdefault(e["address"], bool(e["thumb"]))
+    _SDK_BY_ADDR["a"] = out
+    return out
+
+
+def names_known_code(value):
+    """True when `value` is an interworking pointer at a known function."""
+    thumb = bool(value & 1)
+    target = value & ~1
+    if thumb:
+        if target & 1:
+            return False
+    elif target & 3:
+        return False
+    if _region_at(target) is None:
+        return False
+    known = evidence().labels.get(target)
+    if known is not None:
+        return known == thumb
+    known = sdk_addresses().get(target)
+    if known is not None:
+        return known == thumb
+    found = overlay_label(target)
+    if found is not None:
+        return found[1] == thumb
+    return False
+
+
+def veneer_at(addr):
+    """(size, pointer word address, target) if `addr` is an ARM veneer."""
+    if addr & 3:
+        return None
+    region = _region_at(addr)
+    if region is None:
+        return None
+    off = addr - region.base
+    data = region.data
+
+    def word(k):
+        if off + k + 4 > len(data):
+            return None
+        return struct.unpack_from("<I", data, off + k)[0]
+
+    w0 = word(0)
+    if w0 == VENEER_ARM_LDR_IP and word(4) == VENEER_ARM_BX_IP:
+        size, ptr_off = 12, 8
+    elif w0 == VENEER_ARM_LDR_PC:
+        size, ptr_off = 8, 4
+    else:
+        return None
+    value = word(ptr_off)
+    if value is None or not names_known_code(value):
+        return None
+    if (value & ~1) == addr:
+        return None
+    return size, addr + ptr_off, value
+
+
+def attest_veneer(addr, kind, lo, hi):
+    """The `veneer` class.  Returns (class, witnesses, site) or None."""
+    if kind != "arm":
+        return None
+    found = veneer_at(addr)
+    if found is None:
+        return None
+    size, ptr_at, _value = found
+    if addr < hi and lo < addr + size:
+        return None
+    return "veneer", 1, ptr_at
+
+
 _SDK_SYMS = {}
 
 
@@ -759,12 +1036,11 @@ def symbol_address(name, decls):
 #   1. the declared kind is `data` (a string is not code);
 #   2. the bytes at `addr` are >= MIN_STRING_CHARS printable ASCII followed
 #      by a NUL, entirely inside one region;
-#   3. immediately before `addr` there are k NUL bytes, 1 <= k <= 4: one
-#      terminator plus at most three bytes of alignment padding;
-#   4. `addr` is where that padding rule has to land, i.e. k == 1 (packed) or
-#      `addr` is the first 4-aligned address after the terminator.  Without
-#      this the previous terminator would fix a range of candidate starts
-#      rather than one address;
+#   3. immediately before `addr` there are k NUL bytes, 1 <= k <=
+#      MAX_STRING_PAD: one terminator plus the padding after it;
+#   4. `addr` is the ONLY address in that padding window at which a string
+#      begins, so the previous terminator fixes one address and not a range
+#      of candidates.  See "the padding window" below;
 #   5. the bytes before those NULs are themselves >= MIN_STRING_CHARS
 #      printable ASCII, so the NUL at addr-k is a string terminator and not
 #      a zero word in a data blob;
@@ -777,9 +1053,47 @@ def symbol_address(name, decls):
 # its start needs an outside witness.  The other route to that start, a
 # reference from outside the compared range, is the existing `literal` class
 # and is tried first.
+#
+# THE PADDING WINDOW
+#
+# The rule used to require k <= 4 and, when k > 1, that `addr` be the first
+# four-aligned address after the terminator: one terminator plus at most three
+# bytes of alignment.  That refused 0x020A706C, which is "box_savedata.c" and
+# names the original source file of src/matched/unit_020079BC.c: the
+# terminator of "save_control.c" is at 0x020A7062 and the next ten bytes,
+# terminator included, are NUL, so k is 10 and the first four-aligned address
+# after the terminator is 0x020A7064 rather than 0x020A706C.
+#
+# The extra padding is real and it is not alignment.  Measured over the whole
+# ARM9 image, of the 404 string starts that have a well-formed string in front
+# of them the k distribution is
+#
+#     k =  1   2   3   4   5   7  10
+#        265  47  40  47   2   2   1
+#
+# and every k > 4 sits at a four-aligned address one or two whole words past
+# the one alignment alone would have chosen: the linker left one or two dead
+# words between two string sections.  10 is the largest run anywhere in the
+# image, so the bound is MAX_STRING_PAD = 12, the next multiple of four above
+# it: a terminator plus at most three bytes of alignment plus at most two dead
+# words.  A run of NULs longer than any the string area actually contains is
+# refused rather than walked across.
+#
+# Widening the window costs nothing in soundness as long as the address stays
+# uniquely determined, which is what condition (4) now checks directly: every
+# address strictly between the terminator and `addr` is examined, and the rule
+# refuses unless `addr` is the only one of them at which a NUL-terminated
+# printable run of at least MIN_STRING_CHARS characters begins.  The old
+# four-alignment test was a proxy for that; this is the property itself, and
+# it is what makes "the terminator before it fixes its start" a statement
+# about one address.  Condition (5) still demands a real string immediately
+# before the run, which is what keeps the rule out of the zero blobs that
+# follow the string area.
 
 MIN_STRING_CHARS = 4
-MAX_STRING_PAD = 4          # terminator plus at most three alignment bytes
+# One terminator, up to three bytes of alignment, up to two dead words.  The
+# bound comes from the measured distribution above; see "the padding window".
+MAX_STRING_PAD = 12
 MAX_STRING_BYTES = 256      # a longer run is a text blob, not a literal
 
 
@@ -836,10 +1150,13 @@ def attest_string(addr, lo, hi):
     if k < 1:
         return None
 
-    # (4) the padding rule has to put the string exactly here
+    # (4) no other address in the padding window starts a string, so the
+    #     previous terminator fixes this address and not a range of them
     prev_nul = addr - k
-    if k > 1 and addr != ((prev_nul + 1 + 3) & ~3):
-        return None
+    for cand in range(prev_nul + 1, addr):
+        n = _printable_run_forward(data, cand - base, len(data))
+        if n is not None and n >= MIN_STRING_CHARS:
+            return None
 
     # (5) that NUL has to terminate a string, not sit in a zero blob
     if off - k - 1 < 0:
@@ -887,10 +1204,21 @@ def attest(addr, kind, lo, hi):
             # still a real function (disasm.py traced code there), but the
             # only thing that names it may be the literal we are checking.
             # Fall through to the literal class rather than claim "label".
+        else:
+            # No label in the ARM9 listings.  The address may still be an
+            # overlay-resident function; the index is wider but the standard
+            # is the same, a traced entry point plus an outside branch to it.
+            proof = attest_overlay_label(addr, kind, lo, hi)
+            if proof is not None:
+                return proof
     want = addr | 1 if kind == "thumb" else addr
     sites = [s for s in ev.pool_words.get(want, ()) if not lo <= s < hi]
     if sites:
         return "literal", len(sites), sites[0]
+    if kind == "arm":
+        proof = attest_veneer(addr, kind, lo, hi)
+        if proof is not None:
+            return proof
     if kind == "data":
         proof = attest_string(addr, lo, hi)
         if proof is not None:
@@ -1472,6 +1800,198 @@ def run_tu(src, addr, version, flags, thumb, lang, region=None, keep=False,
             shutil.rmtree(work, ignore_errors=True)
 
 
+# ---------------------------------------------------------------------------
+# suggest-split
+# ---------------------------------------------------------------------------
+#
+# The honesty rule refuses a witness inside the compared range, and the
+# documented remedy for a unit that trips over that is to cut the file so that
+# the witness stops being part of what is under test.  See
+# docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.  Choosing
+# the cut by hand means listing every external reference of the proposed range
+# and counting its witnesses elsewhere in the image, which is exactly what the
+# attestation indexes already know, so this reports it instead.
+#
+# It reports.  It never edits a source file, and it never claims a cut is
+# right: a cut it calls viable still has to be written and still has to come
+# out EXACT.  What it establishes is the negative half, which is the expensive
+# half to find by hand: which cuts cannot work, and which function is
+# over-constrained and has to be left out.
+#
+# Two constraints pull against each other and both are modelled:
+#
+#   * a call to a function defined in the same range is the `local` class and
+#     needs no image evidence, so cutting a callee out of a range can break a
+#     site that was fine;
+#   * a call to a function defined elsewhere needs a witness outside the
+#     range, so keeping the only caller and the callee together destroys the
+#     only witness there is.
+#
+# THE PAIRWISE CASE ACROSS TWO FILES needs no new machinery and the manifest
+# already handles it: resolve_relocations() sets the compared range to the one
+# unit being compiled and nothing else, so a call site sitting in a sibling
+# file's range is simply outside, and each of the two files is a witness for
+# the other.  src/matched/unit_02008B08.c and src/matched/unit_02008B4C.c are
+# a committed instance, and so are unit_0200902C.c and unit_02009050.c.  The
+# two are separate compilations and separate manifest entries, and the build
+# splices them independently, so nothing about the pair is special except that
+# neither may contain both call sites.  suggest_split() reports such a pair as
+# two adjacent viable pieces.
+
+
+def manifest_function_addresses():
+    """{address: (entry name, source path)} for every matched function."""
+    out = {}
+    for e in load_manifest_entries():
+        names = e.get("functions") or [e["name"]]
+        for n in names:
+            m = _ADDR_NAME_RE.match(n)
+            if m:
+                out.setdefault(int(m.group(1), 16), (e["name"], e["source"]))
+    return out
+
+
+def _site_targets(fb, tl, addr, decls):
+    """[(offset, name, target, kind, local_offset or None)] for every site."""
+    out = []
+    for off, rtype, name, addend in fb.relocs:
+        if name in fb.locals:
+            out.append((off, name, addr + fb.locals[name], None,
+                        fb.locals[name]))
+            continue
+        info = symbol_address(name, decls)
+        if info is None:
+            out.append((off, name, None, None, None))
+            continue
+        target, kind, _origin = info
+        out.append((off, name, target, kind, None))
+    return out
+
+
+def _piece_bounds(tl, addr, i, j):
+    lo = addr + tl.parts[i][0]
+    hi = addr + (tl.parts[j][0] if j < len(tl.parts) else tl.size)
+    return lo, hi
+
+
+def suggest_split(src, addr, tl, fb, decls):
+    """Report the cuts that would give every relocation an outside witness."""
+    parts = tl.parts
+    n = len(parts)
+    sites = _site_targets(fb, tl, addr, decls)
+    matched_at = manifest_function_addresses()
+
+    part_of = []
+    for off, name, target, kind, loc in sites:
+        k = 0
+        for i, (base, size, _pad, _names) in enumerate(parts):
+            if base <= off < base + size:
+                k = i
+        part_of.append(k)
+
+    def site_ok(idx, lo, hi):
+        off, name, target, kind, loc = sites[idx]
+        if target is None:
+            return False, "no address for %r" % name
+        if loc is not None:
+            inside = lo <= addr + loc < hi
+            return inside, ("local" if inside
+                            else "%08X leaves the range" % (addr + loc))
+        proof = attest(target, kind, lo, hi)
+        if proof is None:
+            return False, "%08X has no witness outside %08X..%08X" % (
+                target, lo, hi)
+        return True, proof[0]
+
+    feasible = {}
+    for i in range(n):
+        for j in range(i + 1, n + 1):
+            lo, hi = _piece_bounds(tl, addr, i, j)
+            ok = True
+            for idx in range(len(sites)):
+                if not (i <= part_of[idx] < j):
+                    continue
+                good, _why = site_ok(idx, lo, hi)
+                if not good:
+                    ok = False
+                    break
+            feasible[(i, j)] = ok
+
+    # Partition the unit into consecutive feasible pieces, leaving out as few
+    # functions as possible and, at equal cost, using as few pieces as
+    # possible.  (dropped, pieces, back-pointer).
+    INF = (10 ** 6, 10 ** 6, None)
+    best = [INF] * (n + 1)
+    best[0] = (0, 0, None)
+    for j in range(1, n + 1):
+        cand = []
+        for i in range(j):
+            if best[i][0] >= 10 ** 6 or not feasible[(i, j)]:
+                continue
+            cand.append((best[i][0], best[i][1] + 1, ("cut", i)))
+        if best[j - 1][0] < 10 ** 6:
+            cand.append((best[j - 1][0] + 1, best[j - 1][1], ("drop", j - 1)))
+        if cand:
+            best[j] = min(cand)
+
+    print()
+    print("suggest-split: %d function section(s), %d relocation site(s)"
+          % (n, len(sites)))
+    print("  the whole range as one file is %s"
+          % ("viable" if feasible.get((0, n)) else "NOT viable"))
+
+    lo_all, hi_all = _piece_bounds(tl, addr, 0, n)
+    print()
+    print("  sites, judged against the whole range:")
+    for idx, (off, name, target, kind, loc) in enumerate(sites):
+        good, why = site_ok(idx, lo_all, hi_all)
+        print("    +%04X %-28s %s" % (off, name, why if not good else
+                                      "resolved [%s]" % why))
+        if good:
+            continue
+        if target is None:
+            continue
+        witnesses = sorted(set(image_call_sites(target))
+                           | set(evidence().pool_words.get(
+                               target | 1 if kind == "thumb" else target, ())))
+        inside = [w for w in witnesses if lo_all <= w < hi_all]
+        print("          witnesses image wide: %d, of them inside this "
+              "range: %d" % (len(witnesses), len(inside)))
+        for w in witnesses[:6]:
+            print("            %08X%s" % (w, "  (inside)" if w in inside
+                                          else ""))
+        owner = matched_at.get(target)
+        if owner is not None:
+            print("          %08X is already matched, in %s (%s): pulling it "
+                  "into this range would make the site `local`"
+                  % (target, owner[0], owner[1]))
+
+    print()
+    if best[n][0] >= 10 ** 6:
+        print("  no partition of this unit into consecutive pieces is viable")
+        return 1
+    cuts = []
+    j = n
+    while j > 0:
+        kind_, i = best[j][2]
+        cuts.append((kind_, i, j))
+        j = i if kind_ == "cut" else j - 1
+    cuts.reverse()
+    dropped, pieces, _bp = best[n]
+    print("  best partition: %d piece(s), %d function(s) left out"
+          % (pieces, dropped))
+    for kind_, i, j in cuts:
+        lo, hi = _piece_bounds(tl, addr, i, j if kind_ == "cut" else i + 1)
+        names = []
+        for k in range(i, j if kind_ == "cut" else i + 1):
+            names += [n for n in parts[k][3] if not n.startswith("$")] \
+                or ["(unlabelled)"]
+        print("    %-5s %08X..%08X  %s"
+              % ("piece" if kind_ == "cut" else "OUT", lo, hi,
+                 ", ".join(names)))
+    return 0
+
+
 def cmd_tu(args):
     addr = parse_addr(args.addr)
     thumb = resolve_isa(addr, args.region, args)
@@ -1496,6 +2016,9 @@ def cmd_tu(args):
         print("  %08X   %-6d %-5d %s"
               % (addr + base, size, pad, ", ".join(names) or "(none)"))
     print_sites(r.func)
+    if getattr(args, "suggest_split", False):
+        suggest_split(args.src, addr, tl, r.func,
+                      declared_symbols(read_header(args.src)))
     if r.status in ("EXACT", "MATCH"):
         if args.diff:
             print_diff(r.func, r.target, addr, reloc_map(r.func))
@@ -2047,6 +2570,37 @@ FUNC_XREGION = 0x02014468
 # 0x020AA260 is a data object eighteen literal pools name.
 DATA_LITERAL = 0x020AA260
 
+# 0x02072788 is a linker veneer in front of SND_SetMasterVolume: no label, no
+# branch to it anywhere in the image, and the only two words that hold its
+# address are the pool words of src/matched/unit_02005794.c.
+VENEER = 0x02072788
+# Veneer-shaped, but its pointer word names nothing this project can confirm
+# is a function, so the veneer rule refuses it.  (attest() still answers
+# `label` for it from its own label and callers; this case goes at veneer_at.)
+VENEER_UNCONFIRMED = 0x02030BBC
+# The same job in Thumb, and deliberately not recognised: mwccarm emits these
+# eight bytes for a tail call, and 0x02005C3C is a committed instance of it in
+# src/matched/unit_02005C3C.c.
+THUMB_THUNK = 0x02005C3C
+# 0x021DFDB8 is the linker's Thumb form of the same thing, in ov228.
+OVERLAY_THUMB_THUNK = 0x021DFDB8
+
+# 0x021D5440 is a Thumb function of ov093 that nothing in arm9 labels, called
+# from many sites in ov093 and elsewhere.
+OVERLAY_FUNC = 0x021D5440
+
+# "box_savedata.c": ten NUL bytes separate it from the terminator of
+# "save_control.c", which is more alignment than the string class used to
+# allow.  0x020A7068 is the empty string inside that run.
+STR_BOX_SAVEDATA = 0x020A706C
+STR_EMPTY_IN_PADDING = 0x020A7068
+# A string in ov009 whose NUL run is 40 bytes, past MAX_STRING_PAD.
+STR_FAR_NEIGHBOUR = 0x021A4618
+
+# The pair at 0x02008B08 / 0x02008B4C: OS_GetOwnerRtcOffset is reached from
+# 0x02008B26 and 0x02008B7C and from nowhere else in the ROM.
+OS_GETOWNERRTCOFFSET = 0x02087D08
+
 
 def _check(results, name, got, want):
     ok = got == want
@@ -2071,6 +2625,37 @@ def cmd_selftest(args):
            cls(attest(FUNC_XREGION, "thumb", 0x02008828, 0x020089A8)), "label")
     _check(res, "label: an image-wide compared range refuses even those",
            cls(attest(FUNC_XREGION, "thumb", 0x02000000, 0x03000000)), None)
+
+    # --- the label class, overlay-resident callees -------------------------
+    _check(res, "label: an overlay's own listing attests a callee in it",
+           cls(attest(OVERLAY_FUNC, "thumb", 0, 0)), "label")
+    _check(res, "label: the overlay label's ISA has to be the declared ISA",
+           cls(attest(OVERLAY_FUNC, "arm", 0, 0)), None)
+    _check(res, "label: an image-wide compared range refuses an overlay "
+                "callee too",
+           cls(attest(OVERLAY_FUNC, "thumb", 0x02000000, 0x03000000)), None)
+    _check(res, "label: an overlay address no overlay labels is refused",
+           cls(attest(OVERLAY_THUMB_THUNK, "thumb", 0, 0)), None)
+
+    # --- the veneer class --------------------------------------------------
+    _check(res, "veneer: a linker veneer attests its own address",
+           cls(attest(VENEER, "arm", 0, 0)), "veneer")
+    _check(res, "veneer: a compared range covering the veneer is refused",
+           cls(attest(VENEER, "arm", 0x02072780, 0x020727A0)), None)
+    _check(res, "veneer: a compared range covering only its pointer word is "
+                "refused",
+           cls(attest(VENEER, "arm", 0x02072790, 0x02072794)), None)
+    _check(res, "veneer: the class never applies to a Thumb symbol",
+           cls(attest_veneer(VENEER, "thumb", 0, 0)), None)
+    _check(res, "veneer: the class never applies to data",
+           cls(attest_veneer(VENEER, "data", 0, 0)), None)
+    _check(res, "veneer: a pointer word that names no known function is "
+                "refused",
+           veneer_at(VENEER_UNCONFIRMED), None)
+    _check(res, "veneer: the Thumb tail-call shape is not a veneer",
+           veneer_at(THUMB_THUNK), None)
+    _check(res, "veneer: nor is the linker's own Thumb form",
+           veneer_at(OVERLAY_THUMB_THUNK), None)
 
     # --- the literal class -----------------------------------------------
     _check(res, "literal: eighteen pool words attest a data address",
@@ -2106,6 +2691,29 @@ def cmd_selftest(args):
     # printable, so condition (5) refuses it.
     _check(res, "string: a zero blob is not a terminated neighbour",
            cls(attest_string(0x020A70D0, 0, 0)), None)
+    # The padding window: ten NULs, two dead words past the alignment, and
+    # 0x020A706C is still the only address in the run at which a string
+    # begins.
+    _check(res, "string: a wide NUL run still fixes one start",
+           cls(attest_string(STR_BOX_SAVEDATA, 0, 0)), "string")
+    _check(res, "string: the empty string inside that run is not a start",
+           cls(attest_string(STR_EMPTY_IN_PADDING, 0, 0)), None)
+    _check(res, "string: a NUL run longer than the measured bound is refused",
+           cls(attest_string(STR_FAR_NEIGHBOUR, 0, 0)), None)
+    _check(res, "string: the wide window still refuses a witness inside the "
+                "compared range",
+           cls(attest_string(STR_BOX_SAVEDATA, 0x020A7000, 0x020A7100)), None)
+
+    # --- two files attesting each other ------------------------------------
+    # The pairwise case needs no machinery of its own: a compared range is one
+    # translation unit, so a call site in a sibling file is simply outside it.
+    # Both witnesses inside one range is what caps such a file at MATCH.
+    _check(res, "pairwise: a sibling file's call site is an outside witness",
+           cls(attest(OS_GETOWNERRTCOFFSET, "arm", 0x02008B4C, 0x02008C20)),
+           "label")
+    _check(res, "pairwise: one range holding both call sites has none",
+           cls(attest(OS_GETOWNERRTCOFFSET, "arm", 0x02008AEC, 0x02008C20)),
+           None)
 
     # --- the three documented end-to-end behaviours -----------------------
     if not args.quick:
@@ -2234,6 +2842,11 @@ def main(argv=None):
     p5.add_argument("--flags", default="-O4,p")
     p5.add_argument("--diff", action="store_true")
     p5.add_argument("--keep", action="store_true")
+    p5.add_argument("--suggest-split", action="store_true",
+                    dest="suggest_split",
+                    help="report which re-cuts of this range would give "
+                         "every relocation a witness outside it; writes "
+                         "nothing")
 
     p3 = sub.add_parser("manifest",
                         help="rebuild the layout/matched/ shards from src/")
