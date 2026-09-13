@@ -1,0 +1,21 @@
+# ROMs and dumps — never commit copyrighted game data
+*.nds
+*.zip
+*.bin
+baserom*
+
+# Extracted ROM contents (copyrighted game code/assets)
+/extract/
+
+# Build output
+/build/
+
+# Downloaded tool binaries (fetched by setup script)
+/tools/*.exe
+/tools/dsd
+
+# Editor/OS noise
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
