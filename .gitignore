@@ -18,9 +18,17 @@ baserom*
 # any binary out of it.
 !/layout/
 
+# Proprietary vendor material (compiler, SDKs): never commit any of it
+/vendor/
+/sdk/
+/tools/mwccarm/
+
 # Downloaded tool binaries (fetched by setup script)
 /tools/*.exe
 /tools/dsd
+
+# Unpacked GNU binutils/gcc for ARM (xpack zip, several hundred MB)
+/tools/gcc-arm/
 
 # Editor/OS noise
 .vscode/
