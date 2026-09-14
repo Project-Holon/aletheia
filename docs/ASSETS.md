@@ -4654,3 +4654,166 @@ three archives:
   `overworld.py`'s mapping_type-0-only compositing -- worth reusing for
   any future archive whose NCER declares `mapping_type` 1/2 or whose NCGR
   declares `char_format` 1.
+
+## Twelfth lane pass: the `a/0/0/4` rig poses -- NANR sequence record and OAM tile addressing both corrected from the game's own code, 712/714 species rendered
+
+Mission: settle two rules from the decompiled G2D module rather than by
+guessing, then fix `tools/assets/rig.py`. Both rules came out wrong in every
+previous pass, and fixing them is what finally clears the "recognizable
+creature" bar that has been open since the fifth lane pass. Species 25, 1, 6
+and 150 were rendered and inspected directly; all four are unmistakable.
+
+### Rule 1 -- the NANR sequence record: `func_02062688` (the `KNBA`/ABNK fixup) states it outright
+
+The animation bank's offset-to-pointer fixup routine at **0x02062688** walks
+the whole structure adding base addresses to exactly the fields that are
+offsets, so both the field positions and the base each offset is relative to
+are directly observable:
+
+```
+bank +0x00 u16 numSequences        sequence +0x00 u16 numFrames
+     +0x02 u16 numTotalFrames               +0x02 u16 loopStartFrameIdx
+     +0x04 -> sequence array (16B)          +0x04 u32 animType
+     +0x08 -> frame-entry array (8B)        +0x08 u32 playMode
+     +0x0C -> frame-data pool               +0x0C -> this sequence's frames,
+     +0x14 -> embedded sub-resource               relative to bank +0x08
+```
+
+The fixup adds `bank->frameArray` into each sequence's +0x0C, then walks that
+sequence's own `numFrames` frame entries adding `bank->frameDataPool` into
+each entry's first word. **A sequence's frames are therefore a contiguous run
+of the shared frame-entry array located by its own +0x0C byte offset** -- not,
+as the eighth pass read it, by a start index stored at +0x00. The 16-byte
+sequence stride is independently pinned by `func_020627D8`'s `lsl #4` (now
+filed EXACT), and the 8-byte frame-entry stride by `func_020643CC`'s
+duration-summing loop at 0x020644B8.
+
+What the eighth pass actually had: the u32 at +0x00 is `numFrames |
+loopStart << 16`, and the u16 it read as `num_frames` at +0x04 is `animType`'s
+low half (constant 1 or 2 here). So every sequence looked one frame long and
+every frame lookup landed on entry number `numFrames` of the shared array
+instead of on that sequence's own first frame. **That is the complete
+explanation for the eleventh pass's "7 of 8 nodes resolve to the same NCER
+cell"**: the lookups were reading a near-arbitrary common region. Species 25's
+bytes confirm the corrected reading exactly -- the 20 sequences' frame offsets
+run 0, 144, 392, 536, ... 3216, each the running sum of the preceding
+`numFrames * 8`, the last sequence's single frame landing on entry 402 of
+`numTotalFrames = 403`: a clean partition with zero leftover entries. With the
+corrected walk species 25's ten rest-pose nodes resolve to **ten distinct
+cells** (6, 5, 10, 0, 3, 2, 1, 4, 7, 8 of 11).
+
+The frame-data record shape is chosen by `animType & 0xFF`, the renderer's own
+mask (`func_0206419C` +0x4C), and **all three shapes really occur in this
+archive**, which is why always decoding the 16-byte one was also wrong:
+
+| type | record | species 25 uses it for |
+| --- | --- | --- |
+| 0 index | `{u16 cellIdx}` | the feet |
+| 1 SRT | `{u16 cellIdx, u16 rotZ, s32 sx, s32 sy, s16 px, s16 py}` | most parts |
+| 2 T | `{u16 cellIdx, u16 pad, s16 px, s16 py}` | the head |
+
+The px/py field positions are read straight off `func_0206419C`: +0x04/+0x06
+for type 2, +0x0C/+0x0E for type 1. The eighth pass's "sx/sy read 4096 == FX32
+1.0" observation stands, so frame 0 needs no affine transform.
+
+### Rule 2 -- OAM tile addressing: the sheet is a linear bitmap and the index is two-dimensional
+
+Two independent errors, both in the same place:
+
+1. **`a/0/0/4`'s main NCGR is in bitmap character format, not tiled.** The
+   RAHC body's u32 at +0x0C is `char_format`: local 2 declares **1** (linear)
+   while the small local-0 sheet declares 0 (tiled). Reading the linear sheet
+   as 8x8 tiles is what turned every body part into 8-pixel-tall horizontal
+   streaks in every render from the fifth pass onward -- rendering the same
+   bytes as a plain 256x128 4bpp image instead immediately shows Pikachu's
+   head (red cheek included), ears, tail and feet laid out as an atlas.
+2. **An OAM's tile index is a 2D block index, not a flat byte offset.** Block
+   `i` sits at column `i % tile_num_x`, row `i // tile_num_x`, and an OAM
+   taller than one block steps by `tile_num_x` per block row rather than by
+   its own width. Species 25's cell 0 proves this from the data alone with no
+   code reading needed: a 16x16 OAM at index 99 is immediately followed by an
+   8x16 OAM at index 101, which can only avoid overlapping if the first
+   consumes blocks 99/100 and 131/132 (two rows of a 32-wide sheet) rather
+   than the four consecutive blocks 99..102. The `mapping_type = 4` the fifth
+   pass read out of the NCER header is not a byte stride under this reading
+   and plays no part in it.
+
+The cell-array / OAM-array split this module already used is separately
+confirmed by the game: `func_020627F0` returns the address one past the last
+cell record (8 bytes per cell, 16 when the bank attribute's bit0 is set) and
+`func_02062884` adds exactly that into every cell's own offset field.
+
+Note that the census pass above already found the `char_format` bug in
+`trainer_locate.py` and credited `rig.py`'s docstring with the distinction;
+in fact `rig.py` had never handled it either. It does now.
+
+### Node semantics, re-confirmed (not changed) from `func_020643CC`
+
+The eleventh pass's node reading is right and is now witnessed by the walk the
+game runs: `func_020643CC` steps the node array by 8 bytes, passes the u16 at
++0x00 straight to `func_020627D8` as a **sequence index**, takes the byte at
++0x07 as a cell-animation **slot** (`func_02064648` sizes that array of
+0x5C-byte states from the descriptor's `numCellAnims`, which is why the byte
+just counts 0, 1, 2, ...), and hands the s16 at +0x02/+0x04 to `func_020640DC`
+as the node's x/y translation. So cell selection is never the node's own
+business: the node names a sequence, the sequence's current frame names the
+cell. Placement is a straight sum of the node's (posX, posY), the frame's own
+(px, py) and each OAM's cell-local (x, y) -- no bounding-box re-centering; the
+seventh pass's bbox-center anchor was a workaround for the broken cell
+assignment and is now deleted along with the dead `compose_rest_pose()`.
+Nodes are painted back-to-front (last node first), since they are emitted into
+the hardware OAM list in array order and a lower OAM index draws in front.
+
+### Result: the bar is met
+
+`build/assets/rig/0025_pose.png` (59x56) is **unmistakably Pikachu** --
+correct silhouette, black-tipped ears, eye, red cheek, tail, feet -- checked
+by direct visual inspection at 6x nearest-neighbour, not inferred from pixel
+statistics. `0001_pose.png` (53x55) is unmistakably Bulbasaur (bulb, blue-green
+body, red eye), `0006_pose.png` (95x96) unmistakably Charizard (orange body,
+blue wings, tail flame), `0150_pose.png` (85x82) unmistakably Mewtwo (grey
+body, purple tail and belly, head crest). Spot checks across the batch:
+`0094.png` is Gengar, `0643.png` is Reshiram. The per-cell contact sheet
+`0025_cells.png` now shows clean, individually recognizable body parts (head
+with cheek, body, two ears, tail, hands, feet) instead of fragments.
+
+`--all` renders **712 of 714 slots**, the same two trailing non-rig slots
+(712, 713) skipping cleanly as in previous passes.
+
+### Functions filed EXACT this pass
+
+- `src/matched/func_020627D8.c` (pkt_02061EB8) -- animation-bank sequence
+  lookup; its `lsl #4` is the 16-byte sequence stride, and the header block
+  records the full ABNK layout that `func_02062688` proves.
+- `src/matched/func_0206285C.c` (pkt_02062820) -- cell lookup by index, whose
+  `tst #1` plus twin shifts pin the 8-vs-16-byte cell stride.
+
+Both verified with `match.py one` and gated with `manifest --verify --shard`.
+
+### Remaining gaps
+
+- **`func_020627F0` is a 23-of-32-byte near miss**, parked in
+  `docs/notes/func_020627F0.c.txt`: the original loads `bank->cells` once per
+  branch arm and -O4,p common-subexpression-eliminates the two loads in every
+  spelling tried (void pointer plus casts, a union of the two cell-pointer
+  types, two differently typed bank structs). Semantics are certain; only the
+  duplicated load is unexplained.
+- **`func_02062688` (the ABNK fixup) and `func_02062884` (the CEBK fixup) are
+  read but not decompiled.** Both are the direct witnesses for the rules
+  above and are the obvious next EXACT targets; `func_02062884`'s redundant
+  re-store of the VRAM-transfer pointer at +0x0C looks like the same
+  store-then-reload idiom that capped `func_0206296C` at 120/124 bytes.
+- **Some species place a few parts detached from the body** (Charizard's feet
+  sit below the figure, Gengar has an arm and a leg off to the right). The
+  figure is still unambiguous in every case checked, and the same node/frame
+  path produces perfectly assembled results for species 25/1/150, so this is
+  more likely a per-species authored frame-0 extreme (or a second multi-cell
+  group being the intended rest assembly for those species) than a decode
+  error -- not chased this pass.
+- Only multi-cell group 0 is rendered; group 1 (identical node count, a
+  different sequence set) is parsed but unused, and the `--anim`/`--frame`
+  flags remain informational. `compose_pose()` does now take a `frame`
+  argument, so animating a sequence is a small step from here.
+- The `nodeAttr` byte's low nibble (0 or 1, selecting `func_020643CC`'s
+  duration-summing path) and the NMAR resource are still undecoded; neither
+  is needed for a static pose.

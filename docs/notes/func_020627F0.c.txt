@@ -1,0 +1,97 @@
+func_020627F0 (0x020627F0, arm9, ARM, pkt_02061EB8) -- near miss, 23 of 32 bytes
+
+Semantics are certain (see the header block below): return the address one past
+the last cell record of an NCER 'KBEC' cell data bank, stepping 16 bytes per
+cell when the bank attribute's bit0 is set and 8 otherwise. That address is the
+base every cell's OAM offset is relative to, which func_02062884 proves by
+calling this once and adding the result into each cell's own offset field.
+
+The miss is a single re-load. The original loads `bank->cells` twice, once in
+each arm of the branch:
+
+    +000C  ldrne r0, [r0, #4]
+    +0010  addne r0, r0, r1, lsl #4
+    +0014  ldreq r0, [r0, #4]
+    +0018  addeq r0, r0, r1, lsl #3
+
+-O4,p common-subexpression-eliminates the two loads into one unconditional
+`ldr r0, [r0, #4]` in every spelling tried: a void* member with two casts and
+two multiplies; a union of `struct CellData *` and `struct CellDataEx *`; and
+two differently typed bank structs with the pointer re-read through a cast of
+the bank pointer itself. The first three instructions (ldrh attr, tst, ldrh
+numCells) and both adds are byte-identical in every variant, so only the
+duplicated load is unexplained. Whatever the original spelling is, it puts the
+member load inside each branch in a way the optimiser will not merge --
+plausibly two inlined per-kind helpers, not yet found.
+
+Body that produces the 28-byte version:
+
+/*
+ * function: func_020627F0
+ * address:  0x020627F0
+ * packet:   pkt_02061EB8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * *
+ * Returns the address one past the last cell record of an NNS G2D cell data
+ * bank (the NCER file's 'KBEC' block body), stepping by 16 bytes per cell when
+ * the bank attribute's bit0 says cells carry a bounding box and 8 otherwise --
+ * the same stride choice func_0206285C makes for a single cell.
+ *
+ * That address is the OAM array's base: the block's fixup routine
+ * (func_02062884) calls this once, then adds the result to every cell's own
+ * offset field, so a cell's OAM offset is relative to the end of the cell
+ * array rather than to the block body.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020627F0.c  *       --func func_020627F0 --addr 0x020627F0 --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+
+struct CellData {
+    u16 numOam;
+    u16 cellAttr;
+    void *oam;
+};
+
+struct CellDataEx {
+    u16 numOam;
+    u16 cellAttr;
+    void *oam;
+    s16 top;
+    s16 left;
+    s16 bottom;
+    s16 right;
+};
+
+struct CellDataBank {
+    u16 numCells;
+    u16 bankAttr;
+    struct CellData *cells;
+};
+
+struct CellDataBankEx {
+    u16 numCells;
+    u16 bankAttr;
+    struct CellDataEx *cells;
+};
+
+void *func_020627F0(struct CellDataBank *bank)
+{
+    if (bank->bankAttr & 1) {
+        return &((struct CellDataBankEx *)bank)->cells[bank->numCells];
+    }
+
+    return &bank->cells[bank->numCells];
+}
