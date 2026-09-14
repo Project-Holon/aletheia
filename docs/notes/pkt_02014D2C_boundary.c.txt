@@ -1,0 +1,127 @@
+pkt_02014D2C / pkt_02014D90, arm9, asm/arm9/src/005_02013528.s.
+Not a near miss: an investigation of a disassembler function-boundary
+artifact, requested as the mission's third, budget-permitting item.
+No source file written; this is too large a single unit to verify
+inside a normal packet's budget (see CONCLUSION).
+
+THE CLAIM TO CHECK
+-------------------
+pkt_02014D2C ("the worklist function at 0x02014D2C branches into
+0x0201557C mid-body because a listing label splits one function") and
+its neighbour pkt_02014D90 look, from the worklist alone, like a
+plain fall-through split. The actual shape is worse than a two-way
+split: it is a single real C function whose body is fragmented across
+*three* worklist packets by two separate false labels, not one.
+
+WHAT THE BYTES ACTUALLY SHOW
+------------------------------
+Four disassembler-visible symbols, in address order:
+
+    func_02014D2C   0x02014D2C  push {r4,r5,r6,r7,lr}; sub sp, #0x1b4
+    func_02014D90   0x02014D90  no push, no sub sp
+    loc_0201557C    0x0201557C  no push (correctly NOT a func_ label)
+    func_02015590   0x02015590  no push; add sp, #0x1b4; pop {r4..r7,pc}
+    func_020155A0   0x020155A0  push {r3,r4,r5,r6,r7,lr}; sub sp, #0x50  (a genuine new function)
+
+func_02014D2C falls straight through into func_02014D90 with no branch
+and no epilogue in between (0x02014D8E's `str r0,[r2]` is immediately
+followed by 0x02014D90's `ldr r0,[sp,#0x44]`), so the two are one
+function's prologue and body at the very least.  func_02014D90's own
+body reaches loc_0201557C by three different `b`/`bge` edges (0x02014DB2,
+0x0201539E, and the fall-through at 0x02015578), which is exactly what
+an internal loop-continue label looks like, and disasm.py correctly did
+not promote loc_0201557C to a func_ label (no `push`, nothing calls it
+with `bl`).
+
+The two false splits are func_02014D90 and func_02015590, and both have
+the same signature: no `push`/no `sub sp` of their own, meaning neither
+establishes an independent stack frame. func_02015590's epilogue,
+`add sp, #0x1b4; pop {r4, r5, r6, r7, pc}`, exactly undoes func_02014D2C's
+own prologue (`push {r4,r5,r6,r7,lr}; sub sp, #0x1b4`) and nothing else
+in the whole 2164 byte range pushes that register set or allocates that
+stack size. A function that borrows its caller's frame and never
+establishes its own is not a callable function in the normal sense; it
+is a label some other part of the *same* function's own body jumps to.
+
+Both false labels exist only because something targets them with `bl`:
+
+  * `bl #0x2015590` at 0x02014D74 -- reached from func_02014D2C's own
+    early guard (`if (count <= 0) goto epilogue;`), before func_02014D90
+    is ever entered.
+  * `bl func_02014D90` at 0x0201558C -- reached from inside loc_0201557C,
+    after incrementing the loop index and finding it still under the
+    limit (`if (++idx < limit) goto top;`).
+
+Neither `bl` is a real call: in both cases, the instruction immediately
+after the `bl` is never reached by the callee returning to it (nothing
+does `bx lr` back to 0x02014D78 or to 0x02015590+2; both callees run
+straight through to the shared epilogue at 0x02015590..0x02015598 and
+`pop {..,pc}` there, which returns to whoever called *0x02014D2C*, the
+outermost frame). `bl` is standing in for a plain `b` here purely for
+reach: Thumb's unconditional `b` only reaches +/-2048 bytes, and both
+of these jumps (0x02014D74 -> 0x02015590 is 0x81C bytes; 0x0201558C ->
+0x02014D90 is -0x6FC bytes) are outside that range but well inside
+`bl`'s +/-4MB range, so the front end reused the call encoding as a long
+branch. The `label` evidence class match.py's honesty rules use for
+`bl` targets cannot distinguish this from a real call: both look
+identical in the object file.
+
+THE REAL EXTENT
+-----------------
+One function, 0x02014D2C..0x020155A0, 2164 bytes, matching the worklist
+functions from pkt_02014D2C plus the first two "functions" of
+pkt_02014D90 (0x02014D90 and 0x02015590), stopping exactly at
+func_020155A0 (a genuine new function: fresh `push {r3,r4,r5,r6,r7,lr}`,
+fresh `sub sp, #0x50`, and no incoming edge from anywhere inside
+0x02014D2C..0x02015598 as far as this pass checked).
+
+The worklist compounds the problem rather than just inheriting it:
+pkt_02014D2C reports `external_callers: 0` and `entry_points: []`, i.e.
+the packetizer found no `bl` targeting 0x02014D2C anywhere in the image
+(consistent with it being reached only through a function-pointer table,
+common for G3 render callbacks, which a static disassembly pass cannot
+see), while pkt_02014D90 reports `external_callers: 1` -- that one
+"external" caller is 0x02014D74, which is external only to pkt_02014D90's
+own address range, not external to the real function. Both packet
+records are accurate reflections of what disasm.py emitted; the flaw is
+upstream, in treating every `bl` target as a function boundary
+regardless of whether the target pushes its own frame.
+
+WHAT THE DISASSEMBLER SHOULD DO DIFFERENTLY
+----------------------------------------------
+docs/AGENT-BRIEF.md already documents the current rule precisely:
+"disasm.py only auto-labels a prologue that saves lr" for the *default*
+case, but the `label` evidence class explicitly also fires when "some
+branch anywhere in the image ... targets it from outside your range,"
+and that second path is what mislabels 0x02014D90 and 0x02015590 here:
+neither saves `lr`, so only the *branch-target* rule promoted them to
+`func_` symbols. The fix is narrow: a `bl` target should be treated as
+a probable in-function long branch, not a new function boundary, when
+its first instruction is not `push {..., lr}` (or an equivalent
+frame-establishing sequence) -- i.e. require both conditions (something
+branches to it AND it independently saves `lr`) before minting a
+`func_` label from a `bl` target, the same way a plain leaf accessor
+already needs the `push`/no-`push` distinction documented in
+docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md. A target
+reached only by `bl` and lacking its own frame-setup should get the
+`loc_` treatment loc_0201557C already correctly receives from `b`/`bge`
+edges, with a note (or a distinct label class) that it was reached by
+`bl` rather than `b`, since that is the detail a human reader needs to
+tell "long branch spelled as a call" apart from "real call this
+disassembly pass under-labelled."
+
+CONCLUSION
+----------
+Not attempted as a `tu` file: the real unit is 2164 bytes with an
+internal loop, two long-branch-as-call edges, and at least one
+externally-callable sub-entry (func_02015590, which a function pointer
+elsewhere may call standalone as a "just bail and set the flag" path,
+if such a caller exists outside this static pass's visibility) -- large
+enough, and structurally unusual enough (shared epilogue reached by both
+a real tail-call-shaped exit and a fabricated "recursive" `bl`), that it
+does not belong to a single packet's normal budget. This is filed as a
+disassembler-boundary finding for the integrator rather than forced into
+a source file: `layout/function_starts.txt` and `disasm.py` itself are
+both off limits to a packet agent under the write-set contract, and
+guessing at a `tu` split here without being able to adjust those would
+just recreate the same three-way fragmentation in the C sources.

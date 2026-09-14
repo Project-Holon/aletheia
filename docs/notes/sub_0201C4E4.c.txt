@@ -1,0 +1,226 @@
+func_0201C4E4 @ 0x0201C4E4 - printsys.c scheduler
+packet pkt_0201C4E4 - DIFF, right size (464 bytes with its pool, against the
+same 464 in the image), all 10 relocations resolved, 25 of 464 bytes differ
+
+The 456-byte main loop of the text stack: it drains as many queued print
+records as fit in the caller's time budget, restoring the text colour on the
+way out.  The listing extent reads 480 bytes because the sixteen bytes after
+the pool are an unlabelled leaf, not part of this function; 464 is the right
+answer and the compile hits it exactly.
+
+Everything structural is settled.  What is left is two localised scheduling
+choices, each worth a handful of bytes and neither changing the instruction
+multiset.  The source below is the state of the art and the place to restart.
+
+
+WHAT THE FUNCTION DOES
+
+Record kinds live in a signed four-bit bitfield at bits 20..23 of the record's
+second word.  Kind 0 and kind 2 mean "this record carries its own colour", and
+the entry code installs it before the loop starts; kind 1 means "install the
+colour and then mark the record as kind 2", which the loop does per record.
+The colour is a 5-5-5 halfword at +0xE of the record.  Between the two, the
+caller's colour is saved into a packed halfword and restored at the end.
+
+The loop body advances one record through func_0201C974 until the halfword at
+the cursor reads 0xFFFF, which is the end-of-record marker, checking the
+64-bit tick against the budget at +8 after every step.  When a record finishes
+the cursor moves to the next record through func_0201D7C4 and the read cursor
+is repositioned inside the ring at +0x18, wrapping twice: once for the 0x1C
+record stride and once for the four-byte header.
+
+Return value is 1 when the queue drained (and the object is reset) and 0 when
+the time budget ran out with work left.
+
+
+WHAT COST TIME AND IS SETTLED
+
+  - **The four-bit kind is signed.**  The read is `lsls #8` / `asrs #0x1c`;
+    a `u32` bitfield gives `lsrs` and the whole dispatch is wrong.
+  - **The low nibble of the byte at +7 is a bitfield, not a mask.**  The exit
+    path is `movs r0, #0xf` / `bics`, which is `ps->unk07lo = 0` on a `u8 x:4`.
+    Written as `ps->unk07 &= ~0xF` on a plain `u8` field, mwcc narrows the mask
+    to 0xF0 and emits `ands`, four bytes wrong.
+  - **The ring base is a spilled local assigned twice, and the second
+    assignment recomputes from `ps`.**  `base = (u8 *)ps; base = (u8 *)ps +
+    0x18;` gives the `str` / `adds` / `str` pair at 0x0201C582 that
+    docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-second-assignment-recomputes.md
+    describes.  Written `base += 0x18` the second statement reads `base`, mwcc
+    rematerialises the address at both use sites instead of giving it a frame
+    slot, the frame shrinks from 0x18 to 0x14, `push {r3, ...}` loses r3, and
+    the whole tail of the function moves.  That single change is worth eight
+    bytes directly and another four indirectly, because the freed r3 is what
+    lets the 64-bit subtraction below run in place.
+  - **The second use of the ring base is not the variable.**  The cursor
+    reposition at 0x0201C64A recomputes `ps + 0x18` rather than loading the
+    slot, so it is written `(u8 *)ps + 0x18 + o`, not `base + o`.  Using
+    `base` there is two bytes short.
+  - **The budget test is `elapsed > budget`, not `budget < elapsed`.**  The
+    original subtracts the start tick out of the call's own return registers
+    (`subs r3, r0, r6` / `sbcs r1, r4`) and leaves the two halves in a
+    non-adjacent pair.  Written with the budget on the left mwcc copies the
+    call result into r2:r3 first and the function is four bytes long.
+  - **`go` is a flag whose zero comes out of `stop`'s frame slot.**  The
+    `ldr r0, [sp, #0x10]` before the kind dispatch is not a reload of `stop`,
+    it is mwcc materialising the constant 0 for `go` out of the slot that
+    already holds one.  Writing `go = 0;` after `saved` is assigned reproduces
+    it; writing it before costs twenty-two more bytes.
+
+
+WHAT IS LEFT: 25 BYTES IN TWO PLACES
+
+**+0x0042, seven instructions.**  The original finishes packing the saved
+colour and stores it before touching the record:
+
+    lsls r0, r0, #0x10 / lsrs r0, r0, #0x10 / str r0, [sp, #0xc]
+    ldr r1, [r5, #0x10] / ldr r0, [sp, #0x10] / ldr r2, [r1, #4] / lsls r2, #8
+
+the compile interleaves the two record loads into the packing:
+
+    ldr r1, [r5, #0x10] / lsls r0, r0, #0x10 / ldr r2, [r1, #4]
+    lsrs r0, r0, #0x10 / lsls r2, r2, #8 / str r0, [sp, #0xc] / ldr r0, [sp, #0x10]
+
+Same seven instructions, permuted; the block realigns at the `asrs`.  Tried
+and unchanged: binding the kind to a local before the test, writing the test as
+a `switch` with two empty falling cases, and moving `go = 0` (which makes it
+worse).
+
+**+0x0150, the two wrap tests.**  The original keeps the candidate offset in r1
+and the ring size in r0, loading the size after computing the offset; the
+compile loads the size first and keeps the offset in r0 then r2.  The compare
+operand order is already right in both (`cmp offset, size`), only the registers
+differ, and the knock-on is the final `adds r0, r0, rX`.  Tried and unchanged:
+`o` as `u16` and as `u32` with explicit casts, the size bound hoisted into a
+named local before and after the offset, reusing `off` instead of a second
+local, swapping the operands of the final address add, and six declaration
+orders of the eight scalars.
+
+Neither is a size difference and neither touches a relocation, so whoever picks
+this up is looking for a scheduling lever, not a new reading of the code.
+
+
+THE SOURCE AS IT STANDS
+
+typedef unsigned char       u8;
+typedef unsigned short      u16;
+typedef unsigned int        u32;
+typedef unsigned long long  u64;
+typedef signed int          s32;
+
+struct Rec {
+    u32 unk00;
+    u32 pad04a : 20;
+    s32 kind   : 4;
+    u32 pad04b : 8;
+    u32 pad08;
+    u16 pad0C;
+    u16 unk0E;
+};
+
+struct PrintSys {
+    u16 unk00;
+    u16 unk02;
+    u16 unk04;
+    u8  unk06;
+    u8  unk07lo : 4;
+    u8  unk07hi : 4;
+    u64 unk08;
+    struct Rec *unk10;
+    u16 *unk14;
+    u8  buf[4];
+};
+
+extern void  func_0201DE00(u8 *r, u8 *g, u8 *b);
+extern u32   func_0201DE18(u32 r, u32 g, u32 b);
+extern void  func_0201DD78(u32 r, u32 g, u32 b);
+extern u64   func_020870D0(void);
+extern u16  *func_0201C974(struct Rec *rec, u16 *p, u32 f);
+extern struct Rec *func_0201D7C4(struct PrintSys *ps, struct Rec *rec);
+
+u32 func_0201C4E4(struct PrintSys *ps)
+{
+    u8  col[3];
+    u32 stop;
+    s32 saved;
+    u32 rr;
+    u32 bb;
+    u8 *base;
+    u32 r;
+    u32 g;
+    u32 b;
+    u32 go;
+    u32 gg;
+    u32 off;
+    u16 o;
+    u64 t0;
+
+    stop = 0;
+    ps->unk06 = (u8)(ps->unk06 + 1);
+    if (ps->unk10 == 0) {
+        return 1;
+    }
+    func_0201DE00(&col[2], &col[1], &col[0]);
+    saved = (u16)(((col[2] & 0x1F) << 10) | ((col[1] & 0x1F) << 5) |
+                  (col[0] & 0x1F));
+    go = 0;
+    if (ps->unk10->kind == 0 || ps->unk10->kind == 2) {
+        r = (u8)((ps->unk10->unk0E >> 10) & 0x1F);
+        g = (u8)((ps->unk10->unk0E >> 5) & 0x1F);
+        b = (u8)(ps->unk10->unk0E & 0x1F);
+        go = 1;
+    }
+    if (go != 0) {
+        if (func_0201DE18(r, g, b) != 0) {
+            func_0201DD78(r, g, b);
+        }
+    }
+    t0 = func_020870D0();
+    if (ps->unk10 != 0) {
+        base = (u8 *)ps;
+        base = (u8 *)ps + 0x18;
+        do {
+            if (ps->unk10->kind == 1) {
+                rr = (u8)((ps->unk10->unk0E >> 10) & 0x1F);
+                gg = (u8)((ps->unk10->unk0E >> 5) & 0x1F);
+                bb = (u8)(ps->unk10->unk0E & 0x1F);
+                if (func_0201DE18(rr, gg, bb) != 0) {
+                    func_0201DD78(rr, gg, bb);
+                }
+                ps->unk10->kind = 2;
+            }
+            while (ps->unk14[0] != 0xFFFF) {
+                ps->unk14 = func_0201C974(ps->unk10, ps->unk14, 1);
+                if (func_020870D0() - t0 > ps->unk08) {
+                    stop = 1;
+                    break;
+                }
+            }
+            if (ps->unk14[0] == 0xFFFF) {
+                off = (u16)((u8 *)ps->unk10 - base);
+                ps->unk10 = func_0201D7C4(ps, ps->unk10);
+                if (ps->unk10 != 0) {
+                    off += 0x1C;
+                    o = (u16)off;
+                    if (o >= ps->unk04) {
+                        o = 0;
+                    }
+                    o = (u16)(o + 4);
+                    if (o >= ps->unk04) {
+                        o = 0;
+                    }
+                    ps->unk14 = (u16 *)((u8 *)ps + 0x18 + o);
+                }
+            }
+        } while (stop == 0 && ps->unk10 != 0);
+    }
+    func_0201DD78((u8)((saved >> 10) & 0x1F), (u8)((saved >> 5) & 0x1F),
+                  (u8)(saved & 0x1F));
+    if (ps->unk10 != 0) {
+        ps->unk02 = (u16)((u8 *)ps->unk14 - ((u8 *)ps + 0x18));
+        return 0;
+    }
+    ps->unk00 = 0;
+    ps->unk02 = ps->unk04;
+    ps->unk07lo = 0;
+    return 1;
+}

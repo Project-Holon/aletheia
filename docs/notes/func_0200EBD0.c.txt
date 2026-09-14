@@ -1,0 +1,74 @@
+func_0200EBD0 @ 0x0200EBD0, 60 concrete bytes (of a 92-byte listing
+extent that runs into an unlabelled follower's own literal pool /
+prologue bytes past the alignment pad).
+DIFF, right size for the compared 68-byte range, identical control flow,
+6 concrete bytes wrong: a pure register-class swap, r6 (callee-saved)
+in the original versus r1 (caller-saved) in every C shape tried.
+
+WHAT IT IS
+----------
+A ring-buffer style record dispatcher: while a saturating counter at
++0x1558 is below 9999, hands the record at slot +0x1554 (mod 15, record
+size 0x16C == 0x5b*4) to func_0200EA3C, then advances both the slot
+index (wrapping at 15 back to 0, re-read from memory rather than kept
+in a register across the call) and the +0x1558 counter.
+
+    struct Obj { ...; u32 unk1554; u32 unk1558; };
+
+    void func_0200EBD0(struct Obj *obj)
+    {
+        if (obj->unk1558 < 9999) {
+            u32 idx = obj->unk1554;
+            func_0200EA3C((u8 *)obj + idx * 0x16c);
+            idx = obj->unk1554 + 1;
+            obj->unk1554 = idx;
+            if (idx >= 15) {
+                obj->unk1554 = 0;
+            }
+            obj->unk1558 += 1;
+        }
+    }
+
+Every control edge, every offset, the wrap-at-15 clamp, and the deliberate
+re-read of obj->unk1554 after the call (rather than reuse of the local
+that fed the call's address argument) are all byte for byte right; that
+re-read is the docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-second-assignment-recomputes.md
+pattern and getting it right (reload, not reuse) is what brought this
+down to a pure register-class difference.
+
+WHAT IS STILL WRONG
+--------------------
+Both temporaries this function loads before using once (the +0x1558
+value compared against 9999, and the +0x1554 index used as the call's
+address multiplier) sit in r6 in the original, a callee-saved register
+this function already spends a push/pop slot on for r4 (the +0x1554/
++0x1558 offset constant, reused with a -4 adjustment) and r5 (the obj
+pointer). Neither value is actually live across the `bl func_0200EA3C`
+call in the original either (the +0x1558 value is fully consumed by the
+`cmp`/`bhs` before the call, and the +0x1554 value is consumed by the
+`muls` before the call), so there is no correctness reason for the
+original to have picked a callee-saved register over a caller-saved one
+-- yet it did, spending the extra push/pop pair for a value that didn't
+need to survive.  Every C shape tried here (implicit expression, a named
+`idx` local, an extra named `count` local for the first check) puts the
+value in r1 (caller-saved) instead, saving a register in the push/pop
+list, 6 bytes narrower in that instruction pair and correspondingly
+6 concrete bytes different.
+
+This is the same register-swap family the mission's void-return idiom
+describes (one register letter, otherwise identical bytes), but the
+lever there does not apply: the function is `void`, takes one pointer
+argument, and there is no switch dispatch or callee-result liveness in
+play, just which physical bank the allocator picked for a short-lived
+temporary. Not tried: forcing `register` storage class on the two
+temporaries (mwcc's `register` keyword handling for this front end is
+unverified elsewhere in the tree), and splitting the function at the
+call site the way docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md
+describes, which does not apply here since there is only one call site
+in the whole function.
+
+CONCLUSION
+----------
+Left as DIFF; no plausible C restructuring changes which physical
+register a short-lived caller-saved-shaped temporary lands in on this
+front end. Queued for a future attempt with `register` hints.

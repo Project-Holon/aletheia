@@ -22,11 +22,13 @@
  * marker pair (begin/end) around nothing in between.
  *
  * func_02011D40 and func_02011D7C, on either side of the function between
- * this pair, are a documented near miss: every concrete byte reproduces
- * except that the pointer/value registers of their single
- * `struct.unk04 += 1` come out r0/r1 instead of the original's r1/r0, a
- * four-byte difference neither a local variable, a pointer-vs-array
- * rewrite, nor a two-statement read-then-store form changed.
+ * this pair, were a documented register-swap near miss on their single
+ * `struct.unk04 += 1`; now EXACT (src/matched/func_02011D40.c and
+ * src/matched/func_02011D7C.c). The fix was declaring the global as a
+ * real struct and using field syntax (`g_02146248.unk04 += 1`) instead
+ * of raw pointer-plus-offset arithmetic; not merged into this unit
+ * because func_02011D60 between them stays out of the manifest (see
+ * below).
  *
  * The function between them, func_02011D60, reproduces every byte the
  * comparison covers, but is left out of the manifest: the listing's extent

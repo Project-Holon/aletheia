@@ -1,0 +1,137 @@
+NEAR MISS, sub_020343C0 @ 0x020343C0, areaman.c, 252 bytes of code.
+Verdict DIFF, 256 compiled against 260 in the listing: exactly one
+instruction short, and every other instruction is right.
+
+What matches: the whole prologue and the signed %8 / /8 quartets through
++0x30, the predicated if/else that picks the leading-byte mask, the
+first-byte read-modify-write, the 0xFF fill loop and the trailing partial
+byte.  From +0x64 on the two listings run in lockstep four bytes apart.
+
+The single missing instruction is at +0x6C:
+
+    02034064  add r4, r0, #0xc       ; p->bits
+    02034068  ldrb lr, [r4, r1]      ; v = p->bits[idx]
+    0203406C  add r4, r4, r1         ; q = &p->bits[idx]      <- not emitted
+    02034070  tst ip, lr
+
+and it is not a cosmetic difference, it is what decides the whole register
+allocation.  In the original the second hook call takes `*q`:
+
+    02034084  and r0, ip, #0xff
+    02034088  bl  020344C4
+    0203408C  ldrb r0, [r4]          ; through q, not through idx
+    02034090  bl  020344C4
+
+so `idx` is dead across both calls and can live in r1, and the function
+gets away with `push {r4, lr}`.  Every spelling tried here keeps the
+addressing in the base+index form, `ldrb r0, [r4, r5]`, which makes `idx`
+live across the calls, forces it into a second callee-saved register and
+turns the prologue into `push {r3, r4, r5, lr}`.
+
+Spellings tried, all folding the pointer back into an index:
+
+  - `q = &p->bits[idx]; v = *q;`
+  - `v = p->bits[idx]; q = &p->bits[idx];` (emission order of the original)
+  - `base = p->bits; v = base[idx]; q = base + idx;` (explicit two-step
+    pointer arithmetic, so that the `add` is written in the source)
+  - `q = &p->bits[start / 8];` with `idx` first computed after the guard,
+    so that the pointer is the only thing live at the branch
+  - reusing the `start` parameter as `idx` instead of a fresh local
+
+The last two are worse, not better: computing `start / 8` after the
+if/else lets the scheduler sink the `asr` past the predicated block and
+costs four more bytes at the top.
+
+Everything else in the function is settled, and worth keeping:
+
+  - `start` is signed.  The `lsr #31` / `rsb` / `ror #29` quartet is the
+    signed `% 8` and `add r1, r1, r3, lsr #29` / `asr #3` the signed `/ 8`;
+    a `u32` parameter collapses both to one `and`/`lsr` pair.
+  - `mask` is a plain `u32`, not a `u8`: the original never truncates it
+    after `asr ip, r4, ip`, and the two `and #0xff` sites are explicit
+    `(u8)` casts, one on the hook argument and one inside `v | (u8)mask`.
+  - the arm order is `if (avail >= len) { RunMask } else { TailMask }`.
+    Written the other way round the compiler predicates the wrong arm,
+    which is docs/idioms/the-fall-through-arm-is-the-source-order.md.
+  - the fill loop is `while (nfull-- != 0)`, a post-decrement in the
+    condition.  That is what produces the `cmp r3, #0` / `sub r3, r3, #1`
+    pair with the branch reading the compare rather than a `subs`.
+  - the two mask tables are separate symbols, RunMask at 0x020A048C (top
+    n bits) and TailMask at 0x020A0495 (low n bits), not one table with an
+    offset.
+
+The C as it stands:
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct AreaMan {
+    u16 unk00;
+    u16 unk02;
+    u32 *guard;
+    u32 unk08;
+    u8 bits[1];
+};
+
+extern const u8 Areaman_RunMask[];
+extern const u8 Areaman_TailMask[];
+
+extern void func_020344C4(u32 x);
+
+s32 sub_020343C0(struct AreaMan *p, s32 start, u32 len)
+{
+    u32 bit;
+    u32 idx;
+    u32 avail;
+    u32 nfull;
+    u32 tail;
+    u32 mask;
+    u8 *q;
+    u8 v;
+
+    if (start + len > p->unk00) {
+        return 0;
+    }
+
+    bit = start % 8;
+    avail = 8 - bit;
+    idx = start / 8;
+
+    if (avail >= len) {
+        mask = Areaman_RunMask[len] >> bit;
+        nfull = 0;
+        tail = 0;
+    } else {
+        len = len - avail;
+        mask = Areaman_TailMask[avail];
+        nfull = len >> 3;
+        tail = len & 7;
+    }
+
+    v = p->bits[idx];
+    q = &p->bits[idx];
+
+    if ((mask & v) != 0) {
+        if (p->unk08 != 0) {
+            func_020344C4((u8)mask);
+            func_020344C4(*q);
+        }
+        return 0;
+    }
+
+    *q = v | (u8)mask;
+    idx++;
+
+    while (nfull-- != 0) {
+        p->bits[idx] = 0xFF;
+        idx++;
+    }
+
+    if (tail != 0) {
+        p->bits[idx] |= Areaman_RunMask[tail];
+    }
+
+    return 1;
+}

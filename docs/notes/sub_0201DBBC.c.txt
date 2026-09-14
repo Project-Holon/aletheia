@@ -1,0 +1,74 @@
+func_0201DBBC @ 0x0201DBBC and func_0201DBF4 @ 0x0201DBF4
+packet pkt_0201DB20 - DIFF, right size, 12 and 15 bytes differ
+
+The two glyph fetchers of gf_font.c, one per storage mode.  Both end in the
+same call to func_0201DC44 (EXACT, src/matched/sub_0201DC44.c) and both come
+out the right length with the right instruction multiset; the only difference
+in either is *where the outgoing stack argument is stored* relative to the four
+register arguments of that final call.
+
+    void func_0201DBBC(struct Font *f, u32 i, void *d, u8 *out)
+    {
+        MI_CpuCopy8(f->unk0C + i * f->unk76, f->unk90, f->unk76);
+        func_0201DC44(f, f->unk90, f->unk7C, d, out);
+    }
+
+    void func_0201DBF4(struct Font *f, u32 i, void *d, u8 *out)
+    {
+        func_0204960C(f->unk50, f->unk80 + (f->unk8C + f->unk76 * i));
+        func_020495F4(f->unk50, f->unk76, f->unk90);
+        func_0201DC44(f, f->unk90, f->unk7C, d, out);
+    }
+
+Preloaded fonts copy the glyph out of the resident body; streamed fonts seek
+the archive and read it.  Note that the two multiplies are written the opposite
+way round, `i * f->unk76` in DBBC and `f->unk76 * i` in DBF4: the accumulator
+register of `muls` is the one holding the original's second operand
+(docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md)
+and the two functions really do disagree.  Getting either the wrong way round
+is three more bytes on top of the twelve below.
+
+
+THE DIFFERENCE
+
+    original                        compiled
+    adds r1, r5, #0                 adds r1, r5, #0
+    adds r0, r5, #0                 adds r0, r5, #0
+    adds r5, #0x7c                  str  r4, [sp]        <- here
+    adds r1, #0x90                  adds r5, #0x7c
+    ldrh r2, [r5]                   adds r1, #0x90
+    ldr  r1, [r1]                   ldrh r2, [r5]
+    adds r3, r6, #0                 ldr  r1, [r1]
+    str  r4, [sp]        <- there   adds r3, r6, #0
+    bl   func_0201DC44              bl   func_0201DC44
+
+Nothing else differs in either function.  The original fills the four argument
+registers and stores the fifth argument last, immediately before the branch;
+mwcc stores it third, as soon as nothing else needs the slot.
+
+This is worth recording because it is the opposite of what mwcc does everywhere
+else in this region.  func_0201D7EC (src/pending/sub_0201D7EC.c) and
+func_0201F250 (src/matched/sub_0201F250.c) both store their stack argument
+*before* the register arguments and both are byte-exact doing so, but in those
+two the stack argument's value needs r0 as scratch, so the order is forced.
+Here it does not, and the two functions disagree with the compile.
+
+Tried, all leaving the diff at exactly 12 and 15 bytes:
+
+  - `out` typed `void *` in the caller, in the callee, and in both.
+  - the fifth argument written `&out[0]`, and bound to a local first.
+  - explicit casts on the second and third arguments, to change the order the
+    argument expressions are type-checked in.
+  - func_0201DC44 declared and defined after its two callers, matching the
+    order the three functions appear in the image, with a prototype at the top
+    of the file; and the same with func_0201DC44 `static`.
+
+So it is not the argument list and not the callee's linkage.  The remaining
+candidate is that the fifth argument in the original is not the bare parameter
+but an expression mwcc schedules after the register arguments - which would
+mean func_0201DC44 takes something derived from `out` rather than `out`
+itself.  Its own body only ever writes `out[0..3]`, so if there is a derived
+form it is a cast or a struct pointer, not an offset.
+
+func_0201DC44 itself is EXACT and filed; these two are the only functions of
+pkt_0201DB20 left, along with func_0201DB20 (docs/notes/sub_0201DB20.c.txt).

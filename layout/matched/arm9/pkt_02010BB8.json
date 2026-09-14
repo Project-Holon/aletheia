@@ -66,6 +66,30 @@
     "func_02011D28",
     "func_02011D34"
    ]
+  },
+  {
+   "name": "func_02011D40",
+   "address": "0x02011D40",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02011D40.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02011D7C",
+   "address": "0x02011D7C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02011D7C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
   }
  ]
 }

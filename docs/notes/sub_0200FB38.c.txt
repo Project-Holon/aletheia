@@ -1,0 +1,63 @@
+sub_0200FB38 @ 0x0200FB38, 14 bytes (of a 20-byte extent shared with the
+next unlabelled follower), pkt_0200F83C.
+DIFF, right size, identical control flow, 5 concrete bytes wrong: a pure
+r0/r1 register swap.
+
+Already flagged as a near miss in src/matched/sub_0200FB24.c's header
+(sub_0200FB24 is the unlabelled-follower run this sits inside). Recorded
+here with the void-return idiom check applied, since the mission list
+named it as a re-attempt candidate.
+
+WHAT IT IS
+----------
+Bumps the module object at 0x0214617C (same object as sub_0200FB24 and
+sub_0200FB4C) from state 1 to state 2:
+
+    ORIGINAL @ 0200FB38                    COMPILED (best shape)
+    ldr r0, [pc, #0xc]                   | ldr r1, [pc, #0xc]
+    ldr r1, [r0, #0x2c]                  | ldr r0, [r1, #0x2c]
+    cmp r1, #1                           | cmp r0, #1
+    bne #0x200fb44                       | bne #0x200fb44
+    movs r1, #2                          | movs r0, #2
+    str r1, [r0, #0x2c]                  | str r0, [r1, #0x2c]
+    bx lr                                | bx lr
+
+THE VOID-RETURN CHECK
+----------------------
+docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md
+predicts exactly this shape of near miss (one register letter repeated
+throughout, rest identical), but that idiom is specifically about a
+switch dispatch index choosing r0 vs r1 depending on whether the callee's
+result is live. This function has no switch and no callee call at all;
+r0/r1 hold the object pointer and the loaded field value respectively,
+and nothing downstream consumes either past the `str`. There is no
+plausible non-void return here (the function has no useful value to
+return, and the original never sets r0 to anything but the object
+pointer, never to a status/bool), so the "return type" lever the idiom
+describes does not apply to this function; it is excluded, not just
+untried.
+
+WHAT WAS TRIED
+--------------
+* `u32 *obj = (u32 *)ADDR; if (obj[0x2c/4] == 1) obj[0x2c/4] = 2;`
+  -- the shape above, 5 bytes wrong (the swap only).
+* Both fields addressed via `*(u32 *)(ADDR + 0x2c)` with no named
+  pointer local -- worse, 8 bytes wrong, the compiler drops the `+0x2c`
+  displacement into the load/store instead of keeping it as an operand.
+* Splitting the load into a separate `u32 v = ...;` before the compare
+  -- same 8-byte result as the no-local form.
+* `void` return (matches the original, which never touches r0 as a
+  result) tried throughout; a `u32`/`int` return type was not tried
+  because there is nothing for the function to return: the original's
+  last instruction before `bx lr` is the `str`, not a value load into
+  r0.
+
+CONCLUSION
+----------
+Flat at 5 wrong bytes for the closest shape (a direct r0/r1 swap with no
+other difference). This reads as compiler register-allocation preference
+for the pc-relative load ordering (pointer into r0 vs r1 is decided
+before the field access, and this front end picks r1 first when nothing
+else has claimed a register yet), not something source-level return-type
+or statement-order changes reach. Leave at DIFF; no further C variation
+queued.

@@ -1,0 +1,104 @@
+sub_0200FAAC @ 0x0200FAAC, 120 bytes, pkt_0200F83C.
+DIFF, compiled 124 bytes (4 long), 46 concrete bytes wrong across two
+separate regions; everything in between (the bulk of the function) is
+byte for byte right.
+
+WHAT IT IS
+----------
+The gated startup sub_0200F734.c calls right after its own gate (see
+src/pending/sub_0200F734.c): bails unless func_02010054() reports ready
+and the module object at 0x0214617C is not already flagged +0x2c, claims
+the flag, bails unless func_0203CDBC() still reports active, then
+snapshots three pieces of state into the object (byte +0x59 from
+func_0203D798()'s returned pointer at offset 0x65, a 16-byte struct
+func_0203CA98() returns copied whole into +0x48..+0x58, and a byte from
+func_0203C990() into +0x58), and finally derives a result code into +0x5c
+from the snapshot byte and the second word of the copied struct (offset
++0x4c, which is inside the 16-byte block just copied in).
+
+    struct FourWords { u32 w0, w1, w2, w3; };
+    struct Obj { ...; u32 unk2c; ...; struct FourWords unk48; u8 unk58,
+                 unk59; ...; u32 unk5c; };
+
+    void sub_0200FAAC(void)
+    {
+        struct Obj *g = (struct Obj *)0x0214617C;
+        if (func_02010054() == 0 || g->unk2c != 0) return;
+        g->unk2c = 1;
+        if (func_0203CDBC() != 0) return;
+        g->unk59 = func_0203D798()[0x65];
+        g->unk48 = *(struct FourWords *)func_0203CA98();
+        g->unk58 = (u8)func_0203C990();
+        if (g->unk59 == 1 || g->unk59 == 2 || g->unk59 == 6) {
+            u32 t = g->unk48.w1 - 1;
+            if (t > 1) g->unk5c = 1; else g->unk5c = 2;
+            return;
+        }
+        g->unk5c = 2;
+    }
+
+Two things settled this got right that are worth keeping for the next
+attempt:
+
+* The 16-byte block at +0x48 is copied as one struct assignment
+  (`g->unk48 = *(struct FourWords *)src;`), which reproduces the
+  original's `ldm r3!, {r0,r1}` / `stm r2!, {r0,r1}` pair twice exactly
+  (docs/idioms/aggregate-assignment-is-ldm-stm.md). Copying field by
+  field (`g->unk48[0] = src[0]; ...`) instead produces four separate
+  ldr/str pairs and is wrong.
+* The two "store 2 into +0x5c" sites (one reached when the +0x59 byte is
+  none of 1/2/6, the other when the derived counter is <= 1) are NOT
+  tail-merged in the original despite being byte-identical (`movs r0,
+  #2; str r0, [r4, #0x5c]; pop {r4, pc}` at both 0x200FB0E and
+  0x200FB1A). Writing them as two separate `g->unk5c = 2;` statements in
+  two different arms (rather than factoring into one shared exit)
+  reproduces this; a shared exit was not tried further once the
+  unmerged shape matched the byte count.
+
+WHAT IS STILL WRONG
+--------------------
+Two disjoint regions, both register-allocation, not control flow:
+
+1. Entry (offset +0x02): the original loads the object pointer into r4
+   immediately after `push {r4, lr}`, before the first call to
+   func_02010054. Every C shape tried (pointer declared and initialized
+   as the first statement, the two guard conditions written both as
+   separate `if`s and combined with `||`) instead schedules the literal
+   load AFTER the first `bl`, since nothing needs the pointer's value
+   until the second condition. r4 is callee-saved, so the original's
+   choice costs nothing across the call, but the front end here treats
+   the load as schedulable no earlier than its first use. This 8-byte
+   region (ldr r4 / bl swapped in order, +6 bytes different immediate
+   encoding of the bl target since its offset moved) cascades a few
+   bytes forward (every subsequent branch target within the function
+   shifts by 2, hence the "concrete mismatch" on branch targets that are
+   otherwise the same relative jump).
+
+2. Tail (offset +0x58 onward): once inside the `t > 1` / else arms, the
+   compiled code reloads the object pointer through a fresh
+   `ldr r1, [pc, #0x1c]` literal instead of continuing to use r4, and
+   flips the comparison to `bls` (branch if same-or-lower) against the
+   same displacement `#0x200fb16` instead of the original's `bhi`
+   (branch if higher) to `#0x200fb14`; both are the same two-way split,
+   register- and polarity-swapped. This reads as the same class of
+   near miss the mission's void-return idiom describes (one register
+   letter, and here also one branch polarity, swapped through a whole
+   block) but no return-type lever applies: the function is `void`
+   throughout, matches the caller's own `extern void func_0200FAAC(void)`
+   declaration in src/pending/sub_0200F734.c, and there is no dispatch
+   index or callee result in play here at all, just which physical
+   register the tail block re-materializes the object pointer into.
+   Not tried further: declaring `t` as a `register` hint, reordering the
+   `if`/`else` arms, and replacing the two-branch split with a ternary
+   were not attempted this round; queued for a future pass rather than
+   guessed at here.
+
+CONCLUSION
+----------
+The middle ~70% of the function (every call, the byte snapshot, and the
+16-byte struct copy) is byte for byte right. The two remaining gaps are
+both codegen scheduling artifacts around register r4's lifetime, not
+missing evidence and not obviously return-type driven, so this stays
+DIFF rather than forced to MATCH. Left as a near miss for a future
+attempt with more time to sweep entry statement order and tail branch
+polarity.

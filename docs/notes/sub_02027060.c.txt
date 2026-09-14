@@ -1,0 +1,59 @@
+sub_02027060 @ 0x02027060, 44 bytes, pkt_02026250.
+DIFF, right size, identical control flow, 28 concrete bytes wrong: a
+whole-function instruction-scheduling reorder, not a register swap in
+the void-return idiom's sense.
+
+WHAT IT IS
+----------
+The priority gate the six unit_020271F8.c checkers all call: reads the
+event queue's current mode (`g_System->unk34`, u16), looks both the
+caller's id and the current mode up in a shared byte-truncated word
+table at 0x0209FC20 (`(u8)table[x]`, hence the `lsls #0x18`/`lsrs #0x18`
+truncation pair on each), and reports whether the id outranks the mode:
+
+    u32 sub_02027060(u32 id)
+    {
+        u16 mode = g_System->unk34;
+        u8 a = (u8)g_0209FC20[id];
+        u8 b = (u8)g_0209FC20[mode];
+        if (a < b) return 0;
+        return 1;
+    }
+
+This reproduces every control-flow edge and both table lookups exactly;
+g_System (the same volatile pointer unit_020271F8.c names) and
+g_0209FC20 both resolve as ABS32 relocations against real witnesses
+elsewhere in the image.
+
+WHAT IS STILL WRONG
+--------------------
+The original interleaves the two lookups for pipeline latency: it loads
+the g_System indirection pointer and the table base up front, then
+computes `id*4` before the `g_System` dereference's field load, then the
+`id` table read, then `mode*4`, then the `mode` table read -- reading
+mode textually first but scheduling its actual memory read in the
+middle of the id computation. The compiled shape here instead finishes
+`a` completely (table pointer load, `id*4`, table read, truncation)
+before even touching `g_System`, i.e. the opposite priority. This is a
+list-scheduling tie-break, not a control or register-class difference:
+every value ends up in the same registers (r0 = a, r1 = b at the final
+`cmp`), just materialised in a different order, which is enough to move
+28 of the 44 bytes since almost every instruction in the body is part of
+this reordered chain.
+
+WHAT WAS TRIED
+---------------
+* Statement order matching the source-reading order (`mode` local first,
+  then `a`, then `b`) -- the shape above; scheduled opposite to the
+  original despite matching textual order.
+* This is not the void-return dispatch-index idiom: there is no switch,
+  no callee whose result liveness changes, and no return-type lever
+  (the function already returns `u32`, matching its six callers, all of
+  which use the result in an `if`). Ruled out rather than left untried.
+
+Not yet tried: splitting `a`/`b` into differently-ordered compound
+expressions (e.g. computing `b` before `a`, or folding the truncation
+into the array type via a `u8` table pointer cast instead of a runtime
+shift pair) to see whether either changes the scheduler's tie-break.
+Left as a near miss; the honest control-flow shape above is a solid
+starting point for a future attempt.

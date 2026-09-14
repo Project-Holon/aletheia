@@ -1,0 +1,106 @@
+func_0201DB20 @ 0x0201DB20 - gf_font.c glyph index lookup
+packet pkt_0201DB20 - DIFF, 154 bytes compiled against 156
+
+The character-to-glyph-index lookup, and the function src/pending/sub_0201D854.c
+primes the fallback advance through.  The font's character map is a linked list
+of blocks; each block covers the character range [lo, hi] and says in its kind
+word how the indices inside it are stored:
+
+    kind 0   run:      index = data[0] + (c - lo)
+    kind 1   array:    index = data[(u16)(c - lo)]
+    kind 2   pairs:    binary search over data[1], data[3], ... with the
+                       answer in the slot after the key
+    otherwise          the font's fallback index at +0x70
+
+and a character outside the block walks to the next block, whose pointer is
+stored as an absolute address in the original file and has to be rebased onto
+the loaded copy: base + (next - fileBase), with base at +0x88 and fileBase at
++0x68.  A null next returns 0.
+
+
+THE SOURCE THAT GETS TO 154 BYTES
+
+    u32 func_0201DB20(struct Font *f, u16 c)
+    {
+        struct Blk *b;
+        s32 lo, hi, mid, j;
+
+        b = (struct Blk *)f->unk88;
+        while (1) {
+            if (b->lo <= c && b->hi >= c) {
+                switch (b->kind) {
+                case 0:  return b->data[0] + (c - b->lo);
+                case 1:  return b->data[(u16)(c - b->lo)];
+                case 2:
+                    lo = 0;
+                    hi = b->data[0] - 1;
+                    while (lo <= hi) {
+                        mid = lo + (hi - lo) / 2;
+                        j = 2 * mid + 1;
+                        if (b->data[j] < c)      lo = mid + 1;
+                        else if (c < b->data[j]) hi = mid - 1;
+                        else                     return b->data[j + 1];
+                    }
+                    break;
+                }
+                return f->unk70;
+            }
+            b = b->next;
+            if (b == 0) return 0;
+            b = (struct Blk *)(f->unk88 + ((u8 *)b - f->unk68));
+        }
+    }
+
+Four things in that shape were each worth a byte or more and are settled:
+
+  - the return type is `u32`, not `u16`.  Case 0's sum is returned unnarrowed;
+    a `u16` return adds an `lsls`/`lsrs` pair there and nowhere else.
+  - the range test is `b->lo <= c && b->hi >= c`, two separate compares in that
+    operand order.  Writing the second half as `c <= b->hi` swaps the compare
+    operands and turns `blo` into `bhi`.
+  - the binary search index is a named local `j = 2 * mid + 1`, because the
+    original materialises that value and then reaches the answer slot with
+    `adds r0, r2, #1` on it.  Written as two subscripts `data[2*mid+1]` and
+    `data[2*mid+2]` the compiler keeps `2*mid` instead and folds the +1 and +2
+    into the load offsets, which is `ldrh ..., #0xe` where the original has
+    `#0xc`.
+  - `s32`, not `u32`, for the search bounds: `hi = n - 1` has to be able to go
+    negative and the entry test is `bmi`.
+
+
+WHAT IS LEFT, AND IT IS ONE LOAD
+
+The remaining difference is a single common subexpression.  The original reads
+`f->unk88` twice, once before the loop to get the first block and once per
+rebase inside it:
+
+    +0002  adds r2, r0, #0 / adds r2, #0x88 / ldr r4, [r2]
+    ...
+    +0086  adds r2, r0, #0 / adds r2, #0x88 / ldr r3, [r2]
+
+mwcc keeps the first load live in r2 across the whole loop instead and the
+rebase reuses it, which costs two bytes (the block pointer then has to be moved
+out of the load's register with an extra `adds r6, r2, #0` in the prologue) and
+renames three registers: the block is r6 instead of r4, the search bounds are
+r4/r5 instead of r5/r6.  147 of the differing bytes are that renaming; the
+actual shape is right everywhere.
+
+Note that `f->unk68`, read only inside the loop, is *not* hoisted, so this is
+common-subexpression elimination against the preheader, not loop-invariant code
+motion.  Breaking it is what this function needs.
+
+Tried, all still 154 bytes with the load still CSE'd:
+
+  - all 120 declaration orders of the five locals.  None changes the register
+    assignment; it follows from the extra move, not from the declaration list.
+  - typing the field as `struct Blk *` and casting at the rebase, so the two
+    reads have different static types.
+  - doing the rebase in `u32` arithmetic, and reassociating it as
+    `f->unk88 - f->unk68 + (u32)b`.
+
+What has not been tried is a shape where the second read is not textually the
+same member access - an inlined helper that takes `f` and returns the rebased
+pointer is the obvious candidate, since the original file almost certainly had
+one (the same rebase appears in func_0201D854's neighbourhood).  A `volatile`
+qualifier would also break it but would be a claim about the field that the
+image does not support.

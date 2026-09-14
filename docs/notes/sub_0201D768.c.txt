@@ -1,0 +1,108 @@
+func_0201D768 @ 0x0201D768 - printsys.c ring writer
+packet pkt_0201D6D8 - DIFF, 90 bytes compiled against 92, 72 bytes differ
+
+This is the documented codegen near miss first recorded in
+src/matched/unit_0201D69C.c and narrowed in src/matched/unit_0201D7C4.c.  It
+was re-opened once with the void-return idiom armed
+(docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md, the rule
+that closed a similar register-split case) and the idiom does not apply: the
+function returns a value.  The last three instructions are
+
+    ldr r1, [sp, #8]      ; the ring buffer base
+    ldr r0, [sp, #0xc]    ; the head the function was entered with
+    adds r0, r1, r0
+
+so it hands back a pointer to where the first byte of this write landed.  A
+void return is therefore not available as a lever, and the entry is closed on
+that question.
+
+
+WHAT THE FUNCTION IS
+
+    u8 *func_0201D768(struct Ring *r, const u8 *src, u32 n, u32 chunk)
+    {
+        u32 i;
+        u8 *buf;
+        u32 start;
+
+        i = 0;
+        buf = (u8 *)r;
+        buf += 0x18;
+        start = r->head;
+        while (i < n) {
+            u32 h = r->head;
+
+            MI_CpuCopy8(src, buf + h, chunk);
+            h = (u16)(h + chunk);
+            if (h >= r->size) {
+                h = 0;
+            }
+            r->head = h;
+            src += chunk;
+            i = (u16)(i + chunk);
+        }
+        return buf + start;
+    }
+
+Copy `n` bytes into the wrap-around ring at +0x18 of the object, `chunk` bytes
+at a time, advancing the write cursor and wrapping it at r->size, and return
+where the run started.
+
+
+WHAT IS RIGHT ALREADY
+
+The instruction multiset is right, the stack frame is the right size, the two
+stores into the same slot at sp+8 (the object pointer, then the object pointer
+plus 0x18) are reproduced exactly, and the loop guard, the wrap test and both
+`(u16)` truncations are byte-for-byte.  Four stack slots are used in both and
+three of the four hold the same thing:
+
+    sp+0   n          (the spilled parameter)     both
+    sp+4   i          original;   h  compiled
+    sp+8   buf        original;   start  compiled
+    sp+0xC start      original;   buf  compiled
+
+and the registers are r4=h, r5=chunk, r6=obj, r7=src in the original against
+r4=chunk, r5=obj, r6=src, r7=i in the compile.
+
+
+WHAT IS WRONG, AND WHAT DOES NOT MOVE IT
+
+The choice is symmetric and mwcc picks the other side of it: exactly one of
+`h` (the ring cursor) and `i` (the byte counter) gets a callee-saved register
+and the other is spilled.  The original keeps the cursor and spills the
+counter; every source shape tried keeps the counter and spills the cursor.
+
+Tried in this pass, all giving the identical 72-byte diff:
+
+  - declaration order start/buf/i, i/buf/start, and h hoisted to function
+    scope ahead of all three.  Declaration order has no effect here at all;
+    the allocation follows liveness, not the declaration list.
+  - `h` as a block-scope local inside the loop against a function-scope named
+    local, which is the lever
+    docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md
+    describes.  It does not fire: the cursor is re-read from the field at the
+    top of every iteration in the original, so it is not a kept cursor in that
+    idiom's sense, and naming it changes nothing.
+
+Earlier passes (recorded in unit_0201D69C.c) already covered three local
+layouts, six declaration orders, struct against scalars, and one against two
+assignments of the buffer base.
+
+One detail is worth keeping for whoever picks this up next.  The loop guard in
+the original is
+
+    ldr r0, [sp]
+    cmp r0, #0
+    bls <exit>
+
+- it re-loads `n` from its spill slot to compare it against zero, where the
+compile uses the still-live parameter register and a `beq`.  That is two bytes
+of the difference and it is a separate question from the allocation: it says
+the entry test in the original was generated from the general `i < n` form
+with `i` already in memory, which is consistent with `i` being memory-resident
+from the start rather than being spilled later.  A source shape that puts `i`
+in memory before the loop is entered is the thing to look for.
+
+func_0201D6D8, the only caller, is EXACT when compiled in a range with this
+function, so the two stand or fall together and neither is filed.
