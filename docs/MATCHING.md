@@ -1,5 +1,7 @@
 # Function matching
 
+A packet agent should start at `docs/AGENT-BRIEF.md`; come here only when the brief does not answer the question.
+
 Milestone 4 work: a harness that compiles a C translation unit with one of
 the nine CodeWarrior / Freescale TWL-line front ends, extracts a named
 function from the resulting object, and compares it byte for byte with the

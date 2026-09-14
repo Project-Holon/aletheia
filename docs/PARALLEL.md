@@ -1,5 +1,7 @@
 # Parallel decompilation
 
+A packet agent should start at `docs/AGENT-BRIEF.md`; come here only when the brief does not answer the question.
+
 Matching functions one at a time is serial only because the tooling was
 serial. The addresses are not: `arm9_main` is 5369 functions, and once the
 SDK territory is fenced off the remaining game code splits cleanly into
