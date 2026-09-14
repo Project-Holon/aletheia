@@ -3849,7 +3849,7 @@ palette.
   overworld sprites). 10 samples rendered to `build/assets/overworld2/`.
   NCGR round trip: 451/451 (100%).
 
-## Eleventh lane pass: `a/0/3/1`'s NANR timeline fully decoded (real 4-direction walk/run cycle), NCGR round trip, and the full walk-cycle NPC set located (`tools/assets/walk.py`)
+## Asset lane pass: `a/0/3/1`'s NANR timeline fully decoded (real 4-direction walk/run cycle), NCGR round trip, and the full walk-cycle NPC set located (`tools/assets/walk.py`)
 
 Two-part mission on the `a/0/3/1` archive flagged (but not mined) by the
 previous pass's trainer-sprite search: (1) fully decode its `NCER`/`NANR`,
@@ -4171,4 +4171,340 @@ pass's guesses, and the code is simpler and better-grounded for it. But
 the mission's "recognizable creature" bar is **not met** by any of the
 four species rendered this pass. `compose_rest_pose()` (the older,
 NANR-free fallback strategy) is left in the module unchanged as a fallback
+
+## Map-model mission: `a/0/0/8` is the overworld map/building/dungeon model archive; wrapper cracked (size table + BMD0 + per-tile grid); 3 OBJ exports; `nsbmd.py`'s GX decoder gained VTX_10/XY/XZ/YZ/DIFF support; format-5 (4x4-compressed) decoder implemented but not yet confirmed against a real instance
+
+Two-part session on `tools/assets/nsbmd.py`: (1) locate the archive holding
+overworld/area 3D map models, characterize any wrapper, export sample
+models to OBJ; (2) re-read the TEX0 header for GX format 5 (4x4-compressed
+texel) and decode one to PNG.
+
+### (1) `a/0/0/8` identified as the map/building/dungeon model archive (previously mis-guessed "text banks")
+
+The inventory's automated category guess for `a/0/0/8` (18.2 MB, 649
+sub-files) was "text banks (guess)", based on its dominant raw-magic byte
+patterns (`0x57420300` etc.) not matching any known NITRO/G3D magic at
+offset 0 -- because every sub-file is wrapped in a small custom header
+that pushes the real `BMD0` magic a few bytes in, rather than sitting at
+offset 0 the way every other NARC's model sub-files do. A scan for `BMD0`
+occurring **anywhere** in a sub-file's bytes (not just at offset 0) across
+every NARC in the ROM found exactly one archive with this shape at scale:
+`a/0/0/8`, 649/649 sub-files, `BMD0` at byte offset 16, 20 or 24 depending
+on a wrapper tag (see below). No other NARC in the ROM shows this pattern.
+
+Parsing the wrapped `BMD0` payload in each sub-file and reading its MDL0
+model name confirms the category directly from the names themselves (no
+guessing needed):
+
+| name pattern | count | identified as |
+|---|---:|---|
+| `mapNN_MM` (grid coordinates) | 133 | outdoor terrain chunks, on a grid spanning roughly x=2..26, y=2..23 |
+| `m_dunNNNN_00_00` | 200 | dungeon/cave interior rooms |
+| `cNN_x00_00`, `h0N_xNN_NN`, `h01a/h01b` | ~300 | town/city building exteriors and interiors (numbered per-building, per-floor) |
+| `pl_00_00` | 1 | the player's house interior |
+| `map_outgrass`/`_outtree`/`_outrock`/`_outsea`/`_outdesert` | 5 | horizon/border fill terrain (edge-of-map filler beyond the real grid) |
+| `champion_NN_NN` | 4 | the Champion's room |
+
+This resolves the mission's "find the archive holding the area/terrain
+and building NSBMD files" question with high confidence: **`a/0/0/8` is
+that archive**, and it holds all three of terrain, dungeon and building
+models together, not terrain alone.
+
+### Wrapper format cracked: a small size-table header, then BMD0, then a fixed-size per-tile grid
+
+Each `a/0/0/8` sub-file is `header || BMD0-model || per-tile-grid || tail`,
+never a second BMD0 -- confirmed by scanning every sub-file for a second
+`BMD0` occurrence (none found).
+
+**Header** (variable length, first 2 bytes are an ASCII tag identifying
+the variant seen; every variant's first `u32` after the tag equals the
+header's own byte length, i.e. it doubles as "offset to the BMD0 payload"):
+
+| tag | header bytes | count (of 649) |
+|---|---:|---:|
+| `WB` (+`\x03\x00`) | 20 | 572 |
+| `GC` (+`\x04\x00`) | 24 | 47 |
+| `NG` (+`\x02\x00`) | 16 | 22 |
+| `RD` | (not fully characterized) | 8 |
+
+After the tag and the payload-offset field, the remaining header `u32`s
+are a small size table -- confirmed against real file boundaries: for the
+20-byte (`WB`) case, `u32@8` marks the byte offset where the BMD0 model
+chunk's own declared size ends (i.e. where the next section, the per-tile
+grid, begins), `u32@16` equals the sub-file's total length. (`u32@12`'s
+exact meaning wasn't pinned down -- it sits a handful of bytes before the
+true end of the BMD0 chunk in the one case checked byte-for-byte, possibly
+an alignment/padding boundary.)
+
+**The per-tile grid (the mission's hypothesized "permission/height data"
+wrapper) is real and directly follows the model, not inside the BMD0
+itself:** its first 4 bytes are a `u16, u16` pair that reads `32, 32` in
+every sample checked, followed by exactly `32*32 = 1024` 8-byte records
+(`4 + 1024*8 = 8196` bytes, matching the measured region size in every
+sample to within a handful of trailing bytes -- a few samples run 8-32
+bytes longer, e.g. 8204 or 8228, not yet explained). This is confirmed as
+genuine per-tile data, not a fixed shared table, two ways:
+
+1. **Content varies by file** (each sub-file's grid block has a different
+   MD5), ruling out "same boilerplate table copy-pasted into every file."
+2. **Content varies by *terrain*, in the direction expected:** the flat,
+   single-room building `h02_a00_00`'s grid has **exactly 1 distinct
+   8-byte record value across all 1024 cells** (a uniform flat floor, as
+   expected for a small indoor room with no elevation change), while the
+   outdoor terrain chunk `map14_13` has 4 distinct records, the dungeon
+   room `m_dun0101_00_00` has 7, and the larger outdoor chunk `map24_23`
+   has 11 -- i.e. variety scales with how visually/structurally varied the
+   real area is, exactly what a per-cell height/terrain-type/permission
+   grid should do. This is strong (not proven) support for the mission's
+   "permission/height data" hypothesis; the 8-byte record's internal
+   sub-field boundaries were not decoded this pass (left as a gap -- the
+   record clearly isn't a single flat byte, since multiple 16-bit lanes
+   inside it vary independently across samples, but which lane is height
+   vs. which is a permission/collision flag wasn't determined).
+
+**Gap:** the trailing "tail" bytes after the grid (from the grid's end to
+the sub-file's declared total length -- 148 bytes for `map14_13`, smaller
+for others) were not investigated.
+
+### GX geometry decoder gained real vertex-command support (`tools/assets/nsbmd.py`)
+
+The existing `gx_decode()` only interpreted `VTX_16` (opcode `0x23`) for
+vertex positions. Real map models in `a/0/0/8` almost entirely use the
+*other* four vertex-emitting GX opcodes instead: sampling `map14_13`'s
+decoded command stream found 1192 `TEXCOORD`, 557 `VTX_XZ`, 544 `VTX_XY`,
+78 `NORMAL`, 57 `VTX_10`, 33 `VTX_YZ`, and just **1** `VTX_16` -- the old
+decoder was silently emitting almost no geometry for these models (1
+vertex, 0 faces) while still reporting thousands of "commands decoded,"
+which would have looked like a working export. Fixed by implementing the
+other four opcodes per the public documented GX vertex-command semantics
+(a persistent "current position" register; `VTX_10` sets all three
+components compactly, `VTX_XY`/`VTX_XZ`/`VTX_YZ` set two of three and
+carry the third over, `VTX_DIFF` adds a small signed delta -- every one of
+these, not just `VTX_16`, emits a new vertex). `map14_13` now decodes to
+1192 vertices / 301 faces (was 1/0); round trip (`nsbmd.py roundtrip`,
+unaffected by this change since it doesn't touch serialization) still
+764/764 byte-identical on `a/0/4/9`.
+
+`find_gx_stream`'s heuristic locator (byte-offset scan for the first run
+of >=20 valid commands) still fails on some building interiors -- e.g.
+`h02_a00_00`'s `MDL0.raw_tail` is only 408 bytes and the best run found is
+13 commands with no vertices, even though the file's *outer* declared
+BMD0 size (476 bytes, `struct` field at absolute offset 8) is far smaller
+than the sub-file's total length (8696 bytes) -- most of that gap is the
+per-tile grid described above, correctly excluded from `raw_tail`, so
+this specific model may simply be geometry-free (a hitbox/trigger-only
+placeholder) or use a still-unhandled opcode; not chased further this
+pass. Sibling building models decode fine (see exports below).
+
+### Three OBJ exports, `build/assets/maps/` (gitignored, regenerate, don't commit)
+
+| file | source (`a/0/0/8` index, model name) | verts | faces | depicts |
+|---|---|---:|---:|---|
+| `map14_13.obj` | 44, `map14_13` | 1192 | 301 | an outdoor overworld terrain grid chunk (one cell of the map14/y13 tile in the route/town grid) |
+| `m_dun0101_00_00.obj` | 279, `m_dun0101_00_00` | 2053 | 595 | a dungeon/cave interior room |
+| `pl_00_00.obj` | 120, `pl_00_00` | 5114 | 1774 | the player's house interior |
+
+Geometry only (positions + UVs, no per-face material/texture applied --
+see next section for why). Exported with `nsbmd.write_obj()` after
+manually stripping each sub-file's wrapper header and per-tile grid tail
+(`payload = raw[raw.find(b"BMD0"):]`, then the existing `parse_container`/
+`find_mdl0`/`find_gx_stream`/`write_obj` pipeline, unchanged).
+
+### Textures: not wired up this pass (documented gap, not a false claim)
+
+None of these BMD0 model chunks carry their own `TEX0` block (confirmed:
+`parse_container` on each returns only `[MDL0]`). ASCII strings pulled out
+of `map14_13`'s raw model data (material/texture reference names such as
+`gake01a`, `grass01ax`, `michi01a`, `sea_mizu1`, `t01wd1`, `ue_grass00`)
+were matched against `a/0/1/4` (11.9 MB, 282 `NSBTX` sub-files), which
+carries the same names in its texture dictionaries -- so the outdoor
+terrain texture set does live there, shared across (probably most or all
+of) the 282 sub-files rather than one-per-map-tile. Actually decoding and
+applying those textures per-face requires two things this session did not
+finish: (a) linking each GX-stream `POLYGON_ATTR`/material-select command
+to a specific texture name (not implemented -- the geometry decoder
+currently ignores material commands entirely), and (b) decoding
+*multi*-texture `TEX0` blocks at all, which `nsbmd.py` has never supported
+(see the pre-existing "honesty note" in the module docstring: the TEX0
+resource-dictionary per-entry record layout isn't cracked, so only
+single-texture `TEX0` blocks can be decoded). This is an honest gap, not
+a silent failure: the OBJ files above simply have no `mtllib`/material
+assignment.
+
+### (2) Format-5 (4x4-compressed) texture decoder implemented per public GX documentation; wired into `guess_single_texture`/`cmd_texture`; no real instance confirmed by eye this pass
+
+Added `decode_texture_4x4(width, height, region, palette)` to
+`tools/assets/nsbmd.py`, implementing the public DS GPU "Compressed Texel
+(4x4 Texel)" format: one 32-bit word per 4x4 block (16 texels, 2 bits
+each -- a local index 0-3), followed **in the same region** by one 16-bit
+index word per block (14-bit palette address in halfwords, 2-bit
+interpolation mode selecting between the documented 4 per-mode colour
+tables: mode 0 = `c0,c1,blend(c0,c1,5:3),blend(c0,c1,3:5)`, mode 1 =
+`c0,c1,blend(c0,c1,1:1),transparent`, mode 2 = `c0,c1,pal[addr+2],pal[addr+3]`,
+mode 3 = `c0,c1,blend(c0,c1,5:3),transparent`). This directly follows the
+mission's re-reading of the TEX0 header: the region already recovered as
+`texel_bytes()` (bounded by the existing, confirmed ordinary-texel-offset
+and palette-offset header fields) is treated as `texel_words || index_words`
+back to back, with `index_words` starting at `texel_size` (i.e. every
+block's index sits at `this_block's_texel_offset / 2` into the trailing
+index area, per the mission brief -- texel is 4 bytes/block, index is 2
+bytes/block, a fixed 2:1 ratio). Wired into `guess_single_texture()` as a
+new candidate shape (`(w/4)*(h/4)*6` bytes for a `w`x`h` texture, widths/
+heights required to be multiples of 4) and into `cmd_texture`'s CLI path
+(no longer hard-errors on format 5).
+
+**What this pass could NOT do: confirm a real format-5 instance by eye.**
+Two dead ends, both worth recording so the next pass doesn't repeat them:
+
+- Texture names containing `4x4` (`t4x4hero`, `t4x4xocell`, `t4x4pokeflip`,
+  5544 name-hits across the ROM) turned out to be a **red herring**:
+  `t4x4xocell` (a/0/4/9#113, single-texture TEX0, `texture_data_size=512`)
+  decodes cleanly as ordinary **format 3** (16-color, 32x32) -- the raw
+  bytes are visibly a small nibble-per-pixel picture (a circular/target
+  silhouette, legible directly in a hex dump) with a matching 16-entry
+  BGR555 palette immediately after. `t4x4` here reads as an *authoring*
+  convention (likely "4x4 UV-cell grid" in the source art tool), unrelated
+  to the GX hardware's format-5 compression despite the identical name
+  fragment. Don't use this naming pattern to locate real format-5 data.
+- A whole-ROM scan of every **single-texture** `TEX0` block (`a/*/*/*`,
+  every `BTX0`/`BMD0` sub-file) for a `(w, h)` where
+  `(w/4)*(h/4)*6 == texture_data_size` (exact) found **zero** matches
+  anywhere in the ROM; relaxing to "at most 32 bytes of trailing slack"
+  found 117 near-matches, but every one checked (e.g. `a/0/7/5`'s
+  `f_mark_u`/`c_mark_u`/... 8x16 UI direction-marker icons) matches
+  **exactly** (zero slack) as ordinary format 3 instead, so these are also
+  false leads, not padding. **Conclusion: this ROM's real format-5 usage,
+  if any, lives inside *multi*-texture TEX0 blocks** (e.g. `a/0/4/9#199`,
+  named `t4x4pokeflip.1..6`, 6 textures + 2 palettes sharing one 3072-byte
+  region -- plausibly the Voltorb-Flip-style minigame's flip icons), which
+  `nsbmd.py` cannot address individually without cracking the per-entry
+  TEX0 dict record (the pre-existing, still-open "honesty note" gap from
+  before this session -- not resolved here either). `3072 / 6 = 512`
+  bytes/texture exactly matches plain **format 3** at 32x32
+  (`32*32*4/8=512`) just as cleanly as it would need to for format 5, so
+  even this candidate isn't confirmed to be compressed at all.
+
+**Net result for mission (2):** the decoder is implemented, self-
+consistent with the public spec, and wired into the existing CLI/guess
+pipeline, but **no PNG was produced or eye-verified this pass** because no
+real format-5 instance could be conclusively located within budget. This
+is reported honestly rather than forcing a decode of a texture that's
+more likely format 3. Unblocking this needs the TEX0 multi-texture dict
+record cracked first (per-entry offset/width/height/format), which is a
+larger, separate investigation.
 reference point.
+
+## Asset lane pass: trainer battle sprite search widened to non-NITRO fixed-size bitmap families -- thorough negative result (`tools/assets/battle_search.py`)
+
+Second mission this pass: every earlier trainer-battle-sprite search
+(docs/ASSETS.md "Trainer battle sprite mission") assumed the sprite is a
+NITRO `NCGR`/`NCER` OAM-cell rig and came up empty. This pass drops that
+assumption entirely and searches for a **fixed-size sub-file family**
+instead -- the same style of evidence (`a/0/0/6`'s `" APS12_1"`/`" TPS"`
+wrapper, `a/1/3/4`'s fixed 0x20000 payload) that has previously cracked a
+custom, non-NITRO format in this ROM. New tool:
+`tools/assets/battle_search.py` (`--sizes`, `--tags`, `--render`,
+`--all`). Renders under `build/assets/battle_search/`.
+
+### Method
+
+Every one of the 247 files under `extract/data/` is opened as a NARC (10
+fail to parse, e.g. `soundstatus.narc`/other non-container files, counted
+and skipped) and every sub-file's **effective size** is recorded: the
+on-disk length, EXCEPT for any sub-file that opens with a recognised BIOS
+compression header (LZ77/LZ11/Huffman/RLE), where the header's own
+declared decompressed size is used instead (via `narc.sniff_compression`,
+no need to actually inflate 54054 sub-files just for a size census). This
+matters: a compressed bitmap family would show a different *compressed*
+length per member depending on content even though every member
+decompresses to the same fixed canvas -- a census over raw on-disk
+lengths alone would never see such a family as a family at all. This
+was NOT done by any earlier trainer-sprite pass (`trainer_locate.py`'s
+`--widen` only compares NCGR-declared tile counts after decompression,
+not raw sub-file size).
+
+### Fixed-size census: no family matches a plausible battle-portrait canvas
+
+Checked directly: the mission's six candidate canvas sizes (4bpp
+80x80/96x96/128x64 = 3200/4608/4096 bytes, their 8bpp doubles =
+6400/9216/8192, each also checked +32 bytes for a trailing/leading
+16-color palette) each occur **at most once** ROM-wide, bare or
+with-palette -- there is no repeated family at any of these exact sizes
+at all, let alone 100-400 members.
+
+Widening to "every size occurring 100-400 times ROM-wide, checked within
++-600 bytes of a candidate size" (to allow for an unknown fixed header)
+surfaces exactly one near-candidate: **3248 bytes, 113 sub-files across 6
+archives** (95 of them in `a/0/7/2`) -- 48 bytes over the bare 80x80 4bpp
+size. Rendered under every plausible layout (linear 4bpp/8bpp at 80,
+8x8-tiled 4bpp): every layout, for samples from both `a/0/7/2` and a
+second hit archive, renders as **pure noise** (`build/assets/battle_search/
+a072_test_*.png`, `a_0_0_4_sf11094_sz3248_*.png`) -- no coherent shape, let
+alone a human figure. This is consistent with, and extends, the previous
+pass's direct finding that `a/0/7/2` is a trainer-card/badge HUD rig, not
+a sprite archive.
+
+The full 100-400-member family list (48 sizes) is otherwise made up of:
+tiny (<1KB) structural-looking sizes repeated across many unrelated
+archives (sub-headers, empty placeholder sub-files, common small
+NCGR/NCLR/NCER shapes already characterized elsewhere in this document --
+not examined further, too small to hold a battle portrait at any bit
+depth); `a/0/4/9`'s own two internal families at 3464 (395 members,
+mostly `a/0/4/9` plus one stray same-size hit in `a/0/5/2`) and 4544 (141
+members) bytes, which is a **confirmed NSBMD/NSBTX 3D model/texture
+archive** (`build/assets/inventory.json`: `"category_guess": "3D model/
+texture data"`, 758 `BTX0` sub-files) -- rendered anyway for completeness
+and confirmed noise, not a figure, consistent with being compressed
+texture-page data, not a raw indexed bitmap; and a handful of large
+(28-33KB) sizes in `a/1/9/4` (also texture-scale, two of which fail this
+project's LZ77 decompressor and were skipped rather than guessed at) and
+spread across many archives at 32832 bytes (100 members, 37 archives --
+rendered, also noise). **No family in this census renders as a human
+figure at battle scale under any tried layout.**
+
+### Tag census: no second custom wrapper magic found
+
+Every sub-file's first 4 and first 8 bytes were checked for "all
+printable ASCII, not a magic this project already knows" (the reversed
+NITRO chunk tags, `NARC`/BTAF/BTNF/GMIF, BIOS compression headers, and the
+already-cracked `" APS12_1"`/`" TPS"` wrapper). 452 distinct 4-byte
+candidates turn up, but essentially all resolve to noise or already-known
+formats on inspection: `SBNK`/`SSEQ`/`SWAR` (4 hits each) are SDAT's own
+already-known internal sub-chunk magics, not new; `BMA0` (69 hits, 17
+archives) is a standard NNS_G2D "material animation" resource tag, a
+sibling of the already-known `BTA0`/`BCA0`/etc. NSBMD-family magics, not a
+sprite wrapper; the long tail (`'dddd'`, `'2AkV'`, `'RTFN'`, ...) is almost
+entirely single-archive, mostly `a/0/1/6` (audio-adjacent, not
+inspected further this pass) -- consistent with coincidentally-printable
+bytes inside compressed or binary audio/model data, not a real magic. No
+8-byte tag candidates were found at all (0 distinct). **No second
+`" APS12_1"`-style custom sprite wrapper was found.**
+
+### Report
+
+- **Fixed-size bitmap family**: none exists at any of the mission's six
+  candidate battle-portrait canvas sizes (bare or +32-byte palette),
+  ROM-wide, at any population size. The single 100-400-member family
+  close to a candidate size (3248 bytes, near 80x80 4bpp) is
+  `a/0/7/2`-dominated and renders as noise under every layout tried --
+  same archive already ruled out as trainer-card/badge HUD content by the
+  previous pass. This is a genuine, thorough negative result, not an
+  unexplored gap: every 100-400-member fixed-size family ROM-wide (48 of
+  them) was either too small to hold a portrait, already a known
+  non-sprite format (NSBTX textures), or rendered as noise.
+- **Tag/size census**: recorded in this section; 452 printable 4-byte
+  candidate tags found and triaged, none is a new sprite wrapper magic.
+  Renders: `build/assets/battle_search/` (77 files -- every plausible
+  layout for every 100-400-member family, plus the two `a/0/7/2`
+  cross-check renders).
+- **No archive in this search renders as a human figure at battle
+  scale.** Combined with the previous pass's NITRO-shaped search (94
+  large-NCGR archives, 38 large-OAM archives, all ruled out) and this
+  pass's non-NITRO fixed-size search (48 families, all ruled out), the
+  trainer battle sprite -- if 2D and present in this ROM at all -- is not
+  a plain fixed-size raw/indexed bitmap and not a standard NITRO OAM rig.
+  The two hypotheses this document has not yet tried remain open: a
+  variable-size (not fixed-canvas) custom format not caught by either
+  search style, or a 3D-rendered (NSBMD/NSBTX) representation -- `a/1/9/4`
+  and `a/0/4/9`'s already-large texture archives are untried candidates
+  for the latter, out of this pass's scope/budget.
