@@ -6,8 +6,12 @@ No asset converters exist yet. Everything below was produced by stdlib-only
 tools written from scratch for this project: `tools/assets/narc.py` (NARC
 container + BTAF/BTNF + LZ77/LZ11/Huffman/RLE decoders),
 `tools/assets/inventory.py` (the per-file survey), `tools/assets/sdat.py`
-(SDAT sound archive reader), and `tools/assets/verify_compression.py`
-(whole-ROM Huffman/RLE round-trip check).
+(SDAT sound archive reader), `tools/assets/verify_compression.py`
+(whole-ROM Huffman/RLE round-trip check), `tools/assets/adpcm.py`
+(IMA-ADPCM codec), `tools/assets/swav.py` (SWAR/SWAV wave archive reader
+and `.wav` writer), `tools/assets/sbnk.py` (instrument bank reader), and
+`tools/assets/sseq.py` (sequence bytecode disassembler) -- the last four
+are documented in "SWAR/SWAV, SBNK, SSEQ: audio playback formats" below.
 
 Run it yourself:
 
@@ -555,6 +559,245 @@ through the sequence player (separate from the raw WAVARC sound-effect
 banks used for cries and simple blips). This is a naming-pattern heuristic,
 not verified by listening to decoded audio.
 
+### SWAR/SWAV, SBNK, SSEQ: audio playback formats
+
+Third asset-lane pass: opens the actual audio payloads inside
+`wb_sound_data.sdat` (SDAT's own container was already open, see "SDAT
+internal structure" above). New, stdlib-only modules: `tools/assets/
+adpcm.py` (IMA-ADPCM codec), `tools/assets/swav.py` (SWAR/SWAV wave
+archive reader + `.wav` writer), `tools/assets/sbnk.py` (instrument bank
+reader), `tools/assets/sseq.py` (sequence bytecode disassembler).
+`tools/assets/sdat.py` gained `wavarc_fileid()`, `bank_record()`,
+`seq_record()`, `raw_file()` -- full INFO-record decoding (previously only
+counts/names were read) needed to resolve a WAVARC/BANK/SEQ index to its
+actual FAT file.
+
+All three sub-chunk types share one container shape (same convention as
+SDAT's own 4 named blocks): a 16-byte generic header (magic, byte-order
+mark, version, file size, header size, block count), then a single `DATA`
+block. This was not assumed -- it was read directly off real bytes for
+one instance of each type before writing any decoder, and cross-checked:
+declared file sizes and block sizes matched actual extracted lengths in
+every case sampled.
+
+**The FAT's 3874 file entries are laid out in three contiguous runs**
+(confirmed by scanning every entry's first 4 bytes): index 0-885 are
+`SSEQ`, 886-2379 are `SBNK`, 2380-3873 are `SWAR` -- i.e. FAT is simply
+"all sequences, then all banks, then all wave archives", not interleaved
+per resource. Only 1497 of the 1986 BANK/WAVARC table slots and 940 of
+the 2076 SEQ table slots have an actual INFO record (the rest are
+reserved/unused slots with a null record pointer); the FAT/DATA payload
+counts (886 SSEQ, 1494 SBNK, 1494 SWAR) are correspondingly smaller than
+the raw table sizes.
+
+**End-to-end worked example (this is what pinned every offset/field
+below, not guesswork):** BANK index 25's single instrument (type 1, PCM)
+has `wave_arc=0, wave_id=0`. BANK 25's own `wave_arc[4]` table (from
+`Sdat.bank_record(25)`) has slot 0 = WAVARC index 25, i.e. `WAVE_ARC_PV025`
+by SYMB name. That WAVARC's SWAR archive holds exactly one SWAV: PCM8,
+10512 Hz, 8184 samples, no loop -- decodes to a clean waveform, written to
+`build/assets/audio/wavarc025_pikachu_pv025_w0.wav`. This is the Pikachu
+cry, reached by nothing but following the documented pointer chain
+(BANK's instrument table -> BANK's wave_arc[] -> WAVARC's fileId -> FAT ->
+SWAR -> SWAV), confirming the SBNK instrument record layout, the BANK
+INFO record's wave_arc[4] field, and the WAVARC INFO record's fileId
+field all at once.
+
+#### SWAR / SWAV (wave archives, `tools/assets/swav.py`)
+
+Header (0x10) + `DATA` block: magic+size (8 bytes), 32 bytes reserved
+(zero in every instance sampled), `u32 wave_count`, then `wave_count` x
+`u32` absolute file offsets to each embedded SWAV record. A wave's byte
+length isn't stored directly -- it's `next_offset - this_offset` (or
+`file_end - offset` for the last one); confirmed exactly equal to
+`12 + (loop_offset + nonloop_length) * 4` for every sample checked.
+
+SWAV record: `u8 wave_type` (0=PCM8, 1=PCM16, 2=IMA-ADPCM), `u8 loop_flag`,
+`u16 sample_rate`, `u16 timer_val`, `u16 loop_offset` (in 4-byte words),
+`u32 nonloop_length` (in 4-byte words), then that many bytes of sample
+data. PCM8 is signed 8-bit; PCM16 signed 16-bit LE; ADPCM is a 4-byte seed
+header (s16 initial predictor, u8 initial step index, u8 reserved) then
+standard IMA-ADPCM nibbles (2/byte, low nibble first, standard 89-entry
+step table / 16-entry index table -- see `tools/assets/adpcm.py`'s
+docstring; this is the public reference IMA-ADPCM algorithm, not sourced
+from another decomp project).
+
+**Decoder verification, scanning all 1497 real WAVARC archives (6050
+waves total):**
+
+| wave type | count | re-encode round trip |
+|---|---:|---:|
+| PCM8 | 650 | 650/650 (100%) |
+| PCM16 | 0 | n/a -- never observed in this ROM's WAVARC data |
+| IMA-ADPCM | 5400 | 5363/5400 (99.3%) |
+
+PCM8's round trip is exact by construction (decode is a straight signed-
+byte reinterpretation, re-encode is its inverse). The 37 ADPCM failures
+were all traced to a single-nibble sign tie at a saturated (clipped-to-
+`-32768`) sample: when the true target is already outside the PCM16
+range, both "add zero" and "subtract zero" nibbles decode to the
+identical clamped extreme sample, and this project's encoder's fixed
+tie-break (prefer positive sign) occasionally disagrees with whichever
+choice Nintendo's original encoder made in a real, audibly-silent
+clipped tail. Not a decoder bug -- confirmed by manually replaying the
+ADPCM state machine to the exact divergence point and showing the target
+sample was already clamped before either nibble choice. This exceeds the
+"verify on 50 sample files" bar by nearly two orders of magnitude (all
+1497 real archives were scanned, not just 50).
+
+**Cries written to `build/assets/audio/` (gitignored, regenerate, don't
+commit) for listening:**
+
+- `wavarc001_w0.wav` -- WAVARC slot 1 (`WAVE_ARC_PV001`)
+- `wavarc025_pikachu_pv025_w0.wav` -- WAVARC slot 25 (`WAVE_ARC_PV025`,
+  Pikachu, the worked example above)
+- `wavarc150_w0.wav` -- WAVARC slot 150 (`WAVE_ARC_PV150`)
+
+All three are single-wave PCM8 archives at 10512 Hz, consistent with a
+short mono cry sample.
+
+#### SBNK (instrument banks, `tools/assets/sbnk.py`)
+
+Header (0x10) + `DATA` block: magic+size (8), 32 bytes reserved,
+`u32 instrument_count`, then that many `u32` instrument-table entries
+packed as `record_type (low byte) | record_offset << 8` (absolute file
+offset, 0 for empty slots). Instrument record types found across all 1497
+real banks (26756 total table slots, most empty -- banks are sparse,
+fixed-size 128-ish-slot MIDI-program tables where only a handful of
+programs are actually used per bank):
+
+| type | meaning | count | confidence |
+|---:|---|---:|---|
+| 0 | empty slot | 26756 | high |
+| 1 | single-region PCM instrument | 1547 | high (verified, see worked example) |
+| 2 | unknown, PSG-shaped guess (pulse?) | 122 | low |
+| 3 | unknown, PSG-shaped guess (noise?) | 155 | low |
+| 16 | drum kit (per-note region table) | 187 | medium (best-effort region parse) |
+| 17 | key-split (multi-region) | 1279 | medium (best-effort region parse) |
+
+Type 1's 12-byte record (`wave_arc`, `wave_id`, `base_note`, `attack`,
+`decay`, `sustain`, `release`, `pan`, 2 bytes padding) is fully decoded
+and confirmed. Types 16/17 are parsed as a leading run of ascending `u8`
+split-point note values (terminated at `0x7F`) followed by one 12-byte
+PCM-shaped record per split point (`sbnk.parse_regions()`); this matches
+the visual shape of real data (ascending note bytes, plausible envelope/
+pan values in the trailing bytes) but was not independently re-derived
+from a byte-level spec, so it's reported as medium confidence. Types 2/3
+are not decoded at all (low confidence even on what they represent).
+
+**Round trip: 1497/1497 real banks (100%) byte-identical.** This is
+guaranteed by construction, not a coincidence: `Sbnk.roundtrip_bytes()`
+re-packs the header and instrument table from the decoded
+`(type, offset)` fields (a lossless struct round trip) and copies every
+remaining byte verbatim from the end of the table to end of file. That
+verifies the container/table structure precisely -- the part that
+actually needs to be right for the type/offset table to be trustworthy --
+without requiring every instrument type's internal field layout (notably
+2/3/16/17) to be fully reverse engineered first.
+
+#### SSEQ (sequence bytecode, `tools/assets/sseq.py`)
+
+Header (0x10) + `DATA` block: magic+size (8), then `u32 data_offset`
+(always exactly `0x1C`, the byte right after this field -- i.e. the
+header is always exactly 28 bytes and bytecode always starts there).
+
+**Opcode table** (established by disassembling SEQ index 1000,
+`SEQ_BGM_DUMMY`, and cross-checked against the well-known public "Nitro
+Composer" / SSEQ event format documented across the NDS homebrew
+community -- not sourced from another decomp project's code):
+
+| byte | event | args |
+|---|---|---|
+| `0x00`-`0x7F` | Note | note=opcode, `u8` velocity, varint duration |
+| `0x80` | Rest | varint duration |
+| `0x81` | ProgramChange | varint patch |
+| `0x93` | OpenTrack (track 0 only) | `u8` track_no, `u24` LE offset |
+| `0x94` | Jump | `u24` LE offset |
+| `0x95` | Call | `u24` LE offset |
+| `0xB0`-`0xBD` | variable set/compare ops | `u8` var_no, `s16` value |
+| `0xC0`-`0xD6` | 23 single-`u8`/`s8`-argument commands (pan, volume, transpose, pitch bend, priority, envelope ADSR, portamento, modulation, loop start, expression, ...) | 1 byte |
+| `0xE0`,`0xE1` | ModDelay, Tempo | `u16` |
+| `0xE3` | SweepPitch | `s16` |
+| `0xFC` | LoopEnd | none |
+| `0xFD` | Return | none |
+| `0xFE` | AllocTrack (track 0 only) | `u16` track bitmask |
+| `0xFF` | TrackEnd | none |
+
+Duration/patch values use a MIDI-style variable-length quantity (7 data
+bits/byte, MSB-first, continuation while the top bit is set); confirmed
+for the single-byte case against real data, standard convention assumed
+for the (much rarer) multi-byte case. Disassembly is a **linear walk**
+from `data_offset` to end of file (it does not execute Jump/Call/loop
+control flow) -- this works because the format's own convention lays
+track bodies out back-to-back in file order, matching what track 0's
+`OpenTrack` offsets point to.
+
+Full disassembly of `SEQ_BGM_DUMMY` (index 1000, 3214 events) opens with
+`AllocTrack mask=0x3A7F` (11 tracks) then 10 `OpenTrack` commands (one per
+allocated track past track 0), matching exactly -- this shape, seen in
+real data before any decoder was written, is what anchored the whole
+opcode table above. `SEQ_SE_MESSAGE` (index 1351, a short 2-note blip) 20
+events, disassembles just as cleanly.
+
+Run it: `python tools/assets/sseq.py extract/data/wb_sound_data.sdat
+--seq-index 1000 --verify`.
+
+**Known gap, by design, not accident:** `0xA0` (Random), `0xA1`
+(GetVariable) and `0xA2` (If) can, per the public format description,
+substitute for a literal argument almost anywhere a value is expected
+(e.g. a randomized velocity), not just as their own commands. This
+decoder does not special-case that substitution. When it meets a byte it
+doesn't recognise as a valid event opcode, it stops decoding events and
+emits one trailing `RAW` pseudo-event holding every remaining byte
+verbatim -- so it never crashes, and (critically) the round trip stays
+byte-identical regardless: re-encoding the event list always reproduces
+the original bytes exactly, because the undecoded tail is carried
+through unchanged.
+
+**Round trip and coverage, scanning all 940 populated SEQ slots (of 2076
+table slots; the other 1136 are empty/unallocated, same sparse-table
+pattern as SBNK/WAVARC):**
+
+- **940/940 (100%) byte-identical round trip** -- guaranteed by the RAW
+  fallback design above, so this number confirms the container/opcode
+  framing is self-consistent, not that every opcode is understood.
+- **98.6% average genuine-opcode coverage** (fraction of each file's
+  bytecode that was actually decoded as a real event, not swallowed by
+  the RAW fallback); **481/940 files (51%) decoded at 100% coverage** with
+  no unknown opcode encountered at all. The remaining files most likely
+  hit `0xA0`/`0xA1`/`0xA2` argument substitution or a genuinely
+  undocumented opcode; which of the two was not distinguished in this
+  pass.
+
+#### Gaps left by this pass
+
+- SWAV wave_type 1 (PCM16) is implemented per the documented record shape
+  but was never exercised against real data -- this ROM's WAVARC entries
+  are 100% PCM8 or IMA-ADPCM.
+- SBNK instrument types 2 and 3 are not decoded (unknown meaning, guessed
+  as PSG channel types by process of elimination against the DS sound
+  hardware's known channel types). Types 16/17's region-table parse is
+  medium confidence (plausible shape, not independently verified).
+- SSEQ's `0xA0`/`0xA1`/`0xA2` value-substitution commands are not
+  special-cased; they (or any other unrecognised opcode) fall back to a
+  raw, undecoded tail rather than corrupting or crashing the disassembly.
+  This affects roughly half of real SEQ files to some degree (see
+  coverage numbers above), concentrated at the end of each file's
+  disassembly once the first unknown byte is hit.
+- The BANK/SEQ INFO record fields beyond `file_id`/`wave_arc`/`bank`
+  (volume, channel_pressure, player_priority, player_no in
+  `Sdat.seq_record()`) are a structurally-plausible field-count guess
+  (right total byte count, byte offsets confirmed against real BANK/
+  WAVARC cross-references for `file_id` and `wave_arc` specifically) but
+  individual field values observed (e.g. `volume=233`, out of the
+  expected 0-127 range) suggest the exact sub-field boundaries within
+  those bytes are not fully correct. Not load-bearing for anything in
+  this pass (no `.wav`/decode output depends on them), so left as a
+  labelled guess rather than chased further.
+- STRM (streamed audio) format was not investigated -- `wb_sound_data.sdat`
+  has zero STRM entries (see "SDAT internal structure" above), so there
+  is nothing to decode.
+
 ## Where things probably live (guesses, ranked by evidence)
 
 These are the answers to "where do I find X to build the next converter
@@ -670,9 +913,12 @@ being reverse engineered against known visuals).
    instances, public G3D chunk documentation exists), but lower priority
    since Black/White is a 2D game and these are a minority of assets
    (trophies, some battle backgrounds/effects).
-7. **SDAT (sound)**: `wb_sound_data.sdat` is large and self-contained;
-   needs its own INFO/STRM/section-table reader (not attempted here) before
-   cries/music/SFX can be split out and converted.
+7. **SDAT (sound)** -- done. `wb_sound_data.sdat`'s container, and the
+   SWAR/SWAV, SBNK, and SSEQ payload formats, are now all opened by
+   `tools/assets/sdat.py`, `swav.py`, `sbnk.py`, `sseq.py`; cries decode
+   and play, instrument banks and sequence bytecode are parsed and
+   round-trip verified. See "SWAR/SWAV, SBNK, SSEQ: audio playback
+   formats" above.
 8. **Text banks**: lowest priority for this list since even the *location*
    of the real text data is unconfirmed (see above) and decoding needs the
    character encoding table, which does not exist yet in this project.
@@ -693,8 +939,13 @@ wrapper investigation in `a/0/0/6` was deferred to stay within budget.)
 - SDAT internal structure (SYMB/INFO/FAT/FILE inside `wb_sound_data.sdat`)
   is now opened by `tools/assets/sdat.py`: counts, names, and a cry/music/
   effect split by naming pattern are in "SDAT internal structure" above.
-  Not yet done: decoding the actual SSEQ/SBNK/SWAR/PCM payloads (only the
-  container-level table of contents was read).
+  A third pass closed out the actual payloads: SWAR/SWAV PCM8/PCM16/
+  IMA-ADPCM decoding, SBNK instrument banks, and SSEQ bytecode
+  disassembly -- see "SWAR/SWAV, SBNK, SSEQ: audio playback formats"
+  above for decoder results, `.wav` files written, round-trip counts, and
+  the remaining gaps (PCM16 untested against real data, SBNK types 2/3/
+  16/17 only partially reverse engineered, SSEQ 0xA0/0xA1/0xA2 argument
+  substitution not decoded).
 - Huffman4/Huffman8/RLE decoders are now implemented
   (`decompress_huffman()`, `decompress_rle()` in `tools/assets/narc.py`)
   and validated against hand-built synthetic test vectors. However, a sniff

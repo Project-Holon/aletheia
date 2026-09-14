@@ -137,6 +137,8 @@ class Sdat:
 
         self.symb = self._parse_symb(symb_body) if symb_size else None
         self.info_counts = self._parse_info_counts(info_body)
+        self.info_body = info_body
+        self._info_record_offsets = self._parse_info_record_offsets(info_body)
         self.fat = self._parse_fat(fat_body)
         self.file_block_size = len(file_body)
 
@@ -165,6 +167,59 @@ class Sdat:
             count = struct.unpack_from("<I", body, off)[0]
             out[name] = count
         return out
+
+    def _parse_info_record_offsets(self, body):
+        """Per record type, the list of per-slot INFO-body byte offsets
+        (0 = no record for that slot). INFO records are of a fixed size
+        per type (SEQ/BANK = 12 bytes, WAVARC = 4 bytes, established
+        empirically -- see docs/ASSETS.md's audio-formats section) and are
+        packed densely; the offset table maps a sparse logical slot index
+        to that dense array, skipping absent slots entirely."""
+        section_offsets = struct.unpack_from("<8I", body, 8)
+        out = {}
+        for name, off in zip(RECORD_NAMES, section_offsets):
+            if off == 0:
+                out[name] = []
+                continue
+            count = struct.unpack_from("<I", body, off)[0]
+            ptrs = struct.unpack_from(f"<{count}I", body, off + 4)
+            out[name] = list(ptrs)
+        return out
+
+    def wavarc_fileid(self, index):
+        """WAVARC INFO record: a single u32 fileId (4 bytes)."""
+        ptr = self._info_record_offsets.get("WAVARC", [])[index]
+        if ptr == 0:
+            return None
+        return struct.unpack_from("<I", self.info_body, ptr)[0]
+
+    def bank_record(self, index):
+        """BANK INFO record (12 bytes): u16 fileId, u16 reserved,
+        u16 wave_arc[4] (indices into this SDAT's WAVARC table; 0xFFFF =
+        unused slot)."""
+        ptr = self._info_record_offsets.get("BANK", [])[index]
+        if ptr == 0:
+            return None
+        file_id, _reserved = struct.unpack_from("<HH", self.info_body, ptr)
+        wave_arc = list(struct.unpack_from("<4H", self.info_body, ptr + 4))
+        return {"file_id": file_id, "wave_arc": wave_arc}
+
+    def seq_record(self, index):
+        """SEQ INFO record (12 bytes): u16 fileId, u16 bank, u8 volume,
+        u8 channel_pressure, u8 player_priority, u8 player_no,
+        u32 reserved."""
+        ptr = self._info_record_offsets.get("SEQ", [])[index]
+        if ptr == 0:
+            return None
+        file_id, bank = struct.unpack_from("<HH", self.info_body, ptr)
+        vol, cpr, ppr, ply = struct.unpack_from("<4B", self.info_body, ptr + 4)
+        return {"file_id": file_id, "bank": bank, "volume": vol,
+                "channel_pressure": cpr, "player_priority": ppr, "player_no": ply}
+
+    def raw_file(self, file_id):
+        """Raw bytes of a FAT/FILE sub-blob (an SSEQ/SBNK/SWAR/STRM chunk)."""
+        off, size = self.fat[file_id]
+        return self.data[off:off + size]
 
     def _parse_fat(self, body):
         count = struct.unpack_from("<I", body, 8)[0]
