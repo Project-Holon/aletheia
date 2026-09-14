@@ -1,0 +1,86 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0202AC60",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "sub_0202ACC8",
+   "address": "0x0202ACC8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202ACC8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0202AD88",
+   "address": "0x0202AD88",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202AD88.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0202AE04",
+   "address": "0x0202AE04",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202AE04.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_0202AE60",
+   "address": "0x0202AE60",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0202AE60.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_0202AE60",
+    "sub_0202AE64"
+   ]
+  },
+  {
+   "name": "sub_0202AEB8",
+   "address": "0x0202AEB8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202AEB8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0202AF30",
+   "address": "0x0202AF30",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202AF30.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}
