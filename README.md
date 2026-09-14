@@ -18,7 +18,12 @@ byte-matching ROM.
 - [x] Milestone 2: delink & disassemble the ARM9 binary + overlays with our
       own tools, reassemble byte-identically (`tools/build.py`: 242 of 242
       regions PASS) and split the ARM9 into ordered translation units
-- [ ] Milestone 3: incrementally decompile to C, keeping the build matching
+- [~] Milestone 3: incrementally decompile to C, keeping the build matching.
+      In progress: about 7.7 percent of ARM9 game code ships as verified C
+      (361 entries; see layout/matched/ and python tools/worklist.py
+      --summary for live numbers), including the Pokemon data encryption
+      layer, the stat calculator, pokeparty.c, and 26 recovered original
+      source filenames
 - [ ] Planned: Pokémon White (IRAO) as a second build target of the same
       tree; tooling and schemas are kept target-parameterizable for this
       (see docs/ROADMAP.md)
