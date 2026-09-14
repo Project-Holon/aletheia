@@ -205,16 +205,48 @@ class Sdat:
         return {"file_id": file_id, "wave_arc": wave_arc}
 
     def seq_record(self, index):
-        """SEQ INFO record (12 bytes): u16 fileId, u16 bank, u8 volume,
-        u8 channel_pressure, u8 player_priority, u8 player_no,
-        u32 reserved."""
+        """SEQ INFO record (12 bytes): u16 fileId, u16 reserved (always 0),
+        u8 volume, u8 channel_pressure, u8 player_priority, u8 player_no,
+        u8 unk_const, u8 player_sel, u16 reserved2 (always 0).
+
+        Revised during the sseq2midi lane. The field previously labelled
+        "bank" (a u16 read from +2) is always 0 across all 940 populated SEQ
+        records, which can't be a real per-track BANK-table index --
+        `bank_record(0)` has no INFO record at all (0/940 lookups would
+        succeed). Byte-level re-inspection of the trailing 4 bytes (formerly
+        lumped into "u32 reserved") found: byte +8 is 0x40 in 939/940
+        records (the one exception is the degenerate `SEQ_PV_END` slot,
+        whose whole tail is zero) -- effectively constant, so almost
+        certainly a flag/padding byte, not a table index; byte +9 takes
+        only 7 distinct small values (0-6) across all 940 records; bytes
+        +10:12 are 0x0000 in every record sampled. Reading bytes +8:10 as
+        one little-endian u16 (as an earlier version of this method did)
+        happened to land on *valid* `bank_record()` rows purely by
+        arithmetic coincidence (`256*sel + 0x40` lands in the densely-
+        populated part of the 1986-slot BANK table often enough to look
+        like a hit) -- not a real decode; that version is wrong and has
+        been reverted.
+
+        Byte +9's range (0-6) matches this SDAT's own `PLAYER` record count
+        (7, see "SDAT internal structure" in docs/ASSETS.md) far better
+        than a direct BANK index would, so `player_sel` is reported as its
+        own field, most likely a PLAYER-table selector -- BANK resolution
+        for a given SEQ likely goes SEQ -> PLAYER -> BANK, not SEQ -> BANK
+        directly. PLAYER's own INFO record layout is not decoded (out of
+        scope this pass, same as the module docstring already notes for
+        SEQARC/GROUP/STRM internals), so this reader stops at reporting
+        `player_sel` and does not resolve it to an actual BANK. Callers
+        that need a real per-SEQ SBNK (e.g. `sseq2midi.py`'s program-number
+        mapping) must pass an explicit BANK index rather than rely on this
+        record."""
         ptr = self._info_record_offsets.get("SEQ", [])[index]
         if ptr == 0:
             return None
-        file_id, bank = struct.unpack_from("<HH", self.info_body, ptr)
-        vol, cpr, ppr, ply = struct.unpack_from("<4B", self.info_body, ptr + 4)
-        return {"file_id": file_id, "bank": bank, "volume": vol,
-                "channel_pressure": cpr, "player_priority": ppr, "player_no": ply}
+        (file_id, _reserved, vol, cpr, ppr, ply, unk_const,
+         player_sel, _reserved2) = struct.unpack_from("<HHBBBBBBH", self.info_body, ptr)
+        return {"file_id": file_id, "volume": vol, "channel_pressure": cpr,
+                "player_priority": ppr, "player_no": ply,
+                "unk_const": unk_const, "player_sel": player_sel}
 
     def raw_file(self, file_id):
         """Raw bytes of a FAT/FILE sub-blob (an SSEQ/SBNK/SWAR/STRM chunk)."""

@@ -784,19 +784,143 @@ pattern as SBNK/WAVARC):**
   This affects roughly half of real SEQ files to some degree (see
   coverage numbers above), concentrated at the end of each file's
   disassembly once the first unknown byte is hit.
-- The BANK/SEQ INFO record fields beyond `file_id`/`wave_arc`/`bank`
-  (volume, channel_pressure, player_priority, player_no in
-  `Sdat.seq_record()`) are a structurally-plausible field-count guess
-  (right total byte count, byte offsets confirmed against real BANK/
-  WAVARC cross-references for `file_id` and `wave_arc` specifically) but
-  individual field values observed (e.g. `volume=233`, out of the
-  expected 0-127 range) suggest the exact sub-field boundaries within
-  those bytes are not fully correct. Not load-bearing for anything in
-  this pass (no `.wav`/decode output depends on them), so left as a
-  labelled guess rather than chased further.
+- **`Sdat.seq_record()`'s "bank" field was wrong and has been corrected**
+  (sseq2midi lane). The field previously read as a `u16 bank` right after
+  `file_id` is 0 in all 940 populated SEQ records -- not a usable
+  BANK-table index (`bank_record(0)` has no INFO record). Byte-level
+  re-inspection of the record's trailing 4 bytes (previously lumped into
+  "`u32 reserved`") found: byte +8 is `0x40` in 939/940 records
+  (effectively constant); byte +9 takes only 7 distinct values (0-6),
+  matching this SDAT's own PLAYER record count (7); bytes +10:12 are
+  always 0. `seq_record()` now reports `unk_const` (+8) and `player_sel`
+  (+9, the 0-6 value) instead of a bogus `bank`. `player_sel`'s range
+  strongly suggests SEQ -> BANK resolution actually goes through PLAYER
+  (SEQ picks a PLAYER, PLAYER presumably names a BANK), not a direct
+  SEQ -> BANK index; PLAYER's own INFO record layout is still undecoded,
+  so this reader stops at reporting the selector. See `seq_record()`'s
+  docstring for the full byte trace, including how an intermediate,
+  since-reverted version of this fix looked like it worked (92.3% of a
+  wrongly-reassembled `u16` happened to resolve to *valid* BANK rows by
+  arithmetic coincidence) before the byte-by-byte re-check caught it.
+  `volume`/`channel_pressure`/`player_priority`/`player_no` are unchanged
+  from the previous pass and still carry the same caveat: right byte
+  count, but individual values (e.g. `volume=233`, out of an expected
+  0-127 range) suggest those specific sub-field boundaries may still not
+  be exactly right. Not load-bearing for anything besides `sseq2midi.py`'s
+  optional `--bank-index` cross-reference (which takes an explicit BANK
+  index precisely because this field can't supply one automatically).
 - STRM (streamed audio) format was not investigated -- `wb_sound_data.sdat`
   has zero STRM entries (see "SDAT internal structure" above), so there
   is nothing to decode.
+
+### SSEQ -> MIDI (`tools/assets/sseq2midi.py`)
+
+Fourth (audio) pass: makes the music actually audible in a standard MIDI
+player/synth, without needing real SBNK/SWAV sample-accurate synthesis.
+New, stdlib-only module `tools/assets/sseq2midi.py` converts a parsed
+`Sseq` (see above) to a format-1 Standard MIDI File: one MIDI track per
+SSEQ track (re-deriving track byte ranges from track 0's
+`AllocTrack`/`OpenTrack` header, same linear-layout convention as
+`sseq.py`'s own disassembly), tempo meta events from `Tempo` (0xE1, BPM),
+Pan/Volume/Expression mapped to MIDI CCs 10/7/11, Transpose applied to
+subsequent note numbers, PitchBend scaled into the 14-bit MIDI pitch-wheel
+range, and `ProgramChange`'s patch number mapped to `patch % 128` (a
+direct, not General-MIDI-accurate, program pick -- this ROM's own
+instruments have no GM equivalent). Everything else in the opcode table
+(Mod*, ADSR, Portamento*, MasterVolume, PitchBendRange, Priority, Tie,
+SweepPitch, ModDelay, the `0xB0`-`0xBD` variable ops, `Call`/`Return`) is a
+documented no-op, per the mission brief. Ticks: SSEQ `duration` values are
+used directly as MIDI delta-ticks against a 48-ticks-per-quarter division
+-- the standard, widely-documented Nitro Composer convention for this
+format, not independently re-derived byte-by-byte in this pass (this
+project's own SSEQ work never needed an absolute tick rate before now).
+
+**Loop unrolling:** real SSEQ tracks loop via a backward `Jump` late in
+the track, back to an earlier point in that same track's own byte range
+(not via `0xD4`/`0xFC` LoopStart/LoopEnd, which bound a small finite-
+repeat region and are left as no-ops). Per track: intro (before the loop
+target) + loop body (loop target up to the Jump) + loop body again
+(unrolled once, so the loop plays twice) + TrackEnd. A track with no
+qualifying backward Jump (including short SFX tracks, and a few BGM
+tracks whose loop point wasn't found within their own byte range, e.g.
+`SEQ_BGM_TITLE`) is emitted as-is.
+
+**Drum-kit routing to MIDI channel 10, and the SEQ -> BANK gap:** when an
+`Sbnk` is supplied (`--bank-index`), a track whose `ProgramChange` patch
+resolves to a `record_type == 16` (drum kit) SBNK instrument is routed to
+MIDI channel 10, matching General MIDI's percussion-channel convention.
+This can't be automatic per-SEQ, though: reverse-checking `seq_record()`
+for this lane found its "bank" field was actually always 0 -- garbage, not
+a real BANK index (see the SBNK/SSEQ gaps list above for the full trace)
+-- so there is currently no known way to look up "the" SBNK for an
+arbitrary SEQ from its own INFO record; callers must pass `--bank-index`
+explicitly (found by inspection). Without it, every track is melodic and
+program numbers are the raw `patch % 128` value.
+
+**Verification:** `read_midi()` is a minimal, from-scratch SMF reader
+(delta-time VLQs, running status, meta/SysEx/channel events) used only to
+parse this module's own output back and confirm track count and note
+count match what was written -- not a general-purpose MIDI library.
+
+**Exported, 940/940 populated SEQ slots converting without error** (25 of
+them spot-checked round-trip clean via `read_midi()`, notes-per-track
+match on write vs. read-back). Files written to `build/assets/midi/`
+(gitignored, regenerate, don't commit):
+
+| file | SEQ index | name | tracks | tempo (BPM) | notes |
+|---|---:|---|---:|---:|---:|
+| `seq_bgm_dummy_slot0.mid` | 1000 | `SEQ_BGM_DUMMY` (SEQ_BGM slot 0) | 11 | 203 | 26 |
+| `seq_bgm_title.mid` | 1003 | `SEQ_BGM_TITLE` | 12 | 60 | 65 |
+| `seq_bgm_e_opening.mid` | 1102 | `SEQ_BGM_E_OPENING` | 7 | 62 | 77 |
+| `seq_bgm_gym.mid` | 1062 | `SEQ_BGM_GYM` | 9 | 116 | 110 |
+| `seq_bgm_vs_norapoke_wildbattle.mid` | 1128 | `SEQ_BGM_VS_NORAPOKE` | 11 | 190 | 238 |
+| `seq_bgm_vs_gymleader.mid` | 1132 | `SEQ_BGM_VS_GYMLEADER` | 11 | 176 | 323 |
+| `seq_bgm_vs_shitenno_elitefour.mid` | 1135 | `SEQ_BGM_VS_SHITENNO` (Elite Four) | 10 | 190 | 39 |
+| `seq_bgm_vs_champ.mid` | 1136 | `SEQ_BGM_VS_CHAMP` | 11 | 174 | 221 |
+| `seq_se_message.mid` | 1351 | `SEQ_SE_MESSAGE` (sound effect) | 1 | 300 | 2 |
+
+(`SEQ_BGM_OPENING_TITLE_B`/`_W`, indices 1005/1006, were tried first as
+"opening theme" candidates but are both a 9-event, 0-note, 192-tick silent
+stub with an out-of-range loop `Jump` target -- real placeholder data, not
+a decode bug -- so `SEQ_BGM_E_OPENING` was exported instead.)
+
+**Opcode coverage gaps affecting playback:**
+
+- Any SSEQ opcode this lane's opcode table doesn't recognise still ends
+  disassembly with a `RAW` fallback (see `sseq.py`'s coverage numbers,
+  ~98.6% average, 51% of files 100%); `sseq2midi.py` simply stops
+  rendering that track at that point, so a handful of tracks in a given
+  file may cut off before the file's true end.
+- `0xA0`/`0xA1`/`0xA2` (Random/GetVariable/If) value substitution is not
+  handled (same known gap as `sseq.py`) -- a randomized velocity or
+  branch, where present, is not reproduced.
+- `Call`/`Return` (0x95/0xFD) are not executed as subroutine calls; a
+  `Call` ends this lane's rendering of that track at that point (rare in
+  the files sampled).
+- Loop-point detection only recognises a single backward `Jump` per
+  track; a track that loops through `Call`/`Return` or a more elaborate
+  jump chain is emitted as a single unlooped playthrough instead.
+- Program numbers are raw SSEQ patch values (`% 128`), not General MIDI
+  instrument numbers -- a generic MIDI synth's default sound bank will
+  not resemble this ROM's actual instrument timbres. Real timbral
+  accuracy needs the SBNK/SWAV sample data itself, not a GM synth.
+
+**Remaining work for real synthesis (SBNK samples via SWAV):** true
+sample-accurate playback needs a custom softsynth, not a MIDI file: for
+each SBNK instrument, resolve `wave_arc`/`wave_id` through the owning
+BANK's `wave_arc[4]` table (already done for the Pikachu-cry worked
+example) to a `swav.py`-decoded PCM8/IMA-ADPCM sample, pitch-shift it from
+`base_note` to each played note, apply the type-1 ADSR envelope
+(`attack`/`decay`/`sustain`/`release`, not currently interpreted
+numerically anywhere in this lane) and pan, and mix all active voices per
+track per tick. That also needs SBNK types 2/3 (still unknown, guessed
+PSG channel types) and a verified decode of 16/17's region-split table
+(currently medium-confidence, see the SBNK section above) to cover every
+instrument, plus the still-undecoded PLAYER record to make SEQ -> BANK
+resolution automatic instead of requiring `--bank-index` by hand. None of
+that was attempted this pass -- MIDI-with-approximate-instruments was the
+mission's actual ask ("make the music audible"), and that's what
+`sseq2midi.py` delivers today.
 
 ## Where things probably live (guesses, ranked by evidence)
 
@@ -917,7 +1041,10 @@ being reverse engineered against known visuals).
    SWAR/SWAV, SBNK, and SSEQ payload formats, are now all opened by
    `tools/assets/sdat.py`, `swav.py`, `sbnk.py`, `sseq.py`; cries decode
    and play, instrument banks and sequence bytecode are parsed and
-   round-trip verified. See "SWAR/SWAV, SBNK, SSEQ: audio playback
+   round-trip verified. `tools/assets/sseq2midi.py` renders SSEQ sequences
+   to Standard MIDI Files (see "SSEQ -> MIDI" above) -- the music itself is
+   now audible, with real sample-accurate synthesis (SBNK/SWAV playback)
+   left as future work. See "SWAR/SWAV, SBNK, SSEQ: audio playback
    formats" above.
 8. **Text banks**: lowest priority for this list since even the *location*
    of the real text data is unconfirmed (see above) and decoding needs the
@@ -3721,6 +3848,151 @@ palette.
   not a fixed stride or table. Identified as a Bag item-icon archive (not
   overworld sprites). 10 samples rendered to `build/assets/overworld2/`.
   NCGR round trip: 451/451 (100%).
+
+## Eleventh lane pass: `a/0/3/1`'s NANR timeline fully decoded (real 4-direction walk/run cycle), NCGR round trip, and the full walk-cycle NPC set located (`tools/assets/walk.py`)
+
+Two-part mission on the `a/0/3/1` archive flagged (but not mined) by the
+previous pass's trainer-sprite search: (1) fully decode its `NCER`/`NANR`,
+render every animation set as strips, implement `NCGR` round trip, and
+identify the characters; (2) find every sibling archive sharing the same
+bundle shape to build the full walk-cycle NPC list. New tool:
+`tools/assets/walk.py` (`--sets`, `--all`, `--multi`, `--verify`,
+`--scan-siblings`, `--render-siblings`). Renders under
+`build/assets/walk/`.
+
+### NANR sequence partition: the real per-sequence frame-count field
+
+`a/0/3/1`'s `RNAN` sub-files use the same 16-byte, 5-field KNBA sequence
+record `rig.Nanr`/`overworld.SharedAnim` already read, and the field those
+modules use as `num_frames` (offset 4) reads **0 for every sequence
+here too** -- not usable, same problem as `a/0/0/7`. What resolves it: the
+sequence record's **last** field (offset 12, called `field_e`) is a byte
+offset into the element array (`field_e / 8`, 8 bytes per element record),
+and taking every sequence's `field_e/8` in array order gives a
+**complete, gapless partition of every element index** -- confirmed exactly
+on all three of `a/0/3/1`'s `RNAN` sub-files (partition sums equal
+`num_elements` precisely: 40, 35, 32). This is a different field from the
+one `overworld.SharedAnim` uses for `a/0/0/7` (that module's own first-field
+reading does not partition `a/0/3/1`'s element array either); `walk.py`'s
+`Nanr2` class implements the `field_e` reading as new, separate code
+rather than changing already-shipped-and-verified `overworld.SharedAnim`.
+
+Per-element frame data also needed correcting: the first 16 bytes of the
+frame-data pool are 4-byte `{cellIdx(u16), sentinel(u16)=0xCCCC}` records
+(same shape `overworld.SharedAnim` uses for `a/0/0/7`), but past that the
+pool is a **denser, plain 2-byte-per-frame region** (just `cellIdx`, no
+per-record sentinel -- confirmed by direct byte dump, `a/0/3/1`'s main
+`RNAN` frame-data steps by 2 bytes there, not 4, and only every 4th slot
+happens to hold 0xCCCC as data). Reading a plain `cellIdx` u16 straight
+from `frame_data[fofs:fofs+2]`, with no sentinel check, reproduces the
+correct value in both regions (in the 4-byte region `fofs` always lands on
+the cellIdx half of the pair) -- `walk.py` decodes this way uniformly.
+
+### `a/0/3/1`'s main set is a genuine 4-direction walk/run cycle
+
+The 24-cell/384-tile set's `LBAL` names 13 sequences with real direction
+words: `top, bottom, left, right, rota, top_loop, bottom_loop, left_loop,
+right_loop, top_run, bottom_run, left_run, right_run`. Decoded frame
+counts via the `field_e` partition: `top/bottom/left/right` = 1 frame
+each (static facing pose), `rota` = 4 frames (in-place turn), every
+`*_loop`/`*_run` = 4 frames. `top_loop`'s decoded cell sequence is
+`[5, 1, 4, 1]` -- alternating a walk-specific cell with the direction's own
+static "stand" cell (1) -- the textbook GBA/NDS 2-step walk-cycle shape
+(step, stand, step, stand), which is strong independent confirmation this
+reading is right, on top of the exact 40/35/32 partition sums.
+
+`a/0/3/1` also carries two companion sets found by the previous pass but
+not rendered: a 12-cell/192-tile set (generic `CellAnimeN` names; its
+longest sequence, `CellAnime31`, renders as a bicycle-wheel silhouette
+cycling under the character -- a bike-riding kit) and an 11-cell/64-tile,
+`mapping_type=0` set (also generic names; its two 9-frame sequences render
+a small bubble/exclamation icon popping in over the character's head and
+back out -- a "surprised" emote), plus a tiny single-cell/single-frame set
+(1 cell, 4 tiles, name `CellAnime0`) rendered as `shadow` -- most likely
+the character's ground shadow blob. All 4 sets x all sequences (29 strips)
+rendered to `build/assets/walk/0000_*.png`.
+
+**Visual identification**: the rendered `bottom`/`top_loop`/etc. strips
+show a small, clearly human 32x32 figure in a black-and-red jacket with a
+cap -- reads as a **named protagonist-class character** (the level of
+per-direction, per-gait (walk vs. run) detail -- 13 named sequences, 3
+full companion kits -- is well beyond what a generic townsperson NPC gets
+in `a/0/3/2`, see below), most consistent with the player character or a
+comparably-detailed named character (rival), not a generic NPC class.
+Not confirmed against a name table (none was found or searched for this
+pass).
+
+### `NCGR` round trip
+
+No new code needed: `overworld.NcgrFile`/`.encode()` (already byte-exact
+for `a/0/0/7`/`a/0/2/5`) parses and re-serializes `a/0/3/1`'s `RGCN`
+sub-files unchanged. `walk.py --verify` delegates straight to
+`overworld.verify_round_trip()`: **7/7 (100%)**.
+
+### Sibling search: only 2 archives share the walk-cycle bundle signature, and the second one is a 32-character bundle in a single archive
+
+`--scan-siblings` opens all 247 files under `extract/data/` and flags any
+`RNAN` whose `LBAL` names include all of `top`/`bottom`/`left`/`right`
+(the direction-word signature, checked instead of raw `NCER` cell count
+since cell count varies per character/companion-set and would both
+over- and under-match). Only **two** archives hit: `a/0/3/1` itself, and
+`a/0/3/2`. The a/0/3/x run's other members do NOT share this shape
+(`a/0/3/0` and `a/0/3/3` are map-tileset-heavy archives with only 1-2
+`NCER`/`NANR` each, not character bundles) -- the previous pass's guess
+that `a/0/3/0`/`a/0/3/2`/`a/0/3/3` were all "likely siblings" by proximity
+alone was too broad; direct content search says only one truly is.
+
+**`a/0/3/2` (97 sub-files) is a fundamentally different bundle shape from
+`a/0/3/1`**: instead of one archive per character with every resource
+group duplicated on disk, it packs **32 small characters into one
+archive** sharing **one 256-color (16-sub-palette) `RLCN`**: a run of 16
+`RGCN`, then 16 alternating `(RECN, RNAN)` pairs, then that whole
+(16 `RGCN`, 16 pairs) shape repeats once more. Each entity's real
+sub-palette index is **not** its position in the block (that was tried
+first and renders several entities solid black) but is carried directly
+in every one of its cells' own OAM `attr2` `pal` nibble -- unlike
+`a/0/0/7` (whose OAMs all declare `pal=0`, forcing an external ARM9 table
+lookup), this archive's OAMs already carry the real per-entity value
+on-disk, confirmed constant across all of one entity's cells and
+correctly reproducing a colorful, coherent figure for every one of the 32
+entities once read that way. Block 1 entities (0-15) are 4-cell/64-tile
+figures with only 5 sequences (`top/bottom/left/right/rota`, no loop or
+run -- static-facing-pose NPCs); block 2 (16-31) are 1-cell/16-tile
+figures with up to 9 sequences (adds `*_loop`, still no `*_run`). Neither
+block matches `a/0/3/1`'s full 13-sequence, 3-companion-kit richness.
+`walk.py`'s `find_multi_entity_blocks`/`render_multi_entity_archive`
+handle this shape generically (works for any number of same-sized
+blocks, not hardcoded to 2x16). `NCGR` round trip: **32/32 (100%)**.
+
+**Visual identification of `a/0/3/2`'s 32 entities** (`build/assets/walk/
+0001..0032_bottom.png`): a genuinely varied cast, not one uniform class --
+samples include a crowned king/elder figure, a jester/mime-like figure, a
+blonde girl, a red-haired trainer-class figure, and others, each visually
+distinct in outfit/color/silhouette. This reads as **the generic overworld
+NPC set** (a roster of small townsperson/character archetypes), separate
+from and lower-detail than `a/0/3/1`'s single named character.
+
+### Report
+
+- **`a/0/3/1`**: a real 4-direction walk/run cycle (not an idle bob like
+  `a/0/0/7`), 13 named sequences + 3 companion kits (bike, emote/shadow),
+  40+35+32+1 = 108 total decoded frame-entries across all 4 sets, all
+  exact partitions. 29 strips rendered to `build/assets/walk/0000_*.png`.
+  Best identification: a single named, high-detail character (player or
+  rival class), not a generic NPC.
+- **Full walk-cycle NPC set located**: `a/0/3/2`, 32 lower-detail generic
+  overworld characters in one archive (2 blocks of 16, static-pose-only
+  in block 1, adds a walk loop in block 2). No other archive in the ROM
+  shares the direction-word `RNAN` signature. 208 strips rendered to
+  `build/assets/walk/0001..0032_*.png`.
+- **`NCGR` round trip**: `a/0/3/1` 7/7, `a/0/3/2` 32/32 (both 100%),
+  reusing `overworld.NcgrFile`/`verify_round_trip` unchanged.
+- **Remaining gaps**: no name/index table was found mapping either
+  archive's entities to actual in-game character names (player/rival/NPC
+  class identity is by visual read only). `a/0/3/2` block 1's missing
+  `*_loop`/`*_run` sequences (static-pose-only) were not investigated
+  further -- possibly these characters never walk on-screen (e.g. fixed
+  NPCs) or their movement uses a different, unfound animation source.
 
 ## Eleventh lane pass: text cipher/format confirmed from decompiled source (100% round trip); rig composer semantics re-derived from real bytes, still not recognizable
 
