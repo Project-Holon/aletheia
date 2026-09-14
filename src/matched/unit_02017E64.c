@@ -1,0 +1,161 @@
+/*
+ * unit:     yes
+ * address:  0x02017E64
+ * packet:   pkt_02017C50
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * function: func_02017E64, func_02017E88, func_02017EAC, func_02017EB4,
+ *           func_02017ED8, func_02017F00, func_02017F08, func_02017F50,
+ *           func_02017F90, func_02017F9C, func_02017FA8
+ *
+ * symbols:
+ *   func_02017DBC  0x02017DBC  thumb
+ *   func_02017DE4  0x02017DE4  thumb
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02017E40  0x02017E40  thumb
+ *   func_02017FB0  0x02017FB0  thumb
+ *   func_02018D34  0x02018D34  thumb
+ *   func_02018D8C  0x02018D8C  thumb
+ *   func_02018E34  0x02018E34  thumb
+ *   func_02019388  0x02019388  thumb
+ *   func_02019C54  0x02019C54  thumb
+ *   func_0201AE1C  0x0201AE1C  thumb
+ *
+ * Five of the eleven carry no label in the generated listing: the three eight
+ * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
+ * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
+ * and 0x02017F9C, all of them
+ * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, func_02017F00
+ * and func_02017FA8 each tail call the function immediately after them, which
+ * makes two of the three sites the `local` class.
+ *
+ * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
+ * exactly one source order, which is not the order the `eors` appear in; see
+ * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
+ *
+ * func_02017F50 dispatches 0, 0xFE and 0xFF out of a byte and falls through to
+ * a comparison for everything else.  The three tests are one `switch`: written
+ * as a chain of `if (n == k) return v;` statements each return gets its own
+ * epilogue, while the switch puts the three bodies after the compare chain and
+ * shares one `pop`, which is what the original does.  The `lsls`/`lsrs` pair
+ * that truncates the call result is only emitted when the callee is declared
+ * wider than `u8`, so func_0201AE1C returns a word and the source assigns it to
+ * a byte local.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32  func_02017DBC(void *p);
+extern u32  func_02017DE4(void *p, u32 f);
+extern u32  func_02017E1C(void *p, u32 id, u32 v);
+extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32  func_02017FB0(void *p);
+extern u32  func_02018D34(void *p);
+extern void func_02018D8C(void *p);
+extern u32  func_02018E34(void *p, u32 id, u32 v);
+extern void func_02019388(void *p, u32 id, u32 v);
+extern void *func_02019C54(u32 a, u16 b);
+extern u32  func_0201AE1C(void *p, u32 n);
+
+u32 func_02017EB4(void *p);
+u32 func_02017ED8(u32 a, u32 b);
+u8 func_02017F08(void *p);
+u8 func_02017F50(u32 a, u16 b, u32 c);
+
+void func_02017E64(void *p, u32 id, u32 v)
+{
+    if (func_02018D34(p) == 1) {
+        func_02019388(p, id, v);
+    }
+    func_02018D8C(p);
+}
+
+u32 func_02017E88(void *p, u32 id, u32 v)
+{
+    u32 r;
+
+    func_02018D34(p);
+    r = func_02018E34(p, id, v);
+    func_02018D8C(p);
+    return r;
+}
+
+u32 func_02017EAC(void *p)
+{
+    return func_02017EB4(p);
+}
+
+u32 func_02017EB4(void *p)
+{
+    u32 a = func_02017E88(p, 7, 0);
+
+    return func_02017ED8(a, func_02017E88(p, 0, 0));
+}
+
+u32 func_02017ED8(u32 a, u32 b)
+{
+    u32 x = ((a & 0xFFFF0000) >> 16) ^ (u16)a ^ ((b & 0xFFFF0000) >> 16) ^ (u16)b;
+
+    if (x < 8) {
+        return 1;
+    }
+    return 0;
+}
+
+u8 func_02017F00(void *p)
+{
+    return func_02017F08(p);
+}
+
+u8 func_02017F08(void *p)
+{
+    u32 t = func_02017DBC(p);
+    u16 a = (u16)func_02017E88(p, 5, 0);
+    u32 b = func_02017E88(p, 0x6F, 0);
+    u32 c = func_02017E88(p, 0, 0);
+
+    func_02017DE4(p, t);
+    return func_02017F50(a, (u16)b, c);
+}
+
+u8 func_02017F50(u32 a, u16 b, u32 c)
+{
+    u8 n = func_0201AE1C(func_02019C54(a, b), 0x14);
+    u8 r;
+
+    switch (n) {
+    case 0x00:
+        return 0;
+    case 0xFE:
+        return 1;
+    case 0xFF:
+        return 2;
+    }
+    if ((u8)c < n) {
+        r = 1;
+    } else {
+        r = 0;
+    }
+    return r;
+}
+
+u32 func_02017F90(void *p)
+{
+    return func_02017E1C(p, 0x9D, 0);
+}
+
+void func_02017F9C(void *p, u32 v)
+{
+    func_02017E40(p, 0x9D, v);
+}
+
+u32 func_02017FA8(void *p)
+{
+    return func_02017FB0(p);
+}

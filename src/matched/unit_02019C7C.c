@@ -1,0 +1,75 @@
+/*
+ * unit:     yes
+ * address:  0x02019C7C
+ * packet:   pkt_02019388
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * function: func_02019C7C, func_02019C90, func_02019CA0, func_02019CE0
+ *
+ * func_02019CE0 carries no label in the generated listing: it saves r3 and r4
+ * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
+ * arrive as a run of .word between two literal pools.  See
+ * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  It is one
+ * struct assignment: 27 ldm/stm pairs of eight bytes plus a trailing word is
+ * 0xDC bytes, and the eight byte step is what says the record is at least four
+ * aligned, which is docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
+ *
+ * The range stops at 0x02019CF8, which is an eight byte tail call whose pool
+ * word names 0x02019BBC.  That address carries no func_ label and no other
+ * pool word in the image holds it, so neither the label nor the literal class
+ * can attest it and the stub cannot be matched from either side.
+ *
+ * symbols:
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02017E40  0x02017E40  thumb
+ *   func_02018584  0x02018584  thumb
+ *   func_020185C4  0x020185C4  thumb
+ *   func_02019C54  0x02019C54  thumb
+ *   func_0201AE1C  0x0201AE1C  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32  func_02017E1C(void *p, u32 id, u32 v);
+extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32  func_02018584(u16 a, u16 b, u16 v);
+extern void func_020185C4(void *p);
+extern void *func_02019C54(u16 a, u16 b);
+extern u32  func_0201AE1C(void *h, u32 k);
+
+struct RecDC {
+    u32 unk00[0x37];
+};
+
+u32 func_02019C7C(void *h)
+{
+    if (func_0201AE1C(h, 0x1B) != 0) {
+        return 2;
+    }
+    return 1;
+}
+
+u32 func_02019C90(u16 a, u16 b, u32 k)
+{
+    return func_0201AE1C(func_02019C54(a, b), k);
+}
+
+void func_02019CA0(void *p, u32 v)
+{
+    u32 a = func_02017E1C(p, 5, 0);
+    u32 b = func_02017E1C(p, 0x6F, 0);
+
+    func_02017E40(p, 8, func_02018584((u16)a, (u16)b, (u16)v));
+    func_020185C4(p);
+}
+
+void func_02019CE0(const struct RecDC *src, struct RecDC *dest)
+{
+    *dest = *src;
+}

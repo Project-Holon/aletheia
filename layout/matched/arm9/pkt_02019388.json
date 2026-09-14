@@ -1,0 +1,88 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02019388",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_02019A50",
+   "address": "0x02019A50",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02019A50.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02019A50",
+    "func_02019A7C",
+    "func_02019A9C"
+   ]
+  },
+  {
+   "name": "unit_02019B04",
+   "address": "0x02019B04",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02019B04.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02019B04"
+   ]
+  },
+  {
+   "name": "func_02019B44",
+   "address": "0x02019B44",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02019B44.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_02019C7C",
+   "address": "0x02019C7C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02019C7C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02019C7C",
+    "func_02019C90",
+    "func_02019CA0",
+    "func_02019CE0"
+   ]
+  },
+  {
+   "name": "unit_02019D00",
+   "address": "0x02019D00",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02019D00.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02019D00",
+    "func_02019D30"
+   ]
+  }
+ ]
+}

@@ -58,17 +58,17 @@
    "index": 6,
    "file": "asm/arm9/src/006_02017E64.s",
    "base": 33652324,
-   "size": 20428,
+   "size": 20368,
    "functions": 180,
-   "code_bytes": 14072
+   "code_bytes": 14064
   },
   {
    "index": 7,
-   "file": "asm/arm9/src/007_0201CE30.s",
-   "base": 33672752,
-   "size": 19200,
-   "functions": 180,
-   "code_bytes": 15918
+   "file": "asm/arm9/src/007_0201CDF4.s",
+   "base": 33672692,
+   "size": 19260,
+   "functions": 181,
+   "code_bytes": 15940
   },
   {
    "index": 8,

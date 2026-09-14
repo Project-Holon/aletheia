@@ -117,7 +117,8 @@
    "status": "EXACT",
    "functions": [
     "func_0200DD8C",
-    "func_0200DDA8"
+    "func_0200DDA8",
+    "func_0200DDD0"
    ]
   }
  ]

@@ -1,0 +1,71 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02010BB8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_020111E8",
+   "address": "0x020111E8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_020111E8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_02011330",
+   "address": "0x02011330",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02011330.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02011330",
+    "func_0201134C",
+    "func_0201137C",
+    "func_02011398",
+    "func_020113B0",
+    "func_020113B4",
+    "func_020113C4"
+   ]
+  },
+  {
+   "name": "func_020113D8",
+   "address": "0x020113D8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_020113D8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_02011D28",
+   "address": "0x02011D28",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02011D28.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02011D28",
+    "func_02011D34"
+   ]
+  }
+ ]
+}

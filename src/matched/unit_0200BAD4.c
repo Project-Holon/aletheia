@@ -1,0 +1,110 @@
+/*
+ * A whole translation unit, matched as one byte range.  Written from the
+ * disassembly in asm/arm9/src/002_020095C8.s.
+ *
+ * unit:     yes
+ * address:  0x0200BAD4
+ * packet:   pkt_0200B938
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * function: func_0200BAD4
+ *
+ * 30 bytes, 0x0200BAD4..0x0200BAF4, one function, which carries no label in
+ * the generated listing.
+ *
+ * One 0x88-byte entry assigned into a two-dimensional array: the outer stride
+ * is 0x330 and the inner 0x88, and the copy is an inline counted `ldm`/`stm`
+ * loop of 17 iterations, which is 0x88 divided by eight.  The eight-byte step
+ * is what says the entry is word aligned; declared as a byte array the same
+ * assignment becomes a `ldrb`/`strb` loop of 0x88 iterations.  See
+ * docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
+ *
+ * It is a range of its own because the function on either side of it is a
+ * near miss: func_0200BAC8 before it, which has no witness for 0x020271CC,
+ * and func_0200BAF4 after it, which is fifteen bytes of register numbering.
+ * Its only caller, func_0200BB58, is therefore outside this range and is what
+ * attests it. *
+ * symbols:
+ *   (none)
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned long long u64;
+typedef signed int     s32;
+
+extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
+extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
+extern u16   func_0203F1FC(const void *src, u32 size);
+extern void *func_02034AC4(u32 a);
+extern void *func_02034A5C(u32 a);
+extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
+extern void  func_02045F5C(void *h, u32 a, void *dest, u32 size);
+extern void  func_02045C04(void *h);
+extern void  func_020307B0(void *p);
+
+extern void  func_0200B900(void *a, u32 b, u32 c, u32 d);
+extern void *func_020271CC(void *a, u32 id);
+extern void  func_02017550(void *ent);
+extern void *func_0201A920(u32 a);
+extern void  func_0201A954(void *list, u32 n);
+extern void  func_0201A98C(void *list, void *e);
+extern u32   func_0201AA18(void *list);
+extern void *func_0201AB28(void *list, u32 i);
+extern void *func_020185F4(void *a);
+extern u32   func_02017E88(void *e, u32 a, u32 b);
+extern void *func_0201747C(void *e, u16 tag);
+extern void *func_0200BBEC(void *a, u32 b, u32 c);
+
+extern const u16 func_0200B98C_Table[];
+
+struct RecC4 {
+    u8  unk0000[0x17DC];
+    u16 unk17DC;
+    u8  unk17DE[2];
+};
+
+struct BattleRec {
+    u8  unk00[0x80];
+    u8  unk80[0x44];
+    struct RecC4 unkC4;
+};
+
+extern struct BattleRec *gObj_0214616C;
+
+struct QRec {
+    u16 unk00[0x0C];
+    u8  unk18[0x0C];
+    u16 unk24;
+    u16 unk26;
+    u8  unk28[2];
+    u8  unk2A;
+    u8  unk2B;
+    u8  unk2C[0x0C];
+    u64 unk38;
+};
+
+struct Ent88 {
+    u32 unk00[0x22];
+};
+
+struct Grp330 {
+    struct Ent88 ent[6];
+};
+
+struct Rec35C {
+    struct Grp330 unk000;
+    u8 unk330[0x14];
+    u8 unk344[0x18];
+};
+
+void func_0200BAD4(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src)
+{
+    p[g].ent[i] = *src;
+}
+

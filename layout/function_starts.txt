@@ -36,3 +36,8 @@ arm9_main  0x0200A6F8  thumb   # bl from ov133 at 0x021B62A2
 # the setter, only the pool word at 0x02008948 holds its address, so the
 # prologue sweep and the branch trace both miss it.
 arm9_main  0x02014464  thumb   # bl from ov010 at 0x0215ED40 and 0x02164404
+
+# An unlabelled leaf holding the second pool reference to the s8[][5] table at
+# 0x0209E324; tracing it gives attest() the outside witness that unit_02019B04
+# needs (wave 4B integrator note).
+arm9_main  0x02019B44  thumb   # pool word referencing 0x0209E324; see src/pending/unit_02019B04.c header
