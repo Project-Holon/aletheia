@@ -7,6 +7,49 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "unit_0200D6EC",
+   "address": "0x0200D6EC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200D6EC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200D6EC",
+    "func_0200D6FC",
+    "func_0200D70C",
+    "func_0200D72C",
+    "func_0200D73C"
+   ]
+  },
+  {
+   "name": "unit_0200D858",
+   "address": "0x0200D858",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200D858.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200D858",
+    "func_0200D85C",
+    "func_0200D868",
+    "func_0200D87C",
+    "func_0200D884",
+    "func_0200D914",
+    "func_0200D9E8",
+    "func_0200DA14",
+    "func_0200DA28",
+    "func_0200DA54"
+   ]
+  },
+  {
    "name": "unit_0200DA64",
    "address": "0x0200DA64",
    "kind": "game_unit",

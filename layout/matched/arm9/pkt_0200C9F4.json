@@ -1,0 +1,68 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0200C9F4",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_0200C9EC",
+   "address": "0x0200C9EC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200C9EC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200C9EC",
+    "func_0200C9F4",
+    "func_0200CA10",
+    "func_0200CA1C",
+    "func_0200CA28",
+    "func_0200CA38",
+    "func_0200CA40",
+    "func_0200CA54",
+    "func_0200CA5C",
+    "func_0200CA70",
+    "func_0200CA78",
+    "func_0200CA8C"
+   ]
+  },
+  {
+   "name": "unit_0200D414",
+   "address": "0x0200D414",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0200D414.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0200D414",
+    "func_0200D418",
+    "func_0200D424",
+    "func_0200D440",
+    "func_0200D454",
+    "func_0200D45C",
+    "func_0200D468",
+    "func_0200D470",
+    "func_0200D478",
+    "func_0200D480",
+    "func_0200D488",
+    "func_0200D494",
+    "func_0200D4AC",
+    "func_0200D4B8",
+    "func_0200D50C",
+    "func_0200D55C",
+    "func_0200D564",
+    "func_0200D58C"
+   ]
+  }
+ ]
+}

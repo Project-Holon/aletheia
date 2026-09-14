@@ -1,0 +1,157 @@
+/*
+ * unit:     yes
+ * address:  0x020120F0
+ * packet:   pkt_02011EC0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * function: func_020120F0, func_020120F4, func_020120F8, func_02012104,
+ *           func_02012108, func_0201210C, func_02012110, func_02012114,
+ *           func_02012124, func_0201212C, func_02012134, func_02012138,
+ *           func_0201213C, func_02012144, func_0201214C
+ *
+ * symbols:
+ *   func_020127A4  0x020127A4  thumb
+ *   func_02012BB0  0x02012BB0  thumb
+ *
+ * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
+ * label: every one of them is a two- or three-instruction accessor on a
+ * 0x34-byte context record, and the whole run arrives in the listing as .word
+ * data between two literal pools.
+ *
+ * The size of the record is not a guess: func_02011F24 is
+ * `movs r0, #0x34; bx lr`, its sizeof getter, and it is matched in
+ * src/matched/unit_02011F24.c against the same declaration.  The two byte
+ * fields at +0x30 and +0x32 cost an `adds r0, #0x30` each because the Thumb
+ * `strb` immediate only reaches +31, which is
+ * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
+ * source.
+ *
+ * func_020120F8 and func_0201214C are tail calls through pool words: the
+ * first hands +0x1C to func_020127A4 and the second to func_02012BB0, and
+ * both are ABS32 against a Thumb target, so the pool word is odd.
+ *
+ * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
+ * miss.  Its pool word holds 0x02012BC9, and func_02012BC8 has no label in the
+ * listing (it has no register-saving prologue) and no other reference anywhere
+ * in the image, so neither the `label` nor the `literal` class has a witness
+ * outside the twelve bytes under test.  Every concrete byte reproduces from
+ *
+ *     void func_02012158(const struct Ctx *p, u32 v)
+ *     {
+ *         func_02012BC8(p->unk1C, v);
+ *     }
+ *
+ * Evidence class: literal, 0 witnesses outside.  It closes with the same event
+ * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_020120F0.c \
+ *       --addr 0x020120F0 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8  *func_020127A4(void *p);
+extern u32  func_02012BB0(void *p);
+
+struct Ctx {
+    u8    unk00[0xC];
+    u32   unk0C;
+    u8    unk10[8];
+    u32   unk18;
+    void *unk1C;
+    u32   unk20;
+    u32   unk24;
+    u32   unk28;
+    u32   unk2C;
+    u8    unk30;
+    u8    unk31;
+    u8    unk32;
+    u8    unk33;
+};
+
+u32 func_020120F0(const struct Ctx *p)
+{
+    return p->unk0C;
+}
+
+void *func_020120F4(const struct Ctx *p)
+{
+    return p->unk1C;
+}
+
+u8 *func_020120F8(const struct Ctx *p)
+{
+    return func_020127A4(p->unk1C);
+}
+
+u32 func_02012104(const struct Ctx *p)
+{
+    return p->unk18;
+}
+
+void func_02012108(struct Ctx *p, u32 v)
+{
+    p->unk18 = v;
+}
+
+u32 func_0201210C(const struct Ctx *p)
+{
+    return p->unk20;
+}
+
+void func_02012110(struct Ctx *p, u32 v)
+{
+    p->unk20 = v;
+}
+
+u32 func_02012114(const struct Ctx *p)
+{
+    if (p->unk20 != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+void func_02012124(struct Ctx *p, u8 v)
+{
+    p->unk30 = v;
+}
+
+u8 func_0201212C(const struct Ctx *p)
+{
+    return p->unk30;
+}
+
+u32 func_02012134(const struct Ctx *p)
+{
+    return p->unk2C;
+}
+
+u32 func_02012138(const struct Ctx *p)
+{
+    return p->unk24;
+}
+
+void func_0201213C(struct Ctx *p, u8 v)
+{
+    p->unk32 = v;
+}
+
+u8 func_02012144(const struct Ctx *p)
+{
+    return p->unk32;
+}
+
+u32 func_0201214C(const struct Ctx *p)
+{
+    return func_02012BB0(p->unk1C);
+}
