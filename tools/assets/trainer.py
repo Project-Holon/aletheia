@@ -250,6 +250,149 @@ def indices_to_rgb(indices, palette):
     return [palette[p] if p < len(palette) else (255, 0, 255) for p in indices]
 
 
+# ---------------------------------------------------------------------------
+# Re-encoder (byte-identical round trip)
+# ---------------------------------------------------------------------------
+#
+# `decode_frames()` above (used for the PNG dump) hard-codes a 32x32/1024-
+# byte canvas and reads only the HIGH nibble of each pixel byte, on the
+# strength of 3 samples (indices 0, 1, 100). Building the re-encoder and
+# checking it against all 733 sub-files falsified both simplifications:
+#
+# 1. The per-" TPS"-chunk `pixel_bytes` field at +0x08 (called `pb` below)
+#    is NOT a constant 0x400 -- sub-files 0 and 1 declare 0x1000 (4096).
+#    The true per-chunk pixel region size is `pb`, clipped to whatever
+#    room is actually available before the next " TPS" tag (or before the
+#    trailing 32-byte palette, for the last chunk in a sub-file) -- this
+#    clipped-length rule reproduces the exact original byte layout for
+#    all 733 sub-files (see `verify_all_reencode()`).
+# 2. The low nibble of each pixel byte is NOT a 1-bit flag restricted to
+#    {0x0, 0x8}: scanning all 733 sub-files, 686 of them (94%) contain
+#    pixel bytes whose low nibble takes a value outside {0, 8} (9.3% of
+#    all 8,572,352 sampled pixel bytes). The {0,8}-only pattern held for
+#    the 3 originally-sampled files because they happen to be
+#    near-empty/single-color "glint" sprites; it does not generalise.
+#    The true meaning of the low nibble (and of the byte as a whole -- is
+#    it one 8-bit index, or "4-bit index + 4-bit something-else"?) is
+#    still unresolved. This re-encoder does not guess: it treats each
+#    pixel as one opaque byte (0-255) and reconstructs it verbatim, which
+#    is both honest about the gap and sufficient for byte-identical round
+#    tripping.
+#
+# Every other field this reader touches (outer header ints, per-chunk
+# header ints, palette colors) round-trips through actual decoded values
+# (struct.pack of the same ints / re-packed BGR555 words), not a raw byte
+# copy -- only the two genuinely opaque regions (the leading "table" at
+# +0x20 before the first " TPS", and each chunk's subtable_len-byte
+# descriptor table) are carried through as opaque byte ranges, the same
+# "decode what's understood, preserve the rest verbatim" approach already
+# used by sbnk.py/nsbmd.py in this project.
+
+
+class ApsReencodeError(Exception):
+    pass
+
+
+def parse_full(data):
+    """Parse every byte of `data` into a structure `reencode_full()` can
+    losslessly rebuild. Raises ApsReencodeError on any layout this parser
+    doesn't recognise (rather than silently dropping bytes)."""
+    if len(data) < 0x20 or data[0:8] != b" APS12_1":
+        raise ApsReencodeError(f"bad outer magic {data[0:8]!r}")
+    field_a, frame_count = struct.unpack_from("<HH", data, 0x08)
+    reserved0c, = struct.unpack_from("<I", data, 0x0C)
+    size_a, size_b, size_c = struct.unpack_from("<III", data, 0x10)
+    reserved1c, = struct.unpack_from("<I", data, 0x1C)
+
+    offs = find_tps_offsets(data)
+    if not offs:
+        raise ApsReencodeError("no \" TPS\" sub-chunk found")
+    if offs[0] < 0x20:
+        raise ApsReencodeError(f"first \" TPS\" at 0x{offs[0]:X}, before the "
+                                f"0x20-byte outer header ends")
+    pretps_raw = data[0x20:offs[0]]
+
+    chunks = []
+    for k, off in enumerate(offs):
+        if off + 0x24 + 4 > len(data):
+            raise ApsReencodeError(f"TPS chunk at 0x{off:X} header runs past EOF")
+        tag, pb, rt, subtable_len, chunk_total, res18, chunk_total2, res20 = \
+            struct.unpack_from("<8I", data, off + 4)
+        subtable_off = off + TPS_FIXED_HEADER_LEN
+        subtable_raw = data[subtable_off:subtable_off + subtable_len]
+        pix_start = subtable_off + subtable_len
+        next_b = offs[k + 1] if k + 1 < len(offs) else len(data) - PALETTE_BYTES
+        pixel_len = max(0, min(pb, next_b - pix_start))
+        pixel_bytes = data[pix_start:pix_start + pixel_len]
+        gap_raw = data[pix_start + pixel_len:next_b]
+        chunks.append({
+            "tag": tag, "pb": pb, "rt": rt, "chunk_total": chunk_total,
+            "res18": res18, "chunk_total2": chunk_total2, "res20": res20,
+            "subtable_raw": subtable_raw, "pixel_bytes": pixel_bytes,
+            "gap_raw": gap_raw,
+        })
+
+    if len(data) < PALETTE_BYTES:
+        raise ApsReencodeError("sub-file too small to hold a trailing palette")
+    palette_words = struct.unpack_from("<16H", data, len(data) - PALETTE_BYTES)
+    # Full lossless decomposition of each BGR555(+unused bit15) word.
+    palette = [(w & 0x1F, (w >> 5) & 0x1F, (w >> 10) & 0x1F, (w >> 15) & 0x1)
+               for w in palette_words]
+
+    return {
+        "field_a": field_a, "frame_count": frame_count,
+        "reserved0c": reserved0c, "size_a": size_a, "size_b": size_b,
+        "size_c": size_c, "reserved1c": reserved1c,
+        "pretps_raw": pretps_raw, "chunks": chunks, "palette": palette,
+    }
+
+
+def reencode_full(parsed):
+    """Inverse of parse_full(): rebuild the exact sub-file bytes from the
+    decoded structure."""
+    out = bytearray()
+    out += b" APS12_1"
+    out += struct.pack("<HH", parsed["field_a"], parsed["frame_count"])
+    out += struct.pack("<I", parsed["reserved0c"])
+    out += struct.pack("<III", parsed["size_a"], parsed["size_b"], parsed["size_c"])
+    out += struct.pack("<I", parsed["reserved1c"])
+    out += parsed["pretps_raw"]
+    for c in parsed["chunks"]:
+        out += b" TPS"
+        out += struct.pack("<8I", c["tag"], c["pb"], c["rt"],
+                            len(c["subtable_raw"]), c["chunk_total"],
+                            c["res18"], c["chunk_total2"], c["res20"])
+        out += c["subtable_raw"]
+        out += bytes(c["pixel_bytes"])
+        out += c["gap_raw"]
+    for r5, g5, b5, a1 in parsed["palette"]:
+        word = (r5 & 0x1F) | ((g5 & 0x1F) << 5) | ((b5 & 0x1F) << 10) | ((a1 & 1) << 15)
+        out += struct.pack("<H", word)
+    return bytes(out)
+
+
+def verify_all_reencode(archive_path=ARCHIVE_PATH):
+    """Round-trip every sub-file in the archive through parse_full() +
+    reencode_full(). Returns (ok, total, failures) where failures is a
+    list of (index, reason) for the first few mismatches."""
+    n = narc.parse_file(archive_path)
+    ok = 0
+    failures = []
+    for i in range(n.file_count):
+        raw = n.read(i)
+        try:
+            parsed = parse_full(raw)
+            rebuilt = reencode_full(parsed)
+        except Exception as exc:  # noqa: BLE001
+            failures.append((i, f"error: {exc}"))
+            continue
+        if rebuilt == raw:
+            ok += 1
+        else:
+            failures.append((i, f"mismatch: out={len(rebuilt)} in={len(raw)}"))
+    return ok, n.file_count, failures
+
+
 def decode_one(narc_obj, index, out_dir):
     raw = narc_obj.read(index)
     hdr, palette, frames = decode_frames(raw)
@@ -269,11 +412,23 @@ def main(argv=None):
                      help="sub-file index to decode (omit with --all)")
     ap.add_argument("--all", action="store_true",
                      help="decode every sub-file in the archive (best-effort)")
+    ap.add_argument("--verify-reencode", action="store_true",
+                     help="round-trip every sub-file through the re-encoder "
+                          "and report byte-identity counts")
     ap.add_argument("--archive", default=ARCHIVE_PATH,
                      help=f"NARC path (default: {ARCHIVE_PATH})")
     ap.add_argument("--out", default=OUT_DIR,
                      help=f"output directory (default: {OUT_DIR})")
     args = ap.parse_args(argv)
+
+    if args.verify_reencode:
+        ok, total, failures = verify_all_reencode(args.archive)
+        print(f"[*] re-encode round trip: {ok}/{total} sub-files byte-identical")
+        for idx, reason in failures[:20]:
+            print(f"  ! sub-file {idx}: {reason}")
+        if len(failures) > 20:
+            print(f"  ... and {len(failures) - 20} more")
+        return 0 if not failures else 1
 
     if not args.all and args.index is None:
         ap.error("give an index or pass --all")

@@ -77,38 +77,86 @@ def _step(predictor, index, nibble):
     return predictor, index
 
 
+def _greedy_nibble(diff, step):
+    """Standard successive-approximation nibble choice for a given signed
+    difference and step size (no clamp awareness)."""
+    sign = 8 if diff < 0 else 0
+    d = abs(diff)
+    nib = 0
+    if d >= step:
+        nib |= 4
+        d -= step
+    half = step >> 1
+    if d >= half:
+        nib |= 2
+        d -= half
+    quarter = step >> 2
+    if d >= quarter:
+        nib |= 1
+    return nib | sign
+
+
 def encode_block(samples, initial_predictor, initial_index):
     """Encode PCM16 samples to IMA-ADPCM nibbles (packed 2/byte, low
     nibble first) using the standard greedy reference encoder: the same
     deterministic state machine as the decoder, choosing each nibble by
     successive-approximation against the step table rather than search.
-    Returns (bytes, final_predictor, final_index)."""
+    Returns (bytes, final_predictor, final_index).
+
+    **Saturated-target search, confirmed against real data, not guessed**
+    (see tools/assets/swav.py's round-trip verification and
+    docs/ASSETS.md): plain successive approximation on `diff = target -
+    predictor` is what the original encoder used almost everywhere (all
+    but 38 of this ROM's 5400 real WAVARC ADPCM samples matched it
+    directly), but whenever the target sample is already pinned to the
+    s16 range's extreme (-32768 or 32767 -- i.e. the source audio clipped)
+    the original encoder instead picked whichever of the 16 possible
+    nibbles, after `_step()`'s clamp, lands the resulting predictor
+    closest to that extreme -- not necessarily the plain greedy nibble.
+    Two concrete failure shapes were found and both fit this one rule:
+
+    1. `diff == 0` exactly (predictor already sitting at the clamp): the
+       greedy magnitude is identical for both signs, so a naive encoder
+       must pick a fixed default; the "subtract" nibble happens to stay
+       clamped at the target (zero error) while "add" moves away from
+       it, and the original encoder always chose "subtract" here.
+    2. `diff != 0` but very close to a quarter-step rounding boundary
+       (one real sample had `d` one unit short of `quarter`, so greedy
+       correctly left the low bit clear by its own rule) where the
+       *greedy* nibble leaves the predictor far from the clamped target,
+       but a different nibble's clamped result lands exactly on it.
+
+    Both are instances of "the encoder didn't need to be accurate here,
+    it just needed to hit the clamp" -- a real encoder can get this
+    almost for free by trying all 16 codes only in the rare case the
+    target is already saturated, which is what this does. Off the clamp
+    boundary this is never invoked and behaviour is unchanged (plain
+    greedy, matching the original encoder in every non-saturated case
+    checked)."""
     predictor = initial_predictor
     index = initial_index
     nibbles = []
     for s in samples:
         diff = s - predictor
-        sign = 8 if diff < 0 else 0
-        if diff < 0:
-            diff = -diff
         step = STEP_TABLE[index]
-        nib = 0
-        diffq = step >> 3
-        d = diff
-        if d >= step:
-            nib |= 4
-            d -= step
-            diffq += step
-        half = step >> 1
-        if d >= half:
-            nib |= 2
-            d -= half
-            diffq += half
-        quarter = step >> 2
-        if d >= quarter:
-            nib |= 1
-            diffq += quarter
-        nib |= sign
+
+        if s in (-32768, 32767):
+            best_nib = None
+            best_err = None
+            for cand in range(16):
+                pred_cand, _ = _step(predictor, index, cand)
+                err = abs(pred_cand - s)
+                if best_err is None or err < best_err:
+                    best_err = err
+                    best_nib = cand
+            # Tie-break toward the plain greedy choice, matching every
+            # real sample checked where more than one nibble achieved
+            # the same minimal error.
+            greedy = _greedy_nibble(diff, step)
+            pred_greedy, _ = _step(predictor, index, greedy)
+            nib = greedy if abs(pred_greedy - s) == best_err else best_nib
+        else:
+            nib = _greedy_nibble(diff, step)
         predictor, index = _step(predictor, index, nib)
         nibbles.append(nib)
 
