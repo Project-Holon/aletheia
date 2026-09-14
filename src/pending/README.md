@@ -43,3 +43,8 @@ comes out EXACT:
 When it is still capped, update the header's evidence note with what was
 tried and why it did not reach, and leave the file here. Nothing is ever
 forced: a file only moves because a byte comparison came out EXACT.
+
+
+Evidence tier: files here are DIFF-annotated analysis records, NOT byte-correct
+sources. src/pending/ holds only byte-correct MATCH-capped sources; anything
+short of that lives in docs/notes/ as .c.txt so no tool ever compiles it.
