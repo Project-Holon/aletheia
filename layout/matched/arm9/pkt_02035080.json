@@ -33,6 +33,66 @@
     "sub_02035120",
     "sub_0203512C"
    ]
+  },
+  {
+   "name": "sub_0203515C",
+   "address": "0x0203515C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0203515C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_02035188",
+   "address": "0x02035188",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02035188.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_020351BC",
+   "address": "0x020351BC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_020351BC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_020351EC",
+   "address": "0x020351EC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_020351EC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0203521C",
+   "address": "0x0203521C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0203521C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
   }
  ]
 }

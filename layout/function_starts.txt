@@ -71,3 +71,47 @@ arm9_main  0x0201DAA4  thumb   # dispatch table word 0x0209E73C ("0x0201DAA5") l
 # only reference is the pool word at 0x0201D9C0, inside func_0201D854, which
 # holds 0x0201DC89 (thumb bit set) and is stored to the object's +0x6C field.
 arm9_main  0x0201DC88  thumb   # pool word 0x0201D9C0 ("0x0201DC89") inside func_0201D854, stored to +0x6C
+
+# Wave 11A/11B follower seeds: unlabelled leaves already reproduced inside
+# matched unit/sub files (pkt_020452E8, pkt_0204B0C8, pkt_0204B84C,
+# pkt_02012158, pkt_02012E4C, pkt_020428E8), but invisible to disasm.py
+# because none of them saves lr.  Each line below is attested by a real
+# blx/bl call site from outside the packet's own range (arm9's veneer
+# table or an overlay), never by the bytes under test.
+
+# Three of the fourteen 8-byte flag-byte accessors in unit_02045730.c
+# (sub_02045780/88/90); the fifteenth in that bank, sub_02045798, borders
+# the already-labelled sub_020457A0 and needs no seed.
+arm9_main  0x02045780  arm     # blx 0x02045780 from ov091 at 0x021BB0F6, ov119 at 0x021E4656, ov222 at 0x021B9A24
+arm9_main  0x02045788  arm     # blx 0x02045788 from ov120 at 0x021D8278, ov119 at 0x021E4552, ov222 at 0x021B9A2C
+arm9_main  0x02045790  arm     # blx 0x02045790 from ov035 at 0x021F01C2 and 0x021F02B0
+
+# The getter half of the flag-word bit-26 pair in unit_0204B3DC.c
+# (pkt_0204B0C8); the setter sub_0204B3DC already carries a real label.
+arm9_main  0x0204B3F4  arm     # blx 0x0204B3F4 from ov018 at 0x0217E542, ov067 at 0x021B693E, and many more overlays
+
+# The getter half of the flag-word bit-25 pair in unit_0204B92C.c
+# (pkt_0204B84C); the setter sub_0204B92C already carries a real label.
+arm9_main  0x0204B944  arm     # blx 0x0204B944 from ov171 at 0x021DE042, ov170 at 0x021EBF86, ov180 at 0x021B73C2
+
+# Three of the four two-byte leaf accessors in unit_020124E4.c
+# (pkt_02012158); sub_020124E8 is not called from outside the unit's own
+# range and gets no seed here.
+arm9_main  0x020124E4  thumb   # bl 0x020124E4 from ov010 at 0x0215878A and many more overlay call sites
+arm9_main  0x020124EC  thumb   # bl 0x020124EC from ov020 at 0x0218776C, 0x021877C8, 0x02187828
+arm9_main  0x020124F0  thumb   # bl 0x020124F0 from ov021 at 0x021C27FA and 0x021C2D70
+
+# Four of the five leaf accessors in unit_02012EBC.c (pkt_02012E4C);
+# sub_02012EBC already carries a real label.
+arm9_main  0x02012EC0  thumb   # bl 0x02012EC0 from ov010 at 0x021672D4, 0x021672E8, 0x021672FC
+arm9_main  0x02012EC4  thumb   # bl 0x02012EC4 from ov010 at 0x0216CC46, 0x0216F906, and many more overlays
+arm9_main  0x02012ED0  thumb   # bl 0x02012ED0 from ov010 at 0x0215F71A, 0x0216674C, 0x021667FA
+arm9_main  0x02012ED8  thumb   # bl 0x02012ED8 from ov021 at 0x021CA5B2, 0x021CA5FA, and more overlay call sites
+
+# The engine-B visible-plane pair in pkt_020428E8: sub_02043534
+# (unit_020434DC.c) and sub_020435F4 (sub_020435F4.c, already its own
+# matched file) both save no lr and border on unit_020434DC's own leader
+# sub_020434DC, which already carries a real label.
+arm9_main  0x02043534  arm     # blx 0x02043534 from ov020 at 0x02187892, ov021 at 0x02197938, and many more overlays
+arm9_main  0x02043558  arm     # blx 0x02043558 from ov214 at 0x021BAD4E, ov220/ov221/ov222/ov224
+arm9_main  0x020435F4  arm     # blx 0x020435F4 from ov017 at 0x021B6438, ov021 at 0x0219793E, and many more overlays

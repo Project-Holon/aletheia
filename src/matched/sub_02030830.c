@@ -1,0 +1,46 @@
+/*
+ * unit:     no
+ * address:  0x02030830
+ * packet:   pkt_020307E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ * function: sub_02030830
+ *
+ * Asserting wrapper around sub_02030344: forwards its single argument,
+ * terminates if the result is NULL, and hands the result back either way.
+ *
+ *   void *sub_02030830(u32 heapId)
+ *
+ * The `movs r4, r0` that both saves and tests the result is the tell that
+ * the value is bound to a local before being compared, not compared as a
+ * call expression; the value has to survive the OS_Terminate call, which
+ * is what spends r4.
+ *
+ * symbols:
+ *   sub_02030344    0x02030344  arm
+ *   OS_Terminate    0x02088234  arm
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_02030830.c \
+ *       --func sub_02030830 --addr 0x02030830 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+extern void *sub_02030344(u32 heapId);
+extern void OS_Terminate(void);
+
+void *sub_02030830(u32 heapId)
+{
+    void *p;
+
+    p = sub_02030344(heapId);
+    if (p == 0) {
+        OS_Terminate();
+    }
+    return p;
+}

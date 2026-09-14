@@ -13,6 +13,9 @@ baserom*
 # Build output
 /build/
 
+# Asset lane output (extracted/converted game assets): never commit game data
+/build/assets/
+
 # layout/ IS committed: layout.json and layout.txt hold addresses, sizes and
 # names only, never game bytes. The blanket *.bin rule above already keeps
 # any binary out of it.
