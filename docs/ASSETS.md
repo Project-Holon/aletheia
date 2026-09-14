@@ -1683,6 +1683,186 @@ named body part -- used here as "multi-cell 0" / the rest pose.
   transform from NMAR), or bounding/hit-box metadata unrelated to
   rendering placement at all.
 
+## NSBMD/NSBTX (3D models): container, textures, geometry, round trip
+
+New this pass: `tools/assets/nsbmd.py` (stdlib-only, new file), covering
+BMD0 (`NSBMD`, model+texture) and BTX0 (`NSBTX`, texture-only) containers
+per the "Proposed converter lane order" item 6 above. Format knowledge
+used (container/ResDict shape, the GX geometry-command opcode table, the
+NDS texture pixel formats, the TEXIMAGE_PARAM hardware register bit
+layout) is drawn from public DS hardware documentation and cross-checked
+by hand against real files pulled from `a/0/1/1`, `a/0/4/5`, `a/0/4/9`,
+`a/0/1/4` and others; no code from any other decomp/ROM-hacking project
+was used.
+
+Run it yourself:
+
+```
+python tools/assets/nsbmd.py info build/assets/tmp/some.bmd0
+python tools/assets/nsbmd.py texture build/assets/tmp/some.bmd0 -o build/assets/textures/out.png
+python tools/assets/nsbmd.py obj build/assets/tmp/some.bmd0 -o build/assets/models/out.obj
+python tools/assets/nsbmd.py roundtrip "extract/data/a/0/*/*"
+```
+
+### Container and dictionary structure (confirmed)
+
+BMD0/BTX0 share one outer container shape: 16-byte header (magic, BOM,
+version, file size, header size, block count) then `block_count` absolute
+`u32` block offsets. BMD0 has 2 blocks (`MDL0` then `TEX0`); BTX0 has 1
+(`TEX0` only). Each block is itself `magic(4) + size(4)` prefixed. This is
+fully confirmed (byte-exact against every sample checked) and is the
+basis of the round-trip check below.
+
+Both MDL0's model list and TEX0's texture/palette lists use the same
+"ResDict" shape: `revision(u8)=0, numEntries(u8), size(u16)` (total dict
+size including this 8-byte header), two more `u16` fields whose meaning
+was not pinned down, then an opaque "entries" blob, then exactly
+`numEntries * 16` bytes of NUL-padded ASCII names as the *last* bytes of
+the dict (confirmed: names are always cleanly at the end, never
+interleaved with entry data, in every sample checked from 1 up to 67
+entries).
+
+**Honesty note on the entries blob:** the per-entry record stride inside
+that blob is NOT constant across dict types -- it worked out to 12
+bytes/entry for a single-model MDL0 dict, but did not divide evenly for a
+6-texture TEX0 dict (suggesting texture records vary in size, plausibly
+because 4x4-compressed textures carry an extra index-table pointer plain
+formats don't). Rather than guess a stride and risk silently emitting
+wrong data, `nsbmd.py` treats every dict's entries blob as **opaque**:
+enough to recover resource *names* (which is confirmed-solid) and to
+round-trip byte-for-byte, but not to reliably map a given texture name to
+its exact offset/width/height/format from the dict alone. This is the
+same "verify before trusting a decode" stance already used for the
+LZ77/Huffman sniffs elsewhere in this document.
+
+### TEX0 texture/palette data location (confirmed)
+
+TEX0 has a fixed 0x3C-byte header before its texture ResDict. Two u32
+fields in it were confirmed by cross-referencing against where the actual
+texel-looking / palette-looking bytes start (independently located via
+the two ResDicts' own `size` fields, which do NOT depend on cracking the
+entries-blob stride): `TEX0+0x14` = texture data byte offset from TEX0
+start, `TEX0+0x24` = palette data byte offset. `texture_data_size =
+pal_offset - tex_offset` matched the actual data region exactly in every
+sample. The rest of the 0x3C-byte header is preserved opaque.
+
+### Texture pixel decoding: all NDS formats implemented, applied via a validated heuristic
+
+All texel formats are implemented in `decode_texture()`: A3I5, 4-color
+(2bpp), 16-color (4bpp), 256-color (8bpp), A5I3, and direct color
+(BGR555 + alpha bit) -- straight from the public GX TEXIMAGE_PARAM
+format-field spec, independent of the container-layout uncertainty above.
+**4x4-compressed (format 5) is NOT implemented** (see gaps).
+
+Since the exact per-texture offset/width/height/format isn't reliably
+recoverable from the TEX0 dict (see above), pixel decoding is done for
+the common case of a TEX0 block holding **exactly one texture**: the
+whole `texture_data_size` region belongs to it, so `guess_single_texture()`
+brute-forces every (format, width, height) combination over the DS's
+legal texture sizes (powers of two, 8..1024) whose byte size exactly
+equals `texture_data_size`, decodes each, and scores candidates by (a)
+what fraction of decoded palette indices are actually in range for the
+attached palette -- a real validity check, not a guess -- and (b), as a
+tie-breaker, how closely the format's index range (4/8/16/32/256 colors)
+matches the palette's actual color count (a texture with a 16-color
+palette is overwhelmingly more likely to be the matching 16-color format
+than a 4-color or 256-color one that only uses a sliver of it, or a
+"direct color" format that trivially scores 100% valid for any bytes).
+
+**Validated on 3 sample models, visually:**
+
+| model | texture name | guessed format | size | render |
+|---|---|---|---|---|
+| `a/0/1/1#0` (`batt_stage01`) | `batt_stage01` | 16-color | 32x32 | horizontal green/brown bands -- reads as a grass-over-ground battle-stage floor |
+| `a/0/4/5#0` | `item01` | 16-color | 32x32 | a pink X/bandage shape on green -- reads as a held-item icon sprite |
+| `a/0/4/9#2` (model `dragon_bone`) | `in6_khone02` | 16-color | 64x64 | grayish mottled shape with dark sockets -- reads as a bone/skull texture, consistent with the model's own name |
+
+All three decoded images are semantically plausible for their resource
+names, which is the strongest confirmation available without an emulator
+-- not a proof, but a strong signal the format/dimension guess (and the
+underlying pixel-format decoders) are correct. PNGs written to
+`build/assets/textures/`.
+
+### Geometry command stream -> OBJ
+
+Shape data is a stream of DS GX FIFO commands: a packed `u32` command
+word (4 opcode bytes, `0x00`=NOP padding) followed by each opcode's
+parameter words. `nsbmd.py` implements the full documented opcode/param-
+count table (so it correctly skips matrix/lighting/etc. commands it
+doesn't use) and interprets `BEGIN_VTXS`/`END_VTXS` (triangle/quad/
+tristrip/quadstrip fan-out), `VTX_16` (s16.12 fixed-point position) and
+`TEXCOORD` (s16.4 fixed-point texel units, normalised to 0..1 using the
+model's own guessed texture size for the OBJ file).
+
+The stream's start offset isn't otherwise known (same entries-blob
+uncertainty as above), so it's located heuristically: scan for the first
+offset that decodes as a valid command stream for a long, unbroken run.
+Real non-command bytes hit an unrecognised opcode almost immediately;
+the real stream does not.
+
+**Result on `a/0/1/1#0` (`batt_stage01`):** GX stream found at model
+offset `0x15C`, 244 commands, 16 vertices, 4 quad faces -- decoded to a
+clean 16-point circular fan (radius ~5.33 units) at constant height,
+exactly the shape expected for a round battle-stage platform, written to
+`build/assets/models/batt_stage01.obj`. Also exported: `a/0/4/9#2`
+(`dragon_bone`), 410 commands, 161 vertices, 81 faces, to
+`build/assets/models/dragon_bone.obj` (not visually cross-checked against
+a renderer, only structurally: vertex/face counts are sane and no
+decode error occurred).
+
+### Round trip: verified byte-identical, 1752/1752 sub-files
+
+`nsbmd.py reserialize()`s every parsed field plus the opaque byte ranges
+(dict entries blobs, TEX0's 0x3C-byte header, and the MDL0/TEX0 raw data
+tail) back into the exact input bytes -- every byte of the file is
+accounted for by either a parsed field or a preserved opaque range, so
+this is a real round trip, not a copy-through.
+
+```
+python tools/assets/nsbmd.py roundtrip "extract/data/a/0/*/*"   # 1329/1329
+python tools/assets/nsbmd.py roundtrip "extract/data/a/1/*/*"   # 400/400
+python tools/assets/nsbmd.py roundtrip "extract/data/a/2/*/*"   # 23/23
+```
+
+**Result: 1752/1752 BMD0/BTX0 sub-files round-trip byte-for-byte** across
+every NARC under `a/0`, `a/1` and `a/2` (the one non-NARC error reported
+by the `a/0` run is `a/0/1/3`, already known from the inventory to be an
+unrecognised raw blob, not a NARC -- expected, unrelated to `nsbmd.py`).
+
+### Known gaps
+
+- **4x4-compressed textures (format 5) are not decoded.** This format
+  needs a second, separately-addressed per-4x4-block index/mode table
+  this pass did not locate with confidence (the regular byte-repetition
+  patterns seen in some TEX0 raw data strongly suggest several sample
+  textures in this ROM ARE format 5, e.g. the very first texture sampled
+  in this pass before format/size disambiguation was refined). Left for
+  a future pass.
+- **Multi-texture TEX0 blocks are not pixel-decoded**, only listed (names
+  + count) -- `guess_single_texture()` only works when a TEX0 holds
+  exactly one texture, since it relies on the whole `texture_data_size`
+  region belonging to a single image. Most files sampled this pass DO
+  have `count == 1` (many are per-object NSBTX/NSBMD sub-files), but
+  bulk NSBTX archives like `a/0/1/4` (67 textures/palettes per sub-file)
+  are unaffected by this lane.
+- **The TEX0/MDL0 ResDict entries-blob record layout was not cracked**
+  (see "Honesty note" above) -- this is the main remaining unknown in the
+  container format. Solving it would remove the need for the brute-force
+  texture-size guess and let every texture in a multi-texture TEX0 be
+  decoded directly, and would let materials/bone offsets be read
+  precisely instead of via the GX-stream heuristic locator.
+- **Materials (texture-to-shape binding, transforms, per-material
+  TEXIMAGE_PARAM) were not parsed.** OBJ export uses a single detected
+  geometry stream, not a full scene graph; models with multiple
+  materials/shapes only get the first shape the stream-locator heuristic
+  finds. Skinning/bone transforms (`MTX_*` commands) are correctly
+  skipped over (so the command stream still decodes past them) but not
+  applied, so multi-bone models would export in bind-pose-ish local
+  coordinates rather than their final posed positions.
+- Only `a/0`, `a/1` and `a/2` were covered by the round-trip sweep (all
+  BMD0/BTX0-bearing NARCs live under those three directories per the
+  inventory table above); no BMD0/BTX0 sub-file failed.
+
 ### NMAR: header parsed, per-frame transform values not recovered
 
 `Nmar` parses the common header and the `KNBA` (ANBK) block's leading
