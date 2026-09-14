@@ -708,3 +708,63 @@ wrapper investigation in `a/0/0/6` was deferred to stay within budget.)
 - `tools/assets/verify_compression.py` (new) re-runs the Huffman4/Huffman8/
   RLE round-trip check over the whole ROM; re-run it if `narc.py`'s sniff or
   decoders change.
+
+### Trainer sprite wrapper: first look
+
+Sub-files 0, 1 and 100 of `a/0/0/6` (NitroFS file id 248 per
+`extract/manifest.json`) were extracted to `build/assets/` and hex-dumped.
+All three share the same 64-byte-visible header layout (offsets in bytes,
+values little-endian):
+
+| offset | aps_0 (0x10BC B) | aps_1 (0x2174 B) | aps_100 (0x224C B) | guess |
+|---|---|---|---|---|
+| 0x00-0x07 | `" APS12_1"` | same | same | 8-byte ASCII magic/version tag, constant across all sampled sub-files |
+| 0x08 | `0x00010001` | `0x00020002` | `0x00080001` | two u16: low16 and high16 both look like counts (1/1, 2/2, 8/1) -- possibly (sub-object count, frame count) or similar |
+| 0x0C | `0x00000000` | same | same | reserved/padding |
+| 0x10 | `0x78` (120) | `0x10c` (268) | `0x64` (100) | size of a leading chunk (not obviously proportional to the count field) |
+| 0x14 | `0x1024` (4132) | `0x2048` (8264) | `0x21c8` (8648) | size of a second, larger chunk |
+| 0x18 | `0x98` (152) | `0x12c` (300) | `0x84` (132) | size of a trailing chunk |
+| 0x1C | `0x00000000` | same | same | reserved |
+| 0x20 | `0x00004702` | `0x00014701` | `0x0020c800` | unclear; low byte differs, does not look like a plain size |
+| 0x24-0x2C | all zero | all zero | all zero | reserved/padding |
+| 0x30 onward | `0x1000`, `0x1c8d`, ... | `0xbe5`, `0x169a`, ... | `0x1000`, `0`, ... | more size-like or count-like fields, not yet decoded |
+| last 4 bytes | `0x10000000` | `0x10000000` | `0x10000000` | constant sentinel/type word across all three samples |
+
+The field at offset 0x14 plus the field at offset 0x18 equals the total
+sub-file size exactly for all three samples (0x1024+0x98=0x10BC,
+0x2048+0x12c=0x2174, 0x21c8+0x84=0x224c), so the wrapper appears to be a
+two-chunk container (a larger payload chunk followed by a smaller trailer
+chunk), with the offset-0x10 field as a possible third/leading chunk size
+that is not part of that sum. No LZ77/LZ11/Huffman/RLE tag byte was found
+immediately after the header (the previous "Huffman4" sniff hit was the
+`" APS"` magic itself, not a real compression tag -- see above).
+
+Searched the full 4284/8564/8780-byte dumps for `NCGR`/`RGCN` and
+`NCLR`/`RLCN` magics (both orientations): none found in any of the three
+samples. So this is not a NARC-in-NARC or a plain NDS graphics container
+wrapped in a custom prefix -- the pixel/palette data, if present, is raw
+and un-tagged. Consistent with that: aps_0 and aps_1 both end in the bytes
+`... ff 7f 00 00`, and `0x7FFF` is the standard BGR555 "white" sentinel,
+suggesting an embedded raw 16-bit palette tail (aps_100, with count field
+8/1 instead of 1/1, has substantially more non-zero trailing bytes instead
+of ending on a single `7fff`, consistent with multiple palette-like
+entries for a multi-object record). This is circumstantial, not confirmed.
+
+**Loader search.** Grepped `asm/arm9/src/*.s` and `src/matched/*.c` for:
+the NitroFS file id `248`/`0xF8` (too common a small integer to be useful
+-- 29 `.s` files contain a bare `248`, none obviously related), the
+sub-file count `733`/`0x2DD`, the path string `a/0/0/6`, and the magic
+word `0x53504120` (`" APS"`) as a `.word`/`.4byte` literal. None of the
+count, path-string, or magic-word searches produced any hits anywhere in
+`asm/arm9/src` or `src/matched`. This is consistent with the archive being
+opened by numeric NitroFS file id resolved through a runtime table (not a
+literal path string or magic compiled into ARM9 code), and/or with the
+actual loader function not yet being present in `asm/arm9/src` or
+`src/matched` (513 matched `.c` files and 119 `.s` files exist, but this
+project is still early in decomp coverage). No loader candidate function
+was identified in this pass; finding it will likely require tracing
+NitroFS file-id-to-archive resolution generically (e.g. via the
+`data/a/0/0/*` sibling archives that are already better understood, or via
+whatever function opens `a/0/0/7`'s NCGR-containing NARC, since `a/0/0/6`
+and `a/0/0/7` are adjacent trainer-sprite-related archives) rather than by
+grepping for constants specific to `a/0/0/6`.
