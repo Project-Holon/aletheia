@@ -1,0 +1,92 @@
+/*
+ * near miss: sub_0204B728  (0x0204B728, arm9, ARM, 60 bytes)
+ * packet:    pkt_0204B728
+ * verdict:   DIFF, 60 bytes compiled against 60 original,
+ *            8 concrete bytes differing, two instructions
+ * cost:      emission order of the two independent halves of one
+ *            twenty-byte struct assignment, nothing semantic
+ *
+ * Worth recording because this address is the single blocker on
+ * src/pending/sub_0204CF40.c: that file is byte-correct and its only
+ * unresolved relocation is the `bl` to here, and 0x0204B728 has no other
+ * branch site anywhere in the image, so the only route to EXACT for it is
+ * an EXACT entry here acting as a `matched` witness.  Promoting this
+ * function would also close one of the three remaining sites in
+ * src/pending/sub_0204CFDC.c.
+ *
+ * The C below reproduces every byte except two adjacent slots at
+ * +0x24/+0x28, and even there it is the same two instructions swapped:
+ *
+ *   original                            this C
+ *     bl  #0x206380c                      bl  #0x206380c
+ *     ldm r4!, {r0, r1, r2, r3}   (S)     add ip, r5, #0x40         (D)
+ *     add ip, r5, #0x40           (D)     ldm r4!, {r0, r1, r2, r3} (S)
+ *     stm ip!, {r0, r1, r2, r3}           stm ip!, {r0, r1, r2, r3}
+ *     ldr r0, [r4]                        ldr r0, [r4]
+ *     str r0, [ip]                        str r0, [ip]
+ *
+ * The copy itself is right: twenty bytes is under the unroll threshold, so
+ * the assignment is an inlined `ldm`/`stm` pair with writeback plus a
+ * trailing word for the odd fifth
+ * (docs/idioms/aggregate-assignment-is-ldm-stm.md), and the writeback form
+ * is what lets the leftover `ldr`/`str` use zero displacements.  The
+ * question is only whether the source block load (S) or the destination
+ * address (D) is emitted first.  The original takes S first; every
+ * spelling tried here takes D first, and the two are independent, so the
+ * scheduler never has a reason to move either.
+ *
+ * Spellings tried, all 60 bytes and all wrong in exactly this way:
+ *
+ *   o->unk_40 = *m;                          (the C below)
+ *   o->unk_40 = m[0];
+ *   *(struct Xform *)&o->unk_40 = *m;
+ *   *(struct Xform *)((u8 *)o + 0x40) = *m;
+ *   d = &o->unk_40; *d = *m;                 (named destination local)
+ *   t = *m; o->unk_40 = t;                   (named source temporary)
+ *   struct Xform v; v = *m; o->unk_40 = v;
+ *   static inline copy(s, d) { *d = *s; }  called as copy(m, &o->unk_40)
+ *   the struct spelled as five named u32 fields instead of u32 w[5]
+ *
+ * The non-inline `static` helper is informative in the other direction: it
+ * is not inlined at all at -O4,p (it compiles to a real `bl` with the
+ * arguments in r0/r1), so wrapping the copy in a function cannot be how the
+ * original was written.  Marking it `inline` does inline it, and produces
+ * the same D-before-S order as the plain assignment.
+ *
+ * What would settle it is a construct in which this front end linearises
+ * the right-hand side of a whole-struct assignment before the left-hand
+ * side's address.  Nothing tried here does, which suggests the order is
+ * fixed in the assignment lowering and that the original's statement is not
+ * a struct assignment at all but some source-level copy whose argument
+ * order is (source, destination) and which this compiler expands inline.
+ * An SDK-style `MI_CpuCopy32(src, dst, size)` has exactly that argument
+ * order, but it is an out-of-line function in the SDK, so if that is the
+ * answer the project's own inline variant of it has yet to be identified.
+ *
+ * Verified with:
+ *   python tools/match.py one --src <this C>  *       --func sub_0204B728 --addr 0x0204B728 --cc 1.1p1 --arm --diff
+ *
+ * symbols:
+ *   sub_0206380C  0x0206380C  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Xform {
+    u32 w[5];
+};
+
+struct Obj {
+    u8           pad_00[0x40];
+    struct Xform unk_40;
+};
+
+extern void sub_0206380C(struct Xform *m, u32 axis);
+
+void sub_0204B728(struct Obj *o, struct Xform *m)
+{
+    sub_0206380C(m, 1);
+    sub_0206380C(m, 2);
+    o->unk_40 = *m;
+}

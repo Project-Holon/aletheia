@@ -163,3 +163,7 @@ arm9_main  0x02035D40  arm     # blx 0x02035D40 from ov032 at 0x021F0A68, ov111 
 # reached only through the ARM long-branch veneer at 0x0203D5A0, whose
 # .word target this is, not through any direct branch.
 arm9_main  0x02039CA0  arm     # pool word at 0x0203D5A8, read by the veneer's bx ip at 0x0203D5A4
+
+# 16-byte leaf global setter, follower of sub_020461B8 (wave 16B); decompiled
+# separately as sub_020461D4.c.
+arm9_main  0x020461D4  arm   # pool word and bl sites listed in src/matched/sub_020461D4.c

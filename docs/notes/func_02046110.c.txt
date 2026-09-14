@@ -1,0 +1,117 @@
+func_02046110 (0x02046110, arm9, ARM, pkt_02045C44) -- near miss, 108 of 112 bytes
+
+Semantics are certain (see below); the four missing bytes are one reload the
+compiler CSEs away and I could not reproduce.
+
+The original, in the memory-resident branch, re-loads msg->archive:
+
+    +000C  ldr   r2, [r4]                  ; msg->archive (for the offset table)
+    +0014  add   r1, r2, r1, lsl #2
+    +001C  ldr   r5, [r1, #0xc]            ; offset = archive->bankOffset[bank]
+    +0018  cmp   r0, #0
+    +0020  ldreq r0, [r4]                  ; <-- second load of msg->archive
+    +0024  addeq r0, r0, r5
+    +0028  streq r0, [r4, #4]
+    +002C  popeq {r3, r4, r5, pc}
+
+Every C spelling tried keeps r2 live and emits `addeq r0, r2, r5`, losing the
+`ldreq`. Tried and rejected, all 108 bytes and otherwise byte-identical:
+
+  1. u32 offset = msg->archive->bankOffset[msg->bankIndex];
+     msg->bank = (u8 *)msg->archive + offset;
+  2. the same with (void *)((u32)msg->archive + offset)
+  3. a separate local u8 *p = (u8 *)msg->archive; msg->bank = p + offset;
+  4. an anonymous union { struct MsgArchive *archive; u8 *base; } at offset 0,
+     using ->archive for the table and ->base for the byte add (MWCC CSEs the
+     two union members' loads anyway)
+  5. writing the offset expression out twice, once per branch, hoping for
+     partial redundancy elimination: that instead loses the hoist entirely and
+     compiles to 128 bytes.
+
+What would defeat the CSE is an intervening store the compiler cannot prove
+does not alias the archive pointer, or a const/volatile qualification on the
+member; neither fits the surrounding code. Left undocumented in src/ rather
+than parked in src/pending/, since the file is not byte-correct.
+
+Confirmed semantics (used by the asset lane, see src/matched/func_02045E3C.c):
+the archive header holds one u32 bank offset per language at +0x0C, and a
+file-backed MsgData seeks there, reads the leading u32 byte size, seeks back
+and reads the whole bank. That leading u32 is why every string descriptor
+offset inside a bank is bank-relative, not sub-file-relative.
+
+Body that produces the 108-byte version:
+
+/*
+ * function: func_02046110
+ * address:  0x02046110
+ * packet:   pkt_02045C44
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020495F4  0x020495F4  arm
+ *   func_0204960C  0x0204960C  arm
+ *
+ * Points the MsgData object at the byte range of the currently selected
+ * language bank. The archive header carries one u32 offset per bank at
+ * +0x0C; an object with no file handle (a bank already resident in memory)
+ * just records archive + that offset, while a file-backed object seeks to
+ * it, reads the leading u32 (the bank's byte size), seeks back and reads
+ * the whole bank into its buffer. That leading u32 is what makes every
+ * string descriptor offset inside a bank bank-relative rather than
+ * file-relative.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02046110.c \
+ *       --func func_02046110 --addr 0x02046110 --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct MsgArchive {
+    u16 bankCount;
+    u16 unk02;
+    u32 unk04;
+    u32 unk08;
+    u32 bankOffset[1];
+};
+
+struct MsgData {
+    union {
+        struct MsgArchive *archive;
+        unsigned char *base;
+    };
+    void *bank;
+    u32 unk08;
+    u32 unk0C;
+    u32 baseOffset;
+    void *file;
+    u16 unk18;
+    u8 bankIndex;
+    u8 mode;
+};
+
+extern void func_020495F4(void *file, u32 size, void *dst);
+extern void func_0204960C(void *file, u32 pos);
+
+void func_02046110(struct MsgData *msg)
+{
+    u32 size;
+    u32 offset = msg->archive->bankOffset[msg->bankIndex];
+
+    if (msg->file == 0) {
+        msg->bank = msg->base + offset;
+        return;
+    }
+
+    func_0204960C(msg->file, msg->baseOffset + offset);
+    func_020495F4(msg->file, 4, &size);
+    func_0204960C(msg->file, msg->baseOffset + offset);
+    func_020495F4(msg->file, size, msg->bank);
+}

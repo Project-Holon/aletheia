@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *    sub_0204D444   0x0204D444  arm
@@ -25,7 +25,7 @@
  * It unsticks when 0x02062F1C is itself decompiled to EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204B918.c  *       --func sub_0204B918 --addr 0x0204B918 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/sub_0204B918.c  *       --func sub_0204B918 --addr 0x0204B918 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
