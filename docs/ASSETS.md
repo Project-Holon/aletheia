@@ -3057,6 +3057,353 @@ format itself under a currently-unidentified index range, or are stored as
 smaller static (non-rig) per-entry `NCGR` sprites elsewhere rather than as
 a dedicated compound archive.
 
+## Re-encoder / round-trip pass: `a/0/0/6`, 4x4-compressed textures, ADPCM ties
+
+Three targeted follow-ups on existing decoders, in priority order.
+
+### 1. `a/0/0/6` (" APS12_1"/" TPS" wrapper) re-encoder: 733/733 byte-identical
+
+`tools/assets/trainer.py` gained `parse_full()`/`reencode_full()` and a
+`--verify-reencode` CLI flag. Building the re-encoder and checking it
+against every sub-file (not just the 3 originally sampled) **falsified
+two claims in the existing module docstring**:
+
+- The per-`" TPS"`-chunk `pixel_bytes` field at `+0x08` is **not** a
+  constant `0x400` -- sub-files 0 and 1 declare `0x1000` (4096). The true
+  per-chunk pixel region size is this field, clipped to whatever room is
+  actually available before the next `" TPS"` tag (or before the trailing
+  32-byte palette, for a sub-file's last chunk). This clipped-length rule
+  (`pixel_len = min(pb, next_boundary - pix_start)`, `next_boundary` =
+  next chunk's offset, or `len(data) - 32` for the last chunk) reproduces
+  the exact original byte layout for all 733 sub-files with zero leftover
+  or missing bytes -- not just the 8-frame sample that "confirmed" the old
+  constant.
+- The low nibble of each pixel byte is **not** a 1-bit flag restricted to
+  `{0x0, 0x8}`: scanning all 733 sub-files, **686 of them (94%) contain
+  pixel bytes whose low nibble takes a value outside `{0, 8}`** (9.3% of
+  8,572,352 sampled pixel bytes overall). The `{0,8}`-only pattern held
+  for the 3 originally-sampled sub-files (0, 1, 100) because they happen
+  to be near-empty/single-color "glint" sprites; it does not generalise.
+  What the byte (or its low nibble) actually encodes is still open --
+  the re-encoder does not guess: it treats each pixel as one opaque byte
+  and reconstructs it verbatim, which is both honest about the gap and
+  sufficient for exact round-tripping.
+
+Every other field (`field_a`, `frame_count`, the two `size_*` triples,
+each chunk's `tag`/`pb`/running-total/`chunk_total` pair) round-trips
+through actual decoded int values (`struct.pack` of the same ints), not a
+raw copy; only the two genuinely opaque byte ranges (the leading
+unresolved table before the first `" TPS"`, and each chunk's
+`subtable_len`-byte descriptor) are carried through verbatim, same
+"decode what's understood, preserve the rest" convention as
+`sbnk.py`/`nsbmd.py`. The 16-entry palette is decomposed into actual
+5-bit R/G/B/alpha-bit fields and re-packed, not copied.
+
+```
+python tools/assets/trainer.py --verify-reencode
+```
+
+Result: **733/733 sub-files byte-identical.** The existing `--all` PNG
+dump path (`decode_frames()`) is untouched and still uses the old
+32x32/high-nibble-only interpretation for visualisation -- it is now
+known to be wrong for any sub-file with `pb != 0x400`, but fixing the
+*visual* decode (true per-chunk width/height, and the low nibble's real
+meaning) is a separate, still-open task from the re-encoder built here.
+
+### 2. 4x4-compressed (GX format 5) textures: index table not located, gap documented, no PNG produced
+
+Confirmed format 5 is genuinely used in this ROM (132 raw
+`TEXIMAGE_PARAM` (`0x2A`) hits across 413 real `MDL0` command streams,
+format field = `(param >> 26) & 7`; example: `titledemo.narc` sub-file 5,
+model offset 0xF70). Went looking for the secondary palette-index table
+the mission brief expected to sit "in a separate block after the texel
+data, size texel_size/2" -- and could not find it:
+
+- Scanned all 288 single-texture `TEX0` blocks in the ROM for a
+  `texture_data_size` equal to `1.5x` a valid 4x4-compressed texel size
+  (i.e. texel region + attached index region, contiguous): **zero
+  matches**.
+- Found two texture families literally named with `"4x4"` in their
+  `TEX0` dict names -- `t4x4xocell` (`a/0/4/9`, single-texture dicts,
+  512-byte texture data) and `t4x4pokeflip.1`..`.6` (`a/0/4/9` #199 etc.,
+  6-texture dicts, 3072-byte texture data). Neither holds up as real
+  hardware-compressed data on inspection:
+  - `t4x4xocell`'s 512 texel bytes decode cleanly as plain 4bpp
+    (16-color, format 3) pixel data at 32x32 (visually a small
+    blob/icon, matches a 14-color attached palette) -- the "4x4" in the
+    name is not the GX compressed format.
+  - `t4x4pokeflip`'s 3072-byte region divides *exactly* into 6 x 512
+    bytes (one texel-only region per sub-texture, zero remainder), and
+    its `tex_dict` per-entry fields include a value that increments by
+    a constant stride (`0x40`) once per texture -- this is the standard
+    NSBTX per-texture VRAM texel-offset field (present for every
+    indexed format, not specific to compression), not evidence of an
+    attached index table.
+  - For both families, every byte in the `TEX0` block's data region is
+    already accounted for by `header + tex_dict + pal_dict + texel-only
+    data + a normally-sized color palette` (32/64 bytes, matching
+    `pal_dict.count x 16 colors x 2 bytes` exactly) -- there is no
+    slack anywhere for an extra `texel_size/2`-byte block, before texel
+    data, after texel data, or after the palette (`Tex0.palette_bytes()`
+    greedily takes "rest of `raw_data`", so any leftover bytes would
+    have shown up as an oversized palette; they didn't).
+
+**Conclusion: the format-5 index-table bytes are not present inside the
+ripped `TEX0` sub-file for any sample checked in this pass.** Given the
+DS hardware convention (4x4-compressed index data lives in a dedicated
+VRAM bank, "slot 4", addressed by scaling the same texel offset field),
+the most likely explanation is that this game's asset pipeline stores
+compressed-texture index data as a separate resource entirely (a shared
+table uploaded once, or held in a different NARC/overlay) rather than
+per-`TEX0`-file -- but that is unconfirmed, not chased further this pass.
+**No 4x4-compressed texture was decoded to PNG**: doing so without the
+real index table would fabricate pixel data, which this pass declines to
+do. `nsbmd.py` is unchanged (format 5 remains `NOT decoded by this pass`
+in `FORMAT_NAMES`/`decode_texture()`); this is a documented gap, not a
+regression.
+
+### 3. ADPCM sign-tie / saturated-target divergences: 5400/5400 (was 5363/5400)
+
+Examined the two smallest failing samples in detail (WAVARC 1000 waves 55
+and 162) by replaying the encoder's state machine nibble-by-nibble
+against the real encoded bytes and finding the exact divergence point.
+Both hit `diff == 0` (target sample exactly equal to the current
+predictor) while the predictor was already clamped to `-32768`: the
+greedy magnitude computation is identical for either sign at `diff == 0`,
+so the old encoder's fixed "prefer positive/add" default picked nibble
+`0x0` (predictor moves to -32749/-31877, away from target), while the
+real encoded byte was `0x8` (predictor stays clamped at -32768, i.e.
+exactly on target). A first attempt to fix this by always preferring the
+"subtract" nibble on a tie **regressed 3547/5400** -- the vast majority
+of ordinary (non-clamped) `diff == 0` samples really do use the "add"
+default, and only clamp-adjacent ties flip to "subtract"; the fix had to
+compare actual resulting error for both candidates and keep the default
+only when they tie exactly (see `tools/assets/adpcm.py`'s
+`encode_block()` docstring for the worked-through reasoning).
+
+That fix alone reached 5399/5400; the one remaining failure (WAVARC 1485,
+wave 0) was a **different, non-tied** case: `diff = -13874` at
+`step = 18500`, so the plain greedy magnitude computation legitimately
+leaves the low bit clear (`d` ends up 1 unit short of `quarter` after the
+half-step subtraction) -- but the target sample was again exactly
+`-32768`, and a *different* nibble's clamped result lands exactly on it
+while the greedy nibble leaves a 2312-unit error. Generalising the fix
+from "`diff == 0`" to "target is a saturated s16 value (`-32768` or
+`32767`)" subsumes both shapes: whenever the target is already pinned to
+the PCM16 extreme, the encoder now searches all 16 candidate nibbles for
+the one whose clamped result is closest to that extreme (ties broken
+toward the plain greedy nibble, which matched every real sample where
+more than one nibble tied for minimal error). Off the clamp boundary,
+behaviour is unchanged (plain greedy, exactly as before).
+
+```
+python -c "
+import sys; sys.path.insert(0, 'tools/assets')
+import sdat, swav
+s = sdat.parse_file('extract/data/wb_sound_data.sdat')
+ok = total = 0
+for wi in range(1, 1986):
+    fid = s.wavarc_fileid(wi)
+    if fid is None: continue
+    sw = swav.Swar(s.raw_file(fid))
+    for w in sw.waves:
+        if w.wave_type != swav.WAVE_TYPE_ADPCM: continue
+        total += 1
+        ok += (w.reencode() == w.sample_data)
+print(ok, '/', total)
+"
+```
+
+Result: **5400/5400 ADPCM samples now byte-identical** (up from
+5363/5400), across all 1497 real WAVARC archives -- the encoder change is
+confined to `tools/assets/adpcm.py`'s `encode_block()`; `swav.py` and its
+`verify_roundtrip()` call site are unchanged. PCM8's 650/650 is
+unaffected (different code path, not touched).
+
+## Trainer battle sprite mission: both named candidates are battle-HUD UI, not sprites; widen search and rig-tail check both come up empty; one real overworld-character archive found instead (`tools/assets/trainer_locate.py`)
+
+Mission: identify the trainer battle sprites, starting from the locate
+pass's two candidates (`a/0/7/8`, `a/0/8/3`), widening to every archive
+with an 80x80+-canvas `NCGR` if neither pans out, and checking whether
+`a/0/0/4`/`a/0/5/2`'s 65 tail blocks (species indices 649-713) hold
+non-Pokemon content. New tool: `tools/assets/trainer_locate.py`
+(`--candidates`, `--widen`, `--rig-tail`). Renders under
+`build/assets/trainer_candidates/`.
+
+### `a/0/7/8` and `a/0/8/3`: both battle/menu HUD graphics, not trainer sprites
+
+Full run-length structure (via `--candidates`):
+
+    a/0/7/8: RLCNx7 RGCNx55 RCSNx15 RECNx51 RNANx51
+      NCGR tile counts: min=16 max=1024, only 7/55 have >=64 tiles
+    a/0/8/3: (RLCN NCGRx1-3 RECNx3 RNANx3) repeated ~11x, one RCSN pair
+      NCGR tile counts: min=4 max=108, only 1/66 has >=64 tiles
+
+Both are dominated by 2-16-tile `NCGR` sub-files -- far too small for a
+32x32 (16-tile) or 64x64 (64-tile) character frame in most cases -- with
+a handful of larger outliers. Rendering those outliers (raw tile-grid,
+every palette tried) settled it by direct legibility:
+
+- `a/0/7/8` sub-file 8 (512 tiles) renders literal **"EXP"** text over a
+  green bar; sub-file 9 (128 tiles) renders a column of menu-style text
+  rows; sub-file 10 (512 tiles) renders another partial text/icon strip.
+  This is a battle-screen EXP/status bar, not a sprite.
+- `a/0/8/3` sub-file 2 renders literal **"HP"** text (the HP gauge label);
+  sub-file 122 renders a small multi-color ball/orb icon (a Poke Ball or
+  similar item icon).
+
+Renders: `build/assets/trainer_candidates/extra_sf000{8,9,10}_pal*.png`
+(a/0/7/8) and `extract_data_a_0_8_3_sf*.png` (a/0/8/3), 6+ samples each
+plus the outlier renders, matching the mission's "6 samples with true
+colour" ask. **Both candidates are ruled out**: they are battle/menu HUD
+component sets (gauge text, item/status icons, panel borders), the same
+family as the already-ruled-out `a/0/7/2` trainer-card/badge rig, not
+animated trainer sprites.
+
+### Widen search: 94 archives have an NCGR sub-file with >=100 tiles; none is a battle-sized human rig
+
+`find_widen_candidates()` re-used `build/assets/inventory.json`'s
+already-computed full magic/compression histograms to shortlist 137
+archives worth opening (has an uncompressed `NCGR`, or has any
+compressed sub-file at all, since a compressed `NCGR` wouldn't show its
+magic to the inventory pass), excluding `a/0/0/4`/`a/0/5/2` (handled
+separately, see below). Parsing every sub-file's `CHAR` header (with
+LZ77/LZ11/Huffman/RLE decompression as needed) found **94 archives**
+with at least one `NCGR` sub-file of >=100 tiles (an 80x80+ canvas
+budget at 4bpp). One raw tile-grid sample per hit archive (its largest
+`NCGR`, paired with the nearest preceding `NCLR` where one exists) was
+rendered to `build/assets/trainer_candidates/widen/`.
+
+Cross-referencing against `inventory.json`'s category guesses: 28 hits
+fall in "small sprite/icon set", 18 in "3D model/texture data" (texture
+pages, not sprites), 14 in "map/tileset graphics", and **29** in
+"trainer/item/UI sprites" / "pokemon/trainer sprites" -- the priority
+bucket. A second, more targeted scan (`scan_big_oam.py`, not checked in
+-- ad hoc) parsed every `NCER` in every archive with any `NCER` at all
+(77 archives) and flagged any cell whose OAM is >=64px on a side (the
+battle-sprite-canvas signature): 38 archives have at least one such OAM,
+topped by `a/0/7/2` (117, already ruled out), `a/0/7/8`/`a/0/6/4`/
+`a/0/7/3` (the same ruled-out UI-badge/HUD family), then `a/0/3/4` (33),
+`a/0/4/3` (31), `a/2/1/6` (24).
+
+Rendered and inspected the new top candidates properly (NCER-composited,
+not raw grid, matching each cell's `mapping_type` tile-index scaling):
+
+- **`a/0/3/4`**: 9 `NCLR` + 8 `NCGR` (one 2048-tile outlier) + 15 `NSCR`
+  (screen/map data) + 3 `NCER`/`NANR`, plus a trailing `" APS"`-wrapped
+  sub-file (the same wrapper format as `a/0/0/6`'s trainer-portrait
+  guess, see below). The big `NCER` cell (2 stacked 64x64 OAMs + 4
+  32x8 strips, composited against the correctly-sized 304-tile `NCGR`
+  #9) renders as **thin colored line-art on a flat background** --
+  a connection/route diagram, consistent with a Union Room / Wi-Fi
+  Club-style network screen, not a character. Ruled out.
+- **`a/0/4/3`**: matching NCER cell 0 against its correctly-sized `NCGR`
+  (#19, 378 tiles) renders a **plain rectangle outline** -- a dialog/
+  text-box border. Ruled out.
+- `a/2/1/6` structurally characterized (2 `NCER`, 5 `NCGR`, matching tile
+  math confirms `NCGR` #24 pairs with the big `NCER`) but not rendered
+  (time-boxed); given the pattern above (every >=64px-OAM hit so far
+  resolves to HUD/UI, not a character), not pursued further this pass.
+
+**No archive in the >=100-tile or >=64px-OAM widen searches renders as a
+64x64+, multi-frame human figure.** The trainer battle sprite archive
+remains unlocated.
+
+### Unexpected real find: `a/0/3/1` is a genuine human overworld-character archive (resolves the "overworld archive not located" gap, but is 32x32-class, not battle-class)
+
+While reviewing the widen-search renders, `a/0/3/1` (51012 bytes, only
+24 sub-files, "trainer/item/UI sprites (guess)" in the inventory) stood
+out: its raw tile-grid render
+(`build/assets/trainer_candidates/widen/a_0_3_1_sf0005_384t.png`) shows
+a small human figure wearing a cap, tiled repeatedly. Structural
+confirmation: `NCER` #0 defines 24 cells, each one `mapping_type=2`
+32x32 OAM, with `tile_idx` stepping 0,4,8,...,92 -- at that mapping
+type's 128-byte/4-tile stride, consecutive cells are exactly 16 tiles
+(one 32x32 frame) apart, and 24 cells x 16 tiles = **384 tiles, an exact
+match** for `NCGR` #5/#7 (both 384 tiles, likely two palette-linked
+copies). This is **24 frames of a 32x32 walking character** -- almost
+certainly a directional walk cycle (e.g. 4 directions x 6 frames). The
+archive also carries a second 12-frame 32x32 set (`NCER` #12/#15 against
+`NCGR` #14/#17, 192 tiles each = 12x16) and a third, dense-mapped
+(`mapping_type=0`) 11-cell set built from 32x8-strip OAMs against a
+64-tile `NCGR` (#20/#23) -- a plausible run/bike/idle-emote kit. Two
+extra `NCER`/`NANR` pairs at sub-file indices 0-3 (ahead of the first
+`NCLR`) were not chased further.
+
+At **32x32**, this is squarely the mission's own "overworld trainer"
+size class, not battle-class (64x64+). It resolves the ninth lane pass's
+open "overworld/trainer/player walking sprite archive is still not
+located" gap -- just not in the shape that pass expected (a shared
+715-entity table like `a/0/0/7`). Instead, overworld sprites for named
+characters appear to live **one archive per character** (24 sub-files
+for a full walk/run/idle kit), which is why the inventory-shape search
+never flagged this family: at only 24-50 sub-files each, `a/0/3/1` and
+its likely siblings (`a/0/3/0`, `a/0/3/2`, `a/0/3/3`, and other members
+of the `a/0/3/x` run -- not individually confirmed this pass) read as
+generic small "trainer/item/UI sprites" bundles, indistinguishable by
+sub-file count alone from the battle-HUD archives ruled out above. Not
+pursued further here (out of this mission's scope and budget) -- a
+follow-up pass should render `a/0/3/1`'s NCER-composited pose (not just
+the raw grid) and check its neighbors.
+
+### `a/0/0/4` / `a/0/5/2` rig tail (species 649-713): Pokemon-shaped, not trainer content
+
+`render_rig_tail()` reused `rig.py`'s existing per-species renderer
+(`render_one`, the same one already producing clean cell contact sheets
+for the confirmed 0-649 species range) against species indices 649-713,
+the 65 "extra" 20-entry blocks past the ~649-species range noted as an
+open gap in an earlier pass. **63/65 blocks rendered in each archive**
+(2 fall outside the block-stride range or aren't `NCGR` at the expected
+offset -- indices 712/713 read `RNAN`/`RLCN` where an `NCGR` was
+expected, i.e. the tail is not a clean multiple of the 20-entry stride
+at its very end). Every rendered tail block's cell contact sheet (e.g.
+`build/assets/trainer_candidates/rig_tail/extract_data_a_0_0_4_tail0680_cells.png`,
+`..._a_0_5_2_tail0700_cells.png`) shows small, scattered, irregularly-
+shaped color fragments -- the same "small creature" visual character as
+the confirmed 0-649 Pokemon range (and the same "pose not recognizable"
+NMCR/NMAR placement problem documented in the seventh/eighth lane
+passes), not anything resembling a human silhouette. **No trainer
+content found in the rig tail**; it reads as the already-hypothesized
+alternate forms/genders/Egg block.
+
+### Report
+
+- **What each candidate depicts**: `a/0/7/8` and `a/0/8/3` are both
+  battle/menu HUD component sets (EXP/HP gauge text, item/status icons,
+  panel borders) -- the same family as the already-ruled-out `a/0/7/2`
+  trainer-card/badge rig. Neither is a sprite archive.
+- **Best identification for trainer battle sprites: still not located.**
+  This pass covered (a) both locate-pass candidates (rendered + ruled
+  out), (b) every archive with an NCGR sub-file of >=100 tiles (94
+  archives, one sample each, none is a human figure), (c) every archive
+  with an NCER cell using a >=64px OAM (38 archives, top candidates
+  rendered properly, all resolve to UI/HUD, not characters), and (d)
+  `a/0/0/4`/`a/0/5/2`'s 65-block tail (Pokemon-shaped, not trainer).
+  Static 2D trainer battle sprites, if they exist as a dedicated OAM-rig
+  archive at all, are not among these. Two untried hypotheses for a
+  follow-up pass: (i) trainer battle "sprites" in Black/White might not
+  be OAM tile/cell rigs at all but full bitmap images (like the
+  Gen-IV-style trainer profile picture format `a/0/0/6`'s `" APS12_1"`/
+  `" TPS"` wrapper was investigated for and set aside as "not a human
+  figure, likely reclassify" -- worth re-checking now that this pass has
+  a confirmed non-sprite baseline to compare against); (ii) they may be
+  3D-rendered (many `a/1/*` archives are NSBMD/NSBTX 3D model/texture
+  data, unexplored for trainer content).
+- **Render counts**: 6+ samples each for `a/0/7/8`/`a/0/8/3`
+  (`build/assets/trainer_candidates/`), 94 widen-search samples
+  (`build/assets/trainer_candidates/widen/`), 63+63 rig-tail cell
+  sheets + pose attempts (`build/assets/trainer_candidates/rig_tail/`).
+- **Remaining gaps**: the true trainer battle sprite archive is
+  unlocated. `a/0/3/1` (a confirmed real human **overworld** character
+  archive, 3 animation sets, 32x32) is a genuine new find that resolves
+  a different open gap (category-1 overworld sprites) but was not fully
+  mined (no NCER-composited pose render, siblings not confirmed). `a/2/1/6`
+  was structurally characterized but not rendered. The `scan_big_oam.py`
+  OAM-size scan and the tile-count widen scan are ad hoc scripts (not
+  checked in as reusable tools, unlike `trainer_locate.py`'s three
+  documented CLI modes) -- worth folding into `trainer_locate.py` if a
+  future pass returns to this search.
+
 ## Tenth lane pass: `a/0/0/7` NANR timeline decoded, `a/0/2/5` characterized
 
 Two-part mission on `tools/assets/overworld.py`: (1) decode `a/0/0/7`'s
