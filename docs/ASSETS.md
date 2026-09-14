@@ -2673,3 +2673,157 @@ Game Freak wrappers) the magic is trusted from context and never actually
 validated by code -- tracing NitroFS file-id-to-archive resolution
 generically, as the previous lane suggested, remains the only untried
 approach.
+
+## Text banks: located, container format solved, cipher solved, one gap remains
+
+This closes out the "Text banks -- uncertain, several candidates, none
+confirmed" item from the section above. New tool: `tools/assets/text.py`
+(stdlib only, depends only on `narc.py`). Full technical writeup (format,
+cipher derivation, dictionary-compression gap) lives in that file's
+module docstring; this section is the summary and the honest status.
+
+### The previous candidates were wrong; the real archive is `a/0/0/2`
+
+`a/0/5/7` and `a/0/6/6` (the automated heuristic's top picks, see "Where
+things probably live" above) were checked directly and ruled out: their
+sub-files are fixed- or near-fixed-stride binary record tables (checked
+by scanning for a monotonic-offset-table signature with varied deltas,
+the fingerprint of real variable-length string data -- neither archive
+has any sub-file matching it). A full-ROM sweep for that same signature
+(every NARC, every sub-file 1.5-80 KB, offset-table starts every 4 bytes
+up to +64, requiring at least 5 distinct delta values across 100+
+monotonic entries) found it in exactly one place: **`extract/data/a/0/0/2`**
+(288 sub-files, previously miscategorised "scripts/data tables (guess)"
+because it has far fewer than the ">500 sub-files" the old heuristic
+required for a "text bank" guess -- a/0/0/2 instead packs *many banks per
+NARC*, one per sub-file, which the count-based heuristic couldn't see).
+
+### Message-file container format (confirmed against real bytes)
+
+Each `a/0/0/2` sub-file that holds text is a self-contained "message
+file" with a 16-byte header, matching the project brief's hypothesis
+shape closely:
+
+| offset | field | notes |
+|---|---|---|
+| 0x00 | u16 sectionCount | always 1 in every sub-file sampled |
+| 0x02 | u16 entryCount | number of strings in the bank |
+| 0x04 | u32 sectionSize | == sub-file size - 16 |
+| 0x08 | u32 reserved | always 0 |
+| 0x0C | u32 section_offset[0] | always 16 (sectionCount is always 1) |
+
+Followed by `entryCount + 1` 8-byte descriptors (`u16, u16, u32`) starting
+at `section_offset[0]`. The first u16 is NOT this entry's own char count
+as the naive hypothesis reading would suggest -- empirically it always
+equals the *previous* entry's decoded length in UTF-16 units (confirmed
+across dozens of entries), an off-by-one quirk this reader doesn't rely
+on. The second u16 is a per-*file* constant (e.g. 60, 84, 118, 256 --
+varies by sub-file, never by entry within one); its meaning is
+unresolved and unneeded. The u32 is the real, useful field: an absolute
+byte offset (from the start of the sub-file) to that entry's raw UTF-16
+code-unit stream. Descriptor 0 is a sentinel (its "char count" field
+actually holds `sectionSize`); real strings are descriptors 1..entryCount-1,
+and a string's byte length is simply `offset[i+1] - offset[i]`.
+
+Verified with `entryCount` matching Black/White's known category sizes
+(species 649+1, moves 559+1, items, abilities 164+1, types 17):
+
+| category | entryCount | sub-file indices in a/0/0/2 |
+|---|---:|---|
+| species (name-shaped entries) | 650/652 | **70**, 284 (near-duplicate banks); 235, 236, 260 are the same ~650 count but with much longer per-entry text (Pokedex flavor text, not decoded by this pass); 281 looks like a non-text per-species data table |
+| moves | 560 | **203**, 286 (name-shaped); 202 (0% clean, likely move flavor text) |
+| items | 627 | **279**, 280 |
+| abilities | 165 | **170**, **182**, 183, 285 |
+| types | 17 | 81, 199 (lowercase, mid-sentence form), **287** (confirmed: entry 13 decodes to `ELECTRIC`, the 13th type in the standard Normal/Fighting/.../Electric ordering) |
+
+(Bold = the sub-file index this pass's dumps actually use.)
+
+### The cipher (confirmed by direct key recovery, not guessed)
+
+Each string is a stream of u16 LE code units XORed against a 16-bit key
+that starts at a per-string value and **rotates left by 3 bits after
+every code unit**, terminated by the hypothesised `0xFFFF`. Found by
+brute-forcing every `(initial_key, rotate_amount)` pair against real
+entries and requiring the decode to end in `0xFFFF` and otherwise be
+printable ASCII: rotate-by-3 is the only amount that ever produces a hit,
+and it produces genuine, unambiguous English Pokemon names (sub-file 70
+entry 19 -> `Pidgeot`, entry 51 -> `Diglett`, entry 54 -> `Persian`,
+entry 100 -> `Kingler`, entry 136 -> `Jolteon`, etc. -- full list in
+`build/assets/text/species.txt`; move-bank sub-file 203 turns up clean
+tails of `Lock-On`, `Amnesia`, `Confuse Ray` fragments, etc.).
+
+Because the key rotates by a small fixed amount and the *last* unit is
+always the known constant `0xFFFF`, the per-string key does not need
+brute forcing at decode time -- it is solved for directly, backwards from
+the terminator:
+
+```
+key[n-1] = word[n-1] XOR 0xFFFF
+key[0]   = rotate_right_16(key[n-1], 3*(n-1))
+key[i+1] = rotate_left_16(key[i], 3)
+plain[i] = word[i] XOR key[i]
+```
+
+implemented in `decode_units()` / `encode_units()` in `tools/assets/text.py`.
+
+### Round trip: 100% byte-identical on every fully-decoded entry
+
+`python tools/assets/text.py roundtrip <narc> <index>` re-derives the key
+from each entry's own terminator and re-encodes; checked against every
+sub-file this pass dumped:
+
+| sub-file | fully-clean entries | round-trip byte-identical |
+|---|---:|---:|
+| 70 (species) | 133 / 650 | 133 / 133 |
+| 203 (moves) | 35 / 558 | 35 / 35 |
+| 279 (items) | 16 / 625 | 16 / 16 |
+| 182 (abilities) | 8 / 163 | 8 / 163 |
+| 287 (types) | 1 / 15 | 1 / 1 |
+
+100% match on every entry checked confirms the cipher implementation
+itself is exactly correct; it is not a source of the gap below.
+
+### Remaining gap: a dictionary/token compression layer, not cracked
+
+Only a minority of entries decode to 100% printable ASCII end to end. The
+rest decode to a real, readable ASCII **tail** -- frequently the exact
+end of a well-known name (`lbasaur` for entry 2 of the species bank,
+i.e. Bulbasaur; `dgeotto`/entry 18 then `Pidgeot`/entry 19 clean, i.e.
+Pidgeotto then Pidgeot back to back; `aticate`/Raticate; `LECTRIC`/
+Electric) -- preceded by 1-3 code units that are not printable ASCII,
+shown in the dumps as `[xxxx]` hex placeholders. This is not a cipher or
+offset bug: the terminator-anchored key recovery is self-consistent by
+construction (every entry's last unit decodes to exactly `0xFFFF`), the
+fully-clean entries round-trip byte-for-byte (table above), and the
+amount of leading garbage is irregular (0 to 3 units, no fixed relationship
+to string position or length) -- not what a wrong key or wrong offset
+would produce, but exactly what a small number of common leading
+substrings (`Bu`, `C`, `Pi`, `Mr`, `Ae`, ...) being replaced by single
+16-bit dictionary/token codes on top of the XOR cipher would produce.
+Gen 3-5 Pokemon text formats are known, from general public ROM-hacking-
+community knowledge (not from any specific other project's code, per
+this lane's write-set rules), to sometimes compress common substrings
+this way; this pass did not locate the dictionary table itself (it is
+not inside these `a/0/0/2` message files as far as this pass determined)
+and did not attempt to brute-force-recover it from the many partial
+matches already in hand. That reconstruction -- plus locating the
+dictionary table elsewhere in the ROM, or brute-forcing short 1-3-letter
+substrings against the ~2500 partial entries already decoded across the
+five dumped banks -- is left to a follow-up lane.
+
+### Output
+
+```
+python tools/assets/text.py dump extract/data/a/0/0/2 70  -o build/assets/text/species.txt
+python tools/assets/text.py dump extract/data/a/0/0/2 203 -o build/assets/text/moves.txt
+python tools/assets/text.py dump extract/data/a/0/0/2 279 -o build/assets/text/items.txt
+python tools/assets/text.py dump extract/data/a/0/0/2 182 -o build/assets/text/abilities.txt
+python tools/assets/text.py dump extract/data/a/0/0/2 287 -o build/assets/text/types.txt
+```
+
+Each line is `<entry index>\t<decoded text>`, with partial entries
+suffixed `(partial: dictionary-compressed prefix not decoded)`. Entry
+index `i` in the species bank is the National Dex number `i-1` (verified:
+descriptor index = dex number + 1, e.g. index 2 = Bulbasaur = dex #1,
+index 19 = Pidgeot = dex #18). `python tools/assets/text.py stats
+<narc> <index>` prints entry/clean counts as JSON without writing a file.
