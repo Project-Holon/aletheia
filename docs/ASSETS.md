@@ -2,9 +2,12 @@
 
 This is the first asset-pipeline lane: pure investigation and inventory of the
 247 NitroFS files under `extract/data/` (as unpacked by `tools/ndsrom.py`).
-No asset converters exist yet. Everything below was produced by two new
-stdlib-only tools, `tools/assets/narc.py` and `tools/assets/inventory.py`,
-written from scratch for this project.
+No asset converters exist yet. Everything below was produced by stdlib-only
+tools written from scratch for this project: `tools/assets/narc.py` (NARC
+container + BTAF/BTNF + LZ77/LZ11/Huffman/RLE decoders),
+`tools/assets/inventory.py` (the per-file survey), `tools/assets/sdat.py`
+(SDAT sound archive reader), and `tools/assets/verify_compression.py`
+(whole-ROM Huffman/RLE round-trip check).
 
 Run it yourself:
 
@@ -54,9 +57,9 @@ decompressed size.
 |---|---|---|
 | 0x10 | LZ77 ("LZ77 UnComp") | yes |
 | 0x11 | LZ11 | yes |
-| 0x20 / 0x24 | Huffman, 4-bit | sniffed only |
-| 0x28 | Huffman, 8-bit | sniffed only |
-| 0x30 | RLE | sniffed only |
+| 0x24 | Huffman, 4-bit | decoded (see below) |
+| 0x28 | Huffman, 8-bit | decoded (see below) |
+| 0x30 | RLE | decoded (see below) |
 
 LZ77 and LZ11 were quick to write (both are simple forward-window token
 streams, unrelated to `tools/blz.py`'s BLZ which is a *backward* LZ77 used
@@ -75,7 +78,75 @@ declared decompressed size on every sub-file scanned:
   bytes). `narc.py extract --decompress` reports these as errors rather than
   emitting garbage. Do not trust an LZ77 sniff blindly; verify the round trip
   before treating a hit as real.
-- **Huffman/RLE**: not decoded, tag and declared size are reported only.
+- **Huffman/RLE**: decoded in this lane (`decompress_huffman()` for 0x24/
+  0x28, `decompress_rle()` for 0x30, both in `tools/assets/narc.py`). See
+  "Huffman/RLE decoder verification" below for the full result -- the
+  short version is that the decoders are correct (verified against
+  hand-built synthetic test vectors), but this ROM's NARCs contain
+  essentially **no genuine BIOS-Huffman or BIOS-RLE compressed sub-files**:
+  the tag-byte sniff used by the previous lane had a bug that made it match
+  false positives, and after fixing the sniff, the small number of
+  remaining tag matches are themselves almost all false positives (a tiny
+  custom-format data record whose first byte coincidentally looks like a
+  compression header).
+
+### Huffman/RLE decoder verification
+
+`tools/assets/narc.py` now implements `decompress_huffman()` (BIOS-style
+0x24 four-bit and 0x28 eight-bit variants, per the public GBATEK-documented
+tree-table algorithm: a byte0 type/width tag, 24-bit declared size, a
+tree-size byte, a binary tree of 8-bit nodes reached by walking a 32-bit-word
+bitstream MSB-first, data units packed LSB-first into output bytes) and
+`decompress_rle()` (0x30: alternating compressed-run/literal-run blocks).
+Both were validated two ways:
+
+1. **Synthetic self-test** (not committed as a test file, run ad hoc): a
+   hand-built 3-symbol Huffman8 tree (root node with two leaf children) and
+   a hand-built RLE stream (one compressed run + one literal run) both
+   decoded to the exact expected bytes. This confirms the decoder logic
+   itself is correct against the documented algorithm.
+2. **Whole-ROM scan** (`tools/assets/verify_compression.py`, run over every
+   NARC in `extract/data/`): found and attempted to decode every sub-file
+   whose first byte matches a Huffman or RLE tag, comparing decoded length
+   against the header's declared size.
+
+While writing the verifier, a **bug was found and fixed** in
+`sniff_compression()`: the previous lane's condition for recognising a
+Huffman tag accidentally matched bare byte `0x20` (which is not a valid
+Huffman header -- the low nibble must be 4 or 8, since it encodes the
+data-unit width) instead of the intended `0x24`/`0x28`. `0x20` is the ASCII
+space character, so this sniff was mostly firing on `a/0/0/6`'s `" APS"`
+trainer-sprite wrapper magic (byte 0 is the space in `" APS"`) -- explaining
+the previous lane's reported "800 Huffman4 sub-files, all in `a/0/0/6`".
+None of those 800 are real Huffman data; `narc.py`'s sniff now requires
+`(tag & 0xF0) == 0x20 and (tag & 0x0F) in (4, 8)`.
+
+With the fixed sniff, the whole-ROM scan finds far fewer candidates, and
+almost none decode cleanly:
+
+| kind | tag matches found | decoded size == declared | notes |
+|---|---:|---:|---|
+| Huffman4 (0x24) | 21 | 3 | the 3 "passes" all declare 0-13 bytes of output -- too small to be meaningful confirmation, likely also coincidental |
+| Huffman8 (0x28) | 62 | 8 | same caveat: passes are all 0-2 declared bytes |
+| RLE (0x30) | 32 | 7 | passes are 0-1 declared bytes |
+
+Every *failing* match has an absurd implied compression ratio (e.g. a
+16-byte sub-file "declaring" an 88,322-byte decompressed size -- physically
+impossible for BIOS RLE, whose maximum ratio is about 65:1), which is the
+signature of a tag byte matching by chance inside a small, fixed-size
+Game Freak data record rather than a real compression header. All of these
+false positives live in the NARCs already flagged in the inventory as
+"text banks (guess)" / "scripts/data tables (guess)" -- archives of
+hundreds of tiny (2-180 byte) per-entry binary records, exactly where a
+1-in-256-ish coincidental tag match is expected to turn up occasionally.
+
+**Conclusion: this ROM's extracted NARCs contain no confirmed genuine
+BIOS-Huffman or BIOS-RLE compressed sub-file.** The decoders are written,
+correct, and ready for the moment a real one turns up (e.g. inside an
+as-yet-unopened custom wrapper, or a file this lane didn't scan), but there
+is currently no confirmed asset that needs them. This directly overturns
+the previous lane's inventory claim of "832 Huffman/RLE sub-files" and the
+"trainer sprites are Huffman4-compressed" theory for `a/0/0/6` (see below).
 
 ### NITRO/G3D magics observed
 
@@ -118,8 +189,12 @@ lane.
 - **247** NitroFS files: **237 NARC**, **10 raw** (a single blob, or an
   unrecognised format)
 - **54054** total sub-files across all NARCs
-- Compression histogram across all sub-files: `none` 40916, `LZ11` 10794,
-  `LZ77` 1522, `Huffman4` 800, `RLE` 32
+- Compression histogram across all sub-files (corrected -- see "Huffman/RLE
+  decoder verification" above; the original `Huffman4` figure of 800 was a
+  sniff bug, all 800 hits were false positives on `a/0/0/6`'s `" APS"`
+  wrapper magic): `none` ~41693, `LZ11` 10794, `LZ77` 1522, `Huffman4` 21
+  (tag matches, ~3 plausibly real), `Huffman8` 62 (tag matches, ~8
+  plausibly real), `RLE` 32 (tag matches, ~7 plausibly real)
 - Automated category-guess breakdown (heuristic over magic/count/size only,
   see `guess_category()` in `tools/assets/inventory.py`):
 
@@ -400,6 +475,86 @@ hex dump of an unrecognised 4-byte magic).
 | titledemo.narc | 227088 | NARC | 20 | NCLR (palette) x7, NCGR (tile/character data) x5 | 3D model/texture data (guess) |
 | wb_sound_data.sdat | 51533312 | raw | 0 | SDAT (sound archive) x1 | sound (SDAT archive) |
 
+### BTNF name table results
+
+`tools/assets/narc.py`'s `Narc._parse_btnf()` now decodes the BTNF section
+into a real `{file_id: path}` map (same directory-table shape as the ROM's
+own FNT, see `tools/ndsrom.py`'s `parse_fnt()`), and each `SubFile` carries
+its resolved `.name` when one exists. Scanning all 237 NARCs:
+
+- **1 / 237 NARCs** has any usable BTNF names at all: `a/2/3/2`, whose
+  single sub-file is named `battle_pocket.dat`.
+- **1 / 54054** total sub-files carries a name.
+
+This confirms the original inventory's note in passing ("sub-file names are
+rarely meaningful for these game-data archives") -- essentially every NARC
+in this ROM was built with an empty/degenerate BTNF subtable (root entry
+present, no children), so BTNF decoding does not help disambiguate any of
+the "uncertain category" archives discussed elsewhere in this document.
+The one exception (`battle_pocket.dat`) is consistent with `a/2/3/2` being
+UI-related data (a "pocket" of the bag/battle menu), for whatever that's
+worth as a single data point.
+
+### SDAT internal structure (`wb_sound_data.sdat`)
+
+`tools/assets/sdat.py` (new, stdlib-only) parses the SDAT container: the
+0x40-byte file header, then the SYMB (name tables), INFO (per-entry
+metadata, counts only decoded here), FAT (absolute file offset/size table),
+and FILE (raw sub-file data) blocks, per the public NitroSDK SDAT layout
+(header + 4 named blocks; SYMB/INFO each hold 8 fixed-order record tables:
+SEQ, SEQARC, BANK, WAVARC, PLAYER, GROUP, PLAYER2, STRM). Run it with:
+
+```
+python tools/assets/sdat.py extract/data/wb_sound_data.sdat --json build/assets/sdat_summary.json
+```
+
+Results for `wb_sound_data.sdat` (51,533,312 bytes, SYMB present, 3874 FAT
+file entries):
+
+| resource type | count |
+|---|---:|
+| SEQ (SSEQ, sequenced music/jingles/SFX-sequences) | 2076 |
+| BANK (SBNK, instrument banks) | 1986 |
+| WAVARC (SWAR, wave archives) | 1986 |
+| PLAYER | 7 |
+| GROUP | 1 |
+| SEQARC, PLAYER2, STRM | 0 (none present) |
+
+No `STRM` (streamed audio) entries exist in this archive.
+
+**SEQ naming breakdown** (940 of 2076 SEQ slots have a SYMB name; the rest
+are unnamed but still present, offset-0 name pointer):
+
+| prefix | count | likely meaning |
+|---|---:|---|
+| `SEQ_SE_...` | 726 | sound-effect sequences |
+| `SEQ_BGM_...` | 179 | background music tracks |
+| `SEQ_ME_...` | 32 | "music effect" jingles (level-up, evolution, etc.) |
+| `SEQ_PV...` | 3 | unclear, only 3 instances |
+
+**Cries identified with high confidence, by naming pattern in BANK/WAVARC,
+not SEQ:** WAVARC (and BANK, in lockstep -- both tables are 1986 entries
+long and indexed identically) slots **1 through 650** are named either
+`WAVE_ARC_PV###` (494 of them, e.g. `WAVE_ARC_PV001`) or
+`WAVE_ARC_PMWB_###` (156 of them, e.g. `WAVE_ARC_PMWB_657`, where `###` is
+a species/form index). `PMWB` reads as "Pokemon [Black/White]". 494 + 156 =
+**650**, matching Black/White's 649 species (+1, likely a 1-based index
+with slot 0 reserved/empty). Slot 0 and every slot from 651 onward are
+either unnamed or carry `WAVE_SE_...`/`BANK_SE_...` names (sound-effect
+banks, e.g. `WAVE_SE_WB_FLD_176`, `WAVE_SE_WB_SYS_101`) -- i.e. the cry
+block is a contiguous, cleanly-bounded index range at the front of the
+BANK/WAVARC tables. This directly resolves the previous lane's "cries not
+located" gap: **cries are `wb_sound_data.sdat` BANK/WAVARC entries 1-650**,
+not a separate NARC and not SEQ sequences. Decoding the actual PCM sample
+data out of those WAVARC entries (via FAT offset/size) is left to the SDAT
+converter lane.
+
+**Music vs. effects split (by SEQ naming, heuristic):** `SEQ_BGM_*` (179)
+is music; `SEQ_SE_*` (726) and `SEQ_ME_*` (32) are effects/jingles played
+through the sequence player (separate from the raw WAVARC sound-effect
+banks used for cries and simple blips). This is a naming-pattern heuristic,
+not verified by listening to decoded audio.
+
 ## Where things probably live (guesses, ranked by evidence)
 
 These are the answers to "where do I find X to build the next converter
@@ -425,12 +580,20 @@ outside file list or wiki. Confidence is noted per entry.
   legible magic inside (custom Game Freak tile format), so the pixel layout
   itself is still unknown.
 
-- **Trainer sprites -- `a/0/0/6`** (medium confidence). 733 sub-files
-  (there are on the order of 700+ trainer classes in Black/White), **every**
-  sub-file Huffman4-compressed, average ~12 KB each -- consistent with a
-  full-body trainer portrait. The on-disk magic tag (`" APS"`, i.e. reversed
-  `"SPA "`) does not match any known NITRO chunk, so this is Game Freak's own
-  wrapper around Huffman-compressed bitmap data.
+- **Trainer sprites -- `a/0/0/6`** (medium confidence on location, **Huffman4
+  theory retracted**). 733 sub-files (there are on the order of 700+ trainer
+  classes in Black/White), average ~12 KB each -- consistent with a
+  full-body trainer portrait. The on-disk magic tag is `" APS"` (i.e.
+  reversed `"SPA "`), which does not match any known NITRO chunk, so this is
+  Game Freak's own wrapper. **The previous lane's claim that every sub-file
+  is Huffman4-compressed was a sniff false positive**: byte 0 of `" APS"` is
+  the ASCII space `0x20`, which a bug in `sniff_compression()` matched as a
+  (invalid) Huffman tag -- see "Huffman/RLE decoder verification" above.
+  With the sniff fixed, these sub-files carry no recognised BIOS compression
+  header at all; whatever compression (if any) Game Freak used for the
+  pixel data lives *after* the `" APS"` header, and its shape has not been
+  determined by this pass (the trainer-sprite loader/wrapper investigation
+  was deferred to a future lane to stay within this pass's budget).
 
 - **Pokemon icons (not confirmed as "item icons") -- `a/1/6/7`**
   (low-medium confidence). 655 sub-files, average only ~107 bytes each --
@@ -443,19 +606,20 @@ outside file list or wiki. Confidence is noted per entry.
   average) is the next-best candidate but the count doesn't line up as
   cleanly. This needs the next lane's actual pixel decoding to disambiguate.
 
-- **Pokemon cries -- not located with confidence.** No standalone NARC has a
-  species-sized (~649-670) sub-file count paired with SDAT-flavoured magics
-  (`SSEQ`/`SWAR`/`SBNK`). The likely explanation is that cries live inside
-  `wb_sound_data.sdat` (51.5 MB, the only huge sound archive) as sequences/
-  wave data addressed by index rather than as a separate per-species NARC.
-  This lane did not open the SDAT internal structure (StringID/INFO/section
-  tables from GBATEK-level SDAT documentation), so this is unconfirmed.
+- **Pokemon cries -- located, high confidence.** `wb_sound_data.sdat`'s
+  BANK and WAVARC (SBNK/SWAR) tables carry entries 1-650 named
+  `WAVE_ARC_PV###` / `WAVE_ARC_PMWB_###` (and the matching `BANK_PV###` /
+  `BANK_SE...` on the BANK side) -- 650 = 649 Black/White species + 1. See
+  "SDAT internal structure" above for the full breakdown. This was resolved
+  by opening the SDAT SYMB/INFO block structure with the new
+  `tools/assets/sdat.py`.
 
-- **Music and sound effects -- `wb_sound_data.sdat`** (high confidence it's
-  *the* sound archive; low confidence on splitting music vs. SFX within it).
-  It is the only file with an `SDAT` magic at the top level and is by far
-  the largest file in `extract/data/` (51.5 MB, versus the next-largest NARC
-  at 19.5 MB). A handful of small NARCs (`a/1/4/0`, `a/1/4/2`, `skb.narc`,
+- **Music and sound effects -- `wb_sound_data.sdat`** (high confidence; see
+  "SDAT internal structure" above for the actual SEQ_BGM/SEQ_SE/SEQ_ME
+  naming split, now opened and no longer a guess). It is the only file with
+  an `SDAT` magic at the top level and is by far the largest file in
+  `extract/data/` (51.5 MB, versus the next-largest NARC at 19.5 MB). A
+  handful of small NARCs (`a/1/4/0`, `a/1/4/2`, `skb.narc`,
   `soundstatus.narc`) also turned up incidentally but their dominant
   sub-file magics are graphics (`NCLR`/`NCGR`/`NSBTX`), not sound -- they are
   more likely UI elements *about* sound (e.g. a sound-test menu) than sound
@@ -515,14 +679,32 @@ being reverse engineered against known visuals).
 
 ## Known gaps / honesty notes
 
+(Updated by the second asset-lane pass: Huffman/RLE decoders, BTNF
+decoding, and SDAT internals were closed out this pass; the trainer-sprite
+wrapper investigation in `a/0/0/6` was deferred to stay within budget.)
+
 - Category guesses throughout this document and `inventory.json` are
   heuristic and explicitly labelled "(guess)". None have been confirmed by
   actually decoding and viewing pixels, text, or audio.
-- The BTNF (file name) section is parsed structurally but not decoded into
-  human-readable paths; sub-file names might disambiguate several of the
-  "uncertain" categories above and are worth revisiting.
-- SDAT internal structure (the sections inside `wb_sound_data.sdat`) was not
-  opened at all in this lane.
-- Huffman and RLE compressed sub-files (832 total) were sniffed but not
-  decoded; a future lane needs both decoders before those sub-files are
-  usable.
+- BTNF is now decoded into real paths (`Narc._parse_btnf()` in
+  `tools/assets/narc.py`), but it turned out not to help: only 1 of 54054
+  sub-files across all 237 NARCs carries a name (`a/2/3/2`'s single
+  sub-file, `battle_pocket.dat`). See "BTNF name table results" above.
+- SDAT internal structure (SYMB/INFO/FAT/FILE inside `wb_sound_data.sdat`)
+  is now opened by `tools/assets/sdat.py`: counts, names, and a cry/music/
+  effect split by naming pattern are in "SDAT internal structure" above.
+  Not yet done: decoding the actual SSEQ/SBNK/SWAR/PCM payloads (only the
+  container-level table of contents was read).
+- Huffman4/Huffman8/RLE decoders are now implemented
+  (`decompress_huffman()`, `decompress_rle()` in `tools/assets/narc.py`)
+  and validated against hand-built synthetic test vectors. However, a sniff
+  bug in the previous lane's `sniff_compression()` is now fixed, and with
+  it fixed, **this ROM's NARCs contain no confirmed genuine BIOS-Huffman or
+  BIOS-RLE compressed sub-file** -- see "Huffman/RLE decoder verification"
+  above. The trainer-sprite wrapper in `a/0/0/6` (previously thought to be
+  Huffman4) is NOT BIOS-Huffman-compressed; its real format is still
+  unknown and needs a fresh investigation (byte-level structure inspection,
+  cross-referencing the ARM9 loader) that this pass did not have budget for.
+- `tools/assets/verify_compression.py` (new) re-runs the Huffman4/Huffman8/
+  RLE round-trip check over the whole ROM; re-run it if `narc.py`'s sniff or
+  decoders change.
