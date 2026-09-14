@@ -3214,6 +3214,167 @@ print(ok, '/', total)
 "
 ```
 
+## NSCR (screen/tilemap) backgrounds: `tools/assets/background.py`
+
+Asset-lane pass targeting 2D backgrounds and tilemaps: menu/battle
+backgrounds, title screens, UI panels. New, stdlib-only module
+`tools/assets/background.py` (parses NSCR, composites against NCGR+NCLR,
+renders PNG, round-trips NSCR). Reuses `battle_sprite.parse_nclr` and
+`battle_sprite.write_png_rgb8` rather than re-deriving the NCLR/PNG code
+already verified in an earlier pass.
+
+### NSCR (on-disk `RCSN`) format
+
+Standard Nitro resource shape, same convention as every other chunk this
+project has opened: 16-byte common file header, then one SCRN block
+(stored reversed as `NRCS`): magic(4)+size(4), then a 12-byte sub-header
+(`u16 screen_width_px`, `u16 screen_height_px`, `u32 unknown` -- 0 in
+almost every sub-file, 1 in a handful of `a/0/3/4`'s, meaning not
+determined, preserved verbatim for round-trip -- `u32 data_size`), then
+`data_size` bytes of row-major `u16` screen entries: bits 0-9 tile index
+into the paired NCGR, bit 10 hflip, bit 11 vflip, bits 12-15 palette bank
+(4bpp tilesets only). Every one of the 188 NSCR sub-files this pass
+scanned has `block_count == 1`, no trailing bytes past the declared
+`data_size`, and `file_size == header_size + block_size` exactly (no
+slack) -- a uniform shape, no compression seen on any NSCR sub-file
+sampled. `screen_width_px`/`screen_height_px` are frequently exactly
+256x192 (the real NDS screen resolution), which is itself corroborating
+evidence these are genuine renderable screens, not incidental tilemaps.
+
+### Archives covered
+
+20 archives: `a/0/0/1`, `a/0/2/9`, `a/0/3/3`, `a/0/3/4`, `a/0/4/6`,
+`a/0/7/7`, `a/1/0/2`, `a/1/2/0`, `a/1/4/3`, `a/1/4/4`, `a/1/5/9`,
+`a/1/8/8`, `a/1/9/2`, `a/1/9/3`, `a/2/0/6`, `a/2/2/3`, `a/1/3/7`,
+`soundstatus.narc`, `titledemo.narc`, `skb.narc` -- every "map/tileset
+graphics (guess)" archive from the inventory table plus the two
+"trainer/item/UI sprites (guess)" archives already flagged elsewhere in
+this document as reading like tileset/map bundles rather than character
+sprites (`a/1/5/9`, `a/1/3/7`), plus the three named non-`a/*` archives
+whose dominant formats include NSCR/NCGR. 188 total NSCR sub-files across
+these 20 archives.
+
+### Pairing rule (documented, with an honest gap)
+
+The mission's "standard grouping: consecutive NCGR, NCLR, NSCR triples"
+does **not** hold in this ROM. Dumping the full per-archive magic sequence
+for all 20 candidates shows every one is laid out as grouped runs by chunk
+type -- all of an archive's NCLR sub-files, then all its NCGR sub-files,
+then (sometimes) NCER/NANR, then all its NSCR sub-files -- not interleaved
+triples. `a/0/0/1` is the one partial exception (NCLR, NCGR, NSCR x4,
+NCGR, NCLR -- a "sandwich"). NCLR/NCGR/NSCR counts per archive do not
+divide evenly against each other in most archives (e.g. `a/0/3/3` is 11
+NCLR / 9 NCGR / 10 NSCR), so no count-based correspondence was usable.
+
+This module reuses the "nearest preceding sub-file index" rule
+`overworld.py` already validated for `a/0/2/5`'s irregular NCGR/NCLR
+interleave: each NSCR pairs with the nearest preceding NCGR index and
+nearest preceding NCLR index (falling back to the nearest *following* one
+if the NSCR sits before any NCGR/NCLR in the archive). In a grouped-run
+archive this collapses to "the last NCGR and last NCLR before the NSCR
+run" -- one shared tileset+palette for every screen in that archive.
+Validated by rendering: every sample this pass rendered (well over the
+10-sample minimum, see below) came out as a coherent, structured image
+(readable logos, text-box borders, repeating menu-row patterns, terrain
+silhouettes) rather than palette-mismatch noise, which is this project's
+established bar for accepting the heuristic (same bar `overworld.py`
+applied). **Known gap, reported honestly, not resolved:** because the
+rule always resolves to the *last* NCLR/NCGR in a run, any earlier
+NCLR/NCGR sub-files in a multi-palette or multi-tileset archive (e.g.
+`a/0/3/3`'s other 10 NCLR sub-files) are never selected by this heuristic
+and are left unexplored -- no in-archive index table or count match was
+found to justify picking any of them over the last one.
+
+### Samples rendered and identified
+
+`python tools/assets/background.py --sample` (10 across the candidate
+list) plus targeted follow-up renders (`--archive X --index N`) once a
+promising archive turned up more than one interesting screen, all written
+to `build/assets/backgrounds/` (gitignored). Both mission "ideal" targets
+were found:
+
+- **Title screen -- confirmed.** `titledemo.narc#0` renders the actual
+  **Pokemon Diamond/Pearl Japanese logo** ("ポケットモンスター ダイヤモンド" with the
+  Pokeball mark and "Pokemon"/"ダイヤモンド" wordmark) -- this ROM ships a
+  leftover Diamond/Pearl title-screen demo bundle, not (in this specific
+  sub-file) Black/White's own title art. `titledemo.narc#17` renders
+  "© 2006 GAME FREAK inc." on black, the standard developer splash screen
+  that precedes a title screen. `titledemo.narc#12` is a purple-to-white
+  vertical gradient, a plausible title-screen backdrop layer. `titledemo_8`
+  is a striped decorative border pattern.
+- **Battle background -- confirmed (high confidence).** `a/1/4/3#22`
+  (512x192, wider than one screen -- likely a horizontally-scrolling
+  layer) renders an irregular green silhouette against black: a hill/grass
+  terrain line, the classic Pokemon battle-background foreground-terrain
+  shape. `a/1/4/3#24` renders a repeating small-circle/scale texture with
+  teal accent squares -- a plausible ground/grass texture tile for the
+  same background. `a/1/4/3#18` is a flat green fill (a plausible terrain
+  base-color layer).
+- **Menu/UI screens -- several, not the literal main menu but clearly UI.**
+  `a/1/9/2#5` renders ten empty rounded rectangular slots stacked
+  vertically on a teal background -- a save-file-select or list-menu
+  layout (an empty list of selectable rows is exactly what an unfilled
+  menu template looks like). `a/1/9/2#8` renders an outlined circle plus
+  colored signal-strength-style bars on teal -- reads as a Nintendo
+  Wi-Fi/GTS connection-status screen. `a/1/3/7#26` renders readable English
+  text: **"VS. RECORDER" / "GLOBAL MODE"** -- Black/White's real VS
+  Recorder (battle-replay) feature UI banner, a strong, unambiguous
+  identification. `a/1/9/2#2` renders a blue perspective grid (a
+  "network/connection" visual motif, consistent with the Wi-Fi guess
+  above).
+- **Misc UI elements confirmed along the way:** `a/0/0/1#2` renders a
+  small yellow cat-eared face icon next to a "123456" digit counter and a
+  checkbox-like mark -- reads as a save-file/Pokemon-box status readout,
+  not a full-screen background (this archive's screens are UI panel-sized
+  widgets, not backgrounds). `a/0/4/6#11` renders a pink diamond-lattice
+  decorative window border/frame twice (top and bottom half of the
+  256x512 canvas) -- a menu window-frame graphic. `a/0/7/7#4` renders a
+  pink braided/ribbed vertical stripe pattern -- a decorative
+  wallpaper/curtain texture.
+- **Flat/blank renders** (`a/1/0/2#4`, `a/1/4/4#12`, solid black; several
+  solid-color fills like `a/0/2/9#9` solid green, `a/1/4/3#15` solid
+  blue): plausibly genuine flat-fill background layers (a sky or ground
+  base color is often literally one repeated tile), but this pass cannot
+  rule out a wrong NCGR/NCLR pairing collapsing every tile to the blank
+  filler tile in some of these cases -- not chased further per the pairing
+  rule's documented gap above.
+
+### NSCR round trip
+
+`python tools/assets/background.py --verify`: **188/188 (100%) of NSCR
+sub-files across all 20 covered archives byte-identical round trip**
+(parse to `NscrFile`, re-serialize with `NscrFile.encode()`, compare
+against the original bytes; no NSCR sub-file in any covered archive was
+compressed, so this is a direct byte comparison, not a decompress+recompress
+round trip). Per-archive counts: `a/0/0/1` 4, `a/0/2/9` 7, `a/0/3/3` 10,
+`a/0/3/4` 15, `a/0/4/6` 6, `a/0/7/7` 4, `a/1/0/2` 15, `a/1/2/0` 2,
+`a/1/4/3` 10, `a/1/4/4` 10, `a/1/5/9` 38, `a/1/8/8` 3, `a/1/9/2` 10,
+`a/1/9/3` 6, `a/2/0/6` 2, `a/2/2/3` 3, `a/1/3/7` 36, `soundstatus.narc` 2,
+`titledemo.narc` 4, `skb.narc` 1.
+
+### Remaining gaps
+
+- The pairing rule's "always the last NCLR/NCGR in a run" limitation
+  (above) means multi-palette/multi-tileset archives are only partially
+  explored -- e.g. `a/0/3/3`'s 10 non-selected NCLR sub-files are unused
+  by this pass.
+- Several samples render as flat solid colors or solid black; not
+  disambiguated between "genuine flat background layer" and "wrong
+  NCGR/NCLR pairing" (see "Flat/blank renders" above).
+- Black/White's *own* title screen (as opposed to the `titledemo.narc`
+  leftover Diamond/Pearl demo bundle) was not specifically located in this
+  pass's 20-archive coverage; `titledemo.narc` was covered because its
+  name suggested title-screen content, and it delivered, but this pass did
+  not separately search for a Black/White-specific title archive.
+- `a/1/6/7`'s round trip and the NCGR-only round trip already verified in
+  `overworld.py`/`icons.py` are unrelated to this pass; only NSCR (not
+  NCGR/NCLR) round-tripping was in scope here, per the mission brief.
+- NCGR 8bpp tile unpacking (`bytes_per_tile == 64`, bitdepth field value 4)
+  is implemented per the same bitdepth convention documented in
+  `icons.py` (3 = 4bpp, 4 = 8bpp) but was not exercised against real 8bpp
+  data in this pass -- every NCGR paired with an NSCR in the 20 covered
+  archives turned out to be 4bpp.
+
 Result: **5400/5400 ADPCM samples now byte-identical** (up from
 5363/5400), across all 1497 real WAVARC archives -- the encoder change is
 confined to `tools/assets/adpcm.py`'s `encode_block()`; `swav.py` and its
