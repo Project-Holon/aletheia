@@ -768,3 +768,150 @@ NitroFS file-id-to-archive resolution generically (e.g. via the
 whatever function opens `a/0/0/7`'s NCGR-containing NARC, since `a/0/0/6`
 and `a/0/0/7` are adjacent trainer-sprite-related archives) rather than by
 grepping for constants specific to `a/0/0/6`.
+
+## Battle sprite archive (`a/1/3/4`): payload format, PNG decode, LZ11 codec
+
+This is the third asset lane pass, focused specifically on `a/1/3/4`, the
+670-sub-file archive proposed above as Black/White's Pokemon battle sprite
+archive (649 species + forms/genders). New tools: `tools/assets/
+battle_sprite.py` (payload -> PNG) and `tools/assets/lz11.py` (LZ11
+encoder, complementing `narc.py`'s existing decoder).
+
+### Payload format
+
+Every one of the 670 sub-files is LZ11-compressed (confirmed for indices
+0, 1, 25, 150 and, incidentally, all 670 via the round-trip check below),
+and **every sub-file's LZ11 header declares exactly 0x020000 (131072)
+bytes of decompressed output** -- not a coincidence of the four samples,
+a format-level constant.
+
+The decompressed payload has **no NITRO chunk magic anywhere** (no RGCN/
+NCGR, RLCN/NCLR, RECN/NCER, RNAN/NANR) and **no embedded palette**: bare
+custom tile data, nothing else recognisable. Layout, recovered by
+comparing the four decompressed samples against each other (no outside
+documentation used):
+
+- Sub-file 0 (presumably an unused/reserved species-0 slot) decodes to
+  the 2-byte pattern `00 80` repeated for the full 131072 bytes -- a
+  filler/background value, confirmed as such below, not real pixel data.
+- Diffing the other three samples against this filler isolates where real
+  tile data lives. The boundary between "real content" and "filler"
+  recurs at a clean **512-byte stride**: for sub-file 25, content spans of
+  ~330-370 bytes alternate with filler at exactly `0x0, 0x200, 0x400, ...`
+  for 32 rows, then the remaining `0x1C000` bytes are pure filler. For
+  sub-file 1 the per-row content-start offset drifts smoothly (137, 137,
+  139, 139, 139, 141, ...) across successive 512-byte rows -- a diagonal,
+  i.e. consistent with a real silhouette edge, not noise.
+- 512 bytes / 32 bytes-per-4bpp-tile (8x8 pixels) = **16 tiles**. Standard
+  NDS 2D tile addressing (`tile_index = tile_row * tiles_per_row +
+  tile_col`) with 16 tiles/row reproduces the observed 512-byte row stride
+  exactly: **image width 128 px, 4bpp**.
+- 131072 bytes / 512 bytes-per-tile-row = 256 tile-rows = **2048 px of
+  vertical canvas**, of which real content only occupies a leading
+  fraction for the smaller samples (144 tile-rows / 1152 px for species 1,
+  32 tile-rows / 256 px for species 25) -- consistent with a fixed
+  worst-case canvas (sized for the largest sprite, e.g. Wailord) with
+  unused rows left as filler for everything else.
+- Nibble-value histogram inside the real-content region for species 25:
+  values `0x0` and `0x8` (the two nibbles of the filler pattern) still
+  dominate at 28.7% and 19.6% respectively (48% combined), with the
+  remaining 14 palette indices spread across the rest -- i.e. the filler
+  pattern doubles as the actual background/transparent index inside real
+  sprite data too, not just in the reserved slot-0 placeholder. This is
+  corroborating evidence for the 4bpp/width-128 read: an 8bpp reading of
+  the same bytes has no comparably dominant single background value (top
+  two byte values cover only 34%, spread over many more distinct bytes).
+- **Not independently confirmed**: an average-run-length scan across
+  candidate widths (32 through 512 px, 4bpp/8bpp, tiled/linear) failed to
+  discriminate between them -- all candidates score close to the same low
+  average run (~1.28 nibbles for 4bpp, ~1.0 for 8bpp), which is more
+  consistent with heavily dithered pixel art (a known Gen4/5 sprite
+  shading technique) defeating that heuristic than with the width choice
+  being wrong, but this was not cross-checked against a recovered
+  palette (none exists in this archive) or a known-good reference image.
+  **No palette exists anywhere in `a/1/3/4`**, so true pixel *color*
+  cannot be reconstructed from this archive alone.
+- 128 x 2048 at 4bpp is also a plausible **multi-frame animation strip**
+  (16 stacked 128x128 frames), and the two small samples using exactly
+  32 tile-rows (2 frames' worth) is consistent with a simple 2-frame idle
+  "breathing" animation -- plausible given Black/White's known battle
+  sprite animation style, but not verified by locating actual frame
+  boundaries or an animation-timing table.
+
+### PNG decoder (`tools/assets/battle_sprite.py`)
+
+Renders index-as-grayscale (4bpp index * 17, filling 0-255) since no
+palette is recoverable from this archive. Usage:
+
+```
+python tools/assets/battle_sprite.py 25 --trim
+python tools/assets/battle_sprite.py --all --trim
+```
+
+`--trim` crops the output to the last non-filler 512-byte row so small
+sprites don't ship as mostly-blank 128x2048 PNGs. All **670/670**
+sub-files decoded without error in `--all` mode, written to
+`build/assets/battle/NNNN.png` (gitignored). Not independently visually
+confirmed by this pass (no image viewer available here) -- the user
+should open a few PNGs (e.g. `0025.png`, `0150.png`) to sanity-check that
+recognisable silhouettes appear; per-row nonzero-pixel-count profiles
+computed ad hoc during this investigation showed smooth, non-random
+variation over height for every sample checked, consistent with real
+shapes rather than garbage.
+
+### LZ11 encoder (`tools/assets/lz11.py`) and round-trip result
+
+Written the same way `tools/blz.py`'s BLZ encoder was recovered (see
+"Matching BLZ compression" in `docs/NOTES.md`): decode an original
+compressed sub-file to its token stream, diff a candidate encoder's
+choices against it token-by-token, and adjust policy at the first
+divergence. Unlike BLZ (backward, in-place, with a verbatim-prefix safety
+margin to reconstruct), LZ11 is a plain forward LZ77 variant encoding
+every byte, so the recovered policy is just the match search:
+
+- **greedy**, no lazy matching -- confirmed sufficient (no divergence
+  attributable to lazy evaluation on any of the 670 sub-files).
+- **matches may self-overlap** (`length` may exceed `displacement`, the
+  classic LZ77 run trick) -- required; species-0's entire 131072-byte
+  filler payload compresses to 15 bytes using exactly this.
+- **displacement 1 is never used**, even where it is the only way to
+  encode a short repeated-byte run cheaper than literals. First
+  divergence: sub-file 25, plaintext offset 194, a run of four identical
+  bytes left as four literals despite a legal length-3/disp-1 match being
+  available.
+- **longest match wins; ties broken by *farthest* displacement** -- the
+  opposite of BLZ's nearest-wins rule. First divergence: sub-file 25,
+  plaintext offset ~65810, where matches of equal maximal length exist at
+  displacement 2 and displacement 0x1000 (the search window maximum) and
+  the original encodes the 0x1000 one.
+- Field limits match the existing decoder in `narc.py`: match length
+  3..0x10110, displacement 1..0x1000 (with 1 excluded per above), and the
+  shortest of the three token forms that can express a given length is
+  always used (not an independent choice -- the length ranges are
+  disjoint).
+
+**Result: 670/670 sub-files round-trip byte-for-byte**
+(`compress(decompress(x)) == x` for every sub-file in `a/1/3/4`, header
+bytes and all), confirmed by an ad hoc harness (not committed as a script
+per this lane's write-set; re-run it by decompressing every sub-file with
+`narc.py`'s `decompress_lz11` and re-encoding with `lz11.compress`). Full
+archive round trip took about 160 s single-threaded CPython 3.11 (a
+hash-chain match finder over up to 131072 bytes per sub-file, 670
+sub-files).
+
+### What remains
+
+- The battle-sprite pixel format's exact frame/animation layout (frame
+  count, frame boundaries within the 2048px canvas, whether the "2 frames"
+  guess for small sprites is right) is not resolved -- needs either a
+  recovered palette (to render real colors and visually confirm frame
+  cuts) or a cross-reference to whatever code loads this archive and any
+  accompanying OAM/cell table.
+- No palette source for these sprites has been located in `a/1/3/4`
+  itself; it likely lives in a companion archive or is supplied by the
+  loader from a fixed table, neither investigated here.
+- `tools/assets/lz11.py`'s encoder policy is fully recovered and verified
+  (670/670), but only against this one archive; it has not been re-run
+  against the other ~10,100 LZ11 sub-files elsewhere in the ROM to check
+  the policy generalises (expected to, since nothing here is specific to
+  battle sprites, but not confirmed).
