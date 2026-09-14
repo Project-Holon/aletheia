@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """
-trainer.py -- decoder for the `" APS12_1"`-wrapped sprite archive `a/0/0/6`
-(733 sub-files; previously guessed "trainer sprites" by an earlier lane,
-now cracked at the byte level but reclassified -- see docs/ASSETS.md
-"a/0/0/6 wrapper cracked" for the full writeup).
+trainer.py -- decoder for the `" APS12_1"`-wrapped sprite format, default
+archive `a/0/0/6` (733 sub-files; previously guessed "trainer sprites" by
+an earlier lane, now cracked at the byte level but reclassified -- see
+docs/ASSETS.md "a/0/0/6 wrapper cracked" for the full writeup). The same
+wrapper turns up in 10 more archives (41 more sub-files, pass `--archive`
+to point at any of them) -- see docs/ASSETS.md "the other 41 `" APS12_1"`
+wrappers found and decoded" for that pass's findings (a shared
+particle/weather-effect icon format, not a second trainer-sprite home).
 
 Written from scratch for the aletheia project. Stdlib only, single file.
 
@@ -122,10 +126,36 @@ OUT_DIR = os.path.join("build", "assets", "trainers")
 
 TPS_MAGIC = b" TPS"
 TPS_FIXED_HEADER_LEN = 0x24  # magic + 8 u32 fields
-FRAME_PIXEL_BYTES = 0x400    # 1024, constant across every sampled frame
-FRAME_WIDTH = 32
+FRAME_PIXEL_BYTES = 0x400    # 1024, legacy default only used as a fallback
+FRAME_WIDTH = 32             # legacy default row width (non-square pb)
 FRAME_HEIGHT = FRAME_PIXEL_BYTES // FRAME_WIDTH  # 32
 PALETTE_BYTES = 32           # 16 BGR555 colors
+
+
+def guess_canvas_width(pixel_bytes):
+    """Infer a per-chunk canvas row width from the declared `pixel_bytes`
+    (`pb`) field at TPS+0x08.
+
+    41 " APS12_1" sub-files outside `a/0/0/6` (found by re-running
+    `inner_magic_census.py` and filtering for the " APS" inner magic
+    across every archive, not just `a/0/0/6`) declare `pb` values other
+    than the 0x400 this module originally hard-coded: 0x40, 0x100, 0x200,
+    0x1000, and 0x10000 all occur (see docs/ASSETS.md "the other 41 APS
+    wrappers"). Where `pb` is a perfect square, treat the chunk as a
+    square canvas of that side length -- 0x1000 (4096) = 64x64, 0x10000
+    (65536) = 256x256, 0x400 (1024) = 32x32, 0x100 (256) = 16x16, 0x40
+    (64) = 8x8 -- matching the mission's own worked examples (0x1000 =
+    64x64, 0x1900 = 80x80, 0x2400 = 96x96). Non-square `pb` (only 0x200 =
+    512 seen) falls back to the legacy fixed 32-pixel row width, since no
+    sampled sub-file's small per-chunk sub-table carries an explicit
+    width/height (every subtable byte checked across all 41 files is 0x00
+    or a repeated 0x08/0x20/0x50 filler, never a plausible dimension
+    pair -- see docs/ASSETS.md for the byte dumps checked)."""
+    root = int(pixel_bytes ** 0.5)
+    for cand in (root - 1, root, root + 1):
+        if cand > 0 and cand * cand == pixel_bytes:
+            return cand
+    return FRAME_WIDTH
 
 
 class TrainerWrapperError(Exception):
@@ -180,8 +210,17 @@ def decode_frames(data):
     """Return a list of (width, height, pixel_indices) tuples, one per
     " TPS" sub-chunk found in `data`, plus the recovered 16-color palette.
     `pixel_indices` is a flat row-major bytearray of 4-bit palette indices
-    (0-15), taken from the HIGH nibble of each of the frame's 1024 pixel
-    bytes -- see the module docstring for why the low nibble is not used.
+    (0-15), taken from the HIGH nibble of each pixel byte -- see the
+    module docstring for why the low nibble is not used.
+
+    Canvas size per chunk is generalised (see `guess_canvas_width()`): the
+    declared `pb` field at TPS+0x08 gives the row width when `pb` is a
+    perfect square, else the legacy fixed 32-pixel width is used. The
+    pixel region itself is clipped to whatever room is actually available
+    before the next " TPS" tag (or before the trailing 32-byte palette,
+    for a sub-file's last chunk) -- the same clipped-length rule
+    `parse_full()` uses for the re-encoder -- and any final partial row is
+    dropped, exactly as before.
     """
     hdr = parse_wrapper(data)
     tps_offsets = find_tps_offsets(data)
@@ -190,26 +229,24 @@ def decode_frames(data):
     palette = parse_palette(data)
 
     frames = []
-    for off in tps_offsets:
+    for k, off in enumerate(tps_offsets):
         if off + TPS_FIXED_HEADER_LEN + 4 > len(data):
             raise TrainerWrapperError(f"TPS chunk at 0x{off:X} header runs past EOF")
+        pb, = struct.unpack_from("<I", data, off + 0x08)
         subtable_len, = struct.unpack_from("<I", data, off + 0x10)
         pix_start = off + TPS_FIXED_HEADER_LEN + subtable_len
-        pix_end = pix_start + FRAME_PIXEL_BYTES
-        # The last " TPS" chunk in a sub-file can run a few bytes short of
-        # the full 1024-byte canvas where its declared extent overlaps the
-        # trailing 32-byte palette (seen on sub-file 100's 8th frame,
-        # short by 4 bytes) -- clip rather than treat as an error, and drop
-        # any final partial row.
-        pixel_bytes = data[pix_start:min(pix_end, len(data))]
-        usable_rows = len(pixel_bytes) // FRAME_WIDTH
-        pixel_bytes = pixel_bytes[:usable_rows * FRAME_WIDTH]
+        next_b = tps_offsets[k + 1] if k + 1 < len(tps_offsets) else len(data) - PALETTE_BYTES
+        pixel_len = max(0, min(pb, next_b - pix_start))
+        pixel_bytes = data[pix_start:pix_start + pixel_len]
+        width = guess_canvas_width(pb)
+        usable_rows = len(pixel_bytes) // width
+        pixel_bytes = pixel_bytes[:usable_rows * width]
         if not pixel_bytes:
             raise TrainerWrapperError(f"TPS chunk at 0x{off:X}: no pixel data available")
         indices = bytearray(len(pixel_bytes))
         for i, b in enumerate(pixel_bytes):
             indices[i] = (b >> 4) & 0x0F
-        frames.append((FRAME_WIDTH, usable_rows, indices))
+        frames.append((width, usable_rows, indices))
 
     if len(frames) != hdr["frame_count"]:
         # Not fatal -- report but keep going; frame_count is a useful cross
@@ -393,13 +430,20 @@ def verify_all_reencode(archive_path=ARCHIVE_PATH):
     return ok, n.file_count, failures
 
 
-def decode_one(narc_obj, index, out_dir):
+def archive_tag(archive_path):
+    """`a/1/8/2`-style archive path -> `a_1_8_2` filename tag."""
+    return os.path.normpath(archive_path).replace("extract" + os.sep + "data" + os.sep, "") \
+        .replace(os.sep, "_").replace("/", "_")
+
+
+def decode_one(narc_obj, index, out_dir, tag=None):
     raw = narc_obj.read(index)
     hdr, palette, frames = decode_frames(raw)
     paths = []
+    prefix = f"{tag}_" if tag else ""
     for fi, (w, h, indices) in enumerate(frames):
         rgb = indices_to_rgb(indices, palette)
-        out_path = os.path.join(out_dir, f"{index:04d}_f{fi}.png")
+        out_path = os.path.join(out_dir, f"{prefix}{index:04d}_f{fi}.png")
         write_png_rgb8(out_path, w, h, rgb)
         paths.append(out_path)
     return hdr, palette, paths
@@ -435,13 +479,14 @@ def main(argv=None):
 
     os.makedirs(args.out, exist_ok=True)
     n = narc.parse_file(args.archive)
+    tag = archive_tag(args.archive) if os.path.normpath(args.archive) != os.path.normpath(ARCHIVE_PATH) else None
 
     if args.all:
         ok = 0
         fail = 0
         for i in range(n.file_count):
             try:
-                decode_one(n, i, args.out)
+                decode_one(n, i, args.out, tag=tag)
                 ok += 1
             except Exception as exc:
                 fail += 1
@@ -449,7 +494,7 @@ def main(argv=None):
         print(f"[*] decoded {ok}/{n.file_count} sub-files to {args.out} ({fail} failed)")
         return 0 if fail == 0 else 1
 
-    hdr, palette, paths = decode_one(n, args.index, args.out)
+    hdr, palette, paths = decode_one(n, args.index, args.out, tag=tag)
     print(f"[*] sub-file {args.index}: field_a={hdr['field_a']} "
           f"frame_count={hdr['frame_count']} "
           f"size_a=0x{hdr['size_a']:X} size_b=0x{hdr['size_b']:X} "

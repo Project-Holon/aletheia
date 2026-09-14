@@ -5039,3 +5039,190 @@ Both verified with `match.py one` and gated with `manifest --verify --shard`.
 - The `nodeAttr` byte's low nibble (0 or 1, selecting `func_020643CC`'s
   duration-summing path) and the NMAR resource are still undecoded; neither
   is needed for a static pose.
+
+## Asset lane pass: the other 41 `" APS12_1"` wrappers found and decoded -- confirmed a shared particle/UI-effect format, not a second trainer-sprite home
+
+Mission: the inner-magic census (`build/assets/inner_magic_census.json`)
+totals 774 `" APS"` inner-magic hits ROM-wide, but `a/0/0/6` alone only
+accounts for 733. Find, decode, and identify the other 41.
+
+### Where they live
+
+Filtering the JSON for every archive with a nonzero `" APS"` count besides
+`a/0/0/6` gives 10 archives, summing to exactly 41:
+
+| archive | `" APS"` count | sub-file indices |
+|---|---:|---|
+| `a/0/3/4` | 1 | 38 |
+| `a/0/4/7` | 4 | 51, 52, 53, 54 |
+| `a/0/7/6` | 2 | 27, 28 |
+| `a/1/0/3` | 1 | 53 |
+| `a/1/0/4` | 1 | 10 |
+| `a/1/1/5` | 8 | 0, 8, 15, 57, 65, 70, 95, 115 |
+| `a/1/8/1` | 4 | 10, 11, 12, 13 |
+| `a/1/8/2` | 1 | 10 |
+| `a/1/8/9` | 1 | 10 |
+| `a/2/1/6` | 18 | 34-51 |
+
+All 41 sub-files are uncompressed on disk (`narc.sniff_compression`
+returns `None` for every one, verified directly, not inferred from the
+census) and open with the exact same `b" APS12_1"` magic and `" TPS"`
+sub-chunk structure `trainer.py` already parses for `a/0/0/6` -- same
+36-byte TPS header, same trailing-32-byte BGR555 palette convention. No
+new container format was needed; these are the same wrapper reused by
+other archives, not a distinct format.
+
+### Generalizing the pixel-canvas decoder
+
+The existing `decode_frames()` hard-coded a 32x32/1024-byte canvas
+(`FRAME_PIXEL_BYTES = 0x400`, `FRAME_WIDTH = 32`) on the strength of
+`a/0/0/6`'s 3 originally-sampled sub-files. Dumping every TPS chunk's
+declared `pb` field (`+0x08`) across all 41 new sub-files (plus a
+re-check of `a/0/0/6` itself) shows `pb` actually takes 6 distinct
+values: `0x40` (64), `0x100` (256), `0x200` (512), `0x400` (1024),
+`0x1000` (4096), and (only in `a/2/1/6`) `0x10000` (65536) -- confirming
+the re-encoder pass's earlier finding that `pb` is not a format-wide
+constant, now with a wider value range than the 0x400/0x1000 seen before.
+
+`trainer.py` gained `guess_canvas_width(pb)`: when `pb` is a perfect
+square, the chunk is a square canvas of that side length (0x40 = 8x8,
+0x100 = 16x16, 0x400 = 32x32, 0x1000 = 64x64, 0x10000 = 256x256 --
+matching this mission's own worked examples for 0x1000/0x1900/0x2400);
+otherwise (only `pb = 0x200 = 512` is non-square, seen once, in
+`a/1/8/2` sub-file 10 chunk 3) it falls back to the legacy fixed
+32-pixel row width. The small per-chunk sub-table (`subtable_len` bytes
+at `+0x24`, `TPS_FIXED_HEADER_LEN`) does **not** carry an explicit
+width/height anywhere it was checked: every sub-table byte across all 41
+new sub-files plus a re-check of the original 3 is either all-zero or a
+single repeated filler byte (`0x08`, `0x20`, `0x50`) -- never a
+plausible dimension pair -- so the "read width/height from the
+sub-table" fallback this mission asked about is not available in
+practice; `guess_canvas_width()` never attempts it. `decode_frames()` now
+also uses each chunk's own clipped `pixel_len` (the same
+`min(pb, next_boundary - pix_start)` rule `parse_full()` already used for
+the re-encoder) instead of a hard-coded 1024-byte read, so a canvas that
+runs short against the next chunk or the trailing palette is cropped to
+whole rows exactly as before, just no longer capped at 1024 bytes.
+Verified non-regressing: `python tools/assets/trainer.py --all` still
+decodes all 733 `a/0/0/6` sub-files with 0 failures, and
+`--verify-reencode` (untouched -- `parse_full`/`reencode_full` do not go
+through `decode_frames()`) still reports 733/733 byte-identical.
+
+`--archive` already existed on `trainer.py`'s CLI from the earlier
+re-encoder pass; this pass added `archive_tag()` and a `tag=` parameter
+to `decode_one()` so a non-default `--archive` run prefixes its output
+filenames with the archive path (`a_1_8_2_0010_f2.png`), avoiding
+collisions across archives in a shared output directory. `a/0/0/6`'s own
+default output naming (`NNNN_fF.png`, no prefix) is unchanged.
+
+### Re-rendered `a/0/0/6` sub-files 0 and 1 at 64x64
+
+Both declare `pb = 0x1000` (4096) on their single/first TPS chunk, and
+(checked directly) both sub-files are large enough to actually supply
+most of a 64x64 canvas -- sub-file 0 is 4284 bytes with 4060 usable pixel
+bytes (63 full 64-pixel rows), sub-file 1 is 8564 bytes with 4092 and
+4060 usable pixel bytes across its 2 chunks (63 rows each). The earlier
+pass's 32x32 renders were therefore not full-canvas crops of noise, but
+genuine top-left crops of a real 64x64 image -- and this pass confirms
+what the missing 3/4 of the canvas holds: **still nothing new**. Sub-file
+0 renders as an all-black/empty 64x64 frame (same near-empty white-only
+16-entry palette as before; the extra rows beyond the original 32x32 crop
+are genuinely blank, not a hidden shape the old crop cut off). Sub-file
+1's two frames render as
+the same 4-point sparkle/glint silhouette seen before, now visible in
+full at 64x64 rather than cropped, plus a second still-blank frame. No
+human silhouette, no additional detail beyond the "sparkle" shape already
+documented. **This directly confirms**, rather than overturns, the
+existing "glint/particle effect, not trainer portrait" reclassification
+of `a/0/0/6` -- re-renders at `build/assets/trainers/0000_f0.png` and
+`0001_f{0,1}.png` (filenames unchanged, contents updated).
+
+### The 41: rendered and identified -- a shared particle/UI-effect format, no trainer figures
+
+All 41 decode cleanly (0 errors) to `build/assets/aps_other/<archive
+tag>_<index>_f<frame>.png` (75 PNGs total, since several sub-files carry
+multiple TPS-chunk frames -- `a/2/1/6`'s 18 hits are 18 single-frame
+sub-files while e.g. `a/0/4/7` sub-file 54 alone carries 6). Visually
+inspected every sub-file (all frames for the smaller archives, at least
+one representative frame per sub-file for `a/2/1/6`'s 18). None depicts a
+human figure at any scale. What they actually show, by archive:
+
+- **`a/2/1/6`** (18 sub-files, all but one at `pb = 0x10000` = 256x256,
+  the largest canvas found anywhere in this format): a **weather-overlay
+  particle set** -- sub-file 34 is a repeating radiating-ray/web motif
+  (sunlight-ray pattern), 36 is repeating blue claw/wave-scratch shapes,
+  40 is a field of parallel diagonal blue streaks (rain), 44 is an
+  unambiguous tiled **field of snowflakes** (hail/snow), 48 is a tiled
+  field of brown teardrop shapes (sand/dust, i.e. Sandstorm), and 51 (the
+  one sub-file with `pb = 0x1000` instead) is another 64x64 sparkle,
+  matching the small-glint family seen everywhere else. This reads as the
+  battle weather-effect overlay archive (Rain/Sun/Hail/Sandstorm-style
+  full-screen particle fields), not a sprite archive of any kind.
+  Sub-file 40's diagonal-stripe render has a visible seam artifact (an
+  adjacent-row autocorrelation scan for the true stride peaks at 128-130
+  px, not the 256 used) that this pass did not chase further -- flagged
+  as an open item below; it does not change the weather-effect
+  identification (36/44/48 are unambiguous at the declared 256x256 and
+  corroborate it).
+- **`a/0/3/4`, `a/1/0/3`, `a/1/0/4`**: animated expanding/contracting
+  ring and diamond-of-dots shapes across their multi-frame sub-files
+  (solid ring -> gap -> dotted wider ring -> diamond of dots -> gap, for
+  `a/1/0/3` sub-file 53's 5 frames; a similar solid-ring-to-diamond
+  sequence for `a/1/0/4` sub-file 10's 3 frames) -- a target-lock/capture
+  "ring" effect animation, the same family already seen in `a/0/0/6`'s
+  own ring/reticle-shaped samples.
+- **`a/0/4/7`**: a mix of a purple/black blob-splash shape (sub-file 52's
+  64x64 frame -- reads as a poison/sludge or ink-splash impact effect), a
+  sparse scattered-dot sparkle (sub-file 53), and small (16x16) fragments
+  too low-resolution to identify beyond "UI icon piece" (sub-file 51).
+- **`a/0/7/6`, `a/1/1/5`, `a/1/8/1`, `a/1/8/2`, `a/1/8/9`**: the same
+  small glint/sparkle/scattered-dot shapes and near-empty frames already
+  characterized for `a/0/0/6`, plus one clean diamond/rhombus
+  concentric-color target-reticle icon (`a/1/8/2` sub-file 10, frame 2,
+  64x64) -- all consistent with a general-purpose small animated
+  status/particle icon, reused wherever a menu or battle screen needed
+  one, not with any per-trainer or per-species resource.
+
+**Conclusion: not a second trainer-sprite home.** The " APS12_1"/" TPS"
+wrapper is confirmed (now across 11 archives and 774 total sub-files) to
+be this ROM's general-purpose small animated particle/effect/icon sprite
+format -- sparkles, rings, splashes, and (in `a/2/1/6`) full-screen
+weather overlays -- not a trainer-specific container. No pairing to a
+trainer-class table was attempted since no sub-file in this set shows
+trainer-shaped content to pair.
+
+### Report
+
+- **Locator**: no new tool file -- 41 hits found directly from
+  `build/assets/inner_magic_census.json`'s existing per-archive
+  histograms (filter for a nonzero `" APS"` entry outside `a/0/0/6`),
+  cross-checked against the ROM by re-opening each archive and
+  confirming every hit is an uncompressed `b" APS12_1"` sub-file.
+- **Decoder**: `tools/assets/trainer.py`'s `decode_frames()` generalized
+  via new `guess_canvas_width()` (perfect-square `pb` -> square canvas,
+  else the legacy 32px-wide fallback) and per-chunk clipped `pixel_len`
+  (reusing the re-encoder's own boundary rule) instead of the old
+  hard-coded 32x32/1024-byte canvas; `decode_one()`/`main()` gained
+  `archive_tag()`-based output filename prefixing for non-default
+  `--archive` runs. `--archive` itself already existed. Regression-safe:
+  733/733 `a/0/0/6` sub-files still decode with 0 failures and
+  733/733 still round-trip byte-identical through the untouched
+  re-encoder.
+- **Renders**: `build/assets/aps_other/` (75 PNGs, all 41 sub-files' TPS
+  chunks); `build/assets/trainers/0000_f0.png` and `0001_f{0,1}.png`
+  re-rendered at the full 64x64 canvas (previously cropped to 32x32).
+- **Identification**: `a/2/1/6` is a battle weather-overlay archive
+  (rain/snow/sand/sun-ray particle fields at 256x256); the remaining 8
+  archives hold assorted small glint/sparkle/ring/splash status-effect
+  icons, the same family already documented for `a/0/0/6`. No human
+  figure, no trainer-shaped content, anywhere in the 41.
+- **Remaining gaps**: `a/2/1/6` sub-file 40's true canvas stride is not
+  fully confirmed (256x256 renders with a visible diagonal seam; a naive
+  adjacent-row autocorrelation favors ~128-130px instead, but that scan
+  is not trustworthy against a real diagonal-streak image the way it was
+  against the radially-symmetric glints in earlier passes, so this is
+  left open rather than "fixed" by guessing). The single non-square `pb
+  = 0x200` chunk (`a/1/8/2` sub-file 10, chunk 3) is decoded via the
+  legacy 32px-wide fallback, unverified against any independent evidence
+  of its true width. The trainer battle sprite itself remains not
+  located by this or any prior pass.
