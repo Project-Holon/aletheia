@@ -397,8 +397,96 @@ def decode_palette(pal_bytes):
 FORMAT_BITS_PER_PIXEL = {1: 8, 2: 2, 3: 4, 4: 8, 6: 8, 7: 16}
 FORMAT_NAMES = {
     1: "A3I5", 2: "4-color", 3: "16-color", 4: "256-color",
-    5: "4x4-compressed (unimplemented)", 6: "A5I3", 7: "direct",
+    5: "4x4-compressed", 6: "A5I3", 7: "direct",
 }
+
+
+def _blend(c0, c1, w0, w1):
+    r = (c0[0] * w0 + c1[0] * w1) // (w0 + w1)
+    g = (c0[1] * w0 + c1[1] * w1) // (w0 + w1)
+    b = (c0[2] * w0 + c1[2] * w1) // (w0 + w1)
+    return (r, g, b)
+
+
+def decode_texture_4x4(width, height, region, palette):
+    """Decode a GX format-5 (4x4-compressed) texture.
+
+    Per the public DS GPU "Compressed Texel (4x4 Texel)" documentation: the
+    texture is stored as one 32-bit word per 4x4 texel block (16 texels,
+    2 bits each -- a local index 0..3), immediately followed in the SAME
+    texture-data region by one 16-bit "index" word per block (bits 0-13 =
+    palette address, in halfwords, bits 14-15 = interpolation mode). This
+    reader treats `region` as exactly `texel_words || index_words` back to
+    back (texel_words = num_blocks*4 bytes, index_words = num_blocks*2
+    bytes -- a fixed 2:1 ratio, since each block always carries 4 bytes of
+    texel data and 2 bytes of index data regardless of image size), which
+    is what the mission brief's header re-reading confirmed: the region
+    bounded by the ordinary texel-data-offset/palette-offset header fields
+    holds both sub-blocks concatenated, not texel data alone.
+
+    Per-block palette lookup (col0, col1 = palette[addr], palette[addr+1],
+    both scaled by the block's own addr*2 halfword address into the
+    attached palette):
+        mode 0: col0, col1, blend(col0,col1,5,3), blend(col0,col1,3,5)
+        mode 1: col0, col1, blend(col0,col1,1,1), transparent
+        mode 2: col0, col1, palette[addr+2], palette[addr+3]
+        mode 3: col0, col1, blend(col0,col1,5,3), transparent
+    """
+    bw, bh = width // 4, height // 4
+    num_blocks = bw * bh
+    texel_size = num_blocks * 4
+    index_size = num_blocks * 2
+    if len(region) < texel_size + index_size:
+        raise Nsbmd0Error("4x4 region too small for texel+index tables")
+    texel = region[:texel_size]
+    index = region[texel_size:texel_size + index_size]
+    out = bytearray(width * height * 4)
+    valid = 0
+    total = 0
+    for by in range(bh):
+        for bx in range(bw):
+            bidx = by * bw + bx
+            word = struct.unpack_from("<I", texel, bidx * 4)[0]
+            idxword = struct.unpack_from("<H", index, bidx * 2)[0]
+            addr = idxword & 0x3FFF
+            mode = (idxword >> 14) & 3
+            base = addr * 2
+
+            def col(i):
+                nonlocal valid, total
+                total += 1
+                if base + i < len(palette):
+                    valid += 1
+                    return palette[base + i]
+                return (255, 0, 255)
+
+            c0, c1 = col(0), col(1)
+            if mode == 0:
+                c2, c3 = _blend(c0, c1, 5, 3), _blend(c0, c1, 3, 5)
+                alphas = (255, 255, 255, 255)
+            elif mode == 1:
+                c2, c3 = _blend(c0, c1, 1, 1), (0, 0, 0)
+                alphas = (255, 255, 255, 0)
+            elif mode == 2:
+                c2, c3 = col(2), col(3)
+                alphas = (255, 255, 255, 255)
+            else:
+                c2, c3 = _blend(c0, c1, 5, 3), (0, 0, 0)
+                alphas = (255, 255, 255, 0)
+            colors = (c0, c1, c2, c3)
+            for ty in range(4):
+                py = by * 4 + ty
+                if py >= height:
+                    continue
+                for tx in range(4):
+                    px = bx * 4 + tx
+                    if px >= width:
+                        continue
+                    bits2 = (word >> ((ty * 4 + tx) * 2)) & 3
+                    r, g, b = colors[bits2]
+                    o = (py * width + px) * 4
+                    out[o:o + 4] = bytes((r, g, b, alphas[bits2]))
+    return bytes(out), (valid / total if total else 0.0)
 
 
 def decode_texture(fmt, width, height, texel, palette):
@@ -492,6 +580,17 @@ def guess_single_texture(tex0):
                     continue
                 if w * h * bits // 8 == size:
                     candidates.append((fmt, w, h))
+    # Format 5 (4x4-compressed) doesn't fit the simple bits-per-pixel
+    # model above: its byte count is (w/4)*(h/4)*6 (4 bytes texel + 2
+    # bytes index per 4x4 block, texel and index concatenated in the same
+    # region -- see decode_texture_4x4's docstring). Widths/heights must be
+    # multiples of 4 (the block size).
+    for w in SIZE_CLASSES:
+        for h in SIZE_CLASSES:
+            if w % 4 or h % 4:
+                continue
+            if (w // 4) * (h // 4) * 6 == size:
+                candidates.append((5, w, h))
     if not candidates:
         return None
     # Index-range (2**bpp) per indexed format, used as a tie-breaker below:
@@ -504,11 +603,18 @@ def guess_single_texture(tex0):
     index_range = {1: 32, 2: 4, 3: 16, 4: 256, 6: 8}
     scored = []
     for fmt, w, h in candidates:
-        _, ratio = decode_texture(fmt, w, h, texel, palette)
-        if fmt == 7:
-            palette_fit = 10 ** 9  # worst possible fit unless it's the only option
+        if fmt == 5:
+            _, ratio = decode_texture_4x4(w, h, texel, palette)
+            # format 5's per-block palette address ranges over the whole
+            # attached palette by design (not a fixed 2**bpp index range),
+            # so there's no meaningful palette_fit penalty to apply here.
+            palette_fit = 0
         else:
-            palette_fit = abs(index_range[fmt] - len(palette))
+            _, ratio = decode_texture(fmt, w, h, texel, palette)
+            if fmt == 7:
+                palette_fit = 10 ** 9  # worst possible fit unless it's the only option
+            else:
+                palette_fit = abs(index_range[fmt] - len(palette))
         scored.append((ratio, -palette_fit, -abs(w - h), fmt, w, h))
     scored.sort(reverse=True)
     ratio, _, _, fmt, w, h = scored[0]
@@ -559,12 +665,28 @@ def _s16(u16):
     return u16 - 0x10000 if u16 & 0x8000 else u16
 
 
+def _s10(u10):
+    return u10 - 0x400 if u10 & 0x200 else u10
+
+
 def gx_decode(data, start):
     """Decode a GX command stream starting at byte offset `start` in
     `data`. Returns (vertices, uvs, faces, num_commands, end_offset).
     vertices/uvs are parallel lists (one uv per vertex, the last TEXCOORD
-    seen before each VTX_16). faces is a list of vertex-index lists
-    (triangles or quads, already fanned out of strips)."""
+    seen before each vertex-emitting command). faces is a list of
+    vertex-index lists (triangles or quads, already fanned out of strips).
+
+    Vertex commands, per the documented GX hardware opcode table: a
+    "current position" register (cx, cy, cz) persists across commands.
+    VTX_16 and VTX_10 set all three components outright; VTX_XY/VTX_XZ/
+    VTX_YZ set two of the three and carry the third over from whatever it
+    last was; VTX_DIFF adds a small signed delta to the current position.
+    Every one of these five commands, not just VTX_16, emits a new vertex
+    using the resulting (cx, cy, cz). This matters in practice: real
+    terrain/building models in this ROM overwhelmingly use the compact
+    VTX_10/VTX_XY/VTX_XZ/VTX_YZ encodings rather than VTX_16 (confirmed by
+    opcode-frequency counts on sampled map models), so a decoder that only
+    understood VTX_16 would silently emit almost no geometry for them."""
     p = start
     n = len(data)
     verts = []
@@ -574,6 +696,13 @@ def gx_decode(data, start):
     cur_batch = []
     cur_mode = None
     cmds = 0
+    cx = cy = cz = 0.0
+
+    def emit():
+        verts.append((cx, cy, cz))
+        uvs.append(cur_uv)
+        cur_batch.append(len(verts) - 1)
+
     while p + 4 <= n:
         word = struct.unpack_from("<I", data, p)[0]
         ops = [word & 0xFF, (word >> 8) & 0xFF, (word >> 16) & 0xFF,
@@ -597,12 +726,34 @@ def gx_decode(data, start):
                 t = _s16((params[0] >> 16) & 0xFFFF)
                 cur_uv = (s / 16.0, t / 16.0)
             elif op == 0x23:  # VTX_16: s16.12 fixed-point (x, y | z, _)
-                x = _s16(params[0] & 0xFFFF)
-                y = _s16((params[0] >> 16) & 0xFFFF)
-                z = _s16(params[1] & 0xFFFF)
-                verts.append((x / 4096.0, y / 4096.0, z / 4096.0))
-                uvs.append(cur_uv)
-                cur_batch.append(len(verts) - 1)
+                cx = _s16(params[0] & 0xFFFF) / 4096.0
+                cy = _s16((params[0] >> 16) & 0xFFFF) / 4096.0
+                cz = _s16(params[1] & 0xFFFF) / 4096.0
+                emit()
+            elif op == 0x24:  # VTX_10: 3x s1.3.6 fixed-point, 10 bits each
+                v = params[0]
+                cx = _s10(v & 0x3FF) / 64.0
+                cy = _s10((v >> 10) & 0x3FF) / 64.0
+                cz = _s10((v >> 20) & 0x3FF) / 64.0
+                emit()
+            elif op == 0x25:  # VTX_XY: s16.12 (x, y); z carried over
+                cx = _s16(params[0] & 0xFFFF) / 4096.0
+                cy = _s16((params[0] >> 16) & 0xFFFF) / 4096.0
+                emit()
+            elif op == 0x26:  # VTX_XZ: s16.12 (x, z); y carried over
+                cx = _s16(params[0] & 0xFFFF) / 4096.0
+                cz = _s16((params[0] >> 16) & 0xFFFF) / 4096.0
+                emit()
+            elif op == 0x27:  # VTX_YZ: s16.12 (y, z); x carried over
+                cy = _s16(params[0] & 0xFFFF) / 4096.0
+                cz = _s16((params[0] >> 16) & 0xFFFF) / 4096.0
+                emit()
+            elif op == 0x28:  # VTX_DIFF: 3x signed relative, 1.0.9 fixed
+                v = params[0]
+                cx += _s10(v & 0x3FF) / 512.0
+                cy += _s10((v >> 10) & 0x3FF) / 512.0
+                cz += _s10((v >> 20) & 0x3FF) / 512.0
+                emit()
             elif op == 0x40:  # BEGIN_VTXS
                 cur_mode = params[0] & 0x3
                 cur_batch = []
@@ -752,12 +903,11 @@ def cmd_texture(args):
     name = tex0.tex_dict.names[0] if tex0.tex_dict.names else "texture"
     print(f"[*] {name}: guessed format={FORMAT_NAMES[fmt]} ({fmt}) "
           f"{w}x{h}, palette-validity={ratio:.3f}")
-    if fmt == 5:
-        print("error: 4x4-compressed decoding is not implemented",
-              file=sys.stderr)
-        return 2
     palette = decode_palette(tex0.palette_bytes())
-    rgba, _ = decode_texture(fmt, w, h, tex0.texel_bytes(), palette)
+    if fmt == 5:
+        rgba, _ = decode_texture_4x4(w, h, tex0.texel_bytes(), palette)
+    else:
+        rgba, _ = decode_texture(fmt, w, h, tex0.texel_bytes(), palette)
     write_png_rgba8(args.output, w, h, rgba)
     print(f"[*] wrote {args.output} ({w}x{h})")
     return 0
