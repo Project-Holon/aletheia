@@ -1244,3 +1244,230 @@ is, in any case, decoding the wrong archive's sprite for that purpose).
 - Per-species animation frame count for `a/1/3/4` itself is still
   unknown; nothing in `a/0/0/4` turned out to describe it (it describes a
   different rig's animation instead).
+
+## `a/1/3/4` reinterpreted: 256x256 16bpp direct-color images, not 4bpp indexed sprite tiles
+
+Sixth asset lane pass, targeted measurement of `a/1/3/4`'s true byte
+layout instead of continuing to extend the third/fourth/fifth passes'
+4bpp/128px-wide/tiled assumption (which never stopped banding, see "Known
+issue: pixel layout" above). Method: autocorrelation of the raw decompressed
+byte stream at every candidate row stride from 16 to 1024 bytes (step 8),
+scored as mean absolute byte difference between `data[i]` and
+`data[i+stride]` across the whole 0x20000-byte buffer (lower = more
+row-to-row similarity = stronger periodicity at that stride) -- run over
+species 25's decompressed payload with an ad hoc script (not committed,
+re-run by decoding sub-file 25 with `narc.decompress_lz11` and scanning
+strides as described; not part of the write set for this pass).
+
+**Result: stride 512 bytes dominates every other candidate by a wide
+margin** (mean abs diff 7.5, next-lowest non-harmonic candidate in the
+20s-30s, the harmonic stride 1024 second-lowest at 10.3, average across
+all 126 candidate strides 55.2). This *matches* the row stride the third
+pass already assumed (16 tiles/row * 32 bytes/tile = 512, for a
+128px-wide 4bpp tiled image) -- but **512 bytes/row is exactly as
+consistent with a completely different, non-tiled interpretation**: a
+linear (not tile-swizzled) 16-bit direct-color image with a 256-pixel-wide
+row (256 * 2 bytes/pixel = 512). Since 256x256 pixels at 16bpp is exactly
+0x20000 bytes -- the whole decompressed payload, no filler region left
+over -- this was checked directly, per the mission brief:
+
+- **Every one of the 65536 16-bit little-endian values has bit 15 set**
+  (fraction 1.0, not ~0.5 as random data would show). Bit 15 in the NDS
+  "A1BGR555" direct-color texel format is the opacity bit; all-opaque is
+  exactly what a real background/portrait image (no transparency) would
+  produce, and is a strong non-random signal.
+- **Mean absolute per-channel difference between horizontally adjacent
+  pixels (R+G+B, 0-31 each) is 1.62** -- extremely smooth, consistent with
+  a real photographic/painted image, not noise (a uniform-random 5-bit
+  channel would average around 10.3 per channel, ~31 combined).
+- Rendering the plain BGR555-to-RGB8 mapping (`build/assets/blob_hyp/
+  species0025_16bpp_256x256.png`, `species0001_...`, `species0002_...`,
+  `species0150_...`) produces, for species 150, an **unmistakable, sharp
+  character portrait**: a face with green hair and red eye markings,
+  rendered with soft shading and a glowing backlight -- not a Pokemon
+  sprite, a human/humanoid character bust. Species 25 and species 1 render
+  as a dark scene with an architectural building silhouette (visible roof
+  lines, windows, warm lantern-lit highlights) partially obscured by a
+  foreground silhouette (fence- or bar-like vertical shapes) -- also
+  clearly a real rendered scene, not noise, just a darker/harder one to
+  describe. **None of the four samples checked look anything like a
+  Pokemon.**
+
+For comparison, the same smoothness metric computed against the two prior
+hypotheses on the *same* species-25 payload:
+
+| hypothesis | metric | value | read |
+|---|---|---:|---|
+| **16bpp linear, 256x256, direct color** | mean adjacent-pixel diff (3ch, 0-31 each) | **1.62** | very smooth, real image |
+| 4bpp tiled, 128px wide (third-pass theory) | mean adjacent-pixel diff (1ch, 0-15) | 5.44 (36% of max) | noisy relative to its own range |
+| 8bpp linear, 512px wide (mission's other candidate) | mean adjacent-pixel diff (1ch, 0-255) | 86.4 (34% of max) | essentially random-looking |
+
+`build/assets/blob_hyp/species0025_4bpp_tiled_w128_grayscale.png` (the
+losing hypothesis, re-rendered here for side-by-side comparison) shows the
+same vertically-banded noise the fourth/fifth passes already flagged.
+
+### What this means for `a/1/3/4`'s identity
+
+**The "Pokemon battle sprite archive" guess for `a/1/3/4` is very likely
+wrong**, not just its pixel-layout details. 256x256 16bpp direct-color
+images with human-portrait and building content read as trainer/cutscene
+art or a battle-intro background/bust archive, not per-species sprite
+tiles -- the 670-sub-file count lining up loosely with Black/White's
+species count was circumstantial (670 is at least as plausible read
+against a trainer-class-ish count, matching the "~700+ trainer classes"
+figure already used elsewhere in this document for `a/0/0/6`). This is
+**not re-verified against the specific trainer-class or portrait-index
+list** (out of scope for this pass -- would need a name/index table this
+lane did not go looking for), so the exact identity of "which picture is
+sub-file N" is still open. What is now confirmed, not guessed: the
+**pixel format** is 256x256 16bpp BGR555-with-opacity-bit direct color,
+linear (row-major, no tile swizzling), for every sample checked.
+
+This reopens (rather than closes) the earlier "battle sprite colors" and
+"pixel layout" passes' framing: the `a/0/0/4` palette-pairing work
+(species*20+18/19 -> RLCN colors matching known Pokemon color schemes,
+including Mewtwo's shiny purple->green swap) is unaffected and still
+solid evidence for *that* archive, but it was never actually palette
+evidence *for `a/1/3/4`* beyond the assumption that `a/1/3/4` needed an
+external palette at all -- a 16bpp direct-color image needs no palette,
+so that pairing may simply be coincidental to a different archive
+(`a/0/0/4`) that does hold real Pokemon-colored content. Re-auditing
+whether `a/0/0/4`'s palette pairing was ever actually confirmed *against
+a/1/3/4-sourced pixels* (as opposed to `a/0/0/4`'s own rig pixels, which
+the fifth pass separately confirmed decode cleanly) is flagged as a gap
+for a future pass.
+
+### What remains after this pass
+
+- The true content identity of `a/1/3/4` (trainer portraits? battle
+  backgrounds? cutscene art?) is not confirmed, only the pixel format.
+  Only 4 of 670 sub-files were rendered and eyeballed.
+- The `a/1/3/4` <-> `a/0/0/4` palette relationship discovered in the
+  fourth pass needs re-examination now that `a/1/3/4` is not indexed
+  sprite data (see above) -- it may be an artifact of two independently
+  species/index-ish-shaped archives rather than a real pairing.
+- `tools/assets/battle_sprite.py`'s 4bpp/tiled decode path is now known
+  to be decoding the wrong format for `a/1/3/4` specifically; it was left
+  unmodified this pass (out of this pass's write-set discipline and
+  because the tool may still be useful/correct for other archives sharing
+  the same *container* shape -- LZ11, no NITRO magic -- that were never
+  checked). A future pass should either add a 16bpp linear decode path to
+  a shared tool or retire the 4bpp assumption for this specific archive.
+
+## `a/0/0/4` rig posing: NMCR/NMAR parsed, frame composition partial
+
+Sixth asset lane pass (second half), the mission's other half: actually
+composing a posed frame from the `a/0/0/4` multi-cell rig identified (but
+not decoded) in the fifth pass. New tool: `tools/assets/rig.py`, which
+parses NCGR (RGCN), NCER (RECN), NMCR (RCMN) and (partially) NMAR (RAMN)
+from scratch -- see the module's own docstring for the full byte-level
+format writeup (header shapes, self-relative vs. block-relative offset
+conventions, the NCER OAM bitfield layout, the NMCR node-record structure)
+rather than duplicating it here. Species 25 (Pikachu) is the worked
+example throughout, matching the fifth pass.
+
+### NCER: cell/OAM parsing confirmed exactly
+
+`tools/assets/rig.py`'s `Ncer` class parses the `KBEC` (CEBK) block's
+16-byte, block-relative (not self-relative) sub-header, cell array (8
+bytes/cell: `num_oam`, `cell_attr`, `oam_ofs`) and OAM array (6 bytes/OAM,
+standard GBA/NDS attr0/attr1/attr2 triple). Run against species 25's
+local-4 NCER: **11 cells, 17 OAMs total**, and every cell's `oam_ofs`
+field lines up exactly with the running `num_oam` total of the cells
+before it (cell 1 starts at OAM 5 = byte offset 30, cell 2 at OAM 7 = byte
+offset 42, ...) -- this pins the addressing precisely, not a guess, and
+matches the fifth pass's cell/OAM counts exactly.
+
+### NMCR: rest-pose node table decoded
+
+`Nmcr` parses the `KBCM` (MCBK) block. Unlike NCER's header, **this one's
+offset fields are self-relative** (add the field's own byte position to
+its value to get the target) -- confirmed because that convention lands
+both offset fields exactly on the start of the two tables that follow,
+while a block-relative reading of the same fields would not. Species 25's
+node placement array (152 bytes) resolves cleanly into **19 fixed 8-byte
+records** (found by locating a byte value that recurs at an exact 8-byte
+stride end-to-end across the whole array): `label_index` (s16, indexing
+the paired NCER's 20-name LBAL table), `x`/`y` (s16 each), a constant tag
+byte `0x20`, and a `cell_index` byte. The 19 records' label indices cover
+all 20 LBAL names exactly once each except one substitution (label 7
+"te02" is skipped in favour of label 17 "te02_2"), and the first
+`num_multi_cell` entry's declared node count (10) lines up exactly with
+the first 10 records forming one complete, non-duplicated pass over every
+named body part -- used here as "multi-cell 0" / the rest pose.
+
+### Frame composition: contact sheet clean, full pose not recognizable
+
+`rig.py 25` writes two PNGs to `build/assets/rig/`:
+
+- **`0025_cells.png`** -- a contact sheet of all 11 cells, each rendered
+  individually (own local bounding box, correct tiles from the block's
+  own local-2 NCGR, correct palette from local-18 NCLR). This meets the
+  mission's fallback bar: real, correctly-textured/colored fragments, not
+  garbage -- but each cell is visibly **sparse** (many OAMs are 5-40%
+  non-background pixels), which turns out to be a property of the source
+  data, not a decode bug: the whole local-2 NCGR tile sheet is **95.1%
+  background-index-0** across all 512 tiles (checked directly), so any
+  correctly-decoded cell drawn from it will look sparse. This is a
+  genuinely small/simple sprite (an overworld-scale or menu-scale
+  Pikachu, matching the fifth pass's "poseable overworld/menu figure"
+  read), not a dense battle-sprite-scale image.
+- **`0025_a0_f0.png`** (53x53) -- all 10 rest-pose nodes' cells blitted
+  together. **Does not clear the "recognizable Pikachu" bar.** Two
+  placement strategies were tried: summing the NMCR node's own (x, y)
+  onto each OAM's cell-local (x, y) scatters the 10 parts across a much
+  larger area with no coherent shape; using each OAM's cell-local (x, y)
+  directly, with the node (x, y) *not* added (this tool's default,
+  `apply_node_offset=False` in `compose_rest_pose()`), gives a visibly
+  more spatially coherent result -- a compact ~50x50px mass with a
+  reddish accent in a cheek-plausible position -- but still reads as a
+  loose, disconnected blob rather than a clean silhouette. **The NMCR
+  node (x, y) fields' real role was not resolved**: summing them is
+  clearly wrong (it breaks the better-looking arrangement), but zeroing
+  them is a default chosen for a better-looking picture, not a confirmed
+  correct decode -- plausible alternative readings not chased down this
+  pass: the node offsets are per-*animation-frame* deltas (applied on top
+  of a true rest position this pass never found), a different unit scale
+  (e.g. sub-pixel or a coordinate space that needs an additional
+  transform from NMAR), or bounding/hit-box metadata unrelated to
+  rendering placement at all.
+
+### NMAR: header parsed, per-frame transform values not recovered
+
+`Nmar` parses the common header and the `KNBA` (ANBK) block's leading
+fields (`num_anim`=1, an `element_type` field=2, unexplained) plus the
+`LBAL` block that follows it (one animation name, `"CellAnime0"` for
+species 25 -- confirming exactly one defined animation, consistent with
+`--anim 0 --frame 0` being the only meaningful invocation for this
+species). The ANBK body's three offset fields (block-relative, unlike
+NMCR's self-relative convention -- the two blocks do NOT share an offset
+convention) point at three small tables: one all-small-integers region,
+one with two `(value, 0xBEEF)` sentinel-tagged sub-records (the same
+0xBEEF signature NMCR's header uses), and one two-byte-int region reading
+as `(1, 0)` -- plausibly a frame/key count of 1. **The actual per-frame
+transform payload (if any) was not located or decoded**; this tool
+assumes animation 0 frame 0 is the NMCR rest pose with no additional
+transform, flagged as an unverified simplification rather than silently
+assumed. See `tools/assets/rig.py`'s module docstring for the full
+byte-by-byte field table.
+
+### What remains after this pass
+
+- **The "recognizable Pikachu" bar is not met.** The fallback contact
+  sheet is. The composed pose is a plausible-looking but not confidently
+  correct blob; the NMCR node (x, y) semantics are the most likely next
+  thing to crack (comparing species 25 against a second species' NMCR, or
+  against the *second* multi-cell entry/9-node span this pass didn't use,
+  might disambiguate what the offsets are for).
+- NMAR's per-frame transform table (the actual "animation" part of
+  "multi-cell animation") was not found, only its container's header
+  shape. Given only one animation and a frame/key count that reads as 1
+  for species 25, a species with a visibly *moving* idle animation (not
+  yet identified) might make the transform table easier to spot by
+  diffing against a static species.
+- The second multi-cell entry (9 nodes, species 25) and the second
+  bundle (local 9-17, "front/back or variant") were not rendered or
+  compared against the first -- doing so might help disambiguate the
+  rest-pose-vs-animation-delta question above.
+- `local 8`/`local 17`'s unrecognised raw blobs (fifth pass) are still
+  undecoded and still not ruled in or out as relevant to posing.
