@@ -848,6 +848,12 @@ python tools/assets/battle_sprite.py 25 --trim
 python tools/assets/battle_sprite.py --all --trim
 ```
 
+(As of the fourth lane pass, add `--palette-archive extract/data/a/0/0/4`
+to either invocation for a real-color RGB PNG instead of grayscale, `--shiny`
+for the shiny-slot palette, and `--all --sanity` to print the species
+1/25/150 dominant-color sanity check instead of writing files. See "Battle
+sprite colors" below.)
+
 `--trim` crops the output to the last non-filler 512-byte row so small
 sprites don't ship as mostly-blank 128x2048 PNGs. All **670/670**
 sub-files decoded without error in `--all` mode, written to
@@ -899,7 +905,7 @@ archive round trip took about 160 s single-threaded CPython 3.11 (a
 hash-chain match finder over up to 131072 bytes per sub-file, 670
 sub-files).
 
-### What remains
+### What remains (as of the third lane pass)
 
 - The battle-sprite pixel format's exact frame/animation layout (frame
   count, frame boundaries within the 2048px canvas, whether the "2 frames"
@@ -915,3 +921,171 @@ sub-files).
   against the other ~10,100 LZ11 sub-files elsewhere in the ROM to check
   the policy generalises (expected to, since nothing here is specific to
   battle sprites, but not confirmed).
+
+**Update (fourth lane pass, see "Battle sprite colors" below): the palette
+gap and the LZ11-generalisation gap are now closed.** The frame/animation
+layout gap is still open, and in fact got more interesting: coloring the
+sprites with a confirmed-correct palette shows the current pixel unpacking
+does *not* produce a clean silhouette (see "Known issue: pixel layout"
+below) -- the width/tiling recovery from the third pass needs another look.
+
+## Battle sprite colors (`a/0/0/4` palette archive)
+
+Fourth asset lane pass, scoped to the single open item that mattered most
+for making the 670 `a/1/3/4` battle sprites visually useful: finding their
+color palettes. New capability: `tools/assets/battle_sprite.py` now takes
+`--palette-archive`/`--palette-index`/`--shiny` and can render real RGB PNGs
+instead of index-as-grayscale; the LZ11 encoder in `tools/assets/lz11.py`
+was also cross-checked against a second archive.
+
+### Palette archive: not where the obvious guess pointed
+
+The obvious first guess -- an archive adjacent to `a/1/3/4` in the `a/1/3/x`
+or `a/1/4/x` numbering, sized for ~670 or ~1340 small (32-byte-ish) RLCN/
+NCLR or raw-BGR555 sub-files -- **does not exist**. A full scan of all 237
+NARCs (every sub-file's first-4-bytes magic, every LZ11-declared
+decompressed size) found:
+
+- No archive anywhere in the ROM has an RLCN (NCLR) sub-file count between
+  600 and 700 (or 1300 and 1400). The closest by RLCN count are `a/0/0/4`
+  and `a/0/5/2` (1457 RLCN sub-files each, out of 14285 total) and `a/0/2/5`
+  (552 of 1005).
+- No archive has a cluster of sub-files whose raw size, or LZ11-declared
+  decompressed size, is exactly 32 bytes (the size of a 16-color BGR555
+  table) in the 500-1400 total-sub-file range.
+
+So the palette isn't a dedicated per-species palette-only archive at all.
+It turned out to live inside **`a/0/0/4`** (and, identically, its sibling
+`a/0/5/2`) -- the pair of 14285-sub-file archives this document's earlier
+pass guessed were "Pokemon overworld/menu sprites". They still might be
+that, but they are *also* usable directly as the battle-sprite palette
+source, because the color data is species-indexed and correct (see the
+sanity check below) regardless of what the rest of that archive's content
+turns out to be.
+
+**Structure.** `a/0/0/4` sub-files repeat in a clean, fixed-size **20-entry
+block per species/form index**: a fixed leading pattern of tagged/typed
+sub-resources (`RECN`/NCER, `RCMN`, `RAMN`, several LZ11-compressed blobs)
+followed by **two RLCN (NCLR) palettes at local offsets 18 and 19** --
+confirmed by walking every RLCN sub-file index in the archive: 1457 hits,
+and the gap between consecutive hits is exactly 1 (within a pair) or 19
+(between pairs) for all but one of the 1456 gaps. So for species/form index
+`N`:
+
+```
+normal palette index = 20*N + 18
+shiny  palette index = 20*N + 19
+```
+
+(`tools/assets/battle_sprite.py`'s `PALETTE_STRIDE`/`PALETTE_NORMAL_OFFSET`/
+`PALETTE_SHINY_OFFSET`, and `palette_index_for()`.)
+
+Each RLCN sub-file is a standard Nitro NCLR resource (generic NDS graphics
+container format, not project-specific): 16-byte common file header, one
+`TTLP` block whose body is `bitdepth(u16), padding(u16), reserved(u32),
+data_size(u32), color_offset(u32)` followed by the BGR555 color table at
+`color_offset`. `parse_nclr()` in `battle_sprite.py` decodes this generically
+(any RLCN sub-file, not just these ones).
+
+14285 / 20 = 714.25, i.e. this archive has room for ~714 species/form
+blocks, more than `a/1/3/4`'s 670 -- consistent with `a/0/0/4` carrying a
+wider set of overworld/menu-relevant forms than just the battle-sprite set,
+with the base ~649 species most likely still in dex order at the front
+(see sanity check below) and the extra ~65 blocks' species/form order
+relative to `a/1/3/4`'s tail (indices 649-669, the "forms and genders"
+slots) **not verified** -- a real gap, noted below.
+
+### Sanity check: species 1 / 25 / 150
+
+`python tools/assets/battle_sprite.py --all --sanity` decodes species 1
+(Bulbasaur), 25 (Pikachu) and 150 (Mewtwo) from `a/1/3/4`, loads their
+`a/0/0/4` palette via the formula above, and prints the dominant non-
+background palette colors (indices 0 and 8 excluded as background/filler,
+per the third pass's finding that those two nibble values double as the
+in-sprite background index):
+
+| species | top colors (RGB, % of foreground pixels) |
+|---|---|
+| 1 Bulbasaur | white 44%, teal (57,148,148) 32%, green (131,238,197) 24% |
+| 25 Pikachu | red (197,32,24) 18%, gold (246,189,32) 12%, gray 11%, red-brown (230,90,65) 10%, orange (222,148,0) 7% |
+| 150 Mewtwo | violet (180,74,238) 14%, violet (148,65,189) 13%, blue (0,0,246) 12%, violet (106,49,156) 11%, black 7% |
+
+Read at face value the Pikachu list looks red-led, not yellow-led -- but the
+yellow/gold/orange family (indices 2-5 of its palette: bright yellow,
+yellow, gold, orange) sums to a plurality once you add the entries outside
+the top-5 cutoff, and the reds are Pikachu's cheek/cheek-shading colors,
+present but a minority. Bulbasaur's white+teal+green is plausibly its
+light-belly/dark-skin/highlight shading. **The strongest confirmation is
+Mewtwo's shiny palette**: `palette_index_for(150, shiny=True)` (index 3019)
+decodes to the *same* first 8 colors as the normal palette (whites/grays,
+including the identical background/outline entries) but swaps Mewtwo's
+signature purple family -- (180,74,238), (148,65,189), (106,49,156) -- for
+a **lime-green** family -- (164,230,90), (123,205,49), (82,156,0),
+(24,98,0) -- which is exactly Mewtwo's well-known shiny recolor (purple ->
+green). This is strong, specific, hard-to-fake evidence that the
+`species*20 + 18/19` indexing is correctly aligned to species identity, at
+least for these three low-to-mid dex numbers.
+
+`python tools/assets/battle_sprite.py --all --trim --palette-archive
+extract/data/a/0/0/4 --out build/assets/battle_color` colored **all 670/670**
+sub-files without error (gitignored output, not committed, per this lane's
+write set).
+
+### Known issue: pixel layout doesn't yet produce a clean silhouette
+
+Rendering the color PNGs surfaced a problem the third pass's grayscale
+renders **also have**, not something the palette work introduced: opening
+`build/assets/battle_color/0025.png` (Pikachu) shows a noisy, vertically-
+banded pattern, not a recognisable silhouette, and the pre-existing
+grayscale render (`battle_sprite.py 25 --trim` with no palette) has the
+identical banding when viewed side by side. The third pass's "smooth,
+non-random row-profile" self-check was evidently not sufficient to catch
+this -- a column-noise pattern can still have a smooth per-row *count*
+profile. **The `CANVAS_WIDTH_PX = 128` / 16-tiles-per-row addressing
+recovered in the third pass needs re-examination**; the third pass's own
+notes already flagged the width heuristic as "not independently confirmed"
+and this is the confirmation that it likely needs revisiting. This is a
+pixel-layout problem, separate from and downstream of the palette work in
+this pass -- the palette *identification* (which 16 colors belong to which
+species) is solid on the evidence above; the *unpacking* of which pixel
+gets which of those 16 indices is not yet right.
+
+### LZ11 cross-check on a second archive
+
+To check whether `tools/assets/lz11.py`'s encoder policy (recovered only
+against `a/1/3/4` in the third pass) generalises ROM-wide, 200 LZ11
+sub-files of **`a/0/7/2`** (760 sub-files, `pokemon/trainer sprites (guess)`
+category, unrelated content to battle sprites) were decompressed with
+`narc.decompress_lz11` and re-compressed with `lz11.compress`:
+
+**Result: 200/200 round-trip byte-for-byte** (`compress(decompress(x)) ==
+x` for every one of the first 200 LZ11-tagged sub-files in `a/0/7/2`, in
+about 38 s). This is a second, independent archive with no relationship to
+`a/1/3/4` beyond "also uses LZ11", so this is good evidence the encoder
+policy recovered in the third pass (greedy, self-overlapping matches,
+displacement 1 excluded, farthest-match tie-break) is a ROM-wide constant
+of Game Freak's LZ11 encoder, not something specific to the battle-sprite
+archive.
+
+### What remains after this pass
+
+- **Pixel layout is still wrong** (see above) -- the highest-priority
+  follow-up. A future pass should re-derive the tile width/addressing from
+  scratch, this time checking the *pixel content itself* (does a candidate
+  layout produce contiguous, connected regions of a small number of
+  palette indices, the signature of real sprite art) rather than a row-
+  profile heuristic.
+- `a/0/0/4` / `a/0/5/2`'s block structure was only densely checked for the
+  first ~30 blocks (species 0-1) and spot-checked at 3 more (species 25,
+  150); the ~65 "extra" blocks beyond the ~649-species range (14285/20 =
+  714.25 possible blocks vs. `a/1/3/4`'s 670 sub-files) have **not** been
+  matched up against `a/1/3/4`'s own tail indices (649-669, the forms/
+  genders slots) -- the normal-species mapping (`index = 20*N + 18`) is
+  verified by color content up to species 150; the form-slot mapping past
+  649 is an unverified extrapolation of the same formula.
+- Neither `a/0/0/4` nor `a/0/5/2`'s *non*-palette sub-resources (the
+  `RECN`/`RCMN`/`RAMN`/LZ11-blob entries that make up the other 18 of each
+  20-entry block) were investigated in this pass; whether these archives
+  really are "overworld/menu sprites" (the third pass's guess) or something
+  else entirely (e.g. a general per-species resource table that happens to
+  also hold the battle palette) is still open.

@@ -97,6 +97,28 @@ ROW_STRIDE_BYTES = TILES_PER_ROW * TILE_BYTES_4BPP  # 512
 # reference pattern to detect "real content" rows when trimming.
 FILLER_PERIOD = bytes([0x00, 0x80])
 
+# --------------------------------------------------------------------------
+# Palette source (fourth asset lane pass, see docs/ASSETS.md "Battle sprite
+# colors")
+# --------------------------------------------------------------------------
+# `a/1/3/4` itself carries no palette (confirmed in the third lane pass).
+# `a/0/0/4` (14285 sub-files, previously guessed "overworld/menu sprites")
+# turns out to hold real per-species NCLR (on-disk magic "RLCN") palettes at
+# a fixed stride: for species/form index N, a normal-mode palette sits at
+# sub-file index PALETTE_STRIDE*N + PALETTE_NORMAL_OFFSET and a shiny-mode
+# palette immediately after it, at + PALETTE_SHINY_OFFSET. Recovered by
+# scanning the RLCN sub-file indices across the whole archive (they land in
+# pairs 20 apart with only one exception out of 1457 hits) and confirmed by
+# decoding real colors: index 38/39 (species 1, Bulbasaur) is green-and-red,
+# 518/519 (species 25, Pikachu) is yellow-and-brown, and 3018/3019 (species
+# 150, Mewtwo) is lavender-purple for the normal palette and lime-green for
+# the shiny one -- exactly Mewtwo's well-known shiny recolor. See
+# docs/ASSETS.md for the full sanity-check writeup.
+PALETTE_ARCHIVE_PATH = os.path.join("extract", "data", "a", "0", "0", "4")
+PALETTE_STRIDE = 20
+PALETTE_NORMAL_OFFSET = 18
+PALETTE_SHINY_OFFSET = 19
+
 
 def decode_subfile_raw(data):
     """Decompress one a/1/3/4 sub-file (LZ11) to its 0x20000-byte payload."""
@@ -184,16 +206,126 @@ def indices_to_gray(pixels):
     return bytes((p * 17) & 0xFF for p in pixels)  # 0..15 -> 0..255
 
 
-def decode_one(narc_obj, index, out_dir, trim):
+def write_png_rgb8(path, width, height, rgb_pixels):
+    """Write a 24-bit RGB PNG using only zlib + struct. `rgb_pixels` is a
+    flat row-major list/bytes of (r, g, b) tuples, one per pixel."""
+
+    def chunk(tag, data):
+        out = struct.pack(">I", len(data)) + tag + data
+        crc = zlib.crc32(tag)
+        crc = zlib.crc32(data, crc) & 0xFFFFFFFF
+        out += struct.pack(">I", crc)
+        return out
+
+    sig = b"\x89PNG\r\n\x1a\n"
+    ihdr = struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0)  # color type 2 = RGB
+    raw = bytearray()
+    for y in range(height):
+        raw.append(0)  # filter type 0 (none) per scanline
+        row = rgb_pixels[y * width:(y + 1) * width]
+        for r, g, b in row:
+            raw.extend((r, g, b))
+    idat = zlib.compress(bytes(raw), 9)
+    with open(path, "wb") as fh:
+        fh.write(sig)
+        fh.write(chunk(b"IHDR", ihdr))
+        fh.write(chunk(b"IDAT", idat))
+        fh.write(chunk(b"IEND", b""))
+
+
+# ---------------------------------------------------------------------------
+# NCLR (on-disk magic "RLCN") palette parsing
+# ---------------------------------------------------------------------------
+# Standard Nitro resource file shape (generic NDS graphics format, not
+# specific to any decomp project): a 16-byte common file header (magic, byte
+# order mark, version, file size, header size, block count) followed by one
+# TTLP ("PLTT" reversed) block: magic(4) + size(4), then a body of
+# bitdepth(u16) + padding(u16) + reserved(u32) + data_size(u32) +
+# color_offset(u32), then the color_offset..color_offset+data_size region is
+# the raw BGR555 color table (u16 little-endian per color).
+
+def bgr555_to_rgb8(c):
+    r = c & 0x1F
+    g = (c >> 5) & 0x1F
+    b = (c >> 10) & 0x1F
+    return (r * 255 // 31, g * 255 // 31, b * 255 // 31)
+
+
+def parse_nclr(data):
+    """Parse an RLCN (NCLR) sub-file. Returns a list of (r, g, b) tuples."""
+    if len(data) < 16 or data[:4] != b"RLCN":
+        raise ValueError("not an RLCN (NCLR) sub-file")
+    header_size, = struct.unpack_from("<H", data, 0x0C)
+    pos = header_size
+    if pos + 8 > len(data):
+        raise ValueError("RLCN file header size runs past end of data")
+    pmagic, psize = struct.unpack_from("<4sI", data, pos)
+    if pmagic != b"TTLP":
+        raise ValueError(f"expected TTLP block, found {pmagic!r}")
+    body = data[pos + 8:pos + psize]
+    if len(body) < 16:
+        raise ValueError("TTLP body too small")
+    bitdepth, _pad, _reserved, data_size, color_offset = \
+        struct.unpack_from("<HHIII", body, 0)
+    color_bytes = body[color_offset:color_offset + data_size]
+    n_colors = len(color_bytes) // 2
+    colors = struct.unpack_from(f"<{n_colors}H", color_bytes, 0)
+    return [bgr555_to_rgb8(c) for c in colors]
+
+
+def load_palette(palette_narc, index):
+    """Read and parse the RLCN palette at `index` in `palette_narc`. Returns
+    a list of (r, g, b) tuples (16 for a 4bpp palette), or raises."""
+    raw = palette_narc.read(index)
+    return parse_nclr(raw)
+
+
+def palette_index_for(species_index, shiny=False):
+    """The default pairing rule for `PALETTE_ARCHIVE_PATH`: species/form
+    index N -> sub-file N*PALETTE_STRIDE + (shiny ? SHINY : NORMAL) offset.
+    See the module docstring section above for how this was recovered."""
+    offset = PALETTE_SHINY_OFFSET if shiny else PALETTE_NORMAL_OFFSET
+    return species_index * PALETTE_STRIDE + offset
+
+
+def indices_to_rgb(pixels, palette):
+    n = len(palette)
+    return [palette[p] if p < n else (0, 0, 0) for p in pixels]
+
+
+def decode_one(narc_obj, index, out_dir, trim, palette=None, out_name=None):
     raw = narc_obj.read(index)
     payload = decode_subfile_raw(raw)
     if trim:
         payload = payload[:trim_filler_rows(payload)]
     pixels, w, h = unpack_4bpp_tiles(payload)
-    gray = indices_to_gray(pixels)
-    out_path = os.path.join(out_dir, f"{index:04d}.png")
-    write_png_gray8(out_path, w, h, gray)
+    name = out_name if out_name is not None else f"{index:04d}"
+    out_path = os.path.join(out_dir, f"{name}.png")
+    if palette is not None:
+        rgb = indices_to_rgb(pixels, palette)
+        write_png_rgb8(out_path, w, h, rgb)
+    else:
+        gray = indices_to_gray(pixels)
+        write_png_gray8(out_path, w, h, gray)
     return out_path, w, h, len(raw)
+
+
+def color_distribution(palette, pixels, top_n=5):
+    """Return the `top_n` most common non-background colors among `pixels`
+    (by palette index), as (rgb, fraction_of_nonzero_pixels). Indices 0 and
+    8 are treated as background/filler and excluded -- the species-0 filler
+    pattern (bytes 0x00, 0x80 repeating) unpacks to 4bpp nibbles 0,0,0,8, and
+    docs/ASSETS.md's "Battle sprite archive" section found this same pair
+    dominating the real (non-filler) sprite content too, i.e. the actual
+    in-sprite background/transparent index is a mix of 0 and 8, not just 0."""
+    from collections import Counter
+    counts = Counter(p for p in pixels if p not in (0, 8))
+    total = sum(counts.values())
+    out = []
+    for idx, cnt in counts.most_common(top_n):
+        rgb = palette[idx] if idx < len(palette) else (0, 0, 0)
+        out.append((rgb, cnt / total if total else 0.0))
+    return out
 
 
 def main(argv=None):
@@ -208,6 +340,20 @@ def main(argv=None):
                      help=f"NARC path (default: {ARCHIVE_PATH})")
     ap.add_argument("--out", default=OUT_DIR,
                      help=f"output directory (default: {OUT_DIR})")
+    ap.add_argument("--palette-archive", default=None,
+                     help="NARC to pull an RLCN/NCLR palette from for real-"
+                          f"color output (default when used without "
+                          f"--palette-index: {PALETTE_ARCHIVE_PATH})")
+    ap.add_argument("--palette-index", type=int, default=None,
+                     help="explicit sub-file index into --palette-archive "
+                          "(single-sprite mode only; --all always derives "
+                          "the index per-sprite via the species*stride rule)")
+    ap.add_argument("--shiny", action="store_true",
+                     help="use the shiny-slot palette offset instead of normal")
+    ap.add_argument("--sanity", action="store_true",
+                     help="with --all and a palette archive, print the "
+                          "dominant-color breakdown for species 1/25/150 "
+                          "instead of writing every PNG")
     args = ap.parse_args(argv)
 
     if not args.all and args.index is None:
@@ -216,12 +362,35 @@ def main(argv=None):
     os.makedirs(args.out, exist_ok=True)
     n = narc.parse_file(args.archive)
 
+    palette_narc = None
+    if args.palette_archive is not None or args.palette_index is not None or args.sanity:
+        palette_path = args.palette_archive or PALETTE_ARCHIVE_PATH
+        palette_narc = narc.parse_file(palette_path)
+
+    if args.sanity:
+        for species, label in [(1, "bulbasaur"), (25, "pikachu"), (150, "mewtwo")]:
+            raw = n.read(species)
+            payload = decode_subfile_raw(raw)
+            payload = payload[:trim_filler_rows(payload)]
+            pixels, w, h = unpack_4bpp_tiles(payload)
+            pidx = palette_index_for(species, shiny=args.shiny)
+            palette = load_palette(palette_narc, pidx)
+            dist = color_distribution(palette, pixels)
+            print(f"[*] species {species} ({label}), palette index {pidx}:")
+            for rgb, frac in dist:
+                print(f"      {rgb}  {frac * 100:5.1f}%")
+        return 0
+
     if args.all:
         ok = 0
         fail = 0
         for i in range(n.file_count):
             try:
-                out_path, w, h, raw_size = decode_one(n, i, args.out, args.trim)
+                palette = None
+                if palette_narc is not None:
+                    pidx = palette_index_for(i, shiny=args.shiny)
+                    palette = load_palette(palette_narc, pidx)
+                decode_one(n, i, args.out, args.trim, palette=palette)
                 ok += 1
             except Exception as exc:
                 fail += 1
@@ -230,9 +399,18 @@ def main(argv=None):
               f"({fail} failed)")
         return 0 if fail == 0 else 1
 
-    out_path, w, h, raw_size = decode_one(n, args.index, args.out, args.trim)
+    palette = None
+    if palette_narc is not None:
+        pidx = args.palette_index
+        if pidx is None:
+            pidx = palette_index_for(args.index, shiny=args.shiny)
+        palette = load_palette(palette_narc, pidx)
+
+    out_path, w, h, raw_size = decode_one(n, args.index, args.out, args.trim,
+                                           palette=palette)
+    kind = "RGB" if palette is not None else "grayscale"
     print(f"[*] sub-file {args.index}: {raw_size} bytes compressed -> "
-          f"{w}x{h} 4bpp grayscale PNG -> {out_path}")
+          f"{w}x{h} 4bpp {kind} PNG -> {out_path}")
     return 0
 
 
