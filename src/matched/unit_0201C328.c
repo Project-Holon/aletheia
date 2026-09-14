@@ -8,14 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201C328, sub_0201C3C0, sub_0201C408
+ * function: sub_0201C328, sub_0201C3C0, sub_0201C408, sub_0201C41C
  *
- * waza_tool.c: the module's constructor, its destructor and its "is it up"
- * predicate.  The fourth function of the range, sub_0201C41C, is cut out into
- * src/pending/sub_0201C41C.c: its one call is to an address nothing else in
- * the image branches to, and keeping it here caps the whole range at MATCH.  The file name is the image's own,
- * 0x020A7340 spelling "waza_tool.c" between "shinka_check.c" and
- * "printsys.c".
+ * waza_tool.c: the module's constructor, its destructor, its "is it up"
+ * predicate, and (folded back in this run) sub_0201C41C, which resets
+ * something with 0xFFFF and hands func_02043678's result to the static at
+ * 0x02146558.  sub_0201C41C used to be cut out into src/pending/sub_0201C41C.c
+ * because its one call, to func_020457A0, had no witness anywhere in the
+ * image; func_020457A0 is now EXACT in src/matched/sub_020457A0.c, giving the
+ * `matched` class a witness, so the range folds back into one unit.  The file
+ * name is the image's own, 0x020A7340 spelling "waza_tool.c" between
+ * "shinka_check.c" and "printsys.c".
  *
  * The module object at 0x02146530 is three words: an array of `n` pointers to
  * 0x24 byte records, an array of `n` halfwords, and `n` itself.  Each of the
@@ -36,6 +39,7 @@
  * symbols:
  *   gWazaTool          0x02146530  data
  *   sub_0201C328_File  0x020A7340  data
+ *   g_02146558         0x02146558  data
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C328.c \
@@ -54,9 +58,12 @@ struct WazaTool {
 
 extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
 extern void func_020307B0(void *p);
+extern void func_020457A0(u32 v);
+extern void *func_02043678(u32 a, u32 b, u32 c, void *d);
 
 extern struct WazaTool *gWazaTool;
 extern const char sub_0201C328_File[];
+extern void *g_02146558;
 
 void sub_0201C328(s32 n, u32 heap)
 {
@@ -99,4 +106,10 @@ u32 sub_0201C408(void)
         return 1;
     }
     return 0;
+}
+
+void sub_0201C41C(void *arg)
+{
+    func_020457A0(0xFFFF);
+    g_02146558 = func_02043678(2, 2, 0x20, arg);
 }

@@ -49,3 +49,25 @@ arm9_main  0x02019B44  thumb   # pool word referencing 0x0209E324; see src/pendi
 # jumped to by the "bx ip" at 0x02034FC8 in the argument-binding tail call
 # that starts at 0x02034FB8.
 arm9_main  0x02034FA0  arm     # ldr ip,[pc,#4] / bx ip at 0x02034FC4-0x02034FC8 via pool word 0x02034FD0
+
+# A 16-byte leaf right after func_0201C4E4's own literal pool: "if (p->unk10
+# == 0) return 1; return 0;" on the printsys.c ring object.  Nothing inside
+# func_0201C4E4 branches to it (it falls through into the pool instead), so
+# the prologue sweep and the branch trace both miss it; dozens of overlays
+# call it directly, e.g. the bl at ov010 0x0216A0B4 and ov019 0x0217F7AE.
+arm9_main  0x0201C6B4  thumb   # bl from ov010 at 0x0216A0B4, ov019 at 0x0217F7AE, and many more overlays
+
+# An unlabelled leaf right after func_0201DA24's own literal pool: one of the
+# four gf_font.c format initialisers func_0201DA00 dispatches to.  No branch
+# inside func_0201DA24 reaches it and it saves no registers, so the prologue
+# sweep never fires; the only witness is the format dispatch table itself,
+# g_0209E73C[0] at 0x0209E73C, whose word is 0x0201DAA5 (thumb bit set).
+arm9_main  0x0201DAA4  thumb   # dispatch table word 0x0209E73C ("0x0201DAA5") loaded by func_0201DA00
+
+# A 208-byte Thumb function between two already-known labels (func_0201DC80's
+# tail in unit_0201DC6C.c and func_0201DD58 in unit_0201DD58.c): the streamed-
+# glyph lookup gf_font.c installs as the +0x6C hook.  It saves r4-r7 but not
+# lr (it calls nothing), so the lr-saving prologue sweep does not see it; the
+# only reference is the pool word at 0x0201D9C0, inside func_0201D854, which
+# holds 0x0201DC89 (thumb bit set) and is stored to the object's +0x6C field.
+arm9_main  0x0201DC88  thumb   # pool word 0x0201D9C0 ("0x0201DC89") inside func_0201D854, stored to +0x6C

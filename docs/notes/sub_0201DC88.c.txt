@@ -1,0 +1,200 @@
+func_0201DC88 @ 0x0201DC88 - gf_font.c streamed-glyph lookup
+packet pkt_0201DC88 (self-assigned, no worklist packet covers this address) -
+DIFF, right size once the C is right (208 bytes with its trailing pool word),
+structure fully understood, one scheduling lever still open in the middle.
+
+Seeded into layout/function_starts.txt this run as an unlabelled leaf (push
+{r4-r7}, no lr, calls nothing): the only witness is the pool word at
+0x0201D9C0, inside func_0201D854, which holds 0x0201DC89 (thumb bit set) and
+is stored to the object's +0x6C hook field for the "streamed" (non-preloaded)
+glyph format.  func_0201DD58 sits immediately after it and is itself an
+unlabelled leaf (unit_0201DD58.c) with no function_starts.txt entry of its
+own, so `match.py one`'s automatic extent detection overruns to the next
+real label at 0x0201DD78 (240 bytes); use `match.py tu --addr 0x0201DC88
+--thumb` instead, which compares against the compiled length directly and
+sidesteps the false extent.
+
+WHAT THE FUNCTION DOES
+
+f->unk84 (typed here as `struct GlyphDir *d`) is a resource-embedded table
+with three *offsets*, not pointers: d->tableOff, d->hashOff and d->recOff are
+u32 values added to `d` itself to get each sub-table's address (the packed
+resource keeps everything self-relative).  d[0..2] (the struct's own first
+three bytes) are the three "common" glyph classes.
+
+  - A 2-bit-per-glyph table at d+d->tableOff classifies glyph `v`: index
+    v>>2, 2-bit field at (6 - (v&3)*2) counting from the top of the byte.
+    0..2 selects d->direct[kind] directly; 3 means "uncommon", fall through.
+  - The uncommon case hashes v into 9 bits: `(v & 0x1FF) ^ (bit << 3)`,
+    where `bit` is the XOR-parity of bits 9..12 of v, then masks the result
+    back to 9 bits.  A signed byte table at d+d->hashOff is indexed by that
+    hash.  A non-negative entry is the glyph value directly.
+  - A negative entry n means "skip -(n+1) variable-length records before the
+    matching chain starts."  The record table at d+d->recOff is a run of
+    variable-length records, each a length byte followed by that many
+    3-byte entries (2-byte big-endian glyph code, 1-byte value); skip
+    len*3+1 bytes per record to advance the cursor.  Once positioned, scan
+    the chain's entries for one whose 2-byte code equals v and return its
+    value byte; falling off the end (or an empty record) falls back to
+    f->unk58[6] (== f->unk5E, the same fallback byte func_0201DD58 returns,
+    docs/notes not needed there, it's already EXACT in unit_0201DD58.c).
+
+WHAT IS SETTLED
+
+  - The direct-table extent, the 2-bit field math (`v<<1` computed once and
+    reused for both the table index `>>3` and the shift-amount `&7`, per
+    docs/idioms/four-shift-pairs-for-one-offset-are-an-inlined-u16-helper.md
+    in spirit, though this one is 2-bit not u16), and the early-return shape
+    reproduce byte for byte: offsets 0x00-0x30 of the compile are identical
+    to the image with the C below.
+  - `hash &= 0x1FF` really is a second, separate statement: the original
+    reloads the 0x1FF pool constant a second time (`ldr r1, [pc, #0x70]`
+    later at +0x58) rather than reusing the first load, so the two masks
+    must stay syntactically distinct assignments, not one combined
+    expression, or the second `ldr` disappears.
+  - The record-skip loop, the match loop and the fallback all match the
+    shape implied by the bytes at +0x86 onward once the hash section lines
+    up; they were not independently re-verified in isolation because the
+    upstream mismatch below shifts every register from that point on, but
+    nothing in their instruction multiset looks foreign.
+
+WHAT IS LEFT: THE FOUR-TERM XOR SCHEDULE
+
+`(v>>9) ^ (v>>10) ^ (v>>11) ^ (v>>12)` (left-associative, the natural way to
+write it) does not reproduce the original's register schedule for the parity
+bit.  The image computes, in order:
+
+    lsrs r1, r6, #0xa   ; r1 = v>>10
+    mov  ip, r1
+    lsrs r2, r6, #0xc   ; r2 = v>>12
+    lsrs r1, r6, #0xb   ; r1 = v>>11
+    eors r1, r2         ; r1 = (v>>11) ^ (v>>12)
+    mov  r2, ip         ; r2 = v>>10
+    lsrs r7, r6, #9     ; r7 = v>>9
+    eors r1, r2         ; r1 = (v>>11)^(v>>12)^(v>>10)
+    adds r2, r7, #0
+    eors r2, r1         ; r2 = (v>>9) ^ [the above]
+
+i.e. v>>10 is computed and parked first (spilled to ip because r1 is needed
+again immediately), then v>>12 and v>>11 are combined, then the parked v>>10
+is folded in, and v>>9 is folded in last.  The flat left-associative
+expression instead has mwcc compute v>>11 first (into the register that
+becomes ip), then v>>9, v>>10 (eors), restore, v>>9 again... in a
+still-wrong order (verified: `((v>>9)^(v>>10)^(v>>11)^(v>>12))` gives
+11,9,10 for the first three shift amounts against the image's 10,12,11).
+Nesting the parens right-associatively as `(v>>9) ^ ((v>>10) ^ ((v>>11) ^
+(v>>12)))` does reach the image's grouping of "(v>>11)^(v>>12) combined
+first" but changes the *overall function's* register allocation (the
+push set moves from {r4,r5,r6,r7} to {r3,r4,r5,r6} and the entry sequence
+that was already byte-correct, offsets 0x00-0x30, stops matching), so it
+overcorrects.  Introducing named temporaries for the sub-expressions
+(`t = v>>10; t ^= (v>>11)^(v>>12); t ^= v>>9;`) has the same
+overcorrection: it changes register pressure enough to flip the whole
+function's allocation, not just the local schedule.
+
+This needs either the exact source grouping mwcc's scheduler treats as
+free (rearranges without touching global allocation) or a companion
+technique from a similarly-shaped chain elsewhere in the tree; nothing
+tried holds the entry sequence steady while also fixing the shift order.
+Whoever picks this up should treat "keep offsets 0x00-0x30 unchanged" as
+the constraint to satisfy first before touching the parity expression.
+
+THE SOURCE AS IT STANDS (offsets 0x00-0x30 EXACT, everything after DIFFs)
+
+typedef unsigned char  u8;
+typedef signed char    s8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct GlyphDir {
+    u8  direct[4];
+    u32 tableOff;
+    u32 hashOff;
+    u32 recOff;
+};
+
+struct Font {
+    u32 unk00;
+    u32 unk04;
+    u32 unk08;
+    void *unk0C;
+    u8  pad10[0x40];
+    void *unk50;
+    void *unk54;
+    u8  unk58[8];
+    void *unk60;
+    void *unk64;
+    void *unk68;
+    u32 unk6C;
+    u16 unk70;
+    u8  unk72;
+    u8  pad73;
+    u8  unk74;
+    u8  unk75;
+    u16 unk76;
+    u8  pad78[4];
+    u16 unk7C;
+    u8  unk7E;
+    u8  unk7F;
+    void *unk80;
+    struct GlyphDir *unk84;
+    void *unk88;
+    void *unk8C;
+    void *unk90;
+};
+
+u32 func_0201DC88(struct Font *f, u32 v)
+{
+    struct GlyphDir *d = f->unk84;
+    u8 *table;
+    u8 kind;
+    u32 shift;
+    u32 hash;
+    s8 *hashTab;
+    s8 probe;
+    u16 n;
+    u8 *rec;
+    u8 len;
+    u16 i;
+    u16 code;
+    u32 idx2;
+
+    idx2 = v << 1;
+
+    table = (u8 *)d + d->tableOff;
+    shift = 6 - (idx2 & 7);
+    kind = (u8)((table[idx2 >> 3] >> shift) & 3);
+    if (kind < 3) {
+        return d->direct[kind];
+    }
+
+    hash = (v & 0x1FF) ^ ((((v >> 9) ^ (v >> 10) ^ (v >> 11) ^ (v >> 12)) & 1) << 3);
+    hash &= 0x1FF;
+    hashTab = (s8 *)((u8 *)d + d->hashOff);
+    probe = hashTab[hash];
+    if (probe >= 0) {
+        return (u8)probe;
+    }
+
+    n = (u16)(-probe - 1);
+    rec = (u8 *)d + d->recOff;
+    while (n != 0) {
+        len = rec[0];
+        rec += (u32)len * 3 + 1;
+        n--;
+    }
+
+    len = *rec++;
+    for (i = 0; i < len; i++) {
+        code = (u16)((rec[0] << 8) | rec[1]);
+        if (code == v) {
+            return rec[2];
+        }
+        rec += 3;
+    }
+    return f->unk58[6];
+}
+
+Verified with:
+  python tools/match.py tu --src (this file, once restored to src/pending) \
+      --addr 0x0201DC88 --thumb

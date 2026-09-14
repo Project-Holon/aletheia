@@ -1,0 +1,74 @@
+/*
+ * function: func_0201DAA4
+ * address:  0x0201DAA4
+ * packet:   pkt_0201DA00
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * symbols:
+ *   func_0201DBF4  0x0201DBF4  thumb
+ *   func_0201DE40  0x0201DE40  thumb
+ *   func_0201E538  0x0201E538  thumb
+ *   func_0201E738  0x0201E738  thumb
+ *   func_0201E928  0x0201E928  thumb
+ *
+ * gf_font.c's second format initialiser, the sibling of func_0201DA24
+ * (src/pending/sub_0201DA24 material is docs/notes/sub_0201DA24.c.txt): no
+ * allocation, just the +4/+8 hook install, seeded into
+ * layout/function_starts.txt this run as an unlabelled leaf right after
+ * func_0201DA24's own literal pool (see that file's entry).
+ *
+ * Every concrete byte is reproduced.  Four of the five relocations resolve:
+ * func_0201DE40, func_0201E538, func_0201E738 and func_0201E928 are the same
+ * four format hooks func_0201DA24 installs and already carry outside
+ * witnesses through that function's own pool.  func_0201DBF4 does not: its
+ * only reference anywhere in the image is this function's own pool word, so
+ * the `label`/`matched` classes both come up empty and the site stays
+ * wildcarded.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/sub_0201DAA4.c \
+ *       --func func_0201DAA4 --addr 0x0201DAA4 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned int u32;
+
+struct Font {
+    u32 unk00;
+    u32 unk04;
+    u32 unk08;
+    u32 unk0C;
+};
+
+extern void func_0201DBF4(void);
+extern void func_0201DE40(void);
+extern void func_0201E538(void);
+extern void func_0201E738(void);
+extern void func_0201E928(void);
+
+void func_0201DAA4(struct Font *f, u32 a, u32 b)
+{
+    u32 p;
+
+    f->unk0C = 0;
+    f->unk04 = (u32)func_0201DBF4;
+    if (a == 1) {
+        p = (u32)func_0201DE40;
+        if (b != 1) {
+            p = (u32)func_0201E538;
+        }
+        f->unk08 = p;
+    } else {
+        p = (u32)func_0201E738;
+        if (b != 1) {
+            p = (u32)func_0201E928;
+        }
+        f->unk08 = p;
+    }
+}

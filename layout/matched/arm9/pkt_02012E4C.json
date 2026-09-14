@@ -1,0 +1,29 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02012E4C",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_02012EBC",
+   "address": "0x02012EBC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02012EBC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_02012EBC",
+    "sub_02012EC0",
+    "sub_02012EC4",
+    "sub_02012ED0",
+    "sub_02012ED8"
+   ]
+  }
+ ]
+}
