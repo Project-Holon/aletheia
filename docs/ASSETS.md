@@ -1977,3 +1977,268 @@ policy, confirmed 650/650 exact over every LZ77 sub-file in this archive:
   elsewhere, not here, and `a/1/6/7` is something else, e.g. a stencil/
   mask set); the icon-content duplicate groups are unexplained; the two
   NANR/NCER pairs (indices 1-4) are uncharacterized.
+
+## Ninth asset lane pass: overworld sprite mission -- `a/0/0/4`/`a/0/5/2` confirmed as battle rigs, no confirmed overworld/trainer archive, but a full-color icon archive found (`tools/assets/overworld.py`)
+
+Mission: with `a/0/0/4`/`a/0/5/2` established as the animated Pokemon
+battle rigs (not overworld sprites, `tools/assets/rig.py`), find the real
+overworld sprite archive -- expected shape: NCGR+NCLR+NCER+NANR bundles,
+16x32/32x32 walk-cycle canvas, a few hundred to a couple thousand entries,
+likely LZ11.
+
+### Archive search
+
+Every NARC under `extract/data/` was re-scanned for a **full** sub-file
+magic histogram (not just the inventory's top-2-by-count summary), looking
+for archives where NCGR, NCLR, NCER and NANR are all present together.
+This surfaced a family of candidates the original inventory's coarse guess
+had split apart. Two are documented here; several more (`a/0/8/3`,
+`a/0/3/2`, `a/1/3/1`, `a/1/5/9`, `a/1/3/7`, and the rest of the "trainer/
+item/UI sprites (guess)" / "small sprite/icon set (guess)" rows) were
+opened and skimmed but not pixel-verified -- see "Ruled out, not
+pixel-verified" below.
+
+### `a/0/0/7` -- identified as a full-color per-species icon archive, NOT overworld sprites
+
+`a/0/0/7` (779916 bytes, 1431 sub-files) is the closest structural match
+to the mission's brief and is now fully characterized and rendered by
+`tools/assets/overworld.py`:
+
+    index 0        RLCN/NCLR   one shared palette, 48 colors (3x16-color
+                                4bpp sub-palettes; every sampled OAM uses
+                                sub-palette 0)
+    index 1, 3, 5  RNAN/NANR   three byte-for-byte IDENTICAL copies of one
+                                cell animation definition
+    index 2, 4, 6  RECN/NCER   three copies of one 3-cell cell bank, each
+                                declaring a different `mapping_type` (0, 1,
+                                2 -- the standard NDS OBJ 1D tile-mapping
+                                boundary: 32B/64B/128B stride) with each
+                                cell's `tile_idx` scaled to match (e.g. cell
+                                1 is tile_idx 16/8/4 in the three copies;
+                                16*32 == 8*64 == 4*128, same byte offset).
+                                Confirmed these are three encodings of ONE
+                                cell bank, not three different ones.
+    index 7..1430  RGCN/NCGR,  715 per-entity tile sheets (32 tiles/1024
+                   (empty)     bytes of 4bpp data each, uncompressed),
+                                mostly followed by one empty placeholder
+                                sub-file (6 of 715 have no placeholder).
+
+Every cell in the shared NCER is a plain 32x32 square OAM (shape 0, size
+2) -- the mission's expected overworld canvas size. Rendering (every
+cell of the shared NCER against one entity's own NCGR, `--sample`/`--all`)
+produces clean, recognizable, **full-color small creature icons** -- not
+human sprites. Entity 0 is a green background with a white silhouette mark
+(the placeholder/no-Pokemon icon); entities 1 and 25 are each a distinct
+small quadruped/bird creature, confirmed by direct visual inspection, not
+inferred from pixel statistics. Entity indices do **not** follow National
+Dex order (entity 1 is not Bulbasaur-green, entity 25 is not
+Pikachu-yellow), so whatever internal index this is, it is not the
+Pokedex number directly.
+
+**This resolves an open gap from the icon-archive pass above.** `a/1/6/7`
+(`tools/assets/icons.py`) decoded a 650-entry, monochrome (2-color)
+16x16 icon set and explicitly flagged "no per-species full-color palette
+exists in this archive... this may mean full-color species icons live
+elsewhere, not here." `a/0/0/7` is a strong candidate for that "elsewhere":
+715 entries (close to, not identical to, `a/1/6/7`'s 650 and `a/0/0/6`'s
+733), full-color (real per-icon-relevant sub-palette, not a degenerate
+2-color table), 32x32 (twice `a/1/6/7`'s 16x16), clean uncompressed NCGR.
+Not confirmed as "the" canonical menu icon vs. some other UI role (e.g. a
+Pokedex entry thumbnail) -- just confirmed as full-color Pokemon-shaped
+icon content, not overworld human/trainer sprites.
+
+### `a/0/7/2` (+ siblings `a/0/6/4`, `a/0/7/3`) -- ruled out: a trainer-card/UI badge rig, not overworld sprites
+
+This 95-entry family (`a/0/7/2` 760 sub-files = 95 x 8; `a/0/6/4` and
+`a/0/7/3` each 48 = 6 x 8) shares `a/0/0/4`'s battle-rig shape almost
+exactly -- 2 LZ11 NCGR (small + main tile sheet) + NCER + NANR + NMCR +
+NMAR + one small unrecognised 60-byte block + NCLR, per entry -- which
+made it the best "compound poseable rig" candidate for a human overworld
+actor. Composited with `rig.py`'s dense (`tile_idx * 32`) tile addressing
+it rendered as unreadable red/black noise; re-tried with the NCER's own
+**declared** `mapping_type` (1, i.e. `tile_idx * 64` byte addressing --
+unlike `a/0/0/4`'s rig, this archive's stated mapping_type is NOT
+overridden by dense addressing) it resolves to a coherent image: a green
+background with a small rectangular plaque/text-like mark, read as a
+trainer-card or badge-case UI icon, not a walking human figure. Ruled out
+as the overworld archive; not pursued further (no `overworld.py` support
+for this family's 2-block NCGR / mismatched LZ11 re-encode -- see below).
+
+### Ruled out, not pixel-verified
+
+Opened (full magic histogram only, no pixel render) and set aside as
+poor structural fits for a per-entity human walk-cycle bundle:
+`a/0/8/3` (172 subs, uneven per-group sub-file counts, not a clean
+per-entity stride), `a/0/3/2` (97 subs: 16+16 flat NCGR blocks each
+followed by a separate run of NCER/NANR pairs -- reads as a multi-state
+UI component, e.g. a cursor or gauge, not per-entity sprites), and the
+remaining "trainer/item/UI sprites (guess)"/"small sprite/icon set
+(guess)" archives that mix in `NSCR` (screen/map data) at scale --
+`a/0/9/5`, `a/1/5/9`, `a/1/3/7` -- which read as tileset/map bundles, not
+character sprites.
+
+### `tools/assets/overworld.py` -- deliverables against `a/0/0/7`
+
+- **10 sample renders + `--all`**: `python tools/assets/overworld.py
+  --sample` (10 entities spread evenly across the archive) and `--all`
+  (every entity) both write true-color `build/assets/overworld/NNNN.png`.
+  `--all` result: **715/715 entities rendered, 0 skipped.**
+- **NCGR round trip**: `NcgrFile.encode()` re-serializes every header
+  field (tile_num_x/y, bitdepth, pad, flag, unk1, data_ofs, tile data) back
+  to the exact original bytes, with an LZ11-recompress path (via
+  `lz11.compress()`) for any compressed entry (none exist in `a/0/0/7`
+  itself, but the code path is present and exercised against other
+  archives, see below). `python tools/assets/overworld.py --verify`
+  result: **715/715 NCGR sub-files round-trip byte-identical.**
+- **Cross-check against the sibling family**: `--verify --archive
+  extract/data/a/0/6/4` (and `a/0/7/2`) does **not** round-trip (0/48 and
+  0/760) -- those archives' NCGR sub-files have a second block this
+  module's single-block (`RAHC`-only) `NcgrFile` doesn't parse, and even
+  the single-block half of each entry (the 60-byte non-NCGR block) isn't
+  attempted; not pursued since that family was ruled out as UI content,
+  not overworld sprites. `overworld.py`'s round trip is only claimed,
+  and only verified, against `a/0/0/7`.
+
+### Remaining gaps
+
+- **The overworld/trainer/player walking sprite archive is still not
+  located.** This pass's search covered every NARC with NCGR+NCLR+NCER+
+  NANR all present at any scale (full histogram, not just top-2 magics)
+  and rendered the two best structural candidates; neither is a human
+  figure. It remains possible the real archive is LZ11-compressed in a
+  way that hid it from the histogram scan (compressed sub-files don't
+  expose their post-decompression magic without actually decompressing
+  every sub-file of every NARC, which this pass's scan did not do
+  exhaustively -- only the uncompressed-magic + "has a compression header"
+  count was checked per archive), or that it does not use the simple
+  flat NCGR+NCER+NANR shape at all (e.g. a compound rig like `a/0/0/4`'s,
+  reusing body parts the way the battle rigs do, which would need the same
+  unresolved NMCR/NMAR placement work documented in the seventh/eighth
+  passes above before it could be composited correctly).
+- `a/0/0/7`'s entity-index-to-species mapping is unconfirmed (not National
+  Dex order); the shared NCER's animation semantics (which of the 3 cells
+  plays when, and for how long) live in the NANR block, which this pass
+  parsed only past its 16-byte common header + ABNK sub-header
+  (`num_anim`, `element_type`) -- the frame-duration/ordering fields inside
+  are not decoded, so `overworld.py`'s "sprite sheet" is "every distinct
+  cell this entity's shared cell bank defines," not a verified real-time
+  animation sequence.
+- `a/0/7/2`'s family (95+6+6 = 107 entries) is characterized only well
+  enough to rule it out (mapping_type-correct single-frame render); its
+  NMCR/NMAR blocks, second NCGR block shape, and the unrecognised 60-byte
+  per-entry block are not decoded.
+
+## `a/0/0/6` wrapper cracked: not a human figure, likely reclassify
+
+New asset-lane pass, scoped to cracking the `" APS12_1"` wrapper in
+`a/0/0/6` from the data side, per the earlier passes' deferred gap (see
+"Trainer sprite wrapper: first look" above). New tool: `tools/assets/
+trainer.py`. Samples used: sub-files 0, 1, 100 (already extracted to
+`build/assets/aps_0.bin` / `aps_1.bin` / `aps_100.bin` by an earlier pass).
+
+### Structure fully recovered
+
+The outer `" APS12_1"` header's second u16 field (offset 0x0A) is **the
+exact count of embedded `" TPS"` sub-chunks** -- verified by literally
+scanning each sample for the 4-byte tag `b" TPS"` and counting hits: 1 for
+sub-file 0, 2 for sub-file 1, 8 for sub-file 100, matching that field's
+value on all three samples exactly. This is a real, previously-undocumented
+nested-chunk structure: `" APS12_1"` is a small container, not a flat
+wrapper around one payload.
+
+Each `" TPS"` sub-chunk has a fixed 36-byte header (magic + 8 `u32`
+fields), then a small unresolved sub-table (`u32` at header offset +0x10
+gives its length, varies ~0x14-0x1C across samples, not decoded), then
+**exactly 1024 bytes of pixel data, a constant across every one of the 8
+frames sampled** -- the same "fixed-size canvas per frame" convention
+already seen in the battle-sprite archive's constant 0x20000 LZ11 payload
+(see "Battle sprite archive" above), just at a much smaller, icon-sized
+scale. Chunk boundaries are found by re-scanning for the next `" TPS"` tag
+rather than trusting the header's own size fields, which are internally
+inconsistent on the last frame of a multi-frame sample (see `trainer.py`'s
+docstring for the exact discrepancy, a few bytes, harmless to decoding).
+
+**Palette, confirmed on all three samples**: the **last 32 bytes of the
+whole sub-file** are a raw 16-entry BGR555 palette, shared by every frame
+in that sub-file. All 16 `u16` entries have bit 15 clear (valid BGR555) on
+every sample -- not something random bytes would do. Sub-files 0 and 1
+both carry a nearly-empty palette (every entry zero except index 14 =
+white `0x7FFF`); sub-file 100 carries a full 14-color palette from index 2
+onward (skin/hair-tone-like spread of R/G/B values 0-31, plausible real
+color data, not noise).
+
+### Pixel format: NOT 2-pixels-per-byte 4bpp
+
+The obvious first guess -- pack the 1024-byte frame as tiled or linear
+4bpp (2 pixels/byte), matching `a/1/3/4`'s battle-sprite layout -- was
+tried at every width from 32 to 128px, tiled and linear, both nibble
+orders: **every one produces pure vertical-stripe noise**, no coherent
+shape at any width. What does work: treat each frame as a **32x32
+canvas, one byte per pixel, where only the HIGH nibble carries a 4-bit
+palette index (0-15)**. Evidence:
+
+- The low nibble of every pixel byte, across all three samples, only ever
+  takes the value `0x0` or `0x8` -- a 1-bit flag, not extra color
+  resolution (the same 0/8 duality the battle-sprite archive's filler
+  pattern showed, see "Payload format" above).
+- Autocorrelation on an isolated single-frame payload (sub-file 100,
+  frame 0, byte-granularity, not nibble-split) peaks cleanly at **stride
+  32 bytes** (match score 0.70, next-best non-harmonic candidate 0.63,
+  with a harmonic at 64) -- independent confirmation of the 32-pixel row
+  width, found before any visual check.
+- Rendering with this interpretation (`tools/assets/trainer.py`) produces
+  **clean, unambiguous, non-noise shapes** for all three samples: sub-file
+  0 is a thin, vertically-symmetric spindle/glint silhouette (matches its
+  near-empty white-only palette); sub-file 1 renders a 4-point sparkle
+  shape in one frame and two ring/reticle-like shapes in the other; every
+  one of sub-file 100's 8 frames renders as the same filled circular blob
+  (peach/skin-toned per its recovered palette) -- consistent with a short
+  looping animation of one simple shape, not 8 distinct trainer poses.
+
+### Renders
+
+`python tools/assets/trainer.py 0`, `1`, `100` (also `--all` for the
+full 733, best-effort) write real-color 24-bit RGB PNGs to
+`build/assets/trainers/NNNN_fF.png` using the recovered palette. All
+1 + 2 + 8 = 11 frames across the three requested samples decoded without
+error.
+
+### What this means for `a/0/0/6`'s identity
+
+**None of the three sampled entries show a human silhouette.** Given
+`a/1/3/4`'s "battle sprite" guess was separately overturned in a later
+pass (see "Species-icon archive" / 16bpp-direct-color findings elsewhere
+in this document for the general lesson that file-count-matches-species-
+or-trainer-count is weak evidence on its own), `a/0/0/6`'s "trainer
+sprite" label should be treated the same way: **plausible but not
+re-confirmed**. The three rendered shapes (a glint/spindle, a sparkle
+plus two rings, an 8-frame pulsing circle) read much more like a small
+**animated particle/effect/icon archive** (33x32 canvas, cheap to
+animate, no need for per-trainer detail) than full-body trainer
+portraits. 733 sub-files is still consistent with "one per trainer class"
+for some *other* per-trainer resource (a battle-intro glint effect? a
+name-tag icon?), or could be unrelated to trainers entirely. Not
+re-audited against a trainer-class list or cross-checked against other
+candidate archives in this pass -- flagged as open for whichever lane
+picks this up next.
+
+### Loader: still not found, now searched more broadly
+
+Repeated and extended the previous lane's loader search: grepped the
+raw decompressed overlay binaries (`extract/overlays_dec/*.bin`, all 237)
+and the three ARM9 images (`extract/arm9.bin`, `arm9i.bin`, `arm9_dec.bin`)
+for the literal bytes `" APS"`, `" TPS"`, and the `" TPS"` chunk's constant
+tag field `0x00010221` (as a raw little-endian `u32`) -- **zero hits
+anywhere**, in either binary form (this pass searched raw bytes directly,
+not just `asm/*.s` disassembly text as the previous lane did, so this is
+a strictly broader negative result). Combined with the previous lane's
+null result grepping `asm/arm9/src` and `src/matched` for the NitroFS
+file id, sub-file count, and path string: no candidate loader location
+has been found by any text or byte-level search across the whole
+extracted ROM image. Either the comparison is done byte-by-byte (no
+contiguous magic constant to find), the loader lives in a not-yet-
+decompressed/extracted resource, or (as generally suspected for custom
+Game Freak wrappers) the magic is trusted from context and never actually
+validated by code -- tracing NitroFS file-id-to-archive resolution
+generically, as the previous lane suggested, remains the only untried
+approach.
