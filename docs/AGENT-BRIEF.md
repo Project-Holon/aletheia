@@ -34,6 +34,18 @@ Black image, drawn from `layout/worklist.json`. Inside it:
 Nothing here is asking you to guess. Every verdict is a `match.py` output;
 never hand-wave a file to `EXACT` in the header without the tool agreeing.
 
+When you are choosing which packet to take next rather than working a packet
+you were already handed, `python tools/worklist.py --targets [N]` (default
+30) prints the top N open, non-SDK addresses ranked by
+`fan_in + 5 * unlock_weight`: `fan_in` is every branch reference to the
+address anywhere in the image (arm9 and all overlays), and `unlock_weight`
+is how many `src/pending/` files name the address in their header, a plain
+regex heuristic over `0x02......` tokens, not a semantic read of the prose.
+A high-scoring address is one whose packet is worth prioritising, either
+because decompiling it attests many other call sites at once or because it
+would unstick an existing `MATCH`-capped pending file. It is read-only and
+never touches `layout/worklist.json`.
+
 ## 2. Verdicts, then the commands
 
 | verdict | meaning |

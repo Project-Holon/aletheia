@@ -868,6 +868,230 @@ def print_packet(doc, pid):
     return 0
 
 
+# ---------------------------------------------------------------- targets
+#
+# --targets ranks OPEN functions by attestation-weighted fan-in, so an agent
+# picking a fresh packet can see which open addresses would unlock the most
+# other work first.  Two signals feed the score:
+#
+#   fan_in         every branch reference to the address anywhere in the
+#                  image (arm9 + all 237 overlays).  This reuses match.py's
+#                  own cross-region call index (image_call_sites) rather than
+#                  re-deriving it from the arm9-only edges build_inventory()
+#                  already parses for the packet-internal external_callers
+#                  count, since that index does not see overlay callers.
+#   unlock_weight  how many files under src/pending/ name this address in
+#                  their header comment, read as a heuristic for "decompiling
+#                  this address removes a blocker for a MATCH-capped file
+#                  that is otherwise done".  This is a plain regex over
+#                  0x02...... tokens in each header's text (up to the first
+#                  "*/"), not a semantic parse of the prose: it will pick up
+#                  any address mentioned for any reason, not only ones
+#                  actually named as the missing witness.  A pending file's
+#                  own "address:" line is excluded so it never counts as its
+#                  own blocker.
+#
+# score = fan_in + 5 * unlock_weight, unlock evidence weighted higher because
+# it names a concrete file sitting at MATCH for lack of exactly this address.
+
+PENDING_DIR = os.path.join(ROOT, "src", "pending")
+
+RE_PENDING_ADDR = re.compile(r"0x(02[0-9A-Fa-f]{6})")
+RE_PENDING_OWN_ADDR = re.compile(r"address:\s*0x([0-9A-Fa-f]{8})")
+RE_SUBSYSTEM_NAME = re.compile(r"\n\s*\*\s+([a-z_][a-z0-9_]*\.c):")
+
+
+def load_pending_unlock_weights():
+    """address (int) -> number of src/pending/*.c headers that name it.
+
+    Heuristic, documented above: a plain 0x02...... regex over each pending
+    file's header comment, excluding that file's own address.
+    """
+    weights = {}
+    if not os.path.isdir(PENDING_DIR):
+        return weights
+    for fname in sorted(os.listdir(PENDING_DIR)):
+        if not fname.endswith(".c"):
+            continue
+        path = os.path.join(PENDING_DIR, fname)
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            text = fh.read()
+        header_end = text.find("*/")
+        header = text[:header_end] if header_end != -1 else text
+        own_m = RE_PENDING_OWN_ADDR.search(header)
+        own = int(own_m.group(1), 16) if own_m else None
+        named = set()
+        for m in RE_PENDING_ADDR.finditer(header):
+            addr = int(m.group(1), 16)
+            if addr == own:
+                continue
+            named.add(addr)
+        for addr in named:
+            weights[addr] = weights.get(addr, 0) + 1
+    return weights
+
+
+def load_matched_sources():
+    """sorted [(address, source_path)] for every matched arm9 function.
+
+    Read straight from match.load_manifest_entries() (the same reader
+    load_matched() uses), kept separate because the subsystem guess needs
+    the source file path, which the address-only cover map does not carry.
+    """
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import match  # noqa: E402
+
+    out = []
+    for ent in match.load_manifest_entries():
+        if ent.get("region") != REGION:
+            continue
+        src = ent.get("source")
+        if not src:
+            continue
+        addrs = []
+        if ent.get("address"):
+            addrs.append(int(ent["address"], 16))
+        for member in ent.get("functions", []) or []:
+            m = re.search(r"([0-9A-Fa-f]{8})$", member)
+            if m:
+                addrs.append(int(m.group(1), 16))
+        for addr in addrs:
+            out.append((addr, src))
+    out.sort(key=lambda pair: pair[0])
+    return out
+
+
+_SUBSYSTEM_NAME_CACHE = {}
+
+
+def subsystem_name_of(source_path):
+    """The '<name>.c:' subsystem tag a matched file's prose names, if any.
+
+    Several src/matched/ headers open a paragraph with a line like
+    ' * waza_tool.c: ...', naming the conceptual subsystem the function
+    belongs to even though the file itself is unit_ADDRESS.c.  Not every
+    matched file has one; this returns None when it doesn't.
+    """
+    if source_path in _SUBSYSTEM_NAME_CACHE:
+        return _SUBSYSTEM_NAME_CACHE[source_path]
+    name = None
+    full = os.path.join(ROOT, source_path.replace("/", os.sep))
+    try:
+        with open(full, encoding="utf-8", errors="replace") as fh:
+            text = fh.read(4000)
+    except OSError:
+        text = ""
+    m = RE_SUBSYSTEM_NAME.search(text)
+    if m:
+        name = m.group(1)
+    _SUBSYSTEM_NAME_CACHE[source_path] = name
+    return name
+
+
+NEARBY_SUBSYSTEM_BYTES = 0x4000
+
+
+def nearby_subsystem_guess(addr, matched_sources):
+    """The subsystem name of the nearest matched neighbour, if one names one.
+
+    Walks outward from the bisection point in both directions (closest
+    address first) up to NEARBY_SUBSYSTEM_BYTES away, stopping at the first
+    matched neighbour whose source file actually names a subsystem; most
+    matched files don't, so this often has to look past the single nearest
+    one.
+    """
+    import bisect
+
+    addrs = [a for a, _src in matched_sources]
+    i = bisect.bisect_left(addrs, addr)
+    lo, hi = i - 1, i
+    while lo >= 0 or hi < len(matched_sources):
+        left_d = addr - addrs[lo] if lo >= 0 else None
+        right_d = addrs[hi] - addr if hi < len(matched_sources) else None
+        if left_d is not None and (right_d is None or left_d <= right_d):
+            cand_addr, cand_src = matched_sources[lo]
+            step = "lo"
+        else:
+            cand_addr, cand_src = matched_sources[hi]
+            step = "hi"
+        dist = abs(cand_addr - addr)
+        if dist > NEARBY_SUBSYSTEM_BYTES:
+            return None
+        name = subsystem_name_of(cand_src)
+        if name:
+            return name
+        if step == "lo":
+            lo -= 1
+        else:
+            hi += 1
+    return None
+
+
+def build_targets(doc, limit):
+    """Rank open, non-SDK functions by attestation-weighted fan-in.
+
+    Reads the packet/function inventory straight from `doc` (the same
+    structure --summary and --packet already read), so a stale
+    layout/worklist.json is exactly as stale here as it is for those two
+    modes: run --refresh first if that matters.
+    """
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import match  # noqa: E402
+
+    unlock_weights = load_pending_unlock_weights()
+
+    rows = []
+    for pkt in doc["packets"].values():
+        pid = pkt["id"]
+        for f in pkt["functions"]:
+            addr = int(f["addr"], 16)
+            fan_in = len(match.image_call_sites(addr))
+            unlock = unlock_weights.get(addr, 0)
+            score = fan_in + 5 * unlock
+            rows.append(
+                {
+                    "addr": addr,
+                    "size": f["size"],
+                    "packet": pid,
+                    "fan_in": fan_in,
+                    "unlock_weight": unlock,
+                    "score": score,
+                }
+            )
+
+    rows.sort(key=lambda r: (-r["score"], -r["fan_in"], r["addr"]))
+    top = rows[:limit]
+
+    matched_sources = load_matched_sources()
+    for r in top:
+        r["guess"] = nearby_subsystem_guess(r["addr"], matched_sources) or ""
+
+    return top
+
+
+def print_targets(doc, limit):
+    top = build_targets(doc, limit)
+    print("top %d open targets by attestation-weighted fan-in" % len(top))
+    print(
+        "  %-12s %6s  %-14s %7s %7s %7s  %s"
+        % ("address", "size", "packet", "fan_in", "unlock", "score", "guess")
+    )
+    for r in top:
+        print(
+            "  %-12s %6d  %-14s %7d %7d %7d  %s"
+            % (
+                hexa(r["addr"]),
+                r["size"],
+                r["packet"],
+                r["fan_in"],
+                r["unlock_weight"],
+                r["score"],
+                r["guess"],
+            )
+        )
+    return 0
+
+
 # ---------------------------------------------------------------- main
 
 
@@ -880,6 +1104,10 @@ def main(argv=None):
     ap.add_argument("--summary", action="store_true",
                     help="print the coverage summary and exit")
     ap.add_argument("--packet", metavar="ID", help="print one packet in detail")
+    ap.add_argument("--targets", nargs="?", const=30, type=int, default=None,
+                    metavar="N",
+                    help="print the top N open functions by attestation-"
+                         "weighted fan-in (default 30)")
     ap.add_argument("--force", action="store_true",
                     help="rebuild from scratch, discarding every packet status")
     ap.add_argument("--out", default=OUT_JSON, help="output path")
@@ -889,7 +1117,7 @@ def main(argv=None):
 
     have_old = os.path.exists(args.out)
 
-    if args.summary or args.packet:
+    if args.summary or args.packet or args.targets is not None:
         if have_old:
             with open(args.out, encoding="utf-8") as fh:
                 doc = json.load(fh)
@@ -898,6 +1126,8 @@ def main(argv=None):
             doc = build_document(inv, group_packets(inv))
         if args.packet:
             return print_packet(doc, args.packet)
+        if args.targets is not None:
+            return print_targets(doc, args.targets)
         print_summary(doc)
         return 0
 
