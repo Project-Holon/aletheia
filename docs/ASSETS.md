@@ -1958,26 +1958,22 @@ unrecognised raw blob, not a NARC -- expected, unrelated to `nsbmd.py`).
 
 ### Known gaps
 
-- **4x4-compressed textures (format 5) are not decoded.** This format
-  needs a second, separately-addressed per-4x4-block index/mode table
-  this pass did not locate with confidence (the regular byte-repetition
-  patterns seen in some TEX0 raw data strongly suggest several sample
-  textures in this ROM ARE format 5, e.g. the very first texture sampled
-  in this pass before format/size disambiguation was refined). Left for
-  a future pass.
-- **Multi-texture TEX0 blocks are not pixel-decoded**, only listed (names
-  + count) -- `guess_single_texture()` only works when a TEX0 holds
-  exactly one texture, since it relies on the whole `texture_data_size`
-  region belonging to a single image. Most files sampled this pass DO
-  have `count == 1` (many are per-object NSBTX/NSBMD sub-files), but
-  bulk NSBTX archives like `a/0/1/4` (67 textures/palettes per sub-file)
-  are unaffected by this lane.
-- **The TEX0/MDL0 ResDict entries-blob record layout was not cracked**
-  (see "Honesty note" above) -- this is the main remaining unknown in the
-  container format. Solving it would remove the need for the brute-force
-  texture-size guess and let every texture in a multi-texture TEX0 be
-  decoded directly, and would let materials/bone offsets be read
-  precisely instead of via the GX-stream heuristic locator.
+- ~~**4x4-compressed textures (format 5) are not decoded.**~~ **Superseded:**
+  a later pass ("NITRO resource dictionary CRACKED" below) scanned every
+  texture dict entry ROM-wide via the now-cracked record layout and found
+  **zero format-5 usage anywhere in this ROM** -- format 5 was never used
+  by this title's actual assets, not merely undecoded.
+- ~~**Multi-texture TEX0 blocks are not pixel-decoded**~~ **Superseded:**
+  `decode_all_textures()` (see "NITRO resource dictionary CRACKED" below)
+  decodes every texture in a TEX0 block directly from its own dict entry,
+  no longer limited to `count == 1`; verified on `a/0/1/4#0` (67/67) and
+  `a/0/4/9#199` (6/6).
+- ~~**The TEX0/MDL0 ResDict entries-blob record layout was not cracked**~~
+  **Superseded:** see "NITRO resource dictionary CRACKED" below -- the
+  patricia-node-array + `{entrySize, namesOffset}` sub-header + per-entry
+  records layout is now confirmed and generically implemented
+  (`ResDict.entries()`), reused for TEX0 textures/palettes and MDL0
+  node/material/shape dicts.
 - **Materials (texture-to-shape binding, transforms, per-material
   TEXIMAGE_PARAM) were not parsed.** OBJ export uses a single detected
   geometry stream, not a full scene graph; models with multiple
@@ -1985,7 +1981,14 @@ unrecognised raw blob, not a NARC -- expected, unrelated to `nsbmd.py`).
   finds. Skinning/bone transforms (`MTX_*` commands) are correctly
   skipped over (so the command stream still decodes past them) but not
   applied, so multi-bone models would export in bind-pose-ish local
-  coordinates rather than their final posed positions.
+  coordinates rather than their final posed positions. **Partially
+  superseded:** a later pass ("NITRO resource dictionary CRACKED" below)
+  found and generically decoded the shape->material->texture link (a real
+  bytecode "render command" region binding each shape index to a material
+  index, plus the material dict's name convention linking to real texture
+  names) -- confirmed for all 40 shapes of `pl_00_00`. What's still open
+  is splitting the merged GX command stream into per-shape face ranges, so
+  that link can be applied per-face rather than to a whole merged mesh.
 - Only `a/0`, `a/1` and `a/2` were covered by the round-trip sweep (all
   BMD0/BTX0-bearing NARCs live under those three directories per the
   inventory table above); no BMD0/BTX0 sub-file failed.
@@ -3239,6 +3242,17 @@ meaning) is a separate, still-open task from the re-encoder built here.
 
 ### 2. 4x4-compressed (GX format 5) textures: index table not located, gap documented, no PNG produced
 
+**Later-pass correction:** the "confirmed format 5 is genuinely used"
+claim below, based on 132 raw `TEXIMAGE_PARAM` command-stream hits, did
+NOT hold up once the TEX0 dict's own per-entry format field could be read
+directly (see "NITRO resource dictionary CRACKED" further down this
+document) -- a ROM-wide scan of the dict's format field (not the GX
+command stream) found **zero format-5 texture entries anywhere**. The
+132 command-stream hits are therefore either a different, non-texture use
+of that bit pattern, mis-decoded opcode parameters, or reference textures
+that never actually ship as format-5 data in this ROM; not chased further.
+Treat the "confirmed" wording below as superseded.
+
 Confirmed format 5 is genuinely used in this ROM (132 raw
 `TEXIMAGE_PARAM` (`0x2A`) hits across 413 real `MDL0` command streams,
 format field = `(param >> 26) & 7`; example: `titledemo.narc` sub-file 5,
@@ -4333,6 +4347,13 @@ assignment.
 
 ### (2) Format-5 (4x4-compressed) texture decoder implemented per public GX documentation; wired into `guess_single_texture`/`cmd_texture`; no real instance confirmed by eye this pass
 
+**Later-pass resolution:** the "no real instance confirmed" open question
+below is now closed -- see "NITRO resource dictionary CRACKED" further
+down this document. Once the TEX0 dict's format field could be read
+directly (not guessed), a ROM-wide scan of all 36,120 texture entries
+found zero format-5 usage. The decoder implemented in this section remains
+correct per spec and in the code, but this ROM never exercises it.
+
 Added `decode_texture_4x4(width, height, region, palette)` to
 `tools/assets/nsbmd.py`, implementing the public DS GPU "Compressed Texel
 (4x4 Texel)" format: one 32-bit word per 4x4 block (16 texels, 2 bits
@@ -4508,6 +4529,207 @@ bytes inside compressed or binary audio/model data, not a real magic. No
   search style, or a 3D-rendered (NSBMD/NSBTX) representation -- `a/1/9/4`
   and `a/0/4/9`'s already-large texture archives are untried candidates
   for the latter, out of this pass's scope/budget.
+
+## NITRO resource dictionary CRACKED: multi-texture TEX0 fully decodes, format-5 confirmed absent ROM-wide, MDL0 material/shape link found (`tools/assets/nsbmd.py`)
+
+Mission: crack the G3D resource dictionary's per-entry record layout (the
+"honesty note" gap open since the first NSBMD pass -- see "Container and
+dictionary structure" above), so multi-texture `TEX0` blocks and map
+materials can be decoded, not just listed by name.
+
+### Dictionary layout: fully cracked and confirmed byte-exact
+
+The previously-unexplained `unk4`/`unk6` dict-header fields (constant
+`0x0008` and a per-dict-varying value respectively) are now understood:
+`unk4` is the fixed byte offset to the patricia-tree node array (always
+`8`, right after the 8-byte dict header) and `unk6` is the byte offset to
+a 4-byte `{entrySize: u16, namesOffset: u16}` sub-header that immediately
+follows the `(numEntries + 1) * 4`-byte node array. Confirmed exactly
+(`unk6 == 8 + (count + 1) * 4`, `sub_header_offset + 4 + count * entrySize
+== names_blob_start`) against every TEX0/palette dict sampled from 1 to
+150 entries across `a/0/4/9` and `a/0/1/4`. New `ResDict.entries()`
+(`tools/assets/nsbmd.py`) decodes this generically -- one implementation,
+reused for TEX0 texture dicts, TEX0 palette dicts, and (see below) MDL0's
+node/material/shape dicts.
+
+The per-entry records themselves are also cracked and verified:
+- **Texture entry, 8 bytes:** `u16 offset` (8-byte units, into the
+  texel-data region), `u16 params` (the upper 16 bits of the hardware
+  TEXIMAGE_PARAM register -- repeat/flip flags, S-Size, T-Size, format,
+  color0-transparent, coord-transform mode), `u8 width8` (a redundant
+  copy of width, confirmed equal to the decoded width in every sample),
+  `u8 unk`, `u16 unk` (increases per texture within a dict, plausibly a
+  VRAM-slot field, not decoded). `Tex0.texture_records()`.
+- **Palette entry, 4 bytes:** `u16 offset` (8-byte units, into the
+  palette-data region), `u16 flag` (seen `0x0000` everywhere checked).
+  `Tex0.palette_records()`.
+
+Confirmation method: decoded `(format, width, height)` from the `params`
+bitfield for every texture in `a/0/1/1#0` (`batt_stage01`), `a/0/4/5#0`
+(`item01`), and `a/0/4/9#2` (`in6_khone02`) -- the three single-texture
+samples whose format/size were already independently confirmed by eye in
+an earlier pass via `guess_single_texture()`'s brute-force search -- and
+got **exact agreement in all three cases** (e.g. `params=0x2d20` decodes
+to S-Size=2/T-Size=2/format=3/color0=1, i.e. 32x32 16-color with
+transparent index 0, matching `item01`'s known-good decode exactly). This
+is real confirmation, not coincidence: the bit positions were derived once
+from the public TEXIMAGE_PARAM register layout and then checked against
+three independently-verified answers.
+
+### Multi-texture TEX0 decoding: implemented and eyeballed, no longer a gap
+
+New `decode_all_textures(tex0)` and `texture_byte_size(fmt, w, h)` use the
+cracked per-entry records to decode **every** texture in a TEX0 block
+directly (exact offset/format/width/height per entry, no brute-force
+search, no single-texture restriction) -- new CLI: `nsbmd.py textures
+<file> -o <dir>` dumps one PNG per texture name.
+
+Palette pairing (nothing in a texture record names its palette; that link
+belongs to a real material, not decoded here) uses two strategies: (1) an
+exact-name convention (`texture "foo"` pairs with `palette "foo_pl"`),
+confirmed as a genuine 1:1 link on `a/0/1/4`'s 67-texture/67-palette
+per-sub-file sets, used whenever the name exists; (2) a self-consistency
+scoring fallback (same fraction-of-indices-in-range + index-range-fit
+heuristic used elsewhere in this document) for dicts without that
+convention, e.g. `a/0/4/9#199`'s 6-texture/2-palette `t4x4pokeflip` set.
+One bug fixed during verification: palette *byte size* isn't stored in
+the dict either, and an earlier version guessed it from the gap to the
+next palette's offset -- broken by real dicts where two differently-named
+palette entries share the exact same offset (`a/0/1/4#126`'s `gake01a_pl`
+sat behind a duplicate-offset neighbor, truncating it to 8 colors and
+producing an all-magenta, 0%-valid decode). Fixed by sizing each palette
+load directly from the *requesting texture's own format* (`2**bpp`
+colors), which is well-defined regardless of dict ordering.
+
+**Verified by eye:** all 67 textures of `a/0/1/4#0`'s shared terrain
+texture set decoded at `valid=1.000` (every palette index in range);
+sampled several for visual coherence -- `grass01ax` (green streaky
+texture, reads as grass), `mizu_sita2`/`sea_mizu1` (light-blue/white wave
+patterns, read as water), `doukutu01` (structured, non-noise, though its
+magenta/green colouring is unexpected for a cave texture -- flagged, not
+chased further). All 6 textures of `a/0/4/9#199`'s `t4x4pokeflip` set
+decoded coherently as small item/card-style icons on a flat background,
+consistent with the earlier "Voltorb-Flip-style minigame" guess. PNGs
+under `build/assets/textures/multi/` (gitignored, regenerate).
+
+### Format 5 (4x4-compressed): confirmed absent from every texture in this ROM
+
+With the real per-entry format field readable directly (no more guessing),
+every texture entry in every `BMD0`/`BTX0` sub-file under `a/0`, `a/1`,
+`a/2`, `titledemo.narc`, and `skb.narc` was scanned: **36,120 texture
+entries across 1,732 TEX0 blocks, zero format-5 entries** (format
+distribution: 27281 x 16-color, 4794 x 4-color, 2120 x A3I5, 1482 x A5I3,
+443 x 256-color -- also zero format-7/direct-color entries anywhere).
+This supersedes the previous pass's "unconfirmed, not chased further"
+verdict on format 5 with a definitive negative result: the earlier
+suspicion that format-5 data might hide inside *multi*-texture TEX0
+blocks specifically (the one class the previous pass's single-texture-only
+scan couldn't check) is now ruled out too, since this scan reads the
+dict's format field directly regardless of texture count. **Conclusion:
+this ROM does not use GX format-5 (4x4-compressed) textures anywhere**
+-- `decode_texture_4x4()` remains implemented (correct per public spec,
+previously wired in) but is confirmed dead code for this title's actual
+asset set, not a lingering gap.
+
+### MDL0 material/shape dictionaries: generic dict-signature scanner + a cracked render-command bytecode, applied to `pl_00_00`
+
+Generalised the same "implement once, reuse" instruction to MDL0: new
+`find_resdicts(buf)` scans arbitrary model bytes for anything matching the
+confirmed generic ResDict signature (`revision==0`, the `unk4==8` /
+`unk6==8+(count+1)*4` relationship, in-bounds size, all-printable-ASCII
+names) instead of trying to crack the per-model header's own offset
+fields (which, for `pl_00_00`, do NOT cleanly resolve to these sub-dicts
+under one consistent base -- tried and abandoned). Run against
+`pl_00_00`'s (`a/0/0/8#120`, wrapper-stripped) `MDL0.raw_tail`, it finds
+five real dicts unassisted: a 1-entry node dict, a 40-entry "material"
+dict (names like `gake01a_1`, `pk_l_kabe_1` -- a numeric-variant suffix
+over the real texture name), a 39-entry dict of the bare texture names
+(`gake01a`, `pk_l_kabe`, ...) matching real `a/0/1/4` texture dict entries
+exactly, a 39-entry `_pl`-suffixed palette-name dict, and a 40-entry
+`polygon0`..`polygon39` shape dict.
+
+Also found, by generic byte-pattern scan (not project-specific knowledge,
+a format-agnostic technique) rather than a documented spec: a small
+"render command" bytecode region sitting between the node dict and the
+material dict, decoding as alternating `(id, opcode)` byte pairs where
+opcode `4` means BINDMATERIAL(id) and opcode `5` means DRAWSHAPE(id, using
+the most recently bound material). New `find_render_commands(buf)`
+generalises this into a reusable scanner (longest run of valid pairs).
+For `pl_00_00` it decodes to a **complete, clean bijection**: all 40
+declared shape indices matched to material indices (one material, index
+11, used twice -- by shapes 9 and 39 -- everything else 1:1), an outcome
+far too structured to be a coincidental byte-pattern match.
+
+Combining shape->material (from the render commands) with
+material-name->real-texture-name (strip the numeric variant suffix, e.g.
+`pk_l_mado_4` -> `pk_l_mado`) gives a **confirmed, real, per-shape
+material/texture link for all 40 shapes** of `pl_00_00` -- the mission's
+literal "link map materials to textures by name" ask, achieved generally
+(the same two functions apply to any MDL0 model, not just this one).
+Cross-referencing those 38 distinct texture names against every `a/0/1/4`
+sub-file found `#126` (and its near-duplicates `#127`-`#129`) carries all
+38 -- the actual building-interior texture set for this and presumably
+sibling player-house-style rooms.
+
+**What's still a documented gap, not fabricated:** actually *dividing*
+`pl_00_00`'s single merged 5114-vertex/1774-face GX command stream into
+40 per-shape face groups was not achieved this pass. The shape dict's own
+4-byte entry values (tried as byte offsets into the model, into a
+post-dict "descriptor" region, and other bases) don't resolve to anything
+recognisable, and empirically `gx_decode()` run from the stream's start
+consumes the *entire* rest of the model's raw data in one unbroken run
+(no invalid-opcode stop anywhere) -- meaning all 40 shapes' GX commands
+are concatenated with no byte-level marker this pass could find. Rather
+than fabricate a per-face split, the exported OBJ (`pl_00_00_textured.obj`)
+uses the real geometry and real UVs (unchanged, previously-verified
+pipeline) but tags the **whole merged mesh** with shape 0's real,
+name-linked material (`pk_l_mado`, a window texture) as an honestly-
+labeled single-material demonstration -- the OBJ's own header comment
+says so explicitly. The full 40-entry shape/material/texture table (every
+link, not just shape 0's) is preserved in this section and reproducible
+via `find_resdicts()` + `find_render_commands()` against `a/0/0/8#120`.
+
+### Result: `build/assets/maps/pl_00_00_textured.obj` + `pl_00_00.mtl` (gitignored, regenerate)
+
+- `pl_00_00_textured.obj`: same 5114 verts / 1774 faces as the earlier
+  geometry-only export, now with `mtllib`/`usemtl` (single representative
+  material, see above) and UVs normalised against that material's real
+  decoded texture size.
+- `pl_00_00.mtl` + `build/assets/maps/pl_00_00_textures/*.png`: all 38
+  real, distinct textures used by `pl_00_00`'s 40 shapes, decoded from
+  `a/0/1/4#126` via `decode_all_textures()`, every one at `valid=1.000`.
+  Spot-checked by eye: `pk_l_mado` (window -- gold/dark vertical banding,
+  plausible for a window frame), `pk_l_kabe` (wall -- small dark tile,
+  plausible), `pk_l_yane` (roof -- solid yellow gradient, structurally
+  coherent though an unexpected colour choice for a roof at a glance).
+
+### Summary for this pass
+
+- **Dictionary layout: confirmed, not a gap anymore.** Generic parsing
+  implemented once (`ResDict.entries()`) and reused for TEX0 textures,
+  TEX0 palettes, and MDL0 node/material/shape dicts.
+- **Textures decoded:** 36,120 texture entries scanned ROM-wide for the
+  format-5 census (format distribution above); every texture in two full
+  multi-texture TEX0 blocks decoded and eyeballed (67/67 for
+  `a/0/1/4#0`, 6/6 for `a/0/4/9#199`); 38/38 real textures decoded for
+  `pl_00_00`'s material set. **Format 5 (4x4-compressed): confirmed absent
+  from this ROM's actual texture data**, a definitive result superseding
+  the earlier "unconfirmed" status.
+- **Textured OBJ:** produced for `pl_00_00` with real geometry/UVs and a
+  real, name-confirmed material, honestly labeled as single-material
+  (per-face multi-material assignment is the one remaining gap, blocked
+  on the shape data's internal byte layout, not on the dictionary or
+  material-link work this pass completed).
+- **Remaining gaps:** (1) per-shape byte boundaries inside MDL0's merged
+  GX command stream (blocks true multi-material OBJ export); (2) the
+  `width8`/`unk8`/`unk16` texture-record fields and the palette `flag`
+  field are decoded as raw values but not semantically interpreted
+  (round-trip and pixel decoding don't need them, so not chased); (3) the
+  MDL0 node dict (bone/joint data) and the render-command bytecode's
+  other opcodes (only `4`/`5` were decoded; `pl_00_00`'s stream also has
+  a leading `(0, 2)` and `(0, 1)` pair before the BINDMATERIAL/DRAWSHAPE
+  run, and a trailing `(23, 43)`/`(1, 0)`, none interpreted) are open for
+  a future pass on animated/skinned models.
 
 ## Asset lane pass: true post-decompression inner-magic census, all three NCGR+NCER+NANR-shaped candidates render correctly for the first time and are confirmed NOT trainer battle sprites (`tools/assets/inner_magic_census.py`)
 

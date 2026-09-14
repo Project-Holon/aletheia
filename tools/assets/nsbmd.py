@@ -168,6 +168,7 @@ geometry decoding.
 """
 
 import argparse
+import collections
 import glob
 import json
 import os
@@ -209,6 +210,42 @@ class ResDict:
             out += nb + b"\x00" * (16 - len(nb))
         return out
 
+    def entries(self):
+        """Decode the per-entry data records, now that the dict layout is
+        fully cracked (see module docstring 'Resource dictionary record
+        layout, CRACKED'): the "entries" blob is a patricia-tree node array
+        of `count + 1` 4-byte nodes (`refBit, leftIdx, rightIdx, dataIdx`,
+        not otherwise interpreted here -- this reader doesn't need the
+        lookup structure, only the data that follows it) immediately
+        followed by a 4-byte {entrySize: u16, namesOffset: u16} sub-header,
+        then `count * entrySize` bytes of per-entry data records.
+
+        Confirmed byte-for-byte against real files: for every TEX0/palette
+        dict sampled (1 to 87 entries), the sub-header sits at exactly
+        `(count + 1) * 4` bytes into entries_raw (equivalently, dict offset
+        `8 + (count + 1) * 4`, which is exactly the previously-unexplained
+        `unk6` header field -- it is the byte offset to this sub-header,
+        not a "pnodeOffset" pointing at the node array's start, which is
+        instead always the fixed `8` seen as `unk4`), and
+        `sub_header_offset + 4 + count * entrySize` always lands exactly on
+        the start of the trailing names blob.
+
+        Returns (entry_size, [bytes, ...]) -- `count` raw entry records,
+        each `entry_size` bytes. Returns (0, []) if the dict is empty or
+        the expected sub-header doesn't fit (defensive; not expected to
+        trigger on any real dict)."""
+        sub_off = (self.count + 1) * 4
+        if sub_off + 4 > len(self.entries_raw):
+            return 0, []
+        entry_size, names_offset = struct.unpack_from("<HH", self.entries_raw,
+                                                        sub_off)
+        data_off = sub_off + 4
+        recs = []
+        for i in range(self.count):
+            recs.append(self.entries_raw[data_off + i * entry_size:
+                                          data_off + (i + 1) * entry_size])
+        return entry_size, recs
+
 
 def parse_dict(buf, off):
     if off + 8 > len(buf):
@@ -231,6 +268,10 @@ def parse_dict(buf, off):
 # ---------------------------------------------------------------------------
 
 TEX0_HEADER_SIZE = 0x3C
+
+TexRecord = collections.namedtuple(
+    "TexRecord", "name offset width height format color0 width8 unk8 unk16")
+PalRecord = collections.namedtuple("PalRecord", "name offset flag")
 
 
 class Tex0:
@@ -261,6 +302,53 @@ class Tex0:
         body = self.header_extra + self.tex_dict.serialize() + \
             self.pal_dict.serialize() + self.raw_data
         out = b"TEX0" + struct.pack("<I", 8 + len(body)) + body
+        return out
+
+    def texture_records(self):
+        """Decode every texture dict entry via the now-cracked 8-byte
+        record (see module docstring 'TEX0 texture/palette dict records,
+        CRACKED'): u16 offset (8-byte units, into texel_bytes()), u16
+        params (the UPPER 16 bits of the hardware TEXIMAGE_PARAM register:
+        bit0/1 repeat S/T, bit2/3 flip S/T, bits4-6 S-Size, bits7-9 T-Size,
+        bits10-12 format, bit13 color0-transparent, bits14-15 coord xform),
+        u8 width8 (redundant copy of width -- confirmed equal to the
+        decoded width in every sample checked, not otherwise used here),
+        u8 unk, u16 unk (increases per texture within a dict, plausibly a
+        VRAM-slot-ish field; not decoded).
+
+        Returns a list of TexRecord in dict order (parallel to
+        tex_dict.names). Raises Nsbmd0Error if the dict's entry size isn't
+        the expected 8 bytes (would indicate a still-unseen record
+        variant)."""
+        entry_size, recs = self.tex_dict.entries()
+        if self.tex_dict.count and entry_size != 8:
+            raise Nsbmd0Error(
+                f"unexpected TEX0 texture entry size {entry_size} "
+                f"(expected 8)")
+        out = []
+        for name, rec in zip(self.tex_dict.names, recs):
+            off_u16, params, width8, unk8, unk16 = struct.unpack("<HHBBH", rec)
+            w = 8 << ((params >> 4) & 7)
+            h = 8 << ((params >> 7) & 7)
+            fmt = (params >> 10) & 7
+            color0 = (params >> 13) & 1
+            out.append(TexRecord(name, off_u16 * 8, w, h, fmt, color0,
+                                  width8, unk8, unk16))
+        return out
+
+    def palette_records(self):
+        """Decode every palette dict entry via the cracked 4-byte record:
+        u16 offset (8-byte units, into palette_bytes()), u16 flag (seen
+        0x0000 in every sample checked; not decoded)."""
+        entry_size, recs = self.pal_dict.entries()
+        if self.pal_dict.count and entry_size != 4:
+            raise Nsbmd0Error(
+                f"unexpected TEX0 palette entry size {entry_size} "
+                f"(expected 4)")
+        out = []
+        for name, rec in zip(self.pal_dict.names, recs):
+            off_u16, flag = struct.unpack("<HH", rec)
+            out.append(PalRecord(name, off_u16 * 8, flag))
         return out
 
 
@@ -304,6 +392,95 @@ def parse_mdl0(block):
     model_dict = parse_dict(block, 8)
     raw_tail = block[8 + model_dict.size:]
     return Mdl0(model_dict, raw_tail)
+
+
+# ---------------------------------------------------------------------------
+# MDL0 model-internal sub-dictionaries (node/material/shape) -- located by
+# byte-signature scan, not by cracking the per-model header's own offset
+# fields (see docs/ASSETS.md "Map-model mission" section for why: a model's
+# leading u32 offset fields don't cleanly resolve to these sub-dicts under
+# a single consistent base, so this reader locates them the same
+# self-consistency way this project already uses elsewhere -- e.g. the
+# LZ77/Huffman sniffs -- instead of guessing a base and risking silent
+# corruption).
+# ---------------------------------------------------------------------------
+
+def find_resdicts(buf, min_count=1, max_count=200):
+    """Scan `buf` for every byte offset whose bytes parse as a *valid*
+    ResDict per the confirmed generic layout (this module's `parse_dict`,
+    reusing the exact same record-layout crack used for TEX0/palette
+    dicts -- 'implement generic dictionary parsing once, use it for TEX0
+    ... and MDL0 model/material/polygon dictionaries'): revision==0, a
+    plausible entry count, the confirmed `unk4==8` / `unk6==8+(count+1)*4`
+    relationship, dict size in bounds, and a trailing names blob that is
+    all-printable-ASCII per name. This signature is specific enough in
+    practice to find MDL0's node/material/shape dicts directly inside a
+    model's raw (undivided) data without needing to crack the model
+    header's own offset fields first.
+
+    Returns a list of (offset, ResDict), in ascending offset order."""
+    hits = []
+    n = len(buf)
+    off = 0
+    while off + 8 <= n:
+        try:
+            rev, count, size, unk4, unk6 = struct.unpack_from("<BBHHH", buf, off)
+        except struct.error:
+            break
+        if (rev == 0 and min_count <= count <= max_count and unk4 == 8 and
+                unk6 == 8 + (count + 1) * 4 and off + size <= n):
+            try:
+                rd = parse_dict(buf, off)
+            except Nsbmd0Error:
+                rd = None
+            if rd is not None and all(
+                    nm and all(32 <= ord(ch) < 127 for ch in nm)
+                    for nm in rd.names):
+                hits.append((off, rd))
+                off += max(size, 8)
+                continue
+        off += 4  # dict headers only ever seen 4-byte aligned in practice
+    return hits
+
+
+def find_render_commands(buf, min_pairs=8):
+    """Locate and decode a G3D 'render command list' run inside `buf`: a
+    scan (public hardware/format-agnostic technique, not project-specific
+    knowledge) for the longest run of byte pairs `(id, opcode)` where
+    opcode is either 4 (confirmed empirically to mean BINDMATERIAL id) or 5
+    (DRAWSHAPE id, draws the given shape using the most recently bound
+    material) -- confirmed against a real sample (`pl_00_00`) where this
+    decodes to a clean bijection between all 40 declared shape indices and
+    40 declared material indices, an outcome far too structured to be
+    coincidental alignment on random bytes.
+
+    Returns (start_offset, {shape_id: material_id}) for the best run found
+    (by pair count), or (None, {}) if no run of at least `min_pairs` pairs
+    exists anywhere in `buf`."""
+    n = len(buf)
+    best = (None, {}, 0)
+    i = 0
+    while i + 1 < n:
+        j = i
+        shape_to_mat = {}
+        cur_mat = None
+        pairs = 0
+        while j + 1 < n:
+            v, op = buf[j], buf[j + 1]
+            if op == 4:
+                cur_mat = v
+            elif op == 5:
+                shape_to_mat[v] = cur_mat
+            else:
+                break
+            pairs += 1
+            j += 2
+        if pairs > best[2]:
+            best = (i, dict(shape_to_mat), pairs)
+        i = j if pairs else i + 1
+    if best[2] < min_pairs:
+        return None, {}
+    return best[0], best[1]
 
 
 # ---------------------------------------------------------------------------
@@ -621,6 +798,107 @@ def guess_single_texture(tex0):
     return fmt, w, h, ratio
 
 
+def texture_byte_size(fmt, w, h):
+    """Byte size of one texture's texel data for the given (format, width,
+    height), per the confirmed TEXIMAGE_PARAM-derived bits-per-pixel table
+    (FORMAT_BITS_PER_PIXEL) plus format 5's special 4x4-block-pair rule
+    (see decode_texture_4x4's docstring)."""
+    if fmt == 5:
+        return (w // 4) * (h // 4) * 6
+    return w * h * FORMAT_BITS_PER_PIXEL[fmt] // 8
+
+
+def decode_all_textures(tex0):
+    """Decode EVERY texture in a TEX0 block (single- or multi-texture),
+    now that the dict record layout is cracked (Tex0.texture_records()):
+    each texture's exact (offset, format, width, height) is read directly
+    from its own dict entry -- no brute-force size search needed, and no
+    longer limited to the single-texture case guess_single_texture() was
+    restricted to.
+
+    Palette pairing: nothing in the texture record itself names which
+    palette dict entry it uses (a real material, not decoded by this
+    module -- see MDL0 notes -- owns that link in the actual format). Two
+    strategies, tried in order:
+      1. **Name convention (confirmed, preferred when present):** many
+         dicts pair texture `foo` with a palette literally named `foo_pl`
+         (confirmed exactly 1:1 in `a/0/1/4`'s 67-texture/67-palette
+         shared sets). When that exact name exists in pal_dict, use it --
+         this is a real link, not a guess.
+      2. **Self-consistency scoring (fallback):** for dicts without that
+         naming convention (e.g. multi-texture TEX0 blocks with fewer
+         palettes than textures), pick whichever palette dict entry scores
+         best by the same heuristic used elsewhere in this module
+         (fraction of decoded indices in range, tie-broken by how closely
+         the format's index range matches the palette's color count) --
+         genuinely validated per candidate, not a blind guess, but still a
+         best-effort substitute for a real material link when no naming
+         convention disambiguates it.
+
+    Returns a list of (TexRecord, chosen_palette_name, rgba_bytes,
+    valid_ratio)."""
+    texel_region = tex0.texel_bytes()
+    tex_records = tex0.texture_records()
+    pal_records = tex0.palette_records()
+    pal_region = tex0.palette_bytes()
+    index_range = {1: 32, 2: 4, 3: 16, 4: 256, 6: 8}
+    pal_offset_by_name = {p.name: p.offset for p in pal_records}
+
+    def load_palette(offset, fmt):
+        # Palette byte size isn't stored directly in the dict record
+        # either; rather than guess it from the gap to some OTHER
+        # palette's offset (unreliable -- several real dicts have two
+        # differently-named entries sharing the exact same offset, which
+        # breaks any "next distinct offset" boundary guess), size it
+        # directly from how many colors the REQUESTING texture's own
+        # format can index (2**bpp, the same index_range table used
+        # elsewhere in this module) -- simple, and correct by
+        # construction for the format actually doing the indexing.
+        needed = index_range.get(fmt, 256) * 2
+        return decode_palette(pal_region[offset:offset + needed])
+
+    # For the no-name-match fallback below: candidate palettes, each sized
+    # for ITS OWN typical use (index_range for a plausible-count guess
+    # isn't meaningful without a texture in hand, so just decode a
+    # generously-sized slice -- up to 256 colors -- for scoring purposes).
+    palettes = [(p.name, load_palette(p.offset, 4)) for p in pal_records]
+    if not palettes:
+        palettes = [(None, [])]
+    out = []
+    for tr in tex_records:
+        size = texture_byte_size(tr.format, tr.width, tr.height)
+        texel = texel_region[tr.offset:tr.offset + size]
+        if tr.format == 7:
+            rgba, ratio = decode_texture(7, tr.width, tr.height, texel, [])
+            out.append((tr, None, rgba, ratio))
+            continue
+        named = tr.name + "_pl"
+        if named in pal_offset_by_name:
+            pal_colors = load_palette(pal_offset_by_name[named], tr.format)
+            rgba, ratio = decode_texture(tr.format, tr.width, tr.height,
+                                          texel, pal_colors)
+            out.append((tr, named, rgba, ratio))
+            continue
+        best = None
+        for pal_name, pal_colors in palettes:
+            if tr.format == 5:
+                try:
+                    rgba, ratio = decode_texture_4x4(tr.width, tr.height,
+                                                       texel, pal_colors)
+                except Nsbmd0Error:
+                    continue
+                fit = 0
+            else:
+                rgba, ratio = decode_texture(tr.format, tr.width, tr.height,
+                                              texel, pal_colors)
+                fit = abs(index_range.get(tr.format, 0) - len(pal_colors))
+            score = (ratio, -fit)
+            if best is None or score > best[0]:
+                best = (score, pal_name, rgba, ratio)
+        out.append((tr, best[1], best[2], best[3]))
+    return out
+
+
 def write_png_rgba8(path, width, height, rgba_bytes):
     def chunk(tag, data):
         out = struct.pack(">I", len(data)) + tag + data
@@ -913,6 +1191,29 @@ def cmd_texture(args):
     return 0
 
 
+def cmd_textures(args):
+    with open(args.input, "rb") as fh:
+        data = fh.read()
+    c = parse_container(data)
+    tex0 = find_tex0(c)
+    if tex0 is None:
+        print("error: no TEX0 block in this file", file=sys.stderr)
+        return 2
+    os.makedirs(args.output, exist_ok=True)
+    results = decode_all_textures(tex0)
+    for tr, pal_name, rgba, ratio in results:
+        safe = "".join(ch if ch.isalnum() or ch in "._-" else "_"
+                        for ch in tr.name)
+        path = os.path.join(args.output, f"{safe}.png")
+        write_png_rgba8(path, tr.width, tr.height, rgba)
+        print(f"[*] {tr.name}: format={FORMAT_NAMES[tr.format]} ({tr.format}) "
+              f"{tr.width}x{tr.height} palette={pal_name} "
+              f"valid={ratio:.3f} -> {path}")
+    print(f"[*] {len(results)} texture(s) decoded from {tex0.tex_dict.count}"
+          f" in dict")
+    return 0
+
+
 def cmd_obj(args):
     with open(args.input, "rb") as fh:
         data = fh.read()
@@ -959,6 +1260,12 @@ def main(argv=None):
     p.add_argument("input")
     p.add_argument("-o", "--output", required=True)
     p.set_defaults(func=cmd_texture)
+
+    p = sub.add_parser("textures", help="decode every texture in a TEX0 "
+                        "block (single or multi) to PNGs in a directory")
+    p.add_argument("input")
+    p.add_argument("-o", "--output", required=True)
+    p.set_defaults(func=cmd_textures)
 
     p = sub.add_parser("obj", help="export the first decodable shape to OBJ")
     p.add_argument("input")
