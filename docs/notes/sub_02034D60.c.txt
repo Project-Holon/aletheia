@@ -1,0 +1,96 @@
+sub_02034D60 @ 0x02034D60 (arm9, ARM, 100 bytes) -- DIFF, 5 bytes, closed near miss
+packet: pkt_02034978
+
+What it is
+----------
+Maps an overlay id onto the areaman table index that owns it.  It asks
+FS_LoadOverlayInfo (0x02078D34) for the overlay header into a 0x2c-byte stack
+struct, reads ram_address at +4, and classifies it: 0x01000000..0x02000000 is
+table 1, 0x02FE0000..0x02FE4000 is table 2, anything else is 0.  The two range
+guards are sequential, not if/else: failing the first range's lower bound falls
+straight into the second range's upper test, which is why each `hs` arm carries
+its own epilogue.
+
+Everything except three register nibbles is reproduced by:
+
+    typedef unsigned int u32;
+
+    struct OverlayInfo {
+        u32 id, ram_address, ram_size, bss_size;
+        u32 sinit_init, sinit_init_end, file_id, compressed;
+        u32 unk20, unk24, unk28;
+    };
+
+    extern int FS_LoadOverlayInfo(struct OverlayInfo *info, u32 target, u32 id);
+
+    int sub_02034D60(u32 id)
+    {
+        struct OverlayInfo info;
+        const unsigned char *lo;
+
+        FS_LoadOverlayInfo(&info, 0, id);
+
+        id = info.ram_address;
+        if (id <= 0x02000000 && id >= 0x01000000) {
+            return 1;
+        }
+        lo = (const unsigned char *)0x02FE0000;
+        if ((const unsigned char *)id <= lo + 0x4000 &&
+            (const unsigned char *)id >= lo) {
+            return 2;
+        }
+        return 0;
+    }
+
+Two things this pins down, both reusable
+----------------------------------------
+1. `id = info.ram_address;` assigning back into the *parameter* is what puts the
+   loaded address in r2 rather than r1.  Writing it to a fresh local `addr`
+   gives `ldr r1, [sp, #4]` and shifts every following compare by one register.
+   Worth four bytes on its own, and the same tell should apply anywhere a
+   function reuses an argument as a scratch variable.
+
+2. Which of a pair of near constants lands in the literal pool follows the
+   *machine* use order, not the source spelling.  Written with plain literals
+   (or any spelling the front end constant-folds, including `0x02FE0000 +
+   0x4000` and a `hi = lo + 0x4000` pair of u32 locals), the upper bound is
+   needed first, so the pool holds 0x02FE4000 and the lower is derived with
+   `sub r0, r0, #0x4000` placed after the branch.  The original pools
+   0x02FE0000 and derives upward with `add`.  Only *pointer* arithmetic defeats
+   the fold: casting the base to `const unsigned char *` and writing
+   `lo + 0x4000` keeps the dependency, and then the pool word is right.
+
+The residue
+-----------
+    * +0034    ldr r1, [pc, #0x24]   | ldr r0, [pc, #0x24]
+    * +0038    add r0, r1, #0x4000   | add r1, r0, #0x4000
+    * +003C    cmp r2, r0            | cmp r2, r1
+      +0040    bhi #0x2034db4        | bhi #0x2034db4
+    * +0044    cmp r2, r1            | cmp r2, r0
+
+The original gives the pooled base r1 and the derived bound r0; the compiler
+gives the base r0 and the derived bound r1.  Every other byte, the pool word
+0x02FE0000 included, is identical.
+
+Tried and rejected for the r0/r1 assignment (all still 5 bytes, unless noted):
+  - `hi`/`lo` declared in either order, assigned before or after the guard;
+  - the bound as `&lo[0x4000]`, as `w->b + 0x4000` on a struct/array base, and
+    as `w->end` of a `struct { u8 lo[0x4000]; u8 end[1]; }`;
+  - a separate `span = 0x4000` local;
+  - a named `p = (const u8 *)id` for the left operand;
+  - negated guards `!(p > hi) && !(p < lo)`, and the goto spelling
+    `if (p > hi) goto out;`;
+  - `u32`-typed `lo` with the add cast back (14 bytes: loses the pool word too);
+  - hoisting `lo`/`hi` above the first range guard (64 bytes: the constants go
+    live across the FS call and the whole body reallocates);
+  - swapping the compare operand order, `lo + 0x4000 >= p && lo <= p`
+    (23 bytes: both compares invert, as the cmp-operand-order idiom predicts).
+
+Conclusion: the base/derived register pair is chosen by the allocator and is not
+steerable from the two-guard shape.  Something structural is different, most
+likely a third use of the base that is not visible in 100 bytes of output; it is
+not a spelling of the guard itself.  Not worth further budget without a caller
+or a sibling copy of the same window test elsewhere in the image to compare
+against.
+
+Addresses are Black-image addresses.

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  *
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_02034D60  0x02034D60  arm
@@ -29,19 +29,14 @@
  * in r2: writing both halves of the condition against the same `&table[i]`
  * local costs a `ldr r1, [r2]` instead and is a byte difference.
  *
- * Byte-correct on the first attempt, capped at MATCH: the PC24 at +0x50
- * (sub_02034A3C) has no witness.  The `bl` at 0x02034AAC inside this
- * function is 0x02034A3C's only reference anywhere in the image, so `label`
- * is out, and the `matched` route is closed too because
- * src/pending/sub_02034A3C.c is itself stuck at MATCH on func_020792B8,
- * which has exactly one call site of its own.  A unit over
- * 0x02034A3C..0x02034AC4 would make this site `local` but would inherit
- * that function's unresolved func_020792B8, so the combined range stays
- * MATCH and nothing is gained.  The chain unsticks only when a second
- * caller of 0x020792B8 turns up, most likely in an overlay.
+ * The PC24 at +0x50 (sub_02034A3C) has no `label` witness: the `bl` at
+ * 0x02034AAC inside this function is 0x02034A3C's only reference anywhere
+ * in the image.  It resolves on class `matched` now that
+ * src/matched/sub_02034A3C.c is EXACT, which in turn waited on
+ * src/matched/func_020792B8.c and src/matched/unit_02079164.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034A5C.c \
+ *   python tools/match.py one --src src/matched/sub_02034A5C.c \
  *       --func sub_02034A5C --addr 0x02034A5C --cc 1.1p1 --arm
  */
 

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  *
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   sub_02030A5C   0x02030A5C  arm
@@ -33,16 +33,13 @@
  * instead of 68; the switch is what pushes both arms past the shared
  * `pop {r4, pc}` and leaves two forward `beq`s.
  *
- * Byte-correct, capped at MATCH: the PC24 at +0x10 (sub_0202FF98) has no
- * witness outside 020306F0..02030730.  func_020306F0 is 0x0202FF98's only
- * caller image-wide, so the `label` class is unavailable, the two are not
- * contiguous so no unit can make the site `local`, and there is no EXACT
- * entry for 0x0202FF98 to serve as a `matched` witness.  0x0202FF98 is a
- * 256-byte heap-destroy body with six further call sites of its own, so
- * unsticking this file means decompiling that, not finding more evidence.
+ * The PC24 at +0x10 (sub_0202FF98) has no `label` witness: func_020306F0
+ * is 0x0202FF98's only caller image-wide, and the two are not contiguous,
+ * so no unit can make the site `local` either.  It resolves on class
+ * `matched` against src/matched/sub_0202FF98.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020306F0.c \
+ *   python tools/match.py one --src src/matched/func_020306F0.c \
  *       --func func_020306F0 --addr 0x020306F0 --cc 1.1p1 --arm
  */
 

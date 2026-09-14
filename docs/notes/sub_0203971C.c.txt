@@ -1,0 +1,70 @@
+sub_0203971C @ 0x0203971C (arm9, ARM, 72 bytes) -- DIFF, 2 bytes, closed near miss
+packet: pkt_020393A8   (net_handle.c)
+
+What it is
+----------
+Tear one link slot's record down.  A real slot index (anything but the 0xff
+sentinel) also retires the sequence counters at +0x3e/+0x40 through
+func_0203A28C; either way the slot's 0x10-byte record at +8 + 4*slot is cleared
+with MI_CpuFill8 if it was ever allocated.
+
+Every byte but one register nibble is reproduced by:
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    struct NetHandle {
+        u8     pad00[8];
+        void  *slots[9];
+        u8     pad2c[0x12];
+        u16    unk_3e;
+        u16    unk_40;
+    };
+
+    extern u16  func_0203A28C(u16 x);
+    extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+
+    void sub_0203971C(struct NetHandle *h, int slot)
+    {
+        if (slot != 0xFF) {
+            h->unk_3e = 0;
+            h->unk_40 = func_0203A28C(h->unk_40);
+        }
+        if (h->slots[slot] != 0) {
+            MI_CpuFill8(h->slots[slot], 0, 0x10);
+        }
+    }
+
+Note the guard does not protect the subscript: with slot == 0xff the second
+block still reads h->slots[0xff].  That is what the original does, not a
+transcription slip.
+
+The residue
+-----------
+    * +0018    mov r2, #0          | mov r1, #0
+    * +001C    strh r2, [r5, #0x3e]| strh r1, [r5, #0x3e]
+
+The zero stored to +0x3e lands in r2 in the original and in r1 in every
+spelling tried here.  Nothing else differs: the schedule (the +0x40 load hoisted
+above the +0x3e store, which is written first in the source), the 0xff compare,
+the scaled slot load and the MI_CpuFill8 call are all byte-identical.
+
+Tried and rejected, all still 2 bytes:
+  - writing the two statements in either order, and as one comma expression
+    (14 bytes: the comma form reorders the whole block);
+  - binding the +0x40 load to a `u16 t` before the store, so the source order
+    matches the emitted schedule exactly;
+  - binding the stored zero to a `u16 z = 0` local;
+  - `slot` declared `u8` instead of `int`;
+  - an unused third parameter, to see whether a dead r2 argument register is
+    what makes r2 the first scratch the allocator reaches for;
+  - binding h->slots[slot] to a local `rec` before the null test.
+
+r1 is free at that point in both versions and `slot` is copied out of it into r4
+in the first instruction of both, so the original's preference for r2 is not
+explained by anything visible in the function.  Same class of residue as
+docs/notes/sub_02034D60.c.txt: a scratch-register choice that the source shape
+does not reach.
+
+Addresses are Black-image addresses.

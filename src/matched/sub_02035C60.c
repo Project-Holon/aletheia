@@ -1,6 +1,4 @@
 /*
- * PARKED AT MATCH.  Every concrete byte is right.
- *
  * function: sub_02035C60
  * address:  0x02035C60
  * packet:   pkt_02035C60
@@ -9,25 +7,24 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_02035224  0x02035224  arm
  *   func_02035C48  0x02035C48  arm
  *
- * The no-context spelling of func_02035C48: fetch the singleton with
- * func_02035224() and hand it over.  Same two-call shape as
- * src/pending/sub_02035C38.c and src/matched/unit_020362BC.c.
+ * Forward to func_02035C48 with the context func_02035224 supplies, same
+ * "no context argument" shape as the block in unit_02035C70.c.
  *
- * Blocked on evidence class `label`: 0x02035C48 is reached by exactly one
- * branch in the whole image, the `bl` at 0x02035C68 inside this function, so
- * it has no witness outside the compared range and no split can create one.
- * It was cut out of src/matched/unit_02035C60.c on --suggest-split's advice
- * for exactly that reason; the rest of that range is EXACT.  It unsticks as
- * soon as 0x02035C48 is itself decompiled to EXACT (class `matched`).
+ * func_02035C48's only call site anywhere in the image is the one right
+ * here, inside this 16-byte function, so the `label` class has no witness
+ * outside the range under test and --suggest-split cannot help (the
+ * function is atomic; there is nothing to cut).  The site resolves on
+ * class `matched` against src/matched/func_02035C48.c, decompiled for
+ * exactly this purpose.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02035C60.c \
+ *   python tools/match.py one --src src/matched/sub_02035C60.c \
  *       --func sub_02035C60 --addr 0x02035C60 --cc 1.1p1 --arm
  */
 

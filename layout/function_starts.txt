@@ -123,3 +123,43 @@ arm9_main  0x020435F4  arm     # blx 0x020435F4 from ov017 at 0x021B6438, ov021 
 # anywhere is the pool word at 0x02030BC4, read by the tail call at
 # 0x02030BBC.
 arm9_main  0x020305C4  arm     # pool word at 0x02030BC4, read by the tail call at 0x02030BBC
+
+# Wave 12B/13/14 follower seeds: unlabelled leaves and veneers already
+# reproduced inside matched/pending files (pkt_020353B0, pkt_0204B454,
+# pkt_0203D798, pkt_02035C60, pkt_020399B8), invisible to disasm.py because
+# none of them saves lr.  A few addresses reported alongside these
+# (0x020355C4, 0x020355D8, 0x020355F8, 0x02035614, 0x02035630, 0x0204B898,
+# 0x0204B8A0, 0x0204B8F4) already carry real labels from an existing blx/bl
+# site or pool-word trace and need no seed here.
+
+# The two remaining unlabelled accessors of the 0x021469BC block in
+# unit_020355C4.c: each sits inside what disasm.py currently reads as the
+# literal pool of the neighbouring labelled function, and each is reached
+# only through its own global wrapper's pool word.
+arm9_main  0x020355EC  arm     # pool word at 0x0203565C, read by the wrapper's bx ip inside func_02035648
+arm9_main  0x0203560C  arm     # pool word at 0x02035644, read by the wrapper's bx ip inside func_02035630
+
+# The eighth accessor of the same block: a pool-word-and-bx wrapper directly
+# following its own neighbour's literal pool, with no lr-saving prologue.
+arm9_main  0x02035648  arm     # blx 0x02035648 from ov021 at 0x0218879A
+
+# The last two forwarding members of the 0x0204Bxxx sub-object interface
+# (unit_0204B898.c / src/pending/sub_0204B8C4.c, src/pending/sub_0204B908.c):
+# pool-word-and-bx tail calls, one section per function.
+arm9_main  0x0204B8C4  arm     # blx 0x0204B8C4 from ov033 at 0x021F0664, ov034 at 0x021F0A1E, and more overlays
+arm9_main  0x0204B908  arm     # blx 0x0204B908 from ov025 at 0x021EEA98, 0x021EEE7A, and more call sites
+
+# The pair of eight-byte ARM long-branch veneers following func_0203D798
+# (see src/matched/func_0203D798.c): "ldr ip,[pc,#0]; bx ip; .word target",
+# no lr saved, so the prologue sweep cannot see either.
+arm9_main  0x0203D7B0  arm     # blx 0x0203D7B0 from ov100 at 0x021B9A34, ov120 at 0x021D49E2, and more overlays
+arm9_main  0x0203D7BC  arm     # blx 0x0203D7BC from ov012 at 0x02172F5E, ov100 at 0x021B9A3A, and more overlays
+
+# The unlabelled follower of sub_02035D20 in unit_02035C70.c: a u16
+# narrowing shim, pool-word-and-bx tail call in front of func_02035ADC.
+arm9_main  0x02035D40  arm     # blx 0x02035D40 from ov032 at 0x021F0A68, ov111 at 0x021C5C14, and more overlays
+
+# The unlabelled leaf inside sub_02039C68's own extent (unit_02039C68.c):
+# reached only through the ARM long-branch veneer at 0x0203D5A0, whose
+# .word target this is, not through any direct branch.
+arm9_main  0x02039CA0  arm     # pool word at 0x0203D5A8, read by the veneer's bx ip at 0x0203D5A4

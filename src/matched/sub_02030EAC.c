@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   sub_02030C68   0x02030C68  arm
@@ -32,20 +32,12 @@
  * every concrete byte shifted by one instruction.  See
  * docs/idioms/a-parameter-moved-out-of-r0-at-entry-names-the-tail-calls-arity.md.
  *
- * Byte-correct, capped at MATCH: 0x02030C68 has no branch witness
- * anywhere in the image and its only literal occurrence is this
- * function's own pool word, which the compared range now covers, so the
- * ABS32 cannot be attested without reading the answer out of the bytes
- * under test.  --suggest-split cannot help, there is one site in one
- * function.  It unsticks when 0x02030C68 is itself decompiled to EXACT.
- *
- * The tail call is a pool word and a `bx ip`
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md); the pool word is read
- * before any of the work, which is why `ip` is live across the whole
- * body.
+ * 0x02030C68 has no branch witness of its own: this function is its only
+ * reference image-wide.  The site resolves on class `matched` against
+ * src/matched/unit_02030C68.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02030EAC.c \
+ *   python tools/match.py one --src src/matched/sub_02030EAC.c \
  *       --func sub_02030EAC --addr 0x02030EAC --cc 1.1p1 --arm
  */
 
