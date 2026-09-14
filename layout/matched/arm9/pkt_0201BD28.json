@@ -1,0 +1,71 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0201BD28",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_0201C1C8",
+   "address": "0x0201C1C8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201C1C8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_0201C1C8",
+    "sub_0201C1D8"
+   ]
+  },
+  {
+   "name": "unit_0201C314",
+   "address": "0x0201C314",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201C314.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_0201C314"
+   ]
+  },
+  {
+   "name": "unit_0201C440",
+   "address": "0x0201C440",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201C440.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_0201C440"
+   ]
+  },
+  {
+   "name": "unit_0201C8A4",
+   "address": "0x0201C8A4",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201C8A4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_0201C8A4"
+   ]
+  }
+ ]
+}

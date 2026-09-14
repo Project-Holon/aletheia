@@ -1,0 +1,69 @@
+/*
+ * unit:     yes
+ * address:  0x0201850C
+ * packet:   pkt_02017FB0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * function: func_0201850C
+ *
+ * Experience to level.  This is the callee of id 0x9E of func_02018E34
+ * (src/pending/sub_02018E34.c), which passes it a species id, the five bit
+ * form field of substruct B +0x18 and the experience word of substruct A +8.
+ * It reads field 0x17 of the species' record, which is the growth-rate
+ * selector, fills the shared word buffer at 0x02146398 with that curve through
+ * func_02019B94, and then walks entries 1 to 0x64 for the first one that
+ * exceeds the experience, returning the index before it.
+ *
+ * The loop is a `for` whose bound test the compiler rotates to the bottom, so
+ * the first table read happens before any comparison with 0x65; the counter is
+ * u16, which is what the `lsls #0x10` / `lsrs #0x10` pair after each increment
+ * is, and writing it `u32` drops that pair and the function is four bytes
+ * short.
+ *
+ * The range stops at 0x02018544, where an eight byte
+ * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk forwards to
+ * func_0201854C.  That thunk's pool word is the only reference to
+ * func_0201854C in the image, so including it caps the file at MATCH; it is
+ * left out and this function is clean.
+ *
+ * 0x02146398 is the same scratch buffer func_02019BA4 fills in
+ * src/matched/unit_02019B58.c, which is what attests it here and what this
+ * file's pool word attests there: the pairwise case of docs/MATCHING.md.
+ *
+ * Nothing here is version specific; 0x17 is a field selector and 0x65 is the
+ * level table's length.
+ *
+ * Verified with
+ *   python tools/match.py tu --src src/matched/unit_0201850C.c \
+ *       --addr 0x0201850C --thumb
+ *
+ * symbols:
+ *   gWordBuf  0x02146398  data
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void *func_02019C54(u16 a, u16 b);
+extern u32   func_0201AE1C(void *h, u32 k);
+extern void  func_02019B94(u32 a, void *b);
+
+extern u32 gWordBuf[];
+
+u32 func_0201850C(u16 species, u16 form, u32 exp)
+{
+    u16 i;
+
+    func_02019B94((u16)func_0201AE1C(func_02019C54(species, form), 0x17),
+                  gWordBuf);
+    for (i = 1; i < 0x65; i = (u16)(i + 1)) {
+        if (gWordBuf[i] > exp) {
+            break;
+        }
+    }
+    return i - 1;
+}
