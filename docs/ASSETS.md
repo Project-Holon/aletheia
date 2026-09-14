@@ -2989,3 +2989,70 @@ index `i` in the species bank is the National Dex number `i-1` (verified:
 descriptor index = dex number + 1, e.g. index 2 = Bulbasaur = dex #1,
 index 19 = Pidgeot = dex #18). `python tools/assets/text.py stats
 <narc> <index>` prints entry/clean counts as JSON without writing a file.
+
+## Locate pass: walking and trainer sprites
+
+Locate-only pass (no new converter code) over `build/assets/inventory.json`
+(247 archives) to shortlist candidates for (1) player/NPC overworld walking
+sprites and (2) Gen 5 animated trainer battle sprites.
+
+**Correction to the working ruled-out list**: `a/0/0/7` is NOT an icon
+archive. `tools/assets/overworld.py` (already written and verified) opens
+`a/0/0/7` as the overworld NPC/entity sprite archive: 1431 sub-files, 715
+per-entity `NCGR` tile sheets (each exactly 1072 bytes = 24-byte header +
+1024 bytes = 32 tiles, 4bpp) sharing one `NCLR` palette and one `NCER`
+cell bank (32x32 OAM), with per-entity `NANR` timing not yet decoded past
+its header. This is the correct home for category (1). The actual icon
+candidate is `a/1/6/7` (655 sub-files, ~107 B average, close to the 649
+species count) per the existing "Pokemon icons" entry above; the ruled-out
+note likely transposed these two paths.
+
+**Category 1 -- overworld walking sprites (player + NPCs)**
+
+1. `a/0/0/7` (already located, see above) -- 715 entities is a plausible
+   count for every NPC/trainer-class overworld graphic. Only a 2-3 cell
+   "idle bob" is confirmed; the `NANR`/ABNK frame-duration/order fields
+   are undecoded, so a full 4-8 direction walk cycle is not yet verified
+   from this archive alone.
+2. `a/0/2/5` -- 1005 sub-files (552 `NCLR` + 451 `NCGR` + 1 shared `NCER`
+   + 1 shared `NANR`), all uncompressed, avg 554.7 B/entry. Sampled a
+   `NCGR` sub-file directly (index 2): `data_size` 512 bytes = 16 tiles
+   4bpp, consistent with a 32x32 sprite at half tile density or a 16x32
+   frame. Same "many small per-entity NCGR+NCLR sharing one NCER/NANR"
+   shape as `a/0/0/7` but roughly 2x the entity count and half the
+   per-entry tile budget -- worth checking as a second overworld sprite
+   set (e.g. a different resolution class, or menu-sized character icons)
+   once `a/0/0/7` itself is fully mined.
+
+**Category 2 -- trainer battle sprites**
+
+No archive matches the hypothesized `a/0/0/4`-shaped compound rig
+(`NCER`+`NMCR`+`NMAR`+`NCLR`) at a 200-400-block scale: a full magic-key
+scan for the `NMCR`/`NMAR` guess tags across all 247 archives returns only
+6 hits, and all are already accounted for -- `a/0/0/4` and `a/0/5/2`
+(14285 sub-files each, the Pokemon battle rigs) and the `a/0/6/4`/`a/0/7/2`/
+`a/0/7/3` UI-rig family (48-760 sub-files). None sit in the 200-400 range.
+
+Best remaining candidates use the simpler `a/0/0/7`-style rig (per-entity
+`NCER`+`NANR`, no multi-cell resource/animation blocks):
+
+1. `a/0/7/8` -- 179 sub-files (7 `NCLR` + 55 `NCGR` + 15 `NSCR` + 51
+   `NCER` + 51 `NANR`), i.e. ~51 "characters" each with its own cell bank
+   and animation (unlike `a/0/0/7`'s one shared `NCER`/`NANR`). Sampled
+   `NCGR` sub-file index 7 decodes to a 32-tile, 1072-byte sub-file --
+   structurally identical to `a/0/0/7`'s per-entity `NCGR` shape. Strongest
+   surviving structural match, but 51 entries is far short of Black/White's
+   ~200-400 trainer classes; more likely a sub-cast (gym leaders/Elite
+   Four/rivals) or an unrelated UI roster.
+2. `a/0/8/3` -- 172 sub-files (37 `NCLR` + 66 `NCGR` + 33 `NCER` + 33
+   `NANR` + 3 `NSCR`), same shape family, ~33 characters, same
+   too-few-entries caveat.
+
+Neither candidate's entry count lines up with the full trainer roster.
+Next lane should either (a) search battle/trainer-table code already named
+by other lanes for a direct reference to a sprite archive path, since the
+inventory-shape search is now exhausted for this hypothesis, or (b) check
+whether trainer battle sprites in fact reuse the `a/0/0/4`/`a/0/5/2` rig
+format itself under a currently-unidentified index range, or are stored as
+smaller static (non-rig) per-entry `NCGR` sprites elsewhere rather than as
+a dedicated compound archive.
