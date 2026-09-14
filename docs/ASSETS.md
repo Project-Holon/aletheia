@@ -1840,3 +1840,140 @@ arrangement, not adopted.
   new was found in its place.
 - `local 8`/`local 17`'s unrecognised raw blobs and NMAR's own unresolved
   `table_a`/`table_b`/`table_c` fields (sixth pass) remain undecoded.
+
+## Icon archive `a/1/6/7`, decoded (`tools/assets/icons.py`)
+
+This closes out the "Pokemon icons -- `a/1/6/7`" entry above with an
+actual pixel decode. New files: `tools/assets/icons.py` (decoder,
+renderer, round-trip) and `tools/assets/lz77.py` (a BIOS LZ77 encoder,
+compress-only, written the same way `lz11.py`'s encoder policy was
+recovered -- see below).
+
+### Format
+
+`a/1/6/7` is a 655-sub-file NARC:
+
+| sub-file index | contents |
+|---|---|
+| 0 | RLCN/NCLR palette, uncompressed, 552 bytes |
+| 1, 3 | RNAN/NANR (cell animation), uncompressed |
+| 2, 4 | RECN/NCER (cell bank), uncompressed |
+| 5..654 | 650 icon graphics, one per species/form slot (species index N is sub-file N+5), each **BIOS LZ77** (tag 0x10, not LZ11 -- confirmed by sniffing byte 0 of every one of the 650) |
+
+Every one of the 650 icon sub-files decompresses to exactly 304 bytes, and
+the leading 48 bytes (the full NCGR common header + CHAR block header +
+CHAR body sub-header) are **byte-identical across all 650** (checked, not
+sampled). Only the trailing 256 bytes (8 4bpp tiles, 32 bytes each) vary.
+The CHAR sub-header declares `tiles_y`/`tiles_x` unspecified (0xFFFF),
+`bitdepth` 3 (4bpp, per this ROM's own convention), `tile_data_size` 256,
+and a `tile_data_offset` of 24 that self-confirms where the tile data
+starts.
+
+256 bytes / 32-bytes-per-tile = 8 tiles. Laid out 4 tiles wide (32 px) by
+2 tile-rows (16 px) tall: the right two tile-columns (tile indices 2, 3,
+6, 7) are **the literal byte 0xCC repeated for all 32 bytes, in every one
+of the 650 icons, with zero exceptions** (checked by scanning all 650) --
+a fixed filler/padding tile, the same "known constant marks unused
+canvas" pattern already used for the battle-sprite archive `a/1/3/4`'s
+0x00/0x80 filler (`tools/assets/battle_sprite.py`), just a different
+constant. The real icon is the left two tile-columns: **16x16 pixels,
+4bpp** -- exactly the size estimated up front (16x16 4bpp = 128 bytes of
+real tile data, the rest being the fixed filler). `icons.py`'s
+`unpack_icon_pixels()`/`pack_icon_pixels()` implement this crop and its
+exact inverse (used for the round trip).
+
+### Palette: not a per-species bank system after all
+
+The mission brief's working theory was "a small shared palette bank with
+a per-species palette index." The palette *shape* looks right at first
+glance -- sub-file 0's TTLP block declares the full 256-color capacity
+(512 bytes of color data), which for a 4bpp format reads as "16 banks of
+16 colors, select one bank per icon." Decoding the actual color words
+(`struct.unpack('<256H', ...)`) shows this is not what is stored: **only 2
+of the 256 color slots are non-zero** (slot 0 and slot 7, both BGR555
+0x7FFF = white); every other slot, across all 16 nominal banks, is the
+zero word (black). Banks 1-15 are entirely black -- there is no second
+color anywhere to select between. This was cross-checked against the
+known-good NCLR reader (the same `parse_nclr()` used and verified for
+`a/1/3/4`'s battle-sprite colors), so it is a property of the data, not a
+parser bug.
+
+**Consequence: the icons in this archive are genuinely monochrome
+(black/white), not full-color per-species icons.** `icons.py` renders
+using the real decoded palette (bank 0) rather than a synthetic grayscale
+ramp, which is the honest reading of "true color" once the recovered
+palette itself turns out to carry only two colors.
+
+**Per-species palette-index table: searched for, not found.** Every NARC
+under `extract/data/` was scanned for a sub-file count in 640-660 with a
+small, uniform per-entry size (the shape a one-byte/species bank selector
+would have). Two matches, neither a fit:
+
+- `a/0/2/0`: 650 entries x 2 bytes (u16), values range 0-649 and run in
+  tight groups of 2-4 identical consecutive values (reads as an
+  evolution-family/base-species index, not a palette selector -- max
+  value 649 rules out "bank index" outright, a bank selector into 16
+  banks would be capped at 15). Cross-checked directly: `a/1/6/7`'s icon
+  content has large exact-duplicate groups (the biggest is 150 of the 650
+  icons sharing pixel-identical tile data), and if `a/0/2/0`'s values were
+  driving that reuse, the icons sharing a hash would share an `a/0/2/0`
+  value too. They don't (98 distinct `a/0/2/0` values inside the 150-icon
+  duplicate group) -- so `a/0/2/0` is not the icon-reuse key either,
+  whatever it actually is.
+- `a/1/2/3`: 650 entries but variable size (0-34 bytes), shape of a
+  text/movepool table, not a fixed small record.
+
+No 649/650/655-entry table of 1-byte records capped at 15 exists anywhere
+in `extract/data/`. Given the palette itself has no second bank with real
+color in it, this negative result is now expected rather than a loose
+end: there is nothing for such a table to select between.
+
+**Open honesty note:** the large icon-content duplicate groups (650 icons
+resolve to only 454 distinct decompressed payloads; one group of 150 is
+pixel-identical) are unexplained by anything decoded so far. Given the
+monochrome palette finding, it is now uncertain whether `a/1/6/7` is
+really "one icon per species" at all, or a smaller set of generic
+silhouette/stencil shapes (reused across many species) meant to be
+recolored or composited by whatever code loads this archive -- the two
+NANR/NCER pairs at indices 1-4 are presumably involved in that but were
+not decoded this pass (out of scope: this pass's budget went to the pixel
+format and the round trip, not the cell/animation resources). Treat
+"species index N -> sub-file N+5" as positional/structural fact (the
+count and ordering match) but "this pixel data IS a recognizable
+per-species icon" as unconfirmed.
+
+### LZ77 encoder (`tools/assets/lz77.py`)
+
+The icon sub-files are BIOS LZ77 (tag 0x10), not LZ11 -- `narc.py` already
+decodes this, but only `lz11.py` had a matching encoder before this pass.
+`lz77.py` was written the same way: decode an original compressed
+sub-file, diff a candidate encoder's token choices against it. Recovered
+policy, confirmed 650/650 exact over every LZ77 sub-file in this archive:
+
+- greedy, no lazy matching (same as LZ11)
+- matches may self-overlap (same as LZ11)
+- displacement 1 is never used (same exclusion as LZ11)
+- **longest match wins, ties broken toward the *farthest* displacement**
+  (same tie-break as LZ11 -- "nearest wins" was tried first and produced
+  wrong output on the very first sample checked)
+- field limits per BIOS LZ77's plain one-byte-indicator token (no
+  extended-length forms like LZ11 has): match length 3-18, window
+  (max displacement) 0x1000
+
+### Results
+
+- **650/650 icons rendered** to `build/assets/icons/NNNN.png` (16x16 true
+  color RGB PNGs, `NNNN` = species/form index 0000-0649).
+- **655/655 sub-files round-trip byte-identical**: the 650 icon sub-files
+  via decompress -> crop to 16x16 pixels -> re-pack (re-inserting the
+  fixed filler tiles and fixed 48-byte header) -> `lz77.compress()` ->
+  compared to the original raw sub-file bytes; the other 5 sub-files
+  (palette + 2x NANR + 2x NCER) carry no compression header and round-trip
+  as a trivial identity copy, verified via `narc.sniff_compression()`
+  returning `None` for all of them. Run it yourself:
+  `python tools/assets/icons.py --all --roundtrip`.
+- **Remaining gaps:** no per-species full-color palette exists in this
+  archive (see above -- this may mean full-color species icons live
+  elsewhere, not here, and `a/1/6/7` is something else, e.g. a stencil/
+  mask set); the icon-content duplicate groups are unexplained; the two
+  NANR/NCER pairs (indices 1-4) are uncharacterized.
