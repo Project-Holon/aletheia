@@ -117,6 +117,7 @@ Usage
 """
 
 import argparse
+import bisect
 import os
 import struct
 import sys
@@ -130,9 +131,65 @@ import rig  # noqa: E402  (Oam, render_oam -- identical NCGR/OAM shape)
 ARCHIVE_PATH = os.path.join("extract", "data", "a", "0", "0", "7")
 OUT_DIR = os.path.join("build", "assets", "overworld")
 
+# `a/0/2/5` -- tenth lane pass' second mission target, see module docstring
+# addendum "a/0/2/5 -- second overworld-shaped archive" below.
+ARCHIVE_PATH_2 = os.path.join("extract", "data", "a", "0", "2", "5")
+OUT_DIR_2 = os.path.join("build", "assets", "overworld2")
+ANIM_OUT_DIR = os.path.join("build", "assets", "overworld_anim")
+
 LOCAL_PALETTE = 0
 NANR_INDICES = (1, 3, 5)
 NCER_INDICES = (2, 4, 6)   # mapping_type 0, 1, 2 -- this module uses NCER_INDICES[0]
+
+# ---------------------------------------------------------------------------
+# tenth lane pass addendum
+# ---------------------------------------------------------------------------
+# `a/0/2/5` mission: 1005 sub-files (552 RLCN + 451 RGCN + one shared RNAN at
+# index 0 + one shared RECN at index 1). Unlike `a/0/0/7` (a single leading
+# NCLR shared by all 715 entities), `a/0/2/5`'s NCGR/NCLR sub-files interleave
+# after the shared NANR/NCER pair in an irregular pattern: mostly strict
+# G,L,G,L,... alternation but with runs of 2-4 consecutive G's or L's
+# scattered throughout (confirmed by direct scan -- not a fixed stride).
+# There is no separate lookup table found for this pairing (no ARM9 table
+# analogous to `a/0/0/7`'s `g_0209E474` was searched for or needed): this
+# module pairs each RGCN with the **nearest preceding RLCN** sub-file index
+# (the last palette seen scanning forward through the archive) -- this is
+# "index arithmetic" in the loose sense of "closest lower index", not a
+# fixed stride or an external table. Verified by rendering (see
+# `render_entity_v2`): every one of the 10 samples this pass rendered comes
+# out as a plausibly-colored, internally-consistent icon (see docstring
+# note below on what these depict), not a garish/incoherent palette
+# mismatch, which is the signal this pass used to accept the heuristic.
+#
+# This same "nearest preceding NCLR" rule generalizes cleanly to `a/0/0/7`
+# too (that archive has exactly one RLCN sub-file, at index 0, so every
+# entity's "nearest preceding" index is always 0) -- `render_entity` was
+# kept as-is (its own explicit `LOCAL_PALETTE` constant) for the already-
+# shipped/verified code path, and `render_entity_v2` below is the new,
+# archive-generic version used by `--archive`-aware CLI flags.
+#
+# **Entity identification**: the 10 rendered samples (`build/assets/
+# overworld2/`, entities 0/45/90/135/180/225/270/315/360/405 sampled evenly
+# across the archive) are small (32-36px), single-OAM, true-color icons
+# depicting a wide variety of distinct small objects, NOT a uniform shape:
+# a purple/pink Poke Ball (entity 0), a grey faceted gem/stone (45, reads
+# as an evolution stone), an orange flame/torch shape (90), a yellow
+# curved banana-like item (135), a pink boot/shoe shape (180), a plain
+# grey pebble/rock (225), an orange key or rocket-like shape (270), a red
+# round berry-or-ball (315), a green card/badge with a dark stripe (360),
+# and a pink/white round pill or macaron shape (405). This is a **general
+# held/key-item icon set**, not narrowly Poke Balls (the first pass's
+# initial read of a handful of early, ball-shaped samples was too narrow --
+# corrected here after sampling across the full index range). This
+# directly contradicts the "overworld/menu-sized character icon" guess
+# from the locate pass in docs/ASSETS.md: `a/0/2/5` is NOT overworld
+# entity sprites, it is a Bag/item-icon archive, consistent in kind (if
+# not confirmed as the same archive) with the existing `a/0/4/5#0`
+# "held-item icon sprite" finding elsewhere in docs/ASSETS.md. The 552
+# NCLR vs. 451 NCGR count (101 more palettes than shapes) is plausible for
+# an item set: some item icons likely share one outline/shape NCGR across
+# multiple color variants (e.g. differently-colored versions of the same
+# object), giving more distinct palettes than distinct tile sheets.
 
 # ---------------------------------------------------------------------------
 # Per-entity sub-palette selection
@@ -409,6 +466,227 @@ def render_entity(n, entity_indices, entity_num, cells, palette, out_dir, subpal
 
 
 # ---------------------------------------------------------------------------
+# Archive-generic path (`--archive`-aware): finds the shared NCER by magic
+# scan instead of a fixed index, and pairs each entity's own NCGR with its
+# nearest-preceding NCLR sub-file instead of assuming one leading shared
+# palette -- see the "tenth lane pass addendum" module docstring above for
+# why this generalizes both `a/0/0/7` and `a/0/2/5` under one rule.
+# ---------------------------------------------------------------------------
+
+def find_magic_indices(n, magic):
+    return [sf.index for sf in n.subfiles if sf.magic == magic]
+
+
+def nearest_preceding(sorted_indices, x):
+    """Index in `sorted_indices` that is the largest value <= x, or None."""
+    i = bisect.bisect_right(sorted_indices, x) - 1
+    return sorted_indices[i] if i >= 0 else None
+
+
+def nearest_preceding_or_following(sorted_indices, x):
+    """`nearest_preceding`, falling back to the nearest following index when
+    there is no earlier one -- needed for `a/0/2/5` entity 0, whose own
+    RGCN (sub-file index 2) comes before any RLCN in the archive (the
+    shared RNAN/RECN pair occupies indices 0/1, and the first RLCN is at
+    index 3, right after it)."""
+    li = nearest_preceding(sorted_indices, x)
+    if li is not None:
+        return li
+    i = bisect.bisect_left(sorted_indices, x)
+    return sorted_indices[i] if i < len(sorted_indices) else None
+
+
+def load_shared_v2(n):
+    """Archive-generic shared-resource lookup: first RECN sub-file is the
+    shared cell bank (works for both `a/0/0/7`, whose first RECN at index 2
+    is the mapping_type=0 copy this module wants, and `a/0/2/5`, whose only
+    RECN is at index 1); the full sorted list of RLCN indices is returned
+    for per-entity nearest-preceding palette lookup."""
+    ncer_indices = find_magic_indices(n, b"RECN")
+    if not ncer_indices:
+        raise ValueError("archive has no RECN (NCER) sub-file")
+    cells, mapping_type = parse_ncer_shared(n.read(ncer_indices[0]))
+    l_idx = find_magic_indices(n, b"RLCN")
+    if not l_idx:
+        raise ValueError("archive has no RLCN (NCLR) sub-file")
+    return cells, l_idx
+
+
+def render_entity_v2(n, entity_indices, entity_num, cells, l_idx, out_dir, subpal=0):
+    """Like `render_entity`, but looks up this entity's own palette by
+    nearest-preceding RLCN index instead of assuming one shared/fixed
+    palette sub-file -- see module docstring addendum."""
+    gi = entity_indices[entity_num]
+    li = nearest_preceding_or_following(l_idx, gi)
+    if li is None:
+        raise ValueError(f"entity {entity_num} (sub-file {gi}): archive has no RLCN sub-file at all")
+    palette = bs.parse_nclr(n.read(li))
+    ncgr = parse_ncgr(n.read(gi))
+    w, h, flat = render_sprite_sheet(ncgr, cells)
+    rgb = indices_to_rgb(flat, palette, subpal)
+    out_path = os.path.join(out_dir, f"{entity_num:04d}.png")
+    bs.write_png_rgb8(out_path, w, h, rgb)
+    return out_path, w, h, li
+
+
+# ---------------------------------------------------------------------------
+# `a/0/0/7` shared NANR: frame timeline decode (tenth lane pass)
+# ---------------------------------------------------------------------------
+# The mission asked for the per-entity animation timeline sequences, frames,
+# cell index per frame, durations -- past what `rig.Nanr` (written for the
+# much larger `a/0/0/4` species NANR) already decodes. `a/0/0/7`'s own
+# shared NANR (index 1 of 3 byte-identical copies) is tiny (362 bytes, 3
+# blocks) and, decoded byte-for-byte against `rig.Nanr`'s own KNBA/ABNK
+# field layout, does NOT give usable per-sequence frame counts: the field
+# `rig.Nanr` reads as `num_frames` (offset 4 of the 16-byte sequence record)
+# is **0 for all 6 of this archive's sequences**, which cannot be the real
+# frame count (every sequence needs at least 1 frame to render anything).
+#
+# What DOES decode cleanly:
+#
+# - A third block this archive's NANR has that `rig.Nanr` never needed to
+#   read: `LBAL` (98 bytes) holds 6 NUL-terminated ASCII names --
+#   "CellAnime0".."CellAnime5" -- one per sequence (`num_sequences=6`
+#   matches exactly). These are **generic numbered names, not direction
+#   words** (no "Down"/"Up"/"Left"/"Right" or similar) -- this is the
+#   strongest single piece of evidence this pass found that `a/0/0/7`'s
+#   entities are NOT full 4-direction walk-cycle sprites.
+# - The element/frame-entry array (12 records, `elem_ofs=120`, confirmed
+#   sentinel `0xBEEF` in every record, exactly as `rig.Nanr` already
+#   decodes for species NANR) gives 12 `(offset_to_frame_data, duration)`
+#   pairs.
+# - The frame-data region past the element array (`body[elem_end:]`, 12
+#   bytes for this archive) is NOT the 16-byte SRT or 8-byte "T" shape
+#   `rig.Nanr` implements for species NANR -- it is a **new, smaller
+#   4-byte record**: `{cellIdx(u16), sentinel(u16)=0xCCCC}` (a different
+#   sentinel constant than the element array's own 0xBEEF, confirmed
+#   present at every one of the frame-data region's 3 records here).
+#   `offset_to_frame_data` values seen (0, 4, 8) are all multiples of 4,
+#   consistent with this 4-byte stride, and `cellIdx` decodes to 0, 1, 2 --
+#   exactly the shared NCER's 3 valid cell indices, which is what confirms
+#   this reading (a `cellIdx` of 3+ would be nonsense against a 3-cell
+#   NCER; every one of the 3 records lands in range).
+#
+# **What this pass renders as "the timeline"**: since the per-sequence
+# frame-count field does not give usable per-sequence boundaries, and the
+# 6 named sequences all draw from the same tiny 3-frame-data / 12-element
+# pool (`elem_start` values across the 6 sequences are 1, 2, 2, 2, 2, 3 --
+# heavily overlapping, not a clean partition of 0..11), this module renders
+# the **entire 12-entry element/frame-data table, in array order**, as one
+# animation strip per entity -- this is the mission's literal "all frames
+# in order" for the one real, fully-decoded timeline this archive has,
+# without pretending the 6-way sequence split is understood well enough to
+# render separately. Decoded (cellIdx, duration) for all 12 elements:
+# element 0: cell 0, duration 1; elements 1,3,5,7,9: cell 0, durations
+# 8,12,24,40,90; elements 2,4,6,8: cell 1, durations 8,12,24,40; element 10:
+# cell 2, duration 2; element 11: cell 0, duration 2. Cell 0/1 alternate
+# with geometrically-doubling durations (8,12,24,40 growing, then 90) --
+# consistent with a slow **idle bob** (two poses held for increasing
+# durations, not a walk cycle), and cell 2 (the "1px-shifted" third cell
+# noted in the main module docstring) appears once, briefly (duration 2),
+# consistent with a short transient/blink frame rather than a fourth
+# walking pose. This confirms and sharpens the existing "idle bob, not
+# direction set" conclusion with real per-frame duration data.
+
+NANR_ELEM_SENTINEL = 0xBEEF
+NANR_FRAMEDATA_SENTINEL = 0xCCCC
+
+
+class AnimFrame:
+    __slots__ = ("cell_index", "duration")
+
+    def __init__(self, cell_index, duration):
+        self.cell_index = cell_index
+        self.duration = duration
+
+
+class SharedAnim:
+    """Decodes one `a/0/0/7`-shaped shared NANR (KNBA + LBAL [+ trailing
+    blocks, not decoded]) into a flat list of `AnimFrame` (the full
+    element/frame-data table, in order) plus the raw sequence names."""
+
+    def __init__(self, data):
+        magic, bom, ver, fsize, hsize, nblk = _hdr(data)
+        if magic != b"RNAN":
+            raise ValueError(f"not an RNAN (NANR) resource: {magic!r}")
+        pos = hsize
+        bmagic, bsize = struct.unpack_from("<4sI", data, pos)
+        if bmagic != b"KNBA":
+            raise ValueError(f"expected KNBA (ABNK) block, found {bmagic!r}")
+        body = data[pos + 8:pos + bsize]
+        num_seq, num_elem = struct.unpack_from("<HH", body, 0)
+        seq_ofs, elem_ofs, elem_end = struct.unpack_from("<III", body, 4)
+        self.num_sequences = num_seq
+        self.num_elements = num_elem
+
+        self.sequence_elem_start = []
+        for i in range(num_seq):
+            off = seq_ofs + i * 16
+            elem_start, = struct.unpack_from("<I", body, off)
+            self.sequence_elem_start.append(elem_start)
+
+        elements = []  # (frame_data_offset, duration)
+        for i in range(num_elem):
+            off = elem_ofs + i * 8
+            fofs, duration, sentinel = struct.unpack_from("<iHH", body, off)
+            if sentinel != NANR_ELEM_SENTINEL:
+                raise ValueError(f"element {i}: bad sentinel {sentinel:#x}")
+            elements.append((fofs, duration))
+
+        frame_data = body[elem_end:]
+        self.frames = []
+        for fofs, duration in elements:
+            rec = frame_data[fofs:fofs + 4]
+            if len(rec) < 4:
+                raise ValueError(f"frame-data offset {fofs} runs past end "
+                                  f"of the {len(frame_data)}-byte frame-data region")
+            cell_idx, sentinel = struct.unpack_from("<HH", rec, 0)
+            if sentinel != NANR_FRAMEDATA_SENTINEL:
+                raise ValueError(f"frame-data at offset {fofs}: bad sentinel {sentinel:#x}")
+            self.frames.append(AnimFrame(cell_idx, duration))
+
+        # sequence names, if an LBAL block follows KNBA (see module docstring)
+        self.sequence_names = []
+        pos2 = pos + bsize
+        if pos2 < len(data):
+            bmagic2, bsize2 = struct.unpack_from("<4sI", data, pos2)
+            if bmagic2 == b"LBAL":
+                lbody = data[pos2 + 8:pos2 + bsize2]
+                # `num_seq` leading u32 offsets (one per sequence, into the
+                # NUL-terminated name strings that follow), then the names
+                # themselves -- confirmed against a/0/0/7's own LBAL: 6
+                # offsets (24 bytes) then exactly 6 "CellAnimeN" strings.
+                names = lbody[num_seq * 4:].split(b"\x00")
+                self.sequence_names = [s.decode("ascii", "replace")
+                                        for s in names if s]
+
+
+def parse_shared_anim(data):
+    return SharedAnim(data)
+
+
+def render_animation_strip(ncgr, cells, anim, out_path):
+    """Render `anim.frames` (in array order) left to right, one PNG per
+    entity, in `build/assets/overworld_anim/`."""
+    frame_cells = [cells[f.cell_index] for f in anim.frames
+                   if f.cell_index < len(cells)]
+    w, h, flat = render_sprite_sheet(ncgr, frame_cells)
+    return w, h, flat
+
+
+def render_entity_anim(n, entity_indices, entity_num, cells, l_idx, anim, out_dir, subpal=0):
+    gi = entity_indices[entity_num]
+    li = nearest_preceding_or_following(l_idx, gi)
+    palette = bs.parse_nclr(n.read(li))
+    ncgr = parse_ncgr(n.read(gi))
+    w, h, flat = render_animation_strip(ncgr, cells, anim, None)
+    rgb = indices_to_rgb(flat, palette, subpal)
+    out_path = os.path.join(out_dir, f"{entity_num:04d}.png")
+    bs.write_png_rgb8(out_path, w, h, rgb)
+    return out_path, w, h
+
+
+# ---------------------------------------------------------------------------
 # NCGR round-trip verification
 # ---------------------------------------------------------------------------
 
@@ -458,57 +736,125 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                   formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("entity", type=int, nargs="?",
-                     help="entity index (0..714). Not needed with --all/--sample/--verify.")
-    ap.add_argument("--archive", default=ARCHIVE_PATH)
-    ap.add_argument("--out", default=OUT_DIR)
+                     help="entity index. Not needed with --all/--sample/--verify/--anim*.")
+    ap.add_argument("--archive", default=ARCHIVE_PATH,
+                     help=f"NARC to read; {ARCHIVE_PATH} (default) or {ARCHIVE_PATH_2}")
+    ap.add_argument("--out", default=None,
+                     help=f"output dir (default {OUT_DIR} for the default archive, "
+                          f"{OUT_DIR_2} for {ARCHIVE_PATH_2}, else {OUT_DIR})")
     ap.add_argument("--all", action="store_true", help="render every entity")
     ap.add_argument("--sample", action="store_true",
                      help="render 10 sample entities spread across the archive")
     ap.add_argument("--verify", action="store_true",
                      help="NCGR round-trip check over --archive instead of rendering")
+    ap.add_argument("--anim", action="store_true",
+                     help="render the full shared-NANR animation strip (all frames, in "
+                          "array order) instead of the shared-NCER cell sheet")
+    ap.add_argument("--anim-sample", action="store_true",
+                     help="like --sample, but writes animation strips (see --anim) to "
+                          f"{ANIM_OUT_DIR}")
+    ap.add_argument("--anim-all", action="store_true",
+                     help="like --all, but writes animation strips to " + ANIM_OUT_DIR)
     args = ap.parse_args(argv)
 
     if args.verify:
         ok, fail, skipped = verify_round_trip(args.archive)
         return 0 if fail == 0 else 1
 
-    os.makedirs(args.out, exist_ok=True)
+    same_archive = os.path.normpath(args.archive) == os.path.normpath(ARCHIVE_PATH)
+    out_dir = args.out
+    if out_dir is None:
+        out_dir = OUT_DIR if same_archive else (
+            OUT_DIR_2 if os.path.normpath(args.archive) == os.path.normpath(ARCHIVE_PATH_2)
+            else OUT_DIR)
+
     n = narc.parse_file(args.archive)
     entity_indices = find_entity_indices(n)
-    palette, cells = load_shared(n)
-    subpal_table = load_subpalette_table(len(entity_indices))
+    cells, l_idx = load_shared_v2(n)
+    # The ARM9 per-entity sub-palette selector table (`g_0209E474`) is only
+    # confirmed/sized for `a/0/0/7`'s 715 entities -- every other archive
+    # (including `a/0/2/5`, whose per-entity NCLR is already its own small
+    # individually-paired palette, not a shared multi-bank one) uses
+    # sub-palette 0 unconditionally.
+    if same_archive:
+        subpal_table = load_subpalette_table(len(entity_indices))
+    else:
+        subpal_table = [0] * len(entity_indices)
+
+    if args.anim or args.anim_sample or args.anim_all:
+        anim_indices = find_magic_indices(n, b"RNAN")
+        if not anim_indices:
+            ap.error(f"{args.archive} has no RNAN (NANR) sub-file")
+        anim = parse_shared_anim(n.read(anim_indices[0]))
+        names = ", ".join(anim.sequence_names) if anim.sequence_names else "(unnamed)"
+        print(f"[*] {args.archive}: shared NANR -- {anim.num_sequences} sequence(s) "
+              f"[{names}], {len(anim.frames)} frame-timeline entries: " +
+              ", ".join(f"cell{f.cell_index}/{f.duration}f" for f in anim.frames))
+        anim_out = ANIM_OUT_DIR if args.out is None else args.out
+        os.makedirs(anim_out, exist_ok=True)
+
+        def do_one(e):
+            return render_entity_anim(n, entity_indices, e, cells, l_idx, anim, anim_out,
+                                       subpal=subpal_table[e])
+
+        if args.anim_all:
+            ok = skipped = 0
+            for e in range(len(entity_indices)):
+                try:
+                    do_one(e)
+                    ok += 1
+                except Exception as exc:  # noqa: BLE001 -- best-effort batch, log and continue
+                    skipped += 1
+                    print(f"[!] entity {e}: skipped ({exc})")
+            print(f"[*] --anim-all: {ok} rendered, {skipped} skipped, out={anim_out}")
+            return 0
+
+        if args.anim_sample:
+            step = max(1, len(entity_indices) // 10)
+            for e in list(range(0, len(entity_indices), step))[:10]:
+                out_path, w, h = do_one(e)
+                print(f"[*] entity {e}: wrote {out_path} ({w}x{h})")
+            return 0
+
+        if args.entity is None:
+            ap.error("--anim needs an entity index (or use --anim-sample/--anim-all)")
+        out_path, w, h = do_one(args.entity)
+        print(f"[*] entity {args.entity}: wrote {out_path} ({w}x{h})")
+        return 0
+
+    os.makedirs(out_dir, exist_ok=True)
     print(f"[*] {args.archive}: {len(entity_indices)} entities, "
-          f"{len(cells)} cells/frames per entity, {len(palette)}-color palette")
+          f"{len(cells)} cells/frames per entity")
 
     if args.all:
         ok = 0
         skipped = 0
         for e in range(len(entity_indices)):
             try:
-                render_entity(n, entity_indices, e, cells, palette, args.out,
-                               subpal=subpal_table[e])
+                render_entity_v2(n, entity_indices, e, cells, l_idx, out_dir,
+                                  subpal=subpal_table[e])
                 ok += 1
             except Exception as exc:  # noqa: BLE001 -- best-effort batch, log and continue
                 skipped += 1
                 print(f"[!] entity {e}: skipped ({exc})")
-        print(f"[*] --all: {ok} rendered, {skipped} skipped, out={args.out}")
+        print(f"[*] --all: {ok} rendered, {skipped} skipped, out={out_dir}")
         return 0
 
     if args.sample:
         step = max(1, len(entity_indices) // 10)
         sample = list(range(0, len(entity_indices), step))[:10]
         for e in sample:
-            out_path, w, h = render_entity(n, entity_indices, e, cells, palette, args.out,
-                                            subpal=subpal_table[e])
-            print(f"[*] entity {e}: wrote {out_path} ({w}x{h})")
+            out_path, w, h, li = render_entity_v2(n, entity_indices, e, cells, l_idx, out_dir,
+                                                    subpal=subpal_table[e])
+            print(f"[*] entity {e}: wrote {out_path} ({w}x{h}), palette sub-file {li}")
         return 0
 
     if args.entity is None:
-        ap.error("give an entity index, or pass --all / --sample / --verify")
+        ap.error("give an entity index, or pass --all / --sample / --verify / --anim*")
 
-    out_path, w, h = render_entity(n, entity_indices, args.entity, cells, palette, args.out,
-                                    subpal=subpal_table[args.entity])
-    print(f"[*] entity {args.entity}: wrote {out_path} ({w}x{h})")
+    out_path, w, h, li = render_entity_v2(n, entity_indices, args.entity, cells, l_idx, out_dir,
+                                            subpal=subpal_table[args.entity])
+    print(f"[*] entity {args.entity}: wrote {out_path} ({w}x{h}), palette sub-file {li}")
     return 0
 
 

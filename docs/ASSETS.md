@@ -3056,3 +3056,160 @@ whether trainer battle sprites in fact reuse the `a/0/0/4`/`a/0/5/2` rig
 format itself under a currently-unidentified index range, or are stored as
 smaller static (non-rig) per-entry `NCGR` sprites elsewhere rather than as
 a dedicated compound archive.
+
+## Tenth lane pass: `a/0/0/7` NANR timeline decoded, `a/0/2/5` characterized
+
+Two-part mission on `tools/assets/overworld.py`: (1) decode `a/0/0/7`'s
+shared NANR frame timeline past the ninth pass's "header only" stop point,
+and (2) characterize the second overworld-shaped archive flagged by the
+locate pass, `a/0/2/5`.
+
+### (1) `a/0/0/7` shared NANR: frame timeline decoded
+
+The shared NANR (3 byte-identical copies at sub-file indices 1/3/5) is a
+362-byte, **3-block** resource: `KNBA` (ABNK, the sequence/element table
+`rig.Nanr` already knows how to open), then **`LBAL`** (a name table
+`rig.Nanr` never needed for the much larger species NANR it was written
+for) and a trailing `TXEU` block (12 bytes, not decoded, purpose unknown).
+
+`rig.Nanr`'s own sequence-record field layout (`elem_start(u32)@0,
+num_frames(u16)@4, ...`) does NOT give usable results here: `num_frames`
+reads **0 for all 6 sequences**, which cannot be the real per-sequence
+frame count. What resolved this: the new `LBAL` block holds 6 NUL-
+terminated ASCII names, one per sequence (`num_sequences=6` matches
+exactly) -- **`CellAnime0` through `CellAnime5`**. Generic numbered names,
+not direction words (no "Down"/"Up"/"Left"/"Right"), which is itself
+evidence against a 4-direction walk cycle.
+
+The element/frame-entry array (12 records, `0xBEEF` sentinel confirmed in
+every one, exactly the shape `rig.Nanr` already decodes) gives 12
+`(offset_to_frame_data, duration)` pairs. The frame-data region past the
+element array is a **new, smaller 4-byte record** not previously seen in
+this project: `{cellIdx(u16), sentinel(u16)=0xCCCC}` (a different sentinel
+constant from the element array's own `0xBEEF`, confirmed present in
+every record) -- not `rig.Nanr`'s 16-byte SRT or 8-byte "T" shape, which
+this archive's frame-data region (12 bytes total) is too small to hold.
+`cellIdx` decodes to 0, 1, 2 in every record -- exactly the shared NCER's
+3 valid cell indices, which is the confirmation signal (a `cellIdx` of 3+
+would be nonsense against a 3-cell NCER).
+
+Since the per-sequence frame-count field does not give usable boundaries
+(`elem_start` across the 6 sequences is 1, 2, 2, 2, 2, 3 -- heavily
+overlapping, not a clean partition), `overworld.py`'s new `SharedAnim`
+class and `--anim`/`--anim-sample`/`--anim-all` CLI flags render the
+**entire 12-entry element/frame-data table, in array order**, as one
+animation strip per entity to `build/assets/overworld_anim/NNNN.png` --
+the mission's literal "all frames in order" for the one fully-decoded
+timeline this archive has, rather than pretending the 6-way sequence
+split is understood well enough to render separately.
+
+**Decoded timeline** (12 frames, shared by all 715 entities): cell 0
+(dur 1), cell 0 (dur 8), cell 1 (dur 8), cell 0 (dur 12), cell 1 (dur 12),
+cell 0 (dur 24), cell 1 (dur 24), cell 0 (dur 40), cell 1 (dur 40), cell 0
+(dur 90), cell 2 (dur 2), cell 0 (dur 2). Durations are presumably frame
+units (60ths of a second, standard NNS_G2D convention; not independently
+confirmed against a frame-rate constant this pass). Cell 0/1 alternate
+with geometrically growing hold durations (8, 12, 24, 40, then a long 90),
+consistent with a slow **idle bob**, not a walk cycle; cell 2 (the
+1px-shifted third cell the ninth pass already flagged) appears once,
+briefly (duration 2) -- a short transient/blink frame rather than a
+fourth walking pose. This confirms and sharpens the ninth pass's "idle
+bob, not direction set" reading with real per-frame duration data:
+**`a/0/0/7` is a single shared 12-frame idle-bob timeline (not a 4/8-
+direction walk cycle), reused verbatim by all 715 entities** -- entities
+differ only in which pixels each cell's tiles draw, never in timing or
+pose count.
+
+**All 715 entities rendered** to `build/assets/overworld_anim/NNNN.png`
+(`--anim-all`, 715 rendered, 0 skipped). Visual spot check (entity 25,
+already-identified Pikachu): a clean 12-frame strip of two near-identical
+recolored poses, exactly matching the decoded (cell0, cell1)-alternation
+above.
+
+### (2) `a/0/2/5` characterized: a Bag item-icon archive, not overworld sprites
+
+`a/0/2/5` (1005 sub-files: one shared `RNAN` at index 0, one shared `RECN`
+at index 1, then 451 `RGCN` + 552 `RLCN` interleaved from index 2 on) was
+flagged by the locate pass as a second overworld-sprite candidate on
+shape alone. This pass renders it and finds it is something else.
+
+**Shared NCER**: 1 cell, 1 OAM, 32x32, `tile_idx=0` -- a single static
+pose (no multi-cell walk/bob rig at all, unlike `a/0/0/7`'s 3-cell bank).
+**Shared NANR**: `SharedAnim` parses it cleanly (same 3-block KNBA/LBAL/
+trailing shape as `a/0/0/7`) -- 1 sequence ("CellAnime0"), 1 frame-
+timeline entry (cell 0, duration 1). **Every entity in this archive is a
+single static, unanimated icon** -- consistent with a menu icon, not an
+overworld actor.
+
+**NCGR/NCLR pairing**: sub-file order after the shared pair is *not* a
+fixed stride (confirmed by direct scan of all 1003 remaining sub-files'
+magics: mostly strict `G,L,G,L,...` alternation but with scattered runs
+of 2-4 consecutive `RGCN` or `RLCN` sub-files, and no ARM9 lookup table
+was found or needed). `overworld.py`'s `nearest_preceding_or_following()`
+pairs each `RGCN` with the closest-by-index `RLCN` (preferring an earlier
+index, falling back to a later one only for entity 0, whose own `RGCN` at
+sub-file 2 precedes every `RLCN` in the archive). This is "index
+arithmetic" in the loose "closest index" sense, not a fixed formula or an
+external table. Verified by rendering: every one of the 10 evenly-sampled
+entities (0, 45, 90, ..., 405) comes out as a plausible, internally
+consistent true-color icon, not a garish palette mismatch.
+
+**Entity identification**: the 10 samples depict clearly distinct small
+objects, not one uniform shape: a purple/pink Poke Ball, a grey faceted
+gem (evolution-stone-shaped), an orange flame/torch, a yellow curved
+banana-like item, a pink boot/shoe, a plain grey pebble, an orange key or
+rocket shape, a red round berry-or-ball, a green card/badge, and a pink
+round pill/macaron shape. **This is a general held/key-item icon set, not
+a Poke Ball set and not overworld/character sprites** -- the locate pass's
+"menu-sized character icon" guess is wrong, and this pass's own first
+impression (from an early, ball-heavy sample before scanning the full
+index range) is corrected here. Consistent in kind, if not confirmed as
+the same archive, with the existing `a/0/4/5#0` "held-item icon sprite"
+finding earlier in this document. The 552-vs-451 NCLR/NCGR count (101
+more palettes than shapes) is plausible for an item set where some icons
+share one outline/shape `NCGR` across several color-variant `NCLR`s.
+
+**NCGR round trip**: `NcgrFile`/`encode()` needed no changes -- the same
+class already used for `a/0/0/7` parses and re-serializes `a/0/2/5`'s
+`RGCN` sub-files unchanged (same 16-byte file header + 24-byte RAHC
+sub-header shape, `tile_num_x/y=0xFFFF` sentinel, `bitdepth=3`, just a
+smaller `data_size` of 512 bytes = 16 tiles instead of `a/0/0/7`'s 1024 =
+32 tiles). **451/451 (100%) byte-identical round trip**
+(`python tools/assets/overworld.py --verify --archive extract/data/a/0/2/5`).
+
+### `--archive` support generalized
+
+`overworld.py`'s render path (previously hardcoded to `a/0/0/7`'s shared-
+palette-at-index-0 / fixed-NCER-index assumptions) now has an archive-
+generic path (`load_shared_v2`/`render_entity_v2`/`find_magic_indices`)
+that finds the shared `RECN` by magic scan (first one in the archive) and
+looks up each entity's palette by nearest-index `RLCN` instead of a fixed
+constant. This rule generalizes cleanly to `a/0/0/7` too (it has exactly
+one `RLCN`, at index 0, so "nearest" always resolves to that one file),
+so both archives now share one code path:
+
+```
+python tools/assets/overworld.py --sample                                  # a/0/0/7, build/assets/overworld/
+python tools/assets/overworld.py --sample  --archive extract/data/a/0/2/5 --out build/assets/overworld2
+python tools/assets/overworld.py --verify  --archive extract/data/a/0/2/5
+python tools/assets/overworld.py --anim-all                                # a/0/0/7 animation strips
+```
+
+The ARM9 per-entity sub-palette table (`g_0209E474`) stays gated to
+`a/0/0/7` specifically (it is only confirmed/sized for that archive's 715
+entities); every other archive, including `a/0/2/5`, uses sub-palette 0
+unconditionally, which is correct there since each entity already has its
+own individually-paired small `NCLR` rather than sharing one multi-bank
+palette.
+
+### Report summary
+
+- `a/0/0/7`: 715 entities, one shared 12-frame idle-bob animation timeline
+  (6 named sequences reference overlapping spans of it, exact per-sequence
+  split unresolved), all rendered to `build/assets/overworld_anim/`.
+  NCGR round trip unaffected by this pass (still 715/715, see ninth pass).
+- `a/0/2/5`: 1005 sub-files, 451 `RGCN` + 552 `RLCN` + 1 shared `RECN`
+  (1 cell) + 1 shared `RNAN` (1 static frame). Pairing is nearest-index,
+  not a fixed stride or table. Identified as a Bag item-icon archive (not
+  overworld sprites). 10 samples rendered to `build/assets/overworld2/`.
+  NCGR round trip: 451/451 (100%).
