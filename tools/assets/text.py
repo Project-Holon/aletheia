@@ -241,12 +241,87 @@ def encode_units(plain):
     return out
 
 
-def render(units_plain):
+# ---------------------------------------------------------------------------
+# 9-bit packing hypothesis (see docs/ASSETS.md "9-bit packing hypothesis"
+# section for the full write-up)
+# ---------------------------------------------------------------------------
+# Publicly-known Gen 5 ROM-hacking documentation describes a packing layer
+# on top of the XOR cipher: after XOR decode, a string whose first code
+# unit is PACK9_MARKER is not plain UTF-16 -- the remaining units are a
+# little-endian bitstream read 9 bits at a time, each 9-bit value being a
+# character code (values below 0x100 use the normal character set,
+# PACK9_TERMINATOR ends the string). unpack_9bit()/pack_9bit() implement
+# that mechanism exactly as documented. Tested against this project's
+# real data (see docs/ASSETS.md): zero entries across all five dumped
+# banks decode to PACK9_MARKER as their first unit under the (separately
+# name-verified) rotate-3 XOR cipher, and forcing a key so the first unit
+# reads as PACK9_MARKER does not produce a coherent 9-bit stream (checked
+# by exhaustive brute force against the species bank's Bulbasaur entry --
+# see `check9bit` command). The functions are kept because they are a
+# correct, self-contained implementation of the documented mechanism and
+# cost nothing to keep around, but this project has NOT confirmed the
+# hypothesis explains any of the "80% non-printable prefix" gap; see
+# ASSETS.md for the honest verdict.
+PACK9_MARKER = 0xF100
+PACK9_TERMINATOR = 0x1FF
+
+
+def unpack_9bit(rest_units):
+    """Unpack a little-endian, 9-bit-per-character bitstream out of a list
+    of 16-bit plaintext code units (the leading PACK9_MARKER unit is NOT
+    included here). Reads 9 bits at a time, least-significant bit first,
+    stopping at PACK9_TERMINATOR (included in the result) or when the
+    input runs out. Returns a list of 9-bit ints."""
+    bits = 0
+    nbits = 0
+    out = []
+    for w in rest_units:
+        bits |= (w & 0xFFFF) << nbits
+        nbits += 16
+        while nbits >= 9:
+            val = bits & 0x1FF
+            bits >>= 9
+            nbits -= 9
+            out.append(val)
+            if val == PACK9_TERMINATOR:
+                return out
+    return out
+
+
+def pack_9bit(codes):
+    """Inverse of unpack_9bit(): pack a list of 9-bit codes (normally
+    ending in PACK9_TERMINATOR) back into 16-bit little-endian words,
+    zero-padding the final partial word. Does NOT prepend PACK9_MARKER --
+    callers that round-trip a full entry must do that themselves."""
+    bits = 0
+    nbits = 0
+    out = []
+    for c in codes:
+        bits |= (c & 0x1FF) << nbits
+        nbits += 9
+        while nbits >= 16:
+            out.append(bits & 0xFFFF)
+            bits >>= 16
+            nbits -= 16
+    if nbits:
+        out.append(bits & 0xFFFF)
+    return out
+
+
+def is_9bit_packed(units_plain):
+    """True if a decoded (post-XOR) entry starts with PACK9_MARKER, i.e.
+    it is a candidate for the 9-bit packing hypothesis above."""
+    return bool(units_plain) and units_plain[0] == PACK9_MARKER
+
+
+def render(units_plain, terminator=0xFFFF):
     """Render decoded code points to a display string. Printable ASCII
     (0x20-0x7E) is shown literally; the terminator is dropped; anything
-    else (undecoded dictionary/token codes) is shown as [xxxx]."""
+    else (undecoded dictionary/token codes, or -- for a 9-bit-unpacked
+    stream -- codes >= 0x100 that aren't PACK9_TERMINATOR) is shown as
+    [xxxx]."""
     out = []
-    for c in units_plain[:-1] if units_plain and units_plain[-1] == 0xFFFF else units_plain:
+    for c in units_plain[:-1] if units_plain and units_plain[-1] == terminator else units_plain:
         if 0x20 <= c <= 0x7E:
             out.append(chr(c))
         else:
@@ -254,8 +329,8 @@ def render(units_plain):
     return "".join(out)
 
 
-def is_clean(units_plain):
-    if not units_plain or units_plain[-1] != 0xFFFF:
+def is_clean(units_plain, terminator=0xFFFF):
+    if not units_plain or units_plain[-1] != terminator:
         return False
     return all(0x20 <= c <= 0x7E for c in units_plain[:-1])
 
@@ -375,6 +450,70 @@ def cmd_roundtrip(args):
     return 0
 
 
+def cmd_check9bit(args):
+    """Verify the 9-bit packing hypothesis (see the module-level comment
+    above unpack_9bit()): scan every entry of the given sub-files for a
+    PACK9_MARKER first unit, and -- for the species bank specifically --
+    also run an exhaustive brute-force cross-check that does NOT rely on
+    the marker being right, in case the marker value itself is wrong but
+    the packing idea is otherwise sound."""
+    banks = args.banks or [70, 203, 279, 182, 287]
+    report = {"narc": args.narc, "marker_scan": [], "bulbasaur_bruteforce": None}
+    total_hits = 0
+    total_entries = 0
+    for idx in banks:
+        mf = load_message_file(args.narc, idx)
+        hits = 0
+        total = 0
+        for i in range(1, mf.entry_count):
+            units = mf.entry_units(i)
+            if units is None:
+                continue
+            plain = decode_units(units)
+            if not plain:
+                continue
+            total += 1
+            if is_9bit_packed(plain):
+                hits += 1
+        report["marker_scan"].append({"index": idx, "entries": total, "marker_hits": hits})
+        total_hits += hits
+        total_entries += total
+
+    # Brute-force cross-check on the species bank's Bulbasaur entry
+    # (descriptor index 2 = dex #1): try every possible key0 (independent
+    # of the terminator-anchored recovery) and both little/big "9-bit
+    # word order" conventions, looking for the literal decoded text
+    # "BULBASAUR" followed by PACK9_TERMINATOR. This does not depend on
+    # PACK9_MARKER being the right marker value at all -- it is a direct
+    # search for *any* key that makes the packing hypothesis true.
+    mf = load_message_file(args.narc, 70)
+    units = mf.entry_units(2)
+    target = [ord(c) for c in "BULBASAUR"] + [PACK9_TERMINATOR]
+    match = None
+    for key0 in range(0x10000):
+        key = key0
+        plain = []
+        for w in units:
+            plain.append(w ^ key)
+            key = rotl16(key, 3)
+        codes = unpack_9bit(plain[1:])
+        if codes[:len(target)] == target:
+            match = {"key0": key0, "first_unit": plain[0]}
+            break
+    report["bulbasaur_bruteforce"] = {
+        "checked_keys": 0x10000,
+        "target": "BULBASAUR" + "<term>",
+        "match": match,
+    }
+    report["total_marker_hits"] = total_hits
+    report["total_entries_scanned"] = total_entries
+    report["verdict"] = (
+        "confirmed" if total_hits and match else "not confirmed"
+    )
+    print(json.dumps(report, indent=2))
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(
         prog="text.py",
@@ -401,6 +540,15 @@ def main(argv=None):
     p.add_argument("narc")
     p.add_argument("index", type=int)
     p.set_defaults(func=cmd_roundtrip)
+
+    p = sub.add_parser("check9bit", help="verify the 9-bit packing "
+                                          "hypothesis (PACK9_MARKER) "
+                                          "against real data")
+    p.add_argument("narc")
+    p.add_argument("--banks", type=int, nargs="*",
+                    help="sub-file indices to scan (default: the five "
+                         "name-shaped banks)")
+    p.set_defaults(func=cmd_check9bit)
 
     args = ap.parse_args(argv)
     try:

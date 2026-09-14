@@ -2811,6 +2811,77 @@ dictionary table elsewhere in the ROM, or brute-forcing short 1-3-letter
 substrings against the ~2500 partial entries already decoded across the
 five dumped banks -- is left to a follow-up lane.
 
+### 9-bit packing hypothesis: tested, not confirmed
+
+A follow-up pass tested a specific, publicly-documented-for-Gen-5
+hypothesis about the gap above: that after XOR decode, a string whose
+first code unit is `0xF100` (`PACK9_MARKER` in `tools/assets/text.py`) is
+not plain UTF-16 at all -- the remaining units would be a little-endian
+bitstream read 9 bits at a time, each 9-bit value a character code
+(`0x1FF` terminates, values below `0x100` use the normal character set).
+`unpack_9bit()` / `pack_9bit()` implement that mechanism exactly as
+described, and a new `check9bit` subcommand runs the verification:
+
+```
+python tools/assets/text.py check9bit extract/data/a/0/0/2
+```
+
+Result: **not confirmed**, on two independent checks.
+
+1. **Marker scan.** Under the existing, independently name-verified
+   rotate-3 XOR cipher (the one that produces `Pidgeot`, `Diglett`,
+   `ELECTRIC`, etc. byte-for-byte), zero of the 2,011 entries scanned
+   across all five dumped banks (species 70, moves 203, items 279,
+   abilities 182, types 287) decode to `0xF100` as their first unit.
+2. **Marker-independent brute force.** In case `0xF100` is the wrong
+   marker value but the packing idea itself is right, the species bank's
+   Bulbasaur entry (descriptor index 2) was brute-forced directly: every
+   possible initial key (0-65535) was tried, XOR-decoded forward with the
+   confirmed rotate-left-3 schedule, and the units after the first were
+   run through `unpack_9bit()` looking for the literal codes for
+   `"BULBASAUR"` followed by the `0x1FF` terminator. No key produces that
+   result. The same entry was also brute-forced with the two obvious
+   alternate readings (bits packed most-significant-bit-first instead of
+   least-significant-bit-first; and a 9-bit-granularity rotating XOR
+   applied directly to the raw pre-XOR bytes, all 512 starting keys times
+   all 9 rotate amounts) -- no match under any of those either.
+
+A related observation surfaced while testing this: the "1-3 leading
+non-printable units then a clean ASCII tail" pattern described in the
+gap section above is not actually the typical shape. Most partial
+entries are **fully** non-printable end to end at their correct unit
+count (e.g. species entry 3, Ivysaur, is 8 raw units -- exactly enough
+for `Ivysaur` plus terminator -- and every one of those 8 units is
+non-printable). A smaller set of entries (e.g. species entry 18,
+`Pidgeotto`) instead decode **fully clean** but a few characters short
+(`dgeotto`, missing the leading `Pi`, with no leftover garbage unit
+standing in for it at all). Neither shape matches simple "replace a
+common prefix with one dictionary token" compression, which would
+produce one extra non-printable unit *before* a clean tail of the
+expected length. Whatever the real compression scheme is, it isn't the
+9-bit packing tested here, and it doesn't match the simplest reading of
+"one token per common substring" either -- both remain open. Because no
+additional entries decoded, the non-ASCII character mapping this pass
+was also asked to confirm (gender symbols, accented letters, the
+`0xF000`-range control escapes) could not be confirmed either: none of
+the garbage-prefixed or fully-opaque entries (e.g. the Nidoran-female /
+Nidoran-male name pair, species entries 30 and 33, both fully opaque)
+decode to anything recognizable under the current cipher, so there is no
+confirmed instance of those codes to document yet. Only the plain
+printable-ASCII range (0x20-0x7E) is confirmed, via the existing clean
+entries and their round trip.
+
+`unpack_9bit()` / `pack_9bit()` are left in `tools/assets/text.py` (used
+by nothing else) because they are a correct, self-contained
+implementation of the documented mechanism and cost nothing to keep --
+if a real marker value or bit order is found later, `is_9bit_packed()`
+just needs its constant updated. `render()` / `is_clean()` were
+generalized to take a `terminator` parameter so they work for either
+`0xFFFF` (plain strings) or `0x1FF` (a 9-bit-unpacked code list) without
+duplicating logic. Round-trip counts (below) are unaffected by any of
+this -- they were re-verified after the change and are byte-identical to
+the pre-existing figures.
+
 ### Output
 
 ```
