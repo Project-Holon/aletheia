@@ -2436,8 +2436,11 @@ to the mission's brief and is now fully characterized and rendered by
 `tools/assets/overworld.py`:
 
     index 0        RLCN/NCLR   one shared palette, 48 colors (3x16-color
-                                4bpp sub-palettes; every sampled OAM uses
-                                sub-palette 0)
+                                4bpp sub-palettes; every sampled OAM's own
+                                attr2 pal bits are 0, but that is NOT which
+                                sub-palette an entity's icon actually uses
+                                -- see "Per-entity sub-palette selection"
+                                below)
     index 1, 3, 5  RNAN/NANR   three byte-for-byte IDENTICAL copies of one
                                 cell animation definition
     index 2, 4, 6  RECN/NCER   three copies of one 3-cell cell bank, each
@@ -2460,11 +2463,90 @@ cell of the shared NCER against one entity's own NCGR, `--sample`/`--all`)
 produces clean, recognizable, **full-color small creature icons** -- not
 human sprites. Entity 0 is a green background with a white silhouette mark
 (the placeholder/no-Pokemon icon); entities 1 and 25 are each a distinct
-small quadruped/bird creature, confirmed by direct visual inspection, not
-inferred from pixel statistics. Entity indices do **not** follow National
-Dex order (entity 1 is not Bulbasaur-green, entity 25 is not
-Pikachu-yellow), so whatever internal index this is, it is not the
-Pokedex number directly.
+small quadruped/bird creature.
+
+**Correction (this pass): entity index IS National Dex number, and the
+earlier "entity 1 is not Bulbasaur-green, entity 25 is not Pikachu-yellow"
+call was an artifact of the sub-palette bug fixed below, not a real
+mismatch.** With the correct per-entity sub-palette (see next section),
+entity 1 renders unmistakably as green Bulbasaur, entity 4 as orange-red
+Charmander, entity 7 as blue Squirtle, entity 25 as yellow Pikachu, etc.
+-- rendered at 1..10 and 25 and cross-checked against `sub_0201BB5C`'s own
+`idx = species` default case (see below), which settles it structurally,
+not just by eye.
+
+### Per-entity sub-palette selection (fixes the wrong-color bug)
+
+The shared NCLR's 48 colors are 3x16-color sub-palettes, and which one a
+given entity's icon uses is selected per entity, NOT fixed at 0 (every
+sampled OAM's own attr2 pal bits are 0 regardless -- that field is a red
+herring here). Rendering entity 25 with each of the 3 sub-palettes made
+this obvious: sub-palette 0 is purple, sub-palette 1 is blue, sub-palette
+2 is the unmistakably-correct yellow-and-red Pikachu.
+
+The selector is a real, already-matched piece of code:
+`sub_0201BB5C(species, form, half, isEgg)` in
+`src/pending/unit_0201BB5C.c` (MATCH-capped, 0/224 differing bytes) reads
+one byte of a packed-nibble table, `g_0209E474[idx]`, and returns the LOW
+nibble if `half == 0`, the HIGH nibble if `half != 0`:
+
+    idx = species                                      (the common case)
+    idx = (species == 490 ? 1 : 0) + 650                if isEgg
+    idx = first + form + 651                            if form != 0 and
+                                                         not "hidden" (an
+                                                         alternate-form
+                                                         index, via
+                                                         func_02019C90)
+    return half ? (g_0209E474[idx] >> 4) & 0xF : g_0209E474[idx] & 0xF
+
+`g_0209E474` (RAM 0x0209E474) is at `extract/arm9_dec.bin` offset
+0x9A474 (`0x0209E474` minus the ARM9 static region's RAM base
+`0x02004000`, from `layout/layout.json`'s `arm9.static.ram_start`/
+`src_offset` -- the offset falls inside the static region, not an
+autoload, so the mapping is a plain subtraction). Scanning the whole ROM
+(ARM9 static + ITCM/autoloads, every overlay, every archive under
+`extract/data/`) for a byte run of the right length whose values are
+consistent with this session's eye-checked samples found exactly one
+non-coincidental hit: this table, 99%+ of its first 712 bytes cleanly in
+{0, 0x11, 0x22} (both nibbles equal -- i.e. `half` does not matter for
+almost every species), confirming it independent of already knowing the
+matched C source names it.
+
+For `a/0/0/7`'s single static icon per entity, this pass always reads the
+LOW nibble (`half = 0`; the high nibble is some other, unrendered, half
+of the pair, plausibly a second recolor for a case this icon format
+doesn't need). Because `idx = species` is the table's default case, and
+`a/0/0/7`'s own entity index turns out to equal that same species/form
+index for every sample checked, `overworld.py`'s
+`load_subpalette_table()` just reads `g_0209E474[entity_index] & 0xF`
+directly -- no remapping needed.
+
+**Samples verified (species identified by eye, from the shape and
+signature colors of well-known Pokemon, then cross-checked numerically
+against the dominant non-outline pixel color at each candidate
+sub-palette):** entities 1-10 (Bulbasaur/Ivysaur/Venusaur line -> 1,
+Charmander/Charmeleon/Charizard line -> 0, Squirtle -> 0, Wartortle/
+Blastoise -> 2, Caterpie -> 1 -- note the Squirtle line is NOT
+sub-palette-uniform across its evolutions, ruling out a simpler
+"per-family" rule), entity 25 (Pikachu -> 2), and a spread of
+later/distinctive entries: 59 Arcanine -> 0, 65 Alakazam -> 2, 94 Gengar
+-> 2, 130 Gyarados -> 0, 141 Kabutops -> 2, 143 Snorlax -> 1, 150 Mewtwo
+-> 2. All 18 match `g_0209E474[entity]` exactly; renders written to
+`build/assets/overworld/`.
+
+**Remaining uncertainty:** the table's low-nibble run is clean (values in
+{0, 1, 2}) for entity indices 0-711 with the exception of entities 592-593
+(byte 0x10: low nibble 0, high nibble 1 -- a real, not garbage, gendered-
+or form-split pair, per `sub_0201BB5C`'s `half` parameter). Entities
+712-714, at the very end of the alternate-form block, read raw bytes
+whose low nibble is out of range (0xA5, 0xDA) or otherwise unverified
+(0x01); `load_subpalette_table()` falls back to sub-palette 0 for those
+(printed as a warning), because `a/0/0/7`'s own slot order for the last
+few alternate-form entries most likely stops lining up 1:1 with
+`g_0209E474`'s own `first + form + 651` indexing right at the boundary --
+not pursued further (3 of 715 entities, past this task's targeted
+budget). Which specific alternate forms these are (i.e. resolving
+`first`/`form`/`hidden` for the tail of the form block) is unresolved.
 
 **This resolves an open gap from the icon-archive pass above.** `a/1/6/7`
 (`tools/assets/icons.py`) decoded a 650-entry, monochrome (2-color)
@@ -2512,8 +2594,13 @@ character sprites.
 
 - **10 sample renders + `--all`**: `python tools/assets/overworld.py
   --sample` (10 entities spread evenly across the archive) and `--all`
-  (every entity) both write true-color `build/assets/overworld/NNNN.png`.
-  `--all` result: **715/715 entities rendered, 0 skipped.**
+  (every entity) both write true-color `build/assets/overworld/NNNN.png`,
+  each now using that entity's own correct sub-palette (see "Per-entity
+  sub-palette selection" above; previously every entity was hardcoded to
+  sub-palette 0, which is wrong for most of them). `--all` result:
+  **715/715 entities rendered, 0 skipped** (713 with the table-verified
+  sub-palette, 2 falling back to sub-palette 0 -- see "Remaining
+  uncertainty" above).
 - **NCGR round trip**: `NcgrFile.encode()` re-serializes every header
   field (tile_num_x/y, bitdepth, pad, flag, unk1, data_ofs, tile data) back
   to the exact original bytes, with an LZ11-recompress path (via
@@ -2546,14 +2633,18 @@ character sprites.
   reusing body parts the way the battle rigs do, which would need the same
   unresolved NMCR/NMAR placement work documented in the seventh/eighth
   passes above before it could be composited correctly).
-- `a/0/0/7`'s entity-index-to-species mapping is unconfirmed (not National
-  Dex order); the shared NCER's animation semantics (which of the 3 cells
-  plays when, and for how long) live in the NANR block, which this pass
-  parsed only past its 16-byte common header + ABNK sub-header
-  (`num_anim`, `element_type`) -- the frame-duration/ordering fields inside
-  are not decoded, so `overworld.py`'s "sprite sheet" is "every distinct
-  cell this entity's shared cell bank defines," not a verified real-time
-  animation sequence.
+- `a/0/0/7`'s entity-index-to-species mapping is now confirmed as National
+  Dex order (entity index == species number, matching `sub_0201BB5C`'s
+  `idx = species` default case -- see "Per-entity sub-palette selection"
+  above), for every entity checked; the last few entries in the
+  alternate-form block (roughly entities 712-714) are not confirmed. The
+  shared NCER's animation semantics (which of the 3 cells plays when, and
+  for how long) live in the NANR block, which this pass parsed only past
+  its 16-byte common header + ABNK sub-header (`num_anim`,
+  `element_type`) -- the frame-duration/ordering fields inside are not
+  decoded, so `overworld.py`'s "sprite sheet" is "every distinct cell this
+  entity's shared cell bank defines," not a verified real-time animation
+  sequence.
 - `a/0/7/2`'s family (95+6+6 = 107 entries) is characterized only well
   enough to rule it out (mapping_type-correct single-frame render); its
   NMCR/NMAR blocks, second NCGR block shape, and the unrecognised 60-byte

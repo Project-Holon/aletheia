@@ -22,9 +22,13 @@ the right scale.
 (guess)" in the original inventory) is the match:
 
     index 0        RLCN/NCLR   one shared palette, 48 colors = 3 x 16-color
-                                4bpp sub-palettes (every OAM sampled uses
-                                sub-palette 0; the other two are unused by
-                                anything this pass rendered)
+                                4bpp sub-palettes. Every OAM's own attr2
+                                pal bits are 0, but that is NOT which
+                                sub-palette an entity's icon actually
+                                uses -- see "Per-entity sub-palette
+                                selection" below and `g_0209E474` in this
+                                module: the real per-entity selector is a
+                                separate ARM9 data table, not the NCER.
     index 1,3,5    RNAN/NANR   three byte-identical copies of one cell
                                 animation definition (confirmed: the three
                                 sub-files are byte-for-byte identical --
@@ -129,6 +133,35 @@ OUT_DIR = os.path.join("build", "assets", "overworld")
 LOCAL_PALETTE = 0
 NANR_INDICES = (1, 3, 5)
 NCER_INDICES = (2, 4, 6)   # mapping_type 0, 1, 2 -- this module uses NCER_INDICES[0]
+
+# ---------------------------------------------------------------------------
+# Per-entity sub-palette selection
+# ---------------------------------------------------------------------------
+# The shared NCLR is 48 colors = 3x16-color sub-palettes, and which one a
+# given entity's icon uses is NOT fixed (sub-palette 0 is wrong for most
+# entities -- e.g. entity 25, the icon this pass identified by shape and
+# position as Pikachu, renders purple at sub-palette 0 and yellow at
+# sub-palette 2). The selector is `g_0209E474`, a real matched-code table:
+# `sub_0201BB5C(species, form, half, isEgg)` in
+# `src/pending/unit_0201BB5C.c` (MATCH-capped, 0 differing bytes) indexes
+# this table by species number (or 650/651 for the plain/Manaphy egg, or
+# `first + form + 651` for an alternate form) and returns either nibble of
+# one packed byte: high nibble if `half != 0`, low nibble otherwise. Every
+# entity this pass identified by eye (11 species across the Kanto starter
+# lines plus Pikachu, Arcanine, Alakazam, Gengar, Gyarados, Kabutops,
+# Snorlax, Mewtwo -- see docs/ASSETS.md) confirms `idx = species` lines up
+# exactly with `a/0/0/7`'s own entity index, i.e. this module's entity N
+# IS species/form index N into `g_0209E474`, and the icon always wants the
+# LOW nibble (`half = 0`; the high nibble is some other, unrendered, half
+# of the pair -- possibly a gendered recolor -- not used here).
+#
+# `g_0209E474` (RAM address 0x0209E474) lives in the ARM9 static region at
+# `extract/arm9_dec.bin` offset 0x9A474 (== 0x0209E474 - the static
+# region's RAM base 0x02004000, per `layout/layout.json`'s
+# `arm9.static.ram_start`/`src_offset`).
+ARM9_DEC_PATH = os.path.join("extract", "arm9_dec.bin")
+SUBPAL_TABLE_OFFSET = 0x9A474   # arm9_dec.bin offset of g_0209E474
+SUBPAL_TABLE_RAM_ADDR = 0x0209E474
 
 
 def _hdr(data):
@@ -314,6 +347,35 @@ def indices_to_rgb(pixels, palette, pal_index=0):
     return [sub[p] if 0 <= p < n else (255, 0, 255) for p in pixels]
 
 
+def load_subpalette_table(num_entities, arm9_dec_path=ARM9_DEC_PATH):
+    """Read `g_0209E474`'s low nibble (`sub_0201BB5C`'s `half = 0` case) for
+    entity indices 0..num_entities-1, one raw table byte per entity index
+    (see the module-level note above -- entity index IS `g_0209E474` index
+    for every sample this pass checked). Values outside 0..2 (there is no
+    fourth sub-palette in this archive's NCLR) fall back to sub-palette 0 --
+    this only happens for a handful of entries at the very end of the
+    archive's index range, past where the alternate-form block's own
+    indexing (`first + form + 651`, not a straight pass-through of the
+    entity number) stops lining up with `a/0/0/7`'s own slot order; see
+    docs/ASSETS.md."""
+    with open(arm9_dec_path, "rb") as f:
+        f.seek(SUBPAL_TABLE_OFFSET)
+        raw = f.read(num_entities)
+    table = []
+    bad = 0
+    for i in range(num_entities):
+        b = raw[i] if i < len(raw) else 0
+        subpal = b & 0xF
+        if subpal > 2:
+            subpal = 0
+            bad += 1
+        table.append(subpal)
+    if bad:
+        print(f"[!] subpalette table: {bad} of {num_entities} entities had an "
+              f"out-of-range nibble (>2), fell back to sub-palette 0")
+    return table
+
+
 # ---------------------------------------------------------------------------
 # Archive-level helpers
 # ---------------------------------------------------------------------------
@@ -336,11 +398,11 @@ def load_shared(n):
     return palette, cells
 
 
-def render_entity(n, entity_indices, entity_num, cells, palette, out_dir):
+def render_entity(n, entity_indices, entity_num, cells, palette, out_dir, subpal=0):
     idx = entity_indices[entity_num]
     ncgr = parse_ncgr(n.read(idx))
     w, h, flat = render_sprite_sheet(ncgr, cells)
-    rgb = indices_to_rgb(flat, palette)
+    rgb = indices_to_rgb(flat, palette, subpal)
     out_path = os.path.join(out_dir, f"{entity_num:04d}.png")
     bs.write_png_rgb8(out_path, w, h, rgb)
     return out_path, w, h
@@ -414,6 +476,7 @@ def main(argv=None):
     n = narc.parse_file(args.archive)
     entity_indices = find_entity_indices(n)
     palette, cells = load_shared(n)
+    subpal_table = load_subpalette_table(len(entity_indices))
     print(f"[*] {args.archive}: {len(entity_indices)} entities, "
           f"{len(cells)} cells/frames per entity, {len(palette)}-color palette")
 
@@ -422,7 +485,8 @@ def main(argv=None):
         skipped = 0
         for e in range(len(entity_indices)):
             try:
-                render_entity(n, entity_indices, e, cells, palette, args.out)
+                render_entity(n, entity_indices, e, cells, palette, args.out,
+                               subpal=subpal_table[e])
                 ok += 1
             except Exception as exc:  # noqa: BLE001 -- best-effort batch, log and continue
                 skipped += 1
@@ -434,14 +498,16 @@ def main(argv=None):
         step = max(1, len(entity_indices) // 10)
         sample = list(range(0, len(entity_indices), step))[:10]
         for e in sample:
-            out_path, w, h = render_entity(n, entity_indices, e, cells, palette, args.out)
+            out_path, w, h = render_entity(n, entity_indices, e, cells, palette, args.out,
+                                            subpal=subpal_table[e])
             print(f"[*] entity {e}: wrote {out_path} ({w}x{h})")
         return 0
 
     if args.entity is None:
         ap.error("give an entity index, or pass --all / --sample / --verify")
 
-    out_path, w, h = render_entity(n, entity_indices, args.entity, cells, palette, args.out)
+    out_path, w, h = render_entity(n, entity_indices, args.entity, cells, palette, args.out,
+                                    subpal=subpal_table[args.entity])
     print(f"[*] entity {args.entity}: wrote {out_path} ({w}x{h})")
     return 0
 
