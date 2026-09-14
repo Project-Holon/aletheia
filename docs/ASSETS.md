@@ -3721,3 +3721,182 @@ palette.
   not a fixed stride or table. Identified as a Bag item-icon archive (not
   overworld sprites). 10 samples rendered to `build/assets/overworld2/`.
   NCGR round trip: 451/451 (100%).
+
+## Eleventh lane pass: text cipher/format confirmed from decompiled source (100% round trip); rig composer semantics re-derived from real bytes, still not recognizable
+
+Two independent goals this pass, one against `src/matched/func_02045E3C.c`
+(a newly-EXACT decompile of the message-bank string cipher itself) and one
+against the mission's proposed NMCR/NANR composer model for `a/0/0/4`.
+
+### Text banks (`tools/assets/text.py`): ground truth applied, previous gap closed
+
+`func_02045E3C` (status EXACT) states the cipher directly, no reverse
+engineering needed any more:
+
+```c
+u32 func_02045E3C(u16 *str, u32 count, u32 msgIndex) {
+    u16 eos = func_02045A98();               /* 0xFFFF */
+    u16 key = (u16)((msgIndex + 3) * 0x2983);
+    for (i = 0; i < count; i++) {
+        *str ^= key;
+        if (*str == eos) return i;
+        str++;
+        key = rotl16(key, 3);
+    }
+    return count;
+}
+```
+
+This is **forward-only** (no backward terminator-anchored key solve, unlike
+the previous pass's guess) and `msgIndex` is the string's own **descriptor
+index within its bank, 0-based** -- confirmed empirically before writing
+any decoder change, against `a/0/0/2` sub-file 70 (species names): with
+`msgIndex = i`, descriptor 1 decodes to `"Bulbasaur"`, descriptor 19 to
+`"Rattata"`, descriptor 51 to `"Dugtrio"`, descriptor 100 to `"Voltorb"`,
+byte for byte, first try.
+
+The previous pass's descriptor layout was also wrong: the real shape (also
+found by direct scan, not guesswork) is `entryCount` descriptors of 8 bytes
+each at `section_offset[0] + 4 + 8*i` -- **no sentinel entry**, `i` runs
+0..entryCount-1 and every one is a real string:
+
+```
+u32  offset      section-relative; absolute = 16 + offset
+u16  numChars    informational only, not used to bound decoding
+u16  flags       meaning undecoded, constant per bank
+```
+
+Confirmed by scanning every consecutive descriptor pair in sub-file 70:
+the decoded length (through the `0xFFFF` terminator) of string `i` exactly
+accounts for the byte gap to string `i+1`'s offset, 0 mismatches across
+651 pairs -- strings are packed back-to-back with zero inter-string
+padding.
+
+Since XOR is its own inverse, **encode is the identical forward
+XOR/rotate-left-3 procedure run on the plaintext** -- no separate key-
+recovery direction, unlike the previous pass's two-directional scheme.
+This also retired the previous pass's whole "9-bit packing" and
+"dictionary/token compression" investigation: both were symptoms of the
+wrong descriptor layout and the wrong (backward-solved) key, not a real
+extra format layer. There is no compression on top of the cipher.
+
+**Rendering**: `0xFFFF` terminator, `0xFFFE` newline (rendered `\n`),
+`0xF000` escape (`kind(u16)`, `argCount(u16)`, then that many `u16` args,
+all still part of the same encrypted stream -- rendered as
+`{F000:KIND:arg1,arg2,...}`, hex). Everything else is a literal Unicode
+code point (`chr(code)` directly -- this format's code units are Unicode
+code points, not a GBA-style charset table), except `0x246D`/`0x246E`,
+which this game uses for the male/female gender marks and which map
+explicitly to U+2642/U+2640 (their own numeric values are not the real
+Unicode code points for those glyphs). A handful of decoded values land in
+the UTF-16 surrogate range (`0xD800-0xDFFF`); those cannot be valid
+standalone code points in this scheme and are shown as `[xxxx]` rather
+than fed to `chr()` (which would raise on encode).
+
+**Verification** (`python tools/assets/text.py dump-all extract/data/a/0/0/2`,
+`roundtrip-all`):
+
+- **48839 / 48839 strings decoded and terminator-verified** across all 288
+  sub-files -- exact match to the mission's target count.
+- **288 / 288 sub-files byte-identical on round trip**: every string
+  re-encoded (same forward procedure, same `msgIndex`) and the full
+  string-data region reassembled reproduces the original sub-file bytes
+  exactly (trailing pad bytes after the last string, where present, are
+  copied verbatim since they aren't string data to begin with).
+- Sample output (`build/assets/text/070.txt`, species names):
+  `0	―――――` (species 0's placeholder, decodes to U+2015 HORIZONTAL BAR --
+  confirms the "render non-ASCII as Unicode directly" rule), `1
+  Bulbasaur`, `2 Ivysaur`, `3 Venusaur`, ...
+- Sample escape usage (`build/assets/text/001.txt` line 1):
+  `Once the saved data has been deleted,\nthere is no way to recover
+  it.{F000:BE01:}\nIs it really OK to delete\nall saved data?` -- and
+  (`003.txt` line 54): `Threw away {F000:0202:0001} {F000:0109:0000}.`,
+  a plausible "throw away N of [item name]" template with an item-name
+  substitution escape and a count/plural escape.
+
+No open gap remains in this format: the cipher, the descriptor layout, the
+control codes, and the round trip are all confirmed against decompiled
+source and 100% verified against real data. `tools/assets/text.py` was
+rewritten around this; the old backward-key-solve/9-bit-packing code paths
+were deleted rather than kept alongside the new ones.
+
+### Rig composer (`tools/assets/rig.py`): NMCR layout corrected from decompiled source, composer semantics re-tested, still not recognizable
+
+`src/matched/func_020629E8.c` (status EXACT) indexes the multi-cell
+descriptor array with `lsl #3` -- an 8-byte stride, not the previous
+pass's 10-byte guess. `docs/notes/func_0206296C.c.txt` (near-miss, 120/124
+bytes, semantics certain) names the fields directly:
+`struct MultiCellData { u16 numNodes; u16 unk02; u32 nodes; }` (8 bytes)
+and the bank header's own fixed-up pointers
+(`bank->array` at +4, `bank->nodeBase` at +8, `bank->animBank` at +0x10).
+
+Re-deriving the bank/descriptor offsets against species 25's real NMCR
+bytes this pass found the previous pass's "self-relative, add to own field
+position" convention (`mc_abs = 4 + mc_ofs_field`, `node_abs = 8 +
+node_ofs_field`) does **not** fit: it lands the descriptor array on top of
+the header and decodes to nonsense (`numNodes=0`/huge offset,
+`numNodes=80`/huge offset). The fields are instead **plain absolute byte
+offsets from the block body's start** (`mc_abs = mc_ofs_field`, `node_abs
+= node_ofs_field`, no addition) -- confirmed two ways: (1) `mc_abs` then
+lines up exactly with the end of the 24-byte header (the two trailing
+`u16 unk` fields the previous pass already found at +0x14/+0x16 sit
+immediately before it); (2) with this base, species 25's two 8-byte
+multi-cell descriptors read as `(numNodes=10, nodeArrayOffset=0)` and
+`(numNodes=10, nodeArrayOffset=80)` -- `80 == 10 * 8`, so the two groups'
+node spans are exactly back-to-back and together consume the rest of the
+body with **zero leftover bytes** (36..116 and 116..196 for a 196-byte
+body). This is a clean, exact fit, unlike the previous pass's reading
+(node array 8 bytes further in, "19 records with one label collision").
+
+Node record (8 bytes), the mission's proposed layout, re-verified against
+these corrected offsets: `{animSeqIdx(u16), posX(s16), posY(s16),
+nodeAttr(u8)=0x20 constant, cellAnimSlot(u8)}`. For species 25 the 20
+nodes' `animSeqIdx` values cover the NANR's 20 sequences **exactly once
+each** (10 per multi-cell group) -- a clean bijection, replacing the
+previous pass's messier "19 records, one label substitution" reading.
+
+`compose_pose()` was rewritten to the mission's semantics: cell selection
+is `NANR.sequences[node.animSeqIdx].frames[0].data.cellIdx` (not the
+node's own `cellAnimSlot` byte, confirmed positional-only: it just cycles
+0-9 twice with no per-part pattern), and placement is a straight sum
+(`node.posX + oam.x`, `node.posY + oam.y`, no bounding-box re-centering,
+no additional SRT scale/rotation since frame 0 is identity).
+
+**Result: still not recognizable, and the root cause is now pinned down
+precisely rather than suspected.** For species 25, 7 of the 8 resolvable
+nodes' `animSeqIdx` all resolve to the **same NCER cell (cell 10, a
+single-OAM cell)** via the NANR frame-0 lookup -- the composer is drawing
+one small blob seven times at seven different offsets, not seven distinct
+body parts. (2 of the 10 nodes' sequences have no frame data at all and
+are skipped, with no fallback defined.) This is an exact re-confirmation,
+now checked against every node rather than a sample, of what the eighth
+pass already suspected and set aside ("NANR frame-0 cellIdx reads 10 for 7
+of them ... cannot be right for an assembled figure with visually distinct
+parts") -- the mission's literal formula, faithfully implemented against
+byte-corrected offsets, reproduces the same failure. Species 1, 150 and 6
+were also rendered (`build/assets/rig/0001_pose.png`,
+`0150_pose.png`, `0006_pose.png`) and show the same non-coherent result;
+species 6 additionally has **32 node records against only 17 NANR
+sequences** (not a clean bijection there), so some nodes' `animSeqIdx`
+don't resolve to any sequence at all for that species.
+
+Individual NCER cells themselves (`build/assets/rig/0025_cells.png`, no
+NMCR/NANR involved) are also small, sparse, fragment-shaped blobs rather
+than clean body-part silhouettes at a glance -- this suggests the
+remaining gap may sit upstream of the composer entirely (tile addressing
+or OAM decode), not in the node-placement/cell-selection logic this pass
+re-derived. Left for a follow-up pass rather than guessed at further here.
+
+`--all` rendered 712/714 species/form slots without error (2 skipped:
+indices 712/713 are non-rig slots, `RNAN`/`RLCN` magic where an `RGCN` was
+expected -- almost certainly past the end of the real per-species block
+range, not a decode failure).
+
+**Honest verdict**: the byte-level layout corrections in this pass
+(8-byte descriptor stride, absolute not self-relative offsets, the clean
+20-node/20-sequence bijection) are real, confirmed fixes over the previous
+pass's guesses, and the code is simpler and better-grounded for it. But
+the mission's "recognizable creature" bar is **not met** by any of the
+four species rendered this pass. `compose_rest_pose()` (the older,
+NANR-free fallback strategy) is left in the module unchanged as a fallback
+reference point.

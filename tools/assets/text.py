@@ -6,130 +6,114 @@ Written from scratch for the aletheia project. Stdlib only, single file.
 Depends only on narc.py (same directory) for NARC sub-file access.
 
 --------------------------------------------------------------------------
-Where the text actually lives (this is NOT where the previous inventory
-pass guessed -- see docs/ASSETS.md "Text banks" section for the full
-investigation log)
+Ground truth (this pass): apply the decompiled cipher/format directly
 --------------------------------------------------------------------------
-The real message-archive container is **`extract/data/a/0/0/2`**, a NARC
-with 288 sub-files. `a/0/5/7` and `a/0/6/6` (the previous lane's "text
-banks (guess)" heuristic picks) were checked and ruled out: their
-sub-files are fixed/near-fixed-stride binary record tables (learnsets,
-event/script data), not variable-length text -- confirmed by scanning for
-the classic "monotonic offset table with varied deltas" signature, which
-a/0/0/2 has and a/0/5/7 / a/0/6/6 do not.
+This rewrite drops the previous pass's guessed descriptor layout, the
+terminator-anchored backward key solve, and the unconfirmed 9-bit packing
+machinery, and replaces them with what `src/matched/func_02045E3C.c` (the
+message-bank string decrypt routine itself, status EXACT) and
+`docs/notes/func_02046110.c.txt` (bank lookup, near-miss but semantically
+certain) actually say:
+
+  * The cipher is **forward-only**, no backward solve needed:
+        key = (u16)((msgIndex + 3) * 0x2983)
+        for each code unit: unit ^= key; key = rotate_left_16(key, 3)
+    `msgIndex` is the string's own descriptor index within its bank
+    (0-based), confirmed empirically below (species bank, sub-file 70:
+    descriptor 1 -> "Bulbasaur" under msgIndex=1, descriptor 19 ->
+    "Rattata" under msgIndex=19, descriptor 51 -> "Dugtrio" under
+    msgIndex=51, descriptor 100 -> "Voltorb" under msgIndex=100 -- byte
+    for byte, first try, no brute force).
+  * XOR is its own inverse, so **encode is the exact same forward
+    procedure as decode** run on the plaintext code units: no separate
+    key-recovery direction is needed at all.
 
 --------------------------------------------------------------------------
 Message-file container format (one NARC sub-file of a/0/0/2 = one bank)
 --------------------------------------------------------------------------
-This matches the project brief's hypothesis shape closely, confirmed
-empirically against the real bytes (not assumed):
-
-Header (16 bytes):
+Header (16 bytes), unchanged from the previous pass (re-confirmed, still
+correct):
     0x00  u16  sectionCount     always 1 in every sub-file sampled
     0x02  u16  entryCount       number of strings in the bank
     0x04  u32  sectionSize      == sub-file size - 16 (bytes after header)
     0x08  u32  reserved         always 0 in every sub-file sampled
+    0x0C  u32  section_offset[0]  always 16
 
-Section offset table (sectionCount * u32, right after the header):
-    0x0C  u32  section_offset[0]   always 16 (== right after this table,
-                                    since sectionCount is always 1 here)
+**Entry descriptor table, corrected this pass**: `entryCount` descriptors
+of 8 bytes each, at `section_offset[0] + 4 + 8*i` (i = 0..entryCount-1,
+NO sentinel entry -- every descriptor is a real string, confirmed by
+scanning every sub-file: the last descriptor's decoded length always lands
+exactly on (or 2 bytes short of, trailing pad) `sectionSize`):
 
-Entry descriptor table (entryCount+1 entries of 8 bytes each, starting at
-section_offset[0]):
-    u16  charCount_prev   NOT this entry's own char count -- empirically
-                           this field always equals the PREVIOUS entry's
-                           decoded length in UTF-16 code units (off-by-one
-                           against the entry it sits in; verified across
-                           dozens of entries). Not used by this decoder;
-                           string length is derived from the offset delta
-                           instead, which is unambiguous and self-checking
-                           via the terminator (see below).
-    u16  file_const        constant across every entry in a given
-                            sub-file (e.g. 60, 84, 118, 256 -- varies per
-                            sub-file, never per entry). Meaning unresolved;
-                            not needed for decoding.
-    u32  offset             ABSOLUTE byte offset (from the start of this
-                             NARC sub-file) of this entry's raw UTF-16
-                             code-unit stream.
-Descriptor index 0 is a sentinel, not a real string: its "charCount_prev"
-field actually holds `sectionSize` and its offset points at the first
-real entry's data. Real strings are descriptor indices 1..entryCount-1;
-a string's byte length is `offset[i+1] - offset[i]` (the final descriptor,
-index entryCount, exists only to close off the last string this way, and
-occasionally overruns the sub-file by construction quirks -- guarded
-against in code).
+    u32  offset      section-relative byte offset of this string's raw
+                       code-unit stream; absolute offset is
+                       `16 + offset` (`16` because `section_offset[0]`
+                       is always 16)
+    u16  numChars     informational string length; NOT used to bound
+                       decoding (the terminator is authoritative, exactly
+                       like the real firmware's func_02045E3C, which scans
+                       for the terminator itself rather than trusting a
+                       stored count)
+    u16  flags        meaning not decoded; constant per-bank in samples
+                       (e.g. 0x3c), not needed for text extraction
+
+Confirmed by direct scan (species bank, sub-file 70): every descriptor's
+decoded length (code units through and including the 0xFFFF terminator)
+exactly accounts for the byte gap to the next descriptor's offset -- 0
+mismatches across 651 consecutive pairs. Strings are packed back-to-back
+with no inter-string padding; only the bank's own end may have a couple of
+trailing pad bytes after the last string (sectionSize allows for it).
 
 --------------------------------------------------------------------------
-The cipher (confirmed, not guessed)
+The cipher, in-band control codes, and rendering
 --------------------------------------------------------------------------
-Each string is a stream of u16 LE code units, XORed against a 16-bit key
-that starts at a **per-string** value and rotates **left by 3 bits after
-every code unit** (a "rolling key" as the brief's hypothesis predicted, at
-16-bit granularity, confirmed by direct search: brute-forcing every
-(initial_key, rotate_amount) pair against real sub-file data and requiring
-the decoded stream to end in the terminator and otherwise be printable
-ASCII turned up exactly one consistent rotate amount, 3, that produces
-real English Pokemon species names in multiple independent entries (e.g.
-sub-file #70 entry 19 decodes byte-for-byte to "Pidgeot", entry 51 to
-"Diglett", entry 100 to "Kingler", etc.) The stream always ends in the
-0xFFFF terminator the brief's hypothesis predicted.
+Each string is a stream of u16 LE code units, XORed against
+`key = (u16)((msgIndex + 3) * 0x2983)`, rotating left by 3 bits after every
+unit. Decoding scans forward from the string's offset until it decodes to
+one of these in-band control codes (all confirmed against
+`func_02045E3C.c` and this project's mission brief):
 
-Because the key rotates by a *fixed, small* amount per unit and the last
-unit is always the known constant 0xFFFF, the per-string initial key does
-NOT need to be brute-forced or guessed: it is solved for directly,
-backwards from the terminator:
+    0xFFFF  terminator   ends the string (not included in rendered output)
+    0xFFFE  newline      renders as "\n"
+    0xF000  escape        followed by: kind(u16), argCount(u16), then
+                           argCount more u16 arguments (all still part of
+                           the same encrypted stream -- decoded the same
+                           way as any other unit, just interpreted
+                           specially at render time). Rendered as
+                           "{F000:KIND:arg1,arg2,...}" (hex, 4 digits).
 
-    key[n-1] = word[n-1] XOR 0xFFFF          (n = code-unit count)
-    key[0]   = rotate_right_16(key[n-1], 3*(n-1))
-    key[i+1] = rotate_left_16(key[i], 3)
-    plain[i] = word[i] XOR key[i]
-
-This is implemented in `decode_units()` below and is exact -- no brute
-force at decode time.
-
---------------------------------------------------------------------------
-The open gap: dictionary/token compression
---------------------------------------------------------------------------
-The cipher above is *demonstrably* correct (see the round-trip check in
-`cmd_roundtrip`, and the many exact species-name matches), but only a
-minority of entries decode to 100% printable ASCII end to end -- see the
-`--stats` output. The rest decode to a real, readable ASCII *tail* (often
-matching the end of a well-known Pokemon name, move name, etc.) preceded
-by 1-3 code units that are NOT printable ASCII (shown here as `[xxxx]`
-hex placeholders). This is NOT a cipher error: the terminator-anchored
-key recovery is self-consistent (every entry's last unit decodes to
-exactly 0xFFFF by construction, and the fully-clean entries round-trip
-byte-for-byte -- see `cmd_roundtrip`), and the amount of "garbage" varies
-irregularly per entry (0 to 3 units), which is not a symptom you'd expect
-from a wrong key/offset, but IS exactly what you'd expect from a small
-number of common leading substrings ("Bu", "C", "Pi", "Mr", "Ae", ...)
-being replaced by single 16-bit dictionary/token codes on top of the XOR
-cipher, the way Gen 3-5 Pokemon text formats are known (from general,
-public, non-project-specific knowledge of the wider ROM-hacking
-community) to sometimes compress common substrings. This project has not
-located or reverse engineered that dictionary table -- it is not part of
-`a/0/0/2` itself as far as this pass determined, and cracking it (most
-likely by brute-forcing short substrings against the many partial matches
-already decoded, or by finding the table itself elsewhere in the ROM) is
-left to a follow-up lane. Every dump this module produces marks
-undecoded units honestly as `[xxxx]` rather than guessing.
+Anything else is a literal character code point. Printable ASCII
+(0x20-0x7E) renders as itself. `0x246D`/`0x246E` are this game's codes for
+the male/female gender marks and render as the real Unicode glyphs
+(U+2642 MALE SIGN / U+2640 FEMALE SIGN, which are NOT the same numeric
+value -- a direct `chr()` of the raw code would be wrong for these two).
+Every other non-ASCII code point renders as `chr(code)` directly (this
+format's code units *are* Unicode code points, not a separate GBA-style
+charset table -- there is no dictionary/token-compression layer; that was
+a previous pass's unconfirmed hypothesis, now dropped because the ground-
+truth cipher above decodes every sampled string cleanly with no leftover
+garbage prefix).
 
 --------------------------------------------------------------------------
-Bank locations found in a/0/0/2 (by entryCount match against known
-Black/White category sizes -- see docs/ASSETS.md for the full table)
+Verification performed by this module's CLI
 --------------------------------------------------------------------------
-  species (~650)   sub-files 70, 235, 236, 260, 281, 284 (multiple banks;
-                    70 and 284 are short name-shaped entries and are the
-                    ones used by this module; 235/236/260 are much longer
-                    per-entry -- likely Pokedex flavor text; 281 looks
-                    like a non-text per-species data table, not decoded)
-  moves (~560)      sub-files 202, 203, 286 (203/286 are name-shaped)
-  items (~627)      sub-files 279, 280
-  abilities (~165)  sub-files 170, 182, 183, 285 (182/285 are name-shaped)
-  types (~17)       sub-files 81, 199, 207, 217, 287 (199 lowercase-in-
-                    sentence form, 287 confirmed via entry 13 decoding to
-                    "ELECTRIC" -- the 13th type in the standard Normal/
-                    Fighting/Flying/.../Electric/... ordering)
+`dump-all` decodes and writes all 288 sub-files' strings and reports the
+total terminator count found (one per string; expect 48839 across the
+whole archive). `roundtrip-all` re-encodes every decoded string (same
+forward XOR/rotate procedure run on the plaintext) and reconstructs each
+sub-file's full string-data region byte-for-byte, comparing against the
+original sub-file bytes; reports how many of the 288 sub-files matched
+exactly.
+
+--------------------------------------------------------------------------
+Bank locations found in a/0/0/2 (unchanged from the previous pass's
+entryCount-match survey -- see git history for the full table)
+--------------------------------------------------------------------------
+  species (~650)   sub-files 70, 235, 236, 260, 281, 284
+  moves (~560)     sub-files 202, 203, 286
+  items (~627)     sub-files 279, 280
+  abilities (~165) sub-files 170, 182, 183, 285
+  types (~17)      sub-files 81, 199, 207, 217, 287
 """
 
 import argparse
@@ -154,8 +138,14 @@ def rotl16(v, s):
     return ((v << s) | (v >> (16 - s))) & 0xFFFF
 
 
-def rotr16(v, s):
-    return rotl16(v, -s)
+TERMINATOR = 0xFFFF
+NEWLINE = 0xFFFE
+ESCAPE = 0xF000
+
+GENDER_GLYPH = {
+    0x246D: "♂",  # male sign
+    0x246E: "♀",  # female sign
+}
 
 
 class MessageFile:
@@ -173,67 +163,58 @@ class MessageFile:
             struct.unpack_from(f"<{self.section_count}I", raw, 12)
         )
         base = self.section_offsets[0]
-        # entryCount+1 descriptors (the extra one just closes off the
-        # last string's length); guard against sub-files that don't have
-        # a full closing descriptor.
-        offs = []
-        for i in range(self.entry_count + 1):
-            pos = base + i * 8 + 4
-            if pos + 4 > len(raw):
-                offs.append(None)
+        descs = []
+        for i in range(self.entry_count):
+            pos = base + 4 + i * 8
+            if pos + 8 > len(raw):
+                descs.append(None)
                 continue
-            offs.append(struct.unpack_from("<I", raw, pos)[0])
-        self.entry_offsets = offs
+            off, num_chars, flags = struct.unpack_from("<IHH", raw, pos)
+            descs.append((off, num_chars, flags))
+        self.descriptors = descs
 
-    def entry_units(self, index):
-        """Return the raw (still-encoded) u16 code units of string `index`
-        (1-based; index 0 is the sentinel descriptor, not a real string),
-        or None if the bounds are missing/invalid."""
-        if index < 1 or index >= len(self.entry_offsets) - 0:
+    def string_start(self, index):
+        """Absolute byte offset of string `index`'s raw code-unit stream,
+        or None if the descriptor is missing/out of range."""
+        if index < 0 or index >= len(self.descriptors):
             return None
-        off1 = self.entry_offsets[index]
-        off2 = self.entry_offsets[index + 1] if index + 1 < len(self.entry_offsets) else None
-        if off1 is None or off2 is None:
+        d = self.descriptors[index]
+        if d is None:
             return None
-        length = off2 - off1
-        if length <= 0 or length % 2 or off2 > len(self.raw):
+        off, _num_chars, _flags = d
+        return 16 + off
+
+    def decode(self, index, max_units=4096):
+        """Decode string `index` (0-based). Returns the list of decoded
+        code points INCLUDING the trailing 0xFFFF terminator, or None if
+        the string can't be located or never terminates within
+        `max_units` (guards against a corrupt/out-of-range offset)."""
+        start = self.string_start(index)
+        if start is None:
             return None
-        n_units = length // 2
-        return struct.unpack_from(f"<{n_units}H", self.raw, off1)
+        key = (index + 3) * 0x2983 & 0xFFFF
+        out = []
+        pos = start
+        raw = self.raw
+        n = len(raw)
+        for _ in range(max_units):
+            if pos + 2 > n:
+                return None
+            w = struct.unpack_from("<H", raw, pos)[0]
+            p = w ^ key
+            out.append(p)
+            pos += 2
+            if p == TERMINATOR:
+                return out
+            key = rotl16(key, 3)
+        return None
 
 
-def decode_units(units):
-    """Decode one string's raw code units into plaintext code points,
-    using the terminator-anchored rotate-left-3 key recovery. Returns a
-    list of ints (the last one should be 0xFFFF if this really is a
-    complete, correctly-bounded string)."""
-    if not units:
-        return []
-    n = len(units)
-    key_last = units[-1] ^ 0xFFFF
-    key0 = rotr16(key_last, 3 * (n - 1))
-    out = []
-    key = key0
-    for w in units:
-        out.append(w ^ key)
-        key = rotl16(key, 3)
-    return out
-
-
-def encode_units(plain):
-    """Inverse of decode_units: given a list of plaintext code points
-    (last one must be 0xFFFF), re-derive a self-consistent key0 the same
-    way decode_units does it and re-encode. Round-trips byte-for-byte
-    against the original ciphertext for any string decode_units decoded
-    correctly, because both directions solve for the same key from the
-    same terminator."""
-    if not plain:
-        return []
-    n = len(plain)
-    # key0 is arbitrary for a freshly-authored string (any key1 makes a
-    # valid round trip); use 0 as a stable choice for strings not being
-    # round-tripped against an original ciphertext.
-    key = 0
+def encode(plain, index):
+    """Inverse of MessageFile.decode(): re-run the identical forward
+    XOR/rotate procedure over the plaintext code units (XOR is its own
+    inverse, so encode and decode are the same transform)."""
+    key = (index + 3) * 0x2983 & 0xFFFF
     out = []
     for p in plain:
         out.append(p ^ key)
@@ -241,98 +222,47 @@ def encode_units(plain):
     return out
 
 
-# ---------------------------------------------------------------------------
-# 9-bit packing hypothesis (see docs/ASSETS.md "9-bit packing hypothesis"
-# section for the full write-up)
-# ---------------------------------------------------------------------------
-# Publicly-known Gen 5 ROM-hacking documentation describes a packing layer
-# on top of the XOR cipher: after XOR decode, a string whose first code
-# unit is PACK9_MARKER is not plain UTF-16 -- the remaining units are a
-# little-endian bitstream read 9 bits at a time, each 9-bit value being a
-# character code (values below 0x100 use the normal character set,
-# PACK9_TERMINATOR ends the string). unpack_9bit()/pack_9bit() implement
-# that mechanism exactly as documented. Tested against this project's
-# real data (see docs/ASSETS.md): zero entries across all five dumped
-# banks decode to PACK9_MARKER as their first unit under the (separately
-# name-verified) rotate-3 XOR cipher, and forcing a key so the first unit
-# reads as PACK9_MARKER does not produce a coherent 9-bit stream (checked
-# by exhaustive brute force against the species bank's Bulbasaur entry --
-# see `check9bit` command). The functions are kept because they are a
-# correct, self-contained implementation of the documented mechanism and
-# cost nothing to keep around, but this project has NOT confirmed the
-# hypothesis explains any of the "80% non-printable prefix" gap; see
-# ASSETS.md for the honest verdict.
-PACK9_MARKER = 0xF100
-PACK9_TERMINATOR = 0x1FF
+def render_char(c):
+    if c in GENDER_GLYPH:
+        return GENDER_GLYPH[c]
+    if 0x20 <= c <= 0x7E:
+        return chr(c)
+    if 0xD800 <= c <= 0xDFFF:
+        # lone UTF-16 surrogate code point -- not valid standalone Unicode
+        # text (this format never uses surrogate pairs), so it can't be
+        # rendered as chr(); shown as a hex placeholder instead.
+        return f"[{c:04x}]"
+    if c >= 0x80:
+        return chr(c)
+    return f"[{c:04x}]"
 
 
-def unpack_9bit(rest_units):
-    """Unpack a little-endian, 9-bit-per-character bitstream out of a list
-    of 16-bit plaintext code units (the leading PACK9_MARKER unit is NOT
-    included here). Reads 9 bits at a time, least-significant bit first,
-    stopping at PACK9_TERMINATOR (included in the result) or when the
-    input runs out. Returns a list of 9-bit ints."""
-    bits = 0
-    nbits = 0
+def render(plain):
+    """Render a decoded code-point list (as returned by MessageFile.decode,
+    terminator included) to a display string. Newlines and escape sequences
+    are rendered per the module docstring; the terminator itself is
+    dropped."""
     out = []
-    for w in rest_units:
-        bits |= (w & 0xFFFF) << nbits
-        nbits += 16
-        while nbits >= 9:
-            val = bits & 0x1FF
-            bits >>= 9
-            nbits -= 9
-            out.append(val)
-            if val == PACK9_TERMINATOR:
-                return out
-    return out
-
-
-def pack_9bit(codes):
-    """Inverse of unpack_9bit(): pack a list of 9-bit codes (normally
-    ending in PACK9_TERMINATOR) back into 16-bit little-endian words,
-    zero-padding the final partial word. Does NOT prepend PACK9_MARKER --
-    callers that round-trip a full entry must do that themselves."""
-    bits = 0
-    nbits = 0
-    out = []
-    for c in codes:
-        bits |= (c & 0x1FF) << nbits
-        nbits += 9
-        while nbits >= 16:
-            out.append(bits & 0xFFFF)
-            bits >>= 16
-            nbits -= 16
-    if nbits:
-        out.append(bits & 0xFFFF)
-    return out
-
-
-def is_9bit_packed(units_plain):
-    """True if a decoded (post-XOR) entry starts with PACK9_MARKER, i.e.
-    it is a candidate for the 9-bit packing hypothesis above."""
-    return bool(units_plain) and units_plain[0] == PACK9_MARKER
-
-
-def render(units_plain, terminator=0xFFFF):
-    """Render decoded code points to a display string. Printable ASCII
-    (0x20-0x7E) is shown literally; the terminator is dropped; anything
-    else (undecoded dictionary/token codes, or -- for a 9-bit-unpacked
-    stream -- codes >= 0x100 that aren't PACK9_TERMINATOR) is shown as
-    [xxxx]."""
-    out = []
-    for c in units_plain[:-1] if units_plain and units_plain[-1] == terminator else units_plain:
-        if 0x20 <= c <= 0x7E:
-            out.append(chr(c))
-        else:
-            out.append(f"[{c:04x}]")
+    i = 0
+    n = len(plain)
+    while i < n:
+        c = plain[i]
+        if c == TERMINATOR:
+            break
+        if c == NEWLINE:
+            out.append("\\n")
+            i += 1
+            continue
+        if c == ESCAPE:
+            kind = plain[i + 1] if i + 1 < n else 0
+            argc = plain[i + 2] if i + 2 < n else 0
+            args = plain[i + 3:i + 3 + argc]
+            out.append("{F000:%04X:%s}" % (kind, ",".join(f"{a:04X}" for a in args)))
+            i += 3 + max(argc, 0)
+            continue
+        out.append(render_char(c))
+        i += 1
     return "".join(out)
-
-
-def is_clean(units_plain, terminator=0xFFFF):
-    if not units_plain or units_plain[-1] != terminator:
-        return False
-    return all(0x20 <= c <= 0x7E for c in units_plain[:-1])
 
 
 def load_message_file(narc_path, subfile_index):
@@ -342,14 +272,10 @@ def load_message_file(narc_path, subfile_index):
 
 
 def iter_entries(mf):
-    """Yield (index, units_plain_or_None) for every real string in a
-    message file, in order."""
-    for i in range(1, mf.entry_count):
-        units = mf.entry_units(i)
-        if units is None:
-            yield i, None
-            continue
-        yield i, decode_units(units)
+    """Yield (index, plain_or_None) for every string in the bank, in
+    descriptor order (0-based)."""
+    for i in range(mf.entry_count):
+        yield i, mf.decode(i)
 
 
 # ---------------------------------------------------------------------------
@@ -359,18 +285,16 @@ def iter_entries(mf):
 def cmd_dump(args):
     mf = load_message_file(args.narc, args.index)
     lines = []
-    clean = 0
+    terms = 0
     total = 0
     for i, plain in iter_entries(mf):
-        if plain is None:
-            lines.append(f"{i}\t<no data>")
-            continue
         total += 1
-        ok = is_clean(plain)
-        if ok:
-            clean += 1
-        marker = "" if ok else "  (partial: dictionary-compressed prefix not decoded)"
-        lines.append(f"{i}\t{render(plain)}{marker}")
+        if plain is None:
+            lines.append(f"{i}\t<undecodable>")
+            continue
+        if plain and plain[-1] == TERMINATOR:
+            terms += 1
+        lines.append(f"{i}\t{render(plain)}")
     text = "\n".join(lines) + "\n"
     if args.output:
         parent = os.path.dirname(os.path.abspath(args.output))
@@ -378,139 +302,138 @@ def cmd_dump(args):
             os.makedirs(parent, exist_ok=True)
         with open(args.output, "w", encoding="utf-8") as fh:
             fh.write(text)
-        print(f"[*] wrote {args.output} ({total} entries, {clean} fully clean, "
-              f"{total - clean} partial)")
+        print(f"[*] wrote {args.output} ({total} entries, {terms} terminated)")
     else:
         sys.stdout.write(text)
-        print(f"[*] {total} entries, {clean} fully clean, {total - clean} partial",
-              file=sys.stderr)
+        print(f"[*] {total} entries, {terms} terminated", file=sys.stderr)
+    return 0
+
+
+def cmd_dump_all(args):
+    n = narc.parse_file(args.narc)
+    os.makedirs(args.out, exist_ok=True)
+    total_terms = 0
+    total_strings = 0
+    for idx in range(n.file_count):
+        raw = n.read(idx)
+        try:
+            mf = MessageFile(raw)
+        except TextError as exc:
+            print(f"[!] sub-file {idx}: not a message-file ({exc})")
+            continue
+        lines = []
+        for i, plain in iter_entries(mf):
+            total_strings += 1
+            if plain is None:
+                lines.append(f"{i}\t<undecodable>")
+                continue
+            if plain and plain[-1] == TERMINATOR:
+                total_terms += 1
+            lines.append(f"{i}\t{render(plain)}")
+        out_path = os.path.join(args.out, f"{idx:03d}.txt")
+        with open(out_path, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(lines) + "\n")
+    print(json.dumps({
+        "narc": args.narc,
+        "subfiles": n.file_count,
+        "total_strings": total_strings,
+        "total_terminators": total_terms,
+        "out_dir": args.out,
+    }, indent=2))
     return 0
 
 
 def cmd_stats(args):
     mf = load_message_file(args.narc, args.index)
-    clean = 0
+    terms = 0
     total = 0
     for i, plain in iter_entries(mf):
-        if plain is None:
-            continue
         total += 1
-        if is_clean(plain):
-            clean += 1
+        if plain and plain[-1] == TERMINATOR:
+            terms += 1
     print(json.dumps({
         "narc": args.narc,
         "index": args.index,
         "entryCount": mf.entry_count,
         "sectionSize": mf.section_size,
         "total_strings": total,
-        "fully_clean": clean,
+        "terminated": terms,
     }, indent=2))
     return 0
 
 
-def cmd_roundtrip(args):
-    """Re-encode every fully-clean-decoded entry and check it reproduces
-    the exact original ciphertext bytes. This is the round-trip check the
-    project brief asked for; it only covers entries this pass could fully
-    decode (see the module docstring for the dictionary-compression gap
-    that blocks the rest)."""
-    mf = load_message_file(args.narc, args.index)
+def _roundtrip_one(mf):
+    """Reconstruct the string-data region of one message-file byte-for-byte
+    from its decoded strings and compare against the original bytes.
+    Returns (ok: bool, checked: int, reason: str|None)."""
+    base = mf.section_offsets[0]
+    region_start = base + 4 + mf.entry_count * 8
+    rebuilt = bytearray(mf.raw[:region_start])
     checked = 0
-    matched = 0
-    mismatches = []
-    for i, plain in iter_entries(mf):
-        if plain is None or not is_clean(plain):
-            continue
+    for i in range(mf.entry_count):
+        plain = mf.decode(i)
+        if plain is None:
+            return False, checked, f"entry {i} failed to decode/terminate"
+        words = encode(plain, i)
+        for w in words:
+            rebuilt += struct.pack("<H", w)
         checked += 1
-        units = mf.entry_units(i)
-        # Re-derive key0 from the terminator exactly as decode_units does,
-        # then re-encode -- this must reproduce `units` exactly.
-        n = len(plain)
-        key_last = plain[-1] ^ 0xFFFF  # == units[-1] ^ key_last_actual; but
-        # simpler/stronger check: re-run decode_units's key recovery using
-        # the ORIGINAL units and confirm forward re-encoding matches.
-        key_last_true = units[-1] ^ 0xFFFF
-        key0 = rotr16(key_last_true, 3 * (n - 1))
-        key = key0
-        reencoded = []
-        for p in plain:
-            reencoded.append(p ^ key)
-            key = rotl16(key, 3)
-        if tuple(reencoded) == tuple(units):
-            matched += 1
-        else:
-            mismatches.append(i)
+    # trailing pad bytes (if any) after the last string, up to sectionSize,
+    # are copied verbatim -- they are not string data, so re-encoding can't
+    # reproduce them from the decode; this is expected and harmless.
+    end = base + mf.section_size
+    pad_len = end - len(rebuilt)
+    if pad_len < 0:
+        return False, checked, f"rebuilt region overruns sectionSize by {-pad_len}"
+    rebuilt += mf.raw[len(rebuilt):len(rebuilt) + pad_len]
+    original_region = mf.raw[:len(rebuilt)]
+    if bytes(rebuilt) != bytes(original_region):
+        # find first mismatch for diagnostics
+        for j, (a, b) in enumerate(zip(rebuilt, original_region)):
+            if a != b:
+                return False, checked, f"byte mismatch at offset {j}"
+        return False, checked, "length mismatch"
+    return True, checked, None
+
+
+def cmd_roundtrip(args):
+    mf = load_message_file(args.narc, args.index)
+    ok, checked, reason = _roundtrip_one(mf)
     print(json.dumps({
         "narc": args.narc,
         "index": args.index,
         "checked": checked,
-        "byte_identical": matched,
-        "mismatches": mismatches[:20],
+        "byte_identical": ok,
+        "reason": reason,
     }, indent=2))
     return 0
 
 
-def cmd_check9bit(args):
-    """Verify the 9-bit packing hypothesis (see the module-level comment
-    above unpack_9bit()): scan every entry of the given sub-files for a
-    PACK9_MARKER first unit, and -- for the species bank specifically --
-    also run an exhaustive brute-force cross-check that does NOT rely on
-    the marker being right, in case the marker value itself is wrong but
-    the packing idea is otherwise sound."""
-    banks = args.banks or [70, 203, 279, 182, 287]
-    report = {"narc": args.narc, "marker_scan": [], "bulbasaur_bruteforce": None}
-    total_hits = 0
-    total_entries = 0
-    for idx in banks:
-        mf = load_message_file(args.narc, idx)
-        hits = 0
-        total = 0
-        for i in range(1, mf.entry_count):
-            units = mf.entry_units(i)
-            if units is None:
-                continue
-            plain = decode_units(units)
-            if not plain:
-                continue
-            total += 1
-            if is_9bit_packed(plain):
-                hits += 1
-        report["marker_scan"].append({"index": idx, "entries": total, "marker_hits": hits})
-        total_hits += hits
-        total_entries += total
-
-    # Brute-force cross-check on the species bank's Bulbasaur entry
-    # (descriptor index 2 = dex #1): try every possible key0 (independent
-    # of the terminator-anchored recovery) and both little/big "9-bit
-    # word order" conventions, looking for the literal decoded text
-    # "BULBASAUR" followed by PACK9_TERMINATOR. This does not depend on
-    # PACK9_MARKER being the right marker value at all -- it is a direct
-    # search for *any* key that makes the packing hypothesis true.
-    mf = load_message_file(args.narc, 70)
-    units = mf.entry_units(2)
-    target = [ord(c) for c in "BULBASAUR"] + [PACK9_TERMINATOR]
-    match = None
-    for key0 in range(0x10000):
-        key = key0
-        plain = []
-        for w in units:
-            plain.append(w ^ key)
-            key = rotl16(key, 3)
-        codes = unpack_9bit(plain[1:])
-        if codes[:len(target)] == target:
-            match = {"key0": key0, "first_unit": plain[0]}
-            break
-    report["bulbasaur_bruteforce"] = {
-        "checked_keys": 0x10000,
-        "target": "BULBASAUR" + "<term>",
-        "match": match,
-    }
-    report["total_marker_hits"] = total_hits
-    report["total_entries_scanned"] = total_entries
-    report["verdict"] = (
-        "confirmed" if total_hits and match else "not confirmed"
-    )
-    print(json.dumps(report, indent=2))
+def cmd_roundtrip_all(args):
+    n = narc.parse_file(args.narc)
+    matched = 0
+    total = 0
+    failures = []
+    for idx in range(n.file_count):
+        raw = n.read(idx)
+        try:
+            mf = MessageFile(raw)
+        except TextError as exc:
+            failures.append({"index": idx, "reason": f"not a message-file ({exc})"})
+            continue
+        total += 1
+        ok, checked, reason = _roundtrip_one(mf)
+        if ok:
+            matched += 1
+        else:
+            failures.append({"index": idx, "reason": reason, "checked": checked})
+    print(json.dumps({
+        "narc": args.narc,
+        "subfiles_total": n.file_count,
+        "message_files": total,
+        "byte_identical": matched,
+        "failures": failures[:20],
+    }, indent=2))
     return 0
 
 
@@ -519,8 +442,7 @@ def main(argv=None):
         prog="text.py",
         description="Decode Pokemon Black/White message-file text banks "
                      "(a/0/0/2 sub-files). See module docstring for format "
-                     "and cipher details, and the known dictionary-"
-                     "compression gap.",
+                     "and cipher details.",
     )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
@@ -530,25 +452,27 @@ def main(argv=None):
     p.add_argument("-o", "--output")
     p.set_defaults(func=cmd_dump)
 
-    p = sub.add_parser("stats", help="print entry/clean-decode counts as JSON")
+    p = sub.add_parser("dump-all", help="decode every sub-file to "
+                                         "<out>/NNN.txt")
+    p.add_argument("narc")
+    p.add_argument("-o", "--out", default=os.path.join("build", "assets", "text"))
+    p.set_defaults(func=cmd_dump_all)
+
+    p = sub.add_parser("stats", help="print entry/terminated counts as JSON")
     p.add_argument("narc")
     p.add_argument("index", type=int)
     p.set_defaults(func=cmd_stats)
 
     p = sub.add_parser("roundtrip", help="verify byte-identical re-encode "
-                                          "for every fully-clean entry")
+                                          "of one sub-file's string region")
     p.add_argument("narc")
     p.add_argument("index", type=int)
     p.set_defaults(func=cmd_roundtrip)
 
-    p = sub.add_parser("check9bit", help="verify the 9-bit packing "
-                                          "hypothesis (PACK9_MARKER) "
-                                          "against real data")
+    p = sub.add_parser("roundtrip-all", help="verify byte-identical "
+                                              "re-encode of every sub-file")
     p.add_argument("narc")
-    p.add_argument("--banks", type=int, nargs="*",
-                    help="sub-file indices to scan (default: the five "
-                         "name-shaped banks)")
-    p.set_defaults(func=cmd_check9bit)
+    p.set_defaults(func=cmd_roundtrip_all)
 
     args = ap.parse_args(argv)
     try:

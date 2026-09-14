@@ -495,17 +495,88 @@ def parse_ncer(data):
 
 
 # ---------------------------------------------------------------------------
-# NMCR (RCMN) -- multi-cell resource (rest-pose node placement)
+# NMCR (RCMN) -- multi-cell resource: rest-pose node placement
+#
+# Corrected this pass against the mission's composer semantics, byte-
+# verified against species 25's real data (not a repeat of the previous
+# pass's 10-byte-descriptor guess, which this replaces):
+#
+# Bank header (24 bytes; the 8-byte common file header is separate and
+# already stripped by `_hdr`/`body` above):
+#     0x00  u16  numMultiCell
+#     0x02  u16  signature       0xBEEF constant
+#     0x04  u32  mcArrayOfs      ABSOLUTE byte offset (from body start) of
+#                                  the multi-cell descriptor array -- NOT
+#                                  self-relative to its own field position;
+#                                  the previous pass's "+4" self-relative
+#                                  correction was checked against real bytes
+#                                  this pass and does not fit (produces a
+#                                  descriptor array that overlaps the header
+#                                  and decodes to nonsense numNodes/offset
+#                                  values). The bare field value lines up
+#                                  exactly with the header's own end (24
+#                                  bytes in, matching the two trailing u16
+#                                  "unk" fields below) when used directly.
+#     0x08  u32  nodeArrayOfs    ABSOLUTE byte offset (from body start) of
+#                                  the node array; same correction as above.
+#     0x0C  u32  reserved (0)
+#     0x10  u32  animBankOfs     embedded NANR body offset, or 0 (unused by
+#                                  this tool; the paired local-5 NANR sub-
+#                                  file is used instead, see LOCAL_NANR)
+#     0x14  u16  unk (10 for species 25)
+#     0x16  u16  unk (10 for species 25)
+#
+# Multi-cell descriptor array (8 bytes/entry, `numMultiCell` entries,
+# starting at `mcArrayOfs`) -- confirmed 8-byte stride by
+# `src/matched/func_020629E8.c`'s `lsl #3` indexing (EXACT status) and by
+# `docs/notes/func_0206296C.c.txt`'s `struct MultiCellData { u16 numNodes;
+# u16 unk02; u32 nodes; }` (near-miss but semantically certain):
+#     0x00  u16  numNodes
+#     0x02  u16  numSlots (unk02 in the decompiled struct; not decoded)
+#     0x04  u32  nodeArrayOffset   relative to `nodeArrayOfs` above
+#
+# For species 25: descriptor 0 = (numNodes=10, nodeArrayOffset=0) and
+# descriptor 1 = (numNodes=10, nodeArrayOffset=80) -- 80 == 10 nodes * 8
+# bytes, so the two multi-cell groups' node spans are exactly back-to-back
+# (bytes [nodeArrayOfs, nodeArrayOfs+80) and [+80, +160)) and together
+# consume the entire rest of the body with zero leftover bytes. This is a
+# clean, exact fit (unlike the previous pass's 19-node/one-collision
+# reading, which came from a wrong node-array base 8 bytes too far in).
+#
+# Node record (8 bytes), per the mission's proposed layout, byte-verified:
+#     0x00  u16  animSeqIdx   index into the paired NANR's sequence array
+#                              (NOT a name-table/LBAL index as the previous
+#                              pass read it -- see compose_pose())
+#     0x02  s16  posX         translation applied to the whole assembled
+#                              cell (see compose_pose())
+#     0x04  s16  posY
+#     0x06  u8   nodeAttr     constant 0x20 across every record sampled
+#     0x07  u8   cellAnimSlot positional slot index (cycles 0-9); NOT used
+#                              for cell selection (see compose_pose())
+# For species 25, the 20 nodes' `animSeqIdx` values cover 0-19 exactly
+# once each (10 in each multi-cell group) -- a clean bijection with the
+# NANR's 20 sequences, unlike the previous pass's LBAL-name reading which
+# needed a label collision to explain its 19-node count.
 # ---------------------------------------------------------------------------
 
 class McNode:
-    __slots__ = ("label_index", "x", "y", "cell_index")
+    __slots__ = ("anim_seq_idx", "x", "y", "node_attr", "cell_anim_slot")
 
-    def __init__(self, label_index, x, y, cell_index):
-        self.label_index = label_index
+    def __init__(self, anim_seq_idx, x, y, node_attr, cell_anim_slot):
+        self.anim_seq_idx = anim_seq_idx
         self.x = x
         self.y = y
-        self.cell_index = cell_index
+        self.node_attr = node_attr
+        self.cell_anim_slot = cell_anim_slot
+
+
+class McGroup:
+    __slots__ = ("num_nodes", "unk02", "nodes")
+
+    def __init__(self, num_nodes, unk02, nodes):
+        self.num_nodes = num_nodes
+        self.unk02 = unk02
+        self.nodes = nodes
 
 
 class Nmcr:
@@ -519,36 +590,36 @@ class Nmcr:
             raise ValueError(f"expected KBCM (MCBK) block, found {bmagic!r}")
         body = data[pos + 8:pos + bsize]
         num_multi_cell, sig = struct.unpack_from("<HH", body, 0)
-        mc_ofs_field, = struct.unpack_from("<I", body, 4)
-        node_ofs_field, = struct.unpack_from("<I", body, 8)
+        mc_abs, = struct.unpack_from("<I", body, 4)
+        node_abs, = struct.unpack_from("<I", body, 8)
         self.num_multi_cell = num_multi_cell
         self.signature = sig
-        mc_abs = 4 + mc_ofs_field       # self-relative
-        node_abs = 8 + node_ofs_field   # self-relative
 
-        self.mc_entries = []
+        self.groups = []
+        all_nodes = []
         for i in range(num_multi_cell):
-            off = mc_abs + i * 10
-            f0, f1, f2, f3, f4 = struct.unpack_from("<Hhhhh", body, off)
-            self.mc_entries.append((f0, f1, f2, f3, f4))
-
-        node_bytes = body[node_abs:bsize - 8]
-        n_nodes = len(node_bytes) // 8
-        self.nodes = []
-        for i in range(n_nodes):
-            off = i * 8
-            label, x, y = struct.unpack_from("<hhh", node_bytes, off)
-            tag = node_bytes[off + 6]
-            cell_index = node_bytes[off + 7]
-            self.nodes.append(McNode(label, x, y, cell_index))
-
-        # First multi-cell entry's node count (field index 2) selects the
-        # leading span of `nodes` that forms a complete one-of-each-part
-        # rest pose -- see module docstring.
-        self.rest_pose_count = self.mc_entries[0][2] if self.mc_entries else n_nodes
+            off = mc_abs + i * 8
+            num_nodes, unk02, node_ofs = struct.unpack_from("<HHI", body, off)
+            base = node_abs + node_ofs
+            nodes = []
+            for j in range(num_nodes):
+                noff = base + j * 8
+                if noff + 8 > len(body):
+                    break
+                anim_seq_idx, x, y = struct.unpack_from("<Hhh", body, noff)
+                node_attr = body[noff + 6]
+                cell_anim_slot = body[noff + 7]
+                nodes.append(McNode(anim_seq_idx, x, y, node_attr, cell_anim_slot))
+            self.groups.append(McGroup(num_nodes, unk02, nodes))
+            all_nodes.extend(nodes)
+        self.nodes = all_nodes
 
     def rest_pose(self):
-        return self.nodes[:self.rest_pose_count]
+        """The first multi-cell group's own node list -- a complete,
+        self-contained assembly (see module docstring)."""
+        if not self.groups:
+            return []
+        return self.groups[0].nodes
 
 
 def parse_nmcr(data):
@@ -687,60 +758,49 @@ def render_oam(ncgr, oam):
 
 
 def compose_pose(ncgr, ncer, nodes, nanr=None):
-    """Blit every node's cell onto a shared canvas using the **bbox-center
-    anchor** strategy (seventh lane pass, see module docstring "NMCR (x, y):
-    final assembled position, not a delta" section): for each node, take its
-    assigned cell's own OAM bounding box, find that box's *center*, and place
-    the whole cell (preserving every OAM's position relative to that center)
-    so the center lands at the node's (x, y). This was found empirically to
-    give the most spatially coherent result of every strategy tried (raw sum,
-    no-offset, bbox-top-left anchor, positional cell reassignment) -- NMCR's
-    node y values order correctly top-to-bottom by body part (ears -35, head
-    -24, hands/tail -19/-9, body/feet -5/-6 for species 25), which only makes
-    sense if (x, y) is each part's own placement in the assembled figure, not
-    an additive delta on top of the OAM's already-placed coordinates.
+    """Blit every node's cell onto a shared canvas using the mission's
+    composer semantics, re-verified against species 25's real bytes this
+    pass (see module docstring for the byte-level derivation):
 
-    If `nanr` is given, each node's matching NANR sequence (indexed by
-    `node.label_index`, see module docstring "NMCR (RCMN) node record,
-    re-verified") has its frame-0 type-1 SRT frame-data record's (px, py)
-    added as a small delta on top of the node's own (x, y) -- the eighth
-    pass's actual execution of the seventh pass's untested hypothesis (c).
-    Cell selection still comes from NMCR's own `cell_index` byte, not NANR's
-    frame-data `cellIdx` (see module docstring for why: NANR's frame-0
-    cellIdx is a repeated constant across most of species 25's nodes and
-    cannot be the real per-node cell selector).
+      * **Cell selection**: a node does NOT choose its own cell via its
+        on-disk `cell_anim_slot` byte (that field is positional only, per
+        the mission, and this pass confirms it just cycles 0-9 twice with
+        no evident per-part meaning). Instead, the cell is
+        `NANR.sequences[node.anim_seq_idx].frames[0].data.cellIdx` -- i.e.
+        each node names an *animation sequence*, and that sequence's own
+        frame-0 SRT frame-data record says which NCER cell to draw. Species
+        25's 20 nodes' `anim_seq_idx` values cover the NANR's 20 sequences
+        exactly once each, a clean bijection (see module docstring).
+        A node whose sequence has no frame-0 data (empty sequence, `nanr`
+        returns None) is skipped -- there is no defined fallback.
 
-    Still **not confirmed to produce a "recognizable" silhouette** -- see
-    docs/ASSETS.md for the honest assessment; this is the best of several
-    tried, not a validated-correct decode.
+      * **Placement**: the node's (posX, posY) is a straight translation
+        applied to the whole assembled cell -- each OAM keeps its own
+        cell-local (x, y) and the node's (x, y) is added on top, with no
+        bounding-box re-centering (the previous pass's bbox-center-anchor
+        strategy was a workaround for the wrong cell assignment above, not
+        a real part of the format). SRT scale is identity and rotation is
+        0 at frame 0 (confirmed by the eighth pass: sx/sy read 4096 ==
+        FX32 1.0), so no scale/rotation transform is applied here either.
     """
     placements = []  # (abs_x, abs_y, px_rows)
     minx = miny = 10**9
     maxx = maxy = -10**9
     for node in nodes:
-        if node.cell_index >= len(ncer.cells):
+        cell_idx = None
+        if nanr is not None:
+            srt = nanr.frame_data_srt(node.anim_seq_idx, 0)
+            if srt is not None:
+                cell_idx = srt[0]
+        if cell_idx is None or cell_idx >= len(ncer.cells):
             continue
-        cell = ncer.cells[node.cell_index]
+        cell = ncer.cells[cell_idx]
         if not cell.oams:
             continue
-        dx = dy = 0
-        if nanr is not None:
-            srt = nanr.frame_data_srt(node.label_index, 0)
-            if srt is not None:
-                _cell_idx, _rot_z, _sx, _sy, dx, dy = srt
-        cminx = cminy = 10**9
-        cmaxx = cmaxy = -10**9
-        for oam in cell.oams:
-            cminx = min(cminx, oam.x)
-            cminy = min(cminy, oam.y)
-            cmaxx = max(cmaxx, oam.x + oam.w)
-            cmaxy = max(cmaxy, oam.y + oam.h)
-        bx = (cminx + cmaxx) // 2
-        by = (cminy + cmaxy) // 2
         for oam in cell.oams:
             rows = render_oam(ncgr, oam)
-            ax = node.x + dx + (oam.x - bx)
-            ay = node.y + dy + (oam.y - by)
+            ax = node.x + oam.x
+            ay = node.y + oam.y
             placements.append((ax, ay, rows))
             minx = min(minx, ax)
             miny = min(miny, ay)
@@ -985,9 +1045,9 @@ def main(argv=None):
         return 0
 
     nmcr = parse_nmcr(load_block(n, args.species, LOCAL_NMCR))
-    print(f"[*] NMCR: {nmcr.num_multi_cell} multi-cell entries, "
-          f"{len(nmcr.nodes)} node records, rest pose uses first "
-          f"{nmcr.rest_pose_count}")
+    print(f"[*] NMCR: {nmcr.num_multi_cell} multi-cell groups, "
+          f"{len(nmcr.nodes)} node records, rest pose uses group 0's "
+          f"{len(nmcr.rest_pose())} nodes")
     try:
         nanr = parse_nanr(load_block(n, args.species, LOCAL_NANR))
         print(f"[*] NANR: {nanr.num_sequences} sequences, "
