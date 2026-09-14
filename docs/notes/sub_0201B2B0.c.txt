@@ -1,0 +1,176 @@
+sub_0201B2B0 @ 0x0201B2B0, 1116 bytes, shinka_check.c
+NOT ATTEMPTED AS C.  Structural and content map only.
+
+This is the evolution checker itself, the largest function in pkt_0201B038 and
+the single most version-divergence-prone routine in the territory.  It was read
+out of the bytes and mapped rather than reconstructed: at 1116 bytes with two
+nested jump tables and about forty content constants it is a wave of work on
+its own, and the map below is what that wave needs so that it does not start
+from the disassembly again.
+
+WHY IT IS ALSO ATTESTATION-BLOCKED
+----------------------------------
+Even a byte perfect reconstruction caps at MATCH as the image stands.  The
+`bl` at 0x0201B360 passes 0x020A7330 to the debug allocator, and those bytes
+spell "shinka_check.c", which is the first direct evidence of this file's
+name.  0x020A7330 appears in exactly one literal pool in the 3.9 MB image, the
+pool word at 0x0201B5D4 inside this function, so the `literal` class discards
+its only witness; and the `string` class refuses as well, because the sixteen
+bytes in front of the string are a static table rather than a string:
+
+  020A731C  6C 2E 63 00 | CB 00 9B 00 C3 00 C4 00 C5 00 C3 00
+  020A732C  C4 00 C5 00 | 73 68 69 6E 6B 61 ...
+                          ^ 020A7330
+
+The single NUL at 0x020A732F satisfies condition 3 of the rule and condition 4
+holds, but condition 5 fails: the byte before it is 0xC5, not the last
+character of a printable run.  That is exactly the case
+docs/idioms/a-string-after-a-data-table-has-no-witness.md records for "mail.c"
+and "wifilist.c", and it is right to refuse.  No cut helps, because the range
+cannot be smaller than the one function that passes the pointer.  It closes if
+anything else in the image is ever found to load 0x020A7330.
+
+The allocation itself is 0x2A bytes at line 106, which puts this function near
+the top of shinka_check.c.
+
+SHAPE
+-----
+Seven parameters, which is why the prologue re-homes two of them:
+
+    sub_0201B2B0(r0, mon, context, param,
+                 [sp+0x60] u8, [sp+0x64] u16 *methodOut, [sp+0x68] heap)
+
+`methodOut` is allowed to be NULL and is redirected to a local at sp+0x48 when
+it is (0x0201B346).  The `ldr`/`str` pairs at 0x0201B2B6 and 0x0201B2BC that
+read a stack parameter and write it back to its own slot are the dead-store
+behaviour of
+docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-second-assignment-recomputes.md,
+not homing; the same shape recurs at 0x0201B5F6 for the two species constants.
+
+The body is a 0x2A byte record read through sub_0201B764
+(src/matched/unit_0201B70C.c), i.e. seven six byte evolution rows, walked by a
+`for` whose bound is the literal 7, with the whole walk inside a four arm
+switch on `context`:
+
+    context 0   0x0201B388   level up, twenty two methods
+    context 1   0x0201B5F6   trade, three methods
+    context 2   0x0201B6A2   item use, three methods
+    context 3   0x0201B6A2   the same block as context 2
+
+The level up arm holds the second jump table, `cmp r0, #0x1C` and 29 signed
+halfwords at 0x0201B3D4, and its entries for 0, 5, 6, 7, 8, 17 and 18 point at
+the arm's exit.  Those are genuine gaps in the middle of the range and not
+empty case labels, because the range is set from 0 by the `cmp` and the real
+arms start at 1; the distinction is
+docs/idioms/empty-switch-arms-are-what-make-the-table.md, and it matters here
+because ids 5 to 8, 17 and 18 are exactly the methods the other three contexts
+handle.
+
+THE GATE, BEFORE ANY ROW IS READ
+--------------------------------
+    if (func_02017E1C(mon, 0x4C, 0) != 0) return 0;        /* egg */
+    species    = (u16)read(mon, 5);
+    heldItem   = (u16)read(mon, 6);
+    pid        =      read(mon, 0);
+    level      = (u8) read(mon, 0x14);
+    pidHigh    = (u16)((pid & 0xFFFF0000) >> 16);
+    holdEffect = (u8)func_02020FE4(heldItem, 1, heap);
+    if (species != 64 && holdEffect == 0x40 && context != 3) return 0;
+
+Both of those 0x40s are content and they are not the same 0x40: the first is a
+species id and the second is an item hold effect.
+
+VERSION SENSITIVITY: THE CONTENT CONSTANTS, IN ADDRESS ORDER
+------------------------------------------------------------
+Every one of these is a number the game's data decides, and every one is a
+thing to re-read against IRAO.  Nothing else in the function is content.
+
+  0x0201B334  64        the species that evolves by trade and is exempt from
+                        the everstone rule.
+  0x0201B338  0x40      the item hold effect that prevents evolution.
+  0x0201B33C  3         the context that is also exempt from it.
+  0x0201B350  0x6A      the __LINE__ of the allocation, i.e. line 106 of
+                        shinka_check.c.
+  0x0201B35C  0x2A      the size of the evolution record, and with it the seven
+                        rows of six bytes.
+  0x0201B410  0xDC      220, the friendship threshold, used by methods 1, 2
+                        and 3.
+  0x0201B4C4  5         the split point of the personality value's low nibble,
+                        used by methods 12 and 13.
+  0x0201B4E6  0xF       the method id written straight into *methodOut by
+                        method 15, which is the "and create a second Pokemon"
+                        case.
+  0x0201B646  0x40      the hold effect again, re-tested inside the trade
+                        method 7.
+  0x0201B5F8  0x24C      588, and 0x0201B5FC +0x1C gives 616: the two species
+  0x0201B604  0x24C      that evolve only when traded for each other.  Each is
+  0x0201B608  +0x1C      written twice into its own stack slot, which is the
+                        dead-store shape, so there are two locals and four
+                        stores for two numbers.
+  0x0201B6AE  8         the item-use method id.
+  0x0201B6BA  0x11      17, item use restricted to one gender.
+  0x0201B6D6  0x12      18, item use restricted to the other.
+  0x0201B56E, 0x0201B584, 0x0201B59A, 0x0201B5B0
+                        four pc-relative pools holding location id tables,
+                        walked with bounds 3, 1, 1 and 3 respectively: the
+                        methods that fire only in particular places.  The
+                        tables themselves are pure content.
+
+THE METHOD MAP, read off the level-up jump table
+------------------------------------------------
+Row layout is `u16 method; u16 param; u16 species;` and `species` is what is
+written to *methodOut; the walk stops at the first row that fires.  What each
+arm tests, with the record's `param` written as p:
+
+   1  friendship >= 220
+   2  friendship >= 220 and func_02011410(map) == 0            (one time of day)
+   3  friendship >= 220 and func_02011410(map) == 1            (the other)
+   4  level >= p
+   9  level >= p and stat 0xA2 >  stat 0xA3
+  10  level >= p and stat 0xA2 == stat 0xA3
+  11  level >= p and stat 0xA2 <  stat 0xA3
+  12  level >= p and (pid low nibble) >= 5
+  13  level >= p and (pid low nibble) <  5
+  14  level >= p                                    (the arm that also arms 15)
+  15  no test: writes 0xF into *methodOut and stops
+  16  level >= p, compared against a different field of the record
+  19  func_02011410(map) == 0 and heldItem == p
+  20  func_02011410(map) == 1 and heldItem == p
+  21  sub_0201B774(mon, p) == 1                     (knows the move p)
+  22  sub_0201AC44(party, p) == 1                   (party holds species p)
+  23  gender 0 and level >= p
+  24  gender 1 and level >= p
+  25  current location in a three entry table
+  26  current location in a one entry table
+  27  current location in a one entry table
+  28  current location in a three entry table
+
+  trade context:
+   5  trade, unconditionally
+   6  trade while holding item p
+   7  trade for the other of the 588/616 pair, everstone re-checked
+
+  item context:
+   8  item p used
+  17  item p used, gender 0
+  18  item p used, gender 1
+
+Three of those are worth flagging on their own for a White port: 15 is the
+Nincada-shaped "evolve and also produce something else" method whose id the
+function hands back rather than a species; 22 reads the *party* rather than the
+Pokemon, through sub_0201AC44, so it depends on a second object; and the four
+location tables are the only content in the function that is not an immediate.
+
+WHAT A RECONSTRUCTION WILL NEED
+-------------------------------
+* the two tables are ordinary dense switches and reproduce from plain C
+  (docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md); the gaps must
+  be left as gaps and the arms written in the table's order, which is the
+  numeric order here;
+* the seven-row walk is one `for` with the bound 7 written out, shared by all
+  four contexts, and each context's arm is a separate copy of it;
+* sub_0201B764 and sub_0201B774 are already matched
+  (src/matched/unit_0201B70C.c), so both calls resolve through the `matched`
+  class;
+* the entry will still be MATCH until 0x020A7330 acquires a witness, so it
+  belongs in src/pending/ when it is byte correct, not in the manifest.

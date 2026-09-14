@@ -35,6 +35,18 @@
    "status": "EXACT"
   },
   {
+   "name": "sub_0202C548",
+   "address": "0x0202C548",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202C548.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "sub_0202C550",
    "address": "0x0202C550",
    "kind": "game",
@@ -45,6 +57,27 @@
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT"
+  },
+  {
+   "name": "unit_0202C558",
+   "address": "0x0202C558",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0202C558.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_0202C558",
+    "sub_0202C560",
+    "sub_0202C568",
+    "sub_0202C570",
+    "sub_0202C578",
+    "sub_0202C580",
+    "sub_0202C588"
+   ]
   },
   {
    "name": "func_0202C5AC",
@@ -123,16 +156,19 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C670",
+   "name": "unit_0202C670",
    "address": "0x0202C670",
-   "kind": "game",
+   "kind": "game_unit",
    "region": "arm9",
-   "source": "src/matched/sub_0202C670.c",
+   "source": "src/matched/unit_0202C670.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "functions": [
+    "sub_0202C670"
+   ]
   },
   {
    "name": "sub_0202C688",
@@ -179,16 +215,19 @@
    ]
   },
   {
-   "name": "sub_0202C760",
+   "name": "unit_0202C760",
    "address": "0x0202C760",
-   "kind": "game",
+   "kind": "game_unit",
    "region": "arm9",
-   "source": "src/matched/sub_0202C760.c",
+   "source": "src/matched/unit_0202C760.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT",
+   "functions": [
+    "sub_0202C760"
+   ]
   }
  ]
 }

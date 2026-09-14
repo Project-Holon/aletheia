@@ -1,0 +1,133 @@
+sub_0201B970 @ 0x0201B970, 126 bytes, pokeparty.c
+DIFF, 10 concrete bytes, right size, identical control flow.
+
+Recorded here rather than in src/pending/ because the best source shape found
+is not byte correct: the file policy is that src/pending/ holds byte correct
+MATCH files only and DIFF annotated evidence lives under docs/notes.
+
+WHAT IT IS
+----------
+"Give move slot `slot` back `amount` PP, and say whether anything changed."
+It is the write half of the pair whose read half is src/matched/
+unit_0201B920.c, and its single caller inside arm9_main is sub_0201B9F0 at
+0x0201BA26 (src/matched/unit_0201B9F0.c).  ov118 branches to it as well, at
+0x021BE4D0, which is what lets unit_0201B9F0.c resolve the site and come out
+EXACT despite this function being unmatched.
+
+The three ids are the same three parallel runs unit_0201B920.c documents:
+0x36 + slot is the move, 0x3A + slot its current PP, 0x3E + slot its PP ups,
+and src/matched/unit_0201C158.c turns the last two into the slot's maximum.
+0x7F is the "fill it" sentinel; any other amount is added and clamped.
+
+VERSION SENSITIVITY
+-------------------
+No species, item or move id.  0x7F is a sentinel in the PP amount space and
+has to agree with the literal sub_0201B9F0 passes.  Everything else is a party
+record id or a structure offset.
+
+THE SOURCE THAT REPRODUCES EVERYTHING BUT TEN BYTES
+---------------------------------------------------
+    u32 sub_0201B970(void *mon, u32 slot, u32 amount)
+    {
+        u32 move;
+        u32 id;
+        u8  pp;
+        u32 ppUp;
+        u32 max;
+
+        move = (u16)func_02017E1C(mon, slot + 0x36, 0);
+        if (move == 0) {
+            return 0;
+        }
+        id = slot;
+        id = slot + 0x3A;
+        pp = (u8)func_02017E1C(mon, id, 0);
+        ppUp = func_02017E1C(mon, slot + 0x3E, 0);
+        max = func_0201C158(move, (u8)ppUp);
+        if (pp < max) {
+            if (amount == 0x7F) {
+                pp = max;
+            } else {
+                pp = (u8)(pp + (u8)amount);
+                if (pp > max) {
+                    pp = max;
+                }
+            }
+            func_02017E40(mon, id, pp);
+            return 1;
+        }
+        return 0;
+    }
+
+Three of its details are settled and worth not re-deriving.
+
+* The `str`/`adds`/`str` pair into one stack slot at 0x0201B990 is two
+  assignments to one spilled local whose second one recomputes from the
+  parameter, not from the variable
+  (docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-second-assignment-recomputes.md).
+  `id = slot + 0x3A;` alone emits one store and is four bytes short;
+  `id = slot; id = id + 0x3A;` emits a reload the original does not have.
+* `move` sits at sp+4 and `id` at sp+0, so `move` is declared first
+  (docs/idioms/local-declaration-order-is-stack-order.md).
+* `ppUp` is a `u32` whose `(u8)` cast is written at the call rather than at the
+  assignment.  With the cast at the assignment the truncation pair cannot sink
+  and the `adds r1, r0, #0` copy at 0x0201B992 disappears, which is the same
+  effect the sub_0200A6BC work records for a mask
+  (the "cast at the use" half of docs/MATCHING.md's 0x0200A6BC section).
+  This spelling is what brings the size from 124 to the original's 126.
+
+WHAT IS STILL WRONG
+-------------------
+Ten bytes, all of them one register number and one instruction, at the end:
+
+    ORIGINAL @ 0201B9D0                      COMPILED
+    lsrs r4, r1, #0x18                     | lsrs r2, r1, #0x18
+    cmp  r4, r0                            | cmp  r2, r0
+    bls  0x201b9d8                         | bls  0x201b9da
+    adds r4, r0, #0                        | lsls r0, r0, #0x18
+    ldr  r1, [sp]                          | lsrs r2, r0, #0x18
+    adds r0, r7, #0                        | ldr  r1, [sp]
+    adds r2, r4, #0                        | adds r0, r7, #0
+    bl   func_02017E40                     | bl   func_02017E40
+
+The original keeps the clamped PP in r4, the callee saved register the value
+has lived in since its first definition, and then spends `adds r2, r4, #0` to
+put it in the third argument register.  Every source shape tried coalesces the
+last definition straight into r2 instead, so the copy is missing and something
+else fills the two bytes: with `max` declared `u8` the merge block is
+`adds r2, r0, #0` and the function is 124 bytes; with `max` declared `u32` the
+merge block truncates (`lsls`/`lsrs`) and the function is the right 126 bytes
+with those ten wrong.
+
+What was tried, so that nobody repeats it.  About eighty source shapes,
+generated and scored by match.py's own diff count:
+
+* every type for `pp` (u8, u16, u32, s32) crossed with every type for `max`
+  (u8, u32, s32) crossed with three spellings of the sum and two of the call
+  argument.  `pp` has to be narrow: `u32 pp` drops to 124 bytes;
+* the if/else written both ways round, as a `?:`, as a flat
+  `if (amount != 0x7F) ... ; if (amount == 0x7F || pp > max) ...`, with the
+  tail duplicated into both arms (140 bytes, no cross jump), and with an
+  explicit `goto` in front of the shared `pp = max`
+  (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md says the
+  branch's zero displacement means the statements are written out in each arm,
+  and they are, but that does not move the register);
+* the outer guard as a nested `if (pp < max) { ... }` and as an early
+  `if (pp >= max) goto fail;` with one exit block at the end
+  (docs/idioms/guards-separated-by-statements-share-an-exit-only-through-goto.md).
+  Both produce the same bytes, so the two spellings are not distinguishable
+  here;
+* a separate result local for the clamped value, at all six declaration
+  positions and in four types, which is the
+  docs/idioms/cmp-operand-order-names-the-temporary.md remedy applied to a
+  store;
+* five prototypes for func_02017E40's third parameter and two for
+  func_0201C158's return type.  `u8 v` and `u16 v` change the count but not
+  the shape.
+
+The flat ranking is the finding: nothing in the source shape moves that
+register, which suggests the cause is a live range the reconstruction does not
+have rather than a spelling.  The natural next thing to try is a use of the
+clamped value after the call, which would force it into a callee saved
+register, but the function returns the literal 1 and there is nowhere in the
+original's bytes for such a use to hide.

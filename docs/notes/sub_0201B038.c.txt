@@ -1,0 +1,149 @@
+sub_0201B038 @ 0x0201B038, 198 bytes, pokeparty.c
+DIFF, 28 concrete bytes, two bytes short, identical control flow.
+
+Recorded here rather than in src/pending/ because the best source shape found
+is two instructions short of the original: the file policy is that
+src/pending/ holds byte correct MATCH files only and DIFF annotated evidence
+lives under docs/notes.
+
+WHAT IT IS
+----------
+The rare random event that seeds the packed byte field id 0x97, whose readers
+are src/matched/unit_0201B220.c and whose other writers are
+src/matched/unit_0201B100.c.  It draws a 16 bit random number, fires only on
+three of the 65536 values, picks a party slot at random, rejects empty slots
+and eggs and slots that already have the field set, then rolls a second random
+byte and packs it into the field.
+
+VERSION SENSITIVITY
+-------------------
+No species, item or move id, but the probabilities are content:
+
+  0x4000, 0x8000, 0xC000   the three of 65536 draws that fire.  They are three
+                           exact values, not a range, so the event is a 3 in
+                           65536 chance per call.
+  7                        the mask the second roll has to be non zero under,
+                           and the value it is reduced to when the high nibble
+                           is also set.
+  0xF3                     the mask the packed byte is written through, i.e.
+                           bits 2 and 3 are cleared.
+  1                        the increment, so the field is never written zero.
+  0x97, 5, 0x4C            party record ids: the field, the species and the
+                           egg flag, in src/matched/sub_02018DB4.c's space.
+
+THE SOURCE THAT REPRODUCES ALL BUT TWO INSTRUCTIONS
+---------------------------------------------------
+    void sub_0201B038(void *party)
+    {
+        u32 mask;
+        u32 r;
+        u32 slot;
+        void *mon;
+        u32 v;
+        u32 w;
+        u32 n;
+
+        n = sub_0201AA18(party);
+        r = (u16)((u64)func_0203F0A8() * 0x10000 >> 32);
+        mask = sub_0201B220(party);
+        if (r == 0x4000 || r == 0x8000 || r == 0xC000) {
+            do {
+                slot = func_0203F0A8();
+                if (n != 0) {
+                    slot = (u32)(((u64)slot * n) >> 32);
+                }
+                mon = sub_0201AB28(party, slot);
+            } while (func_02017E1C(mon, 5, 0) == 0
+                     || func_02017E1C(mon, 0x4C, 0) != 0);
+            if ((mask & (1 << slot)) != 0) {
+                return;
+            }
+            do {
+                v = (u8)((u64)func_0203F0A8() * 0x100 >> 32);
+            } while ((v & 7) == 0);
+            if ((v & 0xF0) != 0) {
+                v = v & 7;
+            }
+            w = (u8)(v << 4) | v;
+            w = (u8)(w & 0xF3);
+            w = (u8)(w + 1);
+            func_02017E40(mon, 0x97, w);
+        }
+    }
+
+    symbols:
+      _ull_mul  0x0209C054  arm
+
+Four details are settled and worth not re-deriving.
+
+* Every random draw in the file is a multiply-high, never a shift or a modulo:
+  see docs/idioms/random-below-n-is-a-64-bit-multiply-high.md.  The three here
+  are `* 0x10000`, `* n` and `* 0x100`, and only the middle one reaches
+  `_ull_mul`, because the other two are powers of two and mwccarm expands them
+  inline.
+* The `cmp r1, #0` guard in front of the `_ull_mul` call is the inlined body of
+  the "random below n" helper, not a division-by-zero check invented by the
+  compiler: with n zero the product would be zero rather than the raw draw, so
+  the guard is in the source.
+* The three equality tests are one disjunction.  Written as three separate
+  `if`s each gets its own copy of the epilogue
+  (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md).
+* The second roll binds `v & 7` to a local: the original computes it once into
+  r2, tests it for the loop condition, and reuses it in the
+  `if ((v & 0xF0) != 0)` arm.  Recomputing `v & 7` in the arm costs an
+  instruction.
+
+WHAT IS STILL WRONG
+-------------------
+Two instructions, and everything else in the diff is the four byte shift that
+follows from them.  In the tail:
+
+    ORIGINAL @ 0201B0DC                      COMPILED
+    lsls r1, r0, #0x1c                     | lsls r1, r0, #0x1c
+    adds r3, r0, #0                        |                       <- missing
+    lsrs r1, r1, #0x18                     | lsrs r1, r1, #0x18
+    orrs r3, r1                            | orrs r1, r0
+    movs r2, #0xf3                         | movs r0, #0xf3
+    ands r2, r3                            | ands r0, r1
+    ...
+    lsls r2, r2, #0x18                     | lsls r0, r0, #0x18
+    adds r0, r4, #0                        | lsrs r2, r0, #0x18    <- not split
+    movs r1, #0x97                         | adds r0, r4, #0
+    lsrs r2, r2, #0x18                     | movs r1, #0x97
+
+The original copies the rolled byte into a third register before the `orrs`,
+so the OR accumulates into a register that is not one of its operands' homes,
+and it lets the final truncation pair straddle the argument set-up.  Every
+source shape tried accumulates into the shift's own temporary and keeps the
+pair together, which is two bytes shorter.
+
+What was tried, so that nobody repeats it.  About sixty shapes, generated and
+scored by match.py's own diff count:
+
+* both operand orders of the `|`, the shifted half bound to its own local, the
+  result assigned through `w = v; w |= ...`, and the whole thing written over
+  `v` instead of a second variable.  The ranking is completely flat at 28,
+  which is
+  docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md
+  failing to bite: here the accumulator is neither operand;
+* `w` declared at all seven positions in the local list and as u8, u16, u32 and
+  s32.  `u8` loses the truncations, the rest are identical;
+* the `& 0xF3` as a compound assignment, as a spelled out assignment and with
+  or without the cast; the `+ 1` as `w++`, `w = w + 1` and `(u8)(w + 1)`; and
+  the final truncation moved to the call argument, which splits the pair the
+  right way but costs four bytes elsewhere;
+* four prototypes for func_02017E40's third parameter.
+
+The flat ranking says the cause is a live range rather than a spelling: the
+original keeps the rolled byte alive across the OR, and nothing in the visible
+tail needs it.  The natural next thing to look for is a use of `v` after the
+write that the reconstruction has folded away, which would also explain why the
+truncation is allowed to sink.
+
+ATTESTATION
+-----------
+Not a blocker, but worth recording: 0x0201B220 is reached only from the `bl` at
+0x0201B056 inside this function, so a standalone range for it has no `label`
+witness.  Since src/matched/unit_0201B220.c is an EXACT entry the `matched`
+class carries the site, and the diff above was taken before that entry was
+written, which is why the harness printed it unresolved.

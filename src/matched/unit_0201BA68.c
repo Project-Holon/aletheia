@@ -1,0 +1,140 @@
+/*
+ * A whole translation unit, matched as one byte range.
+ *
+ * unit:     yes
+ * address:  0x0201BA68
+ * packet:   pkt_0201B038
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * function: sub_0201BA68, sub_0201BABC
+ *
+ * The graphics index of a Pokemon: sub_0201BA68 unpacks the four values that
+ * decide it out of the record and sub_0201BABC turns them into a member number
+ * of archive 7.  The pair that follows them, sub_0201BB5C and sub_0201BBE8, is
+ * the same index arithmetic over a different table and is parked in
+ * src/pending/unit_0201BB5C.c because that table has no witness; the cut
+ * between the two pairs is what lets this half land
+ * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
+ *
+ * sub_0201BA68 brackets its four reads with func_02017DBC and func_02017DE4,
+ * which is the pair the region uses around a run of raw field reads; that is
+ * why the reads here are func_02017E88 and not the func_02017E1C of
+ * src/matched/sub_02018A7C.c.  The fourth read is written inline as the call's
+ * fourth argument rather than bound to a local, which is what puts it in r3
+ * with the other three already in place.
+ *
+ * ---------------------------------------------------------------------------
+ * VERSION SENSITIVITY, read this before porting to Pokemon White
+ * ---------------------------------------------------------------------------
+ * Four content constants, and the index arithmetic that ties them together is
+ * itself a statement about how the sprite archive is packed:
+ *
+ *   490    the species whose egg has a graphic of its own.  Every other
+ *          species shares one egg graphic.
+ *   650    the index the ordinary egg occupies, so 651 is that species' egg;
+ *          the same 650/651 pair src/matched/unit_0201AFD4.c rejects as
+ *          species ids.
+ *   7      the first member of archive 7 that belongs to a species, and the
+ *          stride is two members per index.
+ *   1311   the member the alternate forms start at, which is 652 * 2 + 7, i.e.
+ *          immediately after the two egg indices.  A White build with a
+ *          different species count would move this number and only this one.
+ *   0x1F, 0x20, 0x23   the three personal-record attributes func_02019C90
+ *          answers: the form block's first index, the form count, and the flag
+ *          that says the forms are not drawn separately.
+ *
+ * ---------------------------------------------------------------------------
+ * NOTES
+ * ---------------------------------------------------------------------------
+ * The `case 1` arm binds the archive query to a local before assigning the
+ * gender.  Written inline, `gender = 1;` is hoisted in front of the `blx` and
+ * six bytes come out in the wrong order; the named local is what pins the
+ * order, the same way
+ * docs/idioms/cmp-operand-order-names-the-temporary.md pins a comparison.
+ *
+ * `case 2`'s `gender = 0;` and `case 1`'s failure arm are one block, reached
+ * by a `b` whose displacement is zero: the source writes the statement out in
+ * both arms and the compiler cross-jumps the two copies
+ * (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).  The switch
+ * is a `cmp`/`beq` chain rather than a table, because three labels are too few
+ * for mwccarm to build one
+ * (docs/idioms/empty-switch-arms-are-what-make-the-table.md, the other side of
+ * the density rule).
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201BA68.c \
+ *       --addr 0x0201BA68 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+extern u32  func_02017DBC(void *mon);
+extern void func_02017DE4(void *mon, u32 save);
+extern u32  func_02017E88(void *mon, u32 id, u32 v);
+extern u32  func_02019C90(u16 species, u32 form, u32 attr);
+extern u32  func_020490A8(u32 kind, u32 member);
+
+u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
+
+u32 sub_0201BA68(void *mon)
+{
+    u32 save;
+    u32 species;
+    u32 form;
+    u32 gender;
+    u32 r;
+
+    save = func_02017DBC(mon);
+    species = func_02017E88(mon, 5, 0);
+    form = func_02017E88(mon, 0x6F, 0);
+    gender = func_02017E88(mon, 0x6E, 0);
+    r = sub_0201BABC(species, form, gender, func_02017E88(mon, 0x4C, 0));
+    func_02017DE4(mon, save);
+    return r;
+}
+
+u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
+{
+    u32 first;
+    u32 hidden;
+    u32 count;
+    u32 idx;
+    u32 ok;
+
+    idx = species * 2 + 7;
+    if (isEgg != 0) {
+        idx = (u32)((species == 490 ? 1 : 0) + 650) * 2 + 7;
+    } else if (form != 0) {
+        first = func_02019C90((u16)species, 0, 0x1F);
+        hidden = func_02019C90((u16)species, 0, 0x23);
+        count = func_02019C90((u16)species, 0, 0x20);
+        if (form >= count) {
+            form = 0;
+        }
+        if (hidden == 0 && form != 0) {
+            idx = (first + form - 1) * 2 + 1311;
+        }
+    }
+    switch (gender) {
+    case 0:
+        break;
+    case 1:
+        ok = func_020490A8(7, idx + 1);
+        gender = 1;
+        if (ok == 0) {
+            gender = 0;
+        }
+        break;
+    case 2:
+        gender = 0;
+        break;
+    }
+    return idx + gender;
+}

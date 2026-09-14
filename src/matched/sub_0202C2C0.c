@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * unit:     no
+ * status:   EXACT
  *
  * symbols:
  *   sub_0202C24C  0x0202C24C  thumb
@@ -17,16 +18,17 @@
  * src/matched/unit_0202C244.c) that is tested and, unchanged, forwarded
  * as sub_0202C358's own argument, which is what keeps the value in r0
  * across the branch with no extra register. sub_0202C358 is one of the
- * nine pool-word-and-bx trampolines of src/pending/unit_0202C318.c.
+ * nine pool-word-and-bx trampolines of src/matched/unit_0202C318.c.
  * Every concrete byte matches.
  *
- * sub_0202C358 is called by exactly this one `bl` in the whole ROM, so
- * its relocation stays unresolved under the honesty rule, and it is not
- * (yet) covered by the `matched` class because src/pending/unit_0202C318.c
- * itself only reaches MATCH. Closes together with that file.
+ * What closed it: sub_0202C358 is called by exactly this one `bl` in the
+ * whole ROM, so no cut can give the site an outside witness. It is a
+ * member function of src/matched/unit_0202C318.c, which has now promoted
+ * out of src/pending/ and is EXACT, so the `matched` class witnesses the
+ * address (docs/MATCHING.md, "The matched class").
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0202C2C0.c \
+ *   python tools/match.py one --src src/matched/sub_0202C2C0.c \
  *       --func sub_0202C2C0 --addr 0x0202C2C0 --cc 1.1p1 --thumb
  */
 

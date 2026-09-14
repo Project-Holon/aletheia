@@ -1,0 +1,207 @@
+/*
+ * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
+ *
+ * unit:     yes
+ * address:  0x0201B7A0, 384 bytes, five functions
+ * packet:   pkt_0201B038
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH, every concrete byte right (0 differing bytes, 384 of 384)
+ *
+ * The friendship layer of the party code: four entry points that each choose a
+ * three entry signed delta table, and one worker, sub_0201B850, that applies
+ * it to a Pokemon.  sub_0201B7A0 takes an event number and indexes the static
+ * table; sub_0201B7B4 reads three item attributes into a table on its own
+ * stack; sub_0201B7EC picks the third row on a coin flip; sub_0201B818 applies
+ * the second row to every member of a party.
+ *
+ * sub_0201B850 itself is the gen 4 and 5 friendship formula: bucket the
+ * current value at 100 and 200, take the row's signed delta, add one for a
+ * Luxury Ball, add one more when the Pokemon is standing where it was caught,
+ * scale by 150/100 for the friendship-raising hold effect, and clamp the
+ * result to 0..255.
+ *
+ * ---------------------------------------------------------------------------
+ * WHY IT IS CAPPED, and why no cut reaches it
+ * ---------------------------------------------------------------------------
+ * Two sites, and they fail for different reasons.
+ *
+ * **0x0209E45C, the delta table.**  Three pool words name it, at 0x0201B7B0
+ * (the bare symbol), 0x0201B814 (+9) and 0x0201B84C (+6), and those three are
+ * the only words in the 3.9 MB image that hold any of those values.  Declared
+ * as one symbol with addends, which is the right reading of the data
+ * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md),
+ * there is a single address to attest and its single witness is the pool word
+ * at 0x0201B7B0, inside whatever range contains sub_0201B7A0.  Cutting
+ * sub_0201B7A0 out does not help: a range that does not contain it does not
+ * reference the bare symbol either, and the witness it needs is still that one
+ * word.  The only arrangement that would resolve all three is to declare the
+ * base at 0x0209E462 or 0x0209E465, in the middle of the table, so that each
+ * piece is witnessed by another piece's pool word; that is a false claim about
+ * where the object starts, so it is not made.
+ *
+ * **0x02011014.**  The `bl` at 0x0201B8FE is the only branch to it anywhere in
+ * the image, and no pool word holds the address, so the `label` and `literal`
+ * classes both come up empty and no cut can help, because the range cannot be
+ * smaller than sub_0201B850 (docs/MATCHING.md, "the limit of the remedy").  It
+ * closes when 0x02011014 is matched and the `matched` class carries it.
+ *
+ * ---------------------------------------------------------------------------
+ * VERSION SENSITIVITY, read this before porting to Pokemon White
+ * ---------------------------------------------------------------------------
+ * This is the most content-dense function in the packet after the evolution
+ * checker.  Every one of these is a number the game's data decides:
+ *
+ *   650      the egg species id, rejected before anything else.  The same
+ *            number src/matched/unit_0201AFD4.c rejects as the low half of its
+ *            650/651 pair, and the one src/pending/sub_02018E34.c's field map
+ *            names.
+ *   11       the ball id that is worth one extra point: Luxury Ball, in the
+ *            id 0x98 field's space.
+ *   0x35     the item hold effect worth 150/100: the friendship-raising held
+ *            item, in func_02020FE4's attribute 1 space.
+ *   0x3C..0x3E  the three item attributes sub_0201B7B4 reads as a delta row,
+ *            which is how an item carries its own friendship table.
+ *   100, 200 the two bucket thresholds, and 255 the ceiling.
+ *   150, 100 the hold-effect multiplier, written as a multiply and a signed
+ *            divide rather than as a single constant.
+ *   0x0209E45C  the static table itself: eight rows of three signed bytes, of
+ *            which rows 2 and 3 are named directly.  Its contents are pure
+ *            content and are not reproduced here.
+ *
+ * ---------------------------------------------------------------------------
+ * NOTES
+ * ---------------------------------------------------------------------------
+ * **The coin flip is a 64 bit multiply, not a shift.**  sub_0201B7EC compiles
+ * `lsrs r0, #0x1f` / `movs r1, #0` / `lsls r1, #1` / `orrs r1, r0`, which is
+ * the inline expansion of `(u64)x * 2 >> 32` with the high half known to be
+ * zero, and the result is the register the `orrs` accumulates into.  Written
+ * as the algebraically equal `(u64)x >> 31` the same four instructions come
+ * out with r1 and r2 interchanged, because then the accumulator is the low
+ * half rather than the high one
+ * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
+ * The same shape with a different multiplier appears at 0x0201B048, so
+ * "random below N" is written this way throughout the file.
+ *
+ * **The bucket index is `bucket++`, not `bucket = (u8)(bucket + 1)`.**  The
+ * explicit form lets mwccarm fold the first increment of a value it can prove
+ * is zero into `movs r5, #1`, which is two instructions and four bytes short;
+ * `bucket++` keeps the `adds r0, r5, #1` off the register that already holds
+ * the zero, which is
+ * docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md
+ * seen from the side where the rematerialisation is what has to be preserved.
+ * The zero in question is shared with the third argument of the id 6 and id 9
+ * reads, which is why those two are `adds r2, r5, #0` and the later two, after
+ * the increments, are a fresh `movs r2, #0`.
+ *
+ * **The delta row is signed.**  `ldrsb r5, [r0, r5]` with a register offset is
+ * the only evidence of it, since Thumb has no immediate form
+ * (docs/idioms/ldrsh-register-offset-is-signedness.md), and every comparison
+ * on the result is a signed one.
+ *
+ * symbols:
+ *   g_0209E45C  0x0209E45C  data
+ *   _s32_div_f  0x0209C0A4  arm
+ *
+ * Verified with
+ *   python tools/match.py tu --src src/pending/unit_0201B7A0.c  *       --addr 0x0201B7A0 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef signed char    s8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+typedef unsigned long long u64;
+
+extern u32  func_02017E1C(void *p, u32 id, u32 v);
+extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32  func_02020FE4(u32 item, u16 attr, u32 heap);
+extern u32  func_02013E4C(u32 map);
+extern s32  func_02011014(s32 delta);
+extern u32  func_0203F0A8(void);
+
+extern const s8 g_0209E45C[];
+
+void sub_0201B850(void *mon, const s8 *tbl, u32 map, u32 heap);
+
+void sub_0201B7A0(void *mon, u32 event, u32 map, u32 heap)
+{
+    sub_0201B850(mon, &g_0209E45C[event * 3], map, heap);
+}
+
+void sub_0201B7B4(void *mon, u32 item, u32 map, u32 heap)
+{
+    s8 tbl[3];
+    s32 i;
+
+    for (i = 0; i < 3; i++) {
+        tbl[i] = (s8)func_02020FE4(item, (u16)(i + 0x3C), heap);
+    }
+    sub_0201B850(mon, tbl, map, heap);
+}
+
+void sub_0201B7EC(void *mon, u32 map, u32 heap)
+{
+    if (((u32)(((u64)func_0203F0A8() * 2) >> 32) & 1) == 0) {
+        sub_0201B850(mon, &g_0209E45C[9], map, heap);
+    }
+}
+
+extern s32   sub_0201AA18(void *party);
+extern void *sub_0201AB28(void *party, s32 i);
+
+void sub_0201B818(void *party, u32 map, u32 heap)
+{
+    s32 i;
+
+    for (i = 0; i < sub_0201AA18(party); i++) {
+        sub_0201B850(sub_0201AB28(party, i), &g_0209E45C[6], map, heap);
+    }
+}
+
+void sub_0201B850(void *mon, const s8 *tbl, u32 map, u32 heap)
+{
+    u32 here;
+    u32 species;
+    u32 holdEffect;
+    s32 friendship;
+    s32 delta;
+    u8 bucket;
+
+    here = func_02013E4C(map);
+    bucket = 0;
+    species = (u16)func_02017E1C(mon, 0xAB, 0);
+    if (species == 0 || species == 650) {
+        return;
+    }
+    holdEffect = (u8)func_02020FE4((u16)func_02017E1C(mon, 6, 0), 1, heap);
+    friendship = func_02017E1C(mon, 9, 0);
+    if (friendship >= 100) {
+        bucket++;
+    }
+    if (friendship >= 200) {
+        bucket++;
+    }
+    delta = tbl[bucket];
+    if (delta > 0 && func_02017E1C(mon, 0x98, 0) == 11) {
+        delta++;
+    }
+    if (here != 0 && delta > 0 && here == func_02017E1C(mon, 0x96, 0)) {
+        delta++;
+    }
+    if (delta > 0 && holdEffect == 0x35) {
+        delta = delta * 150 / 100;
+    }
+    friendship = friendship + func_02011014(delta);
+    if (friendship < 0) {
+        friendship = 0;
+    }
+    if (friendship > 255) {
+        friendship = 255;
+    }
+    func_02017E40(mon, 9, friendship);
+}
