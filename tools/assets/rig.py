@@ -188,10 +188,167 @@ additional transform -- a reasonable but unverified simplification flagged
 here rather than silently assumed.
 
 --------------------------------------------------------------------------
+NANR (RNAN) format, corrected -- frame-entry / frame-data indirection
+(eighth lane pass; supersedes the seventh pass's "raw curve value" reading)
+--------------------------------------------------------------------------
+The mission for this pass supplied the generic NNS_G2D NANR layout (frame
+entries distinct from frame-data records, three frame-data shapes keyed by
+element type) and asked for byte-level re-verification against species 25.
+That re-verification **holds, with the frame-entry/frame-data split fully
+confirmed and the frame-data shape pinned down empirically**:
+
+`KNBA` (ABNK) body, unchanged from the seventh pass's header read
+(block-relative, all three offsets exact): `num_sequences(u16)=20,
+num_elements(u16)=403, seq_array_ofs(u32)=24, elem_array_ofs(u32)=344,
+elem_array_end(u32)=3568`.
+
+**Element-array records are FRAME ENTRIES, not raw curve values** -- the
+seventh pass's `value(s32), six(u16), sentinel(u16)=0xBEEF` read is the
+*same bytes*, re-verified and reinterpreted: `sentinel` is 0xBEEF in **all
+403 records without exception** (confirmed by direct scan, not sampling),
+and the field the seventh pass called `six` (claimed constant 6) actually
+**varies** (2, 3, 4, 6, 12, 36, 50, 84, ... -- checked directly, the
+"constant 6" was a sampling artifact from only inspecting the first few
+records). This is exactly the mission's `{offset_to_frame_data(u32),
+duration(u16), pad(u16)=0xBEEF}` frame-entry shape: `offset_to_frame_data`
+(the seventh pass's "value") is a **byte offset**, not a curve sample, and
+`duration` (the seventh pass's "six") is a real per-frame duration that
+varies as a duration should.
+
+**`offset_to_frame_data` is relative to the byte immediately after the
+element array** (i.e. relative to `elem_array_end`, not to the file or
+block start) -- confirmed two ways: (1) every one of the 403 offsets is
+`0 <= offset <= 1480`, and the region from `elem_array_end` to the body's
+actual end (`5064` for species 25) is exactly `1496` bytes, so `1480 + 16
+== 1496` lands the largest offset's record exactly at the body boundary;
+(2) decoding the pointed-to bytes at that base as frame-data (next
+paragraph) produces small, sane field values, while every other tried base
+(body-relative, block-relative, self-relative-to-the-offset-field)
+produced nonsense.
+
+**Frame-data record shape: type 1 (SRT), 16 bytes, confirmed by a fixed-
+point tell**: `{cellIdx(u16), rotZ(u16), sx(s32), sy(s32), px(s16),
+py(s16)}`. Decoded at species 25's frame-data offsets, `sx`/`sy` read as
+**4096 in the overwhelming majority of records** -- 4096 = 0x1000 = 1<<12,
+i.e. **1.0 in NNS_G2D's standard FX32 20.12 fixed-point format**, exactly
+the "no scaling" identity value a rest-pose/frame-0 SRT record should
+carry. This is strong, format-specific confirmation of the mission's type-1
+SRT shape (not a guess dressed up -- 4096 as a bare integer would be an
+absurd pixel-scale value, but is the textbook FX32 identity scale).
+`cellIdx` in these records reads small integers in the valid 0-10 cell
+range (mostly 10, occasionally 9), `px`/`py` read small values (0-3 in the
+sample), consistent with a translation curve whose frame-0 value is at or
+near the animation's rest position -- matching the seventh pass's own
+triangle-wave observation (previously misattributed to *element array*
+values 0/8/16/24/... which were actually **byte offsets into this table**,
+not curve samples; re-reading the *pointed-to* `py` fields directly gives
+the much smaller, physically sensible 0/1/2/3/2 triangle wave that was
+actually the curve).
+
+**Not every offset is 16-byte-aligned** (315 of 403 are multiples of 16;
+most of the rest are multiples of 8, consistent with some sequences using
+the mission's 8-byte type-2 "T" shape `{cellIdx(u16), pad(u16), px(s16),
+py(s16)}` instead of type 1 -- this tool tries 16 bytes first for any
+lookup and does not fully disambiguate per-sequence which of the three
+shapes applies, since the sequence-record field that should select it
+(constant `1` across all 20 of species 25's sequences, see below) does not
+visibly vary here). Type-0 `{cellIdx(u16)}` (2 bytes) is not exercised by
+this dataset (no offsets that only make sense at 2-byte granularity were
+found) and is unimplemented.
+
+**Sequence record, reconciled with the mission's field list**: the
+sequence record is still the seventh pass's 16-byte, 5-field struct
+`elem_start(u32), num_frames(u16), field_c(u16)=1 constant,
+field_d(u16... read as u32)=2 constant, field_e(u32)`. Mapping this onto
+the mission's named fields `{num_frames, start_frame_index, animation_type,
+play_mode, offset_to_frames}`: `elem_start` is `start_frame_index` (an
+*index* into the element/frame-entry array, not a byte offset -- re-
+confirmed, every sequence's `elem_start + num_frames` stays inside
+`num_elements=403`), `num_frames` matches by name and behavior directly,
+`field_c`/`field_d` are plausibly `animation_type`/`play_mode` (both
+constant across every one of species 25's 20 sequences, so their exact
+value-to-meaning mapping isn't distinguishable from this one species'
+data). **`field_e` does NOT behave as `offset_to_frames`** in the sense of
+"a pointer to this sequence's own frame-data sub-table": it increases
+monotonically across the sequence array (0, 144, 392, 536, ... 3216) but by
+amounts that don't correlate with `num_frames * any constant frame-data
+stride`, and its largest value (3216) is smaller than `elem_array_end`
+(3568) -- i.e. it points *inside* the frame-entry array, not at the
+frame-data region past it. Left unresolved and unused by this tool (frame
+lookups go through `elem_start` into the shared frame-entry array, which is
+sufficient to reach frame 0 of every sequence).
+
+--------------------------------------------------------------------------
+NMCR (RCMN) node record, re-verified against the mission's proposed layout
+-- mission's literal field order does NOT match this game's bytes
+--------------------------------------------------------------------------
+The mission proposed each node record as `{cellAnimIdx(u16), nodeAttr(u8),
+pad(u8), posX(s16), posY(s16)}` (8 bytes). This tool re-decoded species 25's
+19 node records under that exact layout and compared against the sixth/
+seventh pass's `{label_index(s16), x(s16), y(s16), tag(u8)=0x20,
+cell_index(u8)}` reading, byte-for-byte, **and the mission's literal layout
+produces nonsense while the existing reading remains internally
+consistent**:
+
+- Mission layout's `posY` (bytes 6-7 as a signed 16-bit int) evaluates to
+  32, 288, 544, 800, 1056, ... for successive nodes -- a suspiciously exact
+  arithmetic progression (`256 * cell_index + 32`) that is just the
+  existing reading's constant tag byte `0x20` (=32) in the low byte and its
+  rotating `cell_index` (0-9) in the high byte, reinterpreted as one 16-bit
+  value. This is not a plausible pixel position for a small overworld
+  sprite's body part.
+- The existing reading's `x`/`y` (bytes 2-5, two separate s16 fields) decode
+  as small values (-35..9) that order top-to-bottom by real body-part
+  height exactly as the seventh pass found (ears highest, feet lowest) --
+  a physically sensible placement signal that the mission's split
+  `nodeAttr(u8)/pad(u8)` reading of the same two bytes would destroy.
+
+**Conclusion: the mission's abstract NMCR node description (index + attr
+byte + position) is the right shape of idea -- an index field, then
+placement data -- but this game's concrete on-disk field order is not the
+generic layout as stated.** This tool keeps the sixth/seventh pass's
+verified reading (`label_index` doubles as the mission's `cellAnimIdx`,
+since it was already independently confirmed to be a valid index into
+NANR's 20-entry sequence array by shared LBAL name matching) rather than
+adopting the mission's literal byte order, which measurably produces worse
+(nonsensical) numbers on this data.
+
+**`cell_index`'s real role, revisited**: this pass tried using NANR's own
+frame-0 `cellIdx` (previous section) as an alternative per-node cell
+selector instead of NMCR's own `cell_index` byte. It does not work as a
+drop-in replacement -- across species 25's 10 rest-pose nodes, the NANR
+frame-0 `cellIdx` reads `10` for 7 of them (one shared cell for most
+"different" body parts, which cannot be right for an assembled figure with
+visually distinct parts), so **this tool keeps using NMCR's own
+`cell_index` byte for cell selection**, and additionally now applies each
+node's NANR sequence's frame-0 `(px, py)` as a small delta on top of the
+NMCR node's `(x, y)` (hypothesis (c) from the seventh pass, actually
+executed this time) -- since the deltas are mostly `(0, 0)` or a pixel or
+two, this measurably changes almost nothing about the render, consistent
+with frame 0 being at or near the rest position.
+
+**Placement strategy re-tested, not changed**: the mission's literal
+placement formula (`node.posX + data.px + oam.x`, i.e. summing the node
+position directly onto each OAM's own hardware x/y with no re-centering)
+was re-run this pass (species 25, using NMCR's own verified `cell_index`)
+and, **again**, produces a scattered arrangement with no coherent
+silhouette -- the same failure mode the sixth and seventh passes already
+documented for the "sum" strategy, now confirmed a third time on the
+byte-corrected data. The seventh pass's bbox-center-anchor strategy (place
+each cell's own OAM-bounding-box *center* at the node's `(x, y)`, preserving
+each OAM's position relative to that center) remains the best-looking of
+every strategy tried and is what `compose_pose()` still uses. **The
+mission's "recognizable creature" bar is still not met for any of the
+three species rendered this pass** -- see docs/ASSETS.md for the full,
+honest writeup; this is reported directly rather than dressed up.
+
+--------------------------------------------------------------------------
 Usage
 --------------------------------------------------------------------------
     python tools/assets/rig.py 25                  # species 25 (Pikachu)
     python tools/assets/rig.py 25 --cells-only      # contact sheet only
+    python tools/assets/rig.py 25 --pose            # contact sheet + pose
+    python tools/assets/rig.py --all                # every species/form
 """
 
 import argparse
@@ -209,6 +366,7 @@ OUT_DIR = os.path.join("build", "assets", "rig")
 BLOCK_STRIDE = 20
 LOCAL_NCGR_MAIN = 2       # main tile sheet
 LOCAL_NCER = 4            # cell bank
+LOCAL_NANR = 5            # cell animation (frame-0 SRT delta)
 LOCAL_NMCR = 6            # multi-cell resource (rest pose)
 LOCAL_PALETTE_NORMAL = 18
 
@@ -433,6 +591,77 @@ def parse_nmar(data):
 
 
 # ---------------------------------------------------------------------------
+# NANR (RNAN) -- cell animation: frame-entry / frame-data indirection
+# (corrected this pass; see module docstring "NANR (RNAN) format, corrected")
+# ---------------------------------------------------------------------------
+
+class NanrSequence:
+    __slots__ = ("elem_start", "num_frames")
+
+    def __init__(self, elem_start, num_frames):
+        self.elem_start = elem_start
+        self.num_frames = num_frames
+
+
+class Nanr:
+    def __init__(self, data):
+        magic, hsize, nblk, fsize = _hdr(data)
+        if magic != b"RNAN":
+            raise ValueError(f"not an RNAN (NANR) resource: {magic!r}")
+        pos = hsize
+        bmagic, bsize = struct.unpack_from("<4sI", data, pos)
+        if bmagic != b"KNBA":
+            raise ValueError(f"expected KNBA (ABNK) block, found {bmagic!r}")
+        body = data[pos + 8:pos + bsize]
+        self._body = body
+        num_seq, num_elem = struct.unpack_from("<HH", body, 0)
+        seq_ofs, elem_ofs, elem_end = struct.unpack_from("<III", body, 4)
+        self.num_sequences = num_seq
+        self.num_elements = num_elem
+        self._elem_ofs = elem_ofs
+        self._frame_data = body[elem_end:]
+
+        self.sequences = []
+        for i in range(num_seq):
+            off = seq_ofs + i * 16
+            elem_start, num_frames = struct.unpack_from("<IH", body, off)
+            self.sequences.append(NanrSequence(elem_start, num_frames))
+
+    def frame_entry(self, seq_index, frame_index=0):
+        """Return (offset_to_frame_data, duration) for one frame entry, or
+        None if the sequence has no frames at that index (e.g. the empty
+        feet curves, num_frames=0)."""
+        if not (0 <= seq_index < len(self.sequences)):
+            return None
+        seq = self.sequences[seq_index]
+        if not (0 <= frame_index < seq.num_frames):
+            return None
+        off = self._elem_ofs + (seq.elem_start + frame_index) * 8
+        fofs, duration, _sentinel = struct.unpack_from("<iHH", self._body, off)
+        return fofs, duration
+
+    def frame_data_srt(self, seq_index, frame_index=0):
+        """Return (cellIdx, rotZ, sx, sy, px, py) for one frame's type-1 SRT
+        frame-data record, or None if unavailable. sx/sy are FX32 (20.12
+        fixed point, 4096 == 1.0)."""
+        entry = self.frame_entry(seq_index, frame_index)
+        if entry is None:
+            return None
+        fofs, _duration = entry
+        rec = self._frame_data[fofs:fofs + 16]
+        if len(rec) < 16:
+            return None
+        cell_idx, rot_z = struct.unpack_from("<HH", rec, 0)
+        sx, sy = struct.unpack_from("<ii", rec, 4)
+        px, py = struct.unpack_from("<hh", rec, 12)
+        return cell_idx, rot_z, sx, sy, px, py
+
+
+def parse_nanr(data):
+    return Nanr(data)
+
+
+# ---------------------------------------------------------------------------
 # Compositing
 # ---------------------------------------------------------------------------
 
@@ -457,7 +686,7 @@ def render_oam(ncgr, oam):
     return px
 
 
-def compose_pose(ncgr, ncer, nodes):
+def compose_pose(ncgr, ncer, nodes, nanr=None):
     """Blit every node's cell onto a shared canvas using the **bbox-center
     anchor** strategy (seventh lane pass, see module docstring "NMCR (x, y):
     final assembled position, not a delta" section): for each node, take its
@@ -470,6 +699,16 @@ def compose_pose(ncgr, ncer, nodes):
     -24, hands/tail -19/-9, body/feet -5/-6 for species 25), which only makes
     sense if (x, y) is each part's own placement in the assembled figure, not
     an additive delta on top of the OAM's already-placed coordinates.
+
+    If `nanr` is given, each node's matching NANR sequence (indexed by
+    `node.label_index`, see module docstring "NMCR (RCMN) node record,
+    re-verified") has its frame-0 type-1 SRT frame-data record's (px, py)
+    added as a small delta on top of the node's own (x, y) -- the eighth
+    pass's actual execution of the seventh pass's untested hypothesis (c).
+    Cell selection still comes from NMCR's own `cell_index` byte, not NANR's
+    frame-data `cellIdx` (see module docstring for why: NANR's frame-0
+    cellIdx is a repeated constant across most of species 25's nodes and
+    cannot be the real per-node cell selector).
 
     Still **not confirmed to produce a "recognizable" silhouette** -- see
     docs/ASSETS.md for the honest assessment; this is the best of several
@@ -484,6 +723,11 @@ def compose_pose(ncgr, ncer, nodes):
         cell = ncer.cells[node.cell_index]
         if not cell.oams:
             continue
+        dx = dy = 0
+        if nanr is not None:
+            srt = nanr.frame_data_srt(node.label_index, 0)
+            if srt is not None:
+                _cell_idx, _rot_z, _sx, _sy, dx, dy = srt
         cminx = cminy = 10**9
         cmaxx = cmaxy = -10**9
         for oam in cell.oams:
@@ -495,8 +739,8 @@ def compose_pose(ncgr, ncer, nodes):
         by = (cminy + cmaxy) // 2
         for oam in cell.oams:
             rows = render_oam(ncgr, oam)
-            ax = node.x + (oam.x - bx)
-            ay = node.y + (oam.y - by)
+            ax = node.x + dx + (oam.x - bx)
+            ay = node.y + dy + (oam.y - by)
             placements.append((ax, ay, rows))
             minx = min(minx, ax)
             miny = min(miny, ay)
@@ -664,13 +908,17 @@ def render_one(n, species, out_dir, filename=None, cells_sheet=True):
     ncer = parse_ncer(load_block(n, species, LOCAL_NCER))
     palette = bs.parse_nclr(load_block(n, species, LOCAL_PALETTE_NORMAL))
     nmcr = parse_nmcr(load_block(n, species, LOCAL_NMCR))
+    try:
+        nanr = parse_nanr(load_block(n, species, LOCAL_NANR))
+    except Exception:  # noqa: BLE001 -- NANR delta is a best-effort refinement
+        nanr = None
 
     if cells_sheet:
         sheet_w, sheet_h, sheet_flat = render_cells_contact_sheet(ncgr, ncer, palette)
         cells_path = os.path.join(out_dir, f"{species:04d}_cells.png")
         bs.write_png_rgb8(cells_path, sheet_w, sheet_h, indices_to_rgb(sheet_flat, palette))
 
-    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose())
+    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose(), nanr=nanr)
     out_path = os.path.join(out_dir, filename or f"{species:04d}_pose.png")
     bs.write_png_rgb8(out_path, w, h, indices_to_rgb(flat, palette))
     return w, h, ncer, nmcr
@@ -740,8 +988,15 @@ def main(argv=None):
     print(f"[*] NMCR: {nmcr.num_multi_cell} multi-cell entries, "
           f"{len(nmcr.nodes)} node records, rest pose uses first "
           f"{nmcr.rest_pose_count}")
+    try:
+        nanr = parse_nanr(load_block(n, args.species, LOCAL_NANR))
+        print(f"[*] NANR: {nanr.num_sequences} sequences, "
+              f"{nanr.num_elements} frame entries")
+    except Exception as exc:  # noqa: BLE001 -- NANR delta is best-effort
+        nanr = None
+        print(f"[!] NANR: not applied ({exc})")
 
-    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose())
+    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose(), nanr=nanr)
     out_path = os.path.join(args.out, f"{args.species:04d}_pose.png")
     bs.write_png_rgb8(out_path, w, h, indices_to_rgb(flat, palette))
     print(f"[*] wrote {out_path} ({w}x{h})")

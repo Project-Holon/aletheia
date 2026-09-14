@@ -1673,3 +1673,170 @@ it, and this pass did not get to actually summing a NANR curve value onto
 - The two `--all` boundary failures (species 712/713) were not
   investigated beyond confirming they fail cleanly and are consistent
   with `14285 % 20 == 5` leftover sub-files at the end of the archive.
+
+## Eighth asset lane pass: NANR's frame-entry/frame-data split confirmed exactly; NMCR's mission-proposed layout re-tested and rejected; pose still not recognizable
+
+Mission: re-parse species 25's rig against a supplied generic NNS_G2D
+structural sketch (NANR frame entries distinct from indirected frame-data
+records with three type-keyed shapes; NMCR multi-cell header and node
+record in a specific proposed layout) and pose species 25/1/150. Every
+claim below was checked against raw bytes this pass, not assumed from the
+mission text. **Result: one major structural correction landed and is now
+load-bearing (NANR), one proposed structure was tested and found not to
+match this game's bytes (NMCR node layout), and the "recognizable
+creature" bar from the fifth pass onward is still not met for any of the
+three species** -- reported directly, per this project's practice.
+
+### NANR: the mission's frame-entry/frame-data split holds, confirmed with a fixed-point tell
+
+The seventh pass read NANR's 8-byte element-array records as raw curve
+samples (`value(s32), six(u16)=6 constant, sentinel(u16)=0xBEEF`). This
+pass re-scanned **all 403 element records** (not a sample) for species 25
+and found the seventh pass's "six" field actually **varies** (2, 3, 4, 6,
+12, 36, 50, 84, ...) while `sentinel` really is `0xBEEF` in every single
+record. That is exactly the mission's frame-entry shape
+`{offset_to_frame_data(u32), duration(u16), pad(u16)=0xBEEF}` -- the
+"value" field is a byte offset, not a sample, and "six" is a real duration.
+
+`offset_to_frame_data` is relative to the byte immediately after the
+element array (`elem_array_end`, confirmed exact: species 25's 403 offsets
+range `0..1480`, and `elem_array_end` to the body's real end is exactly
+1496 bytes -- `1480 + 16 == 1496`, the largest offset's record lands
+exactly on the boundary). The frame-data record it points to decodes
+cleanly as the mission's **type-1 SRT shape** (`cellIdx(u16), rotZ(u16),
+sx(s32), sy(s32), px(s16), py(s16)`, 16 bytes): `sx`/`sy` read **4096** in
+the large majority of records, and `4096 == 1<<12` is the identity scale
+in NNS_G2D's standard FX32 20.12 fixed-point format -- a format-specific
+tell, not a coincidence, and strong confirmation this is really an
+SRT-shaped animation record. `px`/`py` read as small values (0-3 for
+species 25's rest-pose nodes) forming the same triangle-wave shape the
+seventh pass already noticed, now correctly attributed to the *frame-data*
+`py` field rather than the element array's raw bytes (which were actually
+the offsets pointing at it). 315 of 403 offsets are 16-byte-aligned; most
+of the rest are 8-byte-aligned, consistent with some sequences using the
+mission's second, 8-byte type-2 "T" shape instead -- not disambiguated
+this pass (the sequence-record field that should select it reads constant
+across all 20 of species 25's sequences). Full byte-level writeup, field
+by field, in `tools/assets/rig.py`'s module docstring.
+
+**This is now applied, not just decoded**: `compose_pose()` takes an
+optional `nanr` argument and adds each rest-pose node's own NANR sequence's
+frame-0 `(px, py)` onto the node's NMCR `(x, y)` before placing the cell --
+the seventh pass's hypothesis (c), never actually executed until now. The
+deltas are mostly `(0, 0)` or a pixel or two, so the rendered poses for all
+three species are visually almost unchanged from the seventh pass's
+(dimensions identical to the pixel: `0025_pose.png` still 47x58,
+`0001_pose.png` still 58x44, `0150_pose.png` 89x86 vs. previously 89x87 --
+a one-pixel bbox difference from the small deltas, nothing more). This
+confirms frame 0 really is at or near the rest position, as assumed.
+
+### NMCR: the mission's proposed node layout was tested against raw bytes and rejected; the existing reading is re-confirmed correct
+
+The mission proposed `{cellAnimIdx(u16), nodeAttr(u8), pad(u8), posX(s16),
+posY(s16)}` per node (8 bytes). This pass decoded species 25's 19 node
+records under that exact layout, byte for byte, and compared against the
+sixth/seventh pass's `{label_index(s16), x(s16), y(s16), tag(u8)=0x20,
+cell_index(u8)}` reading. **The mission's layout produces nonsense on this
+data**: its `posY` (the raw bytes at offset 6-7 as one s16) evaluates to
+`32, 288, 544, 800, 1056, ...` across successive nodes -- transparently
+just the existing reading's constant `0x20` tag byte (low byte) and its
+rotating `cell_index` 0-9 (high byte) reinterpreted as one 16-bit number,
+not a plausible small-sprite pixel position. The existing reading's own
+`x`/`y` (the same two bytes, read as two separate s16 fields) are the ones
+that order top-to-bottom by real body-part height (ears highest, feet
+lowest, matching species 25's actual anatomy) -- **re-confirmed correct,
+not re-derived from scratch**, by directly testing the alternative and
+watching it fail. The multi-cell descriptor array's byte size was also
+re-checked against the mission's proposed 12-byte `{numNodes, numCellAnim,
+flags, pad, offset}` struct: the gap between the descriptor array and the
+node array in species 25's NMCR is exactly 20 bytes for 2 entries, which
+is only consistent with the **existing 10-byte stride**, not 12 -- another
+mission-proposed field count tested directly against file geometry and
+rejected. **Conclusion: the mission's abstract description (an index field,
+then placement data) is directionally right, but the concrete on-disk
+field order/sizes for this game's NMCR are not the generic layout as
+given.** Nothing in `rig.py`'s NMCR parsing changed as a result -- the
+existing reading was re-verified, not replaced.
+
+### Cell selection: NANR's frame-0 `cellIdx` tried as a replacement for NMCR's own `cell_index`, and rejected
+
+Now that NANR's frame-data `cellIdx` field is properly decoded, this pass
+tried using it (via `node.label_index -> NANR sequence -> frame 0 ->
+cellIdx`) as an alternative to NMCR's own suspicious "`position + 1 mod
+10`" `cell_index` byte (flagged as suspicious since the seventh pass).
+**It does not work as a replacement**: for species 25's 10 rest-pose nodes,
+NANR's frame-0 `cellIdx` reads `10` for 7 of the 10 (i.e. most "different"
+body parts would draw the identical cell), which cannot be the real
+per-node cell selector for an assembled figure with visually distinct
+parts. `compose_pose()` therefore still uses NMCR's own `cell_index` byte
+for cell selection; NANR only contributes the small `(px, py)` position
+delta described above. NMCR `cell_index`'s literal-rotation pattern
+remains unexplained, now doubly so (it is still the *only* field that
+produces plausible per-node cell variation, despite looking suspiciously
+positional).
+
+### Placement formula: the mission's literal sum formula re-tested a third time, still scatters
+
+The mission's placement formula (`node.posX + data.px` summed directly
+onto each OAM's own hardware `(x, y)`, cell origin used as-is, no
+re-centering) was re-implemented exactly as stated and re-rendered for
+species 25 this pass. **It reproduces the same scattered, non-coherent
+arrangement the sixth and seventh passes already found** for the "raw sum"
+strategy -- now confirmed a third time, on the byte-corrected NANR/NMCR
+data, ruling out "the earlier scatter was just a decode bug in NANR or
+NMCR" as an explanation. The seventh pass's bbox-center-anchor strategy
+(place each cell's OAM-bounding-box center at the node position, keeping
+every OAM's offset from that center) remains the best-looking result of
+every strategy tried across three passes now and is what `compose_pose()`
+uses; a position-index-based cell reassignment (cell `i` for rest-pose node
+`i`, instead of the stored rotating `cell_index` byte) was also tried this
+pass as a quick check and produced a different but equally non-recognizable
+arrangement, not adopted.
+
+### `tools/assets/rig.py` changes this pass
+
+- **`Nanr` class + `parse_nanr()`** (new): parses the ABNK header, sequence
+  array, frame-entry array, and frame-data region; `frame_entry()` and
+  `frame_data_srt()` expose frame-0 (or any frame) lookups by sequence
+  index.
+- **`compose_pose(ncgr, ncer, nodes, nanr=None)`**: new optional `nanr`
+  parameter; when given, adds each node's NANR frame-0 `(px, py)` onto its
+  NMCR `(x, y)` before the existing bbox-center-anchor placement. `main()`
+  and `render_one()` both load NANR (local index 5) best-effort (wrapped in
+  try/except so a missing/malformed NANR degrades to the seventh pass's
+  behavior rather than crashing) and pass it through.
+- Module docstring gained two large new sections (NANR corrected format,
+  NMCR re-verification against the mission's proposed layout) documenting
+  every claim above at the byte level.
+
+### What remains after this pass
+
+- **The mission's "recognizable creature" bar is still not met**, for
+  species 25, 1, or 150 -- unchanged from the seventh pass's honest
+  assessment, now re-confirmed after two more structural corrections
+  (NANR fully wired in, NMCR's alternative layout ruled out) rather than
+  merely re-asserted.
+- **NMCR `cell_index`'s real selection mechanism is still unresolved**,
+  and is now the single most concrete open item: it is confirmed to be
+  the *only* field among everything decoded so far (NMCR's own fields,
+  NANR's frame-data `cellIdx`) that produces plausible per-node cell
+  variation, yet its `position + 1 mod 10` pattern is still suspicious.
+  Comparing it across more species, or looking for a third, still-unfound
+  indirection (a literal "cell-animation array" inside the multi-cell
+  descriptor that the mission's pipeline describes but this project has
+  not located the bytes for) is the most promising next step.
+- **NANR's second/8-byte frame-data shape (type 2 "T") is not
+  disambiguated from type 1 (SRT)**: this tool always tries the 16-byte
+  shape; the ~22% of frame entries whose offsets are 8-aligned but not
+  16-aligned are silently misread as truncated/misaligned 16-byte records
+  rather than correctly as 8-byte ones. Not yet load-bearing for species
+  25's rest pose (frame 0 of every *used* sequence in this pass's render
+  happened to decode with sane-looking 16-byte values) but a real gap.
+  Type 0 (`{cellIdx}`, 2 bytes) remains entirely unexercised.
+- The multi-cell descriptor array's own fields beyond node-count (its
+  first 10-byte entry's other four values, and the second entry's
+  9-node span) remain undecoded; the mission's proposed 12-byte struct
+  for this was tested and ruled out this pass (see above), but nothing
+  new was found in its place.
+- `local 8`/`local 17`'s unrecognised raw blobs and NMAR's own unresolved
+  `table_a`/`table_b`/`table_c` fields (sixth pass) remain undecoded.
