@@ -24,6 +24,18 @@
    ]
   },
   {
+   "name": "func_0201F094",
+   "address": "0x0201F094",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201F094.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
    "name": "unit_0201F0F8",
    "address": "0x0201F0F8",
    "kind": "game_unit",

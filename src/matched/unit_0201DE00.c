@@ -1,0 +1,52 @@
+/*
+ * unit:     yes
+ * address:  0x0201DE00
+ * packet:   pkt_0201D6D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * function: func_0201DE00, func_0201DE18
+ *
+ * symbols:
+ *   g_02146578   0x02146578  data
+ *
+ * The current text colour, read back and compared.  g_02146578 is the three
+ * bytes func_0201DD78 stores the last requested colour into.
+ *
+ * func_0201DE18 returns 1 when the colour differs, and its shape is the
+ * disjunction form rather than the conjunction: the first two comparisons branch
+ * to one shared `movs r0, #1` block and only the last one branches past it,
+ * which is what `if (r != c[0] || g != c[1] || b != c[2]) return 1;` gives.
+ * Written as `if (all equal) return 0; return 1;` the arms swap and ten of the
+ * forty bytes are wrong
+ * (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md).
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201DE00.c \
+ *       --addr 0x0201DE00 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+extern u8 g_02146578[3];
+
+void func_0201DE00(u8 *r, u8 *g, u8 *b)
+{
+    *r = g_02146578[0];
+    *g = g_02146578[1];
+    *b = g_02146578[2];
+}
+
+u32 func_0201DE18(u32 r, u32 g, u32 b)
+{
+    if (r != g_02146578[0] || g != g_02146578[1] || b != g_02146578[2]) {
+        return 1;
+    }
+    return 0;
+}

@@ -1,0 +1,76 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0201CEE0",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_0201D478",
+   "address": "0x0201D478",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201D478.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201D478"
+   ]
+  },
+  {
+   "name": "unit_0201D4BC",
+   "address": "0x0201D4BC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201D4BC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201D4BC"
+   ]
+  },
+  {
+   "name": "unit_0201D528",
+   "address": "0x0201D528",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201D528.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201D528"
+   ]
+  },
+  {
+   "name": "unit_0201D5C4",
+   "address": "0x0201D5C4",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201D5C4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201D5C4",
+    "func_0201D5CC",
+    "func_0201D5F4",
+    "func_0201D60C",
+    "func_0201D658",
+    "func_0201D670",
+    "func_0201D688"
+   ]
+  }
+ ]
+}

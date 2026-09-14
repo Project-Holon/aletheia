@@ -1,0 +1,57 @@
+/*
+ * Parked: byte correct, capped at MATCH by the evidence rather than by
+ * the C.
+ *
+ * unit:     yes
+ * function: sub_02025B64
+ * address:  0x02025B64
+ * packet:   pkt_02025774
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * symbols:
+ *   sub_02025B3C_Table  0x0209FA34  data
+ *   sub_02025B64_Table  0x0209FA3D  data
+ *
+ * A third accessor over the record array func_02025B3C searches
+ * (src/matched/sub_02025B3C.c): the same linear key search, but on a
+ * match it returns a different byte field of the record (offset +9)
+ * instead of the index. Returns 0 when nothing matches. The +9 field is
+ * declared as its own pool symbol rather than an offset off
+ * sub_02025B3C_Table: the original loads it through a second, separate
+ * pool word, not through address arithmetic on the first (confirmed:
+ * the offset form reproduces every other byte but not this one, so the
+ * two declarations are kept separate).
+ *
+ * Every concrete byte is reproduced. sub_02025B3C_Table's relocation
+ * resolves (two outside literal witnesses), but sub_02025B64_Table has
+ * none: nothing else in the image loads 0x0209FA3D as a literal, and it
+ * is not a string start. Parked until something else references this
+ * field or the `matched` class reaches it another way.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/sub_02025B64.c \
+ *       --func sub_02025B64 --addr 0x02025B64 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern const u8 sub_02025B3C_Table[];
+extern const u8 sub_02025B64_Table[];
+
+u32 sub_02025B64(u32 key)
+{
+    u32 i;
+
+    for (i = 0; i < 0x13; i++) {
+        if (key == sub_02025B3C_Table[i * 0xc]) {
+            return sub_02025B64_Table[i * 0xc];
+        }
+    }
+    return 0;
+}

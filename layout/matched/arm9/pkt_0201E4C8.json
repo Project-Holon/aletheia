@@ -56,6 +56,18 @@
     "func_0201EFA4",
     "func_0201EFC8"
    ]
+  },
+  {
+   "name": "func_0201EFFC",
+   "address": "0x0201EFFC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201EFFC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
   }
  ]
 }

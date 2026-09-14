@@ -1,7 +1,5 @@
 /*
- * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
- *
- * unit:     yes
+ * function: func_0201F094
  * address:  0x0201F094
  * packet:   pkt_0201F020
  * region:   arm9
@@ -9,20 +7,28 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * function: func_0201F094
+ * status:   EXACT
+ *
+ * Promoted from src/pending/sub_0201F094.c: every concrete byte was
+ * already reproduced, and the one relocation, the call to
+ * func_02025B94, was capped at MATCH because the only branch to that
+ * address anywhere in the image is the one inside this function. Now
+ * that src/matched/sub_02025B94.c is an EXACT entry, the `matched` class
+ * attests the call without needing a second caller, and this file closes
+ * to EXACT.
  *
  * A wordset.c setter that maps a caller value to a message id through
- * func_02025B94 and renders it.  Every concrete byte is reproduced; the one
- * unresolved relocation is the call to 0x02025B94, and the call at 0x0201F09E
- * inside this function is the only branch to that address anywhere in the
- * image, so neither a cut nor the `matched` class reaches it until 0x02025B94
- * itself is matched.  That is why the wordset.c setter run is committed as
- * src/matched/unit_0201F020.c and src/matched/unit_0201F0F8.c with this
- * function left out between them.
+ * func_02025B94 and renders it. That is why the wordset.c setter run is
+ * committed as src/matched/unit_0201F020.c and
+ * src/matched/unit_0201F0F8.c with this function left out between them;
+ * it can now be folded back in on a future pass.
+ *
+ * symbols:
+ *   func_02025B94  0x02025B94  thumb
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/sub_0201F094.c  *       --addr 0x0201F094 --thumb
+ *   python tools/match.py one --src src/matched/sub_0201F094.c \
+ *       --func func_0201F094 --addr 0x0201F094 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
