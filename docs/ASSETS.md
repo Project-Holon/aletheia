@@ -1089,3 +1089,158 @@ archive.
   really are "overworld/menu sprites" (the third pass's guess) or something
   else entirely (e.g. a general per-species resource table that happens to
   also hold the battle palette) is still open.
+
+## `a/0/0/4` block entries 0-17: a self-contained cell-animation rig, NOT the `a/1/3/4` OAM source
+
+Fifth asset lane pass, scoped to the mission of characterizing the other 18
+entries of `a/0/0/4`'s 20-entry-per-species block (species 25/Pikachu as the
+worked example) and testing the hypothesis that its `RECN`/NCER cell bank's
+OAM tile indices point into `a/1/3/4`'s 0x20000-byte battle-sprite tile blob.
+**That hypothesis is false** -- see below -- so the pixel-layout gap on
+`a/1/3/4` (documented above under "Known issue: pixel layout") is **still
+open**; this pass closes a different, related question instead (what the
+other 18 `a/0/0/4` entries actually are).
+
+### Block entry map (species 25, local indices 0-19, sub-file index = `20*25 + local`)
+
+| local | decompressed magic | dec./raw size | role |
+|---|---|---|---|
+| 0 | RGCN (NCGR) | 4656 (12x12 tiles, 4bpp, 4608B tile data) | small tile sheet |
+| 1 | RGCN (NCGR) | 4656 | duplicate of local 0 (byte-identical layout, separate LZ11 stream) |
+| 2 | RGCN (NCGR) | 16448 (16x32 tiles, 4bpp, 16384B tile data) | main tile sheet |
+| 3 | RGCN (NCGR) | 16448 | duplicate of local 2 |
+| 4 | RECN (NCER), raw | 476 | cell bank (11 cells / 17 OAMs, see below) |
+| 5 | RNAN (NANR) | 5324 | cell animation (references NCER cell indices) |
+| 6 | RCMN (NMCR), raw | 220 | multi-cell resource (rig/skeleton grouping cells) |
+| 7 | RAMN (NMAR), raw | 107 | multi-cell animation (poses/moves the NMCR rig) |
+| 8 | unrecognised, raw | 544 | no NITRO magic; first 4 bytes `0b 00 00 00`; not decoded this pass |
+| 9-12 | RGCN x4 | 4656/4656/16448/16448 | second copy of local 0-3 (see below) |
+| 13 | RECN (NCER), raw | 376 | second cell bank (smaller than local 4) |
+| 14 | RNAN (NANR) | 4360 | second animation |
+| 15 | RCMN (NMCR), raw | 188 | second multi-cell resource |
+| 16 | RAMN (NMAR), raw | 107 | second multi-cell animation |
+| 17 | unrecognised, raw | 400 | no NITRO magic; first 4 bytes `08 00 00 00`; not decoded this pass |
+| 18 | RLCN (NCLR) | 72 | normal palette (`PALETTE_NORMAL_OFFSET`) |
+| 19 | RLCN (NCLR) | 72 | shiny palette (`PALETTE_SHINY_OFFSET`) |
+
+So the 20-entry block is two near-identical `NCGR x2 + NCER + NANR + NMCR +
+NMAR + unknown-blob` bundles (local 0-8 and 9-17, most plausibly front/back
+or male/female variants of the same rig) followed by the palette pair. Every
+bundle is a **complete, self-sufficient Nitro 2D cell-animation resource
+set**: tiles (NCGR), a cell bank mapping OAMs to those tiles (NCER), a
+cell-index animation (NANR), and a multi-cell rig/pose animation
+(NMCR/NMAR) for combining multiple cells into an articulated figure. This
+is the standard NNS_G2D toolkit shape for a *poseable, multi-part* sprite
+(distinct from a single flat image).
+
+### NCER findings (local index 4, sub-file 504 for species 25)
+
+Parsed the generic NCER `KBEC` (CEBK reversed) block header (public NDS
+format shape, no project code copied):
+
+- **11 cells, 17 OAMs total**, `mapping_type = 4` (1D OBJ character mapping,
+  256-byte-per-index-step boundary -- the standard NNS_G2D `mappingType`
+  enum where 0 = 2D and 1..4 = 1D with boundary `32 << (mappingType-1)`
+  bytes; type 4 -> boundary 256B). Cells are the "simple" (non-extended)
+  form (`cell_info` bit0 clear -- no per-cell bounding-box rectangle), 8
+  bytes each: `num_oam(u16), cell_attr(u16), oam_ofs(u32)`. The OAM array
+  follows immediately after the cell array, 6 bytes/OAM (3x u16, standard
+  GBA/NDS OAM attr0/attr1/attr2 triple: y/shape/color-depth, x/flip/size,
+  tile-index/priority/palette).
+- OAM shapes/sizes span the small end of the standard shape table (8x8 up
+  to 32x16), `tile_idx` values range 0-165, all `pal=0`, no flips set.
+- **A companion `LBAL` (LABL) block lists 20 name strings** for this NCER,
+  not 11 -- and they are **Japanese Pokemon body-part names**: `atama`
+  (head), `kuti01` (mouth), `karada` (body), `mimi01`/`mimi02` (ear x2),
+  `o` (tail), `te01`/`te02` (hand/arm x2), `asi01`/`asi02` (foot/leg x2),
+  then the same 10 names again with an `_2` suffix. This is strong,
+  species-appropriate (Pikachu has two ears, a tail, two hands, two feet)
+  confirmation that **this NCER's cells are individual body parts of an
+  articulated rig**, not a single full-body battle-sprite frame -- matching
+  the NMCR/NMAR pair alongside it (multi-cell = "assemble these named
+  parts", multi-cell-animation = "move them"). The 20-vs-11 count mismatch
+  (more labels than cells) was not resolved this pass; a plausible guess is
+  that LABL is a shared/reused string table (e.g. also referenced by the
+  local-13 NCER, or by unused label slots), not investigated further.
+
+### Tile-index resolution: `a/0/0/4`'s own local NCGR, not `a/1/3/4`
+
+Composed the 17 OAMs (fetching each OAM's tile(s) as consecutive 32-byte
+4bpp tiles starting at `tile_idx`, standard row-major 8x8 nibble-packed
+tiles, low nibble = left pixel, blitted at the OAM's signed x/y cell-local
+offset) against two candidate tile sources, both loaded via `species*20 +
+18` for the palette:
+
+1. **`a/1/3/4` sub-file 25's 0x20000 payload** (the mission's working
+   hypothesis), tried at both `tile_idx * 32` (dense) and `tile_idx * 256`
+   (the NCER's own declared 256-byte boundary) byte-offset scales. **Both
+   produce the same noisy, vertically-banded garbage** as the existing
+   third/fourth-pass renders of `a/1/3/4` on its own -- confirming this
+   NCER is not the right cell table for that archive's pixel data (or, if
+   it is, the boundary/addressing recovered here is still not enough to
+   fix the pre-existing banding bug). Tried two more pixel-unpack variants
+   (high-nibble-first, and a transposed/column-major tile read) against the
+   same blob: neither removes the banding, it only changes its axis
+   (vertical stripes vs. horizontal stripes), which points at the banding
+   being a property of how `a/1/3/4`'s raw bytes are addressed/tiled in
+   the first place, independent of which NCER or scale reads them.
+2. **`a/0/0/4` local entry 2's own decompressed NCGR tile data** (parsed
+   the `RAHC`/CHAR block correctly: `u16 tileNumY, u16 tileNumX, u32
+   bitdepth, u16 pad, u16 flag, u32 unk1, u32 dataSize, u32 dataOfs` --
+   16x32 tiles, 4bpp, 16384-byte tile array at body offset 0x18), read at
+   `tile_idx * 32` (dense, matching the tile sheet's own packed layout).
+   **This one decodes cleanly**: every OAM's 8x8/16x8/etc. block comes out
+   as clean, contiguous, single-color-family (yellow/gold/brown/red-black,
+   Pikachu's real palette) shapes with **no banding at all** -- strong
+   confirmation that `local 4`'s NCER is paired with `local 2`'s NCGR (and
+   `local 0`'s smaller sheet, and their `local 9-13` counterparts), a
+   completely different tile source than `a/1/3/4`.
+
+**Conclusion: the mission's premise was wrong for this specific pairing.**
+`a/0/0/4`'s NCER/NCGR/NANR/NMCR/NMAR bundles are a self-contained rig with
+their own embedded tiles -- most likely the overworld-follower or menu
+"poseable" Pikachu, not the battle sprite. `a/1/3/4`'s battle-sprite blob
+(confirmed in the third pass to carry no NITRO chunk magic at all) still has
+**no located cell/OAM table anywhere in this ROM as of this pass** -- the
+`a/0/0/4` NCER was the leading candidate and is now ruled out. The
+vertical/horizontal-banding pixel-layout bug on `a/1/3/4` remains unsolved.
+
+### Frame composition result
+
+Composing local NCGR + local NCER for species 25 (`build/assets/battle_cells/
+0025_local_ncgr.png`, not committed -- gitignored `build/` output) produces
+clean yellow/brown/red Pikachu-colored fragments (visually confirmed by
+direct inspection of the rendered PNG) but **not a coherent full-body
+silhouette**: the OAMs land as scattered small pieces (ears, hands, feet
+etc., matching the body-part label names) rather than a single assembled
+pose, because a cell bank's per-cell OAM offsets alone don't include the
+NMCR/NMAR rig-assembly step (which cell goes where, and in what animation
+frame) -- that would need decoding `local 6`/`local 7` (NMCR/NMAR) as well,
+not attempted this pass. Per this lane's instructions, **no `--cells` mode
+was added to `battle_sprite.py`**, since the render does not meet the
+"recognizable silhouette" bar for `a/1/3/4` battle sprites specifically (and
+is, in any case, decoding the wrong archive's sprite for that purpose).
+
+### What remains after this pass
+
+- **`a/1/3/4`'s pixel layout is still unsolved.** This pass ruled out
+  `a/0/0/4`'s NCER as its cell table (clean decode against `a/0/0/4`'s own
+  NCGR, banded garbage against `a/1/3/4` regardless of scale or nibble/
+  transpose variant tried) but did not find the real one. Next places to
+  look: `a/0/5/2` (the sibling archive, not yet checked for a *different*
+  non-palette structure than `a/0/0/4`), or a lookup/offset table elsewhere
+  in the ROM (code overlay or another NARC) that pairs directly with
+  `a/1/3/4`'s sub-file indices.
+- `local 8`/`local 17`'s unrecognised raw blobs (544/400 bytes, no NITRO
+  magic) were not decoded -- possibly vertex/bounding or VRAM-transfer
+  metadata belonging to the NCER's `ext_ofs` field (seen as 0 in this
+  sample, so probably not directly referenced, but not confirmed).
+- The 20-vs-11 LABL/cell count mismatch on the NCER was not explained.
+- `local 6`/`7` (NMCR/NMAR, the actual rig-assembly and pose-animation
+  data) were identified by magic only, not parsed -- decoding them is the
+  natural next step to actually assemble a full posed figure from
+  `a/0/0/4`'s parts (a different, still-useful deliverable, just not a
+  battle sprite).
+- Per-species animation frame count for `a/1/3/4` itself is still
+  unknown; nothing in `a/0/0/4` turned out to describe it (it describes a
+  different rig's animation instead).
