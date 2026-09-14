@@ -4508,3 +4508,149 @@ bytes inside compressed or binary audio/model data, not a real magic. No
   search style, or a 3D-rendered (NSBMD/NSBTX) representation -- `a/1/9/4`
   and `a/0/4/9`'s already-large texture archives are untried candidates
   for the latter, out of this pass's scope/budget.
+
+## Asset lane pass: true post-decompression inner-magic census, all three NCGR+NCER+NANR-shaped candidates render correctly for the first time and are confirmed NOT trainer battle sprites (`tools/assets/inner_magic_census.py`)
+
+Mission: find the trainer battle sprites by histogramming the INNER magic
+of every compressed sub-file (decompress first, then read the magic) across
+every NARC, not the outer/compressed-header magic `inventory.py` already
+records. No earlier pass had done this: `inventory.py`'s magic histogram is
+computed on raw on-disk bytes (a compressed sub-file's "magic" there is its
+BIOS compression tag, not what it decompresses to); `trainer_locate.py
+--widen` decompresses but only ever checks "is there a >=100-tile NCGR
+here", never builds a full per-archive population of decompressed magics.
+New tool: `tools/assets/inner_magic_census.py`.
+
+### Method and ROM-wide result
+
+Every NARC under `extract/data/` (237 of the 247 total files parse as a
+NARC; the other 10 are lone SDAT/compressed-blob files with no sub-files
+to census, same count as every earlier pass) is opened, and every
+sub-file is resolved to its INNER magic: if it opens with a recognised
+BIOS compression header (LZ77/LZ11/Huffman4/Huffman8/RLE), it is actually
+decompressed (`narc.try_decompress`, all four kinds) and the first 4 bytes
+of the DECOMPRESSED payload are recorded as the magic, alongside the real
+decompressed size; otherwise the sub-file's own bytes are used directly.
+ROM-wide inner-magic totals (top of the histogram): NCGR 9324, NCLR 4232,
+NCER 3274, NANR 3274, NMCR 2960, NMAR 2960, NSBTX 1341, `" APS"` 774
+(the already-cracked trainer-portrait wrapper), NSCR 609, NSBMD 413,
+NSBCA 258, NSBTA 187, NSBTP 112 -- the long remaining tail is mostly
+audio/model sub-chunk magics and short binary sequences that happen to be
+printable, consistent with the existing "no second custom sprite wrapper"
+finding from the previous pass's tag census.
+
+### Shortlist: exactly 3 archives, all already-known candidates
+
+Shortlist rule (per mission): NCGR + NCER + NANR ALL present in an
+archive's inner-magic histogram, combined count in [100, 400]. Exactly
+three archives qualify, ROM-wide:
+
+| archive | bundle_count | NCGR | NCER | NANR | NCLR | largest NCER cell bbox |
+|---|---|---|---|---|---|---|
+| `a/0/8/3` | 132 | 66 | 33 | 33 | 37 | 96x96 (pass) |
+| `a/0/7/8` | 157 | 55 | 51 | 51 | 7  | 136x48 (fail -- one dim <64) |
+| `a/0/7/2` | 380 | 190 | 95 | 95 | 95 | 80x80 (pass) |
+
+All three are already-documented candidates from the "Trainer battle
+sprite mission" pass (`a/0/7/8`/`a/0/8/3` characterized by
+`trainer_locate.py --candidates`, `a/0/7/2` by the original locate pass
+and the fixed-size census pass) -- this census did not surface any new
+archive, confirming the earlier passes' coverage was complete for this
+shape of search. The `>=64x64` OAM cell-size filter (read directly off
+each NCER's shape/size attribute bits via `rig.Oam`) is computed here for
+the first time as a programmatic check rather than eyeballed from a raw
+tile-grid render.
+
+### Rendering: two real compositing bugs fixed, both candidates now render correctly for the first time
+
+Rendering two samples per shortlisted archive (palette-applied, proper
+per-OAM placement -- not `trainer_locate.py`'s raw tile-grid dump) surfaced
+two real bugs in every prior raw-dump-based identification of these same
+three archives:
+
+1. **NCER `mapping_type` was never applied.** A cell bank's `mapping_type`
+   (0/1/2 = 32B/64B/128B tile-stride boundary, see `overworld.py`'s
+   module docstring) scales what an OAM's `tile_idx` field actually
+   addresses; reading it as dense (mapping_type 0) when the real value is
+   1 or 2 silently under-addresses every tile past the first. `a/0/7/2`'s
+   per-entity NCER declares mapping_type 1; naive dense addressing turned
+   its main 64x64 OAM into near-total transparency.
+2. **NCGR `char_format` 1 ("bitmap") was never handled outside `rig.py`.**
+   `trainer_locate.py`'s `RawNcgr` (used by every earlier raw-dump render
+   of these three archives) always reads tile data as flat 8x8-tiled
+   blocks. `a/0/7/2`'s per-entity NCGR declares `char_format=1`: a linear
+   `tile_num_x*8` x `tile_num_y*8` bitmap where a cell's tile index
+   addresses a 2D block POSITION, not a flat offset (the same distinction
+   `rig.py`'s own docstring identifies as "the fifth lane pass's pixel-
+   layout bug", but never propagated to `trainer_locate.py`). Dense
+   addressing against this format produces near-empty noise.
+
+`inner_magic_census.py`'s new `FlexNcgr` (char_format-aware) and
+`render_oam_generic`/`render_cell_generic` (mapping_type-aware) fix both;
+`--render-shortlist` renders two samples per shortlisted archive to
+`build/assets/trainer_census/`.
+
+### Identification: all three confirmed non-sprite, with much stronger evidence than before
+
+- **`a/0/7/2`** (samples: `a_0_7_2_ncer0002_ncgr0001_pal0007.png`,
+  `..._ncer0010_ncgr0009_pal0007.png`): the corrected render shows a
+  filled red-and-white **Poke Ball icon** occupying the main 64x64 OAM,
+  plus a small, separate **cropped trainer-portrait face fragment**
+  (visible hair/skin/eye pixels) tucked in one corner of the same 80x80
+  cell in every sample checked. This is a trainer-card/badge composite
+  (insignia + tiny face icon), not a full animated battle sprite --
+  **confirms** the existing "trainer-card/badge rig" finding from the
+  fixed-size census pass, now with a real composited image instead of a
+  noise verdict from a wrong-layout guess.
+- **`a/0/8/3`** (samples: `a_0_8_3_ncer0081_ncgr0074_pal0073.png`,
+  `..._ncer0082_ncgr0074_pal0073.png`): both largest-cell samples render
+  as a plain **8-swatch colour gradient bar** (a 16-tile NCGR, mostly
+  empty 96x96 canvas with the swatch bar in one corner) -- a gauge/meter
+  UI element, not a sprite. **Confirms** the existing "battle/menu HUD
+  graphics" finding.
+- **`a/0/7/8`** (samples: `a_0_7_8_ncer0080_ncgr0061_pal0006.png`,
+  `..._ncer0081_ncgr0061_pal0006.png`, both fail the `>=64x64` filter at
+  136x48): renders as a small **repeated UFO/mushroom-shaped creature
+  icon** (a status- or item-icon shape, tiled across the contact sheet),
+  not a human figure. **Confirms** the existing "battle/menu HUD
+  graphics" finding.
+
+### Report
+
+- **Inner-magic census**: `tools/assets/inner_magic_census.py`, full
+  ROM-wide results in `build/assets/inner_magic_census.json` (237
+  archives). Summary above.
+- **Shortlist**: exactly 3 archives meet the NCGR+NCER+NANR-bundle,
+  100-400-count, >=64x64-cell criteria: `a/0/7/2`, `a/0/8/3` (pass the
+  size filter), `a/0/7/8` (fails it). All three were already
+  characterized by earlier passes; this pass adds no new candidate.
+- **Renders**: `build/assets/trainer_census/` (6 files, two per
+  shortlisted archive, palette-applied, mapping_type- and char_format-
+  aware compositing).
+- **Identification**: none is a trainer battle sprite. `a/0/7/2` is a
+  trainer-card/badge icon (Poke Ball + cropped portrait fragment);
+  `a/0/8/3` is a HUD gauge/gradient-bar element; `a/0/7/8` is a small
+  repeated creature/status icon. All three corroborate, rather than
+  overturn, prior negative findings -- but now backed by correctly
+  composited renders instead of raw tile-grid dumps or fixed-size-only
+  checks, closing the specific gap ("was the raw-dump renderer wrong, not
+  the archive identification?") that made those earlier negative results
+  slightly less certain.
+- **Bundle format / `--all` render count**: not applicable -- no archive
+  in this ROM was found to hold trainer battle sprites in an
+  NCGR+NCER+NANR bundle shape (or any shape tried by this or the previous
+  five trainer-sprite passes combined). The trainer battle sprite, if
+  present in this ROM as 2D NITRO content at all, is not addressable by
+  any magic-histogram, fixed-size, or OAM-cell-size search this project
+  has tried; remaining untried avenues (a 3D NSBMD/NSBTX representation,
+  a wholly custom variable-size format) are the same ones the previous
+  pass already flagged as out of scope/budget.
+- **Bugs fixed along the way, reusable for future passes**:
+  `inner_magic_census.py`'s `FlexNcgr` (char_format-0-tiled/char_format-1-
+  bitmap-aware NCGR reader, safe against the `0xFFFF` tile_num_x/y
+  sentinel) and `render_oam_generic`/`render_cell_generic`
+  (`mapping_type`-aware OAM tile addressing) are both general-purpose
+  fixes over `trainer_locate.py`'s dense-only `RawNcgr` and
+  `overworld.py`'s mapping_type-0-only compositing -- worth reusing for
+  any future archive whose NCER declares `mapping_type` 1/2 or whose NCGR
+  declares `char_format` 1.
