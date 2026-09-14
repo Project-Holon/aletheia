@@ -1,6 +1,4 @@
 /*
- * Byte-correct but MATCH-capped; see src/pending/README.md.
- *
  * unit:     yes
  * address:  0x0200B67C
  * packet:   pkt_0200B67C
@@ -9,25 +7,26 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  * function: func_0200B67C, func_0200B6E0
  *
  * 264 bytes, 0x0200B67C..0x0200B784, 2 functions, both labelled.  Every
  * concrete byte reproduces.
  *
- * Why it cannot be EXACT, and why no cut helps.  Two call targets have exactly
- * one caller in the whole image and that caller is here:
+ * What held it open, and what closed it.  Two call targets have exactly one
+ * caller in the whole image and that caller is here:
  *
  *   0x02007324  reached only from 0x0200B6A6, inside func_0200B67C
  *   0x0200B7D8  reached only from 0x0200B71A, inside func_0200B6E0
  *
  * Shrinking the range to one function keeps the call that needs the witness in
- * it, which is the limit `docs/MATCHING.md` states for the cut remedy, so this
- * closes only when the image acquires a second caller for either address.
- * 0x02007324 is itself already matched, in src/matched/unit_02007324.c, so
- * pulling it across the boundary into this range would make that one site
- * `local`; the other site would still be open, and the two functions there
- * belong to a different original file.
+ * it, which is the limit `docs/MATCHING.md` states for the cut remedy, so no
+ * image class could carry either site.  Both are now `matched`:
+ * 0x02007324 is src/matched/unit_02007324.c and 0x0200B7D8 is
+ * src/matched/unit_0200B7D8.c, two EXACT entries proved byte for byte against
+ * the original over ranges this file does not touch.  Pulling either function
+ * across the boundary into this range is no longer needed, and would have been
+ * wrong anyway: the two belong to different original files.
  *
  * alias: inside "battle_rec.c"; the two steps of the record-save state machine
  * that func_0200B4E0 and func_0200B5CC read back.

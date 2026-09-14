@@ -1,13 +1,16 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * address:  0x02017E1C..0x02017E40, 36 bytes, one function
+ * unit:     yes
+ * address:  0x02017E1C
+ * packet:   pkt_02017E1C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
+ * function: func_02017E1C
+ *
+ * 0x02017E1C..0x02017E40, 36 bytes, one function.
  *
  * The read wrapper for the party area of the 0xDC byte record: unlock, call
  * the party-area dispatcher func_02018DB4 (src/matched/sub_02018DB4.c), lock
@@ -15,14 +18,18 @@
  * in src/matched/unit_02017E64.c, which does the same around func_02018E34,
  * and it is the entry point 240 call sites in the image use.
  *
- * Why it is capped: the `bl` at 0x02017E2E is the only branch to func_02018DB4
- * anywhere in the image, so the `label` class has no witness once the compared
- * range holds it, and the range cannot be cut smaller than the one function.
- * Its setter twin at 0x02017E40 has the same problem with func_02019308; the
- * two do not attest each other, because they call different functions.
+ * What held it open, and what closed it: the `bl` at 0x02017E2E is the only
+ * branch to func_02018DB4 anywhere in the image, so the `label` class has no
+ * witness once the compared range holds it, and the range cannot be cut
+ * smaller than the one function.  The `matched` class carries it instead:
+ * 0x02018DB4 is src/matched/sub_02018DB4.c, an EXACT entry whose own byte
+ * comparison covered a range this file does not touch, so the witness is our
+ * compiled proof rather than anything inside 0x02017E1C..0x02017E40.  Its
+ * setter twin src/matched/unit_02017E40.c closes the same way over
+ * func_02019308.
  *
  * Verified with
- *   python tools/match.py tu --src src/pending/unit_02017E1C.c \
+ *   python tools/match.py tu --src src/matched/unit_02017E1C.c \
  *       --addr 0x02017E1C --thumb
  *
  * symbols:

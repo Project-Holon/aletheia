@@ -25,7 +25,7 @@
  * func_0200D5D0 the one function of it left out; see below.
  *
  * The record is 0x80 bytes, which is what the constructor allocates and
- * clears, and which src/pending/unit_0200D5D0.c fills field by field.
+ * clears, and which src/matched/unit_0200D5D0.c fills field by field.
  *
  * The heap id is a full word cast to `u16` at the call, not a `u16`
  * parameter: this front end assumes an incoming `u16` parameter is already
@@ -42,7 +42,7 @@
  * because 0x0200C164 is the target of exactly one branch in the image, its
  * own call at 0x0200D610, so the `label` class has no witness outside the
  * compared range and no cut helps.  The source is parked in
- * src/pending/unit_0200D5D0.c.
+ * src/matched/unit_0200D5D0.c.
  *
  * symbols:
  *   MI_CpuFill8         0x02082BCC  arm

@@ -1,19 +1,24 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * address:  0x0201854C..0x02018598, 76 bytes, two functions
+ * unit:     yes
+ * address:  0x0201854C
+ * packet:   pkt_0201854C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
+ * function: func_0201854C, func_02018584
  *
- * Why it is capped: func_02018584 is the only caller of func_02019BA4 in the
- * whole image, so the `label` class has no witness once the compared range
- * holds that call, and no cut helps because the range cannot be made smaller
- * than the one function that needs it.  Same class as 0x02005DE4 and
- * 0x02005A98 in docs/MATCHING.md.  Keeping func_0201854C with it costs
+ * 0x0201854C..0x02018598, 76 bytes, two functions.
+ *
+ * What held it open, and what closed it: func_02018584 is the only caller of
+ * func_02019BA4 in the whole image, so the `label` class has no witness once
+ * the compared range holds that call, and no cut helps because the range
+ * cannot be made smaller than the one function that needs it.  The `matched`
+ * class carries it: 0x02019BA4 is inside src/matched/unit_02019B58.c, an
+ * EXACT entry whose byte comparison covered that address over a range this
+ * file does not touch.  Keeping func_0201854C with func_02018584 costs
  * nothing, since func_0201854C is in turn the only caller of func_02018584.
  *
  * The three ids this reads, 5, 0x6F and 0x9E, are the same three
@@ -22,7 +27,7 @@
  * func_02018584's parameters as u16 and the accessor's return as a word.
  *
  * Verified with
- *   python tools/match.py tu --src src/pending/unit_0201854C.c \
+ *   python tools/match.py tu --src src/matched/unit_0201854C.c \
  *       --addr 0x0201854C --thumb
  *
  * symbols:

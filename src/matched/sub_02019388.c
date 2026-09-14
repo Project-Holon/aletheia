@@ -1,14 +1,15 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * function: func_02019388
- * address:  0x02019388, 1736 bytes, one function, 178 case jump table
+ * address:  0x02019388
+ * packet:   pkt_02019388
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right (0 differing bytes, 1736 of 1736)
+ * status:   EXACT
+ *
+ * 1736 bytes, one function, 178 case jump table.
  *
  * The write accessor over the encrypted block area of the 0xDC byte record,
  * and the largest of poke_tool.c's get/set dispatcher quartet.  func_02019308
@@ -18,12 +19,13 @@
  * two dispatchers agree field for field, so only what is specific to writing
  * is repeated below.
  *
- * Why it is capped: two of the thirteen relocation sites call func_02019ABC,
- * both from inside this function, and a scan of every Thumb BL and BLX in the
- * image finds no third site.  The `label` class therefore has no witness and
- * no cut helps, because the range cannot be made smaller than the one function
- * that holds both calls.  Same class as 0x02005DE4 and 0x02005A98 in
- * docs/MATCHING.md.
+ * What held it open, and what closed it: two of the thirteen relocation sites
+ * call func_02019ABC, both from inside this function, and a scan of every
+ * Thumb BL and BLX in the image finds no third site.  The `label` class
+ * therefore has no witness and no cut helps, because the range cannot be made
+ * smaller than the one function that holds both calls.  The `matched` class
+ * carries both: 0x02019ABC is src/matched/unit_02019ABC.c, an EXACT entry
+ * proved against the original bytes over a range this file does not touch.
  *
  * ---------------------------------------------------------------------------
  * WHAT THE WRITER ADDS OVER THE READER
@@ -95,7 +97,7 @@
  * number to re-read.
  *
  * Verified with
- *   python tools/match.py one --src src/pending/sub_02019388.c \
+ *   python tools/match.py one --src src/matched/sub_02019388.c \
  *       --func func_02019388 --addr 0x02019388 --cc 1.1p1
  *
  * symbols:

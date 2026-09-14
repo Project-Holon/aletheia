@@ -32,6 +32,9 @@
  * over the first two functions; func_0200BAC8 is kept here for the record and
  * verifies on its own at 0x0200BAC8.
  *
+ * The `matched` class does not reach either half: 0xBC is an absolute symbol
+ * value rather than a code address, and 0x020271CC is not matched.
+ *
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm

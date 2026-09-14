@@ -21,6 +21,10 @@
  * under the honesty rule (the only witness is the call itself). See
  * "the limit of the remedy" in docs/MATCHING.md. Closes to EXACT the day
  * either callee gets a second caller elsewhere in the image.
+ *
+ * The `matched` class does not reach it: neither func_02024344 nor
+ * func_020242D8 is matched, so no EXACT entry covers either address.  It closes
+ * when one of the two is matched, or when the image acquires a second caller.
  */
 
 typedef unsigned char u8;

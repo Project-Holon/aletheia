@@ -12,7 +12,7 @@
  * The setter twin of func_02018DB4 (src/matched/sub_02018DB4.c): the same
  * twelve party-area ids 0x9D to 0xA8 over the same offsets of the 0xDC byte
  * record, with everything else forwarded to func_02019388, the 178 case
- * writer over the block area (src/pending/sub_02019388.c).
+ * writer over the block area (src/matched/sub_02019388.c).
  *
  * Two details cost the time here and both are about where the two ids that
  * store nothing send control.

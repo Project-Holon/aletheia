@@ -53,6 +53,10 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020142E8.c \
  *       --addr 0x020142E8 --thumb
+ *
+ * The `matched` class does not reach it either: an EXACT entry attests the code
+ * it reproduced, never a data object one of its instructions loads, and
+ * 0x02146268 is a table.
  */
 
 typedef unsigned char  u8;

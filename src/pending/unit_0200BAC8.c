@@ -31,6 +31,9 @@
  * over the first two functions; func_0200BAC8 is kept here for the record and
  * verifies on its own at 0x0200BAC8.
  *
+ * The `matched` class does not reach it: 0x020271CC is not matched, so no EXACT
+ * entry covers that address.
+ *
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm

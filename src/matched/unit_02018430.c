@@ -23,7 +23,7 @@
  * the assignment: the two `lsls #0x10` / `lsrs #0x10` pairs sit immediately in
  * front of the `bl`, after the lock call, which is what fixes func_0201850C's
  * first two parameters as u16 and func_02017E88's return as a word.  The same
- * shape appears in src/matched/unit_02017E64.c and src/pending/unit_0201854C.c.
+ * shape appears in src/matched/unit_02017E64.c and src/matched/unit_0201854C.c.
  *
  * The range stops at 0x02018480, where another eight byte thunk forwards to
  * func_02018488; that thunk's pool word is the only reference to func_02018488

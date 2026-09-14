@@ -27,6 +27,9 @@
  *   python tools/match.py tu --src src/pending/unit_020173B4.c \
  *       --addr 0x020173B4 --thumb
  *
+ * The `matched` class does not reach it: neither func_02016380 nor
+ * func_0201AD88 is matched, so no EXACT entry covers either address.
+ *
  * symbols:
  *   func_02015F2C  0x02015F2C  thumb
  *   func_02016380  0x02016380  thumb

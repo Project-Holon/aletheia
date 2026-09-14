@@ -37,6 +37,10 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0200F734.c \
  *       --func sub_0200F734 --addr 0x0200F734 --cc 1.1p1
+ *
+ * The `matched` class does not reach it: neither func_0203D864 nor
+ * func_02156460 is matched, so no EXACT entry covers either address.  Both live
+ * outside the matched region so far.
  */
 
 typedef unsigned char u8;

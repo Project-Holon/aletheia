@@ -13,7 +13,7 @@
  * "Is the name in substruct C still the species' default name": it renders the
  * species name for substruct A's species id into the shared 0x20 halfword
  * buffer at 0x021462F0 and compares it with substruct C's own name, returning
- * 1 when they are equal.  func_02019388 (src/pending/sub_02019388.c) calls it
+ * 1 when they are equal.  func_02019388 (src/matched/sub_02019388.c) calls it
  * from ids 0x73 and 0x74 and stores the result in substruct B +0x10 bit 31,
  * which is the bit func_02018E34 reads back as id 0x75.  Those two calls are
  * the only references to this address in the image.

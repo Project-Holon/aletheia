@@ -24,6 +24,10 @@
  * Verified with:
  *   python tools/match.py one --src src/pending/sub_02013FA8.c \
  *       --func sub_02013FA8 --addr 0x02013FA8 --cc 1.1p1 --thumb
+ *
+ * The `matched` class does not reach it either: an EXACT entry attests the code
+ * it reproduced, never a data object one of its instructions loads, and
+ * 0x0209DFC8 is a table.  Only another reference to the table closes this.
  */
 
 typedef unsigned short u16;

@@ -35,6 +35,10 @@
  * Verified with
  *   python tools/match.py tu --src src/pending/unit_02018238.c  *       --addr 0x02018238 --thumb
  *
+ * The `matched` class does not reach it: func_020182A8 is not matched, which is
+ * the same fact from the other side, since what it would take to match it is the
+ * ten bytes of prologue described above.
+ *
  * symbols:
  *   func_020182A8  0x020182A8  thumb
  */

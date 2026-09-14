@@ -27,6 +27,10 @@
  * call and without the final bit set, and it is EXACT; the two were written
  * together and the diff between them is the honest description of what this
  * one does extra.
+ *
+ * The `matched` class does not reach it yet: 0x0200C738 is not matched, so no
+ * EXACT entry covers that address.  It now closes the day 0x0200C738 is matched,
+ * with no cut and no second caller needed.
  */
 
 typedef unsigned char  u8;

@@ -58,7 +58,7 @@
  *    exactly one instruction in the whole image, its own call at 0x0200C680,
  *    so the `label` class has no witness left once that call is inside the
  *    compared range and no cut helps.  The source is parked in
- *    src/pending/unit_0200C5F8.c.
+ *    src/matched/unit_0200C5F8.c.
  *
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm

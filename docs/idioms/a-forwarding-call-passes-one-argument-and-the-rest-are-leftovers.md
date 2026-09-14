@@ -6,7 +6,7 @@ only the first; declaring the extra parameters keeps the caller's own arguments
 live across the call and reallocates every callee-saved register in the
 function, which reads as a scheduling problem twenty instructions later.
 
-Found in: `src/pending/unit_0200B67C.c` (0x0200B67C, 0x0200B6E0), against
+Found in: `src/matched/unit_0200B67C.c` (0x0200B67C, 0x0200B6E0), against
 `src/matched/unit_0200C9EC.c` (0x0200CA1C)
 
 `func_0200B6E0` opens by saving its parameters and then calling an extern:

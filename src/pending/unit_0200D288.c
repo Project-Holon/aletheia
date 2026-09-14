@@ -16,16 +16,20 @@
  * 224 bytes, 0x0200D288..0x0200D368, 6 functions, four of which carry a label
  * in the generated listing.  Every concrete byte reproduces.
  *
- * Two sites keep it at MATCH and neither is reachable by a cut:
+ * Two sites used to keep it at MATCH and neither is reachable by a cut:
  *
  *   0x0200C780  reached only from 0x0200D2F4, inside func_0200D2D8
  *   0x0200D368  reached only from 0x0200D2C6, inside func_0200D2C4
  *
- * The second of those is the price of the cut that saved
+ * The second of those was the price of the cut that saved
  * src/matched/unit_0200D368.c: func_0200C7A0 has exactly two callers in the
  * image, one here and one there, so the two had to be separated, and once
- * func_0200D368 is outside this range its own single caller cannot attest it.
- * Both close the day the image acquires a second caller for either address.
+ * func_0200D368 was outside this range its own single caller could not attest
+ * it.  The `matched` class pays that price back: src/matched/unit_0200D368.c
+ * is an EXACT entry, so it now attests 0x0200D368 itself, over a range this
+ * file does not touch.  0x0200C780 is not matched, so that site is still open
+ * and the entry stays MATCH; it closes the day 0x0200C780 is matched, or the
+ * day the image acquires a second caller of it.
  *
  * func_0200D288 is a two-arm accessor with no prologue, so the listing prints
  * it as data; it answers the word at +0x4D0 for selector 0 and nothing

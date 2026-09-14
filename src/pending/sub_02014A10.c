@@ -18,6 +18,10 @@
  * Every concrete byte matches; the table's address appears nowhere else in
  * the image, so the pool word that names it has no witness outside this
  * one function and the entry caps at MATCH under the honesty rule.
+ *
+ * The `matched` class does not reach it either: an EXACT entry attests the code
+ * it reproduced, never a data object one of its instructions loads, and
+ * 0x0209E054 is a table.  Only another reference to the table closes this.
  */
 
 typedef unsigned short u16;

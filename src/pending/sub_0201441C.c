@@ -21,6 +21,10 @@
  * Verified with:
  *   python tools/match.py one --src src/pending/sub_0201441C.c \
  *       --func sub_0201441C --addr 0x0201441C --cc 1.1p1 --thumb
+ *
+ * The `matched` class does not reach it either: an EXACT entry attests the code
+ * it reproduced, never a data object one of its instructions loads, and
+ * 0x0209E050 is a table.  Only another reference to the table closes this.
  */
 
 typedef unsigned char u8;

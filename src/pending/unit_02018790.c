@@ -33,6 +33,10 @@
  *   python tools/match.py tu --src src/pending/unit_02018790.c \
  *       --addr 0x02018790 --thumb
  *
+ * The `matched` class does not reach it either: an EXACT entry attests the code
+ * it reproduced, never a data object one of its instructions loads, and
+ * 0x0209E288 is a table.
+ *
  * symbols:
  *   func_02018790_Table  0x0209E288  data
  */

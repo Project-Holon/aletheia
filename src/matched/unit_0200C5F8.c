@@ -1,26 +1,30 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * address:  0x0200C5F8..0x0200C6D8, 224 bytes, one function
+ * unit:     yes
+ * address:  0x0200C5F8
+ * packet:   pkt_0200C5F8
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
+ * function: func_0200C5F8
+ *
+ * 0x0200C5F8..0x0200C6D8, 224 bytes, one function.
  *
  * The state machine of "musical_dist_save.c"; see src/matched/unit_0200C5A4.c
  * for the record it works on and for how the file name is attested.
  *
- * Why it is capped: 0x0200A7F8 is the target of exactly one branch in the
- * whole image, the `bl` at 0x0200C680 inside this very function, so the
- * `label` class discards its only witness under the honesty rule and no cut
- * helps, because shrinking the range to this one function keeps the call in
- * it.  Same class as 0x02005DE4 and 0x02005A98 in docs/MATCHING.md.  It
- * closes the day the image acquires a second caller of 0x0200A7F8.
+ * What held it open, and what closed it: 0x0200A7F8 is the target of exactly
+ * one branch in the whole image, the `bl` at 0x0200C680 inside this very
+ * function, so the `label` class discards its only witness under the honesty
+ * rule and no cut helps, because shrinking the range to this one function
+ * keeps the call in it.  The `matched` class carries it: 0x0200A7F8 is inside
+ * src/matched/unit_0200A6F8.c, an EXACT entry verified against the original
+ * bytes over a range this file does not touch.
  *
  * Verified with
- *   python tools/match.py tu --src src/pending/unit_0200C5F8.c \
+ *   python tools/match.py tu --src src/matched/unit_0200C5F8.c \
  *       --addr 0x0200C5F8 --thumb
  *
  * The tag the three service calls take is `(u16)((p->unk00 & 0x7FFF) |

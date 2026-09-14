@@ -28,6 +28,10 @@
  *   python tools/match.py tu --src src/pending/unit_020189D8.c \
  *       --addr 0x020189D8 --thumb
  *
+ * The `matched` class does not reach it either: an EXACT entry attests the code
+ * it reproduced, never a data object one of its instructions loads, and
+ * 0x0209E2A4 is a table.
+ *
  * symbols:
  *   func_020189F0_Table  0x0209E2A4  data
  */

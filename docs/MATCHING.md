@@ -156,12 +156,13 @@ from a claim about the source into a tautology. So `match.py` records, for
 every address it knows, *where in the image it learned it*, and discards any
 witness that falls inside the range being compared.
 
-Five classes of evidence are accepted, and every resolved site prints its
+Six classes of evidence are accepted, and every resolved site prints its
 class, the number of witnesses and one witness address:
 
 | class | what it means |
 | --- | --- |
 | `local` | the symbol is defined in the object we just compiled, so its address follows from where the unit was placed. No image evidence at all. |
+| `matched` | an EXACT manifest entry covers the address: our own compiled proof, checked byte for byte against the original over a range that is not the one under test, says what lives there. The only class whose witness is not a reading of the image. |
 | `label` | `disasm.py` put a `func_XXXXXXXX` label at that address, i.e. it traced real code there, **and** a branch somewhere in the image calls that label. The strong class. |
 | `veneer` | the address holds an ARM linker veneer: a fixed twelve-byte (or eight-byte) encoding that loads a constant into `ip` or `pc` and branches to it, with the constant naming a known function. For a call the linker redirected through a stub, which nothing else can attest. |
 | `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
@@ -301,8 +302,87 @@ a data blob. This matters for data because nothing else can ever attest it:
 bss is not in the image, so 0x020AA260 will never have a label.
 
 Addresses in `layout/symbols_sdk.txt` and the `layout/matched/` shards feed the
-map by name as well, but they are *lookups*, not evidence: a name found there
-still has to clear `attest()` before anything is written.
+map by name as well, but that lookup is not itself evidence: a name found
+there still has to clear `attest()` before anything is written. What an
+`EXACT` shard entry carries beyond the name is the subject of the next
+section.
+
+### The matched class
+
+The classes above all ask the same question of the original bytes: does
+something **outside** the compared range say what lives at this address? There
+is a sixth answer, and it is not in the image at all. For an address this
+project has already matched, our own compiled proof says what lives there.
+
+An `EXACT` manifest entry is the statement "this source file, compiled with
+this configuration and placed at this address, reproduces the original bytes
+there, relocation fields included". Reproducing the 1736 bytes of the function
+at 0x02019388 is a far stronger claim about 0x02019388 than "some pool word
+elsewhere in the image holds that number": it pins the entry point, its
+instruction set and its whole body. So a call site whose target is covered by
+an `EXACT` entry has a witness, and the witness is a compilation rather than a
+byte of the range under test.
+
+This is what closes the case the cut remedy cannot reach. When the only branch
+to a callee is the one inside the function that needs it, no cut helps,
+because the range cannot be made smaller than that function; but if the callee
+is matched, nothing has to be cut at all. `func_02018DB4` is reached from
+exactly one place in the ROM, the `bl` at 0x02017E2E, and
+`src/matched/sub_02018DB4.c` is an `EXACT` entry, so
+`src/matched/unit_02017E1C.c` resolves that site and is `EXACT` itself.
+
+#### Why this is not circular
+
+Two arguments, one for each way the circularity could come back.
+
+**A witness may not be the range under test.** The entry being verified cannot
+witness itself: that is exactly "read the answer out of the bytes and then
+confirm the bytes contain the answer", the tautology the honesty rule exists
+to refuse. The refusal is by **source file**, which covers both
+`manifest --verify` re-checking a committed entry and a pending file that
+names its own address.
+
+**One-way dependence on an already-verified entry is sound.** Every entry in
+the manifest was verified against the *original bytes*, over its own address
+range, using evidence that never mentions the file under test: the manifest is
+`EXACT`-only, and the parked files under `src/pending/` are deliberately out of
+it, so no committed entry's verification could have consulted one. The
+dependence therefore has a direction, from the file being promoted to entries
+that already stood without it, and the graph of "who witnessed whom at the
+moment of verification" is acyclic.
+
+The symmetric case that arises later, when a promoted file becomes a witness
+for an entry that once witnessed it, is not a tautology either, because
+neither check is a lookup: each of the two is a byte comparison against the
+original image over a range disjoint from the other's. A wrong address still
+resolves to a wrong instruction and still comes out `DIFF`, which is the same
+falsifiability `literal` and `string` rest on. What would be circular, and is
+refused, is a range attesting itself.
+
+The refusals are in `attest_matched()` and `matched_index()`:
+
+1. the entry's kind is one the project verifies against game bytes: `game`,
+   `game_unit` or `sdk_calibration`;
+2. its status is `EXACT` or `EXACT*`. A `MATCH` entry proves nothing about a
+   relocation target, since its own relocation fields are still wildcards, and
+   is refused;
+3. the address is the entry's own address, or one of the member function
+   addresses its unit layout records in `function:`. A unit that reproduced
+   264 bytes covering two functions attests both entry points, because the one
+   byte comparison covered both;
+4. the entry's source file is not the file under test;
+5. the ISA is the entry's, and it has to be the ISA the source declares. An
+   entry compiled `-thumb` is not evidence for an `arm` extern.
+
+The class never applies to `data`: an entry attests the code it reproduced,
+not an object one of its instructions happens to load. That is why the parked
+files whose blocker is a private table (`sub_02013FA8.c`, `unit_02018790.c`
+and the rest) are untouched by it.
+
+Unlike every other class, `matched` ignores the compared range: its witness is
+not a byte of the image, so there is no range for the witness to fall inside.
+The file identity is what does the work instead, and eleven selftest cases pin
+it, the self-reference and `MATCH`-status refusals included.
 
 ### The string class
 
@@ -496,8 +576,13 @@ misses are on the wrong side of it. When the **only** witness for a target is
 the call inside the very function that needs it, no cut helps: shrinking the
 range to that one function keeps the call in it. `sub_02005DE4` is the only
 caller of 0x02072E8C in the ROM, `sub_02005A98` the only caller of
-0x02074A6C, and `sub_020057C4` the only caller of 0x02035108. Each of those
-closes the day the image acquires a second caller and not before.
+0x02074A6C, and `sub_020057C4` the only caller of 0x02035108.
+
+That used to mean "closes the day the image acquires a second caller and not
+before". It no longer does, as long as the callee itself can be matched: the
+`matched` class above needs no second caller and no cut, only an `EXACT` entry
+covering the target. Seven parked files graduated on that alone. The three
+addresses named here are still open because their targets are not matched.
 
 ### The near-miss backlog after the attestation wave
 
@@ -1462,10 +1547,10 @@ right, which the `EXACT` requirement guarantees.
 
 ### What is spliced today
 
-57 entries, 8774 bytes. The manifest holds 59: 47 units, 8 single functions
-and the 4 SDK calibration functions, naming 329 distinct functions; two of the
-single-function entries are subsumed by the units that contain them and are
-not spliced separately. All 242 regions stay `PASS` with those bytes in place
+These numbers move with every wave; the authoritative current count is what
+`python tools/csrc.py` prints (at the time of the matched-class work: 234
+entries, 34938 bytes, from a manifest of 236). Entries subsumed by the units
+that contain them are not spliced separately. All 242 regions stay `PASS` with those bytes in place
 and the ROM still verifies at
 `26ad0b9967aa279c4a266ee69f52b9b2332399a5`.
 
@@ -1510,8 +1595,8 @@ python tools/match.py manifest --verify
 # one shard only: what a packet agent runs on its own work
 python tools/match.py manifest --verify --shard pkt_0209CE10
 
-# the attestation rules: 35 cases, the label, veneer, literal, string and
-# pairwise classes with their negatives, plus the three resolver behaviours
+# the attestation rules: 57 cases, the label, veneer, literal, string, matched
+# and pairwise classes with their negatives, plus the three resolver behaviours
 python tools/match.py selftest
 
 # where a MATCH-capped unit could be cut, and what the census says

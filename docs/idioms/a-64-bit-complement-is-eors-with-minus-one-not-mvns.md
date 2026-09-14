@@ -6,7 +6,7 @@ bit** NOT whose high half was dead-code eliminated; the mask is a `long long`
 even where the field it is applied to is a `u32`, and spelling it `~mask`
 instead of `mask ^ -1` costs the whole function.
 
-Found in: `src/pending/sub_02019388.c` (0x020196F6, 0x020197C6, 0x020198F0)
+Found in: `src/matched/sub_02019388.c` (0x020196F6, 0x020197C6, 0x020198F0)
 
 `func_02019388` sets and clears flag bits in three different fields: a `u32` at
 substruct A +0x1C, a `u32` at substruct B +0x14, and a `u64` at substruct C

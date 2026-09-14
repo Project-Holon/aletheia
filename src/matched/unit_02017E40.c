@@ -1,25 +1,31 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * address:  0x02017E40..0x02017E64, 36 bytes, one function
+ * unit:     yes
+ * address:  0x02017E40
+ * packet:   pkt_02017E1C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
+ * function: func_02017E40
+ *
+ * 0x02017E40..0x02017E64, 36 bytes, one function.
  *
  * The write wrapper for the party area of the 0xDC byte record, and the twin
- * of src/pending/unit_02017E1C.c: unlock, and only if the unlock reports 1
+ * of src/matched/unit_02017E1C.c: unlock, and only if the unlock reports 1
  * call the party-area setter func_02019308 (src/matched/sub_02019308.c), then
  * lock again.  It is the counterpart of func_02017E64 in
  * src/matched/unit_02017E64.c, which does the same around func_02019388.
  *
- * Why it is capped: the `bl` at 0x02017E56 is the only branch to func_02019308
- * anywhere in the image.
+ * What held it open, and what closed it: the `bl` at 0x02017E56 is the only
+ * branch to func_02019308 anywhere in the image, so no image class could
+ * attest it from outside this range.  The `matched` class does:
+ * 0x02019308 is src/matched/sub_02019308.c, an EXACT entry proved against the
+ * original bytes over a range this file does not touch.
  *
  * Verified with
- *   python tools/match.py tu --src src/pending/unit_02017E40.c \
+ *   python tools/match.py tu --src src/matched/unit_02017E40.c \
  *       --addr 0x02017E40 --thumb
  *
  * symbols:

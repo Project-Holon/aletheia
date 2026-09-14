@@ -1,28 +1,33 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * address:  0x0200D5D0..0x0200D6D0, 256 bytes, one function
+ * unit:     yes
+ * address:  0x0200D5D0
+ * packet:   pkt_0200D5D0
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
+ * function: func_0200D5D0
+ *
+ * 0x0200D5D0..0x0200D6D0, 256 bytes, one function.
  *
  * The record builder of "gds_profile.c"; see src/matched/unit_0200D59C.c for
  * the file name and the record.
  *
- * Why it is capped: 0x0200C164 is the target of exactly one branch in the
- * whole image, the `bl` at 0x0200D610 inside this very function, so the
- * `label` class discards its only witness under the honesty rule.
- * `tu --suggest-split` confirms it: the best partition leaves this one
- * function out and matches the two pieces on either side of it.  0x0200C164
- * is itself already matched, as part of src/matched/unit_0200C0E8.c, but a
- * matched address is a lookup and not evidence.  It closes the day the image
- * acquires a second caller.
+ * What held it open, and what closed it: 0x0200C164 is the target of exactly
+ * one branch in the whole image, the `bl` at 0x0200D610 inside this very
+ * function, so the `label` class discards its only witness under the honesty
+ * rule, and `tu --suggest-split` could only answer by leaving this function
+ * out.  0x0200C164 is part of src/matched/unit_0200C0E8.c, and that entry is
+ * now evidence rather than a bare lookup: the `matched` class reads it as our
+ * own byte-verified proof of what lives at that address, proved over a range
+ * this file does not touch.  This header used to say a matched address is a
+ * lookup and not evidence; the distinction it was missing is that an EXACT
+ * entry is a comparison against the original bytes, not a name in a table.
  *
  * Verified with
- *   python tools/match.py tu --src src/pending/unit_0200D5D0.c \
+ *   python tools/match.py tu --src src/matched/unit_0200D5D0.c \
  *       --addr 0x0200D5D0 --thumb
  *
  * Three details are worth having.

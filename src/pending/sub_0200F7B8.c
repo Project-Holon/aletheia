@@ -20,6 +20,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0200F7B8.c \
  *       --func sub_0200F7B8 --addr 0x0200F7B8 --cc 1.1p1
+ *
+ * The `matched` class does not reach it: func_0200FC0C is not matched, so no
+ * EXACT entry covers that address.
  */
 
 extern void func_0200FC0C(unsigned int arg);

@@ -26,6 +26,10 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0200EEAC.c \
  *       --func sub_0200EEAC --addr 0x0200EEAC --cc 1.1p1
+ *
+ * The `matched` class does not reach it: neither func_0200F104 nor
+ * func_0200EF78 is matched, so no EXACT entry covers either address.  It closes
+ * when one of the two is matched, or when the image acquires a second caller.
  */
 
 typedef unsigned char u8;

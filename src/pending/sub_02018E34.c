@@ -13,7 +13,7 @@
  * The read accessor over the encrypted block area of the 0xDC byte record, and
  * the larger half of poke_tool.c's get/set dispatcher quartet.  func_02018DB4
  * (src/matched/sub_02018DB4.c) owns ids 0x9D to 0xA8 and forwards everything
- * else here; the writer twin is func_02019388 (src/pending/sub_02019388.c).
+ * else here; the writer twin is func_02019388 (src/matched/sub_02019388.c).
  *
  * Why it is capped: three of the eighteen relocation sites are calls to
  * 0x0209C074, the compiler's 64 bit shift helper, and one is a call to
@@ -21,9 +21,16 @@
  * four sites and no others.  All four are inside this one function, so the
  * `label` class has no witness once the compared range holds them and no cut
  * helps: the range cannot be made smaller than the single function that needs
- * them.  Same class as 0x02005DE4 and 0x02005A98 in docs/MATCHING.md.  This
- * closes the day a second caller of either address is matched or the image
- * acquires one, and not before.
+ * them.  Same class as 0x02005DE4 and 0x02005A98 in docs/MATCHING.md.
+ *
+ * The `matched` class closes one of the two addresses and not the other.
+ * func_02019BBC now resolves: it is covered by src/matched/unit_02019B58.c,
+ * an EXACT entry proved byte for byte against the original over a range this
+ * file does not touch.  0x0209C074 is not matched, and it is the compiler's
+ * own 64 bit shift helper rather than game code, so the three calls to it stay
+ * wildcarded and the entry stays MATCH.  It closes the day 0x0209C074 is
+ * matched (or calibrated the way the four SDK functions in src/calib/ are), or
+ * the day the image acquires a fourth call site outside this function.
  *
  * ---------------------------------------------------------------------------
  * THE FIELD MAP

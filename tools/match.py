@@ -451,7 +451,7 @@ def target_extent(addr, region):
 # address of the instruction or pool word it came from, and why
 # ``attest()`` rejects a witness that falls inside the compared range.
 #
-# Five classes of evidence are accepted, and the class is reported per site so
+# Six classes of evidence are accepted, and the class is reported per site so
 # a reader can weigh them separately:
 #
 #   label    disasm.py put a func_XXXXXXXX label at that address, i.e. it
@@ -482,6 +482,13 @@ def target_extent(addr, region):
 #            __FILE__ arguments, whose address appears in exactly one literal
 #            pool in the whole image: the one under test.  See attest_string()
 #            for the seven conditions that keep it narrow.
+#
+#   matched  an EXACT manifest entry covers the address: our own compiled
+#            proof, verified byte for byte against the original over a range
+#            that is not the one under test, says what lives there.  The one
+#            class whose witness is not a reading of the image.  See "the
+#            `matched` class" below for why one-way dependence on an already
+#            verified entry is sound and why self-reference is refused.
 #
 #   local    the symbol is defined inside the object we just compiled, so its
 #            address follows from where we placed the translation unit.  No
@@ -1234,13 +1241,156 @@ def attest_string(addr, lo, hi):
     return "string", 1, prev_nul
 
 
-def attest(addr, kind, lo, hi):
+# ---------------------------------------------------------------------------
+# the `matched` class
+# ---------------------------------------------------------------------------
+#
+# The four image classes above all ask the same question of the original
+# bytes: does something OUTSIDE the compared range say what lives at this
+# address?  There is a fifth answer, and it is not in the image at all: for an
+# address this project has already matched, our own compiled proof says what
+# lives there.
+#
+# An EXACT manifest entry is the statement "this source file, compiled with
+# this configuration and placed at this address, reproduces the original bytes
+# there, relocation fields included".  Reproducing the bytes of a function at
+# 0x02018DB4 is a far stronger claim about 0x02018DB4 than "some pool word
+# elsewhere holds that number": it pins the entry point, its instruction set
+# and its whole body.  So a call site whose target is covered by an EXACT
+# entry has a witness, and the witness is a compilation, not a byte of the
+# range under test.
+#
+# WHY THIS IS NOT CIRCULAR
+#
+# Two separate arguments, one for each way the circularity could come back.
+#
+#   * A witness may not be the range under test.  The entry being verified
+#     cannot witness itself: that is exactly "read the answer out of the bytes
+#     and then confirm the bytes contain the answer", the tautology the
+#     honesty rule exists to refuse.  The rule here is therefore by SOURCE
+#     FILE: an entry whose `source` is the file under test is discarded, which
+#     covers both `manifest --verify` re-checking a committed entry and a
+#     pending file that happens to name its own address.
+#
+#   * One-way dependence on an already-verified entry is sound.  Every entry
+#     in the manifest was verified against the ORIGINAL bytes, over its own
+#     address range, using evidence that never mentions the file under test:
+#     the manifest is EXACT-only and pending files are deliberately out of it,
+#     so no committed entry's verification could have consulted one.  The
+#     dependence therefore has a direction, from the file being promoted to
+#     entries that already stood without it, and the graph of "who witnessed
+#     whom at the moment of verification" is acyclic.
+#
+#     Even the symmetric case that arises later, when a promoted file becomes
+#     a witness for an entry that witnessed it, is not a tautology, because
+#     neither check is a lookup: each of the two is a byte comparison against
+#     the original image over a range disjoint from the other's.  A wrong
+#     address still resolves to a wrong instruction and still comes out DIFF,
+#     which is the same falsifiability the `literal` and `string` classes
+#     rest on.  What would be circular, and is refused, is a range attesting
+#     itself.
+#
+# What counts as covered, and the refusals, are in attest_matched():
+#
+#   1. the entry's kind is one the project verifies against game bytes
+#      (`game`, `game_unit`, `sdk_calibration`);
+#   2. its status is EXACT or EXACT*.  A MATCH entry proves nothing about a
+#      relocation target -- its own relocation fields are still wildcards --
+#      and is refused;
+#   3. the address is the entry's own address, or one of the member function
+#      addresses its unit layout records in `functions:`.  A unit that
+#      reproduces 264 bytes covering two functions attests both entry points;
+#   4. the entry's source file is not the file under test;
+#   5. the ISA is the entry's, and it has to be the ISA the source declares.
+#      An entry compiled `-thumb` is not evidence for an `arm` extern.
+#
+# The class never applies to `data`: an entry attests the code it reproduced,
+# not an object some instruction in it happens to load.
+
+MATCHED_KINDS = ("game", "game_unit", "sdk_calibration")
+MATCHED_STATUS = ("EXACT", "EXACT*")
+
+
+def matched_index(entries):
+    """{address: (entry name, source, isa)} for the EXACT entries given.
+
+    Written against a list rather than reading the manifest itself so that
+    the selftest can hand it entries the manifest does not contain, which is
+    the only way to exercise the status and kind refusals: the manifest is
+    EXACT-only by construction.
+    """
+    out = {}
+    for e in entries:
+        if e.get("kind") not in MATCHED_KINDS:
+            continue
+        if e.get("status") not in MATCHED_STATUS:
+            continue
+        isa = "thumb" if e.get("isa") == "thumb" else "arm"
+        who = (e["name"], e.get("source", ""), isa)
+        addrs = [int(e["address"], 16)]
+        # A unit entry records the functions its compared range covered; each
+        # of those addresses is pinned by the same byte comparison.
+        for n in e.get("functions") or []:
+            m = _ADDR_NAME_RE.match(n)
+            if m:
+                addrs.append(int(m.group(1), 16))
+        for a in addrs:
+            out.setdefault(a, who)
+    return out
+
+
+_MATCHED_AT = {}
+
+
+def matched_addresses():
+    """matched_index() over every manifest shard."""
+    if "a" not in _MATCHED_AT:
+        _MATCHED_AT["a"] = matched_index(load_manifest_entries())
+    return _MATCHED_AT["a"]
+
+
+def source_key(path):
+    """A source path spelled the way the manifest records it, or None."""
+    if not path:
+        return None
+    try:
+        rel = os.path.relpath(os.path.abspath(path), ROOT)
+    except ValueError:          # another drive on Windows
+        return None
+    rel = rel.replace("\\", "/")
+    return None if rel.startswith("../") else rel
+
+
+def attest_matched(addr, kind, src=None):
+    """The `matched` class.  Returns (class, witnesses, site) or None.
+
+    `src` is the source file under test, in manifest spelling.  Without it
+    self-reference cannot be checked, so the class refuses outright rather
+    than risk an entry witnessing itself.
+    """
+    if kind not in ("thumb", "arm"):
+        return None
+    if src is None:
+        return None
+    found = matched_addresses().get(addr)
+    if found is None:
+        return None
+    _name, source, isa = found
+    if source == src:
+        return None             # an entry may not witness its own file
+    if isa != kind:
+        return None
+    return "matched", 1, addr
+
+
+def attest(addr, kind, lo, hi, src=None):
     """Independent evidence for `addr`, or None.
 
     `lo`..`hi` is the byte range under comparison; a witness inside it does
     not count, because that is the range whose contents the resolved value
-    is about to be checked against.  Returns (class, witness_count,
-    example_site).
+    is about to be checked against.  `src` is the source file under test,
+    which the `matched` class needs to refuse self-reference.  Returns
+    (class, witness_count, example_site).
     """
     ev = evidence()
     if kind in ("thumb", "arm"):
@@ -1279,6 +1429,12 @@ def attest(addr, kind, lo, hi):
         proof = attest_string(addr, lo, hi)
         if proof is not None:
             return proof
+    # Last, because it is the one class that is not a reading of the original
+    # image: our own compiled proof that the target address holds a function
+    # we already reproduced byte for byte.
+    proof = attest_matched(addr, kind, src)
+    if proof is not None:
+        return proof
     return None
 
 
@@ -1382,13 +1538,15 @@ def _encode_arm_branch(data, off, place, target, addend):
     return True
 
 
-def resolve_relocations(fb, place, decls, size=None):
+def resolve_relocations(fb, place, decls, size=None, src=None):
     """Fill in every relocation of `fb` whose target we can attest.
 
     `place` is the address the code is being compared at, so a site at
     offset o would be linked at place + o.  Sites that resolve have their
     mask bytes turned back on, so the byte comparison covers them; sites
-    that do not keep their wildcards and record why.
+    that do not keep their wildcards and record why.  `src` is the source
+    file under test, in manifest spelling: the `matched` class needs it to
+    refuse an entry that would witness its own file.
     """
     data = bytearray(fb.data)
     mask = bytearray(fb.mask)
@@ -1425,7 +1583,7 @@ def resolve_relocations(fb, place, decls, size=None):
                                     origin, off))
                 if found is None:
                     st.note = "declared %s, no image evidence for the ISA" % kind
-            proof = attest(target, kind, lo, hi)
+            proof = attest(target, kind, lo, hi, src)
             if proof is None:
                 st.reason = ("%08X (%s, from %s) has no witness outside "
                              "%08X..%08X" % (target, kind, origin, lo, hi))
@@ -1597,7 +1755,8 @@ def run_one(src, func, addr, version, flags, thumb, lang, region=None,
         reg = find_region(addr, region)
         tsize, tthumb = target_extent(addr, reg.name)
         n = len(fb.data)
-        resolve_relocations(fb, addr, declared_symbols(read_header(src)))
+        resolve_relocations(fb, addr, declared_symbols(read_header(src)),
+                            src=source_key(src))
         rname, tgt = target_bytes(addr, n, region=reg.name)
         status, diffs = compare(fb, tgt)
         r = Result(status, log=log)
@@ -1856,7 +2015,8 @@ def run_tu(src, addr, version, flags, thumb, lang, region=None, keep=False,
         rname, tgt = target_bytes(addr, tl.size, region=reg.name)
         fake = FuncBytes("<tu>", tl.data, tl.mask, bool(thumb), ".text",
                          tl.relocs, tl.locals)
-        resolve_relocations(fake, addr, declared_symbols(read_header(src)))
+        resolve_relocations(fake, addr, declared_symbols(read_header(src)),
+                            src=source_key(src))
         status, diffs = compare(fake, tgt)
         r = Result(status, log=log)
         r.func = fake
@@ -1969,7 +2129,7 @@ def suggest_split(src, addr, tl, fb, decls):
             inside = lo <= addr + loc < hi
             return inside, ("local" if inside
                             else "%08X leaves the range" % (addr + loc))
-        proof = attest(target, kind, lo, hi)
+        proof = attest(target, kind, lo, hi, source_key(src))
         if proof is None:
             return False, "%08X has no witness outside %08X..%08X" % (
                 target, lo, hi)
@@ -2679,6 +2839,33 @@ STR_FAR_NEIGHBOUR = 0x021A4618
 # 0x02008B26 and 0x02008B7C and from nowhere else in the ROM.
 OS_GETOWNERRTCOFFSET = 0x02087D08
 
+# The `matched` class.  func_02018DB4 is the party-area dispatcher: the `bl` at
+# 0x02017E2E in src/matched/unit_02017E1C.c is the only branch to it anywhere
+# in the image, so with that file's range under test no image class has a
+# witness left.  src/matched/sub_02018DB4.c is the EXACT entry that does.
+MATCHED_CALLEE = 0x02018DB4
+MATCHED_CALLEE_SRC = "src/matched/sub_02018DB4.c"
+MATCHED_CALLER_SRC = "src/matched/unit_02017E1C.c"
+MATCHED_CALLER_LO, MATCHED_CALLER_HI = 0x02017E1C, 0x02017E40
+# func_0200B6E0 is not the address of src/matched/unit_0200B67C.c, it is the
+# second function that unit's layout records: the same byte comparison covered
+# it, so the entry attests it too.
+MATCHED_MEMBER = 0x0200B6E0
+MATCHED_MEMBER_SRC = "src/matched/unit_0200B67C.c"
+
+
+def _matched_fixture(status="EXACT", kind="game_unit"):
+    """A manifest entry the manifest does not contain.
+
+    The status and kind refusals cannot be exercised against the real shards,
+    because the manifest is EXACT-only and holds no other kind, so they are
+    tested at matched_index() with an entry built here.
+    """
+    return {"name": "unit_0BADF000", "address": "0x0BADF000",
+            "kind": kind, "status": status, "isa": "thumb",
+            "source": "src/matched/unit_0BADF000.c",
+            "functions": ["func_0BADF000", "func_0BADF010"]}
+
 
 def _resolve_one_call(addr, kind, place=0x02008000):
     """Resolve a lone Thumb BL whose target is declared `addr` / `kind`.
@@ -2816,6 +3003,46 @@ def cmd_selftest(args):
     _check(res, "pairwise: one range holding both call sites has none",
            cls(attest(OS_GETOWNERRTCOFFSET, "arm", 0x02008AEC, 0x02008C20)),
            None)
+
+    # --- the matched class -------------------------------------------------
+    # The one class whose witness is not a reading of the image: an EXACT
+    # manifest entry, i.e. our own compiled proof of what lives at an address.
+    _check(res, "matched: an EXACT entry attests an address no image class "
+                "can",
+           cls(attest(MATCHED_CALLEE, "thumb", MATCHED_CALLER_LO,
+                      MATCHED_CALLER_HI, MATCHED_CALLER_SRC)), "matched")
+    _check(res, "matched: no image class carries that site, and without a "
+                "file under test neither does this one",
+           cls(attest(MATCHED_CALLEE, "thumb", MATCHED_CALLER_LO,
+                      MATCHED_CALLER_HI)), None)
+    _check(res, "matched: an entry may not witness its own source file",
+           cls(attest(MATCHED_CALLEE, "thumb", 0x02000000, 0x03000000,
+                      MATCHED_CALLEE_SRC)), None)
+    _check(res, "matched: the entry's ISA has to be the declared ISA",
+           cls(attest(MATCHED_CALLEE, "arm", MATCHED_CALLER_LO,
+                      MATCHED_CALLER_HI, MATCHED_CALLER_SRC)), None)
+    _check(res, "matched: the class never applies to data",
+           cls(attest_matched(MATCHED_CALLEE, "data", MATCHED_CALLER_SRC)),
+           None)
+    _check(res, "matched: a unit entry attests the member functions its "
+                "layout records",
+           cls(attest(MATCHED_MEMBER, "thumb", 0x02000000, 0x03000000,
+                      MATCHED_CALLER_SRC)), "matched")
+    _check(res, "matched: not even a member address witnesses its own file",
+           cls(attest(MATCHED_MEMBER, "thumb", 0x02000000, 0x03000000,
+                      MATCHED_MEMBER_SRC)), None)
+    _check(res, "matched: an EXACT entry covers its address and every "
+                "function of its layout",
+           sorted(matched_index([_matched_fixture()])),
+           [0x0BADF000, 0x0BADF010])
+    _check(res, "matched: a MATCH-status entry is not a witness",
+           matched_index([_matched_fixture(status="MATCH")]), {})
+    _check(res, "matched: an EXACT* entry is one",
+           sorted(matched_index([_matched_fixture(status="EXACT*")])),
+           [0x0BADF000, 0x0BADF010])
+    _check(res, "matched: a kind that is not verified against game bytes is "
+                "refused",
+           matched_index([_matched_fixture(kind="note")]), {})
 
     # --- the declared ISA of a call target ---------------------------------
     def conflict(addr, kind):
