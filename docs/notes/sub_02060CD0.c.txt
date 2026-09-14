@@ -1,50 +1,112 @@
 /*
  * near miss: sub_02060CD0  (0x02060CD0, arm9, ARM, 352 bytes)
  * packet:    pkt_02060CD0
- * verdict:   DIFF, 356 bytes compiled against 352 original
- * cost:      one instruction, the free-list search loop
+ * verdict:   DIFF, 352 bytes compiled against 352 original,
+ *            26 concrete bytes differing, all in one nine-slot window
+ * cost:      the shape of the free-list search loop, not its length
  *
  * This is NNS_FndResizeForMBlockExpHeap, the expanded-heap resize
  * primitive that src/pending/sub_020302A4.c (the heap layer's realloc)
  * calls, and through it src/pending/sub_020307E0.c. Getting it EXACT
  * promotes both. The C below reproduces every instruction of the original
- * except the four-instruction free-list search loop, where the compiler
- * refuses to if-convert:
+ * except the nine-slot free-list search window at +0x38..+0x58, where the
+ * compiler refuses to if-convert the loop:
  *
  *   original                        this C
- *     cmp   r6, r0                    cmp   r6, r0
- *     ldrne r6, [r6, #0xc]            beq   <exit>
- *     cmpne r6, #0                    ldr   r6, [r6, #0xc]
- *     bne   <loop>                    cmp   r6, #0
- *                                     bne   <loop>
+ *     ldr   r6, [r5, #0x24]           add   r0, r8, #0x10
+ *     add   r0, r8, #0x10             add   r0, r7, r0
+ *     cmp   r6, #0                    ldr   r6, [r5, #0x24]
+ *     add   r0, r7, r0                b     <test>
+ *     beq   <exit>              loop: ldr   r6, [r6, #0xc]
+ *   loop:                             cmp   r6, r0
+ *     cmp   r6, r0              test: beq   <exit>
+ *     ldrne r6, [r6, #0xc]            cmp   r6, #0
+ *     cmpne r6, #0                    bne   <loop>
+ *     bne   <loop>
  *
- * Everything from the prologue to the epilogue matches byte for byte once
- * that four-byte shift is discounted: the register assignment (r8
- * pMBHead, r7 crBlockSize, r6 pMBlkFr then rgnFree.start, sb size), both
- * stack regions (sp+8 grow, sp+0 shrink), the pool word 0x4652 for the
- * free-block signature, and every call site.
+ * The C below is now size-exact: 352 bytes compiled against 352 original,
+ * 26 concrete bytes differing, all of them inside that one window.
+ * Everything before +0x38 and everything from +0x5C to the last pool word
+ * is byte-identical: the register assignment (r8 pMBHead, r7 crBlockSize,
+ * r6 pMBlkFr then rgnFree.start, sb size), both stack regions (sp+8 grow,
+ * sp+0 shrink), the pool word 0x4652 for the free-block signature, every
+ * call site, and the entry `bls` flag reuse.
  *
- * Loop spellings tried, all giving the same unpredicated five
- * instructions:
+ * Loop spellings tried.  All of the following give 356 bytes, the same
+ * unpredicated five-instruction loop and a four-byte shift of everything
+ * after it:
  *
  *   for (p = head; p; p = p->next) if (p == end) break;
+ *   for (p = head; p; p = p->next) { if (p != end) continue; break; }
  *   while (p && p != end) p = p->next;                    (top-tested, and
  *                                                          it also loses
  *                                                          the flag reuse
  *                                                          on the entry
  *                                                          `bls`)
  *   if (p) { do { if (p == end) break; p = p->next; } while (p); }
+ *   if (p) { do { if (p == end) break; } while ((p = p->next) != 0); }
+ *   if (p) { while (p != end) { p = p->next; if (!p) break; } }
+ *   if (p) { for (; p != end; ) if ((p = p->next) == 0) break; }
  *   if (p) { while (p != end && (p = p->next) != 0) ; }
  *   if (p) { do ; while (p != end && (p = p->next) != 0); }
  *   if (p) { do { if (p != end) { p = p->next; continue; } break; } while (p); }
+ *   if (p) { while (1) { if (p == end) break; p = p->next; if (!p) break; } }
+ *   if (p) { L: if (p != end) { p = p->next; if (p) goto L; } }
+ *   if (p) { L: if (p != end && (p = p->next) != 0) goto L; }
  *
+ * A `static` helper holding the search, called with the head and
+ * crUsedEnd, is not inlined at all at -O4,p: it comes out as a real `bl`
+ * to an out-of-line copy (332 bytes, whole tail wrong).  Not a candidate.
+ *
+ * Spellings that add an outer `if (p != 0)` guard around a conjunction
+ * loop (`if (p) for (; p && p != end; p = p->next) ;` and the same with
+ * the operands swapped) are worse still, 360 bytes: the guard is not
+ * folded into the loop's own pre-test, so the entry test is emitted twice.
+ *
+ * The recorded C now uses the one spelling that is size-exact:
+ *
+ *   for (p = head; p != end && p != 0; p = p->next) ;
+ *
+ * The operand order matters.  Written `p != 0 && p != end` it is also 352
+ * bytes but 27 bytes differ instead of 26; written as a top-tested `while`
+ * it loses the entry `bls`.  In this form the compiler rotates the loop,
+ * puts the load at the top and jumps into the bottom test, which costs the
+ * same nine slots the original spends but spells them differently.
+ *
+ * ---------------------------------------------------------------------------
+ * WHAT THE COMPILER WILL AND WILL NOT PREDICATE HERE
+ * ---------------------------------------------------------------------------
  * The compiler does fuse compare-with-compare conjunctions here: writing
  * the outer null test and the loop's own pre-test as one condition gets
- * `cmp r6, #0 / cmpne r6, r0 / beq`. What it will not do at -O4,p is fuse
- * a *load* into that chain, which is exactly what `ldrne r6, [r6, #0xc]`
- * is. No source spelling reached it. Either a codegen path this front end
+ * `cmp r6, #0 / cmpne r6, r0 / beq`.  What it will not do at -O4,p is fuse
+ * a *load* into that chain from an `if` statement, however the `if` is
+ * spelled, and that is exactly what `ldrne r6, [r6, #0xc]` is.
+ *
+ * It is not a blanket refusal to predicate loads, though, and this is the
+ * one new fact this pass produced.  Written as a conditional expression
+ * rather than an `if`, the same load does predicate:
+ *
+ *   if (p) { do { p = (p != end) ? p->next : p; }
+ *            while (p != 0 && p != end); }
+ *
+ * compiles to `cmp r8, r0 / ldrne r8, [r8, #0xc] / cmp r8, #0 / beq /
+ * cmp r8, r0 / bne`, the wanted `cmp` plus `ldrne` pair at the top.  It
+ * still is not the original, and it cannot be: under the ternary the
+ * pointer is unchanged on the `p == end` arm, so "old p != end" is no
+ * longer recoverable from the new value and the loop condition has to
+ * re-test both operands, six instructions instead of four.  The original's
+ * `cmpne r6, #0` reuses the previous compare's flags, which only a guarded
+ * block, not an expression, can express.
+ *
+ * So the remaining gap is narrow and well characterised: the front end
+ * would have to if-convert a guarded block whose last instruction is the
+ * loop's own backedge, keeping the guard's flags live across a load and a
+ * second compare.  It predicates loads (via a ternary, above), it
+ * predicates a block ending in a return (`movne`/`strne`/`popne`, see
+ * src/matched/func_0204E074.c), and it fuses compare chains, but it does
+ * not do all three at once here.  Either a codegen path this front end
  * only takes under some other context, or the original loop came from a
- * differently shaped source construct not tried here.
+ * differently shaped source construct still not tried.
  *
  * Two findings worth keeping, both already folded into the C below:
  *
@@ -143,14 +205,10 @@ u32 sub_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
         u8 attr;
 
         pMBlkFr = pEHHead->freeList.head;
-        if (pMBlkFr != 0) {
-            do {
-                if (pMBlkFr != crUsedEnd) {
-                    pMBlkFr = pMBlkFr->next;
-                    continue;
-                }
-                break;
-            } while (pMBlkFr != 0);
+        for (pMBlkFr = pEHHead->freeList.head;
+             pMBlkFr != crUsedEnd && pMBlkFr != 0;
+             pMBlkFr = pMBlkFr->next) {
+            ;
         }
         if (pMBlkFr == 0 || size > crBlockSize + 0x10 + pMBlkFr->blockSize) {
             return 0;

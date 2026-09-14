@@ -1,0 +1,126 @@
+/*
+ * near miss: func_02045EC0  (0x02045EC0, arm9, ARM, 144 bytes)
+ * packet:    pkt_02045AA8
+ * verdict:   DIFF, 144 bytes compiled against 144 original,
+ *            11 concrete bytes differing, three instructions
+ * cost:      instruction scheduling in the paging block, nothing semantic
+ *
+ * High-value target (fan_in 526).  The C below reproduces the whole
+ * function byte for byte except three adjacent slots at +0x30..+0x3C, and
+ * even there it is the same three instructions in a different order:
+ *
+ *   original                        this C
+ *     ldrb r1, [r5, #0x1a]            ldrb r1, [r5, #0x1a]
+ *     ldr  r2, [r5]                   ldr  r2, [r5]
+ *     ldr  r3, [r5, #0x10]      (C)   lsl  r0, r4, #3           (F)
+ *     add  r1, r2, r1, lsl #2         add  r1, r2, r1, lsl #2
+ *     ldr  r2, [r1, #0xc]             ldr  r3, [r5, #0x10]      (C)
+ *     lsl  r0, r4, #3           (F)   ldr  r2, [r1, #0xc]
+ *     add  r1, r0, #4                 add  r1, r0, #4
+ *     add  r2, r3, r2                 add  r2, r3, r2
+ *     ldr  r0, [r5, #0x14]            ldr  r0, [r5, #0x14]
+ *     add  r1, r2, r1                 add  r1, r2, r1
+ *
+ * Both are legal schedules of the same dependence graph; the only question
+ * is whether the archive-base load (C) or the entry shift (F) fills the
+ * slot behind `ldr r2, [r5]`.  The original takes C, every spelling tried
+ * here takes F.  Everything else in the function, both branches of the
+ * +0x1b test, the inline descriptor at +8, the allocation and the tail
+ * call, is already byte-identical, and the `addne` chain in the taken
+ * branch confirms the eight-byte descriptor stride and the +4 table header.
+ *
+ * Spellings tried, all 144 bytes and all 11 bytes wrong in exactly this
+ * way:
+ *
+ *   base + tbl->offs[i] + (idx * 8 + 4)                 (the C below)
+ *   base + (tbl->offs[i] + (idx * 8 + 4))
+ *   at = base + tbl->offs[i];          at + (idx * 8 + 4)
+ *   at = base;                         at + tbl->offs[i] + (idx * 8 + 4)
+ *   at = base; at += tbl->offs[i]; at += idx * 8 + 4;
+ *   pos = idx * 8 + 4;                 at + pos            (two locals)
+ *   the same with `base` declared `u8 *` and the sum cast at the call
+ *
+ * Two spellings are worse rather than differently scheduled, and they rule
+ * out the obvious alternative groupings: `(idx * 8 + 4) + (base +
+ * tbl->offs[i])` reassociates the adds (21 bytes wrong), and building a
+ * `struct DescTable *` first and passing `(u32)&dt->items[idx]` folds the
+ * +4 and the shift into two separate adds after the call's argument load
+ * (whole block wrong).  So the add tree in the C below is right and only
+ * the emission order of the two independent leaves is not.
+ *
+ * What would settle it is a rule for which operand subtree this front end
+ * linearises first in a three-term sum where one term is a two-level load
+ * and another is a shift of a parameter.  Introducing a named local for
+ * either term does not move it: the scheduler is working from an order the
+ * instruction selector chose, and no source-level reordering tried here
+ * changed that order.
+ *
+ * Verified with:
+ *   python tools/match.py one --src <this C>  *       --func func_02045EC0 --addr 0x02045EC0 --cc 1.1p1 --arm --diff
+ *
+ * symbols:
+ *   func_02046180  0x02046180  arm
+ *   func_0204960C  0x0204960C  arm
+ *   func_020495F4  0x020495F4  arm
+ *   func_020457B0  0x020457B0  arm
+ *   func_02045CAC  0x02045CAC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Desc {
+    u32 unk_00;
+    u16 unk_04;
+    u16 unk_06;
+};
+
+struct DescTable {
+    u32         unk_00;
+    struct Desc items[1];
+};
+
+struct Tbl {
+    u32 pad_00[3];
+    u32 offs[1];
+};
+
+struct Owner {
+    struct Tbl       *tbl;
+    struct DescTable *desc;
+    struct Desc       inl;
+    u32               base;
+    void             *handle;
+    u16               unk_18;
+    u8                unk_1a;
+    u8                unk_1b;
+};
+
+extern void  func_02046180(struct Owner *owner, u32 idx);
+extern void  func_0204960C(void *handle, u32 offset);
+extern void  func_020495F4(void *handle, u32 size, void *dest);
+extern u32   func_020457B0(u32 size, u16 tag);
+extern void  func_02045CAC(struct Owner *owner, u32 idx, u32 res);
+
+u32 func_02045EC0(struct Owner *owner, u32 idx)
+{
+    struct Desc *desc;
+    u32 res;
+
+    func_02046180(owner, idx);
+
+    if (owner->unk_1b != 0) {
+        desc = &owner->desc->items[idx];
+    } else {
+        func_0204960C(owner->handle,
+                      owner->base + owner->tbl->offs[owner->unk_1a]
+                          + (idx * 8 + 4));
+        func_020495F4(owner->handle, 8, &owner->inl);
+        desc = &owner->inl;
+    }
+
+    res = func_020457B0(desc->unk_04, owner->unk_18);
+    func_02045CAC(owner, idx, res);
+    return res;
+}

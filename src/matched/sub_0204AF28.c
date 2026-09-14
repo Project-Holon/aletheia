@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  *
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_02146A74     0x02146A74  data
@@ -37,16 +37,13 @@
  * must also be the guard-plus-do-while form: a plain `for` hoists the
  * entries load above the guard.
  *
- * Byte-correct, capped at MATCH: the PC24 at +0xa0 (func_0204E074) has no
- * witness outside 0204AF28..0204AFD8.  This function is 0x0204E074's only
- * caller image-wide, so `label` is unavailable, the two are not contiguous
- * so no unit can make the site `local`, and there is no EXACT entry for
- * 0x0204E074 to serve as a `matched` witness.  It unsticks when 0x0204E074
- * is itself decompiled to EXACT, or when a second caller turns up in an
- * overlay.
+ * Previously capped at MATCH: the PC24 at +0xa0 (func_0204E074) had no
+ * witness outside 0204AF28..0204AFD8, this function being 0x0204E074's only
+ * caller image-wide.  src/matched/func_0204E074.c now reproduces that range
+ * EXACT, so the site resolves in the `matched` class and the file is EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204AF28.c \
+ *   python tools/match.py one --src src/matched/sub_0204AF28.c \
  *       --func sub_0204AF28 --addr 0x0204AF28 --cc 1.1p1 --arm
  */
 

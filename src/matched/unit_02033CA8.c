@@ -1,13 +1,11 @@
 /*
- * PARKED AT MATCH.  Every concrete byte is right, padding included, and the
- * self-attesting tail call inside the unit closes as `local`.  The two open
- * sites are the dispatch arms, 0x02033CFC and 0x02033E30: each is reached by
- * exactly one branch in the whole image, the one in sub_02033CC0 itself, so
- * neither can be attested from outside this range.  Both close as soon as
- * the two scanners are EXACT manifest entries, at which point the `matched`
- * class carries them; nothing about this file has to change.
- *
  * A whole translation unit, matched as one byte range.
+ *
+ * Previously parked at MATCH: the two dispatch arms 0x02033CFC and
+ * 0x02033E30 are each reached by exactly one branch in the whole image, the
+ * one in sub_02033CC0 itself, so neither had an outside witness.  Both now
+ * close on the `matched` class (src/matched/sub_02033CFC.c and
+ * src/matched/sub_02033E30.c); nothing in this file had to change.
  *
  * unit:     yes
  * address:  0x02033CA8
@@ -17,7 +15,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  * function: sub_02033CA8, sub_02033CC0
  *
  * symbols:

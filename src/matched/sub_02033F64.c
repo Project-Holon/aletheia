@@ -1,9 +1,9 @@
-/*
- * PARKED AT MATCH.  Every concrete byte is right.  Same shape as
- * src/pending/unit_02033CA8.c: the two dispatch arms 0x02033FB0 and
- * 0x020340D0 have exactly one caller each image-wide, this function, so
- * `label` has no outside witness.  Both close once those two scanners are
- * EXACT manifest entries.
+﻿/*
+ * Previously parked at MATCH.  Same shape as src/matched/unit_02033CA8.c:
+ * the two dispatch arms 0x02033FB0 and 0x020340D0 have exactly one caller
+ * each image-wide, this function, so `label` had no outside witness.  Both
+ * now close on the `matched` class (src/matched/sub_02033FB0.c and
+ * src/matched/sub_020340D0.c); nothing in this file had to change.
  *
  * function: sub_02033F64
  * address:  0x02033F64
@@ -13,7 +13,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_02033FB0  0x02033FB0  arm

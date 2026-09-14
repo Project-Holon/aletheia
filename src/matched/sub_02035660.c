@@ -1,4 +1,4 @@
-/*
+﻿/*
  * function: sub_02035660
  * address:  0x02035660
  * packet:   pkt_020353B0
@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_021469BC     0x021469BC  data
@@ -20,12 +20,11 @@
  * singleton, then run the two follow-up passes at 0x02036390 and
  * 0x02035E54 over it.
  *
- * Byte-correct, capped at MATCH: 0x02036390 and 0x02035E54 are called
- * from nowhere else in the image, so neither PC24 site has an outside
- * witness of any class.  --suggest-split cannot help, the two sites live
- * in this one function.  It unsticks as soon as either callee is itself
- * decompiled to EXACT (evidence class `matched`) or a second caller
- * turns up in an overlay.
+ * Previously parked at MATCH: 0x02036390 and 0x02035E54 are called from
+ * nowhere else in the image, so neither PC24 site had an outside witness of
+ * any class and --suggest-split could not help.  Both now close on the
+ * `matched` class (src/matched/sub_02036390.c and src/matched/sub_02035E54.c);
+ * nothing in this file had to change.
  *
  * The global is re-read between the three calls: all three callees are
  * externs that may store to it, so the load cannot be hoisted, and
