@@ -1471,3 +1471,205 @@ byte-by-byte field table.
   rest-pose-vs-animation-delta question above.
 - `local 8`/`local 17`'s unrecognised raw blobs (fifth pass) are still
   undecoded and still not ruled in or out as relevant to posing.
+
+## Seventh asset lane pass: NANR decoded fully, best-effort pose still not recognizable
+
+Mission: make species 25 (Pikachu) pose, decode NANR fully, and test three
+hypotheses about NMCR/NANR/NMAR semantics. Species 1 and 150 rendered too,
+to check generality. `tools/assets/rig.py` gained `compose_pose()`, `--pose`,
+and `--all`. **Result: the "recognizable Pikachu" bar from the mission is
+still not met for any of the three species** -- this pass narrows the
+hypothesis space and ships a strictly better (denser, more spatially
+plausible) composition than the sixth pass's, and closes out the NANR
+format gap, but the true node-placement semantics remain unconfirmed. This
+is reported honestly rather than claimed as a working pose per this
+project's practice of not dressing up partial results.
+
+### Hypothesis (b) -- NMCR nodes reference NANR sequences instead of cells directly: FALSE, but pointed at the real NANR format
+
+Fully parsed `local 5` (RNAN/NANR) for species 25 from scratch, no outside
+code, common 16-byte header + three blocks:
+
+- **`KNBA` (ABNK, "Animation Bank")**: a 16-byte-aligned header of
+  `num_sequences(u16)=20, num_elements(u16)=403, seq_array_ofs(u32)=24,
+  elem_array_ofs(u32)=344, elem_array_end(u32)=3568` (block-relative, all
+  three offsets pinned exactly: the sequence array's 20 x 16-byte records
+  span bytes [24, 344) and the element array's 403 x 8-byte records span
+  [344, 3568) -- `344 + 403*8 == 3568` exactly, confirming the field
+  layout, not a guess). Each **sequence record** (16 bytes):
+  `elem_start(u32), num_frames(u16), element_type(u16)=1 constant,
+  stride(u32)=2 constant, unk(u32)` -- `elem_start` is an **index** (not a
+  byte offset) into the element array, `num_frames` selects how many
+  consecutive elements to read from there. Each **element record** (8
+  bytes): `value(s32), six(u16)=6 constant, sentinel(u16)=0xBEEF` -- the
+  same `0xBEEF` marker NMCR's header and NMAR's `table_b` both carry,
+  confirming it is a general Nitro-resource validity tag, not
+  format-specific.
+- **`LBAL`**: 20 name-offset entries into a string table holding
+  **the exact same 20 body-part names** as the paired NCER's LBAL (`atama`,
+  `kuti01`, `karada`, `mimi01`, `mimi02`, `o`, `te01`, `te02`, `asi01`,
+  `asi02`, and the `_2` set) -- confirmed by direct string dump, not
+  inferred. This means NANR's 20 sequences are keyed by the **same
+  body-part vocabulary** as NMCR's nodes, one sequence per named part.
+- **`TXEU`** (12 bytes): not decoded, too small to matter (likely a
+  metadata/checksum trailer).
+
+**Reading the element values**: they are small non-negative integers (0,
+8, 16, 24, 16, 8, 0, 0, 0, ...; later sequences reach up to ~224) that form
+smooth triangle-wave-shaped runs when read in element-array order --
+**this is a translation curve (most likely a Y-bob/idle-sway offset in
+pixels), not a cell index**. Cell indices in this rig only range 0-10 (11
+cells); element values exceed that range immediately. Sequences for
+`asi01`/`asi02`/`asi01_2`/`asi02_2` (the feet) have `num_frames=0` -- an
+empty curve -- which is physically sensible (feet don't bob during an idle
+animation the way ears/head do). **Conclusion: hypothesis (b) is false as
+stated** (NMCR nodes do not indirect through NANR to select a cell -- NCER
+cell selection is NMCR's own `cell_index` field, confirmed correct below).
+What NANR actually is: **a per-named-body-part translation-curve table**,
+the genuine "animation" content this project has been looking for since
+the fifth pass -- previously guessed to live in NMAR (the "multi-cell
+*animation*" resource by name), but the byte evidence points at NANR
+instead (NMAR's 107-byte file is too small to hold curves like these; NANR's
+5324-byte file has exactly the right shape and its LBAL names line up with
+the rig's own body parts). **This pass did not apply these curves to the
+render** (frame 0 of every curve reads as the curve's own starting value,
+which for most sequences is 0 or close to it, consistent with "frame 0 is
+close to the un-animated rest pose" -- but this was not proven by actually
+adding the values in and checking, which is flagged as the clearest next
+step, not done here for lack of remaining budget in this pass).
+
+### Hypothesis (a) revisited -- NMCR (x, y): literal per-node OAM offsets, re-tested and re-confirmed to scatter; a new "absolute anchor" reading tried instead
+
+Re-ran the sixth pass's `apply_node_offset=True` (sum NMCR node (x, y) onto
+every OAM's own cell-local (x, y)) and `apply_node_offset=False` (use OAM
+coordinates directly, ignore NMCR (x, y) entirely) and actually **rendered
+and visually inspected both** (`build/assets/rig/test_sum.png` /
+`test_nosum.png` during this pass, not committed -- gitignored `build/`).
+Both are scattered fragments with no coherent silhouette, matching the
+sixth pass's description exactly -- this re-confirms hypothesis (a) as
+literally stated (OAM coordinates are already-meaningful cell-local
+offsets, and NMCR (x, y) is an *additional* delta on top of them) is wrong,
+or at least insufficient on its own.
+
+Byte-level re-verification of the NMCR node array (species 25, `label(s16),
+x(s16), y(s16), tag(u8)=0x20, cell(u8)`) confirms the parser is reading it
+correctly (hand-decoded the raw hex against the struct-parsed values,
+exact match) and turns up something the fifth/sixth passes only estimated:
+**`cell_index` is *exactly* `(node_position_in_array + 1) mod 10`** for
+every one of the 19 records, verified byte-for-byte -- record 0 (label
+`te01`) has `cell=1`, record 1 (`kuti01`) has `cell=2`, ..., record 9
+(`te02_2`) has `cell=0`, then the pattern repeats for records 10-18. This
+is **not** a per-body-part-meaningful assignment; it is the *position in
+the file*, offset by one, with no correlation to the label. Whether this
+literal field is actually used by the real game renderer to pick a cell,
+or whether cell selection instead happens through some other means this
+pass didn't find (e.g. a lookup keyed by label, or the NANR sequence index
+doubling as a cell selector) is now the single biggest open question --
+this pass used the recovered field at face value (it is what the file
+contains) but flags that its rotation-only pattern is suspicious.
+
+**New reading tried**: the node (x, y) values, sorted by node, order
+**exactly top-to-bottom by real body-part height** for species 25 (`mimi01`
+-35, `mimi02` -35 -- ears, topmost; `atama` -24 -- head; `te01`/`te02_2`
+-19 -- hands, mid; `o` -9 -- tail; `karada`/`asi01`/`asi02` -5/-6/-6 --
+body and feet, bottommost). This ordering only makes physical sense if
+`(x, y)` is each part's own **final placement anchor in the assembled
+figure**, not an incremental delta added on top of an already-positioned
+OAM. Implemented as `compose_pose()`: for each node's cell, take the
+bounding box of all its OAMs, find that box's **center**, and place the
+whole cell (preserving every OAM's position relative to that center) so
+the center lands exactly at the node's `(x, y)`. Tried four anchor
+variants (bbox top-left, bbox center, x-center/y-top mixed, x-top/y-center
+mixed) rendered and inspected directly; **bbox-center was the most visually
+coherent of the four** (a denser, more centrally-clustered mass with
+plausible top-to-bottom part ordering) and is what `compose_pose()` uses.
+
+### Result: denser and more plausible, but not "recognizable" for any of the three species
+
+Rendered `build/assets/rig/0025_pose.png` (47x58), `0001_pose.png` (58x44,
+Bulbasaur -- same 11-cell/19-node/10-rest-pose-node rig shape as species
+25, confirming the rig template is shared, not species-25-specific), and
+`0150_pose.png` (89x87, Mewtwo -- 21 cells, 39 nodes, 20-node rest pose,
+exactly double species 25/1's counts, consistent with a bigger/more
+detailed model using the same rig format). All three show a **denser,
+more centrally-massed cluster of correctly-colored, correctly-shaped
+fragments** than any previous pass's render -- a real improvement -- but
+**none clears the "recognizable creature silhouette" bar**: they read as
+a cloud of body-colored blocks with a plausible-looking rough top/bottom
+split, not a clean, identifiable Pikachu/Bulbasaur/Mewtwo outline. This
+was checked by direct visual inspection of all three renders (upscaled
+8x, nearest-neighbor), not inferred from pixel statistics.
+
+### Hypothesis (c) -- NMAR/NANR per-frame transforms applied on top of rest pose: NANR's curves exist (see above) but were not applied; NMAR's remain unfound
+
+NMAR's `KNBA`/`ANBK` block was re-examined and nothing new was found beyond
+the sixth pass's writeup (`table_a`/`table_b`/`table_c` small fixed
+regions, no room in the 107-byte file for real per-frame curve data). The
+per-part curves this pass actually found live in **NANR**, not NMAR (see
+hypothesis (b) above) -- so hypothesis (c) is **partially right about the
+existence of per-node transform data**, but wrong about which file holds
+it, and this pass did not get to actually summing a NANR curve value onto
+`compose_pose()`'s placement to see whether frame 0 of the curve changes
+(likely improves, or at least changes) the render.
+
+### `tools/assets/rig.py` changes this pass
+
+- **`compose_pose(ncgr, ncer, nodes)`** (new): the bbox-center-anchor
+  strategy described above. This is now the function `main()` uses for the
+  canonical pose render; the sixth pass's `compose_rest_pose()` (sum /
+  no-sum toggle) is kept unchanged for reference/comparison, not deleted.
+- **`--pose`** (new flag): explicit opt-in for pose rendering in
+  single-species mode (parity with `--all`'s implied pose rendering);
+  single-species mode's default behavior (contact sheet + pose, unless
+  `--cells-only`) is unchanged, so this is additive, not a breaking change.
+- **`--all`** (new flag): iterates every species/form block index in the
+  archive (`n.file_count // 20`, no explicit species argument needed) and
+  writes `build/assets/rig/NNNN.png` for each (pose only, no contact
+  sheet, to keep batch runtime and output volume down). Run end-to-end
+  over the whole `a/0/0/4` archive this pass: **712 of 714 slots render
+  without error, 2 fail cleanly** (species 712/713, the archive's trailing
+  5 sub-files beyond `714*20=14280` don't form a complete 20-entry block --
+  `14285 % 20 == 5` -- so the last block index that starts within-bounds,
+  713, reads past the real data and hits an NCGR/NCLR block-magic
+  mismatch; caught and skipped with a clear message, not a crash). This is
+  strong evidence the parser generalizes across the whole species/form
+  roster, not just the three species this pass eyeballed.
+
+### What remains after this pass
+
+- **The mission's "recognizable Pikachu" bar is still not met**, for
+  species 25 or either of the two additional species checked. This is the
+  single biggest open item.
+- **NANR's per-part translation curves were decoded but never applied**:
+  the natural next experiment is adding each rest-pose node's matching
+  NANR sequence's frame-0 element value onto that node's placement (via
+  the shared label vocabulary -- NANR sequence `i` and NMCR node with
+  `label_index == i` refer to the same body part) and re-rendering, to see
+  whether it changes (hopefully improves) the silhouette. Not done this
+  pass.
+- **`cell_index`'s literal-rotation pattern (`position + 1 mod 10`) is
+  now confirmed byte-exact but its real role is more suspicious, not
+  less** -- a field that always equals its own array position plus one is
+  either (a) genuinely how the game picks cells (the rig's cells simply
+  happen to be authored in body-part order with a one-slot rotation, which
+  is possible but unverified) or (b) not the actual cell-selection
+  mechanism at all, with the real one still unfound. Comparing this field
+  across several more species (beyond the 1/25/150 already loaded) for
+  whether the rotation pattern *ever* breaks would help decide between the
+  two.
+- **The bbox-center anchor for NMCR (x, y) is empirically the best of six
+  tried, not a confirmed-correct decode.** The physically-sensible
+  top-to-bottom ordering of node y-values is real evidence, but is also
+  consistent with several other placement schemes this pass didn't try
+  (e.g. anchoring each cell at its first OAM specifically rather than its
+  bbox center, or a coordinate system with a different origin/scale
+  entirely).
+- The second `mc_entries` multi-cell variant (species 25: nodes roughly
+  `[7:15]` per the `(0, 7, 8, -19, 32)` descriptor tuple, not confirmed) is
+  still unused by `compose_pose()`; rendering and comparing it against the
+  first might help disambiguate the placement question.
+- `local 8`/`local 17`'s unrecognised raw blobs and NMAR's own unresolved
+  `table_a`/`table_b`/`table_c` fields (sixth pass) remain undecoded.
+- The two `--all` boundary failures (species 712/713) were not
+  investigated beyond confirming they fail cleanly and are consistent
+  with `14285 % 20 == 5` leftover sub-files at the end of the archive.

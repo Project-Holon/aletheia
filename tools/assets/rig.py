@@ -457,6 +457,76 @@ def render_oam(ncgr, oam):
     return px
 
 
+def compose_pose(ncgr, ncer, nodes):
+    """Blit every node's cell onto a shared canvas using the **bbox-center
+    anchor** strategy (seventh lane pass, see module docstring "NMCR (x, y):
+    final assembled position, not a delta" section): for each node, take its
+    assigned cell's own OAM bounding box, find that box's *center*, and place
+    the whole cell (preserving every OAM's position relative to that center)
+    so the center lands at the node's (x, y). This was found empirically to
+    give the most spatially coherent result of every strategy tried (raw sum,
+    no-offset, bbox-top-left anchor, positional cell reassignment) -- NMCR's
+    node y values order correctly top-to-bottom by body part (ears -35, head
+    -24, hands/tail -19/-9, body/feet -5/-6 for species 25), which only makes
+    sense if (x, y) is each part's own placement in the assembled figure, not
+    an additive delta on top of the OAM's already-placed coordinates.
+
+    Still **not confirmed to produce a "recognizable" silhouette** -- see
+    docs/ASSETS.md for the honest assessment; this is the best of several
+    tried, not a validated-correct decode.
+    """
+    placements = []  # (abs_x, abs_y, px_rows)
+    minx = miny = 10**9
+    maxx = maxy = -10**9
+    for node in nodes:
+        if node.cell_index >= len(ncer.cells):
+            continue
+        cell = ncer.cells[node.cell_index]
+        if not cell.oams:
+            continue
+        cminx = cminy = 10**9
+        cmaxx = cmaxy = -10**9
+        for oam in cell.oams:
+            cminx = min(cminx, oam.x)
+            cminy = min(cminy, oam.y)
+            cmaxx = max(cmaxx, oam.x + oam.w)
+            cmaxy = max(cmaxy, oam.y + oam.h)
+        bx = (cminx + cmaxx) // 2
+        by = (cminy + cmaxy) // 2
+        for oam in cell.oams:
+            rows = render_oam(ncgr, oam)
+            ax = node.x + (oam.x - bx)
+            ay = node.y + (oam.y - by)
+            placements.append((ax, ay, rows))
+            minx = min(minx, ax)
+            miny = min(miny, ay)
+            maxx = max(maxx, ax + oam.w)
+            maxy = max(maxy, ay + oam.h)
+
+    if not placements:
+        return 1, 1, [0]
+
+    margin = 2
+    ox = -minx + margin
+    oy = -miny + margin
+    width = (maxx - minx) + margin * 2
+    height = (maxy - miny) + margin * 2
+    canvas = [[0] * width for _ in range(height)]
+    for ax, ay, rows in placements:
+        for ly, row in enumerate(rows):
+            py = ay + oy + ly
+            if py < 0 or py >= height:
+                continue
+            for lx, v in enumerate(row):
+                if v == 0:
+                    continue
+                px = ax + ox + lx
+                if 0 <= px < width:
+                    canvas[py][px] = v
+    flat = [v for row in canvas for v in row]
+    return width, height, flat
+
+
 def compose_rest_pose(ncgr, ncer, nodes, apply_node_offset=False):
     """Blit every node's cell onto a canvas sized to the content's bounding
     box (plus a small margin). Returns (width, height, palette_index grid)
@@ -586,10 +656,31 @@ def load_block(narc_obj, species, local):
     return dec if dec is not None else raw
 
 
+def render_one(n, species, out_dir, filename=None, cells_sheet=True):
+    """Render one species' cells contact sheet (optional) and composed pose.
+    Returns the pose (w, h) on success. Raises on any parse/decode failure
+    (caller decides whether to catch, e.g. for --all skipping empty slots)."""
+    ncgr = parse_ncgr(load_block(n, species, LOCAL_NCGR_MAIN))
+    ncer = parse_ncer(load_block(n, species, LOCAL_NCER))
+    palette = bs.parse_nclr(load_block(n, species, LOCAL_PALETTE_NORMAL))
+    nmcr = parse_nmcr(load_block(n, species, LOCAL_NMCR))
+
+    if cells_sheet:
+        sheet_w, sheet_h, sheet_flat = render_cells_contact_sheet(ncgr, ncer, palette)
+        cells_path = os.path.join(out_dir, f"{species:04d}_cells.png")
+        bs.write_png_rgb8(cells_path, sheet_w, sheet_h, indices_to_rgb(sheet_flat, palette))
+
+    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose())
+    out_path = os.path.join(out_dir, filename or f"{species:04d}_pose.png")
+    bs.write_png_rgb8(out_path, w, h, indices_to_rgb(flat, palette))
+    return w, h, ncer, nmcr
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                   formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("species", type=int, help="species/form index (25 = Pikachu)")
+    ap.add_argument("species", type=int, nargs="?",
+                     help="species/form index (25 = Pikachu). Not needed with --all.")
     ap.add_argument("--archive", default=ARCHIVE_PATH)
     ap.add_argument("--out", default=OUT_DIR)
     ap.add_argument("--anim", type=int, default=0, help="animation index (informational; "
@@ -598,10 +689,36 @@ def main(argv=None):
                      "see module docstring -- frame 0 is assumed == rest pose)")
     ap.add_argument("--cells-only", action="store_true",
                      help="only render the per-cell contact sheet, skip the pose")
+    ap.add_argument("--pose", action="store_true",
+                     help="render the composed pose (NNNN_pose.png). This is the "
+                     "default for single-species mode unless --cells-only is given; "
+                     "explicit for clarity / parity with --all.")
+    ap.add_argument("--all", action="store_true",
+                     help="process every species/form index in the archive, writing "
+                     "build/assets/rig/NNNN.png for each (skips slots that don't "
+                     "parse as a valid NCGR/NCER/NMCR bundle, e.g. empty/padding "
+                     "block indices)")
     args = ap.parse_args(argv)
 
     os.makedirs(args.out, exist_ok=True)
     n = narc.parse_file(args.archive)
+
+    if args.all:
+        max_species = n.file_count // BLOCK_STRIDE
+        ok = 0
+        skipped = 0
+        for sp in range(max_species):
+            try:
+                render_one(n, sp, args.out, filename=f"{sp:04d}.png", cells_sheet=False)
+                ok += 1
+            except Exception as exc:  # noqa: BLE001 -- best-effort batch, log and continue
+                skipped += 1
+                print(f"[!] species {sp}: skipped ({exc})")
+        print(f"[*] --all: {ok} rendered, {skipped} skipped, out={args.out}")
+        return 0
+
+    if args.species is None:
+        ap.error("species is required unless --all is given")
 
     ncgr = parse_ncgr(load_block(n, args.species, LOCAL_NCGR_MAIN))
     ncer = parse_ncer(load_block(n, args.species, LOCAL_NCER))
@@ -624,8 +741,8 @@ def main(argv=None):
           f"{len(nmcr.nodes)} node records, rest pose uses first "
           f"{nmcr.rest_pose_count}")
 
-    w, h, flat = compose_rest_pose(ncgr, ncer, nmcr.rest_pose())
-    out_path = os.path.join(args.out, f"{args.species:04d}_a{args.anim}_f{args.frame}.png")
+    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose())
+    out_path = os.path.join(args.out, f"{args.species:04d}_pose.png")
     bs.write_png_rgb8(out_path, w, h, indices_to_rgb(flat, palette))
     print(f"[*] wrote {out_path} ({w}x{h})")
     return 0
