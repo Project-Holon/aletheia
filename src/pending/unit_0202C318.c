@@ -32,9 +32,18 @@
  * class covers it (`python tools/match.py manifest --verify --shard
  * pkt_0202C244` must run first for that entry to be on disk).
  *
- * Closes when one of the eight open targets is matched (the `matched`
- * class then covers its own site with no cut needed), or when the image
- * acquires a second, non-trampoline caller for one of them.
+ * sub_0202C4D8 is now matched too (src/matched/sub_0202C4D8.c, EXACT).
+ * sub_0202C470, sub_0202C48C, sub_0202C498, sub_0202C4A4, sub_0202C504
+ * and sub_0202C518 all forward, through the four-way trampoline of
+ * src/pending/unit_0202C548.c, to targets that unit does not yet cover
+ * (its own header records why), so none of the six resolves until that
+ * file promotes. sub_0202C3E0 is a 144-byte routine with a loop and
+ * multiple SDK calls (FSi_ConvertStringSjisToUnicode at 0x02048F74);
+ * it has not been attempted.
+ *
+ * Closes when the last seven are matched (the `matched` class then
+ * covers each site with no cut needed), or when the image acquires a
+ * second, non-trampoline caller for one of them.
  *
  * Verified with:
  *   python tools/match.py tu --src src/pending/unit_0202C318.c \

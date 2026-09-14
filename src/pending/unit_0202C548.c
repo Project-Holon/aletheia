@@ -32,13 +32,23 @@
  * `python tools/match.py manifest --verify --shard pkt_0202C4CC` has
  * written those entries to disk.
  *
- * The remaining four stay open: sub_0202C670, sub_0202C688, sub_0202C5F0
- * and sub_0202C710 are none of them called by a direct `bl`/`b` anywhere
- * in the image; each is reached only through the matching trampoline
- * here, which is inside the range under test.
+ * The remaining four were none of them called by a direct `bl`/`b`
+ * anywhere in the image; each is reached only through the matching
+ * trampoline here, which is inside the range under test. Two are now
+ * matched: sub_0202C670 (src/matched/sub_0202C670.c, EXACT*) and
+ * sub_0202C688 (src/matched/sub_0202C688.c, EXACT*, which needed
+ * sub_0202C760 matched first as sub_0202C688's only witness for it).
  *
- * Closes when one of the four is matched, or when the image acquires a
- * second, non-trampoline caller for one of them.
+ * sub_0202C5F0 (src/pending/unit_0202C5F0.c) is a documented codegen near
+ * miss, not an evidence gap: every concrete byte matches except a
+ * register letter in its switch dispatch. sub_0202C710 needs
+ * sub_0202C6C4 matched first, the same way sub_0202C688 needed
+ * sub_0202C760: sub_0202C6C4's only caller in the ROM is the `bl` inside
+ * sub_0202C710 itself, so it needs its own EXACT entry, not just a cut.
+ * Neither has been written yet.
+ *
+ * Closes when the last two of the four are matched, or when the image
+ * acquires a second, non-trampoline caller for one of them.
  *
  * Verified with:
  *   python tools/match.py tu --src src/pending/unit_0202C548.c \
