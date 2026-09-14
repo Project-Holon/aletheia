@@ -51,6 +51,18 @@
    "status": "EXACT"
   },
   {
+   "name": "sub_0202C3E0",
+   "address": "0x0202C3E0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202C3E0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_0202C4C8",
    "address": "0x0202C4C8",
    "kind": "game",

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * function: sub_0202C548, sub_0202C550, sub_0202C558, sub_0202C560,
+ * function: sub_0202C548, sub_0202C558, sub_0202C560,
  *           sub_0202C568, sub_0202C570, sub_0202C578, sub_0202C580,
  *           sub_0202C588
  *
@@ -22,7 +22,8 @@
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), 4 bytes each with no
  * gap. Every concrete byte matches.
  *
- * Five of the nine relocations resolve. sub_0202C548 and sub_0202C550
+ * sub_0202C550 was split out to src/matched/sub_0202C550.c (EXACT) to
+ * witness sub_0202C3E0's call site. Of the rest: sub_0202C548
  * forward to the two unlabelled leaves hiding in the neighbouring pools
  * (src/matched/sub_0202C5AC.c, src/matched/sub_0202C5C4.c); sub_0202C570
  * and sub_0202C578 forward to the two unlabelled leaves of
@@ -70,11 +71,6 @@ extern u32 sub_0202C710(void *p, u32 v);
 u32 sub_0202C548(void *p)
 {
     return func_0202C5AC(p);
-}
-
-u32 sub_0202C550(void *p, u32 a, u32 b)
-{
-    return func_0202C5C4(p, a, b);
 }
 
 u32 sub_0202C558(void *p)
