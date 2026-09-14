@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_02146A44   0x02146A44  data
@@ -34,7 +34,7 @@
  * or a second caller turns up in an overlay.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_020403F4.c \
+ *   python tools/match.py one --src src/matched/sub_020403F4.c \
  *       --func sub_020403F4 --addr 0x020403F4 --cc 1.1p1 --arm
  */
 

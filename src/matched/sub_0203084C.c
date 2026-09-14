@@ -7,16 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  * function: sub_0203084C
  *
- * BLOCKED on one relocation site: all 52 concrete bytes are correct, but
- * the call to sub_020304CC at +0004 has no witness. 0x020304CC's only
- * branch reference in the image is this call, and 0x020304CC belongs to
- * packet pkt_020304CC, which is still open and is not this packet's to
- * write. An EXACT entry for 0x020304CC (the `matched` class) promotes this
- * file as it stands, with no change to the C. --suggest-split offers
- * nothing: a single function section cannot be cut.
+ * Promoted from MATCH with no change to the C. The call to sub_020304CC at
+ * +0004 was the one unresolved site: 0x020304CC's only branch reference in
+ * the image is this call, so no `label` witness exists. It closed when
+ * src/matched/sub_020304CC.c landed EXACT, which makes the site `matched`.
  *
  * Asserting wrapper around sub_020304CC, the same shape as sub_02030830
  * but with the assertion itself gated on the heap-layer state word.
@@ -38,7 +35,7 @@
  *   OS_Terminate    0x02088234  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0203084C.c \
+ *   python tools/match.py one --src src/matched/sub_0203084C.c \
  *       --func sub_0203084C --addr 0x0203084C --cc 1.1p1 --arm
  */
 

@@ -1,0 +1,111 @@
+/*
+ * near miss: sub_0202FB34  (0x0202FB34, arm9, ARM, 120 bytes)
+ * packet:    pkt_0202FB34
+ * verdict:   DIFF, 116 bytes compiled against 120 original
+ * cost:      the representation of the two byte indices
+ *
+ * This is RC4: the keystream/crypt loop, `dst[n] = src[n] ^ S[(S[i]+S[j])
+ * & 0xff]` with the standard swap, over a state block whose two byte
+ * indices live at +0 and +1 and whose 256-byte S box starts at +4.
+ *
+ *   void sub_0202FB34(struct Rc4 *ctx, const u8 *src, s32 len, u8 *dst)
+ *
+ * Length is signed: `subs r2, r2, #1` / `bmi` before the loop and `bge` at
+ * the bottom, so the shape is `while (--len >= 0)`, and the byte-for-byte
+ * empty-input path is a real path.
+ *
+ * The loop is software pipelined in the original: `i++; a = S[i]` is
+ * peeled into the preheader and moved to the bottom of the body, and the
+ * final `ctx->i` store subtracts the extra increment back off
+ * (`sub r7, r7, lr`). Writing that rotation out by hand in the C is what
+ * gets the body to line up one instruction for one instruction; the plain
+ * unrotated loop compiles 12 bytes short and in a different order.
+ *
+ * What is left is that the original keeps both indices *left justified*,
+ * in bits 24-31:
+ *
+ *   original                        this C
+ *     mov   lr, #0x1000000            (none)
+ *     add   r7, lr, r7, lsl #24       add  r5, ip, #1
+ *     lsl   r6, r6, #0x18             and  ip, r5, #0xff
+ *     ldrb  sb, [r0, r7, lsr #24]     ldrb r6, [r4, ip]
+ *     add   r6, r6, sb, lsl #24       add  r5, lr, r6
+ *     add   r7, r7, lr                and  lr, r5, #0xff
+ *
+ * The shifted form makes the mod-256 wraparound free (the increment is an
+ * add of 1 << 24, and every index use is the `lsr #24` an ARM addressing
+ * mode gives away), which is worth one instruction per index per
+ * iteration. Declaring the indices `u8` and letting the compiler pick
+ * gives the `and #0xff` form instead, every time.
+ *
+ * Writing the shifted representation out explicitly in the C (u32 indices
+ * held pre-shifted, `s[i >> 24]`, `i += 0x01000000`) does reproduce the
+ * `lsr #24` addressing, so the form is reachable, but then the compiler
+ * strength-reduces `&s[i >> 24]` into its own register and keeps the step
+ * as an immediate rather than the CSE'd `lr`, and the function comes out
+ * 128 bytes. Neither the natural spelling nor the explicit one lands on
+ * the original: this looks like a backend representation choice for a
+ * byte-wide induction variable that the source cannot steer directly.
+ *
+ * Variants tried:
+ *   u8 indices, unrotated loop                        108 bytes
+ *   u8 indices, ctx->s[] indexed through the struct   108 bytes
+ *   u8 indices, S box bound to a local u8 *           100 bytes
+ *   u8 indices, loop rotated by hand                  116 bytes  (below)
+ *   u32 indices held pre-shifted, explicit >> 24      128 bytes
+ *   the same with the +1 folded into the initialiser  128 bytes
+ *
+ * `restrict` is not available in this front end (it is a syntax error at
+ * -lang c99), so the aliasing between dst and the S box cannot be spelled
+ * away; it turned out not to matter, since the compiler reorders the
+ * keystream load across the dst store anyway.
+ *
+ * The 116-byte version below is the closest: every instruction of the body
+ * has a one-for-one counterpart in the original, in the same order, and
+ * the only differences are the index representation and the two
+ * instructions that follow from it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src <this C> \
+ *       --func sub_0202FB34 --addr 0x0202FB34 --cc 1.1p1 --arm --diff
+ *
+ * No external symbols: the function has no relocation sites at all.
+ */
+
+typedef unsigned char u8;
+typedef signed int s32;
+
+struct Rc4 {
+    u8 i;
+    u8 j;
+    u8 pad[2];
+    u8 s[256];
+};
+
+void sub_0202FB34(struct Rc4 *ctx, const u8 *src, s32 len, u8 *dst)
+{
+    u8 i;
+    u8 j;
+    u8 *s;
+    u8 a;
+    u8 b;
+    u8 k;
+
+    i = ctx->i;
+    j = ctx->j;
+    s = ctx->s;
+    i++;
+    a = s[i];
+    while (--len >= 0) {
+        j += a;
+        b = s[j];
+        s[i] = b;
+        s[j] = a;
+        i++;
+        k = s[(u8)(a + b)];
+        a = s[i];
+        *dst++ = *src++ ^ k;
+    }
+    ctx->i = i - 1;
+    ctx->j = j;
+}

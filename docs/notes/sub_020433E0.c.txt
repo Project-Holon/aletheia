@@ -1,0 +1,94 @@
+sub_020433E0  0x020433E0  (arm9, ARM, pkt_02042B24)
+near miss: DIFF, 6 bytes / 3 instructions, pure register permutation
+
+What the function is
+--------------------
+Push a whole display configuration back to the hardware.  Ten
+parameterless resets, then twelve setters fed from the caller's 0x30-byte
+configuration block in field order, then the two DISPCNT-family words at
+0x04000000 and 0x04001000, each rewritten as (current & 0xffcfffef) | field.
+
+Status
+------
+The first 0x80 bytes (the whole call chain, all 20 PC24 sites) compile
+byte-identical.  Only the three-instruction tail differs, and only in which
+scratch register holds which value:
+
+  offset   ORIGINAL                      | BEST COMPILED
+  +0080    ldr lr, [r4, #0x28]           | ldr lr, [r4, #0x2c]
+  +0084    ldr r3, [r4, #0x2c]           | ldr r1, [r4, #0x28]
+  +0088    mov ip, #0x4000000            | mov ip, #0x4000000
+  +008C    ldr r1, [ip]                  | ldr r3, [ip]
+  +0090    ldr r0, [pc, #0x20]           | ldr r0, [pc, #0x20]
+  +0094    add r2, ip, #0x1000           | add r2, ip, #0x1000
+  +0098    and r1, r1, r0                | and r3, r3, r0
+  +009C    orr r1, r1, lr                | orr r1, r3, r1
+  +00A0    str r1, [ip]                  | str r1, [ip]
+  +00A4    ldr r1, [r2]                  | ldr r1, [r2]
+  +00A8    and r0, r1, r0                | and r0, r1, r0
+  +00AC    orr r0, r0, r3                | orr r0, r0, lr
+  +00B0    str r0, [r2]                  | str r0, [r2]
+
+Everything is semantically identical and the operand ORDER of both `orr`s
+already agrees with the original (and-result first, config bits second).
+The original loads +0x28 first and gives it lr; the compiler loads +0x2c
+first and gives that lr.
+
+What was tried
+--------------
+The tail below is the best form found.  `volatile` on the two register
+pointers is load-bearing: without it the compiler stops hoisting the two
+field loads, folds 0x04001000 into an in-place `add r3, r3, #0x1000` after
+the first store, and the whole tail diverges by 13 instructions instead of
+three.  Two pointer locals plus two value locals are what produce the
+`mov ip, #0x4000000` / `add r2, ip, #0x1000` pair up front.
+
+Ineffective (all produced byte-identical output to the form below, so the
+load order is not driven by source order at all):
+  - swapping the two value locals' declaration order
+  - swapping their initialisation order
+  - hoisting them to function scope, in either order
+  - dropping either one and leaving that field inline in the expression
+  - binding 0xffcfffef to a local
+Actively worse:
+  - writing the `orr` as `bits | (reg & mask)`: the `and` then matches but
+    both `orr`s reverse their operands and the register base moves off ip
+  - a static `set_dispcnt(volatile u32 *, u32)` helper: not inlined at all,
+    two real `bl`s
+  - no locals at all, or pointer locals only: the non-volatile-shaped tail
+    described above
+
+Best form
+---------
+    {
+        volatile u32 *reg_main = (volatile u32 *)0x04000000;
+        volatile u32 *reg_sub = (volatile u32 *)0x04001000;
+        u32 main_bits = cfg->unk_28;
+        u32 sub_bits = cfg->unk_2c;
+
+        *reg_main = (*reg_main & 0xffcfffef) | main_bits;
+        *reg_sub = (*reg_sub & 0xffcfffef) | sub_bits;
+    }
+
+preceded by, in order:
+
+    func_020808F4(); func_0208091C(); func_020809A0(); func_020809C8();
+    func_02080908(); func_02080940(); func_020809B4(); func_020809F0();
+    func_02080964(); func_02080978();
+    func_0207FDCC(cfg->unk_00); func_02080100(cfg->unk_04);
+    func_020806B0(cfg->unk_08); func_020807BC(cfg->unk_0c);
+    func_0207FFD0(cfg->unk_10); func_020801F8(cfg->unk_14);
+    func_0208074C(cfg->unk_18); func_0208083C(cfg->unk_1c);
+    func_02080294(cfg->unk_20); func_0208040C(cfg->unk_24);
+
+with struct DispConfig = twelve u32 at 0x00..0x2c.
+
+Second obstacle
+---------------
+Even at EXACT this would cap at MATCH as a single-function file: the PC24
+at +0x18 (func_02080908) has no witness outside 0x020433E0..0x0204349C.
+0x02080908 is called from here and nowhere else in the image, so `label`
+is unavailable and only an EXACT entry for 0x02080908 itself would attest
+it.  Worth revisiting once the 0x0208xxxx graphics layer is decompiled,
+since that would settle both the witness and probably the real parameter
+names.

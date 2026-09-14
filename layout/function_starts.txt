@@ -115,3 +115,11 @@ arm9_main  0x02012ED8  thumb   # bl 0x02012ED8 from ov021 at 0x021CA5B2, 0x021CA
 arm9_main  0x02043534  arm     # blx 0x02043534 from ov020 at 0x02187892, ov021 at 0x02197938, and many more overlays
 arm9_main  0x02043558  arm     # blx 0x02043558 from ov214 at 0x021BAD4E, ov220/ov221/ov222/ov224
 arm9_main  0x020435F4  arm     # blx 0x020435F4 from ov017 at 0x021B6438, ov021 at 0x0219793E, and many more overlays
+
+# The second entry point of the 176-byte function at 0x02030534: the heap-4
+# allocation front door.  It saves nothing (it is a pure tail call:
+# "load the callee from the pool, bx ip"), so the lr-saving prologue sweep
+# cannot see it, and nothing in arm9 branches to it.  Its only reference
+# anywhere is the pool word at 0x02030BC4, read by the tail call at
+# 0x02030BBC.
+arm9_main  0x020305C4  arm     # pool word at 0x02030BC4, read by the tail call at 0x02030BBC

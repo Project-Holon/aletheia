@@ -1,0 +1,121 @@
+/*
+ * near miss: sub_02045EC0  (0x02045EC0, arm9, ARM, 144 bytes)
+ * packet:    pkt_02045EC0
+ * verdict:   DIFF, 144 bytes compiled, 12 concrete bytes differ
+ * cost:      three instructions permuted, no instruction added or lost
+ *
+ * The whole function reproduces except for where the scheduler places
+ * `lsl r0, r4, #3` in the uncached arm:
+ *
+ *   original                        this C
+ *     ldrb r1, [r5, #0x1a]            ldrb r1, [r5, #0x1a]
+ *     ldr  r2, [r5]                   ldr  r2, [r5]
+ *     ldr  r3, [r5, #0x10]            lsl  r0, r4, #3
+ *     add  r1, r2, r1, lsl #2         add  r1, r2, r1, lsl #2
+ *     ldr  r2, [r1, #0xc]             ldr  r3, [r5, #0x10]
+ *     lsl  r0, r4, #3                 ldr  r2, [r1, #0xc]
+ *
+ * Both fill the same load-use stall, with a different instruction. Source
+ * spellings tried, all giving the same schedule:
+ *
+ *   one expression, base + entry first, (idx * 8 + 4) parenthesised second
+ *   the base + entry sum bound to a local, then the call
+ *   the base read bound to its own local before the sum
+ *   (idx * 8 + 4) bound to its own local after the sum
+ *
+ * The instruction count, the register assignment and every other byte
+ * already match, so this is a scheduling priority the source order does
+ * not reach, not a shape error.
+ *
+ * What the function is: read one archive member's record and hand it to
+ * sub_02045CAC (0x02045CAC, 344 bytes, the same packet, which opens with a
+ * byte-for-byte copy of this function's uncached arm; matching either one
+ * gives the other's middle for free).
+ *
+ *   u32 sub_02045EC0(struct ArcHandle *arc, u32 idx)
+ *
+ * arc->cached (+0x1b) says whether the record table is already resident.
+ * When it is, the record is table + 4 + idx * 8. When it is not, the file
+ * is seeked to arc->base + arc->hdr->offsets[arc->fileIdx] + idx * 8 + 4
+ * and eight bytes are read into the record slot at arc + 8. Either way the
+ * u16 at record + 4 and arc->field18 go to sub_020457B0, whose result is
+ * both passed on to sub_02045CAC and returned.
+ *
+ * Two struct shapes are pinned by the codegen and worth keeping:
+ *
+ *  - The offsets array is at +0xc of the header, not at +0: the original
+ *    is `add r1, r2, r1, lsl #2` / `ldr r2, [r1, #0xc]`, so the index
+ *    scales against the header base and 0xc is the load's displacement.
+ *    Writing it as `((u32 *)hdr)[fileIdx + 3]` instead gives
+ *    `add r1, r1, #3` / `ldr r2, [r2, r1, lsl #2]` and loses eight bytes.
+ *  - The record slot at arc + 8 is eight bytes, read whole by the
+ *    8-byte call, with the interesting u16 at +4.
+ *
+ * Verified with:
+ *   python tools/match.py one --src <this C> \
+ *       --func sub_02045EC0 --addr 0x02045EC0 --cc 1.1p1 --arm --diff
+ *
+ * symbols:
+ *   sub_02046180   0x02046180  arm   called with no argument setup
+ *   sub_0204960C   0x0204960C  arm   (file, offset) seek
+ *   sub_020495F4   0x020495F4  arm   (file, size, dest) read
+ *   sub_020457B0   0x020457B0  arm   (u16, u16) -> u32
+ *   sub_02045CAC   0x02045CAC  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct ArcRec {
+    u32 offset;
+    u16 size;
+    u16 pad;
+};
+
+struct ArcHdr {
+    u16 field00;
+    u16 count;
+    u32 field04;
+    u32 field08;
+    u32 offsets[1];
+};
+
+struct ArcHandle {
+    struct ArcHdr *hdr;
+    void *table;
+    struct ArcRec rec;
+    u32 base;
+    void *file;
+    u16 field18;
+    u8 fileIdx;
+    u8 cached;
+};
+
+extern void sub_02046180(void);
+extern void sub_0204960C(void *file, u32 offset);
+extern void sub_020495F4(void *file, u32 size, void *dest);
+extern u32 sub_020457B0(u16 a, u16 b);
+extern void sub_02045CAC(struct ArcHandle *arc, u32 idx, u32 val);
+
+u32 sub_02045EC0(struct ArcHandle *arc, u32 idx)
+{
+    struct ArcRec *rec;
+    u32 off;
+    u32 base;
+    u32 val;
+
+    sub_02046180();
+    if (arc->cached != 0) {
+        rec = (struct ArcRec *)((u8 *)arc->table + 4 + idx * 8);
+    } else {
+        base = arc->base;
+        off = base + arc->hdr->offsets[arc->fileIdx];
+        sub_0204960C(arc->file, off + (idx * 8 + 4));
+        sub_020495F4(arc->file, 8, &arc->rec);
+        rec = &arc->rec;
+    }
+    val = sub_020457B0(rec->size, arc->field18);
+    sub_02045CAC(arc, idx, val);
+    return val;
+}

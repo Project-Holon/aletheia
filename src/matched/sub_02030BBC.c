@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_020305C4  0x020305C4  arm
@@ -21,16 +21,16 @@
  * this is the same phenomenon one level up, a whole secondary entry point
  * rather than one accessor.
  *
- * Every concrete byte matches. The relocation stays unresolved under the
- * honesty rule: the only reference to 0x020305C4 anywhere found so far is
- * this call, which is inside the range under test, and the address carries
- * no func_ label for the `label` class to use. It closes when
- * 0x020305C4 is written and matched (the `matched` class would then cover
- * it) or when a second caller turns up.
+ * Promoted from MATCH with no change to the C. The one relocation had no
+ * witness under the honesty rule: the only reference to 0x020305C4
+ * anywhere is this call, inside the range under test, and the address
+ * carried no func_ label. It closed when 0x020305C4 was seeded into
+ * layout/function_starts.txt and written as src/matched/func_020305C4.c,
+ * which makes the site `matched`.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02030BBC.c \
- *       --func sub_02030BBC --addr 0x02030BBC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/sub_02030BBC.c \
+ *       --func sub_02030BBC --addr 0x02030BBC --cc 1.1p1 --arm
  */
 
 extern void func_020305C4(void);

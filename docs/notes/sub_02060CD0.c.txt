@@ -1,0 +1,186 @@
+/*
+ * near miss: sub_02060CD0  (0x02060CD0, arm9, ARM, 352 bytes)
+ * packet:    pkt_02060CD0
+ * verdict:   DIFF, 356 bytes compiled against 352 original
+ * cost:      one instruction, the free-list search loop
+ *
+ * This is NNS_FndResizeForMBlockExpHeap, the expanded-heap resize
+ * primitive that src/pending/sub_020302A4.c (the heap layer's realloc)
+ * calls, and through it src/pending/sub_020307E0.c. Getting it EXACT
+ * promotes both. The C below reproduces every instruction of the original
+ * except the four-instruction free-list search loop, where the compiler
+ * refuses to if-convert:
+ *
+ *   original                        this C
+ *     cmp   r6, r0                    cmp   r6, r0
+ *     ldrne r6, [r6, #0xc]            beq   <exit>
+ *     cmpne r6, #0                    ldr   r6, [r6, #0xc]
+ *     bne   <loop>                    cmp   r6, #0
+ *                                     bne   <loop>
+ *
+ * Everything from the prologue to the epilogue matches byte for byte once
+ * that four-byte shift is discounted: the register assignment (r8
+ * pMBHead, r7 crBlockSize, r6 pMBlkFr then rgnFree.start, sb size), both
+ * stack regions (sp+8 grow, sp+0 shrink), the pool word 0x4652 for the
+ * free-block signature, and every call site.
+ *
+ * Loop spellings tried, all giving the same unpredicated five
+ * instructions:
+ *
+ *   for (p = head; p; p = p->next) if (p == end) break;
+ *   while (p && p != end) p = p->next;                    (top-tested, and
+ *                                                          it also loses
+ *                                                          the flag reuse
+ *                                                          on the entry
+ *                                                          `bls`)
+ *   if (p) { do { if (p == end) break; p = p->next; } while (p); }
+ *   if (p) { while (p != end && (p = p->next) != 0) ; }
+ *   if (p) { do ; while (p != end && (p = p->next) != 0); }
+ *   if (p) { do { if (p != end) { p = p->next; continue; } break; } while (p); }
+ *
+ * The compiler does fuse compare-with-compare conjunctions here: writing
+ * the outer null test and the loop's own pre-test as one condition gets
+ * `cmp r6, #0 / cmpne r6, r0 / beq`. What it will not do at -O4,p is fuse
+ * a *load* into that chain, which is exactly what `ldrne r6, [r6, #0xc]`
+ * is. No source spelling reached it. Either a codegen path this front end
+ * only takes under some other context, or the original loop came from a
+ * differently shaped source construct not tried here.
+ *
+ * Two findings worth keeping, both already folded into the C below:
+ *
+ *  - The shrink arm must re-read pMBHead->blockSize rather than reuse the
+ *    crBlockSize the entry block already loaded. With a plain field read
+ *    the compiler CSEs it into r7 and the arm comes out one instruction
+ *    short; the store to the address-taken stack region right before it
+ *    does not kill the cached load, whatever its member type. Forcing the
+ *    re-read with a volatile-qualified read at that one site is what
+ *    reproduces `ldr r1, [r8, #4]`.
+ *  - The two `return 0` guards share one exit block reached by branch, and
+ *    only writing them as a single `||` disjunction reproduces that:
+ *    separate `if`s give two inline predicated epilogues, and an explicit
+ *    `goto fail` puts the shared block at the end of the function instead
+ *    of between the guards.
+ *
+ * Verified with:
+ *   python tools/match.py one --src <this C> \
+ *       --func sub_02060CD0 --addr 0x02060CD0 --cc 1.1p1 --arm --diff
+ *
+ * symbols:
+ *   sub_02060764   0x02060764  arm   GetRegionOfMBlock
+ *   sub_02060790   0x02060790  arm   RemoveMBlock, returns the predecessor
+ *   sub_020607B8   0x020607B8  arm   InsertMBlock
+ *   sub_020607E8   0x020607E8  arm   InitMBlock over a region, returns the head
+ *   sub_02060B6C   0x02060B6C  arm   RecycleRegion, returns a BOOL
+ *   MIi_CpuClear32 0x02082A7C  arm   (u32 data, void *dest, u32 size), TwlSDK mi_memory.o
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+
+struct MBlockHead {
+    u16 signature;
+    u16 attribute;
+    u32 blockSize;
+    struct MBlockHead *prev;
+    struct MBlockHead *next;
+};
+
+struct MBlockList {
+    struct MBlockHead *head;
+    struct MBlockHead *tail;
+};
+
+struct ExpHeapHead {
+    struct MBlockList freeList;
+    struct MBlockList usedList;
+    u16 groupId;
+    u16 feature;
+};
+
+struct HeapHead {
+    u32 pad[8];
+    u32 attribute;
+    struct ExpHeapHead exp;
+};
+
+struct Region {
+    u32 start;
+    u32 end;
+};
+
+extern void sub_02060764(struct Region *rgn, struct MBlockHead *block);
+extern struct MBlockHead *sub_02060790(struct MBlockList *list, struct MBlockHead *block);
+extern struct MBlockHead *sub_020607E8(struct Region *rgn, u16 signature);
+extern void sub_020607B8(struct MBlockList *list, struct MBlockHead *block, struct MBlockHead *prev);
+extern s32 sub_02060B6C(struct ExpHeapHead *heap, struct Region *rgn);
+extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
+
+u32 sub_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
+{
+    struct ExpHeapHead *pEHHead;
+    struct MBlockHead *pMBlkFr;
+    u32 crBlockSize;
+    struct MBlockHead *pMBHead;
+    struct Region rgnFree;
+    struct Region rgn;
+
+    pEHHead = &heap->exp;
+    pMBHead = (struct MBlockHead *)memBlock - 1;
+    size = (size + 3) & ~3;
+    crBlockSize = pMBHead->blockSize;
+
+    if (size == crBlockSize) {
+        return size;
+    }
+
+    if (size > crBlockSize) {
+        struct MBlockHead *crUsedEnd = (struct MBlockHead *)(crBlockSize + (u32)(pMBHead + 1));
+        u32 oldStart;
+        struct MBlockHead *pMBlkFrPrev;
+        u32 fillSize;
+        u8 attr;
+
+        pMBlkFr = pEHHead->freeList.head;
+        if (pMBlkFr != 0) {
+            do {
+                if (pMBlkFr != crUsedEnd) {
+                    pMBlkFr = pMBlkFr->next;
+                    continue;
+                }
+                break;
+            } while (pMBlkFr != 0);
+        }
+        if (pMBlkFr == 0 || size > crBlockSize + 0x10 + pMBlkFr->blockSize) {
+            return 0;
+        }
+
+        sub_02060764(&rgnFree, pMBlkFr);
+        pMBlkFrPrev = sub_02060790(&pEHHead->freeList, pMBlkFr);
+
+        oldStart = rgnFree.start;
+        rgnFree.start = size + (u32)memBlock;
+        if (rgnFree.end - rgnFree.start < 0x10) {
+            rgnFree.start = rgnFree.end;
+        }
+        pMBHead->blockSize = rgnFree.start - (u32)memBlock;
+        if (rgnFree.end - rgnFree.start >= 0x10) {
+            sub_020607B8(&pEHHead->freeList, sub_020607E8(&rgnFree, 0x4652), pMBlkFrPrev);
+        }
+        attr = (u8)heap->attribute;
+        fillSize = rgnFree.start - oldStart;
+        if ((attr & 1) != 0) {
+            MIi_CpuClear32(0, (void *)oldStart, fillSize);
+        }
+    } else {
+        rgn.start = size + (u32)memBlock;
+        rgn.end = *(volatile u32 *)&pMBHead->blockSize + (u32)(pMBHead + 1);
+        pMBHead->blockSize = size;
+        if (sub_02060B6C(pEHHead, &rgn) == 0) {
+            pMBHead->blockSize = crBlockSize;
+        }
+    }
+
+    return pMBHead->blockSize;
+}
