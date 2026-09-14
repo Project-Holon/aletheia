@@ -29,6 +29,22 @@
  * identical.  That is the whole of the gap, and it is codegen rather than
  * evidence.
  *
+ * Wave 6 attempt, for the record, so that nobody re-derives it.  The ten bytes
+ * are the three `str value; adds #k; str value + k` pairs at [sp], [sp+8] and
+ * [sp+0xC]: the original stores each id twice, once with the bare slot number
+ * and once with the offset added, and reloads it from the stack at every use.
+ * Three models were compiled against it.  A local `u32 v[4]` and a local
+ * four-word struct are both folded completely (every intermediate store dead,
+ * 122 bytes, the frame down to 8).  Declaring the four slots `volatile`
+ * reproduces the double stores exactly, so the stores really are the shape of
+ * a store that may not be eliminated, but it also forces a reload *between*
+ * the store and the `adds`, which the original does not have, and the function
+ * comes out 136 bytes.  What matches both halves is an aggregate whose address
+ * has escaped: stores preserved because something else might read them, loads
+ * still forwarded from the value in hand.  Nothing in the function takes an
+ * address, so where the escape comes from is the open question, and it is the
+ * thing to look for next rather than another spelling of the arithmetic.
+ *
  * The loop counter is signed (`blt`), unlike the otherwise identical loop in
  * func_020181A0, which is `blo`.
  *

@@ -1,0 +1,56 @@
+/*
+ * unit:     no
+ * address:  0x02022888
+ * packet:   pkt_0202271C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * function: func_02022888
+ *
+ * symbols:
+ *   func_020222A8  0x020222A8  thumb
+ *   func_020235F0  0x020235F0  thumb
+ *   func_0202363C  0x0202363C  thumb
+ *
+ * Same shape as src/matched/func_0202285C.c; kept in its own file for the
+ * same reason (the sibling calls to the shared helpers have to stay
+ * outside the compared range to attest them).  Sets the flag pair to
+ * (0, 0) instead of (1, 0), and stashes the constant 0x0209F6C4.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02022888.c \
+ *       --func func_02022888 --addr 0x02022888 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Obj {
+    u8  pad00[0xC];
+    u32 unk0C;
+    u8  pad10[0x24 - 0x10];
+    u16 unk24;
+    u8  pad26[2];
+    u32 unk28;
+    u32 unk2C;
+};
+
+extern void func_020222A8(u16 id);
+extern void func_020235F0(struct Obj *p, u32 arg);
+extern void func_0202363C(struct Obj *p);
+
+void func_02022888(struct Obj *p)
+{
+    if (p->unk0C == 0) {
+        func_020222A8(p->unk24);
+        func_020235F0(p, 0x0209F6C4);
+        p->unk28 = 0;
+        p->unk2C = 0;
+        return;
+    }
+    func_0202363C(p);
+}

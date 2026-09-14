@@ -1,0 +1,118 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0201F020",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_0201F020",
+   "address": "0x0201F020",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201F020.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201F020",
+    "func_0201F02C",
+    "func_0201F048"
+   ]
+  },
+  {
+   "name": "unit_0201F0F8",
+   "address": "0x0201F0F8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201F0F8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201F0F8",
+    "func_0201F104",
+    "func_0201F124",
+    "func_0201F134",
+    "func_0201F140",
+    "func_0201F14C",
+    "func_0201F158",
+    "func_0201F164",
+    "func_0201F184",
+    "func_0201F198",
+    "func_0201F1B0",
+    "func_0201F1C8",
+    "func_0201F1E0",
+    "func_0201F230"
+   ]
+  },
+  {
+   "name": "unit_0201F31C",
+   "address": "0x0201F31C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201F31C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201F31C",
+    "func_0201F344"
+   ]
+  },
+  {
+   "name": "unit_0201F41C",
+   "address": "0x0201F41C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201F41C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201F41C",
+    "func_0201F448"
+   ]
+  },
+  {
+   "name": "unit_0201F47C",
+   "address": "0x0201F47C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201F47C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201F47C"
+   ]
+  },
+  {
+   "name": "unit_0201F554",
+   "address": "0x0201F554",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0201F554.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0201F554",
+    "func_0201F57C"
+   ]
+  }
+ ]
+}

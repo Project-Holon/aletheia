@@ -1,0 +1,40 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02020408",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_02020CF8",
+   "address": "0x02020CF8",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02020CF8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02020CF8",
+    "func_02020D0C",
+    "func_02020D10",
+    "func_02020D18"
+   ]
+  },
+  {
+   "name": "func_02020D3C",
+   "address": "0x02020D3C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02020D3C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}
