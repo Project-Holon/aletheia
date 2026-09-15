@@ -1,0 +1,104 @@
+func_021D14C4 (ov021, 0x021D14C4..0x021D1670, 428 bytes, Thumb)
+================================================================
+
+Not decompiled. This is the function that reads the a/0/0/8 per-tile 8-byte
+grid record, and it is recorded here as evidence for the record layout in
+docs/ASSETS.md rather than attempted as a match: it is 428 bytes with two
+64-bit division helper calls, an atan2-shaped helper call, three s16 normal
+tables reached off one literal pool each, and a type-2 search loop over an
+auxiliary record array. It is worth a packet of its own, not a corner of an
+asset-lane run.
+
+What it is
+----------
+
+  func_02169848(out, mapObj, pos, r3)                       ov010
+    -> mapObj vtable[tagIndex].fn[+0xc](out, fileBuf, pos, r3, mapObj[8])
+         WB -> func_02193398   (one grid)
+         GC -> func_02193498   (two grids, slots 0 and 1)
+         NG -> func_02193544
+         RD -> func_02193628
+      -> func_021D14C4(out, slot, gridPtr, posObj, ?, baseY)
+
+`gridPtr` is `fileBuf + *(u32 *)(fileBuf + 8)` in func_02193398, i.e. exactly
+the `u32@8` the wrapper header points at (docs/ASSETS.md's "BMD0 end / grid-1
+start"). func_02193498 does the same twice, with `u32@8` and `u32@0xc`, which
+is the GC tag's two-grid shape confirmed from the game's own code.
+
+The tag-keyed vtable is at 0x021D3DDC, 16 bytes per entry:
+
+  021D3DDC  0x00004257 'WB'  func_021932C0  func_02193398  func_02193398
+  021D3DEC  0x00004347 'GC'  func_021933C0  func_02193498  func_021934F8
+  021D3DFC  0x0000474E 'NG'  func_02193544  0x0219361C     0x0219361C
+  021D3E0C  0x00004452 'RD'  func_02193628  func_02193790  func_02193790
+  021D3E1C  0xFFFFFFFF       func_021933C0  func_02193498  func_02193498
+
+func_02169470 (ov010) walks that table comparing the file's own leading u16
+against each entry's tag until it hits the -1 terminator, and stores the index
+at mapObj+0x18; func_02169148 stores the table base at mapObj+0x28 and the
+file buffer at mapObj+0xd4.
+
+The indexing
+------------
+
+    021D1502  ldr  r1, [sp, #4]       ; r1 = gridPtr
+    ...
+    021D1518  muls r0, r6, r0         ; r6 * row
+    021D151C  adds r0, r5, r0         ; + col
+    021D151E  adds r1, r1, #4         ; skip the grid's u16,u16 dimension header
+    021D1520  lsls r0, r0, #3         ; * 8
+    021D1522  adds r7, r1, r0         ; &record
+    021D1524  ldrh r0, [r1, r0]       ; record.u16@0
+
+So the record base really is `gridPtr + 4`, the stride really is 8, and the
+index really is `row * width + col`, which is the composition docs/ASSETS.md's
+map_grid.py assumed from the data alone.
+
+The fields, as this function reads them
+---------------------------------------
+
+  u16@0 bits 0..1   surface type. 0 = flat, 2 = the extended form below,
+                    1 falls through to the "no surface" arm at 0x021D15DA
+                    which writes normal (0, 0x1000, 0) and height 0.
+  u16@0 bits 2..15  index into one s16 table of (x, y, z) triples, addressed
+                    as idx*3 + {0,1,2} and reached through three separate pool
+                    words (the usual one-symbol-several-pool-words shape); the
+                    triple is written to out+0/+2/+4 as the tile's surface
+                    normal, with the +4 lane negated.
+  u16@2             type 0: index into a u32 table (`ldr r0, [base, idx*4]`),
+                            added into the height sum at 0x021D164C.
+                    type 2: index of the first record of an auxiliary
+                            8-byte-record array that starts immediately after
+                            the grid, i.e. at gridPtr + 4 + width*height*8.
+                            That array is the "tail bytes after the last grid"
+                            docs/ASSETS.md left undecoded. Its records are four
+                            u16s read as two (normal index, height) pairs at
+                            +0/+4 and +2/+6, and the loop walks them until the
+                            queried height falls inside one pair's span.
+  u32@4 bit 31      selects which end of that auxiliary list the search walks
+                    from (0x021D1588: `ldr r0,[r7,#4]; lsrs r0,#0x1f`).
+  u32@4 bits 0..30  copied verbatim to out+8 (0x021D163C: `ldr r1,[r7,#4]`,
+                    `lsls r1,#1`, `lsrs r2,r1,#1`, `str r2,[r1,#8]`).
+                    This is the tile attribute word every gameplay consumer
+                    tests; see the pkt_021AB0F0 predicate family.
+
+out is a 16-byte record per slot: s16 normal x/y/z at +0/+2/+4, the attribute
+word at +8, the solved height at +0xc.
+
+Why the top bit is stripped
+---------------------------
+
+`lsls #1` / `lsrs #1` and not `bics` with 0x80000000: the constant would cost a
+pool word and the value is already in a register the function is about to
+spend. Any C that clears bit 31 of a u32 held in a register compiles to this
+pair at -O4, so the source is most likely `attr & 0x7fffffff` and the pair is
+not evidence of a bitfield.
+
+Where the value goes
+--------------------
+
+  func_0218DBAC (ov021) copies out+8 and out+0xc into its caller's struct;
+  func_021AACD4 (effect_encount.c) then feeds out+8 straight to
+  func_021AB504, the terrain-class switch, and drops the tile when the answer
+  is 8. That call chain is what attests the split of the word into a low-half
+  terrain id and a high-half flag word.
