@@ -1,0 +1,25 @@
+# mwccarm/MSL ARM runtime library functions identified by wave 18B
+# (docs/notes/pkt_0209BDBC_runtime_library.c.txt)
+# addresses and names only; contains no game data
+# this is the runtime.a soft-float and 64-bit integer support library,
+# linked in as hand-written assembly; it is not decompilable C and is
+# excluded from the open pool the same way SDK library ranges are
+# columns: address  symbol  library(member)  region
+0209BDBC  _s32_to_float                                  MSL/runtime.a  arm9_main
+0209BE04  _u32_to_float                                  MSL/runtime.a  arm9_main
+0209BE4C  _ll_divmod_entry_signed                        MSL/runtime.a  arm9_main
+0209BE5C  _ll_divmod_body                                MSL/runtime.a  arm9_main
+0209C00C  _ll_divmod_entry_flag0                         MSL/runtime.a  arm9_main
+0209C018  _ll_divmod_entry_flag1                         MSL/runtime.a  arm9_main
+0209C054  _ll_mul                                        MSL/runtime.a  arm9_main
+0209C074  _ll_shl                                        MSL/runtime.a  arm9_main
+0209C0A4  _s32_div_f                                     MSL/runtime.a  arm9_main
+0209C2B0  _div_by_zero_check                             MSL/runtime.a  arm9_main
+0209C494  _f2s                                           MSL/runtime.a  arm9_main
+0209C4C8  _f2u                                           MSL/runtime.a  arm9_main
+0209C508  _d2s                                           MSL/runtime.a  arm9_main
+0209C554  _d2u                                           MSL/runtime.a  arm9_main
+0209C5E0  _double_arith_body                             MSL/runtime.a  arm9_main
+0209C77C  __fmul                                         MSL/runtime.a  arm9_main
+0209C95C  __fsub                                         MSL/runtime.a  arm9_main
+0209CB8C  __fadd                                         MSL/runtime.a  arm9_main

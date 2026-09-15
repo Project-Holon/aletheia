@@ -14,6 +14,9 @@ Inputs
   asm/arm9/src/*.s        function labels, instruction addresses, byte widths
   layout/units_arm9.json  translation unit file order, base addresses, sizes
   layout/symbols_sdk.txt  SDK symbols recovered by tools/libmatch.py
+  layout/runtime_arm9.txt mwccarm/MSL runtime library functions identified by
+                          wave 18B (docs/notes/pkt_0209BDBC_runtime_library.c.txt),
+                          same file shape as symbols_sdk.txt
   layout/matched/         manifest shards, one per work packet, read through
                           match.load_manifest_entries
 
@@ -23,15 +26,21 @@ Output
 
 Classification
 --------------
-Precedence is sdk > matched > open, with one documented exception:
+Precedence is sdk > runtime > matched > open, with one documented exception:
 
   sdk       the function's address carries an SDK symbol in symbols_sdk.txt
             for region arm9.  These come from hybrid library linking and are
             NOT decompilation targets.  A handful of them are also listed in
             the manifest as sdk_calibration entries; those stay classified
             sdk and are counted separately as sdk_matched.
+  runtime   the function's address is listed in layout/runtime_arm9.txt: the
+            mwccarm/MSL runtime helper library, linked in as hand-written
+            assembly.  Also NOT decompilation targets, excluded from the
+            open pool and from the coverage denominator exactly like sdk.
   matched   covered by a manifest entry, either directly or as a member of a
-            game_unit entry's function list.  Read only.
+            game_unit entry's function list, including sibling functions a
+            game_unit's source file defines but its "functions" list omits
+            (see find_unit_member_addrs).  Read only.
   open      everything else.  These are the decompilation targets and the
             only functions that end up inside packets.
 
@@ -101,10 +110,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 UNITS_JSON = os.path.join(ROOT, "layout", "units_arm9.json")
 SYMBOLS_SDK = os.path.join(ROOT, "layout", "symbols_sdk.txt")
+RUNTIME_ARM9 = os.path.join(ROOT, "layout", "runtime_arm9.txt")
 MATCHED_DIR = os.path.join(ROOT, "layout", "matched")
 OUT_JSON = os.path.join(ROOT, "layout", "worklist.json")
 
 REGION = "arm9"
+RUNTIME_REGION = "arm9_main"
 
 # packet shaping
 SOFT_MAX_FUNCS = 30          # inside the 20-40 band
@@ -163,6 +174,77 @@ def load_sdk_symbols():
     return syms
 
 
+def load_runtime_symbols():
+    """address -> symbol name for the mwccarm/MSL runtime library table.
+
+    Same file shape as symbols_sdk.txt (see load_sdk_symbols), but a
+    separate file because this table has nothing to do with hybrid SDK
+    linking: it is the runtime.a soft-float / 64-bit integer helper library
+    identified by wave 18B (docs/notes/pkt_0209BDBC_runtime_library.c.txt),
+    linked in as hand-written assembly and never decompilable C.
+    """
+    syms = {}
+    if not os.path.exists(RUNTIME_ARM9):
+        return syms
+    with open(RUNTIME_ARM9, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.split("#", 1)[0].strip()
+            if not line:
+                continue
+            parts = line.split()
+            if len(parts) < 4:
+                continue
+            addr_s, name, _lib, region = parts[0], parts[1], parts[2], parts[3]
+            if region != RUNTIME_REGION:
+                continue
+            try:
+                addr = int(addr_s, 16)
+            except ValueError:
+                continue
+            syms.setdefault(addr, name)
+    return syms
+
+
+RE_UNIT_MEMBER_DEF = re.compile(
+    r"^[A-Za-z_][\w \*]*[A-Za-z0-9_]_([0-9A-Fa-f]{8})\s*\([^;{]*\)\s*$"
+)
+
+_UNIT_MEMBER_CACHE = {}
+
+
+def find_unit_member_addrs(source_path):
+    """Function addresses DEFINED (not merely declared) in a matched source.
+
+    A game_unit manifest entry sometimes names only its entry address even
+    though the file it points at defines sibling functions compiled into
+    the same translation unit (a unit merged from previously separate
+    matched files; src/matched/unit_02045C44.c is one example, defining
+    both func_02045C44 and func_02045CAC while the manifest's "functions"
+    list names only the former). Scanning the definitions in the file
+    directly catches those without editing layout/matched/: a line is a
+    definition rather than an extern declaration when it is not itself an
+    `extern` line and does not end in a semicolon.
+    """
+    if source_path in _UNIT_MEMBER_CACHE:
+        return _UNIT_MEMBER_CACHE[source_path]
+    addrs = set()
+    full = os.path.join(ROOT, source_path.replace("/", os.sep))
+    try:
+        with open(full, encoding="utf-8", errors="replace") as fh:
+            for raw in fh:
+                line = raw.strip()
+                if not line or line.startswith("extern") or line.startswith("//") \
+                        or line.startswith("*") or line.startswith("/*"):
+                    continue
+                m = RE_UNIT_MEMBER_DEF.match(line)
+                if m:
+                    addrs.add(int(m.group(1), 16))
+    except OSError:
+        pass
+    _UNIT_MEMBER_CACHE[source_path] = addrs
+    return addrs
+
+
 def load_matched():
     """address -> dict(name, entry, kind) for everything the shards cover.
 
@@ -170,6 +252,12 @@ def load_matched():
     match.load_manifest_entries is its one reader: reading the files here as
     well would mean two implementations of the shard union and of the check
     that refuses a stale pre-shard layout/matched.json.
+
+    Beyond the manifest's own "functions" list, a game_unit entry's source
+    file is scanned for sibling function definitions the list omits (see
+    find_unit_member_addrs); those are recorded with "implied": True so a
+    stale open packet that only becomes matched through this cross-check can
+    be reported as such by --check and --refresh.
     """
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import match  # noqa: E402
@@ -189,6 +277,20 @@ def load_matched():
                 addrs.append((int(m.group(1), 16), member))
         for addr, who in addrs:
             cover.setdefault(addr, {"name": who, "entry": name, "kind": kind})
+        if kind == "game_unit" and ent.get("source"):
+            listed = set(a for a, _who in addrs)
+            for addr in find_unit_member_addrs(ent["source"]):
+                if addr in listed:
+                    continue
+                cover.setdefault(
+                    addr,
+                    {
+                        "name": "func_%08X" % addr,
+                        "entry": name,
+                        "kind": kind,
+                        "implied": True,
+                    },
+                )
     return cover
 
 
@@ -343,6 +445,7 @@ def parse_all(units):
 def build_inventory():
     units = load_units()
     sdk = load_sdk_symbols()
+    runtime = load_runtime_symbols()
     matched = load_matched()
     funcs, items, edges, word_refs = parse_all(units)
 
@@ -396,10 +499,17 @@ def build_inventory():
             fn["sdk_name"] = sdk[addr]
             if ment is not None:
                 fn["matched_name"] = ment["name"]
+        elif addr in runtime and not proven_game:
+            fn["cls"] = "runtime"
+            fn["runtime_name"] = runtime[addr]
+            if ment is not None:
+                fn["matched_name"] = ment["name"]
         elif addr in matched:
             fn["cls"] = "matched"
             fn["matched_name"] = ment["name"]
             fn["matched_entry"] = ment["entry"]
+            if ment.get("implied"):
+                fn["matched_implied"] = True
             if addr in sdk:
                 # libmatch.py put a weak SDK symbol here but match.py has since
                 # proved the bytes are game code; the proof wins.
@@ -434,6 +544,7 @@ def build_inventory():
         "funcs": funcs,
         "by_addr": by_addr,
         "sdk": sdk,
+        "runtime": runtime,
         "matched": matched,
         "callers": callers,
         "pointers": pointers,
@@ -614,8 +725,8 @@ def sole_isa(group):
 
 def build_document(inv, packets):
     funcs = inv["funcs"]
-    counts = {"total": len(funcs), "sdk": 0, "matched": 0, "open": 0}
-    bytes_by = {"sdk": 0, "matched": 0, "open": 0}
+    counts = {"total": len(funcs), "sdk": 0, "runtime": 0, "matched": 0, "open": 0}
+    bytes_by = {"sdk": 0, "runtime": 0, "matched": 0, "open": 0}
     sdk_matched = 0
     sdk_conflicts = []
     for f in funcs:
@@ -650,7 +761,7 @@ def build_document(inv, packets):
         "base": inv["units"]["base"],
         "size": inv["units"]["size"],
         "policy": {
-            "classification": "sdk > matched > open",
+            "classification": "sdk > runtime > matched > open",
             "soft_max_funcs": SOFT_MAX_FUNCS,
             "soft_max_code_bytes": SOFT_MAX_CODE,
             "gap_split_bytes": GAP_SPLIT_BYTES,
@@ -661,9 +772,11 @@ def build_document(inv, packets):
             "functions_total": counts["total"],
             "functions_sdk": counts["sdk"],
             "functions_sdk_also_matched": sdk_matched,
+            "functions_runtime": counts["runtime"],
             "functions_matched": counts["matched"],
             "functions_open": counts["open"],
             "code_bytes_sdk": bytes_by["sdk"],
+            "code_bytes_runtime": bytes_by["runtime"],
             "code_bytes_matched": bytes_by["matched"],
             "code_bytes_open": bytes_by["open"],
             "code_bytes_game": game_bytes,
@@ -717,10 +830,21 @@ def refresh(inv, old_doc):
             continue
         missing = [a for a in want if a not in open_by_addr]
         if missing:
-            dissolved.append(
-                (pid, "%d function(s) no longer open, first %s"
-                 % (len(missing), hexa(missing[0])))
-            )
+            stale = []
+            for a in missing:
+                ment = inv["matched"].get(a)
+                if ment is not None and ment.get("implied"):
+                    stale.append(
+                        "%s now matched under %s (stale packet id)"
+                        % (hexa(a), ment["entry"])
+                    )
+            if stale:
+                dissolved.append((pid, "; ".join(stale)))
+            else:
+                dissolved.append(
+                    (pid, "%d function(s) no longer open, first %s"
+                     % (len(missing), hexa(missing[0])))
+                )
             continue
         i = bisect.bisect_left(open_addrs, lo)
         j = bisect.bisect_left(open_addrs, hi)
@@ -788,6 +912,10 @@ def print_summary(doc):
     print(
         "    of which calibrated    %6d  (manifest sdk_calibration entries)"
         % s["functions_sdk_also_matched"]
+    )
+    print(
+        "  runtime excluded         %6d              %d bytes of code"
+        % (s["functions_runtime"], s["code_bytes_runtime"])
     )
     print(
         "  matched so far           %6d              %d bytes of code"
@@ -1152,6 +1280,10 @@ def main(argv=None):
 
     if args.check:
         text = json.dumps(doc, sort_keys=True)
+        if dissolved:
+            print("%d packet(s) would be stale after a refresh:" % len(dissolved))
+            for pid, why in dissolved:
+                print("  %s  %s" % (pid, why))
         if have_old:
             with open(args.out, encoding="utf-8") as fh:
                 same = json.dumps(json.load(fh), sort_keys=True) == text

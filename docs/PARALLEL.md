@@ -17,6 +17,7 @@ Every function in the region falls into exactly one class.
 | class | meaning | who touches it |
 | --- | --- | --- |
 | `sdk` | the address carries an SDK symbol recovered by `tools/libmatch.py` | nobody; these arrive from hybrid library linking and are not decompilation targets |
+| `runtime` | the address is listed in `layout/runtime_arm9.txt`, the mwccarm/MSL runtime helper library identified by wave 18B and linked in as hand-written assembly | nobody; not decompilable C, excluded from the open pool and the coverage denominator exactly like `sdk` |
 | `matched` | covered by an entry in a `layout/matched/` shard | nobody; read only, already proved |
 | `open` | everything else | one agent at a time, through a packet |
 
