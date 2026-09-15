@@ -129,6 +129,59 @@ above), which argues against it being the door/warp table either, but
 nothing has replaced it as a candidate this pass.
 
 --------------------------------------------------------------------------
+`a/0/6/6` reader search (this pass): no code found, per-language
+hypothesis weakened
+--------------------------------------------------------------------------
+This pass looked for the reader by decimal-digit archive-id decoding:
+`a/0/6/6` as decimal 66 is the immediate `0x42`, the same convention that
+identified `a/1/2/5` as `0x7d` (125) and `a/1/2/6` as `0x7e` (126) next to
+each other inside `func_0216237C` in ov010. Grepped archive-wide (ARM9
+`main.s` and all 237 `asm/overlays/*.s` files) for the immediate `0x42`
+(or decimal `66`) loaded into `r0`/`r1` within 20 lines ahead of a call to
+any of the NARC-loader-family functions named in the mission
+(`func_02048F60`, `func_02048F74`, `func_02048DDC`, `func_02048D00`,
+`func_02048D54`, `func_02048F4C`, `func_02048F88`, `func_020490A8`,
+`func_02049030`) or the generic loader `func_0204A1BC` that `a/0/5/7`'s
+own reader uses (see scripts.py): **zero matches**. `0x42` does appear
+very often elsewhere in the image (loop counts, buffer sizes, unrelated
+immediates in overlays as far from the field system as the battle/menu
+overlays ov093/ov094/ov119), but never immediately ahead of one of these
+loader calls. This is a negative result from a real, archive-wide search,
+not an absence of search.
+
+The per-language hypothesis was tested two ways and both come back
+against it:
+
+- **Header language count**: no "number of languages" constant was
+  found anywhere in the decompiled ARM9 code or `docs/` to check the
+  group-count range {1, 2, 3, 5, 8} against; there is nothing attested
+  to compare it to.
+- **`a/0/0/2`'s own language structure**: `tools/assets/text.py` parses
+  every one of `a/0/0/2`'s 288 sub-files with `sectionCount` always `1`
+  (see text.py's module docstring, "Message-file container format") --
+  the game's own confirmed text-bank archive carries no per-language
+  grouping at all, single section on every sub-file, every sub-file
+  sampled. If `a/0/6/6`'s `G in {1,2,3,5,8}` were a per-resource count of
+  language variants, the one archive already proven to hold game text
+  would be expected to show the same kind of grouping somewhere, and it
+  does not. This does not disprove the hypothesis (the two archives could
+  simply use different layouts for the same idea), but it removes the
+  one piece of supporting analogy this pass could check.
+
+Data hypotheses from the mission's fallback were also tested against the
+zone header table (`tools/assets/zones.py`, 427 records): of the lanes
+still without an attested accessor, only `field_02` (max 273) and
+`field_18` (max 424) have a range that fits inside `a/0/6/6`'s 601
+sub-files (or `a/0/0/3`'s 472-sub-file message-bank range) at all; every
+other open lane's range is far too large (`field_14`, `field_20`: max
+65535; `packed_1a`: max 1140; `packed_1c`: max 17984; `flags`: max
+60736). That range fit is weak evidence on its own -- nearly any 16-bit
+lane with a few hundred distinct small values would pass it -- and
+neither lane has an accessor read in code that was found to treat it as
+an `a/0/6/6` or `a/0/0/3` index, so this is reported as a plausibility
+note, not a confirmed lane. **`a/0/6/6`'s role is still open.**
+
+--------------------------------------------------------------------------
 CLI
 --------------------------------------------------------------------------
     python tools/assets/events.py --list [--archive {0003,0666,both}]
@@ -138,6 +191,11 @@ CLI
     python tools/assets/events.py --dump 0666 INDEX
         Dump one sub-file as typed records (offset/field_x/length for
         0003; start/length for 0666).
+
+    python tools/assets/events.py --groups N
+        Dump `a/0/6/6` sub-file N's group records: group_count, the
+        single repeated 14-fold header value per group, each group's
+        start offset and size, and the first bytes of its payload.
 
     python tools/assets/events.py --verify [--archive {0003,0666,both}]
         Re-pack every sub-file from its parsed structure and compare
@@ -384,6 +442,18 @@ def cmd_dump(args):
                   f"payload[:16]={g['payload'][:16].hex()}")
 
 
+def cmd_groups(args):
+    n = _load("0666")
+    raw = n.read(args.groups)
+    parsed = parse_0666(raw)
+    print(f"a/0/6/6#{args.groups}: group_count={parsed['group_count']} "
+          f"header_len={parsed['header_len']} file_size={len(raw)}")
+    for k, g in enumerate(parsed["groups"]):
+        print(f"  group[{k}]: repeated_value(x14)={g['start_offset']} "
+              f"size={len(g['payload'])} "
+              f"payload[:16]={g['payload'][:16].hex()}")
+
+
 def cmd_text(args):
     n = _load("0003")
     raw = n.read(args.text)
@@ -430,6 +500,7 @@ def main(argv=None):
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--list", action="store_true")
     g.add_argument("--dump", nargs=2, metavar=("ARCHIVE", "INDEX"))
+    g.add_argument("--groups", type=int, metavar="N")
     g.add_argument("--verify", action="store_true")
     g.add_argument("--text", type=int, metavar="N")
     args = ap.parse_args(argv)
@@ -438,6 +509,8 @@ def main(argv=None):
         cmd_list(args)
     elif args.dump:
         cmd_dump(args)
+    elif args.groups is not None:
+        cmd_groups(args)
     elif args.verify:
         cmd_verify(args)
     elif args.text is not None:

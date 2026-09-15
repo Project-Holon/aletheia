@@ -24,10 +24,45 @@ advances `pc` by 4 -- the word it reads IS `table[k]` -- so the final pc is
 
 The table length N is found by scanning u32-aligned words from the start of
 the file for the first one whose low 16 bits equal the terminator
-(0xFD13); N is that word's index. The remaining 430 / 899 sub-files carry
-no 0xFD13 anywhere and are 8 to 28 bytes long: small side tables sharing
-this archive, not scripts. --list reports both kinds; only the 469 script
+(0xFD13); N is that word's index. The remaining 428 / 899 sub-files carry
+no 0xFD13 anywhere and range 4 to 6020 bytes: small side tables sharing
+this archive, not scripts. --list reports both kinds; only the script
 sub-files are scored by --check and walked by --disasm.
+
+--------------------------------------------------------------------------
+Zone script lane pairs a script sub-file with its side table (CONFIRMED)
+--------------------------------------------------------------------------
+The zone record's `+0x06`/`+0x08` lane (`field_06`/`field_08` in
+tools/assets/zones.py, `field_08 == field_06 + 1` on every one of the 427
+zones) indexes this archive directly: `field_06 == 2 * zone_id` on
+427/427 zones (never `2 * zone_id + 1`), so the pair is `(2*zone_id,
+2*zone_id + 1)`. Read against the real archive, for every one of the 427
+zones exactly one of the two sub-files is a script (has the 0xFD13 entry
+table) and the other is a side table (427/427, no exceptions, no zone
+with both-script or both-side-table) -- this is the "script sub-file
+paired with its side table" structure the mission asked to test, and it
+holds without exception. 428 side tables exist in the archive but only
+427 are reached by a zone's pair; the one extra is sub-file 865 (6020
+bytes, itself shaped like a repeating-record table, not a script) --
+matching "428 is 427 zones plus one" exactly: 427 are each a zone's
+script's side table, the 428th is unpaired and not read through this
+lane.
+
+The side tables' own framing (record size, count) is decoded from their
+sizes alone, not from any trusted header count: see "Side tables" below.
+No code was found that reads archive id 0x39 (`a/0/5/7`) a second time
+at a different sub-file index to reach a zone's side table specifically:
+`func_02158D78` (ov010) is the only site that loads archive 0x39 anywhere
+in the image (grepped archive-wide, ARM9 + every overlay, for the literal
+immediate 0x39 ahead of a NARC-family load call), and it is called exactly
+once per script start, with the single index that is `field_06`'s value
+(the script half of the pair, per `func_02158CD0`'s `sub_02013B5C`
+read). `field_08` (`field_06 + 1`, the side-table half) has no accessor
+of its own anywhere this pass found -- consistent with zones.py's own
+note that +0x08 is read by nothing -- so the side table is reached (if it
+is read by the running game at all, rather than being build-time-only
+data) through some path this pass did not locate, not through a second
+archive-0x39 load next to `func_02158D78`/`func_02158BFC`.
 
 --------------------------------------------------------------------------
 Bytecode: one little-endian u16 opcode, then its operand bytes
@@ -92,6 +127,24 @@ after it, but the added target is also a reachable entry point in its own
 right, so --disasm follows it.
 
 --------------------------------------------------------------------------
+Side tables: framing (CONFIRMED, 428/428) and the pairing test
+--------------------------------------------------------------------------
+See the "Zone script lane pairs a script sub-file with its side table"
+section above for the 427-zone pairing test. The side tables' own byte
+framing, read purely from each sub-file's size (`parse_side_table`):
+
+    4-byte header (2 x u16, not a trustworthy record count -- two
+    different sub-files of the same size carry different header values,
+    e.g. zone 1/8's 16-byte side table has header (4, 10395) while zone
+    6/10's has (1, 2))
+    (len(raw) - 4) // 4 records, each 2 x u16
+
+`(len(raw) - 4) % 4 == 0` holds on every one of the 428 side tables in
+the archive (sizes 4, 8, 12, 16, 20, 24, 28, 36, 40, 48, and the one
+6020-byte outlier), so the record count is derived, not guessed. No
+semantic meaning is claimed for the header words or the per-record pair.
+
+--------------------------------------------------------------------------
 CLI
 --------------------------------------------------------------------------
     python tools/assets/scripts.py --list
@@ -101,6 +154,11 @@ CLI
         Linear-sweep disassembly of every entry in sub-file N, following
         call targets (opcode 4) for reachability. Prints opcode number,
         operand bytes, and target labels.
+
+    python tools/assets/scripts.py --side N
+        Decode sub-file N as a side table: header words and every
+        (u16, u16) record. Prints an error (no exception) if N is a
+        script sub-file instead.
 
     python tools/assets/scripts.py --verify
         Re-pack every one of the 899 sub-files from its parsed entry
@@ -805,6 +863,51 @@ def pack_subfile(parsed):
 
 
 # ---------------------------------------------------------------------------
+# Side tables: the 428 `a/0/5/7` sub-files with no 0xFD13 entry table
+# ---------------------------------------------------------------------------
+#
+# Framing (arithmetic only, confirmed on all 428/428 side tables in the
+# archive): 4-byte header (two u16 words) followed by (size - 4) / 4
+# fixed 4-byte records (two u16 words each). `(len(raw) - 4) % 4 == 0`
+# holds on every one of the 428 side tables, with no exception, including
+# the one 6020-byte outlier -- this is what justifies calling it a real
+# framing rather than a guess at one example's shape. The header's own
+# two words are NOT a literal, independently-trustworthy record count
+# (zone 1 and zone 8's 16-byte side tables carry the same header word
+# pair {4, 10395} while zone 6 and zone 10's use {1, 2} at the same
+# size), so the record count used here comes only from the sub-file's
+# own length, the same self-describing-by-size convention as `a/0/6/6`'s
+# group table and `a/0/0/3`'s record table (see events.py). No semantic
+# decode of the header words or the per-record (u16, u16) pair is
+# claimed -- only that the arithmetic holds archive-wide and the
+# round trip is unaffected (side tables already pack back out as their
+# own raw bytes, unchanged by this decoder).
+
+SIDE_HEADER_SIZE = 4
+SIDE_RECORD_SIZE = 4
+
+
+class SideTableError(Exception):
+    pass
+
+
+def parse_side_table(raw):
+    """Decode one `a/0/5/7` side-table sub-file's framing: a 4-byte
+    header (two u16 words) followed by `(len(raw) - 4) // 4` records of
+    two u16 words each. Raises SideTableError if the size does not fit
+    the framing (never observed on the real archive: holds 428/428)."""
+    if len(raw) < SIDE_HEADER_SIZE or (len(raw) - SIDE_HEADER_SIZE) % SIDE_RECORD_SIZE:
+        raise SideTableError(
+            f"side table size {len(raw)} does not fit header(4) + "
+            f"N*record(4)")
+    header = struct.unpack_from("<2H", raw, 0)
+    count = (len(raw) - SIDE_HEADER_SIZE) // SIDE_RECORD_SIZE
+    records = [struct.unpack_from("<2H", raw, SIDE_HEADER_SIZE + 4 * k)
+               for k in range(count)]
+    return {"header": header, "records": records}
+
+
+# ---------------------------------------------------------------------------
 # Opcode walk
 # ---------------------------------------------------------------------------
 
@@ -975,6 +1078,21 @@ def cmd_disasm(args):
                     print(line)
 
 
+def cmd_side(args):
+    n = _load()
+    raw = n.read(args.side)
+    parsed = parse_subfile(raw)
+    if parsed["kind"] != "side_table":
+        print(f"sub-file {args.side} is a script ({len(raw)} bytes), "
+              f"not a side table -- nothing to decode")
+        return
+    side = parse_side_table(raw)
+    print(f"a0057#{args.side}: side table, {len(raw)} bytes, "
+          f"header={side['header']}, {len(side['records'])} records")
+    for k, rec in enumerate(side["records"]):
+        print(f"  [{k}] {rec}")
+
+
 def cmd_verify(args):
     n = _load()
     ok = 0
@@ -1045,6 +1163,7 @@ def main(argv=None):
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--list", action="store_true")
     g.add_argument("--disasm", type=int, metavar="N")
+    g.add_argument("--side", type=int, metavar="N")
     g.add_argument("--verify", action="store_true")
     g.add_argument("--check", action="store_true")
     args = ap.parse_args(argv)
@@ -1054,6 +1173,8 @@ def main(argv=None):
     elif args.disasm is not None:
         args.index = args.disasm
         cmd_disasm(args)
+    elif args.side is not None:
+        cmd_side(args)
     elif args.verify:
         cmd_verify(args)
     elif args.check:
