@@ -7894,3 +7894,116 @@ address conversion does not repeat the earlier miss near `0x020a2500`.
   into bit ranges by offset/width only; no bit's semantics (beyond "not
   correlated with indoor/outdoor" for all 16 flag bits, shown above) are
   decoded.
+
+## Matrix archive hypothesis: no NARC in the image is a grid-of-map-ids table
+
+Follow-up to the map-lane question above, testing one specific structural
+hypothesis: that the `conn` array (record +0x0c..+0x12, four u16 lanes,
+range 1001..1170) selects a "matrix" sub-file, a small header plus a grid
+of u16 `a/0/0/8` ids, rather than indexing a map directly.
+
+### The candidate set D
+
+Subtracting each `conn` lane's observed minimum (1001) gives a distinct
+value set D of size **69**, range **0..169** (so a matching archive needs
+at least 170 sub-files, one per possible matrix id). D is not contiguous
+(gaps at, for example, 1..12 and 84..105 and 107..168), which is already
+a mild structural warning: a real matrix table indexed 0..169 would more
+plausibly use every id in that range, or close to it, than skip most of
+the top half.
+
+### Method: an exhaustive struct scan, not a guess at one archive
+
+Every NARC in `build/assets/inventory.json` (237 archives) was scanned
+sub-file by sub-file, three ways, all stdlib-only one-off scripts driving
+`tools/assets/narc.py`'s `Narc.read`:
+
+1. **Single grid**: header length in {0,4,8,12,16,20,24}, then a
+   `u16 width, u16 height` pair, then `width*height` u16 cells, each
+   either `< 649` or the `0xFFFF` empty sentinel, cell count >= 4,
+   dimensions in [1,64], total byte length matching exactly, and real
+   value variety (not one constant repeated).
+2. **Dual grid** (the mission's fallback: ids paired with a second grid
+   of height/texture codes): same shape, immediately followed by a
+   second `width*height` u16 grid with values `< 4096`.
+3. **Count-header grid**: a single u16 or u32 cell count (no separate
+   width/height) followed by that many u16 cells under the same `< 649`
+   bound, rejecting monotonic 0,1,2,3,... runs (a counting table, not an
+   id list).
+
+Result: **no archive passes at a fraction that would make it "the"
+matrix table.** The handful of archives that pass at all are false
+positives from the permissiveness of "some small numbers under 649",
+confirmed by inspection, not just by score:
+
+- `a/0/0/9` (255 sub-files, close to but comfortably above the 170
+  floor): 43/255 pass the dual-grid variant, but reading the actual
+  bytes (sub-file 1, 12 bytes: `00000000 01000100 6c000000`) shows the
+  "second grid" is just the zero upper half-word of a plain `u32` value
+  stored right after a `{count=1,count=1}` pair, not a second grid at
+  all -- an artifact of interpreting an int as two u16s.
+- `a/2/1/5` (315 sub-files): 50/315 pass the dual-grid variant at one
+  fixed shape (5x6), and 157/315 pass the count-header variant. Reading
+  sub-file 1 (136 bytes) shows a literal counting sequence, tag byte
+  `0x02`, count `0x0042` (66), then `0001 0002 0003 ... 0042` -- i.e. a
+  sequential index list, not map ids; happens to satisfy "< 649" because
+  it counts to 66.
+- `a/1/6/8`, `a/1/2/3`, `a/0/1/8`, `a/0/1/9`, `a/0/5/7`: all pass the
+  count-header variant on a large minority of sub-files (3.6%-41%), all
+  in archives `docs/ASSETS.md`'s survey already category-guesses as text
+  or script-table archives; the same "small numbers under 649" looseness
+  applies (dialogue/script byte codes are small integers too).
+
+None of these five clears anywhere near full-archive coverage, and none
+survives a look at the actual bytes. The scan above reads every sub-file
+raw (`Narc.read`, no decompression), so the two archives whose sub-file
+count sits closest to the 170 floor were checked a second time, this
+time decompressing first with `narc.try_decompress`, since a compressed
+grid would not have shown up in the raw scan at all:
+
+- `a/0/8/3` (172 sub-files, all uncompressed per its inventory
+  histogram): 99-4132 bytes with no width/height pair that reproduces
+  their size, consistent with its existing "sprite" category guess.
+- `a/2/2/6` (174 sub-files, **all** LZ11-compressed): every sub-file
+  decompresses to a fixed 131072 bytes = exactly 256x256 u16 cells with
+  no header at all. That size match is real, but the content is not
+  map ids: sub-file 0 is a single constant value (0x8000) repeated
+  65536 times, and every other sample checked (sub-files 20, 40, 60, 80,
+  100, 120, 140, 160) has values in the tens of thousands (up to 65535),
+  hundreds to thousands of distinct values per sub-file -- far outside
+  the 0..648 range a map-model index needs, and the wrong shape besides
+  (a per-zone map link needs one id or a handful, not a dense 65536-cell
+  buffer). This reads as tile/screen graphics data (an NSCR-shaped
+  256x256 background layer, size-consistent with a VRAM-sized tilemap),
+  not a map-id matrix; ruled out on content, not just on size.
+
+### Conclusion: hypothesis not confirmed, step 3/4 not run
+
+No NARC in the extracted image contains a sub-file shaped like "small
+header + u16 grid of `a/0/0/8` ids" at anywhere close to the 170-sub-file
+floor D requires, under a width/height header, a count header, or a
+dual-grid variant. Without a surviving candidate there is nothing to
+validate against the indoor/outdoor split, so the mission's step 3 (the
+ten-indoor/ten-outdoor grid-shape check) and step 4 (`tools/assets/matrix.py`,
+the `zones.py --list` extension) were not run -- both are conditioned on
+a candidate this pass did not find.
+
+This adds to, rather than replaces, the map-lane conclusion above: the
+`conn` array is still not shown to be a map pointer by any test run
+against it (direct-index correlation, here structural grid-archive
+search), and the map-model link remains open. If a matrix archive
+exists, its cells are not plain little-endian u16 `a/0/0/8` ids under a
+`{width,height}` or bare-count header in any NARC this pass could read --
+either the encoding is different (a stride other than 2 bytes, a
+non-linear cell order) or the link does not take this shape at all.
+
+One caveat: the scan reads sub-files raw and only decompresses the two
+archives closest to the 170-sub-file floor (above). Most other NARCs are
+mostly-uncompressed already (`none` dominates every compression
+histogram checked), but a handful of individually-compressed sub-files
+inside otherwise-uncompressed archives (for example the 3-6 LZ77/LZ11/
+Huffman/RLE sub-files noted in `a/1/2/5`, `a/1/6/8`, `a/2/1/5` above)
+were scanned compressed and would read as "not a grid" even if they hold
+one -- not a live concern for "the" matrix table (which needs all ~170
+cells consistent, not 3-6 of them), but worth naming so a future pass
+does not assume full compressed coverage from this one.
