@@ -15,7 +15,16 @@ same cipher as `a/0/0/2` (tools/assets/text.py): `field_x & 0xFFFF` is the
 record's length in u16 code units, and `key = (index + 3) * 0x2983`
 (rotate left 3 after every code unit), with `index` the record's own
 position inside its sub-file (0-based). `a/0/6/6` is unaffected by this
-finding; its role remains open (see below).
+finding; its container framing is below, and its reader was later found (see
+docs/ASSETS.md, "Archive readers extended by backward-register scan"):
+overlay_094 func_021F94F8, the battle visual-effect VM object constructor
+(btlv_effvm.c), calls func_02048F60(archive_id=66, member=r6, heap) with r6
+its own 4th argument (an effect id). `a/0/6/7` is read the same way, two
+lines later in the same function family. So `a/0/6/6` is a battle effect-VM
+data table indexed by effect id, not a text/language bank -- the earlier
+per-language hypothesis (matching G's small discrete range) is superseded by
+this code-attested reader, though the per-group payload itself is still not
+decoded past byte-exact extraction.
 
 Written from scratch for the aletheia asset lane. Stdlib only.
 
@@ -179,7 +188,8 @@ other open lane's range is far too large (`field_14`, `field_20`: max
 lane with a few hundred distinct small values would pass it -- and
 neither lane has an accessor read in code that was found to treat it as
 an `a/0/6/6` or `a/0/0/3` index, so this is reported as a plausibility
-note, not a confirmed lane. **`a/0/6/6`'s role is still open.**
+note, not a confirmed lane. **`a/0/6/6`'s role was open at the time of this
+pass; a later pass found its reader, see the module docstring above.**
 
 --------------------------------------------------------------------------
 `a/0/6/6` key test against `a/1/2/5`'s event records (this pass): negative
@@ -201,10 +211,11 @@ offset +16) is itself dominated by the value 1 (57.5% and 87.7% of
 records respectively) -- the ~55-87% agreement seen is within a percent
 or two of what two independently 1-heavy fields would agree on by chance,
 not a real correlation. No movement-frame-count or sightline-count
-pattern was found either. **`a/0/6/6`'s role remains open**; this pass
-adds a negative result (ruled out as the NPC/trigger record's target)
-rather than a positive identification, so no new `--dump` support was
-added for it.
+pattern was found either. This pass adds a negative result (ruled out as
+the NPC/trigger record's target) rather than a positive identification, so
+no new `--dump` support was added for it. **A later pass found `a/0/6/6`'s
+actual reader (the battle effect-VM constructor, not the event/zone system
+this pass tested against) -- see the module docstring above.**
 
 --------------------------------------------------------------------------
 CLI

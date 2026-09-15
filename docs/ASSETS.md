@@ -8082,9 +8082,9 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/0/1/2 | 1 | 0x04104a00 | covered and verified | zones.py | verified | Zone header table, single sub-file, 427 records x 48 bytes, layout attested by decompiled accessors. Round trip: 427/427 records byte-identical. |
 | a/0/1/3 | 0 | 0x00000000 | custom format, no decoder | unknowns.py | unverified | NOT a NARC (bad magic), a single 2820-byte raw file. Resolves cleanly to 282 fixed 10-byte records with a recurring 0xFFFF sentinel word, but no reader found (see "Twelve unknowns identified" below) and no field split attempted; domain not identified. Whole-file identity copy (no container to re-pack). |
 | a/0/1/4 | 282 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
-| a/0/1/5 | 5 | 0x00008410 | custom format, no decoder | tables.py | unverified | 5 sub-files, fixed 16-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/1/5 | 5 | 0x00008410 | custom format, no decoder | tables.py | unverified | 5 sub-files, fixed 16-byte records. Reader found this pass by backward-register scan: overlay_021 func_02189154 (fieldmap.c), via func_02048F4C(archive_id=15, ...). Identification: field-map subsystem table (fieldmap.c); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/0/1/6 | 669 | dddd | covered and verified | personal.py | verified | Pokemon personal (base stat) data, 669 sub-files (1 sentinel + 667 real 60-byte records + 1 undecoded 1300-byte outlier). Round trip: 667/667 records byte-identical. |
-| a/0/1/7 | 8 | 0x00000000 | custom format, no decoder | tables.py | unverified | 8 sub-files, fixed 404-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/1/7 | 8 | 0x00000000 | custom format, no decoder | tables.py | unverified | 8 sub-files, fixed 404-byte records. Reader found this pass by backward-register scan: arm9 func_02019B94 (poke_tool.c), via a hand-written thunk (ldr+mov+bx, not in the worklist.json thunk inventory) into func_02048F4C(archive_id=17, ...). Identification: Pokemon-utility-indexed table (poke_tool.c); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/0/1/8 | 668 | 0x21000100 | covered and verified | learnsets.py | verified | Level-up learnsets, 668 sub-files ((move, level) pairs terminated by 0xFFFF/0xFFFF). Round trip: 668/668 sub-files byte-identical. |
 | a/0/1/9 | 668 | 0x00000000 | covered and verified | evolution.py | verified | Evolution data, 668 sub-files, 7-row x 6-byte evolution table per species. Round trip: 668/668 records byte-identical. |
 | a/0/2/0 | 650 | 0x8500 | covered and verified | tables.py | verified | Per-species single u16 field (evolution-family/base-species index, per icons.py's value-pattern note). Reader: ov021 func_021C4504 (0x021C4504) via func_02048F74(dst, archive_id=0x14, member=species_id, mode=0, size_out). Round trip: 650/650 byte-identical. See "Large custom table pass" in this doc. |
@@ -8104,7 +8104,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/0/3/4 | 39 | NSCR (screen/map) | generic format, verified | background.py | verified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/0/3/5 | 16 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RCSN: 4 verified; RGCN: 4 verified; RLCN: 4 verified; RECN: 2 verified; RNAN: 2 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/0/3/6 | 14 | 0x11240800 | custom format, no decoder | tables.py | unverified | 14 sub-files, variable 68..19320 bytes (dominant size 552 bytes on 2/14). No reader found among the seven accessor functions for this archive id. Identification: LZ11-compressed generic NITRO chunks: decompresses to RGCN/RCSN (NCGR/NCLR family, tile+palette). Confidence: HIGH (magic recovered after decompression). See "Group 2 custom table pass" in this doc. |
-| a/0/3/7 | 1 | 0x3019080f | custom format, no decoder | tables.py | unverified | Single sub-file, 5376 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/3/7 | 1 | 0x3019080f | custom format, no decoder | tables.py | unverified | Single sub-file, 5376 bytes, opaque blob. Reader found this pass by backward-register scan: overlay_071 func_021B69AC, via func_02048F60(archive_id=37, ...); this call site has no nearby `__FILE__` anchor, so the translation unit is not named. Identification: domain still not identified (reader confirmed, no file-name evidence). Confidence: LOW (reader confirmed but no naming evidence; domain not identified). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/0/3/8 | 1 | 0x03090200 | custom format, no decoder | tables.py | unverified | Single sub-file, 576 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/3/9 | 18 | 0x11240800 | custom format, no decoder | tables.py | unverified | 18 sub-files, variable 80..4916 bytes (dominant size 552 bytes on 3/18). No reader found among the seven accessor functions for this archive id. Identification: LZ11-compressed generic NITRO chunks: decompresses to RGCN/RCSN, same family as a/0/3/6. Confidence: HIGH (magic recovered after decompression). See "Group 2 custom table pass" in this doc. |
 | a/0/4/0 | 53 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 25 verified; RGCN: 8 verified; RCSN: 12 verified; RECN: 2 verified; RNAN: 2 verified; b'BMD0': 2 verified; b'BCA0': 2 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
@@ -8133,8 +8133,8 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/0/6/3 | 17 | NSCR (screen/map) | generic format, verified | verify_all.py (background.py NSCR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 3 verified; RGCN: 2 verified; RCSN: 10 verified; RECN: 1 verified; RNAN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/0/6/4 | 48 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer back-view sprite set (6 blocks of 8; male/female protagonist, Professor Juniper, Cheren, confirmed by eye). NCGR round trip FIXED this pass: the second block these sub-files carry turned out to be an optional trailing SOPC block (the same one `background.py`'s NcgrTiles already passes through for `a/0/0/1`), not a second top-level RGCN resource; `rig.py`'s `Ncgr.encode()` now reassembles the RAHC head from decoded fields and copies any bytes after the declared tile data (including a trailing SOPC block) verbatim. NCGR round trip now 12/12 byte-identical (see `tools/assets/verify_all.py`). |
 | a/0/6/5 | 2 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RGCN: 1 verified; RLCN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
-| a/0/6/6 | 601 | 0x01000000 | covered and verified | events.py | verified | HIGH-confidence container framing recovered (outer header + G x 56-byte group-offset blocks, G in {1,2,3,5,8}), but the 14-fold redundancy in the group table and the per-group payload are not decoded past byte-exact extraction. G's small discrete range reads more like language-variant blocks than an event/door/warp table (this NARC's own automated category guess, "text banks", is plausible; not confirmed by decoding any string content). Round trip: 601/601 sub-files byte-identical. |
-| a/0/6/7 | 98 | 0x01000000 | custom format, no decoder | tables.py | unverified | 98 sub-files, variable 68..5596 bytes (dominant size 244 bytes on 8/98). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/6/6 | 601 | 0x01000000 | covered and verified | events.py | verified | HIGH-confidence container framing recovered (outer header + G x 56-byte group-offset blocks, G in {1,2,3,5,8}), but the 14-fold redundancy in the group table and the per-group payload are not decoded past byte-exact extraction. Reader FOUND this pass by backward-register scan (superseding the earlier "reader searched, not found" result): overlay_094 func_021F94F8 (btlv_effvm.c, the battle visual-effect VM object constructor), via func_02048F60(archive_id=66, member=r6, heap) with r6 the constructor's own 4th argument (an effect id). Identification: battle effect-VM data table, indexed by effect id, NOT a text/language bank as the census's automated guess and the earlier per-language hypothesis both suggested. Confidence: HIGH (direct immediate archive-id load right at the call site, inside the effect-VM's own constructor, paired with a/0/6/7 read the same way two lines later -- see "Archive readers extended by backward-register scan" in this doc). Round trip: 601/601 sub-files byte-identical. |
+| a/0/6/7 | 98 | 0x01000000 | custom format, no decoder | tables.py | unverified | 98 sub-files, variable 68..5596 bytes (dominant size 244 bytes on 8/98). Reader found this pass by backward-register scan: overlay_094 func_021F94F8 and two sibling functions (all btlv_effvm.c), via func_02048F60(archive_id=67, ...), 7 call sites total, in the same file and functions that read a/0/6/6 (archive id 66) two lines earlier. Identification: battle effect-VM secondary table, sibling of a/0/6/6. Confidence: MEDIUM-HIGH (reader confirmed at 7 sites in the effect-VM's own file; record fields not decoded). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/0/6/8 | 3 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RGCN: 1 verified; RLCN: 1 verified; RCSN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/0/6/9 | 29 | NSBTA (texture SRT animation) | generic format, verified | verify_all.py (nsbmd.py G3D container round trip) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: b'BTA0': 29 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/0/7/0 | 6 | 0x01000000 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 640..6412 bytes (dominant size 3588 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
@@ -8176,7 +8176,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/1/0/6 | 20 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 5 verified; RGCN: 5 verified; RCSN: 2 verified; RECN: 4 verified; RNAN: 4 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/0/7 | 39 | NSBTA (texture SRT animation) | generic format, verified | verify_all.py (nsbmd.py G3D container round trip) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: b'BMD0': 6 verified; b'BTA0': 17 verified; b'BCA0': 8 verified; b'\xb6\x00\x00\x00': 1 skipped (no decoder); b'\xdd\x00\x00\x00': 1 skipped (no decoder); b'\x9f\x00\x00\x00': 1 skipped (no decoder); b'\xb3\x00\x00\x00': 1 skipped (no decoder); b'\x1f\x01\x00\x00': 1 skipped (no decoder); b'h\x01\x00\x00': 1 skipped (no decoder); b'\xe0\x00\x00\x00': 1 skipped (no decoder); b'\xe4\x00\x00\x00': 1 skipped (no decoder). Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/0/8 | 282 | 0x01000000 | custom format, no decoder | tables.py | unverified | 282 sub-files (281 at 28 bytes, 1 outlier at 52 bytes): 12-byte header (two u32 fields always 1, rest zero) + four 4-byte blocks at offsets 12/16/20/24. No reader found; domain not identified (count matches no known species/move/item/trainer-class table). Framing round trip (raw copy): 282/282 byte-identical. See "Large custom table pass" in this doc. |
-| a/1/0/9 | 17 | 0x05000000 | custom format, no decoder | tables.py | unverified | 17 sub-files, fixed 4-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/0/9 | 17 | 0x05000000 | custom format, no decoder | tables.py | unverified | 17 sub-files, fixed 4-byte records. Reader found this pass by backward-register scan: overlay_021 func_021BB2F8 and func_021BB3E8 (both field_nogrid_mapper.c), via func_02048F4C(archive_id=109, ...), 2 call sites. Identification: non-grid field-mapper subsystem table (field_nogrid_mapper.c); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/1/0 | 2 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/1/1 | 6 | 0x00501428 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 76..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: sub-files include SBNK (sound bank) and SSEQ (sequence) chunks alongside raw PCM-ish blocks. Confidence: HIGH (standard chunk magics). See "Group 2 custom table pass" in this doc. |
 | a/1/1/2 | 6 | 0x03145028 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 76..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: SBNK/SSEQ chunks present, same family as a/1/1/1. Confidence: HIGH (standard chunk magics). See "Group 2 custom table pass" in this doc. |
@@ -8184,7 +8184,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/1/1/4 | 6 | 0x02282814 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 92..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: SBNK/SSEQ chunks present, same family as a/1/1/1. Confidence: HIGH (standard chunk magics). See "Group 2 custom table pass" in this doc. |
 | a/1/1/5 | 183 | NSBMD (model) | generic format, verified | nsbmd.py | verified | Also holds 8 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/1/6 | 79 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RCSN: 8 verified; RGCN: 34 verified; RLCN: 29 verified; RECN: 4 verified; RNAN: 4 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
-| a/1/1/7 | 53 | 0x08000000 | custom format, no decoder | tables.py | unverified | 53 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/1/7 | 53 | 0x08000000 | custom format, no decoder | tables.py | unverified | 53 sub-files, fixed 36-byte records. Reader found this pass by backward-register scan: overlay_021 func_021C24F0 (fld3d_ci.c), via func_02048F4C(archive_id=117, ...). Identification: field-3D subsystem table (fld3d_ci.c); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/1/8 | 11 | NSCR (screen/map) | generic format, verified | verify_all.py (background.py NSCR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RCSN: 5 verified; RGCN: 2 verified; RLCN: 2 verified; RNAN: 1 verified; RECN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/1/9 | 9 | 0x0d000500 | custom format, no decoder | tables.py | unverified | 9 sub-files, variable 2..158 bytes (dominant size 134 bytes on 3/9). No reader found among the seven accessor functions for this archive id. Identification: One variant is a flat ascending u16 sequence (65,66,67,...); looks like a plain index/char table. Confidence: LOW (framing only). See "Group 2 custom table pass" in this doc. |
 | a/1/2/0 | 5 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 1 verified; RGCN: 2 verified; RCSN: 2 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
@@ -8194,7 +8194,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/1/2/4 | 29 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 5 verified; RGCN: 8 verified; RCSN: 4 verified; RECN: 6 verified; RNAN: 6 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/2/5 | 428 | 0x60000000 | custom format, no decoder | tables.py | unverified | 428 sub-files (427 zones + 1, matching a/0/1/2's zone count), variable 4..2178 bytes. Leading u32 does not resolve to one consistent header size across samples (164 vs 172-8, 372 vs 392-8 disagree), so kept opaque rather than forcing a field split. No reader found. Framing round trip (raw copy): 428/428 byte-identical. See "Large custom table pass" in this doc. |
 | a/1/2/6 | 112 | 0x03000000 | covered and verified | encounters.py | verified | Wild encounter tables, 112 sub-files (100 x 232 bytes all-year, 12 x 928 bytes = 4 seasonal blocks). Tied to the zone table via packed_1a. Round trip: 112/112 sub-files byte-identical. |
-| a/1/2/7 | 7 | 0xc4090000 | custom format, no decoder | tables.py | unverified | 7 sub-files, variable 8..46976 bytes (dominant size 8 bytes on 4/7). No reader found among the seven accessor functions for this archive id. Identification: One of 7 sub-files is BMD0 (3D model); the rest are small opaque blocks. Confidence: LOW-MEDIUM (1/7 sub-files only). See "Group 2 custom table pass" in this doc. |
+| a/1/2/7 | 7 | 0xc4090000 | custom format, no decoder | tables.py | unverified | 7 sub-files, variable 8..46976 bytes (dominant size 8 bytes on 4/7). Reader found this pass by backward-register scan: overlay_054 func_021F37B4 and func_021F3874, via func_02048F60(archive_id=127, ...), 3 call sites; no nearby `__FILE__` anchor, so the translation unit is not named. Identification: One of 7 sub-files is BMD0 (3D model); the rest are small opaque blocks (unchanged by the reader). Confidence: MEDIUM (reader confirmed; domain still only 1/7 sub-files evidenced). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/2/8 | 8 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 3 verified; RNAN: 1 verified; RECN: 1 verified; RGCN: 2 verified; RCSN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/2/9 | 12 | NSBCA (animation) | generic format, verified | verify_all.py (nsbmd.py G3D container round trip) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: b'BCA0': 6 verified; b'BMD0': 6 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/3/0 | 36 | NSBTP (texture pattern animation) | generic format, verified | verify_all.py (nsbmd.py G3D container round trip) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: b'BMD0': 1 verified; b'BTX0': 1 verified; b'BTA0': 14 verified; b'BTP0': 20 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
@@ -8215,11 +8215,11 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/1/4/5 | 8 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 4 verified; RGCN: 1 verified; RCSN: 3 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/4/6 | 10 | 0x98000000 | custom format, no decoder | tables.py | unverified | 10 sub-files, fixed 28-byte records. Reader: an arm9 function around 0x0202B2xx (enclosing the call site at 0x0202B34C) first calls func_02049030(archive_id=0x92=146) for a record count, then loops member 0..count-1 through func_02048F74(dst, archive_id=0x92=146, member, mode=0) into consecutive 28-byte slots -- matches the 10 fixed 28-byte sub-files found by the byte survey. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded). See "Group 2 custom table pass" in this doc. |
 | a/1/4/7 | 3 | 0x2b040000 | custom format, no decoder | tables.py | unverified | 3 sub-files, variable 27..43 bytes (dominant size 27 bytes on 1/3). Reader: arm9 func_0202C3E0 (0x0202C3E0) via a sequence of func_02048F74(dst, archive_id=0x93=147, member, mode=running_offset) calls (4 bytes, then 9x2 bytes, then two more variable chunks) that assemble one member's record piece by piece -- consistent with the variable 27/41/43-byte sizes found by the byte survey, read as a length-driven structure rather than one flat read. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded). See "Group 2 custom table pass" in this doc. |
-| a/1/4/8 | 18 | 0xe8030000 | custom format, no decoder | tables.py | unverified | 18 sub-files, variable 8..28808 bytes (dominant size 8 bytes on 8/18). No reader found among the seven accessor functions for this archive id. Identification: 3 of 18 sub-files are BMD0 (3D model); the rest are opaque blocks 8..28808 bytes. Confidence: LOW-MEDIUM (minority of sub-files). See "Group 2 custom table pass" in this doc. |
+| a/1/4/8 | 18 | 0xe8030000 | custom format, no decoder | tables.py | unverified | 18 sub-files, variable 8..28808 bytes (dominant size 8 bytes on 8/18). Reader found this pass by backward-register scan: overlay_053 func_021F3828 and func_021F3978, via func_02048F60/func_02048F74(archive_id=148, ...), 5 call sites; no nearby `__FILE__` anchor, so the translation unit is not named. Identification: 3 of 18 sub-files are BMD0 (3D model); the rest are opaque blocks 8..28808 bytes (unchanged by the reader). Confidence: MEDIUM (reader confirmed; domain still only 3/18 sub-files evidenced). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/4/9 | 1 | 0x44010000 | custom format, no decoder | tables.py | unverified | Single sub-file, 32 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/5/0 | 32 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/5/1 | 12 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 4 verified; RGCN: 4 verified; RCSN: 4 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
-| a/1/5/2 | 3 | 0x01000000 | custom format, no decoder | tables.py | unverified | 3 sub-files, variable 684..1700 bytes (dominant size 684 bytes on 1/3). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/5/2 | 3 | 0x01000000 | custom format, no decoder | tables.py | unverified | 3 sub-files, variable 684..1700 bytes (dominant size 684 bytes on 1/3). Reader found this pass by backward-register scan: overlay_092/094 func_021B9C80, func_021F6560/func_021F6B04 (btlv_stage.c) and func_021F7544 (btlv_effect.c), via func_02048F60(archive_id=152, ...), 4 call sites across the battle visual-effect subsystem (same family as a/0/6/6/a/0/6/7). Identification: battle stage/effect visual table. Confidence: MEDIUM-HIGH (reader confirmed at 4 independent sites, 2 of them named battle-VFX files). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/5/3 | 9 | NSBCA (animation) | generic format, verified | verify_all.py (nsbmd.py G3D container round trip) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: b'BMD0': 3 verified; b'BCA0': 4 verified; b'BTA0': 2 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/5/4 | 37 | 0x0c000200 | custom format, no decoder | tables.py | unverified | 37 sub-files, variable 0..1024 bytes (dominant size 48 bytes on 30/37). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/5/5 | 48 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 15 verified; RGCN: 15 verified; RCSN: 16 verified; RECN: 1 verified; RNAN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
@@ -8230,10 +8230,10 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/1/6/0 | 252 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/6/1 | 5 | 0x10240600 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause as a/1/0/0. 1 raw NCLR (552 bytes), 3 LZ77->NSCR (1572 bytes each, distinct payloads), 1 LZ77->NCGR (8256 bytes) -- a small background set. Round trip: 5/5 byte-identical. See "Twelve unknowns identified" below. |
 | a/1/6/2 | 19 | NSBCA (animation) | generic format, verified | verify_all.py (nsbmd.py G3D container round trip) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: b'BMD0': 5 verified; b'BCA0': 12 verified; b'BTP0': 1 verified; b'BTA0': 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
-| a/1/6/3 | 7 | 0xfa2000d5 | custom format, no decoder | tables.py | unverified | 7 sub-files, fixed 44-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/6/3 | 7 | 0xfa2000d5 | custom format, no decoder | tables.py | unverified | 7 sub-files, fixed 44-byte records. Reader found this pass by backward-register scan: overlay_021 func_021B542C (scrcmd_encount.c, the field script-command handler for wild encounters), via func_02048F4C(archive_id=163, ...). Identification: wild-encounter script-command table (scrcmd_encount.c); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/6/4 | 5 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 1 verified; RGCN: 2 verified; RCSN: 2 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
-| a/1/6/5 | 13 | 0x00000000 | custom format, no decoder | tables.py | unverified | 13 sub-files, fixed 108-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
-| a/1/6/6 | 9 | 0x00000000 | custom format, no decoder | tables.py | unverified | 9 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/6/5 | 13 | 0x00000000 | custom format, no decoder | tables.py | unverified | 13 sub-files, fixed 108-byte records. Reader found this pass by backward-register scan: overlay_021 func_021CBFB0 (bsubway_scr.c, the Battle Subway script system), via func_02048F88(archive_id=165, ...). Identification: Battle Subway (facility) script/table (bsubway_scr.c); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
+| a/1/6/6 | 9 | 0x00000000 | custom format, no decoder | tables.py | unverified | 9 sub-files, fixed 36-byte records. Reader found this pass by backward-register scan: overlay_048 func_021F4DE4 (gimmick_obj_elboard.c, a field gimmick object), via func_02048F74(archive_id=166, ...), the same file that reads a/1/7/4 (archive id 174). Identification: field-gimmick object table (elboard = "electric board" puzzle/gimmick object); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/6/7 | 655 | 0x10300100 | covered and verified | icons.py | verified | Small icon archive, 655 sub-files (1 NCLR + 2 NANR + 2 NCER + 650 LZ77-compressed 16x16 4bpp icons). Palette is genuinely monochrome (2 of 256 slots non-zero), so these are NOT full-color per-species icons (see a/0/0/7 for those). Round trip: 655/655 byte-identical (re-run this pass). |
 | a/1/6/8 | 315 | 0x55002300 | covered and verified | tables.py | partial | Group/member index table: [u16 group_id][u16 count][u16 member_id*count]. 222/315 records have len(members)==count; 93/315 have one extra leading member equal to the group_id (self-inclusive variant), still byte-exact on re-encode. Max member id 950. No reader found; member-id domain not confirmed, but fits under a/1/6/9's 951 records. Round trip: 315/315 byte-identical. See "Large custom table pass" in this doc. |
 | a/1/6/9 | 951 | 0x41005e00 | custom format, no decoder | tables.py | unverified | Fixed 16-byte records: 5 u16 fields (offsets 0,2,4,6,8), 2 u8 fields (10,11), 1 more u16 (12), 2 zero pad bytes (14-15). No reader found (checked every func_02048F60/DDC/D00/D54/F4C/F74/F88 call site in asm/arm9 and asm/overlays for an archive-id immediate); domain not identified. Possibly the member universe for a/1/6/8's group table (max member id there is 950). Framing round trip (raw copy): 951/951 byte-identical. See "Large custom table pass" in this doc. |
@@ -8241,12 +8241,12 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/1/7/1 | 14 | 0x51005007 | custom format, no decoder | tables.py | unverified | 14 sub-files, variable 12..23988 bytes (dominant size 9120 bytes on 1/14). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/7/2 | 27 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 8 verified; RGCN: 7 verified; RCSN: 6 verified; RECN: 2 verified; RNAN: 2 verified; b'\x00\x80\x00\x80': 2 skipped (no decoder). Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/7/3 | 35 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 6 verified; RGCN: 17 verified; RECN: 3 verified; RNAN: 3 verified; RCSN: 6 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
-| a/1/7/4 | 24 | 0x5c000000 | custom format, no decoder | tables.py | unverified | 24 sub-files, fixed 124-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/7/4 | 24 | 0x5c000000 | custom format, no decoder | tables.py | unverified | 24 sub-files, fixed 124-byte records. Reader found this pass by backward-register scan: overlay_048 func_021F4C10 (gimmick_obj_elboard.c), via func_02048F74(archive_id=174, ...), the same file/function family that reads a/1/6/6 (archive id 166). Identification: field-gimmick object table, sibling of a/1/6/6 (elboard gimmick); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/7/5 | 2 | 0x00000000 | custom format, no decoder | tables.py | unverified | 2 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/7/6 | 52 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/7/7 | 64 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/7/8 | 649 | 0x01010000 | custom format, no decoder | tables.py | unverified | 649 sub-files (no sentinel, one less than the usual 650), fixed 249-byte records, 181/249 byte offsets vary, all bounded under 128. No reader found. Census's "text banks" guess does not hold up: not a text.py message-file shape (no length-prefixed u16 code-unit string table). Framing round trip (raw copy): 649/649 byte-identical. See "Large custom table pass" in this doc. |
-| a/1/7/9 | 50 | 0x07000000 | custom format, no decoder | tables.py | unverified | 50 sub-files, fixed 64-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/7/9 | 50 | 0x07000000 | custom format, no decoder | tables.py | unverified | 50 sub-files, fixed 64-byte records. Reader found this pass by backward-register scan: overlay_021 func_021BE148 (entrance_camera.c), via a hand-written thunk (ldr+mov+bx) into func_02048F4C(archive_id=179, ...). Identification: entrance-camera subsystem table (entrance_camera.c); record fields not decoded. Confidence: LOW-MEDIUM (reader confirmed, domain still open). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/1/8/0 | 44 | 0x10402000 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause. Sub-files 0-21: LZ77->NCGR (8256 bytes each, 22 distinct tile sheets). Sub-files 22-43: raw NCLR (552 bytes each, 22 distinct palettes). Natural pairing is index N <-> N+22, not confirmed by any accessor. Round trip: 44/44 byte-identical. See "Twelve unknowns identified" below. |
 | a/1/8/1 | 35 | NSBCA (animation) | generic format, verified | verify_all.py (nsbmd.py G3D container round trip) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RGCN: 4 verified; RLCN: 4 verified; RCSN: 3 verified; RNAN: 1 verified; RECN: 1 verified; b' APS': 4 skipped (no decoder); b'BCA0': 6 verified; b'BMA0': 6 verified; b'BMD0': 6 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/1/8/2 | 11 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RNAN: 1 verified; RECN: 1 verified; RGCN: 2 verified; RLCN: 1 verified; RCSN: 1 verified; b'BCA0': 1 verified; b'BMA0': 1 verified; b'BMD0': 1 verified; b'BTA0': 1 verified; b' APS': 1 skipped (no decoder). Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
@@ -8279,7 +8279,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/2/0/9 | 1 | 0x00000100 | custom format, no decoder | tables.py | unverified | Single sub-file, 856 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/2/1/0 | 9 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/1/1 | 1 | 0x01000200 | custom format, no decoder | tables.py | unverified | Single sub-file, 4528 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
-| a/2/1/2 | 2 | RIFF | custom format, no decoder | tables.py | unverified | 2 sub-files, variable 13964..20674 bytes (dominant size 20674 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: Both sub-files are RIFF/WAVE (raw PCM audio clips). Confidence: HIGH (RIFF/WAVE magic). See "Group 2 custom table pass" in this doc. |
+| a/2/1/2 | 2 | RIFF | custom format, no decoder | tables.py | unverified | 2 sub-files, variable 13964..20674 bytes (dominant size 20674 bytes on 1/2). Reader found this pass by backward-register scan: overlay_172 func_021B657C (camera_system.c), via func_02048F4C(archive_id=212, ...). Identification: Both sub-files are RIFF/WAVE (raw PCM audio clips); the reader's home file, camera_system.c, is consistent with this being a camera shutter/flash sound-effect pair. Confidence: HIGH (RIFF/WAVE magic plus a reader whose file name matches the audio domain). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/2/1/3 | 8 | 0x11240600 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause, LZ11 variant. 2 LZ11->NCGR (8256 bytes), 2 raw NCLR (552 bytes), 4 LZ11->NSCR (1572 bytes) -- a background set. Round trip: 8/8 byte-identical. See "Twelve unknowns identified" below. |
 | a/2/1/4 | 1000 | 0x00000000 | custom format, no decoder | tables.py | unverified | Fixed 16-byte records, same field shape as a/1/6/9 one notch wider (high bytes reach 2 instead of 1). No reader found; domain not identified. Possibly the member universe for a/2/1/5's group table (max member id there is 988). Framing round trip (raw copy): 1000/1000 byte-identical. See "Large custom table pass" in this doc. |
 | a/2/1/5 | 315 | 0x3d005800 | covered and verified | tables.py | verified | Group/member index table: [u16 group_id][u16 count][u16 member_id*count], 315/315 exact (no self-inclusive variant, unlike a/1/6/8). Max member id 988, fitting under a/2/1/4's 1000 records. No reader found; member-id domain not confirmed. Round trip: 315/315 byte-identical. See "Large custom table pass" in this doc. |
@@ -8287,7 +8287,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/2/1/7 | 2 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/1/8 | 4 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/1/9 | 10 | NSBTP (texture pattern animation) | generic format, verified | verify_all.py (nsbmd.py G3D container round trip) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: b'BMD0': 2 verified; b'BCA0': 2 verified; b'BMA0': 2 verified; b'BTA0': 1 verified; b'BTP0': 3 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
-| a/2/2/0 | 13 | 0x00000000 | custom format, no decoder | tables.py | unverified | 13 sub-files, variable 280..253428 bytes (dominant size 552 bytes on 2/13). No reader found among the seven accessor functions for this archive id. Identification: Mix of RLCN/RCSN (NCLR/NCGR) and BMD0/BCA0 (model + joint animation) sub-files. Confidence: MEDIUM-HIGH (direct magics on several sub-files). See "Group 2 custom table pass" in this doc. |
+| a/2/2/0 | 13 | 0x00000000 | custom format, no decoder | tables.py | unverified | 13 sub-files, variable 280..253428 bytes (dominant size 552 bytes on 2/13). Reader found this pass by backward-register scan: overlay_181 func_021B9D04, via func_02048F60(archive_id=220, ...); no nearby `__FILE__` anchor, so the translation unit is not named. Identification: Mix of RLCN/RCSN (NCLR/NCGR) and BMD0/BCA0 (model + joint animation) sub-files (unchanged by the reader). Confidence: HIGH (direct magics on several sub-files, now also a confirmed reader). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/2/2/1 | 7 | 0x411673ec | custom format, no decoder | tables.py | unverified | 7 sub-files, variable 2304..5504 bytes (dominant size 2496 bytes on 1/7). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/2/2/2 | 6 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/2/3 | 13 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
@@ -8299,7 +8299,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/2/2/9 | 52 | 0x41423a00 | custom format, no decoder | tables.py | unverified | 52 sub-files, variable 49812..209740 bytes (dominant size 49812 bytes on 7/52). No reader found among the seven accessor functions for this archive id. Identification: Each sub-file opens with an 'AB' 2-byte tag plus a u16 header-size field then a u32 offset table; large sizes (49812..209740 bytes) suggest an audio/stream container (domain guess, not confirmed). Confidence: LOW-MEDIUM (framing pattern only). See "Group 2 custom table pass" in this doc. |
 | a/2/3/0 | 64 | 0x41424c00 | custom format, no decoder | tables.py | unverified | 64 sub-files, variable 58684..189924 bytes (dominant size 58684 bytes on 32/64). No reader found among the seven accessor functions for this archive id. Identification: Same 'AB'-tagged header-plus-offset-table framing as a/2/2/9, large sizes (58684..189924 bytes). Confidence: LOW-MEDIUM (framing pattern only). See "Group 2 custom table pass" in this doc. |
 | a/2/3/1 | 73 | 0x10008001 | custom format, no decoder | tables.py | unverified | 73 sub-files, variable 11653..30624 bytes (dominant size 13905 bytes on 1/73). No reader found among the seven accessor functions for this archive id. Identification: Every sub-file is LZ77-compressed; decompressed content has no recognised NITRO chunk magic. Confidence: LOW (compression confirmed, content unresolved). See "Group 2 custom table pass" in this doc. |
-| a/2/3/2 | 1 | 0x00010101 | custom format, no decoder | tables.py | unverified | Single sub-file, 627 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: BTNF-named sub-file 0 is "battle_pocket.dat". Confidence: HIGH (BTNF name). See "Group 2 custom table pass" in this doc. |
+| a/2/3/2 | 1 | 0x00010101 | custom format, no decoder | tables.py | unverified | Single sub-file, 627 bytes, opaque blob. Reader found this pass by backward-register scan: overlay_197 func_0220BA2C, via func_02048F60(archive_id=232, ...); no nearby `__FILE__` anchor. Identification: BTNF-named sub-file 0 is "battle_pocket.dat" (unchanged by the reader, which corroborates the bag/pocket domain from an overlay consistent with battle-bag UI). Confidence: HIGH (BTNF name plus a confirmed reader). See "Group 2 custom table pass" and "Archive readers extended by backward-register scan" in this doc. |
 | a/2/3/3 | 2 | 0x10300100 | custom format, no decoder | tables.py | unverified | 2 sub-files, variable 86..99 bytes (dominant size 86 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: LZ77-compressed, decompresses to RGCN (NCGR tile data) on both sub-files. Confidence: HIGH (magic recovered after decompression). See "Group 2 custom table pass" in this doc. |
 | a/2/3/4 | 3 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 1 verified; RGCN: 1 verified; RCSN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | dl_rom/child2_r_eng.srl | 0 | SYAC | custom format, no decoder | unknowns.py | verified | "SYAC" is the first 4 bytes of the game title string, not a real magic -- this is a valid NDS ROM header (title "SYACHI_MB", gamecode "NTRJ", unit code 0x02) parsed directly per tools/ndsrom.py's own header layout. DS Download Play child (multiboot) binary: arm9 0x82CC0 bytes at 0x4000, arm7 0x28F84 bytes at 0x86E00, total 0xB5200, both regions fit inside the 1369088-byte file. See "Twelve unknowns identified" below. |
@@ -10730,3 +10730,209 @@ section) was checked two more ways:
 
     python tools/assets/tables.py --verify a/1/2/5
     a/1/2/5: round trip 428/428 byte-identical
+
+## Archive readers extended by backward-register scan
+
+Mission: the "Group 2 custom table pass" and the `a/0/6/6` reader search
+("`a/0/5/7` side tables paired with the zone script lane") both stopped at
+the same wall -- a text scan for the archive's decimal id as an immediate
+register load directly ahead of a call to one of the seven arc_tool.c
+entry points, over `asm/arm9/main.s` and `asm/overlays/*.s` as flat text.
+Three things that scan structurally could not see: instructions the
+assembler re-encodes as `.inst`/`.inst.n`/`.inst.w` (real mnemonic kept
+only in a trailing comment, invisible to a mnemonic-column text scan --
+`docs/PARALLEL.md` "Tooling"), hand-written thunks that set up the id then
+tail-branch into the reader rather than `bl` it (`bx rX` after `ldr
+rX, pool_ADDR`, a broader idiom than the narrow 2-instruction shape
+`layout/worklist.json`'s own thunk inventory tracks), and the id arriving
+as a parameter one function away from the actual call. This pass builds a
+proper reader map that closes all three gaps.
+
+### Method
+
+`tools/fileanchors.py` (`--lookup`) and `disasm.scan_mnemonics(region)`
+(merging each region's ordinary listing with its `inst_index.txt`, per
+`docs/PARALLEL.md`) are used directly; the scan script itself is a
+scratch tool, not committed (the task scope is `tools/assets/tables.py`,
+`tools/assets/events.py`, this document and `build/assets/reader_map.json`
+only). For `arm9_main` and all 237 overlays:
+
+1. Every instruction is read via `scan_mnemonics`, so `.inst`-encoded
+   `bl`/`blx`/`bx` are covered exactly like ordinary ones.
+2. A call site is "into the family" (`func_02048F60`, `func_02048F74`,
+   `func_02048DDC`, `func_02048D00`, `func_02048D54`, `func_02048F4C`,
+   `func_02048F88`, `func_02020E08`) if it is a direct `bl`/`blx`/plain-`b`
+   to one of those addresses, OR a `bx rX` where `rX` was just loaded from
+   a literal pool word (`ldr rX, pool_ADDR`) pointing at one of them, OR a
+   `bl`/`blx` to an address in `layout/worklist.json`'s `thunks` list whose
+   `target` is one of them. The `bx`-from-pool-word case is the important
+   addition: `func_02168800` (a/2/1/4's real reader, matched in
+   `src/matched/func_02168800.c`) is exactly this shape -- `ldr r3,
+   pool_02168808` (the address of `func_02048F4C`), `movs r1, #0xd6` (214),
+   `bx r3` -- and it is NOT in `layout/worklist.json`'s thunk inventory,
+   because that inventory only tracks the pure 2-instruction `ldr;bx` idiom
+   and this one has an extra `movs`/`adds` in between.
+3. From each family call site, the id-carrying register (`r0` for
+   `func_02048F60`/`func_02048D54`/`func_02048F88`/`func_02020E08`, `r1`
+   for the other four, per each function's own parameter order) is walked
+   backward inside the same function through `movs`/`mov` immediate loads,
+   `mov` register-to-register chains, and `ldr rX, pool_ADDR` literal
+   pool loads (resolved against the region's own raw bytes, no re-trace
+   needed). If the register is still unresolved at function entry (the id
+   is a parameter), the reverse call graph -- built in the same pass, every
+   `bl`/`blx` target image-wide, so this lookup is O(1) rather than a
+   second full scan -- gives every caller of that function, and the same
+   backward walk repeats once, in the caller, on the argument register at
+   the call site (the task's "one level of caller").
+4. Every constant id found is mapped to its archive path by the project's
+   own decimal-digit convention (`id = 100*X + 10*Y + Z` for `a/X/Y/Z`,
+   confirmed archive-wide against `build/assets/inventory.json`'s 237 NARC
+   paths, zero collisions), and to the nearest `__FILE__` anchor at or
+   before the call site's own function, via `fileanchors.py --lookup`.
+
+### Coverage
+
+    python <scratch>/reader_scan.py
+    region data built in 18.1s (arm9_main + 237 overlays)
+    reverse call graph: 22147 distinct targets, 106 family call sites
+    resolved to a constant id: 87/106
+    archives with at least one attested open site: 39/237
+
+Before this pass, the archives with a code-attested reader were the ones
+named across the three earlier reader-hunting passes: 2 from "Large custom
+table pass" (`a/1/2/3`, `a/0/2/0`), 6 from "Group 2 custom table pass"
+(`a/0/4/8`, `a/0/8/7`, `a/0/9/1`, `a/1/3/2`, `a/1/4/6`, `a/1/4/7`) and 7
+from "Archive readers traced by call graph" (`a/1/9/4`, `a/0/1/3`,
+`a/2/1/4`, `a/2/1/5`, `a/1/2/5`, `a/1/0/8`, `a/1/7/8`) -- 15 total, plus
+`a/1/6/9`/`a/1/6/8` explicitly closed as "no reader exists". This pass's
+automated scan independently re-found 12 of those 15 on its own (`a/1/2/3`,
+`a/0/2/0`, `a/0/4/8`, `a/0/8/7`, `a/0/9/1`, `a/1/3/2`, `a/1/4/6`, `a/1/4/7`,
+`a/1/9/4`, `a/0/1/3`, `a/2/1/4` -- the last via the `bx`-from-pool-word
+case above -- and correctly found nothing for `a/1/6/9`/`a/1/6/8`), which
+is the honesty check for the method: it recovers known-good readers by the
+same mechanical process applied to everything else, rather than only
+finding new ones. `a/2/1/5`, `a/1/0/8` and `a/1/7/8` are read through a
+persistent handle (`func_020490F4`) or a member index computed elsewhere in
+the caller, outside what this pass's backward walk covers, so they stay
+un-rediscovered here; they are not lost, just outside this scan's method.
+21 archives are new: `a/0/0/9`, `a/0/1/5`, `a/0/1/7`, `a/0/1/8`, `a/0/1/9`,
+`a/0/2/1`, `a/0/2/4`, `a/0/2/5`, `a/0/3/7`, `a/0/6/6`, `a/0/6/7`, `a/0/9/2`,
+`a/0/9/3`, `a/1/0/2`, `a/1/0/9`, `a/1/1/7`, `a/1/2/7`, `a/1/4/8`, `a/1/5/2`,
+`a/1/6/3`, `a/1/6/5`, `a/1/6/6`, `a/1/7/4`, `a/1/7/9`, `a/1/8/7`, `a/2/1/2`,
+`a/2/2/0`, `a/2/3/2` -- most of these (`a/0/0/9`, `a/0/1/8`, `a/0/1/9`,
+`a/0/2/1`, `a/0/2/4`, `a/0/2/5`, `a/0/9/2`, `a/0/9/3`, `a/1/0/2`, `a/1/8/7`)
+are archives already fully identified by other converters (`matrix.py`,
+`personal.py`, `waza.py`, `items.py`, `icons.py`, trainer-data lookups)
+outside `tables.py`'s scope -- this pass's own value there is confirming a
+real, code-attested call site for tables those converters had only
+inferred structurally, not a new identification. The 19 unresolved family
+call sites are cases where the id is set by something this pass's backward
+walk does not follow (an `adds`/register arithmetic, a table load, or a
+second level of caller); they are not evidence of "no reader", just outside
+this method's reach.
+
+`build/assets/reader_map.json` (gitignored, regenerate via the method
+above, don't commit) is the full machine-readable form: every family call
+site, its resolution, and, for constants, the mapped archive and anchor.
+
+### `a/0/6/6`: reader found, battle effect-VM table, not a text/language bank
+
+The explicit target this pass was pointed at. Superseding the earlier
+"`a/0/6/6` reader searched, not found" result (which grepped only for the
+immediate `0x42`/`66` directly ahead of a `bl`, the same blind spot as
+every archive above): **overlay_094 `func_021F94F8`**, the battle
+visual-effect VM's own object constructor (`btlv_effvm.c`, per its
+bracketing `__FILE__` anchor at `0x021F93F4`), calls
+`func_02048F60(archive_id=0x42=66, member=r6, heap)` at `0x021F95CC`, with
+`r6` holding the constructor's own 4th incoming argument (an effect id --
+`adds r6, r3, #0` at function entry, `0x02168804`-style parameter capture).
+The immediate `0x42` is loaded directly (`movs r0, #0x42` at `0x021F95BC`)
+right before the call, the same evidentiary bar as every other direct hit
+in this pass.
+
+`a/0/6/7` is read the same way, from the same file and the same three
+functions (`func_021F94F8` and two siblings, all `btlv_effvm.c`), 7 call
+sites total, `func_02048F60(archive_id=0x43=67, ...)` -- a sibling table,
+not read anywhere else.
+
+This settles the identification question `events.py`'s own docstring and
+the "`a/0/6/6` key test" pass left open: `a/0/6/6` is **not** a text or
+per-language bank (the census's automated guess and this project's own
+per-language hypothesis, both weakened but never confirmed by any earlier
+pass), it is a **battle effect-VM data table indexed by effect id**. `G`'s
+small discrete range (`{1,2,3,5,8}`) now reads as a per-effect variant/stage
+count rather than a language count, consistent with `a/0/1/5` (see below)
+also sitting inside a small-numbered subsystem table shape. The per-group
+14-word redundancy and the payload itself are still not decoded past
+byte-exact extraction -- this pass adds the reader and the domain, not a
+field-level decode. `tools/assets/events.py`'s docstring is updated with
+this finding; `tools/assets/tables.py`'s module docstring records the
+cross-reference (a/0/6/6 itself stays owned by `events.py`, not
+`tables.py`, since its container framing already lives there).
+
+### Newly identified `_GROUP2` archives (`tools/assets/tables.py`)
+
+17 more `_GROUP2` archives (out of the 75 from "Group 2 custom table
+pass") gained a code-attested reader this pass, on top of the 6 already
+known (`a/0/4/8`, `a/0/8/7`, `a/0/9/1`, `a/1/3/2`, `a/1/4/6`, `a/1/4/7`,
+unchanged) -- `_GROUP2`'s reader count goes from 6/75 to 23/75. `tools/
+assets/tables.py`'s per-archive notes and the "Full per-archive table"
+rows above are both updated with the reader, its file and an
+identification read off the file name and the accessor pattern, per the
+project's own established convention (a reader in `zukan_*.c` names a
+Pokedex table, a reader in `camera_system.c` names a camera-domain table,
+and so on) -- none of these are a field-level decode, all stay opaque
+identity copies in `tables.py`.
+
+| archive | reader | file (region) | identification | confidence (before -> after) |
+|---|---|---|---|---|
+| a/0/1/5 | overlay_021 func_02189154 | fieldmap.c | field-map subsystem table | LOW -> LOW-MEDIUM |
+| a/0/1/7 | arm9 func_02019B94 (via hand-written thunk) | poke_tool.c | Pokemon-utility-indexed table | LOW -> LOW-MEDIUM |
+| a/0/3/7 | overlay_071 func_021B69AC | (no anchor) | still not identified | LOW -> LOW |
+| a/0/6/7 | overlay_094 func_021F94F8 + 2 siblings (7 sites) | btlv_effvm.c | battle effect-VM secondary table (sibling of a/0/6/6) | LOW -> MEDIUM-HIGH |
+| a/1/0/9 | overlay_021 func_021BB2F8, func_021BB3E8 | field_nogrid_mapper.c | non-grid field-mapper table | LOW -> LOW-MEDIUM |
+| a/1/1/7 | overlay_021 func_021C24F0 | fld3d_ci.c | field-3D subsystem table | LOW -> LOW-MEDIUM |
+| a/1/2/7 | overlay_054 func_021F37B4, func_021F3874 (3 sites) | (no anchor) | 1/7 subs BMD0, rest opaque (unchanged) | LOW-MEDIUM -> MEDIUM |
+| a/1/4/8 | overlay_053 func_021F3828, func_021F3978 (5 sites) | (no anchor) | 3/18 subs BMD0, rest opaque (unchanged) | LOW-MEDIUM -> MEDIUM |
+| a/1/5/2 | overlay_092/094 func_021B9C80, func_021F6560/func_021F6B04, func_021F7544 (4 sites) | btlv_stage.c, btlv_effect.c | battle stage/effect visual table | LOW -> MEDIUM-HIGH |
+| a/1/6/3 | overlay_021 func_021B542C | scrcmd_encount.c | wild-encounter script-command table | LOW -> LOW-MEDIUM |
+| a/1/6/5 | overlay_021 func_021CBFB0 | bsubway_scr.c | Battle Subway (facility) script/table | LOW -> LOW-MEDIUM |
+| a/1/6/6 | overlay_048 func_021F4DE4 | gimmick_obj_elboard.c | field-gimmick object table (sibling of a/1/7/4) | LOW -> LOW-MEDIUM |
+| a/1/7/4 | overlay_048 func_021F4C10 | gimmick_obj_elboard.c | field-gimmick object table (sibling of a/1/6/6) | LOW -> LOW-MEDIUM |
+| a/1/7/9 | overlay_021 func_021BE148 (via hand-written thunk) | entrance_camera.c | entrance-camera subsystem table | LOW -> LOW-MEDIUM |
+| a/2/1/2 | overlay_172 func_021B657C | camera_system.c | RIFF/WAVE audio pair (camera shutter/flash, guess corroborated) | HIGH -> HIGH |
+| a/2/2/0 | overlay_181 func_021B9D04 | (no anchor) | RLCN/RCSN + BMD0/BCA0 mix (unchanged) | MEDIUM-HIGH -> HIGH |
+| a/2/3/2 | overlay_197 func_0220BA2C | (no anchor) | battle_pocket.dat, BTNF name (unchanged), reader corroborates | HIGH -> HIGH |
+
+None of these identifications are a field-level decode: every one stays an
+opaque identity copy in `_GROUP2`, and the "identification" column is a
+domain guess read off the reader's own translation unit and calling
+pattern, not a struct. `a/0/1/5`/`a/0/1/7`/`a/1/0/9`/`a/1/1/7`/`a/1/6/3`/
+`a/1/6/5`/`a/1/6/6`/`a/1/7/4`/`a/1/7/9` have no magic evidence at all, only
+the reader's own file name, so their confidence bump is capped at
+LOW-MEDIUM; `a/0/3/7`, `a/1/2/7` and `a/1/4/8` have a confirmed call site
+but no `__FILE__` anchor near it (the nearest anchor precedes the whole
+translation unit's first function, not this one), so no file-name
+identification could be added at all.
+
+### What remains
+
+- 51 of `_GROUP2`'s 75 archives still have no attested reader by any
+  method run so far (a full list is in `tools/assets/tables.py`'s
+  `_GROUP2` dict, every entry whose note still reads "No reader found").
+- `a/0/6/6`/`a/0/6/7`'s per-group payload (past the header this project
+  already decoded) is still opaque; the battle effect-VM identification
+  narrows where to look (ov094's `btlv_effvm.c`/`btlv_effect.c`/
+  `btlv_stage.c` functions that read them) but does not decode a single
+  field.
+- The one-level-of-caller fallback and the pool-word-`bx` case both
+  materially mattered (`a/2/1/4`'s known reader and 14 of the 21 new
+  archives depended on one or the other), which means archives still
+  showing no reader may need a second level of caller, or a `bx` through a
+  register loaded by something other than a direct pool word (an array
+  lookup, for instance) -- both outside this pass's method.
+- `a/0/2/1` (the move table, `waza.py`, already verified) turned up 21
+  family call sites from a single file, `shinka_check.c` (evolution
+  checks referencing move data by species) -- kept as a sanity check on
+  the method in this writeup, not reported as a new finding, since the
+  archive was already fully identified.
