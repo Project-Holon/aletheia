@@ -1,10 +1,21 @@
 #!/usr/bin/env python3
 """
 events.py -- container framing for `a/0/0/3` (472 sub-files) and `a/0/6/6`
-(601 sub-files), the two variable-length NARCs flagged by an earlier asset
-pass as the likely home of per-map door/warp/NPC/trigger records (see
-docs/ASSETS.md, "Map attribute hunt" section, "(2) Separate per-zone NARC
-search").
+(601 sub-files). Both were flagged by an earlier asset pass as the likely
+home of per-map door/warp/NPC/trigger records (see docs/ASSETS.md, "Map
+attribute hunt" section, "(2) Separate per-zone NARC search"), but the
+script-VM pass that followed the field-script interpreter's own code (see
+docs/ASSETS.md, "Script virtual machine located and decompiled") settled
+the question for `a/0/0/3`: it is reached through the zone record's `+0x0a`
+lane as a `field_x`-indexed *message bank*, not a bytecode/event table --
+the real script archive is `a/0/5/7` (tools/assets/scripts.py). This
+module therefore both frames `a/0/0/3`'s container (the index table over
+variable-length records) AND decrypts those records as text, through the
+same cipher as `a/0/0/2` (tools/assets/text.py): `field_x & 0xFFFF` is the
+record's length in u16 code units, and `key = (index + 3) * 0x2983`
+(rotate left 3 after every code unit), with `index` the record's own
+position inside its sub-file (0-based). `a/0/6/6` is unaffected by this
+finding; its role remains open (see below).
 
 Written from scratch for the aletheia asset lane. Stdlib only.
 
@@ -47,28 +58,24 @@ Body (body_size bytes, starts right after the outer header):
                                    (the odds of N-1 independent random
                                    words happening to sort increasing,
                                    for N up to 481, rule that out).
-              u32  field_x         a genuine per-record field (not a
-                                   coincidence: paired 1:1 with a real,
-                                   verified offset), but its semantics are
-                                   NOT confirmed this pass. Checked and
-                                   ruled out: it is not record length
-                                   (0/7861 pairs archive-wide satisfy
-                                   field_x == next_offset - this_offset),
-                                   and it is not a constant type tag (only
-                                   163/472 files have every field_x share
-                                   the same top 3 bytes). Its high-24-bit
-                                   histogram is dominated by 0xE000
-                                   (5576/7861) and 0x000000 (1096/7861)
-                                   with a long tail of ~40 other values --
-                                   consistent with a packed type+pointer
-                                   or type+small-int word from the record's
-                                   own bytecode, but that is a guess, not
-                                   verified here.
+              u32  field_x         CONFIRMED this pass (docs/ASSETS.md,
+                                   "`a/0/0/3` is the text bank, and
+                                   `field_x` is a length"): `field_x &
+                                   0xFFFF` is the record's encrypted length
+                                   in u16 code units. Decrypting all 7861
+                                   records of all 472 sub-files and reading
+                                   the code unit at `length - 1` gives the
+                                   string terminator 0xFFFF in 7861/7861
+                                   cases. The top byte is a flag, 0xE0 on
+                                   6139 records and 0x00 on 1096, with a
+                                   small tail of other values whose meaning
+                                   is still open.
     record[k] payload:  raw bytes from record_offset[k] to
                         record_offset[k+1] (or body_size for the last
-                        record) -- variable length, bytecode-shaped (no
-                        recognisable fixed sub-stride found), NOT decoded
-                        by this module beyond byte-exact extraction.
+                        record) -- variable length. This is the record's
+                        RAW (encrypted) code-unit stream; decode_record()
+                        below decrypts it to code points (see "Decoding
+                        records as text").
 
 --------------------------------------------------------------------------
 `a/0/6/6` framing (HIGH confidence, confirmed on all 601 sub-files)
@@ -100,21 +107,26 @@ category guess, "text banks") than with a per-map object list, which
 argues against this archive being the door/warp table; see docs/ASSETS.md.
 
 --------------------------------------------------------------------------
-Doors/warps: not confirmed this pass
+Doors/warps: ruled out for `a/0/0/3`, still open for `a/0/6/6`
 --------------------------------------------------------------------------
-Neither archive's sub-file count (472, 601) equals `a/0/0/8`'s 649 map
-files, and this ROM has no usable BTNF names outside one unrelated NARC
-(`a/2/3/2`, see docs/ASSETS.md's "BTNF name table results") and no
-separate zone/map lookup table has been found anywhere in this archive
-set, so there is no confirmed way to line up an `a/0/0/3` or `a/0/6/6`
-index with a specific `a/0/0/8` map file and its walkable-tile grid
-(tools/assets/map_grid.py). Without that alignment, the coordinate/
-walkable cross-check this pass was asked to attempt cannot be performed
-honestly -- reported here as a real gap, not skipped silently.
-`a/0/0/3` remains the stronger of the two candidates for holding
-door/warp/NPC/trigger data (bytecode-shaped variable records, no
-language-count pattern, matches the earlier pass's guess), but which
-record type within it is a door/warp specifically is still open.
+`a/0/0/3` is a message bank, not an event/door/warp table (see the module
+docstring above): the zone record's `+0x0a` lane indexes it directly
+(values 2..468 against 472 sub-files), and every record decrypts to a
+plausible game string (e.g. sub-file 5's records 0-2 decrypt to "Ha ha
+ha", "My, my. My.", "I'm tired"). The door/warp/NPC/trigger table, if
+there is a dedicated one at all, is not this archive.
+
+`a/0/6/6` is unaffected by the above and remains open: neither archive's
+sub-file count lines up with `a/0/0/8`'s 649 map files on its own, this
+ROM has no usable BTNF names outside one unrelated NARC (`a/2/3/2`, see
+docs/ASSETS.md's "BTNF name table results"), and no separate zone/map
+lookup table has been found anywhere in this archive set, so there is
+still no confirmed way to line up an `a/0/6/6` index with a specific
+`a/0/0/8` map file and its walkable-tile grid (tools/assets/map_grid.py).
+Its small, discrete group-count range (1/2/3/5/8) reads more like a
+per-resource language-variant count than a per-map object list (see
+above), which argues against it being the door/warp table either, but
+nothing has replaced it as a candidate this pass.
 
 --------------------------------------------------------------------------
 CLI
@@ -131,6 +143,10 @@ CLI
         Re-pack every sub-file from its parsed structure and compare
         byte-for-byte against the original. This is the acceptance bar
         for the framing above.
+
+    python tools/assets/events.py --text N
+        Decrypt and print every message in `a/0/0/3` sub-file N (its
+        message-bank interpretation; see "Decoding records as text").
 """
 
 import argparse
@@ -140,6 +156,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import narc  # noqa: E402
+import text  # noqa: E402 -- shares the cipher (rotl16) and renderer
 
 A0003_PATH = os.path.join("extract", "data", "a", "0", "0", "3")
 A0666_PATH = os.path.join("extract", "data", "a", "0", "6", "6")
@@ -218,6 +235,43 @@ def pack_0003(parsed):
     body = struct.pack("<I", parsed["body_size"]) + bytes(table)
     body += b"".join(e["payload"] for e in parsed["entries"])
     return header + body
+
+
+# ---------------------------------------------------------------------------
+# Decoding `a/0/0/3` records as text (message bank)
+# ---------------------------------------------------------------------------
+#
+# Same cipher as a/0/0/2 (tools/assets/text.py): key = (index + 3) * 0x2983,
+# rotate left 3 bits after every code unit, XOR each code unit with the
+# (rotating) key. `index` is the record's own 0-based position inside its
+# sub-file -- NOT a byte offset -- confirmed by decrypting sub-file 5's
+# records 0-2 to "Ha ha ha", "My, my. My.", "I'm tired" (docs/ASSETS.md,
+# "`a/0/0/3` is the text bank, and `field_x` is a length").
+#
+# `field_x & 0xFFFF` gives the record's length in u16 code units (confirmed
+# 7861/7861 via the terminator check, see module docstring); this module
+# decodes up to that many units, or until the raw payload runs out,
+# whichever is shorter -- so an undersized payload degrades to a short
+# (possibly unterminated) string rather than raising.
+
+def decode_record(entry, rec_index):
+    """Decrypt one a/0/0/3 record (an `entries[k]` dict from parse_0003).
+    `rec_index` is the record's 0-based position inside its own sub-file
+    (the cipher's `index`, not the same thing as record_offset). Returns
+    the list of decoded code points (terminator included, if reached)."""
+    length = entry["field_x"] & 0xFFFF
+    payload = entry["payload"]
+    key = (rec_index + 3) * 0x2983 & 0xFFFF
+    out = []
+    pos = 0
+    for _ in range(length):
+        if pos + 2 > len(payload):
+            break
+        w = struct.unpack_from("<H", payload, pos)[0]
+        out.append(w ^ key)
+        pos += 2
+        key = text.rotl16(key, 3)
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -330,6 +384,18 @@ def cmd_dump(args):
                   f"payload[:16]={g['payload'][:16].hex()}")
 
 
+def cmd_text(args):
+    n = _load("0003")
+    raw = n.read(args.text)
+    parsed = parse_0003(raw)
+    print(f"a/0/0/3#{args.text}: {parsed['count']} records")
+    for k, e in enumerate(parsed["entries"]):
+        plain = decode_record(e, k)
+        terminated = bool(plain) and plain[-1] == text.TERMINATOR
+        print(f"[{k}]\t{text.render(plain)}"
+              f"{'' if terminated else '  <unterminated>'}")
+
+
 def cmd_verify(args):
     archives = ["0003", "0666"] if args.archive == "both" else [args.archive]
     for archive in archives:
@@ -365,6 +431,7 @@ def main(argv=None):
     g.add_argument("--list", action="store_true")
     g.add_argument("--dump", nargs=2, metavar=("ARCHIVE", "INDEX"))
     g.add_argument("--verify", action="store_true")
+    g.add_argument("--text", type=int, metavar="N")
     args = ap.parse_args(argv)
 
     if args.list:
@@ -373,6 +440,8 @@ def main(argv=None):
         cmd_dump(args)
     elif args.verify:
         cmd_verify(args)
+    elif args.text is not None:
+        cmd_text(args)
 
 
 if __name__ == "__main__":

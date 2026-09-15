@@ -8075,14 +8075,14 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/0/7 | 1431 | NCGR (tile/character data) | covered and verified | overworld.py | verified | Full-color per-species icon archive (party icons), 715 entries, confirmed species-indexed via the game's own per-entity sub-palette selector table. NCGR round trip: 715/715 byte-identical. |
 | a/0/0/8 | 649 | 0x57420300 | covered and verified | nsbmd.py (wrapper-aware) + map_grid.py + map_shapes.py | verified | Overworld map/building/dungeon 3D model archive, 649 sub-files, identified by MDL0 model name (mapNN_MM / m_dunNNNN / cNN / pl_00_00 / etc). Small custom size-table wrapper around BMD0 cracked; per-tile grid record decoded to the game's own model (`{u16 surface, u16 heightIndex, u32 attribute}`, attribute = terrain id + flag half, confirmed from decompiled code) rather than byte lanes. Textures not wired into the map OBJ exports; `RD`'s dense secondary block and `GC`'s second grid located but not semantically decoded. Whole-sub-file round trip (wrapper + grids + aux arrays + tails): 649/649 byte-identical. |
 | a/0/0/9 | 255 | 0x00000000 | covered and verified | matrix.py | verified | Zone-to-map matrix archive, 255 sub-files, u32 cells resolving to a/0/0/8 sub-file indices (mode-1 cells also carry a zone-id grid). Round trip: 255/255 byte-identical. |
-| a/0/1/0 | 1 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 1 sub-file(s). |
+| a/0/1/0 | 1 | 0x00000000 | custom format, no decoder | tables.py | unverified | Single sub-file, 752 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/1/1 | 222 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/0/1/2 | 1 | 0x04104a00 | covered and verified | zones.py | verified | Zone header table, single sub-file, 427 records x 48 bytes, layout attested by decompiled accessors. Round trip: 427/427 records byte-identical. |
 | a/0/1/3 | 0 | 0x00000000 | custom format, no decoder | unknowns.py | unverified | NOT a NARC (bad magic), a single 2820-byte raw file. Resolves cleanly to 282 fixed 10-byte records with a recurring 0xFFFF sentinel word, but no reader found (see "Twelve unknowns identified" below) and no field split attempted; domain not identified. Whole-file identity copy (no container to re-pack). |
 | a/0/1/4 | 282 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
-| a/0/1/5 | 5 | 0x00008410 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00008410' over 5 sub-file(s). |
+| a/0/1/5 | 5 | 0x00008410 | custom format, no decoder | tables.py | unverified | 5 sub-files, fixed 16-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/1/6 | 669 | dddd | covered and verified | personal.py | verified | Pokemon personal (base stat) data, 669 sub-files (1 sentinel + 667 real 60-byte records + 1 undecoded 1300-byte outlier). Round trip: 667/667 records byte-identical. |
-| a/0/1/7 | 8 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 8 sub-file(s). |
+| a/0/1/7 | 8 | 0x00000000 | custom format, no decoder | tables.py | unverified | 8 sub-files, fixed 404-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/1/8 | 668 | 0x21000100 | covered and verified | learnsets.py | verified | Level-up learnsets, 668 sub-files ((move, level) pairs terminated by 0xFFFF/0xFFFF). Round trip: 668/668 sub-files byte-identical. |
 | a/0/1/9 | 668 | 0x00000000 | covered and verified | evolution.py | verified | Evolution data, 668 sub-files, 7-row x 6-byte evolution table per species. Round trip: 668/668 records byte-identical. |
 | a/0/2/0 | 650 | 0x8500 | covered and verified | tables.py | verified | Per-species single u16 field (evolution-family/base-species index, per icons.py's value-pattern note). Reader: ov021 func_021C4504 (0x021C4504) via func_02048F74(dst, archive_id=0x14, member=species_id, mode=0, size_out). Round trip: 650/650 byte-identical. See "Large custom table pass" in this doc. |
@@ -8101,41 +8101,41 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/3/3 | 33 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/3/4 | 39 | NSCR (screen/map) | generic format, verified | background.py | verified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/0/3/5 | 16 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/3/6 | 14 | 0x11240800 | custom format, no decoder | none | none | No decoder. Category guess: small sprite/icon set (guess). Dominant magic: '0x11240800' over 14 sub-file(s). |
-| a/0/3/7 | 1 | 0x3019080f | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x3019080f' over 1 sub-file(s). |
-| a/0/3/8 | 1 | 0x03090200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x03090200' over 1 sub-file(s). |
-| a/0/3/9 | 18 | 0x11240800 | custom format, no decoder | none | none | No decoder. Category guess: small sprite/icon set (guess). Dominant magic: '0x11240800' over 18 sub-file(s). |
+| a/0/3/6 | 14 | 0x11240800 | custom format, no decoder | tables.py | unverified | 14 sub-files, variable 68..19320 bytes (dominant size 552 bytes on 2/14). No reader found among the seven accessor functions for this archive id. Identification: LZ11-compressed generic NITRO chunks: decompresses to RGCN/RCSN (NCGR/NCLR family, tile+palette). Confidence: HIGH (magic recovered after decompression). See "Group 2 custom table pass" in this doc. |
+| a/0/3/7 | 1 | 0x3019080f | custom format, no decoder | tables.py | unverified | Single sub-file, 5376 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/3/8 | 1 | 0x03090200 | custom format, no decoder | tables.py | unverified | Single sub-file, 576 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/3/9 | 18 | 0x11240800 | custom format, no decoder | tables.py | unverified | 18 sub-files, variable 80..4916 bytes (dominant size 552 bytes on 3/18). No reader found among the seven accessor functions for this archive id. Identification: LZ11-compressed generic NITRO chunks: decompresses to RGCN/RCSN, same family as a/0/3/6. Confidence: HIGH (magic recovered after decompression). See "Group 2 custom table pass" in this doc. |
 | a/0/4/0 | 53 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/4/1 | 33 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/4/2 | 1 | 0xc4030000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xc4030000' over 1 sub-file(s). |
+| a/0/4/2 | 1 | 0xc4030000 | custom format, no decoder | tables.py | unverified | Single sub-file, 1440 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/4/3 | 47 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/4/4 | 12 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/4/5 | 102 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/0/4/6 | 27 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/4/7 | 80 | 0x38000000 | custom format, no decoder | none | none | Also holds 4 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0x38000000' over 80 sub-file(s). |
-| a/0/4/8 | 1 | 0x1f030000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x1f030000' over 1 sub-file(s). |
+| a/0/4/7 | 80 | 0x38000000 | custom format, no decoder | tables.py | unverified | 80 sub-files, variable 64..65352 bytes (dominant size 552 bytes on 6/80). No reader found among the seven accessor functions for this archive id. Identification: Uncompressed mix of RGCN/RLCN (NCGR/NCLR) and BMD0/BTX0 (3D model/texture) sub-files. Confidence: MEDIUM-HIGH (direct magics, but a minority of the 80 sub-files, rest opaque). See "Group 2 custom table pass" in this doc. |
+| a/0/4/8 | 1 | 0x1f030000 | custom format, no decoder | tables.py | unverified | Single sub-file, 22376 bytes, opaque blob. Reader: arm9 func_0202A128 (0x0202A128) via func_02048F60(archive_id=0x30=48, member, heap); the same function also loads a/2/1/1 (archive id 0xd3=211) via func_0204A298 just before it, for the same member index. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded). See "Group 2 custom table pass" in this doc. |
 | a/0/4/9 | 764 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/0/5/0 | 2 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/5/1 | 9 | NCER (cell bank) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/5/2 | 14285 | (none) | covered and verified | rig.py | partial | Pokemon battle/menu rig archive, paired with a/0/0/4 (same 14285-sub-file shape, plausibly a normal/shiny or resolution variant). Same coverage caveats as a/0/0/4: species-level render coverage, no archive-wide byte round trip reported. |
-| a/0/5/3 | 19 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 19 sub-file(s). |
+| a/0/5/3 | 19 | 0x00000000 | custom format, no decoder | tables.py | unverified | 19 sub-files, variable 28..1410 bytes (dominant size 92 bytes on 3/19). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/5/4 | 11 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/5/5 | 29 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/5/6 | 44 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/5/7 | 899 | 0x00000000 | covered and verified | tables.py | partial | Script-bytecode archive, identified and the VM decompiled in "Script virtual machine located and decompiled" above: reader is ov010 func_02158D78 (loads archive id 0x39 = 57), sub-files are a u32 offset table terminated by halfword 0xFD13 with code after it. 469/899 sub-files carry that table (2592 entry points decoded, 90.7% land cleanly); the other 430 are 8-28 byte side tables, unidentified. tables.py keeps this archive opaque (raw copy) since the bytecode decode lives in that section, not in a converter. Framing round trip (raw copy): 899/899 byte-identical. |
-| a/0/5/8 | 17 | 0x1a000e00 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x1a000e00' over 17 sub-file(s). |
+| a/0/5/8 | 17 | 0x1a000e00 | custom format, no decoder | tables.py | unverified | 17 sub-files, variable 4..784 bytes (dominant size 784 bytes on 4/17). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/5/9 | 18 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/6/0 | 1 | 0xed000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xed000000' over 1 sub-file(s). |
-| a/0/6/1 | 56 | 0x04000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x04000000' over 56 sub-file(s). |
-| a/0/6/2 | 10 | 0x04000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x04000000' over 10 sub-file(s). |
+| a/0/6/0 | 1 | 0xed000000 | custom format, no decoder | tables.py | unverified | Single sub-file, 1672 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/6/1 | 56 | 0x04000000 | custom format, no decoder | tables.py | unverified | 56 sub-files, fixed 780-byte records. No reader found among the seven accessor functions for this archive id. Identification: 780-byte records resolve into 15 repeated 52-byte sub-blocks (period confirmed by per-offset histogram). Confidence: MEDIUM (structural only, domain unclear). See "Group 2 custom table pass" in this doc. |
+| a/0/6/2 | 10 | 0x04000000 | custom format, no decoder | tables.py | unverified | 10 sub-files, fixed 780-byte records. No reader found among the seven accessor functions for this archive id. Identification: Same 15x52-byte sub-block period as a/0/6/1. Confidence: MEDIUM (structural only, domain unclear). See "Group 2 custom table pass" in this doc. |
 | a/0/6/3 | 17 | NSCR (screen/map) | generic format, not verified | none | unverified | NSCR-dominant but not in background.py's covered archive list. |
 | a/0/6/4 | 48 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer back-view sprite set (6 blocks of 8; male/female protagonist, Professor Juniper, Cheren, confirmed by eye). NCGR round trip FIXED this pass: the second block these sub-files carry turned out to be an optional trailing SOPC block (the same one `background.py`'s NcgrTiles already passes through for `a/0/0/1`), not a second top-level RGCN resource; `rig.py`'s `Ncgr.encode()` now reassembles the RAHC head from decoded fields and copies any bytes after the declared tile data (including a trailing SOPC block) verbatim. NCGR round trip now 12/12 byte-identical (see `tools/assets/verify_all.py`). |
 | a/0/6/5 | 2 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/6/6 | 601 | 0x01000000 | covered and verified | events.py | verified | HIGH-confidence container framing recovered (outer header + G x 56-byte group-offset blocks, G in {1,2,3,5,8}), but the 14-fold redundancy in the group table and the per-group payload are not decoded past byte-exact extraction. G's small discrete range reads more like language-variant blocks than an event/door/warp table (this NARC's own automated category guess, "text banks", is plausible; not confirmed by decoding any string content). Round trip: 601/601 sub-files byte-identical. |
-| a/0/6/7 | 98 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 98 sub-file(s). |
+| a/0/6/7 | 98 | 0x01000000 | custom format, no decoder | tables.py | unverified | 98 sub-files, variable 68..5596 bytes (dominant size 244 bytes on 8/98). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/6/8 | 3 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/6/9 | 29 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/7/0 | 6 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 6 sub-file(s). |
+| a/0/7/0 | 6 | 0x01000000 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 640..6412 bytes (dominant size 3588 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/7/1 | 39 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/7/2 | 760 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer battle sprite archive, CONFIRMED by direct visual identification of named characters (male/female protagonist, Youngster, Lass, Gym Leader Chili, Elite Four Marshal and Caitlin, Champion Alder, Team Plasma grunts/officers) across 95 blocks x 8 sub-files (760 total). Class-to-block mapping is near-identity on the trdata class id with a few confirmed merges past class 83. NCGR round trip FIXED this pass, same trailing-SOPC-block cause as a/0/6/4/a/0/7/3: now 190/190 byte-identical. |
 | a/0/7/3 | 48 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer back-view sprite set, byte-for-byte duplicate of a/0/6/4's renders across all 6 blocks. NCGR round trip FIXED this pass, same trailing-SOPC-block cause as a/0/6/4: now 12/12 byte-identical. |
@@ -8144,64 +8144,64 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/7/6 | 29 | NCGR (tile/character data) | generic format, not verified | none | unverified | Also holds 2 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/7/7 | 8 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/0/7/8 | 179 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/7/9 | 34 | 0x524c0500 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x524c0500' over 34 sub-file(s). |
-| a/0/8/0 | 1 | 0x98a30000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x98a30000' over 1 sub-file(s). |
-| a/0/8/1 | 14 | 0x9f7f0000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x9f7f0000' over 14 sub-file(s). |
-| a/0/8/2 | 2 | 0x04000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x04000000' over 2 sub-file(s). |
+| a/0/7/9 | 34 | 0x524c0500 | custom format, no decoder | tables.py | unverified | 34 sub-files, variable 256..24420 bytes (dominant size 764 bytes on 2/34). No reader found among the seven accessor functions for this archive id. Identification: Most sub-files begin with the RLCN (NCLR palette) chunk tag uncompressed. Confidence: MEDIUM-HIGH (partial magic match, not exhaustively checked). See "Group 2 custom table pass" in this doc. |
+| a/0/8/0 | 1 | 0x98a30000 | custom format, no decoder | tables.py | unverified | Single sub-file, 72 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/8/1 | 14 | 0x9f7f0000 | custom format, no decoder | tables.py | unverified | 14 sub-files, variable 8..104 bytes (dominant size 8 bytes on 13/14). No reader found among the seven accessor functions for this archive id. Identification: 13/14 sub-files are 8 bytes: [u32 value close to 0x7fxx][u32 small count 0..10]; 1 outlier at 104 bytes. Confidence: LOW (framing only; a trig/scale-table guess is unconfirmed). See "Group 2 custom table pass" in this doc. |
+| a/0/8/2 | 2 | 0x04000000 | custom format, no decoder | tables.py | unverified | 2 sub-files, variable 0..780 bytes (dominant size 780 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/8/3 | 172 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/8/4 | 4 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/8/5 | 21 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/8/6 | 1 | 0x85010100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x85010100' over 1 sub-file(s). |
-| a/0/8/7 | 1 | 0x23fb0307 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x23fb0307' over 1 sub-file(s). |
+| a/0/8/6 | 1 | 0x85010100 | custom format, no decoder | tables.py | unverified | Single sub-file, 3294 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/8/7 | 1 | 0x23fb0307 | custom format, no decoder | tables.py | unverified | Single sub-file, 106 bytes, opaque blob. Reader: arm9 func_02006EA4 (0x02006EA4) via func_02048F74(dst, archive_id=0x57=87, member=0, mode=0, size_out), single sub-file (member is always 0). Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded). See "Group 2 custom table pass" in this doc. |
 | a/0/8/8 | 40 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/8/9 | 24 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/9/0 | 1 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 1 sub-file(s). |
-| a/0/9/1 | 1 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 1 sub-file(s). |
+| a/0/9/0 | 1 | 0x01000000 | custom format, no decoder | tables.py | unverified | Single sub-file, 7048 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/9/1 | 1 | 0x00000000 | custom format, no decoder | tables.py | unverified | Single sub-file, 1232 bytes, opaque blob. Reader: arm9 func_0202A298 and func_0202A310 (0x0202A298/0x0202A310) via func_02048F74(dst, archive_id=0x5b=91, member=0, mode=variable); both functions first search a table in a/0/9/0 (archive id 0x5a=90, via func_020490A8/func_020490F4) then read a/0/9/1 with the matched mode -- the two archives are used as a pair. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded). See "Group 2 custom table pass" in this doc. |
 | a/0/9/2 | 616 | 0x00270001 | covered and verified | trainer_data.py | partial | Trainer data (trdata), 616 sub-files (615 real 20-byte records + 1 sentinel). Identified by reference to a decompiled trainer-class accessor; class count 105 cross-checked against the class-name text bank. `trainer_data.py --verify` (added this pass): the one byte-level cross-check this table supports is that its own partySize field (record offset 3) predicts the paired a/0/9/3 sub-file's length exactly (`partySize * 8`) -- 546/615 records ok, 69 mismatched, 1 skipped (the sentinel), matching the informal count `--records` already printed. Neither table is compressed or chunk-framed, so there is no further format to decode/re-encode; the 69 mismatches are an existing, unresolved gap in the trdata/trpoke pairing model, not a regression from this pass. |
 | a/0/9/3 | 616 | 0x00000a00 | covered and verified | trainer_data.py | partial | Trainer data (trpoke), 616 sub-files, variable 8-byte-multiple records, paired 1:1 with a/0/9/2 by index. Same `trainer_data.py --verify` cross-check as a/0/9/2: 546/615 ok, 69 mismatched, 1 skipped. |
 | a/0/9/4 | 53 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/9/5 | 165 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/9/6 | 42 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/9/7 | 2 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 2 sub-file(s). |
-| a/0/9/8 | 10 | 0x01000200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000200' over 10 sub-file(s). |
-| a/0/9/9 | 17 | 0x10240100 | custom format, no decoder | none | none | No decoder. Category guess: small sprite/icon set (guess). Dominant magic: '0x10240100' over 17 sub-file(s). |
+| a/0/9/7 | 2 | 0x00000000 | custom format, no decoder | tables.py | unverified | 2 sub-files, variable 274..24888 bytes (dominant size 24888 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/9/8 | 10 | 0x01000200 | custom format, no decoder | tables.py | unverified | 10 sub-files, variable 650..1454 bytes (dominant size 1450 bytes on 4/10). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/0/9/9 | 17 | 0x10240100 | custom format, no decoder | tables.py | unverified | 17 sub-files, variable 95..4568 bytes (dominant size 552 bytes on 2/17). No reader found among the seven accessor functions for this archive id. Identification: LZ77-compressed generic NITRO chunks: decompresses to RGCN/RCSN. Confidence: HIGH (magic recovered after decompression). See "Group 2 custom table pass" in this doc. |
 | a/1/0/0 | 20 | 0x10240600 | generic format, verified | unknowns.py | verified | Dominant magic was the raw LZ77 compression header, not decompressed by inventory.py's sniff. Decompressing every sub-file: 18 NSCR (16 at 1572 bytes, 2 larger), 1 NCGR (16448 bytes), 1 raw NCLR (552 bytes) -- a background set (screens + tile sheet + palette). Round trip (decompress/recompress): 20/20 byte-identical. See "Twelve unknowns identified" below. |
-| a/1/0/1 | 1 | 0xf9000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xf9000000' over 1 sub-file(s). |
+| a/1/0/1 | 1 | 0xf9000000 | custom format, no decoder | tables.py | unverified | Single sub-file, 672 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/0/2 | 31 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/1/0/3 | 64 | NSBCA (animation) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/0/4 | 13 | NSBCA (animation) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/0/5 | 29 | 0x00000106 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000106' over 29 sub-file(s). |
+| a/1/0/5 | 29 | 0x00000106 | custom format, no decoder | tables.py | unverified | 29 sub-files, fixed 188-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/0/6 | 20 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/0/7 | 39 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/0/8 | 282 | 0x01000000 | custom format, no decoder | tables.py | unverified | 282 sub-files (281 at 28 bytes, 1 outlier at 52 bytes): 12-byte header (two u32 fields always 1, rest zero) + four 4-byte blocks at offsets 12/16/20/24. No reader found; domain not identified (count matches no known species/move/item/trainer-class table). Framing round trip (raw copy): 282/282 byte-identical. See "Large custom table pass" in this doc. |
-| a/1/0/9 | 17 | 0x05000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x05000000' over 17 sub-file(s). |
+| a/1/0/9 | 17 | 0x05000000 | custom format, no decoder | tables.py | unverified | 17 sub-files, fixed 4-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/1/0 | 2 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
-| a/1/1/1 | 6 | 0x00501428 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00501428' over 6 sub-file(s). |
-| a/1/1/2 | 6 | 0x03145028 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x03145028' over 6 sub-file(s). |
-| a/1/1/3 | 6 | 0x01282850 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01282850' over 6 sub-file(s). |
-| a/1/1/4 | 6 | 0x02282814 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x02282814' over 6 sub-file(s). |
+| a/1/1/1 | 6 | 0x00501428 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 76..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: sub-files include SBNK (sound bank) and SSEQ (sequence) chunks alongside raw PCM-ish blocks. Confidence: HIGH (standard chunk magics). See "Group 2 custom table pass" in this doc. |
+| a/1/1/2 | 6 | 0x03145028 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 76..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: SBNK/SSEQ chunks present, same family as a/1/1/1. Confidence: HIGH (standard chunk magics). See "Group 2 custom table pass" in this doc. |
+| a/1/1/3 | 6 | 0x01282850 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 80..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: SBNK/SSEQ chunks present, same family as a/1/1/1. Confidence: HIGH (standard chunk magics). See "Group 2 custom table pass" in this doc. |
+| a/1/1/4 | 6 | 0x02282814 | custom format, no decoder | tables.py | unverified | 6 sub-files, variable 92..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: SBNK/SSEQ chunks present, same family as a/1/1/1. Confidence: HIGH (standard chunk magics). See "Group 2 custom table pass" in this doc. |
 | a/1/1/5 | 183 | NSBMD (model) | generic format, verified | nsbmd.py | verified | Also holds 8 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/1/6 | 79 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/1/7 | 53 | 0x08000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x08000000' over 53 sub-file(s). |
+| a/1/1/7 | 53 | 0x08000000 | custom format, no decoder | tables.py | unverified | 53 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/1/8 | 11 | NSCR (screen/map) | generic format, not verified | none | unverified | NSCR-dominant but not in background.py's covered archive list. |
-| a/1/1/9 | 9 | 0x0d000500 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x0d000500' over 9 sub-file(s). |
+| a/1/1/9 | 9 | 0x0d000500 | custom format, no decoder | tables.py | unverified | 9 sub-files, variable 2..158 bytes (dominant size 134 bytes on 3/9). No reader found among the seven accessor functions for this archive id. Identification: One variant is a flat ascending u16 sequence (65,66,67,...); looks like a plain index/char table. Confidence: LOW (framing only). See "Group 2 custom table pass" in this doc. |
 | a/1/2/0 | 5 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/2/1 | 23 | 0x50000000 | custom format, no decoder | none | none | No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0x50000000' over 23 sub-file(s). |
+| a/1/2/1 | 23 | 0x50000000 | custom format, no decoder | tables.py | unverified | 23 sub-files, variable 400..10476 bytes (dominant size 968 bytes on 8/23). No reader found among the seven accessor functions for this archive id. Identification: BMD0 (3D model) plus BCA0 (joint animation) and BMA0 (material animation) -- a model+animation set. Confidence: HIGH (standard G3D chunk magics). See "Group 2 custom table pass" in this doc. |
 | a/1/2/2 | 15 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/2/3 | 650 | 0x0000 | covered and verified | tables.py | verified | Per-species egg-move list: sub-file 0 empty (sentinel), subs 1-649 are [u16 count][u16 move_id*count]. Reader: ov021 func_021C40F8 (0x021C40F8) via func_02048F60(archive_id=0x7B, member=species_id, heap), which linear-searches the returned array for a move id. Round trip: 650/650 byte-identical. See "Large custom table pass" in this doc. |
 | a/1/2/4 | 29 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/2/5 | 428 | 0x60000000 | custom format, no decoder | tables.py | unverified | 428 sub-files (427 zones + 1, matching a/0/1/2's zone count), variable 4..2178 bytes. Leading u32 does not resolve to one consistent header size across samples (164 vs 172-8, 372 vs 392-8 disagree), so kept opaque rather than forcing a field split. No reader found. Framing round trip (raw copy): 428/428 byte-identical. See "Large custom table pass" in this doc. |
 | a/1/2/6 | 112 | 0x03000000 | covered and verified | encounters.py | verified | Wild encounter tables, 112 sub-files (100 x 232 bytes all-year, 12 x 928 bytes = 4 seasonal blocks). Tied to the zone table via packed_1a. Round trip: 112/112 sub-files byte-identical. |
-| a/1/2/7 | 7 | 0xc4090000 | custom format, no decoder | none | none | No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0xc4090000' over 7 sub-file(s). |
+| a/1/2/7 | 7 | 0xc4090000 | custom format, no decoder | tables.py | unverified | 7 sub-files, variable 8..46976 bytes (dominant size 8 bytes on 4/7). No reader found among the seven accessor functions for this archive id. Identification: One of 7 sub-files is BMD0 (3D model); the rest are small opaque blocks. Confidence: LOW-MEDIUM (1/7 sub-files only). See "Group 2 custom table pass" in this doc. |
 | a/1/2/8 | 8 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/2/9 | 12 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/3/0 | 36 | NSBTP (texture pattern animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/3/1 | 69 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/3/2 | 5 | 0x10000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10000000' over 5 sub-file(s). |
+| a/1/3/2 | 5 | 0x10000000 | custom format, no decoder | tables.py | unverified | 5 sub-files, fixed 40-byte records. Reader: arm9 func_0202AEEC (0x0202AEEC) via func_02048F88(archive_id=0x84=132, member, heap, mode=0, size=40), member taken from the caller's own second argument. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded). See "Group 2 custom table pass" in this doc. |
 | a/1/3/3 | 12 | NSCR (screen/map) | generic format, not verified | none | unverified | NSCR-dominant but not in background.py's covered archive list. |
 | a/1/3/4 | 670 | 0x11000002 | covered and verified | battle_sprite.py | verified | Opening-cinematic frame sequence (670 sub-files, each a 256x256 16bpp direct-color LZ11 frame) -- CONFIRMED NOT trainer battle art via shot-boundary analysis and direct character recognition (N, Team Plasma castle). `battle_sprite.py --verify` (added this pass) runs the LZ11 compression round trip (decompress, `lz11.compress` re-encode, compare) over all 670 sub-files: 670/670 byte-identical -- the decompressed payload itself carries no NITRO chunk magic and no palette (see module docstring), so the compression layer is this archive's only meaningful round trip; the pixel reinterpretation (16bpp direct-color, not 4bpp-tiled) does not change the compressed bytes either way. |
 | a/1/3/5 | 28 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/3/6 | 31 | 0xd6007f06 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xd6007f06' over 31 sub-file(s). |
+| a/1/3/6 | 31 | 0xd6007f06 | custom format, no decoder | tables.py | unverified | 31 sub-files, fixed 8-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/3/7 | 108 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/3/8 | 8 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/3/9 | 12 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8211,47 +8211,47 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/1/4/3 | 28 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/1/4/4 | 24 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/1/4/5 | 8 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/4/6 | 10 | 0x98000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x98000000' over 10 sub-file(s). |
-| a/1/4/7 | 3 | 0x2b040000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x2b040000' over 3 sub-file(s). |
-| a/1/4/8 | 18 | 0xe8030000 | custom format, no decoder | none | none | No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0xe8030000' over 18 sub-file(s). |
-| a/1/4/9 | 1 | 0x44010000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x44010000' over 1 sub-file(s). |
+| a/1/4/6 | 10 | 0x98000000 | custom format, no decoder | tables.py | unverified | 10 sub-files, fixed 28-byte records. Reader: an arm9 function around 0x0202B2xx (enclosing the call site at 0x0202B34C) first calls func_02049030(archive_id=0x92=146) for a record count, then loops member 0..count-1 through func_02048F74(dst, archive_id=0x92=146, member, mode=0) into consecutive 28-byte slots -- matches the 10 fixed 28-byte sub-files found by the byte survey. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded). See "Group 2 custom table pass" in this doc. |
+| a/1/4/7 | 3 | 0x2b040000 | custom format, no decoder | tables.py | unverified | 3 sub-files, variable 27..43 bytes (dominant size 27 bytes on 1/3). Reader: arm9 func_0202C3E0 (0x0202C3E0) via a sequence of func_02048F74(dst, archive_id=0x93=147, member, mode=running_offset) calls (4 bytes, then 9x2 bytes, then two more variable chunks) that assemble one member's record piece by piece -- consistent with the variable 27/41/43-byte sizes found by the byte survey, read as a length-driven structure rather than one flat read. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded). See "Group 2 custom table pass" in this doc. |
+| a/1/4/8 | 18 | 0xe8030000 | custom format, no decoder | tables.py | unverified | 18 sub-files, variable 8..28808 bytes (dominant size 8 bytes on 8/18). No reader found among the seven accessor functions for this archive id. Identification: 3 of 18 sub-files are BMD0 (3D model); the rest are opaque blocks 8..28808 bytes. Confidence: LOW-MEDIUM (minority of sub-files). See "Group 2 custom table pass" in this doc. |
+| a/1/4/9 | 1 | 0x44010000 | custom format, no decoder | tables.py | unverified | Single sub-file, 32 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/5/0 | 32 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/5/1 | 12 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/5/2 | 3 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 3 sub-file(s). |
+| a/1/5/2 | 3 | 0x01000000 | custom format, no decoder | tables.py | unverified | 3 sub-files, variable 684..1700 bytes (dominant size 684 bytes on 1/3). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/5/3 | 9 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/5/4 | 37 | 0x0c000200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x0c000200' over 37 sub-file(s). |
+| a/1/5/4 | 37 | 0x0c000200 | custom format, no decoder | tables.py | unverified | 37 sub-files, variable 0..1024 bytes (dominant size 48 bytes on 30/37). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/5/5 | 48 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/5/6 | 46 | 0x0400080c | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x0400080c' over 46 sub-file(s). |
+| a/1/5/6 | 46 | 0x0400080c | custom format, no decoder | tables.py | unverified | 46 sub-files, variable 3100..6172 bytes (dominant size 3100 bytes on 44/46). No reader found among the seven accessor functions for this archive id. Identification: 44/46 sub-files are a fixed 3100 bytes; 2 outliers sit near double that (6172 bytes). Confidence: LOW (structural only, domain unclear). See "Group 2 custom table pass" in this doc. |
 | a/1/5/7 | 26 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/5/8 | 5 | 0x01000100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000100' over 5 sub-file(s). |
+| a/1/5/8 | 5 | 0x01000100 | custom format, no decoder | tables.py | unverified | 5 sub-files, variable 72..432 bytes (dominant size 144 bytes on 2/5). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/5/9 | 113 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/1/6/0 | 252 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/6/1 | 5 | 0x10240600 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause as a/1/0/0. 1 raw NCLR (552 bytes), 3 LZ77->NSCR (1572 bytes each, distinct payloads), 1 LZ77->NCGR (8256 bytes) -- a small background set. Round trip: 5/5 byte-identical. See "Twelve unknowns identified" below. |
 | a/1/6/2 | 19 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/6/3 | 7 | 0xfa2000d5 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xfa2000d5' over 7 sub-file(s). |
+| a/1/6/3 | 7 | 0xfa2000d5 | custom format, no decoder | tables.py | unverified | 7 sub-files, fixed 44-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/6/4 | 5 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/6/5 | 13 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 13 sub-file(s). |
-| a/1/6/6 | 9 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 9 sub-file(s). |
+| a/1/6/5 | 13 | 0x00000000 | custom format, no decoder | tables.py | unverified | 13 sub-files, fixed 108-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/6/6 | 9 | 0x00000000 | custom format, no decoder | tables.py | unverified | 9 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/6/7 | 655 | 0x10300100 | covered and verified | icons.py | verified | Small icon archive, 655 sub-files (1 NCLR + 2 NANR + 2 NCER + 650 LZ77-compressed 16x16 4bpp icons). Palette is genuinely monochrome (2 of 256 slots non-zero), so these are NOT full-color per-species icons (see a/0/0/7 for those). Round trip: 655/655 byte-identical (re-run this pass). |
 | a/1/6/8 | 315 | 0x55002300 | covered and verified | tables.py | partial | Group/member index table: [u16 group_id][u16 count][u16 member_id*count]. 222/315 records have len(members)==count; 93/315 have one extra leading member equal to the group_id (self-inclusive variant), still byte-exact on re-encode. Max member id 950. No reader found; member-id domain not confirmed, but fits under a/1/6/9's 951 records. Round trip: 315/315 byte-identical. See "Large custom table pass" in this doc. |
 | a/1/6/9 | 951 | 0x41005e00 | custom format, no decoder | tables.py | unverified | Fixed 16-byte records: 5 u16 fields (offsets 0,2,4,6,8), 2 u8 fields (10,11), 1 more u16 (12), 2 zero pad bytes (14-15). No reader found (checked every func_02048F60/DDC/D00/D54/F4C/F74/F88 call site in asm/arm9 and asm/overlays for an archive-id immediate); domain not identified. Possibly the member universe for a/1/6/8's group table (max member id there is 950). Framing round trip (raw copy): 951/951 byte-identical. See "Large custom table pass" in this doc. |
 | a/1/7/0 | 37 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/7/1 | 14 | 0x51005007 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x51005007' over 14 sub-file(s). |
+| a/1/7/1 | 14 | 0x51005007 | custom format, no decoder | tables.py | unverified | 14 sub-files, variable 12..23988 bytes (dominant size 9120 bytes on 1/14). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/7/2 | 27 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/7/3 | 35 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/7/4 | 24 | 0x5c000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x5c000000' over 24 sub-file(s). |
-| a/1/7/5 | 2 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 2 sub-file(s). |
+| a/1/7/4 | 24 | 0x5c000000 | custom format, no decoder | tables.py | unverified | 24 sub-files, fixed 124-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/7/5 | 2 | 0x00000000 | custom format, no decoder | tables.py | unverified | 2 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/7/6 | 52 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/7/7 | 64 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/7/8 | 649 | 0x01010000 | custom format, no decoder | tables.py | unverified | 649 sub-files (no sentinel, one less than the usual 650), fixed 249-byte records, 181/249 byte offsets vary, all bounded under 128. No reader found. Census's "text banks" guess does not hold up: not a text.py message-file shape (no length-prefixed u16 code-unit string table). Framing round trip (raw copy): 649/649 byte-identical. See "Large custom table pass" in this doc. |
-| a/1/7/9 | 50 | 0x07000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x07000000' over 50 sub-file(s). |
+| a/1/7/9 | 50 | 0x07000000 | custom format, no decoder | tables.py | unverified | 50 sub-files, fixed 64-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/8/0 | 44 | 0x10402000 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause. Sub-files 0-21: LZ77->NCGR (8256 bytes each, 22 distinct tile sheets). Sub-files 22-43: raw NCLR (552 bytes each, 22 distinct palettes). Natural pairing is index N <-> N+22, not confirmed by any accessor. Round trip: 44/44 byte-identical. See "Twelve unknowns identified" below. |
 | a/1/8/1 | 35 | NSBCA (animation) | generic format, not verified | none | unverified | Also holds 4 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/8/2 | 11 | NCGR (tile/character data) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/8/3 | 28 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/8/4 | 17 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/1/8/5 | 2 | 0x1f040000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x1f040000' over 2 sub-file(s). |
-| a/1/8/6 | 7 | 0x37005a00 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x37005a00' over 7 sub-file(s). |
+| a/1/8/5 | 2 | 0x1f040000 | custom format, no decoder | tables.py | unverified | 2 sub-files, fixed 8-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/1/8/6 | 7 | 0x37005a00 | custom format, no decoder | tables.py | unverified | 7 sub-files, variable 20..80 bytes (dominant size 50 bytes on 5/7). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/1/8/7 | 12 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/8/8 | 5 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/1/8/9 | 11 | NCGR (tile/character data) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8263,21 +8263,21 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/1/9/5 | 14 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/9/6 | 7 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/9/7 | 8 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
-| a/1/9/8 | 1 | 0x10400400 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10400400' over 1 sub-file(s). |
+| a/1/9/8 | 1 | 0x10400400 | custom format, no decoder | tables.py | unverified | Single sub-file, 255 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: LZ77-compressed, decompresses to RGCN (NCGR tile data). Confidence: HIGH (magic recovered after decompression). See "Group 2 custom table pass" in this doc. |
 | a/1/9/9 | 11 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/2/0/0 | 3 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/2/0/1 | 8 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/2/0/2 | 10 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/2/0/3 | 4 | 0x78000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x78000000' over 4 sub-file(s). |
+| a/2/0/3 | 4 | 0x78000000 | custom format, no decoder | tables.py | unverified | 4 sub-files, variable 1448..4328 bytes (dominant size 4328 bytes on 1/4). No reader found among the seven accessor functions for this archive id. Identification: 1 of 4 sub-files is Huffman8-compressed; no recognised magic on any sub-file. Confidence: LOW (partial compression only). See "Group 2 custom table pass" in this doc. |
 | a/2/0/4 | 8 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/0/5 | 40 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/2/0/6 | 4 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/2/0/7 | 1 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
-| a/2/0/8 | 4 | 0x44020000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x44020000' over 4 sub-file(s). |
-| a/2/0/9 | 1 | 0x00000100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000100' over 1 sub-file(s). |
+| a/2/0/8 | 4 | 0x44020000 | custom format, no decoder | tables.py | unverified | 4 sub-files, variable 8..664 bytes (dominant size 664 bytes on 1/4). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/2/0/9 | 1 | 0x00000100 | custom format, no decoder | tables.py | unverified | Single sub-file, 856 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/2/1/0 | 9 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
-| a/2/1/1 | 1 | 0x01000200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000200' over 1 sub-file(s). |
-| a/2/1/2 | 2 | RIFF | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: 'RIFF' over 2 sub-file(s). |
+| a/2/1/1 | 1 | 0x01000200 | custom format, no decoder | tables.py | unverified | Single sub-file, 4528 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/2/1/2 | 2 | RIFF | custom format, no decoder | tables.py | unverified | 2 sub-files, variable 13964..20674 bytes (dominant size 20674 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: Both sub-files are RIFF/WAVE (raw PCM audio clips). Confidence: HIGH (RIFF/WAVE magic). See "Group 2 custom table pass" in this doc. |
 | a/2/1/3 | 8 | 0x11240600 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause, LZ11 variant. 2 LZ11->NCGR (8256 bytes), 2 raw NCLR (552 bytes), 4 LZ11->NSCR (1572 bytes) -- a background set. Round trip: 8/8 byte-identical. See "Twelve unknowns identified" below. |
 | a/2/1/4 | 1000 | 0x00000000 | custom format, no decoder | tables.py | unverified | Fixed 16-byte records, same field shape as a/1/6/9 one notch wider (high bytes reach 2 instead of 1). No reader found; domain not identified. Possibly the member universe for a/2/1/5's group table (max member id there is 988). Framing round trip (raw copy): 1000/1000 byte-identical. See "Large custom table pass" in this doc. |
 | a/2/1/5 | 315 | 0x3d005800 | covered and verified | tables.py | verified | Group/member index table: [u16 group_id][u16 count][u16 member_id*count], 315/315 exact (no self-inclusive variant, unlike a/1/6/8). Max member id 988, fitting under a/2/1/4's 1000 records. No reader found; member-id domain not confirmed. Round trip: 315/315 byte-identical. See "Large custom table pass" in this doc. |
@@ -8285,20 +8285,20 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/2/1/7 | 2 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/1/8 | 4 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/1/9 | 10 | NSBTP (texture pattern animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/2/2/0 | 13 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0x00000000' over 13 sub-file(s). |
-| a/2/2/1 | 7 | 0x411673ec | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x411673ec' over 7 sub-file(s). |
+| a/2/2/0 | 13 | 0x00000000 | custom format, no decoder | tables.py | unverified | 13 sub-files, variable 280..253428 bytes (dominant size 552 bytes on 2/13). No reader found among the seven accessor functions for this archive id. Identification: Mix of RLCN/RCSN (NCLR/NCGR) and BMD0/BCA0 (model + joint animation) sub-files. Confidence: MEDIUM-HIGH (direct magics on several sub-files). See "Group 2 custom table pass" in this doc. |
+| a/2/2/1 | 7 | 0x411673ec | custom format, no decoder | tables.py | unverified | 7 sub-files, variable 2304..5504 bytes (dominant size 2496 bytes on 1/7). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/2/2/2 | 6 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/2/3 | 13 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
-| a/2/2/4 | 4 | 0xffff0000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xffff0000' over 4 sub-file(s). |
-| a/2/2/5 | 151 | 0x11000002 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x11000002' over 151 sub-file(s). |
-| a/2/2/6 | 174 | 0x11000002 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x11000002' over 174 sub-file(s). |
-| a/2/2/7 | 1 | 0x000a1020 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x000a1020' over 1 sub-file(s). |
+| a/2/2/4 | 4 | 0xffff0000 | custom format, no decoder | tables.py | unverified | 4 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
+| a/2/2/5 | 151 | 0x11000002 | custom format, no decoder | tables.py | unverified | 151 sub-files, variable 15..39547 bytes (dominant size 2687 bytes on 12/151). No reader found among the seven accessor functions for this archive id. Identification: Every sub-file is LZ11-compressed; decompressed content has no recognised NITRO chunk magic. Confidence: LOW (compression confirmed, content unresolved). See "Group 2 custom table pass" in this doc. |
+| a/2/2/6 | 174 | 0x11000002 | custom format, no decoder | tables.py | unverified | 174 sub-files, variable 15..43305 bytes (dominant size 15 bytes on 12/174). No reader found among the seven accessor functions for this archive id. Identification: Every sub-file is LZ11-compressed; decompressed content has no recognised NITRO chunk magic, same family as a/2/2/5. Confidence: LOW (compression confirmed, content unresolved). See "Group 2 custom table pass" in this doc. |
+| a/2/2/7 | 1 | 0x000a1020 | custom format, no decoder | tables.py | unverified | Single sub-file, 494 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/2/2/8 | 6 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
-| a/2/2/9 | 52 | 0x41423a00 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x41423a00' over 52 sub-file(s). |
-| a/2/3/0 | 64 | 0x41424c00 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x41424c00' over 64 sub-file(s). |
-| a/2/3/1 | 73 | 0x10008001 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10008001' over 73 sub-file(s). |
-| a/2/3/2 | 1 | 0x00010101 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00010101' over 1 sub-file(s). |
-| a/2/3/3 | 2 | 0x10300100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10300100' over 2 sub-file(s). |
+| a/2/2/9 | 52 | 0x41423a00 | custom format, no decoder | tables.py | unverified | 52 sub-files, variable 49812..209740 bytes (dominant size 49812 bytes on 7/52). No reader found among the seven accessor functions for this archive id. Identification: Each sub-file opens with an 'AB' 2-byte tag plus a u16 header-size field then a u32 offset table; large sizes (49812..209740 bytes) suggest an audio/stream container (domain guess, not confirmed). Confidence: LOW-MEDIUM (framing pattern only). See "Group 2 custom table pass" in this doc. |
+| a/2/3/0 | 64 | 0x41424c00 | custom format, no decoder | tables.py | unverified | 64 sub-files, variable 58684..189924 bytes (dominant size 58684 bytes on 32/64). No reader found among the seven accessor functions for this archive id. Identification: Same 'AB'-tagged header-plus-offset-table framing as a/2/2/9, large sizes (58684..189924 bytes). Confidence: LOW-MEDIUM (framing pattern only). See "Group 2 custom table pass" in this doc. |
+| a/2/3/1 | 73 | 0x10008001 | custom format, no decoder | tables.py | unverified | 73 sub-files, variable 11653..30624 bytes (dominant size 13905 bytes on 1/73). No reader found among the seven accessor functions for this archive id. Identification: Every sub-file is LZ77-compressed; decompressed content has no recognised NITRO chunk magic. Confidence: LOW (compression confirmed, content unresolved). See "Group 2 custom table pass" in this doc. |
+| a/2/3/2 | 1 | 0x00010101 | custom format, no decoder | tables.py | unverified | Single sub-file, 627 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: BTNF-named sub-file 0 is "battle_pocket.dat". Confidence: HIGH (BTNF name). See "Group 2 custom table pass" in this doc. |
+| a/2/3/3 | 2 | 0x10300100 | custom format, no decoder | tables.py | unverified | 2 sub-files, variable 86..99 bytes (dominant size 86 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: LZ77-compressed, decompresses to RGCN (NCGR tile data) on both sub-files. Confidence: HIGH (magic recovered after decompression). See "Group 2 custom table pass" in this doc. |
 | a/2/3/4 | 3 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | dl_rom/child2_r_eng.srl | 0 | SYAC | custom format, no decoder | unknowns.py | verified | "SYAC" is the first 4 bytes of the game title string, not a real magic -- this is a valid NDS ROM header (title "SYACHI_MB", gamecode "NTRJ", unit code 0x02) parsed directly per tools/ndsrom.py's own header layout. DS Download Play child (multiboot) binary: arm9 0x82CC0 bytes at 0x4000, arm7 0x28F84 bytes at 0x86E00, total 0xB5200, both regions fit inside the 1369088-byte file. See "Twelve unknowns identified" below. |
 | dl_rom/child_r_eng.srl | 0 | SYAC | custom format, no decoder | unknowns.py | verified | Same identification as child2_r_eng.srl (sibling Download Play child binary, slightly larger arm9 image: 0x888A8 bytes at 0x4000, arm7 0x28F84 bytes at 0x8CA00, total 0xBB000). See "Twelve unknowns identified" below. |
@@ -9210,6 +9210,138 @@ pass set), whether or not the semantic field names are confirmed.
   for the calls that pass it through as a parameter rather than an
   immediate (the likely next step for the remaining nine archives).
 
+## Group 2 custom table pass: 75 more "custom format, no decoder" archives registered in `tools/assets/tables.py`
+
+Second survey pass over the census "custom format, no decoder" bucket, covering every archive in it not already handled by the Large custom table pass above. Method, same as that pass: a scripted byte survey (size histogram, fixed-vs-variable framing, per-offset nunique/min/max over any dominant fixed size) plus a scripted backward-scan over every call site of `func_02048F60`, `func_02048DDC`, `func_02048D00`, `func_02048D54`, `func_02048F4C`, `func_02048F74` and `func_02048F88` in `asm/arm9/main.s` and every `asm/overlays/*.s`, looking for an immediate load of the archive's decimal `a/X/Y/Z` id into the register that function's archive_id parameter occupies (`r0` for `func_02048F60`/`func_02048D54`/`func_02048F88`/`func_02048DDC`, `r1` for `func_02048F74`/`func_02048D00`/`func_02048F4C`, matching the parameter order in `src/matched/*.c` for each). A third script decompressed every sub-file with `narc.py`'s own `try_decompress` and checked the result's first 4 bytes against the known NITRO chunk tags (NCGR/NCLR/NCER/NANR/NSBMD/NSBTX, stored byte-reversed as RGCN/RLCN/RECN/RNAN/BMD0/BTX0 et al.) to catch compressed generic-format archives the census's own magic sniff missed.
+
+Two census rows in this bucket are single raw files, not NARC containers (no BTAF/BTNF/GMIF), so they cannot go through `narc.parse_file` and are not added to the registry: `dwc/utility.bin` (929852 bytes) and `gfl_font.dat` (2320 bytes), both still "single compressed blob (guess: font/graphic)" per the census, unchanged by this pass.
+
+### What the backward-scan found
+
+Six archives turned up a confirmed reader (an immediate archive-id load directly at the call site, same evidentiary bar as `a/1/2/3`/`a/0/2/0` in the first pass):
+
+- `a/0/4/8` -- arm9 `func_0202A128` (0x0202A128) calls `func_02048F60(archive_id=0x30=48, member, heap)`. The same function also calls `func_0204A298(archive_id=0xd3=211, ...)` (`a/2/1/1`) just before it, for the same member index -- the two archives are read together by one function.
+- `a/0/8/7` -- arm9 `func_02006EA4` (0x02006EA4) calls `func_02048F74(dst, archive_id=0x57=87, member=0, mode=0, size_out)`. Single sub-file, member is always 0.
+- `a/0/9/1` -- arm9 `func_0202A298` and `func_0202A310` (0x0202A298 / 0x0202A310) call `func_02048F74(dst, archive_id=0x5b=91, member=0, mode=variable)`, after first searching a table in `a/0/9/0` (archive id 0x5a=90, via `func_020490A8`/`func_020490F4`). `a/0/9/0` and `a/0/9/1` are read as a linked pair by both functions.
+- `a/1/3/2` -- arm9 `func_0202AEEC` (0x0202AEEC) calls `func_02048F88(archive_id=0x84=132, member, heap, mode=0, size=40)`, member passed through from the caller's own argument.
+- `a/1/4/6` -- an arm9 function around 0x0202B2xx (the call site itself is at 0x0202B34C) calls `func_02049030(archive_id=0x92=146)` for a record count, then loops member 0..count-1 through `func_02048F74(dst, archive_id=0x92=146, member, mode=0)` into consecutive 28-byte slots -- matching the 10 fixed 28-byte sub-files the byte survey found independently.
+- `a/1/4/7` -- arm9 `func_0202C3E0` (0x0202C3E0) issues a sequence of `func_02048F74(dst, archive_id=0x93=147, member, mode=running_offset)` calls (4 bytes, then 9x2 bytes, then two more variable-size chunks) that assemble one member's record piece by piece -- consistent with the variable 27/41/43-byte sizes the byte survey found, read as a length-driven structure rather than one flat read.
+
+None of the six readers resolve the archive's field semantics past the framing already visible in the bytes, so all six are still reported with low confidence on domain, despite the confirmed call site.
+
+For the other 69 archives, no immediate matching the target id was found ahead of any of the seven calls (the scan does not follow the archive id when it is passed through as a parameter rather than loaded as an immediate at the call site itself -- the same limitation the first pass flagged).
+
+### What the decompression pass found
+
+Nine archives are LZ77/LZ11-compressed sub-files that decompress to a recognised NITRO chunk tag, all in the same family the project's generic-format converters (`background.py`, `nsbmd.py`) already cover for uncompressed archives: `a/0/3/6`, `a/0/3/9` (LZ11, decompress to RGCN/RCSN = NCGR/NCLR), `a/0/9/9` (LZ77, same), `a/1/9/8`, `a/2/3/3` (LZ77, decompress to RGCN = NCGR). These are identified HIGH confidence by the recovered magic but kept opaque here (raw copy) since nsbmd.py/background.py operate on uncompressed chunks, not this compressed wrapper.
+
+Four more archives carry standard chunk tags uncompressed: `a/1/1/1`..`a/1/1/4` each hold an SBNK (sound bank) and an SSEQ (sequence) sub-file -- a Nitro Sound Archive-style pair, HIGH confidence. `a/2/1/2`'s two sub-files are RIFF/WAVE (raw PCM audio), HIGH confidence. `a/1/2/1` mixes BMD0 (3D model) with BCA0 (joint animation) and BMA0 (material animation) -- a model+animation set, HIGH confidence. `a/0/4/7`, `a/1/2/7`, `a/1/4/8` and `a/2/2/0` carry BMD0/BTX0/BCA0/RGCN/RLCN on a minority of their sub-files (the rest opaque), MEDIUM-HIGH to LOW-MEDIUM depending on the fraction matched. `a/0/7/9` opens most sub-files with the RLCN (NCLR palette) chunk tag uncompressed, MEDIUM-HIGH.
+
+Five archives are confirmed compressed (LZ11: `a/2/2/5`, `a/2/2/6`; LZ77: `a/2/3/1`; Huffman8 on 1/4 sub-files: `a/2/0/3`) but decompress to bytes with no recognised chunk magic -- compression is certain, content is not, LOW confidence.
+
+### Other identifications
+
+- `a/2/3/2` -- the archive's own BTNF names sub-file 0 `battle_pocket.dat`. HIGH confidence (it is the game's own name for the data, not a guess).
+- `a/2/2/9`, `a/2/3/0` -- every sub-file opens with an `'AB'` 2-byte tag, a u16 header-size field, then a u32 offset table; sizes run 49812-209740 and 58684-189924 bytes. The framing (a self-contained container with its own offset table) is confirmed; the domain is a guess (audio/stream data, going by size and the presence of `a/2/1/2`'s WAV archive nearby), LOW-MEDIUM.
+- `a/0/6/1`, `a/0/6/2` -- both are fixed 780-byte records, and the per-offset histogram shows the same values repeating with a period of 52 bytes: each 780-byte record is 15 copies of a 52-byte sub-block. Structural only, domain unclear, MEDIUM.
+- `a/0/8/1` -- 13 of 14 sub-files are 8 bytes: `[u32 value clustered just under 0x8000][u32 small count 0-10]`; 1 outlier at 104 bytes. A trig/scale-table guess (the u32 values sit near 0x7fff, a typical Q15 full-scale constant) is unconfirmed, LOW.
+- `a/1/1/9` -- one 9-sub-file variant is a flat ascending u16 sequence (65, 66, 67, ...), reading like a plain index or character-code table rather than game data. LOW.
+- `a/1/5/6` -- 44 of 46 sub-files are exactly 3100 bytes; the other 2 sit at 6172 bytes, close to double. Structural only, LOW.
+
+Every other archive (53 of 75) is reported with the framing the byte survey found and no domain identification: LOW confidence, same bar the first pass used for its unidentified archives.
+
+### Per-archive table
+
+`reader` is `yes` only for the six archives above with a confirmed immediate call site. `round trip` is `tools/assets/tables.py --verify`'s own result; every entry decodes/encodes as an identity copy (raw bytes in, raw bytes out), so this is a framing-level check, same convention as the first pass.
+
+| archive | subs | framing | reader | identification | confidence | round trip |
+|---|---:|---|---|---|---|---|
+| a/0/1/0 | 1 | 1 sub, 752B | no | not identified | LOW | OK |
+| a/0/1/5 | 5 | 5 subs, fixed 16B | no | not identified | LOW | OK |
+| a/0/1/7 | 8 | 8 subs, fixed 404B | no | not identified | LOW | OK |
+| a/0/3/6 | 14 | 14 subs, var 68-19320B | no | LZ11-compressed NCGR/NCLR (RGCN/RCSN) | HIGH | OK |
+| a/0/3/7 | 1 | 1 sub, 5376B | no | not identified | LOW | OK |
+| a/0/3/8 | 1 | 1 sub, 576B | no | not identified | LOW | OK |
+| a/0/3/9 | 18 | 18 subs, var 80-4916B | no | LZ11-compressed NCGR/NCLR (RGCN/RCSN) | HIGH | OK |
+| a/0/4/2 | 1 | 1 sub, 1440B | no | not identified | LOW | OK |
+| a/0/4/7 | 80 | 80 subs, var 64-65352B | no | Uncompressed mix NCGR/NCLR + BMD0/BTX0 | MEDIUM-HIGH | OK |
+| a/0/4/8 | 1 | 1 sub, 22376B | yes | not identified (paired with a/2/1/1) | LOW | OK |
+| a/0/5/3 | 19 | 19 subs, var 28-1410B | no | not identified | LOW | OK |
+| a/0/5/8 | 17 | 17 subs, var 4-784B | no | not identified | LOW | OK |
+| a/0/6/0 | 1 | 1 sub, 1672B | no | not identified | LOW | OK |
+| a/0/6/1 | 56 | 56 subs, fixed 780B | no | 15x52B repeated sub-block period | MEDIUM | OK |
+| a/0/6/2 | 10 | 10 subs, fixed 780B | no | 15x52B repeated sub-block period | MEDIUM | OK |
+| a/0/6/7 | 98 | 98 subs, var 68-5596B | no | not identified | LOW | OK |
+| a/0/7/0 | 6 | 6 subs, var 640-6412B | no | not identified | LOW | OK |
+| a/0/7/9 | 34 | 34 subs, var 256-24420B | no | Mostly RLCN (NCLR) uncompressed | MEDIUM-HIGH | OK |
+| a/0/8/0 | 1 | 1 sub, 72B | no | not identified | LOW | OK |
+| a/0/8/1 | 14 | 14 subs, var 8-104B | no | [u32 ~0x7fxx][u32 count 0-10] x13 + outlier | LOW | OK |
+| a/0/8/2 | 2 | 2 subs, var 0-780B | no | not identified | LOW | OK |
+| a/0/8/6 | 1 | 1 sub, 3294B | no | not identified | LOW | OK |
+| a/0/8/7 | 1 | 1 sub, 106B | yes | not identified | LOW | OK |
+| a/0/9/0 | 1 | 1 sub, 7048B | no | not identified (paired with a/0/9/1) | LOW | OK |
+| a/0/9/1 | 1 | 1 sub, 1232B | yes | not identified (paired with a/0/9/0) | LOW | OK |
+| a/0/9/7 | 2 | 2 subs, var 274-24888B | no | not identified | LOW | OK |
+| a/0/9/8 | 10 | 10 subs, var 650-1454B | no | not identified | LOW | OK |
+| a/0/9/9 | 17 | 17 subs, var 95-4568B | no | LZ77-compressed NCGR/NCLR (RGCN/RCSN) | HIGH | OK |
+| a/1/0/1 | 1 | 1 sub, 672B | no | not identified | LOW | OK |
+| a/1/0/5 | 29 | 29 subs, fixed 188B | no | not identified | LOW | OK |
+| a/1/0/9 | 17 | 17 subs, fixed 4B | no | not identified | LOW | OK |
+| a/1/1/1 | 6 | 6 subs, var 76-8260B | no | Nitro sound bank+sequence (SBNK/SSEQ) | HIGH | OK |
+| a/1/1/2 | 6 | 6 subs, var 76-8260B | no | Nitro sound bank+sequence (SBNK/SSEQ) | HIGH | OK |
+| a/1/1/3 | 6 | 6 subs, var 80-8260B | no | Nitro sound bank+sequence (SBNK/SSEQ) | HIGH | OK |
+| a/1/1/4 | 6 | 6 subs, var 92-8260B | no | Nitro sound bank+sequence (SBNK/SSEQ) | HIGH | OK |
+| a/1/1/7 | 53 | 53 subs, fixed 36B | no | not identified | LOW | OK |
+| a/1/1/9 | 9 | 9 subs, var 2-158B | no | ascending u16 sequence variant | LOW | OK |
+| a/1/2/1 | 23 | 23 subs, var 400-10476B | no | BMD0 + BCA0 + BMA0 (model+anim set) | HIGH | OK |
+| a/1/2/7 | 7 | 7 subs, var 8-46976B | no | 1/7 subs BMD0, rest opaque | LOW-MEDIUM | OK |
+| a/1/3/2 | 5 | 5 subs, fixed 40B | yes | not identified | LOW | OK |
+| a/1/3/6 | 31 | 31 subs, fixed 8B | no | not identified | LOW | OK |
+| a/1/4/6 | 10 | 10 subs, fixed 28B | yes | not identified | LOW | OK |
+| a/1/4/7 | 3 | 3 subs, var 27-43B | yes | not identified | LOW | OK |
+| a/1/4/8 | 18 | 18 subs, var 8-28808B | no | 3/18 subs BMD0, rest opaque | LOW-MEDIUM | OK |
+| a/1/4/9 | 1 | 1 sub, 32B | no | not identified | LOW | OK |
+| a/1/5/2 | 3 | 3 subs, var 684-1700B | no | not identified | LOW | OK |
+| a/1/5/4 | 37 | 37 subs, var 0-1024B | no | not identified | LOW | OK |
+| a/1/5/6 | 46 | 46 subs, var 3100-6172B | no | 44/46 fixed 3100B, 2 near-double outliers | LOW | OK |
+| a/1/5/8 | 5 | 5 subs, var 72-432B | no | not identified | LOW | OK |
+| a/1/6/3 | 7 | 7 subs, fixed 44B | no | not identified | LOW | OK |
+| a/1/6/5 | 13 | 13 subs, fixed 108B | no | not identified | LOW | OK |
+| a/1/6/6 | 9 | 9 subs, fixed 36B | no | not identified | LOW | OK |
+| a/1/7/1 | 14 | 14 subs, var 12-23988B | no | not identified | LOW | OK |
+| a/1/7/4 | 24 | 24 subs, fixed 124B | no | not identified | LOW | OK |
+| a/1/7/5 | 2 | 2 subs, fixed 36B | no | not identified | LOW | OK |
+| a/1/7/9 | 50 | 50 subs, fixed 64B | no | not identified | LOW | OK |
+| a/1/8/5 | 2 | 2 subs, fixed 8B | no | not identified | LOW | OK |
+| a/1/8/6 | 7 | 7 subs, var 20-80B | no | not identified | LOW | OK |
+| a/1/9/8 | 1 | 1 sub, 255B | no | LZ77-compressed NCGR (RGCN) | HIGH | OK |
+| a/2/0/3 | 4 | 4 subs, var 1448-4328B | no | 1/4 subs Huffman8-compressed | LOW | OK |
+| a/2/0/8 | 4 | 4 subs, var 8-664B | no | not identified | LOW | OK |
+| a/2/0/9 | 1 | 1 sub, 856B | no | not identified | LOW | OK |
+| a/2/1/1 | 1 | 1 sub, 4528B | no | not identified (paired with a/0/4/8) | LOW | OK |
+| a/2/1/2 | 2 | 2 subs, var 13964-20674B | no | RIFF/WAVE PCM audio clips | HIGH | OK |
+| a/2/2/0 | 13 | 13 subs, var 280-253428B | no | Mix RLCN/RCSN + BMD0/BCA0 | MEDIUM-HIGH | OK |
+| a/2/2/1 | 7 | 7 subs, var 2304-5504B | no | not identified | LOW | OK |
+| a/2/2/4 | 4 | 4 subs, fixed 36B | no | not identified | LOW | OK |
+| a/2/2/5 | 151 | 151 subs, var 15-39547B | no | LZ11-compressed, content unresolved | LOW | OK |
+| a/2/2/6 | 174 | 174 subs, var 15-43305B | no | LZ11-compressed, content unresolved | LOW | OK |
+| a/2/2/7 | 1 | 1 sub, 494B | no | not identified | LOW | OK |
+| a/2/2/9 | 52 | 52 subs, var 49812-209740B | no | 'AB'-tagged header+offset table, audio/stream guess | LOW-MEDIUM | OK |
+| a/2/3/0 | 64 | 64 subs, var 58684-189924B | no | 'AB'-tagged header+offset table, audio/stream guess | LOW-MEDIUM | OK |
+| a/2/3/1 | 73 | 73 subs, var 11653-30624B | no | LZ77-compressed, content unresolved | LOW | OK |
+| a/2/3/2 | 1 | 1 sub, 627B | no | battle_pocket.dat (BTNF name) | HIGH | OK |
+| a/2/3/3 | 2 | 2 subs, var 86-99B | no | LZ77-compressed NCGR (RGCN) x2 | HIGH | OK |
+
+### What remains
+
+- All 75 entries are kept as identity decode/encode (raw per-sub-file copy) in `tools/assets/tables.py`'s `_GROUP2` dict -- none resolved to a field layout worth a dedicated encoder, so the acceptance bar (byte-identical `--verify`) is met by construction rather than by a confirmed re-encoding.
+- The six confirmed readers (`a/0/4/8`, `a/0/8/7`, `a/0/9/1`, `a/1/3/2`, `a/1/4/6`, `a/1/4/7`) establish a real call site but not the field semantics; `a/1/4/6` and `a/1/4/7` are the closest to a solved framing since the call pattern matches the byte-level record shape exactly.
+- `a/0/9/0`/`a/0/9/1` and `a/0/4/8`/`a/2/1/1` are each read together by one function -- worth a follow-up pass that reads both archives side by side.
+- `a/2/2/9`/`a/2/3/0`'s `'AB'`-tagged container and the size-matched compressed archives (`a/2/2/5`, `a/2/2/6`, `a/2/3/1`) are the most promising unresolved leads: the framing is solid, only the domain is missing.
+- As with the first pass, the archive id was only looked up as an immediate at the call site itself; none of the 69 archives without a confirmed reader were traced further up the call graph for cases where the id is passed through as a parameter.
+- `dwc/utility.bin` and `gfl_font.dat` remain out of scope for this tool (raw files, no NARC container) and are unchanged in the census.
+
+
 ## Twelve unknowns identified (`tools/assets/unknowns.py`)
 
 Mission: close out the census's entire "unknown" group (`category_guess` of
@@ -9345,3 +9477,168 @@ arm7 regions fit inside the file); both icon pairs decoded and rendered.
 - The `dl_rom` `.srl` files' FNT/FAT are present but tiny (FNT size 9,
   FAT size 0) -- consistent with a minimal download-play payload, not
   decoded further here.
+
+## Asset lane pass: the operand-width table extended to all 609 opcodes, `a/0/5/7` disassembled, `a/0/0/3` decoded as a message bank
+
+Mission: extend the first-32-opcode operand-width table from the VM pass
+above to all 609 handlers, write a decoder (`tools/assets/scripts.py`) for
+the real `a/0/5/7` script archive built on that table, and make
+`tools/assets/events.py` state plainly that `a/0/0/3` is a message bank
+(not bytecode) and decode its records as text.
+
+### Operand widths, all 609 opcodes
+
+Opcodes 0-31 are the hand-read table from the section above, taken
+verbatim. Opcodes 32-608 were produced by a from-scratch Thumb-1 + 32-bit
+BL/BLX sweep over the raw bytes of `extract/overlays_dec/y9_0010.bin`
+(ov010), `y9_0021.bin` (ov021) and `extract/arm9_dec.bin` (ARM9 static
+module) -- not by hand-reading 577 handlers, and not by trusting
+`tools/disasm.py`'s listings where a handler address falls in a region its
+reachability pass never reached (some handlers are unlabelled leaf
+functions, see `docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md`,
+and show up as bare `.word` runs there). The sweep is a worklist walk of
+each handler's own reachable instructions (following `b`/`bcc` and
+resolving `ldr r3,[pc,#0]; bx r3` veneers), summing +2/+4 for every `bl`
+that resolves to `func_02011330`/`func_0201134C`, and recursing into a
+`bl`'s *own* target one or more levels deep (capped, with a cycle guard)
+because several operands are fetched by a helper the handler calls rather
+than inline -- generalising the single `0x02159AE8` "variable id" case
+the first-32 pass flagged to every such helper. It also checks for the
+`ldr rD,[rB,#0x14]; ldrb rT,[rD]` idiom directly: a raw read off
+`ScriptVm.pc` (`+0x14`, `src/matched/unit_0201126C.c`) that bypasses both
+fetch helpers entirely and is the real shape of this table's
+variable-length opcodes, opcode 76 included (see below). The table is
+baked into `tools/assets/scripts.py` as the `OPERAND_WIDTH` dict, each
+entry citing the handler address (or rule) it was read off, so any entry
+can be re-checked by hand against `asm/overlays/ov010.s` / `ov021.s`.
+
+Counts over all 609 opcodes:
+
+    fixed (single attested byte width)            565
+    variable (direct cursor read or indirect jump)  18
+    unresolved (handler outside ov010/ov021/ARM9)   17
+    null (table entry is NULL)                       9
+
+The 17 unresolved handlers all land in the `0x0217xxxx`/`0x0218xxxx`
+range, just past ov010's end (`0x02172BA0`) or just before ov021's start
+(`0x02187F00`) -- some other overlay this pass did not load, matching the
+first-32 pass's count exactly. The 18 variable opcodes split into two
+real mechanisms, not one guess:
+
+- **Direct cursor byte read** (opcodes 32, 76, 78, 173, 174, 178, 359,
+  361, 538, 539, and others): the handler executes
+  `ldr rD,[rB,#0x14]; ldrb rT,[rD]; adds rD,rD,#1; str rD,[rB,#0x14]`
+  itself -- a length (or small count) byte read straight off the script
+  cursor, then (for opcode 76 specifically, confirmed by hand at
+  `0x021AF75C`) that many further bytes, which is exactly why opcode 76
+  was already the first pass's prime desync suspect.
+- **Indirect branch** (opcodes 56, 74, 77, 79, 87, 88, 97, 98, and
+  others): the handler branches through a register whose value this
+  sweep does not try to enumerate (a case/jump table, or a
+  runtime-selected helper) -- reachability genuinely depends on data this
+  static sweep does not have.
+
+### `tools/assets/scripts.py`: `a/0/5/7` decoded
+
+New module, `--list` / `--disasm N` / `--verify` / `--check`, built on the
+table above and the confirmed container framing (`N` u32 offsets, a
+0xFD13 terminator, `entry k` at `4*k + 4 + table[k]`). Run against the
+real archive:
+
+    a/0/5/7: 899 sub-files, 471 script (0xFD13 entry table present),
+              428 side table
+    --verify: 899/899 round-trip OK
+    --check:  3206 entry points decoded (471 script sub-files)
+              landed on end/flow opcode, next entry, or file end:
+                2935 (91.5%)
+              desynced (opcode >= 609): 16
+              hit a variable/unresolved opcode: 254
+                top opcodes: 76 x100, 56 x99, 382 x18, 87 x7, 74 x7,
+                             361 x5, 178 x4, 452 x3, 78 x3, 450 x2
+              ran past end of file mid-opcode/operand: 1
+
+That is an improvement on the first pass's 2352/2592 (90.7%) -- both the
+numerator and the landing rate are up, from a strictly larger operand
+table (577 more opcodes resolved) over a slightly larger entry count
+(3206 vs 2592, because this pass's own 0xFD13 scan finds 471 script
+sub-files against the first pass's 469). The remaining 271 non-landing
+entries split cleanly: 254 hit one of the 18 variable/unresolved opcodes
+above (dominated by opcode 76's length-prefixed tail and opcode 56's
+indirect branch, 199 of the 254 between them), 16 desync to an
+out-of-range opcode (a real decode error this table cannot explain), and
+1 runs off the end of its sub-file mid-operand. None of these is patched
+over with a guess: they are the honest boundary of what a static sweep
+of fixed-width fetch calls can resolve.
+
+Three sample entries, zone 291's script file (`field_06` lane = sub-file
+582 of `a/0/5/7`, via `tools/assets/zones.py`'s record for zone 291):
+
+    entry 1 @ 0x14:
+      op 46  operand=[] (0 bytes)
+      op 48  operand=[] (0 bytes)
+      op 47  operand=[] (0 bytes)
+      op 2   operand=[] (0 bytes)        -- stop
+
+    entry 2 @ 0x1c:
+      op 46   operand=[] (0 bytes)
+      op 166  operand=[0547] (2 bytes)
+      op 116  operand=[] (0 bytes)
+      op 61   operand=[0400 0000 0000 0000] (8 bytes)
+      op 50   operand=[] (0 bytes)
+      op 62   operand=[] (0 bytes)
+      op 48   operand=[] (0 bytes)
+      op 47   operand=[] (0 bytes)
+      op 2    operand=[] (0 bytes)       -- stop
+
+    entry 3 @ 0x38:
+      op 46   operand=[] (0 bytes)
+      op 166  operand=[0547] (2 bytes)
+      op 116  operand=[] (0 bytes)
+      op 61   operand=[0400 0001 0000 0000] (8 bytes)
+      op 50   operand=[] (0 bytes)
+      op 62   operand=[] (0 bytes)
+      op 48   operand=[] (0 bytes)
+      op 47   operand=[] (0 bytes)
+      op 2    operand=[] (0 bytes)       -- stop
+
+Entries 2 and 3 are identical but for one word inside opcode 61's operand
+(`...0000...` vs `...0001...`), consistent with a per-instance parameter
+(entries 2/3 likely correspond to two placements of the same scripted
+object); no semantic decode of opcodes 46/47/48/50/61/62/116/166 is
+claimed here, only their operand widths and that every entry in this file
+lands cleanly on its stop opcode.
+
+### `tools/assets/events.py`: `a/0/0/3` stated plainly as a message bank
+
+The module docstring and the former "Doors/warps: not confirmed" section
+are rewritten to state, not hedge: `a/0/0/3` is a message bank reached
+through the zone record's `+0x0a` lane, not an event/door/warp table (that
+question, if there is a dedicated archive for it at all, stays open and
+is not `a/0/0/3`). A `decode_record()` function decrypts a record's
+payload through the same cipher as `a/0/0/2` (`tools/assets/text.py`:
+`key = (index + 3) * 0x2983`, rotate left 3 after every code unit), with
+`field_x & 0xFFFF` giving the record's length in u16 units and `index`
+the record's 0-based position inside its own sub-file. A new `--text N`
+flag prints every decrypted string in sub-file N. The container framing
+and its round trip are unchanged: **472/472** sub-files still repack
+byte-identical; `--text 5` decrypts to "Ha ha ha!\nYou want more toys,
+huh?", "My, my. Oh, this child.\nWe'll buy you another.", "I'm tired of
+this toy!\nI want a more fun toy!" for records 0-2, matching the VM
+pass's shorter prefix check exactly.
+
+### What remains
+
+- Opcode 76's length-prefixed tail is read off the cursor directly but
+  its *contents* (is it N more raw bytes, N more u16 operands, a string,
+  something else) are not decoded -- only that it exists and why opcode
+  76 desyncs.
+- The indirect-branch opcodes (56, 74, 77, 79, 87, 88, 97, 98, and others)
+  are genuine case/jump tables whose targets are not enumerated; a
+  per-opcode disassembly of the relevant ov021 code could resolve some of
+  them but was not attempted here.
+- The 17 unresolved handlers' overlay was not identified.
+- The 430 `a/0/5/7` sub-files with no 0xFD13 table (428 by this pass's own
+  scan) remain unidentified side tables.
+- `a/0/6/6`'s role is still open; it is no longer a door/warp candidate
+  by elimination alongside `a/0/0/3` (see events.py's updated docstring),
+  but nothing has replaced it.
