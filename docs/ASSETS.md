@@ -7464,3 +7464,153 @@ acceptance bar for the framing above. Result: **472/472** (`a/0/0/3`) and
   decoded past byte-exact extraction (both read as bytecode-shaped, not
   struct-shaped, so a further pass would need an opcode table, not a
   stride).
+
+## Zone table hunt: no flat per-zone index array confirmed; one real code-level lead found instead (`tools/assets/zones.py`, new)
+
+Follow-up mission: the previous pass found no zone-to-map index table in
+any NARC. Since the game must resolve, per zone, a map-model file (index
+into `a/0/0/8`'s 649), a script file (index into `a/0/0/3`'s 472), a text
+bank, an encounter table, music and neighbours somehow, this pass widened
+the search to the ARM9 data segment and overlays, then to every NARC's raw
+sub-file-size shape, then tried to cross-reference the best candidates.
+Result: still no confirmed table, but a genuine, code-grounded lead was
+found that the previous pass did not have.
+
+### (1) ARM9 + overlays: negative, after one false positive ruled out
+
+`extract/arm9_dec.bin` (0x666A0 bytes) and all 17 `extract/overlays_dec/
+*.bin` files were reshaped at every stride from 16 to 64 (step 2, natural
+u16 alignment) and scanned for a pair of u16 lanes -- one staying below
+649 (the map-file count), another below 472 (the script-file count) --
+held over >=100 consecutive records with real variation (>=30% of lane 1
+non-zero, >=20% of lane 2 non-zero, >=10/>=5 distinct values respectively,
+to reject all-zero-padding artifacts that satisfy a bare "< N" bound by
+default). With those guards, the scan came back with a single hit:
+`y9_0203.bin`, stride 60, 149 records at byte offset 271*60. Hand-inspected
+byte-for-byte (dumped in `docs/ASSETS.md`'s working notes, not reproduced
+here): the bytes do NOT actually repeat with period 60 -- adjacent
+"records" have completely different shapes and lengths, so the stride-60
+mask match was numeric coincidence over small, mostly-zero counters
+(u32 fields like 0/1/2 dominate this NARC's actual variable-length
+event/UI-object data). No genuine fixed-stride zone array exists in ARM9
+or any overlay under this method.
+
+### (2) NARC-wide survey: 6 fixed-size-sub-file candidates, all ruled out or already-known
+
+Every NARC in `extract/data/` was checked for a sub-file count in the
+100-1000 range where one sub-file size dominates and falls in [16, 64]
+bytes -- i.e. treating each sub-file itself as one record, since a NARC's
+own file table is already an index. 6 candidates:
+
+| NARC | sub-files | size | count at that size |
+|---|---:|---:|---:|
+| `a/0/1/6` | 669 | 60 | 667 |
+| `a/0/2/1` | 560 | 36 | 560 |
+| `a/0/2/4` | 627 | 36 | 627 |
+| `a/0/9/2` | 616 | 20 | 615 |
+| `a/1/0/8` | 282 | 28 | 281 |
+| `a/1/6/9` | 951 | 16 | 951 |
+| `a/2/1/4` | 1000 | 16 | 1000 |
+
+`a/0/9/2` is trdata, the already-confirmed trainer data table (see
+"Trainer data table located by reference" above) -- its presence here is
+a sanity check that the method reliably re-finds a known real record
+array (it does: 20-byte records, 615/616 uniform).
+
+The other 5, per-lane u16 histograms (min/max/distinct count) via
+`tools/assets/zones.py --list`:
+
+- **`a/1/0/8`** (28-byte records): no lane satisfies both the <649 and
+  <472 bound. Ruled out outright.
+- **`a/0/1/6`** (60-byte records): several lanes numerically satisfy both
+  bounds, but the records themselves fall in groups of 3 sharing a
+  near-identical header with only a small incrementing sub-index (bytes
+  4-9 constant within a triple, byte-10 stepping 01/02/03), and a handful
+  of this archive's sub-files carry non-uniform magics (`dddd`, `2AkV`)
+  rather than the dominant 60-byte shape -- not a flat zone-record array.
+- **`a/0/2/1`** (36-byte records): every record ends in the ASCII tag
+  `"SS"` (bytes `53 53`), consistent with a sound/SE test-tag table, not
+  zone data.
+- **`a/0/2/4`** (36-byte records): every record shares a constant 8-byte
+  header (`1f 08 00 01 00 04 00 ..`) with only a small incrementing tail
+  counter -- an index/pointer table of some kind, not per-zone data.
+- **`a/1/6/9`** (951 records) and **`a/2/1/4`** (1000 records): both are
+  8 x u16 records with the identical shape, and both have a field 0 that
+  increases in tight groups of 3 (e.g. `a/2/1/4`: 1, 4, 7, then a jump to
+  152, 155, 158, then 252, 255, 258, ...) -- a pattern much more
+  consistent with a per-icon/frame placement table (a world-map icon list
+  is the current guess) than an injective per-zone id. Neither has an
+  independent lane that is simultaneously bounded <649 (map count) *and*
+  a different independent lane bounded <472 (script count): the field
+  that stays under 649 in both archives (max 645 / max 488) has no
+  companion field that stays under 472 (the next-tightest fields max out
+  at 542-556 in `a/2/1/4`, 466-488 in `a/1/6/9`), so neither is a
+  map-index/script-index pair by this test.
+
+(41 further hits from a looser "few sub-files, single blob divisible by a
+stride 16-64" pass were all NCLR/NCGR/graphics-dominant NARCs --
+`soundstatus.narc`, `a/0/1/2`, `a/0/3/7`, `a/0/5/0`, `a/0/6/5`, `a/0/6/8`,
+`a/1/1/0`, `a/1/2/0`, `a/1/6/4`, `a/1/8/8`, `a/2/0/6`, `a/2/1/1`,
+`a/2/1/7`, `a/2/1/8`, `a/2/3/4` -- arithmetic coincidence on palette/tile
+data, not tables, not reported further.)
+
+### (3) The real lead: `"zonedata.c"` in the ARM9 debug-string pool
+
+A source-file debug string, `"zonedata.c"`, is embedded in ARM9's
+string-literal region at address `0x020A72B0` (alongside other real
+source filenames from the same table -- `net_save.c`, `ica_anim.c`,
+`game_event.c`, `game_data.c`, `btl_setup.c`, `field_status.c`, `mcss.c`).
+Its address is referenced as a pooled literal from the function at ARM9
+`0x020139B0` (`asm/arm9/src/005_020132F4.s`, not yet in `src/matched` or
+`src/pending`).
+
+That function, read from the disassembly:
+
+- guards on a global singleton pointer at `0x02146264`; if it's `NULL`,
+  it heap-allocates 0x4C (76) bytes via `func_02030734` (a generic
+  "AllocFromHeap(heap, size, .., filename, line)"-shaped wrapper,
+  confirmed by its call signature elsewhere in this ROM), passing
+  `"zonedata.c"` and line `0x60` (96) as the debug filename/line -- i.e.
+  this 76-byte struct is genuinely the runtime object the original
+  source's `zonedata.c` allocates,
+- then fills 7 scalar fields on it: offsets `0x34` (u16, a literal
+  constant `0x1AB` = 427), `0x38`, `0x3c`, `0x40` (u16), `0x42` (u8),
+  `0x43` (u8), `0x44`, all but the first via a generic const-lookup
+  helper `func_0204A298(category, sub_id, ..)` called with
+  `(category, sub_id)` pairs `(0x51, 0xd)`, `(0x52, 1)`, `(0x95, 0)`.
+
+This confirms a real `ZoneData` subsystem exists in the original source
+and pins down exactly where its runtime state lives in ARM9 -- a
+stronger, code-grounded result than "no table found anywhere". But the
+76-byte manager struct holds only small scalar counts/config values (not
+a raw array), and `func_0204A298`'s own data source -- wherever those
+counts ultimately come from -- was not traced further this pass. If the
+actual per-zone record array exists as a flat table, it is reached from
+further inside this call chain (most likely inside `func_0204A298` or
+whatever `func_02048F4C` -- called from `func_0204A298` -- loads), not
+from the manager struct directly.
+
+### `tools/assets/zones.py` (new)
+
+`--list`: re-derives the NARC survey in (2) above (sub-file extraction,
+per-lane u16 min/max/distinct via `struct`, no numpy dependency) and
+prints it plus the code lead from (3), so a future pass has the exact
+numbers without re-deriving them. No `--dump`/typed-record support is
+offered: no table was confirmed this pass, so there is nothing real to
+type.
+
+### Remaining gaps
+
+- The zone table itself (if it is a flat array) is still not located.
+- `func_0204A298` and `func_02048F4C` (the generic const-lookup/loader
+  pair used by the ZoneData manager init) are not traced to their
+  underlying data source -- that is the concrete next step for whoever
+  picks this up: follow `func_0204A298`'s `(category, sub_id)` dispatch
+  to see what table or file it ultimately reads.
+- `a/1/6/9` and `a/2/1/4`'s shared 8 x u16, grouped-by-3 record shape is
+  unidentified (world-map icon placement is a guess, not verified against
+  any rendered map).
+- The cross-reference validation this mission asked for (house pairing
+  against `a/0/0/8`'s walkable grids, script-lane agreement with
+  `a/0/0/3`) was not run, because no candidate passed the prerequisite
+  lane-range test to be worth cross-checking.
