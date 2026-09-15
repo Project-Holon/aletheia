@@ -171,3 +171,24 @@ arm9_main  0x020461D4  arm   # pool word and bl sites listed in src/matched/sub_
 # Unlabelled follower of func_020409E0 (wave 17B); already decompiled EXACT as
 # part of pkt_020409E0.
 arm9_main  0x02040AE0  arm   # bl sites listed in the pkt_020409E0 sources
+
+# NANR KNBA unpack leaf, reached only through the SDK-style tail-call veneers
+# at 0x02062810/0x0206295C; both pool words hold this address, and the loop
+# body continues past the 64-byte listing cap that show/disasm infer here.
+arm9_main  0x02062BAC  arm   # pool words at 0x0206281C and 0x02062968
+
+# Unlabelled ARM leaf reached only through a vtable slot; no direct branch
+# inside arm9_main names it.
+arm9_main  0x02063054  arm   # vtable word at 0x020A81E8
+
+# Eight small ARM accessor leaves ("add r0, r0, #0xc; bx lr" and short
+# tail-call veneers), each reached only through a vtable slot; the units
+# that call through those vtables live in pkt_0204CA74/pkt_0204D3C4.
+arm9_main  0x0204D42C  arm   # vtable word at 0x020A13E8
+arm9_main  0x0204D434  arm   # vtable word at 0x020A13EC
+arm9_main  0x0204D43C  arm   # vtable word at 0x020A13F0
+arm9_main  0x0204D460  arm   # vtable word at 0x020A13A0
+arm9_main  0x0204D468  arm   # vtable word at 0x020A13A4
+arm9_main  0x0204D470  arm   # vtable word at 0x020A13A8
+arm9_main  0x0204D4E0  arm   # vtable word at 0x020A7F3C
+arm9_main  0x0204D4F0  arm   # vtable word at 0x020A7F40

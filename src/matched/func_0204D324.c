@@ -25,9 +25,9 @@
  * 0x020A13B8 named a table object of its own, which left the ABS32 site
  * with no witness: 0x020A13B8 appears in exactly one pool image-wide, this
  * function's own, and self-reference is refused.  It is not a table of its
- * own.  The words from 0x020A1394 to 0x020A13F0 are one two-dimensional
- * array of eight rows of three handlers, indexed [operation][kind], and the
- * eight functions of this family each pin a different row:
+ * own.  The words from 0x020A1394 onward are one two-dimensional array of
+ * at least eleven rows of three handlers, indexed [operation][kind], and
+ * the functions of this family each pin a different row:
  *
  *   row 0  0x020A1394   pooled at 0x0204D490
  *   row 1  0x020A13A0   pooled at 0x0204D45C
@@ -35,6 +35,7 @@
  *   row 5  0x020A13D0   pooled at 0x0204D130  (sub_0204D104)
  *   row 6  0x020A13DC   pooled at 0x0204D100
  *   row 7  0x020A13E8   pooled at 0x0204D428  (sub_0204D410)
+ *   row 10 0x020A140C   pooled at 0x0204D3C4  (unit_0204D3C4.c)
  *
  * Declared that way the relocation names the array's base, 0x020A1394, and
  * the +0x24 is the row index coming from the C rather than from the bytes

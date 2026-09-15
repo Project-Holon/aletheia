@@ -178,3 +178,49 @@ docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md).
 It is much worse, 103 bytes: the function really is void.
 
 
+
+WAVE 18: THE FIELD ROLES ARE THE OTHER WAY ROUND (31 -> 17 BYTES)
+-----------------------------------------------------------------
+The +0x14 field is the value that goes into the *high* half of the packed
+register and +0x18 is the one masked with 0x1FF, not the other way round.
+Spelling it that way, with the assignment order unchanged so the load
+offsets still come out +0x14 then +0x18:
+
+    v = g_BgConfig[layer].unk14;      /* assigned first  -> r1 */
+    h = g_BgConfig[layer].unk18;      /* assigned second -> r0 */
+    ...
+    *(vu32 *)0x0400001x = (h & 0x1ff) | ((v << 16) & 0x1ff0000);
+
+closes every one of the sixteen arm instructions: all eight
+`and r3, r0, r4` / `and r1, r2, r1, lsl #16` pairs now match.  The residue
+drops from 31 bytes to 17, and what is left is exactly the three
+instructions of the element-pointer renaming plus the five of case 1:
+
+    * +0030  add r1, r2, r5          | add r0, r2, r5
+    * +0034  ldr r0, [r1, #0x14]     | ldr r1, [r0, #0x14]
+    * +0038  ldr r1, [r1, #0x18]     | ldr r0, [r0, #0x18]
+    * +0084  and r3, r2, r1, lsl #16 | and r3, r0, r4
+    * +0088  and r4, r0, r4          | and r1, r2, r1, lsl #16
+    * +008C  ldr r2, [pc, #0x120]    | ldr r0, [pc, #0x120]
+    * +0090  orr r3, r4, r3          | orr r1, r3, r1
+    * +0094  str r3, [r2]            | str r1, [r0]
+
+So the earlier reading that the assignment-order swap "trades one
+mismatch for another" was measuring the field roles, not the register
+allocation.  With the roles right the ordering question is settled and
+the allocation is the only thing left.
+
+The renaming itself is a pure mirror and is still not reachable from the
+source text.  Both versions obey the same rule (the element pointer takes
+whichever register the *second* load overwrites, and the first-assigned
+local takes the other); the original lands on the pair r1/r0 and every
+spelling here lands on r0/r1.  Case 1 is a knock-on: with the pair
+mirrored the allocator has r0 rather than r2 free for the pool pointer,
+so it does not get to clobber r4 (the live 0x1FF) and it evaluates the
+two halves in the other order.
+
+Also tried and much worse: reading the two words as one 8-byte aggregate,
+`s = *(struct Scroll *)&g_BgConfig[layer].unk14;`, on the theory that an
+inlined two-word copy would pick its own register pair.  MWCC gives the
+aggregate a stack home instead (`sub sp, sp, #8` in the prologue) and 437
+bytes differ.  The two loads really are two scalar assignments.

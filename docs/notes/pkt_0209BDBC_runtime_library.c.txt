@@ -1,0 +1,68 @@
+pkt_0209BDBC @ 0x0209BDBC..0x0209CE10, 18 functions, 3260 code bytes, ARM.
+
+VERDICT: not decompilable, and not worth any further agent time.  This
+packet is not game code and not compiled C at all.  It is the mwccarm /
+MSL ARM runtime helper library (the `runtime.a` soft-float and 64-bit
+integer support routines), linked in as hand-written assembly.  The
+worklist ranks 0x0209C0A4 as the single most-called open function in the
+image (fan-in 549) purely because every integer division in the game
+calls it; that fan-in is a property of the helper, not a sign that a
+core game layer lives here.
+
+Recommend the integrator mark the whole range non-C (the same way SDK
+library ranges are handled) and drop it out of the open pool, so it stops
+dominating `worklist.py --targets`.
+
+WHY IT CANNOT BE C
+------------------
+Three independent structural proofs, any one of which is sufficient:
+
+1. Multiple entry points branch into the middle of another entry point's
+   body.  0x0209C00C and 0x0209C018 are two twelve/sixty-byte entries
+   that set r4 to 0 and 1 respectively and then both fall into the same
+   shared body at 0x0209C020; 0x0209BE4C sets r4 |= 1 and branches into
+   0x0209BE6C; 0x0209CB8C's third instruction is `bmi #0x209C968`, a
+   backward branch into the middle of 0x0209C95C.  mwccarm emits one
+   section per function and cannot produce a displacement branch between
+   two functions at all (see
+   docs/idioms/tail-call-is-a-pool-word-and-bx.md), let alone into
+   another function's interior.
+
+2. Register usage outside the C ABI: `push {r4,r5,r6,r7,fp,ip,lr}` at
+   0x0209BE4C and 0x0209C00C saves ip (r12), which compiled C treats as
+   the intra-procedure scratch register and never preserves.
+
+3. Dead prologues that compiled C would never emit: 0x0209C054 does
+   `push {r4,r5,lr}` for a leaf, then `pop {r4,r5,lr}; bx lr` rather
+   than `pop {r4,r5,pc}`.
+
+IDENTIFICATION, function by function
+------------------------------------
+  0x0209BDBC   72   signed int -> float          (_s32_to_float)
+  0x0209BE04   72   unsigned int -> float        (_u32_to_float)
+  0x0209BE4C   16   64-bit divide entry, sets the signed/rounding flag
+  0x0209BE5C  424   64-bit divide/modulo shared body (_ll_sdiv/_ll_udiv)
+  0x0209C00C   12   64-bit divide entry, flag = 0
+  0x0209C018   60   64-bit divide entry, flag = 1, zero-operand fast path
+  0x0209C054   80   64x64 -> 64 multiply (_ll_mul)
+  0x0209C074        64-bit shift left (_ll_shl), shares 0x0209C054's extent
+  0x0209C0A4  524   32-bit signed divide/modulo (_s32_div_f), fan-in 549
+  0x0209C2B0    8   divide-by-zero check stub
+  0x0209C494   52   float -> signed int          (_f2s)
+  0x0209C4C8   64   float -> unsigned int        (_f2u)
+  0x0209C508   76   double -> signed int         (_d2s)
+  0x0209C554  140   double -> unsigned / 64-bit int
+  0x0209C5E0  412   double arithmetic body
+  0x0209C77C  480   float multiply               (__fmul)
+  0x0209C95C  560   float subtract               (__fsub)
+  0x0209CB8C  644   float add (__fadd); branches into __fsub's body after
+                    flipping the sign bit of the second operand
+
+The exponent-bias constants confirm the formats: 0x9e == 158 == 127 + 31
+in the single-precision conversions, and the double routines load their
+bias (0x41E / 1054-family) from a pool word instead of a `mov`.
+
+This packet is also the reason the idiom
+docs/idioms/runtime-helper-reloc.md exists: game-code callers reference
+these addresses as named externs (`_u32_div_f`, `_ll_udiv`, `_ull_mul`)
+pinned in a `symbols:` block.  That is the correct and only treatment.

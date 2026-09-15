@@ -139,3 +139,34 @@ in, so the order is forced by register reuse rather than chosen.  Here
 the zero and the handle live in different callee-saved registers and
 nothing forces anything.  Next thing to try is a caller of 0x0204A6C8
 that pins a fifth argument other than a bare literal zero.
+
+LATER ATTEMPTS (still 4 bytes)
+------------------------------
+Two more spellings of the zero's provenance, both on the theory that the
+order of `mov r8, r0` and `mov r7, #0` follows the order the two values
+are defined in the IR rather than any register preference:
+
+  * assign 0 back into the first parameter after the func_0204D9D4 call
+    (`a = 0;`, then pass and store `a`).  The parameter is dead from the
+    call onwards, so this is a live assign-back, not a copy; the schedule
+    did not move.
+  * a named local `zero` declared after `handle`, assigned on the
+    statement following the call.  Same two instructions, same order.
+
+Neither is the lever.  The constant is materialised after the call in
+every spelling tried, so its IR position is already right; what differs
+is only the tie-break between two independent defs, and nothing reachable
+from the C has moved it.  The remaining untried lever is still the one
+the note ends on: a caller that pins a fifth argument other than zero.
+
+WITNESS REGRESSION
+------------------
+Re-verified in wave 18: the relocation at +0x84 is no longer resolved.
+
+    +0084 PC24 func_0204D9D4  -> unresolved: 0204D9D4 (arm, from header)
+          has no witness outside 0204A6C8..0204A7A0
+
+So even with the four bytes closed this function is MATCH-capped, not
+EXACT, until 0x0204D9D4 gains a witness: it is called from inside this
+range only and has no matched entry of its own.  0x0204D9D4 sits in
+pkt_0204D768 and is the better target of the two.

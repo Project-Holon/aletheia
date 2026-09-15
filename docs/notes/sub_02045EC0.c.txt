@@ -1,121 +1,129 @@
-/*
- * near miss: sub_02045EC0  (0x02045EC0, arm9, ARM, 144 bytes)
- * packet:    pkt_02045EC0
- * verdict:   DIFF, 144 bytes compiled, 12 concrete bytes differ
- * cost:      three instructions permuted, no instruction added or lost
- *
- * The whole function reproduces except for where the scheduler places
- * `lsl r0, r4, #3` in the uncached arm:
- *
- *   original                        this C
- *     ldrb r1, [r5, #0x1a]            ldrb r1, [r5, #0x1a]
- *     ldr  r2, [r5]                   ldr  r2, [r5]
- *     ldr  r3, [r5, #0x10]            lsl  r0, r4, #3
- *     add  r1, r2, r1, lsl #2         add  r1, r2, r1, lsl #2
- *     ldr  r2, [r1, #0xc]             ldr  r3, [r5, #0x10]
- *     lsl  r0, r4, #3                 ldr  r2, [r1, #0xc]
- *
- * Both fill the same load-use stall, with a different instruction. Source
- * spellings tried, all giving the same schedule:
- *
- *   one expression, base + entry first, (idx * 8 + 4) parenthesised second
- *   the base + entry sum bound to a local, then the call
- *   the base read bound to its own local before the sum
- *   (idx * 8 + 4) bound to its own local after the sum
- *
- * The instruction count, the register assignment and every other byte
- * already match, so this is a scheduling priority the source order does
- * not reach, not a shape error.
- *
- * What the function is: read one archive member's record and hand it to
- * sub_02045CAC (0x02045CAC, 344 bytes, the same packet, which opens with a
- * byte-for-byte copy of this function's uncached arm; matching either one
- * gives the other's middle for free).
- *
- *   u32 sub_02045EC0(struct ArcHandle *arc, u32 idx)
- *
- * arc->cached (+0x1b) says whether the record table is already resident.
- * When it is, the record is table + 4 + idx * 8. When it is not, the file
- * is seeked to arc->base + arc->hdr->offsets[arc->fileIdx] + idx * 8 + 4
- * and eight bytes are read into the record slot at arc + 8. Either way the
- * u16 at record + 4 and arc->field18 go to sub_020457B0, whose result is
- * both passed on to sub_02045CAC and returned.
- *
- * Two struct shapes are pinned by the codegen and worth keeping:
- *
- *  - The offsets array is at +0xc of the header, not at +0: the original
- *    is `add r1, r2, r1, lsl #2` / `ldr r2, [r1, #0xc]`, so the index
- *    scales against the header base and 0xc is the load's displacement.
- *    Writing it as `((u32 *)hdr)[fileIdx + 3]` instead gives
- *    `add r1, r1, #3` / `ldr r2, [r2, r1, lsl #2]` and loses eight bytes.
- *  - The record slot at arc + 8 is eight bytes, read whole by the
- *    8-byte call, with the interesting u16 at +4.
- *
- * Verified with:
- *   python tools/match.py one --src <this C> \
- *       --func sub_02045EC0 --addr 0x02045EC0 --cc 1.1p1 --arm --diff
- *
- * symbols:
- *   sub_02046180   0x02046180  arm   called with no argument setup
- *   sub_0204960C   0x0204960C  arm   (file, offset) seek
- *   sub_020495F4   0x020495F4  arm   (file, size, dest) read
- *   sub_020457B0   0x020457B0  arm   (u16, u16) -> u32
- *   sub_02045CAC   0x02045CAC  arm
- */
+sub_02045EC0 @ 0x02045EC0, fan_in 526, packet pkt_02045EC0, 144 bytes, ARM.
+DIFF at 11 concrete bytes out of 144.  Right size, right control flow,
+right predication, right register allocation, every relocation resolved.
+The whole residue is one `lsl r0, r4, #3` scheduled three instructions
+too early, which displaces two loads and nothing else.
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
+Highest-fan-in open non-runtime address in the image, so worth closing.
 
-struct ArcRec {
-    u32 offset;
-    u16 size;
-    u16 pad;
-};
+WHAT IT IS
+----------
+Bring one 8-byte rectangle record up to date and hand it to 0x020457B0.
+Where the record lives depends on the flag byte at +0x1B of the context:
+set means the caller owns a table of them at +0x04 (indexed by the second
+parameter, stride 8), clear means the one embedded in the context at
++0x08, which is first refreshed from somewhere else through the pair
+0x0204960C / 0x020495F4 (an eight-byte read into +0x08, addressed by
+handle +0x14).  The value 0x020457B0 returns is both this function's
+return value and the third argument of the tail call to 0x02045CAC.
 
-struct ArcHdr {
-    u16 field00;
-    u16 count;
-    u32 field04;
-    u32 field08;
-    u32 offsets[1];
-};
+The embedded record is at +0x08 and the halfword read is at +0x04 inside
+it, which is how +0x0C and +0x10 are fixed: `add r0, r5, #8` then
+`ldrh r0, [r0, #4]` in one arm and `ldrh r0, [r0, #4]` off the table
+element in the other, one shared load after the join.
 
-struct ArcHandle {
-    struct ArcHdr *hdr;
-    void *table;
-    struct ArcRec rec;
-    u32 base;
-    void *file;
-    u16 field18;
-    u8 fileIdx;
-    u8 cached;
-};
+WHAT THE C IS
+-------------
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
 
-extern void sub_02046180(void);
-extern void sub_0204960C(void *file, u32 offset);
-extern void sub_020495F4(void *file, u32 size, void *dest);
-extern u32 sub_020457B0(u16 a, u16 b);
-extern void sub_02045CAC(struct ArcHandle *arc, u32 idx, u32 val);
+    struct Rect { u32 unk_00; u16 unk_04; u16 unk_06; };
 
-u32 sub_02045EC0(struct ArcHandle *arc, u32 idx)
-{
-    struct ArcRec *rec;
-    u32 off;
-    u32 base;
-    u32 val;
+    struct Ctx {
+        u8          *unk_00;
+        u8          *unk_04;
+        struct Rect  unk_08;
+        u32          unk_10;
+        void        *unk_14;
+        u16          unk_18;
+        u8           unk_1a;
+        u8           unk_1b;
+    };
 
-    sub_02046180();
-    if (arc->cached != 0) {
-        rec = (struct ArcRec *)((u8 *)arc->table + 4 + idx * 8);
-    } else {
-        base = arc->base;
-        off = base + arc->hdr->offsets[arc->fileIdx];
-        sub_0204960C(arc->file, off + (idx * 8 + 4));
-        sub_020495F4(arc->file, 8, &arc->rec);
-        rec = &arc->rec;
+    extern void sub_02046180(struct Ctx *c, u32 idx);
+    extern void sub_0204960C(void *h, u32 addr);
+    extern void sub_020495F4(void *h, u32 len, const void *src);
+    extern u32  sub_020457B0(u16 a, u16 b);
+    extern void sub_02045CAC(struct Ctx *c, u32 idx, u32 r);
+
+    u32 sub_02045EC0(struct Ctx *c, u32 idx)
+    {
+        struct Rect *r;
+        u32 v;
+
+        sub_02046180(c, idx);
+
+        if (c->unk_1b != 0) {
+            r = (struct Rect *)(c->unk_04 + 4 + idx * 8);
+        } else {
+            sub_0204960C(c->unk_14,
+                (c->unk_10 + *(u32 *)(c->unk_00 + c->unk_1a * 4 + 0xc))
+                    + (idx * 8 + 4));
+            sub_020495F4(c->unk_14, 8, &c->unk_08);
+            r = &c->unk_08;
+        }
+
+        v = sub_020457B0(r->unk_04, c->unk_18);
+        sub_02045CAC(c, idx, v);
+        return v;
     }
-    val = sub_020457B0(rec->size, arc->field18);
-    sub_02045CAC(arc, idx, val);
-    return val;
-}
+
+WHAT IS PINNED
+--------------
+  The two arms must both assign one `struct Rect *` and the halfword read
+  must sit after the join, not be written out in each arm.  The original
+  joins at the `ldrh r0, [r0, #4]` that both arms fall into, with the
+  then-arm predicated (`ldrne`/`addne`/`addne`) and jumping over the
+  else-arm.  That is the ordinary if/else shape with the *set* case
+  written first; the polarity is what the predication records.
+
+  The table element address is `c->unk_04 + 4 + idx * 8`, base then the
+  constant then the scaled index, which gives `add r0, r0, #4` followed by
+  `add r0, r0, r4, lsl #3`.  Spelling it `&((struct Rect *)c->unk_04)[idx]
+  .unk_04` emits the two adds the other way round.
+
+  The address handed to 0x0204960C groups as
+  `(c->unk_10 + val) + (idx * 8 + 4)`, four terms in two pairs: the
+  original builds `add r1, r0, #4` off the shift and `add r2, r3, r2` off
+  the two loads, then joins them with `add r1, r2, r1`.  Written flat,
+  `c->unk_10 + val + idx * 8 + 4`, it is three chained adds and a
+  different register at every step.
+
+  The accumulator order is the other tell: `add r2, r3, r2` puts the
+  result in the *val* register, so the source is `c->unk_10 + val`, and
+  `add r1, r2, r1` puts it in the *(idx * 8 + 4)* register, so the source
+  is `sum + (idx * 8 + 4)`, not the reverse
+  (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
+
+  The `*(u32 *)(c->unk_00 + c->unk_1a * 4 + 0xc)` form, base plus scaled
+  index with the 0xC folded into the load, is what gives
+  `add r1, r2, r1, lsl #2` then `ldr r2, [r1, #0xc]`.
+
+WHAT IS LEFT
+------------
+    ORIGINAL                     COMPILED
+    +0030  ldr r3, [r5, #0x10]   lsl r0, r4, #3
+    +0034  add r1, r2, r1, lsl#2 add r1, r2, r1, lsl#2
+    +0038  ldr r2, [r1, #0xc]    ldr r3, [r5, #0x10]
+    +003C  lsl r0, r4, #3        ldr r2, [r1, #0xc]
+
+Same four instructions, same registers, same everything downstream; only
+the position of the shift differs.  The original fills the load-use slot
+after `ldr r2, [r5]` with the `c->unk_10` load and computes `idx * 8`
+after the table read; every spelling here fills that slot with the shift
+and pushes both loads down one.
+
+Tried, all still 11 bytes:
+  - binding the table read to a local `val` before the call;
+  - binding the whole left pair to a local `sum` before the call, so the
+    shift cannot be part of the same expression;
+  - binding all three loads to locals in the original's issue order
+    (`c->unk_1a`, then `c->unk_00`, then `c->unk_10`) as separate
+    statements ahead of the expression.
+None of them moves the shift.  Source order does not reach this decision:
+the scheduler places the shift by itself, so the lever has to be
+something that makes `idx * 8` unavailable that early, or the
+`c->unk_10` load more urgent.  The next thing to try is a spelling in
+which the shift's operand is not simply the second parameter sitting in
+a callee-saved register from the prologue.

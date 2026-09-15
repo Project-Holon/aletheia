@@ -1,0 +1,191 @@
+sub_0204DD08 @ 0x0204DD08, fan_in 8, packet pkt_0204D768, 480 bytes, ARM.
+DIFF at one instruction: compiled 476 bytes against 480.  Right control
+flow, right register allocation everywhere, all thirteen relocations
+resolved by `label`.  The whole residue is a single `lsl r0, r3, #5` that
+the original keeps as a materialised temporary and every C spelling tried
+folds into the two data-processing instructions that consume it.
+
+WHY IT MATTERS
+--------------
+0x0204DD08 is called from exactly one place, src/pending/sub_0204AC18.c,
+which is byte-correct and parked at MATCH for want of a witness on this
+address.  Nothing outside sub_0204AC18 branches here, so `label` can
+never attest it; only a `matched` entry for 0x0204DD08 itself will
+graduate sub_0204AC18 (fan_in 129).  That is the entire value of this
+function and it is worth another agent's budget.
+
+WHAT IT IS
+----------
+Reconfigure one 0x18-byte entry of the display-object table at +0x0C of
+the holder, clamping a surface's byte budget against the layer's limits
+and then re-uploading it for one or both engines.
+
+Seven parameters: (holder, idx, src, sel, size, u16 head, u16 tail); the
+last three arrive on the stack at [sp,#0x30], [sp,#0x34], [sp,#0x38], the
+first of them read as a full word and the other two with `ldrh`.
+
+`size` above 0x200 selects the large-layer geometry: the size has 0x200
+subtracted and is truncated to 16 bits, and the triple (flag, max, limit)
+becomes (1, 0x100, 0x2000) instead of (0, 0x10, 0x200).  The flag gates a
+pair of bracket calls (0x0208068C before, 0x020801F8 / 0x0208083C after)
+around each upload.
+
+WHAT THE C IS
+-------------
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    struct Ent    { u8 pad_00[0x14]; u32 unk_14; };          /* 0x18 */
+    struct Surf   { u8 pad_00[8]; u32 unk_08; u32 unk_0c; };
+    struct Holder { u8 pad_00[0xc]; struct Ent *ents; };
+
+    extern void sub_02062AD4(void *p, void **out);
+    extern int  sub_02062A98(void *p, struct Surf **out);
+    extern void sub_020637D4(struct Ent *ent);
+    extern int  sub_0204D9B4(void *p, int which);
+    extern void sub_02063E54(struct Surf *s, u32 size, int mode,
+                             struct Ent *ent);
+    extern u32  sub_02080C34(void);
+    extern u32  sub_02080C74(void);
+    extern void sub_0208068C(void);
+    extern void sub_020801F8(u32 saved);
+    extern void sub_0208083C(u32 saved);
+
+    void sub_0204DD08(struct Holder *h, int idx, void *src, void *sel,
+                      u32 size, u16 head, u16 tail)
+    {
+        struct Surf *surf;
+        void *tmp;
+        u32 off;
+        u8 *ents;
+        int max;
+        int limit;
+        int flag;
+        u32 saved;
+
+        off  = idx * sizeof(struct Ent);
+        ents = (u8 *)h->ents;
+        if (size >= 0x200) {
+            size  = (u16)(size - 0x200);
+            flag  = 1;
+            max   = 0x100;
+            limit = 0x2000;
+        } else {
+            flag  = 0;
+            max   = 0x10;
+            limit = 0x200;
+        }
+
+        sub_02062AD4(src, &tmp);
+        if (!sub_02062A98(src, &surf)) {
+            return;
+        }
+        sub_020637D4((struct Ent *)(ents + off));
+
+        if (head != 0) {
+            if (surf->unk_08 > head * 32) {          /* the one that fails */
+                surf->unk_0c += head * 32;
+                surf->unk_08 -= head * 32;
+            }
+        }
+        if (tail != 0) {
+            if (head + tail <= max) {
+                if (surf->unk_08 > tail * 32) {
+                    surf->unk_08 = tail * 32;
+                }
+            }
+        }
+        if (size != 0) {
+            if (surf->unk_08 + size > limit) {
+                surf->unk_08 = limit - size;
+            }
+        }
+
+        if (sub_0204D9B4(sel, 0)) {
+            saved = sub_02080C34();
+            if (flag) sub_0208068C();
+            sub_02063E54(surf, size, 1, (struct Ent *)(ents + off));
+            if (flag) sub_020801F8(saved);
+        }
+        if (sub_0204D9B4(sel, 1)) {
+            saved = sub_02080C74();
+            if (flag) sub_0208068C();
+            sub_02063E54(surf, size, 2, (struct Ent *)(ents + off));
+            if (flag) sub_0208083C(saved);
+        }
+
+        ((struct Ent *)((u8 *)h->ents + off))->unk_14 &= ~0x80000000;
+        ((struct Ent *)((u8 *)h->ents + off))->unk_14 =
+            (((struct Ent *)((u8 *)h->ents + off))->unk_14 & 0x80000000)
+            | (surf->unk_08 & ~0x80000000);
+    }
+
+WHAT IS PINNED, AND WHAT IT COST
+--------------------------------
+Four spellings are forced; between them they took the residue from 162
+bytes to 4.
+
+  The index must be kept as a *byte offset* local, `off = idx * 0x18`,
+  and every element access spelled `(struct Ent *)(ents + off)`.  That is
+  what puts `mov r4, #0x18` / `mul r8, r1, r4` at the very top of the
+  function, above the `h->ents` load and above the early return.  With
+  `&ents[idx]` the multiply sinks below the early return (it has no other
+  reason to be hoisted), `idx` stays live as a variable, and the whole
+  callee-saved allocation shifts one register: 162 bytes.  The same choice
+  decides the tail, `add r1, r0, r8` then `ldr r0, [r1, #0x14]` rather
+  than `add r1, r0, #0x14` then `ldr r0, [r1, sb]`.
+
+  Declaration order of the three geometry locals is max, limit, flag,
+  giving r5, r6, r7.  `saved` then reuses r5, which dies at the
+  `head + tail <= max` compare.  Any other order renames all four.
+
+  `max` and `limit` must be `int`, not `u32`: `head + tail <= max`
+  compares two promoted u16 values against it and the original is `bgt`,
+  a signed branch.  The `limit` comparisons stay unsigned because the
+  left operand is `surf->unk_08 + size`.
+
+  `size` is read with `ldr`, not `ldrh`, so the fifth parameter is a full
+  word even though the value is truncated to 16 bits inside the branch;
+  `head` and `tail` are `ldrh` and really are u16 parameters.
+
+WHAT IS LEFT
+------------
+    * +008C  lsl r0, r3, #5    | (absent)
+
+The original materialises `head * 32` into r0 in the guard block and then
+uses that register in both `add r1, r1, r0` and `sub r0, r1, r0`, while
+the guard's own compare re-folds the shift from r3 (`cmp r1, r3, lsl #5`)
+rather than using it.  Every spelling tried folds the shift into the add
+and the sub as well (`add r1, r1, r0, lsl #16`-style shifter operands) and
+emits no `lsl` at all, which is four bytes short and shifts the rest of
+the function.
+
+The tail block three lines down is the same shape and does match: there
+the value has a `str` consumer, which cannot take a shifter operand, so
+the temporary is forced and the compare still re-folds from r3.  So the
+question is only what makes the *head* block's temporary survive when
+both its consumers can fold.
+
+Tried, all still one instruction short:
+  - a named `u32 span = head * 32;` inside the `if (head != 0)` block,
+    with the compare on `span`, and with the compare on `head * 32`;
+  - the same local declared at function scope instead;
+  - `span = head << 5;` against a compare written `head * 32`, in case
+    the two spellings survive as distinct IR nodes into CSE (they do not);
+  - the guard as one `&&` expression rather than nested `if`s, so that the
+    first textual occurrence of `head * 32` is in the condition block;
+  - the add written `surf->unk_0c = head * 32 + surf->unk_0c` so the
+    shifted value is the *first* operand, which ARM cannot encode as a
+    shifter operand;
+  - `unk_0c` typed `u8 *` so the add is pointer arithmetic.
+Copy propagation defeats every one of them: the local is always folded
+back into the two consumers.
+
+The reading is that MWCC folds a shift into any data-processing consumer
+unconditionally at this level, so the original's `lsl` must have had a
+consumer that cannot fold, exactly as the tail block does.  The next
+thing to look for is therefore a third use of `head * 32` in the head
+block that the current C does not have, most likely a store: a caller of
+0x0204DD08, or the twin block in a sibling function, would say which
+field it lands in.
