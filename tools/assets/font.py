@@ -689,6 +689,16 @@ def cmd_raw_list(args):
     return 0
 
 
+def _raw_agreement_summary(f):
+    """Digit/capital agreement count under the glyph order recovered this
+    pass (see RawFont.code_to_index and the module docstring's "Asset lane
+    pass: glyph order resolved" section) -- shared by --raw render's
+    printed summary and the `map` subcommand's fuller report."""
+    digit_ok = sum(1 for c in range(0x30, 0x3A) if f.code_to_index(c) is not None)
+    upper_ok = sum(1 for c in range(0x41, 0x5B) if f.code_to_index(c) is not None)
+    return digit_ok, upper_ok
+
+
 def cmd_raw_render(args):
     f = load_raw_font(args.raw_path)
     w, h, gray = render_contact_sheet(f, args.start, args.count, args.columns)
@@ -697,6 +707,16 @@ def cmd_raw_render(args):
     shown = min(args.count, f.glyph_count - args.start)
     print(f"[*] gfl_font.dat: wrote {out_path} ({w}x{h}, "
           f"{shown} glyphs from index {args.start})")
+    print(f"[*] gfl_font.dat: glyph order recovered this pass (data route, "
+          f"see module docstring) -- digit set #1 '0'-'9' -> "
+          f"{RAW_DIGIT_BASE}..{RAW_DIGIT_BASE + 9} (alt set #2 -> "
+          f"{RAW_DIGIT_BASE_ALT}..{RAW_DIGIT_BASE_ALT + 9}), capitals "
+          f"'A'-'Z' -> {RAW_UPPER_BASE}..{RAW_UPPER_BASE + 25}, lowercase "
+          f"'a'-'z' -> {RAW_LOWER_BASE}..{RAW_LOWER_BASE + 25}, punctuation "
+          f"-> explicit table (RAW_PUNCT_INDEX, not ASCII order)")
+    digit_ok, upper_ok = _raw_agreement_summary(f)
+    print(f"[*] gfl_font.dat: agreement under this mapping -- "
+          f"digits {digit_ok}/10, capitals {upper_ok}/26")
     return 0
 
 

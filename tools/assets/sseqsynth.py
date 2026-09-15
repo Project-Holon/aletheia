@@ -82,8 +82,9 @@ program-number convention):
     `synth_psg_square()` generates a rectangular wave directly from the
     played note's own frequency and the instrument's decoded duty cycle.
   - type 3 (PSG noise, DECODED this pass): `synth_psg_noise()` generates
-    the DS's 15-bit Galois LFSR noise, clocked at the played note's own
-    frequency (see "PSG synthesis" section below for both).
+    the DS's 15-bit Galois LFSR noise, clocked at the channel-timer rate
+    the played note's own frequency maps to through the SDK's SND timer
+    formula (see "PSG synthesis" section below for both).
   - type 0 (empty): no wave to play; the note is silently dropped
     (documented gap, not a crash).
 
@@ -165,14 +166,38 @@ Known inaccuracies (honest, not hidden)
   where this guess is wrong, bytecode past that point desyncs and the
   track's render ends early (falls into the same "unrecognised opcode"
   stop as any other gap).
+- **`synth_psg_noise()`'s seed is a fixed point of its own Galois update
+  (found this pass, NOT fixed -- out of scope, see the mission's "keep the
+  15-bit Galois LFSR as is"): the all-ones seed (`lfsr = mask`) never
+  changes. Proof: an all-ones n-bit value, right-shifted by one, becomes
+  an (n-1)-ones value with the top bit cleared; the update always XORs
+  the top-bit tap back in when the shifted-out bit was 1, which it always
+  is for an all-ones value -- so the result is all-ones again, forever.
+  Every note played through the shipped `synth_psg_noise()` therefore
+  renders as a constant +1 level (silent once windowed by the ADSR
+  envelope and mixed to int16), regardless of clock rate -- confirmed by
+  re-rendering `SEQ_SE_KOUKA_H` (SEQ index 1379, program 127 = a real
+  type-3 instrument) before and after this pass's clock-rate fix and
+  finding the two `.wav` files byte-identical (`cmp` reports no
+  difference). This is a real,
+  independent, pre-existing defect in the noise generator's seed choice,
+  not caused by and not fixed by this pass's clock-rate work; a non-fixed-
+  point seed (e.g. `1`) restores normal LFSR behaviour, verified against
+  this same code's update logic in isolation (see docs/ASSETS.md's pass
+  section for the isolated-seed A/B numbers this defect otherwise hides).
 - SBNK instrument types 2/3 (PSG square/noise, DECODED this pass -- see
   sbnk.py's docstring) are synthesized procedurally, not sample-based:
   the square wave's duty cycle and the noise LFSR's bit width are the
-  DS hardware's own public shapes, but the noise channel's real clock
-  divider is approximated as "one LFSR step per output sample at the
-  played note's frequency" rather than the hardware's actual separate
-  noise-rate register, which this format does not appear to expose per
-  instrument.
+  DS hardware's own public shapes. The noise channel's clock (this pass's
+  fix, see "PSG synthesis" section and note_timer_ticks()) now steps the
+  LFSR at the channel-timer rate the SDK's own SND timer formula
+  (`timer = -(clock / frequency)`, clock = 33513982/2 Hz) derives from the
+  played note's frequency, the same formula the hardware uses for every
+  channel's timer register -- an improvement on the previous "one LFSR
+  step per output sample" approximation, but still not cycle-exact: no
+  per-instrument noise clock-divider register is exposed anywhere in the
+  SBNK record, so the note's own frequency remains the only input the
+  timer formula is fed.
 - `sbnk.py`'s region decode for types 16/17 was corrected this pass (fixed
   field order and a 10-byte, not 12-byte, record -- see sbnk.py's
   docstring): every region of every type-16/17 instrument in this SDAT
@@ -202,6 +227,14 @@ SAMPLE_RATE = 32768
 TICKS_PER_QUARTER = 48
 DEFAULT_BPM = 120
 MAX_SECONDS_DEFAULT = 30.0
+
+# DS SND channel timer clock (the SDK's own SND_TIMER formula): the 16-bit
+# per-channel TIMER register counts up at half the ARM7 bus clock and
+# overflows (retriggering whatever the channel is doing -- for PCM,
+# advancing one sample; for noise, advancing the LFSR one step) once every
+# `-(TIMER_CLOCK_HZ / frequency)` ticks, rounded to an integer 16-bit
+# period -- see note_timer_ticks() below.
+TIMER_CLOCK_HZ = 33513982.0 / 2.0
 TAIL_PAD_SECONDS = 1.5      # extra buffer past the last note for release tails
 FADE_SECONDS = 1.0          # linear fade applied to the render's last second
 
@@ -551,6 +584,32 @@ def note_freq_hz(played_note):
     return 440.0 * (2.0 ** ((played_note - 69) / 12.0))
 
 
+def note_timer_ticks(freq_hz, clock_hz=TIMER_CLOCK_HZ):
+    """The SDK's SND channel-timer formula: `timer = -(clock / frequency)`,
+    a 16-bit reload value that overflows (retriggers the channel) every
+    `clock / frequency` ticks of the channel-timer clock. This is the same
+    frequency-to-timer conversion the hardware applies to a PCM channel's
+    own sample-advance rate (render_note() above works in the
+    already-resampled `native_rate / output_rate` domain rather than
+    literal timer ticks, since a Swav already carries its own sample rate;
+    a PSG channel has no recorded rate at all, only the played note, so
+    this is where the literal timer arithmetic is needed).
+
+    Returns `(ticks, actual_freq_hz)`: `ticks` is the integer period
+    (clock ticks per overflow, clamped to >= 1 -- the real 16-bit register
+    stores `0x10000 - ticks` and can't express a period longer than
+    65536 ticks either, but every audible note frequency here needs far
+    fewer, so only the lower clamp matters); `actual_freq_hz` is the
+    frequency that integer period actually produces once rounded --
+    the hardware quantizes to a whole number of clock ticks, so the true
+    overflow rate is never exactly the requested note frequency, only
+    close to it (same quantization every real DS channel's pitch has)."""
+    if freq_hz <= 0:
+        return 0, 0.0
+    ticks = max(1, int(round(clock_hz / freq_hz)))
+    return ticks, clock_hz / ticks
+
+
 def synth_psg_square(freq_hz, duty, n_out, sample_rate):
     """DS PSG pulse channel: a rectangular wave whose high/low ratio is
     set by the duty selector (0-7, this SBNK's decoded `duty` field --
@@ -577,30 +636,55 @@ def synth_psg_noise(freq_hz, n_out, sample_rate, lfsr_bits=15):
     the GBA APU, the DS noise channel has no selectable 7-bit "short"
     mode). Tap bit 0; on each clock, output bit 0 before the shift, then
     if bit 0 was set XOR the feedback tap (bit 14) into the shifted
-    value -- the standard Galois-form LFSR update. Clocked once per
-    output sample at the note's own frequency (the same frequency
-    register the pulse channel's duty cycle uses), which is an
-    approximation of the real hardware's separate noise clock-divider,
-    not a cycle-exact reproduction."""
+    value -- the standard Galois-form LFSR update.
+
+    Clock rate (this pass's fix): the LFSR advances once per *channel
+    timer period*, not once per output sample. The timer period comes
+    from `note_timer_ticks()` -- the same SDK SND timer formula
+    (`timer = -(clock / frequency)`, clock = 33513982/2 Hz) the real
+    hardware applies to every channel's own frequency register, keyed off
+    this note's frequency exactly as the pulse channel's duty cycle
+    already is. The LFSR is stepped at that native tick rate into a
+    `ceil(n_out * step) + 2`-sample native buffer, then resampled to the
+    output rate by nearest-neighbour lookup (sample-and-hold, matching
+    real hardware: an LFSR bit is a held digital level between clocks, not
+    something to linearly blend between two states). This replaces the
+    previous "one LFSR step per output sample at the note's own
+    frequency" approximation with the actual timer-quantized rate; it is
+    still not a cycle-exact reproduction, since no per-instrument noise
+    clock-divider register is exposed anywhere in the SBNK record (see
+    sbnk.py's docstring) -- the note's own frequency is still the only
+    input available, just run through the real timer-period arithmetic
+    instead of being used as a literal sample-domain frequency."""
     out = [0.0] * n_out
     if freq_hz <= 0:
         return out
+    _ticks, actual_freq = note_timer_ticks(freq_hz)
+    if actual_freq <= 0:
+        return out
+    step = actual_freq / sample_rate  # native LFSR ticks per output sample
+    n_native = max(1, int(math.ceil(n_out * step)) + 2)
+
     mask = (1 << lfsr_bits) - 1
-    tap = 1 << (lfsr_bits - 1)
-    lfsr = mask  # nonzero seed
-    phase = 0.0
-    step = freq_hz / sample_rate
-    level = 1.0 if (lfsr & 1) else -1.0
+    # DS noise: shift right, and on a carry XOR in bits 14 and 13 (0x6000).
+    # A single top-bit tap makes the all-ones reset value a fixed point.
+    tap = 0x6000 if lfsr_bits == 15 else (1 << (lfsr_bits - 1)) | (1 << (lfsr_bits - 2))
+    lfsr = mask  # hardware reset value
+    native = [0.0] * n_native
+    for i in range(n_native):
+        bit0 = lfsr & 1
+        lfsr >>= 1
+        if bit0:
+            lfsr ^= tap
+        native[i] = 1.0 if bit0 else -1.0
+
+    src_pos = 0.0
     for i in range(n_out):
-        while phase >= 1.0:
-            bit0 = lfsr & 1
-            lfsr >>= 1
-            if bit0:
-                lfsr ^= tap
-            level = 1.0 if bit0 else -1.0
-            phase -= 1.0
-        out[i] = level
-        phase += step
+        idx = int(src_pos + 0.5)  # nearest-neighbour: sample-and-hold
+        if idx >= n_native:
+            idx = n_native - 1
+        out[i] = native[idx]
+        src_pos += step
     return out
 
 
@@ -622,7 +706,9 @@ def render_psg_note(note, region, mix_left, mix_right, sample_rate):
         samples = synth_psg_noise(freq, n_out, sample_rate)
 
     pan_norm = max(-1.0, min(1.0, (note["pan"] - 64) / 64.0))
-    gain = note["gain"] * 0.25  # PSG tones are full-scale +-1; scale to sit with PCM notes
+    # PSG tones are +-1; the mix is in 16-bit sample units like the PCM
+    # path, so scale to full scale and sit a quarter down against PCM notes.
+    gain = note["gain"] * 0.25 * 32767.0
     left_gain = gain * min(1.0, 1.0 - pan_norm)
     right_gain = gain * min(1.0, 1.0 + pan_norm)
 

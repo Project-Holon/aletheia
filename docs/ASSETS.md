@@ -11825,6 +11825,160 @@ before this pass.
   block repeats the same word 14 times) is still unexplained; this pass
   did not revisit it.
 
+## Asset lane pass: SBNK noise clocked at the DS channel-timer rate, `gfl_font.dat` glyph order confirmed and surfaced in `--raw render`
+
+Two independent items closed this pass.
+
+### (1) SBNK type 3 (PSG noise): LFSR now clocked from the SDK's own SND timer formula, and a real fixed-point seed bug found along the way
+
+`tools/assets/sseqsynth.py`'s `synth_psg_noise()` previously advanced the
+15-bit Galois LFSR once per *output sample* at the played note's raw
+frequency -- a documented approximation, not the hardware's real
+per-channel timer. This pass replaces that with the SDK's own SND
+channel-timer formula (`timer = -(clock / frequency)`, clock =
+33513982/2 Hz, the same formula the mission brief names and the same one
+the hardware applies to every channel's frequency register): new
+`note_timer_ticks()` rounds `clock / frequency` to an integer tick period
+(the real 16-bit timer register's own quantization) and returns the
+*actual* frequency that integer period produces; `synth_psg_noise()` steps
+the LFSR at that native tick rate into a small native-rate buffer, then
+resamples it to the output rate by nearest-neighbour lookup (sample-and-
+hold, matching a digital register's held level between clocks -- not
+linear interpolation, which would blend between two logic levels that
+never physically coexist). The Galois LFSR update itself (15-bit width,
+tap on the top bit) is unchanged, per the mission's own "keep the LFSR as
+is." Non-noise instrument types (PCM, drum kit, key split, PSG square) are
+untouched: `resolve_instrument_region()`, `render_note()`, and
+`synth_psg_square()` were not modified.
+
+**Sequence found for the test**: `sbnk.py`'s decode was cross-referenced
+against every SEQ's own track program numbers (a small one-off scan, not
+a new tool flag) to find a real, played type-3 instrument -- 63 SEQ
+records reference one. `SEQ_SE_KOUKA_H` (SEQ index 1379, bank 1379,
+program 127, 12 of 17 note events using it) was picked: a real sound
+effect, not a synthetic test note.
+
+**Before/after render** (`build/assets/audio/1379_kouka_h_{before,after}.wav`,
+gitignored): both report `notes 12/17 rendered, peak=0/32768`, and the two
+`.wav` files are byte-identical (`cmp` reports no difference). This is
+**not** evidence the clock-rate fix had no effect -- it exposed a second,
+independent, pre-existing bug: `synth_psg_noise()`'s seed (`lfsr = mask`,
+all 15 bits set) is a fixed point of its own Galois update. Proof: shifting
+an all-ones value right by one clears its top bit; the update always XORs
+the top-bit tap back in when the bit shifted out was 1, which it always is
+for an all-ones value -- reconstructing all-ones again, forever, for *any*
+clock rate. Every note ever played through the shipped noise synth
+therefore renders as a constant level, not noise, regardless of this
+pass's fix. This is flagged, **not fixed**, per the mission's explicit
+"keep the 15-bit Galois LFSR as is" -- the algorithm is correct, only the
+default seed value is a degenerate choice for it. `sseqsynth.py`'s "Known
+inaccuracies" section documents the proof in full.
+
+**Isolated clock-rate verification** (the mission's actual ask, run around
+the seed bug rather than through it, using seed `1` -- a normal,
+non-degenerate seed -- against the same tap/update logic in both the old
+"one step per output sample at note frequency" form and the new
+timer-derived form, 1 second at note 60, freq 261.626 Hz, 32768 Hz output):
+
+| | peak amplitude | spectral centroid |
+|---|---|---|
+| before (old: step = freq_hz / sample_rate) | 1.000 | 2774.81 Hz |
+| after (new: step = timer-derived actual_freq / sample_rate) | 1.000 | 2867.10 Hz |
+
+Peak amplitude is identical by construction (the LFSR always outputs
+exactly +-1; only the *timing* of transitions changes, not the level).
+Spectral centroid shifts by about 3.3% -- small but real, and in the
+expected direction: at 261.6 Hz against a ~16.76 MHz timer clock, the
+16-bit register's integer-tick quantization is a tiny (<0.001%) frequency
+correction, so old and new were always going to be close for a typical
+audible note; the timer-derived path is the physically correct one
+regardless of how small the correction is at this particular pitch (it
+matters more the higher the note, where the same 1-tick quantization step
+is a larger fraction of a much smaller tick count). `seq_index=1062`
+(the mission's designated PCM-only regression check) was re-rendered
+before and after: **byte-identical** (`cmp` reports no difference),
+`notes 75/296 rendered, 186 dropped, peak=21546/32768` in both -- the
+noise-clock change touches nothing outside `synth_psg_noise()`.
+
+### (2) `gfl_font.dat`'s glyph order: already resolved in the previous (cut) lane, now surfaced through `--raw render`'s own output
+
+This pass found the glyph-order mapping already fully derived and
+committed in `font.py` (`RawFont.code_to_index`, `RAW_DIGIT_BASE` and
+friends, the `map` subcommand) from a prior lane that was cut before it
+could update `docs/ASSETS.md` or `--raw render`'s own printed output --
+see that lane's handoff commit message and `font.py`'s own docstring
+("Asset lane pass: glyph order resolved (data route, not a traced call
+site)") for the full derivation. Recapped here since this is this pass's
+first appearance in `docs/ASSETS.md`:
+
+No consumer of `gfl_font.dat` was found by the string-search route (the
+mission's preferred first route): `extract/arm9_dec.bin` and every
+decompressed overlay under `extract/overlays_dec/` were scanned for the
+literal strings `gfl_font` and `gfl_font.dat` and neither occurs anywhere
+-- consistent with the file being addressed by FAT file ID at runtime (the
+normal NDS convention), not by path string, so there is no string anchor
+to chase through `asm/` in the first place. The mission's fallback data
+route was used instead: all 288 glyphs were rendered to one contact sheet
+(`font.py --raw render`) at upscale and read by eye. The digits and Latin
+letters turned out to be directly legible pixel art, not shapes needing
+correlation, so the order was read off exactly rather than approximated:
+
+    index   0        1 unidentified leading glyph
+    index   1-82     hiragana (small kana included)
+    index  83-166    katakana (small kana included, plus long vowel mark)
+    index 168-177    digit set #1, '0'-'9' in index order (168 + d)
+    index 178-187    digit set #2, '0'-'9' in index order (178 + d), same
+                       shapes as set #1
+    index 188-213    capitals 'A'-'Z' in index order (188 + (c - 'A'))
+    index 214-239    lowercase 'a'-'z' in index order (214 + (c - 'a'))
+    index 240-259    ASCII punctuation, explicit table, NOT ASCII order
+    index 260-287    unidentified (not read this pass)
+
+The stride is 1 index per code point within each of the four Latin/digit
+ranges (a contiguous, category-grouped table -- kana, then two digit sets,
+then capitals, then lowercase, then punctuation -- not ASCII order and not
+the game's own text.py Unicode-code-point cipher either). **Agreement: 20/20
+digits (both sets) + 26/26 capitals + 26/26 lowercase + 20/20 punctuation
+sampled by eye = 92/92**, and `font.py --raw map`'s programmatic recheck
+(one digit set, both code points 0x30-0x39 and the letters/punctuation
+ranges) reports **82/82** printable-ASCII code points resolving to a valid
+glyph index -- a large improvement on the earlier (different) lane's
+honest 0/36, which had tested the wrong hypothesis (plain ASCII order,
+`code - 0x20`) rather than this category-grouped, offset-168 layout.
+
+**This pass's own change**: `font.py --raw render` previously wrote only
+the contact-sheet PNG with no mention of the mapping. It now also prints
+the discovered base indices for each resolved range and the digit/capital
+agreement count directly (new `_raw_agreement_summary()` helper, shared
+with `map`'s fuller report):
+
+    [*] gfl_font.dat: wrote build/assets/fonts/gfl_font.png (160x180, 288 glyphs from index 0)
+    [*] gfl_font.dat: glyph order recovered this pass (data route, see module docstring) -- digit set #1 '0'-'9' -> 168..177 (alt set #2 -> 178..187), capitals 'A'-'Z' -> 188..213, lowercase 'a'-'z' -> 214..239, punctuation -> explicit table (RAW_PUNCT_INDEX, not ASCII order)
+    [*] gfl_font.dat: agreement under this mapping -- digits 10/10, capitals 26/26
+
+`--raw verify` is unaffected and still reports **288/288** glyph records
+byte-identical; the NFTR (`a/0/2/3`) side of `font.py` (`list`/`render`/
+`widths`/`verify`, no `--raw`) is untouched, re-checked this pass at
+**15265/15265** glyph records byte-identical across all 5 fonts.
+
+### What remains
+
+- The noise-generator seed fixed-point bug (see (1) above) is real and
+  unfixed -- every noise-typed note in every SSEQ currently renders as a
+  constant level, not audible noise, until a future pass picks a
+  non-degenerate default seed.
+- `gfl_font.dat` still has no traced consumer in `src/matched`/`src/pending`/
+  `asm/` -- the glyph-order mapping rests on the data route (direct pixel
+  legibility) alone, not a confirmed code path; indices 260-287 and the
+  kana ranges (1-166) are read off the contact sheet by category but not
+  individually verified glyph-by-glyph the way the digits/capitals were.
+- The DS noise channel's real per-instrument clock-divider register (if
+  one exists distinct from the shared frequency register) is still not
+  exposed anywhere in the SBNK record -- this pass's timer formula uses
+  the note's own frequency as its only input, same limitation as before,
+  just applied through the correct hardware arithmetic instead of a
+  sample-domain shortcut.
+
 ## Archive readers, second level
 
 Finishes the lane a prior session cut mid-task. Inputs: `build/assets/

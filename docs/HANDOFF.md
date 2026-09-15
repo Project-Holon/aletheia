@@ -43,13 +43,17 @@ the previous session's memory.
 
 ## Open items, smallest first
 
-- `tools/assets/sseqsynth.py`: PSG noise still steps the LFSR once per sample;
-  it should run at the channel timer rate derived from the note frequency (SDK
-  sound register definitions under `sdk/`). The edit was reverted unfinished.
-- `gfl_font.dat` glyph order is not Latin; the consumer was not located.
+- `tools/assets/sseqsynth.py`: PSG noise now runs at the channel timer rate
+  with the hardware LFSR (carry XORs 0x6000) and mixes at 16-bit scale; the
+  noise level relative to PCM (a quarter of full scale) is a chosen constant,
+  not attested.
+- `gfl_font.dat` glyph order is known from the data (kana 1-166, two digit
+  sets at 168-187, capitals 188-213, lowercase 214-239, punctuation 240-259);
+  no consumer references the file by name anywhere in the image.
 - 51 small tables in `tools/assets/tables.py` have exact framing but no
-  attested reader (archive ids reach the open call through registers two or
-  more levels up; `build/assets/reader_map*.json` when regenerated).
+  attested reader; two levels of register tracing found two more and two
+  artifacts (`docs/ASSETS.md`, "Archive readers, second level"). The rest
+  reach their open calls through table-driven ids or deeper chains.
 - The a/0/0/4 rig detachment (Charizard, Gengar): `rig.py` now applies the
   attested flip and double-size rules; the before/after comparison was not
   reported. Render species 6 and 94 and check.
