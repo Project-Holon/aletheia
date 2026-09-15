@@ -9978,3 +9978,177 @@ identical dimensions to every earlier pass).
   duplicate of the cell's own OAM bounding box, in two fixed-point
   widths), not *why* the game keeps a second copy of it outside the
   NCER.
+
+## Asset lane pass: GC's second grid and RD's dense block traced through ov021's tag vtable -- GC is a height-disambiguated bridge/overpass layer, RD's "dense block" was a mislabeled normal field, not a separate structure
+
+Mission: read the four wrapper-tag handlers (func_02193398 WB, func_02193498
+GC, func_02193544 NG, func_02193628 RD -- all in asm/overlays/ov021.s,
+0x02187F00..0x021DE700, not ov010 as first pointed at; ov010 only holds the
+two dispatch stubs func_02169800/func_02169848 that call into the vtable)
+and their runtime consumers, to answer what GC's second grid and RD's dense
+region actually feed. Both answers required following calls outside the
+handlers themselves; neither required decompiling to EXACT (per the
+mission's own allowance), so nothing here is filed as a match.
+
+### (1) GC's second grid: a bridge/overpass layer, selected by footprint + height, not a flag
+
+The tag vtable at 0x021D3DDC gives each tag three function pointers,
+fn[+4]/fn[+8]/fn[+0xc]. Two different ov010 stubs call into it:
+func_02169848 always calls fn[+0xc]; func_02169800 calls fn[+8], but
+only after checking a boolean at the map object's own +0xd0 offset. For GC
+these are different functions: fn[+0xc] = func_021934F8 samples only
+u32@8 (grid 0) and marks the caller's output "1 grid"; fn[+8] =
+func_02193498 samples both u32@8 and u32@0xc and marks it "2 grids".
+So the ordinary per-tile query (func_0218DBAC, ov021, the function that
+feeds func_021AACD4/enceff.c's terrain-effect lookup) never sees grid 1 at
+all -- it always goes through func_02169848 -> fn[+0xc].
+
+func_02169800 (the fn[+8]/two-grid path) is called from func_0218D9E8
+(ov021, 0x0218D9E8..0x0218DAEC), which does not call it unconditionally
+either: it first walks a per-map table of bounding boxes (mapObj+0x24, an
+array of 0x28-byte records, count at mapObj+0x2e) and only samples the
+two-grid path for candidate objects whose x/z footprint contains the query
+position. For each hit it collects up to 16 {attribute, height} records
+(from either grid) into a stack buffer. func_0218DAEC (ov021), its caller,
+then disambiguates: if more than one candidate came back, it walks them
+(0x0218DB40..0x0218DB84) calling func_021AB100 (the attribute-presence
+predicate from the pkt_021AB0F0 family the earlier grid-record pass already
+filed EXACT) and keeps the one whose stored height is closest to, without
+exceeding, the query's own world-space y (fixed-point compare against
+sp+4).
+
+That is a bridge/overpass system, not a two-layer flag: a small per-map list
+names where an alternate surface exists (the footprint of a placed bridge
+object), and when the query position falls inside one, the game picks
+between the two grids' records the same way it already picks between
+type-2 slope candidates in func_021D14C4 -- by height, nearest from below.
+map_grid.py's module docstring and its GC wrapper-layout section now
+record this; the tool's --dump/--png output for GC's grid[1] (already
+produced before this pass, since this module always decoded every declared
+grid) is unchanged in bytes, only its documented meaning changed.
+
+Consumer addresses: func_02169800 (0x02169800, ov010), func_02169848
+(0x02169848, ov010), func_0218D9E8 (0x0218D9E8, ov021), func_0218DAEC
+(0x0218DAEC, ov021), func_0218DBAC (0x0218DBAC, ov021, the ordinary
+single-grid query used by gameplay), func_021AB100 (already EXACT).
+
+### (2) RD's "dense 64x64x4 block": does not exist in the real archive -- it is the aux span read at the wrong stride, and "4094" is a normal-vector component, not a sentinel
+
+The mission's own framing (a 4-byte marker, then exactly 64*64*4 = 16384
+bytes) came from a pre-code-model pass reading wf_00_00 by byte-lane
+correlation. Checked directly against all 8 real RD sub-files' own wrapper
+size tables: the span after the grid the header declares is never
+4 + 16384 = 16388 bytes. It is 4 + count*16 for a small count (0, 1 or 2
+across the 8 files) -- a u32 count followed by that many 16-byte records,
+structurally the same shape as an ordinary aux record with a height field
+appended. The hypothesis does not hold, and map_grid.py no longer
+implements a separate "dense block" parse for it (the old 4+64*64*4-sized
+detection is left in parse_wrapper as inert/unreachable code, since it
+never matches real data, rather than deleted mid-pass).
+
+What the vtable trace found instead: RD's per-tile query path (fn[+0xc] =
+fn[+8] = func_02193790, ov021) never calls func_021D14C4, the decoder
+every WB/GC record goes through (confirmed by exhaustively listing
+func_021D14C4's only four callers in ov021.s: func_02193398,
+func_02193498 twice, func_021934F8 -- no RD function among them). Instead
+func_02193790 reads the grid span (u32@8 onward, past the u16,u16
+header) as a flat table of 24-byte (0x18-stride) records, using fixed-point
+(x,z) chunk-division arithmetic rather than row*width + col. The byte count
+matches exactly, not just the shape: this module's own byte-preserving
+32x32-grid-plus-2048-record-aux reading of that same span totals
+1024*8 + 2048*8 = 24576 bytes; 1024 24-byte records is 24576 bytes too
+-- the identical span, read two different ways.
+
+Each 24-byte record packs two candidate normal/height pairs (disassembled
+directly from func_02193790, 0x02193804..0x02193838 and
+0x02193824..0x0219383A):
+
+    +0x00 s16 nx0   normal, candidate 0 (z negated,   +0x0c u32 height0
+    +0x02 s16 ny0    same sign convention                    (paired with
+    +0x04 s16 nz0    func_021D14C4 itself uses)               candidate 0)
+    +0x06 s16 nx1   normal, candidate 1                +0x10 u32 height1
+    +0x08 s16 ny1                                               (paired with
+    +0x0a s16 nz1                                                candidate 1)
+    +0x14 u32 flags  (bit 31 read as a selector; the function picks
+                      candidate 0 or 1 by comparing each height field
+                      against the query position's own fixed-point y --
+                      the same "closest from below" shape as the type-2
+                      aux search in func_021D14C4)
+
+i.e. a two-sided collision face (a water surface has a top and an underside),
+which is exactly why RD needs a reader of its own instead of the shared one:
+func_021D14C4's record has one normal/height pair, not two.
+
+This also explains the mission's own "4094 boundary sentinel" cleanly:
+decoded with read_rd_mesh_records() (new in map_grid.py), every record on
+wf_00_00 (a/0/0/8#228) reads normal0 == normal1 == (0, 4094, 0) -- not a
+marker recurring at a fixed offset, but the y-component of a flat "up" normal
+in ~12-bit fixed point (4096 == 1.0, so 4094/4096 is an almost-exact unit
+normal), repeating because the whole water surface is flat. The earlier
+byte-lane-era pass, reading this same span at the wrong stride, saw that
+constant recur regularly and reasonably (but incorrectly) read it as a
+sentinel.
+
+Consumer addresses: func_02193790 (0x02193790, ov021, the RD per-tile
+reader); func_02193628 (0x02193628, ov021, RD's load-time init, confirmed
+not to call func_021D14C4 either -- its own tag_ver==3 branch reuses the
+same func_0218DD04/func_0218B974 ordinary-grid-registration helper every
+other tag's init uses, and its tag_ver==4 branch tiles a separate region 4x4
+and hands each tile to func_02193924, which dispatches into
+collision/model-builder helpers outside ov021's own mapped range --
+0x02194038, 0x021C939C, 0x021C93E4, 0x021C9450, 0x021C93D0, and
+further ARM9-side addresses -- not decompiled, listed here as targets for a
+code lane, not attempted).
+
+### tools/assets/map_grid.py changes
+
+- GC and RD wrapper-layout docstring sections rewritten with the evidence
+  above; TARGETS gained ("wf_00_00", 228) so --dump/--png exercise an
+  RD file.
+- New read_rd_mesh_records(): decodes RD's grid+aux span at the game's own
+  24-byte stride (both normal/height candidate pairs and the selector bit).
+  process_target now writes <name>_mesh.txt (--dump) and
+  <name>_mesh_selector.png (--png) for RD-tagged targets alongside the
+  existing (unchanged) byte-preserving grid/aux dump.
+- No change to parse_wrapper, repack_subfile, or any packing function --
+  the round trip is byte-identical before and after this pass by
+  construction, since nothing about how bytes are written back changed,
+  only how a second, parallel reading of RD's span and GC's second grid are
+  labelled and (for RD) additionally exposed.
+
+### Data checks
+
+    a/0/0/8: 649/649 sub-files round-trip byte-identical (0 failed)   [--verify, unchanged]
+
+    RD span byte-count identity (all 8 RD sub-files):
+      grid0 (32x32) main+aux bytes  = 1024*8 + 2048*8 = 24576
+      func_02193790's own reading   = 1024 records * 24 bytes = 24576  (equal)
+
+    wf_00_00 (a/0/0/8#228) mesh decode: 1024/1024 records read
+      normal0 == normal1 == (0, 4094, 0) on every record (flat water surface;
+      4094/4096 ~= 1.0 fixed-point "up"), height0 == height1 == 0,
+      selector == 0 throughout -- consistent with a flat, single-sided deck.
+
+### What this closes and what it does not
+
+Closed: which function consumes GC's second grid and under what condition
+(a footprint-gated, height-disambiguated bridge/overpass layer, not a flag or
+the player's own layer); which function consumes RD's declared grid span at
+runtime and why it needs its own reader (a two-candidate collision-face
+table, not the shared per-tile record); and the mission's own "4094
+sentinel" question (it is a normal-vector component, and the "dense block"
+it was framed against does not exist in the real archive's wrapper layout).
+
+Not closed:
+
+- RD's flags word (+0x14) beyond the selector bit, and the two u32 height
+  fields' units, are located but not further decoded.
+- func_02193628's tag_ver==4 branch and its func_02193924 callee bottom
+  out in helpers outside ov021's own mapped range (0x02194038,
+  0x021C939C, 0x021C93E4, 0x021C9450, 0x021C93D0, further ARM9-side
+  addresses); what those specifically build is not traced here and is listed
+  as a target for a future code-lane pass, not a data-lane one.
+- func_0218D9E8's bounding-box table (mapObj+0x24, 0x28-byte records)
+  is not itself sourced back to an a/0/0/8 file field in this pass -- it is
+  read from the runtime map object, and this pass did not trace where that
+  object's own fields are populated from the wrapper's bytes.

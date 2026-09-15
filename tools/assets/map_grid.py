@@ -80,8 +80,23 @@ secondary block):
     u32@12 = grid end (records + aux array) / tail start
     u32@16 = total sub-file length
 
-  GC (24 bytes, 47/649 files): two grids back to back, the vtable's
-    `fn[+0x08]` sampling slot 0 at `u32@8` and slot 1 at `u32@12`.
+  GC (24 bytes, 47/649 files): two grids back to back. Traced from the
+    game's code (func_0218DAEC/func_0218D9E8/func_02169800, ov021): the
+    ordinary per-tile query (fn[+0x0c] = func_021934F8) only ever reads
+    grid 0 (`u32@8`) -- the second grid is *not* a second query slot
+    selected by a flag or the player's layer. It is sampled (through
+    fn[+0x08] = func_02193498, both grids at once, gated by a flag at the
+    map object's own +0xd0 field) only when the query x/z falls inside one
+    of a small per-map table of bounding boxes (array at mapObj+0x24,
+    count at mapObj+0x2e, 0x28-byte records -- a placed-object/footprint
+    list, not the grid itself); func_0218D9E8 collects up to 16 candidate
+    {attribute, height} records from *both* grids inside that footprint,
+    and func_0218DAEC (its caller) picks the one whose height is closest
+    to the query's actual world y (`func_021AB100` presence-tests each
+    candidate, then compares against the target height). That is a raised
+    deck disambiguated by height within a listed footprint -- an overpass
+    layer, not an alternate-floor flag -- so `map_grid.py` labels GC's
+    grid[1] as the bridge/overpass layer below.
     u32@4  = header length
     u32@8  = grid-1 start
     u32@12 = grid-1 end (+ aux) / grid-2 start
@@ -96,18 +111,62 @@ secondary block):
     u32@12 = total length
 
   RD (20 bytes, 8/649 files, all "wf_*"/"bc_*" water-surface models): one
-    ordinary grid, then a second, denser block with no `u16,u16` header of
-    its own: a 4-byte value (not a plausible dimension pair) followed by
-    exactly `64*64*4 = 16384` bytes, the right size for a 64x64 grid of
-    4-byte records. The vtable samples this block through the same
-    decoder slot as any other grid, but its 4-byte record layout is not
-    attested by the reader note (the note only covers the 8-byte main and
-    aux records) and is left un-decoded here, same as before -- only its
-    location and size are structural facts.
+    grid-shaped span (a `u16,u16` header this module still parses as an
+    ordinary 32x32-record grid, for round-trip purposes), then a short
+    tail (`u32` count + that many 16-byte records, the same shape as an
+    ordinary aux record with a height field appended -- NOT the separate
+    "4-byte marker + 64x64x4 dense block" an earlier, pre-code-lane pass
+    on this same tag guessed at: checked against all 8 real RD sub-files,
+    the trailing span the wrapper's own size table carves out is never
+    `4 + 64*64*4 = 16388` bytes -- it is `4 + count*16` for a small count
+    (0, 1 or 2 in the real archive), so that hypothesis does not hold and
+    this module does not implement it).
+
+    Traced from the game's own tag vtable (0x021D3DDC) instead: RD's
+    per-tile *query* path (fn[+0x0c] = func_02193790, ov021) never calls
+    func_021D14C4, the decoder every WB/GC record goes through. It reads
+    the grid span (`u32@8` onward, skipping the `u16,u16` header) as a
+    flat table of 24-byte ("0x18"-stride) records -- confirmed by exact
+    byte count, not just shape: this module's own 32x32-grid-plus-2048-
+    record-aux reading of that span is `1024*8 + 2048*8 = 24576` bytes,
+    and `1024` 24-byte records is `24576` bytes too, the same span read
+    two different ways, one this module's (byte-preserving, for the
+    round trip) and one the game's own. Each 24-byte record packs *two*
+    candidate normal/height pairs, read exactly like the ordinary
+    record's own normal convention (3 packed s16, z negated) but twice:
+
+        +0x00 s16 nx0 } normal, candidate 0        +0x0c u32 height0
+        +0x02 s16 ny0 }  (z stored negated,                (paired with
+        +0x04 s16 nz0 }   same sign convention              candidate 0)
+                          func_021D14C4 uses)
+        +0x06 s16 nx1 } normal, candidate 1        +0x10 u32 height1
+        +0x08 s16 ny1 }                                    (paired with
+        +0x0a s16 nz1 }                                      candidate 1)
+        +0x14 u32 flags   (bit 31 tested as a selector; func_02193790
+                           picks candidate 0 or 1 by comparing each
+                           height field against the query position's own
+                           fixed-point y, the same "closest below" shape
+                           as the type-2 aux search in func_021D14C4)
+
+    i.e. a two-sided collision face (a water surface has a top and an
+    underside) rather than one flat tile record -- consistent with why
+    RD needs its own reader instead of the shared one. `read_rd_mesh_
+    records()` decodes both candidates' normals and height fields;
+    the flags word's bit layout beyond the selector bit is not attested.
+
+    This also resolves the earlier pass's "4094 boundary sentinel": on
+    `wf_00_00` (a/0/0/8#228) every record's normal0/normal1 read exactly
+    `(0, 4094, 0)` -- not a sentinel constant living at a fixed offset,
+    but the y-component of a flat "up" normal in ~12-bit fixed point
+    (4096 == 1.0, so 4094/4096 is an almost-exact unit normal), repeating
+    because the whole water surface is flat. The earlier byte-lane-era
+    pass, reading this same span at the wrong stride, saw that constant
+    recur at a regular offset and reasonably misread it as a marker.
     u32@4  = header length
     u32@8  = grid-1 start (== BMD0 end)
-    u32@12 = grid-1 end (+ aux) / dense-block start
-    u32@16 = total length (dense-block end)
+    u32@12 = grid-1 end (+ tail) -- the game's own 24-byte-stride table
+             spans this same range, not a separate dense block after it
+    u32@16 = total length
 
 A tag this module does not recognise is treated like `GC` (two grids):
 that is the wrapper-tag vtable's own `0xFFFFFFFF` catch-all entry, which
@@ -160,12 +219,14 @@ A008_PATH = os.path.join("extract", "data", "a", "0", "0", "8")
 
 # (expected model name, a/0/0/8 index) -- the mission's named samples plus
 # one extra outdoor chunk (map24_23) kept because it has far more terrain
-# variety than map14_13.
+# variety than map14_13, and one RD-tagged water surface (wf_00_00) to
+# exercise the dense secondary block.
 TARGETS = [
     ("pl_00_00", 120),
     ("map14_13", 44),
     ("map24_23", 0),
     ("m_dun0101_00_00", 279),
+    ("wf_00_00", 228),
 ]
 
 SURFACE_FLAT = 0
@@ -378,6 +439,31 @@ def read_dense_records(raw, grid):
 
 def pack_dense_records(values):
     return struct.pack(f"<{len(values)}I", *values)
+
+
+def read_rd_mesh_records(raw, grid):
+    """RD's grid span, reinterpreted per func_02193790 (ov021) at 24-byte
+    stride instead of this module's byte-preserving 32x32-record-plus-
+    2048-record-aux split -- both readings cover the identical 24576-byte
+    span (1024 x 24B here vs 1024 x 8B main + 2048 x 8B aux there). Only
+    the two packed normal triples (z negated, same convention as the
+    ordinary decoder) and their paired height words are decoded; the
+    selector flag's non-sign-bit layout is not attested. See the module
+    docstring's RD section."""
+    off = grid["data_offset"]
+    span = grid["aux_offset"] + grid["aux_count"] * 8 - off
+    n = span // 24
+    out = []
+    for i in range(n):
+        base = off + i * 24
+        nx0, ny0, nz0, nx1, ny1, nz1 = struct.unpack_from("<6h", raw, base)
+        h0, h1, flags = struct.unpack_from("<3I", raw, base + 0x0c)
+        out.append({
+            "normal0": (nx0, ny0, -nz0), "height0": h0,
+            "normal1": (nx1, ny1, -nz1), "height1": h1,
+            "flags": flags, "selector": (flags >> 31) & 1,
+        })
+    return out
 
 
 def model_name(a008, index):
@@ -626,8 +712,7 @@ def process_target(a008, name, index, out_dir, do_dump, do_png):
     info = parse_wrapper(raw)
     real_name = model_name(a008, index) or name
     print(f"[*] a/0/0/8#{index} '{real_name}' -- tag={info['tag']} "
-          f"n_grids={len(info['grids'])} dense_grid="
-          f"{'yes' if info['dense_grid'] else 'no'} tail_len={info['tail_len']}")
+          f"n_grids={len(info['grids'])} tail_len={info['tail_len']}")
 
     dump_wrapper_info(info, real_name, os.path.join(out_dir, f"{name}_wrapper.txt"))
 
@@ -650,6 +735,43 @@ def process_target(a008, name, index, out_dir, do_dump, do_png):
                            os.path.join(out_dir, f"{name}{suffix}_aux.txt"))
             print(f"    grid{gi}: {grid['aux_count']} aux records -> "
                   f"{name}{suffix}_aux.txt")
+
+    if info["tag"] == "RD" and info["grids"]:
+        grid = info["grids"][0]
+        w, h = grid["width"], grid["height"]
+        mesh = read_rd_mesh_records(raw, grid)
+        if len(mesh) == w * h and do_dump:
+            path = os.path.join(out_dir, f"{name}_mesh.txt")
+            with open(path, "w") as fh:
+                for i, rec in enumerate(mesh):
+                    fh.write(f"{i:4d}: normal0={rec['normal0']} "
+                              f"height0={rec['height0']:#010x}  "
+                              f"normal1={rec['normal1']} "
+                              f"height1={rec['height1']:#010x}  "
+                              f"selector={rec['selector']}\n")
+            print(f"    RD mesh (func_02193790 24-byte-stride reading of "
+                  f"the same span as grid0+aux): {len(mesh)} records -> {path}")
+        if len(mesh) == w * h and do_png:
+            path = os.path.join(out_dir, f"{name}_mesh_selector.png")
+            vals = [rec["selector"] for rec in mesh]
+            uniq = sorted(set(vals))
+            color_of = {v: value_color(i, len(uniq)) for i, v in enumerate(uniq)}
+            cell_px = 8
+            px_w, px_h = w * cell_px, h * cell_px
+            rgba = bytearray(px_w * px_h * 4)
+            for row in range(h):
+                for col in range(w):
+                    r, g_, b = color_of[vals[row * w + col]]
+                    for dy in range(cell_px):
+                        base_row = (row * cell_px + dy) * px_w
+                        for dx in range(cell_px):
+                            o = (base_row + col * cell_px + dx) * 4
+                            rgba[o], rgba[o + 1], rgba[o + 2], rgba[o + 3] = \
+                                r, g_, b, 255
+            nsbmd.write_png_rgba8(path, px_w, px_h, bytes(rgba))
+            write_legend(os.path.join(out_dir, f"{name}_mesh_selector_legend.txt"),
+                         "mesh_selector", uniq, color_of)
+            print(f"    RD mesh selector: {len(uniq)} distinct values -> {path}")
 
 
 # ---------------------------------------------------------------------------
