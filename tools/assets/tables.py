@@ -51,12 +51,24 @@ from the bytes alone:
               offsets 12/16/20/24 (each: one wide-range byte, one narrower
               byte, two narrow/boolean bytes). Domain not identified.
 
-  a/1/2/5  -- 428 sub-files (matches a/0/1/2's 427 zones + 1), variable size
-              4..2178 bytes. Leads with a u32 whose value does not equal
-              record_length minus a constant header size across samples
-              (162 vs 172-8, 372 vs 392-8 do not agree on one header size),
-              so this is read as an opaque per-zone blob, not decoded into
-              fields.
+  a/1/2/5  -- 428 sub-files (427 zones, sub-file index == zone id, plus a
+              4-byte sentinel at index 427). Header resolved this pass (see
+              docs/ASSETS.md, "a/1/2/5 per-zone event data decoded"): [u32
+              to_trailing][u8 c0][u8 c1][u8 c2][u8 c3], then c0 records of
+              20 bytes (doors/warps), c1 records of 36 bytes (NPC objects),
+              c2 records of 20 bytes (script triggers), c3 records of 22
+              bytes (a fourth, unidentified event type), then a trailing
+              block. `4 + to_trailing` equals the byte offset right past
+              the fourth array on all 428 sub-files (exact, not just
+              bounded) -- the header size guess that failed the earlier
+              pass was comparing against the wrong quantity (record length
+              minus a constant), not this offset-to-trailing-block field.
+              Doors/warps: offset +8 and +12 (u16 LE each) are x/y in tile
+              units, confirmed against `zones.py --resolve` +
+              `map_grid.py` walkability (see docs/ASSETS.md for the
+              fraction). NPC objects: offsets +28/+8 are a weaker x/y
+              candidate, tagged tentative. Script triggers and the fourth
+              array have no confirmed coordinate fields.
 
   a/0/5/7  -- already identified and decompiled by a separate pass, see
               docs/ASSETS.md "Script virtual machine located and
@@ -229,6 +241,84 @@ def _decode_fixed28(data):
             "blocks": blocks}
 
 
+def _decode_event_data(data):
+    """a/1/2/5 per-zone event data. [u32 to_trailing][u8 c0][u8 c1][u8 c2]
+    [u8 c3], then c0*20-byte doors/warps, c1*36-byte NPC objects,
+    c2*20-byte script triggers, c3*22-byte unknown-4th records, then a
+    trailing block running to end of file. `4 + to_trailing` lands exactly
+    on the byte past the fourth array on all 428 sub-files (see
+    docs/ASSETS.md, "a/1/2/5 per-zone event data decoded"). Sub-file 427
+    is the 4-byte sentinel (all-zero, no header).
+
+    Per-record fields beyond x/y are not reader-attested (no decompiled
+    accessor for individual records exists in this tree); each record
+    keeps its exact bytes under "raw" so the encode side is an identity
+    reassembly, never a guess.
+    """
+    if len(data) < 8:
+        return {"sentinel": True, "raw": bytes(data)}
+    to_trailing, c0, c1, c2, c3 = struct.unpack_from("<I4B", data, 0)
+    off = 8
+
+    def _take(count, size):
+        nonlocal off
+        out = []
+        for _ in range(count):
+            out.append(bytes(data[off:off + size]))
+            off += size
+        return out
+
+    warps_raw = _take(c0, 20)
+    npc_raw = _take(c1, 36)
+    trigger_raw = _take(c2, 20)
+    unk4_raw = _take(c3, 22)
+    trailing = bytes(data[off:])
+
+    doors_warps = []
+    for r in warps_raw:
+        x = struct.unpack_from("<H", r, 8)[0]
+        y = struct.unpack_from("<H", r, 12)[0]
+        doors_warps.append({"x": x, "y": y, "raw": r})
+
+    npc_objects = []
+    for r in npc_raw:
+        # Tentative only: in-bounds/walkable fraction is weaker than the
+        # warp pair above, see docs/ASSETS.md.
+        x_tentative = struct.unpack_from("<H", r, 28)[0]
+        y_tentative = struct.unpack_from("<H", r, 8)[0]
+        npc_objects.append({"x_tentative": x_tentative,
+                             "y_tentative": y_tentative, "raw": r})
+
+    script_triggers = [{"raw": r} for r in trigger_raw]
+    unknown4 = [{"raw": r} for r in unk4_raw]
+
+    return {
+        "to_trailing": to_trailing,
+        "counts": (c0, c1, c2, c3),
+        "doors_warps": doors_warps,
+        "npc_objects": npc_objects,
+        "script_triggers": script_triggers,
+        "unknown4": unknown4,
+        "trailing": trailing,
+    }
+
+
+def _encode_event_data(record):
+    if record.get("sentinel"):
+        return record["raw"]
+    c0 = len(record["doors_warps"])
+    c1 = len(record["npc_objects"])
+    c2 = len(record["script_triggers"])
+    c3 = len(record["unknown4"])
+    header = struct.pack("<I4B", record["to_trailing"], c0, c1, c2, c3)
+    body = b"".join(r["raw"] for r in record["doors_warps"])
+    body += b"".join(r["raw"] for r in record["npc_objects"])
+    body += b"".join(r["raw"] for r in record["script_triggers"])
+    body += b"".join(r["raw"] for r in record["unknown4"])
+    body += record["trailing"]
+    return header + body
+
+
 REGISTRY = {
     "a/1/2/3": {
         "path": "1/2/3",
@@ -272,11 +362,17 @@ REGISTRY = {
     },
     "a/1/2/5": {
         "path": "1/2/5",
-        "decode": _identity_decode,
-        "encode": _identity_encode,
-        "note": "428 sub-files (427 zones + 1), variable 4..2178 bytes. "
-                "Leading u32 does not resolve to one consistent header "
-                "size across samples; kept opaque.",
+        "decode": _decode_event_data,
+        "encode": _encode_event_data,
+        "note": "Per-zone event data, sub-file index == zone id (427) + a "
+                "4-byte sentinel at 427. [u32 to_trailing][u8 c0..c3] then "
+                "c0*20-byte doors/warps, c1*36-byte NPC objects, "
+                "c2*20-byte script triggers, c3*22-byte unknown-4th "
+                "records, then a trailing block; 4+to_trailing lands "
+                "exactly past the fourth array on all 428 sub-files. "
+                "Warp x/y at record +8/+12 (u16) confirmed against "
+                "map_grid.py walkability; NPC x/y at +28/+8 tentative; "
+                "trigger and 4th-array fields not identified.",
     },
     "a/1/6/8": {
         "path": "1/6/8",
@@ -448,13 +544,34 @@ def cmd_list_archives():
         print(tag)
 
 
+def _dump_event_data(record):
+    if record.get("sentinel"):
+        print("  sentinel (4-byte trailing entry)")
+        return
+    print(f"  to_trailing={record['to_trailing']} counts(warps,npc,"
+          f"triggers,unk4)={record['counts']}")
+    for k, w in enumerate(record["doors_warps"]):
+        print(f"  door/warp[{k}] x={w['x']} y={w['y']} "
+              f"raw={w['raw'].hex()}")
+    for k, o in enumerate(record["npc_objects"]):
+        print(f"  npc[{k}] x_tentative={o['x_tentative']} "
+              f"y_tentative={o['y_tentative']} raw={o['raw'].hex()}")
+    for k, t in enumerate(record["script_triggers"]):
+        print(f"  trigger[{k}] raw={t['raw'].hex()}")
+    for k, u in enumerate(record["unknown4"]):
+        print(f"  unknown4[{k}] raw={u['raw'].hex()}")
+    print(f"  trailing={record['trailing'].hex()}")
+
+
 def cmd_dump(tag, index):
     n, entry = _open(tag)
     data = n.read(index)
     record = entry["decode"](data)
     print(f"{tag} sub-file {index}: {len(data)} bytes")
     print(f"  raw: {data.hex()}")
-    if isinstance(record, dict) and "raw" not in record:
+    if tag == "a/1/2/5":
+        _dump_event_data(record)
+    elif isinstance(record, dict) and "raw" not in record:
         print(f"  decoded: {record}")
     elif isinstance(record, dict):
         shown = {k: v for k, v in record.items() if k != "raw"}

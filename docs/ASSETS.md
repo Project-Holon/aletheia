@@ -10518,3 +10518,215 @@ share one wild-encounter table in this archive, and only winter's block
 differs. No claim is made about which of 0/1/2 is which season.
 
 Round trip: still 112/112 sub-files byte-identical (`--verify`).
+
+## a/1/2/5 per-zone event data decoded (`tools/assets/tables.py`), a/0/6/6 key test excluded, 17 unreferenced matrices and zone 300 surveyed
+
+Follow-up pass on the "a/1/2/5, per-zone map event data" section above.
+`func_0216237C` (`src/pending/func_0216237C.c`) only opens the archive
+handle; it attests nothing about individual records. The header split
+that section already reports (`[u32 to_trailing][u8 c0][u8 c1][u8 c2]
+[u8 c3]` then arrays of 20, 36, 20 and a fourth record size, with
+`+0x120`/`+0x1c`/`+0x20`/`+0x24`/`+0x28` of the runtime object) comes
+from that section's own account of `func_021624B0`, which is not
+decompiled in this tree; this pass treats that split as already
+established and resolves the fourth array's record size and the
+individual record fields, which were still open.
+
+### Header, exact this time
+
+`4 + to_trailing` (the offset the u32 at +0 names) lands **exactly** on
+the byte past the fourth array on all 428 sub-files, not just within
+bounds:
+
+    8 + 20*c0 + 36*c1 + 20*c2 + 22*c3 == 4 + to_trailing   (428/428 exact)
+
+which is also how the fourth record's size (22 bytes) was recovered: the
+gap between the third array's end and the trailing-block offset divides
+evenly by `c3` on every one of the 142 sub-files with `c3 > 0`, always to
+22, with zero remainder anywhere. The earlier section's "leading u32 does
+not resolve to one consistent header size" was comparing the u32 against
+the wrong quantity (record length minus a constant); it is not a header
+length at all, it is this offset-to-trailing-block field, and it resolves
+exactly once the four arrays are separated out.
+
+Sub-file 427 is the 4-byte all-zero sentinel (at the end, not the start,
+unlike `a/1/6/8`/`a/2/1/5`'s leading-sentinel convention); sub-files
+0..426 are the 427 zones, one sub-file per zone id, in zone-id order
+(zone id == NARC member index, taken as the working hypothesis: `func_
+021624B0` reportedly passes the index through `sub_02013B38`'s sibling
+accessor first, per the existing section, but that accessor is not
+decompiled in this tree either, so this is unverified rather than
+attested; the sentinel's position and the exact 428 = 427+1 count are
+consistent with it).
+
+### Record arrays
+
+Implemented as `_decode_event_data`/`_encode_event_data` in
+`tools/assets/tables.py`, registered for `a/1/2/5`. Every record keeps its
+raw bytes; the encode side reassembles from those bytes exactly, so field
+naming below never risks the round trip.
+
+    array           count   record size   identity (per mission framing)
+    doors/warps     c0      20 bytes      classic warp/door list
+    NPC objects     c1      36 bytes      classic object/NPC list
+    script triggers c2      20 bytes      classic coordinate/trigger list
+    unknown4        c3      22 bytes      the "one more" list, unidentified
+
+`c0/c1/c2/c3` range over small counts (the most common tuples across all
+427 zones are `(0,2,1,0)`, `(0,0,2,0)`, `(0,3,1,0)`, `(0,3,2,0)`), and no
+sub-file's arrays overrun the trailing block, matching the header check
+above.
+
+**Doors/warps (20 bytes): x/y confirmed.** Record offset +8 and +12 (u16
+LE each) were tested against every zone that resolves to exactly one
+`a/0/0/8` map (`zones.py.resolve_zone_maps`, 303/427 zones -- the ones
+excluded are zones spanning several map chunks through matrix 0/175,
+where "the zone's map extent" is not one grid) by sweeping every
+high-variance offset pair in the record and checking, per pair, what
+fraction lands inside that map's `width x height` grid and how many of
+those land on a walkable tile (`map_grid.py`'s `walkable` flag). Offsets
++8/+12 is the clear winner and the only pair tested with values that vary
+enough to be real coordinates rather than a coincidentally-small flag
+field landing in range by luck:
+
+    x@+8, y@+12: in-bounds 330/350 (94.3%), walkable 316/330 (95.8%)
+    walkable AND (on a map edge OR adjacent to a blocked tile): 287/330
+        (87.0% of in-bounds records, 90.8% of the walkable ones)
+
+That last number is the mission's specific ask ("warps must sit on
+walkable tiles adjacent to blocked ones or map edges"): 87.0% of this
+sample's warp coordinates satisfy it directly, and the walkable-but-not-
+edge-adjacent remainder (29/316) reads as ordinary interior doorways
+(carpeted floor tiles with no blocked neighbour in the 4-connected sense
+checked) rather than a framing failure. The 5.7% (14/330) that land on a
+non-walkable tile and the 5.7% (20/350) that land outside the grid at all
+are reported as-is, not explained away; some are almost certainly zones
+whose single resolved map is the wrong one for that particular door (a
+multi-exit building whose non-primary door leads to a different chunk),
+which this check cannot distinguish from a real framing gap.
+
+No other field in the 20-byte warp record was pinned down. Offset +0 (u16,
+max 10431, four disjoint value bands roughly at 0-255/2048-2303/7936-8191/
+10240-10495) and offset +16 (u16, values cluster on multiples of 16: 0,
+16, 48, 80, 240) are candidates for a script/kind selector and a flags
+word respectively, by shape alone; neither has code or a cross-archive
+check behind it, so both keep generic names. No field in this record
+ranges 0..426 and 0..600 lands out (see below), consistent with no
+"destination zone"/"destination matrix" field having been identified
+either -- the 662 sampled warp records were checked against the 17
+unreferenced matrix ids (see below) with a negative result for the same
+reason: no field is confidently a matrix-id lane to test.
+
+**NPC objects (36 bytes): x/y tentative.** The best pair in this record
+is x@+28, y@+8, weaker than the warp pair on both axes:
+
+    x@+28, y@+8: in-bounds 688/1111 (61.9%), walkable 658/688 (95.6%)
+
+The high walkable fraction among in-bounds records is consistent with a
+real coordinate pair, but the 61.9% in-bounds rate (against the warp
+pair's 94.3%) is not clean enough to call this confirmed; it is reported
+tentative (`x_tentative`/`y_tentative` in the decoder) rather than
+promoted to the warp pair's status. The lower fit is plausible on its own
+terms -- NPC placement is exactly the record type most likely to include
+entries this check's single-map-per-zone restriction misplaces (an NPC
+whose zone spans multiple matrix chunks, or one on a non-primary chunk),
+more so than a fixed door.
+
+**Script triggers (20 bytes) and the unknown4 array (22 bytes): no
+coordinate field identified.** Every offset pair among each record's
+higher-variance fields was swept the same way; none produced an in-bounds
+fraction that was both high and clearly non-degenerate (the pairs that
+hit 100% in-bounds all turned out to be small, low-range enum/flag fields
+that trivially fit under almost any map's width/height, not real
+coordinates -- verified by checking that the same fields have very low
+value variance, under 20 distinct values archive-wide). Both record types
+are kept as raw bytes with no named fields beyond the header-level split.
+
+### a/0/6/6 key test: excluded
+
+Tested whether any u16 field of the NPC or script-trigger records is
+bounded to `a/0/6/6`'s exact 601-sub-file range (0..600) and whether the
+`group_count in {1,2,3,5,8}` header value of the indexed sub-file
+correlates with another field of the same record (a movement-frame count,
+a trainer sightline count). Both come back negative:
+
+- **Range**: no field is bounded to 0..600. The closest are the NPC
+  record's offsets +28 (89.2% of 2257 records in [0,600], true max 818)
+  and +30 (94.5% in range, true max 764) -- real fields with a wider
+  range than 600, not a clipped 601-entry index that happens to show a
+  long tail.
+- **Correlation**: for records whose candidate field does land in
+  [0,600], `a/0/6/6[field].group_count` was compared field-by-field
+  against the rest of the same record. The best matches (NPC record
+  offset +12, trigger record offset +16) "agree" 54-57% and 85-87% of the
+  time, but both of those fields are themselves dominated by the value 1
+  (57.5% and 87.7% of records) exactly like `group_count` is (574/601
+  files = 95.5%) -- two independently 1-heavy fields agree by chance at
+  close to that rate, so this is a base-rate artifact, not a discovered
+  link. No field reproduces `group_count` above what its own dominant-
+  value frequency would predict by chance.
+
+`a/0/6/6`'s role stays open (see `tools/assets/events.py`'s docstring);
+this pass adds a specific negative result -- it is not the NPC or
+script-trigger record's target archive -- rather than an identification,
+so no `--dump` support was added for it.
+
+### The 17 unreferenced matrices and zone 300
+
+The 17 matrix ids no zone record's `+0x04` lane selects (`a/0/0/9`'s
+matrix archive, cross-checked against all 427 `field_04` values):
+
+    id   mode  size   nonempty cells
+    67   0     1x1    1
+    77   0     1x1    1
+    118  0     2x2    4
+    160  0     1x1    1
+    178  0     1x1    1
+    181  0     1x1    1
+    193  0     2x2    4
+    208  0     2x2    4
+    212  0     1x2    2
+    214  0     1x1    1
+    215  0     1x1    1
+    216  0     1x1    1
+    217  0     1x1    1
+    218  0     1x1    1
+    238  0     1x2    2
+    242  0     1x1    1
+    253  0     2x2    4
+
+All 17 are mode 0 (private, single-zone-style matrices, same shape as the
+253 interior matrices the earlier section already describes) and every
+cell in every one of them is non-empty -- they are not blank placeholder
+data, they point at real `a/0/0/8` map ids, just from no path the zone
+table's `+0x04` lane reaches. Checked against `a/1/2/5`'s event records:
+every one of the 17 ids does turn up somewhere as a raw u16 field value
+in the 4178-record event set (2 to 51 hits each), but since no field in
+any of the four record types was identified as a "matrix id" or
+"destination zone/matrix" lane (see above), this is not read as evidence
+of a real reference -- with thousands of u16 field reads across four
+record types and ids as small as 67-253, hitting some field's value by
+chance is expected, not diagnostic. No warp, NPC, trigger or unknown4
+field can currently be pointed to as "the" reference lane, so these 17
+stay unexplained, consistent with the earlier section's conclusion.
+
+Zone 300 (matrix 175's one exception from the earlier "Zone resolution"
+section) was checked two more ways:
+
+- Matrix 175's zone grid has 23 distinct values across its 29x27 cells
+  (excluding the `0xFFFFFFFF` empty sentinel); every one of those 23
+  values is a real zone id in the 0..426 set parsed from `a/0/1/2` --
+  **no cell carries a zone id outside the 427 real ids** (not a
+  leftover/cut zone id, not a sentinel-like foreign value, just none of
+  the 23 present values happens to be 300).
+- No a/1/2/5 warp record was found that can be confidently read as
+  targeting zone 300, for the same reason as the matrix-id check above:
+  no destination-zone field was identified in the 20-byte warp record to
+  test. The raw value 300 does occur 7 times somewhere across all u16
+  fields of the archive, but with no attested "destination zone" lane
+  this is reported as inconclusive, not as a warp into zone 300.
+
+### Round trip
+
+    python tools/assets/tables.py --verify a/1/2/5
+    a/1/2/5: round trip 428/428 byte-identical

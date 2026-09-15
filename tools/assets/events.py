@@ -182,6 +182,31 @@ an `a/0/6/6` or `a/0/0/3` index, so this is reported as a plausibility
 note, not a confirmed lane. **`a/0/6/6`'s role is still open.**
 
 --------------------------------------------------------------------------
+`a/0/6/6` key test against `a/1/2/5`'s event records (this pass): negative
+--------------------------------------------------------------------------
+Once `a/1/2/5` (tools/assets/tables.py, `_decode_event_data`) was decoded
+into doors/warps (20 bytes), NPC objects (36 bytes), script triggers (20
+bytes) and a 4th, unidentified 22-byte record, this pass tested every u16
+field of the NPC and trigger records against `a/0/6/6`'s 601-sub-file
+range: no field is bounded to exactly 0..600. The closest candidates (NPC
+record offsets +28 and +30, "in [0,600]" on 89.2%/94.5% of 2257 records)
+both have a real max above 818/764, past the archive's own 600 ceiling --
+not a clipped index, a genuinely wider-ranging field. A group-count
+correlation test (does `a/0/6/6[field]`'s `group_count` equal some other
+field of the same NPC/trigger record, for records whose candidate field
+does land in 0..600) also came back negative once checked against base
+rates: `group_count` is 1 on 574/601 files (95.5%), and every field that
+"agreed" with it (the NPC record's own offset +12, the trigger record's
+offset +16) is itself dominated by the value 1 (57.5% and 87.7% of
+records respectively) -- the ~55-87% agreement seen is within a percent
+or two of what two independently 1-heavy fields would agree on by chance,
+not a real correlation. No movement-frame-count or sightline-count
+pattern was found either. **`a/0/6/6`'s role remains open**; this pass
+adds a negative result (ruled out as the NPC/trigger record's target)
+rather than a positive identification, so no new `--dump` support was
+added for it.
+
+--------------------------------------------------------------------------
 CLI
 --------------------------------------------------------------------------
     python tools/assets/events.py --list [--archive {0003,0666,both}]
