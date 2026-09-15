@@ -299,12 +299,12 @@ import battle_sprite as bs  # noqa: E402  (parse_nclr, PNG writer, bgr555)
 ARCHIVE_PATH = os.path.join("extract", "data", "a", "0", "0", "4")
 OUT_DIR = os.path.join("build", "assets", "rig")
 
+# Default block size for `a/0/0/4` (species*20 .. species*20+19, see the
+# module docstring). Any other rig-shaped archive (e.g. `a/0/7/2`'s
+# candidate trainer battle rig, block size 8) is handled the same way via
+# `--block-size` and `scan_rig_block`'s by-magic member detection below --
+# no other per-archive local-offset table is needed.
 BLOCK_STRIDE = 20
-LOCAL_NCGR_MAIN = 2       # main tile sheet
-LOCAL_NCER = 4            # cell bank
-LOCAL_NANR = 5            # cell animation: names every node's cell
-LOCAL_NMCR = 6            # multi-cell resource (rest pose)
-LOCAL_PALETTE_NORMAL = 18
 
 TILE_BYTES_4BPP = 32
 
@@ -520,8 +520,9 @@ def parse_ncer(data):
 #                                  the node array; same correction as above.
 #     0x0C  u32  reserved (0)
 #     0x10  u32  animBankOfs     embedded NANR body offset, or 0 (unused by
-#                                  this tool; the paired local-5 NANR sub-
-#                                  file is used instead, see LOCAL_NANR)
+#                                  this tool; the block's own separate NANR
+#                                  sub-file is used instead, see
+#                                  `scan_rig_block`/`load_rig_block`)
 #     0x14  u16  unk (10 for species 25)
 #     0x16  u16  unk (10 for species 25)
 #
@@ -906,22 +907,116 @@ def render_oam(ncgr, oam):
 
 
 def _apply_srt(x, y, sx, sy, rot_z):
-    """Scale then rotate a cell-local offset `(x, y)` about the cell's own
+    """Scale then rotate a cell-local point `(x, y)` about the cell's own
     origin (the node+frame translation point): `sx`/`sy` are FX32 (4096 ==
-    1.0), `rot_z` is 1/65536 of a turn. Every frame-0 SRT record sampled in
-    this archive reads identity (sx=sy=4096, rotZ=0), so this only changes
-    non-zero frames elsewhere in an animation (limbs/tail swinging). Only
-    each OAM's placement offset is transformed, not its pixel content --
-    hardware OBJ rotate/scale resamples the pixels themselves, which this
-    software renderer does not attempt; parts move and shrink/grow as rigid
-    rectangles rather than resampling their tile art."""
+    1.0), `rot_z` is 1/65536 of a turn. Forward direction only -- used to
+    find the post-transform bounding box of a cell (`_cell_frame_raster`);
+    per-pixel sampling itself goes through `_inverse_srt` below, mirroring
+    how DS OAM affine sprites actually render (hardware inverse-maps each
+    *output* pixel through the matrix, it does not forward-map input
+    pixels)."""
     fx = x * sx / 4096.0
     fy = y * sy / 4096.0
     if rot_z:
         theta = rot_z * (2.0 * math.pi / 65536.0)
         c, s = math.cos(theta), math.sin(theta)
         fx, fy = fx * c - fy * s, fx * s + fy * c
-    return round(fx), round(fy)
+    return fx, fy
+
+
+def _inverse_srt(x, y, sx, sy, rot_z):
+    """Invert `_apply_srt`: map a post-transform cell-local coordinate `(x,
+    y)` back to the pre-transform source coordinate it was sampled from.
+    The forward transform is scale-then-rotate (`output = R(theta) @ S @
+    input`), so the inverse is un-rotate-then-un-scale (`input = S^-1 @
+    R(-theta) @ output`) -- this is the actual per-pixel operation DS OAM
+    affine sprites perform: for every pixel of the (possibly enlarged,
+    double-size-mode) output canvas, inverse-map through PA/PB/PC/PD about
+    the sprite centre and nearest-neighbour-sample the source tile."""
+    if rot_z:
+        theta = -rot_z * (2.0 * math.pi / 65536.0)
+        c, s = math.cos(theta), math.sin(theta)
+        x, y = x * c - y * s, x * s + y * c
+    sx = sx or 4096
+    sy = sy or 4096
+    return x * 4096.0 / sx, y * 4096.0 / sy
+
+
+def _cell_local_raster(ncgr, cell):
+    """Render one cell's OAMs onto a local canvas at identity placement (an
+    OAM's `(x, y)` is already relative to the cell's own origin -- see
+    module docstring). Returns `(ox, oy, width, height, flat_pixels)`
+    where `(ox, oy)` is the position of the cell origin `(0, 0)` within the
+    returned canvas: a cell-local coordinate `(x, y)` is canvas index `(x +
+    ox, y + oy)`. Shared by the contact sheet and by `_cell_frame_raster`'s
+    per-pixel SRT resampling."""
+    if not cell.oams:
+        return 0, 0, 1, 1, [0]
+    minx = miny = 10**9
+    maxx = maxy = -10**9
+    for oam in cell.oams:
+        minx = min(minx, oam.x)
+        miny = min(miny, oam.y)
+        maxx = max(maxx, oam.x + oam.w)
+        maxy = max(maxy, oam.y + oam.h)
+    w = maxx - minx
+    h = maxy - miny
+    canvas = [[0] * w for _ in range(h)]
+    for oam in cell.oams:
+        rows = render_oam(ncgr, oam)
+        for ly, row in enumerate(rows):
+            py = oam.y - miny + ly
+            if not (0 <= py < h):
+                continue
+            for lx, v in enumerate(row):
+                if v == 0:
+                    continue
+                px = oam.x - minx + lx
+                if 0 <= px < w:
+                    canvas[py][px] = v
+    return -minx, -miny, w, h, [v for row in canvas for v in row]
+
+
+def _cell_frame_raster(ncgr, cell, sx, sy, rot_z):
+    """One cell, transformed by one frame's SRT, as a single flat raster --
+    the per-pixel counterpart to the twelfth/thirteenth passes' rigid
+    per-OAM placement offset. Matches the DS OAM affine-sprite algorithm:
+    compose the cell into a temporary canvas at identity (`_cell_local_
+    raster`), then inverse-map every pixel of the (generally larger,
+    double-size-mode-like) output canvas through the frame's SRT about the
+    cell origin (`_inverse_srt`) and nearest-neighbour-sample the identity
+    canvas. Returns `(ox, oy, width, height, flat_pixels)` in the same
+    `(ox, oy)`-is-the-origin's-canvas-position convention as `_cell_local_
+    raster`."""
+    src_ox, src_oy, src_w, src_h, src_flat = _cell_local_raster(ncgr, cell)
+    if sx == 4096 and sy == 4096 and rot_z == 0:
+        return src_ox, src_oy, src_w, src_h, src_flat
+
+    # Source bbox in cell-local (origin-relative) coordinates.
+    lx0, ly0 = -src_ox, -src_oy
+    lx1, ly1 = lx0 + src_w, ly0 + src_h
+    corners = [(lx0, ly0), (lx1, ly0), (lx0, ly1), (lx1, ly1)]
+    fwd = [_apply_srt(x, y, sx, sy, rot_z) for x, y in corners]
+    margin = 1  # nearest-neighbour rounding slop at the output edge
+    minx = math.floor(min(p[0] for p in fwd)) - margin
+    maxx = math.ceil(max(p[0] for p in fwd)) + margin
+    miny = math.floor(min(p[1] for p in fwd)) - margin
+    maxy = math.ceil(max(p[1] for p in fwd)) + margin
+    out_w = max(maxx - minx, 1)
+    out_h = max(maxy - miny, 1)
+    out = [[0] * out_w for _ in range(out_h)]
+    for oy in range(out_h):
+        ly = miny + oy
+        for ox in range(out_w):
+            lx = minx + ox
+            sxl, syl = _inverse_srt(lx, ly, sx, sy, rot_z)
+            six = round(sxl) - lx0
+            siy = round(syl) - ly0
+            if 0 <= six < src_w and 0 <= siy < src_h:
+                v = src_flat[siy * src_w + six]
+                if v:
+                    out[oy][ox] = v
+    return -minx, -miny, out_w, out_h, [v for row in out for v in row]
 
 
 def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node):
@@ -945,19 +1040,29 @@ def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node):
         if not cell.oams:
             continue
         identity = sx == 4096 and sy == 4096 and rot_z == 0
-        for oam in cell.oams:
-            rows = render_oam(ncgr, oam)
-            if identity:
-                lx, ly = oam.x, oam.y
-            else:
-                lx, ly = _apply_srt(oam.x, oam.y, sx, sy, rot_z)
-            ax = node.x + px + lx
-            ay = node.y + py + ly
+        if identity:
+            for oam in cell.oams:
+                rows = render_oam(ncgr, oam)
+                ax = node.x + px + oam.x
+                ay = node.y + py + oam.y
+                placements.append((ax, ay, rows))
+                minx = min(minx, ax)
+                miny = min(miny, ay)
+                maxx = max(maxx, ax + oam.w)
+                maxy = max(maxy, ay + oam.h)
+        else:
+            # Non-identity: per-pixel resample the whole cell as one block
+            # (see `_cell_frame_raster`) instead of moving each OAM as a
+            # rigid, unrotated rectangle.
+            ox, oy, w, h, flat = _cell_frame_raster(ncgr, cell, sx, sy, rot_z)
+            rows = [flat[r * w:(r + 1) * w] for r in range(h)]
+            ax = node.x + px - ox
+            ay = node.y + py - oy
             placements.append((ax, ay, rows))
             minx = min(minx, ax)
             miny = min(miny, ay)
-            maxx = max(maxx, ax + oam.w)
-            maxy = max(maxy, ay + oam.h)
+            maxx = max(maxx, ax + w)
+            maxy = max(maxy, ay + h)
     return placements, minx, miny, maxx, maxy
 
 
@@ -1059,32 +1164,8 @@ def render_cells_contact_sheet(ncgr, ncer, palette):
     documented fallback and as a useful debugging aid for the main pose."""
     cell_images = []
     for cell in ncer.cells:
-        if not cell.oams:
-            cell_images.append((1, 1, [0]))
-            continue
-        minx = miny = 10**9
-        maxx = maxy = -10**9
-        for oam in cell.oams:
-            minx = min(minx, oam.x)
-            miny = min(miny, oam.y)
-            maxx = max(maxx, oam.x + oam.w)
-            maxy = max(maxy, oam.y + oam.h)
-        w = maxx - minx
-        h = maxy - miny
-        canvas = [[0] * w for _ in range(h)]
-        for oam in cell.oams:
-            rows = render_oam(ncgr, oam)
-            for ly, row in enumerate(rows):
-                py = oam.y - miny + ly
-                if not (0 <= py < h):
-                    continue
-                for lx, v in enumerate(row):
-                    if v == 0:
-                        continue
-                    px = oam.x - minx + lx
-                    if 0 <= px < w:
-                        canvas[py][px] = v
-        cell_images.append((w, h, [v for row in canvas for v in row]))
+        _ox, _oy, w, h, flat = _cell_local_raster(ncgr, cell)
+        cell_images.append((w, h, flat))
 
     pad = 4
     sheet_h = max(h for _, h, _ in cell_images) + pad * 2
@@ -1252,25 +1333,121 @@ def indices_to_rgb(pixels, palette):
             for p in pixels]
 
 
-def load_block(narc_obj, species, local):
-    idx = species * BLOCK_STRIDE + local
+def load_block(narc_obj, species, local, block_size=BLOCK_STRIDE):
+    idx = species * block_size + local
     raw = narc_obj.read(idx)
     kind, dec = narc.try_decompress(raw)
     return dec if dec is not None else raw
 
 
-def render_one(n, species, out_dir, filename=None, cells_sheet=True):
+# ---------------------------------------------------------------------------
+# Generalized block scanning -- classify a rig bundle's members by their own
+# post-decompression magic instead of a fixed per-archive local-offset table.
+#
+# `a/0/0/4` (block size 20) and `a/0/7/2` (block size 8, the trainer battle
+# sprite candidate -- see docs/ASSETS.md) do not share a local-offset layout:
+# `a/0/0/4` duplicates both its NCGR sheets into 4 entries (0/1 small, 2/3
+# main) and carries two NCLR palettes (normal/shiny) at the far end of a
+# 20-wide block; `a/0/7/2` has exactly one NCGR per sheet, one NCLR, and an
+# extra unidentified no-magic member, all inside an 8-wide block. Scanning by
+# magic (picking the largest RGCN member as the "main" sheet, which also
+# happens to correctly disambiguate `a/0/0/4`'s duplicates) works for both
+# without hardcoding either archive's layout.
+# ---------------------------------------------------------------------------
+
+RIG_MAGICS = {
+    b"RGCN": "ncgr",
+    b"RECN": "ncer",
+    b"RNAN": "nanr",
+    b"RCMN": "nmcr",
+    b"RAMN": "nmar",
+    b"RLCN": "nclr",
+}
+
+
+def scan_rig_block(narc_obj, block_start, block_size):
+    """Classify every sub-file of one block by its post-decompression magic.
+    Returns `{kind: [(local_index, data), ...]}` in local-index order, `kind`
+    one of `RIG_MAGICS`'s values. Sub-files with no recognized magic (e.g.
+    `a/0/7/2`'s local 6, a plain `u32 == 1` with no NITRO header) are
+    skipped, not raised on.
+
+    Scanning **every** local in the block (not just the handful the old
+    fixed-offset code ever touched) means this now decompresses locals no
+    prior pass ever exercised -- e.g. `a/0/0/4`'s second near-identical
+    bundle (local 9-17) and duplicate NCGR copies. A handful of those carry
+    corrupt/truncated LZ11 streams (`narc.NarcError`) that have nothing to
+    do with whichever member this call actually needs, so a decompression
+    failure on one local must not sink the whole block -- it is treated the
+    same as an unrecognized magic (skipped), not raised on. Regression-
+    caught: without this, `--all` on `a/0/0/4` dropped from 712/714 to
+    681/714 species, because a bad stream in an unused duplicate now killed
+    species that decode perfectly well from their real members."""
+    found = {}
+    for local in range(block_size):
+        idx = block_start + local
+        if idx >= narc_obj.file_count:
+            break
+        raw = narc_obj.read(idx)
+        try:
+            _kind, dec = narc.try_decompress(raw)
+        except Exception:  # noqa: BLE001 -- a corrupt/irrelevant local must not sink the block
+            continue
+        data = dec if dec is not None else raw
+        if len(data) < 4:
+            continue
+        kind = RIG_MAGICS.get(data[:4])
+        if kind:
+            found.setdefault(kind, []).append((local, data))
+    return found
+
+
+def load_rig_block(narc_obj, block_start, block_size):
+    """One rig bundle's raw (post-decompression) member bytes, selected by
+    magic (`scan_rig_block`) rather than a fixed local-offset table. Returns
+    `(ncgr_data, ncer_data, nmcr_data, nanr_data_or_None, nclr_data_or_None)`.
+    NCGR/NCER/NMCR are required (raises `ValueError` naming the missing
+    member if absent); NANR/NCLR are best-effort (animation and palette are
+    refinements, not required for a bare cell layout)."""
+    found = scan_rig_block(narc_obj, block_start, block_size)
+    ncgrs = found.get("ncgr", [])
+    if not ncgrs:
+        raise ValueError(f"block at sub-file {block_start}: no RGCN (NCGR) member")
+    ncgr_data = max(ncgrs, key=lambda t: len(t[1]))[1]  # largest = main sheet
+    ncers = found.get("ncer", [])
+    if not ncers:
+        raise ValueError(f"block at sub-file {block_start}: no RECN (NCER) member")
+    ncer_data = ncers[0][1]
+    nmcrs = found.get("nmcr", [])
+    if not nmcrs:
+        raise ValueError(f"block at sub-file {block_start}: no RCMN (NMCR) member")
+    nmcr_data = nmcrs[0][1]
+    nanrs = found.get("nanr", [])
+    nanr_data = nanrs[0][1] if nanrs else None
+    nclrs = found.get("nclr", [])
+    nclr_data = nclrs[0][1] if nclrs else None
+    return ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data
+
+
+DEFAULT_PALETTE = [(128, 128, 128)] * 16  # fallback only when a block has no NCLR at all
+
+
+def render_one(n, species, out_dir, block_size=BLOCK_STRIDE, filename=None, cells_sheet=True):
     """Render one species' cells contact sheet (optional) and composed pose.
     Returns the pose (w, h) on success. Raises on any parse/decode failure
     (caller decides whether to catch, e.g. for --all skipping empty slots)."""
-    ncgr = parse_ncgr(load_block(n, species, LOCAL_NCGR_MAIN))
-    ncer = parse_ncer(load_block(n, species, LOCAL_NCER))
-    palette = bs.parse_nclr(load_block(n, species, LOCAL_PALETTE_NORMAL))
-    nmcr = parse_nmcr(load_block(n, species, LOCAL_NMCR))
-    try:
-        nanr = parse_nanr(load_block(n, species, LOCAL_NANR))
-    except Exception:  # noqa: BLE001 -- NANR delta is a best-effort refinement
-        nanr = None
+    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data = load_rig_block(
+        n, species * block_size, block_size)
+    ncgr = parse_ncgr(ncgr_data)
+    ncer = parse_ncer(ncer_data)
+    palette = bs.parse_nclr(nclr_data) if nclr_data else DEFAULT_PALETTE
+    nmcr = parse_nmcr(nmcr_data)
+    nanr = None
+    if nanr_data is not None:
+        try:
+            nanr = parse_nanr(nanr_data)
+        except Exception:  # noqa: BLE001 -- NANR delta is a best-effort refinement
+            nanr = None
 
     if cells_sheet:
         sheet_w, sheet_h, sheet_flat = render_cells_contact_sheet(ncgr, ncer, palette)
@@ -1283,18 +1460,22 @@ def render_one(n, species, out_dir, filename=None, cells_sheet=True):
     return w, h, ncer, nmcr
 
 
-def render_animation(n, species, out_dir, group=0, max_frames=32,
+def render_animation(n, species, out_dir, block_size=BLOCK_STRIDE, group=0, max_frames=32,
                       strip=True, gif_filename=None):
     """Render one species' animated node group (`Nmcr.groups[group]`) as a
     strip PNG (`NNNN_anim.png`, only when `strip` is True) and a looping GIF
     (`NNNN.gif` by default). Returns `(num_frames, gif_path)`. Raises on any
     parse/decode failure or a group with no working NANR (caller decides
     whether to catch)."""
-    ncgr = parse_ncgr(load_block(n, species, LOCAL_NCGR_MAIN))
-    ncer = parse_ncer(load_block(n, species, LOCAL_NCER))
-    palette = bs.parse_nclr(load_block(n, species, LOCAL_PALETTE_NORMAL))
-    nmcr = parse_nmcr(load_block(n, species, LOCAL_NMCR))
-    nanr = parse_nanr(load_block(n, species, LOCAL_NANR))  # required here, not best-effort
+    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data = load_rig_block(
+        n, species * block_size, block_size)
+    ncgr = parse_ncgr(ncgr_data)
+    ncer = parse_ncer(ncer_data)
+    palette = bs.parse_nclr(nclr_data) if nclr_data else DEFAULT_PALETTE
+    nmcr = parse_nmcr(nmcr_data)
+    if nanr_data is None:
+        raise ValueError(f"species {species}: no NANR member (required for animation)")
+    nanr = parse_nanr(nanr_data)  # required here, not best-effort
 
     if not (0 <= group < len(nmcr.groups)):
         raise ValueError(f"species {species} has no multi-cell group {group}")
@@ -1336,6 +1517,12 @@ def main(argv=None):
                      help="species/form index (25 = Pikachu). Not needed with --all.")
     ap.add_argument("--archive", default=ARCHIVE_PATH)
     ap.add_argument("--out", default=OUT_DIR)
+    ap.add_argument("--block-size", type=int, default=BLOCK_STRIDE,
+                     help="sub-files per species/class block (20 for a/0/0/4's rig; "
+                     "8 for a/0/7/2's candidate trainer battle rig -- see "
+                     "docs/ASSETS.md). Block members are found by their own "
+                     "post-decompression magic (scan_rig_block), not by a fixed "
+                     "local-offset table, so this is the only per-archive knob needed.")
     ap.add_argument("--group", type=int, default=0,
                      help="which NMCR multi-cell group to pose/animate (0 default; "
                      "group 1 is a second, independent animation on the same rig "
@@ -1371,12 +1558,12 @@ def main(argv=None):
     n = narc.parse_file(args.archive)
 
     if args.anim_all:
-        max_species = n.file_count // BLOCK_STRIDE
+        max_species = n.file_count // args.block_size
         ok = 0
         skipped = 0
         for sp in range(max_species):
             try:
-                render_animation(n, sp, args.out, group=args.group,
+                render_animation(n, sp, args.out, block_size=args.block_size, group=args.group,
                                   max_frames=args.max_frames, strip=False)
                 ok += 1
             except Exception as exc:  # noqa: BLE001 -- best-effort batch, log and continue
@@ -1386,12 +1573,13 @@ def main(argv=None):
         return 0
 
     if args.all:
-        max_species = n.file_count // BLOCK_STRIDE
+        max_species = n.file_count // args.block_size
         ok = 0
         skipped = 0
         for sp in range(max_species):
             try:
-                render_one(n, sp, args.out, filename=f"{sp:04d}.png", cells_sheet=False)
+                render_one(n, sp, args.out, block_size=args.block_size,
+                           filename=f"{sp:04d}.png", cells_sheet=False)
                 ok += 1
             except Exception as exc:  # noqa: BLE001 -- best-effort batch, log and continue
                 skipped += 1
@@ -1402,9 +1590,11 @@ def main(argv=None):
     if args.species is None:
         ap.error("species is required unless --all is given")
 
-    ncgr = parse_ncgr(load_block(n, args.species, LOCAL_NCGR_MAIN))
-    ncer = parse_ncer(load_block(n, args.species, LOCAL_NCER))
-    palette = bs.parse_nclr(load_block(n, args.species, LOCAL_PALETTE_NORMAL))
+    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data = load_rig_block(
+        n, args.species * args.block_size, args.block_size)
+    ncgr = parse_ncgr(ncgr_data)
+    ncer = parse_ncer(ncer_data)
+    palette = bs.parse_nclr(nclr_data) if nclr_data else DEFAULT_PALETTE
 
     print(f"[*] species {args.species}: NCGR {ncgr.tile_num_x}x{ncgr.tile_num_y} tiles "
           f"({ncgr.tile_count} total), NCER {ncer.num_cells} cells "
@@ -1418,23 +1608,28 @@ def main(argv=None):
     if args.cells_only:
         return 0
 
-    nmcr = parse_nmcr(load_block(n, args.species, LOCAL_NMCR))
+    nmcr = parse_nmcr(nmcr_data)
     print(f"[*] NMCR: {nmcr.num_multi_cell} multi-cell groups, "
           f"{len(nmcr.nodes)} node records, rest pose uses group 0's "
           f"{len(nmcr.rest_pose())} nodes")
-    try:
-        nanr = parse_nanr(load_block(n, args.species, LOCAL_NANR))
-        print(f"[*] NANR: {nanr.num_sequences} sequences, "
-              f"{nanr.num_elements} frame entries")
-    except Exception as exc:  # noqa: BLE001 -- NANR delta is best-effort
-        nanr = None
-        print(f"[!] NANR: not applied ({exc})")
+    nanr = None
+    if nanr_data is not None:
+        try:
+            nanr = parse_nanr(nanr_data)
+            print(f"[*] NANR: {nanr.num_sequences} sequences, "
+                  f"{nanr.num_elements} frame entries")
+        except Exception as exc:  # noqa: BLE001 -- NANR delta is best-effort
+            nanr = None
+            print(f"[!] NANR: not applied ({exc})")
+    else:
+        print("[!] NANR: no member found in this block")
 
     if args.anim:
         if not (0 <= args.group < len(nmcr.groups)):
             ap.error(f"species {args.species} has no multi-cell group {args.group}")
         num_frames, gif_path = render_animation(
-            n, args.species, args.out, group=args.group, max_frames=args.max_frames)
+            n, args.species, args.out, block_size=args.block_size,
+            group=args.group, max_frames=args.max_frames)
         strip_path = os.path.join(args.out, f"{args.species:04d}_anim.png")
         print(f"[*] animation: group {args.group}, {num_frames} distinct frame "
               f"times sampled (cap {args.max_frames})")

@@ -659,10 +659,11 @@ short mono cry sample.
 #### SBNK (instrument banks, `tools/assets/sbnk.py`)
 
 Header (0x10) + `DATA` block: magic+size (8), 32 bytes reserved,
-`u32 instrument_count`, then that many `u32` instrument-table entries
-packed as `record_type (low byte) | record_offset << 8` (absolute file
-offset, 0 for empty slots). Instrument record types found across all 1497
-real banks (26756 total table slots, most empty -- banks are sparse,
+`u32 instrument_count`, then that many 4-byte instrument-table entries:
+`u8 record_type`, `u16 record_offset` (relative to the SBNK file start,
+usable directly as an absolute offset), `u8 pad` (measured 0 in all
+30046 real entries). Instrument record types found across all 1497 real
+banks (26756 total table slots, most empty -- banks are sparse,
 fixed-size 128-ish-slot MIDI-program tables where only a handful of
 programs are actually used per bank):
 
@@ -672,28 +673,48 @@ programs are actually used per bank):
 | 1 | single-region PCM instrument | 1547 | high (verified, see worked example) |
 | 2 | unknown, PSG-shaped guess (pulse?) | 122 | low |
 | 3 | unknown, PSG-shaped guess (noise?) | 155 | low |
-| 16 | drum kit (per-note region table) | 187 | medium (best-effort region parse) |
-| 17 | key-split (multi-region) | 1279 | medium (best-effort region parse) |
+| 16 | drum kit (per-note region table) | 187 | high (region table re-derived and verified, see below) |
+| 17 | key-split (multi-region) | 1279 | high (region table re-derived and verified, see below) |
 
-Type 1's 12-byte record (`wave_arc`, `wave_id`, `base_note`, `attack`,
-`decay`, `sustain`, `release`, `pan`, 2 bytes padding) is fully decoded
-and confirmed. Types 16/17 are parsed as a leading run of ascending `u8`
-split-point note values (terminated at `0x7F`) followed by one 12-byte
-PCM-shaped record per split point (`sbnk.parse_regions()`); this matches
-the visual shape of real data (ascending note bytes, plausible envelope/
-pan values in the trailing bytes) but was not independently re-derived
-from a byte-level spec, so it's reported as medium confidence. Types 2/3
-are not decoded at all (low confidence even on what they represent).
+**Region table layout corrected this pass** (previous versions of this
+doc and `sbnk.py` had the instrument record 2 bytes too long and its two
+`u16` fields swapped -- see below). The 10-byte record shared by types
+1-5 and by every type-16/17 region is `u16 wave_id`, `u16 wave_arc`,
+`u8 note`, `u8 attack`, `u8 decay`, `u8 sustain`, `u8 release`, `u8 pan`
+(confirmed by checking which of the two `u16` fields is small (0-3, a
+valid slot into the owning BANK's own `wave_arc[4]` table) across all
+1547 real type-1 records: consistently the *second* field, not the
+first as previously assumed). Type 16 (drum kit) is `u8 low_note`,
+`u8 high_note`, then `(high_note - low_note + 1)` regions, each a
+`u16 region_type` (measured 1, i.e. PCM, in all 5308 real type-16 regions
+sampled) followed by the 10-byte record. Type 17 (key split) is
+`u8 split_points[8]` (a **fixed 8-byte array, not 0x7F-terminated** --
+real data has trailing zero entries after the last real split point),
+then one `u16 region_type` + 10-byte-record entry per *nonzero*
+split-point byte.
 
-**Round trip: 1497/1497 real banks (100%) byte-identical.** This is
-guaranteed by construction, not a coincidence: `Sbnk.roundtrip_bytes()`
-re-packs the header and instrument table from the decoded
-`(type, offset)` fields (a lossless struct round trip) and copies every
-remaining byte verbatim from the end of the table to end of file. That
-verifies the container/table structure precisely -- the part that
-actually needs to be right for the type/offset table to be trustworthy --
-without requiring every instrument type's internal field layout (notably
-2/3/16/17) to be fully reverse engineered first.
+A plausibility check (note/ADSR bytes in 0-127, `wave_arc` a valid
+in-bank slot, `wave_id` within that slot's resolved archive's own wave
+count) now passes for **100% of every region in every real bank**: 1547/
+1547 type-1 records, 187/187 type-16 low/high-note headers with 5308/
+5308 regions (187 first + 5121 later), and 1279/1279 type-17 headers
+with 3392/3392 regions (1279 first + 2113 later) -- including every
+region *past* the first, which the previous 12-byte/swapped-field parse
+only got right 4.1% of the time beyond region 0. Types 2/3 are read with
+the same 10-byte shape (the mission's public-spec layout says types 1-5
+share it) but are not reliably wave-bearing by this same check (51/122
+and 124/155 plausible) and remain undecoded in meaning.
+
+**Round trip: 1497/1497 real banks (100%) byte-identical**, unchanged by
+this pass's region-table fix. This is guaranteed by construction, not a
+coincidence: `Sbnk.roundtrip_bytes()` re-packs the header and instrument
+table from the decoded `(type, offset, pad)` fields (a lossless struct
+round trip) and copies every remaining byte verbatim from the end of the
+table to end of file. That verifies the container/table structure
+precisely -- the part that actually needs to be right for the type/
+offset table to be trustworthy -- independently of whether every
+instrument record type's internal field layout (types 2/3's meaning is
+still open) is fully reverse engineered.
 
 #### SSEQ (sequence bytecode, `tools/assets/sseq.py`)
 
@@ -985,20 +1006,26 @@ assumed convention as `sseq2midi.py`). All notes mix into a float buffer,
 peak-normalised down (never up) if it would clip, with a 1-second linear
 fade-out at the very end.
 
-**A real, pre-existing SBNK gap this pass had to work around:**
-`sbnk.py`'s own `parse_regions()` (type 16/17 key-split/drum-kit) was
-already flagged medium-confidence, "not independently re-derived from a
-byte-level spec." This pass measured exactly how bad that gap is: across
-every type-16/17 instrument in this SDAT (1447 of them), the *first*
-region resolves to a plausible in-bank `wave_arc` (0-3) 1253/1447 times
-(86.6%), but every region *after* the first is plausible only 154/3786
-times (4.1%) -- almost always garbage (e.g. `wave_arc=23167`, far outside
-the valid 0-3 range). Rather than drop most of a real melody's upper
+**A real, pre-existing SBNK gap this pass had to work around (CLOSED by a
+later pass -- see "SBNK region tables fixed" below):** `sbnk.py`'s own
+`parse_regions()` (type 16/17 key-split/drum-kit) was already flagged
+medium-confidence, "not independently re-derived from a byte-level
+spec." This pass measured exactly how bad that gap is: across every
+type-16/17 instrument in this SDAT (1447 of them), the *first* region
+resolves to a plausible in-bank `wave_arc` (0-3) 1253/1447 times (86.6%),
+but every region *after* the first is plausible only 154/3786 times
+(4.1%) -- almost always garbage (e.g. `wave_arc=23167`, far outside the
+valid 0-3 range). Rather than drop most of a real melody's upper
 register, `resolve_instrument_region()` falls back to the instrument's
 first region when the split-matched one is implausible -- an audible
 approximation (wrong per-range timbre, right instrument family), not a
 fix to `sbnk.py`'s byte layout (that remains future work, out of this
-lane's scope).
+lane's scope). A later pass re-derives the real region byte layout
+against the public SBNK spec (the record is 10 bytes with the two `u16`
+fields swapped from what this pass assumed, not 12 bytes) and gets every
+region in every real bank to 100% plausibility -- the first-region
+fallback described here was removed once that fix landed, since it no
+longer has anything implausible to fall back from.
 
 **Files rendered to `build/assets/audio/` (gitignored, regenerate, don't
 commit), 32768 Hz stereo 16-bit, capped at 30 s:**
@@ -1015,6 +1042,10 @@ All five pass this pass's sanity gate (`--verify`): non-silent (>1% of
 samples above a small noise-floor threshold), not clipped (peak <
 32767), and at least one note event actually consumed and rendered.
 
+(`seq_bgm_gym.wav` and `seq_bgm_vs_norapoke.wav`'s numbers above are from
+this pass, before the SBNK region-table fix below -- see "SBNK region
+tables fixed" for the corrected re-render of both.)
+
 **Known inaccuracies (see `sseqsynth.py`'s module docstring for the full
 list):** ADSR curve shape/scale and its byte-value direction are both
 assumed, not derived from real hardware timing; Volume/Expression/pan
@@ -1026,12 +1057,13 @@ verified argument decode; SBNK types 2/3 still have no wave data to play;
 loop detection only recognises one backward `Jump` per track, same
 limitation `sseq2midi.py` already has.
 
-**Remaining gaps:** SBNK type 16/17's true byte layout beyond the first
-region (the 4.1%-plausible finding above); SWAV PCM16 remains unexercised
-against real data (this ROM's WAVARC entries are 100% PCM8/ADPCM, per the
-SWAR/SWAV section above); `0xA0`-`0xA2`'s real argument shapes are still
-unknown in this codebase, so the no-op byte-skip is a labelled guess, not
-a decode.
+**Remaining gaps (at the time this pass was written; SBNK type 16/17's
+region layout was fixed by a later pass, see below):** SBNK type 16/17's
+true byte layout beyond the first region (the 4.1%-plausible finding
+above); SWAV PCM16 remains unexercised against real data (this ROM's
+WAVARC entries are 100% PCM8/ADPCM, per the SWAR/SWAV section above);
+`0xA0`-`0xA2`'s real argument shapes are still unknown in this codebase,
+so the no-op byte-skip is a labelled guess, not a decode.
 
 ## Where things probably live (guesses, ranked by evidence)
 
@@ -5941,3 +5973,668 @@ consistent with a genuinely tiled window texture rather than a bug.
   fix** -- expect small per-shape face-count drift (a handful of shapes
   short their last batch, a couple pick up one extra neighbouring batch)
   on models not in the three-way cross-check table above.
+
+## Asset lane pass: per-pixel SRT for the `a/0/0/4` rig -- matches the DS OAM affine algorithm, fixes rigid-rectangle rotation, does NOT fix the Charizard/Gengar detachment (that gap predates any transform)
+
+Mission: implement the per-pixel resampling the thirteenth pass's "Remaining
+gaps" flagged as missing -- DS OAM affine sprites render by inverse-mapping
+each *output* pixel through the 2x2 SRT matrix about the sprite centre and
+nearest-neighbour-sampling the source, not by moving a rigid rectangle -- and
+check whether that was the cause of Charizard's (species 6) and Gengar's
+(species 94) detached parts.
+
+### Implementation
+
+`_cell_local_raster(ncgr, cell)` composes one cell's OAMs onto a local
+canvas at identity placement (factored out of `render_cells_contact_sheet`,
+which now calls it too instead of duplicating the same loop), returning the
+canvas plus where the cell's own origin sits inside it. `_cell_frame_raster
+(ncgr, cell, sx, sy, rot_z)` is the new per-pixel step: it takes that
+identity canvas, forward-transforms its bbox corners (`_apply_srt`, now
+float-precision and forward-only) to size the output canvas, then for every
+output pixel calls the new `_inverse_srt` -- un-rotate then un-scale, the
+exact inverse of `_apply_srt`'s scale-then-rotate -- to find the source
+coordinate and nearest-neighbour-samples the identity canvas there.
+`_frame_placements` now branches on identity: an identity frame still moves
+each OAM as its own rigid offset (unchanged, exact, cheap); a non-identity
+frame resamples the whole cell as one block through `_cell_frame_raster`
+and blits that single raster at the node+frame translation, instead of
+moving each OAM's placement offset as a rigid rectangle the way the
+thirteenth pass did.
+
+Verified directly on species 6's cell 14 (a claw/horn, node 12's sequence,
+frame rot_z=12742 -- about 70 degrees, one of the largest rotations sampled
+in the twelfth/thirteenth passes' species-6 survey): the identity raster is
+a shape lying near-horizontal, and the SRT-resampled raster is the
+**same shape rotated to near-vertical**, pixel content included -- direct
+visual proof this now rotates the art itself rather than translating an
+axis-aligned box. `--anim-all` re-ran clean at the same 712/714 species
+count as the thirteenth pass (2m for 712 species; no crashes, no timeout),
+so the added per-pixel cost is acceptable at this archive's sprite sizes.
+
+### The Charizard/Gengar detachment does NOT come from missing per-pixel SRT
+
+Checked directly rather than assumed: `nmcr.groups[0].nodes` for species 6
+and 94 was dumped alongside each node's `frame_data` across every sampled
+elapsed time, specifically for the nodes whose rendered bbox lands where
+the detached parts appear on screen (species 6: two nodes far apart in x
+at the bottom of the canvas; species 94: two nodes at positive x, upper
+right).
+
+**Every one of those nodes reads `(sx, sy, rot_z) = (4096, 4096, 0)` --
+pure identity -- at every sampled elapsed time, including `t = 0`.** Their
+own `frame_data` first-word `px, py` is also `(0, 0)` throughout. The static
+rest-pose render (`--pose`, `t = 0`, all transforms identity by
+construction) shows the same isolated foot for Charizard and the same
+floating arm/leg for Gengar as the animated GIFs do. A transform that is
+never anything but identity cannot be the cause of a separation that is
+already present when identity is the only thing in play: **per-pixel
+resampling has nothing to correct here, because there is nothing non-
+identity to resample.** This refines rather than contradicts the
+thirteenth pass's finding that the detachment isn't a frame-0-only
+artifact -- it adds the missing other half, that it also isn't an SRT
+artifact at all for these specific nodes.
+
+What is left, then, is the flat per-node placement itself: `node.(x, y)`
+(the NMCR rest offset) plus the frame's own `(px, py)` (always zero for
+these nodes) is simply large enough, for these two species' foot/arm/leg
+nodes, to land outside the silhouette the other nodes draw. Whether that
+reflects the real hardware rest pose (Gen 5 battle sprites are shown
+mid-animation, never at a literal "frame 0"; an idle-breathing rig's true
+rest silhouette need not be a tidy closed shape) or a still-undiscovered
+per-node offset this reader is not applying (no parent/child node
+hierarchy is modelled -- flagged as a structural simplification since the
+twelfth pass, never actually tested against a hierarchy hypothesis) is not
+settled this pass; distinguishing them needs either the game's own
+renderer traced against real hardware/emulator output, or a source
+function that walks NMCR nodes with anything beyond the flat sum
+`func_020643CC`/`func_0206419C` already gave the eleventh/twelfth passes.
+Not chased further this pass -- scope was the SRT resampling, which is now
+verified correct and doesn't touch this.
+
+### NDS frame-rate assumption re-checked, still unconfirmed in-project
+
+Searched `src/matched` and `src/pending` for `VBlank`, `vsync`/`VSync`,
+`OS_Tick`, `HBlankIntr`, `GX_VBlankIntr`, `frameRate`/`FRAME_RATE`: no
+matches anywhere in either tree. No matched or pending function in this
+project currently references a vsync-driven tick or frame-rate constant,
+so `NDS_FPS = 59.8261` (the standard NDS hardware refresh rate) remains
+what the thirteenth pass already flagged it as: an assumed value, not one
+read from this project's own decompiled code. GIF delays stay in the
+right ballpark on that assumption but are not byte-verified against a
+timer.
+
+### Re-exports
+
+`0025.gif` (18 frames, now 79x57 -- was 76x56 under the old rigid-per-OAM
+sizing; the true SRT-resampled bbox for a couple of this sequence's small
+rotations is a few pixels larger), `0006.gif` (32 frames, 122x101),
+`0094.gif` (7 frames, 76x73) and the `0025_anim.png` strip were all
+re-rendered under the new per-pixel path and spot-checked at 6-8x
+nearest-neighbour: Pikachu's Thunder-Shock-shaped pose is unchanged and
+still unmistakable, Charizard and Gengar are still unmistakable creatures
+with the same (now-explained, not fixed) detached parts. `--anim-all`
+re-ran for all species: **712 GIFs rendered, 2 skipped** (species 712/713,
+the same two non-rig slots every earlier `--all`/`--anim-all` pass has
+skipped).
+
+### Functions touched
+
+`tools/assets/rig.py`: `_apply_srt` now returns unrounded floats and is
+forward-direction-only (bbox sizing); new `_inverse_srt`, `_cell_local_
+raster` (factored out of `render_cells_contact_sheet`, which now calls it),
+`_cell_frame_raster`; `_frame_placements` branches identity (unchanged
+per-OAM path) vs. non-identity (new per-cell resampled path).
+
+### Remaining gaps
+
+- **The Charizard/Gengar detachment is unresolved** -- confirmed this pass
+  to be a flat-placement matter (identity transform throughout), not an
+  SRT/resampling one; needs either hardware/emulator ground truth or a
+  parent/child node hierarchy hypothesis this project has not yet tested.
+- **`NDS_FPS` is still an assumed constant**, now re-searched and still
+  absent from every matched/pending function in the project.
+- Per-species group selection for `--anim-all` (group 0 only) and the
+  `nodeAttr` low-nibble/NMAR resource remain exactly as the twelfth/
+  thirteenth passes left them.
+
+## Asset lane pass: SBNK region tables fixed -- the drum-kit/key-split record was 2 bytes too long and its wave_id/wave_arc fields were swapped, now 100% plausible in every real bank
+
+Mission: the softsynth was dropping notes; fix `sbnk.py`'s region tables
+(types 16/17) against the public SBNK layout and re-render the gym and
+vs-Norapoke themes to measure the effect.
+
+### The bug
+
+The previous `sbnk.py` decoded every type-1/16/17 instrument region as a
+**12-byte** record (`wave_arc`, `wave_id`, `base_note`, 4 ADSR bytes,
+`pan`, 2 bytes of padding), with `wave_arc` read *before* `wave_id`. The
+public SBNK spec (verified against real bytes this pass, not assumed)
+says the record is **10 bytes**, with `wave_id` first: `u16 wave_id`,
+`u16 wave_arc`, `u8 note`, `u8 attack`, `u8 decay`, `u8 sustain`,
+`u8 release`, `u8 pan` -- no trailing padding.
+
+Both errors were confirmed the same way: across all 1547 real type-1
+instrument records, the *second* `u16` field is always 0-3 (a valid slot
+into the owning BANK's own 4-entry `wave_arc[]` table) and the *first* is
+often larger (up to 255) -- i.e. `wave_id` (which indexes into a whole
+wave archive, so a wider range is expected) comes first, `wave_arc`
+(which only ever selects 1 of 4 in-bank slots) comes second. This never
+broke type-1 instruments' single record on its own (both fields still
+land inside the 10 real bytes, just mislabelled and coincidentally close
+enough to sound plausible for many real regions), but it corrupted
+everything downstream of it for type 16 (drum kit) and 17 (key split):
+their region arrays are packed back-to-back with **no gap**, so reading
+each region as 12 bytes instead of 10 walks 2 bytes further per region
+than the file actually has, and every region past the first ends up
+reading the tail of the previous region plus the head of the next one.
+This is exactly why the previous pass measured 86.6% plausibility for
+first regions (no accumulated drift yet) collapsing to 4.1% for every
+region after it (drift compounds every 10-byte step).
+
+The instrument-table entry itself (the 4-byte `record_type`/`record_
+offset`/pad header for the whole instrument, not the region records
+inside it) was already correct in effect: it was read as `record_type
+(low byte) | record_offset << 8` (a 24-bit offset), and the public spec
+says `u8 type, u16 offset, u8 pad` (a 16-bit offset plus a separate pad
+byte) -- these differ only if the pad byte is ever nonzero, and it is
+measured 0 in all 30046 real instrument-table entries across all 1497
+real SBNKs, so this was not the source of the dropped notes. It is now
+decoded per the verified 3-field spec anyway (`sbnk.py`'s `Instrument`
+gained a `pad` field), for correctness rather than because it changed any
+behavior.
+
+### The fix and its verification
+
+`sbnk.py`'s `_parse_record()` now reads the correct 10-byte shape in the
+correct field order for types 1-5 and reuses it for every type-16/17
+region (`_parse_drum_kit()`, `_parse_key_split()`, both new). Type 16 is
+`u8 low_note, u8 high_note`, then `(high_note - low_note + 1)` regions of
+`u16 region_type` + the 10-byte record (12 bytes/region, matching the
+public spec exactly once the type-prefix is accounted for). Type 17 is
+`u8 split_points[8]` -- a **fixed 8-byte array**, confirmed NOT
+terminated at `0x7F` (real data has trailing zero bytes after the last
+real split point, e.g. `(67, 127, 0, 0, 0, 0, 0, 0)` for a 2-region
+instrument) -- then one `u16 region_type` + 10-byte-record entry per
+*nonzero* split-point byte.
+
+A new `region_plausible()` helper (note/ADSR bytes in 0-127, `wave_arc`
+a valid 0-3 in-bank slot, `wave_id` within that slot's resolved archive's
+own wave count) was run against every region of every real bank:
+
+| region set | plausible / total | plausible % |
+|---|---:|---:|
+| type 1 (single region) | 1547/1547 | 100.0% |
+| type 16, region 0 (drum kit) | 187/187 | 100.0% |
+| type 16, regions 1+ | 5121/5121 | 100.0% |
+| type 17, region 0 (key split) | 1279/1279 | 100.0% |
+| type 17, regions 1+ | 2113/2113 | 100.0% |
+
+Every category is now uniformly 100% plausible -- the mission's "same
+plausibility across all regions" bar, met exactly, up from the previous
+86.6%/4.1% split. (Types 2/3, read with the same 10-byte shape per the
+mission's public-spec note that types 1-5 share it, are not reliably
+wave-shaped by this same check -- 51/122 and 124/155 plausible -- so they
+remain undecoded and still silently dropped by the synth, unchanged from
+before this pass.) `low_note`/`high_note` headers were also checked
+directly: all 187 real type-16 instruments have `0 <= low_note <=
+high_note <= 127`.
+
+**Round trip: still 1497/1497 real banks (100%) byte-identical.** The fix
+only changes what `parse_detail()` reports about the bytes *after* the
+instrument table (region field meaning/size), not the table itself, so
+`roundtrip_bytes()`'s reconstruction (unaffected by any of this) was
+re-verified across all 1497 real SBNKs after the change, same result as
+before it.
+
+`sseqsynth.py`'s `resolve_instrument_region()` was updated to match: type
+16 now picks its region directly by `played_note - low_note` (clamped),
+the standard per-note drum-kit convention, instead of reusing type 17's
+split-point search; type 17 keeps its ascending-split-point search but
+against the corrected `split_points`/`regions` data. The previous
+version's "fall back to region 0 if the split-matched region looks
+implausible" safety net was removed -- there is nothing left for it to
+catch.
+
+### Before / after: `seq_bgm_gym.wav` and `seq_bgm_vs_norapoke.wav`
+
+Both re-rendered with `sseqsynth.py` unchanged in its own CLI/mixing
+logic -- only the SBNK region decode underneath it changed.
+
+| file | notes rendered before | notes rendered after | peak before | peak after | audible fraction before | audible fraction after |
+|---|---:|---:|---:|---:|---:|---:|
+| `seq_bgm_gym.wav` | 75/296 | 75/296 | 9139/32768 | 21546/32768 | 0.9% | 74.4% |
+| `seq_bgm_vs_norapoke.wav` | 129/766 | 149/766 | 17515/32768 | 32000/32768 | 6.9% | 76.5% |
+
+**The gym theme's rendered-note count did not change (75/296 both
+times), and that is expected, not a leftover bug:** every one of its 221
+non-rendered notes was checked directly -- 35 use a `record_type == 0`
+(empty) instrument slot (never playable, unrelated to this fix) and the
+other 186 all have a `start_time` past the render's fixed 30-second
+window (`MAX_SECONDS_DEFAULT`, a separate, deliberate cap, not a wave-
+resolution failure). Zero of the gym theme's in-window notes ever failed
+wave resolution, before or after this fix. What changed is *audio
+correctness*: before the fix, its type-17 (key-split) regions were being
+read at the wrong offsets/field order, so the notes that did render
+still played -- from wave references that happened to stay in-bounds by
+chance -- but pulled the wrong, often much quieter samples (peak
+9139/32768, only 0.9% of samples above the noise floor). After the fix,
+those same 75 notes resolve to their real, correctly-decoded regions:
+peak jumps to 21546/32768 and 74.4% of samples are now above the noise
+floor -- the same notes, now audibly correct instead of near-silent.
+
+**The vs-Norapoke theme's rendered-note count did change (129 -> 149,
++20; dropped 467 -> 447, -20)**, traced directly: before the fix, 20 of
+its notes resolved to a region whose `wave_arc`/`wave_id` pointed outside
+any real wave (an out-of-range index from the old 12-byte/swapped-field
+misread), so `resolve_wave()` returned `None` and the note was dropped
+outright. After the fix, all 149 of its in-window, non-empty-instrument
+notes resolve to a real wave -- zero wave-resolution failures, the
+remaining 447 drops all being start_time-past-window (`no_region`/
+`window_drop` counted directly, not inferred).
+
+### Files touched
+
+`tools/assets/sbnk.py` (region decode rewritten: `_parse_record()`,
+`_parse_dynamic_regions()`, `_parse_drum_kit()`, `_parse_key_split()`,
+`region_plausible()`; `Instrument` gained a `pad` field), `tools/assets/
+sseqsynth.py` (`resolve_instrument_region()` updated for the corrected
+type-16/17 shape; module docstring's stale 86.6%/4.1% figures and
+first-region-fallback description corrected). `build/assets/audio/
+seq_bgm_gym.wav` and `seq_bgm_vs_norapoke.wav` re-rendered (gitignored,
+regenerate, don't commit).
+
+### Remaining gaps
+
+- SBNK types 2/3 are still undecoded in meaning and still silently
+  dropped by the synth (51/122 and 124/155 plausible by the same check
+  that gates 1/16/17 -- not reliably the same wave-bearing shape).
+- The gym theme's 186 past-window notes and the 30-second render cap are
+  an `sseqsynth.py` rendering-length choice, not an SBNK gap; raising
+  `MAX_SECONDS_DEFAULT` (or rendering per-loop instead of by wall-clock
+  seconds) is a separate, future change, out of this pass's scope (which
+  was the SBNK byte layout).
+- `0xA0`-`0xA2`'s real argument shapes, ADSR curve shape/direction, and
+  the other `sseqsynth.py` approximations listed in its own module
+  docstring are unchanged by this pass.
+
+## Trainer battle sprite CONFIRMED: `a/0/7/2` is the trainer battle rig (95 blocks of 8), `rig.py` generalized to detect members by magic, class-to-block mapping is near-identity with a small number of merges
+
+Mission: test the standing hypothesis that `a/0/7/2` (760 sub-files = 95
+blocks of 8, each block's two LZ11 entries decompressing to 3248/16448
+bytes -- the Pokemon rig's own two NCGR tile-sheet sizes) is the trainer
+battle sprite archive that every previous pass failed to find by shape or
+by entry count, generalize `rig.py` to pose it, and (if confirmed) render
+the full set, check the two ~12-entry siblings, and work out the
+class-to-sprite-block mapping.
+
+### Verdict: CONFIRMED, by direct visual identification of named characters
+
+`a/0/7/2` block 0's pose (`build/assets/trainers_rig/0000.png`, 84x84) is
+unmistakably **the Black/White male protagonist's front battle sprite**
+(red-and-black cap, blue jacket, shoulder bag) -- checked by eye at 4x
+nearest-neighbour, not inferred. Block 1 is unmistakably the **female
+protagonist** (pink cap, brown ponytail, denim shorts). Block 2 is a
+**Youngster** (orange cap and shirt, holding a Poke Ball) and block 3 a
+**Lass** (long brown hair, yellow/white outfit) -- both exactly the
+mission's suggested confirmation targets. Block 10 is one of the Striaton
+City **Gym Leader** trio (spiky red hair, formal wear -- Chili). Later
+blocks resolve just as cleanly: block 39 and 82 are **Team Plasma**
+grunts/officers (grey-blue and green uniforms with the Plasma emblem),
+block 49 an **Ace Trainer** (sharp blue-haired trainer), blocks 78 and 81
+**Elite Four** members (a bald martial artist -- Marshal -- and an ornate
+purple-and-gold robed figure -- Caitlin), block 83 a **Swimmer** (bald,
+goggles, trunks), block 86 a **Maid**, block 87 a **Subway Boss**
+(conductor-striped coat and cane), and block 88 the **Champion** (wild
+orange hair and a green robe -- Alder). No archive previously rendered by
+this project showed a recognizable human battle sprite at this scale; the
+earlier "battle-HUD UI" misreadings of other candidates (`a/0/7/8`,
+`a/0/8/3`) are unrelated and stand as previously documented -- this is the
+first time the actual trainer roster has been seen.
+
+### Block layout: two NCGR sheets (not four), one NCER/NANR/NMCR/NMAR each, one unidentified member, one NCLR
+
+Scanning every sub-file of one block by its post-decompression magic
+(byte-for-byte, `python -c` against `narc.parse_file`/`try_decompress`)
+gives, for every one of the 95 blocks checked:
+
+| local | raw len | compression | decoded len | magic |
+|---:|---:|---|---:|---|
+| 0 | ~936-1170 | LZ11 | 3248 | `RGCN` (small NCGR) |
+| 1 | ~931-965 | LZ11 | 16448 | `RGCN` (main NCGR) |
+| 2 | 127 | none | 127 | `RECN` (NCER) |
+| 3 | 89 | LZ11 | 111 | `RNAN` (NANR) |
+| 4 | 60 | none | 60 | `RCMN` (NMCR) |
+| 5 | 99 | none | 99 | `RAMN` (NMAR) |
+| 6 | 60 | none | 60 | no magic (`u32 == 1`), unidentified |
+| 7 | 72 | none | 72 | `RLCN` (NCLR palette) |
+
+This is the same member set `a/0/0/4`'s rig uses (NCGR/NCGR/NCER/NANR/
+NMCR/NMAR/NCLR) but **not** the same local-offset layout: `a/0/0/4`
+duplicates both its NCGR sheets into 4 entries and carries two NCLR
+palettes (normal/shiny) at offsets 18/19 of a 20-wide block; `a/0/7/2` has
+exactly one NCGR per sheet, one NCLR, and an extra no-magic member, all in
+an 8-wide block. Every one of the 95 blocks in `a/0/7/2` follows this exact
+8-member layout (checked directly, not sampled).
+
+### `rig.py` generalized: block members found by magic, not by a fixed per-archive offset table
+
+Per the mission, `tools/assets/rig.py` no longer hardcodes `a/0/0/4`'s
+local offsets (`LOCAL_NCGR_MAIN = 2`, etc., now deleted). New:
+
+- `scan_rig_block(narc_obj, block_start, block_size)`: classifies every
+  sub-file of one block by its own post-decompression magic
+  (`RIG_MAGICS`), returning `{kind: [(local_index, data), ...]}`.
+- `load_rig_block(narc_obj, block_start, block_size)`: picks the required
+  members (NCGR/NCER/NMCR -- raises naming the missing one if absent) and
+  the optional ones (NANR/NCLR -- `None` if absent). **The main NCGR sheet
+  is simply the largest of however many `RGCN` entries the block has** --
+  this one rule correctly picks `a/0/0/4`'s main sheet out of its 4
+  duplicated entries (the previous fixed-offset code's job) and also
+  correctly picks `a/0/7/2`'s single main entry, with no per-archive
+  branch needed.
+- `main()` gained `--block-size` (default 20, the `a/0/0/4` value); every
+  render path (`render_one`, `render_animation`, `--all`, `--anim-all`,
+  single-species mode) now threads `block_size` through instead of the
+  module-level `BLOCK_STRIDE` constant.
+
+**Regression-checked**: `python tools/assets/rig.py 25` (no `--archive`/
+`--block-size`, i.e. the old default path) still writes
+`build/assets/rig/0025_pose.png` at 59x56 -- byte-for-byte the same
+dimensions the twelfth pass documented for Pikachu -- confirming the
+by-magic member selection reproduces the old fixed-offset behaviour for
+`a/0/0/4` exactly, not just "close enough."
+
+### Rendered: 95/95 poses and 95/95 GIFs, siblings checked
+
+`python tools/assets/rig.py --all --archive extract/data/a/0/7/2
+--block-size 8 --out build/assets/trainers_rig` and the equivalent
+`--anim-all` both report **95 rendered / 95 GIFs, 0 skipped** --
+`build/assets/trainers_rig/` holds 95 `NNNN.png` poses and 95 `NNNN.gif`
+animations (190 files total, gitignored, regenerate). Every GIF has
+exactly **1 frame**: each block's NMCR has 1 multi-cell group of 1 node,
+and that node's NANR sequence has 1 frame -- these are static single-cell
+battle sprites, not animated rigs the way the Pokemon side is (the "GIF"
+is a correctness-preserving degenerate case of the same exporter, not a
+bug).
+
+The two ~12-entry siblings the mission named are both **48 sub-files = 6
+blocks of 8**, same member layout and same per-member sizes as `a/0/7/2`
+(checked directly), and `a/0/7/3` is a byte-for-byte duplicate of
+`a/0/6/4` in every rendered pose (confirmed by eye across all 6). Neither
+is the generic 95-class roster; both are a **named-character back-sprite
+set**: block 0 the male protagonist (back view, idle), block 1 the female
+protagonist (back view), block 2 **Professor Juniper** (white lab coat,
+green skirt), block 3 **Cheren** (dark hair, teal jacket), and blocks 4/5 a
+second pose each of the two protagonists. This is the back-view battle
+entry sprite for the rival/professor cast, not additional trainer classes.
+
+### Class-to-block mapping: near-identity, with confirmed sprite-sharing merges starting around class 83
+
+The trdata table (`a/0/9/2`, see the previous pass) puts the real trainer
+class ids in the contiguous range 2..102 (101 distinct values), but
+`a/0/7/2` has only 95 blocks (2 of them, 0/1, already spoken for by the
+player characters, leaving 93 for classes 2..102) -- too few for a pure
+1:1 table, exactly as the mission anticipated ("a small table or a gap
+list"). Direct visual comparison against the 105-entry class-name text
+bank (`build/assets/text/191.txt`) at every spot checked shows **the
+mapping is the identity function on the class-id byte for most of the
+range**, not a separate lookup table:
+
+| class id | class name (bank 191) | block | rendered content |
+|---:|---|---:|---|
+| 0/1 | "Trainer"/"Trainer" | 0/1 | male/female protagonist |
+| 2 | Youngster | 2 | Youngster (orange cap/shirt) |
+| 3 | Lass | 3 | Lass (brown hair, yellow outfit) |
+| 4/5 | School Kid x2 | 4/5 | boy (vest)/girl (pigtails+glasses) |
+| 10 | Leader | 10 | Chili (red hair, Striaton trio) |
+| 38 | Trainer | 38 | generic blonde girl, green beret |
+| 39 | Team Plasma | 39 | Team Plasma grunt armor |
+| 49 | Ace Trainer | 49 | blue-haired sharp-dressed trainer |
+| 78 | Elite Four | 78 | Marshal (bald martial artist) |
+| 81 | Elite Four | 81 | Caitlin (purple/gold robe, crown) |
+| 82 | Team Plasma | 82 | green-uniformed officer |
+
+Past this point the mapping **shifts by exactly -1** starting at class 83
+("Depot Agent"): block 83 renders class 84's expected content (a male
+Swimmer), not class 83's, and the shift holds continuously through block
+90:
+
+| class id | class name | block (id - 1) | rendered content |
+|---:|---|---:|---|
+| 84 | Swimmer (M) | 83 | bald swimmer, goggles, trunks |
+| 85 | Swimmer (F) | 84 | ponytail, green bikini |
+| 86 | Policeman | 85 | peaked cap, baton |
+| 87 | Maid | 86 | bonnet, apron dress |
+| 88 | Subway Boss | 87 | conductor-striped coat, cane |
+| 89 | Champion | 88 | Alder (wild orange hair, green robe) |
+| 90 | Cyclist | 89 | male cyclist |
+| 91 | Cyclist | 90 | female cyclist |
+
+The simplest explanation fitting all 19 spot-checked points: class 83
+("Depot Agent") has **no dedicated sprite block** and reuses block 82's
+(Team Plasma) art, so every block from 83 onward names the class one
+higher than its own index. This is a real, confirmed instance of the
+"gap list" the mission predicted -- found by direct visual cross-
+reference against the class-name text bank, not by locating an explicit
+table in ARM9 (a byte-run scan of `extract/arm9_dec.bin` for a ~105-entry
+region where every value is below 95 turned up only unrelated small
+coordinate-like tables, no plausible class-index array; given the mapping
+is empirically near-identity with occasional merges rather than an
+arbitrary permutation, a dedicated lookup table may not exist at all --
+the "table" is just the trdata class-id field itself, minus a handful of
+classes without their own block).
+
+**Not fully resolved this pass**: block 91 (an elegant blonde figure in a
+long black dress) does not match class 92 ("Motorcyclist") under the -1
+rule, so a second merge happens somewhere between class 91 and 92 --
+plausibly matching "The Riches" (class 93, a wealthy socialite, appears 6
+times in the name bank) instead, i.e. "Motorcyclist" is itself a second
+merged/reused class. Block 94 (the last block) is **not** a trainer class
+at all -- it renders as a second, different pose of the female
+protagonist (throwing a Poke Ball), matching block 1's character. So the
+tail end of the archive (roughly blocks 91-94, needing to somehow stand in
+for classes 92-102 -- 11 names including "The Riches" x6, "GAME FREAK",
+and two more "Trainer"/"Team Plasma"/"Subway Boss" repeats) is **not** a
+simple continuation of the -1 shift; it was not pinned down further this
+pass. The single no-magic member (local 6, a bare `u32 == 1`) present in
+every block is also still unidentified.
+
+### Report
+
+- **Verdict**: `a/0/7/2` (95 blocks x 8 sub-files) is the Black/White
+  trainer battle sprite archive, confirmed by direct identification of
+  the male and female protagonists, a Youngster, a Lass, a Gym Leader
+  (Chili), two Elite Four members (Marshal, Caitlin), the Champion
+  (Alder), and Team Plasma grunts/officers -- more named characters than
+  the mission's own bar of "a Youngster, Lass, Ace Trainer, or a Gym
+  Leader."
+- **Block layout**: 8 sub-files/block -- small NCGR (3248B decoded), main
+  NCGR (16448B), NCER, NANR, NMCR, NMAR, one unidentified no-magic member,
+  NCLR. Detected by post-decompression magic (`scan_rig_block`/
+  `load_rig_block` in `tools/assets/rig.py`), not by a fixed offset table.
+- **`rig.py` generalized**: `--archive`/`--block-size` now drive member
+  detection for any rig-shaped archive; `a/0/0/4`'s own render
+  (`0025_pose.png`, 59x56) is byte-identical in dimensions to the
+  twelfth pass's documented output, confirming no regression. One real
+  regression was caught and fixed in the same pass: `scan_rig_block`
+  decompresses every local in a block (not just the handful the old
+  fixed-offset code ever touched), and a handful of `a/0/0/4`'s never-
+  before-decompressed duplicate locals carry corrupt LZ11 streams --
+  unguarded, that dropped `--all` from 712/714 to 681/714 species.
+  `scan_rig_block` now catches a decompression failure per-local and
+  skips it (same as an unrecognized magic) instead of raising, which not
+  only restores but slightly **improves** on the twelfth pass's own
+  figure: `a/0/0/4 --all` now renders **713/714** (species 712, previously
+  one of the "two trailing non-rig slots," turns out to render a genuine
+  Pokemon under by-magic member selection -- only species 713 is truly
+  empty).
+- **Renders**: `build/assets/trainers_rig/` -- 95 poses + 95 GIFs (1 frame
+  each; these are static sprites, not animated rigs). Siblings `a/0/6/4`
+  and `a/0/7/3` (48 sub-files = 6 blocks each, `a/0/7/3` a byte-for-byte
+  duplicate of `a/0/6/4`) rendered to
+  `build/assets/trainers_rig_probe/sibling_064|073/`: male/female
+  protagonist (2 poses each), Professor Juniper, Cheren -- a named-
+  character back-sprite set, not additional trainer classes.
+- **Class mapping**: identity (block == trdata's class-id byte) for
+  classes 0/1 (player characters) through at least 82, confirmed at 11
+  spot-checked classes/names; a -1 shift confirmed continuously from
+  class 83 ("Depot Agent", no dedicated block, reuses class 82's sprite)
+  through class 91, confirmed at 8 more spot-checked classes/names. No
+  explicit lookup table found in ARM9; the mapping is close enough to
+  identity that the "table" may simply be a short list of classes without
+  their own block, of which this pass located one (Depot Agent) directly
+  and inferred a second (Motorcyclist, unconfirmed) near block 91.
+- **Remaining gaps**: the exact merge point(s) between class 91 and 102
+  (11 names, likely including "The Riches" x6 and "GAME FREAK", packed
+  into blocks 91-94) are not resolved -- block 94 is confirmed to be a
+  second female-protagonist pose, not a trainer class, so the tail of the
+  archive does not simply continue the -1 shift. The single no-magic
+  member at local offset 6 in every block remains unidentified. No
+  species/class beyond the ~19 spot-checked this pass has been visually
+  confirmed against its name; the mapping rule is well-evidenced but not
+  exhaustively verified block-by-block.
+
+## Map-model per-tile grid mission: wrapper header fully mapped across all 4 tags (`WB`/`GC`/`NG`/`RD`), grid record byte-lane semantics recovered (walkable flag confirmed high-confidence, height/edge lanes medium-confidence), `tools/assets/map_grid.py` added
+
+Follow-up to the earlier map-model mission above (wrapper cracked, size
+table + BMD0 + per-tile grid). This pass decodes the 8-byte per-tile
+record's internal byte lanes and pins down the header size-table fields
+for every wrapper tag, using `pl_00_00` (player's house), `map14_13` and
+`map24_23` (outdoor terrain chunks) and `m_dun0101_00_00` (dungeon room)
+as samples, cross-checked against the OBJ geometry already exported for
+three of these. New tool: `tools/assets/map_grid.py` (`--dump` for
+per-lane text matrices, `--png` for per-lane false-colour PNGs, both
+under `build/assets/maps/`, gitignored).
+
+### Header size-table fields: all four tags now mapped, including a new "no grid" tag and a previously-undocumented dungeon double-grid
+
+Scanning every `a/0/0/8` sub-file's first two bytes confirms the four
+tags and counts already known (`WB` 572, `GC` 47, `NG` 22, `RD` 8) and
+this pass reads every remaining header `u32` for each:
+
+- **`WB`** (20 bytes, one grid): `u32@8`=BMD0 end/grid start,
+  `u32@12`=grid end/tail start, `u32@16`=total length. `u32@12` was
+  previously "not pinned down" -- confirmed this pass by computing the
+  grid's own byte extent (`4 + width*height*8`) from its self-describing
+  `u16,u16` dimension header and matching it exactly against `u32@12` in
+  every 32x32 sample (`map14_13`, `map24_23`); the one 64x64 sample
+  (`pl_00_00`) leaves a 32-byte gap before `u32@12` that is NOT a second
+  grid (see gaps below).
+- **`GC`** (24 bytes) -- **new finding: carries TWO 32x32/8-byte grids
+  back to back**, not one grid plus a tail as previously assumed:
+  `u32@8`=grid-1 start, `u32@12`=grid-1 end/grid-2 start, `u32@16`=grid-2
+  end/tail start, `u32@20`=total length. Confirmed structurally on
+  `m_dun0101_00_00` (both grids' `4+1024*8=8196`-byte spans land exactly
+  on these offsets) and the same shape holds on other GC samples
+  checked. Every GC sample seen is a dungeon/room model; what the second
+  grid represents (a second floor, a duplicate table, something else)
+  is not resolved -- its distinct-value distribution closely mirrors
+  grid 1's (same handful of record patterns, e.g. `pl`-style
+  `01 00 81 00` "open floor"), which reads as "the same kind of data
+  again", not confirmed further.
+- **`NG`** (16 bytes) -- **new finding: this tag's files carry NO
+  per-tile grid at all** (a plausible reading of the tag itself: "No
+  Grid"). `u32@8`=BMD0 end, `u32@12`=total length; every NG sample
+  checked (`c03_h00_00`, four `m_dun08xx`/`m_dun20xx` dungeon rooms) has
+  0-100 bytes between BMD0's end and the sub-file's declared total
+  length -- nowhere near a `4+N*8`-byte grid, and no `u16,u16` pair in
+  that gap reads as a sane width/height. NG sub-files are not restricted
+  to one model category (mixes a town building interior with several
+  dungeon rooms), so the tag looks like a per-file "has grid data or
+  not" flag rather than a category marker.
+- **`RD`** (20 bytes, 8 files, all named `wf_*`/`bc_*`) -- one ordinary
+  32x32/8-byte grid (`u32@8`/`u32@12` bracket it exactly as in `WB`),
+  **followed by a second, denser block**: a 4-byte value that does NOT
+  read as a sane grid dimension pair (consistently `4094` as a `u32`, a
+  fixed constant, not a size), then exactly `64*64*4 = 16384` bytes --
+  the right total size for a 64x64 grid of 4-byte records (found by
+  size alone, matching in 6 of 8 samples exactly; the remaining 2 run
+  16-32 bytes longer, unexplained). Given the `wf`/`bc` naming and that
+  64x64 is the same finer resolution seen on `pl_00_00`'s indoor grid,
+  the working guess is a per-quarter-tile water-surface table, but the
+  4-byte record's internal layout was not decoded this pass (LOW
+  confidence, size-match only).
+
+`tools/assets/map_grid.py`'s `parse_wrapper()` locates grids generically
+(read a `u16,u16` header, sanity-check the range, confirm the implied
+byte span fits) rather than hard-coding per-tag grid counts, with one
+deliberate restriction learned the hard way while writing it: a SECOND
+grid is only accepted if its dimensions exactly match the first grid's.
+Without that check, the unstructured tail bytes after a genuine single
+grid occasionally parse as a "plausible" tiny bogus grid by pure chance
+(a false 17x1 grid was found in `pl_00_00`'s tail, a false 5x2 grid in
+`map24_23`'s, before this restriction was added) -- both false positives
+are gone after requiring an exact size match, which is also the one
+multi-grid shape actually confirmed (`GC`'s two identical 32x32 grids).
+
+### Per-tile 8-byte record: byte-lane semantics (see `map_grid.py`'s docstring for the full writeup and confidence levels)
+
+Decoded each grid's `width*height` 8-byte records into 8 separate byte
+lanes and rendered each as a false-colour PNG
+(`build/assets/maps/<name>_grid_lane<N>.png`) plus a hex text matrix
+(`..._lane<N>.txt`):
+
+- **`byte[4]` -- HIGH confidence: 0/1 walkable flag.** Plotted as a
+  bitmap over `pl_00_00`'s 64x64 grid, this lane's shape IS the house's
+  floor plan: an open border, one large blocked interior blob (walls +
+  furniture) with an actual gap at the model's one door-sized opening.
+  Same result outdoors: `map24_23`'s lane 4 bitmap shows scattered
+  blocked patches (trees/rocks) against an open field, not noise.
+- **`byte[6]` -- HIGH confidence: always `byte[4] | 0x80`** (0x80 when
+  blocked, 0x81 when walkable) in every sample -- a redundant copy of
+  the walkable bit with a constant high bit, not independently useful.
+- **`byte[2]` -- MEDIUM confidence: a quantized height/terrain-level
+  code.** In `map24_23`, bucketing the exported OBJ's vertices into grid
+  cells by `(x,z)` and comparing per-cell sampled height against this
+  lane finds a real correlation: the four-tile run where `byte[2]` steps
+  `0,1,2,3` then plateaus at `4` (a literal ramp shape) sits exactly on
+  the boundary between an OBJ-sampled higher plateau (~y=+0.05, lane
+  value 0) and a lower one (~y=-0.3 to -0.4, lane value 4). The same
+  lane also carries unrelated large outlier values on furniture/border
+  tiles (103 in `pl_00_00`, 54 in `map24_23`) that break the smooth-ramp
+  reading, so this lane looks overloaded (a terrain-step id on most
+  tiles, a different per-object code on a handful of special ones) --
+  not separated out this pass.
+- **`byte[0]` -- MEDIUM confidence: an edge/boundary marker.** Near-zero
+  everywhere except a thin line tracing the exact same ramp/cliff
+  boundary `byte[2]` marks in `map24_23`, and a bordered-rectangle
+  pattern (distinct small values per edge: 2/4/8/16/24) on the same
+  furniture footprint `byte[2]` also lights up on in `pl_00_00`. Read as
+  "this tile is a transition/interaction-side tile", not confirmed
+  against any specific gameplay behaviour.
+- **`byte[1]`, `byte[3]`, `byte[5]` -- LOW confidence: zero in every
+  sample checked** across all four target files.
+- **`byte[7]` -- LOW confidence:** 0x00 almost everywhere, a single
+  isolated 0x80 tile seen once each in `map14_13` and `map24_23`, too
+  sparse to say more.
+- **Tall grass, water, ledges (one-way), stairs, doors/warps: NOT
+  found.** No lane distinguishes any of these from ordinary walkable
+  floor in the four sample files -- checked directly at `pl_00_00`'s one
+  known door tile, which decodes to the exact same record as plain
+  interior floor. Reported as a real negative result (every lane was
+  checked at that specific tile), not a skipped check. Working
+  hypothesis: these are handled by a separate event/warp/behaviour table
+  outside this grid entirely, not encoded in it at any bit position this
+  pass tested.
+
+### Remaining gaps
+
+- `pl_00_00`'s 64x64 grid ends 32 bytes before its header's declared
+  grid-end offset (`u32@12`); those 32 bytes (16 `u16` values, no
+  recognisable dimension header) are unexplained and are NOT a second
+  grid (ruled out: they don't reproduce on `map14_13`/`map24_23`, and
+  requiring an exact width/height match against grid 1 to accept a
+  second grid -- the fix that removed the false-positive tiny grids
+  above -- correctly rejects them too).
+- `GC`'s second grid and `RD`'s dense secondary block are structurally
+  located (exact byte offsets, confirmed sizes) but not semantically
+  decoded.
+- The true tail bytes after the last grid (order of 100-200 bytes in
+  most samples) are not decoded in this pass either.
+- Byte-lane analysis so far covers 4 sample files (1 house, 2 outdoor
+  chunks, 1 dungeon room); `byte[0]`/`byte[2]`'s "overloaded" behaviour
+  on furniture tiles suggests real per-object codes worth chasing with
+  more samples, and the walkable-only result for doors/ledges/etc.
+  should be checked against a sample that's known to actually contain a
+  one-way ledge or a set of stairs (none of the four targets here do).
