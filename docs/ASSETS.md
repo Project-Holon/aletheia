@@ -7614,3 +7614,149 @@ type.
   against `a/0/0/8`'s walkable grids, script-lane agreement with
   `a/0/0/3`) was not run, because no candidate passed the prerequisite
   lane-range test to be worth cross-checking.
+
+## Zone header table located by code: `a/0/1/2` sub-file 0, 427 records of 48 bytes
+
+Follow-up to "Zone table hunt" above, which ended with two open questions:
+where `func_0204A298` gets its data, and whether a flat per-zone array
+exists at all. Both are now answered from code, not from a stride scan.
+This pass decompiled the `zonedata.c` constructor and its neighbours; the
+`match.py` verdicts are in `layout/matched/arm9/pkt_02013528.json`,
+`pkt_02013BDC.json` and `pkt_02013E90.json`, with the two evidence-starved
+functions in `src/pending/`.
+
+### The archive-id table, which is what unlocked everything else
+
+`func_02048DDC`, the handle binder under both `func_0204A298` and
+`func_020490F4`, indexes a 235-entry `char *` table by the caller's archive
+id. The table lives at ARM9 `0x020A6C58` and is installed by
+`func_02048CEC(0x020A6C58, 0xeb)` from `0x020054FA` (0xeb = 235, and the
+ARM9 string block holds exactly 235 `a/x/y/z` names, `0x020A6500` to
+`0x020A6C50`). The mapping turns out to be the identity in decimal: id N
+is `a/` plus N's three decimal digits, so id 12 is `a/0/1/2`, id 81 is
+`a/0/8/1`, id 82 is `a/0/8/2`, id 149 is `a/1/4/9`. Note the address base:
+`extract/arm9_dec.bin` loads at `0x02004000`, not `0x02000000`, which is
+why an earlier scan for a pointer array "found nothing" near `0x020a2500`.
+
+### The table
+
+`func_020139B0` (ARM9 `0x020139B0`, the function that passes `"zonedata.c"`
+and line 0x60 to the allocator) opens a persistent handle to archive id
+0x0c, i.e. **`a/0/1/2`**, and stores it at manager +0x00.
+`sub_02013AD0` then reads records out of that handle with
+`func_0204944C(handle, member = 0, offset = 0x30 * id, size = 0x30, dst)`.
+`func_0204944C` is a random-access partial read: it seeks the FAT entry of
+`member`, then reads `size` bytes at `offset` inside that sub-file.
+
+So the zone header table is **sub-file 0 of `a/0/1/2`, record stride 0x30
+(48 bytes)**. `a/0/1/2` has exactly one sub-file, 20496 bytes, and
+20496 / 48 = **427** records with no remainder. Independently,
+`func_020139B0` seeds the cache tag at manager +0x34 with 0x1ab = 427,
+one past the last id, which is only a never-matches sentinel if the table
+really has 427 entries. Code and data agree.
+
+This is why every stride scan missed it: the table is a NARC with a single
+sub-file, so the "sub-file count in 100-1000, one dominant size" survey saw
+a 1-file archive, and the loose raw-blob pass filed `a/0/1/2` under
+graphics by arithmetic coincidence.
+
+### Lane bounds
+
+    records 427   stride 48   bytes 20496
+      +0x06: min 0   max 852  distinct 427
+      +0x08: min 1   max 853  distinct 427
+      +0x0a: min 2   max 468  distinct 427
+      +0x16: min 0   max 426  distinct 427
+
+The script lane check passes: `+0x0a` is injective over all 427 records and
+its maximum, **468**, is below `a/0/0/3`'s **472** sub-files. `+0x16` is a
+bijection onto 0..426, i.e. a permutation of the zone ids themselves.
+`+0x06` and `+0x08` are always consecutive (`+0x08 == +0x06 + 1` on
+427/427 records) and together cover 0..853 = 2 * 427 exactly, so each zone
+owns one aligned pair of entries in some 854-or-larger archive.
+
+The map lane check does **not** pass, and that is a real result rather than
+a miss: no lane of the record is an injective index bounded by `a/0/0/8`'s
+649 map files. The zone record does not name a map model directly. The
+nearest candidates are `+0x02` (max 273, 104 distinct) and `+0x04` (max
+254, 238 distinct); `a/0/0/2` has 288 sub-files and `a/0/0/9` has 255, so
+both fit numerically, but neither is attested by code from this range and
+neither should be written down as fact. `func_02013E90` compares `+0x04`
+between two zones as an equivalence test, which reads as a grouping key,
+not an index.
+
+### Field map, every entry attested by an accessor
+
+Offsets are from the record start (manager +0x04). Each row names the
+function whose single load fixes the offset and width.
+
+| offset | width | reader | note |
+|---|---|---|---|
+| +0x00 | u8 | `sub_02013B50` | |
+| +0x01 | u8 | `sub_0201405C` | |
+| +0x02 | u16 | `sub_02013B38` | |
+| +0x04 | u16 | `sub_02013B44` | grouping key; `func_02013E90` treats 0 and 0xaf as one group |
+| +0x06 | u16 | `sub_02013B5C` | even half of the consecutive pair |
+| +0x0a | u16 | `sub_02013B68` | script lane, max 468 below 472 |
+| +0x0c..+0x12 | 4 x u16 | `func_02013BDC` | one array, indexed 0..3, 0 outside |
+| +0x14 | u16 | `sub_02013EC0` | |
+| +0x16 | u16 | `sub_02013ECC` | bijection onto 0..426 |
+| +0x18 | u16 | `sub_02013E40` | |
+| +0x1a | u16 | `sub_02013E4C` bits 0..9, `sub_02013E6C` bits 10..15 | two packed lanes; `sub_02013E4C` substitutes 0x70 for 0x70/0x71 |
+| +0x1c | u16 | `sub_02013C10` bits 0..5, `sub_02013BA8` bits 6..8, `sub_02013BBC` bits 9..15 | three packed lanes |
+| +0x1e | u16 | `sub_02013FD8` bits 0..4, `sub_02013ED8` bits 5..9, `sub_02013C20` bit 10, `sub_02013C50` bit 12, `sub_02013C40` bit 13, `sub_02013C30` bit 14, `sub_02013C60` bit 15 | flag word |
+| +0x20 | u16 | `sub_02013BD0` | |
+| +0x24 | s32 | `sub_02013B74`, `sub_02013B90` | `sub_02013B74` returns it shifted left 16, i.e. int to Fx32 |
+| +0x28 | s32 | same pair | |
+| +0x2c | s32 | same pair | |
+
+`+0x08` has no accessor of its own; it is fixed instead by being `+0x06 + 1`
+on every record. `+0x22`, `+0x26`, `+0x2a` and `+0x2e` are zero on all 427
+records, consistent with `+0x24`/`+0x28`/`+0x2c` being 32-bit.
+
+### The manager object, and the three side tables
+
+`func_020139B0` allocates 0x4c bytes and `func_02013A48` releases them in
+the reverse order, which fixes the field map from two directions:
+
+| offset | what |
+|---|---|
+| +0x00 | `a/0/1/2` handle, closed with `func_02049238` |
+| +0x04..+0x33 | the cached 48-byte record |
+| +0x34 | u16 cached zone id, seeded 427 |
+| +0x38 | heap copy of `a/0/8/1` sub-file 13 |
+| +0x3c | heap copy of `a/0/8/2` sub-file 1 |
+| +0x40 | u16 entry count of +0x38 (byte size / 4) |
+| +0x42 | u8 entry count of +0x3c |
+| +0x43 | u8 entry count of +0x44 |
+| +0x44 | heap copy of `a/1/4/9` sub-file 0 |
+| +0x48, +0x49 | the two substitution gates, set by `sub_02013A80` |
+
+`func_02013EEC`, `func_02013F2C` and `func_02013F6C` walk +0x38, +0x3c and
++0x44 as arrays of 4-byte `{ u16 key; u16 value }` entries keyed on the
+zone id, so all three are sparse per-zone side tables rather than part of
+the record. The data agrees on all three counts: `a/0/8/1` sub-file 13 is
+104 bytes = 26 entries, `a/0/8/2` sub-file 1 is 0 bytes = 0 entries (that
+loop is simply never entered in this build), `a/1/4/9` sub-file 0 is 32
+bytes = 8 entries, and every key in all three is below 427.
+
+`sub_02013A94` remaps the incoming zone id before any of this, through a
+two-entry `{ u16 key; u16 value }` table at `0x020A72A8` (0x0000 to 0x01a8,
+0x0126 to 0x0127), each entry gated by its own byte at manager +0x48. A
+runtime-gated id substitution is the shape a version- or event-exclusive
+area takes, so those three constants are content and must not be assumed
+to hold for White.
+
+### Remaining gaps
+
+- Which archive the `+0x06`/`+0x08` pair indexes. It needs at least 854
+  sub-files; `a/0/0/7` (1431), `a/0/2/5` (1005) and `a/0/5/7` (899) are the
+  only plausible sizes in the set, and no code in this range narrows it.
+- The map-model link. The record has no `a/0/0/8` index, so the map is
+  reached through something else (a matrix archive is the obvious guess);
+  the reader that consumes `+0x02` was not found this pass.
+- The meaning of the packed lanes in `+0x1a`, `+0x1c` and `+0x1e`. Their
+  offsets and widths are exact, their semantics are not read.
+- `sub_02013A94`'s substitution table and `func_020139B0`'s `"zonedata.c"`
+  string have no attestable witness anywhere in the image, so both
+  functions are byte-correct but capped at `MATCH` in `src/pending/`.
