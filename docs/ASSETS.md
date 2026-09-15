@@ -8050,11 +8050,11 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 
 | status | archives | sub-files |
 |---|---:|---:|
-| covered and verified | 32 | 43672 |
-| generic format, verified | 38 | 2572 |
+| covered and verified | 37 | 43680 |
+| generic format, verified | 42 | 2649 |
 | generic format, not verified | 82 | 2337 |
-| custom format, no decoder | 83 | 5388 |
-| unknown | 12 | 85 |
+| custom format, no decoder | 86 | 5388 |
+| unknown | 0 | 0 |
 | **total** | **247** | **54054** |
 
 "covered and verified" is every archive this project has identified and built a dedicated decoder for, with the round-trip/verification status that decoder actually reports (a few are identified but not yet byte-round-tripped; these are flagged `partial`/`unverified`/`failing` in the `decoder`/`status` columns below, not silently merged into the verified count). "generic format, verified" is an archive whose dominant sub-file magic is a standard NITRO/G3D chunk (NCLR/NCGR/NCER/NANR/NSCR/NSBMD/NSBTX) covered by one of the project's generic-format converters' own `--verify`/`roundtrip` checks. "generic format, not verified" is the same dominant-magic shape with no archive-wide converter run against it yet -- decoding it needs verification, not a new decoder. "custom format, no decoder" is a dominant magic that is not a recognised NITRO chunk (a Game Freak-specific record table or wrapper) with no decoder written. "unknown" is the inventory's own `category_guess` of "unknown"/"unknown raw format" -- too little evidence yet for even a format guess.
@@ -8078,7 +8078,7 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/1/0 | 1 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 1 sub-file(s). |
 | a/0/1/1 | 222 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/0/1/2 | 1 | 0x04104a00 | covered and verified | zones.py | verified | Zone header table, single sub-file, 427 records x 48 bytes, layout attested by decompiled accessors. Round trip: 427/427 records byte-identical. |
-| a/0/1/3 | 0 | 0x00000000 | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: '0x00000000' over 0 sub-file(s). |
+| a/0/1/3 | 0 | 0x00000000 | custom format, no decoder | unknowns.py | unverified | NOT a NARC (bad magic), a single 2820-byte raw file. Resolves cleanly to 282 fixed 10-byte records with a recurring 0xFFFF sentinel word, but no reader found (see "Twelve unknowns identified" below) and no field split attempted; domain not identified. Whole-file identity copy (no container to re-pack). |
 | a/0/1/4 | 282 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/0/1/5 | 5 | 0x00008410 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00008410' over 5 sub-file(s). |
 | a/0/1/6 | 669 | dddd | covered and verified | personal.py | verified | Pokemon personal (base stat) data, 669 sub-files (1 sentinel + 667 real 60-byte records + 1 undecoded 1300-byte outlier). Round trip: 667/667 records byte-identical. |
@@ -8088,7 +8088,7 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/2/0 | 650 | 0x8500 | covered and verified | tables.py | verified | Per-species single u16 field (evolution-family/base-species index, per icons.py's value-pattern note). Reader: ov021 func_021C4504 (0x021C4504) via func_02048F74(dst, archive_id=0x14, member=species_id, mode=0, size_out). Round trip: 650/650 byte-identical. See "Large custom table pass" in this doc. |
 | a/0/2/1 | 560 | 0x000d0000 | covered and verified | waza.py | verified | Move data table, 560 sub-files, 36-byte records. Round trip: 560/560 records byte-identical. |
 | a/0/2/2 | 3 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/2/3 | 8 | NFTR variant (font, guess) | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: 'NFTR variant (font, guess)' over 8 sub-file(s). |
+| a/0/2/3 | 8 | NFTR variant (font, guess) | covered and verified | font.py | verified | Stale census row (predates font.py): 5 NFTR fonts (5064/5064/5064/32/41 glyphs) + 3 NCLR palettes. Glyph metrics + packed bitmaps confirmed against decompiled `sub_0201DC44.c`/`sub_0201E4D4.c`, CMAP confirmed against text.py's ASCII identity. Round trip: 15265/15265 glyph records byte-identical. See "Asset lane pass: fonts located and decoded" below. |
 | a/0/2/4 | 627 | 0x00000000 | covered and verified | items.py | verified | Item data table, 627 sub-files, price field confirmed against real BW shop prices via the game's own accessor. Round trip: 627/627 records byte-identical (re-run this pass). |
 | a/0/2/5 | 1005 | NCLR (palette) | covered and verified | overworld.py | verified | Bag item-icon archive, 1005 sub-files (451 NCGR + 552 NCLR + 1 shared NCER + 1 shared NANR, nearest-index pairing). NCGR round trip: 451/451 byte-identical. |
 | a/0/2/6 | 15 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8129,7 +8129,7 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/6/1 | 56 | 0x04000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x04000000' over 56 sub-file(s). |
 | a/0/6/2 | 10 | 0x04000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x04000000' over 10 sub-file(s). |
 | a/0/6/3 | 17 | NSCR (screen/map) | generic format, not verified | none | unverified | NSCR-dominant but not in background.py's covered archive list. |
-| a/0/6/4 | 48 | 0x11b00c00 | covered and verified | rig.py | failing | Trainer back-view sprite set (6 blocks of 8; male/female protagonist, Professor Juniper, Cheren, confirmed by eye). NCGR round trip FAILS: 0/48 -- these blocks' NCGR sub-files carry a second block the project's single-block NcgrFile parser does not handle; not pursued since the family was originally (wrongly) ruled out as UI content. |
+| a/0/6/4 | 48 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer back-view sprite set (6 blocks of 8; male/female protagonist, Professor Juniper, Cheren, confirmed by eye). NCGR round trip FIXED this pass: the second block these sub-files carry turned out to be an optional trailing SOPC block (the same one `background.py`'s NcgrTiles already passes through for `a/0/0/1`), not a second top-level RGCN resource; `rig.py`'s `Ncgr.encode()` now reassembles the RAHC head from decoded fields and copies any bytes after the declared tile data (including a trailing SOPC block) verbatim. NCGR round trip now 12/12 byte-identical (see `tools/assets/verify_all.py`). |
 | a/0/6/5 | 2 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/6/6 | 601 | 0x01000000 | covered and verified | events.py | verified | HIGH-confidence container framing recovered (outer header + G x 56-byte group-offset blocks, G in {1,2,3,5,8}), but the 14-fold redundancy in the group table and the per-group payload are not decoded past byte-exact extraction. G's small discrete range reads more like language-variant blocks than an event/door/warp table (this NARC's own automated category guess, "text banks", is plausible; not confirmed by decoding any string content). Round trip: 601/601 sub-files byte-identical. |
 | a/0/6/7 | 98 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 98 sub-file(s). |
@@ -8137,8 +8137,8 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/6/9 | 29 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/7/0 | 6 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 6 sub-file(s). |
 | a/0/7/1 | 39 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| a/0/7/2 | 760 | 0x11b00c00 | covered and verified | rig.py | failing | Trainer battle sprite archive, CONFIRMED by direct visual identification of named characters (male/female protagonist, Youngster, Lass, Gym Leader Chili, Elite Four Marshal and Caitlin, Champion Alder, Team Plasma grunts/officers) across 95 blocks x 8 sub-files (760 total). Class-to-block mapping is near-identity on the trdata class id with a few confirmed merges past class 83. NCGR round trip FAILS: 0/760, same unparsed second-block issue as a/0/6/4/a/0/7/3. |
-| a/0/7/3 | 48 | 0x11b00c00 | covered and verified | rig.py | failing | Trainer back-view sprite set, byte-for-byte duplicate of a/0/6/4's renders across all 6 blocks. NCGR round trip FAILS: 0/48, same unparsed second-block issue as a/0/6/4. |
+| a/0/7/2 | 760 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer battle sprite archive, CONFIRMED by direct visual identification of named characters (male/female protagonist, Youngster, Lass, Gym Leader Chili, Elite Four Marshal and Caitlin, Champion Alder, Team Plasma grunts/officers) across 95 blocks x 8 sub-files (760 total). Class-to-block mapping is near-identity on the trdata class id with a few confirmed merges past class 83. NCGR round trip FIXED this pass, same trailing-SOPC-block cause as a/0/6/4/a/0/7/3: now 190/190 byte-identical. |
+| a/0/7/3 | 48 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer back-view sprite set, byte-for-byte duplicate of a/0/6/4's renders across all 6 blocks. NCGR round trip FIXED this pass, same trailing-SOPC-block cause as a/0/6/4: now 12/12 byte-identical. |
 | a/0/7/4 | 1 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/0/7/5 | 151 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/0/7/6 | 29 | NCGR (tile/character data) | generic format, not verified | none | unverified | Also holds 2 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8157,15 +8157,15 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/8/9 | 24 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/9/0 | 1 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 1 sub-file(s). |
 | a/0/9/1 | 1 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 1 sub-file(s). |
-| a/0/9/2 | 616 | 0x00270001 | covered and verified | trainer_data.py | unverified | Trainer data (trdata), 616 sub-files (615 real 20-byte records + 1 sentinel). Identified by reference to a decompiled trainer-class accessor; class count 105 cross-checked against the class-name text bank. No byte-identical round-trip count reported in the docs for this decoder. |
-| a/0/9/3 | 616 | 0x00000a00 | covered and verified | trainer_data.py | unverified | Trainer data (trpoke), 616 sub-files, variable 8-byte-multiple records, paired 1:1 with a/0/9/2 by index. No byte-identical round-trip count reported in the docs for this decoder. |
+| a/0/9/2 | 616 | 0x00270001 | covered and verified | trainer_data.py | partial | Trainer data (trdata), 616 sub-files (615 real 20-byte records + 1 sentinel). Identified by reference to a decompiled trainer-class accessor; class count 105 cross-checked against the class-name text bank. `trainer_data.py --verify` (added this pass): the one byte-level cross-check this table supports is that its own partySize field (record offset 3) predicts the paired a/0/9/3 sub-file's length exactly (`partySize * 8`) -- 546/615 records ok, 69 mismatched, 1 skipped (the sentinel), matching the informal count `--records` already printed. Neither table is compressed or chunk-framed, so there is no further format to decode/re-encode; the 69 mismatches are an existing, unresolved gap in the trdata/trpoke pairing model, not a regression from this pass. |
+| a/0/9/3 | 616 | 0x00000a00 | covered and verified | trainer_data.py | partial | Trainer data (trpoke), 616 sub-files, variable 8-byte-multiple records, paired 1:1 with a/0/9/2 by index. Same `trainer_data.py --verify` cross-check as a/0/9/2: 546/615 ok, 69 mismatched, 1 skipped. |
 | a/0/9/4 | 53 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/9/5 | 165 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/9/6 | 42 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/9/7 | 2 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 2 sub-file(s). |
 | a/0/9/8 | 10 | 0x01000200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000200' over 10 sub-file(s). |
 | a/0/9/9 | 17 | 0x10240100 | custom format, no decoder | none | none | No decoder. Category guess: small sprite/icon set (guess). Dominant magic: '0x10240100' over 17 sub-file(s). |
-| a/1/0/0 | 20 | 0x10240600 | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: '0x10240600' over 20 sub-file(s). |
+| a/1/0/0 | 20 | 0x10240600 | generic format, verified | unknowns.py | verified | Dominant magic was the raw LZ77 compression header, not decompressed by inventory.py's sniff. Decompressing every sub-file: 18 NSCR (16 at 1572 bytes, 2 larger), 1 NCGR (16448 bytes), 1 raw NCLR (552 bytes) -- a background set (screens + tile sheet + palette). Round trip (decompress/recompress): 20/20 byte-identical. See "Twelve unknowns identified" below. |
 | a/1/0/1 | 1 | 0xf9000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xf9000000' over 1 sub-file(s). |
 | a/1/0/2 | 31 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/1/0/3 | 64 | NSBCA (animation) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8199,7 +8199,7 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/1/3/1 | 69 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/3/2 | 5 | 0x10000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10000000' over 5 sub-file(s). |
 | a/1/3/3 | 12 | NSCR (screen/map) | generic format, not verified | none | unverified | NSCR-dominant but not in background.py's covered archive list. |
-| a/1/3/4 | 670 | 0x11000002 | covered and verified | battle_sprite.py | unverified | Opening-cinematic frame sequence (670 sub-files, each a 256x256 16bpp direct-color LZ11 frame) -- CONFIRMED NOT trainer battle art via shot-boundary analysis and direct character recognition (N, Team Plasma castle). All 670 decode without a hard error; no updated full-archive byte-identical round-trip count is reported after the 16bpp reinterpretation (the original 4bpp-tile-era LZ11 encoder round trip doesn't apply to the corrected pixel format). |
+| a/1/3/4 | 670 | 0x11000002 | covered and verified | battle_sprite.py | verified | Opening-cinematic frame sequence (670 sub-files, each a 256x256 16bpp direct-color LZ11 frame) -- CONFIRMED NOT trainer battle art via shot-boundary analysis and direct character recognition (N, Team Plasma castle). `battle_sprite.py --verify` (added this pass) runs the LZ11 compression round trip (decompress, `lz11.compress` re-encode, compare) over all 670 sub-files: 670/670 byte-identical -- the decompressed payload itself carries no NITRO chunk magic and no palette (see module docstring), so the compression layer is this archive's only meaningful round trip; the pixel reinterpretation (16bpp direct-color, not 4bpp-tiled) does not change the compressed bytes either way. |
 | a/1/3/5 | 28 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/3/6 | 31 | 0xd6007f06 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xd6007f06' over 31 sub-file(s). |
 | a/1/3/7 | 108 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8226,7 +8226,7 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/1/5/8 | 5 | 0x01000100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000100' over 5 sub-file(s). |
 | a/1/5/9 | 113 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
 | a/1/6/0 | 252 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
-| a/1/6/1 | 5 | 0x10240600 | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: '0x10240600' over 5 sub-file(s). |
+| a/1/6/1 | 5 | 0x10240600 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause as a/1/0/0. 1 raw NCLR (552 bytes), 3 LZ77->NSCR (1572 bytes each, distinct payloads), 1 LZ77->NCGR (8256 bytes) -- a small background set. Round trip: 5/5 byte-identical. See "Twelve unknowns identified" below. |
 | a/1/6/2 | 19 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/6/3 | 7 | 0xfa2000d5 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xfa2000d5' over 7 sub-file(s). |
 | a/1/6/4 | 5 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8245,7 +8245,7 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/1/7/7 | 64 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/1/7/8 | 649 | 0x01010000 | custom format, no decoder | tables.py | unverified | 649 sub-files (no sentinel, one less than the usual 650), fixed 249-byte records, 181/249 byte offsets vary, all bounded under 128. No reader found. Census's "text banks" guess does not hold up: not a text.py message-file shape (no length-prefixed u16 code-unit string table). Framing round trip (raw copy): 649/649 byte-identical. See "Large custom table pass" in this doc. |
 | a/1/7/9 | 50 | 0x07000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x07000000' over 50 sub-file(s). |
-| a/1/8/0 | 44 | 0x10402000 | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: '0x10402000' over 44 sub-file(s). |
+| a/1/8/0 | 44 | 0x10402000 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause. Sub-files 0-21: LZ77->NCGR (8256 bytes each, 22 distinct tile sheets). Sub-files 22-43: raw NCLR (552 bytes each, 22 distinct palettes). Natural pairing is index N <-> N+22, not confirmed by any accessor. Round trip: 44/44 byte-identical. See "Twelve unknowns identified" below. |
 | a/1/8/1 | 35 | NSBCA (animation) | generic format, not verified | none | unverified | Also holds 4 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/8/2 | 11 | NCGR (tile/character data) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/1/8/3 | 28 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
@@ -8278,7 +8278,7 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/2/1/0 | 9 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/2/1/1 | 1 | 0x01000200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000200' over 1 sub-file(s). |
 | a/2/1/2 | 2 | RIFF | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: 'RIFF' over 2 sub-file(s). |
-| a/2/1/3 | 8 | 0x11240600 | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: '0x11240600' over 8 sub-file(s). |
+| a/2/1/3 | 8 | 0x11240600 | generic format, verified | unknowns.py | verified | Same compression-header-not-decompressed cause, LZ11 variant. 2 LZ11->NCGR (8256 bytes), 2 raw NCLR (552 bytes), 4 LZ11->NSCR (1572 bytes) -- a background set. Round trip: 8/8 byte-identical. See "Twelve unknowns identified" below. |
 | a/2/1/4 | 1000 | 0x00000000 | custom format, no decoder | tables.py | unverified | Fixed 16-byte records, same field shape as a/1/6/9 one notch wider (high bytes reach 2 instead of 1). No reader found; domain not identified. Possibly the member universe for a/2/1/5's group table (max member id there is 988). Framing round trip (raw copy): 1000/1000 byte-identical. See "Large custom table pass" in this doc. |
 | a/2/1/5 | 315 | 0x3d005800 | covered and verified | tables.py | verified | Group/member index table: [u16 group_id][u16 count][u16 member_id*count], 315/315 exact (no self-inclusive variant, unlike a/1/6/8). Max member id 988, fitting under a/2/1/4's 1000 records. No reader found; member-id domain not confirmed. Round trip: 315/315 byte-identical. See "Large custom table pass" in this doc. |
 | a/2/1/6 | 52 | NCLR (palette) | generic format, not verified | none | unverified | Also holds 18 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8300,12 +8300,12 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/2/3/2 | 1 | 0x00010101 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00010101' over 1 sub-file(s). |
 | a/2/3/3 | 2 | 0x10300100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10300100' over 2 sub-file(s). |
 | a/2/3/4 | 3 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
-| dl_rom/child2_r_eng.srl | 0 | SYAC | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: 'SYAC' over 0 sub-file(s). |
-| dl_rom/child_r_eng.srl | 0 | SYAC | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: 'SYAC' over 0 sub-file(s). |
-| dl_rom/icon_b.char | 0 | 0xdddddddd | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: '0xdddddddd' over 0 sub-file(s). |
-| dl_rom/icon_b.plt | 0 | 0x736eda31 | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: '0x736eda31' over 0 sub-file(s). |
-| dl_rom/icon_w.char | 0 | UUUU | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: 'UUUU' over 0 sub-file(s). |
-| dl_rom/icon_w.plt | 0 | 1FQ! | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: '1FQ!' over 0 sub-file(s). |
+| dl_rom/child2_r_eng.srl | 0 | SYAC | custom format, no decoder | unknowns.py | verified | "SYAC" is the first 4 bytes of the game title string, not a real magic -- this is a valid NDS ROM header (title "SYACHI_MB", gamecode "NTRJ", unit code 0x02) parsed directly per tools/ndsrom.py's own header layout. DS Download Play child (multiboot) binary: arm9 0x82CC0 bytes at 0x4000, arm7 0x28F84 bytes at 0x86E00, total 0xB5200, both regions fit inside the 1369088-byte file. See "Twelve unknowns identified" below. |
+| dl_rom/child_r_eng.srl | 0 | SYAC | custom format, no decoder | unknowns.py | verified | Same identification as child2_r_eng.srl (sibling Download Play child binary, slightly larger arm9 image: 0x888A8 bytes at 0x4000, arm7 0x28F84 bytes at 0x8CA00, total 0xBB000). See "Twelve unknowns identified" below. |
+| dl_rom/icon_b.char | 0 | 0xdddddddd | covered and verified | unknowns.py | verified | 512-byte 4bpp bitmap, DS banner icon format (32x32 px, 4x4 grid of 8x8 tiles), paired with icon_b.plt. Decodes and renders to a Poke Ball, confirmed by eye. See "Twelve unknowns identified" below. |
+| dl_rom/icon_b.plt | 0 | 0x736eda31 | covered and verified | unknowns.py | verified | 32-byte, 16-color BGR555 palette for icon_b.char. See "Twelve unknowns identified" below. |
+| dl_rom/icon_w.char | 0 | UUUU | covered and verified | unknowns.py | verified | Same format as icon_b.char, paired with icon_w.plt; renders to a Poke Ball on a lighter background. See "Twelve unknowns identified" below. |
+| dl_rom/icon_w.plt | 0 | 1FQ! | covered and verified | unknowns.py | verified | 32-byte, 16-color BGR555 palette for icon_w.char. See "Twelve unknowns identified" below. |
 | dwc/utility.bin | 0 | 0x10000000 | custom format, no decoder | none | none | No decoder. Category guess: single compressed blob (guess: font/graphic). Dominant magic: '0x10000000' over 0 sub-file(s). |
 | gfl_font.dat | 0 | 0x10000000 | custom format, no decoder | none | none | No decoder. Category guess: single compressed blob (guess: font/graphic). Dominant magic: '0x10000000' over 0 sub-file(s). |
 | skb.narc | 6 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
@@ -8519,6 +8519,8 @@ The inventory's own heuristic could not produce even a category guess for these 
 | dl_rom/icon_b.plt | 0 | 0x736eda31 | unknown raw format |
 | dl_rom/icon_w.char | 0 | UUUU | unknown raw format |
 | dl_rom/icon_w.plt | 0 | 1FQ! | unknown raw format |
+
+`category_guess` above is inventory.py's own unmodified heuristic (unchanged since it does not decompress sub-files or parse raw-file headers); all twelve rows are now identified by direct inspection -- see "Twelve unknowns identified" and the "Full per-archive table" rows above for what each one actually is.
 
 
 ## Per-tile grid record SOLVED from the game's code: it is not eight byte lanes, it is `{u16 surface, u16 index, u32 attribute}`, and the attribute word splits into a terrain id and a flag half
@@ -9207,3 +9209,139 @@ pass set), whether or not the semantic field names are confirmed.
 - No attempt was made to trace the archive id further up the call graph
   for the calls that pass it through as a parameter rather than an
   immediate (the likely next step for the remaining nine archives).
+
+## Twelve unknowns identified (`tools/assets/unknowns.py`)
+
+Mission: close out the census's entire "unknown" group (`category_guess` of
+`unknown`/`unknown raw format`, 12 archives, 85 sub-files) -- `a/0/1/3`,
+`a/0/2/3`, `a/1/0/0`, `a/1/6/1`, `a/1/8/0`, `a/2/1/3`, and the six `dl_rom`
+raw files (`child2_r_eng.srl`, `child_r_eng.srl`, `icon_b.char`/`.plt`,
+`icon_w.char`/`.plt`).
+
+### `a/0/2/3` was already solved
+
+`font.py` (previous pass) decodes this archive as 5 NFTR fonts + 3 NCLR
+palettes, round trip 15265/15265 glyph records byte-identical. The census
+row still read "unknown" only because it predates that pass. No new work
+here beyond re-bucketing the census row to "covered and verified".
+
+### Four NARCs: the census's own magic sniff stopped at the compression header
+
+`a/1/0/0`, `a/1/6/1`, `a/1/8/0` and `a/2/1/3` were all "unknown" for the
+same reason: inventory.py's dominant-magic sniff reads a sub-file's first
+4 bytes and stops there, so a BIOS-compressed sub-file reports its LZ77/
+LZ11 header (`0x10240600`, `0x10402000`, `0x11240600`) instead of what is
+underneath. Decompressing every sub-file with `narc.py`'s own LZ77/LZ11
+decoder (already used elsewhere in this project, e.g. `icons.py`) resolves
+all four cleanly to ordinary generic-NITRO content -- no new format, just
+an inventory-classification gap:
+
+| archive | sub-files | decompressed content |
+|---|---:|---|
+| `a/1/0/0` | 20 | 18 NSCR (16 at 1572 bytes, 2 larger), 1 NCGR (16448 bytes), 1 raw NCLR |
+| `a/1/6/1` | 5 | 1 raw NCLR, 3 LZ77->NSCR (1572 bytes, distinct payloads), 1 LZ77->NCGR (8256 bytes) |
+| `a/1/8/0` | 44 | 22 LZ77->NCGR (8256 bytes, all distinct), 22 raw NCLR (552 bytes, all distinct) |
+| `a/2/1/3` | 8 | 2 LZ11->NCGR (8256 bytes), 2 raw NCLR (552 bytes), 4 LZ11->NSCR (1572 bytes) |
+
+Each is a self-contained background set: one or more tile sheets (NCGR),
+one or more palettes (NCLR), and one or more screen/map layouts (NSCR).
+`a/1/8/0`'s 22 NCGR + 22 NCLR split most plausibly pairs by index
+(sub N with sub N+22, 22 matched sets) but no decompiled accessor was
+found confirming that specific pairing.
+
+**Round trip**: every sub-file of every one of the four archives was
+decompressed (`narc.py`) and re-compressed with the matching encoder
+(`lz77.py` for LZ77 sub-files, `lz11.py` for LZ11, identity for
+uncompressed ones) and compared byte-for-byte to the original: 20/20,
+5/5, 44/44, 8/8 -- 77/77 total, all byte-identical.
+
+### `a/0/1/3`: not a NARC
+
+`a/0/1/3` is not a NARC container at all (magic bytes are `0x00000000`,
+`narc.parse_file` raises "bad magic") -- it is a single 2820-byte raw
+file. Read as 16-bit words it resolves cleanly to 282 fixed 10-byte
+records (`2820 / 10` with no remainder), with a 0xFFFF sentinel word
+recurring at a regular-but-not-constant stride, consistent with section
+markers rather than noise. Domain not identified; kept as an opaque
+10-byte-record table. "Round trip" here is the trivial whole-file
+identity copy every raw (non-NARC) file in this project gets -- there is
+no container framing to re-pack.
+
+### Archive id immediate search (all five NARC/raw targets: negative result)
+
+The a/X/Y/Z archive id the game's own loaders use is the decimal digits
+`X*100 + Y*10 + Z` (confirmed against this doc's existing attestations:
+id 12 = `a/0/1/2`, id 9 = `a/0/0/9`, id 0x7B = 123 = `a/1/2/3`, id 0x14 =
+20 = `a/0/2/0`). This pass's five targets have ids 13 (`a/0/1/3`), 100
+(`a/1/0/0`), 161 (`a/1/6/1`), 180 (`a/1/8/0`) and 213 (`a/2/1/3`). Every
+`blx`/`.inst.w ... blx` call site to `func_02048F60`, `func_02048F4C`,
+`func_02048F74` and `func_02048F88` in `asm/arm9/` and `asm/overlays/`
+was backward-scanned for the nearest preceding immediate load of the
+archive-id argument register (r0 for `func_02048F60`/`func_02048F88`, r1
+for `func_02048F4C`/`func_02048F74`, per each function's own
+`src/matched/*.c` signature). None of the immediates found (9, 0x12,
+0x14, 0x15, 0x18, 0x19, 0x25, 0x30, 0x42, 0x43, 0x6d, 0x66, 0x6c, 0x75,
+0x7b, 0x7f, 0x94, 0x98, 0xa3, 0xa5, 0xbb, 0xd4, 0xdc, 0xe8, 0xf) equal
+13/0x0D, 100/0x64, 161/0xA1, 180/0xB4 or 213/0xD5. Two call sites in
+`ov010.s` reach `func_02048F4C` through a stored function pointer
+(`.word 0x02048F4C`) rather than an inline immediate and are outside
+what a static grep can resolve. Verdict: no reader found for any of the
+five, the same negative result `tables.py` already reports for several
+of its own "custom format, no decoder" archives.
+
+### `dl_rom`: two Download Play child binaries, two Poke Ball icons
+
+`child_r_eng.srl` and `child2_r_eng.srl` both carry a valid NDS ROM
+header at offset 0 (`tools/ndsrom.py`'s own docstring documents the
+0x200-byte layout; the tool itself has no standalone "parse one header"
+command, only extract/build/verify against a full cartridge image, so
+this pass parses the fixed offsets directly). Both report game title
+"SYACHI_MB", game code "NTRJ" (the generic placeholder, not Pokemon
+Black's own "IRBO"), maker "01", unit code 0x02 (NTR+TWL):
+
+| file | arm9 off/size | arm7 off/size | total size |
+|---|---|---|---|
+| `child_r_eng.srl` | 0x4000 / 0x888A8 | 0x8CA00 / 0x28F84 | 0xBB000 |
+| `child2_r_eng.srl` | 0x4000 / 0x82CC0 | 0x86E00 / 0x28F84 | 0xB5200 |
+
+Both files are 1369088 bytes and every region above fits inside that
+size. Same entry/load addresses in both, `child2` carrying a smaller
+arm9 image -- consistent with two variants of the same DS "Download
+Play" child (multiboot) program: code broadcast to guest consoles that
+never touch a cartridge, bundled inside the host game's own ROM, not a
+game-specific binary (hence the generic gamecode).
+
+`icon_b.char`/`.plt` and `icon_w.char`/`.plt` match the DS banner icon
+bitmap format exactly by byte count: 512-byte `.char` = 32x32 px at 4bpp
+(4x4 grid of 8x8 tiles), 32-byte `.plt` = 16 colors x 2-byte BGR555.
+Decoding and rendering both pairs (`unknowns.py --verify`, PNGs written
+to `build/assets/dl_rom/`, gitignored) produces a clearly recognisable
+Poke Ball in both cases -- `icon_b` on a dark background, `icon_w` on a
+light background (matched console color themes), confirmed by eye.
+
+### `tools/assets/unknowns.py`
+
+One module, stdlib only, depends on `narc.py`/`lz77.py`/`lz11.py`:
+
+    python tools/assets/unknowns.py --list      # identification + confidence per archive
+    python tools/assets/unknowns.py --verify     # NARC round trips + dl_rom headers + icon decode
+
+`--verify` output this pass: `a/1/0/0` 20/20, `a/1/6/1` 5/5, `a/1/8/0`
+44/44, `a/2/1/3` 8/8 byte-identical (77/77 total); `a/0/1/3` whole-file
+identity copy OK; both `.srl` headers parsed and sanity-checked (arm9/
+arm7 regions fit inside the file); both icon pairs decoded and rendered.
+
+### What remains
+
+- `a/0/1/3`'s 10-byte record fields are not split or named; domain
+  unidentified.
+- `a/1/8/0`'s NCGR<->NCLR pairing (index N <-> N+22) is the natural
+  reading of the sub-file order but not confirmed by any decompiled
+  accessor.
+- No archive-open call site was found for any of the five NARC/raw
+  targets by the immediate-before-the-call grep; two additional call
+  sites reach `func_02048F4C` through a stored function pointer rather
+  than an inline immediate and were not resolved.
+- The `dl_rom` `.srl` files' FNT/FAT are present but tiny (FNT size 9,
+  FAT size 0) -- consistent with a minimal download-play payload, not
+  decoded further here.
