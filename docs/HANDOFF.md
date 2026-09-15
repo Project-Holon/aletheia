@@ -162,8 +162,65 @@ extracted layout, so the work is a second `extract/` plus per-target layout file
    - `func_0204E010` (12 B, ARM, Shard `pkt_0204DD08.json`)
    - `func_0204E0C4` (12 B, ARM, Shard `pkt_0204E0C4.json`)
 
+
+
+---
+
+## 2026-09-16 - Wave 3: Graduated 19 Isolated/Clean Work Packets across arm9 (+204 B Net, 22 New Matched Functions)
+
+### Status & Metrics
+- **ROM State**: 100% byte-identical (`sha1: 26ad0b9967aa279c4a266ee69f52b9b2332399a5`).
+- **All 242 Build Checks Passing**: `242 PASS, 0 FAIL`.
+- **arm9 Decomp Coverage**: **16.4935%** (65,984 / 400,060 B across 1,600 matched functions).
+- **Open Packets**: Decreased from 500 to 481 (19 packets dissolved).
+
+### Key Functions Graduated in Wave 3
+1. **`pkt_02004EAC` (8 B, ARM, 2 funcs)**:
+   - `func_02004EAC` (4 B, ARM): Empty stub (`src/matched/unit_02004EAC.c`).
+   - `func_02004EB0` (4 B, ARM): Empty stub (`src/matched/unit_02004EAC.c`).
+2. **`pkt_0200B37C` (24 B, Thumb, 1 func)**:
+   - `func_0200B37C` (24 B, Thumb): Header and array zeroing loop (`src/matched/func_0200B37C.c`).
+3. **`pkt_020113D0` (8 B, Thumb, 1 func)**:
+   - `func_020113D0` (8 B, Thumb): Struct flag and value store (`src/matched/func_020113D0.c`).
+4. **`pkt_02022424` (12 B, Thumb, 1 func)**:
+   - `func_02022424` (12 B, Thumb): Coordinate / bounding box array setter (`src/matched/func_02022424.c`).
+5. **`pkt_02034FA0` (24 B, ARM, 1 func)**:
+   - `func_02034FA0` (24 B, ARM): Byte flag mask clear operation (`src/matched/func_02034FA0.c`).
+6. **`pkt_020588FC` (8 B, ARM, 1 func)**:
+   - `func_020588FC` (8 B, ARM): Boolean true constant getter (`src/matched/func_020588FC.c`).
+7. **`pkt_020590A4` (8 B, ARM, 1 func)**:
+   - `func_020590A4` (8 B, ARM): Offset +8 pointer access (`src/matched/func_020590A4.c`).
+8. **`pkt_020590C0` (8 B, ARM, 1 func)**:
+   - `func_020590C0` (8 B, ARM): Offset +4 pointer access (`src/matched/func_020590C0.c`).
+9. **`pkt_020590F0` (24 B, ARM, 3 funcs)**:
+   - `func_020590F0` (8 B, ARM): Field store to +8 (`src/matched/unit_020590F0.c`).
+   - `func_020590F8` (8 B, ARM): Contiguous pair store via `stmib` (`src/matched/unit_020590F0.c`).
+   - `func_02059100` (8 B, ARM): Field store to +4 (`src/matched/unit_020590F0.c`).
+10. **`pkt_0205A12C` (8 B, ARM, 1 func)**:
+    - `func_0205A12C` (8 B, ARM): Header prefix pointer adjust (`src/matched/func_0205A12C.c`).
+11. **`pkt_0205D1BC` (8 B, ARM, 1 func)**:
+    - `func_0205D1BC` (8 B, ARM): Constant `~5` return (`src/matched/func_0205D1BC.c`).
+12. **`pkt_0207A7BC` (8 B, ARM, 1 func)**:
+    - `func_0207A7BC` (8 B, ARM): Offset +0x24 pointer access (`src/matched/func_0207A7BC.c`).
+13. **`pkt_0207AB08` (8 B, ARM, 1 func)**:
+    - `func_0207AB08` (8 B, ARM): Constant `0` return (`src/matched/func_0207AB08.c`).
+14. **`pkt_020834B8` (8 B, ARM, 1 func)**:
+    - `func_020834B8` (8 B, ARM): Atomic swap wrapper via `swp` (`src/matched/func_020834B8.c`).
+15. **`pkt_02084EB0` (8 B, ARM, 1 func)**:
+    - `func_02084EB0` (8 B, ARM): Halfword field read at +4 (`src/matched/func_02084EB0.c`).
+16. **`pkt_02085A30` (8 B, ARM, 1 func)**:
+    - `func_02085A30` (8 B, ARM): Offset +0x70 pointer access (`src/matched/func_02085A30.c`).
+17. **`pkt_02085B94` (8 B, ARM, 1 func)**:
+    - `func_02085B94` (8 B, ARM): Value store to +0xb4 (`src/matched/func_02085B94.c`).
+18. **`pkt_02087EA0` (8 B, ARM, 1 func)**:
+    - `func_02087EA0` (8 B, ARM): Count leading zeros via `clz` (`src/matched/func_02087EA0.c`).
+19. **`pkt_0208A638` (8 B, ARM, 1 func)**:
+    - `func_0208A638` (8 B, ARM): Offset +0x38 pointer access (`src/matched/func_0208A638.c`).
+
 ### Technical Insights
-- Multi-function translation units in the Sound subsystem (`unit_020749B4`, `pkt_02075794`) demonstrate that grouping related functions allows local resolution of inter-function calls, promoting units with otherwise non-attested internal symbols to `EXACT`.
-- 11 tail-call forwarder thunks across ARM and Thumb units were cleanly graduated with full outside witness attestation against `0x020307B0`.
+- By targeting clean packets where `code_bytes == extent_bytes` without inter-packet relocations, 19 isolated packets across ARM and Thumb were matched with zero compiler mismatches and 100% byte identity.
+- Identified that contiguous struct field assignment in C triggers MWCC `stmib` code generation (`unit_020590F0`).
+- ROM byte-identical verification strictly maintained on every graduation.
+
 
 
