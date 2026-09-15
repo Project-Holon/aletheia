@@ -7760,3 +7760,137 @@ to hold for White.
 - `sub_02013A94`'s substitution table and `func_020139B0`'s `"zonedata.c"`
   string have no attestable witness anywhere in the image, so both
   functions are byte-correct but capped at `MATCH` in `src/pending/`.
+
+## Zone header table decoder (`tools/assets/zones.py`)
+
+Follow-up to "Zone header table located by code" above. `tools/assets/zones.py`
+was rewritten from a survey-and-code-lead stub into an actual decoder for
+sub-file 0 of `a/0/1/2` (427 records, 48-byte stride, byte-exact round-trip
+via `--verify`), and the mission's two open cross-checks were run against
+the real archives.
+
+### Stats (`--stats`, reproduces the table in the section above plus every
+other lane)
+
+    records 427   stride 48   bytes 20496
+      field_00     min=     0 max=    20 distinct=  20 injective=False
+      field_01     min=     0 max=    16 distinct=  16 injective=False
+      field_02     min=     2 max=   273 distinct= 104 injective=False
+      field_04     min=     0 max=   254 distinct= 238 injective=False
+      field_06     min=     0 max=   852 distinct= 427 injective=True
+      field_08     min=     1 max=   853 distinct= 427 injective=True
+      script_id    min=     2 max=   468 distinct= 427 injective=True
+      conn0        min=  1001 max=  1170 distinct=  54 injective=False
+      conn1        min=  1001 max=  1170 distinct=  54 injective=False
+      conn2        min=  1001 max=  1170 distinct=  54 injective=False
+      conn3        min=  1001 max=  1170 distinct=  54 injective=False
+      field_14     min=     0 max= 65535 distinct= 113 injective=False
+      zone_perm    min=     0 max=   426 distinct= 427 injective=True
+      field_18     min=     0 max=   424 distinct=  93 injective=False
+      packed_1a    min=     0 max=  1140 distinct= 158 injective=False
+      packed_1c    min=     0 max= 17984 distinct=  32 injective=False
+      flags        min=  2112 max= 60736 distinct=  50 injective=False
+      field_20     min=     0 max= 65535 distinct= 200 injective=False
+      reserved_22  min=     0 max=     0 distinct=   1 injective=False
+      fx_24        min=     0 max=   801 distinct=  57 injective=False
+      fx_28        min=     0 max=     8 distinct=   5 injective=False
+      fx_2c        min=     0 max=   758 distinct=  55 injective=False
+
+The `conn` array (record +0x0c..+0x12) is new information from this pass:
+all four slots range 1001..1170 (54 distinct values total) and 381/427
+records have all four slots equal to each other. A per-zone map pointer
+would not naturally take that shape; a set of four mostly-identical
+directional neighbour slots would.
+
+### The map lane: still not found, now with five more candidates ruled out
+
+`--map-lane-check` tests every numeric candidate the mission named against
+`a/0/0/8` (649 sub-files), by building the induced (zone -> a/0/0/8 index)
+mapping and checking two things: does the index land in range for
+(near-)all 427 records, and does any bit of the flag word (+0x1e) correlate
+with the resulting file being house-prefixed vs outdoor-prefixed (the same
+name-based classifier `tools/assets/map_grid.py`'s attribute-hunt pass
+already validated against `pl_00_00`'s real floor plan).
+
+    a/0/0/8 sub-files: 649
+      field_06 - 0:   classified 112/427, best bit score 0.22
+      field_06 - 204: classified 112/427, best bit score 0.17
+      field_06 - 205: classified 109/427, best bit score 0.16
+      field_06 - 206: classified 112/427, best bit score 0.19
+      field_08 - 0:   classified 109/427, best bit score 0.23
+      conn0..conn3 - 1001: classified 426-427/427, best bit score 0.00
+      field_02:       classified 384/427, best bit score 0.43 (on a 1/2 vs
+                      27/382 split -- not a real signal, just 2 records)
+      field_04:       classified 321/427, best bit score 0.20
+
+None of these clears a real threshold: the highest non-degenerate score is
+0.23, on barely a quarter of the table classified. Concretely ruled out
+this pass, on top of `field_02`/`field_04` (already ruled out above):
+
+- **field_06 / field_08, any offset**: bounded check alone kills this
+  before the correlation test matters -- raw `field_06` is `< 649` on only
+  325/427 records and `field_08` on only 324/427 (offsets 204/205/206, the
+  854-vs-649 gap, do not fix this: at most 112/427 records even end up
+  classifiable, because the rest still fall outside 0..648). A real map
+  index has to resolve for (close to) all 427 zones, not three-quarters at
+  best.
+- **conn0..conn3 minus 1001**: bounded for 426-427/427 records, but bit
+  correlation is exactly 0.00 on every flag bit -- the house-rate among
+  "bit set" zones equals the house-rate among "bit clear" zones bit for
+  bit. Combined with the structural point above (one indexed accessor
+  selecting 1-of-4, and 381/427 records having all four slots identical),
+  this reads as a directional neighbour-zone array, not a map pointer.
+- **The three side tables** (`a/0/8/1` sub-file 13, `a/0/8/2` sub-file 1,
+  `a/1/4/9` sub-file 0): read directly, their value ranges are 0..12 (26
+  entries), empty, and 0..1 (8 entries) -- none can index a 649-file
+  archive regardless of what they key on. Ruled out on value range alone,
+  no correlation test needed.
+
+So the map lane remains unresolved: every numeric candidate in the 48-byte
+record and every side table named in the mission is now ruled out, either
+by range or by a null correlation with the flag word. If the map link
+exists, it is reached some other way (a matrix/lookup archive keyed by one
+of the ruled-out lanes' pre-substitution id, or by an id this record
+doesn't carry at all) -- not read here.
+
+### The script lane: passes
+
+`--script-lane-check` parses every one of the 427 `script_id` values
+against `a/0/0/3` with `tools/assets/events.parse_0003`: **427/427 parse
+OK**, 0 failures. Combined with `script_id` being injective (see stats
+above) and its max (468) sitting below `a/0/0/3`'s 472 sub-files, this is a
+clean confirmation, not just a bounds coincidence.
+
+### Round-trip
+
+`--verify`: **427/427 records round-trip, 20496/20496 bytes byte-identical**.
+
+### NARC survey gap fix (`--survey`)
+
+The original survey (100-1000 sub-files, one dominant sub-file size) could
+not find `a/0/1/2` structurally: it has exactly one sub-file, so it read as
+a 1-file archive, not a 100-1000-entry table. `--survey` re-scans every
+archive under `extract/data/a` (235 files, matching the archive-id table)
+and also treats a single-sub-file archive's own blob as a candidate record
+array, checking every stride in [16, 64] for a record count in [100, 1000].
+This re-finds `a/0/1/2` at stride 48 (and several other divisors of 20496,
+which is expected noise -- 48 is the one code confirms) alongside three
+other single-sub-file archives with a plausible divisor (`a/0/3/7`,
+`a/0/8/6`, `a/2/1/1`), none of which this pass identifies further.
+`extract/arm9_dec.bin` loads at ARM9 address `0x02004000`, not
+`0x02000000`; the survey output states this so a future file-offset-to-
+address conversion does not repeat the earlier miss near `0x020a2500`.
+
+### Remaining gaps
+
+- The map-model link is still open; see above. Every lane and every named
+  side table is now a ruled-out candidate, not an untested one.
+- `conn0..conn3`'s actual semantics (neighbour zones? something else
+  entirely?) are not decoded past "an indexed array of four, mostly
+  constant across the four slots, range 1001..1170" -- 1001..1170 does not
+  land inside any zone-id range (0..426) either, so "neighbour zone id" is
+  a structural guess from the accessor shape, not a confirmed reading.
+- The packed lanes at +0x1a, +0x1c and the flag word at +0x1e are split
+  into bit ranges by offset/width only; no bit's semantics (beyond "not
+  correlated with indoor/outdoor" for all 16 flag bits, shown above) are
+  decoded.
