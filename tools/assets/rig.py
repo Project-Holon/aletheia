@@ -286,6 +286,8 @@ Usage
 """
 
 import argparse
+import bisect
+import math
 import os
 import struct
 import sys
@@ -711,6 +713,7 @@ class Nanr:
             anim_type, play_mode, frames_ofs = struct.unpack_from("<III", body, off + 4)
             self.sequences.append(
                 NanrSequence(n_frames, loop_start, anim_type, play_mode, frames_ofs))
+        self._time_cache = {}
 
     def frame_entry(self, seq_index, frame_index=0):
         """Return (offset_to_frame_data, duration) for one frame entry, or
@@ -730,10 +733,15 @@ class Nanr:
         return fofs, duration
 
     def frame_data(self, seq_index, frame_index=0):
-        """Return (cellIdx, px, py) for one frame, decoding whichever of the
-        three frame-data record shapes this sequence's element type selects,
-        or None if unavailable. Scale/rotation are ignored: every frame-0
-        record in this archive reads rotZ 0 and sx/sy 4096 (FX32 1.0)."""
+        """Return `(cellIdx, px, py, sx, sy, rotZ)` for one frame, decoding
+        whichever of the three frame-data record shapes this sequence's
+        element type selects, or None if unavailable. `sx`/`sy` are FX32
+        (4096 == 1.0) and `rotZ` is in 1/65536 of a turn; index (type 0) and
+        T (type 2) records carry no scale/rotation field at all, so they
+        report the identity (4096, 4096, 0) -- indistinguishable, at the
+        byte level, from a type-1 record that happens to read identity,
+        which is what every frame-0 SRT record sampled in this archive
+        does."""
         if not (0 <= seq_index < len(self.sequences)):
             return None
         entry = self.frame_entry(seq_index, frame_index)
@@ -747,16 +755,123 @@ class Nanr:
             return None
         cell_idx, = struct.unpack_from("<H", self._body, base)
         if etype == ANIM_ELEMENT_INDEX:
-            return cell_idx, 0, 0
+            return cell_idx, 0, 0, 4096, 4096, 0
         if etype == ANIM_ELEMENT_T:
             px, py = struct.unpack_from("<hh", self._body, base + 4)
-            return cell_idx, px, py
+            return cell_idx, px, py, 4096, 4096, 0
+        rot_z, = struct.unpack_from("<H", self._body, base + 2)
+        sx, sy = struct.unpack_from("<ii", self._body, base + 4)
         px, py = struct.unpack_from("<hh", self._body, base + 12)
-        return cell_idx, px, py
+        return cell_idx, px, py, sx, sy, rot_z
+
+    # -----------------------------------------------------------------
+    # Per-frame timeline (this pass): a sequence's frame entries carry a
+    # duration in NDS frames each; playback sums them to know which frame
+    # entry a given elapsed time `t` (also in NDS frames) falls in, and
+    # loops from `loopStartFrameIdx` once the sequence's own total is
+    # exceeded -- the same summing loop `func_020643CC` runs at 0x020644B8
+    # (see module docstring "the NANR sequence record"), just evaluated at
+    # an arbitrary `t` instead of only accumulating forward.
+    # -----------------------------------------------------------------
+
+    def _frame_times(self, seq_index):
+        """Cumulative start time of every frame in a sequence, plus a
+        trailing sentinel equal to the sequence's total duration:
+        `starts[i] <= t < starts[i + 1]` selects frame `i`. Cached per
+        sequence (species 25's longest sequence is 31 frames, so this is
+        cheap even uncached, but --anim-all calls it per species)."""
+        cached = self._time_cache.get(seq_index)
+        if cached is not None:
+            return cached
+        seq = self.sequences[seq_index]
+        starts = []
+        t = 0
+        for i in range(seq.num_frames):
+            starts.append(t)
+            entry = self.frame_entry(seq_index, i)
+            duration = entry[1] if entry is not None else 1
+            t += max(duration, 1)  # a zero-duration frame must not stall time
+        starts.append(t)
+        self._time_cache[seq_index] = starts
+        return starts
+
+    def total_duration(self, seq_index):
+        """A sequence's total playback length in NDS frames (one pass
+        through all its frames, before any looping)."""
+        if not (0 <= seq_index < len(self.sequences)):
+            return 0
+        return self._frame_times(seq_index)[-1]
+
+    def frame_index_at_time(self, seq_index, t):
+        """The frame index active at elapsed time `t` (NDS frames, `t >=
+        0`), looping from `loopStartFrameIdx` once the sequence's own
+        total duration is exceeded."""
+        if not (0 <= seq_index < len(self.sequences)):
+            return 0
+        seq = self.sequences[seq_index]
+        if seq.num_frames <= 1:
+            return 0
+        starts = self._frame_times(seq_index)
+        total = starts[-1]
+        if total <= 0:
+            return 0
+        loop_start = min(max(seq.loop_start, 0), seq.num_frames - 1)
+        et = t
+        if et >= total:
+            loop_time = starts[loop_start]
+            loop_len = total - loop_time
+            et = loop_time if loop_len <= 0 else loop_time + (et - total) % loop_len
+        idx = bisect.bisect_right(starts, et) - 1
+        return max(0, min(idx, seq.num_frames - 1))
 
 
 def parse_nanr(data):
     return Nanr(data)
+
+
+NDS_FPS = 59.8261  # standard NDS/GBA refresh rate; NANR durations are in NDS
+                    # frames, GIF delays are centiseconds -- this is the
+                    # conversion assumed (not stated anywhere in this
+                    # archive; the closest thing to ground truth in-project)
+
+
+def _driving_sequence(nanr, nodes):
+    """The node whose own sequence has the longest total playback duration
+    -- every other node's sequence is shorter and simply loops (via
+    `Nanr.frame_index_at_time`) while the driving one plays through once."""
+    return max((nd.anim_seq_idx for nd in nodes), key=lambda si: nanr.total_duration(si))
+
+
+def animation_frame_times(nanr, nodes, max_frames=32):
+    """All distinct frame times (NDS frames, elapsed since t=0) over one
+    loop of an animated node group: the frame-start boundaries of the
+    driving sequence (`_driving_sequence`). Capped at `max_frames` entries
+    per the mission's "or the first 32 frames" fallback."""
+    if nanr is None or not nodes:
+        return [0]
+    driving = _driving_sequence(nanr, nodes)
+    times = nanr._frame_times(driving)[:-1]
+    if not times:
+        times = [0]
+    if len(times) > max_frames:
+        times = times[:max_frames]
+    return times
+
+
+def animation_delays_cs(nanr, nodes, times):
+    """GIF frame delays (centiseconds) for `times`, converting the NANR
+    duration unit (NDS frames) via `NDS_FPS`. The last delay wraps back to
+    the driving sequence's own total duration (its loop point) rather than
+    guessing a repeat of the first gap."""
+    if nanr is None or not nodes or not times:
+        return [10] * max(len(times), 1)
+    driving = _driving_sequence(nanr, nodes)
+    total = nanr.total_duration(driving)
+    delays = []
+    for i, t in enumerate(times):
+        nxt = times[i + 1] if i + 1 < len(times) else max(total, t + 1)
+        delays.append(max(2, round(max(nxt - t, 1) * 100.0 / NDS_FPS)))
+    return delays
 
 
 # ---------------------------------------------------------------------------
@@ -790,64 +905,63 @@ def render_oam(ncgr, oam):
     return px
 
 
-def compose_pose(ncgr, ncer, nodes, nanr=None, frame=0):
-    """Blit every node's cell onto a shared canvas, following the composer
-    the game itself runs (`func_020643CC` walks the nodes, `func_0206419C`
-    turns one node's current animation frame into a cell plus a translation;
-    see the module docstring for the byte-level derivation):
+def _apply_srt(x, y, sx, sy, rot_z):
+    """Scale then rotate a cell-local offset `(x, y)` about the cell's own
+    origin (the node+frame translation point): `sx`/`sy` are FX32 (4096 ==
+    1.0), `rot_z` is 1/65536 of a turn. Every frame-0 SRT record sampled in
+    this archive reads identity (sx=sy=4096, rotZ=0), so this only changes
+    non-zero frames elsewhere in an animation (limbs/tail swinging). Only
+    each OAM's placement offset is transformed, not its pixel content --
+    hardware OBJ rotate/scale resamples the pixels themselves, which this
+    software renderer does not attempt; parts move and shrink/grow as rigid
+    rectangles rather than resampling their tile art."""
+    fx = x * sx / 4096.0
+    fy = y * sy / 4096.0
+    if rot_z:
+        theta = rot_z * (2.0 * math.pi / 65536.0)
+        c, s = math.cos(theta), math.sin(theta)
+        fx, fy = fx * c - fy * s, fx * s + fy * c
+    return round(fx), round(fy)
 
-      * **Cell selection**: a node names an *animation sequence* through its
-        `anim_seq_idx` (`func_020627D8` indexes the NANR bank's sequence
-        array with it, 16-byte stride). That sequence's current frame entry
-        points at a frame-data record whose first u16 is the NCER cell index
-        (`func_0206419C` +0x18: `func_02062D40` derefs the frame entry, then
-        `func_0206285C` looks the cell up by the u16 at its +0). The node's
-        own `cell_anim_slot` byte is not a cell index at all: it is the slot
-        in the caller's array of 0x5C-byte cell-animation states
-        (`func_02064648`). A node whose sequence has no such frame is
-        skipped.
 
-      * **Placement**: the node's (posX, posY) (`func_020643CC` +0x250,
-        `func_020640DC`) plus the frame's own (px, py) translation
-        (`func_0206419C`, SRT and T records both) is a straight translation
-        of the whole cell; each OAM keeps its own cell-local (x, y). Scale
-        is identity and rotation 0 at frame 0 (sx/sy read 4096 == FX32 1.0),
-        so no affine transform is applied.
-
-      * **Draw order**: nodes are emitted into the hardware OAM list in
-        array order, and a lower OAM index draws in front, so the nodes are
-        painted back-to-front here (last node first)."""
-    placements = []  # (abs_x, abs_y, px_rows)
+def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node):
+    """One frame's (abs_x, abs_y, px_rows) placements for every node, plus
+    the bbox they cover. `frame_idx_for_node(node)` resolves each node's own
+    frame index (so callers can drive nodes at a shared time or all at a
+    fixed frame)."""
+    placements = []
     minx = miny = 10**9
     maxx = maxy = -10**9
     for node in reversed(nodes):
-        fd = nanr.frame_data(node.anim_seq_idx, frame) if nanr is not None else None
+        fd = None
+        if nanr is not None:
+            fd = nanr.frame_data(node.anim_seq_idx, frame_idx_for_node(node))
         if fd is None:
             continue
-        cell_idx, px, py = fd
+        cell_idx, px, py, sx, sy, rot_z = fd
         if cell_idx >= len(ncer.cells):
             continue
         cell = ncer.cells[cell_idx]
         if not cell.oams:
             continue
+        identity = sx == 4096 and sy == 4096 and rot_z == 0
         for oam in cell.oams:
             rows = render_oam(ncgr, oam)
-            ax = node.x + px + oam.x
-            ay = node.y + py + oam.y
+            if identity:
+                lx, ly = oam.x, oam.y
+            else:
+                lx, ly = _apply_srt(oam.x, oam.y, sx, sy, rot_z)
+            ax = node.x + px + lx
+            ay = node.y + py + ly
             placements.append((ax, ay, rows))
             minx = min(minx, ax)
             miny = min(miny, ay)
             maxx = max(maxx, ax + oam.w)
             maxy = max(maxy, ay + oam.h)
+    return placements, minx, miny, maxx, maxy
 
-    if not placements:
-        return 1, 1, [0]
 
-    margin = 2
-    ox = -minx + margin
-    oy = -miny + margin
-    width = (maxx - minx) + margin * 2
-    height = (maxy - miny) + margin * 2
+def _raster(placements, ox, oy, width, height):
     canvas = [[0] * width for _ in range(height)]
     for ax, ay, rows in placements:
         for ly, row in enumerate(rows):
@@ -860,8 +974,79 @@ def compose_pose(ncgr, ncer, nodes, nanr=None, frame=0):
                 px = ax + ox + lx
                 if 0 <= px < width:
                     canvas[py][px] = v
-    flat = [v for row in canvas for v in row]
-    return width, height, flat
+    return [v for row in canvas for v in row]
+
+
+def compose_pose_multi(ncgr, ncer, nodes, nanr, times):
+    """Compose one frame per elapsed time in `times` (NDS frames, per node
+    via `Nanr.frame_index_at_time` -- see the module docstring's per-frame
+    composition rule), all onto **one shared canvas size** so an animation
+    strip/GIF doesn't jitter frame to frame. Returns `(width, height,
+    [flat_pixels_per_time])`."""
+    per_frame = []
+    minx = miny = 10**9
+    maxx = maxy = -10**9
+    for t in times:
+        def frame_idx_for_node(node, _t=t):
+            return nanr.frame_index_at_time(node.anim_seq_idx, _t) if nanr else 0
+        placements, fminx, fminy, fmaxx, fmaxy = _frame_placements(
+            ncgr, ncer, nodes, nanr, frame_idx_for_node)
+        per_frame.append(placements)
+        if placements:
+            minx = min(minx, fminx)
+            miny = min(miny, fminy)
+            maxx = max(maxx, fmaxx)
+            maxy = max(maxy, fmaxy)
+
+    if minx > maxx:
+        return 1, 1, [[0] for _ in times]
+
+    margin = 2
+    ox = -minx + margin
+    oy = -miny + margin
+    width = (maxx - minx) + margin * 2
+    height = (maxy - miny) + margin * 2
+    frames = [_raster(placements, ox, oy, width, height) for placements in per_frame]
+    return width, height, frames
+
+
+def compose_pose(ncgr, ncer, nodes, nanr=None, t=0):
+    """Blit every node's cell onto a shared canvas at one elapsed time `t`
+    (NDS frames; `t=0` is the classic single "rest pose" render), following
+    the composer the game itself runs (`func_020643CC` walks the nodes,
+    `func_0206419C` turns one node's current animation frame into a cell
+    plus a translation; see the module docstring for the byte-level
+    derivation):
+
+      * **Cell selection**: a node names an *animation sequence* through its
+        `anim_seq_idx` (`func_020627D8` indexes the NANR bank's sequence
+        array with it, 16-byte stride). That sequence's frame entry active
+        at time `t` (`Nanr.frame_index_at_time`, summing frame durations the
+        same way `func_020643CC`'s 0x020644B8 loop does, looping from
+        `loopStartFrameIdx` past the sequence's own total) points at a
+        frame-data record whose first u16 is the NCER cell index
+        (`func_0206419C` +0x18: `func_02062D40` derefs the frame entry, then
+        `func_0206285C` looks the cell up by the u16 at its +0). The node's
+        own `cell_anim_slot` byte is not a cell index at all: it is the slot
+        in the caller's array of 0x5C-byte cell-animation states
+        (`func_02064648`). A node whose sequence has no such frame is
+        skipped.
+
+      * **Placement**: the node's (posX, posY) (`func_020643CC` +0x250,
+        `func_020640DC`) plus the frame's own (px, py) translation
+        (`func_0206419C`, SRT and T records both) is a straight translation
+        of the whole cell; each OAM keeps its own cell-local (x, y), summed
+        the same way. A type-1 (SRT) frame's (sx, sy, rotZ) affine transform
+        is applied about the cell's own origin (the node+frame translation
+        point) when not identity -- see `_apply_srt` -- though every frame-0
+        record sampled in this archive reads rotZ 0 and sx/sy 4096 (FX32
+        1.0), which is why earlier passes never needed it.
+
+      * **Draw order**: nodes are emitted into the hardware OAM list in
+        array order, and a lower OAM index draws in front, so the nodes are
+        painted back-to-front here (last node first)."""
+    width, height, frames = compose_pose_multi(ncgr, ncer, nodes, nanr, [t])
+    return width, height, frames[0]
 
 
 # ---------------------------------------------------------------------------
@@ -915,6 +1100,148 @@ def render_cells_contact_sheet(ncgr, ncer, palette):
     return sheet_w, sheet_h, flat_sheet
 
 
+def render_animation_strip(frame_w, frame_h, frames):
+    """Lay out an animation's frames left-to-right, all sharing `compose_
+    pose_multi`'s uniform per-frame canvas, for a single contact-sheet-style
+    PNG export."""
+    pad = 2
+    sheet_w = frame_w * len(frames) + pad * (len(frames) + 1)
+    sheet_h = frame_h + pad * 2
+    sheet = [[0] * sheet_w for _ in range(sheet_h)]
+    cx = pad
+    for flat in frames:
+        for ly in range(frame_h):
+            for lx in range(frame_w):
+                sheet[pad + ly][cx + lx] = flat[ly * frame_w + lx]
+        cx += frame_w + pad
+    return sheet_w, sheet_h, [v for row in sheet for v in row]
+
+
+# ---------------------------------------------------------------------------
+# GIF89a writer -- stdlib only, own LZW encoder (no `Image`/`gif` module
+# anywhere in the stdlib to build on)
+# ---------------------------------------------------------------------------
+
+def _gif_lzw_encode(indices, min_code_size):
+    """The standard GIF variant of LZW: codes start at `min_code_size + 1`
+    bits, a Clear code (`1 << min_code_size`) resets the string table, an
+    End code (`clear + 1`) closes the stream, the table grows one code per
+    new string up to 12-bit codes (4096 entries) and then force-clears.
+    Returns the packed code stream as raw bytes (LSB-first bit packing, the
+    format GIF's image-data sub-blocks expect)."""
+    clear_code = 1 << min_code_size
+    end_code = clear_code + 1
+    reset_code_size = min_code_size + 1
+    reset_next_code = end_code + 1
+
+    code_size = reset_code_size
+    next_code = reset_next_code
+    table = {(i,): i for i in range(clear_code)}
+
+    bitbuf = 0
+    bitcount = 0
+    out = bytearray()
+
+    def emit(code):
+        nonlocal bitbuf, bitcount
+        bitbuf |= code << bitcount
+        bitcount += code_size
+        while bitcount >= 8:
+            out.append(bitbuf & 0xFF)
+            bitbuf >>= 8
+            bitcount -= 8
+
+    emit(clear_code)
+    w = ()
+    for sym in indices:
+        wc = w + (sym,)
+        if wc in table:
+            w = wc
+            continue
+        emit(table[w])
+        if next_code < 4096:
+            table[wc] = next_code
+            next_code += 1
+            if next_code > (1 << code_size) and code_size < 12:
+                code_size += 1
+        else:
+            emit(clear_code)
+            table = {(i,): i for i in range(clear_code)}
+            next_code = reset_next_code
+            code_size = reset_code_size
+        w = (sym,)
+    if w:
+        emit(table[w])
+    emit(end_code)
+    if bitcount > 0:
+        out.append(bitbuf & 0xFF)
+    return bytes(out)
+
+
+def _gif_sub_blocks(data):
+    """Split raw bytes into GIF's length-prefixed sub-blocks (max 255 bytes
+    each), terminated by a zero-length block."""
+    out = bytearray()
+    for i in range(0, len(data), 255):
+        chunk = data[i:i + 255]
+        out.append(len(chunk))
+        out.extend(chunk)
+    out.append(0)
+    return bytes(out)
+
+
+def write_gif(path, width, height, frames, palette, delays_cs, loop=True):
+    """Write a GIF89a with one global color table (from the NCLR palette,
+    padded to the next power of two) and one image per element of `frames`
+    (each a flat `width * height` list of palette indices). `delays_cs` is
+    the per-frame delay in centiseconds. Loops forever unless `loop` is
+    False (Netscape 2.0 application extension, the de facto standard)."""
+    n_colors = max(len(palette), 2)
+    color_bits = 1
+    while (1 << color_bits) < n_colors:
+        color_bits += 1
+    color_bits = min(color_bits, 8)
+    table_size = 1 << color_bits
+
+    gct = bytearray()
+    for i in range(table_size):
+        r, g, b = palette[i] if i < len(palette) else (0, 0, 0)
+        gct.extend((r, g, b))
+
+    out = bytearray()
+    out += b"GIF89a"
+    out += struct.pack("<HH", width, height)
+    out.append(0x80 | (0x7 << 4) | (color_bits - 1))  # GCT present, color res, GCT size
+    out.append(0)  # background color index
+    out.append(0)  # pixel aspect ratio (unused)
+    out += gct
+    if loop:
+        out += (b"\x21\xFF\x0BNETSCAPE2.0\x03\x01\x00\x00\x00")
+
+    min_code_size = max(color_bits, 2)
+    for i, flat in enumerate(frames):
+        delay = delays_cs[i] if i < len(delays_cs) else (delays_cs[-1] if delays_cs else 10)
+        out.append(0x21)  # extension introducer
+        out.append(0xF9)  # graphic control label
+        out.append(4)     # block size
+        out.append(0x04)  # disposal method 1 (do not dispose) << 2, no transparency
+        out += struct.pack("<H", delay)
+        out.append(0)     # transparent color index (unused)
+        out.append(0)     # block terminator
+
+        out.append(0x2C)  # image descriptor
+        out += struct.pack("<HHHH", 0, 0, width, height)
+        out.append(0)     # no local color table, not interlaced
+
+        lzw = _gif_lzw_encode(flat, min_code_size)
+        out.append(min_code_size)
+        out += _gif_sub_blocks(lzw)
+
+    out.append(0x3B)  # trailer
+    with open(path, "wb") as fh:
+        fh.write(out)
+
+
 # ---------------------------------------------------------------------------
 # I/O
 # ---------------------------------------------------------------------------
@@ -956,6 +1283,52 @@ def render_one(n, species, out_dir, filename=None, cells_sheet=True):
     return w, h, ncer, nmcr
 
 
+def render_animation(n, species, out_dir, group=0, max_frames=32,
+                      strip=True, gif_filename=None):
+    """Render one species' animated node group (`Nmcr.groups[group]`) as a
+    strip PNG (`NNNN_anim.png`, only when `strip` is True) and a looping GIF
+    (`NNNN.gif` by default). Returns `(num_frames, gif_path)`. Raises on any
+    parse/decode failure or a group with no working NANR (caller decides
+    whether to catch)."""
+    ncgr = parse_ncgr(load_block(n, species, LOCAL_NCGR_MAIN))
+    ncer = parse_ncer(load_block(n, species, LOCAL_NCER))
+    palette = bs.parse_nclr(load_block(n, species, LOCAL_PALETTE_NORMAL))
+    nmcr = parse_nmcr(load_block(n, species, LOCAL_NMCR))
+    nanr = parse_nanr(load_block(n, species, LOCAL_NANR))  # required here, not best-effort
+
+    if not (0 <= group < len(nmcr.groups)):
+        raise ValueError(f"species {species} has no multi-cell group {group}")
+    nodes = nmcr.groups[group].nodes
+    if not nodes:
+        raise ValueError(f"species {species} group {group} has no nodes")
+
+    times = animation_frame_times(nanr, nodes, max_frames=max_frames)
+    delays = animation_delays_cs(nanr, nodes, times)
+    w, h, frames = compose_pose_multi(ncgr, ncer, nodes, nanr, times)
+
+    if strip:
+        sw, sh, sflat = render_animation_strip(w, h, frames)
+        strip_path = os.path.join(out_dir, f"{species:04d}_anim.png")
+        bs.write_png_rgb8(strip_path, sw, sh, indices_to_rgb(sflat, palette))
+
+    gif_path = os.path.join(out_dir, gif_filename or f"{species:04d}.gif")
+    gif_palette = _gif_palette(palette)
+    n = len(gif_palette)
+    gif_frames = [[p if 0 <= p < n else n - 1 for p in flat] for flat in frames]
+    write_gif(gif_path, w, h, gif_frames, gif_palette, delays)
+    return len(frames), gif_path
+
+
+def _gif_palette(palette):
+    """A palette for the GIF's color table matching `indices_to_rgb`'s PNG
+    convention: index 0 is the dark-gray "transparent/background" index
+    (not the NCLR's own color 0), every other index is the NCLR color at
+    that slot."""
+    gp = list(palette) if palette else [(0, 0, 0)]
+    gp[0] = (16, 16, 16)
+    return gp
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                   formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -963,25 +1336,54 @@ def main(argv=None):
                      help="species/form index (25 = Pikachu). Not needed with --all.")
     ap.add_argument("--archive", default=ARCHIVE_PATH)
     ap.add_argument("--out", default=OUT_DIR)
-    ap.add_argument("--anim", type=int, default=0, help="animation index (informational; "
-                     "only animation 0 / the NMCR rest pose is actually rendered)")
-    ap.add_argument("--frame", type=int, default=0, help="frame index (informational; "
-                     "see module docstring -- frame 0 is assumed == rest pose)")
+    ap.add_argument("--group", type=int, default=0,
+                     help="which NMCR multi-cell group to pose/animate (0 default; "
+                     "group 1 is a second, independent animation on the same rig "
+                     "topology, not a corrective rest assembly -- see docs/ASSETS.md)")
+    ap.add_argument("--frame", type=int, default=0,
+                     help="elapsed time in NDS frames for a single --pose render "
+                     "(0 = the classic static rest pose)")
     ap.add_argument("--cells-only", action="store_true",
                      help="only render the per-cell contact sheet, skip the pose")
     ap.add_argument("--pose", action="store_true",
                      help="render the composed pose (NNNN_pose.png). This is the "
                      "default for single-species mode unless --cells-only is given; "
                      "explicit for clarity / parity with --all.")
+    ap.add_argument("--anim", action="store_true",
+                     help="render an animation strip (NNNN_anim.png) and looping "
+                     "GIF (NNNN.gif) for the given species, using --group's node "
+                     "list over one full loop (or the first 32 distinct frame "
+                     "times, whichever is smaller)")
+    ap.add_argument("--max-frames", type=int, default=32,
+                     help="cap on distinct frame times sampled per animation (32 default)")
     ap.add_argument("--all", action="store_true",
                      help="process every species/form index in the archive, writing "
                      "build/assets/rig/NNNN.png for each (skips slots that don't "
                      "parse as a valid NCGR/NCER/NMCR bundle, e.g. empty/padding "
                      "block indices)")
+    ap.add_argument("--anim-all", action="store_true",
+                     help="render a looping GIF (build/assets/rig/NNNN.gif) for "
+                     "every species in the archive's --group animation (no strip "
+                     "PNGs; skips slots that don't parse or have no NANR)")
     args = ap.parse_args(argv)
 
     os.makedirs(args.out, exist_ok=True)
     n = narc.parse_file(args.archive)
+
+    if args.anim_all:
+        max_species = n.file_count // BLOCK_STRIDE
+        ok = 0
+        skipped = 0
+        for sp in range(max_species):
+            try:
+                render_animation(n, sp, args.out, group=args.group,
+                                  max_frames=args.max_frames, strip=False)
+                ok += 1
+            except Exception as exc:  # noqa: BLE001 -- best-effort batch, log and continue
+                skipped += 1
+                print(f"[!] species {sp}: skipped ({exc})")
+        print(f"[*] --anim-all: {ok} GIFs rendered, {skipped} skipped, out={args.out}")
+        return 0
 
     if args.all:
         max_species = n.file_count // BLOCK_STRIDE
@@ -1028,7 +1430,21 @@ def main(argv=None):
         nanr = None
         print(f"[!] NANR: not applied ({exc})")
 
-    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose(), nanr=nanr)
+    if args.anim:
+        if not (0 <= args.group < len(nmcr.groups)):
+            ap.error(f"species {args.species} has no multi-cell group {args.group}")
+        num_frames, gif_path = render_animation(
+            n, args.species, args.out, group=args.group, max_frames=args.max_frames)
+        strip_path = os.path.join(args.out, f"{args.species:04d}_anim.png")
+        print(f"[*] animation: group {args.group}, {num_frames} distinct frame "
+              f"times sampled (cap {args.max_frames})")
+        print(f"[*] wrote {strip_path}")
+        print(f"[*] wrote {gif_path}")
+        return 0
+
+    group = nmcr.groups[args.group].nodes if 0 <= args.group < len(nmcr.groups) \
+        else nmcr.rest_pose()
+    w, h, flat = compose_pose(ncgr, ncer, group, nanr=nanr, t=args.frame)
     out_path = os.path.join(args.out, f"{args.species:04d}_pose.png")
     bs.write_png_rgb8(out_path, w, h, indices_to_rgb(flat, palette))
     print(f"[*] wrote {out_path} ({w}x{h})")

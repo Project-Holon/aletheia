@@ -5227,6 +5227,161 @@ trainer-shaped content to pair.
   of its true width. The trainer battle sprite itself remains not
   located by this or any prior pass.
 
+## Asset lane pass: the `a/0/0/4` rig animates -- per-frame composition, GIF export for all 712 species, group 1 identified as a second animation, detached parts explained but not fixed
+
+Mission: make the twelfth pass's static pose move. (1) per-frame composition
+(index/T/SRT frame-data records applied at an arbitrary elapsed time, not
+just frame 0); (2) an animation strip PNG and a looping GIF (own stdlib
+LZW/GIF89a writer, no other project's code) for species 25, then GIFs for
+every species; (3) settle what NMCR's second multi-cell group is, and
+whether the twelfth pass's detached-part species (Charizard, Gengar) are a
+frame-0 artifact fixable by using each sequence's loop-start frame instead.
+
+### (1) Per-frame composition
+
+`Nanr.frame_data()` now returns the full `(cellIdx, px, py, sx, sy, rotZ)`
+record for all three element types (index/T report the implicit identity
+transform, `sx=sy=4096, rotZ=0`, so callers never special-case them). A new
+`Nanr.frame_index_at_time(seq_index, t)` sums frame durations exactly the
+way `func_020643CC`'s 0x020644B8 loop does (see the twelfth pass's docstring
+section), but evaluated at an arbitrary elapsed time `t` (NDS frames) rather
+than only accumulating forward, and wraps from `loopStartFrameIdx` once a
+sequence's own total duration is exceeded -- `Nanr._frame_times()` caches
+each sequence's cumulative frame-start times for this.
+
+`compose_pose_multi()` (new; `compose_pose()` is now a one-time-sample
+wrapper around it) drives every node at a shared elapsed time `t`, resolving
+each node's own frame independently through `frame_index_at_time` -- nodes
+whose sequences are shorter than the driving one simply loop while the
+longest one plays through once. A type-1 (SRT) frame's `(sx, sy, rotZ)` is
+applied to each OAM's placement offset about the cell's own origin (`_apply_
+srt`): scale first (`x*sx/4096, y*sy/4096`), then rotation by `rotZ *
+2*pi/65536` radians (rotZ is 1/65536 of a full turn). **Only the placement
+offset is transformed, not the OAM's own pixel content** -- this renderer
+does not resample tiles under rotation/scale the way NDS hardware
+rotate/scale OBJs do, so a rotated limb moves and pivots as a rigid,
+unrotated rectangle rather than turning with its art. Every frame-0 SRT
+record sampled across species 25/6/94 reads identity (rotZ 0, sx/sy 4096),
+confirming the twelfth pass's "frame 0 needs no transform" was correct as
+far as it went; non-zero frames elsewhere in these same sequences do carry
+real rotation (values like 910, 4778, 9557, 11150 -- 5-60 degrees), so the
+transform is load-bearing for anything past frame 0.
+
+### (2) Animation strip and GIF export
+
+`animation_frame_times(nanr, nodes, max_frames=32)` picks the "driving"
+sequence -- whichever node's own sequence has the largest `total_duration`
+among the group (not necessarily the one with the most frames: species 25's
+group 0 has an 8-frame-longer sequence than its driving one, but the driving
+one's last frame holds for 84 NDS frames, giving it the larger total) -- and
+returns that sequence's own frame-start boundaries, capped at `max_frames`.
+This is "all distinct frame times over one loop, or the first 32 frames"
+per the mission: species 25 group 0's driving sequence has 18 frames over a
+186-NDS-frame loop, all under the cap, so all 18 are used.
+
+`write_gif()` is a from-scratch GIF89a writer: one global color table (the
+NCLR palette, index 0 remapped to the same dark-gray "background" this
+module's PNG path already uses via `indices_to_rgb`, so a GIF frame and a
+PNG frame of the same pose read identically), a Netscape 2.0 loop extension,
+and one image block per frame via `_gif_lzw_encode()` -- a plain from-
+scratch LZW encoder (variable code width 3-12 bits, table reset on overflow,
+Clear/End codes), no compiled/third-party GIF or LZW code from anywhere.
+Verified by hand-walking the produced file's own block structure (extension
+sizes, image descriptors, sub-block lengths) back to a frame count and by
+cross-checking with Pillow (available in this dev environment only, never a
+project dependency) that `Image.open(...).n_frames` and `.size` match.
+
+`species 25`: 18 distinct frame times, `build/assets/rig/0025_anim.png`
+(18-frame horizontal strip) and `build/assets/rig/0025.gif` (76x56, 18
+frames) both confirmed correct -- the strip shows an unmistakable "raise
+arm, spark appears, arm lowers" Thunder Shock-shaped attack cycle, not an
+idle bob. `--anim-all` (default `--group 0`, `--max-frames 32`) rendered
+**712 of 714 GIFs** (the same two trailing non-rig slots as every earlier
+`--all` pass skip cleanly, now for the identical reason: no RGCN/RECN/RCMN
+bundle at those indices).
+
+### (3) Group 1: a second, independent animation on the same rig -- not a corrective rest assembly, and not the fix for detached parts
+
+Comparing `Nmcr.groups[0]` and `groups[1]` directly (species 25, 6, 94):
+group 1's `animSeqIdx` values are group 0's own **plus a constant offset**
+(species 25: exactly +10, covering NANR sequences 10-19 against group 0's
+0-9; species 6: +9 for 14 of 16 nodes, the remaining two swapped for a
+different but still >= +9 sequence) while every node's own `(posX, posY)`
+is either **identical** between the two groups (species 25, and 15 of 16
+nodes for species 6) or close (species 94, where one limb's rest offset
+differs and two decorative nodes present in group 0 are simply absent from
+group 1). This is the signature of **two separately authored animation
+clips sharing one rig topology** (e.g. an idle/attack pair), not a
+corrective "real" assembly standing in for a broken group 0: if group 1 were
+the intended static rest pose, its node positions would differ from group
+0's in a way that fixes the composition, not repeat them near-verbatim while
+only swapping which NANR sequences drive the frames.
+
+Rendering group 1 at frame 0 for Charizard and Gengar (species 6, 94)
+confirms this directly: both render as complete, recognizable creatures,
+and both **still show the same detached foot/limb** the twelfth pass
+flagged in group 0 -- group 1 does not fix it, because it is not a
+different assembly of the same parts, it is the same assembly played by a
+different animation.
+
+**The loop-start hypothesis is also settled, and false**: every sequence
+sampled across species 25, 6 and 94 (60+ sequences) reads
+`loopStartFrameIdx = 0`. Frame 0 already *is* each sequence's own loop
+start, so "render from the loop-start frame instead of frame 0" is not a
+distinct rendering choice for this rig -- there is nothing to switch to.
+
+**What actually explains the detached parts**, found by rendering species
+6's full 32-sample animation loop and inspecting every frame rather than
+just frame 0: the detachment is *not* uniquely a frame-0 phenomenon and
+does not resolve later in the loop -- frames 0 and 16 of `0006.gif` both
+show the same isolated foot, and the mid-loop frames (around elapsed time
+60, `frame_index_at_time` giving real SRT records with rotZ up to ~60
+degrees and non-trivial px/py) show the wings and tail swung far enough
+from the body that the silhouette visibly separates into several floating
+pieces -- a real, large per-frame rotation this renderer does not resample
+pixels for (see (1) above), not a decode error. Charizard and Gengar's
+detached-part appearance is therefore best explained as **this renderer's
+documented rigid-placement limitation interacting with genuinely large
+per-frame rotation/translation values that are part of the authored
+animation** (a wing flap or roar-type extreme), not a frame-0 special case
+and not fixable by picking a different static frame -- an actual fix would
+need per-pixel rotation/scaling of each OAM's tile block, which this pass
+did not implement (mission scope was the placement transform, and every
+species-25/1/150 frame-0 check the twelfth pass relied on is unaffected
+since those parts' frame-0 records are all identity).
+
+### Functions/files touched
+
+- `tools/assets/rig.py`: `Nanr.frame_data()` returns the full SRT tuple;
+  new `Nanr._frame_times()`/`total_duration()`/`frame_index_at_time()`;
+  new module-level `_driving_sequence()`, `animation_frame_times()`,
+  `animation_delays_cs()`, `_apply_srt()`, `_frame_placements()`,
+  `_raster()`, `compose_pose_multi()`, `render_animation_strip()`,
+  `_gif_lzw_encode()`, `_gif_sub_blocks()`, `write_gif()`, `_gif_palette()`,
+  `render_animation()`; `compose_pose()` reduced to a `compose_pose_multi()`
+  wrapper (same output for `t=0` as before, confirmed byte-identical
+  dimensions on species 1/150). CLI gained `--group` (which `Nmcr` group to
+  pose/animate), `--anim` (strip + GIF for one species), `--anim-all` (GIF
+  for every species), `--max-frames`; `--frame` is now the elapsed-time
+  argument to a single `--pose` render instead of an unused placeholder.
+
+### Remaining gaps
+
+- **No per-pixel rotation/scaling**: OAM tile content is never resampled,
+  only repositioned -- correct for identity frames (the large majority
+  sampled) but a visible simplification for the minority of frames with
+  large `rotZ`/non-uniform `sx`/`sy` (see (3)).
+- **The NDS-frame-to-real-time conversion (`NDS_FPS = 59.8261`) is an
+  assumed standard hardware refresh rate, not read from any in-project
+  code** -- GIF delays are almost certainly in the right ballpark but not
+  verified against the game's own timer.
+- **`--anim-all` always uses group 0** (`--group` is available per-species
+  but the batch export does not yet expose per-species group selection);
+  group 1's animation is fully renderable via `--group 1 --anim` but was
+  spot-checked only for species 6/25/94/1/150, not exported for all 712.
+- The `nodeAttr` low-nibble and NMAR resource remain undecoded, unchanged
+  from the twelfth pass.
+
 ## Trainer data table located by reference (`a/0/9/2`/`a/0/9/3`); class count confirmed at 105; no matching battle sprite archive found
 
 Mission: stop guessing the trainer battle sprite by shape and instead
