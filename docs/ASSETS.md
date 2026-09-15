@@ -5226,3 +5226,124 @@ trainer-shaped content to pair.
   legacy 32px-wide fallback, unverified against any independent evidence
   of its true width. The trainer battle sprite itself remains not
   located by this or any prior pass.
+
+## Trainer data table located by reference (`a/0/9/2`/`a/0/9/3`); class count confirmed at 105; no matching battle sprite archive found
+
+Mission: stop guessing the trainer battle sprite by shape and instead
+locate it by reference -- find the trainer data table, read its class-id
+field's range, then look for a sprite archive whose entry count matches.
+New tool: `tools/assets/trainer_data.py`.
+
+### The trainer data table: `a/0/9/2` (trdata) / `a/0/9/3` (trpoke)
+
+The mission's suggested starting point, `a/0/5/7` and `a/0/6/6` (the text
+pass's fixed-stride, ruled-out-as-non-text candidates -- see "Text banks"
+above), are not it: neither has a dominant fixed stride
+(`--scan-candidates`: `a/0/5/7`'s most common size, 4 bytes, covers only
+30% of its 899 sub-files; `a/0/6/6`'s most common size, 360 bytes, covers
+only 7% of 601) -- scattered small binary tables, not a trainer record
+array.
+
+`a/0/9/2` is the real table: 616 sub-files, of which 615 are exactly
+20 bytes (sub-file 0 alone is a 16-byte null sentinel) -- a 99.8%-uniform
+fixed stride, the strongest fixed-record signal found anywhere in this
+inventory. Its immediate neighbour `a/0/9/3` has the same 616 sub-file
+count with variable-length records (6-108 bytes, all multiples of 8) --
+the classic trdata/trpoke pairing (trainer metadata + per-trainer party
+data indexed by the same id). Cross-checked directly: for each trdata
+record, byte offset 3 (range 1-6, see below) times 8 bytes predicts the
+paired trpoke sub-file's length correctly for 546/615 trainers (89%);
+the remainder likely carry per-slot extras this pass didn't decode
+(held item, custom moveset, or IV/ability override flags adding bytes
+per party slot) -- not chased further, doesn't affect the identification.
+
+### Class count: 105, from the trainer-class name text bank
+
+`text.py`'s dumps (`build/assets/text/*.txt`) were searched for
+"Youngster"; three banks hit (189 narrative dialogue, 191 the bare class
+name list, 283 an "a "-prefixed duplicate of 191 for grammatical
+context). Bank 191 has exactly **105 entries** (index 0-104): "Trainer",
+"Trainer", "Youngster", "Lass", "School Kid" x2, "Smasher", ...,
+"Team Plasma", "Subway Boss", .... This is the trainer-class count.
+
+### The class-id field: trdata byte offset 1
+
+Scanning every byte offset of the 615 fixed 20-byte trdata records for a
+contiguous enum range inside `0..104` (`--records`):
+
+| offset | min | max | distinct | contiguous |
+|---|---:|---:|---:|---|
+| 0 | 0 | 3 | 4 | yes |
+| **1** | **2** | **102** | **101** | **yes** |
+| 2 | 0 | 3 | 4 | yes |
+| 3 | 1 | 6 | 6 | yes |
+| 4, 6, 8, 10, 12, 17, 18 | 0/1 | 23-158 | 2-23 | no |
+
+Offset 1 is the standout: 101 distinct values forming the exact
+contiguous run `2..102`, comfortably inside the `0..104` range implied by
+105 classes (with 615 trainer instances sampling 105 classes, several
+classes -- 0, 1, 103, 104, plus any class with zero or one trainer
+instance -- simply not appearing is expected, not a mismatch). Offset 3
+(range 1-6) is party size, corroborated directly by the trpoke length
+cross-check above; offset 0 and 2 (range 0-3) look like battle-format/
+flag bytes. No other offset produces a comparably clean, densely-packed
+contiguous range.
+
+### Sprite-archive candidates by entry count: none hold up
+
+`--sprite-candidates` scans the full inventory table for any archive
+whose sub-file count is within 3% of 105, 210, 315, or 420 (1x-4x the
+class count):
+
+| match | archive | count | inventory guess | notes |
+|---|---|---:|---|---|
+| 1x | `a/0/4/5` | 102 | 3D model/texture data | sub-file 0 is `BTX0` -- a real NSBTX 3D texture container, not a sprite |
+| 1x | `a/1/3/7` | 108 | trainer/item/UI sprites | sub-file 0 is `RCSN` (NSCR reversed) -- a tilemap/screen resource; render (`build/assets/trainer_class_sprite_candidates/a_1_3_7_sf0000_rcsnraw_lin8.png`) shows a banded/periodic pattern consistent with tilemap data, not a portrait |
+| 3x | `a/1/6/8` | 315 | scripts/data tables | no known magic, uncompressed; sub-files are u16-array records (small incrementing/repeating values, e.g. `0002 0032 0001 0002 0003 0004 ...`), not pixel data -- confirmed by the bitmap-guess render (flat, near-black, no shape) |
+| 3x | `a/2/1/5` | 315 | scripts/data tables | same u16-array shape as `a/1/6/8`, same negative render result |
+
+(`a/0/0/6`, 733 sub-files, is a near-multiple of 105 at 7x = 735, but this
+project already conclusively identified all 733 sub-files across two
+prior passes as the `" APS12_1"`/`" TPS"` particle/sparkle/weather-overlay
+wrapper format, re-checked at full 64x64 canvas with zero human figures --
+the 7x proximity is coincidental, not re-opened here.)
+
+Every candidate either carries a known, already-identified non-sprite
+NITRO magic (`BTX0`, `RCSN`) or renders, under every bitmap-guess layout
+this project's tooling supports, as flat structured numeric data with no
+recognizable figure. **No archive with an entry count matching the
+105-class trainer roster (bare or at 2x/3x/4x) contains battle-sprite-
+shaped content.**
+
+### Report
+
+- **Trainer data archive**: `a/0/9/2` (trdata, 616 sub-files, 615 real +
+  1 sixteen-byte sentinel, fixed 20-byte record) paired with `a/0/9/3`
+  (trpoke, same 616 count, variable 8-byte-multiple records). Record
+  layout (20 bytes): offset 0 battle-format/flag byte (0-3), **offset 1
+  trainerClass** (0-104, observed 2-102), offset 2 another flag byte
+  (0-3), offset 3 partySize (1-6), offsets 4-11 four u16 item slots,
+  offsets 12-15 a u32 (likely AI flags), offsets 16-19 mostly-zero
+  trailing bytes (one non-zero flag at offset 16).
+- **Class count**: 105, from text bank `build/assets/text/191.txt`
+  (cross-checked against its "a "-prefixed duplicate, bank 283).
+- **Matching archives checked**: `a/0/4/5` (102), `a/1/3/7` (108),
+  `a/1/6/8` (315), `a/2/1/5` (315) -- see table above.
+- **Renders**: `build/assets/trainer_class_sprite_candidates/` (8 PNGs,
+  linear 4bpp/8bpp bitmap-guess renders of one sub-file from each
+  non-magic candidate, plus raw dumps of the two recognized-magic ones).
+- **Verdict**: trainer data table and class count are now solidly
+  established by reference, but no sprite archive pairs with them by
+  entry count. This confirms, rather than overturns, the standing
+  "trainer battle sprite itself remains not located" conclusion --
+  now anchored to a verified class count (105) instead of the rough
+  ~200-700 range earlier passes worked from. If a trainer battle sprite
+  archive exists, it is not indexed 1:1 (or at a small integer multiple)
+  by trainer class the way the Pokemon battle sprite archives
+  (`a/0/0/4`/`a/0/5/2`) are indexed by species -- the next lane should
+  either check indexing by trdata's own record id (615/616, already
+  ruled out above: `a/0/2/4` at 627 and `a/0/6/6` at 601 are the closest
+  entry-count matches to 615/616 and neither carries image content) or
+  reconsider whether Black/White trainer "sprites" are a shared/reused
+  rig keyed by something coarser than class (e.g. body type or a small
+  handful of archetypes) rather than per-class art.
