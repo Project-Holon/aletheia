@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_0203D24C  0x0203D24C  arm

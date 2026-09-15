@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_020A7CA0     0x020A7CA0  data

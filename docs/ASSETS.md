@@ -11164,3 +11164,165 @@ functions live in and `disasm.py` does not index it as a literal pool.
 
 Near misses with their evidence: `docs/notes/g2d_srt_setters.c.txt` and
 `docs/notes/g2d_flip_setter.c.txt`.
+
+## Asset lane pass: `a/0/6/6`/`a/0/6/7` decoded as battle effect-VM bytecode (`tools/assets/btleff.py`)
+
+Mission: decode `a/0/6/6`'s per-group payload (still opaque per the previous
+two passes) as battle effect-VM bytecode, following the "same machine as
+`vm.c`, own table" hint from the reader-scan pass. Method mirrors
+`scripts.py`'s own: locate the handler table by finding the VM context
+descriptor literal, sweep every handler for its operand-fetch calls, then
+sweep the archive with the resulting table. New file: `tools/assets/
+btleff.py` (stdlib only, imports `events.py` for the shared container
+framing). No other files changed except this section.
+
+### Group selection: a caller-supplied variant byte, bounds-checked against the archive's own `group_count`
+
+`func_021F94F8` (ov094, the effect-VM constructor `events.py` and the
+reader-scan pass already identified) takes an optional 5th argument struct
+at `[sp, #0x20]`. When present, byte `+1` of that struct is read
+(`021F968A`), bounds-checked against `a/0/6/6`'s own loaded `group_count`
+byte (`021F967E`..`021F9688`: if the requested index is not less than the
+archive's `group_count`, it is reset to 0), then turned into a byte offset
+`4 + 56 * requested_group` (`021F968C`..`021F9690`: `muls r0, r1, #0x38`,
+`0x38` = 56 = one group's 14-word header block) that is used to read that
+group's repeated slot word and start the VM there (`func_0201127C`,
+`021F97C2`). So the group is an explicit runtime parameter of the effect
+invocation (read off the caller's own struct), not a hardcoded
+per-position or per-stage index baked into `btlv_effvm.c`. `func_021F94F8`
+itself always passes group 0 when no struct is given. No call site found
+this pass reads a slot other than slot 0 of a group's 14 identical words
+(events.py already confirmed all 14 are identical, so which slot a site
+reads cannot be told apart by effect); the 14-fold redundancy itself is
+still unexplained -- this pass narrows what varies (the group) without
+explaining why each group's start is stored 14 times over.
+
+### The effect VM is `vm.c`'s engine, with its own context and table
+
+ov094 has exactly one call to `func_0201121C` (`vm.c`'s "create", see
+"Script virtual machine located and decompiled" above), at `021F945C`,
+against the descriptor literal at `0x02209DCC`: `{stack_cap=0x10,
+ring_cap=0x08, cmd_table=0x02209E88, cmd_count=0x4E}`. The bytecode is
+started with `bl func_0201127C` right after the group lookup above -- the
+same "start at a pc" entry point the field VM uses. So the battle effect
+VM is a second, independent instance of the exact same interpreter
+(`func_0201121C`/`func_0201127C`/`func_02011298`/`func_0201134C`/
+`func_020113B4`/`func_020113C4`/`sub_020113B0`/`sub_02011290`, all EXACT
+per the field-VM pass), not a separate hand-written machine.
+
+Handler table: `0x0217062C` in overlay 10 is the field VM's; the battle
+effect VM's is `0x02209E88` in overlay 94, 78 entries (`cmd_count=0x4E`
+from the descriptor above). Every one of the 78 table words has its low
+bit set (Thumb) and every one resolves inside ov094 itself
+(`021F9AB8`..`021FC448`) -- no NULLs, no veneers into another overlay,
+unlike the field VM's table (9 NULL, 330 into ov021).
+
+### Operand widths: every opcode takes only 4-byte (u32) operands
+
+Swept the 78 handler bodies (bounded by each handler's own address and the
+next table entry's address, since the table is address-sorted) for direct
+`bl`/`blx` calls to `func_02011330` (u16 fetch, the field VM's narrow
+operand fetch) and `func_0201134C` (u32 fetch), following one level of
+callee for any call target landing inside ov094 (mirrors the field VM's
+helper-fetched "variable id" case; mattered for opcodes 59 and 60 only,
++3 u32 fetches each from a shared local helper). Result: `func_02011330`
+is never called by any of the 78 handlers -- unlike the field VM (which
+uses both widths across its first 32 opcodes), this VM's operands are
+exclusively 4 bytes. Per-opcode total operand bytes (opcode's own u16
+excluded), the full table now lives in `tools/assets/btleff.py`'s
+`OPERAND_WIDTH`:
+
+    op    0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+    len  20  40  24  24   8   0   4  44  60  44  40   4  44  52  44  52
+    op   16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+    len   0   0  28  36  24  28  24  24  24  16   8  20   8   8  28   4
+    op   32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47
+    len  20  32   8   4   4  24  16  20   4  24  20   8  28  28  28  28
+    op   48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63
+    len   8  20   4   8  36   4  32  36   4   4   4  28  28  12   4   4
+    op   64  65  66  67  68  69  70  71  72  73  74  75  76  77
+    len   8  12   0  28   4  24  12   0   4   0   4   4   4   0
+
+Opcode 0 (20 bytes, 5 u32 operands) reads as a "play effect resource"
+instruction: it fetches all 5 words up front, then branches on two of
+them (`021F9AB8`..`021F9B0E`) -- confirmed by direct disassembly, not just
+the operand count. Opcode 8 is the widest at 60 bytes (15 u32 fetches).
+Opcodes 5, 16, 17, 66, 71, 73 and 77 take no operands.
+
+Four opcodes are control flow, identified the same way as the field VM's
+(by which `vm.c` call-family function their own handler calls):
+
+    opcode 77              calls sub_02011290 (stop)    -- script terminator
+    opcode 70               calls func_020113B4 (call)   -- see below
+    opcode 71               calls func_020113C4 (return)  -- pairs with 70
+    opcodes 60, 61, 72, 74 call sub_020113B0 (jump)      -- branches
+
+Opcode 70's handler (`021FC20C`) is itself the second `a/0/6/7` read site
+`docs/ASSETS.md`'s reader-scan pass counted but did not disassemble: it
+calls `func_02048F60(archive_id=0x43, member=<computed>, heap)`, reads
+`*(ptr+4)` off the result (the same "offset 4 = first group's payload
+start" convention `parse_0666` already uses), and calls into it via
+`func_020113B4` -- opcode 70 is "call an `a/0/6/7` sub-script as a
+subroutine", opcode 71 returns from it.
+
+### `a/0/6/7` shares `a/0/6/6`'s exact container framing
+
+Checked directly, not inferred: `events.py`'s `parse_0666`/`pack_0666`,
+completely unmodified, round-trip all 98 `a/0/6/7` sub-files
+byte-identical (`btleff.py --verify`, below). Sub-file 0 decodes to
+`group_count=1`, `header_len=60` (`4 + 56*1`), 14-word block value `0x3c`
+(60) repeated 14 times -- the identical shape to `a/0/6/6`. Consistent
+with `a/0/6/7` being read by the same family: `func_02048F60(archive_id=
+0x43, ...)`, from opcode 70's handler above and from `func_021F94F8`'s own
+overflow path (`021F9626`, taken when the requested effect id's associated
+field is past `a/0/6/6`'s own indexable range). It is a second bank of
+effect-VM scripts, invoked either as a direct effect (the overflow path)
+or as a callable subroutine from an `a/0/6/6` script (opcode 70).
+
+### `tools/assets/btleff.py` (new)
+
+`--list [--archive {0666,0667,both}]`: per sub-file, `group_count` and
+each group's (start, size). `--disasm N [--archive {0666,0667}]`: linear
+opcode+operand sweep of every group in sub-file N, using `OPERAND_WIDTH`,
+annotated with the STOP/CALL/RET/JUMP tags above. `--verify`: re-packs
+every `a/0/6/6` and `a/0/6/7` sub-file via `events.py`'s
+`parse_0666`/`pack_0666` (unmodified) and diffs byte-for-byte -- 601/601
+(`a/0/6/6`) and 98/98 (`a/0/6/7`) round-trip exactly, matching (and not
+regressing) `events.py`'s own result. `--check`: runs the sweep over every
+group of both archives (741 groups total: 601 `a/0/6/6` files' groups plus
+98 `a/0/6/7` files' groups) and reports how each one ends:
+
+    groups swept: 741
+      stop:       679  (91.6%)  -- opcode 77 reached cleanly
+      desync:      40   (5.4%)  -- hit an opcode >= 78 mid-sweep
+      short:       13   (1.8%)  -- an operand ran past the group's end
+      exact_end:    9   (1.2%)  -- payload exhausted with no opcode 77
+    clean (stop or exact_end): 688/741 (92.8%)
+
+92.8% is in the same range as the field VM's own decode check (90.7% of
+`a/0/5/7` entry points, "Script virtual machine" section above), which is
+the acceptance bar this pass is measuring against; the sweep is a straight
+linear walk (no jump/call following), so the 7.2% that do not end cleanly
+are expected to include groups whose real control flow branches (opcodes
+60/61/72/74) away from a straight read before reaching the terminator, not
+necessarily framing errors.
+
+### Remaining gaps
+
+- The 14-fold slot redundancy inside each group's header block is still
+  unexplained; this pass found what selects the GROUP (a caller-supplied,
+  bounds-checked variant byte) but no call site that reads any slot other
+  than slot 0.
+- `--check`'s 7.2% non-clean groups are not root-caused past "a linear
+  sweep cannot be expected to reach the terminator through untaken
+  branches" -- a real jump/call-following interpreter (walking opcodes
+  60/61/70/71/72/74's actual targets instead of stepping over them) was
+  not built this pass.
+- The individual operand words are not semantically decoded (no field is
+  named beyond "u32 operand k"); opcode 0's likely resource-id/branch
+  structure was read directly off its handler as a spot check, not
+  generalised to the other 77 opcodes.
+- Which specific `a/0/6/6` slot (of the 14) or group each battle effect id
+  maps to at the game-data level (rather than the code-level mechanism
+  that picks a group at runtime) was not cross-referenced against any
+  move/effect-id table.
