@@ -96,6 +96,7 @@ import zlib
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import narc  # noqa: E402
+import lz11  # noqa: E402
 
 ARCHIVE_PATH = os.path.join("extract", "data", "a", "1", "3", "4")
 OUT_DIR = os.path.join("build", "assets", "battle")
@@ -191,6 +192,30 @@ def unpack_4bpp_tiles(payload, width_px=CANVAS_WIDTH_PX):
                     pixels[py * width_px + px0] = b & 0x0F
                     pixels[py * width_px + px0 + 1] = (b >> 4) & 0x0F
     return pixels, width_px, height_px
+
+
+def verify_archive(archive_path=ARCHIVE_PATH):
+    """LZ11 compression round trip over every sub-file: decompress
+    (`narc.decompress_lz11`), re-compress (`lz11.compress`), compare against
+    the original raw bytes. This is the archive's only meaningful round
+    trip -- the decompressed payload carries no NITRO chunk magic and no
+    palette (see module docstring), so there is nothing further to decode/
+    re-encode at the format layer, only at the compression layer. Returns
+    (ok, fail, skipped) sub-file counts."""
+    n = narc.parse_file(archive_path)
+    ok = fail = skipped = 0
+    for sf in n.subfiles:
+        raw = n.read(sf.index)
+        try:
+            payload = decode_subfile_raw(raw)
+        except ValueError:
+            skipped += 1
+            continue
+        if lz11.compress(payload) == raw:
+            ok += 1
+        else:
+            fail += 1
+    return ok, fail, skipped
 
 
 def trim_filler_rows(payload):
@@ -309,6 +334,66 @@ def parse_nclr(data):
     n_colors = len(color_bytes) // 2
     colors = struct.unpack_from(f"<{n_colors}H", color_bytes, 0)
     return [bgr555_to_rgb8(c) for c in colors]
+
+
+class NclrFull:
+    """Full-fidelity RLCN (NCLR) parse, round-trip capable. `parse_nclr`
+    above returns only the decoded RGB list (used by every existing
+    renderer); this class also keeps every byte needed to re-serialize the
+    original file exactly, for tools/assets/verify_all.py's generic-format
+    round trip. Same opaque-preservation convention as background.py's
+    `NscrFile.trailing`: any bytes this project has not decoded (padding
+    between the TTLP head and its color table, or any block after TTLP) are
+    kept verbatim rather than reinterpreted."""
+
+    def __init__(self, data):
+        if len(data) < 16 or data[:4] != b"RLCN":
+            raise ValueError("not an RLCN (NCLR) sub-file")
+        magic, bom, ver, fsize, hsize, nblk = struct.unpack_from("<4sHHIHH", data, 0)
+        pos = hsize
+        pmagic, psize = struct.unpack_from("<4sI", data, pos)
+        if pmagic != b"TTLP":
+            raise ValueError(f"expected TTLP block, found {pmagic!r}")
+        body = data[pos + 8:pos + psize]
+        bitdepth, pad, reserved, data_size, color_offset = \
+            struct.unpack_from("<HHIII", body, 0)
+        color_bytes = body[color_offset:color_offset + data_size]
+        n_colors = len(color_bytes) // 2
+        colors_raw = struct.unpack_from(f"<{n_colors}H", color_bytes, 0)
+
+        self.bitdepth, self.pad, self.reserved = bitdepth, pad, reserved
+        self.color_offset = color_offset
+        self.colors_raw = colors_raw
+        self.colors = [bgr555_to_rgb8(c) for c in colors_raw]
+
+        self._raw = data
+        self._hsize = hsize
+        self._pmagic = pmagic
+        self._psize = psize
+        self._body = body
+
+    def encode(self):
+        """Re-serialize to the exact original RLCN bytes. The 16-byte TTLP
+        head and the color table are rebuilt from decoded fields; any gap
+        before the color table, any bytes after it within this block, and
+        any block after TTLP are copied through verbatim."""
+        color_bytes = struct.pack(f"<{len(self.colors_raw)}H", *self.colors_raw)
+        head = struct.pack("<HHIII", self.bitdepth, self.pad, self.reserved,
+                            len(color_bytes), self.color_offset)
+        out = bytearray()
+        pos = 0
+        for start, chunk in ((0, head), (self.color_offset, color_bytes)):
+            out += self._body[pos:start]
+            out += chunk
+            pos = start + len(chunk)
+        out += self._body[pos:]
+        body = bytes(out)
+        block = self._pmagic + struct.pack("<I", self._psize) + body
+        return self._raw[:self._hsize] + block + self._raw[self._hsize + self._psize:]
+
+
+def parse_nclr_full(data):
+    return NclrFull(data)
 
 
 def load_palette(palette_narc, index):
@@ -467,7 +552,16 @@ def main(argv=None):
                      help="with --contact-sheets, thumbnail side length")
     ap.add_argument("--per-sheet", type=int, default=25,
                      help="with --contact-sheets, thumbnails per sheet")
+    ap.add_argument("--verify", action="store_true",
+                     help="LZ11 compression round-trip check over every "
+                          "sub-file in --archive (see verify_archive())")
     args = ap.parse_args(argv)
+
+    if args.verify:
+        ok, fail, skipped = verify_archive(args.archive)
+        print(f"[*] {args.archive}: LZ11 round trip {ok} ok, {fail} mismatched, "
+              f"{skipped} skipped")
+        return 0 if fail == 0 else 1
 
     if args.contact_sheets:
         os.makedirs(args.out, exist_ok=True)

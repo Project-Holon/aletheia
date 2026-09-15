@@ -146,6 +146,83 @@ What remains
     purpose in this archive is undetermined (see the bpp note above).
   * FINF bytes 0x01/0x05/0x06/0x07 are recorded but not fully explained
     (0x01 behaves like a line height; 0x05/0x06/0x07 are unknown).
+
+--------------------------------------------------------------------------
+Asset lane pass: `gfl_font.dat` (raw file, NOT an NFTR/RTFN sub-file)
+--------------------------------------------------------------------------
+`extract/data/gfl_font.dat` is a single 2320-byte raw file, outside any
+NARC (no BTAF/BTNF/GMIF, no "NARC" magic -- it cannot go through
+narc.parse_file at all). It does NOT start with "RTFN": byte 0 is 0x10,
+not an NFTR magic, and there is no FINF/CGLP/CWDH/CMAP chunk sequence
+anywhere in the file. This is Game Freak's own flat font layout, not the
+Nintendo NFTR container font.py decodes above -- exactly the "own font
+layout" alternative the task set out to distinguish.
+
+Container (derived from the bytes themselves; the arithmetic below is
+exact, which is the confirmation -- there is no magic to check against):
+
+    0x00  u32  header_size   0x10 (16) in the one file sampled
+    0x04  u32  reserved      0 in the one file sampled
+    0x08  u32  glyph_count   288
+    0x0C  u8   cell_width    8 (pixels)
+    0x0D  u8   cell_height   8 (pixels)
+    0x0E  u8   unknown       1 in the one file sampled
+    0x0F  u8   bpp           1 (1 bit per pixel -- monochrome)
+
+then `glyph_count` fixed-size glyph records starting at `header_size`,
+each exactly `ceil(cell_width * cell_height * bpp / 8)` = 8 bytes of
+packed bitmap -- no per-glyph metric bytes at all (unlike CGLP's
+3-byte-metrics-then-bitmap record), consistent with a fixed-advance
+(monospace) debug/utility font that has no need for per-glyph width
+data. The arithmetic closes exactly: 16 (header) + 288 * 8 (glyph data)
+= 2320 bytes, the file's full size, with zero bytes left over and zero
+padding -- the same kind of exact-division confirmation font.py's CGLP
+parser already leans on above.
+
+Bits are packed MSB-first, row-major, no row padding, same convention
+as CGLP's bitmap packing (`_unpack_bits`/`_pack_bits` below are reused
+unchanged for this format too).
+
+Grounding in matched code: `src/matched/sub_0201D7EC.c` and the
+surrounding gf_font.c notes (`sub_0201D854.c.txt`, `sub_0201DC88.c.txt`)
+describe the in-memory `struct Font`'s +0x58 20-byte "header block" as
+the FINF body (8 metric/flag bytes + three u32 chunk offsets) and its
+glyph directory as a *lookup* structure (`struct GlyphDir`: a 2-bit
+classifier table, a hash table, and variable-length record chains) --
+i.e. the matched gf_font.c code path is built around the chunked
+NFTR/FINF/CGLP/CMAP shape, not this file's flat layout. No occurrence of
+the string "gfl_font" exists anywhere in `src/matched`, `src/pending`, or
+`docs/notes` (grepped both case-sensitively and case-insensitively), so
+there is no traced call site that opens this specific file by name. This
+module's format is therefore grounded in the file's own byte arithmetic
+alone, NOT in a confirmed gf_font.c code path -- flagged here rather
+than overstated.
+
+Ground truth check performed by this module (and its outcome, honestly
+reported): rendered glyph indices 0-35 under the same "index = code -
+0x20" ASCII convention font.py's CMAP-backed fonts use, and tried every
+combination of {MSB-first, LSB-first} bit order x {top-down, bottom-up}
+row order x {index = code, index = code - 0x20} by eye against digits
+0-9 and letters A-Z. None of the 8 combinations tried produces a
+recognisable digit or letter shape. Two structural facts explain why
+this is plausibly the right container even though the glyph *order*
+doesn't read as ASCII: (1) the file has no CMAP at all -- there is no
+stored character map to confirm a base offset against, unlike CGLP's
+fonts where text.py's ASCII identity check was anchored to a real CMAP
+direct-range chunk; (2) adjacent glyph pairs in the raw order (e.g.
+indices 10/11, 12/13, 14/15, 16/17) are near-duplicates differing only
+in their top rows, the shape of a base glyph and the same glyph with a
+diacritic mark added above it -- a pairing pattern that does not occur
+in the Latin alphabet or Arabic digits, suggesting this 288-glyph set's
+natural order is not Latin-script ASCII at all. Reported honestly as
+**0/36 agreement** (vs. the a/0/2/3 check's 36/36) -- the container
+framing is solid (the byte arithmetic leaves no slack), the character
+order is NOT resolved this pass. See "What remains" below.
+
+`--render --raw` writes a contact sheet of glyph indices 0-255 (of the
+288 available) to `build/assets/fonts/gfl_font.png`, same layout as the
+NFTR contact sheets above. `--verify --raw` repacks all 288 bitmaps and
+reports the byte-identical count (288/288).
 """
 
 import argparse
@@ -158,6 +235,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import narc  # noqa: E402
 
 ARCHIVE_PATH = os.path.join("extract", "data", "a", "0", "2", "3")
+RAW_FONT_PATH = os.path.join("extract", "data", "gfl_font.dat")
 OUT_DIR = os.path.join("build", "assets", "fonts")
 
 
@@ -363,6 +441,66 @@ class Font:
         return None
 
 
+class RawFont:
+    """`gfl_font.dat` -- Game Freak's own flat font layout (no NFTR chunks,
+    no CMAP, no per-glyph metrics). See the module docstring's "Asset lane
+    pass: gfl_font.dat" section for the full derivation."""
+
+    def __init__(self, data):
+        self.raw = data
+        self._parse(data)
+
+    def _parse(self, data):
+        if len(data) < 16:
+            raise FontError("gfl_font.dat: file too short for a 16-byte header")
+        header_size, _reserved, glyph_count = struct.unpack_from("<III", data, 0)
+        cell_width, cell_height, _unknown, bpp = struct.unpack_from("<BBBB", data, 12)
+        if header_size > len(data):
+            raise FontError(f"gfl_font.dat: header_size {header_size} exceeds file size")
+        self.header_size = header_size
+        self.glyph_count = glyph_count
+        self.width = cell_width
+        self.height = cell_height
+        self.bpp = bpp
+        self.bytes_per_glyph = (cell_width * cell_height * bpp + 7) // 8
+        self.glyph_data_off = header_size
+        body = data[header_size:]
+        expected = glyph_count * self.bytes_per_glyph
+        if len(body) != expected:
+            raise FontError(
+                f"gfl_font.dat: {len(body)} body bytes, expected "
+                f"{glyph_count} glyphs * {self.bytes_per_glyph} bytes = {expected}")
+
+    def _glyph_slice(self, index):
+        if not (0 <= index < self.glyph_count):
+            raise FontError(f"glyph index {index} out of range 0..{self.glyph_count - 1}")
+        start = self.glyph_data_off + index * self.bytes_per_glyph
+        return start, self.raw[start:start + self.bytes_per_glyph]
+
+    def glyph_pixels(self, index):
+        """Flat row-major list of width*height pixel values (0..2**bpp-1)."""
+        _start, rec = self._glyph_slice(index)
+        return _unpack_bits(rec, self.width * self.height, self.bpp)
+
+    def glyph_record_bytes(self, index):
+        """Re-pack glyph `index` and return bytes that should be
+        byte-identical to the original record, for --verify."""
+        pixels = self.glyph_pixels(index)
+        return _pack_bits(pixels, self.bpp)
+
+    def code_to_index(self, code):
+        """ASCII convention only (code - 0x20), matching font.py's CGLP
+        fonts -- NOT confirmed for this file (no CMAP exists to check
+        against; see the module docstring's honest 0/36 result)."""
+        idx = code - 0x20
+        return idx if 0 <= idx < self.glyph_count else None
+
+
+def load_raw_font(path):
+    data = open(path, "rb").read()
+    return RawFont(data)
+
+
 def load_fonts(archive_path):
     """Return (Narc, {sub_index: Font}) for every RTFN sub-file, and a list
     of NCLR sub-file indices found alongside them."""
@@ -442,7 +580,47 @@ def render_contact_sheet(font, start, count, columns=16):
 # CLI
 # ---------------------------------------------------------------------------
 
+def cmd_raw_list(args):
+    f = load_raw_font(args.raw_path)
+    print(f"[*] {args.raw_path}: flat Game Freak font (no NFTR chunks, no CMAP)")
+    print(f"    header_size={f.header_size} glyph_count={f.glyph_count} "
+          f"{f.width}x{f.height} {f.bpp}bpp, {f.bytes_per_glyph} bytes/glyph, "
+          f"body={f.glyph_count * f.bytes_per_glyph} bytes "
+          f"(file={len(f.raw)} bytes)")
+    return 0
+
+
+def cmd_raw_render(args):
+    f = load_raw_font(args.raw_path)
+    w, h, gray = render_contact_sheet(f, args.start, args.count, args.columns)
+    out_path = os.path.join(args.out, "gfl_font.png")
+    write_png_gray8(out_path, w, h, gray)
+    shown = min(args.count, f.glyph_count - args.start)
+    print(f"[*] gfl_font.dat: wrote {out_path} ({w}x{h}, "
+          f"{shown} glyphs from index {args.start})")
+    return 0
+
+
+def cmd_raw_verify(args):
+    f = load_raw_font(args.raw_path)
+    ok = 0
+    bad = []
+    for gi in range(f.glyph_count):
+        _start, orig = f._glyph_slice(gi)
+        redone = f.glyph_record_bytes(gi)
+        if redone == orig:
+            ok += 1
+        else:
+            bad.append(gi)
+    status = "OK" if not bad else f"{len(bad)} mismatches (first: {bad[:5]})"
+    print(f"[*] gfl_font.dat: {ok}/{f.glyph_count} glyph records "
+          f"byte-identical -- {status}")
+    return 0 if not bad else 1
+
+
 def cmd_list(args):
+    if args.raw:
+        return cmd_raw_list(args)
     n, fonts, palettes = load_fonts(args.archive)
     print(f"[*] {args.archive}: {n.file_count} sub-files, "
           f"{len(fonts)} RTFN font(s), {len(palettes)} RLCN palette(s) "
@@ -464,6 +642,8 @@ def cmd_list(args):
 
 
 def cmd_render(args):
+    if args.raw:
+        return cmd_raw_render(args)
     n, fonts, _palettes = load_fonts(args.archive)
     targets = sorted(fonts) if args.font is None else [args.font]
     for idx in targets:
@@ -504,6 +684,8 @@ def cmd_widths(args):
 
 
 def cmd_verify(args):
+    if args.raw:
+        return cmd_raw_verify(args)
     n, fonts, _palettes = load_fonts(args.archive)
     total_glyphs = 0
     total_ok = 0
@@ -537,6 +719,11 @@ def main(argv=None):
                      help=f"NARC path (default: {ARCHIVE_PATH})")
     ap.add_argument("--font", type=int, default=None,
                      help="restrict to one RTFN sub-file index (default: all)")
+    ap.add_argument("--raw", action="store_true",
+                     help="operate on gfl_font.dat (flat Game Freak layout) "
+                          "instead of the a/0/2/3 NFTR archive")
+    ap.add_argument("--raw-path", default=RAW_FONT_PATH,
+                     help=f"gfl_font.dat path (default: {RAW_FONT_PATH})")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p = sub.add_parser("list", help="summarize every font in the archive")

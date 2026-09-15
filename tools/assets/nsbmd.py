@@ -653,10 +653,22 @@ class Container:
         return bytes(out)
 
 
+# Every Nitro "G3D" resource (model, texture, and the three animation kinds
+# paired with a model -- joint/material SRT/texture-pattern) shares this same
+# outer container shape (see module docstring "Container layout"); only
+# BMD0/BTX0's own blocks (MDL0/TEX0) are decoded field-by-field below. The
+# other three are round-tripped the same way this module already round-trips
+# any *unrecognised* block inside a BMD0/BTX0 (kept as an opaque raw byte
+# range, see the `else` branch below) -- this project has not decoded their
+# block contents, so they are not listed in docs/ASSETS.md as more than
+# container-level verified.
+G3D_MAGICS = (b"BMD0", b"BTX0", b"BCA0", b"BTA0", b"BTP0", b"BMA0")
+
+
 def parse_container(data):
     magic, bom, version, file_size, header_size, nblk = \
         struct.unpack_from("<4sHHIHH", data, 0)
-    if magic not in (b"BMD0", b"BTX0"):
+    if magic not in G3D_MAGICS:
         raise Nsbmd0Error(f"unexpected magic {magic!r}")
     offs = struct.unpack_from("<%dI" % nblk, data, header_size)
     blocks = []

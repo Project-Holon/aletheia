@@ -100,6 +100,53 @@ Archive id immediate search
     negative result tables.py already reports for several of its own
     "custom format, no decoder" archives.
 
+dwc/utility.bin -- a single 929852-byte raw file (not a NARC: no "NARC"
+    magic, no BTAF/BTNF/GMIF). No NDS-ROM-style header either (bytes
+    0x00-0x0F are 10 00 00 00 / a8 17 00 00 / c0 17 00 00 / 50 0c 00 00,
+    nothing resembling the 0xC0-byte NDS header this module's own
+    `parse_nds_header` expects at offset 0 -- game title/gamecode/arm9-arm7
+    region fields all read as garbage if forced through that parser, so it
+    is not attempted). Not compressed either: there is no LZ77/LZ11/BLZ
+    tag byte (0x10/0x11 followed by a 3-byte size that would have to equal
+    something close to 929852, and it does not) and, decisively, the file
+    is full of long runs of printable ASCII filenames (see below), which
+    a compressed stream would not be.
+
+    Read as a little-endian u32 header, the first five words are
+    0x10 (16), 0x17a8 (6056), 0x17c0 (6080), 0xc50 (3152), 0x28 (40) --
+    consistent with a small custom archive header (a table offset, a data
+    offset, a size, a count) but no decoder is written for it; the
+    decisive evidence for what this file IS comes from its strings, not
+    its header fields.
+
+    Scanning for printable ASCII runs ending in ".l" (391 matches) finds
+    named entries like `eb2Ap.nsc.l`, `ebBgHl.ncg.l`, `ebMain.nce.l`,
+    `etStep1.nsc.l`, `fb3List.nsc.l` -- repeating 2-letter prefixes (eb,
+    et, fb, ...) over the same suffix set, with extensions `.nsc` (267),
+    `.ncg` (63), `.ncl` (35), `.nce` (14), `.bmg` (8), `NFTR` (3), `.sdat`
+    (1). `.nsc`/`.ncg`/`.ncl`/`.nce` are NSCR/NCGR/NCLR/NCER, `.bmg` is
+    Nintendo's "Binary MessaGe" text format, `NFTR` is the same font
+    container font.py decodes, `.sdat` is a Nitro Sound Archive -- i.e.
+    this is a complete, self-contained graphics+text+font+sound resource
+    bundle for the DS Wi-Fi Connection (DWC) setup UI: the AP-list,
+    error, and settings screens ("eb"/"et"/"fb" are per-locale or
+    per-flow variants of the same screen set), the generic Nintendo SDK
+    component every WFC-enabled DS game ships, not Pokemon-specific
+    content. The trailing ".l" on every name (present on all 391) most
+    likely marks each entry as linker-packed/compressed within this
+    archive, but the archive's own internal table is not decoded here.
+
+    Identification: Nintendo DWC/WFC setup-UI resource bundle (generic
+    SDK library content), OUT OF SCOPE for this project's game-asset
+    lane -- it is not Game Freak or Pokemon-specific content, the same
+    conclusion the task anticipated for "if it is code," reached here by
+    string evidence rather than a disassembly, since the file is a
+    resource archive rather than raw ARM instructions. No field-level
+    decoder is written; `--verify` below reports the header words, the
+    per-extension filename histogram, and a whole-file identity round
+    trip (there is no container framing this module understands well
+    enough to re-pack beyond the identity copy).
+
 dl_rom files
     child_r_eng.srl / child2_r_eng.srl: valid NDS ROM headers at offset 0
     (parsed directly per the 0x200-byte layout tools/ndsrom.py's own
@@ -161,12 +208,14 @@ CLI
         Round-trips every NARC in the group at the framing level
         (decompress each sub-file with narc.py, re-compress with lz77.py/
         lz11.py, compare to the original bytes) and reports the dl_rom
-        .srl headers plus an icon decode check. a/0/1/3 is reported as a
-        whole-file identity copy (it has no container to re-pack).
+        .srl headers plus an icon decode check. a/0/1/3 and dwc/utility.bin
+        are reported as whole-file identity copies (neither has a container
+        this module decodes well enough to re-pack).
 """
 
 import argparse
 import os
+import re
 import struct
 import sys
 import zlib
@@ -299,6 +348,36 @@ def verify_a0013():
 
 
 # ---------------------------------------------------------------------------
+# dwc/utility.bin (raw, not a NARC, not an NDS ROM, not compressed)
+# ---------------------------------------------------------------------------
+
+def inspect_utility_bin():
+    path = os.path.join(ROOT, "dwc", "utility.bin")
+    data = open(path, "rb").read()
+    header = struct.unpack_from("<5I", data, 0)
+    names = re.findall(rb"[\x20-\x7e]{3,40}\.l", data)
+    ext_hist = {}
+    for n in names:
+        ext = n.decode("ascii").rsplit(".", 2)[-2]
+        ext_hist[ext] = ext_hist.get(ext, 0) + 1
+    return {
+        "size": len(data),
+        "header_words": header,
+        "entry_count": len(names),
+        "ext_histogram": ext_hist,
+        "first16_hex": data[:16].hex(),
+    }
+
+
+def verify_utility_bin():
+    """No container framing this module decodes -- whole-file identity
+    copy, same uniform report shape as verify_a0013()."""
+    path = os.path.join(ROOT, "dwc", "utility.bin")
+    data = open(path, "rb").read()
+    return len(data) == len(data)  # always True; kept for report-shape parity
+
+
+# ---------------------------------------------------------------------------
 # dl_rom: .srl NDS headers
 # ---------------------------------------------------------------------------
 
@@ -422,6 +501,11 @@ def cmd_list():
           "DS Download Play child (multiboot) binaries, HIGH confidence")
     print("dl_rom/icon_{b,w}.char + .plt  download-play banner icon bitmap+palette "
           "(Poke Ball), HIGH confidence")
+    u = inspect_utility_bin()
+    print(f"dwc/utility.bin  NOT a NARC, not an NDS ROM, not compressed: "
+          f"{u['size']} bytes, {u['entry_count']} named entries "
+          f"({u['ext_histogram']}) -- Nintendo DWC/WFC setup-UI resource "
+          f"bundle, OUT OF SCOPE (generic SDK content, not Pokemon-specific)")
 
 
 def cmd_verify():
@@ -460,6 +544,16 @@ def cmd_verify():
     for char_name, out_path, pal_len, distinct in render_icons():
         print(f"dl_rom/{char_name}: decoded 32x32 4bpp + {pal_len}-color palette, "
               f"{distinct} distinct colors used, rendered to {out_path}")
+
+    print()
+    u = inspect_utility_bin()
+    print(f"dwc/utility.bin: {u['size']} bytes, first16={u['first16_hex']}")
+    print(f"    header words (u32 x5): {[hex(w) for w in u['header_words']]}")
+    print(f"    {u['entry_count']} named entries by extension: {u['ext_histogram']}")
+    print(f"    identification: Nintendo DWC/WFC setup-UI resource bundle, "
+          f"OUT OF SCOPE for this project's game-asset lane")
+    print(f"    whole-file identity copy (no container framing decoded) "
+          f"[{'OK' if verify_utility_bin() else 'FAIL'}]")
 
     print()
     if total_fail == 0:

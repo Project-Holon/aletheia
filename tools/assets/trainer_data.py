@@ -154,6 +154,42 @@ def n_offset_pairs(trdata_narc, trpoke_narc):
 
 
 # ---------------------------------------------------------------------------
+# Round trip: the trdata/trpoke pairing's only checkable consistency (see
+# module docstring step 3). Neither table is compressed or chunk-framed --
+# a/0/9/2 is a flat fixed-stride record array and a/0/9/3 a flat variable-
+# length one -- so there is no format to decode/re-encode; the one thing
+# this project has recovered and can check byte-for-byte is that trdata's
+# own partySize field (offset 3 of its 20-byte record) predicts trpoke's
+# sub-file length exactly (`party_size * 8`), for every record in both
+# archives, not just the sample `--records` already cross-checks.
+# ---------------------------------------------------------------------------
+
+def verify():
+    td = _open(TRDATA)
+    tp = _open(TRPOKE)
+    ok = fail = skipped = 0
+    for sf in td.subfiles:
+        raw = td.read(sf.index)
+        if len(raw) != 20:
+            # sub-file 0: the 16-byte null sentinel, not a real record.
+            skipped += 1
+            continue
+        party_size = raw[3]
+        tp_raw = tp.read(sf.index)
+        if len(tp_raw) == party_size * 8:
+            ok += 1
+        else:
+            fail += 1
+    return ok, fail, skipped
+
+
+def report_verify():
+    ok, fail, skipped = verify()
+    print(f"[*] {TRDATA} <-> {TRPOKE} round trip: {ok} ok, {fail} mismatched, "
+          f"{skipped} skipped (partySize field predicts trpoke sub-file length)")
+
+
+# ---------------------------------------------------------------------------
 # Step 4: sprite-archive candidates by entry count
 # ---------------------------------------------------------------------------
 
@@ -201,10 +237,13 @@ def main(argv=None):
     ap.add_argument("--scan-candidates", action="store_true")
     ap.add_argument("--records", action="store_true")
     ap.add_argument("--sprite-candidates", action="store_true")
+    ap.add_argument("--verify", action="store_true",
+                     help="trdata/trpoke partySize round-trip count (see verify())")
     args = ap.parse_args(argv)
 
-    if not (args.scan_candidates or args.records or args.sprite_candidates):
-        ap.error("give --scan-candidates, --records, or --sprite-candidates")
+    if not (args.scan_candidates or args.records or args.sprite_candidates
+            or args.verify):
+        ap.error("give --scan-candidates, --records, --sprite-candidates, or --verify")
 
     if args.scan_candidates:
         scan_candidates()
@@ -214,6 +253,8 @@ def main(argv=None):
         print()
     if args.sprite_candidates:
         report_sprite_candidates()
+    if args.verify:
+        report_verify()
 
     return 0
 

@@ -344,6 +344,44 @@ def _hdr(data):
     return magic, hsize, nblk, fsize
 
 
+def _patchwork(body, patches):
+    """Reassemble `body` from a set of `(start_offset, reconstructed_bytes)`
+    patches plus every byte of the original `body` that falls outside all
+    of them, copied through verbatim.
+
+    Used by every encode() below (NCGR/NCER/NANR/NMCR/NMAR): each patch is
+    one region this project has decoded into named fields (re-serialized
+    here to prove the decode was lossless), and whatever is left between/
+    around the patches -- padding, a second NITRO block this project has
+    not cracked (e.g. NCGR's optional SOPC, NCER/NANR's optional LBAL/TXEU),
+    or any other opaque byte range -- is passed through untouched rather
+    than reinterpreted. Same principle as background.py's `NscrFile.trailing`
+    applied to possibly more than one known region."""
+    patches = sorted(patches, key=lambda p: p[0])
+    out = bytearray()
+    pos = 0
+    for start, data in patches:
+        out += body[pos:start]
+        out += data
+        pos = start + len(data)
+    out += body[pos:]
+    return bytes(out)
+
+
+def _encode_block(file_data, hsize, bmagic, bsize, body):
+    """Re-serialize one Nitro resource file: the common 16-byte file header
+    and every block's own magic+size are copied verbatim from `file_data`
+    (including any block after the one this call reconstructs, e.g. a
+    trailing SOPC/LBAL/TXEU block) -- only `body` (block 0's reconstructed
+    body) comes from the caller. Declared size fields are never recomputed:
+    at least one archive (`a/0/6/4` sub-file 0) has a file_size/block_size
+    that overstates what the compressed stream actually contains, so the
+    only byte-identical choice is to echo the literal original fields."""
+    pos = hsize
+    block = bmagic + struct.pack("<I", bsize) + body
+    return file_data[:pos] + block + file_data[pos + bsize:]
+
+
 # ---------------------------------------------------------------------------
 # NCGR (RGCN) -- tile sheet
 # ---------------------------------------------------------------------------
@@ -391,11 +429,46 @@ class Ncgr:
         self.pixel_fmt = pixel_fmt
         self.mapping_type = mapping_type
         self.char_format = char_format
+        self.data_ofs = data_ofs
         self.tile_data = body[data_ofs:data_ofs + data_size]
         self.tile_count = len(self.tile_data) // TILE_BYTES_4BPP
-        self.width = tile_num_x * 8
-        self.height = tile_num_y * 8
-        self.pixels = self._unpack()
+        # tile_num_x/y of 0xFFFF is a documented NDS CHAR-block sentinel for
+        # "unspecified, derive from data" (see icons.py's module docstring,
+        # which names the same field in the small-icon archive). This
+        # project has not recovered a real width for that case -- eagerly
+        # allocating a pixel buffer from the literal 0xFFFF x 0xFFFF would
+        # either be wrong or (the bug this pass fixed) exhaust memory, so
+        # rendering is simply skipped; round-tripping never needed pixels.py
+        # rendering to begin with, only `tile_data` and the header fields.
+        self._sentinel_dims = (tile_num_x == 0xFFFF or tile_num_y == 0xFFFF)
+        if self._sentinel_dims:
+            self.width = self.height = 0
+            self.pixels = None
+        else:
+            self.width = tile_num_x * 8
+            self.height = tile_num_y * 8
+            self.pixels = self._unpack()
+        # Round-trip state: `data` may carry a second block this project does
+        # not decode (e.g. SOPC, see module docstring and docs/ASSETS.md's
+        # "trainer rig NCGR round trip" note) -- kept verbatim by encode().
+        self._raw = data
+        self._hsize = hsize
+        self._bmagic = bmagic
+        self._bsize = bsize
+        self._body = body
+
+    def encode(self):
+        """Re-serialize to the exact original (decompressed) NCGR bytes.
+        The 24-byte RAHC head is rebuilt from the decoded fields; the pixel
+        data is rebuilt from `tile_data`; everything else (any gap before
+        `data_ofs`, any bytes after the declared tile data within this
+        block, and any block after RAHC) is copied through verbatim."""
+        head = struct.pack("<HHIIIII", self.tile_num_y, self.tile_num_x,
+                            self.pixel_fmt, self.mapping_type, self.char_format,
+                            len(self.tile_data), self.data_ofs)
+        patches = [(0, head), (self.data_ofs, self.tile_data)]
+        body = _patchwork(self._body, patches)
+        return _encode_block(self._raw, self._hsize, self._bmagic, self._bsize, body)
 
     def _unpack(self):
         """Return the sheet as a flat `width * height` list of 4bpp indices,
@@ -472,12 +545,16 @@ class Oam:
 
 
 class Cell:
-    __slots__ = ("num_oam", "cell_attr", "oams")
+    __slots__ = ("num_oam", "cell_attr", "oams", "bounds")
 
-    def __init__(self, num_oam, cell_attr, oams):
+    def __init__(self, num_oam, cell_attr, oams, bounds=None):
         self.num_oam = num_oam
         self.cell_attr = cell_attr
         self.oams = oams
+        # (max_x, max_y, min_x, min_y), s16 each -- only present when the
+        # bank's cell_info_type is 1 ("extended" records); None for the
+        # plain 8-byte ("simple") record shape. See Ncer's module docstring.
+        self.bounds = bounds
 
 
 class Ncer:
@@ -491,25 +568,69 @@ class Ncer:
             raise ValueError(f"expected KBEC (CEBK) block, found {bmagic!r}")
         body = data[pos + 8:pos + bsize]
         num_cells, cell_info_type = struct.unpack_from("<HH", body, 0)
-        cell_data_ofs, mapping_type, _reserved = struct.unpack_from("<III", body, 4)
+        cell_data_ofs, mapping_type, reserved = struct.unpack_from("<III", body, 4)
         self.num_cells = num_cells
+        self.cell_info_type = cell_info_type
         self.mapping_type = mapping_type
 
+        # cell_info_type selects the cell record shape (the NNS_G2D CEBK
+        # convention, confirmed against real data this pass -- see
+        # docs/ASSETS.md "NCER extended cell records"): 0 is the 8-byte
+        # "simple" record this module originally only supported (num_oam,
+        # cell_attr, oam_ofs); 1 is a 16-byte "extended" record with the
+        # same three fields plus a (max_x, max_y, min_x, min_y) s16
+        # bounding box. Confirmed against a/1/0/3 sub-file 1: reading cells
+        # at an 8-byte stride put oam_ofs values at nonsense (garbage, out-
+        # of-range) byte offsets; at a 16-byte stride every oam_ofs lines
+        # up exactly with the running num_oam*6 total, the same lockstep
+        # check the module docstring already uses to pin the simple shape.
+        record_stride = 16 if cell_info_type == 1 else 8
         cell_hdrs = []
         for i in range(num_cells):
-            off = cell_data_ofs + i * 8
+            off = cell_data_ofs + i * record_stride
             num_oam, cell_attr, oam_ofs = struct.unpack_from("<HHI", body, off)
-            cell_hdrs.append((num_oam, cell_attr, oam_ofs))
+            bounds = struct.unpack_from("<hhhh", body, off + 8) if record_stride == 16 else None
+            cell_hdrs.append((num_oam, cell_attr, oam_ofs, bounds))
 
-        oam_arr_start = cell_data_ofs + num_cells * 8
+        oam_arr_start = cell_data_ofs + num_cells * record_stride
         self.cells = []
-        for num_oam, cell_attr, oam_ofs in cell_hdrs:
+        for num_oam, cell_attr, oam_ofs, bounds in cell_hdrs:
             oams = []
             for i in range(num_oam):
                 off = oam_arr_start + oam_ofs + i * 6
                 a0, a1, a2 = struct.unpack_from("<HHH", body, off)
                 oams.append(Oam(a0, a1, a2))
-            self.cells.append(Cell(num_oam, cell_attr, oams))
+            self.cells.append(Cell(num_oam, cell_attr, oams, bounds))
+
+        # Round-trip state. The OAM array (and anything past it, e.g. this
+        # format's optional LBAL/TXEU blocks after KBEC) is kept verbatim:
+        # only the 16-byte KBEC head and the cell array are rebuilt from
+        # decoded fields, per module docstring / docs/ASSETS.md.
+        self._raw = data
+        self._hsize = hsize
+        self._bmagic = bmagic
+        self._bsize = bsize
+        self._body = body
+        self._cebk_reserved = reserved
+        self._cell_data_ofs = cell_data_ofs
+        self._record_stride = record_stride
+        self._cell_hdrs = cell_hdrs
+
+    def encode(self):
+        """Re-serialize to the exact original (decompressed) NCER bytes."""
+        head = struct.pack("<HHIII", self.num_cells, self.cell_info_type,
+                            self._cell_data_ofs, self.mapping_type,
+                            self._cebk_reserved)
+        parts = []
+        for n, a, o, bounds in self._cell_hdrs:
+            rec = struct.pack("<HHI", n, a, o)
+            if bounds is not None:
+                rec += struct.pack("<hhhh", *bounds)
+            parts.append(rec)
+        cell_array = b"".join(parts)
+        patches = [(0, head), (self._cell_data_ofs, cell_array)]
+        body = _patchwork(self._body, patches)
+        return _encode_block(self._raw, self._hsize, self._bmagic, self._bsize, body)
 
 
 def parse_ncer(data):
@@ -615,11 +736,24 @@ class Nmcr:
         num_multi_cell, sig = struct.unpack_from("<HH", body, 0)
         mc_abs, = struct.unpack_from("<I", body, 4)
         node_abs, = struct.unpack_from("<I", body, 8)
+        reserved, = struct.unpack_from("<I", body, 12)
         self.num_multi_cell = num_multi_cell
         self.signature = sig
+        self.mc_array_ofs = mc_abs
+        self.node_array_ofs = node_abs
+        self.reserved = reserved
+        # `mc_abs` is the authoritative end of this header -- it is NOT a
+        # fixed 16 bytes for every archive (species 25's a/0/0/4 puts it at
+        # 24, with two more fields -- animBankOfs, and the two "unk"
+        # u16s -- in between; a/0/6/4's trainer-rig-shaped NMCR puts it at
+        # 20, one field narrower). Rather than hardcode either shape, bytes
+        # [16, mc_abs) are left as an undecoded, verbatim-preserved gap (see
+        # encode()) and only the fields the module docstring actually reads
+        # at every site are exposed as attributes.
 
         self.groups = []
         all_nodes = []
+        group_bases = []
         for i in range(num_multi_cell):
             off = mc_abs + i * 8
             num_nodes, unk02, node_ofs = struct.unpack_from("<HHI", body, off)
@@ -635,7 +769,15 @@ class Nmcr:
                 nodes.append(McNode(anim_seq_idx, x, y, node_attr, cell_anim_slot))
             self.groups.append(McGroup(num_nodes, unk02, nodes))
             all_nodes.extend(nodes)
+            group_bases.append((off, node_ofs, base))
         self.nodes = all_nodes
+
+        self._raw = data
+        self._hsize = hsize
+        self._bmagic = bmagic
+        self._bsize = bsize
+        self._body = body
+        self._group_bases = group_bases  # (descriptor_ofs, node_ofs, node_base)
 
     def rest_pose(self):
         """The first multi-cell group's own node list -- a complete,
@@ -643,6 +785,23 @@ class Nmcr:
         if not self.groups:
             return []
         return self.groups[0].nodes
+
+    def encode(self):
+        """Re-serialize to the exact original (decompressed) NMCR bytes."""
+        head = struct.pack("<HHIII", self.num_multi_cell, self.signature,
+                            self.mc_array_ofs, self.node_array_ofs, self.reserved)
+        patches = [(0, head)]
+        for group, (desc_ofs, node_ofs, base) in zip(self.groups, self._group_bases):
+            patches.append((desc_ofs, struct.pack("<HHI", group.num_nodes,
+                                                    group.unk02, node_ofs)))
+            node_bytes = b"".join(
+                struct.pack("<HhhBB", n.anim_seq_idx, n.x, n.y, n.node_attr,
+                            n.cell_anim_slot)
+                for n in group.nodes)
+            if node_bytes:
+                patches.append((base, node_bytes))
+        body = _patchwork(self._body, patches)
+        return _encode_block(self._raw, self._hsize, self._bmagic, self._bsize, body)
 
 
 def parse_nmcr(data):
@@ -678,6 +837,22 @@ class Nmar:
                     self.anim_names.append(s.decode("ascii"))
                 except UnicodeDecodeError:
                     pass
+
+        # Round-trip state. Only the 4-byte (num_anim, element_type) head is
+        # decoded; the rest of the body (table_a/table_b, see module
+        # docstring "what was recovered") and any block after KNBA (e.g. the
+        # LBAL just read above, or TXEU) are preserved verbatim.
+        self._raw = data
+        self._hsize = hsize
+        self._bmagic = bmagic
+        self._bsize = bsize
+        self._body = body
+
+    def encode(self):
+        """Re-serialize to the exact original (decompressed) NMAR bytes."""
+        head = struct.pack("<HH", self.num_anim, self.element_type)
+        body = _patchwork(self._body, [(0, head)])
+        return _encode_block(self._raw, self._hsize, self._bmagic, self._bsize, body)
 
 
 def parse_nmar(data):
@@ -727,6 +902,7 @@ class Nanr:
         seq_ofs, frame_ofs, frame_data_ofs = struct.unpack_from("<III", body, 4)
         self.num_sequences = num_seq
         self.num_elements = num_frames_total
+        self._seq_ofs = seq_ofs
         self._frame_ofs = frame_ofs
         self._frame_data_ofs = frame_data_ofs
 
@@ -738,6 +914,30 @@ class Nanr:
             self.sequences.append(
                 NanrSequence(n_frames, loop_start, anim_type, play_mode, frames_ofs))
         self._time_cache = {}
+
+        # Round-trip state. Only the 16-byte ABNK head and the sequence
+        # array (at seq_ofs) are decoded into fields; the frame-entry array
+        # and frame-data region (frame_ofs/frame_data_ofs) are not broken
+        # out into their own attributes above, so they -- along with any
+        # block after KNBA (e.g. LBAL/TXEU) -- are preserved verbatim.
+        self._raw = data
+        self._hsize = hsize
+        self._bmagic = bmagic
+        self._bsize = bsize
+
+    def encode(self):
+        """Re-serialize to the exact original (decompressed) NANR bytes."""
+        head = struct.pack("<HHIII", self.num_sequences, self.num_elements,
+                            self._seq_ofs, self._frame_ofs, self._frame_data_ofs)
+        seq_array = b"".join(
+            struct.pack("<HHIII", s.num_frames, s.loop_start, s.anim_type,
+                        s.play_mode, s.frames_ofs)
+            for s in self.sequences)
+        patches = [(0, head)]
+        if seq_array:
+            patches.append((self._seq_ofs, seq_array))
+        body = _patchwork(self._body, patches)
+        return _encode_block(self._raw, self._hsize, self._bmagic, self._bsize, body)
 
     def frame_entry(self, seq_index, frame_index=0):
         """Return (offset_to_frame_data, duration) for one frame entry, or
