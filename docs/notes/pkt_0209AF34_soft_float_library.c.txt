@@ -1,0 +1,144 @@
+pkt_0209AF34 @ 0x0209AF34..0x0209BDBC, 13 entry points, 3148 code bytes, ARM,
+and the head of pkt_0209CE10 @ 0x0209CE10..0x0209D724, 2 entry points,
+2296 code bytes, ARM.
+
+VERDICT: not compiled C.  Both ranges are the second and third halves of the
+same mwccarm / MSL ARM soft-float support library whose middle third is
+already documented in docs/notes/pkt_0209BDBC_runtime_library.c.txt, linked
+in as hand-written assembly.  The runtime note covers 0x0209BDBC..0x0209CE10;
+this note closes the range immediately below it and the range immediately
+above it, so 0x0209AF34..0x0209D724 is one contiguous non-C block with no
+game code in it at all.
+
+Scouted on request in wave 20B, no decompilation attempted beyond what was
+needed to classify.  Recommend the integrator extend layout/runtime_arm9.txt
+over both ranges so they leave the open pool; 0x0209CE10 in particular scores
+high on worklist.py --targets purely because every float division in the game
+calls it (fan-in 187), exactly the way 0x0209C0A4 scored 549 for integer
+division.
+
+THE FOUR ADDRESSES ASKED ABOUT
+------------------------------
+  0x0209AF34  944  double add / subtract       hand assembly
+  0x0209B2E8  864  double multiply             hand assembly
+  0x0209BBB0   92  float compare (one of four) hand assembly
+  0x0209CE10  952  float divide                hand assembly
+
+None is compiled game C, none is compiled SDK C.  Evidence per function
+below; each item is on its own sufficient.
+
+0x0209AF34, double add / subtract
+  Format proof: the operand pair is (r0:r1, r2:r3); the code eors the two
+  high words to compare signs, extracts the exponent with `lsr r1, #0x14`
+  (20) and renormalises the significand with `lsl #11`, which is the
+  IEEE-754 binary64 field split and nothing else.
+  Structural proof: 0x0209AF40 is `bmi #0x209ac14`, a backward displacement
+  branch to 0x0209AC14, an address below this packet entirely and in the
+  middle of another routine's body (0x0209AC14 is itself a `subs/sbcs`
+  magnitude-swap sequence, not a function entry).  mwccarm emits one section
+  per function and cannot produce a displacement branch between two
+  functions at all, let alone into one's interior; see
+  docs/idioms/tail-call-is-a-pool-word-and-bx.md.  This is the same proof
+  class as item 1 of the runtime note.
+
+0x0209B2E8, double multiply
+  Format proof: two `umull` pairs build the 106-bit product of the two
+  significands, the exponents are summed with `add ip, r4, ip`, the hidden
+  bit is restored with `orr #0x80000000` and the doubled bias removed with
+  `bic ip, ip, #0x800` (2048).  Again the 20/11 binary64 split.
+  Extent note: the worklist gives 864 code bytes ending at 0x0209B648, and
+  0x0209B648..0x0209B750 is the routine's own rounding/normalisation data,
+  not code.  A data table sitting inside a function's extent, reached from
+  that function, is a library shape; compiled C would place it in .rodata.
+
+0x0209BBB0, float compare
+  Decisive proof: the routine computes the comparison result, then does
+  `mrs ip, apsr` / `bic`-or-`orr` of bit 29 (C) / `msr apsr_nzcvq, ip` and
+  returns with the flags themselves set for the caller.  No C construct
+  reads or writes APSR, and no C function can return a value in the
+  condition codes.  This is a calling convention that only hand assembly can
+  implement.
+  It is one of a family of four 92 to 100 byte entries at 0x0209BBB0,
+  0x0209BC0C, 0x0209BC74 and 0x0209BCD0, all opening `mov r3, #0xff000000;
+  cmp r3, r0, lsl #1` (the binary32 all-ones-exponent NaN test on the
+  doubled word) and differing only in the movgt/movle polarity, i.e. the
+  four orderings of a float comparison.
+
+0x0209CE10, float divide
+  Format proof: `mov ip, #0xff; ands r3, ip, r0, lsr #23` extracts the
+  binary32 exponent and `orr r0, r0, #0x800000` restores the hidden bit.
+  Decisive proof: 0x0209CE50 is `sub r0, pc, #0x94` followed by
+  `ldrb r1, [r0, lr, lsr #15]`, a reciprocal-seed table addressed as a
+  negative displacement from the program counter, landing at 0x0209CDC4,
+  which is inside the *preceding* routine's byte range.  mwccarm in ARM mode
+  addresses static data through a literal pool word carrying an absolute
+  address and an R_ARM_ABS32 relocation; it never forms a data pointer as
+  pc minus an immediate, and it never lets one function's data live inside
+  another function's extent.
+
+THE REST OF THE TWO RANGES, for completeness
+--------------------------------------------
+  0209AF34   944  double add / subtract          (__dadd / __dsub body)
+  0209B2E8   864  double multiply                (__dmul)
+  0209B648   264  (data: __dmul's normalisation table)
+  0209B750    64  signed int -> double           (clz-normalised, bias 0x41E)
+  0209B790    60  unsigned int -> double
+  0209B7CC   152  double compare, ordering 1     (mrs/msr flag return)
+  0209B864   152  double compare, ordering 2
+  0209B8FC   164  double compare, ordering 3
+  0209B9A0   156  double compare, ordering 4
+  0209BA3C   140  double compare, ordering 5
+  0209BAC8   140  double compare, ordering 6
+  0209BBB0    92  float compare, ordering 1
+  0209BC0C    92  float compare, ordering 2
+  0209BC74    92  float compare, ordering 3
+  0209BCD0   104  float compare, ordering 4
+  0209BD38   128  float -> double                (__f2d)
+  ---- 0209BDBC..0209CE10 is the existing runtime note ----
+  0209CE10   952  float divide                   (__fdiv, fan-in 187)
+  0209D1E0  1344  double divide                  (__ddiv; `lsr #19`/`lsl #20`
+                                                  is the binary64 field split)
+  0209D724     4  `bx lr`, the null finaliser
+
+The six double comparison entries all open with
+`mov ip, #0x200000; cmn ip, r1, lsl #1; bhs <tail>` on both operands, which
+is the binary64 NaN test, and all end the same way as the float four.  The
+two int-to-double conversions use `clz`, for which this project's C has no
+intrinsic and mwccarm has no idiom.
+
+WHERE THE LIBRARY STOPS
+-----------------------
+0x0209D724 is the last soft-float entry.  From 0x0209D728 the character
+changes completely: literal-pool `ldr rN, [pc, #imm]` addressing of a single
+static word, ordinary `bl` between functions, and recognisable MSL C shapes
+(0x0209D820 walks a null-terminated pointer table calling `blx r0`,
+0x0209D850 pushes a three-word record onto a singly linked list rooted at one
+static pointer, the atexit / destroy-global-chain pair).  That is compiled
+MSL C library code, not hand assembly and not game code; it should be
+classified the way other SDK/MSL library ranges are rather than added to
+runtime_arm9.txt, and it is out of scope for this note.
+
+SEEDS FOR layout/runtime_arm9.txt (integrator's file, not written here)
+-----------------------------------------------------------------------
+0209AF34  __dadd_dsub          MSL/runtime.a  arm9_main
+0209B2E8  __dmul               MSL/runtime.a  arm9_main
+0209B750  _s32_to_double       MSL/runtime.a  arm9_main
+0209B790  _u32_to_double       MSL/runtime.a  arm9_main
+0209B7CC  __dcmp_1             MSL/runtime.a  arm9_main
+0209B864  __dcmp_2             MSL/runtime.a  arm9_main
+0209B8FC  __dcmp_3             MSL/runtime.a  arm9_main
+0209B9A0  __dcmp_4             MSL/runtime.a  arm9_main
+0209BA3C  __dcmp_5             MSL/runtime.a  arm9_main
+0209BAC8  __dcmp_6             MSL/runtime.a  arm9_main
+0209BBB0  __fcmp_1             MSL/runtime.a  arm9_main
+0209BC0C  __fcmp_2             MSL/runtime.a  arm9_main
+0209BC74  __fcmp_3             MSL/runtime.a  arm9_main
+0209BCD0  __fcmp_4             MSL/runtime.a  arm9_main
+0209BD38  _f2d                 MSL/runtime.a  arm9_main
+0209CE10  __fdiv               MSL/runtime.a  arm9_main
+0209D1E0  __ddiv               MSL/runtime.a  arm9_main
+0209D724  _runtime_null_stub   MSL/runtime.a  arm9_main
+
+The names follow the runtime note's own convention and are descriptive, not
+claims about the exact symbol strings in the original archive; only the
+addresses and the classification are evidence-backed.

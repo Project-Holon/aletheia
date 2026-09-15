@@ -1,0 +1,75 @@
+clact.c: the fan-in-1 wall, and the exact addresses that bring it down
+======================================================================
+
+Wave 20C worked pkt_0204B954, pkt_0204BD64 (partly) and pkt_0204D768.  Every
+function attempted came out byte-correct on the concrete bytes; nothing in this
+note is a codegen near miss.  The residue is entirely attestation: clact.c
+calls a ring of helpers that have exactly one branch reference image wide, and
+that reference is the call being compiled, so the `label` class cannot see them
+and `--suggest-split` cannot cut them free (a single function cannot be split,
+and two call sites inside one function attest nothing).
+
+Nine files are parked in src/pending/ for this reason alone.  Each is
+byte-identical to the image at every non-relocation byte; the verdict is MATCH
+purely because one PC24 stayed wildcarded.
+
+The dependency graph, blockers in CAPS
+--------------------------------------
+
+  0x02063138 (fan-in 1)
+      -> func_0204BD3C      -> func_0204BC94      -> sub_0204A48C (system ctor)
+  0x02066934 (fan-in 1)
+      -> func_0204C660      -> sub_0204A48C
+  0x02034558 (fan-in 2, both inside func_0204D7E0)
+  0x0204DA5C (fan-in 1)
+  0x0204DCA8 (fan-in 1)
+      -> func_0204D7E0      -> sub_0204A48C
+  0x020345DC (fan-in 2, both inside func_0204D8AC)
+      -> func_0204D8AC      -> sub_0204A5AC (system dtor)
+  0x0206343C (fan-in 1)
+      -> func_0204BD64      -> func_0204BCF4
+  0x02063640 (fan-in 1)
+      -> func_0204BD7C      -> func_0204BD18
+  0x0204C944 (fan-in 1)
+      -> func_0204BB8C
+  0x0204D510 (fan-in 1)
+      -> func_0204B9A0
+
+Reading it
+----------
+
+sub_0204A5AC, the cell-actor system destructor, is one address away from
+EXACT: 0x020345DC.  Nothing else about it is open.  Its other two blockers
+(func_0204BCD8 and func_0204C6E4) were closed in this wave and now resolve as
+`matched`.
+
+sub_0204A48C, the constructor, needs four: 0x02063138, 0x02066934, 0x02034558
+and the pair 0x0204DA5C / 0x0204DCA8.  Its fourth original blocker,
+func_0204BA38, was closed in this wave.
+
+The cheapest unblocks by unlocked-file count are 0x020345DC (two files,
+including the destructor) and 0x02063138 (three files, including the
+constructor's last clact.c-local blocker).  0x02063138 is 348 bytes at
+-O4,p and reads a 0x540-byte table; 0x020345DC's size is unknown from here.
+
+What does not work
+------------------
+
+* `--suggest-split` on any of the nine: the blocking site is either the only
+  call in its function or two calls in the same function, so no cut exists.
+* Consolidating the caller and the callee into one `tu`: it makes the call
+  local, but the callee's own fan-in-1 extern is then unresolved inside the
+  same range, so the range as a whole is still MATCH.  Tried on
+  func_0204BC94 + func_0204BD3C (blocked by 0x02063138 either way) and on
+  func_0204BCF4 + func_0204BD64 (blocked by 0x0206343C either way).
+* Attesting a callback address through its pool word: 0x0204C83C's only
+  reference image wide is the pool word inside func_0204C660, so the `literal`
+  class has no second site.  This one was solved the honest way instead, by
+  decompiling 0x0204C804 and 0x0204C8A4 so that 0x0204C83C itself reached
+  EXACT and became a `matched` witness.
+
+That last line is the general lesson: when the blocker is inside your own
+packet, decompiling it is usually cheaper than reasoning about cuts.  Four
+files in this wave (func_0204BB54, func_0204C6E4, func_0204C83C and
+unit_0204B9C4) went from MATCH to EXACT that way, with no new evidence class
+invented, only a manifest entry that did not exist before.

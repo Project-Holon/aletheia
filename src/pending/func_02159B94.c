@@ -1,0 +1,58 @@
+/*
+ * function: func_02159B94
+ * address:  0x02159B94
+ * packet:   pkt_02159B94
+ * region:   ov010
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * Blocked on: no witness for func_02159D04.  Every concrete byte is
+ * reproduced; the single unresolved relocation is the THM_CALL at +0x1A to
+ * func_02159D04, whose only caller in the whole image is this function, so
+ * neither the label class nor a --suggest-split cut can attest it.  It would
+ * need func_02159D04 itself as a matched entry, and that function is an
+ * 11-byte register-allocation DIFF (docs/notes/func_02159D04.c.txt).
+ *
+ * symbols:
+ *   func_02048F60  0x02048F60  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_02159D04  0x02159D04  thumb
+ *
+ * The zone-to-map-model link, in one function: load sub-file `matrix_id` of
+ * archive id 9 (a/0/0/9 by the 0x020A6C58 name table), decode it into the
+ * caller's matrix object, free the raw block.
+ *
+ * `matrix_id` is the zone record's +0x04 lane: func_0215AE8C reads it with
+ * sub_02013B44 and passes the result straight in here, with the current zone
+ * id alongside it.  The decoded matrix's cells are a/0/0/8 sub-file indices,
+ * so this is the only hop between a zone header and its map models.  See the
+ * "Zone to map model" section of docs/ASSETS.md.
+ *
+ * The load is the defaulting three-argument entry point func_02048F60, not
+ * the five-argument func_02048F88, which is why the archive id, the member
+ * and the heap are all that reach it and r3 still holds the heap at the call.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02159B94.c \
+ *       --func func_02159B94 --addr 0x02159B94 --region ov010 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned int u32;
+
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void func_020307B0(void *p);
+extern void func_02159D04(void *dst, const void *src, u32 matrix_id,
+                          u32 zone_id);
+
+void func_02159B94(void *dst, u32 matrix_id, u32 zone_id, u32 heap)
+{
+    void *raw = func_02048F60(9, matrix_id, heap);
+
+    func_02159D04(dst, raw, matrix_id, zone_id);
+    func_020307B0(raw);
+}

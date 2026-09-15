@@ -1,0 +1,94 @@
+func_02066934: a DIFF near miss, the store-fusion case, not a guess gone wrong
+===============================================================================
+
+Blocker of docs/notes/clact_c_fan_in_1_blockers.c.txt, unblocks
+func_0204C660 (pkt_0204BD64). Semantics are pinned down with real
+confidence:
+
+  void func_02066934(struct Rec *recs, u32 n, void *cb);
+
+Publishes the pool (callback, count, record array) into the global bank at
+0x02148B20 already named as gUnk_02148B20 in src/matched/sub_02066B38.c
+(struct Bank { void *cb; u32 count; struct Rec *recs; }, a reasonable
+reading of +0x00/+0x04/+0x08 given sub_02066B38 already names +0x08 as
+"cells"). n == 0 is a predicated early return off the `movs` that loads it.
+Then, for each of the n 0x30-byte records: sub_020640B0 clears the first
+three words, and nine more words at +0xc..+0x2c are set to the record's
+own loop index (not to anything from the callback, which is published to
+the global only, never called here).
+
+Relocations resolve cleanly: sub_020640B0 (`label`, already matched via
+sub_02066B38.c's call to it) and gUnk_02148B20 (`literal`, already a
+well-attested address). The blocker is purely a byte-count/structural
+mismatch: every C form tried compiles to 100+ bytes (original is 100) but
+the concrete bytes differ from byte 0.
+
+The original opens with
+
+  push {r3, r4, r5, r6, r7, lr}
+  ldr  r3, [pc, #0x54]        ; &gUnk_02148B20
+  movs r6, r1                 ; n, sets flags for the r1==0 early return
+  mov  r7, r0                 ; recs
+  mov  r5, #0                 ; i = 0, unconditionally, before the bail-out
+  stm  r3, {r2, r6, r7}       ; one instruction: cb, n, recs all at once
+  popeq {r3, r4, r5, r6, r7, pc}
+
+i.e. the three field stores (cb straight from its own parameter register
+r2, n and recs copied into r6/r7 first) fuse into a single three-register
+`stm`. Every plain `a.f1 = x; a.f2 = y; a.f3 = z;` tried here compiles to
+a split store instead (`str r2, [r3]` then a separate `stmib r3, {r5, r6}`
+for the other two), regardless of field order, and a compound-literal
+assignment (`gUnk_02148B20 = (struct Bank){cb, n, recs};`) is worse: it
+round-trips through a stack temporary (sp-relative stores then an `ldm`
+back out), the classic mwccarm lowering for a literal passed by value,
+adding 40+ bytes instead of saving any.
+
+Best attempt (108 bytes, diverges from byte 0 because of the split store,
+otherwise structurally identical all the way through the loop):
+
+  typedef unsigned char  u8;
+  typedef unsigned int   u32;
+
+  struct Rec {
+      u8  pad_00[0xc];
+      u32 unk_0c, unk_10, unk_14, unk_18, unk_1c, unk_20, unk_24, unk_28, unk_2c;
+  };
+
+  struct Bank {
+      void       *cb;     /* 0x00 */
+      u32         count;  /* 0x04 */
+      struct Rec *recs;   /* 0x08 */
+  };
+
+  extern struct Bank gUnk_02148B20;
+  extern void sub_020640B0(struct Rec *c);
+
+  void func_02066934(struct Rec *recs, u32 n, void *cb)
+  {
+      u32 i = 0;
+
+      gUnk_02148B20.cb = cb;
+      gUnk_02148B20.count = n;
+      gUnk_02148B20.recs = recs;
+
+      if (n == 0) {
+          return;
+      }
+
+      for (; i < n; i++) {
+          sub_020640B0(recs);
+          recs->unk_0c = i; recs->unk_10 = i; recs->unk_14 = i;
+          recs->unk_18 = i; recs->unk_20 = i; recs->unk_24 = i;
+          recs->unk_28 = i; recs->unk_2c = i; recs->unk_1c = i;
+          recs++;
+      }
+  }
+
+Next agent: the lever is probably the bank's field types. `cb` is typed
+void* here but is never dereferenced or called in this function, so mwcc
+has no reason to treat it specially; try a same-width integer typedef for
+`cb` (matching n's and recs's plain-word treatment) in case the pointer
+type is what's suppressing the fuse, or try declaring local copies of n
+and recs assigned before the struct stores (mirroring `movs r6,r1` then
+`mov r7,r0` preceding the stm) so all three rhs values are simple named
+locals rather than two parameters plus one pass-through.

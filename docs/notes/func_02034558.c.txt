@@ -1,0 +1,92 @@
+func_02034558: blocked two levels down by the same data-literal dead end
+=========================================================================
+
+One of the two blockers in docs/notes/clact_c_fan_in_1_blockers.c.txt named
+only as "0x02034558 (fan-in 2, both inside func_0204D7E0)". Both of
+func_0204D7E0's calls to it are internal to that function, so the only way
+to give func_0204D7E0 a `matched` witness for this callee is an EXACT
+manifest entry at 0x02034558 itself.
+
+Signature, from the caller (src/pending/func_0204D7E0.c):
+  void *func_02034558(u32 heapId, u32 kind, u32 a, u32 size, u32 b);
+
+Semantics are solid: allocates an 8-byte "bank" (tiles/palettes resource
+wrapper). +0x00 is an area-manager object (sub_02033C00, already EXACT)
+sized by width/height through `_u32_div_f` (already a well-attested
+label, x307 references image-wide). +0x04 is a height selector:
+func_020345F8(b) when kind == 1, else the constant 0x20. +0x06 is a plain
+copy of the 4th argument (size). The width itself is
+`sub_02034520(a) - size`.
+
+What actually blocks it: sub_02034520 (the nine-entry flag-table summer,
+already pending at src/pending/sub_02034520.c) has *zero* callers anywhere
+in the ARM9 image outside this one call inside func_02034558 --
+match.py's own diagnostic confirms it ("has no witness outside
+02034558..020345DC"). Decompiling sub_02034520 would not even help:
+it is itself permanently capped at MATCH because its one ABS32 relocation,
+to the flag table g_FlagTable at 0x020A07C8, has no witness anywhere else
+in the image either (see that file's header). A MATCH entry can never be
+a `matched` witness (self-reference / non-EXACT is refused by the honesty
+rule), so func_02034558's call to sub_02034520 is unresolvable without new
+evidence for g_FlagTable specifically -- a problem one level below the
+blocker this file was written to close, and outside reach from here.
+
+func_020345F8 is a second open relocation at this address; it already has
+other callers in the image (src/matched/unit_02034630.c references it),
+so it is not the permanent blocker sub_02034520 is, just not yet re-verified
+against a registered manifest entry in this pass.
+
+Concrete bytes are very close (15 of 132 differ, all register-numbering
+swaps, no structural difference) once the six relocations above are set
+aside; `--diff` shows the pattern is a clean permutation (heapId r4<->r8,
+size r5<->r7, kind r7<->r8 in the pair), most likely sensitive to some
+variable-liveness detail not yet found. Not worth chasing further until
+sub_02034520's g_FlagTable problem is solved first, since that alone caps
+the whole chain at non-EXACT regardless of register matching.
+
+Closest C:
+
+  typedef unsigned char  u8;
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+
+  struct Bank {
+      void *data;   /* 0x00 */
+      u16   unk_04; /* 0x04 */
+      u16   unk_06; /* 0x06 */
+  };
+
+  extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+  extern u32   sub_02034520(u32 flags);
+  extern u32   func_020345F8(u32 b);
+  extern u32   _u32_div_f(u32 a, u32 b);
+  extern void *sub_02033C00(u32 size, u32 heap);
+
+  extern char s_clact_c[];
+
+  void *func_02034558(u32 heapId, u32 kind, u32 a, u32 size, u32 b)
+  {
+      struct Bank *bank;
+      u32 height;
+
+      bank = sub_02030734(heapId, 8, 0, s_clact_c, 0x7a);
+
+      a = sub_02034520(a) - size;
+
+      if (kind == 1) {
+          height = func_020345F8(b);
+      } else {
+          height = 0x20;
+      }
+      bank->unk_04 = (u16)height;
+
+      bank->data = sub_02033C00(_u32_div_f(a, bank->unk_04), heapId);
+      bank->unk_06 = (u16)size;
+      return bank;
+  }
+
+Next agent: find a second reference to g_FlagTable (0x020A07C8) anywhere
+in the image (any version, any overlay) before spending more time on
+either this function or sub_02034520; without it, this whole branch of
+the dependency graph is a dead end by the honesty rules, not a codegen
+puzzle.

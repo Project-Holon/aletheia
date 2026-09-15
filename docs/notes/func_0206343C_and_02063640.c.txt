@@ -1,0 +1,36 @@
+func_0206343C and func_02063640: skipped as oversized, not attempted
+======================================================================
+
+Two of the ranked blockers in docs/notes/clact_c_fan_in_1_blockers.c.txt:
+func_0206343C (blocker of func_0204BD64, unblocking func_0204BD3C's sibling
+call chain) and func_02063640 (blocker of func_0204BD7C). Both are
+fan-in-1, their only caller image wide being the single pending file each
+is named in, same shape as the other blockers in this wave.
+
+Sizes rule these out for the budget here: func_0206343C is 516 bytes and
+func_02063640 is 324 bytes (`match.py show` on each), both well past a
+single C rewrite held in the head, and both pull in a spread of further
+unresolved calls rather than one or two clean leaves:
+
+  func_0206343C calls sub_020862F0, sub_0207E684, sub_0207E708, and an
+  indirect `blx sb` through a function pointer loaded from a per-"which"
+  table (the same 0x540-byte-record table seen in func_02063138, so
+  likely wired into the same system, but that pointer's own table entry
+  has no independent check here), plus a long inlined fixed-point
+  scale-by-1/4 computation matching the style seen in func_02063138.
+
+  func_02063640 calls sub_020862B8, reads a global through an `mvn`/cmp
+  sentinel check, and branches into one of two calls
+  (sub_020821C0 or sub_02082A7C) depending on it, plus a second,
+  structurally similar block with its own loop and an inline `strh` fill.
+
+Per the agent brief's oversized-function rule ("take one show, form a
+one-line judgment, move on if not"), these were not written up as C:
+each would need several more sub-calls independently attested before
+reaching EXACT, well beyond "a few attempts," and neither promised a
+quick win the way the other blockers in this wave did.
+
+Next agent: func_0206343C's function-pointer table deserves a look on its
+own, independent of this blocker, since func_02063138 uses the same
+0x540-byte-record table structure and may share callers worth resolving
+together.

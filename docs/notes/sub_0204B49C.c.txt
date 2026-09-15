@@ -1,0 +1,76 @@
+sub_0204B49C @ 0x0204B49C (arm9, ARM, 80 bytes, packet pkt_0204B454)
+
+Closed near miss: four bytes short, one register copy.  Every instruction and
+every register matches except that the original parks the s16 sum in r6, the
+home register of the `value` parameter, and then copies it into the argument
+register, while every spelling tried compiles the `asr` straight into r1 and
+drops the copy.
+
+    ORIGINAL                            COMPILED (all spellings below)
+    +0030  add r0, r6, r0               add r0, r6, r0
+    +0034  lsl r0, r0, #0x10            lsl r0, r0, #0x10
+    +0038  asr r6, r0, #0x10            asr r1, r0, #0x10
+    +003C  mov r0, r5                   mov r0, r5
+    +0040  mov r1, r6                   bl  #0x204b550
+    +0044  bl  #0x204b550               add sp, sp, #4
+    +0048  add sp, sp, #4               pop {r3, r4, r5, r6, pc}
+    +004C  pop {r3, r4, r5, r6, pc}
+
+Everything above +0x0030 is byte-identical in all of them, including the
+predicated `ldrsheq r0, [sp]` / `ldrshne r0, [sp, #2]` pair, the early
+`mov r2, r4` and the parameter-to-callee-saved moves `mov r6, r1` /
+`mov r5, r0`.  So the function is understood; only the allocator's coalescing
+decision on the last definition is not reachable.
+
+What the function does, from the matched neighbours:
+
+    void sub_0204B49C(Actor *actor, s16 value, u32 space, u32 axis)
+    {
+        PtS origin;
+
+        func_0204CF74(actor, space, &origin);     /* space origin */
+        value = value + (axis == 0 ? origin.x : origin.y);
+        sub_0204B550(actor, value, axis);         /* src/matched/sub_0204B550.c */
+    }
+
+It is the write side of src/matched/sub_0204B4EC.c, which is EXACT and has the
+identical call-then-pick-then-arithmetic shape with a subtraction instead of an
+addition and a return instead of a setter call.  sub_0204B4EC keeps its picked
+origin in a named s16 local and reaches EXACT that way, so the shape is not in
+doubt.
+
+Spellings tried, all 76 bytes and all differing only in the two instructions
+above:
+
+  1. s16 o; if/else assigning o = origin.x / origin.y; then
+     sub_0204B550(actor, value + o, axis);            (the sub_0204B4EC shape)
+  2. as 1 but with an extra `s16 v = value + o;` before the call
+  3. value = value + o;  then sub_0204B550(actor, value, axis);
+  4. if/else assigning o = value + origin.x / value + origin.y
+  5. if/else assigning value = value + origin.x / value + origin.y
+  6. s16 v = value; declared before func_0204CF74 so that v is live across it,
+     then v = v + origin.x / v + origin.y in the arms
+  7. one expression, no local:
+     sub_0204B550(actor, value + (axis == 0 ? origin.x : origin.y), axis);
+
+Spelling 6 is the interesting one: making the local live across the earlier call
+does pin it to r6 as the original does, and mwccarm still rewrites the final
+definition to r1 and elides the copy, because that definition is the only one
+reaching the use.  Nothing in the source can give the use a second reaching
+definition without also breaking the if-conversion of the two `ldrsh`es, which
+is what spellings 4 and 5 test.
+
+Two spellings that make it worse rather than closer, recorded so they are not
+retried:
+
+  - declaring sub_0204B550's second parameter `u16` while the local stays s16
+    adds a `lsl`/`lsr` pair and takes the function to 84 bytes.
+  - factoring `base += idx`-style shared tails is not applicable here; there is
+    only one arm body.
+
+Verdict: allocator class, per
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+("same instructions, same order, registers swapped: allocator, reachable
+through nothing in the matrix").  This is the copy-elision variant of the same
+residue.  Do not re-run the flag matrix on it; -O4,p / dsi/1.1p1 is pinned and
+the whole matrix is already documented as byte-identical for this class.

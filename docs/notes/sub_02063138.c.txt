@@ -1,0 +1,136 @@
+func_02063138: a DIFF near miss, not a codegen guess gone wrong
+================================================================
+
+Blocker of docs/notes/clact_c_fan_in_1_blockers.c.txt, unblocks
+func_0204BD3C (pkt_0204B954). The semantics are pinned down with real
+confidence (see below); the remaining gap is a structural codegen choice,
+not an unresolved unknown about what the function does.
+
+Signature, from its only caller (src/pending/func_0204BD3C.c):
+  int func_02063138(struct Sub *s, u32 base, u32 count, u32 which);
+
+Behaviour: reserve a span in one per-"which" 0x540-byte record's two
+free-slot tables (0x500 bytes of fine-grained slots at 1x, then 0x40 bytes
+of a second table at 1/4 granularity). 0xFFFF is the free-slot sentinel in
+both. If both spans are free, stamp them with one shared running id
+(counter at 0x02146BC4) via MIi_CpuClear16, record the bounds into *s at
++0x00.. +0x14, and return 1; otherwise leave *s untouched and return 0.
+Table base is g_02146BC8[which] (array of 0x540-byte records).
+
+Best attempt reached: all 4 relocation sites resolve cleanly (two calls to
+MIi_CpuClear16 at 0x02082A48, the table base g_02146BC8, the counter
+g_02146BC4), but the byte count itself is wrong: compiled 336-340 bytes
+against a 348-byte original, and concrete bytes differ throughout the two
+range-check loops.
+
+What the diff shows: the original pushes only {r4,r5,r6,r7,r8,lr} (6 regs)
+and, on either span failing, branches away to a small dedicated
+"mov r0,#0; pop" block (two near-identical copies, one per span, the usual
+shared-exit-written-out-in-each-arm shape). Every C shape tried here
+instead gets predicated: mwccarm turns the early return into an inline
+"moveq r0,#0; popeq {...}" and, doing so, needs two more callee-saved
+registers (r3 and sb) to hold the loop pointer/bound pair that the
+original keeps in ip/r3. The two behaviours (branch to a duplicated tail
+vs. predicate the same tail inline) are both valid codegen for the same
+C; something about how the two span checks are written source-side tips
+the compiler one way rather than the other, and it was not found by:
+
+  - reordering the `base + (count - 1)` terms to match operand order
+    (closed the first 8 bytes of the diff exactly, real progress, kept);
+  - splitting count-1 into its own local (made things worse, +4 bytes,
+    reverted);
+  - sourcing the clear-fill id argument from *s instead of a local (the
+    original reloads it from s->id by ldrh for BOTH calls, not just the
+    second; this was a real fix, kept in the version below).
+
+Closest C, byte-correct up to +0x24, first concrete relocation-free
+mismatch at +0x28 (lsr target register r2 vs r3), still a DIFF:
+
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+
+  struct Rec {
+      u16 slotsA[0x500 / 2];
+      u16 slotsB[0x40 / 2];
+  };
+
+  struct Sub {
+      u32 which;    /* 0x00 */
+      u16 startA;   /* 0x04 */
+      u16 endA;     /* 0x06 */
+      u16 startA2;  /* 0x08 */
+      u16 startB;   /* 0x0a */
+      u16 endB;     /* 0x0c */
+      u16 startB2;  /* 0x0e */
+      u16 id;       /* 0x10 */
+      u16 pad_12;
+      u32 bound;    /* 0x14 */
+  };
+
+  extern struct Rec g_02146BC8[];
+  extern u16        g_02146BC4;
+  extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
+
+  int func_02063138(struct Sub *s, u32 base, u32 count, u32 which)
+  {
+      struct Rec *rec = &g_02146BC8[which];
+      u16 end = (u16)(base + (count - 1));
+      u16 *p = &rec->slotsA[base];
+      u16 *last = &rec->slotsA[end];
+      int ok;
+      u16 id;
+      u16 base2, end2;
+      u16 *p2, *last2;
+
+      if (p > last) {
+          ok = 1;
+      } else {
+          ok = 1;
+          do {
+              if (*p != 0xFFFF) { ok = 0; break; }
+              p++;
+          } while (p <= last);
+      }
+      if (!ok) return 0;
+
+      id = g_02146BC4;
+      g_02146BC4 = (u16)(id + 1);
+      s->id = id;
+      s->startA = (u16)base;
+      s->endA = end;
+      s->startA2 = (u16)base;
+      MIi_CpuClear16(s->id, &rec->slotsA[base], (u32)(end - base + 1) * 2);
+
+      base2 = (u16)(base >> 2);
+      end2 = (u16)((u16)(count >> 2) - 1 + base2);
+      p2 = &rec->slotsB[base2];
+      last2 = &rec->slotsB[end2];
+
+      if (p2 > last2) {
+          ok = 1;
+      } else {
+          ok = 1;
+          do {
+              if (*p2 != 0xFFFF) { ok = 0; break; }
+              p2++;
+          } while (p2 <= last2);
+      }
+      if (!ok) return 0;
+
+      s->startB = base2;
+      s->endB = end2;
+      s->startB2 = base2;
+      MIi_CpuClear16(s->id, &rec->slotsB[base2], (u32)(end2 - base2 + 1) * 2);
+
+      s->bound = 1;
+      s->which = which;
+      return 1;
+  }
+
+Next agent: the two span checks are textually near-identical and that
+symmetry is probably the lever; try writing them as a shared `static`
+helper (bool span_free(u16 *first, u16 *last)) the compiler can inline two
+different ways, or try computing `last` as `first + count` (pointer
+arithmetic on the already-scaled index) instead of a second array
+subscript, since that changes which register the bound lives in before
+the compare.

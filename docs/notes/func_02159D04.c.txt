@@ -1,0 +1,155 @@
+func_02159D04 @ 0x02159D04 (ov010, Thumb, 100 bytes) -- DIFF, 11 bytes,
+register allocation only.  Documented near miss, not a mistranslation.
+
+Verdict: DIFF, 11 concrete bytes, every one of them a register name.  The
+size is right (100 == 100), every instruction opcode, operand order, field
+offset, branch target and literal matches, and the three differing registers
+are one cyclic permutation apart:
+
+    value                     original   compiled
+    zone_id (4th parameter)   r7         r4
+    src->cells               r6         r7
+    the pooled 0x71C          r4         r6
+
+The diff, for the record (only the lines that differ; the other 39
+instructions are identical):
+
+    +0002    adds r7, r3, #0     | adds r4, r3, #0
+    +0014    adds r6, r1, #0     | adds r7, r1, #0
+    +0016    ldr  r4, [pc, #0x48]| ldr  r6, [pc, #0x48]
+    +001A    adds r6, #8         | adds r7, #8
+    +001E    adds r0, r6, #0     | adds r0, r7, #0
+    +0020    adds r1, r5, r4     | adds r1, r5, r6
+    +0024    strh r7, [r5, #2]   | strh r4, [r5, #2]
+    +003C    adds r0, r6, r0     | adds r0, r7, r0
+    +0054    subs r4, #0x14      | subs r6, #0x14
+    +0056    adds r0, r7, #0     | adds r0, r4, #0
+    +0058    adds r2, r4, #0     | adds r2, r6, #0
+
+Note +0054: both sides rematerialise 0x708 as the pooled 0x71C minus 0x14
+rather than pooling a second constant, so even the CSE of the two grid
+offsets agrees.
+
+What was tried, so the next agent does not repeat it:
+
+- All 120 permutations of the five local declarations (swept in one batch).
+  Best is (n, cells, second, i, zone_grid) at 11 bytes; the next best is
+  (n, i, cells, second, zone_grid) at 21, and every other order is worse.
+  Declaration order moves which local lands in which register but never
+  produces the original's r4/r6/r7 assignment.
+- Both multiply operand orders.  `src->width * src->height` is correct and
+  is what the file keeps; the other order costs 14 more bytes at +000C.
+- Binding `cells` early (first statement) versus late (last statement before
+  the copy).  Early costs one extra `adds r0, r1, #0` and pushes the whole
+  body two bytes down: `cells` must be materialised after the last read of
+  `src`, which is the `src->mode` load.
+- An explicit `u32 zone = zone_id;` local declared first, to try to force
+  the parameter into r7 the way the original saves it in the first
+  instruction.  The copy is folded away and the allocation is unchanged.
+- Hoisting `zone_grid = dst->zone_grid;` above the copy call, and dropping
+  the local entirely in favour of `dst->zone_grid[i]` at both uses.  The
+  first is neutral (11 bytes), the second is much worse (64 bytes).
+- Reordering the six stores.  The order in the file
+  (matrix_id, count, mode, zone_id, width, with height between the multiply
+  and the count) is the only one that reproduces the original's store
+  schedule exactly, and it does.
+
+The C, as it stands (11-byte DIFF), and the reading it attests, which is the
+point of keeping this note at all: this function is the a/0/0/9 map-matrix
+decoder, and its cells are a/0/0/8 sub-file indices.  See the "Zone to map
+model SOLVED" section of docs/ASSETS.md.
+
+/*
+ * function: func_02159D04
+ * address:  0x02159D04
+ * packet:   pkt_02159B94
+ * region:   ov010
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02082A48  0x02082A48  arm
+ *   func_02082A90  0x02082A90  arm
+ *
+ * The map-matrix decoder: unpack one a/0/0/9 sub-file into the runtime matrix
+ * object.  The file is { u16 mode; u16 pad; u16 width; u16 height; } followed
+ * by width*height u32 cells, and, when mode == 1 only, a second block of the
+ * same length.  Block one is copied verbatim into the object's u32 cell grid
+ * at +0x71C; those cells are a/0/0/8 sub-file indices.  Block two, when it
+ * exists, is narrowed cell by cell into the u16 grid at +0x14 and holds one
+ * zone id per cell; when it does not exist the same grid is filled with the
+ * caller's single zone id instead, which is what makes mode the "this matrix
+ * spans several zones" flag.
+ *
+ * Both grids are fixed 900-entry arrays (30 x 30, the cap func_02159C0C
+ * enforces), so 0x14 + 900 * 2 lands exactly on 0x71C.
+ *
+ * func_02082A48 takes the fill value first and the destination second, which
+ * is why r7 (the zone id) is still live at the call and r1 already points at
+ * the grid.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02159D04.c \
+ *       --func func_02159D04 --addr 0x02159D04 --region ov010 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct MatrixFile {
+    u16 mode;
+    u16 pad02;
+    u16 width;
+    u16 height;
+    u32 cells[1];
+};
+
+struct MapMatrix {
+    u16 field00;
+    u16 zone_id;
+    u32 matrix_id;
+    u16 width;
+    u16 height;
+    u16 mode;
+    u16 pad0e;
+    u32 count;
+    u16 zone_grid[900];
+    u32 map_grid[900];
+};
+
+extern void func_02082A48(u32 value, void *dst, u32 size);
+extern void func_02082A90(const void *src, void *dst, u32 size);
+
+void func_02159D04(struct MapMatrix *dst, const struct MatrixFile *src,
+                   u32 matrix_id, u32 zone_id)
+{
+    u32 n;
+    const u32 *cells;
+    const u32 *second;
+    u32 i;
+    u16 *zone_grid;
+
+    dst->matrix_id = matrix_id;
+    n = src->width * src->height;
+    dst->height = src->height;
+    dst->count = n;
+    dst->mode = src->mode;
+    dst->zone_id = zone_id;
+    dst->width = src->width;
+    cells = src->cells;
+    func_02082A90(cells, dst->map_grid, n * 4);
+
+    zone_grid = dst->zone_grid;
+    if (dst->mode == 1) {
+        second = cells + dst->count;
+        for (i = 0; i < dst->count; i++)
+            zone_grid[i] = (u16)second[i];
+    } else {
+        func_02082A48(zone_id, zone_grid, 0x708);
+    }
+}

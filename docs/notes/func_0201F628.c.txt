@@ -1,0 +1,99 @@
+func_0201F628 @ 0x0201F628, pkt_0201F5BC, 276 bytes, Thumb.
+
+VERDICT: DIFF, 86 of 276 bytes, and the residue is the closed scheduler
+class of
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md:
+same instructions, same registers, four different issue slots.  Do not
+re-attempt with further source spellings.
+
+WHAT IT IS
+----------
+A nine-slice window frame draw.  Eight calls to func_02041300 (ARM,
+0x02041300) place tiles base+0, +1, +2, +3, +5, +6, +7, +8 around the
+rectangle (x, y, w, h); the centre tile base+4 is never emitted, which is
+the whole reason the sequence skips 4.  The four corners are 1x1, the top
+and bottom edges are w x 1, the left and right edges are 1 x h, and every
+call carries the same palette word.
+
+Semantics are fully recovered and are not in doubt: 190 of 276 bytes are
+byte-identical and every differing byte is an instruction that also exists
+in the compile, one or two slots away.
+
+SIGNATURE, pinned by the load widths
+------------------------------------
+  void func_0201F628(u32 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
+
+The fifth argument is re-read with `ldrb` from its home slot at sp+0x38 and
+the sixth with `ldr` from sp+0x3c, so h is a byte and pal is a full word.
+The seventh is read with `ldrh` from sp+0x40, so base is u16.  Declaring
+pal as u8 costs 14 bytes (the compile comes out 262 instead of 276);
+declaring func_02041300's a4/a5/a6 as u32 instead of u8 raises the residue
+from 86 bytes to 245.
+
+The second and third parameters of func_02041300 must be declared u8 here,
+not u32 as src/pending/func_02041300.c declares them.  With u32 the
+truncation of `x - 1` becomes a source-level expression, mwccarm CSEs the
+whole `(u8)(x - 1)` and spills the truncated byte to a stack slot; the
+image keeps the untruncated `x - 1` in r7 and re-runs the
+`lsls #24 / lsrs #24` pair at each of its four uses, which is the
+argument-conversion form.  That single change moves the residue from 228
+bytes to 86.  This is the same tell as
+docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md
+seen through the prototype rather than through the call.
+
+THE RESIDUE, all four sites
+---------------------------
+Every remaining difference is one store issued earlier in the image than in
+the compile:
+
+  +0004  the image spills all four incoming argument registers at the top,
+         r0 first; the compile sinks `str r0, [sp, #0xc]` to just before
+         the first blx and stores r1/r2/r3 at the top.
+  +005C  the image issues `str r5, [sp, #8]` (the palette argument) before
+         `adds r1, r4, #2`; the compile issues it after the last `lsrs`.
+  +00C2  same store, same displacement, at the base+6 call.
+  +00F4  same store, same displacement, at the base+8 call.
+
+No register differs, no instruction is missing or extra, and the three
+palette stores are already in source order relative to the other two stack
+argument stores.  Per the closed-class verdict that is the scheduler, and
+the scheduler is reachable only through -proc, which is pinned to the
+hardware.
+
+CONSEQUENCE
+-----------
+0x0201F628 has exactly one caller image-wide, func_0201F73C, so it cannot
+be attested by the `label` class and there is no cut that creates a
+witness.  src/pending/func_0201F73C.c is therefore byte-correct but capped
+at MATCH until this function reaches EXACT.  0x0201F7A8, the sibling that
+calls func_02041300 directly instead, is EXACT and unaffected.
+
+THE C AS IT STANDS, 86 bytes from the image
+-------------------------------------------
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5,
+                          u32 a6);
+
+void func_0201F628(u32 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
+{
+    u32 y0;
+    u32 x0;
+    u32 x1;
+    u32 y1;
+
+    y0 = y - 1;
+    x0 = x - 1;
+    func_02041300(id, base,            x0, y0, 1, 1, pal);
+    func_02041300(id, (u16)(base + 1), x,      y0, w, 1, pal);
+    x1 = x + w;
+    func_02041300(id, (u16)(base + 2), x1, y0, 1, 1, pal);
+    func_02041300(id, (u16)(base + 3), x0, y,      1, h, pal);
+    func_02041300(id, (u16)(base + 5), x1, y,      1, h, pal);
+    y1 = y + h;
+    func_02041300(id, (u16)(base + 6), x0, y1, 1, 1, pal);
+    func_02041300(id, (u16)(base + 7), x,      y1, w, 1, pal);
+    func_02041300(id, (u16)(base + 8), x1, y1, 1, 1, pal);
+}

@@ -1,6 +1,4 @@
 /*
- * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
- *
  * unit:     no
  * address:  0x0202208C
  * packet:   pkt_02021444
@@ -9,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  * function: func_0202208C
  *
  * symbols:
@@ -38,18 +36,14 @@
  * +0x0C and +0x10 that is non-null it runs func_02022640 on the matching
  * sub-object and sets the byte flag at +0x14E / +0x14F.
  *
- * Every concrete byte is reproduced.  g_021467A4 resolves on the `literal`
- * class (eight pool words elsewhere in the image), CARD_GetBackupSectorSize,
- * _s32_div_f, func_020226A0 and func_02022390 on the `label` class.  Five
- * callees do not, and the block is structural:
- *
- *   func_020223C0, func_02022458, func_020225F4, func_02022430 and
- *   func_02022640 have no branch reference anywhere in the image except the
- *   ones in this function, so the `label` class has no witness outside the
- *   compared range.  All five live above 0x02022174, in pkt_02022174, so the
- *   `matched` class can close them the day that packet's functions are
- *   written; none of them is EXACT today.  Nothing about the C is in doubt:
- *   the range is 232 of 232 bytes identical with the wildcards filled in.
+ * Graduated in wave 20B.  It was parked at MATCH only because five of its
+ * callees had no branch reference anywhere in the image except the ones in
+ * this function, so the `label` class had no witness outside the compared
+ * range.  All five are now EXACT manifest entries in pkt_02022174
+ * (func_020223C0, func_02022458, func_020225F4, func_02022430,
+ * func_02022640), and every one of those sites resolves on the `matched`
+ * class.  g_021467A4 resolves on `literal`, CARD_GetBackupSectorSize,
+ * _s32_div_f, func_020226A0 and func_02022390 on `label`.
  *
  * Near miss worth keeping: the division had to be written as a self-recompute,
  *   n = (s32)p6;  n = n / (s32)CARD_GetBackupSectorSize();

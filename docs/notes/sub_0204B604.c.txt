@@ -1,0 +1,67 @@
+sub_0204B604 @ 0x0204B604 (arm9, ARM, 84 bytes, packet pkt_0204B5D4)
+
+Closed near miss: right size, right instructions, right registers, wrong
+if-conversion boundary.  The original if-converts only the first arm and ends
+it with a predicated return, then emits the second arm as plain straight-line
+code.  Every spelling tried if-converts both arms and interleaves them.
+
+    ORIGINAL                            COMPILED
+    +0010  mov ip, #1                   mov ip, #1
+    +0014  cmp r1, #0                   cmp r1, #0
+    +0018  movne ip, #2                 movne ip, #2
+    +001C  cmp r2, #0                   cmp r2, #0
+    +0020  ldrne r2, [r0, #0x60]        ldrne r2, [r0, #0x60]
+    +0024  lslne r1, r2, #0xa           ldreq r3, [r0, #0x60]     <- hoisted
+    +0028  orrne r1, ip, r1, lsr #30    lslne r1, r2, #0xa
+    +002C  bicne r2, r2, #0x300000      orrne r1, ip, r1, lsr #30
+    +0030  lslne r1, r1, #0x1e          bicne r2, r2, #0x300000
+    +0034  orrne r1, r2, r1, lsr #10    mvneq r1, ip
+    +0038  strne r1, [r0, #0x60]        lsleq r2, r3, #0xa
+    ...    bxne lr                      ...
+           ldr r3, [r0, #0x60]          (no second epilogue at all)
+           mvn r1, ip
+           ...
+
+Both are 84 bytes and both contain the same 21 instructions; the original has
+two epilogues (`bxne lr` then `bx lr`), the compile has one.
+
+The function is understood.  The u32 flag word at +0x60 carries a two-bit field
+at bits 20..21, and this is its per-bit setter:
+
+    void sub_0204B604(Actor *actor, u32 which, u32 on)
+    {
+        u32 mask;
+
+        if (which == 0) { mask = 1; } else { mask = 2; }
+
+        if (on != 0) {
+            actor->f_14 = actor->f_14 | mask;
+            return;
+        }
+        actor->f_14 = actor->f_14 & ~mask;
+    }
+
+The reader, src/matched/sub_0204B658.c, is EXACT and confirms the field
+position and the 1/2 mask convention, and src/matched/unit_0204B688.c is EXACT
+for the neighbouring bits 22..23, so the struct shape is not in doubt.
+
+Spellings tried, all 84 bytes, all differing only in where the `eq` half sits:
+
+  1. plain if/else, set arm first
+  2. set arm with an early `return`, clear arm as the fall-through (above)
+  3. as 2 with the clear arm's field read bound to a named u32 local first
+  4. `mask` complemented into its own local before the `&=`
+
+Note that the prologue, through `ldrne r2, [r0, #0x60]` at +0x20, is
+byte-identical in every one of them, including the `mov ip, #1` /
+`movne ip, #2` mask build and the `orr ip, field` operand order.  The
+divergence starts exactly at the first instruction of the second arm.
+
+The two leaves ahead of it, 0x0204B5F4 and 0x0204B5FC, are EXACT as
+src/matched/unit_0204B5F4.c, which stops short of this function on purpose.
+
+Verdict: if-conversion boundary, decided during instruction selection.  It is
+not the scheduler (the instruction multiset and the register assignment are
+identical) and not the allocator, and nothing in the source names the boundary;
+see docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+for why the flag matrix is not the answer here.  Do not re-run it.

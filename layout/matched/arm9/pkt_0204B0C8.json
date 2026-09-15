@@ -7,6 +7,69 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "sub_0204B0C8",
+   "address": "0x0204B0C8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0204B0C8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "sub_0204B100",
+   "address": "0x0204B100",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0204B100.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0204B1CC",
+   "address": "0x0204B1CC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0204B1CC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_0204B22C",
+   "address": "0x0204B22C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0204B22C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_0204B22C"
+   ]
+  },
+  {
+   "name": "sub_0204B270",
+   "address": "0x0204B270",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0204B270.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "sub_0204B294",
    "address": "0x0204B294",
    "kind": "game",

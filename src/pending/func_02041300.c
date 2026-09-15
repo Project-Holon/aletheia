@@ -2,7 +2,7 @@
  * unit:     no
  * function: func_02041300
  * address:  0x02041300
- * packet:   pkt_020409E0
+ * packet:   pkt_02040F84
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p

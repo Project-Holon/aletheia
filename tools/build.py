@@ -235,7 +235,17 @@ def attach_c_sources(specs, manifest, jobs=1):
     propagates as csrc.CSourceError and the caller turns it into a build
     failure: there is no path here that quietly keeps the assembly.
     """
-    def owner(addr):
+    def owner(addr, region=None):
+        # Overlays share load addresses, so the manifest entry's region
+        # decides; the address alone only picks the first overlay in order.
+        if region is not None:
+            # match.py names the static image "arm9"; its build specs are
+            # arm9_main and the arm9_autoload* blocks, which do not overlap.
+            for s in specs:
+                if s.contains(addr) and (s.key == region
+                                         or s.key.startswith(region + "_")):
+                    return s
+            return None
         for s in specs:
             if s.contains(addr):
                 return s
@@ -246,9 +256,11 @@ def attach_c_sources(specs, manifest, jobs=1):
                                        jobs=jobs)
     total = 0
     for sp in kept:
-        s = owner(sp.address)
-        if s is None:                      # cannot happen; keep() filtered
-            continue
+        s = owner(sp.address, sp.region)
+        if s is None:
+            raise csrc.CSourceError(
+                "%s at 0x%08X names region %s, which is not being built"
+                % (sp.name, sp.address, sp.region))
         if sp.end > s.base + s.size:
             raise csrc.CSourceError(
                 "%s at 0x%08X+%d runs past region %s"
