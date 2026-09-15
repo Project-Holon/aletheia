@@ -8129,7 +8129,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/0/5/9 | 18 | NCLR (palette) | generic format, verified | verify_all.py (battle_sprite.py NCLR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 5 verified; RGCN: 5 verified; RCSN: 2 verified; RECN: 3 verified; RNAN: 3 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/0/6/0 | 1 | 0xed000000 | custom format, no decoder | tables.py | unverified | Single sub-file, 1672 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified). See "Group 2 custom table pass" in this doc. |
 | a/0/6/1 | 56 | 0x04000000 | custom format, no decoder | tables.py | unverified | 56 sub-files, fixed 780-byte records. No reader found among the seven accessor functions for this archive id. Identification: 780-byte records resolve into 15 repeated 52-byte sub-blocks (period confirmed by per-offset histogram). Confidence: MEDIUM (structural only, domain unclear). See "Group 2 custom table pass" in this doc. |
-| a/0/6/2 | 10 | 0x04000000 | custom format, no decoder | tables.py | unverified | 10 sub-files, fixed 780-byte records. No reader found among the seven accessor functions for this archive id. Identification: Same 15x52-byte sub-block period as a/0/6/1. Confidence: MEDIUM (structural only, domain unclear). See "Group 2 custom table pass" in this doc. |
+| a/0/6/2 | 10 | 0x04000000 | custom format, no decoder | tables.py | unverified | 10 sub-files, fixed 780-byte records. Reader found by the second-level backward-register scan: arm9 func_0201493C (field_status.c), which sets r0=#0x3e=62 immediately before `bl func_02014A20`; func_02014A20 passes that r0 straight through into `blx func_02048F60(archive_id=62, ...)`, a genuine two-level parameter passthrough. Identification: field-status subsystem table (field_status.c), same 15x52-byte sub-block period as sibling a/0/6/1 (still no reader). Confidence: MEDIUM (structural period unchanged, but now also a confirmed two-level reader; domain still not decoded field-by-field). See "Archive readers, second level" in this doc. |
 | a/0/6/3 | 17 | NSCR (screen/map) | generic format, verified | verify_all.py (background.py NSCR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 3 verified; RGCN: 2 verified; RCSN: 10 verified; RECN: 1 verified; RNAN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/0/6/4 | 48 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer back-view sprite set (6 blocks of 8; male/female protagonist, Professor Juniper, Cheren, confirmed by eye). NCGR round trip FIXED this pass: the second block these sub-files carry turned out to be an optional trailing SOPC block (the same one `background.py`'s NcgrTiles already passes through for `a/0/0/1`), not a second top-level RGCN resource; `rig.py`'s `Ncgr.encode()` now reassembles the RAHC head from decoded fields and copies any bytes after the declared tile data (including a trailing SOPC block) verbatim. NCGR round trip now 12/12 byte-identical (see `tools/assets/verify_all.py`). |
 | a/0/6/5 | 2 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RGCN: 1 verified; RLCN: 1 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
@@ -8141,7 +8141,7 @@ This pass (see "Verification pass" below) closed the "generic format, not verifi
 | a/0/7/1 | 39 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 2 verified; RGCN: 12 verified; RCSN: 5 verified; RECN: 10 verified; RNAN: 10 verified. Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/0/7/2 | 760 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer battle sprite archive, CONFIRMED by direct visual identification of named characters (male/female protagonist, Youngster, Lass, Gym Leader Chili, Elite Four Marshal and Caitlin, Champion Alder, Team Plasma grunts/officers) across 95 blocks x 8 sub-files (760 total). Class-to-block mapping is near-identity on the trdata class id with a few confirmed merges past class 83. NCGR round trip FIXED this pass, same trailing-SOPC-block cause as a/0/6/4/a/0/7/3: now 190/190 byte-identical. |
 | a/0/7/3 | 48 | 0x11b00c00 | covered and verified | rig.py | verified | Trainer back-view sprite set, byte-for-byte duplicate of a/0/6/4's renders across all 6 blocks. NCGR round trip FIXED this pass, same trailing-SOPC-block cause as a/0/6/4: now 12/12 byte-identical. |
-| a/0/7/4 | 1 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/0/7/4 | 1 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). Reader found by the second-level backward-register scan: overlay_021 func_021C8018 (fld_wipe_3dobj.c), via a cross-region `.inst.w blx` into arm9 func_02046DB8, which forwards straight through to func_02048F60(archive_id=0x4a=74, member=0, heap). Corroborates the existing NSBMD identification; does not change the decode. See "Archive readers, second level" in this doc. |
 | a/0/7/5 | 151 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
 | a/0/7/6 | 29 | NCGR (tile/character data) | generic format, verified | verify_all.py (rig.py NCGR encoder) | verified | Archive-wide round trip run this pass via `tools/assets/verify_all.py`: RLCN: 7 verified; RGCN: 9 verified; RCSN: 5 verified; RECN: 3 verified; RNAN: 3 verified; b' APS': 2 skipped (no decoder). Every recognised NITRO sub-file format in this archive round trips byte-identical; remaining 'skipped' sub-files carry a magic this project has no decoder for (custom/APS/SDAT/etc.), not a failure. |
 | a/0/7/7 | 8 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
@@ -9321,7 +9321,7 @@ Every other archive (53 of 75) is reported with the framing the byte survey foun
 | a/0/5/8 | 17 | 17 subs, var 4-784B | no | not identified | LOW | OK |
 | a/0/6/0 | 1 | 1 sub, 1672B | no | not identified | LOW | OK |
 | a/0/6/1 | 56 | 56 subs, fixed 780B | no | 15x52B repeated sub-block period | MEDIUM | OK |
-| a/0/6/2 | 10 | 10 subs, fixed 780B | no | 15x52B repeated sub-block period | MEDIUM | OK |
+| a/0/6/2 | 10 | 10 subs, fixed 780B | yes (second level) | 15x52B repeated sub-block period, field-status table | MEDIUM | OK |
 | a/0/6/7 | 98 | 98 subs, var 68-5596B | no | not identified | LOW | OK |
 | a/0/7/0 | 6 | 6 subs, var 640-6412B | no | not identified | LOW | OK |
 | a/0/7/9 | 34 | 34 subs, var 256-24420B | no | Mostly RLCN (NCLR) uncompressed | MEDIUM-HIGH | OK |
@@ -11824,3 +11824,122 @@ before this pass.
 - The battle effect VM's 14-fold slot redundancy (every group's header
   block repeats the same word 14 times) is still unexplained; this pass
   did not revisit it.
+
+## Archive readers, second level
+
+Finishes the lane a prior session cut mid-task. Inputs: `build/assets/
+reader_scan2_full.json` (the deduplicated per-call-site results, 106 family
+call sites, matching `build/assets/reader_map2.json`'s own consolidated
+form byte-for-byte on every resolved archive id) and `build/assets/
+reader_scan2_raw.json` (an earlier, partial run of the same tool, only 21
+distinct ids resolved, one of them -- `a/0/0/5` -- not reproduced in the
+full run and not used here). Both dumps are the output of the "fourth
+pass" tool already named in `tools/assets/tables.py`'s own docstring
+(`reader_scan2.py`, up to three caller levels, the cross-region `.inst.w
+blx` fix), so this write-up documents that pass's actual findings rather
+than starting a fifth one.
+
+### Coverage
+
+    first-level scan (build/assets/reader_map.json): 39/237 archives with
+    an attested open site
+    second-level scan (build/assets/reader_map2.json /
+    reader_scan2_full.json): 43/237 distinct archives resolved to a
+    constant id, of which 2 do not survive manual verification (below)
+    verified new archives this pass: 2 -- a/0/6/2, a/0/7/4
+    coverage after this pass: 41/237
+
+### Newly identified archives
+
+| archive | reader address | region | source file | identification | confidence |
+|---|---|---|---|---|---|
+| a/0/6/2 | arm9 func_0201493C, `bl func_02014A20` at 0x02014974 (two-level parameter passthrough into `func_02048F60(archive_id=62,...)` at 0x02014A40) | arm9_main | field_status.c | field-status subsystem table, 15x52-byte sub-block period, sibling of a/0/6/1 (still no reader) | MEDIUM (structural period unchanged, reader now confirmed at two call levels; fields not decoded) |
+| a/0/7/4 | overlay_021 func_021C8018, `movs r0, #0x4a` / `movs r1, #0` then `.inst.w blx 0x02046DB8` at 0x021C8030 (cross-region call, forwarded unchanged into `func_02048F60(archive_id=74, member=0, heap)` at 0x02046E00) | overlay_021 | fld_wipe_3dobj.c (confirmed: the function's own `__FILE__` pool word at 0x021C8050 sits inside this same function, 0x021C8018..0x021C8608; `fileanchors.py --lookup` without a region hint misattributes this address to overlay_016 because both overlays are laid out over the same address range and the tool cannot disambiguate, so the region-filtered rows of `layout/file_anchors.txt` were read directly instead) | Already identified structurally as NSBMD (nsbmd.py, verified round trip); this reader corroborates that identification from a `fld_wipe_3dobj.c` call site, consistent with a wipe-transition 3D object, and does not change the decode | HIGH (direct immediates on both sides of the cross-region call, decode already verified) |
+
+a/0/6/2 is inside `tools/assets/tables.py`'s scope (`_GROUP2`); its note
+was already updated by the session that got cut off, and is confirmed
+correct here (`python tools/assets/tables.py --verify a/0/6/2`: 10/10
+byte-identical). a/0/7/4 is outside `tables.py`'s scope (owned by
+`nsbmd.py`, already verified); only the census row is updated with the
+corroborating reader, per the same convention used for `a/0/6/6` and the
+other out-of-scope archives in the first-level pass. `tools/assets/
+tables.py --verify a/0/1/5` and `--verify a/1/7/9` (two archives already
+carrying a first-level-pass reader note) were also re-run as a sanity
+check that nothing in the registry broke: both still round-trip
+byte-identical (5/5 and 50/50).
+
+### Two resolved ids rejected as scan artifacts
+
+The full dump resolves two more ids that do not survive manual
+verification against the actual instructions, and neither is reported as
+a newly identified archive:
+
+- **a/0/0/0** (id 0): resolved by climbing through `arm9_main@0x02048D78`
+  (inside `func_02048D54`) up through `arm9_main@0x02048F6C` (inside
+  `func_02048F60`) to `arm9_main@0x02020F52` (inside `func_02020F34`, the
+  already-known reader for `a/0/2/4`, archive id 24). Reading the actual
+  instructions: `func_02048F60` forwards its own r0 unchanged into
+  `func_02048D54` (`bl func_02048D54` at 0x02048F6C, no r0 write in
+  between), and `func_02048D54` in turn forwards that same value
+  (`mov r4, r0` at entry, then `mov r1, r4` at 0x02048D68) into
+  `func_02048DDC` at 0x02048D78 -- so the fully-resolved id at every level
+  of this chain is 24, the same value the one-level scan already found at
+  `0x02020F52` directly, not 0. The second-level tool's climb produced 0
+  instead, which does not correspond to any instruction on this call path;
+  it is not a real archive-open site and a/0/0/0 is not newly identified.
+- **a/0/0/1** (id 1): resolved via `arm9_main@0x0204A230` (inside
+  `func_0204A1BC`, calling `func_02048F4C`, an r1-consumer) climbing one
+  level to `arm9_main@0x0202F88C`. Reading `func_0204A1BC`: its incoming
+  r1 (member index) is captured to r7 and never reaches the family call;
+  the id-carrying r1 at 0x0204A230 is `mov r1, r8` where r8 is the
+  function's own incoming **r0** (`mov r8, r0` at entry). At the actual
+  call site 0x0202F88C the caller sets `r0 = 0x16 = 22` and `r1 = 1`
+  immediately before `blx func_0204A1BC` -- so the value that reaches the
+  family call is 22 (archive `a/0/2/2`, not currently otherwise attested),
+  and the tool's reported 1 is the caller's r1 (the unrelated member-index
+  argument), picked up because the climb matched the deepest frame's
+  register name (r1) against the same register name in the parent frame
+  instead of following the r8-to-r0 rename inside `func_0204A1BC`. This is
+  a real bug class in the scan (register identity is not always preserved
+  by name across a call boundary when the callee renames its own
+  parameters before forwarding them further), not evidence for either
+  `a/0/0/1` or `a/0/2/2`; neither is reported as newly identified from this
+  entry, since the corrected id (22) is not itself an attested finding of
+  this scan, only a byproduct of manually checking why the reported one
+  (0/1) was wrong.
+
+Both rejections were reached by reading the actual disassembly at every
+hop of the chain (`asm/arm9/main.s`), not by re-running the scan tool
+(which is a scratch script, not committed). Any other id in the 43-archive
+set that was reached through two or more caller levels should be treated
+with the same caution until similarly checked by hand; the two verified
+here (a/0/6/2, a/0/7/4) both happened to be clean parameter passthroughs
+with no intervening register rename, which is what makes them trustworthy
+and the other two not.
+
+### What remains
+
+- Coverage stands at 41/237 archives with an attested open site (39 from
+  the first-level pass, plus a/0/6/2 and a/0/7/4 from this one).
+  `_GROUP2`'s own reader count is unchanged at 24/75 (a/0/6/2 was already
+  counted there by the session that got cut off; a/0/7/4 is outside
+  `_GROUP2`).
+- 51 of `_GROUP2`'s 75 archives still have no attested reader by any
+  method run so far (unchanged from the first-level pass; every entry in
+  `tools/assets/tables.py`'s `_GROUP2` dict whose note still reads "No
+  reader found").
+- The remaining unresolved family call sites in `reader_scan2_full.json`
+  (6 of 106, matching `reader_map2.json`'s own `unresolved_call_sites`
+  count) are cases the backward walk still cannot follow even after
+  climbing three levels: a value arriving through something other than an
+  immediate load, a register-to-register rename, or a literal-pool word
+  (an `adds`/register arithmetic, a table load, or a fourth level of
+  caller). They are not evidence of "no reader", just outside this
+  method's reach, same caveat as the first-level pass.
+- Id tables found in the two dumps: only the constant-archive-id mapping
+  described above (`resolved: ["const", N]` per call site) and the call
+  chains themselves; neither dump carries any other id table (no
+  string/name table, no separate index of archive ids beyond the
+  per-call-site `resolved` field). `reader_map2.json` additionally records
+  `levels_climbed` per site, which is what made the two rejections above
+  possible to reconstruct without re-running the scan tool.
