@@ -202,3 +202,81 @@ arm9_main  0x020213F8  thumb # unlabelled leaf, same run
 arm9_main  0x0202142C  thumb # unlabelled leaf, same run
 arm9_main  0x02030C68  arm   # follows the bx lr at 0x02030C64
 arm9_main  0x02030DA4  arm   # lone bx lr after the pop at 0x02030DA0
+
+# Wave 22 seeds: clact.c ARM accessor bank behind an ARM long-branch veneer,
+# two flag-accessor pairs and two tail-call thunks, none saving lr so the
+# prologue sweep misses all of them.
+arm9_main  0x0204B0F4  arm   # ARM long-branch veneer, pool word 0x0204B0FC holds target 0x0204BE38
+arm9_main  0x0204B248  arm   # getter half of func_0204B22C's +0xe bit-field pair; follows its bx lr at 0x0204B244
+arm9_main  0x0204B258  arm   # blx 0x0204B258 from ov018 at 0x0217D646, ov021 at 0x021A1A5A
+arm9_main  0x0204B588  arm   # blx 0x0204B588 from ov170 at 0x021EC986 and 0x021ECA4A
+arm9_main  0x0204B5E4  arm   # blx 0x0204B5E4 from ov186 at 0x021FF382
+arm9_main  0x0204B5FC  arm   # getter half of func_0204B5F4's +0x58 field pair; follows its bx lr at 0x0204B5F8
+arm9_main  0x0204B604  arm   # blx 0x0204B604 from ov121 at 0x021DB3C0, ov168 at 0x02184120
+arm9_main  0x0204B6E4  arm   # blx 0x0204B6E4 from ov204 at 0x021BEE14
+arm9_main  0x0204BA00  arm   # tail-call thunk; blx 0x0204BA00 from ov021 at 0x0219691E and 0x02196B58
+arm9_main  0x0204BA10  arm   # tail-call thunk; blx 0x0204BA10 from ov123 at 0x021D4530
+
+# Wave 22 seeds: unlabelled Thumb leaves, four of them already reproduced in
+# src/matched but invisible to disasm.py because none saves lr.
+arm9_main  0x020221A4  thumb # matched EXACT in src/matched/func_020221A4.c
+arm9_main  0x02022230  thumb # matched EXACT in src/matched/func_02022230.c
+arm9_main  0x0201F91C  thumb # matched EXACT in src/matched/func_0201F91C.c
+arm9_main  0x020225F0  thumb # 2-byte bx lr, matched EXACT in src/matched/func_020225F0.c; witness pool word at 0x02022474
+arm9_main  0x02022424  thumb # unlabelled leaf; follows the pop {r3,pc} epilogue at 0x02022420
+
+# Wave 22 seeds: zonedata leaf and the 0201126C thumb bank's unlabelled
+# leaves (neighbour unit_0201126C.c carries isa: thumb in layout/matched).
+arm9_main  0x02013A80  thumb # zonedata leaf, already reproduced inside matched unit_02013A48.c
+arm9_main  0x02011290  thumb # unlabelled leaf in the 0201126C thumb bank
+arm9_main  0x02011324  thumb # unlabelled leaf, same bank
+arm9_main  0x02011328  thumb # unlabelled leaf, same bank
+arm9_main  0x020113B0  thumb # unlabelled leaf, same bank
+arm9_main  0x020113D0  thumb # unlabelled leaf, same bank
+arm9_main  0x02011264  thumb # thumb veneer (ldr r3,[pc,#0]; bx r3), pool word 0x02011268 holds target 0x020307B0
+
+# Wave 22 seeds: two more ARM long-branch veneers in the 0203xxxx bank.
+arm9_main  0x0203D56C  arm   # ARM long-branch veneer, pool word 0x0203D574 holds target 0x020394C0
+arm9_main  0x0203F028  arm   # ARM long-branch veneer, pool word 0x0203F030 holds target 0x0208CD94
+arm9_main  0x0203F4FC  arm   # blx 0x0203F4FC from ov011 at 0x02175898, 0x021759CE, 0x02175A14
+arm9_main  0x0203F524  arm   # blx 0x0203F524 from ov010 at 0x0216912C, 0x0216B6C4, 0x0216BB3A; matched EXACT in src/matched/func_0203F524.c
+
+# Wave 22 seeds: two more ARM leaves in the 020436xx bank and one in the
+# 0204E7xx bank (both neighbourhoods already carry isa: arm in their shards).
+arm9_main  0x0204363C  arm   # blx 0x0204363C from ov021 at 0x02188D82 and 0x02188E3C
+arm9_main  0x02043658  arm   # blx 0x02043658 from ov020 at 0x02187886, ov021 at 0x021B2F46 and more
+arm9_main  0x0204E804  arm   # blx 0x0204E804 from ov021 at 0x021B2862, 0x021B2F8C, 0x021BEEA4
+
+# Wave 22 seeds: overlay_010 (ov010) unlabelled leaves; the two matched ones
+# were already reproduced but had no listing label.
+overlay_010  0x02159C00  thumb # matched EXACT in src/matched/sub_02159C00.c
+overlay_010  0x02159C20  thumb # matched EXACT in src/matched/sub_02159C20.c
+overlay_010  0x02159240  thumb # unlabelled leaf, constant-0 accessor; sits between the pool word at 0x0215923C and func_02159248
+overlay_010  0x02159244  thumb # unlabelled leaf, same run
+overlay_010  0x021598E4  thumb # thumb veneer, pool word 0x021598E8 holds target 0x021B1BB8
+
+# Wave 22 seeds: overlay_021 unlabelled leaves, five of them already
+# reproduced in src/matched but invisible to disasm.py; the sixth
+# (0x021AB458) is a genuinely new unlabelled leaf at the top of a word run.
+# Each of the four followers below is seeded alongside its neighbour above
+# so the newly-labelled function's own extent stops at a real label instead
+# of running on into the next unlabelled leaf (which would read EXACT*).
+overlay_021  0x021AB1A0  thumb # matched EXACT in src/matched/sub_021AB1A0.c
+overlay_021  0x021AB1AC  thumb # matched EXACT in src/matched/sub_021AB1AC.c; follower of 0x021AB1A0
+overlay_021  0x021AB2F8  thumb # matched EXACT in src/matched/sub_021AB2F8.c
+overlay_021  0x021AB304  thumb # matched EXACT in src/matched/sub_021AB304.c; follower of 0x021AB2F8
+overlay_021  0x021AB358  thumb # matched EXACT in src/matched/sub_021AB358.c
+overlay_021  0x021AB3D4  thumb # matched EXACT in src/matched/sub_021AB3D4.c
+overlay_021  0x021AB3E0  thumb # matched EXACT in src/matched/sub_021AB3E0.c; follower of 0x021AB3D4
+overlay_021  0x021AB428  thumb # matched EXACT in src/matched/sub_021AB428.c
+overlay_021  0x021AB434  thumb # matched EXACT in src/matched/sub_021AB434.c; follower of 0x021AB428
+overlay_021  0x021AB440  thumb # matched EXACT in src/matched/sub_021AB440.c; closes the gap to the already-labelled func_021AB44C
+overlay_021  0x021AB458  thumb # unlabelled leaf, top of the word run right after func_021AB44C's loc_021AB454
+
+# Wave 22 seeds: the item archive block's five unlabelled leaf accessors,
+# already reproduced as unit_02020F08.c (matched EXACT).
+arm9_main  0x02020F08  thumb # matched EXACT in src/matched/unit_02020F08.c
+arm9_main  0x02020F0C  thumb # matched EXACT in src/matched/unit_02020F08.c
+arm9_main  0x02020F10  thumb # matched EXACT in src/matched/unit_02020F08.c
+arm9_main  0x02020F14  thumb # matched EXACT in src/matched/unit_02020F08.c
+arm9_main  0x02020F20  thumb # matched EXACT in src/matched/unit_02020F08.c
