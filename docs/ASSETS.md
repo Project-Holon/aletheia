@@ -6638,3 +6638,168 @@ lanes and rendered each as a false-colour PNG
   more samples, and the walkable-only result for doors/ledges/etc.
   should be checked against a sample that's known to actually contain a
   one-way ledge or a set of stairs (none of the four targets here do).
+
+## Asset lane pass: Charizard/Gengar detachment root-caused as genuine authored placement data, not a decode bug -- all four field-level hypotheses ruled out archive-wide
+
+Mission: find and fix the cause of the `a/0/0/4` rig's per-species detached
+parts (Charizard/Gengar documented, "there are more"), checking four specific
+hypotheses: NMCR node-offset sign extension, a NANR type-1/2 per-frame offset
+this reader ignores, an NCER "bounding rectangle" cell attribute changing the
+OAM origin, and NMAR selecting a different node set/frame than the one
+composed. **Result: all four are false, now confirmed across the whole
+archive (713 species), not just the two documented samples** -- this pass
+finds no field-level bug to fix and applies none, per this project's practice
+of reporting a negative result plainly rather than dressing up a partial one.
+One real (but unrelated, and not applied) latent bug was found in the same
+sweep; see below.
+
+### (1) NMCR node-offset sign extension: correct
+
+`Nmcr`'s node record is unpacked with `struct.unpack_from("<Hhh", ...)` --
+Python's `h` format is already 2's-complement 16-bit, and the decoded values
+for both documented species read as ordinary small negative/positive numbers
+(e.g. Charizard's node 10: `x=-8, y=-50`) with no wraparound artifacts.
+Cross-checked against `Ncer`'s own OAM x-field, which uses an explicit
+9-bit sign correction (`x - 512 if x >= 256 else x`) matching the public
+GBA/NDS OBJ attr1 layout exactly -- both sign-extension paths were re-derived
+from raw hex by hand for Charizard's cells 6/7 (the detached feet) and found
+byte-exact. Not the cause.
+
+### (2) NANR type-1/2 per-frame offset: correct, and already applied
+
+Dumped `frame_data()` across every frame (not just frame 0) of the exact
+sequences the two documented species' detached nodes reference (Charizard
+seq 6/7, both `etype=0`/index-only, `num_frames=1`, so there is only one
+frame, period; Gengar seq 0/5/6/7, `etype` 1/2, `num_frames=7`, a small
+"idle-breathing" cycle). Every sampled frame reads `px=py=0` with at most a
+1-3px scale/rotation wobble -- `compose_pose()` already adds `frame.(px,py)`
+to `node.(x,y)` before the OAM offset (see `_frame_placements`), so this data
+is not being dropped; there is simply no non-zero offset in it to find for
+these nodes at any frame. Raw-byte re-verification of the index-type (`etype
+0`) record shape also confirmed it really is a bare 2-byte `cellIdx` followed
+by `0xCCCC` alignment filler (both Charizard's and Pikachu's index sequences
+show the identical filler pattern) -- no hidden px/py field this reader
+mis-sizes past. Not the cause.
+
+### (3) NCER "bounding rectangle" cell attribute: never present anywhere in this archive
+
+`func_0206285C.c`'s own comment says a bank-level `bankAttr` bit0 (this
+module's `cell_info_type`) selects 8-byte "simple" vs. 16-byte "extended
+with a bounding box" cell records. Scanned **all 713 parseable species/form
+blocks** in `a/0/0/4` for this one field (not sampled): `cell_info_type ==
+0` in every single one. There are zero cells anywhere in this archive using
+the extended/bounding-box record shape, so this can't be an origin-shifting
+factor for any species, documented or not. Not the cause.
+
+### (4) NMAR selecting a different node set/frame: also archive-wide false
+
+Two sub-checks, both swept over all 713 blocks rather than the two
+documented species:
+
+- **`NMCR`'s own embedded-animation-bank field (`animBankOfs`, offset
+  0x10 of the bank header) is `0` in every one of the 713 blocks.** This
+  tool's assumption that the block's separate NANR sub-file (not an
+  embedded bank inside NMCR) is always the right animation source is
+  therefore right everywhere, not just for the species already checked.
+- **Rendering `--group 1` was re-confirmed to reproduce the identical
+  detached parts** for both documented species (this was already known
+  from the thirteenth pass; re-run this pass as a sanity check, unchanged
+  result).
+
+One further, *new* structural check this pass added for Gengar specifically:
+its two multi-cell groups are **not** the same size (group 0 has 12 nodes,
+group 1 has 10), and the two "extra" group-0 nodes reference NANR sequences
+20/21 -- outside the otherwise-clean 0-9 (group 0) / 10-19 (group 1) split
+every other node follows. This looked like a promising lead (a decorative
+element folded into the "main" group by mistake) but **direct testing
+falsifies it**: `compose_pose()` was re-run on Gengar's group-0 node list with
+those two nodes (array positions 0/1) removed, and the rendered pose is
+pixel-identical apart from losing two small, already-correctly-attached
+parts near the feet -- the actual floating right-side shapes are unaffected,
+because (confirmed by connected-component analysis of the real
+`0094_pose.png`, see below) they come from four different, perfectly
+ordinary nodes, not the two out-of-range ones.
+
+### Corrected node/cell attribution for Gengar (species 94), by pixel evidence
+
+The thirteenth pass located Charizard's detached nodes correctly (its own
+description, "two nodes far apart in x at the bottom of the canvas," matches
+this pass's connected-component measurement of `0006_pose.png`: components at
+rows 82-89 and 86-92 against a body that ends at row 77, i.e. nodes 0/1,
+NCER cells 6/7 -- the two clawed feet). Its description of Gengar's detached
+nodes ("two nodes at positive x, upper right") does not match array
+positions 0/1 under this pass's pixel measurement: `scipy.ndimage.label` on
+`0094_pose.png` finds the floating right-side shapes at pixel columns 38-63,
+rows 10-63 (two components, 366px and 283px), which line up with **node
+array positions 4, 5, 6 and 11** (NCER cells 6, 3, 2, 5 respectively; NANR
+sequences 7, 6, 5, 0) once each node's absolute bbox is computed from
+`node.(x,y) + frame.(px,py) + cell.(minx,miny,maxx,maxy)`. Positions 0/1
+(sequences 20/21, cells 14/13) instead land at columns 20-28, rows 56-64 --
+the small feet directly under the head, which read as correctly attached in
+the render (components 7/8, no gap to the body above them). This correction
+doesn't change the pass's conclusion (still no fixable field found) but
+means any future pass chasing this should look at nodes 4/5/6/11, not 0/1.
+
+### A real, but unrelated (and NOT applied) latent bug: `Oam.pal` is parsed and never used
+
+While sweeping OAM fields archive-wide for the checks above, `Ncer.Oam.pal`
+(attr2 bits12-15, the 4bpp OBJ palette-bank selector) was found to be parsed
+into every `Oam` object and then never read anywhere in `rig.py`'s
+compositing path (`render_oam`, `_cell_local_raster`, `indices_to_rgb` all
+implicitly treat every OAM as bank 0). Scanning all 713 species: **711 use
+only bank 0** (this field is inert for them, so the bug has caused zero
+visible error for the entire documented detachment set including both
+Charizard and Gengar, which are bank-0-only throughout). Exactly **2 species
+(301, 327)** have at least one OAM with `pal == 1`. This pass deliberately
+did **not** patch it in: `bs.parse_nclr()` returns a plain 16-color list for
+this archive's per-species NCLR sub-files (not a full 256-color, 16-bank
+OBJ palette), so a naive `pal*16 + index` offset would read indices 16-31
+out of a 16-entry table and produce *more* wrong (magenta-fallback) pixels
+for species 301/327, not fewer, without independent evidence for what a
+nonzero bank is actually supposed to select in a per-species-16-color
+archive (a second bank loaded from the adjacent shiny-palette sub-file?
+authoring noise?). Flagged here as a genuine, narrowly-scoped bug for a
+future pass with time to check hardware/emulator ground truth against these
+two specific species, not fixed speculatively.
+
+### Verdict and species count
+
+**0 species were fixed this pass.** Charizard (`0006_pose.png`/`.gif`),
+Gengar (`0094_pose.png`/`.gif`), and two known-good species of comparable
+part count -- Pikachu (`0025`, 10 nodes) and Mewtwo (`0150`, re-rendered and
+visually re-confirmed as a single connected silhouette, see prior passes) --
+were all re-rendered into `build/assets/rig/` (gitignored) with the
+unmodified code; Charizard and Gengar still show exactly the same detached
+parts as the twelfth/thirteenth passes documented, byte-for-byte the same
+node data as before (no code change was made). This reconfirms, with
+archive-wide rather than sampled evidence, the thirteenth pass's own
+conclusion: **the gap is real data (`node.(x,y) + frame.(px,py) +
+cell.(x,y)`, all correctly decoded) that this placement formula assembles
+exactly as the file describes it**, not a parsing error in sign extension,
+frame-offset application, cell record shape, or animation-bank selection.
+Whether the true hardware renderer reads additional information this format
+doesn't expose to a static analysis (a parent/child bone offset, or a
+per-species correction table living in ARM9 code rather than this archive)
+remains open, same as the thirteenth pass left it -- this pass narrows where
+that missing information would have to live (not in any of the four fields
+named in its own mission) rather than finding it.
+
+### Files touched
+
+`tools/assets/rig.py`: no behavioral change. `docs/ASSETS.md`: this section.
+
+### Remaining gaps
+
+- The Charizard/Gengar (and unnamed "more") detachment is still unresolved;
+  this pass's contribution is ruling out four specific mechanisms
+  archive-wide and correcting which nodes are responsible for Gengar's
+  floating parts, not a fix.
+- `Oam.pal`'s real meaning for the 2 species that use a nonzero bank (301,
+  327) is undecoded; applying a `pal*16` offset against this archive's
+  16-color-only per-species NCLR would need a second, larger palette source
+  identified first (not attempted this pass).
+- No archive-wide visual/pixel scan for *which* species besides Charizard
+  and Gengar show the same kind of detachment was run this pass (the
+  mission's four hypotheses were all field-level and archive-wide-checkable
+  without rendering every species; a visual sweep is a reasonable next step
+  now that those four are closed out).

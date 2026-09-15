@@ -276,6 +276,29 @@ names a sequence; the sequence's current frame names the cell. This module
 does the same, at frame 0.
 
 --------------------------------------------------------------------------
+Charizard/Gengar detachment: four hypotheses checked archive-wide, all false
+(see docs/ASSETS.md, "Charizard/Gengar detachment root-caused as genuine
+authored placement data, not a decode bug"). No code change came out of this
+pass. Checked and ruled out for all 713 parseable species/form blocks, not
+just the two documented ones:
+  * NMCR node-offset sign extension (`<Hhh`) -- correct 2's-complement s16.
+  * NANR type-1/2 per-frame (px, py) -- already applied by `_frame_placements`;
+    reads (0, 0) at every sampled frame for the actual offending nodes.
+  * NCER's bank-level `cell_info_type` (extended/bounding-box cell records)
+    -- `== 0` in all 713 blocks; the 16-byte extended record never occurs.
+  * NMCR's embedded-animation-bank field (`animBankOfs`) -- `== 0` in all
+    713 blocks; the sibling NANR sub-file is always the right source.
+Gengar's (species 94) actual detached nodes were also re-identified by
+connected-component analysis of the rendered pose, correcting an informal
+description in the thirteenth pass: they are node-array positions 4, 5, 6
+and 11 (NCER cells 6, 3, 2, 5), not positions 0/1 (which are small,
+correctly-attached feet). One unrelated latent bug was found in the same
+sweep and deliberately left unpatched: `Oam.pal` (the 4bpp OBJ palette-bank
+nibble) is parsed but never applied in compositing; only 2 of 713 species
+(301, 327) have any OAM with a nonzero bank, and this archive's per-species
+NCLR is a plain 16-color table, so a naive `pal*16` offset would read past
+the end of it without a second, larger palette source identified first.
+--------------------------------------------------------------------------
 --------------------------------------------------------------------------
 Usage
 --------------------------------------------------------------------------
