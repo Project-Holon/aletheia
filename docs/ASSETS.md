@@ -10363,3 +10363,158 @@ Black's code.
   (`sub_020140DC`); the other eight are read from the bytes.
 - a/1/6/8's 93 self-inclusive records still have no explanation, and now
   cannot get one from code.
+
+## Closing the open personal/move/item/encounter fields
+
+Follow-up pass on `tools/assets/personal.py`, `waza.py`, `items.py` and
+`encounters.py`'s "What remains unconfirmed" list. Every accessor read
+this pass is one already cited above; the new evidence is either a
+previously-unread case in an existing file (`sub_0201AF80`'s archive-id
+constant) or a data check run against these decoders' own output, never
+against an outside reference file.
+
+### Personal (`a/0/1/6`): gender ratio through colour attested, outlier identified
+
+`unit_0201AE14.c`'s 44-case getter (`sub_0201AE1C`) has no comment naming
+gender ratio, hatch cycles, friendship, growth rate, egg groups,
+abilities or colour, so this pass attests them by data check instead:
+species 1 (Bulbasaur), 4 (Charmander) and 7 (Squirtle) decode +0x12
+through +0x1A and +0x21 bits 0-5 to
+
+    field            offset  Bulbasaur     Charmander    Squirtle
+    gender_ratio     +0x12   31            31            31
+    hatch_cycles     +0x13   20            20            20
+    base_friendship  +0x14   70            70            70
+    growth_rate      +0x15   3 (Med.Slow)  3 (Med.Slow)  3 (Med.Slow)
+    egg_group1       +0x16   1 (Monster)   1 (Monster)   1 (Monster)
+    egg_group2       +0x17   7 (Grass)     14 (Dragon)   2 (Water 1)
+    ability1         +0x18   65 (Overgrow) 66 (Blaze)    67 (Torrent)
+    ability2         +0x19   0 (none)      0 (none)      0 (none)
+    ability3         +0x1A   34 (Chlorophyll) 94 (Solar Power) 44 (Rain Dish)
+    colour           +0x21b0 3 (Green)     0 (Red)       1 (Blue)
+
+every one of the twelve values that differ between species (egg_group2,
+ability1, ability3, colour, three each) lands exactly on that species'
+real value, under the ordinary Gen 3-5 ability-id numbering (34 =
+Chlorophyll, 44 = Rain Dish, 65 = Overgrow, 66 = Blaze, 67 = Torrent, 94 =
+Solar Power) and the ordinary 0 = Red / 1 = Blue / 3 = Green colour-id
+numbering, and no offset had to be reused to make two facts fit. +0x1B
+(`unk1B`) is 0 on all three and on every other record checked; still
+unattested. +0x21 bits 6-7 are also still unattested (the source's own
+bitfield split is 6+1+1, not the 7+1 colour+flip shape a real Personal
+struct commonly uses, so that shape is not assumed).
+
+**The 1300-byte outlier at sub-file 668 is the form table, by code.**
+`sub_0201AF80` (already in `unit_0201AE14.c`, not a new file) reads
+archive member id **0x29C = 668** -- this decoder's own sub-file 668 --
+out of the same archive handle the 60-byte Personal records come from,
+narrows the byte length to a `u16` count (`n = (u16)(len >> 1)`), and
+counts entries that are not the sentinel 999. 1300 / 2 = 650 halfwords,
+one per species-and-a-bit slot, and it is exactly the table
+`form_table_base`/`form_table_companion` (+0x1C/+0x1E) index into
+(`unit_0201AFD4.c`'s `sub_0201AFD4` computes `rec.unk1C + form - 1` as
+the index). Not a separate mystery format: the form table the record's
+own fields already point at.
+
+Round trip after the renames: still 667/667 records, 40020/40020 bytes
+byte-identical (`--verify`).
+
+### Move (`a/0/2/1`): 0x1E is a constant, not a gap; recoil/drain and three flag bits attested
+
+`sub_0201BD28`'s switch genuinely has no case for id 29 (0x1E), confirmed
+again this pass; a data check adds that +0x1E is also not per-move data
+at all -- every one of the 560 records decodes it to the same constant,
+21331 (0x5353, i.e. the bytes 'S','S'), with zero exceptions. It keeps
+its `unk1E` name and round-trips, but "always the same two bytes" answers
+the open question: it is a fixed pad/marker value, not a field.
+
+Recoil and drain (the mission's other move-side ask, alongside contact,
+protect and heal) turned out not to be flags-word bits at all: Tackle
+(no recoil) and Take Down (25% recoil) have byte-identical `flags` words
+(0x49), so recoil cannot live there. It is the signed byte at +0x12
+(`sub_0201BD28`'s cases 25/30, "positive part" / "negated if negative",
+now named `recoil_drain`): 0 for ordinary moves, -25 for Take Down (25%
+recoil, exact), -33 for Double-Edge (33% recoil, exact), and +50 for both
+Absorb and Giga Drain (50% HP drain, exact for both) -- negative is
+recoil taken by the user, positive is drain healed to the user, same
+signed field.
+
+Contact, protect and heal are `flags` bits, attested by decoding Pound,
+Karate Chop, Tackle, Take Down, Ember, Recover, Softboiled and Counter
+(chosen because their real power/accuracy/pp/effect are unambiguous and
+between them they span contact/non-contact, damaging/self-heal, and
+fixed/variable damage):
+
+    bit 0 = contact       set: Pound, Karate Chop, Tackle, Take Down, Counter
+                           clear: Ember, Recover, Softboiled
+    bit 3 = protectable    set: every damaging move checked (incl. Ember, Counter)
+                           clear: Recover, Softboiled (self-target, nothing to block)
+    bit 5 = heal            set: Recover, Softboiled only
+                           clear: every damaging move checked
+
+Bit 6 also varies (clear only on Counter, Recover and Softboiled among
+the moves checked) but is not one of the four fields the mission named
+and no single label was pinned to it, so `flags` keeps it unnamed.
+
+Round trip: still 560/560 records, 20160/20160 bytes byte-identical
+(`--verify`).
+
+### Item (`a/0/2/4`): pocket attested with a caveat, archive id still not code-attested, effect/battle-effect still open
+
+The caller chain the mission asked for (`func_02021014` <-
+`func_02020FE4` <- `func_02020F34`) runs out one call short of the
+archive open: `func_02020F34` has no definition anywhere in this tree,
+only the `extern` in `func_02020FE4.c`. The item archive's identity as
+`a/0/2/4` still rests on the price-value match documented already, not on
+a decompiled opener; this pass did not change that.
+
+The 4-bit lane at +0x08 bits 7-10 (`func_02021014` case 5, previously
+`b08_7`) is renamed `pocket`: read across the whole 627-item archive it
+takes exactly 5 values, and every price-identifiable block of item ids
+lands on one constant value -- items 1-16 (real ball prices) at 0,
+items 17-19 (real Potion/Antidote/Burn Heal prices) at 1, items 149-183
+(the real flat Berry price) at 3, items 410-419 (the real flat TM price)
+at 2. The caveat: items 60-94, which by price are clearly not Poke
+Balls, also read pocket 0, the same value as the real balls -- either
+this lane is coarser than the bag's visible pocket split, or that
+price-only identification for 60-94 is wrong; both are reported rather
+than picking one silently.
+
+`effect` and `battle_effect` (the other two item fields the mission
+named) are not attested this pass. `f0A`/`f0B` (cases 6/7) are the
+nearest candidates but track the same pocket-level blocks `pocket`
+already separates and do not resolve further (Potion and Antidote read
+the same f0A/f0B pair despite being different effects), so they keep
+their source-accessor names.
+
+Round trip: still 627/627 records, 22572/22572 bytes byte-identical
+(`--verify`).
+
+### Encounters (`a/1/2/6`): block 3 is winter, by data; 0/1/2 unresolved
+
+No code path in this tree computes the season index and selects one of
+the four 232-byte blocks (the callers that would, ov021's fieldmap.c and
+ov020's event_mapchange.c, are not decompiled here). The nearest
+attested neighbour, `sub_0201407C.c` (`a/0/1/3`'s 10-byte-record reader),
+confirms callers pass a season index as a delta but resolves a different
+table, not `a/1/2/6`.
+
+Data settles block 3 instead, two independent ways that agree: species
+582 (Vanillite) and 613 (Cubchoo) -- both pure single-type records in
+`a/0/1/6` (type0 == type1 == 14, the same shared type id as 615, the
+third species that reads 14/14 in this table) -- appear in block 3's
+grass slots and nowhere else on sub-files 48/49/84/88 (e.g. sub-file 48
+blocks 0-2 grass = [520, 585, 619, 621], block 3 = [582, 585, 613, 619]),
+which is the real Black/White Twist-Mountain-style mechanic of
+Cubchoo/Vanillite being winter-exclusive encounters. Separately,
+sub-files 2, 93 and 94 have real grass data in blocks 0-2 and
+all-empty grass/double-grass/shaking-grass in block 3, the same "winter
+snows over the grass" signature from the routes-that-lose-grass side.
+**Block index 3 is winter.**
+
+Blocks 0, 1 and 2 are not resolved and, on every seasonal sub-file
+sampled, are byte-identical to each other -- spring, summer and autumn
+share one wild-encounter table in this archive, and only winter's block
+differs. No claim is made about which of 0/1/2 is which season.
+
+Round trip: still 112/112 sub-files byte-identical (`--verify`).

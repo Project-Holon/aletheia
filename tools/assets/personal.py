@@ -48,21 +48,21 @@ else keeps the source's `unkXX` spelling. Interface ids (the sub_0201AE1C
     0x0C  u16  item0                 held item slot 0    (case 17)
     0x0E  u16  item1                 held item slot 1    (case 18)
     0x10  u16  item2                 held item slot 2    (case 19)
-    0x12  u8   unk12                                     (case 20)
-    0x13  u8   unk13                                     (case 21)
-    0x14  u8   unk14                                     (case 22)
-    0x15  u8   unk15                                     (case 23)
-    0x16  u8   unk16                                     (case 24)
-    0x17  u8   unk17                                     (case 25)
-    0x18  u8   unk18                                     (case 26)
-    0x19  u8   unk19                                     (case 27)
-    0x1A  u8   unk1A                                     (case 28)
-    0x1B  u8   unk1B                                     (case 29)
+    0x12  u8   gender_ratio          data check, see below (case 20)
+    0x13  u8   hatch_cycles          data check, see below (case 21)
+    0x14  u8   base_friendship       data check, see below (case 22)
+    0x15  u8   growth_rate           data check, see below (case 23)
+    0x16  u8   egg_group1            data check, see below (case 24)
+    0x17  u8   egg_group2            data check, see below (case 25)
+    0x18  u8   ability1              data check, see below (case 26)
+    0x19  u8   ability2              data check, see below (case 27)
+    0x1A  u8   ability3 (hidden)     data check, see below (case 28)
+    0x1B  u8   unk1B                 unattested, always 0  (case 29)
     0x1C  u16  form_table_base       form-table index    (case 30)
     0x1E  u16  form_table_companion                      (case 31)
     0x20  u8   form_count                                (case 32)
-    0x21  u8   bitfield: unk21_0:6 (case 33) unk21_6:1 (case 34)
-               unk21_7:1 (case 35)
+    0x21  u8   bitfield: colour:6 (case 33, data check, see below)
+               unk21_6:1 (case 34) unk21_7:1 (case 35)
     0x22  u16  unk22                                     (case 9)
     0x24  u16  unk24                                     (case 37)
     0x26  u16  unk26                                     (case 38)
@@ -73,12 +73,13 @@ else keeps the source's `unkXX` spelling. Interface ids (the sub_0201AE1C
     0x38  u32  unk38                                     (case 43)
 
 No field is named "gender ratio", "hatch cycles", "friendship", "growth
-rate", "egg group" or "colour" in unit_0201AE14.c's comments -- those
-categories from the mission are NOT separately attested by any accessor
-read in this pass, so they are left as `unkXX` rather than guessed. The
-only semantic labels above are the ones the source comments give
-outright: the six base stats, the two types, catch rate, the three held
-items, the EV-yield bitfield, and the form-table base/companion/count.
+rate", "egg group", "ability" or "colour" in unit_0201AE14.c's comments --
+sub_0201AE1C's own text only names the six base stats, the two types,
+catch rate, the three held items, the EV-yield bitfield, and the
+form-table base/companion/count. The rest of this pass's field map for
++0x12..+0x1B and +0x21 bits 0-5 comes from a data check, not from a
+source comment: see "The gender/hatch/friendship/growth/egg/ability/
+colour block" below.
 
 --------------------------------------------------------------------------
 Sanity check (species 1, Bulbasaur-shaped)
@@ -91,6 +92,79 @@ match alone already confirms beyond reasonable doubt: HP 45, Atk 49, Def
 49, Spe 45, SpA 65, SpD 65 is Bulbasaur's real base stat line, and
 catch_rate 45 is Bulbasaur's real catch rate. No external reference data
 was consulted for this -- only the bytes and the decompiled field map.
+
+--------------------------------------------------------------------------
+The gender/hatch/friendship/growth/egg/ability/colour block (data check,
+not a source comment)
+--------------------------------------------------------------------------
+sub_0201AE1C's case ids 20-29 read ten consecutive plain bytes, +0x12
+through +0x1B, with no comment naming any of them; case ids 33/34/35 read
+the three bitfield lanes of +0x21 (6 bits, 1 bit, 1 bit), also uncommented.
+Record 1 (Bulbasaur), record 4 (Charmander) and record 7 (Squirtle) decode
+those eleven lanes to values that match every fact the mission gave for
+Bulbasaur, and independently checked real values for the other two
+starters, with no ambiguity and no outside data file consulted beyond
+these three species' well-known stat/ability/colour facts:
+
+    offset  field           Bulbasaur(1) Charmander(4) Squirtle(7)
+    +0x12   gender_ratio    31           31            31            (87.5% male, all three)
+    +0x13   hatch_cycles    20           20            20
+    +0x14   base_friendship 70           70            70
+    +0x15   growth_rate     3            3             3             (Medium Slow)
+    +0x16   egg_group1      1            1             1             (Monster)
+    +0x17   egg_group2      7 (Grass)    14 (Dragon)   2 (Water 1)
+    +0x18   ability1        65 (Overgrow) 66 (Blaze)    67 (Torrent)
+    +0x19   ability2        0 (none)     0 (none)      0 (none)
+    +0x1A   ability3        34 (Chlorophyll) 94 (Solar Power) 44 (Rain Dish)
+    +0x1B   unk1B           0            0             0             (still unattested; pad/unused)
+    +0x21 b0-5 colour       3 (Green)    0 (Red)       1 (Blue)
+
+All three species' gender ratio, hatch cycles and base friendship are
+identical (31/20/70), which is expected -- those three numbers really are
+the same for every Kanto starter -- so the discriminating checks are
+egg_group2 (Grass/Dragon/Water 1, three different values), ability1
+(Overgrow/Blaze/Torrent, three different values), ability3
+(Chlorophyll/Solar Power/Rain Dish, three different values under the
+ordinary Gen 3-5 ability-id numbering where id 34 is Chlorophyll, 65 is
+Overgrow, 66 is Blaze, 67 is Torrent and 94 is Solar Power) and colour
+(Green/Red/Blue, three different values under the ordinary 0=Red, 1=Blue,
+3=Green colour-id numbering) -- every one of the twelve checked values
+across the three species lands exactly on the real game fact with no
+field left over and no offset reused for two different facts. Growth
+rate 3 for all three also matches (all three starters are Medium Slow).
+ability2 is 0 (no secondary ability) for all three, which is also correct
+(none of the three starter lines has a second regular ability).
+
++0x1B is still `unk1B`: it is 0 for all three species checked here (and
+for every other record in the archive-wide `--verify` pass) and is not
+attested by anything beyond "the byte after the three ability slots is
+always zero", so it keeps its unk name rather than being guessed.
+
++0x21 bits 6 and 7 (`unk21_6`, `unk21_7`) are left unattested: only bits
+0-5 line up with the colour fact above, and nothing checked in this pass
+says what the other two bits of that byte mean (a real Personal struct's
+colour byte commonly pairs a 7-bit colour with a 1-bit "flip sprite"
+flag, but sub_0201AE1C's own bitfield split is 6+1+1, not 7+1, so that
+shape is not assumed here).
+
+--------------------------------------------------------------------------
+The 1300-byte outlier (sub-file 668): the form table, by code
+--------------------------------------------------------------------------
+Not a guess from its size alone. `sub_0201AF80` (this file, above) reads
+archive member id 0x29C = 668 -- the same file this decoder calls sub-file
+668 -- out of the very same archive handle `g_0214652C` the 60-byte
+Personal records come from, and treats it as a `u16` array: `n = (u16)(len
+>> 1)`, i.e. it narrows the byte length to a halfword count, and then
+counts every entry that is not the sentinel value 999. 1300 bytes / 2 =
+650 halfwords, i.e. one u16 per species-and-a-bit slot (650 is a species-
+space bound, the same one `unit_0201AFD4.c`'s guard rejects 650/651
+against for "egg"/"bad egg"). This is exactly the form table
+`form_table_base`/`form_table_companion` (+0x1C/+0x1E) and `form_count`
+(+0x20) point into: `unit_0201AFD4.c`'s `sub_0201AFD4` resolves a
+(species, form) pair to `rec.unk1C + form - 1`, an index into this same
+668-id array. The outlier is not a separate undecoded format; it is the
+form table the Personal record's own form fields already reference, one
+u16 per entry with 999 as "no entry".
 
 --------------------------------------------------------------------------
 CLI
@@ -120,9 +194,10 @@ FIELDS = [
     ("catch_rate", "B"), ("unk09", "B"),
     ("ev_bits", "H"),
     ("item0", "H"), ("item1", "H"), ("item2", "H"),
-    ("unk12", "B"), ("unk13", "B"), ("unk14", "B"), ("unk15", "B"),
-    ("unk16", "B"), ("unk17", "B"), ("unk18", "B"), ("unk19", "B"),
-    ("unk1A", "B"), ("unk1B", "B"),
+    ("gender_ratio", "B"), ("hatch_cycles", "B"), ("base_friendship", "B"),
+    ("growth_rate", "B"),
+    ("egg_group1", "B"), ("egg_group2", "B"), ("ability1", "B"), ("ability2", "B"),
+    ("ability3", "B"), ("unk1B", "B"),
     ("form_table_base", "H"), ("form_table_companion", "H"),
     ("form_count", "B"), ("unk21", "B"),
     ("unk22", "H"), ("unk24", "H"), ("unk26", "H"),
@@ -156,7 +231,7 @@ def parse_record(raw):
     rec["unk0A_12"] = (ev >> 12) & 0x1
     rec["unk0A_13"] = (ev >> 13) & 0x7
     u21 = rec.pop("unk21")
-    rec["unk21_0"] = u21 & 0x3F
+    rec["colour"] = u21 & 0x3F
     rec["unk21_6"] = (u21 >> 6) & 0x1
     rec["unk21_7"] = (u21 >> 7) & 0x1
     return rec
@@ -167,7 +242,7 @@ def pack_record(rec):
          ((rec["ev_def"] & 0x3) << 4) | ((rec["ev_spe"] & 0x3) << 6) | \
          ((rec["ev_spa"] & 0x3) << 8) | ((rec["ev_spd"] & 0x3) << 10) | \
          ((rec["unk0A_12"] & 0x1) << 12) | ((rec["unk0A_13"] & 0x7) << 13)
-    u21 = (rec["unk21_0"] & 0x3F) | ((rec["unk21_6"] & 0x1) << 6) | \
+    u21 = (rec["colour"] & 0x3F) | ((rec["unk21_6"] & 0x1) << 6) | \
           ((rec["unk21_7"] & 0x1) << 7)
     vals = []
     for name, _ in FIELDS:
@@ -196,6 +271,11 @@ def cmd_list(args):
               f"ev=({r['ev_hp']},{r['ev_atk']},{r['ev_def']},{r['ev_spe']},"
               f"{r['ev_spa']},{r['ev_spd']}) "
               f"items=({r['item0']},{r['item1']},{r['item2']}) "
+              f"gender_ratio={r['gender_ratio']:3d} hatch_cycles={r['hatch_cycles']:3d} "
+              f"base_friendship={r['base_friendship']:3d} growth_rate={r['growth_rate']} "
+              f"egg_groups=({r['egg_group1']},{r['egg_group2']}) "
+              f"abilities=({r['ability1']},{r['ability2']},{r['ability3']}) "
+              f"colour={r['colour']} "
               f"form_table=({r['form_table_base']},{r['form_table_companion']},"
               f"{r['form_count']})")
 
@@ -212,7 +292,7 @@ def cmd_dump(args):
             continue
         print(f"  {name:24s} = {r[name]}")
     for name in ("ev_hp", "ev_atk", "ev_def", "ev_spe", "ev_spa", "ev_spd",
-                 "unk0A_12", "unk0A_13", "unk21_0", "unk21_6", "unk21_7"):
+                 "unk0A_12", "unk0A_13", "colour", "unk21_6", "unk21_7"):
         print(f"  {name:24s} = {r[name]}")
     return 0
 

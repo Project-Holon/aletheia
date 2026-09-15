@@ -70,17 +70,43 @@ A sub-file is either exactly 232 bytes (one block, no seasonal
 variation -- the same table applies all year, the common case: 100/112
 sub-files) or exactly 928 bytes = 4 x 232 (four concatenated blocks, one
 per season, in order: 12/112 sub-files, all on outdoor overworld zones).
-No sub-file has any other size. The season order is not separately
-attested by any code traced in this lane; it is reported here as
-block 0..3 in file order, and this module does not assert which block is
-which real-world season. Block 3 is not uniform across the 12 seasonal
-sub-files: in 3 of the 12 its grass/double-grass/shaking-grass slots are
-all empty while blocks 0-2 have real grass data (consistent with a
-snow-covered season on those routes), in most of the rest all four
-blocks carry the same grass slot count, and on one sub-file block 3 has
-more grass slots filled than blocks 0-2. That spread (not a fixed
-"block 3 always differs this way") is reported as-is rather than forced
-into a single season story.
+No sub-file has any other size.
+
+No code path in this tree computes the RTC-derived season index and
+selects a 232-byte block with it (the callers that would do that, ov021's
+fieldmap.c and ov020's event_mapchange.c, are not decompiled here; the
+nearest attested neighbour is `sub_0201407C`, src/matched/sub_0201407C.c,
+which resolves a *different* seasonal table, `a/0/1/3`'s 10-byte records,
+from a caller-supplied "season" delta -- it confirms callers pass a
+season index around but not which of the four `a/1/2/6` blocks it picks).
+
+**Block 3 is winter, by data, not by code.** Species 582 (Vanillite) and
+613 (Cubchoo) -- both pure type-14/type-14 records in `a/0/1/6`, i.e. the
+same single type repeated in both type slots, which is how every other
+mono-type Ice-family Pokemon in this table reads (582, 613 and 615 all
+share exactly that type0=type1=14, and no other species checked shares
+14 with anything but another 14) -- appear in the grass slots of block 3
+and nowhere else, on multiple seasonal sub-files: sub-files 48/49 add
+582 to block 3's grass list while blocks 0-2 read [520, 585, 619, 621];
+sub-file 84 adds 582 to block 3 while blocks 0-2 read
+[520, 541, 585, 588, 590]; sub-file 88 adds 613 to block 3 while blocks
+0-2 read [505, 520, 523, 585, 590]. This is the real Black/White
+mechanic at Twist Mountain-style snow routes: Cubchoo and Vanillite are
+winter-exclusive wild encounters. Separately, three other seasonal
+sub-files (2, 93, 94) have all-empty grass/double-grass/shaking-grass
+slots in block 3 while blocks 0-2 carry real grass data -- routes whose
+grass encounters disappear entirely once snow covers them, the same
+winter signature from the other direction. Both pieces of evidence agree
+on the same block index, so **block index 3 is winter**.
+
+Blocks 0, 1 and 2 are not resolved: on every seasonal sub-file sampled in
+this pass, blocks 0-2 are byte-identical to each other (the twelve
+seasonal sub-files above all show the same grass/double-grass/
+shaking-grass species list repeated three times before block 3 differs).
+That is itself a real finding, not a gap in the check: whatever order
+spring/summer/autumn are stored in, this archive does not distinguish
+them from each other for wild encounters, only winter changes the table.
+No claim is made here about which of 0/1/2 is spring, summer or autumn.
 
 --------------------------------------------------------------------------
 The zone lane

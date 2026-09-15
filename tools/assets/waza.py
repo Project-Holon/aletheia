@@ -62,8 +62,9 @@ confirms it.
                                       for a stored 6
     0x0F  u8   unk0F                  case 10
     0x10  u16  unk10                  case 28
-    0x12  s8   unk12                  cases 25 (positive part) / 30
-                                      (negated, if negative)
+    0x12  s8   recoil_drain           cases 25 (positive part) / 30
+                                      (negated, if negative); data check,
+                                      see below
     0x13  s8   unk13                  cases 26 (positive part) / 31
                                       (negated, if negative)
     0x14  u8   unk14                  case 27
@@ -75,8 +76,13 @@ confirms it.
     0x1B  u8[3] unk1B                 cases 18,21,24
     0x1E  u16   unk1E                 not reached by any case id in
                                       sub_0201BD28 (id 29 is a gap in the
-                                      switch); no accessor attests it
-    0x20  u32   flags                 bit-tested by sub_0201BF44
+                                      switch); no accessor attests it, and a
+                                      data check (below) finds it is not
+                                      per-move data either
+    0x20  u32   flags                 bit-tested by sub_0201BF44; three
+                                      bits identified by data check, see
+                                      below (bit 0 = contact, bit 3 =
+                                      protectable, bit 5 = heal)
 
 --------------------------------------------------------------------------
 Sanity check (move 1, Pound)
@@ -86,6 +92,73 @@ Sanity check (move 1, Pound)
 All four of the task's named Pound values (Normal/40/100/35) decode
 exactly from the raw bytes with no substitution needed (the stored
 accuracy byte is already 100, not 101).
+
+--------------------------------------------------------------------------
+0x1E: a data check, not just a code gap
+--------------------------------------------------------------------------
+`sub_0201BD28`'s case-id switch has no case for id 29, so no accessor in
+this pass reads +0x1E through the field-id interface. A data check closes
+the question a different way: decoded across every one of the archive's
+560 records, +0x1E is the constant value 21331 (0x5353, i.e. the two
+bytes 'S','S') with zero exceptions. A per-move field would vary; a
+constant that is the same on Pound, Karate Chop, Tackle, Take Down, Ember,
+Recover, Softboiled, Double-Edge, Absorb and Giga Drain (and every other
+record checked) is not move data, it is a fixed pad/marker value left in
+the two bytes the switch's own gap already said nothing reads. Decoded
+and round-tripped as `unk1E`, not renamed, because "always 0x5353" is not
+a semantic label.
+
+--------------------------------------------------------------------------
+Contact, protect, recoil and heal: a data check against Pound, Karate
+Chop and eight other moves with known real values
+--------------------------------------------------------------------------
+The mission asked for contact/protect/recoil/heal specifically. Pound and
+Karate Chop alone cannot separate these (both are ordinary contact
+physical attacks, so every flag they'd need is identical between the
+two), so this check adds eight more moves chosen because their real
+values are unambiguous and pairwise distinguish the candidates: Tackle
+(id 33), Take Down (id 36, 25% recoil), Ember (id 52, ranged, no
+contact), Recover (id 105, pure self-heal), Softboiled (id 111, pure
+self-heal), Counter (id 68, contact but fixed-value damage),
+Double-Edge (id 38, 33% recoil) and Absorb / Giga Drain (ids 71 / 202,
+50% HP-drain). Every move's power/accuracy/pp/priority decodes to its
+real Black/White value first (e.g. Take Down 90/85/20, Double-Edge
+120/100/15, Giga Drain 75/100/10), which is what pins each id to the real
+move before its flags are read.
+
+**Recoil and drain are the signed byte at +0x12, not a flags bit.**
+Tackle (no recoil) and Take Down (25% recoil) have byte-identical +0x20
+flags words (0x49), so recoil cannot be a bit in that word. +0x12 is 0 for
+every non-recoil, non-drain move checked, -25 for Take Down, -33 for
+Double-Edge (33% recoil, matches exactly) and +50 for both Absorb and
+Giga Drain (50% HP drain, matches exactly for both). Negative = recoil
+percent taken by the user, positive = drain percent healed to the user;
+same signed field, opposite sign. This is `recoil_drain` in the field map
+above, sourced from cases 25/30 (the "positive part" / "negated if
+negative" pair `sub_0201BD28`'s own comment already describes for this
+byte, just not by name).
+
+**+0x20 bit 0 is contact.** Set on Pound, Karate Chop, Tackle, Take Down
+and Counter (all real contact moves); clear on Ember, Recover and
+Softboiled (none of which touch the target). `flags` bit 0 in the module
+below.
+
+**+0x20 bit 3 is protectable.** Set on every damaging move checked,
+contact or not (Pound, Karate Chop, Tackle, Take Down, Ember, Counter);
+clear on the two pure self-target heals (Recover, Softboiled), which
+Protect has nothing to block since they never target an opponent.
+
+**+0x20 bit 5 is heal.** Clear on every damaging move checked; set only
+on Recover and Softboiled, the two moves in this sample whose entire
+effect is restoring the user's own HP.
+
+Bit 6 is also seen to vary (set on Pound/Karate Chop/Tackle/Take
+Down/Ember, clear on Counter/Recover/Softboiled) but is not one of the
+four the mission named, and nothing checked here pins a single semantic
+label to it (Counter's fixed, non-`power`-derived damage is the one
+obvious property that sets it apart from the other contact moves in the
+sample, but that is a hypothesis, not an attested reading), so it stays
+an unnamed bit in `flags`.
 
 --------------------------------------------------------------------------
 CLI
@@ -115,7 +188,7 @@ FIELDS = [
     ("unk0A", "B"), ("unk0B", "B"), ("unk0C", "B"), ("unk0D", "B"),
     ("unk0E", "B"), ("unk0F", "B"),
     ("unk10", "H"),
-    ("unk12", "b"), ("unk13", "b"), ("unk14", "B"),
+    ("recoil_drain", "b"), ("unk13", "b"), ("unk14", "B"),
     ("hit_flags", "3s"), ("hit_values", "3s"), ("unk1B", "3s"),
     ("unk1E", "H"),
     ("flags", "I"),
