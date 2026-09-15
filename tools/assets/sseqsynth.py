@@ -78,9 +78,14 @@ program-number convention):
     first region whose split point is >= the played note (falling back
     to the last region if the note is above every split point) -- the
     standard "key range" split convention.
-  - type 0 (empty) / type 2 / type 3 (still-undecoded PSG-shaped types):
-    no wave to play; the note is silently dropped (documented gap, not a
-    crash).
+  - type 2 (PSG square, DECODED this pass): no wave, no `Swav` lookup --
+    `synth_psg_square()` generates a rectangular wave directly from the
+    played note's own frequency and the instrument's decoded duty cycle.
+  - type 3 (PSG noise, DECODED this pass): `synth_psg_noise()` generates
+    the DS's 15-bit Galois LFSR noise, clocked at the played note's own
+    frequency (see "PSG synthesis" section below for both).
+  - type 0 (empty): no wave to play; the note is silently dropped
+    (documented gap, not a crash).
 
 The resolved region's `wave_arc` is a **local** index (0-3) into the
 *owning BANK's own* `wave_arc[4]` table (`sdat.bank_record()`), which
@@ -160,10 +165,14 @@ Known inaccuracies (honest, not hidden)
   where this guess is wrong, bytecode past that point desyncs and the
   track's render ends early (falls into the same "unrecognised opcode"
   stop as any other gap).
-- SBNK instrument types 2/3 (still-unidentified; only 51/122 and 124/155
-  of their records pass sbnk.py's region-plausibility check, so they are
-  not reliably the same wave-bearing shape as 1/16/17) are silently
-  dropped -- no wave data is trusted for them.
+- SBNK instrument types 2/3 (PSG square/noise, DECODED this pass -- see
+  sbnk.py's docstring) are synthesized procedurally, not sample-based:
+  the square wave's duty cycle and the noise LFSR's bit width are the
+  DS hardware's own public shapes, but the noise channel's real clock
+  divider is approximated as "one LFSR step per output sample at the
+  played note's frequency" rather than the hardware's actual separate
+  noise-rate register, which this format does not appear to expose per
+  instrument.
 - `sbnk.py`'s region decode for types 16/17 was corrected this pass (fixed
   field order and a 10-byte, not 12-byte, record -- see sbnk.py's
   docstring): every region of every type-16/17 instrument in this SDAT
@@ -389,19 +398,38 @@ def resolve_instrument_region(bnk, program, played_note):
     >= played_note picks the region, falling back to the last region
     above every split point. Both 16 and 17 now use sbnk.py's corrected,
     100%-plausible region decode (10-byte record, u16 region_type prefix)
-    -- no fallback-to-first-region approximation is needed any more."""
+    -- no fallback-to-first-region approximation is needed any more.
+
+    type 2/3 (PSG square/noise, DECODED this pass -- see sbnk.py's
+    docstring): these carry no wave at all, so the returned dict is tagged
+    `"kind": "psg_square"` / `"psg_noise"` instead of the default
+    `"kind": "wave"` every wave-bearing region gets; `render_seq()` branches
+    on this tag to synthesize the channel procedurally instead of resolving
+    a `Swav`."""
     if bnk is None or program < 0 or program >= len(bnk.instruments):
         return None
     inst = bnk.instruments[program]
     if inst.rec_type == 1:
-        return inst.detail
+        d = dict(inst.detail)
+        d["kind"] = "wave"
+        return d
+    if inst.rec_type == 2:
+        d = dict(inst.detail)
+        d["kind"] = "psg_square"
+        return d
+    if inst.rec_type == 3:
+        d = dict(inst.detail)
+        d["kind"] = "psg_noise"
+        return d
     if inst.rec_type == 16:
         regions = inst.detail.get("regions", [])
         if not regions:
             return None
         idx = played_note - inst.detail["low_note"]
         idx = max(0, min(idx, len(regions) - 1))
-        return regions[idx]
+        d = dict(regions[idx])
+        d["kind"] = "wave"
+        return d
     if inst.rec_type == 17:
         splits = inst.detail.get("split_points", [])
         regions = inst.detail.get("regions", [])
@@ -414,8 +442,10 @@ def resolve_instrument_region(bnk, program, played_note):
                 break
         if chosen is None:
             chosen = regions[-1]
-        return chosen
-    return None  # type 0 (empty) or 2/3 (undecoded, not reliably wave-shaped)
+        d = dict(chosen)
+        d["kind"] = "wave"
+        return d
+    return None  # type 0 (empty)
 
 
 class WaveCache:
@@ -507,6 +537,108 @@ def envelope_value(t, attack_s, decay_s, sustain_level, note_off_t, release_s):
     if frac >= 1.0:
         return 0.0
     return level_at_off * (1.0 - frac)
+
+
+# ---------------------------------------------------------------------------
+# PSG synthesis (types 2/3, DECODED this pass -- see sbnk.py's docstring)
+# ---------------------------------------------------------------------------
+
+def note_freq_hz(played_note):
+    """Standard equal-tempered frequency for a MIDI-style note number
+    (A4 = note 69 = 440 Hz). Used directly as the PSG channel's own tone
+    frequency -- unlike a PCM region, a PSG channel has no recorded
+    base_note to pitch-shift from: the played note *is* the frequency."""
+    return 440.0 * (2.0 ** ((played_note - 69) / 12.0))
+
+
+def synth_psg_square(freq_hz, duty, n_out, sample_rate):
+    """DS PSG pulse channel: a rectangular wave whose high/low ratio is
+    set by the duty selector (0-7, this SBNK's decoded `duty` field --
+    confirmed 0-6 across all 122 real type-2 instruments, see sbnk.py).
+    Duty n means a `(n+1)/8` fraction of each period is high, `+1`/`-1`
+    amplitude (matching the DS PSG's own bipolar square output, per public
+    NDS sound hardware documentation) -- this is a from-scratch waveform
+    generator, not sourced from any other project's code."""
+    duty_frac = (duty + 1) / 8.0
+    out = [0.0] * n_out
+    if freq_hz <= 0:
+        return out
+    phase = 0.0
+    step = freq_hz / sample_rate
+    for i in range(n_out):
+        out[i] = 1.0 if (phase % 1.0) < duty_frac else -1.0
+        phase += step
+    return out
+
+
+def synth_psg_noise(freq_hz, n_out, sample_rate, lfsr_bits=15):
+    """DS PSG noise channel: a Galois LFSR (15-bit, the width the NDS
+    sound hardware documentation gives for its noise generator -- unlike
+    the GBA APU, the DS noise channel has no selectable 7-bit "short"
+    mode). Tap bit 0; on each clock, output bit 0 before the shift, then
+    if bit 0 was set XOR the feedback tap (bit 14) into the shifted
+    value -- the standard Galois-form LFSR update. Clocked once per
+    output sample at the note's own frequency (the same frequency
+    register the pulse channel's duty cycle uses), which is an
+    approximation of the real hardware's separate noise clock-divider,
+    not a cycle-exact reproduction."""
+    out = [0.0] * n_out
+    if freq_hz <= 0:
+        return out
+    mask = (1 << lfsr_bits) - 1
+    tap = 1 << (lfsr_bits - 1)
+    lfsr = mask  # nonzero seed
+    phase = 0.0
+    step = freq_hz / sample_rate
+    level = 1.0 if (lfsr & 1) else -1.0
+    for i in range(n_out):
+        while phase >= 1.0:
+            bit0 = lfsr & 1
+            lfsr >>= 1
+            if bit0:
+                lfsr ^= tap
+            level = 1.0 if bit0 else -1.0
+            phase -= 1.0
+        out[i] = level
+        phase += step
+    return out
+
+
+def render_psg_note(note, region, mix_left, mix_right, sample_rate):
+    """Envelope/pan/gain plumbing shared with render_note(), but the
+    source samples come from synth_psg_square()/synth_psg_noise() instead
+    of a decoded Swav -- types 2/3 carry no wave data at all (see sbnk.py's
+    docstring)."""
+    freq = note_freq_hz(note["played_note"])
+    attack_s, decay_s, sustain_level, release_s = adsr_times(region)
+    note_off_rel = max(0.0, note["note_off_time"] - note["start_time"])
+    note_off_rel = max(note_off_rel, 0.05)  # PSG tones have no natural decay length
+    total_rel = min(MAX_NOTE_SECONDS, note_off_rel + release_s)
+    n_out = max(1, int(round(total_rel * sample_rate)))
+
+    if region["kind"] == "psg_square":
+        samples = synth_psg_square(freq, region["duty"], n_out, sample_rate)
+    else:
+        samples = synth_psg_noise(freq, n_out, sample_rate)
+
+    pan_norm = max(-1.0, min(1.0, (note["pan"] - 64) / 64.0))
+    gain = note["gain"] * 0.25  # PSG tones are full-scale +-1; scale to sit with PCM notes
+    left_gain = gain * min(1.0, 1.0 - pan_norm)
+    right_gain = gain * min(1.0, 1.0 + pan_norm)
+
+    start_sample = int(round(note["start_time"] * sample_rate))
+    out_len = len(mix_left)
+    for i in range(n_out):
+        out_idx = start_sample + i
+        if out_idx >= out_len:
+            break
+        if out_idx < 0:
+            continue
+        t = i / sample_rate
+        env = envelope_value(t, attack_s, decay_s, sustain_level, note_off_rel, release_s)
+        val = samples[i] * env
+        mix_left[out_idx] += val * left_gain
+        mix_right[out_idx] += val * right_gain
 
 
 # ---------------------------------------------------------------------------
@@ -632,11 +764,16 @@ def render_seq(sdat_obj, seq_index, bank_override=None, max_seconds=MAX_SECONDS_
         if note["start_time"] * SAMPLE_RATE >= n_samples:
             notes_dropped += 1
             continue
-        w = resolve_wave(brec, note["region"], cache) if brec is not None else None
+        region = note["region"]
+        if region.get("kind") in ("psg_square", "psg_noise"):
+            render_psg_note(note, region, mix_left, mix_right, SAMPLE_RATE)
+            notes_rendered += 1
+            continue
+        w = resolve_wave(brec, region, cache) if brec is not None else None
         if w is None:
             notes_dropped += 1
             continue
-        render_note(note, note["region"], w, mix_left, mix_right, SAMPLE_RATE)
+        render_note(note, region, w, mix_left, mix_right, SAMPLE_RATE)
         notes_rendered += 1
 
     peak = 0.0

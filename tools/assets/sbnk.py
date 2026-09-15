@@ -66,13 +66,32 @@ Instrument record_type layouts, by confidence:
   across all 1547 real records: it is consistently the *second* one), and
   the record was read as 12 bytes with a trailing u16 padding field that
   does not exist (the record is 10 bytes; the previous version's extra 2
-  bytes bled into the next structure for types 16/17, see below). Types
-  2/3 are still not independently decoded (no SWAV playback exists for
-  them; likely PSG pulse/noise channel types given the DS sound
-  hardware's known channel families) but are read with the same 10-byte
-  shape as 1/16/17's regions since the mission's public-spec layout
-  states types 1-5 share it -- LOW confidence on the *meaning* of the
-  fields for 2/3 specifically, though the byte size is no longer a guess.
+  bytes bled into the next structure for types 16/17, see below).
+
+  type 2 (PSG square/pulse, DECODED this pass): the same 10-byte shape,
+  but the leading u16 is a duty-cycle selector (0-7, the DS PSG channel's
+  8 duty settings), not a wave_id, and the second u16 is unused (always
+  0). Confirmed against all 122 real type-2 instruments in this ROM's
+  SBNKs: the leading value is 0-6 in every record (105/122 are exactly 3),
+  never above 7, and the trailing u16 that would be `wave_arc` for a
+  PCM-shaped record is 0 in all 122 -- a real wave_arc is always checked
+  against the owning bank's own wave_arc[4] table and is never a bare
+  constant 0 across every instrument in every bank the way this field is;
+  0 is simply "not a wave archive." The note/ADSR/pan bytes that follow
+  are in the same 0-127 range as every other instrument type and are kept
+  with their usual meaning. HIGH confidence.
+
+  type 3 (PSG noise, DECODED this pass): the same 10-byte shape, but
+  *both* leading u16 fields are 0 in every one of the 155 real type-3
+  instruments sampled (no duty, no wave archive -- consistent with the DS
+  noise channel having no per-instrument wave/duty parameter at all, only
+  the shared envelope). The note/ADSR/pan bytes are kept. HIGH confidence.
+
+  Neither type carries a wave archive, so neither type ever needs
+  `wave_arc`/`wave_id` resolution against the owning BANK's table -- that
+  is the direct explanation for why the previous version's plausibility
+  check (built for the wave-bearing shape) scored them low: it was
+  checking a field that PSG instruments don't use for that purpose.
 
   type 16 (drum kit): u8 low_note, u8 high_note, then
   (high_note - low_note + 1) region entries, each:
@@ -120,7 +139,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sdat  # noqa: E402
 
 TYPE_NAMES = {
-    0: "Empty", 1: "PCM", 2: "PSG_Sq?", 3: "PSG_Noise?", 16: "DrumKit", 17: "KeySplit",
+    0: "Empty", 1: "PCM", 2: "PSG_Square", 3: "PSG_Noise", 16: "DrumKit", 17: "KeySplit",
 }
 
 
@@ -140,7 +159,13 @@ class Instrument:
         if self.rec_type == 0:
             self.detail = {}
             return
-        if self.rec_type in (1, 2, 3, 4, 5):
+        if self.rec_type == 2:
+            self.detail = _parse_psg_square(data, self.offset)
+            return
+        if self.rec_type == 3:
+            self.detail = _parse_psg_noise(data, self.offset)
+            return
+        if self.rec_type in (1, 4, 5):
             self.detail = _parse_record(data, self.offset)
             return
         if self.rec_type == 16:
@@ -162,6 +187,38 @@ def _parse_record(data, offset):
     return {"wave_id": wave_id, "wave_arc": wave_arc, "base_note": note,
             "attack": attack, "decay": decay, "sustain": sustain,
             "release": release, "pan": pan}
+
+
+def _parse_psg_square(data, offset):
+    """type 2 (PSG pulse/square): same 10-byte shape as the wave-bearing
+    types, but the leading u16 is a duty-cycle selector (0-7, the DS PSG
+    channel's 8 duty settings), not a wave_id, and the second u16 (would-be
+    wave_arc) is unused. Confirmed across all 122 real type-2 instruments in
+    this ROM's SBNKs: the first u16 is 0-6 (never above 7) and the second is
+    0 in every single record -- exactly what a real wave_arc field can never
+    be (0 is not a valid in-bank wave-archive slot for a real PCM
+    instrument; every real type-1 wave_arc is checked against the owning
+    bank's own table and lands in 0-3, never bare 0 as a universal
+    constant). The note/attack/decay/sustain/release/pan bytes that follow
+    are in the same 0-127 plausible range as every type-1/16/17 region."""
+    rec = _parse_record(data, offset)
+    return {"duty": rec["wave_id"], "unused": rec["wave_arc"],
+            "base_note": rec["base_note"], "attack": rec["attack"],
+            "decay": rec["decay"], "sustain": rec["sustain"],
+            "release": rec["release"], "pan": rec["pan"]}
+
+
+def _parse_psg_noise(data, offset):
+    """type 3 (PSG noise): same 10-byte shape, no wave data at all -- both
+    leading u16 fields (would-be wave_id/wave_arc) are 0 in every one of the
+    155 real type-3 instruments in this ROM's SBNKs, consistent with the DS
+    noise channel having no wave/duty parameter, only the shared envelope.
+    The trailing note/ADSR/pan bytes are still meaningful (same plausible
+    0-127 range as every other instrument type) and are kept."""
+    rec = _parse_record(data, offset)
+    return {"base_note": rec["base_note"], "attack": rec["attack"],
+            "decay": rec["decay"], "sustain": rec["sustain"],
+            "release": rec["release"], "pan": rec["pan"]}
 
 
 def _parse_dynamic_regions(data, pos, count):

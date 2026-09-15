@@ -902,7 +902,7 @@ def animation_delays_cs(nanr, nodes, times):
 # Compositing
 # ---------------------------------------------------------------------------
 
-def render_oam(ncgr, oam):
+def render_oam(ncgr, oam, n_pal_colors=16):
     """Return one OAM's pixel block (rows of 4bpp indices), flips applied.
 
     The OAM's tile index is a **two-dimensional** block index into the sheet
@@ -911,7 +911,18 @@ def render_oam(ncgr, oam):
     width. Species 25's cell 0 proves this from the data alone: a 16x16 OAM
     at index 99 sits next to an 8x16 OAM at index 101, which can only avoid
     overlapping if the first consumes 99/100 and 131/132 rather than
-    99/100/101/102."""
+    99/100/101/102.
+
+    `oam.pal` (the 4bpp OBJ palette-bank nibble) is applied as a `pal * 16`
+    row offset into the caller's palette **only** when that palette actually
+    has `(pal + 1) * 16` rows (`n_pal_colors`, the length of
+    `build_bank_palette()`'s concatenation of every NCLR in the block) --
+    otherwise the bank is left at 0, same as before this pass, since a
+    single 16-color NCLR has no second bank to offset into. Index 0 (the
+    transparent/background index) is never offset, matching what every
+    compositing path already treats as "draw nothing"."""
+    bank_ok = (oam.pal * 16 + 16) <= n_pal_colors
+    offset = oam.pal * 16 if bank_ok else 0
     tiles_w = oam.w // 8
     tiles_h = oam.h // 8
     px = [[0] * oam.w for _ in range(oam.h)]
@@ -921,7 +932,8 @@ def render_oam(ncgr, oam):
             nib = ncgr.block_pixels(tile_index)
             for ly in range(8):
                 for lx in range(8):
-                    px[ty * 8 + ly][tx * 8 + lx] = nib[ly * 8 + lx]
+                    v = nib[ly * 8 + lx]
+                    px[ty * 8 + ly][tx * 8 + lx] = v + offset if v else 0
     if oam.hflip:
         px = [row[::-1] for row in px]
     if oam.vflip:
@@ -965,14 +977,15 @@ def _inverse_srt(x, y, sx, sy, rot_z):
     return x * 4096.0 / sx, y * 4096.0 / sy
 
 
-def _cell_local_raster(ncgr, cell):
+def _cell_local_raster(ncgr, cell, n_pal_colors=16):
     """Render one cell's OAMs onto a local canvas at identity placement (an
     OAM's `(x, y)` is already relative to the cell's own origin -- see
     module docstring). Returns `(ox, oy, width, height, flat_pixels)`
     where `(ox, oy)` is the position of the cell origin `(0, 0)` within the
     returned canvas: a cell-local coordinate `(x, y)` is canvas index `(x +
     ox, y + oy)`. Shared by the contact sheet and by `_cell_frame_raster`'s
-    per-pixel SRT resampling."""
+    per-pixel SRT resampling. `n_pal_colors` is forwarded to `render_oam()`
+    to gate the palette-bank offset -- see that function's docstring."""
     if not cell.oams:
         return 0, 0, 1, 1, [0]
     minx = miny = 10**9
@@ -986,7 +999,7 @@ def _cell_local_raster(ncgr, cell):
     h = maxy - miny
     canvas = [[0] * w for _ in range(h)]
     for oam in cell.oams:
-        rows = render_oam(ncgr, oam)
+        rows = render_oam(ncgr, oam, n_pal_colors)
         for ly, row in enumerate(rows):
             py = oam.y - miny + ly
             if not (0 <= py < h):
@@ -1000,7 +1013,7 @@ def _cell_local_raster(ncgr, cell):
     return -minx, -miny, w, h, [v for row in canvas for v in row]
 
 
-def _cell_frame_raster(ncgr, cell, sx, sy, rot_z):
+def _cell_frame_raster(ncgr, cell, sx, sy, rot_z, n_pal_colors=16):
     """One cell, transformed by one frame's SRT, as a single flat raster --
     the per-pixel counterpart to the twelfth/thirteenth passes' rigid
     per-OAM placement offset. Matches the DS OAM affine-sprite algorithm:
@@ -1011,7 +1024,7 @@ def _cell_frame_raster(ncgr, cell, sx, sy, rot_z):
     canvas. Returns `(ox, oy, width, height, flat_pixels)` in the same
     `(ox, oy)`-is-the-origin's-canvas-position convention as `_cell_local_
     raster`."""
-    src_ox, src_oy, src_w, src_h, src_flat = _cell_local_raster(ncgr, cell)
+    src_ox, src_oy, src_w, src_h, src_flat = _cell_local_raster(ncgr, cell, n_pal_colors)
     if sx == 4096 and sy == 4096 and rot_z == 0:
         return src_ox, src_oy, src_w, src_h, src_flat
 
@@ -1042,11 +1055,12 @@ def _cell_frame_raster(ncgr, cell, sx, sy, rot_z):
     return -minx, -miny, out_w, out_h, [v for row in out for v in row]
 
 
-def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node):
+def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node, n_pal_colors=16):
     """One frame's (abs_x, abs_y, px_rows) placements for every node, plus
     the bbox they cover. `frame_idx_for_node(node)` resolves each node's own
     frame index (so callers can drive nodes at a shared time or all at a
-    fixed frame)."""
+    fixed frame). `n_pal_colors` gates the OAM palette-bank offset -- see
+    `render_oam()`'s docstring."""
     placements = []
     minx = miny = 10**9
     maxx = maxy = -10**9
@@ -1065,7 +1079,7 @@ def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node):
         identity = sx == 4096 and sy == 4096 and rot_z == 0
         if identity:
             for oam in cell.oams:
-                rows = render_oam(ncgr, oam)
+                rows = render_oam(ncgr, oam, n_pal_colors)
                 ax = node.x + px + oam.x
                 ay = node.y + py + oam.y
                 placements.append((ax, ay, rows))
@@ -1077,7 +1091,7 @@ def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node):
             # Non-identity: per-pixel resample the whole cell as one block
             # (see `_cell_frame_raster`) instead of moving each OAM as a
             # rigid, unrotated rectangle.
-            ox, oy, w, h, flat = _cell_frame_raster(ncgr, cell, sx, sy, rot_z)
+            ox, oy, w, h, flat = _cell_frame_raster(ncgr, cell, sx, sy, rot_z, n_pal_colors)
             rows = [flat[r * w:(r + 1) * w] for r in range(h)]
             ax = node.x + px - ox
             ay = node.y + py - oy
@@ -1105,12 +1119,13 @@ def _raster(placements, ox, oy, width, height):
     return [v for row in canvas for v in row]
 
 
-def compose_pose_multi(ncgr, ncer, nodes, nanr, times):
+def compose_pose_multi(ncgr, ncer, nodes, nanr, times, n_pal_colors=16):
     """Compose one frame per elapsed time in `times` (NDS frames, per node
     via `Nanr.frame_index_at_time` -- see the module docstring's per-frame
     composition rule), all onto **one shared canvas size** so an animation
     strip/GIF doesn't jitter frame to frame. Returns `(width, height,
-    [flat_pixels_per_time])`."""
+    [flat_pixels_per_time])`. `n_pal_colors` gates the OAM palette-bank
+    offset -- see `render_oam()`'s docstring."""
     per_frame = []
     minx = miny = 10**9
     maxx = maxy = -10**9
@@ -1118,7 +1133,7 @@ def compose_pose_multi(ncgr, ncer, nodes, nanr, times):
         def frame_idx_for_node(node, _t=t):
             return nanr.frame_index_at_time(node.anim_seq_idx, _t) if nanr else 0
         placements, fminx, fminy, fmaxx, fmaxy = _frame_placements(
-            ncgr, ncer, nodes, nanr, frame_idx_for_node)
+            ncgr, ncer, nodes, nanr, frame_idx_for_node, n_pal_colors)
         per_frame.append(placements)
         if placements:
             minx = min(minx, fminx)
@@ -1138,7 +1153,7 @@ def compose_pose_multi(ncgr, ncer, nodes, nanr, times):
     return width, height, frames
 
 
-def compose_pose(ncgr, ncer, nodes, nanr=None, t=0):
+def compose_pose(ncgr, ncer, nodes, nanr=None, t=0, n_pal_colors=16):
     """Blit every node's cell onto a shared canvas at one elapsed time `t`
     (NDS frames; `t=0` is the classic single "rest pose" render), following
     the composer the game itself runs (`func_020643CC` walks the nodes,
@@ -1173,7 +1188,7 @@ def compose_pose(ncgr, ncer, nodes, nanr=None, t=0):
       * **Draw order**: nodes are emitted into the hardware OAM list in
         array order, and a lower OAM index draws in front, so the nodes are
         painted back-to-front here (last node first)."""
-    width, height, frames = compose_pose_multi(ncgr, ncer, nodes, nanr, [t])
+    width, height, frames = compose_pose_multi(ncgr, ncer, nodes, nanr, [t], n_pal_colors)
     return width, height, frames[0]
 
 
@@ -1185,9 +1200,10 @@ def render_cells_contact_sheet(ncgr, ncer, palette):
     """Render each cell of the NCER individually (own local bounding box),
     laid out left-to-right in a contact sheet. Used both as the mission's
     documented fallback and as a useful debugging aid for the main pose."""
+    n_pal_colors = len(palette) if palette else 16
     cell_images = []
     for cell in ncer.cells:
-        _ox, _oy, w, h, flat = _cell_local_raster(ncgr, cell)
+        _ox, _oy, w, h, flat = _cell_local_raster(ncgr, cell, n_pal_colors)
         cell_images.append((w, h, flat))
 
     pad = 4
@@ -1428,10 +1444,14 @@ def scan_rig_block(narc_obj, block_start, block_size):
 def load_rig_block(narc_obj, block_start, block_size):
     """One rig bundle's raw (post-decompression) member bytes, selected by
     magic (`scan_rig_block`) rather than a fixed local-offset table. Returns
-    `(ncgr_data, ncer_data, nmcr_data, nanr_data_or_None, nclr_data_or_None)`.
-    NCGR/NCER/NMCR are required (raises `ValueError` naming the missing
-    member if absent); NANR/NCLR are best-effort (animation and palette are
-    refinements, not required for a bare cell layout)."""
+    `(ncgr_data, ncer_data, nmcr_data, nanr_data_or_None, nclr_data_or_None,
+    nclr_all)`. NCGR/NCER/NMCR are required (raises `ValueError` naming the
+    missing member if absent); NANR/NCLR are best-effort (animation and
+    palette are refinements, not required for a bare cell layout).
+    `nclr_all` is every NCLR member found in the block, in local order (e.g.
+    `a/0/0/4`'s normal-then-shiny pair) -- see `build_bank_palette()` below,
+    used to apply an OAM's palette-bank nibble as a row offset into the
+    concatenation of all of a block's own NCLR palettes."""
     found = scan_rig_block(narc_obj, block_start, block_size)
     ncgrs = found.get("ncgr", [])
     if not ncgrs:
@@ -1449,7 +1469,28 @@ def load_rig_block(narc_obj, block_start, block_size):
     nanr_data = nanrs[0][1] if nanrs else None
     nclrs = found.get("nclr", [])
     nclr_data = nclrs[0][1] if nclrs else None
-    return ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data
+    nclr_all = [d for _loc, d in nclrs]
+    return ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data, nclr_all
+
+
+def build_bank_palette(nclr_all):
+    """Concatenate every NCLR member of a block, in local order, into one
+    palette-bank table: rows 0-15 from the first NCLR, 16-31 from the
+    second, and so on. This is what an OAM's `pal` (attr2 bits12-15, the
+    4bpp OBJ palette-bank selector -- parsed since the rig-detachment pass
+    but never applied before this one) actually indexes into, at least for
+    the 2 of 713 `a/0/0/4` species (301, 327) that use a nonzero bank: both
+    have exactly 2 NCLR members (a normal/shiny pair, same as every other
+    species in this archive) and every OAM with `pal == 1` picks colors
+    that -- checked by eye -- belong with the *second* NCLR's palette, not
+    the first's. Returns `None` if there are no NCLR members at all (the
+    caller falls back to `DEFAULT_PALETTE`)."""
+    if not nclr_all:
+        return None
+    pal = []
+    for data in nclr_all:
+        pal.extend(bs.parse_nclr(data))
+    return pal
 
 
 DEFAULT_PALETTE = [(128, 128, 128)] * 16  # fallback only when a block has no NCLR at all
@@ -1459,11 +1500,12 @@ def render_one(n, species, out_dir, block_size=BLOCK_STRIDE, filename=None, cell
     """Render one species' cells contact sheet (optional) and composed pose.
     Returns the pose (w, h) on success. Raises on any parse/decode failure
     (caller decides whether to catch, e.g. for --all skipping empty slots)."""
-    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data = load_rig_block(
+    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data, nclr_all = load_rig_block(
         n, species * block_size, block_size)
     ncgr = parse_ncgr(ncgr_data)
     ncer = parse_ncer(ncer_data)
-    palette = bs.parse_nclr(nclr_data) if nclr_data else DEFAULT_PALETTE
+    palette = build_bank_palette(nclr_all) or DEFAULT_PALETTE
+    n_pal_colors = len(palette)
     nmcr = parse_nmcr(nmcr_data)
     nanr = None
     if nanr_data is not None:
@@ -1477,7 +1519,7 @@ def render_one(n, species, out_dir, block_size=BLOCK_STRIDE, filename=None, cell
         cells_path = os.path.join(out_dir, f"{species:04d}_cells.png")
         bs.write_png_rgb8(cells_path, sheet_w, sheet_h, indices_to_rgb(sheet_flat, palette))
 
-    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose(), nanr=nanr)
+    w, h, flat = compose_pose(ncgr, ncer, nmcr.rest_pose(), nanr=nanr, n_pal_colors=n_pal_colors)
     out_path = os.path.join(out_dir, filename or f"{species:04d}_pose.png")
     bs.write_png_rgb8(out_path, w, h, indices_to_rgb(flat, palette))
     return w, h, ncer, nmcr
@@ -1490,11 +1532,12 @@ def render_animation(n, species, out_dir, block_size=BLOCK_STRIDE, group=0, max_
     (`NNNN.gif` by default). Returns `(num_frames, gif_path)`. Raises on any
     parse/decode failure or a group with no working NANR (caller decides
     whether to catch)."""
-    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data = load_rig_block(
+    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data, nclr_all = load_rig_block(
         n, species * block_size, block_size)
     ncgr = parse_ncgr(ncgr_data)
     ncer = parse_ncer(ncer_data)
-    palette = bs.parse_nclr(nclr_data) if nclr_data else DEFAULT_PALETTE
+    palette = build_bank_palette(nclr_all) or DEFAULT_PALETTE
+    n_pal_colors = len(palette)
     nmcr = parse_nmcr(nmcr_data)
     if nanr_data is None:
         raise ValueError(f"species {species}: no NANR member (required for animation)")
@@ -1508,7 +1551,7 @@ def render_animation(n, species, out_dir, block_size=BLOCK_STRIDE, group=0, max_
 
     times = animation_frame_times(nanr, nodes, max_frames=max_frames)
     delays = animation_delays_cs(nanr, nodes, times)
-    w, h, frames = compose_pose_multi(ncgr, ncer, nodes, nanr, times)
+    w, h, frames = compose_pose_multi(ncgr, ncer, nodes, nanr, times, n_pal_colors=n_pal_colors)
 
     if strip:
         sw, sh, sflat = render_animation_strip(w, h, frames)
@@ -1613,11 +1656,12 @@ def main(argv=None):
     if args.species is None:
         ap.error("species is required unless --all is given")
 
-    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data = load_rig_block(
+    ncgr_data, ncer_data, nmcr_data, nanr_data, nclr_data, nclr_all = load_rig_block(
         n, args.species * args.block_size, args.block_size)
     ncgr = parse_ncgr(ncgr_data)
     ncer = parse_ncer(ncer_data)
-    palette = bs.parse_nclr(nclr_data) if nclr_data else DEFAULT_PALETTE
+    palette = build_bank_palette(nclr_all) or DEFAULT_PALETTE
+    n_pal_colors = len(palette)
 
     print(f"[*] species {args.species}: NCGR {ncgr.tile_num_x}x{ncgr.tile_num_y} tiles "
           f"({ncgr.tile_count} total), NCER {ncer.num_cells} cells "
@@ -1662,7 +1706,7 @@ def main(argv=None):
 
     group = nmcr.groups[args.group].nodes if 0 <= args.group < len(nmcr.groups) \
         else nmcr.rest_pose()
-    w, h, flat = compose_pose(ncgr, ncer, group, nanr=nanr, t=args.frame)
+    w, h, flat = compose_pose(ncgr, ncer, group, nanr=nanr, t=args.frame, n_pal_colors=n_pal_colors)
     out_path = os.path.join(args.out, f"{args.species:04d}_pose.png")
     bs.write_png_rgb8(out_path, w, h, indices_to_rgb(flat, palette))
     print(f"[*] wrote {out_path} ({w}x{h})")
