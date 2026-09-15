@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
-tables.py -- registry and round-trip checker for the large "custom format,
-no decoder" table archives surveyed in this pass: a/0/5/7, a/1/9/4, a/1/7/8,
-a/0/2/0, a/1/2/3, a/1/6/9, a/2/1/4, a/1/0/8, a/1/2/5, a/1/6/8, a/2/1/5.
+tables.py -- registry and round-trip checker for the "custom format, no
+decoder" census bucket. First pass (see docs/ASSETS.md "Large custom table
+pass"): a/0/5/7, a/1/9/4, a/1/7/8, a/0/2/0, a/1/2/3, a/1/6/9, a/2/1/4,
+a/1/0/8, a/1/2/5, a/1/6/8, a/2/1/5. Second pass, the rest of that census
+bucket (see "Group 2 custom table pass"): 75 more archives, registered in
+_GROUP2 near the end of this file.
 
 Written from scratch for the aletheia asset lane. Stdlib only, depends
 only on narc.py.
@@ -321,6 +324,112 @@ REGISTRY = {
     },
 }
 
+
+# ---------------------------------------------------------------------------
+# Group 2 custom table pass: the rest of the census "custom format, no
+# decoder" bucket not already in REGISTRY above (75 archives; two more
+# census rows in this bucket, dwc/utility.bin and gfl_font.dat, are single
+# raw files with no BTAF/BTNF/GMIF container and cannot go through
+# narc.parse_file, so they are not in this registry; see docs/ASSETS.md).
+#
+# None of these 75 resolved to a confirmed field layout worth a dedicated
+# encoder, so they are kept as raw per-sub-file copies (decode/encode =
+# identity, which trivially round-trips byte-identical). Six did turn up a
+# confirmed reader from the same scripted backward-scan used for the pass
+# above (an immediate archive-id load ahead of a call to one of the seven
+# accessor functions, across asm/arm9/main.s and every asm/overlays/*.s):
+# a/0/4/8, a/0/8/7, a/0/9/1, a/1/3/2, a/1/4/6, a/1/4/7 -- see each entry's
+# note below and docs/ASSETS.md "Group 2 custom table pass" for the call
+# site address and the backward-scan method. Framing, per-offset histogram
+# summary and identification/confidence for every archive are also in that
+# doc section; the note below is the short form.
+# ---------------------------------------------------------------------------
+
+_GROUP2 = {
+    "a/0/1/0": ("0/1/0", "Single sub-file, 752 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/1/5": ("0/1/5", "5 sub-files, fixed 16-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/1/7": ("0/1/7", "8 sub-files, fixed 404-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/3/6": ("0/3/6", "14 sub-files, variable 68..19320 bytes (dominant size 552 bytes on 2/14). No reader found among the seven accessor functions for this archive id. Identification: LZ11-compressed generic NITRO chunks: decompresses to RGCN/RCSN (NCGR/NCLR family, tile+palette). Confidence: HIGH (magic recovered after decompression)."),
+    "a/0/3/7": ("0/3/7", "Single sub-file, 5376 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/3/8": ("0/3/8", "Single sub-file, 576 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/3/9": ("0/3/9", "18 sub-files, variable 80..4916 bytes (dominant size 552 bytes on 3/18). No reader found among the seven accessor functions for this archive id. Identification: LZ11-compressed generic NITRO chunks: decompresses to RGCN/RCSN, same family as a/0/3/6. Confidence: HIGH (magic recovered after decompression)."),
+    "a/0/4/2": ("0/4/2", "Single sub-file, 1440 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/4/7": ("0/4/7", "80 sub-files, variable 64..65352 bytes (dominant size 552 bytes on 6/80). No reader found among the seven accessor functions for this archive id. Identification: Uncompressed mix of RGCN/RLCN (NCGR/NCLR) and BMD0/BTX0 (3D model/texture) sub-files. Confidence: MEDIUM-HIGH (direct magics, but a minority of the 80 sub-files, rest opaque)."),
+    "a/0/4/8": ("0/4/8", "Single sub-file, 22376 bytes, opaque blob. Reader: arm9 func_0202A128 (0x0202A128) via func_02048F60(archive_id=0x30=48, member, heap); the same function also loads a/2/1/1 (archive id 0xd3=211) via func_0204A298 just before it, for the same member index. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded)."),
+    "a/0/5/3": ("0/5/3", "19 sub-files, variable 28..1410 bytes (dominant size 92 bytes on 3/19). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/5/8": ("0/5/8", "17 sub-files, variable 4..784 bytes (dominant size 784 bytes on 4/17). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/6/0": ("0/6/0", "Single sub-file, 1672 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/6/1": ("0/6/1", "56 sub-files, fixed 780-byte records. No reader found among the seven accessor functions for this archive id. Identification: 780-byte records resolve into 15 repeated 52-byte sub-blocks (period confirmed by per-offset histogram). Confidence: MEDIUM (structural only, domain unclear)."),
+    "a/0/6/2": ("0/6/2", "10 sub-files, fixed 780-byte records. No reader found among the seven accessor functions for this archive id. Identification: Same 15x52-byte sub-block period as a/0/6/1. Confidence: MEDIUM (structural only, domain unclear)."),
+    "a/0/6/7": ("0/6/7", "98 sub-files, variable 68..5596 bytes (dominant size 244 bytes on 8/98). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/7/0": ("0/7/0", "6 sub-files, variable 640..6412 bytes (dominant size 3588 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/7/9": ("0/7/9", "34 sub-files, variable 256..24420 bytes (dominant size 764 bytes on 2/34). No reader found among the seven accessor functions for this archive id. Identification: Most sub-files begin with the RLCN (NCLR palette) chunk tag uncompressed. Confidence: MEDIUM-HIGH (partial magic match, not exhaustively checked)."),
+    "a/0/8/0": ("0/8/0", "Single sub-file, 72 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/8/1": ("0/8/1", "14 sub-files, variable 8..104 bytes (dominant size 8 bytes on 13/14). No reader found among the seven accessor functions for this archive id. Identification: 13/14 sub-files are 8 bytes: [u32 value close to 0x7fxx][u32 small count 0..10]; 1 outlier at 104 bytes. Confidence: LOW (framing only; a trig/scale-table guess is unconfirmed)."),
+    "a/0/8/2": ("0/8/2", "2 sub-files, variable 0..780 bytes (dominant size 780 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/8/6": ("0/8/6", "Single sub-file, 3294 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/8/7": ("0/8/7", "Single sub-file, 106 bytes, opaque blob. Reader: arm9 func_02006EA4 (0x02006EA4) via func_02048F74(dst, archive_id=0x57=87, member=0, mode=0, size_out), single sub-file (member is always 0). Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded)."),
+    "a/0/9/0": ("0/9/0", "Single sub-file, 7048 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/9/1": ("0/9/1", "Single sub-file, 1232 bytes, opaque blob. Reader: arm9 func_0202A298 and func_0202A310 (0x0202A298/0x0202A310) via func_02048F74(dst, archive_id=0x5b=91, member=0, mode=variable); both functions first search a table in a/0/9/0 (archive id 0x5a=90, via func_020490A8/func_020490F4) then read a/0/9/1 with the matched mode -- the two archives are used as a pair. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded)."),
+    "a/0/9/7": ("0/9/7", "2 sub-files, variable 274..24888 bytes (dominant size 24888 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/9/8": ("0/9/8", "10 sub-files, variable 650..1454 bytes (dominant size 1450 bytes on 4/10). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/0/9/9": ("0/9/9", "17 sub-files, variable 95..4568 bytes (dominant size 552 bytes on 2/17). No reader found among the seven accessor functions for this archive id. Identification: LZ77-compressed generic NITRO chunks: decompresses to RGCN/RCSN. Confidence: HIGH (magic recovered after decompression)."),
+    "a/1/0/1": ("1/0/1", "Single sub-file, 672 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/0/5": ("1/0/5", "29 sub-files, fixed 188-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/0/9": ("1/0/9", "17 sub-files, fixed 4-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/1/1": ("1/1/1", "6 sub-files, variable 76..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: sub-files include SBNK (sound bank) and SSEQ (sequence) chunks alongside raw PCM-ish blocks. Confidence: HIGH (standard chunk magics)."),
+    "a/1/1/2": ("1/1/2", "6 sub-files, variable 76..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: SBNK/SSEQ chunks present, same family as a/1/1/1. Confidence: HIGH (standard chunk magics)."),
+    "a/1/1/3": ("1/1/3", "6 sub-files, variable 80..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: SBNK/SSEQ chunks present, same family as a/1/1/1. Confidence: HIGH (standard chunk magics)."),
+    "a/1/1/4": ("1/1/4", "6 sub-files, variable 92..8260 bytes (dominant size 276 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: Nitro sound pair: SBNK/SSEQ chunks present, same family as a/1/1/1. Confidence: HIGH (standard chunk magics)."),
+    "a/1/1/7": ("1/1/7", "53 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/1/9": ("1/1/9", "9 sub-files, variable 2..158 bytes (dominant size 134 bytes on 3/9). No reader found among the seven accessor functions for this archive id. Identification: One variant is a flat ascending u16 sequence (65,66,67,...); looks like a plain index/char table. Confidence: LOW (framing only)."),
+    "a/1/2/1": ("1/2/1", "23 sub-files, variable 400..10476 bytes (dominant size 968 bytes on 8/23). No reader found among the seven accessor functions for this archive id. Identification: BMD0 (3D model) plus BCA0 (joint animation) and BMA0 (material animation) -- a model+animation set. Confidence: HIGH (standard G3D chunk magics)."),
+    "a/1/2/7": ("1/2/7", "7 sub-files, variable 8..46976 bytes (dominant size 8 bytes on 4/7). No reader found among the seven accessor functions for this archive id. Identification: One of 7 sub-files is BMD0 (3D model); the rest are small opaque blocks. Confidence: LOW-MEDIUM (1/7 sub-files only)."),
+    "a/1/3/2": ("1/3/2", "5 sub-files, fixed 40-byte records. Reader: arm9 func_0202AEEC (0x0202AEEC) via func_02048F88(archive_id=0x84=132, member, heap, mode=0, size=40), member taken from the caller's own second argument. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded)."),
+    "a/1/3/6": ("1/3/6", "31 sub-files, fixed 8-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/4/6": ("1/4/6", "10 sub-files, fixed 28-byte records. Reader: an arm9 function around 0x0202B2xx (enclosing the call site at 0x0202B34C) first calls func_02049030(archive_id=0x92=146) for a record count, then loops member 0..count-1 through func_02048F74(dst, archive_id=0x92=146, member, mode=0) into consecutive 28-byte slots -- matches the 10 fixed 28-byte sub-files found by the byte survey. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded)."),
+    "a/1/4/7": ("1/4/7", "3 sub-files, variable 27..43 bytes (dominant size 27 bytes on 1/3). Reader: arm9 func_0202C3E0 (0x0202C3E0) via a sequence of func_02048F74(dst, archive_id=0x93=147, member, mode=running_offset) calls (4 bytes, then 9x2 bytes, then two more variable chunks) that assemble one member's record piece by piece -- consistent with the variable 27/41/43-byte sizes found by the byte survey, read as a length-driven structure rather than one flat read. Identification: domain not identified despite the confirmed reader above. Confidence: LOW (reader confirmed, field semantics not decoded)."),
+    "a/1/4/8": ("1/4/8", "18 sub-files, variable 8..28808 bytes (dominant size 8 bytes on 8/18). No reader found among the seven accessor functions for this archive id. Identification: 3 of 18 sub-files are BMD0 (3D model); the rest are opaque blocks 8..28808 bytes. Confidence: LOW-MEDIUM (minority of sub-files)."),
+    "a/1/4/9": ("1/4/9", "Single sub-file, 32 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/5/2": ("1/5/2", "3 sub-files, variable 684..1700 bytes (dominant size 684 bytes on 1/3). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/5/4": ("1/5/4", "37 sub-files, variable 0..1024 bytes (dominant size 48 bytes on 30/37). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/5/6": ("1/5/6", "46 sub-files, variable 3100..6172 bytes (dominant size 3100 bytes on 44/46). No reader found among the seven accessor functions for this archive id. Identification: 44/46 sub-files are a fixed 3100 bytes; 2 outliers sit near double that (6172 bytes). Confidence: LOW (structural only, domain unclear)."),
+    "a/1/5/8": ("1/5/8", "5 sub-files, variable 72..432 bytes (dominant size 144 bytes on 2/5). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/6/3": ("1/6/3", "7 sub-files, fixed 44-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/6/5": ("1/6/5", "13 sub-files, fixed 108-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/6/6": ("1/6/6", "9 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/7/1": ("1/7/1", "14 sub-files, variable 12..23988 bytes (dominant size 9120 bytes on 1/14). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/7/4": ("1/7/4", "24 sub-files, fixed 124-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/7/5": ("1/7/5", "2 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/7/9": ("1/7/9", "50 sub-files, fixed 64-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/8/5": ("1/8/5", "2 sub-files, fixed 8-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/8/6": ("1/8/6", "7 sub-files, variable 20..80 bytes (dominant size 50 bytes on 5/7). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/1/9/8": ("1/9/8", "Single sub-file, 255 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: LZ77-compressed, decompresses to RGCN (NCGR tile data). Confidence: HIGH (magic recovered after decompression)."),
+    "a/2/0/3": ("2/0/3", "4 sub-files, variable 1448..4328 bytes (dominant size 4328 bytes on 1/4). No reader found among the seven accessor functions for this archive id. Identification: 1 of 4 sub-files is Huffman8-compressed; no recognised magic on any sub-file. Confidence: LOW (partial compression only)."),
+    "a/2/0/8": ("2/0/8", "4 sub-files, variable 8..664 bytes (dominant size 664 bytes on 1/4). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/2/0/9": ("2/0/9", "Single sub-file, 856 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/2/1/1": ("2/1/1", "Single sub-file, 4528 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/2/1/2": ("2/1/2", "2 sub-files, variable 13964..20674 bytes (dominant size 20674 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: Both sub-files are RIFF/WAVE (raw PCM audio clips). Confidence: HIGH (RIFF/WAVE magic)."),
+    "a/2/2/0": ("2/2/0", "13 sub-files, variable 280..253428 bytes (dominant size 552 bytes on 2/13). No reader found among the seven accessor functions for this archive id. Identification: Mix of RLCN/RCSN (NCLR/NCGR) and BMD0/BCA0 (model + joint animation) sub-files. Confidence: MEDIUM-HIGH (direct magics on several sub-files)."),
+    "a/2/2/1": ("2/2/1", "7 sub-files, variable 2304..5504 bytes (dominant size 2496 bytes on 1/7). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/2/2/4": ("2/2/4", "4 sub-files, fixed 36-byte records. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/2/2/5": ("2/2/5", "151 sub-files, variable 15..39547 bytes (dominant size 2687 bytes on 12/151). No reader found among the seven accessor functions for this archive id. Identification: Every sub-file is LZ11-compressed; decompressed content has no recognised NITRO chunk magic. Confidence: LOW (compression confirmed, content unresolved)."),
+    "a/2/2/6": ("2/2/6", "174 sub-files, variable 15..43305 bytes (dominant size 15 bytes on 12/174). No reader found among the seven accessor functions for this archive id. Identification: Every sub-file is LZ11-compressed; decompressed content has no recognised NITRO chunk magic, same family as a/2/2/5. Confidence: LOW (compression confirmed, content unresolved)."),
+    "a/2/2/7": ("2/2/7", "Single sub-file, 494 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
+    "a/2/2/9": ("2/2/9", "52 sub-files, variable 49812..209740 bytes (dominant size 49812 bytes on 7/52). No reader found among the seven accessor functions for this archive id. Identification: Each sub-file opens with an 'AB' 2-byte tag plus a u16 header-size field then a u32 offset table; large sizes (49812..209740 bytes) suggest an audio/stream container (domain guess, not confirmed). Confidence: LOW-MEDIUM (framing pattern only)."),
+    "a/2/3/0": ("2/3/0", "64 sub-files, variable 58684..189924 bytes (dominant size 58684 bytes on 32/64). No reader found among the seven accessor functions for this archive id. Identification: Same 'AB'-tagged header-plus-offset-table framing as a/2/2/9, large sizes (58684..189924 bytes). Confidence: LOW-MEDIUM (framing pattern only)."),
+    "a/2/3/1": ("2/3/1", "73 sub-files, variable 11653..30624 bytes (dominant size 13905 bytes on 1/73). No reader found among the seven accessor functions for this archive id. Identification: Every sub-file is LZ77-compressed; decompressed content has no recognised NITRO chunk magic. Confidence: LOW (compression confirmed, content unresolved)."),
+    "a/2/3/2": ("2/3/2", "Single sub-file, 627 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: BTNF-named sub-file 0 is 'battle_pocket.dat'. Confidence: HIGH (BTNF name)."),
+    "a/2/3/3": ("2/3/3", "2 sub-files, variable 86..99 bytes (dominant size 86 bytes on 1/2). No reader found among the seven accessor functions for this archive id. Identification: LZ77-compressed, decompresses to RGCN (NCGR tile data) on both sub-files. Confidence: HIGH (magic recovered after decompression)."),
+}
+
+for _tag, (_path, _note) in _GROUP2.items():
+    REGISTRY[_tag] = {
+        "path": _path,
+        "decode": _identity_decode,
+        "encode": _identity_encode,
+        "note": _note,
+    }
 
 def _open(tag):
     entry = REGISTRY[tag]
