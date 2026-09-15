@@ -71,10 +71,13 @@ table at index = current patch number (matching sseq2midi.py's own
 program-number convention):
   - type 1 (single-region PCM): its one wave_arc/wave_id/base_note/ADSR/pan
     record is used directly.
-  - type 16 (drum kit) / type 17 (key split): `sbnk.parse_regions()`'s
-    ascending split-point list picks the first region whose split point is
-    >= the played note (falling back to the last region if the note is
-    above every split point) -- the standard "key range" split convention.
+  - type 16 (drum kit): one region per note in [low_note, high_note];
+    region index = played_note - low_note (clamped) picks the region
+    directly.
+  - type 17 (key split): the ascending `split_points` list picks the
+    first region whose split point is >= the played note (falling back
+    to the last region if the note is above every split point) -- the
+    standard "key range" split convention.
   - type 0 (empty) / type 2 / type 3 (still-undecoded PSG-shaped types):
     no wave to play; the note is silently dropped (documented gap, not a
     crash).
@@ -157,17 +160,17 @@ Known inaccuracies (honest, not hidden)
   where this guess is wrong, bytecode past that point desyncs and the
   track's render ends early (falls into the same "unrecognised opcode"
   stop as any other gap).
-- SBNK instrument types 2/3 (still-unidentified, guessed PSG-shaped) are
-  silently dropped -- no wave data exists to play them with.
-- Type 16/17 key-split regions beyond the first very often carry an
-  out-of-range local `wave_arc` (measured this pass: 86.6% of first
-  regions are plausible vs. 4.1% of later ones across all 1447 real
-  type-16/17 instruments in this SDAT) -- a pre-existing `sbnk.py` parsing
-  gap, not something this pass re-derives. `resolve_instrument_region()`
-  falls back to the first region rather than dropping the note, which
-  keeps upper-register notes of a split instrument audible but gives them
-  the wrong region's exact timbre/envelope (still the right instrument
-  family, since it's a fallback within the same instrument slot).
+- SBNK instrument types 2/3 (still-unidentified; only 51/122 and 124/155
+  of their records pass sbnk.py's region-plausibility check, so they are
+  not reliably the same wave-bearing shape as 1/16/17) are silently
+  dropped -- no wave data is trusted for them.
+- `sbnk.py`'s region decode for types 16/17 was corrected this pass (fixed
+  field order and a 10-byte, not 12-byte, record -- see sbnk.py's
+  docstring): every region of every type-16/17 instrument in this SDAT
+  (8700 regions total) now passes the wave_id/wave_arc/note/ADSR
+  plausibility check, not just the first region as before, so
+  `resolve_instrument_region()` no longer needs a first-region fallback
+  for implausible later regions.
 - Loop detection only recognises one backward `Jump` per track (same
   limitation as sseq2midi.py); a track that loops through a `Call`/
   `Return` pair or a longer jump chain instead just plays through once.
@@ -377,37 +380,42 @@ def tick_to_seconds(segments, tick):
 # ---------------------------------------------------------------------------
 
 def resolve_instrument_region(bnk, program, played_note):
+    """type 1 (single-region): its one record is used directly. type 16
+    (drum kit): the region table is one entry per note in
+    [low_note, high_note], so region index = played_note - low_note,
+    clamped to the table -- the standard per-note drum-kit convention.
+    type 17 (key split): regions are ordered by ascending split_points
+    (verified this pass, see sbnk.py's docstring); the first split point
+    >= played_note picks the region, falling back to the last region
+    above every split point. Both 16 and 17 now use sbnk.py's corrected,
+    100%-plausible region decode (10-byte record, u16 region_type prefix)
+    -- no fallback-to-first-region approximation is needed any more."""
     if bnk is None or program < 0 or program >= len(bnk.instruments):
         return None
     inst = bnk.instruments[program]
     if inst.rec_type == 1:
         return inst.detail
-    if inst.rec_type in (16, 17):
+    if inst.rec_type == 16:
+        regions = inst.detail.get("regions", [])
+        if not regions:
+            return None
+        idx = played_note - inst.detail["low_note"]
+        idx = max(0, min(idx, len(regions) - 1))
+        return regions[idx]
+    if inst.rec_type == 17:
         splits = inst.detail.get("split_points", [])
         regions = inst.detail.get("regions", [])
         if not regions:
             return None
         chosen = None
-        for sp, region in zip(splits, regions):
+        for sp, region in zip((s for s in splits if s != 0), regions):
             if played_note <= sp:
                 chosen = region
                 break
         if chosen is None:
             chosen = regions[-1]
-        if chosen is not regions[0] and not (0 <= chosen.get("wave_arc", -1) <= 3):
-            # sbnk.py's parse_regions() is only medium-confidence beyond the
-            # first record (its own docstring already flags this). Measured
-            # this pass across every type-16/17 instrument in this SDAT:
-            # region 0 resolves to a plausible in-bank wave_arc index (0-3)
-            # 1253/1447 times (86.6%), later regions only 154/3786 (4.1%) --
-            # i.e. the parse is reliable for the first region and mostly
-            # garbage after it. Rather than drop these notes outright (most
-            # of a real melody), fall back to the instrument's first region
-            # -- an audible approximation (wrong per-key-range timbre, right
-            # instrument family), not a verified fix to the byte layout.
-            chosen = regions[0]
         return chosen
-    return None  # type 0 (empty) or 2/3 (undecoded): no wave to play
+    return None  # type 0 (empty) or 2/3 (undecoded, not reliably wave-shaped)
 
 
 class WaveCache:

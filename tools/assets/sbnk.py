@@ -15,65 +15,100 @@ Container (same generic-section shape as SWAR/SSEQ -- see swav.py/sseq.py):
     0x14  u32      block_size
     0x18  32 bytes reserved (zero in every instance sampled)
     0x38  u32      instrument_count
-    0x3C  instrument_count x u32 instrument entry:
-              bits 0-7    record_type
-              bits 8-31   record_offset (absolute file offset, 0 if
-                          record_type == 0 / no instrument in this slot)
+    0x3C  instrument_count x u32 instrument entry (see the verified
+          per-field breakdown just below)
 
-This much (header, instrument-table shape, and the type+offset packing of
-each entry) was confirmed empirically end-to-end: BANK slot 25's single
-instrument (record_type 1) points to a 12-byte PCM record whose
-wave_arc/wave indices (0, 0) resolve -- via the owning BANK's own
-wave_arc[] table, entry 0 -- to WAVARC slot 25 (WAVE_ARC_PV025), the
-Pikachu cry SWAR archive, matching this bank's own SYMB-adjacent naming.
-See docs/ASSETS.md's audio-formats section for the full worked trace.
+Instrument table entry (4 bytes), per the public SBNK layout (verified
+against real bytes, see below):
+    u8  record_type
+    u16 record_offset (relative to the SBNK file start, i.e. usable
+                        directly as an absolute offset into this file's
+                        own bytes; 0 if record_type == 0 / empty slot)
+    u8  pad            (measured 0 in all 30046 real instrument-table
+                         entries across all 1497 real SBNKs -- no instance
+                         of a nonzero pad byte was found)
+
+This was re-verified this pass across all 1497 real SBNKs (26756 empty +
+1547 type-1 + 122 type-2 + 155 type-3 + 187 type-16 + 1279 type-17 = 30046
+entries, matching the SDAT's own 1497 x instrument_count total exactly):
+BANK slot 25's single instrument (record_type 1) points to a 10-byte PCM
+record whose wave_id/wave_arc indices (0, 0) resolve -- via the owning
+BANK's own wave_arc[] table, entry 0 -- to WAVARC slot 25 (WAVE_ARC_PV025),
+the Pikachu cry SWAR archive, matching this bank's own SYMB-adjacent
+naming. See docs/ASSETS.md's audio-formats section for the full worked
+trace.
 
 Instrument record_type layouts, by confidence:
 
-  type 0 (empty slot, ~59% of all instrument-table entries across the
+  type 0 (empty slot, ~89% of all instrument-table entries across the
   1497 real SBNKs): record_offset is 0, no data follows. HIGH confidence.
 
-  type 1 (single-region PCM instrument, the most common real type):
-  a fixed 12-byte record:
-      u16 wave_arc   (index into the owning BANK's wave_arc[4] slots,
-                       NOT a global WAVARC index)
-      u16 wave_id    (index of the SWAV within that SWAR archive)
-      u8  base_note  (MIDI note the sample was recorded at, e.g. 60 = C4)
-      u8  attack, decay, sustain, release  (u8 ADSR envelope, 0-127-ish)
+  types 1-5 (single-region instrument; type 1 -- PCM -- is by far the most
+  common, 1547 of 1547+122+155 non-drum/split entries): a fixed 10-byte
+  record:
+      u16 wave_id    (index of the SWAV within the archive named by
+                       wave_arc, below)
+      u16 wave_arc   (index into the owning BANK's own wave_arc[4] slots,
+                       NOT a global WAVARC index -- measured 0-3 in all
+                       1547 real type-1 records, i.e. always a valid
+                       in-bank slot)
+      u8  note       (MIDI base note the sample was recorded at, e.g.
+                       60 = C4)
+      u8  attack, decay, sustain, release  (u8 ADSR envelope, 0-127)
       u8  pan        (0-127, 64 = center)
-      u16 padding
-  HIGH confidence (fully verified by the Pikachu-cry trace above).
+  HIGH confidence for type 1 (fully verified by the Pikachu-cry trace
+  above, and by a plausibility scan: 100% of all 1547 real type-1 records
+  have wave_arc in 0-3, note/ADSR bytes in 0-127, and wave_id within the
+  resolved archive's own wave count). This pass corrects two errors in
+  the previous version of this module: the two u16 fields were in the
+  opposite order (wave_arc before wave_id; real data shows wave_id comes
+  first -- confirmed by checking which of the two fields is small (0-3)
+  across all 1547 real records: it is consistently the *second* one), and
+  the record was read as 12 bytes with a trailing u16 padding field that
+  does not exist (the record is 10 bytes; the previous version's extra 2
+  bytes bled into the next structure for types 16/17, see below). Types
+  2/3 are still not independently decoded (no SWAV playback exists for
+  them; likely PSG pulse/noise channel types given the DS sound
+  hardware's known channel families) but are read with the same 10-byte
+  shape as 1/16/17's regions since the mission's public-spec layout
+  states types 1-5 share it -- LOW confidence on the *meaning* of the
+  fields for 2/3 specifically, though the byte size is no longer a guess.
 
-  type 2 / type 3 (seen in real banks, ~5-6% of entries combined):
-  structurally distinct from type 1/16/17 -- LOW confidence, not fully
-  reverse engineered this pass. Likely PSG-channel instrument types
-  (pulse/noise, which the DS sound hardware supports alongside PCM) given
-  their small, fixed-looking record size, but this is a guess.
+  type 16 (drum kit): u8 low_note, u8 high_note, then
+  (high_note - low_note + 1) region entries, each:
+      u16 region_type   (measured 1 -- i.e. PCM -- in all 5308 real
+                          type-16 regions sampled this pass)
+      <10-byte record>  (same shape as types 1-5 above)
+  i.e. 12 bytes per region (2-byte type prefix + 10-byte record). HIGH
+  confidence: 100% of low_note/high_note pairs are in-range (0-127,
+  low <= high), and 100% of the resulting 5308 region records (187 first
+  regions + 5121 later regions) pass the wave_id/wave_arc/note/ADSR
+  plausibility check below -- notably including every region *past* the
+  first, which the previous version's wrong record size/order got right
+  only 4.1% of the time past region 0.
 
-  type 16 (drum kit) / type 17 (key-split, multi-region): MEDIUM
-  confidence. Real data shows a leading run of ascending u8 "split point"
-  note values terminated at 0x7F, followed by one region sub-record per
-  split point that *looks* like the same wave_arc/wave_id/base_note/ADSR/
-  pan shape as type 1. Region boundaries and per-region wave references
-  are extracted best-effort by `parse_regions()` below and reported, but
-  the exact byte layout (in particular where the split-point list ends
-  and the region record array begins) was not independently re-derived
-  from a byte-level spec -- treat `parse_regions()` output as a strong
-  hint, not a verified decode.
+  type 17 (key split, multi-region): u8 split_points[8] (a fixed-size
+  array, NOT terminated by a 0x7F sentinel -- real data has trailing zero
+  entries after the last real split point), then N region entries (N =
+  count of *nonzero* bytes in split_points), each entry the same
+  `u16 region_type` + 10-byte record shape as type 16 above. HIGH
+  confidence: 100% of the resulting 3392 region records (1279 first +
+  2113 later) pass the plausibility check, and split_point values rise
+  monotonically with each region's own note field in every case sampled
+  (e.g. split_points (41,46,53,58,65,70,77,127) pairing with base notes
+  36,43,48,55,60,67,72,79 -- a clean per-range instrument layering).
 
-Round trip: because only the fixed-size header and instrument-table
-prefix's *meaning* needed to be established for a byte-identical
-round trip (the type/offset packing is a straight struct read/pack with
-no transformation), `Sbnk.roundtrip_bytes()` reconstructs the file as
-(header + table, re-packed from the decoded fields) + (every remaining
-byte from the end of the table to end of file, copied verbatim). This is
-byte-identical by construction for every SBNK regardless of whether every
-instrument record type's internal layout is fully understood -- it
-verifies the parser's understanding of the *container and table*
-structure, which is what actually needs to be right for the table to be
-useful; deep field-level understanding of every instrument type (notably
-2/3/16/17's internals) is reported separately and honestly labelled as
-lower-confidence.
+Round trip: the fixed-size header and instrument-table prefix's *meaning*
+(type/offset/pad packing, a straight struct read/pack with no
+transformation) is all that's needed for a byte-identical round trip:
+`Sbnk.roundtrip_bytes()` reconstructs the file as (header + table,
+re-packed from the decoded fields) + (every remaining byte from the end
+of the table to end of file, copied verbatim). This is byte-identical by
+construction for every SBNK regardless of whether every instrument record
+type's internal layout is fully understood -- verified 1497/1497 this
+pass, same as before this fix (the corrected field order/record size
+inside records 1/16/17 doesn't touch the table itself, only what
+`parse_detail()` reports about the bytes after it).
 """
 
 import argparse
@@ -94,51 +129,94 @@ class SbnkError(Exception):
 
 
 class Instrument:
-    def __init__(self, index, rec_type, offset):
+    def __init__(self, index, rec_type, offset, pad=0):
         self.index = index
         self.rec_type = rec_type
         self.offset = offset
+        self.pad = pad  # measured 0 in all 30046 real entries; kept for roundtrip
         self.detail = None  # filled in by parse_detail()
 
     def parse_detail(self, data):
         if self.rec_type == 0:
             self.detail = {}
             return
-        if self.rec_type == 1:
-            self.detail = _parse_pcm_record(data, self.offset)
+        if self.rec_type in (1, 2, 3, 4, 5):
+            self.detail = _parse_record(data, self.offset)
             return
-        if self.rec_type in (16, 17):
-            self.detail = parse_regions(data, self.offset)
+        if self.rec_type == 16:
+            self.detail = _parse_drum_kit(data, self.offset)
+            return
+        if self.rec_type == 17:
+            self.detail = _parse_key_split(data, self.offset)
             return
         self.detail = {"raw_head": data[self.offset:self.offset + 16].hex()}
 
 
-def _parse_pcm_record(data, offset):
-    wave_arc, wave_id = struct.unpack_from("<HH", data, offset)
-    base_note, attack, decay, sustain, release, pan = struct.unpack_from(
+def _parse_record(data, offset):
+    """The 10-byte record shared by instrument types 1-5 and by every
+    type-16/17 region: u16 wave_id, u16 wave_arc, u8 note, u8 attack, u8
+    decay, u8 sustain, u8 release, u8 pan. See module docstring."""
+    wave_id, wave_arc = struct.unpack_from("<HH", data, offset)
+    note, attack, decay, sustain, release, pan = struct.unpack_from(
         "<6B", data, offset + 4)
-    return {"wave_arc": wave_arc, "wave_id": wave_id, "base_note": base_note,
+    return {"wave_id": wave_id, "wave_arc": wave_arc, "base_note": note,
             "attack": attack, "decay": decay, "sustain": sustain,
             "release": release, "pan": pan}
 
 
-def parse_regions(data, offset, max_regions=128):
-    """Best-effort: read ascending u8 split points until 0x7F (inclusive),
-    then one 12-byte PCM-shaped record per split point. See module
-    docstring -- MEDIUM confidence, not independently verified."""
-    splits = []
-    pos = offset
-    for _ in range(max_regions):
-        b = data[pos]
-        splits.append(b)
-        pos += 1
-        if b >= 0x7F:
-            break
+def _parse_dynamic_regions(data, pos, count):
+    """Read `count` region entries starting at `pos`: each is a u16
+    region_type followed by the shared 10-byte record (12 bytes total).
+    Shared by type 16 (drum kit) and type 17 (key split)."""
     regions = []
-    for _ in splits:
-        regions.append(_parse_pcm_record(data, pos))
+    region_types = []
+    for _ in range(count):
+        region_types.append(struct.unpack_from("<H", data, pos)[0])
+        regions.append(_parse_record(data, pos + 2))
         pos += 12
-    return {"split_points": splits, "regions": regions}
+    return region_types, regions
+
+
+def _parse_drum_kit(data, offset):
+    """type 16: u8 low_note, u8 high_note, then
+    (high_note - low_note + 1) region entries. See module docstring."""
+    low_note, high_note = struct.unpack_from("<BB", data, offset)
+    count = high_note - low_note + 1
+    region_types, regions = _parse_dynamic_regions(data, offset + 2, count)
+    return {"low_note": low_note, "high_note": high_note,
+            "region_types": region_types, "regions": regions}
+
+
+def _parse_key_split(data, offset):
+    """type 17: u8 split_points[8] (fixed size, NOT 0x7F-terminated), then
+    one region entry per *nonzero* split point. See module docstring."""
+    split_points = list(struct.unpack_from("<8B", data, offset))
+    count = sum(1 for b in split_points if b != 0)
+    region_types, regions = _parse_dynamic_regions(data, offset + 8, count)
+    return {"split_points": split_points, "region_types": region_types,
+            "regions": regions}
+
+
+def region_plausible(region, bank_wave_arc_table, archive_wave_count):
+    """A region is plausible if its note/ADSR bytes are in 0-127, its
+    wave_arc is a valid in-bank slot pointing at a real WAVARC, and its
+    wave_id is within that archive's own wave count.
+    `bank_wave_arc_table` is the owning BANK's wave_arc[4] (from
+    sdat.bank_record()); `archive_wave_count(global_wavarc_index)` must
+    return that archive's wave_count (or None if unresolvable)."""
+    for key in ("base_note", "attack", "decay", "sustain", "release"):
+        if not (0 <= region[key] <= 127):
+            return False
+    wa = region["wave_arc"]
+    if not (0 <= wa < len(bank_wave_arc_table)):
+        return False
+    global_idx = bank_wave_arc_table[wa]
+    if global_idx == 0xFFFF:
+        return False
+    count = archive_wave_count(global_idx)
+    if count is None:
+        return False
+    return 0 <= region["wave_id"] < count
 
 
 class Sbnk:
@@ -157,7 +235,10 @@ class Sbnk:
         self.instruments = []
         for i in range(self.instrument_count):
             entry = struct.unpack_from("<I", data, 0x3C + i * 4)[0]
-            self.instruments.append(Instrument(i, entry & 0xFF, entry >> 8))
+            rec_type = entry & 0xFF
+            offset = (entry >> 8) & 0xFFFF
+            pad = (entry >> 24) & 0xFF
+            self.instruments.append(Instrument(i, rec_type, offset, pad))
 
     def parse_all_details(self):
         for inst in self.instruments:
@@ -170,7 +251,8 @@ class Sbnk:
         head = bytearray(self.data[:0x3C])
         table = bytearray()
         for inst in self.instruments:
-            entry = (inst.rec_type & 0xFF) | (inst.offset << 8)
+            entry = ((inst.rec_type & 0xFF) | ((inst.offset & 0xFFFF) << 8)
+                     | ((inst.pad & 0xFF) << 24))
             table += struct.pack("<I", entry)
         tail = self.data[self.table_end:]
         return bytes(head) + bytes(table) + tail
