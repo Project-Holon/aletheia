@@ -2807,9 +2807,11 @@ DATA_LITERAL = 0x020AA260
 # address are the pool words of src/matched/unit_02005794.c.
 VENEER = 0x02072788
 # Veneer-shaped, but its pointer word names nothing this project can confirm
-# is a function, so the veneer rule refuses it.  (attest() still answers
-# `label` for it from its own label and callers; this case goes at veneer_at.)
-VENEER_UNCONFIRMED = 0x02030BBC
+# is a function, so the veneer rule refuses it: a long-branch stub whose
+# target lies in arm9i, outside every region in layout/layout.json.  (The
+# earlier fixture 0x02030BBC became a confirmed veneer once its target
+# 0x020305C4 was seeded and matched.)
+VENEER_UNCONFIRMED = 0x02006D3C
 # The same job in Thumb, and deliberately not recognised: mwccarm emits these
 # eight bytes for a tail call, and 0x02005C3C is a committed instance of it in
 # src/matched/unit_02005C3C.c.
