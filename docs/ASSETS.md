@@ -8480,3 +8480,482 @@ the original).
 - The form field (0-3 observed) in `species_and_form`'s top bits is
   decoded structurally (it is not folded into the species id) but not
   matched to any specific in-game form.
+
+## Coverage census
+
+Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10 raw), built from `build/assets/inventory.json` plus every archive identification recorded in this document, with the generic-format (NCLR/NCGR/NCER/NANR/NSCR/NSBMD/NSBTX) round trips actually re-run this pass via `tools/assets/background.py --verify`, `tools/assets/nsbmd.py roundtrip` and `tools/assets/icons.py --all --roundtrip`, plus `tools/assets/items.py --verify` re-run for confirmation. Machine-readable form: `build/assets/census.json` (gitignored, regenerate, don't commit).
+
+### Summary
+
+| status | archives | sub-files |
+|---|---:|---:|
+| covered and verified | 27 | 40843 |
+| generic format, verified | 38 | 2572 |
+| generic format, not verified | 82 | 2337 |
+| custom format, no decoder | 88 | 8217 |
+| unknown | 12 | 85 |
+| **total** | **247** | **54054** |
+
+"covered and verified" is every archive this project has identified and built a dedicated decoder for, with the round-trip/verification status that decoder actually reports (a few are identified but not yet byte-round-tripped; these are flagged `partial`/`unverified`/`failing` in the `decoder`/`status` columns below, not silently merged into the verified count). "generic format, verified" is an archive whose dominant sub-file magic is a standard NITRO/G3D chunk (NCLR/NCGR/NCER/NANR/NSCR/NSBMD/NSBTX) covered by one of the project's generic-format converters' own `--verify`/`roundtrip` checks. "generic format, not verified" is the same dominant-magic shape with no archive-wide converter run against it yet -- decoding it needs verification, not a new decoder. "custom format, no decoder" is a dominant magic that is not a recognised NITRO chunk (a Game Freak-specific record table or wrapper) with no decoder written. "unknown" is the inventory's own `category_guess` of "unknown"/"unknown raw format" -- too little evidence yet for even a format guess.
+
+### Full per-archive table
+
+`path` is relative to `extract/data/`. `status` values: `verified` (byte-identical round trip reported), `partial` (decoded/identified but round trip covers less than the whole archive, or is reported at a coarser grain than raw sub-files), `failing` (round trip attempted and fails), `unverified` (identified/decoded, no round-trip count reported), `none` (no decoder).
+
+| path | subs | dominant magic | bucket | decoder | status | note |
+|---|---:|---|---|---|---|---|
+| a/0/0/0 | 5 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/0/1 | 8 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/0/0/2 | 288 | 0x0100ee01 | covered and verified | text.py | partial | Text archive (species/move/item/ability/type name banks among 288 sub-files). XOR-rotate-3 cipher solved and confirmed by direct key recovery (produces real English names byte-for-byte). A dictionary/token compression layer covering most entries is NOT cracked. Round trip is 100% byte-identical but only on the minority of entries that decode fully clean (133/650 species, 35/558 moves, 16/625 items, 8/163 abilities, 1/15 types sampled); most entries remain partially undecoded. |
+| a/0/0/3 | 472 | 0x01000100 | covered and verified | events.py | verified | Event/script-table archive, HIGH-confidence container framing (16-byte header + index table + variable bytecode-shaped records). Record payload bytecode itself not decoded past byte-exact extraction. Round trip: 472/472 sub-files byte-identical. |
+| a/0/0/4 | 14285 | (none) | covered and verified | rig.py | partial | Pokemon battle/menu rig archive (paired with a/0/5/2): NCER/NMCR/NMAR cell-animation rig, 14285 sub-files (20 x 714 species/forms). OAM tile addressing and NANR sequence record corrected from decompiled game code; per-frame composition and GIF export implemented. 713/714 species render (1 known detachment issue: Charizard/Gengar-class, root-caused as authored placement data, not a decode bug). No archive-wide byte-level sub-file round trip is reported (coverage is reported at the species-render level, not per raw sub-file). |
+| a/0/0/5 | 13 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/0/6 | 733 |  APS | covered and verified | trainer.py | verified | Particle/UI-effect archive (733 sub-files, custom " APS12_1"/" TPS" wrapper, NOT a trainer portrait set as originally guessed -- renders are glints/sparkles/rings/pulses). Re-encoder round trip: 733/733 byte-identical. |
+| a/0/0/7 | 1431 | NCGR (tile/character data) | covered and verified | overworld.py | verified | Full-color per-species icon archive (party icons), 715 entries, confirmed species-indexed via the game's own per-entity sub-palette selector table. NCGR round trip: 715/715 byte-identical. |
+| a/0/0/8 | 649 | 0x57420300 | covered and verified | nsbmd.py (wrapper-aware) + map_grid.py + map_shapes.py | partial | Overworld map/building/dungeon 3D model archive, 649 sub-files, identified by MDL0 model name (mapNN_MM / m_dunNNNN / cNN / pl_00_00 / etc). Small custom size-table wrapper around BMD0 cracked; per-tile 32x32 grid after the model decoded (byte[4] walkable flag high-confidence, several other byte lanes medium-confidence or open). Textures not wired into the map OBJ exports. No whole-sub-file byte-identical round trip reported for the wrapper+grid container; underlying BMD0 geometry itself is covered by nsbmd.py's generic 1752/1752 round trip. |
+| a/0/0/9 | 255 | 0x00000000 | covered and verified | matrix.py | verified | Zone-to-map matrix archive, 255 sub-files, u32 cells resolving to a/0/0/8 sub-file indices (mode-1 cells also carry a zone-id grid). Round trip: 255/255 byte-identical. |
+| a/0/1/0 | 1 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 1 sub-file(s). |
+| a/0/1/1 | 222 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/0/1/2 | 1 | 0x04104a00 | covered and verified | zones.py | verified | Zone header table, single sub-file, 427 records x 48 bytes, layout attested by decompiled accessors. Round trip: 427/427 records byte-identical. |
+| a/0/1/3 | 0 | 0x00000000 | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: '0x00000000' over 0 sub-file(s). |
+| a/0/1/4 | 282 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/0/1/5 | 5 | 0x00008410 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00008410' over 5 sub-file(s). |
+| a/0/1/6 | 669 | dddd | covered and verified | personal.py | verified | Pokemon personal (base stat) data, 669 sub-files (1 sentinel + 667 real 60-byte records + 1 undecoded 1300-byte outlier). Round trip: 667/667 records byte-identical. |
+| a/0/1/7 | 8 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 8 sub-file(s). |
+| a/0/1/8 | 668 | 0x21000100 | covered and verified | learnsets.py | verified | Level-up learnsets, 668 sub-files ((move, level) pairs terminated by 0xFFFF/0xFFFF). Round trip: 668/668 sub-files byte-identical. |
+| a/0/1/9 | 668 | 0x00000000 | covered and verified | evolution.py | verified | Evolution data, 668 sub-files, 7-row x 6-byte evolution table per species. Round trip: 668/668 records byte-identical. |
+| a/0/2/0 | 650 | 0x8500 | custom format, no decoder | none | none | No decoder. Category guess: text banks (guess). Dominant magic: '0x8500' over 650 sub-file(s). |
+| a/0/2/1 | 560 | 0x000d0000 | covered and verified | waza.py | verified | Move data table, 560 sub-files, 36-byte records. Round trip: 560/560 records byte-identical. |
+| a/0/2/2 | 3 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/2/3 | 8 | NFTR variant (font, guess) | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: 'NFTR variant (font, guess)' over 8 sub-file(s). |
+| a/0/2/4 | 627 | 0x00000000 | covered and verified | items.py | verified | Item data table, 627 sub-files, price field confirmed against real BW shop prices via the game's own accessor. Round trip: 627/627 records byte-identical (re-run this pass). |
+| a/0/2/5 | 1005 | NCLR (palette) | covered and verified | overworld.py | verified | Bag item-icon archive, 1005 sub-files (451 NCGR + 552 NCLR + 1 shared NCER + 1 shared NANR, nearest-index pairing). NCGR round trip: 451/451 byte-identical. |
+| a/0/2/6 | 15 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/2/7 | 17 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/2/8 | 17 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/2/9 | 18 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/0/3/0 | 35 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/3/1 | 24 | NCER (cell bank) | covered and verified | walk.py | verified | Named-character (player/rival-class) 4-direction walk/run cycle archive. NCGR round trip: 7/7 byte-identical. |
+| a/0/3/2 | 97 | NCGR (tile/character data) | covered and verified | walk.py | verified | Generic overworld NPC walk-cycle set, 32 characters in 2 blocks of 16. NCGR round trip: 32/32 byte-identical. |
+| a/0/3/3 | 33 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/3/4 | 39 | NSCR (screen/map) | generic format, verified | background.py | verified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/0/3/5 | 16 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/3/6 | 14 | 0x11240800 | custom format, no decoder | none | none | No decoder. Category guess: small sprite/icon set (guess). Dominant magic: '0x11240800' over 14 sub-file(s). |
+| a/0/3/7 | 1 | 0x3019080f | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x3019080f' over 1 sub-file(s). |
+| a/0/3/8 | 1 | 0x03090200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x03090200' over 1 sub-file(s). |
+| a/0/3/9 | 18 | 0x11240800 | custom format, no decoder | none | none | No decoder. Category guess: small sprite/icon set (guess). Dominant magic: '0x11240800' over 18 sub-file(s). |
+| a/0/4/0 | 53 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/4/1 | 33 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/4/2 | 1 | 0xc4030000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xc4030000' over 1 sub-file(s). |
+| a/0/4/3 | 47 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/4/4 | 12 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/4/5 | 102 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/0/4/6 | 27 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/4/7 | 80 | 0x38000000 | custom format, no decoder | none | none | Also holds 4 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0x38000000' over 80 sub-file(s). |
+| a/0/4/8 | 1 | 0x1f030000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x1f030000' over 1 sub-file(s). |
+| a/0/4/9 | 764 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/0/5/0 | 2 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/5/1 | 9 | NCER (cell bank) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/5/2 | 14285 | (none) | covered and verified | rig.py | partial | Pokemon battle/menu rig archive, paired with a/0/0/4 (same 14285-sub-file shape, plausibly a normal/shiny or resolution variant). Same coverage caveats as a/0/0/4: species-level render coverage, no archive-wide byte round trip reported. |
+| a/0/5/3 | 19 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 19 sub-file(s). |
+| a/0/5/4 | 11 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/5/5 | 29 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/5/6 | 44 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/5/7 | 899 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: text banks (guess). Dominant magic: '0x00000000' over 899 sub-file(s). |
+| a/0/5/8 | 17 | 0x1a000e00 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x1a000e00' over 17 sub-file(s). |
+| a/0/5/9 | 18 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/6/0 | 1 | 0xed000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xed000000' over 1 sub-file(s). |
+| a/0/6/1 | 56 | 0x04000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x04000000' over 56 sub-file(s). |
+| a/0/6/2 | 10 | 0x04000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x04000000' over 10 sub-file(s). |
+| a/0/6/3 | 17 | NSCR (screen/map) | generic format, not verified | none | unverified | NSCR-dominant but not in background.py's covered archive list. |
+| a/0/6/4 | 48 | 0x11b00c00 | covered and verified | rig.py | failing | Trainer back-view sprite set (6 blocks of 8; male/female protagonist, Professor Juniper, Cheren, confirmed by eye). NCGR round trip FAILS: 0/48 -- these blocks' NCGR sub-files carry a second block the project's single-block NcgrFile parser does not handle; not pursued since the family was originally (wrongly) ruled out as UI content. |
+| a/0/6/5 | 2 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/6/6 | 601 | 0x01000000 | covered and verified | events.py | verified | HIGH-confidence container framing recovered (outer header + G x 56-byte group-offset blocks, G in {1,2,3,5,8}), but the 14-fold redundancy in the group table and the per-group payload are not decoded past byte-exact extraction. G's small discrete range reads more like language-variant blocks than an event/door/warp table (this NARC's own automated category guess, "text banks", is plausible; not confirmed by decoding any string content). Round trip: 601/601 sub-files byte-identical. |
+| a/0/6/7 | 98 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 98 sub-file(s). |
+| a/0/6/8 | 3 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/6/9 | 29 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/7/0 | 6 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 6 sub-file(s). |
+| a/0/7/1 | 39 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/7/2 | 760 | 0x11b00c00 | covered and verified | rig.py | failing | Trainer battle sprite archive, CONFIRMED by direct visual identification of named characters (male/female protagonist, Youngster, Lass, Gym Leader Chili, Elite Four Marshal and Caitlin, Champion Alder, Team Plasma grunts/officers) across 95 blocks x 8 sub-files (760 total). Class-to-block mapping is near-identity on the trdata class id with a few confirmed merges past class 83. NCGR round trip FAILS: 0/760, same unparsed second-block issue as a/0/6/4/a/0/7/3. |
+| a/0/7/3 | 48 | 0x11b00c00 | covered and verified | rig.py | failing | Trainer back-view sprite set, byte-for-byte duplicate of a/0/6/4's renders across all 6 blocks. NCGR round trip FAILS: 0/48, same unparsed second-block issue as a/0/6/4. |
+| a/0/7/4 | 1 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/0/7/5 | 151 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/0/7/6 | 29 | NCGR (tile/character data) | generic format, not verified | none | unverified | Also holds 2 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/7/7 | 8 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/0/7/8 | 179 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/7/9 | 34 | 0x524c0500 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x524c0500' over 34 sub-file(s). |
+| a/0/8/0 | 1 | 0x98a30000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x98a30000' over 1 sub-file(s). |
+| a/0/8/1 | 14 | 0x9f7f0000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x9f7f0000' over 14 sub-file(s). |
+| a/0/8/2 | 2 | 0x04000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x04000000' over 2 sub-file(s). |
+| a/0/8/3 | 172 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/8/4 | 4 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/8/5 | 21 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/8/6 | 1 | 0x85010100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x85010100' over 1 sub-file(s). |
+| a/0/8/7 | 1 | 0x23fb0307 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x23fb0307' over 1 sub-file(s). |
+| a/0/8/8 | 40 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/8/9 | 24 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/9/0 | 1 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 1 sub-file(s). |
+| a/0/9/1 | 1 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 1 sub-file(s). |
+| a/0/9/2 | 616 | 0x00270001 | covered and verified | trainer_data.py | unverified | Trainer data (trdata), 616 sub-files (615 real 20-byte records + 1 sentinel). Identified by reference to a decompiled trainer-class accessor; class count 105 cross-checked against the class-name text bank. No byte-identical round-trip count reported in the docs for this decoder. |
+| a/0/9/3 | 616 | 0x00000a00 | covered and verified | trainer_data.py | unverified | Trainer data (trpoke), 616 sub-files, variable 8-byte-multiple records, paired 1:1 with a/0/9/2 by index. No byte-identical round-trip count reported in the docs for this decoder. |
+| a/0/9/4 | 53 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/9/5 | 165 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/9/6 | 42 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/0/9/7 | 2 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 2 sub-file(s). |
+| a/0/9/8 | 10 | 0x01000200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000200' over 10 sub-file(s). |
+| a/0/9/9 | 17 | 0x10240100 | custom format, no decoder | none | none | No decoder. Category guess: small sprite/icon set (guess). Dominant magic: '0x10240100' over 17 sub-file(s). |
+| a/1/0/0 | 20 | 0x10240600 | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: '0x10240600' over 20 sub-file(s). |
+| a/1/0/1 | 1 | 0xf9000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xf9000000' over 1 sub-file(s). |
+| a/1/0/2 | 31 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/1/0/3 | 64 | NSBCA (animation) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/0/4 | 13 | NSBCA (animation) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/0/5 | 29 | 0x00000106 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000106' over 29 sub-file(s). |
+| a/1/0/6 | 20 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/0/7 | 39 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/0/8 | 282 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 282 sub-file(s). |
+| a/1/0/9 | 17 | 0x05000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x05000000' over 17 sub-file(s). |
+| a/1/1/0 | 2 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/1/1 | 6 | 0x00501428 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00501428' over 6 sub-file(s). |
+| a/1/1/2 | 6 | 0x03145028 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x03145028' over 6 sub-file(s). |
+| a/1/1/3 | 6 | 0x01282850 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01282850' over 6 sub-file(s). |
+| a/1/1/4 | 6 | 0x02282814 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x02282814' over 6 sub-file(s). |
+| a/1/1/5 | 183 | NSBMD (model) | generic format, verified | nsbmd.py | verified | Also holds 8 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/1/6 | 79 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/1/7 | 53 | 0x08000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x08000000' over 53 sub-file(s). |
+| a/1/1/8 | 11 | NSCR (screen/map) | generic format, not verified | none | unverified | NSCR-dominant but not in background.py's covered archive list. |
+| a/1/1/9 | 9 | 0x0d000500 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x0d000500' over 9 sub-file(s). |
+| a/1/2/0 | 5 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/2/1 | 23 | 0x50000000 | custom format, no decoder | none | none | No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0x50000000' over 23 sub-file(s). |
+| a/1/2/2 | 15 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/2/3 | 650 | 0x0000 | custom format, no decoder | none | none | No decoder. Category guess: text banks (guess). Dominant magic: '0x0000' over 650 sub-file(s). |
+| a/1/2/4 | 29 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/2/5 | 428 | 0x60000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x60000000' over 428 sub-file(s). |
+| a/1/2/6 | 112 | 0x03000000 | covered and verified | encounters.py | verified | Wild encounter tables, 112 sub-files (100 x 232 bytes all-year, 12 x 928 bytes = 4 seasonal blocks). Tied to the zone table via packed_1a. Round trip: 112/112 sub-files byte-identical. |
+| a/1/2/7 | 7 | 0xc4090000 | custom format, no decoder | none | none | No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0xc4090000' over 7 sub-file(s). |
+| a/1/2/8 | 8 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/2/9 | 12 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/3/0 | 36 | NSBTP (texture pattern animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/3/1 | 69 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/3/2 | 5 | 0x10000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10000000' over 5 sub-file(s). |
+| a/1/3/3 | 12 | NSCR (screen/map) | generic format, not verified | none | unverified | NSCR-dominant but not in background.py's covered archive list. |
+| a/1/3/4 | 670 | 0x11000002 | covered and verified | battle_sprite.py | unverified | Opening-cinematic frame sequence (670 sub-files, each a 256x256 16bpp direct-color LZ11 frame) -- CONFIRMED NOT trainer battle art via shot-boundary analysis and direct character recognition (N, Team Plasma castle). All 670 decode without a hard error; no updated full-archive byte-identical round-trip count is reported after the 16bpp reinterpretation (the original 4bpp-tile-era LZ11 encoder round trip doesn't apply to the corrected pixel format). |
+| a/1/3/5 | 28 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/3/6 | 31 | 0xd6007f06 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xd6007f06' over 31 sub-file(s). |
+| a/1/3/7 | 108 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/3/8 | 8 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/3/9 | 12 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/4/0 | 7 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/4/1 | 14 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/4/2 | 39 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/4/3 | 28 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/1/4/4 | 24 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/1/4/5 | 8 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/4/6 | 10 | 0x98000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x98000000' over 10 sub-file(s). |
+| a/1/4/7 | 3 | 0x2b040000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x2b040000' over 3 sub-file(s). |
+| a/1/4/8 | 18 | 0xe8030000 | custom format, no decoder | none | none | No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0xe8030000' over 18 sub-file(s). |
+| a/1/4/9 | 1 | 0x44010000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x44010000' over 1 sub-file(s). |
+| a/1/5/0 | 32 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/5/1 | 12 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/5/2 | 3 | 0x01000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000000' over 3 sub-file(s). |
+| a/1/5/3 | 9 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/5/4 | 37 | 0x0c000200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x0c000200' over 37 sub-file(s). |
+| a/1/5/5 | 48 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/5/6 | 46 | 0x0400080c | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x0400080c' over 46 sub-file(s). |
+| a/1/5/7 | 26 | NSBTA (texture SRT animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/5/8 | 5 | 0x01000100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000100' over 5 sub-file(s). |
+| a/1/5/9 | 113 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/1/6/0 | 252 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/6/1 | 5 | 0x10240600 | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: '0x10240600' over 5 sub-file(s). |
+| a/1/6/2 | 19 | NSBCA (animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/6/3 | 7 | 0xfa2000d5 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xfa2000d5' over 7 sub-file(s). |
+| a/1/6/4 | 5 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/6/5 | 13 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 13 sub-file(s). |
+| a/1/6/6 | 9 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 9 sub-file(s). |
+| a/1/6/7 | 655 | 0x10300100 | covered and verified | icons.py | verified | Small icon archive, 655 sub-files (1 NCLR + 2 NANR + 2 NCER + 650 LZ77-compressed 16x16 4bpp icons). Palette is genuinely monochrome (2 of 256 slots non-zero), so these are NOT full-color per-species icons (see a/0/0/7 for those). Round trip: 655/655 byte-identical (re-run this pass). |
+| a/1/6/8 | 315 | 0x55002300 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x55002300' over 315 sub-file(s). |
+| a/1/6/9 | 951 | 0x41005e00 | custom format, no decoder | none | none | No decoder. Category guess: text banks (guess). Dominant magic: '0x41005e00' over 951 sub-file(s). |
+| a/1/7/0 | 37 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/7/1 | 14 | 0x51005007 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x51005007' over 14 sub-file(s). |
+| a/1/7/2 | 27 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/7/3 | 35 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/7/4 | 24 | 0x5c000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x5c000000' over 24 sub-file(s). |
+| a/1/7/5 | 2 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 2 sub-file(s). |
+| a/1/7/6 | 52 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/7/7 | 64 | NSBTX (texture) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/7/8 | 649 | 0x01010000 | custom format, no decoder | none | none | No decoder. Category guess: text banks (guess). Dominant magic: '0x01010000' over 649 sub-file(s). |
+| a/1/7/9 | 50 | 0x07000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x07000000' over 50 sub-file(s). |
+| a/1/8/0 | 44 | 0x10402000 | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: '0x10402000' over 44 sub-file(s). |
+| a/1/8/1 | 35 | NSBCA (animation) | generic format, not verified | none | unverified | Also holds 4 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/8/2 | 11 | NCGR (tile/character data) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/8/3 | 28 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/8/4 | 17 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/8/5 | 2 | 0x1f040000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x1f040000' over 2 sub-file(s). |
+| a/1/8/6 | 7 | 0x37005a00 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x37005a00' over 7 sub-file(s). |
+| a/1/8/7 | 12 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/8/8 | 5 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/1/8/9 | 11 | NCGR (tile/character data) | generic format, not verified | none | unverified | Also holds 1 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/9/0 | 7 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/9/1 | 9 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/9/2 | 23 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/1/9/3 | 14 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/1/9/4 | 652 | 0x10296e00 | custom format, no decoder | none | none | No decoder. Category guess: text banks (guess). Dominant magic: '0x10296e00' over 652 sub-file(s). |
+| a/1/9/5 | 14 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/9/6 | 7 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/1/9/7 | 8 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/1/9/8 | 1 | 0x10400400 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10400400' over 1 sub-file(s). |
+| a/1/9/9 | 11 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/2/0/0 | 3 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/2/0/1 | 8 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/2/0/2 | 10 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/2/0/3 | 4 | 0x78000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x78000000' over 4 sub-file(s). |
+| a/2/0/4 | 8 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/2/0/5 | 40 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/2/0/6 | 4 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/2/0/7 | 1 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/2/0/8 | 4 | 0x44020000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x44020000' over 4 sub-file(s). |
+| a/2/0/9 | 1 | 0x00000100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000100' over 1 sub-file(s). |
+| a/2/1/0 | 9 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/2/1/1 | 1 | 0x01000200 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x01000200' over 1 sub-file(s). |
+| a/2/1/2 | 2 | RIFF | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: 'RIFF' over 2 sub-file(s). |
+| a/2/1/3 | 8 | 0x11240600 | unknown | none | none | No decoder. Category guess: unknown. Dominant magic: '0x11240600' over 8 sub-file(s). |
+| a/2/1/4 | 1000 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: text banks (guess). Dominant magic: '0x00000000' over 1000 sub-file(s). |
+| a/2/1/5 | 315 | 0x3d005800 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x3d005800' over 315 sub-file(s). |
+| a/2/1/6 | 52 | NCLR (palette) | generic format, not verified | none | unverified | Also holds 18 " APS12_1"/" TPS" particle/UI-effect sub-file(s) (indices vary by archive) decoded and identified by trainer.py as part of the same shared wrapper format as a/0/0/6; this is a small minority of the archive's sub-files and does not cover its dominant content (see dominant-magic column). Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/2/1/7 | 2 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/2/1/8 | 4 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/2/1/9 | 10 | NSBTP (texture pattern animation) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| a/2/2/0 | 13 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: 3D model/texture data (guess). Dominant magic: '0x00000000' over 13 sub-file(s). |
+| a/2/2/1 | 7 | 0x411673ec | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x411673ec' over 7 sub-file(s). |
+| a/2/2/2 | 6 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/2/2/3 | 13 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| a/2/2/4 | 4 | 0xffff0000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0xffff0000' over 4 sub-file(s). |
+| a/2/2/5 | 151 | 0x11000002 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x11000002' over 151 sub-file(s). |
+| a/2/2/6 | 174 | 0x11000002 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x11000002' over 174 sub-file(s). |
+| a/2/2/7 | 1 | 0x000a1020 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x000a1020' over 1 sub-file(s). |
+| a/2/2/8 | 6 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
+| a/2/2/9 | 52 | 0x41423a00 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x41423a00' over 52 sub-file(s). |
+| a/2/3/0 | 64 | 0x41424c00 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x41424c00' over 64 sub-file(s). |
+| a/2/3/1 | 73 | 0x10008001 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10008001' over 73 sub-file(s). |
+| a/2/3/2 | 1 | 0x00010101 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00010101' over 1 sub-file(s). |
+| a/2/3/3 | 2 | 0x10300100 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x10300100' over 2 sub-file(s). |
+| a/2/3/4 | 3 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| dl_rom/child2_r_eng.srl | 0 | SYAC | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: 'SYAC' over 0 sub-file(s). |
+| dl_rom/child_r_eng.srl | 0 | SYAC | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: 'SYAC' over 0 sub-file(s). |
+| dl_rom/icon_b.char | 0 | 0xdddddddd | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: '0xdddddddd' over 0 sub-file(s). |
+| dl_rom/icon_b.plt | 0 | 0x736eda31 | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: '0x736eda31' over 0 sub-file(s). |
+| dl_rom/icon_w.char | 0 | UUUU | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: 'UUUU' over 0 sub-file(s). |
+| dl_rom/icon_w.plt | 0 | 1FQ! | unknown | none | none | No decoder. Category guess: unknown raw format. Dominant magic: '1FQ!' over 0 sub-file(s). |
+| dwc/utility.bin | 0 | 0x10000000 | custom format, no decoder | none | none | No decoder. Category guess: single compressed blob (guess: font/graphic). Dominant magic: '0x10000000' over 0 sub-file(s). |
+| gfl_font.dat | 0 | 0x10000000 | custom format, no decoder | none | none | No decoder. Category guess: single compressed blob (guess: font/graphic). Dominant magic: '0x10000000' over 0 sub-file(s). |
+| skb.narc | 6 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| soundstatus.narc | 4 | NSCR (screen/map) | generic format, verified | background.py | verified | NSCR sub-files covered by background.py --verify (188/188 byte-identical across its 20 covered archives). |
+| titledemo.narc | 20 | NCLR (palette) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
+| wb_sound_data.sdat | 0 | SDAT (sound archive) | covered and verified | sdat.py, swav.py, sbnk.py, sseq.py, sseq2midi.py, sseqsynth.py | verified | SDAT sound archive (51.5 MB, 3874 FAT entries: 886 SSEQ + 1494 SBNK + 1494 SWAR). Cries located as BANK/WAVARC entries 1-650. SWAV: 650/650 PCM8 + 5400/5400 IMA-ADPCM round-trip byte-identical. SBNK: 1497/1497 real banks round-trip byte-identical (region-table layout corrected and re-verified 100% plausible). SSEQ: 940/940 populated sequences round-trip byte-identical (RAW-fallback-guaranteed; ~98.6% average genuine-opcode coverage). SSEQ->MIDI and a sample-accurate SSEQ synth both render real audio for spot-checked tracks. |
+
+### Uncovered archives, grouped
+
+Every archive with no decoder (`generic-unverified`, `custom-undecoded`, `unknown`), with the best identification available from magic, size and (where present) BTNF names -- see "BTNF name table results" above for why names are almost never available (1 of 54054 sub-files in the whole ROM carries one).
+
+#### Generic format, needs only verification
+
+Dominant sub-file magic is a standard NITRO/G3D chunk; no archive-wide round-trip has been run against these specific archives yet (verifying likely just means extending `background.py`'s covered-archive list, or writing an NCGR/NCLR-only round-trip sweep analogous to it -- no new pixel-format decoder should be needed).
+
+| path | subs | dominant magic | category guess |
+|---|---:|---|---|
+| a/0/0/0 | 5 | NCGR (tile/character data) | small sprite/icon set (guess) |
+| a/0/0/5 | 13 | NCGR (tile/character data) | small sprite/icon set (guess) |
+| a/0/2/2 | 3 | NCLR (palette) | map/tileset graphics (guess) |
+| a/0/2/6 | 15 | NCLR (palette) | small sprite/icon set (guess) |
+| a/0/2/7 | 17 | NCGR (tile/character data) | small sprite/icon set (guess) |
+| a/0/2/8 | 17 | NCLR (palette) | small sprite/icon set (guess) |
+| a/0/3/0 | 35 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/3/3 | 33 | NCLR (palette) | trainer/item/UI sprites (guess) |
+| a/0/3/5 | 16 | NCLR (palette) | small sprite/icon set (guess) |
+| a/0/4/0 | 53 | NCLR (palette) | 3D model/texture data (guess) |
+| a/0/4/1 | 33 | NCLR (palette) | map/tileset graphics (guess) |
+| a/0/4/3 | 47 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/4/4 | 12 | NCLR (palette) | small sprite/icon set (guess) |
+| a/0/4/6 | 27 | NCGR (tile/character data) | 3D model/texture data (guess) |
+| a/0/5/0 | 2 | NCLR (palette) | small sprite/icon set (guess) |
+| a/0/5/1 | 9 | NCER (cell bank) | small sprite/icon set (guess) |
+| a/0/5/4 | 11 | NCGR (tile/character data) | small sprite/icon set (guess) |
+| a/0/5/5 | 29 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/5/6 | 44 | NCGR (tile/character data) | 3D model/texture data (guess) |
+| a/0/5/9 | 18 | NCLR (palette) | small sprite/icon set (guess) |
+| a/0/6/3 | 17 | NSCR (screen/map) | small sprite/icon set (guess) |
+| a/0/6/5 | 2 | NCGR (tile/character data) | small sprite/icon set (guess) |
+| a/0/6/8 | 3 | NCGR (tile/character data) | map/tileset graphics (guess) |
+| a/0/6/9 | 29 | NSBTA (texture SRT animation) | scripts/data tables (guess) |
+| a/0/7/1 | 39 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/7/6 | 29 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/7/8 | 179 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/8/3 | 172 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/8/4 | 4 | NCLR (palette) | map/tileset graphics (guess) |
+| a/0/8/5 | 21 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/8/8 | 40 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/8/9 | 24 | NCGR (tile/character data) | 3D model/texture data (guess) |
+| a/0/9/4 | 53 | NCGR (tile/character data) | 3D model/texture data (guess) |
+| a/0/9/5 | 165 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/0/9/6 | 42 | NCLR (palette) | trainer/item/UI sprites (guess) |
+| a/1/0/3 | 64 | NSBCA (animation) | 3D model/texture data (guess) |
+| a/1/0/4 | 13 | NSBCA (animation) | 3D model/texture data (guess) |
+| a/1/0/6 | 20 | NCLR (palette) | trainer/item/UI sprites (guess) |
+| a/1/0/7 | 39 | NSBTA (texture SRT animation) | 3D model/texture data (guess) |
+| a/1/1/6 | 79 | NCLR (palette) | trainer/item/UI sprites (guess) |
+| a/1/1/8 | 11 | NSCR (screen/map) | small sprite/icon set (guess) |
+| a/1/2/0 | 5 | NCGR (tile/character data) | map/tileset graphics (guess) |
+| a/1/2/4 | 29 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/1/2/8 | 8 | NCLR (palette) | small sprite/icon set (guess) |
+| a/1/2/9 | 12 | NSBCA (animation) | 3D model/texture data (guess) |
+| a/1/3/0 | 36 | NSBTP (texture pattern animation) | 3D model/texture data (guess) |
+| a/1/3/1 | 69 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/1/3/3 | 12 | NSCR (screen/map) | small sprite/icon set (guess) |
+| a/1/3/5 | 28 | NSBCA (animation) | 3D model/texture data (guess) |
+| a/1/3/7 | 108 | NCLR (palette) | trainer/item/UI sprites (guess) |
+| a/1/3/8 | 8 | NSBTA (texture SRT animation) | 3D model/texture data (guess) |
+| a/1/3/9 | 12 | NCLR (palette) | map/tileset graphics (guess) |
+| a/1/4/0 | 7 | NCLR (palette) | sound (SDAT archive) |
+| a/1/4/1 | 14 | NCLR (palette) | small sprite/icon set (guess) |
+| a/1/4/5 | 8 | NCLR (palette) | map/tileset graphics (guess) |
+| a/1/5/1 | 12 | NCLR (palette) | map/tileset graphics (guess) |
+| a/1/5/3 | 9 | NSBCA (animation) | 3D model/texture data (guess) |
+| a/1/5/5 | 48 | NCLR (palette) | trainer/item/UI sprites (guess) |
+| a/1/5/7 | 26 | NSBTA (texture SRT animation) | 3D model/texture data (guess) |
+| a/1/6/2 | 19 | NSBCA (animation) | 3D model/texture data (guess) |
+| a/1/6/4 | 5 | NCGR (tile/character data) | map/tileset graphics (guess) |
+| a/1/7/0 | 37 | NCLR (palette) | 3D model/texture data (guess) |
+| a/1/7/2 | 27 | NCLR (palette) | trainer/item/UI sprites (guess) |
+| a/1/7/3 | 35 | NCGR (tile/character data) | trainer/item/UI sprites (guess) |
+| a/1/8/1 | 35 | NSBCA (animation) | 3D model/texture data (guess) |
+| a/1/8/2 | 11 | NCGR (tile/character data) | 3D model/texture data (guess) |
+| a/1/8/4 | 17 | NCLR (palette) | small sprite/icon set (guess) |
+| a/1/8/7 | 12 | NCLR (palette) | map/tileset graphics (guess) |
+| a/1/8/9 | 11 | NCGR (tile/character data) | 3D model/texture data (guess) |
+| a/1/9/1 | 9 | NCGR (tile/character data) | small sprite/icon set (guess) |
+| a/1/9/5 | 14 | NCGR (tile/character data) | small sprite/icon set (guess) |
+| a/1/9/6 | 7 | NCLR (palette) | small sprite/icon set (guess) |
+| a/1/9/9 | 11 | NCLR (palette) | small sprite/icon set (guess) |
+| a/2/0/0 | 3 | NCGR (tile/character data) | map/tileset graphics (guess) |
+| a/2/0/1 | 8 | NCLR (palette) | small sprite/icon set (guess) |
+| a/2/0/2 | 10 | NCLR (palette) | small sprite/icon set (guess) |
+| a/2/0/5 | 40 | NCLR (palette) | 3D model/texture data (guess) |
+| a/2/1/6 | 52 | NCLR (palette) | trainer/item/UI sprites (guess) |
+| a/2/1/9 | 10 | NSBTP (texture pattern animation) | 3D model/texture data (guess) |
+| a/2/3/4 | 3 | NCLR (palette) | map/tileset graphics (guess) |
+| skb.narc | 6 | NCGR (tile/character data) | map/tileset graphics (guess) |
+| titledemo.narc | 20 | NCLR (palette) | 3D model/texture data (guess) |
+
+#### Custom format, no decoder
+
+Dominant sub-file magic is not a recognised NITRO chunk. Most of these are the small, fixed-size-record "scripts/data tables (guess)" archives the inventory already flagged; a handful are the larger "text banks (guess)" archives whose candidacy as real text was never confirmed (the real text archive is `a/0/0/2`, see "Text banks" above).
+
+| path | subs | dominant magic | category guess |
+|---|---:|---|---|
+| a/0/1/0 | 1 | 0x00000000 | scripts/data tables (guess) |
+| a/0/1/5 | 5 | 0x00008410 | scripts/data tables (guess) |
+| a/0/1/7 | 8 | 0x00000000 | scripts/data tables (guess) |
+| a/0/2/0 | 650 | 0x8500 | text banks (guess) |
+| a/0/3/6 | 14 | 0x11240800 | small sprite/icon set (guess) |
+| a/0/3/7 | 1 | 0x3019080f | scripts/data tables (guess) |
+| a/0/3/8 | 1 | 0x03090200 | scripts/data tables (guess) |
+| a/0/3/9 | 18 | 0x11240800 | small sprite/icon set (guess) |
+| a/0/4/2 | 1 | 0xc4030000 | scripts/data tables (guess) |
+| a/0/4/7 | 80 | 0x38000000 | 3D model/texture data (guess) |
+| a/0/4/8 | 1 | 0x1f030000 | scripts/data tables (guess) |
+| a/0/5/3 | 19 | 0x00000000 | scripts/data tables (guess) |
+| a/0/5/7 | 899 | 0x00000000 | text banks (guess) |
+| a/0/5/8 | 17 | 0x1a000e00 | scripts/data tables (guess) |
+| a/0/6/0 | 1 | 0xed000000 | scripts/data tables (guess) |
+| a/0/6/1 | 56 | 0x04000000 | scripts/data tables (guess) |
+| a/0/6/2 | 10 | 0x04000000 | scripts/data tables (guess) |
+| a/0/6/7 | 98 | 0x01000000 | scripts/data tables (guess) |
+| a/0/7/0 | 6 | 0x01000000 | scripts/data tables (guess) |
+| a/0/7/9 | 34 | 0x524c0500 | scripts/data tables (guess) |
+| a/0/8/0 | 1 | 0x98a30000 | scripts/data tables (guess) |
+| a/0/8/1 | 14 | 0x9f7f0000 | scripts/data tables (guess) |
+| a/0/8/2 | 2 | 0x04000000 | scripts/data tables (guess) |
+| a/0/8/6 | 1 | 0x85010100 | scripts/data tables (guess) |
+| a/0/8/7 | 1 | 0x23fb0307 | scripts/data tables (guess) |
+| a/0/9/0 | 1 | 0x01000000 | scripts/data tables (guess) |
+| a/0/9/1 | 1 | 0x00000000 | scripts/data tables (guess) |
+| a/0/9/7 | 2 | 0x00000000 | scripts/data tables (guess) |
+| a/0/9/8 | 10 | 0x01000200 | scripts/data tables (guess) |
+| a/0/9/9 | 17 | 0x10240100 | small sprite/icon set (guess) |
+| a/1/0/1 | 1 | 0xf9000000 | scripts/data tables (guess) |
+| a/1/0/5 | 29 | 0x00000106 | scripts/data tables (guess) |
+| a/1/0/8 | 282 | 0x01000000 | scripts/data tables (guess) |
+| a/1/0/9 | 17 | 0x05000000 | scripts/data tables (guess) |
+| a/1/1/1 | 6 | 0x00501428 | scripts/data tables (guess) |
+| a/1/1/2 | 6 | 0x03145028 | scripts/data tables (guess) |
+| a/1/1/3 | 6 | 0x01282850 | scripts/data tables (guess) |
+| a/1/1/4 | 6 | 0x02282814 | scripts/data tables (guess) |
+| a/1/1/7 | 53 | 0x08000000 | scripts/data tables (guess) |
+| a/1/1/9 | 9 | 0x0d000500 | scripts/data tables (guess) |
+| a/1/2/1 | 23 | 0x50000000 | 3D model/texture data (guess) |
+| a/1/2/3 | 650 | 0x0000 | text banks (guess) |
+| a/1/2/5 | 428 | 0x60000000 | scripts/data tables (guess) |
+| a/1/2/7 | 7 | 0xc4090000 | 3D model/texture data (guess) |
+| a/1/3/2 | 5 | 0x10000000 | scripts/data tables (guess) |
+| a/1/3/6 | 31 | 0xd6007f06 | scripts/data tables (guess) |
+| a/1/4/6 | 10 | 0x98000000 | scripts/data tables (guess) |
+| a/1/4/7 | 3 | 0x2b040000 | scripts/data tables (guess) |
+| a/1/4/8 | 18 | 0xe8030000 | 3D model/texture data (guess) |
+| a/1/4/9 | 1 | 0x44010000 | scripts/data tables (guess) |
+| a/1/5/2 | 3 | 0x01000000 | scripts/data tables (guess) |
+| a/1/5/4 | 37 | 0x0c000200 | scripts/data tables (guess) |
+| a/1/5/6 | 46 | 0x0400080c | scripts/data tables (guess) |
+| a/1/5/8 | 5 | 0x01000100 | scripts/data tables (guess) |
+| a/1/6/3 | 7 | 0xfa2000d5 | scripts/data tables (guess) |
+| a/1/6/5 | 13 | 0x00000000 | scripts/data tables (guess) |
+| a/1/6/6 | 9 | 0x00000000 | scripts/data tables (guess) |
+| a/1/6/8 | 315 | 0x55002300 | scripts/data tables (guess) |
+| a/1/6/9 | 951 | 0x41005e00 | text banks (guess) |
+| a/1/7/1 | 14 | 0x51005007 | scripts/data tables (guess) |
+| a/1/7/4 | 24 | 0x5c000000 | scripts/data tables (guess) |
+| a/1/7/5 | 2 | 0x00000000 | scripts/data tables (guess) |
+| a/1/7/8 | 649 | 0x01010000 | text banks (guess) |
+| a/1/7/9 | 50 | 0x07000000 | scripts/data tables (guess) |
+| a/1/8/5 | 2 | 0x1f040000 | scripts/data tables (guess) |
+| a/1/8/6 | 7 | 0x37005a00 | scripts/data tables (guess) |
+| a/1/9/4 | 652 | 0x10296e00 | text banks (guess) |
+| a/1/9/8 | 1 | 0x10400400 | scripts/data tables (guess) |
+| a/2/0/3 | 4 | 0x78000000 | scripts/data tables (guess) |
+| a/2/0/8 | 4 | 0x44020000 | scripts/data tables (guess) |
+| a/2/0/9 | 1 | 0x00000100 | scripts/data tables (guess) |
+| a/2/1/1 | 1 | 0x01000200 | scripts/data tables (guess) |
+| a/2/1/2 | 2 | RIFF | scripts/data tables (guess) |
+| a/2/1/4 | 1000 | 0x00000000 | text banks (guess) |
+| a/2/1/5 | 315 | 0x3d005800 | scripts/data tables (guess) |
+| a/2/2/0 | 13 | 0x00000000 | 3D model/texture data (guess) |
+| a/2/2/1 | 7 | 0x411673ec | scripts/data tables (guess) |
+| a/2/2/4 | 4 | 0xffff0000 | scripts/data tables (guess) |
+| a/2/2/5 | 151 | 0x11000002 | scripts/data tables (guess) |
+| a/2/2/6 | 174 | 0x11000002 | scripts/data tables (guess) |
+| a/2/2/7 | 1 | 0x000a1020 | scripts/data tables (guess) |
+| a/2/2/9 | 52 | 0x41423a00 | scripts/data tables (guess) |
+| a/2/3/0 | 64 | 0x41424c00 | scripts/data tables (guess) |
+| a/2/3/1 | 73 | 0x10008001 | scripts/data tables (guess) |
+| a/2/3/2 | 1 | 0x00010101 | scripts/data tables (guess) |
+| a/2/3/3 | 2 | 0x10300100 | scripts/data tables (guess) |
+| dwc/utility.bin | 0 | 0x10000000 | single compressed blob (guess: font/graphic) |
+| gfl_font.dat | 0 | 0x10000000 | single compressed blob (guess: font/graphic) |
+
+#### Unknown
+
+The inventory's own heuristic could not produce even a category guess for these (`category_guess` is `unknown` or `unknown raw format`).
+
+| path | subs | dominant magic | category guess |
+|---|---:|---|---|
+| a/0/1/3 | 0 | 0x00000000 | unknown raw format |
+| a/0/2/3 | 8 | NFTR variant (font, guess) | unknown |
+| a/1/0/0 | 20 | 0x10240600 | unknown |
+| a/1/6/1 | 5 | 0x10240600 | unknown |
+| a/1/8/0 | 44 | 0x10402000 | unknown |
+| a/2/1/3 | 8 | 0x11240600 | unknown |
+| dl_rom/child2_r_eng.srl | 0 | SYAC | unknown raw format |
+| dl_rom/child_r_eng.srl | 0 | SYAC | unknown raw format |
+| dl_rom/icon_b.char | 0 | 0xdddddddd | unknown raw format |
+| dl_rom/icon_b.plt | 0 | 0x736eda31 | unknown raw format |
+| dl_rom/icon_w.char | 0 | UUUU | unknown raw format |
+| dl_rom/icon_w.plt | 0 | 1FQ! | unknown raw format |
+
