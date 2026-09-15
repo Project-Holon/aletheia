@@ -157,10 +157,19 @@ CLI
         parse_0666/pack_0666 and diffs against the original byte-for-byte.
 
     python tools/assets/btleff.py --check
-        Runs the --disasm sweep over every group of every sub-file in both
-        archives and reports the fraction that end cleanly: on the
-        terminator opcode (77) with its (zero) operand fully inside the
-        group, or by exhausting the group's bytes exactly (pos == len).
+        Runs the LINEAR --disasm sweep (no jump following) over every
+        group of every sub-file in both archives and reports the fraction
+        that end cleanly: on the terminator opcode (77) with its (zero)
+        operand fully inside the group, or by exhausting the group's
+        bytes exactly (pos == len).
+
+    python tools/assets/btleff.py --flow [--archive {0666,0667,both}]
+        Flow-FOLLOWING statistic (worklist disassembler): starts at each
+        group's entry point (offset 0) and follows every jump (60, 61, 72,
+        74) target it can compute, marking every reached byte. Reports,
+        per archive and combined: the fraction of groups with zero
+        undefined-opcode reaches, the fraction fully clean, and total
+        reachable/gap byte counts.
 """
 
 import argparse
@@ -185,6 +194,19 @@ STOP_OPCODES = {77}
 CALL_OPCODES = {70}
 RETURN_OPCODES = {71}
 JUMP_OPCODES = {60, 61, 72, 74}
+# Split for flow-following: 60/61 are compare-then-jump (func_021FBDD4's
+# comparator gates the sub_020113B0 call; the handler falls through with a
+# plain return if the comparison fails -- see loc_021FBE26/loc_021FBE58 in
+# ov094.s), so both the jump target and the fallthrough are reachable.
+# 72 is a plain, unconditional jump (func_021FC334 calls sub_020113B0
+# straight after its one fetch, no comparison) -- no fallthrough. 74 was
+# not read to the same depth this pass (its handler computes an index into
+# a side table before reaching its own sub_020113B0 call further down);
+# it is grouped with 72 on the strength of the shared "one fetch, one
+# jump" opcode shape, but this is not independently confirmed the way 60/
+# 61/72 are -- see docs/ASSETS.md's note on this pass for the caveat.
+COND_JUMP_OPCODES = {60, 61}
+UNCOND_JUMP_OPCODES = {72, 74}
 
 # Total operand bytes per opcode (the opcode's own u16 excluded), read off
 # each handler's own fetch calls to func_0201134C (u32 fetch) -- see the
@@ -266,6 +288,121 @@ def sweep(payload):
             r.end_reason = "stop"
             r.end_pos = pos
             return r
+
+
+# ---------------------------------------------------------------------------
+# Flow-following reachability (worklist disassembler)
+# ---------------------------------------------------------------------------
+#
+# Jump/call target arithmetic (confirmed by reading the actual handlers in
+# asm/overlays/ov094.s, same vm.c engine as the field VM -- see
+# scripts.py's compute_reachability for the field-VM side and
+# docs/ASSETS.md's note on this pass):
+#
+#   JUMP_OPCODES (60, 61, 72, 74): target = pos_after_operand + s32, where
+#       the s32 is the LAST u32 word of the operand block (confirmed for
+#       60/61, whose handlers fetch several u32s and only the final one
+#       feeds the jump; for 72, the single 4-byte operand IS both the
+#       first and last word). sub_020113B0(vm, target) stores directly to
+#       vm->pc, no call-history push. 60/61 are compare-then-jump: the
+#       comparator (func_021FBDD4) gates the jump, and the handler returns
+#       normally (pc untouched) if the comparison fails -- both the target
+#       AND the fallthrough are reachable (COND_JUMP_OPCODES). 72 is
+#       unconditional (confirmed: no comparison before its
+#       sub_020113B0 call) -- target only, no fallthrough. 74 is grouped
+#       with 72 by opcode shape (one fetch, one eventual jump) but was not
+#       independently confirmed unconditional to the same depth; treated
+#       as unconditional here, flagged as a residual assumption in
+#       docs/ASSETS.md.
+#   CALL_OPCODES (70): reads `a/0/6/7[computed member]`'s own group-0
+#       payload (offset 4 off the loaded sub-file, the same "+4 = payload
+#       start" convention as this file's own container framing) and calls
+#       func_020113B4(vm, that pointer) -- the target lives in a DIFFERENT
+#       archive's byte buffer, not an offset within the calling group's
+#       own payload, so it cannot be represented as a byte position in
+#       `raw`. This sweep does not cross archives: a call op consumes its
+#       operand and flow continues at the fallthrough (the call returns),
+#       and `a/0/6/7`'s own groups are swept as their own entry points
+#       when --flow is run against that archive -- the two archives'
+#       reachability are reported separately, not merged.
+#   RETURN_OPCODES (71): func_020113C4 pops the call-history ring -- a
+#       real but dynamic target, not statically known. No fallthrough.
+#   STOP_OPCODES (77): sub_02011290 stops the VM. No fallthrough.
+
+
+def _read_s32(payload, pos):
+    return struct.unpack_from("<i", payload, pos)[0]
+
+
+def compute_reachability(payload, max_steps=50000):
+    """Worklist flow-following sweep of one group's payload bytes.
+    Entry point is always offset 0 (a group has exactly one, the payload
+    start `func_021F94F8` jumps to). Returns a dict: reachable (bytearray),
+    undefined_hits (list of (pos, opcode)), short_hits (list of pos)."""
+    n = len(payload)
+    reachable = bytearray(n)
+    undefined_hits = []
+    short_hits = []
+    worklist = [0]
+    visited_starts = set()
+    steps = 0
+
+    while worklist:
+        start = worklist.pop()
+        if start in visited_starts or start < 0 or start >= n:
+            continue
+        visited_starts.add(start)
+        pos = start
+        while True:
+            steps += 1
+            if steps > max_steps:
+                break
+            if pos == n:
+                break
+            if pos + 2 > n:
+                short_hits.append(pos)
+                break
+            opcode = struct.unpack_from("<H", payload, pos)[0]
+            op_start = pos
+            pos += 2
+            if opcode not in OPERAND_WIDTH:
+                for i in range(op_start, min(op_start + 2, n)):
+                    reachable[i] = 1
+                undefined_hits.append((op_start, opcode))
+                break
+            width = OPERAND_WIDTH[opcode]
+            if pos + width > n:
+                for i in range(op_start, pos):
+                    reachable[i] = 1
+                short_hits.append(op_start)
+                break
+            for i in range(op_start, pos + width):
+                reachable[i] = 1
+            operand = payload[pos:pos + width]
+            pos_after = pos + width
+            pos = pos_after
+
+            if opcode in STOP_OPCODES:
+                break
+            if opcode in RETURN_OPCODES:
+                break
+            if opcode in CALL_OPCODES:
+                continue  # fallthrough only -- see module docstring
+            if opcode in JUMP_OPCODES and width >= 4:
+                rel = _read_s32(operand, width - 4)
+                target = pos_after + rel
+                worklist.append(target)
+                if opcode in COND_JUMP_OPCODES:
+                    continue  # both target and fallthrough reachable
+                break  # unconditional: no fallthrough
+            # everything else: ordinary fixed-width instruction, keep going
+            continue
+
+    return {
+        "reachable": reachable,
+        "undefined_hits": undefined_hits,
+        "short_hits": short_hits,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -366,6 +503,56 @@ def cmd_check(args):
     print(f"clean (stop or exact_end): {clean}/{total_groups} ({pct:.1f}%)")
 
 
+def cmd_flow(args):
+    """Flow-following statistic, per archive and combined: for every
+    group, sweep from its (single) entry point following jump targets,
+    then report the fraction of groups with zero undefined-opcode reaches
+    and no truncated-operand hit, plus reachable/gap byte totals. Gaps are
+    payload bytes never marked reachable by any followed path -- most are
+    expected to be the untaken side of a conditional jump (60/61) or a
+    group whose real entry is one of the other 13 (unread) redundant slot
+    words this pass, like the two before it, did not find a caller for."""
+    combined_total = 0
+    combined_clean = 0
+    for archive in ("0666", "0667"):
+        n = _load(archive)
+        total_groups = 0
+        clean_groups = 0
+        undefined_groups = 0
+        total_bytes = 0
+        reachable_bytes = 0
+        for i in range(n.file_count):
+            raw = n.read(i)
+            try:
+                parsed = events.parse_0666(raw)
+            except events.EventsError:
+                continue
+            for g in parsed["groups"]:
+                total_groups += 1
+                payload = g["payload"]
+                reach = compute_reachability(payload)
+                total_bytes += len(payload)
+                reachable_bytes += sum(reach["reachable"])
+                has_undefined = bool(reach["undefined_hits"])
+                if has_undefined:
+                    undefined_groups += 1
+                if not has_undefined and not reach["short_hits"]:
+                    clean_groups += 1
+        combined_total += total_groups
+        combined_clean += clean_groups
+        pct_clean = 100.0 * clean_groups / total_groups if total_groups else 0.0
+        pct_reach = 100.0 * reachable_bytes / total_bytes if total_bytes else 0.0
+        print(f"{_label(archive)}: {total_groups} groups")
+        print(f"  zero undefined-opcode reaches: "
+              f"{total_groups - undefined_groups}/{total_groups} "
+              f"({100.0 * (total_groups - undefined_groups) / total_groups:.1f}%)")
+        print(f"  clean (zero undefined reach, no truncated operand): "
+              f"{clean_groups}/{total_groups} ({pct_clean:.1f}%)")
+        print(f"  reachable bytes: {reachable_bytes}/{total_bytes} ({pct_reach:.1f}%)")
+    pct = 100.0 * combined_clean / combined_total if combined_total else 0.0
+    print(f"combined: {combined_clean}/{combined_total} groups clean ({pct:.1f}%)")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     g = ap.add_mutually_exclusive_group(required=True)
@@ -373,6 +560,9 @@ def main(argv=None):
     g.add_argument("--disasm", type=int, metavar="N")
     g.add_argument("--verify", action="store_true")
     g.add_argument("--check", action="store_true")
+    g.add_argument("--flow", action="store_true",
+                    help="flow-following reachability statistic (worklist "
+                         "disassembler, follows jump targets)")
     ap.add_argument("--archive", choices=["0666", "0667", "both"],
                      default="both")
     args = ap.parse_args(argv)
@@ -387,6 +577,8 @@ def main(argv=None):
         cmd_verify(args)
     elif args.check:
         cmd_check(args)
+    elif args.flow:
+        cmd_flow(args)
 
 
 if __name__ == "__main__":

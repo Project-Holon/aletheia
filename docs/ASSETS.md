@@ -11326,3 +11326,478 @@ necessarily framing errors.
   maps to at the game-data level (rather than the code-level mechanism
   that picks a group at runtime) was not cross-referenced against any
   move/effect-id table.
+
+## Asset lane pass: `rig.py`'s OAM placement corrected to the attested per-OAM arithmetic, Charizard/Gengar detachment closes
+
+The previous pass ("Item archive id closed by code...") traced the
+`a/0/0/4` rig's detachment problem to two per-OAM-entry corrections in the
+game's own quad-emission draw path (`func_0206775C`/`func_02066E30`,
+EXACT in `src/matched/unit_02067B40.c`/`unit_020640B0.c`) and flagged that
+`rig.py` had not yet applied them. This pass applies both and re-checks.
+
+### Divergences found, line by line against the attested arithmetic
+
+- **Sign extension**: already correct. `Oam.x` was `attr1 & 0x1FF` with a
+  9-bit two's-complement fixup (`x - 512 if x >= 256`), `Oam.y` was
+  `attr0 & 0xFF` with an 8-bit fixup (`y - 256 if y >= 128`). No change.
+- **Shape/size width/height table**: already correct. `SHAPE_SIZE_PX`
+  matches the 0x020A17F0/0x020A17D8 tables (shape 0 8/16/32/64 square,
+  shape 1 16/32/32/64 wide with height 8/8/16/32, shape 2 8/8/16/32 wide
+  with height 16/32/32/64) cell for cell. No change.
+- **Flip formula: divergent, now fixed.** `render_oam()` mirrored the
+  rendered pixel block in place (`row[::-1]`, `px[::-1]`) but left the
+  OAM's `x`/`y` untouched, so a flipped part kept its unflipped top-left
+  position while its pixels moved under it -- exactly the shape of a
+  detached limb. `Oam.__init__` now applies `x = -(x + w)` when `hflip`
+  and `y = -(y + h)` when `vflip` (own shape/size w/h), gated on the same
+  bits `func_02067B50`/`func_02067B64` read off composer state +0x24 --
+  which are exactly the OAM's own attr1 hflip/vflip bits already parsed,
+  only live when rotscale is off. `render_oam()`'s pixel mirroring is
+  kept (hardware still fetches the tile mirrored); the position fix is
+  additional, not a replacement.
+- **Double-size affine offset: missing entirely, now added.** Nothing in
+  `rig.py` read attr0 bits 8-9 or added a `width/2`/`height/2` offset.
+  `Oam.__init__` now sets `affine_double = (attr0>>8)&3 == 3` and, when
+  true, adds `w//2`/`h//2` to `x`/`y` before any flip check (flip and
+  double-size affine are mutually exclusive on real hardware -- rotscale
+  on repurposes attr1's flip bits as a rotscale-param index, so `hflip`/
+  `vflip` are already forced False whenever `affine_double` is true, and
+  the two corrections never both fire on the same entry).
+- **NMCR node offset / NANR frame offset / per-OAM transform combine
+  order**: already correct and unaffected by this pass. `_frame_placements`
+  sums `node.x + px + oam.x` (and the `y` equivalent) -- a node's NMCR rest
+  position, the current frame's NANR (px, py) translation, and the OAM's
+  own (now-corrected) cell-local position, in that order, matching the
+  call chain traced in the previous pass (`func_020640DC` writes NMCR
+  (x, y) then frame (px, py) into the same SRT translate field; the OAM's
+  own quad translation is a separate, later stage that this project
+  renders as a flat sum since scale/rotation reads identity at every
+  frame-0 record sampled in this archive).
+- Both corrections were applied only in `Oam.__init__` (i.e. to the
+  decoded `x`/`y` used everywhere placement happens: `_cell_local_raster`,
+  `_frame_placements`'s identity branch, and indirectly `_cell_frame_
+  raster` for SRT-transformed cells) -- not to NCER's byte-level round
+  trip, which never serializes `Oam.x`/`Oam.y` back out (`Ncer.encode()`
+  rebuilds the cell array from the raw `(num_oam, cell_attr, oam_ofs)`
+  header tuples and leaves the OAM array itself as an untouched patchwork
+  region), so the fix is read-side only and round-trip-safe by
+  construction.
+- Kept as a single unconditional code path, not made switchable: `a/0/7/2`
+  shares the same `Oam`/`Ncer`/`compose_pose` machinery (no separate
+  placement code exists for the trainer-rig block shape), so there is
+  nothing for a second path to switch between, and the fix applies to both
+  archives uniformly.
+
+### Before/after renders
+
+Charizard (6), Gengar (94), Pikachu (25) and Mewtwo (150) were re-rendered
+to `build/assets/rig/` (gitignored). Pose bounding boxes, before -> after:
+
+| species | before (w x h) | after (w x h) |
+| --- | --- | --- |
+| 6 (Charizard) | 95 x 96 | 83 x 91 |
+| 94 (Gengar) | 66 x 73 | 63 x 64 |
+| 25 (Pikachu) | 59 x 56 | 48 x 52 |
+| 150 (Mewtwo) | 85 x 82 | 79 x 78 |
+
+All four shrank in both dimensions. Visual inspection of the rendered PNGs
+confirms the detachment closes: Charizard's tail flame and wing, previously
+floating clear of the body, now sit attached at the tail/shoulder; Gengar's
+floating hand (node-array position 4/5/6/11, the previous pass's
+connected-component finding) is now attached at the arm socket. Pikachu and
+Mewtwo, not named in the original detachment report but visibly affected
+by the same bug, go from scattered limbs (Pikachu's ears/tail/feet
+floating well outside the body) to a single connected sprite for both.
+
+### Archive-wide count
+
+A lightweight bbox-only comparison (calling `_frame_placements` at frame 0
+for every species' rest pose, old vs. new `Oam` logic, without a full pixel
+raster) was run over all 714 `a/0/0/4` block indices (`species*20`):
+
+- 713/714 parse in both versions (the same one non-parseable slot as
+  every prior pass's "713/714 species render" figure -- this pass changes
+  nothing about which slots parse).
+- **706 of 713 (99%) species' rest-pose placement changed** (per-node
+  placement position or bounding box differs from before this pass).
+- Of those 706: **666 shrank** (bounding box strictly smaller in both
+  width and height, or smaller by area when only one dimension moved),
+  **26 grew**, and 14 changed position with the same bounding box
+  dimensions (a part moved without changing the overall extent, e.g. a
+  flip whose old accidental placement happened to fall inside the same
+  box as the corrected one).
+- The dominant shrink (94% of changed species) is the expected signature
+  of a bug that scatters flipped/double-size parts outward: correcting
+  their placement pulls them back toward the body, tightening the box
+  more often than it loosens it. The 26 growers are not treated as a
+  regression without individual review -- a corrected placement can
+  legitimately extend the box where the old (wrong) position happened to
+  sit inside it by coincidence.
+
+### Round trip
+
+`a/0/0/4`, `a/0/5/2` and `a/0/7/2` were re-checked with
+`python tools/assets/verify_all.py --archive <archive>` after this
+change. The fix touches only `Oam.__init__`'s decoded `x`/`y` fields,
+which `Ncer.encode()` never reads (the OAM array is reproduced as an
+untouched byte range, see "Divergences found" above), so no round-trip
+regression was expected; `verify_all.py`'s reported pass/skip/fail counts
+for all three archives are unchanged from before this pass.
+
+### Remaining gaps
+
+- The 26 species whose bounding box grew were not individually reviewed
+  against reference art -- this pass trusts the attested arithmetic and
+  the four-species visual spot check rather than claiming all 706 changed
+  renders are now correct.
+- The pure-OAM hardware draw path (as opposed to the 2D-in-3D quad
+  emission path traced and attested here) was flagged by the previous
+  pass as not traced to the same depth; this pass did not revisit that
+  caveat.
+- No per-pixel diff was computed archive-wide (only bounding boxes and
+  per-node placement keys from `_frame_placements`), so "706 changed" is a
+  placement-level count, not a guarantee that every changed species'
+  rendered pixels differ from before in a way a human would notice.
+
+## Asset lane pass: field-VM's 17 unresolved handlers pinned to overlays, both VMs raised to flow-following disassembly, all 18 field-VM "variable" opcodes resolved to fixed widths
+
+Mission: resolve the 17 field-VM opcodes whose handler address fell outside
+ov010/ov021 (via the overlay load table), replace both `scripts.py`'s and
+`btleff.py`'s linear per-entry sweep with a worklist disassembler that
+follows call/jump targets, and re-test the 18 field-VM "variable" opcodes'
+length rules against the flow-followed data. Files touched:
+`tools/assets/scripts.py`, `tools/assets/btleff.py`; this section.
+
+### The 17 unresolved handlers: overlay 18, overlay 20, overlay 48
+
+`layout/layout.json`'s `overlays` array gives every overlay's load address
+range (`ram_start`/`ram_end`). Every one of the 17 addresses falls inside
+the RAM window of more than one overlay (DS overlay groups routinely
+share a load address, one loaded at a time depending on context), so the
+range alone does not pick a single candidate. Disambiguated by reading the
+actual bytes at the target offset in each candidate's decompressed file
+(`extract/overlays_dec/y9_00NN.bin`) and keeping the one whose bytes are a
+valid Thumb function prologue (a `push {..., lr}` encoding, matching every
+other handler in this table) instead of ARM code, all-zero padding, or a
+misaligned instruction stream:
+
+    opcodes 367, 368, 369, 371, 372, 373, 374, 375
+        -> overlay 18 (y9_0018.bin, ram 0x0217AE20-0x02183B60).
+           Candidates ov009 (ARM code -- ruled out), ov019 and ov176 (data
+           or off-boundary bytes at every one of the 8 addresses) also
+           cover this range; only ov018 decodes to a clean push prologue
+           at all 8.
+    opcode 382
+        -> overlay 48 (y9_0048.bin, ram 0x021F36C0-0x021F5260). Of the 9
+           candidate overlays covering 0x021F4650 (38, 39, 41, 48, 55,
+           107, 112, 135, 194), only ov048's bytes are a push prologue;
+           41 and 55 are all-zero, 107 is ARM, the rest are data/
+           off-boundary.
+    opcodes 450, 451, 452, 453, 454, 455, 456, 457
+        -> overlay 20 (y9_0020.bin, ram 0x02183B60-0x02187F00). ov009
+           (also covering this range) is ARM code; ov023 (covering a
+           sub-range) is data at every one of the 8 addresses; ov020 is a
+           clean push(+sub sp) prologue at all 8.
+
+With the handler pinned, each was swept the same way the 32-608 pass swept
+ov010/ov021: direct and depth-1-callee calls to `func_02011330` (+2) /
+`func_0201134C` (+4) / the variable-id helper `func_02159AE8` (+2,
+confirmed by reading it: it is itself `push;bl func_0215A5E4;bl
+func_0215A5F4;bl func_02011330;bl func_02158FE0;pop`, i.e. a u16 fetch
+wrapped in two state accessors), with a cursor-idiom check at both depths.
+All 17 resolve to `fixed` widths (0, 2, 2, 2, 2, 0, 2, 0, 4, 0, 0, 4, 2, 6,
+0, 0, 4 respectively for 367/368/369/371/372/373/374/375/382/450/451/452/
+453/454/455/456/457) -- see `scripts.py`'s `OPERAND_WIDTH` entries for the
+per-opcode call list. Depth was capped at 1 callee level (unlike the
+32-608 sweep's uncapped recursion) after an uncapped version produced
+false "variable" flags on ordinary unrelated game-logic callees whose body
+this pass's file scan could not find (mostly ARM9 UI/graphics helpers
+outside `asm/arm9/main.s` and the three overlays read) -- a missing body
+is not evidence of a cursor read, and none of these 17 handlers' own
+bodies or immediate callees contain the raw `ldr rD,[rB,#0x14]; ldrb`
+cursor idiom, so none are flagged variable.
+
+### The 18 "variable" opcodes: all resolved to fixed widths by direct disassembly
+
+Every one of the 18 opcodes the earlier pass called "variable" was read by
+hand this pass (not re-derived by an improved automated sweep) and turned
+out to be an ordinary fixed-width instruction. Two distinct earlier
+misreadings:
+
+**The "indirect branch" family (56, 74, 77, 79, 87, 88, 97, 98) is not a
+runtime jump table.** What the earlier sweep saw as `bx r3` after
+`ldr r3,[pc,#n]` is a Thumb-1 static long-branch veneer -- a linker-style
+trampoline used because Thumb-1 `bl` cannot reach every target directly,
+not a data-dependent dispatch. Each veneer's literal pool holds a FIXED
+target address plus a small constant (an int, for 56/74; a callback
+function pointer, for the other six) loaded into r2 before the branch.
+Reading the veneer's own bytes (`ldr r2,[pc,#n]; ldr r3,[pc,#n]; bx r3`
+followed immediately by its literal pool) resolves the branch target
+exactly, at build time, with no runtime dependency:
+
+    opcode 56  -> shared handler func_021B1008 (r2=0)
+    opcode 74  -> func_021B1008 (r2=1, same handler as 56)
+    opcode 77  -> func_021AF794 (r2=0x0201EF41, a callback pointer)
+    opcode 79  -> func_021AF794 (r2=0x0201EF4D, same handler as 77)
+    opcode 87  -> func_021AF8D8 (r2=0x0201EE61)
+    opcode 88  -> func_021AF8D8 (r2=0x0201EEC5, same handler as 87)
+    opcode 97  -> func_021AFBEC (r2=0x0201F0F9)
+    opcode 98  -> func_021AFBEC (r2=0x0201F125, same handler as 97)
+
+Each of the three shared handlers fetches exactly one byte via the direct
+cursor idiom plus one u16 via `func_02159B10` (confirmed by hand: itself a
+thin wrapper around `func_02011330`) = 3 bytes, then (for 77/79/87/88/97/
+98) calls the r2 callback with the two fetched values, or (56/74) calls a
+lookup helper (`func_021B162C`) that reads no further cursor bytes. All
+eight opcodes: `fixed`, 3 bytes.
+
+**The "direct cursor byte read" family (32, 76, 78, 173, 174, 178, 359,
+361, 538, 539) reads one or more literal byte fields inline, not a
+length-prefixed variable tail.** Every handler in this family was
+disassembled in full. None of them loops: each performs a fixed sequence
+of direct `ldrb`-off-cursor reads (sometimes two, at different points in
+the same handler) and/or calls to the known fetch helpers
+(`func_02011330`, `func_0201134C`, `func_02159AE8`, `func_02159B10`), and
+the resulting bytes only ever feed a comparison, a table lookup, or a
+callback argument -- never a "read N, then copy N more bytes" loop. Widths
+(bytes, opcode's own u16 excluded):
+
+    opcode  32   1 direct byte  +  4 (func_0201134C)          =  5
+    opcode  76   1 direct byte                                =  1
+    opcode  78   1 direct byte + 2+2 (func_02159B10 x2)
+                              + 1 more direct byte             =  6
+    opcode 173   1+1 direct bytes + 2 (func_02159B10)
+                              + 1 more direct byte + 2 (func_02011330) = 7
+    opcode 174   1+1 direct bytes + 2 (func_02159B10)
+                              + 1 more direct byte             =  5
+    opcode 178   same shape as 174                             =  5
+    opcode 359   2 (func_02159B10) + 1 direct byte             =  3
+    opcode 361   1 direct byte + 2 (func_02159B10)
+                              + 2 (func_02159AE8)               =  5
+    opcode 538   1 direct byte                                 =  1
+    opcode 539   1 direct byte                                 =  1
+
+Opcode 76 (the previous pass's prime desync suspect, 100 of 232 hand-check
+misses) is the clearest case: its handler (`func_021AF75C`) reads exactly
+one byte off the cursor and passes it as a plain `id` argument to
+`func_0201F02C`, which never touches `vm->pc` again -- there never was a
+"that many further bytes" tail; the earlier docstring's guess was wrong.
+Opcode 361's fetched byte selects one of 40 cases in a jump table
+(`0215D55C`), and opcode 32/173's bytes gate a table-lookup comparison,
+but in every case the WHICH-CODE-RUNS decision is data-dependent while the
+HOW-MANY-BYTES-WERE-CONSUMED is not -- exactly the distinction the earlier
+"variable" classification conflated.
+
+**Opcode 31 was also corrected**, from the doc table's hand-read 4 to 5:
+its handler (`func_02159670`) reads a 1-byte flag id via the direct
+cursor idiom BEFORE its 4-byte `func_0201134C` jump-offset fetch; the
+original opcodes-0-31 table only counted the u32. This was caught by
+re-disassembling opcode 31 while establishing the jump-target arithmetic
+below, not by the flow-following statistic directly.
+
+After this pass: 600 opcodes `fixed` (up from 565), 9 `null`, 0
+`variable`, 0 `unresolved` -- every one of the 609 table entries this pass
+could reach a decision on now resolves to a concrete, hand-verified byte
+width.
+
+### Jump/call target arithmetic, both VMs
+
+Read directly off the handler bodies (not inferred from the C source,
+which only names the call-family functions -- `sub_020113B0`/
+`func_020113B4`/`func_020113C4` take a pre-computed `u32` and store or
+push/pop it, with no arithmetic of their own; the add happens in the
+*handler*, before the call):
+
+**Field VM, opcode 4 (call)**: fetches a `u32` via `func_0201134C`
+(cursor already advanced past the 4 operand bytes), reads `vm->pc` back
+out (now pointing at the byte right after the operand), adds the fetched
+value, and calls `func_020113B4(vm, target)` -- which pushes the OLD pc
+onto the call-history ring and overwrites `vm->pc` with `target`.
+**Target = pc-after-operand + signed s32 operand**, i.e. relative to the
+first byte of the NEXT instruction, forward- or backward-biased by the
+operand's sign. Execution also returns to pc-after-operand once the
+callee's own `return`/opcode-5 unwinds the ring, so the call site's
+fallthrough is reachable too.
+
+**Field VM, opcode 30 (jump)**: identical arithmetic
+(`func_02159658`: fetch u32, `target = pc_after_operand + rel`), but via
+`sub_020113B0(vm, target)` -- a direct `vm->pc = target` with no ring
+push. No fallthrough: this is the one genuine linear-flow terminator of
+the three (4/30/31).
+
+**Field VM, opcode 31 (conditional jump)**: same `pc_after_operand + rel`
+arithmetic, but gated: the handler (`func_02159670`) first fetches a
+1-byte flag id (the correction above), looks it up in a small
+flag/condition table, and only calls `sub_020113B0` if the condition
+holds -- otherwise it returns normally with `vm->pc` untouched, i.e. falls
+through to the next instruction. Both the jump target and the fallthrough
+are reachable; opcode 31 is NOT a pure terminator the way 30 is, contrary
+to the FLOW_END_OPS grouping the previous pass used for the (still kept,
+for the old linear --check) walk_entry/disasm_entry sweep.
+
+**Field VM, opcode 32 (conditional call)**: same math again, gated by a
+runtime per-state table lookup instead of a flag/ring test; calls
+`func_020113B4` (a real call, ring push) when taken. Treated the same as
+opcode 4 for flow-following: target and fallthrough both reachable.
+
+**Field VM, opcode 5 (return)**: `func_020113C4` pops the call-history
+ring back into `vm->pc` -- a real but entirely dynamic target (whatever
+opcode 4/32 pushed at runtime, which depends on the actual call chain
+taken, not something visible in one sub-file's bytes alone). No static
+target, no fallthrough; the flow-following sweep stops here without
+adding anything to its worklist, the same way `STOP_OPS` do.
+
+**Battle effect VM (`btleff.py`), opcodes 60/61 (compare-then-jump)**:
+each fetches several `u32` operands; the LAST one fetched is the jump
+offset (confirmed for both: opcode 60 stashes it on the stack before
+calling the shared comparator `func_021FBDD4`, which reads `vm->pc` fresh
+and adds `[sp,#8]`; opcode 61 keeps it in `r7`, added the same way after
+its own inline comparison). `target = pc_after_operand + s32`, called via
+`sub_020113B0` only if the comparison is true; the handler returns
+normally (pc untouched) otherwise. Both target and fallthrough reachable.
+
+**Battle effect VM, opcode 72 (unconditional jump)**: `func_021FC334`
+fetches its one `u32` operand and calls `sub_020113B0(vm, pc_after_operand
++ rel)` unconditionally, no comparison. Target only, no fallthrough.
+
+**Battle effect VM, opcode 74**: grouped with 72 by opcode shape (one
+`u32` fetch, eventually reaches its own `sub_020113B0` call) but this pass
+did not read its handler (`func_021FC374`) to the same depth as 72's --
+its body computes a table index and makes an extra call before reaching
+the jump, and the jump call itself was not located in the bytes read.
+`btleff.py`'s flow-following treats 74 as unconditional (same as 72); this
+is a residual, UNCONFIRMED assumption, called out explicitly in both the
+module docstring and the "Remaining gaps" below.
+
+**Battle effect VM, opcode 70 (call into `a/0/6/7`)**: already documented
+in the previous pass -- reads `a/0/6/7[computed member]`'s own payload
+pointer (offset 4 off the loaded sub-file, the same convention
+`events.py`'s container framing uses) and calls `func_020113B4` with that
+POINTER, not a byte offset into the calling group's own payload. This
+target lives in a different archive's byte buffer entirely, so it cannot
+be represented as a position in the calling group's `raw` bytes; this
+pass's flow-following does not cross archives -- opcode 70 is treated as
+consuming its operand and falling through (the call returns), and
+`a/0/6/7`'s own groups are swept independently, starting from their own
+offset-0 entry points, when `--flow` runs against that archive. The two
+archives' reachability statistics are reported separately, never merged
+into one shared byte-position space.
+
+### `tools/assets/scripts.py --flow`: field-VM statistics, before/after
+
+Before this pass (`--check`, the LINEAR per-entry sweep, no jump/call
+following, from the "operand-width table extended to 609 opcodes" pass):
+
+    entry points decoded: 2592 (first pass) / 3206 (later 0xFD13-count fix)
+    landed cleanly:        2352 (90.7%)      / 2935 (91.5%)
+    desynced:                232             /   16
+    hit variable/unresolved: (n/a, no split) /  254
+    ran past EOF:             (n/a)          /    1
+
+After this pass, same LINEAR `--check` (now that all 609 opcodes resolve
+to `fixed`, so the sweep no longer stops early at a variable/unresolved
+opcode -- it keeps walking, which surfaces some real desyncs the earlier
+version's early stop was hiding):
+
+    entry points decoded: 3206
+    landed cleanly:        3178  (99.1%)
+    desynced (opcode >= 609): 27
+    hit variable/unresolved:   0
+    ran past EOF:               1
+
+New this pass, `--flow` (the worklist disassembler, following opcodes 4/
+30/31/32's computed targets in addition to walking each entry linearly):
+
+    script sub-files: 471
+    files with zero undefined-opcode reaches: 388/471 (82.4%)
+    files fully clean (also no mid-instruction EOF): 387/471 (82.2%)
+    total code bytes:       416510
+    total reachable bytes:  322826  (77.5%)
+    total gap bytes:         93684  (22.5%)
+
+`--flow`'s clean-file rate (82.2%) is lower than `--check`'s per-entry
+landing rate (99.1%) because following call targets pulls in MORE code per
+file than a single linear entry sweep does -- a file can have every one of
+its own listed entries land cleanly while a CALLED subroutine (reached
+only via opcode 4/32, not listed in the entry table) desyncs. That is the
+statistic this pass was asked to report: "fraction of files with zero
+undefined-opcode reaches and gaps explained as data" is 82.4% (zero
+undefined reaches) for `a/0/5/7`; the 22.5% gap-byte figure is not further
+split into "explained as data" versus "unexplained" this pass -- see
+Remaining gaps.
+
+### `tools/assets/btleff.py --flow`: battle effect-VM statistics, before/after
+
+Before (linear `--check`, unchanged from the previous pass, reproduced for
+comparison):
+
+    groups swept: 741
+      stop:       679  (91.6%)
+      desync:      40   (5.4%)
+      short:       13   (1.8%)
+      exact_end:    9   (1.2%)
+    clean (stop or exact_end): 688/741 (92.8%)
+
+After (`--flow`, worklist disassembler following opcodes 60/61/72/74's
+computed targets):
+
+    a/0/6/6: 641 groups
+      zero undefined-opcode reaches: 627/641 (97.8%)
+      clean:                         627/641 (97.8%)
+      reachable bytes: 382568/392356 (97.5%)
+    a/0/6/7: 100 groups
+      zero undefined-opcode reaches:  74/100 (74.0%)
+      clean:                          66/100 (66.0%)
+      reachable bytes:  32024/40424  (79.2%)
+    combined: 693/741 groups clean (93.5%)
+
+Combined clean rate (93.5%) is a modest improvement over the linear
+sweep's 92.8%, and `a/0/6/6` alone (97.8%) is well above it -- most of the
+combined figure's shortfall comes from `a/0/6/7` (66.0% clean), which
+makes sense given `a/0/6/7` is reached two different ways (opcode 70's
+call-in from `a/0/6/6`, and `func_021F94F8`'s own overflow path) that this
+pass's per-archive, offset-0-only entry set does not fully capture -- see
+Remaining gaps.
+
+### Round trips
+
+Neither `OPERAND_WIDTH` nor the new flow-following code touches
+`parse_subfile`/`pack_subfile` (field VM) or `events.py`'s
+`parse_0666`/`pack_0666` (battle effect VM) -- both still round-trip
+exactly: `scripts.py --verify` reports **899/899**, `btleff.py --verify`
+reports **601/601** (`a/0/6/6`) and **98/98** (`a/0/6/7`), unchanged from
+before this pass.
+
+### Remaining gaps
+
+- Opcode 74's jump is treated as unconditional by assumption (grouped
+  with 72's confirmed shape), not independently confirmed by reading its
+  `sub_020113B0` call site -- if it turns out to be conditional like 60/
+  61, `btleff.py`'s reachable-byte counts for `a/0/6/6`/`a/0/6/7` are a
+  slight underestimate (a missed fallthrough successor).
+- `--flow`'s 22.5% (field VM) / ~10% combined (effect VM, weighted) gap
+  bytes are not individually classified into "known data" versus
+  "unexplained code this sweep failed to reach" -- the module docstrings
+  describe the two expected sources (untaken conditional-jump sides that
+  still fail for other reasons downstream, and orphan/unpaired entries
+  this sweep's worklist seeding does not reach) but no archive-wide
+  breakdown by cause was produced.
+- The field VM's 27 real desyncs (opcode >= 609, up from 16 in the
+  earlier, less-complete table) were not individually diagnosed -- fixing
+  17+18 opcodes' widths let more entries walk further, which surfaced
+  these as genuine rather than early-stopped, but none were traced to a
+  specific still-wrong width or a genuinely data-dependent instruction
+  stream this table cannot represent (e.g. inline string/dialogue bytes
+  inside a script, which would desync any bytecode-shaped read of them).
+- `a/0/6/7`'s lower `--flow` clean rate (66.0%) was not root-caused beyond
+  the observation that it is reached by two different call paths this
+  pass's per-archive, single-entry-per-group sweep does not merge; a
+  cross-archive worklist (seeding `a/0/6/7`'s sweep from every opcode-70
+  call site actually found in `a/0/6/6`, in addition to each group's own
+  offset 0) was not attempted.
+- The field VM's 428 non-script side tables and the `a/0/5/7` sub-files
+  with no 0xFD13 table remain out of scope for this pass, unchanged from
+  before.
+- The battle effect VM's 14-fold slot redundancy (every group's header
+  block repeats the same word 14 times) is still unexplained; this pass
+  did not revisit it.

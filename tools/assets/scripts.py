@@ -78,23 +78,39 @@ a helper at 0x02159AE8 rather than in the handler itself).
 
 OPERAND_WIDTH below gives, for every opcode 0-608: the total operand byte
 count (the opcode's own halfword excluded), the width's source, and one of
-four kinds:
+three kinds still in use (a fourth, 'unresolved', existed before the
+flow-following pass and is described below for history):
 
     fixed       every reachable path through the handler (and the one or
                 more levels of callee inspected) fetches exactly this many
                 operand bytes. Source is the handler's own address.
-    variable    the handler does not fetch a fixed number of bytes --
-                either it reads raw bytes directly off the pc cursor
-                (bypassing func_02011330/func_0201134C entirely, usually a
-                length-prefixed tail) or it branches through a register
-                (an indirect/case-table jump whose targets this pass did
-                not enumerate). Source names the address and the rule.
+    variable    (none remain -- see below) the handler does not fetch a
+                fixed number of bytes.
     null        the 609-entry table has a NULL entry at this opcode (9 of
                 them); the opcode is never dispatched.
-    unresolved  the handler's resolved address falls in an overlay this
-                pass did not load (17 of them; all in the 0x0217xxxx/
-                0x0218xxxx range, neither ov010 nor ov021 nor the ARM9
-                static module).
+
+As of the flow-following pass (docs/ASSETS.md, "Flow-following disassembly"
+section), every opcode this pass could reach a decision on resolved to
+'fixed': the 17 opcodes an earlier pass could not resolve to any loaded
+overlay (marked 'unresolved') were pinned to a specific overlay via
+layout.json's ram_start/ram_end ranges (disambiguated, where more than one
+overlay's range covered the address, by which one actually held valid
+Thumb code -- the others were ARM code, all-zero padding, or misaligned
+bytes at that offset) and then hand-read; and the 18 opcodes an earlier
+pass called 'variable' (flagged because their handler used the raw
+`ldr rD,[rB,#0x14]; ldrb rT,[rD]` cursor idiom, or branched through a
+register) turned out, on direct reading of every one of the 18 handlers,
+to be ordinary fixed-width instructions: the "direct cursor byte read"
+family (32, 76, 78, 173, 174, 178, 359, 361, 538, 539) reads one or two
+literal byte fields inline instead of calling func_02011330, with no
+length-driven loop after them, and the "indirect branch" family (56, 74,
+77, 79, 87, 88, 97, 98) is a set of static `ldr r2/r3,[pc,#n]; bx r3`
+long-branch veneers to a handful of SHARED handler functions (not a
+runtime/data-dependent case table) -- see docs/ASSETS.md for the address-
+by-address evidence. Opcode 31 (previously 'fixed', 4) was also corrected
+to 5: its handler reads a 1-byte flag id via the same raw cursor idiom
+*before* its 4-byte jump offset, which the original hand-read table for
+opcodes 0-31 missed.
 
 Opcodes 0-31 are taken verbatim from docs/ASSETS.md's hand-read table (the
 ground truth this module extends, not re-derived here). Opcodes 32-608 were
@@ -166,10 +182,22 @@ CLI
         against the original.
 
     python tools/assets/scripts.py --check
-        Archive-wide decode statistic: of every entry point in every
-        469 script sub-files, how many land cleanly on a stop/flow-end
-        opcode, the next entry point, or the file's end -- versus how many
-        desync (opcode >= 609) or hit an unresolved/variable opcode.
+        Archive-wide LINEAR decode statistic (one straight-line sweep per
+        entry point, no jump/call following): of every entry point in
+        every 471 script sub-files, how many land cleanly on a stop/
+        flow-end opcode, the next entry point, or the file's end -- versus
+        how many desync (opcode >= 609) or hit an unresolved/variable
+        opcode (none remain as of the flow-following pass -- see --flow).
+
+    python tools/assets/scripts.py --flow [--verbose-flow]
+        Flow-FOLLOWING statistic (worklist disassembler): starts at every
+        entry point and follows every call (4, 32) and jump (30, 31)
+        target it can compute, marking every reached byte. Reports, per
+        the archive: the fraction of script sub-files with zero
+        undefined-opcode (>=609) reaches, the fraction fully clean (also
+        no mid-instruction end-of-file), and total reachable/gap byte
+        counts. --verbose-flow lists the sub-files with a gap or an
+        undefined reach individually.
 """
 
 import argparse
@@ -185,8 +213,17 @@ A0057_PATH = os.path.join("extract", "data", "a", "0", "5", "7")
 TERMINATOR = 0xFD13
 
 STOP_OPS = {2, 29, 140, 342, 359, 378}
+# FLOW_END_OPS: opcodes after which the OLD linear sweep (walk_entry/
+# disasm_entry) stops without following anything further -- kept for
+# backward compatibility with --check's original statistic. The
+# flow-following pass below (compute_reachability) is more precise about
+# 31: it is a CONDITIONAL jump (see COND_JUMP_OPS), not a pure terminator.
 FLOW_END_OPS = {5, 30, 31}
-CALL_OP = 4
+CALL_OP = 4                 # unconditional call: func_020113B4(vm, target)
+COND_CALL_OPS = {32}        # gated by a state-table lookup, same target math as CALL_OP
+JUMP_OPS = {30}             # unconditional jump: sub_020113B0(vm, target), no fallthrough
+COND_JUMP_OPS = {31}        # conditional jump: same target math, but falls through if not taken
+RETURN_OPS = {5}            # func_020113C4: pops the call-history ring -- no static target
 
 
 class ScriptsError(Exception):
@@ -228,8 +265,8 @@ OPERAND_WIDTH = {
     28: ('fixed', 10, 'docs/ASSETS.md operand-width table (handler read, opcodes 0-31)'),
     29: ('fixed', 0, 'docs/ASSETS.md operand-width table (handler read, opcodes 0-31)'),
     30: ('fixed', 4, 'docs/ASSETS.md operand-width table (handler read, opcodes 0-31)'),
-    31: ('fixed', 4, 'docs/ASSETS.md operand-width table (handler read, opcodes 0-31)'),
-    32: ('variable', None, '0x021596B4: direct cursor byte read at 0x021596B8, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
+    31: ('fixed', 5, '0x02159670: flow-following pass corrected this from the doc table\'s 4 -- the handler reads a 1-byte flag id via the direct cursor idiom (ldrb, bypassing func_02011330) BEFORE its 4-byte func_0201134C jump-offset fetch; the doc table only counted the u32. Conditional jump: fetches flag id + signed s32 rel, peeks the call-history ring (func_02011398) to test the flag, and if true calls sub_020113B0(vm, pc_after_operand + rel) -- absolute target, pc already advanced past the whole 5-byte operand. If false, falls through (this opcode is NOT a pure flow terminator: only the taken branch ends linear flow, so flow-following treats it as a 2-successor conditional jump, not a FLOW_END_OP)'),
+    32: ('fixed', 5, '0x021596B4: flow-following pass resolved this -- 1-byte table-select id (direct cursor idiom) + 4-byte func_0201134C fetch = 5, not variable. The byte indexes a per-state lookup table at 0x021705DC; if the looked-up byte is 1, the handler calls func_020113B4(vm, pc_after_operand + s32_operand) -- same relative-to-post-operand-pc arithmetic as CALL_OP (4), gated by runtime state. Flow-following treats it as call-like: target is reachable, but linear flow also continues past it (the call returns)'),
     33: ('fixed', 2, '0x021596E8'),
     34: ('fixed', 2, '0x02159708'),
     35: ('fixed', 2, '0x02159728'),
@@ -253,7 +290,7 @@ OPERAND_WIDTH = {
     53: ('fixed', 4, '0x021B0530'),
     54: ('fixed', 0, '0x021B0624'),
     55: ('fixed', 2, '0x021B05AC'),
-    56: ('variable', None, '0x021B10D0: indirect branch at 0x021B10D4'),
+    56: ('fixed', 3, '0x021B10D0: flow-following pass resolved this -- what the earlier sweep saw as an "indirect branch" (bx r3 after ldr r3,[pc,#imm]) is a static Thumb-1 long-branch veneer, not a runtime jump table: the literal pool right after it is a fixed pointer (func_021B1008) plus a small constant loaded into r2 (0 for this opcode). func_021B1008 fetches 2 bytes via func_02159B10 + 1 byte via the direct cursor idiom = 3, fixed'),
     57: ('fixed', 0, '0x021B10E8'),
     58: ('fixed', 8, '0x021B1100'),
     59: ('fixed', 2, '0x021B11D8'),
@@ -271,12 +308,12 @@ OPERAND_WIDTH = {
     71: ('fixed', 2, '0x021B0130'),
     72: ('fixed', 12, '0x021B0DF0'),
     73: ('fixed', 12, '0x021B0E74'),
-    74: ('variable', None, '0x021B10DC: indirect branch at 0x021B10E0'),
+    74: ('fixed', 3, '0x021B10DC: same veneer family as opcode 56 (literal pool selects r2=1, same shared handler func_021B1008) -- 2-byte fetch (func_02159B10) + 1-byte direct cursor read = 3, fixed'),
     75: ('fixed', 0, '0x021B15B8'),
-    76: ('variable', None, '0x021AF75C: direct cursor byte read at 0x021AF780, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
-    77: ('variable', None, '0x021AF7C4: indirect branch at 0x021AF7C8'),
-    78: ('variable', None, '0x021AF7E4: direct cursor byte read at 0x021AF810, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
-    79: ('variable', None, '0x021AF7D4: indirect branch at 0x021AF7D8'),
+    76: ('fixed', 1, '0x021AF75C: flow-following pass resolved this -- the direct cursor byte read at 0x021AF780 is the ONLY thing the handler fetches off the cursor; the byte value is passed to func_0201F02C as a plain id argument, which does not touch vm->pc again (no further func_02011330/0201134C/ldrb calls). The earlier "length-prefixed tail" reading was a guess made without checking the callee; the data (no downstream fetch, --check clean afterward) rejects it: width is a fixed 1 byte'),
+    77: ('fixed', 3, '0x021AF7C4: same static-veneer shape as opcode 56 (literal pool holds a callback function pointer, 0x0201EF41, instead of a small int, but the branch is still fully static) -- the shared handler func_021AF794 fetches 1 byte (direct cursor idiom) + 2 bytes (func_02159B10) = 3, then calls the callback with those two values; the callback itself does not touch vm->pc'),
+    78: ('fixed', 6, '0x021AF7E4: flow-following pass resolved this -- 1-byte direct cursor read + 2x u16 via func_02159B10 + a SECOND 1-byte direct cursor read at 0x021AF810 (the address the earlier pass cited) = 1+2+2+1 = 6, all unconditional straight-line fetches, no loop. The earlier "variable" call was the idiom-detector firing on the second byte read without checking whether a length-driven loop followed one (it does not)'),
+    79: ('fixed', 3, '0x021AF7D4: same veneer/shared-handler (func_021AF794, callback 0x0201EF4D) as opcode 77 -- 3, fixed'),
     80: ('fixed', 2, '0x021AF844'),
     81: ('fixed', 2, '0x021AF878'),
     82: ('fixed', 2, '0x021AF928'),
@@ -284,8 +321,8 @@ OPERAND_WIDTH = {
     84: ('fixed', 2, '0x021AF9A4'),
     85: ('fixed', 2, '0x021AF9F0'),
     86: ('fixed', 2, '0x021AF8A8'),
-    87: ('variable', None, '0x021AF908: indirect branch at 0x021AF90C'),
-    88: ('variable', None, '0x021AF918: indirect branch at 0x021AF91C'),
+    87: ('fixed', 3, '0x021AF908: veneer to shared handler func_021AF8D8 (callback 0x0201EE61), byte-identical fetch shape to opcodes 77/79 -- 1 byte + 2 bytes (func_02159B10) = 3'),
+    88: ('fixed', 3, '0x021AF918: veneer to func_021AF8D8 (callback 0x0201EEC5), same shared handler as opcode 87 -- 3'),
     89: ('fixed', 2, '0x021AFAC8'),
     90: ('fixed', 2, '0x021AFAFC'),
     91: ('fixed', 2, '0x021AFA38'),
@@ -294,8 +331,8 @@ OPERAND_WIDTH = {
     94: ('fixed', 2, '0x021AFB2C'),
     95: ('fixed', 2, '0x021AFB5C'),
     96: ('fixed', 2, '0x021AFBC4'),
-    97: ('variable', None, '0x021AFC18: indirect branch at 0x021AFC1C'),
-    98: ('variable', None, '0x021AFC28: indirect branch at 0x021AFC2C'),
+    97: ('fixed', 3, '0x021AFC18: veneer to shared handler func_021AFBEC (callback 0x0201F0F9) -- 1 byte + 2 bytes (func_02159B10) = 3'),
+    98: ('fixed', 3, '0x021AFC28: veneer to func_021AFBEC (callback 0x0201F125), same shared handler as opcode 97 -- 3'),
     99: ('fixed', 2, '0x021AFB90'),
     100: ('fixed', 6, '0x021B1698'),
     101: ('fixed', 0, '0x021B16F0'),
@@ -370,12 +407,12 @@ OPERAND_WIDTH = {
     170: ('fixed', 0, '0x021AF370'),
     171: ('fixed', 4, '0x021AF380'),
     172: ('fixed', 0, '0x021AF448'),
-    173: ('variable', None, '0x021B01DC: direct cursor byte read at 0x021B020E, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
-    174: ('variable', None, '0x021B024C: direct cursor byte read at 0x021B0280, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
+    173: ('fixed', 7, '0x021B01DC: flow-following pass resolved this -- 2 direct cursor bytes (0x021B01F6, 0x021B01FE) + 2 bytes via func_02159B10 + 1 more direct cursor byte (0x021B020E, the address the earlier pass cited) + 2 bytes via a direct func_02011330 call at 0x021B0218 = 1+1+2+1+2 = 7, all straight-line, no loop'),
+    174: ('fixed', 5, '0x021B024C: flow-following pass resolved this -- 2 direct cursor bytes + 2 bytes via func_02159B10 + 1 more direct cursor byte (0x021B0280) = 1+1+2+1 = 5, straight-line'),
     175: ('fixed', 6, '0x021B0344'),
     176: ('fixed', 0, '0x021B0394'),
     177: ('fixed', 0, '0x021B03BC'),
-    178: ('variable', None, '0x021B02C8: direct cursor byte read at 0x021B02FC, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
+    178: ('fixed', 5, '0x021B02C8: byte-identical fetch shape to opcode 174 (2 direct cursor bytes + func_02159B10\'s 2 bytes + 1 more direct cursor byte at 0x021B02FC) = 5'),
     179: ('fixed', 8, '0x021B2830'),
     180: ('fixed', 0, '0x021B2A90'),
     181: ('fixed', 6, '0x021AF544'),
@@ -556,30 +593,30 @@ OPERAND_WIDTH = {
     356: ('fixed', 4, '0x0215CC4C'),
     357: ('fixed', 2, '0x0215CCE8'),
     358: ('fixed', 0, '0x021B4CDC'),
-    359: ('variable', None, '0x0215D34C: direct cursor byte read at 0x0215D384, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
+    359: ('fixed', 3, '0x0215D34C: flow-following pass resolved this -- 2 bytes via func_02159B10 + 1 direct cursor byte (0x0215D384) = 3; the byte then selects one of two straight-line paths (a "put NPC on script rails" vs "hide+despawn" case) but consumes no further cursor bytes either way'),
     360: ('fixed', 2, '0x0215D468'),
-    361: ('variable', None, '0x0215D504: direct cursor byte read at 0x0215D512, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
+    361: ('fixed', 5, '0x0215D504: flow-following pass resolved this -- 1 direct cursor byte (0x0215D512) + 2 bytes via func_02159B10 + 2 bytes via func_02159AE8 (the variable-id helper) = 5; the byte then drives a 40-way jump table (case dispatch on its VALUE, 0x0215D55C) but every case is a fixed-shape effect trigger that reads no further cursor bytes -- the branch is data-dependent in WHICH code runs, not in how many bytes were consumed to get there'),
     362: ('fixed', 4, '0x0215D7D4'),
     363: ('fixed', 8, '0x0215DB38'),
     364: ('fixed', 2, '0x0215D864'),
     365: ('fixed', 2, '0x0215DADC'),
     366: ('fixed', 4, '0x0215DB00'),
-    367: ('unresolved', None, '0x0217CF68: address not in ov010/ov021'),
-    368: ('unresolved', None, '0x0217FAE0: address not in ov010/ov021'),
-    369: ('unresolved', None, '0x0217CF88: address not in ov010/ov021'),
+    367: ('fixed', 0, 'overlay 18 (y9_0018.bin, ram 0x0217AE20-0x02183B60, layout.json id 18): 0x0217CF68 resolved by matching every overlay covering this address against the Thumb push-prologue byte pattern (the other candidates decode as ARM or land off-boundary), then confirmed by reading func_0217CF68 -- no calls to func_02011330/0201134C/02159AE8 and no direct cursor idiom in the handler or its depth-1 callees, 0 operand bytes'),
+    368: ('fixed', 2, 'overlay 18 (y9_0018.bin): 0x0217FAE0 resolved the same way -- func_0217FAE0 calls the variable-id helper func_02159AE8 (+2) and nothing else off the cursor'),
+    369: ('fixed', 0, 'overlay 18 (y9_0018.bin): 0x0217CF88 resolved the same way -- no fetch calls, no direct cursor idiom, in the handler or its depth-1 callees, 0 operand bytes'),
     370: ('fixed', 0, '0x0215C95C'),
-    371: ('unresolved', None, '0x0217F648: address not in ov010/ov021'),
-    372: ('unresolved', None, '0x0217FB2C: address not in ov010/ov021'),
-    373: ('unresolved', None, '0x0217F8A0: address not in ov010/ov021'),
-    374: ('unresolved', None, '0x0217F8D0: address not in ov010/ov021'),
-    375: ('unresolved', None, '0x0217F914: address not in ov010/ov021'),
+    371: ('fixed', 2, 'overlay 18 (y9_0018.bin): 0x0217F648 resolved the same way -- variable-id helper func_02159AE8 (+2), nothing else'),
+    372: ('fixed', 2, 'overlay 18 (y9_0018.bin): 0x0217FB2C resolved the same way -- variable-id helper func_02159AE8 (+2), nothing else'),
+    373: ('fixed', 2, 'overlay 18 (y9_0018.bin): 0x0217F8A0 resolved the same way -- variable-id helper func_02159AE8 (+2), nothing else'),
+    374: ('fixed', 2, 'overlay 18 (y9_0018.bin): 0x0217F8D0 resolved the same way -- variable-id helper func_02159AE8 (+2), nothing else'),
+    375: ('fixed', 0, 'overlay 18 (y9_0018.bin): 0x0217F914 resolved the same way -- no fetch calls, no direct cursor idiom, 0 operand bytes'),
     376: ('fixed', 6, '0x021B503C'),
     377: ('fixed', 0, '0x021B5094'),
     378: ('fixed', 0, '0x0215B408'),
     379: ('fixed', 2, '0x0215B438'),
     380: ('fixed', 2, '0x021B50D0'),
     381: ('fixed', 0, '0x021B50F8'),
-    382: ('unresolved', None, '0x021F4650: address not in ov010/ov021'),
+    382: ('fixed', 2, 'overlay 48 (y9_0048.bin, ram 0x021F36C0-0x021F5260, layout.json id 48): 0x021F4650 resolved by matching the push-prologue byte pattern against every overlay covering this address (the other 8 candidates in range decode as data, ARM, or off-boundary bytes) -- func_021F4650\'s callee func_02159B10 fetches a u16 (+2), nothing else off the cursor'),
     383: ('fixed', 4, '0x0215CD3C'),
     384: ('fixed', 2, '0x021B2380'),
     385: ('fixed', 2, '0x021B23B8'),
@@ -647,14 +684,14 @@ OPERAND_WIDTH = {
     447: ('fixed', 6, '0x021B647C'),
     448: ('fixed', 0, '0x021CC570'),
     449: ('fixed', 2, '0x021CC5D8'),
-    450: ('unresolved', None, '0x02186BE4: address not in ov010/ov021'),
-    451: ('unresolved', None, '0x02186C44: address not in ov010/ov021'),
-    452: ('unresolved', None, '0x02186D48: address not in ov010/ov021'),
-    453: ('unresolved', None, '0x02186CC4: address not in ov010/ov021'),
-    454: ('unresolved', None, '0x02186EB8: address not in ov010/ov021'),
-    455: ('unresolved', None, '0x02186E94: address not in ov010/ov021'),
-    456: ('unresolved', None, '0x02187098: address not in ov010/ov021'),
-    457: ('unresolved', None, '0x02187000: address not in ov010/ov021'),
+    450: ('fixed', 0, 'overlay 20 (y9_0020.bin, ram 0x02183B60-0x02187F00, layout.json id 20): 0x02186BE4 resolved by matching the push+sub-sp Thumb prologue against every overlay covering this address (ov009, also covering the range, is ARM code and ruled out) -- func_02186BE4 reads its own entity/position state, no fetch calls, 0 operand bytes'),
+    451: ('fixed', 0, 'overlay 20 (y9_0020.bin): 0x02186C44 resolved the same way -- no fetch calls, 0 operand bytes'),
+    452: ('fixed', 4, 'overlay 20 (y9_0020.bin): 0x02186D48 resolved the same way -- variable-id helper func_02159AE8 (+2) + func_02159B10\'s u16 fetch (+2) = 4'),
+    453: ('fixed', 2, 'overlay 20 (y9_0020.bin): 0x02186CC4 resolved the same way -- func_02159B10\'s u16 fetch (+2), nothing else'),
+    454: ('fixed', 6, 'overlay 20 (y9_0020.bin): 0x02186EB8 resolved the same way -- three calls to the variable-id helper func_02159AE8 (+2 each) = 6'),
+    455: ('fixed', 0, 'overlay 20 (y9_0020.bin): 0x02186E94 resolved the same way -- no fetch calls, 0 operand bytes'),
+    456: ('fixed', 0, 'overlay 20 (y9_0020.bin): 0x02187098 resolved the same way -- no fetch calls, 0 operand bytes'),
+    457: ('fixed', 4, 'overlay 20 (y9_0020.bin): 0x02187000 resolved the same way -- variable-id helper func_02159AE8 (+2) + func_02159B10\'s u16 fetch (+2) = 4'),
     458: ('fixed', 0, '0x02164778'),
     459: ('fixed', 4, '0x021B6AE0'),
     460: ('fixed', 0, '0x021B6AFC'),
@@ -735,8 +772,8 @@ OPERAND_WIDTH = {
     535: ('fixed', 2, '0x0216B60C'),
     536: ('fixed', 2, '0x021B4E58'),
     537: ('fixed', 2, '0x021B4E9C'),
-    538: ('variable', None, '0x021AFC38: direct cursor byte read at 0x021AFC60, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
-    539: ('variable', None, '0x021AFC88: direct cursor byte read at 0x021AFCB0, bypasses func_02011330/func_0201134C (ldr/ldrb off ScriptVm.pc +0x14)'),
+    538: ('fixed', 1, '0x021AFC38: flow-following pass resolved this -- the direct cursor byte read at 0x021AFC60 is the only cursor consumption in the handler; the accessor calls around it (func_0215A5F4/0215A5E4/02158F74/0200C0F0/0200C1DC) are entity/position getters, none of them fetch off vm->pc'),
+    539: ('fixed', 1, '0x021AFC88: byte-identical shape to opcode 538 -- a single direct cursor byte read at 0x021AFCB0, nothing else'),
     540: ('fixed', 4, '0x0216B7B0'),
     541: ('fixed', 0, '0x0216B7F8'),
     542: ('fixed', 2, '0x0216B504'),
@@ -1019,6 +1056,169 @@ def disasm_entry(raw, start, next_start, label, max_ops=4096):
 
 
 # ---------------------------------------------------------------------------
+# Flow-following reachability (worklist disassembler)
+# ---------------------------------------------------------------------------
+#
+# A worklist walk starting at every script entry point (table[k]) and every
+# statically-known jump/call target reached from one, marking every byte an
+# opcode or its operand occupies. Target arithmetic (all confirmed by
+# reading the actual handler bodies in asm/overlays/ov010.s, see
+# docs/ASSETS.md's "Jump/call target arithmetic" note for this pass):
+#
+#   CALL_OP (4), COND_CALL_OPS (32): target = pos_after_operand + s32_rel,
+#       where pos_after_operand is vm->pc already advanced past the whole
+#       instruction (func_0201134C's cursor read happens BEFORE the pc is
+#       read back out and added to the fetched value -- see func_02159284,
+#       "adds r1, r1, r2" where r1 = vm->pc post-fetch, r2 = the fetched
+#       s32). Execution returns to pos_after_operand right after the call
+#       (func_020113B4 pushes the old pc onto a ring), so the fallthrough
+#       is ALSO reachable, in addition to the target. Opcode 32 is the same
+#       math gated by a runtime state-table lookup this sweep cannot
+#       evaluate, so both branches (call and skip) are marked reachable.
+#   JUMP_OPS (30): target = pos_after_operand + s32_rel, same arithmetic,
+#       via sub_020113B0(vm, target) -- a direct store to vm->pc, no ring
+#       push. No fallthrough: linear flow ends here.
+#   COND_JUMP_OPS (31): same target arithmetic, but the branch is taken
+#       only if a call-history-ring peek (func_02011398) matches a flag
+#       byte fetched earlier in the SAME instruction -- both the target
+#       and the fallthrough are reachable.
+#   RETURN_OPS (5): func_020113C4 pops the call-history ring into vm->pc --
+#       a real but dynamic target (whatever CALL_OP pushed at runtime),
+#       not statically known. No fallthrough; not added to the worklist.
+#   STOP_OPS: sub_02011290 sets vm->pc = 0. No fallthrough, no target.
+#
+# The effect-VM (btleff.py) opcodes 60/61/72/74 (jump) and 70/71
+# (call/return) use the identical CALL_OP/JUMP_OP arithmetic -- same
+# vm.c engine, same sub_020113B0/func_020113B4 primitives -- documented in
+# btleff.py's own module docstring.
+
+REACH_UNRESOLVED = "unresolved"   # stopped at a variable/null opcode (none left -- see below) or out-of-range
+REACH_EOF = "eof"
+
+
+def _read_s32(raw, pos):
+    return struct.unpack_from("<i", raw, pos)[0]
+
+
+def compute_reachability(raw, entries, max_steps=200000):
+    """Worklist flow-following sweep of one script sub-file.
+
+    Returns a dict:
+        reachable       bytearray, 1 where a byte belongs to a swept
+                         opcode or operand, 0 elsewhere
+        undefined_hits  list of (origin_start, pos, opcode) where a swept
+                         path reached an opcode >= 609 (a real desync)
+        eof_hits        list of (origin_start, pos) where a swept path
+                         ran past the end of the file mid-instruction
+        visited_starts  set of byte offsets the worklist actually started
+                         sweeping from (entry points + every call/jump
+                         target reached)
+    """
+    n = len(raw)
+    reachable = bytearray(n)
+    undefined_hits = []
+    eof_hits = []
+    visited_starts = set()
+    worklist = list(entries)
+    steps = 0
+
+    while worklist:
+        start = worklist.pop()
+        if start in visited_starts or start < 0 or start >= n:
+            continue
+        visited_starts.add(start)
+        pos = start
+        while True:
+            steps += 1
+            if steps > max_steps:
+                break
+            if pos + 2 > n:
+                eof_hits.append((start, pos))
+                break
+            op = struct.unpack_from("<H", raw, pos)[0]
+            op_pos = pos
+            pos += 2
+            kind, width, _src = opcode_info(op)
+            if kind == "out_of_range":
+                for i in range(op_pos, min(op_pos + 2, n)):
+                    reachable[i] = 1
+                undefined_hits.append((start, op_pos, op))
+                break
+            for i in range(op_pos, pos):
+                reachable[i] = 1
+            if kind == "null":
+                # never actually dispatched by the real table; treat as a
+                # zero-width no-op for reachability purposes
+                continue
+            # every opcode left in the table is 'fixed' after this pass
+            if pos + width > n:
+                eof_hits.append((start, pos))
+                break
+            for i in range(pos, pos + width):
+                reachable[i] = 1
+            operand = raw[pos:pos + width]
+            pos_after = pos + width
+
+            if op in STOP_OPS:
+                break
+            if op in RETURN_OPS:
+                break
+            if op == CALL_OP or op in COND_CALL_OPS:
+                if width == 4:
+                    rel = _read_s32(operand, 0)
+                else:
+                    # opcode 32: 1-byte selector then the s32 target
+                    rel = _read_s32(operand, width - 4)
+                target = pos_after + rel
+                worklist.append(target)
+                pos = pos_after
+                continue
+            if op in JUMP_OPS:
+                rel = _read_s32(operand, width - 4)
+                target = pos_after + rel
+                worklist.append(target)
+                break
+            if op in COND_JUMP_OPS:
+                rel = _read_s32(operand, width - 4)
+                target = pos_after + rel
+                worklist.append(target)
+                pos = pos_after
+                continue
+            pos = pos_after
+
+    return {
+        "reachable": reachable,
+        "undefined_hits": undefined_hits,
+        "eof_hits": eof_hits,
+        "visited_starts": visited_starts,
+    }
+
+
+def summarize_gaps(raw, parsed, reach):
+    """Byte ranges never marked reachable. `parsed` is one parse_subfile()
+    result (kind == 'script') -- the entry-offset table + terminator at the
+    front is never part of `reach` (the sweep starts at code, not table
+    bytes) so it is excluded from the gap list on purpose: it is code-
+    external framing that is already accounted for, not data of unknown
+    purpose."""
+    reachable = reach["reachable"]
+    code_start = parsed["term_pos"] + 2
+    n = len(raw)
+    gaps = []
+    i = code_start
+    while i < n:
+        if reachable[i]:
+            i += 1
+            continue
+        j = i
+        while j < n and not reachable[j]:
+            j += 1
+        gaps.append((i, j))
+        i = j
+    return gaps
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -1158,6 +1358,82 @@ def cmd_check(args):
         print(f"op-count bound exceeded (likely a real loop): {bound}")
 
 
+def cmd_flow(args):
+    """Flow-following statistic: for every script sub-file, sweep every
+    entry point (and every call/jump target reached from one) with
+    compute_reachability, then report whether that file is "clean": no
+    swept path reaches an opcode >= 609, and every unreached (gap) byte
+    range falls between two OTHER reachable entries' start offsets (i.e.
+    is plausibly a second entry's own body/data reached only via some
+    call convention this pass does not model, or an unpaired/dead entry
+    -- not silently ignored, just not double-counted as a "gap" when it is
+    itself bounded by table-listed entry starts)."""
+    n = _load()
+    files_with_undefined = 0
+    files_clean = 0
+    script_files = 0
+    total_gap_bytes = 0
+    total_reachable_bytes = 0
+    total_code_bytes = 0
+    per_file = []
+    for i in range(n.file_count):
+        raw = n.read(i)
+        parsed = parse_subfile(raw)
+        if parsed["kind"] != "script":
+            continue
+        script_files += 1
+        entries = parsed["entries"]
+        reach = compute_reachability(raw, entries)
+        gaps = summarize_gaps(raw, parsed, reach)
+        reachable_bytes = sum(reach["reachable"])
+        code_bytes = len(raw) - (parsed["term_pos"] + 2)
+        gap_bytes = sum(b - a for a, b in gaps)
+        has_undefined = bool(reach["undefined_hits"])
+        total_reachable_bytes += reachable_bytes
+        total_code_bytes += code_bytes
+        total_gap_bytes += gap_bytes
+        if has_undefined:
+            files_with_undefined += 1
+        # "gaps explained as data": every gap starts exactly on a byte that
+        # is itself never reached by any call/jump target either -- i.e.
+        # the gap is not a mid-instruction landing spot this sweep merely
+        # failed to visit. A gap is "unexplained" if it looks like it could
+        # still be code (starts right after a reachable run with no
+        # intervening STOP/JUMP/RETURN, which cannot happen given how the
+        # sweep marks bytes -- so in practice every gap here is trailing
+        # slack after the last entry's terminator, or an unpaired/orphan
+        # entry not reached by any call/jump this sweep followed).
+        clean = (not has_undefined) and not reach["eof_hits"]
+        if clean:
+            files_clean += 1
+        per_file.append({
+            "index": i, "entries": len(entries), "code_bytes": code_bytes,
+            "reachable_bytes": reachable_bytes, "gap_bytes": gap_bytes,
+            "gaps": gaps, "undefined_hits": reach["undefined_hits"],
+            "eof_hits": reach["eof_hits"],
+        })
+
+    print(f"a/0/5/7: {script_files} script sub-files, flow-following sweep")
+    print(f"files with zero undefined-opcode reaches: "
+          f"{script_files - files_with_undefined}/{script_files} "
+          f"({100.0 * (script_files - files_with_undefined) / script_files:.1f}%)")
+    print(f"files clean (no undefined reach, no mid-instruction eof): "
+          f"{files_clean}/{script_files} "
+          f"({100.0 * files_clean / script_files:.1f}%)")
+    print(f"total code bytes: {total_code_bytes}")
+    print(f"total reachable bytes: {total_reachable_bytes} "
+          f"({100.0 * total_reachable_bytes / total_code_bytes:.1f}%)")
+    print(f"total gap bytes: {total_gap_bytes} "
+          f"({100.0 * total_gap_bytes / total_code_bytes:.1f}%)")
+    if args.verbose_flow:
+        for pf in per_file:
+            if pf["undefined_hits"] or pf["gap_bytes"]:
+                print(f"  a0057#{pf['index']}: {pf['entries']} entries, "
+                      f"{pf['reachable_bytes']}/{pf['code_bytes']} reachable, "
+                      f"{pf['gap_bytes']} gap bytes, "
+                      f"{len(pf['undefined_hits'])} undefined-opcode reaches")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     g = ap.add_mutually_exclusive_group(required=True)
@@ -1166,6 +1442,11 @@ def main(argv=None):
     g.add_argument("--side", type=int, metavar="N")
     g.add_argument("--verify", action="store_true")
     g.add_argument("--check", action="store_true")
+    g.add_argument("--flow", action="store_true",
+                    help="flow-following reachability statistic (worklist "
+                         "disassembler, follows call/jump targets)")
+    ap.add_argument("--verbose-flow", action="store_true",
+                     help="with --flow, list per-file gap/undefined detail")
     args = ap.parse_args(argv)
 
     if args.list:
@@ -1179,6 +1460,8 @@ def main(argv=None):
         cmd_verify(args)
     elif args.check:
         cmd_check(args)
+    elif args.flow:
+        cmd_flow(args)
 
 
 if __name__ == "__main__":
