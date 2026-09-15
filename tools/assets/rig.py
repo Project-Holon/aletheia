@@ -1696,6 +1696,111 @@ def build_bank_palette(nclr_all):
 DEFAULT_PALETTE = [(128, 128, 128)] * 16  # fallback only when a block has no NCLR at all
 
 
+# ---------------------------------------------------------------------------
+# `a/0/7/2` local 6 -- per-cell 48-byte "cellinfo" record table
+#
+# Container shape (confirmed, 95/95 blocks, no exception): `u32 count` (==
+# the block's own NCER `num_cells`), 8 reserved bytes (measured zero in
+# every block), then `count` x 48-byte records, one per NCER cell in cell
+# order. `count` is NOT a fixed constant -- it is 1 for 86 of the 95 blocks
+# (single-cell trainers) and up to 6 for the handful of multi-cell blocks.
+#
+# Field map (this pass; CONFIRMED against an independently computed NCER
+# bounding box -- see docs/ASSETS.md "a/0/7/2 local 6 field map SOLVED"):
+# every populated record's first four fields are an exact re-encoding of
+# the cell's own OAM bounding box, checked archive-wide (117/117 populated
+# records, 0 mismatches) including the handful of blocks whose bbox
+# genuinely differs cell-to-cell (block 91's 5-frame walk cycle, block 40's
+# 1px-shifted duplicate poses):
+#
+#     [0]  min_x    s32, Q23.8  fixed  (stored = px * 256)
+#     [1]  -min_y   s32, Q23.8  fixed  (stored = -px * 256; the box's
+#                    downward extent, stored positive-down)
+#     [2]  width    s32, Q19.12 fixed  (stored = px * 4096)
+#     [3]  height   s32, Q19.12 fixed  (stored = px * 4096)
+#     [4]  usually 0; a Q19.12 pixel-scaled value in 7 of the 117 records
+#          (blocks 37/38/40 only, always on a cell whose OAM tile indices
+#          are a fixed offset from another cell's -- plausibly a cached
+#          sheet-X offset for the reused tile data), not independently
+#          confirmed as a general field
+#     [5..11] always 0 (117/117, no exception)
+#
+# Empty cells (`cell.num_oam == 0`, 3/3 checked: block 54 cell 3, block 79
+# cell 3, block 91 cell 5) use a fixed sentinel in place of the bbox fields:
+# `[0] == 0x00010000` (256.0 in Q23.8), `[1] == 0xFFFF0000` (-256.0 in
+# Q23.8), all other fields 0 -- a degenerate "no box" marker, not itself a
+# bbox reading.
+#
+# Reader: the no-magic local's sub-file index is `8 * v + 6` where `v =
+# sub_0202D5D8_Table[class_id]` (`func_0202D6D0` at 0x0202D6D0, one of the
+# eight sibling accessors in `src/matched/unit_0202D5F8.c`; the shared
+# `sub_0202D5D8_Table` at 0x020A023C is a 0x6A(106)-entry class-id-to-block
+# table -- the very mapping the trainer-sprite pass went looking for and
+# could not pin down from ARM9 data alone). `func_02017214` (arm9,
+# 0x02017214) calls all eight accessors in sequence and fills a 9-word
+# resource-descriptor struct, one word per member (offsets 0/1/7/2/3/4/5/6);
+# its only found caller is `func_022006A0`/`func_02017214` reached from
+# `ov094` (the battle overlay) via `func_021FF088`, itself called while
+# registering up to 14 battle-side slots. That establishes which sub-file
+# is member 6 and that it is fetched during battle-side setup, but the
+# function that actually walks the loaded 48-byte records byte-by-byte
+# (decoding fields, not just picking the member index) was not located
+# within this pass's search -- the field map above is attested from the
+# data cross-check alone, not from reading that consumer's disassembly.
+# ---------------------------------------------------------------------------
+
+CELLINFO_EMPTY_SENTINEL = (65536, -65536, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+
+def find_cellinfo(narc_obj, block_start, block_size):
+    """Locate the no-magic "cellinfo" member of one rig block, if present,
+    by elimination: the first sub-file with no recognized NITRO magic
+    (RIG_MAGICS) whose post-decompression bytes match the attested
+    container shape (`u32 count`, 8 zero bytes, `count` x 48-byte
+    records). Returns the raw bytes, or `None` if no local in the block
+    has this shape (either the archive has no such member, or its shape
+    isn't the one attested here)."""
+    for local in range(block_size):
+        idx = block_start + local
+        if idx >= narc_obj.file_count:
+            break
+        raw = narc_obj.read(idx)
+        try:
+            _kind, dec = narc.try_decompress(raw)
+        except Exception:  # noqa: BLE001 -- an unrelated corrupt local must not sink this scan
+            continue
+        data = dec if dec is not None else raw
+        if len(data) >= 4 and data[:4] in RIG_MAGICS:
+            continue
+        if len(data) >= 12:
+            count = struct.unpack_from("<I", data, 0)[0]
+            if len(data) == 12 + 48 * count and data[4:12] == b"\x00" * 8:
+                return data
+    return None
+
+
+def parse_cellinfo(data):
+    """Decode an attested-shape cellinfo table (see the module-level notes
+    above `CELLINFO_EMPTY_SENTINEL`) into one dict per record, cell order.
+    Each dict carries the raw 12-field tuple plus the named, unit-converted
+    fields; `empty` flags the empty-cell sentinel shape."""
+    count = struct.unpack_from("<I", data, 0)[0]
+    records = []
+    for i in range(count):
+        off = 12 + i * 48
+        rec = struct.unpack_from("<12i", data, off)
+        records.append({
+            "raw": rec,
+            "empty": rec == CELLINFO_EMPTY_SENTINEL,
+            "min_x": rec[0] / 256.0,
+            "neg_min_y": rec[1] / 256.0,
+            "width": rec[2] / 4096.0,
+            "height": rec[3] / 4096.0,
+            "field4": rec[4] / 4096.0,
+        })
+    return records
+
+
 def render_one(n, species, out_dir, block_size=BLOCK_STRIDE, filename=None, cells_sheet=True):
     """Render one species' cells contact sheet (optional) and composed pose.
     Returns the pose (w, h) on success. Raises on any parse/decode failure
@@ -1818,10 +1923,59 @@ def main(argv=None):
                      help="render a looping GIF (build/assets/rig/NNNN.gif) for "
                      "every species in the archive's --group animation (no strip "
                      "PNGs; skips slots that don't parse or have no NANR)")
+    ap.add_argument("--cellinfo", type=int, metavar="BLOCK",
+                     help="print the given block's no-magic per-cell record "
+                     "member (a/0/7/2 local 6). Prints named fields "
+                     "(min_x/neg_min_y/width/height, all in pixels) when the "
+                     "member matches the attested container shape; falls "
+                     "back to a raw hex dump of the whole member otherwise "
+                     "(including when the block has no such member at all, "
+                     "which is reported instead).")
     args = ap.parse_args(argv)
 
     os.makedirs(args.out, exist_ok=True)
     n = narc.parse_file(args.archive)
+
+    if args.cellinfo is not None:
+        block_start = args.cellinfo * args.block_size
+        data = find_cellinfo(n, block_start, args.block_size)
+        if data is None:
+            # Fall back to raw: dump every no-magic local's bytes verbatim
+            # (attested-shape lookup found nothing -- either this block has
+            # no such member, or it's not the a/0/7/2 shape this module
+            # decodes named fields for).
+            any_found = False
+            for local in range(args.block_size):
+                idx = block_start + local
+                if idx >= n.file_count:
+                    break
+                raw = n.read(idx)
+                try:
+                    _kind, dec = narc.try_decompress(raw)
+                except Exception:  # noqa: BLE001 -- report as raw, don't crash the dump
+                    dec = None
+                body = dec if dec is not None else raw
+                if len(body) >= 4 and body[:4] in RIG_MAGICS:
+                    continue
+                any_found = True
+                print(f"[*] block {args.cellinfo} local {local}: no attested cellinfo "
+                      f"shape, raw dump ({len(body)} bytes)")
+                print(" " + body.hex())
+            if not any_found:
+                print(f"[!] block {args.cellinfo}: no no-magic member found "
+                      f"(block-size={args.block_size})")
+            return 0
+        records = parse_cellinfo(data)
+        print(f"[*] block {args.cellinfo}: {len(records)} cellinfo records "
+              f"({len(data)} bytes)")
+        for i, r in enumerate(records):
+            if r["empty"]:
+                print(f"  cell {i}: EMPTY sentinel raw={r['raw']}")
+            else:
+                print(f"  cell {i}: min_x={r['min_x']:.4f} neg_min_y={r['neg_min_y']:.4f} "
+                      f"width={r['width']:.4f} height={r['height']:.4f} "
+                      f"field4={r['field4']:.4f} raw={r['raw']}")
+        return 0
 
     if args.anim_all:
         max_species = n.file_count // args.block_size

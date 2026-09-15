@@ -9834,3 +9834,147 @@ Identification: Nintendo DWC/WFC setup-UI resource bundle, **OUT OF SCOPE** for 
 - `gfl_font.dat`'s glyph order/character mapping is not resolved (0/36 ASCII agreement under every convention tried); the container framing and byte-level round trip are solid regardless.
 - `dwc/utility.bin`'s internal archive header (table offset, data offset, size, count) is read but not decoded into an entry table; no attempt was made to locate or decompress an individual named sub-resource.
 - Neither file's consuming code path (whatever opens `gfl_font.dat`, and the DWC/WFC library that would consume `utility.bin`) was traced in `src/matched`/`src/pending`/`docs/notes` -- both identifications rest on byte-level and string evidence alone.
+
+## Asset lane pass: `a/0/7/2` local 6 field map SOLVED (data cross-check exact, reader found up to the member-index resolver)
+
+Mission: settle the meaning of `a/0/7/2`'s per-cell 48-byte record (local
+6 of each of the 95 trainer battle sprite blocks), left undecoded by the
+previous pass ("`a/0/7/2` trainer block's no-magic member (local 6)"
+above), which pinned the container shape and the empty-cell sentinel but
+wrote no field decoder.
+
+### Reader: found up to the member-index resolver, not to the byte-level consumer
+
+Grepping `src/matched`/`src/pending` for the block arithmetic
+(`v * 8 + 6`) lands on `src/matched/unit_0202D5F8.c`: eight sibling
+one-liners at 0x0202D5CC-0x0202D6D0, each doing `id -> table[id] -> v ->
+v*8+K` for a different `K` (0,1,7,2,3,4,5,6, one per block member). The
+shared 0x6A(106)-entry table (`sub_0202D5D8_Table` at 0x020A023C) is
+indexed by a small integer `id` and looked up by the `K=6` accessor
+(`func_0202D6D0`) to get member 6's sub-file index -- this is very
+likely the class-id-to-block table the trainer-sprite pass searched
+`extract/arm9_dec.bin` for and could not find, now located structurally
+(a byte-run scan alone couldn't distinguish it from the small
+coordinate-like tables in the same region; finding it required tracing
+the `*8+N` arithmetic instead).
+
+`func_0202D6D0`'s only call site in the whole image (checked by grepping
+every `bl func_0202D6D0`/`0202D6D0` reference in `asm/`) is
+`func_02017214` (arm9, 0x02017214), which calls all eight `K` accessors
+in sequence and stores each result into one word of a 9-word (0x24-byte)
+resource-descriptor struct the caller supplies -- effectively "resolve
+every member index for this class id" in one call. `func_02017214`'s own
+only call site is `func_022006A0` in `ov094` (the battle overlay,
+address 0x022006A0, a flag-adjusting tail-call wrapper), which in turn is
+called once, from `func_021FF088` in the same overlay, while that
+function registers up to 14 battle-side slots (`cmp r4, #0xe`) -- a
+context consistent with battle-side trainer sprite setup, not with
+overworld or menu code.
+
+That traces the chain from the class id down to "which sub-file member 6
+is" and confirms it is touched during battle setup, but the
+resource-descriptor struct `func_02017214` fills is never read again
+inside `func_021FF088` before the function returns (its stack frame is
+freed immediately after), so the actual byte-level consumer that opens
+sub-file `8*v+6`, walks its 48-byte records and applies the fields is
+somewhere else this pass did not find -- no further caller of
+`func_02017214`/`func_022006A0`, and no literal-pool reference to either
+address, exists anywhere in `asm/` (checked by full-corpus grep, not
+sampled). **Search coverage**: `src/matched`, `src/pending`, and every
+`.s` file under `asm/arm9/` and `asm/overlays/` were grepped for the
+member-6 accessor's address, its only caller's address, and that
+caller's only caller's address; none has a second reference. The field
+map below is therefore attested by the data cross-check alone, not by
+reading the consumer's disassembly.
+
+### Field map: CONFIRMED exact against an independently computed NCER bounding box
+
+`tools/assets/rig.py` gained `find_cellinfo()`/`parse_cellinfo()`
+(locates the no-magic member by the previous pass's container shape,
+decodes its records) and a `--cellinfo BLOCK` CLI mode. Cross-check
+script: for all 95 blocks, decode every local-6 record and independently
+compute each NCER cell's OAM bounding box (`min(oam.x)`, `min(oam.y)`,
+`max(oam.x+oam.w)`, `max(oam.y+oam.h)` over the cell's own OAMs -- no
+information from local 6 feeds this computation). Result over all 95
+blocks (117 populated records + 3 empty-cell sentinels, every record in
+the archive, not a sample):
+
+| field | interpretation | fixed-point | check | result |
+|---|---|---|---|---|
+| `[0]` | bbox `min_x` | Q23.8 (`px * 256`) | `rec[0] == min_x * 256` | **117/117 exact** |
+| `[1]` | bbox `-min_y` | Q23.8 (`px * 256`) | `rec[1] == -min_y * 256` | **117/117 exact** |
+| `[2]` | bbox width | Q19.12 (`px * 4096`) | `rec[2] == (max_x-min_x) * 4096` | **117/117 exact** |
+| `[3]` | bbox height | Q19.12 (`px * 4096`) | `rec[3] == (max_y-min_y) * 4096` | **117/117 exact** |
+| `[5..11]` | unused | -- | `all(v == 0)` | **117/117 exact** |
+
+Zero mismatches across every populated record in the archive, including
+the ones that actually vary cell-to-cell: block 91's 5-frame walk cycle
+(`min_x` drifts -40, -39, -41, -42 px across cells 0/2/3/4, `[0]` tracks
+each exactly) and block 40's four near-duplicate poses (one pair shifted
+1px from the other, `[0]`/`[1]` again exact both times). This is not a
+plausibility argument -- every populated record in the archive
+reproduces its own cell's true OAM bounding box exactly, in two
+different Nitro-typical fixed-point widths (Q23.8 for the position pair,
+Q19.12 for the size pair), which explains the previous pass's "1.0/-1.0
+sentinel" reading of field `[0]`/`[1]` as Q19.12 (65536/-65536 -> 16.0/
+-16.0 there, not a clean sentinel) -- the sentinel and the size pair use
+different widths in the same record, and only the size pair (width/
+height, always positive, Q19.12) makes both a clean 1:1 pixel match and
+a clean sentinel read together.
+
+**`[4]`, usually 0, is a Q19.12 pixel-scaled value in 7 of the 117
+populated records** (blocks 37, 38, 40 only: `[3]`'s value is 80.0px
+(one cell width) times the cell's 1-based position among a set of cells
+that share another cell's OAM tile indices -- e.g. block 40's cells 2/3
+have byte-identical `tile_idx` sequences and both read `[4] == 655360`
+(160.0px = 2 x 80px)). This reads as a cached sheet-X offset for reused
+tile data, not confirmed as a general field (only 3 of 95 blocks exercise
+it) and not exposed as a named field in `--cellinfo`'s summary line
+(`raw=` still shows it).
+
+**Empty-cell sentinel** (`cell.num_oam == 0`): `[0] == 0x00010000`
+(256.0 in Q23.8), `[1] == 0xFFFF0000` (-256.0 in Q23.8), all other
+fields 0 -- checked on all 3 empty cells in the archive (block 54 cell
+3, block 79 cell 3, block 91 cell 5), 3/3 exact.
+
+### `--cellinfo` added to `rig.py`, round trip unaffected
+
+`python tools/assets/rig.py --cellinfo BLOCK --archive extract/data/a/0/7/2 --block-size 8`
+locates the block's no-magic member (`find_cellinfo`, by the same
+elimination the previous pass used to isolate it, not a fixed local
+index) and prints one line per cell: named `min_x`/`neg_min_y`/`width`/
+`height`/`field4` (pixels) plus the raw 12-field tuple, or `EMPTY
+sentinel` for the three empty cells. When a block's no-magic member
+doesn't match the attested container shape (any other archive, or a
+future block that turns out not to fit), `--cellinfo` falls back to a
+raw hex dump of every no-magic local instead of guessing field names,
+per the mission's instruction; a block with no no-magic member at all is
+reported as such rather than silently printing nothing. Verified: block
+91 (`--cellinfo 91`) prints 5 populated cells with the drifting `min_x`
+plus the one `EMPTY sentinel` cell; block 0 (86 blocks share this shape)
+prints its single constant record. `a/0/0/4`'s blocks (`--block-size
+20`) have no member matching this shape, so `--cellinfo` on that archive
+falls back to raw dumps of every no-magic local, as designed. No
+existing code path was changed -- `find_cellinfo`/`parse_cellinfo` are
+new, read-only functions layered on `scan_rig_block`'s existing
+elimination logic, so the archive's own round trip (unaffected by this
+module, which never re-encodes `a/0/7/2`) and every existing render path
+(`--all`, `--anim-all`, single-species mode, `a/0/0/4` species 25's
+regression render) are unchanged by this pass -- checked by re-running
+`python tools/assets/rig.py 25` (still `0025_pose.png`, 59x56, byte-
+identical dimensions to every earlier pass).
+
+### What remains
+
+- The function that actually opens sub-file `8*v+6` and walks its 48-byte
+  records was not located (see "Reader" above); the field map rests on
+  the data cross-check, not on a read consumer.
+- Field `[4]`'s exact rule (only nonzero on 7/117 records, all in 3
+  blocks whose cells duplicate another cell's tile data) is a plausible
+  reading, not an independently confirmed one the way `[0]`-`[3]` are.
+- What the game actually does with the decoded box (shadow ellipse,
+  bounding-box culling, OAM affine setup, or something else) is still
+  open -- this pass confirms *what* the record encodes (an exact
+  duplicate of the cell's own OAM bounding box, in two fixed-point
+  widths), not *why* the game keeps a second copy of it outside the
+  NCER.
