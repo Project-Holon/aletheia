@@ -1,0 +1,109 @@
+/*
+ * function: func_020948E0
+ * address:  0x020948E0
+ * packet:   pkt_020948E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   NEAR_MISS (28 / 276 bytes differ, exact instruction count and extent)
+ *
+ * strcmp implementation from MSL / Metrowerks standard C library.
+ *
+ * Uses Alan Mycroft null-byte detection masks 0xfefefeff and 0x80808080 to test
+ * 4 bytes per iteration when both strings share 4-byte alignment. Falls back to
+ * a pre-increment byte-by-byte loop (ldrb [r0, #1]!) if unaligned or upon mismatch.
+ *
+ * Current candidate compiles to 276 bytes (exact original length) with push {r4, lr}
+ * and byte-for-byte identical alignment and byte loops; remaining 28 bytes differ
+ * solely in register allocation between r2, r4, and lr in the initial word check.
+ */
+
+typedef unsigned int u32;
+
+int func_020948E0(const char *s1, const char *s2)
+{
+    int diff;
+    u32 align;
+
+    {
+        unsigned char c1 = *(const unsigned char *)s1;
+        diff = c1 - *(const unsigned char *)s2;
+        if (diff != 0) {
+            return diff;
+        }
+
+        align = (u32)s1 & 3;
+        if (((u32)s2 & 3) != align) {
+            goto byte_loop;
+        }
+
+        if (align != 0) {
+            if (c1 == 0) {
+                return 0;
+            }
+            align = 3 - align;
+            if (align != 0) {
+                do {
+                    diff = *(const unsigned char *)++s1 - *(const unsigned char *)++s2;
+                    if (diff != 0) {
+                        return diff;
+                    }
+                    if (*(const unsigned char *)s1 == 0) {
+                        return 0;
+                    }
+                } while (--align != 0);
+            }
+            s1++;
+            s2++;
+        }
+    }
+
+    {
+        u32 w1 = *(const u32 *)s1;
+        u32 t = (w1 + 0xfefefeff) & ~w1;
+        u32 w2 = *(const u32 *)p2;
+        if ((t & 0x80808080) != 0) {
+            goto find_in_word;
+        }
+        if (w1 != w2) {
+            goto mismatch_word;
+        }
+
+        while (1) {
+            w1 = *(const u32 *)(s1 += 4);
+            w2 = *(const u32 *)(s2 += 4);
+            if (((w1 + 0xfefefeff) & 0x80808080) != 0) {
+                goto find_in_word;
+            }
+            if (w1 != w2) {
+                goto mismatch_word;
+            }
+        }
+
+mismatch_word:
+        s1--;
+        s2--;
+        goto byte_loop;
+
+find_in_word:
+        diff = *(const unsigned char *)s1 - *(const unsigned char *)s2;
+        if (diff != 0) {
+            return diff;
+        }
+    }
+
+byte_loop:
+    if (*(const unsigned char *)s1 == 0) {
+        return 0;
+    }
+    do {
+        diff = *(const unsigned char *)++s1 - *(const unsigned char *)++s2;
+        if (diff != 0) {
+            return diff;
+        }
+    } while (*(const unsigned char *)s1 != 0);
+
+    return 0;
+}

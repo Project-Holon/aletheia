@@ -1,0 +1,64 @@
+/*
+ * func_02049A18: near miss in pkt_0204994C (arm9, ARM).
+ *
+ * Address:  0x02049A18
+ * Size:     296 bytes
+ * Compiler: dsi/1.1p1, -O4,p
+ *
+ * Differences:
+ *   Logic and call flow match 100%. The loop register assignment
+ *   and non-volatile register preservation across calls cause
+ *   register allocation differences:
+ *   - Original preserves r5 across lower call dispatch (instead of caching r7 & 0xff in r5).
+ *   - Halfword loop uses lr as limit and r3 as index.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int  func_02062B30(u32 a0, void **ptr);
+extern u8   func_0204169C(u32 channel);
+extern u32  func_0204162C(u32 channel);
+extern void func_02040AF0(u32 channel, void *data, u32 size, u32 a2);
+extern void func_020409E0(u32 channel, void *data, u32 size, u32 a2);
+extern void func_020409B4(u32 channel);
+extern void func_02041B6C(u32 channel);
+extern void func_020307B0(u32 a0);
+
+void func_02049A18(u32 a0, u32 channel, u32 a2, u32 a3, u32 a4, u32 flag)
+{
+    void *ptr;
+    if (func_02062B30(a0, &ptr)) {
+        if (a4 == 0) {
+            a4 = *(u32 *)((u8 *)ptr + 8);
+        }
+        if (a3 != 0) {
+            if (func_0204169C((u8)channel) == 0) {
+                u32 count = a4 / 2;
+                u16 *p = (u16 *)((u8 *)ptr + 0xc);
+                u32 i;
+                for (i = 0; i < count; i++) {
+                    p[i] += (u16)a3;
+                }
+            } else {
+                u8 *p = (u8 *)ptr + 0xc;
+                u32 i;
+                for (i = 0; i < a4; i++) {
+                    p[i] += (u8)a3;
+                }
+            }
+        }
+        if (func_0204162C((u8)channel) != 0) {
+            func_02040AF0((u8)channel, (u8 *)ptr + 0xc, a4, a2);
+            if (flag != 0) {
+                func_02041B6C((u8)channel);
+            } else {
+                func_020409B4((u8)channel);
+            }
+        } else {
+            func_020409E0((u8)channel, (u8 *)ptr + 0xc, a4, a2);
+        }
+    }
+    func_020307B0(a0);
+}

@@ -1,0 +1,109 @@
+/*
+ * Doubly-linked list (DList) operations near miss in pkt_02060468 (arm9, ARM).
+ *
+ * Range:    0x02060480..0x02060614 (384 bytes)
+ * Functions: func_02060480, func_020604AC, func_02060500, func_02060550, func_020605B4
+ * Compiler: dsi/1.1p1, -O4,p
+ *
+ * All logic matches 100%. Differences are minor register scheduling around
+ * count increments and loads across stores.
+ */
+
+typedef unsigned short u16;
+
+struct DList {
+    void *head;
+    void *tail;
+    u16   count;
+    u16   node_offset;
+};
+
+struct DListNode {
+    void *prev;
+    void *next;
+};
+
+void func_02060480(struct DList *list, void *elem)
+{
+    struct DListNode *node = (struct DListNode *)((char *)elem + list->node_offset);
+    node->next = 0;
+    node->prev = 0;
+    list->head = elem;
+    list->tail = elem;
+    list->count++;
+}
+
+void func_020604AC(struct DList *list, void *elem)
+{
+    if (list->head == 0) {
+        func_02060480(list, elem);
+        return;
+    } else {
+        struct DListNode *elem_node = (struct DListNode *)((char *)elem + list->node_offset);
+        struct DListNode *tail_node = (struct DListNode *)((char *)list->tail + list->node_offset);
+        elem_node->prev = list->tail;
+        elem_node->next = 0;
+        tail_node->next = elem;
+        list->tail = elem;
+        list->count++;
+    }
+}
+
+void func_02060500(struct DList *list, void *elem)
+{
+    if (list->head == 0) {
+        func_02060480(list, elem);
+        return;
+    } else {
+        struct DListNode *elem_node = (struct DListNode *)((char *)elem + list->node_offset);
+        struct DListNode *head_node = (struct DListNode *)((char *)list->head + list->node_offset);
+        elem_node->prev = 0;
+        elem_node->next = list->head;
+        head_node->prev = elem;
+        list->head = elem;
+        list->count++;
+    }
+}
+
+void func_02060550(struct DList *list, void *target, void *elem)
+{
+    if (target == 0) {
+        func_020604AC(list, elem);
+        return;
+    }
+    if (target == list->head) {
+        func_02060500(list, elem);
+        return;
+    }
+    {
+        struct DListNode *target_node = (struct DListNode *)((char *)target + list->node_offset);
+        struct DListNode *elem_node = (struct DListNode *)((char *)elem + list->node_offset);
+        void *prev = target_node->prev;
+        struct DListNode *prev_node = (struct DListNode *)((char *)prev + list->node_offset);
+        elem_node->prev = prev;
+        elem_node->next = target;
+        prev_node->next = elem;
+        target_node->prev = elem;
+        list->count++;
+    }
+}
+
+void func_020605B4(struct DList *list, void *elem)
+{
+    struct DListNode *node = (struct DListNode *)((char *)elem + list->node_offset);
+    if (node->prev == 0) {
+        list->head = node->next;
+    } else {
+        struct DListNode *prev_node = (struct DListNode *)((char *)node->prev + list->node_offset);
+        prev_node->next = node->next;
+    }
+    if (node->next == 0) {
+        list->tail = node->prev;
+    } else {
+        struct DListNode *next_node = (struct DListNode *)((char *)node->next + list->node_offset);
+        next_node->prev = node->prev;
+    }
+    node->prev = 0;
+    node->next = 0;
+    list->count--;
+}

@@ -1,0 +1,64 @@
+/*
+ * function: func_02094A60
+ * address:  0x02094A60
+ * packet:   pkt_02094798
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * strcspn implementation in standard string utility module.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02094A60.c \
+ *       --func func_02094A60 --addr 0x02094A60 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+u32 func_02094A60(const u8 *s, const u8 *reject)
+{
+    u8 map[32];
+    u8 *p = map;
+    int i = 8;
+    u8 c;
+    const u8 *p_reject;
+    const u8 *p_s;
+
+    do {
+        p[0] = 0;
+        p[1] = 0;
+        p[2] = 0;
+        p[3] = 0;
+        p += 4;
+    } while (--i);
+
+    c = *reject;
+    p_reject = reject + 1;
+
+    if (c != 0) {
+        do {
+            u8 bit = (u8)(1 << (c & 7));
+            map[(u8)c >> 3] |= bit;
+            c = *p_reject++;
+        } while (c != 0);
+    }
+
+    c = *s;
+    p_s = s + 1;
+
+    if (c != 0) {
+        do {
+            u8 bit = (u8)(1 << (c & 7));
+            if (map[(u8)c >> 3] & bit) {
+                break;
+            }
+            c = *p_s++;
+        } while (c != 0);
+    }
+
+    return (u32)(p_s - s) - 1;
+}
