@@ -8007,3 +8007,135 @@ were scanned compressed and would read as "not a grid" even if they hold
 one -- not a live concern for "the" matrix table (which needs all ~170
 cells consistent, not 3-6 of them), but worth naming so a future pass
 does not assume full compressed coverage from this one.
+
+## Zone to map model SOLVED: record +0x04 is a matrix id into `a/0/0/9`, whose cells are u32 `a/0/0/8` indices
+
+Follow-up to "Matrix archive hypothesis: no NARC in the image is a
+grid-of-map-ids table" above, which ruled the hypothesis out. The hypothesis
+was right and the scan was wrong: the matrix archive is `a/0/0/9` and its
+cells are **u32**, not u16, which is exactly the one stride the previous
+pass's exhaustive scan did not try. This pass found the archive from the
+game's own code, decompiled the whole path to `EXACT`, and then confirmed
+the reading against the data.
+
+### The path, one function at a time
+
+```
+zone id
+  -> sub_02013B44(zone id)        arm9, reads zone record +0x04   = matrix id
+  -> func_02159B94(obj, matrix id, zone id, heap)    ov010
+       -> func_02048F60(9, matrix id, heap)          arm9  = load a/0/0/9 sub-file
+       -> func_02159D04(obj, file, matrix id, zone id)      = decode
+  -> obj's u32 cell grid at +0x71C                   = a/0/0/8 sub-file indices
+```
+
+`func_0215AE8C` (ov010) is the call site that makes the link concrete: it
+takes the current zone id, calls `sub_02013B44` on it, and passes the result
+straight into `func_02159B94` as the member to load, with the zone id itself
+alongside. `func_02185B48`/`func_02185B54` is the second call site with the
+same shape.
+
+`func_02048F60(archive_id, member, heap)` is the arm9 "load one whole
+sub-file into a heap block" entry point, the defaulting wrapper over
+`func_02048D54`; `func_02048DDC` inside it resolves archive id 9 through the
+same 235-entry name table at `0x020A6C58` that gave `a/0/1/2` for id 12, so
+id 9 is `a/0/0/9`. Verdicts for this pass are in
+`layout/matched/arm9/pkt_02048F4C.json` and
+`layout/matched/ov010/pkt_02159B94.json`.
+
+This also answers the previous pass's "the record has no `a/0/0/8` index":
+correct, and it never did. `+0x04` is one level of indirection away, which
+is why the direct-index correlation test scored 0.20 on it. The same pass's
+reading of `func_02013E90` ("compares +0x04 between two zones as an
+equivalence test, which reads as a grouping key") was right for the wrong
+reason: two zones with the same `+0x04` are two zones on the same matrix,
+which is precisely the test a seamless zone transition needs.
+
+### The `a/0/0/9` record layout, as `func_02159D04` reads it
+
+| offset | width | meaning |
+|---|---|---|
+| +0x00 | u16 | mode; only `ldrh` is used, the upper half is never read |
+| +0x02 | u16 | unread |
+| +0x04 | u16 | width |
+| +0x06 | u16 | height |
+| +0x08 | u32 x width*height | block 1: `a/0/0/8` sub-file index per cell, `0xFFFFFFFF` = empty |
+| +0x08 + 4*w*h | u32 x width*height | block 2, **only when mode == 1**: zone id per cell |
+
+`func_02159D04` copies block 1 verbatim into the runtime matrix object's
+u32 grid at +0x71C and narrows block 2 cell by cell into the u16 grid at
++0x14. When mode is not 1 there is no block 2 and the whole u16 grid is
+filled with the caller's single zone id instead (`func_02082A48(zone_id,
+grid, 0x708)`), so mode is the "this matrix spans several zones" flag.
+Both grids are fixed 900-entry arrays, which is why 0x14 + 900 * 2 lands
+exactly on 0x71C, and `func_02159C0C` refuses any width or height above 30.
+
+The runtime object: +0x02 zone id, +0x04 matrix id, +0x08 width, +0x0a
+height, +0x0c mode, +0x10 cell count, +0x14 u16 zone grid, +0x71C u32 map
+grid. `func_02159BC4(obj, x, y)` reads the zone grid; `func_02159C20(obj)`
+returns the map grid base.
+
+### The checks
+
+    matrices in a/0/0/9                 255
+    shape fits the layout above         255 / 255, byte-exact, no remainder
+    mode histogram                      253 x mode 0, 2 x mode 1
+    max cell over every matrix          648      (a/0/0/8 has 649 sub-files)
+    max per-cell zone id (mode 1)       423      (427 zones)
+    zone record +0x04 over 427 zones    max 254, 238 distinct, all < 255
+    matrices actually referenced        238 of 255 (17 unreferenced)
+
+Two-line check that every map id a zone can reach is a real `a/0/0/8`
+sub-file, quoted so it can be re-run:
+
+```python
+mid = [struct.unpack_from('<H', zonerec, 48 * z + 4)[0] for z in range(427)]
+assert all(c == 0xFFFFFFFF or c < 649 for z in mid for c in cells(z))   # 427/427 zones, max 648
+```
+
+where `cells(z)` reads sub-file `mid[z]` of `a/0/0/9` and unpacks
+`width*height` u32s from offset 8. It passes for all 427 zones: 15060 cell
+lookups, every non-empty value in 0..648.
+
+### The naming cross-check, which is what makes this conclusive
+
+Matrix 0 is 29 x 27 with mode 1: the Unova overworld. Its cell (5, 4) holds
+67 and `a/0/0/8` sub-file 67's own MDL0 model name is `map05_04`; cell
+(5, 5) holds 66 and sub-file 66 is named `map05_05`. The map models name
+their own matrix coordinates, and the cells resolve to exactly those files.
+A numeric coincidence does not reproduce a two-dimensional coordinate
+system in the model names.
+
+Matrix 0 and matrix 175 are the only two mode-1 matrices, both 29 x 27 with
+the same 229 used cells and the same maximum map id (272); 40 zones point
+at matrix 0 and 23 at matrix 175. The other 253 matrices are small (186 are
+1 x 1, 30 are 2 x 2), i.e. interiors, one map model per zone.
+
+### What this closes and what it does not
+
+Closed: the map-model link, the `a/0/0/9` record format, the matrix runtime
+object layout, and the meaning of record `+0x04`.
+
+Not closed, and corrected:
+
+- The `conn` array at record +0x0c..+0x12 (1001..1170) is **not** map data
+  and not neighbour zones either. Its indexed accessor `func_02013BDC` is
+  reached only through the forwarding thunk `func_02029E64` at `0x02029E70`,
+  and the 0x02029Cxx caller that consumes it feeds the value to
+  `func_020289F8` as a sound argument with a 0x3c time constant beside it.
+  The shape (four slots, 381/427 records with all four equal, values well
+  above any zone id) reads as per-time-of-day BGM ids. This is a lead from
+  one call site, not a decoded result: it is recorded here so the next pass
+  starts from the sound module instead of re-testing map hypotheses.
+- Which archive the `+0x06`/`+0x08` pair indexes is still open. The one new
+  data point: `func_02158D2E` in ov010 reads `+0x06` and `+0x0a` in the same
+  breath and writes them out as two fields of a message-source triple with a
+  constant 3 between them, so `+0x06` most likely belongs with the script
+  lane in a text/message archive rather than with the map data.
+- No call site anywhere in the image passes a literal 8 to any archive
+  entry point, so `a/0/0/8` itself is opened with a computed or table-driven
+  id. The map-model loader that consumes a cell value was not traced this
+  pass; `func_0218CD20` in ov021, which splices two matrices' u32 grids
+  together, is where to pick that up.
+- The 17 unreferenced matrices are unexplained (unused data, or reached
+  from a path other than the zone record).
