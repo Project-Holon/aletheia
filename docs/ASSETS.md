@@ -922,6 +922,117 @@ that was attempted this pass -- MIDI-with-approximate-instruments was the
 mission's actual ask ("make the music audible"), and that's what
 `sseq2midi.py` delivers today.
 
+### Sample-based SSEQ renderer (`tools/assets/sseqsynth.py`)
+
+Fifth (audio) pass: renders real-timbre `.wav` files from this ROM's own
+SWAV samples instead of a generic MIDI synth, closing the "remaining work"
+gap the previous pass left open.
+
+**SEQ -> BANK resolution, solved: it's a direct field, not PLAYER.** The
+previous pass's conclusion ("SEQ record has no BANK index; resolution
+likely goes through PLAYER") was wrong, and this pass found why: it read 2
+bytes of the SEQ INFO record as two separate u8 fields ("volume"/"channel
+pressure") that are actually one u16 field -- the BANK index itself.
+Decoding this SDAT's 7 PLAYER INFO records directly (`sdat.py`'s new
+`player_record()`) settles it: every PLAYER record is `u8 seq_max, u8 pad,
+u16 channel_bitmask, u32 heap_size` (8 bytes) -- a channel/heap allocation
+group, no BANK reference anywhere. Rereading the SEQ record's bytes +4:+6
+as one u16 instead resolves **940/940 (100%)** of populated SEQ records to
+a real `bank_record()`, and the resolved BANK's SYMB name matches the
+SEQ's own name in every case checked: `SEQ_BGM_TITLE` ->
+`BANK_MUS_WB_TITLE`, `SEQ_BGM_GYM` -> `BANK_MUS_WB_GYM`,
+`SEQ_BGM_VS_NORAPOKE` -> `BANK_MUS_WB_VS_NORAPOKE`, `SEQ_SE_MESSAGE` ->
+`BANK_SE_WB_MESSAGE`, `SEQ_PV001` -> `BANK_PV001`. `sdat.py`'s
+`seq_record()` now returns this field as `bank` directly; see that
+method's docstring for the full byte-level trace (including exactly which
+2 bytes were misread before and why the wrong reading looked plausible at
+a glance -- "volume" values like 235, outside 0-127, were the tell).
+
+**Verification (the mission's "known cry-bearing sequence" check):**
+`SEQ_PV001` (SDAT SEQ slot 1) disassembles to just 8 events -- Tempo,
+ProgramChange, Volume, Pan, one `Note` (pitch 60, velocity 127, duration
+**0**), TrackEnd -- exactly the shape of a cry trigger, not a melody. Its
+`bank` field resolves to `BANK_PV001`, whose sole instrument (type 1)
+points via the BANK's own `wave_arc[0]` to a real one-shot PCM/ADPCM
+sample. Rendering it through the same code path as the BGM files produces
+a non-silent, non-clipped 1.5 s `.wav` (`--seq-index 1 --verify`) --
+confirming the whole pointer chain end to end, the same way the original
+Pikachu-cry worked example did by hand.
+
+**Voice model:** per-track bytecode interpreter (real `Jump`/`Call`/
+`Return` control flow -- forward jumps taken unconditionally, a backward
+jump taken once then refused, so a loop plays twice per the mission
+brief's "one loop plus one repeat", `Call` pushes a return address,
+`0xA0`/`0xA1`/`0xA2` skipped as no-ops by an assumed fixed byte count).
+Each `Note` resolves an `Sbnk` instrument at index = current
+`ProgramChange` patch: type 1 used directly; type 16/17 picked by
+ascending split point vs. the played note. The resolved region's `wave_arc`
+(local, 0-3) is looked up in the *owning BANK's own* `wave_arc[4]` table to
+get a global WAVARC index, then `wavarc_fileid()` + `raw_file()` +
+`Swar`/`Swav` give the actual sample. Pitch: linear-interpolation resample
+at `2**((played_note-base_note)/12) * native_rate/32768`. Looping: a
+looping SWAV wraps `[loop_start, total_len)` for as long as the note
+sustains; a one-shot SWAV always plays its own full natural length
+regardless of the SSEQ note's own (sometimes zero) gate duration -- needed
+for cries specifically, whose `Note` duration is 0. Envelope: a simple
+linear ADSR from the instrument's attack/decay/sustain/release bytes
+(direction picked empirically -- low byte = fast stage -- see
+`sseqsynth.py`'s `adsr_times()` docstring). Per-note gain multiplies the
+SEQ's own overall volume, the track's current Volume/Expression, and
+note velocity; pan is a linear (not equal-power) left/right crossfade.
+Tempo events build a piecewise tick-to-seconds map (48 ticks/quarter, same
+assumed convention as `sseq2midi.py`). All notes mix into a float buffer,
+peak-normalised down (never up) if it would clip, with a 1-second linear
+fade-out at the very end.
+
+**A real, pre-existing SBNK gap this pass had to work around:**
+`sbnk.py`'s own `parse_regions()` (type 16/17 key-split/drum-kit) was
+already flagged medium-confidence, "not independently re-derived from a
+byte-level spec." This pass measured exactly how bad that gap is: across
+every type-16/17 instrument in this SDAT (1447 of them), the *first*
+region resolves to a plausible in-bank `wave_arc` (0-3) 1253/1447 times
+(86.6%), but every region *after* the first is plausible only 154/3786
+times (4.1%) -- almost always garbage (e.g. `wave_arc=23167`, far outside
+the valid 0-3 range). Rather than drop most of a real melody's upper
+register, `resolve_instrument_region()` falls back to the instrument's
+first region when the split-matched one is implausible -- an audible
+approximation (wrong per-range timbre, right instrument family), not a
+fix to `sbnk.py`'s byte layout (that remains future work, out of this
+lane's scope).
+
+**Files rendered to `build/assets/audio/` (gitignored, regenerate, don't
+commit), 32768 Hz stereo 16-bit, capped at 30 s:**
+
+| file | SEQ index | duration | tempo | tracks | notes rendered | peak |
+|---|---:|---:|---:|---:|---:|---:|
+| `seq_bgm_title.wav` | 1003 (`SEQ_BGM_TITLE`) | 30.00 s | 60 BPM | 12 | 38/72 | 22579/32768 |
+| `seq_bgm_gym.wav` | 1062 (`SEQ_BGM_GYM`) | 30.00 s | 116 BPM | 9 | 75/296 | 9139/32768 |
+| `seq_bgm_vs_norapoke.wav` | 1128 (`SEQ_BGM_VS_NORAPOKE`) | 30.00 s | 190 BPM | 11 | 129/766 | 17515/32768 |
+| `seq_se_message.wav` | 1351 (`SEQ_SE_MESSAGE`) | 2.53 s | 300 BPM | 1 | 2/2 | 9681/32768 |
+| `seq_pv001_cry_verify.wav` | 1 (`SEQ_PV001`, cry verification) | 1.50 s | 100 BPM | 1 | 1/1 | 29837/32768 |
+
+All five pass this pass's sanity gate (`--verify`): non-silent (>1% of
+samples above a small noise-floor threshold), not clipped (peak <
+32767), and at least one note event actually consumed and rendered.
+
+**Known inaccuracies (see `sseqsynth.py`'s module docstring for the full
+list):** ADSR curve shape/scale and its byte-value direction are both
+assumed, not derived from real hardware timing; Volume/Expression/pan
+combine linearly, not on the hardware's real (likely dB-scale) curve;
+Portamento/Mod*/SweepPitch/PitchBendRange/Tie and pitch bend itself are
+no-ops (no per-sample re-triggering of resample ratio mid-note);
+`0xA0`/`0xA1`/`0xA2` are skipped by an assumed fixed byte count, not a
+verified argument decode; SBNK types 2/3 still have no wave data to play;
+loop detection only recognises one backward `Jump` per track, same
+limitation `sseq2midi.py` already has.
+
+**Remaining gaps:** SBNK type 16/17's true byte layout beyond the first
+region (the 4.1%-plausible finding above); SWAV PCM16 remains unexercised
+against real data (this ROM's WAVARC entries are 100% PCM8/ADPCM, per the
+SWAR/SWAV section above); `0xA0`-`0xA2`'s real argument shapes are still
+unknown in this codebase, so the no-op byte-skip is a labelled guess, not
+a decode.
+
 ## Where things probably live (guesses, ranked by evidence)
 
 These are the answers to "where do I find X to build the next converter

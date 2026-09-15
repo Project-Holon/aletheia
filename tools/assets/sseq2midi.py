@@ -64,18 +64,17 @@ melodic tracks get a distinct channel, further tracks wrap around --
 SSEQ allows up to 16 tracks so this can collide on channel reuse for the
 rare fully-loaded sequence, documented as a gap below).
 
-**SEQ -> BANK resolution is NOT automatic.** `sdat.py`'s `seq_record()`
-was found, during this lane, to have no valid direct BANK-table index in
-its 12-byte INFO record (see that function's docstring for the full byte-
-level trace); the real field is most likely a small PLAYER-table selector
-(0-6, matching this SDAT's 7 PLAYER records), and PLAYER's own record
-layout is undecoded. So this tool cannot look up "the" SBNK for a given
-SEQ on its own -- callers who want program/drum mapping must pass
-`--bank-index` explicitly (found by inspection, e.g. via
-`sbnk.py --bank-index N extract/data/wb_sound_data.sdat`). Without it,
-every track is melodic and program numbers are the raw `patch % 128`
-value with no drum-channel routing -- a labelled gap, not a silent wrong
-answer.
+**SEQ -> BANK resolution, corrected by a later (sseqsynth) lane.** This
+docstring previously claimed `seq_record()` had no valid BANK-table index
+and guessed SEQ -> PLAYER -> BANK instead; both were wrong. The real BANK
+index turned out to be a direct u16 field in the SEQ INFO record, just
+misread here as two separate u8 fields (see `sdat.py`'s `seq_record()`
+docstring for the full corrected trace, and `sseqsynth.py`'s module
+docstring for the sample-accurate renderer this mistake was found and
+fixed for). `seq_record()` now returns it as `rec["bank"]`, resolved for
+940/940 populated SEQ records, so `convert()`/`main()` below now resolve it
+automatically when `--bank-index` is omitted; that flag still exists for
+callers who want to force a different BANK than the SEQ record's own.
 
 Other opcodes mapped to MIDI:
     Pan (0xC0)          -> CC 10 (SSEQ 0-127, 64=center; same range as MIDI)
@@ -425,6 +424,8 @@ def convert(sdat_obj, seq_index, bank_index=None):
         raise MidiError(f"SEQ index {seq_index} has no record")
     raw = sdat_obj.raw_file(rec["file_id"])
     seq = sseq.Sseq(raw)
+    if bank_index is None:
+        bank_index = rec["bank"]  # auto-resolved, see module docstring
     bnk = None
     if bank_index is not None:
         brec = sdat_obj.bank_record(bank_index)
@@ -442,8 +443,8 @@ def main(argv=None):
     ap.add_argument("--seq-index", type=int, help="SEQ index (when --input is an SDAT)")
     ap.add_argument("--bank-index", type=int,
                      help="BANK index for program-number/drum-channel mapping "
-                          "(optional -- see module docstring on why this can't "
-                          "be resolved automatically from the SEQ record)")
+                          "(optional -- auto-resolved from the SEQ record's own "
+                          "bank field when omitted, see module docstring)")
     ap.add_argument("-o", "--output", required=True, help="output .mid path")
     ap.add_argument("--verify", action="store_true", help="read the .mid back and report")
     args = ap.parse_args(argv)
