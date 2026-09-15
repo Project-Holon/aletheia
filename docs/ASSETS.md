@@ -5502,3 +5502,141 @@ shaped content.**
   reconsider whether Black/White trainer "sprites" are a shared/reused
   rig keyed by something coarser than class (e.g. body type or a small
   handful of archetypes) rather than per-class art.
+
+## Asset lane pass: `a/1/3/4` hypothesis test -- NOT trainer battle art, confirmed as opening-cinematic frame sequence (`--raw16`/`--contact-sheets` added to `tools/assets/battle_sprite.py`)
+
+Mission: test the standing hypothesis that `a/1/3/4` (670 sub-files, each a
+256x256 16bpp direct-color image -- pixel format nailed down by the sixth
+pass, "reinterpreted" above) is the trainer battle art after all, on the
+theory that Gen 5 trainers animate on entry and 670 frames could be several
+per class across 105 classes (see the previous section for the 105-class,
+trdata-anchored count).
+
+**Verdict: rejected.** `a/1/3/4` is a rendered cinematic (almost certainly
+the game's intro movie / Team Plasma castle sequence featuring N), stored
+as a linear sequence of full-frame images, not a per-trainer-class sprite
+table.
+
+### Method and evidence
+
+`battle_sprite.py` gained two additions (kept, since they are generally
+useful and the mission's write set includes this tool):
+
+- `unpack_16bpp_direct()` / `decode_one_raw16()` / `--raw16`: a proper
+  256x256 16bpp A1BGR555 linear decode path, replacing the ad hoc
+  not-committed script the sixth pass used for its 4 samples. This is the
+  format `a/1/3/4` actually uses (see "reinterpreted" above); the older
+  `unpack_4bpp_tiles()` path is left in place only because it may still be
+  correct for some other LZ11-no-magic archive, not this one.
+- `build_contact_sheets()` / `--contact-sheets` (`--stride`, `--thumb-px`,
+  `--per-sheet`): renders every sub-file (or every Nth) as a small
+  thumbnail tiled into 5x5 (default) contact sheets, so a whole archive can
+  be eyeballed a page at a time instead of one image per call. All 670
+  entries were rendered this way, at 96px thumbnails, 25 per sheet, 27
+  sheets total, to `build/assets/trainer_sheet/sheet_NN.png`.
+
+Reading all 27 sheets top to bottom shows a single continuous narrative,
+not 105 independent character portraits:
+
+- **Indices ~0-90**: a dusk exterior building scene behind a fence-like
+  foreground silhouette (this is the sixth pass's species-25 sample,
+  index 25, sitting mid-shot -- consistent, not a coincidence), slow
+  camera drift, then a cut to two crossed glowing blades/lights.
+- **Indices ~150-250**: a green-haired, red-eye-marked face (this is the
+  sixth pass's species-150 sample, index 150) filling most of the frame
+  with a crown-shaped hair silhouette and a golden backlight -- this is
+  **N** (Pokemon Black/White's central character; green hair styled into
+  a crown-like leaf crest and a diamond-shaped red facial marking is his
+  unique, unmistakable design). This shot alone runs close to 100 frames
+  of near-static held pose with only lighting drifting.
+- **Indices ~330-395**: a hallway of tall blue-lit thrones under an arched
+  ceiling, then a backlit crowd filing into the same hall -- this reads as
+  Team Plasma's castle throne room.
+- **Indices ~370-460**: a forest scene with an owl/fox-like creature (fur
+  ruff, large yellow eyes) filling the frame -- a Pokemon close-up shot,
+  not a trainer.
+- **Indices ~498-530**: two women in close, informal portrait (blonde/
+  brown hair, warm indoor lighting) -- plausibly a mother-and-daughter or
+  two-friends beat; not confidently matched to any named NPC.
+- **Indices ~550-585**: a hand cupping a small glowing object, cutting to
+  a green-hair/pink-marking close-up (N again, different framing).
+- **Indices ~600-655**: a robed, white-haired elder figure with both arms
+  raised under a golden halo/glow inside the same cathedral-like hall,
+  then a fade to the empty hall interior with the crowd silhouettes --
+  reads as a ceremony/coronation beat (Ghetsis-shaped: robed elder
+  presiding in Team Plasma's castle), ending the sequence in near-total
+  black.
+
+A coarse per-frame signature scan (sum of a 400-word pixel sample per
+sub-file, flagged as a new "shot" wherever the signature jumps >2%)
+independently found **77 runs** with lengths ranging from single-frame
+spikes (crossfades/flashes between shots) up to 80 contiguous frames of
+one held shot (indices 374-453). This shot-length profile -- long,
+unevenly-sized runs punctuated by single-frame transitions -- is the
+signature of an edited movie broken into frames, not a lookup table: **no
+run boundary lines up with anything resembling 105 discrete class slots**,
+and run lengths (1, 2, 5, 6, 10, 14, 25, 27, 29, 31, 33, 38, 40, 55, 63,
+80, ...) show no common factor or stride consistent with "N frames per
+class." This is the direct falsification of the mission's animation-table
+hypothesis: a per-class {start, count} table summing to 670 was not found
+because there isn't one to find -- the frame boundaries are cinematic cuts,
+not class boundaries.
+
+No small {start_frame, count} x105 table was searched for in ARM9 data
+beyond this negative structural result (the shot-length evidence already
+rules out the premise a table like that would encode); this is flagged as
+moot rather than as a remaining gap.
+
+### Character identification
+
+- **N**: confidently identified (green hair in a crown-like crest, red
+  diamond eye marking) at indices ~150-250 and again ~570-585. Matches
+  the mission's own sample-150 description exactly.
+- No other named Black/White character (Cheren's glasses, Bianca's beret,
+  Professor Juniper, any Gym Leader, or Alder) was recognized in any of
+  the 27 sheets. The two-women shot (~498-530) and the robed-elder shot
+  (~600-655, plausibly Ghetsis by role/staging, not by any confirmed
+  visual signature) are the only other human figures in the whole archive,
+  and neither carries a distinguishing feature this pass could match with
+  confidence.
+
+### What this means for the archive's identity and prior documentation
+
+- The inventory table's per-archive one-line guesses (`docs/ASSETS.md`'s
+  big table, e.g. the `a/1/3/4` row's stale "text banks (guess)") are
+  mechanically generated by `inventory.py`'s heuristics and are left
+  alone; the narrative "Where things probably live" list's `a/1/3/4` entry
+  and the "reinterpreted" section above already correctly flagged this as
+  an open question ("trainer portraits? battle backgrounds? cutscene
+  art?") -- this pass resolves that question in favor of **cutscene art
+  (specifically: the intro movie)**, not a portrait/background asset and
+  not trainer battle art. No prior section asserted the trainer-sprite
+  reading as settled fact, so there is no incorrect claim to retract, only
+  an open question to close.
+- `tools/assets/battle_sprite.py`'s docstring/name (`battle_sprite.py`,
+  "decoder for the battle sprite archive `a/1/3/4`") is now known to be a
+  misnomer for what the archive actually holds; renaming the file was not
+  done this pass (out of the write set's "no code from other projects"
+  and general lean-session discipline -- a rename is a larger, purely
+  cosmetic change better bundled with whatever future pass gives this
+  archive a real name, e.g. `intro_movie.py`, once the movie is confirmed
+  against the actual Black/White opening rather than inferred from framing
+  alone).
+- No `--trainers` per-class animation-strip mode was added to
+  `battle_sprite.py`, since the mission's own condition for adding it ("if
+  confirmed") does not hold -- adding it would encode a false premise.
+
+### Remaining gaps
+
+- The exact identity of the movie (opening title sequence vs. a specific
+  in-story cutscene, e.g. the Team Plasma castle ending) is inferred from
+  staging/character recognition, not verified against any script/event
+  table that names this archive.
+- The trainer battle sprite archive itself is still not located; this
+  pass only closes off `a/1/3/4` as a candidate. The standing conclusion
+  from the previous pass (no archive with an entry count matching the
+  105-class roster, at 1x-4x, holds sprite content) is unchanged.
+- Only 670/670 sub-files were thumbnailed, but only ~15% of thumbnails
+  (spread across a handful of sheets) were individually eyeballed in
+  detail in this writeup; the full run-length scan above covers all 670
+  programmatically, but a human has not looked at every single frame.

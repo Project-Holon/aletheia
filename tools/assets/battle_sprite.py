@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """
-battle_sprite.py -- decoder for the battle sprite archive `a/1/3/4`.
+battle_sprite.py -- decoder for `a/1/3/4`.
+
+**Name is now known to be a misnomer**: `a/1/3/4` is NOT trainer/Pokemon
+battle sprite art. A dedicated asset lane pass rendered and eyeballed all
+670 entries (`--contact-sheets`) and confirmed the archive is a rendered
+cinematic (an intro-movie-shaped sequence featuring N) stored as full
+256x256 16bpp frames -- see docs/ASSETS.md "a/1/3/4 hypothesis test -- NOT
+trainer battle art, confirmed as opening-cinematic frame sequence" for the
+full writeup. Use `--raw16` to decode the real (16bpp direct-color) pixel
+format; the 4bpp-tiled path below (this module's original guess) is kept
+only because it may still be correct for some other LZ11-no-magic archive,
+not this one. The file was not renamed/restructured this pass (see that
+section's "remaining gaps" for why).
 
 Written from scratch for the aletheia project. Stdlib only, single file.
 
@@ -126,6 +138,32 @@ def decode_subfile_raw(data):
     if kind != "LZ11" or dec is None:
         raise ValueError(f"expected an LZ11 sub-file, got kind={kind!r}")
     return dec
+
+
+## ---------------------------------------------------------------------------
+## 16bpp direct-color decode (tenth asset lane pass -- see docs/ASSETS.md
+## "a/1/3/4 IS the trainer battle art"). The whole 0x20000-byte decompressed
+## payload is a linear (non-tiled), row-major 256x256 image of 16-bit
+## little-endian A1BGR555 texels: bit 15 is an opacity flag (always set on
+## every sample checked, i.e. fully opaque), bits 0-4/5-9/10-14 are 5-bit
+## R/G/B channels. This supersedes the third-pass 4bpp-tiled-128-wide
+## hypothesis for THIS archive specifically (unpack_4bpp_tiles() above is
+## kept only because other archives may share the same LZ11-no-magic
+## container shape -- see the sixth-pass writeup).
+## ---------------------------------------------------------------------------
+
+RAW16_WIDTH_PX = 256
+RAW16_HEIGHT_PX = 256
+
+
+def unpack_16bpp_direct(payload, width_px=RAW16_WIDTH_PX):
+    """Unpack a linear 16bpp A1BGR555 buffer into a flat row-major list of
+    (r, g, b) 8-bit tuples. `payload` must be exactly width_px * height_px * 2
+    bytes (0x20000 for the 256x256 canvas this archive uses)."""
+    n_pixels = len(payload) // 2
+    height_px = n_pixels // width_px
+    words = struct.unpack_from(f"<{width_px * height_px}H", payload, 0)
+    return [bgr555_to_rgb8(w) for w in words], width_px, height_px
 
 
 def unpack_4bpp_tiles(payload, width_px=CANVAS_WIDTH_PX):
@@ -310,6 +348,66 @@ def decode_one(narc_obj, index, out_dir, trim, palette=None, out_name=None):
     return out_path, w, h, len(raw)
 
 
+def decode_one_raw16(narc_obj, index, out_dir, out_name=None):
+    """Decode one `a/1/3/4` sub-file as a 256x256 16bpp direct-color image
+    (see unpack_16bpp_direct() above). Returns (out_path, w, h, rgb_pixels)."""
+    raw = narc_obj.read(index)
+    payload = decode_subfile_raw(raw)
+    rgb, w, h = unpack_16bpp_direct(payload)
+    name = out_name if out_name is not None else f"{index:04d}"
+    out_path = os.path.join(out_dir, f"{name}.png")
+    write_png_rgb8(out_path, w, h, rgb)
+    return out_path, w, h, rgb
+
+
+def downsample_nearest(rgb_pixels, w, h, out_w, out_h):
+    """Nearest-neighbor downsample, stdlib only (no PIL)."""
+    out = [None] * (out_w * out_h)
+    for oy in range(out_h):
+        sy = min(h - 1, oy * h // out_h)
+        for ox in range(out_w):
+            sx = min(w - 1, ox * w // out_w)
+            out[oy * out_w + ox] = rgb_pixels[sy * w + sx]
+    return out
+
+
+def build_contact_sheets(narc_obj, out_dir, thumb_px=64, per_sheet=25, stride=1,
+                          start=0, end=None):
+    """Render every `stride`-th sub-file (default: all) as a `thumb_px`
+    square thumbnail, tiled `per_sheet` (default 5x5) per sheet, into
+    `out_dir/sheet_NN.png`. Each thumbnail cell is labelled implicitly by
+    its position; the mapping (position -> archive index) is printed and
+    also returned as a list, since PNG has no text layer here."""
+    os.makedirs(out_dir, exist_ok=True)
+    end = narc_obj.file_count if end is None else end
+    indices = list(range(start, end, stride))
+    cols = int(per_sheet ** 0.5)
+    rows = (per_sheet + cols - 1) // cols
+    sheet_w, sheet_h = cols * thumb_px, rows * thumb_px
+
+    sheets = []
+    for sheet_start in range(0, len(indices), per_sheet):
+        chunk = indices[sheet_start:sheet_start + per_sheet]
+        canvas = [(0, 0, 0)] * (sheet_w * sheet_h)
+        for cell, idx in enumerate(chunk):
+            cx, cy = (cell % cols) * thumb_px, (cell // cols) * thumb_px
+            try:
+                raw = narc_obj.read(idx)
+                payload = decode_subfile_raw(raw)
+                rgb, w, h = unpack_16bpp_direct(payload)
+                thumb = downsample_nearest(rgb, w, h, thumb_px, thumb_px)
+            except Exception:  # noqa: BLE001 -- leave the cell black on failure
+                continue
+            for ty in range(thumb_px):
+                row_off = (cy + ty) * sheet_w + cx
+                canvas[row_off:row_off + thumb_px] = thumb[ty * thumb_px:(ty + 1) * thumb_px]
+        sheet_no = sheet_start // per_sheet
+        out_path = os.path.join(out_dir, f"sheet_{sheet_no:02d}.png")
+        write_png_rgb8(out_path, sheet_w, sheet_h, canvas)
+        sheets.append((out_path, chunk))
+    return sheets
+
+
 def color_distribution(palette, pixels, top_n=5):
     """Return the `top_n` most common non-background colors among `pixels`
     (by palette index), as (rgb, fraction_of_nonzero_pixels). Indices 0 and
@@ -354,7 +452,32 @@ def main(argv=None):
                      help="with --all and a palette archive, print the "
                           "dominant-color breakdown for species 1/25/150 "
                           "instead of writing every PNG")
+    ap.add_argument("--raw16", action="store_true",
+                     help="decode as the 256x256 16bpp direct-color cinematic-"
+                          "frame format instead of the (wrong-for-this-archive) "
+                          "4bpp tiled layout -- see docs/ASSETS.md 'a/1/3/4 "
+                          "hypothesis test -- NOT trainer battle art'")
+    ap.add_argument("--contact-sheets", action="store_true",
+                     help="render every sub-file (or every --stride-th one) "
+                          "as a thumbnail contact sheet under --out, 16bpp "
+                          "direct-color, ignores --index/--trim/--palette-*")
+    ap.add_argument("--stride", type=int, default=1,
+                     help="with --contact-sheets, sample every Nth sub-file")
+    ap.add_argument("--thumb-px", type=int, default=64,
+                     help="with --contact-sheets, thumbnail side length")
+    ap.add_argument("--per-sheet", type=int, default=25,
+                     help="with --contact-sheets, thumbnails per sheet")
     args = ap.parse_args(argv)
+
+    if args.contact_sheets:
+        os.makedirs(args.out, exist_ok=True)
+        n = narc.parse_file(args.archive)
+        sheets = build_contact_sheets(n, args.out, thumb_px=args.thumb_px,
+                                       per_sheet=args.per_sheet, stride=args.stride)
+        print(f"[*] wrote {len(sheets)} contact sheet(s) to {args.out}")
+        for out_path, chunk in sheets:
+            print(f"    {out_path}: indices {chunk}")
+        return 0
 
     if not args.all and args.index is None:
         ap.error("give an index or pass --all")
@@ -386,11 +509,14 @@ def main(argv=None):
         fail = 0
         for i in range(n.file_count):
             try:
-                palette = None
-                if palette_narc is not None:
-                    pidx = palette_index_for(i, shiny=args.shiny)
-                    palette = load_palette(palette_narc, pidx)
-                decode_one(n, i, args.out, args.trim, palette=palette)
+                if args.raw16:
+                    decode_one_raw16(n, i, args.out)
+                else:
+                    palette = None
+                    if palette_narc is not None:
+                        pidx = palette_index_for(i, shiny=args.shiny)
+                        palette = load_palette(palette_narc, pidx)
+                    decode_one(n, i, args.out, args.trim, palette=palette)
                 ok += 1
             except Exception as exc:
                 fail += 1
@@ -398,6 +524,11 @@ def main(argv=None):
         print(f"[*] decoded {ok}/{n.file_count} sub-files to {args.out} "
               f"({fail} failed)")
         return 0 if fail == 0 else 1
+
+    if args.raw16:
+        out_path, w, h, _rgb = decode_one_raw16(n, args.index, args.out)
+        print(f"[*] sub-file {args.index}: {w}x{h} 16bpp direct-color PNG -> {out_path}")
+        return 0
 
     palette = None
     if palette_narc is not None:
