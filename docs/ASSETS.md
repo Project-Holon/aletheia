@@ -10152,3 +10152,214 @@ Not closed:
   is not itself sourced back to an a/0/0/8 file field in this pass -- it is
   read from the runtime map object, and this pass did not trace where that
   object's own fields are populated from the wrapper's bytes.
+
+## Archive readers traced by call graph: seven of the nine framed-but-unidentified tables identified
+
+Mission: take the tables the "Large custom table pass" above could frame but
+not name, and find their readers in code rather than guess from bytes. That
+pass had stopped at "no call site loads this id as an immediate". Two
+mechanical gaps explain most of what it missed, and closing them turned seven
+of the nine into identified domains.
+
+### Method, and the two gaps in an immediate scan
+
+The archive-read surface is not seven entry points, it is twelve. Enumerating
+the callers of `func_02048DDC` (arc_tool.c's single "open archive by id",
+which turns an id into a path through the identity name table at
+0x020A6C58) gives the whole set:
+
+| entry point | id in | what it does |
+| --- | --- | --- |
+| `func_02048D00` | r1 | read member into caller buffer, with mode and size out |
+| `func_02048D54` | r0 | read member into a fresh heap block |
+| `func_02048DDC` | r1 | open an archive into a caller-owned handle |
+| `func_02048F4C` | r1 | read member into caller buffer (mode 0, no size out) |
+| `func_02048F60` | r0 | read member into a fresh heap block (mode 0) |
+| `func_02048F74` | r1 | five-argument forwarder to `func_02048D00` |
+| `func_02048F88` | r0 | five-argument forwarder to `func_02048D54` |
+| `func_02049030` | r0 | member count of an archive |
+| `func_020490A8` | r0 | size of one member |
+| `func_020490F4` | r0 | allocate a 0x50-byte handle and keep it open |
+| `func_0204A1BC` | r0 | arc_util.c, allocate and read a member |
+| `func_02049250` and five siblings | handle in r0 | handle-based member reads |
+
+`func_020490F4` is the one the earlier pass did not have, and it is how every
+long-lived subsystem holds its archives.
+
+Gap one: the listings hide instructions behind `.inst.n` / `.inst.w`.
+`disasm.py` emits those wherever the assembler would re-encode, and puts the
+real mnemonic in the trailing comment. A scan that reads the mnemonic column
+drops them silently, which costs roughly a third of the `movs rX, #imm`
+population.
+
+Gap two: a tail call is a pool word and a `bx`, not a `bl`
+(`docs/idioms/tail-call-is-a-pool-word-and-bx.md`), so an accessor that
+forwards straight into `func_02048F4C` never appears in a call scan at all.
+Image-wide there are six such thunks, and one of them is a/2/1/4's only
+reader. See `docs/notes/a_1_6_9_and_a_1_6_8_no_reader.c.txt` for the full
+enumeration.
+
+With both closed, the backward walk resolves 608 call sites: constants,
+`mov` chains, pool loads, folded `lsls`/`adds`, and recursion into every
+caller when the id is still a parameter at the top of the function.
+
+A second lever did most of the naming work once the readers were found. Every
+`sub_02030734` allocation carries a `__FILE__` pointer, so the pool words of
+any function name its translation unit. Harvesting those across arm9 and all
+237 overlays gives 1018 anchors, enough to bracket any address by source
+file.
+
+### Per archive
+
+| archive | reader | region, source file | domain |
+| --- | --- | --- | --- |
+| a/1/9/4 | `func_02006C2C` (0x02006C2C) | arm9, pm_voice.c | per-species cry parameters |
+| a/0/1/3 | `sub_0201407C` (0x0201407C) | arm9, zonedata.c | per-map-area record, seasonal |
+| a/2/1/4 | `func_02168800` (0x02168800) | ov010, fld_btl_inst_tool.c | battle-facility Pokemon |
+| a/2/1/5 | `func_0216880C` (0x0216880C) | ov010, fld_btl_inst_tool.c | per-group legal Pokemon pool |
+| a/1/2/5 | `func_0216237C` (0x0216237C) | ov010, eventdata_system.c | per-zone map event data |
+| a/1/0/8 | `func_0218E018` (0x0218E018) | ov021, field_g3d_mapper.c | per-map-area 3D mapper data |
+| a/1/7/8 | `func_021BF788` (0x021BF788) | ov208, zukan_detail_* | per-species Pokedex detail |
+| a/1/6/9 | none in the image | -- | same record type as a/2/1/4 |
+| a/1/6/8 | none in the image | -- | same record type as a/2/1/5 |
+
+**a/1/9/4, per-species cry parameters** (652 x 4 bytes). `func_02006C2C`
+copies one member into a four-byte stack buffer with
+`func_02048F4C(buf, 194, species)` and writes the low byte of the halfword at
++2 to an output byte. That byte's range over the whole archive is 97..127, a
+7-bit playback parameter. The u16 at +0 takes only five values, 0, 10512,
+13000, 13379 and 16000, which read as sample rates. The identification is
+pinned by the function's own special case: it compares the species against
+441, which is Chatot, the one species whose cry is a recorded sample, and on
+that path overwrites the pitch byte with 0x78 = 120.
+Sanity check: a/1/9/4 record 441 is `43 34 78 00`, so its stored +2 byte is
+already 0x78, the exact value the Chatot path substitutes.
+The reader is EXACT in `src/matched/func_02006C2C.c`.
+Field map: +0 u16 rate, +2 u8 pitch (97..127), +3 u8 pad.
+
+**a/0/1/3, per-map-area record, seasonal** (282 x 10 bytes, a flat file, not
+a NARC). It does have an archive id, 13, and it is opened by path only
+because `func_02020DEC` turns any id into its name-table path: the raw
+byte-range reader `func_02020E08(id, heap, offset, size)` is what a non-NARC
+file needs. `sub_0201407C(heap, index, delta)` calls it with
+offset = index * 10 and size = 10, and clamps index against a pool constant
+of 0x11A = 282, exactly the record count. `delta` is added only when
+`sub_020140E8` says `2 <= index < 0xD2`; that window is 208 records wide, a
+multiple of four, and ov021's fieldmap.c and ov020's event_mapchange.c both
+pass the season for `delta`. So records 2..209 are four seasonal variants of
+52 base entries and records 210..281 have none.
+The index comes from the zone table: both callers compute it as
+`sub_02013B38(zone_id)`, the u16 at +2 of the a/0/1/2 zone record.
+Sanity check: that field over all 427 zones ranges 2..273 with 104 distinct
+values, so every zone lands inside the 282-record clamp, and the low end
+coincides with the seasonal window's lower bound.
+`sub_0201407C` and `func_02020E08` are both EXACT
+(`src/matched/sub_0201407C.c`, `src/matched/func_02020E08.c`);
+`func_02020E08`'s `__FILE__` string identifies its unit as file_util.c.
+Record shape from the bytes plus the one attested accessor
+(`sub_020140DC` returns the byte at +7): +0 u8 kind, +1 u8 zero,
++2 u16 self index, +4 u8, +5 u8 (0xFF sentinel), +6 u8 always 1,
++7 u8 which steps 0x20..0x23 across the four seasonal siblings, +8 u8,
++9 u8.
+
+**a/2/1/4, battle-facility Pokemon** (1000 x 16 bytes) and **a/2/1/5,
+per-group legal Pokemon pool** (315 group lists). Both readers are in ov010's
+fld_btl_inst_tool.c, next to each other, and each attests the other.
+`func_02168800(dst, member)` is the tail-call thunk that hides id 214;
+`func_0216880C(group, heap)` reads a/2/1/5 member `group + 1`, so group 0 is
+sub-file 1 and sub-file 0 is the usual sentinel.
+`func_02168924` is where the two meet: it takes `count` from +2 of the group
+record, picks a random index below it, reads the member id from
++4 + 2*index, and passes that id to `func_02168800`. That is direct evidence
+that a/2/1/5's member ids index a/2/1/4, which the previous pass could only
+infer from the id ranges.
+`func_021684E8` then decodes the 16-byte record field by field into a party
+slot, which names every field:
+
+| offset | width | field | evidence |
+| --- | --- | --- | --- |
+| +0 | u16 | species | stored into an 11-bit bitfield (`& 0x7FF`) |
+| +2, +4, +6, +8 | u16 x4 | moves 1..4 | copied in a four-iteration loop |
+| +10 | u8 | EV-invested stat mask | bits counted over six positions, against a pool constant of 510 |
+| +11 | u8 | nature | 0..24 over the archive |
+| +12 | u16 | held item | overridable by a caller-supplied table |
+| +14 | u16 | form | low five bits, into bits 11..15 of the species halfword |
+
+Sanity check: species max 645 (under 650), move max 556 (under 560), nature
+max 23, EV mask popcount at most 4 with 510 EVs to divide, +14/+15 zero in
+every one of the 1000 records; and a/2/1/5's 315 lists reach member id 988
+with zero ids outside a/2/1/4's 1000 records.
+`func_02168800` is EXACT and `func_0216880C` EXACT* (its follower at
+0x02168824 is unlabelled).
+
+**a/1/2/5, per-zone map event data** (428 sub-files). `func_0216237C` is the
+event-data system constructor and the only place in the image that names id
+125. It opens three persistent handles side by side: 125 into +0x04, 126
+(a/1/2/6, the already-decoded wild encounter tables) into +0x08, and 57
+(a/0/5/7, the already-decoded script archive) into +0x0c. a/1/2/5 is
+therefore the third member of the classic per-zone triple of events,
+encounters and scripts, and its 428 sub-files are the 427 zones plus the
+trailing entry.
+`func_021624B0(sys, zone_id)` reads the member and parses it, which resolves
+the previous pass's "leading u32 does not reduce to one header size": the
+u32 at +0 is the offset from +4 to a trailing block, not a header length.
+The layout is `[u32 to_trailing][u8 c0][u8 c1][u8 c2][u8 c3]` then arrays of
+20, 36, 20 and a fourth record size, with `+0x120` of the system object
+pointing at the trailing block and `+0x1c/+0x20/+0x24/+0x28` at the four
+arrays.
+Sanity check: 427 of the 428 sub-files satisfy `4 + to_trailing <= length`
+and `8 + 20*c0 + 36*c1 + 20*c2 <= length`; the one that does not is the
+4-byte sentinel.
+`func_0216237C` is byte-correct but capped at MATCH and parked in
+`src/pending/func_0216237C.c`: its `__FILE__` string "eventdata_system.c" is
+preceded by a pointer table rather than another string, so the `string`
+evidence class cannot fix its start
+(`docs/idioms/a-string-after-a-data-table-has-no-witness.md`).
+
+**a/1/0/8, per-map-area 3D mapper data** (282 sub-files). `func_0218E018` in
+ov021's field_g3d_mapper.c opens it as a persistent handle at +0x08 of the
+mapper object, immediately after opening a/0/6/0 (id 60) at +0x04, and the
+destructor at 0x0218E0E4 closes both. The 282 count is the same index space
+as a/0/1/3, which zonedata.c reaches from the zone record's +2 field, so
+a/1/0/8 is per-map-area and not per-zone. Its shape from the bytes, twelve
+header bytes then four 4-byte blocks, lines up with a/0/1/3's four seasonal
+variants: one block per season. That last step is structural, not attested by
+an accessor, because the member read itself happens through the handle in
+code this pass did not reach.
+
+**a/1/7/8, per-species Pokedex detail** (649 x 249 bytes, no sentinel).
+`func_021BF788` in ov208 opens it with `func_020490F4(178, heap)` and stores
+the handle at +0x40C of the Pokedex-detail object, keyed by the species id it
+reads from `[r6]` in the same breath; the teardown at 0x021BF98C closes it.
+ov208's bracketing `__FILE__` anchors are zukan_detail_headbar.c and
+zukan_detail_voice.c, so the domain is the Pokedex detail screen and the 649
+sub-files are the 649 species with no species-0 sentinel, which is why this
+archive is one short of the usual 650. Field map not attested: offset +0x40C
+is written once and read once, at the close, so the member read is in the
+partner overlay (ov206 occupies 0x021B9DE0..0x021BC240 beneath ov208) or
+further out, and no handle-based read anywhere in ov206 or ov208 uses it.
+That is the honest stopping point for this archive.
+
+**a/1/6/9 and a/1/6/8: no reader exists.** Recorded as a closed negative
+result in `docs/notes/a_1_6_9_and_a_1_6_8_no_reader.c.txt`, with the three
+independent scans that make it trustworthy. Their record types are settled by
+structural identity with a/2/1/4 and a/2/1/5, whose readers are matched
+above, and the per-offset statistics agree (a/1/6/9: species max 488, move
+max 466, EV mask popcount at most 3, nature max 24, +14/+15 always zero;
+a/1/6/8's 315 lists reach member id 950 against a/1/6/9's 951 records with
+zero out-of-range ids). The domain question, which facility, has no answer in
+Black's code.
+
+### What remains
+
+- a/1/7/8's field map, and the a/1/0/8 member read: both need the consumer
+  side, which is a code-lane packet in ov206/ov208 and in ov021's
+  field_g3d_mapper.c, not a data-lane pass.
+- a/1/9/4's u16 at +0: the five values look like sample rates but no reader
+  touches that field, so the caller that does must be reached through the
+  sound module's function-pointer tables (`func_02006C2C` has no direct
+  caller in the image).
+- a/0/1/3's remaining bytes: only +7 has an attested accessor
+  (`sub_020140DC`); the other eight are read from the bytes.
+- a/1/6/8's 93 self-inclusive records still have no explanation, and now
+  cannot get one from code.

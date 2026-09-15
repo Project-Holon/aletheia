@@ -1,0 +1,73 @@
+/*
+ * unit:     no
+ * function: func_0203EF5C
+ * address:  0x0203EF5C
+ * packet:   pkt_0203EF5C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ *
+ * symbols:
+ *   g_021469F8     0x021469F8  data
+ *   g_020A7E4C     0x020A7E4C  data
+ *   sub_02030734   0x02030734  arm
+ *   func_020819B8  0x020819B8  arm
+ *
+ * TU: gf_standard.c.  The allocation site string at 0x020A7E4C reads
+ * "gf_standard.c" and this is its only reference in the image, so the
+ * Mersenne Twister block (0x0203EF5C onwards) is that translation unit;
+ * bg_sys.c starts further down at 0x0203F8F4, whose site string is the
+ * "bg_sys.c" at 0x020A7E5C.
+ *
+ * Constructor for the random-number state: 0xbcc bytes holding mt[624], the
+ * generator index (set to 625, "exhausted"), a spare word and the constant
+ * 0x9908b0df, then a 0x200-byte buffer at +0x9cc that func_020819B8
+ * initialises.  The allocation tag 49 stays live in r5 afterwards and both
+ * later constants are derived from it with a single `add`, which is why
+ * neither 625 nor 4129 costs a pool word.
+ *
+ * MATCH, not EXACT: the ABS32 to g_020A7E4C has no witness.  The address
+ * is named by exactly one pool word image-wide, this function's own, so the
+ * `literal` class cannot see it, and the `string` class refuses it because
+ * the run immediately before it, "!![%x][%x]
+" at 0x020A7E40, ends in a
+ * newline: attest_string's _printable_run_backward stops at any byte below
+ * 0x20, so it measures a zero-length predecessor and bails at condition (5).
+ * Every concrete byte matches.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203EF5C.c \
+ *       --func func_0203EF5C --addr 0x0203EF5C --cc 1.1p1 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Mt {
+    u32 mt[624];
+    s32 index;
+    u32 unk_9c4;
+    u32 unk_9c8;
+    u8  unk_9cc[0x200];
+};
+
+extern struct Mt *g_021469F8;
+extern char g_020A7E4C[];
+
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+                          u16 tag);
+extern void  func_020819B8(void *buf, u32 a);
+
+void func_0203EF5C(u32 heapId)
+{
+    g_021469F8 = sub_02030734(heapId, 0xbcc, 0, g_020A7E4C, 49);
+    g_021469F8->index = 625;
+    g_021469F8->unk_9c4 = 0;
+    g_021469F8->unk_9c8 = 0x9908b0df;
+    func_020819B8(g_021469F8->unk_9cc, 4129);
+}
