@@ -128,3 +128,42 @@ extracted layout, so the work is a second `extract/` plus per-target layout file
 - `docs/notes/func_02049A18.c.txt`: 296 B ARM function, logic matches 100%, register scheduling differences documented.
 - `docs/notes/func_020948E0.c.txt` & `docs/notes/func_02094A60.c.txt`: Logic matches 100%, scheduling differences documented.
 
+## Session Update — 2026-09-16 00:45 (Wave 2)
+
+### Milestone Progress
+- **Coverage**: Reached **16.4425%** (65,780 / 400,060 bytes).
+- **Functions Matched**: 1,578 functions matched (+19 functions in Wave 2).
+- **ROM Verification**: Rebuilt ROM byte-identical (`sha1: 26ad0b9967aa279c4a266ee69f52b9b2332399a5`) with 242/242 component tests passing.
+- **SDK Overrule**: `0x020749B4 FATFS_FormatDrive -> unit_020749B4` (15 total).
+
+### Matched and Graduated Units in Wave 2
+1. **`unit_020749B4`** (`0x020749B4..0x02074A54`, 160 B, ARM, Shard `pkt_020749C4.json`):
+   - Sound system helper translation unit with 4 functions:
+     - `func_020749B4` (16 B, tail-call thunk to `func_02060468`)
+     - `func_020749C4` (52 B, list initialization & entry insert)
+     - `func_020749F8` (60 B, allocator & queue append)
+     - `func_02074A34` (32 B, SND command processing & flushing)
+   - All 9 internal and external relocations 100% resolved without wildcards.
+2. **Sound Subsystem & Lerp Functions** (`pkt_02075794.json`):
+   - `func_02075A94` (36 B, ARM): Reference-counted decrement and destructor dispatch.
+   - `func_02075B94` (24 B, ARM): Linear interpolation (lerp) object zero-initialization.
+   - `func_02075C08` (24 B, ARM): Lerp step increment if below duration.
+   - `func_02075C20` (24 B, ARM): Lerp completion check (`step >= duration`).
+3. **Tail-Call Forwarder Thunks to `func_020307B0` (`OS_FreeToHeap` wrapper)**:
+   - `func_02011264` (8 B, Thumb, Shard `pkt_02011264.json`)
+   - `func_02028784` (8 B, Thumb, Shard `pkt_02028590.json`)
+   - `func_02029F44` (8 B, Thumb, Shard `pkt_02029D44.json`)
+   - `func_0202AF28` (8 B, Thumb, Shard `pkt_0202AEBC.json`)
+   - `func_0202B1EC` (8 B, Thumb, Shard `pkt_0202AFFC.json`)
+   - `func_0202C140` (8 B, Thumb, Shard `pkt_0202C124.json`)
+   - `func_02031590` (12 B, ARM, Shard `pkt_020314F4.json`)
+   - `func_02048AC4` (12 B, ARM, Shard `pkt_02047E88.json`)
+   - `func_0204DC64` (12 B, ARM, Shard `pkt_0204DACC.json`)
+   - `func_0204E010` (12 B, ARM, Shard `pkt_0204DD08.json`)
+   - `func_0204E0C4` (12 B, ARM, Shard `pkt_0204E0C4.json`)
+
+### Technical Insights
+- Multi-function translation units in the Sound subsystem (`unit_020749B4`, `pkt_02075794`) demonstrate that grouping related functions allows local resolution of inter-function calls, promoting units with otherwise non-attested internal symbols to `EXACT`.
+- 11 tail-call forwarder thunks across ARM and Thumb units were cleanly graduated with full outside witness attestation against `0x020307B0`.
+
+
