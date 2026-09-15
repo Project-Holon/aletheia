@@ -525,8 +525,34 @@ def parse_ncgr(data):
 # ---------------------------------------------------------------------------
 
 class Oam:
+    """One decoded NCER OAM entry, `x`/`y` already carrying the two
+    per-OAM-entry placement corrections attested in docs/ASSETS.md ("The
+    a/0/0/4 rig: no per-species or per-node offset exists, but a per-OAM-
+    entry one does") against `func_0206775C`/`func_02066E30` and the flip
+    predicates EXACT in `src/matched/unit_02067B40.c`:
+
+      * **flip**: hardware OAM x/y is sign-extended (9-bit x, 8-bit y) as
+        usual, but the quad-emission draw path this game uses replaces it
+        with `x = -(x + w)` / `y = -(y + h)` (own shape/size width/height,
+        SHAPE_SIZE_PX == the tables at 0x020A17F0/0x020A17D8) when the
+        corresponding flip bit is set -- gated the same as the composer
+        state's +0x24 bits 0/1 (`func_02067B50`/`func_02067B64`), which
+        this module reads straight off the OAM's own attr1 hflip/vflip
+        bits since those are exactly what feeds the composer state. A
+        composer that mirrors only the pixel block (`render_oam`, still
+        needed: the hardware flip fetches tile data mirrored) and leaves
+        x/y alone places every flipped part off by its own width/height --
+        this was rig.py's bug prior to this pass.
+      * **affine double-size** (`func_02066E30`, attr0 bits 8-9 == 3):
+        `x = x + w//2`, `y = y + h//2`. Mutually exclusive with flip on
+        real hardware (rot_scale on repurposes attr1's flip bits as a
+        rotscale param index, so `hflip`/`vflip` below are already forced
+        False whenever this applies), so the two corrections never both
+        fire on one entry and their order does not matter.
+    """
+
     __slots__ = ("y", "shape", "x", "hflip", "vflip", "size", "tile_idx",
-                 "priority", "pal", "w", "h")
+                 "priority", "pal", "w", "h", "affine_double")
 
     def __init__(self, attr0, attr1, attr2):
         y = attr0 & 0xFF
@@ -542,6 +568,16 @@ class Oam:
         self.priority = (attr2 >> 10) & 0x3
         self.pal = (attr2 >> 12) & 0xF
         self.w, self.h = SHAPE_SIZE_PX.get((self.shape, self.size), (8, 8))
+
+        # Attested per-OAM placement corrections -- see the class docstring.
+        self.affine_double = ((attr0 >> 8) & 0x3) == 0x3
+        if self.affine_double:
+            self.x = self.x + self.w // 2
+            self.y = self.y + self.h // 2
+        if self.hflip:
+            self.x = -(self.x + self.w)
+        if self.vflip:
+            self.y = -(self.y + self.h)
 
 
 class Cell:

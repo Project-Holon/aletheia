@@ -13,6 +13,14 @@ narrow 2-instruction inventory, and one level of caller when the id is a
 parameter) found readers for 15 more _GROUP2 archives and, separately, for
 a/0/6/6 (see tools/assets/events.py). Machine-readable output:
 build/assets/reader_map.json (gitignored, regenerate, don't commit).
+Fourth pass (see docs/ASSETS.md "Archive readers extended by
+backward-register scan, second pass"): climbed up to three caller levels
+instead of one, and fixed the first pass's blind spot for a cross-region
+`blx` the assembler re-encodes as `.inst.w` with a bare hex literal operand
+(not a `func_` symbol) -- most overlay calls into the arm9 archive family
+are exactly this shape. Found one more _GROUP2 reader, a/0/6/2 (two-level
+parameter passthrough). Machine-readable output: build/assets/
+reader_map2.json (gitignored, regenerate, don't commit).
 
 Written from scratch for the aletheia asset lane. Stdlib only, depends
 only on narc.py.
@@ -463,7 +471,7 @@ _GROUP2 = {
     "a/0/5/8": ("0/5/8", "17 sub-files, variable 4..784 bytes (dominant size 784 bytes on 4/17). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
     "a/0/6/0": ("0/6/0", "Single sub-file, 1672 bytes, opaque blob. No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
     "a/0/6/1": ("0/6/1", "56 sub-files, fixed 780-byte records. No reader found among the seven accessor functions for this archive id. Identification: 780-byte records resolve into 15 repeated 52-byte sub-blocks (period confirmed by per-offset histogram). Confidence: MEDIUM (structural only, domain unclear)."),
-    "a/0/6/2": ("0/6/2", "10 sub-files, fixed 780-byte records. No reader found among the seven accessor functions for this archive id. Identification: Same 15x52-byte sub-block period as a/0/6/1. Confidence: MEDIUM (structural only, domain unclear)."),
+    "a/0/6/2": ("0/6/2", "10 sub-files, fixed 780-byte records. Reader found this pass (see docs/ASSETS.md 'Archive readers extended by backward-register scan, second pass'): arm9 func_0201493C (field_status.c), which sets r0 = #0x3e = 62 immediately before `bl func_02014A20` at 0x02014974; func_02014A20 passes that same r0 straight through (`adds r0, r5, #0` where r5 is its own captured first argument) into `blx func_02048F60(archive_id=62, ...)` at 0x02014A40 -- a genuine two-level parameter passthrough, found by climbing one caller level past where the first-pass scan stopped. Identification: field-status subsystem table (field_status.c), same 15x52-byte sub-block period as sibling a/0/6/1 (still no reader). Confidence: MEDIUM (structural period unchanged, but now also a confirmed two-level reader; domain still not decoded field-by-field)."),
     "a/0/6/7": ("0/6/7", "98 sub-files, variable 68..5596 bytes (dominant size 244 bytes on 8/98). Reader found by backward-register scan: overlay_094 func_021F94F8 and two sibling functions (all btlv_effvm.c), via func_02048F60(archive_id=67, ...), 7 call sites, sibling of a/0/6/6 (id 66) in the same functions. Identification: battle effect-VM secondary table. Confidence: MEDIUM-HIGH (reader confirmed at 7 sites; record fields not decoded)."),
     "a/0/7/0": ("0/7/0", "6 sub-files, variable 640..6412 bytes (dominant size 3588 bytes on 1/6). No reader found among the seven accessor functions for this archive id. Identification: domain not identified. Confidence: LOW (no reader found, no magic match; domain not identified)."),
     "a/0/7/9": ("0/7/9", "34 sub-files, variable 256..24420 bytes (dominant size 764 bytes on 2/34). No reader found among the seven accessor functions for this archive id. Identification: Most sub-files begin with the RLCN (NCLR palette) chunk tag uncompressed. Confidence: MEDIUM-HIGH (partial magic match, not exhaustively checked)."),
