@@ -1,0 +1,56 @@
+func_0203F4FC  0x0203F4FC  arm9, ARM, 40 bytes (unlabelled leaf)
+packet pkt_0203EF5C, TU gf_standard.c
+
+Seconds-since-midnight from the cached RTC time at 0x02146A1C.  Closed down
+to a pure register-allocation residue: every instruction, in the original's
+own order, with two register pairs swapped.  Not worth another attempt.
+
+The C that produces it (any of the three spellings below produce exactly the
+same object):
+
+    u32 func_0203F4FC(void)
+    {
+        return g_02146A1C.second
+             + (g_02146A1C.minute * 60 + g_02146A1C.hour * 3600);
+    }
+
+The diff, at -O4,p / dsi/1.1p1 / -proc arm946e:
+
+    +0000   ldr ip, [pc, #0x1c]    |  ldr r1, [pc, #0x1c]
+    +0004   mov r0, #0xe10         |  mov r0, #0xe10
+    +0008   ldm ip, {r1, r3}       |  ldm r1, {r2, ip}
+    +000C   mul r2, r1, r0         |  mul r3, r2, r0
+    +0010   mov r0, #0x3c          |  mov r0, #0x3c
+    +0014   mla r0, r3, r0, r2     |  mla r0, ip, r0, r3
+    +0018   ldr r1, [ip, #8]       |  ldr r1, [r1, #8]
+    +001C   add r0, r1, r0         |  add r0, r1, r0
+    +0020   bx lr                  |  bx lr
+
+Same instructions, same order, same immediates; the original holds the
+struct base in ip and the ldm pair in {r1,r3}, every compile holds the base
+in r1 and the pair in {r2,ip}.
+
+What was tried, and what it changed:
+
+  * `hour * 3600 + minute * 60` (the natural reading order).  This is a
+    different shape, not a different allocation: the mla's multiply becomes
+    hour*3600 and the mul becomes minute*60, i.e. the two products swap
+    roles.  The spelling above is the one that gets the roles right, which
+    confirms the "accumulator of a commutative chain is its second operand"
+    idiom on `+` with two multiplies.
+  * `(...) + g_02146A1C.second` instead of `second + (...)`.  Moves the
+    final `add`'s operands, which the original already has our way round.
+  * binding `hour` and `minute` to locals, in both declaration orders.
+    Byte-identical to the expression form; the "declaration order decides
+    which register a local gets" lever does not reach a value that is only
+    live across a multiply.
+  * a `const struct RtcTime *` local for the base.  No change.
+
+By the taxonomy in
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+this is the "same instructions, same order, registers swapped" case:
+allocator, reachable through nothing in the flag matrix.  The flag matrix
+was not re-run here, because that document already closed it project-wide.
+
+Verdict: DIFF, 5 instructions differing only in register numbers.  No source
+file filed; nothing further to try without a new lever on the allocator.

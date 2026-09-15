@@ -1,0 +1,94 @@
+func_0206DDA4  0x0206DDA4  arm9, ARM, 220 bytes
+packet pkt_0206DB40 (priority-3 target, fan-in 92)
+
+Geometry-command writer: push one command word plus n parameter words into
+the capture buffer at g_0214BAB4.list, or, when there is no buffer, no
+capture target, or the buffer would pass its 0xc0-word capacity, flush and
+write straight at the FIFO port 0x04000400.
+
+Control flow, block order and every immediate reproduce exactly.  What does
+not is one register-allocation decision, and it costs 12 bytes.
+
+The C (the version that gets closest):
+
+    struct GxList { u32 count; u32 cmds[1]; };
+    struct GxState { struct GxList *list; void *unk_04; };
+    extern struct GxState g_0214BAB4;
+
+    void func_0206DDA4(u32 cmd, const void *params, u32 n)
+    {
+        struct GxList *cur;
+
+        if (g_0214BAB4.list != 0) {
+            if (g_0214BAB4.unk_04 != 0) {
+                u32 count = g_0214BAB4.list->count;
+
+                if (count + 1 + n <= 0xc0) {
+                    g_0214BAB4.list->count = count + 1;
+                    g_0214BAB4.list->cmds[count] = cmd;
+                    if (n == 0) {
+                        return;
+                    }
+                    cur = g_0214BAB4.list;
+                    func_02082B0C(params, &cur->cmds[cur->count], n * 4);
+                    g_0214BAB4.list->count += n;
+                    return;
+                }
+            }
+            if (g_0214BAB4.list->count != 0) {
+                func_0206DB80(g_0214BAB4.list->count);
+            } else if (g_0214BAB4.unk_04 != 0) {
+                func_0206DBDC(g_0214BAB4.unk_04);
+            }
+        } else if (g_0214BAB4.unk_04 != 0) {
+            func_0206DBDC(g_0214BAB4.unk_04);
+        }
+        GXFIFO = cmd;
+        func_02082AA8(params, &GXFIFO, n * 4);
+    }
+
+The residue, two decisions that go together:
+
+  1. The original never spends a callee-saved register on &g_0214BAB4.  It
+     pushes {r4,r5,r6,lr} and rematerialises the pool word three times:
+
+         0206DDA8  ldr r3, [pc, #0xd0]     ; &g, for the head
+         0206DE14  ldr r0, [pc, #0x64]     ; again, after func_02082B0C
+         0206DE40  ldr r0, [pc, #0x38]     ; again, in the flush arm
+
+     Every compile pushes {r3,r4,r5,r6,r7,lr}, loads the pool word once into
+     r7 and keeps it live across the call.
+
+  2. The original re-reads g_0214BAB4.unk_04 at 0x0206DE44 instead of
+     reusing the value it tested at 0x0206DDC4; every compile CSEs the two,
+     which is legal (no store between them on either path into the flush
+     arm) and is what makes the extra register worth allocating.
+
+Together those are the whole 12-byte difference (228 against 216): two
+rematerialised pool loads and the wider push/pop.
+
+What was tried:
+
+  * caching the list pointer in a local at the top, and not caching it at
+    all (reading g_0214BAB4.list at every use).  Byte-identical output: the
+    compiler's own CSE arrives at the same value numbering either way, so
+    this lever does not reach the decision.
+  * a local for the copy destination versus the two-level expression
+    &g_0214BAB4.list->cmds[g_0214BAB4.list->count].  No change.
+  * spelling the global as a cast constant,
+    `#define g_0214BAB4 (*(struct GxState *)0x0214BAB4)`, on the theory that
+    a literal address is rematerialised where a relocation is not.  This is
+    strictly worse: it still allocates a callee-saved register for the base
+    and additionally renames every parameter register (r4/r5/r6 become
+    r5/r6/r7), so the cast-constant reading of the pool word is wrong.
+
+By the taxonomy in
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+this is the allocator case, with the twist that here it also changes the
+instruction count.  The lever that would move it is a way to stop the
+compiler CSEing the two `unk_04` tests, and nothing expressible in the
+source does that: there is genuinely no store between them.  `volatile` on
+the field would force the reload but also force reloads at the two other
+sites, which the original does not have.
+
+Verdict: DIFF, 12 bytes short, structurally complete.  No source file filed.
