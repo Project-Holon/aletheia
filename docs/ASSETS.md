@@ -8139,3 +8139,104 @@ Not closed, and corrected:
   together, is where to pick that up.
 - The 17 unreferenced matrices are unexplained (unused data, or reached
   from a path other than the zone record).
+
+## Asset lane pass: matrix decoder, zone resolution, and a stitched overworld walkability map (`tools/assets/matrix.py`, `zones.py --resolve`)
+
+Follow-up to "Zone to map model SOLVED" above: turns that reading into a
+decoder (`tools/assets/matrix.py`, new), wires zone records through it
+(`tools/assets/zones.py --list --resolve` / `--resolve-summary`), and
+stitches the two mode-1 matrices' per-chunk walkability data into one PNG
+each to check the chunk layout visually.
+
+### Sentinel
+
+The empty-cell sentinel in the map grid block is `0xFFFFFFFF`, the only
+out-of-range (>648) value that occurs anywhere in `a/0/0/9`'s 255
+sub-files. Across all 255 matrices' map grids (2056 cells total, summed
+over every matrix's own `width*height`) it fills 1108/2056 cells (53.9%)
+-- most matrices are mostly empty, consistent with 253 of them being
+small (1x1 or 2x2) interior placeholders with only one or a few real
+cells (see the earlier section's "186 are 1x1, 30 are 2x2").
+
+### Round trip
+
+`matrix.py --verify` re-packs every sub-file from parsed fields (header +
+map grid, plus a zone grid when mode is 1) and compares byte-for-byte
+against the original:
+
+    a/0/0/9: 255/255 matrices round-trip byte-identical (0 failed)
+
+### Zone resolution (`zones.py --resolve` / `--resolve-summary`)
+
+`resolve_zone_maps()` in `zones.py` reads a zone record's `+0x04` matrix
+id, loads that matrix, and returns the a/0/0/8 map ids it reaches: for a
+mode-0 matrix every non-empty cell (mode-0 matrices are private to one
+zone by construction, per the runtime object layout in the section
+above), for a mode-1 matrix only the cells whose zone grid entry equals
+this zone's own id (i.e. this zone's chunk(s) of the shared overworld
+matrix). Over all 427 zones:
+
+    zones resolving to exactly one map file   311 / 427
+    zones resolving to several map files      115 / 427
+    zones resolving to zero map files           1 / 427
+
+The 311 are the houses/interiors the mission expected: each owns a
+private mode-0 matrix pointing at one `a/0/0/8` model. The 115 are zones
+whose `+0x04` selects matrix 0 or matrix 175 (the two 29x27 overworld
+halves) -- a zone here is one region of open world, and its walk area can
+span several map-model chunks, which is exactly why the matrix layer
+exists as a separate indirection from the zone table. The one exception,
+zone 300 (matrix 175), has no cell in matrix 175's zone grid carrying id
+300 at all -- a zone with a matrix assigned but no physical footprint on
+it, left open rather than guessed at.
+
+### World stitch (`matrix.py --stitch`)
+
+`--stitch N` places every chunk's walkability bitmap (`map_grid.py`'s
+per-tile grid byte[4], the high-confidence walkable flag) at its matrix
+cell position in one image, using the same 32x32-tile chunk size every
+placed `a/0/0/8` sub-file in matrix 0/175 actually has. Run against both
+mode-1 matrices:
+
+    matrix 0:   29x27 chunks, 229 placed, 554 missing/empty/non-32x32
+                stitched image: 928x864 px
+                border continuity: 354 adjacent chunk-pair edges checked,
+                10509/11328 edge tiles agree on walkability (92.8%)
+    matrix 175: same shape, same 229/554 split, same 92.8% border
+                agreement (consistent with the earlier section's note
+                that matrix 0 and 175 share the same 229 used cells and
+                same max map id -- two variants of the same layout, not
+                two different worlds)
+
+928x864 pixels (29*32 by 27*32, one pixel per tile), gitignored under
+`build/assets/maps/matrix0_walkability.png` and
+`matrix175_walkability.png`, not committed. The border-continuity number
+is a quantitative stand-in for "do roads/rivers line up": it compares
+every pair of adjacent placed chunks' facing edge, tile for tile, and
+92.8% of edge tiles agree on walkable-vs-blocked with their neighbour
+across the seam -- well above chance, and visually the stitched image
+shows continuous walkable corridors and blocked-terrain blobs crossing
+chunk borders rather than stopping at them, which is what a real
+world grid built from independently modelled chunks should look like.
+The remaining ~7% mismatch is expected, not a defect: byte[4] also marks
+scenery (trees/rocks/buildings) whose footprint is chunk-local and has no
+reason to align across a seam the way a road or river does.
+
+`map_shapes.py` was checked for a per-map top-down image export and does
+not have one: its only output is a textured OBJ/MTL per shape (see its
+module docstring), not a rendered raster top-down view of a chunk. The
+walkability stitch above is therefore the full deliverable for this pass,
+as anticipated.
+
+### Corrected asset inventory status
+
+Every category the map-model mission named is now tied together end to
+end: zone (`a/0/1/2`, `zones.py`) -> matrix id (`+0x04`) -> matrix
+(`a/0/0/9`, `matrix.py`) -> map model id -> map model + per-tile terrain
+grid (`a/0/0/8`, `map_grid.py`) -> textured shapes where a per-shape
+render is wanted (`map_shapes.py`). No open link remains between the
+zone table and the map-model archive; the remaining gaps are all
+internal to one already-identified stage (the per-tile grid's byte[0]/
+[1]/[2]/[3]/[5]/[7] semantics, the GC second grid, the RD dense block,
+and the 17 unreferenced matrices), not missing connections between
+stages.

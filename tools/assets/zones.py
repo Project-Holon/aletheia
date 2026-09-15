@@ -136,7 +136,14 @@ array, and reports one whose size divides evenly by a stride in
 CLI
 --------------------------------------------------------------------------
     python tools/assets/zones.py --list
-        Print all 427 records with the field map above.
+        Print all 427 records with the field map above. Record +0x04 is
+        printed as `matrix_id` (see docs/ASSETS.md, "Zone to map model
+        SOLVED" and tools/assets/matrix.py); add --resolve to also print
+        each zone's resolved a/0/0/8 map ids.
+
+    python tools/assets/zones.py --resolve-summary
+        Count zones resolving to exactly one map file (houses/interiors)
+        vs several (overworld chunks on the two mode-1 matrices).
 
     python tools/assets/zones.py --stats
         Per-lane min/max/distinct-count/injective, for every lane.
@@ -158,6 +165,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import events  # noqa: E402
 import narc  # noqa: E402
+import matrix as matrixmod  # noqa: E402
 
 A012_PATH = os.path.join("extract", "data", "a", "0", "1", "2")
 A008_PATH = os.path.join("extract", "data", "a", "0", "0", "8")
@@ -260,18 +268,46 @@ def unpack_flags(v):
     }
 
 
+def resolve_zone_maps(record, matrices_by_id):
+    """Return the sorted list of distinct a/0/0/8 map ids zone `record`
+    reaches, via its +0x04 matrix id (see docs/ASSETS.md, "Zone to map
+    model SOLVED"). For a mode-0 matrix the whole grid belongs to this
+    one zone, so every non-empty cell counts; for a mode-1 matrix (the
+    overworld) only cells whose zone grid entry equals this zone's id
+    count -- the matrix is shared across many zones, one chunk each."""
+    matrix_id = record["field_04"]
+    m = matrices_by_id.get(matrix_id)
+    if m is None:
+        return []
+    zone_id = record["zone_id"]
+    maps = set()
+    if m["mode"] == 1:
+        for cell, zid in zip(m["map_grid"], m["zone_grid"]):
+            if cell != matrixmod.EMPTY_CELL and zid == zone_id:
+                maps.add(cell)
+    else:
+        for cell in m["map_grid"]:
+            if cell != matrixmod.EMPTY_CELL:
+                maps.add(cell)
+    return sorted(maps)
+
+
 def cmd_list(args):
     raw = load_table()
     records = parse_table(raw)
+    matrices_by_id = None
+    if getattr(args, "resolve", False):
+        matrices_by_id = {m["matrix_id"]: m for m in matrixmod.load_all()}
     for r in records:
         conn = (r["conn0"], r["conn1"], r["conn2"], r["conn3"])
         p1a = unpack_1a(r["packed_1a"])
         p1c = unpack_1c(r["packed_1c"])
         fl = unpack_flags(r["flags"])
-        print(
+        line = (
             f"zone {r['zone_id']:3d}: "
             f"field_00={r['field_00']:3d} field_01={r['field_01']:3d} "
-            f"field_02={r['field_02']:5d} field_04={r['field_04']:5d} "
+            f"field_02={r['field_02']:5d} "
+            f"matrix_id={r['field_04']:5d} "
             f"field_06={r['field_06']:5d} field_08={r['field_08']:5d} "
             f"script_id={r['script_id']:4d} conn={conn} "
             f"field_14={r['field_14']:5d} zone_perm={r['zone_perm']:3d} "
@@ -282,6 +318,32 @@ def cmd_list(args):
             f"field_20={r['field_20']:5d} "
             f"fx_24={r['fx_24']} fx_28={r['fx_28']} fx_2c={r['fx_2c']}"
         )
+        if matrices_by_id is not None:
+            maps = resolve_zone_maps(r, matrices_by_id)
+            line += f" maps={maps}"
+        print(line)
+
+
+def cmd_resolve_summary(args):
+    """Counts requested by the mission: how many zones resolve to exactly
+    one a/0/0/8 map file (houses/interiors) vs several (only possible on
+    a mode-1 matrix, where a zone's chunk can span more than one map
+    model)."""
+    raw = load_table()
+    records = parse_table(raw)
+    matrices_by_id = {m["matrix_id"]: m for m in matrixmod.load_all()}
+    one = several = zero = 0
+    for r in records:
+        maps = resolve_zone_maps(r, matrices_by_id)
+        if len(maps) == 0:
+            zero += 1
+        elif len(maps) == 1:
+            one += 1
+        else:
+            several += 1
+    print(f"zones resolving to exactly one map file: {one}/{RECORD_COUNT}")
+    print(f"zones resolving to several map files: {several}/{RECORD_COUNT}")
+    print(f"zones resolving to zero map files: {zero}/{RECORD_COUNT}")
 
 
 # ---------------------------------------------------------------------------
@@ -533,6 +595,11 @@ def main(argv=None):
                     help="test every candidate map lane against a/0/0/8")
     g.add_argument("--script-lane-check", action="store_true",
                     help="test the script lane against a/0/0/3")
+    g.add_argument("--resolve-summary", action="store_true",
+                    help="count zones resolving to one vs several map files")
+    ap.add_argument("--resolve", action="store_true",
+                     help="with --list, also print each zone's resolved "
+                          "a/0/0/8 map ids (via its matrix id, see matrix.py)")
     args = ap.parse_args(argv)
 
     try:
@@ -546,6 +613,8 @@ def main(argv=None):
             cmd_map_lane_check(args)
         elif args.script_lane_check:
             cmd_script_lane_check(args)
+        elif args.resolve_summary:
+            cmd_resolve_summary(args)
         else:
             cmd_list(args)
     except ZonesError as exc:
