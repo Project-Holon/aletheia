@@ -1,0 +1,101 @@
+func_020433E0 (0x020433E0, ARM, 188 bytes, fan-in 76): closed to three
+register names in the DISPCNT tail
+======================================================================
+
+What the function is
+--------------------
+
+A whole-display reset.  Ten argument-less SDK resets in a fixed order, then
+ten per-plane resets each taking one pointer out of the 0x28-byte table the
+caller hands in, then both engines' DISPCNT.
+
+    #define REG32(a) (*(volatile u32 *)(a))
+
+    struct GfxReset { void *unk00, *unk04, *unk08, *unk0c, *unk10,
+                            *unk14, *unk18, *unk1c, *unk20, *unk24;
+                      u32 unk28; u32 unk2c; };
+
+    void func_020433E0(struct GfxReset *p)
+    {
+        u32 main;
+        u32 sub;
+
+        func_020808F4(); func_0208091C(); func_020809A0(); func_020809C8();
+        func_02080908(); func_02080940(); func_020809B4(); func_020809F0();
+        func_02080964(); func_02080978();
+
+        func_0207FDCC(p->unk00); func_02080100(p->unk04);
+        func_020806B0(p->unk08); func_020807BC(p->unk0c);
+        func_0207FFD0(p->unk10); func_020801F8(p->unk14);
+        func_0208074C(p->unk18); func_0208083C(p->unk1c);
+        func_02080294(p->unk20); func_0208040C(p->unk24);
+
+        main = p->unk28;
+        sub  = p->unk2c;
+
+        REG32(0x04000000) = (REG32(0x04000000) & 0xffcfffef) | main;
+        REG32(0x04001000) = (REG32(0x04001000) & 0xffcfffef) | sub;
+    }
+
+The first 0x80 bytes (the twenty calls, the frame, the field loads feeding
+them) are byte-identical, and so are the mask pool word 0xffcfffef, the
+`mov ip, #0x4000000` / `add r2, ip, #0x1000` address pair, the single
+shared mask register, the `orr` operand order and both `str`s.
+
+The residue: 9 bytes, three register names
+------------------------------------------
+
+  original                       compile
+  ldr lr, [r4, #0x28]            ldr lr, [r4, #0x2c]
+  ldr r3, [r4, #0x2c]            ldr r1, [r4, #0x28]
+  ldr r1, [ip]                   ldr r3, [ip]
+  and r1, r1, r0                 and r3, r3, r0
+  orr r1, r1, lr                 orr r1, r3, r1
+  orr r0, r0, r3                 orr r0, r0, lr
+
+Same instructions, same order, same shifter operands; the two hoisted field
+values and the first read-modify-write temporary hold a different three of
+{r1, r3, lr}.  The original puts +0x28 in lr and the temporary in r1 (so
+both read-modify-writes share r1); the compile puts +0x2c in lr and the
+temporary in r3.
+
+What was tried
+--------------
+
+  * both field reads written inline in the two DISPCNT statements, with no
+    locals: the loads are not hoisted at all and the whole tail is
+    rescheduled (33 bytes differ), so the two locals are real.
+  * one local for +0x28 only, +0x2c inline: same 33-byte reschedule.  Both
+    locals are needed.
+  * declaration order of the two locals swapped, and assignment order
+    swapped: byte-identical output either way.  This is the exception to
+    docs/idioms/declaration-order-decides-which-register-a-local-gets.md,
+    the loads here are rescheduled into the original's order regardless.
+  * an explicit third local for the register read (`t = REG32(...)`, reused
+    for both engines): byte-identical to the two-local version.
+  * `p` made `const struct GfxReset *`, in case the hoist was an aliasing
+    question (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md):
+    back to the 33-byte reschedule, so the hoist is not an alias decision.
+  * operand order flipped to `main | (REG32(..) & mask)`: the field becomes
+    the first `orr` source (`orr r1, ip, r1`), which is the wrong direction
+    and costs two more bytes.  The original's `orr r1, r1, lr` confirms the
+    masked read is the accumulator, i.e. `(REG & mask) | main` is the right
+    spelling, per docs/idioms/the-accumulator-of-a-commutative-chain-is-its-
+    second-operand.md.
+  * a `static inline` DISPCNT helper taking (volatile u32 *reg, u32 bits):
+    the inliner does not hoist the field reads and the tail reverts to the
+    33-byte shape.
+
+Classification: allocator, per the second verdict in docs/idioms/a-
+materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+(same instructions, same order, registers swapped).  No flag sweep was run,
+that matrix is closed project-wide.
+
+Second, independent cap
+-----------------------
+
+Even byte-perfect this function cannot reach EXACT today: func_02080908
+(0x02080908) has exactly one branch reference image-wide and it is the call
+at +0x18 here, so the site has no `label` witness and no cut frees it.  The
+other nineteen callees all resolve `label`.  Closing 0x020433E0 needs
+0x02080908 decompiled to EXACT as well as the three register names above.

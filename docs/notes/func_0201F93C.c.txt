@@ -1,0 +1,127 @@
+func_0201F93C (0x0201F93C, Thumb, 148 bytes, bmp_menu.c): closed to one
+allocator decision, 4 bytes and one spill slot short
+=======================================================================
+
+TU identification
+-----------------
+
+The __FILE__ pointer in the pool at 0x0201F9CC is 0x020A7384, which is the
+NUL-terminated run "bmp_menu.c" (its start is fixed by the terminator of
+".c" ending at 0x020A7383, so the `string` class attests it).  The same
+pointer is used at 0x0201FEB4, so the whole 0x0201F93C-0x0201FF.. block is
+bmp_menu.c.  __LINE__ here is 97 (0x61).
+
+What the function is
+--------------------
+
+    struct BmpMenu *func_0201F93C(const struct BmpMenuDesc *desc,
+                                  u8 b, u8 c, u8 d, u16 heap, u32 f)
+    {
+        struct BmpMenu *m;
+
+        m = func_02030734(heap, 0x38, 1, bmp_menu_File, 97);
+
+        m->desc = *desc;                      /* 0x24-byte ldm/stm copy */
+
+        m->unk24 = func_02020D18(heap);
+        m->unk28 = f;
+        m->unk2d = d;
+        m->unk2e = func_0201FC1C(m);
+        m->unk34 = heap;
+        m->unk2f = b;
+        m->unk30 = c;
+
+        func_02020DC8(m->unk24, heap);
+
+        m->unk31 = m->desc.unk0c;
+        m->unk32 = m->desc.unk0e;
+
+        func_0201FC5C(m);
+        func_0201FD18(m);
+
+        return m;
+    }
+
+with
+
+    struct BmpMenuDesc { u32 unk00[3]; u16 unk0c; u16 unk0e; u32 unk10[5]; };
+    struct BmpMenu { struct BmpMenuDesc desc; void *unk24; u32 unk28;
+                     u8 pad2c, unk2d, unk2e, unk2f, unk30, unk31, unk32,
+                        pad33; u16 unk34; u16 pad36; };
+
+Every instruction of the body matches, in the original's order, including
+the `adds`-per-store for the 0x2d..0x32 byte block (past the Thumb `strb`
++31 reach), the four-iteration ldm/stm pair plus the ninth word, the shared
+`adds r1, r5, #0` that carries the heap id to func_02020DC8, and the byte
+narrowing of the two halfwords at +0x0c / +0x0e into +0x31 / +0x32.
+
+The one residue
+---------------
+
+The compile is 144 bytes against the image's 148, and the difference is
+entirely how the fifth (halfword, stack-passed) parameter is allocated:
+
+  original                              every compile
+  push {r3, r4, r5, r6, r7, lr}         push {r4, r5, r6, r7, lr}
+  sub sp, #8                            sub sp, #0xc
+  r5 = desc, r6 = b, r7 = c             r6 = desc, r7 = b
+  d spilled to [sp+4]                   c spilled to [sp+4], d to [sp+8]
+  heap rematerialised three times,      heap loaded once, `ldr r5,[sp,#0x20]`
+  `add r0,sp,#0x20; ldrh r0,[r0]`,      as a word, kept in r5 for all uses
+  with one of the three kept in r5
+  across two consumers
+
+That is: the original refuses to cache a stack-passed parameter in a
+callee-saved register and reloads it at each use, spending one register
+fewer and therefore one spill slot fewer; mwccarm caches it and spills the
+third register parameter instead.  The four missing bytes are exactly the
+extra `sub sp` word plus the saved `adds`/`str` around the second spill.
+
+What was tried, and what it produced
+------------------------------------
+
+  * `u16 heap` parameter, used directly at all three sites: one `ldr`
+    (word) load into r5.  This is the shape above.
+  * `u32 heap` parameter with an explicit `(u16)heap` at each site: the
+    narrowing appears, but as `lsls #0x10 / lsrs #0x10` off the cached r5,
+    not as a reload; strictly further away (the same cast that *is* the
+    answer for 0x020371D8, see the idiom note, is the wrong answer here
+    because the value already lives in a register).
+  * callee prototypes retyped so every consumer takes `u16`: no change,
+    still one cached word load.
+  * a local `u16 h = heap;` feeding the two calls while the alloc and the
+    halfword store use `heap` directly, both with `h` assigned after the
+    struct copy and before the allocator call: CSE'd back into one load
+    both times.
+  * reordering the +0x2f / +0x30 / +0x34 stores: moves two bytes, does not
+    touch the allocation.
+  * `volatile u16 heap` as a *diagnostic only* (not a candidate answer): it
+    does reproduce the prologue exactly, `push {r3, r4, r5, r6, r7, lr}` /
+    `sub sp, #8`, which confirms the residue is only the caching decision.
+    But it then keeps `add r5, sp, #0x20` (the *address*) live and reloads
+    `ldrh r0,[r5]` at every use, where the original recomputes the address
+    each time and caches one of the three *values* in r5.  So volatile is
+    both unshippable here and still not byte-identical.
+
+Classification
+--------------
+
+By docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-
+from-flags.md this is the second shape in that file's verdict list, "same
+instructions, registers swapped", extended by one spill: a register
+*allocator* decision, reachable through nothing in the documented flag
+matrix.  No flag sweep was run here, because that matrix is already closed
+project-wide.
+
+Consequence for the parked file
+-------------------------------
+
+src/pending/func_0201F9D0.c stays at MATCH.  0x0201F93C has exactly one
+branch reference image-wide (the call inside func_0201F9D0 at 0x0201F9DE),
+so there is no `label` witness and no cut that makes one; the only route
+was a `matched` entry at 0x0201F93C, which this note does not deliver.
+
+Two further blockers found on the way, both fan-in 1 from inside this
+function and both therefore unresolved even if the codegen above were
+closed: func_0201FC1C (0x0201FC1C) and func_0201FC5C (0x0201FC5C).  Closing
+0x0201F93C needs all three.

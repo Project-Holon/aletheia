@@ -1,0 +1,119 @@
+func_0204E914 (0x0204E914, ARM, 248 bytes, double3Ddisp.c): right size, right
+instructions, wrong three registers
+=============================================================================
+
+TU identification
+-----------------
+
+0x0204E8C0 is the first reference in the image to the __FILE__ string at
+0x020A7F94, "double3Ddisp.c", so double3Ddisp.c starts at 0x0204E8C0 and this
+function is its second.  The block below it is fade.c (string 0x020A7F8C,
+referenced from 0x0204E630); the two share nothing but adjacency, and they use
+different singletons, 0x02146A80 here against 0x02146A7C in fade.c.
+
+What the function is
+--------------------
+
+It builds the twelve sub-engine sprites that carry the doubled 3D image: a
+4 x 3 grid of 64 x 64 cells over 256 x 192.
+
+    union OamEntry {
+        u32 w[2];
+        struct { u32 attr01; u16 attr2; u16 attr3; } f;
+    };
+    struct Double3Ddisp {
+        u16 heap; u16 pad02; s32 unk04; s32 unk08;
+        union OamEntry oam[12];          /* 0x0c, to 0x6c */
+    };
+
+    void func_0204E914(void)
+    {
+        s32 i, k, y, x;
+        union OamEntry *oam;
+
+        REG32(0x04001000) = (REG32(0x04001000) & ~0x60) | 0x20;
+
+        k = 0;
+
+        for (i = 0; i < 12; i++) {
+            g_02146A80->oam[i].w[0] = 0;
+            g_02146A80->oam[i].w[1] = 0;
+        }
+
+        for (y = 0; y < 0xc0; y += 0x40) {
+            for (x = 0; x < 0x100; x += 0x40) {
+                oam = g_02146A80->oam;
+                oam[k].f.attr01 =
+                    0xc0000c00 | (y & 0xff) | ((x & 0x1ff) << 16);
+                oam[k].f.attr2 = (x / 8 + (y / 8) * 32) | 0xf000;
+                k++;
+            }
+        }
+
+        func_020862F0(g_02146A80->oam, 0x60);
+        func_0207E708(g_02146A80->oam, 0x3a0, 0x60);
+    }
+
+Three findings worth keeping even though the function is not closed:
+
+  * the entry is written as one word (attr0 and attr1 together) plus one
+    halfword (attr2), which is why the clearing loop stores two *words* per
+    entry and the build loop stores a word and a halfword.  The union is what
+    makes both views compile; a plain struct with a `u16 attr2` forces the
+    clearing loop into three stores.
+  * `lsl #0x17` followed by a `lsr #7` shifter operand on the `orr` is the
+    nine-bit x field `(x & 0x1ff) << 16`, not a multiply.
+  * both divisions are signed (`asr #2` / `add ..., lsr #29` / `asr #3`), so
+    x and y are `s32`, and the loop bounds are compared with `blt`.
+  * `oam` must be a local re-read from the global *inside* the inner loop.
+    Written as `g_02146A80->oam[k]` at both stores, the global pointer is
+    re-loaded between them (the first store can alias it) and the loop grows
+    by two instructions.
+
+The residue: 35 bytes, same size, same instructions
+---------------------------------------------------
+
+The compile is 248 bytes, the same as the image, and every instruction and
+every shifter operand agrees in order.  What differs is the register
+assignment in and around the inner loop, plus one extra callee-saved register
+in the frame:
+
+  original                            compile
+  push {r4, r5, r6, r7, r8, lr}       push {r3, r4, r5, r6, r7, r8, sb, lr}
+  i -> r2 (shared with x)             i -> r4
+  k -> ip,  x -> r2,  y -> r3         k -> r2,  x -> ip,  y -> r3
+  add r8, r8, #0xc   (in place)       add sb, r8, #0xc   (fresh register)
+  str r7, [r8, ip, lsl #3]            str r8, [sb, r2, lsl #3]
+
+The original coalesces the clearing loop's counter with the inner loop's x
+into r2 and updates the OAM base pointer in place; the compile keeps them
+apart and so needs `sb`, which is the whole extra push.
+
+What was tried
+--------------
+
+  * all seven useful orderings of the five local declarations (i/k/y/x/oam):
+    35 bytes is the floor, three orderings reach it, two give 37 and two 44.
+  * `k = 0` moved from after the clearing loop to before it: 85 bytes -> 35.
+    This one is real and is kept; the original materialises k's zero first and
+    copies it into i and y (`mov r2, ip` / `mov r3, ip`).
+  * the clearing loop's counter and the inner x made literally the same
+    variable, to force the coalescing the original performs: 37 bytes, worse.
+    The sharing has to be the allocator's own idea.
+  * `y / 8` and `0xc0000c00 | (y & 0xff)` hoisted into named outer-loop
+    locals: byte-identical to leaving them in the expression (the compiler
+    hoists both either way).
+  * `oam` declared inside the inner loop body versus at function scope:
+    byte-identical.
+
+Classification: allocator, the second verdict in docs/idioms/a-materialised-
+shift-temporary-is-not-reachable-from-c-or-from-flags.md.  No flag sweep was
+run; that matrix is closed project-wide.
+
+Consequence
+-----------
+
+src/pending/func_0204E8C0.c (the constructor, byte-correct MATCH) is blocked
+only on this function: 0x0204E914 has exactly one branch reference image-wide,
+the call at the end of func_0204E8C0, so its only possible witness is a
+`matched` entry here.

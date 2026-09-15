@@ -1,0 +1,52 @@
+/*
+ * function: func_02043814
+ * address:  0x02043814
+ * packet:   pkt_0204361C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * TU: bmp.c.  Copy one bitmap's pixels over another's, clipped to whichever
+ * of the two buffers is smaller.  Both sizes come from func_020437EC rather
+ * than from the descriptors directly, and the comparison is unsigned
+ * (`movlo`), so the sizes are u32.
+ *
+ * symbols:
+ *   func_020437EC  0x020437EC  arm
+ *   func_02082A90  0x02082A90  arm
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02043814.c \
+ *       --func func_02043814 --addr 0x02043814 --cc 1.1p1 --arm
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Bmp {
+    void *pixels; /* 0x00 */
+    u16   width;  /* 0x04 */
+    u16   height; /* 0x06 */
+    u16   depth;  /* 0x08 */
+    u16   kind;   /* 0x0a */
+};
+
+extern u32  func_020437EC(const struct Bmp *bmp);
+extern void func_02082A90(void *dst, const void *src, u32 size);
+
+void func_02043814(struct Bmp *dst, const struct Bmp *src)
+{
+    u32 size;
+    u32 other;
+
+    size = func_020437EC(dst);
+    other = func_020437EC(src);
+
+    if (other < size)
+        size = other;
+
+    func_02082A90(dst->pixels, src->pixels, size);
+}
