@@ -7352,3 +7352,115 @@ since this is a texture cross-check on 3 files, not a broader re-scan).
   202/1024 tiles uncovered (no face under the tile centre at all); not
   investigated further since the byte[3] refutation was already clear on
   the other 822 tiles.
+
+## Asset lane pass: `a/0/0/3` and `a/0/6/6` container framing (event/script-table candidates), fixed-stride hypothesis refuted
+
+Follow-up to the "Map attribute hunt" pass above, which located these two
+NARCs (472 and 601 sub-files, variable-length, bytecode-shaped opening
+bytes) but did not parse them. This pass parses both down to a
+byte-identical repack in `tools/assets/events.py` (new). Method: sizes and
+first bytes of 20 files each per the mission's step 1, then an
+archive-wide (not just-sampled) check of every candidate header field
+against every one of the 472 / 601 sub-files, since the small samples in
+the earlier pass were not enough to separate a real field from
+coincidence.
+
+### Fixed-stride hypothesis: refuted for both archives
+
+Step 1 asked for a stride that divides every section into fields with
+sane ranges. No such stride exists for either archive: `a/0/0/3`'s body
+size (`file_size - 16`) has no common divisor across the 472 files that
+also lines up with a real record boundary, and `a/0/6/6`'s per-group
+sizes (see below) vary too widely within a single file for a fixed
+stride to fit. Both are genuinely variable-length, index-table-plus-blobs
+containers, not fixed-stride record arrays -- the same conclusion the
+"Map attribute hunt" pass reached by inspection, now confirmed
+archive-wide.
+
+### `a/0/0/3` (472 sub-files): HIGH confidence framing
+
+16-byte outer header -- `u16 tag` (always 1, 472/472), `u16 count` (N,
+the record count, 1-481), `u32 body_size` (== file size - 16, 472/472),
+`u32 reserved` (always 0, 472/472), `u32 header_len` (always 16,
+self-referencing like the `a/0/0/8` wrapper's own size-table convention).
+
+Body: a `u32 body_size` duplicate (matches the header field, 472/472),
+then N 8-byte index entries `(u32 record_offset, u32 field_x)`.
+`record_offset` is HIGH confidence: entry 0 always equals `4 + 8*N`
+(right past the table, 472/472), and the full N-entry sequence is
+strictly increasing with no duplicates in every one of the 472 files
+(7861 entries total) -- not a coincidence at these N (up to 481).
+`field_x` is a real, verified-paired field but its semantics are open:
+checked and ruled out as record length (0/7861 pairs satisfy
+`field_x == next_offset - this_offset`) and as a constant type tag
+(only 163/472 files have every `field_x` share the same top 3 bytes);
+its high-24-bit histogram is dominated by `0xE000` (5576/7861) and
+`0x000000` (1096/7861) with a ~40-value tail, consistent with a packed
+type+pointer/type+small-int word from the record's own bytecode but not
+decoded here. Records themselves (`record_offset[k]..record_offset[k+1]`,
+or `body_size` for the last) are variable-length, bytecode-shaped payload
+-- no recognisable fixed sub-stride found inside them, not decoded past
+byte-exact extraction.
+
+### `a/0/6/6` (601 sub-files): HIGH confidence framing
+
+Outer header: `u32 group_count` G, one of `{1, 2, 3, 5, 8}` archive-wide
+(574 files at G=1, 23 at G=2, 2 at G=5, 1 at G=3, 1 at G=8), followed by
+G blocks of 14 `u32` words. The 14 words in each block are IDENTICAL in
+every one of 641 groups checked across all 601 files -- so there are only
+G real distinct values, each stored 14 times over; why 14 is an open
+question, not explained by anything found this pass. `header_len =
+4 + 56*G`, and `group_value[0] == header_len` on 601/601 files (the same
+self-referencing convention as `a/0/0/3` and the `a/0/0/8` wrapper). Group
+data spans `group_value[k]..group_value[k+1]` (or file end for the last
+group); the 20 most common group sizes archive-wide each cover well under
+10% of the 641 total groups, so groups are genuinely variable-length, not
+a per-tile array.
+
+G's small, discrete range (never anything but 1/2/3/5/8) reads more like a
+per-resource count of language-variant blocks than a per-map object list
+-- consistent with this NARC's existing inventory category guess ("text
+banks", see the inventory table above) -- which argues against `a/0/6/6`
+being a door/warp/event table, contrary to this NARC's flagging in the
+earlier pass.
+
+### Doors/warps: still not confirmed
+
+Neither archive's sub-file count (472, 601) equals `a/0/0/8`'s 649 map
+files, and this ROM has no usable BTNF names outside one unrelated NARC
+(`a/2/3/2`, see "BTNF name table results" above) and no separate zone/map
+index table has been found anywhere in this archive set. Without an
+index alignment to a specific `a/0/0/8` map file, the walkable-tile
+cross-check against `tools/assets/map_grid.py` (mission step 3) cannot be
+performed honestly -- reported as a real gap, not attempted with a guessed
+alignment. `a/0/0/3` is the stronger of the two candidates for door/warp/
+NPC/trigger data (bytecode-shaped variable records, no language-count
+pattern; `a/0/6/6`'s language-like group counts argue against it), but
+which record type or `field_x` value within `a/0/0/3` specifically means
+door/warp is still open.
+
+### `tools/assets/events.py` (new)
+
+`--list [--archive {0003,0666,both}]`: per-file record/group counts.
+`--dump {0003,0666} INDEX`: typed record/group dump for one sub-file.
+`--verify [--archive {0003,0666,both}]`: re-packs every sub-file from its
+parsed structure and diffs against the original byte-for-byte -- the
+acceptance bar for the framing above. Result: **472/472** (`a/0/0/3`) and
+**601/601** (`a/0/6/6`) round-trip exactly, 0 parse errors, 0 mismatches.
+
+### Remaining gaps
+
+- `field_x` in `a/0/0/3`'s index entries: real field, semantics open (see
+  above).
+- The 14-fold redundancy in `a/0/6/6`'s group offset table is unexplained.
+- `a/0/6/6`'s language-bank reading is a plausible alternative to
+  "event/script table", not confirmed against actual text content this
+  pass (no string decoder was run over its group payloads).
+- No index alignment between either archive and `a/0/0/8`'s 649 maps was
+  found, so the specific door/warp record type remains unidentified; this
+  is flagged as a real gap requiring a lookup table (or code cross-
+  reference) this pass did not have, not a guess.
+- Neither archive's variable-length record/group payload bytes are
+  decoded past byte-exact extraction (both read as bytecode-shaped, not
+  struct-shaped, so a further pass would need an opcode table, not a
+  stride).
