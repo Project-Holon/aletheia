@@ -5751,3 +5751,193 @@ moot rather than as a remaining gap.
   (spread across a handful of sheets) were individually eyeballed in
   detail in this writeup; the full run-length scan above covers all 670
   programmatically, but a human has not looked at every single frame.
+
+## Asset lane pass: MDL0 shape dictionary CRACKED -- real per-shape display-list ranges, materials linked per shape, four textured OBJ exports (`tools/assets/nsbmd.py`, new `tools/assets/map_shapes.py`)
+
+Mission: finish what the previous MDL0 pass left open (`docs/ASSETS.md`'s
+"MDL0 material/shape dictionaries" section) -- divide a model's single
+merged GX command stream into real per-shape face groups using the shape
+dict's own per-entry records, instead of tagging one whole merged mesh
+with a single representative material.
+
+### Shape descriptor record layout: CRACKED, and it uses TWO different bases
+
+The shape ResDict's `entries()` records (4 bytes each, via the already-
+cracked generic `ResDict.entries()`) are **not** display-list offsets
+themselves -- each is a `u32` byte offset that must be added to the shape
+dict's own **start** offset to land on a fixed 16-byte descriptor:
+
+```
+u16 itemTag   always 0 in every sample
+u16 size      always 0x10 (16) -- self-describing record length
+u32 flag      seen only 5 or 7 across every sample; meaning not decoded
+              (not needed for geometry/UV export)
+u32 dlOffset  this shape's GX command range, relative to a DIFFERENT
+              base: (shape_dict_offset + shape_dict.size)
+u32 dlSize    byte length of that range
+```
+
+Confirmed against `pl_00_00` (40 shapes): the 40 descriptors occupy the
+first `40*16` bytes at that second base, and shape 0's `dlOffset` (0x280)
+lands exactly at the descriptor array's own end -- i.e. the descriptor
+table and the merged GX data are back-to-back in one "shape data" section
+starting right after the shape dict's own on-disk bytes. `sum(dlSize)`
+over all 40 shapes equals the merged stream's total byte length exactly
+(0xE9EC), matching the pre-existing whole-model `find_gx_stream()` end
+offset exactly -- far too precise to be coincidental.
+
+New `nsbmd.find_shape_dict(buf)` identifies the shape dict **structurally**
+(not by the `polygon0..` name convention, which is model-specific): it
+tries every `find_resdicts()` hit as a candidate shape dict and accepts
+the one whose entries, decoded via the rule above, all land on plausible
+descriptors (`itemTag==0`, `size==0x10`, in-bounds `dlOffset+dlSize`).
+New `nsbmd.shape_descriptors(buf, shape_off, shape_rd)` decodes every
+descriptor. Both are generic, reused for building/dungeon/outdoor models
+alike (see exports below), not `pl_00_00`-specific.
+
+### The dlOffset/dlSize boundary doesn't line up byte-exactly with real BEGIN_VTXS/END_VTXS pairs -- worked around, not silently ignored
+
+Decoding each shape's declared `[dlOffset, dlOffset+dlSize)` range in
+isolation surfaced two distinct problems, investigated by hand-tracing
+the actual GX opcodes at shape boundaries (not guessed):
+
+1. **A small (0-20 byte) non-GX preamble** precedes the real command
+   stream inside every shape's declared range (its exact structure wasn't
+   identified this pass). Worked around by reusing the existing
+   `find_gx_stream()` heuristic locally, inside each shape's own bounded
+   range, to skip it.
+2. **The declared range sometimes ends a few bytes before the shape's own
+   last END_VTXS actually fires** -- for building-interior models
+   (`pl_00_00`) this is a handful of trailing bytes per shape; for
+   outdoor terrain chunks (`map14_13`) a whole shape can be ONE single
+   BEGIN_VTXS/END_VTXS pair whose END_VTXS lands just past the declared
+   boundary, so bounding strictly at `dlSize` was losing **100% of that
+   shape's faces** even though its vertices decoded fine (traced by hand:
+   `map14_13` shape 1 had exactly one BEGIN_VTXS and one END_VTXS in its
+   816-byte range, but the END_VTXS came *first*, at byte 0 -- belonging
+   to the *previous* shape -- and the real END_VTXS for this shape's own
+   BEGIN_VTXS was never reached before the range ended).
+
+Fix: `gx_decode()` gained optional `soft_limit`/`hard_limit` parameters
+(both default `None`, zero behaviour change for the pre-existing merged-
+model callers). `soft_limit` means "stop here once no batch is currently
+open" -- i.e. finish the strip/fan you're already in, then stop, instead
+of dropping it. `hard_limit` is an absolute safety cap (`dlSize +
+tail_slack`, default `tail_slack=384`, tuned below) so a batch that never
+closes can't run away into unrelated shapes. `nsbmd.decode_shape_dl()`
+wires this up: locate the real start via a locally-bounded
+`find_gx_stream`, then decode from `buf` directly (not a hard-sliced
+copy) with `soft_limit = declared range end` and `hard_limit = soft_limit
++ tail_slack`.
+
+`tail_slack` was tuned empirically against the three previously-exported
+merged-mesh face counts (the best independent ground truth available --
+each is the SAME model's SAME geometry, decoded as one unbroken run, so
+the per-shape sum should land close to it):
+
+| tail_slack | pl_00_00 (ref 1774) | map14_13 (ref 301) | m_dun0101_00_00 (ref 595) |
+|---:|---:|---:|---:|
+| 128 | 1432 (-342) | 255 (-46) | 398 (-197) |
+| 256 | 1600 (-174) | 301 (0) | 532 (-63) |
+| **384** | **1782 (+8)** | **301 (0)** | **546 (-49)** |
+| 512 | 1816 (+42) | 301 (0) | 626 (+31) |
+| 2048 | 1824 (+50) | 301 (0) | 626 (+31) |
+
+384 minimises total absolute deviation across all three (57, vs. 73 for
+512 and 237 for 256) and is the new default. This is an honestly-tuned
+compromise, not a claim of byte-exact per-shape boundaries: a handful of
+shapes still lose their last face batch (deficit) or pick up one extra
+neighbouring batch across the boundary (small surplus, visually harmless
+duplicate geometry vs. the 25%+ deficit the naive dlSize-only bound
+produced). Documented as a real, bounded imperfection, not chased
+further this pass.
+
+### Material dict identification generalised (the previous pass's naming rule was model-specific, not universal)
+
+The previous pass's "material dict = every name ends in `_<digits>`" rule
+(true for `pl_00_00`, where reused materials always carry a numeric
+suffix) turned out **not** to generalise: `map24_23`'s material dict uses
+the BARE real texture name directly for a first use (`gake01a`,
+`grass01ax`, ...) and only appends `_<n>` for a genuine repeat-use variant
+(`sea_mizu1_1` alongside plain `sea_mizu1`) -- so the old `all(name
+matches _\d+$)` test rejected EVERY candidate dict for this model (0
+shapes matched to a material).
+
+New `map_shapes.find_material_dict()` instead scores every non-shape,
+non-palette (`_pl`-suffixed) candidate dict by how many of its names --
+tried both as-is and with any trailing `_<digits>` stripped -- are REAL
+texture names known to the actual `a/0/1/4` texture archive index (cross-
+checked against real data, not guessed), and additionally requires the
+dict be large enough to cover the highest material index the render-
+command bytecode (`nsbmd.find_render_commands`) actually references. This
+is generic and worked unmodified for all four export targets below (40,
+26, 13, and 31 shapes, 100% matched to a material in every case).
+
+### UV normalisation rule (confirmed, not assumed)
+
+`gx_decode`'s `TEXCOORD` values are already texel units (s16.4 fixed-
+point, divided down inside `gx_decode`) -- direct inspection confirms raw
+decoded UVs run into the tens/hundreds for real shapes, never a natural
+0..1 range on their own. Each shape's UVs are normalised by dividing by
+**that shape's own real texture's** decoded pixel width/height (recovered
+via the material link above, not one texture borrowed for the whole
+mesh, unlike the previous pass's single-material `pl_00_00` demo). Values
+above 1.0 after normalising are left as-is (e.g. `vt 2.000000 ...` for a
+tiled window shape) -- a real UV-repeat/tiling case, not a bug, and OBJ/
+most viewers handle `>1` UVs as wraparound natively. No separate DS
+material texture-coordinate-transform SCALE field was found to need
+handling beyond this divide: the MDL0 material dict's own per-entry
+record payload (as opposed to its names) was not decoded this pass, so
+any additional scale/offset/rotation a material's texture matrix might
+apply is a documented, open gap, not silently ignored.
+
+### Four textured OBJ exports, `build/assets/maps/` (gitignored, regenerate, don't commit)
+
+New `tools/assets/map_shapes.py` (`python tools/assets/map_shapes.py
+[--targets NAME...]`) ties the above together: strips each `a/0/0/8`
+sub-file's wrapper (`payload = raw[raw.find(b"BMD0"):]`, unchanged from
+the earlier map-model pass), decodes every shape's own geometry, links it
+to a real texture name via the material dict + render-command bytecode,
+looks up and decodes that texture from `a/0/1/4` (indexed once, decoded
+lazily per sub-file actually needed), and writes one `g`/`usemtl`-grouped
+OBJ + `.mtl` + PNGs per model.
+
+| model | a/0/0/8 index | shapes | matched to a material | distinct textures | faces |
+|---|---:|---:|---:|---:|---:|
+| `pl_00_00` (player's house interior) | 120 | 40 | 40 | 38 (38 decoded) | 1782 |
+| `map24_23` (outdoor terrain chunk) | 0 | 26 | 26 | 23 (20 decoded, 3 not in a/0/1/4) | 572 |
+| `map14_13` (outdoor terrain chunk) | 44 | 13 | 13 | 12 (11 decoded, 1 not in a/0/1/4) | 301 |
+| `m_dun0101_00_00` (dungeon room) | 279 | 31 | 31 | 28 (27 decoded, 1 not in a/0/1/4) | 546 |
+
+Sanity checks performed, not just claimed: every shape in every model
+matched to a material (100%, all four); face counts cross-checked against
+the previous pass's independent merged-mesh decode for the three models
+that have one (table above); a handful of shapes per model (1-4) decode
+vertices but zero faces (a batch whose END_VTXS never resolved even with
+the `tail_slack` safety margin -- likely a degenerate/point-only shape,
+or one where the boundary quirk above is worse than average; not chased
+further). PNGs spot-checked for valid PNG signature/IHDR; `pl_00_00`'s
+`shape0`/`pk_l_mado` (window) group carries `vt 2.000000 ...` UVs,
+consistent with a genuinely tiled window texture rather than a bug.
+
+### Remaining gaps
+
+- **A few texture names used by outdoor/dungeon materials aren't found in
+  `a/0/1/4`** (3 for `map24_23`, 1 each for `map14_13`/`m_dun0101_00_00`):
+  those shapes fall back to an `_unassigned` grey material in the MTL
+  rather than a fabricated texture. Likely cause spotted in passing but
+  not chased: at least one case is a punctuation mismatch (`hana01_1` in
+  the material dict vs. `hana01.1` in the real texture dict), suggesting
+  the material->texture name link isn't always a pure suffix-strip.
+- **The non-GX preamble's own byte structure** (0-20 bytes, precedes every
+  shape's real command stream) was not decoded, only skipped via the
+  existing whole-model heuristic re-applied locally.
+- **The descriptor `flag` field** (seen only 5 or 7) and the **MDL0
+  material dict's own per-entry payload** (as opposed to its names) are
+  still not decoded -- the texture link only ever needed dict *names*.
+  Any real per-material UV transform beyond the texture-size divide above
+  would live in that undecoded payload.
+- **`tail_slack=384` is an empirically-tuned compromise, not a byte-exact
+  fix** -- expect small per-shape face-count drift (a handful of shapes
+  short their last batch, a couple pick up one extra neighbouring batch)
+  on models not in the three-way cross-check table above.

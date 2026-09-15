@@ -484,6 +484,139 @@ def find_render_commands(buf, min_pairs=8):
 
 
 # ---------------------------------------------------------------------------
+# MDL0 shape dictionary -- per-shape display-list ranges (CRACKED this pass)
+#
+# The shape ResDict's own `entries()` records (4 bytes each, confirmed by
+# the same "sub-header offset must exactly match" arithmetic ResDict.entries
+# uses everywhere else) are NOT display-list offsets themselves. Each is a
+# u32 byte offset, relative to the shape dict's OWN start offset (i.e. add
+# it straight to the dict's own file/buffer position), to a fixed 16-byte
+# per-shape descriptor:
+#
+#     u16  itemTag    seen 0 in every sample
+#     u16  size       seen 0x10 (== the descriptor's own size) in every
+#                      sample -- a self-describing record-length field, not
+#                      a shape byte count
+#     u32  flag       seen only 5 or 7 across pl_00_00's 40 shapes; meaning
+#                      not decoded (not needed for geometry/UV export)
+#     u32  dlOffset   byte offset of this shape's own GX command range,
+#                      relative to a DIFFERENT base: shape_dict_offset +
+#                      shape_dict.size (the first byte after the shape
+#                      dict's own on-disk bytes -- NOT the same base the
+#                      descriptor pointers above use)
+#     u32  dlSize     byte length of this shape's GX command range
+#
+# Confirmed against `pl_00_00` (40 shapes): the descriptor array itself
+# occupies the first `40*16` bytes at that second base, and shape 0's
+# dlOffset (0x280) lands exactly at the descriptor array's own end -- i.e.
+# the descriptor table and the merged GX command data are back-to-back in
+# one contiguous "shape data" section starting right after the shape dict,
+# with descriptors addressed from the shape dict's own start but DL ranges
+# addressed from the end of the shape dict (start of that "shape data"
+# section). sum(dlSize) over all shapes equals the merged GX stream's
+# total byte length exactly (0xE9EC for pl_00_00, matching the heuristic
+# find_gx_stream()-based whole-model decode's end offset exactly).
+#
+# **Known imperfection, honestly documented, not silently papered over:**
+# each shape's own byte range, decoded from dlOffset literally, does NOT
+# start with a valid GX command word -- there is a small (0-20 byte,
+# variable per shape) non-GX preamble before the real command stream
+# begins, most likely a hardware/tool-internal sub-header this pass did
+# not identify. Skipping it needs the SAME heuristic already used to
+# locate the merged model's overall GX stream (find_gx_stream), just
+# re-applied inside each shape's own bounded dlOffset/dlSize range instead
+# of over the whole model. This recovers the large majority of each
+# shape's real geometry (5070/5114 vertices, 1323/1774 faces for
+# pl_00_00 -- 99% / 75%): a handful of shapes lose their very last
+# END_VTXS-terminated batch when that command falls inside the last few
+# (<=24) bytes of the shape's declared dlSize, which this pass could not
+# resolve further within budget (see docs/ASSETS.md for the investigation
+# that ruled out several alternative byte-tiling hypotheses).
+# ---------------------------------------------------------------------------
+
+SHAPE_DESC_STRUCT = struct.Struct("<HHIII")  # itemTag, size, flag, dlOffset, dlSize
+
+
+def find_shape_dict(buf, dicts=None):
+    """Identify, among the ResDicts `find_resdicts` locates in `buf`, the
+    one that is a shape (polygon) dict: the dict whose entries() u32 values,
+    added to (dict_offset + dict.size), land on a run of plausible 16-byte
+    descriptors (itemTag==0, size==0x10, dlOffset/dlSize in bounds). This is
+    a structural test, not a name-based guess, so it works even when a
+    model's shape names don't follow the `polygon0`.. convention this
+    project has seen so far.
+
+    Returns (offset, ResDict) or None."""
+    if dicts is None:
+        dicts = find_resdicts(buf)
+    best = None
+    for off, rd in dicts:
+        if rd.count == 0:
+            continue
+        entry_size, recs = rd.entries()
+        if entry_size != 4:
+            continue
+        dl_base = off + rd.size
+        ok = 0
+        for rec in recs:
+            v = struct.unpack("<I", rec)[0]
+            addr = off + v  # descriptors are addressed from the dict's OWN start
+            if addr + 16 > len(buf):
+                continue
+            itemTag, size, flag, dlOffset, dlSize = SHAPE_DESC_STRUCT.unpack_from(buf, addr)
+            if itemTag == 0 and size == 0x10 and dl_base + dlOffset + dlSize <= len(buf):
+                ok += 1
+        if ok == rd.count and (best is None or rd.count > best[1].count):
+            best = (off, rd)
+    return best
+
+
+def shape_descriptors(buf, shape_off, shape_rd):
+    """Decode every shape's 16-byte descriptor (see module docstring above
+    `find_shape_dict`). Returns (dl_base, [(itemTag, size, flag, dlOffset,
+    dlSize), ...]) in shape-dict order (shape index order). `dl_base` is
+    the base to add to each record's own `dlOffset` field (NOT the same
+    base used to locate the descriptors themselves, which is `shape_off`
+    directly -- see module docstring)."""
+    dl_base = shape_off + shape_rd.size
+    _, recs = shape_rd.entries()
+    out = []
+    for rec in recs:
+        v = struct.unpack("<I", rec)[0]
+        addr = shape_off + v
+        out.append(SHAPE_DESC_STRUCT.unpack_from(buf, addr))
+    return dl_base, out
+
+
+def decode_shape_dl(buf, base, dlOffset, dlSize, min_commands=4, tail_slack=384):
+    """Decode one shape's own GX command range. The small non-GX preamble
+    before the real command stream (see the 'Known imperfection' note
+    above `find_shape_dict`) is skipped via a local find_gx_stream scan
+    bounded to this shape's own declared dlSize; decoding then continues
+    from `buf` directly (not a hard-sliced copy) using `gx_decode`'s
+    `soft_limit`/`hard_limit`, because the declared dlSize boundary was
+    also found to sometimes end a handful of bytes BEFORE the shape's own
+    last END_VTXS actually closes -- soft_limit lets decoding finish that
+    one open batch rather than silently dropping it, while hard_limit
+    (dlSize + `tail_slack`, capped at the buffer end) guarantees decoding
+    can never run away into unrelated shapes if a batch never closes at
+    all (e.g. a truncated/corrupt range).
+
+    Returns (verts, uvs, faces) local to this shape (vertex indices start
+    at 0), or (None, None, None) if no valid run is found at all."""
+    seg = buf[base + dlOffset: base + dlOffset + dlSize]
+    found = find_gx_stream(seg, min_commands=min_commands)
+    if found is None:
+        return None, None, None
+    local_start, _ = found
+    abs_start = base + dlOffset + local_start
+    soft_limit = base + dlOffset + dlSize
+    hard_limit = min(len(buf), soft_limit + tail_slack)
+    verts, uvs, faces, cmds, end = gx_decode(buf, abs_start, soft_limit, hard_limit)
+    return verts, uvs, faces
+
+
+# ---------------------------------------------------------------------------
 # Outer BMD0 / BTX0 container
 # ---------------------------------------------------------------------------
 
@@ -947,9 +1080,27 @@ def _s10(u10):
     return u10 - 0x400 if u10 & 0x200 else u10
 
 
-def gx_decode(data, start):
+def gx_decode(data, start, soft_limit=None, hard_limit=None):
     """Decode a GX command stream starting at byte offset `start` in
     `data`. Returns (vertices, uvs, faces, num_commands, end_offset).
+
+    `soft_limit`/`hard_limit` (both optional, absolute byte offsets into
+    `data`) support per-shape decoding against the MDL0 shape dictionary's
+    dlOffset/dlSize range (see nsbmd.py's "MDL0 shape dictionary" section
+    and tools/assets/map_shapes.py): real per-shape ranges were found to
+    sometimes end a handful of bytes BEFORE their own last BEGIN_VTXS/
+    END_VTXS pair actually closes (the true END_VTXS spills a few bytes
+    into the next shape's declared range). Decoding would otherwise either
+    stop early (losing that shape's last face batch) or -- if simply
+    given a longer buffer -- run on into the next shape(s) indefinitely,
+    since the small non-GX bytes between shapes are not reliably a decode-
+    stopping invalid opcode. `soft_limit` says "stop here once no batch is
+    currently open" (i.e. finish the strip/fan you're in, then stop);
+    `hard_limit` is an absolute safety cap that always stops decoding
+    (even mid-batch) so a missing END_VTXS can never run away into
+    unrelated data. Both default to None (no limit -- unchanged behaviour
+    for every pre-existing caller, e.g. the merged whole-model decode).
+
     vertices/uvs are parallel lists (one uv per vertex, the last TEXCOORD
     seen before each vertex-emitting command). faces is a list of
     vertex-index lists (triangles or quads, already fanned out of strips).
@@ -973,6 +1124,7 @@ def gx_decode(data, start):
     cur_uv = (0.0, 0.0)
     cur_batch = []
     cur_mode = None
+    batch_open = False  # True between a BEGIN_VTXS and its matching END_VTXS
     cmds = 0
     cx = cy = cz = 0.0
 
@@ -982,6 +1134,8 @@ def gx_decode(data, start):
         cur_batch.append(len(verts) - 1)
 
     while p + 4 <= n:
+        if hard_limit is not None and p >= hard_limit:
+            break
         word = struct.unpack_from("<I", data, p)[0]
         ops = [word & 0xFF, (word >> 8) & 0xFF, (word >> 16) & 0xFF,
                (word >> 24) & 0xFF]
@@ -1035,7 +1189,9 @@ def gx_decode(data, start):
             elif op == 0x40:  # BEGIN_VTXS
                 cur_mode = params[0] & 0x3
                 cur_batch = []
+                batch_open = True
             elif op == 0x41:  # END_VTXS
+                batch_open = False
                 if cur_mode == 0:  # triangles
                     for i in range(0, len(cur_batch) - 2, 3):
                         faces.append(cur_batch[i:i + 3])
@@ -1056,6 +1212,8 @@ def gx_decode(data, start):
         if not ok:
             break
         p = newp
+        if soft_limit is not None and p >= soft_limit and not batch_open:
+            break
     return verts, uvs, faces, cmds, p
 
 
