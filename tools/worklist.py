@@ -12,6 +12,8 @@ carries bytes, and only addresses, sizes, symbol names and counts come out.
 Inputs
 ------
   asm/arm9/src/*.s        function labels, instruction addresses, byte widths
+  asm/arm9/src_itcm/*.s   same, for the ITCM autoload (tail-call thunk scan only)
+  asm/overlays/*.s        same, for all 237 overlays (tail-call thunk scan only)
   layout/units_arm9.json  translation unit file order, base addresses, sizes
   layout/symbols_sdk.txt  SDK symbols recovered by tools/libmatch.py
   layout/runtime_arm9.txt mwccarm/MSL runtime library functions identified by
@@ -19,6 +21,9 @@ Inputs
                           same file shape as symbols_sdk.txt
   layout/matched/         manifest shards, one per work packet, read through
                           match.load_manifest_entries
+  layout/file_anchors.txt __FILE__ literal-pool anchors harvested by
+                          tools/fileanchors.py; feeds the --targets "guess"
+                          column and the --packet anchor listing
 
 Output
 ------
@@ -101,6 +106,7 @@ Usage
 """
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -112,6 +118,7 @@ UNITS_JSON = os.path.join(ROOT, "layout", "units_arm9.json")
 SYMBOLS_SDK = os.path.join(ROOT, "layout", "symbols_sdk.txt")
 RUNTIME_ARM9 = os.path.join(ROOT, "layout", "runtime_arm9.txt")
 MATCHED_DIR = os.path.join(ROOT, "layout", "matched")
+FILE_ANCHORS = os.path.join(ROOT, "layout", "file_anchors.txt")
 OUT_JSON = os.path.join(ROOT, "layout", "worklist.json")
 
 REGION = "arm9"
@@ -122,6 +129,7 @@ SOFT_MAX_FUNCS = 30          # inside the 20-40 band
 SOFT_MAX_CODE = 3072         # inside the 2-4 KB band
 GAP_SPLIT_BYTES = 0x200      # non-code run that forces a break
 DATA_ADJACENT_BYTES = 0x100  # data run that earns the data-adjacent flag
+THUNK_PRINT_LIMIT = 40       # --summary caps its thunk listing here
 
 DATA_DIRECTIVES = (".word", ".byte", ".short", ".hword", ".ascii", ".asciz", ".space")
 
@@ -294,6 +302,147 @@ def load_matched():
     return cover
 
 
+def load_file_anchors():
+    """[(pool_site, filename)] __FILE__ anchors in arm9_main, sorted by site.
+
+    Reads layout/file_anchors.txt (tools/fileanchors.py's output): each row
+    is a __FILE__ literal-pool word, a compiler-generated attestation of
+    which translation unit a block of code came from. Restricted to
+    arm9_main, the only region this tool groups into packets; missing file
+    means no anchors (the --targets guess and --packet listing degrade
+    gracefully, they don't require it).
+    """
+    anchors = []
+    if not os.path.isfile(FILE_ANCHORS):
+        return anchors
+    with open(FILE_ANCHORS, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split(None, 4)
+            if len(parts) != 5:
+                continue
+            pool_site_s, _func_s, region, _str_addr_s, name = parts
+            if region != "arm9_main":
+                continue
+            try:
+                pool_site = int(pool_site_s, 16)
+            except ValueError:
+                continue
+            anchors.append((pool_site, name))
+    anchors.sort()
+    return anchors
+
+
+# ---------------------------------------------------------- tail-call thunks
+#
+# A one-section-per-function compiler cannot branch directly to another
+# translation unit's function, so a same-module tail call is not a `bl`, it
+# is a pool word and a `bx` (docs/idioms/tail-call-is-a-pool-word-and-bx.md):
+#
+#   ldr  r3, pool_XXXXXXXX     /* = target */
+#   bx   r3
+#
+# No scan built on branch instructions ever sees this, which means neither
+# inv["callers"] (built from the edges parse_unit reads out of the arm9_main
+# listing) nor match.image_call_sites() (the image-wide index --targets uses
+# for fan-in, built the same way) count a call to the thunk as a call to
+# whatever it forwards to. disasm.py already traces the two-instruction body
+# as an ordinary function (a `bx` is an unconditional return, so the trace
+# stops there cleanly), so the shape shows up in the listings as a labelled
+# func_XXXXXXXX with exactly this ldr/bx pair and nothing else -- a plain
+# text scan is enough to find every one of them, image-wide.
+
+RE_THUNK_FUNC = re.compile(r"^func_([0-9A-Fa-f]{8}):$")
+RE_THUNK_LDR = re.compile(r"^ldr(?:\.w)?\s+(\w+),\s*pool_([0-9A-Fa-f]{8})\b")
+RE_THUNK_BX = re.compile(r"^bx\s+(\w+)\b")
+RE_THUNK_POOL_LABEL = re.compile(r"^pool_([0-9A-Fa-f]{8}):$")
+RE_THUNK_WORD = re.compile(r"^\.word\s+0x([0-9A-Fa-f]{8})")
+
+
+def _thunk_candidates_in_file(path):
+    """[(func_addr, target)] tail-call thunks found in one listing file."""
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            lines = [ln.strip() for ln in fh]
+    except OSError:
+        return []
+
+    # Literal pools stay inside the translation unit that references them
+    # (disasm.py's TU split never cuts a span mid-pool), so one forward pass
+    # per file is enough to resolve every pool_XXXXXXXX label to its value.
+    pool_value = {}
+    for i, line in enumerate(lines):
+        m = RE_THUNK_POOL_LABEL.match(line)
+        if m and i + 1 < len(lines):
+            wm = RE_THUNK_WORD.match(lines[i + 1])
+            if wm:
+                pool_value[int(m.group(1), 16)] = int(wm.group(1), 16)
+
+    out = []
+    i, n = 0, len(lines)
+    while i < n:
+        fm = RE_THUNK_FUNC.match(lines[i])
+        if not fm:
+            i += 1
+            continue
+        func_addr = int(fm.group(1), 16)
+        j = i + 1
+        if j < n and not lines[j]:
+            j += 1
+        lm = RE_THUNK_LDR.match(lines[j]) if j < n else None
+        if not lm:
+            i += 1
+            continue
+        reg, pool_addr_s = lm.group(1), lm.group(2)
+        k = j + 1
+        bm = RE_THUNK_BX.match(lines[k]) if k < n else None
+        if not bm or bm.group(1) != reg:
+            i += 1
+            continue
+        target = pool_value.get(int(pool_addr_s, 16))
+        if target is not None:
+            out.append((func_addr, target & ~1))
+        i = k + 1
+    return out
+
+
+ITCM_UNITS_JSON = os.path.join(ROOT, "layout", "units_itcm.json")
+
+
+def _unit_files(units_json_path):
+    """Listing file paths straight from a units_*.json manifest.
+
+    Reading the manifest's own file list, rather than globbing the split
+    directory, matters here: disasm.py's split never deletes a previous
+    run's leftover unit files when the cut points move, so a stale
+    directory can hold overlapping .s files that would otherwise double- or
+    triple-count the same thunk.
+    """
+    if not os.path.isfile(units_json_path):
+        return []
+    with open(units_json_path, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    return [os.path.join(ROOT, u["file"].replace("/", os.sep))
+           for u in doc["units"]]
+
+
+def find_tail_call_thunks():
+    """Every tail-call thunk image-wide: [{addr, target, region}], by addr."""
+    thunks = []
+    for path in _unit_files(UNITS_JSON) + _unit_files(ITCM_UNITS_JSON):
+        for addr, target in _thunk_candidates_in_file(path):
+            thunks.append({"addr": addr, "target": target, "region": "arm9"})
+    for path in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "*.s"))):
+        base = os.path.basename(path)
+        region = base[:-2] if base.endswith(".s") else base   # "ov010"
+        for addr, target in _thunk_candidates_in_file(path):
+            thunks.append({"addr": addr, "target": target, "region": region})
+    thunks.sort(key=lambda t: t["addr"])
+    return thunks
+
+
 # ---------------------------------------------------------------- listings
 
 
@@ -447,6 +596,7 @@ def build_inventory():
     sdk = load_sdk_symbols()
     runtime = load_runtime_symbols()
     matched = load_matched()
+    thunks = find_tail_call_thunks()
     funcs, items, edges, word_refs = parse_all(units)
 
     region_end = units["base"] + units["size"]
@@ -550,6 +700,7 @@ def build_inventory():
         "pointers": pointers,
         "sdk_calls": sdk_calls,
         "region_end": region_end,
+        "thunks": thunks,
     }
 
 
@@ -784,6 +935,7 @@ def build_document(inv, packets):
             "coverage_percent": round(coverage, 4),
             "sdk_conflicts": sdk_conflicts,
         },
+        "thunks": inv["thunks"],
         "packets": packet_map,
     }
 
@@ -878,7 +1030,8 @@ def dump(doc, path):
     """Write merge-friendly JSON: one packet per line, stable key order."""
     out = []
     out.append("{")
-    head = ["tool", "version", "note", "region", "base", "size", "policy", "summary"]
+    head = ["tool", "version", "note", "region", "base", "size", "policy",
+           "summary", "thunks"]
     for key in head:
         out.append(' %s: %s,' % (json.dumps(key), json.dumps(doc[key], sort_keys=True)))
     out.append(' "packets": {')
@@ -932,6 +1085,19 @@ def print_summary(doc):
         )
         for c in s["sdk_conflicts"]:
             print("      %s  %s  ->  %s" % (c["addr"], c["sdk_name"], c["matched_name"]))
+    thunks = doc.get("thunks") or []
+    if thunks:
+        print("  tail-call thunks         %6d  (ldr+bx forwarders; see"
+              % len(thunks))
+        print("    docs/idioms/tail-call-is-a-pool-word-and-bx.md; their "
+              "callers count as callers of the target for fan-in)")
+        shown = thunks if len(thunks) <= THUNK_PRINT_LIMIT else thunks[:THUNK_PRINT_LIMIT]
+        for t in shown:
+            print("      %-6s 0x%08X  ->  0x%08X"
+                  % (t["region"], t["addr"], t["target"]))
+        if len(thunks) > THUNK_PRINT_LIMIT:
+            print("      ... %d more; see layout/worklist.json \"thunks\""
+                  % (len(thunks) - THUNK_PRINT_LIMIT))
     print("  packets                  %6d" % s["packets"])
     print(
         "  coverage by bytes        %8.4f%%  (%d / %d game code bytes)"
@@ -982,6 +1148,12 @@ def print_packet(doc, pid):
         print("  SDK calls: %s" % ", ".join(p["sdk_calls"]))
     if p["entry_points"]:
         print("  entry points: %s" % ", ".join(p["entry_points"]))
+    lo, hi = int(p["start"], 16), int(p["end"], 16)
+    anchors = [a for a in load_file_anchors() if lo <= a[0] < hi]
+    if anchors:
+        print("  file anchors (__FILE__ pool words, see layout/file_anchors.txt):")
+        for site, name in anchors:
+            print("    0x%08X  %s" % (site, name))
     for f in p["functions"]:
         print(
             "    %s  %-5s %5d bytes code %4d%s"
@@ -1021,6 +1193,17 @@ def print_packet(doc, pid):
 #
 # score = fan_in + 5 * unlock_weight, unlock evidence weighted higher because
 # it names a concrete file sitting at MATCH for lack of exactly this address.
+#
+# fan_in also counts a tail-call thunk's own callers against its target (see
+# find_tail_call_thunks): a `bl` to the thunk never shows up against the
+# target in image_call_sites, since the thunk forwards with a pool word and
+# a `bx`, not a branch.
+#
+# The printed "guess" column prefers the nearest __FILE__ pool anchor inside
+# the same packet (layout/file_anchors.txt, tools/fileanchors.py) over the
+# nearby-matched-neighbour subsystem heuristic below: an anchor is compiler-
+# emitted evidence of which translation unit a block of code came from, not
+# a guess by proximity.
 
 PENDING_DIR = os.path.join(ROOT, "src", "pending")
 
@@ -1162,11 +1345,27 @@ def build_targets(doc, limit):
     structure --summary and --packet already read), so a stale
     layout/worklist.json is exactly as stale here as it is for those two
     modes: run --refresh first if that matters.
+
+    fan_in also folds in tail-call thunks (see find_tail_call_thunks): a
+    `bl`/`b` to a thunk's address never shows up against the thunk's target
+    in match.image_call_sites(), because the thunk forwards with a pool word
+    and a `bx`, not a branch. Every thunk whose target is this address adds
+    its own caller count on top.
+
+    guess prefers the nearest __FILE__ pool anchor (layout/file_anchors.txt,
+    tools/fileanchors.py) inside the same packet as the target address, over
+    the coarser nearby-matched-neighbour heuristic: an anchor is a real
+    compiler-emitted attestation of a translation unit, not a guess by
+    proximity, so it wins whenever the packet has one.
     """
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import match  # noqa: E402
 
     unlock_weights = load_pending_unlock_weights()
+
+    thunk_callers_of = {}
+    for t in doc.get("thunks") or []:
+        thunk_callers_of.setdefault(t["target"], []).append(t["addr"])
 
     rows = []
     for pkt in doc["packets"].values():
@@ -1174,6 +1373,8 @@ def build_targets(doc, limit):
         for f in pkt["functions"]:
             addr = int(f["addr"], 16)
             fan_in = len(match.image_call_sites(addr))
+            for thunk_addr in thunk_callers_of.get(addr, ()):
+                fan_in += len(match.image_call_sites(thunk_addr))
             unlock = unlock_weights.get(addr, 0)
             score = fan_in + 5 * unlock
             rows.append(
@@ -1191,8 +1392,16 @@ def build_targets(doc, limit):
     top = rows[:limit]
 
     matched_sources = load_matched_sources()
+    anchors = load_file_anchors()
     for r in top:
-        r["guess"] = nearby_subsystem_guess(r["addr"], matched_sources) or ""
+        pkt = doc["packets"][r["packet"]]
+        lo, hi = int(pkt["start"], 16), int(pkt["end"], 16)
+        in_pkt = [(site, name) for site, name in anchors if lo <= site < hi]
+        if in_pkt:
+            _site, name = min(in_pkt, key=lambda sn: abs(sn[0] - r["addr"]))
+            r["guess"] = name
+        else:
+            r["guess"] = nearby_subsystem_guess(r["addr"], matched_sources) or ""
 
     return top
 

@@ -218,6 +218,54 @@ file" in `docs/MATCHING.md`.
 The merge rule it implements is documented in full at the top of
 `tools/worklist.py`.
 
+### Tooling
+
+`tools/fileanchors.py` harvests every `__FILE__` literal-pool anchor across
+the ARM9 static image and all 237 overlays: a pool word a traced instruction
+actually loads (`disasm.py`'s own `Region.pools`, not a guess from a raw
+byte scan) whose value points at a NUL-terminated, all-printable string
+ending in `.c` or `.cpp`. Each hit is recorded as its pool site address, the
+nearest preceding function address, the region, the string's own address
+and the file name, written to `layout/file_anchors.txt` in the same
+addresses-and-names-only style as `layout/symbols_sdk.txt`. A full image
+scan found 1022 anchors (272 in arm9_main, the rest spread thinly across
+105 overlays), close to the 1018 a previous manual pass counted. `--summary`
+prints counts per region and `--lookup ADDR` finds the nearest anchor at or
+below an address in the same region. `worklist.py --targets` now prefers
+the nearest anchor inside an open function's own packet over the older
+nearby-matched-neighbour subsystem guess (a compiler-emitted attestation
+beats a proximity heuristic), and `--packet` lists every anchor that falls
+inside the packet's range.
+
+`disasm.py` emits instructions the assembler cannot round-trip losslessly
+as `.inst`/`.inst.n`/`.inst.w`, with the real mnemonic and operands kept
+only in the trailing comment; a text scan of the mnemonic column alone
+therefore misses every one of them silently. The listing bytes are
+unchanged (`build.py --split --pack --no-c` still reassembles 242/242
+byte-identically), but every directory of listings now also gets an
+`inst_index.txt` alongside it: address, mnemonic and operands for each raw
+line, gitignored with the rest of `asm/`. `disasm.scan_mnemonics(region)` is
+the reader: it merges a region's ordinary listing text with its
+`inst_index.txt` and yields `(addr, mnemonic, operands)` for every
+instruction, raw-encoded or not, so a caller never has to special-case
+`.inst` lines itself.
+
+A function that is nothing but a pool-word load and a `bx`
+(`ldr rX, [pc, #n]; bx rX; .word target`) is a tail call no `bl`/`b` scan
+ever sees, because the call to it is a branch but the forward to its real
+target is not
+(docs/idioms/tail-call-is-a-pool-word-and-bx.md). `worklist.py` now scans
+every arm9_main/arm9_itcm translation unit and all 237 overlay listings for
+this exact two-instruction shape and records the inventory in
+`layout/worklist.json`'s `thunks` field, printed (capped, with a pointer to
+the full list) by `--summary`. The shape turns out to be a common compiler
+idiom throughout the image, not limited to the half-dozen archive-id
+forwarders `docs/notes/a_1_6_9_and_a_1_6_8_no_reader.c.txt` found by hand:
+a full image scan found 470 thunks (292 distinct targets, 46 of them
+currently open arm9_main functions). `--targets`' fan-in score now adds a
+thunk's own callers to its target's count, so a function only reachable
+through a forwarding stub is no longer scored as if it had none.
+
 ## Pokemon White is planned
 
 A second build target (Pokemon White, IRAO) is planned for this tree; see

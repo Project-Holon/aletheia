@@ -162,6 +162,18 @@ def decompress_lz77(data):
                     raise NarcError("LZ77 stream ran out on a literal byte")
                 out.append(data[sp])
                 sp += 1
+    if n - sp > 3:
+        # A genuine BIOS LZ77 stream consumes (up to 3 bytes of trailing
+        # NARC sub-file padding aside) its entire container -- see
+        # verify_all.py's `_compressed_match` docstring for the same 0-3
+        # byte tolerance, confirmed on `a/1/7/3`. Reaching the declared
+        # decompressed size this far short of the sub-file's end means tag
+        # byte 0x10 was not a real LZ77 header, just a coincidental first
+        # byte of some other (plain/custom) format -- e.g. `a/0/2/1`'s
+        # fixed 36-byte move records, several of which start with 0x10/0x11
+        # as a data field, not a compression tag.
+        raise NarcError("LZ77 declared size reached far short of the "
+                         "container end -- not a real compressed stream")
     return bytes(out[:dec_size])
 
 
@@ -229,6 +241,11 @@ def decompress_lz11(data):
             base = len(out) - disp
             for i in range(length):
                 out.append(out[base + i])
+    if n - sp > 3:
+        # Same false-positive-tag guard as `decompress_lz77` above, for the
+        # LZ11 (0x11) tag byte -- see that function's comment.
+        raise NarcError("LZ11 declared size reached far short of the "
+                         "container end -- not a real compressed stream")
     return bytes(out[:dec_size])
 
 
