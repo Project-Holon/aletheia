@@ -8959,3 +8959,306 @@ The inventory's own heuristic could not produce even a category guess for these 
 | dl_rom/icon_w.char | 0 | UUUU | unknown raw format |
 | dl_rom/icon_w.plt | 0 | 1FQ! | unknown raw format |
 
+
+## Per-tile grid record SOLVED from the game's code: it is not eight byte lanes, it is `{u16 surface, u16 index, u32 attribute}`, and the attribute word splits into a terrain id and a flag half
+
+Mission: find the code that reads the `a/0/0/8` per-tile 8-byte record and
+name its lanes by what the consumers do with them. Found, decompiled the
+consumer family to `EXACT`, and confirmed the reading against all 664,576
+records in the archive. The result corrects the byte-lane model the three
+earlier passes built from data alone: **there are no eight independent byte
+lanes**. The record is three fields, and the previous "byte[4] is
+walkability / byte[6] is byte[4] | 0x80" reading was two views of one fact,
+which is why the two looked redundant.
+
+### The path to the reader
+
+```
+func_02169848(out, mapObj, pos, ...)                   ov010, field_g3d_map.c
+  -> mapObj->vtable[tagIndex].fn[+0xc]                 dispatch on the wrapper tag
+       WB -> func_02193398   grid = fileBuf + u32@8
+       GC -> func_02193498   grid 0 = fileBuf + u32@8, grid 1 = fileBuf + u32@0x0c
+       NG -> func_02193544
+       RD -> func_02193628
+  -> func_021D14C4(out, slot, gridPtr, posObj, ..., baseY)   ov021, the record decoder
+  -> func_0218DBAC                                      copies out+8 / out+0x0c out
+  -> func_021AB504(attributeWord)                       ov021, the terrain-class switch
+```
+
+The tag-keyed vtable sits at `0x021D3DDC`, 16 bytes per entry, terminated by
+a `0xFFFFFFFF` catch-all:
+
+| tag word | tag | fn[+0x04] | fn[+0x08] | fn[+0x0c] |
+|---|---|---|---|---|
+| 0x00004257 | `WB` | func_021932C0 | func_02193398 | func_02193398 |
+| 0x00004347 | `GC` | func_021933C0 | func_02193498 | func_021934F8 |
+| 0x0000474E | `NG` | func_02193544 | 0x0219361C | 0x0219361C |
+| 0x00004452 | `RD` | func_02193628 | func_02193790 | func_02193790 |
+| 0xFFFFFFFF | (default) | func_021933C0 | func_02193498 | func_02193498 |
+
+`func_02169470` (ov010) scans that table comparing the sub-file's own leading
+`u16` against each tag until the terminator. This is the game stating the four
+tags itself, and it independently confirms the earlier passes' structural
+findings: the `GC` handler samples **two** grids (`u32@8` and `u32@0x0c`) where
+`WB`'s samples one, and `NG`'s entries are a stub pair plus a separate
+initialiser, i.e. no grid.
+
+`func_021D14C4` indexes the grid exactly the way `map_grid.py` guessed from the
+data:
+
+```
+adds r1, r1, #4        ; skip the grid's own u16 width, u16 height header
+lsls r0, r0, #3        ; record stride 8
+adds r7, r1, r0        ; &grid[row * width + col]
+```
+
+### The record, as the decoder reads it
+
+| offset | width | field | meaning, and who attests it |
+|---|---|---|---|
+| +0x00 | u16, bits 0..1 | surface type | `func_021D14C4` switches on it: 0 = one flat surface, 2 = a slope resolved against an auxiliary record list, 1 = no surface (writes normal `(0, 0x1000, 0)`, height 0) |
+| +0x00 | u16, bits 2..15 | normal index | `idx * 3 + {0,1,2}` into an s16 table of `(x, y, z)` triples, written to the caller's normal field with the z lane negated |
+| +0x02 | u16 | height index | type 0: index into a `u32` height table added into the height sum; type 2: index of the first record of the auxiliary array that starts at `gridPtr + 4 + width*height*8`, which is the "tail bytes" the earlier passes left undecoded |
+| +0x04 | u32, bit 31 | search direction | `func_021D14C4` at `0x021D1588` picks which end of the auxiliary list the type-2 search walks from |
+| +0x04 | u32, bits 0..30 | **tile attribute word** | copied to the caller verbatim with bit 31 cleared (`0x021D163C`), and that word is what every gameplay consumer tests |
+
+So the old byte lanes map onto this as: byte[0]/byte[1] are the surface `u16`,
+byte[2]/byte[3] are the height-index `u16`, byte[4..7] are the attribute word.
+The earlier passes' "byte[2] is a quantized height step, overloaded with large
+outliers" was right in spirit and wrong in mechanism: it is an index into a
+height table, so a smooth ramp shows as a smooth run of indices and an
+unrelated tile shows as an unrelated index. "byte[0] is an edge/boundary
+marker" is the surface-type/normal field: a cliff edge is exactly where the
+normal stops being flat. And "byte[1]/byte[3] are outdoor-only terrain codes"
+is the high byte of each of those two `u16`s: `byte[1]` in 1..5 is a normal
+index in 0x100..0x5ff, not a five-valued enum, which is why no direction or
+ledge reading ever fit it.
+
+### The attribute word, and the predicate family that reads it
+
+`func_021AB0F0(attr)` returns `(u16)attr`, the **terrain id**;
+`func_021AB0F8(attr)` returns `(u16)(attr >> 16)`, the **flag half**. Both are
+`EXACT`. Everything downstream is written against one or the other.
+
+| lane | bit or value | meaning, and the consumer that attests it | confidence |
+|---|---|---|---|
+| attribute low half | id, `u16` | terrain id; the argument of every predicate in the `pkt_021AB0F0` family | HIGH |
+| attribute low half | id == 0xFF | "no terrain"; `func_021AB100` treats it, and the all-ones attribute word, as absent | HIGH |
+| attribute low half | id == 1 | ordinary walkable ground: 508,497 of 664,576 records, and the dominant id ever paired with flag bit 0 | HIGH |
+| attribute low half | id == 0 | blocked: 76,964 records, flag bit 0 never set | HIGH |
+| attribute low half | id in {4, 5, 0x21} | one encounter-terrain family; `func_021AB23C`, folded by `func_021AB27C` / `func_021AB2BC` into the set `enceff.c` (`0x021CF6DE`) uses to pick an encounter-effect resource | HIGH |
+| attribute low half | id in {6, 7, 0x22} | the sibling family; `func_021AB250`, same consumer through `func_021AB29C` | HIGH |
+| attribute low half | id == 8 / == 9 | the singleton members of those two families; `func_021AB264` / `func_021AB270` | HIGH |
+| attribute low half | id == 0x20 | terrain class 7; the one `func_021AB504` case that fires without the bit-2 gate | HIGH |
+| attribute low half | id in {0x3d, 0x3e, 0x3f, 0x42, 0x43} | one group; `func_021AB3B0`, called from `0x021C5CEC` | MEDIUM (membership certain, meaning not named) |
+| attribute low half | id in {0x0b, 0x0c, 0x23} and id == 0x19 | one group; `func_021AB37C` / `func_021AB370`, unioned by `func_021AB390`, also read directly by `enceff.c` at `0x021CF706` | MEDIUM |
+| attribute low half | 43 further single-id predicates | ids 0x02, 0x05, 0x07, 0x0c, 0x0e, 0x0f, 0x10, 0x14, 0x17, 0x1b, 0x1c, 0x1d, 0x1e, 0x21, 0x22, 0x23, 0x30, 0x32, 0x33, 0x40, 0x41, 0x44, 0x72..0x75, 0x7c, 0xbe, 0xbf, 0xd4, 0xd6..0xe2 each get their own `id == k` leaf in the same run | HIGH (the ids), none (what each one means) |
+| attribute high half | bit 0 | ordinary walkable ground; `func_021AB11C` returns true when the tile is absent or this bit is set, and `0x021A6FBE` uses that as a movement gate alongside `func_021BB1A0` | HIGH |
+| attribute high half | bit 1 | selects the alternate encounter-effect resource set; `enceff.c` at `0x021CF6CE` tests it before looking at the id at all | HIGH |
+| attribute high half | bit 2 | gates the terrain-class switch: `func_021AB504` returns 8 ("no class") for every id except 0x20 unless this bit is set | HIGH |
+| attribute high half | bits 3..15 | never observed set: the whole archive uses only values 0..7 in the low three bits | HIGH (as a negative) |
+| attribute | bit 31 | not part of the attribute: `func_021D14C4` consumes it as the type-2 search direction and hands the caller the word with it cleared | HIGH |
+
+`func_021AB504` is the one place that turns the word into a small enum, and it
+is `EXACT`:
+
+```c
+if (id == 0x20) return 7;
+if (!(flags & 4)) return 8;
+switch (id) {
+case 4:    return 0;   case 5:  return 1;   case 0x21: return 2;
+case 8:    return 3;   case 10: return 4;   case 0x3d: return 5;
+case 0x3f: case 0x43:  return 6;
+}
+return 8;
+```
+
+Its only caller, `func_021AACD4` in `effect_encount.c`, drops a candidate tile
+when the answer is 8 and otherwise records the class byte, so 8 is "this tile
+triggers no terrain effect".
+
+### The two data checks
+
+Both run over every `WB`/`GC` grid in `a/0/0/8`: 664,576 records.
+
+**(1) The id and the flag half are one fact, which is why byte[4] looked like
+a walkability lane.** Flag bit 0 is set on the ids that are ordinary ground:
+
+```python
+lo, fl = attr & 0xFFFF, (attr >> 16) & 0xFFFF      # attr = u32 at record[4:8]
+assert sum((lo == 1) != bool(fl & 1) for attr in every_record) == 7377   # 1.1%
+```
+
+Per id, over the thirty most common ids: id 1 is 99.81% flag-bit-0, and every
+other id is 0.00% except ids 18, 65, 68, 212 and 224, which are 100%. That is
+not a walkability lane sitting beside a terrain lane, it is one classification
+expressed twice, and the earlier "byte[6] == byte[4] | 0x80" observation is its
+degenerate case (flag half 0x0081 next to id 1, 0x0080 next to id 0). The 1.1%
+disagreement is exactly those five other always-passable ids, not noise.
+
+**(2) The terrain-class switch is reachable in full and its gate is real.**
+Applying `func_021AB504` verbatim to every record:
+
+```python
+Counter(classify(attr) for attr in every_record)
+# {8: 639172, 4: 8937, 6: 7989, 0: 4448, 7: 2096, 5: 1146, 3: 653, 1: 113, 2: 22}
+```
+
+All eight classes occur. Class 7's count, 2096, is exactly the number of
+records with id 0x20 anywhere in the archive, which confirms that the
+`id == 0x20` early-out really is the only path that ignores the bit-2 gate: no
+record with id 0x20 exists that the gate could have swallowed. Flag bit 2 is
+set on 34,180 records, comfortably more than the 25,404 that classify to
+something other than 8, which is the right direction: the gate admits ids that
+then fall through the switch's default.
+
+### Functions filed `EXACT` this pass (`layout/matched/ov021/pkt_021AB0F0.json`)
+
+59 entries, all `EXACT` or `EXACT*`, the whole attribute-predicate run
+`0x021AB0F0..0x021AB580`: the two half accessors, `func_021AB100` /
+`func_021AB11C` (presence and the movement gate), six grouped predicates and
+five unions over them, 43 single-id leaves (29 of which `disasm.py` never
+labelled, they print as `.word` runs and are filed as `sub_`), and
+`func_021AB504`.
+
+### What this closes and what it does not
+
+Closed: the record's field structure, the reader, the tag vtable (which
+re-confirms `WB` one grid / `GC` two grids / `NG` no grid from code rather than
+from byte arithmetic), the meaning of the attribute word's split, three flag
+bits, and the identity of the ids that gate encounter effects and movement.
+
+Not closed:
+
+- **Which id is tall grass, which is water, which is a ledge.** The ids are
+  enumerated exactly and their groupings are attested, but nothing in this pass
+  names them: the predicates are leaves, and their callers set opaque effect
+  resource pointers. The next step is the resource pointers `enceff.c` loads at
+  `0x021CF6D8` / `0x021CF6EC` / `0x021CF6F2`, which should resolve to named
+  effect archives; that, not more grid statistics, is what will label the ids.
+- The mission's earlier hypotheses about a ledge direction code in byte[1] and
+  a terrain enum in byte[3] are now moot rather than refuted: those byte
+  positions are the high halves of two `u16` indices, so no small-constant enum
+  can live there, and the earlier passes' inconclusive results were
+  structurally guaranteed.
+- `func_021D14C4` itself is documented
+  (`docs/notes/func_021D14C4_tile_record_reader.c.txt`) but not decompiled; it
+  is a 428-byte function with 64-bit division helpers and deserves its own
+  packet.
+- The auxiliary slope-record array after the grid is located exactly
+  (`gridPtr + 4 + width*height*8`) and its record shape is read off the type-2
+  loop, but it has not been dumped or cross-checked against geometry.
+- The `RD` tag's dense secondary block and the `GC` second grid's purpose are
+  still open; the vtable shows only that `GC`'s second grid is sampled by the
+  same decoder as its first, into slot 1 of the caller's output.
+
+## Asset lane pass: fonts located and decoded (`a/0/2/3`, `tools/assets/font.py`)
+
+### The archive: `a/0/2/3`
+
+8 sub-files: 5 RTFN (NFTR, "NFTR" reversed to "RTFN" on disk, the same
+chunked-container shape the inventory already flagged as "NFTR variant
+(font, guess)") plus 3 RLCN (NCLR) palettes at indices 5-7 (16 colors each,
+uncompressed, not used by the glyph decoder below -- see "What remains").
+
+| # | size | cell | glyphs | line height | notes |
+|---|---:|---|---:|---:|---|
+| 0 | 264360 | 12x15 | 5064 | 15 | main/large font |
+| 1 | 162768 | 10x10 | 5064 | 10 | small font |
+| 2 | 218520 | 11x13 | 5064 | 13 | medium font |
+| 3 | 1684 | 13x8 | 32 | 8 | special: digits, `/?FILMN`, gender marks, fullwidth digits |
+| 4 | 2396 | 12x12 | 41 | 12 | special: digits 1-9, A-Z, circled digits (ordinal/ranking) |
+
+### Container format (confirmed against real bytes)
+
+NFTR is the same generic NITRO chunked-container shape as NARC/NCGR/NCLR: a
+16-byte file header, then named chunks FNIF ("FINF"), PLGC ("CGLP"), HDWC
+("CWDH"), then a linked chain of PAMC ("CMAP") chunks. FINF holds byte
+offsets (relative to the sub-file start) to the CGLP/CWDH/first-CMAP chunk
+bodies; every offset was cross-checked by walking the chunks sequentially
+and landing exactly on the same bytes for all 5 fonts.
+
+**Glyph record** (CGLP, one record per glyph, `cell_size` bytes each): 3
+metric bytes (`bearing` s8, `width` u8, `advance` u8) then a packed bitmap.
+This 3-byte-metrics-then-bitmap shape is not a guess -- it is exactly what
+`src/matched/sub_0201DC44.c` (gf_font.c's glyph hand-off, status EXACT)
+describes: "the glyph bitmap ... starts three bytes into the glyph record,
+and the record's own three metric bytes ... are copied into the caller's
+... descriptor." The bitmap is `cell_width * cell_height` pixels at **2
+bits per pixel**, packed **MSB-first with no per-row byte alignment** (the
+bit stream runs continuously across row boundaries) -- confirmed because
+`cell_size - 3` exactly equals `ceil(w*h*2/8)` for all 5 fonts and fails for
+every other bit depth tried (1/4/8), e.g. font #0: 12x15 = 180 px * 2 bit =
+360 bit = 45 bytes + 3 metric bytes = 48, the real `cell_size`. The reader
+this module implements (`_unpack_bits`/`_pack_bits`) reproduces
+`src/matched/sub_0201E4D4.c` (the bit reader behind the compressed glyph
+stream, also EXACT) byte for byte: pull `n` bits MSB-first, straddling byte
+boundaries as needed.
+
+The 2bpp (4 brightness levels, not a palette index) reading also matches
+`func_0201DD78`'s "4x4x4x4 colour expansion" (see its packet notes): the
+renderer builds a 4-level tint ramp from an RGB request at draw time rather
+than reading color out of a palette, which is why this archive's 3 NCLR
+palettes (16 colors each) don't correspond to the glyph bit depth -- they
+are not the font's pixel colors, and their real purpose here is undetermined.
+
+CWDH ("HDWC") is located (FINF gives its body offset, its own chunk header
+gives its byte count) but its internal per-glyph record layout was **not**
+cracked this pass: 1-, 2- and 4-byte fixed records at several header
+lengths were tried and none gives a glyph count that lines up with anything
+confirmable against the metrics already recovered from CGLP itself. This
+does not block anything below: `sub_0201DC44.c` shows the real renderer
+uses CGLP's own embedded metrics for layout, not CWDH, so `font.py` does
+the same.
+
+### CMAP: character code -> glyph index, confirmed against `text.py`
+
+CMAP is a linked list of chunks (method 0 = direct range, method 1 = table,
+method 2 = sparse scan of (code, index) pairs). Font #0's first CMAP chunk
+is method 0, `first=0x20`, `last=0x7E`, base glyph index 0 -- **glyph index
+N (0..94) is character code 0x20+N** for every printable ASCII character.
+That is exactly the identity `text.py` uses for ASCII code points
+(`text.py`: "Printable ASCII (0x20-0x7E) renders as itself"), which is this
+pass's ground-truth check.
+
+### Ground truth check
+
+Rendered glyph indices 0-94 of font #0 (the ASCII direct-range CMAP chunk)
+to a PNG contact sheet (`font.py render`, `build/assets/fonts/font_0.png`,
+gitignored) and compared every digit 0-9 (glyph index 16-25) and every
+capital A-Z (glyph index 33-58) against its expected shape by eye: **36/36
+matched**, digits read as digits and capitals read as their letters
+(including distinguishing details like the crossbar on 'A' and the two
+bumps on 'B'), in the exact order `text.py`'s code-to-character identity
+predicts.
+
+### `tools/assets/font.py`
+
+`--list` (`list` subcommand) summarizes every font (dimensions, bpp, glyph
+count, CMAP chunk ranges); `render` writes one contact-sheet PNG per font to
+`build/assets/fonts/` (gitignored, regenerate, don't commit); `widths`
+dumps per-glyph `(bearing, width, advance)` straight from CGLP's own
+metric bytes, annotated with the ASCII character where the direct-range
+CMAP chunk applies; `verify` re-encodes every glyph record (metrics +
+bitmap) with the inverse bit-packer and compares against the original bytes.
+
+### Round trip
+
+`font.py verify`: **15265/15265 glyph records byte-identical** across all
+5 fonts (5064 + 5064 + 5064 + 32 + 41), every metric byte and every packed
+bit reproduced exactly.
+
+### What remains
+
+- CWDH's internal record layout is not cracked (see above); not needed for
+  anything implemented here, but it may hold a second, more precise width
+  source this module doesn't use.
+- The non-ASCII CMAP chunks (hiragana, katakana, fullwidth forms, a
+  4530-entry scan chunk covering the rest of Unicode) are walked and
+  reported by `list`, but `render`/`widths` only address glyphs by raw
+  index, not by character code, so non-ASCII text is not exercised.
+- The 3 NCLR palettes in this archive are parsed by no code in `font.py`;
+  their purpose is undetermined (the glyph pixels are 2bpp brightness
+  levels expanded through a runtime color ramp, not palette indices).
+- FINF's bytes at offsets 0x01/0x05/0x06/0x07 are recorded (line height,
+  two unknowns, an encoding flag guess) but not fully explained.
