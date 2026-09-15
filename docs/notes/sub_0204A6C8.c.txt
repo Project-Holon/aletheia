@@ -1,0 +1,141 @@
+sub_0204A6C8 @ 0x0204A6C8, fan_in 273, packet pkt_0204A03C.
+DIFF at 4 concrete bytes out of 216.  Right size, right control flow,
+right literal pool, every relocation resolved.  The residue is two
+adjacent `mov`s in the other order, nothing else in the function.
+
+WHAT IT IS
+----------
+Claim the first entry of the display-object table that is marked pending
+(top bit of +0x3C set), build the object for it, publish it through
+func_0204E0D0, then clear the pending mark and the counter at +0x24.
+The slot index is the return value; -1 means nothing was waiting.
+
+The owner block sits 0x104 bytes into the object at 0x02146A74 and
+carries two tables side by side: the 0x40-byte one at +0x08 with its
+count at +0x14 (this function), and a 0x18-byte one at +0x0C with its
+count at +0x16 (sub_0204AC18, the twin).  src/matched/func_0204E0D0.c
+already named the 0x40 stride and the +0x3C status word; the `>> 31`
+here is the other half of its `& ~0x80000000`.
+
+WHAT THE C IS
+-------------
+    struct Slot  { u8 pad_00[0x24]; u32 unk_24;
+                   u8 pad_28[0x14]; u32 unk_3c; };        /* 0x40 */
+    struct Slot2 { u8 pad_00[0x14]; u32 unk_14; };        /* 0x18 */
+
+    struct Owner {
+        u8            pad_00[8];
+        struct Slot  *slots;                              /* 0x08 */
+        struct Slot2 *slots2;                             /* 0x0C */
+        u8            pad_10[4];
+        volatile u16  count;                              /* 0x14 */
+        volatile u16  count2;                             /* 0x16 */
+    };
+
+    struct Sys { u8 pad_00[0x104]; struct Owner owner; };
+
+    extern struct Sys *unk_02146A74;
+
+    extern u32  func_0204D9D4(u32 a, u32 b, u32 c, u16 flags);
+    extern void func_0204E0D0(struct Owner *owner, u32 idx, u32 handle,
+                              u32 a3, u32 a4);
+    extern void func_020307B0(u32 handle);
+
+    s32 sub_0204A6C8(u32 a, u32 b, u32 c, u32 a3, u16 flags)
+    {
+        struct Sys   *sys;
+        struct Owner *owner;
+        struct Slot  *slot;
+        u32 i;
+        u32 handle;
+
+        sys   = unk_02146A74;
+        owner = &sys->owner;
+
+        for (i = 0; i < owner->count; i++) {
+            if ((owner->slots[i].unk_3c >> 31) != 0) {
+                goto found;
+            }
+        }
+        i = (u32)-1;
+
+    found:
+        if (i == (u32)-1) {
+            return -1;
+        }
+
+        slot   = &sys->owner.slots[i];
+        handle = func_0204D9D4(a, b, c, (u16)((flags & 0x7fff) | 0x8000));
+
+        func_0204E0D0(&unk_02146A74->owner, i, handle, a3, 0);
+        func_020307B0(handle);
+
+        slot->unk_24 = 0;
+        slot->unk_3c &= ~1;
+
+        return i;
+    }
+
+WHAT IS PINNED, AND HOW MUCH IT COST
+------------------------------------
+Four spellings are forced, and between them they took the residue from
+44 bytes to 4.  All four transfer to the twin, sub_0204AC18, which they
+close outright (that file is byte-correct, parked at MATCH in
+src/pending only for a missing witness, not for codegen).
+
+  `count` is `volatile`.  The loop reads it from memory on every
+  iteration (`ldrh r4, [r7, #0x14]` inside the body, after the entry test
+  has already read it) while the table pointer beside it is hoisted once.
+  Without `volatile` the compiler hoists the count as well and the loop
+  is four bytes short, with a register renaming cascading through the
+  rest of the function.  This is the reverse of the reading in
+  docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-
+  volatile.md: there is no call in this loop at all, so nothing but the
+  qualifier can keep the load alive.
+
+  The outer pointer must be bound to a local (`sys`) and re-used after
+  the loop for the slot address.  That keeps it live across the loop,
+  which is what makes the compiler read the table once as +0x08 off the
+  owner and once as +0x10C off the outer object.  Dropping `sys` and
+  spelling the slot as `&owner->slots[i]` loses the outer pointer's live
+  range and costs 26 bytes of register renaming.
+
+  The not-found value is reached by falling out of the loop, so the exit
+  from the body is `goto` past `i = -1`, not `break` followed by
+  `if (i >= owner->count) i = -1;`.  The second form emits an extra count
+  read (now that the field is volatile it cannot be folded away) and a
+  predicated `mvnhs` where the original has a plain `mvn`.
+
+  The first `return` returns the literal -1, not `i`.  The original's
+  `moveq r0, r4` takes the register holding the -1 the comparison just
+  built, not r5 which holds `i`.  The twin is the opposite (`moveq r0,
+  r4` there is `i`), so each function's own bytes decide this and the two
+  must not be made to look alike.
+
+WHAT IS LEFT
+------------
+    * +0088  mov r8, r0    | mov r7, #0
+    * +008C  mov r7, #0    | mov r8, r0
+
+r8 is `handle`, the result of the func_0204D9D4 call at +0x84; r7 is the
+zero that becomes both the fifth argument of func_0204E0D0 (stored to
+[sp]) and the later `slot->unk_24 = 0`, shared across two calls in a
+callee-saved register.  The original saves the call result first and
+materialises the zero second; every C shape tried does it the other way
+round.  Both orders are the same two instructions and the same
+registers; only the schedule differs.
+
+Tried, all still 4 bytes: declaring `handle` before `i`; binding
+`&unk_02146A74->owner` to a local before the call; `void *` for `handle`
+and for `unk_24` (with the call's fifth argument as a pointer); moving
+the `&unk_02146A74->owner` re-read out of the argument list.  Swapping
+the two tail stores is much worse (40 bytes), which confirms `unk_24`
+really is written before `unk_3c`.
+
+The lever that closed the identical scheduling difference in
+sub_0204AC18 was the return-value spelling: there the fifth argument is
+a saved parameter that reuses the same register the call result lands
+in, so the order is forced by register reuse rather than chosen.  Here
+the zero and the handle live in different callee-saved registers and
+nothing forces anything.  Next thing to try is a caller of 0x0204A6C8
+that pins a fifth argument other than a bare literal zero.

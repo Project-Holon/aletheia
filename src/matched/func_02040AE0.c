@@ -1,0 +1,42 @@
+/*
+ * unit:     no
+ * function: func_02040AE0
+ * address:  0x02040AE0
+ * packet:   pkt_020409E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02040AF0  0x02040AF0  arm
+ *
+ * A four-instruction forwarder that binds the tile offset of func_02040AF0
+ * to zero.  It has no label in the listing: the prologue saves nothing, so
+ * disasm.py's rule does not see it and the whole function reads as part of
+ * func_020409E0's literal pool
+ * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  This is
+ * also why func_020409E0 verifies EXACT*, its inferred extent running on
+ * to 0x02040AF0; 0x02040AE0 wants seeding into
+ * layout/function_starts.txt.
+ *
+ * The tail call is the usual pool word and `bx`
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), through ip rather than
+ * r3 so the fourth argument register is still free to carry the zero
+ * (docs/idioms/a-tail-call-cannot-pass-a-fourth-argument.md).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02040AE0.c \
+ *       --func func_02040AE0 --addr 0x02040AE0 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+extern void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset);
+
+void func_02040AE0(u32 index, const void *src, u32 mode)
+{
+    func_02040AF0(index, src, mode, 0);
+}

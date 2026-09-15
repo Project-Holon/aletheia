@@ -1,0 +1,136 @@
+/*
+ * near miss: sub_02064B68  (0x02064B68, arm9, ARM, 168 bytes)
+ * packet:    pkt_02064B68
+ * verdict:   DIFF, 168 bytes compiled against 168 original,
+ *            15 concrete bytes differing, four instructions
+ * cost:      one field load scheduled after a field store instead of
+ *            before it, and the zero-init of the loop counter moving with
+ *            it; nothing semantic, and everything from +0x20 on is
+ *            byte-identical
+ *
+ * Worth recording because this address is the single blocker on
+ * src/pending/sub_0204D500.c: that file is byte-correct and its only
+ * relocation is the tail-call pool word naming 0x02064B68, which nothing
+ * else in the image names, so the only route to EXACT for it is an EXACT
+ * entry here acting as a `matched` witness.  Landing it would also let
+ * sub_0204D500 fold back into src/matched/unit_0204D4C4.c, which is
+ * currently cut short at three of its four functions for this reason.
+ *
+ * What the function does is settled.  The object at r7 carries a kind word
+ * at +0x3c, a header pointer at +0x34 and an array base at +0x40, and the
+ * argument is stashed at +0x14 before either arm runs.  Kind 1 walks
+ * `hdr->count_at_2` records of 0x5c bytes and passes each record's address;
+ * anything else walks `hdr->count_at_0` records of 0x28 bytes and passes
+ * the pointer stored in each record's word 0.  Both loops re-read the
+ * header pointer and its count every iteration, and the counter is a u16,
+ * which is where the `lsl #16` / `lsr #16` pair per iteration comes from.
+ *
+ * Two findings that the C below already bakes in, because each was worth
+ * several bytes:
+ *
+ *   The header pointer at +0x34 must be `volatile`.  Without it the front
+ *   end treats the two arms' opening `ldr r0, [r7, #0x34]` as one common
+ *   subexpression and hoists a single load above the `bne`, which is four
+ *   bytes shorter than the original and shifts every subsequent offset.  A
+ *   union of the two header types does not stop the hoist; only `volatile`
+ *   does, and it costs nothing elsewhere because both loops re-read the
+ *   pointer each iteration anyway.
+ *
+ *   The array base must be a named local, not `r->unk_40` spelled out at
+ *   both use sites.  Spelled out it is re-read inside each loop and the
+ *   function grows to 172 bytes with a different register assignment
+ *   (five callee-saved instead of six).
+ *
+ * What is left is the prologue's ordering:
+ *
+ *   original                            this C
+ *     ldr r0, [r7, #0x3c]                 ldr r0, [r7, #0x3c]
+ *     ldr r5, [r7, #0x40]   (L)           mov r6, r1
+ *     mov r6, r1                          str r6, [r7, #0x14]   (S)
+ *     cmp r0, #1                          cmp r0, #1
+ *     mov r4, #0                          ldr r5, [r7, #0x40]   (L)
+ *     str r6, [r7, #0x14]   (S)           mov r4, #0
+ *     bne #0x2064bcc                      bne #0x2064bcc
+ *
+ * The original reads the array base (L) before storing the argument (S);
+ * every spelling tried here stores first.  Both go through the same
+ * pointer, so the conservative order is store-last, and that is exactly the
+ * order the original has, which is the confusing part: the original is the
+ * one that hoists the load above a possibly-aliasing store.
+ *
+ * Spellings tried, all 168 bytes and all wrong in exactly this way:
+ *
+ *   u16 i = 0; void *base = r->unk_40; r->unk_14 = arg;   (the C below)
+ *   the same with `void *const unk_40;`                   (const member)
+ *   the same with `void *volatile unk_14;`                (volatile store)
+ *   the store written as the first statement of the function
+ *
+ * And these are worse, 22 bytes out, because they also reallocate r4/r5:
+ *
+ *   base declared before i
+ *   base declared before i, with `i = 0;` as its own statement
+ *   the kind word read into a local `u32 kind` first
+ *
+ * Declaration order `i` then `base` is what gives i=r4 and base=r5, so that
+ * much is pinned; only the store's position is open.  What would settle it
+ * is a construct in which this front end lifts a plain field load above a
+ * plain field store through the same pointer.  `const` on the loaded member
+ * does not do it (unlike the struct-assignment case in
+ * docs/idioms/const-source-pointer-schedules-the-block-load-first.md, where
+ * `const` on the *source pointer* did), and neither does `volatile` on the
+ * stored member.  The likeliest remaining answer is that the two fields are
+ * not reached through the same pointer in the original at all: a second
+ * parameter aliasing the same object, or the base read through a helper
+ * that takes the object by value, would make the two provably independent.
+ *
+ * Verified with:
+ *   python tools/match.py one --src <this C> \
+ *       --func sub_02064B68 --addr 0x02064B68 --cc 1.1p1 --arm --diff
+ *
+ * symbols:
+ *   sub_020643C4  0x020643C4  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct NodeHdr { u16 pad_00; u16 count; };
+struct CellHdr { u16 count; };
+
+struct Node { u8 pad_00[0x5c]; };
+struct Cell { void *unk_00; u8 pad_04[0x24]; };
+
+union Hdr {
+    struct NodeHdr *nodes;
+    struct CellHdr *cells;
+};
+
+struct Renderer {
+    u8                 pad_00[0x14];
+    void              *unk_14;
+    u8                 pad_18[0x1c];
+    union Hdr volatile unk_34;
+    u8                 pad_38[4];
+    u32                unk_3c;
+    void              *unk_40;
+};
+
+extern void sub_020643C4(void *p, void *arg);
+
+void sub_02064B68(struct Renderer *r, void *arg)
+{
+    u16 i = 0;
+    void *base = r->unk_40;
+
+    r->unk_14 = arg;
+    if (r->unk_3c == 1) {
+        for (i = 0; i < r->unk_34.nodes->count; i++) {
+            sub_020643C4(&((struct Node *)base)[i], arg);
+        }
+    } else {
+        for (i = 0; i < r->unk_34.cells->count; i++) {
+            sub_020643C4(((struct Cell *)base)[i].unk_00, arg);
+        }
+    }
+}

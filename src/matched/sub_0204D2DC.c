@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   sub_02066B38  0x02066B38  arm
@@ -20,14 +20,14 @@
  * length); the 0x7c length is the object's own size, which the sibling
  * sub_0204D300 repeats verbatim for the +0x78 variant.
  *
- * Byte-correct, capped at MATCH: the PC24 site at +0x0c names 0x02066B38
- * and this is that address's only branch site anywhere in the image, so
- * `label` has nothing to point at and no split can create one from a
- * single function.  It unsticks when 0x02066B38 is itself decompiled to
- * EXACT and becomes a `matched` witness.
+ * Was capped at MATCH: the PC24 site at +0x0c names 0x02066B38 and this is
+ * that address's only branch site anywhere in the image, so `label` has
+ * nothing to point at and no split can create one from a single function.
+ * 0x02066B38 is now EXACT in src/matched/sub_02066B38.c and the site
+ * resolves `matched` against it.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204D2DC.c \
+ *   python tools/match.py one --src src/matched/sub_0204D2DC.c \
  *       --func sub_0204D2DC --addr 0x0204D2DC --cc 1.1p1 --arm
  */
 

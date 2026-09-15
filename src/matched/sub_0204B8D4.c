@@ -7,10 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
- *    sub_0204D4C4   0x0204D4C4  arm
+ *   sub_0204D4C4   0x0204D4C4  arm
  *   sub_0204D3C4   0x0204D3C4  arm
  *
  * Run sub_0204D4C4 over the sub-object embedded at +0x68 of the
@@ -19,13 +19,14 @@
  * register across the call
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  *
- * Byte-correct, capped at MATCH: sub_0204D4C4 is called from this one
- * site and nowhere else in the image, so its PC24 has no outside witness.
- * sub_0204D3C4 resolves fine (label).  It unsticks when 0x0204D4C4 is
- * itself decompiled to EXACT.
+ * Was capped at MATCH: sub_0204D4C4 is called from this one site and
+ * nowhere else in the image, so its PC24 had no outside witness, and
+ * sub_0204D3C4 resolved fine (label).  0x0204D4C4 is now the lead function
+ * of src/matched/unit_0204D4C4.c and this site resolves `matched` against
+ * it.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204B8D4.c  *       --func sub_0204B8D4 --addr 0x0204B8D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/sub_0204B8D4.c  *       --func sub_0204B8D4 --addr 0x0204B8D4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;

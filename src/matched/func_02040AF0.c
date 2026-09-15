@@ -1,0 +1,44 @@
+/*
+ * unit:     no
+ * function: func_02040AF0
+ * address:  0x02040AF0
+ * packet:   pkt_020409E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146A44     0x02146A44  data
+ *   func_02040968  0x02040968  arm
+ *
+ * Decode a tile source straight into slot `index`'s tile buffer at a tile
+ * offset.  The offset scales by two, so the buffer is addressed in
+ * halfwords here even though func_020409E0 treats the same field as an
+ * opaque destination.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02040AF0.c \
+ *       --func func_02040AF0 --addr 0x02040AF0 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Slot {
+    u8   pad_00[8];
+    u16 *tiles;
+    u8   pad_0c[0x20];
+};
+
+extern struct Slot *g_02146A44;
+
+extern void func_02040968(const void *src, void *dst, u32 mode);
+
+void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset)
+{
+    func_02040968(src, g_02146A44[index].tiles + offset, mode);
+}

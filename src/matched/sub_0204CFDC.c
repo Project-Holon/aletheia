@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   sub_0204C8E4  0x0204C8E4  arm
@@ -28,26 +28,23 @@
  * out of this function's own stack slot at [sp, #0x18] (five pushed
  * registers plus lr above it), and never spilled.
  *
- * PARKED AT MATCH.  Every concrete byte is right.  Of the six relocation
- * sites, three resolve (sub_0204CED8 as `matched` once this packet's shard
- * is written, sub_0204C98C and sub_0204B3DC as `label`) and three do not,
- * each because this is the address's only branch site image-wide:
+ * Was parked at MATCH.  Three of the six sites name functions whose only
+ * branch site image-wide is the one here, so each needed its own EXACT
+ * entry to act as a `matched` witness; all three now have one and the C in
+ * this file is unchanged.
  *
- *   0x0204C8E4, the allocator, one `bl` and it is at +0x14 here.
- *   0x0204D0C4, the sub-object initialiser, one `bl` and it is at +0x2c
- *     here.  That function is itself unattestable: it dispatches through
- *     the table 0x020A13DC, a pool word that appears nowhere else, the same
- *     wall as src/pending/sub_0204D410.c.
- *   0x0204CF40, one `bl` and it is at +0x48 here.  That function is
- *     byte-correct in src/pending/sub_0204CF40.c and blocked in turn on
- *     0x0204B728, which is a two-instruction scheduling near miss
- *     (docs/notes/sub_0204B728.c.txt).
- *
- * All three are single-call-site functions inside a chain, so no split can
- * create a witness; the chain unsticks from its far end, at 0x0204B728.
+ *   0x0204C8E4, the allocator, is src/matched/sub_0204C8E4.c.  Its own
+ *     blocker was the GF_ASSERT expression string, folded onto the
+ *     file-name symbol
+ *     (docs/idioms/an-assert-expression-string-rides-the-file-name-symbol.md).
+ *   0x0204D0C4, the sub-object initialiser, is src/matched/sub_0204D0C4.c.
+ *     Its handler table 0x020A13DC is row 6 of the array based at
+ *     0x020A1394, not a symbol of its own.
+ *   0x0204CF40 is src/matched/sub_0204CF40.c, which unstuck once
+ *     0x0204B728 landed (one `const` on a struct assignment's source).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204CFDC.c \
+ *   python tools/match.py one --src src/matched/sub_0204CFDC.c \
  *       --func sub_0204CFDC --addr 0x0204CFDC --cc 1.1p1 --arm
  */
 

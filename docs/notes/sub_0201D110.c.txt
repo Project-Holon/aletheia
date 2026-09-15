@@ -1,0 +1,165 @@
+﻿sub_0201D110 @ 0x0201D110.
+DIFF at 254 concrete bytes.  INHERITED, UNFINISHED.
+
+This C was left in src/matched by a lane that was interrupted before it
+reached EXACT.  It is preserved here rather than in a source tree so that
+the manifest shard stays honest: only EXACT belongs in src/matched.  The
+residue is structurally unfinished; the struct offsets past +0x14 are still wrong, so the reading of the function is
+believed sound and only the codegen shape is unsettled.  Pick it up from
+this text, do not re-derive it.
+
+The file as it stood follows verbatim.
+/*
+ * function: sub_0201D110
+ * address:  0x0201D110
+ * packet:   pkt_0201CEE0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02013020  0x02013020  thumb
+ *   sub_02013050  0x02013050  thumb
+ *   sub_0201CDF4  0x0201CDF4  thumb
+ *   sub_02043B5C  0x02043B5C  arm
+ *
+ * printsys.c: applies the control code the cursor is parked on to the print
+ * state, then steps the cursor past it.  A control code is the 0xF000 block
+ * whose selector byte sits at +2 and whose argument halfword at +6; anything
+ * else selects the default arm through the sentinel 0xFFFF.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0201D110.c
+ *       --func sub_0201D110 --addr 0x0201D110 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+struct TextState {
+    u32  unk00;
+    u32  unk04;
+    u32  unk08;
+    void *unk0C;
+    u32  unk10;
+    u16 *unk14;
+    u8   unk18;
+    u8   unk19;
+    u8   unk1A;
+    u8   unk1B;
+    u8   pad1C[2];
+    u8   unk1E;
+    u8   unk1F;
+    u8   unk20;
+    u8   pad21;
+    u8   unk22;
+    u8   pad23[5];
+    u32  unk28;
+    u32  unk2C;
+    u32  unk30;
+    s16  unk34;
+    u16  unk36;
+    s32  unk38;
+};
+
+extern u32  sub_02013020(void);
+extern u32  sub_02013050(void);
+extern void sub_0201CDF4(u32 a, u8 *out);
+extern void sub_02043B5C(void *a, u8 b);
+
+#define ARG(o) ((*(o)->unk14 == 0xF000) ? (o)->unk14[3] : 0)
+
+void sub_0201D110(struct TextState *obj)
+{
+    u16 *p;
+    u32 flag;
+    u16 kind;
+    u8  tmp[2];
+
+    flag = 0;
+    if (*obj->unk14 == 0xF000) {
+        kind = (u16)(u8)obj->unk14[1];
+    } else {
+        kind = 0xFFFF;
+    }
+
+    switch (kind) {
+    case 0:
+        flag = 1;
+        obj->unk00 = 1;
+        obj->unk04 = 0;
+        obj->unk1F = 0;
+        obj->unk22 &= ~4;
+        obj->unk36 = 0;
+        obj->unk34 = (s16)((obj->unk38 << 22) >> 22);
+        break;
+    case 1:
+        flag = 1;
+        obj->unk00 = 1;
+        obj->unk04 = 1;
+        obj->unk1F = 0;
+        obj->unk22 &= ~4;
+        obj->unk36 = 0;
+        obj->unk34 = (s16)((obj->unk38 << 22) >> 22);
+        break;
+    case 2:
+        obj->unk1E = (u8)ARG(obj);
+        break;
+    case 3:
+        obj->unk1A = (u8)ARG(obj);
+        break;
+    case 4:
+        obj->unk1A = obj->unk18;
+        break;
+    case 5:
+        obj->unk30 = ARG(obj);
+        break;
+    case 6:
+        obj->unk2C = ARG(obj);
+        obj->unk30 = ARG(obj);
+        break;
+    case 7:
+        obj->unk2C = obj->unk28;
+        obj->unk30 = obj->unk28;
+        break;
+    case 8:
+        sub_02043B5C(obj->unk0C, obj->unk20);
+        break;
+    case 9:
+        switch ((u8)ARG(obj)) {
+        case 0:
+            tmp[0] = obj->unk18;
+            tmp[1] = obj->unk19;
+            break;
+        case 1:
+            sub_0201CDF4(sub_02013020(), tmp);
+            break;
+        case 2:
+            sub_0201CDF4(sub_02013050(), tmp);
+            break;
+        default:
+            tmp[0] = obj->unk18;
+            tmp[1] = obj->unk19;
+            break;
+        }
+        obj->unk1A = tmp[0];
+        obj->unk1B = tmp[1];
+        break;
+    }
+
+    p = obj->unk14;
+    if (*p == 0xF000) {
+        p = p + 3 + p[2];
+    }
+    obj->unk14 = p;
+    if (flag != 0 && *p == 0xFFFE) {
+        obj->unk14 = p + 1;
+    }
+}
+

@@ -1,0 +1,175 @@
+/*
+ * unit:     yes
+ * function: func_02045C44
+ * address:  0x02045C44
+ * packet:   pkt_02045C44
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204581C  0x0204581C  arm
+ *   func_02045A00  0x02045A00  arm
+ *   func_02045E04  0x02045E04  arm
+ *   func_02046110  0x02046110  arm
+ *   func_02046180  0x02046180  arm
+ *   func_020461B8  0x020461B8  arm
+ *   sub_02030734   0x02030734  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_020495F4  0x020495F4  arm
+ *   func_0204960C  0x0204960C  arm
+ *   g_020A7E8C     0x020A7E8C  data
+ *
+ * The whole of pkt_02045C44, 448 bytes with both literal pools: the message
+ * bank's constructor and its one reader.  Both functions are EXACT
+ * individually as well (src/matched/func_02045C44.c and
+ * src/matched/func_02045CAC.c); this unit is the consolidated shape.
+ *
+ * The object is 0x1c bytes and its layout is pinned by the pair:
+ *
+ *   +0x00  const MsgFile *file   the mapped message file header
+ *   +0x04  void          *base   entry table plus payload, when resident
+ *   +0x08  MsgEntry       cache  one streamed descriptor
+ *   +0x10  u32            origin file offset of the bank inside the archive
+ *   +0x14  void          *stream archive handle
+ *   +0x18  u16            heapId
+ *   +0x1a  u8             langIndex
+ *   +0x1b  u8             resident
+ *
+ * func_02045CAC has two residency modes.  Resident: the entry descriptor is
+ * &((MsgEntry *)(base + 4))[index] and the payload is base + e->off, handed
+ * straight to func_02045A00.  Streamed: the descriptor is an 8-byte archive
+ * read into the cache at +0x8, then a scratch buffer of 2 * e->len bytes is
+ * allocated, filled by a second read, consumed and freed.  The allocator
+ * heap id for that scratch buffer is (u16)((heapId & 0x7fff) | 0x8000), the
+ * "allocate from the far end" form.
+ *
+ * Both file offsets are origin + file->langOff[langIndex] plus the entry's
+ * own displacement, so langOff[] at +0xc of the file header is a
+ * per-language section table and the entry table starts four bytes into its
+ * section.
+ *
+ * Shape note that cost the last eleven bytes of func_02045CAC: both guards
+ * test bank->resident, but the source spells them `== 0`, not `!= 0`.  That
+ * puts the streamed arm on the fall-through and leaves the short arm to be
+ * if-converted (ldrne/addne), per
+ * docs/idioms/the-fall-through-arm-is-the-source-order.md.  The other
+ * polarity emits exactly the same instructions but transposes
+ * `ldr r3, [sb, #0x10]` and `lsl r0, r8, #3` in the seek block: the arm
+ * linearisation order is what breaks the scheduler's tie between the two
+ * ready gap fillers.
+ *
+ * The fourth argument of sub_02030734 is the BSS provenance object at
+ * 0x020A7E8C, not a __FILE__ string: it sits above the arm9 static image
+ * end and has 41 pool references image-wide.  In func_02045C44 the
+ * allocator's third argument (clear) shares one `mov r5, #0` with the two
+ * zero field stores, so it is written as a plain literal at the call rather
+ * than bound to a named local (the shape of src/matched/sub_020457B0.c).
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02045C44.c \
+ *       --addr 0x02045C44 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct MsgEntry {
+    u32 off;
+    u16 len;
+    u16 pad_06;
+};
+
+struct MsgFile {
+    u16 langCount;
+    u16 count;
+    u32 unk_04;
+    u32 unk_08;
+    u32 langOff[1];
+};
+
+struct MsgBank {
+    const struct MsgFile *file;
+    void                 *base;
+    struct MsgEntry       cache;
+    u32                   origin;
+    void                 *stream;
+    u16                   heapId;
+    u8                    langIndex;
+    u8                    resident;
+};
+
+extern char g_020A7E8C[];
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+                          u16 tag);
+extern void func_020307B0(void *p);
+extern void func_020495F4(void *stream, u32 size, void *dest);
+extern void func_0204960C(void *stream, u32 pos);
+extern void func_0204581C(void *dest);
+extern void func_02045A00(void *dest, const void *src, u16 len);
+extern void func_02045E04(void *dest, u32 index);
+extern u8 func_020461B8(const void *file);
+extern void func_02046110(struct MsgBank *bank);
+extern void func_02046180(struct MsgBank *bank);
+
+struct MsgBank *func_02045C44(const void *file, u32 heapId)
+{
+    struct MsgBank *bank;
+
+    bank = (struct MsgBank *)sub_02030734(heapId, 0x1c, 0, g_020A7E8C, 0xa6);
+    bank->heapId = (u16)heapId;
+    bank->stream = 0;
+    bank->origin = 0;
+    bank->resident = 1;
+    bank->file = (const struct MsgFile *)file;
+    bank->langIndex = func_020461B8(file);
+    func_02046110(bank);
+    return bank;
+}
+
+void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
+{
+    u32 size;
+    struct MsgEntry *e;
+
+    if (index >= bank->file->count) {
+        func_0204581C(dest);
+        return;
+    }
+
+    func_02046180(bank);
+
+    if (bank->resident == 0) {
+        u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
+
+        func_0204960C(bank->stream, pos + (index * 8 + 4));
+        func_020495F4(bank->stream, 8, &bank->cache);
+        e = &bank->cache;
+    } else {
+        e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
+    }
+
+    if (bank->resident == 0) {
+        void *buf;
+
+        size = e->len * 2;
+        buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
+                           0, g_020A7E8C, 0xd6);
+        if (buf != 0) {
+            func_0204960C(bank->stream,
+                          e->off + (bank->origin
+                              + bank->file->langOff[bank->langIndex]));
+            func_020495F4(bank->stream, size, buf);
+            func_02045A00(dest, buf, e->len);
+            func_020307B0(buf);
+        }
+    } else {
+        func_02045A00(dest, (u8 *)bank->base + e->off, e->len);
+    }
+
+    func_02045E04(dest, index);
+}

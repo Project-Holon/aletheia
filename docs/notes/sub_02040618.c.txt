@@ -1,0 +1,180 @@
+﻿sub_02040618 @ 0x02040618, fan_in 167, packet pkt_02040618.
+DIFF at 31 concrete bytes out of 464 (19 with an older, now disproved one-argument spelling of the func_02042360 call).  Right size, right control flow,
+right switch table, right literal pool, every arm's arithmetic right.
+The whole residue is one r0/r1 renaming of the element-pointer temporary
+and its knock-on in case 1.
+
+WHAT IT IS
+----------
+Flush one BG layer's scroll position to the hardware.  The eight cases of
+the dense switch are the eight background layers: main engine BG0..BG3 at
+0x04000010..0x0400001C, sub engine BG0..BG3 at 0x04001010..0x0400101C.
+The value written is the packed 9+9 bit offset pair those registers take.
+Anything outside 0..7 falls out of the default arm and writes nothing.
+
+BG2 and BG3 of either engine (cases 2, 3, 6, 7) are the affine-capable
+layers, so each first tests that layer's mode byte and hands the job to
+func_020423D4 when it is nonzero: an affine layer's position lives in its
+transform matrix, not in the plain offset register.
+
+The per-layer record is 0x2C bytes, scroll X at +0x14, scroll Y at +0x18,
+mode byte at +0x1C, reached through the single pointer at 0x02146A44.
+The two unlabelled leaf accessors that read the same +0x14 and +0x18 are
+now EXACT in src/matched/unit_020407E8.c, which independently confirms
+the stride and both field offsets.
+
+WHAT THE C IS
+-------------
+    typedef unsigned char u8;
+    typedef unsigned int  u32;
+    typedef volatile u32  vu32;
+
+    struct BgLayer {
+        u32 unk00, unk04, unk08, unk0C, unk10;
+        u32 scrollX;                      /* 0x14 */
+        u32 scrollY;                      /* 0x18 */
+        u8  mode;                         /* 0x1C */
+        u8  unk1D, unk1E, unk1F;
+        u32 unk20, unk24, unk28;
+    };
+
+    extern struct BgLayer *g_BgConfig;
+
+    extern void func_02042360(void *p, u32 a, u32 b, u32 c);
+    extern void func_020423D4(u32 layer);
+    extern void func_0203D814(void);
+
+    void sub_02040618(u32 layer, u32 a, u32 b, u32 c)
+    {
+        u32 x;
+        u32 y;
+        struct BgLayer *l;
+
+        func_02042360((u8 *)g_BgConfig + 8 + layer * sizeof(struct BgLayer),
+                      a, b, c);
+
+        l = &g_BgConfig[layer];
+        x = l->scrollX;
+        y = l->scrollY;
+
+        switch (layer) {
+        case 0:
+            *(vu32 *)0x04000010 = (x & 0x1ff) | ((y << 16) & 0x1ff0000);
+            break;
+        case 1:
+            *(vu32 *)0x04000014 = (x & 0x1ff) | ((y << 16) & 0x1ff0000);
+            func_0203D814();
+            break;
+        case 2:
+            if (g_BgConfig[2].mode == 0) {
+                *(vu32 *)0x04000018 = (x & 0x1ff) | ((y << 16) & 0x1ff0000);
+            } else {
+                func_020423D4(2);
+            }
+            break;
+        /* cases 3, 6, 7 identical with 0x0400001C / 0x04001018 /
+           0x0400101C and g_BgConfig[3] / [6] / [7];
+           cases 4 and 5 are plain stores to 0x04001010 / 0x04001014. */
+        }
+    }
+
+WHAT IS ALREADY PINNED BY THE DIFF
+----------------------------------
+Five spellings are forced and were each worth a compile to establish:
+
+  func_02042360 takes four arguments, not one, and this function's own
+  parameters 2, 3 and 4 are what fill them.  Nothing in sub_02040618's own
+  bytes shows this (it never sets r1, r2 or r3 before the call, which is
+  exactly what passing its own untouched parameters looks like); the
+  evidence is the sibling src/matched/sub_02040820.c, where the identical
+  call is forced to build its pool pointer in ip instead of r1 precisely
+  because r1 and r2 are live arguments to it.  With one argument declared
+  here, the compiler is free to use r1, r2 and r3 as scratch before the
+  call; it happens not to, so this costs no bytes in this function, but
+  the four-argument form is the honest one and is what src/matched
+  /sub_02040820.c pins.
+
+  `layer` must be unsigned.  Making it `int` costs 381 bytes of diff: the
+  dispatch stops being `cmp #7` / `addls pc, pc, r6, lsl #2`.
+
+  The vertical half must be spelled `(y << 16) & 0x1ff0000`, not
+  `(y & 0x1ff) << 16`.  The second form compiles to the shift pair
+  `lsl r1, r0, #0x17` / `orr r1, r2, r1, lsr #7`; only the first gives
+  `lsl r2, r4, #0x10` / `and r1, r2, r1, lsl #16`, that is, 0x1FF kept
+  live in a register for the whole switch with 0x01FF0000 rematerialised
+  from it per arm instead of pooled twice.  32 bytes of the diff hung on
+  this one.
+
+  The func_02042360 argument must be spelled so the constant is added to
+  the base before the scaled index, `(u8 *)g_BgConfig + 8 + layer * ...`,
+  which parses as `((base + 8) + index)` and gives `add r0, r0, #8` then
+  `add r0, r0, r5`.  `&g_BgConfig[layer].unk08` emits the two adds the
+  other way round.
+
+  The mode tests must name a constant element, `g_BgConfig[2].mode`, not
+  `l->mode`.  The original reads them at folded constant offsets off the
+  table base (0x74, 0xA0, 0x124, 0x150 = 0x2C * n + 0x1C), which only
+  happens when the subscript is the literal case number.
+
+WHAT IS LEFT, AND WHY IT DID NOT CLOSE
+--------------------------------------
+    * +0030  add r1, r2, r5            | add r0, r2, r5
+    * +0034  ldr r0, [r1, #0x14]       | ldr r1, [r0, #0x18]
+    * +0038  ldr r1, [r1, #0x18]       | ldr r0, [r0, #0x14]
+    * +0084  and r3, r2, r1, lsl #16   | and r3, r0, r4
+    * +0088  and r4, r0, r4            | and r1, r2, r1, lsl #16
+    * +008C  ldr r2, [pc, #0x120]      | ldr r0, [pc, #0x120]
+    * +0090  orr r3, r4, r3            | orr r1, r3, r1
+    * +0094  str r3, [r2]              | str r1, [r0]
+
+The element pointer `&g_BgConfig[layer]` is a short-lived temporary that
+one of the two scroll loads then overwrites.  The original gives that
+temporary r1 and leaves r0 for the first load; every C shape tried gives
+it r0 and leaves r1 for the first load.  Final register contents are the
+same either way (x in r0, y in r1), so the arms are correct in six of the
+eight cases; case 1 differs only because the allocator then has a
+different dead register to spend on the pool pointer (the original spends
+r2, which held the table base, and clobbers r4, which held 0x1FF).
+
+Shapes tried, all 19 or 31 bytes, none of them r1 (the 19-byte figures
+are from the earlier one-argument spelling of the func_02042360 call;
+with the correct four-argument form every one of them is 31):
+
+  - declaration order, all four permutations of `x`, `y` and the pointer
+    local: no effect at all, which rules out
+    docs/idioms/declaration-order-decides-which-register-a-local-gets.md
+    as the lever here.
+  - assignment order `x` then `y` versus `y` then `x`: this moves the
+    residue from 31 bytes to 19 (it fixes which value ends in r0) but
+    also swaps the two `ldr` offsets, so it trades one mismatch for
+    another and cannot reach zero on its own.  Whichever local is
+    assigned second gets r0; the original wants the one assigned *first*
+    in r0, which no ordering of two plain assignments produces.
+  - the pointer written as `&g_BgConfig[layer]`, `g_BgConfig + layer`,
+    and `(struct BgLayer *)((u8 *)g_BgConfig + layer * 0x2C)`: identical
+    output for all three.
+  - no pointer local at all, the fields read inline in every arm as
+    `l->scrollX` / `l->scrollY`: the compiler does not hoist them out of
+    the switch, so the function grows to 520 bytes and 384 differ.  The
+    loads really are two assignments before the dispatch, not a hoist.
+  - `int x, y` instead of `u32`: no change (19 bytes).
+
+The reading is that the temporary's register is decided by something
+outside the reach of the source text at this call shape (the allocator
+takes r0 because it is the register the preceding `bl` just freed), and
+that closing it needs a shape that keeps r0 busy across `add r1, r2, r5`.
+Nothing in the function's semantics supplies such a use: func_02042360's
+result is discarded and the table base is reloaded after it.
+
+The rest of this file did close: src/matched/sub_02040820.c,
+src/matched/sub_02040860.c and src/matched/unit_020407E8.c are all EXACT,
+and none of them reproduces this allocation shape (sub_02040860 keeps its
+element pointer in lr and ip, sub_02040820 in ip), so the lever is not
+something the module uses elsewhere.
+
+Declaring a non-void return type was also tried, on the theory that a
+reserved r0 would push the temporary into r1 (the reading behind
+docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md).
+It is much worse, 103 bytes: the function really is void.
+
+

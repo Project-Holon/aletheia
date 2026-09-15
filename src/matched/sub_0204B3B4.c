@@ -1,4 +1,5 @@
 /*
+ * unit:     no
  * function: sub_0204B3B4
  * address:  0x0204B3B4
  * packet:   pkt_0204B0C8
@@ -7,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_0204CA30  0x0204CA30  arm
@@ -18,17 +19,16 @@
  * to func_0204CA30, run the embedded sub-object at +0x68 through
  * func_0204D104, then func_0204CAE4 on the owner.
  *
- * Blocked at MATCH: every concrete byte is right, but the PC24 site at
- * +0x18 (func_0204D104) has no witness.  This is 0x0204D104's only caller
- * image-wide, so `label` is out; `--suggest-split` confirms the site is
- * uncuttable and recommends exactly the partition taken here, this function
- * left out and 0x0204B3DC..0x0204B454 kept as unit_0204B3DC.c.  The last
- * route, an EXACT entry for 0x0204D104 as a `matched` witness, is closed
- * too: that function is byte-correct in src/pending/sub_0204D104.c but its
- * own handler table 0x020A13D0 appears in no other literal pool.  Needs a
- * second caller of 0x0204D104, most likely from an overlay.
+ * This file was parked at MATCH on the PC24 site at +0x18: this is
+ * 0x0204D104's only caller image-wide, and 0x0204D104 was itself stuck
+ * because its handler table 0x020A13D0 appears in no other literal pool.
+ * 0x020A13D0 is row 5 of the one array based at 0x020A1394, which is pooled
+ * at 0x0204D490; src/matched/sub_0204D104.c is now EXACT and attests this
+ * site `matched`.  The C here is unchanged.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0204B3B4.c  *       --func sub_0204B3B4 --addr 0x0204B3B4 --cc 1.1p1 --arm
  */
-
 typedef unsigned char u8;
 
 struct Obj {

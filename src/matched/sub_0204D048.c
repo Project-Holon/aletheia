@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   sub_0204CFDC  0x0204CFDC  arm
@@ -34,16 +34,17 @@
  * with `ldrsh`, once per call, because the intervening call could have
  * written it.
  *
- * PARKED AT MATCH.  Every concrete byte is right.  0x0204B59C is reached
- * from exactly two `bl` sites image-wide, 0x0204D06C and 0x0204D080, and
- * both of them are the two call sites above, so no outside `label` witness
- * exists and no cut can create one: a split that removed this function
- * would remove both sites at once.  The other four callees all resolve.
- * It unsticks when 0x0204B59C is itself decompiled to EXACT and becomes a
- * `matched` witness, or when a second caller turns up in an overlay.
+ * Was parked at MATCH.  0x0204B59C is reached from exactly two `bl` sites
+ * image-wide, 0x0204D06C and 0x0204D080, and both of them are the two call
+ * sites above, so no outside `label` witness exists and no cut can create
+ * one: a split that removed this function would remove both sites at once.
+ * The route taken instead was to decompile 0x0204B59C itself, which is the
+ * first of three unlabelled leaf accessors now covered by
+ * src/matched/unit_0204B59C.c; both sites here resolve `matched` against
+ * that entry.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204D048.c \
+ *   python tools/match.py one --src src/matched/sub_0204D048.c \
  *       --func sub_0204D048 --addr 0x0204D048 --cc 1.1p1 --arm
  */
 

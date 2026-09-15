@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   sub_0204B784  0x0204B784  arm
@@ -22,15 +22,17 @@
  * effect of the two loads having no dependence on the stores: reading them
  * one at a time would have interleaved `ldrh`/`strh`.
  *
- * Byte-correct, capped at MATCH: the PC24 site at +0x1c names 0x0204B728
- * and this is that address's only branch site anywhere in the image, so
- * `label` has nothing outside the compared range to point at.  The two
- * functions are not contiguous, so no unit can make the site `local`
- * either.  It unsticks when 0x0204B728 is itself decompiled to EXACT and
- * becomes a `matched` witness; 0x0204B784 resolves fine (label).
+ * Was capped at MATCH: the PC24 site at +0x1c names 0x0204B728 and this is
+ * that address's only branch site anywhere in the image, so `label` has
+ * nothing outside the compared range to point at, and the two functions are
+ * not contiguous, so no unit can make the site `local` either.  0x0204B728
+ * is now EXACT in src/matched/sub_0204B728.c (the blocker there was one
+ * `const` on the source pointer of its closing struct assignment, see
+ * docs/idioms/const-source-pointer-schedules-the-block-load-first.md), and
+ * the site resolves `matched` against it.  The C in this file is unchanged.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0204CF40.c \
+ *   python tools/match.py one --src src/matched/sub_0204CF40.c \
  *       --func sub_0204CF40 --addr 0x0204CF40 --cc 1.1p1 --arm
  */
 

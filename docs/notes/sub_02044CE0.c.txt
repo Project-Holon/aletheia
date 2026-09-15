@@ -1,0 +1,121 @@
+sub_02044CE0  0x02044CE0  packet pkt_020445F4  arm9  ARM  (near miss, DIFF)
+
+Best result reached: DIFF, 164 bytes compiled against 168 in the image, with
+every instruction accounted for except one.  Not filed as a source file
+because it is a codegen near miss, not a byte-correct MATCH.
+
+0x02044EBC in the same packet is the same 168 bytes instruction for
+instruction (same pool constant, same register allocation, only the branch
+displacements relocated), so whatever fixes this one fixes that one too.
+
+What the function is
+--------------------
+An 8bpp tiled-surface rectangle fill.  The surface descriptor is
+
+    +0x00  u8 *pixels
+    +0x04  u16 width      (pixels)
+    +0x06  u16 height     (pixels)
+
+and the pixels are stored as 8x8 tiles of 64 bytes, eight bytes per tile row.
+The rectangle is clipped on the right and bottom against the surface size,
+but the left and top are only tested per pixel, which is why the
+`if (j >= 0 && i >= 0)` guard sits inside the inner loop.
+
+The address arithmetic is written multiply-then-mask throughout, which is
+what the pool constant 0x00007FC0 at 0x02044D84 is for:
+
+    (v * 8) & 0x7fc0    is  (v >> 3) * 64,  the tile index scaled to bytes
+    (v * 8) & 0x38      is  (v & 7) * 8,    the row inside the tile
+
+`(v * 8) & 0x38` is not the compiler's own rendering of `(v & 7) * 8`: that
+form compiles to `lsl #0x1d` / `lsr #26` instead.  Writing it as a multiply
+and a mask is what produces the original's `lsl #3` / `and #0x38` pair, and
+0x7fc0 is the same idiom one field wider.  Both were confirmed by compiling
+each spelling.
+
+The closest C
+-------------
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef signed int     s32;
+
+    struct Surface {
+        u8 *pixels;
+        u16 width;
+        u16 height;
+    };
+
+    void sub_02044CE0(struct Surface *s, s32 x, s32 y, s32 w, u16 h, u8 value)
+    {
+        s32 right = x + w;
+        s32 bottom = y + h;
+        s32 tilesWide;
+        s32 i;
+        s32 j;
+
+        if (right > s->width)
+            right = s->width;
+        if (bottom > s->height)
+            bottom = s->height;
+
+        tilesWide = (s->width + (s->width & 7)) >> 3;
+
+        for (i = y; i < bottom; i++) {
+            for (j = x; j < right; j++) {
+                if (j >= 0 && i >= 0) {
+                    s->pixels[((i * 8) & 0x7fc0) * tilesWide
+                              + ((j * 8) & 0x7fc0)
+                              + ((i * 8) & 0x38) + (j & 7)] = value;
+                }
+            }
+        }
+    }
+
+What is settled
+---------------
+- `value` is u8, not u32: a u32 parameter costs an extra `and #0xff` hoisted
+  out of the loop.  The original loads the stack slot with `ldr`, so the
+  parameter still occupies a full word; only its declared type matters.
+- The clip, the tilesWide computation and both loop tests are byte-identical
+  in the compiled output, as is the whole inner-loop guard.
+- `(s->width + (s->width & 7)) >> 3` and not `/ 8`: the original has a bare
+  `asr #3` with no rounding correction.
+
+The one remaining instruction
+-----------------------------
+The original keeps the two loop-invariant i-derived terms in two separate
+registers across the inner loop:
+
+    and r6, r8, r2, lsl #3     ; (i * 8) & 0x7fc0
+    mul r5, r6, r4             ; * tilesWide          -> r5, the tile row
+    lsl r6, r2, #3
+    and r6, r6, #0x38          ; (i * 8) & 0x38       -> r6, the row in tile
+
+and spends r6 as the base register of the final `strb r7, [r6, sb]`, so the
+inner loop needs three `add`s to build `sb`.  Every spelling tried makes the
+compiler fuse the two invariants into one value before the inner loop, which
+costs one `add` (or one `mla`) outside and saves one `add` inside, for a net
+loss of four bytes:
+
+  - flat sum, rowInTile last          -> mla r6, r4, r6, r8   (168 bytes,
+                                          73 bytes differ, closest by size)
+  - flat sum, rowInTile first         -> same fusion
+  - two named locals in the outer loop-> add r5, r5, r8 hoisted (168 bytes)
+  - `u8 *p = pixels + ...; p[rowInTile] = value;`
+                                      -> same fusion, pointer arithmetic is
+                                         reassociated (168 bytes)
+  - `tilesWide * ((i * 8) & 0x7fc0)`  -> operand order swaps in the `mul`
+                                         but the fusion stays (164 bytes)
+
+The multiply's operand order is itself informative: the original's
+`mul r5, r6, r4` has the masked value on the left, which this compiler
+produces from `((i * 8) & 0x7fc0) * tilesWide` (it emits the source's second
+operand as the left register), so the source order of the multiply is
+settled even though the fusion is not.
+
+The likely answer is that the address is computed by a small inline helper
+whose body the compiler expands per site rather than by one flat subscript
+expression, which would explain both the surviving separation and the
+right-associated `add` chain (`pixels + (j & 7)`, then `+ tileX`, then
+`+ tileRow`).  That shape was not reconstructed here.  Anyone picking this up
+should start from the C above and attack only the fusion.

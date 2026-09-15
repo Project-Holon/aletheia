@@ -1,0 +1,107 @@
+﻿func_02040DA8 @ 0x02040DA8.
+DIFF at 16 concrete bytes.  INHERITED, UNFINISHED.
+
+This C was left in src/matched by a lane that was interrupted before it
+reached EXACT.  It is preserved here rather than in a source tree so that
+the manifest shard stays honest: only EXACT belongs in src/matched.  The
+residue is a straight ip/lr swap on the cached table base, so the reading of the function is
+believed sound and only the codegen shape is unsettled.  Pick it up from
+this text, do not re-derive it.
+
+The file as it stood follows verbatim.
+/*
+ * unit:     no
+ * function: func_02040DA8
+ * address:  0x02040DA8
+ * packet:   pkt_020409E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146A44     0x02146A44  data
+ *   func_0203422C  0x0203422C  arm
+ *
+ * Release a run of VRAM back to whichever of the two arenas the slot index
+ * names, the counterpart of src/matched/sub_02043094.c: slots 0..3 belong
+ * to the arena at +0x168 of the singleton hanging off 0x02146A44 and slots
+ * 4..7 to the one at +0x16c, and any other index is a no-op.
+ *
+ * This one is expressed in tiles, not bytes.  The byte position is
+ * tile * slot->unit + base[idx], where the slot's unit size at +0x1f is 32
+ * for 4bpp and 64 for 8bpp; the same byte at +0x1f distinguishes the two
+ * arms, an 8bpp run of `count` tiles occupying twice as many 32-byte
+ * allocator units.  The 32-byte arm is the fall-through, so it is the `if`
+ * body (docs/idioms/the-fall-through-arm-is-the-source-order.md).
+ *
+ * The 0x2c-byte slot records start at offset 0 of the same object whose
+ * arena pointers sit at +0x168, which is why this file can spell both as
+ * members of one struct: eight slots are exactly 0x160 bytes.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02040DA8.c \
+ *       --func func_02040DA8 --addr 0x02040DA8 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Slot {
+    u8 pad_00[0x1f];
+    u8 unit;
+    u8 pad_20[0xc];
+};
+
+struct Ctx {
+    struct Slot slots[8];
+    u8          pad_160[8];
+    void       *arena_a;
+    void       *arena_b;
+    u32         base[8];
+};
+
+extern struct Ctx *g_02146A44;
+
+extern void func_0203422C(void *arena, u32 unit, u32 count);
+
+void func_02040DA8(u32 idx, u32 count, u32 tile)
+{
+    struct Ctx *ctx;
+    u32 unit;
+    u32 base;
+
+    switch (idx) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+        unit = g_02146A44->slots[idx].unit;
+        base = g_02146A44->base[idx];
+        if (unit == 0x20) {
+            func_0203422C(g_02146A44->arena_a, (tile * unit + base) >> 5,
+                          count);
+        } else {
+            func_0203422C(g_02146A44->arena_a, (tile * unit + base) >> 5,
+                          count * 2);
+        }
+        break;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+        unit = g_02146A44->slots[idx].unit;
+        base = g_02146A44->base[idx];
+        if (unit == 0x20) {
+            func_0203422C(g_02146A44->arena_b, (tile * unit + base) >> 5,
+                          count);
+        } else {
+            func_0203422C(g_02146A44->arena_b, (tile * unit + base) >> 5,
+                          count * 2);
+        }
+        break;
+    }
+}
+

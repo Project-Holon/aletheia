@@ -1,0 +1,80 @@
+﻿sub_0201C7A4 @ 0x0201C7A4.
+DIFF at 28 concrete bytes.  INHERITED, UNFINISHED.
+
+This C was left in src/matched by a lane that was interrupted before it
+reached EXACT.  It is preserved here rather than in a source tree so that
+the manifest shard stays honest: only EXACT belongs in src/matched.  The
+residue is a pool address the original reloads instead of caching, four bytes long, so the reading of the function is
+believed sound and only the codegen shape is unsettled.  Pick it up from
+this text, do not re-derive it.
+
+The file as it stood follows verbatim.
+/*
+ * function: sub_0201C7A4
+ * address:  0x0201C7A4
+ * packet:   pkt_0201C758
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_0202655C    0x0202655C  data
+ *   sub_02045A90  0x02045A90  arm
+ *   sub_0201C808  0x0201C808  thumb
+ *   sub_0201C8BC  0x0201C8BC  thumb
+ *
+ * printsys.c: the plain "draw this string at (x, y) on this surface" entry
+ * point.  It configures the one static render context at 0x0202655C through
+ * sub_0201C808 and then runs the glyph loop sub_0201C8BC over the string
+ * object.
+ *
+ * The leading call to sub_02045A90 (the string object's payload accessor,
+ * src/matched/sub_02045A90.c) has its result discarded here: it is an extern
+ * call, so the compiler must still emit it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0201C7A4.c
+ *       --func sub_0201C7A4 --addr 0x0201C7A4 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+
+struct PrintCtx {
+    s16   unk00;
+    s16   unk02;
+    u32   unk04;
+    u16   unk08;
+    u16   unk0A;
+    u16   unk0C;
+    u16   unk0E;
+    void *unk10;
+    void *unk14;
+    void *unk18;
+};
+
+struct StrObj {
+    u16 capacity;
+    u16 used;
+    u32 magic;
+    u16 slots[1];
+};
+
+extern struct PrintCtx g_0202655C[];
+
+extern u16 *sub_02045A90(struct StrObj *s);
+extern void sub_0201C808(struct PrintCtx *p, void *surf, void *x, s16 px,
+                         s16 py);
+extern void sub_0201C8BC(struct PrintCtx *p, struct StrObj *s);
+
+void sub_0201C7A4(void *x, s16 px, s16 py, struct StrObj *s, void *surf)
+{
+    sub_02045A90(s);
+    sub_0201C808(g_0202655C, surf, x, px, py);
+    sub_0201C8BC(g_0202655C, s);
+}
+

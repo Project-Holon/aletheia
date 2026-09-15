@@ -167,3 +167,7 @@ arm9_main  0x02039CA0  arm     # pool word at 0x0203D5A8, read by the veneer's b
 # 16-byte leaf global setter, follower of sub_020461B8 (wave 16B); decompiled
 # separately as sub_020461D4.c.
 arm9_main  0x020461D4  arm   # pool word and bl sites listed in src/matched/sub_020461D4.c
+
+# Unlabelled follower of func_020409E0 (wave 17B); already decompiled EXACT as
+# part of pkt_020409E0.
+arm9_main  0x02040AE0  arm   # bl sites listed in the pkt_020409E0 sources

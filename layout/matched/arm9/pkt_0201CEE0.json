@@ -7,6 +7,66 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "sub_0201D26C",
+   "address": "0x0201D26C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201D26C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0201D2C8",
+   "address": "0x0201D2C8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201D2C8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0201D304",
+   "address": "0x0201D304",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201D304.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0201D33C",
+   "address": "0x0201D33C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201D33C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0201D42C",
+   "address": "0x0201D42C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201D42C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "unit_0201D478",
    "address": "0x0201D478",
    "kind": "game_unit",
