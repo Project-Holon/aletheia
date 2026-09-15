@@ -121,24 +121,62 @@ pattern noticed but not correlated against anything external.
            small value per edge of the object (values 2/4/8/16/24 forming
            a bordered rectangle) -- read as an edge-type/interaction-side
            code, not confirmed against a specific gameplay behaviour.
-  byte[1], byte[3], byte[5]  LOW.  Zero in every sample checked across
-           all four target files; either unused/reserved in these
-           particular maps or hold data this pass's samples didn't
-           exercise.
-  byte[7]  LOW.    Always 0x00 except a single isolated tile with 0x80
-           seen once each in `map14_13` and `map24_23` (no shape
-           correlation attempted -- too sparse in the samples on hand to
-           say more).
+  byte[1]  MEDIUM (revised -- see the attribute-hunt pass in
+           docs/ASSETS.md). Zero in all four of this module's original
+           samples, but an archive-wide scan (all 572 `WB` files, via
+           `--attrs`) finds it nonzero in 68 files, values 1-5, ALWAYS on
+           outdoor/dungeon-style names (`mapNN_NN`, `leaginNN`,
+           `winterNNNN`, `m_dunNNNN`, ...) and NEVER on the 18 plain
+           house/town-building interiors (`pl_*`, `c0*`, `c1*`) sampled --
+           0/18 vs 87/182 (byte[1] or byte[3] combined). Visualised, the
+           nonzero cells form straight line segments (11-18 tiles long)
+           cutting across open walkable ground, or trace one edge each of
+           a rectangular blocked footprint with a distinct value per side
+           (e.g. `m_siten02_00_00`: 4=top edge, 2=left edge, 5=right
+           edge). Read as a directional edge/boundary code -- plausibly
+           one-way ledges given the long straight runs through open
+           terrain, but not cross-checked against a known ledge tile, so
+           still MEDIUM, not HIGH.
+  byte[3]  MEDIUM (revised, same pass). Nonzero in 227/572 files, same
+           outdoor-only pattern as byte[1] (0/18 houses vs 87/182
+           outdoor). Unlike byte[1]'s thin lines, this lane fills large
+           contiguous AREAS of walkable ground with a single value
+           (`map19_19`: value 1 over 738/1024 tiles, essentially "the
+           whole route's open ground"), plus occasional isolated
+           single-tile markers of a different value inside a filled
+           region (`t05_00_01`: one lone `2` inside a field of `1`s).
+           Reads as a terrain-subtype/zone code layered on top of the
+           walkable flag (never appears on a blocked tile) -- a plausible
+           carrier for tall grass, but the single sample with variety
+           (`map19_19`) has only one nonzero value across nearly the
+           whole field, so "value 1 = tall grass" is not confirmed against
+           a tile independently known to trigger encounters.
+  byte[5]  LOW.    Zero in all four original samples and in every `WB`
+           file scanned except one (`m_dun0210_...`-adjacent index 107),
+           where every nonzero cell reads the single value 0xFF (255) --
+           reads as an isolated special-case/debug marker, not a general
+           attribute lane.
+  byte[7]  LOW.    Nonzero (value 0x80, occasionally 0x7F) in 193/572
+           `WB` files including some house-prefixed names this pass did
+           not visualise -- more widespread than the original "one
+           isolated tile" note, but not spatially analysed this pass;
+           still LOW confidence.
 
-  NOT FOUND: no lane in any of the four sample files distinguishes tall
-  grass, water, ledges (one-way), stairs, or doors/warps from ordinary
-  walkable floor -- the house's actual door tile decodes to the exact
-  same 8-byte record as plain interior floor. The working hypothesis
-  (not confirmed) is that these are handled by a separate event/warp/
-  behaviour table elsewhere (not in this grid at all), consistent with
-  finding zero lanes that vary at the one known door tile. This is
-  reported as a real negative result, not a gap in effort: every lane
-  was checked at that specific tile.
+  Tall grass, water, ledges, stairs, doors/warps: byte[1]/byte[3] are the
+  leading candidates (edge/line code and area/zone code respectively,
+  both outdoor-only, both proven real rather than the previously-reported
+  "always zero"), but no sample here is cross-checked against ground
+  truth for any specific one of these five terrain types, so which value
+  means "tall grass" vs "ledge direction 2" vs "zone id" remains open.
+  The original four-sample "always zero, so not found here" claim in
+  this docstring's earlier revision was a sampling artifact (2 of the 4
+  target files are indoor, and the 2 outdoor ones happened to be mostly
+  or entirely zero in these lanes) -- corrected in the attribute-hunt
+  pass, see docs/ASSETS.md. `pl_00_00`'s one known door tile still decodes
+  to the exact same 8-byte record as plain interior floor in every lane,
+  so the working hypothesis that doors/warps specifically live in a
+  separate event/script table (not this grid at all) still stands as a
+  real negative result for that one case, not a gap in effort.
 
 --------------------------------------------------------------------------
 Gaps
@@ -391,6 +429,126 @@ def write_lane_png(records, width, height, lane, path, cell_px=8):
 
 
 # ---------------------------------------------------------------------------
+# Attribute-lane scan (--attrs): archive-wide byte[1]/byte[3]/byte[5]/byte[7]
+# histogram plus an ASCII visualisation for the requested targets, written
+# from the attribute-hunt pass documented in docs/ASSETS.md. Confirms these
+# lanes are NOT always zero (a sampling artifact of the original 4 targets,
+# 2 of which are indoor) -- they are nonzero specifically on outdoor/
+# dungeon-named WB sub-files and never on plain house/town-building
+# interiors.
+# ---------------------------------------------------------------------------
+
+_HOUSE_PREFIXES = ("pl_", "c0", "c1")
+_OUTDOOR_PREFIXES = ("map", "leagin", "winter", "autumn", "summer", "t0",
+                      "white", "palace")
+
+
+def scan_attr_lanes(a008):
+    """Scan every `WB`-tagged sub-file's grid for byte[1]/[3]/[5]/[7], and
+    return (histograms, per-file nonzero list, house_stats, outdoor_stats).
+    """
+    from collections import Counter
+    lanes = (1, 3, 5, 7)
+    hist = {lane: Counter() for lane in lanes}
+    nonzero_files = []
+    # per-lane (house_total, house_nz, outdoor_total, outdoor_nz)
+    house_total = outdoor_total = 0
+    per_lane_house_nz = {lane: 0 for lane in lanes}
+    per_lane_outdoor_nz = {lane: 0 for lane in lanes}
+
+    for i in range(a008.file_count):
+        raw = a008.read(i)
+        if raw[0:2] != b"WB":
+            continue
+        try:
+            info = parse_wrapper(raw)
+        except WrapperError:
+            continue
+        if not info["grids"]:
+            continue
+        grid = info["grids"][0]
+        recs = read_records(raw, grid)
+        name = model_name(a008, i) or "?"
+        is_house = name.startswith(_HOUSE_PREFIXES)
+        is_outdoor = name.startswith(_OUTDOOR_PREFIXES)
+        if is_house:
+            house_total += 1
+        elif is_outdoor:
+            outdoor_total += 1
+
+        per_file = {}
+        for lane in lanes:
+            vals = [r[lane] for r in recs]
+            nz = sorted(set(v for v in vals if v != 0))
+            for v in vals:
+                hist[lane][v] += 1
+            if nz:
+                per_file[lane] = nz
+                if is_house:
+                    per_lane_house_nz[lane] += 1
+                elif is_outdoor:
+                    per_lane_outdoor_nz[lane] += 1
+        if per_file:
+            nonzero_files.append((i, name, per_file))
+
+    house_stats = {lane: (house_total, per_lane_house_nz[lane]) for lane in lanes}
+    outdoor_stats = {lane: (outdoor_total, per_lane_outdoor_nz[lane]) for lane in lanes}
+    return hist, nonzero_files, house_stats, outdoor_stats
+
+
+def dump_attr_ascii(records, width, height, lane, path):
+    """Write an ASCII map: the given lane's nonzero value where present,
+    '.'  for walkable/lane==0, '#' for blocked/lane==0."""
+    parent = os.path.dirname(os.path.abspath(path))
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    with open(path, "w") as fh:
+        for row in range(height):
+            line = []
+            for col in range(width):
+                rec = records[row * width + col]
+                v = rec[lane]
+                if v:
+                    line.append(str(v) if v < 10 else "?")
+                elif rec[4]:
+                    line.append(".")
+                else:
+                    line.append("#")
+            fh.write("".join(line) + "\n")
+
+
+def cmd_attrs(a008, targets, out_dir):
+    hist, nonzero_files, house_stats, outdoor_stats = scan_attr_lanes(a008)
+    print("[*] attribute-lane scan (byte[1]/[3]/[5]/[7], all WB sub-files)")
+    for lane in (1, 3, 5, 7):
+        nz_count = sum(1 for _, _, pf in nonzero_files if lane in pf)
+        top = hist[lane].most_common(8)
+        ht, hn = house_stats[lane]
+        ot, on = outdoor_stats[lane]
+        print(f"    byte[{lane}]: nonzero in {nz_count} files, histogram (top 8): {top}")
+        print(f"        house-prefixed {_HOUSE_PREFIXES}: {hn}/{ht}  "
+              f"outdoor-prefixed {_OUTDOOR_PREFIXES}: {on}/{ot}")
+
+    for name, index in targets:
+        try:
+            raw = a008.read(index)
+        except Exception:
+            continue
+        if raw[0:2] != b"WB":
+            continue
+        info = parse_wrapper(raw)
+        if not info["grids"]:
+            continue
+        grid = info["grids"][0]
+        recs = read_records(raw, grid)
+        w, h = grid["width"], grid["height"]
+        for lane in (1, 3):
+            path = os.path.join(out_dir, f"{name}_attr_lane{lane}_ascii.txt")
+            dump_attr_ascii(recs, w, h, lane, path)
+            print(f"    {name}: lane{lane} ASCII map -> {path}")
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -430,9 +588,13 @@ def main(argv=None):
                      help="subset of target names to process (default: all)")
     ap.add_argument("--dump", action="store_true", help="write per-lane text matrices")
     ap.add_argument("--png", action="store_true", help="write per-lane false-colour PNGs")
+    ap.add_argument("--attrs", action="store_true",
+                     help="scan all WB files for byte[1]/[3]/[5]/[7] "
+                          "(the attribute-hunt pass, see docs/ASSETS.md) "
+                          "and write ASCII maps for the requested targets")
     args = ap.parse_args(argv)
 
-    if not args.dump and not args.png:
+    if not args.dump and not args.png and not args.attrs:
         args.dump = True
         args.png = True
 
@@ -440,10 +602,15 @@ def main(argv=None):
     os.makedirs(args.out, exist_ok=True)
     wanted = set(args.targets) if args.targets else None
 
-    for name, index in TARGETS:
-        if wanted is not None and name not in wanted:
-            continue
-        process_target(a008, name, index, args.out, args.dump, args.png)
+    if args.attrs:
+        targets = [(n, i) for n, i in TARGETS if wanted is None or n in wanted]
+        cmd_attrs(a008, targets, args.out)
+
+    if args.dump or args.png:
+        for name, index in TARGETS:
+            if wanted is not None and name not in wanted:
+                continue
+            process_target(a008, name, index, args.out, args.dump, args.png)
 
     return 0
 

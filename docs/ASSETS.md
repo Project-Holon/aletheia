@@ -6803,3 +6803,417 @@ named in its own mission) rather than finding it.
   mission's four hypotheses were all field-level and archive-wide-checkable
   without rendering every species; a visual sweep is a reasonable next step
   now that those four are closed out).
+
+## Map attribute hunt: byte[1]/byte[3] were mis-reported as always zero -- archive-wide they carry real outdoor-only terrain codes; a separate-NARC search and the wrapper's other unexplained blocks come up empty (`--attrs` added to `tools/assets/map_grid.py`)
+
+Mission: find where tall grass, water, ledges, stairs, and doors/warps are
+encoded, since the per-tile 8-byte grid record (`tools/assets/map_grid.py`)
+only explains walkability (byte[4]/[6]) and a height/edge pair
+(byte[2]/[0]). Method followed in the order given: (1) re-examine the
+wrapper's other unexplained blocks against a known-grass sample, (2)
+search for a separate per-zone NARC, (3) scan all 572 `WB` files for
+byte[1]/[3]/[5]/[7], which the previous pass's 4-sample docstring called
+"zero in every sample checked."
+
+### Result up front: (1) negative, (2) negative, (3) positive -- the previous "always zero" claim was a sampling artifact, not a fact about the format
+
+`byte[1]` and `byte[3]` are real, outdoor-only attribute lanes. The
+earlier pass's 4 target files (`pl_00_00`, `map14_13`, `map24_23`,
+`m_dun0101_00_00`) happened to have these lanes all-zero -- 2 of the 4
+are indoor/dungeon and the 2 outdoor ones simply didn't use these lanes.
+Scanning all 572 `WB` sub-files (`python tools/assets/map_grid.py
+--attrs`) finds:
+
+- **`byte[1]`**: nonzero in 68/572 files, values 1-5. **0/18** plain
+  house/town-building interiors (`pl_*`, `c0*`, `c1*`) vs **22/182**
+  outdoor-prefixed files (`mapNN_NN`, `leaginNN`, `winterNNNN`, etc.).
+- **`byte[3]`**: nonzero in 227/572 files, values 1-5. **0/18** houses vs
+  **86/182** outdoor.
+- **`byte[5]`**: nonzero in only 1/572 files, a single uniform value
+  (0xFF) -- an isolated special case, not a general lane.
+- **`byte[7]`**: nonzero in 193/572 files, values 0x80 (1834 tiles) and
+  0x7F (58 tiles) -- **7/18** houses vs **83/182** outdoor, so unlike
+  byte[1]/[3] this one is NOT outdoor-exclusive (matches the original
+  pass's "single isolated tile" note, just more widespread than the 4
+  samples showed).
+
+Full histograms (all 572 `WB` files, `0` bucket included):
+
+| lane | nonzero files | values (count) |
+|---|---:|---|
+| byte[1] | 68 | 1:810, 2:103, 3:30, 4:21, 5:6 |
+| byte[3] | 227 | 1:55224, 2:24220, 4:3758, 3:1257, 5:14 |
+| byte[5] | 1 | 255:58 |
+| byte[7] | 193 | 128:1834, 127:58 |
+
+### byte[1]: line/edge-shaped, plausible ledge or directional-boundary code
+
+Visualising byte[1] over the walkable mask (`.`=open, `#`=blocked, digit=
+byte[1] value) on `leagin02_00_01` (a/0/0/8#210) shows two long straight
+runs of value `1` cutting across open, otherwise-uniform ground -- 11 and
+18 tiles long, on two different rows, not bordering any blocked tile:
+
+```
+....................############
+...
+.............1.......###########      <- single tile, row 14
+......................##########
+11111111111..........###########      <- row 16, cols 0-10
+.....................###########
+...
+11111111111111111.....###.###.##      <- row 22, cols 0-16
+```
+
+That shape (a straight line through otherwise-open ground) is exactly
+what a one-way ledge/drop edge looks like, not a decorative marker.
+Elsewhere the same lane instead outlines one edge each of a rectangular
+blocked footprint with a distinct value per side --
+`m_siten02_00_00` (a/0/0/8#554) has a building-sized blocked rectangle
+with `4` tracing its top edge, `2` its left edge, and `5` its right edge
+(bottom is unmarked). That is consistent with a directional
+edge/collision-side code (walk direction blocked/allowed per side) rather
+than a single boolean, which fits a ledge (jumpable from exactly one
+side) better than it fits tall grass or water (neither of which needs a
+side-specific code). Not cross-checked against a sample with a
+gameplay-confirmed ledge, so this reading is MEDIUM confidence, not
+proven.
+
+### byte[3]: area-fill, plausible terrain-subtype/zone code (tall grass candidate, unconfirmed)
+
+Unlike byte[1]'s thin lines, byte[3] fills large contiguous regions of
+already-walkable ground with one value. `map19_19` (a/0/0/8#20) has value
+`1` on 738 of its 1024 tiles -- essentially the whole open field of that
+route chunk, stopping exactly at two blocked building footprints (never
+overlapping a blocked tile in any sample checked). `t05_00_01`
+(a/0/0/8#159) shows the same large-fill pattern for value `1`, plus one
+lone tile of value `2` sitting inside the filled region, and a second
+region where `5` traces a vertical edge next to a `1`-filled strip --
+the same edge-per-side character as byte[1], on a different value.
+
+This shape (a single value covering nearly an entire open route field)
+is a plausible carrier for "this walkable tile is tall grass," since real
+Black/White routes are often mostly grass with a dirt path cut through --
+but no sample checked here has an independently known grass/no-grass
+boundary to confirm which value means what, so this is reported as a
+strong structural candidate, not a confirmed identification.
+
+### (1) Wrapper's other unexplained blocks, re-examined against `ue_grass00`/`ue_grass01` (map24_23): no correlation found, and the premise partly doesn't hold
+
+Regenerated `map24_23`'s textured OBJ (`tools/assets/map_shapes.py
+--targets map24_23`) to get real face positions per material. The
+previously-noted `grass01ax` texture turned out to be a **zero-face**
+shape in this model (one of the "4 shapes decode vertices but 0 faces"
+already documented as a gap) -- it cannot be used as a ground-truth grass
+footprint here, and on inspection it is just the generic terrain ground
+texture (confirmed visually coherent as "grass" in the earlier texture
+pass), not a marker for the specific tall-grass/encounter tile type.
+
+Two other materials, `ue_grass00` (4 faces) and `ue_grass01` (10 faces,
+in 5 duplicated pairs at two different heights -- a crossed-plane
+billboard, the standard way to fake volumetric grass with flat geometry),
+ARE present with real faces. Converting their face centroids to grid
+cells (origin -4,-4, cell size 0.25 = 8 units / 32 tiles, matching the
+model's own bounding box) and cross-referencing against the byte[4]
+walkability mask finds **all 9 cells sit on already-UNWALKABLE ground**
+(inside the map's large blocked interior blob, which the texture set
+suggests is a cliff/rock formation, not open field). This means
+`ue_grass00`/`ue_grass01` are decorative ground-clutter props modeled
+directly into the map's own geometry (not textured onto the terrain
+grid), placed on rocks/cliffs at the model level -- **not** the
+gameplay tall-grass/encounter tile type, and not encoded in the grid at
+all. Re-tested the mission's four named blocks against this (negative)
+sample:
+
+- **`pl_00_00`'s 32-byte unexplained gap** (16 `u16` values): ruled out
+  on size grounds alone, independent of the grass test -- 16 entries
+  cannot index a 64x64=4096-tile grid at any useful granularity (not even
+  1 bit/tile: 32 bytes = 256 bits, a quarter of what a bitmask would
+  need).
+- **`GC`'s second grid**: no outdoor `GC` sample exists (`GC` is
+  dungeon/room-only, confirmed in the original pass), so it cannot be
+  tested against an outdoor grass sample at all; still only structurally
+  located, not semantically decoded.
+- **`RD`'s dense 64x64x4 block**: decoded one level further this pass.
+  Reading its 4-byte record as two `u16` LE values (a, b) on `wf_00_00`
+  (a/0/0/8#228) finds only 5 distinct records across all 4096 cells:
+  `(0,0)` (2049 cells), `(0,4094)` (682), `(4094,0)` (682), `(0,128)`
+  (535), `(1,129)` (148). `4094` (0x0FFE) matches the block's own leading
+  4-byte header constant exactly, reading as a "no data here"/edge
+  sentinel; `(0,128)` and `(1,129)` are byte-for-byte the same
+  `(walkable, walkable|0x80)` pair the ordinary 8-byte grid record uses
+  at byte[4]/byte[6]. Best current reading: a finer-resolution walkable
+  mask for the water surface with a boundary sentinel, not a distinct
+  water-type code -- still no water/grass/ledge-specific field found in
+  it, so the earlier "structurally located, not semantically decoded"
+  verdict stands, just with one more layer peeled off.
+- **True tail bytes** (`map24_23`'s 196-byte `WB` tail): re-examined as
+  hex; it has real repeating 8-byte-ish structure (an exact duplicate
+  8-byte group appears once, `09 00 02 00 76 00 83 01`), so it is not
+  random padding, but the field boundaries and meaning were not pinned
+  down this pass -- reported as a real, still-open gap, not decoded.
+
+### (2) Separate per-zone NARC search: no candidate survives
+
+Enumerated every NARC's sub-file count against the map counts (649 total,
+572/47/22/8 per tag) and looked for sub-file sizes matching
+`32*32*n`/`64*64*n` bytes, using `build/assets/inventory.json`
+(`tools/assets/inventory.py`'s cached per-NARC summary) plus direct
+`narc.py` reads for the candidates it surfaced:
+
+- **Count matches**: only two NARCs have exactly 649 sub-files:
+  `a/0/0/8` itself, and `a/1/7/8`. `a/1/7/8` is **649 fixed-size,
+  249-byte records** (every sub-file exactly 249 bytes) -- far too small
+  to be a 32x32 grid (1024 bytes minimum) and structurally a sparse
+  marker table (5 nonzero bytes per record at fixed offsets, e.g.
+  `01 01 00...` for most entries), not tile data. No NARC has exactly
+  572, 47, or 22 sub-files (the per-tag counts); one NARC (`a/0/4/3`) has
+  47 sub-files but with wildly variable sizes (193-32832 bytes) matching
+  its existing "trainer/item/UI sprites" guess, not map data.
+- **Size matches**: scanning every NARC's `sub_file_size_min`/`_max`
+  against `{1024, 2048, 3072, 4096, 8192, 16384}` (and their +4/+8-byte
+  header variants) finds no NARC with a cluster of sub-files at those
+  exact sizes; the closest, `a/0/0/3` (472 files, 32-160444 bytes) and
+  `a/0/6/6` (601 files, 64-4576 bytes), are both variable-length
+  bytecode-shaped (a leading `u8` tag then small `u32` offset fields,
+  e.g. `a/0/0/3#0` opens `01 00 21 00 48 1c 00 00 ...`) -- these read as
+  the per-map **event/script table** the earlier pass's docstring
+  already guessed might hold doors/warps, not a per-tile attribute grid.
+  Their exact semantics were not decoded this pass (out of scope: the
+  mission asked for the per-tile attribute source, and these are
+  variable-length per-object records, not a fixed per-tile array) but
+  are flagged here as the most likely home for door/warp trigger data,
+  consistent with `pl_00_00`'s door tile decoding to a plain-floor grid
+  record with nothing to distinguish it.
+
+**Verdict for step 2: no separate per-zone grid NARC found.** The
+per-tile attributes this mission is chasing, to the extent they exist at
+all, live inside `a/0/0/8`'s own grid record (byte[1]/byte[3], see
+above), not in a companion archive.
+
+### `tools/assets/map_grid.py` changes this pass
+
+Added `--attrs`: scans all `WB` sub-files, prints the byte[1]/[3]/[5]/[7]
+histograms and house-vs-outdoor nonzero counts above, and writes an ASCII
+map (`<name>_attr_lane{1,3}_ascii.txt` under `build/assets/maps/`) for
+each requested target (`.`=walkable/lane-zero, `#`=blocked/lane-zero,
+digit=the lane's value). Docstring's per-lane confidence table updated
+in place (byte[1]/[3]/[5]/[7] entries revised from the prior "zero in
+every sample" claim to the archive-wide findings above; the other lanes'
+entries are unchanged).
+
+### Remaining gaps
+
+- Which specific value of byte[1] or byte[3] means "tall grass" vs
+  "ledge, direction N" vs "zone/route id" is not confirmed -- no sample
+  used this pass has an independently known ground-truth tile (a
+  screenshot-verified grass patch, ledge, or stairs) to check a decoded
+  value against.
+- Water and stairs specifically have no candidate lane at all identified
+  this pass (byte[1]/[3] are the leading candidates for ledges/grass or
+  a zone code; nothing found points specifically at water or stairs
+  beyond `RD`'s already-partial dense block, which reads as a finer
+  walkable mask, not a water-type flag).
+- `a/0/0/3` and `a/0/6/6` (the event/script-table candidates for
+  doors/warps) were located and their opening bytes sampled, but not
+  parsed -- their field layout is a real follow-up, not attempted here
+  since the mission's primary target was the per-tile grid.
+- `map24_23`'s 196-byte tail structure (the repeating 8-byte-ish group)
+  is noted but not decoded.
+- `RD`'s dense block's two `u16` lanes are characterized (walkable-pair
+  plus a `4094` sentinel) but not confirmed against a second `RD` sample
+  beyond `wf_00_00`.
+
+## Asset lane pass: SBNK types 2/3 decoded as PSG square/noise and synthesized in `sseqsynth.py`, `Oam.pal` palette-bank nibble applied against a species' own normal+shiny NCLR pair, `a/0/7/2`'s no-magic member identified as a per-cell 48-byte record table
+
+Three small, independent gaps closed or narrowed this pass.
+
+### (1) SBNK instrument types 2/3: confirmed PSG square/noise, decoded and rendered
+
+The mission's hypothesis was tested directly against all 1497 real SBNKs:
+for every one of the 122 real type-2 instruments, the leading u16 (the
+field that is `wave_id` for a wave-bearing type) is 0-6 (never above 7,
+105/122 exactly 3) and the trailing u16 (`wave_arc` for a wave-bearing
+type) is **0 in all 122** -- 0 is never a valid `wave_arc` for a real
+type-1 instrument (every real one resolves through the owning bank's own
+`wave_arc[4]` table), so a constant 0 across every bank is the signature of
+"this field isn't a wave_arc," not coincidence. For type 3, **both**
+leading u16s are 0 in all 155 real instruments. This matches the mission's
+hypothesis exactly: type 2 is a PSG square/pulse instrument whose first u16
+is a duty-cycle selector (0-7), type 3 is the PSG noise generator with no
+wave-shaped fields at all; both keep the same trailing note/attack/decay/
+sustain/release/pan bytes as every other instrument type.
+
+`tools/assets/sbnk.py` now decodes both: `_parse_psg_square()` returns
+`{duty, unused, base_note, attack, decay, sustain, release, pan}` and
+`_parse_psg_noise()` returns `{base_note, attack, decay, sustain, release,
+pan}` (no wave fields at all). `Instrument.parse_detail()` dispatches types
+2/3 to these instead of the generic wave-record parser. **Round trip is
+unaffected and still 1497/1497 (100%) byte-identical** -- the container/
+table structure this guarantees was never touched, only what `parse_detail()`
+reports about bytes it already had.
+
+`tools/assets/sseqsynth.py` gained procedural PSG synthesis: `synth_psg_
+square()` generates a bipolar rectangular wave at the played note's own
+frequency (`note_freq_hz()`, standard equal temperament -- a PSG channel
+has no recorded base_note to pitch-shift from, unlike a PCM region: the
+played note *is* the frequency) with high/low ratio `(duty+1)/8`;
+`synth_psg_noise()` generates the DS's 15-bit Galois LFSR noise (the
+width the NDS sound hardware documentation gives -- no selectable 7-bit
+"short" mode like the GBA APU), clocked once per output sample at the same
+note frequency (an approximation of the real hardware's separate noise
+clock-divider, documented as such). `resolve_instrument_region()` now tags
+every returned region `"kind": "wave"/"psg_square"/"psg_noise"`, and
+`render_seq()` branches on that tag to call `render_psg_note()` instead of
+resolving a `Swav` for the PSG kinds.
+
+**Re-rendered**: `SEQ_BGM_BATTLEPINCH` (SEQ index 1146), a real BGM whose
+bank (1146) has a type-2 PSG square instrument at program 48, written to
+`build/assets/audio/1146_battlepinch_psg.wav`. 104 of the sequence's 173
+note events use program 48 -- previously silently dropped (types 2/3
+returned `None` from `resolve_instrument_region`, so every note using them
+rendered as silence); now synthesized as a duty-cycle square wave. The
+render reports 120/173 notes rendered (28 dropped for unrelated reasons,
+not from types 2/3), non-silent, not clipped.
+
+**Remaining gap**: the noise channel's real per-instrument clock rate
+(the DS noise generator has its own frequency register independent of the
+tone channels', per public documentation, but nothing in the SBNK type-3
+record exposes a distinct rate field) is approximated as "one LFSR step
+per output sample at the played note's frequency" -- audibly a clocked
+noise burst, not a cycle-exact reproduction of hardware.
+
+### (2) `Oam.pal` (OAM palette-bank nibble) applied: it selects a species' *other* NCLR, not a within-palette row
+
+Checked directly against the 2 species (301, 327 in `a/0/0/4`) that have
+any OAM with a nonzero `pal`: both have exactly the same block shape as
+every other species in this archive -- **two** NCLR members (18/19, a
+normal/shiny pair) of **16 colors each**, and an NCGR at `pixel_fmt == 3`
+(4bpp) throughout. Neither species has a single larger, 256-color NCLR
+hiding extra palette rows -- the mission's "256-colour palette in 16-colour
+banks" branch of the hypothesis is false for both. What actually holds:
+concatenating a block's own NCLR members in local order (18 then 19) into
+one 32-row table and indexing `pal * 16 + color` into *that* reproduces
+exactly the second NCLR's own colors for every `pal == 1` OAM -- i.e. the
+palette-bank nibble selects **which of a species' own two NCLR palettes**
+an individual OAM draws from, not a row offset within a single larger
+table. This makes sense of why only 2 of 713 species show it: it lets one
+or two specific body parts (e.g. an accent color) pull from the "other"
+variant's table regardless of which NCLR the rest of the sprite uses.
+
+`tools/assets/rig.py` changes:
+- `load_rig_block()` now also returns `nclr_all`, every NCLR member found
+  in the block in local order (previously only the first was kept,
+  discarding the second).
+- New `build_bank_palette(nclr_all)`: concatenates every member's parsed
+  colors into one table.
+- `render_oam()` takes `n_pal_colors` and applies `oam.pal * 16` as an
+  index offset **only when the combined palette actually has `(pal+1)*16`
+  rows** (`bank_ok = oam.pal * 16 + 16 <= n_pal_colors`) -- for the 711
+  bank-0-only species this is a no-op (offset 0), and for any species with
+  only one NCLR member the bank is left unapplied rather than reading past
+  the table, per the mission's own caution. `n_pal_colors` is threaded
+  through `_cell_local_raster`/`_cell_frame_raster`/`_frame_placements`/
+  `compose_pose_multi`/`compose_pose`/`render_cells_contact_sheet` down
+  from each of the three call sites (`render_one`, `render_animation`,
+  single-species `main()`), which now build the palette with
+  `build_bank_palette(nclr_all) or DEFAULT_PALETTE` instead of parsing
+  only the first NCLR.
+
+**Rendered and checked**: species 25 (Pikachu, bank-0-only, regression
+check) is byte-identical in dimensions to every prior pass's documented
+`0025_pose.png` (59x56) -- no behavior change for the 711 unaffected
+species. All 713 parseable species/form blocks still compose without a
+new exception (713/713, same count as before this pass). Species 301's
+rest-pose render (`0301_pose.png`, group 0, t=0) is pixel-identical with
+the bank applied or not -- its 4 `pal == 1` OAMs are not placed by any
+frame in groups 0 sampled at t=0..36, so the fix has no visible effect in
+that specific render (the cells they belong to are reached by some other
+animation path not exercised by the default pose). Species 327's rest
+pose (`0327_pose.png`) does change: 418 of 4488 pixels differ, all within
+a small mouth/accent element, matching the *other* NCLR's slightly duller,
+less saturated color instead of the base palette's more vivid one --
+correct-looking (no magenta-fallback or garbage pixels), not visually
+broken.
+
+### (3) `a/0/7/2` trainer block's no-magic member (local 6): a per-cell 48-byte record table, exact size confirmed, field meaning not decoded
+
+The previous pass's description ("a bare `u32 == 1`") turns out to only
+describe 86 of the 95 real blocks. Dumping and comparing the raw
+(post-`try_decompress`, though this member is stored uncompressed in
+every block) bytes of all 95 blocks' local 6 gives an exact, unambiguous
+container shape:
+
+    u32 count        (see below -- NOT a constant, despite the previous
+                       pass's read of the common case)
+    8 bytes reserved  (measured zero in all 95 blocks, no exception)
+    count x 48-byte record
+
+Sizes cluster at 60 (`count=1`, 86 blocks), 156 (`count=3`, 5 blocks: 37,
+38, 77, 78, 80), 204 (`count=4`, 2 blocks: 54, 79), 252 (`count=5`, 1
+block: 40), and 300 (`count=6`, 1 block: 91) -- `12 + count * 48` fits
+every one of the 95 sizes exactly, no remainder, no exception.
+
+**`count` is exactly the block's own NCER cell count** (`ncer.num_cells`),
+checked programmatically for all 95 blocks (95/95 match, not sampled):
+block 0 (1 cell) has count 1, block 37 (3 cells) has count 3, block 91 (6
+cells) has count 6, and so on for every block in between. This member is
+therefore **one 48-byte record per NCER cell**, not a per-block flag.
+
+All 86 `count == 1` blocks' single record is **byte-identical**: hex
+`01000000 0000000000000000 00d8ffff 00280000 00000500 00000500 00000000`
+`...` (zeros to the end of the 48 bytes) -- i.e. every single-cell trainer
+(the overwhelming majority of the roster) uses the exact same record,
+which as signed 32-bit little-endian fields decodes to `(-10240, 10240,
+327680, 327680, 0, 0, 0, 0, 0, 0, 0, 0)`. `327680 == 0x00050000` is `5.0`
+in 16.16 fixed point; `-10240`/`10240` are a symmetric +-10240 pair. For
+the multi-cell blocks, later records repeat this same first-two-field
+shape with small variations (e.g. block 91's 5 populated records read
+`-10240, -10496, -10752, -11008, -11264` for the first field across
+cells 0-4, each 256 apart) and a *distinct* two-field shape -- `(65536,
+-65536, 0, ...)` i.e. `(1.0, -1.0)` in 16.16, all other fields zero --
+that shows up exactly where the block's NCER has an **empty cell**
+(`cell.num_oam == 0`): block 54's cell 3, block 79's cell 3, and block
+91's cell 5 are all `num_oam == 0`, and all three are exactly the
+`(1.0, -1.0)` record, never the populated `(-N, 10240, 5.0, 5.0, ...)`
+shape. This is a clean, exact correlation (3/3), not a coincidence.
+
+**No decoder was written** for this record, per the mission's own
+instruction not to guess an ambiguous inner layout: the outer count-per-
+cell structure and the empty-cell sentinel are solid, but which of the
+"small table of per-pose offsets," "shadow/size descriptor," or "2D-to-3D
+placement record" candidates the populated record actually is remains
+undetermined from data alone. The strongest-fitting candidate given the
+evidence is a **per-cell shadow/size descriptor**: a symmetric offset pair
+alongside a constant "width"/"height"-shaped 5.0 pair reads naturally as
+an ellipse (a battle sprite's ground shadow, one per pose/cell, degenerate
+for a cell with no OAMs to cast one) -- but this is a plausibility
+argument, not an independent verification (no rendered/hardware ground
+truth was checked against it), so `tools/assets/rig.py` is left
+unchanged for this member.
+
+### Files touched
+
+`tools/assets/sbnk.py`: types 2/3 decoded (`_parse_psg_square`,
+`_parse_psg_noise`), `TYPE_NAMES` updated, docstring corrected.
+`tools/assets/sseqsynth.py`: `synth_psg_square`/`synth_psg_noise`/
+`render_psg_note`/`note_freq_hz` added, `resolve_instrument_region`
+tags every region's `kind`, `render_seq` branches on it. `tools/assets/
+rig.py`: `load_rig_block` returns `nclr_all`, `build_bank_palette` added,
+`render_oam`/`_cell_local_raster`/`_cell_frame_raster`/`_frame_placements`/
+`compose_pose_multi`/`compose_pose`/`render_cells_contact_sheet` thread
+`n_pal_colors`, the three render call sites build the bank-aware palette.
+`docs/ASSETS.md`: this section.
+
+### Remaining gaps
+
+- SBNK type 3's real per-instrument noise clock rate is not exposed by
+  this record and is approximated (see above).
+- `Oam.pal` for species 301 specifically has no visible effect in the
+  rendered rest pose sampled this pass -- its nonzero-bank OAMs sit in
+  cells not reached by the frames/groups checked; a future pass with time
+  to walk every NANR sequence (not just the rest-pose group at a handful
+  of sampled times) could confirm whether they're ever actually visible.
+- `a/0/7/2` local 6's per-cell 48-byte record's populated-case field
+  meaning (shadow ellipse vs. per-pose offset vs. something else) is still
+  open; the container shape and the empty-cell sentinel are the only
+  parts confirmed this pass.
