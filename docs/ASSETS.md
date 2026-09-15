@@ -7217,3 +7217,138 @@ rig.py`: `load_rig_block` returns `nclr_all`, `build_bank_palette` added,
   meaning (shadow ellipse vs. per-pose offset vs. something else) is still
   open; the container shape and the empty-cell sentinel are the only
   parts confirmed this pass.
+
+## Asset lane pass: byte[3]-as-tall-grass hypothesis tested against the map's own ground textures -- REFUTED, byte[1]-as-ledge left inconclusive on this sample
+
+Mission: use the per-shape textured map export (`tools/assets/map_shapes.py`)
+as ground truth to confirm or refute byte[3] as the tall-grass/encounter
+lane and byte[1] as the ledge lane (both from the earlier map-attribute-hunt
+pass above). Targets: `map19_19` (738/1024 byte[3]-nonzero, a/0/0/8#20),
+plus two more outdoor files with a mixed byte[3] histogram picked by
+scanning all 572 `WB` files for >=2 distinct nonzero byte[3] values:
+`map23_11` (a/0/0/8#257, values {1,2}) and `winter0701_01_00`
+(a/0/0/8#397, values {1,2,3,4}).
+
+### Method: per-tile ground texture by point-in-polygon at tile centre
+
+For each target, the model was loaded with `map_shapes.py`'s own shape/
+material decode (`shape_export_data`), giving every triangle's world-space
+vertices and its resolved bare texture name. Per tile, the covering face
+was found by projecting every face's vertices onto the (x,z) plane and
+running a standard ray-casting point-in-polygon test against the tile
+centre (`origin + (col+0.5, row+0.5) * cell_size`, with `origin`/`cell_size`
+derived from the model's own decoded vertex bounding box divided by the
+grid's width/height, generalising the earlier pass's hard-coded map24_23
+numbers). Faces are pre-bucketed by their own 2D bounding box so each tile
+only tests the handful of faces that could plausibly cover it. Where
+several faces stack at one (x,z) (a ramp, or ground under a raised deck),
+the flattest candidate (vertex y-range < 0.2) with the highest average y is
+kept, so a vertical decorative billboard (crossed-plane grass props, see
+the field-level pass above) does not override the real ground surface
+underneath it; if no flat candidate covers a tile at all, the least-flat
+candidate is used as a fallback rather than leaving the tile unclassified.
+This reached full coverage (0/1024 uncovered tiles) on `map19_19` and
+`map23_11`, and 822/1024 on `winter0701_01_00` (202 tiles have no face at
+all under their centre, believable for a winter-town map with a smaller
+outdoor footprint than the other two). Per-tile texture matrices and a
+false-colour overlay (base colour = texture-class hash, corner inset =
+byte[3] value) were written to `build/assets/maps/<name>_tex_matrix.txt`
+and `<name>_tex_vs_byte3_overlay.png` (gitignored) for all three targets.
+
+### byte[3] vs ground texture: REFUTED
+
+Cross-tabulating byte[3] against texture class shows byte[3]=1 is **not**
+confined to grass in any of the three samples, and in one sample the
+correlation runs backwards:
+
+`map19_19` (byte[3] nonzero % per texture, n=tile count):
+
+| texture | n | byte3 nonzero % |
+|---|---:|---:|
+| mizu_sita2 (riverbed) | 604 | 68% |
+| ki02ax (tree bark) | 233 | 69% |
+| **GRASS** | 95 | 94% |
+| hana01 (flower prop) | 65 | 85% |
+| gake1 (cliff face) | 17 | 65% |
+| yamagake01 (cliff) | 5 | 100% |
+
+`map23_11` (byte3 in {0,1,2}, same layout):
+
+| texture | n | byte3=1 % | byte3=2 % |
+|---|---:|---:|---:|
+| gake1 (cliff face) | 575 | 98% | 2% |
+| gake01a7 (cliff) | 125 | 100% | 0% |
+| gake_futa (cliff cap) | 111 | 86% | 1% |
+| **GRASS** | 66 | 100% | 0% |
+| kawa_soko (riverbed) | 56 | 100% | 0% |
+| ki02dx (tree bark) | 56 | 57% | 43% |
+
+`winter0701_01_00` (byte3 in {0,1,2,3}):
+
+| texture | n | byte3=0 % | byte3=2 % | byte3=3 % |
+|---|---:|---:|---:|---:|
+| **GRASS** | 397 | 86% | 10% | 4% |
+| w_gake (cliff wall) | 215 | 16% | 75% | 5% |
+| w_yuka (deck/floor) | 87 | 24% | 47% | 2% |
+| w_gake_001 (cliff) | 50 | 20% | 72% | 8% |
+
+In `map19_19` and `map23_11`, byte[3]=1 is essentially universal (65-100%)
+across every ground texture present, cliff and riverbed and tree-bark
+included, not specifically elevated on grass. In `winter0701_01_00` the
+pattern inverts: GRASS is mostly byte3=0 (86%) while the cliff-wall and
+deck textures carry the nonzero values instead. No single byte[3] value is
+fixed-on-grass/zero-elsewhere in any of the three samples, which is the
+confirmation criterion this pass set out to test -- **byte[3] is refuted as
+a grass/encounter-specific lane**. Its real character (from this pass and
+the earlier field-level one) reads as a generic "this is open, non-building
+terrain" or zone/route marker layered over whatever texture happens to be
+underfoot, not a per-texture-type code.
+
+### byte[1] vs ledge texture / byte[2] height step: INCONCLUSIVE, sample too sparse
+
+`map19_19` and `map23_11` both have byte[1]=0 on every one of their 1024
+tiles (matches the field-level pass's histogram: byte[1] is nonzero in
+only 68/572 `WB` files, and neither of these two happened to be among
+them). `winter0701_01_00` has 32/1024 nonzero cells, **all value 1** (no
+2-5 present) -- of these, 21/32 sit under cliff/support-adjacent textures
+(`w_gake*`, `w_sasae`) and 8/32 under GRASS, a directional lean toward
+cliff/edge terrain but on too small and too textureless-varied (single
+value) a sample to confirm the ledge hypothesis. Checking byte[2] at each
+of these 32 tiles against its four neighbours for a one-way, one-step
+height drop (the signature the mission asked to test) found no such
+pattern: byte[2] here ranges up into the 80-255 area (e.g. 132, 221, 153,
+96, 3, 255) and changes by large, non-monotonic amounts between neighbours
+in every direction rather than stepping by exactly 1 toward one side --
+consistent with the field-level pass's already-documented reading that
+byte[2] is "overloaded" (a real terrain-step id on ordinary tiles, a
+different per-object/outlier code on others), not usable as a clean height
+reference here. **Verdict: inconclusive** -- this pass's three targets
+happen to carry only byte[1]=1 (never the 2-5 values seen elsewhere, e.g.
+`m_siten02_00_00`'s per-side 2/4/5 edge coding documented in the
+field-level pass), so no directional encoding for byte[1] could be
+determined from ground-truth texture or height data this pass.
+
+### Files touched
+
+`docs/ASSETS.md`: this section. No changes to `tools/assets/map_grid.py`
+(byte[3] was refuted rather than confirmed, so the mission's conditional
+"add a legend to `--attrs`" step does not apply; its docstring's existing
+MEDIUM-confidence byte[1]/byte[3] entries are not revised by this pass,
+since this is a texture cross-check on 3 files, not a broader re-scan).
+
+### Remaining gaps
+
+- Water, stairs, and doors/warps still have no candidate lane (unchanged
+  from the field-level pass).
+- byte[1]'s directional edge-coding hypothesis needs a sample with actual
+  2-5 values and known cliff/ledge geometry (e.g. `m_siten02_00_00` or
+  `leagin02_00_01` from the field-level pass) cross-checked against this
+  pass's texture/height method; the three targets chosen here for their
+  byte[3] variety happened not to have that.
+- byte[2]'s overloaded behaviour (small quantized steps on most tiles,
+  large outlier values on others) is confirmed again here but still not
+  separated into its two components.
+- The point-in-polygon ground-face rule leaves `winter0701_01_00` with
+  202/1024 tiles uncovered (no face under the tile centre at all); not
+  investigated further since the byte[3] refutation was already clear on
+  the other 822 tiles.
