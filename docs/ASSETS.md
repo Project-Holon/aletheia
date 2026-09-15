@@ -8240,3 +8240,243 @@ internal to one already-identified stage (the per-tile grid's byte[0]/
 [1]/[2]/[3]/[5]/[7] semantics, the GC second grid, the RD dense block,
 and the 17 unreferenced matrices), not missing connections between
 stages.
+
+## Core game data tables: personal, move, item, learnset and evolution
+decoders, all byte-identical round trip (`tools/assets/personal.py`,
+`waza.py`, `items.py`, `learnsets.py`, `evolution.py`)
+
+Five decoders for the core per-species/per-move/per-item data tables,
+each built from this project's own decompiled accessors
+(`src/matched/unit_0201AE14.c` poke_personal.c, `unit_0201BD28.c`/
+`unit_0201BEB8.c`/`unit_0201C020.c`/`unit_0201C158.c` waza_tool.c,
+`unit_0201B70C.c` shinka_check.c, and `unit_02021014.c`'s item record
+accessor) rather than from any outside reference.
+
+### Pokemon personal data: `a/0/1/6`, confirmed
+
+669 sub-files: a 56-byte sentinel at index 0, 667 real 60-byte Personal
+records at indices 1-667, and one 1300-byte outlier at index 668 that is
+not a Personal record and is left undecoded. 667 real records against
+649 species is +18, consistent with a handful of species carrying extra
+form slots; this pass does not attempt to attribute which species own
+which extra slot.
+
+Field map: struct Personal from `unit_0201AE14.c`'s 44-case getter,
+every offset attested by one jump-table case. Only the fields that
+file's own comments name are given a semantic label (six base stats, two
+types, catch rate, three held item slots, the six 2-bit EV-yield fields,
+form-table base/companion/count); everything else keeps the source's
+`unkXX` spelling rather than being guessed. Gender ratio, hatch cycles,
+friendship, growth rate, egg groups, abilities and colour -- all named in
+the mission -- are NOT separately attested by any accessor read this
+pass, so none of those six categories got a label; they remain
+unconfirmed.
+
+Sanity check (record 1, Bulbasaur-shaped, read with no external
+reference): HP 45, Atk 49, Def 49, Spe 45, SpA 65, SpD 65, type0=11,
+type1=3, catch_rate=45, and the EV-yield bitfield gives exactly 1 Sp.Atk
+EV and 0 everywhere else -- the last detail was not asked for by the
+mission and matches anyway, which is independent confirmation beyond the
+six requested stats.
+
+Round trip: **667/667 records, 40020/40020 bytes byte-identical**
+(`--verify`).
+
+### Move data: `a/0/2/1` is the move table, `a/0/2/4` is the item table
+
+Both are 36-byte-record archives as the mission said. `a/0/2/1` (560
+sub-files) decodes record 1 to type=0 (Normal), category=1, power=40,
+accuracy=100, pp=35, priority=0 -- Pound's real type/power/accuracy/PP
+exactly, with no substitution needed (sub_0201BDB4's 0x65->0x64
+accuracy fixup never triggers here because the stored byte is already
+100). `a/0/2/4` (627 sub-files) has no plausible power/accuracy/PP triple
+anywhere in its bytes; instead its first u16 field, read through the real
+ARM9 item-record accessor (`func_02021014`'s `case 0: return p->f00 *
+10;`), decodes items 1-4 to prices 0, 1200, 600, 200 -- Master Ball (not
+for sale), Ultra Ball, Great Ball, Poke Ball's real Black/White shop
+prices. See `tools/assets/items.py` for the item-side field map and
+evidence.
+
+Field map: struct Waza combined from `unit_0201BD28.c` (offsets
+0x00-0x1E, the dense-switch getter) and `unit_0201BEB8.c` (offset 0x20,
+the flag-bit test), 36 bytes total. Named fields: type, category, power,
+accuracy, pp, priority, effect (the one 16-bit field in the low half),
+and flags (the bit-tested u32 at 0x20); the rest keep the source's
+`unkXX` spelling. Offset 0x1E (2 bytes) is reached by no case id in
+`sub_0201BD28`'s switch (id 29 is a gap, not an empty arm) and has no
+accessor anywhere else in this pass, so it is decoded and round-tripped
+but not named.
+
+Round trip: **560/560 records, 20160/20160 bytes byte-identical**
+(`--verify`).
+
+### Learnsets: `a/0/1/8`, confirmed
+
+668 sub-files, every one ending in a (0xFFFF, 0xFFFF) u16 pair when read
+as (move, level) pairs -- the only ~650-670-sub-file candidate with that
+property (`a/0/1/9` and `a/0/2/0` both score 0/N). Sub-file 1 (species 1)
+decodes to 14 (move, level) pairs starting (33,1), (45,3), (73,7);
+sub-file 2 (species 2) starts (33,1), (45,1), (73,1), (33,3), (45,7) --
+the same early moveset shifted the way an evolved form that starts at a
+higher level reads, which was checked directly against the bytes, not
+against an outside learnset table. 667 real species/form sub-files
+(indices 1-667) match `a/0/1/6`'s 667 real Personal records exactly.
+
+Round trip: **668/668 sub-files byte-identical** (`--verify`).
+
+### Evolution data: `a/0/1/9`, confirmed
+
+668 sub-files, every one exactly 42 bytes: `unit_0201B70C.c`
+(shinka_check.c) gives `struct EvoTable { struct EvoRow rows[7]; u16
+unk2A; }` with `struct EvoRow { u16 method; u16 param; u16 species; }`
+(44 bytes with the trailing halfword); the archive carries the 7-row,
+42-byte array without that trailing halfword, which `sub_0201B718` never
+reads anyway. Sub-file 1 (species 1) decodes to one row: method=4,
+param=16, target=2; sub-file 2 (species 2) decodes to method=4, param=32,
+target=3 -- read as "level-up at the param level", this is the real
+Bulbasaur (1) -> Ivysaur (2, level 16) -> Venusaur (3, level 32) chain,
+checked directly against the bytes.
+
+Target bound check (`--verify-targets`): **321/321** non-empty evolution
+targets across all 667 real records are `<= 667`, the real personal-table
+record count.
+
+Round trip: **668/668 records, 28056/28056 bytes byte-identical**
+(`--verify`).
+
+### What remains unconfirmed after this pass
+
+- Personal: gender ratio, hatch cycles, friendship, growth rate, egg
+  groups, abilities and colour are not attributed to any offset; the
+  1300-byte sub-file 668 is not identified.
+- Move: offset 0x1E (2 bytes) has no accessor and no semantic label.
+- Item: the record struct and the price field are attested by a real
+  accessor (`unit_02021014.c`), but `a/0/2/4`'s identity as the specific
+  archive that accessor's caller opens is not attested by a decompiled
+  opener (`func_02020F34` is not in this tree) -- the identification
+  rests on the price-value match, not on a narc-kind id the way
+  poke_personal/waza_tool/shinka_check are. Most byte-level fields in the
+  item record (the `Sub` bitfield block) are decoded and round-trip but
+  have no semantic label beyond the accessor's own `fXX`/`bNN_M` names.
+- Evolution: the method-id space (e.g. what value means "trade",
+  "stone", etc. beyond "4 = level-up", inferred only from the level-up
+  shape of param) is not enumerated.
+
+## Wild encounter tables located: `a/1/2/6`, tied to the zone table via `packed_1a`, 4-season blocks on 12 archives (`tools/assets/encounters.py`)
+
+Mission: find and decode the wild encounter tables, tie them to the zone
+record, and handle seasonal variants. New module, stdlib only.
+
+### The shape hypothesis, tested archive-wide
+
+A small header of per-method rate bytes followed by slots of
+`{u16 species_and_form, u8 min_level, u8 max_level}` (species < 650,
+masked by 0x7FF; min <= max <= 100) was tested against every archive
+under `extract/data/a` (the same 235-file set `zones.py --survey`
+walks), over header lengths 0-19 bytes. A loose first pass (any header
+length, zero slots counted as a free pass) flagged several archives
+(`a/0/1/9`, `a/0/2/4`, `a/1/6/9`, `a/2/1/4`, `a/1/6/3`, `a/0/2/1`) purely
+because most of their records have only 1-5 slots, which is too easy to
+satisfy by chance. Only one archive survives a stricter check (species
+values actually distinct and plausible, not just bounded, across its
+whole sub-file set, and a header length that holds for every sub-file
+at once): **`a/1/2/6`**, 112 sub-files.
+
+### Layout
+
+`a/1/2/6` sub-files come in exactly two sizes: **100 of 232 bytes, 12 of
+928 bytes** (928 = 4 x 232 exactly, no remainder). Both are multiples of
+one 232-byte block:
+
+    +0x00  u8 x 7   method rates: grass, double grass, shaking grass,
+                    surf, rippling water, fishing, rippling fishing
+    +0x07  u8       pad
+    +0x08  56 x {u16 species_and_form, u8 min_level, u8 max_level}
+
+The 56 slots split 12/12/12/5/5/5/5 (grass, double grass, shaking grass,
+surf, rippling water, fishing, rippling fishing) -- not assumed, derived:
+every sub-file's body is exactly 224 = 56*4 bytes with zero remainder,
+and this is the one grouping under which each sub-file's zero/nonzero
+slot boundary lines up with a method boundary rather than falling
+mid-method. Confirmation: sub-file 0's body is all-zero for 36 slots
+(three 12-slot land methods) and then real data for 20 slots (four
+5-slot water methods) -- a land-free water zone, methods bounded exactly
+at 12*3=36. `species_and_form` masks to species at bits 0-10 (archive-wide
+max 633, well under 650) with a 0-3-valued form in the top bits.
+
+232-byte sub-files (100/112) are a single block, applying all year.
+928-byte sub-files (12/112) are four concatenated 232-byte blocks, one
+per season; which block is which real-world season is not attested by
+any traced code and is not asserted here (see `encounters.py`'s
+docstring for the per-block grass-slot-count spread across all 12
+seasonal sub-files, which does not reduce to one clean story).
+
+### The zone lane: `packed_1a`, low 10 bits (record offset +0x1a & 0x3ff)
+
+Tested every numeric lane `zones.py` still has no attested meaning for
+(`field_00`, `field_01`, `field_02`, `field_14`, `field_18`, `field_20`,
+both packed_1a halves, every packed_1c slice, every flags bit range)
+against `a/1/2/6` (112 sub-files), the same bounded-range +
+house/outdoor-classifier-correlation method `--map-lane-check` used for
+the map lane (classifying a zone by resolving it through its matrix to
+an `a/0/0/8` map, via `resolve_zone_maps()`, then by that map's name
+prefix):
+
+    packed_1a & 0x3ff:  bounded (<112) on 406/427 zones, 111 distinct
+                        values (112 sub-files minus one, #3, unused by
+                        this lane on this sample)
+                        house-classified zones: 3 distinct index values
+                        outdoor-classified zones: 66 distinct index values
+                        overlap between the two sets: 2 values
+
+No other lane comes close: most fail the bounded-range test outright
+(`field_02` bounded on 79/427, `field_14` on 112/427, `field_20` on
+207/427, all with max values in the thousands or 65535), and the ones
+that are bounded show no house/outdoor split (e.g. `packed_1c` bits 0-5:
+house and outdoor both concentrate on the same 1-2 values).
+
+Direct, non-statistical confirmation: zone ids **290, 291, 292** (three
+consecutive zones, all on matrix 175, one of the two overworld halves)
+resolve via `packed_1a & 0x3ff` to sub-files **77, 78, 79** -- three
+consecutive zones landing on three consecutive tables. Sub-file 78's
+grass slots are `#504` (Patrat), `#506` (Lillipup) and `#509`
+(Purrloin) at levels 4-7, and its shaking-grass slots are `#531`
+(Audino) at levels 4-7 -- exactly the mission's predicted "low-level
+early species in the 500s" signature, on a zone/table pair that the
+numeric correlation test also picked independently.
+
+21/427 zones land outside 0..111 on this lane (values 112-116); these
+are treated as "no encounter table" by `encounters.py --zone` rather
+than guessed at, since a 112-sub-file archive has no sub-file 112+.
+
+### Sanity check
+
+    zone 291 (matrix 175) -> packed_1a lane value 78 -> a/1/2/6 sub-file 78
+      grass:          #504(Lv4-4) #506(Lv4-4) #504(Lv5-5) #506(Lv5-5)
+                      #509(Lv4-4) #509(Lv5-5) #504(Lv6-6) #506(Lv6-6)
+                      #504(Lv7-7) #506(Lv7-7) #504(Lv7-7) #506(Lv7-7)
+      shaking_grass:  #531 at Lv4-7 (12 slots)
+      rates: grass=8, shaking_grass=1, all others 0
+
+Patrat (504), Lillipup (506) and Purrloin (509) at levels 4-7 is exactly
+the mission's expected early-route, low-level, 500s-species profile.
+
+### Round trip
+
+`encounters.py --verify`: **112/112 sub-files round-trip byte-identical**
+(every block: 7 rates + pad + 56 slots, repacked and compared against
+the original).
+
+### What remains
+
+- The real-world season identity of blocks 0-3 in the 12 seasonal
+  sub-files is not determined (no code path for this lane was traced;
+  the grass-slot-count pattern across blocks does not collapse to one
+  clean "block N is always winter" rule -- see `encounters.py`'s
+  docstring for the actual per-sub-file spread).
+- The 17-value gap between packed_1a's 406 bounded zones and the full
+  427, and sub-file 3's apparent non-use by this lane on the current
+  427-zone sample, are left as-is rather than forced to resolve.
+- The form field (0-3 observed) in `species_and_form`'s top bits is
+  decoded structurally (it is not folded into the species id) but not
+  matched to any specific in-game form.
