@@ -1,0 +1,48 @@
+DIFF evidence: func_02067B78, the NNS G2D cell-to-OAM flip setter
+0x02067B78, arm9, ARM, 44 bytes
+
+Packet: pkt_02067AAC.  Its four neighbours in the same `.word` run are
+EXACT in src/matched/unit_02067B40.c; this one is four bytes short, one
+instruction, and is left out of that file for it.
+
+Original:
+
+  02067B78  cmp  r1, #0
+  02067B7C  ldr  r1, [r0, #0x24]
+  02067B80  orrne r1, r1, #1
+  02067B84  biceq r1, r1, #1
+  02067B88  str  r1, [r0, #0x24]
+  02067B8C  ldr  r1, [r0, #0x24]     <- the instruction no C spelling produces
+  02067B90  cmp  r2, #0
+  02067B94  orrne r1, r1, #2
+  02067B98  biceq r1, r1, #2
+  02067B9C  str  r1, [r0, #0x24]
+  02067BA0  bx   lr
+
+The obvious C:
+
+  void func_02067B78(struct G2dOamState *p, u32 h, u32 v)
+  {
+      if (h) p->flip |= 1; else p->flip &= ~1u;
+      if (v) p->flip |= 2; else p->flip &= ~2u;
+  }
+
+is byte-identical except that the second `ldr r1, [r0, #0x24]` is gone: the
+compiler proves the store it follows wrote that exact word and reuses the
+value it already has in r1, so the compiled form is 40 bytes with a
+`mov r1, r1` in that slot at best.
+
+The re-read is what a `volatile` field would force, and that was tried two
+ways -- `volatile` on the parameter, and `volatile` on the `flip` member
+only.  Both restore the re-read and both cost more than they buy: the
+predicated `orrne`/`biceq` pair splits into a full predicated load-modify-
+store on each arm and the function grows to 60 bytes (116 for the whole
+five-function range against the original's 100).  So the re-read is real
+but `volatile` is not the reason for it, and no non-volatile spelling
+found here defeats the reuse.
+
+The field itself is attested by the two predicates in
+src/matched/unit_02067B40.c, which are EXACT: +0x24 bit0 is flip-H and
+bit1 is flip-V, and the consumers (func_0206775C, func_02067998) replace
+the OAM entry's position with x' = -(x + objWidth) / y' = -(y + objHeight)
+when the corresponding bit is set.

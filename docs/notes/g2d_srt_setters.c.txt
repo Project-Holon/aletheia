@@ -1,0 +1,67 @@
+DIFF evidence: the three NNS G2D per-node SRT setters
+0x020640DC (translate), 0x02064100 (rotate), 0x02064120 (scale), arm9, ARM
+
+Packet: pkt_02063640.  Not filed as source: every spelling tried comes out
+one instruction short, always the same one instruction, and always in the
+same place.
+
+What the original does (translate; the other two are the same shape with a
+different dirty bit and a different store):
+
+  020640DC  ldr  r3, [r0]
+  020640E0  cmp  r3, #1
+  020640E4  bxne lr                 <- the instruction no C spelling produces
+  020640E8  ldrh r3, [r0, #0x12]
+  020640EC  orr  r3, r3, #8
+  020640F0  strh r3, [r0, #0x12]
+  020640F4  strh r1, [r0, #0xc]
+  020640F8  strh r2, [r0, #0xe]
+  020640FC  bx   lr
+
+The obvious C:
+
+  struct Srt { u32 mode; s32 scaleX; s32 scaleY;
+               s16 tx; s16 ty; u16 rot; u16 dirty; };
+
+  void func_020640DC(struct Srt *p, s16 x, s16 y)
+  {
+      if (p->mode != 1) return;
+      p->dirty |= 8;
+      p->tx = x;
+      p->ty = y;
+  }
+
+compiles to 32 bytes: the guard's block is predicated (`ldrheq`, `orreq`,
+`strheq`, `strheq`, `strheq`) and the early `bxne lr` disappears.
+
+Spellings tried, all 32 bytes and all predicated:
+  - `if (p->mode != 1) return;` and `if (p->mode == 1) { ... }`
+  - the same with an explicit `goto done; ... done: ;`
+  - the mode read hoisted into a local before the test
+  - `p->dirty = (u16)(p->dirty | 8);` instead of the compound assignment
+
+One spelling is worth keeping because it fixes a *different* difference:
+with the parameter declared `volatile struct Srt *p`, the three stores come
+out in source order (dirty, tx, ty) instead of the compiler's own schedule
+(dirty load, tx, ty, orr, dirty store).  With that, the only remaining
+difference in all three functions is the missing `bxne lr`.
+
+The predication threshold was measured directly rather than assumed: adding
+a sixth instruction to the guarded block (a fourth store) makes this
+compiler emit `bxne lr` and stop predicating.  So the compiler will predicate
+a five-instruction block, and the original does not predicate even the
+four-instruction block of func_02064100 -- the original's shape is below the
+threshold in every one of the three, which means the flags or the source
+shape that produced it is not reachable from plain C at -O4,p.  See
+docs/idioms/an-arm-guard-block-of-five-instructions-or-fewer-is-predicated.md.
+
+The struct layout above is the useful part and is filed with the three
+table leaves that do match, src/matched/unit_020640B0.c:
+
+  +0x00  u32  mode      (1 = SRT enabled, every setter is a no-op otherwise)
+  +0x04  s32  scale x   (fx32)
+  +0x08  s32  scale y   (fx32)
+  +0x0C  s16  translate x
+  +0x0E  s16  translate y
+  +0x10  u16  rotation
+  +0x12  u16  dirty: bit1 scale, bit2 rotation, bit3 translation

@@ -10936,3 +10936,231 @@ identification could be added at all.
   checks referencing move data by species) -- kept as a sanity check on
   the method in this writeup, not reported as a new finding, since the
   archive was already fully identified.
+
+## Item archive id closed by code (`a/0/2/4` = 0x18), pocket lane solved against the bag, and the `a/0/0/4` rig's per-node placement traced to the OAM attribute word
+
+Two questions this pass answers from decompiled code, not from data
+correlation: what opens the item table, and whether anything between the
+`a/0/0/4` rig's NMCR node records and the hardware moves a node.
+
+### The item archive: attested by three immediates in one block
+
+`func_02020F34` is the call the chain `func_02021014 <- func_02020FE4`
+was missing, and the whole block it lives in, 0x02020E60..0x02020F84, is
+the item archive's own accessor file. Its seven functions name the
+archive ids as plain immediates:
+
+| function | what it does |
+| --- | --- |
+| `func_02020F14` | `func_020490F4(0x18, heap)`: open archive id 0x18 as a persistent 0x50-byte handle |
+| `func_02020F20` | clamp the item id to 626, then read that member out of the handle (`func_02049250`) |
+| `func_02020F34` | one-shot member read: `which == 0` is `func_02048F60(0x18, item, heap)`, the item record itself |
+| `func_02020F08` | answers the constant 0x19, the archive the item graphics come from |
+| `func_02020E60` | item id to member id in archive 0x19 |
+
+Archive ids in this image are the decimal spelling of the `a/X/Y/Z` path
+(`a/0/4/8` is 48, `a/0/9/1` is 91, `a/1/2/3` is 123, `a/2/1/1` is 211),
+so **0x18 = 24 = `a/0/2/4`** and **0x19 = 25 = `a/0/2/5`**. The item
+table's identity no longer rests on the price-value match documented in
+the core-table pass; it is now code-attested the way
+poke_personal/waza_tool/shinka_check are. `a/0/2/5` is newly identified
+as the item graphics archive by the same evidence.
+
+Both bounds checks in the block clamp an out of range item id to 0 at
+**626**, the last of `a/0/2/4`'s 627 members: the member count is
+confirmed from code as well.
+
+`func_02020E60(item, which)` maps an item id to a member id of `a/0/2/5`:
+
+```
+which 0: item, except item 0 and item 0xFFFF answer 0
+which 1: item_gfx_member[item].lo   (1001 for item 0, 1003 for 0xFFFF)
+which 2: item_gfx_member[item].hi   (1002 for item 0, 1004 for 0xFFFF)
+which 3: item_gfx_member_x[k].lo,   k = func_0202F170(item)
+which 4: item_gfx_member_x[k].hi,   k = func_0202F170(item)
+else:    0
+```
+
+`item_gfx_member` is a 627-entry array of u16 pairs at 0x0209EB6C, one
+pair per item: an icon member and a second member, presumably its
+palette. `item_gfx_member_x` at 0x0209E9E8 is the same shape but indexed
+through `func_0202F170`, which linear-searches a 46-entry u16-pair table
+at 0x020A03C8 for the item id and answers the row index, 0 when absent: a
+small side lane for 46 specific items, not a per-item lane.
+
+### The item record field map, with the open fields marked open
+
+Offsets are from the two accessors in `src/matched/unit_02021014.c`, one
+jump-table case per field; the widths are what the load instruction uses.
+`sel` is the attribute id callers pass to `func_02020FE4(item, sel, heap)`.
+
+| sel | offset | width | name |
+| --- | --- | --- | --- |
+| 0 | +0x00 | u16 | price, answered as `f00 * 10`, not raw |
+| 1 | +0x02 | u8 | hold effect |
+| 2 | +0x03 | u8 | (unnamed) |
+| 3 | +0x08 bit 5 | 1 | boolean gate |
+| 4 | +0x08 bit 6 | 1 | (unnamed) |
+| 5 | +0x08 bits 7-10 | 4 | **bag pocket**, see below |
+| 6 | +0x0A | u8 | (unnamed) |
+| 7 | +0x0B | u8 | (unnamed) |
+| 8..11 | +0x04..+0x07 | u8 each | (unnamed) |
+| 12 | +0x08 bits 0-4 | 5 | (unnamed) |
+| 13 | +0x08 bits 11-15 | 5 | (unnamed) |
+| 14 | +0x0C | u8 | record kind: 0 or 1, selects the tail layout |
+| 15..17 | +0x0D..+0x0F | u8 each | (unnamed) |
+| 0x12..0x33 | +0x10 sub-record bytes 0..6 | 1 bit each, 34 lanes | flag bits |
+| 0x1E | sub-record +0x01 bits 4-7 | 4 | (unnamed nibble) |
+| 0x1F..0x22 | sub-record +0x02, +0x03 | 4 bits each | (unnamed nibbles) |
+| 0x23..0x26 | sub-record +0x04 | 4 / 2 / 1 / 1 bits | (unnamed) |
+| 0x34..0x3E | sub-record +0x07..+0x11 | s8, except +0x0D/+0x0E u8 | eleven byte fields |
+
+The tail at +0x10 is only reached when the byte at +0x0C is 1; when it is
+0 the getter answers the byte at +0x10 for every id above 17 and nothing
+else. That is the item record's one structural version flag, and it is
+data, not code shape: re-derive it for White rather than assuming it.
+
+**The pocket lane (sel 5) is now solved, and the earlier caveat is
+withdrawn.** `src/matched/unit_02007CB0.c` is the bag: `sub_02007D6C`
+reads attribute 5 for an item and passes the answer straight to
+`sub_02007D00` as the pocket selector, which maps it to a slot array
+inside the 0x9C0-byte bag structure:
+
+| pocket | offset in bag | slots |
+| --- | --- | --- |
+| 0 | +0x000 | 310 |
+| 1 | +0x7D8 | 48 |
+| 2 | +0x624 | 109 |
+| 3 | +0x898 | 64 |
+| 4 | +0x4D8 | 83 |
+
+Five pockets, exactly the five distinct values the archive-wide read
+found. The capacities settle which is which against the blocks the
+core-table pass identified by price: pocket 1 (48 slots) holds
+Potion/Antidote/Burn Heal, pocket 2 (109 slots) holds the flat-priced TM
+block, pocket 3 (64 slots, and the game has 64 berries) holds the
+flat-priced berry block, pocket 4 (83 slots) is the remaining one, and
+pocket 0 is the 310-slot general pocket. The earlier caveat was that
+items 1-16 (ball prices) and items 60-94 both read pocket 0. That is not
+a contradiction: this game keeps balls in the general pocket rather than
+giving them one of their own, and the 310-slot pocket is the only one
+large enough to be general.
+
+**`effect` and `battle_effect` are still not attested, and this pass does
+not name them.** Every call site of `func_02020FE4` in the image was read
+for the attribute id it passes: ids 0, 1, 2, 3, 5, 6, 7, 0xF, 0x1B, 0x27,
+0x28 and 0x3C-0x3E are the only ones any caller uses. Of those, 0x1B,
+0x27 and 0x28 are consumed as pure booleans (`cmp r0, #0` and nothing
+else, in ov091 0x021BC19E/0x021BC1B4 and ov198 0x0220F848), 3 is a
+boolean gate in ov070 0x021B7158, and 7 is compared against the single
+value 3 in ov197 0x0220D1DE. No caller anywhere dispatches on an
+attribute's value through a table or a switch, which is what an effect id
+would look like, so the two fields the mission named have no code witness
+to give them.
+
+### The `a/0/0/4` rig: no per-species or per-node offset exists, but a per-OAM-entry one does
+
+The call chain, from the multi-cell node record to the hardware:
+
+```
+func_020643CC   multi-cell node walk
+  -> per node i: slot = nodeStates + i * 0x28; slot->enabled = 1;
+     func_020640DC(&slot->srt, (s16)node->x, (s16)node->y)
+func_0206469C   the same node's NANR frame, per tick
+  -> func_020640DC(srt, frame.px, frame.py)                  (type 2 frames)
+  -> func_02064120(srt, frame.sx, frame.sy)
+     + func_02064100(srt, frame.rot)
+     + func_020640DC(srt, frame.px, frame.py)                (type 1 frames)
+func_0206775C   one OAM entry to one textured quad
+  -> func_02066E30   emits the quad's translation to the geometry engine
+sub_02063068 / 0x02063054   the OAM buffer itself to 0x07000000 / 0x07000400
+  (through sub_02082A60, dispatched from the vtable at 0x020A81E4/0x020A81E8)
+```
+
+**The negative result first.** The NMCR node's own signed `(x, y)` is
+written into the node's SRT translation verbatim, by
+`func_020640DC(&slot->srt, node->x, node->y)` at 0x0206461C..0x02064628.
+There is no table indexed by species, form or node id between the node
+record and that store, no second placement source, and no shadow or
+anchor adjustment: the only other writes to the same block are the scale,
+rotation and translation `func_0206469C` reads out of the node's own NANR
+frame record, which `rig.py` already applies. A scan of every call site
+of the eleven archive entry points across `asm/arm9/main.s` and all
+overlays for an immediate archive id 4 found zero (the same scan finds
+the known sites for ids 24 and 123, so it is not a broken scan), so no
+offset archive is opened next to the rig either.
+
+**The positive result.** The mission's third hypothesis, a second OAM
+pass for parts flagged in the NCER attribute word, is real. Two
+corrections are applied per OAM entry in the draw path, both computed
+from that entry's own attribute bits and from the standard OBJ dimension
+tables, and both invisible to a composer that reads x/y straight out of
+the cell.
+
+Tables (three rows of four u16, 8-byte row stride, row = shape, column =
+size):
+
+| address | contents |
+| --- | --- |
+| 0x020A17F0 | object **width**: 8/16/32/64, 16/32/32/64, 8/8/16/32 |
+| 0x020A17D8 | object **height**: 8/16/32/64, 8/8/16/32, 16/32/32/64 |
+
+shape is attr0 bits 14-15, size is attr1 bits 14-15.
+
+1. **Flip** (`func_0206775C`, 0x02067604 and 0x02067658, gated on
+   `func_02067B50` / `func_02067B64`, which read bits 0 and 1 of the
+   composer state's +0x24 word):
+
+   ```
+   x = sign_extend_9(attr1 bits 0-8)
+   y = sign_extend_8(attr0 bits 0-7)
+   if (flip_h)  x = -(x + width [shape][size])
+   if (flip_v)  y = -(y + height[shape][size])
+   ```
+
+2. **Affine double-size** (`func_02066E30`, 0x02066E64..0x02066ED0), when
+   attr0 bits 8-9 == 3:
+
+   ```
+   tx = x + (width [shape][size] >> 1)
+   ty = y + (height[shape][size] >> 1)
+   ```
+
+   and when they are anything else, `tx = x`, `ty = y` unchanged
+   (0x02066EF4). The result is shifted left 12 into fx32 and written to
+   the geometry engine's translate register at 0x04000470.
+
+So a part whose OAM entry carries the double-size affine mode is drawn
+half its own width and half its own height away from where its raw x/y
+says, and a flipped part is drawn at the negation of its position plus
+its own dimension. Both are per-part and both depend on the part's size,
+which is exactly the signature of a detachment that hits some cells of a
+species and not others. `rig.py` should apply both before concluding that
+a species' placement data is simply authored detached; the two documented
+species' detached cells are the first thing to re-check against the
+double-size bit specifically.
+
+One caveat stated plainly rather than hidden: the chain traced above is
+the 2D-in-3D draw path, the quad emitter that feeds the geometry engine.
+A pure-OAM path exists in the same module and was not traced to the same
+depth this pass, so the two corrections above are attested for the path
+that was read, not proven to be the only path a battle rig can take.
+
+### Files
+
+EXACT: `src/matched/unit_02020F08.c` (the five item-archive leaf
+accessors, including the 0x18 handle open), `src/matched/unit_020640B0.c`
+(the SRT block's three table leaves, and the block's layout),
+`src/matched/unit_02067B40.c` (the flip bit's two predicates).
+
+Byte-correct but capped at MATCH: `src/pending/unit_02020E60.c`, the
+whole 0x02020E60..0x02020F84 item accessor block. Its three unresolved
+relocations are `item_gfx_member` (0x0209EB6C, one literal witness image
+wide and it is inside the range), `item_gfx_member_x` (0x0209E9E8, none)
+and `func_0202F170` (none). The first of those is a tooling gap, not a
+missing witness: a second copy of the word does exist at 0x02020EF4, but
+that pool sits inside the `.byte` run the block's unlabelled leaf
+functions live in and `disasm.py` does not index it as a literal pool.
+
+Near misses with their evidence: `docs/notes/g2d_srt_setters.c.txt` and
+`docs/notes/g2d_flip_setter.c.txt`.
