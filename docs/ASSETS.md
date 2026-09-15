@@ -6495,149 +6495,18 @@ every block is also still unidentified.
   confirmed against its name; the mapping rule is well-evidenced but not
   exhaustively verified block-by-block.
 
-## Map-model per-tile grid mission: wrapper header fully mapped across all 4 tags (`WB`/`GC`/`NG`/`RD`), grid record byte-lane semantics recovered (walkable flag confirmed high-confidence, height/edge lanes medium-confidence), `tools/assets/map_grid.py` added
+## Map-model per-tile grid mission: wrapper header fully mapped, byte-lane model superseded
 
-Follow-up to the earlier map-model mission above (wrapper cracked, size
-table + BMD0 + per-tile grid). This pass decodes the 8-byte per-tile
-record's internal byte lanes and pins down the header size-table fields
-for every wrapper tag, using `pl_00_00` (player's house), `map14_13` and
-`map24_23` (outdoor terrain chunks) and `m_dun0101_00_00` (dungeon room)
-as samples, cross-checked against the OBJ geometry already exported for
-three of these. New tool: `tools/assets/map_grid.py` (`--dump` for
-per-lane text matrices, `--png` for per-lane false-colour PNGs, both
-under `build/assets/maps/`, gitignored).
-
-### Header size-table fields: all four tags now mapped, including a new "no grid" tag and a previously-undocumented dungeon double-grid
-
-Scanning every `a/0/0/8` sub-file's first two bytes confirms the four
-tags and counts already known (`WB` 572, `GC` 47, `NG` 22, `RD` 8) and
-this pass reads every remaining header `u32` for each:
-
-- **`WB`** (20 bytes, one grid): `u32@8`=BMD0 end/grid start,
-  `u32@12`=grid end/tail start, `u32@16`=total length. `u32@12` was
-  previously "not pinned down" -- confirmed this pass by computing the
-  grid's own byte extent (`4 + width*height*8`) from its self-describing
-  `u16,u16` dimension header and matching it exactly against `u32@12` in
-  every 32x32 sample (`map14_13`, `map24_23`); the one 64x64 sample
-  (`pl_00_00`) leaves a 32-byte gap before `u32@12` that is NOT a second
-  grid (see gaps below).
-- **`GC`** (24 bytes) -- **new finding: carries TWO 32x32/8-byte grids
-  back to back**, not one grid plus a tail as previously assumed:
-  `u32@8`=grid-1 start, `u32@12`=grid-1 end/grid-2 start, `u32@16`=grid-2
-  end/tail start, `u32@20`=total length. Confirmed structurally on
-  `m_dun0101_00_00` (both grids' `4+1024*8=8196`-byte spans land exactly
-  on these offsets) and the same shape holds on other GC samples
-  checked. Every GC sample seen is a dungeon/room model; what the second
-  grid represents (a second floor, a duplicate table, something else)
-  is not resolved -- its distinct-value distribution closely mirrors
-  grid 1's (same handful of record patterns, e.g. `pl`-style
-  `01 00 81 00` "open floor"), which reads as "the same kind of data
-  again", not confirmed further.
-- **`NG`** (16 bytes) -- **new finding: this tag's files carry NO
-  per-tile grid at all** (a plausible reading of the tag itself: "No
-  Grid"). `u32@8`=BMD0 end, `u32@12`=total length; every NG sample
-  checked (`c03_h00_00`, four `m_dun08xx`/`m_dun20xx` dungeon rooms) has
-  0-100 bytes between BMD0's end and the sub-file's declared total
-  length -- nowhere near a `4+N*8`-byte grid, and no `u16,u16` pair in
-  that gap reads as a sane width/height. NG sub-files are not restricted
-  to one model category (mixes a town building interior with several
-  dungeon rooms), so the tag looks like a per-file "has grid data or
-  not" flag rather than a category marker.
-- **`RD`** (20 bytes, 8 files, all named `wf_*`/`bc_*`) -- one ordinary
-  32x32/8-byte grid (`u32@8`/`u32@12` bracket it exactly as in `WB`),
-  **followed by a second, denser block**: a 4-byte value that does NOT
-  read as a sane grid dimension pair (consistently `4094` as a `u32`, a
-  fixed constant, not a size), then exactly `64*64*4 = 16384` bytes --
-  the right total size for a 64x64 grid of 4-byte records (found by
-  size alone, matching in 6 of 8 samples exactly; the remaining 2 run
-  16-32 bytes longer, unexplained). Given the `wf`/`bc` naming and that
-  64x64 is the same finer resolution seen on `pl_00_00`'s indoor grid,
-  the working guess is a per-quarter-tile water-surface table, but the
-  4-byte record's internal layout was not decoded this pass (LOW
-  confidence, size-match only).
-
-`tools/assets/map_grid.py`'s `parse_wrapper()` locates grids generically
-(read a `u16,u16` header, sanity-check the range, confirm the implied
-byte span fits) rather than hard-coding per-tag grid counts, with one
-deliberate restriction learned the hard way while writing it: a SECOND
-grid is only accepted if its dimensions exactly match the first grid's.
-Without that check, the unstructured tail bytes after a genuine single
-grid occasionally parse as a "plausible" tiny bogus grid by pure chance
-(a false 17x1 grid was found in `pl_00_00`'s tail, a false 5x2 grid in
-`map24_23`'s, before this restriction was added) -- both false positives
-are gone after requiring an exact size match, which is also the one
-multi-grid shape actually confirmed (`GC`'s two identical 32x32 grids).
-
-### Per-tile 8-byte record: byte-lane semantics (see `map_grid.py`'s docstring for the full writeup and confidence levels)
-
-Decoded each grid's `width*height` 8-byte records into 8 separate byte
-lanes and rendered each as a false-colour PNG
-(`build/assets/maps/<name>_grid_lane<N>.png`) plus a hex text matrix
-(`..._lane<N>.txt`):
-
-- **`byte[4]` -- HIGH confidence: 0/1 walkable flag.** Plotted as a
-  bitmap over `pl_00_00`'s 64x64 grid, this lane's shape IS the house's
-  floor plan: an open border, one large blocked interior blob (walls +
-  furniture) with an actual gap at the model's one door-sized opening.
-  Same result outdoors: `map24_23`'s lane 4 bitmap shows scattered
-  blocked patches (trees/rocks) against an open field, not noise.
-- **`byte[6]` -- HIGH confidence: always `byte[4] | 0x80`** (0x80 when
-  blocked, 0x81 when walkable) in every sample -- a redundant copy of
-  the walkable bit with a constant high bit, not independently useful.
-- **`byte[2]` -- MEDIUM confidence: a quantized height/terrain-level
-  code.** In `map24_23`, bucketing the exported OBJ's vertices into grid
-  cells by `(x,z)` and comparing per-cell sampled height against this
-  lane finds a real correlation: the four-tile run where `byte[2]` steps
-  `0,1,2,3` then plateaus at `4` (a literal ramp shape) sits exactly on
-  the boundary between an OBJ-sampled higher plateau (~y=+0.05, lane
-  value 0) and a lower one (~y=-0.3 to -0.4, lane value 4). The same
-  lane also carries unrelated large outlier values on furniture/border
-  tiles (103 in `pl_00_00`, 54 in `map24_23`) that break the smooth-ramp
-  reading, so this lane looks overloaded (a terrain-step id on most
-  tiles, a different per-object code on a handful of special ones) --
-  not separated out this pass.
-- **`byte[0]` -- MEDIUM confidence: an edge/boundary marker.** Near-zero
-  everywhere except a thin line tracing the exact same ramp/cliff
-  boundary `byte[2]` marks in `map24_23`, and a bordered-rectangle
-  pattern (distinct small values per edge: 2/4/8/16/24) on the same
-  furniture footprint `byte[2]` also lights up on in `pl_00_00`. Read as
-  "this tile is a transition/interaction-side tile", not confirmed
-  against any specific gameplay behaviour.
-- **`byte[1]`, `byte[3]`, `byte[5]` -- LOW confidence: zero in every
-  sample checked** across all four target files.
-- **`byte[7]` -- LOW confidence:** 0x00 almost everywhere, a single
-  isolated 0x80 tile seen once each in `map14_13` and `map24_23`, too
-  sparse to say more.
-- **Tall grass, water, ledges (one-way), stairs, doors/warps: NOT
-  found.** No lane distinguishes any of these from ordinary walkable
-  floor in the four sample files -- checked directly at `pl_00_00`'s one
-  known door tile, which decodes to the exact same record as plain
-  interior floor. Reported as a real negative result (every lane was
-  checked at that specific tile), not a skipped check. Working
-  hypothesis: these are handled by a separate event/warp/behaviour table
-  outside this grid entirely, not encoded in it at any bit position this
-  pass tested.
-
-### Remaining gaps
-
-- `pl_00_00`'s 64x64 grid ends 32 bytes before its header's declared
-  grid-end offset (`u32@12`); those 32 bytes (16 `u16` values, no
-  recognisable dimension header) are unexplained and are NOT a second
-  grid (ruled out: they don't reproduce on `map14_13`/`map24_23`, and
-  requiring an exact width/height match against grid 1 to accept a
-  second grid -- the fix that removed the false-positive tiny grids
-  above -- correctly rejects them too).
-- `GC`'s second grid and `RD`'s dense secondary block are structurally
-  located (exact byte offsets, confirmed sizes) but not semantically
-  decoded.
-- The true tail bytes after the last grid (order of 100-200 bytes in
-  most samples) are not decoded in this pass either.
-- Byte-lane analysis so far covers 4 sample files (1 house, 2 outdoor
-  chunks, 1 dungeon room); `byte[0]`/`byte[2]`'s "overloaded" behaviour
-  on furniture tiles suggests real per-object codes worth chasing with
-  more samples, and the walkable-only result for doors/ledges/etc.
-  should be checked against a sample that's known to actually contain a
-  one-way ledge or a set of stairs (none of the four targets here do).
+This section, the attribute-hunt pass and the tall-grass-hypothesis pass
+that followed it are all superseded: they treated the per-tile 8-byte
+record as eight independent byte lanes and read walkability, height and
+a scatter of unexplained codes out of it by correlation alone. The wrapper
+header findings (four tags, `WB` one grid / `GC` two grids / `NG` no grid
+/ `RD` one grid plus a dense block) held up; the byte-lane reading of the
+record itself did not, once the actual reader code was found and
+decompiled. See "Per-tile grid record SOLVED" below for the real model,
+`tools/assets/map_grid.py`'s current implementation, and the archive-wide
+stats this pass produced.
 
 ## Asset lane pass: Charizard/Gengar detachment root-caused as genuine authored placement data, not a decode bug -- all four field-level hypotheses ruled out archive-wide
 
@@ -6804,224 +6673,23 @@ named in its own mission) rather than finding it.
   without rendering every species; a visual sweep is a reasonable next step
   now that those four are closed out).
 
-## Map attribute hunt: byte[1]/byte[3] were mis-reported as always zero -- archive-wide they carry real outdoor-only terrain codes; a separate-NARC search and the wrapper's other unexplained blocks come up empty (`--attrs` added to `tools/assets/map_grid.py`)
+## Map attribute hunt: superseded by the record-model pass below
 
-Mission: find where tall grass, water, ledges, stairs, and doors/warps are
-encoded, since the per-tile 8-byte grid record (`tools/assets/map_grid.py`)
-only explains walkability (byte[4]/[6]) and a height/edge pair
-(byte[2]/[0]). Method followed in the order given: (1) re-examine the
-wrapper's other unexplained blocks against a known-grass sample, (2)
-search for a separate per-zone NARC, (3) scan all 572 `WB` files for
-byte[1]/[3]/[5]/[7], which the previous pass's 4-sample docstring called
-"zero in every sample checked."
-
-### Result up front: (1) negative, (2) negative, (3) positive -- the previous "always zero" claim was a sampling artifact, not a fact about the format
-
-`byte[1]` and `byte[3]` are real, outdoor-only attribute lanes. The
-earlier pass's 4 target files (`pl_00_00`, `map14_13`, `map24_23`,
-`m_dun0101_00_00`) happened to have these lanes all-zero -- 2 of the 4
-are indoor/dungeon and the 2 outdoor ones simply didn't use these lanes.
-Scanning all 572 `WB` sub-files (`python tools/assets/map_grid.py
---attrs`) finds:
-
-- **`byte[1]`**: nonzero in 68/572 files, values 1-5. **0/18** plain
-  house/town-building interiors (`pl_*`, `c0*`, `c1*`) vs **22/182**
-  outdoor-prefixed files (`mapNN_NN`, `leaginNN`, `winterNNNN`, etc.).
-- **`byte[3]`**: nonzero in 227/572 files, values 1-5. **0/18** houses vs
-  **86/182** outdoor.
-- **`byte[5]`**: nonzero in only 1/572 files, a single uniform value
-  (0xFF) -- an isolated special case, not a general lane.
-- **`byte[7]`**: nonzero in 193/572 files, values 0x80 (1834 tiles) and
-  0x7F (58 tiles) -- **7/18** houses vs **83/182** outdoor, so unlike
-  byte[1]/[3] this one is NOT outdoor-exclusive (matches the original
-  pass's "single isolated tile" note, just more widespread than the 4
-  samples showed).
-
-Full histograms (all 572 `WB` files, `0` bucket included):
-
-| lane | nonzero files | values (count) |
-|---|---:|---|
-| byte[1] | 68 | 1:810, 2:103, 3:30, 4:21, 5:6 |
-| byte[3] | 227 | 1:55224, 2:24220, 4:3758, 3:1257, 5:14 |
-| byte[5] | 1 | 255:58 |
-| byte[7] | 193 | 128:1834, 127:58 |
-
-### byte[1]: line/edge-shaped, plausible ledge or directional-boundary code
-
-Visualising byte[1] over the walkable mask (`.`=open, `#`=blocked, digit=
-byte[1] value) on `leagin02_00_01` (a/0/0/8#210) shows two long straight
-runs of value `1` cutting across open, otherwise-uniform ground -- 11 and
-18 tiles long, on two different rows, not bordering any blocked tile:
-
-```
-....................############
-...
-.............1.......###########      <- single tile, row 14
-......................##########
-11111111111..........###########      <- row 16, cols 0-10
-.....................###########
-...
-11111111111111111.....###.###.##      <- row 22, cols 0-16
-```
-
-That shape (a straight line through otherwise-open ground) is exactly
-what a one-way ledge/drop edge looks like, not a decorative marker.
-Elsewhere the same lane instead outlines one edge each of a rectangular
-blocked footprint with a distinct value per side --
-`m_siten02_00_00` (a/0/0/8#554) has a building-sized blocked rectangle
-with `4` tracing its top edge, `2` its left edge, and `5` its right edge
-(bottom is unmarked). That is consistent with a directional
-edge/collision-side code (walk direction blocked/allowed per side) rather
-than a single boolean, which fits a ledge (jumpable from exactly one
-side) better than it fits tall grass or water (neither of which needs a
-side-specific code). Not cross-checked against a sample with a
-gameplay-confirmed ledge, so this reading is MEDIUM confidence, not
-proven.
-
-### byte[3]: area-fill, plausible terrain-subtype/zone code (tall grass candidate, unconfirmed)
-
-Unlike byte[1]'s thin lines, byte[3] fills large contiguous regions of
-already-walkable ground with one value. `map19_19` (a/0/0/8#20) has value
-`1` on 738 of its 1024 tiles -- essentially the whole open field of that
-route chunk, stopping exactly at two blocked building footprints (never
-overlapping a blocked tile in any sample checked). `t05_00_01`
-(a/0/0/8#159) shows the same large-fill pattern for value `1`, plus one
-lone tile of value `2` sitting inside the filled region, and a second
-region where `5` traces a vertical edge next to a `1`-filled strip --
-the same edge-per-side character as byte[1], on a different value.
-
-This shape (a single value covering nearly an entire open route field)
-is a plausible carrier for "this walkable tile is tall grass," since real
-Black/White routes are often mostly grass with a dirt path cut through --
-but no sample checked here has an independently known grass/no-grass
-boundary to confirm which value means what, so this is reported as a
-strong structural candidate, not a confirmed identification.
-
-### (1) Wrapper's other unexplained blocks, re-examined against `ue_grass00`/`ue_grass01` (map24_23): no correlation found, and the premise partly doesn't hold
-
-Regenerated `map24_23`'s textured OBJ (`tools/assets/map_shapes.py
---targets map24_23`) to get real face positions per material. The
-previously-noted `grass01ax` texture turned out to be a **zero-face**
-shape in this model (one of the "4 shapes decode vertices but 0 faces"
-already documented as a gap) -- it cannot be used as a ground-truth grass
-footprint here, and on inspection it is just the generic terrain ground
-texture (confirmed visually coherent as "grass" in the earlier texture
-pass), not a marker for the specific tall-grass/encounter tile type.
-
-Two other materials, `ue_grass00` (4 faces) and `ue_grass01` (10 faces,
-in 5 duplicated pairs at two different heights -- a crossed-plane
-billboard, the standard way to fake volumetric grass with flat geometry),
-ARE present with real faces. Converting their face centroids to grid
-cells (origin -4,-4, cell size 0.25 = 8 units / 32 tiles, matching the
-model's own bounding box) and cross-referencing against the byte[4]
-walkability mask finds **all 9 cells sit on already-UNWALKABLE ground**
-(inside the map's large blocked interior blob, which the texture set
-suggests is a cliff/rock formation, not open field). This means
-`ue_grass00`/`ue_grass01` are decorative ground-clutter props modeled
-directly into the map's own geometry (not textured onto the terrain
-grid), placed on rocks/cliffs at the model level -- **not** the
-gameplay tall-grass/encounter tile type, and not encoded in the grid at
-all. Re-tested the mission's four named blocks against this (negative)
-sample:
-
-- **`pl_00_00`'s 32-byte unexplained gap** (16 `u16` values): ruled out
-  on size grounds alone, independent of the grass test -- 16 entries
-  cannot index a 64x64=4096-tile grid at any useful granularity (not even
-  1 bit/tile: 32 bytes = 256 bits, a quarter of what a bitmask would
-  need).
-- **`GC`'s second grid**: no outdoor `GC` sample exists (`GC` is
-  dungeon/room-only, confirmed in the original pass), so it cannot be
-  tested against an outdoor grass sample at all; still only structurally
-  located, not semantically decoded.
-- **`RD`'s dense 64x64x4 block**: decoded one level further this pass.
-  Reading its 4-byte record as two `u16` LE values (a, b) on `wf_00_00`
-  (a/0/0/8#228) finds only 5 distinct records across all 4096 cells:
-  `(0,0)` (2049 cells), `(0,4094)` (682), `(4094,0)` (682), `(0,128)`
-  (535), `(1,129)` (148). `4094` (0x0FFE) matches the block's own leading
-  4-byte header constant exactly, reading as a "no data here"/edge
-  sentinel; `(0,128)` and `(1,129)` are byte-for-byte the same
-  `(walkable, walkable|0x80)` pair the ordinary 8-byte grid record uses
-  at byte[4]/byte[6]. Best current reading: a finer-resolution walkable
-  mask for the water surface with a boundary sentinel, not a distinct
-  water-type code -- still no water/grass/ledge-specific field found in
-  it, so the earlier "structurally located, not semantically decoded"
-  verdict stands, just with one more layer peeled off.
-- **True tail bytes** (`map24_23`'s 196-byte `WB` tail): re-examined as
-  hex; it has real repeating 8-byte-ish structure (an exact duplicate
-  8-byte group appears once, `09 00 02 00 76 00 83 01`), so it is not
-  random padding, but the field boundaries and meaning were not pinned
-  down this pass -- reported as a real, still-open gap, not decoded.
-
-### (2) Separate per-zone NARC search: no candidate survives
-
-Enumerated every NARC's sub-file count against the map counts (649 total,
-572/47/22/8 per tag) and looked for sub-file sizes matching
-`32*32*n`/`64*64*n` bytes, using `build/assets/inventory.json`
-(`tools/assets/inventory.py`'s cached per-NARC summary) plus direct
-`narc.py` reads for the candidates it surfaced:
-
-- **Count matches**: only two NARCs have exactly 649 sub-files:
-  `a/0/0/8` itself, and `a/1/7/8`. `a/1/7/8` is **649 fixed-size,
-  249-byte records** (every sub-file exactly 249 bytes) -- far too small
-  to be a 32x32 grid (1024 bytes minimum) and structurally a sparse
-  marker table (5 nonzero bytes per record at fixed offsets, e.g.
-  `01 01 00...` for most entries), not tile data. No NARC has exactly
-  572, 47, or 22 sub-files (the per-tag counts); one NARC (`a/0/4/3`) has
-  47 sub-files but with wildly variable sizes (193-32832 bytes) matching
-  its existing "trainer/item/UI sprites" guess, not map data.
-- **Size matches**: scanning every NARC's `sub_file_size_min`/`_max`
-  against `{1024, 2048, 3072, 4096, 8192, 16384}` (and their +4/+8-byte
-  header variants) finds no NARC with a cluster of sub-files at those
-  exact sizes; the closest, `a/0/0/3` (472 files, 32-160444 bytes) and
-  `a/0/6/6` (601 files, 64-4576 bytes), are both variable-length
-  bytecode-shaped (a leading `u8` tag then small `u32` offset fields,
-  e.g. `a/0/0/3#0` opens `01 00 21 00 48 1c 00 00 ...`) -- these read as
-  the per-map **event/script table** the earlier pass's docstring
-  already guessed might hold doors/warps, not a per-tile attribute grid.
-  Their exact semantics were not decoded this pass (out of scope: the
-  mission asked for the per-tile attribute source, and these are
-  variable-length per-object records, not a fixed per-tile array) but
-  are flagged here as the most likely home for door/warp trigger data,
-  consistent with `pl_00_00`'s door tile decoding to a plain-floor grid
-  record with nothing to distinguish it.
-
-**Verdict for step 2: no separate per-zone grid NARC found.** The
-per-tile attributes this mission is chasing, to the extent they exist at
-all, live inside `a/0/0/8`'s own grid record (byte[1]/byte[3], see
-above), not in a companion archive.
-
-### `tools/assets/map_grid.py` changes this pass
-
-Added `--attrs`: scans all `WB` sub-files, prints the byte[1]/[3]/[5]/[7]
-histograms and house-vs-outdoor nonzero counts above, and writes an ASCII
-map (`<name>_attr_lane{1,3}_ascii.txt` under `build/assets/maps/`) for
-each requested target (`.`=walkable/lane-zero, `#`=blocked/lane-zero,
-digit=the lane's value). Docstring's per-lane confidence table updated
-in place (byte[1]/[3]/[5]/[7] entries revised from the prior "zero in
-every sample" claim to the archive-wide findings above; the other lanes'
-entries are unchanged).
-
-### Remaining gaps
-
-- Which specific value of byte[1] or byte[3] means "tall grass" vs
-  "ledge, direction N" vs "zone/route id" is not confirmed -- no sample
-  used this pass has an independently known ground-truth tile (a
-  screenshot-verified grass patch, ledge, or stairs) to check a decoded
-  value against.
-- Water and stairs specifically have no candidate lane at all identified
-  this pass (byte[1]/[3] are the leading candidates for ledges/grass or
-  a zone code; nothing found points specifically at water or stairs
-  beyond `RD`'s already-partial dense block, which reads as a finer
-  walkable mask, not a water-type flag).
-- `a/0/0/3` and `a/0/6/6` (the event/script-table candidates for
-  doors/warps) were located and their opening bytes sampled, but not
-  parsed -- their field layout is a real follow-up, not attempted here
-  since the mission's primary target was the per-tile grid.
-- `map24_23`'s 196-byte tail structure (the repeating 8-byte-ish group)
-  is noted but not decoded.
-- `RD`'s dense block's two `u16` lanes are characterized (walkable-pair
-  plus a `4094` sentinel) but not confirmed against a second `RD` sample
-  beyond `wf_00_00`.
+This pass chased tall grass/ledge/water candidates through the byte-lane
+model (`byte[1]`/`byte[3]` as outdoor-only codes, a separate-NARC search,
+and the wrapper's other unexplained blocks); all of it is superseded now
+that the record's real shape is known (see "Per-tile grid record SOLVED"
+below). One finding from this pass is worth carrying forward even though
+its framing is obsolete: `RD`'s dense 64x64x4 block, read as two `u16`
+values per record on `wf_00_00`, showed a `(0,128)`/`(1,129)` pair
+matching the ordinary grid's own walkable-flag/flag-half pattern plus a
+`4094` boundary sentinel -- consistent with a finer-resolution walkable
+mask, not a separate water-type code, though still not decoded against
+the new record model. The rest (byte[1]/[3] as ledge/grass/zone
+candidates, the `a/0/0/3`/`a/0/6/6` event-table search, `map24_23`'s
+196-byte tail) is moot: those byte positions are the high halves of the
+surface and height-index `u16`s, not independent codes, so nothing found
+there needs re-deriving.
 
 ## Asset lane pass: SBNK types 2/3 decoded as PSG square/noise and synthesized in `sseqsynth.py`, `Oam.pal` palette-bank nibble applied against a species' own normal+shiny NCLR pair, `a/0/7/2`'s no-magic member identified as a per-cell 48-byte record table
 
@@ -7218,141 +6886,16 @@ rig.py`: `load_rig_block` returns `nclr_all`, `build_bank_palette` added,
   open; the container shape and the empty-cell sentinel are the only
   parts confirmed this pass.
 
-## Asset lane pass: byte[3]-as-tall-grass hypothesis tested against the map's own ground textures -- REFUTED, byte[1]-as-ledge left inconclusive on this sample
+## Asset lane pass: byte[3]-as-tall-grass hypothesis: superseded
 
-Mission: use the per-shape textured map export (`tools/assets/map_shapes.py`)
-as ground truth to confirm or refute byte[3] as the tall-grass/encounter
-lane and byte[1] as the ledge lane (both from the earlier map-attribute-hunt
-pass above). Targets: `map19_19` (738/1024 byte[3]-nonzero, a/0/0/8#20),
-plus two more outdoor files with a mixed byte[3] histogram picked by
-scanning all 572 `WB` files for >=2 distinct nonzero byte[3] values:
-`map23_11` (a/0/0/8#257, values {1,2}) and `winter0701_01_00`
-(a/0/0/8#397, values {1,2,3,4}).
-
-### Method: per-tile ground texture by point-in-polygon at tile centre
-
-For each target, the model was loaded with `map_shapes.py`'s own shape/
-material decode (`shape_export_data`), giving every triangle's world-space
-vertices and its resolved bare texture name. Per tile, the covering face
-was found by projecting every face's vertices onto the (x,z) plane and
-running a standard ray-casting point-in-polygon test against the tile
-centre (`origin + (col+0.5, row+0.5) * cell_size`, with `origin`/`cell_size`
-derived from the model's own decoded vertex bounding box divided by the
-grid's width/height, generalising the earlier pass's hard-coded map24_23
-numbers). Faces are pre-bucketed by their own 2D bounding box so each tile
-only tests the handful of faces that could plausibly cover it. Where
-several faces stack at one (x,z) (a ramp, or ground under a raised deck),
-the flattest candidate (vertex y-range < 0.2) with the highest average y is
-kept, so a vertical decorative billboard (crossed-plane grass props, see
-the field-level pass above) does not override the real ground surface
-underneath it; if no flat candidate covers a tile at all, the least-flat
-candidate is used as a fallback rather than leaving the tile unclassified.
-This reached full coverage (0/1024 uncovered tiles) on `map19_19` and
-`map23_11`, and 822/1024 on `winter0701_01_00` (202 tiles have no face at
-all under their centre, believable for a winter-town map with a smaller
-outdoor footprint than the other two). Per-tile texture matrices and a
-false-colour overlay (base colour = texture-class hash, corner inset =
-byte[3] value) were written to `build/assets/maps/<name>_tex_matrix.txt`
-and `<name>_tex_vs_byte3_overlay.png` (gitignored) for all three targets.
-
-### byte[3] vs ground texture: REFUTED
-
-Cross-tabulating byte[3] against texture class shows byte[3]=1 is **not**
-confined to grass in any of the three samples, and in one sample the
-correlation runs backwards:
-
-`map19_19` (byte[3] nonzero % per texture, n=tile count):
-
-| texture | n | byte3 nonzero % |
-|---|---:|---:|
-| mizu_sita2 (riverbed) | 604 | 68% |
-| ki02ax (tree bark) | 233 | 69% |
-| **GRASS** | 95 | 94% |
-| hana01 (flower prop) | 65 | 85% |
-| gake1 (cliff face) | 17 | 65% |
-| yamagake01 (cliff) | 5 | 100% |
-
-`map23_11` (byte3 in {0,1,2}, same layout):
-
-| texture | n | byte3=1 % | byte3=2 % |
-|---|---:|---:|---:|
-| gake1 (cliff face) | 575 | 98% | 2% |
-| gake01a7 (cliff) | 125 | 100% | 0% |
-| gake_futa (cliff cap) | 111 | 86% | 1% |
-| **GRASS** | 66 | 100% | 0% |
-| kawa_soko (riverbed) | 56 | 100% | 0% |
-| ki02dx (tree bark) | 56 | 57% | 43% |
-
-`winter0701_01_00` (byte3 in {0,1,2,3}):
-
-| texture | n | byte3=0 % | byte3=2 % | byte3=3 % |
-|---|---:|---:|---:|---:|
-| **GRASS** | 397 | 86% | 10% | 4% |
-| w_gake (cliff wall) | 215 | 16% | 75% | 5% |
-| w_yuka (deck/floor) | 87 | 24% | 47% | 2% |
-| w_gake_001 (cliff) | 50 | 20% | 72% | 8% |
-
-In `map19_19` and `map23_11`, byte[3]=1 is essentially universal (65-100%)
-across every ground texture present, cliff and riverbed and tree-bark
-included, not specifically elevated on grass. In `winter0701_01_00` the
-pattern inverts: GRASS is mostly byte3=0 (86%) while the cliff-wall and
-deck textures carry the nonzero values instead. No single byte[3] value is
-fixed-on-grass/zero-elsewhere in any of the three samples, which is the
-confirmation criterion this pass set out to test -- **byte[3] is refuted as
-a grass/encounter-specific lane**. Its real character (from this pass and
-the earlier field-level one) reads as a generic "this is open, non-building
-terrain" or zone/route marker layered over whatever texture happens to be
-underfoot, not a per-texture-type code.
-
-### byte[1] vs ledge texture / byte[2] height step: INCONCLUSIVE, sample too sparse
-
-`map19_19` and `map23_11` both have byte[1]=0 on every one of their 1024
-tiles (matches the field-level pass's histogram: byte[1] is nonzero in
-only 68/572 `WB` files, and neither of these two happened to be among
-them). `winter0701_01_00` has 32/1024 nonzero cells, **all value 1** (no
-2-5 present) -- of these, 21/32 sit under cliff/support-adjacent textures
-(`w_gake*`, `w_sasae`) and 8/32 under GRASS, a directional lean toward
-cliff/edge terrain but on too small and too textureless-varied (single
-value) a sample to confirm the ledge hypothesis. Checking byte[2] at each
-of these 32 tiles against its four neighbours for a one-way, one-step
-height drop (the signature the mission asked to test) found no such
-pattern: byte[2] here ranges up into the 80-255 area (e.g. 132, 221, 153,
-96, 3, 255) and changes by large, non-monotonic amounts between neighbours
-in every direction rather than stepping by exactly 1 toward one side --
-consistent with the field-level pass's already-documented reading that
-byte[2] is "overloaded" (a real terrain-step id on ordinary tiles, a
-different per-object/outlier code on others), not usable as a clean height
-reference here. **Verdict: inconclusive** -- this pass's three targets
-happen to carry only byte[1]=1 (never the 2-5 values seen elsewhere, e.g.
-`m_siten02_00_00`'s per-side 2/4/5 edge coding documented in the
-field-level pass), so no directional encoding for byte[1] could be
-determined from ground-truth texture or height data this pass.
-
-### Files touched
-
-`docs/ASSETS.md`: this section. No changes to `tools/assets/map_grid.py`
-(byte[3] was refuted rather than confirmed, so the mission's conditional
-"add a legend to `--attrs`" step does not apply; its docstring's existing
-MEDIUM-confidence byte[1]/byte[3] entries are not revised by this pass,
-since this is a texture cross-check on 3 files, not a broader re-scan).
-
-### Remaining gaps
-
-- Water, stairs, and doors/warps still have no candidate lane (unchanged
-  from the field-level pass).
-- byte[1]'s directional edge-coding hypothesis needs a sample with actual
-  2-5 values and known cliff/ledge geometry (e.g. `m_siten02_00_00` or
-  `leagin02_00_01` from the field-level pass) cross-checked against this
-  pass's texture/height method; the three targets chosen here for their
-  byte[3] variety happened not to have that.
-- byte[2]'s overloaded behaviour (small quantized steps on most tiles,
-  large outlier values on others) is confirmed again here but still not
-  separated into its two components.
-- The point-in-polygon ground-face rule leaves `winter0701_01_00` with
-  202/1024 tiles uncovered (no face under the tile centre at all); not
-  investigated further since the byte[3] refutation was already clear on
-  the other 822 tiles.
-
+This pass cross-tabulated byte[3] against map ground textures and refuted
+it as a grass-specific lane (it correlated with cliffs and riverbeds too,
+and inverted on one winter sample), leaving byte[1]-as-ledge inconclusive.
+Moot now, same reason as the other byte-lane passes: byte[3] is the high
+byte of the height-index u16, not an independent terrain code, so there
+was never a tall-grass bit there to find. The real tall-grass candidate
+(the attribute word's id/flag family) is confirmed in "Per-tile grid
+record SOLVED" below.
 ## Asset lane pass: `a/0/0/3` and `a/0/6/6` container framing (event/script-table candidates), fixed-stride hypothesis refuted
 
 Follow-up to the "Map attribute hunt" pass above, which located these two
@@ -8192,41 +7735,59 @@ it, left open rather than guessed at.
 
 ### World stitch (`matrix.py --stitch`)
 
-`--stitch N` places every chunk's walkability bitmap (`map_grid.py`'s
-per-tile grid byte[4], the high-confidence walkable flag) at its matrix
-cell position in one image, using the same 32x32-tile chunk size every
-placed `a/0/0/8` sub-file in matrix 0/175 actually has. Run against both
-mode-1 matrices:
+`--stitch N` places every chunk's terrain-class grid (`map_grid.py`'s
+record model, run through the `classify_terrain()` port of
+`func_021AB504`) at its matrix cell position in one image, using the same
+32x32-tile chunk size every placed `a/0/0/8` sub-file in matrix 0/175
+actually has; tiles that classify to 8 ("no terrain effect", the
+overwhelming majority) fall back to plain walkable/blocked shading
+(attribute flag bit 0) so the image still reads as a walkable-area map,
+with the 8 named classes -- the `{4,5,0x21}`/`{6,7,0x22}` encounter
+families among them -- picked out in distinct colors on top. Run against
+both mode-1 matrices (updated after the record-model rewrite, see "Per-tile
+grid record SOLVED" below):
 
     matrix 0:   29x27 chunks, 229 placed, 554 missing/empty/non-32x32
                 stitched image: 928x864 px
                 border continuity: 354 adjacent chunk-pair edges checked,
-                10509/11328 edge tiles agree on walkability (92.8%)
-    matrix 175: same shape, same 229/554 split, same 92.8% border
+                10769/11328 edge tiles agree on walkability (95.1%)
+    matrix 175: same shape, same 229/554 split, same 95.1% border
                 agreement (consistent with the earlier section's note
                 that matrix 0 and 175 share the same 229 used cells and
                 same max map id -- two variants of the same layout, not
                 two different worlds)
 
 928x864 pixels (29*32 by 27*32, one pixel per tile), gitignored under
-`build/assets/maps/matrix0_walkability.png` and
-`matrix175_walkability.png`, not committed. The border-continuity number
-is a quantitative stand-in for "do roads/rivers line up": it compares
-every pair of adjacent placed chunks' facing edge, tile for tile, and
-92.8% of edge tiles agree on walkable-vs-blocked with their neighbour
-across the seam -- well above chance, and visually the stitched image
-shows continuous walkable corridors and blocked-terrain blobs crossing
-chunk borders rather than stopping at them, which is what a real
-world grid built from independently modelled chunks should look like.
-The remaining ~7% mismatch is expected, not a defect: byte[4] also marks
-scenery (trees/rocks/buildings) whose footprint is chunk-local and has no
-reason to align across a seam the way a road or river does.
+`build/assets/maps/matrix0_terrain_class.png` and
+`matrix175_terrain_class.png`, not committed. The border-continuity number
+(now computed from the attribute word's own walkable bit rather than the
+retired byte[4]) rose from the earlier pass's 92.8% to 95.1%, consistent
+with the new field being the more precise source. The remaining ~5%
+mismatch is expected, not a defect: the walkable flag also marks scenery
+(trees/rocks/buildings) whose footprint is chunk-local and has no reason
+to align across a seam the way a road or river does.
+
+**Encounter-family patches confirmed on Route 1's area:** zone 291 --
+independently identified as an early-route zone by its Patrat/Lillipup/
+Purrloin grass encounter table (see "Wild encounter tables located"
+below) -- resolves via `zones.py --resolve` to matrix 175, map ids
+`[56, 57, 58, 59]`. Those four specific chunks carry none of the
+`{4,5,0x21,6,7,0x22}` ids themselves (they read as a path/building corner
+of the zone, not its grass field), but scanning matrix 175 as a whole
+finds these ids filling dozens of chunks in contiguous, multi-chunk
+regions -- e.g. map `#82` (row 5, col 19) has 180/1024 tiles carrying an
+encounter-family id, and plotting them shows one solid field-shaped patch,
+not scattered noise, exactly the shape a tall-grass field should have.
+This confirms the ids form real terrain patches at the matrix level; it
+also shows a zone's own nominal encounter table is a separate mechanism
+from which of its tiles carry a grass-family attribute id, since zone
+291's own four chunks have no such tiles at all.
 
 `map_shapes.py` was checked for a per-map top-down image export and does
 not have one: its only output is a textured OBJ/MTL per shape (see its
 module docstring), not a rendered raster top-down view of a chunk. The
-walkability stitch above is therefore the full deliverable for this pass,
-as anticipated.
+terrain-class stitch above is therefore the full deliverable for this
+pass, as anticipated.
 
 ### Corrected asset inventory status
 
@@ -8236,8 +7797,8 @@ end: zone (`a/0/1/2`, `zones.py`) -> matrix id (`+0x04`) -> matrix
 grid (`a/0/0/8`, `map_grid.py`) -> textured shapes where a per-shape
 render is wanted (`map_shapes.py`). No open link remains between the
 zone table and the map-model archive; the remaining gaps are all
-internal to one already-identified stage (the per-tile grid's byte[0]/
-[1]/[2]/[3]/[5]/[7] semantics, the GC second grid, the RD dense block,
+internal to one already-identified stage (which terrain id names tall
+grass/water/ledges specifically, the GC second grid, the RD dense block,
 and the 17 unreferenced matrices), not missing connections between
 stages.
 
@@ -8512,7 +8073,7 @@ Definitive per-archive coverage census over all 247 NitroFS files (237 NARC + 10
 | a/0/0/5 | 13 | NCGR (tile/character data) | generic format, not verified | none | unverified | Generic NITRO format (NCLR/NCGR/NCER/NANR), no archive-wide decoder/verify has been run against this specific archive. |
 | a/0/0/6 | 733 |  APS | covered and verified | trainer.py | verified | Particle/UI-effect archive (733 sub-files, custom " APS12_1"/" TPS" wrapper, NOT a trainer portrait set as originally guessed -- renders are glints/sparkles/rings/pulses). Re-encoder round trip: 733/733 byte-identical. |
 | a/0/0/7 | 1431 | NCGR (tile/character data) | covered and verified | overworld.py | verified | Full-color per-species icon archive (party icons), 715 entries, confirmed species-indexed via the game's own per-entity sub-palette selector table. NCGR round trip: 715/715 byte-identical. |
-| a/0/0/8 | 649 | 0x57420300 | covered and verified | nsbmd.py (wrapper-aware) + map_grid.py + map_shapes.py | partial | Overworld map/building/dungeon 3D model archive, 649 sub-files, identified by MDL0 model name (mapNN_MM / m_dunNNNN / cNN / pl_00_00 / etc). Small custom size-table wrapper around BMD0 cracked; per-tile 32x32 grid after the model decoded (byte[4] walkable flag high-confidence, several other byte lanes medium-confidence or open). Textures not wired into the map OBJ exports. No whole-sub-file byte-identical round trip reported for the wrapper+grid container; underlying BMD0 geometry itself is covered by nsbmd.py's generic 1752/1752 round trip. |
+| a/0/0/8 | 649 | 0x57420300 | covered and verified | nsbmd.py (wrapper-aware) + map_grid.py + map_shapes.py | verified | Overworld map/building/dungeon 3D model archive, 649 sub-files, identified by MDL0 model name (mapNN_MM / m_dunNNNN / cNN / pl_00_00 / etc). Small custom size-table wrapper around BMD0 cracked; per-tile grid record decoded to the game's own model (`{u16 surface, u16 heightIndex, u32 attribute}`, attribute = terrain id + flag half, confirmed from decompiled code) rather than byte lanes. Textures not wired into the map OBJ exports; `RD`'s dense secondary block and `GC`'s second grid located but not semantically decoded. Whole-sub-file round trip (wrapper + grids + aux arrays + tails): 649/649 byte-identical. |
 | a/0/0/9 | 255 | 0x00000000 | covered and verified | matrix.py | verified | Zone-to-map matrix archive, 255 sub-files, u32 cells resolving to a/0/0/8 sub-file indices (mode-1 cells also carry a zone-id grid). Round trip: 255/255 byte-identical. |
 | a/0/1/0 | 1 | 0x00000000 | custom format, no decoder | none | none | No decoder. Category guess: scripts/data tables (guess). Dominant magic: '0x00000000' over 1 sub-file(s). |
 | a/0/1/1 | 222 | NSBMD (model) | generic format, verified | nsbmd.py | verified | BMD0/BTX0 sub-files covered by nsbmd.py's generic round trip (1752/1752 byte-identical across every a/0, a/1, a/2 NARC). |
@@ -9147,10 +8708,76 @@ Not closed:
   packet.
 - The auxiliary slope-record array after the grid is located exactly
   (`gridPtr + 4 + width*height*8`) and its record shape is read off the type-2
-  loop, but it has not been dumped or cross-checked against geometry.
+  loop; the asset-lane pass below decodes its pair structure and indices, but
+  the ROM-resident normal-vector and height-value tables those indices select
+  are not in this archive and so cannot be resolved to real values.
 - The `RD` tag's dense secondary block and the `GC` second grid's purpose are
   still open; the vtable shows only that `GC`'s second grid is sampled by the
   same decoder as its first, into slot 1 of the caller's output.
+
+### Asset-lane implementation: `tools/assets/map_grid.py` rewritten to this model
+
+Follow-up asset-lane pass, retiring the byte-lane model entirely (see the
+now-superseded sections above) and replacing `map_grid.py` with a decoder
+built on the record model above. `parse_wrapper()` now reads each
+wrapper tag's own size-table fields as the grid *and aux array* boundary
+(not "grid end, tail start" as the earlier passes assumed): `WB`/`RD` one
+grid, `GC` two, `NG` none, exactly per the tag vtable. This resolves
+`pl_00_00`'s previously-unexplained 32-byte gap before its declared
+grid-end offset: it is 4 aux records (32 = 4 * 8 bytes), not a mystery
+block. Records decode to `{surface_type, normal_index, height_index,
+search_dir, terrain_id, flags, walkable, alt_encounter, class_gate,
+terrain_class}`; `classify_terrain()` is `func_021AB504` ported verbatim.
+The trailing aux array decodes to its attested pair structure (two
+`(normal index, height index)` pairs per 8-byte record at `+0/+4` and
+`+2/+6`) but, as noted above, not to real vectors/heights, since those
+live in ROM tables this archive does not contain.
+
+**Round trip (`--verify`):** every sub-file is repacked from parsed
+fields -- reconstructed header and size table, the BMD0 span copied
+verbatim (out of this mission's scope), every grid's records and aux
+array rebuilt from decoded fields, the RD dense block's raw words, and
+the trailing tail bytes -- and compared byte-for-byte against the
+original:
+
+    a/0/0/8: 649/649 sub-files round-trip byte-identical (0 failed)
+
+**Archive-wide stats (`--stats`, every ordinary 8-byte-record grid in all
+649 sub-files, 693,248 records -- `WB`'s 572 grids including `pl_00_00`'s
+real 64x64 size, `GC`'s 47 pairs of grids, and `RD`'s 8 ordinary grids;
+`NG` contributes none):**
+
+    terrain id histogram (top): 1:522511  0:80305  10:10390  31:9151
+                                 63:9000  156:6844  14:6507  4:5165 ...
+    terrain class histogram: {0:5165, 1:113, 2:22, 3:919, 4:10390,
+                               5:1828, 6:9036, 7:2096, 8:663679}
+    flag-word histogram (top): 129:521680  128:89793  132:13573
+                                0:10176  36:9132  22:9036 ...
+
+    class 7 count: 2096  id==0x20 count: 2096  -- exactly equal, confirming
+    the id==0x20 early-out is the only path around the bit-2 gate, with no
+    record the gate could have swallowed (same invariant the code-lane pass
+    above found).
+
+    id==1 vs walkable-flag disagreement: 10023 records (1.45%) over this
+    693,248-record population. The code-lane pass above reported 7377 over
+    a 664,576-record population; the two counts don't match exactly because
+    they scan different record sets (664,576 is not reproducible from any
+    per-tag-accurate grid enumeration of this archive -- it factors exactly
+    as 649 * 1024, i.e. one fixed-size 32x32 grid assumed per sub-file
+    regardless of actual tag/shape, which undercounts `pl_00_00`'s real
+    64x64 grid, `GC`'s second grid, and `RD`'s grid, and would have to
+    overcount `NG`'s zero grids to reach that total). Both counts agree on
+    the substance: a small, consistent minority of always-passable ids
+    (18, 65, 68, 212, 224 per the code-lane pass) account for the
+    disagreement, not noise -- the class 7/id 0x20 check, which is
+    insensitive to which grids are scanned, is the more reliable of the two
+    cross-checks and it matches exactly.
+
+See the matrix decoder section above for `matrix.py --stitch`'s
+terrain-class rendering and the confirmation that the `{4,5,0x21}`/
+`{6,7,0x22}` encounter-family ids form real, contiguous field-shaped
+patches in the overworld matrices.
 
 ## Asset lane pass: fonts located and decoded (`a/0/2/3`, `tools/assets/font.py`)
 
@@ -9262,3 +8889,166 @@ bit reproduced exactly.
   levels expanded through a runtime color ramp, not palette indices).
 - FINF's bytes at offsets 0x01/0x05/0x06/0x07 are recorded (line height,
   two unknowns, an encoding flag guess) but not fully explained.
+
+## Script virtual machine located and decompiled; `a/0/5/7` is the script-bytecode archive; `a/0/0/3` is a text bank, not bytecode
+
+Mission: find the interpreter that walks `a/0/0/3`'s records and dispatches on
+a u16 opcode. The interpreter was found, decompiled to EXACT, and it does not
+read `a/0/0/3`: the archive it runs is `a/0/5/7`, reached through the zone
+record's `+0x06` lane. `a/0/0/3` turns out to be an encrypted message bank
+reached through the `+0x0a` lane, and its open `field_x` gap (see the
+"`a/0/0/3` and `a/0/6/6` container framing" pass above) is closed below.
+
+### The VM: ARM9 `0x020111EC`..`0x02011330`, source file `"vm.c"`
+
+`func_0201121C` passes the `__FILE__` string at `0x020A7268`, which reads
+`vm.c`, so the module name is the game's own, not a guess. The two units
+`src/matched/unit_020111EC.c` and `src/matched/unit_0201126C.c` reproduce the
+whole packet byte for byte; the fetch and stack helpers one address higher
+were already EXACT in `src/matched/unit_02011330.c`.
+
+The context is 0x30 bytes plus both arrays, allocated in one block:
+
+| offset | what | fixed by |
+|---|---|---|
+| +0x00 | u16 stack capacity (0x100 for the field system) | `func_0201121C`, `func_020111EC` |
+| +0x02 | u16 ring capacity (0x40) | same |
+| +0x04 | `const ScriptCmdFn *` command table | `func_02011298` dispatch |
+| +0x08 | u32 command count | `func_02011298` bound check |
+| +0x0c | u8 stack depth | `func_0201137C` / `func_02011398` |
+| +0x0d | u8 state: 0 stopped, 1 running, 2 waiting | `func_02011298` |
+| +0x0e | u8 ring depth | `func_020111EC` |
+| +0x10 | wait callback | `func_02011298`, `sub_020113D0` |
+| +0x14 | `u8 *pc` | `func_02011330`, `func_0201134C` |
+| +0x18 | `u32 *stack` (0x100 entries) | `func_0201121C` |
+| +0x1c | `u32 *ring` (0x40 entries) | `func_0201121C` |
+| +0x20 | user object | `func_0201126C`, `sub_02011324` |
+| +0x24, +0x28 | pre-dispatch hook and its argument | `sub_02011328` |
+| +0x2c | owner word (the loaded script file, field system) | `func_02158BFC` |
+
+The call family, all EXACT:
+
+    func_0201121C  create(heap, {stack_cap, ring_cap, cmds, cmd_count})
+    func_020111EC  reset
+    func_0201126C  bind user object        sub_02011324  read it back
+    func_0201127C  start at a pc           sub_02011290  stop
+    sub_02011328   install pre-dispatch hook
+    func_02011298  step: one frame of script
+    func_02011330  fetch u16 operand, pc += 2   (unit_02011330.c)
+    func_0201134C  fetch u32 operand, pc += 4   (unit_02011330.c)
+    func_0201137C  push   func_02011398  pop    (the +0x18 stack)
+    sub_020113B0   jump   func_020113B4  call   func_020113C4  return
+    sub_020113D0   yield: state = 2, wait callback = r1
+
+`func_02011298` is the step function the mission asked for: `ldrh` the opcode
+through `func_02011330`, `cmp` it against +0x08, `ldr` the table base from
++0x04, `ldr [table, op lsl #2]`, `blx`. A handler returning 1 yields for the
+frame; returning 0 runs straight into the next opcode, so one call to
+`func_02011298` executes as much script as the handlers allow.
+
+### The handler table: `0x0217062C` in overlay 10, 609 entries
+
+`func_02158BFC` (ov010) builds the descriptor `{0x100, 0x40, 0x0217062C,
+*(u32 *)0x021705D8}` and hands it to `func_0201121C`. The count word at
+`0x021705D8` is 0x261 = **609**, so the table spans `0x0217062C..0x02170FB0`.
+9 entries are NULL; 253 handlers are inside ov010 itself, 330 more resolve
+into ov021 (several through `ldr r3,[pc,#0]; bx r3` veneers, which have to be
+followed before the handler can be read), and 17 land in overlays this pass
+did not pin down.
+
+Opcodes whose handler calls `sub_02011290` (stop): **2, 29, 140, 342, 359,
+378**. Opcodes whose handler calls `sub_020113B0` / `func_020113C4` (jump or
+return, so linear flow ends): **5, 30, 31**. Opcode 4 is the call: it fetches
+a u32, adds it to the pc and calls `func_020113B4`.
+
+### Operand widths, first 32 opcodes
+
+Read off each handler's fetch calls (`func_02011330` = 2 bytes,
+`func_0201134C` = 4), following one level of callee, because the common
+"variable id" operand is fetched inside a helper (`0x02159AE8`) rather than in
+the handler itself. Total operand bytes per opcode, the opcode's own halfword
+excluded:
+
+    op   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+    len  0  0  0  2  4  0  2  2  2  2  2  0  0  0  0  0
+    op  16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+    len  2  2  4  4  0  4  0  0  0  4  4  6 10  0  4  4
+
+Opcodes 0 and 1 are `movs r0,#0; bx lr`, true no-ops. Opcode 2 is the end of a
+script (stop, return 1). Opcode 3 takes a u16 and yields through
+`sub_020113D0`. Opcode 4 is `call`.
+
+### The record decode check, over the real archive
+
+`a/0/5/7` (899 sub-files) is the script archive. A script sub-file is a table
+of `u32` entry offsets terminated by the halfword `0xFD13`, code immediately
+after it; entry *k* starts at `4*k + 4 + table[k]`, which is exactly what
+`func_02158BFC` does (`pc = buf + 4*index`, then `func_0201134C` reads the word
+and adds it to the pc).
+
+Decoding every entry point of every sub-file with the widths above:
+
+    sub-files with a 0xFD13 entry table   469 / 899
+    entry points decoded                  2592
+    landed on an end/flow opcode, on the
+      next entry point, or on file end    2352  (90.7%)
+    desynced (opcode >= 609)               232
+    handler not resolvable (17 opcodes)      7
+
+The 232 desyncs concentrate on one opcode: 100 of them are the instruction
+straight after opcode **76**, whose handler is in ov021 and is the obvious
+variable-length candidate (a case or jump table). The other 430 sub-files
+carry no `0xFD13` at all and are 8 to 28 bytes long: small side tables sharing
+the archive, not scripts. Neither is patched over with a guess here.
+
+### `a/0/0/3` is the text bank, and `field_x` is a length
+
+No code anywhere in the image opens archive id 3 with an immediate, and the
+record payloads are high-entropy. They are not bytecode: they are encrypted
+with the same cipher as `a/0/0/2`'s message files (`key = (index + 3) *
+0x2983`, rotate left 3 after every code unit, see "Text banks" above), with
+the key seeded from the record's index inside its own sub-file. Decrypting
+records 0, 1 and 2 of sub-file 5 gives `Ha ha ha`, `My, my. My.` and
+`I'm tired`.
+
+That closes the open `field_x` question: **`field_x & 0xFFFF` is the record's
+length in u16 code units**. Decrypting all 7861 records of all 472 sub-files
+and reading the unit at `length - 1` gives the string terminator `0xFFFF` in
+**7861 / 7861** cases. Measured against the gap to the next record, the count
+is exact on 7579 and one unit short on 282 (trailing slack). The top byte is a
+flag: 0xE0 on 6139 records, 0x00 on 1096, with a small tail.
+
+So the index entry is `(u32 record_offset from the body start, u32 (flags <<
+16) | unit_count)`, and the container is a message file with its own framing,
+not the NARC-standard one.
+
+### The zone lanes, both resolved
+
+`func_02158CD0` (ov010) maps a script key to a (file, kind, id) triple. Below
+the first range in its 10-byte range table it answers from the current zone
+record instead: file = `sub_02013B5C` (`+0x06`), kind = 3, id = `sub_02013B68`
+(`+0x0a`). `func_02158BFC` then passes the file to `func_02158D78`, which
+loads it with archive id **0x39 = 57 = `a/0/5/7`**, and starts the VM on entry
+`key - 1`.
+
+- **`+0x06` (and `+0x08` = `+0x06 + 1`) is the `a/0/5/7` script file.** Max 853
+  across the 427 zones, and `a/0/5/7` has 899 sub-files: this closes the
+  "which archive needs at least 854 sub-files" gap left by the zone-header
+  pass, which had listed `a/0/5/7` as one of three candidates.
+- **`+0x0a` is the `a/0/0/3` message bank**, values 2..468 against 472
+  sub-files. The "script lane" name it was given earlier is a misnomer: it is
+  the text lane, and the script lane is `+0x06`.
+
+### Remaining gaps
+
+- Opcode 76's operand encoding (variable-length, 100 of the 232 desyncs).
+- 17 of the 609 handlers are in an overlay this pass could not pin to a single
+  candidate, so their operand widths are unknown; 7 entry points hit one.
+- The 430 `a/0/5/7` sub-files with no `0xFD13` table are unidentified.
+- What `func_02158CD0`'s 10-byte range table indexes (it answers keys above the
+  zone's own range with a (file, kind, id) triple of its own) is not read.
+- `a/0/0/3`'s `field_x` top byte (0xE0 / 0x00 / a small tail) is a flag whose
+  meaning is not decoded, and the 282 records whose length is one unit short of
+  the gap are not explained beyond "trailing slack".
+- No converter was written this pass: the decode above lives in this section,
+  not in `tools/assets/`, since this lane may not write there.

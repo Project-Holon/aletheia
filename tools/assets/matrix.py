@@ -48,13 +48,15 @@ CLI
         byte against the original.
 
     python tools/assets/matrix.py --stitch N
-        Place every chunk's 32x32 walkability bitmap (map_grid.py's
-        per-tile grid byte[4]) at its matrix cell position in one PNG
+        Place every chunk's 32x32 terrain-class grid (map_grid.py's
+        record model: func_021AB504's 9-way class, ported as
+        `classify_terrain()`) at its matrix cell position in one PNG
         under build/assets/maps/ (gitignored, not committed). Only makes
         sense for a mode-1 matrix (matrix 0 or 175, the Unova overworld
         halves); also reports, per chunk border, what fraction of edge
-        tiles agree on walkability with the neighbouring chunk's facing
-        edge, as a quantitative stand-in for "do roads/rivers line up".
+        tiles agree on walkability (attribute flag bit 0) with the
+        neighbouring chunk's facing edge, as a quantitative stand-in for
+        "do roads/rivers line up".
 """
 
 import argparse
@@ -247,10 +249,11 @@ def cmd_sentinel_check(args):
 # --stitch: place each chunk's walkability bitmap at its matrix position
 # ---------------------------------------------------------------------------
 
-def _chunk_walkable_grid(a008, map_id):
-    """Returns a flat list of CHUNK_TILES*CHUNK_TILES 0/1 values (byte[4] of
-    map_grid.py's per-tile grid, the high-confidence walkable flag), or
-    None if the map id has no ordinary 32x32 grid to read."""
+def _chunk_records(a008, map_id):
+    """Returns a flat list of CHUNK_TILES*CHUNK_TILES decoded records
+    (map_grid.py's record model: terrain id, terrain class, walkable
+    flag, ...), or None if the map id has no ordinary 32x32 grid to
+    read."""
     raw = a008.read(map_id)
     info = map_grid.parse_wrapper(raw)
     if not info["grids"]:
@@ -258,8 +261,30 @@ def _chunk_walkable_grid(a008, map_id):
     grid = info["grids"][0]
     if grid["width"] != CHUNK_TILES or grid["height"] != CHUNK_TILES:
         return None
-    records = map_grid.read_records(raw, grid)
-    return [r[4] for r in records]
+    return map_grid.read_records(raw, grid)
+
+
+# Terrain-class colors (func_021AB504's 9-way answer). Classes 0/1/2 are
+# the {4, 5, 0x21} encounter-terrain family (the tall-grass candidate);
+# shaded in three greens so the family reads as one patch type. Class 8
+# ("no terrain effect", the overwhelming majority of tiles) falls back to
+# plain walkable/blocked shading so the map still reads as a walkable-area
+# map at a glance, with the named classes standing out on top of it.
+_CLASS_COLOR = {
+    0: (60, 200, 60), 1: (90, 220, 90), 2: (130, 240, 130),
+    3: (80, 140, 220), 4: (220, 180, 40), 5: (200, 80, 180),
+    6: (40, 200, 200), 7: (230, 60, 60),
+}
+MISSING = (60, 20, 20)
+BLOCKED = (20, 20, 20)
+WALKABLE = (235, 235, 235)
+
+
+def _class_color(rec):
+    c = rec["terrain_class"]
+    if c in _CLASS_COLOR:
+        return _CLASS_COLOR[c]
+    return WALKABLE if rec["walkable"] else BLOCKED
 
 
 def cmd_stitch(args):
@@ -282,28 +307,22 @@ def cmd_stitch(args):
         rgba[o + 2] = b
         rgba[o + 3] = 255
 
-    # Missing-chunk color (a cell with no map, or one that failed to read
-    # as an ordinary 32x32 grid) vs the two walkable-flag colors.
-    MISSING = (60, 20, 20)
-    BLOCKED = (20, 20, 20)
-    WALKABLE = (235, 235, 235)
-
-    chunk_cache = {}  # map_id -> walkable grid, or None
+    chunk_cache = {}  # map_id -> list of records, or None
     placed = 0
     missing = 0
     for row in range(height):
         for col in range(width):
             map_id = m["map_grid"][row * width + col]
-            wg = None
+            recs = None
             if map_id != EMPTY_CELL:
                 if map_id not in chunk_cache:
                     try:
-                        chunk_cache[map_id] = _chunk_walkable_grid(a008, map_id)
+                        chunk_cache[map_id] = _chunk_records(a008, map_id)
                     except Exception:
                         chunk_cache[map_id] = None
-                wg = chunk_cache[map_id]
+                recs = chunk_cache[map_id]
             ox, oy = col * CHUNK_TILES, row * CHUNK_TILES
-            if wg is None:
+            if recs is None:
                 missing += 1
                 for ty in range(CHUNK_TILES):
                     for tx in range(CHUNK_TILES):
@@ -312,11 +331,11 @@ def cmd_stitch(args):
             placed += 1
             for ty in range(CHUNK_TILES):
                 for tx in range(CHUNK_TILES):
-                    v = wg[ty * CHUNK_TILES + tx]
-                    set_px(ox + tx, oy + ty, *(WALKABLE if v else BLOCKED))
+                    rec = recs[ty * CHUNK_TILES + tx]
+                    set_px(ox + tx, oy + ty, *_class_color(rec))
 
     os.makedirs(STITCH_OUT_DIR, exist_ok=True)
-    out_path = os.path.join(STITCH_OUT_DIR, f"matrix{args.stitch}_walkability.png")
+    out_path = os.path.join(STITCH_OUT_DIR, f"matrix{args.stitch}_terrain_class.png")
     nsbmd.write_png_rgba8(out_path, px_w, px_h, bytes(rgba))
 
     print(f"matrix {args.stitch}: {width}x{height} chunks, "
@@ -324,7 +343,8 @@ def cmd_stitch(args):
     print(f"stitched image: {px_w}x{px_h} px -> {out_path}")
 
     # Border-continuity check: for every pair of adjacent PLACED chunks,
-    # compare the facing edge's walkable flags tile-for-tile.
+    # compare the facing edge's walkable flags (attribute bit 0)
+    # tile-for-tile.
     def border_agreement(row, col, drow, dcol):
         map_id_a = m["map_grid"][row * width + col]
         nrow, ncol = row + drow, col + dcol
@@ -333,10 +353,12 @@ def cmd_stitch(args):
         map_id_b = m["map_grid"][nrow * width + ncol]
         if map_id_a == EMPTY_CELL or map_id_b == EMPTY_CELL:
             return None
-        wg_a = chunk_cache.get(map_id_a)
-        wg_b = chunk_cache.get(map_id_b)
-        if wg_a is None or wg_b is None:
+        recs_a = chunk_cache.get(map_id_a)
+        recs_b = chunk_cache.get(map_id_b)
+        if recs_a is None or recs_b is None:
             return None
+        wg_a = [r["walkable"] for r in recs_a]
+        wg_b = [r["walkable"] for r in recs_b]
         if dcol == 1:   # b is to the right of a: a's right column vs b's left column
             a_edge = [wg_a[t * CHUNK_TILES + (CHUNK_TILES - 1)] for t in range(CHUNK_TILES)]
             b_edge = [wg_b[t * CHUNK_TILES + 0] for t in range(CHUNK_TILES)]
