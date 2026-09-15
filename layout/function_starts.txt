@@ -192,3 +192,13 @@ arm9_main  0x0204D468  arm   # vtable word at 0x020A13A4
 arm9_main  0x0204D470  arm   # vtable word at 0x020A13A8
 arm9_main  0x0204D4E0  arm   # vtable word at 0x020A7F3C
 arm9_main  0x0204D4F0  arm   # vtable word at 0x020A7F40
+arm9_main  0x02021350  thumb # unlabelled leaf, inside func_0202130C's EXACT* extent; compiles byte-identical here
+arm9_main  0x0202136C  thumb # unlabelled leaf, same run
+arm9_main  0x0202138C  thumb # unlabelled leaf, same run
+arm9_main  0x020213AC  thumb # unlabelled leaf, same run
+arm9_main  0x020213C0  thumb # unlabelled leaf, same run
+arm9_main  0x020213E0  thumb # unlabelled leaf, same run
+arm9_main  0x020213F8  thumb # unlabelled leaf, same run
+arm9_main  0x0202142C  thumb # unlabelled leaf, same run
+arm9_main  0x02030C68  arm   # follows the bx lr at 0x02030C64
+arm9_main  0x02030DA4  arm   # lone bx lr after the pop at 0x02030DA0

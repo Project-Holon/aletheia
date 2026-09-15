@@ -127,3 +127,51 @@ something that makes `idx * 8` unavailable that early, or the
 `c->unk_10` load more urgent.  The next thing to try is a spelling in
 which the shift's operand is not simply the second parameter sitting in
 a callee-saved register from the prologue.
+
+
+WAVE 19: THE FLAG MATRIX (NO CHANGE, RESIDUE IS THE SCHEDULER)
+--------------------------------------------------------------
+The C above was recompiled against the image under the full compiler-side
+matrix.  Residue is 3 instructions / 11 bytes at every point of it except
+where noted, and the compiled bytes are literally identical (same md5 of
+the compiled column) for all of:
+
+  -O4,p  -O4,s  -O4  -O3  -O2
+  -O4,p -inline off|on|all|auto|noauto|level=0|nobottomup
+  -O4,p -ipa file|function
+  -O4,p -char unsigned    -O4,p -enum min
+  -O4,p -sdatathreshold 0|8
+  -O4,p -opt nocse|nodeadcode|nodeadstore|nolifetimes|noloopinvariants
+        |nopropagation|nostrength|nodead
+
+-O1 is 148 bytes and 29 instructions out, so the flags do reach the
+compiler; the -opt keywords simply do nothing at level 4 (the front end's
+own help says they are backwards-compatibility spellings superceded by
+-opt level=xxx, and -O4,p is -opt speed,level=4).  There is no
+-opt noschedule and no -opt nopeephole in this front end at all: both
+spellings are accepted with a usage warning and ignored.  -sdata /
+-sdata2 do not exist either, the spelling is -sdatathreshold.
+
+All nine dsi builds (1.1 through 1.6sp2) are byte-identical here.  The
+non-TWL lines are worse: 1.2/base..sp2p3 give 148 bytes, 2.0/* give 148
+bytes and 31 instructions out.
+
+THE ONE AXIS THAT MOVES IT: -proc
+---------------------------------
+-proc selects the scheduling model and is the only flag that touches the
+residue at all.  Same instructions, same registers throughout, only the
+issue order changes:
+
+  arm946e / arm966e / arm926ej / arm9ej / v5te   lsl three slots early
+  arm9tdmi                                      same (plus a non-inter-
+                                                working tail, +2 insns)
+  arm7tdmi / v4t     lsl lands in the ORIGINAL's slot (+003C) but in r1,
+                     and the ldrb/ldr pair above it swaps: 9 out
+  v5t / arm1026ej / XScale    the whole window is reordered: 11 out
+
+So this residue is the instruction scheduler, confirmed: the only flag
+that moves these exact three instructions is the one that selects the
+scheduling model, and it moves nothing else about them.  No model
+reproduces the image, and -proc arm946e is the hardware, so the axis is
+not usable.  Do not try further source spellings here; see
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.

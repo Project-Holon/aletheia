@@ -8,13 +8,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
- * Every concrete byte is reproduced.  Blocked on: no evidence class for
- * 0x0202FDC4.  Nothing outside this range branches to it and it has no
- * matched entry, so the PC24 at +0x0C stays wildcarded; it is not adjacent
- * either, so no cut reaches it.  Decompiling 0x0202FDC4 graduates this file
- * unchanged.
+ * Previously capped at MATCH: nothing outside this range branches to
+ * 0x0202FDC4, so the PC24 at +0x0C had no witness of any class and no cut
+ * reached it.  src/matched/sub_0202FDC4.c now reproduces that function's own
+ * byte range, so the site resolves `matched` and this file is EXACT with the
+ * C unchanged.
  *
  * symbols:
  *   sub_0202FDC4  0x0202FDC4  arm

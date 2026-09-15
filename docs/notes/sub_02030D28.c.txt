@@ -1,0 +1,133 @@
+Near miss, not byte-correct: register allocation only.  Do not file as MATCH.
+
+sub_02030D28 @ 0x02030D28, arm9, ARM, 124 bytes of body (the 128-byte extent
+includes the lone `bx lr` at 0x02030DA4, an unlabelled empty function).
+Packet pkt_02030CBC.  Best result: DIFF, correct size, 13 differing bytes, no
+relocations at all.  Every instruction, branch target and schedule slot is
+reproduced; only three register names inside the loop body differ:
+
+  +002C  ldr r1, [r1, #8]     vs  ldr r0, [r1, #8]
+  +0030  ldr r0, [r4, #0x30]  vs  ldr r2, [r4, #0x30]
+  +0034  str r1, [r4, #0x34]  vs  str r0, [r4, #0x34]
+  ... and the r0/r2 rename through +005C
+
+The original clobbers r1, the loop-carried register, with the successor
+pointer at the top of the body, because the node is dead there.  The compile
+keeps r1 untouched across the whole body and spends r0 and r2 on the two
+temporaries instead.  Nothing in the C reached that decision:
+
+  - node in a local, cursor re-read per access, both declaration orders;
+  - node in a local and the body reading a second local bound to c->cursor;
+  - `n = n->next; c->walk = n;` so the successor is written back over the
+    loop variable, making the clobber explicit in the source;
+  - no local at all, every read spelled `c->cursor->...` and left to store
+    forwarding (this is the version kept below, since it is also the one
+    that explains the reload of c->cursor after the c->walk store);
+  - the sentinel address hoisted into a local;
+  - the successor bound to its own local before the c->walk store;
+  - do/while rotation with the guard peeled (much worse: 95 bytes differ).
+
+All six of the first variants compile to the identical 124 bytes with the
+identical 13 diffs, so the allocator is not reading any of these knobs.
+Whatever shortens r1 live range here is not a spelling of the traversal.
+
+The C below is otherwise believed correct and is worth keeping as the
+starting point, not re-deriving.
+
+/*
+ * function: sub_02030D28
+ * address:  0x02030D28
+ * packet:   pkt_02030CBC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Walk the circular list once and fire every node that is due.  A node whose
+ * +0x18 flag is set is not called; the flag is cleared instead and the node is
+ * skipped this pass.  Otherwise its callback runs with its +0x10 word as the
+ * only argument.  Re-entry is refused outright by the +0x2C guard, the flag
+ * src/matched/unit_02030DA8.c raises around an insertion.
+ *
+ * The walk is resumable, and that is the whole shape of the function: the node
+ * being visited lives in c->cursor and its successor in c->walk, both in the
+ * context, so a callback that unlinks or inserts leaves the traversal on links
+ * the context still owns.  There is no local cursor at all.  Every read is
+ * written as `c->cursor->...` and the compiler forwards the value it just
+ * stored, which is why the loop carries the node in r1 with no reload at the
+ * top (`ldr r1, [r1, #8]` overwrites it) and yet reloads c->cursor into r0
+ * immediately afterwards: the store to c->walk in between may alias it.
+ * Binding the node to a local instead keeps r1 live across the body, moves the
+ * temporaries to r0 and r2, and costs thirteen bytes with the same control
+ * flow.
+ *
+ * The flag arm is written as the `else`: the original falls through into the
+ * callback test and branches out of line to the single `str` that clears the
+ * flag, then jumps back over it
+ * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
+ *
+ * The trailing clear is `c->cursor->fn = 0`, forwarded the same way: on both
+ * paths out of the loop c->cursor holds the embedded sentinel, and the store
+ * goes through that pointer (`str r0, [r1, #0x14]`) where `c->head.fn = 0`
+ * would have been `str r0, [r4, #0x1c]`.
+ *
+ * 0x02030DA4 is a lone `bx lr`, an empty function with no label, which is why
+ * the inferred extent is 128 bytes and the body is 124.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_02030D28.c \
+ *       --func sub_02030D28 --addr 0x02030D28 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+struct Ctx;
+
+struct Node {
+    struct Ctx  *owner;   /* +0x00 */
+    struct Node *prev;    /* +0x04 */
+    struct Node *next;    /* +0x08 */
+    u32          key;     /* +0x0c */
+    u32          arg;     /* +0x10 */
+    void       (*fn)(u32);/* +0x14 */
+    u32          fired;   /* +0x18 */
+};
+
+struct Ctx {
+    u32           capacity;   /* +0x00 */
+    u32           top;        /* +0x04 */
+    struct Node   head;       /* +0x08 */
+    struct Node **freeList;   /* +0x24 */
+    struct Node  *pool;       /* +0x28 */
+    u32           busy;       /* +0x2c */
+    struct Node  *cursor;     /* +0x30 */
+    struct Node  *walk;       /* +0x34 */
+    struct Node  *slots[1];   /* +0x38 */
+};
+
+void sub_02030D28(struct Ctx *c)
+{
+    if (c->busy != 0) {
+        return;
+    }
+
+    c->cursor = c->head.next;
+
+    while (c->cursor != &c->head) {
+        c->walk = c->cursor->next;
+
+        if (c->cursor->fired == 0) {
+            if (c->cursor->fn != 0) {
+                c->cursor->fn(c->cursor->arg);
+            }
+        } else {
+            c->cursor->fired = 0;
+        }
+
+        c->cursor = c->walk;
+    }
+
+    c->cursor->fn = 0;
+}

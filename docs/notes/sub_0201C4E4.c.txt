@@ -98,6 +98,33 @@ orders of the eight scalars.
 Neither is a size difference and neither touches a relocation, so whoever picks
 this up is looking for a scheduling lever, not a new reading of the code.
 
+SECOND PASS, WAVE 19: STILL 25 BYTES
+
+The source below was re-verified verbatim against the image: DIFF, 464 compiled
+against 464, all ten relocations resolved, the same 25 bytes in the same two
+places.  Nothing has rotted.  Six further levers were tried and every one of
+them lands on exactly 25 again, so they are dead ends and not worth re-running:
+
+  at +0x0042
+    - binding the record pointer to a local (`rec = ps->unk10;`) and reading
+      `rec->kind` / `rec->unk0E` through it instead of re-spelling `ps->unk10`
+    - binding the kind to an `s32` local before the two-way test
+    - splitting the colour pack into an unnarrowed expression and a separate
+      `saved = (u16)saved;` self-recompute
+
+  at +0x0150
+    - `off` declared `u16` with `o = off;` instead of `u32` with `o = (u16)off`
+    - the ring size hoisted into a named `u16` local *after* `o` is assigned
+    - `o = (u16)off;` followed by a `o = (u16)o;` self-recompute
+
+The self-recompute lever is the one that was new this wave (it is what closed
+the prologue of src/pending/func_0202208C.c, see
+docs/idioms/a-self-recompute-pins-an-operand-before-the-other-side-calls.md).
+It moves nothing here, in either place, which is worth knowing: the +0x42 block
+is a pure instruction permutation with no value crossing a call, and the +0x150
+block is a register-allocation outcome rather than an evaluation-order one.
+
+
 
 THE SOURCE AS IT STANDS
 

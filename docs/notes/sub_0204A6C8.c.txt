@@ -170,3 +170,27 @@ So even with the four bytes closed this function is MATCH-capped, not
 EXACT, until 0x0204D9D4 gains a witness: it is called from inside this
 range only and has no matched entry of its own.  0x0204D9D4 sits in
 pkt_0204D768 and is the better target of the two.
+
+WHY THE WITNESS VANISHED (wave 19)
+----------------------------------
+It never was a `label` witness and it never regressed.  0x0204D9D4 has
+exactly one branch reference in the whole image:
+
+    bl func_0204D9D4                 /* 0204A74C */
+
+and 0x0204A74C is inside 0204A6C8..0204A7A0, the range under comparison.
+So the only caller is this function itself, `label` was never available, and
+whatever resolved the site in an earlier wave was reading the range under
+test as its own witness, which attest_matched now refuses by source identity.
+The earlier `EXACT` was the bug; the `MATCH` is the correct answer.
+
+CLOSED (wave 19)
+----------------
+src/matched/func_0204D9D4.c now reproduces 0204D9D4..0204DA5C EXACT, so the
+PC24 at +0x84 resolves in the `matched` class.  The remaining four bytes of
+codegen in this function are now the only thing between it and EXACT; the
+witness half of the problem is gone.  0x0204D9D4 turned out to be the
+archive load-and-decompress helper: both arms read the member through
+func_02049250 with the "allocate high" heap id, and the compressed arm
+expands it through func_020834C0 into a block sized from the header's top
+24 bits.  The uncompressed size shift is `>> 8`, not a masked field.

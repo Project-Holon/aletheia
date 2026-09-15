@@ -8,22 +8,18 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   sub_02030C44  0x02030C44  arm
  *   sub_02030DA8  0x02030DA8  arm
  *   sub_02030DC8  0x02030DC8  arm
  *
- * Every one of the 260 concrete bytes is reproduced.  Blocked on: no
- * evidence class for 0x02030C44.  `--suggest-split` reports one witness
- * image-wide and it is the call inside sub_02030DC8, so 0x02030C44 has
- * exactly one caller, this unit, and no cut can free it: splitting the two
- * functions apart only moves the problem, since 0x02030DC8's own single
- * caller is the wrapper beside it.  This becomes EXACT the moment
- * 0x02030C44 (the node allocator, immediately before this range in
- * pkt_02030CBC) has a matched entry of its own; that is the one thing worth
- * doing here next.
+ * Previously capped at MATCH: 0x02030C44 has exactly one caller image-wide,
+ * the call inside sub_02030DC8 below, so no `label` witness exists and no cut
+ * could free the site.  src/matched/unit_02030C44.c now reproduces the node
+ * allocator's own byte range, so the PC24 at +0x34 resolves in the `matched`
+ * class and the unit is EXACT.
  *
  * Insert one node into the context's circular list, kept sorted ascending on
  * the key at +0x0C, plus the re-entry wrapper that guards it.

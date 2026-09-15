@@ -1,0 +1,172 @@
+Near miss, not byte-correct: register allocation only.  Do not file this as
+MATCH; it is recorded here so the next agent does not re-derive it.
+
+sub_0202FC48 @ 0x0202FC48, arm9, ARM, 380 bytes, packet pkt_0202FC48.
+Best result: DIFF, 376 bytes compiled (4 short), 121 differing bytes, every
+one of them a register name.  All six relocations resolve.
+
+/*
+ * function: sub_0202FC48
+ * address:  0x0202FC48
+ * packet:   pkt_0202FC48
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_EnvModule   0x02146954  data
+ *   sub_02060C5C  0x02060C5C  arm
+ *   sub_02086788  0x02086788  arm
+ *
+ * The module initialiser named by src/matched/unit_0202FBAC.c: it allocates
+ * both arrays g_EnvModule reads and fills the header at +8.  The entry array
+ * is sized count+0x18, so the first `count` slots are the caller's resources
+ * and the remaining 0x18 are spares the binders in this file hand out.  The
+ * id table is at least as long as the entry array, the caller's own request
+ * being clamped up to it, and every byte starts at 0xff (free).
+ *
+ * The clearing loop reloads g_EnvModule.entries before every field store,
+ * which is what writing each store through the global rather than through a
+ * cached cursor produces: the stores may alias the pointer itself.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/sub_0202FC48.c \
+ *       --func sub_0202FC48 --addr 0x0202FC48 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct EnvEntry {
+    void *ptr00;
+    u32   field04;
+    u32   field08;
+    u16   field0c;
+    u8    field0e;
+    u8    pad_0f;
+};
+
+struct EnvModule {
+    struct EnvEntry *entries;
+    u8              *ids;
+    u16              idCount;
+    u16              resCount;
+    u16              entryCount;
+    u16              error;
+};
+
+struct EnvRes {
+    u32 size;
+    u32 unk_04;
+};
+
+extern struct EnvModule g_EnvModule;
+
+extern void *sub_02086788(u32 heap, u32 size, u32 align);
+extern void *sub_02060C5C(void *mem, u32 size, u32 mode);
+
+int sub_0202FC48(const struct EnvRes *res, u32 count, u32 idCount, u32 extra)
+{
+    u32   total;
+    u32   i;
+    void *mem;
+    u32   slot;
+
+    total = count + 0x18;
+    if (idCount < total) {
+        idCount = (u16)total;
+    }
+
+    if (extra != 0) {
+        while ((extra & 3) != 0) {
+            extra++;
+        }
+        sub_02086788(0, extra, 4);
+    }
+
+    g_EnvModule.entries = sub_02086788(0, total * 16, 4);
+    for (slot = 0; slot < total; slot++) {
+        g_EnvModule.entries[slot].ptr00 = 0;
+        g_EnvModule.entries[slot].field04 = 0;
+        g_EnvModule.entries[slot].field08 = 0;
+        g_EnvModule.entries[slot].field0c = 0;
+        g_EnvModule.entries[slot].field0e = 0;
+    }
+
+    g_EnvModule.ids = sub_02086788(0, idCount, 4);
+    for (i = 0; i < idCount; i++) {
+        g_EnvModule.ids[i] = 0xff;
+    }
+
+    g_EnvModule.idCount = idCount;
+    g_EnvModule.resCount = count;
+    g_EnvModule.entryCount = total;
+    g_EnvModule.error = 0;
+
+    for (i = 0; i < count; i++) {
+        mem = sub_02086788(0, res[i].size, 4);
+        if (mem != 0) {
+            g_EnvModule.entries[i].ptr00 = sub_02060C5C(mem, res[i].size, 0);
+            g_EnvModule.ids[i] = i;
+        } else {
+            g_EnvModule.error = i;
+            return 0;
+        }
+    }
+    return 1;
+}
+
+--------------------------------------------------------------------------
+What is left, exactly
+--------------------------------------------------------------------------
+
+The control flow, the instruction selection, the scheduling and the pool
+layout are all reproduced.  The whole delta is one instruction and the
+register names that follow from it:
+
+  original                         compiled
+  r4  = hoisted constant 0         sb  = hoisted constant 0
+  r8  = clear-loop index,          r4  = clear-loop index,
+        then &g_EnvModule                then coalesced with i
+  sb  = total (count + 0x18)       r8  = &g_EnvModule
+  (sb reloaded with 0 at +0x114    sl  = total
+   by `mov sb, r4`)                (no such copy needed)
+
+  push {r3, r4, r5, r6, r7, r8, sb, lr}   vs   push {r4..sl, lr}
+
+The original spends six callee-saved registers and therefore has to
+re-establish the constant zero for the final loop with `mov sb, r4` (r4
+holds the just-initialised loop counter, which the value numberer knows is
+0).  The compile spends seven, because the hoisted zero and `total` never
+share a register, so the copy is not needed and the function comes out four
+bytes short.
+
+Equivalently: in the original the zero's live range ends at the clearing
+loop and is coalesced with the following loop counter; in the compile it
+stays live to the end of the function and is coalesced with nothing.
+
+Ruled out, each re-verified as byte-identical output (376 bytes, 121 diffs):
+
+  - all 24 permutations of the four local declarations
+    (total / i / mem / slot), including making the clearing loop share the
+    counter with the two later loops (that one is worse: 368 bytes);
+  - binding the stored zero to its own named local defined at the top of the
+    function, so its definition point precedes the clearing loop's counter;
+  - spelling the null pointer store as `(void *)0` versus `0`;
+  - binding the heap id and the trailing `return 0` to a named local set to
+    zero late, so the final loop's zero is nominally a different object;
+  - `0u` versus `0` on the allocator's heap argument.
+
+The compiler treats a zero-valued local as a rematerialisable constant in
+every one of those spellings, so none of them changes the allocation order.
+Whatever fixes this is not a local declaration or a constant spelling; it is
+something that makes the clearing loop's stored zero a value the allocator
+must rank ahead of the loop counter.  That is the thing to look for next.
+
+Consequence for the neighbourhood: src/pending/sub_02030608.c is byte-correct
+but capped at MATCH because 0x0202FC48 is its only unresolved site and has no
+caller outside that range.  Closing this function graduates it.

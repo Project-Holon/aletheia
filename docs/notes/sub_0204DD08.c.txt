@@ -189,3 +189,68 @@ thing to look for is therefore a third use of `head * 32` in the head
 block that the current C does not have, most likely a store: a caller of
 0x0204DD08, or the twin block in a sibling function, would say which
 field it lands in.
+
+
+WAVE 19: THE FLAG MATRIX, AND A SECOND RESIDUE THE SIZE GAP HID
+----------------------------------------------------------------
+The C above reproduces at 476 bytes against 480.  Compiler-side matrix,
+all byte-identical to -O4,p (same md5 of the compiled column):
+
+  -O4,p -inline off|on|all|auto|noauto|level=0|nobottomup
+  -O4,p -ipa file|function
+  -O4,p -char unsigned    -O4,p -enum min
+  -O4,p -sdatathreshold 0|8
+  -O4,p -opt nocse|nodeadcode|nodeadstore|nolifetimes|noloopinvariants
+        |nopropagation|nostrength|nodead
+
+The -opt keywords are inert at level 4 (the front end's help says they
+are backwards-compatibility spellings superceded by -opt level=xxx, and
+-O4,p is -opt speed,level=4), in the comma form as well as the separate
+form.  There is no -opt noschedule and no -opt nopeephole at all: both
+are accepted with a usage warning and ignored.  -sdata / -sdata2 are
+spelled -sdatathreshold.  Level and bias are both wrong: -O4,s / -O4 give
+456 bytes, -O3 / -O2 give 460, -O1 gives 492.
+
+All nine dsi builds are byte-identical.  1.2/base..sp2p3 give 492,
+1.2/sp3..sp4 484, 2.0/* are byte-identical to dsi.  No build agrees with
+the image.
+
+DIAGNOSTIC: SELECTION, NOT SCHEDULER AND NOT ALLOCATOR
+-------------------------------------------------------
+  - `volatile u32 span = head * 32;` does not give a register-resident
+    temporary, it gives a stack slot: the prologue grows from
+    `sub sp, sp, #0xc` to `#0x10` and the value is stored and reloaded.
+    There is no C-level position between "folded into the consumer" and
+    "spilled to memory".
+  - a CodeWarrior `asm { mov span, head, lsl #5 }` block does force the
+    register and reallocates the whole function around it: 488 bytes,
+    every callee-saved register renamed.
+
+So the fold happens during instruction selection, before any name the
+source can reach still exists.  Neither construct is shippable and
+neither leaves the rest of the function intact.  The reading in the
+previous section stands and is now evidence rather than inference: the
+original's `lsl` must have had a consumer that cannot take a shifter
+operand, so the thing to look for is a missing third *use* of head * 32
+in the head block, not another way to spell the two uses already there.
+
+A SECOND RESIDUE, IN THE TAIL
+------------------------------
+Compiling with `-proc arm940t` is a useful diagnostic lens here even
+though it is the wrong machine: its non-interworking epilogue adds four
+bytes at +0074, which cancels the four bytes lost to the missing `lsl`
+and re-aligns everything from +0090 onwards against the image.  Under
+that alignment the tail shows a residue the 4-byte shift had been hiding:
+
+    * +01C0  ldr r1, [r2, #0x14]       | ldr r1, [r0, #8]
+    * +01C4  ldr r0, [r0, #8]          | ldr r0, [r2, #0x14]
+    * +01C8  and r1, r1, #0x80000000   | bic r1, r1, #0x80000000
+    * +01CC  bic r0, r0, #0x80000000   | and r0, r0, #0x80000000
+
+The original loads the entry's +0x14 word first and masks it with
+0x80000000; every compile loads surf->unk_08 first.  Swapping the two
+operands of the final `|` changes nothing (tried).  This is the same
+register-naming class as sub_02040618 and is a second, independent
+residue: the function is two decisions away from EXACT, not one.
+
+See docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.

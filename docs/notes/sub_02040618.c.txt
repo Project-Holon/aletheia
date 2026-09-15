@@ -224,3 +224,39 @@ Also tried and much worse: reading the two words as one 8-byte aggregate,
 inlined two-word copy would pick its own register pair.  MWCC gives the
 aggregate a stack home instead (`sub sp, sp, #8` in the prologue) and 437
 bytes differ.  The two loads really are two scalar assignments.
+
+
+WAVE 19: THE FLAG MATRIX (NO CHANGE, RESIDUE IS THE ALLOCATOR)
+---------------------------------------------------------------
+The wave-18 C above reproduces at 8 instructions / 17 bytes, and the
+compiled bytes are identical (same md5 of the compiled column) under the
+whole compiler-side matrix:
+
+  -O4,p -inline off|on|all|auto|noauto|level=0|nobottomup
+  -O4,p -ipa file|function
+  -O4,p -char unsigned    -O4,p -enum min
+  -O4,p -sdatathreshold 0|8
+  -O4,p -opt nocse|nodeadcode|nodeadstore|nolifetimes|noloopinvariants
+        |nopropagation|nostrength|nodead
+
+The -opt keywords are inert at level 4 by design (the front end's help
+calls them backwards-compatibility spellings superceded by
+-opt level=xxx, and -O4,p is -opt speed,level=4); there is no
+-opt noschedule and no -opt nopeephole in this front end, and -sdata /
+-sdata2 are spelled -sdatathreshold.  The bias and level do matter and
+are both wrong: -O4,s / -O4 / -O3 / -O2 all give 440 bytes and 99
+instructions out, -O1 gives 452 and 107.  -O4,p is confirmed pinned.
+
+All nine dsi builds (1.1, 1.1p1, 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1,
+1.6sp2) emit byte-identical code.  The non-TWL lines are far worse:
+1.2/base..sp2p3 600 bytes, 1.2/sp3..sp4 552, 2.0/* 496, against the
+image's 464.
+
+-proc does not help either: arm966e / arm926ej / arm9ej / v5te are
+identical to arm946e (8 out), every other model is 62 to 121 out.  Unlike
+sub_02045EC0, where -proc moves exactly the residue instructions, here it
+moves everything except them: the r0/r1 pair stays mirrored in every
+model.  That separates the two cases cleanly.  The scroll-load residue is
+the register allocator, not the scheduler, and nothing on the compiler
+side reaches it.  See
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.

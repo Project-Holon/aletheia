@@ -1,14 +1,69 @@
-﻿sub_0201C7A4 @ 0x0201C7A4.
-DIFF at 28 concrete bytes.  INHERITED, UNFINISHED.
+sub_0201C7A4 @ 0x0201C7A4, and its sibling sub_0201C7D0 @ 0x0201C7D0.
+DIFF at 28 concrete bytes (sub_0201C7A4).  RE-EXAMINED IN WAVE 19, STILL OPEN.
 
-This C was left in src/matched by a lane that was interrupted before it
-reached EXACT.  It is preserved here rather than in a source tree so that
-the manifest shard stays honest: only EXACT belongs in src/matched.  The
-residue is a pool address the original reloads instead of caching, four bytes long, so the reading of the function is
-believed sound and only the codegen shape is unsettled.  Pick it up from
-this text, do not re-derive it.
+CORRECTION FIRST: the shared context object is at 0x0214655C, not 0x0202655C.
+The pool word both functions load reads `5c 65 14 02`.  The old symbol name in
+the C below (g_0202655C) is wrong and was also why the relocation reported as
+unattested; with the right address the object is the same one
+src/matched/sub_0201C724.c already calls `g_0214655C` and attests.
 
-The file as it stood follows verbatim.
+WHAT IS LEFT, AND WHY IT IS NOT A READING PROBLEM
+
+The residue is not a misreading of the function, it is one scheduling
+decision.  The original loads the context address from its single pool word
+twice:
+
+    0201C7B4  ldr r0, [pc, #0x14]     -> 0x0214655C
+    ...
+    0201C7C2  ldr r0, [pc, #8]        -> the same word
+
+and keeps all four of x, px, py and the string object in r5, r6, r4 and r7
+across the leading `blx sub_02045A90`, which leaves no callee-saved register
+free to cache the address.  Every C spelling tried compiles to the *other*
+choice: the compiler stores py into the outgoing stack slot early, which frees
+r4, caches the address there with `ldr r4, [pc]`, and then spends
+`adds r0, r4, #0` at each of the two call sites.  Two bytes longer and a
+28-byte diff, with the instruction multiset otherwise identical.
+
+sub_0201C7D0 is the same function with one extra call (sub_0201C8A4 between
+the two) and three reloads of the same single pool word instead of two; it has
+not been written as a source file because it will fail in exactly the same
+place, and closing sub_0201C7A4 closes both.
+
+The control that proves the difference is real is src/matched/sub_0201C724.c,
+which is EXACT: it uses the same object three times, has no leading call, and
+there mwcc *does* cache the address in r7, which is what the original does
+there too.  So the compiler's choice tracks register pressure at the point the
+address first becomes live, and the lever has to be something that keeps a
+fourth value live across the leading call.
+
+TRIED IN WAVE 19, ALL EXACTLY 28 BYTES
+
+  - `extern struct Ctx g_0214655C;` with `&g_0214655C` at both call sites,
+    instead of an array name that decays
+  - the two call sites spelled differently from each other, so that CSE has no
+    syntactically common subexpression: `(struct Ctx *)&g.unk00` against `&g`,
+    and `&g + 0` against `&g`
+  - the address hoisted into a named local `struct Ctx *c` used twice
+  - sub_02045A90 declared `void`, `u16 *` and `u32`, and its result bound to a
+    local
+  - the three middle parameters as `u32`, `void *` and `s16` (`s16` is worse,
+    34 bytes)
+  - `register` on the third parameter
+  - a no-op self-recompute (`py = py + 0;`) before the calls
+  - an explicit trailing `return;`
+
+WHAT TO TRY NEXT
+
+Something that makes the outgoing stack slot unavailable before the first
+call, or a fifth live value across it.  Nothing in the function as read
+supplies one, which is the uncomfortable part: the reading may be complete and
+the lever may be a declaration outside the function (a callee prototype with a
+different arity, say) rather than anything inside it.
+
+The file as it stood follows verbatim; the address in `symbols:` must be
+corrected to 0x0214655C before it is used again.
+
 /*
  * function: sub_0201C7A4
  * address:  0x0201C7A4
