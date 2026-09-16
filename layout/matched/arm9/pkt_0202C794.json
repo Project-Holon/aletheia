@@ -1,0 +1,73 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0202C794",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "sub_0202CAC4",
+   "address": "0x0202CAC4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202CAC4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0202CAE4",
+   "address": "0x0202CAE4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202CAE4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0202CB18",
+   "address": "0x0202CB18",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202CB18.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0202CB4C",
+   "address": "0x0202CB4C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202CB4C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_0202CC58",
+   "address": "0x0202CC58",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0202CC58.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "sub_0202CC58"
+   ]
+  }
+ ]
+}

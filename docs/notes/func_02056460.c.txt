@@ -1,0 +1,106 @@
+function: func_02056460
+address:  0x02056460
+packet:   pkt_02056460
+region:   arm9
+isa:      arm
+verdict:  DIFF (logic matches, 64-bit constant folding differs)
+
+The axis-(1,1,1) rotation builder called through the four-entry function
+pointer table in func_0205429C: it takes (sin, cos, MtxFx43 *) and writes
+cos+t on the diagonal, t-s and t+s off it, and zeroes the translation row,
+where t = FX_Mul(FX32_ONE - cos, 0x555) and s = FX_Mul(sin, 0x93D).
+0x555 is FX32_ONE/3 and 0x93D is FX32_ONE/sqrt(3), so the matrix is the
+Rodrigues form for the normalised (1,1,1) axis. Its two siblings at
+0x0205650C and 0x020565C8 are the same shape and are blocked the same way.
+
+Everything below is reproduced exactly by the C at the end, under
+-O4,p -proc arm7tdmi (see the idiom on this translation unit's -proc): the
+rsb against FX32_ONE, the operand order of both umull, the 64-bit +0x800
+and >>12 rounding, the cos+t / t-s / t+s roles, and the column-wise store
+order 0x00, 0x0C, 0x18, 0x24, 0x04, 0x10, ... which only appears once the
+twelve matrix fields are declared volatile (otherwise stm folds 0x04 and
+0x08 into one stmib).
+
+Two things do not reproduce, and both are the same finding:
+
+1. The 64-bit multiplier's high word. The original expands the product as
+   a full 64x64:
+
+       mov  r4, #0                   ; the constant's high word, in a register
+       umull sb, r8, r7, r3
+       mla  r8, r7, r4, r8           ; a_lo * b_hi, with b_hi = 0
+       asr  r7, r7, #0x1f
+       mla  r8, r7, r3, r8           ; a_hi * b_lo
+
+   mwcc folds the a_lo * b_hi term away whenever the multiplier is a
+   compile-time constant, in every spelling tried: (fx64)a * 0x555,
+   0x555LL * a, (fx64)(u32)0x555, an fx64 local assigned the constant, a
+   static const fx64, an fx64 parameter of a static inline helper, and a
+   union pun. The only construct that reproduces the three-term form is a
+   genuinely non-constant fx64 operand (an out-of-line parameter, or a
+   local the compiler cannot trace), which no plausible source provides
+   here.
+
+2. The rounding constant. The original materialises mov lr, #0x800 and
+   adds it in register form (adds sb, sb, lr) in both expansions; every
+   spelling here gives adds rX, rX, #0x800 with the immediate. The same
+   thing happens in func_02057EF8, where 0x800 is used three times, so it
+   is not a use-count threshold.
+
+Both are systematic across this translation unit rather than specific to
+one expression, so they read as a further compiler-configuration
+difference beyond the -proc arm7tdmi already established for this unit,
+not as a source-shape question. No relocation site is involved; the two
+pool words hold the literal constants.
+
+The C that produces the listing above except for the noted difference,
+kept here rather than under src/ because it is not byte-correct:
+
+/*
+ * function: func_02056460
+ * address:  0x02056460
+ * packet:   pkt_02056460
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+typedef int fx32;
+typedef long long fx64;
+
+struct MtxFx43 {
+    volatile fx32 _00, _01, _02;
+    volatile fx32 _10, _11, _12;
+    volatile fx32 _20, _21, _22;
+    volatile fx32 _30, _31, _32;
+};
+
+static inline fx32 FX_Mul(fx32 v1, fx32 v2)
+{
+    return (fx32)(((fx64)v1 * v2 + 0x800) >> 12);
+}
+
+void func_02056460(fx32 sinv, fx32 cosv, struct MtxFx43 *m)
+{
+    fx32 t;
+    fx32 s;
+
+    t = FX_Mul(0x1000 - cosv, 0x555);
+    s = FX_Mul(sinv, 0x93D);
+
+    m->_00 = cosv + t;
+    m->_10 = t + s;
+    m->_20 = t - s;
+    m->_30 = 0;
+    m->_01 = t - s;
+    m->_11 = cosv + t;
+    m->_21 = t + s;
+    m->_31 = 0;
+    m->_02 = t + s;
+    m->_12 = t - s;
+    m->_22 = cosv + t;
+    m->_32 = 0;
+}

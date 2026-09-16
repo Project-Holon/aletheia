@@ -1,40 +1,95 @@
 function: func_020583CC
 address:  0x020583CC
-packet:   pkt_02057830
+packet:   pkt_020583CC
 region:   arm9
 isa:      arm
-verdict:  DIFF (logic matches, if-conversion mismatch)
+verdict:  DIFF (one if-converted arm; the other arm is now byte-exact)
 
-A doubly-linked list "push front" (insert node at head, updating tail when
-the list was empty, then list->count++). The original 80-byte listing keeps
-both arms of the if/else as plain, unpredicated basic blocks: the
-head-empty arm ends with an explicit "b" to the shared tail, and the
-head-nonempty arm falls straight into it. No ARM condition-code suffix
-(streq/strne/ldrne) appears anywhere in the original bytes.
+Rewritten 2026-09-16; the earlier reading of this note is superseded on
+two points. The companion pop-front func_02058380 and the unlink
+func_02058300 (now EXACT, src/matched/func_02058300.c) fix the shared
+shapes: List is { head +0, count +4, tail +8 } and Node is
+{ next +0, prev +4 }.
 
-Every C shape tried (plain if/else, condition polarity swapped either way,
-duplicated list->count++ in each arm instead of a shared tail, explicit
-goto to a shared "done:" label instead of a natural if/else) compiles at
--O4,p to 72 bytes with one arm if-converted into ARM condition-code
-predication (streq/strne + an extra bne/beq) instead of two plain basic
-blocks. The compiled logic is byte-identical in effect to the original
-(same stores, same struct offsets, same list-empty/list-nonempty split,
-list->count++ once), it is purely an if-conversion heuristic difference in
-the compiler's own cost model for this arm-size/dependency shape. All
-addresses used (list->head, list->head->prev, list->tail, node->next,
-node->prev, list->count) are local to the struct passed in; no relocation
-site is involved, this is a straight SIZE/DIFF codegen mismatch, not an
-attestation problem.
+Push-front. The original:
 
-Not filed under src/pending because the byte count itself differs (72 vs
-80), so it is not byte-correct MATCH material. Left as a note rather than a
-dead-end retry loop; a later pass with a different source idiom (or a
-lever this session didn't try, e.g. forcing an intervening call, or a
-volatile no-op between the two stores that changes the compiler's local
-scheduling window) might still close it.
+    ldr r2,[r0]; cmp r2,#0; bne Lne
+    str r1,[r0]; str r1,[r0,#8]; mov r2,#0; str r2,[r1];
+    ldr r2,[r1]; str r2,[r1,#4]; b Ldone
+  Lne:
+    str r2,[r1]; mov r2,#0; str r2,[r1,#4];
+    ldr r2,[r0]; str r1,[r2,#4]; str r1,[r0]
+  Ldone:
+    ldr r1,[r0,#4]; add r1,r1,#1; str r1,[r0,#4]; bx lr
 
-Companion function func_02058380 (pop-front on the same list shape, 40
-bytes lower) matched EXACT once struct Node::next/prev and struct
-List::head/count/tail were all declared volatile (see src/matched); that
-same volatile-everywhere shape was tried here too without effect on the
-if-conversion choice.
+Two findings that were missing from the first pass:
+
+- The ldr r2,[r1] in the empty-list arm is a genuine re-read of
+  node->next immediately after storing 0 to it, i.e. the source says
+  node->prev = node->next. Reproducing it needs the *pointed-to struct*
+  to be volatile-qualified, not the member: mwcc 1.1p1 ignores volatile
+  on a pointer-typed struct member (struct Node * volatile next) and
+  forwards the store to the load anyway, while volatile on an int member,
+  or a volatile-qualified struct pointer parameter, keeps the load. See
+  the idiom file on this.
+- With that, the empty-list arm is byte-exact as a plain basic block,
+  including the separate mov r2,#0 inside the arm and the b to the shared
+  tail.
+
+What remains is the non-empty arm: the original leaves it as a second
+plain basic block, and -O4,p if-converts it into five predicated
+instructions plus a bne, which also lets it share one mov r2,#0 hoisted
+ahead of the compare. 72 bytes compiled against 80. Tried without effect:
+both condition polarities, two separate ifs on a cached head instead of
+if/else, volatile on the list struct as well as the node, and the
+alias-forced reload ordering that fixed the other arm. Note that the
+named-local lever that closed the sibling func_02058300 (binding
+node->next to a local so both arms could be predicated) is exactly the
+wrong direction here, where neither arm may be predicated.
+
+The C that produces the listing above except for the noted difference,
+kept here rather than under src/ because it is not byte-correct:
+
+/*
+ * function: func_020583CC
+ * address:  0x020583CC
+ * packet:   pkt_020583CC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+struct Node;
+
+struct List {
+    volatile struct Node *head;
+    int count;
+    volatile struct Node *tail;
+};
+
+struct Node {
+    volatile struct Node *next;
+    volatile struct Node *prev;
+};
+
+void func_020583CC(volatile struct List *list, volatile struct Node *node)
+{
+    volatile struct Node *head;
+
+    head = list->head;
+    if (head == 0) {
+        list->head = node;
+        list->tail = node;
+        node->next = 0;
+        node->prev = node->next;
+    } else {
+        node->next = head;
+        node->prev = 0;
+        list->head->prev = node;
+        list->head = node;
+    }
+    list->count++;
+}

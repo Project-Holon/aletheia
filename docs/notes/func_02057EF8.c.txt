@@ -1,0 +1,87 @@
+function: func_02057EF8
+address:  0x02057EF8
+packet:   pkt_02057830
+region:   arm9
+isa:      arm
+verdict:  DIFF (one instruction: the rounding constant is in a register)
+
+Three-component fixed-point relaxation: for each of b->_08, b->_0C and
+b->_10,
+
+    b->f = b->f + FX_Mul(a->w, a->f_src - b->f)
+
+with a->w an s16 at a+0x0C (re-read per component, because the store to b
+may alias it) and FX_Mul the ordinary two-operand SDK inline, which here
+compiles to a plain smull because both operands are runtime s32.
+
+Under -O4,p -proc arm7tdmi the C at the end reproduces every instruction
+except one, repeated three times:
+
+    original   mov r2, #0x800 (once, hoisted above the first smull)
+               adds r4, ip, r2
+    compiled   adds r3, ip, #0x800
+
+That is, the original keeps the FX_Mul rounding constant in a register and
+adds it in register form; mwcc here always picks the immediate form, in
+every spelling tried: + 0x800, + (fx64)0x800, + ((fx64)1 << 11), and a
+named fx64 local for the product. The knock-on effect is the register
+allocation: the original needs one more live value and so pushes
+{r4, lr}, while the compiled form has r3 free and pushes {r3, lr} as
+alignment padding. Identical finding in func_02056460, which needs the
+same constant twice rather than three times.
+
+The three-component body is straight-line, not a loop: writing it as
+for (i = 0; i < 3; i++) over fx32 v[3] members is not unrolled at -O4,p
+(76 bytes, an indexed loop), so the source really does spell the three
+components out.
+
+Extent note: the listing's inferred extent for this function runs to 432
+bytes because the follower at 0x02057F8C is an unlabelled leaf (it saves
+no lr). The function itself is 148 bytes, 0x02057EF8..0x02057F8C. Seed
+0x02057F8C as arm; its first instruction ldr r3, [r3, #0x74] reads r3
+live-in, so it is a four-parameter function, not a continuation.
+
+The C that produces the listing above except for the noted difference,
+kept here rather than under src/ because it is not byte-correct:
+
+/*
+ * function: func_02057EF8
+ * address:  0x02057EF8
+ * packet:   pkt_02057830
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+typedef int fx32;
+typedef long long fx64;
+
+struct A {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+    short w;
+};
+
+struct B {
+    fx32 _00;
+    fx32 _04;
+    fx32 _08;
+    fx32 _0C;
+    fx32 _10;
+};
+
+static inline fx32 FX_Mul(fx32 v1, fx32 v2)
+{
+    return (fx32)(((fx64)v1 * v2 + 0x800) >> 12);
+}
+
+void func_02057EF8(struct A *a, struct B *b)
+{
+    b->_08 = b->_08 + FX_Mul(a->w, a->x - b->_08);
+    b->_0C = b->_0C + FX_Mul(a->w, a->y - b->_0C);
+    b->_10 = b->_10 + FX_Mul(a->w, a->z - b->_10);
+}

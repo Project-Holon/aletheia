@@ -1,0 +1,89 @@
+function: func_02057E68
+address:  0x02057E68
+packet:   pkt_02057830
+region:   arm9
+isa:      arm
+verdict:  DIFF (frame shape plus one hoisted load)
+
+A three-piece keyframe interpolator on a record reached through arg1->_04:
+two s16 key values at _00/_02/_04 and two u8 breakpoints at _06/_07. Below
+the first breakpoint it interpolates _00 to _02 over [0, _06]; between the
+breakpoints it holds _02; above the second it interpolates against _04
+over [_07, 0xFF]. Both divisions are real _s32_div_f calls (0x0209C0A4,
+label class, 152 witnesses), so the divisors are runtime values, not the
+magic-multiply form.
+
+Under -O4,p -proc arm7tdmi the C at the end gives the same logic, the same
+predicated early returns (ldrshlt / strhlt / bxlt lr), the same operand
+order in both mul, and the same rsb r1, r3, #0xff. Two differences remain:
+
+1. push {r4, r5, lr} + sub sp, sp, #4 in the original against
+   push {r3, r4, r5, lr} in every compile. mwcc 1.1p1 never emits an
+   explicit 4-byte alignment sub: with an odd saved-register count it
+   pushes a free caller-saved register as padding instead. Checked across
+   dsi/1.1 through dsi/1.3p1, -O0 through -O4 in both p and s, -align8,
+   -proc v4/v4t/v5t/v5te/generic/arm9tdmi/arm920t/arm7ej/arm9ej, C and
+   C++, an unused fourth parameter, and unused locals of scalar, array,
+   struct and long long type. Every function in this translation unit with
+   an odd saved-register count has the same explicit sub sp, sp, #4
+   (0x02056460, 0x02057AB8, 0x02057B10, 0x02057B5C, 0x02057E68), and every
+   function with an even count has no stack adjust at all, so this is a
+   property of the unit's build, not of one function's locals. Nothing in
+   any of them ever reads or writes the reserved word.
+
+2. The second breakpoint ldrb r3, [ip, #7] is loaded up front in the
+   original, next to ldrb r1, [ip, #6], rather than inside the second
+   test. Binding both breakpoints to named locals before the first if is
+   the obvious next lever and was not reached before the frame question
+   was ruled the blocker; try it first on a fresh pass.
+
+The C that produces the listing above except for the noted difference,
+kept here rather than under src/ because it is not byte-correct:
+
+/*
+ * function: func_02057E68
+ * address:  0x02057E68
+ * packet:   pkt_02057830
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ * symbols:
+ *   _s32_div_f     0x0209C0A4  arm
+ */
+
+struct Curve {
+    short _00;
+    short _02;
+    short _04;
+    unsigned char _06;
+    unsigned char _07;
+};
+
+struct Src {
+    int _00;
+    struct Curve *_04;
+};
+
+struct Obj {
+    char _00[0x34];
+    short _34;
+};
+
+void func_02057E68(struct Obj *o, struct Src *s, int t)
+{
+    struct Curve *cv;
+
+    cv = s->_04;
+    if (t < cv->_06) {
+        o->_34 = cv->_00 + t * (cv->_02 - cv->_00) / cv->_06;
+        return;
+    }
+    if (t < cv->_07) {
+        o->_34 = cv->_02;
+        return;
+    }
+    o->_34 = cv->_04 + (t - 0xFF) * (cv->_04 - cv->_02) / (0xFF - cv->_07);
+}

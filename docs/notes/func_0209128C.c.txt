@@ -1,0 +1,44 @@
+function: func_0209128C
+address:  0x0209128C..0x020912A8 (28 bytes, ARM)
+packet:   pkt_020911D8
+status:   DIFF, one concrete byte, not filed (not byte-correct, so not
+          eligible for src/pending)
+
+Original:
+  0209128C  cmp r0, #0
+  02091290  movne r1, #1
+  02091294  ldr r0, [pc, #8]        -> pool word 0x02153B88
+  02091298  moveq r1, #0
+  0209129C  strb r1, [r0]
+  020912A0  bx lr
+
+Best C reached (28 bytes, matches every instruction except +0004):
+
+  extern unsigned char g_02153B88;
+
+  void func_0209128C(int x)
+  {
+      unsigned char v = (x != 0) ? 1 : 0;
+      g_02153B88 = v;
+  }
+
+Every attempted shape (if/else assigning a local, if/else storing to the
+global directly, two independent `if`s, a ternary) reproduces `moveq r1,
+#0` and the shared `ldr`/`strb`/`bx lr` tail exactly, but the compiler
+always materialises the "true" arm as a plain `mov r1, #1` instead of the
+original's predicated `movne r1, #1`: -O4,p treats a 0/1 assignment
+guarded by a comparison as "unconditional default, then override" and
+elides the leading predicate whenever it can prove dominance, which it can
+for a two-way boolean write regardless of how the source spells it. The
+two-if shape (`if (x!=0) v=1; if (x==0) v=0;`) is the only one that
+recovers the predicated `movne`, but it also duplicates the leading `cmp`
+(32 bytes instead of 28) because the second `if` re-evaluates the
+condition instead of reusing the flags from the first.
+
+Separately, the relocation at +0018 (the pool word naming 0x02153B88) has
+no outside witness: grep across every generated `.s` listing under `asm/`
+shows exactly one occurrence of `0x02153B88` in the whole image, this pool
+word itself, so even a byte-correct C here would cap at MATCH under the
+literal-class rule (a witness must be a second, different address). Not
+worth another pass without a second caller of this global appearing
+elsewhere.

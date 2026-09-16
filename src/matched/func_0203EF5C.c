@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_021469F8     0x021469F8  data
@@ -28,15 +28,6 @@
  * initialises.  The allocation tag 49 stays live in r5 afterwards and both
  * later constants are derived from it with a single `add`, which is why
  * neither 625 nor 4129 costs a pool word.
- *
- * MATCH, not EXACT: the ABS32 to g_020A7E4C has no witness.  The address
- * is named by exactly one pool word image-wide, this function's own, so the
- * `literal` class cannot see it, and the `string` class refuses it because
- * the run immediately before it, "!![%x][%x]
-" at 0x020A7E40, ends in a
- * newline: attest_string's _printable_run_backward stops at any byte below
- * 0x20, so it measures a zero-length predecessor and bails at condition (5).
- * Every concrete byte matches.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0203EF5C.c \

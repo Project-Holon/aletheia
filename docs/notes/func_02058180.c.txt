@@ -1,0 +1,83 @@
+function: func_02058180
+address:  0x02058180
+packet:   pkt_02057830
+region:   arm9
+isa:      arm
+verdict:  DIFF (same size, load scheduling of the s16 factor)
+
+Three-component scale-and-accumulate:
+
+    c->x = c->x + (a->w * ((a->x - b->_08) - b->_14) >> 12)
+
+and the same for y (b->_0C, b->_18) and z (b->_10, b->_1C), with a->w an
+s16 at a+0x0C re-read for each component.
+
+The C at the end compiles to exactly 132 bytes, the original's size, with
+the same instruction multiset, the same add r3, r4, r3, asr #12 fold and
+the same push {r4, lr} / pop {r4, lr} / bx lr frame shape, once the three
+accumulator fields are declared volatile (without that, the second
+component's ldr [r2, #4] is hoisted above the first component's store).
+
+The one remaining difference is where the ldrsh of a->w sits inside each
+component:
+
+    original   ldr ip,[r0]; ldr r4,[r1,#8]; ldrsh lr,[r0,#0xc];
+               ldr r3,[r1,#0x14]; sub; sub; mul
+    compiled   ldr lr,[r0]; ldr ip,[r1,#8]; ldr r3,[r1,#0x14];
+               sub; ldrsh lr,[r0,#0xc]; sub; mul
+
+The original reads the factor third, which keeps four values live and
+costs the callee-saved r4; the compiled form sinks it past the first
+subtraction and needs only three, so r3 is free and becomes the alignment
+push. Tried without effect: both multiplication operand orders, a named
+local for the factor (per component and hoisted), volatile on the factor
+alone, and volatile on the whole source struct (which pins the volatile
+reads in source order but then hoists the accumulator read as well).
+
+The C that produces the listing above except for the noted difference,
+kept here rather than under src/ because it is not byte-correct:
+
+/*
+ * function: func_02058180
+ * address:  0x02058180
+ * packet:   pkt_02057830
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+typedef int fx32;
+
+struct A {
+    volatile fx32 x;
+    volatile fx32 y;
+    volatile fx32 z;
+    volatile short w;
+};
+
+struct B {
+    fx32 _00;
+    fx32 _04;
+    fx32 _08;
+    fx32 _0C;
+    fx32 _10;
+    fx32 _14;
+    fx32 _18;
+    fx32 _1C;
+};
+
+struct C {
+    volatile fx32 x;
+    volatile fx32 y;
+    volatile fx32 z;
+};
+
+void func_02058180(struct A *a, struct B *b, struct C *c)
+{
+    c->x = c->x + ((((a->x - b->_08) - b->_14) * a->w) >> 12);
+    c->y = c->y + ((((a->y - b->_0C) - b->_18) * a->w) >> 12);
+    c->z = c->z + ((((a->z - b->_10) - b->_1C) * a->w) >> 12);
+}

@@ -3,35 +3,72 @@ address:  0x02057B10
 packet:   pkt_02057830
 region:   arm9
 isa:      arm
-verdict:  DIFF (logic matches exactly, codegen shape differs)
+verdict:  DIFF (frame shape plus one barrel-shift fold)
 
-An angle interpolation helper: reads a signed 16-bit "current angle" via a
-pointer chain (arg1->+0x14 is a pointer, its +4 s16 field is `cur`), and
-stores `cur + (cur - 0x1000) * (param - 0xff) / 255` as a signed 16-bit
-field at arg0->+0x34, where `param` is the third integer argument. The
-division-by-255 is the standard compiler-generated magic-multiply sequence
-(smull by 0x80808081, add back the multiplicand for the sign-adjusted
-unsigned trick, lsr #31 rounding correction, asr #7 for the remaining
-shift of the 39-bit-total division) confirming this is genuinely `x / 255`
-in the source, not a hand derivation.
+Rewritten 2026-09-16 after the -proc arm7tdmi finding for this translation
+unit (see docs/idioms); the earlier reading of this note is superseded.
 
-The arithmetic instruction sequence compiled is bit-for-bit the same
-operations as the original in every C shape tried (plain inline expression
-and an explicit `int div = ...;` local), it's smaller (60 vs 76 bytes)
-because -O4,p folds `asr r3, r3, #7` into the following `add` as a
-barrel-shifted operand (`add r3, r1, r3, asr #7`) and uses a simple
-`push {r3, lr}` / `pop {r3, pc}` frame, where the original keeps the shift
-and add as two separate instructions and reserves its 4-byte local with an
-explicit `stmdb sp!, {lr}` / `sub sp, sp, #4` / ... / `add sp, sp, #4` /
-`ldm sp!, {lr}` frame instead. Total original size is exactly 16 bytes
-(4 instructions) larger for what is functionally identical code.
+An angle interpolation helper: cur is the s16 at arg1->_14->_04, and the
+function stores cur + (cur - 0x1000) * (t - 0xff) / 255 as an s16 at
+arg0->_34. The division by 255 is the compiler's own magic-multiply
+sequence (smull by 0x80808081, add back, lsr #31, asr #7), so the source
+really does say / 255.
 
-Not filed under src/pending: byte count differs (60 vs 76), not
-byte-correct. No relocation sites are involved (the 0x80808081 magic
-constant is the only pool word, purely local to the division idiom, no
-attestation question). Worth a fresh look with a lever this session didn't
-try: an intermediate volatile local for the shifted value (to block the
-add+asr fusion the way volatile blocked stm-folding on the two functions
-matched in the same packet), or a genuinely different frame shape (e.g. a
-second local that legitimately needs the 4 spilled stack bytes) that this
-session's two-local reading didn't reproduce.
+With -proc arm7tdmi the epilogue question raised by the first pass is
+settled: this unit returns with ldm sp!, {lr} / bx lr rather than
+pop {pc}, and that is now reproduced. Two differences remain, and both
+recur across the unit rather than belonging to this function:
+
+1. stmdb sp!, {lr} + sub sp, sp, #4 against push {r3, lr}. See
+   docs/notes/func_02057E68.c.txt for the full negative result: mwcc 1.1p1
+   never emits an explicit 4-byte alignment sub, at any -O level, any
+   dsi compiler version, any -proc, with or without -align8, and no local
+   declaration reproduces it. Every odd-saved-register-count function in
+   this unit has it and nothing ever touches the reserved word.
+
+2. asr r3, r3, #7 / add r3, r1, r3 against add r3, r1, r3, asr #7. The
+   original keeps the shift as its own instruction; -O4,p folds it into
+   the add as a barrel-shifted operand. Tried without effect: an explicit
+   int local for the quotient, an int local for the numerator, and a
+   fourth (unused) parameter.
+
+Net 76 bytes original against 64 compiled, entirely accounted for by
+those two: two frame instructions and one fold.
+
+The C that produces the listing above except for the noted differences,
+kept here rather than under src/ because it is not byte-correct:
+
+/*
+ * function: func_02057B10
+ * address:  0x02057B10
+ * packet:   pkt_02057830
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+struct Angle {
+    int _00;
+    short _04;
+};
+
+struct Src {
+    char _00[0x14];
+    struct Angle *_14;
+};
+
+struct Obj {
+    char _00[0x34];
+    short _34;
+};
+
+void func_02057B10(struct Obj *o, struct Src *s, int t)
+{
+    short cur;
+
+    cur = s->_14->_04;
+    o->_34 = cur + (cur - 0x1000) * (t - 0xFF) / 255;
+}

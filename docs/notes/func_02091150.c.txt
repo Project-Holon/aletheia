@@ -1,0 +1,45 @@
+function: func_02091150
+address:  0x02091150..0x020911A0 (80 bytes, ARM)
+packet:   pkt_02091150
+status:   DIFF, one concrete byte, not filed (not byte-correct)
+
+Original:
+  02091150  push {r3, r4, r5, r6, r7, lr}
+  02091154  mov r7, r0
+  02091158  mov r1, r7
+  0209115C  mov r0, #0xd
+  02091160  mov r2, #0
+  02091164  bl PXI_SendWordByFifo          ; 0x02088610, resolves fine
+  02091168  cmp r0, #0
+  0209116C  popeq {r3, r4, r5, r6, r7, pc}
+  02091170  mov r6, #1
+  02091174  mov r5, #0xd
+  02091178  mov r4, #0
+  0209117C  mov r0, r6
+  02091180  blx #0x2004490                  ; a Thumb stub, `svc #3; bx lr`
+  02091184  mov r0, r5
+  02091188  mov r1, r7
+  0209118C  mov r2, r4
+  02091190  bl PXI_SendWordByFifo
+  02091194  cmp r0, #0
+  02091198  bne 0x209117c
+  0209119C  pop {r3, r4, r5, r6, r7, pc}
+
+C is straightforward (a "call, and if PXI is busy, spin-wait and retry"
+loop) and every instruction reproduces except the one at +0x30. That is a
+tooling limitation, not a C problem: `resolve_relocations()` in
+`tools/match.py` only encodes an ARM branch relocation (`_ARM_BRANCH`,
+covering PC24/CALL/JUMP24) when `kind != "thumb"` (see the `elif rtype in
+_ARM_BRANCH:` arm around line 1605). An ARM caller's direct `blx
+#immediate` into a Thumb callee, which is exactly what the original has
+here (0x02004490 is a two-instruction Thumb stub, `svc #3; bx lr`), is
+never attempted: the resolver leaves the site wildcarded and the compiler
+emits a plain `bl` (opcode/condition byte 0xEB...) where the original has
+a `blx` (condition nibble 0xF...), which is a concrete, unmasked byte
+difference outside the 24-bit displacement field. The doc note in
+`docs/MATCHING.md` around "R_ARM_THM_CALL / R_ARM_THM_XPC22" describes the
+Thumb-caller-into-ARM-callee rewrite; the symmetric ARM-caller-into-Thumb
+case does not appear to be implemented. Any packet whose small ARM
+leaves call directly into a Thumb stub (SVC wrappers observed at
+0x02004490 in this packet) will hit the same wall; not something a C
+rewrite can fix.
