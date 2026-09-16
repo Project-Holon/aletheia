@@ -1,0 +1,40 @@
+function: func_020583CC
+address:  0x020583CC
+packet:   pkt_02057830
+region:   arm9
+isa:      arm
+verdict:  DIFF (logic matches, if-conversion mismatch)
+
+A doubly-linked list "push front" (insert node at head, updating tail when
+the list was empty, then list->count++). The original 80-byte listing keeps
+both arms of the if/else as plain, unpredicated basic blocks: the
+head-empty arm ends with an explicit "b" to the shared tail, and the
+head-nonempty arm falls straight into it. No ARM condition-code suffix
+(streq/strne/ldrne) appears anywhere in the original bytes.
+
+Every C shape tried (plain if/else, condition polarity swapped either way,
+duplicated list->count++ in each arm instead of a shared tail, explicit
+goto to a shared "done:" label instead of a natural if/else) compiles at
+-O4,p to 72 bytes with one arm if-converted into ARM condition-code
+predication (streq/strne + an extra bne/beq) instead of two plain basic
+blocks. The compiled logic is byte-identical in effect to the original
+(same stores, same struct offsets, same list-empty/list-nonempty split,
+list->count++ once), it is purely an if-conversion heuristic difference in
+the compiler's own cost model for this arm-size/dependency shape. All
+addresses used (list->head, list->head->prev, list->tail, node->next,
+node->prev, list->count) are local to the struct passed in; no relocation
+site is involved, this is a straight SIZE/DIFF codegen mismatch, not an
+attestation problem.
+
+Not filed under src/pending because the byte count itself differs (72 vs
+80), so it is not byte-correct MATCH material. Left as a note rather than a
+dead-end retry loop; a later pass with a different source idiom (or a
+lever this session didn't try, e.g. forcing an intervening call, or a
+volatile no-op between the two stores that changes the compiler's local
+scheduling window) might still close it.
+
+Companion function func_02058380 (pop-front on the same list shape, 40
+bytes lower) matched EXACT once struct Node::next/prev and struct
+List::head/count/tail were all declared volatile (see src/matched); that
+same volatile-everywhere shape was tried here too without effect on the
+if-conversion choice.

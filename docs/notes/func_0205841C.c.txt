@@ -1,0 +1,44 @@
+function: func_0205841C
+address:  0x0205841C
+packet:   pkt_02057830
+region:   arm9
+isa:      arm
+verdict:  DIFF (logic matches, scheduling/epilogue mismatch)
+
+A dual-step 32-bit LCG (linear congruential generator): global state at
+0x02146A8C is updated twice with `state = state * 0x5EEDF715 + 0x1B0CB173`,
+the high bits (>>8) of each step land in v->x and v->y of a 3-int output
+struct, v->z is zeroed, then func_0207CCA4(v) is called (traced via label
+class, 80+ outside callers, e.g. 0x0202BCF4 in asm/arm9/src/011_0202B20C.s
+and 0x0203F8B0 in asm/arm9/src/016_0203E420.s; itself a 276-byte function,
+out of this packet's <=80-byte scope). Relocations for both g_02146A8C
+(literal class, 10 other pool-word witnesses image-wide) and func_0207CCA4
+(label class) resolve cleanly with no wildcards.
+
+The concrete mismatch is not the arithmetic (mla/asr sequence, multiplier
+and adder constants, and output fields all matched byte for byte once
+written straight), it's codegen shape around it:
+- Original keeps state's address in `ip` and stores the two output ints as
+  two separate `str`, mine (once the struct fields are declared `volatile`
+  to block stm-folding of y/z) does that part right, but only after
+  register roles differ (ip vs r3 for the state pointer) enough that
+  literal-pool offsets shift and every instruction from +0x04 on shows as
+  a byte mismatch even though the operation sequence is equivalent.
+- Original has a `mov r1, r0` right after loading the pool constants,
+  which is dead in every C shape tried (a second alias `Vec3i *p = v;`
+  optimizes away identically); this print survives in the real listing,
+  suggesting either a second, unused parameter, or a struct/field access
+  path this session did not reconstruct.
+- Original's epilogue is `bl func_0207CCA4; pop {r4, lr}; bx lr` (12
+  bytes); every C shape tried here compiles to the shorter tail-merged
+  `bl func_0207CCA4; pop {r4, pc}` (8 bytes) since the call is the last
+  statement with nothing after it. Something in the real source stops
+  -O4,p from doing that merge; this session could not find the lever
+  (tried: plain void return, an aliased second pointer local, marking the
+  output struct's fields volatile).
+
+Not filed under src/pending: byte count differs (84 vs 92 once relocations
+are in), so it's not byte-correct MATCH material. Worth a fresh look with
+a lever this session didn't try, e.g. a second real parameter (the `mov
+r1, r0` may be the tell), or a non-void return type that blocks the
+tail-pop fold.

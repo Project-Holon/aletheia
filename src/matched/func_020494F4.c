@@ -1,0 +1,63 @@
+/*
+ * unit:     no
+ * function: func_020494F4
+ * address:  0x020494F4
+ * packet:   pkt_02049250
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02034734      0x02034734  arm
+ *   func_02078B44      0x02078B44  arm
+ *   func_02078B70      0x02078B70  arm
+ *   func_020494F4_File 0x020A7EE0  data
+ *   func_020494F4_Msg  0x020A7F18  data
+ *
+ * Store the absolute image offset of one archive member through an out
+ * parameter.  Only the FAT entry's start word is read; the end word is
+ * never touched, which is the 4-byte read rather than 8.
+ *
+ * The bounds assertion is the same five-argument call func_02049250
+ * uses: the count is already in r3 from the guard's own `cmp`, so only
+ * the member reaches the stack
+ * (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020494F4.c  *       --func func_020494F4 --addr 0x020494F4 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct ArcFile {
+    u8  file[0x48];
+    u32 imageBase;
+    u16 fatOffset;
+    u16 count;
+};
+
+extern const char func_020494F4_File[];
+extern const char func_020494F4_Msg[];
+
+extern void func_02034734(const char *file, u32 line, const char *msg, ...);
+extern void func_02078B44(struct ArcFile *arc, u32 pos, u32 origin);
+extern void func_02078B70(struct ArcFile *arc, void *dst, u32 size);
+
+void func_020494F4(struct ArcFile *arc, u32 member, u32 *out)
+{
+    u32 start;
+
+    if (arc->count <= member) {
+        func_02034734(func_020494F4_File, 713, func_020494F4_Msg,
+                      arc->count, member);
+    }
+
+    func_02078B44(arc, arc->fatOffset + 0xc + member * 8, 0);
+    func_02078B70(arc, &start, 4);
+    *out = arc->imageBase + 8 + start;
+}

@@ -1,0 +1,46 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02030FC8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "sub_02030FC8",
+   "address": "0x02030FC8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02030FC8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_0203101C",
+   "address": "0x0203101C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0203101C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "sub_020310C4",
+   "address": "0x020310C4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_020310C4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+function: func_02057B10
+address:  0x02057B10
+packet:   pkt_02057830
+region:   arm9
+isa:      arm
+verdict:  DIFF (logic matches exactly, codegen shape differs)
+
+An angle interpolation helper: reads a signed 16-bit "current angle" via a
+pointer chain (arg1->+0x14 is a pointer, its +4 s16 field is `cur`), and
+stores `cur + (cur - 0x1000) * (param - 0xff) / 255` as a signed 16-bit
+field at arg0->+0x34, where `param` is the third integer argument. The
+division-by-255 is the standard compiler-generated magic-multiply sequence
+(smull by 0x80808081, add back the multiplicand for the sign-adjusted
+unsigned trick, lsr #31 rounding correction, asr #7 for the remaining
+shift of the 39-bit-total division) confirming this is genuinely `x / 255`
+in the source, not a hand derivation.
+
+The arithmetic instruction sequence compiled is bit-for-bit the same
+operations as the original in every C shape tried (plain inline expression
+and an explicit `int div = ...;` local), it's smaller (60 vs 76 bytes)
+because -O4,p folds `asr r3, r3, #7` into the following `add` as a
+barrel-shifted operand (`add r3, r1, r3, asr #7`) and uses a simple
+`push {r3, lr}` / `pop {r3, pc}` frame, where the original keeps the shift
+and add as two separate instructions and reserves its 4-byte local with an
+explicit `stmdb sp!, {lr}` / `sub sp, sp, #4` / ... / `add sp, sp, #4` /
+`ldm sp!, {lr}` frame instead. Total original size is exactly 16 bytes
+(4 instructions) larger for what is functionally identical code.
+
+Not filed under src/pending: byte count differs (60 vs 76), not
+byte-correct. No relocation sites are involved (the 0x80808081 magic
+constant is the only pool word, purely local to the division idiom, no
+attestation question). Worth a fresh look with a lever this session didn't
+try: an intermediate volatile local for the shifted value (to block the
+add+asr fusion the way volatile blocked stm-folding on the two functions
+matched in the same packet), or a genuinely different frame shape (e.g. a
+second local that legitimately needs the 4 spilled stack bytes) that this
+session's two-local reading didn't reproduce.

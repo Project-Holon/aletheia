@@ -1,0 +1,142 @@
+func_0203F0A8 @ 0x0203F0A8, fan_in 59, packet pkt_0203F0A8.
+DIFF at 16 concrete bytes out of 340.  Right size, right control flow, right
+literal pool, every constant and every arithmetic step right.  The whole
+residue is the addressing mode chosen for one load, in each of the two
+regeneration loops.
+
+WHAT IT IS
+----------
+MT19937, the reference `genrand_int32` with its state regeneration inlined.
+Everything lives in one heap object reached through the pointer at
+0x021469F8:
+
+    +0x000  u32 mt[624]      the state vector, N = 624
+    +0x9c0  int mti          the cursor, signed (the guard is `blt`, not `blo`)
+    +0x9c4  u32 mag01[2]     { 0, MATRIX_A }, indexed by y & 1
+
+M = 397 is read straight off the two far offsets: +0x634 (= 397 * 4) in the
+first loop and -0x38c (= -227 * 4 = (397 - 624) * 4) in the second.  The
+loop bounds 227 = N - M and 623 = N - 1 are the reference implementation's.
+The untouched-state sentinel is N + 1 = 625 and the default seed is 5489;
+the compiler does not spend a pool word on 5489, it derives it as
+`625 + 0x1300` from the pool word it already loaded for the sentinel
+compare, which is why the listing shows `add r0, r0, #0x1300` right after
+the `cmp r1, r0`.
+
+func_0203F034 is `init_genrand`.
+
+The tempering tail is the textbook one, with 0x9d2c5680 and 0xefc60000 in
+the pool, and the cursor post-increment `mt[mti++]` written back before the
+element is read because the store may alias the global pointer itself.
+
+The state pointer is reloaded from 0x021469F8 on every iteration of both
+loops, for the same aliasing reason: the store into mt[kk] may write the
+pointer.  Caching it in a local is shorter and wrong.
+
+WHAT THE C IS
+-------------
+    typedef unsigned int u32;
+
+    struct MtState {
+        u32 mt[624];
+        int mti;
+        u32 mag01[2];
+    };
+
+    extern struct MtState *g_021469F8;
+
+    extern void func_0203F034(u32 seed);
+
+    u32 func_0203F0A8(void)
+    {
+        u32 y;
+
+        if (g_021469F8->mti >= 624) {
+            int kk;
+
+            if (g_021469F8->mti == 625) {
+                func_0203F034(5489);
+            }
+
+            for (kk = 0; kk < 227; kk++) {
+                y = (g_021469F8->mt[kk] & 0x80000000)
+                    | (g_021469F8->mt[kk + 1] & 0x7fffffff);
+                g_021469F8->mt[kk] = g_021469F8->mt[kk + 397] ^ (y >> 1)
+                    ^ g_021469F8->mag01[y & 1];
+            }
+
+            for (; kk < 623; kk++) {
+                y = (g_021469F8->mt[kk] & 0x80000000)
+                    | (g_021469F8->mt[kk + 1] & 0x7fffffff);
+                g_021469F8->mt[kk] = g_021469F8->mt[kk - 227] ^ (y >> 1)
+                    ^ g_021469F8->mag01[y & 1];
+            }
+
+            y = (g_021469F8->mt[623] & 0x80000000)
+                | (g_021469F8->mt[0] & 0x7fffffff);
+            g_021469F8->mt[623] = g_021469F8->mt[396] ^ (y >> 1)
+                ^ g_021469F8->mag01[y & 1];
+
+            g_021469F8->mti = 0;
+        }
+
+        y = g_021469F8->mt[g_021469F8->mti++];
+
+        y ^= (y >> 11);
+        y ^= (y << 7) & 0x9d2c5680;
+        y ^= (y << 15) & 0xefc60000;
+        y ^= (y >> 18);
+
+        return y;
+    }
+
+WHAT IS LEFT
+------------
+Both loops, at the load of mt[kk]:
+
+    original                           compiled
+    add r3, r0, r1, lsl #2             add r3, r0, r1, lsl #2
+    ldr r2, [r3, #4]                   ldr ip, [r3]
+    ldr ip, [r0, r1, lsl #2]           ldr r2, [r3, #4]
+    bic r2, r2, #0x80000000            and ip, ip, #0x80000000
+    and ip, ip, #0x80000000            bic r2, r2, #0x80000000
+
+The original addresses mt[kk] with the scaled-register form
+`[r0, r1, lsl #2]`, the same form its own store uses, and keeps the
+compiler-built base `r3 = &mt[kk]` for the two accesses that carry a
+non-zero displacement (+4 and +0x634 / -0x38c).  Every compile folds
+mt[kk] onto that base as `[r3, #0]` instead, and that dependence on r3 is
+what drags the load of mt[kk] ahead of the load of mt[kk+1] and swaps the
+two masks with it.  The registers are right, the instructions are right,
+only the base of one load and the resulting issue order are wrong.
+
+LEVERS TRIED, ALL 16 BYTES OR WORSE
+-----------------------------------
+    y = (mt[kk] & U) | (mt[kk+1] & L)                      16  (this file)
+    y = (mt[kk+1] & L) | (mt[kk] & U)                      17
+    y = mt[kk+1] & L; y |= mt[kk] & U;                     14, wrong registers
+      (this one reproduces the original's issue order and both masks
+       exactly, and only permutes r2/r3/ip/lr; it is the closest shape,
+       but it loses the ip = upper = y coalescing the original has)
+    per-loop mix of the two orders above                   16, 31, 37
+    u32 *q = g_021469F8->mt + kk, far accesses through q   31  (q is a
+       named local, costs a fifth callee-saved register and a push)
+    u32 *mt = g_021469F8->mt hoisted per iteration         16
+    u32 hi = g_021469F8->mt[kk] bound first                16
+    *(g_021469F8->mt + kk) instead of the subscript        16
+    ((u32 *)g_021469F8)[kk] for mt[kk]                     16
+    ((u32 *)g_021469F8)[kk + c] for the far accesses       16
+    u32 nxt = mt[kk+1] bound before y                      31
+    u32 far = mt[kk+M] bound before y                      16
+
+The addressing mode is invariant under every spelling of the three
+subscripts that does not also introduce a named pointer local, and the
+named pointer local costs a register.  By
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+this is the instruction-selection residue class: a form present in the
+original and absent in the compile, with no C-level name for the choice.
+The one lever that class allows, giving the value an extra consumer that
+cannot take the folded form, does not apply here because the value in
+question is an address, not a datum.
+
+Do not re-attempt without a genuinely new reading of the source shape.

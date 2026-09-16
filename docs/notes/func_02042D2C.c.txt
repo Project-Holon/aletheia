@@ -1,0 +1,126 @@
+func_02042D2C @ 0x02042D2C, fan_in 1 (the call in src/pending/func_02041300.c),
+packet pkt_02042B24.
+DIFF at 11 concrete bytes out of 264.  Right size, right control flow, right
+register allocation everywhere.  The whole residue is three adjacent
+prologue instructions issued in a different order.
+
+WHAT IT IS
+----------
+The third of the three blitters func_02041300 dispatches to on the bit-depth
+byte at +0x1c of the 0x2c-byte slot.  The other two are now EXACT:
+
+    src/matched/func_02042E34.c   8bpp pixel fill, tiled addressing, u8 buffer
+    src/matched/func_02042ED8.c   text fill, linear addressing, u16 buffer
+
+This one is the combination: func_02042ED8's three write modes over
+func_02042E34's tiled addressing, into a u16 buffer.  Like both of those it
+takes the slot's sub-object (slot + 8), so the buffer pointer is at +0x00 and
+the screen-size code at +0x15, which are slot +0x08 and +0x1d.
+
+The three write modes, on the seventh argument:
+
+    0x11     entry  = value
+    0x10     entry  = value + (entry & 0xf000)      keep the palette nibble
+    other    entry  = (u16)(value + (mode << 12))   fold the mode in
+
+The third form is loop-invariant and is materialised once in the preheader.
+func_02040EE0 is called once per cell, before the dispatch, so its result has
+to be bound to a local; writing the call out in each arm emits it three times.
+
+All seven parameter types are pinned by the diff: `s` pointer, `u16 value`,
+`u8 x0`, `u8 y0`, `u8 w`, `u8 h`, `u32 mode` (the seventh arrives as a full
+word, `ldr`, not `ldrb`).  Every other choice was tried and each blows the
+function up: value as u32 costs 157 bytes, x0 as u32 170, y0 as u32 190, the
+helper result as u16 107.
+
+WHAT THE C IS
+-------------
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    struct Screen {
+        u16 *entries;
+        u8   pad_04[0x11];
+        u8   size_code;
+    };
+
+    extern void func_020422D4(u8 size_code, u8 *width, u8 *height);
+    extern u32  func_02040EE0(u8 x, u8 y, u8 size_code);
+
+    void func_02042D2C(struct Screen *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
+                       u32 mode)
+    {
+        u8   width;
+        u8   height;
+        u16 *entries;
+        u8   x;
+        u8   y;
+
+        entries = s->entries;
+        if (entries == 0) {
+            return;
+        }
+
+        func_020422D4(s->size_code, &width, &height);
+
+        for (y = y0; y < y0 + h; y++) {
+            if (y >= height) {
+                return;
+            }
+
+            for (x = x0; x < x0 + w; x++) {
+                u32 i;
+
+                if (x >= width) {
+                    break;
+                }
+
+                i = func_02040EE0(x, y, s->size_code);
+
+                if (mode == 0x11) {
+                    entries[i] = value;
+                } else if (mode == 0x10) {
+                    entries[i] = value + (entries[i] & 0xf000);
+                } else {
+                    entries[i] = (u16)(value + (mode << 12));
+                }
+            }
+        }
+    }
+
+WHAT IS LEFT
+------------
+    offset   original                  compiled
+    +0010    mov sb, r1                ldr r7, [sp, #0x38]
+    +0014    str r2, [sp]              mov sb, r1
+    +0018    ldr r7, [sp, #0x38]       str r2, [sp]
+
+Three mutually independent instructions: the home move of `value`, the spill
+of `x0` and the load of the `mode` stack argument.  Same three instructions,
+same three registers, same frame; every compile issues the load first, the
+original issues it last.  By
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+"same instructions, same registers, different slot" is the scheduler, which
+this front end exposes only through -proc, and -proc arm946e is the hardware.
+
+LEVERS TRIED, ALL 11 BYTES
+--------------------------
+    all 120 orderings of the five local declarations
+    the helper result at function scope instead of block scope
+    mode declared int instead of u32
+    (mode << 12) + value instead of value + (mode << 12)
+    a u32 copy of mode taken as the first statement
+    a u16 local holding the folded value, hoisted before the nest (51, worse)
+    the null test written on s->entries instead of on the local (27, worse)
+    the y bound as a local `yEnd` with y0 as the loop variable, the shape
+      src/matched/func_020413B0.c uses (11, same)
+
+The two siblings reached EXACT with exactly the source shape this file has,
+which is the reason to believe the shape rather than the residue.
+
+WHAT IT COSTS
+-------------
+src/pending/func_02041300.c (fan-in 224) needs all three blitters as
+`matched` witnesses.  Two of the three are now EXACT; this one is the last,
+so that file stays at MATCH.
