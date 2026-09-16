@@ -55,25 +55,54 @@ not a triple either).
 
 With no reliable index-arithmetic or count-based correspondence found (the
 NCLR/NCGR/NSCR counts per archive do not divide evenly against each other
-in most archives, e.g. `a/0/3/3` is 11 NCLR / 9 NCGR / 10 NSCR), this
-module uses the same rule `overworld.py` already validated for `a/0/2/5`'s
-irregular NCGR/NCLR interleave: **each NSCR pairs with the nearest
-preceding NCGR sub-file index and the nearest preceding NCLR sub-file
-index** (falling back to the nearest *following* one if the NSCR sits
-before any NCGR/NCLR in the archive). In every grouped-run archive this
-collapses to "the last NCGR and last NCLR before the NSCR run", i.e. one
-shared tileset+palette for every screen in that archive -- validated by
-rendering (see "Samples" below): every one of the 10 samples this pass
-rendered comes out as a coherent tile grid (repeating structured patterns,
-readable text-box borders, consistent color blocks), not palette-mismatch
-noise, which is this project's established bar for accepting a pairing
-heuristic (see `overworld.py`'s docstring for the same bar applied to
-`a/0/2/5`). Known gap: because the rule always resolves to the *last*
-NCLR/NCGR in a run, any earlier NCLR/NCGR sub-files in a multi-palette or
-multi-tileset archive are never selected by this heuristic and are left
-unexplored (e.g. `a/0/3/3`'s other 10 NCLR sub-files) -- no in-archive
-evidence (index table, count match) was found to justify picking any of
-them over the others, so this is reported as a limitation, not resolved.
+in most archives, e.g. `a/0/3/3` is 11 NCLR / 9 NCGR / 10 NSCR), the first
+version of this module reused the rule `overworld.py` had validated for
+`a/0/2/5`'s irregular NCGR/NCLR interleave: nearest preceding NCGR/NCLR
+sub-file index, falling back to nearest following. **That rule is wrong
+when an archive has more than one NCGR of very different sizes** (see
+`a/0/2/9` below) -- it picks the last NCGR before the NSCR run by index
+alone, with no check that the NCGR actually contains the tiles the NSCR's
+screen entries reference.
+
+`a/0/2/9` sub-file 9 (NSCR) exposed this: its 1024 screen entries reference
+tile indices 63-95, all palette row 0. The nearest-preceding rule picks
+NCGR#6, but NCGR#6 only holds **4** tiles (`a/0/2/9` groups NCLR#0-3,
+NCGR#4/#5/#6, NCER#7-8, then NSCR#9-15 -- NCGR#6 is a small final tileset,
+not the one NSCR#9 was authored against). Every screen entry with
+`tile_num >= 4` reads past the end of NCGR#6's tile data, and
+`NcgrTiles.tile_pixels` returns 64 zero-value pixels for any out-of-range
+tile index (see its `len(tile) < self.bytes_per_tile` guard) -- so 1020 of
+1024 tiles rendered as solid palette index 0, i.e. one flat color
+(`backgrounds/a_0_2_9_9.png` was solid green: NCLR#3 row 0 index 0 is
+green). Not a sentinel-dimension bug (this module's `NcgrTiles` already
+indexes `tile_data` by flat `tile_index * bytes_per_tile`, independent of
+the CHAR sub-header's `tile_num_x/y` fields, so the 0xFFFF sentinel
+`overworld.py`/`rig.py` guard against for their 2D block-addressed bitmap
+sheets doesn't affect this module's tile lookup at all) and not a palette
+bug (NCLR#3 has a full 256-color palette; row 0 exists) -- purely a
+pairing miss.
+
+**Current rule: pair by tile-index/palette-row coverage.** For each NSCR,
+compute the maximum tile index and maximum palette row actually used by
+its screen entries, then pick the NCGR sub-file **nearest by index
+distance** to the NSCR among those whose `tile_count` exceeds the NSCR's
+max tile index, and the NCLR sub-file nearest by index distance among
+those whose color count covers `(max_palette_row + 1) * 16` (4bpp) or 256
+colors (8bpp, since 8bpp screen entries ignore the palette-row field and
+index the whole palette). If no candidate covers (an archive this rule
+still can't resolve), it falls back to the old nearest-preceding-or-following
+pick rather than failing outright. For `a/0/2/9#9` this selects NCGR#5
+(636 tiles, covers index 95) over NCGR#6, producing a coherent striped/
+braided tile pattern instead of solid green -- confirmed by rendering (see
+"Samples" below). In every grouped-run archive with only one NCGR/NCLR
+size class this still collapses to the same "one shared tileset+palette
+per NSCR run" result the old rule gave, so it does not regress the
+archives that were already correct. Known gap: this is a coverage check,
+not a semantic one -- if an archive had two NCGRs that both happen to
+cover an NSCR's tile-index range, the nearer one wins with no further
+evidence it is the *intended* one; no in-archive index table or count
+match was found to disambiguate further, so this remains a heuristic, not
+a proof.
 
 --------------------------------------------------------------------------
 Usage
@@ -288,22 +317,73 @@ def read_decompressed(n, index):
     return (dec if dec is not None else raw), kind
 
 
-def load_pair_for(n, nscr_index, ncgr_indices, nclr_indices):
-    gi = nearest_preceding_or_following(ncgr_indices, nscr_index)
-    li = nearest_preceding_or_following(nclr_indices, nscr_index)
-    if gi is None or li is None:
+def nscr_extents(nscr):
+    """Max tile index and max palette row actually referenced by an NSCR's
+    screen entries (0 for an empty entry list)."""
+    if not nscr.entries:
+        return 0, 0
+    return max(e[0] for e in nscr.entries), max(e[3] for e in nscr.entries)
+
+
+def select_covering(n, candidates, nscr_index, needed, get_capacity, cache, cache_kind):
+    """Pick the candidate sub-file index nearest to nscr_index (by index
+    distance) whose capacity (tile count for NCGR, color count for NCLR, via
+    get_capacity) is large enough to cover `needed`. Falls back to the old
+    nearest-preceding-or-following pick (even if it doesn't cover `needed`)
+    when no candidate covers -- this keeps the renderer producing *some*
+    output for archives this heuristic can't fully resolve, rather than
+    failing outright."""
+    best, best_dist = None, None
+    for ci in candidates:
+        key = (cache_kind, ci)
+        obj = cache.get(key)
+        if obj is None:
+            data, _ = read_decompressed(n, ci)
+            obj = parse_ncgr(data) if cache_kind == "ncgr" else bs.parse_nclr(data)
+            cache[key] = obj
+        if get_capacity(obj) > needed:
+            d = abs(ci - nscr_index)
+            if best is None or d < best_dist:
+                best, best_dist = ci, d
+    if best is None:
+        best = nearest_preceding_or_following(candidates, nscr_index)
+    return best, cache
+
+
+def load_pair_for(n, nscr, nscr_index, ncgr_indices, nclr_indices, cache=None):
+    """Pair one NSCR with the NCGR/NCLR that actually cover the tile indices
+    and palette rows its screen entries use (see module docstring "Pairing
+    rule"): the nearest sub-file index whose tile count exceeds the NSCR's
+    maximum referenced tile index (NCGR), and whose color count covers the
+    NSCR's maximum referenced palette row (NCLR). Falls back to the old
+    nearest-preceding-or-following index pick when nothing covers."""
+    if cache is None:
+        cache = {}
+    if not ncgr_indices or not nclr_indices:
         raise ValueError(f"sub-file {nscr_index}: archive has no usable NCGR/NCLR")
+    max_tile, max_pal_row = nscr_extents(nscr)
+
+    gi, cache = select_covering(n, ncgr_indices, nscr_index, max_tile,
+                                 lambda ncgr: ncgr.tile_count, cache, "ncgr")
     ncgr_data, _ = read_decompressed(n, gi)
+    ncgr = cache.get(("ncgr", gi)) or parse_ncgr(ncgr_data)
+
+    # 4bpp (32 bytes/tile) selects a 16-color bank per the palette field;
+    # 8bpp (64 bytes/tile) indexes the whole palette directly.
+    needed_colors = ((max_pal_row + 1) * 16 - 1) if ncgr.bytes_per_tile == 32 else 255
+    li, cache = select_covering(n, nclr_indices, nscr_index, needed_colors,
+                                 lambda pal: len(pal), cache, "nclr")
     nclr_data, _ = read_decompressed(n, li)
-    ncgr = parse_ncgr(ncgr_data)
-    palette = bs.parse_nclr(nclr_data)
+    palette = cache.get(("nclr", li)) or bs.parse_nclr(nclr_data)
+
     return ncgr, palette, gi, li
 
 
-def render_one(n, nscr_index, ncgr_indices, nclr_indices, out_path):
+def render_one(n, nscr_index, ncgr_indices, nclr_indices, out_path, cache=None):
     nscr_data, kind = read_decompressed(n, nscr_index)
     nscr = parse_nscr(nscr_data)
-    ncgr, palette, gi, li = load_pair_for(n, nscr_index, ncgr_indices, nclr_indices)
+    ncgr, palette, gi, li = load_pair_for(n, nscr, nscr_index, ncgr_indices,
+                                           nclr_indices, cache)
     w, h, rgb = compose(nscr, ncgr, palette)
     bs.write_png_rgb8(out_path, w, h, rgb)
     return w, h, gi, li

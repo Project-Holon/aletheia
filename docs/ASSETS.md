@@ -12255,3 +12255,73 @@ No sample data was altered to work around either bug; the fixes touched
 only `_frame_placements`/`_cell_local_raster`/`render_oam` in
 `tools/assets/rig.py` and `NcgrFile.block_pixels`/`render_cell` in
 `tools/assets/overworld.py`.
+
+## Asset lane pass: `background.py`'s nearest-preceding NCGR/NCLR pairing rule replaced with a tile-index/palette-row coverage check
+
+Mission: `backgrounds/a_0_2_9_9.png` (`a/0/2/9` sub-file 9 NSCR, paired
+with NCGR#6/NCLR#3 by the old heuristic) rendered as a solid green 256x256
+image despite the sample README calling it coherent.
+
+**Diagnosis.** NSCR#9's 1024 screen entries reference tile indices 63-95,
+all palette row 0 (`nscr.entries` tile-index min/max = 63/95, palette-row
+histogram all-zero). `a/0/2/9` groups NCLR#0-3, then NCGR#4 (1024 tiles),
+NCGR#5 (636 tiles), NCGR#6 (**4 tiles**), then NCER#7-8, then NSCR#9-15.
+The old "nearest preceding NCGR/NCLR index" rule always picks the last
+NCGR/NCLR before the NSCR run, i.e. NCGR#6 here -- but NCGR#6 only holds 4
+tiles, so every entry with `tile_num >= 4` (1020 of 1024) reads past the
+end of its tile data. `NcgrTiles.tile_pixels`'s existing
+`len(tile) < self.bytes_per_tile` guard returns a blank (all-zero) tile
+for any out-of-range index, so 1020 of 1024 tiles rendered as flat palette
+index 0 -- NCLR#3 row 0 index 0 is green, hence the solid green image.
+Not a sentinel-dimension bug: `background.py`'s `NcgrTiles.tile_pixels`
+already indexes `tile_data` by flat `tile_index * bytes_per_tile`,
+independent of the CHAR sub-header's `tile_num_x/y` fields, so it was
+never exposed to the `0xFFFF` "derive from data" sentinel
+`overworld.py`/`rig.py` guard against for their 2D block-addressed bitmap
+sheets. Not a palette bug either: NCLR#3 has a full 256-color palette,
+row 0 exists and is valid. Confirmed by rendering NSCR#9 against each
+candidate NCGR directly: NCGR#5 (636 tiles, covers index 95) produces a
+coherent striped/braided tile pattern (9 distinct colors), NCGR#6
+produces the solid-green image being investigated.
+
+**Fix** (`tools/assets/background.py`): `load_pair_for` now computes each
+NSCR's maximum referenced tile index and palette row
+(`nscr_extents`), then `select_covering` picks the NCGR nearest by
+sub-file index distance among those whose `tile_count` exceeds the max
+tile index, and the NCLR nearest by index distance among those whose
+color count covers `(max_palette_row + 1) * 16` (4bpp) or 256 colors
+(8bpp, which ignores the palette-row field and indexes the whole
+palette). Falls back to the old nearest-preceding-or-following pick when
+no candidate covers, so archives this rule still can't fully resolve
+still render something rather than raising. `render_one`/`load_pair_for`
+now take (and internally thread) a small per-archive cache of parsed
+NCGR/NCLR objects so batch renders don't re-parse the same sub-file
+repeatedly. The NSCR round-tripper (`NscrFile.encode`) was untouched --
+`--verify` still passes 188/188 across all candidate archives.
+
+**Archive-wide acceptance check**: rendered all 188 NSCR screens across
+every candidate archive, computed distinct-color count and largest-single-
+color fraction per image, flagged any with fewer than 4 distinct colors or
+over 95% of pixels in one color as suspect. **71 suspect screens before
+the fix, 55 after** (25 fixed, including `a/0/2/9#9`; 9 newly flagged,
+where the stricter coverage check now picks a different NCGR/NCLR that
+still happens to be low-variety for a handful of UI-panel-shaped screens
+in `a/1/3/7`/`a/1/5/9`/`a/1/9/2`/`a/1/9/3`/`a/2/2/3` -- spot-checked two of
+these (`a/1/9/2#13`, `a/2/2/3#6`) by rendering them directly: both are
+flat color-bar/solid panels, plausible for small UI elements, not obvious
+mispairings, so left as a known remaining gap rather than chased further
+in this pass). No regressions: none of the 71 pre-fix suspects that
+stayed suspect changed which specific screens they are (same set minus
+the 25 fixed), and the one non-suspect sample already in the README
+(`a_0_0_1_2.png`) kept its exact pre-fix pairing (NCGR#1/NCLR#0) and pixel
+output.
+
+**Samples** (`backgrounds/` in the sample archive): `a_0_2_9_9.png`
+re-rendered (now NCGR#5/NCLR#3, 9 distinct colors, coherent tile pattern)
+and `a_0_0_1_2.png` re-rendered (unchanged pairing/output, still
+coherent), plus two newly added, more visually varied screens picked from
+an archive-wide distinct-color scan: `a_1_2_0_4.png` (55 distinct colors,
+a fully composed two-sprite scene over a sky/water backdrop) and
+`a_1_4_3_23.png` (24 distinct colors, a grass/track scene with lane
+markers). All four confirmed coherent by direct visual inspection. README
+updated with the true pairing and distinct-color counts for all four.
