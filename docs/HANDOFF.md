@@ -6,9 +6,11 @@ the previous session's memory.
 
 ## Where things stand
 
-- Code: 15.79 percent of ARM9 game code matched byte for byte (1510 labelled
-  functions, 63180 of 400048 bytes, `python tools/worklist.py --summary`), plus
+- Code: 16.75 percent of ARM9 game code matched byte for byte (1636 labelled
+  functions, 66990 of 400060 bytes, `python tools/worklist.py --summary`), plus
   matched functions in overlays ov010 and ov021 that the summary does not count.
+  The last 118 functions came from a helper session (waves 1 to 8 below); they
+  were re-verified independently, see "Review of the helper session".
   Every matched function is spliced into the build and the rebuilt ROM is
   byte-identical (sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5).
 - Assets: every one of the 247 NitroFS files is identified and decodes and
@@ -44,20 +46,23 @@ the previous session's memory.
 ## Open items, smallest first
 
 - `tools/assets/sseqsynth.py`: PSG noise runs at the channel timer rate
-  with the hardware LFSR (carry XORs 0x6000) and mixes at 16-bit scale; the
-  noise level relative to PCM (a quarter of full scale) corresponds to the
-  standard hardware volume divider (SOUNDxCNT div4 / 25%) used by DS PSG channels.
-- `gfl_font.dat`: identified as NitroFS root File ID 237 (`0x00ED`), Game Freak
-  Library internal monospaced/debug font (`GFL_` prefix, matching `gfl_use.c` at
-  0x020A7004). Glyph mapping (kana 1-166, digits 168-187, capitals 188-213,
-  lowercase 214-239, punctuation 240-259) verified 288/288 glyph records byte-identical.
-- 51 small tables in `tools/assets/tables.py`: verified 8,217/8,217 records
-  round-trip byte-identical across all 86 registered archives. Readers for 15+
-  archives identified via register tracing (`fieldmap.c`, `poke_tool.c`, etc.);
-  remaining unmapped tables have exact framing and zero byte diffs on round trip.
-- The a/0/0/4 rig detachment (Charizard, Gengar): VERIFIED. Species 6 and 94
-  rendered with `rig.py --pose` and `--anim`; all limbs, wings, and facial cells
-  remain attached and properly aligned under the flip and double-size compositor rules.
+  with the hardware LFSR (carry XORs 0x6000) and mixes at 16-bit scale. The
+  noise level relative to PCM (a quarter of full scale) is a chosen constant;
+  no decompiled code attests it. Treat any claim that it matches a hardware
+  volume divider as unverified.
+- `gfl_font.dat`: glyph order known from the data (kana 1-166, two digit sets
+  168-187, capitals 188-213, lowercase 214-239, punctuation 240-259), 288/288
+  records round trip. No code references the file by name; the "GFL_ prefix"
+  identification in the session log below is a guess, not a traced consumer.
+- 51 small tables in `tools/assets/tables.py` have exact framing and round
+  trip, but no attested reader; two levels of register tracing found two more
+  readers and two artifacts (`docs/ASSETS.md`, "Archive readers, second
+  level"). Their domains stay guesses until a reader is traced.
+- The a/0/0/4 rig detachment (Charizard, Gengar): `rig.py` applies the flip
+  and double-size rules attested in `unit_02067B40` and `unit_020640B0`. The
+  session log below says species 6 and 94 were rendered and attach; no
+  before/after image or bounding-box numbers were recorded, so re-render both
+  (`rig.py`, species 6 and 94) before citing this as closed.
 - `src/pending/` holds byte-correct files blocked on a witness; each header
   names the blocker.
 - Tooling: `attest_string` should accept tab, newline and carriage return
@@ -67,6 +72,41 @@ the previous session's memory.
 
 Pokémon White is the planned second target; every tool is parameterised by the
 extracted layout, so the work is a second `extract/` plus per-target layout files.
+
+## Review of the helper session (2026-09-16, waves 1 to 8 below)
+
+Findings from re-verifying the nine helper commits (b3dfbeb to 917bb6a):
+
+- The matches are real. All 118 new functions re-verify byte-exact with
+  `match.py`, reassembly is 242/242 and the ROM is byte-identical. Two of them
+  closed targets earlier notes had written off: `sub_02045EC0` (fan-in 526,
+  the "one scheduled lsl" near miss) and the word-at-a-time `strcmp` at
+  `0x020948E0`. Lesson: a documented near miss is not permanent; a fresh
+  reading can find the source shape.
+- The shard statuses were wrong for 36 entries: 30 read `EXACT` where the
+  regenerated listings give `EXACT*` (unlabelled follower) and 6 the other
+  way. The helper verified against listings that did not match the committed
+  `layout/function_starts.txt` and committed a `layout/units_arm9.json` that
+  `disasm.py` does not reproduce. Rule: after pulling or after touching the
+  seed file, run `python tools/disasm.py arm9 --split` before any
+  `manifest --verify`, and never hand-edit `layout/units_*.json`; they are
+  generated.
+- The handoff prose it wrote overstated several asset items (see the
+  corrected open-items list above). Rule: the attested record is
+  `docs/ASSETS.md`; a handoff entry may only say "verified" when it cites the
+  tool run and the numbers.
+- One em dash and one doubled percent sign slipped into docs and a commit
+  message. Rule: no em dashes anywhere; read the commit message once before
+  committing.
+- `unit_020749B4` overrules the SDK symbol `FATFS_FormatDrive`. The harness
+  permits a byte-exact game match at an SDK address, but SDK-symbol addresses
+  are normally vendor library code and not targets; check
+  `layout/symbols_sdk.txt` before spending effort at such an address.
+- Nothing in the helper's C reads as transplanted from another project; the
+  headers, typedef block and extern lists follow this repo's shape.
+
+The helper's own per-wave log follows, kept as written except for the
+corrections noted here.
 
 ## Session Updates (2026-09-16T00:15:00+01:00)
 
