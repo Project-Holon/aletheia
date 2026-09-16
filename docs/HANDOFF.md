@@ -4,23 +4,49 @@ Written for whoever picks the project up next, human or agent. Everything below 
 reproducible from the repo plus the owner's own ROM dump; nothing here depends on
 the previous session's memory.
 
-## Where things stand
+## Where things stand (2026-09-16, end of day)
 
-- Code: 16.75 percent of ARM9 game code matched byte for byte (1636 labelled
-  functions, 66990 of 400060 bytes, `python tools/worklist.py --summary`), plus
-  matched functions in overlays ov010 and ov021 that the summary does not count.
-  The last 118 functions came from a helper session (waves 1 to 8 below); they
-  were re-verified independently, see "Review of the helper session".
-  Every matched function is spliced into the build and the rebuilt ROM is
-  byte-identical (sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5).
+- Repositories: the decompilation is aletheia (this repo), the native port is
+  eidos, the modding suite is kenon (empty, planned), all under the GitHub
+  organisation Project-Holon. Local checkouts: `Documents/aletheia` (this
+  repo, folder name kept), `Documents/eidos`, `Documents/kenon`,
+  `Documents/holon` (the org profile repo `.github-private`). A junction
+  `aletheia/eidos` points at the eidos checkout so one VS Code window shows
+  both; it is git-ignored.
+- Code: 19.03 percent of ARM9 game code matched byte for byte (1802 labelled
+  functions, 76220 of 400552 bytes, `python tools/worklist.py --summary`),
+  plus matched functions in overlays ov010 and ov021 that the summary does not
+  count. Every matched function is spliced into the build and the rebuilt ROM
+  is byte-identical (sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5).
+  Recent waves closed whole subsystems: tcbl.c (task callback lists, incl.
+  the register), the heap layer (allocator, free, expanded heap), palanm.c,
+  arc_tool.c, net.c, wm_icon.c, gf_standard.c, g3d_light.c, bmp.c loader,
+  field_sound_system.c task pairs, the message loader, both script VMs.
+- Harness: seven witness classes (local, label incl. ARM9-to-overlay with a
+  region hint as the fourth token of a symbols line, literal incl. hidden
+  pools, string incl. control characters in the preceding run, veneer,
+  matched, sdk, runtime for calls into the MSL runtime listed in
+  `layout/runtime_arm9.txt`); EXACT requires every relocation attested
+  (adjacency is not evidence); selftest 74 cases. One translation unit
+  (0x020524C8-0x020585DC, skeleton math) is compiled `-proc arm7tdmi`;
+  `layout/proc_hints.txt` and `worklist --targets` show it.
 - Assets: every one of the 247 NitroFS files is identified and decodes and
-  repacks byte-identically with the tools under `tools/assets/`
-  (`python tools/assets/verify_all.py` reports 0 failures; custom formats are
-  handled by their own tools, see the coverage census in `docs/ASSETS.md`).
+  repacks byte-identically (`python tools/assets/verify_all.py`, 0 failures).
   The world data chain (zone header, scripts, matrices, map models, terrain
-  records, event data, encounters) and the core data tables (personal, moves,
-  items, learnsets, evolutions, egg moves, cries) are field-mapped from our own
-  decompiled readers. Both script VMs (field and battle effect) disassemble.
+  records, event data, encounters), the core data tables and both script VMs
+  are decoded from our own matched readers. Samples for review are exported by
+  the asset tools into `Documents/bw_asset_samples` (outside the repo).
+- Port (eidos): ILP32 is the reference configuration (i686 MinGW from the
+  toolchain zip under `tools/gcc-host/`; LP64 builds through a switch).
+  Running on the host through matched code: archive readers, text cipher,
+  personal data and stat formula, the heap layer, the task callback list.
+  Engine pieces done with pixel oracles against our Python tools: OBJ
+  compositor, BG layers, affine OBJ and BG, windows and blending; SDL2
+  platform layer (window, input, pacer, audio device), frame loop with the DS
+  tick; a demo draws the title screen and an animated rig. 10 tests.
+  Next: audio (SDAT sequencer and mixer, `tools/assets/sseqsynth.py` is the
+  reference), replacing host reimpls with the wave 26 matches, then the boot
+  path (system init, overlay loader, title and field managers).
 
 ## How to continue
 
@@ -58,17 +84,20 @@ the previous session's memory.
   trip, but no attested reader; two levels of register tracing found two more
   readers and two artifacts (`docs/ASSETS.md`, "Archive readers, second
   level"). Their domains stay guesses until a reader is traced.
-- The a/0/0/4 rig detachment (Charizard, Gengar): `rig.py` applies the flip
-  and double-size rules attested in `unit_02067B40` and `unit_020640B0`. The
-  session log below says species 6 and 94 were rendered and attach; no
-  before/after image or bounding-box numbers were recorded, so re-render both
-  (`rig.py`, species 6 and 94) before citing this as closed.
+- Rig rendering: painter order (lower OAM index on top), sentinel-dimension
+  NCGRs and background pairing by coverage were all fixed from the composer
+  code; Charizard and Gengar attach and have eyes (verified in the samples).
+  Species with non-identity SRT frames render through the engine's 8.8 affine
+  path; rig.py's float path differs on texel edges (about 2 percent of
+  pixels on species 88), the engine is the reference.
 - `src/pending/` holds byte-correct files blocked on a witness; each header
   names the blocker.
-- Tooling: `attest_string` should accept tab, newline and carriage return
-  inside a preceding printable run; `disasm.py` does not index a literal pool
-  inside a `.byte` run of unlabelled leaves; `match.py show` needs `--region`
-  for overlay addresses.
+- Tooling: `match.py show` needs `--region` for overlay addresses and
+  mis-renders unlabelled Thumb leaves as ARM; `manifest --verify` counts
+  EXACT* in its "not EXACT" line; no attestation class exists for a data
+  table referenced by exactly one pool word (blocks gf_font.c's dispatchers
+  and the clact.c handler tables); the clact.c chain is parked on 0x02065CE4
+  and 0x02065BD0 (register allocation policy, see docs/notes).
 
 Pokémon White is the planned second target; every tool is parameterised by the
 extracted layout, so the work is a second `extract/` plus per-target layout files.
