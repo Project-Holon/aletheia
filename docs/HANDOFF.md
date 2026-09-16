@@ -316,3 +316,41 @@ extracted layout, so the work is a second `extract/` plus per-target layout file
 - Thumb one-function translation unit wrapping (`match.py tu`) accurately accounts for two-byte padding boundaries in Thumb routines (`func_02006E18.c` and `func_02011D60.c`).
 - 100% byte-identical ROM hash preserved across all 242 regions.
 
+---
+
+## [2026-09-16 08:25:00] Wave 7 Handoff Report
+
+### Status Overview
+- **Build Status**: `242 PASS, 0 FAIL` across all ROM overlays and ARM9 regions.
+- **arm9 Decomp Coverage**: **16.6980%** (66,802 / 400,060 B across 1,631 matched functions).
+- **Open Packets**: Reduced from 461 to 454 (7 packets completely dissolved).
+- **Progress in Wave**: +338 bytes net, 8 new matched functions.
+
+### Packets Dissolved in Wave 7
+1. **`pkt_0204B604` (84 B code, 84 B extent, ARM, 1 func)**:
+   - `func_0204B604` (84 B, ARM): Setter/clearer for 2-bit bitfield `f_14` (bits 20..21) of `struct Actor` at offset +0x60 (`src/matched/func_0204B604.c`). Shard `pkt_0204B604.json` complete and dissolved.
+2. **`pkt_02035BBC` (76 B code, 76 B extent, ARM, 1 func)**:
+   - `func_02035BBC` (76 B, ARM): Subroutine dispatcher evaluating context status and parameters via `func_02035750`, `func_020357C0`, `func_02035760`, `func_02035780`, and `func_02035ADC` (`src/matched/func_02035BBC.c`). Shard `pkt_02035BBC.json` complete and dissolved.
+3. **`pkt_02024534` (58 B code, 60 B extent, Thumb, 1 func)**:
+   - `func_02024534` (58 B, Thumb): 8-byte 4-halfword header and payload equality comparator (`src/matched/unit_02024534.c`). Shard `pkt_02024534.json` complete and dissolved.
+4. **`pkt_0202EB14` (46 B code, 56 B extent, Thumb, 1 func)**:
+   - `func_0202EB14` (46 B, Thumb): Device status bitfield validator querying `func_0202EB0C` and bits 0 and 5 of `func_02087E60()` (`src/matched/unit_0202EB14.c`). Shard `pkt_0202EB14.json` complete and dissolved.
+5. **`pkt_020222A8` (34 B code, 36 B extent, Thumb, 2 funcs)**:
+   - `func_020222A8` and `func_020222AA` (34 B, Thumb): ABI parameter home area capture (`push {r0, r1, r2, r3}`) passing pointer `&a` to `func_0207E3D0` and `func_0207E468` (`src/matched/unit_020222A8.c`). Shard `pkt_020222A8.json` complete and dissolved.
+6. **`pkt_02008AF0` (24 B code, 36 B extent, Thumb, 1 func)**:
+   - `func_02008AF0` (24 B, Thumb): Memory clear via `func_02082AC0(0, obj, 0x5C)` (`MIi_CpuClearFast`) and forwarder to `func_02008B9C((u8 *)obj + 0x10)` (`src/matched/func_02008AF0.c`). Shard `pkt_02008AF0.json` complete and dissolved.
+7. **`pkt_020882C0` (16 B code, 16 B extent, ARM, 1 func)**:
+   - `func_020882C0` (16 B, ARM): Service loop initialization calling `func_02087988()` and entering `while (1) { func_020882D0(); }` (`src/matched/func_020882C0.c`). Shard `pkt_020882C0.json` complete and dissolved.
+
+### Technical Insights
+- Parameter home area pattern (`push {r0..r3}`) in Thumb functions taking address of register argument (`&a`) is cleanly matched via `unit: yes` translation unit wrapping (`unit_020222A8.c`).
+- Predicated ARM bitfield mutations (`lsl`, `orr`, `bic`, `str`) with conditional early return are matched with inverted condition testing (`func_0204B604.c`).
+- Pipeline scheduling under `-O4,p` requires awareness of load stall fillings when matching register assignments.
+
+### Wave 8 Next Steps & Priority Targets
+- Priority candidate: `pkt_020312B4` (16 B, ARM, pools `0x02146990`, `0x020313EC`).
+- Priority candidate: `pkt_0202C124` (18 B, Thumb, calls `func_02030734`, pools `0x10A`, `0x020A7758`).
+- Priority candidate: `pkt_02006368` (34 B, Thumb, calls `func_0208574C`, `func_020855BC`).
+- Continue rapid dissolved-packet waves toward the 25.0% coverage milestone.
+
+
