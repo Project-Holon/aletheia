@@ -24,6 +24,13 @@
  * matched (it is in the packet that starts at 0x02028D7C, not in
  * pkt_0202878C), or the day a second caller appears.
  *
+ * Wave 26: 0x02028E0C is now decompiled and byte-correct in
+ * src/pending/func_02028E0C.c, but it is capped in turn, and permanently, by
+ * the permission table at 0x0209FD90 that its own callee func_02028E48 reads
+ * (src/pending/func_02028E48.c).  That word appears in exactly one literal
+ * pool image-wide, inside func_02028E48 itself, so this chain cannot be closed
+ * from inside field_sound_system.c.  A second caller is the only route left.
+ *
  * symbols:
  *   func_02028E0C  0x02028E0C  thumb
  *

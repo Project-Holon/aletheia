@@ -143,3 +143,43 @@ The C that is 144 of 168 bytes
       *(volatile u32 *)0x04000454 = 0;
       func_02064E3C();
   }
+
+Wave 26 addendum: the three structural candidates, and why none of them exists
+------------------------------------------------------------------------------
+
+This pass did not add a thirteenth spelling.  It re-read the tail structurally,
+against the three shapes that could make mwccarm treat the two zeros as two
+values, and the byte comparison itself refutes all three:
+
+  * "a second call between the two zero uses".  There is none.  Between the
+    `mov r0, #0` at the head of the tail and the `mov r1, #0` after it there is
+    exactly one `bl`, the fill call, and the first zero is that call's own
+    first argument.  There is no room for an intervening call that the
+    original's 24 bytes do not show.
+
+  * "a volatile store".  The two stores that follow the second zero are already
+    volatile in the C above, because they are the GX command registers; the two
+    that precede it are ordinary halfword stores into g_02147B88, and making
+    them volatile attacks the wrong end.  The pre-call zero is shared between
+    those two stores and the argument register in the original, so any spelling
+    that splits it makes the tail longer, not shorter.
+
+  * "the zero being the result of a call rather than a constant".  The only
+    call in the tail is the fill, whose prototype is void (the loop above calls
+    it with the same three-argument shape and a -1 fill), and the zero is
+    consumed as its argument before it, not produced by it.
+
+The compile is strictly cheaper than the original: one materialisation and one
+callee-saved register against two materialisations.  So this is not a case
+where mwccarm is missing an optimisation the original got; it is a case where
+the original's source presented two values where ours presents one, and the
+distinction is not reachable from any statement in the tail, all of which are
+pinned by the byte comparison.  The remaining lever is upstream of the tail:
+a value whose live range reaches past the loop and occupies r4 across the fill
+call, so that caching the zero there is no longer free.  Nothing in the
+function as decompiled has such a value.
+
+Recommendation: leave this one.  Twelve spellings and this reading have not
+moved it, and src/pending/func_0204CB44.c's other open site (func_0204CC6C) is
+now byte-correct in src/pending/func_0204CC6C.c and blocked only on three
+ordinary fan-in-1 callees, which is the cheaper end of the same chain.

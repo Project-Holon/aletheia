@@ -12,22 +12,22 @@
  *
  * symbols:
  *   sub_02030C44  0x02030C44  arm
- *   sub_02030C68  0x02030C68  arm
  *
- * Allocate and release a timer node.  Free nodes live in a stack of pointers
- * at c->freeList with c->top the live index: 0x02030C44 hands back the entry
- * at the top and steps up, 0x02030C68 steps back down and stores the node
- * there.  Neither calls anything, so the unit holds no relocations at all and
- * needs no outside evidence; that is what unblocks
+ * Allocate a timer node.  Free nodes live in a stack of pointers at
+ * c->freeList with c->top the live index: this function hands back the entry
+ * at the top and steps up, and 0x02030C68 (src/matched/unit_02030C68.c) steps
+ * back down and stores the node there.  It calls nothing, so the unit holds
+ * no relocations at all and needs no outside evidence; that is what unblocks
  * src/matched/unit_02030DA8.c, whose only unresolved site was the call to
  * 0x02030C44.
  *
- * 0x02030C68 is an unlabelled follower: it saves no lr, so disasm.py gives it
- * no `func_` label and 0x02030C44's inferred extent runs to 0x02030CB0
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Seeding it
- * into layout/function_starts.txt is the integrator's call; the witness is the
- * `bx lr` at 0x02030C64 that closes the function in front of it.  Both are
- * written as one unit so the range verifies whole with `tu`.
+ * 0x02030C68 used to be written out again at the bottom of this file, from
+ * when it was still an unlabelled follower and this unit's inferred extent
+ * ran to 0x02030CB0.  It is seeded in layout/function_starts.txt now and
+ * src/matched/unit_02030C68.c is the manifest entry for it, so the extent
+ * here stops at 0x02030C68 and the second body was redundant: two files laid
+ * out the same 72 bytes and only one of them could own the address
+ * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
  *
  * In 0x02030C44 the popped entry is bound to a local before c->top is stepped:
  * that is the `movne r0, r2` at the end, four bytes that disappear if the
@@ -36,7 +36,8 @@
  * (docs/idioms/cmp-operand-order-names-the-temporary.md).
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02030C44.c  *       --addr 0x02030C44 --arm
+ *   python tools/match.py tu --src src/matched/unit_02030C44.c \
+ *       --addr 0x02030C44 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -77,25 +78,4 @@ struct Node *sub_02030C44(struct Ctx *c)
     n = c->freeList[top];
     c->top = top + 1;
     return n;
-}
-
-int sub_02030C68(struct Ctx *c, struct Node *n)
-{
-    u32 top;
-
-    if (c->top == 0) {
-        return 0;
-    }
-
-    n->next = &c->head;
-    n->owner = c;
-    n->prev = &c->head;
-    n->key = 0;
-    n->arg = 0;
-    n->fn = 0;
-
-    top = c->top - 1;
-    c->top = top;
-    c->freeList[top] = n;
-    return 1;
 }

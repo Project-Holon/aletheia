@@ -170,3 +170,60 @@ must rank ahead of the loop counter.  That is the thing to look for next.
 Consequence for the neighbourhood: src/pending/sub_02030608.c is byte-correct
 but capped at MATCH because 0x0202FC48 is its only unresolved site and has no
 caller outside that range.  Closing this function graduates it.
+
+--------------------------------------------------------------------------
+Second reading, 2026-09-16 (wave 26A)
+--------------------------------------------------------------------------
+
+Re-verified: the C above still compiles to 376 bytes with 121 differing
+bytes, and the whole delta is still one instruction.  Three things are new.
+
+1. The delta is now located exactly.  It is `mov sb, r4` at +0x114 and
+   nothing else: every other differing byte is a register name that follows
+   from it.  The compile already reproduces the two loop-invariant constants
+   the original hoists for the final loop (`mov r5, #4` at +0x118, and the
+   copy of the zero into the heap-id argument), so the earlier description of
+   the compile as "no such copy needed" is only half the story.
+
+2. The accounting is a callee-saved register, not a live range in the
+   abstract.  The original pushes six (`r4, r5, r6, r7, r8, sb`, with r3 as
+   the stack-argument slot); the compile pushes seven (`r4` to `sl`).  The
+   original's register plan, read off the listing:
+
+     r4  clear-loop stored zero (+0x20..+0x0AC), then the ids counter
+         (+0x0B8), then the final counter and g_EnvModule.error (+0x0F8)
+     r5  idCount (+0x08..+0x0FC), then the hoisted alignment 4 (+0x118)
+     r6  count, whole function
+     r7  res, whole function
+     r8  clear-loop index (+0x50..+0x0B0), then &g_EnvModule (+0x0F4)
+     sb  total (+0x0C..+0x104), then the final loop's heap-id zero (+0x114)
+
+   Three registers are therefore reused for a second value after the first
+   one dies.  The compile reuses only two, because its zero is a single value
+   live from +0x20 to the last call site, which overlaps `total`'s range and
+   forces `total` into a seventh register.  The original's zero dies at the
+   clearing loop and is re-materialised twice.
+
+3. Six more spellings ruled out, each re-verified as the same 376 bytes and
+   121 differing bytes:
+
+     - the clearing loop's stored zero as a block-scoped local inside the
+       loop body, cast per field (`(void *)z`, `(u16)z`, `(u8)z`);
+     - the final loop's heap id as a local assigned from the loop counter's
+       own initial value (`i = 0; heap = i;`), which is literally what
+       `mov sb, r4` copies;
+     - the same local declared inside the final loop's body, so its live
+       range cannot start before the loop preheader;
+     - the alignment 4 bound to a local beside it, inside and outside the
+       loop;
+     - both of the above at once;
+     - the first two combined with the block-scoped clearing zero.
+
+   The compiler value-numbers every zero in the function into one constant
+   regardless of scope, type or definition point, so no spelling of "a
+   different zero" reaches it.  What is left to try is not another spelling
+   of the zero: it is something that makes `total`'s live range end before
+   the final loop, since the two values only conflict because they overlap.
+
+Still DIFF, still not filed as MATCH.  src/pending/sub_02030608.c remains
+capped at MATCH for want of this function.

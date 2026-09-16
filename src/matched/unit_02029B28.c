@@ -1,6 +1,4 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * unit:     yes
  * address:  0x02029B28
  * packet:   pkt_020295D8
@@ -9,24 +7,21 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
  * function: func_02029B28
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  The spawner for the four state body at 0x020298E0, which sits far enough
  * away in the packet that the two cannot share a translation unit.
  *
- * Why it is capped: the ABS32 pool word naming func_020298E0 is the only
+ * What capped it: the ABS32 pool word naming func_020298E0 is the only
  * reference to that address anywhere in the image, and a pool word is not a
- * branch, so the `label` class has no witness.  func_020298E0 is byte-correct
- * in src/pending/unit_020298E0.c but MATCH-capped itself (on func_02028A50,
- * see that file), so the `matched` class cannot carry it either, and the two
- * cannot be merged because seven other functions lie between them.  The chain
- * closes at func_02028D2C, func_02029F54 and func_02029F60; see
- * src/pending/unit_02028A50.c.
+ * branch, so the `label` class had no witness.  Wave 26 closed the chain
+ * underneath it (func_02028D2C, func_02029F54, func_02029F60 ->
+ * unit_02028A50 -> unit_020298E0), and the site now resolves `matched`.
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/unit_02029B28.c  *       --addr 0x02029B28 --thumb
+ *   python tools/match.py tu --src src/matched/unit_02029B28.c  *       --addr 0x02029B28 --thumb
  */
 
 typedef unsigned short u16;

@@ -1,0 +1,143 @@
+func_02065CE4 (and its twin func_02065D4C): a DIFF near miss, one pool reload
+===============================================================================
+
+Blocker of src/pending/func_0204CC6C.c, which after wave 26 has 36 of its 40
+relocation sites resolved and needs only these two addresses and 0x02066080.
+Through that file it is a blocker of src/pending/func_0204CB44.c and of the
+whole clact.c chain behind it (func_0204C944 -> func_0204BB8C ->
+sub_0204A600).  It is not an attestation problem: every relocation in the C
+below resolves (func_02065438 label x16, func_02066E20 label x12,
+func_02066DEC label x24, func_02066E10 label x24, func_02066DFC label x12,
+g_02147B88 literal x84).  The verdict is DIFF, four bytes short.
+
+func_02065D4C is the same function with func_02065878 in place of
+func_02065438; whatever closes one closes both.
+
+Semantics, pinned by the byte comparison
+----------------------------------------
+
+  void func_02065CE4(void *actor);
+
+Draws one cell actor.  The bank at 0x02147B88 holds an object pointer at
++0x08 (the same global and the same +0x08 field as src/matched/func_02065C78.c
+models); that object carries a secondary render surface at +0x80.  With no
+secondary surface the body is just the plain draw.  With one, the draw is
+bracketed: save the current surface (func_02066E20), switch mode
+(func_02066DEC(1)), bind the secondary surface (func_02066E10), draw, switch
+back (func_02066DEC(0)), rebind the saved surface, and close with
+func_02066DFC.
+
+The bracketed arm is the fall-through, so it is the source's `then` arm and
+the plain draw is the `else`
+(docs/idioms/the-fall-through-arm-is-the-source-order.md); written as an
+early return on `== 0` the compare comes out `bne` and the two blocks swap.
+
+The residue: one `ldr` of the pool word
+---------------------------------------
+
+The C below compiles to 96 bytes of code plus the pool word; the original is
+100 plus the pool word.  Control flow, call order and every constant agree.
+The single missing instruction is the second materialisation of the bank
+address:
+
+  original                       compiled
+  push {r3, r4, r5, lr}          push {r4, r5, r6, lr}
+  ldr r1, [pc, #0x58]            ldr r4, [pc, #0x54]
+  mov r5, r0                     mov r6, r0
+  ldr r1, [r1, #8]               ldr r1, [r4, #8]
+  ...                            ...
+  ldr r0, [pc, #0x30]            ldr r0, [r4, #8]
+  ldr r0, [r0, #8]               ldr r0, [r0, #0x80]
+  ldr r0, [r0, #0x80]            bl  #0x2066e10
+  bl  #0x2066e10
+
+The original loads the one pool word twice, into the scratch register r1 at
+the top and into r0 again inside the bracket, and therefore never gives the
+address a live range: it spends exactly two callee-saved registers, r5 for
+the parameter and r4 for the saved surface, and pads the push with r3.  The
+compile treats the two reads as one common subexpression, keeps the address
+in r4 across both calls, and pays for it with a third callee-saved register
+(and hence loses the r3 alignment filler, which is why the register names in
+the rest of the function are shifted as well).
+
+Note that mwccarm does rematerialise this same address elsewhere:
+src/matched/func_02065C78.c (EXACT) loads the identical pool word three times
+across a call rather than allocate any callee-saved register.  There the
+function would have had to *introduce* a callee-saved register to cache it.
+Here two are pushed already, adding a third costs nothing in stack words, and
+the allocator takes it.  So the lever is not the cost model; it is whatever
+makes the two reads two constants instead of one.
+
+What does not work
+------------------
+
+Every spelling below compiles to the same 96 bytes with the address in r4:
+
+  * the plain shape, with and without the early-return polarity;
+  * the first read bound to a local `struct Target *t` or to a local
+    `void *surf` used only in the compare;
+  * `volatile` on the bank object, on the +0x08 pointer field, and on the
+    +0x80 surface field, in every combination;
+  * the second read spelled `(&g_02147B88)->target->surface`,
+    `(*(struct Bank *)&g_02147B88).target->surface`, and
+    `g_02147B88.target[0].surface`;
+  * the second read spelled with a different addend so the two address
+    constants differ before folding,
+    `(*(struct Target **)((char *)&g_02147B88 + 8))->surface`; mwccarm masks
+    the addend back into the load offset (see
+    docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md)
+    and the two constants unify again;
+  * `saved` declared in the inner block rather than at function scope;
+  * a `static` accessor returning the surface, used for both reads (88 bytes:
+    mwccarm inlines it and then CSEs the *load* as well, keeping the surface
+    itself in a register across the two calls), used for the second read only
+    (96 bytes), and used for the first read only (100 bytes, still cached).
+
+Next agent: the open question is what makes mwccarm emit two separate
+materialisations of one extern's address in one function.  Do not spend more
+time on spellings of the second read; all of them normalise to the same
+constant node.  The lever, if there is one, is either a fourth value that
+must hold a callee-saved register across the bracket (so that caching the
+address would cost a fifth) or a source shape in which the entry-block read
+does not dominate the bracket's read.
+
+The C that is four bytes short
+------------------------------
+
+  typedef unsigned char u8;
+  typedef unsigned int  u32;
+
+  struct Target {
+      u8    pad_00[0x80];
+      void *surface;   /* 0x80 */
+  };
+
+  struct Bank {
+      u8             pad_00[8];
+      struct Target *target;  /* 0x08 */
+  };
+
+  extern struct Bank g_02147B88;
+
+  extern void *func_02066E20(void);
+  extern void  func_02066DEC(u32 mode);
+  extern void  func_02066E10(void *surface);
+  extern void  func_02066DFC(void);
+  extern void  func_02065438(void *actor);
+
+  void func_02065CE4(void *actor)
+  {
+      void *saved;
+
+      if (g_02147B88.target->surface != 0) {
+          saved = func_02066E20();
+          func_02066DEC(1);
+          func_02066E10(g_02147B88.target->surface);
+          func_02065438(actor);
+          func_02066DEC(0);
+          func_02066E10(saved);
+          func_02066DFC();
+      } else {
+          func_02065438(actor);
+      }
+  }

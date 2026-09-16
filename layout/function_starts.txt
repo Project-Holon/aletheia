@@ -301,3 +301,6 @@ arm9_main  0x02028A64  thumb # same run
 arm9_main  0x02028A70  thumb # same run
 overlay_021  0x021D21C0  thumb # field-side function called only from arm9 (field_sound_system.c); the tracer saw it as pool
 overlay_021  0x021D21E0  thumb # sibling, same callers
+arm9_main  0x02031288  arm   # node callback setter leaf; sub_020311B8 ends at 0x02031280, veneer sub_02031290 follows
+arm9_main  0x02029F54  thumb # 12-byte leaf, unit_02029F54.c EXACT
+arm9_main  0x02029F60  thumb # 12-byte leaf, unit_02029F60.c EXACT

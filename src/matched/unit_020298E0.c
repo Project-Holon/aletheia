@@ -1,6 +1,4 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * unit:     yes
  * address:  0x020298E0
  * packet:   pkt_020295D8
@@ -9,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
  * function: func_020298E0
  *
  * Part of the (task body, task spawner) family that makes up the tail of
@@ -22,15 +20,15 @@
  * 0x020295D8..0x02029D44 holds its address, so it stands as its own file and
  * carries no self-reference to attest.
  *
- * Why it is capped: the call to func_02028A50 (0x02028A50) is the only branch
- * to that address in the image, so the `label` class has no witness outside
- * this one function and no cut helps.  0x02028A50 is byte-correct in
- * src/pending/unit_02028A50.c but itself MATCH-capped, so the `matched` class
- * cannot carry it either; both close together when func_02028D2C,
- * func_02029F54 and func_02029F60 acquire entries.
+ * What capped it: the call to func_02028A50 is the only branch to that
+ * address in the image, so the `label` class had no witness outside this one
+ * function and no cut helped.  Wave 26 closed it the honest way, by giving
+ * 0x02028A50 an entry: func_02028D2C, func_02029F54 and func_02029F60 are now
+ * EXACT, src/matched/unit_02028A50.c graduated with them, and this call site
+ * resolves `matched`.
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/unit_020298E0.c  *       --addr 0x020298E0 --thumb
+ *   python tools/match.py tu --src src/matched/unit_020298E0.c  *       --addr 0x020298E0 --thumb
  */
 
 typedef unsigned short u16;

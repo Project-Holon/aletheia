@@ -1,6 +1,4 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * unit:     yes
  * address:  0x02028A50
  * packet:   pkt_0202878C
@@ -9,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
  * function: func_02028A50, func_02028A58, func_02028A64, func_02028A70
  *
  * Four forwarding thunks in field_sound_system.c, each a pool word and a `bx`
@@ -47,20 +45,17 @@
  *   func_02029F54  0x02029F54  thumb
  *   func_02029F60  0x02029F60  thumb
  *
- * Why it is capped: all four pool words are the only reference in the image to
- * their target.  func_02028D2C (pkt_02028B50), func_02029F54 and func_02029F60
- * (the packet at 0x02029D44) are reached from nowhere else at all, and
- * func_02028794 is reached only from src/matched/unit_0202878C.c, where it is
- * an interior function and therefore has no manifest entry of its own
- * (docs/idioms/a-unit-attests-only-its-own-start-address.md).  A pool word is
- * not a branch, so the `label` class sees nothing, and no cut helps: every one
- * of the four functions here carries exactly one such word.  Three of the four
- * targets are outside pkt_0202878C, so closing this needs another packet's
- * work, not a better source shape here.  It caps src/pending/unit_020298E0.c
- * with it.
+ * Wave 26 closed it.  All four pool words are the only reference in the image
+ * to their target, so the `label` class sees nothing and no cut helps; the way
+ * through was to decompile the three targets that live outside this packet.
+ * func_02028D2C is now src/matched/func_02028D2C.c (pkt_02028B50),
+ * func_02029F54 and func_02029F60 are src/matched/unit_02029F54.c and
+ * src/matched/unit_02029F60.c (pkt_02029F4C), and all three resolve `matched`;
+ * func_02028794 resolves `matched` off src/matched/unit_0202878C.c.  That also
+ * lifts the cap this file placed on src/pending/unit_020298E0.c.
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/unit_02028A50.c \
+ *   python tools/match.py tu --src src/matched/unit_02028A50.c \
  *       --addr 0x02028A50 --thumb
  */
 

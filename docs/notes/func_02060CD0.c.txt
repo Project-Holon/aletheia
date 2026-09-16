@@ -1,0 +1,186 @@
+Near miss, not byte-correct: two structural deltas that cancel in size.  Do
+not file this as MATCH; it is recorded here so the next agent does not
+re-derive it.
+
+func_02060CD0 @ 0x02060CD0, arm9, ARM, 352 bytes, packet pkt_02060764.
+Best result: DIFF, 352 bytes compiled (exactly the right size), 205 differing
+bytes.  All six relocations resolve in the `label` class.
+
+Worth closing: 0x02060CD0 is the only unresolved site in
+src/pending/sub_020302A4.c, and 0x020302A4 is in turn the only unresolved site
+in src/pending/sub_020307E0.c, so this function graduates two pending files.
+
+It is the expanded heap's in-place resize, the sibling of func_02060CA0 /
+func_02060A08 / func_02060ABC (all three EXACT in src/matched).  The struct
+layout below is the one those three files establish and is not in doubt: the
+heap handle is 0x20 bytes of common header, a u32 attribute at +0x20, the free
+list head and tail at +0x24 and +0x28, the used list at +0x2c and +0x30, the
+group id at +0x34 and the feature halfword at +0x36; a block carries a
+0x10-byte header, so its data starts at block + 0x10.
+
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct MBlock {
+    u16            signature;
+    u16            attr;
+    u32            size;
+    struct MBlock *prev;
+    struct MBlock *next;
+};
+
+struct MBlockList {
+    struct MBlock *head;
+    struct MBlock *tail;
+};
+
+struct MemRegion {
+    void *start;
+    void *end;
+};
+
+struct ExpHeap {
+    u8                pad_00[0x20];
+    u32               attribute;
+    struct MBlockList freeList;
+    struct MBlockList usedList;
+    u16               groupId;
+    u16               feature;
+};
+
+extern void func_02060764(struct MemRegion *rgn, struct MBlock *block);
+extern struct MBlock *func_02060790(struct MBlockList *list,
+                                    struct MBlock *block);
+extern void func_020607B8(struct MBlockList *list, struct MBlock *block,
+                          struct MBlock *prev);
+extern struct MBlock *func_020607E8(struct MemRegion *rgn, u16 signature);
+extern int func_02060B6C(struct MBlockList *list, struct MemRegion *rgn);
+extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
+
+u32 func_02060CD0(struct ExpHeap *heap, void *ptr, u32 newSize)
+{
+    struct MBlock *block = (struct MBlock *)((u8 *)ptr - 0x10);
+    u32 oldSize = block->size;
+
+    newSize = (newSize + 3) & ~3;
+    if (newSize == oldSize) {
+        return newSize;
+    }
+
+    if (newSize > oldSize) {
+        struct MemRegion rgn;
+        struct MBlock *fr;
+        struct MBlock *prev;
+        void *oldStart;
+        u8 *newEnd;
+        u8 *blockEnd;
+
+        blockEnd = (u8 *)(oldSize + ((u32)block + 0x10));
+        fr = heap->freeList.head;
+        while (fr != 0) {
+            if ((u8 *)fr == blockEnd) {
+                break;
+            }
+            fr = fr->next;
+        }
+        if (fr == 0 || newSize > oldSize + 0x10 + fr->size) {
+            return 0;
+        }
+
+        func_02060764(&rgn, fr);
+        prev = func_02060790(&heap->freeList, fr);
+
+        oldStart = rgn.start;
+        newEnd = (u8 *)(newSize + (u32)ptr);
+        rgn.start = newEnd;
+        if ((u32)((u8 *)rgn.end - newEnd) < 0x10) {
+            rgn.start = rgn.end;
+        }
+        block->size = (u32)((u8 *)rgn.start - (u8 *)ptr);
+
+        if ((u32)((u8 *)rgn.end - (u8 *)rgn.start) >= 0x10) {
+            func_020607B8(&heap->freeList, func_020607E8(&rgn, 0x4652), prev);
+        }
+
+        if (((u8)heap->attribute & 1) != 0) {
+            MIi_CpuClear32(0, oldStart,
+                           (u32)((u8 *)rgn.start - (u8 *)oldStart));
+        }
+    } else {
+        struct MemRegion rgn;
+
+        rgn.start = (u8 *)(newSize + (u32)ptr);
+        rgn.end = (u8 *)(block->size + ((u32)block + 0x10));
+        block->size = newSize;
+        if (func_02060B6C(&heap->freeList, &rgn) == 0) {
+            block->size = oldSize;
+        }
+    }
+
+    return block->size;
+}
+
+--------------------------------------------------------------------------
+What is left, exactly
+--------------------------------------------------------------------------
+
+The size is right, the control flow is right, every call site and both stack
+regions are in the right place.  Two deltas remain, four bytes each, in
+opposite directions, which is why the total lands back on 352.
+
+1.  The free-list search is one instruction long.  The original predicates the
+    advance under the break's negation:
+
+      cmp   r6, r0
+      ldrne r6, [r6, #0xc]
+      cmpne r6, #0
+      bne   loop
+
+    the compile emits a separate branch for the break instead:
+
+      cmp r8, r0
+      beq out
+      ldr r8, [r8, #0xc]
+      cmp r8, #0
+      bne loop
+
+    Four spellings were tried, all four giving the identical 205-byte diff:
+    the guarded `while (fr != 0) { if (fr == end) break; fr = fr->next; }`
+    above, the conjunction `while (fr != 0 && fr != end)`, the plain
+    `for (fr = head; fr; fr = fr->next) if (fr == end) break;`, and the same
+    loop with the break written as the `else` arm of the advance.
+
+2.  The shrink arm is one instruction short.  The original re-reads the block
+    size for the region's end even though it already holds it in r7:
+
+      add r0, sb, r4        region.start = ptr + newSize
+      str r0, [sp]
+      ldr r1, [r8, #4]      <- the reload
+      add r0, r8, #0x10
+      add r0, r1, r0        region.end = blkSize + (block + 0x10)
+      str r0, [sp, #4]
+
+    The compile reaches for the cached r7 and drops the load, and it also
+    swaps the two stores so that region.end is written first.  The two are one
+    decision: a store into a local whose address escapes (the region is passed
+    to func_02060B6C) kills a cached field load, so the reload only appears if
+    the compiler is not free to move the end computation above the start
+    store.  With the value already in a register it is free, and it moves.
+
+    Tried, all still 205 or worse: the end expression as plain pointer
+    arithmetic (`(u8 *)block + 0x10 + block->size`), the two assignments in
+    the other source order (208), and splitting the block pointer and the
+    cached size into separate declarations initialised after the fact (209).
+
+There is also a straight swap of two registers, `block` in r6 and `fr` in r8
+where the original has r8 and r6, which accounts for most of the 205 bytes.
+It is not a declaration-order effect: all 720 permutations of the six locals
+in the grow arm were compiled and every one of them gives exactly 205
+differing bytes.  It will most likely fall out on its own once (1) and (2) are
+fixed, since both change what is live across the search.
+
+Verified with:
+  python tools/match.py one --src src/matched/func_02060CD0.c \
+      --func func_02060CD0 --addr 0x02060CD0 --cc 1.1p1 --arm --diff
