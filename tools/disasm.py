@@ -610,6 +610,107 @@ class Analyser:
         self.mark_veneers()
 
 
+def index_hidden_pool_words(region, all_regions):
+    """Second-chance literal-pool scan inside code-adjacent unclassified runs.
+
+    Two real shapes hide a genuine PC-relative load from the tracer:
+
+      - a computed jump (`add pc, rN`, a switch's dispatch) is a return as
+        far as the tracer is concerned, because the case addresses are not
+        statically known, so it stops right there; the case bodies that
+        follow are real code all the same (see docs/ASSETS.md,
+        "item_gfx_member ... a second copy of the word does exist at
+        0x02020EF4", and src/pending/unit_02020E60.c);
+      - an ordinary return (`bx lr`, `pop {..., pc}`, `bx ip`) followed by
+        one or more further tiny functions with no `lr`-saving prologue,
+        so the prologue sweep never seeds them either (see
+        docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md; the
+        20-byte `ldr ip, [pc, #4]; ldr r0, [pc, #4]; bx ip` stub right
+        after func_02061C0C's own `bx ip` at 0x02061C30 is this shape, and
+        its pool word at 0x02061C3C duplicates 0x02061C28, func_02061C0C's
+        own pool entry for the same value).
+
+    Both leave real PC-relative loads sitting in bytes nothing ever traced,
+    so the words they load stay anonymous `.word`s instead of indexed pool
+    entries. This only ever adds entries to `region.pools`; it never marks
+    bytes CODE and never changes a byte that gets emitted, so it cannot
+    affect reassembly. Three conditions all have to hold before a candidate
+    word is accepted, so a coincidental byte pattern that happens to decode
+    as `ldr` cannot manufacture a false witness:
+
+      1. the load site is unclassified (UNK) and sits inside a run whose
+         owner is known: walking backward from the run's start, first over
+         any already-reserved pool words (DATA, real pool entries a traced
+         instruction elsewhere claimed) and then landing on CODE, ties the
+         run to the function whose body -- or whose body's own pool --
+         ends exactly there, rather than to an unrelated blob elsewhere in
+         the image. The owning instruction's mode (ARM or Thumb) decides
+         how this scan itself decodes the run;
+      2. a PC-relative load decodes at that position and its own computed
+         target is itself still unclassified (UNK), i.e. the candidate
+         word sits in a run nothing has claimed either -- not a word that
+         is already a traced pool entry or code;
+      3. the candidate word's value reads back as a plausible pointer: it
+         falls inside the address range of some loaded region. Ordinary
+         pool constants (626, 0xFFFF, ...) fail this and stay unindexed.
+
+    The load and its target need not share the same contiguous UNK run: a
+    single already-traced pool word can sit between them (as it does at
+    0x02020EE4, wedged between the case bodies and the rest of their pool
+    at 0x02020EE8..0x02020F04), and both sides are still real.
+    """
+    r = region
+    an = Analyser(r)
+    n = len(r.data)
+    added = 0
+    off = 0
+
+    def _owner_thumb(po):
+        """Thumb/ARM mode of the instruction ending exactly at `po`, or None."""
+        for sz in (2, 4):
+            cand = po - sz
+            if cand < 0:
+                continue
+            rec = r.insns.get(cand)
+            if rec is not None and cand + rec.size == po:
+                return rec.thumb
+        return None
+
+    while off < n:
+        if r.kind[off] != UNK:
+            off += 1
+            continue
+        start = off
+        while off < n and r.kind[off] == UNK:
+            off += 1
+        end = off
+        po = start
+        while po > 0 and r.kind[po - 1] == DATA:
+            po -= 1
+        if po == 0 or r.kind[po - 1] != CODE:
+            continue
+        thumb = _owner_thumb(po)
+        if thumb is None:
+            continue
+        step = 2 if thumb else 4
+        h = start
+        while h + step <= end:
+            insn = an._decode(r.base + h, thumb)
+            if insn is not None:
+                target, width = an._pool_target(insn, thumb)
+                if target is not None and target % 4 == 0 and r.contains(target):
+                    to = r.off(target)
+                    if r.kind[to] == UNK and target not in r.pools:
+                        val = r.word(target)
+                        if val is not None and any(
+                                rr.contains(val) for rr in all_regions):
+                            r.pools[target] = max(
+                                r.pools.get(target, 0), width)
+                            added += 1
+            h += step
+    return added
+
+
 # ---------------------------------------------------------------------------
 # emission
 # ---------------------------------------------------------------------------
@@ -1338,6 +1439,8 @@ def process(regions, out_dir, all_regions=None, layout_dir="layout"):
     for r in regions:
         Analyser(r).run()
     for r in regions:
+        index_hidden_pool_words(r, ctx)
+    for r in regions:
         path = os.path.join(out_dir, _region_filename(r))
         stats.append(emit(r, path, ctx,
                           quirks=load_quirks(layout_dir, r.name),
@@ -1585,6 +1688,7 @@ def cmd_overlay(args):
         r = build_overlay_region(layout, args.extract, ov_id,
                                  args.layout)
         Analyser(r).run()
+        index_hidden_pool_words(r, [r])
         touched.add(r.name)
         stats.append(emit(r, os.path.join(out_dir, _region_filename(r)), [r],
                           quirks=load_quirks(args.layout, r.name),

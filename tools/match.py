@@ -1174,11 +1174,19 @@ def _printable_run_forward(data, off, limit):
 
 
 def _printable_run_backward(data, off):
-    """Length of the printable ASCII run ending at `off` inclusive."""
+    """Length of the printable ASCII run ending at `off` inclusive.
+
+    A format string can embed \\t, \\n or \\r ahead of its own NUL
+    terminator (e.g. "!![%x][%x]\\n" at 0x020A7E40, immediately before
+    "gf_standard.c" at 0x020A7E4C): those bytes are part of the run's
+    content, not the run's terminator, which stays NUL and is handled by
+    the caller.  Only they are admitted below 0x20; any other control byte
+    still ends the run.
+    """
     n = 0
     while off - n >= 0 and n <= MAX_STRING_BYTES:
         b = data[off - n]
-        if b < 0x20 or b > 0x7E:
+        if (b < 0x20 and b not in (0x09, 0x0A, 0x0D)) or b > 0x7E:
             break
         n += 1
     return n
@@ -1520,17 +1528,34 @@ def _encode_thumb_branch(data, off, place, target, thumb_target, addend):
     return True
 
 
-def _encode_arm_branch(data, off, place, target, addend):
-    """Write an ARM B/BL displacement.  X = (S + A) - P, field = X >> 2.
+def _encode_arm_branch(data, off, place, target, addend, thumb_target=False):
+    """Write an ARM B/BL displacement, or a BLX(immediate) into Thumb.
 
-    The addend mwccarm writes carries the ARM PC bias (-8) the same way the
-    Thumb one carries -4, so no further bias is applied here.  Interworking
-    the other way (an ARM BL whose target is Thumb becomes BLX) is not
-    implemented: no matched entry needs it yet, and a site it cannot encode
-    stays wildcarded rather than being guessed at.
+    X = (S + A) - P, field = X >> 2.  The addend mwccarm writes carries the
+    ARM PC bias (-8) the same way the Thumb one carries -4, so no further
+    bias is applied here.
+
+    Interworking the other way from `_encode_thumb_branch` above: an ARM
+    caller's `bl`/`blx` into a Thumb callee is legal and is exactly BLX
+    (immediate).  That encoding is unconditional (the top nibble is fixed
+    to 1111 rather than carrying a real condition) and steals the low bit
+    of the halfword-granular displacement into bit 24 of the instruction
+    (`H`), since ARM code is always word-aligned but the Thumb target need
+    not be: `target = place + 8 + disp`, `disp = imm32 = H:imm24:'0'`
+    sign-extended.  Confirmed against the real site at 0x02091180
+    (`blx #0x2004490`, a two-instruction Thumb stub): the formula below
+    reproduces the image's 0xFAFDCCC2 exactly.
     """
     word = struct.unpack_from("<I", data, off)[0]
     disp = (target + addend) - place
+    if thumb_target:
+        if disp & 1 or disp < -(1 << 25) or disp >= (1 << 25):
+            return False                # BLX must reach a halfword boundary
+        val25 = disp >> 1
+        h = val25 & 1
+        imm24 = (val25 >> 1) & 0xFFFFFF
+        struct.pack_into("<I", data, off, 0xFA000000 | (h << 24) | imm24)
+        return True
     if disp & 3 or disp < -(1 << 25) or disp >= (1 << 25):
         return False
     struct.pack_into("<I", data, off,
@@ -1603,8 +1628,8 @@ def resolve_relocations(fb, place, decls, size=None, src=None):
                                       kind == "thumb", addend)
             st.value = target
         elif rtype in _ARM_BRANCH:
-            ok = (kind != "thumb"
-                  and _encode_arm_branch(data, off, place_at, target, addend))
+            ok = _encode_arm_branch(data, off, place_at, target, addend,
+                                    thumb_target=(kind == "thumb"))
             st.value = target
         else:
             st.reason = "relocation type %d is not implemented" % rtype
@@ -1646,13 +1671,24 @@ class Result:
 
 
 def compare(fb, tgt):
-    """EXACT / MATCH / DIFF plus the list of differing offsets."""
+    """EXACT / MATCH / DIFF plus the list of differing offsets.
+
+    A byte outside `fb.mask` is a relocation field that stayed wildcarded
+    because `resolve_relocations()` could not attest its target (see the
+    verdicts table at the top of this file).  Literal byte equality there
+    is not evidence of anything: the compiler's own unresolved guess can
+    coincide with the image by simple adjacency (a PC24 branch to the
+    address right past the function's own extent, say) without the target
+    ever having been independently witnessed.  EXACT therefore requires
+    every byte to be both hard (`fb.mask` all 1) and equal; a wildcarded
+    byte that happens to match still only earns MATCH.
+    """
     if len(fb.data) != len(tgt):
         return "SIZE", []
     hard = [i for i in range(len(tgt)) if fb.mask[i] and fb.data[i] != tgt[i]]
     if hard:
         return "DIFF", hard
-    if fb.data == tgt:
+    if fb.data == tgt and all(fb.mask):
         return "EXACT", []
     return "MATCH", []
 
@@ -2884,6 +2920,31 @@ def _resolve_one_call(addr, kind, place=0x02008000):
     return resolve_relocations(fb, place, decls)[0]
 
 
+# func_02004490: the Thumb `svc #3; bx lr` stub called by an ARM `blx` at
+# 0x02091180 (see docs/notes/func_02091150.c.txt).  Real ARM-caller-into-
+# Thumb-callee interworking site used to selftest _encode_arm_branch's BLX
+# path.
+ARM_TO_THUMB_CALLEE = 0x02004490
+ARM_TO_THUMB_PLACE = 0x02091180
+
+
+def _resolve_one_arm_call(addr, kind, place=ARM_TO_THUMB_PLACE):
+    """Resolve a lone ARM bl whose target is declared `addr` / `kind`.
+
+    Mirrors `_resolve_one_call` above, but in ARM mode: the encoder has to
+    choose between a plain B/BL (same-ISA target) and a BLX(immediate)
+    (Thumb target).  Returns the FuncBytes so the caller can inspect the
+    actual encoded word, not just whether resolution succeeded.
+    """
+    name = "arm_isa_selftest_callee"
+    fb = FuncBytes("arm_isa_selftest_caller", b"\x00\x00\x00\xEB",
+                   bytearray(b"\x00\x00\x00\x01"), False, ".text",
+                   [(0, R_ARM_CALL, name, -8)])
+    decls = {name: Decl(name, addr, kind, "header")}
+    resolve_relocations(fb, place, decls)
+    return fb
+
+
 def _call_refused(addr, kind):
     """True when resolving such a call fails loudly instead of encoding it."""
     try:
@@ -2929,13 +2990,25 @@ def cmd_selftest(args):
            cls(attest(OVERLAY_THUMB_THUNK, "thumb", 0, 0)), None)
 
     # --- the veneer class --------------------------------------------------
+    # VENEER's address is now also named by two real literal pool words
+    # (0x0200579C, 0x020057A8: untraced "ldr r3, [pc, #4]; movs r0, #0;
+    # bx r3" accessors that call through it, found by disasm.py's
+    # index_hidden_pool_words()), and `attest()` tries the `literal` class
+    # before `veneer`, so the overall address-level resolution now honestly
+    # reports the stronger evidence first. The two range-exclusion checks
+    # below are specifically about the veneer class's own logic, so they
+    # go straight at attest_veneer() rather than through attest(), the same
+    # way the string class's negatives go straight at attest_string() above.
     _check(res, "veneer: a linker veneer attests its own address",
-           cls(attest(VENEER, "arm", 0, 0)), "veneer")
+           cls(attest(VENEER, "arm", 0, 0)), "literal")
+    _check(res, "veneer: in isolation, a linker veneer attests its own "
+                "address",
+           cls(attest_veneer(VENEER, "arm", 0, 0)), "veneer")
     _check(res, "veneer: a compared range covering the veneer is refused",
-           cls(attest(VENEER, "arm", 0x02072780, 0x020727A0)), None)
+           cls(attest_veneer(VENEER, "arm", 0x02072780, 0x020727A0)), None)
     _check(res, "veneer: a compared range covering only its pointer word is "
                 "refused",
-           cls(attest(VENEER, "arm", 0x02072790, 0x02072794)), None)
+           cls(attest_veneer(VENEER, "arm", 0x02072790, 0x02072794)), None)
     _check(res, "veneer: the class never applies to a Thumb symbol",
            cls(attest_veneer(VENEER, "thumb", 0, 0)), None)
     _check(res, "veneer: the class never applies to data",
@@ -3046,6 +3119,28 @@ def cmd_selftest(args):
                 "refused",
            matched_index([_matched_fixture(kind="note")]), {})
 
+    # --- compare(): a wildcarded byte that happens to match is not EXACT --
+    # The real case (see sub_02049800 / func_0204982C): an unresolved PC24
+    # target one byte past the function's own extent can encode a branch
+    # displacement the compiler's own guess and the image agree on by plain
+    # adjacency, with no witness for the target ever having been found.
+    # Byte equality alone must not be read as "every byte was verified".
+    def cmp_case(data, mask, tgt):
+        fb = FuncBytes("cmp_selftest", data, bytearray(mask), True, ".text", [])
+        return compare(fb, tgt)[0]
+
+    _check(res, "compare: fully hard bytes that match are EXACT",
+           cmp_case(b"\xAA\xBB\xCC\xDD", [1, 1, 1, 1], b"\xAA\xBB\xCC\xDD"),
+           "EXACT")
+    _check(res, "compare: a wildcarded byte that happens to equal the image "
+                "is capped at MATCH, adjacency is not attestation",
+           cmp_case(b"\xAA\xBB\xCC\xDD", [1, 1, 0, 1], b"\xAA\xBB\xCC\xDD"),
+           "MATCH")
+    _check(res, "compare: a wildcarded byte still lets a hard mismatch fail "
+                "the entry",
+           cmp_case(b"\xAA\xBB\xCC\xDD", [1, 1, 0, 1], b"\x00\xBB\xCC\xDD"),
+           "DIFF")
+
     # --- the declared ISA of a call target ---------------------------------
     def conflict(addr, kind):
         return (isa_conflict(addr, kind) or (None, None))[0]
@@ -3074,6 +3169,16 @@ def cmd_selftest(args):
     _check(res, "isa: a call the image cannot check resolves with a note",
            (lambda s: (s.resolved, bool(s.note)))(
                _resolve_one_call(ISA_UNEVIDENCED, "thumb")), (True, True))
+    _check(res, "isa: an ARM bl/blx into a declared Thumb target encodes "
+                "BLX(immediate), the real 0x02091180 -> 0x02004490 site",
+           (lambda fb: (fb.sites[0].resolved, "%08X" % struct.unpack_from(
+               "<I", fb.data, 0)[0]))(
+               _resolve_one_arm_call(ARM_TO_THUMB_CALLEE, "thumb")),
+           (True, "FAFDCCC2"))
+    _check(res, "isa: an ARM bl into a same-ISA ARM target still encodes a "
+                "plain B-family displacement",
+           (lambda fb: fb.sites[0].resolved)(
+               _resolve_one_arm_call(VENEER, "arm")), True)
 
     # --- the three documented end-to-end behaviours -----------------------
     if not args.quick:

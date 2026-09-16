@@ -266,6 +266,67 @@ currently open arm9_main functions). `--targets`' fan-in score now adds a
 thunk's own callers to its target's count, so a function only reachable
 through a forwarding stub is no longer scored as if it had none.
 
+`match.py`'s relocation resolver only ever encoded an ARM caller's `bl` as
+a same-ISA B/BL displacement, so an ARM function's direct call into a Thumb
+callee (a legal interworking `blx #immediate`, e.g. 0x02091180 calling the
+Thumb SVC stub at 0x02004490) stayed wildcarded and the compiler's plain
+`bl` opcode byte differed from the image's `blx`, a concrete unmasked byte
+outside the displacement field. `_encode_arm_branch()` now encodes
+BLX(immediate) when the target is Thumb (the unconditional `1111 101H`
+form, with the extra low bit of the halfword-granular displacement folded
+into bit 24): verified against the real site, which reproduces the image's
+0xFAFDCCC2 exactly. Three new selftest cases cover it (`python tools/match.py
+selftest`, 59 cases at the time this landed).
+
+`attest_string()`'s `_printable_run_backward()` stopped a preceding run at
+any byte below 0x20, so a format string ending in `\n` immediately before
+the candidate (`"!![%x][%x]\n"` at 0x020A7E40, right before `"gf_standard.c"`
+at 0x020A7E4C) measured a zero-length predecessor and refused to attest.
+`\t`, `\n` and `\r` are now admitted inside a run (never as its terminator,
+which stays NUL). `src/pending/func_0203EF5C.c` reattested EXACT and moved
+to `src/matched/func_0203EF5C.c`, with its manifest entry added to
+`pkt_0203EF5C`.
+
+`disasm.py`'s literal-pool index only ever grew from a PC-relative load the
+tracer actually decoded, so a pool word used exclusively by code the tracer
+never reaches (a switch's case bodies after an `add pc, rN` it cannot
+follow, or a leaf function with no `lr`-saving prologue tucked in the
+`.word` run after another function's ordinary return) stayed an anonymous
+`.word`, unusable as a `literal` witness even though the load instruction
+is real. `index_hidden_pool_words()` does a second, narrowly-scoped pass
+over such runs (tied to a known owning function by walking back through
+any already-reserved pool words to real CODE, decoded in that owner's own
+ISA) and adds any PC-relative load's target to `region.pools` when the
+target is itself still unclassified and its value reads back as a pointer
+into a loaded region; it never marks bytes CODE, so reassembly is
+unaffected (`build.py --split --pack` stays 242/242). This recovered the
+pool word at 0x02020EF4 (`item_gfx_member`'s second, previously invisible
+copy, still inside `src/pending/unit_02020E60.c`'s own compared range so
+it stays MATCH) and at 0x02061C3C (`func_02061B5C`'s second copy, outside
+`src/matched/sub_02061C0C.c`'s own range, promoted to EXACT*). Finding real
+evidence for a linker veneer's own address this way (two genuine `ldr
+rX, [pc, #4]; bx rX` accessors that call through 0x02072788) also exposed
+that `attest()`'s existing class order already ranks `literal` ahead of
+`veneer`; the two veneer selftest cases that test range-exclusion now go
+through `attest_veneer()` directly rather than `attest()`, since that
+address is no longer a clean example of only having veneer-class evidence.
+
+`compare()` claimed EXACT from literal byte equality on the whole buffer
+alone, without checking that `fb.mask` was entirely hard first. A relocation
+site that stays wildcarded because `resolve_relocations()` found no witness
+can still be byte-equal to the image by plain coincidence (`sub_02049800`'s
+call to `func_0204982C`, the first byte past its own extent, has its PC24
+field pinned by adjacency rather than by any evidence class), and that used
+to read as EXACT. `compare()` now additionally requires `all(fb.mask)`
+before returning EXACT; a wildcarded byte that happens to match is capped
+at MATCH, matching the verdicts table at the top of the file. `manifest
+--verify` demoted exactly one entry image-wide, `sub_02049800` in
+`pkt_0204968C`; it moved to `src/pending/sub_02049800.c` with the blocking
+witness (0x0204982C, one caller, at the extent boundary) named in its
+header, and its manifest entry was dropped. Two consecutive
+`manifest --verify` runs afterward are byte-identical (0 rewritten both
+times).
+
 ## Pokemon White is planned
 
 A second build target (Pokemon White, IRAO) is planned for this tree; see
