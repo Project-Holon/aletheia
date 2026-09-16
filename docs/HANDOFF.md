@@ -251,5 +251,32 @@ extracted layout, so the work is a second `extract/` plus per-target layout file
 - Strict 100% byte-identical ROM reassembly preserved.
 
 
+---
 
+## 2026-09-16 - Wave 5: Graduated 6 Work Packets across arm9 (+116 B Net, 7 New Matched Functions)
 
+### Status & Metrics
+- **ROM State**: 100% byte-identical (`sha1: 26ad0b9967aa279c4a266ee69f52b9b2332399a5`).
+- **All 242 Build Checks Passing**: `242 PASS, 0 FAIL`.
+- **arm9 Decomp Coverage**: **16.5525%** (66,220 / 400,060 B across 1,614 matched functions).
+- **Open Packets**: Decreased from 475 to 469 (6 packets dissolved).
+
+### Key Functions Graduated in Wave 5
+1. **`pkt_0204DC70` (48 B code, 56 B extent, ARM, 1 func)**:
+   - `func_0204DC70` (48 B, ARM): Hardware display control register synchronizer (`REG_DISPCNT` / `REG_DB_DISPCNT` bitmask updater) (`src/matched/func_0204DC70.c`).
+2. **`pkt_02089880` (24 B code, 40 B extent, ARM, 2 funcs)**:
+   - `func_02089880` (12 B, ARM): Static forwarder to `func_02086028` (`src/matched/func_02089880.c`).
+   - `func_02089894` (12 B, ARM): Static forwarder to `func_02086078` (`src/matched/func_02089894.c`).
+   - Fully dissolved packet.
+3. **`pkt_0205A10C` (12 B code, 16 B extent, ARM, 1 func)**:
+   - `func_0205A10C` (12 B, ARM): Pointer getter for `0x02146AAC` (`src/matched/func_0205A10C.c`).
+4. **`pkt_02075DA0` (12 B code, 16 B extent, ARM, 1 func)**:
+   - `func_02075DA0` (12 B, ARM): Pointer getter for `0x0215019C` (`src/matched/func_02075DA0.c`).
+5. **`pkt_020774B0` (12 B code, 16 B extent, ARM, 1 func)**:
+   - `func_020774B0` (12 B, ARM): Struct member getter for `0x02150B00.unk04` (`src/matched/func_020774B0.c`).
+6. **`pkt_0203D1B4` (8 B code, 12 B extent, ARM, 1 func completed)**:
+   - `func_0203D1B4` (8 B, ARM): Tail-call forwarder to `func_020399EC` (`src/matched/func_0203D1B4.c`). Completed all 13 functions, fully dissolving shard `pkt_0203D1B4.json`.
+
+### Technical Insights
+- Used ternary predication idiom `(which == 1) ? (*(vu32 *)0x04000000 & 0x00300010) : (*(vu32 *)0x04001000 & 0x00300010)` to produce exact branchless `ldreq`/`ldrne` conditionally predicated loads in `func_0204DC70`.
+- All 242 ROM validation checks passing with byte-identical ROM hash.
