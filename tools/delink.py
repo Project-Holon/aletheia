@@ -2,7 +2,7 @@
 """
 delink.py -- build a memory layout description of the game from extract/.
 
-Written from scratch for the aletheia project. Stdlib only, single file
+Written from scratch for aletheia. Stdlib only, single file
 (imports blz.py from the same directory).
 
 What it does

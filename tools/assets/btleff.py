@@ -3,7 +3,7 @@
 btleff.py -- battle effect-VM bytecode decode for `a/0/6/6` (601 sub-files)
 and `a/0/6/7` (98 sub-files).
 
-Written from scratch for the aletheia asset lane. Stdlib only.
+Written from scratch for aletheia. Stdlib only.
 
 --------------------------------------------------------------------------
 Background: what `tools/assets/events.py` already established

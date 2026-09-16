@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-narc.py -- NARC (Nitro ARChive) reader for the aletheia asset lane.
+narc.py -- NARC (Nitro ARChive) reader for aletheia.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 NARC container layout

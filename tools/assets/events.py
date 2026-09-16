@@ -26,7 +26,7 @@ per-language hypothesis (matching G's small discrete range) is superseded by
 this code-attested reader, though the per-group payload itself is still not
 decoded past byte-exact extraction.
 
-Written from scratch for the aletheia asset lane. Stdlib only.
+Written from scratch for aletheia. Stdlib only.
 
 Both archives fail the "fixed-stride record array" hypothesis this pass
 started from (checked directly: no divisor of every sub-file's body size

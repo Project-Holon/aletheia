@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-sdat.py -- SDAT (NitroSDK sound archive) container reader for the aletheia
+sdat.py -- SDAT (NitroSDK sound archive) container reader for aletheia
 asset lane. Currently targets wb_sound_data.sdat, the ROM's single top-level
 sound archive.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 No game data is written anywhere by this module; it only reports structure
 (counts, names, offsets/sizes) to stdout / an optional JSON summary.
 

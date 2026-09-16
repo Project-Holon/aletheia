@@ -4,7 +4,7 @@ inner_magic_census.py -- histogram the INNER magic of every sub-file across
 every NARC under extract/data/, decompressing LZ77/LZ11/Huffman/RLE payloads
 first instead of relying on the compressed sub-file's own opaque header byte.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Why this pass exists

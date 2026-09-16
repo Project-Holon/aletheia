@@ -4,7 +4,7 @@ matrix.py -- decoder for the map matrix archive `a/0/0/9`, 255 sub-files,
 each one zone-transition matrix that a zone record's `+0x04` lane (see
 zones.py) selects.
 
-Written from scratch for the aletheia asset lane. Stdlib only.
+Written from scratch for aletheia. Stdlib only.
 
 This is not a fresh discovery pass: the format below is exactly the one
 docs/ASSETS.md attests in "Zone to map model SOLVED: record +0x04 is a

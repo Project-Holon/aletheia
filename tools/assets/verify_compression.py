@@ -4,7 +4,7 @@ verify_compression.py -- decode every Huffman4/Huffman8/RLE sub-file found
 under extract/data/ and confirm the decoded size matches the size declared
 in the BIOS-style compression header.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 This is the verification step for narc.py's decompress_huffman() and
 decompress_rle(): it does not write any decoded game data anywhere tracked,

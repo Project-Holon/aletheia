@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-lz77.py -- BIOS "LZ77 UnComp" (type 0x10) encoder for the aletheia asset
+lz77.py -- BIOS "LZ77 UnComp" (type 0x10) encoder for aletheia asset
 lane. The decoder already lives in `tools/assets/narc.py`
 (`decompress_lz77`); this module is compress-only and does not duplicate or
 re-export it.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Recovered encoder policy

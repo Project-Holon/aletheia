@@ -3,7 +3,7 @@
 waza.py -- decoder for the move data table: `a/0/2/1`, 36-byte records
 (struct Waza, per waza_tool.c's accessors), one record per move id.
 
-Written from scratch for the aletheia asset lane. Stdlib only, depends
+Written from scratch for aletheia. Stdlib only, depends
 only on narc.py.
 
 --------------------------------------------------------------------------

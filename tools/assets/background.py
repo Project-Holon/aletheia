@@ -3,7 +3,7 @@
 background.py -- NSCR (screen/tilemap) decoder for 2D backgrounds and UI
 panels: title screen, main menu, battle backgrounds, box/bag UI, etc.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 NSCR (on-disk magic "RCSN") -- SCRN block

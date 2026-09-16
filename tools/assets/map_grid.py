@@ -5,7 +5,7 @@ sub-files' per-tile grid (the wrapper's "permission/height data" region,
 directly following the BMD0 model), and the small size-table header that
 wraps each sub-file.
 
-Written from scratch for the aletheia asset lane. Stdlib only.
+Written from scratch for aletheia. Stdlib only.
 
 --------------------------------------------------------------------------
 The record model (this module's attested shape -- retires the byte-lane

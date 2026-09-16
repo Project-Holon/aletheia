@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-sseq.py -- SSEQ (sequenced music/SFX bytecode) reader for the aletheia
+sseq.py -- SSEQ (sequenced music/SFX bytecode) reader for aletheia
 asset lane. Stdlib only, written from scratch for this project.
 
 --------------------------------------------------------------------------

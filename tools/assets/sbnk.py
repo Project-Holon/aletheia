@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-sbnk.py -- SBNK (instrument bank) reader for the aletheia asset lane.
+sbnk.py -- SBNK (instrument bank) reader for aletheia.
 Stdlib only, written from scratch for this project.
 
 --------------------------------------------------------------------------

@@ -4,7 +4,7 @@ trainer_data.py -- locate the trainer data table by reference (not shape),
 then use it to test candidate trainer battle sprite archives by entry
 count.
 
-Written from scratch for the aletheia project. Stdlib only, depends only
+Written from scratch for aletheia. Stdlib only, depends only
 on narc.py.
 
 --------------------------------------------------------------------------

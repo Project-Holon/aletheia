@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-adpcm.py -- IMA-ADPCM codec for the aletheia asset lane's SWAV decoder.
+adpcm.py -- IMA-ADPCM codec for aletheia's SWAV decoder.
 
 This is the standard reference IMA-ADPCM algorithm (the same step/index
 table and greedy-nibble-selection state machine documented publicly for

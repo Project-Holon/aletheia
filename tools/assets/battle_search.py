@@ -3,7 +3,7 @@
 battle_search.py -- new-angle search for the still-unlocated trainer battle
 sprite archive: NOT assumed to be a NITRO NCGR/NCER bundle at all.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Mission

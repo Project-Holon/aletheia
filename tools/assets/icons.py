@@ -2,7 +2,7 @@
 """
 icons.py -- decoder for the small-icon archive `a/1/6/7`.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Archive layout (recovered by inspection, see docs/ASSETS.md "Icon archive

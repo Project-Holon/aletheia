@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-text.py -- message-archive ("text bank") reader for the aletheia asset lane.
+text.py -- message-archive ("text bank") reader for aletheia.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 Depends only on narc.py (same directory) for NARC sub-file access.
 
 --------------------------------------------------------------------------

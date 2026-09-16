@@ -3,7 +3,7 @@
 walk.py -- decode + render the `a/0/3/1`-shaped human walk-cycle archive
 family (one archive per named character), and locate its siblings.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Mission and starting point

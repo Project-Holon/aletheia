@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 sseq2midi.py -- convert a parsed SSEQ (see sseq.py) to a Standard MIDI File
-(format 1) for the aletheia asset lane. Stdlib only, written from scratch
+(format 1) for aletheia. Stdlib only, written from scratch
 for this project.
 
 --------------------------------------------------------------------------

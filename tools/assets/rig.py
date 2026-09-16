@@ -2,7 +2,7 @@
 """
 rig.py -- compose one posed frame from the `a/0/0/4` multi-cell rig archive.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Mission

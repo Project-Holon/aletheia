@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-sseqsynth.py -- sample-based SSEQ renderer for the aletheia asset lane.
+sseqsynth.py -- sample-based SSEQ renderer for aletheia.
 Stdlib only, written from scratch for this project. Produces real-timbre
 `.wav` files (this ROM's own SWAV samples, not a generic MIDI synth) from
 `wb_sound_data.sdat`'s SSEQ sequences.

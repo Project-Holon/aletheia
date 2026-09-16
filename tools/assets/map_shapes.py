@@ -4,7 +4,7 @@ map_shapes.py -- per-shape textured OBJ export for `a/0/0/8` map/building/
 dungeon models, built on top of `nsbmd.py`'s newly-cracked shape-dictionary
 descriptor layout (see nsbmd.py's "MDL0 shape dictionary" section).
 
-Written from scratch for the aletheia asset lane. Stdlib only.
+Written from scratch for aletheia. Stdlib only.
 
 --------------------------------------------------------------------------
 What this does that plain `nsbmd.py obj` could not

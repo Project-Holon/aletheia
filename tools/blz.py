@@ -2,7 +2,7 @@
 """
 blz.py -- BLZ (backwards LZ77) codec used by NitroSDK / TWL-SDK.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 Usable both as a library (``decompress`` / ``compress``) and as a CLI.
 
 --------------------------------------------------------------------------

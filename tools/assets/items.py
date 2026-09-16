@@ -4,7 +4,7 @@ items.py -- decoder for the item data table: `a/0/2/4`, 36-byte records
 (33 bytes of attested record plus 3 trailing pad bytes), one record per
 item id.
 
-Written from scratch for the aletheia asset lane. Stdlib only, depends
+Written from scratch for aletheia. Stdlib only, depends
 only on narc.py.
 
 --------------------------------------------------------------------------

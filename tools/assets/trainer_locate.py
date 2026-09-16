@@ -4,7 +4,7 @@ trainer_locate.py -- characterize and render the trainer-battle-sprite
 archive candidates from the "Locate pass: walking and trainer sprites"
 (docs/ASSETS.md), plus a widen search and a Pokemon-rig tail check.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 Three jobs, each independently runnable from the CLI:
 

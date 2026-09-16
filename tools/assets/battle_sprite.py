@@ -14,7 +14,7 @@ only because it may still be correct for some other LZ11-no-magic archive,
 not this one. The file was not renamed/restructured this pass (see that
 section's "remaining gaps" for why).
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Payload format (recovered by inspection, see docs/ASSETS.md)

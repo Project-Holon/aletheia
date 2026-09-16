@@ -3,7 +3,7 @@
 overworld.py -- render + NCGR round-trip for the `a/0/0/7` overworld sprite
 archive.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Archive identification (this pass)

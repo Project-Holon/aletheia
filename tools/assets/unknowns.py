@@ -5,7 +5,7 @@ NitroFS files: a/0/1/3, a/0/2/3, a/1/0/0, a/1/6/1, a/1/8/0, a/2/1/3, and the
 six dl_rom raw files (child2_r_eng.srl, child_r_eng.srl, icon_b.char/.plt,
 icon_w.char/.plt).
 
-Written from scratch for the aletheia asset lane. Stdlib only. Depends on
+Written from scratch for aletheia. Stdlib only. Depends on
 narc.py, lz77.py and lz11.py (same directory) for NARC sub-file access and
 compression round trips.
 

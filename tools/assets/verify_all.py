@@ -3,7 +3,7 @@
 verify_all.py -- archive-wide, sub-file-level round-trip sweep over every
 NitroFS archive recorded in the asset census (`build/assets/census.json`).
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 What this checks, per sub-file

@@ -3,7 +3,7 @@
 zones.py -- decoder for the zone header table: sub-file 0 of `a/0/1/2`,
 427 records of 48 bytes, one record per zone id.
 
-Written from scratch for the aletheia asset lane. Stdlib only.
+Written from scratch for aletheia. Stdlib only.
 
 This is a rewrite of an earlier version of this module that only reported
 a NARC-wide survey and a code lead, without a confirmed table (see the

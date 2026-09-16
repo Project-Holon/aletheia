@@ -3,7 +3,7 @@
 classify_rig_failures.py -- one-off diagnostic for the asset lane's rig-
 archive verify_all failures (a/0/5/2, a/0/0/4, a/1/5/0, a/1/3/2, a/1/7/9).
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 Not part of the regular verify pipeline; run by hand, output read by the
 person running it, nothing else depends on it.
 

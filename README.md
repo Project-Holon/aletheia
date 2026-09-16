@@ -2,7 +2,7 @@
 
 # aletheia
 
-A from-scratch decompilation project for Pokémon Black (NDS, USA/EUR "NDSi Enhanced", gamecode IRBO).
+A decompilation project for Pokémon Black (and eventually White).
 
 This project shares no code with any existing decompilation effort. All tooling
 (ROM extraction/rebuilding, disassembly, build system) is written independently
@@ -10,25 +10,37 @@ for this repository.
 
 ## Goal
 
-Fully decompile Pokémon Black to readable, buildable C source that produces a
+Fully decompile Pokémon Black (and eventually White) to readable, buildable C source that produces a
 byte-matching ROM.
 
 ## Status
 
-- [x] Milestone 1: extract ROM and rebuild a byte-matching, launchable `.nds`
-      with our own toolchain (`tools/ndsrom.py`)
-- [x] Milestone 2: delink & disassemble the ARM9 binary + overlays with our
-      own tools, reassemble byte-identically (`tools/build.py`: 242 of 242
-      regions PASS) and split the ARM9 into ordered translation units
-- [~] Milestone 3: incrementally decompile to C, keeping the build matching.
-      In progress: about 7.7 percent of ARM9 game code ships as verified C
-      (361 entries; see layout/matched/ and python tools/worklist.py
-      --summary for live numbers), including the Pokemon data encryption
-      layer, the stat calculator, pokeparty.c, and 26 recovered original
-      source filenames
-- [ ] Planned: Pokémon White (IRAO) as a second build target of the same
-      tree; tooling and schemas are kept target-parameterizable for this
-      (see docs/ROADMAP.md)
+### Decompilation (aletheia)
+
+- [x] **Milestone 1** — ROM extraction and rebuild
+  - [x] Extract ROM filesystem with `tools/ndsrom.py`
+  - [x] Rebuild a byte-matching, launchable `.nds`
+  - [x] Verify rebuilt ROM runs on melonDS, DeSmuME, and real hardware
+- [x] **Milestone 2** — Delink, disassemble, and prove reassembly
+  - [x] BLZ-decompress and delink ARM9 binary + all 237 overlays
+  - [x] Disassemble with `tools/disasm.py` (ARM/Thumb, code/data split)
+  - [x] Reassemble byte-identically (`tools/build.py`: 242 of 242 regions PASS)
+  - [x] Split ARM9 into ordered translation units
+- [~] **Milestone 3** — Incremental decompilation to matching C
+  - [x] Build system compiles C and links against remaining assembly
+  - [x] Pokémon data encryption layer (`pml/`)
+  - [x] Stat calculator, pokeparty.c, level-up and evolution logic
+  - [x] 26 recovered original source filenames
+  - [~] ~18.1% of ARM9 game code ships as verified C
+  - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
+        `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
+  - [ ] Field and battle loop call trees
+  - [ ] 100% matching
+
+- [ ] **Milestone 4** — Native PC port ([eidos](https://github.com/OukilIl/eidos))
+- [ ] **Milestone 5** — Pokémon White support
+
+Companion project: [eidos](https://github.com/OukilIl/eidos) is the native runtime engine and PC port companion to aletheia.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the planned approach, and
 [docs/NOTES.md](docs/NOTES.md) for technical findings recorded along the way.

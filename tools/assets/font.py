@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-font.py -- NFTR (on-disk magic "RTFN") font decoder for the aletheia asset
+font.py -- NFTR (on-disk magic "RTFN") font decoder for aletheia asset
 lane.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 Depends only on narc.py (same directory) for NARC sub-file access.
 
 --------------------------------------------------------------------------

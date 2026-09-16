@@ -2,7 +2,7 @@
 """
 inventory.py -- survey extract/data/ and classify every NitroFS file.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 Walks extract/data/ (the 247 NitroFS files unpacked by tools/ndsrom.py),
 and for every leaf file reports:

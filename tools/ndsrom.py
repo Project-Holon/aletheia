@@ -2,7 +2,7 @@
 """
 ndsrom.py -- Nintendo DS / DSi (TWL) ROM unpacker, repacker and verifier.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 The guiding principle is *byte-exactness*: every byte of the cartridge image is
 either (a) covered by a modelled region that we understand and extract, (b) the

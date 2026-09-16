@@ -9,7 +9,7 @@ to point at any of them) -- see docs/ASSETS.md "the other 41 `" APS12_1"`
 wrappers found and decoded" for that pass's findings (a shared
 particle/weather-effect icon format, not a second trainer-sprite home).
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Format (recovered by inspection of sub-files 0, 1, 100)

@@ -3,7 +3,7 @@
 nsbmd.py -- NSBMD (BMD0, 3D model) / NSBTX (BTX0, 3D texture) reader for the
 aletheia asset lane.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 Format knowledge used here (container shape, ResDict layout, the GX
 geometry-command opcode/parameter table, the NDS texture pixel formats and
 the TEXIMAGE_PARAM hardware register bit layout) is drawn from public

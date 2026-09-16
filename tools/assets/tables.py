@@ -22,7 +22,7 @@ are exactly this shape. Found one more _GROUP2 reader, a/0/6/2 (two-level
 parameter passthrough). Machine-readable output: build/assets/
 reader_map2.json (gitignored, regenerate, don't commit).
 
-Written from scratch for the aletheia asset lane. Stdlib only, depends
+Written from scratch for aletheia. Stdlib only, depends
 only on narc.py.
 
 --------------------------------------------------------------------------

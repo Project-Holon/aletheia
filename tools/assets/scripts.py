@@ -6,7 +6,7 @@ src/matched/unit_0201126C.c and unit_02011330.c), dispatching through the
 609-entry handler table at 0x0217062C in overlay 10 (see docs/ASSETS.md,
 "Script virtual machine located and decompiled" section).
 
-Written from scratch for the aletheia asset lane. Stdlib only.
+Written from scratch for aletheia. Stdlib only.
 
 --------------------------------------------------------------------------
 Container framing (confirmed: 469 / 899 sub-files carry it)

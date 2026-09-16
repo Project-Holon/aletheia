@@ -3,7 +3,7 @@
 personal.py -- decoder for the Pokemon personal data table: `a/0/1/6`,
 60-byte records (struct Personal, 0x3C bytes), one record per species/form.
 
-Written from scratch for the aletheia asset lane. Stdlib only, depends
+Written from scratch for aletheia. Stdlib only, depends
 only on narc.py.
 
 --------------------------------------------------------------------------

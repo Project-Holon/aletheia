@@ -4,7 +4,7 @@ learnsets.py -- decoder for the level-up learnset table: `a/0/1/8`,
 668 sub-files, one per species/form, each a list of (move id, level)
 u16 pairs terminated by a (0xFFFF, 0xFFFF) sentinel pair.
 
-Written from scratch for the aletheia asset lane. Stdlib only, depends
+Written from scratch for aletheia. Stdlib only, depends
 only on narc.py.
 
 --------------------------------------------------------------------------

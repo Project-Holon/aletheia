@@ -4,7 +4,7 @@ encounters.py -- decoder for the wild encounter table archive `a/1/2/6`,
 112 sub-files, tied to the zone table (`a/0/1/2`, see zones.py) through
 the zone record's `packed_1a` lane (record offset +0x1a, low 10 bits).
 
-Written from scratch for the aletheia asset lane. Stdlib only.
+Written from scratch for aletheia. Stdlib only.
 
 --------------------------------------------------------------------------
 How the archive was found

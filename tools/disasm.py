@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-disasm.py -- honest ARM/Thumb disassembly listings for the aletheia project.
+disasm.py -- honest ARM/Thumb disassembly listings for aletheia.
 
 Written from scratch. The only third-party dependency is Capstone, which is
 used purely as a generic instruction decoder; every piece of analysis here

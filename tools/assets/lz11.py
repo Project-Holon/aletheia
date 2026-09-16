@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-lz11.py -- NDS LZ11 encoder for the aletheia asset lane. The decoder
+lz11.py -- NDS LZ11 encoder for aletheia. The decoder
 already lives in `tools/assets/narc.py` (`decompress_lz11`); this module
 is compress-only and does not duplicate or re-export it.
 
-Written from scratch for the aletheia project. Stdlib only, single file.
+Written from scratch for aletheia. Stdlib only, single file.
 
 --------------------------------------------------------------------------
 Recovered encoder policy
