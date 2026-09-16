@@ -18,7 +18,7 @@ byte-matching ROM.
 - [x] **Milestone 1** — ROM extraction and rebuild
   - [x] Extract ROM filesystem with `tools/ndsrom.py`
   - [x] Rebuild a byte-matching, launchable `.nds`
-  - [x] Verify rebuilt ROM runs on melonDS, DeSmuME, and real hardware
+  - [x] Verify the rebuilt ROM boots in melonDS (other emulators and hardware untested)
 - [x] **Milestone 2** — Delink, disassemble, and prove reassembly
   - [x] BLZ-decompress and delink ARM9 binary + all 237 overlays
   - [x] Disassemble with `tools/disasm.py` (ARM/Thumb, code/data split)
@@ -26,9 +26,9 @@ byte-matching ROM.
   - [x] Split ARM9 into ordered translation units
 - [~] **Milestone 3** — Incremental decompilation to matching C
   - [x] Build system compiles C and links against remaining assembly
-  - [x] Pokémon data encryption layer (`pml/`)
+  - [x] Pokémon data field map and the message text cipher (`src/matched/`)
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
-  - [x] 26 recovered original source filenames
+  - [x] About 1000 original source filenames recovered from `__FILE__` anchors (`layout/file_anchors.txt`)
   - [~] ~18.1% of ARM9 game code ships as verified C
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
