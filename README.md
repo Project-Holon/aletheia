@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/logo_512.png" width="256" alt="BW-D"></p>
+
 # aletheia
 
 A from-scratch decompilation project for Pokémon Black (NDS, USA/EUR "NDSi Enhanced", gamecode IRBO).
