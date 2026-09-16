@@ -327,6 +327,42 @@ header, and its manifest entry was dropped. Two consecutive
 `manifest --verify` runs afterward are byte-identical (0 rewritten both
 times).
 
+`tools/procscan.py` classifies every ARM function's return in arm9_main and
+all 237 overlays into one of five epilogue shapes (`disasm.scan_mnemonics`
+for the instructions, function labels in the listings for boundaries) to
+surface a second known-`-proc arm7tdmi` translation unit's tell
+(`pop {..., lr}` then `bx lr`, see
+`docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md`)
+before an agent burns a session discovering it function by function.
+`layout/units_arm9.json` turned out to be a fixed 180-function listing-chunk
+split, not real mwcc translation-unit boundaries (the known arm7tdmi library
+at 0x0205429C..0x020584E0 shares its 180-function chunk with roughly 130
+unrelated, arm946e-compiled functions either side of it), so the real
+per-TU grouping is recovered instead as maximal address-contiguous runs of
+functions that agree on hard evidence, never bridging a listing-chunk
+boundary and requiring at least three same-signal non-leaf functions before
+a run is trusted over the pinned default (one hand-written low-level
+`stmdb`/`bx lr` routine turned up alone in an otherwise all-Thumb chunk and
+is not a unit). The census is written to `layout/proc_hints.txt`
+(addresses and epilogue-class counts only) with a row per recovered unit,
+per overlay, and per still-open work packet, and cross-checked against
+every EXACT match already on file under the default flags: all 13 arm9
+units with real non-leaf EXACT evidence classify arm946e, and the one
+EXACT match that falls inside the arm7tdmi-classified range is itself a
+leaf function (`func_02058380`, which the idiom doc already notes matches
+under either `-proc`), not a contradiction. Two units come back arm7tdmi
+image-wide: the known 0x020524C8..0x020585DC library (containing the
+0x0205429C..0x020584E0 range the idiom doc names) and the mwccarm/MSL
+runtime helper library at 0x0209A524..0x0209D728 (wave 18B,
+`docs/notes/pkt_0209BDBC_runtime_library.c.txt`), which is hand-written
+assembly rather than a second mwcc-compiled arm7tdmi source file but
+legitimately shares the same two-instruction return shape. No overlay
+comes back non-arm946e. `tools/worklist.py --targets` and `--packet` now
+read `layout/proc_hints.txt` (optional; both work fine without it) and
+print the packet's inferred proc whenever it is not arm946e, so an agent
+opening a packet in that range sees the right `-proc` before its first
+compile instead of after a run of DIFFs.
+
 ## Pokemon White is planned
 
 A second build target (Pokemon White, IRAO) is planned for this tree; see

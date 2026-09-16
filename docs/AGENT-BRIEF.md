@@ -144,6 +144,13 @@ seven-level sweep has already been run project-wide and `-O4,p` /
 after a real attempt at the C, that is a near miss to document, not a cue
 to change flags.
 
+One exception is real, per file rather than per project: if
+`tools/worklist.py --packet pkt_ADDR` (or `--targets`) prints a `proc
+hint` other than arm946e (from `layout/proc_hints.txt`, see
+`docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md`),
+put the whole line in that entry's `flags:` header field, e.g.
+`-O4,p -proc arm7tdmi`, which `match.py`/`csrc.py` then compile with.
+
 ## 4. File formats
 
 ### The house header block

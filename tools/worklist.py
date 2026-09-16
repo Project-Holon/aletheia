@@ -119,6 +119,7 @@ SYMBOLS_SDK = os.path.join(ROOT, "layout", "symbols_sdk.txt")
 RUNTIME_ARM9 = os.path.join(ROOT, "layout", "runtime_arm9.txt")
 MATCHED_DIR = os.path.join(ROOT, "layout", "matched")
 FILE_ANCHORS = os.path.join(ROOT, "layout", "file_anchors.txt")
+PROC_HINTS = os.path.join(ROOT, "layout", "proc_hints.txt")
 OUT_JSON = os.path.join(ROOT, "layout", "worklist.json")
 
 REGION = "arm9"
@@ -739,6 +740,32 @@ def annotate_data_runs(funcs, items):
         )
 
 
+def load_proc_hints():
+    """{packet_id: proc} for every packet row in layout/proc_hints.txt.
+
+    tools/procscan.py classifies every ARM function's epilogue (pop into
+    pc vs. restore-lr-then-bx-lr, see
+    docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md)
+    and aggregates a -proc verdict per packet there. A packet whose proc
+    here is not "arm946e" (the pinned default) means an agent should pass
+    that -proc from its first compile instead of discovering the DIFF the
+    slow way. Missing file or missing row means no hint, not an error:
+    this tool works fine without ever having run tools/procscan.py.
+    """
+    hints = {}
+    if not os.path.isfile(PROC_HINTS):
+        return hints
+    with open(PROC_HINTS, encoding="utf-8") as fh:
+        for line in fh:
+            if not line.strip() or line.startswith("#"):
+                continue
+            parts = line.split()
+            if len(parts) < 3 or parts[0] != "packet":
+                continue
+            hints[parts[1]] = parts[-1]
+    return hints
+
+
 # ---------------------------------------------------------------- packets
 
 
@@ -1140,6 +1167,13 @@ def print_packet(doc, pid):
         % (p["function_count"], p["code_bytes"], p["isa"], p["units"])
     )
     print("  files: %s" % ", ".join(p["files"]))
+    proc = load_proc_hints().get(pid, "arm946e")
+    if proc != "arm946e":
+        print(
+            "  proc hint: %s (tools/procscan.py; not the pinned arm946e -- "
+            "pass -proc %s from the first compile, see layout/proc_hints.txt)"
+            % (proc, proc)
+        )
     print(
         "  external callers %d, external pointer refs %d, data-adjacent %d"
         % (p["external_callers"], p["external_pointer_refs"], p["data_adjacent_count"])
@@ -1408,18 +1442,21 @@ def build_targets(doc, limit):
 
 def print_targets(doc, limit):
     top = build_targets(doc, limit)
+    proc_hints = load_proc_hints()
     print("top %d open targets by attestation-weighted fan-in" % len(top))
     print(
-        "  %-12s %6s  %-14s %7s %7s %7s  %s"
-        % ("address", "size", "packet", "fan_in", "unlock", "score", "guess")
+        "  %-12s %6s  %-14s %8s %7s %7s %7s  %s"
+        % ("address", "size", "packet", "proc", "fan_in", "unlock", "score", "guess")
     )
     for r in top:
+        proc = proc_hints.get(r["packet"], "arm946e")
         print(
-            "  %-12s %6d  %-14s %7d %7d %7d  %s"
+            "  %-12s %6d  %-14s %8s %7d %7d %7d  %s"
             % (
                 hexa(r["addr"]),
                 r["size"],
                 r["packet"],
+                proc if proc != "arm946e" else "",
                 r["fan_in"],
                 r["unlock_weight"],
                 r["score"],
