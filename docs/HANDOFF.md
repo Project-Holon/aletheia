@@ -217,10 +217,39 @@ extracted layout, so the work is a second `extract/` plus per-target layout file
 19. **`pkt_0208A638` (8 B, ARM, 1 func)**:
     - `func_0208A638` (8 B, ARM): Offset +0x38 pointer access (`src/matched/func_0208A638.c`).
 
+
+
+---
+
+## 2026-09-16 - Wave 4: Graduated 6 Work Packets across arm9 (+120 B Net, 7 New Matched Functions)
+
+### Status & Metrics
+- **ROM State**: 100% byte-identical (`sha1: 26ad0b9967aa279c4a266ee69f52b9b2332399a5`).
+- **All 242 Build Checks Passing**: `242 PASS, 0 FAIL`.
+- **arm9 Decomp Coverage**: **16.5235%** (66,104 / 400,060 B across 1,607 matched functions).
+- **Open Packets**: Decreased from 481 to 475 (6 packets dissolved).
+
+### Key Functions Graduated in Wave 4
+1. **`pkt_02030F04` (48 B, ARM, 1 func)**:
+   - `func_02030F04` (48 B, ARM): Doubly-linked list head pop / unlinking routine (`src/matched/func_02030F04.c`).
+2. **`pkt_020627F0` (32 B, ARM, 1 func)**:
+   - `func_020627F0` (32 B, ARM): Flag-conditional offset shift index lookup (`src/matched/func_020627F0.c`).
+3. **`pkt_02031324` (24 B, ARM, 2 funcs completed)**:
+   - `func_02031324` (12 B, ARM): Forwarder thunk to `func_02031354` in `procsys.c` (`src/matched/func_02031324.c`).
+   - `func_02031330` (12 B, ARM): Forwarder thunk to `func_020313EC` in `procsys.c` (`src/matched/func_02031330.c`).
+   - Note: Packet `pkt_02031324` is now 100% complete and fully dissolved.
+4. **`pkt_0203F028` (12 B, ARM, 1 func)**:
+   - `func_0203F028` (12 B, ARM): Forwarder thunk to `STD_CompareString` (`0x0208CD94`) (`src/matched/func_0203F028.c`).
+5. **`pkt_02084FA8` (12 B, ARM, 1 func)**:
+   - `func_02084FA8` (12 B, ARM): Forwarder thunk to `STD_TVSNPrintf` (`0x0208D834`) (`src/matched/func_02084FA8.c`).
+6. **`pkt_02085D88` (12 B, ARM, 1 func)**:
+   - `func_02085D88` (12 B, ARM): Forwarder thunk to `OS_IsRunOnTwl` (`0x02085D3C`) (`src/matched/func_02085D88.c`).
+
 ### Technical Insights
-- By targeting clean packets where `code_bytes == extent_bytes` without inter-packet relocations, 19 isolated packets across ARM and Thumb were matched with zero compiler mismatches and 100% byte identity.
-- Identified that contiguous struct field assignment in C triggers MWCC `stmib` code generation (`unit_020590F0`).
-- ROM byte-identical verification strictly maintained on every graduation.
+- All SDK library forwarders (`STD_CompareString`, `STD_TVSNPrintf`, `OS_IsRunOnTwl`) possess official SDK attestation, enabling clean zero-mismatch relocations.
+- Re-analyzed packet boundaries for partial shards (`pkt_02031324`), successfully dissolving the remainder of the packet.
+- Strict 100% byte-identical ROM reassembly preserved.
+
 
 
 
