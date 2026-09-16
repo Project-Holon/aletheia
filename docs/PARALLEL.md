@@ -363,6 +363,30 @@ print the packet's inferred proc whenever it is not arm946e, so an agent
 opening a packet in that range sees the right `-proc` before its first
 compile instead of after a run of DIFFs.
 
+`match.py` has a `runtime` witness class alongside `label`/`veneer`/
+`literal`/`string`/`matched`/`local`: a `bl`/`blx` target listed in
+`layout/runtime_arm9.txt` (the MSL/runtime.a soft-float and 64-bit integer
+routines mwccarm links in) attests directly from that curated table, the
+same evidentiary standing `symbols_sdk.json` gives an SDK symbol, with no
+`func_` label or outside call needed. It closed `src/pending/sub_02018E34.c`
+(now `src/matched/`, `pkt_02018DB4`), whose three calls to `_ll_shl` were the
+only Thumb BL/BLX sites anywhere in the image that reach it, so `label`
+could never have carried them regardless of a label.
+
+The `label` class's overlay branch (`attest_overlay_label()`) now resolves
+which of several address-overlapping overlays a cross-region `bl`/`blx`
+means, instead of silently taking the first candidate whose listing happens
+to carry a label: a fourth token on a `symbols:` line names the overlay
+(`func_021D21C0  0x021D21C0  thumb  ov021`), and without one, more than one
+labelled candidate is refused rather than guessed at. The three
+`field_sound_system.c` pending files stay `MATCH`-capped even so: their
+common callee at `0x021D21C0` sits in a span `disasm.py`'s per-overlay
+tracer scored as a literal pool (nothing inside that overlay's own listing
+branches to it, only ARM9 does), so none of its three candidate overlays
+carries a `func_` label there at all; `manifest --verify`'s per-site report
+now names the candidate overlays so this reads as a labelling gap rather
+than a silent `MATCH`.
+
 ## Pokemon White is planned
 
 A second build target (Pokemon White, IRAO) is planned for this tree; see

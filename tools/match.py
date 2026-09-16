@@ -739,32 +739,60 @@ def image_call_sites(addr):
     return sorted(sites)
 
 
-def attest_overlay_label(addr, kind, lo, hi):
+def overlay_candidates(addr):
+    """Names, sorted, of every overlay whose load window holds `addr`.
+
+    Overlays share a handful of RAM windows, so this is routinely more than
+    one name; `attest_overlay_label()` is what decides whether that is
+    resolvable.
+    """
+    return sorted(n for n in regions_containing(addr) if n.startswith("ov"))
+
+
+def attest_overlay_label(addr, kind, lo, hi, region_hint=None):
     """The `label` class for an address that lives in an overlay.
 
-    Three conditions, each a separate refusal:
+    Conditions, each a separate refusal:
 
       1. the address is inside at least one overlay region of
-         layout/layout.json, and that overlay's generated listing carries a
-         `func_` label there, i.e. disasm.py traced real code at that address
-         in that overlay;
-      2. the ISA that label records is the ISA the source declares.  An
-         overlay that decodes the address as Thumb is not evidence for an
-         `arm` extern;
+         layout/layout.json;
+      2. among the overlay(s) to consider, EXACTLY ONE has a generated
+         listing that carries a `func_` label at the address with the ISA
+         the source declares, i.e. disasm.py traced real code of the right
+         instruction set there in that overlay.  Overlays overlap in address
+         space, so more than one candidate having a label -- even a
+         same-ISA one -- is ambiguity, not evidence: nothing here says which
+         overlay was actually loaded when the call happened, so a wrong pick
+         would be a guess wearing the `label` class's evidentiary standing.
+         `region_hint`, when given, narrows the candidates to that one
+         overlay before this check runs, which is how a source file resolves
+         the ambiguity instead of this function guessing;
       3. at least one branch anywhere in the image targets the address from
          outside the compared range.
+
+    `region_hint` comes from the pending/matched source's own `symbols:`
+    line (a fourth token naming the overlay, e.g. `ov021`); see
+    `declared_symbols()`.  A hint that names a region the address is not
+    even inside is refused outright, the same as no evidence at all.
 
     The verdict is reported as `label`, not as a class of its own, because it
     is the same evidence with a wider index: a traced entry point plus a real
     branch instruction that calls it.
     """
-    found = overlay_label(addr)
-    if found is None:
-        return None
-    region, thumb = found
     if kind not in ("thumb", "arm"):
         return None
-    if thumb != (kind == "thumb"):
+    candidates = overlay_candidates(addr)
+    if not candidates:
+        return None
+    if region_hint is not None:
+        if region_hint not in candidates:
+            return None
+        pool = [region_hint]
+    else:
+        pool = candidates
+    labeled = [name for name in pool
+               if scan_listing(name).get(addr) == (kind == "thumb")]
+    if len(labeled) != 1:
         return None
     sites = [s for s in image_call_sites(addr) if not lo <= s < hi]
     if not sites:
@@ -922,6 +950,74 @@ def attest_veneer(addr, kind, lo, hi):
     return "veneer", 1, ptr_at
 
 
+# ---------------------------------------------------------------------------
+# the `runtime` class
+# ---------------------------------------------------------------------------
+#
+# mwccarm links a handful of hand-written ARM routines out of MSL/runtime.a
+# for things C cannot express: the 64-bit shift/multiply/divide helpers, the
+# soft-float arithmetic, the divide-by-zero check.  layout/runtime_arm9.txt
+# is calibration wave 18B's identification of those addresses (see
+# docs/notes/pkt_0209BDBC_runtime_library.c.txt).  They are never compiled
+# from this project's C, so disasm.py never traces a func_ label at one --
+# there is no prologue this front end emitted to recognise -- and a call to
+# one is frequently the ONLY branch to it anywhere in the image (three of the
+# four Thumb BL/BLX sites in the whole ROM that reach 0x0209C074 are inside
+# src/pending/sub_02018E34.c itself), so the `label` class could never carry
+# it even if a label existed: every witness would be inside the range under
+# test.
+#
+# The table entry is the witness, and it satisfies the honesty rule the same
+# way layout/symbols_sdk.json does for SDK symbols: it is read from a file
+# that is never part of any compared byte range, established by calibration
+# independently of any single call site, not by tracing branches in the
+# image at all.  This is the identical evidentiary move symbol_address()
+# already makes for `sdk_symbols()` (see its "tag" argument) -- a curated,
+# externally verified address/name table trusted directly -- given a class
+# of its own here because, unlike an SDK symbol, a runtime routine is never
+# also independently `label`-attestable, so it needs a path that does not
+# route through a func_ label at all.
+#
+# ARM only: every routine in runtime.a is ARM code (this front end never
+# compiles its own runtime support Thumb), so a Thumb declaration against a
+# table address is refused rather than silently trusted.
+
+_RUNTIME_ADDRS = {}
+
+
+def runtime_addresses():
+    """{address: name} from layout/runtime_arm9.txt."""
+    if "a" in _RUNTIME_ADDRS:
+        return _RUNTIME_ADDRS["a"]
+    out = {}
+    p = os.path.join(ROOT, "layout", "runtime_arm9.txt")
+    if os.path.exists(p):
+        with open(p, "r", errors="replace") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                parts = line.split()
+                if len(parts) < 2:
+                    continue
+                try:
+                    addr = int(parts[0], 16)
+                except ValueError:
+                    continue
+                out[addr] = parts[1]
+    _RUNTIME_ADDRS["a"] = out
+    return out
+
+
+def attest_runtime(addr, kind):
+    """The `runtime` class.  Returns (class, witnesses, site) or None."""
+    if kind != "arm":
+        return None
+    if addr not in runtime_addresses():
+        return None
+    return "runtime", 1, addr
+
+
 _SDK_SYMS = {}
 
 
@@ -962,27 +1058,41 @@ _ADDR_NAME_RE = re.compile(r"^(?:func|sub)_(0[0-9A-Fa-f]{7})$")
 class Decl:
     """One entry of a source file's `symbols:` block."""
 
-    __slots__ = ("name", "addr", "kind", "origin")
+    __slots__ = ("name", "addr", "kind", "origin", "region")
 
-    def __init__(self, name, addr, kind, origin):
+    def __init__(self, name, addr, kind, origin, region=None):
         self.name = name
         self.addr = addr
         self.kind = kind        # "thumb", "arm" or "data"
         self.origin = origin    # "header" or "name"
+        self.region = region    # overlay hint, e.g. "ov021", or None
 
 
 def declared_symbols(fields):
-    """Parse the `symbols:` block of a matched source file's header."""
+    """Parse the `symbols:` block of a matched source file's header.
+
+    A line is normally `name 0xADDR kind`.  A fourth token names the overlay
+    the address lives in (`func_021D21C0  0x021D21C0  thumb  ov021`), for a
+    callee that only exists in an overlay: overlays overlap in address
+    space, so without this the `label` class has no way to know which of
+    several overlapping candidates the author means, and refuses rather than
+    guess.  See attest_overlay_label().
+    """
     out = {}
     for line in fields.get("symbols_lines", []):
         parts = line.split()
-        if len(parts) != 3:
-            raise SystemExit("bad symbols: line %r (want 'name 0xADDR kind')"
-                             % line)
-        name, addr, kind = parts
+        if len(parts) not in (3, 4):
+            raise SystemExit(
+                "bad symbols: line %r (want 'name 0xADDR kind [overlay]')"
+                % line)
+        if len(parts) == 3:
+            name, addr, kind = parts
+            region = None
+        else:
+            name, addr, kind, region = parts
         if kind not in ("thumb", "arm", "data"):
             raise SystemExit("bad symbol kind %r for %s" % (kind, name))
-        out[name] = Decl(name, int(addr, 0), kind, "header")
+        out[name] = Decl(name, int(addr, 0), kind, "header", region)
     return out
 
 
@@ -1391,14 +1501,17 @@ def attest_matched(addr, kind, src=None):
     return "matched", 1, addr
 
 
-def attest(addr, kind, lo, hi, src=None):
+def attest(addr, kind, lo, hi, src=None, region_hint=None):
     """Independent evidence for `addr`, or None.
 
     `lo`..`hi` is the byte range under comparison; a witness inside it does
     not count, because that is the range whose contents the resolved value
     is about to be checked against.  `src` is the source file under test,
-    which the `matched` class needs to refuse self-reference.  Returns
-    (class, witness_count, example_site).
+    which the `matched` class needs to refuse self-reference.  `region_hint`
+    is an overlay name from the source's own `symbols:` line, used only by
+    the overlay branch of the `label` class to resolve which of several
+    overlapping overlays is meant.  Returns (class, witness_count,
+    example_site).
     """
     ev = evidence()
     if kind in ("thumb", "arm"):
@@ -1422,9 +1535,16 @@ def attest(addr, kind, lo, hi, src=None):
             # No label in the ARM9 listings.  The address may still be an
             # overlay-resident function; the index is wider but the standard
             # is the same, a traced entry point plus an outside branch to it.
-            proof = attest_overlay_label(addr, kind, lo, hi)
+            proof = attest_overlay_label(addr, kind, lo, hi, region_hint)
             if proof is not None:
                 return proof
+        # A curated vendor-library entry (MSL/runtime.a) needs neither a
+        # label nor an outside call: see "the `runtime` class" above for why
+        # that table carries the same evidentiary standing as
+        # layout/symbols_sdk.json does for SDK symbols.
+        proof = attest_runtime(addr, kind)
+        if proof is not None:
+            return proof
     want = addr | 1 if kind == "thumb" else addr
     sites = [s for s in ev.pool_words.get(want, ()) if not lo <= s < hi]
     if sites:
@@ -1608,10 +1728,21 @@ def resolve_relocations(fb, place, decls, size=None, src=None):
                                     origin, off))
                 if found is None:
                     st.note = "declared %s, no image evidence for the ISA" % kind
-            proof = attest(target, kind, lo, hi, src)
+            region_hint = decls[name].region if name in decls else None
+            proof = attest(target, kind, lo, hi, src, region_hint)
             if proof is None:
                 st.reason = ("%08X (%s, from %s) has no witness outside "
                              "%08X..%08X" % (target, kind, origin, lo, hi))
+                if kind in ("thumb", "arm"):
+                    cands = overlay_candidates(target)
+                    if len(cands) > 1:
+                        st.reason += (
+                            "; %d overlays overlap this address (%s), none "
+                            "resolvable without a region hint on the "
+                            "symbols: line" % (len(cands), ", ".join(cands)))
+                    elif cands and region_hint is None:
+                        st.reason += ("; %s overlaps this address but has "
+                                      "no func_ label there" % cands[0])
                 continue
             st.cls, st.witnesses, st.witness = proof
 
@@ -2856,8 +2987,37 @@ THUMB_THUNK = 0x02005C3C
 OVERLAY_THUMB_THUNK = 0x021DFDB8
 
 # 0x021D5440 is a Thumb function of ov093 that nothing in arm9 labels, called
-# from many sites in ov093 and elsewhere.
+# from many sites in ov093 and elsewhere.  Eleven overlays overlap this
+# address; only ov093 labels it, which is what makes the un-hinted case
+# unambiguous.
 OVERLAY_FUNC = 0x021D5440
+OVERLAY_FUNC_REGION = "ov093"
+# A candidate overlay of OVERLAY_FUNC's address window that does NOT label
+# it, for exercising a region_hint that resolves to nothing.
+OVERLAY_FUNC_WRONG_REGION = "ov016"
+
+# 0x021D21C0: the callee of src/pending/func_02028A7C.c and its two siblings
+# (see docs/AGENT-BRIEF.md's cross-region label paragraph).  Real ARM9-to-
+# overlay call sites name it (the header's `symbols:` block was derived from
+# exactly those), but no candidate overlay's generated listing traces a
+# func_ label there -- disasm.py's per-overlay tracer only follows branches
+# it can see inside that overlay, and every site that calls this address is
+# in arm9, so it never had a reason to visit these bytes.  Three overlays
+# overlap the address (ov016, ov021, ov093); this is therefore the "report
+# the candidates and refuse" case, not a labelled positive, and it is the
+# same shape whether or not the ambiguity is the reason: zero of the three
+# candidates label it either way.
+OVERLAY_XCALL_UNLABELLED = 0x021D21C0
+OVERLAY_XCALL_CANDIDATES = ("ov016", "ov021", "ov093")
+
+# The `runtime` class.  0x0209C074 is _ll_shl, one of the three sites
+# src/pending/sub_02018E34.c calls it from; those three ARE every Thumb
+# BL/BLX in the image that reaches it, so `label` could never carry this
+# address even with a func_ label.  0x0209C078 is four bytes in (the middle
+# of the same routine, per layout/runtime_arm9.txt's next entry starting
+# well past it) and is not itself a table entry.
+RUNTIME_LL_SHL = 0x0209C074
+RUNTIME_NOT_AN_ENTRY = 0x0209C078
 
 # A Thumb entry point nothing labels: its only witness anywhere is the pool
 # word at 0x020049F8, so the `literal` class attests the ADDRESS while the
@@ -2988,6 +3148,41 @@ def cmd_selftest(args):
            cls(attest(OVERLAY_FUNC, "thumb", 0x02000000, 0x03000000)), None)
     _check(res, "label: an overlay address no overlay labels is refused",
            cls(attest(OVERLAY_THUMB_THUNK, "thumb", 0, 0)), None)
+    _check(res, "label: a region_hint naming the labelled overlay succeeds "
+                "the same way",
+           cls(attest(OVERLAY_FUNC, "thumb", 0, 0,
+                      region_hint=OVERLAY_FUNC_REGION)), "label")
+    _check(res, "label: a region_hint naming a candidate that does not "
+                "label it is refused",
+           cls(attest(OVERLAY_FUNC, "thumb", 0, 0,
+                      region_hint=OVERLAY_FUNC_WRONG_REGION)), None)
+    _check(res, "label: a region_hint naming an overlay whose window does "
+                "not even hold the address is refused",
+           cls(attest(OVERLAY_FUNC, "thumb", 0, 0, region_hint="ov001")),
+           None)
+    _check(res, "label: three overlapping overlays are the real candidate "
+                "list for the field_sound_system.c callee",
+           overlay_candidates(OVERLAY_XCALL_UNLABELLED),
+           sorted(OVERLAY_XCALL_CANDIDATES))
+    _check(res, "label: none of them traces a func_ label there, so the "
+                "real cross-region call site is refused, candidates and "
+                "all, not guessed at",
+           cls(attest(OVERLAY_XCALL_UNLABELLED, "thumb", 0, 0)), None)
+
+    # --- the runtime class ---------------------------------------------
+    _check(res, "runtime: a curated MSL/runtime.a entry attests itself, no "
+                "label or outside call needed",
+           cls(attest(RUNTIME_LL_SHL, "arm", 0, 0)), "runtime")
+    _check(res, "runtime: every witness inside the compared range is still "
+                "irrelevant -- the table is never in any compared range",
+           cls(attest(RUNTIME_LL_SHL, "arm", 0x0209C000, 0x0209C100)),
+           "runtime")
+    _check(res, "runtime: a Thumb declaration against an ARM table entry is "
+                "refused",
+           cls(attest(RUNTIME_LL_SHL, "thumb", 0, 0)), None)
+    _check(res, "runtime: an address inside the runtime range that is not "
+                "itself a listed entry does not attest",
+           cls(attest(RUNTIME_NOT_AN_ENTRY, "arm", 0, 0)), None)
 
     # --- the veneer class --------------------------------------------------
     # VENEER's address is now also named by two real literal pool words

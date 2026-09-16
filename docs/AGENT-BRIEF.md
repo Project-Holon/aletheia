@@ -227,7 +227,7 @@ per-finding, but only if you respect this list.
 A relocation may only be resolved when its target address is attested by
 evidence *outside* the byte range under comparison. Reading the answer out
 of the bytes you are checking and then confirming the bytes contain the
-answer is not a test. Six evidence classes, each printed per site by
+answer is not a test. Seven evidence classes, each printed per site by
 `match.py`:
 
 - **local**: the symbol is defined in the same object you compiled; its
@@ -249,6 +249,29 @@ answer is not a test. Six evidence classes, each printed per site by
   (`ldr ip,[pc,#0]; bx ip; .word target` or `ldr pc,[pc,#-4]; .word
   target`) whose pointer names known code; the stub itself, read from
   outside your range, is the evidence.
+- **runtime**: the address is listed in `layout/runtime_arm9.txt`, the
+  curated identification of the MSL/runtime.a routines mwccarm links in for
+  64-bit shift/multiply/divide and soft-float arithmetic (wave 18B). These
+  are hand-written ARM assembly, never compiled from this project's C, so
+  `disasm.py` never traces a `func_` label at one, and a call site is
+  frequently the only branch anywhere in the image that reaches it (every
+  witness would then be inside your own range, which `label` refuses). The
+  table entry is the witness, read from a file that is never part of any
+  compared range: the same evidentiary standing `layout/symbols_sdk.json`
+  carries for an SDK symbol, given a class of its own because a runtime
+  routine is never also `label`-attestable the way an SDK symbol usually
+  is. ARM only; declare it `arm` in your `symbols:` block.
+
+The `label` class also covers an ARM9 `bl`/`blx` into an overlay-resident
+function: the address needs a `func_` label in exactly one overlay's own
+listing (`asm/overlays/`) with the ISA you declared, plus an outside branch,
+same as any other `label` site. Overlays overlap in address space, so when
+more than one overlay's window holds the address, name the one you mean as
+a fourth token on the `symbols:` line (`func_021D21C0  0x021D21C0  thumb
+ov021`); without it, more than one labelled candidate is refused rather
+than guessed at, and `match.py one`'s per-site report lists the candidate
+overlays so you can tell a genuine ambiguity from an address nothing labels
+at all. `attest_overlay_label()` in `tools/match.py` is the implementation.
 
 No back-filling: you may not declare an address correct because the bytes
 you are trying to match happen to contain it, and you may not reuse the

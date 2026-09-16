@@ -1,36 +1,31 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * function: func_02018E34
- * address:  0x02018E34, 1236 bytes, one function, 176 case jump table
+ * address:  0x02018E34
  * region:   arm9
+ * packet:   pkt_02018DB4
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right (0 differing bytes, 1236 of 1236)
+ * status:   EXACT
  *
- * The read accessor over the encrypted block area of the 0xDC byte record, and
- * the larger half of poke_tool.c's get/set dispatcher quartet.  func_02018DB4
+ * 1236 bytes, one function, a 176 case jump table.  The read accessor over
+ * the encrypted block area of the 0xDC byte record, and the larger half of
+ * poke_tool.c's get/set dispatcher quartet.  func_02018DB4
  * (src/matched/sub_02018DB4.c) owns ids 0x9D to 0xA8 and forwards everything
  * else here; the writer twin is func_02019388 (src/matched/sub_02019388.c).
  *
- * Why it is capped: three of the eighteen relocation sites are calls to
- * 0x0209C074, the compiler's 64 bit shift helper, and one is a call to
- * func_02019BBC, and a scan of every Thumb BL and BLX in the image finds those
- * four sites and no others.  All four are inside this one function, so the
- * `label` class has no witness once the compared range holds them and no cut
- * helps: the range cannot be made smaller than the single function that needs
- * them.  Same class as 0x02005DE4 and 0x02005A98 in docs/MATCHING.md.
- *
- * The `matched` class closes one of the two addresses and not the other.
- * func_02019BBC now resolves: it is covered by src/matched/unit_02019B58.c,
- * an EXACT entry proved byte for byte against the original over a range this
- * file does not touch.  0x0209C074 is not matched, and it is the compiler's
- * own 64 bit shift helper rather than game code, so the three calls to it stay
- * wildcarded and the entry stays MATCH.  It closes the day 0x0209C074 is
- * matched (or calibrated the way the four SDK functions in src/calib/ are), or
- * the day the image acquires a fourth call site outside this function.
+ * Of the eighteen relocation sites, three are calls to 0x0209C074 (_ll_shl,
+ * the compiler's own 64 bit shift helper) and one is to func_02019BBC; a scan
+ * of every Thumb BL and BLX in the image finds those four sites and no
+ * others, all four inside this one function, so neither the `label` nor
+ * `matched` class alone ever had an outside witness for both.  func_02019BBC
+ * resolves via the `matched` class (src/matched/unit_02019B58.c, an EXACT
+ * entry proved over a range this file does not touch); 0x0209C074 resolves
+ * via the `runtime` class, layout/runtime_arm9.txt's curated identification
+ * of the MSL/runtime.a routines mwccarm links in, which carries the same
+ * evidentiary standing as an SDK symbol without needing a label or an
+ * outside call.  See docs/AGENT-BRIEF.md's attestation section.
  *
  * ---------------------------------------------------------------------------
  * THE FIELD MAP
@@ -154,7 +149,7 @@
  *
  * The three 64 bit flag-bit tests are one shape: `((u64)ok << n) & field`,
  * with the field zero extended, compared against zero in 64 bits.  The u64 is
- * what calls 0x0209C074 and is therefore also what caps this file.
+ * what calls 0x0209C074 (_ll_shl).
  *
  * Verified with
  *   python tools/match.py one --src src/pending/sub_02018E34.c \
