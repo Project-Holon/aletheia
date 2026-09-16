@@ -128,7 +128,7 @@ extracted layout, so the work is a second `extract/` plus per-target layout file
 - `docs/notes/func_02049A18.c.txt`: 296 B ARM function, logic matches 100%, register scheduling differences documented.
 - `docs/notes/func_020948E0.c.txt` & `docs/notes/func_02094A60.c.txt`: Logic matches 100%, scheduling differences documented.
 
-## Session Update — 2026-09-16 00:45 (Wave 2)
+## Session Update, 2026-09-16 00:45 (Wave 2)
 
 ### Milestone Progress
 - **Coverage**: Reached **16.4425%** (65,780 / 400,060 bytes).
