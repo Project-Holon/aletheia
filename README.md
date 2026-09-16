@@ -84,11 +84,13 @@ Development of this project is assisted by Anthropic's Claude (via Claude
 Code); tooling and documentation are produced with its help under human
 direction and review.
 
-## Legal
+## License and legal
 
-This repository contains no game assets, code, or ROMs, only original
-tooling and, eventually, reimplemented source code. You must dump your own
-cartridge to use any of this.
+The tooling, layout files, documentation and build scripts are released under
+the MIT License (`LICENSE`). The reverse-engineered game source under `src/`
+is distributed without a license grant and remains the property of Nintendo,
+Creatures Inc. and GAME FREAK inc.; see `LEGAL.md`. This repository contains
+no game data of any kind: you must dump your own cartridge to use any of it.
 
 ## Repository layout notes
 
