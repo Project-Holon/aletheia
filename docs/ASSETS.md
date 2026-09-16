@@ -12097,3 +12097,44 @@ and the other two not.
   per-call-site `resolved` field). `reader_map2.json` additionally records
   `levels_climbed` per site, which is what made the two rejections above
   possible to reconstruct without re-running the scan tool.
+
+## Asset lane: NcgrFile.block_pixels ported from rig.Ncgr
+
+A prior sample export (`bw_asset_samples/icons/README.txt` and
+`overworld_sprites/README.txt`) found `tools/assets/overworld.py`'s
+`NcgrFile` class (shared by `overworld.py` and `walk.py`) had no
+`block_pixels()` method, only the older one-dimensional `tile_nibbles()`,
+while `rig.render_oam` (used by both modules to draw a cell's OAMs) is
+hard-coded to call `ncgr.block_pixels()`. This crashed every render
+through `a/0/0/7`, `a/0/2/5`, `a/0/3/1` and `a/0/3/2` with
+`AttributeError: 'NcgrFile' object has no attribute 'block_pixels'`.
+
+Fix: `NcgrFile.__init__` now also unpacks its tile data into a full
+`width x height` sheet image (a fresh `_unpack()`, reading the RAHC body's
+`unk1` field as the char_format flag `rig.Ncgr` already decodes by name --
+1 means a linear raster image, 0 means sequential 8x8 tiles), and a new
+`NcgrFile.block_pixels(block_index)` indexes into that sheet with the same
+two-dimensional addressing as `rig.Ncgr.block_pixels` (block `i` at column
+`i % tile_num_x`, row `i // tile_num_x`). This is a fresh implementation
+against `NcgrFile`'s own attributes, not an alias of `rig.Ncgr`'s method or
+of `NcgrFile`'s own `tile_nibbles`, since the two classes store tile data
+differently (`rig.Ncgr` keeps a class-wide `self.pixels`/`self.tile_data`
+pair with the same shape `NcgrFile` now mirrors, but under different field
+names). `tile_nibbles()` is left in place, unused by `render_oam`.
+
+Regenerated samples (`bw_asset_samples/`):
+- `overworld_sprites/overworld_0142.png` (a/0/0/7 entity 142, 104x36)
+- `overworld_sprites/overworld_anim_0000.png` (a/0/0/7 entity 0, 410x36,
+  `--anim-sample` strip)
+- `overworld_sprites/walk_c24_top_loop.png` and `walk_c24_right_run.png`
+  (a/0/3/1 entity 0 walk cycles, 138x36 strips)
+- `icons/party_0000.png`, `icons/party_0071.png` (a/0/0/7 party sprites)
+- `icons/bag_0000.png`, `icons/bag_0045.png` (a/0/2/5 bag icons)
+
+Regression checks after the fix, all unchanged from before this pass:
+- `python tools/assets/rig.py 25`: `0025_pose.png` still 48x52 (this
+  module's own `Ncgr` class was not touched).
+- `python tools/assets/icons.py --all --roundtrip`: 650/650 rendered,
+  655/655 round-trip byte-identical.
+- `python tools/assets/verify_all.py --archive a/0/0/7`: 722 pass, 0 fail.
+- `python tools/assets/verify_all.py --archive a/0/2/5`: 1005 pass, 0 fail.

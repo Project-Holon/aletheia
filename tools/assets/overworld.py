@@ -267,6 +267,20 @@ class NcgrFile:
         self.header_gap = body[24:data_ofs]  # bytes between the 24-byte sub-header
                                               # and data_ofs, if data_ofs > 24
         self.tile_count = len(tile_data) // rig.TILE_BYTES_4BPP
+        # `unk1` (RAHC body offset 12) is the same field rig.Ncgr decodes and
+        # names `char_format`: 1 means `tile_data` is one linear
+        # `tile_num_x*8 x tile_num_y*8` raster image, 0 means sequential 8x8
+        # tiled blocks. This class never named it, so `block_pixels()` below
+        # (ported from rig.Ncgr's corrected two-dimensional addressing) reads
+        # it as `self.unk1` rather than adding a second name for one field.
+        self._sentinel_dims = (tile_num_x == 0xFFFF or tile_num_y == 0xFFFF)
+        if self._sentinel_dims:
+            self.width = self.height = 0
+            self.pixels = None
+        else:
+            self.width = tile_num_x * 8
+            self.height = tile_num_y * 8
+            self.pixels = self._unpack()
 
     def tile_nibbles(self, tile_index):
         off = tile_index * rig.TILE_BYTES_4BPP
@@ -278,6 +292,55 @@ class NcgrFile:
                 b = row[lx4]
                 out[ly * 8 + lx4 * 2] = b & 0x0F
                 out[ly * 8 + lx4 * 2 + 1] = (b >> 4) & 0x0F
+        return out
+
+    def _unpack(self):
+        """Return the sheet as a flat `width * height` list of 4bpp indices,
+        low nibble first (left pixel). Ported from rig.Ncgr._unpack against
+        this class's own fields (`tile_data`, `unk1` in place of
+        `char_format`) -- the two classes store the same NCGR bytes, so the
+        addressing carries over, but the attributes it reads do not, hence a
+        fresh method rather than reusing rig.Ncgr's by name or alias."""
+        w, h = self.width, self.height
+        data = self.tile_data
+        px = [0] * (w * h)
+        if self.unk1 == 1:
+            for i, b in enumerate(data):
+                p = i * 2
+                if p + 1 >= len(px):
+                    break
+                px[p] = b & 0x0F
+                px[p + 1] = (b >> 4) & 0x0F
+            return px
+        for t in range(len(data) // rig.TILE_BYTES_4BPP):
+            bx = (t % self.tile_num_x) * 8
+            by = (t // self.tile_num_x) * 8
+            if by + 8 > h:
+                break
+            base = t * rig.TILE_BYTES_4BPP
+            for i in range(rig.TILE_BYTES_4BPP):
+                b = data[base + i]
+                p = (by + i // 4) * w + bx + (i % 4) * 2
+                px[p] = b & 0x0F
+                px[p + 1] = (b >> 4) & 0x0F
+        return px
+
+    def block_pixels(self, block_index):
+        """Return the 64 pixel indices (row-major, 8x8) of one 8x8 block,
+        addressed two-dimensionally: block `i` is at column
+        `i % tile_num_x`, row `i // tile_num_x` of the unpacked sheet image.
+        This is what `rig.render_oam` calls; `tile_nibbles` above is the
+        older one-dimensional lookup this class used to expose instead, kept
+        for any other caller still addressing tiles sequentially."""
+        bx = (block_index % self.tile_num_x) * 8
+        by = (block_index // self.tile_num_x) * 8
+        if by + 8 > self.height:
+            return [0] * 64
+        w = self.width
+        out = []
+        for ly in range(8):
+            row = (by + ly) * w + bx
+            out.extend(self.pixels[row:row + 8])
         return out
 
     def encode(self):
