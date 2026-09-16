@@ -347,10 +347,36 @@ extracted layout, so the work is a second `extract/` plus per-target layout file
 - Predicated ARM bitfield mutations (`lsl`, `orr`, `bic`, `str`) with conditional early return are matched with inverted condition testing (`func_0204B604.c`).
 - Pipeline scheduling under `-O4,p` requires awareness of load stall fillings when matching register assignments.
 
-### Wave 8 Next Steps & Priority Targets
-- Priority candidate: `pkt_020312B4` (16 B, ARM, pools `0x02146990`, `0x020313EC`).
-- Priority candidate: `pkt_0202C124` (18 B, Thumb, calls `func_02030734`, pools `0x10A`, `0x020A7758`).
-- Priority candidate: `pkt_02006368` (34 B, Thumb, calls `func_0208574C`, `func_020855BC`).
+---
+
+## [2026-09-16 09:40:00] Wave 8 Handoff Report
+
+### Status Overview
+- **Build Status**: `242 PASS, 0 FAIL` across all ROM overlays and ARM9 regions.
+- **arm9 Decomp Coverage**: **16.7450%** (66,990 / 400,060 B across 1,636 matched functions).
+- **Open Packets**: Reduced from 454 to 449 (5 packets completely dissolved).
+- **Progress in Wave**: +188 bytes net, 6 new matched functions.
+
+### Packets Dissolved in Wave 8
+1. **`pkt_020344C8` (64 B code, 64 B extent, ARM, 1 func)**:
+   - `func_020344C8` (64 B, ARM): Iterates over linked/contiguous node array testing node status with `func_020344C4` (`src/matched/func_020344C8.c`). Shard `pkt_020344C8.json` complete and dissolved.
+2. **`pkt_02009590` (56 B code, 56 B extent, Thumb, 1 func)**:
+   - `unit_02009590` (56 B, Thumb): Game unit dispatching events via `func_02009584` and checking state with `func_0200856C` (`src/matched/unit_02009590.c`). Shard `pkt_02009590.json` complete and dissolved.
+3. **`pkt_02006368` (34 B code, 36 B extent, Thumb, 1 func)**:
+   - `func_02006368` (34 B, Thumb): Background task deactivator invoking `func_0208574C()` and updating state via `func_020855BC()` (`src/matched/func_02006368.c`). Shard `pkt_02006368.json` complete and dissolved.
+4. **`pkt_0202C124` (18 B code, 20 B extent, Thumb, 2 funcs)**:
+   - `func_0202C124` (18 B, Thumb) and reunited sister `func_0202C140`: Heap allocation wrapper delegating to allocator `func_02030734` (`src/matched/func_0202C124.c`). Shard `pkt_0202C124.json` complete and dissolved.
+5. **`pkt_020312B4` (16 B code, 16 B extent, ARM, 1 func)**:
+   - `func_020312B4` (16 B, ARM): Tail call loading global pointer `g_02146990` and jumping to `func_020313EC` (`src/matched/func_020312B4.c`). Shard `pkt_020312B4.json` complete and dissolved.
+
+### Technical Insights
+- Multi-function packets sharing static local state or reunited sister symbols (`pkt_0202C124`) dissolve cleanly once all member routines are matched in the same translation unit.
+- Maintained 100% byte-identical ROM hash across all 242 regions.
+- Added `scratch/` directory to `.gitignore` to prevent test harnesses and scratch objects from cluttering git working tree.
+
+### Wave 9 Next Steps & Priority Targets
+- Priority candidate: `pkt_0204BC94` / `pkt_0204B954` or small ARM/Thumb call wrappers.
 - Continue rapid dissolved-packet waves toward the 25.0% coverage milestone.
+
 
 
