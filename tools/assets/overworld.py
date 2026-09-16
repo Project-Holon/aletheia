@@ -331,7 +331,25 @@ class NcgrFile:
         `i % tile_num_x`, row `i // tile_num_x` of the unpacked sheet image.
         This is what `rig.render_oam` calls; `tile_nibbles` above is the
         older one-dimensional lookup this class used to expose instead, kept
-        for any other caller still addressing tiles sequentially."""
+        for any other caller still addressing tiles sequentially.
+
+        **`a/0/0/7`'s per-entity NCGR declares the documented `tile_num_x`/
+        `tile_num_y` == 0xFFFF "unspecified, derive from data" sentinel on
+        every one of its 715 entries** (confirmed by direct read: index
+        7/9/11 all read FFFF/FFFF) -- `__init__` already detects this
+        (`_sentinel_dims`) and leaves `self.pixels` as `None`, since there is
+        no real sheet width to place tiles into. The module docstring's own
+        "index 2,4,6" section states the mapping_type=0 NCER copy this
+        module always uses resolves every cell's OAM `tile_idx` by **dense
+        `tile_idx * 32` byte addressing**, not a 2D sheet-grid lookup, so
+        the 2D formula below both cannot run (no `self.pixels` to index)
+        and was never the right addressing for this archive to begin with.
+        Read the tile directly out of `tile_data` via `tile_nibbles`
+        instead -- this is what silently produced an all-zero (background/
+        transparent index) block for every OAM before this fix, rendering
+        every entity as one flat color."""
+        if self._sentinel_dims:
+            return self.tile_nibbles(block_index)
         bx = (block_index % self.tile_num_x) * 8
         by = (block_index // self.tile_num_x) * 8
         if by + 8 > self.height:
@@ -430,7 +448,16 @@ def render_cell(ncgr, cell):
     w = maxx - minx
     h = maxy - miny
     canvas = [[0] * w for _ in range(h)]
-    for oam in cell.oams:
+    # Paint order: same attested rule as `rig.py`'s `_cell_local_raster` --
+    # a cell's own OAM array is emitted into the hardware OAM list forward
+    # (index 0 first, `func_02067998`), and a lower final OAM slot draws in
+    # front, so a painter that blits forward and lets later writes win must
+    # paint index 0 *last* (on top). Priority (attr2 bits 10-11) outranks
+    # index when a cell mixes priorities.
+    paint_order = sorted(range(len(cell.oams)),
+                          key=lambda i: (cell.oams[i].priority, i), reverse=True)
+    for i in paint_order:
+        oam = cell.oams[i]
         rows = rig.render_oam(ncgr, oam)
         for ly, row in enumerate(rows):
             py = oam.y - miny + ly

@@ -1156,15 +1156,32 @@ def render_oam(ncgr, oam, n_pal_colors=16):
     otherwise the bank is left at 0, same as before this pass, since a
     single 16-color NCLR has no second bank to offset into. Index 0 (the
     transparent/background index) is never offset, matching what every
-    compositing path already treats as "draw nothing"."""
+    compositing path already treats as "draw nothing".
+
+    **Row stride, two conventions.** `tile_num_x` above is the right stride
+    only for a sheet declaring real dimensions (this archive's own
+    char_format=1 linear-bitmap main sheet). A sheet that declares the
+    documented 0xFFFF/0xFFFF "unspecified, derive from data" sentinel (seen
+    on `tools/assets/overworld.py`'s `a/0/0/7`/`a/0/2/5` per-entity NCGR,
+    every one of which reads FFFF/FFFF) has no such width, and its
+    mapping_type=0 cell bank instead resolves tile indices by plain
+    sequential (standard NDS 1D OBJ character mapping) addressing: a
+    sprite's own tiles are packed back-to-back in the sprite's own
+    raster order, so the row stride is the OAM's own `tiles_w`, not any
+    sheet-wide value. Confirmed against `a/0/0/7`'s real bytes: cell 0
+    (tile_idx 0, a 32x32/4x4-tile OAM) and cell 1 (tile_idx 16) sit exactly
+    16 tiles apart with zero gap or overlap only under `tiles_w`-stride
+    addressing, matching the archive's 32-tile (1024-byte) data size
+    exactly (2 cells x 16 tiles, back to back)."""
     bank_ok = (oam.pal * 16 + 16) <= n_pal_colors
     offset = oam.pal * 16 if bank_ok else 0
     tiles_w = oam.w // 8
     tiles_h = oam.h // 8
+    row_stride = tiles_w if getattr(ncgr, "tile_num_x", None) == 0xFFFF else ncgr.tile_num_x
     px = [[0] * oam.w for _ in range(oam.h)]
     for ty in range(tiles_h):
         for tx in range(tiles_w):
-            tile_index = oam.tile_idx + ty * ncgr.tile_num_x + tx
+            tile_index = oam.tile_idx + ty * row_stride + tx
             nib = ncgr.block_pixels(tile_index)
             for ly in range(8):
                 for lx in range(8):
@@ -1234,7 +1251,20 @@ def _cell_local_raster(ncgr, cell, n_pal_colors=16):
     w = maxx - minx
     h = maxy - miny
     canvas = [[0] * w for _ in range(h)]
-    for oam in cell.oams:
+    # Paint order: `func_02067998` (the cell's own OAM-array walk) emits
+    # `cell.oams` into the hardware OAM list **forward**, index 0 first, so
+    # OAM 0 lands at the lowest final OAM slot -- and a lower OAM slot draws
+    # in front (docs/ASSETS.md "attested painter's order"). A plain painter
+    # that blits forward and lets later writes win therefore has it
+    # backwards: it must paint index 0 *last* so it ends on top. Priority
+    # (attr2 bits 10-11) outranks index when OAMs mix priorities (lower
+    # priority value draws in front regardless of index) -- sort descending
+    # by (priority, index) so the highest-priority/lowest-index OAM is
+    # painted last, on top.
+    paint_order = sorted(range(len(cell.oams)),
+                          key=lambda i: (cell.oams[i].priority, i), reverse=True)
+    for i in paint_order:
+        oam = cell.oams[i]
         rows = render_oam(ncgr, oam, n_pal_colors)
         for ly, row in enumerate(rows):
             py = oam.y - miny + ly
@@ -1297,10 +1327,29 @@ def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node, n_pal_colors=
     frame index (so callers can drive nodes at a shared time or all at a
     fixed frame). `n_pal_colors` gates the OAM palette-bank offset -- see
     `render_oam()`'s docstring."""
-    placements = []
+    # Paint order: the composer emits nodes into the hardware OAM list in
+    # **array order** (`func_020643CC`'s node walk and the per-node OAM
+    # emission both run forward, node 0 first -- see docs/ASSETS.md
+    # "attested painter's order"), and within one node's cell, its own OAM
+    # array is likewise emitted forward, OAM 0 first (`func_02067998`). So
+    # the true hardware emission order, first-to-last, is node 0's OAM 0,
+    # node 0's OAM 1, ..., node 1's OAM 0, ... and the *earliest*-emitted
+    # OAM lands at the *lowest* final OAM slot, which draws frontmost. A
+    # painter that blits in list order and lets later writes win must
+    # therefore paint in the *reverse* of that emission order (last-emitted
+    # unit first/at the bottom, first-emitted unit last/on top). Per-OAM
+    # priority (attr2 bits 10-11) outranks index when units mix priorities
+    # (lower priority value always draws in front, regardless of emission
+    # order), so units are collected with their priority and a running
+    # emission-order counter, then sorted descending by (priority, order)
+    # -- placing the highest-priority-value/latest-emitted unit first
+    # (bottom) and the lowest-priority-value/earliest-emitted unit last
+    # (top).
+    units = []  # (priority, emission_order, ax, ay, rows)
     minx = miny = 10**9
     maxx = maxy = -10**9
-    for node in reversed(nodes):
+    order = 0
+    for node in nodes:
         fd = None
         if nanr is not None:
             fd = nanr.frame_data(node.anim_seq_idx, frame_idx_for_node(node))
@@ -1318,7 +1367,8 @@ def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node, n_pal_colors=
                 rows = render_oam(ncgr, oam, n_pal_colors)
                 ax = node.x + px + oam.x
                 ay = node.y + py + oam.y
-                placements.append((ax, ay, rows))
+                units.append((oam.priority, order, ax, ay, rows))
+                order += 1
                 minx = min(minx, ax)
                 miny = min(miny, ay)
                 maxx = max(maxx, ax + oam.w)
@@ -1326,16 +1376,23 @@ def _frame_placements(ncgr, ncer, nodes, nanr, frame_idx_for_node, n_pal_colors=
         else:
             # Non-identity: per-pixel resample the whole cell as one block
             # (see `_cell_frame_raster`) instead of moving each OAM as a
-            # rigid, unrotated rectangle.
+            # rigid, unrotated rectangle. `_cell_frame_raster` already
+            # paints the cell's own OAMs in the corrected order internally,
+            # so this unit's effective priority is the frontmost (lowest
+            # value) priority among its OAMs.
             ox, oy, w, h, flat = _cell_frame_raster(ncgr, cell, sx, sy, rot_z, n_pal_colors)
             rows = [flat[r * w:(r + 1) * w] for r in range(h)]
             ax = node.x + px - ox
             ay = node.y + py - oy
-            placements.append((ax, ay, rows))
+            eff_priority = min(o.priority for o in cell.oams)
+            units.append((eff_priority, order, ax, ay, rows))
+            order += 1
             minx = min(minx, ax)
             miny = min(miny, ay)
             maxx = max(maxx, ax + w)
             maxy = max(maxy, ay + h)
+    units.sort(key=lambda u: (u[0], u[1]), reverse=True)
+    placements = [(ax, ay, rows) for _prio, _order, ax, ay, rows in units]
     return placements, minx, miny, maxx, maxy
 
 
@@ -1421,9 +1478,13 @@ def compose_pose(ncgr, ncer, nodes, nanr=None, t=0, n_pal_colors=16):
         record sampled in this archive reads rotZ 0 and sx/sy 4096 (FX32
         1.0), which is why earlier passes never needed it.
 
-      * **Draw order**: nodes are emitted into the hardware OAM list in
-        array order, and a lower OAM index draws in front, so the nodes are
-        painted back-to-front here (last node first)."""
+      * **Draw order**: nodes, and each node's own OAMs, are emitted into
+        the hardware OAM list in array order (`func_020643CC`'s node walk,
+        `func_02067998`'s per-cell OAM walk), and a lower final OAM slot
+        draws in front. So the whole unit list is painted back-to-front
+        here, in the reverse of that emission order (`_frame_placements`),
+        with per-OAM priority (attr2 bits 10-11) breaking ties first when
+        units mix priorities."""
     width, height, frames = compose_pose_multi(ncgr, ncer, nodes, nanr, [t], n_pal_colors)
     return width, height, frames[0]
 

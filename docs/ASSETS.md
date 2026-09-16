@@ -12138,3 +12138,120 @@ Regression checks after the fix, all unchanged from before this pass:
   655/655 round-trip byte-identical.
 - `python tools/assets/verify_all.py --archive a/0/0/7`: 722 pass, 0 fail.
 - `python tools/assets/verify_all.py --archive a/0/2/5`: 1005 pass, 0 fail.
+
+## Asset lane pass: rig.py paint order corrected (missing eyes), and the overworld/bag solid-color regression fixed
+
+Mission: `pokemon_rigs/0006_pose.png` (Charizard), `0094_pose.png`
+(Gengar) and `0150_pose.png` (Mewtwo) render with no eyes, while
+`0025_pose.png` (Pikachu) does. `0006_cells.png` shows the eye is a
+separate small cell (the seventh cell in the sheet), correctly placed but
+painted before the head and then covered by it.
+
+**Attested painter's order.** The decompiled composer (`asm/arm9/main.s`,
+addresses confirmed by direct disassembly read, not inference):
+- `func_020643CC` (the node walk that stages each node's translation/frame
+  state, `src/matched/unit_020640B0.c`'s docstring names the same call
+  chain) loops its node index forward, `i = 0 .. numNodes-1`
+  (`loc_0206454C`'s `bhi` branches back on an incrementing counter).
+- `func_02067998` (one cell's own OAM-array walk, immediately before it
+  calls `func_0206775C` to emit one OAM "one OAM entry to one textured
+  quad" -> `func_02066E30` -> the OAM buffer write at `sub_02063068`/
+  `0x07000000`) also loops forward, `i = 0 .. num_oam-1`, emitting OAM `i`
+  to the hardware OAM list before OAM `i+1`.
+
+So the true hardware emission order, first to last, is: node 0's OAM 0,
+node 0's OAM 1, ..., node 1's OAM 0, .... The **earliest**-emitted OAM
+lands at the **lowest** final hardware OAM slot, and DS/GBA hardware
+draws a lower-index OAM in front of a higher-index one at the same BG
+priority (attr2 bits 10-11 break ties first when priorities differ, lower
+priority value drawing in front regardless of index). `rig.py`'s painter
+(`_frame_placements`, `_cell_local_raster`) previously blitted nodes and,
+within a node's cell, that cell's own OAMs, in this same forward array
+order and let later writes overwrite earlier ones -- exactly backwards:
+the earliest-emitted (highest-priority) unit was being painted **first**,
+at the bottom, and got covered by everything emitted after it. The eye
+cell (emitted early, small) was losing to the head cell (emitted later,
+large) whenever the two overlapped.
+
+**Fix** (`tools/assets/rig.py`): both compositing paths now collect every
+paint unit (one per OAM in the identity-transform case, one per whole
+cell in the rare non-identity/SRT-transform case) with its true emission
+order and its own attr2 priority, then sort descending by
+`(priority, emission_order)` before painting -- placing the
+highest-priority-value/latest-emitted unit first (bottom) and the
+lowest-priority-value/earliest-emitted unit last (top). This is a pure
+reordering of the existing painter's operations; no per-pixel alpha or
+blending was introduced. Every OAM's own `priority` field was already
+decoded (`Oam.priority`, attr2 bits 10-11) but never consulted for paint
+order before this pass; a scan of `rig.py`'s own archive-wide check
+during this pass did not turn up a species that actually mixes OAM
+priorities within one overlapping group (the fix is applied for
+correctness/robustness regardless).
+
+**Result.** All four sampled species (`pokemon_rigs/`) were re-rendered
+(pose, cells, anim strip, GIF) and visually confirmed to now show eyes:
+Charizard, Gengar, Mewtwo and Pikachu all have a visible eye in their
+`NNNN_pose.png`. Archive-wide, `rig.py --all` (713 renderable species/form
+slots) was re-run against both the pre-fix and post-fix code and the
+`NNNN.png` pose outputs diffed byte-for-byte: **281 of 713 changed**
+(the rest have no overlapping OAMs/cells in their rest pose, so the fix
+is a pure no-op for them).
+
+**Trainer path checked** (`extract/data/a/0/7/2`, `--block-size 8`):
+blocks 0, 2 and 88 (`trainer_sprites/`) were re-rendered against the
+fixed code. Each block is a single NCER cell with 6 OAMs; none of the 3
+sampled blocks' OAM sets actually overlap, so their pose PNGs are
+byte-identical before and after the fix -- expected (the fix only changes
+output where paint order is visually observable, i.e. where units
+overlap), not evidence the fix is inert there.
+
+**Overworld path checked, and a second, unrelated bug found and fixed**
+(`tools/assets/overworld.py`, `render_cell`): the same within-cell OAM
+paint-order fix was applied there too (identical reasoning, one shared
+`Oam.priority` field). While re-rendering to verify it, every entity in
+both `a/0/0/7` (party icons/overworld sprites) and `a/0/2/5` (bag icons)
+came out as one flat, uniform color (e.g. `overworld_0142.png` a solid
+green rectangle) -- a pre-existing regression from an earlier pass, not
+caused by the paint-order change, and unrelated to it. Root-caused and
+fixed in the same sitting since it blocked visually verifying the
+paint-order fix on this archive:
+
+- Every per-entity NCGR in this archive family declares `tile_num_x`/
+  `tile_num_y` == 0xFFFF, the project's own documented "unspecified,
+  derive from data" sentinel (confirmed by direct read of sub-file
+  indices 7/9/11: all FFFF/FFFF). `overworld.NcgrFile.__init__` already
+  detects this (`_sentinel_dims`) and leaves `self.pixels` as `None` --
+  but the `block_pixels()` an earlier pass ported from `rig.Ncgr` never
+  checked for it, so it silently indexed into a sheet that was never
+  built and returned an all-zero (transparent/background index) block
+  for every tile of every OAM. Fix: `block_pixels()` now falls back to
+  the existing `tile_nibbles()` plain sequential lookup when
+  `_sentinel_dims` is set.
+- Separately, `rig.render_oam()`'s row stride for any OAM wider/taller
+  than one 8x8 block used `ncgr.tile_num_x` -- correct for `a/0/0/4`'s
+  own linear-bitmap main sheet (the twelfth lane pass's finding), but
+  meaningless for a sentinel-dimensioned sheet, which has no declared
+  width at all. This archive's mapping_type=0 cell bank instead resolves
+  tile indices by standard NDS 1D OBJ character mapping, whose row
+  stride is the OAM's own tile width (`tiles_w`), not any sheet-wide
+  value. `render_oam()` now uses `tiles_w` as the stride whenever
+  `ncgr.tile_num_x == 0xFFFF`. Confirmed against `a/0/0/7`'s real bytes:
+  cell 0 (tile_idx 0, a 32x32/4x4-tile OAM) and cell 1 (tile_idx 16) sit
+  exactly 16 tiles apart with zero gap or overlap only under this
+  addressing, matching the archive's declared 32-tile (1024-byte) data
+  size exactly (2 cells x 16 tiles, back to back).
+
+Regenerated and visually confirmed multi-color (not flat), by rendering
+and manually inspecting each PNG:
+  `icons/party_0000.png`, `icons/party_0071.png` (a/0/0/7),
+  `icons/bag_0000.png`, `icons/bag_0045.png` (a/0/2/5),
+  `overworld_sprites/overworld_0142.png`, `overworld_sprites/
+  overworld_anim_0000.png` (a/0/0/7), and
+  `overworld_sprites/walk_c24_top_loop.png`/`walk_c24_right_run.png`
+  (a/0/3/1, via `tools/assets/walk.py --all`, which reuses `overworld.
+  NcgrFile`/`render_cell`).
+
+No sample data was altered to work around either bug; the fixes touched
+only `_frame_placements`/`_cell_local_raster`/`render_oam` in
+`tools/assets/rig.py` and `NcgrFile.block_pixels`/`render_cell` in
+`tools/assets/overworld.py`.
