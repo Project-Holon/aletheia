@@ -295,3 +295,7 @@ arm9_main  0x02048BA8  arm   # g3d_light.c accessor leaf
 arm9_main  0x02048BB0  arm   # g3d_light.c accessor leaf
 arm9_main  0x02048BBC  arm   # g3d_light.c accessor leaf
 arm9_main  0x02048CDC  arm   # g3d_light.c leaf inside unit_02048C58
+arm9_main  0x02067AB8  arm   # eight-byte leaf, witness bl at 0x0204CBCC inside func_0204CBB0 (EXACT)
+arm9_main  0x02028A50  thumb # unlabelled leaf, unit_02028A50 reproduces 0x02028A50..0x02028A7C as four sections
+arm9_main  0x02028A64  thumb # same run
+arm9_main  0x02028A70  thumb # same run

@@ -1,0 +1,145 @@
+func_02065BD0: a DIFF near miss, 144 of 168 bytes, one zero-register decision
+===============================================================================
+
+Blocker of src/pending/func_0204CB44.c, which after this wave has four of its
+six relocation sites resolved and needs only this address and 0x0204CC6C.  It
+is not an attestation problem: with the function EXACT, every site in
+func_0204CB44 except func_0204CC6C would resolve `matched`, and func_0204CB44
+is in turn the sole blocker of func_0204C944 -> func_0204BB8C -> sub_0204A600.
+
+Semantics, confidently pinned down by the byte comparison:
+
+  void func_02065BD0(void *obj);
+
+Resets the cell-actor / OAM bank at 0x02147B88 (u16 count at +0x00, u16 at
++0x02, pointer at +0x08, u32 at +0x0c): attaches the object, writes 0xFFFE to
+the halfword at 0x020A81F8, blanks the 0x10-byte tail of each live 0x20-byte
+record at 0x02148318, zeroes the count pair, clears the 0x100-byte table at
+0x02147C18, writes the two GX matrix command registers MTX_PUSH (0x04000444)
+and MTX_IDENTITY (0x04000454), and calls func_02064E3C.  All three globals
+resolve `literal` and both helpers resolve `label`.
+
+What was solved
+---------------
+
+Everything up to the loop exit, 92 of 168 bytes, is byte-exact:
+
+1. The loop must be a guarded do-while with the cursor assigned inside the
+   guard, not a `for` with the cursor assigned above it.  Written as a `for`,
+   the cursor's pool word is hoisted above the `cmp`/`ble`; written inside the
+   `if`, it lands in the preheader where the original has it, next to the
+   hoisted -1 and 0x10.
+
+2. The guard's compare is signed (`ble`, not `beq`), which a u16 count and a
+   literal `> 0` cannot give: the guard has to be spelled against the counter,
+   `i = 0; if (i < g.count)`, so that the promotion to int survives.
+
+3. The record walk is a cursor (`p++`, giving `add r8, r8, #0x20`), not
+   `g_02148318[i]`, which strength-reduces to `add r1, r7, r4, lsl #5`.
+
+The residue: one constant, one register
+---------------------------------------
+
+The last 24 bytes differ, and it is a single allocation decision.  The
+original materialises zero twice, once into r0 before the fill call and once
+into r1 after it; the compile puts it in r4 (free after the loop, already
+pushed) and keeps it live across the call, paying a `mov r0, r4` for the
+argument:
+
+  original                       compiled
+  ldr r3, [pc, #0x2c]            ldr r3, [pc, #0x2c]
+  mov r0, #0                     mov r4, #0
+  strh r0, [r3]                  strh r4, [r3]
+  ldr r1, [pc, #0x30]            ldr r1, [pc, #0x30]
+  mov r2, #0x100                 mov r0, r4
+  strh r0, [r3, #2]              mov r2, #0x100
+  bl  #0x2082ac0                 strh r4, [r3, #2]
+  ldr r0, [pc, #0x24]            bl  #0x2082ac0
+  mov r1, #0                     ldr r0, [pc, #0x20]
+  str r1, [r0]                   str r4, [r0]
+  str r1, [r0, #0x10]            str r4, [r0, #0x10]
+
+The tail was then isolated into a probe function of its own (just the two
+halfword clears, the fill call, the two register writes and the trailing
+call) and mwccarm pushes r4 *solely* to hold the zero across the call even
+when nothing else in the function needs a callee-saved register.  That is the
+policy, and no spelling of the tail changes it.  Tried, all giving the same
+`mov r4, #0`:
+
+  * the two register writes as `*(volatile u32 *)0x04000444 = 0` twice, as
+    `reg[0]` / `reg[4]` off a local pointer, as members of a volatile
+    `struct { u32 push, pop, store, restore, identity; }` at that address,
+    and as two `static inline` helpers in the SDK's G3_PushMtx / G3_Identity
+    shape;
+  * the stored value as `(void *)0` through a `void * volatile *`, as
+    `0.0f` through a `volatile float *` (the float constant is unified with
+    the integer zero anyway), and as `k - k` off an unused parameter;
+  * the fill value as a `const void *` NULL against a pointer-typed
+    prototype, and as `g_02147B88.count` read back after being stored;
+  * the halfword clears written through a `u16` local holding zero;
+  * the clears moved after the fill call (worse: the call then leads and the
+    clears follow it);
+  * the trailing call given the register base and the zero as arguments, on
+    the theory that the two words are an argument pair rather than leftovers
+    (func_02064E3C overwrites r0 and r1 immediately, so they are leftovers,
+    and the shape still allocates r4).
+
+Next agent: the open question is what makes mwccarm treat the pre-call zero
+and the post-call zero as two values rather than one.  It is not reachable
+from the tail's own statements, all of which are pinned by the byte
+comparison, and it is not a constant-CSE effect either, since a float zero
+and an integer zero are unified too.  The lever, if there is one, is
+something that keeps r4 occupied past the loop, or a tail whose first zero is
+genuinely dead before the call.
+
+The C that is 144 of 168 bytes
+------------------------------
+
+  typedef unsigned char  u8;
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+  typedef signed int     s32;
+
+  struct Bank {
+      u16   count;    /* 0x00 */
+      u16   unk_02;   /* 0x02 */
+      u32   unk_04;
+      void *obj;      /* 0x08 */
+      u32   unk_0c;   /* 0x0c */
+  };
+
+  struct Ent { u8 pad_00[0x10]; u8 unk_10[0x10]; };
+
+  extern struct Bank g_02147B88;
+  extern struct Ent  g_02148318[];
+  extern u8          g_02147C18[];
+  extern void func_02082AC0(u32 value, void *dst, u32 size);
+  extern void func_02064E3C(void);
+
+  void func_02065BD0(void *obj)
+  {
+      struct Ent *p;
+      s32 i;
+
+      g_02147B88.obj = obj;
+      g_02147B88.unk_0c = 0;
+      *(volatile u16 *)0x020a81f8 = 0xfffe;
+
+      i = 0;
+      if (i < g_02147B88.count) {
+          p = g_02148318;
+          do {
+              func_02082AC0((u32)-1, p->unk_10, 0x10);
+              i++;
+              p++;
+          } while (i < g_02147B88.count);
+      }
+
+      g_02147B88.count = 0;
+      g_02147B88.unk_02 = 0;
+      func_02082AC0(0, g_02147C18, 0x100);
+
+      *(volatile u32 *)0x04000444 = 0;
+      *(volatile u32 *)0x04000454 = 0;
+      func_02064E3C();
+  }

@@ -46,3 +46,20 @@ src/matched/unit_02067B40.c, which are EXACT: +0x24 bit0 is flip-H and
 bit1 is flip-V, and the consumers (func_0206775C, func_02067998) replace
 the OAM entry's position with x' = -(x + objWidth) / y' = -(y + objHeight)
 when the corresponding bit is set.
+
+Closed, wave 25
+---------------
+
+The missing `ldr r1, [r0, #0x24]` is reproduced by a volatile read of that one
+word into a local, leaving both read-modify-writes plain:
+
+  w = *(volatile u32 *)&p->flip;
+
+func_02067B78 is EXACT in src/matched/func_02067B78.c and in the shard
+layout/matched/arm9/pkt_02067AAC.json.  The reasoning above about `volatile`
+on the member or the parameter stands: both restore the load and both cost 16
+bytes by un-predicating the two arms.  The rule is written up in
+docs/idioms/a-re-read-of-a-field-just-stored-is-one-volatile-read-not-a-volatile-field.md.
+Re-deriving the address (a `u32 *` cast off a `u8 *` base, a subscript, a
+named local copy) was also tried in this wave and does not defeat the
+store-to-load forwarding: all three still give `mov r1, r1`.

@@ -1,0 +1,78 @@
+/*
+ * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
+ *
+ * unit:     yes
+ * address:  0x020298E0
+ * packet:   pkt_020295D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH, every concrete byte right
+ * function: func_020298E0
+ *
+ * Part of the (task body, task spawner) family that makes up the tail of
+ * field_sound_system.c.  A four state body: it issues a command 2, waits for the system to go idle,
+ * hands a resource off through func_02028A50 and then reports done.  The
+ * resource is resolved from work->unk00 before the switch, even though only
+ * the third state uses it.
+ *
+ * This body has no spawner inside the packet: nothing in
+ * 0x020295D8..0x02029D44 holds its address, so it stands as its own file and
+ * carries no self-reference to attest.
+ *
+ * Why it is capped: the call to func_02028A50 (0x02028A50) is the only branch
+ * to that address in the image, so the `label` class has no witness outside
+ * this one function and no cut helps.  0x02028A50 is byte-correct in
+ * src/pending/unit_02028A50.c but itself MATCH-capped, so the `matched` class
+ * cannot carry it either; both close together when func_02028D2C,
+ * func_02029F54 and func_02029F60 acquire entries.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/pending/unit_020298E0.c  *       --addr 0x020298E0 --thumb
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+struct Work {
+    void *unk00;
+    void *unk04;
+    u32   unk08;
+    u16   unk0C;
+    u16   unk0E;
+};
+
+typedef u32 (*TaskFn)(void *task, u32 *state, struct Work *work);
+
+extern void  func_020289F8(void *sys, u32 a, u32 b, u32 c, u32 d);
+extern u32   func_020289B8(void *sys);
+extern void  func_02028A50(void *sys, void *res);
+extern void *func_020120F4(void *a);
+
+u32 func_020298E0(void *task, u32 *state, struct Work *work)
+{
+    void *res = func_020120F4(work->unk00);
+    void *sys = work->unk04;
+
+    switch (*state) {
+    case 0:
+        func_020289F8(sys, 2, 0, work->unk0E, 0);
+        (*state)++;
+        break;
+    case 1:
+        if (func_020289B8(sys) == 0) {
+            (*state)++;
+        }
+        break;
+    case 2:
+        func_02028A50(sys, res);
+        (*state)++;
+        break;
+    case 3:
+        return 1;
+    }
+    return 0;
+}
