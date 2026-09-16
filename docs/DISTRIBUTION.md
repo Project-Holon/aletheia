@@ -26,8 +26,9 @@ converters it relies on. Decisions marked OPEN are for the owner to settle.
                    ->  start
 
 Extraction runs in-process with a progress screen; on a laptop the Python
-tools take minutes, the C port should take well under one. The ROM itself is
-not kept; only the hash is recorded.
+tools take minutes, the C port (eidos, github.com/OukilIl/eidos, which
+builds the matched C from this repository as an external checkout) should
+take well under one. The ROM itself is not kept; only the hash is recorded.
 
 ## Data root per platform
 
@@ -83,7 +84,7 @@ extraction code the exe runs.
       raw/                    the original sub-files, kept for formats the engine
                               still consumes in binary form (NSBMD until the
                               model loader is native, SDAT until the sequencer
-                              is native); shrinks as the port matures
+                              is native); shrinks as eidos matures
 
     mods/
       <modname>/              same layout as data/; files here shadow data/
@@ -105,8 +106,8 @@ editing a PNG invalidates only its own cache entry. The cache is disposable.
   different species).
 - Scripts: the disassembly form is round-trippable once the assembler exists
   (the operand table for all 609 opcodes is already in tools/assets/scripts.py).
-- No code mods in the first version; the port's own build is the way to change
-  code.
+- No code mods in the first version; eidos's own build (github.com/OukilIl/eidos)
+  is the way to change code.
 
 ## Pokémon White
 
@@ -116,9 +117,10 @@ identical and mods can declare which game they target.
 
 ## What this fixes now for the port lane
 
-- The extraction step is C code in the port, sharing the format knowledge in
-  tools/assets/ (the Python stays the reference and the test oracle).
+- The extraction step is C code in eidos (github.com/OukilIl/eidos), which
+  consumes this repository's matched sources and shares the format knowledge
+  in tools/assets/ (the Python stays the reference and the test oracle).
 - The engine's file layer takes logical names and a root; no NARC access at
   runtime except through `raw/`.
-- Table loaders read JSON; the port tests compare the JSON loaders' results
+- Table loaders read JSON; eidos's tests compare the JSON loaders' results
   against the Python decoders' output for the same ROM.
