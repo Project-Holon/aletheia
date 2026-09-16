@@ -3164,10 +3164,20 @@ def cmd_selftest(args):
                 "list for the field_sound_system.c callee",
            overlay_candidates(OVERLAY_XCALL_UNLABELLED),
            sorted(OVERLAY_XCALL_CANDIDATES))
-    _check(res, "label: none of them traces a func_ label there, so the "
-                "real cross-region call site is refused, candidates and "
-                "all, not guessed at",
-           cls(attest(OVERLAY_XCALL_UNLABELLED, "thumb", 0, 0)), None)
+    # Since the overlay_021 seed for 0x021D21C0 (layout/function_starts.txt)
+    # exactly one of the three candidates labels it, so the un-hinted call
+    # resolves to that one; with the hint it resolves the same way, and a
+    # hint naming a candidate that does not label it is refused.
+    _check(res, "label: exactly one of the three candidates now labels the "
+                "field_sound_system.c callee, so the un-hinted call resolves",
+           cls(attest(OVERLAY_XCALL_UNLABELLED, "thumb", 0, 0)), "label")
+    _check(res, "label: the same call with the matching hint resolves too",
+           cls(attest(OVERLAY_XCALL_UNLABELLED, "thumb", 0, 0,
+                      region_hint="ov021")), "label")
+    _check(res, "label: a hint naming a candidate that does not label the "
+                "callee is refused",
+           cls(attest(OVERLAY_XCALL_UNLABELLED, "thumb", 0, 0,
+                      region_hint="ov016")), None)
 
     # --- the runtime class ---------------------------------------------
     _check(res, "runtime: a curated MSL/runtime.a entry attests itself, no "
