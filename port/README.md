@@ -216,3 +216,25 @@ DS a pointer is a u32 and the matcher only needs the relocation. On an LP64
 host such a declaration cannot carry a pointer. Neither function is in the
 current closure; when a TU that declares them that way enters it, the fix is a
 wrapper include in the port layer, never an edit to the matched file.
+
+## Host toolchain on Windows without an installer
+
+The port builds with any C99 compiler. On a machine without Visual Studio or
+MSYS2, the layout used here is three portable archives under `tools/`, all
+gitignored (the same pattern as the ARM toolchain in `tools/gcc-arm/`):
+
+    tools/gcc-host/xpack-mingw-w64-gcc-<ver>/   MinGW-w64 GCC (xpack release zip)
+    tools/cmake/cmake-<ver>-windows-x86_64/      portable CMake (Kitware release zip)
+    tools/ninja/ninja.exe                        Ninja (release zip)
+
+Configure and test, from the repo root (Git Bash or PowerShell equivalents):
+
+    GCC=$PWD/tools/gcc-host/xpack-mingw-w64-gcc-14.2.0-1/bin/x86_64-w64-mingw32-gcc.exe
+    tools/cmake/cmake-3.31.6-windows-x86_64/bin/cmake -S port -B build/port -G Ninja \
+        -DCMAKE_C_COMPILER=$GCC -DCMAKE_MAKE_PROGRAM=$PWD/tools/ninja/ninja.exe \
+        -DBW_DATA_ROOT=$PWD/extract/data
+    tools/cmake/cmake-3.31.6-windows-x86_64/bin/cmake --build build/port
+    tools/cmake/cmake-3.31.6-windows-x86_64/bin/ctest --test-dir build/port --output-on-failure
+
+First run on this layout (2026-09-16): 32 objects, both tests pass
+(test_text 5/5 strings, test_stats 3 species).

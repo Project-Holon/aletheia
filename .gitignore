@@ -33,6 +33,11 @@ baserom*
 # Unpacked GNU binutils/gcc for ARM (xpack zip, several hundred MB)
 /tools/gcc-arm/
 
+# Host toolchain for the port build (xpack MinGW-w64 GCC and portable CMake zips)
+/tools/gcc-host/
+/tools/cmake/
+/tools/ninja/
+
 # melonDS emulator (downloaded release zip, used to boot-test rebuilt ROMs)
 /tools/melonds/
 
