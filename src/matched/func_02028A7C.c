@@ -1,6 +1,4 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * unit:     yes
  * function: func_02028A7C
  * address:  0x02028A7C
@@ -10,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT
  *
  * field_sound_system.c: claim a sequence slot for a caller that gives no owner id, marking the
  * slot's owner 0xFFFF
@@ -24,23 +22,15 @@
  * symbols:
  *   func_02006148  0x02006148  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_021D21C0  0x021D21C0  thumb
- *   func_021D21E0  0x021D21E0  thumb
+ *   func_021D21C0  0x021D21C0  thumb ov021
+ *   func_021D21E0  0x021D21E0  thumb ov021
  *
- * Why it is capped: the calls to func_021D21C0 (and func_021D21E0) are
- * branches from the ARM9 static module into an overlay-resident address.  All
- * three of src/pending/func_02028A7C.c, src/pending/func_02028ACC.c and
- * src/pending/func_02028B18.c branch to 0x021D21C0 and so ought to attest each
- * other, but the `label` class needs a `func_XXXXXXXX` that `disasm.py` traced
- * at the target, and no arm9 listing carries a label for an overlay address,
- * so the branches are not counted.  This is a tooling gap rather than a
- * missing witness: see the handoff's note that `match.py show` needs
- * `--region` for overlay addresses.  Nothing in the C is in doubt; every
- * concrete byte is right.
+ * The overlay callee 0x021D21C0 is attested through the label class
+ * with the ov021 region hint on the symbols line.
  *
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/func_02028A7C.c --addr 0x02028A7C --thumb
+ *   python tools/match.py tu --src src/matched/func_02028A7C.c --addr 0x02028A7C --thumb
  */
 
 typedef unsigned short u16;

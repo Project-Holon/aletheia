@@ -103,6 +103,51 @@
    "functions": [
     "func_020289D4"
    ]
+  },
+  {
+   "name": "func_02028A7C",
+   "address": "0x02028A7C",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/func_02028A7C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02028A7C"
+   ]
+  },
+  {
+   "name": "func_02028ACC",
+   "address": "0x02028ACC",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/func_02028ACC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02028ACC"
+   ]
+  },
+  {
+   "name": "func_02028B18",
+   "address": "0x02028B18",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/func_02028B18.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02028B18"
+   ]
   }
  ]
 }

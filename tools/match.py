@@ -2458,7 +2458,7 @@ CONT_RE = re.compile(r"^\s*\*\s*([A-Za-z_][A-Za-z0-9_]*\s*,\s*)*"
 
 SYMBOL_RE = re.compile(
     r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*)\s+(0[xX][0-9A-Fa-f]+)\s+"
-    r"(thumb|arm|data)\s*$")
+    r"(thumb|arm|data)(?:\s+(ov\d{3}))?\s*$")
 SYMBOLS_OPEN_RE = re.compile(r"^\s*\*?\s*symbols\s*:\s*$", re.IGNORECASE)
 
 
@@ -2489,7 +2489,7 @@ def read_header(path):
                 m = SYMBOL_RE.match(line)
                 if m:
                     fields.setdefault("symbols_lines", []).append(
-                        " ".join(m.groups()))
+                        " ".join(g for g in m.groups() if g))
                     continue
                 in_symbols = False
             if SYMBOLS_OPEN_RE.match(line):
