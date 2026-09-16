@@ -14,15 +14,30 @@
  * reference image-wide and it is the call in this function, so none of the
  * six can be witnessed and no cut frees any of them:
  *
- *   func_02066748  0x02066748   12 bytes
+ *   func_02066748  0x02066748   12 bytes  -- NOT C, see below
  *   func_02065BD0  0x02065BD0  168 bytes
  *   func_0204CBB0  0x0204CBB0  188 bytes
- *   func_0204BA7C  0x0204BA7C  112 bytes
+ *   func_0204BA7C  0x0204BA7C  112 bytes  -- closed, resolves `matched`
  *   func_0204CC6C  0x0204CC6C  584 bytes (multi-function extent)
  *   func_02065C78  0x02065C78  108 bytes
  *
- * Reaching EXACT here therefore needs all six decompiled to EXACT first,
- * roughly 1.2 KB of ARM code.  This function is itself the sole blocker for
+ * Wave 24: func_02066748 is not decompilable and never will be.  It is a
+ * twelve-byte ARM linker veneer, `ldr ip, [pc]; bx ip; .word 0x02067AA0`,
+ * and the `veneer` attestation class refuses it because 0x02067AA0 is an
+ * unlabelled three-instruction leaf (`str r1, [r0, #8]; str r2, [r0, #0xc];
+ * bx lr`) that `disasm.py` never labels, so `names_known_code()` fails.  No
+ * C file can earn a `matched` entry at 0x02066748 either, because those
+ * twelve bytes are linker output, not compiler output.  The one unblock is a
+ * seed for 0x02067AA0 in layout/function_starts.txt (the integrator's file);
+ * the preceding function's `pop {r4, pc}` at 0x02067A9C and the veneer's own
+ * pointer word at 0x02066750 are the evidence, both outside this range.  See
+ * docs/idioms/a-veneer-attests-nothing-while-its-target-is-an-unlabelled-leaf.md.
+ *
+ * Until that seed exists, this file cannot reach EXACT no matter how many of
+ * the other callees are closed, and neither can the three files above it in
+ * the chain (func_0204C944, func_0204BB8C, sub_0204A600).  Closing the four
+ * remaining callees (roughly 1 KB of ARM) is still necessary but no longer
+ * sufficient.  This function is itself the sole blocker for
  * src/pending/func_0204C944.c, which is the sole blocker named in
  * docs/notes/clact_c_fan_in_1_blockers.c.txt for src/pending/func_0204BB8C.c:
  * the chain is three deep and widens to six at this level.

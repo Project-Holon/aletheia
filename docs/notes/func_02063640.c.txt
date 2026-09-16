@@ -1,0 +1,168 @@
+func_02063640: a DIFF near miss, 320 of 324 bytes, one missing `mvn`
+===============================================================================
+
+Blocker of src/pending/func_0204BD7C.c (which in turn is the sole blocker of
+src/pending/func_0204BD18.c), listed in
+docs/notes/clact_c_fan_in_1_blockers.c.txt and written off as oversized in
+docs/notes/func_0206343C_and_02063640.c.txt.  It is not oversized: the
+function is 324 bytes of straightforward OAM span handling and the C below
+reproduces 320 of them with the control flow, the branch targets and every
+constant in place.
+
+Every relocation resolves, so nothing here is an attestation problem:
+
+  func_020862B8  label x102     func_020821C0  label x8
+  func_02082A7C  label x90      g_02146BC8     literal x5 (pool sites at
+                                               02063120, 02063288, ...)
+                                g_020A84C0     literal x42
+
+Signature: one argument
+-----------------------
+
+func_02063640 reads r0 only.  r1 is overwritten at +0x1C (`ldrh r1, [r5, #8]`)
+before any use, so the second argument src/pending/func_0204BD7C.c writes is
+the leftover its own header predicted, not a passed value.  That file can
+drop its second argument without changing a byte; its `status: MATCH` is
+unaffected either way.
+
+What the function does
+----------------------
+
+`x` is a 0x18-byte span record: u32 `which` at +0x00, u16 `first` +0x04,
+u16 `last` +0x06, u16 `sent` +0x08, u16 at +0x0a mirrored to +0x0e, and a
+u32 flag at +0x14.  `which` indexes a 0x540-byte record array at 0x02146BC8
+whose 8-byte OAM entries start at +0x100, so the address computed in both
+arms is `&g_02146BC8[x->which].ent[x->first]` (a real `mla` against
+`mov r0, #0x540`, not a shift chain).
+
+With the flag set it computes a byte length, `(u16)(last - first + 1) * 8`
+when the span is live and 0 when it is not, flushes the range with
+func_020862B8, then fills it with 0xC0 either by DMA (func_020821C0, five
+arguments, the fifth through the reserved stack word that is the whole
+reason for `sub sp, sp, #4`) or by CPU (func_02082A7C), on a channel number
+read from g_020A84C0 and clamped to a -1 sentinel above 3.
+
+With the flag clear it walks the same entries and stores 0xC0 into each
+entry's first halfword with a post-indexed `strh r1, [r3], #8`, the count
+being the same `(u16)(last - first + 1)` and the loop counter itself a u16
+(hence the `lsl #0x10` / `lsr #0x10` pair around every increment).
+
+Both arms then fall into `x->sent = x->first; x->unk_0e = x->unk_0a;`.
+
+The residue
+-----------
+
+Four bytes, one instruction, and it is the sentinel compare:
+
+  original                          compiled
+  ldr r0, [pc, #0xb4]               ldr r0, [pc, #0xb0]
+  mvn r1, #0                        ldr r0, [r0]
+  ldr r0, [r0]                      cmp r0, #3
+  cmp r0, #3                        mvnhi r0, #0
+  mvnhi r0, #0                      cmn r0, #1
+  cmp r0, r1                        beq ...
+  beq ...
+
+The original materialises -1 into r1 and compares register to register; the
+front end folds `!= (u32)-1` into `cmn r0, #1` every time.  Nine spellings
+were tried and all nine give `cmn`:
+
+  * `(u32)-1`, `0xFFFFFFFFu`, `~0u` as the literal;
+  * a named local holding the sentinel, declared and assigned before the
+    global is read, so that the assignment and the compare name the same
+    variable (mwccarm constant-propagates it away);
+  * `int` instead of `u32` for the channel with `!= -1`;
+  * `void *` for the channel with `!= (void *)-1` (pointer compares fold the
+    same way);
+  * the compare written the other way round, `(u32)-1 != ch`;
+  * `ch < 0xFFFFFFFFu` (gives `cmn` plus `bhs`, so the branch is wrong too);
+  * the clamp lifted into a `static` helper returning the sentinel (not
+    inlined at -O4,p) and into a `static inline` one (inlined, still `cmn`).
+
+The rest of the diff is downstream of those four bytes: every later
+instruction is the original's, shifted by one word, except for two register
+namings in the address computation that survive independently of it.  In the
+original `x->which` lands in r2 and the pool word in r1 (`mla r1, r2, r0, r1`,
+then `add r2, r1, #0x100` into a fresh register before the `ldrh` of
+`first`); the compile swaps the pair (`mla r2, r1, r0, r2`, then the `ldrh`
+before `add r2, r2, #0x100`).  Three spellings of the address
+(`&g[i].ent[j]`, `g[i].ent` bound to a local then subscripted, and
+`e + x->first`) all produce the identical single shape, so the operand
+naming is not reachable from the expression; the same swap shows up again in
+the flag-clear arm, where the original's `r3` is the compile's `r4`.
+
+The C that is 320 bytes
+-----------------------
+
+  typedef unsigned char  u8;
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+
+  struct Ent { u16 a0, a1, a2, a3; };                    /* 8 bytes */
+  struct Bank { u8 pad_000[0x100]; struct Ent ent[136]; };  /* 0x540 */
+
+  struct Span {
+      u32 which;   /* 0x00 */
+      u16 first;   /* 0x04 */
+      u16 last;    /* 0x06 */
+      u16 sent;    /* 0x08 */
+      u16 unk_0a;  /* 0x0a */
+      u16 pad_0c;
+      u16 unk_0e;  /* 0x0e */
+      u8  pad_10[4];
+      u32 unk_14;  /* 0x14 */
+  };
+
+  extern struct Bank g_02146BC8[];
+  extern u32 g_020A84C0;
+  extern void func_020862B8(struct Ent *p, u32 len);
+  extern void func_020821C0(u32 ch, struct Ent *p, u32 data, u32 len, u32 f);
+  extern void func_02082A7C(u32 data, struct Ent *p, u32 len);
+
+  void func_02063640(struct Span *x)
+  {
+      struct Ent *p;
+      u32 len, ok, ch;
+      u16 cnt, i;
+
+      if (x->unk_14 != 0) {
+          ok = 0;
+          if (x->sent <= x->last + 1) {
+              if (x->first <= x->last) ok = 1;
+          }
+          if (ok != 0) len = (u16)(x->last - x->first + 1) * 8;
+          else         len = 0;
+
+          p = &g_02146BC8[x->which].ent[x->first];
+          func_020862B8(p, len);
+
+          ch = g_020A84C0;
+          if (ch > 3) ch = (u32)-1;
+          if (ch != (u32)-1) func_020821C0(ch, p, 0xc0, len, 1);
+          else               func_02082A7C(0xc0, p, len);
+      } else {
+          p = &g_02146BC8[x->which].ent[x->first];
+          cnt = (u16)(x->last - x->first + 1);
+          i = 0;
+          if (cnt != 0) {
+              do {
+                  i++;
+                  p->a0 = 0xc0;
+                  p++;
+              } while (cnt > i);
+          }
+      }
+      x->sent = x->first;
+      x->unk_0e = x->unk_0a;
+  }
+
+The guard shape is worth keeping: the materialised `ok` (`mov r2, #0` ...
+`movls r2, #1` ... `cmp r2, #0`) is a nested pair of `if`s assigning a flag,
+not a single `&&`, and the two compares have different signedness, the outer
+`bgt` (both operands promoted u16 to int) and the inner `movls` (unsigned),
+which the C above reproduces without a cast.
+
+Next agent: the whole function is settled except for one register-held -1.
+Look for the C shape that keeps a sentinel out of the constant pool, then
+re-run this file; the address-computation register swap may well follow it,
+since it is downstream register pressure and not an expression choice.

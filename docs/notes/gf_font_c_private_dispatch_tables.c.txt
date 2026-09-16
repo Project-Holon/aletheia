@@ -1,0 +1,98 @@
+gf_font.c: why src/pending/sub_0201D7EC.c and src/pending/unit_0201D83C.c
+cannot graduate, and what would have to change
+
+Re-checked 2026-09-16 against the current tree.  Both pending files are still
+byte-correct (every concrete byte reproduced) and both are still capped.  This
+note exists so the next agent does not re-derive the chain.
+
+The blocking chain, in full
+---------------------------
+
+  src/pending/sub_0201D7EC.c   (constructor, 74 bytes)
+      needs a witness for func_0201D854 and for func_0201DA00.
+      Neither has any caller image-wide except this function, so the `label`
+      class is empty for both.  The only other routes are `local` (put them in
+      one unit) or `matched` (a manifest entry at each address).
+
+  src/pending/unit_0201D83C.c  (destructor, 22 bytes)
+      needs a witness for func_0201DADC.  Same situation: sole caller.
+      func_0201D9C8 already resolves through src/matched/unit_0201D9C8.c.
+
+  src/pending/sub_0201DA00.c   (format selector, 30 bytes)
+      capped by the dispatch-table base 0x0209E73C.
+
+  src/pending/sub_0201DADC.c   (format teardown, 14 bytes)
+      capped by the dispatch-table base 0x0209E744.
+
+  src/pending/sub_0201D854.c   (metrics/buffer init, 356 bytes)
+      capped by func_020494F4 and func_0201DC88.
+
+The two tables have exactly one reference each
+----------------------------------------------
+
+Grepping the whole disassembly (arm9 listings and overlays) for 0209E73C and
+0209E744 gives six hits apiece, and they are two distinct sites duplicated
+across the per-unit listings that mirror main.s: the pool word inside
+func_0201DA00 (resp. func_0201DADC) and the table's own definition in the data
+area.  Nothing else in the image, overlays included, names either address.  So
+the `literal` class has no witness outside the compared range, and never will
+without a second reference appearing.
+
+The tables themselves are:
+
+  0209E73C  0201DAA5 0201DA25            -> func_0201DAA4, func_0201DA24
+  0209E744  0201DB01 0201DAF1            -> func_0201DB00, func_0201DAF0
+
+Two entries each, not four; the two tables are eight bytes apart.  Expressing
+one as an offset from the other would be a claim that they are one object, and
+the image does not say so.
+
+Why the cure for one half poisons the other
+-------------------------------------------
+
+The constructor's only route to a witness for func_0201DA00 is to have it
+`local`, which means a unit spanning 0x0201D7EC..0x0201DA24.  That unit
+contains func_0201DA00 and therefore inherits its unresolved table word, so the
+unit is capped exactly where the single function was.  `matched` cannot help
+either: a manifest entry at 0x0201DA00 would have to be EXACT, and it cannot
+be.  The destructor is the same argument one function over, with 0x0209E744.
+
+Conclusion: neither pending file can graduate with the harness as it stands.
+This is not a C problem and not a near miss; there is nothing left to try in
+the source.
+
+What would close it
+-------------------
+
+Either of these, and only these:
+
+1.  A second reference to 0x0209E73C / 0x0209E744 turning up somewhere in the
+    image.  None exists today.
+
+2.  A harness change: `layout_tu()` in tools/match.py keeps only sections with
+    SHF_EXECINSTR, so a translation unit that *defines* a private data table
+    contributes nothing to the laid-out bytes and produces no manifest entry at
+    the table's address.  If the harness could verify a data-only (or
+    mixed) TU against a data range and record an entry at 0x0209E73C, the
+    `matched` class would attest the pool word and the whole chain above would
+    fall in one go: sub_0201DA00, sub_0201DADC, then sub_0201D7EC and
+    unit_0201D83C.  This is the single highest-leverage tooling gap found this
+    run, and it is not specific to gf_font.c: every "private table with one
+    pool word" cap in src/pending/ has the same shape.
+
+Two further notes, so they are not re-checked
+---------------------------------------------
+
+- func_020494F4 (one of sub_0201D854's two blockers) is NOT a linker veneer.
+  It is 132 bytes of real ARM code starting `push {r4, r5, r6, lr}`, so the
+  `veneer` class does not apply and the only route is a `matched` entry at
+  0x020494F4.
+
+- func_0201DC88 (the other blocker) is not the 64-byte leaf the header of
+  src/pending/sub_0201D854.c calls it: it runs 0x0201DC88..0x0201DD58, 208
+  bytes of dense bit manipulation.  Matching it plus 0x020494F4 would take
+  src/pending/sub_0201D854.c to EXACT, which is 356 bytes of coverage, but it
+  would still not graduate either of the two files this note is about, because
+  the constructor is independently blocked on func_0201DA00.
+
+Addresses are Black-image addresses.

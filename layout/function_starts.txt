@@ -280,3 +280,18 @@ arm9_main  0x02020F0C  thumb # matched EXACT in src/matched/unit_02020F08.c
 arm9_main  0x02020F10  thumb # matched EXACT in src/matched/unit_02020F08.c
 arm9_main  0x02020F14  thumb # matched EXACT in src/matched/unit_02020F08.c
 arm9_main  0x02020F20  thumb # matched EXACT in src/matched/unit_02020F08.c
+arm9_main  0x02067AA0  arm   # three-instruction leaf; veneer pool word at 0x02066750 and the pop at 0x02067A9C
+arm9_main  0x02057F8C  arm   # leaf after the bx lr ending func_02057EF8 at 0x02057F88; four-parameter (r3 live-in)
+arm9_main  0x02027A04  thumb # follower of sub_020279E8 (EXACT*), two alignment bytes at 0x02027A02
+arm9_main  0x02048B54  arm   # g3d_light.c accessor leaf inside unit_02048AD0
+arm9_main  0x02048B60  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048B6C  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048B78  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048B80  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048B88  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048B94  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048B9C  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048BA8  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048BB0  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048BBC  arm   # g3d_light.c accessor leaf
+arm9_main  0x02048CDC  arm   # g3d_light.c leaf inside unit_02048C58

@@ -22,11 +22,13 @@
  * flag at +0x1c is the same one func_0204BD3C sets, and an unbound record is
  * an early return predicated onto the compare (`popeq`).
  *
- * The flag value is still in r1 at the call.  It is written here as a second
- * argument rather than a leftover because func_0204BD64, the identical
- * function next door, hands the same pair to a different callee; if a later
- * decompilation of 0x02063640 shows a one-argument signature, the r1 read is
- * a leftover and this line loses its second argument without changing a byte.
+ * The flag value is still in r1 at the call, but it is a leftover, not an
+ * argument: wave 24 read 0x02063640 (docs/notes/func_02063640.c.txt) and it
+ * overwrites r1 at +0x1C with `ldrh r1, [r5, #8]` before any use, so the
+ * callee takes one argument.  The second argument is gone from the call
+ * below and the compiled bytes are unchanged, which is the check that the
+ * r1 read really was dead.  func_0204BD64 next door hands the same pair to
+ * func_0206343C, which has not been read, so that file keeps its two.
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/func_0204BD7C.c \
@@ -41,7 +43,7 @@ struct Sub {
     u32 bound;   /* 0x1c */
 };
 
-extern void func_02063640(struct Sub *s, u32 bound);
+extern void func_02063640(struct Sub *s);
 
 void func_0204BD7C(struct Sub *s)
 {
@@ -49,5 +51,5 @@ void func_0204BD7C(struct Sub *s)
         return;
     }
 
-    func_02063640(s, s->bound);
+    func_02063640(s);
 }

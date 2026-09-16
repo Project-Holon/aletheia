@@ -1,50 +1,87 @@
-func_02066934: a DIFF near miss, the store-fusion case, not a guess gone wrong
+func_02066934: a DIFF near miss, now 100/100 bytes and 17 bytes apart
 ===============================================================================
 
 Blocker of docs/notes/clact_c_fan_in_1_blockers.c.txt, unblocks
-func_0204C660 (pkt_0204BD64). Semantics are pinned down with real
-confidence:
+func_0204C660 (pkt_0204BD64).  This note supersedes the earlier reading in
+this file (108 bytes, diverging from byte 0): wave 24 closed the store-fusion
+half of the problem and the residue is now one register-allocation swap.
+
+Semantics, unchanged and still confidently pinned down:
 
   void func_02066934(struct Rec *recs, u32 n, void *cb);
 
 Publishes the pool (callback, count, record array) into the global bank at
-0x02148B20 already named as gUnk_02148B20 in src/matched/sub_02066B38.c
-(struct Bank { void *cb; u32 count; struct Rec *recs; }, a reasonable
-reading of +0x00/+0x04/+0x08 given sub_02066B38 already names +0x08 as
-"cells"). n == 0 is a predicated early return off the `movs` that loads it.
-Then, for each of the n 0x30-byte records: sub_020640B0 clears the first
-three words, and nine more words at +0xc..+0x2c are set to the record's
-own loop index (not to anything from the callback, which is published to
-the global only, never called here).
+0x02148B20 (named gUnk_02148B20 in src/matched/sub_02066B38.c), then, for
+each of the n 0x30-byte records, calls sub_020640B0 on it and sets the nine
+words at +0xc..+0x2c to the record's own loop index.  n == 0 is a predicated
+early return off the `movs` that loads it.  Both relocations resolve:
+sub_020640B0 by `label` and gUnk_02148B20 by `literal`.
 
-Relocations resolve cleanly: sub_020640B0 (`label`, already matched via
-sub_02066B38.c's call to it) and gUnk_02148B20 (`literal`, already a
-well-attested address). The blocker is purely a byte-count/structural
-mismatch: every C form tried compiles to 100+ bytes (original is 100) but
-the concrete bytes differ from byte 0.
+What was solved
+---------------
 
-The original opens with
+1. The three-register `stm r3, {r2, r6, r7}`.  It is not an aggregate
+   assignment and it does not need one.  Three plain field stores fuse into
+   one `stm` in exactly one source order, and it is not the order of the
+   fields in the struct:
 
-  push {r3, r4, r5, r6, r7, lr}
-  ldr  r3, [pc, #0x54]        ; &gUnk_02148B20
-  movs r6, r1                 ; n, sets flags for the r1==0 early return
-  mov  r7, r0                 ; recs
-  mov  r5, #0                 ; i = 0, unconditionally, before the bail-out
-  stm  r3, {r2, r6, r7}       ; one instruction: cb, n, recs all at once
-  popeq {r3, r4, r5, r6, r7, pc}
+       gUnk_02148B20.cb    = cb;      /* +0x00, the parameter still in r2 */
+       gUnk_02148B20.recs  = recs;    /* +0x08 */
+       gUnk_02148B20.count = n;       /* +0x04 */
 
-i.e. the three field stores (cb straight from its own parameter register
-r2, n and recs copied into r6/r7 first) fuse into a single three-register
-`stm`. Every plain `a.f1 = x; a.f2 = y; a.f3 = z;` tried here compiles to
-a split store instead (`str r2, [r3]` then a separate `stmib r3, {r5, r6}`
-for the other two), regardless of field order, and a compound-literal
-assignment (`gUnk_02148B20 = (struct Bank){cb, n, recs};`) is worse: it
-round-trips through a stack temporary (sp-relative stores then an `ldm`
-back out), the classic mwccarm lowering for a literal passed by value,
-adding 40+ bytes instead of saving any.
+   Written cb/count/recs (field order) or count/recs/cb the front end emits
+   `str r2, [r3]` plus a separate `stmib r3, {r6, r7}`, four bytes longer.
+   See docs/idioms/three-field-global-store-fuses-only-in-one-write-order.md
+   for the mechanism.  The compound-literal form noted earlier is still
+   wrong and still round-trips through a stack temporary; `gUnk = b;` from a
+   named local struct does produce `stm r3, {r0, r1, r2}` but pays an
+   `add sp, sp, #0xc` / `ldm` round trip for it, 40+ bytes.
 
-Best attempt (108 bytes, diverges from byte 0 because of the split store,
-otherwise structurally identical all the way through the loop):
+2. The fourth callee-saved register.  The loop stores a *copy* of the
+   counter, not the counter:
+
+       mov r4, r5        ; v = i
+       ...
+       add r5, r5, #1    ; i++
+
+   Only a post-increment used as a value keeps both alive
+   (docs/idioms/post-increment-of-a-field-spends-a-copy.md, same tell one
+   level up): `v = i++;` gives the copy and the six-register push,
+   `v = i; ...; i++;` and `while (++i < n)` both coalesce v into i and give
+   `push {r4, r5, r6, lr}`.
+
+The residue: one register pair, swapped
+---------------------------------------
+
+The C below compiles to exactly 100 bytes with every instruction in the
+original's order.  17 bytes differ, and every one of them is the same
+substitution: the original puts the loop counter in r5 and the stored copy
+in r4, the compile puts the counter in r4 and the copy in r5.
+
+  * +0010    mov r5, #0                  | mov r4, #0
+  * +001C    mov r4, r5                  | mov r0, r7      (and the copy
+  * +0020    mov r0, r7                  | mov r5, r4       after the arg)
+  * +002C..  str r4, [r7, #0x10] ...     | str r5, [r7, #0x10] ...
+  * +0048    add r5, r5, #1              | add r4, r4, #1
+  * +0050    cmp r5, r6                  | cmp r4, r6
+
+mwccarm gives r4 to whichever of the two locals is defined first in the
+linearised function, and the counter's `= 0` is necessarily before the loop,
+so the counter always wins r4.  Everything tried to flip it failed and none
+of it changed a byte anywhere else:
+
+  * declaration order, both ways (`u32 v; u32 i = 0;` and the reverse);
+  * `u32 v = 0;` before the loop, with and without a live use (`i = v;`);
+  * `v = i; i = i + 1;` split out of the post-increment (coalesces);
+  * `while (++i < n)` and `while (++v < n)` (coalesce);
+  * the flipped spelling, `i = v;` at the top with `v` the counter;
+  * a chained assignment `a = b = ... = i` (no temporary at all);
+  * `for (i = 0; i < n; ) { v = i++; ... }` (adds a redundant `cmp r6, #0`);
+  * every combination of `u32` / `int` / `unsigned long` for the two locals;
+  * a `static` helper holding the loop (mwccarm does not inline it).
+
+The C that is 100 bytes and 17 apart
+------------------------------------
 
   typedef unsigned char  u8;
   typedef unsigned int   u32;
@@ -65,30 +102,29 @@ otherwise structurally identical all the way through the loop):
 
   void func_02066934(struct Rec *recs, u32 n, void *cb)
   {
+      u32 v;
       u32 i = 0;
 
-      gUnk_02148B20.cb = cb;
+      gUnk_02148B20.cb    = cb;
+      gUnk_02148B20.recs  = recs;
       gUnk_02148B20.count = n;
-      gUnk_02148B20.recs = recs;
 
-      if (n == 0) {
-          return;
-      }
+      if (n == 0) return;
 
-      for (; i < n; i++) {
+      do {
+          v = i++;
           sub_020640B0(recs);
-          recs->unk_0c = i; recs->unk_10 = i; recs->unk_14 = i;
-          recs->unk_18 = i; recs->unk_20 = i; recs->unk_24 = i;
-          recs->unk_28 = i; recs->unk_2c = i; recs->unk_1c = i;
+          recs->unk_0c = v; recs->unk_10 = v; recs->unk_14 = v;
+          recs->unk_18 = v; recs->unk_1c = v; recs->unk_20 = v;
+          recs->unk_24 = v; recs->unk_28 = v; recs->unk_2c = v;
           recs++;
-      }
+      } while (i < n);
   }
 
-Next agent: the lever is probably the bank's field types. `cb` is typed
-void* here but is never dereferenced or called in this function, so mwcc
-has no reason to treat it specially; try a same-width integer typedef for
-`cb` (matching n's and recs's plain-word treatment) in case the pointer
-type is what's suppressing the fuse, or try declaring local copies of n
-and recs assigned before the struct stores (mirroring `movs r6,r1` then
-`mov r7,r0` preceding the stm) so all three rhs values are simple named
-locals rather than two parameters plus one pass-through.
+Next agent: the only open question is what makes mwccarm allocate r4 to the
+copy rather than to the counter.  The lever is not in this function's
+statements, all of which are now pinned by the byte comparison; it is
+whatever makes the copy's live range be created first.  A third local, or a
+different function shape that defines the copy before the counter's zero, is
+the thing to look for.  Do not re-derive the store order or the
+post-increment: both are settled above.
