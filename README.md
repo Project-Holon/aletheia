@@ -35,10 +35,10 @@ byte-matching ROM.
   - [ ] Field and battle loop call trees
   - [ ] 100% matching
 
-- [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/OukilIl/eidos))
+- [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
 - [ ] **Milestone 5**: Pokémon White support
 
-Companion project: [eidos](https://github.com/OukilIl/eidos) is the native runtime engine and PC port companion to aletheia.
+Companion project: [eidos](https://github.com/Project-Holon/eidos) is the native runtime engine and PC port companion to aletheia.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the planned approach, and
 [docs/NOTES.md](docs/NOTES.md) for technical findings recorded along the way.

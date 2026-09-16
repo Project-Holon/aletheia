@@ -28,7 +28,7 @@ the tools read it and derive everything locally.
 
 ## Companion project
 
-The native port, eidos (https://github.com/OukilIl/eidos), is original code
+The native port, eidos (https://github.com/Project-Holon/eidos), is original code
 under the MIT License. It contains no game data and no reverse-engineered game
 source; it consumes those from the user's own checkout of this repository.
 
