@@ -15,16 +15,16 @@ byte-matching ROM.
 
 ### Decompilation (aletheia)
 
-- [x] **Milestone 1** — ROM extraction and rebuild
+- [x] **Milestone 1**: ROM extraction and rebuild
   - [x] Extract ROM filesystem with `tools/ndsrom.py`
   - [x] Rebuild a byte-matching, launchable `.nds`
   - [x] Verify the rebuilt ROM boots in melonDS (other emulators and hardware untested)
-- [x] **Milestone 2** — Delink, disassemble, and prove reassembly
+- [x] **Milestone 2**: Delink, disassemble, and prove reassembly
   - [x] BLZ-decompress and delink ARM9 binary + all 237 overlays
   - [x] Disassemble with `tools/disasm.py` (ARM/Thumb, code/data split)
   - [x] Reassemble byte-identically (`tools/build.py`: 242 of 242 regions PASS)
   - [x] Split ARM9 into ordered translation units
-- [~] **Milestone 3** — Incremental decompilation to matching C
+- [~] **Milestone 3**: Incremental decompilation to matching C
   - [x] Build system compiles C and links against remaining assembly
   - [x] Pokémon data field map and the message text cipher (`src/matched/`)
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
@@ -35,8 +35,8 @@ byte-matching ROM.
   - [ ] Field and battle loop call trees
   - [ ] 100% matching
 
-- [ ] **Milestone 4** — Native PC port ([eidos](https://github.com/OukilIl/eidos))
-- [ ] **Milestone 5** — Pokémon White support
+- [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/OukilIl/eidos))
+- [ ] **Milestone 5**: Pokémon White support
 
 Companion project: [eidos](https://github.com/OukilIl/eidos) is the native runtime engine and PC port companion to aletheia.
 
