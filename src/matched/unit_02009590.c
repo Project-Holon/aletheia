@@ -1,0 +1,46 @@
+/*
+ * unit:     yes
+ * function: func_02009590
+ * address:  0x02009590
+ * packet:   pkt_02009590
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02009584  0x02009584  thumb
+ *   func_0200856C  0x0200856C  thumb
+ *   func_02009794  0x02009794  thumb
+ *
+ * Checks mode and validity flags, adjusting count when active.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02009590.c \
+ *       --addr 0x02009590 --thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u8  func_02009584(void *a, u32 b, u32 c);
+extern int func_0200856C(u32 b);
+extern int func_02009794(void *a, int b);
+
+u8 func_02009590(void *a, u32 b, u32 c)
+{
+    u8 res = func_02009584(a, b, c);
+
+    if (c == 0) {
+        int r = func_0200856C(b);
+        if (r == 0) {
+            res = 0;
+        } else if (func_02009794(a, r) && res != 0) {
+            res--;
+        }
+    }
+
+    return res;
+}

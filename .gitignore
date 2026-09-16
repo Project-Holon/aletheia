@@ -44,3 +44,6 @@ Thumbs.db
 
 # Python bytecode
 __pycache__/
+
+# Scratch files (temporary test files used during decompilation)
+/scratch/
