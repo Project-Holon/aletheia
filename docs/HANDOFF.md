@@ -280,3 +280,39 @@ extracted layout, so the work is a second `extract/` plus per-target layout file
 ### Technical Insights
 - Used ternary predication idiom `(which == 1) ? (*(vu32 *)0x04000000 & 0x00300010) : (*(vu32 *)0x04001000 & 0x00300010)` to produce exact branchless `ldreq`/`ldrne` conditionally predicated loads in `func_0204DC70`.
 - All 242 ROM validation checks passing with byte-identical ROM hash.
+
+---
+
+## 2026-09-16 - Wave 6: Graduated 8 Work Packets across arm9 (+244 B Net, 9 New Matched Functions)
+
+### Status & Metrics
+- **ROM State**: 100% byte-identical (`sha1: 26ad0b9967aa279c4a266ee69f52b9b2332399a5`).
+- **All 242 Build Checks Passing**: `242 PASS, 0 FAIL`.
+- **arm9 Decomp Coverage**: **16.6135%** (66,464 / 400,060 B across 1,623 matched functions).
+- **Open Packets**: Decreased from 469 to 461 (8 packets dissolved).
+
+### Key Functions Graduated in Wave 6
+1. **`pkt_0204961C` (60 B code, 60 B extent, ARM, 2 funcs completed)**:
+   - `func_0204961C` (8 B, ARM): Halfword field reader at offset +0x4E (`src/matched/unit_0204961C.c`).
+   - `func_02049624` (52 B, ARM): 7-argument forwarder dispatching through `func_0204A1BC` and `func_0204968C` (`src/matched/unit_0204961C.c`).
+   - Packet `pkt_0204961C` is now 100% complete and fully dissolved.
+2. **`pkt_0201C6FC` (36 B code, 40 B extent, Thumb, 1 func)**:
+   - `sub_0201C6FC` (36 B, Thumb): Forwarder to `sub_0201C808` and `sub_0201C758` (`src/matched/func_0201C6FC.c`). Shard `pkt_0201C6FC.json` complete and dissolved.
+3. **`pkt_02037200` (32 B code, 36 B extent, ARM, 1 func)**:
+   - `func_02037200` (32 B, ARM): Handler validity check and callback dispatch (`src/matched/func_02037200.c`). Shard `pkt_02037200.json` complete and dissolved.
+4. **`pkt_020414C4` (32 B code, 40 B extent, ARM, 1 func)**:
+   - `func_020414C4` (32 B, ARM): Indexed struct pointer tail call to `func_02040B94` (`src/matched/func_020414C4.c`). Shard `pkt_020414C4.json` complete and dissolved.
+5. **`pkt_02011D60` (26 B code, 28 B extent, Thumb, 1 func)**:
+   - `func_02011D60` (26 B, Thumb): Sound / channel sequence trigger invoking `func_0203064C(9, 5, 5 << 10)`, `func_02011F24()`, and `func_020306F0(5)` (`src/matched/func_02011D60.c`). Shard `pkt_02011D60.json` complete and dissolved.
+6. **`pkt_020242C0` (24 B code, 24 B extent, Thumb, 1 func)**:
+   - `func_020242C0` (24 B, Thumb): Double delegate invoking slot initialiser `func_020242A4(a, b)` and processor `func_02024598(a, b, c)` (`src/matched/func_020242C0.c`). Shard `pkt_020242C0.json` complete and dissolved.
+7. **`pkt_02006E18` (18 B code, 20 B extent, Thumb, 1 func)**:
+   - `func_02006E18` (18 B, Thumb): Allocation delegate retrieving resource via `func_02006E2C()` and passing to `func_02007BD0(a0, res)` (`src/matched/func_02006E18.c`). Shard `pkt_02006E18.json` complete and dissolved.
+8. **`pkt_0207C778` (16 B code, 16 B extent, ARM, 1 func)**:
+   - `func_0207C778` (16 B, ARM): Dual subroutine invoker calling `func_0207C8A0()` and `func_0207C86C()` (`src/matched/func_0207C778.c`). Shard `pkt_0207C778.json` complete and dissolved.
+
+### Technical Insights
+- Multi-argument stack calling convention in ARM matches cleanly by chaining callee return value directly into subsequent caller invocation (`unit_0204961C.c`).
+- Thumb one-function translation unit wrapping (`match.py tu`) accurately accounts for two-byte padding boundaries in Thumb routines (`func_02006E18.c` and `func_02011D60.c`).
+- 100% byte-identical ROM hash preserved across all 242 regions.
+
