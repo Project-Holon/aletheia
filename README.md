@@ -1,5 +1,3 @@
-<p align="center"><img src="docs/logo_512.png" width="256" alt="BW-D"></p>
-
 # aletheia
 
 A decompilation project for Pokémon Black (and eventually White).
