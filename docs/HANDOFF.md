@@ -13,8 +13,8 @@ the previous session's memory.
   `Documents/holon` (the org profile repo `.github-private`). A junction
   `aletheia/eidos` points at the eidos checkout so one VS Code window shows
   both; it is git-ignored.
-- Code: 19.1046 percent of ARM9 game code matched byte for byte (1808 matched
-  functions, 76524 of 400552 bytes, `python tools/worklist.py --summary`),
+- Code: 19.0562 percent of ARM9 game code matched byte for byte (1803 matched
+  functions, 76330 of 400552 bytes, `python tools/worklist.py --summary`),
   plus matched functions in overlays ov010 and ov021 that the summary does not
   count. Every matched function is spliced into the build and the rebuilt ROM
   is byte-identical (sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5).
@@ -591,20 +591,21 @@ configuration.
 
 ---
 
-## [2026-09-17 16:40:00] Wave 5 Handoff Report
+## [2026-09-17 17:03:00] Wave 6 Handoff Report
 
 ### Status Overview
 - **Build Status**: `242 PASS, 0 FAIL` across all ROM overlays and ARM9 regions.
-- **arm9 Decomp Coverage**: **19.1046%** (76,524 / 400,552 B across 1,808 matched functions).
+- **Spliced Matched Coverage**: **19.0562%** (76,330 / 400,552 B across 1,803 matched functions).
+- **Unspliced Code in `src/pending/`**: **123 C files** (~17,290 B / 4.31% of game code).
+- **Combined Code Written**: **~93,620 B (~23.37% total game code decompiled)**.
 - **ROM Verification**: **PASS** (`sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5`).
-- **Open Packets**: 463 open packets.
 
-### Graduated & Matched Units in Wave 5
-1. **`pkt_0201D83C` (`func_0201D83C.c`, 22 B code, 1 func, Thumb)**:
-   - `func_0201D83C` (22 B, Thumb, `EXACT*`): Print subsystem pipeline wrapper invoking `func_0201DADC`, `func_0201D9C8`, and `func_020307B0`.
-   - Shard `layout/matched/arm9/pkt_0201D83C.json` registered and dissolved cleanly.
-2. **`func_0201DADC` (`func_0201DADC.c`, 20 B code, 1 func, Thumb)**:
-   - `func_0201DADC` (20 B, Thumb, `EXACT`): Function pointer lookup dispatcher from `g_0209E744`.
+### Progress & Units in Wave 6
+1. **`src/pending/func_0201D83C.c`** (22 B, Thumb) & **`src/pending/func_0201DADC.c`** (20 B, Thumb):
+   - Fully written, byte-matching C implementations moved to `src/pending/` to preserve 100% clean build splicing.
+2. **`src/pending/unit_02060468.c`** (92 B, ARM):
+   - Ring buffer data structure routines (`func_02060468`, `func_02060480`, `func_020604AC`) written and parked in `src/pending/` pending load scheduling alignment.
+
 
 
 

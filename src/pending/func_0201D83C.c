@@ -7,23 +7,21 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_0201DADC  0x0201DADC  thumb
- *   sub_0201D9C8   0x0201D9C8  thumb
- *   sub_020307B0   0x020307B0  arm
+ *   func_0201D9C8  0x0201D9C8  thumb
+ *   func_020307B0  0x020307B0  arm
  */
 
-typedef unsigned char u8;
+extern void func_0201DADC(void *ptr);
+extern void func_0201D9C8(void *ptr);
+extern void func_020307B0(void *ptr);
 
-extern void func_0201DADC(void *font);
-extern void sub_0201D9C8(void *font);
-extern void sub_020307B0(void *font);
-
-void func_0201D83C(void *font)
+void func_0201D83C(void *ptr)
 {
-    func_0201DADC(font);
-    sub_0201D9C8(font);
-    sub_020307B0(font);
+    func_0201DADC(ptr);
+    func_0201D9C8(ptr);
+    func_020307B0(ptr);
 }
