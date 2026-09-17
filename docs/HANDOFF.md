@@ -447,5 +447,41 @@ corrections noted here.
 - Priority candidate: `pkt_0204BC94` / `pkt_0204B954` or small ARM/Thumb call wrappers.
 - Continue rapid dissolved-packet waves toward the 25.0% coverage milestone.
 
+---
+
+## [2026-09-17 14:35:00] Waves 1-3 Handoff Report
+
+### Status Overview
+- **Build Status**: `242 PASS, 0 FAIL` across all ROM overlays and ARM9 regions.
+- **arm9 Decomp Coverage**: **19.2944%** (77,284 / 400,552 B across 1,810 matched functions).
+- **ROM Verification**: **PASS** (`sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5`).
+- **Open Packets**: 459 packets remaining.
+
+### Recent Progress in Waves 1–3
+1. **`pkt_0204A600` (`clact.c`)**:
+   - `func_0204A600` (72 B, ARM, `MATCH`), `func_0204A648` (80 B, ARM, `MATCH`), `func_0204A698` (48 B, ARM, `EXACT`) matched in `src/matched/unit_0204A600.c` (`commit 4dc2e80`).
+2. **`pkt_02040618` & `pkt_0201D83C`**:
+   - `func_0201D83C` (22 B, Thumb, `MATCH*` in `gf_font.c`).
+   - `func_020407E8` (28 B, ARM, `EXACT`) and `func_02040804` (28 B, ARM, `EXACT`) matched in `src/matched/unit_02040618.c` (`commit 8328287`, `commit 9992072`, `commit 0291430`).
+3. **`pkt_02034AC4` (`gf_overlay.c`, 224 B code, fan-in 114)**:
+   - `sub_02034AC4` (224 B, ARM, `MATCH*` in `src/matched/sub_02034AC4.c`): Overlay loader and slot registration manager.
+4. **`pkt_02041300` (172 B code, fan-in 224)**:
+   - `func_02041300` (172 B, ARM, `MATCH*` in `src/matched/func_02041300.c`): Surface color-depth dispatcher and blitter selector.
+5. **`pkt_0204AC18` (`clact.c`, 208 B code, fan-in 129)**:
+   - `sub_0204AC18` (208 B, ARM, `MATCH*` in `src/matched/sub_0204AC18.c`): Cell actor system secondary table registration allocator.
+6. **`pkt_0203D3F8` (`net.c`, 204 B code, fan-in 88)**:
+   - `func_0203D3F8` (204 B, ARM, `MATCH*` in `src/matched/func_0203D3F8.c`): Eight-argument multiplayer network packet transmission handler.
+
+### `eidos` Native Port Alignment
+- Landed NSBMD 3D node dictionary, bone matrix hierarchy, shape binding, and host rasteriser additions in `eidos` (`commit 26785a8`). Verified via `python tools/hostbuild.py` (31 text, 44 stats, 49 tcbl checks all PASS with 0 failures).
+- Host toolchain configured with GCC 14.2 shim under `aletheia/tools/gcc-host/xpack-mingw-w64-gcc-14.2.0-1/bin/`.
+- DeepSeek's NSBMD rotation packing implementation marked provisional in documentation; exact bitwise decoding formula will be derived from `NNS_G3D` matrix evaluation routines in `aletheia`.
+
+### Technical Guidelines & Multi-Agent Collaboration Rules
+- **Explicit File Staging**: Always stage explicit file paths (`git add <file1> <file2>...`) to prevent picking up concurrent work across multiple agent lanes. Never use directory-level `git add .`.
+- **Relocations & Attestation**: Functions in `src/matched/` require status `EXACT` or `MATCH*` with populated `symbols:` documentation blocks in C source headers.
+- **Commit Formatting**: Graduate-level technical prose only; no em-dashes, no emojis, no `Co-Authored-By` footer lines.
+
+
 
 
