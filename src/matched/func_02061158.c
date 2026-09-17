@@ -8,8 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * blocker:  020610A0, 020610B4 has no witness outside this range
+ * status:   EXACT
  */
 
 extern void func_020610A0(void *p);
