@@ -1,0 +1,15 @@
+/*
+ * unit:     no
+ * function: func_02038D30
+ * address:  0x02038D30
+ * packet:   pkt_02038C18
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+extern void func_020365E8(int, int, int, int);
+void func_02038D30(int a0, int a1, int a2, int a3){ func_020365E8((int)(*(int *)((char *)(0x21469D0)) + 0x1c), (int)a1, (int)a2, (int)a3); }
