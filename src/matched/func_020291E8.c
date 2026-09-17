@@ -1,0 +1,33 @@
+/*
+ * function: func_020291E8
+ * address:  0x020291E8
+ * packet:   pkt_0202918C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020291E8.c \\
+ *       --func func_020291E8 --addr 0x020291E8 --thumb --cc 1.1p1
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u32  func_02005E50(u8 *p);
+extern void func_020293D8(u8 *p);
+extern void func_02029374(u8 *p);
+extern void func_02029344(u8 *p, u32 v);
+
+void func_020291E8(u8 *p)
+{
+    if (func_02005E50(p) != 0) {
+        return;
+    }
+    func_020293D8(p);
+    func_02029374(p);
+    func_02029344(p, 7);
+}
