@@ -13,8 +13,8 @@ the previous session's memory.
   `Documents/holon` (the org profile repo `.github-private`). A junction
   `aletheia/eidos` points at the eidos checkout so one VS Code window shows
   both; it is git-ignored.
-- Code: 19.0562 percent of ARM9 game code matched byte for byte (1803 matched
-  functions, 76330 of 400552 bytes, `python tools/worklist.py --summary`),
+- Code: 20.0457 percent of ARM9 game code matched byte for byte (1957 matched
+  functions, 80296 of 400564 bytes, `python tools/worklist.py --summary`),
   plus matched functions in overlays ov010 and ov021 that the summary does not
   count. Every matched function is spliced into the build and the rebuilt ROM
   is byte-identical (sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5).
@@ -606,9 +606,49 @@ configuration.
 2. **`src/pending/unit_02060468.c`** (92 B, ARM):
    - Ring buffer data structure routines (`func_02060468`, `func_02060480`, `func_020604AC`) written and parked in `src/pending/` pending load scheduling alignment.
 
+---
 
+## [2026-09-17] 20 percent push, waves 1 and 2
 
+### Status
+- **arm9 Coverage**: 19.7601 -> **20.0457 percent** (79152 -> 80296 of
+  400564 game bytes, 1917 -> 1957 matched functions).
+- **Build**: `242 PASS, 0 FAIL`; rebuilt ROM byte-identical
+  (`sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5`);
+  `manifest --verify` clean; `selftest` 74/74; idiom index unchanged.
 
+### Wave 1 (commit `9947f01`, coverage 19.8061)
+Nine EXACT: the paired field stores at 0x02067AA0/0x02067AAC, the field
+store at 0x02031288, the tail-call thunks 0x02078C28, 0x02080964,
+0x02080B98 and 0x0208EA80, the SVC-stub helper 0x02087AE4 and the poll
+loop 0x02084C1C. Seven MATCH-capped near misses were parked in
+`src/pending/` with the blocking site named in each header.
+
+### Wave 2 (commit `1dff420`, coverage 20.0457)
+- **Blocker unlocks**: 0x020339B4 and 0x02036E80 are now EXACT, which
+  promoted the parked 0x0203195C and 0x020370C8 to EXACT. 0x020339B4
+  also remains the witness that `src/pending/sub_020331D0.c` waits on.
+- **New EXACT**: 24 small ARM accessors and helpers from a scan of the
+  open pool for functions with no `bl` and no pool reference (field
+  getters/setters, a table indexer, `abs`, linked-list totals, an
+  indirect-dispatch shim and a status-register pair updater). The full
+  list is in the commit message.
+- **MATCH parked**: func_0203386C, func_020364D4, func_0203C900,
+  func_02061158, func_02062884, each blocked on one unlabelled or
+  single-caller callee.
+- **Standards fix**: `src/matched/func_0201F73C.c` was a MATCH-capped
+  duplicate of the already-parked `src/pending/func_0201F73C.c`
+  (pkt_0201F5BC, a documented near miss on 0x0201F628). The duplicate
+  and its `pkt_0201F5DC` shard were removed. The earlier-missing shard
+  for the tracked EXACT `unit_02060614` (pkt_02060468) was recorded, so
+  it is now counted and spliced.
+
+### Reusable method
+The high-yield pattern this wave was: after matching a function, re-run
+`match.py one` over every file in `src/pending/` and promote any that
+just crossed to EXACT, then pick new targets by scanning the open pool
+for no-call/no-pool leaves (`tools/disasm.scan_mnemonics`). Over half
+the wave's bytes came from those small accessors.
 
 
 
