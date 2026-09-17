@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Tears the object down: func_0202B9C8 first, then the matched heap release
  * func_020307B0.
