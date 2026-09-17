@@ -40,13 +40,24 @@ the previous session's memory.
   toolchain zip under `tools/gcc-host/`; LP64 builds through a switch).
   Running on the host through matched code: archive readers, text cipher,
   personal data and stat formula, the heap layer, the task callback list.
-  Engine pieces done with pixel oracles against our Python tools: OBJ
-  compositor, BG layers, affine OBJ and BG, windows and blending; SDL2
-  platform layer (window, input, pacer, audio device), frame loop with the DS
-  tick; a demo draws the title screen and an animated rig. 10 tests.
-  Next: audio (SDAT sequencer and mixer, `tools/assets/sseqsynth.py` is the
-  reference), replacing host reimpls with the wave 26 matches, then the boot
-  path (system init, overlay loader, title and field managers).
+  Engine done and tested: 2D (OBJ, BG, affine, windows, colour effects;
+  pixel-identical to `tools/assets/rig.py` and `background.py`), the DS frame
+  loop and SDL2 platform layer, audio (SDAT/SBNK/SWAR/SSEQ and a 16-channel
+  mixer, bit-identical to `tools/assets/sseqsynth.py` on three sequences), and
+  3D (fx32 pipeline, matrix stack, display-list interpreter, NSBMD/NSBTX, all
+  seven texture formats, a software rasteriser, and the MDL0 node dictionary:
+  record layout, translation, full rotation, scale, parent/child tree and
+  shape binding; the packed rotation completion is provisional, see
+  `eidos/docs/g3d-nodes.md`). The 3D output can be a layer inside the 2D
+  per-pixel compositor, so a BG can sit in front of or behind it and the
+  colour effects blend with 3D pixels. The file layer resolves a NitroFS path
+  through an optional file-granular mod overlay (`sdk/vfs.c`). 14 tests, all
+  passing in both pointer widths. `eidos/docs/status.md` groups the port's
+  work by dependency: done, open without decomp, and blocked on this repo
+  (boot path, heap arena 0x0202FC48, DS sound driver, cinematic, gameplay).
+  Next on the port side: the first-run asset extractor (orchestrate `tools/`
+  or a self-contained C unpacker), member-level NARC overlay, and a DS frame
+  for the rasteriser oracle.
 
 ## How to continue
 
@@ -481,6 +492,83 @@ corrections noted here.
 - **Explicit File Staging**: Always stage explicit file paths (`git add <file1> <file2>...`) to prevent picking up concurrent work across multiple agent lanes. Never use directory-level `git add .`.
 - **Relocations & Attestation**: Functions in `src/matched/` require status `EXACT` or `MATCH*` with populated `symbols:` documentation blocks in C source headers.
 - **Commit Formatting**: Graduate-level technical prose only; no em-dashes, no emojis, no `Co-Authored-By` footer lines.
+
+---
+
+## [2026-09-17] eidos port session: node dictionary, file layer, 2D/3D stack
+
+All of this is in the `eidos` repository; nothing in this repo changed.
+
+### engine/g3d: MDL0 node dictionary (`eidos` 7673232)
+
+Decoded the node record (active-low presence bits for translation, a packed
+or full rotation, and scale), both rotation forms, the parent/child tree in
+the render-command section and the per-shape node binding;
+`g3d_render_model` now applies each shape's node and ancestor transforms.
+Byte evidence is in `eidos/docs/g3d-nodes.md`.
+
+Independently re-verified from the raw bytes, not from the implementation:
+
+- the node record lengths tile exactly to the render-command start in 649 of
+  649 `a/0/0/8` models (740 across the corpus);
+- the full rotation's stored 12 bytes are orthonormal (21 of 21) and their
+  cross product equals `(header, field.y, field.z)` to 1 LSB on 21 of 21
+  nodes. The header field is a sign-extended `s16`; reading it unsigned puts
+  a third-row x of -3299 at +62237 and fails the check;
+- every packed node's two stored components are a unit pair;
+- `staffroll_b`'s parent bytes reproduce its named biped exactly
+  (pelvis root; head->neck->chest; l_foot->l_shin->l_thigh->pelvis).
+
+### The packed rotation is provisional (`eidos` 26785a8)
+
+The packed form stores only two components. That they are the third row's y
+and z, and that the completion is the x-turn, is an assumption, not a decode,
+and the documentation says so. Evidence against it: across all 740 models
+there are 0 joints packed in one model and full in another (the rotation form
+is fixed per joint), so no twin can fix the missing component; and of the 21
+full rotations only 2 have `row2.x == 0`, neither with `row0 == (1,0,0)`, so
+the zero-roll family the completion assumes is not what the full form uses.
+
+What would settle it is this repo's side: the paired BCA0 joint animation's
+frame 0 for a packed joint (the companions exist, `staffroll_b` and
+`staffroll_w` in `a/2/2/0`), or the ARM9 routine that expands a node record
+into a matrix (the `NNS_G3D` matrix evaluation). The `NNS_G3D` route is a
+decompilation target, not a port task.
+
+### Milestone 6 file layer (`eidos` 0ae0a82)
+
+`sdk/vfs.c` owns the data root and an optional mod overlay root and resolves
+a NitroFS path through them, overlay first. File granular only: it replaces a
+whole NitroFS file, not one member inside a NARC. `tests/test_vfs.c` checks
+precedence, fallthrough, trailing separators and clearing the overlay.
+
+### Milestone 4 2D/3D integration (`eidos` 6f8362b)
+
+`G2dLayer3d` puts the 3D output inside `g2d_frame_stack` at a priority and a
+hardware layer number, so a 2D BG can sit in front of or behind it, a window
+can hide it, and the colour effects blend with a 3D pixel. `g2d` takes a raw
+RGBA buffer and does not depend on `g3d`. `tests/test_compose3d.c` checks the
+stack, priority, window and blend cases (18 checks).
+
+### Tracking doc (`eidos/docs/status.md`, added in 6f8362b)
+
+Groups the port's work by dependency rather than by milestone: done without
+decomp, open without decomp, and blocked on this repo with the blocking
+function named. It is the file to update when a status changes.
+
+All eidos tests pass at 14 of 14 in both the LP64 and the ILP32
+configuration.
+
+### Not done, for the record
+
+- First-run asset extractor (Milestone 6), still needs a design decision:
+  orchestrate aletheia's `tools/` or write a self-contained C unpacker.
+- Member-level NARC overlay.
+- A DS frame to give the 3D rasteriser an oracle; it is the one engine piece
+  with no source of truth in the tree.
+- Everything in `eidos/docs/status.md`'s blocked list, which needs this
+  repo's decompilation (boot path, heap arena 0x0202FC48, DS sound driver,
+  cinematic, gameplay).
 
 
 
