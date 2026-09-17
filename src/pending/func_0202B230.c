@@ -1,0 +1,36 @@
+/*
+ * function: func_0202B230
+ * address:  0x0202B230
+ * packet:   pkt_0202B1F4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * When the object is active, polls it and either advances or retreats.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202B230.c \
+ *       --func func_0202B230 --addr 0x0202B230 --thumb --cc 1.1p1
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u32  func_0202B254(u8 *p);
+extern void func_0202B28C(u8 *p);
+extern void func_0202B2A4(u8 *p);
+
+void func_0202B230(u8 *p)
+{
+    if (*(u32 *)p == 0) {
+        return;
+    }
+    if (func_0202B254(p) != 0) {
+        func_0202B28C(p);
+    } else {
+        func_0202B2A4(p);
+    }
+}
