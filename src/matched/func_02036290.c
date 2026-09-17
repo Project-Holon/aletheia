@@ -1,0 +1,14 @@
+/*
+ * unit:     no
+ * function: func_02036290
+ * address:  0x02036290
+ * packet:   pkt_02035E84
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+int func_02036290(int a0, int a1, int a2, int a3){ int t0; t0 = func_0203521C(); *(int *)((char *)(t0)) = (int)a1; return t0; }
