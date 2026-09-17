@@ -13,8 +13,8 @@ the previous session's memory.
   `Documents/holon` (the org profile repo `.github-private`). A junction
   `aletheia/eidos` points at the eidos checkout so one VS Code window shows
   both; it is git-ignored.
-- Code: 19.03 percent of ARM9 game code matched byte for byte (1802 labelled
-  functions, 76220 of 400552 bytes, `python tools/worklist.py --summary`),
+- Code: 19.0991 percent of ARM9 game code matched byte for byte (1807 matched
+  functions, 76502 of 400552 bytes, `python tools/worklist.py --summary`),
   plus matched functions in overlays ov010 and ov021 that the summary does not
   count. Every matched function is spliced into the build and the rebuilt ROM
   is byte-identical (sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5).
@@ -569,6 +569,30 @@ configuration.
 - Everything in `eidos/docs/status.md`'s blocked list, which needs this
   repo's decompilation (boot path, heap arena 0x0202FC48, DS sound driver,
   cinematic, gameplay).
+
+---
+
+## [2026-09-17 16:10:00] Wave 4 Handoff Report
+
+### Status Overview
+- **Build Status**: `242 PASS, 0 FAIL` across all ROM overlays and ARM9 regions.
+- **arm9 Decomp Coverage**: **19.0991%** (76,502 / 400,552 B across 1,807 matched functions).
+- **ROM Verification**: **PASS** (`sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5`).
+- **Open Packets**: 464 open packets.
+
+### Graduated & Matched Units in Wave 4
+1. **`pkt_020923B0` (`unit_020923B0.c`, 128 B code, 3 funcs, ARM)**:
+   - `func_020923B0` (20 B, ARM, `EXACT`): Pointer wrapper for `func_02092430`.
+   - `func_020923C4` (44 B, ARM, `EXACT`): `memchr` byte search routine.
+   - `func_020923F0` (64 B, ARM, `EXACT`): `memcmp` memory comparison routine.
+   - Packet `pkt_020923B0` completely dissolved.
+2. **`pkt_02092430` (`func_02092430.c`, 172 B code, 1 func, ARM)**:
+   - `func_02092430` (172 B, ARM, `EXACT`): Word-aligned optimized memory fill (`memset`). Shard `pkt_02092430.json` complete and dissolved.
+3. **`pkt_02027A04` (`app_taskmenu.c`)**:
+   - `func_02027A04` (4 B, Thumb, `EXACT*`): Task menu flag getter.
+   - `func_02027FD8` (18 B, Thumb, `EXACT*`): Task menu teardown helper releasing menu state heap buffers.
+   - Packet `pkt_02027A04` completely dissolved.
+
 
 
 

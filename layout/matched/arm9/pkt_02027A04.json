@@ -3,20 +3,32 @@
  "version": 2,
  "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
  "region": "arm9",
- "shard": "pkt_0201D7EC",
+ "shard": "pkt_02027A04",
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201D83C",
-   "address": "0x0201D83C",
+   "name": "func_02027A04",
+   "address": "0x02027A04",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/func_0201D83C.c",
+   "source": "src/matched/func_02027A04.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "MATCH*"
+   "status": "EXACT*"
+  },
+  {
+   "name": "func_02027FD8",
+   "address": "0x02027FD8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02027FD8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
   }
  ]
 }

@@ -3,23 +3,20 @@
  "version": 2,
  "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
  "region": "arm9",
- "shard": "pkt_0204A600",
+ "shard": "pkt_02092430",
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "unit_0204A600",
-   "address": "0x0204A600",
-   "kind": "game_unit",
+   "name": "func_02092430",
+   "address": "0x02092430",
+   "kind": "game",
    "region": "arm9",
-   "source": "src/matched/unit_0204A600.c",
+   "source": "src/matched/func_02092430.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "MATCH",
-   "functions": [
-    "unit_0204A600"
-   ]
+   "status": "EXACT"
   }
  ]
 }

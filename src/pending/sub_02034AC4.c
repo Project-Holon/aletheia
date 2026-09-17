@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   MATCH*
  *
  * symbols:
  *   sub_02034BB0         0x02034BB0  arm
@@ -19,17 +19,6 @@
  *   FS_LoadOverlay       0x02079264  arm
  *   s_FileName           0x020A7970  data
  *   s_Expr0              0x020A7980  data
- *
- * Loads an overlay into its designated slot after verifying admissibility with
- * sub_02034BB0. If the slot table has space, sets state to active, adjusts DMA if
- * needed, calls FS_LoadOverlay, and restores DMA.
- *
- * Byte-identical (0 concrete bytes differ), parked at MATCH awaiting witnesses
- * for SDK callees FS_SetDefaultDMA and FS_LoadOverlay which have fan-in 1.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034AC4.c \
- *       --func sub_02034AC4 --addr 0x02034AC4 --cc 1.1p1 --arm
  */
 
 typedef signed int   s32;
