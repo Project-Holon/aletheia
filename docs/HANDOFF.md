@@ -13,8 +13,8 @@ the previous session's memory.
   `Documents/holon` (the org profile repo `.github-private`). A junction
   `aletheia/eidos` points at the eidos checkout so one VS Code window shows
   both; it is git-ignored.
-- Code: 19.0991 percent of ARM9 game code matched byte for byte (1807 matched
-  functions, 76502 of 400552 bytes, `python tools/worklist.py --summary`),
+- Code: 19.1046 percent of ARM9 game code matched byte for byte (1808 matched
+  functions, 76524 of 400552 bytes, `python tools/worklist.py --summary`),
   plus matched functions in overlays ov010 and ov021 that the summary does not
   count. Every matched function is spliced into the build and the rebuilt ROM
   is byte-identical (sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5).
@@ -588,10 +588,24 @@ configuration.
    - Packet `pkt_020923B0` completely dissolved.
 2. **`pkt_02092430` (`func_02092430.c`, 172 B code, 1 func, ARM)**:
    - `func_02092430` (172 B, ARM, `EXACT`): Word-aligned optimized memory fill (`memset`). Shard `pkt_02092430.json` complete and dissolved.
-3. **`pkt_02027A04` (`app_taskmenu.c`)**:
-   - `func_02027A04` (4 B, Thumb, `EXACT*`): Task menu flag getter.
-   - `func_02027FD8` (18 B, Thumb, `EXACT*`): Task menu teardown helper releasing menu state heap buffers.
-   - Packet `pkt_02027A04` completely dissolved.
+
+---
+
+## [2026-09-17 16:40:00] Wave 5 Handoff Report
+
+### Status Overview
+- **Build Status**: `242 PASS, 0 FAIL` across all ROM overlays and ARM9 regions.
+- **arm9 Decomp Coverage**: **19.1046%** (76,524 / 400,552 B across 1,808 matched functions).
+- **ROM Verification**: **PASS** (`sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5`).
+- **Open Packets**: 463 open packets.
+
+### Graduated & Matched Units in Wave 5
+1. **`pkt_0201D83C` (`func_0201D83C.c`, 22 B code, 1 func, Thumb)**:
+   - `func_0201D83C` (22 B, Thumb, `EXACT*`): Print subsystem pipeline wrapper invoking `func_0201DADC`, `func_0201D9C8`, and `func_020307B0`.
+   - Shard `layout/matched/arm9/pkt_0201D83C.json` registered and dissolved cleanly.
+2. **`func_0201DADC` (`func_0201DADC.c`, 20 B code, 1 func, Thumb)**:
+   - `func_0201DADC` (20 B, Thumb, `EXACT`): Function pointer lookup dispatcher from `g_0209E744`.
+
 
 
 
