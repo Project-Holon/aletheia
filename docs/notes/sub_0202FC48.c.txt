@@ -1,3 +1,9 @@
+CLOSED 2026-09-18: the function now matches.  Filed as
+src/matched/sub_0202FC48.c, status EXACT, 380 bytes.  Everything below
+this line is the history of the two failed readings; the third reading
+at the end of the file says what actually closed it (the u16 parameter),
+and supersedes their conclusion.
+
 Near miss, not byte-correct: register allocation only.  Do not file this as
 MATCH; it is recorded here so the next agent does not re-derive it.
 
@@ -227,3 +233,70 @@ bytes, and the whole delta is still one instruction.  Three things are new.
 
 Still DIFF, still not filed as MATCH.  src/pending/sub_02030608.c remains
 capped at MATCH for want of this function.
+
+--------------------------------------------------------------------------
+Third reading, 2026-09-18 (wave 27): CLOSED, EXACT
+--------------------------------------------------------------------------
+
+Filed as src/matched/sub_0202FC48.c, status EXACT, 380 bytes (the original's
+extent exactly), 6 of 6 relocations resolved.  Shard pkt_0202FC48 rewritten
+with it.  The function is closed; the two readings above are kept because the
+reason the first two failed is instructive.
+
+The missing instruction was not a respelling of the zero and not a liveness
+change in the body.  It was the *type of the second parameter*: count is u16,
+not u32.
+
+    int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra)
+
+Four spellings, each compiled and compared, everything else in the C identical:
+
+    count u32, idCount u32                     DIFF  376 bytes, 117 bytes differ
+    count u32, idCount u16                     DIFF  376 bytes, 117 bytes differ
+    count u16, idCount u32 (with (u16) cast)   EXACT 380 bytes
+    count u16, idCount u16 (with (u16) cast)   EXACT 380 bytes
+
+count u16 is what decides it; idCount's own type is free either way, because
+the `(u16)total` in the clamp spells the truncation explicitly in both.
+
+The mechanism, in the allocator's terms.  The u16 parameter makes the value
+that flows out of `count` a sub-word-typed one, and that is enough to change
+the colouring order of the two long-lived values that share the clearing loop.
+With u32 count the constant zero is given a callee-saved register of its own
+and stays live from the clearing loop all the way to the last call, so seven
+callee-saved registers are live at the header stores and the function is four
+bytes of prologue/epilogue plus a register rotation short:
+
+    compile (u32 count)              original (u16 count)
+    push {r4,r5,r6,r7,r8,r9,sl,lr}   push {r3,r4,r5,r6,r7,r8,r9,lr}
+    r4 = clear-loop index            r4 = hoisted zero, then error's zero
+    r9 = hoisted zero, live to end   r8 = clear-loop index, then &g_EnvModule
+    sl = total                       r9 = total
+    no copy at the preheader         mov r9, r4 at +0x114
+
+With count u16 the zero's live range ends at the clearing loop, `total` takes
+sb, the indexes take r4/r8 and the final loop's preheader re-materialises the
+zero as a copy of the r4 that `error = 0` has just set, which is the
+`mov sb, r4` the whole exercise was about.  Identical instruction selection;
+only the colouring moves.
+
+Corroboration from outside the function, which was there all along: the only
+caller, sub_02030608, truncates both middle arguments with a `lsl #16` /
+`lsr #16` pair before the call, i.e. it passes u16s
+(src/pending/sub_02030608.c already reads the signature that way).  The u16
+was visible in the caller and nobody had read the callee's parameters off it.
+
+Two consequences.
+
+* The first two readings' conclusion, that this was "not reachable by
+  respelling the zero", holds as stated but was the wrong search space: the
+  zero's live range was never the variable, the parameter's type was.  When a
+  register-allocation residue looks like a constant's live range, check the
+  parameter and field types before trying to move the constant.
+* src/pending/sub_02030608.c is unblocked: 0x0202FC48 now has an EXACT
+  manifest entry, so its PC24 can resolve through the `matched` class.  It is
+  another packet's file and was left untouched here.
+
+Still true and worth keeping: everything in the "Ruled out" lists above was
+re-verified as producing exactly 376 bytes and 121 differing bytes, so none of
+those spellings is a partial fix for anything else in this family.

@@ -1,59 +1,174 @@
-Near miss, not byte-correct: instruction selection is reproduced, the residue is
-the register holding each parameter and the addressing form of the second
-field pair.  Do not file this as MATCH.
+RESOLVED: both functions of packet pkt_02048DDC are EXACT as of this run, and
+they are filed as one translation unit, src/matched/unit_02048DDC.c
+(2 sections, 368 bytes, 0 padding, 16/16 relocation sites resolved).  The
+earlier revision of this note recorded func_02048DDC as a near miss; what
+closed it is below, followed by the variants that were compiled and rejected
+so nobody re-derives them.
 
-func_02048DDC @ 0x02048DDC, arm9, ARM, 84 bytes, packet pkt_02048DDC, the
-arc_tool.c file anchor (0x02048F44 is the string).  This is one of the
-functions the eidos port still stubs.
+=======================================================================
+func_02048DDC @ 0x02048DDC, arm9, ARM, 84 bytes code (+ 4-byte pool at
+0x02048E30), arc_tool.c, the binder the eidos port stubs.
+=======================================================================
 
-The function is small and fully understood: call func_020788AC, then dispatch
-on the flag at g_02146A68+8.  Flag clear takes the word array and calls
-func_02078C18(a0, words[a1]); flag set takes the same table as 8-byte records
-and calls func_0207A940(a0, rec.lo, rec.hi - rec.lo).
+The closing C (this is the shipped spelling; see the unit file for the prose):
 
-Best results, both compiled and compared:
+    struct LightGlobal {
+        u32 * volatile unk00;      /* 0x02146A68 + 0x00, the 235-entry table */
+        u32            unk04;      /* +0x04, 235 (func_02048CEC writes it)   */
+        u32            unk08;      /* +0x08, the storage-mode flag           */
+    };
 
-  word indexing, no cached table pointer (23 instructions, 92 bytes, one over):
-    u32 lo = g_02146A68.words[a1 * 2];
-    u32 hi = g_02146A68.words[a1 * 2 + 1];
-    func_0207A940(a0, lo, hi - lo);
-  This reproduces the if arm exactly and gets the else arm's instruction
-  selection right, but indexes with `lsl r1, r5, #1; add r0, r1, #1` and two
-  scaled loads where the original scales the parameter by 8 once:
-    add r1, r3, r4, lsl #3
-    ldr r2, [r1, #4]
-    ldr r1, [r3, r4, lsl #3]
+    struct ArcRecord {
+        u32          start;
+        volatile u32 end;
+    };
 
-  record indexing (19 instructions, 76 bytes, two short):
-    struct ArcRec *r = (struct ArcRec *)g_02146A68.words + a1;
-    func_0207A940(a0, r->lo, r->hi - r->lo);
-  This gets the `lsl #3` scaling and the two distinct address forms for free,
-  but mwcc merges the two adjacent field loads into `ldm r2, {r1, r2}`, which
-  the original does not do: it spends two `ldr`s and computes the second
-  address off the base register instead of the one it already has.
+    void func_02048DDC(struct ArcFile *arc, u32 id)
+    {
+        FS_InitFile(arc);
+        if (g_02146A68.unk08 == 0) {
+            CRYPTOi__BN_lshift1(arc, g_02146A68.unk00[id]);
+        } else {
+            u32 *tbl = (u32 *)g_02146A68.unk00;
+            struct ArcRecord *rec = (struct ArcRecord *)tbl + id;
+            u32 end = rec->end;
+            u32 start = rec->start;
 
-Ruled out, each compiled and compared:
+            FS_CreateFileFromMemory(arc, start, end - start);
+        }
+    }
 
-  - the record form with `lo` and `hi` bound to named locals first (the merge
-    survives the extra statements, mwcc reorders them adjacent);
-  - the same with the two loads written in the other order;
-  - a byte-offset pointer local, `(u32 *)((char *)base + a1 * 8)`: the merge
-    again;
-  - caching the table pointer in a local and indexing through it: the same
-    merge, and the flag test reorders ahead of the branch;
-  - indexing the 8-byte records as `words[a1 * 2]` and `words[a1 * 2 + 1]`
-    with the table read once into a local: right size, the arithmetic index
-    shape above.
+Three things in that spelling are shape rather than semantics.  Each was
+measured against a variant differing only in one qualifier or one
+declaration, and each moves the function 4 bytes or more:
 
-Both parameters are also swapped relative to the original: it holds a0 in r5
-and a1 in r4, every compile here holds a0 in r4 and a1 in r5, at the same
-`mov r5, r0; mov r4, r1` statement order.  Nothing found in the C changes it;
-it is the same allocator choice that the other notes in this directory
-describe.
+ 1. `u32 * volatile unk00` - the table pointer.  Without `volatile` mwcc
+    common-subexpresses the two arms' `ldr rX, [r0]` into one load and hoists
+    it into the block ending in `bne` (the word arm then starts with
+    `mov r0, r5` at +0x20 instead of +0x24, and the record arm reuses the
+    hoisted register instead of loading its own).  A volatile field load
+    cannot be CSE'd, so each arm reloads; the emitted instruction is an
+    ordinary `ldr` either way.  Effect: 88 bytes (right) versus 76.
 
-What would close it: a spelling of the record access that keeps the two field
-loads apart for the scheduler, so the compiler emits two `ldr`s and reuses the
-parameter register the original uses.  The address forms in the original
-(`add r1, r3, r4, lsl #3` for the high word, `ldr r1, [r3, r4, lsl #3]` for the
-low word) say the source did use an 8-byte record type, so the merge, not the
-type, is what stands between this and EXACT.
+    The tell that the original did NOT share the load is structural: the
+    pre-branch block is `ldr r0,=g ; ldr r1,[r0,#8] ; cmp ; bne` and each arm
+    has its own `ldr`, so the two loads are four bytes apart in the layout
+    but in different blocks.  No non-volatile spelling of the two arms found
+    in fifteen variants kept them apart: `g.unk00` read as `u32`, as `u32 *`, as
+    `char **`, a union member with both names at +0x00, a non-volatile field
+    with a named `tbl` local, and both arms reading the field through
+    separate locals all CSE to one hoisted load.
+
+ 2. `volatile u32 end` in the extent type - the high word of the 8-byte
+    record.  Without it mwcc merges the record's two field loads into
+    `ldm r2, {r1, r2}` (4 bytes short, and it re-tiles the low word onto the
+    materialised address).  This is the same `ldm`/`stm` merge the earlier
+    revision of this note hit from the `struct ArcRecord *r = base + a1;`
+    form; making the second field a volatile lvalue is what stops it, because
+    a volatile access is not mergeable.  Effect: 88 bytes versus 84.
+
+ 3. `u32 *tbl` bound before the record pointer - purely a register-allocation
+    lever.  With the pointer expression inlined into the subscript
+    (`(struct ArcRecord *)g_02146A68.unk00 + id`, and the same with
+    `rec[id].start` / `rec[id].end`, and the `u32 range[2]`-style array form)
+    the record arm comes out as
+
+        ldr r1, [r0]              /* table into r1, not r3 */
+        add r2, r1, r4, lsl #3    /* address into r2, not r1 */
+        ldr r1, [r2] / ldr r2, [r2, #4]
+        sub r2, r2, r1
+
+    i.e. every register off by one slot, 88 bytes and still DIFF.  Binding the
+    loaded table to a named `u32 *tbl` first makes mwcc keep the table in r3
+    and the address in r1, and the low word is then re-tiled off r3 as
+    `ldr r1, [r3, r4, lsl #3]` - the original's exact four-instruction record
+    arm.  This is the same "declaration order / naming decides the register"
+    family as docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
+
+Also tried and rejected for the record arm, grouped by how far each got:
+
+  (a) with only the GLOBAL volatile (each 84 bytes, i.e. one instruction short
+      and still merged: the two field loads become `ldm r2, {r1, r2}`) -
+      `rec->start` plus `rec->end - rec->start` as one expression; a `void *end`
+      field; the same arm with the pointer as `u8 *` and explicit `id * 8` byte
+      arithmetic; the fields read through `*(u32 *)((u8 *)rec + 4)`.
+
+  (b) with the volatile `end` field as well (each 88 bytes: size right, but the
+      record arm's registers or addressing are off, and match.py still says
+      DIFF) - the inline expression form; `u32 end` / `u32 start` locals in
+      both orders; the three-local `end`, `start`, `size` form;
+      `u32 end = rec->end;` with `rec->start` left inline;
+      `rec[id].start` / `rec[id].end` subscripts;
+      `(u32)rec->end - rec->start`; the volatile cast
+      `*(volatile u32 *)&rec->end - rec->start` over a plain record type; and
+      `*(&rec->end) - *(&rec->start)`.  All of these need the `tbl` binding of
+      item 3 to become EXACT.
+
+  (c) `volatile` on the LOW word instead (`struct ArcRecord { volatile u32
+      start; u32 end; }`) is wrong in the other direction: the volatile low
+      load can no longer be re-tiled off the table register and the function
+      is 92 bytes.  A pointer-to-volatile record type hits the same wall at
+      92 bytes.
+
+The parameter-register question from the earlier revision ("the original holds
+a0 in r5 and a1 in r4, every compile here holds them the other way round") is
+not an allocator constant: it flips with the shape above, and the closing
+spelling reproduces `mov r5, r0 ; mov r4, r1` for free.
+
+What did NOT change it, for the record: the struct-vs-u32 type of the global,
+the position of the arms, the presence of a third parameter, and the
+declaration order of the two locals inside the arm.
+
+=======================================================================
+func_02048E34 @ 0x02048E34, arm9, ARM, 272 bytes code (+ two pool words at
+0x02048F44/0x02048F48), the resolver the eidos port is blocked on.
+=======================================================================
+
+Closed on the first transcription apart from one layout fix and one statement
+order:
+
+    u32 range[2];            /* declared FIRST: sp+0x10 */
+    struct FatInfo info;     /* {u32 offset; u16 count;} then sp+8 */
+    u32 tmp = 0;             /* sp+4, both the 2- and the 4-byte read land here */
+
+    FS_SeekFile(arc, 0xc, 0);
+    FS_ReadFile(arc, &tmp, 2);
+    fatOffset = tmp;
+    FS_SeekFile(arc, fatOffset + 4, 0);
+    FS_ReadFile(arc, &info, 6);
+    if (info.count <= member) {
+        func_02034734(g_020A7EE0, 0xfb, g_020A7EEC, info.count, member);
+    }
+    off = fatOffset + info.offset;
+    FS_SeekFile(arc, off + 4, 0);
+    FS_ReadFile(arc, &tmp, 4);
+    off += tmp;                                   /* before the next seek */
+    FS_SeekFile(arc, fatOffset + 0xc + member * 8, 0);
+    FS_ReadFile(arc, range, 8);
+    FS_SeekFile(arc, base + (off + 8 + range[0]), 0);
+    if (size == 0) {
+        size = range[1] - range[0];
+    }
+    return size;
+
+Three details that cost a compile each:
+
+  - local declaration order is stack order with the LATER declaration at the
+    LOWER address (docs/idioms/local-declaration-order-is-stack-order.md):
+    declaring `info` before `range` puts `info` at sp+0x10 instead of sp+8 and
+    the six-byte read's address is wrong for the rest of the function;
+  - `off += tmp;` must be written BEFORE the seek that follows it in the
+    original's instruction stream; with the seek written first, mwcc emits the
+    call before the load of `tmp` and the two swap four instructions;
+  - the final seek's argument needs the grouping `base + (off + 8 + range[0])`.
+    Left-associative `base + off + 8 + range[0]` binds `base + off` first and
+    the record arm's `add r3, r5, #8 ; add r1, r3, r1 ; add r1, r8, r1` comes
+    out as a chain off r8 instead.
+
+`tmp` is one local used by both reads: a 2-byte read into a zeroed u32 (so the
+top half is clear) and later a 4-byte read, which is why the slot is
+`str r4, [sp, #4]` zeroed at entry and why the compiler keeps a zero register
+(r4) alive for the FS_SeekFile origin arguments.
+
+Both functions are byte-identical to the image; there is no MATCH-capped
+residue and nothing to park in src/pending/.

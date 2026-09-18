@@ -1,84 +1,166 @@
-Near miss, not byte-correct: instruction selection is reproduced on all three
-functions, the residue is register allocation and the scheduling that follows
-from it.  Do not file these as MATCH; recorded so the next agent does not
-re-derive them.
+Packet pkt_02060814 (0x02060814..0x02060A08), region arm9, ISA ARM, compiler
+dsi/1.1p1, flags -O4,p.  Two functions in the packet, 484 code bytes:
 
-Region arm9, ISA ARM, compiler dsi/1.1p1, flags -O4,p.  All three calls below
-resolve with no wildcard byte, so none of them is waiting on an attestation
-class: they are codegen residue.
+  func_02060888  0x02060888  376 bytes  EXACT   src/matched/func_02060888.c
+  func_02060814  0x02060814  108 bytes  DIFF    closest C below, not filed
 
---------------------------------------------------------------------------
-func_02060814 @ 0x02060814, packet pkt_02060814, 108 bytes
---------------------------------------------------------------------------
+==========================================================================
+func_02060888 @ 0x02060888, packet pkt_02060814, 376 bytes code + 8 pool
+==========================================================================
 
-Best result: DIFF, 104 bytes compiled (one instruction short), the whole
-delta being the zero register and the order of the two halfword stores.
+EXACT.  src/matched/func_02060888.c reproduces all 384 bytes of the listing
+extent (376 code + the two pool words) and all nine relocations resolve in the
+`label` class.  This is the expanded heap's carve, the function the eidos port
+was blocked on; it is the back end that func_02060A08 (free-list head walk) and
+func_02060ABC (tail walk) both call, and it carries both 0x4652 remainders and
+the 0x5544 new block.
 
-  original                              compiled (readback spelling)
-  mov  r0, #0                           mov  r4, #0
-  strh r0, [r4, #0x34]                  bic  r1, r4, #1
-  bic  r0, r0, #1                       strh r1, [r5, #0x36]
-  strh r0, [r4, #0x36]                  ldr  r0, [r5, #0x18]
-                                        strh r4, [r5, #0x34]
+The shape that fell out, and the four things that cost real time:
 
-The C that gets this far, and the only spelling found that emits the `bic` at
-all (see
-docs/idioms/a-read-modify-write-of-the-just-stored-field-is-what-emits-bic.md):
+ 1. The first 2-word region must be TWO SCALARS, the other two
+    `struct MemRegion`.  With a struct for the first one, `func_02060764(&rgn,
+    block)` and `func_020607E8(&rgn, 0x4652)` name one object, mwcc hoists
+    `sp+0x10` into r4 and keeps it live across three calls; that costs a sixth
+    callee-saved register (r9 appears) and 24 bytes.  With scalars the two
+    sites stay separate, and site 2 spells the same word `&end - 1` (the same
+    trick func_02060E30 documents for the other direction).  The 2-word
+    `struct MemRegion` for the other two regions is what stops mwcc from
+    re-using a dead scalar's slot for `oldEnd`, which is what keeps the frame
+    at 0x18 with all six words distinct.
 
-    func_020606D0(p, 0x45585048, (u32)p + 0x38, a1, a2);
-    p->f34 = 0;
-    p->f36 = p->f34 & ~1;
-    pair[0] = p->f18;
-    pair[1] = p->f1c;
-    q = func_020607E8(pair, 0x4652);
-    p->f24 = (u32)q;
-    p->f28 = (u32)q;
-    p->f2c = v;
-    p->f30 = v;
-    return p;
+ 2. The attribute clear must be a LOCAL, and the guard must go through it:
+    `sz = (u32)(rest.start - end);` before the `if`.  That single statement is
+    what puts the argument setup in the condition's block, so the emitted code
+    is `ldr attr / ldr end / ldr mid / and / tst / sub / beq / mov r0,#0 /
+    bl` with the branch belonging to the `tst` (the `sub` has no S bit, so the
+    flags survive it).  Inlined, mwcc tests the difference instead -- a second
+    `subs`/`beq` -- and sinks the argument setup into the guarded block.
 
-The original re-materialises its zero in r0 after the call and reuses r0 for
-both stores; the compile hoists one zero into r4 (callee-saved) and keeps it
-live to the end of the function, which also lets it serve the later f2c/f30
-stores and saves the `mov r1, #0` the original spends there.  The missing
-instruction is exactly that `mov`.
+ 3. The attribute is built as three clear-then-set STATEMENT PAIRS:
+    `node->attr = node->attr & ~0x8000;` then `node->attr = node->attr |
+    (u16)(fromTail << 15);` and so on.  The pair form is what emits the two
+    stores per field the original has (`bic`/`strh` then a reload, the shift
+    and `strh`); the fused `(node->attr & ~0x8000) | v` form emits a single
+    store per field and is 16 bytes short.  Compound `&=`/`|=` is worse still
+    (mwcc materialises the complement in a register and the function grows to
+    400 bytes).
 
-Ruled out, each compiled and compared at the same instruction selection:
+ 4. Field 2's value must stay in `sz` as the U16 TRUNCATION, with the 7-bit
+    mask and the shift done at the OR:
+        sz = (u16)((u32)node - (u32)end);
+        node->attr = node->attr & ~0x7f00;
+        node->attr = node->attr | ((sz & 0x7f) << 8);
+    Pre-shifting the value into `sz` moves the truncation `mov` to a different
+    register and four instructions differ.  The attribute read is a `(u8)`
+    cast (`(u8)((u32 *)heap)[-1] & 1`): a bare `& 0xff` folds away and loses
+    the `and r0, r0, #0xff`.
 
-  - `p->f34 = v; p->f36 = v & ~1;` and the same with `~1u`, with `(u16)` on
-    the result: the mask folds, no `bic`, 104 bytes, 22 differing bytes;
-  - `p->f36 = 0; p->f36 = p->f36 & 0xfffe;` and `p->f36 &= 0xfffe;`: 16-bit
-    mask, so mwcc pools 0x0000fffe and emits `and`, not `bic`;
-  - the two stores written in the other order, and the `pair[]` fills moved
-    above the stores: no change to the allocation;
-  - declaring the fifth argument of the callee as u32 rather than u16: that
-    removes an `lsl`/`lsr` pair the compile was spending on the truncation,
-    and is how the 27-instruction count above was reached; the callee reads
-    only the low 16 bits either way.
+The last argument arrives as a halfword read at [sp+0x30], so the parameter is
+declared `u16 fromTail` even though both callers pass an int; and the callers
+hand over `&heap->freeList` (heap+0x24), so the attribute at -4 and the group
+id at +0x10 are named relative to that pointer.
+
+Verified with:
+  python tools/match.py one --src src/matched/func_02060888.c \
+      --func func_02060888 --addr 0x02060888 --cc 1.1p1 --arm
+
+==========================================================================
+func_02060814 @ 0x02060814, packet pkt_02060814, 108 bytes code + 8 pool
+==========================================================================
+
+Still DIFF, not filed.  Closest results, both useful:
+
+  a) The instruction-correct one, 104 bytes compiled (one `mov` short).  All
+    16 instructions of the original are present with the right selection; the
+    whole delta is the zero register and the scheduling that follows from it:
+
+      original                          compiled
+      mov  r0, #0                       mov  r4, #0
+      strh r0, [r4, #0x34]              bic  r1, r4, #1
+      bic  r0, r0, #1                   strh r1, [r5, #0x36]
+      strh r0, [r4, #0x36]              ldr  r0, [r5, #0x18]
+      ...                               strh r4, [r5, #0x34]
+      mov  r1, #0                       ...
+      str  r1, [r4, #0x2c]              mov  r0, r5
+      mov  r0, r4                       str  r4, [r5, #0x2c]
+      str  r1, [r4, #0x30]              str  r4, [r5, #0x30]
+
+    The C (the `for` shape that gets this far, and the only spelling found
+    that emits the `bic` at all):
+
+        func_020606D0(p, 0x45585048, (u32)p + 0x38, a1, a2);
+        p->groupId = 0;
+        p->feature = p->groupId & ~1;
+        pair[0] = p->region.start;
+        pair[1] = p->region.end;
+        q = func_020607E8(pair, 0x4652);
+        p->freeList.head = q;
+        p->freeList.tail = q;
+        p->usedList.head = 0;
+        p->usedList.tail = 0;
+        return p;
+
+    The original materialises the zero TWICE: once into r0 for the
+    groupId/feature pair (where the `bic` overwrites r0, so nothing survives
+    it) and once into r1 for the used-list pair, i.e. the constant is
+    rematerialised across the func_020607E8 call.  This compile keeps one
+    copy in r4 (callee-saved) across the call, which also costs `p` its r4 and
+    reorders the two halfword stores.  The missing instruction is exactly the
+    second `mov`.  Adding a live value across the call does not shake it
+    loose, and mwcc value-numbers every zero in the function into one constant
+    regardless of scope, type (`0`, `0u`, `(u16)0`, `(struct MBlock *)0`,
+    `0L`) or definition point.
+
+  b) The size-correct one, 116 bytes total (the original's extent) but with a
+    load where the original materialises.  Writing the used-list pair as a
+    read of the field that was just zeroed:
+
+        p->usedList.head = (struct MBlock *)(u32)p->groupId;
+        p->usedList.tail = (struct MBlock *)(u32)p->groupId;
+
+    puts `p` back in r4 and the frame back at 0x18 (the push is `{r3, r4, lr}`
+    as in the original) because the constant's live range now ends at the
+    `bic`, but mwcc cannot forward the stored zero across the call, so the
+    two stores are fed by `ldrh r1, [r4, #0x34]` instead of the original's
+    `mov r1, #0` (50 differing bytes, 14 rows).
+
+    Same result for the mixed spellings (one store from the field, one from a
+    literal): 116 bytes, 50 bytes differ.  Note there is no store-forwarding
+    route out of it: the only value the original's second pair can be is the
+    constant, materialised fresh.
 
 What would close it: a spelling that makes the constant zero die at the
-`f34`/`f36` pair so the allocator is free to re-materialise it in a
-caller-saved register for the `f2c`/`f30` pair.  Nothing in the C so far
-reaches it, because mwcc value-numbers every zero in the function into one
-constant regardless of scope, type or definition point.  The same wall is
-described for 0x0202FC48 in docs/notes/sub_0202FC48.c.txt, which is the
-stronger instance of it: there the two live ranges conflict outright and cost
-a seventh callee-saved register.
+groupId/feature pair (so the allocator is free to rematerialise it, and to
+give it a caller-saved register).  Everything tried for that fails because
+mwcc unifies the constant; if a later front end or a different -O variant is
+ever calibrated, this is the first thing to re-run.
+
+Ruled out, each compiled and compared: `p->f36 = 0; p->f36 = p->f36 &
+0xfffe;` and `p->f36 &= 0xfffe;` (16-bit mask, so mwcc pools 0x0000fffe and
+emits `and`, not `bic`); the chained `p->usedList.head = p->usedList.tail = 0`
+and its reverse; `p->usedList.tail = p->usedList.head;` (mwcc forwards the
+load and unifies it with the constant, giving byte-identical code to the
+literal); a local zero (`v = 0; p->usedList.head = v;`) with either u32 or
+cast-to-pointer fields; declaring the u32 list fields instead of pointer ones
+(+8 bytes); moving the groupId/feature pair after the pair fill or after the
+call (the emission order cannot change: a store to a field of p may not move
+past the call, which could read it); declaring the callee's fifth argument as
+u32 rather than u16 (that only trades the truncation for the pool word).
 
 --------------------------------------------------------------------------
-sub_020606D0 @ 0x020606D0, packet pkt_020606A8, 116 bytes
+sub_020606D0 @ 0x020606D0, packet pkt_020606A8, 116 bytes (previous agent)
 --------------------------------------------------------------------------
 
 Best result: DIFF, 112 bytes compiled (one instruction short), same class.
 The field at +0x20 is reproduced exactly by the read-modify-write spelling
-above (`mov ip, #0; bic r1, ip, #0xff; and; orr`, all four instructions), and
-the two calls and the lazy-init of the list at 0x02146B64 reproduce.  The
-residue is the frame: the original saves r4 alone and re-materialises the
-constant 4 at each call site, the compile saves r4, r5 and r6 because it keeps
-both the constant 4 and the address of 0x02146B60 live across the first call.
+(`mov ip, #0; bic r1, ip, #0xff; and; orr`, all four instructions), and the
+two calls and the lazy-init of the list at 0x02146B64 reproduce.  The residue
+is the frame: the original saves r4 alone and re-materialises the constant 4 at
+each call site, the compile saves r4, r5 and r6 because it keeps both the
+constant 4 and the address of 0x02146B60 live across the first call.
 
 --------------------------------------------------------------------------
-func_020606A8 @ 0x020606A8, packet pkt_020606A8, 36 bytes
+func_020606A8 @ 0x020606A8, packet pkt_020606A8, 36 bytes (previous agent)
 --------------------------------------------------------------------------
 
 Best result: DIFF, 32 bytes compiled (one instruction short).  The original:
