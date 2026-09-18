@@ -8,9 +8,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * symbols:
- *   g_handlerTable  0x020A64F8  data
+ * status:   EXACT
+ *
+ * Runs a callback table at 0x020A64F8 until a null slot.  The image word at
+ * 0x020A64F8 is 0 (the table is populated at runtime) and it is near string
+ * data, so neither `data_table` nor any external witness exists; this file
+ * still reaches EXACT because mwccarm emits the constant as a bare ABS32
+ * literal that the object marks with NO relocation, so the pool word is
+ * compared verbatim and no attestation is needed.
  */
 
 typedef void (*Handler)(void);
