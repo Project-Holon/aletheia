@@ -1,0 +1,13 @@
+pkt_0209D728, 0x0209D728 (68 bytes of code plus two pool words, ARM)
+
+Byte exact, parked at MATCH. The C is src/pending/func_0209D728.c.
+
+Blocker: own-pool-only data. The counter at 0x02153FB4 and the 12-byte-element table at
+0x02153FB8 each occur exactly once in the image, as this function's own pool words at
+0x0209D76C and 0x0209D770, which lie inside the compared range. A data attestation needs a
+second occurrence outside the range, so no spelling of the C can turn this into EXACT.
+
+Two tells worth keeping: the capacity test is an EQUALITY (cmp ip, #0x40 then mvneq), not a
+>=, and mla r2, ip, r0, r2 is what a 12-byte element array indexed by the counter emits.
+
+The rest of the packet is filed: 0x0209D774, 0x0209D778 and 0x0209D77C are EXACT.

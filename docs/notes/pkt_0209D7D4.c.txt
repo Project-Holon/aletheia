@@ -1,0 +1,55 @@
+0x0209D7D4 (76 bytes of original extent, ARM) DIFF near miss.
+
+Shape solved: a single shared tail call. If *len > 1 the tail of the buffer is taken into a
+local, the buffer's last byte is zeroed, func_0209D778(str, 0) runs and the call argument
+becomes &local; otherwise the argument is str itself, and both paths fall into one
+func_0209D774(arg) call. The unsigned compare (bls, not ble) and the str + *len with a
+negative offset ([r3, #-1], not str + *len - 1) are both required.
+
+Residue: register allocation. The original keeps str + *len in r3 and spills the byte to
+[sp] before the zero store; mwcc puts the same pointer in ip and interleaves the two stores
+the other way round. Four shapes tried (if/else inverted, end[-1] vs *(end - 1), u32 vs u16
+length, the argument assigned in each arm vs one shared call).
+
+---- C that reproduces the semantics and every branch ----
+
+/*
+ * unit:     no
+ * function: func_0209D7D4
+ * address:  0x0209D7D4
+ * packet:   pkt_0209D7D4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ */
+
+typedef unsigned int u32;
+
+extern int func_0209D778(char *str, int n);
+extern int func_0209D774(void *p);
+
+int func_0209D7D4(int unused, char *str, u32 *len)
+{
+    char c;
+    char *end;
+    void *p;
+
+    if (*len > 1)
+    {
+        end = str + *len;
+        c = end[-1];
+        end[-1] = 0;
+        func_0209D778(str, 0);
+        p = &c;
+    }
+    else
+    {
+        p = str;
+    }
+
+    func_0209D774(p);
+    return 0;
+}

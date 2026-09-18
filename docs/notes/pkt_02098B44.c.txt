@@ -1,0 +1,14 @@
+pkt_02098B44, the two 4-byte entries and the two giants, taken over after the third lane stopped.
+
+0x02098B44 (4 bytes) and 0x02099224 (4 bytes) are NOT functions. Both are a bare
+`push {r0, r1, r2, r3}`, the argument home area that belongs to the function the listing starts
+4 bytes later: the 1684-byte function labelled 0x02098B48 and the 724-byte one labelled 0x02099228.
+No C spelling produces a bare home-area push, and the worklist's 4-byte entries are artifacts of
+disasm.py labelling after the prologue. The real starts are 0x02098B44 and 0x02099224, so the pair
+is a candidate for layout/function_starts.txt rather than for src/matched/.
+
+The two giants are gated rather than codegen-blocked: 0x02098B48 (1684 bytes) and 0x0209953C
+(2112 bytes) each branch into dozens of neighbours that are still open, so no amount of care in
+their own bodies can reach EXACT until those land. 0x0209953C also sits next to 0x02099228 (724
+bytes), which has no call site anywhere in the image and is presumably reached through a pointer
+table.

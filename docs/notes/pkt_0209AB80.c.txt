@@ -1,0 +1,14 @@
+pkt_0209AB80 and pkt_0209C2B8, the two members of the window that are not ordinary game code.
+
+0x0209AB80 (8 bytes) is a linker veneer: `ldr ip, [pc]` then `bx ip`, with the target in the pool
+word that follows. mwccarm emits `ldr ip, [pc]` plus `bx ip` only for a tail call it cannot reach
+directly, and the pinning of the target into ip is the linker's job, not the compiler's, so no C
+spelling reproduces it. Recognise it, do not file a source for it.
+
+0x0209C2B8 (80 bytes) is a bit-scan followed by an inline jump table (`add pc, pc, r2, lsl #2` after
+r2 has been tripled): the body compares a value against a shift of itself at 12, 8 and 4 bits,
+adjusting a shift count, then jumps into a three-instruction block per case. Its only call site is
+inside the window, so a label cannot attest it from outside, and the jump table itself sits after
+the 80 bytes the listing marks, which means the compared range does not cover it. Treated as a
+library-shaped helper and left open rather than parked, so a lane that wants it starts from the
+shape above.
