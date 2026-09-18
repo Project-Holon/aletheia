@@ -1,0 +1,119 @@
+pkt_0206BEA0 - func_0206C0C4 (0x0206C0C4, 1104 code bytes + 16 bytes of
+               literal pool, ARM, 276 instructions)
+
+STATUS: NOT CLOSED, no body written, and it carries a REAL cap on its data
+side that is worth recording before anyone writes the C.
+
+THE CAP (this is the part to read first)
+
+The function's own literal pool holds four data words, and they have no
+witness anywhere in the image:
+
+    0x0206C514  0x020A1974    0x0206C518  0x020A1975
+    0x0206C51C  0x020A1976    0x0206C520  0x020A1977
+
+`match.attest(0x020A1974, 'data', 0x0206C0C4, 0x0206C524)` returns None, and
+so do the other three.  They are four adjacent BYTES, read as
+`ldrb rN, [base, fp, lsl #2]` (0x0206C33C, 0x0206C340, 0x0206C384,
+0x0206C3B0), i.e. four one-byte-per-four index tables of the same layout, and
+nothing else in the 3.9 MB image names any of the four addresses: no literal
+pool anywhere, no string boundary in front of them (0x020A1974 is not the
+first byte after a terminator the string class can use), and no matched entry
+covers them.  So
+
+  * a body that declares them as symbols in the `symbols:` block gets four
+    wildcarded relocation fields and the entry caps at MATCH with every
+    concrete byte right, and
+  * the only way to EXACT is to spell the addresses as integer constants
+    (e.g. `*(const u8 *)(0x020A1974 + (idx << 2))`), which produces a plain
+    pool word with no relocation, so the byte comparison still validates the
+    address and the honesty rule is not bent -- but it is a deviation from
+    the symbols-block convention and has to be said so in the header.
+
+THE REST OF THE TRIAGE IS CLEAN
+
+  * Call side: `bl func_0206DDA4` x3 (0x0206C134, 0x0206C18C, 0x0206C4FC),
+    x385 witnesses image-wide; `blx func_020834A8` (0x0206C324) = MI_Zero36B,
+    a THUMB SDK function (`isa_evidence` reads `thumb`), called with `blx`
+    from ARM as it should be, x5 witnesses outside the range.  Addresses
+    checked against 0x0206C0C4..0x0206C524, i.e. code plus pool.
+  * The remaining six indirect calls are `blx rN` through hook pointers taken
+    out of the object (`blx r1` at 0x0206C1C4/0x0206C44C/0x0206C48C/0x0206C4B4
+    from *(obj+0x24), `blx r3` at 0x0206C250 from *(obj+4)+0x14, `blx r7` at
+    0x0206C428 from *(obj+0xe8)); they carry no relocation and are ordinary C
+    calls through struct fields.
+  * Toolchain: register `blx rN` AND pop-into-pc returns
+    (`pop {r4-r8, sb, sl, fp, pc}` at 0x0206C148 and 0x0206C510, plus the
+    `blx func_020834A8` direct BLX) with NO `pop {..., lr}; bx lr` anywhere.
+    That is the consistent pair under a v5+ `-proc`, i.e. the pinned
+    arm946e -- this function is NOT an instance of
+    docs/idioms/a-register-blx-with-a-pop-lr-return-is-a-toolchain-conflict-...md
+    and its packet has no proc hint, so the default flags apply unchanged.
+
+WHAT THE FUNCTION IS (it is a display-list / command-stream parser)
+
+  * 0x0206C0C4-0x0206C190  prologue `push {r4-r8, sb, sl, fp, lr}`,
+    `sub sp, #0x14`; sl = obj (r0), sb = a mode/type byte (r1);
+    r6 = *(u8*)(stream+1) is stored to *(u8*)(obj+0xae); *(u32*)(obj+8) has
+    bit 4 set (two arms depending on bit 10 of the same word, each bumping a
+    byte counter r4 started at 4 and optionally calling
+    func_0206DDA4(0x14, &word, 1, *(u8*)(stream+4 or +5))); the stream
+    pointer *(u32*)obj is then advanced by r4 and the function returns.
+  * 0x0206C190-0x0206C1EC  *(u32*)(obj+0xb4) = obj+0x12c; then the
+    "call the update hook when in state 1" block: if (*(u32*)(obj+0x24)) the
+    hook is called with the 0x40 bit of *(u32*)(obj+8) cleared and restored
+    after, and r8 = *(u8*)(obj+0x92) while *(u32*)(obj+0x24) is non-zero.
+  * 0x0206C1F0-0x0206C25C  r5 = the 0x58-byte command record:
+    *(u32*)(obj+4) is a table, *(u32*)(r0+0x34) its base, and
+    `mla r5, r6, 0x58, base` selects record r6; a 1/0 flag derived from
+    bit 7 of *(u32*)(obj+8) decides whether the record is cleared and whether
+    a second hook (*(u32*)(table+0x10)/(table+0x14)) is called.
+  * 0x0206C25C-0x0206C2A8  a variable-length record is located through
+    *(u32*)(obj+0xd4): `ldrh r1, [r2, #6]; ldrh r0, [r2, r1]; mla r1, r0, r6, r2+r1+4`
+    is `&rec[r6]` of an index table, then `addne r7, r2, [r1]` follows its
+    self-relative offset; r7 is the command word pointer and r6 = r7+4 the
+    argument pointer.
+  * 0x0206C2A8-0x0206C414  the command word's flag bits: bit 0 sets bit 2 of
+    *(u32*)r5; bit 1 sets bit 1 and jumps to the epilogue; bit 3 copies eight
+    signed halfwords from r6 into r5+0x28..0x48 (nine ldrsh/str pairs) and
+    additionally, when bits 4..7 of the command say so, scatters two of them
+    through the four byte tables above with optional negations from bits 8,
+    9 and 10; otherwise (bit 3 clear) nine halfwords are read at r7+2, r6+0..14
+    into r5+0x28..0x48.
+  * 0x0206C414-0x0206C42C  tail call through the record hook:
+    r0 = r5, r1 = r6, r2 = *(u32*)obj, r3 = the command word, `blx r7` with
+    r7 = *(u32*)(obj+0xe8); then *(u32*)(obj+0xb4) = r5.
+  * 0x0206C430-0x0206C510  the state machine epilogue: state 2 and state 3
+    each call the *(obj+0x24) hook the same way, the state-3 path also calls
+    *(u32*)(obj+0xec) with (*(u32*)(obj+0xb4), 0) and clears *(u32*)(obj+0xb4),
+    and modes 0x20/0x60 emit another func_0206DDA4(0x13, &word, 1, byte) when
+    bit 8 of *(u32*)(obj+8) is clear; finally *(u32*)obj += r4 and return.
+
+HOW FAR A BOUNDED ATTEMPT GOT.  The entry block (0x0206C0C4-0x0206C190, the
+prologue plus the two `is the 0x400 bit set` arms and the two
+func_0206DDA4(0x14, ...) call sites) was transcribed and compiled:
+
+    compiled 200 bytes / 50 instructions against the original's 50
+      instructions over the same span -- the same length exactly
+    relocations: the one func_0206DDA4 call resolved `label`
+    instruction shapes with the register numbers ignored: 60 percent equal,
+      first divergence at instruction 1, which is the frame
+      (`sub sp, sp, #20`) -- the probe's local did not need a stack slot, it
+      went out of a pushed-register slot, so the whole stream is offset by
+      one instruction from there on
+    concrete bytes: 24 percent identical
+
+That is the shape of the whole problem in miniature: right statements, right
+count, wrong registers and wrong frame, because the frame is what decides
+every register in an eight-callee-saved ARM function.  A full body is
+therefore a multi-run grind on the same footing as 0x02054DB8, which is why
+this note stops here.
+
+WHY IT WAS NOT CARRIED FURTHER.  1104 bytes of ARM is 2.7x the largest ARM
+game function this project has ever matched (0x02040C14, 404 bytes), and the
+body is a state machine over a 0x58-byte record with more than twenty
+distinct struct offsets, four one-byte tables, and six indirect calls; the
+same effort on the packet next door (0x02054DB8, 1744 bytes) reached 24.5%
+byte identity with a 60-byte size gap, which is the honest measure of what
+one run buys on a function of this class.  The map and the cap above are what
+a later run needs to decide whether to spend the days.

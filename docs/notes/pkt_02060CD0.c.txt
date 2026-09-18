@@ -303,3 +303,154 @@ still MATCH-capped on the call to 0x02060CD0 until this function reaches
 EXACT.  The call site itself is unaffected by the residue above: the target
 address relocates correctly at 0x02060CD0 (attested `label`), so nothing about
 those two files needs changing once this function lands.
+
+
+7. Second reading -- the residue is a branch fold mwcc will not make
+-------------------------------------------------------------------
+
+Still open.  Same pinned configuration (dsi/1.1p1, -O4,p, -proc arm946e,
+ARM); the frontier C is now in src/pending/func_02060CD0.c (row 1 of the
+table below) rather than only at the bottom of this note.
+
+Method, because it is the part that is new: the loop was taken out of the
+function and attacked in an isolated micro-harness -- a two-field struct
+and one function `int f(struct MBlock *node, unsigned int end)` whose body
+is the loop and nothing else -- so each spelling's codegen can be read
+with objdump at once, and the spelling space could then be swept
+mechanically instead of by vocabulary.  The harness reproduces every shape
+section 2 records, which is the check that it is faithful; the two that
+matter are quoted below.
+
+New measured facts:
+
+(a) The predicated chain IS reachable, and what decides it is the number
+    of exits from the loop.
+
+        if (node != 0) {
+            while (1) {
+                if ((u32)node == end) break;
+                node = node->next;
+            }
+        }
+
+    compiles to
+
+        cmp  r6, #0
+        beq  EXIT
+        cmp  r6, r0
+        ldrne r6, [r6, #0xc]
+        bne  HEAD
+
+    i.e. the guard's branch is gone and the UNCONDITIONAL back edge became
+    the conditional one, reading the guard's flags.  mwccarm does this
+    because the `break` is the loop's only exit, so it can treat it as the
+    loop's own continuation test.  In the real function that form is 348
+    bytes: exactly one instruction short, and the missing one is the
+    `cmpne r6, #0`.
+
+    The moment the loop has a second exit -- a second `break`, a
+    `goto out`, or a real loop condition -- the same guard is emitted as
+    an explicit branch instead and no predication happens:
+    `while (node != 0) { if ((u32)node == end) break; node =
+    node->next; }` is 356 bytes, 239 bytes differing.
+
+    That is precisely the trap this residue sits in.  The original's loop
+    has TWO tests and ONE branch, which is the single-exit shape, but the
+    second test is on the value the advance produces, so it has to be its
+    own statement, and its own statement is a second exit.
+
+(b) The form that does produce the predicated chain AND a test of the
+    advanced node is one instruction too long:
+
+        while (node != 0) {
+            if ((u32)node == end) break;
+            node = node->next;
+            if (node == 0) break;
+        }
+
+        cmp  r6, #0
+        beq  EXIT
+        cmp  r6, r0
+        ldrne r6, [r6, #0xc]
+        cmpne r6, #0
+        beq  EXIT
+        bne  HEAD
+
+    356 bytes.  Everything the original has is here, byte for byte, plus
+    one `beq EXIT` whose target is the fall-through of the `bne` -- the
+    two branches are complementary on the same flags, so the fold the
+    original shows is a redundant-branch deletion, and 1.1p1 at -O4,p
+    does not perform it.  Writing the second test as the loop's condition
+    instead (`do { ... } while (node != 0)`, or `while (node != 0)` with
+    the first `break`) loses the other half: the predication goes and the
+    back-edge `cmp r6, #0` stays unpredicated, 356 bytes again.
+    So the two halves of the original's shape are reachable, never both.
+
+(c) The closest spelling by byte count is still section 2's do/while with
+    the guard on the `if`: 352 bytes, 30 bytes differing, and its one
+    wrong instruction is the same `cmp r6, #0` in the slot the original
+    has `cmpne r6, #0` in.  It is still not the source -- it spins when
+    node == end -- so it is documented here and not filed.
+
+(d) Sweep of the whole shape space.  4266 generated loop spellings (nine
+    wrappers -- while, for, do/while, do/while(1), while(1), for(;;),
+    do/while(node != 0), do/while(node != end), a labelled block -- x two
+    outer guards (a leading `if (node != 0)` and none) x about 230 bodies,
+    the bodies being every permutation of the three statements "test
+    node == end", "test node == 0" and "advance" in five break, two goto,
+    four `||`, one `&&` and two `continue` spellings plus four-statement
+    combinations), compiled in the micro-harness and grep'd for the
+    original's closing pair, a predicated `cmpne rX, #0` immediately
+    followed by its `bne`.  Zero hits; 394 of the 4266 are CCERR, the
+    `goto` bodies in wrappers with no `out:` label to jump to.  The shape
+    simply does not occur in that space.
+
+(e) Not a pragma and not a qualifier.  `#pragma peephole off` and `on`,
+    `#pragma ipa off` and `on`, `#pragma opt_dead_code off`,
+    `#pragma opt_common_subs off`, `#pragma optimization_level 3` and `4`,
+    `#pragma inline on` are each byte-identical to no pragma, for both the
+    `&&` form and the break form.  `volatile` on the node advance, a
+    pointer cast of the bound, reading the word through a union (the
+    sentinel/null idiom), an `if (0) break;` probe for the fold, and an
+    inline helper for the test or for the advance all change nothing --
+    the helpers are not inlined at all under this front end, they stay
+    separate sections, and the probe's dead second exit is deleted before
+    it can reach the if-converter.
+
+(f) The idiom this leaves behind, which is worth knowing on its own:
+    a `while (1)` / `for (;;)` loop with exactly ONE `break` compiles that
+    break into the loop's continuation condition and predicates the body;
+    with two exits the same compiler emits the break as a branch and
+    predicates nothing.  A spelling that is four bytes short of an if-
+    converted loop is usually this, not a missing statement.
+
+Byte table, all measured with the rest of the function fixed, in the real
+function (`diff` is match.py's concrete-byte count; E stands for
+`if ((u32)node == end) break;` and A for `node = node->next;`):
+
+| # | loop spelling | bytes | diff |
+| --- | --- | --- | --- |
+| 1 | `while (node != 0 && (u32)node != end) A` (section 2's frontier) | 352 | 50 |
+| 2 | `if (node != 0) { do { if ((u32)node != end) A; } while (node != 0); }` | 352 | 30 |
+| 3 | `if (node != 0) { while (1) { E A } }` | 348 | 234 |
+| 4 | `if (node != 0) { for (;;) { E A } }` | 348 | 234 |
+| 5 | `while (node != 0) { E A if (node == 0) break; }` | 356 | 231 |
+| 6 | `while (node != 0) { E A }` | 356 | 239 |
+| 7 | `if (node != 0) { do { E A } while (node != 0); }` | 356 | 239 |
+| 8 | `if (node != 0) { while (1) { E A if (node == 0) break; } }` | 356 | 239 |
+| 9 | `if (node != 0) { while (1) { E A if (node != 0) continue; } }` | 356 | 239 |
+| 10 | `if (node != 0) { do { E A } while (1); }` | 356 | 239 |
+| 11 | `if (node != 0) { while (node != 0) { E A } }` | 360 | 243 |
+| 12 | `if (node != 0) { while ((u32)node != end) { A if (node == 0) break; } }` | 360 | 243 |
+
+Row 5 is the informative one and row 2 the closest; both are in the table
+above with their instruction streams in section 7(b) and 7(c).
+
+Verdict: still open, and now for a reason that is specific rather than
+lexical.  The original asks mwccarm 1.1p1 to delete an exit branch whose
+target is the fall-through of the complementary back-edge branch and to
+keep the predicated chain that branch reads, and this front end never does
+that: it either predicates a break's whole region when the break is the
+loop's single exit, or it emits both branches.  A C spelling in which the
+advanced-node test is not an exit cannot be written, because the value it
+tests is produced by the statement the predication has to cover.

@@ -1,0 +1,92 @@
+pkt_020924DC - func_02092F10 (0x02092F10, 1152 code bytes + 40 bytes of
+               literal pool, ARM, 288 instructions)
+
+STATUS: NOT CLOSED.  No body was written for this function.  The reason is
+size, not evidence: the packet's largest function is 1152 bytes of ARM, which
+is 2.9x the largest ARM *game* function this project has ever taken to an
+EXACT entry (0x02040C14, 404 bytes; then 0x02060888 384, 0x0202FC48 380), and
+the same run's full transcription of the packet next door (0x02054DB8, 1744
+bytes, docs/notes/pkt_0205429C.c.txt) landed at 24.5% byte identity with a
+60-byte size gap.  What follows is the triage and the structure map so the
+next agent does not have to re-read the bytes to find out whether it is worth
+starting.
+
+TRIAGE (everything the packet-claim protocol asks for, all of it clean)
+
+  * Call side, four direct targets, every one `label`-attested with a witness
+    OUTSIDE this function's range (the range used is the section: code plus
+    the ten pool words, 0x02092F10..0x020933B8):
+      0x020972F0  bl at 0x02092F78   x5 witnesses, e.g. 0x02093530
+      0x020929E8  bl at 0x0209323C   x5 witnesses, e.g. 0x02093F94
+      0x0209A504  bl at 0x02093310   x15 witnesses, e.g. 0x02095AFC
+      0x0209BAC8  bl at 0x02093324   x5 witnesses, e.g. 0x020957FC
+    All four are ARM (`isa_evidence` reads their func_ labels in asm/arm9), so
+    none of the four call relocations can cap the entry.
+  * Data side: the function's own pool (0x02093390..0x020933B8) holds ten
+    words -- 0x000001FD, eight data pointers 0x020A8A40, 0x020A8A48,
+    0x020A8A50, 0x020A8A54, 0x020A8A58, 0x020A8A60, 0x020A8A68, 0x020A8A6C
+    (five-byte records built by the byte-copy blocks), and 0x000007FF.  Every
+    one of the eight data pointers is `literal`-attested with 5 witnesses
+    outside the section, the first of them at 0x02093BB8 -- i.e. the pool of
+    a neighbouring function -- so the data side does not cap either.  0x1FD
+    and 0x7FF are plain pooled constants (both are past what a single ARM
+    `mov` immediate can encode), not relocations.
+  * No register BLX anywhere in the function and every return is
+    `pop {..., fp, lr}; add sp, sp, #0x10; bx lr`, so there is no
+    -proc conflict of the kind docs/idioms/
+    a-register-blx-with-a-pop-lr-return-is-a-toolchain-conflict-...md
+    describes.  Note that worklist.py prints NO proc hint for this packet,
+    while the epilogue is the pop-lr form that
+    docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md
+    reads as naming an arm7tdmi unit: the first thing to try here is
+    `--flags "-O4,p -proc arm7tdmi"`, exactly as pkt_0205429C needs, and the
+    rest of this packet (0x020924DC, 0x020929EC, 0x02092C3C) with it.
+
+WHAT THE FUNCTION IS
+
+It is a `printf`-family formatter: the caller passes the value(s) and a
+packed descriptor, and the function writes a formatted string into the buffer
+at r8.  Frames: push {r4-r8, sb, sl, fp, lr}, sub sp, #0x4c, so incoming
+stack arguments start at sp+0x70 and the descriptor fields the function reads
+are stack words: r6 = *(u32*)(sp+0x88) (a bound, compared against 0x1FD from
+the pool, `ble`-style early `return 0` at 0x02092F48), r5 = *(u8*)(sp+0x81),
+fp = *(u8*)(sp+0x7f), r4 = *(u8*)(sp+0x7d), and two more words moved to
+sp+8 and sp+0xc.
+
+  0x02092F5C-0x02092F98  build the descriptor at sp+0x10 (strb 0, strh 0x20)
+      and call func_020972F0(sp+0x10, word, word, sp+0x14); the conversion
+      character comes back in *(u8*)(sp+0x19) and is switched on three ways:
+      '0' (0x30) -> one branch, 'I' (0x49) -> 0x02092FA4, 'N' (0x4E) ->
+      0x020930A8, default 0x020931AC.
+  0x02092FA4-0x020930A4  the 'I' path: *(u8*)(sp+0x14) selects between
+      "value was parsed" and not; r5 == 0x41 ('A') selects upper case; each
+      leaf writes a five-byte record from a table (0x020A8A40/48/50/54) over
+      *(r8 - 5) or *(r8 - 4) and returns.  The five-byte copies are five
+      ldrb/strb pairs, not a memcpy, so the source indexed a `u8[5]` by hand.
+  0x020930A8-0x020931A8  the 'N' path: the same table-copy shape with
+      0x020A8A58/60/68/6C.
+  0x020931AC-0x0209338C  the general path: build a small record at
+      sp+0x3c (bytes 1,1,0,0,0, 0x64, words 0 and 1), reverse the four bytes
+      at sp+0x70, extract a 5-5-? field pair from sp+0x70/0x71
+      (`lsl r1, r1, #0x11 / orr r1, r1, r2, lsl #25 / ands r1, r0, r1, lsr #21`
+      against the constant 0x000007FF from the pool), copy the record to
+      sp-8 and call func_020929E8, then emit digits backwards through
+      `strb rX, [r7, #-1]!` with three `cmp`/`add` cases for 0-9, a-f and
+      A-F (the 0x57/0x37 pair), a ',' or '.' separator, the
+      func_0209A504/func_0209BAC8 pair for the exponent, then the 'x'/'X'
+      and '0' prefixes and a final sign character.
+  0x0209337C-0x0209338C  return the buffer pointer (r7) with the two-part
+      epilogue.
+
+WHERE THE DIFFICULTY IS.  Three quarters of the function is byte-level work
+on `b`-sized fields and five-byte records: dozens of `strb`/`ldrb` pairs with
+`sub`-based field widths (5 bytes vs 4 bytes chosen by the case), a reversed
+loop over a four-byte scratch buffer, and one 5-5-5 style bit extraction.
+None of that is impossible, but each field is a separate declaration choice
+(u8 vs s8 vs a bitfield), and the register allocation of a 288-instruction
+frame-using ARM function with eight callee-saved registers is decided
+globally, so a body has to be written whole before any of it can be judged.
+
+That is why this note stops at the map: the honest trade was to spend the run
+on the packet's 1744-byte function, where the same effort produced a
+measurable near miss.

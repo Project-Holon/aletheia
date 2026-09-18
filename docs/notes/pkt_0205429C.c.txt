@@ -58,3 +58,259 @@ docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md
 calls an arm7tdmi unit.  That idiom note should be read as necessary but not
 sufficient: 0x02058300 and 0x0205841C, the two entries actually matched under
 `-proc arm7tdmi`, contain no register BLX.
+
+==========================================================================
+0x02054DB8 (func_02054DB8, 1744 code bytes + 16 bytes of literal pool, ARM)
+==========================================================================
+
+STATUS: DIFF, near miss, no file committed.  This is the third function of
+the packet and it is NOT one of the two toolchain-conflict functions above:
+it has no register BLX at all (24 branches, every one a `bl`), and all seven
+of its call targets are `label`-attested with witnesses outside the function,
+so neither attestation nor the ISA is the blocker.  The residue is
+allocator-level, and this is how far one run got.
+
+WHAT WAS WRITTEN AND WHAT IT SCORES
+
+  * A 439-instruction transcription of the WHOLE function was written and
+    compiled; it is reproduced at the end of this note, because the write
+    rule keeps a DIFF out of src/matched/ and src/pending/.
+  * `match.py one --cc 1.1p1 --arm --flags "-O4,p -proc arm7tdmi"`:
+      compiled 1756 bytes against a 1760-byte listing extent
+      (1744 code + 4 pool words), verdict DIFF, 14 of 14 relocations
+      resolved (VEC_CrossProduct x65, VEC_Normalize x190, MTX_MultVec33 x17,
+      MTX_MultVec43 x35, MI_Copy36B x47, G3_MultMtx43 x95,
+      func_020565C8 x20 -- all `label`).
+    With the function's own four pool words accounted for, that is 1740 bytes
+    of code against the original's 1744, i.e. ONE instruction short.
+    22.7 percent of the compiled bytes are identical (the variant that keeps
+    the resource pointer live throughout is 1700 bytes and 25.0 percent
+    identical -- a size-versus-register trade, not a free win; the variant
+    that re-derives the chain for the 0x04000470 stores as well is 1768 bytes
+    and 16.1 percent, so that one is wrong).
+  * The transcription is the right SIZE region by region: the D arm's call
+    block (VEC_CrossProduct, VEC_Normalize, MI_Copy36B, MTX_MultVec33,
+    MTX_MultVec43, VEC_Normalize) is 0x38/0x38/0x10/0x10/0x10/0x1C in both,
+    and the prologue's own shape (ldrh, lsl #22, lsr #27, lsl #27, lsr #27,
+    add, mul, asrs #5) is right instruction for instruction.
+  * What is left is register numbering and rematerialisation, not statements:
+    the original pushes {r4-r8, sb, sl, lr} in an 0x88 frame and keeps q in
+    r6, self in r7, mtx in r8 and the resource pointer in r2 when it can; the
+    transcription pushes {r4-r8, sb, sl, fp, lr} (one extra callee-saved
+    register, spent on the zero high word of the 0x800 constant) in 0x84.
+    Its two arms also cross-jump their G3_MultMtx43 calls into one, where the
+    original keeps two sites.
+
+CALIBRATION, and why this was not ground further.  The manifest holds 740
+`isa: arm` entries; the largest ARM *game* function with an EXACT entry is
+0x02040C14 at 404 bytes (then 0x02060888 384, 0x0202FC48 380).  1744 bytes of
+ARM is 4.3x that, ~440 instructions, and the project already documents a
+residue of 17 bytes of register allocation as an unreachable near miss
+(0x02008A54).  The body is now the easy half; what remains is grinding ~60
+allocation decisions until they match mwcc 1.1p1.  Recorded so the next agent
+starts from a body that is 4 bytes from the right size rather than from the
+bytes.
+
+WHAT THE FUNCTION IS (addresses are Black-image addresses)
+
+  A   0x02054DB8-0x02054E28  prologue; two bitfield reads of the u16 at
+      q+0x2e (5-bit field at bit 0, 5-bit at bit 5, 6-bit at bit 10):
+      n = ((b0 * (b5 + 1)) >> 5).  One store to 0x040004A4 built as
+      *(u32*)(self+0x3c) | 0xc0 | (b10 << 24) | (n << 16), a dead read-back
+      of the same register, then `if (n == 0) return;` -- the EQ those
+      predicated instructions test is the one `asrs r3, r3, #5` at
+      0x02054DEC left behind, which is why no `cmp` precedes them.
+  B   0x02054E2C-0x02054EFA  w = *(s32*)(q+0x30);
+      v5 = FXMUL(w, *(s16*)(res+0x30)); s64 w64 = w; then a switch on the
+      3-bit field at bits 28..30 of *(u32*)(res+0x48): case 0 scales v5 and w
+      both by t = *(s16*)(q+0x34), case 1 only v5, case 2 only w.
+      `res` is *(u32*)(*(u32*)(*(u32*)(self+0x40) + 0x20)).
+  D/E 0x02054F0C-0x02055410  two near-identical arm bodies, 149 and 170
+      instructions, on bit 23 of *(u32*)res; `if (!flag) D else E` is the
+      layout that reproduces the fall-through order.  Each body: pos = the
+      position expression (D adds q+0x38/0x3c/0x40 to q+8/0xc/0x10, E
+      subtracts *(u32*)(res+4/8/0xc)); vA = *(VecFx32*)(q+0x14);
+      vB = (mtx->m[2], mtx->m[5], mtx->m[8]) with mtx = *(u32*)(self+0x44);
+      VEC_CrossProduct(&vA,&vB,&vA); `if (all three zero) return;`;
+      VEC_Normalize(&vA,&vA); MI_Copy36B(mtx,&m33);
+      MTX_MultVec33(&vA,&m33,&vA); MTX_MultVec43(&pos,mtx,&pos);
+      v0 = *(VecFx32*)(q+0x14); VEC_Normalize(&v0,&v0);
+      s = |FXMUL(v0.z,-m[8]) + FXMUL(v0.x,-m[2]) + FXMUL(v0.y,-m[5])|;
+      L = FXMUL(w, FXMUL(0x1000-s, k) + 0x1000) with k the 16-bit field at
+      bits 8..23 of *(u32*)(res+0x48); then a 4x3 matrix whose x row is
+      scaled by v5 and y row by L, m[2]=m[5]=m[6]=m[7]=0, m[8]=0x1000,
+      translation row = pos; *(0x04000454) = 0; G3_MultMtx43(&m43).  The E arm
+      also writes res+4, res+8, res+0xc to 0x04000470 before its call.
+  tail 0x02055410-0x02055488  pack the 5-5-5 colour product of
+      *(u16*)(q+0x36) and *(u16*)(sys+0x72) into 0x04000480:
+      (((c&0x1f)*(d&0x1f))>>5) | ((((c&0x3e0)*(d&0x3e0))>>0xf)<<5) |
+      ((((c&0x7c00)*(d&0x7c00))>>0x19)<<10) truncated to u16; then
+      func_020565C8(*(s16*)(sys+0x7c), *(s16*)(sys+0x7e), 0).
+
+THREE CODEGEN FACTS FOUND HERE, EACH REPRODUCIBLE IN ISOLATION
+
+  1. An `s64` local materialised BEFORE a switch makes mwcc emit the general
+     64x64 multiply inside the arms -- `umull lo, hi, a, b` plus two `mla`
+     corrections with each operand's sign extension computed by `asr` --
+     where the same product written narrow inside one basic block is a single
+     `smull`.  The arms' sequence
+       asr lr, r0, #0x1f        (sign of t)
+       umull ip, sl, r4, r0     (w * t)
+       mla sl, r4, lr, sl       (+ w * sign(t))
+       mla sl, r1, r0, sl       (+ sign(w) * t)
+     is therefore `(s64)w * (s64)t` with `w64` assigned before the switch
+     (which is why `asr r1, r4, #0x1f` sits in the pre-switch block at
+     0x02054E58), not a hand-written sign-corrected multiply.  Probe:
+     `s64 x = (s32)a; s64 y = b; switch (k) { case 0: return
+     (u32)(((x * y) + 0x800) >> 12); }` gives the three-instruction form;
+     the same product with no switch and one basic block gives `smull`.
+     The 64-bit constant 0x800 is materialised once as a register pair
+     (`mov r3, #0x800` and `mov sb, #0` at 0x02054E3C/0x02054E64) and reused
+     by every arm, which is why the arms' carries read `adc ..., sb`.
+  2. A u16 bitfield read is a SHIFT PAIR, not shift+and.  For
+     `typedef struct { u16 b0:5; u16 b5:5; u16 b10:6; } Q2E;` the read
+     `((Q2E *)(q+0x2e))->b5` compiles to `ldrh; lsl #22; lsr #27` (lsl by
+     31-last_bit, lsr by 32-width), while `(v >> 5) & 0x1f` on the promoted
+     value compiles to `mov rN, v, lsr #5; and rN, rN, #0x1f`.  The
+     original's 0x02054DD0-0x02054DDC pair is the bitfield form, and the
+     3-bit switch field at 0x02054F00 and the 1-bit test at 0x02054F04 are
+     the same construct on *(u32*)(res+0x48) and *(u32*)res.  The 16-bit
+     field used as `k` is the exception: `(x48 << 8) >> 16` is the unequal
+     shift pair a narrowing cast folded with a shift makes (`(u16)(x >> 8)`).
+  3. A pointer that is only needed before the calls costs a callee-saved
+     register when it is a named local, and 56 bytes of size.  Spelling the
+     resource chain out again inside the arms took the transcription from
+     1700 to 1756 bytes and from 425 to 439 instructions, because it lets the
+     allocator rematerialise the chain instead of keeping it live across the
+     six SDK calls.  The original does exactly this: 0x02055078-0x02055084
+     and 0x020552F0-0x02055300 both rebuild the chain from `self` (r7) rather
+     than reading a register, and the E arm rebuilds it once per position
+     component (0x02055184, 0x020551AC, 0x020551F4).  (Rebuilding it for the
+     three 0x04000470 stores as well makes things WORSE, 1816 bytes: the
+     original keeps the pointer live across that spot.)
+
+THE C THAT WAS COMPILED (439 instructions, DIFF, 1756 of 1760 bytes).
+Copied from the working file; the header is the house block that would be
+used if it is ever taken to EXACT.
+
+--------------------------------------------------------------------------
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+typedef signed long long s64;
+
+typedef struct { s32 x, y, z; } VecFx32;
+typedef struct { s32 m[9]; } MtxFx33;
+typedef struct { s32 m[12]; } MtxFx43;
+
+typedef struct { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; } Q2E;          /* q+0x2e   */
+typedef struct { u32 f0:8; u32 k:16; u32 f24:4; u32 kind:3; u32 f31:1; } Res48; /* res+0x48 */
+typedef struct { u32 f0:23; u32 flag:1; u32 f24:8; } Res00;           /* res+0x00 */
+
+extern void VEC_CrossProduct(const void *a, const void *b, void *out);
+extern void VEC_Normalize(const void *src, void *dst);
+extern void MTX_MultVec33(const void *vec, const void *mtx, void *dst);
+extern void MTX_MultVec43(const void *vec, const void *mtx, void *dst);
+extern void MI_Copy36B(const void *src, void *dst);
+extern void G3_MultMtx43(const void *mtx);
+extern void func_020565C8(s32 a, s32 b, s32 c);
+
+#define RESOBJ ((u8 *)*(u32 *)(*(u32 *)(*(u32 *)((u8 *)self + 0x40) + 0x20)))
+
+#define FXMUL(a, b) ((s32)((((s64)(a) * (b)) + 0x800) >> 12))
+
+#define BODY(add_x, add_y, add_z)                                            \
+    do {                                                                     \
+        pos.x = add_x;  pos.y = add_y;  pos.z = add_z;                       \
+        vA = *(VecFx32 *)(q + 0x14);                                         \
+        vB.x = mtx->m[2];  vB.y = mtx->m[5];  vB.z = mtx->m[8];              \
+        VEC_CrossProduct(&vA, &vB, &vA);                                     \
+        if (vA.x == 0 && vA.y == 0 && vA.z == 0) return;                     \
+        VEC_Normalize(&vA, &vA);                                             \
+        MI_Copy36B(mtx, &m33);                                               \
+        MTX_MultVec33(&vA, &m33, &vA);                                       \
+        MTX_MultVec43(&pos, mtx, &pos);                                      \
+        v0 = *(VecFx32 *)(q + 0x14);                                         \
+        VEC_Normalize(&v0, &v0);                                             \
+        s = FXMUL(v0.z, -mtx->m[8]) +                                        \
+            (FXMUL(v0.x, -mtx->m[2]) + FXMUL(v0.y, -mtx->m[5]));             \
+        if (s < 0) s = -s;                                                   \
+        L = FXMUL(w, FXMUL(0x1000 - s, ((Res48 *)(res + 0x48))->k) + 0x1000);                    \
+        m43.m[0] = FXMUL(vA.x, v5);   m43.m[1] = FXMUL(vA.y, v5);            \
+        m43.m[3] = FXMUL(-vA.y, L);   m43.m[4] = FXMUL(vA.x, L);             \
+        m43.m[2] = 0;  m43.m[5] = 0;  m43.m[6] = 0;  m43.m[7] = 0;           \
+        m43.m[8] = 0x1000;                                                   \
+        m43.m[9] = pos.x;  m43.m[10] = pos.y;  m43.m[11] = pos.z;            \
+        *(volatile u32 *)0x04000454 = 0;                                     \
+    } while (0)
+
+void func_02054DB8(u32 *self, u8 *q)
+{
+    MtxFx43 m43; MtxFx33 m33; VecFx32 vB, vA, pos, v0;
+    u32 *sys = *(u32 **)((u8 *)self + 0x40);
+    u32 *o20 = *(u32 **)((u8 *)sys + 0x20);
+    u8 *res = (u8 *)*(u32 *)o20;
+    MtxFx43 *mtx = *(MtxFx43 **)((u8 *)self + 0x44);
+    s32 n = (s32)((((Q2E *)(q + 0x2e))->b0 * (((Q2E *)(q + 0x2e))->b5 + 1)) >> 5);
+    u32 w, v5, c, d;  s64 w64;  s32 t, s, L;
+
+    *(volatile u32 *)0x040004A4 = (*(u32 *)((u8 *)self + 0x3c) | 0xc0) |
+                                  (((u32)((Q2E *)(q + 0x2e))->b10) << 24) | ((u32)n << 16);
+    (void)*(volatile u32 *)0x040004A4;
+    if (n == 0) return;
+
+    w = *(u32 *)(q + 0x30);
+    v5 = (u32)FXMUL(w, *(s16 *)(res + 0x30));
+    w64 = (s64)(s32)w;
+
+    switch (((Res48 *)(res + 0x48))->kind) {
+    case 0:
+        t = *(s16 *)(q + 0x34);  v5 = (u32)FXMUL(v5, t);  w = (u32)FXMUL(w64, t);
+        break;
+    case 1:
+        t = *(s16 *)(q + 0x34);  v5 = (u32)FXMUL(v5, t);
+        break;
+    case 2:
+        t = *(s16 *)(q + 0x34);  w = (u32)FXMUL(w64, t);
+        break;
+    default:
+        break;
+    }
+
+    if (!((Res00 *)res)->flag) {
+        BODY(*(s32 *)(q + 8) + *(s32 *)(q + 0x38),
+             *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c),
+             *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40));
+        G3_MultMtx43(&m43);
+    } else {
+        BODY(*(s32 *)(q + 8) - *(s32 *)(res + 4),
+             *(s32 *)(q + 0xc) - *(s32 *)(res + 8),
+             *(s32 *)(q + 0x10) - *(s32 *)(res + 0xc));
+        *(volatile u32 *)0x04000470 = *(u32 *)(res + 4);
+        *(volatile u32 *)0x04000470 = *(u32 *)(res + 8);
+        *(volatile u32 *)0x04000470 = *(u32 *)(res + 0xc);
+        G3_MultMtx43(&m43);
+    }
+
+    c = *(u16 *)(q + 0x36);
+    d = *(u16 *)((u8 *)sys + 0x72);
+    *(volatile u32 *)0x04000480 = (u16)((((c & 0x1f) * (d & 0x1f)) >> 5) |
+                                        ((((c & 0x3e0) * (d & 0x3e0)) >> 0xf) << 5) |
+                                        ((((c & 0x7c00) * (d & 0x7c00)) >> 0x19) << 10));
+    func_020565C8(*(s16 *)((u8 *)sys + 0x7c), *(s16 *)((u8 *)sys + 0x7e), 0);
+}
+
+
+--------------------------------------------------------------------------
+
+WHERE TO PICK IT UP.  The size is 4 bytes short and every call block is the
+right length; the residue is which register each live value gets.  Two things
+to try first, in this order: (a) the zero high word of the 0x800 constant is
+what the extra `fp` push is spent on in the transcription, so find the
+spelling that keeps it in `sb` the way the pre-switch block already does
+(`adc r9, r5, #0` there, `adc ..., sb` only inside the arms); (b) the two
+arms' G3_MultMtx43 calls cross-jump into one in the transcription and stay
+two in the original, which costs the 4-byte size gap and probably also moves
+the arms' register bases.  Everything else in this note should hold.
