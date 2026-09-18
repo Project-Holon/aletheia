@@ -1,0 +1,95 @@
+/*
+ * PARKED AT DIFF.  Five concrete bytes: one register choice and the position
+ * of one store, both the allocator's, not the C's.
+ *
+ *   original                        this file
+ *   ldr r0, [r6, #0x30]             ldr r2, [r6, #0x30]
+ *   str r1, [r4]                    mov r0, r6
+ *   ldr r2, [r6, #0xc]              str r1, [r4]
+ *   str r0, [r4, #4]                mov r1, r5
+ *   mov r0, r6                      str r2, [r4, #4]
+ *   mov r1, r5                      ldr r2, [r6, #0xc]
+ *   str r2, [r4, #8]                str r2, [r4, #8]
+ *
+ * The original gives the three field loads r1, r0, r2, so the call's argument
+ * copies (mov r0, r6 / mov r1, r5) cannot be scheduled above the store that
+ * frees r0, and the third store lands after them.  This file's build gives the
+ * loads r1, r2, r2 instead: the allocator pre-assigned r0/r1 to the call's
+ * arguments and shared r2 between the second and third temporary, whose live
+ * ranges do not overlap in the front end's own order, and the scheduler then
+ * places the argument copies as early as they fit.  Same length, same
+ * relocations, five bytes of colouring.
+ *
+ * What was tried, all compiled with the pinned -O4,p / dsi/1.1p1: the three
+ * stores as byte-offset casts, as u32/u16 subscripted pointers, as a named
+ * struct's fields, and as an array; the three values bound to one reused local
+ * / three separate locals / a local array / a local struct, in every
+ * declaration order; the field loads hoisted or deferred individually; the
+ * destination pointer bound to u8 *, u32 *, u16 * or u32, one or two
+ * pointers; the
+ * CRC store through a u16 * computed early, late or inline; the function
+ * declared with two, three and four parameters (including the four-int
+ * p0..p3 form src/matched/func_02031EE8.c uses); `buf` declared void * or u32;
+ * the whole body with a third unused argument to the CRC call and with a
+ * memory barrier after it.  Every one of the ~30 spellings compiles to the
+ * same five-byte residue, which is the signature of an allocation decided
+ * before the source shape can influence it - the pinned front end will not
+ * hand the second temporary r0 here.  Only a build that reproduces the
+ * original's colouring will close it.
+ *
+ * Closing this file is worth 596 bytes more than itself: it is the single
+ * branch witness for src/pending/sub_020328E0.c.
+ *
+ * function: func_02031F54
+ * address:  0x02031F54
+ * packet:   pkt_02031EF8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02031EE8  0x02031EE8  arm
+ *   func_02031E7C  0x02031E7C  arm
+ *
+ * backup_system.c.  Writes the four-word footer descriptor that
+ * src/matched/func_02031EF8.c then verifies, into the area func_02031EE8
+ * locates (buf + p->unk30 - 0x10): the sequence word p->unk28, the lengths
+ * p->unk30 and p->unk0C at +0/+4/+8, and the record's CRC-16/CCITT from
+ * func_02031E7C at +0xE.  Called for its effect only by src/pending/
+ * sub_020328E0.c, which then copies the record body under the footer.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02031F54.c \
+ *       --func func_02031F54 --addr 0x02031F54 --cc 1.1p1 --arm --diff
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct SaveBackup {
+    u8  pad00[0x0C];
+    u32 unk0C;
+    u8  pad10[0x18];
+    u32 unk28;
+    u32 unk2C;
+    u32 unk30;
+    u32 unk34;
+};
+
+extern u8  *func_02031EE8(void *p, void *buf);
+extern u16  func_02031E7C(struct SaveBackup *p, u8 *buf);
+
+void func_02031F54(struct SaveBackup *p, u8 *buf)
+{
+    u8 *q;
+
+    q = func_02031EE8(p, buf);
+    *(u32 *)(q + 0) = p->unk28;
+    *(u32 *)(q + 4) = p->unk30;
+    *(u32 *)(q + 8) = p->unk0C;
+    *(u16 *)(q + 0x0E) = func_02031E7C(p, buf);
+}

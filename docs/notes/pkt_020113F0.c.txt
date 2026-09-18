@@ -1,0 +1,69 @@
+pkt_020113F0 (ica_anime.c) - the two near misses left open
+==========================================================
+
+Nine of this packet's fourteen functions are filed EXACT (0x02011410,
+0x020114D0, 0x02011558, 0x02011590, 0x020115C0, 0x020115EC and the two
+four-byte getters, 0x02011610, 0x02011638, plus the twelve-byte 0x02011660
+that carries no label).  Two are left, and neither is mistranslated.
+
+1. func_02011400 (0x02011400, 12 bytes) - one instruction's scheduling
+
+   02011400  lsls r2, r0, #2
+   02011402  adds r2, r0, r2        ; row * 5
+   02011404  ldr  r0, pool          ; 0x0209DF10
+   02011406  adds r0, r0, r2
+   02011408  ldrb r0, [r1, r0]
+   0201140A  bx   lr
+
+Three spellings get two of the four arithmetic instructions right and the
+fourth wrong, and they split the ways the idiom list predicts:
+
+  * `p[row * 5 + (u32)g_0209DF10]`      -> schedule right, the add's operands
+                                           the wrong way round (`adds r0, r2, r0`)
+                                           - that is what `off + table` means to
+                                           the front end, the left operand is
+                                           the destination;
+  * `p[(u32)g_0209DF10 + row * 5]`      -> the add right, but the constant is
+    and the same with a local for the      loaded one slot earlier, above the
+    table or for the offset                `adds r2, r0, r2`.
+
+The original wants the C source order "offset first" (so the multiply is
+issued first) with the machine add in the table-first order, which is
+unreachable from either spelling.  This is the same class as the
+"a materialised shift temporary is not reachable from C" idiom: one
+scheduling slot below the source text.
+
+The function is also capped independently: 0x0209DF10 is a flat byte table
+with exactly one pool word in the 3.9 MB image, this one, so the `literal`
+class has no witness and no cut helps.  It is the same defect as its
+neighbours src/pending/func_020113F0.c (table 0x0209DF24) and the parked
+0x02011400 in this note: private tables, not mistranslations.
+
+2. func_02011688 (0x02011688, 54 bytes) - a guard's compare and a copy
+
+The modulo is right: `u32 idx = v % period;` produces the single call to
+_u32_div_f (0x0209C2B0) and reads the remainder out of r1.  What does not
+reproduce is the two instructions after it:
+
+   02011698  ldr  r0, [r5, #0x18]   ; f18
+   0201169A  adds r2, r1, #0        ; the remainder settles into r2 HERE
+   0201169C  cmp  r0, r6
+   0201169E  bne  ret0
+
+Every spelling tried (sixteen) keeps the remainder in r1 and issues the
+`cmp` first, so the whole tail is two bytes out of phase, and the twelve-byte
+copy then differs too: the original copies three words one at a time
+(`ldr r0,[r1,r3]` / `adds r1,r1,r3` / three `ldr`/`str` pairs) where a
+`*dst = table[idx]` struct assignment is recognised as a <= 32-byte aggregate
+and becomes an ldm/stm pair plus one word.  So the source copied fields, not
+the struct - but every field-wise spelling tried (a `u32 *`, a `Rec12 *`, a
+byte pointer with the multiply by 12 in the source) also reorders the guard.
+
+Spellings tried, all DIFF: two locals with the frame named (4 bytes off),
+one local (9), the pointer local declared first (43), the guard written
+positively (25), the structure assignment (24), the byte pointer with
+`idx * 12` (16), the fields read from `((Rec12 *)p->f1c)[idx]` (37).
+The residue is at most a four-byte register choice on the guard - worth one
+more look by whoever next holds this packet, with the two hints that the
+remainder is moved into its register BEFORE the compare and that the copy is
+three separate word loads.

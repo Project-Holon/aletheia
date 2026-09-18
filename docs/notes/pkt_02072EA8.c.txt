@@ -1,0 +1,87 @@
+Near misses and one lever, pkt_02072EA8 (0x02072EA8..0x020733DC, arm)
+
+Filed EXACT from this packet:
+  0x02072F34  unit_02072F34.c (with 0x02072F48)   40 bytes
+  0x020730DC  func_020730DC.c                     44 bytes
+Filed MATCH (byte-correct, blocked) from this packet:
+  0x02072F88..0x020730B8  pending/unit_02072F88.c   9 functions, 304 bytes
+  0x02073108              pending/func_02073108.c   36 bytes
+
+--------------------------------------------------------------------------------
+1. The guard scratch register is the arity (cost: several hours, saved the run)
+
+The nine members of the 0x02072F88..0x02073098 series are one shape:
+
+    if (o->p == 0) return;
+    callee(o->p->b3c, <the member's own leftover arguments>);
+
+Writing them one after another with `if (o->p == 0) return;` and a call of the
+callee's apparent arity, every one of them came out two bytes wrong, and always
+the same two: the guard's load landed in r1 where the original had r2 (or r3).
+
+The guard's load is into a scratch register the allocator is free to choose, so
+the only thing that can pin it is register pressure at that point -- i.e. which
+of the incoming argument registers are still live. Reading the call sites:
+
+    func_02072FA8 is called with r1 and r2 both set (0x02005E74, 0x02005EC6)
+    func_02073098 is called with r1 set only        (0x02005EFA)
+    func_02073108 is called with r1 and r2 set      (0x02005BE6)
+
+and the original's guard register follows exactly: r3 for the three-argument
+members, r2 for the two-argument one, r3 again for 0x02073108. The parameters
+are not decoration: each member *forwards* what it was given, so r1 (and r2)
+stay live across the guard and the scratch has to move up. Declaring the extra
+parameters and passing them on took all nine from 2 bytes wrong to byte-correct
+in one edit. Nine members, one insight; if a member of a wrapper series is off
+by exactly two bytes in the guard's load register, count the call site's
+argument registers before touching anything else.
+
+The same lever, one more time: 0x02072FE8 takes its table index in r2, i.e. the
+*third* parameter, and forwards r1 as the callee's second argument.
+
+--------------------------------------------------------------------------------
+2. 0x02072EA8 and 0x020730B8 -- if-converted under this front end, DIFF
+
+Both are two-statement members of the same family and both are 4 bytes short:
+
+    02072EA8  original 32, compiled 28      (predicated ldrne/movne/strne x2)
+    020730B8  original 36, compiled 32      (predicated ldrne/movne/strhne x2)
+
+Original 0x02072EA8:
+
+    push {r3, lr}
+    ldr  r1, [r0]
+    cmp  r1, #0
+    bxeq lr
+    ldr  r1, [r0]
+    mov  r2, #0
+    str  r2, [r1]
+    str  r2, [r0]
+    bx   lr
+
+This front end turns any arm of one or two statements into a predicated block
+(`ldrne`/`movne`/`strne...` with `popeq`), so `if (p == 0) return; two stores;`
+comes out 28 bytes. Three statements do NOT (that is why 0x020730DC, at 44
+bytes with three stores, is EXACT). Sixteen spellings of the 0x020730B8 body
+were compiled -- `== 0`, `== NULL`, `!o->p`, `!= 0` with an empty else, a
+`goto` to a label after the body, a local for the pointer, the object or the
+field volatile, `while`+`break`, `do`/`while(0)`, a third dead store -- and all
+of them predicate, at 32 bytes, or grow to 40/44 with the extra statement. The
+original's `bxeq lr` is therefore not reachable from C under `-O4,p` with
+`dsi/1.1p1`: it is the same class of front-end difference as the 1.2-built
+functions, only in the if-converter rather than in the register `blx`. Nothing
+about the loop idiom in docs/idioms helps; the arm is not a loop.
+
+Both are 4-byte DIFFs, not MATCHes, so they are not parked; they are recorded
+here. 0x02072EC8 (already parked by an earlier run) is the third member of the
+family with its own blocker.
+
+--------------------------------------------------------------------------------
+3. Pool word vs. field offset (cheap, easy to get wrong)
+
+`*(u32 *)(g_0214DEC0 + 8) &= ~m;` folds the +8 into the relocation: the pool
+word becomes 0x0214DEC8 and both the load and the store lose their offset, so
+the whole tail is wrong (12 concrete bytes). Writing the global as an object
+with members (`struct G { u32 f0, f4, f8; }; g_0214DEC0.f8`) keeps 0x0214DEC0
+in the pool and the +8 in the instruction, which is what the original does.
+Same for 0x02072A08 and its +4.

@@ -1,0 +1,40 @@
+pkt_02011F28 - two files that only graduate together
+====================================================
+
+Only one function of this packet is filed: func_0201205C (0x0201205C, 44
+bytes, EXACT - all five of its callees have outside witnesses, including the
+overlay-resident func_02188BE8 in ov021).  Everything else in the packet is
+parked in src/pending/ byte-correct, and the reasons form one chain.
+
+  src/pending/unit_02011F90.c  (0x02011F90, 38 bytes)
+      the only unresolved site is the call to 0x0202B4F0, which has no branch
+      witness anywhere in the image and no EXACT entry.  It cannot be written
+      from this lane: 0x0202B4F0 is inside 0x0201E000..0x0202E000.
+
+  src/pending/unit_02012088.c  (0x02012088, 18 bytes + the six-byte
+      unlabelled setter at 0x0201209C)
+      the only unresolved site is the call to 0x02011F90 - whose only caller
+      in the whole image is this function.  So the pair (this file and
+      unit_02011F90) graduates together or not at all: the `matched` class
+      would close it the moment 0x02011F90 is an EXACT manifest entry, and
+      0x02011F90 is capped on the 0x0202B4F0 call above.  Merging the two
+      ranges into one unit over 0x02011F90..0x020120A4 makes the site
+      `local` and closes this file immediately, but it drags in 0x02011FCC
+      (144 bytes) as well.
+
+  src/pending/func_02011FB8.c  (0x02011FB8, 20 bytes)
+      two calls with no outside witness: 0x02011F28 at +0x04 (only caller:
+      this function) and 0x020267BC at +0x0A.  Same shape of dead end.
+
+The constructive next step for whoever takes this packet: one unit over
+0x02011F28..0x020120A4, which is the whole packet.  Inside it, four of these
+sites become `local` (0x02011F28, 0x02011F90, 0x02012088 and the 0x02011FCC
+call from 0x0201205C), and the only thing left outside is 0x0202B4F0, which
+is somebody else's address.  That work needs func_02011F28 (102 bytes) and
+func_02011FCC (144 bytes) written; both are mechanical - they are sequences
+of calls on one object, with a `ldrh`-per-descriptor loop in func_02011FCC.
+
+The three EXACT files of this packet that are already in the tree from other
+work (0x020120A4, 0x020120D8, 0x020120F0 and neighbours, all with this
+packet's id in their headers) do not help: none of them is called from inside
+this packet's unresolved sites.

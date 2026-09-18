@@ -1,0 +1,47 @@
+0x02031F54 (64 bytes, packet pkt_02031EF8, ARM) - DIFF near miss, 5 concrete bytes.
+
+The source is complete: three u32 field stores into the footer returned by
+0x02031EE8, then the CRC-16/CCITT of 0x02031E7C stored as a halfword at +0x0E.
+Every relocation resolves (02031EE8 via label, 02031E7C via label) and the
+compiled length is the original's 64 bytes exactly.  The residue is only the
+allocation of three t emporaries and one `str`.
+
+  original                            this file
+  ldr r1, [r6, #0x28]                 ldr r1, [r6, #0x28]
+  ldr r0, [r6, #0x30]                 mov r0, r6
+  str r1, [r4]                        str r1, [r4]
+  ldr r2, [r6, #0xc]                  ldr r2, [r6, #0x30]
+  str r0, [r4, #4]                    mov r1, r5
+  mov r0, r6                          str r2, [r4, #4]
+  mov r1, r5                          ldr r2, [r6, #0xc]
+  str r2, [r4, #8]                    str r2, [r4, #8]
+  bl 0x02031E7C                       bl 0x02031E7C
+
+Reading: the original gives the three field loads r1, r0, r2.  Because r0 is
+still holding the second value, the CRC call's argument copies cannot be
+scheduled above the store that frees it, so they land between the second and
+third stores and the third store follows them.  The pinned compiler instead
+pre-assigns r0/r1 to the call's arguments and lets the second and third
+temporaries share r2 (their live ranges do not overlap in the front end's own
+order), after which the scheduler hoists the argument copies as early as they
+fit.  Same instruction count, same bytes except five.
+
+~30 spellings were compiled, all with -O4,p / dsi/1.1p1, and every one produced
+byte-identical output (the same five-byte residue), which is what says the
+allocation is decided before the source shape can reach it:
+
+  - three stores as byte-offset casts off a u8 *; as u32[], u16[] and u16*+7
+    subscripts; through a named struct's fields; off two pointers (u32 *d and
+    u16 *cr); through a single u32-typed variable holding the address
+  - the three values bound to one reused local, three separate locals, a local
+    array and a local struct, in several declaration orders
+  - each field load hoisted or deferred individually; the third value loaded
+    before the second store
+  - the CRC store through a u16 * computed before, after or inline
+  - two, three and four parameters, including the four-int p0..p3 form
+    src/matched/func_02031EE8.c uses; `buf` declared void * / u32 / u8 *
+  - a third (unused) argument on the CRC call, and a memory barrier after it
+
+Note for whoever picks this up: the function is the ONLY branch witness for
+src/pending/sub_020328E0.c (596 bytes, parked at MATCH for that reason), so
+closing these five bytes closes 660.

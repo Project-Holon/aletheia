@@ -1,0 +1,72 @@
+Near misses, pkt_02074A6C (0x02074A6C..0x02075794, arm)
+
+Filed EXACT from this packet:
+  0x020752A4  func_020752A4.c   40 bytes
+  0x020752D4  func_020752D4.c   32 bytes
+Filed MATCH (byte-correct, blocked):
+  0x0207524C  func_0207524C.c   40 bytes
+  0x02075274  func_02075274.c   48 bytes
+
+--------------------------------------------------------------------------------
+1. The 0x0207524C/0x02075274/0x020752A4/0x020752D4 quartet, and why they are
+   not one unit
+
+All four are the same forwarding shape -- `func_020751F4(a, c, d);` then one or
+two more calls on (a, a + b) -- and all four reproduce byte for byte. The pair
+that closes is 0x020752A4/0x020752D4, and it closes *only because it is two
+files*: 0x0208A424 is reached from exactly two sites in the whole image,
+0x020752CC in 0x020752A4 and 0x020752EC in 0x020752D4. Fold the two into one
+unit and both sites are inside the compared range, so the site has no witness
+left and the unit caps at MATCH; kept as two files, each is the other's
+witness. `--suggest-split` says the same thing, but the two-file shape is the
+answer and it costs nothing.
+
+The other two members are blocked one level deeper: 0x020896AC (called only
+from 0x0207526C) and 0x020896CC / 0x0208A38C (called only from 0x02075294 and
+0x0207529C) have exactly one caller each, and it is the member that needs them,
+so no cut helps and they are parked. 0x020751F4, the callee they share, is
+witnessed from outside (0x02073298, 0x02073DCC, 0x020758E4, 0x02075BBC).
+
+--------------------------------------------------------------------------------
+2. 0x02074A6C / 0x02074A98 / 0x02074AC4 -- one hoisted constant, 4 bytes
+
+Each is a two-argument forwarding wrapper that turns the callee's result into a
+boolean:
+
+    int func_02074A6C(int a, int b)
+    {
+        return func_02074BEC(a, 0xff, b, 1, 0) == 0;
+    }
+
+Original 44 bytes:
+
+    push {r3, lr}
+    mov  r2, r1
+    mov  ip, #0
+    mov  r1, #0xff
+    mov  r3, #1
+    str  ip, [sp]
+    bl   func_02074BEC
+    cmp  r0, #0
+    moveq r0, #1
+    movne r0, #0
+    pop  {r3, pc}
+
+Compiled, 48 bytes: the front end materialises the boolean's TRUE into a
+callee-saved register *before* the call (`mov r5, #1`) and reuses it for the
+argument the source passes as the 4th parameter, `mov r3, r5`; the extra
+`push {r5}` is the four bytes. Twenty-four source shapes were compiled --
+`return X == 0;`, `!X`, `X ? 0 : 1`, if/else with literal returns, a `switch` on
+the result, a named result local initialised before and after the call, `u8` /
+`u16` / `u32` / `long` / pointer return types, `1u` / `(u8)1` / `(u16)1` /
+`(u32)1` spellings of the argument, four prototype spellings, and the argument
+changed to 3 or the stack argument to 5 (which only makes it worse: 52 and 56
+bytes) -- and every one of them hoists. The only thing that matters is that the
+literal `1` appears both as an argument and as the comparison's TRUE value: the
+original's compiler kept the two materialisations separate (`mov r3, #1` before
+the call, `moveq r0, #1` after it), this one shares them.
+
+`func_02074BEC` itself is fine: 10 witnesses, all outside this range
+(0x02074A84, 0x02074AD4, 0x02075728). So this is a codegen near miss of the
+same family as the if-conversion one in pkt_02072EA8, not an evidence problem:
+44 against 48 bytes, every concrete byte shifted from the prologue on.

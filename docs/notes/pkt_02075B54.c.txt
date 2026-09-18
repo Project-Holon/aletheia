@@ -1,0 +1,108 @@
+Near misses in the 0x02075B54..0x02075C08 block, and one dependency, arm
+
+Filed EXACT here:
+  0x02075B54  src/matched/func_02075B54.c   64 bytes, no relocations
+Filed MATCH (byte-correct):
+  0x02072974  src/pending/func_02072974.c   (pkt_02072894)
+
+--------------------------------------------------------------------------------
+1. 0x02075BAC -- 40 bytes, 9 concrete bytes wrong: one hoisted zero
+
+    02075BAC  push {r4, r5, r6, lr}
+              mov  r6, r0 / mov r5, r1 / mov r4, r2
+              bl   func_02075BD4
+              stm  r6, {r0, r5}
+              str  r4, [r6, #0xc]
+              mov  r0, #0            <- the zero lands in r0, in place
+              str  r0, [r6, #8]
+
+Written as
+
+    s->f0 = func_02075BD4(s);
+    s->f4 = a;
+    s->fc = b;
+    s->f8 = 0;
+
+the zero is materialised into r1 *before* the `str r4, [r6, #0xc]`, so the
+three instructions read `mov r1, #0 / str r4, [r6, #0xc] / str r1, [r6, #8]`.
+Same size, same instructions, one register and one slot moved. A `return 0;`
+after the four stores, a `void *f8` field and a `(int)(u32)0` spelling of the
+literal all leave it at 9 bytes wrong. Not pursued further; it is not an
+evidence problem (0x02075BD4 has four call sites, 0x02073298, 0x02073DCC,
+0x020758E4 and 0x02075BBC, three of them outside this range).
+
+--------------------------------------------------------------------------------
+2. 0x02075BD4 -- 52 bytes, 4 concrete bytes wrong: two swapped loads
+
+    02075BD4  push {r4, lr}
+              ldr  r1, [r0, #0xc]     <- fc loaded first
+              ldr  r2, [r0, #8]       <- then f8
+              cmp  r2, r1
+              ldrge r0, [r0, #4]
+              popge {r4, pc}
+              ldr  r4, [r0]
+              ldr  r0, [r0, #4]
+              sub  r0, r0, r4
+              mul  r0, r2, r0
+              bl   func_0209C0A4
+              add  r0, r4, r0
+              pop  {r4, pc}
+
+The body is `if (s->f8 >= s->fc) return s->f4;` with f0 kept in the
+callee-saved register across the call and f8 (r2) reused by the multiply. What
+is wrong is only the order of the two loads that feed the compare: this front
+end emits `ldr r2,[r0,#8]` before `ldr r1,[r0,#0xc]`, the original the reverse,
+with the same two registers and the same `cmp r2, r1`.
+
+Reversing the comparison in the source (`s->fc <= s->f8`) changes the loads to
+the original order but also *inverts the branch* (`cmp r1, r2` / `ldrle` /
+`pople`), 8 bytes wrong; naming the two operands as locals (`int lim = s->fc;
+int n = s->f8;`) does not move the load order at all; writing the field read
+inline or through a pointer local does not either. This is the
+"a materialised shift temporary is not reachable from C" family in the load
+scheduler, and it is 4 bytes.
+
+--------------------------------------------------------------------------------
+3. 0x02075968 -- 44 bytes, 2 concrete bytes wrong: the bic chain's register
+
+    02075968  ...
+              ldr  r1, [r0, #0x118]
+              bic  r2, r1, #1        <- first clear writes a *second* register
+              bic  r1, r2, #4
+              bic  r1, r1, #2
+              str  r1, [r0, #0x118]
+
+Three clears of bits 0, 1 and 2 out of one loaded word, one store. Written as
+`x->f118 &= ~1; x->f118 &= ~4; x->f118 &= ~2;` the three bics all write r1;
+the source is otherwise identical (same order of masks, same single load and
+single store). A local accumulator collapses to `bic r1, r1, #7` (one bic, 36
+bytes); a pointer local to the field is rejected by this front end. The
+register alternation r1 -> r2 -> r1 looks like the same SSA-temporary artefact
+the docs record for other short chains, and it is 2 bytes.
+
+--------------------------------------------------------------------------------
+4. The 0x02072E7C / 0x02072E8C dependency (pkt_02072A44)
+
+    02072E7C  ldr ip, pool(0x02073438) / ldr r0, [r0] / bx ip
+    02072E8C  ldr ip, pool(0x02073484) / ldr r0, [r0] / bx ip
+
+both tail calls into pkt_020733E8, and each is the only witness its callee has
+(pool words 0x02072E88 and 0x02072E98). The plan was to match 0x02073438 --
+its own site resolves by the `literal` class *because* that pool word sits
+outside its range -- and then take 0x02072E7C through `matched`. 0x02073438
+itself came out 43 concrete bytes wrong in the guard:
+
+    02073438  push {r4, lr}        | compiled: push {r3, r4, r5, lr}
+              movs r4, r0          |           mov r5, r0
+              mov  r2, r1          |           ldrbne r2, [r5, #0x2c]
+              ldrbne r1, [r4, #0x2c]|          cmpne r2, #0
+              cmpne r1, #0         |           popeq
+
+The original keeps the object pointer in r4, moves the second argument into r2
+so that r1 is free, and loads the guarded byte into r1; the compiler puts the
+object in r5, keeps the argument in r1 and loads the byte into r2, so every
+register in the function is off by one slot. Inverted `if (v != 0) {...} else
+{...}`, split guards and a single `||` conjunction all reproduce the control
+flow and all shift the same way. Not pursued; as a consequence 0x02072E7C and
+0x02072E8C stay open (their only witness is a callee that is not EXACT), as
+does 0x02072E8C's sibling.

@@ -7,6 +7,144 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "func_02013610",
+   "address": "0x02013610",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02013610.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02013644",
+   "address": "0x02013644",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02013644.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02013678",
+   "address": "0x02013678",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02013678.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_020136AC",
+   "address": "0x020136AC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020136AC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_02013790",
+   "address": "0x02013790",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02013790.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02013790"
+   ]
+  },
+  {
+   "name": "unit_020137C0",
+   "address": "0x020137C0",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020137C0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_020137C0"
+   ]
+  },
+  {
+   "name": "unit_020137F0",
+   "address": "0x020137F0",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020137F0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_020137F0"
+   ]
+  },
+  {
+   "name": "unit_02013864",
+   "address": "0x02013864",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02013864.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02013864"
+   ]
+  },
+  {
+   "name": "unit_02013894",
+   "address": "0x02013894",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02013894.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02013894"
+   ]
+  },
+  {
+   "name": "unit_02013930",
+   "address": "0x02013930",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02013930.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02013930"
+   ]
+  },
+  {
    "name": "unit_02013A48",
    "address": "0x02013A48",
    "kind": "game_unit",

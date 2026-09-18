@@ -1,0 +1,42 @@
+pkt_020120B4 - func_020120B4 is called, not tail-called
+========================================================
+
+The packet's two functions are a pair: func_020120B4 releases the +0x08
+resource and func_020120C0 is a wrapper that calls it with three more
+arguments set up.  func_020120C0 is filed (parked MATCH on two single-pool
+data addresses); func_020120B4 is not, because of one difference that is not
+in the C at all.
+
+   020120B4  08 b5          push {r3, lr}
+   020120B6  80 68          ldr  r0, [r0, #8]
+   020120B8  1f f0 46 e9    blx  func_02031348
+   020120BC  08 bd          pop  {r3, pc}
+
+Written as the obvious
+
+    void func_020120B4(struct IcaAnime *p) { func_02031348(p->f8); }
+
+this front end emits a TAIL call instead - twelve bytes, no frame:
+
+   020120B4  80 68          ldr  r0, [r0, #8]
+   020120B6  01 4b          ldr  r3, [pc, #4]
+   020120B8  18 47          bx   r3
+   020120BA  c0 46 / <pool>
+
+which is the documented tail-call shape (one pool word plus `bx`, to the ARM
+callee as well as to a Thumb one).  The original has a real call with a frame,
+so its source has something that forbids the tail call - the value is used, or
+the callee's declared type differs from the caller's return.  Five spellings
+were tried (void callee, u32 return forwarded, the result bound to a local and
+returned, the call wrapped in an if, the field read through a second pointer)
+and all five come back as the same twelve-byte tail call or as a
+four-instruction sequence that is four bytes short.  It is worth one more look
+with a *differently typed* extern: `struct` return, or a `u64` return, is the
+cheapest thing that stops mwcc tail-calling.
+
+The block below 0x020120D8 - func_020120D8, 0x020120F0, 0x020120F4,
+0x020120F8, 0x02012104, 0x02012108, 0x0201210C, 0x02012110, 0x02012114 - is
+not in this packet: 0x020120B4..0x020120D8 is the whole of it, and those
+addresses sit in the gap before pkt_02012158.  Two of them were already
+matched elsewhere (layout/matched/arm9/pkt_02011EC0.json carries
+unit_020120F0), so the gap is somebody else's work list.

@@ -1,0 +1,112 @@
+pkt_02010DB4 (0x02010DB4..0x02010EC0) - the rotated-loop near miss
+=================================================================
+
+Three of this packet's four functions are byte-correct except for one
+construct, and it is the same construct in two of them: a constant-bound
+index loop that the ORIGINAL keeps in rotated form
+
+    i = 0
+    cmp  i, #13
+    bge  tail              <- the peeled entry test
+    body:
+      ...
+      i++ 
+      cmp i, #13
+      blt  body            <- the back edge targets the BODY
+
+while every C spelling tried comes back from dsi/1.1p1 -O4,p as an INVERTED
+(do-while) loop, i.e. with the entry test deleted because the compiler can
+prove the first iteration runs:
+
+    i = 0
+    body: ... i++ ; cmp i, #13 ; blt body
+
+A loop with one test at the top and one at the bottom is not reachable from
+the source shapes tried, and the shapes tried were not a token few. For
+func_02010DF4 (0x02010DF4, 28 bytes of code, 32 with its pool):
+
+  shape                                 verdict  size  residue
+  for (i = 0; i < 13; i++) f(i);        DIFF     28    no entry test
+  while (i < 13) { f(i); i++; }         DIFF     28    no entry test
+  do { f(i); i++; } while (i < 13);     DIFF     28    no entry test
+  i = 0; if (i >= 13) goto done;        DIFF     28    no entry test
+  loop: f(i); i++; if (i < 13) goto...  
+  for (i = 0; i < 13; i++) {            DIFF     32    1 BYTE
+      if (i >= 13) break; f(i); }       -- only the back edge differs:
+                                           original blt -> body (0x02010DFC),
+                                           this spelling blt -> the test
+  for (;;) { if (i >= 13) break; ... }  DIFF     32    13 bytes
+
+The one-byte case is the closest anything got: the redundant
+`if (i >= 13) break;` inside the loop stops the compiler deleting the entry
+test, so the size and every instruction but the back edge match. The back
+edge still targets the loop test instead of the body, which is a two-byte
+difference in the branch displacement (db f9 against db f7).
+
+func_02010DCC (0x02010DCC, 30 bytes of code, 40 with its two pool words) is
+the same loop with a table access, and there the residue is nine bytes: the
+same back-edge difference plus the invariant pool load for the table, which
+the original schedules BETWEEN the peeled entry test and the loop body
+(0x02010DD2, after the bge) while every spelling tried hoists it into the
+preheader, above the test. Same twenty-one spellings tried, all of them
+either 36 bytes (no entry test) or 40 bytes with that load two bytes early.
+
+What is NOT the cause, checked and excluded:
+
+  * the bound being a local instead of a literal (`int n = 13;`), const, or
+    an expression - folds identically;
+  * the counter's type - u32, u8, u16 all behave the same way;
+  * `i != 13`, `i <= 12`, `++i`, `i += 1` - same or worse;
+  * the pointer to the table being read inside the loop - still hoisted;
+  * an explicit `if (i < 13) { do/while }` pre-test - the compiler folds the
+    guard into the loop and inverts it anyway;
+  * two exits via a labelled block (the idiom for a non-rotated loop) - the
+    goto spellings are inverted too.
+
+Both functions are also blocked on attestation independently of this, so
+they could not be filed even byte-perfect:
+
+  * func_02010DCC's tail call is `ldr r3, [pc, #8]; bx r3; .word 0x02010FAD`,
+    and 0x02010FAC is an unlabelled two-byte `bx lr` leaf that NOTHING else
+    in the image names (no branch anywhere, and the word 0x02010FAD is in
+    this one pool only). The `label` class has no label, `literal` has no
+    second witness, and no cut helps - the caller is inside the range.
+  * func_02010DB4 calls func_02010DF4, whose only caller in the image is
+    func_02010DB4 itself, so that site is unattestable until 0x02010DF4 is
+    itself an EXACT manifest entry (src/pending/func_02010DB4.c documents
+    this). Once 0x02010DF4 is filed EXACT, that file graduates as written.
+  * func_02010DF4 itself has no attestation problem at all: g_02146228 is
+    `literal x13` and 0x02010F50 is `label x6`. It is one byte from EXACT.
+
+So the whole packet turns on the loop shape. Whoever closes it should look
+for the source-level difference between the loop at 0x02010DFC and the one
+at 0x020104F8 in packet pkt_0201045C, which IS inverted in the original and
+therefore reproduces from a plain `for` - the two are the same construct with
+different trip counts (3 against 13), so the discriminator is inside the
+compiler, not in the C.
+
+Best-effort sources for the record: the one-byte func_02010DF4 spelling is
+
+    void func_02010DF4(void)
+    {
+        int i;
+
+        for (i = 0; i < 13; i++) {
+            if (i >= 13)
+                break;
+            func_02010F50(i);
+        }
+        g_02146228.f1c = 13;
+    }
+
+and for func_02010DCC the 9-byte spelling is the same break guard around
+
+    for (i = 0; i < 13; i++) {
+        if (i >= 13)
+            break;
+        if (g_021461E8[i] > 1)
+            g_021461E8[i]--;
+    }
+    func_02010FAC();
+
+with the array unsigned (`g_021461E8` is `u32[13]`; the guard is `bls`).

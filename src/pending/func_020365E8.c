@@ -1,0 +1,66 @@
+/*
+ * PARKED AT DIFF.  Six instructions, and all six are colouring:
+ *
+ *   original                        best here
+ *   ldrsh r2, [r0, #12]             ldrsh r1, [r0, #12]
+ *   ldrsh r1, [r0, #14]             ldrsh r2, [r0, #14]
+ *   cmp   r2, r1                    cmp   r1, r2
+ *   ldrshgt r1, [r0, #14]           ldrgt r0, [r0, #4]
+ *   ldrgt r0, [r0, #4]              addgt r0, r0, r2
+ *   addgt r1, r2, r1                subgt r0, r0, r1
+ *   ldrshle r1, [r0, #14]           ldrshle r0, [r0, #14]
+ *   sub   r1, r1, r3   <- shared    sub   r0, r0, r1   <- in each arm
+ *   sub   r0, r0, r1
+ *
+ * The original loads the two signed halfwords into r2 then r1 and shares one
+ * subtraction; the pinned front end loads them into r1 then r2 and duplicates
+ * the subtraction into both arms.  Six source shapes were compiled, all with
+ * -O4,p / dsi/1.1p1: locals for one, both or neither field (the field is read
+ * twice in the source either way), the arms as two returns, as one shared
+ * `return v - a`, with the addition folded into the shared tail, and with the
+ * record declared `u8 *` and `u16 *`.  Every one lands on the same colouring
+ * residue.  src/matched/func_02036640.c is the 44-byte sibling of this
+ * function (it subtracts the same expression from p[4] as well) and matches,
+ * which is what says the arithmetic is right and only the colouring is not.
+ *
+ * function: func_020365E8
+ * address:  0x020365E8
+ * packet:   pkt_0203640C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * blocker:  register colouring of two s16 locals and one duplicated `sub`; invariant across six source shapes
+ *
+ * The difference between the two halfwords at +0x0C and +0x0E of the record,
+ * with the word at +4 added in when the first is the larger one:
+ *
+ *     a = p[0x0C]; b = p[0x0E];
+ *     return (a > b ? p[4] + b : b) - a;
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_020365E8.c \
+ *       --func func_020365E8 --addr 0x020365E8 --cc 1.1p1 --arm --diff
+ */
+
+typedef unsigned char  u8;
+typedef signed short   s16;
+typedef signed int     s32;
+typedef unsigned int   u32;
+
+s32 func_020365E8(u8 *p)
+{
+    s16 a;
+    s32 v;
+
+    a = *(s16 *)(p + 0x0C);
+    if (a > *(s16 *)(p + 0x0E))
+        v = (s32)*(u32 *)(p + 4) + *(s16 *)(p + 0x0E);
+    else
+        v = *(s16 *)(p + 0x0E);
+    return v - a;
+}

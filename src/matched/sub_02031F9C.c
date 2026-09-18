@@ -1,10 +1,11 @@
 /*
- * PARKED AT MATCH.  Every concrete byte is right; the one open site is the
- * `bl` to 0x02031EF8, whose only branch in the whole image is the one inside
- * this function (match.image_call_sites(0x02031EF8) == [0x02031FCC]), so the
- * `label` class has no outside witness and there is no literal, runtime or
- * manifest witness either.  It closes the day a second caller of 0x02031EF8
- * turns up or 0x02031EF8 itself is matched.
+ * PROMOTED TO EXACT.  This file was parked at MATCH because its only open
+ * relocation site was the `bl` to 0x02031EF8: that function's one and only
+ * branch in the whole image is the one inside this file
+ * (match.image_call_sites(0x02031EF8) == [0x02031FCC]), so the `label` class
+ * had no outside witness and there was no literal or runtime witness either.
+ * 0x02031EF8 is now matched itself (src/matched/func_02031EF8.c), so the site
+ * resolves in the `matched` class and every byte here is attested.
  *
  * function: func_02031F9C
  * address:  0x02031F9C
@@ -14,7 +15,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_02031EE8  0x02031EE8  arm
@@ -27,7 +28,7 @@
  * that footer, reached through 0x02031EE8, buf + (p->unk30 - 0x10).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02031F9C.c \
+ *   python tools/match.py one --src src/matched/sub_02031F9C.c \
  *       --func func_02031F9C --addr 0x02031F9C --cc 1.1p1 --arm
  */
 

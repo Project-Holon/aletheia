@@ -7,6 +7,78 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "unit_02011410",
+   "address": "0x02011410",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02011410.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02011410"
+   ]
+  },
+  {
+   "name": "func_020114D0",
+   "address": "0x020114D0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020114D0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "unit_02011558",
+   "address": "0x02011558",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02011558.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02011558"
+   ]
+  },
+  {
+   "name": "unit_02011590",
+   "address": "0x02011590",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02011590.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02011590"
+   ]
+  },
+  {
+   "name": "unit_02011610",
+   "address": "0x02011610",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02011610.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02011610"
+   ]
+  },
+  {
    "name": "func_020116C0",
    "address": "0x020116C0",
    "kind": "game",
