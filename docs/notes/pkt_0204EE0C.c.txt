@@ -1,0 +1,142 @@
+func_0204EE0C and func_0204EE64: register allocation residue, not codegen
+==========================================================================
+
+Closed near misses.  Both are byte-for-byte correct in structure, size and
+instruction selection; the residue is which register the allocator handed to
+one value, in the same run of instructions.
+
+The full C for both is at the bottom of this note.  func_0204EF58 and
+func_0204EFC8, the two wrappers that call them, are EXACT and are filed in
+src/matched/ - so these two are the only reason the range
+0x0204EE0C..0x0204F044 is not a single unit.
+
+func_0204EE0C (88 bytes, 0x0204EE0C)
+------------------------------------
+
+Everything matches except the register holding the loop's upper bound `n`
+(`ldrh` off the descriptor's +0xc):
+
+  image:  ldrh r4, [r0, #0xc]     n in r4, the one callee-saved register the
+          mov  ip, #0                   prologue pushes
+          cmp  r4, #0
+          ble  <fail>
+          ...
+          add  ip, ip, #1         i lives in ip
+          cmp  ip, r4
+          blt  <loop>
+
+  mwcc:   ldrh r3, [r0, #0xc]     n in r3, a scratch register, and no push
+          mov  ip, #0             (the prologue is `push {r4, lr}` in both,
+          cmp  r3, #0                   because r4 is the loop's other value)
+          ...
+
+Nine concrete bytes differ, all of them register fields.  Both readings use
+the same instruction count and the same loop rotation: `do { ... } while (i <
+n);` reached through `if (n <= 0) goto fail;`, which is what puts the entry
+test in the preheader and the back edge at the bottom.
+
+Tried, all landing on exactly those bytes: `int n` / `int i` / `struct Desc
+*base` in every declaration order (including one where n is declared before i,
+after i, and after `base`, and both with `= ...` initialisers and with the
+assignments split out); `u32 n` and `u32 i`; base bound at the declaration and
+at the assignment; the loop as `for`, as `while`, as `do/while`, and through
+`goto fail`; the entry read as `*(u16 *)&desc->count` and as the struct
+member.  The mwcc output is identical for every one of them.
+
+The one lever that does move it is the instruction-selection one, and it is
+already applied: the offset must be a named `u32 off = i * 0x28;` so the
+compiler emits the image's `mul` + `add` rather than a single folded `mla`.
+With the offset inline the function is 12 bytes short and every register
+shifts.
+
+func_0204EE64 (100 bytes, 0x0204EE64)
+-------------------------------------
+
+The first half matches exactly.  The tail (the two scaled fields) differs in
+five instruction slots:
+
+  image:  ldr  r2, [r4, #0x20]    the field's value in r2
+          lsl  r1, r0, #0x10      the call's result copied out of r0 into r1
+          lsl  r2, r2, #0x10
+          lsr  r2, r2, #0xd
+          lsr  r1, r1, #0xd
+          str  r0, [r4, #0x24]
+          str  r2, [r4, #0xc]
+          str  r1, [r4, #0x10]
+
+  mwcc:   ldr  r1, [r4, #0x20]    the field's value in r1
+          lsl  r2, r0, #0x10
+          lsl  r1, r1, #0x10
+          lsr  r3, r1, #0xd
+          lsr  r1, r2, #0xd
+          str  r0, [r4, #0x24]
+          str  r3, [r4, #0xc]
+          str  r1, [r4, #0x10]
+
+mwcc gives the *field's* value the lower register and the call's result the
+higher one plus a scratch; the image does the reverse.  Writing the two
+statements in the other order (`unk_10` before `unk_0c`) does swap the two
+value registers to the image's assignment, and then only the store order
+differs - mwcc stores +0x10 before +0xc, the image stores +0xc first - so
+source order alone cannot produce both.  Locals for the two values
+(`u32 a = slot->unk_20; u32 b = func_020473B8(handle);` and every ordering of
+them) all land on the same bytes.
+
+The scaling itself is `(u16)x * 8` and must be spelled with the cast at the
+use: it comes out as the unequal `lsl #16` / `lsr #13` pair
+(docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md),
+and `(x & 0xffff) << 3` would be two instructions and a `mov`.
+
+Both are otherwise complete: no attestation is involved, all call sites
+resolve as `label`, and every instruction in both functions is present.
+
+The C that gets to that point
+-----------------------------
+
+    struct Slot {
+        u8  pad_00[4]; u32 unk_04; u32 unk_08; u32 unk_0c; u32 unk_10;
+        u32 unk_14; u8 pad_18[8]; u32 unk_20; u32 unk_24;
+    };
+    struct Desc { u8 pad_00[4]; struct Slot *slots; u32 unk_08; int count; };
+
+    int func_0204EE0C(struct Desc *desc, u32 *out)
+    {
+        int n = *(u16 *)&desc->count;
+        int i = 0;
+        struct Slot *base;
+
+        if (n <= 0) {
+            goto fail;
+        }
+        base = desc->slots;
+        do {
+            u32 off = i * 0x28;
+            u32 v = *(u32 *)((char *)base + off);
+
+            if (v == 0) {
+                v = *(u32 *)((char *)base + off + 0x14);
+            }
+            if (v == 5) {
+                *out = i;
+                return 1;
+            }
+            i++;
+        } while (i < n);
+    fail:
+        *out = 0;
+        return 0;
+    }
+
+    void func_0204EE64(struct Slot *slot, u32 handle)
+    {
+        *(u32 *)&slot->pad_00[0] = handle;
+        if (func_02046FF8(handle) == 0) {
+            slot->unk_0c = 0;
+            slot->unk_10 = 0;
+            return;
+        }
+        slot->unk_20 = func_02047388(handle);
+        slot->unk_24 = func_020473B8(handle);
+        slot->unk_0c = (u16)slot->unk_20 * 8;
+        slot->unk_10 = (u16)slot->unk_24 * 8;
+    }

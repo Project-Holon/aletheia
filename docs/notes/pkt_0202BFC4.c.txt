@@ -1,0 +1,71 @@
+DIFF near-misses around func_0202BFC4 (pkt_0202BFC4, pkt_0202BF90,
+pkt_0202A1CC, pkt_0202B230, pkt_0202AF74, pkt_02020E60, pkt_02022F0C)
+
+All of these reproduce every instruction of the original and differ only in
+register numbering or in the scheduling of one pool load, so they are not in
+src/pending/ (which holds byte-correct MATCH-capped sources only).
+
+1. func_0202BFC4 @ 0x0202BFC4 (44 bytes)
+
+       u32 func_0202BFC4(u8 *p, u32 key)
+       {
+           u8 i;
+           for (i = 0; i < p[4]; i++) {
+               if (*(u16 *)(*(u32 *)(p + 8) + (i << 3)) == key) return i;
+           }
+           return 0xff;
+       }
+
+   2 bytes differ. The original keeps p live (r0) and re-reads p[4] at the
+   bottom of the loop into r3, i.e. i=r4, base=r2, bound reloaded; mwccarm
+   caches the bound in r2 and reuses r0 for the record pointer, i.e. i=r3,
+   base=r4, bound not reloaded. A do-while form does produce the reload but
+   moves the 0xff return to the top of the function. Same shape recurs in
+   func_0202A1CC and func_0202BF90: in the original the caller's pointer
+   survives the loop and the count is re-read, in the recompile it does not.
+
+2. func_0202BF90 @ 0x0202BF90 (48 bytes) - the AND-fold of the old and the new
+   record. Declaration orders tried: sel first, base first, both declared
+   uninitialised, u32 sel. Always p=r4/sel=r5/base=r2 where the original has
+   sel=r4/p=r5/base=r6 (and pushes no scratch word).
+
+2b. func_0202BF54 @ 0x0202BF54 (60 bytes) - latch the record func_0202BFC4
+   (an EXACT entry since 14:23) resolves. The signature is `(u8 *p, u32 key)`:
+   the key is the caller's second argument, not p[0xc]. With that fixed every
+   instruction reproduces and only the statement order inside the guard
+   differs - the original stores p[0xc] and *(u32 *)p = 1 *before* it loads the
+   record base, the recompile hoists `ldr r1,[r4,#8]` above the strb.
+
+3. func_0202A1CC @ 0x0202A1CC (64 bytes) - the same table scan with an
+   extra two-field filter; same register story, 25 bytes differ, 4 bytes
+   shorter.
+
+4. func_0202B254 @ 0x0202B254 (56 bytes) - the 12-byte struct compare.
+   `int diff = (src->a != x) || (src->b != y) || (src->c != z);` reproduces
+   the first two tests and inverts the last one: the original branches on
+   `bne` to a *shared* "1" block placed after a fall-through `movs r3,#0`,
+   the recompile branches on `beq` past an inline `movs r3,#1`. Tried: named
+   dst pointer, plain subscripts, `int diff = 0; if (...) diff = 1;`, the
+   ?: form, swapped operand order in every comparison, an if/else-if chain,
+   and `diff = A; if (!diff) diff = B; ...`. The if/else-if chain is the
+   closest shape but emits each arm's `movs r3,#1` inline.
+
+5. func_0202AF74 @ 0x0202AF74 (56 bytes) - product of three scale helpers
+   passed to func_0209C0A4 with the constant 0x3f01. Reaches DIFF only on the
+   two `muls` operand order plus the missing manifest entries for
+   func_0202AFAC / func_0202AFFC / func_0202B04C (the only callers are this
+   function and the thunk func_0202AF34, so nothing attests them).
+
+6. func_02020F20 @ 0x02020F20 (20 bytes) - `if (b > 0x272) b = 0;` then a
+   tail call to func_02049250. 2 bytes differ: the original materialises the
+   pooled 0x272 into r3 and then re-uses r3 for the tail-call target, the
+   recompile materialises it into r2 and uses r3 for the target.
+   func_02022F24 @ 0x02022F24 has the identical story (pooled 0x309 into r3
+   then r3 again for the target).
+
+7. func_0201F548 @ 0x0201F548 (12 bytes) - `data_0209E8CA[i]`. As a cast
+   constant mwccarm emits `ldrb r0,[r0,r1]`; the original encodes the table as
+   Rn. Declaring the table as a named extern array reproduces `ldrb r0,[r1,r0]`
+   exactly, but the pool word 0x0209E8CA then has no witness (the word appears
+   in this function's own pool only), so the file stays at MATCH. The chain
+   func_0201F53C <- func_0201F548 is capped on that same private data table.

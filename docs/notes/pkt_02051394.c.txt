@@ -1,0 +1,75 @@
+DIFF evidence, wave4-4 lane, window 0x02050000..0x02058000 and 0x02030000..0x02038000.
+
+func_02051394  0x02051394  96 bytes  ARM  pkt_02051394  verdict DIFF
+
+Publishes p into the current-context object (the global pointer at 0x02146A88,
+slot +0x44), then routes each of the object's two word fields at +0x18 and
++0x1C to one of two handlers on null:
+
+  *(u32 *)((char *)g_02146A88 + 0x44) = (u32)p;
+  if (*(u32 *)(p + 0x18) == 0) func_020528BC(*(u32 *)p);
+  else                         func_02052984(*(u32 *)p);
+  if (*(u32 *)(p + 0x1C) == 0) func_020528A8(*(u32 *)p);
+  else                         func_020528D0(*(u32 *)p);
+  *(u32 *)((char *)g_02146A88 + 0x44) = 0;
+
+The size is right and three of the five relocations resolve; two do not, and
+both are the same shape of blocker:
+
+  020528A8  no witness outside 02051394..020513F8
+  020528BC  no witness outside 02051394..020513F8
+
+0x02052984 and 0x020528D0 resolve by `label` (branches from outside the range
+exist).  The other two are 12-byte ARM pool-word stubs whose only in-image
+branch is this call, so neither `label` nor `literal` can attest them; they are
+pkt_020528A8 / pkt_020528BC, both parked at DIFF in src/pending, so matching
+either of them is what unblocks this file.  There is no cut that helps: both
+call sites are inside this single function section.
+
+func_02051838  0x02051838  72 bytes  ARM  pkt_02051838  verdict DIFF
+
+Three-word vector rebuild through a doubly-indirect table:
+
+  push {r4, lr}
+  ldr lr, [r0, #0x20]        ; the table pointer, loaded ONCE
+  ldr r4, [r1]               ; q[0]
+  ldr r2, [lr]               ; the inner pointer, re-read per statement
+  ldr r3, [r1, #4]           ; q[1]
+  ldr ip, [r2, #4]
+  ldr r2, [r1, #8]           ; q[2]
+  add r1, r4, ip
+  str r1, [r0, #0x28]
+  ldr r1, [lr]               ; re-read ...
+  ldr r1, [r1, #8]
+  add r1, r3, r1
+  str r1, [r0, #0x2c]
+  ldr r1, [lr]               ; ... and again
+  ldr r1, [r1, #0xc]
+  add r1, r2, r1
+  str r1, [r0, #0x30]
+
+The pointer at p+0x20 is common-subexpression-eliminated (one `ldr lr`), but
+its pointee is re-loaded after every store, because a store through p may alias
+it - the mirror image of
+docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
+
+What the source has to be: `*(u32 *)(*(u32 *)((u32)*(u32 **)(p + 0x20)) + k)`
+spelled per statement.  Spellings tried and the byte count each gave:
+
+  u32 *t = *(u32 **)(p + 0x20); sum over t[1..3]          60 bytes, no frame
+  *(u32 *)(p + 0x28) = q[0] + *(u32 *)(*(u32 *)(p + 0x20) + 4)   56 bytes (the
+      inner +4 folds into one load with displacement)
+  u32 **t = (u32 **)(p + 0x20); ... *(u32 *)(*t + 4)     56 bytes
+  ... *(u32 *)((u32)*t + 4)                              56 bytes
+  ... *(u32 *)((u32)**t + 4)                             68 bytes, 4 away:
+      right load count but the compiler keeps the three q loads in its own
+      order and needs no frame, where the original interleaves all three q
+      loads ahead of the first store and spends `push {r4, lr}` on it
+
+The 68-byte form is the closest; the remaining four bytes and the register set
+are the scheduler deciding how early the independent q loads issue, which the
+sources above do not control.
+
+func_02037680 (recorded in docs/notes/pkt_02037288.c.txt) is the same class of
+residue in the other window: 128 bytes, all six relocations resolved, six
+instructions of mla operand allocation.

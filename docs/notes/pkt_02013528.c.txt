@@ -1,0 +1,16 @@
+pkt_02013528 (0x020135C0) - documented near miss, no source filed
+==============================================================
+`func_020135C0(o, a1, a2, a3, a4, u16 a5)` reproduces everything except the
+tail: 22 concrete bytes, the compiled function two bytes short.
+
+The interesting finding is that the two calls to func_0201AC2C cannot share a
+fixed prototype.  The first site passes two registers
+(`ldr r1, [r5, #0x24]; movs r0, r4; bl`) and the second passes only r0
+(`adds r0, r6, #0; bl`) with r1 left as whatever the previous call returned.
+A two-parameter declaration makes the compiler emit `movs r1, #0` at the
+second site; the only declaration under which both sites emit exactly those
+bytes is a variadic one, `void func_0201AC2C(u32 a, ...)`.  With that
+declaration the calls land correctly, and the remaining difference is a
+register copy the original keeps before the +0x28 store
+(`adds r1, r0, #0; str r1, [r5, #0x28]` versus `str r0, [r5, #0x28]`), which
+binding the result to a named local did not recover.

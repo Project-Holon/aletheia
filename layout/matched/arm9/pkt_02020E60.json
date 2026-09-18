@@ -20,6 +20,42 @@
    "functions": [
     "func_02020F08"
    ]
+  },
+  {
+   "name": "func_02020F0C",
+   "address": "0x02020F0C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02020F0C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02020F10",
+   "address": "0x02020F10",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02020F10.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02020F14",
+   "address": "0x02020F14",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02020F14.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
   }
  ]
 }

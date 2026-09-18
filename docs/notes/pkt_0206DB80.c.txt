@@ -1,0 +1,15 @@
+pkt_0206DB80 (0x0206DB80..0x0206DBDC), wave4-3
+Parked (src/pending/func_0206DB80.c): func_0206DB80, 84 bytes.  No shard.
+
+The function drains a block described by the global at 0x0214BAB4 and is 88
+compiled against 92: mwccarm keeps the global's address in r4 across the
+func_02082AA8 call, grows the prologue push to save it and reuses it for the
+trailing store, where the original re-materialises it from its pool word twice
+more (`ldr r0, [pc, #0x34]` for the second test and `ldr r0, [pc, #0xc]` for
+the store).  It is the same address-reload residue as the 0x02148Bxx family in
+pkt_0206A12C.  All three call sites resolve and the two pool words (0x0214BAB4
+and the 0x04000400 literal) are reproduced correctly, so the difference really
+is only the register allocation.
+
+0x0206DB24, 0x0206DB40, 0x0206DB60 and 0x0206DBDC are the neighbouring packet
+pkt_0206DB40's functions and are not touched here.

@@ -1,0 +1,73 @@
+DIFF near-misses: func_0202BEEC and func_0202C148 (pkt_0202BEBC / pkt_0202C148)
+
+Neither is parked in src/pending/: both are byte-close but not byte-correct,
+so they live here as analysis records. (See also pkt_0202BEBC.c.txt and the
+per-function notes beside it.)
+
+func_0202BEEC @ 0x0202BEEC (104 bytes)
+
+    void func_0202BEEC(u8 *p, u32 heapId)
+    {
+        void *h = func_020490F4(0x88, (u16)((heapId & 0x7fff) | 0x8000));
+        int n = func_0204961C();
+
+        p[4] = (u8)n;
+        *(u32 *)(p + 8) = (u32)func_02030734(heapId, (u32)(n << 3), 0,
+                                             (const void *)0x020A7748, 0xd2);
+        if (n > 0) {
+            int i;
+            for (i = 0; i < n; i++) {
+                func_0204944C(h, (u32)i, 0, 8,
+                              (void *)(*(u32 *)(p + 8) + (u32)(i << 3)));
+            }
+        }
+        func_02049238(h);
+    }
+
+Every instruction reproduces; 46 bytes differ only in register numbering.
+The original assigns heapId=r4, p=r5, n=r6, h=r7. mwccarm 1.1p1 assigns
+n=r4, heapId=r5, p=r6, h=r7 for every source shape tried: value initialised at
+the declaration, declared then assigned separately, h/n declaration swapped,
+struct pointer for p, the count stored through a block, the loop counter moved
+into the for-init, u8/u32/s32 counters. The allocator hands the *local* the
+lowest callee-saved register and the parameters the higher ones here; in the
+original the parameters kept r4/r5. Nothing in the C flips that, so this is a
+codegen dead end until someone finds the shape that does. It is worth one more
+try because closing it closes func_0202BE68 and func_0202B63C with it.
+
+func_0202C148 @ 0x0202C148 (80 bytes) - needs func_0202C2EC and the
+func_0202C318 veneer, both already manifest entries.
+
+    void func_0202C148(u8 *p, u32 heapId)
+    {
+        u32 i;
+        int n;
+
+        n = func_02049030(0x93);
+        p[4] = (u8)n;
+        *(u32 *)(p + 8) = (u32)func_02030734(heapId, (u32)(n << 2), 0,
+                                             (const void *)0x020A7758, 0x13a);
+        for (i = 0; (int)i < n; i++) {
+            u8 *r = func_0202C2EC(heapId);
+            func_0202C318(r, i, heapId);
+            *(u32 *)(*(u32 *)(p + 8) + (i << 2)) = (u32)r;
+        }
+    }
+
+Register allocation matches (r6 = p, r7 = n, r5 = i, heapId spilled to
+[sp,#4]); the only difference is the schedule around the second call. The
+original is
+
+    0012  strb r7, [r6, #4]      ; p[4] = n
+    0014  adds r4, #0xa7         ; 0x13a derived from the 0x93 still in r4
+    0016  str r4, [sp]           ; line argument
+    0018  ldr r0, [sp, #4]       ; heapId
+    001A  ldr r3, [pc, #0x30]    ; file
+    001C  lsls r1, r7, #2        ; size
+
+while every shape tried hoists the heapId and file pool loads above the
+`strb`, costing the same two instructions in a different order. Declaring the
+file argument as a named local makes the hoist earlier, not later; `int n`
+declared uninitialised and assigned on its own line is what fixed the register
+numbering (with `int n = call();` the parameter p landed in r7 instead of r6).
+Closing func_0202C148 closes func_0202C070 and func_0202B64C.

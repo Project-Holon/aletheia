@@ -1,0 +1,24 @@
+pkt_02068FF0 (0x02068FF0..0x020694D8), wave4-3
+Parked (src/pending/, blockers in the headers): func_02068FF0, func_02069128,
+func_02069184.  Nothing filed EXACT, so this packet has no shard.
+
+func_02069184 (92 bytes) is pure arithmetic with no relocations and comes out
+at the right size with the right instruction sequence - the only residue is the
+seed of the four-product chain: the original emits an explicit zero
+(`mov r2, #0` then `mla lr, r3, r5, r2`), where every spelling used here
+(`u32 r = 0;` with `+=`, one sum expression, an `int` accumulator, the product's
+two operand orders) is folded to a bare `mul ip, r3, r5` and every later
+register shifts by one.  That is the "what does the accumulator start from"
+tell, and it is not reachable from C when the compiler can see the zero.
+
+func_02069128 (92 bytes) is the triangular fill: row y writes w - y halfwords,
+the inner counter starting from the outer index (`mov r4, r6` / `mov r5, r4`).
+The loop pair and the value are right; the source that starts the inner count
+from y is not.
+
+func_02068FF0 (128 bytes) is a clz pair plus a two-index byte table.  The
+`clz` + `rsb #0x1f` sequence is the front end's `__cntlz` intrinsic, and it does
+compile here, so that part of the spelling is real; the frame still does not
+close, and the entry is evidence-capped anyway: the ABS32 g_020A18E8 at +0x74
+appears in exactly one literal pool in the whole image, its own, so no C can
+ever take it past MATCH.

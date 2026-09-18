@@ -28,3 +28,32 @@ Two further residues worth naming:
   * func_0206A17C: the original loads the word at +44 *after* the strh and
     reuses r2 (the halfword temp) for it; every order tried hoists the load
     and uses r3.
+
+------------------------------------------------------------------------
+wave4-3 (1 function filed, 8 more re-verified and parked)
+------------------------------------------------------------------------
+Filed EXACT: func_0206A884 (0x0206A884, 100).
+
+func_0206A884 is a four-call registration block (0x1610/0x11, 0x19/0xC,
+0x10/0x1 with the address of a one-word local, 0x15/0x20) ending in
+`g_02148B4C[63] = (g_02148B4C[63] & ~1) | 2`.  All four object addresses
+resolve through *other* pools (0x0206A9C0 for 0x02148B50, 0x0206A9D4 for
+0x02148BC8), so the entry is clean and needs no split.
+
+What it cost was where the one-word local is declared.  Written at the top of
+the block, the compiler puts `mov r3, #2` / `str r3, [sp]` before the *first*
+call; the original has both immediately before the third call, i.e. the
+declaration sat at its first use.  This front end refuses that as a mixed
+declaration after a statement even at `-lang c99` ("expression syntax error"),
+so the spelling that works is a nested block: `{ int v = 2; f(0x10, &v, 1); }`.
+Same frame, same instructions, one schedule.
+
+The five re-verified parks (func_0206A17C, func_0206A854, func_0206A9DC,
+func_0206AA0C, func_0206AAD4, func_0206AD20, func_0206ADBC, func_0206ADF4) are
+all still DIFF; their blockers, unchanged, are in their headers.  Two spellings
+were added to the address-reload list for func_0206ADBC/ADF4 (the symbol named
+twice in one expression, and `volatile` on the single store): still 52 compiled
+against 56.
+
+The idiom that came out of this packet is written up as
+docs/idioms/a-local-declared-at-its-first-use-schedules-its-store-there.md.

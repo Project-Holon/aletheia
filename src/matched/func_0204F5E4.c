@@ -9,27 +9,23 @@
  * isa:      arm
  * status:   EXACT
  *
- * Read the record's low-14-bit field out to the caller's halfword.  Its
- * lsl #18 / lsr #18 pair is the same 14-bit bitfield as func_0204F5A8.
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it.
  *
- * symbols:
- *   none (no external calls, no data references)
+ * Fourteen-bit field getter on the 0x1c-byte entries at +8: the shift pair
+ * is an equal `lsl #0x12` / `lsr #0x12`, i.e. a mask that is not an ARM
+ * immediate, and the stride is spelled as byte arithmetic so it comes out as
+ * `mul` rather than `mla`.
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Rec {
-    u16 lo : 14;
-    u16 hi : 2;
+struct F14 {
+    u16 f0 : 14;
+    u16 f1 : 2;
 };
 
-void func_0204F5E4(void *p, u32 idx, u16 *dst)
+void func_0204F5E4(u8 *a0, int i, u16 *out)
 {
-    struct Rec *r = (struct Rec *)(*(u8 **)((u8 *)p + 8) + idx * 0x1c);
-
-    *dst = r->lo;
+    *out = ((struct F14 *)((u8 *)*(u32 *)(a0 + 8) + i * 0x1c))->f0;
 }

@@ -1,0 +1,6 @@
+pkt_0206DF3C (0x0206DF3C..0x0206E348), wave4-3
+Nothing filed and nothing parked: two open functions, 384 and 644 bytes, both
+over the 128-byte budget.  The 8-byte gap between them (0x0206E0BC..0x0206E0C4)
+is the first function's literal pool (0x02148B54, 0x02068FC4's address), not an
+unlabelled leaf, so there is nothing in this range at this budget and no shard
+exists for it.

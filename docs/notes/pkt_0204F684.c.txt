@@ -86,3 +86,24 @@ bit write, four instructions apart.
 Separately: this front end rejects mid-block declarations despite `-lang c99`
 ("expression syntax error" on the declaration after a statement), so a store
 can never be squeezed between two declaration groups.
+
+Re-derived in wave 4-2 (pkt_0204F684), same verdict, and these further
+spellings were ruled out on top of the list above:
+
+  * the two source halfwords read into `short` locals, into `u16` locals, and
+    into `u32` locals, before either store
+  * the two destination addresses bound to `short *` locals first, then one
+    store per arm
+  * the scaled index inline as `i * 0x1c` (that one is 4 bytes short of even
+    the ip form, because the multiply then folds)
+  * the record as `struct Ent { u8 pad_00[0x18]; u16 f0 : 5; u16 f1 : 4;
+    u16 f2 : 1; u16 f3 : 6; u8 pad_1a[2]; }` with `e[i].f12` / `e[i].f14`
+    member stores and with `&e[i]` bound to a local
+  * the base re-read written as `((struct E28 *)*(u32 *)(a0 + 8))[i]`
+    (the array form does produce the image's `mov #0x1c` + `mul`, which is
+    where the stride comes from, but not the lr/ip split)
+
+The stride is `i * 0x1c` with the multiply in its own register, so the record
+type's sizeof must be 0x1c for the encoder to emit the image's `mov r0, #0x1c`
++ `mla` pair in the three sibling accessors - see src/matched/unit_0204F6B4.c,
+which reproduces 0x0204F6B4..0x0204F720 (108 bytes, three unlabelled leaves).

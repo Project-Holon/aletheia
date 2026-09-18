@@ -17,6 +17,18 @@
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT*"
+  },
+  {
+   "name": "func_0204D53C",
+   "address": "0x0204D53C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0204D53C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
   }
  ]
 }

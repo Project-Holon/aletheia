@@ -48,3 +48,24 @@ spelling, the three files are two instructions apart from EXACT.
 
 Both functions are leaf-free: no calls, no data relocations, so nothing here is
 blocked on evidence -- only on this ordering.
+
+Re-derived in wave 4-2, same verdict, with these further spellings ruled out on
+top of the list above (all 40 compiled bytes with the same two-instruction
+residue, 8 concrete bytes):
+
+  * the source address bound to a `u8 *` local, to a `void *` local, and to a
+    `u32 *` local before the assignment
+  * the destination written with an explicit `+ 0`
+  * the argument read through a subscript (`((struct Blk *)src)[0]`)
+  * `memcpy(dst, (char *)src + 0x1c, 0x24)` with the source bound first - the
+    inlined memcpy does not produce the image's sequence either (it uses r0-r2
+    and a different order)
+  * an intermediate `u32 off = i * 0x28`-style offset local, a `short`/`u16`
+    value local, and the destination member access through a typed struct
+
+Stopped at round two: every shape lands on `mov lr, r1` / `add ip, r0, #0x1c`
+with mwcc and on the reverse in the image, and the operands are the same
+registers, so it is an emission order below the source text, not a C shape.
+See also docs/notes/pkt_0204F150.c.txt, docs/notes/pkt_0204F684.c.txt and
+docs/notes/pkt_0204F7DC.c.txt - the same hoist-the-address/defer-the-load
+pattern, four functions in this region.

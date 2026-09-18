@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020127A4
+ * function: func_020127A4, func_020127AC
  * address:  0x020127A4
  * packet:   pkt_020124F4
  * region:   arm9

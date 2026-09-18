@@ -1,0 +1,56 @@
+DIFF evidence, wave4-4 lane, packet pkt_020520A4 (window 0x02050000..0x02058000).
+
+Three near misses in this packet.  All of them reproduce the right instructions
+and differ only in register choice or frame padding, so none is a source-shape
+problem that another spelling was able to reach.
+
+func_020520A4  0x020520A4  88 bytes  (compiled 92, one instruction long)
+
+Three signed fixed-point multiplies of a 3-vector by one scalar:
+`out[k] = (int)(((long long)v[k] * s + 0x800) >> 12)`.  The 64-bit product,
+the `adds`/`adc` round step and the `lsr #12` + `orr ... lsl #20` truncation
+all reproduce.  The residue is scheduling:
+
+  ORIGINAL                                       COMPILED
+  push {r3, r4, r5, lr}                          push {r3, lr}
+  ...
+  smull lr, r4, ip, r1     ; lane 1 product      smull lr, ip, r3, r1
+  adds r5, lr, #0x800                            adds lr, lr, #0x800
+  smull lr, ip, r3, r1     ; lane 2 product      (lane 1 finished, stored)
+  adc r3, r4, #0
+  ...
+  stm r2, {r4, ip}         ; two lanes in one stm  str ip, [r2] / str ip, [r2, #4]
+
+The original software-pipelines the three lanes (lane 1's high half is still
+live while lane 2's smull issues) and merges two adjacent stores into one
+`stm`, which is what forces the 16-byte frame; the compiled form finishes and
+stores each lane in turn, needs fewer live values and a smaller frame.  Same
+18 instructions' worth of work, different overlap.
+
+func_02052274  0x02052274  112 bytes  (compiled 104)
+
+Pairs the byte streams at a and b, offering a + i*2 and b + j to
+func_020522E4 with a stack scratch pre-loaded from i; j advances by two when
+the callee answers 1, by one otherwise, and a scratch of 1 ends the walk.
+Note the stride on the first stream is two, not one (`add r0, sl, r6, lsl #1`).
+The residue is the callee-saved set: the original keeps a in sl and b in sb
+(r4..r8, sb, sl live) and pads with `sub sp, #4`, the compiled form keeps a in
+sb, b in r8 and needs no padding.  It also leaves the call site unresolved -
+0x020522E4 is this packet's other function (440 bytes, pkt_020520A4) and has
+no branch to it from outside the range - so even a perfect allocation would
+cap at MATCH until 0x020522E4 is matched.
+
+func_020524C8  0x020524C8  68 bytes  (compiled 48)
+
+List walk over p+4: `if (q == 0) return; do { n = *q; func_0205250C(p, q);
+q = n; } while (n != 0);`.  The original's frame is `push {r4, r5, lr}` plus
+`sub sp, sp, #4` (12 bytes of saved registers, then a 4-byte pad to the 8-byte
+ABI alignment), with the deceptively long `addeq sp, sp, #4` / `popeq` /
+`bxeq lr` epilogue; the compiled form pads by pushing r3 instead
+(`push {r3, r4, r5, lr}`) and so returns through a single `popeq {r3, r4, r5,
+pc}`.  Twenty bytes of pure frame shape.  Spellings tried: `n` declared with
+the loop, `n` declared before it, the loop test on `n` and on `q`, and moving
+the initialiser out of the declaration; all four give the same 48 bytes.
+
+The one call site resolves by the `literal` class, so this function is a frame
+spelling away from EXACT.

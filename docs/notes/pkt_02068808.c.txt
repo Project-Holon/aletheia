@@ -1,0 +1,30 @@
+pkt_02068808 (0x02068808..0x02068FC4), wave4-3
+Filed EXACT (pre-existing): func_02068FC4 (0x02068FC4, 40).
+Parked (src/pending/, blockers in the headers): func_02068A18, func_02068A68,
+func_02068E78.
+
+The packet is the NNS G2D-style fill engine: four of its seven open functions
+are over the 128-byte budget (0x02068808, 0x02068AE8, 0x02068C84, 0x02068EA0),
+so the work here is the three small ones.
+
+func_02068A18 / func_02068A68 are the 4bpp/8bpp pixel-expansion pair, and they
+are blocked on one allocator behaviour rather than on the arithmetic: the two
+arms of `if (bpp == 4)` share the `| (x << 8)` step, and mwccarm factors that
+step out into a single unpredicated `orr lr, r1, r1, lsl #8` fed by an
+`orreq`-computed base.  The original keeps both arms predicated into one
+register (`orreq r0,r0,r0,lsl #8` / `orrne r0,r1,r1,lsl #8`) and pays four more
+bytes for it.  Nested temporaries, a single expression per arm, else-first
+order and writing through the parameter all produce the factored form; the
+source shape that prevents the merge was not found.  See also
+docs/idioms/a-factored-tail-lets-the-compiler-predicate-the-arms.md, which is
+the same family of decision.
+
+func_02068E78 is the seven-argument frameless initialiser (four registers,
+three stack words, nine separate stores).  mwccarm gives it `push {r4,lr}` and
+merges the two adjacent word stores at +0x10/+0x14 into an `stm`, so the whole
+register assignment differs; four statement orders were tried by the previous
+lane and two more here (descending store order, and splitting the last pair
+across a local), all merge.
+
+0x02068A18 / 0x02068A68 / 0x02068E78 all have every relocation resolved; the
+residue is codegen only, so none of them is evidence-starved.

@@ -1,0 +1,46 @@
+DIFF evidence, wave4-4 lane, window 0x02030000..0x02038000.
+
+func_02036568  0x02036568  128 bytes  ARM  pkt_02036568  verdict DIFF
+
+Both of its relocation sites resolve (`label`, two calls to 0x02036624) and the
+size is exactly 128 bytes, so attestation is not the blocker; the residue is
+seven instructions of loop-body scheduling after the second call:
+
+  ORIGINAL                                  COMPILED
+  +0054  ldr r2, [sb]          ; array base   ldr r1, [sb]
+  +0058  ldrsh r1, [sb, #0xc]  ; fresh bound  add r4, r4, #1
+  +005C  ldrb r2, [r2, r0]                     ldrb r0, [r1, r0]
+  +0060  add r4, r4, #1                        strb r0, [r8, r5]
+  +0064  add r0, r1, r7                        ldrsh r0, [sb, #0xc]
+  +0068  strb r2, [r8, r5]                     add r5, r5, #1
+  +006C  cmp r4, r0                            add r0, r0, r7
+  +0070  add r5, r5, #1                        cmp r4, r0
+
+The source shape is settled and reproduces the preheader, the shared `||` exit
+(`cmp r1, r0` / `cmpne r5, r6` / `moveq` / `popeq`, the
+docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md tell) and
+the whole epilogue:
+
+  int i = *(short *)(p + 0x0C);
+  int c = 0;
+  while (i < *(short *)(p + 0x0C) + n) {
+      if (*(short *)(p + 0x0E) == func_02036624(p, i) || c == mode)
+          return c;
+      dst[c] = *(u8 *)(*(u32 *)p + func_02036624(p, i));
+      i++;
+      c++;
+  }
+  return c;
+
+The bound is the field re-read inside the loop (a bound bound to a local before
+the loop comes out with no reload at all), which is what the original's
+`ldrsh r1, [sb, #0xc]` in the body shows.  Spellings tried, all 128 bytes and
+all with this same seven-instruction residue: the increments in the body, in a
+`for` clause, swapped, and the value of the destination store bound to a
+`u8 v` local first.  The schedule that issues the bound load between the base
+load and the value load, and the store after the increment, is not reachable
+from the source.
+
+This one matters beyond itself: 0x02036568 is the blocker of the parked
+func_020364D4 (src/pending/func_020364D4.c), which promotes to EXACT the day
+this entry exists.

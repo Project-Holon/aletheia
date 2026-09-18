@@ -1,0 +1,38 @@
+DIFF evidence, wave4-4 lane, window 0x02030000..0x02038000.
+
+func_02037680  0x02037680  128 bytes  ARM  pkt_02037288  verdict DIFF, 6 instructions
+
+Every concrete byte matches except one six-instruction window at +0x34..+0x48,
+where the original allocates the two operands of an mla the other way round:
+
+  ORIGINAL                                COMPILED
+  +0034  ldr r1, [r6]                     ldr r2, [r6]
+  +0038  ldr r2, [r1, #0x1e0]             ldr r1, [r2, #0x10]
+  +003C  ldr r0, [r1, #0x10]              ldr r0, [r2, #0x1e0]
+  +0040  add r3, r1, #0x4c                add r2, r2, #0x4c
+  +0044  mla r1, r5, r2, r0               mla r1, r0, r5, r1
+  +0048  add r0, r3, r5, lsl #4           add r0, r2, r5, lsl #4
+
+Both compute `i * g->0x1e0 + g->0x10` (r5 = i).  The original loads the
+multiplicand 0x1e0 first and keeps the global's value (r1) live while it forms
+the argument-1 base in a *third* register (r3), finishing arg1 after the mla;
+the compiled form evaluates the addend `g->0x10` first, reuses the global's own
+register for the base, and therefore materialises arg1 early.  It is the same
+value in a different register set, and it is scheduling rather than source:
+below the front end.  Spellings tried, all identical output at 128 bytes and
+this same six-instruction residue:
+
+  * `i * *(u32*)((char*)g_021469D0 + 0x1E0) + *(u32*)((char*)g_021469D0 + 0x10)`
+  * `*(u32*)(... + 0x1E0) * i + *(u32*)(... + 0x10)`
+  * the multiplicand bound to a `u32 m` local first
+  * the addend written on the left: `*(... + 0x10) + i * m`
+  * typed field access through a `struct G37680 { char pad0[0x10]; u32 f10;
+    char pad1[0x1CC]; u32 f1e0; }` so the compiler sees `g->f1e0` / `g->f10`
+
+The global is re-read from its own object four times in the original (+0x28,
++0x34, +0x50, +0x5C), so no source spelling may cache `g_021469D0` in a local;
+spelling every use as the global expression reproduces the rest of the function
+byte for byte.  All six relocations resolve (three `label` calls, `literal`
+x180 for 0x021469D0, x30 for 0x020A7A24, `string` for 0x020A7A34), so the
+attestation side is not the blocker and the entry is 6 instructions short of
+EXACT.

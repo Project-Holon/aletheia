@@ -1,0 +1,15 @@
+pkt_02011688 (0x02011688) - documented near miss, no source filed
+===============================================================
+54 bytes, calls the ARM helper func_0209C2B0 and copies a 12-byte record out.
+Every instruction is right in shape; 16 bytes differ in register numbering.
+What the original pins, and what the obvious C does not reproduce:
+
+* the helper's return is used as a 64-bit pair - the high half only - which
+  shows as `adds r2, r1, #0` immediately after the call, so the prototype is
+  `u64 func_0209C2B0(u32, u32)` and the index is `(u32)(v >> 32) * 12`;
+* the object's +0x1c table pointer is loaded ONCE and then used first as
+  `ldr r0, [r1, r3]` (base + register offset) and then materialised with
+  `adds r1, r1, r3` for the +4 and +8 loads.  Binding the base to a local
+  (which is required, otherwise the stores through `dst` force a reload of
+  +0x1c before every store) took the diff from 50 bytes to 16 but no
+  further; the residual is the pair-vs-pointer addressing choice.

@@ -1,0 +1,166 @@
+pkt_0203CDD4 near misses (wave 4 lane 0x02038000..0x02040000)
+=============================================================
+
+0x0203CEAC  func_0203CEAC  84 of 88 bytes, DIFF
+-----------------------------------------------
+This one is four bytes short and it is a scheduling decision, not a missing
+statement or a wrong constant.
+
+The original:
+
+  0203CEAC  push {r3, r4, r5, lr}
+  0203CEB0  mov  r5, r0
+  0203CEB4  bl   0x203d788
+  0203CEB8  mov  r4, r0
+  0203CEBC  bl   0x203da20
+  0203CEC0  cmp  r4, #0
+  0203CEC4  beq  0x203cef8          <- the out-of-line `return 0`
+  0203CEC8  ldrb r0, [r4, #0x65]
+  0203CECC  str  r5, [r4, #0x348]
+  0203CED0  cmp  r0, #1
+  0203CED4  bne  0x203cee4
+  0203CED8  ldr  r0, [pc, #0x20]    <- 0x0203CDD4, loaded in this arm
+  0203CEDC  bl   0x203c774
+  0203CEE0  b    0x203ceec
+  0203CEE4  ldr  r0, [pc, #0x14]    <- the same pool word again, second load
+  0203CEE8  bl   0x203bf9c
+  0203CEEC  bl   0x20370c8
+  0203CEF0  mov  r0, #1
+  0203CEF4  pop  {r3, r4, r5, pc}
+  0203CEF8  mov  r0, #0
+  0203CEFC  pop  {r3, r4, r5, pc}
+  0203CF00  .word 0x0203CDD4        (one pool word, both loads use it)
+
+What every spelling tried so far produces instead:
+
+  0203CEC8  ldrb r0, [r4, #0x65]
+  0203CECC  cmp  r0, #1             <- the compare is hoisted above the store
+  0203CED0  str  r5, [r4, #0x348]
+  0203CED4  ldr  r0, [pc, #0x20]    <- ONE load, shared by both arms
+  0203CED8  bne  0x203cee4
+  ...
+
+so the compiled range is 84 bytes against the original's 88.  The pool holds a
+single word in both cases; the difference is only that mwcc commoned the one
+`ldr` out of the two arms while the original reloads it per arm and keeps the
+compare below the store.
+
+Spellings tried and their result (all 84 bytes, same single residue):
+
+  if (s == 0) return 0; with s->unk348 = a then if (s->unk65 == 1) ... 
+      -> `moveq r0,#0 / popeq`, i.e. the early return is if-converted
+  if (s != 0) { body; return 1; } return 0;
+      -> the out-of-line `return 0` comes back and the residue is exactly the
+         compare/load hoist above
+  u8 t = s[0x65];  ... str ... if (t == 1)         (temp, load first)
+  u32 t = s[0x65]; ... str ... if (t == 1)
+  switch (t) { case 1: ...; default: ...; }
+  the two call arguments written as (u32)func_0203CDD4 instead of 0x0203CDD4
+      -> mwcc folds the extern's address back to a constant and the object no
+         longer even carries the relocation
+
+So the file parked nowhere is this one: it is a DIFF, not byte-correct, and it
+is recorded here rather than in src/.  It is also not a witness for anything
+(the two callers of 0x0203CEAC, 0x0203BDEC and 0x0203BE5C, are both matched
+independently).
+
+0x0203CF04  eight bytes, an ARM long-branch veneer, not C
+---------------------------------------------------------
+The worklist carries 0x0203CF04 as an eight-byte open function in this packet
+and it is not compilable C:
+
+  0203CF04  ldr ip, [pc, #0]        E59FC000
+  0203CF08  bx  ip                  E12FFF1C
+  0203CF0C  .word 0x0203BFF0
+
+That is exactly the ARM linker-stub shape docs/MATCHING.md recognises (its
+pointer word was chosen by mwld, not by a compiler), so no source reproduces
+it and no `tu` range may span it.  Its target, 0x0203BFF0, is a real 28-byte
+leaf that saves no `lr` and so carried no label; it is matched now, as the
+second function of src/matched/unit_0203BF9C.c (0x0203BF9C..0x0203C010).
+Reported as an unlabelled/veneer leave rather than matched.
+
+Unlabelled leaves and veneers found in this window (for layout/function_starts.txt)
+-------------------------------------------------------------------------------
+matched by this lane as unit members:
+
+  0x0203BFF0  28 bytes   clears the +0x51 flag; tail of unit_0203BF9C.c
+  0x0203C00C   4 bytes   `bx lr`; the card task callback of func_0203C010
+  0x0203C8E8  20 bytes   stores a byte at +0x4F; middle of unit_0203C8A8.c
+
+still unlabelled, all in the packets of this window:
+
+  0x0203CFF0  16 bytes  ldr ip,[pc,#4]; mov r1,#1;  bx ip; .word 0x0203B0C4
+  0x0203D000  16 bytes  ldr ip,[pc,#4]; mov r1,#0;  bx ip; .word 0x0203B0C4
+      - these two are the ARM tail call *with one argument*, which is
+        compilable C (`extern void t(u32); void f(void) { t(1); }`); they save
+        no lr, so disasm.py never labelled them.
+
+  0x0203D010  -> 0x0203B1B0     0x0203D0AC -> 0x0203E5AC
+  0x0203D0B8  -> 0x0203DBB0     0x0203D0C4 -> 0x0203DA68
+  0x0203D14C  -> 0x0203BD30     0x0203D158 -> 0x0203E4E8
+  0x0203D164  -> 0x0203E538     0x0203D170 -> 0x0203E590
+      - twelve bytes each of `ldr ip,[pc,#0]` / `bx ip` / pointer word, i.e.
+        mwld long-branch stubs.  They are the recognised ARM veneer shape, so
+        they are not compiled C and no `tu` range may span them; the four
+        starting at 0x0203D14C are what make src/matched/func_0203D12C.c an
+        EXACT* rather than an EXACT (its extent runs 0x0203D12C..0x0203D17C,
+        80 bytes, of which the last 48 are these stubs).
+
+
+The near-complete source, for whoever picks this up (it is NOT in
+src/: it is a DIFF, and the notes file is where a DIFF belongs):
+
+/*
+ * function: func_0203CEAC
+ * address:  0x0203CEAC
+ * packet:   pkt_0203CDD4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_021469DC     0x021469DC  data
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203CEAC.c \
+ *       --func func_0203CEAC --addr 0x0203CEAC --cc 1.1p1 --arm
+ */
+
+typedef signed char   s8;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int  u32;
+
+extern u8 *g_021469DC;
+extern u8 *func_0203D788(void);
+extern void func_0203DA20(void);
+extern void func_0203C774(u32 a);
+extern void func_0203BF9C(u32 a);
+extern void func_020370C8(void);
+
+int func_0203CEAC(u32 a)
+{
+    u8 *s = func_0203D788();
+
+    func_0203DA20();
+
+    if (s != 0) {
+        *(u32 *)(s + 0x348) = a;
+
+        if (s[0x65] == 1)
+            func_0203C774(0x0203CDD4);
+        else
+            func_0203BF9C(0x0203CDD4);
+
+        func_020370C8();
+        return 1;
+    }
+
+    return 0;
+}

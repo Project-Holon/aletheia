@@ -1,0 +1,34 @@
+pkt_0206E9A4 (0x0206E9A4..0x0206EACC), wave4-3
+Filed EXACT: func_0206EA58 (0x0206EA58, 116).
+Parked (src/pending/, blockers in their headers): func_0206E9A4, func_0206EA00,
+func_0206EA2C.
+
+func_0206EA58 closes on the first attempt.  It is the bucket search of the
+BTX0-style family that src/matched/func_0206EACC.c belongs to, and it confirms
+the two idioms that file's header records: the entry stride is four *bytes* and
+has to be spelled through a byte pointer (`*(u16 *)(t + i * 4)`), and the two
+walks are one `while` each whose second term loads - the emitted shape is the
+rotated form the compiler gives a conjunction, not a hand-written loop.  The
+`s16` read of the scale factor at +4 is what makes the multiply signed.
+
+func_0206E9A4 is the same family one indirection deeper and lands 6 bytes short
+of 92: both guards as `goto`s and the shared `mov r0, #0; bx lr` tail are
+reproduced, and only the register the entry lands in differs - the original
+keeps it in r1 (`mla r1, r0, r1, r2`, then `mov r1, #0`, `cmp r1, #0`,
+`ldrne r0, [r1]`), this spelling gets r0.  Flipping the product's operand order
+and declaring the entry as a pointer both come out the same, so the allocation
+is driven by something not visible in the source.
+
+func_0206EA00 / func_0206EA2C were parked by wave2-F and re-verified here: 44
+bytes each, 40 compiled, the fail block last in the original and the
+three-instruction body predicated by mwccarm in every spelling.  The `||` form
+is the only one that keeps both branches and lays the fail block *before* the
+body, four bytes early.  The `goto` form tried here (a second label at the
+return, not at the `ent = 0` block) narrows func_0206E9A4's residue but does not
+move theirs.
+
+Two housekeeping facts about this packet: its two parked files carried the
+historical packet id pkt_0206E964 and now name pkt_0206E9A4, and the stale
+src/matched copies of both (headers claiming EXACT while the tool says DIFF -
+which is how the pkt_0206E9A4 shard came to carry two non-EXACT entries) were
+removed.  The shard now carries func_0206EA58 alone.

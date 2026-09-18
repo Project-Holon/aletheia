@@ -1,0 +1,19 @@
+pkt_0206EB00 (0x0206EB00..0x0206F4C8), wave4-3
+Parked (src/pending/, blockers in the headers): func_0206EB00, func_0206EB7C.
+No shard - nothing in the packet is EXACT.
+
+Only two of the eight open functions are inside the 128-byte budget; the other
+six run from 140 to 940 bytes.
+
+func_0206EB7C is the wave2-F near miss, re-verified unchanged (60 compiled
+against 60; the `- 1` arm recomputes the shift instead of reusing the shifted
+value).  It is parked here as well as in docs/notes/pkt_0206E964.c.txt because
+the tool still disagrees with the header that lane left behind, and because its
+call to func_0206EE60, whose only branch in the image is that one, could not
+reach EXACT even if the codegen closed.
+
+func_0206EB00 is 124 compiled against 120: the halfword loop is recognisable
+but the clear call's argument order (fill value in r0, destination in r1) and
+the register the row cursor lands in do not reproduce.  Its ABS32 g_020A8224 is
+also named by exactly one pool word in the image, its own, so the entry is
+evidence-capped as well.

@@ -1,0 +1,13 @@
+pkt_0206DC00 (0x0206DC00..0x0206DF14), wave4-3
+Nothing filed and nothing parked: this packet has three open functions and all
+three are over the 128-byte budget (0x0206DC00, 404 bytes; 0x0206DDA4, 220;
+0x0206DE88, 132).
+
+The three gaps between them (0x0206DD94..0x0206DDA4, 0x0206DE80..0x0206DE88,
+0x0206DF0C..0x0206DF14) are literal pools, not unlabelled leaves - checked byte
+by byte with match.py show.  There is therefore nothing in this range to file
+at this budget and no shard exists for it.
+
+The same is true of the two containers on either side of it that this lane did
+not own: 0x0206DF14 is pkt_0206DB40's last function and 0x0206DB80 is the next
+packet's.

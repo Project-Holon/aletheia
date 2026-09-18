@@ -1,0 +1,37 @@
+func_0204FFFC: the entry value's register is one below the image's
+===================================================================
+
+Closed near miss, 2 concrete bytes.  func_0204FFFC (128 bytes of code + its
+pool) is the destructor that walks the 0x28-byte entry table at +0x18 - the
+loop the pkt_0204F150 accessors and func_0204EA64's family work on - and every
+byte matches except the register the entry's first word is loaded into:
+
+  image:  ldr  r1, [r5, #0x18]   the table base
+          ldr  r1, [r1, r0]      the entry's first word into r1
+          cmp  r1, r7            r7 holds the pooled 0xFFFF sentinel
+          beq  <skip>
+
+  mwcc:   ldr  r1, [r5, #0x18]
+          ldr  r0, [r1, r0]      the same load into r0
+          cmp  r0, r7
+          beq  <skip>
+
+Everything else is byte-identical, including the whole loop rotation (the
+count halfword at +0x1c is re-loaded for the back-edge test, because the
+release call in the body could change it), the six teardown calls with their
+fresh field reads, the alternating allocator pairs, and the pool word holding
+0xffff.
+
+Tried, all landing on r0: the value as a `u32` local and as an `int` local; the
+value declared outside the loop and assigned inside; the test written `v !=
+0xffff`, `!= 0xffff` against a pointer local, and as `== 0xffff; continue;`;
+the loop as `for`, as `while` and as `do/while` with the increment last; the
+entry as `struct E { u32 f0; u8 pad_04[0x24]; }` array element `[i].f0`; the
+entry pointer bound to a `u32 *` inside the body.
+
+The register the load lands in is the only difference and it is not reachable
+from the source text - the same class the other four notes in this set record
+(the same instructions in a different slot).  Note that the C is otherwise
+complete and was verified against the 0xffff pool word and all six calls; a
+later wave with a better idea for the register only needs to re-read this note
+rather than re-derive the function.

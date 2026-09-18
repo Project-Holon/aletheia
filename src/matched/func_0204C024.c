@@ -9,29 +9,22 @@
  * isa:      arm
  * status:   EXACT
  *
- * Forward the single argument to func_02063378 with the manager as the
- * block argument.
- *
- * Unlabelled in the current listings: the prologue saves nothing, so
- * disasm.py never auto-labelled it (see
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  The
- * function starts at the computed address and its body ends at 0x0204C040.
- *
  * symbols:
  *   g_02146A74     0x02146A74  data
  *   func_02063378  0x02063378  arm
+ *
+ * Tail call through the singleton pointer: the pool word for the global is
+ * loaded, its value passed as the first argument, and the callee reached with
+ * the compiler's usual `ldr ip, [pc, #4]` / `bx ip` plus a second pool word.
  */
-typedef unsigned char u8;
-typedef unsigned int  u32;
 
-struct Mgr {
-    u8 pad_000[0x20];
-};
+typedef unsigned char  u8;
+typedef unsigned int   u32;
 
-extern struct Mgr *g_02146A74;
-extern void func_02063378(struct Mgr *m, u32 arg);
+extern u8 *g_02146A74;
+extern void func_02063378(u32 a0, u32 a1);
 
-void func_0204C024(u32 arg)
+void func_0204C024(u32 v)
 {
-    func_02063378(g_02146A74, arg);
+    func_02063378((u32)g_02146A74, v);
 }

@@ -1,0 +1,33 @@
+pkt_0206AA78 (0x0206AA78..0x0206AF08), wave4-3
+Filed EXACT: func_0206AA8C (0x0206AA8C, 32 + its pool word), func_0206AAB0
+(0x0206AAB0, 32 + its pool word) - both unlabelled leaves, see below.
+Parked (src/pending/, blockers in their headers): func_0206AA78, func_0206AAD4,
+func_0206AD20, func_0206AD64, func_0206ADBC, func_0206ADF4, func_0206AE2C,
+func_0206AE94.
+
+The packet is the flags object at 0x02148B4C and its sibling slots
+(0x02148C7C..0x02148D0C).  Nine of its twelve functions turn on one allocator
+behaviour, documented in docs/notes/pkt_0206A12C.c.txt from wave2-F and
+re-measured here: mwccarm keeps a *global's address* live across a call in a
+callee-saved register where the original re-materialises it from its pool word
+(func_0206ADBC / func_0206ADF4: 52 compiled against 56; func_0206DB80 in
+pkt_0206DB80: 88 against 92).  The address appears in one pool word in the
+original and is re-loaded from it after the call, which no spelling of the C
+reaches.
+
+Two of the parked functions are evidence-capped rather than codegen-capped and
+are worth recording as such:
+  * func_0206AA78: g_02148BF4 is named by exactly one pool word in the image,
+    its own, so the ABS32 can never be attested (MATCH*).
+  * func_0206AD20: g_02148D0C likewise, and its call to func_0206AB18 is the
+    only branch to that address anywhere in the image.
+func_0206AD64 is capped by func_0207B60C, whose only caller in the image is
+that function: the call site is its own witness, so no C can resolve it.
+
+The two filed functions are unlabelled leaves: disasm.py only auto-labels a
+prologue that saves lr, and these save nothing, so they sit invisibly in the
+76-byte gap between func_0206AA78 and func_0206AAD4, one on each side of their
+own pool word.  Both are eight instructions that pack a 16-bit field, a one-bit
+flag at bit 15 and a payload into 0x02148B4C + 0x94 and + 0x98, and both
+reproduce byte for byte on the first attempt.  The addresses to seed in
+layout/function_starts.txt are therefore 0x0206AA8C and 0x0206AAB0.

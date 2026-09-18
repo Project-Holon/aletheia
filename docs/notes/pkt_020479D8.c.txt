@@ -1,0 +1,24 @@
+pkt_020479D8 (0x020479D8, 0x02047A60) - documented near misses
+============================================================
+Three functions of this ARM block were identified and one (func_02047CE4) is
+now EXACT; the other two are recorded here.
+
+0x020479D8, 112 bytes, publishes three 12-byte context blocks to the adjacent
+globals at 0x02148D8C/0x02148D98/0x02148DA4 and then calls func_0207BCA0 with
+their addresses.  The three copies are the whole point: the original is three
+`ldm rBase, {r0,r1,r2}` / `stm rDst, {r0,r1,r2}` pairs, i.e. three whole
+twelve-byte struct assignments, and it also keeps two of the destination
+addresses live in ip/lr.  Written as three `g = *(struct Rec3 *)p;` assignments
+the compiler produced 71 differing bytes (it re-materialised the pool words
+instead of keeping the computed addresses), so the source shape is not a plain
+aggregate assignment - most likely the three blocks are read into a local
+struct array first.  Worth another attempt with that shape.
+
+0x02047A60, 92 bytes, 7 differing bytes: the hardware read-modify-write
+`r1 = [pc] (0x02148B4C); r2 = [r1, #0xfc]; bic r2, r2, #0xa4; str r2, [r1, #0xfc]`
+comes out with the pool address in r2 and the register word in r1 instead of
+the other way round.  Binding the address to a `volatile u32 *` local did not
+change it.
+
+0x02047C8C is parked in src/pending (every byte right, capped on 0x0206B6A4,
+whose only caller in the image is this function).

@@ -30,7 +30,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0204D494"
+    "func_0204D494",
+    "func_0204D4A4"
    ]
   }
  ]

@@ -1,0 +1,33 @@
+DIFF evidence, wave4-4 lane, window 0x02030000..0x02038000.
+
+0x02035ADC..0x02035BA4, 200 bytes, two functions, pkt_02035ADC.  Written as one
+translation unit because the second function's only call to the first becomes
+`local` inside it (all 7 relocation sites resolve, the two `func_02035A70` /
+`func_02035AA4` sites by `matched`).  Residue: 21 concrete bytes in the head of
+func_02035ADC, 0x02035ADC..0x02035B1C.
+
+  ORIGINAL                                     COMPILED
+  +0020  ldrb r0, [r7, r4, lsl #2]              ldrb r1, [r7, r4, lsl #2]
+  +0024  cmp r0, #0xfd                          add r0, r7, r4, lsl #2
+  +0028  beq #0x2035b40 (next)                  cmp r1, #0xfd
+  +002C  cmp r0, #0xfe                          beq #0x2035b40
+  +0030  mov r1, r6                             cmp r1, #0xfe
+  +0034  mov r2, r5                             mov r1, r6
+  +0038  add r0, r7, r4, lsl #2                 mov r2, r5
+  +003C  bne #0x2035b30 (0xAA4 arm)             bne #0x2035b30
+
+The record address `p + i*4` is sunk below both byte compares in the original
+(the byte sits in r0, the argument register, until the address overwrites it),
+and hoisted above them in every compiled spelling, which pushes the byte into
+r1 and rotates everything after it.  Spellings tried, all with the same
+21-byte head:
+
+  * `u8 v = *(u8 *)(p + i*4);` then the two comparisons on v
+  * the byte re-read in each test (`*(u8 *)(p + i*4) == 0xFD` twice)
+  * a `char *rec = p + i*4;` binding used by both the tests and the calls
+  * the 0xFE arm written before the 0xFD arm
+
+The rest of the unit (the whole of func_02035B58 and the tail of
+func_02035ADC) reproduces byte for byte, so the entry is one scheduling
+decision short of EXACT.  The neighbouring leaf at 0x02035A70 that the pair
+calls is already matched, so attestation is not the blocker.

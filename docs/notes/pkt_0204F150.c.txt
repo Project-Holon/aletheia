@@ -1,0 +1,53 @@
+func_0204F1A0: the address setup is scheduled after the branch
+=============================================================
+
+Closed near miss, 7 concrete bytes.  func_0204F1A0 (108 bytes of code + 8 of
+pool) is byte-identical to the image except at four instruction slots at the
+top, where the same three instructions are in a different order and use a
+different register:
+
+  image:  ldr  r2, [r5, #4]      the base into r2
+          ldr  r0, [r2, r4]      the entry's first word, folded addressing
+          cmp  r0, #0
+          beq  <tail>
+          ldr  r1, [pc, #0x44]   the first call global's address
+          add  r0, r2, r4        the entry pointer, computed HERE
+          ldr  r0, [r0, #0x20]
+          ldr  r1, [r1]
+          blx  r1
+
+  mwcc:   ldr  r1, [r5, #4]      the base into r1
+          ldr  r0, [r1, r4]
+          add  r2, r1, r4        the entry pointer, computed BEFORE the test
+          cmp  r0, #0
+          beq  <tail>
+          ldr  r1, [pc, #0x40]
+          ldr  r0, [r2, #0x20]
+          ldr  r1, [r1]
+          blx  r1
+
+Everything from the `ldr r1, [r1]` onwards matches to the byte, including the
+whole rest of the function, both pool words, and the other two call sites.
+
+The C is the obvious one (src/matched/func_0204F150.c's sibling):
+
+    if (*(u32 *)(*(u32 *)(a0 + 4) + off) != 0) {
+        g_020A8144(*(u32 *)(*(u32 *)(a0 + 4) + off + 0x20));
+        g_020A814C(*(u32 *)(*(u32 *)(a0 + 4) + off + 0x24));
+        *(u32 *)(*(u32 *)(a0 + 4) + off) = 0;
+    }
+    *(u32 *)(*(u32 *)(a0 + 4) + off + 0x14) = 5;
+
+Tried, all 7 bytes (2 to 20 differing): the guard's test value in a `u32`
+local; the entry pointer bound to a `u8 *` and to a `u32 *` local inside the
+guard; a `struct E28 { u8 pad_00[0x20]; u32 f20; u32 f24; }` element pointer
+inside the guard; the argument spelled `((struct E28 *)p)->f20` and
+`((u32 *)p)[8]`; the two field offsets pre-added into locals; the whole body
+without the guard (`func_0204F214`, which is EXACT and files cleanly).
+
+This is the same shape as docs/notes/pkt_0204B764.c.txt and the four others in
+this note set: in this region mwcc 1.1p1 hoists an address computation above
+the branch that guards its only use, and the image has it after.  Nothing in
+the source text moves it; see
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+("the same instructions in a different slot").
