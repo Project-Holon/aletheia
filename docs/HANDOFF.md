@@ -13,8 +13,8 @@ the previous session's memory.
   `Documents/holon` (the org profile repo `.github-private`). A junction
   `aletheia/eidos` points at the eidos checkout so one VS Code window shows
   both; it is git-ignored.
-- Code: 20.0457 percent of ARM9 game code matched byte for byte (1957 matched
-  functions, 80296 of 400564 bytes, `python tools/worklist.py --summary`),
+- Code: 21.1157 percent of ARM9 game code matched byte for byte (2130 matched
+  functions, 84582 of 400564 bytes, `python tools/worklist.py --summary`),
   plus matched functions in overlays ov010 and ov021 that the summary does not
   count. Every matched function is spliced into the build and the rebuilt ROM
   is byte-identical (sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5).
@@ -649,6 +649,47 @@ The high-yield pattern this wave was: after matching a function, re-run
 just crossed to EXACT, then pick new targets by scanning the open pool
 for no-call/no-pool leaves (`tools/disasm.scan_mnemonics`). Over half
 the wave's bytes came from those small accessors.
+
+---
+
+## [2026-09-18] Grind to 21.12 percent: call and branch lifters
+
+### Status
+- **arm9 Coverage**: 20.0457 -> **21.1157 percent** (84582 / 400564 game
+  bytes, 2130 matched functions).
+- **Build**: 242 PASS, 0 FAIL; rebuilt ROM byte-identical; manifest clean.
+
+### Tooling built (all in the session scratch area, patterns documented here)
+- **Call lifter**: parses `bl func_XXXX`/`sub_XXXX` targets and passes only
+  the argument registers up to the last one that differs from the incoming
+  parameter, so zero-argument forwarders compile without extra moves.
+- **Branch lifter** (`branchlift`): one forward conditional branch per
+  function is split into then/else plus an optional shared join, with each
+  side lifted recursively, so nested `if`s and guard chains are covered.
+  The condition is rebuilt from the tracked expressions of the preceding
+  `cmp`/`teq`/`tst`.  `r0` is threaded out of blocks so a then-arm that
+  falls through to a shared epilogue still returns the merged value.
+- **Batch variant tester**: compile-and-compare a list of hand-written C
+  spellings for one function, keep the EXACT one.
+
+### Findings worth keeping
+- `lsr` needs an `(unsigned int)` cast on its left operand or mwcc emits
+  `asrs`.
+- mwcc rejects declarations after statements; call temps must be declared
+  up front (`int t0, t1;` before the statements).
+- When a store then a load on adjacent fields is scheduled in the wrong
+  order, marking the two accesses `volatile` pins the order and often turns
+  a 6-byte DIFF into EXACT (`func_02061B74`).
+- The verdict regex `^(...)\b` silently rejects `EXACT*`; use
+  `(?:\s|$)`.
+- Slice a function by its exact worklist code size; a 64-byte margin pulls
+  in neighbours and fabricates branches.
+
+### Promotion chains worked
+Matching a one-caller leaf promotes every MATCH file that calls it.
+`func_02061B74` promoted `sub_02061CA4` (100 bytes); `func_02036738`
+(a five-caller queue push) was matched with the field-re-read spelling
+that schedules the pointer bump before the count decrement.
 
 
 
