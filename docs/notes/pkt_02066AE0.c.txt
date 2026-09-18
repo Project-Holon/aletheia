@@ -1,0 +1,68 @@
+
+==============================================================================
+0x02066AE0  func_02066AE0.c  DIFF
+==============================================================================
+
+residue:
+   * +0000    4c 10 9f e5                            | 50 00 9f e5
+   * +0004    00 00 a0 e3                            | 04 20 90 e5
+   * +0008    04 30 91 e5                            | 00 00 52 e3
+   * +000C    00 00 53 e3                            | 00 00 e0 d3
+   * +0010    0d 00 00 9a                            | 1e ff 2f d1
+   * +0014    08 c0 91 e5                            | 08 c0 90 e5
+
+/*
+ * unit:     no
+ * function: func_02066AE0
+ * address:  0x02066AE0
+ * packet:   pkt_02066AE0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02148B20  0x02148B20  data
+ */
+
+typedef unsigned char u8;
+
+typedef struct
+{
+    u8 pad[0x1c];
+    int f1c;
+} Item02066AE0;
+
+typedef struct
+{
+    u8 pad[4];
+    int count;                 /* +0x4 */
+    Item02066AE0 *array;       /* +0x8 */
+} S02066AE0;
+
+extern S02066AE0 g_02148B20;
+
+int func_02066AE0(void)
+{
+    int i;
+    int n = g_02148B20.count;
+    Item02066AE0 *p;
+
+    if (n <= 0)
+        return -1;
+
+    p = g_02148B20.array;
+
+    for (i = 0; i < n; i++, p++)
+    {
+        if (p->f1c == 1)
+            continue;
+
+        g_02148B20.array[i].f1c = 1;
+        return i;
+    }
+
+    return -1;
+}

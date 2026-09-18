@@ -1,0 +1,161 @@
+
+==============================================================================
+0x02067DC8  func_02067DC8.c  DIFF
+==============================================================================
+
+residue:
+   * +0004    d8 20 9f e5                            | d4 20 9f e5
+   * +0010    01 40 a0 e1                            | 01 50 a0 e1
+   * +0014    00 50 93 e5                            | 00 40 93 e5
+   * +0018    10 00 95 e5                            | 10 00 94 e5
+
+/*
+ * function: func_02067DC8
+ * address:  0x02067DC8
+ * packet:   pkt_02067BA4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02148B48    0x02148B48  data
+ *   func_02066878 0x02066878  arm
+ *   func_02067998 0x02067998  arm
+ *   func_02067340 0x02067340  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef void (*CB)(void *, u32);
+
+struct Inner02067DC8 {
+    u8 pad_00[0x10];
+    u32 field_10;                      /* 0x10 */
+    u32 mode;                          /* 0x14 */
+    CB callback_18;                    /* 0x18 */
+    CB callback_1c;                    /* 0x1c */
+};
+
+struct Struct02067DC8 {
+    struct Inner02067DC8 *inner;       /* 0x00 */
+    u8 pad_04[0x2c];
+    u32 flag_30;                       /* 0x30 */
+};
+
+struct Obj20 {
+    u8 pad_00[0x20];
+    u32 field_20;                      /* 0x20 */
+};
+
+extern struct Struct02067DC8 *g_02148B48;
+extern struct Obj20 *func_02066878(u32 idx);
+extern void func_02067998(struct Inner02067DC8 *a1, u32 a2);
+extern void func_02067340(struct Inner02067DC8 *a1, u32 a2);
+
+void func_02067DC8(u32 arg0, u32 arg1)
+{
+    u32 a1 = arg1;
+    struct Struct02067DC8 *st = g_02148B48;
+    struct Inner02067DC8 *in = st->inner;
+
+    if (in->field_10 == 0) {
+        return;
+    }
+
+    st->flag_30 = 1;
+
+    if (in->callback_18 != 0) {
+        in->callback_18(g_02148B48, arg0);
+    }
+
+    if (g_02148B48->flag_30 != 0) {
+        if (a1 == (u32)-1) {
+        } else {
+            struct Obj20 *obj = func_02066878(a1);
+            u32 mode = in->mode;
+            obj->field_20 = (obj->field_20 & ~(1u << mode)) | (1u << mode);
+        }
+
+        switch (in->mode) {
+        case 0:
+            func_02067998(in, arg0);
+            break;
+        case 1:
+        case 2:
+            func_02067340(in, arg0);
+            break;
+        case 3:
+            break;
+        }
+    }
+
+    if (in->callback_1c != 0) {
+        in->callback_1c(g_02148B48, arg0);
+    }
+}
+
+==============================================================================
+0x02067FE4  func_02067FE4.c  DIFF
+==============================================================================
+
+residue:
+   * +000C    0c 00 00 0a                            | 0b 00 00 0a
+   * +0020    04 00 00 8a                            | 02 00 41 90
+   * +0024    02 00 41 e0                            | 08 10 83 92
+   * +0028    08 10 83 e2                            | 80 00 80 90
+
+/*
+ * function: func_02067FE4
+ * address:  0x02067FE4
+ * packet:   pkt_02067BA4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Node02067FE4 {
+    u16 start;                 /* 0x0 */
+    u16 end;                   /* 0x2 */
+    struct Node02067FE4 *next; /* 0x4 */
+    u8 entries[];              /* 0x8 */
+};
+
+struct Inner02067FE4 {
+    u8 pad_00[4];
+    u8 fallback[6];            /* 0x4 */
+    u8 pad_0a[2];
+    struct Node02067FE4 *node; /* 0xc */
+};
+
+struct Container02067FE4 {
+    struct Inner02067FE4 *inner;
+};
+
+void *func_02067FE4(struct Container02067FE4 *c, u32 val)
+{
+    struct Node02067FE4 *node;
+
+    for (node = c->inner->node; node != 0; node = node->next) {
+        if (node->start <= val && val <= node->end) {
+            u8 *ptr = (u8 *)node + 8;
+            u32 diff = val - node->start;
+            return ptr + diff * 3;
+        }
+    }
+
+    return (u8 *)c->inner + 4;
+}

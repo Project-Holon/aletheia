@@ -1,0 +1,163 @@
+
+==============================================================================
+0x02063294  func_02063294.c  DIFF
+==============================================================================
+
+residue:
+   * +0000    10 40 2d e9                            | 38 40 2d e9
+   * +0004    b6 e0 d0 e1                            | b6 c0 d0 e1
+   * +0008    b8 c0 d0 e1                            | b8 30 d0 e1
+   * +000C    00 40 a0 e3                            | 00 50 a0 e3
+
+/*
+ * function: func_02063294
+ * address:  0x02063294
+ * packet:   pkt_02063078
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146BC8 0x02146BC8 data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct OamEntry {
+    u16 attr0;
+    u16 attr1;
+    u16 attr2;
+    u16 pad;
+};
+
+struct Win02063294 {
+    u32 bank;    /* 0x0 */
+    u16 min_oam; /* 0x4 */
+    u16 max_oam; /* 0x6 */
+    u16 cur_oam; /* 0x8 */
+};
+
+extern u8 *g_02146BC8;
+
+u32 func_02063294(struct Win02063294 *win, struct OamEntry *src, u32 mode)
+{
+    u32 ok = 0;
+
+    if (win->cur_oam <= win->max_oam + 1 && win->min_oam <= win->max_oam) {
+        ok = 1;
+    }
+
+    if (ok) {
+        u32 count = (u16)(win->max_oam - win->cur_oam + 1);
+        if (count >= 1) {
+            u8 *bank_ptr = g_02146BC8 + win->bank * 0x540;
+            struct OamEntry *dst = (struct OamEntry *)(bank_ptr + 0x100) + win->cur_oam;
+
+            dst->attr0 = src->attr0;
+            dst->attr1 = src->attr1;
+            dst->attr2 = src->attr2;
+
+            if (mode != 0xFFFE) {
+                u32 raw = *(u32 *)dst;
+                if (((raw << 22) >> 30) & 1) {
+                    raw &= ~0x3E000000;
+                    raw |= (mode & 0x1F) << 25;
+                    *(u32 *)dst = raw;
+                }
+            }
+
+            win->cur_oam++;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+==============================================================================
+0x02063378  func_02063378.c  DIFF
+==============================================================================
+
+residue:
+   * +0000    08 40 2d e9                            | 10 40 2d e9
+   * +0004    bc e0 d0 e1                            | bc c0 d0 e1
+   * +0008    be c0 d0 e1                            | be 20 d0 e1
+   * +000C    00 30 a0 e3                            | 00 e0 a0 e3
+
+/*
+ * function: func_02063378
+ * address:  0x02063378
+ * packet:   pkt_02063078
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146BC8  0x02146BC8  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int s32;
+
+struct ColorData {
+    s32 c0;
+    s32 c1;
+    s32 c2;
+    s32 c3;
+};
+
+struct Obj02063378 {
+    u32 index;       // 0x0
+    u8 pad[0x6];
+    u16 min_idx;     // 0xa
+    u16 max_idx;     // 0xc
+    u16 cur_idx;     // 0xe
+};
+
+extern u8 g_02146BC8[];
+
+u32 func_02063378(struct Obj02063378 *obj, struct ColorData *colors) {
+    u16 max_idx = obj->max_idx;
+    u16 cur_idx = obj->cur_idx;
+    u32 valid = 0;
+    u32 count = 0;
+    u32 is_ge_1;
+
+    if (cur_idx <= (u32)max_idx + 1) {
+        if (obj->min_idx <= max_idx) {
+            valid = 1;
+        }
+    }
+
+    if (valid != 0) {
+        count = (u16)(max_idx - cur_idx + 1);
+    }
+
+    is_ge_1 = (count >= 1) ? 1 : 0;
+    if (is_ge_1 == 0) {
+        return (u32)g_02146BC8;
+    }
+
+    {
+        u8 *ptr = g_02146BC8 + obj->index * 0x540 + 0x100 + obj->cur_idx * 0x20;
+
+        *(u16 *)(ptr + 0x6)  = (u16)(colors->c0 >> 4);
+        *(u16 *)(ptr + 0xe)  = (u16)(colors->c1 >> 4);
+        *(u16 *)(ptr + 0x16) = (u16)(colors->c2 >> 4);
+        *(u16 *)(ptr + 0x1e) = (u16)(colors->c3 >> 4);
+
+        cur_idx = obj->cur_idx;
+        obj->cur_idx = cur_idx + 1;
+        return cur_idx;
+    }
+}

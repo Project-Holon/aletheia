@@ -1,0 +1,59 @@
+
+==============================================================================
+0x020611D4  func_020611D4.c  DIFF
+==============================================================================
+
+residue:
+   * +000C    04 00 00 0a                            | 05 00 00 0a
+   * +0018    0c 30 93 15                            | 02 00 00 0a
+   * +001C    00 00 53 13                            | 0c 30 93 e5
+   * +0020    fa ff ff 1a                            | 00 00 53 e3
+
+/*
+ * function: func_020611D4
+ * address:  0x020611D4
+ * packet:   pkt_02061184
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+struct Node {
+    u32 val;
+    u32 field_4;
+    u32 field_8;
+    struct Node *next;
+};
+
+struct Obj {
+    u8 pad[0x24];
+    u32 field_24;
+    u32 field_28;
+    struct Node *head;
+};
+
+u32 func_020611D4(struct Obj *obj, u32 val) {
+    struct Node *curr = obj->head;
+
+    if (val != 0) {
+        while (curr != 0) {
+            if (curr->val == val) break;
+            curr = curr->next;
+        }
+    }
+
+    if (curr == 0) {
+        return 0;
+    }
+
+    obj->field_24 = curr->field_4;
+    obj->field_28 = curr->field_8;
+    obj->head = curr->next;
+    return 1;
+}

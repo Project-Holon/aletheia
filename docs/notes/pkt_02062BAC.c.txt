@@ -1,0 +1,48 @@
+
+==============================================================================
+0x02062BAC  func_02062BAC.c  DIFF
+==============================================================================
+
+residue:
+   * +0000    04 10 90 e5                            | 04 20 90 e5
+   * +0004    00 c0 a0 e3                            | b0 10 d0 e1
+   * +0008    00 10 81 e0                            | 00 c0 82 e0
+   * +000C    04 10 80 e5                            | 04 c0 80 e5
+
+/*
+ * function: func_02062BAC
+ * address:  0x02062BAC
+ * packet:   pkt_02062BAC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Header02062BAC {
+    u16 count;
+    u16 pad;
+    u32 table_offset;
+};
+
+void func_02062BAC(struct Header02062BAC *header) {
+    u16 i = 0;
+    u32 *table;
+
+    header->table_offset += (u32)header;
+
+    if (header->count == 0) {
+        return;
+    }
+
+    table = (u32 *)header->table_offset;
+    for (i = 0; i < header->count; i++) {
+        table[i] += (u32)header;
+    }
+}

@@ -1,0 +1,70 @@
+
+==============================================================================
+0x02062F90  func_02062F90.c  DIFF
+==============================================================================
+
+residue:
+   * +0004    00 00 51 e3                            | 01 30 a0 e3
+   * +0008    01 20 a0 c3                            | 00 00 51 e3
+   * +0010    00 20 a0 d3                            | 00 30 a0 d3
+   * +0014    01 00 32 e1                            | 1c 20 90 e5
+
+/*
+ * function: func_02062F90
+ * address:  0x02062F90
+ * packet:   pkt_02062F90
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02062D4C  0x02062D4C  code
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Struct02062F90_Sub {
+    u16 count0; // 0x0
+    u16 count2; // 0x2
+    u8 pad[0x8];
+    u8 *base;   // 0xc
+};
+
+struct Struct02062F90 {
+    u8 *field_0;   // 0x0
+    u8 *field_4;   // 0x4
+    u32 field_8;   // 0x8
+    u8 pad1[0x4];
+    u32 field_10;  // 0x10
+    int field_14;  // 0x14
+    u8 pad2[0x4];
+    struct Struct02062F90_Sub *sub; // 0x1c
+};
+
+extern void func_02062D4C(struct Struct02062F90 *obj);
+
+void func_02062F90(struct Struct02062F90 *obj) {
+    u32 cond;
+    u8 *ptr;
+    struct Struct02062F90_Sub *sub;
+
+    cond = (obj->field_14 > 0) ? 1 : 0;
+    sub = obj->sub;
+
+    if (cond == obj->field_8) {
+        ptr = sub->base + (u32)sub->count0 * 8 - 8;
+    } else {
+        ptr = sub->base + (u32)sub->count2 * 8;
+    }
+
+    obj->field_0 = ptr;
+    obj->field_4 = obj->field_0;
+    obj->field_10 = 0;
+
+    func_02062D4C(obj);
+}
