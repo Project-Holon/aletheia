@@ -1,0 +1,60 @@
+pkt_0205429C - func_0205429C (0x0205429C, 1112 code bytes) and
+               func_02054718 (0x02054718, 820 code bytes)
+
+STATUS: NOT CLOSED, and not attempted in C.  Both functions are blocked by the
+same toolchain contradiction as 0x02053E1C, so no C was written for them; the
+evidence that they are out of reach is in the bytes, and it is stated here so
+the next agent does not spend a run rediscovering it.
+
+Each of the two functions contains both halves of a pair that mwccarm 1.1p1
+never emits together:
+
+    0x0205429C function
+      02054344  33 FF 2F E1   blx r3
+      020546E4  34 FF 2F E1   blx r4
+      020542F4  08 BD 41 F0   popeq {r4, r5, r6, r7, r8, lr}   (+ bxeq lr at 0x020542F8)
+      020546EC  F0 41 BD E8   pop   {r4, r5, r6, r7, r8, lr}   (+ bx lr)
+
+    0x02054718 function
+      020547C0  33 FF 2F E1   blx r3
+      02054A3C  34 FF 2F E1   blx r4
+      02054770  08 BD 41 F0   popeq {r4, r5, r6, r7, r8, lr}
+      02054A44  F0 41 BD E8   pop   {r4, r5, r6, r7, r8, lr}
+
+The `blx rN` encoding (0xE12FFF3N) exists only on ARMv5T and later, and mwccarm
+emits it only under a `-proc` from the v5+ half of its list; every such `-proc`
+returns by popping straight into `pc` and never through `lr`.  The two-instruction
+return (`pop {..., lr}; bx lr`) appears only under the ARMv4T `-proc` values
+(generic, v4, v4t, arm7tdmi, arm710t/720t/740t, arm9tdmi, arm920t/922t/940t,
+dbmx1, dbmxl), every one of which emits `mov lr, pc; bx rN` for an indirect
+call instead of `blx`.  Measured over all 32 accepted `-proc` values and all
+nine `dsi` builds; the full matrix is in docs/notes/pkt_02053218.c.txt, whose
+own function has the identical contradiction (blx at 0x02053EC4 and 0x02054268,
+pop-lr returns at 0x02053E74 and 0x02054270).
+
+Both functions follow the same source shape as 0x02053E1C, which was recovered
+in full and reproduced to within that conflict (see the other note): a hook
+table call early, normalise/cross-product basis construction, `MTX_Concat43` /
+`MTX_Scale43_` / `MTX_Concat43`, a G3_LoadMtx43/G3_MultMtx43 pair in each arm
+of a bit test, a packed 5-5-5 blend into a hardware register, and a second hook
+table tail call -- which is exactly the site of the second `blx` in each
+function (0x020546E4 and 0x02054A3C both sit four instructions before the
+return).  Their call side is fully resolved (8 and 4 call targets, all SDK,
+matched or runtime, most of them the same `libfx`/`libgx` entry points
+0x02053E1C calls), so the call side is not what stops them.
+
+What the region needs before any of the three can be filed is a compiler that
+emits `blx rN` while returning through `lr`; nothing in tools/mwccarm offers
+that.  The register-BLX census for the region, for the record:
+
+    0x020525FC 0x02052A80 0x02052BF4 0x02052D00 0x02052DE0 0x02052EA8
+    0x02052EF4 0x02052F6C 0x02052FA4 0x02053100 0x020531DC 0x020531E8
+    0x02053268 0x02053458 0x020537D4 0x02053A38 0x02053EC4 0x02054268
+    0x02054344 0x020546E4 0x020547C0 0x02054A3C 0x02054B10 0x02054D8C
+
+-- 24 sites, every one of them inside a function whose return is the
+`pop {..., lr}; bx lr` pair, i.e. inside what
+docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md
+calls an arm7tdmi unit.  That idiom note should be read as necessary but not
+sufficient: 0x02058300 and 0x0205841C, the two entries actually matched under
+`-proc arm7tdmi`, contain no register BLX.

@@ -1,0 +1,418 @@
+pkt_02053218 - func_02053E1C (0x02053E1C, 1116 code bytes + 36-byte pool)
+=========================================================================
+
+STATUS: NOT CLOSED. `match.py one` prints DIFF under every configuration the
+pinned toolchain offers, and the reason is not the C: the original mixes two
+instruction-set idioms that mwccarm 1.1p1 cannot emit together.
+
+    python tools/match.py one --src src/matched/func_02053E1C.c \
+        --func func_02053E1C --addr 0x02053E1C --cc 1.1p1 --arm
+      DIFF   compiled 1128 bytes, 15 of 15 relocation sites resolved,
+             763 concrete bytes differ, original extent 1152 (listing)
+
+    ... --flags "-O4,p -proc arm7tdmi"
+      DIFF   compiled 1144 bytes, 696 concrete bytes differ
+
+The C itself is close: all 15 relocations resolve (12 call sites over the 8
+distinct SDK entry points -- MTX_Identity43_, MTX_Scale43_, MTX_Concat43 x2,
+VEC_DotProduct, VEC_CrossProduct x2, VEC_Normalize x2, G3_LoadMtx43,
+G3_MultMtx43 x2 -- plus three literal-pool words: the vertex table at 0x020A1B38
+and the two hook tables at 0x020A7FE4 / 0x020A7FDC, all attested `literal`).
+The prologue, the 0xf0 stack frame and every stack-object offset reproduce
+exactly.  What is left is a toolchain difference, described below, and it is
+exactly the same difference that keeps 0x0205429C and 0x02054718 open (see
+docs/notes/pkt_0205429C.c.txt).
+
+
+THE BLOCKER: `blx rN` and `pop {..., lr}; bx lr` in the same function
+---------------------------------------------------------------------
+
+The original contains ARMv5 register-form BLX:
+
+    02053EC4  33 FF 2F E1   blx r3        (the vertex hook table call)
+    02054268  34 FF 2F E1   blx r4        (the final hook table call)
+
+and ARMv4T-style returns:
+
+    02053E74  08 BD 41 F0   popeq {r4, r5, r6, r7, r8, lr}
+    02053E78  1E FF 2F 01   bxeq  lr
+    02054270  F0 41 BD E8   pop   {r4, r5, r6, r7, r8, lr}
+    02054274  1E FF 2F E1   bx    lr
+
+mwccarm ties the two together: a `-proc` that can encode `blx rN` returns by
+popping into `pc`, and a `-proc` that returns through `lr` emits
+`mov lr, pc; bx rN` for an indirect call.  Measured, not assumed, on a
+four-line probe and then on the function itself, over all 32 `-proc` values
+1.1p1 accepts:
+
+    -proc arm946e  ->  0xE12FFF33 (blx r3) ...  pop {r4, ..., pc}
+    -proc arm7tdmi ->  0xE1A0E00F + 0xE12FFF13 ...  pop {r4, ..., lr}; bx lr
+
+    generic v4 v4t arm7tdmi arm710t arm720t arm740t arm9tdmi arm920t
+    arm922t arm940t dbmx1 dbmxl   ->  mov lr,pc + bx,  pop lr / bx lr
+    v5t v5te v6 v6t2 v7 arm7ej arm9ej arm926ej arm946e arm966e arm1020e
+    arm1022e arm1026ej XScale pxa25x pxa26x  ->  blx rN,  pop pc
+
+Not one of the 32 is in both lists.  `#pragma peephole off` does not change
+the epilogue (`pop {..., pc}` survives it), and `-interworking` only picks
+between the two v4T forms: with it arm7tdmi gives `pop lr; bx lr`, without it
+`pop pc`.  All nine `dsi` builds 1.1 .. 1.6sp2 emit `pop {r3, pc}` under
+arm946e for the same probe, so no compiler version in the collection closes
+the gap either.
+
+Both idioms in one binary is not impossible for the *image* -- it is impossible
+for one `-proc` setting of this compiler -- so the original unit was built by
+something this tree does not have (a later mwcc, or an assembler-assisted
+source).  That also means the region cannot be reached from C as the toolchain
+stands, whatever the C says.
+
+This qualifies the existing idiom note
+`docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md`,
+which reads the `pop lr; bx lr` epilogue as a whole-unit `-proc arm7tdmi`
+tell.  The tell is real, but it is not sufficient: the two arm7tdmi entries
+that were actually matched (0x02058300, 0x0205841C) are blx-free.  Every
+function in 0x020524E0..0x02057828 that contains a register BLX -- 24 sites,
+0x020525FC through 0x02054D8C -- has the same contradiction, and all of them
+are in the same unit as a function whose return says arm7tdmi.
+
+Where the register BLX sites are:
+
+    0x02053218 function: 0x02053458, 0x020537D4, 0x02053A38
+    0x02053E1C function: 0x02053EC4, 0x02054268
+    0x0205429C function: 0x02054344, 0x020546E4
+    0x02054718 function: 0x020547C0, 0x02054A3C
+
+
+WHAT THE FUNCTION DOES (recovered from the disassembly)
+------------------------------------------------------
+
+Written to `src/matched/func_02053E1C.c` while working and then removed, since
+only EXACT may live there; the full text is at the end of this note.
+
+It is a billboard/rig builder for the DS 3D engine:
+
+* build a value for the hardware register at 0x040004A4 out of three bitfields
+  of a packed u16 (`s->unk2E`, fields at bit 0/5/10), store it, read it back,
+  and return early when the middle product shifts to zero;
+* call a per-primitive hook `table[(*hw >> 9) & 3](verts[2*i], verts[2*i+1],
+  &m2)` with `i = (s32)s->unk20 >> 4`, from the s16 vertex table at 0x020A1B38
+  and the hook table at 0x020A7FE4;
+* normalise one of two vectors of `s` (the choice is bit 6 of a word at
+  `(*x->unk14) + 0x10`) into v0, negating it when the other one is chosen;
+* build a reference axis (0, 0x1000, 0), replace it with (0x1000, 0, 0) when
+  `VEC_DotProduct(v0, axis)` comes out outside +-0xCCD (the 0.8 fixed-point
+  cosine limit), then two `VEC_CrossProduct` calls give an orthonormal basis
+  which lands in m4's 3x3 part (identity translation row, so
+  `MTX_Identity43_` first, `MTX_Concat43` after);
+* fixed-point products to get the scale factors, a 3-way switch on bits 28..30
+  of `q->0x48` choosing which axis is rescaled by `s->unk34`, then
+  `MTX_Scale43_` (0x0207B5F4, declared thumb: it is reached by BLX in the
+  original) and a second `MTX_Concat43`;
+* two arms on bit 23 of `*q`: place the matrix at `s->08.. + s->38..` and
+  `G3_LoadMtx43`/`G3_MultMtx43`, or subtract `q->04/08/0C`, push three words
+  into the FIFO at 0x04000454/0x04000470 and multiply;
+* pack two 5-5-5 colours (per-channel `a*b >> 5/15/25`) into 0x04000480;
+* tail-call `table2[(*hw >> 11) & 1](P->0x7C, P->0x7E, 0)`.
+
+Pools: 0x040004A4, 0x020A1B38, 0x020A7FE4, 0x00000CCD, 0xFFFFF333,
+0x04000454, 0x04000470, 0x04000480, 0x020A7FDC -- nine words, which is the
+36 bytes between 0x02054278 and 0x0205429C.
+
+
+TWO SOURCE-SHAPE IDIOMS WORTH KEEPING (found while closing the gap)
+------------------------------------------------------------------
+
+1. A literal `0` at a call's argument position can be hoisted into a
+   callee-saved register and kept live for the whole function, where the
+   original rematerialises it at each use.  In this function the last argument
+   is 0; written as a literal the compiler emits `mov r6, #0` in the first
+   basic block and then uses r6 for every zero in the body (and displaces the
+   vertex table to r7), which is four bytes and every later register number.
+   Written as a *variable* assigned 0 just before the call (`e = 0; ... f(a,
+   b, e)`) the hoist disappears and the sequence from instruction 0 on matches
+   the original register for register.  The reference materialises zero at
+   each use (`mov r3, #0`, `mov r0, #0`, `mov r1, #0`, `mov r2, #0`), so the
+   source's last argument was a variable, not a literal.
+
+2. mwccarm never pools a negated constant: `d > 0xCCD || d < -0xCCD` compiles
+   to one pool word 0x00000CCD plus `rsb r1, r1, #0`, and no spelling of the
+   negative side (`-3277`, `(s32)0xFFFFF333`, swapped operands, an unsigned
+   literal) changes it.  The original has two pool words, 0x00000CCD at
+   0x02054284 and 0xFFFFF333 at 0x02054288, so its second bound did not reach
+   the compiler as a negation of the first.  Unresolved; the pool is four
+   bytes shorter here than in the original for that reason alone.
+
+A third, smaller residue: the FIFO stores go to 0x04000454 and 0x04000470,
+0x1C apart, and the compiler folds them onto one base register
+(`str r1, [r0, #28]`) where the original reloads both addresses from the pool.
+
+
+SOURCE AS OF THE LAST RUN (DIFF; kept here so the next agent starts ahead)
+------------------------------------------------------------------------
+
+The file below was at `src/matched/func_02053E1C.c` and is deleted from there.
+It resolves all 15 relocations, reproduces the prologue, the 0xF0 frame and
+every stack offset, and matches the original's instruction stream up to the
+`blx`/epilogue conflict above.  The `-proc` line is left at the pinned default;
+switching it to arm7tdmi trades 67 concrete bytes for the two `blx` sites.
+
+[see src/matched/func_02053E1C.c, removed 2026-09-18; full text follows]
+
+/*
+ * function: func_02053E1C
+ * address:  0x02053E1C
+ * packet:   pkt_02053218
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   func_02053E1C_Verts  0x020A1B38  data
+ *   func_02053E1C_Hooks  0x020A7FE4  data
+ *   func_02053E1C_Hooks2 0x020A7FDC  data
+ *   func_0207B598        0x0207B598  arm
+ *   func_0207B5F4        0x0207B5F4  thumb
+ *   func_0207B9F0        0x0207B9F0  arm
+ *   func_0207CA68        0x0207CA68  arm
+ *   func_0207CAE8        0x0207CAE8  arm
+ *   func_0207CCA4        0x0207CCA4  arm
+ *   func_0207D8E0        0x0207D8E0  arm
+ *   func_0207D918        0x0207D918  arm
+ */
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef signed long long s64;
+typedef unsigned char u8;
+
+struct VecFx32 { s32 x, y, z; };
+struct MtxFx33 { s32 m[9]; };
+struct MtxFx43 { s32 m[12]; };
+
+struct Bf16 {
+    u16 b0 : 5;
+    u16 b5 : 5;
+    u16 b10 : 6;
+};
+
+struct BfHw {
+    u16 a : 9;
+    u16 sel2 : 2;
+    u16 sel1 : 1;
+    u16 b : 4;
+};
+
+struct BfSel {
+    u32 lo : 6;
+    u32 sel : 1;
+    u32 hi : 25;
+};
+
+struct Bf23 {
+    u32 lo : 23;
+    u32 sel : 1;
+    u32 hi : 8;
+};
+
+struct Bf28 {
+    u32 lo : 28;
+    u32 sel : 3;
+    u32 hi : 1;
+};
+
+struct SubD {
+    struct BfHw hw;
+    u8 pad02[0x0e];
+    struct BfSel f10;
+};
+
+struct SubC {
+    struct Bf23 f00;
+    u32 f04;
+    u32 f08;
+    u32 f0c;
+    u8 pad10[0x20];
+    s16 f30;
+    u8 pad32[0x16];
+    struct Bf28 f48;
+};
+
+struct SubX {
+    struct SubC *f00;
+    u8 pad04[0x10];
+    struct SubD *f14;
+};
+
+struct SubB {
+    u8 pad00[0x20];
+    struct SubX *f20;
+    u8 pad24[0x4e];
+    u16 f72;
+    u8 pad74[0x08];
+    s16 f7c;
+    s16 f7e;
+};
+
+struct Obj {
+    u8 pad00[0x3c];
+    u32 f3c;
+    struct SubB *f40;
+    struct MtxFx43 *f44;
+};
+
+struct S {
+    u8 pad00[0x08];
+    struct VecFx32 p1;
+    struct VecFx32 p2;
+    u16 f20;
+    u8 pad22[0x0c];
+    struct Bf16 w;
+    s32 f30;
+    s16 f34;
+    u16 f36;
+    u32 f38;
+    u32 f3c;
+    u32 f40;
+};
+
+struct Frame {
+    struct MtxFx43 m1;
+    struct MtxFx43 m2;
+    struct MtxFx43 m3;
+    struct VecFx32 v0;
+    struct VecFx32 v1;
+    struct VecFx32 v2;
+    struct VecFx32 v3;
+    struct MtxFx43 m4;
+};
+
+extern const s16 func_02053E1C_Verts[];
+extern u32 (*const func_02053E1C_Hooks[])(s32, s32, void *);
+extern u32 (*const func_02053E1C_Hooks2[])(s32, s32, s32);
+
+extern void func_0207B598(void *);
+extern u32 func_0207B5F4(void *, s32, s32, s32);
+extern void func_0207B9F0(const void *, const void *, void *);
+extern s32 func_0207CA68(const void *, const void *);
+extern void func_0207CAE8(const void *, const void *, void *);
+extern void func_0207CCA4(const void *, void *);
+extern void func_0207D8E0(const void *);
+extern void func_0207D918(const void *);
+
+u32 func_02053E1C(struct Obj *obj, struct S *s)
+{
+    struct Frame f;
+    s32 n;
+    s32 e;
+    s32 i;
+    s32 a;
+    s32 x;
+    s32 y;
+    u32 v;
+    u32 c1;
+    u32 c2;
+
+    n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
+    v = obj->f3c | 0xc0;
+    v |= (u32)s->w.b10 << 24;
+    v |= (u32)(n >> 5) << 16;
+    *(volatile u32 *)0x040004A4 = v;
+    v = *(volatile u32 *)0x040004A4;
+    if ((n >> 5) == 0)
+        return v;
+
+    i = (s32)s->f20 >> 4;
+    func_02053E1C_Hooks[obj->f40->f20->f14->hw.sel2]
+        (func_02053E1C_Verts[2 * i], func_02053E1C_Verts[2 * i + 1], &f.m2);
+
+    func_0207B598(&f.m4);
+    if (obj->f40->f20->f14->f10.sel == 0) {
+        func_0207CCA4(&s->p2, &f.v0);
+    } else {
+        func_0207CCA4(&s->p1, &f.v0);
+        f.v0.x = -f.v0.x;
+        f.v0.y = -f.v0.y;
+        f.v0.z = -f.v0.z;
+    }
+
+    f.v3.x = 0;
+    f.v3.y = 0x1000;
+    f.v3.z = 0;
+    i = func_0207CA68(&f.v0, &f.v3);
+    if (i > 0xCCD || i < -0xCCD) {
+        f.v3.x = 0x1000;
+        f.v3.y = 0;
+        f.v3.z = 0;
+    }
+
+    func_0207CAE8(&f.v0, &f.v3, &f.v1);
+    func_0207CAE8(&f.v0, &f.v1, &f.v2);
+
+    f.m4.m[0] = f.v1.x;
+    f.m4.m[1] = f.v1.y;
+    f.m4.m[2] = f.v1.z;
+    f.m4.m[3] = f.v0.x;
+    f.m4.m[4] = f.v0.y;
+    f.m4.m[5] = f.v0.z;
+    f.m4.m[6] = f.v2.x;
+    f.m4.m[7] = f.v2.y;
+    f.m4.m[8] = f.v2.z;
+
+    func_0207B9F0(&f.m2, &f.m4, &f.m2);
+
+    a = s->f30;
+    e = s->f34;
+    n = (s32)(((s64)obj->f40->f20->f00->f30 * a + 0x800) >> 12);
+    x = n;
+    y = a;
+    switch (obj->f40->f20->f00->f48.sel) {
+    case 0:
+        x = (s32)(((s64)n * e + 0x800) >> 12);
+        y = (s32)(((s64)a * e + 0x800) >> 12);
+        break;
+    case 1:
+        x = (s32)(((s64)n * e + 0x800) >> 12);
+        break;
+    case 2:
+        y = (s32)(((s64)a * e + 0x800) >> 12);
+        break;
+    default:
+        break;
+    }
+
+    func_0207B5F4(&f.m3, x, y, y);
+    func_0207B9F0(&f.m2, &f.m3, &f.m1);
+
+    if (obj->f40->f20->f00->f00.sel == 0) {
+        f.m1.m[9] = s->p1.x + s->f38;
+        f.m1.m[10] = s->p1.y + s->f3c;
+        f.m1.m[11] = s->p1.z + s->f40;
+        func_0207D8E0(obj->f44);
+        func_0207D918(&f.m1);
+    } else {
+        f.m1.m[9] = s->p1.x + s->f38 - obj->f40->f20->f00->f04;
+        f.m1.m[10] = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
+        f.m1.m[11] = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
+        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)0x04000470 = obj->f40->f20->f00->f04;
+        *(volatile u32 *)0x04000470 = obj->f40->f20->f00->f08;
+        *(volatile u32 *)0x04000470 = obj->f40->f20->f00->f0c;
+        func_0207D918(obj->f44);
+        func_0207D918(&f.m1);
+    }
+
+    c1 = s->f36;
+    c2 = obj->f40->f72;
+    v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
+      | ((((c1 & 0x3e0) * (c2 & 0x3e0)) >> 15) << 5)
+      | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
+    *(volatile u32 *)0x04000480 = (u16)v;
+
+    e = 0;
+    return func_02053E1C_Hooks2[obj->f40->f20->f14->hw.sel1]
+        (obj->f40->f7c, obj->f40->f7e, e);
+}

@@ -1,0 +1,332 @@
+pkt_02043B98  0x02043B98 / 0x02043F4C / 0x0204427C  arm9  ARM  (near miss, DIFF)
+
+Three functions of the same original translation unit (bmp.c; the file name is
+attested by the sibling families at 0x020436FC..0x02043814 and 0x02043AF4,
+whose workers this file's dispatcher calls).  Packet pkt_02043B98 is
+0x02043B98..0x020445EC, 3 functions, 2628 bytes, no entry points of its own
+outside the packet.  Nothing here is filed as a source: all three land on DIFF,
+not on a byte-correct MATCH, so the residue is codegen and belongs in this note
+rather than in src/matched/ or src/pending/.
+
+Best result reached: 0x02043B98 at 940 bytes compiled against 948 in the image
+with 764 concrete bytes differing, 0 relocations (none of the three functions
+has a single relocation: their only pool words are the immediate constants
+0xFFFF and 0x3FE0 / 0x7FC0, so there is nothing for the honesty rule to
+resolve and every verdict here is pure codegen).
+
+The descriptor
+--------------
+All three take the same 8-byte bitmap descriptor, which
+src/matched/func_02043814.c already names struct Bmp:
+
+    +0x00  u8 *pixels
+    +0x04  u16 width      (pixels)
+    +0x06  u16 height     (pixels)
+
+Pixels are 8x8 tiles, tile rows contiguous left to right.  The 4bpp surfaces
+carry four bytes per tile row and two pixels per byte; the 8bpp ones eight
+bytes per tile row.  Both masks in the code are the multiply-then-mask form
+docs/idioms/a-shift-then-mask-pair-is-multiply-then-mask-in-the-source.md
+describes, and the pool constants are the tell:
+
+    4bpp:  (v * 4) & 0x3fe0  is  (v >> 3) * 32   tile index scaled to bytes
+           (v * 4) & 0x1c    is  (v & 7) * 4     row inside the tile
+           (x & 1) * 4                            nibble shift, compiled as
+                                                  lsl #31 / lsr #29
+    8bpp:  (v * 8) & 0x7fc0  is  (v >> 3) * 64
+           (v * 8) & 0x38    is  (v & 7) * 8
+
+and the row stride in tiles is the same expression the sibling near miss at
+0x02044CE0 uses, confirmed byte for byte there:
+
+    tilesWide = (bmp->width + (bmp->width & 7)) >> 3;
+
+A signed divide by 8 would carry a rounding correction; a `+ 7` would be an
+`add #7` instead of the `and #7` / `add` pair, and neither appears in any of
+the three.
+
+The clip
+--------
+0x02043B98 and 0x02043F4C share this clip verbatim (0x0204427C's is the same
+shape with its own register numbers).  Reading the condition codes off the
+bytes pins the types:
+
+    ww = (w > src->width) ? src->width : w;    ; cmp w, srcW / movhi  UNSIGNED
+    if (dstX >= dst->width) fail;              ; cmp dstX, dstW / bge  SIGNED
+    if (dstX <= -ww) fail;                     ; rsb / cmp / bgt        SIGNED
+    h  = (h > src->height) ? src->height : h;  ; cmp h, srcH / movhi   UNSIGNED
+    if (dstY >= dst->height) fail;             ; bge                    SIGNED
+    if (dstY <= -h) fail;                      ; rsb / cmp / bgt        SIGNED
+
+so w and h are 32-bit unsigned (the u16 fields promote to signed int, so a
+`hi` can only come from the other operand being unsigned) while dstX/dstY are
+signed.  The two loop tests are unsigned (`blo` on the back edge, `bls` for
+the rotated entry test) and the clip's own comparisons against the dst size
+are unsigned, which is why the clip temporary has to be declared unsigned:
+
+    t = dstX + ww;  if (t > dst->width)  ww -= t - dst->width;    ; subhi
+    t = dstY + h;   if (t > dst->height) h  -= t - dst->height;   ; subhi
+
+With `s32 t` the same statement compiles `subgt`, four bytes different, so
+that one declaration is pinned.  The failure paths are one shared `mov r4, #0`
+block reached by a forward branch and by a backward one (`b loc_02043BEC`),
+i.e. the source sets a flag and tests it once (`if (!ok) return;`), and the two
+`ok = 0` sites are cross-jumped by the compiler.
+
+The frame (0x02043B98, and the same shape in the other two)
+----------------------------------------------------------
+    push {r4, r5, r6, r7, r8, sb, sl, fp, lr}; sub sp, sp, #0x2c
+    args at [sp, #0x50] dstX, #0x54 dstY, #0x58 w, #0x5c h, #0x60 transparent(u16)
+
+Eleven frame words, every one accounted for by the two paths' locals:
+
+    0x00  path 2's row counter      0x14  transparent (a spill)
+    0x04  path 1's srcInTile        0x18  path 1's row counter
+    0x08  path 1's srcRow           0x1c  tilesWideDst
+    0x0c  path 2's srcInTile        0x20  tilesWideSrc
+    0x10  path 2's srcRow           0x24  path 1's dstRow
+    0x28  path 2's dstRow
+
+and dstX, dstY and h live in their own incoming argument slots (each carries
+the redundant `ldr`/`str` pair mwcc emits for a stack parameter the source
+modifies -- 0x02043BA4/BB8, 0x02043BA0/BA8, 0x02043BAC/BB8), while w does not
+(one load into fp, one use), so w is a plain parameter and h is written.  The
+two paths' four row locals occupy eight distinct slots, so the source declares
+them once per branch, not once per function.
+
+The loops
+---------
+Two copies of the same loop nest, selected by `if (transparent == 0xFFFF)`;
+the fast path writes every pixel, the other skips pixels equal to the
+transparent value.  Per row, the 4bpp blit is
+
+    srcInTile = (srcY * 4) & 0x1c;   dstInTile = (dstY * 4) & 0x1c;
+    srcRow    = ((srcY * 4) & 0x3fe0) * tilesWideSrc;
+    dstRow    = ((dstY * 4) & 0x3fe0) * tilesWideDst;
+    for (i = 0; i < ww; i++) {
+        px = (src->pixels[((x >> 1) & 3) + ((x * 4) & 0x3fe0) + srcRow + srcInTile]
+              >> ((x & 1) * 4)) & 0xF;
+        dst->pixels[((y >> 1) & 3) + ((y * 4) & 0x3fe0) + dstRow + dstInTile] =
+            (dst->pixels[...] & (0xF0 >> ((y & 1) * 4))) | (px << ((y & 1) * 4));
+        x++; y++;
+    }
+
+with x/y being per-row copies of srcX/dstX (the inner loop carries two running
+coordinates of its own: r8 and sb in path 1, sb and sl in path 2, while the
+outer loop increments srcY and dstY and counts rows in a third variable).  The
+pointer is re-read from the descriptor inside the loop (`ldr r4, [r0]`), so the
+source subscripts the struct rather than caching `pixels` in a local.
+
+How far it got and what the residue is
+--------------------------------------
+The closest C is the one described above with `s32 ww` (not u32 -- see below),
+`u32 t`, the four row locals declared inTile-then-row and dst before src, and
+the destination address expression written out twice, inline.  It compiles to
+940 bytes (two instructions short of 948) with 764 bytes differing.
+
+The residue is not one thing; it is that the register allocator makes a
+different set of choices for the same code, and the inner loop then loses an
+instruction and is scheduled differently:
+
+  * path 1's inner loop is 34 instructions against 35, and the difference is
+    the *binding order* of the address terms.  The original finishes the
+    destination address in a register (`add lr, r5, r4` at 0x02043D70) and
+    keeps it there across the whole body; every spelling tried makes mwcc
+    split the sum differently, and with a local index or a `u8 *` cursor it
+    spills (996 and 1012 bytes).  In the original the source-side sum folds
+    srcInTile into the `ldrb`'s register operand (three `add`s then
+    `ldrb r4, [r4, r5]`); the attempts fold tileX or srcInTile in earlier.
+  * the original reads the *source* byte before the destination byte
+    (0x02043DAC then 0x02043DC0); every attempt here hoists the destination
+    load above the source one.
+  * the four row locals come out in the right slots (0x04/0x08/0x1c/0x20 and
+    0x0c/0x10/0x28 in the two paths) but path 2's dstRow ends up in a register
+    instead of in 0x28, and that costs the tenth saved register: the attempts
+    push r3 as well (`push {r3, r4, ...}`, frame 0x28) where the original
+    needs only the nine.
+  * the `h` parameter is synced to its home more often than the original does
+    (12 accesses to [sp, #0x5c] against 9): the original keeps it in r5 across
+    the whole clip block and stores once at 0x02043C88.
+
+What was tried and ruled out for 0x02043B98 (each compiled and compared, no
+change of compiler or flags -- -O4,p / dsi/1.1p1 throughout):
+
+  * h as a modified parameter against h as a local `hh` (952 bytes, frame
+    0x2c but [sp,#0x5c] used once);
+  * four declaration orders of the four row locals crossed with five orders of
+    the per-row x/y copies and the counter (16 combinations, all within 764-829
+    differing bytes);
+  * five inner-body shapes: inline destination subscript, a separate `u8 dc`,
+    a separate index local, separate source and destination index locals, and
+    a `u8 *` cursor pair (996 and 1012 bytes for the ones that name a local);
+  * `s32` against `u32` for the clip temporary and for ww;
+  * declaring the destination read before the source read.
+
+The remaining lever is almost certainly a helper the original source inlined
+per site (the sibling near miss docs/notes/sub_02044CE0.c.txt reached the same
+conclusion about its own residue: "the address is computed by a small inline
+helper whose body the compiler expands per site rather than by one flat
+subscript expression, which would explain both the surviving separation and
+the right-associated add chain").  Nothing in the eleven frame slots is left
+over for a helper's own locals, so whatever was inlined took no storage of its
+own and is visible only as that add-chain shape.
+
+The other two entry points of the packet
+----------------------------------------
+0x02043F4C (808 bytes) is the 8bpp sibling of 0x02043B98: the same clip, the
+same nine-register prologue and 0x1c frame, the same 0xFFFF fast path and
+comparing path, and the same tiled addressing one field wider.  Its inner
+loops copy whole bytes with no nibble work (`ldrb ip, [fp, sb]` then
+`strb ip, [r7, sb]`), its pool words are 0x0000FFFF and 0x00007FC0 at
+0x02044274/0x02044278, and the transparent test in the second path is
+`cmp ip, [sp, #0xc]` before the store.  Same residue class.
+
+0x0204427C (880 bytes) is a 4bpp-to-8bpp expansion with a palette offset: a
+tenth argument, a u8 loaded with `ldrb [sp, #0x64]`, is added to each source
+nibble before it is stored as a whole byte.  It pushes ten registers
+(`push {r3, r4, ...}`, frame 0x28, args at 0x50..0x64), and its two paths are
+selected by the same `arg9 == 0xFFFF` test, drawing path 1 with
+`ands ip, r4, #0xf ; ldrne ; addne ; strb` (a zero nibble is stored as zero
+plus the offset) and path 2 with `strbne` (a zero nibble is left alone).  The
+source side uses the 4bpp masks (0x3fe0 / 0x1c, nibble shift (x&1)*4) and the
+destination side the 8bpp ones (0x7fc0 / 0x38), so the two descriptors in the
+argument list are different bit depths.  Same residue class as the other two.
+
+Method, for whoever picks this up
+---------------------------------
+Both functions' residue is instruction-level, so the useful loop is: compile
+with the pinned flags by hand, dump the object with
+tools/gcc-arm/*/bin/arm-none-eabi-objdump -d, and diff the instruction stream
+against the generated listing *in address order* (a SequenceMatcher over the
+mnemonic-only sequence shows structural differences with the register churn
+filtered out, and a side-by-side over the raw 4-byte words shows the rest).
+Two traps cost real time here: objdump prints BCC/BCS for the conditions
+disasm.py prints BLO/BHS, and r9-r11 print as sb/sl/fp in the listing but as
+r9/r10/r11 in objdump, so the two streams have to be normalised before they
+can be aligned.
+
+Addresses are Black-image addresses.
+
+The closest C for 0x02043B98
+---------------------------
+This is the attempt that produced the 940-byte / 764-different-byte result.
+Start from it rather than from the pseudocode above; the only thing the
+pseudocode adds is the naming.
+
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed int s32;
+
+    typedef struct Bmp {
+        u8 *pixels;   /* 0x00 */
+        u16 width;    /* 0x04 */
+        u16 height;   /* 0x06 */
+    } Bmp;
+
+    void func_02043B98(Bmp *src, Bmp *dst, s32 srcX, s32 srcY, s32 dstX,
+                       s32 dstY, u32 w, u32 h, u16 transparent)
+    {
+        s32 ww = (w > src->width) ? src->width : w;
+        s32 tilesWideSrc;
+        s32 tilesWideDst;
+        u32 t;
+        s32 ok;
+
+        if (dstX < dst->width && dstX > -ww) {
+            h = (h > src->height) ? src->height : h;
+            if (dstY < dst->height && dstY > -(s32)h) {
+                if (dstX < 0) {
+                    ww += dstX;
+                    srcX -= dstX;
+                    dstX = 0;
+                } else {
+                    t = dstX + ww;
+                    if (t > dst->width)
+                        ww -= t - dst->width;
+                }
+                if (dstY < 0) {
+                    h += dstY;
+                    srcY -= dstY;
+                    dstY = 0;
+                } else {
+                    t = dstY + h;
+                    if (t > dst->height)
+                        h -= t - dst->height;
+                }
+                ok = 1;
+            } else {
+                ok = 0;
+            }
+        } else {
+            ok = 0;
+        }
+        if (!ok)
+            return;
+
+        tilesWideSrc = (src->width + (src->width & 7)) >> 3;
+        tilesWideDst = (dst->width + (dst->width & 7)) >> 3;
+
+        if (transparent == 0xFFFF) {
+            u32 j;
+
+            for (j = 0; j < h; j++) {
+                s32 dstInTile = (dstY * 4) & 0x1c;
+                s32 dstRow = ((dstY * 4) & 0x3fe0) * tilesWideDst;
+                s32 srcInTile = (srcY * 4) & 0x1c;
+                s32 srcRow = ((srcY * 4) & 0x3fe0) * tilesWideSrc;
+                u32 i;
+                s32 y = dstX;
+                s32 x = srcX;
+
+                for (i = 0; i < ww; i++) {
+                    s32 s = (x & 1) * 4;
+                    s32 d = (y & 1) * 4;
+                    u8 px = (src->pixels[((x >> 1) & 3) + ((x * 4) & 0x3fe0)
+                                         + srcRow + srcInTile] >> s) & 0xF;
+
+                    dst->pixels[((y >> 1) & 3) + ((y * 4) & 0x3fe0)
+                                + dstRow + dstInTile] =
+                        (dst->pixels[((y >> 1) & 3) + ((y * 4) & 0x3fe0)
+                                     + dstRow + dstInTile] & (0xF0 >> d))
+                        | (px << d);
+                    x++;
+                    y++;
+                }
+                srcY++;
+                dstY++;
+            }
+        } else {
+            u32 j;
+
+            for (j = 0; j < h; j++) {
+                s32 dstInTile = (dstY * 4) & 0x1c;
+                s32 dstRow = ((dstY * 4) & 0x3fe0) * tilesWideDst;
+                s32 srcInTile = (srcY * 4) & 0x1c;
+                s32 srcRow = ((srcY * 4) & 0x3fe0) * tilesWideSrc;
+                u32 i;
+                s32 y = dstX;
+                s32 x = srcX;
+
+                for (i = 0; i < ww; i++) {
+                    s32 s = (x & 1) * 4;
+                    s32 d = (y & 1) * 4;
+                    u8 px = (src->pixels[((x >> 1) & 3) + ((x * 4) & 0x3fe0)
+                                         + srcRow + srcInTile] >> s) & 0xF;
+
+                    if (px != transparent) {
+                        dst->pixels[((y >> 1) & 3) + ((y * 4) & 0x3fe0)
+                                    + dstRow + dstInTile] =
+                            (dst->pixels[((y >> 1) & 3) + ((y * 4) & 0x3fe0)
+                                         + dstRow + dstInTile] & (0xF0 >> d))
+                            | (px << d);
+                    }
+                    x++;
+                    y++;
+                }
+                srcY++;
+                dstY++;
+            }
+        }
+    }
+

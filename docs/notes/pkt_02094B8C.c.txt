@@ -1,0 +1,195 @@
+/*
+ * function: func_02094B8C
+ * address:  0x02094B8C..0x02095A7C (3824 bytes of code: 938 instructions, of
+ *           which 18 words are the two switch tables, plus 10 pool words at
+ *           0x02095A7C..0x02095AA4; the listing extent to the next label is
+ *           3864 bytes)
+ * packet:   pkt_02094B8C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   UNMATCHED -- no C written, nothing filed in src/matched/ or
+ *           src/pending/, no shard written (see 1 and 3)
+ *
+ * Two independent blockers.  Either one is enough to say plainly that this
+ * packet cannot end in an EXACT shard entry this wave; together they say that
+ * re-dispatching it as-is would spend another run for nothing.
+ *
+ * ============================================================================
+ * 1. THE PACKET IS MATCH-CAPPED TODAY, WHATEVER THE C IS
+ * ============================================================================
+ * The dispatch brief said the call side was "already fully unblocked: 4 call
+ * targets, every one resolves".  That is not what this function contains.  It
+ * has eleven direct `bl` sites to eight distinct targets (plus nine indirect
+ * `blx sb` getter calls, which carry no relocation at all).  Attested with
+ * match.py's own attest() over the compared range 0x02094B8C..0x02095A7C:
+ *
+ *    +0x0364  0x02094EF0  bl func_0209CB8C  __fadd      label   (48 witnesses)
+ *    +0x0374  0x02094F00  bl func_0209BD38  _f2d        label   (15)
+ *    +0x04EC  0x02095078  bl func_02091374  game fn     matched (pkt_020911D8)
+ *    +0x0500  0x0209508C  bl func_0209AF34  __dadd_dsub label  (465)
+ *    +0x0508  0x02095094  bl func_02091374  game fn     matched
+ *    +0x0C40  0x020957CC  bl func_0209AF34  __dadd_dsub label
+ *    +0x0C54  0x020957E0  bl func_0209739C  game fn      *** NONE ***
+ *    +0x0C70  0x020957FC  bl func_0209BAC8  __dcmp_6    label   (5)
+ *    +0x0C8C  0x02095818  bl func_0209B9A0  __dcmp_4    label   (5)
+ *    +0x0CB0  0x0209583C  bl func_0209B864  __dcmp_2    label   (20)
+ *    +0x0CEC  0x02095878  bl func_0209AF34  __dadd_dsub label
+ *
+ * 0x0209739C is an entry point of pkt_02096990 (still open, 1492 bytes).  It is
+ * a disasm-traced label, but the only branch to it anywhere in the image is the
+ * one at 0x020957E0 -- inside the range under comparison, which the `label`
+ * class refuses.  It is not in layout/runtime_arm9.txt, no manifest entry
+ * covers it, it holds no veneer, and no literal pool anywhere names it: a
+ * whole-image word scan for 0x0209739C over extract/arm9_dec.bin returns zero
+ * occurrences.  (The same scan finds the four data pointers this function uses,
+ * which is how the scan itself is known to work.)
+ *
+ * So a byte-perfect C here would come back MATCH with one wildcarded site:
+ * src/pending/, no shard entry, never spliced into the build, zero coverage
+ * points.  The 0.72 points the packet was budgeted for are not reachable until
+ * func_0209739C is either matched (pkt_02096990) or gains a witness elsewhere.
+ * That is the integrator's call, not an agent's, and nothing outside this
+ * packet's write set was touched.
+ *
+ * ============================================================================
+ * 2. WHAT THE FUNCTION IS
+ * ============================================================================
+ * A compiled-C, soft-float C99 number scanner -- character-wise, not
+ * table-driven:
+ *
+ *  - input is pulled through a getter callback (arg1, `blx sb`), called as
+ *    get(ctx /*arg2*/, prev_char, mode) with mode 0 = take next and mode 1 =
+ *    ungetc (the ungetc path at 0x02095560 and friends does not set r1, it
+ *    reuses the current character).  The game-side getter for the one caller
+ *    is func_020946D8 (an unlabelled leaf -- it saves no lr, so disasm.py never
+ *    labels it -- reached from a pool word at 0x02095B24).
+ *  - arg0 is a character limit (the caller passes 0x7FFFFFFF), arg3 and arg5
+ *    are two out-pointers: r5 counts getter calls, and arg3 receives the
+ *    consumed-character count the caller turns into its end pointer (built from
+ *    the r5-derived accumulators at sp+0x2c and sp+0x18), while arg5 is written
+ *    0 at entry and 1 on failure.  The return value is a double in r0:r1.
+ *  - vocabularity: optional sign, decimal digits with '.', 'e'/'E' exponent
+ *    with sign, hex 0x prefix, and the C99 forms INF / INFINITY and
+ *    NAN(n-char-sequence).  Literal comparisons are made against an
+ *    upper-casing table, which is why "INFINITY" is compared with toupper().
+ *  - soft-float throughout: __fadd 0x0209CB8C, _f2d 0x0209BD38,
+ *    __dadd_dsub 0x0209AF34, __dcmp_2/4/6 0x0209B864/0x0209B9A0/0x0209BAC8
+ *    (all in layout/runtime_arm9.txt), and the 64-bit result is assembled
+ *    bitwise (see 5).
+ *  - the digit text is buffered and converted once, by func_0209739C at
+ *    0x020957E0 -- the decimal-string-to-double routine.
+ *
+ * Its only caller is func_02095AA4 (0x02095AA4, open), which is
+ * fabs(<this>(0x7FFFFFFF, getter, &string_ptr, &count, &flag)): func_0209A504
+ * clears bit 31 of the high word and returns.  The neighbours in the same unit
+ * 029 are MSL string functions already matched -- strcmp 0x020948E0,
+ * strncmp/strchr 0x020949F4, strcspn 0x02094A60, strstr 0x02094B20 -- so this
+ * is almost certainly the MSL strtod / scanf numeric-conversion core linked
+ * statically into arm9, i.e. library C whose source is not in this tree.
+ * Checked, not assumed: vendor/TwlSDK-5_3-*.zip ships 93 library .c files and
+ * none of them contains a number scanner (no file with both "INFINITY" and
+ * "NAN("); vendor/mwccarm.zip and tools/mwccarm carry no sources at all; no
+ * file under src/, docs/ or layout/ mentions 0x02094B8C except the worklist and
+ * proc_hints.
+ *
+ * ============================================================================
+ * 3. WHY NO BYTE-EXACT C WAS WRITTEN
+ * ============================================================================
+ * The frame is 0xa8 bytes with ten registers saved (r3 as pad, r4-r8, sb, sl,
+ * fp, lr) and eighteen memory-resident locals: eight 4-byte slots at
+ * sp+8..sp+0x24, the two flags at sp+0x28/sp+0x2c, and the eight stack objects
+ * at sp+0x30, sp+0x38, sp+0x40, sp+0x45, sp+0x4d, sp+0x56, sp+0x76 and sp+0x80.
+ *
+ * mwcc decides the frame size, the spill set and the callee-saved register set
+ * from the whole function.  A partial draft therefore compiles to a different
+ * frame and diverges at byte 0 -- there is no prefix that can be validated in
+ * isolation, and match.py returns no signal at all until the entire 946
+ * instructions exist.  Reconstructing a 946-instruction state machine one
+ * blind rewrite at a time, with no feedback until it is complete and a single
+ * wrong source-level decision (one extra local, one loop spelled differently)
+ * shifting every byte after it, is not a packet-sized job: the only realistic
+ * route to the bytes is the original source text, and (see 2) that source is
+ * library C that is not in this tree.
+ *
+ * ============================================================================
+ * 4. THE STATE MACHINE MAP (for whoever gets the source)
+ * ============================================================================
+ * Two enum-valued state variables, both power-of-two valued, and both lowered
+ * to a dense jump table of `b` instructions plus a compare tree for the sparse
+ * values -- the ARM cousin of
+ * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md (gaps 3, 5, 6, 7
+ * are filled with the default, which is why the tables look 9 entries wide).
+ *
+ * r6, dispatch at 0x02094C90, table at 0x02094CBC (`addge pc, pc, r6, lsl #2`):
+ *   0    -> loop head            (== default)
+ *   1    -> 0x02094D4C   2 -> 0x020950C0   4 -> 0x02095144   8 -> 0x02095154
+ *   0x10 -> 0x020951B8   0x20 -> 0x020951E0   0x40 -> 0x02095244
+ *   0x80 -> 0x02095268   0x100 -> 0x020952BC  0x200 -> 0x020952F4
+ *   0x400 -> 0x02095304  0x2000 -> 0x02094F2C 0x4000 -> 0x02094E4C
+ *   0x8000 -> 0x02095344
+ *   0x800 and 0x1000 are assigned as terminal markers (reject / accept) but are
+ *   never dispatched: the loop head 0x02095620 leaves the loop on
+ *   `tst r6, #0x1800`, on count > arg0, or on c == -1, and the tail at
+ *   0x0209563C returns 1 only when `r6 & 0xE2C` is clear (0xE2C =
+ *   0x800|0x400|0x200|0x20|0x8|0x4, the reject set).
+ *
+ * r4, dispatch at 0x02095344, table at 0x02095364, reached from the
+ * r6 == 0x8000 arm (the sub-machine that runs once a prefix has been
+ * recognised): 0 -> loop, 1 -> 0x020953B8, 2 -> 0x020953FC, 4 -> 0x0209540C,
+ * 8 -> 0x020954C0, 0x10 -> 0x0209551C, 0x20 -> 0x02095540, 0x40 -> 0x02095570,
+ * 0x80 -> 0x020955A8, 0x100 -> 0x020955B8.  Its own reject mask constant is
+ * 0x18E (tested with `tst r4, r0` at 0x02095668).
+ *
+ * ============================================================================
+ * 5. TABLES, POOL WORDS AND THE STACK OBJECTS
+ * ============================================================================
+ * The data side is *not* where a MATCH cap would come from -- every one of
+ * these attests (attest(...,'data') over the same range):
+ *   0x020A615C  128-byte ASCII upper-case map (identity except 0x61..0x7A ->
+ *               0x41..0x5A): toupper(), used before every literal compare.
+ *               literal, 15 witnesses.
+ *   0x020A61DC  128 x u16 character-class map.  bit 0x8 = decimal digit,
+ *               bit 0x1 = letter ('A'-'F' 0x0651, 'G'-'Z' 0x0251, lower case
+ *               0x0652/0x0252), 0x00d0 punctuation, 0x0142 space, 0x0106 tab.
+ *               literal, 25 witnesses.
+ *   0x020A62DC  "NAN("  (4 chars + NUL)   0x020A62E4  "INFINITY" (8 + NUL)
+ *   0x020A8814  {0x7F800000, 0x7FFFFFFF}: the float +inf read on the overflow
+ *               path, then widened with _f2d.
+ *   0x020A881C  {0x00000000, 0x7FF00000}: the +inf double, loaded with
+ *               `ldm r1, {r0, r1}`.
+ *   in-function pool constants: 0x00007FFF (decimal-exponent saturation test
+ *   on [sp+0x20]), 0x7FEFFFFF (DBL_MAX high word), 0xE2C / 0x18E (above).
+ *
+ * Stack objects, as the code uses them (this is the skeleton a rewrite has to
+ * reproduce exactly, sizes in bytes):
+ *   sp+0x38   8   the result double.  Filled bitwise: an 8-byte bit buffer at
+ *                 sp+0x45 (52-bit significand, cursor in [sp+0x14]) is copied
+ *                 into it by the 0x02095974 loop, the sign/exponent are or-ed
+ *                 in, and the 8 bytes are reversed by the 4-iteration swap
+ *                 loop at 0x02095A50 before `ldm r4, {r0, r1}`.
+ *   sp+0x40   5   working copy of the "NAN(" text ([sp+0x30] is the copy made
+ *                 at entry from 0x020A62DC).
+ *   sp+0x4d   9   working copy of "INFINITY" (and sp+0x76 a second 9-byte copy).
+ *   sp+0x56  32   the n-char-sequence accumulator for NAN(...), index capped at
+ *                 0x20; accepts digits, letters and '.'.
+ *   sp+0x80  38   zeroed at entry.  sp+0x80 = 5-byte header, sp+0x84 = u8
+ *                 count with a limit of 0x14 (20), sp+0x85 = 33-byte digit
+ *                 buffer.  This is the buffer handed to func_0209739C -- the
+ *                 "buffer the digits, convert once" shape of MSL's scanf/strtod.
+ *
+ * ============================================================================
+ * 6. RECOMMENDATION
+ * ============================================================================
+ * Do not re-dispatch pkt_02094B8C as written.  Its ceiling today is MATCH
+ * (pending file, no coverage) and its 938-instruction body needs the
+ * original MSL source, not another rewrite attempt.  If the 0.72 points matter,
+ * the order is: match func_0209739C first (pkt_02096990, 1492 bytes at
+ * 0x0209739C..0x02097970) so the site at +0x0C54 gains a witness -- that single
+ * site is the only thing between this function's bytes and an EXACT verdict.
+ * Treating the MSL strtod core as library code (the way layout/runtime_arm9.txt
+ * treats runtime.a) is also defensible and would move this address out of the
+ * open pool, but that is an integrator decision and no such file was touched.
+ */
