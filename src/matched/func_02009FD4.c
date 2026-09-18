@@ -1,0 +1,25 @@
+/*
+ * unit:     no
+ * function: func_02009FD4
+ * address:  0x02009FD4
+ * packet:   pkt_02009F1C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+extern unsigned int func_0200A400(void *p);
+extern void *func_0200A43C(void *p, int i);
+extern int func_02009F0C(int v);
+void *func_02009FD4(char *p, unsigned int idx)
+{
+    unsigned char *e = (unsigned char *)func_0200A43C(p, idx);
+    unsigned int n = func_0200A400(p);
+    if (idx < n && func_02009F0C(*(unsigned char *)((char *)e + 0xb3)) != 0)
+        return e;
+    return 0;
+}
+
