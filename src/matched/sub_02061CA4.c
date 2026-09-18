@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_02146B80     0x02146B80  data
@@ -29,16 +29,12 @@
  * instead swaps the two arguments and still produces an `stmib`, so the
  * verdict stays SIZE-clean and the diff is only two bytes.
  *
- * Byte-correct, capped at MATCH. Blocked on: func_02061BC0 (0x02061BC0) and
- * func_02061B74 (0x02061B74) each have exactly one branch reference in the
- * whole image, the `bl` inside this function, so the `label` class has no
- * witness outside the compared range. There is nothing to cut: the range is
- * a single function, so `--suggest-split` has no cut to offer. Both need an
- * EXACT manifest entry of their own, and both sit outside pkt_02061C0C.
- * func_02061860 and g_02146B80 do resolve (label and literal).
+ * This was capped at MATCH until 0x02061B74, the queue push, was matched in
+ * src/matched/func_02061B74.c; that entry is the witness the `bl` needed.
+ * func_02061BC0 is likewise a matched entry now.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_02061CA4.c \
+ *   python tools/match.py one --src src/matched/sub_02061CA4.c \
  *       --func sub_02061CA4 --addr 0x02061CA4 --cc 1.1p1 --arm
  */
 
