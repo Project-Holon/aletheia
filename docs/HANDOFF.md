@@ -691,5 +691,61 @@ Matching a one-caller leaf promotes every MATCH file that calls it.
 (a five-caller queue push) was matched with the field-re-read spelling
 that schedules the pointer bump before the count decrement.
 
+---
+
+## [2026-09-18] Push from 21.19 to 21.59 percent, and where the 25 is
+
+### Status
+- arm9 coverage 21.1931 -> **21.5931 percent** (84892 -> 86494 of
+  400564 game bytes, 2137 -> 2155 matched functions), from
+  `python tools/worklist.py --summary`. Commits `445e0aa` and `2cd19a4`.
+- Build `242 PASS, 0 FAIL`; rebuilt ROM byte-identical
+  (`sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5`, `ndsrom.py verify`);
+  `manifest --verify` clean apart from the usual `EXACT*` prompt.
+
+### What matched (18 functions)
+- item-table, pkt_02009F7C / pkt_0200A034 / pkt_0200A1E4: 0x02009F7C,
+  0x0200A034, 0x0200A094, 0x0200A1E4, 0x0200A254.
+- field dispose, pkt_0202B67C: 0x0202B68C, 0x0202B69C, 0x0202B6BC.
+- 0x0204B84C, a two-bit actor field setter at +0x60.
+- 0x0203E4xx manager, pkt_0203E484: 0x0203E5F8, 0x0203E6C0, 0x0203E758,
+  0x0203E808, 0x0203E8C8, 0x0203E538, 0x0203E5AC, 0x0203E96C, 0x0203E9DC.
+
+### Findings worth keeping
+- The 0xcc-byte item slot copy is an aggregate assignment. A struct of
+  0x33 `int` (alignment four) emits the `ldm`/`stm` loop with count 0x19
+  and a trailing word; a `u8` array copies byte-at-a-time and diffs 37
+  bytes (`func_02009F7C`).
+- A right shift after a load needs an explicit `(unsigned int)` cast, or
+  mwcc emits `asr` where the original has `lsr`. This cost
+  `func_02008390` (a committed entry the manifest demoted to DIFF once
+  the listings were regenerated) and `func_0203E8C8`; the cast fixes
+  both.
+- A manager global is a plain pointer variable, so the C is `g[idx]`,
+  not `(*g)[idx]`; the extra indirection shifts every field offset.
+- The assert helper is `func_02034714(file_string, line, message_string)`
+  and its message strings attest through the `string` class, so the
+  asserts do not cap at `MATCH`.
+- A branch guard that the original compiles predicated (`cmpne`,
+  `ldrne`, `moveq`) needs a single `&&`/ternary expression, not two
+  separate `if`s. `func_0203EC7C` is parked on this.
+
+### The automated lifters are drained
+Re-ran the four scratch lifters (the straight-line lifter and lifter2,
+the branch lifter, and automatch) over the whole open pool: **0 new
+wins from 632 candidates**. The simple straight-line and single-
+conditional space the previous sessions mined is exhausted. The lifter
+sources live in the session scratch area, not in this repo.
+
+### The measurable path to 25 percent
+A scan of the open pool for functions whose every `bl`/`blx` target is
+already in an EXACT shard finds **166 functions, about 18778 bytes**
+(about 4.7 percent of game code), with no attestation blocker on the
+call side; matching them takes coverage to about 26 percent. See
+`pkt_0203E484` as the worked example: five ready functions, then the
+rest of the packet, all keyed on two manager globals. The residuals are
+data tables referenced by a single pool word (still no attestation
+class for that) and scheduling near misses, not missing callees.
+
 
 
