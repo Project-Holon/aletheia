@@ -1,0 +1,39 @@
+/*
+ * function: func_0200A034
+ * address:  0x0200A034
+ * packet:   pkt_0200A034
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+extern int func_0200A400(void *p);
+extern void func_0200A49C(void *p);
+extern int func_02009F1C(void *p);
+extern void *func_0200A43C(void *p, unsigned int i);
+extern int func_02009F0C(unsigned int v);
+extern void func_0200A480(void *p);
+extern void func_02082D44(void *dst, void *src, int n);
+int func_0200A034(void *p, void *arg)
+{
+    unsigned int i;
+    int found = 0;
+    unsigned int n = (unsigned int)func_0200A400(p);
+    func_0200A49C(p);
+    if (func_02009F1C(p) == 1) {
+        for (i = 0; i < n; i++) {
+            void *slot = func_0200A43C(p, i);
+            if (func_02009F0C(*(u8 *)((char *)slot + 0xb3)) == 0) {
+                func_02082D44(arg, slot, 0xcc);
+                found = 1;
+                break;
+            }
+        }
+    }
+    func_0200A480(p);
+    return found;
+}
