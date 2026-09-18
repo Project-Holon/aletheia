@@ -19559,7 +19559,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02038C18",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     14
    ]
@@ -19597,7 +19597,7 @@
     "MI_CpuCopy8"
    ],
    "start": "0x02038DF0",
-   "status": "open",
+   "status": "claimed:wave6-B",
    "units": [
     14
    ]
@@ -19634,7 +19634,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x02039160",
-   "status": "open",
+   "status": "claimed:wave6-B",
    "units": [
     14
    ]
@@ -19682,7 +19682,7 @@
     "DWCi_IsShutdownMatch"
    ],
    "start": "0x02039414",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     14
    ]
@@ -19717,7 +19717,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x020394F0",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     14
    ]
@@ -19806,7 +19806,7 @@
     "MI_CpuFill8"
    ],
    "start": "0x020395EC",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     14,
     15
@@ -19854,7 +19854,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x020399B8",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -19922,7 +19922,7 @@
     "OS_GetMacAddress"
    ],
    "start": "0x02039A5C",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20038,7 +20038,7 @@
     "OS_GetMacAddress"
    ],
    "start": "0x02039CD8",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20083,7 +20083,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203A458",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20188,7 +20188,7 @@
     "MI_CpuFill8"
    ],
    "start": "0x0203A574",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20273,7 +20273,7 @@
     "MI_CpuCopy8"
    ],
    "start": "0x0203A81C",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20398,7 +20398,7 @@
     "RTC_GetAlarmParam"
    ],
    "start": "0x0203AD8C",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20433,7 +20433,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203B258",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20526,7 +20526,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203B2FC",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20563,7 +20563,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203B5D4",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20600,7 +20600,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203BA98",
-   "status": "open",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20637,7 +20637,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203C068",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20674,7 +20674,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203C0F4",
-   "status": "claimed:wave5-5",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20718,7 +20718,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203C304",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20753,7 +20753,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203C864",
-   "status": "claimed:wave5-5",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20788,7 +20788,7 @@
     "MI_CpuCopy8"
    ],
    "start": "0x0203CBAC",
-   "status": "claimed:wave5-5",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20845,7 +20845,7 @@
     "ENV_SetResourceSet"
    ],
    "start": "0x0203CDD4",
-   "status": "claimed:wave4-1",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20882,7 +20882,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203CF5C",
-   "status": "claimed:wave5-5",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20927,7 +20927,7 @@
     "CTRDGi_IsTaskAvailable"
    ],
    "start": "0x0203D01C",
-   "status": "claimed:wave5-5",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20962,7 +20962,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203D0FC",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -20997,7 +20997,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203D3F8",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -21030,7 +21030,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203D56C",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -21065,7 +21065,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203D5AC",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -21102,7 +21102,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203D680",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -21137,7 +21137,7 @@
     "CARD_GetThreadPriority"
    ],
    "start": "0x0203D6CC",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -21179,7 +21179,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203D7B0",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -21216,7 +21216,7 @@
     "EL_Export"
    ],
    "start": "0x0203D8F0",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     15
    ]
@@ -21302,7 +21302,7 @@
     "MI_CpuCopy8"
    ],
    "start": "0x0203DA7C",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21347,7 +21347,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203E484",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21382,7 +21382,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203EA9C",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21427,7 +21427,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203EC7C",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21462,7 +21462,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203EE18",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21497,7 +21497,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203F0A8",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21538,7 +21538,7 @@
     "OS_GetLowEntropyData"
    ],
    "start": "0x0203F258",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21571,7 +21571,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203F32C",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21604,7 +21604,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203F4FC",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21680,7 +21680,7 @@
     "VEC_Subtract"
    ],
    "start": "0x0203F540",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21725,7 +21725,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x0203FA08",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -21760,7 +21760,7 @@
     "MIi_CpuClear16"
    ],
    "start": "0x0203FCA0",
-   "status": "claimed:wave-small-B",
+   "status": "claimed:wave6-B",
    "units": [
     16
    ]
@@ -30901,7 +30901,7 @@
     "MIi_CpuClear16"
    ],
    "start": "0x0207010C",
-   "status": "claimed:wave3-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -30946,7 +30946,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02070C5C",
-   "status": "claimed:wave3-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31085,7 +31085,7 @@
     "MIi_CpuCopy32"
    ],
    "start": "0x02070DDC",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31285,7 +31285,7 @@
     "SND_SetMasterVolume"
    ],
    "start": "0x02071B2C",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31322,7 +31322,7 @@
     "SND_ReadTrackInfo"
    ],
    "start": "0x02072894",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31370,7 +31370,7 @@
     "SND_UnlockChannel"
    ],
    "start": "0x0207292C",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31405,7 +31405,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x020729C0",
-   "status": "claimed:wave3-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31475,7 +31475,7 @@
     "SND_StopTimer"
    ],
    "start": "0x02072A44",
-   "status": "claimed:wave3-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31597,7 +31597,7 @@
     "SND_WaitForCommandProc"
    ],
    "start": "0x02072C40",
-   "status": "claimed:wave3-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31652,7 +31652,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02072EA8",
-   "status": "claimed:wave3-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31797,7 +31797,7 @@
     "SND_SetTrackVolume"
    ],
    "start": "0x02072F5C",
-   "status": "claimed:wave3-1",
+   "status": "claimed:wave6-A",
    "units": [
     23
    ]
@@ -31868,7 +31868,7 @@
     "SND_StartPreparedSeq"
    ],
    "start": "0x02073108",
-   "status": "claimed:wave3-1",
+   "status": "claimed:wave6-A",
    "units": [
     23,
     24
@@ -31939,7 +31939,7 @@
     "SND_SetTrackAllocatableChannel"
    ],
    "start": "0x020733E8",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -31997,7 +31997,7 @@
     "SND_StopSeq"
    ],
    "start": "0x02073548",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32042,7 +32042,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02073624",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32075,7 +32075,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x020737C0",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32113,7 +32113,7 @@
     "SND_SetupChannelPcm"
    ],
    "start": "0x020738C0",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32175,7 +32175,7 @@
     "SND_WaitForCommandProc"
    ],
    "start": "0x02073AB4",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32225,7 +32225,7 @@
     "SND_WaitForCommandProc"
    ],
    "start": "0x02073BF0",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32287,7 +32287,7 @@
     "SND_WaitForCommandProc"
    ],
    "start": "0x02073D5C",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32360,7 +32360,7 @@
     "SND_StartTimer"
    ],
    "start": "0x02073F3C",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32395,7 +32395,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x020746E8",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32460,7 +32460,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02074770",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32525,7 +32525,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02074A6C",
-   "status": "open",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32583,7 +32583,7 @@
     "SND_AssignWaveArc"
    ],
    "start": "0x02074CD0",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32618,7 +32618,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02075014",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32657,7 +32657,7 @@
     "MI_CpuFill8"
    ],
    "start": "0x020750EC",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32706,7 +32706,7 @@
     "SND_InvalidateSeqData"
    ],
    "start": "0x0207524C",
-   "status": "claimed:wave5-1",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32766,7 +32766,7 @@
     "SND_SetWaveDataAddress"
    ],
    "start": "0x0207533C",
-   "status": "open",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32810,7 +32810,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02075618",
-   "status": "open",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32885,7 +32885,7 @@
     "OS_UnlockMutex"
    ],
    "start": "0x02075794",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32923,7 +32923,7 @@
     "OS_RestoreInterrupts"
    ],
    "start": "0x02075AB8",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -32968,7 +32968,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02075BAC",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -33008,7 +33008,7 @@
     "OS_IsRunOnTwl"
    ],
    "start": "0x02075FCC",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -33043,7 +33043,7 @@
    "isa": "arm",
    "sdk_calls": [],
    "start": "0x02076B8C",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
@@ -33080,7 +33080,7 @@
     "PXI_SendWordByFifo"
    ],
    "start": "0x02077568",
-   "status": "claimed:wave-small-C",
+   "status": "claimed:wave6-A",
    "units": [
     24
    ]
