@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020223C0
+ * function: func_020223C0, sub_02022424
  * address:  0x020223C0
  * packet:   pkt_02022174
  * region:   arm9
@@ -16,7 +16,10 @@
  * unlabelled leaf static in the same translation unit (no lr save, so
  * disasm.py never labels it); it stores the triple twice, once at +0x00/+0x04/
  * +0x08 and once more at +0x0C/+0x10, which is what makes the two later
- * readers see the same pair of values from either half.
+ * readers see the same pair of values from either half.  It carries its
+ * address as its name, and is listed in `function:` above, so the manifest
+ * records the address it covers: coverage is counted per address named by an
+ * entry, and a range covered only by a unit names nothing on its own.
  *
  * Addresses are Black-image addresses.
  *
@@ -34,30 +37,30 @@ struct Mode {
     u32 b2;
 };
 
-static void set_mode(struct Mode *p, u32 kind, u32 a, u32 b);
+static void sub_02022424(struct Mode *p, u32 kind, u32 a, u32 b);
 
 void func_020223C0(u32 mode, struct Mode *p)
 {
     switch (mode) {
     case 0:
-        set_mode(p, 0, 1, 1);
+        sub_02022424(p, 0, 1, 1);
         break;
     case 1:
-        set_mode(p, 1, 1, 1);
+        sub_02022424(p, 1, 1, 1);
         break;
     case 2:
-        set_mode(p, 2, 1, 1);
+        sub_02022424(p, 2, 1, 1);
         break;
     case 3:
-        set_mode(p, 1, 1, 0);
+        sub_02022424(p, 1, 1, 0);
         break;
     case 4:
-        set_mode(p, 2, 0, 1);
+        sub_02022424(p, 2, 0, 1);
         break;
     }
 }
 
-static void set_mode(struct Mode *p, u32 kind, u32 a, u32 b)
+static void sub_02022424(struct Mode *p, u32 kind, u32 a, u32 b)
 {
     p->kind = kind;
     p->a = a;

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_020407E8
+ * function: sub_020407E8, sub_02040804
  * address:  0x020407E8
  * packet:   pkt_02040618
  * region:   arm9
