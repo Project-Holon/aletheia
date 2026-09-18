@@ -102,7 +102,9 @@ Usage
   python tools/worklist.py --force          rebuild, discarding all statuses
   python tools/worklist.py --refresh        recompute, keeping claims
   python tools/worklist.py --summary        print the coverage summary
-  python tools/worklist.py --packet ID      print one packet in detail
+  python tools/worklist.py --packet ID      print one packet in detail, each function marked
+                                            matched or OPEN (only OPEN lines are work)
+  python tools/worklist.py --packet ID --open-only   list just the open functions
 """
 
 import argparse
@@ -1153,11 +1155,16 @@ def print_summary(doc):
         )
 
 
-def print_packet(doc, pid):
+def print_packet(doc, pid, open_only=False):
     p = doc["packets"].get(pid)
     if p is None:
         print("no such packet: %s" % pid, file=sys.stderr)
         return 1
+    # A packet's range is listed IN FULL whether or not a manifest entry already covers each
+    # function. Picking targets from that list without the state below is how a lane re-derives
+    # work that is already filed, so annotate every line and state the counts.
+    matched = load_matched()
+    n_matched = sum(1 for f in p["functions"] if int(f["addr"], 16) in matched)
     print(
         "%s  %s  %s..%s (code ends %s)"
         % (p["id"], p["status"], p["start"], p["end"], p.get("code_end", p["end"]))
@@ -1189,16 +1196,29 @@ def print_packet(doc, pid):
         for site, name in anchors:
             print("    0x%08X  %s" % (site, name))
     for f in p["functions"]:
+        is_matched = int(f["addr"], 16) in matched
+        if open_only and is_matched:
+            continue
         print(
-            "    %s  %-5s %5d bytes code %4d%s"
+            "    %s  %-5s %5d bytes code %4d  %s%s"
             % (
                 f["addr"],
                 f["isa"],
                 f["size"],
                 f["code"],
+                "matched" if is_matched else "OPEN   ",
                 "  data-adjacent" if f["data_adjacent"] else "",
             )
         )
+    print(
+        "  %d of %d function(s) already covered by a manifest entry, %d open%s"
+        % (
+            n_matched,
+            p["function_count"],
+            p["function_count"] - n_matched,
+            " (only OPEN lines are work)" if p["function_count"] != n_matched else "",
+        )
+    )
     return 0
 
 
@@ -1478,6 +1498,8 @@ def main(argv=None):
     ap.add_argument("--summary", action="store_true",
                     help="print the coverage summary and exit")
     ap.add_argument("--packet", metavar="ID", help="print one packet in detail")
+    ap.add_argument("--open-only", action="store_true",
+                    help="with --packet, list only functions no manifest entry covers")
     ap.add_argument("--targets", nargs="?", const=30, type=int, default=None,
                     metavar="N",
                     help="print the top N open functions by attestation-"
@@ -1491,7 +1513,7 @@ def main(argv=None):
 
     have_old = os.path.exists(args.out)
 
-    if args.summary or args.packet or args.targets is not None:
+    if args.summary or args.packet or args.targets is not None or args.open_only:
         if have_old:
             with open(args.out, encoding="utf-8") as fh:
                 doc = json.load(fh)
@@ -1499,7 +1521,10 @@ def main(argv=None):
             inv = build_inventory()
             doc = build_document(inv, group_packets(inv))
         if args.packet:
-            return print_packet(doc, args.packet)
+            return print_packet(doc, args.packet, open_only=args.open_only)
+        if args.open_only:
+            print("--open-only needs --packet ID", file=sys.stderr)
+            return 2
         if args.targets is not None:
             return print_targets(doc, args.targets)
         print_summary(doc)

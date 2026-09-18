@@ -11,7 +11,13 @@ You are handed one packet: a contiguous run of `open` functions in the
 Black image, drawn from `layout/worklist.json`. Inside it:
 
 1. Pick a function (or a short contiguous run of functions) from your
-   packet's address range.
+   packet's address range. `python tools/worklist.py --packet <id>` prints
+   the range IN FULL and marks every line `matched` or `OPEN`; only the
+   `OPEN` lines are work, and `--open-only` hides the rest. A packet's
+   boundaries survive a refresh, so a line can read `matched` because a
+   lane filed that address after your packet was cut: re-deriving one
+   costs a whole slot of your budget and adds no coverage, so check the
+   mark (or re-run `match.py one`) before you write a body.
 2. Write C for it under `src/matched/` or `src/pending/` (see below), with
    the house header block filled in.
 3. Verify it with `match.py one` (single function) or `match.py tu` (a
