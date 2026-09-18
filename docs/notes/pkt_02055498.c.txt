@@ -1,0 +1,182 @@
+function: func_02055498, func_02055B80, func_02055FD4
+address:  0x02055498
+packet:   pkt_02055498
+region:   arm9
+isa:      arm
+verdict:  not reachable under the pinned configuration - codegen wall, no
+          attestation cap and no byte difference attributable to the C
+
+All three open functions of pkt_02055498 (0x02055498 1752 B, 0x02055B80 1088 B,
+0x02055FD4 1080 B, 3920 B together) sit inside the 3D skeleton / rig-library
+translation unit at 0x0205429C..0x020584E0 that docs/idioms/
+an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md already
+describes as "some further build difference is still unaccounted for".  That
+difference is now identified: the unit was built with the DS-era
+tools/mwccarm/mwccarm/1.2 tree, not with dsi/1.1p1, and `sweep` never crosses
+that tree (it walks `versions_dir()`, i.e. dsi/ only), which is why a
+project-wide sweep could not find it.
+
+Nothing here is an attestation problem.  Every external branch target of the
+three functions attests as `label` with witnesses outside the compared range
+(image_call_sites counts): 0x020565C8 (4 sites), 0x0207B51C MTX_MultVec33 (15),
+0x0207BC08 MTX_MultVec43 (12), 0x0207CAE8 VEC_CrossProduct (30), 0x0207CCA4
+VEC_Normalize (95), 0x0207D918 G3_MultMtx43 (21), 0x02082B60 MI_Copy36B (19).
+The four literal-pool words of func_02055498 (0x02055B70/B74/B78/B7C) hold
+0x040004A4, 0x04000454, 0x04000470, 0x04000480 - hardware addresses spelled as
+integer constants, so they produce no relocation at all.  The blocker is purely
+which instructions the compiler emits.
+
+## 1. The signature that dsi/1.1p1 cannot emit
+
+The open functions of this unit materialise 64-bit constants into registers and
+build 64x64 products from umull+mla: 47 `mov rX,#2048|#4096` sites in
+0x0205429C..0x020588E0, none of them inside a range this project has already
+matched.  From func_02055498:
+
+```
+02055514  e0c52094  smull r2, r5, r4, r0        ; (s64)r4 * r0
+0205551c  e3a03b02  mov   r3, #2048              ; the 64-bit addend 0x800,
+02055520  e0921003  adds  r1, r2, r3             ;   held in a register pair
+02055528  e2a59000  adc   r9, r5, #0             ;   (r3 = low, r9 = high)
+```
+
+```
+02055564  e1a0efc0  asr   lr, r0, #31            ; full 64x64 expansion of
+02055568  e08ac094  umull ip, sl, r4, r0         ;   (s64)r4 * (s64)r0,
+0205556c  e02aae94  mla   sl, r4, lr, sl         ;   not the single smull
+02055574  e02aa091  mla   sl, r1, r0, sl         ;   dsi/1.1p1 emits for it
+```
+
+Counts per target (`mov rX,#2048|#4096` as an arithmetic operand / umull+mla):
+
+```
+0x02055498  7 register-materialised constants, 2 umull + 4 mla, 18 `adds rD,rS,rC`
+0x02055B80  3                               , 2 umull + 4 mla,  6
+0x02055FD4  3                               , 2 umull + 4 mla,  2
+```
+
+One such instruction is enough: the immediate form and the register form are
+different bytes, so no amount of C reaches EXACT while the compiler folds the
+constant.
+
+## 2. What every available configuration does with the C that asks for it
+
+A TU of the exact expressions the unit needs (macro FX_Mul, a 64-bit local
+holding the constant, a static const fx64, an unsigned intermediate, compound
+assignment, a parameter of a static inline helper, a pointer to the local, the
+u64-literal and 1<<11 spellings, and the 2-product/3-arm shape func_02055498
+has) was compiled across the collection:
+
+* every compiler in tools/mwccarm (24 builds: dsi/1.1 1.1p1 1.2 1.2p1 1.2p2 1.3
+  1.3p1 1.6sp1 1.6sp2, 1.2/base sp2 sp2p3 sp3 sp4, 2.0/base sp1 sp1p2 sp1p5
+  sp1p6 sp1p7 sp2 sp2p2 sp2p3 sp2p4) at -O4,p with -proc arm946e and with
+  -proc arm7tdmi: `adds rD, rS, #2048` (immediate) everywhere except the five
+  1.2 builds.
+* the nine dsi builds additionally at -O4 -O4,s -O3,p -O2,p -O1,p: immediate in
+  every one of the 63 cells.
+* the five 1.2 builds at -O4,p: `mov rD, #2048` + `adds rD, rS, rD` (the
+  constant in a register, the original's bytes) - and this does not depend on
+  the -proc value.
+* only `-O0,p` puts the constant in a register in the other trees, and -O0
+  does not reproduce the rest of this unit's code at all.
+
+So the register-pair form is a property of the 1.2 front end, not of a source
+shape.  It survives every spelling tried here and every spelling tried by the
+two notes below.
+
+## 3. Proof: the same trees on this unit's own parked C
+
+The C embedded in five `docs/notes/func_02*.c.txt` files for this unit was
+written against dsi/1.1p1 and parked as DIFF.  Recompiling each unchanged:
+
+```
+note               dsi/1.1p1+arm7tdmi   mwccarm 1.2 + -proc arm946e
+func_02056460      118 of 148 bytes     10 of 172 (size now exact)
+func_02057B10       56 of  64            EXACT (76 bytes)
+func_02057EF8      111 of 144            EXACT (148 bytes)
+func_020583CC       47 of  72            EXACT (80 bytes)
+```
+
+and three of this unit's four already-EXACT entries are reproduced
+byte-for-byte by both configurations (func_02058300 128 B, func_02058380 76 B,
+func_020588FC).  The fourth, unit_0205841C, is the useful counter-example: under
+1.2+arm946e it lays out the original's 196 bytes but differs in 36 of them, and
+under 1.1p1+arm946e it is 188 bytes (12 short - the two-instruction returns), so
+its C has been tuned to 1.1p1+arm7tdmi and would need re-tuning for the 1.2
+tree.  That is a property of the source, not of the original bytes.
+
+That is the whole finding: the region's real configuration is
+
+```
+compiler: ../1.2/sp2          (tools/mwccarm/mwccarm/1.2/sp2, mwccarm.exe 2005-08-11)
+flags:    -O4,p -proc arm946e
+```
+
+`match.py --cc ../1.2/sp2` resolves it today (compiler_path joins the version
+below tools/mwccarm/mwccarm/dsi/, so `../1.2/sp2` lands on the 1.2 tree), and
+`manifest --verify`/`csrc.py` read the same two header fields back, so a file
+filed that way re-verifies and rebuilds with the compiler that actually
+produces its bytes.
+
+## 4. Correction to the arm7tdmi idiom
+
+`-proc arm7tdmi` is not what makes this unit's `pop {..., lr}; bx lr` epilogue.
+mwccarm 1.2 emits that two-instruction return under `-proc arm946e` as well
+(func_02058300 ends `bx lr` and is reproduced byte-for-byte by both
+1.1p1+arm7tdmi and 1.2+arm946e, and three of this unit's parked notes go from
+DIFF to EXACT under it).  Both of the two visible differences that the idiom
+file and the two neighbouring notes attributed to a missing build difference are
+explained by the compiler tree alone:
+
+* the two-instruction return: 1.2 does this at arm946e, 1.1p1 needs arm7tdmi;
+* 64-bit constant folding: 1.2 materialises, 1.1p1 folds.
+
+The unit is otherwise unchanged: register allocation, scheduling, literal pool
+placement and the `stm`-folding that the two notes work around with `volatile`
+are the same in both trees.
+
+## 5. The same tree dissolves the blx / pop-lr contradiction
+
+`docs/idioms/a-register-blx-with-a-pop-lr-return-is-a-toolchain-conflict-no-proc-value-emits-both.md`
+and `docs/notes/pkt_02053218.c.txt` / `pkt_0205429C.c.txt` (0x02053E1C, 0x0205429C,
+0x02054718 - the three packets immediately before this one) conclude that a
+function mixing register `blx rN` with a `pop {..., lr}; bx lr` return cannot be
+built by this tree at all: "The original unit was therefore built by a compiler
+this tree does not have."  That compiler is the 1.2 tree.  A probe TU with three
+indirect calls, compiled by tools/mwccarm/mwccarm/1.2/sp2/mwccarm.exe at
+-O4,p -proc arm946e, contains both idioms in the same functions:
+
+```
+   0: e92d4000  stmfd sp!, {lr}
+   4: e24dd004  sub   sp, sp, #4
+   8: e1a02000  mov   r2, r0
+   c: e1a00001  mov   r0, r1
+  10: e12fff32  blx   r2                 <- ARMv5T indirect call
+  14: e2800001  add   r0, r0, #1
+  18: e28dd004  add   sp, sp, #4
+  1c: e8bd4000  ldmfd sp!, {lr}          <- ARMv4T two-instruction return
+  20: e12fff1e  bx    lr
+```
+
+The five dsi builds and 2.0 reproduce the idiom file exactly (`blx rN` with
+`pop {rN, pc}`, or `mov lr, pc; bx rN` with `pop {..., lr}; bx lr`), so nothing
+there changes; it is the 1.2 tree that has both.  Concretely: the C embedded in
+`docs/notes/pkt_02053218.c.txt` for 0x02053E1C, compiled unchanged, lays out
+1128 bytes under dsi/1.1p1+arm946e (768 of them different) and exactly the
+original's 1136 bytes under 1.2/sp2+arm946e (563 different).  The function is
+not unreachable after all; its C needs re-tuning under the tree that produces
+its idioms, and the same re-check is worth running on the recovered C for
+0x0205429C and 0x02054718.
+
+## 6. What was not done
+
+No source was filed for the three targets, and no shard was written: under the
+pinned dsi/1.1p1 the best possible verdict for any of them is DIFF, so the
+honest result is this record rather than a file in src/matched/ or
+src/pending/.  The C itself has not been reconstructed; the wall is
+independent of the C, since the instruction forms above are already in the
+original bytes.  Recommended next step, for the orchestrator rather than a
+packet agent: re-dispatch this packet (and the rest of 0x0205429C..0x020584E0)
+with `compiler: ../1.2/sp2` / `flags: -O4,p -proc arm946e`, which also
+immediately converts the three parked notes above and almost certainly closes
+pkt_02056460's 10-byte residue.

@@ -1,0 +1,55 @@
+func_02031FE0  0x02031FE0  1692 code bytes + 12 bytes of literal pool
+status: PARKED AT DIFF (source: src/pending/sub_02031FE0.c)
+
+The body is structurally complete and the compiled size is exactly right
+(1704 bytes over 0x02031FE0..0x02032688, pool included).  Verdict from
+
+    python tools/match.py one --src src/pending/sub_02031FE0.c \
+        --func func_02031FE0 --addr 0x02031FE0 --cc 1.1p1 --arm
+
+is DIFF with 15 concrete bytes left, in one register-colouring residue, plus
+a 4-byte condition-code difference.  Every call site (16 distinct callees, 62
+sites), both data relocations (file_020A7848, unk_02146994) and all three
+branch-table arms already have witnesses, so this is not an attestation cap.
+
+Residue 1 -- the per-record inner loop at 0x02032344 (11 bytes' worth of
+instructions, 15 bytes total with residue 2):
+
+    original  r7 = func_02033B68(id)   r8 = func_02033BAC(len)
+              r4 = r7 + r8             r5 = buf0 + r4     r6 = other + r4
+              r9 = the record index (sb)
+    here      r4 = func_02033B68(id)   r5 = func_02033BAC(len)
+              r8 = r4 + r5             r6 = buf0 + r8     r7 = other + r8
+
+The four locals (reco, recl, pa, pb) take r4..r7 in declaration order, which
+is docs/idioms/declaration-order-decides-which-register-a-local-gets.md
+behaviour; in the original the add-derived sum takes r4 and pushes the four
+to r5..r8.  Tried and rejected, each compiled and diffed:
+
+  * all 24 declaration orders of (reco, recl, pa, pb) -- best is
+    (recl, pa, pb, reco), 15 bytes, which is the order in the parked file;
+  * the sum as a named local declared first / middle / last (5 positions):
+    mwcc does not put an add-derived local in the declaration-order group, it
+    colours it after the loop counter instead, so the sum lands in r9 and the
+    loop counter moves, 45 bytes;
+  * nested-scope declarations of the loop body's locals, declaration with
+    initialiser inside the body, pointer-arithmetic spellings of pa[1]/pb[1],
+    u8-cast spellings of buf[idx] and of base[i], single-declarator lists,
+    renamed variables (name hashing ruled out), dummy locals before and after
+    the group, and the pa/pb definitions swapped: all 23-27 bytes, never 0.
+
+Residue 2 -- the L_dual test at 0x02032228 (4 bytes): the original emits
+`cmp r1,#1; cmpne r0,#1`; this file emits `cmp r1,#1; cmpeq r0,#1`.  Same
+pair of tests, different second condition code because here the compiler can
+prove rec[1].a != 0 on entry to that arm (it is the else of rec[1].a == 0).
+Both the if/else-inline and the goto-label spellings of that dispatch were
+compiled: the inline spelling produces the register reuse but lays the arm
+out before the copy arm, the goto spelling lays it out correctly but reloads.
+The goto spelling (with the copy arm first, as in the original) is what the
+parked file uses.
+
+Everything else in the function matches instruction for instruction: 423
+original instructions against 424 compiled, the extra one being a reload in
+L_dual.  This is a compiler-frontier function (1692 bytes; the largest ARM
+function this repo has matched is 376 bytes), so it is parked rather than
+ground further.

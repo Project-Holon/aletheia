@@ -1,0 +1,45 @@
+pkt_0206F4C8 -- state at the end of this run
+
+Five open functions, 3088 code bytes, all ARM, unit 023
+(asm/arm9/src/023_0206A00C.s):
+
+    0x0206F4C8   484 bytes   no direct calls, blx-free in the listing
+    0x0206F6B0   392 bytes   one direct callee
+    0x0206F844  1044 bytes   twelve direct calls, 2 distinct targets
+                            (func_0206FFA0, func_0207CCA4) -- the assigned
+                            fallback target
+    0x0206FC5C   824 bytes   eight direct calls, 3 distinct targets
+    0x0206FFA0   344 bytes   no calls; four pool relocations
+
+Nothing in the packet was closed this run.  What was established, and what
+the next agent should not have to re-derive:
+
+1. 0x0206FFA0 (344 bytes, the smallest in the packet) is worked out to the
+   level of arm structure and field order; the partial C is parked at
+   src/pending/sub_0206FFA0.c with the residue and the next step named in its
+   header.  Four spellings were compiled: 400, 428, 448 and 468 bytes against
+   the original's 364, the best (428) being the one parked.  It has no calls,
+   and its four literal-pool words are one data
+   symbol: 0x020A1998 with addends 0,1,2,3 (the pool holds 0x020A1998,
+   0x020A1999, 0x020A199A, 0x020A199B).  Those four relocations resolve as
+   `literal` against the base 0x020A1998, which has five pool references
+   image-wide, so the attestation side of this function is already clear --
+   the whole difficulty is the code shape.
+
+2. 0x0206F844 (the assigned fallback, 1044 bytes) has every call target
+   resolved: `python tools/match.py` attestation over 0x0206F844..0x0206FC5C
+   returns a witness for both of its distinct callees.  It is therefore a
+   clean candidate for a dedicated run; it was not started here because this
+   run's budget went to pkt_02031F9C's 1692-byte merger.
+
+3. 0x0206F4C8, 0x0206F6B0, 0x0206FC5C and 0x0206FFA0 all end in the ARMv4T
+   epilogue shape (pop {..., lr} / pop {..., pc} with r3 in the list), so the
+   `-proc` value for this unit is worth checking against
+   docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md
+   before any of them is started: worklist.py prints no proc hint for this
+   packet, and 0x0206F844's own listing ends `pop {r4, r5, r6, r7, r8, sl, fp,
+   pc}` with the pinned arm946e, which is consistent with the pinned flags.
+
+Frontier note: the largest ARM function this repo has matched is 376 bytes;
+0x0206FFA0 at 344 is the only function in this packet under that line, which
+is why it was the one attempted.

@@ -1,5 +1,19 @@
 # A register blx with a pop-lr return is a toolchain conflict: no -proc value emits both
 
+> **CORRECTED the same day, by measurement. The conclusion below is WRONG.** The combination is not a
+> conflict between `-proc` values, it is a difference between front-end *versions*: mwccarm **1.2** under
+> `-proc arm946e` emits register `blx rN` and `pop {..., lr}; bx lr` in the same function, and it
+> materialises 64-bit constants in registers where every dsi build folds them to an immediate. Verified
+> with two probes compiled under the same `-proc arm946e` (`scratch/probe_blx.c`, `scratch/probe64.c`):
+> dsi/1.1p1 gives `pop {r3, pc}` and `adds r0, r2, #2048`, 1.2/sp2 gives `pop {r4, r5, r6, lr}` +
+> `bx lr` and `mov r0, #2048; adds r0, r2, r0`.
+>
+> So the 14 functions / 9572 bytes this document calls unreachable are reachable under a per-file
+> `compiler: ../1.2/sp2` pin. The detection recipe below stays correct and useful; the disposal does not.
+> See `an-armv4t-style-return-and-a-register-blx-name-a-1-2-front-end-not-a-proc-value.md`.
+>
+> Everything below is the original reading, kept for the record.
+
 summary: a function that contains register `blx rN` (ARMv5T) *and* the ARMv4T epilogue
 `pop {..., lr}; bx lr` cannot be reproduced by mwccarm 1.1p1 under any `-proc` value it accepts. Every
 v5+ value emits `blx rN` but returns through `pop {..., pc}`; every ARMv4T value returns through

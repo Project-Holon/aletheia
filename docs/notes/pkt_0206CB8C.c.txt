@@ -1,0 +1,158 @@
+cap record -- two targets, both MATCH-capped before any C was written
+=====================================================================
+
+both of these are capped by the same structural fact: the only witness in the
+whole image for a data address the function loads is the function's OWN literal
+pool word, and that word sits inside the compared range for any byte-identical
+compile.  No source shape can close them, so per the brief the bodies were NOT
+written; the screen below is the finding.
+
+--------------------------------------------------------------------------------
+1. PRIMARY  0x0206CB8C  func_0206CB8C  (pkt_0206CB8C, 1868 code bytes + 16 pool)
+--------------------------------------------------------------------------------
+
+extent:        listing extent 1884 bytes, 0x0206CB8C..0x0206D2E8 (next label
+               func_0206D2E8); code ends 0x0206D2D8, pool 0x0206D2D8..0x0206D2E8
+isa:           arm    (push {r4-r8,sb,sl,fp,lr}; pop {...,pc})
+relocations:   inferred from the original: 7 external branch sites (8 `bl`
+               instructions, 0x0207D8E0 reached twice) + 2 R_ARM_ABS32 data
+               sites (the two hardware words 0x04000440 / 0x04000450 are spelled
+               as constants in this project's convention and need no witness;
+               both attest anyway, literal x57 / x2)
+
+every branch target attests cleanly:
+
+  0206CBD0 bl 02082AC0  label x102   0206CEB0 bl 0207DC98  label x20
+  0206CBD4 bl 0206DB80  label x57    0206CED8 bl 0207D934  label x3
+  0206CC74 bl 0207D918  label x100   0206D058 bl 0207DCC8  label x5
+  0206D26C bl 0207D8E0  label x30    0206D280 bl 0207D8E0  label x30
+
+the two data sites do not:
+
+  pool_0206D2DC = 0x0214A1B4, loaded once, by the `ldr r3, pool_0206D2DC`
+    at 0x0206CC28 (imm 0x6AC: 0x0206CC30 + 0x6AC = 0x0206D2DC)
+  pool_0206D2E4 = 0x0214A1F4, loaded once, by the `ldr r1, pool_0206D2E4`
+    at 0x0206D038 (imm 0x2A4: 0x0206D040 + 0x2A4 = 0x0206D2E4)
+
+evidence, all of it read-only:
+
+  evidence().pool_words[0x0214A1B4] -> {0x0206D2DC}   (5 index entries, 1
+                                                       distinct address)
+  evidence().pool_words[0x0214A1F4] -> {0x0206D2E4}   (5 index entries, 1
+                                                       distinct address)
+  raw u32 scan of the whole arm9 region (0x02004000..0x020A9E80):
+    0x0214A1B4 occurs exactly once, at 0x0206D2DC
+    0x0214A1F4 occurs exactly once, at 0x0206D2E4
+  both addresses are OUTSIDE the arm9 image (0x0214A1B4 > 0x020A9E80): RAM,
+    so no `func_` label and no string/veneer/literal-from-elsewhere is even
+    possible for them, and no `matched` entry can cover data
+  match.attest(0x0214A1B4, 'data', 0x0206CB8C, 0x0206D2D8) -> ('literal', 5, 0x0206D2DC)
+  match.attest(0x0214A1B4, 'data', 0x0206CB8C, 0x0206D2E8) -> None
+  same for 0x0214A1F4: witness 0x0206D2E4 appears at hi=0x0206D2E0, None at
+    0x0206D2E8
+
+why this cannot be cured by any C, any cut, or any source spelling:
+`resolve_relocations(fb, place, ...)` is called with size=None, so the compared
+range is [place, place + len(fb.data)) -- the compiled section, pool included.
+mwccarm puts each function's constant pool at the end of that function's own
+section (observed directly: a 40-byte probe function compiled at 0x0206CB8C put
+its two ABS32 words at +0x20 and +0x24 of its own section).  The pool word for
+0x0214A1B4 must be at 0x0206D2DC in any byte-identical build, because the load
+at 0x0206CC28 reaches it PC-relatively; the section must be at least 1884 bytes
+to hold body + pool; therefore 0x0206D2DC is always strictly inside the compared
+range.  A cut cannot separate a function from its own pool.  --suggest-split
+therefore has nothing to offer and was not run.
+
+This is the class docs/MATCHING.md already records as still open for
+0x02008CF8 ("0x020A70C4 and 0x0209DDB4 are each named by one pool word, its
+own"), and the same class as the parked private-table files.
+
+two ways to get bytes that match anyway, both refused here on purpose:
+  * declare a *base* symbol whose pool witness IS outside the range and spell
+    the address as base + offset.  This resolves, because resolve_relocations
+    attests the declared SYMBOL address and then writes (target + addend); the
+    addend is then chosen to make the word come out.  Since every address in the
+    image is some pooled address plus a constant, this defeats the witness rule
+    in general and was not used.  (Worth knowing for the tool: the attestation
+    is on S, not on S+A.)
+  * write 0x0214A1B4 as a raw numeric constant so no relocation exists.  That is
+    reading the answer out of the compared bytes and confirming the compared
+    bytes contain it, which is the tautology the honesty rule exists to refuse.
+
+--------------------------------------------------------------------------------
+2. FALLBACK  0x0206BA18  func_0206BA18  (pkt_0206AF08, 1140 code bytes + 20 pool)
+--------------------------------------------------------------------------------
+
+extent:        listing extent 1160 bytes, 0x0206BA18..0x0206BEA0; code ends
+               0x0206BE8C, pool 0x0206BE8C..0x0206BEA0
+isa:           arm    (push {r3,r4,r5,r6,r7,r8,lr}; pop {r3,r4,r5,pc})
+toolchain wall: NOT applicable -- no register `blx rN` anywhere in the function
+  (scanned every word of 0x0206BA18..0x0206BE94; the idiom
+  docs/idioms/a-register-blx-with-a-pop-lr-return-is-a-toolchain-conflict-...
+  does not fire)
+relocations:   inferred from the original: 1 external branch site
+               (0x0206BE34 bl 0x0206DDA4, label x395) + 3 R_ARM_ABS32 data sites
+               (the small constants 0x00293130 and 0x00002B2A are plain pooled
+               numbers, no relocation)
+
+attesting:     pool_0206BE90 = 0x02148B4C -> literal x115
+               pool_0206BE94 = 0x020A1954 -> None
+               pool_0206BE98 = 0x00293130 -> constant, no witness needed
+               pool_0206BE9C = 0x00002B2A -> constant, no witness needed
+
+blocked sites:
+
+  pool_0206BE8C = 0x02148DB4, loaded twice: `ldr r1, pool_0206BE8C` at 0x0206BAFC
+    and at 0x0206BB58, both used as `mla r8, r5, #0x38, r1` table bases.
+    raw u32 scan of arm9: 0x02148DB4 occurs exactly once, at 0x0206BE8C.
+    It is outside the image (RAM), so only `literal` could ever attest it.
+    attest(data, 0x0206BA18, 0x0206BE00) -> ('literal', 5, 0x0206BE8C)
+    attest(data, 0x0206BA18, 0x0206BEA0) -> None   (0x0206BE8C is inside the
+    extent, and 0x0206BEA0 is the compared range for the 1160-byte section)
+
+  pool_0206BE94 = 0x020A1954, loaded once, by `ldr r0, pool_0206BE94` at
+    0x0206BBEC (imm 0x2A0: 0x0206BBF4 + 0x2A0 = 0x0206BE94), used as an
+    8-entry mask table indexed `ldr lr, [r0, r2, lsl #2]` with r2 = (u16>>6)&7.
+    It IS in the image (arm9 rodata) but no second pool word holds it:
+    0x020A1954 occurs exactly once in the whole region, at 0x0206BE94, and it is
+    not a string start (the bytes there begin 00 00 00 00 FF 7F 00 00, i.e. the
+    blend-mask table 00000000/00007FFF/7FFF0000/7FFF7FFF/00008000/0000FFFF/
+    7FFF8000/7FFFFFFF), so the `string` class cannot reach it either.
+    attest(data, 0x0206BA18, 0x0206BEA0) -> None
+
+same structural argument as the primary: the load's PC-relative immediate fixes
+the pool word's address inside the section, the section is the compared range.
+
+--------------------------------------------------------------------------------
+3. verdict for both
+--------------------------------------------------------------------------------
+
+no C was written: a body reaching either function cannot be anything better than
+MATCH, and the brief says to report that and move on rather than spend the run
+on it.  Nothing was placed in src/matched/ or src/pending/ and no shard was
+written (a shard entry requires an EXACT verdict).
+
+what would close them, and it is not source work:
+  * 0x0206CB8C: a second pool word holding 0x0214A1B4 or 0x0214A1F4 anywhere
+    else in arm9 -- i.e. a second function in the original that referenced the
+    same RAM object (it would have to be matched first, or simply exist in the
+    image; it does not exist today).
+  * 0x0206BA18: same, for 0x02148DB4 (a second referencing function) and for
+    0x020A1954 (a second pool word for the blend-mask table).
+  Both are evidence questions about the rest of the image, not about these two
+  functions.
+
+and the search for such a witness is exhausted, not merely ARM9-local: a raw
+u32 scan over EVERY region in the file (all 242 -- arm9 plus all 241 overlays,
+72 MB, via match.load_all_regions()) finds each of the four addresses exactly
+once in the entire ROM:
+
+  arm9 0206D2DC  value 0214A1B4
+  arm9 0206D2E4  value 0214A1F4
+  arm9 0206BE8C  value 02148DB4
+  arm9 0206BE94  value 020A1954
+
+i.e. the four occurrences are the four blocking words themselves.  So no
+widening of the `literal` class to overlays, and no other class, can attest
+them: the addresses are simply never mentioned anywhere else in the ROM in any
+encoding.
