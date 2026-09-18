@@ -86,3 +86,154 @@ void func_02022568(u32 a, u32 b, u32 c)
  * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
  */
 
+======================================================================
+// 0x02022490  func_02022490  size 64  isa thumb
+// verdict: DIFF
+//   * +0006    adds r6, r1, #0                        | adds r7, r1, #0
+//   * +0008    adds r4, r2, #0                        | adds r6, r2, #0
+//   * +000A    adds r7, r3, #0                        | adds r4, r3, #0
+//   * +0016    ldr r0, [pc, #0x28]                    | ldr r0, [pc, #0x30]
+//   * +0020    ldr r1, [pc, #0x20]                    | ldr r1, [pc, #0x28]
+//   * +0024    lsls r2, r7, #2                        | lsls r0, r4, #2
+//   * +0026    str r6, [r5, r2]                       | str r7, [r5, r0]
+//   * +0028    cmp r4, #0                             | cmp r6, #0
+//   * +002A    beq #0x20224c2                         | beq #0x20224c4
+//   * +002C    adds r0, r5, r2                        | adds r0, r4, #2
+//   * +002E    str r4, [r0, #8]                       | lsls r0, r0, #2
+//   * +0030    b #0x20224c8                           | str r6, [r5, r0]
+//   * +0032    ldr r1, [pc, #0x14]                    | b #0x20224cc
+//   * +0034    adds r0, r5, r2                        | adds r0, r4, #2
+//   * +0036    str r1, [r0, #8]                       | ldr r1, [pc, #0x18]
+//   * +0038    movs r1, #1                            | lsls r0, r0, #2
+//   * +003A    adds r0, r5, r2                        | str r1, [r5, r0]
+//   * +003C    str r1, [r0, #0x10]                    | adds r0, r4, #4
+//   * +003E    pop {r3, r4, r5, r6, r7, pc}           | movs r1, #1
+//   * +0040    movs r4, #0x79                         | lsls r0, r0, #2
+//   * +0042    lsls r2, r0, #8                        | str r1, [r5, r0]
+//   * +0044    ldr r4, [r4, #8]                       | pop {r3, r4, r5, r6, r7, pc}
+//   * +0046    lsls r4, r2, #8                        | mov r8, r8
+//   * +0048    movs r5, #0xf1                         | movs r4, #0x79                         <- ABS32 func_02022478 [resolved: matched]
+//   * +004C    push {r3, r4, r5, r6, r7, lr}          | ldr r4, [r4, #8]                       <- ABS32 g_021468A4 [resolved: literal]
+//   * +004E    adds r5, r0, #0                        | lsls r4, r2, #8
+//   * +0050    lsls r4, r1, #2                        | movs r5, #0xf1                         <- ABS32 func_020225F0 [resolved: literal]
+//   * +0052    movs r6, #0                            | lsls r2, r0, #8
+/*
+ * function: func_02022490
+ * address:  0x02022490
+ * packet:   pkt_02022490
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02022478  0x02022478  thumb
+ *   func_020225F0  0x020225F0  thumb
+ *   g_021468A4     0x021468A4  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct S {
+    u32 pad00[4];
+    u32 f10;
+    u32 f14;
+};
+
+extern void *func_02005624(void *fn, void *p, u32 z);
+extern void  func_02022478(void);
+extern void  func_020225F0(void);
+extern char  g_021468A4[];
+
+void func_02022490(struct S *p, void *a1, void *a2, int idx)
+{
+    if (p->f10 == 0 && p->f14 == 0) {
+        *(void **)(g_021468A4 + 0x54) = func_02005624((void *)func_02022478, p, 0);
+    }
+    ((u32 *)p)[idx] = (u32)a1;
+    if (a2 != 0) {
+        ((u32 *)p)[idx + 2] = (u32)a2;
+    } else {
+        ((u32 *)p)[idx + 2] = (u32)func_020225F0;
+    }
+    ((u32 *)p)[idx + 4] = 1;
+}
+======================================================================
+// 0x020224dc  func_020224DC  size 50  isa thumb
+// verdict: DIFF
+//   * +0002    adds r5, r0, #0                        | adds r4, r1, #0
+//   * +0004    lsls r4, r1, #2                        | adds r5, r0, #0
+//   * +0006    movs r6, #0                            | adds r0, r4, #4
+//   * +0008    adds r0, r5, r4                        | movs r6, #0
+//   * +000A    str r6, [r0, #0x10]                    | lsls r0, r0, #2
+//   * +000C    ldr r0, [r5, #0x10]                    | str r6, [r5, r0]
+//   * +000E    cmp r0, #0                             | ldr r0, [r5, #0x10]
+//   * +0010    bne #0x2022502                         | cmp r0, #0
+//   * +0012    ldr r0, [r5, #0x14]                    | bne #0x2022504
+//   * +0014    cmp r0, #0                             | ldr r0, [r5, #0x14]
+//   * +0016    bne #0x2022502                         | cmp r0, #0
+//   * +0018    ldr r7, [pc, #0x18]                    | bne #0x2022504
+//   * +001A    ldr r0, [r7, #0x54]                    | ldr r7, [pc, #0x1c]
+//   * +001C    cmp r0, #0                             | ldr r0, [r7, #0x54]
+//   * +001E    beq #0x2022502                         | cmp r0, #0
+//   * +0020    blx #0x2030eac                         | beq #0x2022504
+//   * +0022    d6 ec 7e 65                            | blx #0x2030eac                         <- THM_CALL func_02030EAC [resolved: label]
+//   * +0024    str r6, [r7, #0x54]                    | d6 ec
+//   * +0026    ldr r1, [pc, #0x10]                    | str r6, [r7, #0x54]
+//   * +0028    adds r0, r5, r4                        | adds r0, r4, #2
+//   * +002A    str r1, [r0, #8]                       | ldr r1, [pc, #0x10]
+//   * +002C    movs r0, #0                            | lsls r0, r0, #2
+//   * +002E    str r0, [r5, r4]                       | str r1, [r5, r0]
+//   * +0030    pop {r3, r4, r5, r6, r7, pc}           | movs r1, #0
+//   * +0032    mov r8, r8                             | lsls r0, r4, #2
+//   * +0034    ldr r4, [r4, #8]                       | str r1, [r5, r0]
+//   * +0036    lsls r4, r2, #8                        | pop {r3, r4, r5, r6, r7, pc}
+//   * +0038    movs r5, #0xf1                         | ldr r4, [r4, #8]                       <- ABS32 g_021468A4 [resolved: literal]
+//   * +003A    lsls r2, r0, #8                        | lsls r4, r2, #8
+//   * +003C    push {r3, r4, r5, r6, r7, lr}          | movs r5, #0xf1                         <- ABS32 func_020225F0 [resolved: literal]
+//   * +003E    adds r5, r0, #0                        | lsls r2, r0, #8
+/*
+ * function: func_020224DC
+ * address:  0x020224DC
+ * packet:   pkt_02022490
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020225F0  0x020225F0  thumb
+ *   func_02030EAC  0x02030EAC  arm
+ *   g_021468A4     0x021468A4  data
+ */
+
+typedef unsigned int u32;
+
+struct S {
+    u32 pad00[4];
+    u32 f10;
+    u32 f14;
+};
+
+extern void func_02030EAC(void *p);
+extern void func_020225F0(void);
+extern char g_021468A4[];
+
+void func_020224DC(struct S *p, int idx)
+{
+    ((u32 *)p)[idx + 4] = 0;
+    if (p->f10 == 0 && p->f14 == 0) {
+        if (*(void **)(g_021468A4 + 0x54) != 0) {
+            func_02030EAC(*(void **)(g_021468A4 + 0x54));
+            *(void **)(g_021468A4 + 0x54) = 0;
+        }
+    }
+    ((u32 *)p)[idx + 2] = (u32)func_020225F0;
+    ((u32 *)p)[idx] = 0;
+}

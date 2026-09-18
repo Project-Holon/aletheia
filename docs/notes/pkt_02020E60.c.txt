@@ -1,0 +1,157 @@
+========================================================================
+pkt_02020E60 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_02020E60  0x02020E60  (verdict DIFF       func_02020E60 @ 02020E60 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02020E60 @ 02020E60 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 152 bytes, 4 relocation site(s)
+      relocations: 0 of 4 resolved
+        +0066 THM_CALL func_0202F170       -> unresolved: 0202F170 (arm, from name) has no witness outside 02020E60..02020EF8
+        +0072 THM_CALL func_0202F170       -> unresolved: 0202F170 (arm, from name) has no witness outside 02020E60..02020EF8
+        +0090 ABS32 tbl_0209EB6C           -> unresolved: no address for 'tbl_0209EB6C': not in the symbols: block, not an address-bearing name, not in layout/symbols_sdk.json
+        +0094 ABS32 tbl_0209EB6E           -> unresolved: no address for 'tbl_0209EB6E': not in the symbols: block, not an address-bearing name, not in layout/symbols_sdk.json
+      listing extent for the original: 168 bytes
+      note: listing says the original is 168 bytes, compiled 152
+      60 concrete byte(s) differ
+      offset     ORIGINAL @ 02020E60                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, lr}                          | push {r3, lr}                          
+        +0002    ldr r2, [pc, #0x80]                    | ldr r2, [pc, #0x80]                    
+        +0004    cmp r0, r2                             | cmp r0, r2                             
+        +0006    bls #0x2020e6a                         | bls #0x2020e6a                         
+        +0008    movs r0, #0                            | movs r0, #0                            
+        +000A    cmp r1, #4                             | cmp r1, #4                             
+        +000C    bhi #0x2020ede                         | bhi #0x2020ede                         
+        +000E    adds r1, r1, r1                        | adds r1, r1, r1                        
+        +0010    add r1, pc                             | add r1, pc                             
+        +0012    ldrh r1, [r1, #6]                      | ldrh r1, [r1, #6]                      
+        +0014    lsls r1, r1, #0x10                     | lsls r1, r1, #0x10                     
+        +0016    asrs r1, r1, #0x10                     | asrs r1, r1, #0x10                     
+        +0018    add pc, r1                             | add pc, r1                             
+        +001A    movs r0, r1                            | movs r0, r1                            
+      * +001C    movs r4, r2                            | movs r6, r2                            
+      * +001E    movs r6, r5                            | movs r0, r6                            
+        +0020    lsls r2, r1, #1                        | lsls r2, r1, #1                        
+        +0022    lsls r6, r2, #1                        | lsls r6, r2, #1                        
+        +0024    cmp r0, #0                             | cmp r0, #0                             
+      * +0026    beq #0x2020ede                         | beq #0x2020e8e                         
+        +0028    ldr r1, [pc, #0x5c]                    | ldr r1, [pc, #0x5c]                    
+        +002A    cmp r0, r1                             | cmp r0, r1                             
+      * +002C    beq #0x2020ede                         | bne #0x2020ee0                         
+      * +002E    pop {r3, pc}                           | movs r0, #0                            
+      * +0030    cmp r0, #0                             | pop {r3, pc}                           
+      * +0032    bne #0x2020e98                         | cmp r0, #0                             
+      * +0034    ldr r0, [pc, #0x54]                    | bne #0x2020e9a                         
+      * +0036    pop {r3, pc}                           | ldr r0, [pc, #0x54]                    
+      * +0038    ldr r1, [pc, #0x4c]                    | pop {r3, pc}                           
+      * +003A    cmp r0, r1                             | ldr r1, [pc, #0x4c]                    
+      * +003C    bne #0x2020ea2                         | cmp r0, r1                             
+      * +003E    ldr r0, [pc, #0x50]                    | bne #0x2020ea4                         
+      * +0040    pop {r3, pc}                           | adds r0, r1, #2                        
+      * +0042    lsls r1, r0, #2                        | pop {r3, pc}                           
+      * +0044    ldr r0, [pc, #0x4c]                    | lsls r1, r0, #1                        
+      * +0046    ldrh r0, [r0, r1]                      | ldr r0, [pc, #0x48]                    
+      * +0048    pop {r3, pc}                           | ldrh r0, [r0, r1]                      
+      * +004A    cmp r0, #0                             | pop {r3, pc}                           
+      * +004C    bne #0x2020eb2                         | cmp r0, #0                             
+      * +004E    ldr r0, [pc, #0x48]                    | bne #0x2020eb4                         
+      * +0050    pop {r3, pc}                           | ldr r0, [pc, #0x38]                    
+      * +0052    ldr r1, [pc, #0x34]                    | pop {r3, pc}                           
+      * +0054    cmp r0, r1                             | ldr r1, [pc, #0x30]                    
+      * +0056    bne #0x2020ebe                         | cmp r0, r1                             
+      * +0058    movs r0, #0xfb                         | bne #0x2020ebe                         
+      * +005A    lsls r0, r0, #2                        | adds r0, r1, #3                        
+        +005C    pop {r3, pc}                           | pop {r3, pc}                           
+      * +005E    lsls r1, r0, #2                        | lsls r1, r0, #1                        
+      * +0060    ldr r0, [pc, #0x38]                    | ldr r0, [pc, #0x30]                    
+        +0062    ldrh r0, [r0, r1]                      | ldrh r0, [r0, r1]                      
+        +0064    pop {r3, pc}                           | pop {r3, pc}                           
+      ~ +0066    bl #0x202f170                          | bl #0x2020eca                          <- THM_CALL func_0202F170 [wildcard]
+      * +006A    lsls r1, r0, #2                        | lsls r1, r0, #1                        
+      * +006C    ldr r0, [pc, #0x30]                    | ldr r0, [pc, #0x20]                    
+        +006E    ldrh r0, [r0, r1]                      | ldrh r0, [r0, r1]                      
+        +0070    pop {r3, pc}                           | pop {r3, pc}                           
+      ~ +0072    bl #0x202f170                          | bl #0x2020ed6                          <- THM_CALL func_0202F170 [wildcard]
+      * +0076    lsls r1, r0, #2                        | lsls r1, r0, #1                        
+      * +0078    ldr r0, [pc, #0x28]                    | ldr r0, [pc, #0x18]                    
+        +007A    ldrh r0, [r0, r1]                      | ldrh r0, [r0, r1]                      
+        +007C    pop {r3, pc}                           | pop {r3, pc}                           
+        +007E    movs r0, #0                            | movs r0, #0                            
+        +0080    pop {r3, pc}                           | pop {r3, pc}                           
+        +0082    mov r8, r8                             | mov r8, r8                             
+        +0084    lsls r2, r6, #9                        | lsls r2, r6, #9                        
+        +0086    movs r0, r0                            | movs r0, r0                            
+      ~ +0088    .byte ff ff 00 00 e9 03 00 00 eb 03 00 00 6c eb 09 02 | lsls r1, r5, #0xf                      
+        +008A    00 00                                  | movs r0, r0                            
+      * +008C    e9 03                                  | lsls r3, r5, #0xf                      
+        +008E    00 00                                  | movs r0, r0                            
+      ~ +0090    eb 03                                  | movs r0, r0                            <- ABS32 tbl_0209EB6C [wildcard]
+        +0092    00 00                                  | movs r0, r0                            
+      ~ +0094    6c eb                                  | movs r0, r0                            <- ABS32 tbl_0209EB6E [wildcard]
+      ~ +0096    09 02                                  | movs r0, r0                            
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02020E60.c):
+
+    /*
+     * function: func_02020E60
+     * address:  0x02020E60
+     * packet:   pkt_02020E60
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   DIFF
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    
+    extern u32  func_0202F170(void);
+    extern u16  tbl_0209EB6C[];
+    extern u16  tbl_0209EB6E[];
+    
+    u32 func_02020E60(u32 id, u32 mode)
+    {
+        if (id > 0x272) {
+            id = 0;
+        }
+        switch (mode) {
+        case 0:
+            if (id == 0 || id == 0x3e9) {
+                return 0;
+            }
+            return id;
+        case 1:
+            if (id == 0) {
+                return 0x3eb;
+            }
+            if (id == 0x3e9) {
+                return 0x3eb;
+            }
+            return tbl_0209EB6C[id];
+        case 2:
+            if (id == 0) {
+                return 0x3eb;
+            }
+            if (id == 0x3e9) {
+                return 0x3ec;
+            }
+            return tbl_0209EB6E[id];
+        case 3:
+            return tbl_0209EB6C[func_0202F170()];
+        case 4:
+            return tbl_0209EB6E[func_0202F170()];
+        }
+        return 0;
+    }
+

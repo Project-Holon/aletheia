@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   MATCH
  *
  * symbols:
  *   func_02011FCC     0x02011FCC  thumb

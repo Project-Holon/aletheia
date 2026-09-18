@@ -1,0 +1,368 @@
+========================================================================
+pkt_02014628 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_02014628  0x02014628  (verdict DIFF       func_02014628 @ 02014628 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02014628 @ 02014628 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 122 bytes, 4 relocation site(s)
+      relocations: 4 of 4 resolved
+        +002C THM_CALL func_021BE8D4       -> 021BE8D4  [label x8, e.g. 021A833E]
+        +0040 THM_CALL func_02014728       -> 02014728  [label x2, e.g. 020147D4]
+        +0056 THM_CALL func_021BE92C       -> 021BE92C  [label x9, e.g. 021A8312]
+        +006A THM_CALL func_02012374       -> 02012374  [label x6, e.g. 0201246A]
+      listing extent for the original: 112 bytes
+      note: listing says the original is 112 bytes, compiled 122
+      97 concrete byte(s) differ
+      offset     ORIGINAL @ 02014628                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r4, r5, lr}                      | push {r4, r5, lr}                      
+        +0002    sub sp, #0xc                           | sub sp, #0xc                           
+        +0004    adds r4, r1, #0                        | adds r4, r1, #0                        
+      * +0006    ldr r1, [r4]                           | adds r5, r0, #0                        
+      * +0008    adds r3, r2, #0                        | ldr r0, [r4]                           
+      * +000A    adds r5, r0, #0                        | adds r3, r2, #0                        
+      * +000C    ldr r0, [r3]                           | cmp r0, #3                             
+      * +000E    cmp r1, #3                             | bhi #0x201468a                         
+      * +0010    bhi #0x2014692                         | adds r0, r0, r0                        
+      * +0012    adds r1, r1, r1                        | add r0, pc                             
+      * +0014    add r1, pc                             | ldrh r0, [r0, #6]                      
+      * +0016    ldrh r1, [r1, #6]                      | lsls r0, r0, #0x10                     
+      * +0018    lsls r1, r1, #0x10                     | asrs r0, r0, #0x10                     
+      * +001A    asrs r1, r1, #0x10                     | add pc, r0                             
+      * +001C    add pc, r1                             | movs r6, r0                            
+      * +001E    movs r6, r0                            | movs r6, r2                            
+      * +0020    movs r0, r4                            | movs r0, r5                            
+      * +0022    movs r0, r6                            | movs r6, r7                            
+      * +0024    lsls r4, r0, #1                        | ldr r0, [r3]                           
+        +0026    ldr r1, [r3, #4]                       | ldr r1, [r3, #4]                       
+        +0028    movs r2, #0                            | movs r2, #0                            
+        +002A    movs r3, #0                            | movs r3, #0                            
+        +002C    bl #0x21be8d4                          | bl #0x21be8d4                          <- THM_CALL func_021BE8D4 [resolved: label]
+        +0030    adds r1, r0, #0                        | adds r1, r0, #0                        
+      * +0032    adds r0, r5, #0                        | b #0x2014690                           
+      * +0034    bl #0x2012374                          | ldr r0, [r3, #0x10]                    
+      * +0036    8a fe                                  | str r0, [sp]                           
+      * +0038    ldr r0, [r4]                           | ldr r0, [r3]                           
+      * +003A    adds r0, r0, #1                        | ldr r1, [r3, #4]                       
+      * +003C    str r0, [r4]                           | ldr r2, [r3, #8]                       
+      * +003E    b #0x2014692                           | ldr r3, [r3, #0xc]                     
+      * +0040    ldr r1, [r3, #0x10]                    | bl #0x2014728                          <- THM_CALL func_02014728 [resolved: label]
+      * +0042    str r1, [sp]                           | 5e f8                                  
+      * +0044    ldr r1, [r3, #4]                       | b #0x2014658                           
+      * +0046    ldr r2, [r3, #8]                       | movs r0, #1                            
+      * +0048    ldr r3, [r3, #0xc]                     | str r0, [sp]                           
+      * +004A    bl #0x2014728                          | movs r2, #0                            
+      * +004C    59 f8                                  | str r2, [sp, #4]                       
+      * +004E    b #0x2014658                           | str r2, [sp, #8]                       
+      * +0050    movs r1, #1                            | ldr r0, [r3]                           
+      * +0052    str r1, [sp]                           | ldr r1, [r3, #4]                       
+      * +0054    movs r2, #0                            | movs r3, #0                            
+      * +0056    str r2, [sp, #4]                       | bl #0x21be92c                          <- THM_CALL func_021BE92C [resolved: label]
+      * +0058    str r2, [sp, #8]                       | 55 f9                                  
+      * +005A    ldr r1, [r3, #4]                       | b #0x2014658                           
+      * +005C    movs r3, #0                            | add sp, #0xc                           
+      * +005E    bl #0x21be92c                          | movs r0, #1                            
+      * +0060    51 f9                                  | pop {r4, r5, pc}                       
+      * +0062    b #0x2014658                           | add sp, #0xc                           
+      * +0064    add sp, #0xc                           | movs r0, #0                            
+      * +0066    movs r0, #1                            | pop {r4, r5, pc}                       
+      * +0068    pop {r4, r5, pc}                       | adds r0, r5, #0                        
+      * +006A    movs r0, #0                            | bl #0x2012374                          <- THM_CALL func_02012374 [resolved: label]
+      * +006C    add sp, #0xc                           | 6f fe                                  
+      * +006E    pop {r4, r5, pc}                       | ldr r0, [r4]                           
+      * +0070    push {r3, r4, r5, lr}                  | adds r0, r0, #1                        
+      * +0072    adds r4, r1, #0                        | str r0, [r4]                           
+      * +0074    ldr r1, [r4]                           | movs r0, #0                            
+      * +0076    adds r3, r2, #0                        | add sp, #0xc                           
+      * +0078    adds r5, r0, #0                        | pop {r4, r5, pc}                       
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02014628.c):
+
+    /*
+     * function: func_02014628
+     * address:  0x02014628
+     * packet:   pkt_02014628
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     *
+     * symbols:
+     *   func_021BE8D4  0x021BE8D4  thumb  ov021
+     *   func_021BE92C  0x021BE92C  thumb  ov021
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned int  u32;
+    
+    extern u32  func_021BE8D4(u32 a, u32 b, u32 c, u32 d);
+    extern u32  func_021BE92C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+    extern u32  func_02014728(u32 a, u32 b, u32 c, u32 d, u32 e);
+    extern void func_02012374(void *evt, void *out);
+    
+    u32 func_02014628(void *obj, u32 *mode, u32 *p)
+    {
+        void *r;
+    
+        switch (*mode) {
+        case 0:
+            r = (void *)func_021BE8D4(p[0], p[1], 0, 0);
+            break;
+        case 1:
+            r = (void *)func_02014728(p[0], p[1], p[2], p[3], p[4]);
+            break;
+        case 2:
+            r = (void *)func_021BE92C(p[0], p[1], 0, 0, 1, 0, 0);
+            break;
+        case 3:
+            return 1;
+        default:
+            return 0;
+        }
+        func_02012374(obj, r);
+        (*mode)++;
+        return 0;
+    }
+
+------------------------------------------------------------------------
+func_02014698  0x02014698  (verdict DIFF       func_02014698 @ 02014698 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02014698 @ 02014698 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 106 bytes, 5 relocation site(s)
+      relocations: 5 of 5 resolved
+        +0028 THM_CALL func_020144DC       -> 020144DC  [label x1, e.g. 0215C62C]
+        +0038 THM_CALL func_020120B4       -> 020120B4  [label x2, e.g. 020120C8]
+        +003E THM_CALL func_020120F0       -> 020120F0  [label x7, e.g. 02012434]
+        +004C THM_CALL func_020145CC       -> 020145CC  [label x1, e.g. 0215C5FE]
+        +005C THM_CALL func_02012374       -> 02012374  [label x6, e.g. 0201246A]
+      listing extent for the original: 96 bytes
+      note: listing says the original is 96 bytes, compiled 106
+      86 concrete byte(s) differ
+      offset     ORIGINAL @ 02014698                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, r4, r5, lr}                  | push {r3, r4, r5, lr}                  
+        +0002    adds r4, r1, #0                        | adds r4, r1, #0                        
+      * +0004    ldr r1, [r4]                           | adds r5, r0, #0                        
+      * +0006    adds r3, r2, #0                        | ldr r0, [r4]                           
+      * +0008    adds r5, r0, #0                        | adds r3, r2, #0                        
+      * +000A    ldr r0, [r3]                           | cmp r0, #4                             
+      * +000C    cmp r1, #4                             | bhi #0x20146ee                         
+      * +000E    bhi #0x20146f4                         | adds r0, r0, r0                        
+      * +0010    adds r1, r1, r1                        | add r0, pc                             
+      * +0012    add r1, pc                             | ldrh r0, [r0, #6]                      
+      * +0014    ldrh r1, [r1, #6]                      | lsls r0, r0, #0x10                     
+      * +0016    lsls r1, r1, #0x10                     | asrs r0, r0, #0x10                     
+      * +0018    asrs r1, r1, #0x10                     | add pc, r0                             
+      * +001A    add pc, r1                             | movs r0, r1                            
+      * +001C    movs r0, r1                            | movs r4, r2                            
+      * +001E    movs r6, r3                            | movs r2, r4                            
+      * +0020    movs r2, r5                            | movs r6, r5                            
+      * +0022    movs r4, r6                            | movs r6, r6                            
+      * +0024    movs r2, r7                            | ldr r0, [r3]                           
+        +0026    ldr r1, [r3, #4]                       | ldr r1, [r3, #4]                       
+        +0028    bl #0x20144dc                          | bl #0x20144dc                          <- THM_CALL func_020144DC [resolved: label]
+        +002C    adds r1, r0, #0                        | adds r1, r0, #0                        
+      * +002E    adds r0, r5, #0                        | b #0x20146f2                           
+      * +0030    bl #0x2012374                          | ldr r0, [r3]                           
+      * +0032    54 fe                                  | ldr r1, [r3, #4]                       
+      * +0034    ldr r0, [r4]                           | ldr r2, [r3, #8]                       
+      * +0036    adds r0, r0, #1                        | ldr r3, [r3, #0xc]                     
+      * +0038    str r0, [r4]                           | bl #0x20120b4                          <- THM_CALL func_020120B4 [resolved: label]
+      * +003A    b #0x20146f4                           | f0 fc                                  
+      * +003C    ldr r1, [r3, #8]                       | b #0x20146c4                           
+      * +003E    ldr r2, [r3, #0xc]                     | bl #0x20120f0                          <- THM_CALL func_020120F0 [resolved: label]
+      * +0040    ldr r3, [r3, #0x10]                    | 0b fd                                  
+      * +0042    bl #0x20120b4                          | cmp r0, #0                             
+      * +0044    eb fc                                  | beq #0x20146f8                         
+      * +0046    b #0x20146cc                           | movs r0, #0                            
+      * +0048    bl #0x20120f0                          | pop {r3, r4, r5, pc}                   
+      * +004A    06 fd                                  | ldr r0, [r3]                           
+      * +004C    cmp r0, #0                             | bl #0x20145cc                          <- THM_CALL func_020145CC [resolved: label]
+      * +004E    bne #0x20146f4                         | 72 ff                                  
+      * +0050    b #0x20146de                           | b #0x20146c4                           
+      * +0052    bl #0x20145cc                          | movs r0, #1                            
+      * +0054    6f ff                                  | pop {r3, r4, r5, pc}                   
+      * +0056    b #0x20146c4                           | movs r0, #0                            
+      * +0058    movs r0, #1                            | pop {r3, r4, r5, pc}                   
+      * +005A    pop {r3, r4, r5, pc}                   | adds r0, r5, #0                        
+      * +005C    movs r0, #0                            | bl #0x2012374                          <- THM_CALL func_02012374 [resolved: label]
+      * +005E    pop {r3, r4, r5, pc}                   | 3e fe                                  
+      * +0060    push {r3, r4, r5, r6, r7, lr}          | ldr r0, [r4]                           
+      * +0062    adds r6, r2, #0                        | adds r0, r0, #1                        
+      * +0064    adds r4, r1, #0                        | str r0, [r4]                           
+      * +0066    adds r7, r3, #0                        | movs r0, #0                            
+      * +0068    ldr r2, [pc, #0x20]                    | pop {r3, r4, r5, pc}                   
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02014698.c):
+
+    /*
+     * function: func_02014698
+     * address:  0x02014698
+     * packet:   pkt_02014628
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   DIFF
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    
+    extern u32  func_020144DC(u32 a, u32 b);
+    extern u32  func_020120B4(u32 a, u32 b, u32 c, u32 d);
+    extern u32  func_020120F0(void);
+    extern void *func_020145CC(u8 *p);
+    extern void func_02012374(void *evt, void *out);
+    
+    u32 func_02014698(void *obj, u32 *mode, u32 *p)
+    {
+        void *r;
+    
+        switch (*mode) {
+        case 0:
+            r = (void *)func_020144DC(p[0], p[1]);
+            break;
+        case 1:
+            r = (void *)func_020120B4(p[0], p[1], p[2], p[3]);
+            break;
+        case 2:
+            if (func_020120F0() != 0) {
+                return 0;
+            }
+            goto inc;
+        case 3:
+            r = func_020145CC((u8 *)p[0]);
+            break;
+        case 4:
+            return 1;
+        default:
+            return 0;
+        }
+        func_02012374(obj, r);
+    inc:
+        (*mode)++;
+        return 0;
+    }
+
+------------------------------------------------------------------------
+func_02014878  0x02014878  (verdict DIFF       func_02014878 @ 02014878 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02014878 @ 02014878 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 76 bytes, 2 relocation site(s)
+      relocations: 2 of 2 resolved
+        +002C THM_CALL func_020120B4       -> 020120B4  [label x2, e.g. 020120C8]
+        +0034 THM_CALL func_020120F0       -> 020120F0  [label x7, e.g. 02012434]
+      listing extent for the original: 152 bytes
+      note: listing says the original is 152 bytes, compiled 76
+      65 concrete byte(s) differ
+      offset     ORIGINAL @ 02014878                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+      * +0000    push {r3, r4, r5, lr}                  | push {r3, lr}                          
+      * +0002    adds r4, r1, #0                        | ldr r0, [r1]                           
+      * +0004    ldr r1, [r4]                           | adds r3, r2, #0                        
+      * +0006    adds r5, r2, #0                        | cmp r0, #5                             
+      * +0008    ldr r0, [r5]                           | bhi #0x20148b8                         
+      * +000A    cmp r1, #5                             | adds r0, r0, r0                        
+      * +000C    bhi #0x20148fc                         | add r0, pc                             
+      * +000E    adds r1, r1, r1                        | ldrh r0, [r0, #6]                      
+      * +0010    add r1, pc                             | lsls r0, r0, #0x10                     
+      * +0012    ldrh r1, [r1, #6]                      | asrs r0, r0, #0x10                     
+      * +0014    lsls r1, r1, #0x10                     | add pc, r0                             
+      * +0016    asrs r1, r1, #0x10                     | movs r2, r1                            
+      * +0018    add pc, r1                             | movs r4, r3                            
+      * +001A    movs r2, r1                            | movs r4, r5                            
+      * +001C    movs r2, r3                            | movs r4, r5                            
+      * +001E    movs r6, r4                            | movs r4, r5                            
+      * +0020    lsls r2, r0, #1                        | movs r4, r4                            
+      * +0022    lsls r0, r2, #1                        | ldr r0, [pc, #0x24]                    
+      * +0024    lsls r4, r4, #1                        | ldr r2, [r3, #8]                       
+      * +0026    ldr r1, [pc, #0x60]                    | ldr r0, [r0]                           
+      * +0028    ldr r2, [pc, #0x60]                    | ldr r3, [r3]                           
+      * +002A    ldr r3, [r5, #8]                       | movs r1, #0                            
+        +002C    bl #0x20120b4                          | bl #0x20120b4                          <- THM_CALL func_020120B4 [resolved: label]
+      * +0030    movs r0, #1                            | movs r0, #0                            
+      * +0032    str r0, [r4]                           | pop {r3, pc}                           
+      * +0034    b #0x20148fc                           | bl #0x20120f0                          <- THM_CALL func_020120F0 [resolved: label]
+      * +0036    bl #0x20120f0                          | 20 fc 00 20                            
+      * +0038    1f fc                                  | movs r0, #0                            
+      * +003A    cmp r0, #0                             | pop {r3, pc}                           
+      * +003C    bne #0x20148fc                         | movs r0, #1                            
+      * +003E    movs r0, #2                            | pop {r3, pc}                           
+      * +0040    b #0x20148aa                           | movs r0, #0                            
+      * +0042    ldr r1, [r5, #8]                       | pop {r3, pc}                           
+      * +0044    ldr r0, [r1, #0x40]                    | movs r0, #0                            
+      * +0046    cmp r0, #0                             | pop {r3, pc}                           
+      * +0048    bne #0x20148c4                         | .byte 00 ec 09 02                      
+      * +004A    b #0x20148d2                           | 09 02                                  
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02014878.c):
+
+    /*
+     * function: func_02014878
+     * address:  0x02014878
+     * packet:   pkt_02014628
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   DIFF
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    
+    extern void func_020120B4(u32 a, u32 b, u32 c, u32 d);
+    extern u32  func_020120F0(void);
+    extern void func_02012374(void *evt, void *out);
+    
+    u32 func_02014878(void *obj, u32 *mode, u32 *p)
+    {
+        switch (*mode) {
+        case 0:
+            func_020120B4(*(u32 *)0x0209EC00, 0, p[2], p[0]);
+            return 0;
+        case 1:
+            if (func_020120F0() != 0) {
+                return 0;
+            }
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            return 1;
+        default:
+            return 0;
+        }
+        return 0;
+    }
+

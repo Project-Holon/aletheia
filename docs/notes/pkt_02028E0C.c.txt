@@ -1,0 +1,120 @@
+======================================================================
+// 0x02028e0c  func_02028E0C  size 60  isa thumb
+// verdict: DIFF
+//   +000E THM_CALL func_02028E48       -> unresolved: 02028E48 (thumb, from name) has no witness outside 02028E0C..02028E50
+//   * +0014    beq #0x2028e46                         | beq #0x2028e4e
+//   * +001E    adds r2, r1, r0                        | ldr r2, [r1, r0]
+//   * +0020    ldr r0, [r1, r0]                       | cmp r2, #0
+//   * +0022    cmp r0, #0                             | bne #0x2028e4e
+//   * +0024    bne #0x2028e46                         | ldr r2, [r4]
+//   * +0026    ldm r4!, {r0, r1}                      | str r2, [r1, r0]
+//   * +0028    stm r2!, {r0, r1}                      | adds r1, r0, #4
+//   * +002A    ldr r0, [r4]                           | adds r0, #8
+//   * +002C    movs r1, #0xa                          | ldr r2, [r4, #4]
+//   * +002E    str r0, [r2]                           | adds r1, r5, r1
+//   * +0030    adds r0, r6, #1                        | str r2, [r1, #0x28]
+//   * +0032    blx #0x209c0a4                         | ldr r1, [r4, #8]
+//   * +0034    32 e9                                  | adds r0, r5, r0
+//   * +0036    adds r5, #0xa1                         | str r1, [r0, #0x28]
+//   * +0038    strb r1, [r5]                          | adds r0, r6, #1
+//   * +003A    pop {r4, r5, r6, pc}                   | blx #0x209c0a4                         <- THM_CALL func_0209C0A4 [resolved: label]
+//   * +003C    push {r3, r4, r5, lr}                  | 2e e9
+//   * +003E    adds r5, r0, #0                        | adds r5, #0xa1
+//   * +0040    adds r4, r1, #0                        | strb r0, [r5]
+//   * +0042    .byte ff f7                            | pop {r4, r5, r6, pc}
+/*
+ * function: func_02028E0C
+ * address:  0x02028E0C
+ * packet:   pkt_02028E0C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct T {
+    u8  pad00[0x28];
+    u8  f28[0x79];
+    u8  fA1;
+};
+
+extern u32 func_02028E48(struct T *p, u32 a0);
+extern u32 func_0209C0A4(u32 n);
+
+void func_02028E0C(struct T *p, u32 *a1)
+{
+    u8 n = p->fA1;
+
+    if (func_02028E48(p, a1[0]) == 0) {
+        return;
+    }
+    if (*(u32 *)&p->f28[n * 12] != 0) {
+        return;
+    }
+    *(u32 *)&p->f28[n * 12] = a1[0];
+    *(u32 *)&p->f28[n * 12 + 4] = a1[1];
+    *(u32 *)&p->f28[n * 12 + 8] = a1[2];
+    p->fA1 = (u8)func_0209C0A4(n + 1);
+}
+======================================================================
+// 0x02028e48  func_02028E48  size 52  isa thumb
+// verdict: DIFF
+//   +0034 ABS32 g_0209FD90             -> unresolved: 0209FD90 (data, from header) has no witness outside 02028E48..02028E80
+//   * +0010    lsls r1, r0, #3                        | ldr r1, [pc, #0x20]
+//   * +0012    ldr r0, [pc, #0x20]                    | lsls r0, r0, #3
+//   * +0014    adds r0, r0, r1                        | adds r0, r1, r0
+//   * +0020    lsls r1, r0, #3                        | ldr r1, [pc, #0x10]
+//   * +0022    ldr r0, [pc, #0x10]                    | lsls r0, r0, #3
+//   * +0024    adds r0, r0, r1                        | adds r0, r1, r0
+/*
+ * function: func_02028E48
+ * address:  0x02028E48
+ * packet:   pkt_02028E0C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_0209FD90  0x0209FD90  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct T {
+    u8  pad00[0x1c];
+    u32 f1c;
+};
+
+extern void *func_02028D8C(struct T *p);
+extern u8    func_02028FD0(struct T *p, u8 *a1);
+extern u8    g_0209FD90[];
+
+u8 func_02028E48(struct T *p, u8 *a1)
+{
+    u32 v = *(u32 *)func_02028D8C(p);
+    u32 idx;
+
+    if (v != 0) {
+        idx = (u32)g_0209FD90 + v * 8;
+        return a1[idx];
+    }
+    v = p->f1c;
+    if (v != 0) {
+        idx = (u32)g_0209FD90 + v * 8;
+        return a1[idx];
+    }
+    return func_02028FD0(p, a1);
+}

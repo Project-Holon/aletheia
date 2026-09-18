@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right (48 of 48)
+ * status:   MATCH
  *
  * symbols:
  *   g_021461E0        0x021461E0  data

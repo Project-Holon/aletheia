@@ -1,0 +1,38 @@
+func_0202BF54 @ 0x0202BF54 (thumb, 46 compiled vs 60 listing extent) - DIFF, 2 bytes.
+
+Every byte but the guard's load:
+
+    void func_0202BF54(u8 *p)
+    {
+        if (*(u32 *)p == 0) {
+            u32 i = func_0202BFC4();
+            if (i != 0xff) {
+                *(u8 *)(p + 0xc) = (u8)i;
+                *(u32 *)p = 1;
+                *(u16 *)(p + 0xe)  = *(u16 *)(*(u32 *)(p + 8) + i * 8 + 2);
+                *(u16 *)(p + 0x10) = *(u16 *)(*(u32 *)(p + 8) + i * 8 + 4);
+                *(u16 *)(p + 0x12) = 1;
+                *(u16 *)(p + 0x14) = 0;
+            }
+        }
+    }
+
+Residue:
+
+    +0004  ldr r2, [r4]   | ldr r0, [r4]
+    +0006  cmp r2, #0     | cmp r0, #0
+
+Only the load's destination register differs (r2 in the original, r0 here); the
+branch to the shared epilogue, the call, the six stores and the constant 1 in r2
+all match instruction for instruction. Ruled out after compile: a named `u32 s`
+local for the word, `u32 *p` with `p[0]`, `u8 *p` with `*(u32 *)p`, the inverted
+guard `if (*(u32 *)p != 0) return;`, and moving `u32 i` to the top of the body.
+The front end picks the first free register for a value whose only use is the
+compare, and it picked r0 here and r2 in the original; nothing in the C moves it.
+
+Verified with:
+  python tools/match.py one --src <cand> --func func_0202BF54 \
+      --addr 0x0202BF54 --cc 1.1p1 --thumb
+  -> DIFF, compiled 46, original 60 (46 code + pool), 2 concrete bytes differ.
+
+Consequence: 0x0202BEDC (thunk to this address) and 0x0202B744 stay MATCH-capped.

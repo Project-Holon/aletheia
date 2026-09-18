@@ -12,7 +12,7 @@
  * symbols:
  *   func_02005FBC  0x02005FBC  thumb
  *   sub_0200590C   0x0200590C  thumb
- */
+ * blocker:  unresolved relocation(s): 02072E8C (arm, from name)*/
 
 typedef unsigned int u32;
 

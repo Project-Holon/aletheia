@@ -1,0 +1,42 @@
+func_0202AF74 @ 0x0202AF74 (thumb, 52 compiled vs 56 original) - DIFF, one instruction.
+
+`(u8)((func_0202AFAC(a, b) * func_0202AFFC(a, b) * func_0202B04C(a, b)) / 0x3f01)`.
+The division is SIGNED: the original reaches 0x0209C0A4 (`_s32_div_f`, ARM) with a
+`blx`, so the operands must be `int`, not `u32` (a `u32`/`u32` spelling emits a
+`bl` to `_u32_div_f` and no `blx`). Closest shape (all but the last multiply's
+destination register):
+
+    u8 func_0202AF74(void *a, int b)
+    {
+        int v = func_0202AFAC(a, b);
+        int w = func_0202AFFC(a, b);
+        v = v * w;
+        v = v * func_0202B04C(a, b);
+        return (u8)(v / 0x3f01);
+    }
+
+Residue:
+
+    +001E  adds r1, r6, #0        | adds r1, r6, #0
+    +0020  muls r1, r7, r1        | muls r1, r7, r1
+    +0022  muls r1, r0, r1        | muls r0, r1, r0     <-- destination
+    +0024  adds r0, r1, #0        | (folded away)
+    +0026  ldr r1, [pc, #0xc]     | ldr r1, [pc, #8]
+    +0028  blx #0x209c0a4         | blx #0x209c0a4
+
+The original keeps the multiply's accumulator in r1 and pays an explicit
+`adds r0, r1, #0` to feed the division; this front end notices the result feeds
+r0 and folds the copy into the multiply's destination, which is why the function
+is 4 bytes short. Ruled out after compile: the single expression
+`f() * f() * f()` (front end reorders the calls to C, A, B), `v = v * f2;
+v = v * f3;` (same residue), `v = f2 * v; v = f3 * v;` (same residue),
+`int v = f1 * f2; v = f3 * v;` (28 bytes of diff, call order changes). The
+remaining choice is the allocator's destination register.
+
+Verified with:
+  python tools/match.py one --src <cand> --func func_0202AF74 \
+      --addr 0x0202AF74 --cc 1.1p1 --thumb
+  -> DIFF, compiled 52, original 56, 16 concrete bytes differ.
+
+Consequence: 0x0202AF34 (bare tail-call thunk to this address, one pool word in
+its own pool), 0x0202AE9C and 0x0202AE68 stay MATCH-capped on it.

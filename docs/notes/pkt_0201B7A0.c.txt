@@ -1,47 +1,62 @@
-packet pkt_0201B7A0 (0x0201B7EC, 40 bytes) - near miss, scheduling
+========================================================================
+pkt_0201B7A0 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
 
-Final verdict: DIFF, 4 concrete bytes wrong, all relocations resolved.
+------------------------------------------------------------------------
+func_0201B7A0  0x0201B7A0  (verdict DIFF       func_0201B7A0 @ 0201B7A0 (arm9, Thumb))
+------------------------------------------------------------------------
 
-func_0201B7EC calls the ARM 0x0203F0A8 and, if the result's sign bit is clear,
-calls func_0201B850 with a table pointer.  The guard is eight bytes and every
-one of its instructions is reproduced; only the order of two independent ones
-is wrong:
+harness output:
 
-    ORIGINAL @ 0201B7EC                     COMPILED
-    movs r1, #0                             movs r1, #0
-    lsrs r0, r0, #0x1f                      lsls r1, r1, #1
-    lsls r1, r1, #1                         lsrs r0, r0, #0x1f
-    orrs r1, r0                             orrs r1, r0
+    DIFF       func_0201B7A0 @ 0201B7A0 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 20 bytes, 2 relocation site(s)
+      relocations: 1 of 2 resolved
+        +000C ABS32 tbl_0209E45C           -> unresolved: 0209E45C (data, from header) has no witness outside 0201B7A0..0201B7B4
+        +0010 ABS32 func_0201B850          -> 0201B851  [label x6, e.g. 0201B7E4]
+      listing extent for the original: 20 bytes
+      15 concrete byte(s) differ
+      offset     ORIGINAL @ 0201B7A0                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+      * +0000    push {r3, r4, r5, lr}                  | lsls r2, r1, #1                        
+      * +0002    lsls r4, r1, #1                        | ldr r3, [pc, #8]                       
+      * +0004    ldr r5, [pc, #8]                       | adds r1, r1, r2                        
+      * +0006    adds r1, r1, r4                        | adds r1, r3, r1                        
+      * +0008    adds r1, r5, r1                        | ldr r3, [pc, #4]                       
+      ~ +000A    bl #0x201b850                          | bx r3                                  
+      ~ +000C    51 f8                                  | movs r0, r0                            <- ABS32 tbl_0209E45C [wildcard]
+      ~ +000E    pop {r3, r4, r5, pc}                   | movs r0, r0                            
+      * +0010    b #0x201b06c                           | .byte 51 b8 01 02                      <- ABS32 func_0201B850 [resolved: label]
+      * +0012    lsls r1, r1, #8                        | 01 02                                  
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
 
-The source is `u32 v = 0; v = (v << 1) | ((u32)func_0203F0A8() >> 31); if
-((v & 1) == 0) ...` and mwcc emits the *independent* shift of the zero before
-the dependent `lsrs` on the call result, while the original has the dependent
-one first.  Twenty-two spellings were compiled and every one that keeps the
-shift live (a bare `v | (v << 1)` folds, and so does any form that puts the
-call inside the same expression as the OR) lands on exactly these four bytes:
+C currently tried (scratch/scratch/w_0201B7A0.c):
 
-  - `s32 r = f(); u32 s = (u32)r >> 31; u32 v = 0; v <<= 1; v |= s;`
-  - the same with the declaration of v before r, with `v = 0` after the call,
-    with the OR written `v = (v << 1) | s`, and with `r` typed `u32`;
-  - the sign bound as `u32 s = (u32)func_0203F0A8() >> 31` (no `r` local);
-  - `u32 v = (u32)func_0203F0A8() >> 31; v = v | (v << 1);` (this one emits
-    `lsrs r1 / lsls r0, r1, #1 / orrs r1, r0`, the right order but the operands
-    swapped between r0 and r1, 25 bytes wrong);
-  - the same guard as a two-bit `union`/struct bitfield write, `volatile`
-    on the accumulator, `v * 2` instead of `v << 1`, and `v + v`.
+    /*
+     * function: func_0201B7A0
+     * address:  0x0201B7A0
+     * packet:   pkt_0201B7A0
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     * symbols:
+     *   tbl_0209E45C  0x0209E45C  data
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    extern void func_0201B850(u32 a0, u32 a1);
+    extern u8   tbl_0209E45C[];
+    
+    void func_0201B7A0(u32 a0, u32 a1)
+    {
+        func_0201B850(a0, (u32)tbl_0209E45C + a1 * 3);
+    }
 
-This is the documented
-docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
-class: the decision is made below the source text.  It is also moot for
-promotion, because the function's own pool word at 0x0201B814 holds 0x0209E465
-and that address has exactly one pool word in the image, so even a byte-exact
-spelling would park at MATCH.
-
-The two function entries of the same packet, 0x0201DBBC and 0x0201DBF4, are
-also scheduling residues and both are byte-count-equal: DBF4 differs only in
-where the compiler put the outgoing `str r5, [sp]` for the fifth argument of
-the Thumb call (five instructions earlier than the original), and DBBC reuses
-the incoming r0 for the object + 0x76 address where this compiler allocates a
-fresh one, which moves every instruction after it.  Both are `bl`/`blx`
-call-only functions with no pool words, so both are recoverable by someone who
-can pin that scheduling.

@@ -1,0 +1,78 @@
+========================================================================
+pkt_02020D5C -- lane 2 of the 0-64 byte band: DIFF residue (RESOLVED)
+========================================================================
+
+STATUS: resolved after this residue was recorded -- func_02020DC8 now has
+every concrete byte right and is parked at MATCH in
+src/pending/func_02020DC8.c, blocked only by the single-witness pool word
+for 0x0209E8CC.  The fix was to declare func_02020DC8's own argument `u32`
+(so the call narrows to the callee's `u16` and emits the `lsls #0x10` /
+`lsrs #0x10` pair).  The transcript below is kept as the record of the near
+miss.
+========================================================================
+
+------------------------------------------------------------------------
+func_02020DC8  0x02020DC8  (verdict DIFF       func_02020DC8 @ 02020DC8 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02020DC8 @ 02020DC8 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 32 bytes, 2 relocation site(s)
+      relocations: 2 of 2 resolved
+        +0010 THM_CALL func_020436FC       -> 020436FC  [label x7, e.g. 020285F4]
+        +001C ABS32 tbl_0209E8CC           -> 0209E8CC  [literal x2, e.g. 02020DE8]
+      listing extent for the original: 36 bytes
+      note: listing says the original is 36 bytes, compiled 32
+      26 concrete byte(s) differ
+      offset     ORIGINAL @ 02020DC8                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, r4, lr}                      | push {r3, r4, lr}                      
+        +0002    sub sp, #4                             | sub sp, #4                             
+        +0004    adds r4, r0, #0                        | adds r4, r0, #0                        
+      * +0006    lsls r0, r1, #0x10                     | str r1, [sp]                           
+      * +0008    lsrs r0, r0, #0x10                     | ldr r0, [pc, #0x10]                    
+      * +000A    str r0, [sp]                           | movs r1, #1                            
+      * +000C    ldr r0, [pc, #0x10]                    | movs r2, #1                            
+      * +000E    movs r1, #1                            | movs r3, #0x20                         
+      * +0010    movs r2, #1                            | blx #0x20436fc                         <- THM_CALL func_020436FC [resolved: label]
+      * +0012    movs r3, #0x20                         | 90 ec                                  
+      * +0014    blx #0x20436fc                         | str r0, [r4, #8]                       
+      * +0016    8e ec                                  | add sp, #4                             
+      * +0018    str r0, [r4, #8]                       | pop {r3, r4, pc}                       
+      * +001A    add sp, #4                             | mov r8, r8                             
+      * +001C    pop {r3, r4, pc}                       | .byte cc e8 09 02                      <- ABS32 tbl_0209E8CC [resolved: literal]
+      * +001E    mov r8, r8                             | 09 02                                  
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02020DC8.c):
+
+    /*
+     * function: func_02020DC8
+     * address:  0x02020DC8
+     * packet:   pkt_02020D5C
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     * symbols:
+     *   tbl_0209E8CC  0x0209E8CC  data
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    extern void *func_020436FC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+    extern u8    tbl_0209E8CC[];
+    
+    void func_02020DC8(u8 *p, u16 a1)
+    {
+        *(void **)(p + 8) = func_020436FC((u32)tbl_0209E8CC, 1, 1, 0x20, a1);
+    }
+

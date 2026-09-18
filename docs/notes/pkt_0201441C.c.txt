@@ -1,0 +1,69 @@
+========================================================================
+pkt_0201441C -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_02014428  0x02014428  (verdict DIFF       func_02014428 @ 02014428 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02014428 @ 02014428 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 28 bytes, 2 relocation site(s)
+      relocations: 2 of 2 resolved
+        +000C THM_CALL func_02030734       -> 02030734  [label x1016, e.g. 0200554A]
+        +0018 ABS32 sBtlSetupFile          -> 020A729C  [literal x4, e.g. 020130B0]
+      listing extent for the original: 28 bytes
+      1 concrete byte(s) differ
+      offset     ORIGINAL @ 02014428                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, lr}                          | push {r3, lr}                          
+        +0002    movs r1, #0x33                         | movs r1, #0x33                         
+        +0004    str r1, [sp]                           | str r1, [sp]                           
+        +0006    ldr r3, [pc, #0x10]                    | ldr r3, [pc, #0x10]                    
+        +0008    movs r1, #0x14                         | movs r1, #0x14                         
+        +000A    movs r2, #1                            | movs r2, #1                            
+        +000C    blx #0x2030734                         | blx #0x2030734                         <- THM_CALL func_02030734 [resolved: label]
+        +0010    movs r1, #0                            | movs r1, #0                            
+        +0012    strh r1, [r0, #0x12]                   | strh r1, [r0, #0x12]                   
+        +0014    pop {r3, pc}                           | pop {r3, pc}                           
+        +0016    mov r8, r8                             | mov r8, r8                             
+      * +0018    strb r4, [r7, #0xa]                    | strb r4, [r3, #0xa]                    <- ABS32 sBtlSetupFile [resolved: literal]
+        +001A    lsls r2, r1, #8                        | lsls r2, r1, #8                        
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02014428.c):
+
+    /*
+     * function: func_02014428
+     * address:  0x02014428
+     * packet:   pkt_0201441C
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     * symbols:
+     *   sBtlSetupFile  0x020A729C  data
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    typedef signed int s32;
+    
+    extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file,
+                               u32 line);
+    extern u8    sBtlSetupFile;
+    
+    void func_02014428(u32 heap)
+    {
+        u8 *p = func_02030734(heap, 0x14, 1, (const char *)&sBtlSetupFile, 0x33);
+    
+        *(u16 *)(p + 0x12) = 0;
+    }
+

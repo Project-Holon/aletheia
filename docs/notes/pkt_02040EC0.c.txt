@@ -1,0 +1,38 @@
+pkt_02040EC0 - artifact row: the entry is four bytes inside a home-area prologue
+================================================================================
+
+func_02040EC0 @ 0x02040EC0 (row size 32, listing extent 32, arm9, ARM)
+verdict: NOT C - artifact (mid-function entry), reported, not filed
+
+The bytes the row starts on cannot be the first instruction of a compiled
+function:
+
+  02040EBC  0f 00 2d e9  push {r0, r1, r2, r3}     <- the real prologue begins here
+  02040EC0  08 40 2d e9  push {r3, lr}             <- the row's first byte
+  02040EC4  0c 10 8d e2  add  r1, sp, #0xc
+  02040EC8  02 20 a0 e3  mov  r2, #2
+  02040ECC  00 30 a0 e3  mov  r3, #0
+  02040ED0  e8 ff ff ff  bl   func_02040E78
+  02040ED4  08 40 bd e8  pop  {r3, lr}
+  02040ED8  10 d0 8d e2  add  sp, sp, #0x10
+  02040EDC  1e ff 2f e1  bx   lr
+
+The `add r1, sp, #0xc` and the `add sp, sp, #0x10` after the `pop` only balance
+if the frame is 16 bytes larger than the `push {r3, lr}` the row starts on:
+with both pushes in place sp at the `add` is entry-24, so r1 = entry-12, the
+home slot of the second argument.  In other words this is the
+address-of-a-register-parameter lowering - the callee is handed `&arg1` - and
+the function's real entry point is the bare `push {r0, r1, r2, r3}` at
+0x02040EBC, exactly like the bare-push home areas the band brief lists as
+artifact.  The function's C is
+
+    void func_02040EBC(int a0, int a1)   /* or a variadic head */
+    {
+        func_02040E78(a0, &a1, 2, 0);
+    }
+
+and the compiler will never emit those bytes starting four bytes later, so the
+row at 0x02040EC0 is not filable at any budget.  Filed under notes, not in
+src/matched/ or src/pending/.
+
+Addresses are Black-image addresses.

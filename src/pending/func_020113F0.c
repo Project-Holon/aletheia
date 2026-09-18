@@ -32,7 +32,7 @@
  * Verified with:
  *   python tools/match.py one --src src/pending/func_020113F0.c \
  *       --func func_020113F0 --addr 0x020113F0 --cc 1.1p1 --thumb
- */
+ * blocker:  unresolved relocation(s): 0209DF24 (data, from header)*/
 
 typedef unsigned char u8;
 typedef unsigned int  u32;

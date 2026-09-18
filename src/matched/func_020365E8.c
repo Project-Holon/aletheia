@@ -11,10 +11,14 @@
  *
  * 36 bytes with no call: the distance from the cursor at p+0x0C to the end of
  * the buffer at p+0x0E, answered from the buffer base at p+4 when the cursor is
- * past the end.  The halfword at p+0x0E is read three times in the original
- * (condition, both arms), which is why it is spelled as a field read in each
- * place rather than bound to a local: with a local the compiler drops the
- * `ldrshgt` and the whole function is one instruction shorter.
+ * past the end.
+ *
+ * The halfword at p+0x0E is read three times in the original (condition, both
+ * arms), which is why it is spelled as a field read in each place rather than
+ * bound to a local. Spelling all three as plain field reads is not enough on
+ * this front end: it CSEs the two arm reads into the condition's register and
+ * the function comes out one instruction (4 bytes) short at 32. Declaring the
+ * two arm reads `volatile` keeps all three loads, which is the original's shape.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020365E8.c \
@@ -28,6 +32,6 @@ int func_020365E8(char *p)
     int a = *(short *)(p + 0x0C);
 
     if (a > *(short *)(p + 0x0E))
-        return *(u32 *)(p + 4) + *(short *)(p + 0x0E) - a;
-    return *(short *)(p + 0x0E) - a;
+        return *(u32 *)(p + 4) + *(volatile short *)(p + 0x0E) - a;
+    return *(volatile short *)(p + 0x0E) - a;
 }

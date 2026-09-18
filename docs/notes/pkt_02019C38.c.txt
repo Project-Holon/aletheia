@@ -1,0 +1,69 @@
+========================================================================
+pkt_02019C38 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_02019C38  0x02019C38  (verdict DIFF       func_02019C38 @ 02019C38 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02019C38 @ 02019C38 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 32 bytes, 1 relocation site(s)
+      relocations: 0 of 1 resolved
+        +001C ABS32 tbl_0209E3A4           -> unresolved: 0209E3A4 (data, from header) has no witness outside 02019C38..02019C58
+      listing extent for the original: 28 bytes
+      note: listing says the original is 28 bytes, compiled 32
+      27 concrete byte(s) differ
+      offset     ORIGINAL @ 02019C38                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+      * +0000    movs r3, #0x3e                         | push {r3, r4}                          
+      * +0002    lsls r3, r3, #0xc                      | movs r3, #0x3e                         
+      * +0004    ands r1, r3                            | lsls r3, r3, #0xc                      
+      * +0006    lsrs r1, r1, #0xd                      | ands r1, r3                            
+      * +0008    lsls r3, r1, #2                        | lsrs r1, r1, #0xd                      
+      * +000A    ldr r1, [pc, #0xc]                     | ldr r4, [pc, #0x10]                    
+      * +000C    adds r0, #8                            | lsls r3, r1, #2                        
+      * +000E    adds r1, r1, r3                        | adds r1, r2, r4                        
+      * +0010    ldrb r1, [r2, r1]                      | ldrb r1, [r3, r1]                      
+      * +0012    adds r0, r0, r1                        | adds r0, #8                            
+      * +0014    bx lr                                  | adds r0, r0, r1                        
+      * +0016    mov r8, r8                             | pop {r3, r4}                           
+      * +0018    b #0x201a39c                           | bx lr                                  
+      * +001A    lsls r1, r1, #8                        | mov r8, r8                             
+      ~ +001C    push {r3, lr}                          | movs r0, r0                            <- ABS32 tbl_0209E3A4 [wildcard]
+      ~ +001E    ldr r2, [pc, #0x1c]                    | movs r0, r0                            
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02019C38.c):
+
+    /*
+     * function: func_02019C38
+     * address:  0x02019C38
+     * packet:   pkt_02019C38
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     * symbols:
+     *   tbl_0209E3A4  0x0209E3A4  data
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    extern u8 tbl_0209E3A4[];
+    
+    u8 *func_02019C38(u8 *a0, u32 h, u8 *a2)
+    {
+        u32 i = (h & 0x3e000) >> 13;
+    
+        return a0 + 8 + *(u8 *)(a2 + (u32)tbl_0209E3A4 + i * 4);
+    }
+

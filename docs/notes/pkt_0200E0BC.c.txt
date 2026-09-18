@@ -41,3 +41,249 @@ func_0200E124 @ 0x0200E124 (54 bytes, Thumb)
 
 The three are all in packet pkt_0200E0BC; the packet has no EXACT entry, so it
 gets no shard.
+
+
+==============================================================================
+APPENDED, lane 1 (0-64 byte band): DIFF residue for 3 function(s)
+==============================================================================
+func_0200E0BC  0X0200E0BC  size 38  compiled 36  compared 44  verdict DIFF
+residue (16 site(s)):
+  * +0002    00 23                                  | 07 4a
+  * +0006    04 2b                                  | 00 23
+  * +0008    0a d2                                  | 99 00
+  * +000A    07 4a                                  | 51 18
+  * +000C    99 00                                  | 49 88
+  * +000E    51 18                                  | 88 42
+  * +0010    49 88                                  | 03 d3
+  * +0012    88 42                                  | 1c 1c
+  * +0014    01 d2                                  | 5b 1c
+  * +0016    1c 1c                                  | 04 2b
+  * +0018    02 e0                                  | f6 db
+  * +001A    5b 1c                                  | 20 1c
+  * +001C    04 2b                                  | 18 bc
+  * +001E    f5 d3                                  | 70 47
+  * +0020    20 1c                                  | 90 de                                  <- ABS32 g_0209DE90 [resolved: literal]
+  * +0022    18 bc                                  | 09 02
+
+C (src/pending/func_0200E0BC.c):
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 g_0209DE90[];
+
+int func_0200E0BC(u32 value)
+{
+    int i;
+    int r = 3;
+
+    for (i = 0; i < 4; i++) {
+        if (value < g_0209DE90[i * 2 + 1])
+            break;
+        r = i;
+    }
+    return r;
+}
+
+func_0200E0E8  0X0200E0E8  size 48  compiled 60  compared 60  verdict DIFF
+residue (26 site(s)):
+  * +0000    18 b4                                  | 30 b4
+  * +0002    8c 00                                  | 4a 00
+  * +0004    0a 49                                  | 51 00
+  * +0008    09 5b                                  | 52 1c
+  * +000A    1c 5b                                  | 52 00
+  * +000C    0a 4a                                  | 59 5a
+  * +000E    8b 00                                  | 9c 5a
+  * +0010    c3 18                                  | 8a 00
+  * +0012    a1 42                                  | 85 18
+  * +0014    09 d2                                  | 08 48
+  * +0016    18 68                                  | a1 42
+  * +0018    40 05                                  | 0a d2
+  * +001A    40 0d                                  | 42 09
+  * +001C    01 d1                                  | 2b 68
+  * +001E    0a 1c                                  | 13 42
+  * +0020    03 e0                                  | 02 d1
+  * +0022    49 1c                                  | 08 1c
+  * +0024    1b 1d                                  | 30 bc
+  * +0026    a1 42                                  | 70 47
+  * +0028    f5 d3                                  | 49 1c
+
+C (src/pending/func_0200E0E8.c):
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 g_0209DE90[];
+
+u32 func_0200E0E8(const u32 *obj, int idx)
+{
+    u32 lo = g_0209DE90[idx * 2];
+    u32 hi = g_0209DE90[idx * 2 + 1];
+    const u32 *p = obj + lo;
+    u32 r = 0xffff;
+
+    while (lo < hi) {
+        if ((*p & 0x7ff) == 0) {
+            r = lo;
+            break;
+        }
+        lo++;
+        p++;
+    }
+    return r;
+}
+
+func_0200E124  0X0200E124  size 54  compiled 64  compared 64  verdict DIFF
+residue (23 site(s)):
+  * +000C    81 00                                  | 40 00
+  * +000E    0a 48                                  | 40 1c
+  * +0010    46 5a                                  | 41 00
+  * +0012    b4 42                                  | 09 48
+  * +0014    08 d2                                  | 46 5a
+  * +0016    62 1c                                  | b4 42
+  * +0018    90 00                                  | 07 d2
+  * +001A    a1 00                                  | a0 00
+  * +001C    b2 1a                                  | 32 1b
+  * +001E    28 18                                  | 29 18
+  * +0020    69 18                                  | 52 1e
+  * +0022    92 00                                  | 08 1d
+  * +0024    74 f0                                  | 92 00
+  * +0026    fc ed                                  | 74 f0                                  <- THM_CALL func_02082D44 [resolved: label]
+  * +0028    70 1e                                  | fc ed
+  * +002A    82 00                                  | 70 1e
+  * +002C    a9 58                                  | 82 00
+  * +002E    03 48                                  | a9 58
+  * +0030    08 40                                  | 02 48
+  * +0032    a8 50                                  | 08 40
+
+C (src/pending/func_0200E124.c):
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 g_0209DE90[];
+
+extern int  func_0200E0BC(u32 value);
+extern void func_02082D44(void *dst, const void *src, u32 size);
+
+void func_0200E124(u32 *obj, u32 idx)
+{
+    u32 hi = g_0209DE90[func_0200E0BC(idx) * 2 + 1];
+
+    if (idx < hi) {
+        func_02082D44(obj + idx + 1, obj + idx, (hi - idx - 1) * 4);
+    }
+    obj[hi - 1] &= 0xfffff800;
+}
+
+==============================================================================
+func_0200E0BC.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_0200E0BC
+ * address:  0x0200E0BC
+ * packet:   pkt_0200E0BC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   g_0209DE90  0x0209DE90  data
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 g_0209DE90[];
+
+int func_0200E0BC(u32 value)
+{
+    int i;
+    int r = 3;
+
+    for (i = 0; i < 4; i++) {
+        if (value < g_0209DE90[i * 2 + 1])
+            break;
+        r = i;
+    }
+    return r;
+}
+
+==============================================================================
+func_0200E0E8.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_0200E0E8
+ * address:  0x0200E0E8
+ * packet:   pkt_0200E0BC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   g_0209DE90  0x0209DE90  data
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 g_0209DE90[];
+
+u32 func_0200E0E8(const u32 *obj, int idx)
+{
+    u32 lo = g_0209DE90[idx * 2];
+    u32 hi = g_0209DE90[idx * 2 + 1];
+    const u32 *p = obj + lo;
+    u32 r = 0xffff;
+
+    while (lo < hi) {
+        if ((*p & 0x7ff) == 0) {
+            r = lo;
+            break;
+        }
+        lo++;
+        p++;
+    }
+    return r;
+}
+
+==============================================================================
+func_0200E124.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_0200E124
+ * address:  0x0200E124
+ * packet:   pkt_0200E0BC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   g_0209DE90  0x0209DE90  data
+ *   func_0200E0BC  0x0200E0BC  thumb
+ *   func_02082D44  0x02082D44  arm
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 g_0209DE90[];
+
+extern int  func_0200E0BC(u32 value);
+extern void func_02082D44(void *dst, const void *src, u32 size);
+
+void func_0200E124(u32 *obj, u32 idx)
+{
+    u32 hi = g_0209DE90[func_0200E0BC(idx) * 2 + 1];
+
+    if (idx < hi) {
+        func_02082D44(obj + idx + 1, obj + idx, (hi - idx - 1) * 4);
+    }
+    obj[hi - 1] &= 0xfffff800;
+}

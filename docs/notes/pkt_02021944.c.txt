@@ -1,38 +1,181 @@
-/*
- * function: func_02021984
- * address:  0x02021984
- * packet:   pkt_02021944
- * region:   arm9
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF (documented near miss)
- */
+========================================================================
+pkt_02021944 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+------------------------------------------------------------------------
+func_02021944  0x02021944  (verdict DIFF       func_02021944 @ 02021944 (arm9, Thumb))
+------------------------------------------------------------------------
 
-void func_02021984(int a, u32 *p, u16 *out)
-{
-    u32 x = *(u32 *)((u8 *)p + 8);
-    u32 n;
-    u16 mask = 0;
-    u8 i;
+harness output:
 
-    if (a < 4) {
-        n = (x << 19) >> 24;
-    } else {
-        n = ((x >> 9) << 24) >> 24;
+    DIFF       func_02021944 @ 02021944 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 60 bytes, 1 relocation site(s)
+      relocations: 1 of 1 resolved
+        +000E THM_CALL func_02021930       -> 02021930  [label x12, e.g. 0202176C]
+      listing extent for the original: 64 bytes
+      note: listing says the original is 64 bytes, compiled 60
+      39 concrete byte(s) differ
+      offset     ORIGINAL @ 02021944                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r4, r5, r6, lr}                  | push {r4, r5, r6, lr}                  
+      * +0002    ldr r6, [pc, #0x34]                    | ldr r6, [pc, #0x30]                    
+        +0004    adds r5, r0, #0                        | adds r5, r0, #0                        
+        +0006    ldrh r0, [r5, r6]                      | ldrh r0, [r5, r6]                      
+        +0008    adds r4, r1, #0                        | adds r4, r1, #0                        
+        +000A    lsls r0, r0, #0x12                     | lsls r0, r0, #0x12                     
+      * +000C    lsrs r0, r0, #0x12                     | asrs r0, r0, #0x12                     
+        +000E    bl #0x2021930                          | bl #0x2021930                          <- THM_CALL func_02021930 [resolved: label]
+        +0012    cmp r0, #1                             | cmp r0, #1                             
+      * +0014    beq #0x2021978                         | beq #0x2021974                         
+      * +0016    ldrh r0, [r5, r6]                      | movs r2, #1                            
+      * +0018    movs r3, #1                            | lsls r2, r4                            
+      * +001A    lsls r3, r4                            | lsls r2, r2, #0x10                     
+      * +001C    adds r1, r0, #0                        | movs r0, #3                            
+      * +001E    ldr r2, [pc, #0x1c]                    | lsrs r3, r2, #0x10                     
+      * +0020    lsls r0, r0, #0x12                     | ldrh r1, [r5, r6]                      
+      * +0022    lsls r3, r3, #0x10                     | lsls r0, r0, #0xe                      
+      * +0024    lsrs r0, r0, #0x12                     | ldr r2, [pc, #0x10]                    
+      * +0026    lsrs r3, r3, #0x10                     | ands r0, r1                            
+      * +0028    orrs r3, r0                            | ands r1, r2                            
+      * +002A    lsrs r0, r2, #0x12                     | orrs r1, r3                            
+      * +002C    ands r1, r2                            | orrs r0, r1                            
+      * +002E    ands r0, r3                            | strh r0, [r5, r6]                      
+      * +0030    orrs r0, r1                            | pop {r4, r5, r6, pc}                   
+      * +0032    strh r0, [r5, r6]                      | mov r8, r8                             
+      * +0034    pop {r4, r5, r6, pc}                   | lsls r2, r3, #4                        
+      * +0036    mov r8, r8                             | movs r0, r0                            
+      * +0038    lsls r2, r3, #4                        | subs r7, #0xff                         
+        +003A    movs r0, r0                            | movs r0, r0                            
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02021944.c):
+
+    /*
+     * function: func_02021944
+     * address:  0x02021944
+     * packet:   pkt_02021944
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    extern u32 func_02021930(u32 a);
+    
+    void func_02021944(void *p, u32 a1)
+    {
+        if (func_02021930((*(u16 *)((u8 *)p + 0x11a) << 0x12) >> 0x12) != 1) {
+            u32 v = *(u16 *)((u8 *)p + 0x11a);
+            *(u16 *)((u8 *)p + 0x11a) = (u16)((v & 0xc000) |
+                                              (((1 << a1) & 0xffff) |
+                                               ((v << 0x12) >> 0x12)));
+        }
     }
-    for (i = 0; i < n; i++) {
-        mask = (u16)(mask + (u16)(1 << i));
-    }
-    *out &= mask;
-}
 
-/*
- * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
- */
+------------------------------------------------------------------------
+func_02021984  0x02021984  (verdict DIFF       func_02021984 @ 02021984 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02021984 @ 02021984 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 74 bytes, 0 relocation site(s)
+      listing extent for the original: 64 bytes
+      note: listing says the original is 64 bytes, compiled 74
+      63 concrete byte(s) differ
+      offset     ORIGINAL @ 02021984                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r4, r5}                          | push {r4, r5}                          
+      * +0002    cmp r0, #4                             | ldr r1, [r1, #8]                       
+      * +0004    ldr r0, [r1, #8]                       | cmp r0, #4                             
+      * +0006    bge #0x2021990                         | blt #0x2021990                         
+      * +0008    lsls r0, r0, #0x13                     | lsrs r0, r1, #9                        
+        +000A    b #0x2021994                           | b #0x2021994                           
+      * +000C    lsrs r0, r0, #9                        | lsls r0, r1, #0x13                     
+      * +000E    lsls r0, r0, #0x18                     | lsrs r0, r0, #0x18                     
+      * +0010    lsrs r4, r0, #0x18                     | lsls r0, r0, #0x18                     
+      * +0012    movs r1, #0                            | lsrs r0, r0, #0x18                     
+      * +0014    movs r3, #0                            | lsls r0, r0, #0x18                     
+      * +0016    cmp r4, #0                             | lsrs r5, r0, #0x18                     
+      * +0018    bls #0x20219b8                         | beq #0x20219be                         
+      * +001A    movs r0, #1                            | movs r4, #0                            
+      * +001C    adds r5, r0, #0                        | movs r3, #0                            
+      * +001E    lsls r5, r3                            | cmp r5, #0                             
+      * +0020    lsls r5, r5, #0x10                     | bls #0x20219b8                         
+      * +0022    lsrs r5, r5, #0x10                     | movs r1, #1                            
+      * +0024    adds r3, r3, #1                        | adds r0, r1, #0                        
+      * +0026    adds r1, r1, r5                        | lsls r0, r3                            
+      * +0028    lsls r3, r3, #0x18                     | lsls r0, r0, #0x10                     
+      * +002A    lsls r1, r1, #0x10                     | lsrs r0, r0, #0x10                     
+      * +002C    lsrs r3, r3, #0x18                     | adds r3, r3, #1                        
+      * +002E    lsrs r1, r1, #0x10                     | adds r4, r4, r0                        
+      * +0030    cmp r3, r4                             | cmp r3, r5                             
+      * +0032    blo #0x20219a0                         | blo #0x20219a8                         
+      * +0034    ldrh r0, [r2]                          | lsls r0, r4, #0x10                     
+      * +0036    ands r0, r1                            | lsrs r4, r0, #0x10                     
+      * +0038    strh r0, [r2]                          | b #0x20219c0                           
+      * +003A    pop {r4, r5}                           | movs r4, #0                            
+      * +003C    bx lr                                  | ldrh r1, [r2]                          
+      * +003E    movs r0, r0                            | lsls r0, r4, #0x10                     
+      * +0040    push {r4, r5, r6, r7}                  | lsrs r0, r0, #0x10                     
+      * +0042    adds r4, r3, #0                        | ands r0, r1                            
+      * +0044    cmp r2, #0                             | strh r0, [r2]                          
+      * +0046    bge #0x20219f4                         | pop {r4, r5}                           
+      * +0048    bge #0x20219d0                         | bx lr                                  
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02021984.c):
+
+    /*
+     * function: func_02021984
+     * address:  0x02021984
+     * packet:   pkt_02021944
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    void func_02021984(int a0, u32 *a1, u16 *a2)
+    {
+        u32 v = a1[2];
+        u32 m;
+        u32 i;
+    
+        if (a0 >= 4) {
+            m = (v >> 9) << 0x18 >> 0x18 << 0x18 >> 0x18;
+            m = (u8)(v >> 9);
+        } else {
+            m = (u8)(v << 0x13 >> 0x18);
+        }
+        m = (u8)m;
+        if (m > 0) {
+            v = 0;
+            for (i = 0; i < m; i++) {
+                v += (u16)((1 << i) & 0xffff);
+            }
+            v &= 0xffff;
+        } else {
+            v = 0;
+        }
+        *a2 &= (u16)v;
+    }
 

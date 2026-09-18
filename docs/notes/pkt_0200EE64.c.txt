@@ -1,0 +1,82 @@
+packet pkt_0200EE64: DIFF residue for 1 function(s) of lane 1 (0-64 byte band)
+
+Every function below is byte-for-byte correct except for the residue listed.
+The C lives in src/pending/<name>.c (a DIFF has no home in src/matched/).
+
+==============================================================================
+func_0200EEAC  0X0200EEAC  size 42  compiled 42  compared 44  verdict DIFF
+
+residue (13 mismatching site(s)):
+  * +0002    06 1c                                  | 05 1c
+  * +0004    0d 1c                                  | 0c 1c
+  * +0006    00 24                                  | 00 26
+  * +000A    28 68                                  | 20 68
+  * +0010    30 1c                                  | 28 1c
+  * +0016    29 1c                                  | 28 1c
+  * +0018    32 1c                                  | 21 1c
+  ~ +001C    57 f8                                  | 00 f8
+  * +001E    64 1c                                  | 76 1c
+  * +0020    50 35                                  | 50 34
+  * +0022    40 2c                                  | 40 2e
+  * +0024    f1 d3                                  | f1 db
+  * +0026    f4 80                                  | ee 80
+
+C (src/pending/func_0200EEAC.c):
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+extern void func_0200F104(void *o);
+extern void func_0200EF78(void *o, u32 *p);
+
+void func_0200EEAC(void *o, u32 *p)
+{
+    int i;
+
+    for (i = 0; i < 0x40; i++) {
+        if (*p & 1) {
+            func_0200F104(o);
+            func_0200EF78(o, p);
+        }
+        p += 0x14;
+    }
+    *(u16 *)((unsigned char *)o + 6) = i;
+}
+
+==============================================================================
+func_0200EEAC.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_0200EEAC
+ * address:  0x0200EEAC
+ * packet:   pkt_0200EE64
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   func_0200F104  0x0200F104  thumb
+ *   func_0200EF78  0x0200EF78  thumb
+ * blocker:  unresolved relocation(s): 0200EF78 (thumb, from header)*/
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+extern void func_0200F104(void *o);
+extern void func_0200EF78(void *o, u32 *p);
+
+void func_0200EEAC(void *o, u32 *p)
+{
+    int i;
+
+    for (i = 0; i < 0x40; i++) {
+        if (*p & 1) {
+            func_0200F104(o);
+            func_0200EF78(o, p);
+        }
+        p += 0x14;
+    }
+    *(u16 *)((unsigned char *)o + 6) = i;
+}

@@ -92,3 +92,57 @@ spelling of two separate stores produces here.  Locals for the two bytes
 alias and a struct member all move *more* bytes (10, 11, 81, 24).  A
 `char *out` parameter -- which would make the store an alias barrier -- also
 gives the same four bytes.
+
+
+==============================================================================
+APPENDED, lane 1 (0-64 byte band): DIFF residue for 1 function(s)
+==============================================================================
+func_0200EBD0  0X0200EBD0  size 58  compiled 64  compared 92  verdict DIFF
+residue (24 site(s)):
+  * +0002    0e 4c                                  | 0d 4e
+  * +0006    2e 59                                  | a9 59
+  * +0008    0d 48                                  | 0c 48
+  * +000A    86 42                                  | 81 42
+  * +000C    14 d2                                  | 12 d2
+  * +000E    20 1f                                  | 30 1f
+  * +0010    2e 58                                  | 2c 58
+  * +0016    70 43                                  | 60 43
+  * +001E    20 1f                                  | 61 1c
+  * +0020    28 58                                  | 30 1f
+  * +0022    41 1c                                  | 29 50
+  * +0024    20 1f                                  | 0f 29
+  * +0026    29 50                                  | 01 d3
+  * +0028    0f 29                                  | 00 21
+  * +002A    01 d3                                  | 29 50
+  * +002C    00 21                                  | 02 48
+  * +002E    29 50                                  | 29 58
+  * +0030    02 48                                  | 49 1c
+  * +0032    29 58                                  | 29 50
+  * +0034    49 1c                                  | 70 bd
+
+C (src/pending/func_0200EBD0.c):
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+extern void func_0200EA3C(void *p);
+
+struct S0200EBD0 {
+    u8  pad[0x1554];
+    u32 unk1554;
+    u32 unk1558;
+};
+
+void func_0200EBD0(struct S0200EBD0 *obj)
+{
+    u32 idx;
+
+    if (obj->unk1558 >= 9999)
+        return;
+
+    idx = obj->unk1554;
+    func_0200EA3C((char *)obj + idx * 0x16c);
+    obj->unk1554 = ++idx;
+    if (idx >= 0xf)
+        obj->unk1554 = 0;
+    obj->unk1558++;
+}

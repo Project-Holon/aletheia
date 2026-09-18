@@ -34,3 +34,42 @@ Two independent blockers, both measured:
    declaring them as one symbol does not help: a site is attested by the
    *symbol* address (match.py's `attest()` looks the bare target up in
    pool_words), so the +0x14 addend form cannot borrow the sibling's pool.
+
+
+==============================================================================
+APPENDED, lane 1 (0-64 byte band): DIFF residue for 1 function(s)
+==============================================================================
+func_02011400  0X02011400  size 12  compiled 16  compared 16  verdict DIFF
+residue (1 site(s)):
+  * +0006    80 18                                  | 10 18
+
+C (src/pending/func_02011400.c):
+typedef unsigned char u8;
+
+u8 func_02011400(int idx, const u8 *base)
+{
+    return base[0x0209DF10 + idx * 5];
+}
+
+==============================================================================
+func_02011400.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02011400
+ * address:  0x02011400
+ * packet:   pkt_020113F0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned char u8;
+
+u8 func_02011400(int idx, const u8 *base)
+{
+    return base[0x0209DF10 + idx * 5];
+}

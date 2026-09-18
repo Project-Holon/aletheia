@@ -40,3 +40,53 @@ not in this packet: 0x020120B4..0x020120D8 is the whole of it, and those
 addresses sit in the gap before pkt_02012158.  Two of them were already
 matched elsewhere (layout/matched/arm9/pkt_02011EC0.json carries
 unit_020120F0), so the gap is somebody else's work list.
+
+
+==============================================================================
+APPENDED, lane 1 (0-64 byte band): DIFF residue for 1 function(s)
+==============================================================================
+func_020120B4  0X020120B4  size 10  compiled 12  compared 12  verdict DIFF
+residue (6 site(s)):
+  * +0000    08 b5                                  | 80 68
+  * +0002    80 68                                  | 01 4b
+  * +0004    1f f0                                  | 18 47
+  * +0006    46 e9                                  | c0 46
+  * +0008    08 bd                                  | 48 13                                  <- ABS32 func_02031348 [resolved: label]
+  * +000A    00 00                                  | 03 02
+
+C (src/pending/func_020120B4.c):
+typedef unsigned int u32;
+
+extern void func_02031348(u32 v);
+
+int func_020120B4(void *obj)
+{
+    func_02031348(*(u32 *)((unsigned char *)obj + 8));
+}
+
+==============================================================================
+func_020120B4.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_020120B4
+ * address:  0x020120B4
+ * packet:   pkt_020120B4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   func_02031348  0x02031348  arm
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned int u32;
+
+extern void func_02031348(u32 v);
+
+int func_020120B4(void *obj)
+{
+    func_02031348(*(u32 *)((unsigned char *)obj + 8));
+}

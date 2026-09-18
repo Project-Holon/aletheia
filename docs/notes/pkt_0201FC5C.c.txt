@@ -1,0 +1,84 @@
+========================================================================
+pkt_0201FC5C -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_0201FD18  0x0201FD18  (verdict DIFF       func_0201FD18 @ 0201FD18 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_0201FD18 @ 0201FD18 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 58 bytes, 2 relocation site(s)
+      relocations: 1 of 2 resolved
+        +001C THM_CALL func_0201FD54       -> 0201FD54  [label x2, e.g. 0201FAF6]
+        +0032 THM_CALL func_02020D5C       -> unresolved: 02020D5C (thumb, from name) has no witness outside 0201FD18..0201FD52
+      listing extent for the original: 60 bytes
+      note: listing says the original is 60 bytes, compiled 58
+      8 concrete byte(s) differ
+      offset     ORIGINAL @ 0201FD18                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, r4, lr}                      | push {r3, r4, lr}                      
+        +0002    sub sp, #0xc                           | sub sp, #0xc                           
+        +0004    adds r4, r0, #0                        | adds r4, r0, #0                        
+        +0006    ldrb r1, [r4, #0xb]                    | ldrb r1, [r4, #0xb]                    
+        +0008    lsls r1, r1, #0x1a                     | lsls r1, r1, #0x1a                     
+      * +000A    lsrs r1, r1, #0x1e                     | asrs r1, r1, #0x1e                     
+        +000C    cmp r1, #1                             | cmp r1, #1                             
+        +000E    beq #0x201fd4e                         | beq #0x201fd4e                         
+        +0010    adds r3, r4, #0                        | adds r3, r4, #0                        
+        +0012    adds r3, #0x2d                         | adds r3, #0x2d                         
+        +0014    ldrb r3, [r3]                          | ldrb r3, [r3]                          
+      * +0016    add r1, sp, #8                         | add r2, sp, #8                         
+      * +0018    adds r1, #1                            | add r1, sp, #8                         
+      * +001A    add r2, sp, #8                         | adds r2, #1                            
+        +001C    bl #0x201fd54                          | bl #0x201fd54                          <- THM_CALL func_0201FD54 [resolved: label]
+        +0020    ldr r0, [r4, #0x18]                    | ldr r0, [r4, #0x18]                    
+        +0022    add r2, sp, #8                         | add r2, sp, #8                         
+        +0024    str r0, [sp]                           | str r0, [sp]                           
+        +0026    ldr r0, [r4, #0x1c]                    | ldr r0, [r4, #0x1c]                    
+        +0028    str r0, [sp, #4]                       | str r0, [sp, #4]                       
+      * +002A    ldrb r1, [r2, #1]                      | ldrb r1, [r2]                          
+      * +002C    ldrb r2, [r2]                          | ldrb r2, [r2, #1]                      
+        +002E    ldr r0, [r4, #0x24]                    | ldr r0, [r4, #0x24]                    
+        +0030    ldr r3, [r4, #0x14]                    | ldr r3, [r4, #0x14]                    
+      ~ +0032    bl #0x2020d5c                          | bl #0x201fd4e                          <- THM_CALL func_02020D5C [wildcard]
+        +0036    add sp, #0xc                           | add sp, #0xc                           
+        +0038    pop {r3, r4, pc}                       | pop {r3, r4, pc}                       
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_0201FD18.c):
+
+    /*
+     * function: func_0201FD18
+     * address:  0x0201FD18
+     * packet:   pkt_0201FC5C
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    extern void func_0201FD54(u8 *p, u8 *a, u8 *b, u8 c);
+    extern void func_02020D5C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
+    
+    void func_0201FD18(u8 *p)
+    {
+        u8 b0, b1;
+    
+        if (((p[0xb] << 0x1a) >> 0x1e) != 1) {
+            func_0201FD54(p, &b1, &b0, p[0x2d]);
+            func_02020D5C(*(u32 *)(p + 0x24), b1, b0, *(u32 *)(p + 0x14),
+                          *(u32 *)(p + 0x18), *(u32 *)(p + 0x1c));
+        }
+    }
+

@@ -1,0 +1,38 @@
+======================================================================
+// 0x0202715c  func_0202715C  size 20  isa thumb
+// verdict: DIFF
+//   * +000A    adds r0, r4, #4                        | movs r0, #1
+//   * +000C    movs r1, #1                            | adds r4, #0x62
+//   * +000E    adds r0, #0x5e                         | strb r0, [r4]
+//   * +0010    strb r1, [r0]                          | pop {r4, pc}
+//   * +0012    pop {r4, pc}                           | mov r8, r8
+/*
+ * function: func_0202715C
+ * address:  0x0202715C
+ * packet:   pkt_0202715C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146940     0x02146940  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+extern char *g_02146940;
+extern void  func_020274B4(u32 a0);
+
+void func_0202715C(u32 a0)
+{
+    char *p = g_02146940;
+
+    func_020274B4(a0);
+    *(u8 *)(p + 0x62) = 1;
+}

@@ -1,0 +1,40 @@
+======================================================================
+// 0x02025ba0  func_02025BA0  size 18  isa thumb
+// verdict: DIFF
+//   +0014 ABS32 g_0209FA36             -> unresolved: 0209FA36 (data, from header) has no witness outside 02025BA0..02025BB8
+//   * +0002    bhs #0x2025bae                         | bhs #0x2025bb0
+//   * +0004    movs r1, #0xc                          | movs r1, #6
+//   * +000A    ldrh r0, [r0, r1]                      | lsls r1, r1, #1
+//   * +000C    bx lr                                  | ldrh r0, [r0, r1]
+//   * +000E    movs r0, #0xe7                         | bx lr
+//   * +0010    bx lr                                  | movs r0, #0xe7
+//   * +0012    mov r8, r8                             | bx lr
+/*
+ * function: func_02025BA0
+ * address:  0x02025BA0
+ * packet:   pkt_02025BA0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_0209FA36  0x0209FA36  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+extern u16 g_0209FA36[];
+
+u16 func_02025BA0(u32 i)
+{
+    if (i < 0x13) {
+        return g_0209FA36[i * 6];
+    }
+    return 0xe7;
+}

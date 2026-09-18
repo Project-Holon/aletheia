@@ -1,0 +1,72 @@
+func_0202B374 @ 0x0202B374 (thumb, 44 bytes) - DIFF, closest C and residue.
+
+This function had a source in src/matched/sub_0202B374.c whose header claimed
+EXACT. It is NOT byte-correct, so the source has been removed from
+src/matched/ and the C and its residue are recorded here. Any shard that
+carried it would have held a DIFF entry.
+
+The original:
+
+    0202B374  f0 b4        push {r4, r5, r6, r7}
+    0202B376  07 78        ldrb r7, [r0]          ; r7 = p->count
+    0202B378  00 25        movs r5, #0            ; i = 0
+    0202B37A  00 2f        cmp r7, #0
+    0202B37C  0d dd        ble #0x202b39a
+    0202B37E  46 68        ldr r6, [r0, #4]       ; a = p->items  (AFTER the guard)
+    0202B380  1c 22        movs r2, #0x1c
+    0202B382  2c 1c        adds r4, r5, #0
+    0202B384  54 43        muls r4, r2, r4
+    0202B386  33 5b        ldrh r3, [r6, r4]
+    0202B388  99 42        cmp r1, r3
+    0202B38A  03 d1        bne #0x202b394
+    0202B38C  40 68        ldr r0, [r0, #4]       ; reload p->items on the match path
+    0202B38E  00 19        adds r0, r0, r4
+    0202B390  f0 bc        pop {r4, r5, r6, r7}
+    0202B392  70 47        bx lr
+    0202B394  6d 1c        adds r5, r5, #1
+    0202B396  bd 42        cmp r5, r7
+    0202B398  f3 db        blt #0x202b382
+    0202B39A  00 20        movs r0, #0
+    0202B39C  f0 bc        pop {r4, r5, r6, r7}
+    0202B39E  70 47        bx lr
+
+Shape that reproduces 44 bytes and all but two instructions:
+
+    struct Element { u16 id; u8 pad[26]; };                 // 0x1c
+    struct Container { u8 count; u8 pad[3];
+                       struct Element *volatile items; };
+
+    struct Element *func_0202B374(struct Container *p, u16 key)
+    {
+        int i;
+        struct Element *a = p->items;
+
+        for (i = 0; i < (int)p->count; i++) {
+            if (a[i].id == key) {
+                return &p->items[i];
+            }
+        }
+        return 0;
+    }
+
+Residue (2 instructions, same length):
+
+    +0006  cmp r7, #0        | ldr r6, [r0, #4]
+    +0008  ble #0x202b39a    | cmp r7, #0
+    +000A  ldr r6, [r0, #4]  | ble #0x202b39a
+
+The front end hoists the `volatile` read of p->items ABOVE the guard; the
+original sinks it below. The member must be volatile because the match path
+re-reads p->items instead of reusing the loop's cached base, and it must be a
+separate local for the loop (spelling p->items[i] inside the loop puts the load
+back inside the body, 44 bytes but a different diff). Ruled out after compile:
+a plain non-volatile member (the front end proves no aliasing, CSEs the reload
+away and the function drops to 42), an early `if (p->count <= 0) return 0;`
+before the loop (duplicates the guard, 54 bytes), and int n = p->count; with an
+early return and a for(;;) (52 bytes, duplicated epilogue). The remaining choice
+is the front end's load placement, not a C spelling.
+
+Verified with:
+  python tools/match.py one --src src/matched/sub_0202B374.c \
+      --func func_0202B374 --addr 0x0202B374 --cc 1.1p1 --thumb
+  -> DIFF, compiled 44, original 44, 6 concrete bytes differ.

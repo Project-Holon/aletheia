@@ -1,0 +1,72 @@
+packet pkt_0201102C: DIFF residue for 1 function(s) of lane 1 (0-64 byte band)
+
+Every function below is byte-for-byte correct except for the residue listed.
+The C lives in src/pending/<name>.c (a DIFF has no home in src/matched/).
+
+==============================================================================
+func_020111BC  0X020111BC  size 34  compiled 48  compared 44  verdict DIFF
+
+residue (13 mismatching site(s)):
+  * +0002    08 49                                  | 02 1c
+  * +0004    02 1c                                  | 08 48
+  * +0006    89 7f                                  | 80 7f
+  * +0008    30 29                                  | 30 28
+  * +000A    09 d0                                  | 0a d0
+  * +000C    06 48                                  | 07 48
+  * +0020    08 bd                                  | 02 1c
+  * +0022    c0 46                                  | 10 1c
+  * +0024    08 62                                  | 08 bd
+  * +0026    14 02                                  | c0 46
+  * +0028    28 62                                  | 08 62                                  <- ABS32 g_02146208 [resolved: literal]
+  * +002C    15 20                                  | 28 62                                  <- ABS32 g_02146228 [resolved: literal]
+  * +002E    70 47                                  | 14 02
+
+C (src/pending/func_020111BC.c):
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8 g_02146208[];
+extern u8 g_02146228[];
+
+int func_020111BC(int v)
+{
+    if (g_02146208[0x1e] != 0x30)
+        return *(u16 *)(g_02146228 + 0x16) * (long long)v / 100;
+    return v;
+}
+
+==============================================================================
+func_020111BC.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_020111BC
+ * address:  0x020111BC
+ * packet:   pkt_0201102C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   g_02146208      0x02146208  data
+ *   g_02146228      0x02146228  data
+ *   _ll_mul          0x0209C054  arm
+ *   _ll_sdiv         0x0209BE5C  arm
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8 g_02146208[];
+extern u8 g_02146228[];
+
+int func_020111BC(int v)
+{
+    if (g_02146208[0x1e] != 0x30)
+        return *(u16 *)(g_02146228 + 0x16) * (long long)v / 100;
+    return v;
+}

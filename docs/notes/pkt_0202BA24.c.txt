@@ -1,0 +1,37 @@
+func_0202BA24 @ 0x0202BA24 (thumb, 54 compiled vs 58 original) - DIFF.
+
+Initialises two parallel arrays over a 16-entry table: the 28-byte records at
+p+0x24..p+0x224 and the two word arrays at p+0x1e4 and p+0x224.
+
+    void func_0202BA24(u8 *p)
+    {
+        int i;
+        for (i = 0; i < 16; i++) {
+            *(u32 *)(p + i * 0x1c + 0x24) = i;
+            *(u32 *)(p + i * 0x1c + 0x38) = 0x7f;
+            *(u16 *)(p + i * 0x1c + 0x3c) = 1 << i;
+            *(u32 *)(p + i * 4 + 0x1e4) = i;
+            *(u32 *)(p + i * 4 + 0x224) = i;
+        }
+    }
+
+Every store matches. Residue: the loop-invariant constants are hoisted above the
+guard here and below it in the original, and the counter lives in r3 here and r4
+there, so `adds r3, r4, #0` (the value temporary) is missing and the function is
+4 bytes short:
+
+    +0002  movs r4, #0        | movs r6, #0x79
+    +0004  cmp r4, #0x10      | lsls r6, r6, #2
+    +0006  bge #0x202ba5a     | movs r3, #0
+    ...
+    +002E  adds r4, r4, #1    | adds r3, r3, #1
+    +0030  str r3, [r7, r6]   | str r3, [r7, r6]
+
+Ruled out: declaring the counter before the constants, moving the `1 << i` store
+to the end, and an explicit `u32 v = i;` temporary. The original's ordering is the
+front end sinking the hoisted constants past the guard.
+
+Verified with:
+  python tools/match.py one --src <cand> --func func_0202BA24 \
+      --addr 0x0202BA24 --cc 1.1p1 --thumb
+  -> DIFF, compiled 54, original 58, 52 concrete bytes differ.

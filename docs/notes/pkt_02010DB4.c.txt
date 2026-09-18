@@ -110,3 +110,167 @@ and for func_02010DCC the 9-byte spelling is the same break guard around
     func_02010FAC();
 
 with the array unsigned (`g_021461E8` is `u32[13]`; the guard is `bls`).
+
+
+==============================================================================
+APPENDED, lane 1 (0-64 byte band): DIFF residue for 2 function(s)
+==============================================================================
+func_02010DCC  0X02010DCC  size 30  compiled 36  compared 40  verdict DIFF
+residue (18 site(s)):
+  * +0000    00 23                                  | 06 4a
+  * +0002    0d 2b                                  | 00 23
+  * +0004    09 da                                  | 99 00
+  * +0006    06 4a                                  | 50 58
+  * +0008    99 00                                  | 01 28
+  * +000A    50 58                                  | 01 d9
+  * +000C    01 28                                  | 40 1e
+  * +000E    01 d9                                  | 50 50
+  * +0010    40 1e                                  | 5b 1c
+  * +0012    50 50                                  | 0d 2b
+  * +0014    5b 1c                                  | f6 db
+  * +0016    0d 2b                                  | 02 4b
+  * +0018    f6 db                                  | 18 47
+  * +001A    02 4b                                  | c0 46
+  * +001C    18 47                                  | e8 61                                  <- ABS32 g_021461E8 [resolved: literal]
+  * +001E    c0 46                                  | 14 02
+  * +0020    e8 61                                  | ad 0f                                  <- ABS32 sub_02010FAC [resolved: literal]
+  * +0022    14 02                                  | 01 02
+
+C (src/pending/func_02010DCC.c):
+typedef unsigned int u32;
+
+extern u32 g_021461E8[];
+extern void sub_02010FAC(void);
+
+void func_02010DCC(void)
+{
+    int i = 0;
+
+    while (i < 0xd) {
+        if (g_021461E8[i] > 1) {
+            g_021461E8[i]--;
+        }
+        i++;
+    }
+    sub_02010FAC();
+}
+
+func_02010DF4  0X02010DF4  size 28  compiled 28  compared 32  verdict DIFF
+residue (12 site(s)):
+  * +0004    0d 2c                                  | 20 1c
+  * +0006    05 da                                  | 00 f0                                  <- THM_CALL func_02010F50 [resolved: label]
+  * +0008    20 1c                                  | a9 f8
+  * +000A    00 f0                                  | 64 1c
+  * +000C    a7 f8                                  | 0d 2c
+  * +000E    64 1c                                  | f9 db
+  * +0010    0d 2c                                  | 01 48
+  * +0012    f9 db                                  | 0d 21
+  * +0014    01 48                                  | 01 77
+  * +0016    0d 21                                  | 10 bd
+  * +0018    01 77                                  | 28 62                                  <- ABS32 g_02146228 [resolved: literal]
+  * +001A    10 bd                                  | 14 02
+
+C (src/pending/func_02010DF4.c):
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Sub02014628 {
+    u8 pad0[0x1C];
+    u8 f1c;         /* +0x1C */
+};
+
+extern struct Sub02014628 g_02146228;
+extern void func_02010F50(int i);
+
+void func_02010DF4(void)
+{
+    int i;
+
+    for (i = 0; i < 13; i++)
+        func_02010F50(i);
+    g_02146228.f1c = 13;
+}
+
+==============================================================================
+func_02010DCC.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02010DCC
+ * address:  0x02010DCC
+ * packet:   pkt_02010DB4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   g_021461E8  0x021461E8  data
+ *   sub_02010FAC  0x02010FAC  thumb
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned int u32;
+
+extern u32 g_021461E8[];
+extern void sub_02010FAC(void);
+
+void func_02010DCC(void)
+{
+    int i = 0;
+
+    while (i < 0xd) {
+        if (g_021461E8[i] > 1) {
+            g_021461E8[i]--;
+        }
+        i++;
+    }
+    sub_02010FAC();
+}
+
+==============================================================================
+func_02010DF4.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02010DF4
+ * address:  0x02010DF4
+ * packet:   pkt_02010DB4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * blocker:  codegen, the loop pre-test guard is missing.  The original is
+ *           28 bytes of `cmp r4,#0xd; bge END` before the body plus the
+ *           rotated `cmp; blt` at the bottom; mwcc emits only the rotated
+ *           half for `for`, `while` and a hand-written `if (i >= 0xd) break;`
+ *           alike, which is 4 bytes (two instructions) short.  See
+ *           docs/notes/pkt_02010DB4.c.txt.
+ *
+ * symbols:
+ *   g_02146228  0x02146228  data
+ *   func_02010F50  0x02010F50  thumb
+ */
+
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Sub02014628 {
+    u8 pad0[0x1C];
+    u8 f1c;         /* +0x1C */
+};
+
+extern struct Sub02014628 g_02146228;
+extern void func_02010F50(int i);
+
+void func_02010DF4(void)
+{
+    int i;
+
+    for (i = 0; i < 13; i++)
+        func_02010F50(i);
+    g_02146228.f1c = 13;
+}

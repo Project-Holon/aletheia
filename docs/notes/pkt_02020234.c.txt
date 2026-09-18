@@ -1,0 +1,88 @@
+========================================================================
+pkt_02020234 -- lane 2 of the 0-64 byte band: DIFF residue (RESOLVED)
+========================================================================
+
+STATUS: resolved after this residue was recorded -- func_02020234 is now
+EXACT* in src/matched/func_02020234.c.  The one differing byte below
+(`asrs` for `lsrs`) came from `(p[0x18] << 0x1c) >> 0x1c`, where `u8`
+promotes to signed `int`; the answer is an unsigned four bit bitfield in a
+byte, see docs/idioms/a-four-bit-field-in-a-byte-needs-the-dword-shift-pair.md.
+The verification transcript below is kept as the record of the near miss.
+========================================================================
+
+------------------------------------------------------------------------
+func_02020234  0x02020234  (verdict DIFF       func_02020234 @ 02020234 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02020234 @ 02020234 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 52 bytes, 4 relocation site(s)
+      relocations: 4 of 4 resolved
+        +0008 THM_CALL func_02045770       -> 02045770  [label x98, e.g. 0201CD1C]
+        +0012 THM_CALL func_02043B5C       -> 02043B5C  [label x33, e.g. 0201D100]
+        +0026 THM_CALL func_0202055C       -> 0202055C  [label x8, e.g. 020200AE]
+        +002C THM_CALL func_020206C0       -> 020206C0  [label x4, e.g. 020200B4]
+      listing extent for the original: 468 bytes
+      note: listing says the original is 468 bytes, compiled 52
+      1 concrete byte(s) differ
+      offset     ORIGINAL @ 02020234                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, r4, lr}                      | push {r3, r4, lr}                      
+        +0002    sub sp, #4                             | sub sp, #4                             
+        +0004    adds r4, r0, #0                        | adds r4, r0, #0                        
+        +0006    ldr r0, [r4, #0xc]                     | ldr r0, [r4, #0xc]                     
+        +0008    blx #0x2045770                         | blx #0x2045770                         <- THM_CALL func_02045770 [resolved: label]
+        +000C    ldrb r1, [r4, #0x18]                   | ldrb r1, [r4, #0x18]                   
+        +000E    lsls r1, r1, #0x1c                     | lsls r1, r1, #0x1c                     
+      * +0010    lsrs r1, r1, #0x1c                     | asrs r1, r1, #0x1c                     
+        +0012    blx #0x2043b5c                         | blx #0x2043b5c                         <- THM_CALL func_02043B5C [resolved: label]
+        +0016    movs r0, #1                            | movs r0, #1                            
+        +0018    str r0, [sp]                           | str r0, [sp]                           
+        +001A    adds r1, r4, #0                        | adds r1, r4, #0                        
+        +001C    adds r1, #0x40                         | adds r1, #0x40                         
+        +001E    ldrh r1, [r1]                          | ldrh r1, [r1]                          
+        +0020    ldrh r3, [r4, #0x12]                   | ldrh r3, [r4, #0x12]                   
+        +0022    adds r0, r4, #0                        | adds r0, r4, #0                        
+        +0024    movs r2, #0                            | movs r2, #0                            
+        +0026    bl #0x202055c                          | bl #0x202055c                          <- THM_CALL func_0202055C [resolved: label]
+        +002A    adds r0, r4, #0                        | adds r0, r4, #0                        
+        +002C    bl #0x20206c0                          | bl #0x20206c0                          <- THM_CALL func_020206C0 [resolved: label]
+        +0030    add sp, #4                             | add sp, #4                             
+        +0032    pop {r3, r4, pc}                       | pop {r3, r4, pc}                       
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02020234.c):
+
+    /*
+     * function: func_02020234
+     * address:  0x02020234
+     * packet:   pkt_02020234
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    extern u32  func_02045770(u32 a);
+    extern void func_02043B5C(u32 a, u32 b);
+    extern void func_0202055C(void *p, u32 a, u32 b, u32 c, u32 d);
+    extern void func_020206C0(void *p);
+    
+    void func_02020234(u8 *p)
+    {
+        func_02043B5C(func_02045770(*(u32 *)(p + 0xc)),
+                      (p[0x18] << 0x1c) >> 0x1c);
+        func_0202055C(p, *(u16 *)(p + 0x40), 0, *(u16 *)(p + 0x12), 1);
+        func_020206C0(p);
+    }
+

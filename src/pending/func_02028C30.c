@@ -1,31 +1,33 @@
 /*
  * function: func_02028C30
  * address:  0x02028C30
- * packet:   pkt_02028B50
+ * packet:   pkt_02028BDC
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocked:  literal, g_idTable_0209FDD0 has no reference outside this
- *           function's own literal pool
+ * blocker:  0209FDD0 literal
+ *
  * symbols:
- *   g_idTable_0209FDD0  0x0209FDD0  data
+ *   g_0209FDD0  0x0209FDD0  data
  */
 
 typedef unsigned short u16;
+typedef unsigned int   u32;
 
-extern const u16 g_idTable_0209FDD0[0x26];
+extern u16 g_0209FDD0[];
 
-int func_02028C30(u16 val)
+int func_02028C30(u16 v)
 {
-    unsigned int i;
+    u32 i = 0;
 
-    for (i = 0; i < 0x26; i++) {
-        if (val == g_idTable_0209FDD0[i]) {
+    while (i < 0x26) {
+        if (v == g_0209FDD0[i]) {
             return 1;
         }
+        i++;
     }
     return 0;
 }

@@ -8,15 +8,25 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocker:  020253D4
+ * blocker:  020253D4 label
+ *
+ * symbols:
+ *   func_0204ADA4  0x0204ADA4  arm
  */
 
-extern int func_02025508(int a, int b, int c);
-extern void func_020253D4(int a0, int a1, int a2);
-extern void func_0204ADA4(int a1);
-void func_02025518(int a0, int a1, int a2)
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+extern u32  func_02025508(u32 a0, u32 a1, u32 a2);
+extern void func_020253D4(u8 *p, u32 i, u32 sel);
+extern void func_0204ADA4(u32 a0);
+
+void func_02025518(u32 a0, u32 a1, u32 a2)
 {
-    int v = func_02025508(a0, a1, a2);
-    func_020253D4(a0, v, a2);
+    u32 v = func_02025508(a0, a1, a2);
+
+    func_020253D4((u8 *)a0, v, a2);
     func_0204ADA4(a1);
 }

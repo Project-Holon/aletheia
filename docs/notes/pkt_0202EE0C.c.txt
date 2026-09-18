@@ -1,0 +1,56 @@
+func_0202EE0C and func_0202EE8C @ 0x0202EE0C (thumb) - DIFF, one scheduling step each.
+
+func_0202EE0C - `((d - c) - e) << 8` times `b`, divided by `a`, then folded onto
+`c` and `e >> 1`. The divide is unsigned, so it reaches 0x0209C2B0 (recorded in
+layout/runtime_arm9.txt as `_div_by_zero_check`):
+
+    u32 func_0202EE0C(u32 a, u32 b, u32 c, u32 d, u32 e)
+    {
+        u32 t = ((d - c) - e) << 8;
+        return (_div_by_zero_check(t * b, a) >> 8) + c + (e >> 1);
+    }
+
+Residue (the four instructions after the call, same length):
+
+    +0018  lsrs r2, r0, #8       | ldr r1, [sp, #0x10]
+    +001A  ldr r0, [sp, #0x10]   | lsrs r0, r0, #8
+    +001C  lsrs r1, r0, #1       | lsrs r1, r1, #1
+    +001E  adds r0, r4, r2       | adds r0, r4, r0
+
+The original shifts the quotient before re-reading the fifth argument; this front
+end re-reads the argument into r1 first because the quotient is still live in r0.
+Ruled out: binding the quotient to a named `u32 q` local, and the
+`c + (q >> 8) + (e >> 1)` order.
+
+func_0202EE8C - allocates a 0x1c node from func_020311B8 with the tag
+0x0202F0A5, prepares it with func_02031290 and fills it with func_0202EECC:
+
+    u8 *func_0202EE8C(u32 a, u32 b, u32 c, u32 d, u16 e)
+    {
+        void *v = func_020311B8(a, unk_0202F0A5, 0x1c, 0);
+        u8 *r = func_02031290();
+        func_0202EECC(r, b, c, d, e);
+        *(u32 *)(r + 4) = (u32)v;
+        *(u32 *)r = 0;
+        *(u32 *)(r + 0x18) = 1;
+        return r;
+    }
+
+Residue (the argument setup for the third call, same length):
+
+    +001E  adds r2, r7, #0     | ldr r3, [sp, #4]
+    +0020  adds r4, r0, #0     | adds r2, r7, #0
+    +0022  str r1, [sp]        | str r1, [sp]
+    +0024  ldr r3, [sp, #4]    | adds r1, r6, #0
+    +0026  adds r1, r6, #0     | adds r4, r0, #0
+
+Same five instructions, reordered: this front end schedules the saved argument
+loads first and sinks the copy of the call result, the original does the copy
+first. The call to func_0202EECC also still needs a witness for its pool word
+0x0202F0A5 (single-occurrence), so this file would be capped even at MATCH.
+
+Verified with:
+  python tools/match.py one --src <cand> --func func_0202EE0C \
+      --addr 0x0202EE0C --cc 1.1p1 --thumb   -> DIFF, 36 vs 36, 6 bytes
+  python tools/match.py one --src <cand> --func func_0202EE8C \
+      --addr 0x0202EE8C --cc 1.1p1 --thumb   -> DIFF, 64 vs 64 (extent 64), 6 bytes

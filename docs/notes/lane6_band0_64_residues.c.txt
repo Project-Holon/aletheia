@@ -1,0 +1,164 @@
+lane 6 of the 0-64 byte band: verdicts for the rows with no packet note
+========================================================================
+
+Slice: 0x020640DC .. 0x020A8FE6, 80 rows, 2878 bytes, 36 packets
+(`scratch/band64_lane6_targets.md`).  This file carries only the rows whose
+residue is NOT already written up in a packet note; every entry below was
+recompiled with `tools/match.py` at `--cc 1.1p1 -O4,p -proc arm946e`.
+
+Filed EXACT in this pass: func_02075BD4 (0x02075BD4, 52 bytes, shard
+layout/matched/arm9/pkt_02075BAC.json) -- see docs/notes/pkt_02075BAC.c.txt.
+Parked at MATCH in this pass: func_0206E364 (label), func_020682DC
+(data_table) -- see the headers of src/pending/func_0206E364.c and
+src/pending/func_020682DC.c.
+
+DIFF residues
+-------------
+
+0x0206EA00 / 0x0206EA2C (44 + 44, packet pkt_0206EA00)
+  The pair compiles to 40 + 40 against 44 + 44: the guard's body is four
+  instructions (ldrh / add / add / bx) and the fail path is `mov r0, #0` /
+  `bx lr`, so mwccarm if-converts the body (`ldrhlo` / `addlo` / `addlo` /
+  `bxlo`) where the original keeps the branch (`bhs` past the body) and puts
+  the fail block last.  Every shape gave the predicated form: two returns,
+  `||`, `&&` with a nested if, an explicit goto to a shared tail, and both
+  polarities; the same wall the earlier pass recorded for these two addresses
+  in src/pending/func_0206EA00.c and src/pending/func_0206EA2C.c (which name
+  it "if-conversion wall, 40 compiled against 44").  Reachable bytes for a
+  `bhs`-shaped original would need the guarded block to be longer than five
+  instructions; it is four.
+
+0x02072E7C / 0x02072E8C (12 + 12, packet pkt_02072D20)
+  Both are pool word + one field load + `bx ip` tail calls, and both come out
+  in the other order:
+
+    original:  ldr ip, [pc, #4] / ldr r0, [r0] / bx ip
+    compiled:  ldr r0, [r0] / ldr ip, [pc] / bx ip
+
+  Tried: the plain forwarder (`func_02073438(s->f00)`), the same through a
+  function-pointer local (`Fn f = func_02073438; f(s->f00);`) -- the pool
+  load is hoisted above the argument load by the scheduler in both and no
+  source shape moved it.  Both callees are also unwitnessed outside this
+  range (02073438 and 02073484 have exactly one call site each, here), so the
+  pair would be a MATCH cap even with the order right.  10 concrete bytes.
+
+0x02072EA8 (32, packet pkt_02072EA8)
+  The guard's arm is four instructions and is predicated by this front end
+  (`movne r1, #0` / `strne r1, [r2]` / `strne r1, [r0]` / `bx lr`, 24 bytes),
+  where the original keeps `bxeq lr` plus the body unpredicated and re-reads
+  the pointer (`ldr r1, [r0]` twice) for the second store.  Tried: `if (p ==
+  0) return; *p = 0; p = 0;`, the body-in-the-arm spelling, and the same with
+  the member declared `u32 * volatile` (which predicates identically here).
+  15 concrete bytes; nothing in this range is a relocation, so the whole diff
+  is codegen.
+
+0x02072F5C (44, packet pkt_02072F5C)
+  One instruction, and it is a re-read: the original reads the pointer twice
+  for the guard and then reuses the second read for the body's argument,
+
+    original:  ldr r3,[r0] / cmp r3,#0 / ldrne r3,[r0] / ldrbne r0,[r3,#0x2c]
+               / cmpne r0,#2 / popeq {r3,pc} / add r0,r3,#0x1c / lsl r1,r1,#8
+               / bl func_02075BAC / pop
+    plain C:   one `ldr` (the two reads are CSEd)              -> 40 bytes
+    volatile:  three `ldr`s (the body's `o->p` is a third)     -> 48 bytes
+
+  i.e. the original has exactly two reads, which no spelling produced: the
+  guard's `&&` shape and the predicated early return are both right and the
+  call site resolves (`label x10`), so this address is one `ldr` from EXACT.
+  `if (o->p != 0 && o->p->f2c != 2) func_02075BAC((u8 *)o->p + 0x1c, v << 8);`
+  is the closest of the five spellings tried (40 bytes, 11 concrete bytes
+  differing); with `struct Sub * volatile p` it is 48 bytes, 19 differing.
+
+0x020730B8 (36, packet pkt_02072F5C)
+  Same family: the guard's body is five instructions (mov #1, strh, ldr,
+  strh) plus the object reloads, and this front end predicates all of it
+  (`ldrne r2,[r0]` / `movne r3,#1` / `strhne r3,[r2,#0x34]` / `ldrne r0,[r0]`
+  / `strhne r1,[r0,#0x38]`, 32 bytes) where the original branches (`bxeq lr`)
+  and keeps the body (36 bytes).  Five spellings: `if (p == 0) return;`, the
+  body in the arm, a `goto done;` tail, a non-volatile local, and the
+  volatile-member arm.  23 concrete bytes.
+
+0x02072758 (48, packet pkt_02071B2C)
+  Two bytes: every instruction and all five call sites are right except the
+  last call's argument, which the original materialises as an immediate
+  (`mov r0, #0`) where this front end reuses the loop's zero register
+  (`mov r0, r4`).  The loop itself is right in both spellings (`mov r4, #0` /
+  `mov r0, r4` / `bl func_02089978` / `cmp` / `bne`), so the residue is the
+  constant's CSE across the loop.  Tried: literal `0`, a `u32 zero = 0;`
+  local, `0u` with an `int` local, and `SND_FlushCommand(0)` through a
+  pointer-typed parameter.  Three of the five sites are also unwitnessed
+  (020731E0, 02073D7C, 02075858 have no call site outside this range), so the
+  row is a MATCH cap as soon as the two bytes close.
+
+0x02072BDC (60, packet pkt_02072A44)
+  The call's three zero arguments are materialised by the original straight
+  into r1 and copied to r2/r3 (`mov r2, r1` / `mov r3, r1`), and the trailing
+  `o->f08 = 0` is a fresh immediate; this front end instead parks one zero in
+  a callee-saved register (r4) across the call and reuses it for the store,
+  which also costs the extra `push`/`pop` pair (compiled 60 bytes, 23
+  differing).  Tried: `0, 0, 0`, `0u, 0u, 0u`, `1u << bit`, and the store as
+  `0u`/`0`.  Every site resolves (func_020894DC is SND_StopTimer, label x25),
+  so this is a codegen-only residue.
+
+0x0209128C (24, packet pkt_020911D8)
+  One byte: `movne r1, #1` in the original against `mov r1, #1` here, i.e. the
+  boolean is materialised in the then-arm slot in the original and
+  unconditionally here (the `moveq r1, #0` that follows is the same).  The
+  pool word 0x02153B88 is emitted as a bare literal with NO relocation, so
+  this file needs no witness and would be EXACT with the predicated move.
+  Tried: `(v != 0)` as the stored value, the ternary `(v != 0) ? 1 : 0`, an
+  if/else with two stores to the same byte, and an if/else assigning a `u8`
+  local that is stored after.  All four give `mov r1, #1`.
+
+0x02094750 (36, packet pkt_020944CC)
+  Five bytes: the pointer temp lands in r0 here and in r3 in the original
+  (`ldr r3,[pc,#0x18]` / `ldr r3,[r3]` / `cmp r3,#0` / `blx r3`), everything
+  else -- both epilogues, the branch and the second call -- is right.  Tried:
+  the global read inline twice, a `Fn f = g;` local, and the function declared
+  with three unused parameters (which is what the r3 choice would normally
+  say).  The global 0x02153FB0 is also a data address with no witness outside
+  this range, so the row caps at MATCH once the register lands.
+
+Not filable, with the evidence
+------------------------------
+
+The five varargs-shaped SDk wrappers -- 0x02084F44, 0x0208CF38, 0x0208D7E4,
+0x0208D810 (packets pkt_02084F44, pkt_0208CF38, pkt_0208D7E4) and 0x02094534
+(pkt_020944CC) -- share one shape that no C spelling reached:
+
+  push {r3, lr} / add r2, sp, #0xc / bic r2, r2, #3 / ldr r1, [sp, #0xc] /
+  add r2, r2, #4 / bl <internal callee> / pop {r3, lr} / add sp, sp, #0x10 /
+  bx lr
+
+i.e. the va_list is built into r2 from the incoming stack arguments, the
+first stack word is passed by value in r1, and the function then discards four
+words of its caller's stack arguments before returning (callee cleanup).  That
+is an ABI-level convention rather than a body: a seven-named-parameter
+forwarder with `&a6` compiles to a 20-byte frameless tail call and a
+three-argument forwarder to 20 bytes of moves, against the original's 36.
+They call into the 0x0208Dxxx/0x02084Fxx formatting core (0x02084F68 is
+itself a 24-byte shuffle into `__dtoa`-style entry 0x02084FA8), so these are
+library runtime, reported rather than forced.  Sites: 0x02084F44, 0x0208CF38,
+0x0208D7E4, 0x0208D810, 0x02094534.
+
+Artifacts and non-code rows in this slice (reported, not filed):
+
+  0x02084D98   8 bytes arm   `ldr r1, [pc] / bx r1` + pointer word: an ARM
+                             long-branch veneer, no C body.
+  0x020911F0   2 bytes thumb `bx pc` -- the Thumb-to-ARM interworking stub the
+  0x02091220   2 bytes thumb four wrappers at 0x020911D8 / 0x02091200 /
+  0x0209124C   2 bytes thumb 0x02091230 / 0x0209125C branch to; each is a
+                             stub plus an ARM `ldr ip, [pc] / bx ip` and a
+                             pool word (0x02731755, 0x02731761, 0x02731765).
+  0x02091284   4 bytes arm   `ldr pc, [pc, #-4]` + pointer word 0x02731920:
+                             ARM veneer.
+  0x020A8FE6  44 bytes thumb the last address of the slice, and not code:
+                             the bytes from 0x020A8FE6 on are `cbnz`/`cpsid`/
+                             `bkpt`/`stm` noise that decodes to no coherent
+                             body and runs past every traced entry point in
+                             the region; the row is data at the tail of the
+                             image, not a function.
+
+The four wrappers themselves (0x020911D8, 0x02091200, 0x02091230, 0x0209125C)
+stay MATCH: each tail-branches into one of the stubs above (blocker class
+`veneer`), which is what src/pending/func_020911D8.c and its siblings name.

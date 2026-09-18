@@ -37,7 +37,6 @@
  * the branch inside this range, so no cut of a one-function file can free
  * them; either one being matched to EXACT closes this file.
  */
-*/
 
 typedef unsigned char  u8;
 typedef unsigned short u16;

@@ -8,30 +8,33 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * blocker:  0209FA38 literal
+ * blocker:  0209FA3C literal
  *
  * symbols:
- *   func_02025B3C  0x02025B3C  thumb
- *   data_0209FA38  0x0209FA38  data
- *   data_0209FA3C  0x0209FA3C  data
- *
- * Blocked: data addresses 0x0209FA38 and 0x0209FA3C have no witness outside
- * the range 0x02025C44..0x02025C74.
+ *   g_0209FA38  0x0209FA38  data
+ *   g_0209FA3C  0x0209FA3C  data
  */
 
-typedef unsigned char u8;
-typedef unsigned int  u32;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
 
-extern u32 func_02025B3C(u32 key);
-extern const u8 data_0209FA38[];
-extern const u8 data_0209FA3C[];
 
-u32 func_02025C44(u32 key, u32 *out1, u32 *out2)
+extern u32 func_02025B3C(u32 a0);
+extern u8  g_0209FA38[];
+extern u8  g_0209FA3C[];
+
+int func_02025C44(u32 a0, u32 *a1, u32 *a2)
 {
-    u32 index = func_02025B3C(key);
-    if (index == 0) {
+    u32 i = func_02025B3C(a0);
+    u32 off;
+
+    if (i == 0) {
         return 0;
     }
-    *out1 = *(const u32 *)(data_0209FA38 + index * 12);
-    *out2 = *(const u8 *)(data_0209FA3C + index * 12);
+    off = i * 12;
+    *a1 = *(u32 *)(g_0209FA38 + off);
+    *a2 = g_0209FA3C[off];
     return 1;
 }

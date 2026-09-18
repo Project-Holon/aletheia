@@ -1,0 +1,105 @@
+======================================================================
+// 0x02023f98  func_02023F98  size 50  isa thumb
+// verdict: DIFF
+//   * +0020    ldr r0, [pc, #0x18]                    | ldr r5, [pc, #0x14]
+//   * +0024    movs r2, #0x20                         | adds r0, r5, #0
+//   * +0026    movs r4, #0                            | movs r2, #0x20
+//   * +0028    blx #0x2082bcc                         | movs r4, #0
+//   * +002A    04 ee 02 48                            | blx #0x2082bcc                         <- THM_CALL func_02082BCC [resolved: label]
+//   * +002C    ldr r0, [pc, #8]                       | 04 ee
+//   * +002E    str r4, [r0, #0x1c]                    | str r4, [r5, #0x1c]
+/*
+ * function: func_02023F98
+ * address:  0x02023F98
+ * packet:   pkt_02023DDC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02082BCC  0x02082BCC  arm
+ *   g_021468FC     0x021468FC  data
+ *   g_0214691C     0x0214691C  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct G {
+    u8  pad00[0x1c];
+    u32 f1c;
+    u8  pad20[0x1c];
+    u32 f3c;
+};
+
+extern void func_02082BCC(void *dst, int val, u32 n);
+extern struct G g_021468FC;
+extern struct G g_0214691C;
+
+void func_02023F98(u32 mask)
+{
+    if (mask & 1) {
+        func_02082BCC(&g_0214691C, 0, 0x20);
+        g_021468FC.f3c = 0;
+    }
+    if (mask & 2) {
+        func_02082BCC(&g_021468FC, 0, 0x20);
+        g_021468FC.f1c = 0;
+    }
+}
+======================================================================
+// 0x02023fd8  func_02023FD8  size 32  isa thumb
+// verdict: DIFF
+//   +000C THM_CALL func_02023E0C       -> unresolved: 02023E0C (thumb, from name) has no witness outside 02023FD8..02024000
+//   +0018 THM_CALL func_02023E0C       -> unresolved: 02023E0C (thumb, from name) has no witness outside 02023FD8..02024000
+//   * +0012    ldr r0, [r0, #0x1c]                    | ldr r1, [r0, #0x1c]
+//   * +0014    cmp r0, #0                             | cmp r1, #0
+//   * +0016    beq #0x2023ff6                         | beq #0x2023ff4
+//   * +001C    0b ff                                  | pop {r3, pc}
+//   * +001E    pop {r3, pc}                           | mov r8, r8
+/*
+ * function: func_02023FD8
+ * address:  0x02023FD8
+ * packet:   pkt_02023DDC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_021468FC     0x021468FC  data
+ *   g_0214691C     0x0214691C  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct G {
+    u8  pad00[0x1c];
+    u32 f1c;
+    u8  pad20[0x1c];
+    u32 f3c;
+};
+
+extern void func_02023E0C(struct G *g);
+extern struct G g_021468FC;
+extern struct G g_0214691C;
+
+void func_02023FD8(void)
+{
+    if (g_021468FC.f3c != 0) {
+        func_02023E0C(&g_0214691C);
+    }
+    if (g_021468FC.f1c != 0) {
+        func_02023E0C(&g_021468FC);
+    }
+}

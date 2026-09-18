@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   MATCH
  * blocker:  020334E8 (arm) reached only by the `blx` inside this function; also EXACT* -> the follower at 0x0200725A has no label
  *
  * symbols:

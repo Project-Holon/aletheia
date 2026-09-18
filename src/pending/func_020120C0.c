@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   MATCH
  *
  * symbols:
  *   func_020120B4     0x020120B4  thumb

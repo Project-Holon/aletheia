@@ -1,0 +1,44 @@
+pkt_0206380C - DIFF residue (lane 5, 0-64 byte band)
+====================================================
+
+func_0206380C @ 0x0206380C (28 bytes, arm9, ARM) - DIFF
+-------------------------------------------------------
+Image:
+
+  0206380C  add   r0, r0, r1, lsl #2     ; &p[i] (4-byte element)
+  02063810  ldr   r1, [r0, #8]           ; value into r1
+  02063814  mvn   r0, #0                 ; -1 materialised in r0
+  02063818  cmp   r1, r0
+  0206381C  movne r0, #1
+  02063820  moveq r0, #0
+  02063824  bx    lr
+
+The function is `*(u32 *)((char *)p + i * 4 + 8) != (u32)-1` and every byte of
+the reading is confirmed except the register the constant lands in.  The image
+spends a register on -1 (`mvn r0, #0`) and compares register against register;
+mwccarm 1.1p1 always folds the same comparison to `cmn r0, #1`, which both
+drops those four bytes to nothing and swaps which register holds the value
+(24 compiled bytes against 28).
+
+Best source reached (24 bytes):
+
+    int func_0206380C(u32 *p, int i)
+    {
+        return *(u32 *)((char *)p + i * 4 + 8) != 0xFFFFFFFFu;
+    }
+
+Spellings tried, every one of them `cmn r0, #1` with the value in r0:
+
+  * `!= 0xFFFFFFFFu`, `!= (u32)-1`, `!= ~0u`, `!= -1` (signed and unsigned)
+  * a local sentinel (`u32 m = 0xFFFFFFFFu;`, `s32 m = -1;`, `u32 m = -1;`)
+  * Yoda order (`0xFFFFFFFFu != v`, `-1 != v`)
+  * a pointer comparison (`(void *)*(u32 *)... != (void *)-1`)
+  * `if (v == 0xFFFFFFFFu) return 0; return 1;` and the ternary form
+  * the macro/`#define NIL 0xFFFFFFFFu` spelling
+
+Since a wrong *type* would have changed the load or added a truncation and it
+does not, the residue is the code generator's choice of `cmn` over a
+materialised constant: register colouring below the source text, like
+docs/notes/pkt_020610E0.c.txt.  Parked here rather than in a source tree.
+
+Addresses are Black-image addresses.

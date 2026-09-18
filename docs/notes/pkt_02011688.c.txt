@@ -13,3 +13,91 @@ What the original pins, and what the obvious C does not reproduce:
   (which is required, otherwise the stores through `dst` force a reload of
   +0x1c before every store) took the diff from 50 bytes to 16 but no
   further; the residual is the pair-vs-pointer addressing choice.
+
+
+==============================================================================
+APPENDED, lane 1 (0-64 byte band): DIFF residue for 1 function(s)
+==============================================================================
+func_02011688  0X02011688  size 54  compiled 46  compared 56  verdict DIFF
+residue (14 site(s)):
+  * +0012    0a 1c                                  | b0 42
+  * +0014    b0 42                                  | 01 d0
+  * +0016    0c d1                                  | 00 20
+  * +0018    0c 20                                  | 70 bd
+  * +001A    13 1c                                  | 0c 20
+  * +001C    e9 69                                  | ea 69
+  * +001E    43 43                                  | 48 43
+  * +0020    c8 58                                  | 12 18
+  * +0022    c9 18                                  | 03 ca
+  * +0024    20 60                                  | 03 c4
+  * +0026    48 68                                  | 10 68
+  * +0028    60 60                                  | 20 60
+  * +002A    88 68                                  | 01 20
+  * +002C    a0 60                                  | 70 bd
+
+C (src/pending/func_02011688.c):
+typedef unsigned int u32;
+
+typedef struct { u32 a, b, c; } S12_02011688;
+
+struct Obj02011688 {
+    unsigned char pad[0xc];
+    int f0c;
+    unsigned char pad2[8];
+    int f18;
+    u32 f1c;
+};
+
+int func_02011688(struct Obj02011688 *obj, S12_02011688 *out, u32 idx)
+{
+    int div = obj->f0c;
+    u32 rem = idx % div;
+
+    if (obj->f18 != div) {
+        return 0;
+    }
+    *out = *(S12_02011688 *)(obj->f1c + rem * 12);
+    return 1;
+}
+
+==============================================================================
+func_02011688.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02011688
+ * address:  0x02011688
+ * packet:   pkt_02011688
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   _u32_div_f  0x0209C2B0  arm
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned int u32;
+
+typedef struct { u32 a, b, c; } S12_02011688;
+
+struct Obj02011688 {
+    unsigned char pad[0xc];
+    int f0c;
+    unsigned char pad2[8];
+    int f18;
+    u32 f1c;
+};
+
+int func_02011688(struct Obj02011688 *obj, S12_02011688 *out, u32 idx)
+{
+    int div = obj->f0c;
+    u32 rem = idx % div;
+
+    if (obj->f18 != div) {
+        return 0;
+    }
+    *out = *(S12_02011688 *)(obj->f1c + rem * 12);
+    return 1;
+}

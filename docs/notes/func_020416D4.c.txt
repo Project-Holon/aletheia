@@ -1,0 +1,29 @@
+func_020416D4 - window-clipped row, not filable from the 0-64 byte band
+======================================================================
+
+func_020416D4 @ 0x020416D4 (row size 28, listing extent 784, arm9, ARM)
+verdict: not filable in this lane; the row's window is the switch dispatcher
+
+Same situation as docs/notes/func_0203DC70.c.txt: the band's 28-byte row is
+the nine-way dispatch head of a 784-byte function (the next `func_` label is
+0x020419E4), and every one of the nine arms (0x02041704, 0x02041724, ...,
+0x02041928) plus the shared default at 0x020419B4 lies far past the window.
+
+  020416D4  sub sp, sp, #0x20
+  020416D8  cmp r0, #7
+  020416DC  addls pc, pc, r0, lsl #2
+  020416E0  b   #0x20419b4
+  020416E4  b   #0x2041704
+  ...
+
+Each arm reads a halfword from one of four pool-initialised globals, extracts a
+2-bit field (`lsl #0x1e` / `lsr #0x1e`), stashes the raw halfword in a distinct
+stack slot (`strh r1, [sp, #0x1e]`, `#0x1c`, `#0x1a`, ...) and returns the
+field zero-extended - so the function is also the only reader of those stack
+slots, and every arm would have to be written to reach the extent the harness
+compares against.
+
+Not attempted: the switch head cannot be compiled as a standalone fragment, so
+no C file can land on this row's 28 bytes.
+
+Addresses are Black-image addresses.

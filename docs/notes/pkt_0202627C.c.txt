@@ -1,0 +1,197 @@
+======================================================================
+// 0x02026388  func_02026388  size 36  isa thumb
+// verdict: DIFF
+//   +0030 ABS32 g_0209FB70             -> unresolved: 0209FB70 (data, from header) has no witness outside 02026388..020263BC
+//   * +000A    beq #0x20263aa                         | beq #0x20263b4
+//   * +0014    ldr r0, [pc, #0xc]                     | asrs r0, r4, #1
+//   * +0016    ldr r4, [r0, r4]                       | lsrs r0, r0, #0x1e
+//   * +0018    cmp r4, #0                             | adds r0, r4, r0
+//   * +001A    beq #0x20263aa                         | asrs r0, r0, #2
+//   * +001C    ldr r0, [r3, #0x14]                    | lsls r1, r0, #2
+//   * +001E    ldr r1, [r3, #0x18]                    | ldr r0, [pc, #0x10]
+//   * +0020    blx r4                                 | ldr r4, [r0, r1]
+//   * +0022    pop {r4, pc}                           | cmp r4, #0
+//   * +0024    usada8 r2, r0, sb, r0                  | beq #0x20263b4
+//   * +0026    09 02                                  | ldr r0, [r3, #0x14]
+//   * +0028    push {r4, lr}                          | ldr r1, [r3, #0x18]
+//   * +002A    adds r3, r0, #0                        | blx r4
+//   * +002C    ldrb r0, [r3, #0x10]                   | pop {r4, pc}
+//   * +002E    adds r2, r1, #0                        | mov r8, r8
+/*
+ * function: func_02026388
+ * address:  0x02026388
+ * packet:   pkt_0202627C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_0209FB70  0x0209FB70  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct T {
+    u8  pad00[5];
+    u8  f05;
+    u8  pad06[0xa];
+    u8  f10;
+    u8  pad11[3];
+    u32 f14;
+    u32 f18;
+};
+
+extern u32 g_0209FB70[];
+
+void func_02026388(struct T *p, u32 a1)
+{
+    u32 (*fn)(u32, u32, u32);
+
+    if (p->f10 == 5) {
+        return;
+    }
+    fn = (u32 (*)(u32, u32, u32))g_0209FB70[(p->f05 * 0x1c) / 4];
+    if (fn == 0) {
+        return;
+    }
+    fn(p->f14, p->f18, a1);
+}
+======================================================================
+// 0x020263b0  func_020263B0  size 36  isa thumb
+// verdict: DIFF
+//   +0030 ABS32 g_0209FB74             -> unresolved: 0209FB74 (data, from header) has no witness outside 020263B0..020263E4
+//   * +000A    beq #0x20263d2                         | beq #0x20263dc
+//   * +0014    ldr r0, [pc, #0xc]                     | asrs r0, r4, #1
+//   * +0016    ldr r4, [r0, r4]                       | lsrs r0, r0, #0x1e
+//   * +0018    cmp r4, #0                             | adds r0, r4, r0
+//   * +001A    beq #0x20263d2                         | asrs r0, r0, #2
+//   * +001C    ldr r0, [r3, #0x14]                    | lsls r1, r0, #2
+//   * +001E    ldr r1, [r3, #0x18]                    | ldr r0, [pc, #0x10]
+//   * +0020    blx r4                                 | ldr r4, [r0, r1]
+//   * +0022    pop {r4, pc}                           | cmp r4, #0
+//   * +0024    usada8 r2, r4, sb, r0                  | beq #0x20263dc
+//   * +0026    09 02                                  | ldr r0, [r3, #0x14]
+//   * +0028    push {r4, lr}                          | ldr r1, [r3, #0x18]
+//   * +002A    adds r4, r0, #0                        | blx r4
+//   * +002C    str r2, [r4, #0x14]                    | pop {r4, pc}
+//   * +002E    ldrb r2, [r4, #4]                      | mov r8, r8
+/*
+ * function: func_020263B0
+ * address:  0x020263B0
+ * packet:   pkt_0202627C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_0209FB74  0x0209FB74  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct T {
+    u8  pad00[5];
+    u8  f05;
+    u8  pad06[0xa];
+    u8  f10;
+    u8  pad11[3];
+    u32 f14;
+    u32 f18;
+};
+
+extern u32 g_0209FB74[];
+
+void func_020263B0(struct T *p, u32 a1)
+{
+    u32 (*fn)(u32, u32, u32);
+
+    if (p->f10 == 5) {
+        return;
+    }
+    fn = (u32 (*)(u32, u32, u32))g_0209FB74[(p->f05 * 0x1c) / 4];
+    if (fn == 0) {
+        return;
+    }
+    fn(p->f14, p->f18, a1);
+}
+======================================================================
+// 0x020263d8  func_020263D8  size 40  isa thumb
+// verdict: DIFF
+//   * +0004    str r2, [r4, #0x14]                    | strb r1, [r4, #5]
+//   * +0006    ldrb r2, [r4, #4]                      | ldrb r1, [r4, #4]
+//   * +0008    movs r0, #2                            | movs r0, #0xfd
+//   * +000A    strb r1, [r4, #5]                      | str r2, [r4, #0x14]
+//   * +000C    bics r2, r0                            | ands r0, r1
+//   * +0010    adds r0, r4, #0                        | strb r0, [r4, #4]
+//   * +0012    strb r2, [r4, #4]                      | adds r0, r4, #0
+/*
+ * function: func_020263D8
+ * address:  0x020263D8
+ * packet:   pkt_0202627C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02082BCC  0x02082BCC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct T {
+    u8  pad00[4];
+    u8  f04;
+    u8  f05;
+    u8  pad06[6];
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+    u32 f20;
+};
+
+extern void func_02082BCC(void *dst, int val, u32 n);
+extern void func_020264F4(struct T *p);
+
+void func_020263D8(struct T *p, u32 a1, u32 a2)
+{
+    p->f14 = a2;
+    p->f05 = a1;
+    p->f04 &= ~2;
+    p->f20 = 0;
+    p->f1c = 0;
+    func_02082BCC((char *)p + 0xc, 0, 8);
+    func_020264F4(p);
+}
+
+/* ------------------------------------------------------------------
+ * 0x0202627C (56 bytes, thumb) - not written.
+ *
+ * Opens a Thumb `add pc, r0` switch on p[0x10] (values 0..5) after guarding on
+ * p[5] != 0, with the object pointer g_0209FB5C indexed by p[5] * 0x1C.  The
+ * table sits at 0x020262B2 (six halfwords 0x000A 0x002A 0x0046 0x006E 0x0094
+ * 0x00AE, base of the `add pc` at 0x020262B4) and the arms land at 0x020262BE,
+ * 0x020262DE, 0x020262FA, 0x02026322, 0x02026348, 0x02026362; default falls
+ * through to 0x02026382.  Each arm is a chain of indirect calls through the
+ * 0x1C-byte record plus tail calls to 0x02026490; reproducing the table offsets
+ * means reproducing every arm's instruction sequence exactly.  Left open.
+ */

@@ -1,0 +1,56 @@
+========================================================================
+pkt_02014D90 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_02015590  0x02015590  (verdict DIFF       func_02015590 @ 02015590 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02015590 @ 02015590 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 12 bytes, 1 relocation site(s)
+      relocations: 0 of 1 resolved
+        +0008 ABS32 g_04000448             -> unresolved: no address for 'g_04000448': not in the symbols: block, not an address-bearing name, not in layout/symbols_sdk.json
+      listing extent for the original: 16 bytes
+      note: listing says the original is 16 bytes, compiled 12
+      3 concrete byte(s) differ
+      offset     ORIGINAL @ 02015590                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+      * +0000    ldr r0, [pc, #8]                       | ldr r0, [pc, #4]                       
+        +0002    movs r1, #1                            | movs r1, #1                            
+        +0004    str r1, [r0]                           | str r1, [r0]                           
+      * +0006    add sp, #0x1b4                         | bx lr                                  
+      ~ +0008    pop {r4, r5, r6, r7, pc}               | movs r0, r0                            <- ABS32 g_04000448 [wildcard]
+      ~ +000A    mov r8, r8                             | movs r0, r0                            
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02015590.c):
+
+    /*
+     * function: func_02015590
+     * address:  0x02015590
+     * packet:   pkt_02014D90
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   DIFF
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    extern volatile u32 g_04000448;
+    
+    void func_02015590(void)
+    {
+        g_04000448 = 1;
+        __asm__("");
+    }
+

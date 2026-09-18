@@ -1,0 +1,174 @@
+========================================================================
+pkt_0201DB20 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_0201DBBC  0x0201DBBC  (verdict DIFF       func_0201DBBC @ 0201DBBC (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_0201DBBC @ 0201DBBC (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 56 bytes, 2 relocation site(s)
+      relocations: 2 of 2 resolved
+        +001C THM_CALL func_02082D44       -> 02082D44  [label x549, e.g. 02007CE6]
+        +0030 THM_CALL func_0201DC44       -> 0201DC44  [label x2, e.g. 0201DC3C]
+      listing extent for the original: 56 bytes
+      22 concrete byte(s) differ
+      offset     ORIGINAL @ 0201DBBC                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, r4, r5, r6, lr}              | push {r3, r4, r5, r6, lr}              
+        +0002    sub sp, #4                             | sub sp, #4                             
+        +0004    adds r5, r0, #0                        | adds r5, r0, #0                        
+        +0006    adds r0, #0x76                         | adds r0, #0x76                         
+        +0008    adds r6, r2, #0                        | adds r6, r2, #0                        
+        +000A    ldrh r2, [r0]                          | ldrh r2, [r0]                          
+      * +000C    adds r0, r1, #0                        | adds r4, r3, #0                        
+      * +000E    adds r1, r5, #0                        | ldr r3, [r5, #0xc]                     
+      * +0010    adds r4, r3, #0                        | adds r0, r2, #0                        
+      * +0012    adds r1, #0x90                         | muls r0, r1, r0                        
+      * +0014    ldr r3, [r5, #0xc]                     | adds r1, r5, #0                        
+      * +0016    muls r0, r2, r0                        | adds r1, #0x90                         
+        +0018    ldr r1, [r1]                           | ldr r1, [r1]                           
+        +001A    adds r0, r3, r0                        | adds r0, r3, r0                        
+        +001C    blx #0x2082d44                         | blx #0x2082d44                         <- THM_CALL func_02082D44 [resolved: label]
+        +0020    adds r1, r5, #0                        | adds r1, r5, #0                        
+        +0022    adds r0, r5, #0                        | adds r0, r5, #0                        
+      * +0024    adds r5, #0x7c                         | str r4, [sp]                           
+      * +0026    adds r1, #0x90                         | adds r5, #0x7c                         
+      * +0028    ldrh r2, [r5]                          | adds r1, #0x90                         
+      * +002A    ldr r1, [r1]                           | ldrh r2, [r5]                          
+      * +002C    adds r3, r6, #0                        | ldr r1, [r1]                           
+      * +002E    str r4, [sp]                           | adds r3, r6, #0                        
+        +0030    bl #0x201dc44                          | bl #0x201dc44                          <- THM_CALL func_0201DC44 [resolved: label]
+        +0034    add sp, #4                             | add sp, #4                             
+        +0036    pop {r3, r4, r5, r6, pc}               | pop {r3, r4, r5, r6, pc}               
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_0201DBBC.c):
+
+    /*
+     * function: func_0201DBBC
+     * address:  0x0201DBBC
+     * packet:   pkt_0201DB20
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    
+    extern void func_02082D44(void *dst, const void *src, u32 n);
+    extern void func_0201DC44(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+    
+    void func_0201DBBC(u8 *p, u32 a1, u32 a2, u32 a3)
+    {
+        func_02082D44((u8 *)(*(void **)(p + 0xc)) + *(u16 *)(p + 0x76) * a1,
+                      *(const void **)(p + 0x90), *(u16 *)(p + 0x76));
+        func_0201DC44(p, *(u32 *)(p + 0x90), *(u16 *)(p + 0x7c), a2, a3);
+    }
+
+
+==============================================================================
+func_0201DBBC.c DIFF (moved out of src/pending)
+==============================================================================
+
+/*
+ * function: func_0201DBBC
+ * address:  0x0201DBBC
+ * packet:   pkt_0201DB20
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02082D44   0x02082D44  arm
+ *   func_0201DC44   0x0201DC44  thumb
+ *
+ * Two calls on the same object: an ARM one whose two arguments are the
+ * object's stride computation (offset + row * the halfword height at 0x76)
+ * and the block pointer at 0x90, then the Thumb at 0x0201DC44 taking the
+ * object, that same pointer, the halfword at 0x7C and the caller's a2/a3.
+ * No literal pool: both callees are reached directly.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201DBBC.c \
+ *       --func func_0201DBBC --addr 0x0201DBBC --cc 1.1p1 --thumb
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_02082D44(u32 a0, u32 a1);
+extern void func_0201DC44(void *a0, u32 a1, u32 a2, int a3, int a4);
+
+void func_0201DBBC(void *a0, int a1, int a2, int a3)
+{
+    func_02082D44(*(u32 *)((char *)a0 + 0xC)
+                      + a1 * *(u16 *)((char *)a0 + 0x76),
+                  *(u32 *)((char *)a0 + 0x90));
+    func_0201DC44(a0, *(u32 *)((char *)a0 + 0x90),
+                  *(u16 *)((char *)a0 + 0x7C), a2, a3);
+}
+
+==============================================================================
+func_0201DBF4.c DIFF (moved out of src/pending)
+==============================================================================
+
+/*
+ * function: func_0201DBF4
+ * address:  0x0201DBF4
+ * packet:   pkt_0201DB20
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204960C   0x0204960C  arm
+ *   func_020495F4   0x020495F4  arm
+ *   func_0201DC44   0x0201DC44  thumb
+ *
+ * The same tail as func_0201DBBC, with two ARM calls in front: the second
+ * argument of the first is a three-term sum whose terms are accumulated
+ * right to left (the halfword height at 0x76 times a1 added to the word at
+ * 0x8C, then the word at 0x80 added to that).  The halfword is bound to a
+ * local because it is live across the first call and reused by the second.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201DBF4.c \
+ *       --func func_0201DBF4 --addr 0x0201DBF4 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_0204960C(u32 a0, u32 a1);
+extern void func_020495F4(u32 a0, u32 a1, u32 a2);
+extern void func_0201DC44(void *a0, u32 a1, u32 a2, int a3, int a4);
+
+void func_0201DBF4(void *a0, int a1, int a2, int a3)
+{
+    u32 h = *(u16 *)((char *)a0 + 0x76);
+
+    func_0204960C(*(u32 *)((char *)a0 + 0x50),
+                  *(u32 *)((char *)a0 + 0x80)
+                      + (*(u32 *)((char *)a0 + 0x8C) + a1 * h));
+    func_020495F4(*(u32 *)((char *)a0 + 0x50), h,
+                  *(u32 *)((char *)a0 + 0x90));
+    func_0201DC44(a0, *(u32 *)((char *)a0 + 0x90),
+                  *(u16 *)((char *)a0 + 0x7C), a2, a3);
+}

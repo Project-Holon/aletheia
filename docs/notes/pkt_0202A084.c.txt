@@ -1,0 +1,41 @@
+func_0202A084 @ 0x0202A084 (thumb, 96 compiled vs 100 original) - DIFF residue.
+
+Shape (correct): a four-way switch on a table byte, `v = Data_0209FED4[p->f0 * 4 + b]`,
+with cases 0/2 calling func_0202A01C and case 3 (shared with case 1) calling
+func_02029FF8; the state word is written once at the end (`*(u32 *)p = v`).
+
+    typedef struct Container { u32 f0; ... } Container;
+    void func_0202A084(u32 *p, int b)
+    {
+        u8 v = Data_0209FED4[*(u32 *)p * 4 + b];
+        switch (v) {
+        case 0: func_02072788(0x7f); func_0202A02C(p, 0); func_0202A01C(p); break;
+        case 1:
+        case 3: func_02072788(0x7f); func_0202A02C(p, 1); func_02029FF8(p); break;
+        case 2: func_02072788(0); func_0202A01C(p); break;
+        }
+        *(u32 *)p = v;
+    }
+
+Residue (first 8 bytes of the index computation):
+
+    +0004  ldr r0, [r4]        | ldr r0, [r4]
+    +0006  lsls r2, r0, #2     | lsls r0, r0, #2
+    +0008  ldr r0, [pc, #0x54] | adds r1, r1, r0
+    +000A  adds r0, r0, r2     | ldr r0, [pc, #0x50]
+    +000C  ldrb r5, [r1, r0]   | ldrb r5, [r0, r1]
+
+The original computes the scaled index into r2 and the table base into r0, adds
+them, and takes the SECOND argument's register (r1) as the load base; this front
+end keeps the scaled index in r0 and folds the second argument into the offset,
+using the table word as the base. Both address the same byte and the function is
+4 bytes shorter for it. Ruled out: `Data_0209FED4[int]` with a named u8 local for
+the index, `(const u8 *)(Data_0209FED4 + off)` first and `[b]` second,
+`*(u8 *)(b + (int)Data_0209FED4 + off)` (which does give the original's operand
+split but reorders the rest of the prologue). The remaining difference is the
+front end's addressing-mode choice, not a C spelling.
+
+Verified with:
+  python tools/match.py one --src <cand> --func func_0202A084 \
+      --addr 0x0202A084 --cc 1.1p1 --thumb
+  -> DIFF, compiled 96, original 100, 50 concrete bytes differ.

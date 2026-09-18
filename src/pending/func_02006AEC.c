@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   MATCH
  * blocker:  02072C40 (arm) reached only by the two `blx` inside this function
  *
  * symbols:

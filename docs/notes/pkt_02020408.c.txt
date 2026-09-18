@@ -1,0 +1,97 @@
+========================================================================
+pkt_02020408 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_0202071C  0x0202071C  (verdict DIFF       func_0202071C @ 0202071C (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_0202071C @ 0202071C (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 70 bytes, 2 relocation site(s)
+      relocations: 2 of 2 resolved
+        +0014 THM_CALL func_02045770       -> 02045770  [label x100, e.g. 0201CD1C]
+        +003E THM_CALL func_02043AF4       -> 02043AF4  [label x13, e.g. 0201CF90]
+      listing extent for the original: 100 bytes
+      note: listing says the original is 100 bytes, compiled 70
+      62 concrete byte(s) differ
+      offset     ORIGINAL @ 0202071C                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+      * +0000    push {r4, r5, r6, lr}                  | push {r3, r4, r5, r6, r7, lr}          
+        +0002    sub sp, #8                             | sub sp, #8                             
+      * +0004    adds r4, r0, #0                        | adds r5, r0, #0                        
+      * +0006    ldrh r0, [r4, #0x1a]                   | ldrh r0, [r5, #0x1a]                   
+      * +0008    adds r6, r1, #0                        | adds r7, r1, #0                        
+      * +000A    lsls r0, r0, #0x10                     | lsls r0, r0, #0x19                     
+      * +000C    lsrs r0, r0, #0x1f                     | lsrs r4, r0, #0x1c                     
+      * +000E    cmp r0, #3                             | bne #0x202075e                         
+      * +0010    bhi #0x202077a                         | ldrh r6, [r5, #0x22]                   
+      * +0012    adds r0, r0, r0                        | ldr r0, [r5, #0xc]                     
+      * +0014    add r0, pc                             | blx #0x2045770                         <- THM_CALL func_02045770 [resolved: label]
+      * +0016    ldrh r0, [r0, #6]                      | 1e e8                                  
+      * +0018    lsls r0, r0, #0x10                     | str r6, [sp]                           
+      * +001A    asrs r0, r0, #0x10                     | ldrb r1, [r5, #0x18]                   
+      * +001C    add pc, r0                             | adds r3, r6, r4                        
+      * +001E    movs r6, r0                            | lsls r3, r3, #0x18                     
+      * +0020    movs r6, r7                            | lsls r1, r1, #0x1c                     
+      * +0022    movs r6, r7                            | asrs r1, r1, #0x1c                     
+      * +0024    movs r6, r7                            | str r1, [sp, #4]                       
+      * +0026    ldrh r5, [r4, #0x22]                   | ldrb r2, [r5, #0x17]                   
+      * +0028    ldr r0, [r4, #0xc]                     | ldrb r1, [r5, #0x16]                   
+      * +002A    blx #0x2045770                         | lsrs r3, r3, #0x18                     
+      * +002C    14 e8                                  | lsls r2, r2, #0x1c                     
+      * +002E    str r5, [sp]                           | lsls r1, r1, #0x1c                     
+      * +0030    ldrb r1, [r4, #0x18]                   | asrs r2, r2, #0x1c                     
+      * +0032    lsls r1, r1, #0x1c                     | muls r3, r7, r3                        
+      * +0034    lsrs r1, r1, #0x1c                     | adds r2, r2, r3                        
+      * +0036    str r1, [sp, #4]                       | lsls r2, r2, #0x10                     
+      * +0038    ldrh r3, [r4, #0x1a]                   | ldrh r3, [r5, #0x20]                   
+      * +003A    ldrb r2, [r4, #0x17]                   | asrs r1, r1, #0x1c                     
+      * +003C    ldrb r1, [r4, #0x16]                   | asrs r2, r2, #0x10                     
+      * +003E    lsls r3, r3, #0x19                     | blx #0x2043af4                         <- THM_CALL func_02043AF4 [resolved: label]
+      * +0040    lsrs r3, r3, #0x1c                     | cc e9                                  
+      * +0042    adds r3, r5, r3                        | add sp, #8                             
+      * +0044    lsls r3, r3, #0x18                     | pop {r3, r4, r5, r6, r7, pc}           
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_0202071C.c):
+
+    /*
+     * function: func_0202071C
+     * address:  0x0202071C
+     * packet:   pkt_02020408
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   DIFF
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    
+    extern u32  func_02045770(u32 a);
+    extern void func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f);
+    
+    void func_0202071C(u8 *p, u32 a1)
+    {
+        u32 w = *(u16 *)(p + 0x1a);
+        u32 v;
+    
+        if (((w << 0x19) >> 0x1c) == 0) {
+            v = *(u16 *)(p + 0x22);
+            func_02043AF4(func_02045770(*(u32 *)(p + 0xc)),
+                          (p[0x16] << 0x1c) >> 0x1c,
+                          (s16)((((v + ((w << 0x19) >> 0x1c)) & 0xff) * a1 +
+                                 ((p[0x17] << 0x1c) >> 0x1c)) & 0xffff),
+                          *(u16 *)(p + 0x20),
+                          v,
+                          (p[0x18] << 0x1c) >> 0x1c);
+        }
+    }
+

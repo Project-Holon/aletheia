@@ -1,0 +1,76 @@
+========================================================================
+pkt_02013D74 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_02013D74  0x02013D74  (verdict DIFF       func_02013D74 @ 02013D74 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02013D74 @ 02013D74 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 40 bytes, 2 relocation site(s)
+      relocations: 2 of 2 resolved
+        +0002 THM_CALL func_02013A94       -> 02013A94  [label x30, e.g. 02013ADE]
+        +0012 THM_CALL func_02013D9C       -> 02013D9C  [label x8, e.g. 0217493A]
+      listing extent for the original: 40 bytes
+      4 concrete byte(s) differ
+      offset     ORIGINAL @ 02013D74                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, lr}                          | push {r3, lr}                          
+        +0002    bl #0x2013a94                          | bl #0x2013a94                          <- THM_CALL func_02013A94 [resolved: label]
+        +0006    ldr r1, [pc, #0x1c]                    | ldr r1, [pc, #0x1c]                    
+        +0008    cmp r0, r1                             | cmp r0, r1                             
+        +000A    blo #0x2013d86                         | blo #0x2013d86                         
+        +000C    adds r1, #0x1b                         | adds r1, #0x1b                         
+        +000E    cmp r0, r1                             | cmp r0, r1                             
+      * +0010    bls #0x2013d8e                         | bls #0x2013d92                         
+        +0012    bl #0x2013d9c                          | bl #0x2013d9c                          <- THM_CALL func_02013D9C [resolved: label]
+        +0016    cmp r0, #1                             | cmp r0, #1                             
+      * +0018    bne #0x2013d92                         | beq #0x2013d92                         
+      * +001A    movs r0, #1                            | movs r0, #0                            
+        +001C    pop {r3, pc}                           | pop {r3, pc}                           
+      * +001E    movs r0, #0                            | movs r0, #1                            
+        +0020    pop {r3, pc}                           | pop {r3, pc}                           
+        +0022    mov r8, r8                             | mov r8, r8                             
+        +0024    lsls r1, r4, #4                        | lsls r1, r4, #4                        
+        +0026    movs r0, r0                            | movs r0, r0                            
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02013D74.c):
+
+    /*
+     * function: func_02013D74
+     * address:  0x02013D74
+     * packet:   pkt_02013D74
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    typedef signed int s32;
+    
+    extern u32 func_02013A94(u32 id);
+    extern u32 func_02013D9C(void);
+    
+    u32 func_02013D74(u32 id)
+    {
+        u32 r = func_02013A94(id);
+    
+        if (r < 0x121 || r > 0x13c) {
+            if (func_02013D9C() != 1) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+

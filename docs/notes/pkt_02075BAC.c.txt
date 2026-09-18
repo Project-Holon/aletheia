@@ -1,0 +1,52 @@
+pkt_02075BAC -- func_02075BD4 EXACT, func_02075BAC four bytes from it
+====================================================================
+
+Solved here (filed in src/matched/func_02075BD4.c, shard
+layout/matched/arm9/pkt_02075BAC.json, EXACT, 52 bytes):
+
+  func_02075BD4 0x02075BD4  52 bytes
+
+The object is a linear map, not a pointer table: +0x0 and +0x4 are a low and
+a high bound, +0x8 the index, +0xC the denominator.  The whole function is
+
+    s32 f(struct Obj *o)
+    {
+        if (o->f08 >= o->f0c)
+            return o->f04;
+        return o->f00 + (o->f04 - o->f00) * o->f08 / o->f0c;
+    }
+
+and the one lever that mattered is reading the guard's value as a FIELD, not
+as a pointee: `p = (s32 *)o->f04; ... return p[0];` makes the guard's load a
+conditionally-executed `ldrge r0, [r0, #4]` into a hoisted unconditional load
+and is six bytes out, because the tail then loads `*(s32 *)o->f04` while the
+original re-reads `o->f04` from the object pointer that the predicated load
+left alone.  The division is `_s32_div_f` (0x0209C0A4, runtime class) and is
+declared in the `symbols:` block.
+
+Still open, four bytes from byte-correct:
+
+  func_02075BAC 0x02075BAC  40 bytes, compiled 44 (as `void`) or 44 (as `u32`)
+
+  original:  0000 push {r4, r5, r6, lr} / mov r6, r0 / mov r5, r1 /
+             mov r4, r2 / bl func_02075BD4 / stm r6, {r0, r5} /
+             str r4, [r6, #0xc] / mov r0, #0 / str r0, [r6, #8] /
+             pop
+  compiled:  ... / stm r6, {r0, r5} / mov r1, #0 / str r4, [r6, #0xc] /
+             str r1, [r6, #8] / pop
+
+  Both spellings fuse the two stores into the `stm`; the residue is only the
+  zero of the last store.  Written as a `void` function the zero is
+  materialised into r1 and one slot early (4 bytes, 9 concrete); written as
+  `u32 ... return 0;` or `return o->f08 = 0;` the compiler instead
+  materialises the return constant into r0 as soon as the call result has
+  been stored, which splits the `stm` and costs four more bytes (44, 20
+  concrete).  The original's r0 zero is the return value's register,
+  materialised *after* the last use of r0 -- i.e. after the `stm` -- which is
+  a scheduling decision this front end makes the other way once it has a
+  spare callee-saved register for it.  Four bytes, recorded.
+
+  func_02072F5C (packet pkt_02072F5C) calls func_02075BAC and stays a MATCH
+  cap while that callee is not a manifest entry: its own code is 11 bytes out
+  in addition (the guard's if-conversion), and the call site has no witness
+  outside its range.  See docs/notes/lane6_band0_64_residues.c.txt.

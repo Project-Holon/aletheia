@@ -1,0 +1,173 @@
+packet pkt_020123D8: DIFF residue for 2 function(s) of lane 1 (0-64 byte band)
+
+Every function below is byte-for-byte correct except for the residue listed.
+The C lives in src/pending/<name>.c (a DIFF has no home in src/matched/).
+
+==============================================================================
+func_020123D8  0X020123D8  size 52  compiled 44  compared 52  verdict DIFF
+
+residue (15 mismatching site(s)):
+  * +000E    01 d0                                  | 0b d1
+  * +0010    00 20                                  | 00 2c
+  * +0012    70 bd                                  | 09 d0
+  * +0014    00 2c                                  | 28 1c
+  * +0016    01 d1                                  | 31 1c
+  * +0018    00 20                                  | a0 47
+  * +001A    70 bd                                  | 01 1c
+  * +001C    28 1c                                  | 04 d0
+  * +001E    31 1c                                  | 28 1c
+  * +0020    a0 47                                  | ff f7                                  <- THM_CALL func_02012108 [resolved: label]
+  * +0022    01 1c                                  | 86 fe
+  * +0024    04 d0                                  | 01 20
+  * +0026    28 1c                                  | 70 bd
+  * +0028    ff f7                                  | 00 20
+  * +002A    82 fe                                  | 70 bd
+
+C (src/pending/func_020123D8.c):
+typedef unsigned int u32;
+
+extern int func_02012104(void *o);
+extern void func_02012108(void *o, u32 r);
+
+int func_020123D8(void *o, u32 (*fn)(void *, void *), void *a2)
+{
+    if (func_02012104(o) == 0) {
+        if (fn != 0) {
+            u32 r = fn(o, a2);
+            if (r != 0) {
+                func_02012108(o, r);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+==============================================================================
+func_0201240C  0X0201240C  size 56  compiled 60  compared 56  verdict DIFF
+
+residue (30 mismatching site(s)):
+  * +0000    38 b5                                  | 70 b5
+  * +0002    0d 1c                                  | 0c 1c
+  * +0004    14 1c                                  | 05 1c
+  * +0006    00 f0                                  | 16 1c
+  * +0008    67 f8                                  | 00 f0                                  <- THM_CALL func_020124E4 [resolved: label]
+  * +000A    29 68                                  | 66 f8
+  * +000C    00 29                                  | 20 68
+  * +000E    02 d0                                  | 00 28
+  * +0010    01 29                                  | 09 d1
+  * +0012    09 d0                                  | 31 68
+  * +0014    0e e0                                  | 72 68
+  * +0016    21 68                                  | b3 68
+  * +0018    62 68                                  | 28 1c
+  * +001A    a3 68                                  | ff f7                                  <- THM_CALL func_020120B4 [resolved: label]
+  * +001C    ff f7                                  | 45 fe
+  * +001E    44 fe                                  | 20 68
+  * +0020    28 68                                  | 40 1c
+  * +0022    40 1c                                  | 20 60
+  * +0024    28 60                                  | 08 e0
+  * +0026    05 e0                                  | 01 28
+  * +0028    ff f7                                  | 06 d1
+  * +002A    5c fe                                  | 28 1c
+  * +002C    00 28                                  | ff f7                                  <- THM_CALL func_020120F0 [resolved: label]
+  * +002E    01 d1                                  | 5a fe
+  ... 6 more
+
+C (src/pending/func_0201240C.c):
+typedef unsigned int u32;
+
+extern void func_020124E4(void *o, u32 *a1, u32 *a2);
+extern void func_020120B4(void *o, u32 a, u32 b, u32 c);
+extern int  func_020120F0(void *o);
+
+int func_0201240C(void *o, u32 *a1, u32 *a2)
+{
+    func_020124E4(o, a1, a2);
+    if (*a1 == 0) {
+        func_020120B4(o, a2[0], a2[1], a2[2]);
+        (*a1)++;
+    } else if (*a1 == 1) {
+        if (func_020120F0(o) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+==============================================================================
+func_020123D8.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_020123D8
+ * address:  0x020123D8
+ * packet:   pkt_020123D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   func_02012104  0x02012104  thumb
+ *   func_02012108  0x02012108  thumb
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned int u32;
+
+extern int func_02012104(void *o);
+extern void func_02012108(void *o, u32 r);
+
+int func_020123D8(void *o, u32 (*fn)(void *, void *), void *a2)
+{
+    if (func_02012104(o) == 0) {
+        if (fn != 0) {
+            u32 r = fn(o, a2);
+            if (r != 0) {
+                func_02012108(o, r);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+==============================================================================
+func_0201240C.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_0201240C
+ * address:  0x0201240C
+ * packet:   pkt_020123D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   func_020124E4  0x020124E4  thumb
+ *   func_020120B4  0x020120B4  thumb
+ *   func_020120F0  0x020120F0  thumb
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned int u32;
+
+extern void func_020124E4(void *o, u32 *a1, u32 *a2);
+extern void func_020120B4(void *o, u32 a, u32 b, u32 c);
+extern int  func_020120F0(void *o);
+
+int func_0201240C(void *o, u32 *a1, u32 *a2)
+{
+    func_020124E4(o, a1, a2);
+    if (*a1 == 0) {
+        func_020120B4(o, a2[0], a2[1], a2[2]);
+        (*a1)++;
+    } else if (*a1 == 1) {
+        if (func_020120F0(o) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,52 @@
+======================================================================
+// 0x02028fd0  func_02028FD0  size 12  isa thumb
+// verdict: DIFF
+//   +000C ABS32 g_0209FE1C             -> unresolved: 0209FE1C (data, from header) has no witness outside 02028FD0..02028FE0
+//   * +0002    lsls r2, r0, #3                        | ldr r2, [pc, #8]
+//   * +0004    ldr r0, [pc, #4]                       | lsls r0, r0, #3
+//   * +0006    adds r0, r0, r2                        | adds r0, r2, r0
+/*
+ * function: func_02028FD0
+ * address:  0x02028FD0
+ * packet:   pkt_02028FD0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_0209FE1C  0x0209FE1C  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct T {
+    u32 f00;
+    u32 f04;
+};
+
+extern u8 g_0209FE1C[];
+
+u8 func_02028FD0(struct T *p, u8 *a1)
+{
+    u32 off = p->f04 * 8;
+
+    return a1[(u32)g_0209FE1C + off];
+}
+
+/* ------------------------------------------------------------------
+ * 0x02028FE0 (24 bytes) and 0x02029040 (24 bytes, both thumb) - not written.
+ *
+ * Both open a Thumb `add pc, r0` switch on p[0x1C] with eight arms.  The tables
+ * are at 0x02028FF6 (offsets 0x0044 0x0044 0x0044 0x0044 0x000E 0x0022 0x002A
+ * 0x0032, `add pc` base 0x02028FF8) and 0x02029056 (base 0x02029058).  The arms
+ * call 0x020293D8, 0x02029374, 0x02029344, 0x0202945C and 0x02029364 with
+ * r0 = p and constant second arguments; the case order has to match the table
+ * for the offsets to come out, which needs the arms written and compiled, not
+ * guessed.  Left open.
+ */

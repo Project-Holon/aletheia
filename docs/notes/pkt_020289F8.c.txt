@@ -1,0 +1,46 @@
+======================================================================
+// 0x020289f8  func_020289F8  size 28  isa thumb
+// verdict: DIFF
+//   +0016 THM_CALL func_02028E0C       -> unresolved: 02028E0C (thumb, from name) has no witness outside 020289F8..02028A16
+//   * +001A    pop {pc}                               | add sp, #0xc
+//   * +001C    push {r4, lr}                          | pop {pc}
+/*
+ * function: func_020289F8
+ * address:  0x020289F8
+ * packet:   pkt_020289F8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_020A7518  0x020A7518  data
+ *   g_020A7554  0x020A7554  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+struct A {
+    u32 f0;
+    u32 f4;
+    u16 f8;
+    u16 fa;
+};
+
+extern void func_02028E0C(u32 a0, struct A *s, struct A *t);
+
+void func_020289F8(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+{
+    struct A s;
+
+    s.f0 = a1;
+    s.f4 = a2;
+    s.f8 = (u16)a3;
+    s.fa = a4;
+    func_02028E0C(a0, &s, &s);
+}

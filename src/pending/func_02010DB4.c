@@ -17,7 +17,7 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02010DB4.c \
  *       --func func_02010DB4 --addr 0x02010DB4 --thumb --cc 1.1p1
- */
+ * blocker:  unresolved relocation(s): 02010DF4 (thumb, from name)*/
 
 typedef unsigned char u8;
 typedef unsigned int  u32;

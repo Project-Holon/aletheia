@@ -1,0 +1,39 @@
+pkt_02075794 -- func_02075968: two-byte residue (register on the first `bic`)
+============================================================================
+
+0x02075968 (44 bytes, arm9, ARM).  Every load, store, guard and mask is
+right; two bytes differ, and both are the destination register of the first
+`bic` of the three:
+
+  02075968  ldr  r2, [r0, #0x154]        original          compiled
+  0207596C  cmp  r2, #0
+  02075970  movne r1, #0
+  02075974  strne r1, [r2]
+  0207597C  strne r1, [r0, #0x154]
+  02075980  ldr  r1, [r0, #0x118]
+  02075984  bic  r2, r1, #1              bic  r1, r1, #1
+  02075988  bic  r1, r2, #4              bic  r1, r1, #4
+  0207598C  bic  r1, r1, #2              (same)
+  02075990  str  r1, [r0, #0x118]
+  02075994  bx   lr
+
+The tail is three clears of bits 0, 2 and 1 of the word at +0x118 -- the
+sets are ordered 1, 4, 2, one per statement, and the masks do NOT fold into a
+single `bic #7`, so three statements is right.  The original's first clear
+writes a fresh register and its second immediately discards it, which means
+the allocator saw the first result as a second live value; no spelling
+reproduced it.
+
+Spellings tried, all landing on `bic r1, r1, #1` / two bytes out:
+  - three compound assignments `o->f118 &= ~1u; &= ~4u; &= ~2u;` (2 bytes)
+  - `u32 v = o->f118; o->f118 = v & ~1u; o->f118 = o->f118 & ~4u; ...` (2)
+  - `u32 a = o->f118 & ~1u; o->f118 = a & ~4u & ~2u;`  (the last two fold to
+    `bic #7`, 8 bytes out)
+  - `u32 v = o->f118; o->f118 = v & ~4u & ~2u;` after `v = o->f118 & ~1u`
+    (folds, 8 bytes out)
+
+The guard's `movne r1, #0` + both predicated stores + the deferred single
+load/store of the field all come out byte for byte, so the residue is one
+register choice in the middle of an otherwise perfect function; it is the
+`a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags` family
+(no flag or source shape moves it).  Recorded, not ground further.

@@ -1,0 +1,34 @@
+pkt_020507A4 - artifact row: the entry is four bytes inside a home-area prologue
+================================================================================
+
+func_020507A4 @ 0x020507A4 (row size 44, listing extent 96, arm9, ARM)
+verdict: NOT C - artifact (mid-function entry), reported, not filed
+
+Same finding as docs/notes/pkt_02040EC0.c.txt, one region over:
+
+  020507A0  0f 00 2d e9  push {r0, r1, r2, r3}     <- the real prologue begins here
+  020507A4  08 40 2d e9  push {r3, lr}             <- the row's first byte
+  020507A8  28 20 a0 e3  mov  r2, #0x28
+  020507AC  91 02 02 e0  mul  r2, r1, r2
+  020507B0  18 10 90 e5  ldr  r1, [r0, #0x18]
+  020507B4  04 00 90 e5  ldr  r0, [r0, #4]
+  020507B8  02 10 91 e7  ldr  r1, [r1, r2]
+  020507BC  10 20 8d e2  add  r2, sp, #0x10
+  020507C0  d6 fb ff eb  bl   func_0204F720
+  020507C4  08 40 bd e8  pop  {r3, lr}
+  020507C8  10 d0 8d e2  add  sp, sp, #0x10
+  020507CC  1e ff 2f e1  bx   lr
+
+The buffer handed to func_0204F720 is `sp + 0x10`, which is the incoming home
+area (the row's own `push {r3, lr}` accounts for only 8 of the 16 bytes the
+epilogue's `add sp, sp, #0x10` unwinds).  So the entry point is the bare
+`push {r0, r1, r2, r3}` at 0x020507A0 - the address-of-a-register-parameter
+lowering, i.e. the source hands `&third_argument` on - and the row's address
+is four bytes into that prologue.  A compiled function always starts at its
+own first byte, so no C reaches this row.
+
+Its sibling at 0x020507D0 in the same listing is the tail-call form of the
+same accessor (`ldr ip, [pc]; bx ip`, pool word 0x0204F704) and is not part
+of this row either.
+
+Addresses are Black-image addresses.

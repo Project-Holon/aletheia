@@ -1,0 +1,88 @@
+========================================================================
+pkt_020141A8 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_020141A8  0x020141A8  (verdict DIFF       func_020141A8 @ 020141A8 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_020141A8 @ 020141A8 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 56 bytes, 2 relocation site(s)
+      relocations: 2 of 2 resolved
+        +0028 THM_CALL func_02014274       -> 02014274  [label x2, e.g. 0201415E]
+        +002C THM_CALL func_0201441C       -> 0201441C  [label x2, e.g. 02014162]
+      listing extent for the original: 92 bytes
+      note: listing says the original is 92 bytes, compiled 56
+      10 concrete byte(s) differ
+      offset     ORIGINAL @ 020141A8                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r3, r4, r5, lr}                  | push {r3, r4, r5, lr}                  
+      * +0002    movs r5, #1                            | adds r4, r0, #0                        
+      * +0004    adds r4, r0, #0                        | movs r5, #1                            
+      * +0006    subs r0, r5, #2                        | ldr r0, [pc, #0x2c]                    
+        +0008    strh r1, [r4, #4]                      | strh r1, [r4, #4]                      
+        +000A    strh r0, [r4, #6]                      | strh r0, [r4, #6]                      
+        +000C    movs r0, #0                            | movs r0, #0                            
+        +000E    str r5, [r4]                           | str r5, [r4]                           
+        +0010    strh r2, [r4, #8]                      | strh r2, [r4, #8]                      
+        +0012    str r5, [r4, #0xc]                     | str r5, [r4, #0xc]                     
+        +0014    strb r5, [r4, #0x12]                   | strb r5, [r4, #0x12]                   
+        +0016    strh r3, [r4, #0x10]                   | strh r3, [r4, #0x10]                   
+        +0018    add r1, sp, #0x10                      | add r1, sp, #0x10                      
+        +001A    strh r0, [r4, #0xa]                    | strh r0, [r4, #0xa]                    
+        +001C    ldrh r0, [r1]                          | ldrh r0, [r1]                          
+        +001E    strh r0, [r4, #0x16]                   | strh r0, [r4, #0x16]                   
+        +0020    movs r0, #4                            | movs r0, #4                            
+        +0022    ldrsh r0, [r1, r0]                     | ldrsh r0, [r1, r0]                     
+        +0024    strh r0, [r4, #0x14]                   | strh r0, [r4, #0x14]                   
+        +0026    adds r0, r2, #0                        | adds r0, r2, #0                        
+        +0028    bl #0x2014274                          | bl #0x2014274                          <- THM_CALL func_02014274 [resolved: label]
+        +002C    bl #0x201441c                          | bl #0x201441c                          <- THM_CALL func_0201441C [resolved: label]
+        +0030    strb r0, [r4, #0x13]                   | strb r0, [r4, #0x13]                   
+        +0032    pop {r3, r4, r5, pc}                   | pop {r3, r4, r5, pc}                   
+      * +0034    ldr r0, [r0, #0xc]                     | .byte ff ff 00 00                      
+      * +0036    bx lr                                  | 00 00                                  
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_020141A8.c):
+
+    /*
+     * function: func_020141A8
+     * address:  0x020141A8
+     * packet:   pkt_020141A8
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    typedef signed int s32;
+    
+    extern u32  func_02014274(u32 a);
+    extern u32  func_0201441C(u32 i);
+    
+    void func_020141A8(u8 *p, u16 b, u16 c, u16 d, u16 e, s16 f)
+    {
+        *(u32 *)p = 1;
+        *(u16 *)(p + 4) = b;
+        *(u16 *)(p + 6) = -1;
+        *(u16 *)(p + 8) = c;
+        *(u16 *)(p + 0xa) = 0;
+        *(u32 *)(p + 0xc) = 1;
+        *(u8 *)(p + 0x12) = 1;
+        *(u16 *)(p + 0x10) = d;
+        *(u16 *)(p + 0x16) = e;
+        *(u16 *)(p + 0x14) = f;
+        *(u8 *)(p + 0x13) = func_0201441C(func_02014274(c));
+    }
+

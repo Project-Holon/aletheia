@@ -1,0 +1,73 @@
+packet pkt_0200F38C: DIFF residue for 1 function(s) of lane 1 (0-64 byte band)
+
+Every function below is byte-for-byte correct except for the residue listed.
+The C lives in src/pending/<name>.c (a DIFF has no home in src/matched/).
+
+==============================================================================
+func_0200F698  0X0200F698  size 32  compiled 34  compared 32  verdict DIFF
+
+residue (15 mismatching site(s)):
+  * +0004    0c 1c                                  | 00 20
+  * +0006    2d f0                                  | 0c 1c
+  * +0008    fe ed                                  | 2d f0                                  <- THM_CALL func_0203D29C [resolved: label]
+  * +000A    00 28                                  | fc ed
+  * +000C    03 d0                                  | 00 28
+  * +000E    47 f1                                  | 03 d0
+  ~ +0010    63 fa                                  | 00 f0                                  <- THM_CALL func_02156B70 [wildcard]
+  ~ +0012    00 28                                  | 00 f8
+  * +0014    03 d1                                  | 00 28
+  * +0016    28 1c                                  | 03 d1
+  * +0018    21 1c                                  | 28 1c
+  * +001A    f6 f7                                  | 21 1c
+  * +001C    37 fc                                  | f6 f7                                  <- THM_CALL func_02005F24 [resolved: label]
+  * +001E    38 bd                                  | 36 fc
+  * +0020    08 b5                                  | 38 bd
+
+C (src/pending/func_0200F698.c):
+typedef unsigned int u32;
+
+extern int  func_0203D29C(u32 v);
+extern int  func_02156B70(void);
+extern void func_02005F24(void *a0, void *a1);
+
+void func_0200F698(void *a0, void *a1)
+{
+    if (func_0203D29C(0) != 0 && func_02156B70() != 0) {
+        return;
+    }
+    func_02005F24(a0, a1);
+}
+
+==============================================================================
+func_0200F698.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_0200F698
+ * address:  0x0200F698
+ * packet:   pkt_0200F38C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   func_0203D29C  0x0203D29C  arm
+ *   func_02156B70  0x02156B70  thumb
+ *   func_02005F24  0x02005F24  thumb
+ * blocker:  unresolved relocation(s): 02156B70 (thumb, from header)*/
+
+typedef unsigned int u32;
+
+extern int  func_0203D29C(u32 v);
+extern int  func_02156B70(void);
+extern void func_02005F24(void *a0, void *a1);
+
+void func_0200F698(void *a0, void *a1)
+{
+    if (func_0203D29C(0) != 0 && func_02156B70() != 0) {
+        return;
+    }
+    func_02005F24(a0, a1);
+}

@@ -1,0 +1,129 @@
+======================================================================
+// 0x02026ca0  func_02026CA0  size 54  isa thumb
+// verdict: DIFF
+//   * +0002    ldr r6, [r0]                           | ldr r1, [r0]
+//   * +0004    cmp r6, #0x1e                          | cmp r1, #0x1e
+//   * +0006    bge #0x2026cd0                         | blt #0x2026cae
+//   * +0008    ldr r2, [pc, #0x2c]                    | movs r0, #0x1e
+//   * +000A    ldr r1, [pc, #0x30]                    | pop {r3, r4, r5, r6}
+//   * +000C    movs r4, #1                            | bx lr
+//   * +000E    ldr r3, [r2]                           | ldr r3, [pc, #0x2c]
+//   * +0010    ldr r5, [r3, r1]                       | ldr r2, [pc, #0x2c]
+//   * +0012    adds r3, r4, #0                        | movs r5, #1
+//   * +0014    lsls r3, r6                            | ldr r4, [r3]
+//   * +0016    tst r3, r5                             | adds r6, r5, #0
+//   * +0018    beq #0x2026cc6                         | lsls r6, r1
+//   * +001A    ldr r1, [r0]                           | ldr r4, [r4, r2]
+//   * +001C    adds r1, r1, #1                        | tst r4, r6
+//   * +001E    str r1, [r0]                           | beq #0x2026cca
+//   * +0020    subs r0, r1, #1                        | adds r2, r1, #1
+//   * +0022    pop {r3, r4, r5, r6}                   | str r2, [r0]
+//   * +0024    bx lr                                  | adds r0, r1, #0
+//   * +0026    ldr r3, [r0]                           | pop {r3, r4, r5, r6}
+//   * +0028    adds r6, r3, #1                        | bx lr
+//   * +002A    str r6, [r0]                           | ldr r1, [r0]
+//   * +002C    cmp r6, #0x1e                          | adds r1, r1, #1
+//   * +002E    blt #0x2026cae                         | str r1, [r0]
+//   * +0030    movs r0, #0x1e                         | cmp r1, #0x1e
+//   * +0032    pop {r3, r4, r5, r6}                   | blt #0x2026cb4
+//   * +0034    bx lr                                  | movs r0, #0x1e
+//   * +0036    mov r8, r8                             | pop {r3, r4, r5, r6}
+//   * +0038    ldr r0, [r0, #0x14]                    | bx lr
+//   * +003A    lsls r4, r2, #8                        | mov r8, r8
+//   * +003C    lsrs r4, r4, #0xe                      | ldr r0, [r0, #0x14]                    <- ABS32 g_02146940 [resolved: literal]
+//   * +003E    movs r0, r0                            | lsls r4, r2, #8
+//   * +0040    push {r4, r5}                          | lsrs r4, r4, #0xe
+//   * +0042    ldr r1, [pc, #0x18]                    | movs r0, r0
+/*
+ * function: func_02026CA0
+ * address:  0x02026CA0
+ * packet:   pkt_0202685C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146940     0x02146940  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+extern u32 *g_02146940;
+
+int func_02026CA0(int *p)
+{
+    int i = *p;
+
+    if (i >= 0x1e) {
+        return 0x1e;
+    }
+    do {
+        if ((1 << i) & *(u32 *)((char *)g_02146940 + 0xba4)) {
+            *p = i + 1;
+            return i;
+        }
+        i = *p + 1;
+        *p = i;
+    } while (i < 0x1e);
+    return 0x1e;
+}
+======================================================================
+// 0x02027060  func_02027060  size 36  isa thumb
+// verdict: DIFF
+//   * +0000    ldr r1, [pc, #0x20]                    | ldr r2, [pc, #0x20]
+//   * +0002    ldr r2, [pc, #0x24]                    | lsls r0, r0, #2
+//   * +0004    ldr r1, [r1]                           | ldr r0, [r2, r0]
+//   * +0006    lsls r0, r0, #2                        | lsls r0, r0, #0x18
+//   * +0008    ldrh r1, [r1, #0x34]                   | lsrs r1, r0, #0x18
+//   * +000A    ldr r0, [r2, r0]                       | ldr r0, [pc, #0x1c]
+//   * +000C    lsls r1, r1, #2                        | ldr r0, [r0]
+//   * +000E    ldr r1, [r2, r1]                       | ldrh r0, [r0, #0x34]
+//   * +0010    lsls r0, r0, #0x18                     | lsls r0, r0, #2
+//   * +0012    lsls r1, r1, #0x18                     | ldr r0, [r2, r0]
+//   * +0014    lsrs r0, r0, #0x18                     | lsls r0, r0, #0x18
+//   * +0016    lsrs r1, r1, #0x18                     | lsrs r0, r0, #0x18
+//   * +0018    cmp r0, r1                             | cmp r1, r0
+//   * +0024    ldr r0, [r0, #0x14]                    | stc2 p2, c0, [r0], #-0x24              <- ABS32 g_0209FC20 [resolved: literal]
+//   * +0026    lsls r4, r2, #8                        | 09 02
+//   * +0028    stc2 p2, c0, [r0], #-0x24              | ldr r0, [r0, #0x14]                    <- ABS32 g_02146940 [resolved: literal]
+//   * +002A    09 02                                  | lsls r4, r2, #8
+/*
+ * function: func_02027060
+ * address:  0x02027060
+ * packet:   pkt_0202685C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146940     0x02146940  data
+ *   g_0209FC20     0x0209FC20  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+extern u32 *g_02146940;
+extern u32  g_0209FC20[];
+
+int func_02027060(u32 i)
+{
+    u8 a = (u8)g_0209FC20[i];
+    u8 b = (u8)g_0209FC20[*(u16 *)((char *)g_02146940 + 0x34)];
+
+    if (a < b) {
+        return 0;
+    }
+    return 1;
+}

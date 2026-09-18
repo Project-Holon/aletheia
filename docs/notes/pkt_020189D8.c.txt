@@ -1,0 +1,64 @@
+========================================================================
+pkt_020189D8 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_020189F0  0x020189F0  (verdict DIFF       func_020189F0 @ 020189F0 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_020189F0 @ 020189F0 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 16 bytes, 1 relocation site(s)
+      relocations: 0 of 1 resolved
+        +000C ABS32 tbl_0209E2A4           -> unresolved: 0209E2A4 (data, from header) has no witness outside 020189F0..02018A00
+      listing extent for the original: 16 bytes
+      5 concrete byte(s) differ
+      offset     ORIGINAL @ 020189F0                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    lsls r2, r0, #2                        | lsls r2, r0, #2                        
+      * +0002    adds r2, r0, r2                        | ldr r3, [pc, #8]                       
+      * +0004    ldr r0, [pc, #4]                       | adds r0, r0, r2                        
+      * +0006    adds r0, r0, r2                        | adds r0, r3, r0                        
+        +0008    ldrsb r0, [r1, r0]                     | ldrsb r0, [r1, r0]                     
+        +000A    bx lr                                  | bx lr                                  
+      ~ +000C    b #0x2018f48                           | movs r0, r0                            <- ABS32 tbl_0209E2A4 [wildcard]
+      ~ +000E    lsls r1, r1, #8                        | movs r0, r0                            
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_020189F0.c):
+
+    /*
+     * function: func_020189F0
+     * address:  0x020189F0
+     * packet:   pkt_020189D8
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   MATCH
+     * symbols:
+     *   tbl_0209E2A4  0x0209E2A4  data
+     *
+     * blocker:  data_table - the s8[][5] table at 0x0209E2A4 is named in
+     *           the image only by the pool word inside this range, so the
+     *           `literal` class has no outside witness.  Same finding as
+     *           src/matched/unit_020188B4.c's header.
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    typedef signed int s32;
+    
+    extern s8 tbl_0209E2A4[][5];
+    
+    s8 func_020189F0(u32 i, s8 *base)
+    {
+        return base[(u32)tbl_0209E2A4 + i * 5];
+    }
+

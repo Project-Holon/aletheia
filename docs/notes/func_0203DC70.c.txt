@@ -1,0 +1,35 @@
+func_0203DC70 - window-clipped row, not filable from the 0-64 byte band
+======================================================================
+
+func_0203DC70 @ 0x0203DC70 (row size 64, listing extent 1968, arm9, ARM)
+verdict: not filable in this lane; the row's window is a jump-table head
+
+The row claims 64 bytes because the band's classifier measured the switch
+dispatch, but the harness compares against the listing extent, and the next
+`func_` label after 0x0203DC70 is at 0x0203E420 - 1968 bytes later.  The row's
+first bytes are:
+
+  0203DC70  push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+  0203DC74  sub  sp, sp, #8
+  0203DC78  ldr  r7, [pc, #0x794]        ; the context pointer
+  0203DC7C  mov  r6, #1
+  0203DC80  ldr  r4, [r7]
+  0203DC84  mov  r5, #3
+  0203DC88  cmp  r4, #0
+  0203DC8C  mov  r8, #0
+  0203DC90  addeq sp, sp, #8
+  0203DC94  popeq {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+  0203DC98  ldrb r0, [r4, #0x109]
+  0203DC9C  cmp  r0, #0x12
+
+i.e. the head of a 19-case state machine (0x12 + 1 arms) whose arms run to
+0x0203E414.  `addls pc, pc, r0, lsl #2` cannot be produced by any C fragment
+smaller than the whole switch, so the only C that could reach EXACT here is
+the full 1968-byte function - far outside this lane's 64-byte budget.  The
+window itself (64 bytes) is not a compilable unit: a C function compiles to a
+whole prologue plus body, and the prologue alone already contains the jump
+table's setup.
+
+Reported as unreachable from this lane rather than attempted.
+
+Addresses are Black-image addresses.

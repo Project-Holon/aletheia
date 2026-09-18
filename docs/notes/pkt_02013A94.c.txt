@@ -1,0 +1,98 @@
+========================================================================
+pkt_02013A94 -- lane 2 of the 0-64 byte band: DIFF residues
+========================================================================
+
+------------------------------------------------------------------------
+func_02013A94  0x02013A94  (verdict DIFF       func_02013A94 @ 02013A94 (arm9, Thumb))
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02013A94 @ 02013A94 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 60 bytes, 3 relocation site(s)
+      relocations: 1 of 3 resolved
+        +0030 ABS32 g_02146264             -> 02146264  [literal x13, e.g. 02013A3C]
+        +0034 ABS32 tbl_020A72A8           -> unresolved: 020A72A8 (data, from header) has no witness outside 02013A94..02013AD0
+        +0038 ABS32 tbl_020A72A8           -> unresolved: 020A72A8 (data, from header) has no witness outside 02013A94..02013AD0
+      listing extent for the original: 60 bytes
+      13 concrete byte(s) differ
+      offset     ORIGINAL @ 02013A94                    | COMPILED                              
+      ------------------------------------------------------------------------------------------
+        +0000    push {r4, r5}                          | push {r4, r5}                          
+        +0002    ldr r1, [pc, #0x2c]                    | ldr r1, [pc, #0x2c]                    
+        +0004    ldr r2, [pc, #0x2c]                    | ldr r2, [pc, #0x2c]                    
+      * +0006    ldr r5, [r1]                           | ldr r4, [r1]                           
+      * +0008    movs r4, #0                            | movs r5, #0                            
+      * +000A    adds r1, r5, r4                        | adds r1, r4, r5                        
+        +000C    adds r1, #0x48                         | adds r1, #0x48                         
+        +000E    ldrb r1, [r1]                          | ldrb r1, [r1]                          
+        +0010    cmp r1, #0                             | cmp r1, #0                             
+        +0012    beq #0x2013ab8                         | beq #0x2013ab8                         
+      * +0014    lsls r3, r4, #2                        | lsls r3, r5, #2                        
+        +0016    ldrh r1, [r2, r3]                      | ldrh r1, [r2, r3]                      
+        +0018    cmp r0, r1                             | cmp r0, r1                             
+        +001A    bne #0x2013ab8                         | bne #0x2013ab8                         
+        +001C    ldr r0, [pc, #0x18]                    | ldr r0, [pc, #0x18]                    
+        +001E    ldrh r0, [r0, r3]                      | ldrh r0, [r0, r3]                      
+        +0020    pop {r4, r5}                           | pop {r4, r5}                           
+        +0022    bx lr                                  | bx lr                                  
+      * +0024    adds r4, r4, #1                        | adds r5, r5, #1                        
+      * +0026    cmp r4, #2                             | cmp r5, #2                             
+      * +0028    blt #0x2013a9e                         | blo #0x2013a9e                         
+      * +002A    pop {r4, r5}                           | movs r0, #0                            
+      * +002C    bx lr                                  | pop {r4, r5}                           
+      * +002E    mov r8, r8                             | bx lr                                  
+        +0030    str r4, [r4, #0x24]                    | str r4, [r4, #0x24]                    <- ABS32 g_02146264 [resolved: literal]
+        +0032    lsls r4, r2, #8                        | lsls r4, r2, #8                        
+      ~ +0034    strb r0, [r5, #0xa]                    | movs r0, r0                            <- ABS32 tbl_020A72A8 [wildcard]
+      ~ +0036    lsls r2, r1, #8                        | movs r0, r0                            
+      ~ +0038    strb r2, [r5, #0xa]                    | movs r0, r0                            <- ABS32 tbl_020A72A8 [wildcard]
+      ~ +003A    lsls r2, r1, #8                        | movs r0, r0                            
+      legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+C currently tried (scratch/scratch/w_02013A94.c):
+
+    /*
+     * function: func_02013A94
+     * address:  0x02013A94
+     * packet:   pkt_02013A94
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      thumb
+     * status:   EXACT
+     * symbols:
+     *   tbl_020A72A8  0x020A72A8  data
+     *   g_02146264    0x02146264  data
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef signed short s16;
+    typedef signed char s8;
+    typedef signed int s32;
+    
+    struct Pair {
+        u16 key;
+        u16 val;
+    };
+    
+    extern struct Pair tbl_020A72A8[];
+    extern u8 *g_02146264;
+    
+    u32 func_02013A94(u32 id)
+    {
+        u8 *base = g_02146264;
+        u32 i;
+    
+        for (i = 0; i < 2; i++) {
+            if (base[i + 0x48] != 0 && tbl_020A72A8[i].key == id) {
+                return tbl_020A72A8[i].val;
+            }
+        }
+        return 0;
+    }
+

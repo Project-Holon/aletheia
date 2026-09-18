@@ -1,0 +1,76 @@
+packet pkt_0200A21C: DIFF residue for 1 function(s) of lane 1 (0-64 byte band)
+
+Every function below is byte-for-byte correct except for the residue listed.
+The C lives in src/pending/<name>.c (a DIFF has no home in src/matched/).
+
+==============================================================================
+func_0200A21C  0X0200A21C  size 50  compiled 56  compared 56  verdict DIFF
+
+residue (8 mismatching site(s)):
+  * +0004    00 23                                  | 00 22
+  * +0008    19 1c                                  | 11 1c
+  * +000C    0a 1c                                  | 0b 1c
+  * +000E    52 1c                                  | 5b 1c
+  * +0010    5b 1c                                  | 52 1c
+  * +0012    10 2a                                  | 10 2b
+  * +0016    83 42                                  | 82 42
+  * +0018    f8 d3                                  | f8 db
+
+C (src/pending/func_0200A21C.c):
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int func_0203F1FC(void *obj, u32 off);
+
+int func_0200A21C(u8 *obj)
+{
+    int n = 0;
+    u32 limit = 0x2d0;
+    int i;
+
+    do {
+        for (i = 0; i < 16; i++) {
+            n++;
+        }
+    } while (n < (int)limit);
+    return *(u16 *)(obj + 0x2ce) == func_0203F1FC(obj, 0x2ce);
+}
+
+==============================================================================
+func_0200A21C.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_0200A21C
+ * address:  0x0200A21C
+ * packet:   pkt_0200A21C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   func_0203F1FC  0x0203F1FC  arm
+ * blocker:  codegen residue, see docs/notes*/
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int func_0203F1FC(void *obj, u32 off);
+
+int func_0200A21C(u8 *obj)
+{
+    int n = 0;
+    u32 limit = 0x2d0;
+    int i;
+
+    do {
+        for (i = 0; i < 16; i++) {
+            n++;
+        }
+    } while (n < (int)limit);
+    return *(u16 *)(obj + 0x2ce) == func_0203F1FC(obj, 0x2ce);
+}

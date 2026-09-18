@@ -1,0 +1,153 @@
+packet pkt_0200F17C: DIFF residue for 1 function(s) of lane 1 (0-64 byte band)
+
+Every function below is byte-for-byte correct except for the residue listed.
+The C lives in src/pending/<name>.c (a DIFF has no home in src/matched/).
+
+==============================================================================
+func_0200F17C  0X0200F17C  size 22  compiled 200  compared 184  verdict DIFF
+
+residue (86 mismatching site(s)):
+  * +0000    08 b5                                  | 10 b5
+  * +0004    48 d8                                  | 54 d8
+  * +0012    6c 00                                  | 0c 00
+  * +0014    30 00                                  | 52 00
+  * +0016    4e 00                                  | 78 00
+  * +0018    78 00                                  | 46 00
+  * +001A    78 00                                  | 46 00
+  * +001C    6c 00                                  | 3a 00
+  * +0020    1e 48                                  | 24 4c
+  * +0022    25 f0                                  | 20 1c
+  * +0024    5e ec                                  | 25 f0                                  <- THM_CALL func_02034A5C [resolved: label]
+  * +0026    1e 48                                  | 5c ec
+  * +0028    25 f0                                  | 20 1c
+  * +002A    5a ec                                  | 20 30
+  * +002C    1d 48                                  | 25 f0                                  <- THM_CALL func_02034A5C [resolved: label]
+  * +002E    25 f0                                  | 58 ec
+  * +0030    8c ec                                  | 20 1c
+  * +0032    1d 48                                  | 20 38
+  * +0038    1c 48                                  | 20 1c
+  * +003A    25 f0                                  | 18 38
+  * +003C    86 ec                                  | 25 f0                                  <- THM_CALL func_02034AC4 [resolved: label]
+  * +003E    46 f1                                  | 84 ec
+  * +0040    d7 f8                                  | 28 3c
+  * +0042    08 bd                                  | 20 1c
+  ... 62 more
+
+C (src/pending/func_0200F17C.c):
+typedef unsigned int u32;
+
+extern void func_02034A5C(u32 v);
+extern void func_02034AC4(u32 v);
+extern void func_0215536C(void);
+extern void func_02177020(void);
+extern void func_021798D4(void);
+
+void func_0200F17C(u32 sel)
+{
+    switch (sel) {
+    case 0:
+    case 6:
+        func_02034A5C(0x02146208);
+        func_02034A5C(0x02146228);
+        func_02034AC4(0x021461E8);
+        func_02034AC4(0x021461F0);
+        func_02034AC4(0x021461E0);
+        func_0215536C();
+        break;
+    case 5:
+        func_02034AC4(0x02146248);
+        func_02177020();
+        break;
+    case 3:
+    case 4:
+        func_02034AC4(0x02146270);
+        func_021798D4();
+        break;
+    case 1:
+        func_02034A5C(0x02146280);
+        func_02034A5C(0x02146288);
+        func_02034AC4(0x02146290);
+        func_02034AC4(0x02146298);
+        func_0215536C();
+        break;
+    case 2:
+        func_02034A5C(0x021462A0);
+        func_02034A5C(0x021462A8);
+        func_02034AC4(0x021462B0);
+        func_02034AC4(0x021462B8);
+        func_0215536C();
+        break;
+    default:
+        break;
+    }
+}
+
+==============================================================================
+func_0200F17C.c    DIFF (moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_0200F17C
+ * address:  0x0200F17C
+ * packet:   pkt_0200F17C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   func_02034A5C  0x02034A5C  arm
+ *   func_02034AC4  0x02034AC4  arm
+ *   func_0215536C  0x0215536C  thumb
+ *   func_02177020  0x02177020  thumb
+ *   func_021798D4  0x021798D4  thumb
+ * blocker:  unresolved relocation(s): 0215536C (thumb, from header); 02177020 (thumb, from header); 021798D4 (thumb, from header); 0215536C (thumb, from header); 0215536C (thumb, from header)*/
+
+typedef unsigned int u32;
+
+extern void func_02034A5C(u32 v);
+extern void func_02034AC4(u32 v);
+extern void func_0215536C(void);
+extern void func_02177020(void);
+extern void func_021798D4(void);
+
+void func_0200F17C(u32 sel)
+{
+    switch (sel) {
+    case 0:
+    case 6:
+        func_02034A5C(0x02146208);
+        func_02034A5C(0x02146228);
+        func_02034AC4(0x021461E8);
+        func_02034AC4(0x021461F0);
+        func_02034AC4(0x021461E0);
+        func_0215536C();
+        break;
+    case 5:
+        func_02034AC4(0x02146248);
+        func_02177020();
+        break;
+    case 3:
+    case 4:
+        func_02034AC4(0x02146270);
+        func_021798D4();
+        break;
+    case 1:
+        func_02034A5C(0x02146280);
+        func_02034A5C(0x02146288);
+        func_02034AC4(0x02146290);
+        func_02034AC4(0x02146298);
+        func_0215536C();
+        break;
+    case 2:
+        func_02034A5C(0x021462A0);
+        func_02034A5C(0x021462A8);
+        func_02034AC4(0x021462B0);
+        func_02034AC4(0x021462B8);
+        func_0215536C();
+        break;
+    default:
+        break;
+    }
+}

@@ -1,0 +1,28 @@
+/*
+ * function: func_02012FBC
+ * address:  0x02012FBC
+ * packet:   pkt_02012FBC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02012FBC.c \
+ *       --func func_02012FBC --addr 0x02012FBC --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+typedef signed char s8;
+
+extern u32 func_020085D4(u32 v, u32 x);
+
+u32 func_02012FBC(u8 *p, u32 x)
+{
+    return func_020085D4(*(u32 *)(p + 0x6ac), x);
+}

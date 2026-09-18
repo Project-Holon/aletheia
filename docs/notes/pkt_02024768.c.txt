@@ -40,3 +40,147 @@ void *func_020247A8(u32 a)
  * NEAR MISS: DIFF: same size, byte differences in the store/loop order.
  */
 
+======================================================================
+// 0x02024768  func_02024768  size 60  isa thumb
+// verdict: DIFF
+//   +0040 ABS32 g_0209F734             -> unresolved: 0209F734 (data, from header) has no witness outside 02024768..020247AC
+//   * +0004    ldr r4, [pc, #0x34]                    | ldr r3, [pc, #0x38]
+//   * +0006    add r3, sp, #0                         | add r4, sp, #0
+//   * +000A    ldrh r1, [r4]                          | ldrh r1, [r3]
+//   * +000C    adds r4, r4, #2                        | subs r2, r2, #1
+//   * +000E    strh r1, [r3]                          | adds r3, r3, #2
+//   * +0010    adds r3, r3, #2                        | strh r1, [r4]
+//   * +0012    subs r2, r2, #1                        | adds r4, r4, #2
+//   * +0014    bne #0x2024772                         | cmp r2, #0
+//   * +0016    movs r3, #0                            | bgt #0x2024772
+//   * +0018    add r2, sp, #0                         | movs r3, #0
+//   * +001A    lsls r1, r3, #1                        | add r2, sp, #0
+//   * +001C    ldrh r1, [r2, r1]                      | lsls r1, r3, #1
+//   * +001E    cmp r0, r1                             | ldrh r1, [r2, r1]
+//   * +0020    bne #0x2024792                         | cmp r0, r1
+//   * +0022    add sp, #0x18                          | bne #0x2024794
+//   * +0024    movs r0, #1                            | add sp, #0x18
+//   * +0026    pop {r3, r4}                           | movs r0, #1
+//   * +0028    bx lr                                  | pop {r3, r4}
+//   * +002A    adds r1, r3, #1                        | bx lr
+//   * +002C    lsls r1, r1, #0x18                     | adds r1, r3, #1
+//   * +002E    lsrs r3, r1, #0x18                     | lsls r1, r1, #0x18
+//   * +0030    cmp r3, #0xc                           | lsrs r3, r1, #0x18
+//   * +0032    blo #0x2024782                         | cmp r3, #0xc
+//   * +0034    movs r0, #0                            | blo #0x2024784
+//   * +0036    add sp, #0x18                          | movs r0, #0
+//   * +0038    pop {r3, r4}                           | add sp, #0x18
+//   * +003A    bx lr                                  | pop {r3, r4}
+//   * +003E    09 02                                  | mov r8, r8
+/*
+ * function: func_02024768
+ * address:  0x02024768
+ * packet:   pkt_02024768
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_0209F734  0x0209F734  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+extern u16 g_0209F734[];
+
+int func_02024768(u16 v)
+{
+    u16 buf[0xc];
+    u16 *src = g_0209F734;
+    u16 *dst = buf;
+    u8 i;
+    int n;
+
+    for (n = 0xc; n != 0; n--) {
+        *dst++ = *src++;
+    }
+    i = 0;
+    do {
+        if (v == buf[i]) {
+            return 1;
+        }
+        i++;
+    } while (i < 0xc);
+    return 0;
+}
+======================================================================
+// 0x020247a8  func_020247A8  size 64  isa thumb
+// verdict: DIFF
+//   * +0002    adds r6, r0, #0                        | adds r7, r0, #0
+//   * +0004    movs r0, #0x32                         | lsls r0, r7, #0x10
+//   * +0006    str r0, [sp]                           | lsrs r6, r0, #0x10
+//   * +0008    lsls r0, r6, #0x10                     | movs r0, #0x32
+//   * +000A    ldr r3, [pc, #0x34]                    | str r0, [sp]
+//   * +000C    lsrs r0, r0, #0x10                     | ldr r3, [pc, #0x30]
+//   * +000E    movs r1, #0x38                         | adds r0, r6, #0
+//   * +0010    movs r2, #0                            | movs r1, #0x38
+//   * +0012    movs r4, #0                            | movs r2, #0
+//   * +0014    blx #0x2030734                         | movs r5, #0
+//   * +0016    ba ef 05 1c                            | blx #0x2030734                         <- THM_CALL func_02030734 [resolved: label]
+//   * +0018    adds r5, r0, #0                        | ba ef
+//   * +001A    lsls r0, r6, #0x10                     | adds r4, r0, #0
+//   * +001C    lsrs r7, r0, #0x10                     | ldr r2, [pc, #0x24]
+//   * +001E    ldr r2, [pc, #0x24]                    | str r7, [r4]
+//   * +0020    lsls r3, r4, #1                        | lsls r3, r5, #1
+//   * +0028    adds r3, r7, #0                        | adds r3, r6, #0
+//   * +002A    str r6, [r5]                           | blx #0x2045b38                         <- THM_CALL func_02045B38 [resolved: label]
+//   * +002C    blx #0x2045b38                         | b2 e9 a9 00
+//   * +002E    b0 e9                                  | lsls r1, r5, #2
+//   * +0030    lsls r1, r4, #2                        | adds r1, r4, r1
+//   * +0032    adds r1, r5, r1                        | adds r5, r5, #1
+//   * +0034    adds r4, r4, #1                        | str r0, [r1, #4]
+//   * +0036    str r0, [r1, #4]                       | cmp r5, #0xd
+//   * +0038    cmp r4, #0xd                           | blo #0x20247c4
+//   * +003A    blt #0x20247c6                         | adds r0, r4, #0
+//   * +003C    adds r0, r5, #0                        | pop {r3, r4, r5, r6, r7, pc}
+//   * +003E    pop {r3, r4, r5, r6, r7, pc}           | mov r8, r8
+/*
+ * function: func_020247A8
+ * address:  0x020247A8
+ * packet:   pkt_02024768
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_02045B38  0x02045B38  arm
+ *   g_020A746C     0x020A746C  data
+ *   g_0209F7AC     0x0209F7AC  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+
+extern void *func_02030734(u32 heap, u32 size, u32 flags, void *file, u32 line);
+extern u32   func_02045B38(u32 a, u32 b, u32 c, u32 d);
+extern char  g_020A746C[];
+extern u16   g_0209F7AC[];
+
+u32 *func_020247A8(u32 a0)
+{
+    u32 *p = func_02030734((u16)a0, 0x38, 0, g_020A746C, 0x32);
+    u32 i;
+
+    for (i = 0; i < 0xd; i++) {
+        p[0] = a0;
+        p[i + 1] = func_02045B38(0, 2, g_0209F7AC[i], (u16)a0);
+    }
+    return p;
+}

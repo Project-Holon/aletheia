@@ -1,0 +1,58 @@
+pkt_02036640 - DIFF residue (lane 5, 0-64 byte band)
+====================================================
+
+func_02036640 @ 0x02036640 (44 bytes, arm9, ARM) - DIFF
+-------------------------------------------------------
+Image, 11 instructions:
+
+  02036640  ldrsh r3, [r0, #0xc]        ; a
+  02036644  ldrsh r1, [r0, #0xe]        ; b
+  02036648  cmp   r3, r1
+  0203664C  ldrshgt r1, [r0, #0xe]      ; b again, predicated
+  02036650  ldrgt r2, [r0, #4]          ; base
+  02036654  addgt r1, r2, r1
+  02036658  ldrshle r1, [r0, #0xe]      ; b, the other way
+  0203665C  ldr   r0, [r0, #4]          ; base, unconditional
+  02036660  sub   r1, r1, r3
+  02036664  sub   r0, r0, r1
+  02036668  bx    lr
+
+Semantics: t = (a > b) ? base + b : b;  return base - (t - a);  i.e. a - b when
+a > b and base + a - b otherwise.  The reading is not in doubt; what is in
+doubt is the shape that makes mwccarm 1.1p1 materialise `t` in r1 per arm
+(the two predicated reloads of b, and base loaded twice).
+
+Best source reached (36 bytes, eight instructions short of the image):
+
+    int func_02036640(char *p)
+    {
+        int a = *(short *)(p + 0xC);
+        int t;
+
+        if (a > *(short *)(p + 0xE))
+            t = *(int *)(p + 4) + *(short *)(p + 0xE);
+        else
+            t = *(short *)(p + 0xE);
+        return *(int *)(p + 4) - (t - a);
+    }
+
+At 36 bytes the compiler keeps b live in r3 instead of reloading it per arm
+and folds the `- a` into both arms (`subgt r1, r1, r3` / `suble r1, r2, r3`),
+so the two arms are merged and the tail is one subtract instead of two.
+
+Spellings tried, all of them off by at least 8 bytes:
+
+  * `if (a > b) return a - b; return base - b + a;`            (32)
+  * the ternary expression with b bound to a local              (36)
+  * the ternary expression with every load written inline       (36)
+  * `if (a > b) t = base + b; else t = b;` with base a local    (32)
+  * assigning back into `a` (`a = base + b - a; ...`)           (40)
+  * the same with base cached in a local                        (36)
+  * `if (a > b) b += base; return base - (b - a);`              (36)
+
+The pattern the image has - a value produced in the same register in both arms
+of a guard - is the same class as the residues recorded for func_0203A70C and
+func_0204F684; changing the declaration order of `a`, `b` and `base` moves the
+residue around but never closes it.  Parked here rather than in a source tree.
+
+Addresses are Black-image addresses.

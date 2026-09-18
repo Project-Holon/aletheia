@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   MATCH
  * blocker:  02072BDC, 02072D20 and 02072A88 (all arm), each reached only from this function (twice each)
  *
  * symbols:
