@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *    sub_0204D478   0x0204D478  arm

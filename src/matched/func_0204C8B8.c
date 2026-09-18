@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_020A138C     0x020A138C  data

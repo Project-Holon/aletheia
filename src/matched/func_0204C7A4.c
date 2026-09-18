@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_0204C8B8  0x0204C8B8  arm

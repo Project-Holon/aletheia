@@ -1269,6 +1269,11 @@ MIN_STRING_CHARS = 4
 MAX_STRING_PAD = 12
 MAX_STRING_BYTES = 256      # a longer run is a text blob, not a literal
 
+# A table of code pointers has at least this many consecutive entries, and the
+# scan of them stops at this many so a run into unrelated data cannot run away.
+MIN_TABLE_ENTRIES = 2
+MAX_TABLE_ENTRIES = 0x400
+
 
 def _printable_run_forward(data, off, limit):
     """Length of the printable ASCII run at `off`, NUL-terminated, or None."""
@@ -1357,6 +1362,83 @@ def attest_string(addr, lo, hi):
         return None
 
     return "string", 1, prev_nul
+
+
+# ---------------------------------------------------------------------------
+# the `data_table` class
+# ---------------------------------------------------------------------------
+#
+# Some data objects are named by exactly one literal pool word: the pool of
+# the single function that uses them.  That pool sits inside the compared
+# range, so `literal` discards its only witness and the site caps at MATCH
+# even though every concrete byte is right.  This is the shape the handoff
+# names as blocking the gf_font dispatchers and the clact handler tables: a
+# function-pointer table that the source declares as an extern and loads
+# through one pool word.
+#
+# The object itself lives at a different address from the function, and its
+# own bytes can say what it is: a run of pointers into loaded code, that is, a
+# table of function pointers.  The pool word tells the resolver WHICH address
+# to look at; the evidence is the target's shape, read entirely from outside
+# the compared range, so the honesty rule is satisfied.
+#
+# This is deliberately weaker than `literal`.  It does not name a second
+# reference, it reads a shape, so it cannot by itself say the declared address
+# is THE object the source meant.  It does not need to: the resolved word is
+# still compared against the original, and a wrong declaration resolves to a
+# different word and comes out DIFF, exactly as for `literal` and `string`.
+# What it must not do is resolve a plain data declaration, so every one of
+# these has to hold, each a separate refusal below:
+#
+#   1. the declared kind is `data` (this class never applies to code);
+#   2. the address is four-aligned and inside a loaded region;
+#   3. the address is not a traced code entry point (no func_ label there);
+#   4. some instruction actually loads the address, i.e. the word the source
+#      declares appears in a literal pool (the reference is real, not a guess);
+#   5. the compared range does not hold the object: at least its first eight
+#      bytes lie outside lo..hi, so no witness is the range under test;
+#   6. the words there are at least MIN_TABLE_ENTRIES consecutive pointers
+#      into loaded regions, which is what a jump or dispatch table is.  The
+#      run ends at the first word that is zero or not an in-region pointer.
+
+def attest_data_table(addr, lo, hi):
+    """The `data_table` class.  Returns (class, witnesses, site) or None."""
+    if addr & 3:
+        return None
+    ev = evidence()
+    if addr in ev.labels:
+        return None
+    if not (ev.pool_words.get(addr) or ev.pool_words.get(addr | 1)):
+        return None
+    regions = load_all_regions()
+    region = None
+    for r in regions:
+        if r.base <= addr < r.base + len(r.data):
+            region = r
+            break
+    if region is None:
+        return None
+    if not (addr + 8 <= lo or hi <= addr):
+        return None
+    data = region.data
+    off = addr - region.base
+    n = 0
+    while n < MAX_TABLE_ENTRIES and off + (n + 1) * 4 <= len(data):
+        w = int.from_bytes(data[off + n * 4: off + n * 4 + 4], "little")
+        if w == 0:
+            break
+        p = w & ~1
+        inside = False
+        for r in regions:
+            if r.base <= p < r.base + len(r.data):
+                inside = True
+                break
+        if not inside:
+            break
+        n += 1
+    if n < MIN_TABLE_ENTRIES:
+        return None
+    return "data_table", n, addr
 
 
 # ---------------------------------------------------------------------------
@@ -1555,6 +1637,9 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None):
             return proof
     if kind == "data":
         proof = attest_string(addr, lo, hi)
+        if proof is not None:
+            return proof
+        proof = attest_data_table(addr, lo, hi)
         if proof is not None:
             return proof
     # Last, because it is the one class that is not a reading of the original

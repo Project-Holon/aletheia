@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * When func_0202C2D8 reports true, runs func_0202C1C4 and func_0202C2C0.
  *

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Closes the clact.c fan-in-1 blocker documented in
  * docs/notes/clact_c_fan_in_1_blockers.c.txt: func_0204B9A0 (its only

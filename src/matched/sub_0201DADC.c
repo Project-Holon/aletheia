@@ -9,7 +9,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_0209E744  0x0209E744  data

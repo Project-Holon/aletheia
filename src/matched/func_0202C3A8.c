@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  0202C538
+ * status:   EXACT
  */
 
 extern int func_0202C538(int v);

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at +0x001C
  * (the call to func_0204D510) has no witness of any class.  0x0204D510 has
