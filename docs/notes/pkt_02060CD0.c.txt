@@ -1,0 +1,305 @@
+pkt_02060CD0 near-miss record -- 0x02060CD0 func_02060CD0 (DIFF, 348/348 bytes)
+=============================================================================
+
+Outcome for the packet:
+
+  0x02060E30  func_02060E30  EXACT  (60/60 bytes, 3/3 relocations resolved)
+              -> src/matched/func_02060E30.c, shard entry in
+                 layout/matched/arm9/pkt_02060CD0.json
+
+  0x02060CD0  func_02060CD0  DIFF   (352 bytes compiled, 352 bytes original:
+              same size, 7 instructions differing) -- this file.
+
+At the time of writing the DIFF verdict is what match.py gives, so the source
+was deliberately not filed under src/matched/ (only EXACT belongs there) and
+not under src/pending/ (that directory is byte-correct MATCH-capped files
+only).  The closest C is reproduced at the bottom so the next agent starts
+from the frontier rather than the beginning.
+
+The compiler and flags are the pinned ones: dsi/1.1p1, -O4,p, -proc arm946e,
+ARM.  Nothing here is a flags question.
+
+
+1. What func_02060CD0 is
+------------------------
+
+The expanded-heap resize primitive of the NNS-shaped heap library block.  It
+takes (heap, block, newsize), reads the block's 0x10-byte header at
+block-0x10, and:
+
+  - newsize == current size      -> return the size unchanged;
+  - newsize >  current size      -> the "grow" arm: find the free block whose
+    header sits exactly at block+oldSize, unlink it, absorb it, re-split the
+    tail with func_020607E8(magic 0x4652) + func_020607B8, and zero the newly
+    exposed bytes with MIi_CpuClear32 when the heap's flag word at +0x20 has
+    bit 0 set;
+  - newsize <  current size      -> the "shrink" arm: hand the tail extent
+    {block+newsize, block+oldSize} to func_02060B6C, which splices it into the
+    free list, and put the old size back if that call reports no merge.
+
+Everything except two residue classes below reproduces exactly at the right
+addresses with the right operands; the six relocation sites all resolve as
+`label`.
+
+
+2. The exact residue (7 instructions, 352 vs 352 bytes)
+------------------------------------------------------
+
+(a) The free-list walk (4 instructions, same count both sides, different
+    schedule + one predicated instruction):
+
+  original @ 0x02060D08              compiled
+  02060D08  ldr  r6, [r5, #0x24]     02060D08  add r0, r8, #0x10
+  02060D0C  add  r0, r8, #0x10       02060D0C  add r0, r7, r0
+  02060D10  cmp  r6, #0             02060D10  ldr r6, [r5, #0x24]
+  02060D14  add  r0, r7, r0          02060D14  b   <condition>
+  02060D18  beq  <L2>                02060D18  ldr r6, [r6, #0xc]      <- body
+  02060D1C  cmp  r6, r0              02060D1C  cmp r6, #0
+  02060D20  ldrne r6, [r6, #0xc]     02060D20  beq <L2>
+  02060D24  cmpne r6, #0             02060D24  cmp r6, r0
+  02060D28  bne  0x02060D1C          02060D28  bne 0x02060D18
+  02060D2C  cmp  r6, #0              02060D2C  cmp r6, #0
+
+    The original is the *rotated* form of
+        while (node != 0 && node != end) node = node->next;
+    with the first conjunct tested once at the entry and the body if-converted
+    under `node != end` (`ldrne` + `cmpne`, i.e. mwcc emitted the back edge as
+    "if (node != end && node != 0) goto loop;", using the still-live flags of
+    the first compare when `node == end`, so the !B path falls through the
+    back edge).  Every C spelling of the same loop that was tried produced one
+    of the two non-matching codegen forms instead:
+      - `while (node != 0 && (u32)node != end)`      -> `b <condition>` + the
+        condition at the bottom (2 extra instructions vs the original's shape,
+        compensated elsewhere, total still 352);
+      - `if (node != 0) { do { if (node != end) node = node->next; }
+        while (node != 0); }` -> the right predicated body but an unpredicated
+        `cmp r6, #0` where the original has `cmpne r6, #0` (352 bytes, the
+        single closest form; its source-level semantics are wrong though --
+        it spins when node == end -- so it is not filed);
+      - every `break`/`goto`/`for(;;)` spelling that does produce `cmpne`
+        (a break that mwcc if-converts) costs one extra instruction (356) or
+        merges the entry tests (360), e.g.
+        `while (node != 0) { if (node != end) node = node->next; else break;
+         if (node == 0) break; }`.
+
+    Variants tried for this loop (all with the rest of the function fixed):
+    while-with-&& (both conjunct orders), for-loop with empty body,
+    do/while with the bound test as the guard, do/while guarded by
+    `if (node != 0)`, `while (1)`/`for(;;)` with one or two breaks, break vs
+    `goto`, `if (!B) break;` vs `if (B) advance; else break;`, the same with an
+    explicit `continue`, pointer-typed vs u32-typed bound, `(u32)node` vs
+    `node` in each test, and with the bound as a named local vs as an
+    expression in the condition.  The named local (`end`) is required: with
+    the bound as an expression mwcc rematerialises it into the entry block and
+    re-issues the `cmp sb, r7` that the first `if` already made (an extra
+    instruction on both sides of the branch).
+
+(b) The grow arm's own arithmetic (2 instructions, register names only):
+        original                          compiled
+        ldr r2, [sp, #0xc]   (info[1])    ldr r1, [sp, #0xc]
+        sub r1, r2, r3       (remain)     sub r2, r1, r3
+        cmp r1, #0x10                     cmp r2, #0x10
+        strlo r2, [sp, #8]                strlo r1, [sp, #8]
+    Pure allocation residue: r1 and r2 hold the same two values on both sides,
+    swapped.  Statement order permutations of
+    `oldEnd/newEnd/remain/info[0]` did not move it.
+
+(c) The clear block (2 instructions, allocation + schedule):
+        original                          compiled
+        ldr r1, [sp, #8]                  ldr r0, [sp, #8]
+        (interleaved with the flag load)  (after the flag test)
+        sub r2, r1, r6                    sub r2, r0, r6
+        mov r1, r6                        mov r1, r6
+    mwcc reuses r0 (dead after `tst r0, #1`) for `info[0]` here; the original
+    had already allocated r1 for it.
+
+Nothing else differs: the prologue (push {r3,r4,r5,r6,r7,r8,sb,lr}, sub sp,
+#0x10, the parameter homing and the rounding), the early `size == oldSize`
+predicated return, the grow arm's two calls and its six-way juggling of the
+{start, end} pair, the `func_020607E8(info, 0x4652)` split with its literal
+pool word at 0x02060E2C, the zero-fill guard, the shrink arm, and the shared
+`return hdr->size` tail are byte-for-byte right.
+
+
+3. What was learned that is not in the brief (also useful for the next agent)
+-----------------------------------------------------------------------------
+
+  - Declaration order fixes the callee-saved register map here, not liveness:
+    declaring the loop cursor first, then the saved size, then the header
+    pointer (`node; oldSize; hdr;`) is what puts node in r6, oldSize in r7 and
+    hdr in r8 and matches the original's push list and every `mov r1, r6`-style
+    operand.  Any other order shifts them and moves the whole function.
+
+  - A u8 cast on a struct field to keep its mask: `((u8)heap->field_20 & 1)`
+    emits `ldr r0, [r5, #0x20]; and r0, r0, #0xff; tst r0, #1`.  Writing
+    `heap->field_20 & 0xff & 1` folds to a bare `tst r0, #1` and loses four
+    bytes.
+
+  - `hdr->size` read a second time in the sibling arm is NOT re-read: mwcc
+    forwards the value it loaded for the first comparison.  A single
+    `*(volatile u32 *)((u8 *)hdr + 4)` on the second read restores the fresh
+    `ldr r1, [r8, #4]` (4 bytes) and is the only spelling found that does.
+
+  - Two 2-word scratch pairs in one function are fine as int[2] (the register
+    pressure keeps mwcc from caching either address); the two-scalar trick
+    below is only needed where the address would otherwise be cached.
+
+  - (Found while closing 0x02060E30, and worth trying on any function that is
+    4 bytes long) mwcc caches the address of a stack object in a callee-saved
+    register across an intervening call when both call sites name the SAME
+    object, even for `sp + 0` which it can rematerialise for free.  Splitting
+    the scratch pair into two separate scalars makes the two addresses
+    different objects to its alias analysis, so each site rematerialises
+    `add rN, sp, #0` and the shorter form comes out.  If a 4-byte "extra mov"
+    ever shows up before a call, look for two sites naming one object's
+    address.  The stack-order idiom is what lets the second site spell the
+    base as `&firstMember - 1`.
+
+
+4. What would close func_02060CD0
+---------------------------------
+
+Only the free-list walk's codegen shape (a) and the two register/schedule
+residues (b) and (c).  (a) needs the C form whose `if (!B) exit` region mwcc
+if-converts -- i.e. the source's loop must end the predicated body with the
+back edge, which in every form tried either adds a branch or forces the
+condition to be retested at the bottom.  A `while (node != 0 && node != end)`
+written over a *pointer* bound of a struct type declared with the same layout,
+a loop expressed with an explicit `label:` + `goto` back edge, or the sibling
+library's own idiom (if the NNS source spelling is known) are the untried
+ground.  (b) and (c) are allocation-only and should move with (a): the same
+one-shape change that fixes the loop also decides which of r0/r1/r2
+`info[0]`, `info[1]` and `remain` land in.
+
+
+5. The closest C (DIFF: 352 bytes, 7 instructions differing)
+------------------------------------------------------------
+
+/*
+ * function: func_02060CD0
+ * address:  0x02060CD0
+ * packet:   pkt_02060CD0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF   (352/352 bytes; see docs/notes/pkt_02060CD0.c.txt)
+ *
+ * symbols:
+ *   func_02060764   0x02060764  arm
+ *   func_02060790   0x02060790  arm
+ *   func_020607B8   0x020607B8  arm
+ *   func_020607E8   0x020607E8  arm
+ *   func_02060B6C   0x02060B6C  arm
+ *   MIi_CpuClear32  0x02082A7C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct MBlock {
+    u16            signature;
+    u16            attr;
+    u32            size;
+    struct MBlock *prev;
+    struct MBlock *next;
+};
+
+struct MBlockList {
+    struct MBlock *head;
+    struct MBlock *tail;
+};
+
+struct ExpHeap {
+    u8                pad_00[0x20];
+    u32               field_20;
+    struct MBlockList freeList;
+    struct MBlockList usedList;
+    u16               groupId;
+    u16               feature;
+};
+
+extern void           func_02060764(int *out, struct MBlock *blk);
+extern struct MBlock *func_02060790(struct MBlockList *list, struct MBlock *node);
+extern struct MBlock *func_020607B8(struct MBlockList *list, struct MBlock *node,
+                                    struct MBlock *prev);
+extern void          *func_020607E8(int *info, u32 signature);
+extern int            func_02060B6C(struct MBlockList *list, int *info);
+extern void           MIi_CpuClear32(u32 data, void *dest, u32 size);
+
+int func_02060CD0(struct ExpHeap *heap, void *block, u32 size)
+{
+    struct MBlock *node;
+    u32            oldSize;
+    struct MBlock *hdr;
+    int            info[2];
+    int            sinfo[2];
+    u32            oldEnd;
+    struct MBlock *prev;
+    u32            newEnd;
+    u32            remain;
+    u32            end;
+
+    hdr = (struct MBlock *)((u8 *)block - 0x10);
+    oldSize = hdr->size;
+    size = (size + 3) & ~3u;
+
+    if (size == oldSize) {
+        return size;
+    }
+    if (size > oldSize) {
+        node = heap->freeList.head;
+        end = oldSize + (u32)(hdr + 1);
+        while (node != 0 && (u32)node != end) {
+            node = node->next;
+        }
+        if (node == 0 || size > oldSize + 0x10 + node->size) {
+            return 0;
+        }
+
+        func_02060764(info, node);
+        prev = func_02060790(&heap->freeList, node);
+
+        oldEnd = (u32)info[0];
+        newEnd = size + (u32)block;
+        remain = (u32)info[1] - newEnd;
+        info[0] = newEnd;
+        if (remain < 0x10) {
+            info[0] = info[1];
+        }
+
+        hdr->size = (u32)info[0] - (u32)block;
+
+        if ((u32)info[1] - (u32)info[0] >= 0x10) {
+            func_020607B8(&heap->freeList, func_020607E8(info, 0x4652), prev);
+        }
+
+        if (((u8)heap->field_20 & 1) != 0) {
+            MIi_CpuClear32(0, (void *)oldEnd, (u32)info[0] - oldEnd);
+        }
+    } else {
+        sinfo[0] = size + (u32)block;
+        sinfo[1] = *(volatile u32 *)((u8 *)hdr + 4) + (u32)(hdr + 1);
+        hdr->size = size;
+        if (func_02060B6C(&heap->freeList, sinfo) == 0) {
+            hdr->size = oldSize;
+        }
+    }
+    return hdr->size;
+}
+
+Verified with:
+  python tools/match.py one --src <this file> --func func_02060CD0 \
+      --addr 0x02060CD0 --cc 1.1p1 --arm
+
+
+6. Note on 0x020302A4 / 0x020307E0
+----------------------------------
+
+src/pending/sub_020302A4.c and, through it, src/pending/sub_020307E0.c are
+still MATCH-capped on the call to 0x02060CD0 until this function reaches
+EXACT.  The call site itself is unaffected by the residue above: the target
+address relocates correctly at 0x02060CD0 (attested `label`), so nothing about
+those two files needs changing once this function lands.

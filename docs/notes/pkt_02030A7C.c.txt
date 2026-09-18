@@ -1,0 +1,121 @@
+pkt_02030A7C @ 0x02030A7C..0x02030BA4, 2 functions, 280 code bytes, ARM.
+
+VERDICT: both functions are byte-correct and both are MATCH-capped, for
+reasons that are properties of the image rather than of the C.  Neither
+function in this packet can ever reach EXACT by writing C differently, and
+no split helps; the pair share one worklist-defensible name (0x0209128C
+belongs to pkt_020911D8) and one bss object that no other function in the
+image ever pools.  Files parked as src/pending/func_02030A7C.c and
+src/pending/func_02030B50.c, so pkt_02030A7C has no manifest shard at all
+(`manifest --verify --shard pkt_02030A7C` refuses with "no such shard",
+because a shard only exists once an entry with that `packet:` line is
+EXACT).
+
+THE BLOCKERS, SITE BY SITE
+--------------------------
+
+func_02030A7C (212 bytes compiled, 212 original, all concrete bytes equal):
+
+    +00C8 ABS32 g_02146970       0x02146970 has no witness outside 02030A7C..02030B50
+          witnesses image wide: 1, of them inside this range: 1
+            02030B44  (inside)
+    +00CC ABS32 str_system_name  0x020A7824 has no witness outside 02030A7C..02030B50
+          witnesses image wide: 1, of them inside this range: 1
+            02030B48  (inside)
+    +00D0 ABS32 g_0214697C       0x0214697C has no witness outside 02030A7C..02030B50
+          witnesses image wide: 1, of them inside this range: 1
+            02030B4C  (inside)
+
+0x02146970 and 0x0214697C are bss (bss runs 0x020A9E80..0x021542C0 and is
+not part of the image), so `literal` is the only class that can ever name
+them and the only pool words holding either value are this function's own
+three words at +0xC8..+0xD0.  A raw scan of extract/arm9_dec.bin confirms
+it: each of the three values occurs exactly once in the whole arm9 image,
+at 0x02030B44 / 0x02030B48 / 0x02030B4C.
+
+0x020A7824 is the 13-byte "SYSTEM ALLOC" string (the default name this
+function copies into the object at 0x02146970+0xC when the lookup fails),
+and `string` refuses it too: the four bytes immediately before it are
+FF FF FF FF, a word of alignment filler between it and the preceding
+"time_icon.c", and attest_string() requires NUL padding directly before the
+run rather than another string's terminator four bytes away.  `data_table`
+refuses it as well (0x54535953 is not a pointer into a loaded region).
+`--suggest-split` on the single function returns "0 piece(s), 1
+function(s) left out".
+
+func_02030B50 (84 bytes compiled, 84 original, all concrete bytes equal):
+
+    +0028 PC24 func_0209128C      0x0209128C has no witness outside 02030B50..02030BA4
+          witnesses image wide: 2, of them inside this range: 2
+            02030B78  (inside)
+            02030B98  (inside)
+    +0048 PC24 func_0209128C      (the same function, second call site)
+    +0050 ABS32 func_02030A7C     0x02030A7C has no witness outside 02030B50..02030BA4
+          witnesses image wide: 1, of them inside this range: 1
+            02030BA0  (inside)
+
+This is the "single caller" shape of the `label` class:
+0x0209128C (the ARM flag setter at the head of packet pkt_020911D8, a
+24-byte `cmp/strb/bx lr`) is branched to from exactly two sites in the
+whole image and both of them are inside this function, so the only
+witnesses that exist are inadmissible by the range rule.  Nothing in any
+overlay calls it either (`xregion_calls` finds none).  It clears the moment
+pkt_020911D8's own agent matches 0x0209128C, so this file is a candidate
+for the next wave rather than dead.
+
+The third site is the same shape one level down: 0x02030A7C (the other
+function in this packet, passed here as the callback to func_02060F50) is
+named by a single pool word image-wide, at 0x02030BA0, which is inside this
+function's own extent, and nothing anywhere branches to it -- no `bl`, no
+overlay call -- so `label` has no site to offer and `literal` is refused by
+range.  Since 0x02030A7C is itself MATCH-capped (three bss/data sites
+above), it cannot be promoted to witness this one either: the two functions
+of this packet are mutually starved, and the cycle does not break from
+inside the packet.
+
+Both functions are otherwise complete: `--suggest-split` returns "0
+piece(s), 1 function(s) left out" on each, i.e. every resolvable site is the
+only thing the C could not have produced differently.
+
+CODEGEN NOTE THAT COST REAL TIME, found in pkt_02060E94 (func_02060E94,
+EXACT*), which an idiom file should probably carry:
+
+1. A loop-invariant sub-expression written INLINE in the loop body is
+   hoisted by mwcc into the loop preheader, and the preheader is emitted
+   AFTER the loop's entry test:
+
+       02060E94  ...
+       02060EB4  beq   0x02060F10        /* entry test, branches out */
+       02060EB8  sub   r4, r0, #1        /* hoisted size-1        */
+       02060EBC  mvn   r5, r4            /* hoisted ~(size-1)     */
+
+   Written as two named locals instead they are emitted in source order,
+   before the test, and the allocator's choices shift throughout the
+   function; the version with named locals is 128 bytes and 32
+   instructions, the same function with them inline is 132 bytes and 33 --
+   the missing instruction being the epilogue's `mov r0, r3`, because the
+   early-out can only `popeq` straight out of r0 when the result local was
+   hoisted into r0.  "Same size, register names only" is not what this looks
+   like: it looks like a whole function one instruction short.
+
+2. The declaration order of the small result locals relative to the loop
+   cursor decides the caller-saved register assignment for the whole
+   function.  For
+
+       s32 size = func_02091588(x);
+       u32 best = 0;
+       u32 ofs = -1;
+       struct HeapBlock *blk = heap->head;
+
+   the assignment is blk -> lr, best -> r3, ofs -> ip (the original); moving
+   the `blk` line above `best`/`ofs` rotates those three, and the body
+   temporaries follow, which reads as a 20-byte mismatch over 5 registers
+   with the size already right.  Declaring size first is forced (the abs
+   call is emitted first) but the other three are free parameters.
+
+3. `u32 ofs = -1;` is spelled `sub ip, r3, #1` -- rematerialised off the
+   zero register holding `best`, not `mvn ip, #0`.  See
+   docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-
+   unless-an-argument-shares-it.md, which is about `adds` off a zero but
+   covers this: it is the cheapest way to check whether a small constant
+   local was declared at all.

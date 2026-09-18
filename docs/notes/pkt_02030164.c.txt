@@ -1,0 +1,102 @@
+pkt_02030164 -- notes for the integrator (agent run, no git)
+
+Range: 0x02030164..0x02030344, arm9, ARM, 3 functions, 460 code bytes.
+"show" extent of the lead function is 212 bytes (0x02030164..0x02030238), because
+the next function label is 0x02030238 and the extent therefore includes the
+8-byte literal pool at 0x02030230 (0x0000194E / 0x02146954). That pool matched
+on the first compile.
+
+VERDICTS
+
+  0x02030164  func_02030164   EXACT   212/212 bytes, 6/6 relocations resolved
+                                       src/matched/func_02030164.c
+  0x02030238  func_02030238   MATCH   108/108 bytes, 2/3 relocations resolved
+                                       src/pending/func_02030238.c
+                                       blocked site +0048 -> 0x02061358
+  0x020302A4  sub_020302A4    MATCH   already on file from pkt_0202FC48
+                                       (src/pending/sub_020302A4.c), not touched
+
+The packet cannot be consolidated: a tu over 0x02030164..0x020302A4 was run
+(src/pending/unit_02030164.c, since deleted -- one artifact per address) and
+came out MATCH with 0 concrete byte differences and exactly one unresolved
+site, the same 0x02061358 call. Adding 0x020302A4 would add a second,
+independent unwitnessed site (0x02060CD0, documented in that file's own
+header), so no cut of the packet range can reach EXACT. The brief's own rule
+applies: a unit is the preferred shape once a run is clean, and this run is
+not. The shard therefore holds the single EXACT entry for 0x02030164.
+
+WHY 0x02061358 CANNOT ATTEST (evidence classes, checked one by one)
+
+  label   -- exactly one branch reference in the image (this call). Witness is
+             inside the compared range, which the class refuses.
+  literal -- no pool word anywhere in arm9_main or the 237 overlays holds
+             0x02061358 (`grep -rn 02061358 asm/` outside its own definition
+             and the call site returns nothing).
+  veneer  -- the bytes at 0x02061358 are a real 20-byte function
+             (ldr ip,[pc,#12]; mov r3,#0; str r12,[r0]; stmia r0,{r1,r2,r3};
+             bx lr; .word 0x020A1708), not an ldr ip,[pc,#0]/bx ip stub or an
+             ldr pc,[pc,#-4] stub.
+  matched -- pkt_0206123C (which owns 0x02061358) is still open.
+  local   -- impossible: the callee is 0x30000 bytes outside the packet.
+
+An EXACT entry for 0x02061358 promotes src/pending/func_02030238.c unchanged;
+that file in turn is the missing witness for nothing else, but it is worth
+noting the chain this packet sits in: src/pending/sub_020302A4.c is waiting on
+0x02060CD0 (pkt_02060CD0, still open) and src/pending/sub_020307E0.c is
+waiting on sub_020302A4.
+
+WHAT THE EXTRA COMPILE PAID FOR (not in the brief's idiom index)
+
+1. A load scheduled above a guard must be written above the guard in the C.
+   func_02030164 reads the block's heap id and then its 0x194E signature. With
+
+       if (hdr->magic != 0x194E) { ... }
+       heapId = hdr->heapId;
+
+   mwccarm emits the heap id load at +0028, inside the fall-through, off the
+   materialised r6 = p - 0x1c base (`ldrh r4, [r6]`), and 25 concrete bytes
+   differ. Moved above the guard, the same statement emits a single
+   `ldrh r4, [r0, #-0x1c]` at +0010: folded onto the still-live parameter
+   register rather than onto the materialised base, filling the shadow of
+   the signature compare. Three variants were compiled to separate the
+   position from the spelling: `heapId = hdr->heapId;` before the guard is
+   EXACT, `heapId = ((u16 *)p)[-14];` before the guard is EXACT, and either
+   spelling *after* the guard is DIFF with the load at +0028 (the folded
+   addressing survives, the position does not). So a value the original
+   clearly kept in a callee-saved register can still have been loaded from
+   the parameter expression's addressing mode, and it is the source position
+   of the statement, not the way it is spelled, that the bytes record.
+
+2. The same function shows why a guard's own load uses the materialised base:
+   `ldrh r1, [r6, #2]` (signature) cannot fold onto the parameter, because
+   -0x1c + 2 = -0x1a is not an encodable extra-load offset (the negative
+   offset form only reaches the full -0x1c, which is why the heap id at
+   offset 0 does fold).
+
+3. `hdr->magic = 0x194D;` costs no pool word: the compiler rematerialises the
+   constant as `sub r2, r7, #1` off the r7 that already holds 0x194E from the
+   guard's comparison. A freed block's marker being exactly "the live marker
+   minus one" is what makes that possible; a more distant constant would have
+   needed its own pool word.
+
+4. The third argument of the call at +00A8 is dead: r2 still holds that
+   rematerialised 0x194D when `bl func_02060E30` executes. func_02060E30 is
+   the two-argument release (src/matched/sub_0202FF98.c declares
+   `void func_02060E30(void *a, void *b)`), so the C must pass exactly two
+   arguments; a three-argument spelling changes the byte count.
+
+5. For func_02030238, the abs() pair is on a named local: the emitted
+   `movs r5, r2` / `rsbmi r5, r5, #0` copies the parameter into r5 and
+   negates there while the parameter itself is moved back to r2 at the call
+   (`mov r2, r5`), so the shape that reproduces it is
+
+       s32 len = size;
+       if (len < 0) len = -len;
+       if (heapId & 0x8000) len = -len;
+
+   with the flag test as its own statement before the 0x7fff mask: the second
+   `rsbne r5, r5, #0` is predicated on that `tst`, which is why the mask
+   `and r0, r1, r0` sits between the tst and the predicated negate in the
+   original. The arena is passed straight from sub_0202FBAC's return into r1
+   with no local bound in between, so the call is the nested form
+   `func_02061358(p, sub_0202FBAC(heapId & 0x7FFF), len);`.
