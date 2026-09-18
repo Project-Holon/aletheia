@@ -747,5 +747,55 @@ rest of the packet, all keyed on two manager globals. The residuals are
 data tables referenced by a single pool word (still no attestation
 class for that) and scheduling near misses, not missing callees.
 
+## [2026-09-18] The `data_table` class, and the lifter work-dir bug
+
+### Status
+- arm9 coverage 21.8272 -> **22.1368 percent** (87432 -> 88672 of
+  400564 game bytes, 2181 -> 2225 matched functions). Commits
+  `b0f91f4` and `05f76eb`. 242/242 PASS, ROM byte-identical
+  (`sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5`), manifest clean,
+  selftest 74/74.
+
+### `tools/match.py`: the `data_table` class
+The single-pool-word data table now has an attestation class. When a
+data object is named by exactly one literal pool word (the pool of the
+function that uses it), `literal` has no outside witness and the site
+caps at `MATCH`. `attest_data_table()` reads the object itself instead:
+if its first words are `MIN_TABLE_ENTRIES` or more consecutive pointers
+into loaded regions, it is a function-pointer table and the object is
+attested. The pool word only says which address to inspect; the
+evidence is the target's bytes, outside the compared range, so the
+honesty rule holds and a wrong declaration still resolves to a
+different word and comes out `DIFF`. Six refusals, in the commentary:
+data kind, four-aligned and in a region, not a traced code label, the
+address is actually loaded by a pool word, the object lies outside the
+compared range, and the run is long enough. First closed: the gf_font
+format dispatchers `0x0201DA00` / `0x0201DADC` (`g_0209E73C`,
+`g_0209E744`, four-entry pointer tables), and `func_0204C7A4`,
+`func_0204C8B8`, `func_0204982C`, `sub_0204B908`, `func_0204D510`,
+`sub_0204D478`.
+
+### The lifter work-dir bug (important for the next session)
+The scratch lifters wrote their candidate sources to the system temp
+dir. `match.py`'s `source_key()` returns None for a path outside the
+repo root, and `attest_matched()` refuses when the source is None, so
+every caller of an already-matched function read as unresolved and the
+lifters reported **zero wins for several passes**. With their `WORK`
+directories moved under `scratch/liftwork_*`, the same candidates
+recovered 21 EXACT in one run, which promoted 7 pending files by
+cascade. If the lifters are ever rebuilt, keep the work dir inside the
+repo.
+
+### Parked for the next session
+- `func_0201DA00` and friends are now `EXACT`; the earlier `func_*`
+  duplicates were removed, leaving the richer `sub_*` sources.
+- Remaining pending backlog: 22.14 percent still leaves the
+  single-pool data objects whose first words are not code pointers
+  (string tables, numeric arrays) with no class, and the 124 code
+  blockers the harvest ranked, most 1 pending file each.
+- Two pre-existing duplicate-address pairs are intentional and
+  documented: `sub_020084BC.c` + `unit_020084BC.c` and
+  `unit_02040618.c` + `unit_020407E8.c`.
+
 
 
