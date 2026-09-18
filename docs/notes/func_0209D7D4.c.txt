@@ -1,0 +1,91 @@
+/*
+ * function: func_0209D7D4
+ * address:  0x0209D7D4
+ * packet:   pkt_0209D784
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * DIFF analysis record - NOT byte-correct, kept out of src/pending.
+ *
+ * Target: 68 bytes of real code (0x0209D7D4..0x0209D818); the listing
+ * extent runs to 0x0209D820 (76 bytes) because the 8-byte `mov r0,#0; bx lr`
+ * block at 0x0209D818 is an unlabelled tail/leaf, not a second epilogue the
+ * compiler would emit after `pop {r3, pc}`.
+ *
+ *   ldr r0, [r2]            ; n = *count
+ *   cmp r0, #1
+ *   bls L_small             ; n <= 1  ->  func_0209D774(s)
+ *   add r3, r1, r0          ; end = s + n        (base-register form, NOT s[n-1])
+ *   ldrb r2, [r3, #-1]      ; saved = end[-1]    (unsigned byte load)
+ *   mov r0, r1              ; arg0 = s
+ *   mov r1, #0              ; arg1 = 0
+ *   strb r2, [sp]           ; saved -> stack slot ([sp], from push {r3, lr})
+ *   strb r1, [r3, #-1]      ; end[-1] = 0        (null store, reuses r1 == arg1)
+ *   bl  func_0209D778       ; func_0209D778(s, 0)
+ *   add r0, sp, #0          ; arg0 = &saved
+ *   b   L_tail
+ * L_small:
+ *   mov r0, r1              ; arg0 = s
+ * L_tail:
+ *   bl  func_0209D774
+ *   mov r0, #0
+ *   pop {r3, pc}
+ *
+ * The shape is precisely:
+ *
+ *   u8 *end = (u8 *)(s + n);
+ *   u8 saved = end[-1];
+ *   end[-1] = 0;
+ *   func_0209D778(s, 0);
+ *   func_0209D774((char *)&saved);
+ *
+ * with `u8` end-pointer for the `add r3,r1,r0` + `[r3,#-1]` addressing and
+ * the unsigned `ldrb`; `char *end` forces `ldrsb` (allowed to fail), and
+ * `s[n-1]` forces the sub-form `sub ip,r0,#1` instead of add-form.
+ *
+ * ONE instruction prevents EXACT: the original keeps the zero in r1 from
+ * materialisation through the null strb into the call (`mov r1,#0` once);
+ * mwccarm 1.1p1 with every phrasing tried emits `mov r2,#0`,
+ * `strb r2,[ip,#-1]`, then `mov r1,r2` (copy) - one extra instruction,
+ * 4 bytes, which also shifts the two branch targets.  Tried and all give the
+ * same allocator result: u8 saved, char saved, `int zero`, `u8 z`, pointer-
+ * typed second arg, call-before-store (illegal to schedule), early-return
+ * restructure (different layout entirely).  If a later pass wants another
+ * go, the lever is getting the zero constant allocated to r1 directly.
+ *
+ * Both calls resolve via the `matched` class.  The compiled function is
+ * 72 bytes; the diff is exactly the extra mov plus register-name noise
+ * (end in ip vs r3, saved in r3 vs r2), 43 concrete bytes.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0209D7D4.c \
+ *       --func func_0209D7D4 --addr 0x0209D7D4 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int  u32;
+typedef unsigned char u8;
+
+extern void func_0209D774(char *s);
+extern void func_0209D778(char *s, int flag);
+
+u32 func_0209D7D4(u32 a, char *s, u32 *count)
+{
+    u32 n = *count;
+    if (n > 1)
+    {
+        u8 *end = (u8 *)(s + n);
+        u8 saved = end[-1];
+        end[-1] = 0;
+        func_0209D778(s, 0);
+        func_0209D774((char *)&saved);
+    }
+    else
+    {
+        func_0209D774(s);
+    }
+    return 0;
+}

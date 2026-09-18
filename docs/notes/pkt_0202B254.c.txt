@@ -1,0 +1,52 @@
+The 0x0202B254 chain, closed in wave 6 (pkt_0202B230)
+
+    func_0202B6CC  <- func_0202B1F4 <- func_0202B230 <- func_0202B254
+
+Four functions; the previous wave had func_0202B230, func_0202B1F4 and
+func_0202B6CC parked at MATCH with 0x0202B254 named as the blocker, and
+0x0202B254 itself was known as "5 bytes, a 12-byte struct compare whose last
+test inverts".  It is EXACT now as src/matched/func_0202B254.c, and the three
+parked files graduated on the `matched` class without a byte of their C
+changing.
+
+The lever: a three-way same/different test over a 12-byte record has to be
+written as a **conjunction of equalities** in an if/else, not as a disjunction
+of inequalities in an assignment.
+
+    if (s[0] == d[0] && s[1] == d[1] && s[2] == d[2]) {   /* EXACT */
+        differ = 0;
+    } else {
+        differ = 1;
+    }
+
+With `&&` of `==`, each test branches *away* on failure, so the three `bne`s
+all land on one shared `movs r3, #1` block placed after the fall-through
+`movs r3, #0` and its `b` over it - exactly the original's
+
+    0202B278  movs r3, #0
+    0202B27A  b    0x202b27e
+    0202B27C  movs r3, #1
+    0202B27E  ...
+
+The disjunction spelling that is otherwise the obvious one,
+
+    differ = (s[0] != d[0]) || (s[1] != d[1]) || (s[2] != d[2]);
+
+reproduces the first two tests but the compiler materialises the *last* operand
+directly, so the third test comes out as `beq` past an inline `movs r3, #1`:
+same value, five bytes of block placement and polarity away.  The ternary
+`cond ? 0 : 1` keeps the polarity but moves the copy and is 12 bytes off; three
+`if`s with `goto` share nothing; the if/else-if chain emits each arm's constant
+inline.
+
+What did not matter, over 15 spellings: whether the record is reached by
+subscript (`s[0]`, right) or by struct member; whether the 12-byte copy after
+the test is spelled as three word stores or as one `*(struct S *)dst = *src;`
+(in fact the copy must be the struct assignment, or the guard's register story
+moves); and both int and u32 for the difference flag.
+
+The copy is worth recording separately: `*(struct S *)(p + 0xc) = *(struct S *)s;`
+is the `ldm r2!, {r0, r1}` / `stm r4!, {r0, r1}` pair with the last word
+load/store after it, i.e. the normal 12-byte aggregate assignment of
+docs/idioms/aggregate-assignment-is-ldm-stm.md, and it only appears when both
+sides are spelled as the same struct type.

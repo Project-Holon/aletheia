@@ -1,13 +1,17 @@
 /*
  * function: func_02075014
  * address:  0x02075014
- * packet:   pkt_02074A6C
+ * packet:   pkt_02075014
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   MATCH
+ * blocker:  the pool word naming func_02075274 (0x0207507C) is this function's
+ *           own, so the ABS32 site has no outside witness; 0x02075274 in turn
+ *           cannot be filed because SND_InvalidateBankData (0x020896CC) and
+ *           SND_DestroyBank (0x0208A38C) each have their only caller inside it
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;

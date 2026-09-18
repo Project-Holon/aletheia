@@ -1,0 +1,145 @@
+near misses in the 0x0209D7xx window (third lane, 2026-09-18),
+packet pkt_0209D784 and pkt_0209D728.
+
+0x0209D820 (pkt_0209D784) verifies EXACT and 0x0209D850 verifies EXACT*; both are filed in
+src/matched/ and recorded in their shard. The three below are byte correct only up to a cap or
+differ in concrete bytes, so their sources were removed from src/matched/ and their C is kept
+here whole.
+
+==============================================================================
+0x0209D728  func_0209D728  verdict MATCH
+==============================================================================
+
+residue:
+   (no concrete mismatch lines printed)
+
+/*
+ * unit:     no
+ * function: func_0209D728
+ * address:  0x0209D728
+ * packet:   pkt_0209D728
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ * symbols:
+ *   g_count      0x02153FB4  data
+ *   g_nodePool   0x02153FB8  data
+ */
+
+typedef unsigned int u32;
+
+struct Node
+{
+    struct Node *next;
+    u32 b;
+    u32 a;
+};
+
+extern u32 g_count;
+extern struct Node g_nodePool[0x40];
+
+extern void func_0209D850(u32 a, u32 b, struct Node *node);
+
+u32 func_0209D728(u32 x)
+{
+    if (g_count == 0x40)
+        return -1;
+
+    func_0209D850(0, x, &g_nodePool[g_count++]);
+    return 0;
+}
+
+==============================================================================
+0x0209D784  func_0209D784  verdict DIFF
+==============================================================================
+
+residue:
+     * +0008    00 50 96 e5                            | 00 40 96 e5
+     * +0010    00 00 55 e3                            | 00 00 54 e3
+     * +0014    00 40 a0 e3                            | 00 50 a0 e3
+     * +0020    ff 10 00 e2                            | ff 00 00 e2
+
+/*
+ * unit:     no
+ * function: func_0209D784
+ * address:  0x0209D784
+ * packet:   pkt_0209D784
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+typedef unsigned int  u32;
+typedef unsigned char u8;
+
+extern int func_0209D77C(void);
+
+u32 func_0209D784(u32 a, char *dest, u32 *count)
+{
+    u32 n = *count;
+    u32 i;
+    for (i = 0; i < n; i++)
+    {
+        u8 c = (u8)func_0209D77C();
+        dest[i] = (char)c;
+        if (c == '\r' || c == '\n')
+        {
+            *count = i + 1;
+            break;
+        }
+    }
+    return 0;
+}
+
+==============================================================================
+0x0209D7D4  func_0209D7D4  verdict DIFF
+==============================================================================
+
+residue:
+     * +000C    08 00 00 9a                            | 09 00 00 9a
+     * +0010    00 30 81 e0                            | 00 c0 81 e0
+     * +0014    01 20 53 e5                            | 01 30 5c e5
+     * +0018    01 00 a0 e1                            | 00 20 a0 e3
+
+/*
+ * unit:     no
+ * function: func_0209D7D4
+ * address:  0x0209D7D4
+ * packet:   pkt_0209D784
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ */
+
+typedef unsigned int  u32;
+typedef unsigned char u8;
+
+extern void func_0209D774(char *s);
+extern void func_0209D778(char *s, int flag);
+
+u32 func_0209D7D4(u32 a, char *s, u32 *count)
+{
+    u32 n = *count;
+    if (n > 1)
+    {
+        u8 *end = (u8 *)(s + n);
+        u8 saved = end[-1];
+        end[-1] = 0;
+        func_0209D778(s, 0);
+        func_0209D774((char *)&saved);
+    }
+    else
+    {
+        func_0209D774(s);
+    }
+    return 0;
+}

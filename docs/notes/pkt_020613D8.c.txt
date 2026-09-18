@@ -1,0 +1,64 @@
+pkt_020613D8 -- residues, and one free function the worklist cannot see
+=======================================================================
+
+Packet range 0x020613D8..0x02061808, ARM, compiler dsi/1.1p1 at -O4,p.
+
+Filed EXACT: 0x02061644, 8 bytes, shard layout/matched/arm9/pkt_020613D8.json
+
+0x02061644, an unlabelled leaf (filed)
+---------------------------------------
+Eight bytes of `mov r0, #0; bx lr` sitting between the tail of func_020614D4's
+literal pool (which ends at 0x02061640) and the next labelled function at
+0x0206164C, so disasm.py never labels it.  It is the default callback
+func_020613D8 installs at 0x020A8144 as a function pointer, so the pool word
+that names it is the only reference in the image and nothing else could attest
+it.  Filing it as an EXACT entry makes the pool word in func_020613D8 resolve
+through the `matched` class.
+
+func_020613D8, 8 bytes short: the same cross-jump as pkt_020648E0
+-----------------------------------------------------------------
+The two five-argument table calls differ only in r2/r3, so this compiler
+cross-jumps their identical tails (`str ip, [sp]; bl func_02061390`) into one
+shared block; the original keeps both copies with `b end` between them (128
+compiled against 136).  The mode test has to be written `mode <= 2` -- that is
+the polarity whose fall-through arm is the (2, 0) pair and whose branch is the
+positive `bhi`, matching the original's layout.
+
+Spellings tried, none of which avoids the merge: `if (mode > 2) ... else ...`,
+separate `if`s, an explicit `goto`, the `switch (mode)` form (which does not
+merge but reorders the arms and repeats the second argument's setup, 136 bytes
+and 32 bytes wrong), and the four `#pragma` spellings (opt_common_subs,
+peephole, opt_dead_code, ipa) -- all still 128 bytes.
+
+A second, independent blocker on this function once the merge is solved: the
+call to func_02061460 is the ONLY branch to that address in the image, so that
+site can never be attested from outside this file's range.  It clears only
+when func_02061460 itself is matched (the `matched` class), or if the two
+functions are merged into one unit -- which is exactly what the merge above
+does not allow today.
+
+func_02061460, 6 bytes: which register holds zero
+-------------------------------------------------
+Three instructions differ, all of them the zero register.  The original
+materialises the counter's zero first (`mov r5, #0`) and derives the flag
+store's zero from it (`mov lr, r5`, `mov r1, r5`, `mov r3, r5`).  This
+compiler materialises the loop's zero into lr first (`mov lr, #0`) and gives
+the counter a separate `mov r5, #0`.
+
+Types are pinned by the comparison and are not free: with `int i`/`int n` the
+counter is a full 32-bit local (no truncation across `i++`), the guard is
+unsigned (`cmp r7, #1; addhi`) which needs the `1u` spelling, and the flag
+test is signed (`strlt`/`strge`) which needs the plain `i < n`.  Sixty-four
+type/guard/compare combinations and ten statement shapes were compiled; the
+best is these six bytes, and the ternary spelling costs 73.
+
+func_0206164C / func_0206168C, 10 and 21 bytes: a register choice
+-----------------------------------------------------------------
+The two mirrors that copy five 2-word pairs between the caller's buffer and
+the 0x18-byte records at 0x020A816C.  For 0x0206164C the original holds the
+table pointer in ip and the destination index in lr; this C holds them the
+other way round, so the two `add`s that advance them come out swapped while
+every indexed access is byte-identical (10 bytes).  The shape that reaches 10
+is `int i; int j = 0; struct Ent *t = g;` with `j += 2` before `t++`.
+The 0x0206168C mirror does not reach the same figure with that shape (21
+bytes); its best register order was not found in the budget spent here.

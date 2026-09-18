@@ -9,8 +9,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
-
+ * status:   DIFF (one byte)
  */
 
 typedef signed char    s8;
@@ -46,3 +45,36 @@ void func_0202BF54(struct Obj *p)
         }
     }
 }
+
+/*
+ * Wave 6 addendum.  The nearest shape is now ONE byte off, and the byte is an
+ * encoding rather than a statement.
+
+ * Two things changed from the attempt above: the signature is
+ * (u8 *p, u32 key) - the key is the caller's second argument, not a field of
+ * the object - and the address has to be written with the shift on the left of
+ * an integer sum:
+
+ *     rec = (u8 *)((idx << 3) + *(u32 *)(p + 8));
+
+ * which reproduces the schedule (strb; lsls; ldr base; movs r2,#1; str; adds)
+ * and 45 of the 46 bytes:
+
+ *     +0012  strb r0, [r4, #0xc]      both
+ *     +0014  lsls r1, r0, #3          both
+ *     +0016  ldr  r0, [r4, #8]        both
+ *     +0018  movs r2, #1              both
+ *     +001A  str  r2, [r4]            both
+ *     * +001C  adds r1, r0, r1   vs   adds r1, r1, r0
+
+ * Writing the base on the left - `*(u32 *)(p + 8) + (idx << 3)`, with or
+ * without pointer casts, or with the shift in a separate statement - fixes the
+ * add's operand order and makes the compiler hoist the base load above the
+ * strb instead, which is then nine bytes off.  Twenty-odd further spellings
+ * (u16/struct pointer for rec, a u32 address local, `(u32)` casts on either
+ * side, the object as a struct with named members) all land on exactly one
+ * byte.  See docs/notes/pkt_0202BF90.c.txt for the full list.
+
+ * Closing it promotes src/pending/func_0202BEDC.c and
+ * src/pending/func_0202B744.c, which are blocked on nothing else now.
+ */

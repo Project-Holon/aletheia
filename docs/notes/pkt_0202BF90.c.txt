@@ -1,0 +1,92 @@
+func_0202BF90 and func_0202A1CC: declare the object as a struct (wave 6)
+
+Both were documented near misses held open by register numbering, and both
+went EXACT on the first attempt with the object declared as a struct with named
+members instead of `u8 *p` with literal offsets.  This is the same lever that
+src/matched/sub_0202BFC4.c was already using for a reloaded loop bound; it
+generalises.
+
+func_0202BF90 @ 0x0202BF90 (52 bytes) - pkt_0202BEBC
+
+The old note: "the AND-fold of the old and the new record.  Declaration orders
+tried: sel first, base first, both declared uninitialised, u32 sel.  Always
+p=r4/sel=r5/base=r2 where the original has sel=r4/p=r5/base=r6 (and pushes no
+scratch word)."  With
+
+    struct Obj { u32 pad0; u32 pad4; u32 base; u8 sel; u8 pad_d;
+                 u16 fxe; u16 f10; u16 f12; u16 f14; };
+
+and the body
+
+    sel = o->sel;                                  /* ldrb before the call  */
+    idx = func_0202BFC4((u8 *)o, key);             /* the call              */
+    base = (const struct Rec *)o->base;            /* ldr after the call    */
+    if (idx == 0xff) return;
+    o->fxe = base[sel].f4 & base[idx].f2;
+    o->f10 = base[sel].f2 & base[idx].f4;
+    o->f12 = base[idx].f6;
+    o->f14 = 0;
+    o->sel = (u8)idx;
+
+every byte and every register lines up on the first try.  Two details are
+load-bearing: `sel` is read *before* the call and `o->base` *after* it (that is
+the order the original loads them in), and the ANDs cross the two records'
+fields (old->f4 & new->f2, old->f2 & new->f4).
+
+Closing it promoted src/pending/func_0202BECC.c and then
+src/pending/func_0202B7D4.c, neither of which needed any C change: 0x0202BF90
+became a `matched` witness.
+
+func_0202A1CC @ 0x0202A1CC (64 bytes) - pkt_0202A19C
+
+The old note: "the same table scan with an extra two-field filter; same
+register story, 25 bytes differ, 4 bytes shorter."  The working shape is
+
+    struct Item { u16 key; u16 v2; u16 v3; u16 pad; };
+    struct Container { const struct Item *items; u32 pad1; u32 pad2; u32 count; };
+
+    for (i = 0; i < c->count; i++) {
+        if (c->items[i].key != key) continue;
+        if (c->items[i].v2 != 2 && c->items[i].v2 != v2) continue;
+        if (c->items[i].v3 != v3) continue;
+        return i;
+    }
+    return 0xffff;
+
+EXACT, 64 bytes, on the first attempt.  The `c->items[i]` subscript is what
+keeps the container in r0 and re-loads `c->count` at the foot of the loop;
+binding the base to a local pointer first (`u8 *base = ...`) is 10 bytes of
+register shuffling away, and `return 0xfffe` (to see whether the sentinel is
+pooled) is 1 byte away - so the pooled 0x0000ffff at 0x0202A208 is exactly what
+`return 0xffff;` compiles to here.
+
+Closing it promoted src/pending/func_0202A20C.c (0x0202A20C is the clamp
+wrapper around it) with no C change.
+
+func_0202BF54 @ 0x0202BF54 (46 bytes) - still open, one byte
+
+After the BF90 result the same treatment was tried on the latch.  The nearest
+shape is now one byte off, and the byte is an encoding, not code:
+
+    rec = (u8 *)((idx << 3) + *(u32 *)(p + 8));   /* 1 byte: the add's operands */
+
+    0202BF54 +0012  strb r0, [r4, #0xc]      both
+    +0014  lsls r1, r0, #3          both
+    +0016  ldr  r0, [r4, #8]        both
+    +0018  movs r2, #1              both
+    +001A  str  r2, [r4]            both
+    * +001C  adds r1, r0, r1   vs   adds r1, r1, r0
+
+Everything else - including the schedule, which is the hard part of this
+function - matches.  Writing the sum with the base on the left
+(`(u32)base + (idx << 3)`, or the same with a pointer cast) fixes the add's
+operand order but makes the compiler hoist the base load above the `strb`,
+which is then 9 bytes off.  So the two spellings each get half of the
+instruction stream right and the combination the original has (shift first, then
+the load, then the store, then `adds r1, r0, r1`) was not reachable in 20
+spellings, including the struct-object form.
+
+Worth one more session: src/pending/func_0202BEDC.c and
+src/pending/func_0202B744.c are both blocked on 0x0202BF54 alone now that
+0x0202B804 is attested through unit_0202B7F8.c, so this one instruction's
+operand order is worth three functions.

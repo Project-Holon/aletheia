@@ -1,0 +1,96 @@
+pkt_020648E0 -- what is left, and the one compiler behaviour that blocks three of it
+====================================================================================
+
+Packet range 0x020648E0..0x02065020, ARM, compiler dsi/1.1p1 at -O4,p.
+
+Filed EXACT (shard layout/matched/arm9/pkt_020648E0.json, 3 entries, 416 bytes):
+
+  0x020648E0  84   func_020648E0  largest node count of a MultiCellBank
+  0x02064C10  172  func_02064C10  single-step walk (second argument is the constant 0)
+  0x02064E3C  160  func_02064E3C  per-slot table init (24-byte aggregate copy is ldm/stm)
+
+The three that share ONE blocker: 0x0206469C, 0x020649D4, 0x02064AB4
+--------------------------------------------------------------------
+
+All three are the same frame-rebuild walk: fetch the node record through
+func_02062D40, its descriptor through func_020629E8, set the dirty bit through
+func_02064140, then dispatch on the frame kind byte (0 = nothing, 2 = the
+translation-only setter, anything else = scale + rotation + translation), and
+finish by handing the descriptor and the counter at +0x30 to func_020643CC.
+0x020649D4 adds the timed prologue (counter += header word, and func_02064934
+when func_02062D4C says there is no next frame); 0x02064AB4 adds a guard.
+0x0206469C is the plain one.
+
+Every one of them is exactly EIGHT bytes short, and the eight bytes are always
+the same thing:
+
+  the kind==2 arm ends with        add r0, r4, #0x48 / bl func_020640DC
+  the other arm's last call ends   add r0, r4, #0x48 / bl func_020640DC
+
+This compiler cross-jumps those two identical two-instruction tails into one
+shared block (the kind==2 arm branches to it) and emits each body once; the
+original keeps both copies, one per arm, with `b done` after the first.  All
+relocations resolve and every other byte of all three functions is identical
+(176/184, 216/224, 172/180 compiled against original).
+
+What was tried to defeat the merge, all of it failing to change a byte:
+separate `if`s, `else if`, an explicit `goto`, writing the shared statements
+behind a label, reordering the arms, and `#pragma opt_common_subs off`,
+`#pragma peephole off`, `#pragma opt_dead_code off`, `#pragma ipa off`.  The
+`switch (kind)` spelling does NOT merge but reorders the arms and duplicates
+the second argument's setup (32 bytes wrong), so it is worse.  A `-proc`
+change is not the answer either: this region's epilogue is `pop {..., pc}`
+(arm946e style), and 1.2 rewrites it to `add sp, sp, #4 / pop {r4, r5, lr} /
+bx lr`, so the region is not 1.2-built.
+
+The same cross-jump cost is visible at 0x020613D8, eight bytes short the same
+way (see docs/notes/pkt_020613D8.c.txt), so it is a property of this build and
+not of this packet.
+
+The other residues in the packet, each named
+-------------------------------------------
+
+0x02064934 (160 bytes, 4 bytes / one instruction)
+  The order in which the two locals and the hoisted header load are set up.
+  Original: `ldr r0, [r7]` (header), `mov r4, #0`, `ldr r5, [r7, #0xc]`
+  (base).  This C, with both locals declared and initialised at the top,
+  emits base, counter, header.  Everything from the branch on -- including
+  both loops -- is byte-identical.  Five declaration/loop shapes were tried;
+  initialising the counter at its declaration and writing the loops
+  `for (; i < x->hdr->count; i++)` is the best (4 bytes), the init inside the
+  `for` gives 9 and declaring the base first gives 16.
+
+0x02064B68 (168 bytes, 15 bytes)
+  One field load scheduled after a field store: the original reads the array
+  base at +0x40 before storing the argument at +0x14, every spelling stores
+  first.  Full account in docs/notes/sub_02064B68.c.txt.  Worth landing: this
+  address is the only blocker on src/pending/sub_0204D500.c.
+
+0x02064CBC (180 bytes, 12 bytes, three instructions)
+  `o->unk_30 = 0` first materialises a fresh zero into r1 in the original
+  (`mov r1, #0; strh r1, [r6, #0x30]`); this C reuses the zero the loop later
+  needs (`mov r5, #0`), which moves the whole setup by one register and then
+  the two loops by one instruction each.
+
+0x02064D70 (204 bytes, 4 bytes / one instruction)
+  Two things were recovered and are pinned: the descriptor's index is an 8-bit
+  bitfield at bit 8 of the halfword at +6 (the original masks with `and #0xff00`
+  before the shift -- a plain `>> 8` on the halfword gives `asr`, which is
+  wrong), and the loop counter is a u16.  What is left is the pre-loop
+  register split: original hdr -> r8, count -> sb, counter -> r7; this C
+  hdr -> r6, count -> r8, counter -> sb.  Six declaration orders were tried,
+  all 200/204.
+
+0x02066890 (164 bytes, 74 bytes)
+  Two blockers.  (1) The three `-1` sentinel guards: the original materialises
+  -1 with `mvn r0, #0` and compares register-to-register, while the front end
+  folds `v != 0xffffffff` into `cmn v, #1` -- the same fold documented at
+  docs/notes/pkt_020637BC.c.txt.  (2) The three call sites are the only
+  references to func_020640CC anywhere in the image, so each stays a wildcard
+  until that function is itself matched (the `matched` class then applies).
+
+0x02066934 (100 bytes, 17 bytes)
+  One register pair swapped: the original puts the loop counter in r5 and the
+  stored copy in r4, this C the other way round.  Full account in
+  docs/notes/func_02066934.c.txt, including the store-fusion order that is
+  already solved (cb / recs / count) and `v = i++` for the copy.

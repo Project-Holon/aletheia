@@ -1,0 +1,244 @@
+func_0202ED00 (0x0202ED00, pkt_0202ECB0)
+========================================
+
+DIFF, ~10 instructions.  Every byte of the body reproduces except the two
+parameter copies at the top (`adds r2, r1, #0` / `adds r3, r0, #0`) and the
+register colouring that follows from them: the original moves the index into
+r2 and the array pointer into r3 and keeps the 0x28 stride constant in r0,
+this build keeps the parameter registers and puts the stride in r2/r4.
+Tried: `a0[j] = a0[j + 1]` with the index as the parameter, with a fresh
+`k = j` local, with a `u8 *p` base plus a cast, with a do/while instead of
+the while, with `u32 n = 0x14` for the bound, and with `a0[j].flag = 0`
+instead of the `&= ~0x10` store.  All six give the correct instruction
+sequence and differ only in that colouring, which says the copies come from
+the record copy's ldm/stm register pair (r0/r1) rather than from anything the
+source spells differently - the same shape as func_0202EE30 below.
+
+The C that reproduces every byte above (status DIFF, so not filed):
+
+/*
+ * function: func_0202ED00
+ * address:  0x0202ED00
+ * packet:   pkt_0202ECB0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *
+ * Deletes slot j: shifts every later slot down one place (whole 0x28-byte
+ * record copies) until it reaches an empty one, then clears the flag bit of
+ * every slot from there to the end.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202ED00.c \
+ *       --func func_0202ED00 --addr 0x0202ED00 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Slot {
+    u8  pad[0x26];
+    u8      : 4;
+    u8 flag : 1;
+    u8      : 3;
+    u8  pad2;
+};
+
+void func_0202ED00(struct Slot *a0, u32 j)
+{
+    if (j >= 0x14)
+        return;
+
+    while (j < 0x13) {
+        a0[j] = a0[j + 1];
+        j++;
+        if (!a0[j].flag)
+            break;
+    }
+
+    for (; j < 0x14; j++)
+        ((u8 *)a0)[j * 0x28 + 0x26] &= ~0x10;
+}
+
+
+func_0202EE0C (0x0202EE0C, pkt_0202ECB0)
+========================================
+
+DIFF, one instruction.  The original shifts the composite into r2 and then
+copies it to r0 for the multiply (`lsls r2, r0, #8; adds r0, r2, #0; muls
+r0, r1, r0`); with the value as a named `u32 v` local, or inline in one
+expression, this build shifts straight into r0.  Everything else, including
+the `_u32_div_f` call and the post-call recomputation of `a4 >> 1`, is
+identical.
+
+The C that reproduces every byte above (status DIFF, so not filed):
+
+/*
+ * function: func_0202EE0C
+ * address:  0x0202EE0C
+ * packet:   pkt_0202ECB0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   _u32_div_f      0x0209C2B0  arm
+ *
+ * The companion of func_0202EDE4: maps a1 through the band into [a2, a3-a4].
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202EE0C.c \
+ *       --func func_0202EE0C --addr 0x0202EE0C --cc 1.1p1 --thumb
+ */
+
+typedef unsigned int u32;
+
+extern u32 _u32_div_f(u32 a, u32 b);
+
+u32 func_0202EE0C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+{
+    u32 h = a4 >> 1;
+    u32 v = ((a3 - a2) - a4) << 8;
+
+    return h + a2 + ((a1 * v / a0) >> 8);
+}
+
+
+func_0202EE30 (0x0202EE30, pkt_0202ECB0)
+========================================
+
+DIFF, register colouring.  The body is right; the frame is not.  The
+original pushes {r3, r4, r5, r6, r7, lr}, keeps a0/a1/a2 in r5/r6/r7 and
+spills a3 to [sp+4] with the 0x49 line number in [sp]; this build spills a1
+and a2 as well (`sub sp, #0x10` against the original's `sub sp, #8`) and
+takes r6/r7 for a0/a3.  Tried: the result assigned to a `u32 v` and stored
+once, the store written directly in both arms of the if, and the first call
+declared with 5 arguments (line-number variant) instead of 6 - the two-call
+shape comes out right each time and only the live-range colouring moves.
+
+The C that reproduces every byte above (status DIFF, so not filed):
+
+/*
+ * function: func_0202EE30
+ * address:  0x0202EE30
+ * packet:   pkt_0202ECB0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_020A7814      0x020A7814  data
+ *   g_0202F099      0x0202F099  data
+ *   func_02030734   0x02030734  arm
+ *   func_02030DA8   0x02030DA8  arm
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202EE30.c \
+ *       --func func_0202EE30 --addr 0x0202EE30 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8 g_020A7814[];
+extern u8 g_0202F099[];
+
+extern u8  *func_02030734(u16 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern u32  func_02030DA8(u32 a, u32 b, u32 c, u32 d);
+extern void func_0202EECC(u8 *p, u32 a1, u32 a2, u32 a3, u16 a4);
+
+u8 *func_0202EE30(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+{
+    u8 *p = func_02030734(a4, 0x1C, 0, (u32)g_020A7814, 0x49, a3);
+
+    func_0202EECC(p, a1, a2, a3, a4);
+
+    if (a0 != 0)
+        *(u32 *)p = func_02030DA8(a0, (u32)g_0202F099, (u32)p, 0);
+    else
+        *(u32 *)p = 0;
+
+    *(u32 *)(p + 4) = 0;
+    *(u32 *)(p + 0x18) = 1;
+    return p;
+}
+
+
+func_0202EE8C (0x0202EE8C, pkt_0202ECB0)
+========================================
+
+DIFF plus a MATCH cap.  All 64 bytes are present; the difference is the
+order in which the last call's arguments are set up (the original loads
+[sp+4] into r3 after storing [sp] and after `adds r2, r7, #0`, this build
+loads it first), and the pool word for 0x0202F0A5 has no witness outside the
+range, so even with the schedule fixed this file is a MATCH at best.  0x0202F0A5
+is the same kind of tag word as 0x0202F099 in func_0202EF98, which is
+matched; if another function loads 0x0202F0A5 the site closes.
+
+The C that reproduces every byte above (status DIFF, so not filed):
+
+/*
+ * function: func_0202EE8C
+ * address:  0x0202EE8C
+ * packet:   pkt_0202ECB0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_0202F0A5      0x0202F0A5  data
+ *   func_020311B8   0x020311B8  arm
+ *   func_02031290   0x02031290  arm
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202EE8C.c \
+ *       --func func_0202EE8C --addr 0x0202EE8C --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8 g_0202F0A5[];
+
+extern u32  func_020311B8(u32 a, u32 b, u32 c, u32 d);
+extern u8  *func_02031290(void);
+extern void func_0202EECC(u8 *p, u32 a1, u32 a2, u32 a3, u16 a4);
+
+u8 *func_0202EE8C(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+{
+    u32 v = func_020311B8(a0, (u32)g_0202F0A5, 0x1C, 0);
+    u8 *p = func_02031290();
+
+    func_0202EECC(p, a1, a2, a3, a4);
+
+    *(u32 *)(p + 4) = v;
+    *(u32 *)p = 0;
+    *(u32 *)(p + 0x18) = 1;
+    return p;
+}
+
+

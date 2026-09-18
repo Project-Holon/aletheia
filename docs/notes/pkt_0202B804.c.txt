@@ -1,0 +1,74 @@
+Three attestation levers that closed parked files (wave 6, pkt_0202B7BC et al.)
+
+All three are witness problems, not codegen problems: in each case the C was
+already byte-correct and the entry was capped at MATCH because the harness could
+not attest a relocation target from outside the compared range.
+
+1. An unlabelled callee defaults to ARM, so declare it thumb in `symbols:`
+
+An `R_ARM_ABS32` pool word carries the callee's ISA in its low bit, and the ISA
+the harness encodes comes from the *declaration*: an explicit `symbols:` line
+first, otherwise the `func_XXXXXXXX` name convention, otherwise ARM.  `disasm.py`
+only labels a prologue that saves lr, so a leaf callee that saves nothing has no
+label and no `thumb` flag anywhere, and a file that reaches it through a pool
+word with no `symbols:` block silently asks for an ARM target.  The `matched`
+class then refuses the EXACT entry on the ISA mismatch and the site reads
+"unresolved: <addr> (arm, from name) has no witness outside ...".
+
+Three files graduated this way with a two-line header change and no C change:
+
+    src/pending/func_0202B42C.c   needs 0x0202B490  thumb (unlabelled leaf)
+    src/pending/func_0202B7C8.c   needs 0x0202B420  thumb (four-byte setter)
+    src/pending/func_0202B7E0.c   needs 0x0202C0C8  thumb (eight-byte thunk)
+    src/pending/func_0202B2947C.c needs 0x02012E40  thumb (one-byte getter)
+
+and src/pending/func_0202B704.c the same once its target was corrected (see 3).
+
+2. Each member function of a unit belongs in the unit's `function:` header list
+
+    * function: func_0202B7F8, func_0202B804, func_0202B810
+
+`entry_from_source()` in tools/match.py splits that header field on commas and
+writes the result into the shard's `functions:` array, and `matched_index()`
+adds every name that looks like `xxx_XXXXXXXX` as an address the entry attests.
+A unit whose object defines three functions but whose header names one therefore
+attests one address, not three - even though its one byte comparison covered all
+three sections.  src/matched/unit_0202B7F8.c was that file: its `tu` map is
+
+    0202B7F8  func_0202B7F8
+    0202B804  func_0202B804
+    0202B810  func_0202B810
+
+and src/pending/func_0202B744.c was blocked on 0x0202B804.  Naming all three in
+the header attests all three, and 0x0202B804 resolved.  Eleven more units in the
+range under-list their members the same way (0x0201ED04, 0x0201F0F8, 0x02020F08,
+0x02026454, 0x020271F8, 0x02027710, 0x0202878C, 0x02028F18, 0x02029F60,
+0x0202C318, 0x0202C558, 0x0202D5F8); a unit that lists them is strictly more
+informative and costs nothing.
+
+3. A misread pool word is worth checking against the manifest before believing
+
+src/pending/func_0202B704.c declared `func_0202C0C0` - the thunk that sits
+immediately after its real target - and the `literal` class happily resolved the
+site to 0x0202C0C1 because that word does appear in four literal pools.  The byte
+comparison caught it as a one-byte DIFF.  The original pool word at 0x0202B70C is
+0x0202C09D, i.e. 0x0202C09C with the Thumb bit, and 0x0202C09C is an existing
+EXACT entry, so the fix was to rename the declaration.  src/pending/
+func_02027A08.c had the identical mistake in the other direction (0x02077B30, an
+ARM address outside the image's code, instead of 0x02027B30) and is EXACT now.
+
+A cheap way to find these: for every unresolved site, read the four original
+bytes at the site and look the word up in the manifest - if the *word* names an
+EXACT entry while the *declaration* names something else, the declaration is the
+bug.  Two of the 60-odd parked files in this range were that case.
+
+Two files were parked the other way round, because they claimed EXACT and did
+not verify: src/matched/sub_0202BA24.c (compiled 58 bytes, 53 wrong - the real
+function is a constant-bound loop the compiler always rotates, see
+docs/notes/pkt_0202B9F0.c.txt) and src/matched/func_0202B7BC.c (now
+src/pending/func_0202B7BC.c, MATCH on 0x0202AB5C).  Neither was in a shard, so
+nothing was lost, but both would have poisoned the manifest the moment their
+packet's shard was written.  src/pending/func_0202AB28.c and
+src/pending/func_0202AB84.c are the harmless version of the same thing: they are
+byte-correct and already matched by src/matched/sub_0202AB28.c and
+sub_0202AB84.c, so they can never graduate and could be deleted.

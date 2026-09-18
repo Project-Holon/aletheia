@@ -1,0 +1,67 @@
+pkt_0207533C - two closures and the register-allocation residue
+===============================================================
+
+Packet: 0x0207533C..0x02075794 (0x0207533C 196, 0x02075404 192, 0x020754C4 156,
+0x02075560 72, 0x020755A8 112, 0x02075618 128, 0x02075698 252).
+
+Filed EXACT (shard layout/matched/arm9/pkt_0207533C.json):
+  0x02075560  72  src/matched/func_02075560.c
+  0x020755A8 112  src/matched/func_020755A8.c
+
+Both are the same family: look an object up (func_02074324), bail out with 0 if
+the lookup fails, then hand the object's three header fields to func_02075698.
+0x02075560 is the two-argument form and passes `*(u8*)(p+9)`, `*(u16*)(p+4)`,
+`*(u8*)(p+8)` straight through; 0x020755A8 is the six-argument form where the
+2nd/3rd/4th parameters are *defaulted* from those same fields when they arrive
+negative:
+
+    if (d < 0) d = *(u8 *)(p + 8);
+    if (c < 0) c = *(u16 *)(p + 4);
+    if (b < 0) b = *(u8 *)(p + 9);
+
+The parameter must be `int` for the compare to be `cmp r4, #0` / `ldrblt`
+signed, which is what the image has.  Both close on the first try with only the
+`symbols:` block and the right pointer types.
+
+Near misses, all body-complete and all stopped by register allocation rather
+than by a wrong shape:
+
+  0x020754C4 156  compiled 152, 79 bytes differ.  The image holds the outer
+        index in r6, the object pointer in r7, the inner index in r8, the
+        parameter in r4 and a pooled zero in r5 (`mov r5, r6` once, then
+        `mov r8, r5` per iteration); this front end instead puts the parameter
+        in sb, the outer index in r5, the inner index in r6 and the byte count
+        in r8, and pushes two more registers.  Every branch target and every
+        load offset already lines up.  Signedness did matter and is fixed:
+        `p[0] <= 0` and `for (j = 0; j < p[0]; j++)` must promote the byte to
+        `int` (the image has `ble`/`blt`), and `j` must be declared `int`, or
+        the two compares come out `bls`/`blo`.  Also MATCH-capped regardless:
+        func_02072DD0 and func_02072DE8 have no caller outside this function.
+
+  0x02074E10 140 (pkt_02074CD0)  compiled 132.  One real lever found here and
+        worth keeping: the header word is read as two fields of one 24-bit /
+        1-bit bitfield pair, not as a mask.
+
+            struct Hdr { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; };
+            if (p->flag) r = func_020750EC(p->v, c, d);
+            else         r = func_02075080(p->v, c, d);
+
+        Written `(v << 8) >> 8` this front end folds the truncation into
+        `bic r0, r3, #0xff000000`; the image's `lsl r0,r0,#8 ... lsr r0,r0,#8`
+        pair straddling the branch only appears for the bitfield read, which is
+        the same rule as docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md
+        seen through a 24-bit field.  The `(v >> 24) & 1` test stays a `lsr` +
+        `tst #1`, so the flag is a separate one-bit field rather than a shadow
+        of the same read.
+
+  0x02073F3C 120 (pkt_02073F3C) - reported as CCERR by an earlier wave; it
+        compiles now with MIi_CpuClear32 / DC_FlushRange / SND_StartTimer
+        declared from the SDK table.  The residue is the address and constant
+        promotion described in docs/notes/pkt_02073AB4.c.txt.
+
+  0x02075618 / 0x02075698 / 0x020750EC - bodies reconstructed but not reduced
+        to byte equality in this run; 0x02075698 is the 6-argument worker the
+        two filed functions funnel into (`func_02074CD0` with a 6, then
+        `func_02074BEC` with a 1, two output words on the stack, then
+        func_020733E8 and three setters), and matching it is the next thing to
+        do here because five other members of the packet call it.

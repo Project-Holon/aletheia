@@ -1,0 +1,42 @@
+pkt_02096670 -- near miss (DIFF, not filed)
+============================================
+
+Filed from this packet: 0x020968F4 (156).  0x02096670 itself is byte-correct
+and parked in src/pending/func_02096670.c; it is capped only because its
+callee 0x020965B4 has no shard entry (see docs/notes/pkt_020965B4.c.txt).
+
+0x020966B0 (196 bytes, ARM) -- callee-saved allocation, 99 bytes at best
+------------------------------------------------------------------------
+Decimal conversion of a u64: repeated 64-bit divmod against 10 through the two
+MSL runtime entries func_0209C018 (`_ll_divmod_entry_flag1`, the remainder in
+r0) and func_0209C00C (`_ll_divmod_entry_flag0`, the quotient in r0:r1), digits
+stored forward at p->f05, then the digit array reversed in place and the count
+minus one stored as a halfword at p->f2.
+
+    p->f00 = 0; p->f04 = 0;
+    while (v != 0) {
+        idx = p->f04;
+        p->f04 = (u8)(idx + 1);
+        p->f05[idx] = (u8)func_0209C018(v, 10, 0);
+        v = func_0209C00C(v, 10, 0);
+    }
+    a = p->f05;
+    b = p->f05 + p->f04 - 1;
+    while (a < b) { t = *a; *a++ = *b; *b-- = t; }
+    p->f02 = (u16)(p->f04 - 1);
+
+Every instruction of the loop, the reverse and the tail is reproduced; the
+residue is a one-register shift of the whole callee-saved set.  The original
+allocates hi -> r5, lo -> r6, p -> r7, 10 -> sb, 0 -> r8 and the loop index
+idx -> r4, i.e. r4 is spent on the value that is live across the two divmod
+calls.  The compilation gives hi -> r4, lo -> r5, p -> r6, 10 -> r8, 0 -> r7,
+idx -> sb: the same relative order, shifted by one, with the index last.  The
+symptoms are the original's `ldrb r1, [r7, #4]` + `mov r4, r1` pair (load into
+a scratch, copy into a callee-saved register) against a direct `ldrb sb, [r7, #4]`.
+
+Two spellings tried (`u32 idx` declared at function scope, and the index taken
+straight from p->f04 in each iteration); the second compiles the two divmod
+calls and the `add r1, r7, r4` digit store identically and differs only in the
+register numbers.  The `b = p->f05 + p->f04 - 1` bound is also folded
+differently: the original computes `(p+5) + n` and then `- 1`, the compilation
+`(p+4) + n`, which is the same address by a different route.

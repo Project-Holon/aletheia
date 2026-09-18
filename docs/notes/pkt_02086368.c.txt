@@ -1,0 +1,60 @@
+Near misses and non-C functions in the high window (0x02080000..0x02088000)
+=========================================================================
+
+Three separate findings, none of them an attestation problem.
+
+1. pkt_02082F48 and pkt_02083250, 8 functions, 1188 bytes: hand-written ARM
+--------------------------------------------------------------------------
+0x02082F48, 0x02082F90, 0x02083028, 0x020830C0, 0x02083250, 0x02083298,
+0x02083334, 0x020833D0 are the byte-swapping memcpy family: a 32-byte block
+loop over `ldm`/`stm` with a per-word `lsl`/`lsr` pair, a four-byte tail
+loop, and a shared byte tail.  They are not compiled C:
+
+  * the byte tail at 0x0208314C is reached with a plain `b` (no relocation)
+    from 0x02082F80, 0x02083018 and 0x020830B0, i.e. three functions jump
+    into the *middle* of the body of a fourth.  mwccarm emits one PROGBITS
+    section per function and a cross-section branch is a relocation, so no
+    single translation unit can produce this;
+  * a dispatcher at 0x02082EFC does `and r3, r1, #3; bic r1, r1, #3;
+    cmp r3, #0; beq func_02082F48; cmp r3, #1; beq loc_02082F84; ...` and
+    falls into each variant's middle, which is the same statement;
+  * the byte tail itself (`tst r2, #4` + eight `ldrbne`/`strbne` pairs) is
+    hand-written assembler, not a shape this front end emits for any loop.
+
+They are the ARM-mode equivalent of layout/runtime_arm9.txt's routines and
+want the same treatment: a curated table entry rather than a C file.  If
+the integrator does add such a table, all eight are attested by it.
+
+2. 0x02084D98, 8 bytes: a two-level thunk, not compiled C
+----------------------------------------------------------
+`ldr r1, [pc]; bx r1` with the pool word 0x02084D78.  mwccarm emits `ldr ip,
+[pc]; bx ip` for an ARM tail call (verified: `void f(int a){ g(a); }` at this
+address compiles to exactly those two instructions with ip) and ip is the
+ABI's procedure-call scratch register, so a pool word loaded into **r1** is
+the linker's or the original author's stub, not compiler output.  0x02084D78
+is the next level: `ldr r1, [pc, #0xc]; ldr r2, [pc, #0xc]; ldr ip, [pc,
+#0xc]; mov r3, #1; bx ip` plus three pool words, an unlabelled leaf that
+tail-calls func_02084C78 with (r0, 0x02FFFFE8, 0x02084DDC, 1).  Two bytes of
+0x02084D98 differ under every spelling tried (r1 against ip), and the pool
+word is the only reference to 0x02084D78 anywhere, so the ABS32 site stays
+unresolved too.
+
+The same run of thunks continues at 0x02084D68 (`ldr ip, [pc, #4]; mov r3,
+#0; bx ip` + `func_02084CFC`) and 0x02084DA4; the whole block is veneer
+material and should be recognised as such rather than matched as C.
+
+3. pkt_02086368, 0x02086374, 108 bytes: MATCH-capped, one byte short of it
+-------------------------------------------------------------------------
+Fifteen of the eighteen `bl`s resolve (`func_02088498`, `func_02075CAC`,
+`func_02085D3C` twice and `func_0208B8B0` all have witnesses outside the
+range).  The other thirteen -- including the `blx` to the Thumb
+func_02005438 -- are each called from exactly one site in the whole image,
+this function's, so `label` refuses them and `literal` never applies to a
+branch.  The one *concrete* byte that differs is at +0x34: the compiler
+emitted a plain `bl` where the linker wrote `blx`, because the ISA of
+func_02005438 can only be known at link time; match.py would rewrite that
+byte itself if the site had a witness, so the file is byte-correct modulo a
+site the honesty rule cannot resolve.  It is not filed even as a MATCH
+because that one byte is concrete: a wildcard site is not what is left
+there, an unresolved branch instruction is.  It closes the day any of the
+thirteen acquires a second caller (or is matched in its own packet).

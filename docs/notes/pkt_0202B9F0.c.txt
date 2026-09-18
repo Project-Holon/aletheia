@@ -1,0 +1,97 @@
+DIFF near-miss: func_0202BA24 @ 0x0202BA24 (58 bytes, Thumb) - pkt_0202B9F0
+
+The real function is 58 bytes (0x0202BA24..0x0202BA5E; the worklist's size for
+0x0202BA24 is 58, and 0x0202BA60 is an unlabelled follower - a 28-byte leaf
+with no lr to save).  `disasm.py` labels nothing until 0x0202BABC, so
+`match.py one --addr 0x0202BA24` compares against a 152-byte extent and can
+never come out EXACT on the per-function shape; the object that was parked in
+src/matched/sub_0202BA24.c compiles to exactly 58 bytes and is 53 bytes wrong.
+
+What the original does (all 0x3A bytes):
+
+    0202BA24  push {r4, r5, r6, r7}
+    0202BA26  movs r4, #0            ; i = 0
+    0202BA28  cmp  r4, #0x10         ; ENTRY TEST, kept
+    0202BA2A  bge  0x202ba5a
+    0202BA2C  movs r6, #0x79         ; \ preheader: 0x224 = 0x79*4 + 0x40,
+    0202BA2E  lsls r6, r6, #2        ;  | 0x7f and 1 are hoisted
+    0202BA30  adds r3, r4, #0        ;  |
+    0202BA32  movs r2, #0x7f         ;  |
+    0202BA34  movs r1, #1            ;  |
+    0202BA36  adds r6, #0x40         ; /
+    0202BA38  movs r5, #0x1c         ; body
+    0202BA3A  muls r5, r4, r5
+    0202BA3C  adds r7, r0, r5
+    0202BA3E  adds r5, r1, #0
+    0202BA40  str  r3, [r7, #0x24]
+    0202BA42  lsls r5, r4
+    0202BA44  str  r2, [r7, #0x38]
+    0202BA46  strh r5, [r7, #0x3c]
+    0202BA48  lsls r5, r4, #2
+    0202BA4A  adds r7, r0, r5
+    0202BA4C  movs r5, #0x79         ; 0x1e4 rematerialised in the body
+    0202BA4E  lsls r5, r5, #2
+    0202BA50  str  r3, [r7, r5]
+    0202BA52  adds r4, r4, #1
+    0202BA54  str  r3, [r7, r6]
+    0202BA56  cmp  r4, #0x10         ; second test, bottom-tested loop
+    0202BA58  blt  0x202ba38
+    0202BA5A  pop  {r4, r5, r6, r7}
+    0202BA5C  bx   lr
+
+so the source is a plain
+
+    for (i = 0; i < 0x10; i++) {
+        e = p + i * 0x1c;
+        t = (u32 *)(p + (i << 2));
+        *(u32 *)(e + 0x24) = i;
+        *(u32 *)(e + 0x38) = 0x7f;
+        *(u16 *)(e + 0x3c) = (u16)(1 << i);
+        t[0x79] = i;
+        t[0x89] = i;
+    }
+
+with 0x1e4 = 0x79*4 and 0x224 = 0x1e4 + 0x40, and the 0x40 offset derived from
+the first constant by an `adds` (the constant-pair fold).
+
+Thirteen source shapes were compiled against 0x0202BA24 and every one of them
+is rotated by mwccarm 1.1p1 at -O4,p: the entry test disappears, every
+invariant constant is hoisted above the counter's initialisation, and the
+bottom test becomes the only test.  All of them/short (52 bytes; 54 for the
+`for(;;) + break` and `goto L` spellings; 70 with the counter volatile) against
+the original's 58.
+
+    v1  for (i = 0; i < 0x10; i++)
+    v2  i = 0; while (i < 0x10) { ...; i++; }
+    v3  i = 0; do { ...; i++; } while (i < 0x10);
+    v4  i = 0; goto test/loop with the two tests written out
+    v5  the same as v1 with the two pointer locals declared in the other order
+    v6  array-of-struct spelling (struct E / struct T with named members)
+    v7  for (;;) { if (i >= 0x10) break; ... }
+    v8  if (i >= 0x10) goto end; loop: ... if (i < 0x10) goto loop;
+    v9  goto test; loop: ...; test: if (i < 0x10) goto loop;
+    v10 for (;;) + break, locals hoisted out of the loop
+    v11 if (i < 0x10) { do { ... } while (i < 0x10); }
+    v12 while (1) { if (i >= 0x10) break; ... }
+    w1  if (i < 0x10) { do { ... } while (i <= 0xf); }
+    w2  if (i >= 0x10) goto end; do { ... } while (i < 0x10);
+    w3  volatile-qualified pointer and destination
+    w4  the same loop nested inside for (k = 0; k < 1; k++)
+    w5  label-at-the-test goto loop, entry test written out
+
+Bound-via-local spellings (`int n = 0x10;`, `const int n = 0x10;`,
+`volatile int n = 0x10;`, `n = 0x10;` + do/while) const-propagate the bound to
+the immediate `cmp r4, #0x10` but still rotate, so the trip count being a
+constant is not what decides it.
+
+Conclusion: a constant-bound loop that the original left un-rotated (entry test
+retained, invariants hoisted only into the preheader *after* that test, and
+0x1e4 rematerialised in the body instead of being hoisted) does not appear to
+be reachable from C under the pinned -O4,p.  func_0202BAF4 @ 0x0202BAF4, the
+next labelled function, has the same non-rotated
+`movs r4,#0 ; cmp r4,#0x10 ; bge ; ... ; cmp r4,#0x10 ; blt` shape with
+`movs r6,#0x1c` in the body, so the two are probably the same original
+translation unit and would have to be explained together.
+
+src/matched/sub_0202BA24.c (which claimed EXACT and did not verify) has been
+removed; the shard pkt_0202B9F0 now holds only the EXACT entry at 0x0202B9F0.

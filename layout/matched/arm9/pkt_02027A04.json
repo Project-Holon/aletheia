@@ -19,6 +19,18 @@
    "status": "EXACT*"
   },
   {
+   "name": "func_02027A08",
+   "address": "0x02027A08",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02027A08.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02027FD8",
    "address": "0x02027FD8",
    "kind": "game",

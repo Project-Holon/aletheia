@@ -1,0 +1,44 @@
+Near miss in pkt_0200E7BC (0x0200E7BC..0x0200E884), wave5-4
+==========================================================
+
+0x0200E7BC, 180 bytes, DIFF: 138 concrete bytes, one register pair swapped
+-------------------------------------------------------------------------
+src/pending/unit_0200E7BC.c.  The body is not in doubt and it is worth
+keeping as written -- all twelve relocations resolve (eight calls to
+func_02017E1C, the message-bank call func_02045F5C, the wide-string copy
+func_0201F41C with its (src, dst, n) order, the g_020A7370 word and the
+MI_CpuFill8 tail call of the leaf that follows), the frame (`sub sp, #0x18`)
+and the push set `{r3, r4, r5, r6, r7, lr}` are identical, the 7-bit
+bitfield store truncates its argument to eight bits exactly as the original
+does, and the record stride (`lsls r7, r1, #5`) matches.
+
+The whole residue is which of the two pointers live across the calls gets r5
+and which gets r6:
+
+    original  r6 = st (the object, 9 uses)   r5 = o (the record base)
+    compiled  r5 = st                        r6 = o
+
+Everything else follows from that swap: with the base in r5 and the object
+in r6 the original can recompute `r5 + r7` for the word at +0x1c and call
+`adds r0, r6, #0` before every one of the nine calls, and this compiler,
+holding them the other way round, does `adds r0, r5, #0` instead.  The push
+set and the frame size are unaffected, so the byte counts agree and only the
+register numbers differ.
+
+Seven spellings were tried, all of them leaving the pair swapped or making
+the frame worse:
+
+  * `(struct Rec *)o + idx` versus `(struct Rec *)(o + idx * 32)`;
+  * a separate `u32 off = idx * 32;` local with the +0x1c store written
+    through `*(u32 *)(o + off + 0x1c)` (which the compiler CSEs back);
+  * the +0x1c store re-spelled as `((struct Rec *)o)[idx].f1c` -- this one
+    is the closest (138), because it is what keeps `o` and `idx * 32` live
+    separately, but it does not change which register `o` gets;
+  * `void *` versus `struct Save *` versus `struct Rec *` for the object
+    parameter (no effect on the assignment at all);
+  * the object as a `char *` and the base as a `void *`.
+
+Two of the three functions in this packet are filed (the unlabelled leaves
+at 0x0200E874 and 0x0200E878, src/matched/unit_0200E874.c, EXACT); this one
+needs either a later front end or a decision that the tie is below the
+source, which the seven spellings above suggest.

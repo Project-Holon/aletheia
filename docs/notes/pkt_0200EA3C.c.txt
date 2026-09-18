@@ -1,0 +1,94 @@
+Near misses in pkt_0200EA3C (0x0200EA3C..0x0200ECF0), wave5-4
+============================================================
+
+Three functions in this packet reproduce clean code shapes but stop short of
+EXACT.  All three were verified with
+
+  python tools/match.py one --src src/pending/<file>.c \
+      --func <name> --addr 0x<ADDR> --cc 1.1p1 --thumb --diff
+
+Nothing here is an attestation problem: every relocation that matters
+resolves.  These are codegen residues, and each is recorded with the exact
+spelling that got closest so the next pass does not re-derive it.
+
+1. 0x0200EBD0, 58 bytes, DIFF: 6 concrete bytes, one register choice
+--------------------------------------------------------------------
+src/pending/func_0200EBD0.c.  The best spelling is the struct-member form:
+
+    struct S { u8 pad[0x1554]; u32 idx; u32 cnt; };
+    void func_0200EBD0(struct S *o) {
+        u32 i;
+        if (o->cnt >= 9999) return;
+        i = o->idx;
+        func_0200EA3C((char *)o + i * 0x16c);
+        if (++o->idx >= 0xf) o->idx = 0;
+        o->cnt++;
+    }
+
+68 bytes compiled against the original's 58, and the only differences are
+the register the two loaded values land in and the push set:
+
+    original  push {r4, r5, r6, lr}   ldr r6, [r5, r4]   ... ldr r6, [r5, r0]
+    compiled  push {r3, r4, r5, lr}   ldr r1, [r5, r4]   ... ldr r1, [r5, r0]
+
+The original reuses r6 for both temporaries (the count and then the index)
+and keeps 0x1558 in r4; the compiler here picks the scratch r1 for both and
+leaves r3 as the alignment push.  Eleven spellings were tried: pointer
+arithmetic on `obj + 0x1558` (the compiler folds it into r4+base), the
+`p[-1]` form, `(u8)`/`u32`/`char` temporaries, a single reused local for both
+loads, an assignment inside the guard, and volatile-qualified loads; each
+either keeps the r1 choice or makes the frame worse.  If both loads share a
+register, the source probably reused one variable for both -- but no
+spelling of that reaches r6 either.  Four of the six differing bytes are the
+push/pop pair, so the function is otherwise right.
+
+2. 0x0200EC2C, 108 bytes, DIFF: 76 bytes, scheduling and masks
+-------------------------------------------------------------
+src/pending/func_0200EC2C.c.  The C shape is not in doubt: a 0x3c-byte
+source record indexed by `idx` (the multiply by 0x3c is in the first four
+instructions) whose fields move into a destination object, two of them
+through memcpy (func_02045994, arm, attested label x2) and four halfwords
+at the end through a rotated loop.  What does not line up:
+
+  * the destination's byte at +0x13 is written twice, low six bits then bits
+    6-7, from the source byte at +3 -- a `u8 a:6; u8 b:2;` pair on both
+    sides is the natural reading, and every spelling tried (bitfield on both
+    sides, bitfield on the destination only, `& 0x3f` / `>> 6` with a u8
+    local, the two shifted forms with casts) differs in the *mask*
+    instruction: the original truncates to six bits with the shift pair
+    `lsls #26 / lsrs #26` and then masks the insert with a register holding
+    0x3f, where every attempt here emits a single `ands #0x3f`;
+  * the destination field load at +0x13 is scheduled early (offset +0x0c)
+    against the original's +0x1e, which shifts every following byte.
+
+Thumb has no immediate AND, so both spellings are two instructions and the
+choice is the front end's; this is the `a-materialised-shift-temporary-is-
+not-reachable-from-c-or-from-flags.md` class of residue rather than a source
+question.
+
+3. 0x0200EC98, 26 bytes, DIFF: 4 concrete bytes, load/store schedule
+-------------------------------------------------------------------
+The first of the four unlabelled accessors that follow func_0200EC2C (the
+other three are EXACT in src/matched/unit_0200ECB4.c, and the sixth is
+src/matched/func_0200EC14.c).  Closest spelling:
+
+    void sub_0200EC98(char *o, u32 *out) {
+        out[0] = *(u16 *)(o + 0x168);
+        out[1] = *(u8 *)(o + 0x16a);
+        out[2] = *(u8 *)(o + 0x16b);
+        out[3] = 0;
+    }
+
+The original reads both bytes before storing either:
+
+    orig  adds r3,r2,#2 / ldrb r3,[r0,r3] / adds r2,r2,#3 / ldrb r0,[r0,r2] /
+          str r3,[r1,#4] / str r0,[r1,#8]
+    mine  adds r3,r2,#2 / ldrb r3,[r0,r3] / str r3,[r1,#4] /
+          adds r2,r2,#3 / ldrb r0,[r0,r2] / str r0,[r1,#8]
+
+Both loads therefore have to be live across the first store, which no
+spelling of two separate stores produces here.  Locals for the two bytes
+(u8, u32, char), hoisting both reads above `out[0]`, reading through a u8*
+alias and a struct member all move *more* bytes (10, 11, 81, 24).  A
+`char *out` parameter -- which would make the store an alias barrier -- also
+gives the same four bytes.

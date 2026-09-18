@@ -30,3 +30,62 @@ pointer locals, the `base[idx]` indexing form, and a plain for-loop -- and all
 three compile to base in ip and cur in r3, the reverse of the original; as
 with 0x0209159C this is a free-list ordering difference the source order does
 not control.
+
+Eleven shapes have now been tried, and the residue is stable at 32 bytes (the
+same one instruction pair, four bytes apart, plus the tail's consequence):
+
+  `u8 *cur = base + idx + 1;` (this one), `cur = base + idx` with a later
+  `cur++`, `u8 v = base[idx]` hoisted, `cur` computed before the guards,
+  `u8 *slot = &base[idx]` then `slot++`, `while (cur != end)` vs `<`,
+  `if (v != 5) return v > 5 ? 1 : -1;`, the tail as `p[idx + 4]`,
+  the tail as `base[idx - 1]`, the whole guard chain written on `p[idx + 5]`
+  with no base local at all (that one changes the loop shape, 81 bytes), and
+  `n + p` operand order.
+
+All of them reproduce the guard pair (one `cmp #5` shared by `movhi #1` /
+`mvnlo #0`), the rotated loop and the tail's three instructions; only the
+base/cur register pair and its knock-on (which register the loop's byte and
+the `end` computation use, and whether the tail rematerialises base as
+`p + (idx-1) + 5` or keeps it live) differ.  The function would also unstick
+src/pending/func_02096670.c, so it is the most valuable address left here.
+
+The tail is the tell that the original's base is *dead* at the tail: it folds
+base's +5 into the load displacement and computes `idx - 1` in the index
+register (`sub r1,r1,#1 / add r0,r0,r1 / ldrb r0,[r0,#5]`), where every
+compilation that keeps a `base` local live emits `ldrb r0, [ip, r0]`.
+
+0x02095EAC (148 bytes, ARM) -- one instruction (wave5-2)
+--------------------------------------------------------
+Byte-correct everywhere except `mvnne r0, #0`, which this front end spells
+`subne r0, r1, #0x23`: r1 already holds the 0x22 the arm has just stored into
+g_02153FAC, and the constant folder derives the nearby -1 from it rather than
+materialising it.  Both are one instruction and eight spellings of the returned
+value (~0, `0 - 1`, `(int)0xFFFFFFFFu`, a function-scope `int e = -1`,
+`r = -1; return r;`, the comma form, a `volatile` global, a pointer local to the
+global) all compile to the same derivation.
+
+What the file pins, and what a later lane should keep: 0x02095EAC calls
+0x02095B3C (the 872-byte function in this packet), *not* 0x02094B8C, which is
+what the sibling at 0x02095AA4 calls - the two wrappers are one argument
+different at the front of the call and are otherwise the same shape.  The
+buf[0]/buf[1] store order (a0 first) and the duplicated `addne sp` epilogue
+inside the error arm are both load bearing.
+
+0x020963F8 (232 of 272 bytes, ARM) -- MATCH* (wave5-2)
+------------------------------------------------------
+The 64-bit member of the family, parked in src/pending/func_020963F8.c with its
+blocker in the header: the callee 0x02096004 has no witness outside this file's
+own range, so one PC24 site stays wildcarded.  All 232 concrete bytes are right,
+including the saturating INT64_MIN/INT64_MAX error pair (`movne r0,#0` /
+`movne r1,#0x80000000`, and `mvneq r0,#0` / `subeq r1,r0,#0x80000000` where the
+high word is the compiler deriving 0x7FFFFFFF from 0xFFFFFFFF) and the
+three-way `||` whose second and third operands each test buf[3] separately.
+The trailing star is the two unlabelled 16-byte argument-defaulting thunks at
+0x020964E0 and 0x020964F4 (`ldr ip,[pc,#8]; mov r1,#0; mov r2,#0xa; bx ip`),
+which need seeds in layout/function_starts.txt and are not producible from C.
+
+Filed EXACT from this packet in wave 5-2: 0x02095F40 (196), the 32-bit member of
+the family.  Its two saturating values are INT_MIN and INT_MAX - the same value
+written in both arms folds the compare away and loses twelve bytes - and the
+three range conditions must be one `||` chain, or the shared error block is
+laid out after the final return and the whole tail moves.

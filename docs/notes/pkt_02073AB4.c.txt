@@ -1,0 +1,68 @@
+pkt_02073AB4 - the promotion wall that stops three files in this window
+=======================================================================
+
+Packet: 0x02073AB4..0x02073BB0 (0x02073AB4 28, 0x02073AD0 104, 0x02073B3C 116).
+
+All three are body-complete and every call site resolves; each is 4-8
+concrete bytes off and the residue is *the same compiler behaviour* in all
+three, so it is written up once here.
+
+1. dsi/1.1p1 promotes a repeated small literal into a callee-saved register
+
+Give this front end a literal used across two statements and it keeps the
+value in a callee-saved register for the whole function, where the original
+rematerialises an immediate at each use.  Minimal repro (compiled with the
+project's pinned line, -proc arm946e -O4,p):
+
+    void h(u32);
+    void h2(u32, u32);
+    void b1(u32 *p) { h2(p[0], 0); h2(p[1], 0); h2(p[2], 0); }
+
+compiles to `push {r3,r4,r5,lr}; mov r5,r0; mov r4,#0; ldr r0,[r5]; mov
+r1,r4; bl h2; ldr r0,[r5,#4]; mov r1,r4; bl h2; ...` - the zero is
+materialised once into r4 and every call site copies it.  The original SND
+code in this window does the opposite: `mov r1, #0` at every site.
+Measured on 0x02073AB4: `lsl r1,r1,#0x1f` guard reads the flag, then
+`bl func_02073B3C`; the callee's body (0x02073B3C) needs `mov r2, #1` for
+`1 << f48`, `mov r3, #1` for the 4th argument and `mov r0, #1` for
+SND_FlushCommand(1) - three uses of 1, all immediates in the original and
+one pooled register in ours (push {r3,r4,r5,lr} instead of {r3,r4,lr}).
+Checked and rejected as levers: 1 vs 1u vs (u32)1 vs (u8)1 vs sizeof(u8) vs
+a named macro vs a local `u32 one = 1`; if/else arms; the constant read out
+of a struct field; -O2,p/-O3,p/-O4/-O4,s; -proc arm7tdmi/arm9tdmi; --lang
+c++; `#pragma opt_common_subs off`.  Every one of them pools.  Same wall as
+docs/notes/pkt_02073BF0.c.txt (func_02073CA0) and pkt_02074A6C.c.txt (the
+three wrappers), which is why this note exists rather than three more
+near-identical ones.
+
+2. The same pass also keeps a *pool-loaded address* live across a call
+
+0x02073AD0: `ldr r4,[pc,#0x44]` (0x0214E934) once, then the loop uses r4;
+the original's body loads the address each iteration and is 8 bytes shorter.
+0x0207292C (pkt_0207292C) is the cleanest instance: the original loads
+0x0214DEC0 from the pool twice, once before `tst r4,r1` and once again after
+the SND_LockChannel call (`ldr r1,[pc,#0x10]` -> the same pool word), while
+this front end hoists it into r4 across the call and never reloads.
+
+Since more than half the packet is stopped by this, the useful next step is
+not more C: it is a second calibrated front end for the 0x0207xxxx band.
+Every function here that has been filed EXACT (0x02075560, 0x020755A8,
+0x02074BEC, 0x02073EE4, 0x02074F3C and friends) happens to use each literal
+once, which is exactly what that would predict.
+
+3. What is left in the packet
+
+  0x02073AB4 28  MATCH-capped twice over: its callee 0x02073B3C has no
+                 outside caller, and the guard is a sign-extended bit-0 read
+                 (`lsl #31`/`asrs #31`), i.e. a one-bit signed bitfield.
+                 Already parked in src/pending/func_02073AB4.c.
+  0x02073AD0 104 would be EXACT the moment 0x0208A24C (SND_CalcChannelVolume)
+                 gains a second caller; its only one is this function.
+  0x02073B3C 116 blocked by PM_DeletePostSleepCallback: 0x0208C86C and
+                 0x0208C884 each have their only caller inside this very
+                 function (0x02073B74, 0x02073B7C), so `label` refuses both
+                 and `matched` cannot reach an SDK routine.  The body is
+                 otherwise in place: bit-1 signed bitfield guard, the
+                 SND_StopTimer(timer, 0, 1 << f48, 0) argument set-up,
+                 `f2c &= ~2`, tag/Flush/Wait, and one shared exit block that
+                 calls func_02073BB0 (src/matched/func_02073BB0.c).

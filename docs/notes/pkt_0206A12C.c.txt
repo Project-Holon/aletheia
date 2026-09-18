@@ -1,59 +1,57 @@
-pkt_0206A12C (0x0206A12C..0x0206AF08), wave2-F
-Filed EXACT: func_0206AA3C (0x0206AA3C, 52).
-Parked (src/pending/, blockers in their headers): func_0206A854, func_0206A9DC,
-func_0206AA0C, func_0206AA78, func_0206AAD4, func_0206AD20, func_0206ADBC,
-func_0206ADF4, func_0206A17C.
+0x0206A12C near miss (register swap), written by the wave 5 chain work on 0x0206A12C's packet.
+The packet's other two functions, 0x0206A884 and 0x0206AA3C, verify EXACT and are filed.
+This body reproduces the whole schedule but binds the first two arguments the other way round:
+the original takes r5 then r4, mwcc takes r4 then r5. Ten spellings of the pair (named locals,
+declaration order, a temporary for the second argument) leave the same swap.
 
-The whole packet is the flags object at 0x02148B4C (a 64-word array whose word
-63 is a bitfield bag) plus the sibling slots at 0x02148B98/0x02148C2C..0x02148D0C.
-Nine of the twelve open functions turn on one allocator behaviour:
+residue:
+   * +0004    01 50 b0 e1                            | 01 40 b0 e1
+   * +0008    00 40 a0 e1                            | 00 50 a0 e1
+   * +0014    2c 00 94 e5                            | 2c 00 95 e5
+   * +0018    b0 23 d4 e1                            | b0 23 d5 e1
+   * +0020    38 30 94 e5                            | 38 30 95 e5
+   * +0028    03 00 84 e0                            | 03 00 85 e0
 
-  mwccarm keeps a *global's address* live across a call in a callee-saved
-  register (here r4, hence a `push {r4,lr}` and 4 bytes the original does not
-  have).  The original re-materialises the address from its pool word after
-  the call instead: `ldr r0,[pc] ; ldr r1,[r0,#252]` again.  Every spelling
-  tried -- array indexing `g[63]`, a `(char *)g + 252` cast, a named `u32 *f`
-  local, `volatile` on the global, `volatile` on the single access, and even
-  writing the address as an integer literal to defeat the relocation --
-  either keeps the address in a register (64 bytes against 68) or folds the
-  second access into the first pool word (`ldr r0,[r3,#28]`), which is the
-  literal-address variant and loses the second ABS32 outright.
-  The one case that comes out framed but frameless (func_0206A9DC) still
-  assigns the copy destination to lr, saving lr and costing 4 bytes.
+/*
+ * function: func_0206A12C
+ * address:  0x0206A12C
+ * packet:   pkt_0206A12C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0207FA0C    0x0207FA0C  arm
+ *   func_0207FA40    0x0207FA40  arm
+ *   func_0207FADC    0x0207FADC  arm
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206A12C.c \
+ *       --func func_0206A12C --addr 0x0206A12C --cc 1.1p1 --arm
+ */
 
-Two further residues worth naming:
-  * func_0206A854: the original's second call argument is the post-increment
-    pointer (`ldr r0,[r1],#4`, so r1 arrives as &g[1]) and bits 0 and 1 are
-    cleared with two separate `bic`s, not one `bic #3`.
-  * func_0206A17C: the original loads the word at +44 *after* the strh and
-    reuses r2 (the halfword temp) for it; every order tried hoists the load
-    and uses r3.
+typedef unsigned short u16;
+typedef unsigned int   u32;
 
-------------------------------------------------------------------------
-wave4-3 (1 function filed, 8 more re-verified and parked)
-------------------------------------------------------------------------
-Filed EXACT: func_0206A884 (0x0206A884, 100).
+extern void func_0207FA0C(char *p, int flag);
+extern void func_0207FA40(char *dst, u32 a, u32 b);
+extern void func_0207FADC(u32 v);
 
-func_0206A884 is a four-call registration block (0x1610/0x11, 0x19/0xC,
-0x10/0x1 with the address of a one-word local, 0x15/0x20) ending in
-`g_02148B4C[63] = (g_02148B4C[63] & ~1) | 2`.  All four object addresses
-resolve through *other* pools (0x0206A9C0 for 0x02148B50, 0x0206A9D4 for
-0x02148BC8), so the entry is clean and needs no split.
+void func_0206A12C(char *p, int flag)
+{
+    char *p_loc;
+    u16 v;
 
-What it cost was where the one-word local is declared.  Written at the top of
-the block, the compiler puts `mov r3, #2` / `str r3, [sp]` before the *first*
-call; the original has both immediately before the third call, i.e. the
-declaration sat at its first use.  This front end refuses that as a mixed
-declaration after a statement even at `-lang c99` ("expression syntax error"),
-so the spelling that works is a nested block: `{ int v = 2; f(0x10, &v, 1); }`.
-Same frame, same instructions, one schedule.
-
-The five re-verified parks (func_0206A17C, func_0206A854, func_0206A9DC,
-func_0206AA0C, func_0206AAD4, func_0206AD20, func_0206ADBC, func_0206ADF4) are
-all still DIFF; their blockers, unchanged, are in their headers.  Two spellings
-were added to the address-reload list for func_0206ADBC/ADF4 (the symbol named
-twice in one expression, and `volatile` on the single store): still 52 compiled
-against 56.
-
-The idiom that came out of this packet is written up as
-docs/idioms/a-local-declared-at-its-first-use-schedules-its-store-there.md.
+    p_loc = p;
+    if (flag)
+        func_0207FA0C(p_loc, flag);
+    func_0207FA40(p_loc + *(u32 *)(p_loc + 0x38), (u32)(*(u32 *)(p_loc + 0x2C) << 16) >> 13,
+                  (u32)(*(u16 *)(p_loc + 0x30) << 3));
+    v = (u16)(*(u16 *)(p_loc + 0x32) | 1);
+    *(u16 *)(p_loc + 0x32) = v;
+    if (flag)
+        func_0207FADC(v);
+}

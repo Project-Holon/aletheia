@@ -1,0 +1,62 @@
+pkt_02091B5C -- near misses (DIFF, not filed)
+=============================================
+
+Filed from this packet: 0x02091B5C (228), 0x02091CBC (124).  The two need
+bitfield view structs for every field read, so the notes below assume that.
+
+0x02091C40 (124 bytes, ARM) -- register allocation, 89 bytes at best
+--------------------------------------------------------------------
+A mapped byte-string compare.  The algorithm and every branch are recovered:
+
+    if (n <= 0) goto out;                     cmp r2,#0 / mov lr,#0 / ble out
+    for (i = 0; i < n; i++) {                 counter in lr
+        a = *s1++;                            ldrb r3, [r0], #1
+        if (a >= 0 && a < 0x80) a = map[a];    cmp #0 / blt ; cmp #0x80 / ldrblt
+        b = *s2++;                            ldrb r5, [r1], #1
+        if (b >= 0 && b < 0x80) b = map[b];
+        if ((u8)a != (u8)b) return (u8)a < (u8)b ? -1 : 1;   and r4/r3, cmp, mvnlo/movhi
+        if ((u8)a == 0) return 0;             cmp r4,#0 / moveq / popeq
+    }
+out:
+    return 0;
+
+Two things have to be right and both are:
+
+ * the first test is the *redundant* `a >= 0` on a byte loaded with `ldrb`,
+   which is why the original carries a `cmp r3, #0` / `blt` that can never be
+   taken.  It has to be written against a wider local (`int a = *s1++`), not a
+   `u8 a`: with a `u8` local mwcc folds the test away and the loop renumbers.
+ * the final compares are `(u8)a != (u8)b` with the casts written out, which is
+   where the two `and #0xff` come from.
+
+What is left is the register allocation, and it is severe: the original runs
+r3 = a, r4 = a8, r5 = b, lr = i, ip = the map base; the compilation gives
+r4 = b, lr = a, ip = i, r3 = the map base, and only pushes {r4, lr} where the
+original pushes {r3, r4, r5, lr}.  Four spellings tried (int and u8 locals, the
+guard as one conjunction, the map read as a separate `if`), 89 bytes of diff at
+best.  The map table is 0x020A60DC.
+
+0x02091D38 (268 bytes incl. pool) -- not attempted
+--------------------------------------------------
+Same shape as 0x020916D4 with a three-way id dispatch (id == 0x020A8730 ->
+index 2, == 0x020A877C -> 3, == 0x020A87C8 -> 4, else 5; stride 0x18) over the
+refcounted table at 0x02153BD4, with 0x02153BB0 and 0x02150FEC as parallel
+arrays and 0x02153B8C->f04->f6c as the token compared against them, calls to
+0x020860D0 / 0x02086028 / 0x02086078 at base + index*0x18, and a tail call to
+func_02091CBC with the same pointer it was given.
+
+0x020916D4 (256 bytes, ARM) -- hoisted load, 135 bytes at best
+--------------------------------------------------------------
+The 4-argument sibling: `sel = (a3 == (u32)g_020A8730) ? 2 : 5;` then the same
+refcount dance, tail-calling 0x020917D4 (the 788-byte function in this packet)
+with all four arguments and calling func_02091CBC only from 0x02091D38.
+
+The recovered source is byte-correct in every branch, but mwcc hoists the
+`g_02153B8C.f04->f6c` load above the func_020860D0 call (it appears three times
+in the source and is common-subexpression-eliminated), while the original
+re-loads it inside each arm - `ldr r3, [r1, #0x6c]` in the first and
+`ldr r0, [r0, #0x6c]` in the second.  A `u32 *sub = g_02153B8C.f04;` local does
+not stop it.  The address comparison needs the *address*: with
+`extern u32 g_020A8730;` and `a3 == g_020A8730` the compiler loads the word at
+0x020A8730 and compares that, 12 bytes of diff before anything else; declare it
+`extern u32 g_020A8730[];` and compare `(u32)g_020A8730`.
