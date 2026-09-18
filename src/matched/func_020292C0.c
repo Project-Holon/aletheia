@@ -1,0 +1,31 @@
+/*
+ * function: func_020292C0
+ * address:  0x020292C0
+ * packet:   pkt_02029250
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u32  func_02005E50(u8 *p);
+extern u32  func_0202947C(u8 *p);
+extern void func_02029408(u8 *p);
+extern void func_02029344(u8 *p, u32 v);
+
+void func_020292C0(u8 *p)
+{
+    if (func_02005E50(p) != 0) {
+        return;
+    }
+    if (func_0202947C(p) != 0) {
+        return;
+    }
+    func_02029408(p);
+    func_02029344(p, 0xc);
+}

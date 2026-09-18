@@ -1,0 +1,38 @@
+/*
+ * function: func_02021984
+ * address:  0x02021984
+ * packet:   pkt_02021944
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+void func_02021984(int a, u32 *p, u16 *out)
+{
+    u32 x = *(u32 *)((u8 *)p + 8);
+    u32 n;
+    u16 mask = 0;
+    u8 i;
+
+    if (a < 4) {
+        n = (x << 19) >> 24;
+    } else {
+        n = ((x >> 9) << 24) >> 24;
+    }
+    for (i = 0; i < n; i++) {
+        mask = (u16)(mask + (u16)(1 << i));
+    }
+    *out &= mask;
+}
+
+/*
+ * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+ */
+

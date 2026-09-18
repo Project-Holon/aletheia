@@ -1,0 +1,61 @@
+pkt_0206E964 (0x0206E964..0x0206F4C8), wave2-F
+Filed EXACT: func_0206E964 (0x0206E964, 60), func_0206EACC (0x0206EACC, 52).
+Parked: func_0206EA00, func_0206EA2C (src/pending/, blockers in the headers).
+
+func_0206EACC is the worked example of the packet: two guards and a
+six-instruction body keep the original's `beq`/`bcs` branches, and the field
+reads must be *p-relative* (+13, +18) with only the indexed halfword going
+through the computed base -- that mix, not a local `q` used throughout, is
+what reproduces the register use.
+
+func_0206EA00 / func_0206EA2C are the if-conversion wall in its purest form.
+44 bytes, 40 compiled, both guards `beq`/`bcs` in the original with the fail
+block *last*; mwccarm instead predicates the three-instruction body.  Tried:
+two `return 0` guards, one `||` guard, the conjunction form, `goto fail` with
+and without a local `n`, if/else with the same return in both arms, a ternary
+return, and a body split into two statements with the cursor declared at the
+top.  The `||` form is the only one that keeps both branches, and it lays the
+fail block *before* the body (beq/bcs 4 bytes short of the original's).  This
+matches docs/idioms/a-factored-tail-lets-the-compiler-predicate-the-arms.md:
+a real branch in the original means the arm was bigger than what is being
+written, and here the arm is only three instructions either way, so the
+predication budget is the thing to beat.
+
+------------------------------------------------------------------------
+0x0206EB7C func_0206EB7C - NOT CLOSED (DIFF)
+------------------------------------------------------------------------
+Filed here by the integrator rather than in src/matched/. The lane left
+src/matched/func_0206EB7C.c carrying `status: EXACT` in its header, but the
+tool disagrees: `python tools/match.py one --src src/matched/func_0206EB7C.c
+--func func_0206EB7C --addr 0x0206EB7C --cc 1.1p1 --arm` prints DIFF at 56
+compiled bytes, and `manifest --verify --shard pkt_0206E964` accordingly
+recorded the entry with status DIFF. A shard entry has to be EXACT, so the
+entry was dropped when the shard was rewritten and the C moved here.
+Everything else in pkt_0206E964 (func_0206E964, func_0206EACC) is EXACT and
+stays filed.
+
+The residue as left: the original recomputes the shift for the `- 1` arm
+instead of reusing the already shifted value. No rejected-spelling list was
+recorded by the lane; the closest C is below.
+
+```c
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int func_0206EE60(void *p, int v, int idx);
+
+int func_0206EB7C(void *p, u32 *q, int v)
+{
+    u16 n = *(u16 *)(*(u32 *)((char *)q + 8) + 4);
+    int cur = (int)*q;
+    int idx;
+
+    if (cur >= (n << 12))
+        idx = (n << 12) - 1;
+    else if (cur < 0)
+        idx = 0;
+    else
+        idx = cur;
+    return func_0206EE60(p, v, idx);
+}
+```

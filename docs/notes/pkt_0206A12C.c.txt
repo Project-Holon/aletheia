@@ -1,0 +1,30 @@
+pkt_0206A12C (0x0206A12C..0x0206AF08), wave2-F
+Filed EXACT: func_0206AA3C (0x0206AA3C, 52).
+Parked (src/pending/, blockers in their headers): func_0206A854, func_0206A9DC,
+func_0206AA0C, func_0206AA78, func_0206AAD4, func_0206AD20, func_0206ADBC,
+func_0206ADF4, func_0206A17C.
+
+The whole packet is the flags object at 0x02148B4C (a 64-word array whose word
+63 is a bitfield bag) plus the sibling slots at 0x02148B98/0x02148C2C..0x02148D0C.
+Nine of the twelve open functions turn on one allocator behaviour:
+
+  mwccarm keeps a *global's address* live across a call in a callee-saved
+  register (here r4, hence a `push {r4,lr}` and 4 bytes the original does not
+  have).  The original re-materialises the address from its pool word after
+  the call instead: `ldr r0,[pc] ; ldr r1,[r0,#252]` again.  Every spelling
+  tried -- array indexing `g[63]`, a `(char *)g + 252` cast, a named `u32 *f`
+  local, `volatile` on the global, `volatile` on the single access, and even
+  writing the address as an integer literal to defeat the relocation --
+  either keeps the address in a register (64 bytes against 68) or folds the
+  second access into the first pool word (`ldr r0,[r3,#28]`), which is the
+  literal-address variant and loses the second ABS32 outright.
+  The one case that comes out framed but frameless (func_0206A9DC) still
+  assigns the copy destination to lr, saving lr and costing 4 bytes.
+
+Two further residues worth naming:
+  * func_0206A854: the original's second call argument is the post-increment
+    pointer (`ldr r0,[r1],#4`, so r1 arrives as &g[1]) and bits 0 and 1 are
+    cleared with two separate `bic`s, not one `bic #3`.
+  * func_0206A17C: the original loads the word at +44 *after* the strh and
+    reuses r2 (the halfword temp) for it; every order tried hoists the load
+    and uses r3.

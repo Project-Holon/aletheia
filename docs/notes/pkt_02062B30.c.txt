@@ -1,0 +1,42 @@
+pkt_02062B30 -- near miss, 19 concrete bytes, both arms predicated.
+
+0x02062B30 (48 bytes) is one of the four `func_02062B64(a, TAG)` accessors in
+this window (0x02062634 and 0x02062920 are in pkt_02062474 / pkt_02062884 and
+0x02062820 / 0x02062884 are parked in src/pending/).  The original:
+
+    bl    func_02062B64
+    cmp   r0, #0
+    moveq r0, #0
+    streq r0, [r4]
+    popeq {r4, pc}          <- the true arm, predicated
+    add   r0, r0, #8
+    str   r0, [r4]
+    mov   r0, #1
+    pop   {r4, pc}
+
+this C
+
+```c
+int func_02062B30(u32 a, u32 *out)
+{
+    u32 r = func_02062B64(a, 0x5343524E);
+    if (r == 0) { *out = 0; return 0; }
+    *out = r + 8;
+    return 1;
+}
+```
+
+predicates the false arm too (`addne r0, r0, #8` / `strne r0, [r4]` /
+`movne r0, #1`) and drops the branch, 19 bytes.  Writing the positive form
+(`if (r != 0) { *out = r + 8; return 1; } *out = 0; return 0;`) does not help
+(21 bytes) because both arms are three instructions or fewer, i.e. inside the
+five-instruction threshold of
+docs/idioms/an-arm-guard-block-of-five-instructions-or-fewer-is-predicated.md;
+the escape of
+docs/idioms/a-guard-whose-arm-can-carry-the-body-is-not-predicated.md does not
+apply either, since neither arm has a body to move into it.
+
+The tag constant 0x5343524E is the literal pool word at 0x02062B60 ('NRCS' read
+little-endian); the other three accessors use 'KNBA' (0x0206266C), 'KBCM'
+(0x02062958) and 0x4345424b (see src/pending/func_02062820.c), which is how the
+family can be recognised from the bytes.

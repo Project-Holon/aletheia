@@ -1,0 +1,13 @@
+pkt_0206AF08 (0x0206AF08..0x0206BEA0), wave2-F
+Parked: func_0206B780, func_0206B7A8 (src/pending/, blockers in the headers).
+
+40 bytes each, compiled 40 bytes, three concrete bytes wrong in both: the
+function pointer loaded from the object lands in r1 in the original
+(`ldr r1,[r4,#0xc] ; cmp r1,#0 ; beq ; blx r1`) and in r0 in every spelling
+tried.  Spellings: pointer local initialised at the declaration, declaration
+then assignment, struct-member expression evaluated twice, `void (*)(void)`
+and `int (*)(void)` and unprototyped `int (*)()`, assignment inside the
+condition, `goto` around the call, a dead `int r` to hold the result,
+`volatile` on the local (which spills it to the stack instead), and a u32
+local cast at the call.  All nine give r0.  This is a pure register-choice
+residue: the instruction sequence and every branch target is already right.

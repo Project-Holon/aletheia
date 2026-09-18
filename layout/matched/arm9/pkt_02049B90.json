@@ -1,0 +1,34 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02049B90",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "unit_02049DB4",
+   "address": "0x02049DB4",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02049DB4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02049DB4",
+    "func_02049DF4",
+    "func_02049E34",
+    "func_02049E74",
+    "func_02049EB4",
+    "func_02049EF4",
+    "func_02049F34",
+    "func_02049F78",
+    "func_02049FBC",
+    "func_02049FFC"
+   ]
+  }
+ ]
+}

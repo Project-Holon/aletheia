@@ -1,0 +1,88 @@
+func_0204F684: callee-saved register choice, 48 bytes in the image vs 44 compiled
+==================================================================================
+
+Closed near miss.  The function stores two signed halfwords into the 0x1c-stride
+record at +0x12 and +0x14:
+
+  image (48 bytes):   push {r3, lr}
+                      mov  ip, #0x1c
+                      mul  lr, r1, ip        <- scaled index in lr
+                      ldr  r1, [r0, #8]      <- reloaded p->f8
+                      ldrsh ip, [r2]
+                      add  r2, r1, lr        <- address in a NEW register
+                      ldrsh r1, [r3]
+                      strh ip, [r2, #0x12]
+                      ldr  r0, [r0, #8]
+                      add  r0, r0, lr
+                      strh r1, [r0, #0x14]
+                      pop  {r3, pc}
+
+  mwcc (44 bytes):    mov  ip, #0x1c
+                      mul  ip, r1, ip        <- scaled index in ip
+                      ldr  r1, [r0, #8]
+                      ldrsh r2, [r2]
+                      add  r1, r1, ip        <- address accumulated in place
+                      strh r2, [r1, #0x12]
+                      ldr  r0, [r0, #8]
+                      add  r0, r0, ip
+                      strh r1, [r0, #0x14]
+                      bx   lr
+
+Same instruction kinds, same count of arithmetic, same reloads: the image simply
+spends the scaled index on lr (and therefore saves lr) where mwcc spends it on
+ip and needs no prologue at all.  The extra push/pop is the whole 4-byte
+difference.
+
+Spellings tried, all landing on the ip form:
+
+  * `*(s16 *)(*(u8 **)((u8 *)p + 8) + idx * 0x1c + 0x12) = *a;` twice
+  * the same with the base bound to a local used by the first store only
+  * the scaled index in a `u32 off` local
+  * both source halfwords read into locals before either store
+  * `struct Rec { u8 pad[0x12]; s16 x; s16 y; }` member stores
+  * `struct Rec { u8 pad[0x12]; struct Pos pos; }` nested member stores
+
+Its three siblings in the same packet (func_0204F5A8, func_0204F720,
+func_0204F764, func_0204F794) all reached EXACT or EXACT* with the bitfield
+spellings recorded in their files, so the packet is otherwise clean.
+
+A one-bit bitfield write is a conditional set with no narrowing
+----------------------------------------------------------------
+
+func_0204F720 came back 48 bytes compiled against 40 in the image, over and
+over, until the field was written as a 1-bit bitfield rather than a
+read-modify-write of the halfword.  Three spellings that all failed by one
+lsl #16 / lsr #16 pair:
+
+  * `*q |= 0x200;` / `*q &= ~0x200;` in an if/else  (re-reads *q per arm)
+  * `u16 v = *q; v = (u16)(v | 0x200); ...; *q = v;`  (explicit cast narrows)
+  * `*q = (*flag == 1) ? (*q | 0x200) : (*q & ~0x200);`  (ternary narrows)
+
+What reproduces the image exactly:
+
+  struct Rec { u16 lo : 9; u16 b9 : 1; u16 hi : 6; };
+
+  if (*flag == 1) {
+      struct Rec *r = (struct Rec *)(... + idx * 0x1c + 0x18);
+      r->b9 = 1;
+  } else {
+      struct Rec *r = (struct Rec *)(... + idx * 0x1c + 0x18);
+      r->b9 = 0;
+  }
+
+giving `ldrh r0, [r2, #0x18]` / `orreq r0, r0, #0x200` / `bicne r0, r0,
+#0x200` / `strh r0, [r2, #0x18]` -- one load, two conditional one-hot ops, one
+store, no truncation.  Two things matter: the bit is a bitfield (a plain
+halfword read-modify-write keeps a narrowing shift pair), and the address
+expression is written *inside each arm*, so the condition is evaluated before
+the address.  Hoisting the address into a local declared above the if moves it
+first and the four instructions land in the wrong slots.
+
+The same packet's func_0204F764 / func_0204F794 want the bitfield form too
+(`r->b10 = (u16)*val;`), but there the `(u16)` narrowing must stay visible: the
+image keeps both the lsl #16 / lsr #16 narrowing pair and the lsl #31 / lsr #21
+bit write, four instructions apart.
+
+Separately: this front end rejects mid-block declarations despite `-lang c99`
+("expression syntax error" on the declaration after a statement), so a store
+can never be squeezed between two declaration groups.

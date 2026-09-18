@@ -1,0 +1,105 @@
+/*
+ * function: func_0202DC08
+ * address:  0x0202DC08
+ * packet:   pkt_0202DAA4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ */
+
+typedef unsigned char u8;
+typedef signed char   s8;
+typedef int           s32;
+
+extern void func_0202E0C8(void *p);
+extern void func_0202DFD4(void *p);
+extern void func_020307B0(void *ptr);
+
+void func_0202DC08(u8 *p)
+{
+    s32 i;
+
+    for (i = 0; i < *(s8 *)(p + 0x30); i++) {
+        func_0202E0C8((u8 *)(*(u32 *)(p + 0xc) + i * 0x28));
+    }
+    func_020307B0(*(void **)(p + 0xc));
+    func_0202DFD4(p + 0x10);
+    func_020307B0(p);
+}
+
+/*
+ * NEAR MISS (CCERR): 
+ */
+
+/*
+ * function: func_0202DC48
+ * address:  0x0202DC48
+ * packet:   pkt_0202DAA4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ * symbols:
+ *   func_0202DC60  0x0202DC60  thumb
+ *
+ */
+
+typedef unsigned int u32;
+
+extern void func_0202DC60(u32 a, u32 b, u32 c, u32 d, u32 *p);
+
+void func_0202DC48(u32 a, u32 b, u32 c, u32 d)
+{
+    u32 s[2];
+
+    s[0] = 0;
+    s[1] = 0;
+    func_0202DC60(a, b, c, d, s);
+}
+
+/*
+ * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+ */
+
+/*
+ * function: func_0202DC48
+ * address:  0x0202DC48
+ * packet:   pkt_0202DAA4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ * symbols:
+ *   func_0202DC60  0x0202DC60  thumb
+ *
+ */
+
+typedef unsigned int u32;
+
+struct Pair {
+    u32 a;
+    u32 b;
+};
+
+extern void func_0202DC60(u32 a, u32 b, u32 c, u32 d, struct Pair *p);
+
+void func_0202DC48(u32 a, u32 b, u32 c, u32 d)
+{
+    struct Pair s;
+
+    s.a = 0;
+    s.b = 0;
+    func_0202DC60(a, b, c, d, &s);
+}
+
+/*
+ * NEAR MISS (DIFF)
+ */
+

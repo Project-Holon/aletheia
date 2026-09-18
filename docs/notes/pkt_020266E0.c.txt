@@ -1,0 +1,81 @@
+/*
+ * function: func_020266E0
+ * address:  0x020266E0
+ * packet:   pkt_020266E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss, not a filed source)
+ * symbols:
+ *   data_02146940  0x02146940  data
+ *   data_020A74BC  0x020A74BC  data
+ *   data_020A74C0  0x020A74C0  data
+ *
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern const u32 data_02146940[];
+extern const u8  data_020A74BC[];
+extern const u8  data_020A74C0[];
+
+extern void  func_02034714(void *dst, u32 val, void *dst2);
+extern void *func_02030734(int a, int b, int c, void *d, int e);
+
+void func_020266E0(u32 heap)
+{
+    u8 *p;
+
+    if (data_02146940[0] != 0) {
+        func_02034714((void *)data_020A74BC, 0, (void *)data_020A74BC);
+    }
+    p = func_02030734(heap, 0xBB4, 1, (void *)data_020A74C0, 0x5a);
+    *(u32 *)data_02146940 = (u32)p;
+    p[0xBB4 - 7] = (u8)-1;
+}
+
+/*
+ * NEAR MISS: DIFF plus data_020A74BC unattested.
+ */
+
+/*
+ * function: func_02026CA0
+ * address:  0x02026CA0
+ * packet:   pkt_020266E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss, not a filed source)
+ * symbols:
+ *   data_02146940  0x02146940  data
+ *
+ */
+
+typedef unsigned int u32;
+typedef int          s32;
+
+extern const u32 data_02146940[];
+
+u32 func_02026CA0(u32 *p)
+{
+    u32 mask = data_02146940[0xBA4 / 4];
+
+    while ((s32)p[0] < 0x1e) {
+        if ((1u << p[0]) & mask) {
+            p[0]++;
+            return p[0] - 1;
+        }
+        p[0]++;
+    }
+    return 0x1e;
+}
+
+/*
+ * NEAR MISS: DIFF: 52 bytes; block placement of the bitmap loop.
+ */
+

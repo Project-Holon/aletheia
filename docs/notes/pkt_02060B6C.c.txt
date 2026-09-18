@@ -1,0 +1,17 @@
+pkt_02060B6C -- near miss, func_02060C5C, 2 concrete bytes, register only.
+
+0x02060C5C (56 bytes) is the twin of 0x020610E0 (pkt_020610E0) and has the
+same residue: the size threshold is 0x4c instead of 0x30 and the callee is
+func_02060814 instead of func_02060FA4, but the body is otherwise identical and
+the only bytes that differ are the register of the `end - start` temporary
+(original `sub r3, r1, r0`, this C `sub r2, r1, r0`).
+
+The three-argument reading is ruled out here, not assumed: the callers of this
+address pass three arguments (`sub_02060C5C(mem, size, 0)` in
+docs/notes/sub_0202FC48.c.txt), so the source was tried with an unused third
+parameter and with the `void *mem, u32 size, u32 mode` prototype, both at the
+same two bytes.
+
+See docs/notes/pkt_020610E0.c.txt for the full list of spellings tried; do not
+re-derive it.  The rest of this packet's range is a 236-byte function
+(0x02060B6C) this agent did not attempt.

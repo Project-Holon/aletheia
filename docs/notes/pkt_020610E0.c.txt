@@ -1,0 +1,38 @@
+pkt_020610E0 -- near miss, 2 concrete bytes, register choice only.
+
+0x020610E0 (56 bytes) is the larger-block copy guard; its twin 0x02060C5C
+(56 bytes, pkt_02060B6C, a neighbour of this packet) is the same function with
+a 0x4c threshold and func_02060814 as the callee.  Both are:
+
+    u32 func(u32 a, u32 b)
+    {
+        u32 end = (b + a) & ~3u;
+        u32 start = (a + 3) & ~3u;
+        if (start > end || end - start < THRESHOLD) return 0;
+        return callee(start, end);
+    }
+
+Every instruction, byte and branch reproduces; the only difference is the
+register holding `end - start`:
+
+    original:  sub r3, r1, r0 / cmp r3, #0x30 / bhs
+    this C:    sub r2, r1, r0 / cmp r2, #0x30 / bhs
+
+Declaration order is pinned by the first four instructions -- `end` must be
+computed first, into r1 (`add r1, r1, r0`), and `start` second, into r0
+(`add r0, r0, #3`), then both `bic #3` -- which is why the source computes
+`end` from `b + a` before `start`.  At the call site r2 is left unset even
+though func_02060FA4 reads a third register (it passes r2 on to
+func_020606D0 as a stack word) and even though 0x02060C5C's callers do pass a
+third argument (`sub_02060C5C(mem, size, 0)`, see docs/notes/sub_0202FC48.c.txt),
+so a three-parameter signature -- tried -- does not move it either.
+
+Other spellings tried on 0x020610E0, all DIFF at exactly these two
+instructions: two separate `if`s returning 0 (16 bytes wrong), a named `len`
+local declared before the guard (9, and the `sub` is hoisted above the
+branch), `len = end - start` assigned inside the `||` (2, this packet's best),
+`(u32)(end - start)`, `0x30u`, the negated positive form
+`if (start <= end && end - start >= 0x30)`, and the two conditions swapped.
+
+Stop here unless another packet pins which scratch register mwccarm 1.1p1
+prefers for a subtraction feeding a comparison; the choice is below the source.

@@ -1,0 +1,84 @@
+DIFF near misses in pkt_0202EC44 (0x0202EDE4, 0x0202EE0C)
+==========================================================
+
+Both are unsigned fixed-point lerp helpers that call the MSL unsigned divide
+helper at 0x0209C2B0.  The C below reproduces every instruction and every
+operand, but not the compiler's choice of scratch register, and lands at DIFF
+with 8 and 19 differing bytes; the size is right (38/38 and 34/36, the extra
+two bytes in each listing extent being section padding).
+
+The relocation name for the divide is `_u32_div_f`, NOT the runtime table's
+`_div_by_zero_check` (0x0209C2B0): mwcc's own codegen emits the symbol
+`_u32_div_f`, so the `symbols:` entry has to be spelled
+
+    _u32_div_f  0x0209C2B0  arm
+
+or the site reports "no address for '_u32_div_f'".  That part is settled: with
+the entry the relocation resolves as `arm` against layout/runtime_arm9.txt.
+
+0x0202EDE4: the original keeps `lo = a2 + (a4 >> 1)` in r4 and
+`hi = a3 - (a4 >> 1)` in r2; every C spelling tried (both locals named, both
+inlined, hi declared first) puts hi in r3 instead, which moves four
+instructions' worth of bytes.  Everything else -- the two early exits, the
+`(a1 - lo) * (a0 << 8)` multiply, the divisor `hi - lo` and the final
+`>> 8` -- matches.
+
+    u32 func_0202EDE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+    {
+        u32 half = a4 >> 1;
+        u32 lo = a2 + half;
+        u32 hi = a3 - half;
+
+        if (a1 <= lo) return 0;
+        if (a1 >= hi) return a0;
+        return ((a1 - lo) * (a0 << 8) / (hi - lo)) >> 8;
+    }
+
+0x0202EE0C: the original materialises the shifted span into r2 and then copies
+it to r0 before the multiply (`lsls r2,r0,#8; adds r0,r2,#0; muls r0,r1,r0`);
+every spelling tried folds the copy away (`muls r0,r1,r0`), which shifts the
+rest of the function by two bytes.
+
+    u32 func_0202EE0C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+    {
+        u32 v = ((a3 - a2) - a4) << 8;
+        u32 q = (a1 * v) / a0;
+
+        return (a4 >> 1) + (a2 + (q >> 8));
+    }
+
+Neither file is in src/matched/ or src/pending/; they are recorded here only.
+
+
+0x0202EC44 (pkt_0202EC44): a 54-byte slot scan, DIFF by two scratch-register
+choices.  The C below is semantically exact and byte-exact except that the
+original keeps the parameter a1 in r7 and the found-index local in r6, while
+every spelling tried (n declared before i, after i, u32 or s32, with and
+without a named local for the call result, with a second named copy of a1)
+gives a1 in r6 and the local in r7, and the clamp compares unsigned only when
+the local is u32.  The bitfield at byte +0x26 bit 4 is real: a plain
+`(b >> 4) & 1` compiles with `ands`, the bitfield with the lsls/lsrs #27/#31
+pair, as docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md says.
+
+    struct Slot {
+        u8  pad[0x26];
+        u8      : 4;
+        u8 flag : 1;
+        u8      : 3;
+        u8  pad2;
+    };
+
+    u32 func_0202EC44(struct Slot *a0, u32 a1)
+    {
+        u32 n = 0;
+        u32 i;
+
+        for (i = 0; i < 0x14; i++) {
+            if (!a0[i].flag) break;
+            if (func_0200856C(&a0[i]) == a1) n = i + 1;
+        }
+        if (n > 5) n = 5;
+        return n;
+    }
+
+Not filed; recorded here only.

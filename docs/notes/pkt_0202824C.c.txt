@@ -1,0 +1,48 @@
+/*
+ * function: func_020282AC
+ * address:  0x020282AC
+ * packet:   pkt_0202824C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss, not a filed source)
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int  u32;
+
+struct A {
+    u32 f0;
+    u8  pad[0x1c - 4];
+    u16 f1c;
+    u16 f1e;
+};
+
+struct B {
+    u16 pad0;
+    u16 f2;
+};
+
+extern void func_02045798(u32 a, u32 b);
+extern void func_02045374(u32 a);
+extern void func_02045730(u32 a);
+extern void func_02041B6C(void);
+
+void func_020282AC(struct A *a, struct B *b, u32 c, u32 d, u32 e)
+{
+    b->f2 = (u16)c;
+    a->f1c = (u16)d;
+    a->f1e = (u16)e;
+    func_02045798(a->f0, (u8)(c + 1));
+    func_02045374(a->f0);
+    func_02045730(a->f0);
+    func_02041B6C();
+}
+
+/*
+ * NEAR MISS: DIFF: 36 bytes of scheduling; the fifth-argument load is add+ldrh in the original.
+ */
+

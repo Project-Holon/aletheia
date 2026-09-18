@@ -1,0 +1,88 @@
+/*
+ * function: func_02022490
+ * address:  0x02022490
+ * packet:   pkt_02022490
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ * symbols:
+ *   data_021468A4  0x021468A4  data
+ *   func_02022478  0x02022478  thumb
+ *   func_020225F0  0x020225F0  thumb
+ *
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef void (*Fn)(void);
+
+extern const u32 data_021468A4[];
+extern void func_02022478(void);
+extern void func_020225F0(void);
+extern u32  func_02005624(Fn fn, void *p, u32 z);
+
+void func_02022490(u8 *o, u32 a, u32 b, u32 i)
+{
+    u32 *arr = (u32 *)o;
+
+    if (arr[4] == 0 && arr[5] == 0) {
+        *(u32 *)((u8 *)data_021468A4 + 0x54) = func_02005624(func_02022478, o, 0);
+    }
+    arr[i] = a;
+    if (b != 0) {
+        arr[i + 2] = b;
+    } else {
+        arr[i + 2] = (u32)func_020225F0;
+    }
+    arr[i + 4] = 1;
+}
+
+/*
+ * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+ */
+
+/*
+ * function: func_02022568
+ * address:  0x02022568
+ * packet:   pkt_02022490
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ * symbols:
+ *   data_020A73C8  0x020A73C8  data
+ *   func_020225D4  0x020225D4  thumb
+ *
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int  u32;
+
+typedef void (*Task)(void);
+
+extern const u8 data_020A73C8[];
+extern void func_020225D4(void);
+extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void func_020056A0(Task fn, void *arg, u32 prio);
+
+void func_02022568(u32 a, u32 b, u32 c)
+{
+    void *p = func_02030734((u16)((c & 0x7FFF) | 0x8000), 8, 0,
+                            (void *)data_020A73C8, 0x401);
+
+    *(u32 *)p = a;
+    *(u32 *)((u8 *)p + 4) = b;
+    func_020056A0(func_020225D4, p, 8 << 7);
+}
+
+/*
+ * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+ */
+

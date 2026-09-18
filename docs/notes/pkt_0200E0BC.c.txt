@@ -1,0 +1,43 @@
+pkt_0200E0BC - three functions that do not reproduce, kept here rather than in
+src/matched/ or src/pending/ because they are DIFF, not MATCH.
+
+func_0200E0BC @ 0x0200E0BC (38 bytes, Thumb, 0 relocations after the pool)
+  Every instruction is right and the pool word too, but the loop is not
+  rotated the way the original is.  This C
+
+      int func_0200E0BC(u32 v)
+      {
+          u32 i;
+          int r = 3;
+          for (i = 0; i < 4; i++) {
+              if (v < g_0209DE90[i].b) { r = i; break; }
+          }
+          return r;
+      }
+
+  compiles to 40 bytes with a bottom test only (movs r3,#0; ...; adds r3,#1;
+  cmp r3,#4; bcc loop), while the original is 44 and carries a peeled entry
+  test as well (movs r4,#3; movs r3,#0; cmp r3,#4; bhs end; ldr r2,pool; loop).
+  Tried: `return i` plus a trailing `return 3`, `int i` instead of `u32 i`,
+  and the while form - all 40 bytes, none rotated, so the difference is not the
+  break spelling.  The table address g_0209DE90 loads from the pool fine
+  (resolved), so this is pure codegen shape: the peeled test is what the
+  original has and this front end will not emit it for any of the four loop
+  shapes tried.
+
+func_0200E0E8 @ 0x0200E0E8 (48 bytes, Thumb)
+  Same table, searched between the two halves of an entry
+  (lo = g_0209DE90[a1].a, hi = g_0209DE90[a1].b) for the first record whose
+  low 11 bits are zero, else 0xffff.  Written that way it compiles to 52 bytes
+  with no prologue push at all - the original saves {r3, r4} and keeps a
+  callee-saved index - and every byte from offset 0 differs.  Both pool words
+  resolve, so this is register allocation, not attestation.
+
+func_0200E124 @ 0x0200E124 (54 bytes, Thumb)
+  Same 54 bytes as the original and every relocation resolves, but 23 bytes
+  differ from offset 0: the original opens `push {r4, r5, r6, lr}` and this C
+  opens `push {r3, r4, r5, lr}`.  The body is a memmove of a sub-range
+  (func_02082D44) plus a mask-and-store of the last word.
+
+The three are all in packet pkt_0200E0BC; the packet has no EXACT entry, so it
+gets no shard.

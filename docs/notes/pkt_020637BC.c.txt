@@ -1,0 +1,34 @@
+pkt_020637BC -- near miss, 12 concrete bytes, a `-1` comparison that folds.
+
+0x020637BC (24 bytes) and 0x0206380C (28 bytes, same packet family) are the same
+accessor twice.  The original:
+
+    020637BC  ldr   r1, [r0, r1, lsl #2]     ; v = p[i]
+    020637C0  mvn   r0, #0
+    020637C4  cmp   r1, r0
+    020637C8  movne r0, #1
+    020637CC  moveq r0, #0
+    020637D0  bx    lr
+
+this C's `u32 v = p[i]; if (v == 0xffffffff) return 0; return 1;` produces 20
+bytes instead of 24 because the comparison strength-reduces to `cmn r0, #1`
+(`v == -1` is `v + 1 == 0`) and the loaded value then takes r0:
+
+    ldr r0, [r0, r1, lsl #2] / cmn r0, #1 / movne r0, #1 / moveq r0, #0 / bx lr
+
+Since the original materialises the sentinel with `mvn` *into r0* and loads the
+value into r1, its source never went through the folded form.  Spellings tried,
+all 12 bytes: `0xffffffff`, `0xffffffffu`, `(u32)-1`, `~0u`, `-1`,
+`(int)v == -1`, `(int)v != -1`, `v != 0xffffffffu` with `return 1` first, a
+named `u32 nf = 0xffffffff` local compared against `v`, and both `if/return`
+orders.  The fold happens after the front end, so no spelling of the constant
+reaches the original.
+
+0x0206380C pins the addressing of the same accessor and is worth the note for
+that alone: the index scales once (`add r0, r0, r1, lsl #2`) and the `+2` is a
+load displacement (`ldr r1, [r0, #8]`), so the source holds a `q = p + i`
+pointer and reads `q[2]`; writing `p[i + 2]` gives `add r1, r1, #2` and 18
+differing bytes.  External evidence for both prototypes:
+docs/notes/sub_0204B728.c.txt declares `sub_0206380C(struct Xform *m, u32 axis)`,
+and the axis index has no truncation at the call site, consistent with the
+`u32` here.

@@ -1,0 +1,65 @@
+pkt_0204EA64: unlabelled functions in the span, and one closed near miss
+=======================================================================
+
+Ten functions in this packet's address span carry no `func_` label in the
+current listings, because none of their prologues saves `lr`, so
+disasm.py never auto-labelled them and the worklist's function list does not
+carry them either (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+They were found by walking the bytes between the labels, not the label list.
+Nine of them are now matched under src/matched/; this note records what is
+there so the integrator can seed layout/function_starts.txt:
+
+  0x0204ED4C  u32 + s16 triple latch (36 bytes)   NOT matched, see below
+  0x0204ED70  12-byte record copy (16)            src/matched/func_0204ED70.c
+  0x0204ED80  u16 store at +0x1c (12)             src/matched/func_0204ED80.c
+  0x0204ED8C  u16 store at +0x1e (12)             src/matched/func_0204ED8C.c
+  0x0204ED98  u16 store at +0x20 (12)             src/matched/func_0204ED98.c
+  0x0204EDA4  u16 store at +0x22 (12)             src/matched/func_0204EDA4.c
+  0x0204EDB0  u8 store at +0x24 (12)              src/matched/func_0204EDB0.c
+  0x0204EDBC  u8 store at +0x25 (8)               src/matched/func_0204EDBC.c
+  0x0204EDC4  two u16 stores at +0x36/+0x38 (12)  src/matched/func_0204EDC4.c
+  0x0204EDD0  two one-hot fields from a flags word (60)  src/matched/func_0204EDD0.c
+
+func_0204ED4C (0x0204ED4C, 36 bytes): closed near miss
+------------------------------------------------------
+
+  image:  mov  r2, #1
+          str  r2, [r0, #0x2c]      <- the constant store comes first
+          ldrsh r3, [r1, #4]        <- then all three loads, in descending
+          ldrsh r2, [r1, #2]           index order (r3, r2, r1)
+          ldrsh r1, [r1]
+          strh r1, [r0, #0x30]      <- then the three ascending stores
+          strh r2, [r0, #0x32]
+          strh r3, [r0, #0x34]
+          bx   lr
+
+  mwcc:   same 36 bytes, but each load/store pair is emitted together
+          (`ldrsh r2, [r1]` / `strh r2, [r0, #0x30]` ...), and with the three
+          values in named locals instead, the constant store sinks below the
+          loads and the loads come out in ascending order.
+
+Spellings tried: three inline halfword stores; three halfword stores with the
+values in `s16` locals; a `struct Tri { s16 x, y, z; }` aggregate copy; the same
+aggregate copy as a struct member.  All 36 bytes, all wrong in the same slots.
+Mid-block declarations are not available: this front end rejects them
+("expression syntax error"), so the store has to precede the locals and cannot
+be written between two declaration groups.
+
+Also worth recording for the next wave in this packet
+-----------------------------------------------------
+
+A call site whose target has no witness of ANY class is not always a dead end
+inside one packet: the `matched` class refuses only a witness from the file
+under test, not one from a sibling.  func_0204ED24 calls func_0204F27C, and
+0x0204F27C's single branch reference image wide is that call, so func_0204ED24
+came back MATCH* while the shard that records func_0204F27C as EXACT had not
+been written yet.  Writing the packet's own shard converted it to EXACT*
+without a single byte of C changing:
+
+  1. match func_0204F27C, file it in src/matched
+  2. python tools/match.py manifest --verify --shard pkt_0204EA64
+  3. re-run `one` on func_0204ED24 -- its relocation now reports
+     "matched x1, e.g. 0204F27C" and the verdict is EXACT*
+
+So when a small function in a packet is capped at MATCH by a sibling that is
+itself still open, do the sibling first and write the shard before giving up.

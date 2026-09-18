@@ -7,11 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0202B67C.c \\
  *       --func func_0202B67C --addr 0x0202B67C --thumb --cc 1.1p1
+ *
+ * Closed: every byte reproduces and the site that held it open is now attested.
  */
 
 typedef unsigned char u8;

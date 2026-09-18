@@ -1,0 +1,31 @@
+/*
+ * function: func_0200E5A0
+ * address:  0x0200E5A0
+ * packet:   pkt_0200E5A0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * The two tests share one exit, so they have to be one conjunction with the
+ * `return 0` written after it; as two separate `if (...) return 0;` statements
+ * the compiler emits two copies of the `movs r0, #0; pop` pair and lands 28
+ * bytes wrong.  EXACT*: the listing extent runs to the next label at
+ * 0x0200E688, over three unlabelled followers.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32 func_0203F1FC(void *p, u32 off);
+
+int func_0200E5A0(void *a0)
+{
+    if (*(u16 *)((u8 *)a0 + 0x5c6) == func_0203F1FC(a0, 0x5c6) &&
+        *(u16 *)((u8 *)a0 + 0x5c2) == 0xd68)
+        return 1;
+    return 0;
+}

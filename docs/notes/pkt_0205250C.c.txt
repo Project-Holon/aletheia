@@ -1,0 +1,36 @@
+pkt_0205250C (0x0205250C..0x02053218), wave2-E
+Parked: func_02052F58, func_02052F90, func_020528A8, func_020528BC
+(src/pending/, blockers in their headers).  Note the packet carries a
+`proc hint: arm7tdmi` from tools/procscan.py, but its functions use `blx r3`
+(ARMv5), so arm946e is right and the hint does not apply here.
+
+func_02052F58 / func_02052F90 are the interesting residue (48 bytes each,
+44 compiled).  The original opens
+
+    stmfd sp!,{lr} ; sub sp,sp,#4      (a live 4-byte frame, never addressed)
+    ldr r3,[pc]  -> &g_020A8148 ; ldr r3,[r3] ; blx r3
+    ldr r1,[pc]  -> 0x0000FFFF
+    and r0,r0,r1 ; lsl r0,r0,#3
+
+so the mask is a *pool word* and a real `and`, and the frame is the
+signature of a 4-byte local that stayed in a register.  Every spelling tried
+-- `x & 0xFFFF`, `(x & 0xFFFFu)`, `(u16)x << 3`, a `u16` local, `u32`/`int`
+local masks, `x % 65536 * 8`, a ternary -- folds the mask into a single
+`lsl #16 / lsr #13` pair and drops the frame (36 bytes).  Only a *64-bit*
+operand forces the pool mask back (`long long x` gives the right `and` and a
+44-byte function with `push {r3,lr}`), which is why the note keeps the 64-bit
+shape: the remaining 4 bytes are the frame, i.e. a 32-bit local that mwccarm
+refuses to fold.
+
+That 0x0000FFFF pool word is also the cleanest test in the packet for
+`(u16)` cast versus mask: the cast is a shift pair, the mask plus a 64-bit
+value is a pool word.  func_02051AA0 (0x02051AA0, pkt_02051A54) shows the
+same tell in the other direction: `(u16)f(...) << 3` compiles to
+`lsl #16 / lsr #13` with no pool word at all.
+
+func_020528A8 / func_020528BC (12 bytes each) are tail-call thunks whose two
+pool words are `func_020528D0`/`func_02052984` (both `label x5`, resolved) and
+`func_02052F58`/`func_02052F90`.  Their only residue beyond that site is the
+load order of the two pool words (`ldr ip` before `ldr r1` in the original,
+the reverse in every spelling tried), and the second word stays wildcarded
+until func_02052F58/90 is itself filed.

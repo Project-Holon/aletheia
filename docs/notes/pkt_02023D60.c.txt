@@ -1,0 +1,50 @@
+/*
+ * function: func_02023D60
+ * address:  0x02023D60
+ * packet:   pkt_02023D60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss, not a filed source)
+ * symbols:
+ *   func_02023DDC  0x02023DDC  thumb
+ *
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef void (*Task)(void);
+
+struct Elem {
+    u16 f0;
+    u16 f2;
+    u16 f4;
+    u16 f6;
+    u32 f8;
+    u32 fc;
+};
+
+extern void func_020056A0(Task fn, void *arg, u32 prio);
+extern void func_02023DDC(void);
+
+void func_02023D60(u8 *base, u16 b, u16 c, u16 d, u32 e, u32 f, u32 g)
+{
+    struct Elem *row = (struct Elem *)(base + 0x80 + g * 0x20);
+
+    row[f].f0 = b;
+    row[f].f2 = c;
+    row[f].f4 = d;
+    row[f].f6 = (u16)e;
+    row[f].f8 = f;
+    row[f].fc = g;
+    func_020056A0(func_02023DDC, &row[f], 1);
+}
+
+/*
+ * NEAR MISS: DIFF: 26 bytes of the 52 differ in the elem indexing; the call target func_02023DDC is also unattested (Thumb veneer).
+ */
+

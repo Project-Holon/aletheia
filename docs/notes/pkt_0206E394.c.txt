@@ -1,0 +1,15 @@
+pkt_0206E394 (0x0206E394..0x0206E954), wave2-F
+Parked: func_0206E5EC (src/pending/, blocker in the header).
+
+64 bytes compiled against 64; exactly two bytes wrong, and both are
+signedness encodings of the same guard:
+
+  original  cmp r0,#0 ; popls {r4,r5,r6,pc}     ... cmp r4,r0 ; bcc loop
+  compiled  cmp r0,#0 ; pople {r4,r5,r6,pc}     ... cmp r4,r0 ; blt loop
+
+So the original's entry-count test is unsigned (LS) and its loop bound is
+unsigned (BCC).  With `int i` the loop came out `blt`; with `u32 i` the loop
+becomes `bcc` but the guard's `<= 0` spelling makes mwccarm emit *two*
+conditional exits (popeq and popls, 68 bytes).  A `u32` local for the count
+re-loads the count instead of re-reading the byte in the loop condition,
+which loses the reload the original has.

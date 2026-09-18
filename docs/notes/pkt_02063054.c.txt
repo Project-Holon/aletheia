@@ -1,0 +1,26 @@
+pkt_02063054 -- near miss, 8 concrete bytes, instruction order only.
+
+0x02063054 (16 bytes) is a two-argument tail call with a biased second
+argument:
+
+    ldr   ip, =func_02082A60
+    add   r1, r1, #0x400
+    add   r1, r1, #0x7000000
+    bx    ip
+
+Every spelling tried produces the same three instructions with `ldr ip` in the
+middle instead of first:
+
+    add   r1, r1, #0x400
+    ldr   ip, =func_02082A60
+    add   r1, r1, #0x7000000
+    bx    ip
+
+Tried: `func_02082A60(a, b + 0x400 + 0x7000000)`, the sum bound to a `u32`
+local first, and the two constants in the other order
+(`b + 0x7000000 + 0x400`); all 8 bytes (the pool word location differs with the
+`ldr` slot, the relocation itself resolves).  The constant cannot be folded
+into one immediate, which is why the source has two terms at all.
+
+The pool word at 0x02063064 names func_02082A60, and the `label` class resolves
+it, so the only residue is the order of the four instructions.

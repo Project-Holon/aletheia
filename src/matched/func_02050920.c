@@ -1,0 +1,28 @@
+/*
+ * function: func_02050920
+ * address:  0x02050920
+ * packet:   pkt_02050340
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02050920.c \
+ *       --func func_02050920 --addr 0x02050920 --cc 1.1p1 --arm
+ */
+
+typedef unsigned short u16;
+
+struct S14 {
+    u16 f : 14;
+};
+
+extern int func_02050984(int a);
+
+int func_02050920(struct S14 *p)
+{
+    return func_02050984(p->f) != 0;
+}

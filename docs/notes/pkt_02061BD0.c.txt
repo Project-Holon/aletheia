@@ -1,0 +1,41 @@
+pkt_02061BD0 -- near miss, 6 concrete bytes, a load hoisted above a store.
+
+0x02061BD0 (60 bytes) is the same residue as 0x02060480 in
+docs/notes/dlist_ops.c.txt, one packet over: a load of one struct field is
+hoisted above a store to another field, and the original keeps the source
+order.
+
+    original                            this C
+    bl   func_02061840                  bl   func_02061840
+    strh r0, [r4, #8]                   ldrh r1, [r4, #0xc]
+    ldrh r1, [r4, #0xc]                 strh r0, [r4, #8]
+    mov  r0, #1                         mov  r0, #1
+    sub  r1, r1, #1                     sub  r1, r1, #1
+    strh r1, [r4, #0xc]                 strh r1, [r4, #0xc]
+
+The C is
+
+```c
+int func_02061BD0(struct S *s)
+{
+    if (func_02061878(s) != 0) return 0;
+    s->unk8 = (u16)func_02061840(s, s->unk8);
+    s->unkC = (u16)(s->unkC - 1);
+    return 1;
+}
+```
+
+and every part of it reproduces: the `movne r0, #0` / `popne` early exit, the
+u16 return truncation on the store, the u16 negated-compare-free decrement.
+Only the position of the `ldrh [r4, #0xc]` differs, and it is a scheduling
+decision (the two fields are known distinct, so mwccarm 1.1p1 is free to move
+the load and does).
+
+Tried: `s->unkC--` against `s->unkC = (u16)(s->unkC - 1)`, reading unkC into a
+`u16` local before the store, `volatile` on the field, and swapping the two
+statements in the source -- 6 bytes every time.
+
+Note the shape shared with the dlist note: in both cases the value being loaded
+is a *counter* and the store before it writes a pointer or a call result, so a
+reader looking for the cause should expect the compiler's alias analysis rather
+than a missing statement.

@@ -1,0 +1,50 @@
+func_0204B764 / func_0204B7C8 / func_0204B784: two-instruction scheduling residue
+==================================================================================
+
+Closed near miss, not a partial trace.  All three are aggregate struct copies
+out of a cell actor, and each is byte-for-byte correct except for the order of
+the two address-setup instructions that precede the first ldm/stm pair.
+
+func_0204B764 (32 bytes, 0x0204B764), 20 bytes from actor+0x40 to the caller's
+buffer:
+
+  image:  push {r3, lr}
+          add  ip, r0, #0x40      <- source address first
+          mov  lr, r1             <- then the destination
+          ldm  ip!, {r0, r1, r2, r3}
+          stm  lr!, {r0, r1, r2, r3}
+          ldr  r0, [ip]
+          str  r0, [lr]
+          pop  {r3, pc}
+
+  mwcc:   push {r3, lr}
+          mov  lr, r1             <- destination first
+          add  ip, r0, #0x40      <- then the source
+          (rest identical)
+
+func_0204B7C8 (40 bytes, 0x0204B7C8) is the same copy of the 36-byte record at
+actor+0x1c and fails the same way, at the same two instructions.  func_0204B784
+(68 bytes, 0x0204B784) has the mirror-image residue: its source pointer is
+already in r4, so the image starts the load (`ldm r4!, {r0, r1, r2, r3}`) and
+computes the destination (`add ip, r5, #0x1c`) after it, while mwcc computes the
+destination first.
+
+What was tried, all 48 bytes / 32 bytes wrong at exactly those two slots and
+identical everywhere else:
+
+  * `*dst = *(struct Dsp *)(actor + 0x40);`
+  * source bound to a local first (`struct Dsp *src = ...; *dst = *src;`)
+  * a typed `struct Actor { u8 pad[0x40]; struct Dsp dsp; }` member access
+  * a temporary struct local, then `*dst = tmp;`
+  * casting both sides (`*(struct Dsp *)dst = *(struct Dsp *)(actor + 0x40)`)
+  * a `static` copy helper taking (dst, src), inlined into the wrapper
+  * `dst + 0` and `(u32)actor + 0x40` spellings of the base arithmetic
+
+mwcc's struct-copy codegen always emits the destination move first here; the
+image has the source's address first.  No flag change is permitted (the
+compiler is pinned), and the residue is pure instruction scheduling, so these
+are parked as notes rather than as source files.  If a later wave finds the
+spelling, the three files are two instructions apart from EXACT.
+
+Both functions are leaf-free: no calls, no data relocations, so nothing here is
+blocked on evidence -- only on this ordering.

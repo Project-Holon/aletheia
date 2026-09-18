@@ -1,0 +1,31 @@
+/*
+ * function: func_02022F24
+ * address:  0x02022F24
+ * packet:   pkt_02022F0C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ * symbols:
+ *   func_02022568  0x02022568  thumb
+ *
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u32 func_02022568(u32 a, u32 b);
+
+u32 func_02022F24(u32 a, u8 *p)
+{
+    u8 v = *(u8 *)(p + 0x309);
+
+    return func_02022568(a, v);
+}
+
+/*
+ * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+ */
+

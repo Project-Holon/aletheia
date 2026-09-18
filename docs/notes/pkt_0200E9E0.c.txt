@@ -1,0 +1,34 @@
+pkt_0200E9E0 - func_0200EBD0 @ 0x0200EBD0 (58 bytes of code + 2 filler + 8 pool,
+Thumb) does not reproduce: 7 concrete bytes wrong, all of them register
+allocation, no bytes missing and no relocation unresolved.
+
+The original opens `push {r4, r5, r6, lr}` and keeps both the guard value
+(*(u32 *)(a0 + 0x1554)) and the slot count (*(u32 *)(a0 + 0x1550)) in r6, a
+callee-saved register, even though neither is live across the func_0200EA3C
+call: the tail of the function re-loads the count from memory rather than
+using the register.  Every spelling that produces the original's instruction
+sequence otherwise puts those two values in r1 instead, so the frame is
+`push {r3, r4, r5, lr}` and three loads differ (`ldr r1` against `ldr r6`),
+the `muls` operand order follows, and the pop mirrors it:
+
+    * +0000    70 b5   push {r4,r5,r6,lr}      | 38 b5   push {r3,r4,r5,lr}
+    * +0006    2e 59   ldr r6, [r5, r4]        | 29 59   ldr r1, [r5, r4]
+    * +000A    86 42   cmp r6, r0              | 81 42   cmp r1, r0
+    * +0010    2e 58   ldr r6, [r5, r0]        | 29 58   ldr r1, [r5, r0]
+    * +0016    70 43   muls r0, r6             | 48 43   muls r0, r1
+    * +0038    70 bd   pop {r4,r5,r6,pc}       | 38 bd   pop {r3,r4,r5,pc}
+
+Four shapes were tried and all four give exactly these 7 bytes: the field
+offsets as separate subscripts with the guard value in a named local; the same
+local re-used for the guard value and then for the count (the shape that would
+most naturally explain one register holding both); the guard written inline
+with no local at all; and a `u32 *p = (u32 *)(a0 + 0x1550)` cursor, which is 31
+bytes wrong (it moves the 0x1554 access onto the pointer).  This is the
+"register choice, not reachable from C" shape recorded in
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md;
+parking it here rather than in src/pending/ because the bytes are not right.
+
+What the function does, for the next reader: it guards on a counter at +0x1554
+against 0x270F, calls func_0200EA3C on the slot at index *(u32 *)(a0 + 0x1550)
+of a 0x16C-byte array, advances that index modulo 15 (wrapping to 0 when it
+reaches 15) and bumps the counter.  func_0200EA3C resolves from its own label.

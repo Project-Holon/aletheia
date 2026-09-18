@@ -1,0 +1,51 @@
+/*
+ * function: func_0202B84C
+ * address:  0x0202B84C
+ * packet:   pkt_0202B84C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ * symbols:
+ *   data_0209FF88  0x0209FF88  data
+ *   data_0209FF8C  0x0209FF8C  data
+ *
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef void (*Fn)(void *);
+
+struct Ent {
+    u8  key;
+    u8  pad[7];
+    Fn  fn;
+};
+
+extern const struct Ent data_0209FF88[];
+extern const Fn data_0209FF8C[];
+
+extern u32 func_0202B818(void *o);
+
+void func_0202B84C(void *o)
+{
+    u32 k = func_0202B818(o);
+    u32 i;
+
+    for (i = 0; i < 9; i++) {
+        if (data_0209FF88[i].key == k && data_0209FF88[i].fn != 0) {
+            data_0209FF88[i].fn(o);
+        }
+    }
+    if (data_0209FF8C[k] != 0) {
+        data_0209FF8C[k](o);
+    }
+}
+
+/*
+ * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+ */
+

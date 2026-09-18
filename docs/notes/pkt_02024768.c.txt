@@ -1,0 +1,42 @@
+/*
+ * function: func_020247A8
+ * address:  0x020247A8
+ * packet:   pkt_02024768
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss, not a filed source)
+ * symbols:
+ *   data_020A746C  0x020A746C  data
+ *   data_0209F7AC  0x0209F7AC  data
+ *
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern const u16 data_0209F7AC[];
+extern const u8  data_020A746C[];
+
+extern void  *func_02030734(int a, int b, int c, void *d, int e);
+extern void  *func_02045B38(u32 a, u32 b, u32 table, u32 heap);
+
+void *func_020247A8(u32 a)
+{
+    void *p = func_02030734((u16)a, 0x38, 0, (void *)data_020A746C, 0x32);
+    u32 i;
+
+    for (i = 0; i < 13; i++) {
+        *(u32 *)p = a;
+        *((u32 *)p + i + 1) = (u32)func_02045B38(0, 2, data_0209F7AC[i], (u16)a);
+    }
+    return p;
+}
+
+/*
+ * NEAR MISS: DIFF: same size, byte differences in the store/loop order.
+ */
+

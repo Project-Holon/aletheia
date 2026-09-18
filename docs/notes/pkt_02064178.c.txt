@@ -1,0 +1,43 @@
+pkt_02064178 -- near miss, 23 concrete bytes, store order and tail-call setup.
+
+0x02064178 (32 bytes):
+
+    mov   r2, #0
+    str   r2, [r0]
+    str   r1, [r0, #4]
+    mov   r1, #1
+    str   r1, [r0, #8]
+    ldr   ip, =func_02064140
+    add   r0, r0, #0xc
+    bx    ip
+
+The C here
+
+```c
+void func_02064178(struct S64S *o, u32 a)
+{
+    o->unk0 = 0;
+    o->unk4 = a;
+    o->unk8 = 1;
+    func_02064140(&o->unkC, 1);
+}
+```
+
+is 32 bytes against the original's 36: mwccarm hoists the pool load (`ldr ip`)
+above the three stores and posts the zero store after them.  The array
+spelling `((u32 *)o)[0] = 0; ...`, the named-field spelling, and a
+`(u8 *)o + 0xc` call argument instead of `&o->unkC` are byte-identical to each
+other, so the scheduling is not source-driven.
+
+0x0206428C (60 bytes, same packet) is the sibling worth recording here: every
+instruction, every store and every relocation is right, and it is 17 bytes off
+because the compiler allocates the `-1` into r3 and stores it last where the
+original uses r2 and stores it second:
+
+    original:  str r2,[r5,#0x34] / mvn r2,#0 / add r0,r5,#0x3c /
+               mov r1,#1 / str r2,[r5,#0x38] / bl func_02064140
+    this C:    mvn r3,#0 / add r0,r5,#0x3c / mov r1,#1 /
+               str r2,[r5,#0x34] / str r3,[r5,#0x38] / bl func_02064140
+
+Writing the sentinel as `0xffffffffu`, `(u32)-1` or a named `u32` local makes
+no difference.

@@ -1,0 +1,23 @@
+pkt_02050340 (0x02050340..0x02051230), wave2-E
+Filed EXACT: func_020507A0, func_02050804, func_0205085C, func_02050920,
+func_02050944, func_020509E8, func_02050BE8, func_02050C04 (8 entries).
+Parked: func_02050894 (MATCH, src/pending/).
+
+Two things worth recording for this packet:
+
+  * The listing's `func_020507A4` is not the function's start.  0x020507A0
+    holds `push {r0,r1,r2,r3}` -- the home-area push for an address-taken
+    register parameter, see
+    docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md --
+    and disasm.py only labels a prologue that saves lr, so the four bytes are
+    printed as a stray `.word` and the label lands four bytes late.  The
+    function is 48 bytes, not 44, and only verifies from 0x020507A0.  The
+    third parameter is a scalar whose address is taken (`&x`); written as
+    `u8 *buf` or `u8 buf[16]` it compiles to 32 bytes.
+
+  * func_02050894 calls func_02050738 and nothing outside the compared range
+    reaches it, so it caps at MATCH.  func_02050738 is 88 bytes and inside
+    this same packet: `r = func_0204F2CC(p->f1, *(u16 *)q, &local); if
+    (p->f2 != 0) r = ((int (*)(int,int,int,int))p->f2)(1, local, v, 32);
+    return r;` with `v = func_020473EC(*(u32 *)(q + 4))` -- filing it turns
+    func_02050894 EXACT with no new evidence.

@@ -7,19 +7,21 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * blocker:  02148BF4
+ * status:   MATCH*
+ * blocker:  ABS32 g_02148BF4 at +0x10: the address appears in no other literal pool in the image and no outside branch reaches it
+ *
  * symbols:
- *   g_02148B4C      0x02148B4C  data
- *   g_02148C2C      0x02148C2C  data
- *   g_02148C38      0x02148C38  data
- *   g_02148BF4      0x02148BF4  data
- *   g_02148B54      0x02148B54  data
- *   g_02148D0C      0x02148D0C  data
+ *   g_02148BF4       0x02148BF4  data
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206AA78.c \
+ *       --func func_0206AA78 --addr 0x0206AA78 --cc 1.1p1 --arm
  */
 
-extern int g_02148BF4[];
-void func_0206AA78(int idx, int v)
+typedef unsigned int u32;
+
+extern u32 g_02148BF4[];
+
+void func_0206AA78(int idx, u32 v)
 {
-    g_02148BF4[idx] = v | (idx << 30);
+    g_02148BF4[idx] = v | (u32)(idx << 30);
 }

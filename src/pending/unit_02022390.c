@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right
+ * status:   EXACT, every concrete byte right
  * function: func_02022390, func_020223AC
  *
  * func_020223AC reads an index out of its argument and calls
@@ -32,6 +32,8 @@
  *
  * The `matched` class does not reach this: the table is data, which that
  * class deliberately never covers.
+ *
+ * Closed: every byte reproduces and the unit now also attests the entry point at 0x020226E0.
  */
 
 typedef unsigned int u32;

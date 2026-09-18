@@ -1,0 +1,28 @@
+DIFF near misses in pkt_0202BEBC (0x0202BF54, 0x0202BF90, 0x0202BECC)
+=====================================================================
+
+0x0202BF54 (46 bytes) and 0x0202BF90 (52 bytes) are two accessors over the
+8-byte table func_0202BFC4 indexes: BF54 initialises the cursor state
+(`p->unk00 = 1`, the two u16s out of the chosen entry, `p->unk12 = 1`,
+`p->unk14 = 0`) and BF90 merges the previous entry with the new one
+(`p->unk0E = a[2] & b[1]`, `p->unk10 = a[1] & b[2]`).  Both are byte-correct
+in structure and both cap at MATCH on the same thing, the call to
+src/matched/sub_0202BFC4.c being their only relocation.
+
+BF54 lands at DIFF 11 bytes off: the original stores `idx` to p->unk0C and
+materialises the pointer `p->unk08` before the `p->unk00 = 1` store, while
+every spelling tried (with and without a `u16 *q` local, with the store of 1
+before and after the pointer arithmetic, with the shared-epilogue `goto` form
+of the two guards) schedules the pointer load after it and swaps r0/r1.
+
+BF90 lands at DIFF 28 bytes off: the original loads `p->unk08` into r6 before
+the `idx == 0xff` guard; the C that keeps two `u16 *` locals live across the
+guard instead puts the two address computations before it and only pushes
+{r3,r4,r5} (not r6, which the original's push {r4,r5,r6,lr} needs).
+
+0x0202BECC (14 bytes) is one byte-pair from byte-correct: the original loads
+the guarded field into r2 (`ldr r2,[r0]; cmp r2,#0`), every C spelling tried
+(`if (p->unk00)`, `if (p->unk00 != 0)`, a named local, the early-return form,
+`*(u32 *)p`, a second declared parameter) loads it into r1.  It also caps at
+MATCH, on func_0202BF90.  No file was kept for any of the three: they are
+recorded here only.

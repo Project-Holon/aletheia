@@ -1,0 +1,38 @@
+pkt_02061B2C -- near miss, 16 concrete bytes, ldmib against ldr+ldmib.
+
+0x02061B2C (44 bytes) is a dispatch helper: it indexes the table at 0x020A1718 by
+the object's first word, calls func_020862F0 with two of the object's fields, and
+then calls the table entry with three of them.
+
+    ldr  r3, [r5]
+    ldr  r2, =g_020A1718
+    ldr  r0, [r5, #4]
+    ldr  r1, [r5, #0xc]
+    ldr  r4, [r2, r3, lsl #2]
+    bl   func_020862F0
+    ldmib r5, {r0, r1, r2}         <- one instruction, three fields
+    blx  r4
+
+The C here
+
+```c
+void func_02061B2C(void *o)
+{
+    u32 *s = (u32 *)o;
+    void (*f)(u32, u32, u32) = (void (*)(u32, u32, u32))g_020A1718[s[0]];
+    func_020862F0(s[1], s[3]);
+    f(s[1], s[2], s[3]);
+}
+```
+
+is right in every other instruction, including the relocation and the `blx r4`,
+but emits `ldr r2, [r5, #0xc]` followed by `ldmib r5, {r0, r1}` where the
+original has the single `ldmib r5, {r0, r1, r2}`: mwcc reuses the value it
+already loaded for the first call's second argument as the block's third
+register and then cannot merge, so the `ldmib` is one register short.
+
+Worth recording because the *first* attempt at this function was 31 bytes wrong
+purely because the object's fields were declared `u16`: they are words (every
+access is a plain `ldr`, and `ldmib` loads three words), and getting that wrong
+turns four loads into four `ldrh` plus truncations.  With `u32` fields the
+residue is the one instruction-selection difference above, 16 bytes.

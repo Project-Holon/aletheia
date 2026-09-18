@@ -1,0 +1,30 @@
+/*
+ * function: func_02062F00
+ * address:  0x02062F00
+ * packet:   pkt_02062D4C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02062D08    0x02062D08  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_02062D08(void *p);
+
+int func_02062F00(void *s)
+{
+    u32 r = func_02062D08(s);
+
+    if (r != 0) {
+        *(u32 *)((u8 *)s + 0x10) = 0;
+    }
+    return r;
+}
