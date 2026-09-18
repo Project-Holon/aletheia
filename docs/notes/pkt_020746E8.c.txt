@@ -1,0 +1,40 @@
+pkt_020746E8 - one pooled zero and a three-call heap sequence
+=============================================================
+
+Packet 0x020746E8..0x02074758, arm: 0x020746E8 (112 bytes) only.
+
+Body, reconstructed and every concrete byte of the *shape* right:
+
+    u32 aligned = (off + 3) & ~3u;
+    u32 total   = off + size;
+    u32 rest;
+    void *p;
+
+    if (aligned > total) return 0;
+    rest = total - aligned;
+    if (rest < 0x10) return 0;
+    p = func_020610E0(aligned + 0x10, rest - 0x10, 0);
+    if (p == 0) return 0;
+    if (func_020749C4(aligned, p) != 0) return aligned;
+    func_02061118(p);
+    return 0;
+
+Result: 116 bytes compiled against 112, 77 concrete bytes differ, and the
+difference is two things, both the same wall:
+
+  * the zero passed as func_020610E0's third argument is hoisted into r5 in
+    the prologue (`mov r5,#0`) and then reused by the four `return 0`
+    statements as `moveq r0, r5` / `mov r0, r5`.  The original materialises
+    `mov r2, #0` and `movhi r0,#0` / `movlo r0,#0` / `moveq r0,#0` /
+    `mov r0,#0` as five separate immediates, and never pools.  See
+    docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md.
+    Tried and rejected: `(void *)0` with a `void *` third parameter, a bare
+    `0` with the same, `NULL`, spelling `return 0` as `return (u32)0`, and
+    moving the constant into a named local - all 116 bytes.
+  * the pooled zero costs the extra callee-saved register, so the prologue
+    grows from `push {r3, r4, r5, lr}` to `push {r4, r5, r6, lr}` and the
+    aligned offset moves from r5 to r6 through the whole function.
+
+Separately, func_020610E0 (the allocator) has no witness outside this range:
+its only branch in the image is this call, so even a byte-perfect body would
+cap at MATCH on that one site.

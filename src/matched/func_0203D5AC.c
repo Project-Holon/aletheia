@@ -1,13 +1,17 @@
 /*
  * function: func_0203D5AC
  * address:  0x0203D5AC
- * packet:   pkt_0203D578
+ * packet:   pkt_0203D5AC
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
+ *
+ * PROMOTED from src/pending/.  The `bl` to 0x0203A458 was this file's last
+ * open site; it now resolves as `matched` against that function's own EXACT
+ * shard entry, so the cap is gone.
  *
  * Sets the net context's +0x67 byte to the argument (after forcing the
  * context through func_0203D788), then updates the channel with

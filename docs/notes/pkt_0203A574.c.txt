@@ -1,0 +1,75 @@
+pkt_0203A574 - residue notes (wave 6, lane B)
+============================================
+
+Exact and filed from this packet: func_0203A5E4, func_0203A634, func_0203A730.
+
+func_0203A574 @ 0x0203A574 (108 bytes code, 112 with its pool) - DIFF
+----------------------------------------------------------------------
+Source attempt (kept here, deleted from src/matched/):
+
+    struct Entry { u32 a, b, c, d; };
+    extern struct Entry *g_021469D8;
+
+    void func_0203A574(u32 key, u32 a, u32 b, u32 c)
+    {
+        int i;
+
+        if (g_021469D8 == 0)
+            return;
+        for (i = 0; i < 4; i++) {
+            if (g_021469D8[i].d != 0 && g_021469D8[i].d == key) {
+                g_021469D8[i].d = key;
+                g_021469D8[i].a = a;
+                g_021469D8[i].b = b;
+                g_021469D8[i].c = c;
+                return;
+            }
+        }
+    }
+
+Size and every instruction are right; 22 concrete bytes differ, all register
+names, in two places:
+
+  1. the base of the four 16-byte slots is `lr` in the original and a
+     callee-saved `r5` in every spelling tried.  Because the original keeps it
+     in `lr` (free - the function makes no call), its prologue is
+     `push {r4, lr}`; the compiled version needs `push {r3, r4, r5, lr}`.
+     Ruled out: a local `struct Entry *e`, a split declaration/assignment, a
+     pointer-walking loop, and `(e[i].d & e[i].d) != 0`.
+  2. the inner guard.  The original emits the conditional-execution chain
+
+         cmp ip, #0
+         cmpne r0, ip
+         bne next
+
+     where the compiled version branches after the first test
+
+         cmp ip, #0
+         beq next
+         cmp r0, ip
+         bne next
+
+     Both compares have the same operand order, so the residue is
+     branch-vs-predication of a conjunction whose true arm is a `return` and
+     whose false arm is the loop's next iteration.
+
+func_0203A67C @ 0x0203A67C (120 bytes) - DIFF
+----------------------------------------------
+Same colouring problem in the same file's lookup: the qualifying record is
+returned in r0 (the loop's `add r0, lr, r2, lsl #4` already left it there) and
+only the reject path zeroes it, but the compiled version allocates the guard's
+two halves differently from the original's `ldr ip, [ip, #0xc]` / `cmpne r0, ip`.
+Structurally the C is settled: a zero high byte returns the object at
+0x020A7AE8 (after a line-0x10D report when the low byte exceeds the +0x4
+count), otherwise four 16-byte entries are scanned for +0xC == hi and
++0x4 > lo.  This is also the callee of func_0203A70C and func_0203A748, which
+are parked at MATCH in src/pending/ with the same residue; all three close
+together or not at all.
+
+No unlabelled leaf in this packet's span
+-----------------------------------------
+Checked and ruled out: the four bytes at 0x0203A66C are NOT a function start.
+`match.py show --addr 0x0203A65C` shows them as the middle of func_0203A634's
+`tst r5, #0x80` guard (`movne r0, r4` / `popne`), reached by the `bne` at
+0x0203A664.  The unlabelled stubs for this wave are in
+docs/notes/pkt_020395EC.c.txt instead.

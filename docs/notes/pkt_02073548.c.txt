@@ -1,0 +1,35 @@
+pkt_02073548 - pooled data address kept live across calls
+==========================================================
+
+Packet 0x02073548..0x02073624, arm: 0x02073548 (80), 0x02073598 (80),
+0x020735EC (52, parked MATCH, unchanged).
+
+Both open members are the same list-walk shape:
+
+    u8 *p = func_02060614(<pool>, 0);
+    while (p != 0 && o->b3d >= p[0x3d])
+        p = func_02060614(<pool>, p);
+    func_02060550(<pool>, p, o);
+
+0x02073548 passes the caller's `a` as <pool>; 0x02073598 passes the global
+g_0214E018.  Both are body-complete and every site resolves; both are DIFF on
+the same one thing.
+
+func_02073548, 80 bytes, compiled 76.  The original walks with p in r1 and
+tests it with `movs r1, r0` / `beq`; ours allocates p to r0 and the loop test
+to r1, which moves every branch target by one instruction and costs the
+`movs r1, r0` the original has.  The loop-carried value in the callee's second
+argument register is real (the first probe passes r1 = 0, the loop passes r1 =
+the node), so the arity is right; only the register assignment differs.
+Rejected: a `do/while`, a `goto` loop, hoisting the callee call into a
+separate statement, and spelling the bound test the other way round.
+
+func_02073598, 80 bytes, compiled 84.  The residue is purely the address:
+the original materialises g_0214E018 three separate times
+(`ldr r0,[pc,#0x40]` before the first probe, `ldr r4,[pc,#0x2c]` after the
+guard, `ldr r0,[pc,#8]` before the final call), while this front end hoists it
+into r4 for the whole function and the final call reuses it.  Spelled three
+ways (three direct references, a named local, and a `const` pointer local) it
+always hoists.  This is the same behaviour as 0x02073AD0 in
+docs/notes/pkt_02073AB4.c.txt and 0x0207292C in docs/notes/pkt_02072F5C.c.txt
+and it is not reachable from C under -O4,p.

@@ -1,0 +1,36 @@
+pkt_02075FCC - two unlabelled leaves found and filed, and what is left
+=====================================================================
+
+Packet 0x02075FCC..0x0207608C, arm.
+
+Filed EXACT from this packet, both of them functions `disasm.py` never
+labelled (no prologue saves lr, so neither appears in the worklist at all):
+
+  0x02076050  24 code + 8 pool  src/matched/func_02076050.c
+  0x02076070  24 code + 4 pool  src/matched/func_02076070.c
+
+0x02076050 is a bare tail call:
+`func_02076230((u32)&g_02150200, 0, 0, 0)` - `mov r1,#0` first, then the two
+pool words, then `mov r2,r1` / `mov r3,r1` / `bx ip`.  Two relocations, both
+resolve (g_02150200 `literal x95`, func_02076230 `label x10`).
+
+0x02076070 is the paired predicate:
+`return (*(u32 *)((char *)&g_02150200 + 4) & 4) ? 0 : 1;` - both bytes and its
+one literal resolve.
+
+The payoff is a chain.  func_02076B8C (pkt_02076B8C) is
+`void func_02076B8C(void) { func_02076070(); }`, eight bytes of code and one
+pool word.  On its own it is byte-perfect and MATCH-capped: 0x02076070 has no
+`func_` label, so nothing outside the wrapper would witness it.  Filing
+0x02076070 into the pkt_02075FCC shard first converts the wrapper's site to
+`matched x1` with no change to its C, and the wrapper then verifies EXACT.
+Two functions filed for one extra compile.
+
+Still open in this packet: func_02075FCC itself, 132 bytes not attempted - it
+is four SDK calls (OS_IsRunOnTwl, OS_GetBootType, func_02075E04 and a 0x0215xxxx
+tail-call stub at 0x02076050's neighbour) around four 1-bit extracts of a word
+at +0x1B4 (`lsl #0x17 / lsr #0x1f`, `lsl #0x1a`, `lsl #0x10`, `lsl #0xf`), with
+two predicated ORs into the returned flag word.  The `mov r3, r4` / `orrne r4,
+r4, #4` / `movne r3, #1` triple at +0x0000..+0x0044 is the conditional-execution
+chain idiom and should be reachable, but the run did not spend the budget on
+it.

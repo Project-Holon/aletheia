@@ -1,0 +1,25 @@
+pkt_0203E420 - residue note (wave 6, lane B)
+============================================
+
+func_0203E420 @ 0x0203E420 (52 bytes) - DIFF
+--------------------------------------------
+Source attempt (deleted from src/matched/):
+
+    u8 *func_0203E420(void)
+    {
+        u8 *p = g_021469F0;
+        u32 r;
+
+        if (p == 0)
+            return 0;
+        r = ((u32 (*)(void))*(u32 *)(p + 0x78))();
+        func_02082D44((int)r, (int)(p + 0xB4), 0x4C);
+        return p + 0x90;
+    }
+
+Only 4 bytes differ, the same register pair twice: the address constant
+0x021469F0 goes to r1 in the original and r0 in the compiled version, so the
++0x78 virtual follows it into r1 vs r0.  Everything else - the null test, the
+`blx`, the 0x4C copy, the +0x90 return - is identical.  Ruled out: the global
+written as `*(u8 **)(0x21469F0)` inline instead of a symbol (same r0), and
+different positions for the virtual's result.

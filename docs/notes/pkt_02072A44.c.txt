@@ -1,0 +1,40 @@
+pkt_02072A44 - tail-call schedule and one pooled zero
+=====================================================
+
+Packet 0x02072A44..0x02072C18, arm: 0x02072A44 (64, parked MATCH, unchanged),
+0x02072A88 (20), 0x02072AA0 (308, oversized), 0x02072BDC (60).  One function
+filed from this packet: 0x02072CC4 (92) lives in pkt_02072C40's address range
+and is recorded there.
+
+1. func_02072A88 0x02072A88 20 bytes + pool, compiled 24, 8 concrete differ
+
+       void func_02072A88(u32 *p) { func_02072974(1 << *p); }
+
+   Its one site resolves (`label x10`).  The residue is a one-slot schedule
+   difference in the tail call:
+
+       ORIGINAL  ldr r0,[r0] / mov r1,#1 / ldr ip,[pc,#4] / lsl r0,r1,r0 / bx ip
+       COMPILED  ldr r0,[r0] / mov r1,#1 / lsl r0,r1,r0    / ldr ip,[pc]   / bx ip
+
+   The original issues the pool load *before* the last argument write.  A
+   `return` form (callee declared u32), a named argument local, `1u`, and the
+   void form were all tried; every one puts the pool load last.  Same wall as
+   func_02072E7C in docs/notes/pkt_02072C40.c.txt - see
+   docs/idioms/a-tail-calls-pool-word-is-scheduled-before-the-last-argument-write.md.
+   The target 0x02072974 is itself parked MATCH on 0x020895F8, so this file
+   could not be promoted either way.
+
+2. func_02072BDC 0x02072BDC 60 bytes, compiled 60, 23 concrete differ
+
+       if (o->f8 == 0) return;
+       func_020894DC(1 << o->f0, 0, 0, 0);
+       o->f8 = 0;
+
+   The original materialises both constants as immediates
+   (`mov r2,#1` / `mov r1,#0` / `lsl r0,r2,r0` / `mov r2,r1` / `mov r3,r1`)
+   and keeps the object in r4 with a two-register push.  Ours pools the zero
+   into r4, moves the object to r5, and grows the push to {r3,r4,r5,lr} -
+   docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md.
+   Enumerated and all identical: the shift bound to a local first, `1u` for
+   all four constants, the last zero from a local, and spelling the callee
+   with two arguments (which the front end rejects outright, CCERR).

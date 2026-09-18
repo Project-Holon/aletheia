@@ -1,0 +1,40 @@
+pkt_020394F0 - residue note (wave 6, lane B)
+============================================
+
+func_020394F0 @ 0x020394F0 (84 bytes) - DIFF
+--------------------------------------------
+Source attempt (deleted from src/matched/):
+
+    void func_020394F0(u32 a0)
+    {
+        u8 v = *(u8 *)((char *)func_0203D798() + 0x65);
+
+        if ((u8)(v + 0xFF) > 1)
+            return;
+        *(u32 *)(*(u32 *)(0x21469D0) + 0x1AC) = a0;
+        if (a0 == 0)
+            return;
+        *(u32 *)(*(u32 *)(0x21469D0) + 0x1B0) = 0;
+        *(u32 *)(*(u32 *)(0x21469D0) + 0x1B4) = 0;
+        *(u32 *)(*(u32 *)(0x21469D0) + 0x1B8) = 0;
+    }
+
+15 concrete bytes differ, all register names on the four reads of the global
+at 0x021469D0 and on the stored zero:
+
+    ORIGINAL                            COMPILED
+    ldr r0, [pc, #0x2c]                 ldr r2, [pc, #0x2c]
+    ldr r1, [r0]                        ldr r0, [r2]
+    str r4, [r1, #0x1ac]                str r4, [r0, #0x1ac]
+    ...
+    mov r2, #0                          mov r1, #0
+
+The original keeps the constant address in r0 and each re-read value in r1;
+the compiled version keeps the address in r2 and the value in r0, and the zero
+lands in r2 vs r1.  The guard's byte arithmetic matched exactly, but only with
+the constant spelled `(u8)(v + 0xFF)`: `(u8)(v - 1)` compiles to
+`sub r0, r0, #1` where the original has `add r0, r0, #0xff` (the same
+spelling the out-of-range-subtract idiom records).  Ruled out: the
+`(int)*(int *)((char *)(0x21469D0))` spelling used by the matched files in
+this region (same r2 colouring), and a local `u32 *g` holding the constant
+(which would need a callee-saved register the original does not push).

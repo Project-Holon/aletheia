@@ -1,0 +1,47 @@
+pkt_02071B2C - a loop with a pooled zero, and a constructor that will not fold
+=============================================================================
+
+Packet 0x02071B2C..0x02072894, arm (16 open functions).  Two near misses
+written up here; the rest of the packet is oversized (128..380 bytes) SND code
+and was not reduced in this run.
+
+1. func_02072758 0x02072758 48 bytes, compiled 48, ONE instruction differs
+
+     while (func_02089978(0) != 0)
+         ;
+     func_020731E0();
+     func_02073D7C();
+     func_02075858();
+     func_02089B38(0);
+
+   Everything reproduces, including `mov r4, #0` and the first `mov r0, r4`.
+   The single residue is the very last call: the original rematerialises
+   `mov r0, #0`, ours reuses the pooled r4 (`mov r0, r4`) - 4 concrete bytes,
+   same size.  See
+   docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md.
+   Tried and rejected (all give `mov r0, r4`): declaring either call's
+   parameter `void *` and passing `(void *)0`, both as pointers, the head as a
+   pointer with the tail as u32, and the tail call spelled `0u`.
+   Note 0x020731E0, 0x02073D7C and 0x02075858 have no witness outside this
+   range, so this function is also MATCH-capped on three sites regardless.
+
+2. func_02072320 0x02072320 84 bytes, compiled 68, no relocations at all
+
+     o->f0  = 0x1000;
+     o->f14 = 0x1000;
+     o->f4  = 0;
+     o->f30 = (i->f2c * -i->f24) << 4;
+     o->f34 = (-i->f2e * -i->f28) << 4;
+     o->f10 = 0;
+
+   Two independent problems, both below the source text:
+     (a) the first two `str`s and the third are reordered into a single
+         `stm r0, {r2, ip}` and the `push {r3, lr}` disappears, so the whole
+         function is 16 bytes short.
+     (b) `-i->f2e * -i->f28` is folded to `i->f2e * i->f28` and both `rsb`
+         instructions vanish; the original keeps them
+         (`rsb r2, ip, #0` / `rsb r1, r1, #0`).  Declaring f28 or f2e `u16`
+         vs `s32` changes nothing here.
+   The sibling leaves 0x02071C14 (128) and 0x0207229C (132) are the same
+   family with `smull` 64-bit scaling plus a `sub #0x1000` bias, and were not
+   reduced.

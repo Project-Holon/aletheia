@@ -1,0 +1,30 @@
+pkt_0203B1D8 - residue note (wave 6, lane B)
+============================================
+
+func_0203B1D8 @ 0x0203B1D8 (72 bytes) - DIFF
+--------------------------------------------
+Source attempt (deleted from src/matched/):
+
+    u32 func_0203B1D8(void)
+    {
+        u32 f;
+
+        if (*(u32 *)((char *)(0x21469DC)) == 0)
+            return 1;
+        f = *(u32 *)(*(u32 *)((char *)(0x21469DC)) + 8);
+        if (f != 0)
+            ((void (*)(void))f)();
+        if (*(u32 *)((char *)(0x21469DC)) == 0)
+            return 1;
+        func_0203C934();
+        return 0;
+    }
+
+3 bytes differ, all one register: the callback word at +0x8 lands in r1 in
+the original and in r0 in the compiled version, so the original emits
+`ldr r1, [r0, #8] / cmp r1, #0 / blx r1` where the compiled version emits the
+same three instructions with r0.  The base pointer is dead after the load in
+both, so either allocation is legal, and the allocator picked r0.
+Ruled out: `u32 f = <load>` at the declaration (as above), a `void (*f)(void)`
+local with `f()`, and an inline re-read `*(u32 *)(p + 8)` at the call (that
+one loads the field twice and is four bytes wrong, not three).

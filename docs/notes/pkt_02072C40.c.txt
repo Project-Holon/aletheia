@@ -1,0 +1,33 @@
+pkt_02072C40 - two bare tail calls, and where the pool word lands
+================================================================
+
+Packet 0x02072C40..0x02072E9C, arm.  Filed EXACT: 0x02072CC4 (92 bytes,
+src/matched/func_02072CC4.c).  Parked: 0x02072D98, 0x02072DB0, 0x02072DD0
+(pkt_02072A44 headers, data-literal blockers, unchanged).
+
+1. func_02072E7C 0x02072E7C 12 bytes and func_02072E8C 0x02072E8C 12 bytes
+
+   Both are the same one-line body:
+
+       void func_02072E7C(u32 *p) { func_02073438(*p); }
+
+   and both compile to the *right instructions in the wrong order*:
+
+       ORIGINAL  ldr ip, [pc, #4]      COMPILED  ldr r0, [r0]
+                 ldr r0, [r0]                    ldr ip, [pc]
+                 bx ip                           bx ip
+
+   The target word is loaded before the argument, so the pool load is
+   scheduled *between* the argument load and the `bx`.  There is no C spelling
+   that moves it: a `return` form (with the callee declared u32), a named
+   argument local, `1`-vs-`1u`, and a void form all put the pool load last.
+   Same for the sibling 0x02072A88 in pkt_02072A44, where the pool load sits
+   between the `mov r1, #1` and the `lsl`.  See
+   docs/idioms/a-tail-calls-pool-word-is-scheduled-before-the-last-argument-write.md.
+
+   0x02072E8C's target 0x02073484 is itself parked MATCH
+   (docs/notes/pkt_020733E8.c.txt), so it could not be promoted even if the
+   schedule matched.
+
+2. func_020729C0 is *not* in this packet (it is pkt_020729C0); its if-converted
+   4-statement guard is written up in docs/notes/pkt_020729C0.c.txt.

@@ -1,0 +1,60 @@
+pkt_020733E8 - constant pooling steals the first callee-saved register
+=====================================================================
+
+Packet 0x020733E8..0x02073500, arm.  Members: 0x020733E8 (76), 0x02073438 (76),
+0x02073484 (40, parked MATCH, unchanged), 0x020734AC (80).  About 188 concrete
+bytes of residue in three functions, and every byte of it traces to ONE
+compiler behaviour:
+
+  a small constant used more than once in the function is materialised once,
+  in the lowest callee-saved register, at the top of the prologue.
+
+See docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md for
+the minimal repro.  This is the same wall docs/notes/pkt_02073AB4.c.txt
+measures on 0x02073AB4 / 0x02073B3C and docs/notes/pkt_02074A6C.c.txt measures
+on the three wrappers; it is what stops all three of these too.
+
+1. func_020734AC 0x020734AC 80 bytes, compiled 88
+   Body (all four sites resolve):
+
+     u8 *e = g_0214E464 + idx * 0x24;
+     struct Node *q = func_02060614(e + 0xc, 0);
+     if (q == 0) return 0;
+     func_020605B4(e + 0xc, q);
+     q->f0c = (u32)o;
+     o->f08 = q;
+     func_02074770(q->f08);
+     return q->f08;
+
+   The original pushes {r4,r5,r6,lr} and materialises `mov r1, #0` at the
+   call.  Ours pushes {r3,r4,r5,r6,r7,lr}: the zero is hoisted into r5 in the
+   prologue, which pushes e from r5 to r6 and o from r6 to r7, and the `push`
+   grows by two registers.  Tried and rejected, all still 88 bytes:
+   `void *` parameter with `(void *)0`, the same with a bare `0`, `(u32)0`,
+   `0u`, `NULL`, binding the null to a local, and reordering the two calls.
+
+2. func_020733E8 0x020733E8 76 bytes, compiled 76, 11 concrete bytes differ
+   Body (four sites, three resolve; 0x02089350 and 0x0208948C are SDK calls
+   whose only caller in the image is this function, so this can cap at MATCH
+   at best whatever else is done):
+
+     if (*(u32 *)(o->f4 + 0x1c) != 0) func_0208948C(o->b3c, 0xFFFF);
+     func_02073500(o);
+     o->f30 = func_02089D40();
+     o->b2f = 1;
+     o->b2c = 1;
+
+   Two residues:
+     (a) our load of that word lands in r0, the original's in r2.  Ours reuses
+         the dead r0 left by the preceding call; a named local, an `&&` guard
+         and a reversed operand order all leave it in r0.  r2 is a scratch
+         choice below the source text.
+     (b) the `1` of the two strb's is materialised into r1 before the `str r0,
+         [r5,#0x30]` that stores the callee's result, so the two instruction
+         orders interleave differently.  Storing through a named local, using
+         `u8` casts and swapping the two statements were all tried.
+
+3. func_02073108 (pkt_02072EA8) stays parked: its one unresolved site is
+   0x02072894, and 0x02072894 is itself byte-correct but MATCH-capped on
+   0x0208A0A4 (see docs/notes/pkt_02072894.c.txt), so no promotion is possible
+   from here.

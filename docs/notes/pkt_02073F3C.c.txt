@@ -1,0 +1,45 @@
+pkt_02073F3C - a 12-site body stopped by one pooled zero
+========================================================
+
+Packet 0x02073F3C..0x020742E4, arm: 0x02073F3C (120), 0x02073FB8 (140),
+0x02074048 (460), 0x02074220 (192).
+
+An earlier wave reported func_02073F3C as CCERR; it compiles fine now with
+func_02082A7C / func_020862F0 / func_020894B4 declared from the SDK table, and
+all four of its sites resolve.  Body:
+
+    if (g_0214E9FC.f0 == 0) return;
+    g_0214E9FC.f1c = 0;
+    func_02082A7C(0, g_0214E9FC.f0c, g_0214E9FC.f14);
+    func_02082A7C(0, g_0214E9FC.f10, g_0214E9FC.f14);
+    func_020862F0(g_0214E9FC.f0c, g_0214E9FC.f14);
+    func_020862F0(g_0214E9FC.f10, g_0214E9FC.f14);
+    if (g_0214E9FC.f2c >= 0) m = 1u << g_0214E9FC.f2c;
+    else                     m = 0;
+    func_020894B4(g_0214E9FC.f24, g_0214E9FC.f28, m, 0);
+
+The mask arm comes out exactly as the image has it (`movge r0,#1` /
+`lslge r2,r0,r1` / `movlt r2,#0`), which is the same condition-first lever
+docs/notes/pkt_02073BF0.c.txt records for func_02073EE4.  What blocks it is
+the zero:
+
+  * the original materialises `mov r0,#0` three separate times - once for the
+    f1c store, once for each func_02082A7C first argument - and never pools.
+    Ours hoists one `mov r5,#0` into the prologue and reuses it for all three
+    (`str r5,[r4,#0x1c]` / `mov r0, r5` x2), growing the push from
+    {r4,lr} to {r3,r4,r5,lr}.
+  * the same register pressure then makes the last two field loads reload the
+    global address through a fresh pool word
+    (`ldr r1,[pc,#0x10]` / `ldr r0,[r1,#0x24]`) instead of using r4, which
+    moves the whole tail by three instructions.
+
+See docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md for
+the minimal repro.
+
+func_02074220 (192 bytes, one branch) is a constructor that relocates three
+pointer fields by the base (three `addne r0, r4, r0` predicated pairs), clears
++0x94, then walks a 0x10-byte-stride table at [r5,#0x88]+0xc fixing each
+entry's +8 word the same way, and finally stores the object into *g_0214EA50.
+Its record and loop were recovered but not reduced to bytes in this run; it is
+the best remaining candidate in this packet because every one of its branches
+has a plain label witness.

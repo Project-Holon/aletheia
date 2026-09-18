@@ -1,0 +1,40 @@
+pkt_0203EC7C - residue note (wave 6, lane B)
+============================================
+
+func_0203EC7C @ 0x0203EC7C (88 bytes) - DIFF
+--------------------------------------------
+Source attempt (deleted from src/matched/):
+
+    u32 func_0203EC7C(u32 idx)
+    {
+        u8 **tab;
+        u8 *p;
+
+        if (idx == 0xFF)
+            idx = 0;
+        tab = *(u8 ***)(0x21469F4);
+        if (tab == 0 || tab[idx] == 0)
+            return 0;
+        func_0203D798();
+        tab = *(u8 ***)(0x21469F4);
+        if (tab == 0 || tab[idx] == 0)
+            return 0;
+        p = tab[idx];
+        return *(u32 *)p + *(u32 *)(p + 0xC);
+    }
+
+88 bytes against the original's 92; 44 concrete bytes differ.  The first
+one-witness guard matches exactly (the `cmpne` chain), but its exit does not:
+
+    ORIGINAL                            COMPILED
+    cmpne r0, #0                        cmpne r0, #0
+    beq #0x203eccc                      moveq r0, #0
+    bl #0x203d798                       popeq {r3, r4, r5, pc}
+
+The original branches to a *second* epilogue that returns 0 - the null exit is
+a shared block reached from both guards, not each guard's own conditional
+return.  Ruled out: the two guards as separate if/return pairs (the form
+above), and the same written with `&&` instead of `||` (which adds a branch
+rather than removing one).  The remaining 40 bytes follow from that exit
+shape; the record's own +0xC length field and the `p[0] + p[3]` tail are
+separately fine and would close with it.

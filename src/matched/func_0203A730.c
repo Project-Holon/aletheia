@@ -5,13 +5,16 @@
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
+ * lang:     c99
  * isa:      arm
  * status:   EXACT
  *
  * symbols:
  *   func_0203A67C  0x0203A67C  arm
  *
- * Third word of the object func_0203A67C returns, or 0 when there is none.
+ * The null-tolerant third word of the object func_0203A67C caches: the
+ * conditional `ldrne` / `moveq` pair is exactly the `? :` form, not an
+ * if/return, which would have needed a second epilogue.
  *
  * Addresses are Black-image addresses.
  *
@@ -26,8 +29,7 @@ extern u32 *func_0203A67C(void);
 
 u32 func_0203A730(void)
 {
-    u32 *q;
+    u32 *p = func_0203A67C();
 
-    q = func_0203A67C();
-    return q ? q[2] : 0;
+    return p != 0 ? p[2] : 0;
 }

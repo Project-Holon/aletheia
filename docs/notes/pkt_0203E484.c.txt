@@ -1,0 +1,38 @@
+pkt_0203E484 - residue note (wave 6, lane B)
+============================================
+
+Exact and filed from this packet: func_0203E4E8 (0x0203E4E8).
+
+func_0203E484 @ 0x0203E484 (88 bytes) - DIFF
+--------------------------------------------
+Source attempt (deleted from src/matched/):
+
+    void func_0203E484(u32 a0, u32 a1, int *a2)
+    {
+        int *p = a2;
+        int  n;
+        int  i;
+
+        if (*p >= 4)
+            func_02034714(file_020A7D34, 0x2A5, file_020A7D4C);
+        n = *p;
+        if (n > 4)
+            n = 4;
+        for (i = 0; i < n; i++) {
+            p = (int *)((char *)p + 4);
+            func_0203DAC4((u32 *)((char *)p + (i << 3)));
+        }
+    }
+
+The signed `blt` guard, the clamp, the `<< 3` plus per-iteration `+4` stride
+and both calls are right; 11 concrete bytes differ, all in the colouring of
+the three live values:
+
+    original   r4 = record pointer, r5 = i, r6 = n
+    compiled   r6 = record pointer, r4 = n, r5 = i
+
+Ruled out for the pointer: the parameter `a2` used directly (same r6), a local
+`int *p = a2;` declared first (same r6), and `int i;` declared before `int n;`
+(that only moves n to r5).  Independently, the ABS32 to 0x020A7D4C has a
+single pool word and no preceding terminator, so this function is MATCH-class
+at best even with the colouring fixed.

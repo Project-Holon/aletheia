@@ -1,0 +1,41 @@
+pkt_02074CD0 - one DIFF on the 24-bit header field
+===================================================
+
+Packet 0x02074CD0..0x02074F3C, arm: 0x02074CD0 (316, oversized), 0x02074E10
+(140), 0x02074E9C (160).  Not reduced in this run.
+
+func_02074E10 0x02074E10 140 bytes, compiled 140, 67 concrete bytes differ.
+
+Recovered body, which reproduces the control flow and the call arguments
+exactly:
+
+    struct Obj *o = func_02074450(a, flags, c, d);
+    if (o == 0) return 5;
+    if (flags & 4) {
+        if ((o->w >> 24) & 1) r = func_020750EC(o->h.v, c, d);
+        else                  r = func_02075080(o->h.v, c, d);
+    } else {
+        r = func_0207466C(o->h.v);
+    }
+    if (r == 0) return 9;
+    if (out != 0) *out = r;
+    return 0;
+
+where out is the fifth parameter, read as usual from [sp, #0x10].
+
+The 24-bit read is right for the *value*: spelled through a
+`struct Hdr { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; }` view
+the original's `lsl r0,r0,#8` / `lsr r0,r0,#8` pair straddling the branch comes
+out exactly as docs/notes/pkt_0207533C.c.txt records - writing `(w << 8) >> 8`
+instead folds to `bic r0, r0, #0xff000000` and loses it.  What does not come
+out is the *flag* test: taking `flag` from the same bitfield view gives
+`lsl r1,r0,#7` / `lsrs r1,r1,#0x1f`, where the original has
+`lsr r1,r0,#0x18` / `tst r1,#1`.  Moving the flag test to a plain u32 read of
+the same word (`(o->w >> 24) & 1`) and keeping the bitfield view for the value
+instead costs the whole function: same idea, 132 bytes compiled, 67 concrete
+bytes differ, because the two views stop sharing the header load.
+
+Note also that func_020750EC has no witness outside this range in the
+image-wide branch scan, so even a byte-perfect body caps at MATCH on that site
+(func_02075080 resolves as `matched`).  This is the same one-caller SDK shape
+as docs/notes/pkt_02074A6C.c.txt.

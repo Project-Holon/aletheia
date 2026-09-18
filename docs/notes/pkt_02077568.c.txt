@@ -1,0 +1,41 @@
+pkt_02077568 - two unlabelled hardware save/restore leaves
+==========================================================
+
+Packet 0x02077568..0x02077634, arm: one worklist function (0x02077568, 80
+bytes) and two functions `disasm.py` never labelled because neither saves lr.
+
+  0x020775B8  60 code + 4 pool   save
+  0x020775F8  56 code + 4 pool   restore
+
+Both start with `stmdb sp!, {r4}` (a lone r4, not a `push {r3, lr}` prologue),
+which is exactly the shape docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md
+describes.
+
+Shapes, fully recovered (the pool word in each is a *plain PC-relative literal*
+holding 0x04000290, i.e. not a relocation site, so there is no evidence problem
+anywhere in either function):
+
+  save,   0x020775B8(struct S *s):
+      *(volatile struct W4 *)0x04000290 = *(struct W4 *)&s->a;   /* 16 B ldm/stm */
+      *(volatile struct W2 *)0x040002B8 = *(struct W2 *)&s->b;   /*  8 B ldm/stm */
+      *(volatile u16 *)0x04000280 = *(volatile u16 *)0x04000280 & 3;
+      *(volatile u16 *)0x040002B0 = *(volatile u16 *)0x040002B0 & 1;
+
+  restore, 0x020775F8(struct S *s):
+      *(volatile struct W4 *)0x04000290 = *(struct W4 *)&s->a;   /* 16 B ldm/stm */
+      *(volatile u16 *)0x04000280 = s->c;
+      *(volatile u16 *)0x040002B0 = s->d;
+      *(volatile struct W2 *)0x040002B8 = *(struct W2 *)&s->b;   /*  8 B ldm/stm */
+
+where struct S is u32 a[4] / u32 b[2] / u16 c / u16 d (0x1c bytes), so the
+record is: four words read at 0x04000290, two at 0x040002B8, then the 16-bit
+registers at 0x04000280 (masked &3) and 0x040002B0 (masked &1) at +0x18 and
++0x1A.
+
+Both fail on frame and on the eight-byte copy: this front end emits
+`push {r3, lr}` plus `mov lr, r0` where the original saves r4, and it unrolls
+the 8-byte aggregate into two `ldr`/`str` pairs instead of `ldm`/`stm`.  The
+16-byte copy does become ldm/stm in our build, so the threshold is between 8
+and 16 bytes under -O4,p.  Spelled member by member (u32 a[6]) the whole thing
+unrolls, so neither body was filed.  These read as hand-written save/restore
+routines rather than compiled C; 65 and 43 concrete bytes differ.

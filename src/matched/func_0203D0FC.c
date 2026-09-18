@@ -7,8 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * blocker:  `bl` to 0x0203C010: no witness outside this range (0x0203C010 is itself parked at MATCH in src/pending/func_0203C010.c, whose blocker is the call to 0x020379C8)
+ * status:   EXACT
+ *
+ * PROMOTED from src/pending/.  The `bl` to 0x0203C010 was this file's only
+ * open relocation site; 0x0203C010 is now an EXACT manifest entry, so the
+ * site resolves as `matched` and the file no longer needs its old cap.
  *
  * symbols:
  *   func_0203D788  0x0203D788  arm

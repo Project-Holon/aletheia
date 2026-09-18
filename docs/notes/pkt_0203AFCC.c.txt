@@ -1,0 +1,33 @@
+pkt_0203AFCC - residue note (wave 6, lane B)
+============================================
+
+func_0203AFCC @ 0x0203AFCC (64 bytes) - DIFF
+--------------------------------------------
+Source attempt (deleted from src/matched/):
+
+    void func_0203AFCC(u32 a0, u32 a1)
+    {
+        func_02034F84(4);
+        func_0203AD8C(a0);
+        *(u32 *)(*(u32 *)((char *)(0x21469DC)) + 0x2C) = a1;
+        func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203AF40, 0, (int)0x13F);
+    }
+
+Size and every instruction sequence is right; 5 bytes differ, all register
+names on the two reads of the context global:
+
+    ORIGINAL                              COMPILED
+    ldr r0, [pc, #0x1c]                   ldr r3, [pc, #0x1c]
+    ldr r1, [pc, #0x1c]                   ldr r1, [pc, #0x1c]
+    ldr r3, [r0]                          ldr r0, [r3]
+    mov r2, #0                            mov r2, #0
+    str r4, [r3, #0x2c]                   str r4, [r0, #0x2c]
+    ldr r0, [r0]                          ldr r0, [r3]
+    ldr r3, [pc, #0xc]                    ldr r3, [pc, #0xc]
+
+The original keeps the *address* 0x021469DC in r0 across the store and
+re-reads its value into r0 afterwards; the compiled version swaps the roles
+(address in r3, value in r0).  Ruled out: an extern `u32 *g_021469DC` in the
+symbols block (84 bytes - an extra ABS32, and a different frame) and a
+late-assigned local `u32 *p = (u32 *)(0x21469DC)` (same swap).  This is the
+same colouring swap as func_020394F0 (docs/notes/pkt_020394F0.c.txt).

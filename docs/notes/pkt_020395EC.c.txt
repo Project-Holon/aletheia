@@ -1,0 +1,41 @@
+pkt_020395EC - residue notes (wave 6, lane B)
+============================================
+
+The whole table-teardown chain in this packet is colouring-blocked.  Four
+functions, each the right size and instruction-for-instruction shape, each
+losing on which callee-saved register the pointer local takes:
+
+  0x0203971C (72 bytes)  2 bytes: the zero cleared into +0x3E lands in r1 in
+                         the compiled version and r2 in the original.  Tried a
+                         `u16 z = 0;` local, storing before the load, and the
+                         store-then-call spelling with no `v` local - all r1.
+  0x02039834 (116 bytes) pointer in r5 (original) vs r4 (compiled), counter in
+                         r4 vs r5; declaring the counter before the pointer
+                         local does not move it.
+  0x020398B4 (172 bytes) compiled to 180: one extra callee-saved register r7,
+                         because the sentinel record pointer and the counter
+                         both stay live; the original reuses r4 for the
+                         counter and for the stored zero.
+  0x02039658 (196 bytes) same family, same declaration-order question.
+
+0x02039834 also caps at MATCH for evidence reasons on its own: its two `bl`s
+to 0x02039764 have no witness outside the range (that address's only caller is
+0x02039834, in the eight-slot loop), and the ABS32 to the expression string
+0x020A7A7C has a single pool word, so neither `label` nor `string` can attest
+it.  Matching 0x02039764 (204 bytes, this packet) would free the first two.
+
+Unlabelled leaves / stubs found in this window
+----------------------------------------------
+  0x020394C0  20 bytes code + 8 pool: `*(u32 *)0x21469D0 + 0xcc` tail call.
+              No `func_` label (saves no `lr`).  It is the callee of the
+              pending func_0203D56C, which is itself a 12-byte
+              `ldr ip,[pc] / bx ip / .word 0x020394C0` long-branch veneer -
+              the same shape the brief lists at 0x0203CF04, 0x0203D7B0 and
+              0x0203D7BC, and which no C spelling produces.
+  0x020394DC  16 bytes code + 4 pool: `strb r0, [r1, #0x1e7]` setter.
+  0x0203C3B4  40 bytes code + 16 pool: sets the +0x48 sentinel to -1 then
+              tail-calls func_0203AD80(*0x21469DC, 0x0203C238, 0, 1549).  It is
+              the callee of the pending func_0203D01C.
+  0x0203C3EC  76 bytes code + 24 pool: maps a table word to 0/1/3/4/5/2.
+  0x0203B018  4-byte `bx lr` no-op, used as the report identifier by the
+              parked func_0203B038.

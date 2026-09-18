@@ -1,0 +1,40 @@
+pkt_020399B8 - residue note (wave 6, lane B)
+============================================
+
+Exact and filed from this packet: func_020399B8 (0x020399B8) and
+func_020399EC (0x020399EC).  The block below records the first spelling of
+func_020399EC, which differs from the filed one by one instruction position.
+
+func_020399EC @ 0x020399EC (64 bytes) - scheduling residue
+----------------------------------------------------------
+Filed spelling:
+
+    u32 func_020399EC(void)
+    {
+        int i;
+        u32 n = 0;
+
+        if (func_0203D788() != 0) {
+            for (i = 0; i < 8; i++) {
+                if (func_020399B8(func_0203996C(i)) != 0)
+                    n++;
+            }
+        }
+        return n;
+    }
+
+It gives the right 64 bytes, the right register split (i in r4, n in r5) and
+the single shared exit, but schedules the accumulator's `mov r5, #0` *before*
+the `bl` where the original has it after the `cmp r0, #0`:
+
+    ORIGINAL            FILED
+    bl #0x203d788       mov r5, #0
+    cmp r0, #0          bl #0x203d788
+    mov r5, #0          cmp r0, #0
+    beq #0x2039a24      beq #0x2039a24
+
+Ten concrete bytes differ, all consequences of that one position (the branch
+offset and the register names).  Ruled out: `u32 n = 0;` at its declaration
+with `int i;` after it, `n = 0;` on its own line before the guard, declaring n
+inside the if-body with an early `return 0;` (72 bytes, wrong exit), and a
+`goto`-based shared label (68 bytes).
