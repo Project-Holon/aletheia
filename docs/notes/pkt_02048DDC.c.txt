@@ -1,0 +1,59 @@
+Near miss, not byte-correct: instruction selection is reproduced, the residue is
+the register holding each parameter and the addressing form of the second
+field pair.  Do not file this as MATCH.
+
+func_02048DDC @ 0x02048DDC, arm9, ARM, 84 bytes, packet pkt_02048DDC, the
+arc_tool.c file anchor (0x02048F44 is the string).  This is one of the
+functions the eidos port still stubs.
+
+The function is small and fully understood: call func_020788AC, then dispatch
+on the flag at g_02146A68+8.  Flag clear takes the word array and calls
+func_02078C18(a0, words[a1]); flag set takes the same table as 8-byte records
+and calls func_0207A940(a0, rec.lo, rec.hi - rec.lo).
+
+Best results, both compiled and compared:
+
+  word indexing, no cached table pointer (23 instructions, 92 bytes, one over):
+    u32 lo = g_02146A68.words[a1 * 2];
+    u32 hi = g_02146A68.words[a1 * 2 + 1];
+    func_0207A940(a0, lo, hi - lo);
+  This reproduces the if arm exactly and gets the else arm's instruction
+  selection right, but indexes with `lsl r1, r5, #1; add r0, r1, #1` and two
+  scaled loads where the original scales the parameter by 8 once:
+    add r1, r3, r4, lsl #3
+    ldr r2, [r1, #4]
+    ldr r1, [r3, r4, lsl #3]
+
+  record indexing (19 instructions, 76 bytes, two short):
+    struct ArcRec *r = (struct ArcRec *)g_02146A68.words + a1;
+    func_0207A940(a0, r->lo, r->hi - r->lo);
+  This gets the `lsl #3` scaling and the two distinct address forms for free,
+  but mwcc merges the two adjacent field loads into `ldm r2, {r1, r2}`, which
+  the original does not do: it spends two `ldr`s and computes the second
+  address off the base register instead of the one it already has.
+
+Ruled out, each compiled and compared:
+
+  - the record form with `lo` and `hi` bound to named locals first (the merge
+    survives the extra statements, mwcc reorders them adjacent);
+  - the same with the two loads written in the other order;
+  - a byte-offset pointer local, `(u32 *)((char *)base + a1 * 8)`: the merge
+    again;
+  - caching the table pointer in a local and indexing through it: the same
+    merge, and the flag test reorders ahead of the branch;
+  - indexing the 8-byte records as `words[a1 * 2]` and `words[a1 * 2 + 1]`
+    with the table read once into a local: right size, the arithmetic index
+    shape above.
+
+Both parameters are also swapped relative to the original: it holds a0 in r5
+and a1 in r4, every compile here holds a0 in r4 and a1 in r5, at the same
+`mov r5, r0; mov r4, r1` statement order.  Nothing found in the C changes it;
+it is the same allocator choice that the other notes in this directory
+describe.
+
+What would close it: a spelling of the record access that keeps the two field
+loads apart for the scheduler, so the compiler emits two `ldr`s and reuses the
+parameter register the original uses.  The address forms in the original
+(`add r1, r3, r4, lsl #3` for the high word, `ldr r1, [r3, r4, lsl #3]` for the
+low word) say the source did use an 8-byte record type, so the merge, not the
+type, is what stands between this and EXACT.

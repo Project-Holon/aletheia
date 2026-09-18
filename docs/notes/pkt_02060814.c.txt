@@ -1,0 +1,112 @@
+Near miss, not byte-correct: instruction selection is reproduced on all three
+functions, the residue is register allocation and the scheduling that follows
+from it.  Do not file these as MATCH; recorded so the next agent does not
+re-derive them.
+
+Region arm9, ISA ARM, compiler dsi/1.1p1, flags -O4,p.  All three calls below
+resolve with no wildcard byte, so none of them is waiting on an attestation
+class: they are codegen residue.
+
+--------------------------------------------------------------------------
+func_02060814 @ 0x02060814, packet pkt_02060814, 108 bytes
+--------------------------------------------------------------------------
+
+Best result: DIFF, 104 bytes compiled (one instruction short), the whole
+delta being the zero register and the order of the two halfword stores.
+
+  original                              compiled (readback spelling)
+  mov  r0, #0                           mov  r4, #0
+  strh r0, [r4, #0x34]                  bic  r1, r4, #1
+  bic  r0, r0, #1                       strh r1, [r5, #0x36]
+  strh r0, [r4, #0x36]                  ldr  r0, [r5, #0x18]
+                                        strh r4, [r5, #0x34]
+
+The C that gets this far, and the only spelling found that emits the `bic` at
+all (see
+docs/idioms/a-read-modify-write-of-the-just-stored-field-is-what-emits-bic.md):
+
+    func_020606D0(p, 0x45585048, (u32)p + 0x38, a1, a2);
+    p->f34 = 0;
+    p->f36 = p->f34 & ~1;
+    pair[0] = p->f18;
+    pair[1] = p->f1c;
+    q = func_020607E8(pair, 0x4652);
+    p->f24 = (u32)q;
+    p->f28 = (u32)q;
+    p->f2c = v;
+    p->f30 = v;
+    return p;
+
+The original re-materialises its zero in r0 after the call and reuses r0 for
+both stores; the compile hoists one zero into r4 (callee-saved) and keeps it
+live to the end of the function, which also lets it serve the later f2c/f30
+stores and saves the `mov r1, #0` the original spends there.  The missing
+instruction is exactly that `mov`.
+
+Ruled out, each compiled and compared at the same instruction selection:
+
+  - `p->f34 = v; p->f36 = v & ~1;` and the same with `~1u`, with `(u16)` on
+    the result: the mask folds, no `bic`, 104 bytes, 22 differing bytes;
+  - `p->f36 = 0; p->f36 = p->f36 & 0xfffe;` and `p->f36 &= 0xfffe;`: 16-bit
+    mask, so mwcc pools 0x0000fffe and emits `and`, not `bic`;
+  - the two stores written in the other order, and the `pair[]` fills moved
+    above the stores: no change to the allocation;
+  - declaring the fifth argument of the callee as u32 rather than u16: that
+    removes an `lsl`/`lsr` pair the compile was spending on the truncation,
+    and is how the 27-instruction count above was reached; the callee reads
+    only the low 16 bits either way.
+
+What would close it: a spelling that makes the constant zero die at the
+`f34`/`f36` pair so the allocator is free to re-materialise it in a
+caller-saved register for the `f2c`/`f30` pair.  Nothing in the C so far
+reaches it, because mwcc value-numbers every zero in the function into one
+constant regardless of scope, type or definition point.  The same wall is
+described for 0x0202FC48 in docs/notes/sub_0202FC48.c.txt, which is the
+stronger instance of it: there the two live ranges conflict outright and cost
+a seventh callee-saved register.
+
+--------------------------------------------------------------------------
+sub_020606D0 @ 0x020606D0, packet pkt_020606A8, 116 bytes
+--------------------------------------------------------------------------
+
+Best result: DIFF, 112 bytes compiled (one instruction short), same class.
+The field at +0x20 is reproduced exactly by the read-modify-write spelling
+above (`mov ip, #0; bic r1, ip, #0xff; and; orr`, all four instructions), and
+the two calls and the lazy-init of the list at 0x02146B64 reproduce.  The
+residue is the frame: the original saves r4 alone and re-materialises the
+constant 4 at each call site, the compile saves r4, r5 and r6 because it keeps
+both the constant 4 and the address of 0x02146B60 live across the first call.
+
+--------------------------------------------------------------------------
+func_020606A8 @ 0x020606A8, packet pkt_020606A8, 36 bytes
+--------------------------------------------------------------------------
+
+Best result: DIFF, 32 bytes compiled (one instruction short).  The original:
+
+    push {r4, lr}
+    ldr  r4, =0x02146B64
+    mov  r1, r0
+    mov  r0, r4
+    bl   func_02060640
+    cmp  r0, #0
+    addne r4, r0, #0xc
+    mov  r0, r4
+    pop  {r4, pc}
+
+The compile keeps the list address in r0/r1 and the result in r0, needs no
+callee-saved register at all, and pads the frame with r3:
+
+    push {r3, lr}
+    mov  r1, r0
+    ldr  r0, =0x02146B64
+    bl   func_02060640
+    cmp  r0, #0
+    addne r0, r0, #0xc
+    pop  {r3, pc}
+
+Ruled out: `q = func(&g, p)` with the call result bound to a local, the same
+through a named `base` local, the ternary return, assigning the call result
+back into the same local that held the address, and `q++` instead of the
+byte-cast add.  All five compile to the same eight instructions.  The original
+is one `mov r0, r4` longer because it holds the result in the callee-saved
+register the compiler only reaches for when the value must survive a call.
