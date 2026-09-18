@@ -1,0 +1,81 @@
+near miss: func_020480E4 @ 0x020480E4, 56 bytes + 4-byte pool, pkt_02047E88
+verdict: DIFF, 10 concrete bytes (three instructions)
+
+All four halfword stores and both calls reproduce; the only difference is which
+of the two live temporaries gets r0:
+
+  ORIGINAL @ +001C            COMPILED
+  ldr r1, [pc, #0x14]         ldr r0, [pc, #0x14]     ; the pooled 0xFFFF
+  add r0, r5, r4, lsl #3      add r1, r5, r4, lsl #3  ; owner + index * 8
+  strh r1, [r0, #0x16]        strh r0, [r1, #0x16]
+
+Same instructions, same order, same pool word; the allocator reserved r0 for the
+address in the original and handed the constant r0 here.  Six source shapes were
+tried and all give the same swapped pair: the four stores with the address
+expression inline, a `struct Slot *` local assigned after the calls, a `u16 v =
+0xFFFF` local, the address bound first and the constant second, a `u16 *` base
+with subscripts, a `u32 base` with byte offsets, and a chained assignment.  The
+pooled constant is hoisted to the top of the block in every one of them, which
+is what fixes r0 on it; this is a below-the-source register choice.
+
+Also note the two call sites here are unresolved (func_02048918 at 0x02048918
+and func_020482B4 at 0x020482B4 are both open in this same packet, and the only
+branch to each that the harness could see was this one), so even the register
+residue fixed, the site would need one of those two matched first - the
+`matched` class would then carry it.
+
+--- the source that reaches 10 bytes
+/*
+ * function: func_020480E4
+ * address:  0x020480E4
+ * packet:   pkt_02047E88
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02048918   0x02048918  arm
+ *   func_020482B4   0x020482B4  arm
+ *
+ * Register one of the array elements: run the two initialisers on the owner
+ * and the index, then stamp 0xFFFF into the four halfwords at +0x16..+0x1c
+ * of the element itself.  Elements are eight bytes, so the base is
+ * `owner + index * 8`, and the four stores share one materialised 0xFFFF
+ * (the constant is too wide for a `mov`, so it is the function's only pool
+ * word).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020480E4.c \
+ *       --func func_020480E4 --addr 0x020480E4 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Slot {
+    u8  pad_00[0x16];
+    u16 unk_16;
+    u16 unk_18;
+    u16 unk_1a;
+    u16 unk_1c;
+};
+
+extern void func_02048918(void *owner);
+extern void func_020482B4(void *owner, u32 index);
+
+void func_020480E4(u8 *owner, u32 index)
+{
+    struct Slot *slot;
+
+    func_02048918(owner);
+    func_020482B4(owner, index);
+    slot = (struct Slot *)(owner + index * 8);
+    slot->unk_16 = 0xFFFF;
+    slot->unk_18 = 0xFFFF;
+    slot->unk_1a = 0xFFFF;
+    slot->unk_1c = 0xFFFF;
+}

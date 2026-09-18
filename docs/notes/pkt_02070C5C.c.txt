@@ -1,0 +1,29 @@
+pkt_02070C5C - func_02070C5C, block placement
+============================================
+
+0x02070C5C, 124 bytes, ARM, both call sites (func_0206DDA4 x2, `label x385`)
+resolved.  What it does is clear:
+
+    u32 f = a->f0;
+    if (f & 4)      { if ((f & 2) == 0) func_0206DDA4(0x1a, a->f28, 9); }
+    else if (f & 2) { func_0206DDA4(0x1c, a->f4c, 3); }
+    else            { func_0206DDA4(0x19, a->f28, 0xc); }
+    if ((a->f0 & 1) == 0) func_0206DDA4(0x1b, (u8 *)a + 4, 3);
+
+The original's block order is: [tst #4 / bne L_A] [tst #2 / bne L_B] [0x19 case]
+[b end] [L_B: 0x1c case] [b end] [L_A: tst #2 / bne end] [0x1a case] [end].
+So the FIRST test's taken branch reaches the LAST block, and the fall-through
+body is the `f & 4 == 0, f & 2 == 0` arm.  The spelling that lands closest is
+
+    if ((f & 4) == 0) {
+        if ((f & 2) == 0) func_0206DDA4(0x19, a->f28, 0xc);
+        else              func_0206DDA4(0x1c, a->f4c, 3);
+    } else {
+        if ((f & 2) == 0) func_0206DDA4(0x1a, a->f28, 9);
+    }
+
+which is byte-for-byte right for the two inner cases and for the trailing
+`a->f0 & 1` guard, but this front end still emits the 0x1a arm as the
+fall-through after the first test (beq, not bne) - it re-lays the outer arms.
+The straightforward `if (f & 4) {...} else if (f & 2) {...} else {...}` and the
+reverse-nested variant were tried too.  Not filed; a DIFF, not a MATCH.

@@ -1,0 +1,31 @@
+/* DIFF record: CCERR      func_0202B2CC @ 0202B2CC (?, Thumb) */
+
+/*
+ * function: func_0202B2CC
+ * address:  0x0202B2CC
+ * packet:   pkt_0202B2CC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+
+ */
+
+typedef signed char    s8;
+typedef short          s16;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02005EE0(u32 a, u32 b, u32 c, u32 d);
+extern u32 func_02005C3C(void);
+extern void func_02073018(u32 a, u32 b, u32 c, u32 d);
+
+void func_0202B2CC(u8 *p, u32 i)
+{
+    u32 r = func_02005EE0(0xFFFF, *(u16 *)(p + 0xC + i * 2), ~0u, 0);
+
+    func_02005C3C();
+    func_02073018(r, 0xFCFF, *(s16 *)(p + 4 + i * 2), (u32)(p + 4 + i * 2));
+}

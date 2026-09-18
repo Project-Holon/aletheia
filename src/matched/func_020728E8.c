@@ -7,8 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH*
- * blocker:  0x02073EE4 has no witness outside this range: its only caller is 0x020728EC, inside this function (the other four callees are each witnessed from outside)
+ * status:   EXACT*
+ * note:     promoted after 0x02073EE4 (this function's own only callee without
+ *           an outside witness) was matched: src/matched/func_02073EE4.c, whose
+ *           shard entry pkt_02073BF0 makes that site `matched x1`
  *
  * The four zero arguments share one `mov r0, #0` and three register moves out
  *  * of it, which is what passing four literal zeros to a four-argument callee

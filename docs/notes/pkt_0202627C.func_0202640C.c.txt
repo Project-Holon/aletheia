@@ -1,0 +1,52 @@
+/* DIFF record: best C attempt for func_0202640C, not byte-exact; see header.
+ * status: DIFF
+ */
+
+/*
+ * function: func_0202640C
+ * address:  0x0202640C
+ * packet:   pkt_0202627C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Obj {
+    u8  pad0[4];
+    u8  f4;
+    u8  pad5[0xB];
+    u8  f10;
+    u8  pad11;
+    u32 f1C;
+    u32 f20;
+};
+
+extern void func_02026490(u8 *p, u32 a);
+
+void func_0202640C(struct Obj *p, u32 a, u32 b)
+{
+    if (p->f10 == 2) {
+        func_02026490((u8 *)p + 0x0C, 3);
+        p->f20 = a;
+        p->f1C = b;
+    } else if (p->f10 < 2) {
+        p->f4 = (p->f4 & ~1) | 1;
+        p->f20 = a;
+        p->f1C = b;
+    } else {
+        p->f4 |= 2;
+        if (p->f20 == 0) {
+            p->f20 = a;
+            p->f1C = b;
+        }
+    }
+}

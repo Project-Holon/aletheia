@@ -1,0 +1,44 @@
+/* DIFF record for func_020282AC (packet pkt_0202824C): best C attempt, last verdict DIFF.
+ * Not byte-exact; kept out of src/matched so no shard claims it.
+ */
+
+/*
+ * function: func_020282AC
+ * address:  0x020282AC
+ * packet:   pkt_0202824C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02045798(u32 a);
+extern void func_02045374(u32 a);
+extern void func_02045730(u32 a);
+extern void func_02041B6C(void);
+
+struct Obj {
+    u16 f00[2];
+    u16 pad04[4];
+    u8  pad0C[0x10];
+    u16 f1C;
+    u16 f1E;
+};
+
+void func_020282AC(struct Obj *p, u16 *q, u16 a, u16 b, u16 c)
+{
+    q[1] = a;
+    p->f1C = b;
+    p->f1E = c;
+    func_02045798(*(u32 *)p);
+    func_02045374(*(u32 *)p);
+    func_02045730(*(u32 *)p);
+    func_02041B6C();
+}

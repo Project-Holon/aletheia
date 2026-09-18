@@ -1,0 +1,29 @@
+/* DIFF record for func_0202BECC (packet pkt_0202BEBC): best C attempt, last verdict DIFF.
+ * Not byte-exact; kept out of src/matched so no shard claims it.
+ */
+
+/*
+ * function: func_0202BECC
+ * address:  0x0202BECC
+ * packet:   pkt_0202BEBC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_0202BF90(void *p);
+
+void func_0202BECC(void *p)
+{
+    if (*(u32 *)p != 0) {
+        func_0202BF90(p);
+    }
+}

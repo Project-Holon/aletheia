@@ -1,0 +1,43 @@
+pkt_020913FC -- near miss and MATCH blockers
+============================================
+
+0x02091524 (96 bytes, ARM) -- loop shape, 21 bytes at best
+----------------------------------------------------------
+Table sweep over g_020A8730 (stride 0x4c, three entries) that ORs a failure:
+    for (p = base, i = 1; p != 0; ) {
+        if (((*(u32 *)(p + 4) << 22) >> 29) != 0)
+            if (func_02091B5C(p) != 0) r = -1;
+        p = (i < 3) ? base + i * 0x4c : 0;
+        i++;
+    }
+    return r;
+The original predicateds the whole tail:
+    02091560  cmp r5, #3
+    02091564  mullt r0, r5, r6        ; i * 0x4c
+    02091568  addlt r0, r8, r0        ; base + i * 0x4c
+    0209156C  movge r0, r7            ; the else arm, 0 kept in r7
+    02091570  addlt r5, r5, #1        ; i++ only in the true arm
+    02091574  cmp r0, #0
+    02091578  bne loop
+so the source increments inside the true arm (`base + i++ * 0x4c`, tried:
+21 differing bytes, the closest of five), and the "0" of the false arm is
+rematerialised into a callee-saved register (r7) rather than being folded into
+the `movge` (idiom: a-small-constant-is-rematerialised-off-a-zero-register).
+The remaining difference is which callee-saved register holds r (r4 in the
+original, r6 in the compilation) and the multiply spelling (mullt+addlt versus
+mla).
+
+0x020913FC (112 bytes, ARM) -- MATCH (parked in src/pending/)
+-------------------------------------------------------------
+The C is byte-correct at every offset.  Three call sites stay wildcarded:
+func_020913E8 (x2) and func_020913BC, and both addresses fail every class
+because the only branch to each one in the whole image is the branch inside
+this file.  Note for whoever takes 0x020913BC: it is a twenty-byte tail-call
+thunk, not one of the two encodings the veneer class recognises --
+    020913BC  ldr ip, [pc, #8]
+    020913C0  mov r1, r0
+    020913C4  mov r0, #0
+    020913C8  bx ip
+    020913CC  .word 0x02086C54
+so only a shard entry at 0x020913BC itself can ever attest it.  A source file
+for 0x020913BC is not writable either (twenty bytes of hand-written thunk).

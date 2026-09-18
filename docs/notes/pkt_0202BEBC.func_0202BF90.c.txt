@@ -1,0 +1,52 @@
+/* DIFF record: best C attempt, not byte-exact. */
+
+/*
+ * function: func_0202BF90
+ * address:  0x0202BF90
+ * packet:   pkt_0202BEBC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj {
+    u32 f00;
+    u32 pad04;
+    u8  *f08;
+    u8  f0C;
+    u8  pad0D;
+    u16 f0E;
+    u16 f10;
+    u16 f12;
+    u16 f14;
+};
+
+extern u32 func_0202BFC4(struct Obj *p);
+
+void func_0202BF90(struct Obj *p)
+{
+    u8 old = p->f0C;
+    u32 v = func_0202BFC4(p);
+    u8 *a;
+    u8 *b;
+
+    if (v == 0xFF) {
+        return;
+    }
+
+    a = p->f08 + old * 8;
+    b = p->f08 + v * 8;
+    p->f0E = *(u16 *)(a + 4) & *(u16 *)(b + 2);
+    p->f10 = *(u16 *)(a + 2) & *(u16 *)(b + 4);
+    p->f12 = *(u16 *)(b + 6);
+    p->f14 = 0;
+    p->f0C = (u8)v;
+}

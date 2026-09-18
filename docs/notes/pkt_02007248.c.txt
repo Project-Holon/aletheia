@@ -1,0 +1,47 @@
+Near miss: func_0200725C (0x0200725C, 68 code bytes) and func_020072CC
+(0x020072CC, 82 code bytes), packet pkt_02007248, both `-O4,p`, Thumb,
+compiler dsi/1.1p1.
+
+Both reproduce every byte except a five-instruction block at the top, and in
+both cases the residue is the same thing: *where* the third parameter is
+spilled relative to the argument-address arithmetic.
+
+func_0200725C, original against the best source found:
+
+    0006  movs r0, #0x18          |  movs r0, #0x18
+    0008  adds r5, r7, #0        |  adds r5, r7, #0
+    000A  ldr r1, [pc, #0x38]    |  ldr r1, [pc, #0x38]
+    000C  muls r0, r6, r0        |  muls r0, r6, r0
+    000E  str r2, [sp]           |  adds r0, r1, r0
+    0010  adds r0, r1, r0        |  adds r5, #0x14
+    0012  ldr r1, [sp]           |  lsls r4, r6, #2
+    0014  adds r5, #0x14         |  adds r1, r2, #0
+    0016  lsls r4, r6, #2        |  str r2, [sp]
+    0018  blx func_0203192C      |  blx func_0203192C
+
+The original spills r2 (the third parameter, which has to survive the two
+calls for the final func_02031DC0) *before* the `adds` that completes the
+callee's first argument, and then reloads it into r1 as the call's second
+argument.  The compiler instead keeps it in r2 for the call, materialises r1
+with `adds r1, r2, #0`, and spills it afterwards.  Same instruction count
+(10 bytes differ in func_0200725C because the following four instructions
+shift, 7 in func_020072CC).
+
+Spellings tried against both functions, none of which changes the order:
+
+  * the address expression inline in the call argument
+    (`func(g_0209D950 + 0x18 * a1, a2)`) - committed spelling, 10/7 bytes;
+  * the address bound to a `char *` local first - identical residue;
+  * the third parameter bound to a local `u32 v = a2;` and `v` used as the
+    argument - identical residue.
+
+All five relocation sites of each resolve (`label` for func_0203192C /
+func_02031948, func_02008784, func_020087D4, func_02031DC0; `literal` for
+g_0209D950 at 0x0209D950), and the guard arm and tail are byte-identical in
+both.  That makes this a pure argument-scheduling residue of the class
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+describes, so both files are parked in `src/pending/` with `status: DIFF`
+rather than ground further.
+
+Both sources are otherwise complete and can be dropped into `src/matched/`
+unchanged if a later wave finds the spelling that pins the spill order.

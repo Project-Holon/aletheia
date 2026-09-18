@@ -1,0 +1,45 @@
+pkt_02094488 -- home-area start and MATCH blockes
+================================================
+
+0x02094530 (40 bytes, ARM) -- the real start of the function disasm labels
+0x02094534; a varargs forwarder.  The listing's tell is exact:
+    02094530  push {r0, r1, r2, r3}   ; home area: the address of `n` is taken
+    02094534  push {r3, lr}           ; <- what disasm.py labels
+    02094538  add r1, sp, #0xc        ; &n
+    0209453C  bic r1, r1, #3
+    02094540  add r3, r1, #4          ; ap = &n + 1
+    02094544  ldr r2, [sp, #0xc]      ; n
+    02094548  mvn r1, #0              ; -1
+    0209454C  bl func_020944CC
+    02094550  pop {r3, lr}
+    02094554  add sp, sp, #0x10
+    02094558  bx lr
+
+The C that reproduces it is: `u32 *p = (u32 *)((u32)&n & ~3u); return
+func_020944CC(dst, -1, n, p + 1);` -- 36 bytes, home push included, and it
+verifies MATCH (parked in src/pending/func_02094530.c), capped only by
+func_020944CC having no shard entry of its own.  The alignment step is the
+load-bearing part: `&n + 1` on a u32* compiles without it and comes out DIFF,
+and mwcc evaluates the third argument before the pointer expression unless the
+`& ~3u` peel is spelled as its own temporary, which is exactly the shape
+mwcc's own va_start emits.  The address is four bytes *below* the worklist
+entry, so the file wants a seed at 0x02094530 in layout/function_starts.txt
+and the label at 0x02094534 removed.
+
+0x020944CC (96 bytes, ARM) -- MATCH (parked in src/pending/)
+------------------------------------------------------------
+Byte-correct once the terminator is spelled `*(u8 *)((char *)dst + n - 1) = 0`
+(the plain `dst[n - 1]` makes mwcc compute `n - 1` and store at `[dst, r1]`,
+where the original computes `dst + n` and stores at `[r1, #-1]` -- two bytes).
+One site stays wildcarded: `bl 0x02093BDC`, the home-area `push {r0,r1,r2,r3}`
+start of the function disasm.py labels at 0x02093BE0 (worklist pkt_020933B8,
+size 4).  Four bytes of caller-save home area cannot be produced from C, so no
+source file can ever earn the shard entry that would attest it.
+
+0x02094750 (36 bytes, ARM) -- MATCH, not filed
+----------------------------------------------
+Not written: `g_02153FB0` (the only external reference) has exactly one pool
+word in the whole image, at 0x02094774, which is *inside* the compared range
+02094750..02094778, so the literal class discards it.  The function is a
+one-line indirect call and would otherwise be trivial; it needs either the
+label range to stop at 0x02094774 or a second witness for 0x02153FB0.

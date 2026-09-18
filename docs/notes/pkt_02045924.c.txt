@@ -1,0 +1,50 @@
+near miss: func_02045924 @ 0x02045924, 108 bytes, pkt_02045924
+verdict: DIFF (register allocation and one addressing shape)
+
+The record layout is pinned: len u16 at +0, count u16 at +2, a four-byte gap,
+then the halfword data array at +8 (a byte array there produces a `strb` and
+the range goes two bytes short, which is how the gap and the element size
+were found).  The swap-in loop, the terminator compare and the writeback load
+`ldrh r3, [r1, #2]!` all reproduce; what differs is where the old count
+lives - the original keeps it in r4 and addresses data[old] with `add r3, r0,
+r4, lsl #1` / `strh ip, [r3, #8]`, while the compiled form re-reads the field
+after storing the new count and addresses data[new] with a -2 offset - and
+then the registers all shift.
+
+Source that reaches the right size (108 bytes) with the loop body right:
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Buf {
+    u16 len;
+    u16 count;
+    u32 unk_04;
+    u16 data[0];
+};
+
+extern u16 g_020A7E7C;
+
+void func_02045924(struct Buf *buf, u16 *src)
+{
+    u16 v;
+
+    buf->count = 0;
+    v = *src;
+
+    while (v != g_020A7E7C) {
+        if (buf->count >= buf->len - 1)
+            break;
+
+        buf->count = buf->count + 1;
+        buf->data[buf->count - 1] = v;
+        v = *++src;
+    }
+
+    buf->data[buf->count] = g_020A7E7C;
+}
+
+The sibling func_02045994 @ 0x02045994 (104 bytes, same packet) is the same
+shape with an explicit length argument and the same terminator; it was not
+attempted in this wave.

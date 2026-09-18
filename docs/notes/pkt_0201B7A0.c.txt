@@ -1,0 +1,47 @@
+packet pkt_0201B7A0 (0x0201B7EC, 40 bytes) - near miss, scheduling
+
+Final verdict: DIFF, 4 concrete bytes wrong, all relocations resolved.
+
+func_0201B7EC calls the ARM 0x0203F0A8 and, if the result's sign bit is clear,
+calls func_0201B850 with a table pointer.  The guard is eight bytes and every
+one of its instructions is reproduced; only the order of two independent ones
+is wrong:
+
+    ORIGINAL @ 0201B7EC                     COMPILED
+    movs r1, #0                             movs r1, #0
+    lsrs r0, r0, #0x1f                      lsls r1, r1, #1
+    lsls r1, r1, #1                         lsrs r0, r0, #0x1f
+    orrs r1, r0                             orrs r1, r0
+
+The source is `u32 v = 0; v = (v << 1) | ((u32)func_0203F0A8() >> 31); if
+((v & 1) == 0) ...` and mwcc emits the *independent* shift of the zero before
+the dependent `lsrs` on the call result, while the original has the dependent
+one first.  Twenty-two spellings were compiled and every one that keeps the
+shift live (a bare `v | (v << 1)` folds, and so does any form that puts the
+call inside the same expression as the OR) lands on exactly these four bytes:
+
+  - `s32 r = f(); u32 s = (u32)r >> 31; u32 v = 0; v <<= 1; v |= s;`
+  - the same with the declaration of v before r, with `v = 0` after the call,
+    with the OR written `v = (v << 1) | s`, and with `r` typed `u32`;
+  - the sign bound as `u32 s = (u32)func_0203F0A8() >> 31` (no `r` local);
+  - `u32 v = (u32)func_0203F0A8() >> 31; v = v | (v << 1);` (this one emits
+    `lsrs r1 / lsls r0, r1, #1 / orrs r1, r0`, the right order but the operands
+    swapped between r0 and r1, 25 bytes wrong);
+  - the same guard as a two-bit `union`/struct bitfield write, `volatile`
+    on the accumulator, `v * 2` instead of `v << 1`, and `v + v`.
+
+This is the documented
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+class: the decision is made below the source text.  It is also moot for
+promotion, because the function's own pool word at 0x0201B814 holds 0x0209E465
+and that address has exactly one pool word in the image, so even a byte-exact
+spelling would park at MATCH.
+
+The two function entries of the same packet, 0x0201DBBC and 0x0201DBF4, are
+also scheduling residues and both are byte-count-equal: DBF4 differs only in
+where the compiler put the outgoing `str r5, [sp]` for the fifth argument of
+the Thumb call (five instructions earlier than the original), and DBBC reuses
+the incoming r0 for the object + 0x76 address where this compiler allocates a
+fresh one, which moves every instruction after it.  Both are `bl`/`blx`
+call-only functions with no pool words, so both are recoverable by someone who
+can pin that scheduling.

@@ -1,5 +1,10 @@
 # Handoff state (2026-09-16)
 
+> Current figures, 2026-09-18: 25.3912 percent of ARM9 game code matched byte for byte, 2482
+> functions, 101708 of 400564 bytes, 1827 open, 647 packets, README refreshed in step. The numbers
+> in the snapshot below are as of 2026-09-16 and are kept for the record, not as a live claim; the
+> live figures are `layout/worklist.json`'s summary and `README.md`.
+
 Written for whoever picks the project up next, human or agent. Everything below is
 reproducible from the repo plus the owner's own ROM dump; nothing here depends on
 the previous session's memory.

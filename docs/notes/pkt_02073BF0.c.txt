@@ -1,0 +1,40 @@
+pkt_02073BF0 - near misses
+=========================
+
+Filed from this packet: func_02073CEC (112) EXACT and func_02073EE4 (88) EXACT.
+
+func_02073EE4, the lever that closed it.  The body is a guarded one-shot
+notification; the mask arm is
+
+    if ((int)g.f2c >= 0) m = 1u << g.f2c;
+    else m = 0;
+
+(the condition first, the zero second).  Written the other way round
+(`if (g.f2c < 0) m = 0; else m = 1u << g.f2c;`) the two predicated instructions
+come out in the opposite order and the function is 4 bytes long.  And the object
+pointer has to be a LOCAL
+
+    struct G *g = &g_0214E9FC;
+
+rather than three direct references to the global: with the global spelled out
+every time, the base lands in r0, the predicated arm clobbers r0 and the
+compiler reloads the pool word late (92 bytes instead of 84).  The local keeps
+the base in r3 across the whole body, which is what the original shows.
+
+func_02073CA0 (76) - 4 bytes off, and it is the same small-constant sharing as
+docs/notes/pkt_02074A6C.c.txt: the `1` of `1u << a->f48` and the `1` passed to
+func_02089B38 are CSE'd into one callee-saved register (r5, with a push/pop the
+original does not have); the original rematerialises the second as
+`mov r0, #1`.  All four call sites resolve, so only this stands in the way.
+Tried: `1u`, a local mask variable, `func_...(1 != 0)`, reordering the calls.
+
+func_02073D7C (124) - 5 of 6 sites resolve, byte count 128 vs 124; its
+`func_02073DFC` call has no outside witness (only caller is this function), so it
+caps at MATCH regardless of the C.
+
+func_02073F3C (120) - not matched, the translation unit is REJECTED (CCERR) while
+the same extern/struct set compiles elsewhere, worth one more look before anyone
+spends budget on the body.
+
+func_02073D5C (32) stays parked MATCH: 0x0214E9B4 is named by exactly one pool
+word in the image, its own.

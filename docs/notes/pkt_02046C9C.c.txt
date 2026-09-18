@@ -1,0 +1,31 @@
+near miss: func_02046DB8 @ 0x02046DB8, 100 bytes, pkt_02046C9C
+(two more identical siblings: 0x02046E24 and 0x02046E90, 100 bytes each)
+
+verdict: DIFF.  The best shape is 73 differing bytes; the plain one-argument
+reading is 81.  Every instruction and every relocation is right; what differs is
+where the re-read of the context's heap id lives and, as a consequence, which
+registers the three live values get.
+
+  ORIGINAL                          COMPILED (best shape, 73 bytes)
+  push {r3, r4, r5, r6, lr}         push {r3, r4, r5, r6, r7, lr}
+  sub sp, sp, #4
+  ...
+  ldr r1, [r4]                      (same)
+  mov r4, r0                        (same)
+  ldrh r2, [r1, #0x18]              ldrh r5, [r1, #0x18]
+  mov r0, r6 / mov r1, r5 / bl      (same call)
+
+The original leaves the heap id in r2 across the builder call and so needs only
+r4/r5/r6 for live values; the compiled form gives the heap a callee-saved r5 and
+pushes r7 for the loop-carried `a`.  That the original keeps the value in a
+caller-saved register across a call (and is still correct, because
+func_02048F60 happens not to touch r2) is not reachable from the C: eleven
+source shapes were tried - the heap re-read inline in the third argument, bound
+to a u32 and to a u16 local, with the builder result bound to a local first or
+second, the context bound to a local pointer, the heap cast, and the two
+statements in both orders - and the compiled bytes for the one-argument reading
+are identical in every case.
+
+The allocator's own view is that the value crosses the call, so it must live in
+a preserved register and the frame grows by one.  If someone later finds the
+spelling that makes mwccarm keep it in r2, all three siblings fall at once.

@@ -1,0 +1,45 @@
+pkt_02072F5C - func_02072F5C, 5 bytes of register choice
+=====================================================
+
+0x02072F5C, 44 bytes, all one call site (func_02075BAC, `label x10`) resolved:
+
+    02072F5C  push {r3, lr}
+    02072F60  ldr r3, [r0]
+    02072F64  cmp r3, #0
+    02072F68  ldrne r3, [r0]        <- second, PREDICATED load of the same word
+    02072F6C  ldrbne r0, [r3, #0x2c]
+    02072F70  cmpne r0, #2
+    02072F74  popeq {r3, pc}
+    02072F78  add r0, r3, #0x1c
+    02072F7C  lsl r1, r1, #8
+    02072F80  bl func_02075BAC
+    02072F84  pop {r3, pc}
+
+Two loads of the guard word, the second predicated on the first being non-zero,
+and the pointer the body uses is the SECOND load's value (r3).  The closest
+spelling is
+
+    struct Obj { struct Sub * volatile p; };
+    void f(struct Obj *o, u32 v) {
+        struct Sub *p;
+        if (o->p != 0 && (p = o->p)->b2c != 2)
+            func_02075BAC((u8 *)p + 0x1c, v << 8);
+    }
+
+which reproduces that instruction sequence exactly except that the guard value
+lands in r2 instead of r3 (5 bytes, `ldr r2,[r0] ... add r0, r2, #0x1c`).  With a
+non-volatile field the compiler CSEs the two loads into one and the function is
+four bytes short; with `volatile` and a plain early-return guard the body is
+if-converted (`ldrne/movne/strne`) and the popeq disappears.
+
+Rejected spellings, all r2 or worse: local pointer plus one reload; the same with
+`(p = o->p)` in the condition; two separate `if (...) return;` guards; a union
+member for the null test; a cast struct for the second read; `>= 0` and reversed
+operands.  The residue is a register choice made below the source text, see
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md;
+the file was NOT filed, it is a DIFF, not a MATCH.
+
+The nine-member family at 0x02072F88 remains parked as
+src/pending/unit_02072F88.c (MATCH): each member's only callee (0x020893E8 ...
+0x020895B0) has exactly one caller in the image, the member itself, so no cut
+helps and the targets are outside this window.

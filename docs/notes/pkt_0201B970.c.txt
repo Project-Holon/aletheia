@@ -1,0 +1,36 @@
+packet pkt_0201B970 (0x0201B970, 126 bytes) - near miss, register choice
+
+Final verdict: DIFF, 2 concrete bytes wrong (compiled 124, original 126), all
+five relocation sites resolved.
+
+A guarded stat write: three u16 reads test the field is present, a u8 pair
+decides whether the new value is capped, and the width comes from
+func_0201C158.  Everything reproduces except the register that holds the
+clamped value:
+
+    ORIGINAL @ 0201B970                     COMPILED
+    lsrs r4, r1, #0x18                      lsrs r2, r1, #0x18
+    cmp r4, r0                              cmp r2, r0
+    ...                                     ...
+    adds r4, r0, #0                         adds r2, r0, #0
+    adds r2, r4, #0                         bl #0x2017e40
+    bl #0x2017e40
+
+The original keeps the clamped width in r4, the register the u8 `y` was read
+into, and spends one `adds r2, r4, #0` at the call; this compiler rematerialises
+it straight into the argument register.  Two other properties of the source had
+to be right before the residue was down to this one register, and both are
+worth keeping:
+
+  - `lim` and the clamped value are **u32**, not u8: the original compares the
+    raw return of func_0201C158 against the truncated `y` (`cmp r4, r0` with no
+    truncation pair in front of it), so only `(u8)` on the call's own argument
+    is present, not on the result;
+  - the `return 0` for the guard is written *last* (`if (y < lim) { ...body...;
+    return 1; } return 0;`), which is what puts the zero epilogue after the
+    one-return and makes the compare branch `bhs` instead of `blo`.
+
+Shapes tried for the residue itself: the clamped value as `u32 delta` (the
+committed spelling), as `u8 delta`, with the lim clamp written as two separate
+if statements, and with the `a2 == 0x7F` case first.  All four land on the same
+two-byte residue in r2 versus r4.

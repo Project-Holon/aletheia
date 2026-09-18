@@ -1,0 +1,133 @@
+near miss: func_02040DA8 @ 0x02040DA8, 208 bytes, pkt_02040DA8, arm9, ARM
+verdict: DIFF, 34 concrete bytes (both case bodies, 5 instructions each)
+
+The function is a two-body switch on the slot index: slots 0..3 stage through
+the context's +0x168 pointer, slots 4..7 through +0x16c; the destination
+offset is slot->unk_1f (byte at +0x1f of a 0x2c-byte slot) times the third
+argument, plus the slot's own word from the +0x170 array, shifted down five.
+Everything reproduces except the register the +0x170 element lands in and the
+scheduling of three instructions around it:
+
+  ORIGINAL @ +0044            COMPILED
+  ldrb ip, [r1, #0x1f]        add  r0, lr, r0, lsl #2
+  add  r0, lr, r0, lsl #2     ldrb ip, [r1, #0x1f]
+  ldr  r1, [r0, #0x170]       ldr  r0, [r0, #0x170]
+  cmp  ip, #0x20              mla  r1, r2, ip, r0
+  mla  r1, r2, ip, r1         cmp  ip, #0x20
+
+Same instruction multiset, same size (208), same relocation set. The element
+load reuses the address register in the compiled form and the (dead) slot
+register in the original, and the guard's `cmp` is hoisted ahead of the `mla`
+in the original only. This is the "register choice below the source text"
+class, not an expression-shape class: thirteen source spellings were tried and
+all produced byte-identical compiled output, including
+
+  off = g->unk_170[which]; off += scale * code;        (34)
+  code = ...; off = scale * code + g->unk_170[which];  (34)
+  off = scale * code; off += g->unk_170[which];        (34)
+  off = g->unk_170[which] + scale * g->slots[which].unk_1f;
+                                                       (34)
+  u8/u32 code, declaration order swapped, slot pointer local, block-scoped
+  off, `scale * code` vs `code * scale`                      (all 34)
+
+and the polarity swap (`if (code != 0x20)` with the arms exchanged) is worse
+(52), so the fall-through arm is the `code == 0x20` one as written below. The
+struct sizes are pinned by the bytes: the slot stride is 0x2c (a `mla` on a
+constant, not a shift) and +0x170 is a word array, so the context is
+
+    struct Slot { u8 pad_00[0x1f]; u8 unk_1f; u8 pad_20[0xc]; };
+    struct Ctx  { struct Slot slots[8]; u8 pad_160[8]; void *unk_168;
+                  void *unk_16c; u32 unk_170[8]; };
+
+The source that reaches 34 is below. The two neighbouring functions of the
+same packet (0x02040E78, 0x02040EBC) are EXACT and filed.
+
+--- snip here: the near-miss source, all bytes right except the residue above
+/*
+ * function: func_02040DA8
+ * address:  0x02040DA8
+ * packet:   pkt_02040DA8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146A44      0x02146A44  data
+ *   func_0203422C   0x0203422C  arm
+ *
+ * Start a VRAM transfer for one of the eight BG slots of the global context
+ * at 0x02146A44: slots 0..3 go through the context's first staging pointer
+ * (+0x168) and slots 4..7 through the second (+0x16c).  The destination
+ * offset is the slot's own word from the +0x170 array, biased by the slot's
+ * byte at +0x1f times the caller's scale, and shifted down five bits because
+ * the unit the callee wants is words rather than the bytes the table holds.
+ * The `+0x1f` byte is 0x20 on the slots whose data is a raw (undoubled)
+ * count, which is the only thing the inner test distinguishes; that arm is
+ * the one that falls through, so it is the source's `if` arm.
+ *
+ * Both tests are unsigned (u32 argument, u8 field) and the span between the
+ * two +0x170 reads is what makes the two bodies separate rather than one
+ * shared tail.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02040DA8.c \
+ *       --func func_02040DA8 --addr 0x02040DA8 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Slot {
+    u8 pad_00[0x1f];
+    u8 unk_1f;
+    u8 pad_20[0xc];
+};
+
+struct Ctx {
+    struct Slot slots[8];
+    u8    pad_160[8];
+    void *unk_168;
+    void *unk_16c;
+    u32   unk_170[8];
+};
+
+extern struct Ctx *g_02146A44;
+extern void func_0203422C(void *dst, u32 off, u32 val);
+
+void func_02040DA8(u32 which, u32 val, u32 scale)
+{
+    u8  code;
+    u32 off;
+
+    switch (which) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+        code = g_02146A44->slots[which].unk_1f;
+        off = g_02146A44->unk_170[which];
+        off += scale * code;
+        if (code == 0x20) {
+            func_0203422C(g_02146A44->unk_168, off >> 5, val);
+        } else {
+            func_0203422C(g_02146A44->unk_168, off >> 5, val * 2);
+        }
+        break;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+        code = g_02146A44->slots[which].unk_1f;
+        off = g_02146A44->unk_170[which];
+        off += scale * code;
+        if (code == 0x20) {
+            func_0203422C(g_02146A44->unk_16c, off >> 5, val);
+        } else {
+            func_0203422C(g_02146A44->unk_16c, off >> 5, val * 2);
+        }
+        break;
+    }
+}

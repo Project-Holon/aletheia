@@ -1,0 +1,45 @@
+/* DIFF record: best C attempt for func_02021984, not byte-exact; see header.
+ * status: DIFF
+ */
+
+/*
+ * function: func_02021984
+ * address:  0x02021984
+ * packet:   pkt_02021944
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj {
+    u8 pad[8];
+    u32 f8;
+};
+
+void func_02021984(int a, struct Obj *obj, u16 *out)
+{
+    u8 n;
+    u8 i;
+    u16 mask;
+
+    if (a < 4) {
+        n = (u8)((obj->f8 << 19) >> 24);
+    } else {
+        n = (u8)(obj->f8 >> 9);
+    }
+
+    mask = 0;
+    for (i = 0; i < n; i++) {
+        mask = (u16)(mask + (1 << i));
+    }
+
+    *out &= mask;
+}

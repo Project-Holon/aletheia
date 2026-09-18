@@ -1,0 +1,55 @@
+near miss: func_02046A94 @ 0x02046A94, 100 bytes + 4-byte pool, pkt_02046858
+verdict: DIFF, 12 differing bytes, all of them register choices
+
+The instruction sequence, the pool word and the four relocations all
+reproduce; only which scratch register holds the base differs:
+
+  ORIGINAL @ +0014            COMPILED
+  add ip, r3, r4, lsl #3      add r3, r3, r4, lsl #3     ; context + index*8
+  ldrh r3, [r1, #2]           ldrh r0, [r1, #2]
+  strh r2, [ip, #0x3c]        strh r2, [r3, #0x3c]
+  ...
+  ldr r1, [r5]                ldr r0, [r5]               ; the re-read for the calls
+  add r3, r1, r4, lsl #3      add r2, r0, r4, lsl #3
+
+Source shapes that all give the same (wrong) allocation: a `struct SlotRec *`
+local for the four stores, the same four stores written inline off the base
+expression, the fields read back through an `s16` cast (which is what makes
+them `ldrsh`), and the three read-back values bound to locals first.  The
+layout is pinned by the bytes though, and is worth keeping: the records are
+8 bytes at +0x3c of the context and the source's base expression is
+`context + index * 8`, with the store offsets carried as absolute struct
+members (+0x3c..+0x42), which is what makes the four stores share one base.
+
+The source that reaches 12 bytes:
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+
+struct SlotRec {
+    u8  pad_00[0x3c];
+    u16 unk_3c;
+    u16 unk_3e;
+    u16 unk_40;
+    u16 unk_42;
+};
+
+extern u8 *g_02146A5C;
+extern void func_0206AA3C(s16 a, s16 b, s16 c);
+extern void func_0206AA78(u32 index, u16 value);
+
+void func_02046A94(u32 index, const u16 *src)
+{
+    ((struct SlotRec *)(g_02146A5C + index * 8))->unk_3c = src[0];
+    ((struct SlotRec *)(g_02146A5C + index * 8))->unk_3e = src[1];
+    ((struct SlotRec *)(g_02146A5C + index * 8))->unk_40 = src[2];
+    ((struct SlotRec *)(g_02146A5C + index * 8))->unk_42 = src[3];
+
+    func_0206AA3C(
+        (s16)((struct SlotRec *)(g_02146A5C + index * 8))->unk_3c,
+        (s16)((struct SlotRec *)(g_02146A5C + index * 8))->unk_3e,
+        (s16)((struct SlotRec *)(g_02146A5C + index * 8))->unk_40);
+    func_0206AA78(index,
+                  ((struct SlotRec *)(g_02146A5C + index * 8))->unk_42);
+}

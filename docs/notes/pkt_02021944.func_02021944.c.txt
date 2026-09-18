@@ -1,0 +1,43 @@
+/* DIFF record: best C attempt for func_02021944, not byte-exact; see header.
+ * status: DIFF
+ */
+
+/*
+ * function: func_02021944
+ * address:  0x02021944
+ * packet:   pkt_02021944
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02021930  0x02021930  thumb
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj {
+    u8  pad[0x11A];
+    u16 f11A;
+};
+
+extern u32 func_02021930(u32 v);
+
+void func_02021944(struct Obj *p, u32 bit)
+{
+    u16 v;
+    u16 x;
+
+    if (func_02021930(p->f11A & 0x3FFF) == 1) {
+        return;
+    }
+
+    v = p->f11A & 0x3FFF;
+    x = (u16)(1 << bit);
+    p->f11A = (u16)((p->f11A & 0xC000) | (v | x));
+}

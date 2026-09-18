@@ -1,0 +1,55 @@
+pkt_0209159C -- near misses (DIFF, not filed)
+==============================================
+
+0x0209159C (40 bytes, ARM leaf) -- register choice, 5 bytes
+-----------------------------------------------------------
+Original:
+    0209159C  ldr r2, [r0, #0x18]
+    020915A4  ldr r1, [r0, #0x2c]
+    020915A8  ldr ip, [r0, #0x1c]
+    020915AC  ldr r3, [r0, #0x20]
+    020915B0  and r1, r2, r1
+    020915B4  sub r1, r3, r1
+    020915B8  str ip, [r0, #0x24]
+    020915BC  str r1, [r0, #0x28]
+    020915C0  str r2, [r0, #0x34]
+i.e.  p->f24 = p->f1c; p->f28 = p->f20 - (p->f18 & p->f2c); p->f34 = p->f18;
+
+Five spellings were tried, including the four-declaration block, the
+three-statement form, declarations in the order (c,b,a,d) with separate
+assignment statements, and a form that stores to 0x34 first.  Every one of
+them reproduces the load order 0x18, 0x2c, 0x1c, 0x20 and the and/sub/store
+order exactly; what never matches is which register the 0x18 and 0x1c values
+get.  mwcc 1.1p1 allocates the free list positionally off the emission order
+as [ip, r1, r2, r3] here (0x18 -> ip, 0x2c -> r1, 0x1c -> r2, 0x20 -> r3); the
+original has [r2, r1, ip, r3] instead.  Declaration order in the source has no
+effect on it (verified: (a,b,c,d) and (c,b,a,d) compile to identical code), so
+this is not reachable from C with this front end as far as these five shapes
+show.  Everything else is byte-identical (35 of 40 bytes).
+
+0x02091C40 (120 bytes, ARM) -- structure, 52 bytes
+--------------------------------------------------
+A char-map string compare: `for (i = 0; i < n; i++)`, each byte loaded with
+`ldrb`, tested signed (`cmp r3, #0; blt`), mapped through g_020A60DC when it is
+below 0x80 (`ldrblt r3, [ip, r3]`), then compared as `u8` (`and r4, r3, #0xff`
+/ `and r3, r5, #0xff`, `cmp`, `mvnlo r0,#0` / `movhi r0,#1` / `moveq r0,#0`).
+The loop counter lives in `lr` in the original.  The version written (int
+locals loaded from `const unsigned char *`, no explicit n<=0 guard so the loop
+pre-check provides the shared `mov r0,#0; bx lr` tail) reproduces the loads and
+the mapping but mwcc laid the first guard out as a predicated `movle r0,#0;
+pople` pair plus a duplicated compare instead of the original's single branch
+to the shared tail, and put the counter in r4.  Worth a second look with the
+guard expressed as one `n > 0` conjunction.
+
+0x02091CBC (120 bytes, ARM leaf) -- instruction choice, 49 bytes
+---------------------------------------------------------------
+Two residues: (1) the original extracts the 3-bit field at +8 and keeps the
+shift pair, `lsl r1, r1, #0x1d; lsrs ip, r1, #0x1d`, because the value is used
+again later (`cmp ip, #3; subhs r1, ip, #2; subhs r0, r0, r1`); the same source
+spelled as `(x << 29) >> 29` in a local is folded by 1.1p1 to the single
+`ands ip, r1, #7` when it feeds the `== 0` test first.  (2) the 3-bit mode at
++4 is range-tested with the u8 wraparound decrement, `and r1,r1,#0xff;
+add r1,r1,#0xff; and r1,r1,#0xff; cmp r1,#1; bhi` -- i.e. `(u8)(mode - 1) > 1`
+-- where `(u8)(mode - 1)` written as a subtraction compiles to `sub r1,r1,#1`.
+See docs/idioms/a-u8-decrement-is-spelled-as-the-wraparound-add.md; the
+wraparound spelling is what the source needs, not the subtraction.

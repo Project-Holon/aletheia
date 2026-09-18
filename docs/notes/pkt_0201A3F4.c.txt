@@ -1,0 +1,37 @@
+packet pkt_0201A3F4 (0x0201A3F4, 116 bytes) - near miss, codegen
+
+Final verdict: DIFF, 8 concrete bytes wrong (compiled 116, original 116),
+one relocation site, resolved.
+
+The function is one record-format switch followed by an ARM buffer request and
+two blits.  The whole body reproduces, including the six-way format chain
+(tested in the order 0, 4, 1, 2, 3, 5 - the source order of the arms, which is
+what a chain emits in), both ARM calls and all four relocation sites.
+
+The residue is the argument set-up of the last call, four instructions of
+scheduling:
+
+    ORIGINAL @ 0201A3F4                     COMPILED
+    ldrb r2, [r6, #4]                       str r1, [sp]
+    str r1, [sp]                            movs r0, #1
+    movs r0, #1                             str r0, [sp, #4]
+    str r0, [sp, #4]                        ldrb r2, [r6, #4]
+
+`str r1, [sp]` is the fifth argument (0) and `str r0, [sp, #4]` the sixth (1)
+of func_0201EFA4; the original loads the third argument from the record before
+it writes either stack word and the compiler here writes them first.  Shapes
+tried, all with the same instruction multiset and the same eight byte residue:
+
+  - the byte as an argument expression, `func_0201EFA4(a1, 0, *(u8 *)((char *)
+    a0 + 4), 3, 0, 1)`;
+  - the same byte through a named u32 local assigned on the line before the
+    call (this is the committed spelling, kept because it is the clearest);
+  - the byte through a u32 local assigned before the format chain.
+
+Binding the byte to a local does move the load *before* the chain if the
+assignment is placed there, but then the chain's own register allocation
+changes and the residue gets worse.  Not attempted: a `volatile` local (it
+would pin the load to memory) - the ordering here is between a load and two
+stores with no aliasing question between them, so this is the same
+"materialised temporary not reachable from C" class as
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.

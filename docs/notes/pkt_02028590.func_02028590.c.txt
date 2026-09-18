@@ -1,0 +1,27 @@
+/* DIFF record for func_02028590 (packet pkt_02028590): best C attempt, last verdict DIFF.
+ * Not byte-exact; kept out of src/matched so no shard claims it.
+ */
+
+/*
+ * function: func_02028590
+ * address:  0x02028590
+ * packet:   pkt_02028590
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_020285A4(u32 a, u32 b);
+
+void func_02028590(u32 a)
+{
+    func_020285A4(a, 0x0209FD10);
+}

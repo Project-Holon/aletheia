@@ -1,0 +1,58 @@
+pkt_02073624 - two closures and what the ordering costs
+======================================================
+
+Filed from this packet: func_02073710 (80) EXACT, func_02073760 (96) EXACT and
+func_02073838 (96) EXACT.
+
+func_02073710, the whole difference was the struct's SIZE.  The body is
+
+    struct E { u8 p0[0xc]; u8 f0c; };          <- sizeof 0xd  WRONG
+    struct E { u8 p0[0xc]; u8 f0c; u8 pad[0x24 - 0xd]; };   <- sizeof 0x24  RIGHT
+    void f(struct A *a) {
+        ...
+        func_020605B4(&g_0214E464[a->f10].f0c, a);
+    }
+
+With the 0xd-sized struct the compiler folds the field offset into the multiply
+(`mov r0, #0xd; mla r0, r1, r0, r2; add r0, r0, #0xc`), one byte from the
+original's `mov r0, #0x24`.  The element stride of the table is 0x24, so the
+padding has to be written out; 1 concrete byte, and the file goes EXACT.
+
+func_02073838, two levers at once and both are needed.
+
+    int func_02073838(u8 *o, int n, u8 *src) {
+        u32 m = 0;
+        int i;
+        for (i = 0; i < n; i++) {
+            o[0x54 + i] = src[i];
+            m |= 1u << src[i];
+        }
+        if (func_0207292C(m) == 0) return 0;
+        *(u32 *)(o + 0x50) = n;
+        *(u32 *)(o + 0x4c) = m;
+        return 1;
+    }
+
+  * `u32 m` declared BEFORE `int i` is what puts o/n/m in r5/r4/r6, the
+    original's assignment; the other order rotates all three by one register
+    (docs/idioms/declaration-order-decides-which-register-a-local-gets.md).
+  * `src` must be `u8 *`, not `const u8 *`.  The original re-loads `src[i]` after
+    storing to `o[0x54+i]` (`ldrb r3,[r2,ip] ; strb r3,[r0,#0x54] ; ldrb
+    r0,[r2,ip]`); with a const source pointer the compiler commoned the two loads
+    and the second `ldrb` disappears, four bytes short.
+
+Still open in this packet, both with every site resolved and neither byte-correct:
+
+  func_02073624 0x02073624  96 bytes, compiled 108.  The two zero arguments to
+    func_02060614 are CSE'd into a callee-saved register (`mov r4, #0` in the
+    prologue, `mov r1, r4` at both call sites) where the original materialises
+    `mov r1, #0` twice; same failure as docs/notes/pkt_02074A6C.c.txt.
+  func_0207368C 0x0207368C  124 bytes, compiled 84.  The tentative body is
+    short; the two struct-pointer fields at +4 and +8 and the
+    func_020605B4/func_020604AC pairing need another pass over the listing.
+
+0x020737C0 (104) is an object-initialiser that stores two function pointers
+(func_02073CA0 and func_02073CEC, both in this window) and three other pools.
+It caps at MATCH whatever the C: its pool word for 0x02073CA0 has no outside
+witness while 0x02073CA0 is itself unclosed, and 0x0214E8E4 is a one-pool data
+address.

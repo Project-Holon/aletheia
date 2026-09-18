@@ -1,0 +1,50 @@
+/* DIFF record for func_0202A1CC (packet pkt_0202A19C): best C attempt, last verdict DIFF.
+ * Not byte-exact; kept out of src/matched so no shard claims it.
+ */
+
+/*
+ * function: func_0202A1CC
+ * address:  0x0202A1CC
+ * packet:   pkt_0202A19C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct E {
+    u16 f00;
+    u16 f02;
+    u16 f04;
+    u16 f06;
+};
+
+struct Obj {
+    struct E *table;
+    u8  pad04[8];
+    u32 count;
+};
+
+u32 func_0202A1CC(struct Obj *p, u32 a1, u32 a2, u32 a3)
+{
+    u32 i;
+
+    for (i = 0; i < p->count; i++) {
+        if (p->table[i].f00 == a1) {
+            if (p->table[i].f02 == 2 || p->table[i].f02 == a2) {
+                if (p->table[i].f04 == a3) {
+                    return i;
+                }
+            }
+        }
+    }
+
+    return 0xFFFF;
+}

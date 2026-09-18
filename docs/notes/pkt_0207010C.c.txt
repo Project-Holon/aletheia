@@ -1,0 +1,30 @@
+pkt_0207010C - func_02070904, one scheduling swap
+================================================
+
+0x02070904, 68 bytes, ARM; one call site, to func_02070730 - which has NO
+witness outside this range (its only caller in the image is this function), so
+the best this file can reach is MATCH even when it is byte-correct.
+
+Body, from the listing:
+
+    void f(struct A *a, struct B *b, u32 n) {
+        func_02070730(b->f8, (u16)n, (int)b->f0 >> 12, a);
+        a->f10 = (a->f10 & ~0xc0000000u) | 0x40000000u;
+        a->f0 |= 8u;
+    }
+
+The argument setup reproduces exactly, including the `lsl #16` / `lsr #16` pair
+that the `(u16)n` narrowing costs.  What differs is scheduling of the last two
+statements: the original loads a->f10, masks, stores, and only THEN loads a->f0
+(`ldr r0,[r4,#0x10] / bic / orr / str / ldr r0,[r4] / orr #8 / str`), while this
+front end hoists the a->f0 load above the a->f10 read-modify-write and keeps both
+values in registers until the two stores.  19 concrete bytes, same size.
+
+The `a->hi = 1` bitfield spelling (a 2-bit field at bit 30, which is what the
+`bic #0xc0000000` + `orr #0x40000000` pair is) was tried and gives the same
+bytes for the mask, so the field access itself is not the problem; only the
+interleaving is.  Not filed, DIFF.
+
+The packet's other two small functions were not reached: 0x02070AFC (104) has an
+internal `loc_` (a mid-function label from a range-guard) and 0x02070B64 (116)
+is a five-call sequence; both are larger than they look and neither is a leaf.

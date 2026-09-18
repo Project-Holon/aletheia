@@ -1,0 +1,38 @@
+pkt_020911D8 -- Thumb veneer caps and one near miss
+==================================================
+
+The packet is four Thumb wrappers (0x020911D8, 0x02091200, 0x02091230,
+0x0209125C) each of which calls two ARM helpers (func_02085D88, func_02088234)
+and then tail-calls a linker stub.  All four compile byte-correct and are
+parked in src/pending/ as MATCH; every one of them is capped by exactly one
+site, the stub, and no C change can unstick them:
+
+  0x020911D8 -> func_020911F0   twelve-byte Thumb `bx pc` + ARM `ldr ip/bx ip`
+                                stub, pointer word 0x02731755
+  0x02091200 -> func_02091220   same shape, pointer word 0x02731761
+  0x02091230 -> func_0209124C   same shape, pointer word 0x02731765
+  0x0209125C -> func_02091284   eight-byte ARM `ldr pc, [pc, #-4]` stub,
+                                pointer word 0x02731920
+
+All four pointer words land in 0x0273xxxx, which is inside no region of
+layout/layout.json (the TWL-only arm9i module this project does not extract),
+so veneer_at() refuses condition 4 and the stubs have no other branch anywhere
+in the image.  This is the same wall docs/idioms/a-four-byte-arm-function-in-a-
+thumb-packet-is-a-long-branch-veneer.md records for pkt_020051D8.  The stubs
+themselves (0x020911F0, 0x02091220, 0x0209124C, 0x02091284, listed as 2- and
+4-byte functions by the worklist) are not decompilation targets.
+
+0x0209128C (24 bytes, ARM) -- near miss
+---------------------------------------
+    cmp r0, #0
+    movne r1, #1
+    ldr r0, pool_020912A4      ; 0x02153B88
+    moveq r1, #0
+    strb r1, [r0]
+    bx lr
+i.e. `g_02153B88 = a0 != 0;` with the boolean materialised into r1 before the
+address load (see docs/idioms/a-ternary-flag-is-materialised-first-a-relational
+-one-is-folded-into-the-call.md).  Two independent problems: the flag register
+(r1 in the original) and the data symbol, whose only pool word in the image is
+at 0x020912A4 -- inside the compared range 0209128C..020912A8 -- so the literal
+class discards it and the function caps at MATCH even when the C is right.

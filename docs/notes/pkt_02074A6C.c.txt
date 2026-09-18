@@ -1,72 +1,71 @@
-Near misses, pkt_02074A6C (0x02074A6C..0x02075794, arm)
+pkt_02074A6C - near misses and one solved family
+==============================================
 
-Filed EXACT from this packet:
-  0x020752A4  func_020752A4.c   40 bytes
-  0x020752D4  func_020752D4.c   32 bytes
-Filed MATCH (byte-correct, blocked):
-  0x0207524C  func_0207524C.c   40 bytes
-  0x02075274  func_02075274.c   48 bytes
+Solved here (filed in src/matched/):
+  func_02074C70 0x02074C70  96 bytes EXACT   (was MATCH on 0x02074FA8, promoted
+                        by matching that callee in this same run)
+  func_02074F3C 0x02074F3C  108 bytes EXACT
+  func_02074FA8 0x02074FA8  108 bytes EXACT
+  func_02075080 0x02075080  108 bytes EXACT
+  func_020751F4 0x020751F4   88 bytes EXACT
+  func_02075014 0x02075014  108 bytes MATCH (parked)
 
---------------------------------------------------------------------------------
-1. The 0x0207524C/0x02075274/0x020752A4/0x020752D4 quartet, and why they are
-   not one unit
+The 0x02074F3C / 0x02074FA8 / 0x02075014 / 0x02075080 family, the one lever that
+mattered.  All four are the same body over a different function pointer from
+their own pool:
 
-All four are the same forwarding shape -- `func_020751F4(a, c, d);` then one or
-two more calls on (a, a + b) -- and all four reproduce byte for byte. The pair
-that closes is 0x020752A4/0x020752D4, and it closes *only because it is two
-files*: 0x0208A424 is reached from exactly two sites in the whole image,
-0x020752CC in 0x020752A4 and 0x020752EC in 0x020752D4. Fold the two into one
-unit and both sites are inside the compared range, so the site has no witness
-left and the unit caps at MATCH; kept as two files, each is the other's
-witness. `--suggest-split` says the same thing, but the two-file shape is the
-answer and it costs nothing.
-
-The other two members are blocked one level deeper: 0x020896AC (called only
-from 0x0207526C) and 0x020896CC / 0x0208A38C (called only from 0x02075294 and
-0x0207529C) have exactly one caller each, and it is the member that needs them,
-so no cut helps and they are parked. 0x020751F4, the callee they share, is
-witnessed from outside (0x02073298, 0x02073DCC, 0x020758E4, 0x02075BBC).
-
---------------------------------------------------------------------------------
-2. 0x02074A6C / 0x02074A98 / 0x02074AC4 -- one hoisted constant, 4 bytes
-
-Each is a two-argument forwarding wrapper that turns the callee's result into a
-boolean:
-
-    int func_02074A6C(int a, int b)
-    {
-        return func_02074BEC(a, 0xff, b, 1, 0) == 0;
+    u32 f(u32 a, u32 b, u32 c) {
+        u32 sz;
+        u32 r = func_0207466C(a);
+        if (r == 0) {
+            if (c == 0) sz = 0;
+            else sz = func_020742FC();
+            r = func_02074E9C(a, <pool target>, sz, a, b);
+            if (c != 0 && r != 0) func_02074694(a, r);
+        }
+        return r;
     }
 
-Original 44 bytes:
+Two spellings were wrong and each cost real time:
 
-    push {r3, lr}
-    mov  r2, r1
-    mov  ip, #0
-    mov  r1, #0xff
-    mov  r3, #1
-    str  ip, [sp]
-    bl   func_02074BEC
-    cmp  r0, #0
-    moveq r0, #1
-    movne r0, #0
-    pop  {r3, pc}
+  * `u32 sz = 0; if (c != 0) sz = func_020742FC();` leaves the zero store
+    UNPREDICATED (one byte of encoding: `mov r2, #0` instead of `moveq r2, #0`,
+    and the branch moves).  The if/else spelling
+    `if (c == 0) sz = 0; else sz = func_020742FC();`
+    is what produces the original's `moveq r2, #0` in the then-arm slot.
+  * `if (r != 0) return r; ...` (flat early return) allocates a/b/c to
+    r6/r4/r5 and tests the callee's r0 in place; the original tests a
+    materialised value (`movs r4, r0; bne`), which only happens when the
+    zero case is written as the nested `if (r == 0) { ... }` block above.
+    Declaration order inside the block matters too: the flat version with the
+    locals swapped still came out 4 bytes long.
 
-Compiled, 48 bytes: the front end materialises the boolean's TRUE into a
-callee-saved register *before* the call (`mov r5, #1`) and reuses it for the
-argument the source passes as the 4th parameter, `mov r3, r5`; the extra
-`push {r5}` is the four bytes. Twenty-four source shapes were compiled --
-`return X == 0;`, `!X`, `X ? 0 : 1`, if/else with literal returns, a `switch` on
-the result, a named result local initialised before and after the call, `u8` /
-`u16` / `u32` / `long` / pointer return types, `1u` / `(u8)1` / `(u16)1` /
-`(u32)1` spellings of the argument, four prototype spellings, and the argument
-changed to 3 or the stack argument to 5 (which only makes it worse: 52 and 56
-bytes) -- and every one of them hoists. The only thing that matters is that the
-literal `1` appears both as an argument and as the comparison's TRUE value: the
-original's compiler kept the two materialisations separate (`mov r3, #1` before
-the call, `moveq r0, #1` after it), this one shares them.
+func_02075014 stays MATCH: its fifth site is a pool word naming 0x02075274, and
+that address appears in exactly one literal pool in the image (its own), so the
+`literal` class has no witness.  0x0207524C, the same kind of pool word in
+func_02074F3C, does resolve (`literal x2`), so the family is not uniformly
+blocked.
 
-`func_02074BEC` itself is fine: 10 witnesses, all outside this range
-(0x02074A84, 0x02074AD4, 0x02075728). So this is a codegen near miss of the
-same family as the if-conversion one in pkt_02072EA8, not an evidence problem:
-44 against 48 bytes, every concrete byte shifted from the prologue on.
+Still open, all four near misses of the same shape:
+
+  func_02074A6C 0x02074A6C  44 bytes, compiled 48, every site resolved
+  func_02074A98 0x02074A98  44 bytes, compiled 48, every site resolved
+  func_02074AC4 0x02074AC4  36 bytes, compiled 40, every site resolved
+
+All three are `return func_0207xxxx(a, b, c, 1, 0) == 0/nothing` wrappers.  The
+extra instruction is the small constants: the original materialises 1 and 0 with
+`mov r3, #1` / `mov ip, #0` as call-argument scratch and then rebuilds the
+boolean from immediates (`cmp r0, #0` / `moveq r0, #1` / `movne r0, #0`), while
+this front end keeps the same two constants live in callee-saved r4/r5 across
+the call (`mov r5, #1` in the prologue, `movne r5, r4; mov r0, r5` after it),
+which also forces an extra push/pop pair.  Enumerated and all rejected:
+
+  return X == 0;                      `!X`                       X ? 0 : 1;
+  if (X == 0) return 1; return 0;      int r = X; return r == 0;
+  (X == 0) ? 1 : 0;                    u32 d = 0, e = 1; X(e, d)
+
+Every spelling gives the same 4-byte-long, constant-shared form.  This is the
+same failure mode as docs/idioms/a-small-constant-is-rematerialised-off-a-zero-
+register-unless-an-argument-shares-it.md, seen from the other side: here the
+argument /does/ share it and the original did not.  Recorded rather than ground
+further, -O4,p is pinned and no source shape reached the original.

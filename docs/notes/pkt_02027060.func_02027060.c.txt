@@ -1,0 +1,42 @@
+/* DIFF record for func_02027060 (packet pkt_02027060): best C attempt, last verdict DIFF.
+ * Not byte-exact; kept out of src/matched so no shard claims it.
+ */
+
+/*
+ * function: func_02027060
+ * address:  0x02027060
+ * packet:   pkt_02027060
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146940  0x02146940  data
+ *   g_0209FC20  0x0209FC20  data
+ */
+
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct S {
+    u8  pad[0x34];
+    u16 f34;
+};
+
+extern struct S *g_02146940;
+extern u32 g_0209FC20[];
+
+u32 func_02027060(u32 a)
+{
+    u8 x;
+    u8 y;
+
+    x = (u8)g_0209FC20[a];
+    y = (u8)g_0209FC20[g_02146940->f34];
+
+    return x < y;
+}

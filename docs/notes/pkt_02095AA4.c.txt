@@ -1,0 +1,32 @@
+pkt_02095AA4 -- near misses (DIFF, not filed)
+=============================================
+
+0x02096594 (32 bytes, ARM) -- reload form, 20 bytes
+---------------------------------------------------
+A u16 copy loop that terminates on the value it just stored:
+    02096594  mov r3, r0            ; keep the pre-increment destination
+    02096598  ldrh r2, [r1], #2     ; c = *src++
+    0209659C  mov ip, r3
+    020965A0  strh r2, [r3], #2     ; *dst++ = c
+    020965A4  ldrh r2, [ip]         ; reload the halfword just written
+    020965A8  cmp r2, #0
+    020965AC  bne 02096598
+The spelling used, `do { *dst++ = *src++; } while (dst[-1] != 0);`, gives the
+identical store and loop shape but mwcc reloads with the post-indexed form
+`ldrh r2, [r0, #-2]` instead of preserving the old pointer in ip first.  A
+source spelling that names a second pointer for the just-written slot (so the
+value is live across the increment) is what the original needs.
+
+0x020965B4 (108 bytes, ARM) -- register choice, 31 bytes
+-------------------------------------------------------
+    020965B4  add r3, r0, #5        ; base   -> r3
+    020965B8  ldrb r2, [r3, r1]     ; base[idx]
+    020965BC  add ip, r3, r1        ; cur    -> ip
+Every other instruction, including the `ldrblt`-free predicated early returns
+(`cmp r2,#5; movhi r0,#1; bxhi lr` / `mvnlo r0,#0; bxlo lr`), the u8 range
+scan (`do { if (*cur) return 1; cur++; } while (cur < end)`) and the final
+`(p[idx+4] & 1) ? 1 : -1`, matches byte for byte.  Three shapes were tried --
+pointer locals, the `base[idx]` indexing form, and a plain for-loop -- and all
+three compile to base in ip and cur in r3, the reverse of the original; as
+with 0x0209159C this is a free-list ordering difference the source order does
+not control.

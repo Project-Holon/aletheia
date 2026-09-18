@@ -1,0 +1,40 @@
+/*
+ * function: func_02047970
+ * address:  0x02047970
+ * packet:   pkt_020477D4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_02146A5C     0x02146A5C  data
+ *   func_0206DB80  0x0206DB80  arm
+ *
+ * Set the context's +0x94 word to one, after letting func_0206DB80 run
+ * first; the context pointer is read from its slot after the call, so it is
+ * a fresh `ldr` and not a saved one.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02047970.c \
+ *       --func func_02047970 --addr 0x02047970 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Ctx {
+    u8  pad_00[0x94];
+    u32 unk_94;
+};
+
+extern struct Ctx *g_02146A5C;
+extern void func_0206DB80(void);
+
+void func_02047970(void)
+{
+    func_0206DB80();
+    g_02146A5C->unk_94 = 1;
+}
