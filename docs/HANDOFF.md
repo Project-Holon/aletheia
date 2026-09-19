@@ -1,9 +1,127 @@
 # Handoff state (2026-09-16)
 
-> Current figures, 2026-09-19: 34.5177 percent of ARM9 game code matched byte for byte, 2976
-> functions, 138278 of 400600 bytes, 1335 open, 638 packets, README refreshed in step. The numbers
-> in the snapshot below are as of 2026-09-16 and are kept for the record, not as a live claim; the
-> live figures are `layout/worklist.json`'s summary and `README.md`.
+> Current figures, 2026-09-19 end of session: **39.5013 percent** of ARM9 game code matched byte for byte
+> (154260 of 388160 bytes, 3074 functions). Read both numbers with their caveats. 388160 is the new
+> denominator: six library bodies (12440 bytes) moved out of the game pool by owner decision today, which
+> raises the percentage by 1.2272 points as BOOKKEEPING, not by matching anything. And 154260/3074 include
+> the two waves still running at handoff (uncommitted shards); the committed figure is
+> `6a5e2ba` at 38.2741 percent of the OLD 400600-byte pool, which becomes 39.5013 percent of the new one
+> once the reclassification lands. The live figures are `layout/worklist.json`'s summary and `README.md`,
+> and both are refreshed in the same commit as the change they describe.
+>
+> The numbers in the 2026-09-16 snapshot below are kept for the record, not as a live claim.
+
+## Session of 2026-09-19: what changed, and why
+
+Read this section before anything below it. It records a day of process repairs and two policy decisions
+that change what the project counts, and it is written so that a reader with no access to the session can
+reproduce every claim from the repo.
+
+### 1. The numbers, and how to re-derive them
+
+| figure | value | where it comes from |
+|---|---|---|
+| committed coverage, old denominator | 38.2741% (153326 / 400600) | `git show 6a5e2ba:layout/worklist.json`, summary block |
+| committed coverage, new denominator | 39.5013% (153326 / 388160) | same numerator, denominator after the library reclassification below |
+| game functions | 4311 total = 3074 matched + 1231 open, plus 1127 SDK and 39 runtime (not game code) | `build_inventory()["funcs"]`, `cls` column |
+| ROM verification | chain 242 PASS / 0 FAIL, ARM9 PASS, sha1 `26ad0b9967aa279c4a266ee69f52b9b2332399a5` | `tools/build.py --split --pack` then `tools/ndsrom.py verify` |
+| four-state catalogue of every game function | 3074 EXACT, 292 MATCH parks, 732 noted, 219 untouched | `scratch/band_table_v2.py` |
+
+`scratch/band_table_v2.py` prints the band table with all four states plus the readiness split. It asserts
+its own denominator equals the worklist summary's, because an earlier version of it sized rows by the
+worklist `size` field instead of `code_bytes` and reported a denominator of 427504 against the real 400600.
+
+### 2. Two policy decisions, taken by the owner today
+
+**Per-file compiler pins are allowed, with byte evidence recorded per file.** Written up in
+`docs/FRONTEND-PINS.md`: the rule, the measured front-end tells, the four pins already in force, and the
+first family pinned under the new rule (the 3D rig unit `0x0205429C..0x020584E0`, 30 rows, 14728 code bytes,
+3.68 points, built by mwccarm 1.2 and unreachable under the pinned front end because a register `blx rN`
+cannot coexist with a `pop {..., lr}` return in any dsi build). Sweeping versions over a range stays
+forbidden: one decision per function, confirmed by compile.
+
+**Vendor library bodies are library code, not game code.** Six addresses were added to
+`layout/runtime_arm9.txt` after the frontier probe identified them by disassembly: `0x0209AC04` (the
+soft-double arithmetic body immediately before `__dadd_dsub`, 772 bytes, eleven game callers) plus five MSL
+members with no game-side caller (`0x02094B8C` scanf/strtod core, `0x020979C0`, `0x02098B48`, `0x02099228`,
+`0x0209953C`). Their names in that table are descriptive, not recovered `runtime.a` symbol names; the file's
+comment block says so. The MD5 transform at `0x02081E7C` was deliberately KEPT as open game work because the
+game calls it, and can be matched from the standard MD5 algorithm.
+
+Consequences, all verified: the game pool fell from 400600 to 388160 bytes; those six rows left the open
+pool; and `attest(0x0209AC04)` now returns a witness, which unblocks the eleven callers that were failing on
+that site alone. The percentage rise from this is bookkeeping and must be described as such in every reply
+and commit body.
+
+### 3. Process repairs, each one paid for by a measured loss
+
+| repair | the loss it answers |
+|---|---|
+| `scratch/cut_wave.py` cuts a whole wave in ONE global pass: every eligible packet to exactly one lane, every claimed packet excluded, every prior wave's packets excluded, disjointness asserted before anything is written, and an owners file written for the fold-in gate | the earlier per-band cuts shared 39 packets between two lanes of the SAME wave, and overlapped `claimed:second-lane` packets by 5 per wave |
+| `scratch/claim_check.py <before> <after>` is the fold-in ownership gate: each added address's packet comes from its source's own header, and its claim from the PREVIOUS revision's worklist, because a packet that dissolves mid-wave drops its claim from the current one | 9 collisions with other agents across waves r2 and r3 went unnoticed and were counted as this project's own work, including two addresses inside `claimed:second-lane` |
+| the claim filter in the slice generator is now implemented, and prior owners files are excluded automatically (`_owners.json` live, `_owners.closed.json` for finished waves) | the filter had been DESCRIBED in briefs and in the runbook but never existed in the code |
+| every lane brief carries a mandatory `self_check:` line: it must print, per filed address, whether the address was already covered | an external lane reported "5 new manifest addresses" and 4 of them were already in the manifest |
+| every lane brief carries a no-deletion rule and a `lost_files` key | an external lane's tidy-up pass deleted `src/matched/func_020069D4.c` while the lane that owned that packet was still working; nothing attested was lost only because the file was untracked and unsharded |
+| all manifest-wide reads run in a FRESH process | `match.load_manifest_entries()` memoises, and `match.MANIFEST_DIR` is a module constant, so a long-lived interpreter answers about a tree that no longer exists (measured: 2378 vs 2453 entries, 86 vs 11 orphan sources) |
+| band sizing and lane budgets use the real extent, not the worklist `size` column | `size` excludes a function's own literal pool, so a 70-byte row was a 358-byte body and a "257-512 band" slice contained 400 to 900-byte bodies |
+
+### 4. The frontier map, from the 2026-09-19 probe
+
+Three lanes were sent at the bands above 512 bytes, which had never converted a function. They filed nothing
+and returned a classification of 44 rows, which is the point: the blockers there are mostly not codegen.
+
+* 6 rows blocked by the toolchain tree (the 1.2 tells above), ~6.7 KB, now addressable by the pin policy.
+* 4 rows capped by exactly ONE unfiled callee, ~8.2 KB: this is chain work, and filing the callee converts
+  the caller with no C change.
+* 6 rows blocked by size alone, ~7.5 KB, with full structural maps left in `docs/notes/`.
+* 2 rows plus 1 identification are vendor/library bodies, now reclassified.
+* Best reproductions from one pass: `0x02038DF0` 604 of 608 bytes, `0x02046858` 568 of 572 (one instruction
+  each), and `0x020426A0` / `0x020428E8` at 146 of 146 and 143 of 143 instructions with the difference
+  confined to allocation. `0x02081E7C` was identified as an MD5 transform from its four round constants.
+
+### 5. Where the remaining work is
+
+* **Backfill, automatic:** 292 MATCH parks (code written, byte-correct apart from wildcarded relocation
+  sites) become EXACT the moment their blocker is filed, with no edit. Another 566 of the 1231 open rows are
+  chain-class, i.e. they become reachable bottom-up as callees land. This is why forward work on big
+  functions pays twice.
+* **Untouched:** 219 rows, 61 KB, with nothing written and nothing attempted. 186 of them are in the older
+  bands; the rest are above 512 bytes.
+* **The 256+ bands** hold 146.7 KB of open bytes (36.6 points, 59 percent of what is left) and almost no
+  EXACT work: 35 functions at 257-512, 3 at 513-1024, 1 above 1024.
+* **Documented walls:** 732 `noted` rows, 159 KB, each with its residue in `docs/notes/`. They need a new
+  lever, not another attempt.
+
+### 6. Waves in flight at handoff, and what to check when they land
+
+| wave | lanes | shape |
+|---|---|---|
+| r4 (`deleg_f2f6926b`) | 7 | 5 over 129-256, 2 over the 257-512 frontier, cut by `cut_wave.py` with claims honoured |
+| r5 (`deleg_b5f60410`) | 4 | the two one-instruction misses; the uncappable rows; single-callee chain closing; the two structure-identical 146-instruction twins |
+
+Fold-in sequence for either, in order: `git status` and stop if the tree is dirty under another writer;
+`python scratch/claim_check.py <prev-rev> <new-rev>` and resolve any collision BEFORE writing a commit
+message; `python scratch/check_wave.py` per-lane landed counts in a fresh process;
+`scratch/verify_shards.py <changed shards> --out ...` and require every entry EXACT with 0 disagreements;
+`python scratch/scan_defects.py` for whole-tree defects; `python tools/match.py idioms` if idiom files
+landed; `python tools/worklist.py --refresh`; update `README.md`'s percentage and function count in the same
+commit; count the wave as NEW manifest addresses against the previous commit, never against a lane's own
+report; chain and ROM verification; `git add` explicit paths, commit, push, read the remote ref back.
+
+### 7. Traps not to reintroduce
+
+1. A tool property stated in a brief, a reply or the runbook that the code does not implement (the claim
+   filter). Read the code before describing it.
+2. Two writers on one packet, one shard, or one file. Partition by packet, assert it, and gate the fold-in on
+   ownership.
+3. Deleting anything you did not create in the current run, in a tree with live lanes.
+4. Reading the manifest, or the inventory, from a reused interpreter.
+5. Sizing anything by the worklist `size` column instead of `code_bytes` or the real extent.
+6. Reporting a lane's `exact[]` length as its contribution.
+7. A committed shard entry whose verdict is not EXACT: `manifest --verify --shard` records whatever it
+   found, so a DIFF entry can be live in the manifest and spliced into the build.
+8. A header comment block that closes twice; it aborts the compile at the first body line and makes
+   finished work look like a wall.
 
 Written for whoever picks the project up next, human or agent. Everything below is
 reproducible from the repo plus the owner's own ROM dump; nothing here depends on

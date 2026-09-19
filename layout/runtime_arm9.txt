@@ -41,3 +41,20 @@
 0209CE10  __fdiv               MSL/runtime.a  arm9_main
 0209D1E0  __ddiv               MSL/runtime.a  arm9_main
 0209D724  _runtime_null_stub   MSL/runtime.a  arm9_main
+#
+# Added after the 2026-09-19 frontier probe (deleg_5c54c4ee), which identified these six bodies by
+# disassembly and by their callers. The first five are MSL library members with no game-side caller;
+# the sixth is the soft-double arithmetic body that sits immediately before __dadd_dsub and is called
+# from eleven game functions. The names below are DESCRIPTIVE, not recovered runtime.a symbol names,
+# and follow the table's existing convention for unidentified members (_double_arith_body, __dcmp_1).
+# Per-function evidence: docs/notes/pkt_0209AC04.c.txt, pkt_020979C0.c.txt, pkt_02094B8C.c.txt,
+# pkt_02098B44.c.txt, and the probe reports under the same names.
+#
+# owner's decision, 2026-09-19: reclassify the pure library bodies as library code; keep the MD5
+# transform (0x02081E7C) as open game work because the game calls it deliberately.
+0209AC04  _double_arith_prelude                            MSL/runtime.a  arm9_main
+02094B8C  _msl_scanf_strtod_core                           MSL/runtime.a  arm9_main
+020979C0  _msl_double_kernel                              MSL/runtime.a  arm9_main
+02098B48  _msl_double_fn_1                                MSL/runtime.a  arm9_main
+02099228  _msl_double_minimax_poly                        MSL/runtime.a  arm9_main
+0209953C  _msl_double_fn_2                                MSL/runtime.a  arm9_main
