@@ -1,0 +1,99 @@
+pkt_02060480 near miss: a 5-function singly/doubly-linked list helper family
+(0x02060480, 0x020604AC, 0x02060500, 0x02060550, 0x020605B4) plus 0x020606D0.
+
+VERDICT: DIFF on all five, all of them for the SAME one-instruction reason.
+No source was filed for them (DIFF has no home in src/matched/ or src/pending/).
+
+THE WITNESS IS FINE. Every call relocation in the family resolves
+(PC24 func_02060480 -> 02060480, class label, 5 witnesses). This is NOT a
+MATCH cap; it is a concrete codegen difference.
+
+SHARED SHAPE (decompiled from the original listing)
+
+  typedef struct List {           /* 12 bytes, manager */
+      void *head;                 /* +0x00 */
+      void *tail;                 /* +0x04 */
+      unsigned short count;       /* +0x08 */
+      unsigned short ofs;         /* +0x0a  link offset inside a node */
+  } List;
+
+  node link pair lives at ((char *)node + ofs): [0] = before, [1] = after.
+
+CLOSEST C (func_020604AC, 2 instructions off, everything else exact):
+
+  typedef struct List {
+      void *head;
+      void *tail;
+      unsigned short count;
+      unsigned short ofs;
+  } List;
+
+  extern void func_02060480(List *l, char *p);
+
+  void func_020604AC(List *l, char *p)
+  {
+      unsigned short ofs;
+      char *tail;
+
+      if (l->head == 0) {
+          func_02060480(l, p);
+          return;
+      }
+      ofs = l->ofs;
+      tail = (char *)l->tail;
+      *(unsigned int *)(p + ofs) = (unsigned int)tail;
+      *(unsigned int *)(p + ofs + 4) = 0;
+      *(unsigned int *)((char *)l->tail + l->ofs + 4) = (unsigned int)p;
+      l->tail = p;
+      l->count++;
+  }
+
+EXACT RESIDUE (84/84 bytes produced, 2 concrete bytes differ at +0x30 and +0x34;
+the two reloads of l->ofs and l->tail after the stores to p are allocated to
+swapped registers):
+
+   ORIGINAL @ 020604AC                | COMPILED
+   +0030  ldrh r2, [r0, #0xa]         | ldrh r3, [r0, #0xa]
+   +0034  ldr  r3, [r0, #4]           | ldr  r2, [r0, #4]
+   +0038  add  r2, r3, r2             | add  r2, r3, r2          (identical)
+   ...    every other instruction identical, size 84 = 84.
+
+func_02060480 (44/44 bytes, 9 concrete bytes differ) has the same class of
+residue but one statement earlier: the original emits
+
+   ldrd ~  str r1,[r0]; str r1,[r0,#4]; ldrh r1,[r0,#8]; add r1,r1,#1; strh r1,[r0,#8]
+
+while every spelling I tried makes the compiler hoist the ldrh of l->count to
+just after the two stores through p (before the two stores through l), i.e.
+
+   str r1,[r0]; ldrh r2,[r0,#8]; str r1,[r0,#4]; add r1,r2,#1; strh r1,[r0,#8]
+
+Same instruction count, same semantics, different schedule.
+
+RULED OUT (each compiled against the pinned --cc 1.1p1 -O4,p -proc arm946e):
+
+- `l->count++` / `++l->count` / `l->count += 1` / `l->count = l->count + 1`:
+  all four hoist the load identically.
+- Re-reading l->ofs and l->tail in place of locals (no local cache): compiles
+  4 bytes LONGER and picks a different ofs register (r2 for ip) -- the original
+  caches on the first two uses and re-reads only on the third.
+- Source statement order l,tail stores BEFORE the p-stores: the scheduler
+  leaves everything in source order (l,l,p,p,count) and the p-stores are not
+  hoisted, so the emitted order is wrong; only p,p,l,l,count produces the right
+  store order.
+- `volatile` on the struct member, `*(volatile unsigned short *)&l->count`,
+  and a `volatile unsigned short *` local taken from `&l->count`: mwccarm
+  IGNORES all three (the load still hoists). Only qualifying the PARAMETER
+  (`volatile List *l`) pins the load -- and then the ofs register flips from r3
+  to ip in func_02060480, costing 4 instructions there (and in 020604AC it
+  costs the +0x30/+0x34 swap above).
+- cc 1.2 at the same flags: identical output to 1.1p1, so this is not a
+  front-end-version difference (and there is no blx/`pop {,lr}` signature
+  pointing at 1.2 in this family anyway).
+- No relocation in the family is unresolved, so --suggest-split has nothing to
+  cut: this is codegen, not evidence.
+
+NEXT LEVER for whoever picks this up: find the statement shape that stops the
+l->count load from being hoisted while keeping ofs in r3. Everything else in
+the five functions is already byte-exact, and the whole family is worth
+about 450 bytes.

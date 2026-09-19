@@ -1,0 +1,36 @@
+pkt_0207292C  lane6  DIFF residue (register-allocation near miss)
+
+0x0207292C (72 bytes, arm). Original: push {r4, lr} only; a0 lives in r4 across
+the call to 0x020895D8; the global address 0x0214DEC0 is re-materialised from
+the pool after the call (`ldr r1, [pc, #0x10]`); the reloaded g[2] is OR-ed with
+r4 and stored. Shape:
+
+    push {r4, lr}
+    movs r4, r0 ; moveq r0, #1 ; popeq {r4, pc}      ; if (a0 == 0) return 1
+    ldr r1, [pc] ; ldr r1, [r1, #8] ; tst r4, r1
+    movne r0, #0 ; popne {r4, pc}                    ; if (g[2] & a0) return 0
+    mov r1, #0 ; bl 0x20895D8                        ; f(a0, 0)
+    ldr r1, [pc] ; mov r0, #1 ; ldr r2, [r1, #8]
+    orr r2, r2, r4 ; str r2, [r1, #8] ; pop {r4, pc} ; g[2] |= a0; return 1
+
+Closest C (semantically exact, verifies DIFF: 68 compiled vs 72 original,
+28 concrete bytes differ):
+
+    extern u32 g_0214DEC0[];
+    void sub_020895D8(u32 mask, int b);
+    int sub_0207292C(u32 a0) {
+        if (a0 == 0) return 1;
+        if (g_0214DEC0[2] & a0) return 0;
+        sub_020895D8(a0, 0);
+        g_0214DEC0[2] |= a0;
+        return 1;
+    }
+
+Residue: every spelling tried (extern u32 array, raw cast `*(u32 *)0x0214DEC8`,
+and `g[2] = g[2] | a0`) makes mwcc keep the *address* in a callee-saved register
+across the call instead of the parameter: it emits push {r3, r4, r5, lr} and
+reuses the live pointer for the store (`ldr r1, [r4, #8]`), where the original
+pushes {r4, lr} and re-materialises the address. Blocker class: codegen
+(register allocation), not evidence.
+Second, independent cap: PC24 0x020895D8 has no witness outside
+0207292C..02072970 - it would stay wildcarded even if the allocation matched.

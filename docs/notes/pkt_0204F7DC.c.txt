@@ -35,3 +35,120 @@ from the source text - the same class the other four notes in this set record
 complete and was verified against the 0xffff pool word and all six calls; a
 later wave with a better idea for the register only needs to re-read this note
 rather than re-derive the function.
+
+
+==============================================================================
+REMOVED FROM src/matched func_0204FFFC: src/matched/func_0204FFFC.c was filed as EXACT and never sharded, and
+recompiling it prints DIFF.  A DIFF has no home in src/matched, so the C is kept
+here.  Residue below is match.py one --addr 0x0204FFFC --cc 1.1p1 --arm.
+==============================================================================
+
+DIFF       func_0204FFFC @ 0204FFFC (arm9, ARM)
+  compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p
+  compiled 132 bytes, 7 relocation site(s)
+  relocations: 7 of 7 resolved
+    +0038 PC24 func_0204F5A8           -> 0204F5A8  [label x5, e.g. 020504A4]
+    +0050 PC24 func_02033C9C           -> 02033C9C  [label x15, e.g. 020345E8]
+    +0058 PC24 func_020307B0           -> 020307B0  [label x1056, e.g. 0200670C]
+    +0060 PC24 func_02033C9C           -> 02033C9C  [label x15, e.g. 020345E8]
+    +0068 PC24 func_020307B0           -> 020307B0  [label x1056, e.g. 0200670C]
+    +0070 PC24 func_0204ED24           -> 0204ED24  [label x3, e.g. 021F3EE8]
+    +0078 PC24 func_020307B0           -> 020307B0  [label x1056, e.g. 0200670C]
+  listing extent for the original: 140 bytes
+  note: listing says the original is 140 bytes, compiled 132
+  2 concrete byte(s) differ
+  offset     ORIGINAL @ 0204FFFC                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r3, r4, r5, r6, r7, lr}          | push {r3, r4, r5, r6, r7, lr}          
+    +0004    mov r5, r0                             | mov r5, r0                             
+    +0008    ldrh r0, [r5, #0x1c]                   | ldrh r0, [r5, #0x1c]                   
+    +000C    mov r4, #0                             | mov r4, #0                             
+    +0010    cmp r0, #0                             | cmp r0, #0                             
+    +0014    ble #0x2050048                         | ble #0x2050048                         
+    +0018    ldr r7, [pc, #0x60]                    | ldr r7, [pc, #0x60]                    
+    +001C    mov r6, #0x28                          | mov r6, #0x28                          
+    +0020    mul r0, r4, r6                         | mul r0, r4, r6                         
+    +0024    ldr r1, [r5, #0x18]                    | ldr r1, [r5, #0x18]                    
+  * +0028    ldr r1, [r1, r0]                       | ldr r0, [r1, r0]                       
+  * +002C    cmp r1, r7                             | cmp r0, r7                             
+    +0030    beq #0x2050038                         | beq #0x2050038                         
+    +0034    ldr r0, [r5, #4]                       | ldr r0, [r5, #4]                       
+    +0038    bl #0x204f5a8                          | bl #0x204f5a8                          <- PC24 func_0204F5A8 [resolved: label]
+    +003C    ldrh r0, [r5, #0x1c]                   | ldrh r0, [r5, #0x1c]                   
+    +0040    add r4, r4, #1                         | add r4, r4, #1                         
+    +0044    cmp r4, r0                             | cmp r4, r0                             
+    +0048    blt #0x205001c                         | blt #0x205001c                         
+    +004C    ldr r0, [r5, #0x20]                    | ldr r0, [r5, #0x20]                    
+    +0050    bl #0x2033c9c                          | bl #0x2033c9c                          <- PC24 func_02033C9C [resolved: label]
+    +0054    ldr r0, [r5, #0x18]                    | ldr r0, [r5, #0x18]                    
+    +0058    bl #0x20307b0                          | bl #0x20307b0                          <- PC24 func_020307B0 [resolved: label]
+    +005C    ldr r0, [r5, #0x14]                    | ldr r0, [r5, #0x14]                    
+    +0060    bl #0x2033c9c                          | bl #0x2033c9c                          <- PC24 func_02033C9C [resolved: label]
+    +0064    ldr r0, [r5, #0xc]                     | ldr r0, [r5, #0xc]                     
+    +0068    bl #0x20307b0                          | bl #0x20307b0                          <- PC24 func_020307B0 [resolved: label]
+    +006C    ldr r0, [r5, #4]                       | ldr r0, [r5, #4]                       
+    +0070    bl #0x204ed24                          | bl #0x204ed24                          <- PC24 func_0204ED24 [resolved: label]
+    +0074    mov r0, r5                             | mov r0, r5                             
+    +0078    bl #0x20307b0                          | bl #0x20307b0                          <- PC24 func_020307B0 [resolved: label]
+    +007C    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
+    +0080    .byte ff ff 00 00                      | .byte ff ff 00 00                      
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+--- C as filed ---
+
+/*
+ * function: func_0204FFFC
+ * address:  0x0204FFFC
+ * packet:   pkt_0204F7DC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204F5A8   0x0204F5A8  arm
+ *   func_0204ED24   0x0204ED24  arm
+ *   func_02033C9C   0x02033C9C  arm
+ *   func_020307B0   0x020307B0  arm
+ *
+ * The destructor of the object whose table the pkt_0204F150 accessors work
+ * on: walk the 0x28-byte entries at +0x18 (the count is the halfword at
+ * +0x1c) and release every one that is not the 0xffff sentinel, then free the
+ * six pointers at +0x4, +0xc, +0x14, +0x18, +0x20 and the object itself,
+ * alternating between the two allocators.
+ *
+ * The loop bound is the field, not a local: the halfword at +0x1c is
+ * re-loaded for the back-edge test (the release call in the body could change
+ * it), so the source spells the field in the condition.  0xffff cannot be an
+ * ARM immediate, hence the pool word it is compared against.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_0204F5A8(u32 v);
+extern void func_0204ED24(u32 v);
+extern void func_02033C9C(u32 v);
+extern void func_020307B0(u32 v);
+
+void func_0204FFFC(u8 *a0)
+{
+    int i;
+
+    for (i = 0; i < *(u16 *)(a0 + 0x1c); i++) {
+        u32 v = *(u32 *)(*(u32 *)(a0 + 0x18) + i * 0x28);
+
+        if (v != 0xffff) {
+            func_0204F5A8(*(u32 *)(a0 + 4));
+        }
+    }
+    func_02033C9C(*(u32 *)(a0 + 0x20));
+    func_020307B0(*(u32 *)(a0 + 0x18));
+    func_02033C9C(*(u32 *)(a0 + 0x14));
+    func_020307B0(*(u32 *)(a0 + 0xc));
+    func_0204ED24(*(u32 *)(a0 + 4));
+    func_020307B0((u32)a0);
+}

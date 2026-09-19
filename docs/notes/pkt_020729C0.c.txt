@@ -43,3 +43,18 @@ arm and this front end will not: here the original refuses to predicate a
 longer arm than ours will.  Spelling the arm as a `goto` to a label after the
 loop, as an `if/continue`, with the store through a named local, and with the
 return value hoisted into a local were all tried; every one predicates.
+
+lane6 addendum (independent run, same address, same verdict): the cached-local
+spelling was tried too -
+
+    int i; u32 m; u32 v = g_0214DEC0[1];
+    for (i = 0, m = 1; i < 8; i++, m <<= 1)
+        if ((v & m) == 0) { g_0214DEC0[1] |= m; return i; }
+    return -1;
+
+and it predicates as well (ldreq/ldreq/orreq/streq/bxeq), with the same
+`tst r1, r3` + hoisted value the file above records.  Also tried: the raw cast
+`(*(u32 *)0x0214DEC4)` instead of the extern array - same predication, and it
+moves the pool word to 0x0214DEC4 with a zero displacement, so the extern-array
+spelling is the one that keeps the original's `ldr r1, [r1, #4]` encoding.
+Compiled 64 bytes vs 72 original in every spelling tried here.

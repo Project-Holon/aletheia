@@ -1,0 +1,76 @@
+
+
+==============================================================================
+REMOVED FROM src/matched func_02051838: src/matched/func_02051838.c was filed as EXACT and never sharded, and
+recompiling it prints DIFF.  A DIFF has no home in src/matched, so the C is kept
+here.  Residue below is match.py one --addr 0x02051838 --cc 1.1p1 --arm.
+==============================================================================
+
+DIFF       func_02051838 @ 02051838 (arm9, ARM)
+  compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p
+  compiled 56 bytes, 0 relocation site(s)
+  listing extent for the original: 116 bytes
+  note: listing says the original is 116 bytes, compiled 56
+  35 concrete byte(s) differ
+  offset     ORIGINAL @ 02051838                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+  * +0000    push {r4, lr}                          | ldr ip, [r0, #0x20]                    
+  * +0004    ldr lr, [r0, #0x20]                    | ldr r3, [r1]                           
+  * +0008    ldr r4, [r1]                           | ldr r2, [ip, #4]                       
+  * +000C    ldr r2, [lr]                           | add r2, r3, r2                         
+  * +0010    ldr r3, [r1, #4]                       | str r2, [r0, #0x28]                    
+  * +0014    ldr ip, [r2, #4]                       | ldr r3, [r1, #4]                       
+  * +0018    ldr r2, [r1, #8]                       | ldr r2, [ip, #8]                       
+  * +001C    add r1, r4, ip                         | add r2, r3, r2                         
+  * +0020    str r1, [r0, #0x28]                    | str r2, [r0, #0x2c]                    
+  * +0024    ldr r1, [lr]                           | ldr r2, [r1, #8]                       
+  * +0028    ldr r1, [r1, #8]                       | ldr r1, [ip, #0xc]                     
+  * +002C    add r1, r3, r1                         | add r1, r2, r1                         
+  * +0030    str r1, [r0, #0x2c]                    | str r1, [r0, #0x30]                    
+  * +0034    ldr r1, [lr]                           | bx lr                                  
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+--- C as filed ---
+
+/*
+ * function: func_02051838
+ * address:  0x02051838
+ * packet:   pkt_02051838
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * The three-word vector at the object's +0x28..+0x30 is rebuilt from the
+ * caller's three words at q[0..2] plus the three inner words at the block the
+ * object's own pointer field at +0x20 names.  Frame is 8 bytes: push {r4, lr}
+ * and no stack slots.
+ *
+ * The inner pointer is re-read from p+0x20 before each of the three sums
+ * (`ldr r1, [lr]` three times in the original), so the source spells the
+ * dereference out per statement rather than binding it to a local; binding it
+ * to one local compiles the block in twelve fewer bytes with everything in
+ * different registers.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02051838.c \
+ *       --func func_02051838 --addr 0x02051838 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+struct S51838 {
+    u32 w0;
+    u32 w4;
+    u32 w8;
+    u32 w12;
+};
+
+void func_02051838(char *p, u32 *q)
+{
+    *(u32 *)(p + 0x28) = q[0] + *(u32 *)(*(u32 *)(p + 0x20) + 4);
+    *(u32 *)(p + 0x2c) = q[1] + *(u32 *)(*(u32 *)(p + 0x20) + 8);
+    *(u32 *)(p + 0x30) = q[2] + *(u32 *)(*(u32 *)(p + 0x20) + 12);
+}

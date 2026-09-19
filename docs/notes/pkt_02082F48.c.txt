@@ -1,0 +1,31 @@
+pkt_02082F48  lane6  DIFF residue (32-byte block copy, forward)
+
+0x02082F48 (72 bytes, arm), f(src=r0, dst=r1, n=r2) - original body:
+    subs r2, r2, #0x20
+  L: ldmge r0!, {r4, r5, r6, r7, r8, sb, sl, lr}
+    stmge r1!, {r4, r5, r6, r7, r8, sb, sl, lr}
+    subsge r2, r2, #0x20 ; bge L
+    add r2, r2, #0x20 ; pop the same eight registers
+    subs r2, r2, #4
+  M: ldrge r3, [r0], #4 ; strge r3, [r1], #4 ; subsge r2, r2, #4 ; bge M
+    add r2, r2, #4
+    b 0x0208314C                 ; tail call into the byte-count remainder helper
+
+Closest C (the 4-byte tail and both loop skeletons land, the 32-byte block does
+not; verifies DIFF):
+
+    typedef struct { u32 a, b, c, d, e, f, g, h; } Blk32;
+    void sub_0208314C(u32 *src, u32 *dst, int n);
+    void sub_02082F48(u32 *src, u32 *dst, int n) {
+        while (n >= 32) { *(Blk32 *)dst = *(Blk32 *)src; src += 8; dst += 8; n -= 32; }
+        while (n >= 4)  { *dst++ = *src++; n -= 4; }
+        sub_0208314C(src, dst, n);
+    }
+
+Residue: mwcc expands the 32-byte aggregate copy as a counted inner loop doing
+16-byte ldm/stm chunks (r0-r3 moved through lr/ip with writeback), where the
+original has one 8-register ldm/stm pair with no inner loop. Tried: `u32 w[8]`
+member, eight scalar u32 members, direct assignment, and assignment through a
+Blk32 temporary - all four produce the same 16-byte chunk loop, so the loop
+skeleton is not what is wrong; the declared type/alignment of the copied block
+is. Blocker class: codegen.

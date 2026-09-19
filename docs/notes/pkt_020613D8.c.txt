@@ -192,3 +192,111 @@ void func_02061460(void)
         t++;
     } while (i < 5);
 }
+
+func_020616CC @ 0x020616CC, pkt_020613D8, 308 bytes code + 8 bytes pool, ARM.
+(Appended by the promo_big_callees lane; this is the callee the parked
+src/pending/func_02051AA0.c in pkt_02051A54 is capped on.)
+
+VERDICT: DIFF, 276 compiled against 316 in the image (a 40-byte shortfall, 213
+concrete bytes), CLOSED for this budget -- the residue is register allocation
+and address rematerialisation, not source shape.  Do not re-derive as-is.
+
+WHAT IT IS
+A bump allocation step against the {cur, end} pair at 0x02146B74 (the same
+global src/matched/func_02061808.c exposes as struct Pair02061808).  `size` is
+rounded up to eight bytes, zero meaning eight; `dir == 1` allocates off `cur`,
+any other value off `end`; `flag` picks the alignment the pad is derived from
+(16-byte when clear, 8-byte when set).  The packed result is the allocated
+offset over eight in the low halfword and the rounded size over eight in the
+high halfword, or zero when the arena cannot satisfy the request.
+
+THE RESIDUE, both sites
+The original push is `{r4, lr}` with `off` in r4 and `ok`/`cur` sharing lr;
+the compile needs `{r3, r4, r5, lr}` because it keeps the address of
+0x02146B74 in lr for the whole body and spends r5 on `off`.  The original
+instead re-materialises the address from the pool six times (0x020616FC,
+0x02061724, 0x02061754, 0x02061778, 0x02061798, 0x020617C4) against a single
+ABS32 at 0x02061804, which is what leaves it a register short of the compile.
+Both spellings of the field access were tried (an inline `g_02146B74.cur` read
+per use and a named `cur` local): each reproduces the arithmetic exactly and
+neither changes the address strategy.  The second site is the `flag` test in
+the `dir == 1` arm, where the original predicates the 16-byte pad arm
+(`andeq/rsbeq/andeq` then `beq`) and falls through the 8-byte one, while the
+compile predicates the 8-byte arm instead; swapping the source polarity does
+not move it.
+
+THE C AS IT STANDS, 276 bytes against 316
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Buf {
+    u32 cur;
+    u32 end;
+};
+
+extern struct Buf g_02146B74;
+
+u32 func_020616CC(u32 size, u32 flag, u32 dir)
+{
+    u32 n;
+    u32 off;
+    u32 len;
+    u32 addr = 0;
+    u32 ok = 0;
+
+    if (size == 0)
+        n = 8;
+    else
+        n = (size + 7) & ~7u;
+    if (n >= 0x7fff8u)
+        return 0;
+
+    if (dir == 1) {
+        u32 cur = g_02146B74.cur;
+
+        if (flag == 0)
+            off = (16 - (cur & 0xf)) & 0xf;
+        else
+            off = (8 - (cur & 7)) & 7;
+        len = n + off;
+        if (g_02146B74.end - cur < len) {
+            ok = 0;
+        } else if (flag != 0 && cur + len >= 0x10000u) {
+            ok = 0;
+        } else {
+            addr = cur + off;
+            g_02146B74.cur += len;
+            ok = 1;
+        }
+    } else {
+        u32 end = g_02146B74.end;
+
+        if (end < n) {
+            ok = 0;
+        } else {
+            if (flag != 0)
+                off = (end - n) & 7;
+            else
+                off = (end - n) & 0xf;
+            len = n + off;
+            if (end - g_02146B74.cur < len) {
+                ok = 0;
+            } else if (flag != 0 && end >= 0x10000u) {
+                ok = 0;
+            } else {
+                addr = end - len;
+                g_02146B74.end = addr;
+                ok = 1;
+            }
+        }
+    }
+
+    if (ok == 0)
+        return 0;
+    return (u16)(addr >> 3) | ((n >> 3) << 16);
+}
+
+CONSEQUENCE
+src/pending/func_02051AA0.c stays parked at MATCH: its `bl` at +0x08 needs a
+manifest entry for 0x020616CC and this attempt does not produce one.

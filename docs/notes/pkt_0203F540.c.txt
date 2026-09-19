@@ -1,0 +1,43 @@
+pkt_0203F540 - solved (wave 9, lane 3)
+======================================
+
+func_0203F684 @ 0x0203F684 and func_0203F6D8 @ 0x0203F6D8 - now EXACT / EXACT*
+(in src/matched/).  Earlier in the same pass both read DIFF with 49 concrete
+bytes wrong; this note records what actually costs the function, so the next
+agent does not re-derive it.
+
+The pool word 0xB60BB7 is the compiler's OWN magic for division by 360 in the
+`+ x, asr #8` form (`smull r2, hi, ip, x / add hi, x, hi / add hi, sign,
+hi, asr #8`), not a source constant:
+
+  * it appears only for a SIGNED dividend.  `int x` gives this shape with
+    magic 0xB60BB7; `u32 x` gives `umull` against 0x6C16C16D and is a
+    whole-function diff.  The sign word (`lsr r1, r0, #0x1f`) and the
+    `add lr, r1, lr, asr #8` close are the tells.
+  * the second application of the same magic is a second division by the same
+    constant, so the whole tail is the source's own fixed-point scale.
+
+The surviving C:
+
+    s16 func_0203F684(int x)
+    {
+        return tbl_020A1B38[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
+    }
+
+    s16 func_0203F6D8(int x)
+    {
+        return tbl_020A1B38[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
+    }
+
+with `extern s16 tbl_020A1B38[];` at 0x020A1B38 (resolves as `literal x113`).
+
+Two spellings that look equivalent and are not:
+  * `>> 4` is required.  `/ 16` compiles to an exactness-corrected sequence
+    (`asr r0, r2, #3` + `add r0, r2, r0, lsr #28`), four instructions longer.
+  * the table is a flat `s16[]` of interleaved pairs, indexed `2 * i` and
+    `2 * i + 1`.  A `struct { s16 a; s16 b; }` spelling is NOT the same code:
+    the odd index emits `lsl / add #1 / lsl` and reads it as (2i+1) halfwords.
+
+A short attempt at `tbl_020A1B38[...]` without the second `/ 360` (i.e. a
+scaled multiply by 0xFFFF >> 4 only) also fails: the magic multiply is there
+in the original and a plain multiply is not it.

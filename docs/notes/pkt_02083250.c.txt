@@ -1,0 +1,24 @@
+pkt_02083250  lane6  DIFF residue (32-byte block copy, backward)
+
+Twin of 0x02082F48 (see docs/notes/pkt_02082F48.c.txt for the full residue): the
+same instruction stream with ldmdb/stmdb (pre-decrement writeback) and
+`ldrge r3, [r0, #-4]!` / `strge r3, [r1, #-4]!` for the 4-byte tail, tail call to
+0x02083460. 72 bytes, arm. r0 is the source and r1 the destination, same as the
+forward twin (confirmed by the writeback operands).
+
+Closest C (verifies DIFF, same block-expansion residue):
+
+    typedef struct { u32 a, b, c, d, e, f, g, h; } Blk32;
+    void sub_02083460(u32 *src, u32 *dst, int n);
+    void sub_02083250(u32 *src, u32 *dst, int n) {
+        while (n >= 32) {
+            src -= 8; dst -= 8;
+            *(Blk32 *)dst = *(Blk32 *)src;
+            n -= 32;
+        }
+        while (n >= 4) { *--dst = *--src; n -= 4; }
+        sub_02083460(src, dst, n);
+    }
+
+Fix the block-type question on pkt_02082F48 and this one follows with the same
+edit (swap the increment for the pre-decrement and the tail callee).

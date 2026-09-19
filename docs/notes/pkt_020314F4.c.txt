@@ -1,0 +1,95 @@
+/*
+ * near miss: func_020314F4 @ 0x020314F4 (68 bytes, arm, packet pkt_020314F4)
+ * verdict:   DIFF -- 1 semantic shape, size 72 vs 68
+ * cap:       codegen: if-conversion threshold.  Distinct from the documented
+ *            threshold in docs/idioms/an-arm-guard-block-of-five-instructions-or-fewer-is-predicated.md
+ *
+ * The original predicates a SIX-instruction guard body:
+ *
+ *   020314F4  push {r4, lr}
+ *   020314F8  mov  r4, r0
+ *   020314FC  ldr  r0, [r4, #8]
+ *   02031500  cmp  r0, #0
+ *   02031504  movne r0, #1
+ *   02031508  strne r0, [r4, #0xc]
+ *   0203150C  strne r1, [r4, #0x14]
+ *   02031510  strne r2, [r4, #0x18]
+ *   02031514  strne r3, [r4, #0x1c]
+ *   02031518  popne {r4, pc}
+ *   0203151C  mov  r0, r1          <- fall-through arm, source order
+ *   ...       ldrh r3, [r4] / bl func_02031538 / str r0, [r4, #8] / pop {r4, pc}
+ *
+ * The C that says exactly this (both spellings of the return give the same
+ * body; the load of the buffer at +8 also satisfies `return obj->buffer`):
+ *
+ *   void func_020314F4(struct Obj *obj, u32 a1, u32 a2, u32 a3)
+ *   {
+ *       if (obj->buffer != 0) {
+ *           obj->f0c = 1;
+ *           obj->f14 = a1;
+ *           obj->f18 = a2;
+ *           obj->f1c = a3;
+ *           return;
+ *       }
+ *       obj->buffer = func_02031538(a1, a2, a3, obj->f00);
+ *   }
+ *
+ * compiles byte-identical up to +0x0F and then if-converts NOTHING: it emits
+ * `beq` over an unpredicated body and returns 72 bytes instead of 68.  Every
+ * register choice matches (`mov r0, #1` / `str r0, [r4, #0xc]`), so the ONLY
+ * difference is the predication decision.
+ *
+ * Measured boundary, not guessed: shrinking the guard body to
+ *   `obj->f0c = 1;`  (movne + strne + popne = 3 predicated instructions)
+ * DOES predicate at the same address and with the same frame.  So the pinned
+ * dsi/1.1p1 limit here is below the original's six predicated instructions
+ * (movne, four strne, popne), and no C spelling of the documented shape
+ * reaches it.  A five-instruction body (`(obj->f18 & ~1) & ~2;)`-style
+ * sequence with a predicated epilogue in 0x0202E38C, by contrast, is plain
+ * un-predicated code, so the six-instruction predicated guard is confined to
+ * this one function of the run.
+ *
+ * Ruled out, each with a compile:
+ *   - `return obj->buffer;` in the guard arm (byte-identical, still branched);
+ *   - the guard arm written as a `void` `return;` (same, 72 bytes);
+ *   - `volatile struct Obj *` -- worse, 92 bytes, forces a spill frame;
+ *   - `--cc 1.2` (dsi/1.2) -- same branch, same 72 bytes.
+ * Not applicable: this row has no `blx rN` beside an ARMv4T return, so the
+ * 1.2/sp2 per-file pin in the lane instructions does not apply to it; the
+ * file is plain dsi/1.1p1 ARM.
+ *
+ * Semantics are fully recovered: obj->f0c = 1 and obj->f14/f18/f1c = the three
+ * parameters when the +8 buffer already exists, otherwise build it with
+ * func_02031538 using the object's own u16 head as the heap id.  The C below
+ * is the closest whole spelling; it is NOT filed as a source because the
+ * verdict is DIFF, not MATCH.
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+struct Obj020314F4 {
+    u16 f00;
+    u16 pad02;
+    u32 pad04;
+    void *buffer;
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+};
+
+extern void *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap);
+
+void func_020314F4(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3)
+{
+    if (obj->buffer != 0) {
+        obj->f0c = 1;
+        obj->f14 = a1;
+        obj->f18 = a2;
+        obj->f1c = a3;
+        return;
+    }
+    obj->buffer = func_02031538(a1, a2, a3, obj->f00);
+}

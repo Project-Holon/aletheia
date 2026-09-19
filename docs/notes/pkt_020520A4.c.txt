@@ -54,3 +54,76 @@ the initialiser out of the declaration; all four give the same 48 bytes.
 
 The one call site resolves by the `literal` class, so this function is a frame
 spelling away from EXACT.
+
+
+==============================================================================
+REMOVED FROM src/matched func_020520A4: src/matched/func_020520A4.c was filed as EXACT and never sharded, and
+recompiling it prints DIFF.  A DIFF has no home in src/matched, so the C is kept
+here.  Residue below is match.py one --addr 0x020520A4 --cc 1.1p1 --arm.
+==============================================================================
+
+DIFF       func_020520A4 @ 020520A4 (arm9, ARM)
+  compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p
+  compiled 92 bytes, 0 relocation site(s)
+  listing extent for the original: 88 bytes
+  note: listing says the original is 88 bytes, compiled 92
+  80 concrete byte(s) differ
+  offset     ORIGINAL @ 020520A4                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+  * +0000    push {r3, r4, r5, lr}                  | push {r3, lr}                          
+  * +0004    ldr ip, [r0]                           | ldr r3, [r0]                           
+  * +0008    ldr r3, [r0, #4]                       | smull lr, ip, r3, r1                   
+  * +000C    smull lr, r4, ip, r1                   | adds lr, lr, #0x800                    
+  * +0010    adds r5, lr, #0x800                    | adc r3, ip, #0                         
+  * +0014    smull lr, ip, r3, r1                   | lsr ip, lr, #0xc                       
+  * +0018    adc r3, r4, #0                         | orr ip, ip, r3, lsl #20                
+  * +001C    lsr r4, r5, #0xc                       | str ip, [r2]                           
+  * +0020    ldr r0, [r0, #8]                       | ldr r3, [r0, #4]                       
+  * +0024    orr r4, r4, r3, lsl #20                | smull lr, ip, r3, r1                   
+  * +0028    smull r3, r1, r0, r1                   | adds lr, lr, #0x800                    
+  * +002C    adds lr, lr, #0x800                    | adc r3, ip, #0                         
+  * +0030    adc r0, ip, #0                         | lsr ip, lr, #0xc                       
+  * +0034    lsr ip, lr, #0xc                       | orr ip, ip, r3, lsl #20                
+  * +0038    orr ip, ip, r0, lsl #20                | str ip, [r2, #4]                       
+  * +003C    adds r3, r3, #0x800                    | ldr r0, [r0, #8]                       
+  * +0040    adc r0, r1, #0                         | smull r3, r1, r0, r1                   
+  * +0044    lsr r1, r3, #0xc                       | adds r3, r3, #0x800                    
+  * +0048    stm r2, {r4, ip}                       | adc r0, r1, #0                         
+  * +004C    orr r1, r1, r0, lsl #20                | lsr r1, r3, #0xc                       
+  * +0050    str r1, [r2, #8]                       | orr r1, r1, r0, lsl #20                
+  * +0054    pop {r3, r4, r5, pc}                   | str r1, [r2, #8]                       
+  * +0058    push {r4, r5, r6, r7, lr}              | pop {r3, pc}                           
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+--- C as filed ---
+
+/*
+ * function: func_020520A4
+ * address:  0x020520A4
+ * packet:   pkt_020520A4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Three signed fixed-point multiplies of a 3-vector by one scalar, each with
+ * the +0x800 round term, then >> 12 back to 32 bits: the `smull`/`adds`/`adc`
+ * pair per lane is the 64-bit product, and `lsr #12` + `orr ... lsl #20` is the
+ * 64-bit shift truncated back to a word.  No calls and no pool - the whole
+ * function is 88 bytes of straight-line code.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020520A4.c \
+ *       --func func_020520A4 --addr 0x020520A4 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+void func_020520A4(int *v, int s, int *out)
+{
+    out[0] = (int)(((long long)v[0] * s + 0x800) >> 12);
+    out[1] = (int)(((long long)v[1] * s + 0x800) >> 12);
+    out[2] = (int)(((long long)v[2] * s + 0x800) >> 12);
+}
