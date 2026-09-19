@@ -14,3 +14,55 @@ declaration the calls land correctly, and the remaining difference is a
 register copy the original keeps before the +0x28 store
 (`adds r1, r0, #0; str r1, [r5, #0x28]` versus `str r0, [r5, #0x28]`), which
 binding the result to a named local did not recover.
+
+packet pkt_02013528  function sub_020135C0 (0x020135C0 thumb)
+verdict DIFF: compiled 80 bytes, original extent 80, 41 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_020135C0.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_020135C0
+ * address:  0x020135C0
+ * packet:   pkt_02013528
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_020130C4   0x020130C4  thumb
+ *   sub_0201333C   0x0201333C  thumb
+ *   sub_02013360   0x02013360  thumb
+ *   sub_0201A920   0x0201A920  thumb
+ *   sub_0201AC2C   0x0201AC2C  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void sub_020130C4(void);
+extern void sub_02013360(void *a, void *b, void *c);
+extern void sub_0201333C(void *a, void *b, int c);
+extern u32  sub_0201A920(int a);
+extern void sub_0201AC2C(void *a, void *b);
+
+void sub_020135C0(u8 *a0, void *a1, void *a2, void *a3, u32 a4, u16 a5)
+{
+    sub_020130C4();
+    sub_02013360(a0, a1, (void *)a4);
+    sub_0201333C(a0, a1, a5);
+    if (a2 != 0) {
+        sub_0201AC2C(a2, (void *)*(u32 *)(a0 + 0x24));
+    }
+    *(u32 *)(a0 + 0x28) = sub_0201A920((int)a5);
+    if (a3 != 0) {
+        sub_0201AC2C(a3, (void *)*(u32 *)(a0 + 0x24));
+    }
+    *(u32 *)a0 = 4;
+    *(u32 *)(a0 + 4) = 0;
+}

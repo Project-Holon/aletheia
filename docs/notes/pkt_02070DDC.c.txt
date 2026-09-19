@@ -1,0 +1,50 @@
+pkt_02070DDC - func_02071104: one fused instruction out of 124 bytes
+====================================================================
+
+0x02071104, 124 bytes, arm (the listing extent runs to 0x020711C8 because
+0x02071180 is an unlabelled leaf - it saves no register, so disasm.py cannot
+label it; the worklist's 124 bytes are the function's real extent).
+
+Two FX-style 64-bit scale conversions into one destination object.  The body
+is recovered and 120 of the 124 bytes reproduce:
+
+    void func_02071104(Obj *dst, Src *src) {
+        s32 n;
+        dst->f00 = src->f18;
+        dst->f14 = src->f1c;
+        dst->f04 = 0;
+        dst->f30 = (u16)src->f2c * (u32)(0 - (s32)(((s64)src->f18 * src->f24) >> 8));
+        n = -(src->f1c << 1);
+        dst->f34 = (u16)src->f2e * (u32)(((s64)src->f1c * src->f28) >> 8)
+                 + (((u32)(u16)src->f2e * (u32)(n + 0x2000)) << 3);
+        dst->f10 = 0;
+    }
+
+Tells worth keeping:
+
+  * the source values are SIGNED.  With `u32` fields the two multiplies come
+    out `umull`; the image has `smull` on both (`smull ip, r3, r4, r3` and
+    `smull lr, ip, r4, ip`), so f18/f24 and f1c/f28 are s32 and the shift is
+    `((s64)a * b) >> 8` - low word `(lo >> 8) | (hi << 24)`, identical
+    instructions for the signed and unsigned form, which is why only the
+    umull/smull choice pins the signedness.
+  * the destination zero is live from the prologue to the last store
+    (`mov r2, #0` once, used for [r0+4] and [r0+0x10]) - the image pools it
+    exactly as this front end does, so this part is not the wall.
+  * the tail is `f2e * A + ((f2e * B) << 3)`: two separate multiplies by the
+    same halfword, then an `add r1, r1, r4, lsl #3`, not a factored
+    `f2e * (A + B*8)`.
+
+The 4-byte residue is one instruction.  The image computes
+
+    02073D...  lsl r3, r4, #1          ; 2 * f1c
+               rsb r4, r3, #0           ; -2 * f1c                <- kept
+               add r1, r4, #0x2000      ; -2*f1c + 0x2000         <- kept
+
+while `-(src->f1c << 1) + 0x2000` is folded by this front end into a single
+`rsb ip, ip, #0x2000`, which is 4 bytes shorter and reallocates the whole
+second block (the smull destination moves from ip to r1, the `ldrh r2e`
+hoists, and the two `mul`s swap operands).  Measured and rejected: the
+negation bound to an `s32` local (`s32 n = -(src->f1c << 1);`), the same
+written `(src->f1c << 1) * -1`, and the `0x2000 - (src->f1c << 1)` spelling
+(which also folds to one rsb).

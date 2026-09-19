@@ -1,0 +1,50 @@
+/*
+ * function: func_02031354
+ * address:  0x02031354
+ * packet:   pkt_02031354
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   data_020A783C  0x020A783C  data
+ *
+ * Allocates a 0x20-byte node and lays down a sentinel ring: the first
+ * halfword is the caller's key, +4 and +0x14 hold -1 (the two ends of a list
+ * with no members) and every other word is 0.  The linker merges the two
+ * adjacent zero stores at +4/+8 into one `stmib r0, {r1, r4}`.
+ *
+ * The first argument handed to func_02030734 is the caller's own parameter -
+ * the original never writes r0 before the call, so r0 still holds a0.  A
+ * literal first argument makes the compiler materialise it and shifts the
+ * whole prologue.
+ *
+ * The pool word 0x020A783C is a `literal` site: it appears in ten other
+ * pools in the image, e.g. 0x0203158C.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02031354.c \
+ *       --func func_02031354 --addr 0x02031354 --cc 1.1p1 --arm
+ */
+
+extern void *func_02030734(int a0, int a1, int a2, int a3, int a4);
+
+extern char data_020A783C[];
+
+void *func_02031354(int a0)
+{
+    char *p = func_02030734(a0, 0x20, 0, (int)data_020A783C, 0xc5);
+
+    *(unsigned short *)p = a0;
+    *(int *)(p + 4) = -1;
+    *(int *)(p + 8) = 0;
+    *(int *)(p + 0xc) = 0;
+    *(int *)(p + 0x10) = 0;
+    *(int *)(p + 0x14) = -1;
+    *(int *)(p + 0x18) = 0;
+    *(int *)(p + 0x1c) = 0;
+    return p;
+}

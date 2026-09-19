@@ -226,3 +226,73 @@ void func_0200EC2C(struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst)
     for (i = 0; i < 4; i++)
         dst->arr14[i] = s->arr32[i];
 }
+
+packet pkt_0200EA3C  function sub_0200EC2C (0x0200EC2C thumb)
+verdict DIFF: compiled 104 bytes, original extent 196, 75 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_0200EC2C.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_0200EC2C
+ * address:  0x0200EC2C
+ * packet:   pkt_0200EA3C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02045994  0x02045994  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Src0200EC2C {
+    u16 f00;
+    u8  f02;
+    u8  f03;
+    u32 f04;
+    u32 f08;
+    u8  f0C[0x16];
+    u8  f22[0x10];
+    u16 f32[4];
+};
+
+struct Dst0200EC2C {
+    void *p00;
+    void *p04;
+    u32   f08;
+    u32   f0C;
+    u16   f10;
+    u8    f12;
+    u8    f13_0 : 6;
+    u8    f13_6 : 2;
+    u16   f14[4];
+};
+
+extern void func_02045994(void *dest, const void *src, u32 size);
+
+void sub_0200EC2C(struct Src0200EC2C *base, int idx, struct Dst0200EC2C *out)
+{
+    struct Src0200EC2C *rec = base + idx;
+    u8 v = rec->f03;
+    int i;
+
+    out->f10 = rec->f00;
+    out->f12 = rec->f02;
+    out->f08 = rec->f04;
+    out->f0C = rec->f08;
+    out->f13_0 = v;
+    out->f13_6 = v >> 6;
+    func_02045994(out->p00, rec->f0C, 0xb);
+    func_02045994(out->p04, rec->f22, 8);
+    for (i = 0; i < 4; i++) {
+        out->f14[i] = rec->f32[i];
+    }
+}

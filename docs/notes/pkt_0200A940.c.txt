@@ -1,0 +1,53 @@
+packet pkt_0200A940  function sub_0200AA00 (0x0200AA00 thumb)
+verdict DIFF: compiled 112 bytes, original extent 104, 97 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_0200AA00.c at the time of the note.
+unresolved relocation sites:
+  +003A THM_CALL _s32_div_f          -> unresolved: no address for '_s32_div_f': not in the symbols: block, not an address-bearing name, not in layout/symbols_sdk.json
+  +0044 THM_CALL _s32_div_f          -> unresolved: no address for '_s32_div_f': not in the symbols: block, not an address-bearing name, not in layout/symbols_sdk.json
+
+---- closest C ----
+/*
+ * function: sub_0200AA00
+ * address:  0x0200AA00
+ * packet:   pkt_0200A940
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203F540  0x0203F540  arm
+ *   func_0209C2B0  0x0209C2B0  arm
+ *   tbl020A1B38    0x020A1B38  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern int   func_0203F540(void *p);
+extern int   func_0209C2B0(int a, int b);
+extern short tbl020A1B38[];
+
+int sub_0200AA00(int a, int b, void *p)
+{
+    u32 buf[4];
+    int x, y, d, q;
+
+    buf[0] = ((u32 *)p)[0];
+    buf[1] = ((u32 *)p)[1];
+    buf[2] = ((u32 *)p)[2];
+    buf[3] = ((u32 *)p)[3];
+    x = func_0203F540(buf);
+    buf[1] = (u32)a;
+    buf[2] = (u32)b;
+    y = func_0203F540(buf);
+    d = y - x;
+    if (x >= y) {
+        d += 0x16d;
+    }
+    q = ((d % 30) * 0xffff) / 30;
+    q = q >> 12;
+    return (u8)(((tbl020A1B38[q] + 0x1000) * 50) >> 12);
+}

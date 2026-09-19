@@ -1,0 +1,66 @@
+pkt_0204C060, lane 2 of the 129-256 band
+Open row worked: func_0204C214 (0x0204C214, ARM, 180 bytes, 0 relocations).
+This is the best remaining candidate in the packet: no relocations at all, so
+it is EXACT the moment the register plan lands.  Residue: 37-45 concrete
+bytes, all of them register choice and one extraction.
+
+Closest C:
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef short          s16;
+    typedef int            s32;
+
+    struct A { u16 f00; u16 f02; u16 f04; u16 f06; s16 f08; s16 f0a; s16 f0c; s16 f0e; };
+    struct B { u8 pad_00[0x10]; s32 f10; s32 f14; };
+    struct C { s32 f00; s32 f04; s32 f08; s32 f0c; };
+
+    int func_0204C214(struct A *a, struct B *b, struct C *c)
+    {
+        s32 dx = b->f14 - c->f04;
+        s32 dy = b->f10 - c->f00;
+        s32 x0, y0, x1, y1;
+
+        if (((a->f02 >> 11) & 1) == 1) {
+            x0 = a->f0a << 12;
+            y0 = a->f0e << 12;
+            x1 = a->f0c << 12;
+            y1 = a->f08 << 12;
+        } else {
+            u8 v = (u8)((a->f02 & 0x3f) << 2);
+
+            x0 = v << 12;
+            y0 = -v << 12;
+            x1 = -v << 12;
+            y1 = v << 12;
+        }
+
+        return (x0 + dx) > 0 && (y0 + dx) < c->f0c
+            && (x1 + dy) > 0 && (y1 + dy) < c->f08;
+    }
+
+What is settled.  The shape is a 4-test conjunction whose last test is
+predicated (`cmp r3, r0` + `movlt r0, #1` + `poplt`), the first three branch to
+a shared `mov r0, #0` exit; the fall-through arm is the `flag == 1` arm, so the
+source order is `if (flag == 1) {a-fields} else {synthetic}`.  The flag is a
+*comparison with 1* (`and r3, r3, #1` + `cmp r3, #1`), not a truth test: with
+`if ((a->f02 >> 11) & 1)` the compiler emits `tst r3, #1` and inverts the arms.
+`f02` is loaded with `ldrh` and shifted with `asr` - an unsigned load with an
+arithmetic shift, which is only equivalent because the result is masked to one
+bit; declaring the field `s16` makes the load `ldrsh` and is worse (it also
+changes the else arm's extraction).
+
+What is left, and what was ruled out.  The original's plan is three
+callee-saved registers (`push {r3, r4, r5, lr}`, dx in r5, dy in r4, four
+bounds through ip/lr/r1/r3) and it computes the else arm *predictated*
+(`rsbne`/`lslne`/`movne` + `bne` over it), while every spelling tried gets
+`push {r4, r5, r6, lr}` and if-converts the then arm instead.  Tried: the flag
+as an `int`/`s32` local before the branch, `== 1` inline, `v` as a `u8` and as
+an `s32` local hoisted above the branch (both orders of the v/flag pair), the
+bounds left as the branch-selected values only, `d = ...` split statements for
+dx/dy.  One concrete tell that is *not* yet reproduced: the original extracts
+the else arm's `v` with three instructions (`and #0x3f`, `lsl #2`,
+`and #0xff`) where mwccarm fuses the same expression into a shift pair
+(`lsl #26` + `lsr #24`); the three-instruction form needs the masked value to
+stay live as an untruncated u32 across the u8 truncation, i.e. two named
+variables, which is the next spelling to try.

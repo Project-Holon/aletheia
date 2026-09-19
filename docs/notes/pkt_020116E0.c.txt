@@ -1,0 +1,54 @@
+packet pkt_020116E0  function sub_020117D8 (0x020117D8 thumb)
+verdict DIFF: compiled 100 bytes, original extent 100, 23 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_020117D8.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_020117D8
+ * address:  0x020117D8
+ * packet:   pkt_020116E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+int sub_020117D8(u8 *p, int n, u8 *base, int total)
+{
+    int step = n * 0xc;
+    int off = 0;
+    int idx = 0;
+
+    if (*(u32 *)(p + 0x28) != 0) {
+        off += step;
+    }
+    if (*(u32 *)(p + 0x2c) != 0) {
+        off += step;
+    }
+    if (*(u32 *)(p + 0x30) != 0) {
+        off += step;
+    }
+    if (total < off) {
+        return 0;
+    }
+    if (*(u32 *)(p + 0x28) != 0) {
+        *(u8 **)(p + 0x1c) = base;
+        idx++;
+    }
+    if (*(u32 *)(p + 0x2c) != 0) {
+        *(u8 **)(p + 0x20) = base + step * idx;
+        idx++;
+    }
+    if (*(u32 *)(p + 0x30) != 0) {
+        *(u8 **)(p + 0x24) = base + step * idx;
+    }
+    *(u32 *)(p + 0x18) = (u32)n;
+    return 1;
+}

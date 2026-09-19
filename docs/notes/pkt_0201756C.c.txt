@@ -206,3 +206,73 @@ void func_02017600(int a0, int a1, int a2, int a3, int a4)
 * +0010 str r5, [sp, #0xc] | str r4, [sp, #8]
 * +0012 str r6, [sp] | str r5, [sp, #0xc]
 * +001A pop {r4, r5, r6, pc} | pop {r3, r4, r5, pc}
+
+================================================================================
+func_02017900  0x02017900  (lane 2, 65-128 band; verdict DIFF, 8 bytes)
+================================================================================
+
+harness output:
+
+    DIFF       func_02017900 @ 02017900 (arm9, Thumb)
+      compiled 136 bytes, 12 relocation site(s), 12 of 12 resolved
+        +0080 ABS32 data_020A7370  -> 020A7370  [literal x14, e.g. 0200E870]
+        +0084 ABS32 data_021462F0  -> 021462F0  [literal x10, e.g. 020178D0]
+      8 concrete byte(s) differ
+
+Residue: eight bytes, one register class, in the `v == 0` tail only.  Every
+other instruction matches, including both predicates and the whole
+func_02017C50 / func_02017CC8 pair.
+
+THE RESIDUE
+-----------
+    0201795A  ldr r0, [pc, #0x24]        ; data_020A7370
+    0201795C  adds r1, r4, #0          <- a1, from r4
+    0201795E  ldr r4, [pc, #0x24]      <- data_021462F0 lands in r4
+    02017960  ldr r0, [r0]
+    02017962  adds r2, r4, #0
+    ...
+    0201796E  adds r2, r4, #0          ; the same value again for the second call
+
+versus the draft:
+
+    0201795C  ldr r6, [pc, #0x24]      <- data_021462F0 lands in r6 instead
+    0201795E  ldr r0, [r0]
+    02017960  adds r1, r4, #0
+
+The original reuses the register that held a1 (r4) for the second pool word,
+which the compiler only does once a1's last use has gone by; the draft keeps
+a1 in r4 and puts the pool word in r6, and the schedule inverts.  The
+instruction *count* is identical - this is a register-pressure tie-break.
+
+If you bind the pool address to a local in the `v == 0` block
+
+    int p = (int)&data_021462F0;
+
+mwcc keeps it live across the func_02045F5C call, which forces either r4 or
+r6 on its own terms; that was not tried here.
+
+C currently tried (was scratch/_l2_c/func_02017900.c):
+
+    void func_02017900(int a0, int a1)
+    {
+        int r7 = (unsigned char)func_02017DBC(a0);
+        int r6 = (unsigned short)func_02017E88(a0, 5, 0);
+        int v;
+
+        if (r6 != a1) {
+            func_02017E88(a0, 0x6f, 0);
+            v = func_02017E88(a0, 0x75, 0);
+            func_02017E64(a0, 5, a1);
+            func_02017C50(a0, a1, r6);
+            func_02017CC8(a0, a1, r6);
+            if (v == 0) {
+                func_02045F5C(data_020A7370, a1, (int)&data_021462F0, 0x20);
+                func_02017E64(a0, 0x74, (int)&data_021462F0);
+            }
+        }
+        func_02017DE4(a0, r7);
+    }
+
+The two pool words are both `literal` sites (0x020A7370 also sits at
+0x0200E870 and 0x020178CC; 0x021462F0 at 0x020178D0 and 0x02018504), all
+outside this range, so nothing here is witness-starved.

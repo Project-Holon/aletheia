@@ -1,0 +1,59 @@
+pkt_0203A150 - residue note (65-128 band, lane 3)
+=================================================
+
+func_0203A28C @ 0x0203A28C (88 bytes, ARM) - DIFF, 34 concrete bytes.
+Not in src/matched/: the closest C is at scratch/lane3/diff/func_0203A28C.c.
+
+Body: assert if the bit index is 0xFF, then set or clear one bit of a 16-bit
+value - the resource-flag setter the packet's other functions call. The
+argument registers settle as (value, bit, set) = (r0, r1, r2) and the test is
+signed, so the original's `cmp r5, #0` on the third argument spells the same
+`if (set != 0) val |= mask; else val &= ~mask;` as the compiled version.
+
+closest C:
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern const u8 str_020A7A68[];
+extern const u8 str_020A7AB0[];
+extern void func_02034714(const u8 *file, int line, const u8 *msg);
+
+u32 func_0203A28C(u32 val, u32 bit, u32 set)
+{
+    u16 m;
+
+    if (bit == 0xff) {
+        func_02034714(str_020A7A68, 0x391, str_020A7AB0);
+    }
+    m = (u16)(1 << bit);
+    if (set != 0) {
+        val |= m;
+    } else {
+        val &= ~(u32)m;
+    }
+    return val;
+}
+
+residue, two independent halves:
+
+1. Which callee-saved register each live argument gets. The original holds
+   arg0 in r4 and arg1 in r6 across the assert call; the compiled version
+   swaps them (arg0 in r6, arg1 in r5). Every instruction that mentions them
+   differs from +0004 to +0038.
+
+2. The clear arm. The original computes the complement and re-truncates at
+   every step:
+
+     mvneq r0, r0, lsr #16 / lsleq r0, r0, #0x10 / andeq r0, r4, r0, lsr #16
+     / lsleq r0, r0, #0x10 / lsreq r4, r0, #0x10
+
+   where the compiled version hoists `~((u16)m << 16)` once and emits a single
+   `andeq r6, r6, r0`. Ruled out by experiment: `val &= ~(u32)m` (above),
+   `val = (u16)(val & (u16)~m)`, `val &= (u16)~m`, and writing the mask as a
+   plain `u32 m` - the first two give the hoisted form, the last loses the
+   `lsl #16` truncation pair entirely and is 8 bytes larger.
+
+The one relocation in play (func_02034714) resolves as `label` (340 call
+sites), so the residue is pure codegen, not evidence.

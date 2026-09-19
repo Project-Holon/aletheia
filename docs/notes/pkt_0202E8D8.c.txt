@@ -1,0 +1,97 @@
+pkt_0202E8D8 - func_0202E940 @ 0x0202E940 (100 bytes of code, thumb).  DIFF.
+================================================================================
+
+harness output:
+
+    DIFF       func_0202E940 @ 0202E940 (arm9, Thumb)
+      compiled 108 bytes, 3 relocation site(s), 3 of 3 resolved
+      20 concrete byte(s) differ
+
+Residue: everything up to and including the `movs r0, #0xe` of the first arm
+matches byte for byte; the last two arms of the value ladder and the shared
+store differ by 20 bytes.
+
+WHAT IT IS
+----------
+Allocates a 0x1c node, a secondary buffer of a1*2 bytes, fills six halfword
+fields, and picks a tag from a2 into +0x14.
+
+THE TELL
+--------
+The whole function is a guard ladder on an unsigned a2 that first tests two
+exact values one apart and then a magnitude:
+
+    0202E97C  ldr r0, [pc, #0x28]      ; 0x0000FFFE
+    0202E980  cmp r5, r0
+    0202E982  bne 0202E988
+    0202E984  movs r0, #0xe
+    0202E986  b 0202E99C
+    0202E988  adds r0, r0, #1          ; 0x0000FFFF, derived from the loaded word
+    0202E98A  cmp r5, r0
+    0202E98C  bne 0202E992
+    0202E98E  movs r0, #0x1e
+    0202E990  b 0202E99C
+    0202E992  cmp r5, #3
+    0202E994  bhi 0202E99A
+    0202E996  movs r0, #0xf
+    0202E998  b 0202E99C
+    0202E99A  movs r0, #0x1f
+    0202E99C  str r0, [r4, #0x14]
+
+Two things are pinned by that listing and both are already in the drafted C:
+the 0xfffe/0xffff pair must be spelled as two literals one apart (the second
+comes out of the first with `adds r0, r0, #1`, so a re-load of 0xffff loses
+four bytes), and the magnitude test is unsigned (`bhi`, so an `int` a2 gives
+`bgt` instead).
+
+WHAT IS STILL WRONG
+-------------------
+The final arm.  The original keeps the two arms as written source order:
+
+    cmp r5, #3 / bhi <0x1f arm> / movs r0, #0xf / b <store> / movs r0, #0x1f / store
+
+The compiler keeps hoisting whichever arm is written as the `if` body ahead of
+the compare:
+
+  - with `else if (a2 > 3) { v = 0x1f; } else { v = 0xf; }` mwcc emits
+    `movs r0, #0x1f` BEFORE `cmp r5, #3` and drops the trailing `b` - 2 bytes
+    short, 20 bytes of residue;
+  - with `else if (a2 <= 3) { v = 0xf; } else { v = 0x1f; }` it emits
+    `movs r0, #0xf` first and closes with `bls`, again 2 bytes short.
+
+Neither matches the original's branch-before-both-arms layout.  The remaining
+candidates are a four-case `switch (a2)` with the two empty-ish defaults, or
+the ladder written with the two high sentinels as the `if` bodies and the
+magnitude test as the shared else.  Both are shape experiments, not new
+evidence; the three earlier `else if` spellings are dead ends.
+
+C currently tried (was scratch/_l2_c/func_0202E940.c):
+
+    void *func_0202E940(int a0, int a1, unsigned int a2, int a3)
+    {
+        char *p = func_02030734(a3, 0x1c, 0, (int)data_020A7804, 0x3c);
+        int   v;
+
+        *(int *)(p + 8) = (int)func_02030734(a3, a1 << 1, 0,
+                                             (int)data_020A7804, 0x3d);
+        *(unsigned short *)(p + 0xc)  = a0;
+        *(unsigned short *)(p + 0xe)  = a1;
+        *(unsigned short *)(p + 0x10) = 0;
+        *(unsigned short *)(p + 0x12) = 0;
+        *(unsigned short *)(p + 0x18) = a3;
+        if (a2 == 0xfffe) {
+            v = 0xe;
+        } else if (a2 == 0xffff) {
+            v = 0x1e;
+        } else if (a2 > 3) {
+            v = 0x1f;
+        } else {
+            v = 0xf;
+        }
+        *(int *)(p + 0x14) = v;
+        return p;
+    }
+
+`data_020A7804` is a `literal` site (the same pool word also sits at
+0x0202E9A8 in func_0202E9AC and in the pools of the neighbouring 0x0202Exxx
+block, all outside this range).

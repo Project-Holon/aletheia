@@ -1,0 +1,79 @@
+pkt_02030D28 - func_02030D28 @ 0x02030D28 (124 bytes, ARM).  DIFF.
+================================================================================
+
+harness output:
+
+    DIFF       func_02030D28 @ 02030D28 (arm9, ARM)
+      compiled 124 bytes, 0 relocation site(s), right size
+      31 concrete byte(s) differ
+
+Residue: exact size, and everything outside the loop body matches byte for
+byte (prologue, the `ldr r0,[r4,#0x2c]` early `popne`, the `ldr r1,[r4,#0x10]`
+/ `str r1,[r4,#0x30]` seed, the `mov r5,#0`, the `cmp r1,r6`, the loop tail
+`ldr r1,[r4,#0x34] / str r1,[r4,#0x30] / cmp r1,r6 / bne` and the final
+`mov r0,#0 / str r0,[r1,#0x14] / pop`).  All 31 bytes are inside the body.
+
+WHAT IT IS
+----------
+A one-shot list walker.  The +0x2c flag makes it re-entrant-safe (return
+immediately if set).  It walks from the list head at +0x10 to the embedded
+sentinel at a0+8, and for each node either invokes the node's own callback
+(+0x14, argument +0x10) or clears the node's +0x18 flag.
+
+THE TELL
+--------
+The original does not keep the cursor in a register:
+
+    02030D54  ldr r1, [r1, #8]          ; node->next
+    02030D58  ldr r0, [r4, #0x30]       ; re-read the cursor from memory
+    02030D5C  str r1, [r4, #0x34]
+    02030D60  ldr r1, [r0, #0x18]       ; node->f18, tested through r0
+
+The load of node->next lands in r1 - the register the cursor already occupies
+- and the node is then re-read fresh into r0 for the two field tests.  A named
+`char *node` local makes mwcc hold the cursor in r1 for the whole iteration
+and produces `ldr r0,[r1,#8] / str r0,[r4,#0x34] / ldr r0,[r1,#0x18]` instead
+(31-byte residue, right size).  This is the
+docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md
+pattern inverted: here the field is *stored* to memory every iteration and
+re-read, so the source must spell the cursor as `*(char **)(a0 + 0x30)` at
+each use, not as a local.
+
+The callback call is `blx r2` with the argument in r1, i.e. the callback
+pointer is loaded into r2 first and the argument into r1 - the source order
+puts the +0x14 load (`cmp r2, #0`) before the +0x10 load.
+
+C currently tried (was scratch/_l2_c/func_02030D28.c):
+
+    void func_02030D28(char *a0)
+    {
+        char *node;
+
+        if (*(int *)(a0 + 0x2c) != 0) {
+            return;
+        }
+        node = *(char **)(a0 + 0x10);
+        *(char **)(a0 + 0x30) = node;
+        while (node != a0 + 8) {
+            *(char **)(a0 + 0x34) = *(char **)(node + 8);
+            if (*(int *)(node + 0x18) == 0) {
+                if (*(int *)(node + 0x14) != 0) {
+                    (*(void (*)(int))(node + 0x14))(*(int *)(node + 0x10));
+                }
+            } else {
+                *(int *)(node + 0x18) = 0;
+            }
+            node = *(char **)(a0 + 0x34);
+            *(char **)(a0 + 0x30) = node;
+        }
+        *(int *)(node + 0x14) = 0;
+    }
+
+WHAT WAS RULED OUT
+------------------
+- `do { ... } while (node != a0 + 8)`: the head guard is a real pre-test
+  (`cmp r1,r6 / beq` before the first body), so it is a `while`.
+- Holding the sentinel as a named local rather than `a0 + 8`: identical code,
+  the compiler CSEs `add r6, r4, #8` either way.
+- Indexing the list as an array (`((char **)a0)[4]` etc.): same bytes, the
+  offsets are all outside the Thumb immediate reach anyway.

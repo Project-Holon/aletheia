@@ -1,0 +1,67 @@
+DIFF residue: func_02036DC8 @ 0x02036DC8 (arm9, ARM, 152 bytes)
+packet: pkt_02036CA8
+
+Verdict: DIFF (same size class, register roles swapped; 100 concrete bytes differ
+because every instruction below the first branch carries the swap).
+
+What the function is: a VRAM bank-size decoder.  It reads the bank control
+word for LCDC 1 (REG at 0x04000000) or LCDC 0 (0x04001000), masks it with
+0x00300010, and returns a1 << 1, a1 << 2 or a1 depending on which bank size
+field is set, with a func_02034714(__FILE__, 251, __FILE__) guard for the
+reserved combination.
+
+Closest C, which reproduces the size and the whole control flow but not the
+register roles:
+
+    u32 func_02036DC8(u32 a0, u32 a1)
+    {
+        u32 v;
+        u32 m;
+
+        if (a0 == 1) {
+            func_02080C24();
+            v = *(volatile u32 *)0x04000000;
+            m = 0x00300010;
+        } else {
+            func_02080C64();
+            v = *(volatile u32 *)0x04001000;
+            m = 0x00300010;
+        }
+        switch (v & m) {
+        case 0x00000010: return a1 << 2;
+        case 0x00100010: return a1 << 1;
+        case 0x00200010: return a1;
+        default:
+            func_02034714(g_020A79F0, 0xfb, g_020A79FC);
+            return a1;
+        }
+    }
+
+Exact residue (original vs this C):
+
+  +0018  ldr r1, [r0]        | ldr r0, [r0]        ; value in r1 vs r0
+  +001C  ldr r0, [pc, #0x74] | ldr r1, [pc, #0x68] ; mask  in r0 vs r1
+  +0034  and r2, r1, r0      | and r1, r0, r1      ; fresh r2 vs reuse of r1
+  ...    every switch arm follows with r1/r2 roles interchanged.
+
+Everything above +0018 and the branch tree's *shape* is identical, including
+the shared `and` join (which requires the mask to be assigned in both arms of
+the if -- a single `switch (v & 0x00300010)` with the mask inline makes the
+compiler merge the two volatile loads into one shared `ldr`, four bytes
+short).  The switch's comparison tree is also a real fit:
+`cmp r2, 0x00100010 / bgt / bge` then `add r0, r1, #0x100000`, which is the
+compiler deriving the 0x00200010 case from the 0x00100010 constant.
+
+Ruled out (all reproduce the same 160-byte code with the roles swapped):
+
+  - declaring the mask before the value, and assigning the mask before the
+    value in each arm;
+  - declaring the switch value as a third local and switching on it;
+  - `v &= 0x00300010;` as a separate statement (this one merges the loads and
+    lands at 148 bytes, i.e. it is a different program);
+  - non-volatile reads (the compiler then merges the two loads).
+
+Needed to finish: the compiler has to keep the mask in r0 while the value
+goes to r1; nothing in the C tried so far moves it.  The function is
+otherwise complete and byte-identical from +0000 to +0018 and in the whole
+dispatch tree.

@@ -1,0 +1,29 @@
+pkt_02033410 - residue note (65-128 band, lane 3)
+==================================================
+
+func_02033410 @ 0x02033410 (104 bytes, ARM) - DIFF, 6 concrete bytes.
+Not in src/matched/: the closest C is at scratch/lane3/diff/func_02033410.c
+(scratch/lane3/v4_02033410.c is the best variant).
+
+Body: MIi_CpuClear32 wipes the bitmap at [p+0x138] for [p+0x13C] bytes, then
+packs `val` two bits at a time into consecutive words of that bitmap,
+`func_02033BF0(p->f2c) + 2` times.
+
+Two thirds of the way to a match already: using `u32` for the shift amount
+gives the original's UNSIGNED conditional pair (`subhs`/`addhs`) where an
+`int` gives `subge`/`addge`; that alone took the residue from 44 bytes to 6.
+
+The residue is purely which temporary the two loop registers are:
+
+    ORIGINAL                       COMPILED
+    +002C  mov ip, r6              mov r3, r6
+    +0030  adds r3, r0, #2         adds ip, r0, #2
+    +003C  add ip, ip, #1          add r3, r3, #1
+    +005C  cmp ip, r3              cmp r3, ip
+
+i.e. the original has the loop counter in ip and the bound in r3, the
+compiled version the other way round. Ruled out by experiment: int vs u32
+locals (u32 is required for the hs/ge fix above), initialising s/i before vs
+after the count call, hoisting vs sinking `n`, and every ordering of the
+declarations. mwcc's allocator simply picks the swap, and the swap is worth
+exactly 6 bytes here.

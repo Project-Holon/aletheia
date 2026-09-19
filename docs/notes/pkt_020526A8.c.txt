@@ -1,0 +1,81 @@
+pkt_020526A8 - func_02052770 DIFF residue (promo_big_callees lane)
+=================================================================
+
+func_02052770 @ 0x02052770, 312 bytes code, ARM, pkt_020526A8
+(dsi/1.1p1, -O4,p, -proc arm946e; no proc hint on this packet).
+
+This is the callee src/pending/func_020514F4.c is capped on -- its header
+calls the address "pkt_0205250C", which is stale: pkt_0205250C covers
+0x0205250C..0x020525A0 and holds one 148-byte function. 0x02052770 is the
+second entry point of pkt_020526A8 (0x020526A8..0x02053218).  Nothing in
+src/pending/ was edited; the park stays parked.
+
+VERDICT: DIFF.  Closest whole: 288 compiled against 312 in the image,
+237 concrete bytes.  Genuine attempt at the arithmetic, stopped on register
+allocation and on the layout the compiler picks for the guard chain -- not on
+any unresolved arithmetic and not on evidence (the only wildcard site is the
+bl to 0x02053218, which this very function is the sole caller of).
+
+WHAT IT IS
+A walker over a singly linked list at h->list (h = r0, node = r7).  Per node
+it reads a doubly-indirected word (`c = *n->f20`), and on four bitfields:
+
+  - node word +0x24 bit 4, +0x24 bit 2, +0x24 bit 0;
+  - node word +0x80 bits 16..18 (3-bit);
+  - c word +0x00 bit 14;
+
+it (a) re-pads and clears n->f4c when n->f4c >= c->f32, (b) calls
+func_02053218(h, n) when bit 2 is clear and the 3-bit index is zero or one
+below h->count, (c) when bit 14 is set, c->f3c is non-zero, bit 4 is set and
+n->f4c > c->f3c -- or when bit 0 is set -- calls func_02058300(&h->list, n)
+and feeds the result to func_020583CC(&h->f10, r).  After the walk it bumps
+the u16 counter at h->count and wraps it to zero above 1.
+
+All five extractions are the lsl/lsr shift pair, so they are real bitfields
+and not masks: (x << 27) >> 31 for bit 4, (x << 29) >> 31 for bit 2,
+(x << 31) >> 31 for bit 0, (x << 13) >> 29 for bits 16..18 of +0x80, and
+(x << 17) >> 31 for bit 14 of the c word.  Writing them as `& mask` tests
+produces `tst`/`ands` and is wrong; declaring them as 1/3-bit fields of a
+union reproduces those five instructions exactly.
+
+THE RESIDUE
+1. Register allocation.  The original keeps node in r7, c in r5 and next in
+   r6 and pushes {r4,r5,r6,r7,r8,sb,sl,lr}: it hoists `sl = h + 4` and
+   `sb = h + 0x10` (the two pointers the tail calls pass) to before the loop
+   and keeps them in sl/sb for the whole walk.  This compile pushes
+   {r4,r5,r6,r7,r8,lr}, puts node in r5 and c in r7, and recomputes the two
+   addresses at the call site -- the `sl`/`sb` hoist never happens, whether the
+   addresses are written inline at the call or bound to two pointer locals
+   before the loop (tried both).  r4 is the constant 0 in both, but the
+   original's `n->f4c = 0` reuses it while this compile reloads.
+2. Guard-chain layout.  The original emits c->word bit 14 / c->f3c / node bit 4
+   / n->f4c > c->f3c as four straight tests that all leave to the bit-0 test,
+   and the bit-0 test as `cmp; beq` to the loop continue.  This compile
+   predicates the second and third tests (`ldrhne`, `cmpne`) and places the
+   `||` of requirement (b) with the call as the fall-through instead of the
+   branch target, so both chains are 1-2 instructions shorter.
+3. Requirement (b)'s disjunction.  The original tests the 3-bit index, then
+   `h->count == index - 1` with a real `bne` around the call; this compile
+   predicates it and inverts which arm of the disjunction is the branch target.
+
+WHAT WAS TRIED
+One struct-layout pass (the f1c word and the Head +0x0c word were added so the
+field offsets match the listing exactly -- that fixed every offset in one go),
+the five bitfield declarations, the guard chain as a conjunction, as separate
+`if (...) goto` tests and as an empty-if/else-if pair, and the two pointer
+locals hoisted before the loop.  Nothing moved the allocation.
+
+EVIDENCE FILE
+  scratch/p52770_A.c  -- closest whole, 288 bytes (fields + bitfields right,
+                         guard chain predicated)
+  scratch/p52770_B.c  -- same plus the pl/pf pointer locals before the loop
+  run with:
+    python tools/match.py one --src scratch/p52770_B.c \
+        --func func_02052770 --addr 0x02052770 --cc 1.1p1 --arm
+
+CONSEQUENCE
+src/pending/func_020514F4.c stays parked at MATCH: its ABS32 tail-call pool
+word at +0x0c needs a manifest entry for 0x02052770 and this attempt does not
+produce one.
+
+Addresses are Black-image addresses.

@@ -1,0 +1,64 @@
+packet pkt_020063B4  function sub_02006448 (0x02006448 thumb)
+verdict DIFF: compiled 112 bytes, original extent 112, 26 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_02006448.c at the time of the note.
+unresolved relocation sites:
+  +0036 THM_CALL func_02074A98       -> unresolved: 02074A98 (arm, from header) has no witness outside 02006448..020064B8
+
+---- closest C ----
+/*
+ * function: sub_02006448
+ * address:  0x02006448
+ * packet:   pkt_020063B4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0200597C   0x0200597C  thumb
+ *   sub_020059A0   0x020059A0  thumb
+ *   func_02074324  0x02074324  arm
+ *   func_020743EC  0x020743EC  arm
+ *   func_02074694  0x02074694  arm
+ *   func_02074A98  0x02074A98  arm
+ *   g020AA260      0x020AA260  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void  sub_0200597C(void);
+extern void  sub_020059A0(void *a);
+extern u8   *func_02074324(void *a);
+extern u8   *func_020743EC(int a);
+extern void  func_02074694(void *a, void *b);
+extern int   func_02074A98(int a, void *b);
+extern u8    g020AA260[];
+
+int sub_02006448(void *a0, void *a1, void *a2)
+{
+    u8 *g = g020AA260;
+    u8 *q = func_02074324(a2);
+    u32 x = *(u32 *)q;
+    u8 *r = func_020743EC(*(u16 *)(q + 4));
+    u32 z = *(u32 *)r;
+    int i;
+
+    sub_0200597C();
+    for (i = 0; i < 4; i++) {
+        int f = *(u16 *)(r + i * 2 + 4);
+        if (f == 0xffff) {
+            continue;
+        }
+        if (func_02074A98(f, (void *)*(u32 *)(g + 0x10)) == 0) {
+            return 0;
+        }
+    }
+    func_02074694((void *)z, a1);
+    func_02074694((void *)x, a0);
+    sub_020059A0(a2);
+    return 1;
+}

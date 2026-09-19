@@ -1,0 +1,70 @@
+pkt_02057830 (0x02057830..0x02058300), rig/skeleton library, lane 2 of the 129-256 band
+Open row worked: func_02058180 (0x02058180, ARM, 132 bytes, 0 relocations).
+
+This is a scheduler residue, 21 concrete bytes, and the C below is right.
+
+Closest C (all of it; the packet's proc hint is arm7tdmi, this is the 3D rig
+library whose every function ends `pop {..., lr}` + `bx lr`):
+
+    typedef unsigned short u16;
+    typedef short s16;
+
+    struct A { int x, y, z; s16 scale; };
+    struct B { int pad_00[2]; int f08, f0c, f10, f14, f18, f1c; };
+
+    void func_02058180(struct A *a, struct B *b, volatile int *c)
+    {
+        c[0] = c[0] + (a->scale * (a->x - b->f08 - b->f14) >> 12);
+        c[1] = c[1] + (a->scale * (a->y - b->f0c - b->f18) >> 12);
+        c[2] = c[2] + (a->scale * (a->z - b->f10 - b->f1c) >> 12);
+    }
+
+Two facts are settled by the bytes.
+
+`volatile` on c is real.  With a plain `int *c` the compiler folds the three
+c reads into one `ldm r2, {r4, r5}` and the schedule collapses (18-26 bytes
+wrong under either proc, 40+ spellings tried: c[0]+=, struct V3 members,
+volatile struct members, u8* casts, two-statement split, locals).  With
+`volatile int *c` every c read is its own load placed after its own product,
+exactly as the original, and the `a->scale` halfword reloads once per
+statement because the volatile store may alias it.
+
+`-proc arm946e` reproduces the body perfectly and only the epilogue is wrong:
+all 32 instructions of the body are byte-identical, the difference is
+`pop {r4, pc}` against the original's `pop {r4, lr}` + `bx lr`, which is the
+whole reason this file is arm7tdmi (see
+docs/idioms/an-arm-epilogue-of-pop-lr-then-bx-lr-names-a-proc-arm7tdmi-unit.md;
+the same file records the 3D library as ARMv4T).
+
+Under the packet's own `-proc arm7tdmi` the same source is 21 concrete bytes
+wrong and the residue is only the *slot* of the scale load.  Original block
+1 of each statement reads
+
+    ldr  ip, [r0]          a->axis
+    ldr  r4, [r1, #8]      b->first
+    ldrsh lr, [r0, #0xc]   a->scale        <- slot 3
+    ldr  r3, [r1, #0x14]   b->second
+    sub  r4, ip, r4
+    sub  r3, r4, r3
+    mul  r3, lr, r3
+
+and arm7tdmi's scheduler hoists `ldrsh` to slot 1 (it keeps the load
+immediately after the preceding volatile store), so the four live temporaries
+become three and the allocator then drops r4 for lr/ip/r3 as well: the peak
+live set of 4 is what forces `push {r4, lr}` and the whole register plan of
+the original.  Block 1 comes out byte-exact when the source assigns the scale
+*before* the delta (`s = a->scale;` first, from an address-taken volatile
+halfword) - proof that the ordering is a scheduling choice, not a structural
+one - but blocks 2 and 3 still hoist the scale load where block 1 sank it.
+
+Ruled out (each compiled, none moved the slot in blocks 2/3): the multiply
+written both ways round, `a->scale` vs `*(volatile s16 *)&a->scale` vs a
+`volatile s16 scale` member, plain `s16 s` local, delta bound to a local in
+both statement orders, `d = a - b1; s = scale; d -= b2` splits, nested
+parens, `(a->x - (b->f08 + b->f14))` (that one is wrong by construction, the
+subtraction is left-associative), arrays + a 3-iteration `for` loop (mwccarm
+does not unroll it: it emits a counter and register offsets, so the source is
+written out flat), and every declaration order of d/s tried.
+
+The 132-byte extent ends with the pool-free `pop`/`bx lr`; there is nothing
+to witness, so the moment the slot lands this is EXACT.

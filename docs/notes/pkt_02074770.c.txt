@@ -1,0 +1,54 @@
+pkt_02074770 - one filed, one four-byte residue
+===============================================
+
+Packet 0x02074770..0x020749B4, arm (0x02074770 188, 0x0207482C 104,
+0x02074894 76, 0x020748E0 212).
+
+Filed EXACT: func_0207482C (104 bytes, src/matched/func_0207482C.c).
+
+    u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e) {
+        u32 t;
+        u32 r = func_02061124(*a, ((b + 0x1f) & ~0x1fu) + 0x20, 0x20);
+        if (r == 0) return 0;
+        t = func_0206062C(a + 1, 0);
+        *(u32 *)(r + 8) = b;
+        *(u32 *)(r + 0xc) = c;
+        *(u32 *)(r + 0x10) = d;
+        *(u32 *)(r + 0x14) = e;
+        func_020604AC(t, r);
+        return r + 0x20;
+    }
+
+First spelling compiled to all 104 bytes including the `ldr r2, [sp, #0x18]`
+for the fifth argument, the `movs r4, r0` / `moveq r0, #0` /
+`popeq {r4,r5,r6,r7,r8,pc}` guard and the `mov r1, r4` before the second call.
+All three sites resolve `label`.  The two facts worth keeping: the fifth
+parameter arrives on the stack (the frame is `push {r4,r5,r6,r7,r8,lr}`, so
+the argument sits at [sp,#0x18]) and the first call's result is spent as the
+first argument of the SECOND call (`mov r1, r4` after it, r0 untouched by the
+four intervening stores), i.e. `func_020604AC(func_0206062C(a+1,0), r)` with
+the stores scheduled between the two calls.
+
+Not filed, 0x02074894 (76 bytes): DIFF, 80 compiled against 76, all three
+sites resolved.  Body:
+
+    int func_02074894(u8 *a) {
+        if (func_02061184(*(u32 *)a, *(u16 *)(a + 0xc)) == 0) return -1;
+        if (func_020749F8((u32)a) != 0) return *(u16 *)(a + 0xc) - 1;
+        func_020611D4(*(u32 *)a, 0);
+        return -1;
+    }
+
+Every instruction of the image's body is present in the right order; the four
+extra bytes are the pooled zero that this front end insists on.  The image
+has `mov r1, #0` at the third call and `mvn r0, #0` at both `return -1`
+sites (`push {r4, lr}`, the object pointer in r4).  Ours materialises
+`mov r4, #0` in the prologue, copies it at the call (`mov r1, r4`) and
+derives the last return from it (`sub r0, r4, #1`), which also pushes the
+object pointer from r4 to r5 and grows the frame to `push {r3,r4,r5,lr}`.
+That is docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md
+in the "one argument plus the -1 that is the function's error code" form:
+`return -1` twice plus a literal-0 argument is exactly the pattern the
+front end shares.  Tried and all still 80 bytes: `~0` and `0xFFFFFFFFu` for
+the two returns, a `u32` return type, and `(u32)`/`(void *)0` spellings of
+the argument.

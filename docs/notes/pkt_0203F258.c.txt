@@ -1,0 +1,67 @@
+DIFF residue: func_0203F258 @ 0x0203F258 (arm9, ARM, 152 bytes)
+packet: pkt_0203F258
+
+Verdict: DIFF, 8 bytes (four instructions), pure register allocation.
+
+What the function is: builds a 0x60-byte hash state in a local buffer at
+sp+0x3c (sub_02088168 + sub_020813D8 initialise it, then 0x14 and 0x20 bytes
+are folded in from the local buffers at sp+8 and sp+0x1c, then
+sub_020814C0 mixes), runs sub_02082D44 into an 8-byte result buffer at sp+0,
+and publishes that plus the three init words and a zero into the caller's
+6-word output record.
+
+Closest C (everything up to +0070 and everything from +0090 is a byte match,
+including the 0x9c frame, all five SDK calls, the ldm/stm 8-byte aggregate
+copy and the literal pool at +0x98):
+
+    typedef struct { u32 v[2]; } Pair;   /* written as *(u64 *) below */
+
+    void func_0203F258(u32 *out)
+    {
+        u8 a[8];
+        u8 c[0x20];
+        u8 b[0x14];
+        u8 d[0x60];
+
+        sub_02088168(c);
+        sub_020813D8(d);
+        sub_0208142C(d, b, 0x14);
+        sub_0208142C(d, c, 0x20);
+        sub_020814C0(d, b);
+        sub_02082D44(b, a, 8);
+        *(u64 *)out = *(u64 *)a;
+        out[2] = 0x6C078965;
+        out[3] = 0x5D588B65;
+        out[4] = 0x00269EC3;
+        out[5] = 0;
+    }
+
+Two things this C pins down and that are NOT free choices:
+
+  - The buffer declaration order is `a; c; b; d;`, not the address order
+    (a at sp+0, b at sp+8, c at sp+0x1c, d at sp+0x3c).  Declared a, b, c, d
+    the compiler lays c out at sp+8 and b at sp+0x28 and the two `add rN, sp,
+    #imm` setups move -- that is the tell that fixes the declaration order.
+  - `*(u64 *)out = *(u64 *)a;` must be an aggregate copy: spelling it as
+    `out[0] = a[0]; out[1] = a[1];` emits four ldr/str instead of the
+    `ldm r5, {r2, r3}` / `stm r4, {r2, r3}` pair the original has.
+
+Exact residue (original vs this C):
+
+  +0070  ldr r0, [pc, #0x20]   | ldr r1, [pc, #0x20]
+  +0074  ldr r1, [pc, #0x20]   | ldr r0, [pc, #0x20]
+  +0078  str r0, [r4, #8]      | str r1, [r4, #8]
+  +007C  ldr r0, [pc, #0x1c]   | ldr r1, [pc, #0x1c]
+  +0080  str r1, [r4, #0xc]    | str r0, [r4, #0xc]
+  +0084  mov r1, #0            | mov r0, #0
+  +0088  str r0, [r4, #0x10]   | str r1, [r4, #0x10]
+  +008C  str r1, [r4, #0x14]   | str r0, [r4, #0x14]
+
+i.e. the four tail constants are allocated to {r0, r1} in the opposite
+assignment to the original; the statement order and the pool layout are
+identical (the original's pool at +0x98, 0x6C078965 / 0x5D588B65 / 0x00269EC3,
+is reproduced byte for byte).
+
+Ruled out: a `u32 *p = out + 2;` cursor, an array-parameter spelling
+(`u32 out[6]`), assigning out[5] = 0 first, and declaring the buffers in
+address order.  None of them move the two registers.

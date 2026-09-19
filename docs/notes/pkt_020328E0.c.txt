@@ -1,0 +1,32 @@
+pkt_020328E0 - residue note (65-128 band, lane 3)
+=================================================
+
+func_020328E0 @ 0x020328E0 (76 bytes, ARM) - DIFF, 38 concrete bytes.
+Not in src/matched/: the closest C is at scratch/lane3/diff/func_020328E0.c.
+
+This is a chain row (its `needs` column names 0x02031F54 and 0x020336B8), and
+it is blocked twice over.
+
+1. Witness. match.py resolves the two calls to func_02031EAC (label) and
+   func_020336B8 (label), but not func_02031F54: "unresolved: 02031F54 (arm,
+   from header) has no witness outside 020328E0..02032930" -- the only branch
+   to it in the image is this function's own call. A manifest entry for
+   02031F54 elsewhere would clear that; there is already a note for it
+   (docs/notes/func_02031F54.c.txt), so that work is not re-derived here.
+   0x020336B8 itself is 236 bytes, outside this band.
+
+2. Codegen. The shape I settled on
+
+    v30 = *(u32 *)(p + 0x30);
+    n   = func_02031EAC(p);
+    v34 = *(u32 *)(p + 0x34);
+    x   = v30 + n - 0x10;
+    func_02031F54(p, v34);
+    func_020336B8(x, v34 + (v30 - 0x10), 0xf, *(u32 *)(g_02146994 + 0x208));
+
+   needs one fewer callee-saved register than mwcc gives it: the original
+   prologue is `push {r4, r5, r6, lr}` with r4 reused for the object pointer
+   and then for x (the two are not live at the same time), while the compiled
+   version keeps them separate and pushes r3/r7 as well. Expressible in C only
+   by making the live ranges different from the source's, so it is left here
+   with the two blockers named rather than ground further.

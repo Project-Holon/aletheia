@@ -130,3 +130,51 @@ void func_0201045C(u8 *p)
 
     g_021461E0->index = g_021461E0->index + 1;
 }
+
+packet pkt_0201045C  function sub_020104F8 (0x020104F8 thumb)
+verdict DIFF: compiled 80 bytes, original extent 84, 48 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_020104F8.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_020104F8
+ * address:  0x020104F8
+ * packet:   pkt_0201045C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203F004  0x0203F004  arm
+ *   func_0203EFC8  0x0203EFC8  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern int func_0203F004(u8 *p);
+extern int func_0203EFC8(u8 *p, u8 *q);
+
+int sub_020104F8(u8 *obj)
+{
+    u8 *base;
+    int i;
+
+    for (i = 0; i < 3; i++) {
+        int n;
+        base = (u8 *)*(u32 *)((u8 *)*(void **)0x020461E0 + 0x304);
+        n = func_0203F004(base + 0x640 + i * 0x100);
+        if (n > 0) {
+            base = (u8 *)*(u32 *)((u8 *)*(void **)0x020461E0 + 0x304);
+            if (func_0203EFC8(base + 0x640 + i * 0x100, obj + 0xc) == 0) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,56 @@
+packet pkt_020107CC  function sub_020107FC (0x020107FC thumb)
+verdict DIFF: compiled 84 bytes, original extent 140, 63 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_020107FC.c at the time of the note.
+unresolved relocation sites:
+  +0026 THM_CALL func_02177B80       -> unresolved: 02177B80 (thumb, from header) has no witness outside 020107FC..02010850; 2 overlays overlap this address (ov009, ov014), none resolvable without a region hint on the symbols: line
+
+---- closest C ----
+/*
+ * function: sub_020107FC
+ * address:  0x020107FC
+ * packet:   pkt_020107CC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203CD98  0x0203CD98  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_02087C6C  0x02087C6C  arm
+ *   func_0203CF10  0x0203CF10  arm
+ *   func_02177B80  0x02177B80  thumb
+ *   sub_0202E8D8   0x0202E8D8  thumb
+ */
+
+typedef unsigned char u8;
+
+extern int  func_0203CD98(void);
+extern void func_0203D798(void);
+extern void func_02087C6C(void *buf);
+extern void *func_0203CF10(int i);
+extern int  func_02177B80(int i);
+extern int  sub_0202E8D8(void *a, void *b, void *c);
+
+int sub_020107FC(void *a0)
+{
+    u8 buf[8];
+    int i;
+
+    if (func_0203CD98() == 0) {
+        return -1;
+    }
+    func_0203D798();
+    func_02087C6C(buf);
+    for (i = 0; i < 0x10; i++) {
+        if (func_02177B80(i) != 0x20) {
+            continue;
+        }
+        if (sub_0202E8D8(func_0203CF10(i), a0, buf) != 0) {
+            return i;
+        }
+    }
+    return -1;
+}

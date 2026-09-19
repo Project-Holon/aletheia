@@ -300,3 +300,69 @@ u32 func_020616CC(u32 size, u32 flag, u32 dir)
 CONSEQUENCE
 src/pending/func_02051AA0.c stays parked at MATCH: its `bl` at +0x08 needs a
 manifest entry for 0x020616CC and this attempt does not produce one.
+
+-------------------------------------------------------------------------------
+APPENDED by the promo_big_callees lane (promotion pass, 2026-09-19)
+-------------------------------------------------------------------------------
+The residue is sharper than the note above records, and one line in it is
+wrong: dsi/1.1p1 does not "predicate the 8-byte arm instead" -- it predicates
+BOTH arms and emits no branch at all.  With the else-half of the function
+deleted, the whole dir==1 half reproduces the original instruction for
+instruction, same registers, same push {r4, lr}, except for that one block.
+
+WALL 1 -- the pad if/else in the dir == 1 arm (4 bytes)
+
+  ORIGINAL 02061700..02061724
+    cmp   r1, #0
+    ldr   lr, [r2]          ; cur
+    andeq r2, lr, #0xf     \
+    rsbeq r2, r2, #0x10     } if (flag == 0) off = (16 - (cur & 0xF)) & 0xF;
+    andeq r4, r2, #0xf     /
+    beq   02061724          <- branch over the else arm
+    and   r2, lr, #7       \
+    rsb   r2, r2, #8        } else off = (8 - (cur & 7)) & 7;   NOT predicated
+    and   r4, r2, #7       /
+
+  Every spelling tried produces instead
+    andeq r2,lr,#0xf / rsbeq r2,r2,#0x10 / andeq r4,r2,#0xf
+    andne r2,lr,#7   / rsbne r2,r2,#8    / andne r4,r2,#7      (no beq).
+
+  Ruled out by compile, all two-armed-predicated: if/else and `? :` in both
+  polarities and both source orders; one and two statements per arm; a shared
+  temp local in both arms; `off = B; if (!flag) off = A;` and the mirror;
+  do{}while(0); while/break; comma operator; a leading null statement; the
+  shared statement `len = n + off` written in both arms; switch with case
+  0/default; `flag == 0 && (off = A) || (off = B)`.
+  `else if (flag != 0)`, `else { if (1) ... }` and `else { if (flag) ... }` do
+  produce the beq, but then give the else arm its own `cmp` and a `ne`
+  predication -- the original's else has neither a compare nor a predicate.
+  An inline `goto` past the else is folded away before if-conversion.  A
+  twelve-instruction micro test of the plain if/else also predicated both
+  arms, so this is not a register-pressure artefact of the surrounding body.
+
+WALL 2 -- pool-address hoisting, only when BOTH halves are present
+
+  The original re-materialises the address of 0x02146B74 six times, each load
+  scheduled at its use; the address is never live across a block.  As soon as
+  the C contains the else-half, the compiler CSEs that pool load to entry as
+  `ldr lr, [pc]` at +0x20, inside the `if (n >= 0x7FFF8) return 0;` sequence,
+  and keeps it live for the whole function: push becomes {r3,r4,r5,lr}, ok is
+  pushed onto r1 and off onto r5.  That single decision is the size difference
+  and ~200 of the differing bytes.  Ruled out: volatile struct (288 bytes,
+  still hoisted), a named cur/end local per half, no named local at all,
+  two-statement arms.
+
+  With only the dir == 1 half in the file the hoist never happens and the
+  register plan matches the original exactly, which is what pins the trigger to
+  the presence of the second, structurally disjoint half.
+
+EVIDENCE FILES
+  scratch/p616cc_TA.c    -- dir==1 half only; 83 differing bytes = WALL 1 + the
+                            four-byte shift it causes.  This is the closest
+                            whole: run it with
+                            python tools/match.py one --src scratch/p616cc_TA.c
+                                --func func_020616CC --addr 0x020616CC \
+                                --cc 1.1p1 --arm
+  scratch/p616cc_FULL.c  -- both halves; 217 differing bytes = WALL 1 + WALL 2
+  scratch/p616cc_pad*.c  -- the 19 pad-block spellings that were compiled
+  (all under scratch/, none of them is a candidate for src/)

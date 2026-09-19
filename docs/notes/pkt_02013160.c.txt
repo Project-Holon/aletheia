@@ -1,0 +1,63 @@
+packet pkt_02013160  function sub_02013160 (0x02013160 thumb)
+verdict DIFF: compiled 162 bytes, original extent 172, 77 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_02013160.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_02013160
+ * address:  0x02013160
+ * packet:   pkt_02013160
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0200AE54   0x0200AE54  thumb
+ *   sub_0200B040   0x0200B040  thumb
+ *   sub_0201A2A8   0x0201A2A8  thumb
+ *   sub_0201A30C   0x0201A30C  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int  sub_0200AE54(void *a, int b);
+extern void sub_0200B040(void *a, u8 *b);
+extern void sub_0201A2A8(void *a, void *b);
+extern void sub_0201A30C(void *a, void *b, void *c);
+
+void sub_02013160(u8 *p, void *a1, void *a2)
+{
+    int v;
+    int i;
+
+    *(u16 *)(p + 0x76) = (u16)(sub_0200AE54(a1, 0x10) * 0x3c);
+    *(u16 *)(p + 0x74) = (u16)(sub_0200AE54(a1, 0xf) * 0x3c);
+    sub_0200B040(a1, p + 0x78);
+    v = sub_0200AE54(a1, 0x12);
+    switch (v) {
+    case 1:
+        *(u16 *)(p + 0x82) |= 0x10 << 7;
+        break;
+    case 2:
+        *(u16 *)(p + 0x82) |= 0x10 << 6;
+        break;
+    case 3:
+        *(u16 *)(p + 0x82) |= 0x10 << 6;
+        *(u16 *)(p + 0x82) |= 0x10 << 7;
+        break;
+    }
+    for (i = 0; i < 4; i++) {
+        u8 *e = p + 0x24 + i * 4;
+        if (*(u32 *)(e + 0x78) != 0) {
+            sub_0201A30C(a1, (void *)*(u32 *)(e + 0x78), a2);
+            sub_0201A2A8(a1, (void *)*(u32 *)(e + 0x78));
+        }
+    }
+}

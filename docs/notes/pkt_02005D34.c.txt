@@ -1,0 +1,55 @@
+packet pkt_02005D34  function sub_02005D34 (0x02005D34 thumb)
+verdict DIFF: compiled 96 bytes, original extent 92, 44 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_02005D34.c at the time of the note.
+unresolved relocation sites:
+  +0052 THM_CALL sub_02005EB4        -> unresolved: 02005EB4 (thumb, from header) has no witness outside 02005D34..02005D94
+
+---- closest C ----
+/*
+ * function: sub_02005D34
+ * address:  0x02005D34
+ * packet:   pkt_02005D34
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0200590C   0x0200590C  thumb
+ *   sub_02005924   0x02005924  thumb
+ *   sub_02005CE0   0x02005CE0  thumb
+ *   sub_02005D14   0x02005D14  thumb
+ *   sub_02005EB4   0x02005EB4  thumb
+ *   func_020755A8  0x020755A8  arm
+ */
+
+extern int   sub_02005CE0(void *a);
+extern void  sub_02005D14(void);
+extern int   sub_02005924(void *a);
+extern void *sub_0200590C(void);
+extern void  sub_02005EB4(int a);
+extern void *func_020755A8(void *a, int b, int c, int d, void *e);
+
+void *sub_02005D34(void *a0, int a1)
+{
+    void *p;
+
+    if (sub_02005CE0(a0) == 0) {
+        return 0;
+    }
+    sub_02005D14();
+    if (sub_02005924(a0) == 0) {
+        return 0;
+    }
+    sub_0200590C();
+    p = func_020755A8(sub_0200590C(), 0, -1, -1, a0);
+    if (p == 0) {
+        return 0;
+    }
+    if (a1 != 0xffff) {
+        sub_02005EB4(a1);
+    }
+    return p;
+}

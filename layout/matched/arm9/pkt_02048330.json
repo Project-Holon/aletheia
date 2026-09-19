@@ -23,6 +23,18 @@
     "sub_02048A0C",
     "sub_02048A18"
    ]
+  },
+  {
+   "name": "func_02048A24",
+   "address": "0x02048A24",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02048A24.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
   }
  ]
 }

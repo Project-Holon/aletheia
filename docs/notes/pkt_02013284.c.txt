@@ -1,0 +1,83 @@
+packet pkt_02013284  function sub_02013284 (0x02013284 thumb)
+verdict DIFF: compiled 184 bytes, original extent 184, 48 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_02013284.c at the time of the note.
+unresolved relocation sites:
+  +003A THM_CALL sub_0202A440        -> unresolved: 0202A440 (thumb, from header) has no witness outside 02013284..0201333C
+  +0044 THM_CALL sub_0202A4B4        -> unresolved: 0202A4B4 (thumb, from header) has no witness outside 02013284..0201333C
+
+---- closest C ----
+/*
+ * function: sub_02013284
+ * address:  0x02013284
+ * packet:   pkt_02013284
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02012984   0x02012984  thumb
+ *   sub_02013234   0x02013234  thumb
+ *   sub_0201A920   0x0201A920  thumb
+ *   sub_0202A3FC   0x0202A3FC  thumb
+ *   sub_0202A440   0x0202A440  thumb
+ *   sub_0202A4B4   0x0202A4B4  thumb
+ *   func_0216AAE4  0x0216AAE4  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32   sub_0201A920(int a);
+extern u32   sub_02013234(int a);
+extern void  sub_0202A440(void *a, void *b, void *c);
+extern void  sub_0202A4B4(void *a, void *b, void *c);
+extern u32   sub_02012984(void *a);
+extern void  func_0216AAE4(void *a, void *b, void *c);
+extern int   sub_0202A3FC(void *a);
+
+void sub_02013284(u8 *a0, void *a1, int a2, u32 *a3, u32 *a4, int a5, int a6)
+{
+    u8 *slot;
+
+    if (*a3 == 0) {
+        *(u32 *)a3 = sub_0201A920(a6);
+    }
+    slot = a0 + 0x48 + a2 * 4;
+    if (*(u32 *)slot == 0) {
+        *(u32 *)slot = sub_02013234(a6);
+    }
+    if (a5 == 0) {
+        return;
+    }
+    sub_0202A440((void *)*(u32 *)slot, (void *)*a3, (void *)a6);
+    sub_0202A4B4((void *)a5, (void *)*a3, (void *)a6);
+    {
+        u32 x = sub_02012984((void *)a4);
+        func_0216AAE4((void *)a4, (void *)*a3, (void *)x);
+    }
+    switch (sub_0202A3FC((void *)*(u32 *)((u8 *)*(u32 *)slot + 4))) {
+    case 2:
+    case 3:
+        *(u16 *)(a0 + 0x1a) = 0x47e;
+        break;
+    case 7:
+    case 8:
+        *(u16 *)(a0 + 0x1a) = 0x47f;
+        break;
+    case 4:
+    case 11:
+        *(u16 *)(a0 + 0x1a) = 0x480;
+        break;
+    case 6:
+    case 9:
+        *(u16 *)(a0 + 0x1a) = 0x491;
+        break;
+    default:
+        *(u16 *)(a0 + 0x1a) = 0x47d;
+        break;
+    }
+}

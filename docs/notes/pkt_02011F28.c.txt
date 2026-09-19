@@ -38,3 +38,65 @@ The three EXACT files of this packet that are already in the tree from other
 work (0x020120A4, 0x020120D8, 0x020120F0 and neighbours, all with this
 packet's id in their headers) do not help: none of them is called from inside
 this packet's unresolved sites.
+
+packet pkt_02011F28  function sub_02011F28 (0x02011F28 thumb)
+verdict DIFF: compiled 100 bytes, original extent 104, 55 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_02011F28.c at the time of the note.
+unresolved relocation sites:
+  +0028 THM_CALL sub_020261E4        -> unresolved: 020261E4 (thumb, from header) has no witness outside 02011F28..02011F8C
+  +0034 THM_CALL sub_0202B4BC        -> unresolved: 0202B4BC (thumb, from header) has no witness outside 02011F28..02011F8C
+
+---- closest C ----
+/*
+ * function: sub_02011F28
+ * address:  0x02011F28
+ * packet:   pkt_02011F28
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02012248   0x02012248  thumb
+ *   sub_020122A4   0x020122A4  thumb
+ *   sub_020124F4   0x020124F4  thumb
+ *   sub_020139B0   0x020139B0  thumb
+ *   sub_020261E4   0x020261E4  thumb
+ *   sub_0202B4BC   0x0202B4BC  thumb
+ *   func_02031324  0x02031324  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void  sub_02012248(u8 *p);
+extern void  sub_020122A4(u8 *p);
+extern void *sub_020124F4(int a);
+extern void  sub_020139B0(int a);
+extern void *sub_020261E4(int a);
+extern void *sub_0202B4BC(void *a, int b);
+extern void *func_02031324(int a);
+
+void sub_02011F28(u8 *p, u16 a1, u32 a2)
+{
+    *(u16 *)p = a1;
+    *(u32 *)(p + 4) = a2;
+    *(u32 *)(p + 8) = (u32)func_02031324((int)*(u16 *)p);
+    *(u32 *)(p + 0xc) = 0;
+    *(u32 *)(p + 0x10) = 0;
+    *(u32 *)(p + 0x14) = 0;
+    *(u32 *)(p + 0x18) = 0;
+    *(u32 *)(p + 0x1c) = (u32)sub_020124F4((int)*(u16 *)p);
+    *(u32 *)(p + 0x20) = 0;
+    *(u32 *)(p + 0x24) = (u32)sub_020261E4((int)*(u16 *)p);
+    *(u32 *)(p + 0x28) = 0;
+    *(u32 *)(p + 0x2c) = (u32)sub_0202B4BC((void *)*(u32 *)(p + 0x1c), a1);
+    p[0x32] = 0;
+    p[0x33] = (u8)(p[0x33] & ~1u);
+    sub_02012248(p);
+    sub_020122A4(p);
+    sub_020139B0(a1);
+}

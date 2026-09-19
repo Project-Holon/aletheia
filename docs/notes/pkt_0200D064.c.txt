@@ -83,3 +83,52 @@ RULED OUT:
 
 NOT the blocker: every relocation resolves (`sub_0200C720` is `label` x4), so
 this is pure codegen, not an evidence cap.
+
+packet pkt_0200D064  function sub_0200D064 (0x0200D064 thumb)
+verdict DIFF: compiled 72 bytes, original extent 72, 43 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_0200D064.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_0200D064
+ * address:  0x0200D064
+ * packet:   pkt_0200D064
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0200C720  0x0200C720  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int sub_0200C720(int idx);
+
+int sub_0200D064(u8 *base, u16 idx)
+{
+    u16 k;
+    u32 mask;
+    int off;
+    u32 i;
+
+    if (sub_0200C720(idx) != 0) {
+        return 0;
+    }
+    k = (u16)(idx - 1);
+    mask = 1u << (k & 7);
+    off = (int)k >> 3;
+    for (i = 0; i < 4; i++) {
+        if (*(u8 *)(base + i * 0x54 + off + 0x5c) & mask) {
+            return 1;
+        }
+    }
+    return 0;
+}

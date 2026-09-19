@@ -1,0 +1,68 @@
+packet pkt_02013360  function sub_0201347C (0x0201347C thumb)
+verdict DIFF: compiled 122 bytes, original extent 120, 108 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_0201347C.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_0201347C
+ * address:  0x0201347C
+ * packet:   pkt_02013360
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_020076D0   0x020076D0  thumb
+ *   sub_0201293C   0x0201293C  thumb
+ *   sub_020130C4   0x020130C4  thumb
+ *   sub_02013144   0x02013144  thumb
+ *   sub_0201333C   0x0201333C  thumb
+ *   sub_02013360   0x02013360  thumb
+ *   sub_0201A920   0x0201A920  thumb
+ *   sub_0201AA14   0x0201AA14  thumb
+ *   sub_0201AA18   0x0201AA18  thumb
+ *   sub_0201AC2C   0x0201AC2C  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void  sub_020130C4(void);
+extern void  sub_02013360(void *a, void *b, void *c);
+extern void  sub_0201333C(void *a, void *b, int c);
+extern u32   sub_0201A920(int a);
+extern void  sub_0201AC2C(void *a, void *b);
+extern int   sub_0201AA18(void *a);
+extern int   sub_0201AA14(void *a);
+extern void  sub_0201293C(void *a);
+extern int   sub_020076D0(void *a, void *b);
+extern void  sub_02013144(void *a, int b);
+
+void sub_0201347C(u8 *a0, void *a1, void *a2, void *a3, u32 a4, u16 a5)
+{
+    u32 x = 0;
+    u32 y = 0;
+
+    sub_020130C4();
+    sub_02013360(a0, a1, a3);
+    sub_0201333C(a0, a1, a5);
+    *(u32 *)(a0 + 0x28) = sub_0201A920((int)a5);
+    if (a2 != 0) {
+        sub_0201AC2C(a2, (void *)*(u32 *)(a0 + 0x24));
+    }
+    *(u32 *)(a0 + 4) = a4;
+    *(u32 *)a0 = 0;
+    if (sub_0201AA18((void *)*(u32 *)(a0 + 0x24)) != sub_0201AA14((void *)*(u32 *)(a0 + 0x24))) {
+        return;
+    }
+    sub_0201293C(a1);
+    if (sub_020076D0(&x, &y) == 0) {
+        sub_02013144(a0, 0x40);
+    }
+}

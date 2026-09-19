@@ -1,0 +1,43 @@
+packet pkt_0200AD00  function sub_0200AD00 (0x0200AD00 thumb)
+verdict DIFF: compiled 104 bytes, original extent 156, 94 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_0200AD00.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_0200AD00
+ * address:  0x0200AD00
+ * packet:   pkt_0200AD00
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+void sub_0200AD00(u8 *base, int n, u8 *ref)
+{
+    int i;
+
+    for (i = 0; i < n; i++) {
+        u8 *e = base + i * 0x1c;
+        u32 v, x;
+
+        if (*(u32 *)(e + 0x14) != *(u32 *)(ref + 0x14)) {
+            continue;
+        }
+        v = *(u32 *)(e + 0x10);
+        *(u32 *)(e + 0x10) = (v & 0xfffe007fu) | ((((v >> 7) & 0x3ff) + 1) << 7);
+        *(u8 *)(e + 0x1b) |= 0x80;
+        x = (*(u32 *)(e + 0x10) >> 7) & 0x3ff;
+        if (x > 999) {
+            x = 999;
+        }
+        *(u32 *)(e + 0x10) = (*(u32 *)(e + 0x10) & 0xfffe007fu) | (x << 7);
+    }
+}

@@ -1,0 +1,31 @@
+pkt_02039764 - residue note (65-128 band, lane 3)
+=================================================
+
+func_02039834 @ 0x02039834 (116 bytes, ARM) - DIFF, 7 concrete bytes.
+Not in src/matched/: the closest C is at scratch/lane3/diff/func_02039834.c.
+
+Body: reset all eight 0xFF-keyed slots of the object returned by
+func_0203D798 (bl func_02039764(i) for i in 0..7, then for 0xFF), assert if
+the module global g_021469D4 is already live, then initialise it with
+func_02030734(*(u16 *)(p + 0x56), 0x20, 1, "net_handle.c", 0xE5).
+
+The residue is one register: the reset index. The original keeps it in r4 and
+the object pointer in r5; the compiled version swaps the two:
+
+  +0008  mov r5, r0      | mov r4, r0
+  +000C  mov r4, #0      | mov r5, #0
+  +0010  mov r0, r4      | mov r0, r5
+  +0018  add r4, r4, #1  | add r5, r5, #1
+  +001C  cmp r4, #8      | cmp r5, #8
+  +0054  ldrh r0, [r5, #0x56] | ldrh r0, [r4, #0x56]
+
+Everything else (the two calls, the 0xFF call, the assert, the five-argument
+allocator call) reproduces byte for byte. Swapping the declaration order of
+`p` and `i` was tried and does not move it.
+
+Second finding, independent of the bytes: this function would still not be
+EXACT even with the register fixed. Two of its own callees have no witness
+outside 02039834..020398B4 -- func_02039764 (label, all 9 branches to it are
+this function's own calls) and str_020A7A7C (data, `string` class refuses
+because the preceding string at 0x020A7A68 ends at 0x020A7A75, three bytes
+early). So this one belongs in src/pending/ as MATCH at best.

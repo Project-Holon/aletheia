@@ -74,3 +74,24 @@ void func_02051838(char *p, u32 *q)
     *(u32 *)(p + 0x2c) = q[1] + *(u32 *)(*(u32 *)(p + 0x20) + 8);
     *(u32 *)(p + 0x30) = q[2] + *(u32 *)(*(u32 *)(p + 0x20) + 12);
 }
+
+==============================================================================
+Addendum (lane 4, 65-128 byte band, this wave): two more spellings, both still
+DIFF and both worse than the note's 56-byte form; recorded so they are not
+re-tried.
+==============================================================================
+
+1. `struct T *t = o->f20;` as the only local, statements reading `p->x` etc.:
+   compiles to a 68-byte LEAF (no push/pop) and loses the image's
+   `push {r4, lr}` / `pop {r4, pc}` and the r4 that holds q[0]:
+   `ldr ip, [r0, #0x20]` first, `bx lr` at the end, 53 bytes differ.
+2. `struct T *t = o->f20; u32 a = p->x, b = p->y, c = p->z;` (four locals,
+   initialised at declaration): 38 bytes differ -- closer, and it is the only
+   spelling tried that reproduces the image's prologue and its
+   lr = f20 / r4 = q[0] / r3 = q[1] / r2 = q[2] assignment.  What it cannot
+   avoid is the compiler merging the two adjacent q[] loads into one
+   `ldm r1, {r3, lr}`, which the image does not have.
+
+The true function is 72 code bytes (0x02051838..0x02051880); the listing's
+116-byte extent runs on into three unlabelled leaf accessors at 0x02051880,
+0x0205189C and 0x020518A4, so a byte-exact result here would come out EXACT*.

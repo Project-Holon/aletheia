@@ -62,3 +62,27 @@ void func_02075968(Obj02075968 *o)
     }
     o->unk118 = (o->unk118 & ~1u) & ~4u & ~2u;
 }
+
+==============================================================================
+addendum: 0x02075A2C is now parked MATCH on this very call
+==============================================================================
+
+Independently re-derived the residue above (same two bytes, same four
+spellings tried) before finding this file; nothing to correct, one addition:
+
+src/pending/func_02075A2C.c (0x02075A2C, 96 bytes of code + two pool words)
+is byte-correct and parked at MATCH.  Its six sites: func_02075A94 and
+func_02075AB8 resolve as `matched`, g_0214EA90 as `literal x5`, and TWO stay
+wildcarded - this call (PC24 0x02075968) and the one-pool data address
+g_02150190.  So the park needs both, but the 0x02075968 half is the same one
+this file is about: closing 0x02075968 to EXACT is a prerequisite for
+promoting that park.
+
+Two levers from the 0x02075A2C body, for the same reader:
+
+  * the guard `lsl r1,r1,#0x1f` / `asrs r1,r1,#0x1f` / `popeq` is a signed
+    ONE-BIT bitfield read at +0x118 (`s32 b0:1`), not `& 1` - the mask form
+    compiles to `tst` + `popeq` and loses the two shifts.
+  * `ldr r0,[pc]` / `ldr r0,[r0,#4]` is a global POINTER (pool word holds an
+    object's address, dereferenced, then `+0x10e0` as two `add`s), not a
+    symbol+offset pool base.

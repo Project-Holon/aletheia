@@ -1,0 +1,48 @@
+packet pkt_020072CC  function sub_020072CC (0x020072CC thumb)
+verdict DIFF: compiled 72 bytes, original extent 88, 68 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_020072CC.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_020072CC
+ * address:  0x020072CC
+ * packet:   pkt_020072CC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02008784   0x02008784  thumb
+ *   sub_020087D4   0x020087D4  thumb
+ *   func_02031948  0x02031948  arm
+ *   func_02031DC0  0x02031DC0  arm
+ *   g0209D950      0x0209D950  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern int   sub_02008784(void *a, int b);
+extern u8   *sub_020087D4(void *a, int b);
+extern void *func_02031948(void *a, void *b, int c, void *d);
+extern void  func_02031DC0(void *a, void *b, void *c);
+extern u8    g0209D950[];
+
+void sub_020072CC(void *a0, int a1, void *a2, void *a3, void *a4)
+{
+    void *slot = (u8 *)a0 + 0x14 + a1 * 4;
+
+    *(void **)slot = func_02031948(g0209D950 + a1 * 0x18, a2, 1, a3);
+    if (sub_02008784(a0, a1) == 0) {
+        return;
+    }
+    {
+        u8 *q = sub_020087D4(a0, a1);
+        func_02031DC0(*(void **)slot, *(void **)q, a2);
+    }
+}

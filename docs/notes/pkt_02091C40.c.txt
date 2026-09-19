@@ -1,0 +1,72 @@
+pkt_02091C40 - func_02091C40: the last 26 bytes are pure register naming
+=======================================================================
+
+0x02091C40, 124 bytes, arm.  One relocation site (the char table at
+0x020A60DC, `literal x5`) and it resolves.
+
+Shape solved.  It is a table-driven strcmp:
+
+    int func_02091C40(u8 *a, u8 *b, int n) {
+        int i = 0;
+        if (n > 0) {
+            do {
+                int c1 = *a++;
+                int c2;
+                if (c1 >= 0 && c1 < 0x80) c1 = g_020A60DC[c1];
+                c2 = *b++;
+                if (c2 >= 0 && c2 < 0x80) c2 = g_020A60DC[c2];
+                c1 &= 0xff;
+                c2 &= 0xff;
+                if ((u32)c1 < (u32)c2) return -1;
+                if ((u32)c1 > (u32)c2) return 1;
+                if (c1 == 0) return 0;
+                i++;
+            } while (i < n);
+        }
+        return 0;
+    }
+
+Four levers, all measured, all required:
+
+  * the guard must be `if (n > 0) { <loop> }` with the `return 0` AFTER the
+    block, not `if (n <= 0) return 0;`.  With the early-return spelling
+    mwcc predicates the guard (`movle r0, #0` / `pople`) and the function is
+    then 128 bytes with the first eight instructions wrong; the `if (n > 0)`
+    spelling branches to the ONE shared epilogue the image has
+    (`ble 0x2091cb0`, where 0x2091cb0 is the function's own `mov r0,#0; pop`).
+    124 compiled, 124 original, and +0004..+001C are byte-identical.
+  * `int i = 0;` before the guard gives the image's instruction order
+    (`cmp r2,#0` then the counter's zeroing then the branch).
+  * the two range tests must be signed on a 32-bit value: declare c1/c2 `int`
+    and write `c1 >= 0 && c1 < 0x80`.  With `u32` the second test comes out
+    `ldrblo`; with `u8` locals the compiler folds `>= 0` away entirely
+    (104-byte body).  The mla-free `cmp r3,#0 / blt / cmp r3,#0x80 / ldrblt`
+    quartet is exactly what `int` + that condition produces.
+  * the final comparison is UNSIGNED (`mvnlo`/`movhi`, not `mvnlt`/`movgt`) -
+    so the operands are masked: `c1 &= 0xff; c2 &= 0xff;` then
+    `(u32)c1 < (u32)c2`.  Without the masks the compiler proves 0..255 and
+    the two `and #0xff` instructions disappear (120 bytes).
+
+Residue: 26 concrete bytes, all one thing - WHICH register holds what.
+The image has
+
+    lr = i        (loop counter)      ip = the table base
+    r4 = mapped c1 (masked)           r5 = c2
+
+dsi/1.1p1 gives
+
+    r4 = i        lr = the table      ip = mapped c1        r5 = c2
+
+with the identical live ranges, the identical `push {r3,r4,r5,lr}` and the
+identical instruction count; the `add lr,lr,#1 / cmp lr,r2` and the trailing
+`cmp r4,#0` are the only text differences that follow.  The image's allocator
+gave the two loop-carried values (i, the table base) the two scratch
+registers and the two short-lived bytes r4/r5; this front end does the
+reverse.  Declaration order, a named table local, the counter declared
+inside or outside the `if`, a `do`/`while`/`for` spelling, `register i`, and
+a `u8`/`s8`/`u32` spelling of the two bytes were all measured and all leave
+the same swap (see scratch/l6_91C40_v*.c).
+
+Also measured, for whoever touches a neighbour: mwcc 1.1p1 in `-lang c99`
+mode REJECTS a C99 for-statement declaration (`for (int i = 0; ...)` ->
+"expression syntax error"), so the counter must be declared at block scope.

@@ -1,0 +1,73 @@
+pkt_0204EEC8, lane 2 of the 129-256 band
+Open row worked: func_0204EEC8 (0x0204EEC8, ARM, 132 bytes, 2 calls, 3 pool
+words).  Listed as `ready` in the band screen, but it can never be EXACT:
+every one of its three literal-pool words is data whose only occurrence in the
+image is inside this function, so all three sites stay unresolved whatever the
+C is (MATCH at best, and the screen's "ready" only ever covered call targets).
+
+Closest C:
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    struct Cell {
+        u8  pad_00[4];
+        u16 f04;
+        u16 f06;
+        u8  f08;
+        u8  f09;
+        u8  f0a;
+        u8  f0b;
+        u8  pad_0c[8];
+        u32 f14;
+        u32 f18;
+        u32 f1c;
+    };
+
+    extern u32 T1_020A14C0[];
+    extern u32 T2_020A14D4[];
+    extern u32 T3_020A14D8[];
+    extern u32 func_0209C0A4(u32 a, u32 b);
+
+    void func_0204EEC8(struct Cell *dst, u32 idx, u32 fmt, u32 b, u8 c)
+    {
+        u32 bank = (fmt & 0x70) >> 4;
+        u32 sub = fmt & 7;
+
+        dst->f04 = 1 << (bank + 3);
+        dst->f06 = 1 << (sub + 3);
+        dst->f14 = T1_020A14C0[idx];
+        dst->f18 = T2_020A14D4[bank];
+        dst->f1c = T3_020A14D8[sub];
+        dst->f08 = b;
+        dst->f09 = c;
+        dst->f0a = func_0209C0A4(dst->f04, b & 0xff);
+        dst->f0b = func_0209C0A4(dst->f06, dst->f09);
+    }
+
+What the original says that this C must be adjusted for.
+
+  * The two index fields: `and r4, r2, #0x70` + `asr ip, r4, #4` is an
+    *arithmetic* shift, so the bank is signed in the original (a signed 3-bit
+    field at bit 4, or `(s32)` somewhere on the fmt path); the sub-field is
+    `and r7, r2, #7` and stays unsigned.  With `u32 fmt` the compiler emits
+    `lsr`, which is 1 byte of residue.
+  * The two tables are 8-byte records, not u32 arrays: `ldr ip, [r8, ip,
+    lsl #3]` and `ldr r5, [r6, r7, lsl #3]`, and the second pool word is the
+    first one + 4 (0x020A14D8 against 0x020A14D4), so the source reads two
+    fields of one 8-byte record type through two different symbols.
+  * Register pressure: the original needs r4-r8 (5 callee-saved), this C gets
+    r4-r6, which is why most of the byte diff is register names after the
+    first two instructions.
+
+The 5-argument shape is settled: [sp, #0x18] is the fifth argument after six
+pushed registers and it is read with `ldrb`, which names it a u8; the fifth
+argument of the second call comes back off the caller's own stack with a plain
+`ldr` (u32) and the sixth with `ldrh`.  The two calls both go to
+func_0209C0A4 (0x0209C0A4, [label x280]), which is attested.
+
+Nothing here is a dead end for a later pass: fix the signedness of the bank
+field, make the tables 8-byte record arrays, and it is byte-correct but still
+MATCH for the three unwitnessed data words - so it belongs in src/pending/
+with `literal` as the blocking class, not in a shard.

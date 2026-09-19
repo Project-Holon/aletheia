@@ -1,0 +1,35 @@
+pkt_02067FE4 (0x02067FE4..0x02068808) -- lane 5 (band 65-128)
+0x02067FE4  func_02067FE4.c  DIFF  (76 bytes, compiled 72 for the closest C)
+
+Range lookup into a segmented table: the container at p->f00 holds at +0xc a
+chain of blocks; each block is {u16 lo; u16 hi; u32 *next; entries...} with
+3-byte entries at +8.  Given an id, walk the chain and return the byte
+address of the entry whose [lo, hi] contains it, else container + 4.
+
+Closest C (also in scratch/e67fe4*): the loop, the entry arithmetic and both
+comparisons are right; the residue is entirely the final if-conversion:
+
+    original                                 compiled
+    ldrh r2, [r3]                            ldrh r2, [ip]
+    cmp  r2, r1                              ldrh r0, [ip, #2]
+    ldrhls r0, [r3, #2]                      cmp  r2, r1
+    cmpls r1, r0                             cmpls r1, r0
+    bhi  next                                subls r0, r1, r2
+    sub  r0, r1, r2                          addls r1, ip, #8
+    add  r1, r3, #8                          addls r0, r0, r0, lsl #1
+    add  r0, r0, r0, lsl #1                  addls r0, r1, r0
+    add  r0, r1, r0                          bxls lr
+    bx   lr
+
+i.e. the original keeps a real `bhi` branch out of the `lo <= id && id <= hi`
+test and executes the address computation unconditionally, while 1.1p1
+predicates the whole computation with LS and drops the branch (72 against 76
+bytes).  The `ldrhls`/`cmpls` conditional pair *is* present in the compiled
+output, so the `&&` lowering matches; only the branch isn't reproduced.
+
+Ruled out at 0x02067FE4, each compiled at -O4p -proc arm946e:
+an explicit `else` around the `b = next` update; a named `off` local for
+(id - lo) * 3; the result computed into a local before the return; braces
+around both arms; `(u32)` casts on the two halfword loads.  All five give
+the same predicated block.  The entry stride really is 3
+(`add r0, r0, r0, lsl #1`), not 12.

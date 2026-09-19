@@ -16,3 +16,148 @@ A previous pass had parked func_0206B780 and func_0206B7A8 here as DIFF (3
 bytes, the function pointer in r1 against r0).  Both are EXACT now: the
 callback takes the object itself (`p->unk0c(p)`), which is why the target has
 to live in r1 and why r0 still holds the object at the `blx`.
+
+--- lane 5 (band 65-128) : 0x0206AF08, 0x0206AF74, 0x0206B458, 0x0206B63C ---
+
+==============================================================================
+0x0206AF08  func_0206AF08.c  EXACT  (108 bytes, filed src/matched/)
+0x0206AF74  func_0206AF74.c  EXACT  (112 bytes, filed src/matched/)
+==============================================================================
+
+0x0206AF08 is a linked-list walk: for every node with `idx < count` (u16 array
+at +0x1a, count byte at +0x19, next at +0x10) whose entry has (v & 0x300) ==
+0x100 and a non-null callback at +0x0c, call cb(a0, node, v & 0xff) and
+remember 1; returns 0 if the list is empty or nothing fired.  `idx` must be
+`u32` and `count` a `u8` so the `idx < count` test is the unsigned `bhs` the
+original has; with an `int` counter the comparison comes out signed.
+
+0x0206AF74 is the one row in this packet that needed a type qualifier rather
+than a different spelling: with `s32 *dst` mwcc groups the `if (flag)` arm
+into three hoisted loads + three adds + three stores, while the original is
+strictly sequential (`ldr r1,[r0] ; add r1,r1,r2 ; str r1,[r0]` three times).
+Spelling `dst` as `volatile s32 *` reproduces the sequential form and leaves
+the `else` arm (ldr src, ldr dst, mul, add, str) byte-identical, so the file
+is EXACT with that qualifier.  `src` must stay plain: making it volatile too
+reverses the two loads in the else arm.  Same lever family as
+src/matched/func_0206AF08.c's packet-mate note above.
+
+==============================================================================
+0x0206B458  func_0206B458.c  DIFF  (72 bytes, 9 concrete bytes)
+==============================================================================
+
+The object driver loop: `p->f08 &= ~0x40; c = *p->f00;
+g_020A83B8[c & 0x1f](p, c & 0xe0);` repeated while `!(p->f08 & 0x20)`.
+Every branch and every instruction is right, and the one relocation
+(0x020A83B8, a callback table, 14 witnesses) resolves; the residue is the
+placement of the call's object argument:
+
+    original                        compiled
+    mov  r4, r0                     mov  r4, r0
+    ldr  r1, [r4, #8]               ldr  r1, [r4, #8]
+    mov  r0, r4            <--      ldr  r0, [r4]        <-- r0 used as temp
+    bic  r1, r1, #0x40              ldrb r3, [r0]
+    str  r1, [r4, #8]               mov  r0, r4
+    ldr  r1, [r4]                   bic  r1, r1, #0x40
+    ldrb r3, [r1]                   str  r1, [r4, #8]
+
+so the pointer load lands in r0 (and the object argument is moved in after
+it) where the original keeps r0 reserved for the call and uses r1 as the
+temp.  Spellings tried: the deref inline in the index expression, a `u8 c`
+local, an explicit `Cb *f` local for the table entry, and `f(p, c & 0xe0)`
+against the direct call.  All give r0/r1 the same way round.  Pure
+register-choice residue of the same class as func_0206B780 above.
+
+==============================================================================
+0x0206B63C  func_0206B63C.c  DIFF  (104 bytes, compiled 100)
+==============================================================================
+
+`for each node: for (i = 0; i < count; i++) if (v[i] & 0x100)
+bitmap[i >> 5] |= 1 << (i & 0x1f);` with the same node layout as 0x0206AF08
+(count is a `u8`, so the `ble`/`blt` bounds tests are signed, and the v[]
+index scales by 2).  Every one of those instructions is present in the
+compiled output; the 4-byte difference is dsi/1.1p1 if-converting the inner
+`if` body:
+
+    original                             compiled
+    tst  r2, #0x100                      tst  r2, #0x100
+    beq  L                               asrne lr, r5, #5
+    asr  lr, r5, #5                      andne r3, r5, #0x1f
+    ldr  ip, [r0, lr, lsl #2]            ldrne r2, [r0, lr, lsl #2]
+    and  r2, r5, #0x1f                   orrne r2, r2, ip, lsl r3
+    orr  r2, ip, r3, lsl r2              strne r2, [r0, lr, lsl #2]
+    str  r2, [r0, lr, lsl #2]
+
+and it reorders the `and`/`ldr` pair while it is at it.  Ruled out: a `u32 k`
++ `u32 bit` pair of locals, `bitmap[k] = bitmap[k] | bit`, the compound
+`|=`, a `continue` guard, and a `volatile u32 *bitmap` (mwcc predicates the
+volatile store instead of branching).  Same wall as the 0x0206E394 setter
+family (docs/notes/pkt_0206E394.c.txt) and 0x02067FE4 below.
+
+==============================================================================
+Lane 2 of the 129-256 band, packet pkt_0206AF08 - func_0206B3D0 only.
+(The main pkt_0206AF08.c.txt is being written by other lanes; this is a
+separate file so the two do not race.)
+
+==============================================================================
+0x0206B3D0  (136 bytes, ARM, 0 relocations)  DIFF, prologue-scheduling residue
+==============================================================================
+
+Same node walk as 0x0206AF08 in the packet note (count byte at +0x19, u16
+array at +0x1a, next at +0x10, callback at +0x0c), but it ORs the callback's
+result into the caller's word and it compiles as a do-while: the entry falls
+straight into the body with no null test and the tail is `n = n->f10;
+cmp n,#0; bne body`.  Every instruction from +0x24 to the epilogue is already
+identical; the only residue is the order of the first seven instructions.
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    struct Node {
+        u8  pad_00[0xc];
+        void (*f0c)(u32 *out, struct Node *self, u32 mode);
+        struct Node *f10;
+        u8  pad_14[5];
+        u8  f19;
+        u16 f1a[1];
+    };
+
+    int func_0206B3D0(u32 *out, struct Node *n, u32 idx)
+    {
+        u32 v;
+        int r;
+
+        *out = 0;
+        r = 1;
+        do {
+            if (idx < n->f19 && (n->f1a[idx] & 0x300) == 0x100 && n->f0c != 0) {
+                n->f0c(&v, n, n->f1a[idx] & 0xff);
+                *out |= v;
+                r = 1;
+            }
+            n = n->f10;
+        } while (n != 0);
+        return r;
+    }
+
+`r = 1;` inside the if-body is the load-bearing detail: it is what keeps the
+constant 1 live across the `blx`, which is what buys the seven-register push
+`{r3, r4, r5, r6, r7, r8, lr}` plus the 4-byte frame.  `return 1;` at the end,
+`r` assigned before the loop, `r = 1` at the top of the body, and a
+`for(;;)`+`break` loop each lose r8 and one instruction.
+
+Residue, the seven prologue instructions:
+
+    original:  mov r7, r0 ; mov r0, #0 ; mov r6, r1 ; mov r5, r2 ;
+               str r0, [r7] ; add r4, sp, #0 ; mov r8, #1
+    compiled:  mov r7, r0 ; mov r0, #0 ; str r0, [r7] ; mov r0, #1 ;
+               mov r6, r1 ; mov r5, r2 ; add r4, sp, #0 ; mov r8, r0
+
+The store to `*out` is scheduled before the argument moves instead of after
+them, and 1 reaches r8 through r0 instead of being moved straight in; the loop
+body then rides the resulting 4-byte displacement, which is why the raw byte
+count (113) overstates the residue.  Tried and ruled out: `int r = 1;` with
+the initialiser on the declaration (both declaration orders), `r = 1;` before
+the loop, `r` assigned at the top of the body, `*out = 0` placed before and
+after r's initialisation, `u32 v` against `u32 v = 0`, and `return 1` with r
+unused.  All eight give the same prologue order.

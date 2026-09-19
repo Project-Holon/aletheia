@@ -1,0 +1,63 @@
+pkt_02050A70 near miss: func_02050B14 @ 0x02050B14, 104 code bytes + pool
+=========================================================================
+
+verdict: DIFF, 44 concrete bytes (11 instructions), and every one of them is
+the same one-register shift.  No source was filed.
+
+WHAT IT IS.  Read the 3D engine's per-engine configuration word and repack it
+into a display register:
+
+    OS_DisableInterrupts();
+    v = g_02146A84[idx].unk_08;                 /* 16-byte records, field +8 */
+    *(volatile u32 *)(0x040000B8 + idx * 12) =
+        ((v << 30) >> 31) << 30 |               /* dest bit 30 = v bit 1  */
+        ((v << 26) >> 31) << 26 |               /* dest bit 26 = v bit 5  */
+        ((v << 23) >> 30) << 23 |               /* dest 23:24  = v 7:8    */
+        ((v << 21) >> 30) << 21 |               /* dest 21:22  = v 9:10   */
+        (v >> 11);                              /* dest 0:20   = v 11:31  */
+    OS_RestoreInterrupts();
+
+With that spelling the generated sequence is instruction-for-instruction the
+image's - every `lsl`/`lsr` pair, the ORDER of the four extracts, the OR chain
+and the final `orr r1, r3, r1, lsr #11` - and the size is 104+4 like the
+original.  What differs is only the register file: the image puts `v` in r1,
+the display base in r2 and the four temporaries in r3/ip/lr/r4, while the
+compiler puts `v` in r0, the base in r1 and the temporaries in r2/r3/ip/lr.
+Everything is one register lower, and `mov r0, #0` (the MIi_Clear data
+argument slot in the sibling functions) is left unused by the image.
+
+Deriving the OR chain order is the whole puzzle: it is NOT the natural
+descending order.  The compiler materialises the SECOND operand of a
+commutative chain
+(docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md),
+and the image fully materialises the *bit-26* term (`lsl #0x1a; lsr #0x1f;
+lsl #0x1a`) before the first OR while folding the other three placements into
+the OR's shifter.  So the bit-26 term has to be written second and the bit-30
+term first; written in descending destination order the compiler materialises
+the bit-30 term instead and mirrors every one of the four extracts (`lsr k`
+then `lsl 31`, with the placement folded as `lsr #k` at the OR), which is
+44 differing bytes.
+
+RULED OUT (all against the pinned --cc 1.1p1 -O4,p -proc arm946e):
+
+- mask form `((v >> 1) & 1) << 30` for the same chain order: identical
+  mirrored codegen, 44 bytes differ.
+- explicit double shifts for every term in both descending and ascending
+  order, `(v >> 11)` first and last: same 44 bytes.
+- the field read spelled inline five times instead of through a `u32 v`
+  local: identical codegen, so this is not the inline-argument idiom.
+- a second local for the store address, `u32 reg = 0x040000B8 + idx * 12;`:
+  identical codegen.
+- `int i = 0;`-style declaration placement of `v` (first vs last local): the
+  44-byte residue is unchanged, only the prologue's scheduling moves.
+
+Reading it as a bit-shifted struct copy (five bitfield reads of a source
+struct, destination fields at 0:20 / 21:22 / 23:24 / 26 / 30) reproduces the
+same extracts but costs 4 bytes extra (`struct` member reads force an extra
+`push`), so it is not the shape either.
+
+REMAINING LEVER for whoever picks this up: the image's allocation starts the
+first temporary at r3 and leaves r0 free after the OS_DisableInterrupts call;
+every spelling tried here starts it at r0.  A source shape that keeps one more
+value live across the interrupt pair would shift the file up by one register
+and close the function with no other change.

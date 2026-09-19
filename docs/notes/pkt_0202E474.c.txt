@@ -1,0 +1,72 @@
+pkt_0202E474 - func_0202E4EC @ 0x0202E4EC (92 bytes, thumb).  DIFF.
+================================================================================
+
+harness output:
+
+    DIFF       func_0202E4EC @ 0202E4EC (arm9, Thumb)
+      compiled 96 bytes, 3 relocation site(s), 3 of 3 resolved
+      68 concrete byte(s) differ
+
+Residue: 68 concrete bytes; the object is 4 bytes too big and the whole frame
+is different (the original is `push {r3,r4,r5,r6,r7,lr}` + `sub sp,#0x10`, the
+draft is `push {r3,r4,r5,r6,lr}` + `sub sp,#0x14` with an extra spill).
+
+WHAT IT IS
+----------
+Allocates a 0x24 node, writes four words, then copies three values out of the
+caller's five-argument parameter block plus one more read back through the
+same index, i.e.:
+
+    for (i = 0; i < 3; i++) {
+        p[i + 2] = a4[i];
+    }
+    p[i + 2] = a4[i - 1];
+
+The original's tail is:
+
+    0202E536  subs r0, r4, #1       ; i - 1
+    0202E538  lsls r0, r0, #2
+    0202E53A  ldr r1, [r6, r0]
+    0202E53C  lsls r0, r4, #2
+    0202E53E  adds r0, r5, r0
+    0202E540  str r1, [r0, #8]
+
+so the last store really is indexed by the loop counter after the loop has
+exited with i == 3, reading a4[2] again - the draft's `a4[i - 1]` is the right
+expression.
+
+The three calls it makes are pinned correctly: func_020457B0 is handed
+(a3 + 1, (u16)a0), and the first argument to func_02030734 is the *narrowed*
+a0 - the original emits `lsls r0, r7, #0x10 / lsrs r0, r0, #0x10` before the
+`movs r1, #0x24`, so a0 is a full int truncated at the call, not a u16
+parameter.
+
+WHAT IS STILL WRONG
+-------------------
+Register allocation.  The original holds the five-argument parameter block
+pointer in r6 across the whole body and loops the index in r4 with the base in
+r5; the draft lets r6 die after the first loop and spills.  Likely fix is a
+declaration-order change (the parameter block local must be declared before
+the index), not a different expression.
+
+C currently tried (was scratch/_l2_c/func_0202E4EC.c):
+
+    void *func_0202E4EC(int a0, int a1, int a2, int a3, int *a4)
+    {
+        char *p = func_02030734((unsigned short)a0, 0x24, 0,
+                                (int)data_020A77D0, 0x37);
+        int   i;
+
+        *(int *)p = a1;
+        *(int *)(p + 4) = a3;
+        *(int *)(p + 0x20) = (int)func_020457B0(a3 + 1, (unsigned short)a0);
+        *(int *)(p + 0x1c) = a2;
+        for (i = 0; i < 3; i++) {
+            *(int *)(p + 8 + i * 4) = a4[i];
+        }
+        *(int *)(p + 8 + i * 4) = a4[i - 1];
+        return p;
+    }
+
+`data_020A77D0` is a `literal` site (0x0202E548, outside this range, and it
+also appears in the neighbouring 0x0202Exxx pools).

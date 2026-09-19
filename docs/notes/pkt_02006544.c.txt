@@ -1,0 +1,69 @@
+packet pkt_02006544  function sub_02006544 (0x02006544 thumb)
+verdict DIFF: compiled 140 bytes, original extent 148, 95 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_02006544.c at the time of the note.
+unresolved relocation sites:
+  +0074 ABS32 g02020484              -> unresolved: 02020484 (data, from header) has no witness outside 02006544..020065D0
+  +0078 ABS32 g02020488              -> unresolved: 02020488 (data, from header) has no witness outside 02006544..020065D0
+  +007C ABS32 g02020524              -> unresolved: 02020524 (data, from header) has no witness outside 02006544..020065D0
+  +0080 ABS32 g0209D8C0              -> unresolved: 0209D8C0 (data, from header) has no witness outside 02006544..020065D0
+  +0084 ABS32 g02020534              -> unresolved: 02020534 (data, from header) has no witness outside 02006544..020065D0
+  +0088 ABS32 g02020504              -> unresolved: 02020504 (data, from header) has no witness outside 02006544..020065D0
+
+---- closest C ----
+/*
+ * function: sub_02006544
+ * address:  0x02006544
+ * packet:   pkt_02006544
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_020067D0   0x020067D0  thumb
+ *   g02020484      0x02020484  data
+ *   g02020488      0x02020488  data
+ *   g02020504      0x02020504  data
+ *   g02020524      0x02020524  data
+ *   g02020534      0x02020534  data
+ *   g0209D8C0      0x0209D8C0  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void  sub_020067D0(void *p);
+extern u8    g02020484[];
+extern u8    g02020488[];
+extern u8    g02020504[];
+extern u8    g02020524[];
+extern u8    g02020534[];
+extern u8    g0209D8C0[];
+
+void sub_02006544(u16 a, u32 b, u32 c)
+{
+    int i;
+
+    *(u16 *)g02020484 = a;
+    *(u8 *)(g02020524 + 0xc) = 0x7f;
+    for (i = 0; i < 3; i++) {
+        u8 *s = g02020488 + i * 0x34;
+        *(u32 *)s = 0;
+        *(u8 *)(s + 0x1e) = (u8)((*(u8 *)(s + 0x1e) & 0xf0) |
+                                 (*(u16 *)(g0209D8C0 + i * 4) & 0xf));
+        *(u8 *)(s + 0x1e) = (u8)((*(u8 *)(s + 0x1e) & 0x0f) |
+                                 ((*(u16 *)(g0209D8C0 + i * 4 + 2) & 0xf) << 4));
+        sub_020067D0(s);
+        if (i == 0) {
+            *(u8 **)(s + 4) = g02020534;
+            *(u8 **)(s + 0x10) = g02020534;
+        }
+    }
+    *(u16 *)(g02020504 + 0x22) = 1;
+    *(u16 *)(g02020504 + 0x20) = 0;
+    *(u32 *)(g02020504 + 0x24) = b;
+    *(u32 *)(g02020504 + 0x28) = c;
+}

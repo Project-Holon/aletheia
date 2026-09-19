@@ -1,0 +1,57 @@
+packet pkt_02010BB8  function sub_02010BB8 (0x02010BB8 thumb)
+verdict DIFF: compiled 120 bytes, original extent 124, 7 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_02010BB8.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_02010BB8
+ * address:  0x02010BB8
+ * packet:   pkt_02010BB8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203064C  0x0203064C  arm
+ *   func_02031324  0x02031324  arm
+ *   func_0203159C  0x0203159C  arm
+ *   func_02043534  0x02043534  arm
+ *   func_020435F4  0x020435F4  arm
+ *   func_02082BCC  0x02082BCC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void  func_02043534(int a);
+extern void  func_020435F4(int a);
+extern void  func_0203064C(int a, int b, int c);
+extern u8   *func_0203159C(void *a, int b, int c);
+extern void  func_02082BCC(void *dst, int val, unsigned n);
+extern void *func_02031324(int a);
+
+int sub_02010BB8(void *a0, int a1, int a2)
+{
+    u8 *p;
+
+    func_02043534(0);
+    func_020435F4(0);
+    *(u32 *)0x04000000u &= 0xffffe0ffu;
+    *(u32 *)0x04001000u &= 0xffffe0ffu;
+    *(u32 *)0x04000000u &= 0xffffff1fu;
+    *(u32 *)0x04001000u &= 0xffffff1fu;
+    *(u16 *)0x04000050u = 0;
+    *(u16 *)0x04001050u = 0;
+    func_0203064C(1, 0x5b, 0x800);
+    p = func_0203159C(a0, 0x1a8, 0x5b);
+    func_02082BCC(p, 0, 0x1a8);
+    *(u32 *)p = (u32)a2;
+    *(u32 *)(p + 8) = (u32)func_02031324(0x5b);
+    return 1;
+}

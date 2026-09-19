@@ -1,0 +1,78 @@
+packet pkt_0200F734  function sub_0200F734 (0x0200F734 thumb)
+verdict DIFF: compiled 124 bytes, original extent 132, 41 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_0200F734.c at the time of the note.
+unresolved relocation sites:
+  +006E THM_CALL func_02156460       -> unresolved: 02156460 (thumb, from header) has no witness outside 0200F734..0200F7B0; 2 overlays overlap this address (ov009, ov010), none resolvable without a region hint on the symbols: line
+  +0078 ABS32 g0202617C              -> unresolved: 0202617C (data, from header) has no witness outside 0200F734..0200F7B0
+
+---- closest C ----
+/*
+ * function: sub_0200F734
+ * address:  0x0200F734
+ * packet:   pkt_0200F734
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0200FAAC   0x0200FAAC  thumb
+ *   func_0203C990  0x0203C990  arm
+ *   func_0203CA98  0x0203CA98  arm
+ *   func_0203CD98  0x0203CD98  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_0203D864  0x0203D864  arm
+ *   func_0203D880  0x0203D880  arm
+ *   func_020393D0  0x020393D0  arm
+ *   func_02156460  0x02156460  thumb
+ *   g0202617C      0x0202617C  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern int   func_0203CD98(void);
+extern int   func_0203D880(void);
+extern int   func_020393D0(void);
+extern int   func_0203C990(void);
+extern void  func_0203D864(void);
+extern void  sub_0200FAAC(void);
+extern u8   *func_0203D798(void);
+extern u8   *func_0203CA98(void);
+extern u32   func_02156460(u32 a, u32 b);
+extern u8    g0202617C[];
+
+void sub_0200F734(void)
+{
+    u8 *g = g0202617C;
+    u8 t;
+    u8 *p;
+
+    if (*(u32 *)(g + 0x2c) != 0) {
+        return;
+    }
+    if (func_0203CD98() != 1) {
+        return;
+    }
+    if (func_0203D880() == 0 && func_020393D0() == 0 && func_0203C990() == 0) {
+        return;
+    }
+    func_0203D864();
+    sub_0200FAAC();
+    t = func_0203D798()[0x65];
+    if (t != 1 && t != 2 && t != 6) {
+        return;
+    }
+    p = func_0203CA98();
+    if ((u32)(*(u32 *)(p + 0xc) - 0x3f0) <= 1) {
+        *(u32 *)(g + 0x60) = 0x28;
+        return;
+    }
+    if ((u32)(*(u32 *)(p + 0xc) - 0x3f2) <= 4) {
+        *(u32 *)(g + 0x60) = 0xe;
+        return;
+    }
+    *(u32 *)(g + 0x60) = func_02156460(*(u32 *)p, *(u32 *)(p + 4));
+}

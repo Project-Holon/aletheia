@@ -152,3 +152,65 @@ void func_020141A8(char *p, u16 a1, u16 a2, u16 a3, u16 a4, s16 a5)
 * +0032 pop {r3, r4, r5, pc} | pop {r4, pc}
 * +0034 ldr r0, [r0, #0xc] | .byte ff ff 00 00
 * +0036 bx lr | 00 00
+
+packet pkt_020141A8  function sub_02014204 (0x02014204 thumb)
+verdict DIFF: compiled 100 bytes, original extent 112, 56 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_02014204.c at the time of the note.
+unresolved relocation sites:
+  (none)
+
+---- closest C ----
+/*
+ * function: sub_02014204
+ * address:  0x02014204
+ * packet:   pkt_020141A8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02013B74   0x02013B74  thumb
+ *   sub_02013B90   0x02013B90  thumb
+ *   sub_02013C70   0x02013C70  thumb
+ *   sub_020140F8   0x020140F8  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Blk12_02014204 {
+    u32 w[3];
+};
+
+extern void sub_020140F8(void);
+extern int  sub_02013C70(int a);
+extern void sub_02013B90(int a, void *buf);
+extern void sub_02013B74(int a, void *buf);
+
+void sub_02014204(u8 *p, int a1)
+{
+    u16 buf[6];
+
+    sub_020140F8();
+    *(u16 *)(p + 6) = 0xffff;
+    *(u16 *)(p + 8) = 2;
+    *(u32 *)p = 1;
+    *(u16 *)(p + 4) = (u16)a1;
+    *(u16 *)(p + 0xa) = 0;
+    if (sub_02013C70(a1) != 0) {
+        sub_02013B90(a1, buf);
+        *(u32 *)(p + 0xc) = 1;
+        *(u8 *)(p + 0x12) = 1;
+        *(u16 *)(p + 0x10) = buf[0];
+        *(u16 *)(p + 0x16) = buf[2];
+        *(u16 *)(p + 0x14) = buf[4];
+    } else {
+        sub_02013B74(a1, buf);
+        *(u32 *)(p + 0xc) = 0;
+        *(struct Blk12_02014204 *)(p + 0x10) = *(struct Blk12_02014204 *)buf;
+    }
+}

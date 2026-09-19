@@ -1,0 +1,44 @@
+pkt_02034D60 - residue note (65-128 band, lane 3)
+==================================================
+
+func_02034D60 @ 0x02034D60 (96 bytes, ARM) - DIFF, 18 concrete bytes.
+Not in src/matched/: the closest C is at scratch/lane3/diff/func_02034D60.c.
+
+The function classifies a value read back by FS_LoadOverlayInfo (0x02078D34,
+label x15) into a region id: 1 for 0x01000000..0x02000000, 2 for
+0x02FE0000..0x02FE4000, 0 otherwise.
+
+The first block reproduces exactly:
+
+    func_02078D34(&buf, 0, a);
+    if (buf.f04 <= 0x2000000) {
+        if (buf.f04 >= 0x1000000) {
+            return 1;
+        }
+    }
+
+Compiled: ldr r2,[sp,#4] / cmp r2,#0x2000000 / bhi / cmp r2,#0x1000000 /
+addhs sp / movhs r0,#1 / ldmhs -- identical to the original, including the
+predicated return.
+
+The whole residue is the second block, where the original materialises the
+base constant ONCE and ADDs the window size to it:
+
+    ORIGINAL                                  COMPILED (all variants I tried)
+    ldr r1, [pc, #0x24]      ; 0x02FE0000     ldr r0, [pc, #0x24]
+    add r0, r1, #0x4000                      cmp r1, r0
+    cmp r2, r0                               bhi
+    bhi end                                  sub r0, r0, #0x4000
+    cmp r2, r1                               cmp r1, r0
+    addhs sp / movhs r0,#2 / ldmhs
+
+Variant (a), the closest, spells the window as `v <= base + 0x4000` and mwcc
+rewrites the false arm as `v - 0x4000 > base` (a `sub`), losing the `add`.
+Variant (b) `if (v > 0x02fe0000 + 0x4000) return 0;` folds the constant and
+gives 32 bytes of residue. Variant (c) with `u32 base = 0x02fe0000;` and
+`v > base + 0x4000` is also 32 bytes off: mwcc keeps the base in a register
+and the add is not where the original has it.
+
+Ruled out: this is not a witness problem (the one relocation, func_02078D34,
+resolves as `label` with 15 call sites image-wide); the whole 18 bytes are a
+constant-folding/scheduling choice in the second comparison.

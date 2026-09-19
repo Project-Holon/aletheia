@@ -1,0 +1,22 @@
+pkt_0209C2B8 - not a function, and not C
+========================================
+
+The worklist calls 0x0209C2B8 an 80-byte function.  It is not one: it is the
+head of a single 476-byte unsigned-division routine that runs to the `bx lr`
+at 0x0209C494, and 0x0209C2B8+0x50 (= 0x0209C308) is only the jump table's
+alignment word (`mov r0, r0`), which is why the extent stops there.
+
+The routine is normalise-then-restore division, hand-written or compiled from
+a runtime source: `cmp r0, r1` / `movlo r1, r0` / `movlo r0, #0` /
+`bxlo lr`, then the leading-bit search (`lsr r3, r0, #4`, four predicated
+`cmp`/`lsrle`/`suble` pairs narrowing r2 from 0x1c by 0x10/8/4), then
+
+    0209C304  add pc, pc, r2, lsl #2
+
+dispatching into a 29-times unrolled `adcs r3, r1, r3, lsl #1` /
+`sublo r3, r3, r1` / `adcs r0, r0, r0` restoring-division sequence, ending
+`mov r1, r3` / `bx lr`.  A PC-relative jump table into the middle of the
+routine, a shift-by-2 dispatch and a 29-deep unroll are not shapes any C
+front end emits for `/`, and no source file can be cut at 0x0209C2B8 without
+truncating the routine mid-table.  Classify it with the other runtime
+material (layout/runtime_arm9.txt style) rather than as an open C function.

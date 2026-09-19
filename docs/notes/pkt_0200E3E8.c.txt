@@ -1,0 +1,48 @@
+packet pkt_0200E3E8  function sub_0200E3E8 (0x0200E3E8 thumb)
+verdict DIFF: compiled 90 bytes, original extent 100, 69 concrete byte(s) differ.
+closest C below is verbatim from src/matched/sub_0200E3E8.c at the time of the note.
+unresolved relocation sites:
+  +000A THM_CALL func_02167380       -> unresolved: 02167380 (thumb, from header) has no witness outside 0200E3E8..0200E442; 2 overlays overlap this address (ov009, ov010), none resolvable without a region hint on the symbols: line
+  +0012 THM_CALL func_02167358       -> unresolved: 02167358 (thumb, from header) has no witness outside 0200E3E8..0200E442; 2 overlays overlap this address (ov009, ov010), none resolvable without a region hint on the symbols: line
+
+---- closest C ----
+/*
+ * function: sub_0200E3E8
+ * address:  0x0200E3E8
+ * packet:   pkt_0200E3E8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02167380  0x02167380  thumb
+ *   func_02167358  0x02167358  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u32 func_02167380(int id);
+extern int func_02167358(int id);
+
+void sub_0200E3E8(u8 *bits, int id, u32 value)
+{
+    u32 bit = func_02167380(id);
+    int n   = func_02167358(id);
+    u32 b    = bit & 7;
+    u32 byte = bit >> 3;
+    int i;
+
+    for (i = 0; i < n; i++) {
+        bits[byte] &= (u8) ~(1u << b);
+        bits[byte] |= (u8)((value & 1) << b);
+        if (++b > 7) {
+            b = 0;
+            byte++;
+        }
+        value >>= 1;
+    }
+}

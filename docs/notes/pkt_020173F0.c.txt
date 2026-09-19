@@ -90,3 +90,65 @@ C currently tried (scratch/scratch/w_020173F0.c):
         return r;
     }
 
+
+================================================================================
+func_02017430  0x02017430  (lane 2, 65-128 band; verdict DIFF, 45 bytes)
+================================================================================
+
+harness output:
+
+    DIFF       func_02017430 @ 02017430 (arm9, Thumb)
+      compiled 76 bytes, 4 relocation site(s), 4 of 4 resolved
+        +0048 ABS32 data_020A72E4  -> 020A72E4  [literal x2, e.g. 02018428]
+      45 concrete byte(s) differ
+
+WHAT IT IS
+----------
+Eight parameters: four in r0-r3 and four stacked.  It allocates one node
+through func_02030734 (tag 0xba, size 1, the pool word at 0x02017478) and
+hands the node to func_02017588 together with its own argument list, except
+the last stacked argument, which is dropped:
+
+    func_02017588(v, a0, a1, a2, a3, b0, b1, b2)     <- b3 is read but not passed
+
+b3 is consumed by the allocator call instead, narrowed to 16 bits:
+
+    02017446  add r0, sp, #0x28
+    02017448  ldrh r0, [r0, #0xc]
+
+Note the *address* form: the original computes the address of the stacked
+argument block and then does an immediate `ldrh` at +0xc, it does not do
+`ldrh r0, [sp, #0x34]`.  That is what mwcc emits when the argument is reached
+through a pointer expression such as `*(u16 *)((char *)&b0 + 0xc)` rather
+than named directly; writing `unsigned short b3` produces the direct form.
+
+The frame is `push {r4,r5,r6,lr}` + `sub sp,#0x18` (a1 held in r4, a0 in r5,
+the result in r6, a2 and a3 both stored to the frame), which the draft gets
+wrong the other way round: it keeps a3 in a register and grows the push by one
+register.  Together with the `ldrh`-through-address form that is the whole
+45-byte residue.
+
+C currently tried (was scratch/_l2_c/func_02017430.c):
+
+    void *func_02017430(int a0, int a1, int a2, int a3,
+                        int b0, int b1, int b2, int b3)
+    {
+        void *v;
+
+        v = func_02030734((unsigned short)b3, func_020173EC(), 1,
+                          (int)data_020A72E4, 0xba);
+        if (v != 0) {
+            func_02017588(v, a0, a1, a2, a3, b0, b1, b2);
+        }
+        return v;
+    }
+
+`data_020A72E4` is a `literal` site: the same pool word sits at 0x0201742C
+and 0x02018428, both outside this range.
+
+CHAIN NOTE
+----------
+This row's `needs` column names 0x02017588.  That callee's call site in this
+function resolves through the `literal` class (it is a Thumb bl to a labelled
+address with outside references), so the remaining difference here is pure
+codegen, not a missing witness.

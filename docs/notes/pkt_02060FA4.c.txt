@@ -1,0 +1,87 @@
+pkt_02060FA4 (0x02060FA4..0x02061048), 0-64/65-128 boundary handover
+=====================================================================
+
+Lane 4 (65-128 byte band) took the three rows of this packet that the 0-64
+band's table does not carry: 0x02060FA4 (68 bytes, OPEN), 0x02060FEC (92),
+0x02061184 (80).  Two of the three are filed; the third is the residue below.
+
+FILED EXACT
+-----------
+
+  func_02060FEC  0x02060FEC  92 bytes + pool   src/matched/func_02060FEC.c
+  func_02061184  0x02061184  80 bytes          src/matched/func_02061184.c
+
+func_02060FEC is the front half of the 3D engine's expanded-heap carve (its
+back end is the already-matched func_02060888): align the bump pointer, refuse
+if the aligned end passes the limit, optionally clear the region when the heap
+attribute at -4 has bit 0, publish the new cursor and hand back the old one.
+Three things were load-bearing:
+
+* the aligned offset must be written `(amask + h->cur) & ~amask` with
+  `amask = align - 1` a named local; with `(h->cur + align - 1)` the compiler
+  emits `add r0, r3, r0` instead of the image's `add r0, r0, r3`
+  (docs/idioms/commutative-operand-order-names-the-temporary.md).  With the
+  operands swapped this is the ONLY residue that survives.
+* `MIi_CpuClear32` has to be pinned in this file's `symbols:` block at
+  0x02082A7C.  Left to `layout/symbols_sdk.json` it resolves to the SDK
+  library's own copy at 0x01FF852C and the `bl` is wrong by the whole
+  displacement even though the verdict is still EXACT-shaped elsewhere.
+* the attribute read is `(u8)((u32 *)h)[-1] & 1`, a word load with an explicit
+  `and #0xff`, not a `ldrb` (same tell as src/matched/func_02060888.c).
+
+func_02061184 spends one 0x10-byte node out of the heap embedded at +0x24 of
+the owner: it stashes the heap's cursor before the call, returns 0 on failure,
+and otherwise chases the node onto the heap's +0x08 head pointer.  The two
+fields read after the call are heap+4 and heap+8, i.e. inside the SAME struct
+as the heap (the row's "needs" column lists 0x02060FEC only), which is why the
+owning struct has to declare the heap as a 12-byte member and not as a
+{cur, limit} pair followed by two loose u32s.  Note also that this compiler's
+c99 front end refuses an implicit pointer/int conversion (`h->head = p` where
+the field is `u32` is a hard error), so the field has to be typed as the node
+pointer and the int column cast at the store.
+
+NEAR MISS: func_02060FA4 @ 0x02060FA4, 68 bytes + 4-byte pool
+------------------------------------------------------------
+
+verdict: DIFF, 17 concrete bytes.  Not filed.
+
+    void func_02060FA4(struct Obj *o, u32 a1, u32 a2)
+    {
+        func_020606D0(o, 0x46524D48, (char *)o + 0x30, a1, a2);   /* + the pool word */
+
+        o->unk_24 = o->unk_18;
+        o->unk_28 = o->unk_1c;
+        o->unk_2c = 0;
+        return o;                    /* the image's `mov r0, r4` */
+    }
+
+The call half (including the 0x46524D48 tag, which is a plain literal, not a
+relocation) is byte-identical.  The residue is the tail: the image emits
+
+    ldr r0, [r4, #0x18] ; mov r1, #0 ; str r0, [r4, #0x24]
+    ldr r2, [r4, #0x1c] ; mov r0, r4 ; str r2, [r4, #0x28] ; str r1, [r4, #0x2c]
+
+load-store-load-store, while every spelling tried gives the same hoisted and
+sunk form, using one register more:
+
+    ldr r3, [r4, #0x18] ; ldr r2, [r4, #0x1c] ; mov r1, #0 ; mov r0, r4
+    str r3, [r4, #0x24] ; str r2, [r4, #0x28] ; str r1, [r4, #0x2c]
+
+This is the same load-hoisting class as the pkt_02060480 family
+(docs/notes/pkt_02060480.c.txt) and as 0x02061BD0
+(docs/notes/pkt_02061BD0.c.txt), and it is codegen, not evidence: the only
+relocation in the function resolves in the `label` class.
+
+Ruled out, all at the pinned --cc 1.1p1 -O4,p -proc arm946e:
+
+- the three stores written directly from the members (no temporary);
+- one reused `u32 t;` local for both loads: the compiler still hoists both
+  loads, so a shared temp does not force the interleave;
+- the two members read through `u32 *` locals;
+- `void` return instead of `struct Obj *`: drops the image's `mov r0, r4` and
+  makes the residue worse (28 bytes), so the function does return the object;
+- pointer-typed stores through `(u32 *)((char *)o + off)`: identical codegen.
+
+func_02060FEC and func_02061184 above are from the same run and DO match, so
+the packet is not from a different front end: this is a scheduling tie-break on
+the guarded store sequence, not a compiler-version wall.

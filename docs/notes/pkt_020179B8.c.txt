@@ -1,0 +1,63 @@
+pkt_020179B8 - func_02017CC8 @ 0x02017CC8 (102 bytes, thumb).  DIFF.
+================================================================================
+
+harness output:
+
+    DIFF       func_02017CC8 @ 02017CC8 (arm9, Thumb)
+      compiled 98 bytes, 9 relocation site(s), 9 of 9 resolved
+      67 concrete byte(s) differ
+
+Residue: 67 concrete bytes, both shape and register class.  The three leading
+calls and the two `func_02019C54` / `func_0201AE1C` chases are right; the
+guard and the trailing `func_02017F50` are not, and the object is 4 bytes
+short of the original.
+
+WHAT IT IS
+----------
+Selector-driven update of one entry of two tables.  `a0` is the owner, `a1`
+and `a2` are the two table keys; the entry index is read from selector 0x6f,
+and both entries are then rescaled by 0x14 and compared through
+func_0201AF6C.  When the first entry's scaled value is exactly 1 and the
+second's is exactly 0xff the call is skipped entirely.
+
+C currently tried (was scratch/_l2_c/func_02017CC8.c):
+
+    void func_02017CC8(int a0, int a1, int a2)
+    {
+        int r4 = func_02017E88(a0, 0x6f, 0);
+        int x = func_0201AE1C(func_02019C54(a1, (unsigned short)r4), 0x14);
+        int y = func_0201AE1C(func_02019C54(a2, (unsigned short)r4), 0x14);
+
+        if (func_0201AF6C(x) == 1) {
+            if (y != 0xff) {
+                return;
+            }
+        }
+        func_02017E64(a0, 0x6e,
+                      func_02017F50(a1, (unsigned short)r4,
+                                    func_02017E88(a0, 0, 0)));
+    }
+
+The control flow of the original is:
+
+    02017D00  bl 0x201af6c
+    02017D04  cmp r0, #1
+    02017D06  bne 02017D0C      <- body when the first value is not 1
+    02017D08  cmp r7, #0xff
+    02017D0A  bne 02017D2C      <- return when the second value is not 0xff
+    02017D0C  <body>
+
+i.e. the body runs unless (first == 1 && second == 0xff).  That is what the
+drafted C reproduces structurally, but the register plan does not fall out:
+the original keeps the 0x6f index in r4 and the rescaled second value in r7
+across both `func_02019C54` calls, and the drafted local names make mwcc hoist
+and re-materialise differently.
+
+WHAT WAS RULED OUT
+------------------
+- `if (func_0201AF6C(x) != 1 || y != 0xff) { body }` - mwcc duplicates the
+  whole body into both arms and the object grows.
+- Ordering the two comparisons the other way round (`y == 0xff` tested first)
+  reorders the branches and loses the `bne 02017D0C` shape.
+- Casting the second `func_02019C54` result to `unsigned short` before passing
+  it to func_0201AE1C changes nothing; the (u16) truncation on r4 is right.

@@ -1,0 +1,32 @@
+pkt_0203AF40 - residue note (65-128 band, lane 3)
+==================================================
+
+func_0203AF40 @ 0x0203AF40 (128 bytes, ARM) - DIFF, 10 concrete bytes.
+Not in src/matched/: the closest C is at scratch/lane3/diff/func_0203AF40.c.
+
+Body: pulls the current object pair from func_0203D788/func_0203D798; unless
+the second object's +0x65 state byte is 1 or 2, calls through the vtable at
+*(*(s+0x340)+4) with the +0x56 halfword, s itself, 0 and *(s+0x34C); ticks
+func_02037D78; if the record's +0x2C callback is set, calls it (via
+func_0203D650) and clears it; then func_0203AD80(g_021469DC, 0x0203C00C, 0,
+0x12F).
+
+residue: one register pair, swapped end to end. The original holds the
+incoming parameter in r4 and the func_0203D788 result in r5; the compiled
+version holds them the other way round, so every access to either shows up as
+a mismatch:
+
+  +0004  mov r4, r0                 | mov r5, r0
+  +000C  mov r5, r0                 | mov r4, r0
+  +0024  ldr r1, [r5, #0x340]       | ldr r1, [r4, #0x340]
+  +0034  mov r1, r5                 | mov r1, r4
+  +0044  ldr r0, [r4, #0x2c]        | ldr r0, [r5, #0x2c]
+
+Nothing else differs. Ruled out: an explicit `u8 *pp = p;` copy of the
+parameter as the first declaration (mwcc still hands r4 to the call result),
+and reordering the two call results' declarations (which changes the call
+order and is a real diff, not just the residue).
+
+Note the assert argument 0x0203C00C is a data address with no outside witness
+of its own, so even with the register fixed this function could only reach
+MATCH: the `string`/`literal` classes have nothing to read there.

@@ -1,4 +1,4 @@
-pkt_02039A5C - DIFF residues (lane 5, 0-64 byte band)
+pkt_02039A5C - DIFF residues (lane 5, 0-64 byte band; func_02039A5C added by lane 3, 65-128 band)
 ============================================================
 
 These functions do not reach EXACT; the pinned front end produces the same
@@ -52,3 +52,60 @@ void func_02039C3C(u8 *p, u16 v)
     p[0x49] = func_020395EC(p) != 0xFF;
 }
 
+------------------------------------------------------------
+from scratch/lane3/diff/func_02039A5C.c (lane 3, 65-128 band)
+func_02039A5C @ 0x02039A5C (112 bytes, ARM) - DIFF, 48 concrete bytes.
+
+Body: early-out if func_02039338() is non-zero; otherwise take the 0xFF
+object from func_0203996C, and for each of the eight two-byte slots walk the
+slot's +0x2D flag byte and clear it when func_0203D3A8(obj, 5, 2, &slot)
+answers non-zero.
+
+closest C:
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u32 func_02039338(void);
+extern u32 func_0203996C(u32 a);
+extern u32 func_0203D3A8(u8 *p, u32 a, u32 b, u8 *q);
+
+void func_02039A5C(void)
+{
+    u8 *p;
+    int i;
+
+    if (func_02039338() != 0) {
+        return;
+    }
+    p = (u8 *)func_0203996C(0xff);
+    for (i = 0; i < 8; i++) {
+        if (*(u8 *)(p + 0x2d + i * 2) != 0) {
+            if (func_0203D3A8(p, 5, 2, p + 0x2c + i * 2) != 0) {
+                *(u8 *)(p + 0x2d + i * 2) = 0;
+            }
+        }
+    }
+}
+
+residue: the whole function is offset by one register - the original keeps the
+object in r4 and the loop index in r5, the compiled version has them one
+higher (r5/r6) and burns sl on the constant 5, so the prologue is
+`push {r3, r4, r5, r6, r7, r8, sb, lr}` against the compiled
+`push {r4, r5, r6, r7, r8, sb, sl, lr}`. The failing lines are:
+
+  +0000  push {r3, r4, r5, r6, r7, r8, sb, lr}   | push {r4, r5, r6, r7, r8, sb, sl, lr}
+  +0018  mov r4, r0                              | mov r5, r0
+  +001C  mov r5, #0                              | mov r6, #0
+  +0020  add r7, r4, #0x2c                       | add r8, r5, #0x2c
+  +0024  mov r6, r5                              | add r4, r5, #0x2d
+  +0030  add r0, r4, r5, lsl #1                  | ldrb r0, [r4, r6, lsl #1]
+  +0058  addne r0, r4, r5, lsl #1                | strbne r7, [r4, r6, lsl #1]
+
+The original also materialises the field address as `add r0, base, i<<1` and
+then uses `[r0, #0x2d]`, where the compiled version folds 0x2D into the
+pre-materialised base (r4 = p + 0x2d) and indexes off that. Ruled out: the
+same source with the byte expression written out as `p[i*2 + 0x2d]` (same
+code), with the +0x2C pointer hoisted into a local before the loop, and with
+the 5/2 constants as named locals - all three leave the extra callee-saved
+register in place.

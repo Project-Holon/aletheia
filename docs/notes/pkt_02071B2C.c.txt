@@ -69,3 +69,50 @@ void func_02072758(void)
     func_02075858();
     func_02089B38(0);
 }
+
+======================================================================
+lane 2 (band 129-256) residue, packet pkt_02071B2C
+======================================================================
+
+--- 0x0207229C: DIFF (132 bytes original against 128 compiled, 0 relocations)
+
+The smull family member the earlier section left unreduced.  The C is:
+
+    typedef unsigned short u16;
+    typedef int            s32;
+    typedef long long      s64;
+
+    struct S { u8 pad_00[0x18]; s32 f18; s32 f1c; s32 f20; s32 f24; s32 f28;
+               u16 f2c; u16 f2e; };
+    struct D { s32 f00; s32 f04; u8 pad_08[8]; s32 f10; s32 f14;
+               u8 pad_18[0x18]; s32 f30; s32 f34; };
+
+    void func_0207229C(struct D *d, struct S *s)
+    {
+        d->f00 = s->f18;
+        d->f14 = s->f1c;
+        d->f04 = 0;
+        d->f30 = (s->f2c * -(s32)((s64)s->f24 * s->f18 >> 12)) << 4;
+        d->f34 = (-s->f2e * ((s32)(s->f1c + ((s64)(-s->f28) * s->f1c >> 12))
+                              - 0x1000)) << 4;
+        d->f10 = 0;
+    }
+
+Settled by the bytes: the first three stores are `d->f00`, `d->f14`, `d->f04`
+in that order with the two zeros sharing one `mov r2, #0`; both products are
+`s64` (`smull`, and `umull` comes out the moment the struct fields are u32 -
+the sign has to come from the field type, not a cast); the `>> 12` is a
+logical 64-bit shift folded to `lsr #0xc` + `orr ..., lsl #20`, which is what
+mwcc emits for `s64 >> 12` when only the low word is live; `f2c`/`f2e` load
+with `ldrh` and feed a 32-bit `mul`; both results shift left by 4.
+
+Residue, 4 bytes: the scheduler places the second statement's operand loads
+(`ldr ip, [r1, #0x1c]` and the negated `f28`) *before* the `str r3, [r0,
+#0x30]` that belongs to the first, so the original re-reads `s->f1c` after
+that store (`ldr r1, [r1, #0x1c]`) - two loads where the compiled version
+needs one, 33 instructions against 32.  The compiled `adds r1, r4, r1` also
+carries flags the original's `add r1, r1, r4` does not.  Tried: u64 against
+s64 (umull/smull, settled), `(u64)-(s32)f28` (which forces an extra
+`asr #0x1f` + `mla` sign-extension pair and is wrong), u32 against s32
+fields, and `* 16` against `<< 4`.  No locals were added: the original's
+plan uses only r0-r4 + ip/lr, so a spill would show.

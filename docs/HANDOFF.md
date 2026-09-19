@@ -1,7 +1,7 @@
 # Handoff state (2026-09-16)
 
-> Current figures, 2026-09-19: 33.3610 percent of ARM9 game code matched byte for byte, 2929
-> functions, 133644 of 400600 bytes, 1382 open, 642 packets, README refreshed in step. The numbers
+> Current figures, 2026-09-19: 34.5177 percent of ARM9 game code matched byte for byte, 2976
+> functions, 138278 of 400600 bytes, 1335 open, 638 packets, README refreshed in step. The numbers
 > in the snapshot below are as of 2026-09-16 and are kept for the record, not as a live claim; the
 > live figures are `layout/worklist.json`'s summary and `README.md`.
 
