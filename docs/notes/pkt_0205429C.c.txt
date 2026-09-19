@@ -314,3 +314,66 @@ spelling that keeps it in `sb` the way the pre-switch block already does
 arms' G3_MultMtx43 calls cross-jump into one in the transcription and stay
 two in the original, which costs the 4-byte size gap and probably also moves
 the arms' register bases.  Everything else in this note should hold.
+
+==========================================================================
+APPENDED, lane 3 of the 1025+ band (frontier probe)
+==========================================================================
+
+1. 0x02054DB8, the C in this note, RE-MEASURED this wave.  The C that the
+   note prints is the 425-instruction / 1700-byte variant, not the
+   439-instruction / 1756-byte one the heading describes ("THE C THAT WAS
+   COMPILED (439 instructions, DIFF, 1756 of 1760 bytes)").  Re-run:
+
+     match.py one --cc 1.1p1 --arm --flags "-O4,p -proc arm7tdmi"
+       DIFF  1700 bytes compiled, 425 instruction slots, 425 of 1700 bytes
+             hard-equal = 25.0 percent byte identity -- the number this note
+             quotes for "the variant that keeps the resource pointer live
+             throughout".  So the printed C is that variant and the 1756-byte
+             form is not reproduced anywhere in the note.
+     first differing instructions:
+       +0000  ORIG push {r4, r5, r6, r7, r8, sb, sl, lr}  | OURS ... fp, lr
+       +0004  ORIG sub sp, sp, #0x88                      | OURS #0x84
+       +0008  ORIG mov r6, r1                             | OURS mov sb, r1
+       +000C  ORIG ldrh r1, [r6, #0x2e]                   | OURS ldrh r5, [sb, #0x2e]
+       +0010  ORIG mov r7, r0                             | OURS ldr r4, [r0, #0x40]
+   The extra `fp` push and the 0x84 frame are the first difference, exactly
+   as the note's own "where to pick it up" says; nothing else has been found
+   to spend that register differently, so the note's residue stands.
+
+2. INDEPENDENT CONFIRMATION of the compiler-tree finding, by a probe TU
+   compiled with the same BASE_FLAGS the harness uses.  Six instructions of
+   probe C (`probe_indirect`: `if (a) return fp(b); return 0;`,
+   `probe_const`: `(s64)a * (s64)b + 2048) >> 12`), objdump of the object:
+
+     dsi/1.1p1 -O4,p -proc arm946e
+       indirect call     e12fff31   blx r1
+       return            e8bd8008   pop {r3, pc}
+       const 0x800       e2920b02   adds r0, r2, #2048
+     dsi/1.1p1 -O4,p -proc arm7tdmi
+       indirect call     e1a0e00f/e12fff11   mov lr, pc; bx r1
+       return            e8bd4008/e12fff1e   pop {r3, lr}; bx lr
+       const 0x800       e2920b02   adds r0, r2, #2048
+     ../1.2/sp2 -O4,p -proc arm946e
+       indirect call     e12fff31   blx r1
+       return            e28dd004/e8bd4000/e12fff1e
+                                    add sp,#4; ldmfd sp!, {lr}; bx lr
+       const 0x800       e3a00b02/e0920000   mov r0, #2048; adds r0, r2, r0
+     ../1.2/sp2 -O4,p -proc arm7tdmi
+       indirect call     mov lr, pc; bx r1
+       return            add sp,#4; ldmfd sp!, {lr}; bx lr
+
+   So `blx rN` and a return through `lr` DO live in the same function -- in
+   the 1.2 tree, under -proc arm946e, and nowhere else in the collection.
+   The register-form 64-bit constant (`mov rD, #2048` + `adds rD, rS, rD`,
+   the form pkt_02055498's bytes show) is likewise a 1.2-tree property and
+   does not depend on -proc.  Both of the note's central claims are
+   reproduced from scratch here.
+
+   The write rule for this wave pins `--cc 1.1p1`, so the six rows that need
+   the 1.2 tree (0x0205429C, 0x02054718, 0x02054A68, 0x02055498, 0x02055B80,
+   0x02055FD4) were not filed and no shard was written: under the pinned
+   front end their best possible verdict is DIFF, and the tells are in the
+   bytes, not in the C.  Re-running this note's C under ../1.2/sp2 does not
+   help as-is (1828 bytes at -proc arm946e, 1776 at arm7tdmi, against a
+   1760-byte body -- the C is tuned for 1.1p1+arm7tdmi and needs re-tuning
+   under the tree that produces its idioms).

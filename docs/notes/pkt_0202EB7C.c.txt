@@ -82,3 +82,85 @@ int func_0202EB9C(u32 a0, u32 a1)
     return 1;
 }
 */
+
+=== addendum, lane r4-1 (wave r4) -- 0x0202EB9C
+Nearest spelling found: 132 bytes against the original's 136 (42 concrete bytes
+differ).  The arm split is forced the way the original has it:
+
+    if (v != 0x14) { ...; return 1; }      <- fall-through, the common path
+    /* the 0x14 path follows inline, ending in return 2 */
+
+spelled the other way round (`if (v == 0x14) { ... }` first) mwcc emits
+`bne` to the else and the whole layout swaps.
+
+The bit test must be an UNSIGNED shift pair: `(*(unsigned char *)x << 0x1c) >>
+0x1f` compiles to `asrs`, the original is `lsrs`.
+
+Remaining residue is register naming plus one instruction: mwcc gives r5/r6/r7
+to (flag, self, a1) where the original has (self, a1, flag).
+
+=== C source as last compiled (lane r4-1): src/matched/func_0202EB9C.c
+
+/*
+ * function: func_0202EB9C
+ * address:  0x0202EB9C
+ * packet:   pkt_0202EB7C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0200974C  0x0200974C  thumb
+ *   func_0202ECB0  0x0202ECB0  thumb
+ *   func_0202ED00  0x0202ED00  thumb
+ *   func_0202ED60  0x0202ED60  thumb
+ *   func_0200856C  0x0200856C  thumb
+ *   func_0202EC44  0x0202EC44  thumb
+ *   func_0202EC24  0x0202EC24  thumb
+ *   func_0202EC7C  0x0202EC7C  thumb
+ *
+ * Two outcomes: a full table (index 0x14) takes the alternate path and
+ * returns 2, anything else returns 1.  The flag is set from bit 3 of the byte
+ * at +0x26 in the entry selected by the index, and is spelled as an if/else
+ * assigning 1 and 0 -- that is what produces the `beq` / `movs r7, #1` /
+ * `b` / `movs r7, #0` quartet rather than a movne/moveq pair.
+ */
+
+extern char *func_0200974C(char *self);
+extern int func_0202ECB0(char *p, int a1);
+extern void func_0202ED00(char *p, int v);
+extern void func_0202ED60(char *self, int a1, int v);
+extern int func_0200856C(int a1);
+extern int func_0202EC44(char *p, int h);
+extern int func_0202EC24(char *p);
+extern int func_0202EC7C(char *p, int h);
+
+int func_0202EB9C(char *self, int a1)
+{
+    char *p = func_0200974C(self);
+    int v = func_0202ECB0(p, a1);
+    int h;
+    int f;
+
+    if (v != 0x14) {
+        if (((unsigned int)*(unsigned char *)(p + v * 0x28 + 0x26) << 0x1c) >> 0x1f)
+            f = 1;
+        else
+            f = 0;
+        func_0202ED00(p, v);
+        func_0202ED60(self, a1, f);
+        return 1;
+    }
+    h = func_0200856C(a1);
+    if (func_0202EC44(p, h) < 5) {
+        if (func_0202EC24(p) >= 0x14)
+            func_0202ED00(p, 0);
+    } else {
+        func_0202ED00(p, func_0202EC7C(p, h));
+    }
+    func_0202ED60(self, a1, 0);
+    return 2;
+}

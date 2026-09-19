@@ -1,0 +1,118 @@
+DIFF residue: func_02078F30 @ 0x02078F30 (arm9, ARM, 252 bytes)
+packet: pkt_02078F30
+
+Verdict: DIFF, exactly 1 concrete byte, and unfilable for two independent
+reasons.  Size is right (252/252) and 4 of the 8 relocation sites resolve
+(MI_CpuFill8, MI_CpuCopy8, OS_IsRunOnTwl by `label`; the one data word
+g_02150D20 by `literal`).
+
+  +0070  blx #0x209125c   |  bl #0x2078fa8   (wildcard)   <- the one concrete byte
+  +0088  bl  #0x208139c   |  bl #0x2078fc0   (wildcard)   MATHi_SetOverlayTableMode
+  +00AC  bl  #0x20816fc   |  bl #0x2078fe4   (wildcard)   MATH_CalcHMACSHA1
+  +00BC  bl  #0x208139c   |  bl #0x2078ff4   (wildcard)
+
+Blocker 1, the byte at +0073: 0x0209125C is a *Thumb* callee (the ARM9 label
+carries the thumb bit) called directly from ARM through `blx #imm`.  opcode
+byte 0xFA against the compiler's plain-`bl` 0xEB is outside the masked
+24-bit displacement field, so this is the same wall
+docs/notes/func_02091150.c.txt documents: resolve_relocations() only encodes
+R_ARM_PC24/CALL/JUMP24 when the target kind is not thumb, so an ARM caller's
+direct blx into a Thumb callee is never rewritten and the site stays a
+concrete byte.  Not fixable from C; declaring the callee `arm` instead is
+refused by the ISA-conflict check against the image's own thumb label.
+
+Blocker 2, the three `bl` sites: MATHi_SetOverlayTableMode (0x0208139C) and
+MATH_CalcHMACSHA1 (0x020816FC) are TwlSDK libmath.TWL.HYB.a(dgt_sha1.o)
+symbols (layout/symbols_sdk.txt) whose only branch anywhere in the image is
+inside this function, so `label` has no outside witness and `match.py` has
+no SDK evidence class for a branch site; the SHA-1 HMAC path is simply never
+called anywhere else, and 0x0209125C is likewise a single-caller stub.
+
+Structure, fully understood (elements are the 5-word struct at 0x02150D20):
+zero a 0x14-byte buffer, snapshot the two words at +0x18/+0x1C through
+MI_CpuCopy8 into a 0x40-byte scratch area, then either the OS_IsRunOnTwl-
+gated direct path (func_0209125C) or the general path (func_020816FC, with
+a func_0208139C(1)/(handle) pair bracketing it when a3 != 0), and finally
+compare the 0x14 bytes four at a time against the caller's buffer and return
+`i == 0x14`.  Two shape levers worth keeping:
+
+  - the 0x14-byte buffer must be declared BEFORE the 0x40-byte scratch array
+    or the two come out at sp+4 / sp+0x18 instead of sp+0x44 / sp+4 (four
+    concrete bytes in the prologue and two in the tail);
+  - the byte compare loop must be unsigned (`u32 i`), or `blo` becomes `blt`.
+
+Not in src/pending: the verdict is DIFF, and src/pending holds MATCH only.
+
+THE SOURCE AS IT STANDS (251/252 bytes)
+
+/*
+ * function: func_02078F30
+ * address:  0x02078F30
+ * packet:   pkt_02078F30
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02150D20  0x02150D20  data
+ *   func_0209125C  0x0209125C  thumb
+ *
+ * DRAFT: compiles the whole 252-byte range; verdict pending.
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+struct S78F30 {
+    u8  pad00[0x18];
+    u32 f18;
+    u32 f1c;
+};
+
+extern struct S78F30 g_02150D20;
+
+extern void func_02082BCC(void *, int, u32);
+extern void func_02082D44(u32, void *, u32);
+extern u32  func_02085D3C(void);
+extern void func_0209125C(void *, u32, u32, void *, u32);
+extern u32  func_0208139C(u32);
+extern void func_020816FC(void *, u32, u32, void *, u32);
+
+int func_02078F30(u8 *a0, u32 a1, u32 a2, int a3)
+{
+    u8 buf[0x14];
+    u8 tmp[0x40];
+    u32 handle;
+    u32 v;
+    u32 i;
+
+    func_02082BCC(buf, 0, 0x14);
+    func_02082D44(g_02150D20.f18, tmp, g_02150D20.f1c);
+
+    if (a3 == 0 && func_02085D3C() != 0) {
+        v = g_02150D20.f1c;
+        func_0209125C(buf, a1, a2, tmp, v);
+    } else {
+        handle = 0;
+        if (a3 != 0) {
+            handle = func_0208139C(1);
+        }
+        v = g_02150D20.f1c;
+        func_020816FC(buf, a1, a2, tmp, v);
+        if (a3 != 0) {
+            func_0208139C(handle);
+        }
+    }
+
+    i = 0;
+    while (i < 0x14) {
+        if (*(u32 *)(buf + i) != *(u32 *)(a0 + i)) {
+            break;
+        }
+        i += 4;
+    }
+    return i == 0x14;
+}

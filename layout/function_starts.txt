@@ -310,3 +310,4 @@ arm9_main  0x0203F328  arm   # real entry of a function whose worklist row start
 0x0202F9F4
 0x02031E68
 0x020336A4
+0x020929E8

@@ -1,0 +1,270 @@
+pkt_020426A0 -- the 16bpp/8bpp tile blitters, both 40 minutes in, both DIFF
+=======================================================================
+
+Lane 2 of the 513-1024 byte frontier probe.  Two bodies in this packet were
+transcribed end to end and driven to a one-cluster residue:
+
+    0x020426A0  584 bytes ARM   ->  146 instructions in both, 45 differ
+    0x020428E8  572 bytes ARM   ->  143 instructions in both, ~10 differ
+
+Neither is a size miss and neither is an algorithmic miss: in both cases the
+whole body -- the two clip guards, the two register-blocked source layouts,
+the func_020422D4 screen-size probe, the func_02040EE0 linear-index call and
+the func_02040F84 arbitrary-map call -- reproduces.  What is left is
+register allocation inside branch 2 (`flag != 0`) plus three scheduling
+swaps.  The two bodies are the same routine at two bit depths (u16 stores
+against u8 stores), so whichever is finished first almost certainly finishes
+the other.
+
+What both functions are
+------------------------
+
+A rectangle blit out of a source tile map into the screen buffer of a
+0x2c-byte Surface slot (pixels at +0x00, screen-size code at +0x15 -- the
+same two fields src/matched/func_02042E34.c reaches as slot+0x08 / slot+0x1d).
+Arguments 5..11 are all on the stack, so the first stack argument sits at
+[sp, #0x50] after `push {..., lr}` + `sub sp, sp, #0x28`:
+
+    r0        Surface *s
+    r1  x0    destination origin, x          (u8)
+    r2  y0    destination origin, y          (u8, homed to [sp+0])
+    r3  d     inner count, UNSIGNED          (u32: `bls`/`ble` tells you)
+    [0x50] n  row count, UNSIGNED            (u32)
+    [0x54]    source base pointer
+    [0x58] sx source column origin           (u8, ldrb)
+    [0x5c] sy source row origin              (u8, ldrb)
+    [0x60]    source row stride              (word)
+    [0x64]    source map height / clip bound (word, signed: `cmplt` in b2)
+    [0x68] flag  selects the second source layout (u8, ldrb)
+
+branch 1 (flag == 0), 0x020426A0:
+
+    i = 0;
+    for (; i < n; i++) {                      /* rotation test only: the
+                                                 `addls/popls` at 0x02042710
+                                                 IS the `for` entry test */
+        y = y0 + i;                           /* u8 */
+        if (y >= height) continue;            /* unsigned: u8 vs u8 */
+        if (((sy + i) & 0xff) >= lim) continue;   /* unsigned */
+        for (q = 0; q < d; q++) {
+            x = x0 + q;                       /* u8 */
+            if (x < width && ((sx + q) & 0xff) < stride) {
+                pixels[func_02040EE0(x, y, s->size_code)] =
+                    src[(sy + i) * stride + sx + q];
+            }
+        }
+    }
+
+branch 2 (flag != 0), 0x020426A0:
+
+    for (i = 0; i < n; i++) {
+        if ((y0 + j) < height && (sy + j) < lim) {     /* ONE &&, if-converted */
+            u8 yj  = y0 + j;
+            u8 syj = sy + j;
+            for (q = 0; q < d; q++) {
+                if ((x0 + q) < width && (sx + q) < stride) {
+                    pixels[func_02040EE0((u8)(x0 + q), yj, s->size_code)] =
+                        src[func_02040F84((u8)(sx + q), syj, stride, lim)];
+                } else {
+                    break;
+                }
+            }
+        } else {
+            return;
+        }
+    }
+
+920428E8 is the same source with `u8 *pixels`, `u8 *src` and
+`src[(sy + i) * stride + sx + q]` instead of the func_02040F84 call in
+branch 1 (the original computes the row base with `mla r6, r7, r2, r1` in
+the branch-1 preheader), and with branch 1's guard written as
+`if ((y0 + i) < height && (sy + i) < lim) {...} else return;` rather than
+two `continue`s.
+
+What is ruled out, with the evidence
+------------------------------------
+
+1. **The frame is not a frame problem.**  Both originals are
+   `push {r4..r8, sb, sl, fp, lr}` + `sub` (0x2c for 0x020426A0, 0x44 for
+   0x020428E8) with `sb`/`r9` printed differently by objdump; both of my
+   builds reproduce the same 80-byte frame, the same 8 callee-saved
+   registers and the same 10-word local area *once the func_02040F84
+   argument order was corrected* (see 2).  A wrong frame was the single
+   largest source of diff lines before that fix and it is gone.
+
+2. **func_02040F84's argument order is (sx + q, sy + j, stride, lim), not
+   (sy + j, sx + q, ...).**  In both originals branch 2 emits
+   `and r0, r5, #0xff` (the `(sx + q) & 0xff` value, argument 1) at
+   0x02042894 / 0x02042AD8 and loads argument 2 from the sy slot; with the
+   two swapped the register allocator spills `syj` differently and the whole
+   frame moves 4 bytes.  This one swap is what took 0x020426A0 from
+   608 bytes / 44-byte frame to 584 bytes / 40-byte frame with 146
+   instructions.  The 0x020426A0 build in this note is exactly this C.
+
+3. **The u8 locals are not optional and not interchangeable.**  `u8` for
+   i/j/q/y/yj/syj gives the originals' `blo`/`bhs` (unsigned) compares for
+   the loop bounds and the masked clip tests, and `cmplt`/`addge` (signed)
+   for the unmasked sums `(sy + j) < lim` and `(y0 + j) < height`.  Every
+   `u32` counter spelling produced `blt`/`bge` at 0x020428BC/0x02042A08 and
+   a 4-byte-shorter frame.  n and d must be `u32`/unsigned: with `int`
+   mwcc emits `ble` where the original has `bls` (`cmp r8, #0` at
+   0x02042840 / 0x02042A84).
+
+4. **A named local versus an inline expression for yj/syj changes nothing**
+   (scratch/_l2_v7.c: identical 79 diff lines).  Neither does declaring the
+   locals at function scope instead of inside the block
+   (scratch/_l2_v5.c), nor `volatile` (scratch/_l2_v6.c: the frame *shrinks*
+   to 32 bytes, so that lever is wrong).
+
+The residue, instruction by instruction
+---------------------------------------
+
+0x020426A0 (45 of 146 instructions differ; all of them allocation, ordered
+by the original's addresses):
+
+    0x020426A0..0x020426F0   prologue instruction ORDER only: the original
+        interleaves `mov sb, r1` / `str r2, [sp]` / `mov r8, r3` between the
+        three identity stores at [sp,#0x50]/[sp,#0x54]/[sp,#0x64]; mine
+        issues the three loads first.  Same 16 instructions, same frame.
+    0x020427D4   `str r1,[sp,#0x14]` / `ldr r0,[sp,#0x50]` -- mine swaps
+        those two (the b1 counter store against the loop-bound re-read).
+    0x02042840..0x02042858   the original runs the inner-loop rotation test
+        (`cmp r8,#0` / `mov r6,#0` / `bls`) BEFORE the two `and ...,#0xff` /
+        `str` pairs that materialise yj and syj; mine stores first.
+    0x02042860..0x02042874   the branch-2 inner counter is r6 in the
+        original and r5 in mine, and the `sx+q` temporary is r5 in the
+        original and r6 in mine -- the two registers are exchanged
+        throughout (`addlt r5, r0, r6` vs `addlt r6, r0, r5`).
+    0x020428A8..0x020428B8   the original loads the halfword into r2 and
+        keeps `lsl r1, fp, #1` after the counter increment; mine emits
+        `lsl r0, fp, #1` / `strh` before `add r0, r5, #1`.
+    0x020428D0/0x020428D4    same ldr/str swap as 0x020427D4, in the b2
+        outer increment.
+    (bhs/bcs, blo/bcc, `bl #0x2040ee0` vs `bl <func_02040EE0>`, and r9/sb
+    are the same encodings/registers and are not real differences.)
+
+0x020428E8 is down to ~10 substantive instructions in the same four classes:
+the yj/syj `and`/`str` pair runs after the rotation test at 0x02042A8C in
+the original and before it in mine; the branch-1 guard's temporaries are
+r2/r1 in the original and r3/r1/r0 in mine (0x0204298C..0x020429A4); the
+stacked row base is `mla r6, r7, r2, r1` at 0x020429C4 in the original
+against `mla r6, r7, r1, r0`; and the `ldr r0,[sp,#N]`/`str r1,[sp,#N]`
+order in both outer-loop increments.
+
+What the next attempt should try first
+-------------------------------------
+
+The residue is one allocator tie-break, not a missing statement: in the
+original mwcc keeps the branch-2 inner counter in the *second* free
+callee-saved register and reuses the first for the `sx + q` temporary,
+while in every spelling above it does the opposite in 0x020426A0 and the
+same thing in 0x020428E8.  The cheapest next lever is therefore to make the
+two branches share one counter local (declared once, used by both loops)
+and to give the branch-2 counter an explicit initialiser statement
+(`q = 0;` before the `for (; q < d; q++)`) so the allocator's live range for
+it starts where the original's does -- measure only `sub sp` and the
+`mov r6, #0` / `mov r5, #0` line, both flip together with the swap.
+
+Lane r5d: the declaration-order axis, swept (both rows still DIFF)
+==================================================================
+
+The lane above was worked exactly as it asked, and the answer is that the
+lever is real but not sufficient.  Two new measurements:
+
+1. **The shared counter with an explicit `q = 0;` does move the b2 inner
+   counter to r6** -- mine now emits `mov r6, #0` (0x02042854, the original
+   has it at 0x02042844) instead of `mov r5, #0`, exactly as predicted, and
+   the `sub sp` / counter pair still flip together.  On its own it is worth
+   nothing: 44 -> 45 differing slots.  Combined with 2 it is worth 13 slots.
+
+2. **The stack slots are driven by the declaration ORDER of the five loop
+   locals, and only by it.**  All 120 permutations of `u8 i, y, j, yj, syj`
+   were compiled (scratch/r5d/sweep_decl.py) and the slot map read back out
+   of the object each time.  The rule the sweep exposes:
+
+   * the last four declared take `[sp,#0x14]`, `[sp,#0x18]`, `[sp,#0x1c]`,
+     `[sp,#0x20]` in *reverse* declaration order;
+   * `width`/`height` stay pinned at `[sp,#0x24]`/`[sp,#0x25]` in all 120;
+   * the branch-1 copy of the `sy` parameter is pinned to `[sp,#0x4]` and
+     the branch-2 `syj` is pinned to `[sp,#0x8]` in **all 120** orders --
+     no ordering of the five source locals can move either one.
+
+   The original has `sy`-copy at `[sp,#0x8]`, `j` at `[sp,#0x4]` and `syj`
+   at `[sp,#0x20]`, so the residue is not reachable from declaration order
+   alone; the pinned pair is the thing to explain next, not the order.
+
+Best spelling for 0x020426A0 (scratch/r5d/p5.c = scratch/r5d/v2.c with the
+five loop locals moved to function scope in the order)
+
+    u8 j;  u8 syj;  u8 yj;  u8 y;  u8 i;  u8 q;
+
+(6 decls at function scope, `q` shared by both branches, explicit `q = 0;`
+before each `for (; q < d; q++)`).  That is 146 instructions, 81 concrete
+bytes and 31 differing slots against 94 bytes / 44 slots for the note's own
+C.  `i`, `y`, `yj`, `sx`-copy and `sy`-copy(b2) land on the original's
+slots; `j` (`[sp,#0x20]` vs `[sp,#0x4]`), `syj` (`[sp,#0x8]` vs
+`[sp,#0x20]`) and the branch-1 `sy` copy (`[sp,#0x4]` vs `[sp,#0x8]`) do
+not.  Several orders score the same 31 slots (the sweep ranks them together);
+the one above is the spelling these measurements were taken with.
+
+The 19 original instructions still differing under that spelling, quoted:
+
+    0x020426B0 mov r9, r1            0x020426B4 str r2, [sp]
+    0x020426B8 ldr r0, [sp, #0x50]   0x020426BC mov r8, r3
+        -- prologue: the original interleaves the r1/r2/r3 identity moves
+           between the three stack-parameter copies; mine issues all three
+           copies first (same 16 instructions, same frame).
+    0x02042720 str r0, [sp, #0x8]  /  0x02042744 ldr r1, [sp, #0x8]
+        -- the branch-1 copy of the `sy` parameter: [sp,#0x8] here,
+           [sp,#0x4] in mine.
+    0x020427D8 ldr r0, [sp, #0x50]
+        -- outer-increment `ldr`/`str` order (mine stores first).
+    0x020427F8 str r0, [sp, #0x4]  /  0x0204281C ldr r0, [sp, #0x4]
+    0x020428C4 ldr r0, [sp, #0x4]  /  0x020428D0 str r1, [sp, #0x4]
+        -- the branch-2 counter slot, [sp,#0x4] in the original,
+           [sp,#0x20] in mine (the pinned-pair problem above).
+    0x0204284C and r0, r3, #0xff / 0x02042850 str r0, [sp, #0x1c]
+    0x02042854 and r0, r1, #0xff / 0x02042858 str r0, [sp, #0x20]
+        -- the yj/syj pair is emitted AFTER the rotation test
+           (`cmp r8,#0` / `mov r6,#0` / `bls`) in the original and before it
+           in mine; moving the assignments inside the inner loop makes mwcc
+           recompute them per iteration (147 instructions, 183 bytes), so
+           that spelling is wrong.
+    0x0204288C ldr r1, [sp, #0x20]  (syj slot, see above)
+    0x020428A8 ldrh r2, [r0, r1] / 0x020428B0 lsl r1, r11, #1 /
+    0x020428B8 strh r2, [r4, r1]
+        -- the original loads the halfword into r2 and shifts `fp` after the
+           counter increment; mine emits `lsl r0, r11, #1` / `strh` before
+           `add r0, r6, #1`.
+
+Ruled out this run, with the measurement:
+
+* `u8 syj, yj, y, i, j;` (p1) 51 slots; `u8 j, i, y, yj, syj;` (p4) 49;
+  `u8 i, y, j, yj, syj;` (a1) 51; all five at function scope is not better
+  than the block-scoped original (v1, 44).
+* `yj`/`syj` redefined inside the inner loop (p6): 147 instructions, 183
+  bytes -- not hoisted, so the rotation test cannot be moved that way.
+* `q` kept per-branch with the new declaration order (p3): 42 slots, worse
+  than the shared `q` (p5, 31).  Both branches sharing one local is correct.
+* `volatile`, named-vs-inline yj/syj and block-vs-function scope stay ruled
+  out: unchanged in the new spelling too.
+
+0x020428E8 under the same treatment (scratch/r5d/e8a.c: shared `q`, explicit
+`q = 0;`, declaration order `j, syj, yj, y, i, q`) measures 142 instructions
+against the original's 143, 364 concrete bytes and 42 differing slots; the
+sweep (scratch/r5d/sweep_decl_e8.py, all 120 orders again) tops out at 4 of
+the 9 slots matching, so the twin is not closer than its sibling on this
+axis -- the same pinned-slot problem governs it, and it additionally still
+wants the preheader `ldr r1,[sp,#0x8]` / `mla r6, r7, r2, r1` pair (mine
+folds the row base into the guard's live register and spends one instruction
+fewer, 0x020429BC..0x020429C4).
+
+Next attempt, first thing: find what pins the branch-1 `sy`-parameter copy to
+`[sp,#0x4]` in every spelling.  It is the only slot that no declaration order
+reaches, and in the original it is 4 bytes higher (`[sp,#0x8]`), with the
+branch-2 counter `j` sitting where it would be.  The most likely source is a
+sixth stack entity in the branch-1 prologue that the C above does not have;
+try giving the branch-1 loop an explicit row-base local (a named
+`u16 *row = src + sx;` or the `src[(sy+i)*stride + sx + q]` subscript
+written as `row[(sy+i)*stride + q]`) and watch only `sub sp` and the
+`str r0,[sp,#0x8]` at 0x02042720.

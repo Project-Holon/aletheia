@@ -1,24 +1,25 @@
-pkt_02083250  lane6  DIFF residue (32-byte block copy, backward)
+pkt_02083250 - hand-written ARM, not compiled C
+==============================================================================
 
-Twin of 0x02082F48 (see docs/notes/pkt_02082F48.c.txt for the full residue): the
-same instruction stream with ldmdb/stmdb (pre-decrement writeback) and
-`ldrge r3, [r0, #-4]!` / `strge r3, [r1, #-4]!` for the 4-byte tail, tail call to
-0x02083460. 72 bytes, arm. r0 is the source and r1 the destination, same as the
-forward twin (confirmed by the writeback operands).
+pkt_02083250 holds 0x02083250, 0x02083298, 0x02083334 and 0x020833D0, the byte-swapping memcpy family of the high window.  They
+are hand-written ARM, not compiled C, and no C will ever reproduce them; the
+finding is written up in full in docs/notes/pkt_02086368.c.txt section 1 by the
+wave that first hit it.  The three tells, quoted there:
 
-Closest C (verifies DIFF, same block-expansion residue):
+  * the byte tail at 0x0208314C is reached with a plain `b` (no relocation)
+    from 0x02082F80, 0x02083018 and 0x020830B0 -- three functions jump into
+    the middle of the body of a fourth, which no single translation unit can
+    emit, since mwccarm gives every function its own section and a
+    cross-section branch is a relocation;
+  * a dispatcher at 0x02082EFC enters each variant's middle with
+    `and r3, r1, #3; bic r1, r1, #3; cmp r3, #0; beq ...`;
+  * the byte tail is `tst r2, #4` plus eight `ldrbne`/`strbne` pairs, a shape
+    this front end emits for no loop.
 
-    typedef struct { u32 a, b, c, d, e, f, g, h; } Blk32;
-    void sub_02083460(u32 *src, u32 *dst, int n);
-    void sub_02083250(u32 *src, u32 *dst, int n) {
-        while (n >= 32) {
-            src -= 8; dst -= 8;
-            *(Blk32 *)dst = *(Blk32 *)src;
-            n -= 32;
-        }
-        while (n >= 4) { *--dst = *--src; n -= 4; }
-        sub_02083460(src, dst, n);
-    }
-
-Fix the block-type question on pkt_02082F48 and this one follows with the same
-edit (swap the increment for the pre-decrement and the tail callee).
+They want the treatment layout/runtime_arm9.txt gives its routines: a curated
+table entry, which would attest all eight at once.  Veredict for this lane:
+blocking class `artifact`, evidence = the cross-section branch at 0x02082F80 ->
+0x0208314C (plain `b`, no relocation field) and the 32-byte block loop's
+`lsl`/`lsr` pair per word.  Not attempted as C on purpose: two waves of this
+project have now spent budget on this family and both concluded it is not
+compiler output.

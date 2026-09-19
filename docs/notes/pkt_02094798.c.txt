@@ -1,0 +1,139 @@
+DIFF residue: func_02094798 @ 0x02094798 (arm9, ARM, 200 bytes)
+packet: pkt_02094798
+
+Verdict: DIFF, 2 concrete bytes (198 of 200 correct, same size, 0 relocations).
+
+The function is the 4-byte-at-a-time MSL strcpy: source and destination are
+compared for 4-byte alignment, a (3 - align) pre-loop copies the leading
+bytes, then whole words are copied with the Mycroft null-byte test
+(w + 0xFEFEFEFF) & ~w & 0x80808080 from two pool words the source spells as
+plain literals (no relocation at all in this function), and the word that
+carries the terminator falls into the byte-by-byte epilogue.
+
+Settled and byte-identical: the whole prologue, the alignment compare and
+its two exits, the leading-byte loop (including the `ldrb [r1,#1]!` /
+`strb [r2,#1]!` pair), the `sub r2,#4` / `str r5,[r2,#4]!` word loop, the
+final double-byte loop and both pool words.
+
+The two residues are one instruction, at +0x8C and +0x92 -- the middle
+`and` of the word loop's haszero test (the fourth and last test in the
+function):
+
+  ORIGINAL @ +008C   add r4, r5, r3
+                     mvn lr, r5
+                     and lr, r4, lr      <- accumulator is lr (holds ~w)
+                     tst lr, ip
+  COMPILED           add r4, r5, r3
+                     mvn lr, r5
+                     and r4, r4, lr      <- accumulator is r4 (holds w + 0xFEFEFEFF)
+                     tst r4, ip
+
+Same three instructions, same operand order, only the destination register
+differs, and the identical expression in the *pre-loop* test at +0x68 does
+pick lr's role correctly in both.  mwcc's accumulator choice here is not
+driven by the source shape on this evidence: the pre-loop test and the loop
+test are the same text in the same function, and one lands in r4 and the
+other in lr.
+
+Spellings tried (all 2 concrete bytes, all with the other 198 right):
+  - the haszero expression inline in the `while` of a do/while;
+  - the same in `for (;;) { ...; if (haszero) break; }`;
+  - the mask split into a `u32 t` local (`t = (w + C) & ~w & M; while (t == 0)`);
+  - the constant's two spellings `~w` vs `w2 = ~w` into a named local;
+  - `(w + C) & ~w & 0x80808080` with the extra parentheses grouped as
+    `((w + C) & ~w) & M` and as `((w + C) & (~w & M))`;
+  - `0x80808080 & (w + C) & ~w` (mask first), and `(w + C) & ~w == ...`
+    comparisons against the masked/unmasked values;
+  - the byte tests must be `(c & 0xFF)` masked (an unmasked `c == 0` costs
+    the four `tst r3, #0xff` bytes at +0x28, +0x3C, +0xA4, +0xB0 -- that
+    part is a real, explained lever and is in the C below).
+
+This is a documented register-choice wall (R4-RULES "2 to 15 byte register
+residue"), not an open puzzle; a later lane should treat "keep every other
+instruction identical" as the constraint to satisfy first.
+
+THE SOURCE AS IT STANDS (198/200 bytes)
+
+/*
+ * function: func_02094798
+ * address:  0x02094798
+ * packet:   pkt_02094798
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * MSL 4-byte-at-a-time strcpy: when source and destination share an
+ * alignment the body copies whole words, using the Mycroft null-byte test
+ * (w + 0xFEFEFEFF) & ~w & 0x80808080, and drops into a byte-by-byte
+ * epilogue as soon as a word carries a terminator.  Misaligned pairs, and
+ * the terminator's own word, go through the byte loop directly.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02094798.c \
+ *       --func func_02094798 --addr 0x02094798 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+u8 *func_02094798(u8 *dst, const u8 *src)
+{
+    u8 *d = dst;
+    u32 align;
+    u32 n;
+    u32 w;
+    u8 c;
+
+    align = (u32)src & 3;
+    if (((u32)dst & 3) != align) {
+        goto byte_loop;
+    }
+
+    if (align != 0) {
+        c = *src;
+        *dst = c;
+        if ((c & 0xFF) == 0) {
+            return dst;
+        }
+        n = 3 - align;
+        if (n != 0) {
+            do {
+                c = *++src;
+                *++d = c;
+                if ((c & 0xFF) == 0) {
+                    return dst;
+                }
+            } while (--n != 0);
+        }
+        d++;
+        src++;
+    }
+
+    w = *(const u32 *)src;
+    if (((w + 0xFEFEFEFF) & ~w & 0x80808080) != 0) {
+        goto byte_loop;
+    }
+    d -= 4;
+    do {
+        d += 4;
+        *(u32 *)d = w;
+        src += 4;
+        w = *(const u32 *)src;
+    } while (((w + 0xFEFEFEFF) & ~w & 0x80808080) == 0);
+    d += 4;
+
+byte_loop:
+    c = *src;
+    *d = c;
+    if ((c & 0xFF) == 0) {
+        return dst;
+    }
+    do {
+        c = *++src;
+        *++d = c;
+    } while ((c & 0xFF) != 0);
+    return dst;
+}

@@ -1,0 +1,21 @@
+func_02033908 @ 0x02033908, pkt_02033908 - MATCH, parked in src/pending/.
+==============================================================================
+
+172 of 172 bytes, four of five relocation sites resolved (`label` x1008 for
+func_02030734 twice, `label` x219 for MIi_CpuClear32, `literal` x20 for the
+0x020A78CC pool array).  The fifth site is the call to func_02033A88 at +0x98:
+
+    +0098 PC24 func_02033A88 -> no witness outside 02033908..020339B4
+
+`grep -rn func_02033A88 asm/` returns exactly one branch site in the whole
+image, 0x020339A0 -- this function's own call -- duplicated across the
+listings of the units that share this address range.  Condition 2 of
+attest_overlay_label()/attest() can therefore never be satisfied from a lane:
+this is the documented single-caller-label wall.  0x02033A88 is in
+pkt_02033A88, not this lane's packets, and is not a row of this slice.
+
+The chain stops here: this row was handed over as "file first: 0x02033A88",
+and 0x02033A88 is one row of another lane's packet, so the caller stays parked
+with the callee named in its header rather than reaching across.
+
+The C is in src/pending/func_02033908.c, header status MATCH.

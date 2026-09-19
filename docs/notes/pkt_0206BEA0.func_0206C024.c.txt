@@ -1,0 +1,41 @@
+pkt_0206BEA0 -- func_0206C024 @ 0x0206C024 (156 code bytes + 4 pool, ARM)
+=========================================================================
+lane r4-4.  Verdict DIFF: compiled 148 bytes against the original's 160.  The
+single site (ABS32 tbl_020A82D8 0x020A82D8) resolves `literal x5`, so this is a
+codegen residue, not a cap.
+
+The function is the command-record dispatcher that pkt_0206BEA0's big
+0x0206C0C4 parser is built around: gate on three bits of *(u32 *)(p+8), resolve
+the current record through *(u8 **)(p+0xdc), and jump through the table with the
+record's first halfword.  The gate reproduces exactly:
+
+    if (!(w & 0x200) && (w & 1) && !(w & 2)) { ... }   /* tst/bne, tst/beq, tst/bne */
+
+and the whole body after the gate reproduces instruction for instruction,
+including the record lookup (`ldrh off, [rec,#6]; ldrh n, [rec,off];
+add rec+off+4; mla r2, n, k, r2`) and the indirect call
+`((void (*)(u8 *))tbl_020A82D8[*(u16 *)r2])(p);` with
+`*(u32 *)p += 2;` as the shared tail.
+
+Residue (12 bytes): the two "zero" arms.  The original writes each as a real
+branch target with a real store:
+
+    +0034 beq 0x206c098      ; rec == 0  -> the last mov r2, #0
+    +0038 beq 0x206c084      ; (duplicate branch on the same cmp ip, #0)
+    +0044 bhs 0x206c084      ; k >= rec[1] -> mov r2, #0
+    ...
+    +0060 mov r2, #0         ; (0x206c084)
+    +0064 cmp r2, #0         ; (0x206c088)
+    ...
+    +0074 mov r2, #0         ; (0x206c098)
+
+Every spelling tried drives mwcc into if-conversion instead: the zero arms come
+out as `movhs r0, #0` / `moveq r0, #0` predicated moves next to the branch, and
+the value lands in r0 rather than r2, which is the 12-byte difference.  Shapes
+tried: nested if/else with the compute as the fall-through arm (closest: only the
+predicated move differs), `r2 = 0;` hoisted before `if (rec != 0)`, the rec==0
+arm as a `goto use;`, and the compute arm first.  The doubled `beq` on the same
+flags in the original is the tell that the source had both zero-assignments as
+separate statements (not one shared block) and that mwcc did NOT if-convert them
+here -- the opposite of what this front end does with the same statements
+arranged slightly differently.

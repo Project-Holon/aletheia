@@ -1,0 +1,103 @@
+/*
+TRIAGE note, lane r5b, rows 0x020155A0 and 0x02092F10 (NOT attempted to a
+body: the lane's budget went to three whole-body transcriptions of the other
+rows and ran out with about 20 minutes left, not enough for a 479-instruction
+Thumb body or a 288-instruction frame-using ARM body).  What follows is the
+measured structure so the next attempt starts from facts, plus one correction
+that changes the row's blocking class.
+
+==========================================================================
+0x020155A0 (Thumb, packet pkt_02014D90, 1022 code bytes, 1064-byte extent
+           0x020155A0..0x020159C8, pool of 8 words at 0x02015962)
+==========================================================================
+
+THE BRIEF'S PREMISE IS WRONG: the row is NOT call-free.  `grep -n blx` over
+the listing finds three BLX sites, not zero:
+
+    0x02015632  68 f0 96 e8  blx #0x0207D760   G3i_FrustumW_
+    0x020156D6  68 f0 d8 e8  blx #0x0207D888   G3_RotZ
+    0x02015856  68 f0 18 e8  blx #0x0207D888   G3_RotZ
+
+(the -proc arm946e/disasm.py names are layout/symbols_sdk.txt's: both targets
+are TwlSDK libgx.TWL.HYB.a(g3_util.o), ARM, so a Thumb->ARM BLX is the right
+encoding and they resolve as SDK symbols, not as game labels).  There is no
+plain `bl` at all.  The row is therefore *cap-free* (SDK call targets are
+attested), but NOT "zero-relocation": the three BLX fields are relocation
+fields that must resolve for EXACT, and if the SDK symbol table ever fails to
+name 0x0207D760/0x0207D888 the row caps at MATCH.  The second and third sites
+call the same function, so a body must have two independent G3_RotZ uses.
+
+FRAME AND PARAMETERS, MEASURED.  Prologue `push {r3, r4, r5, r6, r7, lr}` +
+`sub sp, sp, #0x50`, so the caller's stack arguments start at sp+0x68 and the
+function reads ten of them: words at [sp,#0x68], [sp,#0x6c], [sp,#0x70],
+[sp,#0x74], [sp,#0x78], [sp,#0x7c], [sp,#0x80], [sp,#0x84], [sp,#0x88],
+[sp,#0x8c] -- i.e. 4 register parameters plus 10 stack words = a 14-parameter
+GX setup entry.  Locals live at [sp,#0x0c]..[sp,#0x4c].
+
+WHAT IT IS: a G3/MTX render-state writer.  19 PC-relative pool loads, 73
+stores through pooled base registers, and the pool holds the hardware window
+addresses (0x04000440, 0x04000450, 0x040004AC, 0x04000500) plus the constants
+0xFFFA0000, 0xFFF80000, 0xFF000100, 0x010000C0 and the data pointer
+0x020A1B38.  The first block (0x020155A0..0x0201563C) reads a word at
+a1+0x140, extracts `(x << 9) >> 23` (a 9-bit field), compares it with 0x20,
+derives a bit from a1+0x2c, and writes two 0x04000xxx registers; the second
+block (0x02015642..0x020156DA) reads a1+0xc0/a1+0xc8, shifts by a variable
+amount into 0x04000500-8, computes two ldrsh pairs out of a1+0x78 and
+`g_?[x]`, and calls G3i_FrustumW_; then two conditional paths on a byte of
+the 0x78 descriptor (bit 0 select) write the 0x04000440/0x04000450 pairs and
+call G3_RotZ.  Everything is str/strh into 0x04000xxx separated by if/else
+chains on bits of the descriptor -- no calls except the three BLX.
+
+  * Blocking class for the next attempt: SIZE (a 479-line Thumb body with 14
+    parameters, 3.5x the largest Thumb body this repo has matched, 604 bytes).
+  * Cheapest lever: the whole function is a straight-line sequence of
+    `*(volatile u32 *)0x04000xxx = <expression>` statements with no loops
+    after the first 0x40 bytes -- so it can be transcribed top-down in
+    blocks, each block independently verifiable against the listing, and the
+    pool constants can be spelled as integer constants (they raise no
+    relocation at all, exactly as the note on the packet says).
+
+==========================================================================
+0x02092F10 (ARM, packet pkt_020924DC, 1152 code bytes, 1192-byte extent
+           0x02092F10..0x020933B8, 10 pool words at 0x02093390..)
+==========================================================================
+
+THE ROW IS ALSO CUT MID-PROLOGUE.  Its epilogue is `add sp, sp, #0x4c; pop
+{r4, r5, r6, r7, r8, sb, sl, fp, lr}; add sp, sp, #0x10; bx lr` -- the second
+`add sp, sp, #0x10` pops a 16-byte home area that the row's own prologue does
+not push.  The packet's 4-byte entry at 0x02092F0C is exactly
+`0f 00 2d e9  push {r0, r1, r2, r3}` (the argument home area), so the real
+entry is 0x02092F0C and the row as cut is one instruction in.  With the home
+area the frame is 0x80 and the parameters line up as the printf spec family
+expects: [sp,#0x70] and [sp,#0x74] are the first two words of the spec (or
+two word parameters), [sp,#0x7d] and [sp,#0x7f] are spec bytes 1 and 3
+(sign style, prefix flag -- the same fields 0x02092C3C and 0x020924DC read),
+[sp,#0x7d] is byte 1 of the third spec word; [sp,#0x81] and [sp,#0x88] are
+the 5th and 6th arguments, i.e. the width and the 0x1FD bound compared at
+0x02092F24 (`cmp r6, r0` against the pooled 0x1FD, `addgt`-return of 0).
+
+This row is the one already mapped in detail by the earlier probe lane (see
+the top of docs/notes/pkt_020924DC.c.txt); nothing in this lane changes that
+map, and its four call targets remain label-attested.  What the map should be
+read with is the entry correction above and the -proc finding from row
+0x02092C3C in this lane: the pop-lr epilogue of this packet is reproduced by
+`-proc arm7tdmi` / `-proc arm9tdmi` (the layout aligns 1:1 with the image
+under those two and is 16 bytes short under the pinned arm946e), so the next
+attempt should compile this body at `--addr 0x02092F0C` with
+`--flags "-O4,p -proc arm9tdmi"` first.
+
+  * Blocking class: SIZE (288 instructions, 8 callee-saved registers, a
+    frame-using body), the same class the previous probe reported.
+
+==========================================================================
+SHARED FINDING FOR THE WHOLE PACKET pkt_020924DC
+==========================================================================
+
+Three of its four rows (0x020929E8, 0x02092C38, 0x02092F0C) begin with the
+home area `push {r0, r1, r2, r3}` and the packet's 4-byte entries are exactly
+those three instructions; the worklist rows that follow them (0x020929EC,
+0x02092C3C, 0x02092F10) are one instruction inside their functions, and the
+first 4 bytes of any body compiled at those addresses can never match.  The
+integrator should decide whether the manifest carries the push address; for
+measurement, compile at the push.
+*/

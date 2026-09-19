@@ -1,0 +1,67 @@
+pkt_0200AC14 -- sub_0200AC14 @ 0x0200AC14 (172 code bytes + 16 pool, Thumb)
+================================================================================
+lane r4-4.  Verdict DIFF (not filed; no source kept in src/matched/).
+
+The function is a record initialiser: memset(self, 0, 0x1c), a 16-byte copy from
+`src` into self->w0 (sub_0201F41C(src, self->w0, 8)), then a packed word at +0x10,
+a word at +0x14, a halfword at +0x18, a byte at +0x1a and two bit-packed bytes
+(+0x1b), filled from a 0x20-byte parameter block passed BY VALUE (the code takes
+`add r0, sp, #0x18`, i.e. the address of the first stack argument, and reads
+bytes at +0x0/+0x4/+0x8/+0x14/+0x18/+0x1c and a word at +0xc and a halfword at
++0x10 of it).
+
+Best spelling (compiled 180..188 bytes against the original's 172 + pool; the
+register/mask work reproduces, the remaining residue is below):
+
+    typedef struct { u16 w0[8]; u32 f10; u32 f14; u16 f18; u8 f1a; u8 f1b; } Self;
+    /* bitfields: f10 = b0:7, b1:10, b2:1, b3:4, b4:4, b5:5, b6:1
+       f1b = b0:6, b1:1, b2:1 */
+
+    _memset_02082BCC(self, 0, 0x1c);
+    sub_0201F41C(src, self->w0, 8);
+    self->u10.b0 = a2;
+    self->f14 = p.w0c;
+    self->u10.b2 = p.b0;
+    self->u10.b3 = p.b4;
+    self->u10.b4 = p.b8;
+    self->u10.b1 = a3;
+    self->f18 = p.h10;
+    self->f1a = p.b14;
+    self->u1b.b0 = p.b18;
+    self->u1b.b1 = (u8)(p.b1c & 1u);
+    self->u10.b6 = 1;
+    self->u1b.b2 = 1;
+
+Exactly matching with that spelling (both the mask-expression and the bitfield
+form give the same code): the prologue, both calls, the first THREE packed-word
+read-modify-writes (pool constants 0xFFFDFFFF / 0xFFC3FFFF / 0xFC3FFFFF as the
+original has them), the f18/f1a stores and the top-bit set
+(`ldr r0, =0x7FFFFFFF / mov r1, r2 / and r1, r0 / add r0, r0, #1 / orr r0, r1`
++ 0x00 / `movs r0, #0x80 / orrs r0, r1` at +0x0A6, which needs the top bit
+written `(f10 & 0x7FFFFFFF) | 0x80000000`, not `f10 |= 0x80000000`).
+
+Residue, three independent 4-byte..6-byte groups:
+
+  1. +0x028: the original loads the parameter word `ldr r0, [sp, #0x24]` BEFORE
+     the f10 store, and copies the packed word to r3 after `add r0, sp, #0x18`:
+        original: orrs r1,r0 / ldr r0,[sp,#0x24] / str r1,[r5,#0x10] /
+                  str r0,[r5,#0x14] / add r0,sp,#0x18 / adds r3,r1,#0
+        compiled: orrs r1,r0 / str r1,[r5,#0x10] / ldr r0,[sp,#0x24] /
+                  adds r3,r1,#0 / str r0,[r5,#0x14] / add r0,sp,#0x18
+     A hoisted `u32 v = p.w0c;` local, the assignment written before the packed
+     word, and the expression written inline all give one of the two orders
+     above, never the original's.
+  2. +0x064: the a3 (bits 7..16) insert. The original accumulates into the
+     KEEP register: ands r2,r1 (clear 7..16) ... orrs r2,r1. Every spelling tried
+     accumulates into the value register instead (orrs r1,r2). Swapping the
+     operand order in the source (`((a3 & 0x3ff) << 7) | (f10 & ~0x1FF80)`) does
+     move the accumulator, but then the compiler inserts two `adds rX, rY, #0`
+     register copies and the function grows to 192 bytes.
+  3. +0x086: the bit-6 insert. The original spells the source bit as
+     `movs r0,#1 / ands r0,r3 / lsls r0,#0x18 / lsrs r0,#0x18 / lsls r0,#0x1f /
+     lsrs r0,#0x19` -- an explicit `&1`, then a real `(u8)` cast, then the
+     placement. Written as `(u8)(p.b1c & 1u) << 6` mwcc folds the two masks into
+     one shift pair (`lsls #0x18 / lsrs #0x12`) and the function loses 4 bytes.
+
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
+is the closest documented family for 1 and 3.

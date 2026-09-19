@@ -1,0 +1,36 @@
+pkt_020979C0 -- lane 3 of the 1025+ band (frontier probe).  REPORT-ONLY row.
+
+ROW: 0x020979C0, 4256 code bytes, extent 4484 bytes, ARM, 362 decoded
+instructions.  The lane brief cut this row report-only ("1 of these rows have
+a real extent over 4096 bytes and are REPORT-ONLY: read them, name the
+blocker, and do not spend the budget on a from-scratch transcription").
+
+CALL SIDE, MEASURED: 26 `bl` sites to 7 distinct targets, and every one
+attests with witnesses outside the row -- 0x0209AF34 __dadd_dsub (x315),
+0x0209B2E8 (x275), 0x0209AC04 (x157), 0x0209A504 (x15), 0x0209BD38 _f2d
+(x15), 0x0209D1E0 (x10), 0x0209C5E0 (x2).  No register BLX, no switch table
+in the row, no cap.  Attestation is not the blocker.
+
+WHAT IT IS: an MSL soft-double kernel.  Its 14 pool words are the tell --
+0x3FF00000 and 0x3FE00000 (1.0 and 0.5), 0x7FF00000 and 0x3FEFFFFF (the
+infinity/DBL_MAX high words), 0x41E00000, 0x43400000, 0x3FD00000,
+0x55555555, and the four consecutive words 0xF85DDF44 / 0x652B82FE /
+0x3E54AE0B -- which are the split form of log2(e)/ln2 used by a range-reduced
+exponential or logarithm, plus two data pointers (0x020A8818, 0x02153FAC).
+362 instructions of double arithmetic against __dadd_dsub and a 64-bit
+helper, with no game-side call anywhere in it, is library C linked
+statically into arm9 -- the same class docs/notes/pkt_02094B8C.c.txt argues
+for the MSL strtod core, and the same class layout/runtime_arm9.txt already
+carves out of the open pool for the hand-written assembler half.
+
+VERDICT: report-only, blocking class = vendor-library body.  No C was written
+and nothing was filed.  Two things are worth an integrator's look rather than
+a packet agent's budget:
+  * 4484 bytes is 7.4x the largest body this project has matched (604 B), and
+    the pool words say its source is not in this tree (vendor/mwccarm.zip
+    carries no sources; no file under src/, docs/ or layout/ mentions
+    0x020979C0 except the worklist and proc_hints);
+  * if a "library C" carve-out is desired, this address and 0x02094B8C are
+    the two strongest candidates in the 1025+ band -- both are attested as
+    real code, both call only runtime/SDK/soft-float helpers, and neither is
+    reachable from a game-side call except through one wrapper.

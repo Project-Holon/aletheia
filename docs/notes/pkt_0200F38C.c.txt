@@ -95,3 +95,107 @@ in src/pending/sub_0200F698.c.
 
 Housekeeping: that file names packet pkt_0200F17C in its header, but the row's
 packet is pkt_0200F38C and this note is the one for it.
+
+==============================================================================
+func_0200F43C @ 0x0200F43C, pkt_0200F38C - DIFF, 109 bytes, register allocation.
+==============================================================================
+
+All nine call sites resolve (`label`), so a byte-true C would file EXACT.  The
+body is one instruction shape off: the frame is 0x24 here against the
+original's 0x20, and the callee-saved assignment differs throughout --
+
+    ORIGINAL                                  COMPILED
+    +0000 push {r3, r4, r5, r6, r7, lr}        push {r4, r5, r6, r7, lr}
+    +0002 sub sp, #0x20                        sub sp, #0x24
+    +0004 adds r4, r0, #0          (a -> r4)   str r0, [sp]            (a spilled)
+    +0008 str r2, [sp, #4]                     str r2, [sp, #8]
+    +000A adds r6, r3, #0          (out -> r6) adds r5, r3, #0
+    +0010 str r0, [sp, #0xc]       (h spilled) adds r7, r0, #0        (h -> r7)
+    +0016 movs r5, #0              (i -> r5)   movs r4, #0
+
+i.e. the original saves the two parameters that cross the first call (a -> r4,
+out -> r6) and puts the first call's result h in a stack slot, while this
+front end keeps h in r7 and spills a.  Ruled out by measurement: declaring the
+loop index first, the 12-byte key first, key+index first, prev+key first, and
+interleaving the declarations with the calls -- all five come out identical to
+the baseline (`diff=109`).  The statement order and every instruction of the
+two loops match; only the register choice is left.
+
+Closest C (moved out of src/matched/, which takes EXACT only):
+/*
+ * function: func_0200F43C
+ * address:  0x0200F43C
+ * packet:   pkt_0200F38C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02009860   0x02009860  thumb
+ *   func_020099C8   0x020099C8  thumb
+ *   func_02009A34   0x02009A34  thumb
+ *   func_02059354   0x02059354  arm
+ *   func_020596D8   0x020596D8  arm
+ *   func_020598EC   0x020598EC  arm
+ *   func_02059980   0x02059980  arm
+ *
+ * The install side of the same subsystem: a 12-byte key is built on the frame
+ * by func_02059980, one lookup (func_02059354) gates the whole thing and a
+ * second (func_020598EC) must find the key before the slot index is used.
+ * *out starts at -1, slots whose key equals the searched key report 0, the
+ * first slot the object does not name (func_020596D8) is remembered as a
+ * fallback, and an exhausted scan reports 2.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0200F43C.c \
+ *       --func func_0200F43C --addr 0x0200F43C --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef struct {
+    u32 w[3];
+} Key;
+
+extern void *func_02009860(void);
+extern void *func_020099C8(void *a, int b);
+extern int   func_02009A34(void *a);
+extern int   func_02059354(void *h, u32 b, u32 c);
+extern int   func_020596D8(void *p);
+extern int   func_020598EC(void *h, void *key);
+extern void  func_02059980(Key *k, u32 b, u32 c);
+
+int func_0200F43C(void *a, u32 b, u32 c, int *out)
+{
+    void *h = func_02009860();
+    void *rec = func_020099C8(a, 0);
+    int   n = func_02009A34(a);
+    Key   k;
+    int   i;
+    int   prev;
+
+    if (func_02059354(h, b, c) == 0)
+        return 3;
+    func_02059980(&k, b, c);
+    if (func_020598EC(h, &k) <= 0)
+        return 3;
+
+    *out = -1;
+    for (i = 0; i < n; i++) {
+        int off = i * 12;
+
+        prev = func_020598EC(h, &k);
+        if (prev == func_020598EC(h, (u8 *)rec + off)) {
+            *out = i;
+            return 0;
+        }
+        if (*out < 0 && func_020596D8((u8 *)rec + off) == 0)
+            *out = i;
+    }
+    return 2;
+}
+

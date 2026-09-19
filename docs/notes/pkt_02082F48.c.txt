@@ -1,31 +1,25 @@
-pkt_02082F48  lane6  DIFF residue (32-byte block copy, forward)
+pkt_02082F48 - hand-written ARM, not compiled C
+==============================================================================
 
-0x02082F48 (72 bytes, arm), f(src=r0, dst=r1, n=r2) - original body:
-    subs r2, r2, #0x20
-  L: ldmge r0!, {r4, r5, r6, r7, r8, sb, sl, lr}
-    stmge r1!, {r4, r5, r6, r7, r8, sb, sl, lr}
-    subsge r2, r2, #0x20 ; bge L
-    add r2, r2, #0x20 ; pop the same eight registers
-    subs r2, r2, #4
-  M: ldrge r3, [r0], #4 ; strge r3, [r1], #4 ; subsge r2, r2, #4 ; bge M
-    add r2, r2, #4
-    b 0x0208314C                 ; tail call into the byte-count remainder helper
+pkt_02082F48 holds 0x02082F48, 0x02082F90, 0x02083028 and 0x020830C0, the byte-swapping memcpy family of the high window.  They
+are hand-written ARM, not compiled C, and no C will ever reproduce them; the
+finding is written up in full in docs/notes/pkt_02086368.c.txt section 1 by the
+wave that first hit it.  The three tells, quoted there:
 
-Closest C (the 4-byte tail and both loop skeletons land, the 32-byte block does
-not; verifies DIFF):
+  * the byte tail at 0x0208314C is reached with a plain `b` (no relocation)
+    from 0x02082F80, 0x02083018 and 0x020830B0 -- three functions jump into
+    the middle of the body of a fourth, which no single translation unit can
+    emit, since mwccarm gives every function its own section and a
+    cross-section branch is a relocation;
+  * a dispatcher at 0x02082EFC enters each variant's middle with
+    `and r3, r1, #3; bic r1, r1, #3; cmp r3, #0; beq ...`;
+  * the byte tail is `tst r2, #4` plus eight `ldrbne`/`strbne` pairs, a shape
+    this front end emits for no loop.
 
-    typedef struct { u32 a, b, c, d, e, f, g, h; } Blk32;
-    void sub_0208314C(u32 *src, u32 *dst, int n);
-    void sub_02082F48(u32 *src, u32 *dst, int n) {
-        while (n >= 32) { *(Blk32 *)dst = *(Blk32 *)src; src += 8; dst += 8; n -= 32; }
-        while (n >= 4)  { *dst++ = *src++; n -= 4; }
-        sub_0208314C(src, dst, n);
-    }
-
-Residue: mwcc expands the 32-byte aggregate copy as a counted inner loop doing
-16-byte ldm/stm chunks (r0-r3 moved through lr/ip with writeback), where the
-original has one 8-register ldm/stm pair with no inner loop. Tried: `u32 w[8]`
-member, eight scalar u32 members, direct assignment, and assignment through a
-Blk32 temporary - all four produce the same 16-byte chunk loop, so the loop
-skeleton is not what is wrong; the declared type/alignment of the copied block
-is. Blocker class: codegen.
+They want the treatment layout/runtime_arm9.txt gives its routines: a curated
+table entry, which would attest all eight at once.  Veredict for this lane:
+blocking class `artifact`, evidence = the cross-section branch at 0x02082F80 ->
+0x0208314C (plain `b`, no relocation field) and the 32-byte block loop's
+`lsl`/`lsr` pair per word.  Not attempted as C on purpose: two waves of this
+project have now spent budget on this family and both concluded it is not
+compiler output.

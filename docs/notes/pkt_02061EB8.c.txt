@@ -1,127 +1,135 @@
-pkt_02061EB8 - residue note (side lane, 257-512 byte band)
-=========================================================
+/*
+ * function: func_02061EB8
+ * address:  0x02061EB8
+ * packet:   pkt_02061EB8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   (none)
+ */
 
-func_02061EB8 @ 02061EB8 (320 bytes, ARM) - DIFF
-------------------------------------------------
-Subsystem: Memory allocator block finder and slicer with alignment.
-Exact size: 320 bytes compiled vs 320 bytes original.
-Residue: 41 concrete bytes differ out of 320 (87% byte-identical).
+/*
+ * Residue:
+ * Semantics verified: first-fit aligned memory block allocator managing a doubly-linked
+ * list of free blocks and a node pool.
+ * Both original and compiled push the identical 10-register frame:
+ *   push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+ * The 12-byte size difference (308 bytes compiled vs 320 original) is due to:
+ * 1. Branching vs predication: original uses an explicit branch `bls #0x2061f04` around
+ *    the alignment calculation (`if (alignment <= 1)`), whereas mwcc -O4,p predicates the
+ *    block with `addhi`, `andhi`, `subhi`, `addhi`.
+ * 2. Register assignment swap: original holds alignment in `sb` (r9) and padding in `r5`;
+ *    compiled holds alignment in `sl` (r10) and padding in `sb`.
+ */
 
-Differences:
-The function search loop, alignment calculation, block splitting, `*(volatile u32 *)&found->f04`
-reload, unlinking from `headp`, and failure paths all match instruction-for-instruction.
-The remaining discrepancy is purely register allocation in the two list-insertion blocks:
-1. At +0078..+00C4: The popped free node is held in `r8` in original, but compiled assigns it
-   to scratch `r3` (since `mask = ~(align - 1)` in `r8` has ended its scope). Because compiled uses
-   `r3` for the node, it uses `r5` for the zero-constant instead of `r3`.
-2. At +0114..+011C: When prepending `found` back to `freep`, the original loads `ldr r3, [r1]` and
-   interleaves `mov r0, #0` into the ARM9 load-delay slot before `str r3, [r6, #0xc]`. Compiled
-   loads into `r0` and executes `str` directly.
-
-Source attempt:
-
-typedef unsigned char u8;
-typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct Node {
-    u32 f00;
-    u32 f04;
-    struct Node *f08;
-    struct Node *f0c;
-} Node;
+struct Block {
+    u32 addr;
+    u32 size;
+    struct Block *prev;
+    struct Block *next;
+};
 
-static inline void insert_head(Node **head, Node *node)
+int func_02061EB8(struct Block **pBlocks, struct Block **pPool, u32 *pOut, u32 size, u32 alignment)
 {
-    if (*head != 0) {
-        (*head)->f08 = node;
-    }
-    node->f0c = *head;
-    node->f08 = 0;
-    *head = node;
-}
-
-int func_02061EB8(Node **headp, Node **freep, u32 *out, u32 size, u32 align)
-{
-    u32 aligned;
+    struct Block *curr;
+    struct Block *target;
+    u32 aligned_addr;
+    u32 padding;
     u32 needed;
-    u32 pad;
-    Node *found = 0;
-    Node *n = *headp;
+    u32 align_minus_1;
+    u32 align_mask;
 
-    if (n != 0) {
-        u32 mask = ~(align - 1);
-
-        while (1) {
-            if (align > 1) {
-                pad = n->f00;
-                needed = pad + (align - 1);
-                aligned = mask & needed;
-                pad = aligned - pad;
-                needed = size + pad;
-            } else {
-                aligned = n->f00;
-                pad = 0;
-                needed = size;
-            }
-
-            if (n->f04 >= needed) {
-                found = n;
-                break;
-            }
-
-            n = n->f0c;
-            if (n == 0) {
-                break;
-            }
-        }
-    }
-
-    if (found == 0) {
+    curr = *pBlocks;
+    target = 0;
+    if (curr == 0) {
         goto fail;
     }
 
-    if (pad != 0) {
-        Node *newNode = *freep;
-        if (newNode != 0) {
-            *freep = newNode->f0c;
+    align_minus_1 = alignment - 1;
+    align_mask = ~align_minus_1;
+
+    while (1) {
+        if (alignment <= 1) {
+            aligned_addr = curr->addr;
+            padding = 0;
+            needed = size;
+        } else {
+            padding = curr->addr;
+            needed = padding + align_minus_1;
+            aligned_addr = needed & align_mask;
+            padding = aligned_addr - padding;
+            needed = size + padding;
         }
-        if (newNode == 0) {
+
+        if (curr->size >= needed) {
+            target = curr;
+            break;
+        }
+
+        curr = curr->next;
+        if (curr == 0) {
+            break;
+        }
+    }
+
+    if (target == 0) {
+        goto fail;
+    }
+
+    if (padding != 0) {
+        struct Block *node = *pPool;
+        if (node != 0) {
+            *pPool = node->next;
+        }
+        if (node == 0) {
             goto fail;
         }
-        newNode->f00 = found->f00;
-        newNode->f04 = pad;
-        newNode->f08 = 0;
-        newNode->f0c = 0;
-        insert_head(headp, newNode);
+
+        node->addr = target->addr;
+        node->size = padding;
+        node->prev = 0;
+        node->next = 0;
+
+        if (*pBlocks != 0) {
+            (*pBlocks)->prev = node;
+        }
+        node->next = *pBlocks;
+        node->prev = 0;
+        *pBlocks = node;
     }
 
-    found->f04 -= needed;
-    found->f00 += needed;
+    target->size -= needed;
+    target->addr += needed;
 
-    if (*(volatile u32 *)&found->f04 == 0) {
-        Node *next = found->f0c;
-        Node *prev = found->f08;
-        if (prev != 0) {
-            prev->f0c = next;
+    if (target->size == 0) {
+        if (target->prev != 0) {
+            target->prev->next = target->next;
         } else {
-            *headp = next;
+            *pBlocks = target->next;
         }
-        if (next != 0) {
-            next->f08 = prev;
+        if (target->next != 0) {
+            target->next->prev = target->prev;
         }
-        insert_head(freep, found);
+
+        if (*pPool != 0) {
+            (*pPool)->prev = target;
+        }
+        target->next = *pPool;
+        target->prev = 0;
+        *pPool = target;
     }
 
-    *out = aligned;
+    *pOut = aligned_addr;
     return 1;
 
 fail:
-    *out = 0;
+    *pOut = 0;
     return 0;
 }
-
-Spellings ruled out:
-- Declaring `Node *newNode` in outer function scope (causes `r4..r7` permutation with `n`, `found`, `needed`, `pad`).
-- Explicit `register Node *newNode` (ignored by mwccarm 1.1p1 when no call sites exist).
-- Inlined list insertions vs inline function helper (same register allocation and instructions).

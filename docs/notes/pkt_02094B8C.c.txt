@@ -193,3 +193,29 @@
  * treats runtime.a) is also defensible and would move this address out of the
  * open pool, but that is an integrator decision and no such file was touched.
  */
+
+==========================================================================
+APPENDED, lane 3 of the 1025+ band (frontier probe): cap re-check
+==========================================================================
+
+This note's first conclusion -- the packet's ceiling today is MATCH, because
+the call at +0x0C54 (0x020957E0) targets 0x0209739C, whose only witness
+anywhere in the image is that call, inside the compared range -- is confirmed
+by a direct re-check over the range the compiled body would actually cover:
+
+  attest(0x0209739C, 'arm', 0x02094B8C, 0x02095A7C) -> None
+  attest(0x0209739C, 'arm', 0x02094B8C, 0x02095798) -> ('label', 5, 0x020957E0)
+  attest(0x02091374, 'arm', 0x02094B8C, 0x02095A7C) -> ('matched', 1, ...)
+
+The middle line is the trap: with the compared range cut at the code-only
+extent the site looks `label`-attested, and it is only when the range includes
+the function's own pool and switch tables (0x02095A7C, which is where a real
+body ends) that the witness at 0x020957E0 falls inside it.  0x02091374 IS
+covered: pkt_020911D8.json holds an EXACT entry at that address, so that site
+resolves `matched` and the note's other two `matched` claims stand.
+
+Row verdict, unchanged: MATCH ceiling, one wildcarded site, 723 instructions
+of ARM.  The other numbers in this note (the MSL scanf/strtod reading, the
+two state machines, the stack objects) were not re-derived; the state-machine
+map and the "library C, source not in this tree" conclusion are the reason no
+body was attempted here.

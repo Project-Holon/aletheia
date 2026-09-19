@@ -1,0 +1,76 @@
+pkt_02041FF4  0x02041FF4  arm9  ARM  near miss (DIFF, 76 bytes short)
+
+Measured: compiled 472 bytes against 548 in the image (536 code + 12 pool).
+All 10 relocation sites resolve; no witness-starvation, the residue is codegen.
+
+WHAT THE BODY IS
+----------------
+`func_02041FF4(u32 idx, s32 x, s32 y, u16 *flags)` on a 0x2c-byte record table
+behind the global pointer at 0x02146A44 (off = idx * 0x2c).  It keys the record
+with `func_02040EE0((x>>3)&0xff, (y>>3)&0xff, rec->unk_1d)`, allocates a
+0x40-byte buffer with `func_02030734(((*(u16*)g & 0x7fff) | 0x8000), 0x40, 0, k)`
+(k = 0x0a77 for the unk_1e == 0 path, 0x0a8f for the other), expands 0x20 source
+bytes into a 4bpp nibble buffer (`dst[2i] = b & 0xf; dst[2i+1] = b >> 4`), calls
+`func_02043130((tbl[key] >> 10) & 3, dst, *(u16*)g)`, reads the pixel,
+`func_020307B0`, and finally tests the caller's flag word.
+
+THE TWO TAILS ARE DIFFERENT, AND ONE OF THEM IS A LOOP
+------------------------------------------------------
+Path 1 (`rec->unk_1e == 0`, 0x0204211C) ends:
+
+    0204211C  ldrh r1, [fp]            ; *flags
+    02042120  mov r0, #1
+    02042124  tst r1, r0, lsl r4       ; bit = dst[(x&7) + ((y&7)<<3)]
+    02042128  beq 0x20421f8            ; -> return 0
+    0204212C  pop                      ; -> return 1
+
+i.e. `if ((*flags & (1 << bit)) == 0) return 0; return 1;`
+
+The `rec->unk_1c == 1` sub-case (conditional-executed at 0x02042138..0x0204214C,
+reached with `beq 0x20421d4`) falls into a *rotated loop* at 0x020421D4:
+
+    020421D4  ldrh r2, [fp]
+    020421D8  ldr r0, [pc, #0x34]      ; 0x0000ffff
+    020421DC  and r1, r2, #0xff
+    020421E0  cmp r2, r0
+    020421E4  beq 0x20421f8            ; return 0
+    020421E8  cmp r4, r1
+    020421EC  bne 0x20421e0            ; <- branch BACK to the 0xffff compare
+
+which is exactly `do { if (*flags == 0xffff) return 0; } while (bit != (*flags & 0xff)); return 1;`
+The backward branch to 0x020421E0 is the tell: the same condition is a plain
+`tst` in the other path, so the two arms do NOT share a source shape.
+
+FIXED IN THE ATTEMPT (each one was a real first-difference)
+------------------------------------------------------------
+  * `x % 8` / `y % 8` on a signed int compiles to the 4-instruction
+    lsr/rsb/ror sign-fixing sequence where the original has one
+    `and r5, r5, #7` at 0x02042054 -- so use `x & 7`;
+  * the table read `tbl[key]` must come AFTER `func_02030734`, not before:
+    the original hoists only the table *pointer* (`ldr r8, [r3, #8]` at
+    0x02042070) and reads `ldrh r1, [r8, r1]` at 0x020420B8, after the call;
+  * `(val << 22) >> 17` needs a u32 cast, or mwcc emits `asr #17` where the
+    original has `lsr #17` at 0x020420C4;
+  * the `unk_1c == 1` arm re-uses the buffer pointer already in r4
+    (`ldreq r4, [r4, r0]`, 0x02042148); it must not call func_020415B4 again;
+  * the `unk_1e != 0 && unk_1c != 1` path copies with func_02082D44(dst,
+    src + ((val << 22) >> 16), 0x40) -- shift 16, not 17 (0x020421A8).
+
+REMAINING DIFFERENCES (addresses)
+---------------------------------
+  02042014  add r1, r0, r4          | add r1, r0, r6      ; register naming
+  02042054  and r5, r5, #7          | (fixed)
+  020420B8  ldrh r1, [r8, r1]       | ldrh r1, [r6, r1]   ; register naming
+  020420CC  strb r3, [sb, r7, lsl #1] | strb r3, [r5, r2] ; index temp naming
+  020420E0  and r7, r2, #0xff       | add r4, r4, #1      ; the loop counter is
+                                       a u8 in the original (`and #0xff` before
+                                       `cmp #0x20`), a plain int in the attempt
+  0204212C  pop (r0 = 1)            | moveq r0, #0; pop   ; from the do/while
+
+NEXT LEVER
+----------
+Declare the nibble-loop counter as `u8 i` so the back edge masks with
+`and #0xff` the way 0x020420D4/0x020420E0 do; then re-check the path-1 tail,
+which must be the `tst`-and-return form rather than the rotated do/while.
+
+Best C: scratch/probe1/w2_02041FF4.c.

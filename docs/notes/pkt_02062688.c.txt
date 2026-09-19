@@ -8,161 +8,121 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ *
+ * symbols:
+ *   (none)
+ */
+
+/*
+ * Residue:
+ * Semantics verified: in-place pointer relocation / fixup of a 2-section binary asset.
+ * Section 1 resolves 3 offset tables and a 2-level nested array of relative pointers.
+ * Section 2 resolves relative pointers in a secondary table if sec2 != NULL.
+ *
+ * Register allocation difference:
+ * Original keeps all 3 base pointers (table1, table2, table3), loop indices (i, j), and
+ * current entry pointers live simultaneously across the nested loop, forcing the use of
+ * 7 callee-saved registers (r4-r8, sb, lr plus r3 padding):
+ *   push {r3, r4, r5, r6, r7, r8, sb, lr}
+ * mwcc -O4,p avoids allocating sb (r9) by scheduling loads and re-materializing pointers,
+ * pushing only 5 callee-saved registers (push {r4, r5, r6, r7, r8, lr}).
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-/*
- * Residue and codegen wall:
- * Register allocation and 8-byte frame alignment:
- * 1. The original function allocates 8 registers on entry:
- *      push {r3, r4, r5, r6, r7, r8, sb, lr}
- *    allocating r9 (sb) for the nested array pointer `sb = *(u8**)(r2 + 0xc)` inside the first loop,
- *    with r3 pushed as dead padding to maintain 8-byte stack alignment (32 bytes).
- *    mwccarm under -O4,p avoids using sb, pushing only 6 registers {r4, r5, r6, r7, r8, lr} (24 bytes).
- * 2. In the first loop:
- *    The loop variables `i` and `j` are u16, and the bounds are re-read through volatile u16 pointers
- *    on the back edge (`*(volatile u16*)(r4 + r3)` and `*(volatile u16*)r0`), reproducing the
- *    characteristic `add, lsl #16, cmp, lsr #16, bhi` pattern exactly. However, without `sb`
- *    allocated, mwcc permutes r6, r7, r8, and ip across the body.
- * 3. In the second block:
- *    Condition checks on `count3 <= 0` emit `popls {r3..sb, pc}` matching the 8-register frame.
- */
+struct SubEntry1 {
+    u8 *ptr;
+    u32 unk04;
+};
 
-void func_02062688(void *arg0)
+struct Entry1 {
+    u16 subCount;
+    u16 unk02;
+    u32 unk04;
+    u32 unk08;
+    struct SubEntry1 *subTable;
+};
+
+struct Entry2 {
+    u16 subCount;
+    u16 unk02;
+    u8 *ptr1;
+    u8 **ptr2;
+};
+
+struct Section2Inner {
+    u16 count;
+    u16 unk02;
+    struct Entry2 *table;
+};
+
+struct Section2 {
+    u32 unk00;
+    u32 unk04;
+    u16 count;
+    u16 unk0a;
+    struct Section2Inner inner;
+};
+
+struct AssetHeader {
+    u16 count;
+    u16 unk02;
+    struct Entry1 *table1;
+    u8 *table2;
+    u8 *table3;
+    u32 unk10;
+    struct Section2 *sec2;
+};
+
+void func_02062688(struct AssetHeader *hdr)
 {
-    u8 *r0 = (u8 *)arg0;
-    u16 i = 0;
-    u32 r1;
-    u8 *r6;
-    u8 *r4;
-    u8 *r5;
+    u16 i, j;
+    u32 k, m;
+    u8 *base;
+    struct Entry1 *t1;
+    u8 *t2;
+    u8 *t3;
+    struct Section2Inner *inner;
+    u8 *innerBase;
 
-    r1 = *(volatile u32 *)(r0 + 4);
-    r1 += (u32)r0;
-    *(volatile u32 *)(r0 + 4) = r1;
+    base = (u8 *)hdr;
 
-    r1 = *(volatile u32 *)(r0 + 8);
-    r1 += (u32)r0;
-    *(volatile u32 *)(r0 + 8) = r1;
+    t1 = (struct Entry1 *)(base + (u32)hdr->table1);
+    hdr->table1 = t1;
+    t2 = base + (u32)hdr->table2;
+    hdr->table2 = t2;
+    t3 = base + (u32)hdr->table3;
+    hdr->table3 = t3;
 
-    r1 = *(volatile u32 *)(r0 + 0xc);
-    r6 = (u8 *)(r1 + (u32)r0);
-    *(volatile u32 *)(r0 + 0xc) = (u32)r6;
-
-    r1 = *(volatile u16 *)r0;
-    r4 = *(u8 **)(r0 + 4);
-    r5 = *(u8 **)(r0 + 8);
-
-    if (r1 > 0) {
-        do {
-            u8 *r2 = r4 + (i << 4);
-            u32 r3 = (u32)i << 4;
-            u32 r7 = *(u32 *)(r2 + 0xc);
-            u16 j;
-
-            r7 += (u32)r5;
-            *(u32 *)(r2 + 0xc) = r7;
-
-            r7 = *(volatile u16 *)(r4 + r3);
-            j = 0;
-            if (r7 > 0) {
-                do {
-                    u8 *sb = *(u8 **)(r2 + 0xc);
-                    u32 r8 = *(u32 *)(sb + (j << 3));
-                    r8 += (u32)r6;
-                    *(u32 *)(sb + (j << 3)) = r8;
-                    j++;
-                } while (*(volatile u16 *)(r4 + r3) > j);
-            }
-            i++;
-        } while (*(volatile u16 *)r0 > i);
+    for (i = 0; i < hdr->count; i++) {
+        struct Entry1 *e1 = &t1[i];
+        e1->subTable = (struct SubEntry1 *)(t2 + (u32)e1->subTable);
+        for (j = 0; j < e1->subCount; j++) {
+            e1->subTable[j].ptr = t3 + (u32)e1->subTable[j].ptr;
+        }
     }
 
-    r1 = *(volatile u32 *)(r0 + 0x14);
-    if (r1 != 0) {
-        u8 *r2;
-        u8 *r4_sub;
-        u32 r0_sub;
-        u32 r3_sub;
+    if (hdr->sec2 == 0) {
+        return;
+    }
 
-        r2 = (u8 *)(r1 + (u32)r0);
-        *(volatile u32 *)(r0 + 0x14) = (u32)r2;
+    hdr->sec2 = (struct Section2 *)(base + (u32)hdr->sec2);
+    inner = &hdr->sec2->inner;
+    innerBase = (u8 *)inner;
 
-        r4_sub = r2 + 8;
-        r1 = *(volatile u32 *)(r4_sub + 4);
-        r0_sub = 0;
-        r1 += (u32)r4_sub;
-        *(volatile u32 *)(r4_sub + 4) = r1;
+    inner->table = (struct Entry2 *)(innerBase + (u32)inner->table);
+    if (hdr->sec2->count == 0) {
+        return;
+    }
 
-        r1 = *(volatile u16 *)(r2 + 8);
-        if (r1 > 0) {
-            r3_sub = 0;
-            do {
-                u8 *r6_sub = *(u8 **)(r4_sub + 4);
-                u8 *r2_sub = r6_sub + r3_sub;
-                u32 r5_sub;
-                u32 r1_sub;
-
-                r5_sub = *(u32 *)(r2_sub + 4) + (u32)r4_sub;
-                *(u32 *)(r2_sub + 4) = r5_sub;
-
-                r5_sub = *(u32 *)(r2_sub + 8) + (u32)r4_sub;
-                *(u32 *)(r2_sub + 8) = r5_sub;
-
-                r5_sub = *(volatile u16 *)(r6_sub + r3_sub);
-                if (r5_sub > 0) {
-                    u32 r8_sub = 0;
-                    r1_sub = 0;
-                    do {
-                        u8 *arr = *(u8 **)(r2_sub + 8);
-                        r1_sub++;
-                        r5_sub = *(u32 *)(arr + r8_sub) + (u32)r4_sub;
-                        *(u32 *)(arr + r8_sub) = r5_sub;
-                        r8_sub += 4;
-                    } while (r1_sub < *(volatile u16 *)r2_sub);
-                }
-
-                r0_sub++;
-                r3_sub += 12;
-            } while (r0_sub < *(volatile u16 *)r4_sub);
+    for (k = 0; k < inner->count; k++) {
+        struct Entry2 *e2 = &inner->table[k];
+        e2->ptr1 = innerBase + (u32)e2->ptr1;
+        e2->ptr2 = (u8 **)(innerBase + (u32)e2->ptr2);
+        for (m = 0; m < e2->subCount; m++) {
+            e2->ptr2[m] = innerBase + (u32)e2->ptr2[m];
         }
     }
 }
-
-/*
- * ---- lane r3b-3 addendum (wave r3) ------------------------------------------
- * A second spelling of the same body lands at 332 bytes against the 336-byte
- * extent (4 short) with the whole difference localised to the FIVE
- * head instructions.  It uses real u16 loop counters (i, j) rather than
- * volatile-cast re-reads, and a struct type per table, which removes the
- * `sb` allocation problem the note above blames: with the loop counters
- * declared u16 the `add r1,r1,#1 ; lsl #16 ; cmp ; lsr #16` back edge falls
- * out on its own, and mwcc allocates the tables in r4/r5/r6 exactly as the
- * original does.
- *
- * The only residue is that mwcc merges the adjacent u32 read-modify-write
- * pair at +4/+8 into ldmib/stmib and hoists the u16 count load above it:
- *
- *   original                             mwcc 1.1p1
- *   0206268C ldr r1, [r0, #4]            0206268C ldrh r1, [r0]
- *   02062694 str r1, [r0, #4]            02062690 ldmib r0, {r3, r4}
- *   0206269C ldr r1, [r0, #8]            02062698 add r3, r3, r0
- *   020626A4 str r1, [r0, #8]            0206269C add r4, r4, r0
- *   020626A8 ldr r1, [r0, #0xc]          020626A0 stmib r0, {r3, r4}
- *   020626B0 str r6, [r0, #0xc]          020626A4 add r5, r2, r0
- *   020626B4 ldrh r1, [r0]               020626A8 str r5, [r0, #0xc]
- *   020626B8 ldmib r0, {r4, r5}
- *
- * one instruction fewer (the saved 4 bytes), and every later register is
- * shifted by one (r4/r5/r6 in the original become r3/r4/r5), which is why
- * 273 bytes report as "different" while the instruction shapes agree.
- *
- * Tried and rejected: separate u32 temporaries per fixup, f4/f8/fc declared
- * as u8* (pointer add), and reading the count into a local first -- the
- * peephole fires every time.  Next lever: put a statement between the +4 and
- * +8 fixups, or give the two fields different widths, so the pair is no
- * longer word-aligned.
- */

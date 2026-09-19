@@ -102,3 +102,83 @@ void func_02065B74(struct Obj *p)
     p->fn20 = (u32)func_020651B8;
     p->fn24 = (u32)func_020653A4;
 }
+
+=== addendum, lane r4-1 (wave r4) -- 0x02065BD0
+Nearest spelling: 164 bytes against the original's 168 (75 concrete bytes
+differ).  Two levers, both needed:
+
+  * The four data addresses (0x02147B88, 0x02148318, 0x02147C18, 0x020A81F8)
+    must be declared as extern ARRAYS.  Spelled as numeric casts, mwcc folds
+    0x02147C18/0x02148318 against 0x02147B88 into `sub r4, r5, #0x790` and the
+    function loses a pool word and 8 bytes.
+  * The loop variable is an `int` while the bound is the `ldrh` halfword at
+    [g]: that is what makes both the guard (`ble`) and the back-edge (`blt`)
+    compare signed.
+
+Residue: mwcc hoists the `ldrh` loop bound above the `strh r1, [r0]` store to
+0x020A81F8 and re-orders the `str r4, [r5, #0xc]` store, so the preheader is
+`str / ldrh / ldr / ldr / cmp / strh` where the original has
+`ldr / ldr / str / strh / ldrh`.  4 bytes.
+
+=== C source as last compiled (lane r4-1): src/matched/func_02065BD0.c
+
+/*
+ * function: func_02065BD0
+ * address:  0x02065BD0
+ * packet:   pkt_02065B74
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02082AC0  0x02082AC0  arm
+ *   func_02064E3C  0x02064E3C  arm
+ *   g_02147B88     0x02147B88  data
+ *   g_02148318     0x02148318  data
+ *   g_02147C18     0x02147C18  data
+ *   g_020A81F8     0x020A81F8  data
+ *
+ * Module reset: park the argument at +0x08, clear +0x0c, seed the halfword at
+ * 0x020A81F8 with 0xFFFE, wipe each 0x20-byte slot of the table at
+ * 0x02148318 (fill value -1, 0x10-byte payload, r8 += 0x20 per iteration),
+ * clear the 0x100-byte block at 0x02147C18 and the two display words at
+ * 0x04000444.
+ *
+ * The four data addresses are extern arrays, not numeric casts: spelled as
+ * constants mwcc folds 0x02147C18 and 0x02148318 against 0x02147B88 into
+ * `sub r4, r5, #0x790` and the whole function comes out 8 bytes and two pool
+ * words short.
+ *
+ * The loop variable is an int while the bound is the halfword at [g], so both
+ * the guard and the back-edge compare SIGNED (`ble`/`blt`) even though the
+ * bound is loaded with `ldrh`.
+ */
+
+extern char g_02147B88[];
+extern char g_02148318[];
+extern char g_02147C18[];
+extern char g_020A81F8[];
+
+extern void func_02082AC0(int val, char *dst, int size);
+extern void func_02064E3C(void);
+
+void func_02065BD0(int a0)
+{
+    char *p = g_02148318;
+    int i;
+
+    *(int *)(g_02147B88 + 8) = a0;
+    *(int *)(g_02147B88 + 0xc) = 0;
+    *(unsigned short *)g_020A81F8 = 0xFFFE;
+    for (i = 0; i < *(unsigned short *)g_02147B88; i++, p += 0x20)
+        func_02082AC0(-1, p + 0x10, 0x10);
+    *(unsigned short *)g_02147C18 = 0;
+    *(unsigned short *)(g_02147C18 + 2) = 0;
+    func_02082AC0(0, g_02147C18, 0x100);
+    *(volatile int *)0x04000444 = 0;
+    *(volatile int *)(0x04000444 + 0x10) = 0;
+    func_02064E3C();
+}

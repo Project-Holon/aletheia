@@ -64,3 +64,24 @@ the else arm's `v` with three instructions (`and #0x3f`, `lsl #2`,
 (`lsl #26` + `lsr #24`); the three-instruction form needs the masked value to
 stay live as an untruncated u32 across the u8 truncation, i.e. two named
 variables, which is the next spelling to try.
+
+==============================================================================
+wave r4-6, lane 6: 0x0204C214 -- the two-variable spelling was tried
+==============================================================================
+
+The spelling this note asks for next (keep the masked value live as an u32
+across the u8 truncation, i.e. two named variables) was written and measured:
+
+    u32 m = (a->f02 & 0x3f) << 2;
+    u8  v = (u8)m;
+
+It does NOT move the allocation: 184 compiled against 180, 148 concrete bytes
+differ - worse than this note's 37-45 baseline, because the two-variable form
+also loses the else arm's predication.  Also measured here: the note's own C
+re-read as the baseline (148 differing), and the arms swapped
+(`if (flag != 1) { synthetic } else { fields }`, 142 differing).  The wall is
+whole-body, not one variable: the image predicates the else arm
+(`rsbne`/`lslne`/`movne` + `bne` over it) and needs only r4/r5 plus a dead r3
+(`push {r3, r4, r5, lr}`), while every spelling gets `push {r4, r5, r6, lr}`
+and either branches both ways or if-converts the then arm.  Do not re-derive
+without a way to change the front end's if-conversion choice.

@@ -1,21 +1,10 @@
-pkt_02036428 -- 0x02036428 (172 code bytes, ARM) DIFF, not filed
-=================================================================
-Body: buffer append.  Capacity is checked with func_02036640, a null src drops
-into the __FILE__/line assert pair func_02034714, each byte goes to
-o->f00[func_02036624(o, cur)] and the s16 cursor at o->f0e is re-read for the
-bound on every pass, then finalised through func_02036624 again.
+lane r4-1, packet pkt_02036428 -- 0x02036428, 172 bytes.
 
-Residue: compiled 168 bytes against 172.  The loop bound is the difference: the
-image loads ldrsh r6, [sl, #0xe] for the start AND ldrsh r0, [sl, #0xe] again
-for the bound, so the filed spelling folds the two into one load and drops
-four bytes.  The bool/pointer homes (r8/sl/sb), the three pool words and the
-s16 comparisons all line up.
+Verdict: DIFF.  Compiled 172 bytes = the original's size; the residue is one instruction in the loop preheader and its branch displacement (4 concrete bytes). mwcc re-uses the value it already has in the loop counter for the bound expression, emitting `add r0, r6, r8` where the original does a second `ldrsh r0, [sl, #0xe]` and then `add r0, r0, r8`.
 
-Blocking class: label.  func_02036640 (0x02036640) has exactly one branch in
-the image and it is this function's own (+0010); the callee is unfiled and
-outside this lane's packets.  chain row capped from this lane.
+The two loads are the same expression (`*(short *)(self + 0xe)`, once for the counter init and once for the bound), so mwcc CSEs them; giving the counter its own local or the bound a different spelling both change the loop, not just its preheader. `bge`/`blt` (signed) confirm the field is `short`, and the `ldrb r2, [sb, r7]` source index is a plain char pointer walk.
 
-/* ---- source under test ----
+=== C source as last compiled (lane r4-1): src/matched/func_02036428.c
 /*
  * function: func_02036428
  * address:  0x02036428
@@ -25,58 +14,52 @@ outside this lane's packets.  chain row capped from this lane.
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
+ *
  * symbols:
  *   func_02036640  0x02036640  arm
  *   func_02039548  0x02039548  arm
  *   func_02034714  0x02034714  arm
  *   func_02036624  0x02036624  arm
- *   g_020A79A4     0x020A79A4  data
- *   g_020A79B4     0x020A79B4  data
+ *   s_Expr020A79A4 0x020A79A4  data
+ *   s_Expr020A79B4 0x020A79B4  data
  *
- * Appends n bytes of src into the growable buffer at o: each byte lands at
- * o->f00[func_02036624(o, cur)] and the write cursor at o->f0e (an s16) is
- * re-read for the bound on every pass.  src == 0 is a programming error, so
- * it drops into the __FILE__/line assert pair.  Total capacity is checked up
- * front and failure goes straight to func_02039548().
+ * Append: the header halfword at +0x0e counts what is already stored, and
+ * func_02036640 reports how much room is left -- if that is not more than the
+ * requested count the debug failure function runs and the function returns.
+ *
+ * The loop bound is re-read from +0x0e on every iteration (`ldrsh` again
+ * after the byte store, which may alias it), so the count expression is
+ * written out in the condition, not hoisted into a local.
+ *
+ * The two pointers in the literal pool are the __FILE__ and expression
+ * strings the debug call takes; they are declared as extern arrays so the
+ * pool word is an ABS32 to the symbol rather than a folded constant.
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef signed short   s16;
-typedef unsigned int   u32;
-
-typedef struct {
-    u8  *f00;
-    u32  f04;
-    u32  f08;
-    u32  f0c;
-    s16  f0e;
-} Obj02036428;
-
-extern int  func_02036640(Obj02036428 *o);
+extern int func_02036640(char *self, char *src, int count);
 extern void func_02039548(void);
-extern void func_02034714(char *a, u32 b, char *c);
-extern int  func_02036624(Obj02036428 *o, int cur);
-extern char g_020A79A4[];
-extern char g_020A79B4[];
+extern void func_02034714(const char *file, int line, const char *expr);
+extern int func_02036624(char *self, int idx);
 
-void func_02036428(Obj02036428 *o, u8 *src, int n)
+extern char s_Expr020A79A4[];
+extern char s_Expr020A79B4[];
+
+void func_02036428(char *self, char *src, int count)
 {
     int i;
-    int cur;
+    int k;
 
-    if (func_02036640(o) <= n) {
+    if (func_02036640(self, src, count) <= count) {
         func_02039548();
         return;
     }
-    cur = o->f0e;
-    for (i = 0; cur < o->f0e + n; i++, cur++) {
-        if (src == 0) {
-            func_02034714(g_020A79A4, 0x44, g_020A79B4);
-        }
-        o->f00[func_02036624(o, cur)] = src[i];
+    i = *(short *)(self + 0xe);
+    for (k = 0; i < *(short *)(self + 0xe) + count; k++) {
+        if (src == 0)
+            func_02034714(s_Expr020A79A4, 0x44, s_Expr020A79B4);
+        *(unsigned char *)(*(int *)self + func_02036624(self, i)) = src[k];
+        i++;
     }
-    o->f0e = (s16)func_02036624(o, cur);
+    *(unsigned short *)(self + 0xe) = func_02036624(self, i);
 }
-*/

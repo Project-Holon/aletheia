@@ -27,3 +27,58 @@ Everything from the mask onward reproduces exactly, so this is a scheduler
 decision and not a shape error: the `movs` test at +0x0c, the two pool loads
 (g_02146A44 and 0x7FFF), the (u16)((x & 0x7fff) | 0x8000) idiom, the
 0x00000B93 stack argument and the out-of-line non-zero arm are all correct.
+
+--------------------------------------------------------------------------------
+lane r4-3 addendum -- the a1[0]/lsr hoist IS removable; the remaining displacement
+--------------------------------------------------------------------------------
+
+A later pass reproduces the original's `ldr r2, [r7]` / `lsr r4, r2, #8`
+placement exactly by giving up the early-return shape.  The two spellings above
+used `if (a2 != 0) { func_020425B4(a0, a1, a3, a2); return; }`, which puts the
+short arm in line behind a `beq`; the original's `bne` at +0x14 goes to an
+out-of-line arm at +0x8C, i.e. the source is a plain if/else with the a2 == 0
+path as the `then`:
+
+    if (a2 == 0) { ...long path...; }
+    else        { func_020425B4(a0, (u32)a1, a3, a2); }
+
+That alone takes the residue from 94 bytes to 39 and makes +0x24..+0x34 and
+everything from the mask onward byte-identical (the stack argument 0xB93 is
+stored first, a1[0] is loaded just before the halfword, exactly as the
+original).  What is left is a single displaced instruction, the 4th argument's
+pool load, which mwcc hoists four instructions early in every spelling tried:
+
+    ORIGINAL                                 COMPILED
+    +0034 lsr r4, r2, #8                     +0034 lsr r4, r2, #8
+    +0038 and r0, r1, r0                     +0038 ldr r3, [pc, #0x68]  <- here
+    +003C orr r0, r0, #0x8000                +003C and r0, r1, r0
+    +0040 lsl r0, r0, #0x10                  +0040 orr r0, r0, #0x8000
+    +0044 ldr r3, [pc, #0x5c]  <- here      +0044 lsl r0, r0, #0x10
+
+Both load the same pool word (0x020A7E5C) into the same register, and every
+later instruction lines up.  Spellings tried on top of the if/else skeleton,
+all 172 bytes with the same single displacement: the expression inline at the
+call site; a named `u16 hw = (u16)((*(u16 *)g_02146A44 & 0x7FFF) | 0x8000);`
+passed to the call; a named `u16 w = *(u16 *)g_02146A44;` read on its own line;
+the literal written 0x0B93; and the 4th parameter declared u32 / u32 * / u8 *
+with a cast at the call site.  All seven relocation sites resolve in every one
+of them, so this is the last 4 bytes of a codegen tie, not an evidence wall.
+
+closest spelling (172 = 172, 39 diff bytes):
+
+    void func_02042508(u32 a0, u32 *a1, u32 a2, u32 a3)
+    {
+        u32 v;
+        u32 r;
+
+        if (a2 == 0) {
+            v = *a1 >> 8;
+            r = func_02030734((u16)((*(u16 *)g_02146A44 & 0x7FFF) | 0x8000), v, 0,
+                              (u32)&g_020A7E5C, 0xB93);
+            func_02040968((u32)a1, r, a2);
+            func_020425B4(a0, r, a3, v);
+            func_020307B0(r);
+        } else {
+            func_020425B4(a0, (u32)a1, a3, a2);
+        }
+    }

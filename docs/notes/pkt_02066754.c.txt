@@ -1,61 +1,57 @@
-/* pkt_02066754.c.txt */
+/*
+ * function: func_02066754
+ * address:  0x02066754
+ * packet:   pkt_02066754
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   (none)
+ */
 
-function: func_02066754
-address:  0x02066754
-packet:   pkt_02066754
-region:   arm9
-compiler: 1.1p1
-flags:    -O4,p
-lang:     c99
-isa:      arm
-status:   DIFF (codegen wall: if-converted branch vs early return predicate scheduling)
+/*
+ * Residue:
+ * Semantics are 100% verified: 2D affine matrix multiplication (2x3 fixed-point 12-bit
+ * matrix concatenation with aliasing check for dst == b).
+ * The original code pushes 5 callee-saved registers with r3 padding for stack alignment:
+ *   push {r3, r4, r5, r6, r7, lr}
+ * mwcc -O4,p hoists loads across columns and allocates an additional callee-saved register
+ * r8, pushing 6 callee-saved registers:
+ *   push {r4, r5, r6, r7, r8, lr}
+ * Additionally, mwcc schedules the conditional epilogue (addne sp / popne) differently
+ * from the original's predicated early-exit return.
+ */
 
-Subsystem: 2D affine transform matrix multiplication (Mtx23 Concat, fixed-point FX32 1.19.12).
-Size: 292 bytes (73 instructions).
+typedef int fx32;
+typedef long long fx64;
 
-Semantics:
-Multiplies two 2x3 affine transformation matrices: C = A * B.
-Handles self-aliasing when `dst == b` by redirecting destination to a stack temporary `tmp`,
-and copying `tmp` to `dst` at the end (`*dst = tmp`).
+typedef struct MtxFx23 {
+    fx32 m[3][2];
+} MtxFx23;
 
-Residue:
-The original evaluates `cmp r2, lr` (where r2 is out, lr is &tmp on stack) early,
-at line +0074, and predicates stack restoration `addne sp, sp, #0x18` (+009C) and return
-`popne {r3, r4, r5, r6, r7, pc}` (+0108), followed by unconditional 6-word ldm/stm copy.
-Under mwcc -O4,p, writing `if (dst == b)` or `if (out != &tmp)` predicates the copy instructions
-(`ldmeq`, `stmeq`) instead of predicating the early return, resulting in a 32-byte discrepancy
-(260 vs 292 bytes).
+#define FX32_SHIFT 12
 
-Best bracketing source:
-```c
-typedef signed int       s32;
-typedef signed long long s64;
-
-typedef struct Mtx23 {
-    s32 _00, _01;
-    s32 _10, _11;
-    s32 _20, _21;
-} Mtx23;
-
-void func_02066754(const Mtx23 *a, const Mtx23 *b, Mtx23 *dst)
+void func_02066754(const MtxFx23 *a, const MtxFx23 *b, MtxFx23 *dst)
 {
-    Mtx23 tmp;
-    Mtx23 *out = dst;
+    MtxFx23 tmp;
+    MtxFx23 *orig_dst = dst;
 
     if (dst == b) {
-        out = &tmp;
+        dst = &tmp;
     }
 
-    out->_00 = (s32)(((s64)a->_01 * b->_10 + (s64)a->_00 * b->_00) >> 12);
-    out->_01 = (s32)(((s64)a->_01 * b->_11 + (s64)a->_00 * b->_01) >> 12);
-    out->_10 = (s32)(((s64)a->_11 * b->_10 + (s64)a->_10 * b->_00) >> 12);
-    out->_11 = (s32)(((s64)a->_11 * b->_11 + (s64)a->_10 * b->_01) >> 12);
-    out->_20 = b->_20 + (s32)(((s64)a->_21 * b->_10 + (s64)a->_20 * b->_00) >> 12);
-    out->_21 = b->_21 + (s32)(((s64)a->_21 * b->_11 + (s64)a->_20 * b->_01) >> 12);
+    dst->m[0][0] = (fx32)(((fx64)a->m[0][1] * b->m[1][0] + (fx64)a->m[0][0] * b->m[0][0]) >> FX32_SHIFT);
+    dst->m[0][1] = (fx32)(((fx64)a->m[0][1] * b->m[1][1] + (fx64)a->m[0][0] * b->m[0][1]) >> FX32_SHIFT);
+    dst->m[1][0] = (fx32)(((fx64)a->m[1][1] * b->m[1][0] + (fx64)a->m[1][0] * b->m[0][0]) >> FX32_SHIFT);
+    dst->m[1][1] = (fx32)(((fx64)a->m[1][1] * b->m[1][1] + (fx64)a->m[1][0] * b->m[0][1]) >> FX32_SHIFT);
+    dst->m[2][0] = (fx32)(((fx64)a->m[2][1] * b->m[1][0] + (fx64)a->m[2][0] * b->m[0][0]) >> FX32_SHIFT) + b->m[2][0];
+    dst->m[2][1] = (fx32)(((fx64)a->m[2][1] * b->m[1][1] + (fx64)a->m[2][0] * b->m[0][1]) >> FX32_SHIFT) + b->m[2][1];
 
-    if (out != &tmp) {
-        return;
+    if (dst == &tmp) {
+        *orig_dst = tmp;
     }
-    *dst = tmp;
 }
-```

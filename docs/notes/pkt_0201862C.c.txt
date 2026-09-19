@@ -1,0 +1,222 @@
+pkt_0201862C -- DIFF residues for func_0201862C and func_020186C8 (lane r4-3)
+================================================================================
+
+Two functions, 356 bytes together, both byte-correct in size except for a
+single localised register/scheduling residue each.  Neither is evidence-blocked:
+match.py resolves every relocation site of both (see below), so this is codegen,
+not attestation.  No source is filed in src/matched/ or src/pending/ because
+neither reaches EXACT.
+
+--------------------------------------------------------------------------------
+0x0201862C  156 bytes  Thumb  -- DIFF, 10 bytes
+--------------------------------------------------------------------------------
+
+final harness line:
+  DIFF compiled 156 = original 156, 4 of 4 sites resolved, 38 concrete bytes
+  differ  (of which 28 are the knock-on of the one register choice below)
+
+  +0012 THM_CALL func_020185F8  [label x2]    +0048 func_02019C54 [label x20]
+  +004E THM_CALL func_0201AE1C  [label x27]   +0082 func_0201AF6C [label x8]
+
+Everything is byte-identical except one five-instruction block: the extraction
+of the two 16-bit halves of the incoming u32.  The original keeps the whole
+chain in r1/r2; this compiler needs a third register and hoists the 0x10000
+mask early:
+
+  ORIGINAL @ +0016                          COMPILED
+  ldr r1, [pc, #0x80]     (0xFFFF0000)      ldr r1, [pc, #0x80]
+  ands r1, r5                               ands r1, r5
+  lsrs r2, r1, #0x10      hi -> r2          lsrs r3, r1, #0x10    hi -> r3
+  lsls r1, r5, #0x10                        lsls r1, r0, #0x10    (u16)v
+  lsrs r1, r1, #0x10      lo -> r1          lsrs r2, r1, #0x10
+  eors r2, r1             r2 = hi ^ lo      lsls r1, r5, #0x10    lo
+  lsls r1, r0, #0x10                        lsrs r1, r1, #0x10
+  lsrs r1, r1, #0x10      (u16)v            eors r1, r2
+  eors r1, r2             r1 = (u16)v ^ r2  eors r1, r3
+  adds r5, r0, #0                           adds r5, r0, #0
+  lsls r1, r1, #0x10                        movs r0, #1           (0x10000
+  orrs r5, r1                               lsls r1, r1, #0x10     hoisted)
+                                            orrs r5, r1
+
+The two wordings differ only in evaluation order and register pressure; the
+value, the frame (sub sp, #0x18), the push set and every branch target agree.
+The second block of the function (the always-taken arm, +0052 onward) is
+byte-identical, including the 0xFF00 mask idiom, which uses the same
+`(a0 & 0xFFFF0000) >> 16` extraction and *does* come out right -- so the mask
+form itself is not the problem, only its scheduling in the first arm.
+
+Spellings compiled, all 156 bytes, all DIFF, all with this same 10-byte block
+(diffbytes counts: 38 for the first four, 19 for the two lowest):
+  * v | ((((u16)a0 ^ ((a0 & 0xFFFF0000u) >> 16)) ^ (u16)v) << 16)         38
+  * ((u16)v ^ (u16)a0) ^ ((a0 & 0xFFFF0000u) >> 16)   flat, left-assoc    19
+  * (u16)v ^ ((a0 & 0xFFFF0000u) >> 16) ^ (u16)a0                         37
+  * named hi/lo locals declared in both orders, (lo ^ hi) form             38
+  * a statement `t = (a0 & 0xFFFF0000u) >> 16;` ahead of the xor chain     38
+  * (a0 >> 16) with no mask -- drops 4 bytes, the `ands` is real (152/122)
+  * a0 declared u32 vs s32 vs int, v declared u32 vs s32: no change at all
+  * a4 declared u8 vs u16 vs int: u16 costs 2 bytes, u8/int identical
+
+The winning-but-not-EXACT spelling (19 diff bytes) is the flat left-associative
+chain written vlo, lo, hi; the closest overall structure (only the register
+choice wrong) is the first line above.
+
+--------------------------------------------------------------------------------
+0x020186C8  200-byte extent (196 code + 4 pad)  Thumb  -- DIFF, 8 bytes short
+--------------------------------------------------------------------------------
+
+final harness line:
+  DIFF compiled 192, original extent 200 (196 bytes of code), 8 of 8 sites
+  resolved, 65 concrete bytes differ.
+
+  +0010/+001A/+002C/+0036/+0042/+0050/+005A/+0076 THM_CALL, all resolved
+  (func_020056EC label x13, func_02017ED8 label x4, func_020185F8 label x2,
+   func_0201AF6C label x8)
+
+Everything up to +0x66 is byte-identical, including the whole a3 dispatch
+(a3 == 2 early path, the 0xFE - v random-below-n call, the `v |= t` merge and
+the t = func_020056EC(0) & ~0xFF clear-mask, which `movs r1,#0xff; bics` gives
+exactly).  The residue is the SWITCH at +0x66, which dispatches on a5 with a
+compare chain in numeric order 0,1,2 but lays the case BODIES out in source
+order -- the first case body in the source sits at the fall-through slot:
+
+  ORIGINAL layout                        COMPILED (192)
+   dispatch (cmp 0/1/2, b default)        dispatch (same, targets differ)
+   case 1 body   24 bytes  0x...73A       case 1 body 24 bytes  (same slot
+   case 1 tail   18 bytes  0x...752        after reordering the cases to
+   case 0 body   18 bytes  0x...764        1,0,2 in the source -- numeric
+   shared tail   18 bytes  0x...776        order puts case 0 there instead)
+   epilogue       4 bytes
+  The original's case-1 tail is a SECOND copy of the bit-16 toggle whose
+  compare block is duplicated but whose `v ^= 0x10000` is shared with the
+  shared tail (`beq epilogue; b shared_eors`).  No source spelling reproduces
+  that partial cross-jump:
+    * cases in source order 0,1,2 / 1,0,2 / 0,2,1 -- the 1,0,2 order is what
+      puts case 1 at the fall-through (that part is right) but mwcc then emits
+      `b <shared eors>` for the case-1 break, 2 bytes short of the original's
+      duplicated compare.
+    * an explicit toggle written inside case 1 (with break, and with return v)
+      -- 212/208 bytes: the inline copy comes out 12 bytes too long because
+      mwcc keeps its own `eors` and adds a branch instead of cross-jumping into
+      the shared one.
+    * a4 declared u8 vs int matters here and only here: the original reads the
+      stack argument with a word `ldr r1,[sp,#0x18]` (so a4 is int-sized),
+      while u8 gives `add r1,sp,#0x18; ldrb r1,[r1]` and costs 2 bytes per
+      toggle copy.  The skeleton uses int.
+    * `(cond) != ((u32)a4 << 16)` versus a bit test: identical.
+  Best skeleton (192 bytes, first 0x66 bytes byte-perfect) is the one with the
+  toggle only after the switch and the source case order 1,0,2.
+
+--------------------------------------------------------------------------------
+Closest spelling for 0x0201862C (10 diff bytes; form f + block-2 fix)
+--------------------------------------------------------------------------------
+/*
+ * function: func_0201862C
+ * address:  0x0201862C
+ * packet:   pkt_0201862C
+ * status:   DIFF
+ * symbols:
+ *   func_020185F8   0x020185F8  thumb
+ *   func_02019C54   0x02019C54  thumb
+ *   func_0201AE1C   0x0201AE1C  thumb
+ *   func_0201AF6C   0x0201AF6C  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_020185F8(int a0, int a1, int a2);
+extern int func_02019C54(int a0, int a1);
+extern int func_0201AE1C(int a0, int a1);
+extern int func_0201AF6C(int a0);
+
+u32 func_0201862C(u32 a0, int a1, int a2, int a3, u8 a4, int a5)
+{
+    if (a5 != 0) {
+        u32 v = func_020185F8(a1, a2, a3);
+
+        a0 = v | (((((u16)v ^ (u16)a0) ^ ((a0 & 0xFFFF0000u) >> 16))) << 16);
+        if ((a0 & 0x10000u) != ((u32)a4 << 16)) {
+            a0 ^= 0x10000u;
+        }
+    } else {
+        u8 b = (u8)func_0201AE1C(func_02019C54(a1, a2), 0x14);
+
+        a0 = (0xFF00u ^ ((((a0 & 0xFFFF0000u) >> 16) ^ (u16)a0) & 0xFF00u)) << 16;
+        if ((a0 & 0x10000u) != ((u32)a4 << 16)) {
+            a0 ^= 0x10000u;
+        }
+        if (func_0201AF6C(b) == 1) {
+            goto done;
+        }
+        a0 |= b;
+        if (a3 == 1) {
+            a0 -= 1;
+        }
+    }
+done:
+    return a0;
+}
+
+--------------------------------------------------------------------------------
+Closest skeleton for 0x020186C8 (192 of 196 code bytes; case order 1,0,2)
+--------------------------------------------------------------------------------
+/*
+ * function: func_020186C8
+ * address:  0x020186C8
+ * packet:   pkt_0201862C
+ * status:   DIFF
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_020056EC(int a0);
+extern u32 func_02017ED8(u32 a0, u32 a1);
+extern u32 func_020185F8(int a0, int a1, int a2);
+extern int func_0201AF6C(int a0);
+
+u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5)
+{
+    u32 v;
+
+    if (a3 == 2) {
+        v = func_020056EC(0);
+    } else {
+        u32 t = func_020056EC(0) & ~0xFFu;
+
+        v = func_020185F8(a1, a2, (u8)a3);
+        if (a3 == 0) {
+            if (func_0201AF6C(v) == 0) {
+                v = v + func_020056EC(0xFE - v);
+                goto L;
+            }
+        }
+        if (a3 == 1) {
+            if (func_0201AF6C(v) == 0) {
+                v = func_020056EC(v) + 1;
+            }
+        }
+    L:
+        v |= t;
+    }
+    switch (a5) {
+    case 1:
+        v = (u8)v | ((((u16)a0 ^ ((a0 & 0xFFFF0000u) >> 16)) ^ (u8)v) << 16);
+        break;
+    case 0:
+        if (func_02017ED8(a0, v) == 1) {
+            v ^= 0x10000000u;
+        }
+        break;
+    case 2:
+        break;
+    default:
+        return v;
+    }
+    if ((v & 0x10000u) != ((u32)a4 << 16)) {
+        v ^= 0x10000u;
+    }
+    return v;
+}

@@ -1,0 +1,45 @@
+pkt_0201104C -- sub_020110CC @ 0x020110CC (148 code bytes + 8 pool, Thumb)
+=========================================================================
+lane r4-4.  Verdict DIFF: the body is right, two instruction groups differ (7
+concrete bytes) and the size is exact (156 = 148 + 2 pool words, same as the
+original).  All 12 relocation sites resolve.
+
+What it is: the multi-slot variant of sub_0201104C (same packet).  Early out when
+*(u8 *)(0x02146208 + 0x1a) == 0x30 with 0xff; otherwise take the object from
+func_0201AB28(a0, func_0201AB08()), walk the four slots 0x36+i / 0x3e+i / 0x3a+i
+through func_02017E1C, clamp the 0x3a value to func_0201C158((u16)count,
+(u8)v) plus *(u16 *)(0x02146228 + 0xe), and store it back with func_02017E40.
+
+Spellings that are load bearing (both found by diffing, not guessed):
+
+  * the whole body must sit inside `if (*(u8 *)(g02146208 + 0x1a) != 0x30) { ... }
+    return 0xff;` -- i.e. the 0xff exit is the function's LAST statement and the
+    `beq`/`bne` layout is the original's.  Written as `if (...) return 0xff;`
+    first, mwcc rotates the blocks and the whole function is a diff.
+  * `i` must be unsigned: `u32 i` gives the original's `cmp r5,#4 / blo`; `int i`
+    gives `blt` and shifts everything after +0x78.
+  * the third argument of func_02017E1C is a literal 0 and stays a `movs r2, #0`
+    per call only while `i` is unsigned; with an extra live local mwcc hoists a
+    zero register and the loop grows two instructions.
+  * the 0x3a term must be `v = func_02017E1C(...); v += *(u16 *)(g02146228+0xe);`
+    (the call result is the accumulator: `adds r2, r0, r1`).  Written as one
+    expression with the call first, or with the load first, the operand order in
+    the `adds` is wrong --
+    docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
+
+Residue (7 bytes), the function's first four instructions:
+
+    original                                 near miss
+    +0004 ldr r1, [pc, #0x8c]                +0004 adds r4, r0, #0
+    +0006 adds r4, r0, #0                    +0006 ldr r0, [pc, #0x8c]
+    +0008 ldrb r1, [r1, #0x1a]               +0008 ldrb r0, [r0, #0x1a]
+    +000A cmp r1, #0x30                      +000A cmp r0, #0x30
+
+The original schedules the pool load into r1 BEFORE it saves a0 into r4; every
+spelling tried emits the save first and then reuses the freed r0 for the load.
+Tried and rejected: `g02146208[0x1a]` indexing, `&g02146208[0x1a]`, a `u8 t =
+...` local read before the test, a `u32 t` local, the reversed comparison
+(`0x30 != ...`), a `volatile u8 *` cast, `p = a0;` hoisted before the test, and
+the literal-address form `*(u8 *)0x0214621A` (which also loses the ABS32
+relocation, so it is not an option even if it had worked).  This is the same
+one-register/isomorphism family as pkt_02012C18's note.

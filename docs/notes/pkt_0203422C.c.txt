@@ -1,0 +1,135 @@
+func_0203422C @ 0x0203422C, pkt_0203422C - DIFF, 19 bytes of
+register choice.  All four relocation sites resolve (`label`, `matched`,
+`literal` x10/x25), so this row is otherwise EXACT-ready.
+=====================================================================
+
+Original (204 bytes) and this C agree on every instruction and every schedule
+slot; the residue is a cyclic renaming of r1/r2/r3 in the loop and the two
+byte base pointers:
+
+    ORIGINAL                                  COMPILED
+    +001C add r3, r4, #0xc                     +001C add r2, r4, #0xc
+    +0024 add r0, r3, r0                       +0024 add r0, r2, r0
+    +0070 add r1, r0, #1                       +0070 add r3, r0, #1
+    +0074 sub r3, r5, #1                       +0074 sub r2, r5, #1
+    +007C mov r2, #0                           +007C mov r1, #0
+    +0080 add r0, r4, r1                       +0080 add r0, r4, r3
+    +0084 cmp r3, #0                           +0084 cmp r2, #0
+    +0088 strb r2, [r0, #0xc]                  +0088 strb r1, [r0, #0xc]
+    +008C add r1, r1, #1                       +008C add r3, r3, #1
+    +0090 sub r3, r3, #1                       +0090 sub r2, r2, #1
+    +009C add r3, r4, #0xc                     +009C add r2, r4, #0xc
+    +00A0 ldrb r2, [r3, r1]                    +00A0 ldrb r1, [r2, r3]
+    +00B0 and r0, r2, r0                       +00B0 and r0, r1, r0
+    +00B4 strb r0, [r3, r1]                    +00B4 strb r0, [r2, r3]
+
+i.e. the allocator picked (idx=r3, zero=r1, count=r2, base=r2) where the
+original has (idx=r1, zero=r2, count=r3, base=r3) -- the same three registers
+rotated one place.  Ruled out by measurement, each a full re-run: declaration
+order at function scope (idx first, idx last, mask first, rest first),
+`s32`/`u32` on nfull and tail, `mask` as `u8`, dropping the `u8` casts (this
+one moved the size from 196 to the right 204 and the residue from 122 to 19 --
+it is the single biggest lever here), `p->bits[idx] = v & ~mask` through a
+named `u8 v`, `p->bits[idx] &= (u8)~(u8)mask`, `for (; nfull != 0; nfull--)`,
+`while (nfull != 0) { ...; nfull--; }`, the byte pointer as a `u8 *q` cursor,
+and `p->bits + idx` instead of `&p->bits[idx]`.
+
+Two structural facts that ARE settled and worth keeping:
+
+  * the two arms must be written `if (bit + len <= 8) { small } else { big }`.
+    The mirrored condition compiles to the mirror-image layout (`bls` to the
+    else arm) and costs 122 bytes; see
+    docs/idioms/the-fall-through-arm-is-the-source-order.md;
+  * `start` is unsigned (plain `and #7` / `lsr #3`) while `len` is signed: the
+    `asr`/`rsb`/`ror` quartet for `len - avail` divided by 8 and the `%8`
+    remainder only appear with a signed operand, and `bit + len > 8` is an
+    unsigned `bhi` because the u32 `bit` drags the sum unsigned;
+  * RunMask[0] is 0x00, so the closing clear is written unconditionally.
+
+Closest C (moved out of src/matched/, which takes EXACT only):
+
+/*
+ * function: func_0203422C
+ * address:  0x0203422C
+ * packet:   pkt_0203422C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02034394     0x02034394  arm
+ *   func_020344C8     0x020344C8  arm
+ *   Areaman_RunMask   0x020A048C  data
+ *   Areaman_TailMask  0x020A0495  data
+ *
+ * The clear-bit-range sibling of sub_020343C0 (same areaman.c object, same
+ * two mask tables): clear `len` bits starting at bit `start` in p->bits at
+ * +0xc and then hand the object to func_020344C8, which walks every byte
+ * that is still set.  When the run fits inside the starting byte the whole
+ * job is delegated to func_02034394(&p->bits[idx], bit); otherwise the low
+ * bits of that first byte are cleared with TailMask[avail], the whole bytes
+ * that follow are zeroed, and the top `tail` bits of the last byte are
+ * cleared with RunMask[tail].  RunMask[0] is 0x00, so the closing clear is
+ * written unconditionally rather than behind an `if (tail != 0)`.
+ *
+ * `start` is unsigned here (plain `and #7` / `lsr #3`, no sign-correction
+ * quartet) while `len` is signed: `len - avail` compiles to the asr/rsb/ror
+ * quartet for /8 and to a `%8` remainder, and `bit + len > 8` is an unsigned
+ * `bhi` because the u32 `bit` drags the sum unsigned.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203422C.c \
+ *       --func func_0203422C --addr 0x0203422C --cc 1.1p1 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct AreaMan {
+    u16 unk00;
+    u16 unk02;
+    u32 *guard;
+    u32 unk08;
+    u8  bits[1];
+};
+
+extern const u8 Areaman_RunMask[];
+extern const u8 Areaman_TailMask[];
+
+extern void func_02034394(u8 *q, u32 bit);
+extern s32  func_020344C8(struct AreaMan *p);
+
+s32 func_0203422C(struct AreaMan *p, u32 start, s32 len)
+{
+    u32 bit = start % 8;
+    u32 idx = start / 8;
+    s32 avail;
+    s32 rest;
+    u32 nfull;
+    u32 tail;
+    u32 mask;
+
+    if (bit + len <= 8) {
+        func_02034394(&p->bits[idx], bit);
+    } else {
+        avail = 8 - bit;
+        mask = Areaman_TailMask[avail];
+        rest = len - avail;
+        nfull = rest / 8;
+        tail = rest % 8;
+        p->bits[idx] = (u8)(p->bits[idx] & ~(u8)mask);
+        idx++;
+        while (nfull-- != 0) {
+            p->bits[idx] = 0;
+            idx++;
+        }
+        p->bits[idx] = (u8)(p->bits[idx] & ~(u8)Areaman_RunMask[tail]);
+    }
+    return func_020344C8(p);
+}
+

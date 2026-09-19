@@ -1,0 +1,113 @@
+/*
+ * function: func_0206FFA0
+ * address:  0x0206FFA0
+ * packet:   pkt_0206F4C8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_020A1998 0x020A1998 data
+ *   g_020A1999 0x020A1999 data
+ *   g_020A199A 0x020A199A data
+ *   g_020A199B 0x020A199B data
+ */
+
+/*
+ * Residue:
+ * Semantics verified: 3D model animation transform / normal decompressor.
+ * - When (id & 0x8000): zeroes a 3x3 matrix (9 words), reads 3 signed shorts from src1,
+ *   computes unit/sign (+/- 0x1000) and permutes axes using 4 lookup tables at 0x020A1998..0x020A199B,
+ *   returning 0. All 4 data relocations resolve.
+ * - Else: reads 5 signed shorts from src2, writes 5 shifted components directly to dst,
+ *   and packs a composite 13-bit angle into dst[5], returning 1.
+ *
+ * Register pressure & scheduling residue:
+ * Original interleaves loads and stores to dst, needing only 3 callee-saved registers:
+ *   push {r3, r4, r5, lr}
+ * mwcc -O4,p hoists all 5 loads before the arithmetic/stores, allocating 7 callee-saved
+ * registers (push {r3, r4, r5, r6, r7, r8, sb, lr}).
+ */
+
+typedef signed short s16;
+typedef unsigned char u8;
+
+extern const u8 g_020A1998[];
+extern const u8 g_020A1999[];
+extern const u8 g_020A199A[];
+extern const u8 g_020A199B[];
+
+int func_0206FFA0(int *dst, const s16 *src1, const s16 *src2, int id)
+{
+    if (id & 0x8000) {
+        int r4 = 0;
+        int idx = id & 0x7FFF;
+        const s16 *p = &src1[idx * 3];
+        s16 val0 = p[0];
+        int v1 = p[1];
+        int v2 = p[2];
+        int v5;
+        int i0;
+
+        dst[8] = 0;
+        dst[7] = 0;
+        dst[6] = 0;
+        dst[5] = 0;
+        dst[4] = 0;
+        dst[3] = 0;
+        dst[2] = 0;
+        dst[1] = 0;
+        dst[0] = 0;
+
+        if (val0 & 0x10) {
+            v5 = -0x1000;
+        } else {
+            v5 = 0x1000;
+        }
+
+        i0 = val0 & 0xF;
+        dst[i0] = v5;
+        dst[g_020A1998[i0 * 4]] = v1;
+        dst[g_020A1999[i0 * 4]] = v2;
+
+        if (p[0] & 0x20) {
+            v2 = -v2;
+        }
+        dst[g_020A199A[i0 * 4]] = v2;
+
+        if (p[0] & 0x40) {
+            v1 = -v1;
+        }
+        dst[g_020A199B[i0 * 4]] = v1;
+
+        return 0;
+    } else {
+        int idx = id & 0x7FFF;
+        const s16 *p = &src2[idx * 5];
+        s16 s4 = p[4];
+        s16 s0 = p[0];
+        s16 s1 = p[1];
+        s16 s2 = p[2];
+        s16 s3 = p[3];
+        int v;
+
+        dst[4] = s4 >> 3;
+        dst[0] = s0 >> 3;
+        dst[1] = s1 >> 3;
+        dst[2] = s2 >> 3;
+        dst[3] = s3 >> 3;
+
+        v = ((s0 & 7) | ((s4 & 7) << 3));
+        v = (s1 & 7) | (v << 3);
+        v = (s2 & 7) | (v << 3);
+        v = (s3 & 7) | (v << 3);
+        v = (v << 16) >> 16;
+        v = (v << 19) >> 19;
+        dst[5] = v;
+
+        return 1;
+    }
+}

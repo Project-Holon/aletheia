@@ -1,0 +1,59 @@
+pkt_0204D18C -- func_0204D18C @ 0x0204D18C and func_0204D224 @ 0x0204D224
+=========================================================================
+lane r4-4.  Both DIFF; no source kept.  Both are also chain-capped, see below.
+
+func_0204D18C (152 bytes, ARM) -- DIFF, and MATCH-capped even when right
+-----------------------------------------------------------------------
+Compiled 160 bytes against the original's 152; every instruction of the body is
+present in the original's order, including the two details that are not
+guessable:
+
+  * the four fields of `a1` are copied into four fields of `sb` and mwcc merges
+    the first two stores into `stmib sb, {r0, r1}` -- the aggregate-assignment
+    idiom (docs/idioms/aggregate-assignment-is-ldm-stm.md) needs the two
+    statements adjacent with no call between them;
+  * the 6th argument of func_020642C8 is `-1` spelled as `mov r8, #2` earlier and
+    then `sub r1, r8, #3` at the call -- i.e. the source's constant is
+    rematerialised off the register that already holds the 2 used by the
+    previous func_020637B4 call.  Written as a literal -1 the compiler emits
+    `mvn r1, #0` and the layout shifts.  With `u32 two = 2; ... two - 3` the
+    residue drops to the 8 bytes of the un-merged first store pair.
+
+The two remaining bytes are the merge in point 1: the near miss stores f04 and
+f08 with two separate `str` (8 bytes) where the original has one `stmib`.
+
+CAP: even byte-exact this row cannot be EXACT.  Two of its five sites have no
+witness outside 0204D18C..0204D22C:
+
+    +0024 PC24 func_02066AE0  0x02066AE0  -> unresolved
+    +0094 PC24 func_020642C8  0x020642C8  -> unresolved
+
+Both live in other packets (pkt_02066AE0 and pkt_02064178), so this lane may not
+file them: with every concrete byte right the entry caps at MATCH and belongs in
+src/pending/.  Filing either callee turns both sites `matched` and would let the
+row graduate to EXACT.
+
+func_0204D224 (184 bytes, ARM) -- DIFF, compiled 168
+----------------------------------------------------
+Same family (record constructor, 5- and 6-argument calls).  All 5 sites resolve
+(func_020648B4 label x2, func_02030734 label x1013, func_02064754 label x2,
+func_020627D8 label x47, func_0206469C label x12), so this is pure codegen.
+
+The original hoists ALL FOUR `ldr` from a1 (+0xc/+0x10/+0x14/+0x18) above the
+four `str` into p (+4/+8/+0x70/+0x74); every spelling tried interleaves them
+(load, store, load, store) and the function comes out 16 bytes short, with the
+register map rotated by one (original r5 = p, r4 = a2, r6 = 0, r7 = 1; near miss
+r4 = p, r7 = a2, r5 = 0, r6 = 1).  Tried: plain assignments through `u8 *` with
+u32 casts (closest structurally), four named temporaries declared in the
+original's load order, and the same four as typed struct members of two distinct
+struct types.  The temporaries version is the one that produces the aggregate
+`stmib` for the first two stores -- the original does NOT merge them, so the
+plain-assignment form is the closer shape.
+
+The allocator helper's signature is
+`func_02030734(heap, size, align, file, line)`: the fifth argument is pooled
+(0x171D here, 0x312 in sub_0201A4D4, 0x3A in sub_02034E24) and the fourth is the
+__FILE__ string 0x020A7F74 (see
+docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).  The size
+argument here is the return value of func_020648B4(*(u32 *)(a1 + 0x14), 1), not a
+constant.

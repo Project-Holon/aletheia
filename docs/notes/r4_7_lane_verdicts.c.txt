@@ -1,0 +1,311 @@
+lane r4-7 (257-512 byte band) -- rows re-derived with a new lever, and their residue
+====================================================================================
+Lane r4-7 owns 84 rows in 29 packets (0x0200D144..0x02096774).  Every verdict in
+this file is a `match.py one` output; nothing here is inferred.  Full per-row
+verdicts are in the lane report; this file carries only the residues that are NEW
+(rows this lane actually re-derived) plus one promotion-candidate park.
+
+Verification command shape used throughout:
+  python tools/match.py one --src <file> --func <name> --addr 0xADDR --cc 1.1p1 --arm [--diff]
+
+
+1. 0x0204E410  func_0204E410  176 bytes  ARM  pkt_0204E410   -> PARK (MATCH)
+--------------------------------------------------------------------------
+Byte-perfect: compiled 176, 0 concrete byte mismatches.  `match.py one` prints
+MATCH with 0 of 2 relocation sites resolved:
+
+  +00A4 ABS32 g_020A1480 -> unresolved: 020A1480 (data, from header) has no
+         witness outside 0204E410..0204E4C0
+  +00A8 ABS32 g_020A1482 -> unresolved: 020A1482 (data, from header) has no
+         witness outside 0204E410..0204E4C0
+
+That is the own-pool-only-data park class, not a codegen question.  The park is
+src/pending/func_0204E410.c (status MATCH).
+
+THE LEVER (not in docs/notes/pkt_0204E410.c.txt).  The 16-entry loop walks a
+table of 4-byte records {u16 key; u16 value}: the key byte is read at
+0x020A1480 + i*4 and the halfword value at 0x020A1482 + i*4.  The recorded note
+tried `unk_020A1482[i * 2]` (u16 element, stride four) and a byte offset
+`+ i * 4`, both with the offset spelled inline at both sites, and reported the
+residue as the counter landing in r3.  Naming the derived byte offset as a local
+*inside the loop body*, with the key read still spelled `[i * 4]`:
+
+    for (i = 0; i < 0x10; i++) {
+        u32 off = i << 2;
+        if (c == g_020A1480[i * 4])
+            return *(u16 *)((u8 *)g_020A1482 + off);
+    }
+
+leaves the counter in ip and hoists `lsl r3, ip, #2` above the compare, which is
+what the image has (`ldrb r1, [r2, ip, lsl #2]` / `lsl r3, ip, #2` / `cmp r0, r1`
+/ `ldreq r0, [pc, #0x1c]` / `ldrheq r0, [r0, r3]` / `bxeq lr`).  With the offset
+inline the counter takes r3 and the shift is re-derived inside the equal arm
+(`lsleq r1, r3, #2`), one instruction and 4 bytes wrong.  Residue: 25 bytes -> 0.
+
+The four ASCII range answers (0x61..0x7a +0x79, 0x41..0x5a +0x7f, 0x30..0x39
++0x86, 0x21..0x2f +0xd3) and the 0x00000101 miss sentinel all reproduce with the
+u16 return type spelled as a cast at each early return.
+Promotion path: any manifest entry that reproduces bytes containing either
+0x020A1480 or 0x020A1482 as a pooled word closes both sites; 0x020A1480/82 are
+otherwise referenced nowhere in the image.
+
+
+2. 0x02068030  func_02068030  172 bytes  ARM  pkt_02067FE4   -> DIFF, 49 bytes
+--------------------------------------------------------------------------
+Both call sites resolve (`label x5` for 02067F9C, `label x5` for 02067FE4), so
+this row is codegen-only: the slice called it chain-on-02067FE4, but 0x02067FE4
+is attested from outside this range and the chain does not bite.
+
+Structure and size are now exact (172 against 172, instruction-for-instruction
+identical opcodes); the 49 differing bytes are purely the callee-saved colouring,
+shifted one register up:
+
+  ORIGINAL   o -> r8   base -> r7   out -> r6   f -> r5   acc -> r4   &buf -> sl
+  COMPILED   o -> sb   base -> r8   out -> r7   f -> r5   acc -> r6   &buf -> r4
+
+  * +0008  mov r8, r0        | mov sb, r0
+  * +000C  str r2, [sp]      | add r4, sp, #0
+  * +0014  add r0, sp, #0    | mov r0, r4
+  * +0018  mov r7, r1        | mov r8, r1
+  * +001C  mov r6, r3        | mov r7, r3
+  * +0020  mov r4, #0        | str r2, [sp]
+  * +0024  blx r5            | mov r6, #0
+  * +0028  movs r1, r0       | blx r5
+  * +002C  beq #0x20680ac    | cmp r0, #0
+  * +0034  add sl, sp, #0    | ldr sl, [pc, #0x6c]
+  * +0038  cmp r1, #0xa      | cmp r0, #0xa
+  * +004C  cmp r1, sb        | cmp r1, sl
+  * +0064  mov r0, sl        | mov r0, r4
+  * +0068  add r1, r7, r1    | add r1, r8, r1
+  * +006C  add r4, r4, r1    | add r6, r6, r1
+  * +0074  movs r1, r0       | cmp r0, #0
+  * +007C  cmp r6, #0        | cmp r7, #0
+  * +0084  cmp r1, #0xa      | cmp r0, #0xa
+  * +0090  str r0, [r6]      | str r0, [r7]
+  * +0094  cmp r4, #0        | cmp r6, #0
+  * +0098  subgt r4, r4, r7  | subgt r6, r6, r8
+  * +009C  mov r0, r4        | mov r0, r6
+
+What was closed, and by which lever (best 74 -> 49 bytes):
+  * the object pointer is `void *o` and the callback is re-read as
+    `*(u32 (**)(u32 *))((u8 *)o + 4)` -- spelling the field as a plain u32 and
+    calling through a cast costs the whole prologue;
+  * the exit test `if (out != 0) *out = (r == 0xa) ? buf : 0;` is ONE ternary:
+    written as an if/else inside the guard the compiler predicated both stores
+    (`streq r0, [r7]` / `strne`), 4 bytes longer and one instruction more.  The
+    ternary reproduces the image's `cmp r1, #0xa` / `ldreq r0, [sp]` /
+    `movne r0, #0` / `str r0, [r6]` exactly;
+  * `if ((s32)acc > 0) acc -= base;` must stay signed -- `subgt`;
+  * `t = func_02067F9C(o); if (t == 0xffff) t = *(u16 *)(*(u32 *)o + 2);` and
+    that `t` is passed as the SECOND argument of func_02067FE4
+    (`mov r0, r8` / `bl` with r1 still holding the conditional load).
+
+`t` is the u16 countdown read through `*(u32 *)o + 2`, so func_02067FE4 takes
+(o, t).  The mid-loop `mov r0, sl`/`add r1, r7, r1` pair is
+`acc += base + (u32)*(s8 *)(func_02067FE4(o, t) + 2)` -- the entry byte is
+sign-extended (`ldrsb`).
+
+Ruled out on the colouring (all still 49 bytes, all at 172): declaring `acc`
+before `buf`; declaring `r` first; naming a `u32 *bp = &buf` pointer and passing
+it at both call sites (51 bytes) or only in the loop (51); computing the pointer
+field last (`buf = val; acc = 0; f = ...`, 54 bytes).  The one thing that does
+move it is the *order the compiler materialises* `&buf`: the image computes it
+fresh at the first call (`add r0, sp, #0`) and caches it in sl only for the loop,
+while this front end hoists it to the prologue and takes r4 for it, which is what
+pushes every later value up one register.  That is the same
+own-pool/scheduling tie-break class the band's other residues sit in.
+
+
+3. 0x02074E9C  func_02074E9C  160 bytes  ARM  pkt_02074CD0   -> DIFF, 58 bytes
+--------------------------------------------------------------------------
+All 4 call sites resolve (`label x1` / `label x31` / `label x16` / `label x120`),
+so this is a pure codegen residue: same size 160 code bytes plus one extra
+instruction in the compiled body (164 against 160).
+
+Recovered body (5 arguments, the fifth on the stack at [sp, #0x20]):
+
+    void *func_02074E9C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+    {
+        u8 *p;
+        void *r;
+
+        p = func_0207457C(a0);
+        if (p == 0)
+            return 0;
+        if (a4 == 0)
+            return 0;
+        r = func_0207482C(a4, p + 0x20, a1, a2, a3);
+        if (r == 0)
+            return 0;
+        if (func_020745A4(a0, r, p, 0) != (u32)p)
+            return 0;
+        func_020862D4(r, p);
+        return r;
+    }
+
+Residue, all of it register colouring plus one spurious move:
+
+  original  r8=a0 r7=a1 r6=a2 r4=a3 r5=result1 r4(reused)=result2
+  compiled  r8=a0 r7=a1 r5=a2 r4=a3 r6=result1 r5(reused)=result2
+
+  * +0010  mov r6, r2          | mov r5, r2
+  * +001C  movs r5, r0         | movs r6, r0
+  * +0044  mov r3, r6          | mov r3, r5
+  * +0048  add r1, r5, #0x20   | add r1, r6, #0x20
+  * +0054  movs r4, r0         | movs r5, r0
+  * +0064  mov r0, r8          | mov r4, #0        <- the extra instruction
+  * +0068  mov r1, r4          | mov r0, r8
+  * +006C  mov r2, r5          | mov r1, r5
+  * +0070  mov r3, #0          | mov r2, r6
+  * +0074  bl #0x20745a4       | mov r3, r4
+  * +007C  cmp r5, r0          | cmp r6, r0
+  * +0088  mov r0, r4          | mov r0, r5
+  * +008C  mov r1, r5          | mov r1, r6
+
+The image holds the first result in r5 (which is free because a2 went to r6) and
+prints `mov r3, #0` for the fourth argument; this front end keeps a2 in r5, so
+the first result must take r6 and the 0 for func_020745A4 is materialised into
+the freed r4 and then copied to r3 -- two instructions where the image has one.
+
+Spellings tried, every one of them 58 bytes at 164: value 0 / 0u / (void *)0 as
+the fourth argument; func_020745A4's fourth parameter declared u32, int and
+void*; `p` and `r` declared as u8*/void* and as u32/u32; the first call
+initialising `p` at its declaration (`u8 *p = func_0207457C(a0);`); `r`
+declared before `p`; parameters copied into named locals at the top; the null
+tests spelled `!p` / `p == 0`; the two result variables declared in the inner
+block.  Nothing moves the a2 colouring, so the first call's result is always one
+register higher than the image's.
+
+
+4. 0x02074220  func_02074220  192 bytes  ARM  pkt_02073F3C   -> DIFF, 101 bytes
+--------------------------------------------------------------------------
+Both relocations resolve (`label x216` func_02082A90, `literal x75` g_0214EA50)
+and the compiled size is exactly right (192 against 192, 48 instructions), so
+this is codegen-only.
+
+Recovered body -- the packet note (docs/notes/pkt_02073F3C.c.txt) named this row
+"the best remaining candidate" and recovered the record but not the bytes; the
+full body is:
+
+    void func_02074220(struct Ctx74220 *o, u8 *base)
+    {
+        u32 i, off;
+
+        func_02082A90(base, o, 0x30);
+        o->f90 = o->f18 ? (u32)(base + o->f18) : 0;
+        o->f88 = o->f20 ? (u32)(base + o->f20) : 0;
+        o->f8c = o->f10 ? (u32)(base + o->f10) : 0;
+        o->f94 = 0;
+        for (i = 0, off = 0; i < *(u32 *)(o->f88 + 8); i++, off += 0x10) {
+            u8 *e = (u8 *)(o->f88 + off);
+
+            *(u32 *)(e + 0x14) = *(u32 *)(e + 0xc) ? (u32)(base + *(u32 *)(e + 0xc)) : 0;
+        }
+        o->f30 = 0;
+        g_0214EA50 = (u8 *)o;
+    }
+
+(The field offsets 0x10/0x18/0x20 -> 0x8c/0x90/0x88 and the store order are
+pinned by the listing; the table at o->f88 is {u32,u32,u32 count, entries[0x10]}
+with the entry's +8 word relocated by the base.)
+
+Residue, two independent halves, both scheduling/colouring:
+
+  (a) +001C..+0058: the three conditional relocations.  The image predicates them
+      the `if`-arm way round --
+        ldr r0, [r5, #0x18] / cmp r0, #0 / moveq r0, #0 / addne r0, r4, r0 /
+        str r0, [r5, #0x90]
+      -- while every spelling tried computes the add unconditionally first:
+        ldr r0, [r5, #0x18] / add r1, r4, r0 / cmp r0, #0 / moveq r1, <zero> /
+        str r1, [r5, #0x90]
+      Tried, all with the add hoisted: `o->f18 ? (u32)(base + o->f18) : 0`;
+      `o->f18 == 0 ? 0 : (u32)(base + o->f18)`; `r = 0; if (o->f18 != 0)
+      r = ...;` with a named r (this one reaches the right SIZE, 196 listing
+      bytes, but at 130 differing bytes); `o->f90 = 0; if (o->f18 != 0) o->f90
+      = ...`; `if (o->f18 == 0) o->f90 = 0; else o->f90 = ...`.
+  (b) +0060..+0098: the loop.  The image re-reads o->f88 every iteration (the
+      loop body stores through the same table, so it may alias), computes
+      `add r2, r2, #0xc` then `ldr r0, [r2, ip]` and reuses that address for the
+      `str r0, [r2, #8]`; this front end reassociates to `add r0, ip, r2` /
+      `ldr r0, [r0, #0xc]` and forms the store address a second time.  The image
+      also keeps the loop's zero in r3 (coalesced with `i = 0` and the `o->f94
+      = 0` store) where this front end hoists a fresh zero into a callee-saved
+      register *above* the func_02082A90 call, which is why the frame's register
+      set differs even though both push eight words.
+      Tried: the entry named as `u32 *e` with e[0]/e[2] (101 bytes, best); the
+      entry named as `u32 *e` with a separate `u32 r = 0;` then `e[2] = r` (107);
+      v/r declared at function scope (116); the field read into a `u32 v` and the
+      ternary inline (116); `struct Ent {u32,u32,u32,u32}` pointer arithmetic (101).
+
+
+5. 0x02065AA8  func_02065AA8  188 bytes  ARM  pkt_02065020   -> PARK + residue
+--------------------------------------------------------------------------
+MATCH-capped regardless of the C: +0008 PC24 func_02067A60 reports
+"unresolved: 02067A60 (arm, from header) has no witness outside
+02065AA8..02065B60", and 0x02067A60 sits in pkt_02065940, not this lane's.
+
+Body recovered (skeleton of the SND/enum init): 11 zero stores to o->f70..f94,
+`*(u32 *)(g_02147B88 + 0xc) = 0`, `g_020A81F8 = 0xfffe`, a 32-iteration
+`func_02082AC0(0xffffffff, p + 0x10, 0x10)` walk with p stepping 0x20 from
+g_02148318, then `*(u16*)(g_02147B88+0) = 0`, `*(u16*)(g_02147B88+2) = 0`,
+`func_02082AC0(0, g_02147C18, 0x100)`, `*(u32*)(g_02147B88+4) = 0`.
+
+The other six relocations resolve (`label x97` x2 for func_02082AC0,
+`literal x100/55/15/35` for g_02147B88 / g_020A81F8 / g_02148318 / g_02147C18),
+so only 0x02067A60 caps it.
+
+Codegen residue at best spelling: 83 bytes, 184 compiled against 188.  The image
+`mov r6, #0` is *reused* for all eleven zero stores and as the loop counter
+(`add r6, r6, #1`), so `int i;` (not `u32 i`, which turns the back-edge `blt`
+into `blo`) plus literal 0 stores is required; but this front end then hoists the
+four pool loads (g_02147B88, 0x0000fffe, g_020A81F8, g_02148318) to +0010..+0018
+where the image issues them at +003C..+0048, immediately before their uses, and
+it takes r7 for the zero and r6 for the pointer, the mirror of the image's
+r6/r7.  Tried: `int i` vs `u32 i` (83 vs 97), a named `u32 z = 0` used for the
+eleven stores (83), `p = g_02148318;` hoisted out of the for (96), the table
+index spelled `g_02148318 + i * 0x20 + 0x10` instead of a stepping pointer (123).
+
+
+6. 0x0207229C  func_0207229C  132 bytes  ARM  pkt_02071B2C   -> DIFF, 4 bytes
+--------------------------------------------------------------------------
+Re-measured (the residue is recorded in docs/notes/pkt_02071B2C.c.txt section
+"lane 2"; this lane re-ran it with the noted C to pin the numbers and brings no
+new lever): 0 relocations, compiled 128 against 132, 81 concrete bytes differ.
+The image has one extra instruction because the scheduler places the second
+statement's operand loads (`ldr ip, [r1, #0x24]`, `ldr r4, [r1, #0x28]`) before
+the `str r3, [r0, #0x30]` that belongs to the first, so the image re-reads
+s->f1c after that store (`ldr ip, [r1, #0x1c]` at +003C and `ldr r1, [r1, #0x1c]`
+at +005C) where the compiled form needs one load.  The compiled `adds r1, r4, r1`
+also carries flags the image's `add r1, r1, r4` does not.  Recorded so the next
+pass does not re-derive it.
+
+
+7. 0x02063294 / 0x02063378  (pkt_02063078)  -> DIFF, notes are ABBREVIATED
+--------------------------------------------------------------------------
+docs/notes/pkt_02063078.c.txt shows a four-row residue for each of these and its
+source headers carry `status: EXACT`, which reads as a four-byte miss.  Re-running
+the note's own C verbatim:
+
+  0x02063294  compiled 208 against 228 (listing extent) -> DIFF, 158 bytes
+  0x02063378  compiled 180 against 196 (listing extent) -> DIFF, 137 bytes
+
+Both residues are much larger than the four rows the note prints (the note's
+`residue:` block is a prefix, not the whole diff; the first four rows really are
+`push {r4, lr}` / `ldrh lr, [r0, #?]` / `ldrh ip, [r0, #?]` / `mov r4, #0`
+against `push {r3, r4, r5, lr}` / `ldrh ip, ...` / `ldrh r3, ...` / `mov r5, #0`).
+Any future pass should treat these two rows as open codegen walls, not as 4-byte
+residues, and should not trust the note's `status: EXACT` header lines.
+
+==============================================================
+APPENDED, lane r4-7, measured with `match.py one --cc 1.1p1`
+==============================================================
+0x0204E410  176 B  ARM  pkt_0204E410  MATCH   0 concrete diff; 0/2 sites
+         unresolved (literal: 020A1480, 020A1482 own-pool-only)
+0x02068030  172 B  ARM  pkt_02067FE4  DIFF    49 concrete bytes, 172 vs 172
+0x02074E9C  160 B  ARM  pkt_02074CD0  DIFF    58 concrete bytes, compiled 164
+0x02074220  192 B  ARM  pkt_02073F3C  DIFF    101 concrete bytes, 192 vs 192
+0x02065AA8  188 B  ARM  pkt_02065020  DIFF    83 concrete bytes + 1/7 site
+         unresolved (label: 02067A60, pkt_02065940) -> MATCH-capped
+0x0207229C  132 B  ARM  pkt_02071B2C  DIFF    81 concrete bytes, compiled 128
+0x02063294  228 B  ARM  pkt_02063078  DIFF    158 concrete bytes, compiled 208
+0x02063378  196 B  ARM  pkt_02063078  DIFF    137 concrete bytes, compiled 180

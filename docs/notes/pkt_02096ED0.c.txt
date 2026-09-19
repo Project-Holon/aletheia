@@ -1,0 +1,261 @@
+pkt_02096ED0 -- lane r5c, chain-closing lane (owner-redirected this run)
+
+
+ROW: 0x02096ED0, 672 code bytes, ARM, 168 instructions, extent
+0x02096ED0..0x02097170 = the code exactly: no pool words, no switch table and
+no `bl` anywhere in the body, so this row has ZERO relocation sites.  A
+byte-perfect C here would come back EXACT with no attestation work at all,
+which is why it was the lane's first target.
+
+CALLERS, MEASURED: exactly two `bl` sites image-wide, both inside 0x0209739C
+(0x020978C0 and 0x020978D4; a whole-image scan of asm/arm9/src/*.s finds no
+other `bl func_02096ED0`).  Ignore the duplicated-looking hits in the six
+per-packet listing files: they are the same two addresses.  0x0209739C's only
+caller is 0x02094B8C, which the owner reclassified into layout/runtime_arm9.txt
+this run (_msl_scanf_strtod_core).  So this row's fan-in is 2 sites, both from
+library C, and its own body is an MSL decimal-digit-buffer helper: on the same
+evidence the reclassified six were moved on, 0x02096ED0 is library code too.
+That is a reclassification recommendation, not a filing: nothing outside this
+lane's write set was touched.
+
+WHAT THE BODY IS: a 38-byte digit-buffer operation over
+struct { u16 f0; s16 f2; u8 f4; u8 buf[33]; } (the same 38-byte buffer the
+strtod core passes around, and the same layout as pkt_020972F0's P0972):
+  1. *a = *src            (38-byte struct copy)
+  2. if (b->buf[0] == 0) return;
+  3. n = max(a->f4, b->f4) + (a->f2 - b->f2), clamped to 0x20; zero-pad a's
+     digit buffer up to n;
+  4. digit-wise a -= b with borrow, over a's buffer cut at n and b's buffer
+     cut at b->f4 + (a->f2 - b->f2);
+  5. round: the unconsumed tail of b decides, first digit < 5 -> decrement the
+     result at the cut, == 5 -> round to even on the last kept digit's parity,
+     > 5 (or == 5 with any nonzero tail digit) -> leave it;
+  6. normalise: strip leading zeros (shifting the buffer down, adjusting a->f2
+     and a->f4) and then strip trailing zeros by recomputing a->f4.
+
+
+RESULT: DIFF.  Nothing filed, no shard written for this row.
+Fraction reproduced: 672/672 bytes transcribed, 168/168 instructions in the
+same order with the same mnemonics and the same branch targets, 101/168
+instructions byte-identical.  The residue is mwcc's global register allocation,
+below.
+
+FIRST DIVERGENCE, instruction 37 of 168 (0x02096F64), the definition of the
+a->buf base pointer:
+
+  original   add r3, r0, #5          ; base = a->buf          -> base in r3
+  ours       add r5, r0, #5                                 -> base in r5
+
+Everything before it (the 38-byte struct copy, the b->buf[0] early-out, the
+max/exponent computation and the whole zero-pad loop) is byte-identical, and
+everything after it is the same 131 instructions with the same register set
+ROTATED.  Side by side at the subtraction loop:
+
+  original  base=r3  pa=ip  pb=lr  p=r4  diff=r6  b->buf=r1  a-digit=r7  b-digit=r5
+  ours      base=r5  pa=r3  pb=ip  p=r4  diff=r6  b->buf=r1  a-digit=lr  b-digit=r7
+
+71 of the 168 instructions carry a register difference for this one reason.
+
+TWO INSTRUCTION-LEVEL (association) DIFFERENCES THAT GO WITH IT:
+  * 0x02097004 block: the original keeps the b->buf copy taken at 0x02096F7C
+    alive in r1 through 0x02097000 (`sub lr, r4, r1`) and re-materialises it
+    once at 0x0209702C (`add r1, r2, #5`) for the "== 5, look at the tail"
+    half; ours clobbers r1 with the index and has to materialise b->buf once
+    with `add lr, r2, #5` at the same point instead.  Net: one `add` moves.
+  * tail at 0x02097160: original `sub r1, r3, r2 / add r1, r1, #1 / strb`
+    ((q - a->buf) + 1); ours folds the +1 into the pointer difference
+    (`add r1, r0, #4 / sub r1, r3, r1`).  Net: one `add` moves again.
+  Because the two are washes, the compiled body is exactly 672 bytes -- the
+  size matches and every relocation (there are none) resolves; only the
+  register names in the byte fields differ.
+
+
+LEVERS THAT DID WORK (keep these; they are what took the row from 696 to 672
+bytes and from 71 to 101 byte-identical instructions):
+
+  1. `const DB *src` on the second parameter is LOAD-BEARING.  With a plain
+     `DB *src`, mwcc expands the opening 38-byte struct copy as
+     ldrh / ldrh / add / subs / strh / strh / bne (7 instructions, +4 bytes);
+     with `const DB *src` it expands it as
+     ldrh r3,[r1,#2] / ldrh r4,[r1],#4 / subs r5,r5,#1 / strh r3,[r6,#2] /
+     strh r4,[r6],#4 / bne -- 6 instructions, byte-identical to the original.
+     This is the only lever that closed a real instruction-count difference.
+  2. The rounding block reuses the pointer saved before the loop (`p = pb;`),
+     not the decremented loop cursor: the original has `mov r4, lr` at
+     0x02096F88 and its `i = p - b->buf` at 0x02097008 reads that copy.  Using
+     the cursor instead is a real semantic difference and shifts the bytes.
+  3. The rounding decrement is `if (*pa < 1) { ...borrow... } *pa -= 1;` --
+     one shared `*pa -= 1` after the borrow, not an if/else with a copy in
+     each arm.  Written as if/else, mwcc predicates the decrement
+     (subcs/strbcs) and the body grows by two instructions.
+  4. `base` must be a named local.  Spelling the same code with `a->buf` at
+     every use makes mwcc rematerialise `r0+5` nine times, +20 bytes.
+
+SPELLINGS RULED OUT (each compiled and scored; none moves `base` off r5):
+  * `base = (u8 *)a + 5;`, `&a->buf[0]`, `(u8 *)a->buf`, `register u8 *base`
+  * `u8 *base = a->buf;` at the declaration (initialised declarator)
+  * block-scoping `base`, or defining it before the pad loop
+  * `pa = a->buf + n; base = a->buf;` (definition order swapped)
+  * `n = (a->f4 < b->f4) ? b->f4 : a->f4;` (ternary; the if-form is required:
+     the ternary emits `movcs r5, r7` where the original has `mov r1, r7 /
+     movlt r1, r3`)
+  * `pa = base + b->f4 + diff;` without the inner parentheses (+4 bytes)
+  * a named local for b->buf (`bb`), with and without `base`
+  * all 8! declaration orders sampled (91 random permutations + exhaustive
+    2-swap hill-climbing from the best): the best order
+     `q, e, t, base, pa, pb, d, p` reaches 114/168 but still puts base in r5;
+     declaration order is a real knob (it moves other registers) but not this
+     one.
+  * int declaration orders, `restrict` on the three parameters, `const` on b
+    (with casts), inline `p - b->buf` instead of the named `i`, flipped
+    comparisons at every guard, `while (pa > a->buf ...)` instead of `base`,
+    and dropping `base` entirely (rematerialises 9x, 692 bytes).
+
+NEXT ATTEMPT SHOULD TRY FIRST: the residue is a register-rotation that a
+source-level knob has not moved, so do not re-transcribe the body -- it is
+correct.  Either (a) treat the row as library code (recommended: fan-in 2,
+both sites in library C, and its 38-byte buffer struct is the strtod core's
+own), or (b) if a body must be filed, find the register-allocation lever by
+bisecting the source against the emitted register set: the allocator is
+reusing r5 (the zero-pad loop's counter) for `base` in our spelling and
+reserving it for the loop's b-digit in the original, so the difference is in
+how the pad loop's temporary and `base` share a register -- try keeping the
+zero-pad loop's counter in a named local with a live range that overlaps the
+base pointer's.
+
+
+THE BODY AS TRANSCRIBED (this is the source that compiles to 672 bytes, 168
+instructions, 101/168 byte-identical; DIFF, so it lives here and not in
+src/pending/, which holds MATCH only):
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+
+typedef struct {
+    u16 f0;
+    s16 f2;
+    u8  f4;
+    u8  buf[33];
+} DB;
+
+void func_02096ED0(DB *a, const DB *src, DB *b)
+{
+    int n, diff, up, i;
+    u8 *base, *pa, *pb, *q, *p, *t, *e, *d;
+    u8 k;
+
+    *a = *src;
+
+    if (b->buf[0] == 0)
+        return;
+
+    n = a->f4;
+    if (n < b->f4)
+        n = b->f4;
+    diff = a->f2 - b->f2;
+    n += diff;
+    if (n > 0x20)
+        n = 0x20;
+
+    while (a->f4 < n)
+        a->buf[a->f4++] = 0;
+
+    base = a->buf;
+    pa = base + n;
+    if (b->f4 + diff < n)
+        pa = base + (b->f4 + diff);
+    pb = b->buf + (pa - base - diff);
+    p = pb;
+
+    while (pa > base && pb > b->buf) {
+        pa--;
+        pb--;
+        if (*pa < *pb) {
+            q = pa - 1;
+            if (*q == 0) {
+                do {
+                    q--;
+                } while (*q == 0);
+            }
+            while (q != pa) {
+                *q -= 1;
+                q++;
+                *q += 10;
+            }
+        }
+        *pa = *pa - *pb;
+    }
+
+    i = p - b->buf;
+    if (i < b->f4) {
+        up = 0;
+        if (*p < 5)
+            up = 1;
+        else if (*p == 5) {
+            t = p + 1;
+            e = b->buf + b->f4;
+            while (t < e) {
+                if (*t != 0)
+                    goto trim;
+                t++;
+            }
+            pa = base + i + diff - 1;
+            if ((*pa & 1) != 0)
+                up = 1;
+        }
+        if (up != 0) {
+            if (*pa < 1) {
+                q = pa - 1;
+                if (*q == 0) {
+                    do {
+                        q--;
+                    } while (*q == 0);
+                }
+                while (q != pa) {
+                    *q -= 1;
+                    q++;
+                    *q += 10;
+                }
+            }
+            *pa -= 1;
+        }
+    }
+
+trim:
+    p = base;
+    while (*p == 0)
+        p++;
+    if (p > base) {
+        k = p - base;
+        e = base + a->f4;
+        a->f2 -= k;
+        d = base;
+        while (p < e)
+            *d++ = *p++;
+        a->f4 -= k;
+    }
+
+    q = a->buf + a->f4;
+    while (q > a->buf) {
+        q--;
+        if (*q != 0)
+            break;
+    }
+    a->f4 = q - a->buf + 1;
+}
+
+Verified with:
+  python tools/match.py one --src <the file above> --func func_02096ED0 \
+      --addr 0x02096ED0 --cc 1.1p1 --arm
+  -> DIFF, 672 bytes compiled against a 672-byte listing extent, 0 relocation
+     sites, 101/168 instructions byte-identical, first difference at +0x0094
+     (instruction 37): `add r3, r0, #5` against `add r5, r0, #5`.
+
+Scratch tooling used by this lane (kept, they are reusable):
+  scratch/r5c_cmp.py    side-by-side original listing vs compiled object
+  scratch/r5c_score.py  byte size + how many instructions are identical
+  scratch/r5c_copy.py / r5c_copy2.py / r5c_copy3.py   isolated struct-copy
+                        spelling search (this is how `const DB *src` was found)
+  scratch/r5c_try.py, r5c_bf.py, r5c_hc.py, r5c_rs.py  variant/permutation
+                        searches against the same row

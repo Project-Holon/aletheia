@@ -1,0 +1,164 @@
+DIFF residue: func_02073DFC @ 0x02073DFC (arm9, ARM, 232 bytes)
+packet: pkt_02073D5C
+
+Verdict: DIFF (compiled 228 vs 232, 10 of 11 sites resolved).
+
+Two blockers, either one enough to stop it:
+
+1. `bl func_0208972C` at +0x0D0 has no witness: 0x0208972C is
+   SND_SetOutputSelector (TwlSDK/libsnd.TWL.HYB.a(snd_interface.o),
+   layout/symbols_sdk.txt) but it is absent from layout/symbols_sdk.json's
+   address list, its only branch in the whole image is this one, and
+   match.py has no SDK evidence class for a branch site -- so the site stays
+   wildcarded and the function can never pass MATCH, let alone EXACT.
+
+2. The mask head does not reproduce.  The original materialises the
+   `f2c >= 0` predicate as a *two-immediate* pair in r7
+
+      ldr r1, [r4, #0x2c]
+      mov r3, #0
+      cmp r1, #0
+      movge r7, #1
+      movlt r7, #0
+      cmp r7, #0
+      movne r0, #1
+      lslne r2, r0, r1
+      ldr r0, [r4, #0x24]
+      ldr r1, [r4, #0x28]
+      moveq r2, #0
+      bl func_020894DC
+
+   while every spelling tried puts the same predicate in a register with a
+   hoisted zero register instead
+
+      mov r6, #0        <- in the prologue, before the guard
+      ...
+      mov r5, #1 / movlt r5, r6
+      cmp r5, #0
+      ...
+
+   which also drags the `mov r3, #0` argument materialisation from +0x18 to
+   +0x40 and shifts the whole 228-byte body.  Spellings ruled out (each with
+   the same hoisted-zero form, 86 to 104 concrete bytes): a plain
+   `flag = (g->f2c >= 0);`; `flag = 1; else flag = 0;`; `if/else` assignment;
+   `(cond) ? 1 : 0`; `(int)(cond)`; `(g->f2c & 0x80000000) ? 0 : 1`.  The
+   twin func_02073EE4 (0x02073EE4, src/matched/func_02073EE4.c, EXACT) uses
+   the same opening without a stored predicate and comes out exactly, so the
+   difference is the predicate's extra live range, not the shift arm.
+
+The rest of the structure is settled and the 10 resolved sites confirm it:
+the drain path (func_02089D40 / func_02089B38(1) / func_02089CD4, then a
+spin on func_02085E50 over the queue object at 0x0214E9BC until it reports
+empty), the f28 and f20 releases (func_020729A4, func_02072974), the masked
+func_02072A08 call, the `f4 == 1` transfer reset (func_0208972C(0,0,0,0)),
+then f0 = 0.  Both data words resolve (`literal`, x20 and x5).
+
+Not in src/pending: the verdict is DIFF, and src/pending holds MATCH only.
+
+THE SOURCE AS IT STANDS (10 resolved sites, mask head 4 bytes early)
+
+/*
+ * function: func_02073DFC
+ * address:  0x02073DFC
+ * packet:   pkt_02073D5C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_0214E9FC  0x0214E9FC  data
+ *   g_0214E9BC  0x0214E9BC  data
+ *   func_020729A4  0x020729A4  arm
+ *   func_02072A08  0x02072A08  arm
+ *   func_02072974  0x02072974  arm
+ *   func_02085E50  0x02085E50  arm
+ *   func_020894DC  0x020894DC  arm
+ *   func_02089D40  0x02089D40  arm
+ *   func_02089B38  0x02089B38  arm
+ *   func_02089CD4  0x02089CD4  arm
+ *   func_0208972C  0x0208972C  arm
+ *
+ * Teardown of the 0x0214E9FC video/transfer scheduler: the twin of
+ * func_02073EE4 with the release path appended.  Same opening (f0 guard,
+ * f2c >= 0 selects the shift mask 1u << f2c, func_020894DC(f24, f28, mask,
+ * 0)), then the drain: quiesce the display, then spin func_02085E50 over the
+ * queue object at 0x0214E9BC until it reports empty, release the f28 and f20
+ * buffers, clear the f2c mask through func_02072A08, and if the mode word at
+ * +4 is 1, reset the transfer unit before zeroing f0.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02073DFC.c \
+ *       --func func_02073DFC --addr 0x02073DFC --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+struct G {
+    u32 f0;
+    u32 f4;
+    u8  p8[0x18];
+    void *f20;
+    u32 f24;
+    u32 f28;
+    u32 f2c;
+};
+
+extern struct G g_0214E9FC;
+extern u32 g_0214E9BC;
+
+extern void func_020894DC(u32, u32, u32, u32);
+extern u32  func_02089D40(void);
+extern void func_02089B38(u32);
+extern void func_02089CD4(u32);
+extern u32  func_02085E50(void *, u32, u32);
+extern void func_020729A4(void);
+extern void func_02072974(void);
+extern void func_02072A08(u32);
+extern void func_0208972C(u32, u32, u32, u32);
+
+void func_02073DFC(void)
+{
+    struct G *g = &g_0214E9FC;
+    u32 m;
+    u32 r;
+    int flag;
+
+    if (g->f0 == 0) {
+        return;
+    }
+
+    flag = ((int)g->f2c >= 0);
+    if (flag) {
+        m = 1u << g->f2c;
+    } else {
+        m = 0;
+    }
+    func_020894DC(g->f24, g->f28, m, 0);
+
+    if (flag) {
+        r = func_02089D40();
+        func_02089B38(1);
+        func_02089CD4(r);
+        while (func_02085E50(&g_0214E9BC, 0, 0) != 0) {
+            ;
+        }
+    }
+
+    if (g->f28 != 0) {
+        func_020729A4();
+    }
+    if (g->f20 != 0) {
+        func_02072974();
+    }
+    if (flag) {
+        func_02072A08(g->f2c);
+    }
+    if (g->f4 == 1) {
+        func_0208972C(0, 0, 0, 0);
+    }
+    g->f0 = 0;
+}

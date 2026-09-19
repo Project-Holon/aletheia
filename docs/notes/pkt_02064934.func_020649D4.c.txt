@@ -1,0 +1,88 @@
+
+
+===== func_020649D4 (0x020649D4) DIFF body, moved out of src/matched 2026-09-19 by the integrator =====
+The source file was sitting in src/matched/ with `status: EXACT` but it does NOT compile byte-identical;
+no shard ever named it, so the record was never wrong, but a later `manifest --verify --shard pkt_02064934`
+would have written a false EXACT entry. Verdict from tools/match.py one at move time:
+
+DIFF       func_020649D4 @ 020649D4 (arm9, ARM)
+  compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p
+  compiled 220 bytes, 9 relocation site(s)
+  relocations: 8 of 9 resolved
+    +0018 PC24 func_02062D4C           -> 02062D4C  [label x5, e.g. 0206436C]
+    +002C PC24 func_02064934           -> unresolved: 02064934 (arm, from header) has no witness outside 020649D4..02064AB0
+
+Body follows verbatim.
+
+/*
+ * function: func_020649D4
+ * address:  0x020649D4
+ * packet:   pkt_02064934
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02062D4C  0x02062D4C  arm
+ *   func_02064934  0x02064934  arm
+ *   func_02062D40  0x02062D40  arm
+ *   func_020629E8  0x020629E8  arm
+ *   func_02064140  0x02064140  arm
+ *   func_020640DC  0x020640DC  arm
+ *   func_02064120  0x02064120  arm
+ *   func_02064100  0x02064100  arm
+ *   func_020643CC  0x020643CC  arm
+ *
+ * The halfword pulled out of the header object before the first call stays
+ * live in a callee-saved register across it (r5), so it is a named local.
+ * The kind word is loaded and masked BEFORE the func_02064140 call, which
+ * is what pins it as a local computed at that point rather than inline in
+ * the switch; the switch has an empty case 0 (falls straight to the tail)
+ * and case 2 on the short pair, the default on the word pair.
+ */
+
+extern int func_02062D4C(char *self, int a1, int t);
+extern void func_02064934(char *self, int a1);
+extern char *func_02062D40(char *self);
+extern int func_020629E8(int h, int v);
+extern void func_02064140(char *self, int v);
+extern void func_020640DC(char *self, int a, int b);
+extern void func_02064120(char *self, int a, int b);
+extern void func_02064100(char *self, int a);
+extern void func_020643CC(char *self, int a, int b);
+
+void func_020649D4(char *self, int a1)
+{
+    unsigned short t = *(unsigned short *)(*(int *)self + 4);
+    char *p;
+    int r7;
+    int kind;
+
+    if (func_02062D4C(self, a1, t) == 0) {
+        func_02064934(self + 0x34, a1);
+        return;
+    }
+    *(unsigned short *)(self + 0x30) += t;
+    if (*(unsigned short *)(*(int *)(self + 4) + 4) == 0)
+        return;
+    p = func_02062D40(self);
+    r7 = func_020629E8(*(int *)(self + 0x44), *(unsigned short *)p);
+    kind = *(int *)(*(int *)(self + 0x1c) + 4) & 0xff;
+    func_02064140(self + 0x48, 1);
+    switch (kind) {
+    case 0:
+        break;
+    case 2:
+        func_020640DC(self + 0x48, *(short *)(p + 4), *(short *)(p + 6));
+        break;
+    default:
+        func_02064120(self + 0x48, *(int *)(p + 4), *(int *)(p + 8));
+        func_02064100(self + 0x48, *(unsigned short *)(p + 2));
+        func_020640DC(self + 0x48, *(short *)(p + 0xc), *(short *)(p + 0xe));
+        break;
+    }
+    func_020643CC(self + 0x34, r7, *(unsigned short *)(self + 0x30));
+}

@@ -7,7 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
+ * note:     promoted from src/pending 2026-09-19 with NO C change: the only unresolved site was the
+ *           call at +0x0012 to func_0200F38C, which became a `matched` witness when
+ *           src/matched/func_0200F38C.c was filed (layout/matched/arm9/pkt_0200F38C.json).
+ *           match.py one: EXACT, compiled 60 bytes, 3 of 3 relocations resolved.
  * symbols:
  *   func_0203D610  0x0203D610  arm
  *   func_0200F38C  0x0200F38C  thumb

@@ -1,0 +1,97 @@
+func_0203A020 @ 0x0203A020, pkt_02039D94 - DIFF, 178 bytes,
+eight short.  All four call sites resolve (`label` x44..x546), so a byte-true C
+would file.
+=====================================================================
+
+The function is heavily if-converted, and the reversal below is the reading
+that reproduces the *semantics* of the image (the four `beq`-predicated
+`ldrb`/`cmp` sites around +0x74..+0xB8); the compiler still emitted the early
+return predicated (`movne r0,#1 / strbne / popne`, 2 instructions fewer) where
+the original branches (`bne / mov r0,#1 / strb / pop`), and the `cmp` operand
+order at +0x20 came out as `cmp r5, r0` against the original's `cmp r0, r5`,
+i.e. the call result did not reach the left slot -- the original binds it to a
+named local first (see docs/idioms/cmp-operand-order-names-the-temporary.md).
+
+Decoded condition chain, for whoever picks this up: the 0xe/0xf id pair is
+written as `(cond && r4->id6e == a2[8]) ? id6e : 0x00ff` where cond is
+`(a2[6] == 0) == (a2[7] == r4->b67)`, and the a2[8] == 0 arm writes
+`0xf = r4->b67; 0xe = a2[7]` in that order.
+
+Closest C (moved out of src/matched/, which takes EXACT only):
+
+/*
+ * function: func_0203A020
+ * address:  0x0203A020
+ * packet:   pkt_02039D94
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203996C   0x0203996C  arm
+ *   func_0203D798   0x0203D798  arm
+ *   func_02087C6C   0x02087C6C  arm
+ *   MI_CpuCopy8     0x02082D44  arm
+ *
+ * Stage-two of the record installer keyed off `base` (the caller's table at
+ * +8, one u32 per engine index): the first pair of the 6-byte key is copied
+ * into the record's bytes 6..0xb, its byte 6 is mirrored to 0xc, the record
+ * goes to func_02087C6C, and then the two-byte id at 0xe/0xf is set from the
+ * current id pair (r4+0x67 / r4+0x6e) according to the key's byte 6/7/8.
+ * When func_0203996C(0xff) does not match the caller's table base, the flag
+ * at base+0x4e is raised instead.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0203A020.c \
+ *       --func func_0203A020 --addr 0x0203A020 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u8  *func_0203D798(u32 a, u32 b, u8 *c, u32 d);
+extern u32  func_0203996C(u32 a);
+extern void func_02087C6C(u8 *p);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
+
+void func_0203A020(u32 idx, u32 a1, u8 *a2, u32 a3, u32 a4, u32 a5, u8 *base)
+{
+    u8 *r4 = func_0203D798(idx, a1, a2, a3);
+    u8 *p;
+
+    if (func_0203996C(0xff) != (u32)base) {
+        base[0x4e] = 1;
+        return;
+    }
+    p = *(u8 **)(base + idx * 4 + 8);
+    if (p[0xd] != 0)
+        return;
+    p[0xd] = 1;
+    MI_CpuCopy8(a2, p + 6, 6);
+    p[0xc] = a2[6];
+    func_02087C6C(p);
+
+    if (a2[8] == 0) {
+        p[0xf] = r4[0x67];
+        p[0xe] = a2[7];
+        return;
+    }
+    if (a2[6] != 0 && a2[7] != r4[0x67]) {
+        if (r4[0x6e] == a2[8]) {
+            p[0xf] = r4[0x6e];
+            p[0xe] = r4[0x6e];
+            return;
+        }
+    }
+    if (a2[6] == 0 && a2[7] == r4[0x67] && r4[0x6e] == a2[8]) {
+        p[0xf] = r4[0x6e];
+        p[0xe] = r4[0x6e];
+    } else {
+        p[0xf] = 0xff;
+        p[0xe] = 0;
+    }
+}
+

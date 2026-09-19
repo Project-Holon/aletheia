@@ -1,0 +1,69 @@
+pkt_02066B84  0x02066B84  arm9  ARM  near miss (DIFF, 40 bytes short)
+
+Measured: compiled 576 bytes against 616 in the image (604 code + 12 pool).
+9 of 10 relocation sites resolve (the tenth is the callback pointer, below).
+
+THE BODY
+--------
+`func_02066B84(u32 *a, u32 *b, u32 c, u32 d, u32 *out)` reads a packed
+descriptor dword from `a[0]`:
+
+    sel = (a[0] >> 14) & 3        ; 02066BA4/02066BAC  and #0xc000 / asr #0xe
+    hi  = (a[0] >> 30) & 3        ; 02066B9C/02066BA0  and #0xc0000000 / lsr #0x1e
+    n   = a[1] & 0x3fffff         ; 02066BA8/02066BB0  lsl #0x16 / lsr #0x16
+
+then fills `out[4]`/`out[5]` from two halfword tables at 0x020A17F0 and
+0x020A17D8, indexed `sel*4 + hi` with the `hi` half scaled by 2
+(`ldrh r5, [r8, r5]`, r8 = hi*2, r5 = base + sel*8),
+
+`if (b[5] == 0)`: packs one dword from `b[0..4]` and `c` and writes it to
+0x040004A8, applies the `n` mask (`& (table[b[0]] - 1) << 15`) and the
+signed-reduction `out[1] = ((s32)n >> b[0]) << 15`; else packs the same
+fields through the two tables at 0x020A1844/0x020A1874 (indexed
+`sel*4 + hi` from two different halves of the same descriptor) and writes
+0x02148B2C, with out[0] = out[1] = 0.
+
+Then `out[2] = out[0] + (out[4] << 12)` and `out[3] = out[1] + (out[5] << 12)`,
+two conditionally-swapped pairs selected by `(a[0] << 3) >> 31` and
+`(a[0] << 2) >> 31`, an indirect call through the **function pointer stored
+at 0x020A181C** (`ldr r7, [r1]; cmp r7, #0; blx r7` at 0x02066D30..0x02066D54)
+with (out, out+1, out+2, out+3) plus two stack flags, and finally the
+0x040004AC write `(d + r0) >> (4 - r2)` where `r2 = (table[a[0]>>13 & 1] == 2)`
+and r0 is shifted by 5/9/0 according to `b[3]`.
+
+RESIDUE
+-------
+The attempt diverges from instruction 4:
+
+    02066B8C  mov r6, r0
+    02066B90  ldr r0, [pc, #0x22c]     ; 0xc000c000    | compiled: ldr r4, [r6]
+    02066B94  ldm r6, {r4, r5}         ; a[0], a[1]    | compiled: ldr r0, [pc,#0x1fc]
+    02066B98  and r0, r4, r0                           | compiled: lsr r5, r4, #0xe
+    02066B9C  and r4, r0, #0xc0000000                  | compiled: lsr r4, r4, #0x1e
+
+Two distinct causes, both cheap to fix next time:
+
+  1. `ldm r6, {r4, r5}` at 0x02066B94 is one load of BOTH dwords.  That is
+     the aggregate-read tell: the source reads one struct/array of two words
+     (`a[0]`/`a[1]` in one expression, e.g. a local `struct {u32 v, w;} s = a[0..1]`
+     or `u32 v = a[0], w = a[1];` with the compiler contracting the pair).
+     The attempt's two scalar `a[0]`/`a[1]` loads do not contract.
+  2. The mask 0xc000c000 is loaded once at 0x02066B90 and applied to the
+     loaded dword; the attempt restructured the extraction into plain shifts
+     (`lsr r5, r4, #0xe`), losing the `and` pairs.  The source must mask with
+     the 32-bit constant before shifting, keeping `v & 0xC000C000` in a named
+     temporary.
+
+The indirect call needs its own declaration; as written the symbol is not an
+address-bearing name.  Declare the dword at 0x020A181C in `symbols:` and cast
+the value at the blx site, i.e. `((void (*)(u32, u32*, u32*, u32*, u32, u32))
+data_020A181C[0])(...)`, so the pool word is an ABS32 of an attested address
+rather than a second, unattested symbol.
+
+NEXT LEVER
+----------
+Contract `a[0]`/`a[1]` into one `ldm` (bind both to locals in the same
+declaration) and keep `v & 0xC000C000` as a named temporary before the two
+extractions.
+
+Best C: scratch/probe1/w_02066B84.c.

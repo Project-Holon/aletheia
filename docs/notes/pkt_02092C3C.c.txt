@@ -1,0 +1,232 @@
+/*
+DIFF note, lane r5b, row 0x02092C3C (ARM, packet pkt_020924DC, unit 29).
+Verdict: DIFF.  Whole body transcribed and compiled: 672 bytes against the
+original's 716 code bytes (+ the 0x1FD pool word at 0x02092F08, inside the
+row's 720-byte listing extent), 52 of 168 instruction slots identical by
+sequence alignment, 2 relocation sites (both the 64-bit divmod pair, both
+resolved through the header's symbols: block).
+
+THE ROW IS MID-PROLOGUE.  Like its neighbour 0x020929E8 documented in
+docs/notes/pkt_020924DC.c.txt, the real entry is one instruction earlier:
+0x02092C38 is the argument home area `push {r0, r1, r2, r3}` that mwcc emits
+for a by-value aggregate parameter, and the row as cut (0x02092C3C) starts at
+the callee-saved push.  Evidence, all inside the bytes:
+
+  * the frame is 0x50 bytes: 0x10 (home area) + 0x28 (ten callee-saved
+    registers) + 0x18 (six scalar slots).  Every parameter read is a read of
+    the home area or of the caller's stack args at 0x50/0x54/0x58:
+    ldrb [sp,#0x4c] (spec byte 0), ldrb [sp,#0x4d] (byte 1),
+    ldrb [sp,#0x4f] (byte 3), ldrb [sp,#0x51] (byte 5 = the conversion
+    character), ldr [sp,#0x54] (arg6), ldr [sp,#0x58] (arg7).
+  * the `push {r3}` in the row's own prologue is alignment padding, not a
+    slot: the six scalars are exactly the `sub sp, sp, #0x18`.
+  * every return unwinds in reverse: `add sp,#0x18; pop {r3-r8, sb, sl, fp,
+    lr}; add sp, sp, #0x10; bx lr` -- the second sp adjustment pops the home
+    area, so the home area is really there.
+
+SIGNATURE DERIVED FROM THE BYTES (this is what the body below uses):
+  u32 f(u32 lo, u32 hi, u8 *buf, struct Spec8 spec, u32 w6, u32 w7)
+  with Spec8 an 8-byte struct passed by value across the register/stack
+  boundary: bytes 0..3 in r3, bytes 4..7 in the first caller stack word.
+  spec.b0 (compared with 2) is the signed mode, spec.b1 the sign style
+  (1 = '+', 2 = ' '), spec.b3 the prefix flag ('0' / "0x"), spec.b5 the
+  conversion character; w6 is the width used when spec.b0 == 2 and w7 the
+  initial width.  lo:hi is a 64-bit value, which is why the loop divides
+  through _ll_divmod_entry_flag1 (remainder) and _ll_divmod_entry_flag0
+  (quotient) at 0x0209C018 / 0x0209C00C.  buf is filled BACKWARDS
+  (`strb rX, [r7, #-1]!`), the NUL first.
+
+WHAT IT DOES: MSL-style num2dec for a 64-bit value -- switch on the
+conversion character ('i'/'d' signed base 10 with the
+(hi == 0x80000000 && lo == 0) guard around the negate, 'o' base 8,
+'u' base 10, 'x'/'X' base 16, both zeroing the sign style), a do/while digit
+loop that divides twice per iteration, a '0' prefix for base 8 and "0x" for
+base 16 when the prefix flag is set, the width adjustments (width = w6 and
+width-- when neg or sign style is set, in the signed mode; width -= 2 for the
+"0x" prefix), the 0x1FD length cap that returns 0, zero-padding up to width,
+then the sign character.
+
+FIRST DIFFERING INSTRUCTIONS (offsets from 0x02092C3C)
+   +0000  ORIG push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+          OURS push {r0, r1, r2, r3}          (compiled from 0x02092C3C, so
+                                              ours is the home area of an
+                                              entry that starts 4 bytes down)
+   +0004  ORIG sub sp, sp, #0x18
+          OURS push {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+   +0008  ORIG mov sb, r1
+          OURS sub sp, sp, #0x14
+  Compiling the body with --addr 0x02092C38 removes this whole class (it is
+  the row's cut, not the C); the numbers above are the ones the harness prints
+  for the row as filed.
+
+FRAME, MEASURED: ours is 0x48 bytes, the original 0x50.  The 8-byte gap is
+one scalar slot plus the alignment push: the original keeps six scalars at
+[sp]=start(buffered pointer), [sp+4]=prefix, [sp+8]=arg6, [sp+0xc]=sign
+style, [sp+0x10]=width, [sp+0x14]=negative flag, i.e. the declaration order
+neg, width, signstyle, w6v, prefix, start (scalars allocate bottom-up in
+reverse declaration order); ours is 0x14 = five slots -- mwcc merged one of
+them (the arg6 copy is read only in the signed-mode arm).  Every [sp,#N] with
+N >= 0x18 in ours is therefore 8 bytes lower than the original's, which is
+why the whole body reads as one shifted column.
+
+SPELLINGS RULED OUT: the spec as six separate u8/u32 parameters (then the
+byte reads become shifts, not ldrb out of the home area -- the home area only
+appears for the by-value aggregate); the 64-bit divmod as two u32 divides
+(all four argument registers are set for both runtime calls, so the divisor
+is a u64 in r2:r3); `char *buf` for `u8 *` (mwcc 1.1p1 refuses the implicit
+conversion, so the source's buffer parameter is unsigned).
+
+LEVER FOR THE NEXT ATTEMPT (one line): compile against --addr 0x02092C38
+first, then add the missing sixth scalar slot back (spell w6/arg6 as a local
+that is read twice) so the frame becomes 0x50 and every [sp,#N] lands on the
+original's offset; the remaining body already reproduces 52 instruction slots
+once the shift is removed.
+
+Verified with:
+  python tools/match.py one --src docs/notes/pkt_02092C3C.c.txt \
+      --func func_02092C3C --addr 0x02092C3C --cc 1.1p1 --arm --diff
+*/
+
+/*
+ * function: func_02092C3C
+ * address:  0x02092C3C
+ * packet:   pkt_020924DC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   _ll_divmod_entry_flag1  0x0209C018  arm
+ *   _ll_divmod_entry_flag0  0x0209C00C  arm
+ */
+
+typedef unsigned char      u8;
+typedef unsigned short     u16;
+typedef unsigned int       u32;
+typedef signed int         s32;
+typedef unsigned long long u64;
+typedef signed long long   s64;
+
+struct Spec8 {                 /* 8 bytes passed by value in r3:stack */
+    u8 b0;                     /* +0x00  signed mode, 2 = always signed  */
+    u8 b1;                     /* +0x01  sign style, 1 = '+' , 2 = ' '   */
+    u8 b2;                     /* +0x02                                  */
+    u8 b3;                     /* +0x03  prefix flag ('0' / '0x')        */
+    u8 b4;                     /* +0x04                                  */
+    u8 b5;                     /* +0x05  conversion character            */
+    u8 b6;                     /* +0x06                                  */
+    u8 b7;                     /* +0x07                                  */
+};
+
+extern u32 _ll_divmod_entry_flag1(u64 value, u64 base);   /* remainder */
+extern u32 _ll_divmod_entry_flag0(u64 value, u64 base);   /* quotient  */
+
+u32 func_02092C3C(u32 lo, u32 hi, u8 *buf, struct Spec8 spec, u32 w6, u32 w7)
+{
+    u32 neg;
+    u32 width;
+    u32 signstyle;
+    u32 w6v;
+    u32 prefix;
+    u8 *start;
+    u64 value;
+    u64 base;
+    u8 *p;
+    u8 conv;
+    u32 count;
+    u32 d;
+
+    p = buf;
+    *--p = 0;
+
+    neg = 0;
+    width = w7;
+    prefix = spec.b3;
+    w6v = w6;
+    signstyle = spec.b1;
+    conv = spec.b5;
+    start = buf;
+    count = 0;
+    value = ((u64)hi << 32) | (u64)lo;
+
+    if (value == 0 && width == 0) {
+        if (prefix == 0 || conv != 'o') {
+            return (u32)p;
+        }
+    }
+
+    if (conv == 'i' || conv == 'd') {
+        base = 10;
+        if ((s64)value < 0) {
+            neg = 1;
+            if (!(hi == 0x80000000 && lo == 0)) {
+                value = -value;
+            }
+        }
+    } else if (conv == 'o') {
+        signstyle = 0;
+        base = 8;
+    } else if (conv == 'u') {
+        signstyle = 0;
+        base = 10;
+    } else if (conv == 'x' || conv == 'X') {
+        signstyle = 0;
+        base = 16;
+    }
+
+    do {
+        d = (u32)(value % base);
+        value = value / base;
+        if (d < 10) {
+            d += 0x30;
+        } else {
+            d += (conv == 'x') ? 0x57 : 0x37;
+        }
+        *--p = (u8)d;
+        count++;
+    } while (value != 0);
+
+    if (base == 8 && prefix != 0) {
+        if (*p != '0') {
+            *--p = '0';
+            count++;
+        }
+    }
+
+    if (spec.b0 == 2) {
+        width = w6v;
+        if (neg != 0 || signstyle != 0) {
+            width--;
+        }
+    }
+    if (base == 16 && prefix != 0) {
+        width -= 2;
+    }
+
+    if (width + (u32)(start - p) > 0x1FD) {
+        return 0;
+    }
+
+    while (count < width) {
+        *--p = '0';
+        count++;
+    }
+
+    if (base == 16 && prefix != 0) {
+        *p = conv;
+        *--p = '0';
+    }
+
+    if (neg != 0) {
+        *--p = '-';
+    } else if (signstyle == 1) {
+        *--p = '+';
+    } else if (signstyle == 2) {
+        *--p = ' ';
+    }
+
+    return (u32)p;
+}

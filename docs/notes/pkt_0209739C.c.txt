@@ -1,0 +1,40 @@
+pkt_0209739C -- lane 3 of the 1025+ band (frontier probe)
+
+ROW: 0x0209739C, 1492 code bytes, ARM, 373 instructions, extent 1524 bytes
+(the listing's next label is 0x02097990).  One function in the packet.
+
+CALL SIDE, MEASURED (attest() with src set, over 0x0209739C..0x02097970):
+33 `bl` sites to 17 distinct targets, plus 6 pool words.  Sixteen of the
+seventeen targets attest; exactly ONE does not:
+
+  0x02096ED0   2 sites (both in this row)   *** NONE ***
+
+  0x02096ED0 has a traced func_ label, but the only two branches to it
+  anywhere in the image are inside this row, which the `label` class refuses,
+  and it is in neither layout/matched/arm9/*.json nor layout/runtime_arm9.txt.
+  Its packet-mates are all right: 0x02096D10 and 0x02096DF0 are EXACT entries
+  in pkt_02096990.json, and 0x02097170 is `label` with 5 witnesses outside
+  this row.  So the lane row's "file first: 0x02096ED0, 0x02097170,
+  0x0209A7A8, 0x0209AB80" list is now one short: 0x02097170, 0x0209A7A8 and
+  0x0209AB80 no longer cap this row.
+
+  Pool words: 0x02097970=0x3FF00000 (x4), 0x02097974=..., all six
+  `literal`-attested except the in-function doubles 0x3FF00000, 0x7FF00000,
+  0x40140000, which are plain constants and raise no relocation.
+
+VERDICT: not transcribed; blocking class is size first, then one attestation
+site.  A byte-perfect body here would come back MATCH with one wildcarded
+site (src/pending/, no shard entry, no coverage) until 0x02096ED0 gains a
+witness -- which needs its own packet, not this one.  This is the same shape
+as docs/notes/pkt_02094B8C.c.txt's 0x0209739C site, one level up: that packet
+is capped BY this function, and this function is capped by 0x02096ED0.
+0x0209739C is itself the MSL decimal-string-to-double routine that
+docs/notes/pkt_02094B8C.c.txt identifies ("the digit text is buffered and
+converted once, by func_0209739C at 0x020957E0"), with soft-float runtime
+calls 0x0209AF34 __dadd_dsub, 0x0209B2E8, 0x0209B750/0x0209B790, 0x0209BA3C,
+0x0209BD38 _f2d and 17 `label` game/SDK targets.
+
+NEXT STEP: do not re-dispatch this alone.  The order that pays is
+0x02096ED0 first (it lives in pkt_02096990, 343 bytes away from an already
+EXACT address in that same shard), because matching it converts this row from
+a MATCH ceiling to a fileable EXACT *and* removes the cap on 0x02094B8C.

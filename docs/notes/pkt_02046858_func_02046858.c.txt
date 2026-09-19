@@ -1,0 +1,137 @@
+pkt_02046858  0x02046858  arm9  ARM  near miss (DIFF, 4 bytes short)
+
+Measured: compiled 568 bytes (556 code + 12 pool) against 572 in the image
+(560 code + 12 pool).  All 10 relocation sites resolve, so nothing here is
+witness-starved: the residue is pure codegen.
+
+THE STRUCTURE (all of it reproduces)
+------------------------------------
+Eight dword stores from the argument block into the global at 0x02146A5C
+(+0x1c..+0x38, with `*g` re-read before every store because each store may
+alias the pointer itself), then `switch (g->unk_1c)` over three cases, each
+calling a different transfer routine with the same 7/8-argument shape
+(func_0207C408 / func_0207C1D0 / func_0207C554), and each arm ending in
+`hw = *(u32 *)(0x02148B4C + 0xfc); hw &= ~0x50; *(u32*)(0x02148B4C+0xfc) = hw;`
+written out in full in every arm (do not factor it behind a label).
+
+THE LEVER THAT MATTERED MOST
+----------------------------
+`if/else` whose two arms differ only in one argument is CROSS-JUMPED by
+1.1p1: the shared tail (the four `ldr r0..r3, [r3,#0x20..0x30]` + the `bl`)
+is emitted once and both arms branch to it.  That costs 108 bytes across the
+three cases and is what held the first attempts at 452 bytes.  Writing the
+zero arm as an `if (...) { ...; return; }` arm and the other arm as the
+fall-through code after it (instead of `else`) defeats the merge and gives
+568 bytes with the original's two `bl func_0207C408` at +0xCC and +0x100.
+`goto` to a per-case label is byte-identical to the early-return form.
+
+THE REMAINING RESIDUE (one instruction, 370 bytes of register renaming)
+-----------------------------------------------------------------------
+The original keeps the 7th argument (0x02148B54, in r0) in a different
+register from the compiler's choice (r1), and that single allocation decides
+how the constant 0x1000 is stored to the outgoing argument area:
+
+    0204910  str r0, [sp, #8]      ; original: r0 = 0x02148B54
+    020490C  str r1, [sp, #4]      ; original: r1 = 0x1000
+    +00B4    stmib sp, {r0, r1}    ; compiled: r1 = 0x02148B54, r0 = 0x1000
+    +00B8    (no second store)     ; the stmib merges the two stores
+
+so the arms lose one instruction each and everything from +0x0C onward is
+shifted four bytes.  Register-colouring chain, not a source-shape error:
+with hw in r0 the global pointer g lands in r1 (as at 0x02046860) instead of
+r2, and the eight store temporaries come out as r4/r3 instead of r3/ip.
+
+SPELLINGS RULED OUT (all compiled at -O4,p / dsi/1.1p1, no flag changes)
+------------------------------------------------------------------------
+  * `u32 hw` + `u32 *hwp` declared in either order, with the assignments
+    before or after the eight stores, or with initialisers at declaration
+    (all 568 bytes, 370-371 differing bytes);
+  * hw as `u32 *` and cast at the call site (568 / 371);
+  * hw as a literal `(u32)&data_02148B54` written at each call site
+    (560 bytes, 407 differing): the address is re-materialised per arm;
+  * hwp inline as `((u32*)data_02148B4C)[0x3f] &= ~0x50` (568 / 371);
+  * hwp inline, hw a local (568 / 370);
+  * the zero arm's argument bound to a local `u32 q = g->unk_38;` (568/371);
+  * `0x1000` bound to a local `z` assigned inside each case (568/371);
+  * mid-block declaration of hwp/hw after the stores: this front end rejects
+    it (`expression syntax error`), so the locals must be declared at the top
+    of the block.
+  * the plain `if/else` (no early return) and the `u32 *hw = hwp + 2` shape.
+
+NEXT LEVER
+----------
+Force the 7th argument out of r0: e.g. make the first live local share r0
+with the parameter `a` (spell one of the eight stores through a second
+expression that keeps `a` live to the end), or give the compiler a reason to
+prefer r0 for hw.  Everything else already matches.
+
+Best C: scratch/probe1/t1.c (identical in shape to scratch/probe1/sA_earlyret.c).
+
+LANE r5a -- SECOND PASS: THE r0 LEVER CANNOT BE REACHED FROM C
+-------------------------------------------------------------
+Ran the "NEXT LEVER" above as a sweep over every spelling of the two trailing
+constants (scratch/r5a/sweep2.py, sweep3.py, sweep4.py; all sources kept in
+scratch/r5a/s2_*.c / s3_*.c / s4_*.c).  Every single one compiles to 568
+bytes and every single one differs first at 0x02046860:
+
+    02046860  image    ldr r1, [pc, #0x220]     ; r1 = &g_02146A5C
+    02046860  compiled ldr r2, [pc, #0x21c]     ; r2 = &g_02146A5C
+
+and the allocation that follows is one register rotated:
+
+    02046864  image ldr r4,[r0]      compiled ldr r3,[r0]
+    02046868  image ldr r2,[r1]      compiled ldr r1,[r2]
+    0204686C  image ldr r3,[r0,#4]   compiled ldr r4,[pc,#0x214]  <-- hwp hoisted
+    02046874  image ldr r2,[r1]      compiled ldr ip,[r0,#4]
+    0204687C  image str r3,[r2,#0x20] compiled ldr r1,[pc,#0x208] <-- hw hoisted
+
+The reason the documented lever cannot work: mwccarm hoists BOTH pooled
+address constants into the first free pipeline slots (compiled +0x14 and
++0x24) whatever the source spelling.  Because 0x02148B4C is needed after the
+calls it takes r4; 0x02148B54 is then given r1 -- free from the top because
+&g went to r2 -- and never r0, which is busy with `a` until +0xB8.  Writing
+the two assignments after the eight stores, inline at the six call sites,
+with a label between, or with the extern declared as an array all produce
+byte-identical output: the front end moves the constant definitions to the
+top of the block before the allocator runs, so the live range of `hw`
+overlaps `a` in every spelling.
+
+The residue, exactly one instruction:
+    02046908  image str r2, [sp]
+    0204690C  image str r1, [sp, #4]     ; r1 = 0x1000
+    02046910  image str r0, [sp, #8]     ; r0 = 0x02148B54
+    +00B0     compiled str r2, [sp]
+    +00B4     compiled stmib sp, {r0, r1} ; r0 = 0x1000, r1 = 0x02148B54
+    +00B8     (nothing)                   ; two stores folded into one
+Same values, one instruction fewer, and everything from +0x0C on is shifted
+four bytes (371 concrete bytes differ).  Nothing else in the 572 bytes is
+wrong: the same merge does NOT happen in the case-1 and case-2 arms because
+there the two constants land on [sp,#8] and [sp,#0xc] and a `stmib` cannot
+reach them.
+
+SPELLINGS RULED OUT IN THIS PASS (all 568 bytes, 363-371 differing)
+-------------------------------------------------------------------
+  * `u32 *hwp; u32 hw;` and `u32 hw; u32 *hwp;` declarations, each with the
+    assignments before the eight stores, after them, and interleaved between
+    stores 6/7 and 7/8;
+  * both constants inline at all six sites (`(u32)&data_02148B54` and
+    `((u32 *)data_02148B4C)[0x3f] &= ~0x50`), only hw inline, only hwp inline;
+  * `extern u8 data_02148B54[];` with `hw = (u32)data_02148B54;`;
+  * `hw` as `u32 *` with the cast at the call site;
+  * a `defs:` label between the stores and the two assignments;
+  * `u32 *p = a;` as an extra first live local (rejected by this front end:
+    mid-block declaration is `expression syntax error`).
+
+NOT a front-end tell: dsi/1.1p1, 1.2, 1.2p1, 1.2p2, 1.3 and 1.3p1 all
+compile t1.c to the identical 568-byte, 371-differing body, so this is not a
+1.1-vs-1.2 question.
+
+Best C in this pass: scratch/r5a/s3_i_both.c (both constants inline, 568
+bytes, 363 differing -- the closest of the whole sweep); scratch/probe1/t1.c
+is 371.
+
+Next attempt should stop trying to move `hw` out of r1 and instead give the
+allocator a reason not to hoist: anything that makes the two constants
+non-CSE-able (a distinct volatile read, or a call between the stores and the
+switch that the front end cannot see through) changes 568 to a value that
+must be re-measured, and both were outside this pass's write set.

@@ -1,0 +1,138 @@
+pkt_02038DF0  0x02038DF0  arm9  ARM  near miss (DIFF, size within 20 bytes)
+
+Measured: best attempt compiled 604 bytes against 608 in the image (four bytes
+short, one instruction); with the struct assignment corrected the same body
+compiles to 624.  17 of 21 relocation sites resolve; four (func_0203A804,
+func_0203A7EC) have no witness outside 02038DF0..0203904C, so this function
+also needs a second caller before it can go past MATCH on those sites.
+
+THE BODY
+--------
+`func_02038DF0(struct Src *src, u32 a1, void *buf, struct St *st, u32 n)`:
+a resumable "fill" loop.  `fp = a1 & 0xff`, `lim = n - 7`.  It seeds from
+func_02036540 / func_02036500 the first time st->unk_0a is 0xffff (writing
+st->unk_08, st->unk_0a, st->unk_0e = fp, st->unk_0f), then per iteration asks
+func_020364D4 for a chunk, subtracts it from st->unk_08, and either copies
+(st->unk_0a - st->unk_00) bytes with func_02082D44 or calls func_02038D68.
+Three early exits share the same `add sp, sp, #8; pop {...}` epilogue.
+
+THE REGISTER MAP THE BYTES PIN DOWN
+-----------------------------------
+    sl = arg0 (Src*)      sb = arg2 (buffer)      fp = a1 & 0xff
+    r5 = arg1             r8 = arg3 (St*)         r4 = arg4 (n)
+    r6 = the handle       r7 = the chunk length
+
+The first attempt bound the state struct to arg2 and the buffer to arg3; the
+bytes say the opposite: EVERY field (+0x00, +0x04, +0x08, +0x0a, +0x0c, +0x0e,
++0x0f) is read and written through r8 = arg3 (`ldrh r6, [r8, #0xc]` at
+0x02038E30, `ldr r0, [r8, #4]` at 0x02038EE0, `ldm r8, {r0, r1}` at
+0x02038F00, `str r1, [r8]` at 0x02038FA8), while arg2 is only ever passed as a
+pointer (`mov r1, sb` into func_020364D4 at 0x02038F38 and `mov r0, sb` into
+func_02082D44 at 0x02038F90).  Swapping them moved the size from 604 to 624.
+
+FIRST DIFFERENCES (original vs compiled)
+----------------------------------------
+  02038DF8  mov sl, r0        | ldr r4, [sp, #0x30]   ; the incoming stack arg
+                               is loaded FIRST in the attempt and last in the
+                               original; the four register parameters are
+                               copied in declaration order at 0x02038DF8..
+                               0x02038E08, so `fp`/`lim` must be declared
+                               AFTER `sl/r5/sb/r8/r4`.
+  02038E34  ldrh r6, [r8,#0xc]| ldrb r4, [r8, #0xc]  ; the field is u16, and
+                               the attempt read it as u8 because the local was
+                               declared u32 and the compare was folded.
+  02038E44  movs r6, r0       | movs r4, r0           ; same slot, different
+                               register: the handle must be the FIRST local
+                               declared after the parameters.
+  02038E60  ldrsh r4, [sl,#0xc] | ldrsh r5, [sl, #0xc]
+  02038E7C  (order) the original reads `st->unk_0a` at 0x02038E64 and compares
+            it to 0xffff BEFORE storing `st->unk_0c` at 0x02038E6C; the attempt
+            stores first.  `st->unk_0c = h;` belongs after the 0xffff test.
+  02038EA8  strh r1, [r8,#0xa] | strh r1, [r8,#0xa]  ; matches
+  02038EBC  mov r0, r6 / str r1,[sp] / bl 0x0203A804   ; two arguments:
+            func_0203A804(h, src->unk_0c).  The later call at 0x02038FE4 is
+            `mov r0, r6; bl 0x0203A804` with NO second store, i.e. the same
+            two-argument call whose stack slot the compiler kept live: the
+            second call must pass the same expression, not one argument.
+  02038F00  ldm r8, {r0, r1}  | ldr r1, [sb]          ; the pair read is one
+            aggregate (r5 = st->unk_00 + st->unk_04), not two scalar loads.
+
+SPELLINGS TRIED
+---------------
+  * state struct on arg3 with all fields (624 bytes) and split across arg2/
+    arg3 with only +0x08/+0x0a/+0x0c/+0x0e/+0x0f on arg3 (604 bytes);
+  * `goto again` inside the do/while versus an explicit loop label;
+  * func_0203A804 declared 1-arg and 2-arg;
+  * `src->unk_0c` as s16 and as u32.
+
+NEXT LEVER
+----------
+Fix the declaration order of the five parameters' shadows first (sl, r5, sb,
+r8, r4 in that order, then fp and lim) -- that single change is what pins
+r4 = n so `lim` lands in fp and the handle in r6, and it is the difference
+between a 604-byte body and one that lines up from +0x08 onward.
+
+Best C: scratch/probe1/w_02038DF0.c (604 bytes); corrected struct split in
+scratch/probe1/w2_02038DF0.c.
+
+LANE r5a -- SECOND PASS: THE DECLARATION-ORDER LEVER DOES NOT CLOSE IT
+---------------------------------------------------------------------
+Ran the "NEXT LEVER" above: the struct bound to arg3 with all seven fields,
+and every declaration order of the two derived locals and the loop
+temporaries (fp,lim | lim,fp x h,r4,r5,r7 | h,r5,r4,r7 | r4,r5,r7,h), with
+the initialisers at the declarations.  Every one of the eight compiles to
+624 bytes / 501-506 differing, and in all of them the prologue is
+  0008  ldr r4, [sp, #0x30]      (the incoming stack arg, loaded FIRST)
+  000C  mov sl, r0
+  0010  mov r0, r1
+  0014  sub fp, r4, #7
+  0018  str r1, [sp]
+  ...
+  0024  and r4, r0, #0xff
+i.e. arg1 is SPILLED to [sp] instead of being held in r5, and the two derived
+locals come out fp-reg = lim and r4 = (a1 & 0xff).  The image is the mirror
+image: 0008 mov sl,r0 / 000C mov r5,r1 / 0010 mov sb,r2 / 0014 mov r8,r3 /
+0018 ldr r4,[sp,#0x30], and then, after the guard,
+0034 sub r0,r4,#7 / 0038 and fp,r5,#0xff / 003C str r0,[sp,#4] -- so `lim` is
+on the frame and `fp` owns the fp register.
+
+Bodies tried in this pass (all 604-632 bytes, all DIFF):
+  * initialisers at the declaration (fp then lim, lim then fp);
+  * `u32 fp, lim;` declared and assigned AFTER the guard (this finally gives
+    `mov sl, r0` at +0x08 and moves the first diff to +0x0C, but the compiler
+    then re-loads the 5th argument from the frame instead of keeping it in r4
+    and the body comes out 632 bytes, 24 over);
+  * the same with a `u16 seg` local holding func_02036540's result
+    (`lsl r0,r0,#0x10 / lsr r1,r0,#0x10 / strh r1,[r8,#8] / strh r1,[r8,#0xa]`
+    in the image at 0x02038E98..0x02038EA8; without the local the two stores
+    regress to `strh r0,[r8,#8]` + a reload);
+  * `st->unk_0c = (u16)h;` before vs after the 0xffff test;
+  * `r5 = st->unk_00 + st->unk_04` vs `st->unk_04 + st->unk_00` (the image's
+    0x02038F00 `ldm r8, {r0, r1}` + 0x02038F04 `add r5, r1, r0` is the
+    unk_04 + unk_00 order).
+
+A SOURCE ERROR THE IMAGE SETTLES (and which moves the size the other way)
+------------------------------------------------------------------------
+The attempt's `else` arm is written `r5 = a1; st->unk_04 = a1;`.  The image
+at 0x02038F0C/0x02038F10 is
+    02038F0C  mov r5, sb
+    02038F10  str sb, [r8, #4]
+i.e. it moves **arg2 (the buffer)**, not arg1, into r5 and into st->unk_04.
+With that one correction the body stops being 4 bytes short and starts being
+36 bytes short (572/576/580 against 608): arg1 is then used only by
+`and fp, r5, #0xff`, and the frame loses its `sub sp, sp, #8` because `lim`
+ends up in a register instead of at [sp, #4].  So the residue of this row is
+not one instruction: fixing the struct binding and the else arm moves the
+body from -4 to -36, and what is left is the allocator's choice of r5 vs r4
+for arg1 and of [sp,#4] vs a register for `lim`.
+
+Best C in this pass: scratch/r5a/s7_decl_buf_after.c (572 bytes, 438
+differing) and scratch/r5a/s7_post_buf_after.c (576 bytes, 458 differing);
+the note's 604-byte body is scratch/probe1/w_02038DF0.c, 428 differing.
+
+Next attempt should start from the corrected else arm and try to force arg1
+into r5 by giving the compiler a reason to keep the *5th* argument in r4:
+in the image the incoming stack argument is loaded in the prologue, before
+the guard calls, so `n` is live across them.  Spell `lim` so that `n` is
+still live when it is used (`lim = n - 7` only at the first use of `lim`),
+and keep `fp = a1 & 0xff` after the guard.

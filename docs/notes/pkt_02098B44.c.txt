@@ -12,3 +12,42 @@ The two giants are gated rather than codegen-blocked: 0x02098B48 (1684 bytes) an
 their own bodies can reach EXACT until those land. 0x0209953C also sits next to 0x02099228 (724
 bytes), which has no call site anywhere in the image and is presumably reached through a pointer
 table.
+
+==========================================================================
+APPENDED, lane 3 of the 1025+ band (frontier probe): the three rows
+==========================================================================
+
+The 4-byte entries 0x02098B44 and 0x02099224 are argument home areas, as this
+note says.  The three real rows, re-checked this wave with attest() over each
+row (src set, so the `matched` class is live):
+
+  0x02098B48  1684 code bytes, 421 instructions, 53 `bl` sites to 8 distinct
+      targets.  Seven attest (0x0209AF34 x330, 0x0209B2E8 x485, 0x0209AC04
+      x267, 0x0209C508 x59, 0x0209B750 x59, 0x0209BA3C x25, 0x0209A504 x15).
+      ONE does not: 0x0209953C, which is a row of this same packet and has no
+      manifest entry yet -- attest(0x0209953C,'arm',0x02098B48,0x020991DC)
+      is None.  So this row is MATCH-capped by exactly one site, and that site
+      is inside the packet: matching 0x0209953C uncaps it.  Its 18 pool words
+      are 15 split-double constants (0x3FE921FB, 0x3DD0B461, 0x4002D97C,
+      0x54400000, 0x1A626331, 0x1A600000, 0x2E037073, 0x3BA3198A,
+      0x6DC9C883, 0x3FE45F30, 0x252049C1, 0x397B839A, 0xF85DDF44-ish
+      remainders ...), i.e. MSL soft-double range reduction, plus 0x020A6320,
+      0x020A63A0, 0x0209C508 _d2s and 0x7FF00000/0x3FE00000.
+  0x02099228  724 code bytes, 181 instructions, 27 `bl` sites to 4 distinct
+      targets, all `label`-attested (0x0209B2E8 x460, 0x0209AF34 x440,
+      0x0209AC04 x277, 0x0209C508 x64).  No cap.  Fifteen pool words, all
+      doubles (0xBE8838D4, 0xBDA8FAE9, 0xBDB4B1C4, 0x3E21EE9E, 0x809C52AD,
+      0xBE927E4F, 0x19CB1590, 0x3EFA01A0, 0x16C15177, 0xBF56C16C, 0x5555554C,
+      0x3FA55555, 0x3FD33333, 0x3FE00000, 0x3FE90000) -- a minimax polynomial
+      evaluation in soft double.  Same library class as 0x020979C0.
+  0x0209953C  2112 code bytes, extent 2960, 528 instructions, 60 `bl` sites
+      to 9 distinct targets; eight attest, one does not (0x0209A524, x1).
+      MATCH-capped by that single site.  0x02097990 resolves `label(x5)` and
+      has an EXACT* entry in pkt_02097990.json.
+
+WHERE THE PACKET STANDS: two of the three rows are capped by one site each,
+and both sites are functions this project has not matched yet -- 0x0209953C
+is in this packet, 0x0209A524 is not.  The order that pays is 0x0209953C
+first (it uncaps 0x02098B48 at the same time, if it lands), then 0x0209A524.
+All three bodies are MSL soft-double library C of 181-528 instructions; the
+transcription cost is the real blocker, the evidence is not.

@@ -1,33 +1,3 @@
-
-pkt_02062BF4 - func_02062BF4 (0x02062BF4, 276 bytes, arm) - SIZE, 8 bytes.
-=========================================================================
-verdict SIZE: compiled 268 bytes against an original extent of 276; the
-relocation to func_02062F90 resolves by label.
-
-The body is right everywhere except two shapes:
-
-1. +0018 - the `r == 3 || r == 4` guard.  Original:
-       cmp  r0, #3
-       cmpne r0, #4
-       bne  else
-   This compile folds the disjunction to a range test:
-       sub  r0, r0, #3
-       cmp  r0, #1
-       bhi  else
-   (same three instructions, same bytes of code, different bytes.)
-   The second, structurally identical guard `if (r != 2 && r != 4)` DOES
-   reproduce exactly, so only the ==/|| form is affected.
-
-2. the -8 bytes: the two arms of the outer if/else end in the same
-   `mov r0, r4; bl func_02062F90(p)` pair.  Written out in both arms mwcc
-   cross-jumps them into one shared block; the original keeps two copies.
-   That is exactly the 8-byte difference.
-
-Not a relocation problem and not a semantic unknown: the whole body including
-the `blx r2` callback (`((void (*)(int, int))p[10])(p[9], p[4])`) and the
-two-range tail clamp reproduces.
-
----- closest C ----
 /*
  * function: func_02062BF4
  * address:  0x02062BF4
@@ -37,58 +7,120 @@ two-range tail clamp reproduces.
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   SIZE (268 compiled against a 276-byte extent) - see
- *           docs/notes/pkt_02062BF4.c.txt
+ * status:   DIFF
  *
  * symbols:
- *   func_02062F90  0x02062F90  arm
+ *   func_02062F90 0x02062F90 arm
  */
 
-typedef unsigned char  u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 
-extern void func_02062F90(int *p);
+struct Sub {
+    u16 h0;       /* 0x00 */
+    u16 h2;       /* 0x02 */
+    u32 pad04;    /* 0x04 */
+    u32 field_08; /* 0x08 */
+    u32 ptr_0C;   /* 0x0C */
+};
 
-void func_02062BF4(int *p)
+typedef void (*Callback)(u32, u32);
+
+struct Slider {
+    u32 pos;         /* 0x00 */
+    u32 pad04;       /* 0x04 */
+    u32 field_08;    /* 0x08 */
+    u32 field_0C;    /* 0x0C */
+    u32 field_10;    /* 0x10 */
+    u32 pad14;       /* 0x14 */
+    u32 field_18;    /* 0x18 */
+    struct Sub *sub; /* 0x1C */
+    u32 field_20;    /* 0x20 */
+    u32 field_24;    /* 0x24 */
+    Callback cb_28;  /* 0x28 */
+};
+
+extern void func_02062F90(struct Slider *s);
+
+/*
+ * Residue and codegen wall:
+ * 276 bytes compiled vs 276 bytes original (26 concrete bytes differ).
+ * Lines +0040 to +0110 (208 bytes) reproduce instruction-for-instruction.
+ * The residue consists of two compiler differences:
+ * 1. Condition folding:
+ *    Original:
+ *      +0018  cmp r0, #3
+ *      +001C  cmpne r0, #4
+ *      +0020  bne #0x2062c90
+ *    Compiled (from `mode == 4 || mode == 3`):
+ *             sub r0, r0, #3
+ *             cmp r0, #1
+ *             bhi #0x2062c90
+ *    mwccarm folds the two consecutive integers (3, 4) into a range subtraction (sub 3; cmp 1; bhi).
+ * 2. Scheduler delay slot filling:
+ *    Original:
+ *      +0024  ldr r0, [r4, #8]
+ *      +0028  eor r0, r0, #1
+ *      +002C  str r0, [r4, #8]
+ *      +0030  ldr r1, [r4, #0x1c]
+ *    Compiled:
+ *             ldr r0, [r4, #8]
+ *             ldr r1, [r4, #0x1c]
+ *             eor r0, r0, #1
+ *             str r0, [r4, #8]
+ *    The front end moves the independent load `ldr r1, [r4, #0x1c]` into the load delay slot of r0.
+ */
+
+static inline u32 getMode(struct Slider *s) {
+    u32 m = s->field_18;
+    if (m == 0) {
+        m = s->sub->field_08;
+    }
+    return m;
+}
+
+void func_02062BF4(struct Slider *s)
 {
-    int r;
-    int t;
-
-    r = p[6];
-    if (r == 0)
-        r = *(int *)(p[7] + 8);
-    if (r == 3 || r == 4) {
-        p[2] ^= 1;
-        t = *(int *)(p[7] + 0xc) + (*(u16 *)(p[7] + 2) << 3) - 8;
-        if ((unsigned int)p[0] > (unsigned int)t)
-            goto tail;
-        if (p[8] == 1)
-            ((void (*)(int, int))p[10])(p[9], p[4]);
-        r = p[6];
-        if (r == 0)
-            r = *(int *)(p[7] + 8);
-        if (r != 2 && r != 4)
-            p[3] = 0;
-        else
-            func_02062F90(p);
+    u32 mode = getMode(s);
+    if (mode == 4 || mode == 3) {
+        struct Sub *sub;
+        u32 pos;
+        s->field_08 ^= 1;
+        sub = s->sub;
+        pos = s->pos;
+        if (pos <= (sub->ptr_0C + (sub->h2 << 3) - 8)) {
+            if (s->field_20 == 1) {
+                s->cb_28(s->field_24, s->field_10);
+            }
+            mode = getMode(s);
+            if (mode == 2 || mode == 4) {
+                func_02062F90(s);
+            } else {
+                s->field_0C = 0;
+            }
+        }
     } else {
-        if (p[8] == 1)
-            ((void (*)(int, int))p[10])(p[9], p[4]);
-        r = p[6];
-        if (r == 0)
-            r = *(int *)(p[7] + 8);
-        if (r != 2 && r != 4)
-            p[3] = 0;
-        else
-            func_02062F90(p);
+        if (s->field_20 == 1) {
+            s->cb_28(s->field_24, s->field_10);
+        }
+        mode = getMode(s);
+        if (mode == 2 || mode == 4) {
+            func_02062F90(s);
+        } else {
+            s->field_0C = 0;
+        }
     }
 
-tail:
-    t = *(int *)(p[7] + 0xc) + (*(u16 *)p[7] << 3) - 8;
-    if ((unsigned int)p[0] > (unsigned int)t) {
-        p[0] = t;
-        return;
+    {
+        struct Sub *sub = s->sub;
+        u32 pos = s->pos;
+        u32 bound = sub->ptr_0C + (sub->h0 << 3) - 8;
+        if (pos > bound) {
+            s->pos = bound;
+            return;
+        }
+        if (pos < sub->ptr_0C) {
+            s->pos = sub->ptr_0C;
+        }
     }
-    if ((unsigned int)p[0] < (unsigned int)*(int *)(p[7] + 0xc))
-        p[0] = *(int *)(p[7] + 0xc);
 }

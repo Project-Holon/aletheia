@@ -180,3 +180,35 @@ packet agent: re-dispatch this packet (and the rest of 0x0205429C..0x020584E0)
 with `compiler: ../1.2/sp2` / `flags: -O4,p -proc arm946e`, which also
 immediately converts the three parked notes above and almost certainly closes
 pkt_02056460's 10-byte residue.
+
+==========================================================================
+APPENDED, lane 3 of the 1025+ band (frontier probe): independent confirmation
+==========================================================================
+
+The three rows of this packet (0x02055498 1752 B, 0x02055B80 1088 B,
+0x02055FD4 1080 B) were re-checked from scratch this wave, and the finding in
+this note -- the unit was built by the DS-era 1.2 tree, not dsi/1.1p1 -- was
+reproduced with a probe TU rather than accepted from the note:
+
+  dsi/1.1p1  -O4,p -proc arm946e   `(s64)a * (s64)b + 2048) >> 12`
+      e2920b02  adds r0, r2, #2048          <- the immediate form
+  mwccarm/1.2/sp2 -O4,p -proc arm946e
+      e3a00b02  mov  r0, #2048
+      e0920000  adds r0, r2, r0             <- the register form, the bytes
+                                               every arm of 0x02055498 shows
+
+and the same probe under ../1.2/sp2 + -proc arm946e emits BOTH halves of the
+blx / two-instruction-return contradiction (e12fff31 `blx r1` with
+e28dd004/e8bd4000/e12fff1e `add sp,#4; ldmfd sp!, {lr}; bx lr`) that
+dsi/1.1p1 cannot produce at any -proc value.  So a re-dispatch of
+0x0205429C..0x020584E0 under
+
+    compiler: ../1.2/sp2      flags: -O4,p -proc arm946e
+
+is the right call for the whole region, exactly as this note recommends.
+Nothing was filed under it: this wave pins --cc 1.1p1, and pinning another
+front end from inside a packet run is the thing PROBE-RULES asks to report
+rather than do.  All three rows' call sides are clean (7, 3 and 3 distinct
+`bl` targets, every one `label`-attested outside the row; the pool words are
+hardware addresses spelled as integer constants and carry no relocation), so
+the tree is the only thing standing between these rows and an EXACT entry.

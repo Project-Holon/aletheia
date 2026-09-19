@@ -1,0 +1,144 @@
+func_0202E688 @ 0x0202E688, pkt_0202E560 - DIFF, 10 bytes, and a
+permanent `literal` cap behind it.
+=====================================================================
+
+The camera/billboard setup reproduces to 232 bytes (the original extent) and
+every call site resolves (`label`), but two things stop it:
+
+1. `literal`, permanent.  Four of the six data pool words name addresses whose
+   ONLY pooled occurrences anywhere in the image are inside this function's own
+   pool at 0x0202E740..0x0202E74C:
+
+     +00B8 ABS32 g_020A02C4  -> unresolved: no witness outside 0202E688..0202E770
+     +00BC ABS32 g_020A02B8  -> unresolved
+     +00C0 ABS32 g_020A0300  -> unresolved
+     +00C4 ABS32 g_020A1EB8  -> unresolved
+
+   `grep -rn '0x020A02C4' asm/` finds only the five duplicate listings of this
+   same function, all at the same pool address inside the compared range, and
+   the same for the other three.  No other class applies to plain data.  The
+   row cannot reach EXACT until one of those four gets a second reader.
+
+2. A 10-byte scheduling residue at +0044..+004D in the seven-argument
+   MTX_PerspectiveW call: the original issues `movs r1, #0xe` (the offset for
+   the second table read) one slot earlier than this front end does.
+
+     ORIGINAL                                  COMPILED
+     +0044 movs r1, #0xe                        +0044 ldr r0, [pc, #0x80]
+     +0046 ldr r0, [pc, #0x80]                  +0046 str r3, [sp, #4]
+     +0048 str r3, [sp, #4]                     +0048 str r0, [sp, #8]
+     +004A str r0, [sp, #8]                     +004A movs r0, #0xc
+     +004C movs r0, #0xc                        +004C movs r1, #0xe
+     +004E ldrsh r0, [r2, r0]                   +004E ldrsh r0, [r2, r0]
+
+   Spellings ruled out (all byte-identical to the baseline): the two table
+   reads bound to named s16 locals; the three stack arguments bound to named
+   locals; the 0x02148B54 argument bound to a `void *` local; the table base
+   bound to a `const s16 *` local; unsigned-suffixed constants; a different
+   line break in the argument list.  Seven spellings, one answer.
+
+The rest of the function is settled: the three 12-byte VecFx32 copies
+(0x020A02C4 -> cam, zeroed up, 0x020A02B8 -> tgt), the 60-byte block copied
+from 0x020A0300 as a struct assignment (the ldm/stm loop with the 4-byte tail
+is what makes it a struct, not an array -- an element loop costs four
+registers and 168 bytes of layout), `bics` on word 31 of 0x02148BCC before and
+after, and MTX_RotX33_ writing the 3x3 at +0x18 of the copied block.
+
+Closest C (moved out of src/matched/, which takes EXACT only):
+
+/*
+ * function: func_0202E688
+ * address:  0x0202E688
+ * packet:   pkt_0202E560
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_020A02B8        0x020A02B8  data
+ *   g_020A02C4        0x020A02C4  data
+ *   g_020A0300        0x020A0300  data
+ *   g_020A1EB8        0x020A1EB8  data
+ *   g_020A2B38        0x020A2B38  data
+ *   g_02148B98        0x02148B98  data
+ *   g_02148BCC        0x02148BCC  data
+ *   g_02148D8C        0x02148D8C  data
+ *   g_02148D98        0x02148D98  data
+ *   g_02148DA4        0x02148DA4  data
+ *   func_02047A60     0x02047A60  arm
+ *   MTX_PerspectiveW  0x0207C408  arm
+ *   MTX_LookAt        0x0207BCA0  arm
+ *   MTX_RotX33_       0x0207AF00  thumb
+ *
+ * One camera/billboard setup for the texture upload path: three VecFx32
+ * globals are snapshotted into locals (0x020A02C4 -> cam, 0x020A02B8 -> tgt,
+ * up zeroed between them), a 60-byte render block is copied up from
+ * 0x020A0300, the perspective matrix is built from the (sin, cos) pair in
+ * entry 3 of the fx16 table at 0x020A1EB8, the three vectors are stored back
+ * out to 0x02148D8C/0x02148D98/0x02148DA4 and MTX_LookAt writes the view
+ * matrix to 0x02148B98.  The two `bics` on word 31 of 0x02148BCC are modes:
+ * the first clears 0x50 before the vectors are committed, the second clears
+ * 0xe8 after the look-at.  MTX_RotX33_ then writes the 3x3 at +0x18 of the
+ * copied block (buf[6]) from the (sin, cos) pair at the head of 0x020A2B38.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202E688.c \
+ *       --func func_0202E688 --addr 0x0202E688 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+
+typedef struct {
+    s32 x, y, z;
+} VecFx32;
+
+typedef struct {
+    s32 m[9];
+} MtxFx33;
+
+typedef struct {
+    u32      f[6];
+    MtxFx33  m;
+} Blk;
+
+extern VecFx32 g_020A02C4;
+extern VecFx32 g_020A02B8;
+extern Blk      g_020A0300;
+extern s16      g_020A1EB8[];
+extern s16      g_020A2B38[];
+extern u32      g_02148B98[];
+extern u32      g_02148BCC[];
+extern VecFx32  g_02148D8C;
+extern VecFx32  g_02148D98;
+extern VecFx32  g_02148DA4;
+
+extern void func_02047A60(u32 a, void *b);
+extern void MTX_PerspectiveW(s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, void *g);
+extern void MTX_LookAt(const VecFx32 *cam, const VecFx32 *tgt,
+                       const VecFx32 *up, void *mtx);
+extern void MTX_RotX33_(void *mtx, s32 sinv, s32 cosv);
+
+void func_0202E688(u32 a0)
+{
+    VecFx32 cam = g_020A02C4;
+    VecFx32 up = { 0, 0, 0 };
+    VecFx32 tgt = g_020A02B8;
+    Blk buf = g_020A0300;
+
+    MTX_PerspectiveW(g_020A1EB8[6], g_020A1EB8[7], 0x1555, 0x1000, 0x400000,
+                     0x1000, (void *)0x02148B54);
+    g_02148BCC[31] &= ~0x50u;
+    g_02148D8C = cam;
+    g_02148D98 = tgt;
+    g_02148DA4 = up;
+    MTX_LookAt(&cam, &tgt, &up, g_02148B98);
+    g_02148BCC[31] &= ~0xe8u;
+    MTX_RotX33_(&buf.m, g_020A2B38[0], g_020A2B38[1]);
+    func_02047A60(a0, buf.f);
+}
+

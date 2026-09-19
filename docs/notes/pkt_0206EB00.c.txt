@@ -106,3 +106,32 @@ void func_0206EB00(char *dst, char *src, char *tbl)
         *(u16 *)(dst + 0x1A + i * 2) =
             (u16)((*(u32 *)(src + *(u16 *)(src + 0x14 + i * 2)) >> 24) | 0x100);
 }
+
+==============================================================================
+wave r4-6, lane 6: 0x0206EC50 (144 bytes) -- structure, 103-byte residue
+==============================================================================
+
+Not covered by any earlier note.  It is the "fetch the argument record" walker:
+the object is `*(void **)0x02148DB0`, its table sits at +0xD4, the index byte is
+`*(u8 *)(*(u8 **)o + 1)`, the entry is
+`tbl + t + 4 + k * idx` with t/k the halfwords at tbl+6 and tbl+t, the flags
+word is the entry's first halfword (post-increment `ldrh r3, [r1], #4`), bit 0
+clear -> skip 0xC, bit 2 set -> straight to the call, bit 8 set -> +4 else
++0x10, and the tail is the function pointer at +0xE8 with the record in r1 and
+the incoming r0 forwarded.
+
+Shape written, 136 compiled against the image's 144: the object pointer is
+hoisted into ip and reused for +0xE8 (the image's `ldr ip, [ip, #0xE8]`), the
+table walk is `q = tbl + t + 4 + k * idx` (the multiplier is the second
+operand), the tail is `if (!(f & 1)) p += 0xc; if ((f & 2) != 0) goto call;
+if ((f & 8) != 0) p += 4; else p += 0x10;`, and the `add #0xc8` + `add #0x1000`
+pair is NOT folded - the two adds are what the image has, so the +0x10c8/-0x10e0
+field must be spelled as two nested offsets, not one constant.
+
+Residue: the image emits TWO branches on the same `cmp r4, #0` flags
+(`beq 0x0206ECAC` for the outer else, `beq 0x0206EC98` for the inner zero arm),
+i.e. its source tests `tbl == 0` twice and keeps both tests; every spelling
+written merges them into one branch and then if-converts the whole table walk
+(`ldrhlo`/`addlo`/`mlalo`) where the image branches (`bhs`).  103 concrete bytes
+differ.  Recorded, not ground further - the sibling 0x0206EBB8 (152 bytes) opens
+with the very same double `beq` on one compare, so the two are one finding.

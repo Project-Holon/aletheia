@@ -63,3 +63,22 @@ void func_0203335C(int a0)
 
 === end 0x0203335C
 
+
+=== addendum, lane r4-1 (wave r4) -- 0x0203335C
+A spelling that reaches the ORIGINAL SIZE (156 bytes) with only register names
+left was found: make the loop variable and the count UNSIGNED.
+
+    unsigned int n = func_02033BF0(*(int *)(self + 0x2c)) + 2;
+    unsigned int i = 0;
+    ... while (i < n) { ... sh += 2; i++; if (sh >= 0x20) { sh -= 0x20; idx++; } }
+
+With `int` counters the loop's entry test is a separate `cmp` + `pople` and the
+function compiles 160; with unsigned counters mwcc merges it into the `adds` as
+`adds ip, r0, #2` + `popeq`, which is the original's encoding (and confirms the
+signedness of the original's comparison).
+
+Residue after that: 42 bytes, ALL of them register names.  mwcc puts the three
+counters in ip/r5/lr with the count in r3; the original has r2 (idx), r3 (shift),
+lr (i) and the count in ip.  Declaration order, `for`-init versus separate
+assignment, `while` versus `for`, and single-line declarations were all compiled
+and none of them move the allocation.

@@ -1,0 +1,203 @@
+pkt_02031FE0 -- lane 3 of the 1025+ band (frontier probe).  Rows 0x02031FE0
+(1692 B, 423 ARM instructions) and 0x02032688 (596 B, 149 ARM instructions).
+
+CALL SIDE, MEASURED (attest() with src set, so the `matched` class is live)
+
+  every one of the 16 distinct `bl` targets of 0x02031FE0 and all 13 of
+  0x02032688 attests as `label` with witnesses outside the row.  Nothing in
+  this packet is MATCH-capped; the two pool words of 0x02031FE0
+  (0x0203267C=0x429, 0x02032680=0x020A7848 "backup_system.c", 0x02032684=
+  0x02146994) and 0x02032688's single pool word (0x020328DC=0x02146994) are
+  all `literal`-attested.  So the only thing between these rows and an EXACT
+  entry is the C.
+
+0x02032688 (596 B, 149 instructions) -- FURTHEST BODY OF THE RUN
+
+  A whole-body transcription was written and iterated three times; it is
+  reproduced at the bottom of this note.  Best result:
+
+    DIFF   592 of the original's 596 bytes compiled, 338 hard-equal bytes
+           = 57.1 percent byte identity, 68 of 148 instruction slots
+           identical, 0.1 s per compile, 25 relocations, all 26 resolved
+           (25 sites + the ABS32 on 0x02146994).
+    The first 0x28 bytes are byte-identical; the last 0x90 bytes (the tail
+    sequence func_02033410/02031F94/020332FC/return 1) are identical too.
+
+  FIRST DIFFERING INSTRUCTIONS (addresses Black-image, offsets from 0x02032688)
+
+    +0028  ORIG ldr r3, [pc, #0x224]     OURS ldr r2, [pc, #0x21c]
+    +002C  ORIG ldr r2, [sl, #0x30]      OURS mov r1, r6
+    +0030  ORIG ldr r3, [r3]             OURS ldr r3, [r2]
+    +0034  ORIG mov r1, r6               OURS ldr r2, [sl, #0x30]
+    +0038  ORIG ldr r3, [r3, #0x204]     OURS ldr r3, [r2]
+    +00FC  ORIG mov sb, #0               OURS mov r5, #0
+    +010C  ORIG ldr fp, [pc, #0x140]     OURS ldr fp, [pc, #0x138]
+    +0114  ORIG mov r1, sb               OURS mov r1, r5
+    +011C  ORIG mov r5, r0               OURS mov r4, r0
+    +012C  ORIG mov r4, r0               OURS mov r4, r0   (site shifted)
+    +0130  ORIG add r0, r5, r4           OURS add sb, r6, r4
+    +0134  ORIG add r8, r6, r0           OURS ... r8 line missing
+
+  That is two independent residues, and the second one is the whole of the
+  remaining 80 slots:
+
+  1. +0x28-0x38, the argument setup of func_020335E8: the original loads the
+     literal-pool word into r3 FIRST, then self->f30 into r2, then
+     `mov r1, r6`, then dereferences r3 twice; ours loads the pool word into
+     r2, keeps r1 = h for the call, dereferences, and only then loads
+     self->f30 into r2.  Same four values, same call, different schedule and
+     a different scratch register (r2 vs r3).  Not a statement-level error:
+     the call is four arguments in both, r0 = the func_02031EAC return.
+  2. +0xFC onward, the first loop: the original puts i in sb, A in r5,
+     B in r4, gp in r8 and base in r7; ours puts i in r5, A in r4 and gp in
+     sb, i.e. the allocator handed `mode`'s dead register (r5) to the loop
+     index instead of to A, and then the whole loop renumbers.  The loop
+     head/tail shape (call func_02033BF0 re-evaluated at the tail, `bls` on
+     the rotated entry test) is the same in both.
+
+  SPELLINGS RULED OUT (each one compile, all measured on this body):
+   * self->f34 read fresh at every use (no named local): 596 bytes compiled,
+     15.4 percent slot identity -- the named local `h` is required, and it is
+     what takes the body from 15.4 to 45.9 percent slot / 57.1 percent byte
+     identity.
+   * func_020335E8 declared with three parameters: CCERR; with four it is the
+     original's call.  (The original passes r0 = the func_02031EAC return,
+     r1 = h, r2 = self->f30, r3 = *(u32*)(g_02146994 + 0x204) -- the f30
+     argument is easy to miss because it is loaded three instructions early.)
+   * declaration order `u32 i, j, A, B, h;` versus `u32 A, B, i, j, h;`: no
+     effect at all, byte-for-byte the same object (so the loop numbering is
+     not declaration order here, unlike the idiom file's two-local case).
+   * `gp = (u8 *)(A + B + h)` instead of `(u8 *)(h + A + B)`: the allocator
+     moves h itself from r6 to r7 and the body gets worse (45.3 percent),
+     even though `(A+B)+h` is the association the original's `add r0, r5, r4;
+     add r8, r6, r0` pair shows.
+   * `if (pair[0] == 1) {...} return 0;` written as one if/else: tried,
+     no change.
+   * No `volatile` anywhere in the body: the two array reads through `base`
+     and `gp` are plain loads, and adding volatile only moves the residue.
+
+  WHAT THE FUNCTION IS, for whoever picks it up: a save-block verifier.  It
+  calls func_020333F8(self, mode, arg3), reads self->f34 into a header, does a
+  CRC-ish comparison func_020335E8(header, h, self->f30, *(g+0x204)), and on
+  success fills two output words with func_02031F9C(&pair, self, h, 0).  pair[0]
+  is a status (0 = continue, 1 = accept path, 2 = forced by the mode==1
+  compare against arg3); pair[1] is a length.  The main loop walks the paired
+  tables at h + (self->f30 - 0x10 - self->f140) and h + A + B, comparing one
+  u16 per entry plus a func_02081B8C checksum of the A-byte blob, and calls
+  func_0203331C(self, i, flag) to mark each entry.  The tail calls
+  func_02033410(self, 1) on every failure exit and returns 3, and returns 1
+  after func_02031F94(self, saved) and one func_020332FC per entry.
+  Self is `backup_system.c`'s struct: f2c is a pointer, f30/f34 are a pair and
+  f140 is a length used to derive the table base.
+
+0x02031FE0 (1692 B, 423 instructions) -- NOT ATTEMPTED, budget class
+
+  Read whole, mapped, not transcribed: the surviving budget went to the two
+  bodies above.  It is the packet's bigger half of the same routine family
+  (units [13], 16 call targets, all `label`; three pool words, all `literal`;
+  no register BLX, no switch table).  Its callees are already attested, so
+  nothing but the transcription blocks it.
+
+THE C THAT WAS COMPILED FOR 0x02032688 (DIFF, 592 bytes, 57.1 percent)
+
+--------------------------------------------------------------------------
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+
+typedef struct Save Save;
+struct Save {
+    u8   pad00[0x2c];
+    u8  *f2c;
+    u32  f30;
+    u32  f34;
+    u8   pad38[0x108];
+    u32  f140;
+};
+
+extern u8 *g_02146994;
+
+extern void func_020333F8(Save *self, int a, int b);
+extern u32  func_02031EAC(Save *self, int a);
+extern int  func_020335E8(u32 a, u32 b, u32 c, u32 d);
+extern void func_02033410(Save *self, int a);
+extern void func_02082A7C(int a, int b, int c);
+extern void func_02031F9C(u32 *out, Save *self, u32 c, int d);
+extern void func_0203331C(Save *self, u32 idx, int flag);
+extern int  func_02081B8C(u8 *p, u32 a, u32 b);
+extern u32  func_02033BF0(u8 *p);
+extern u32  func_02033B68(u8 *p, u32 idx);
+extern u32  func_02033BAC(u8 *p, u32 idx);
+extern void func_02031F94(Save *self, int a);
+extern void func_020332FC(Save *self, u32 idx);
+
+int func_02032688(Save *self, int mode, int arg3)
+{
+    u32 pair[2];
+    u32 i, j, A, B, h;
+    int saved;
+    u8 *base;
+    u8 *gp;
+
+    func_020333F8(self, mode, arg3);
+    h = self->f34;
+    if (func_020335E8(func_02031EAC(self, 1), h, self->f30,
+                      *(u32 *)(g_02146994 + 0x204)) == 0) {
+        func_02033410(self, 1);
+        func_02082A7C(0, h, self->f30);
+        return 0;
+    }
+    func_02031F9C(pair, self, h, 0);
+    if (mode == 1) {
+        if ((s32)pair[1] != arg3)
+            pair[0] = 2;
+    }
+    if (pair[0] != 0) {
+        if (pair[0] == 1) {
+            func_02033410(self, 1);
+            return 3;
+        }
+        func_02033410(self, 1);
+        return 0;
+    }
+
+    base = (u8 *)(h + (self->f30 - 0x10 - self->f140));
+    saved = (s32)pair[1];
+    for (i = 0; i < func_02033BF0(self->f2c); i++) {
+        A = func_02033B68(self->f2c, i);
+        B = func_02033BAC(self->f2c, i);
+        gp = (u8 *)(h + A + B);
+        func_0203331C(self, i, 0);
+        if (*(u16 *)(base + i * 2) != *(u16 *)(gp + 2))
+            goto done;
+        if (func_02081B8C(g_02146994 + 4, h + A, B) != *(u16 *)(gp + 2)) {
+            func_0203331C(self, i, 1);
+            goto done;
+        }
+    }
+done:
+    if (i < func_02033BF0(self->f2c)) {
+        func_02033410(self, 1);
+        return 3;
+    }
+    func_0203331C(self, func_02033BF0(self->f2c) + 1, 1);
+    func_0203331C(self, func_02033BF0(self->f2c), 1);
+    func_02031F94(self, saved);
+    for (j = 0; j < func_02033BF0(self->f2c); j++)
+        func_020332FC(self, j);
+    return 1;
+}
+--------------------------------------------------------------------------
+
+NEXT STEP.  Two levers, both named above and both narrow: (a) get self->f30
+into the func_020335E8 argument slot before `mov r1, r6` is emitted -- the
+original evaluates the fourth argument (the g_02146994 deref) and the third
+(self->f30) before the second (h); try naming the fourth argument in a local
+so the arm's evaluation order is fixed, and try `func_020335E8(a, h, f30, d)`
+with `d` a named local declared before `h`; (b) the loop numbering wants A in
+r5.  Since r5 holds `mode` up to the compare `cmp r5, #1`, a spelling that
+lets the allocator see `mode`'s live range end there -- e.g. reading mode into
+a named local before the call and never touching the parameter again -- is the
+first thing to try.  A body that is 57.1 percent byte-identical with an
+identical prologue and tail is a cheap start, not a wall.

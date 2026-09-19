@@ -90,3 +90,419 @@ globally, so a body has to be written whole before any of it can be judged.
 That is why this note stops at the map: the honest trade was to spend the run
 on the packet's 1744-byte function, where the same effort produced a
 measurable near miss.
+
+==========================================================================
+APPENDED, lane 3 of the 1025+ band (frontier probe): 0x020929EC
+==========================================================================
+
+The worklist row 0x020929EC (584 bytes) is NOT the function start.  Its real
+entry is 0x020929E8, whose single instruction is the argument home area
+`push {r0, r1, r2, r3}` that mwcc emits when a parameter's address is taken.
+Evidence, all inside the bytes:
+
+  * the prologue is push {r3-r8, sb, sl, fp, lr}; sub sp, sp, #0x10, so the
+    home area sits at sp+0x38..sp+0x47 (r0 at +0x38, r1 at +0x3c, r2 at
+    +0x40, r3 at +0x44) and the function reads its arguments out of memory:
+    ldrb [sp,#0x40] (a "type" field compared against 2), ldrb [sp,#0x41],
+    ldrb [sp,#0x43], ldrb [sp,#0x45], ldr [sp,#0x48], ldr [sp,#0x4c];
+  * every return unwinds in reverse prologue order -- `add sp, sp, #0x10;
+    pop {r3-r8, sb, sl, fp, lr}; add sp, sp, #0x10; bx lr` (0x02092A48,
+    0x02092BD4's predicated form) -- i.e. two stack adjustments for two
+    pushes.  With no home area the second `add sp, sp, #0x10` is a bug.
+  * the two stack words the code reads beyond the home area (sp+0x48,
+    sp+0x4c) are the 5th and 6th arguments, so the signature is
+    f(u32 value, char *buf, <8-byte value in r2:r3>, u32 w5, u32 w6) with the
+    8-byte value passed by value (bytes 0, 1, 3 and 5 of it are read as
+    separate fields).
+
+`match.py one --addr 0x020929EC` cannot see this: the listing has no label at
+0x020929E8 (disasm.py labels the second push), so target_extent() reports a
+4-byte function at 0x020929EC and the diff is meaningless.  Compiling with
+--addr 0x020929E8 is the correct comparison (match.py reads len(compiled)
+bytes from the address, so the extent note is cosmetic); 0x020929E8 does have
+a func_ label and 5 outside call sites, so it is attested as a real entry.
+Which address the manifest should carry is the integrator's call; the row as
+cut is one instruction mid-prologue.
+
+WHAT THE FUNCTION IS: the integer half of the unit's formatter -- MSL-style
+`num2dec`.  buf is filled BACKWARDS (`strb r0, [r5, #-1]!` writes the NUL
+first on top of the caller's buffer end), digits come from a do/while loop
+that calls the runtime divmod twice per iteration (0x0209C2B0, `_div_by_zero_
+check` in layout/runtime_arm9.txt, x178 witnesses; remainder in r1 from the
+first call, quotient in r0 from the second, i.e. `digit = value % base;`
+then `value = value / base;`), `conv` (spec byte 5) selects base 8/10/16 with
+'a'-'f' for 'x' and 'A'-'F' otherwise, base 8 emits a '0' prefix, base 16 with
+the negative flag emits "0x"/"0X", the width field zero-pads and a pooled
+0x1FD bounds the total, and the sign is '-' / '+' / ' ' from the negative
+flag and spec byte 1 (values 1 and 2).  The guard at 0x02092A2C is
+`if (value == 0 && w6 == 0)` with a predicated `cmpeq r7, #0`, i.e. the EQ
+comes from `movs sl, r0` at entry -- the same "flags left behind by the first
+movs" shape docs/notes/pkt_0205429C.c.txt reports at 0x02054DEC.
+
+MEASURED.  A whole-body transcription was written and compiled:
+
+  DIFF  572 bytes compiled (the true body is 592: 0x020929E8..0x02092C38
+        including the 0x1FD pool word at 0x02092C34), 141 hard-equal bytes
+        = 24.7 percent byte identity, 7 of 143 instruction slots identical.
+        Only two relocation sites, both the runtime divmod, both resolved.
+
+FIRST DIFFERING INSTRUCTIONS (offsets from 0x020929E8)
+
+  +0014  ORIG mov r5, r1                OURS mov sb, r1
+  +0018  ORIG str r0, [sp, #0xc]        OURS str sb, [sp, #4]
+  +001C  ORIG ldr r7, [sp, #0x4c]       OURS str r0, [sp, #0xc]
+  +0020  ORIG mov r6, r0                OURS ldr r8, [sp, #0x4c]
+  +0024  ORIG strb r0, [r5, #-1]!       OURS mov r7, r0
+  +0028  ORIG ldrb r0, [sp, #0x43]      OURS strb r0, [sb, #-1]!
+  +002C  ORIG str r1, [sp]              OURS ldrb r0, [sp, #0x43]
+  +0030  ORIG ldrb r8, [sp, #0x45]      OURS ldrb fp, [sp, #0x41]
+  +0044  ORIG cmpeq r7, #0              OURS cmpeq r8, #0
+
+Only the first 0x14 bytes match: the original keeps the buffer pointer in r5
+and the count in r6, ours spends sb on the buffer, r7 on the count and r8 on
+the width, and the stack slots land differently (ours puts the saved start at
+sp+4, the original at sp+0).  The control flow and the statement sequence are
+right; it is the allocator that differs, from the fifth instruction on.
+
+SPELLINGS RULED OUT on this body: parameter order (value first, buffer second
+is forced by `movs sl, r0` / `mov r5, r1`); spec as four separate u32
+parameters (then the byte reads would be shifts, and the original's are ldrb
+out of the home area); `w` as an expression instead of a named local (the
+width is re-read into r7 at 0x02092B6C, so it is one local); declaring the
+four slotted locals in the order neg, w8, negflag, start (reverse declaration
+order should give start sp+0, neg sp+0xc -- ours still lands start at sp+4).
+The single most useful next probe is not another spelling but the start
+address: fix the label to 0x020929E8 and re-run, then try moving `start`'s
+assignment after the first two statements so the allocator sees `buf` die
+into r5 early.
+
+/*
+DIFF note, lane r5b, row 0x020924DC (ARM, packet pkt_020924DC, unit 29).
+Verdict: DIFF.  Whole body transcribed and compiled: 1288 bytes against the
+row's 1292-byte listing extent (the 0x1FD pool word is the 4-byte tail), 85 of
+322 instruction slots identical by sequence alignment (26%), 1 of 1 relocation
+sites resolved (the 0x020A61DC character-class map, class `literal`).
+
+NOTE ON THIS FILE: the 177 lines above this section are the earlier probe
+lane's plain-text map, not C, so this .c.txt cannot be handed to mwcc whole.
+The body is the code below the header comment; it is kept compilable at
+scratch/r5b/w_020924DC.c (copy it to a .c to re-verify).
+
+WHAT THE FUNCTION IS: the printf/scanf SPEC SCANNER.  Signature derived from
+the bytes:  u32 f(u8 *fmt, u32 **argp, struct Spec *out); it starts at fmt[1]
+(so the caller points it at the '%') and walks  %[flags][width][.prec][length]
+<conv>, filling a 16-byte spec struct it copies out with one `ldm/stm` pair
+(hence the struct assignment in the body below), and returns the pointer one
+past the conversion character (ip+1).  `%%` is handled before the flag loop
+and returns immediately.  The conversion characters are dispatched through two
+in-function `addpl pc, pc, r0, lsl #2` jump tables of `b` instructions (one for
+'A'..'G', one for 'd'..'x' -- 21 entries), so no pool word is spent on a table.
+
+THE SPEC LAYOUT, CONFIRMED BY THIS ROW (it is the operand of the whole packet:
+0x020929EC, 0x02092C3C and 0x02092F10 all read it):
+  +0x00  f0      0 = '-', 1 = none, 2 = '0'
+  +0x01  sign    0 = none, 1 = '+', 2 = ' '
+  +0x02  prec_p  precision present
+  +0x03  hash    '#'
+  +0x04  len     0 none, 1 hh, 2 h, 3 l, 4 ll, 5 'c'->wint_t, 6 j, 7 z, 8 t, 9 L
+  +0x05  conv    conversion character, 0xFF = invalid (or '%' for "%%")
+  +0x06..7  pad
+  +0x08  width   (0x1FD cap -- over it the spec is returned with conv = 0xFF)
+  +0x0C  prec
+That is exactly the byte set 0x02092C3C reads (bytes 0, 1, 3 and 5) and the one
+docs/notes/pkt_020924DC.c.txt hypothesised for 0x020929EC (bytes 0, 1, 3, 5).
+
+FIRST DIFFERING INSTRUCTIONS (offsets from 0x020924DC)
+   +0000  ORIG push {r3, r4, r5, r6, r7, lr}
+          OURS push {r3, r4, r5, r6, r7, r8, sb, lr}
+   +0008  ORIG ldrb lr, [r0, #1]        OURS ldrb r3, [r0, #1]
+   +0010  ORIG mov r6, #1               OURS mov lr, #1
+   +0018  ORIG strb r6, [sp]            OURS strb lr, [sp]
+   +0034  ORIG cmp lr, #0x25            OURS cmp r3, #0x25
+   +003C  ORIG bne #0x2092538           OURS bne #0x209253c
+   +0040  ORIG add r0, sp, #0           OURS mov r1, #0x25
+   +0044  ORIG strb lr, [sp, #5]        OURS add r0, sp, #0
+  The whole body from +0x04 is one register-colouring class deeper: the
+  original keeps the current character in lr (the link register, used as a
+  general scratch), the spec pointer in ip, the constant 1 in r6 and the
+  constant 0 in r5, and needs only {r3, r4, r5, r6, r7, lr}; ours spills two
+  of the four scratch locals into r8/sb, which also costs 4 bytes in the
+  prologue and shifts every branch displacement after it.  Everything else
+  (the flag loop, the width/precision digit loops through the class map, the
+  length-modifier chain, the two jump tables, the spec copy) reproduces.
+
+SPELLINGS RULED OUT: a `switch` for the flag loop (tried first: the emitted
+flag-loop chain is a switch, so the body below keeps it); the class test
+without the `c < 0x80` guard (the original branches to a 0 digit class for
+c >= 0x80 -- `movhs r5, r0` -- so the guard is in the source); `spec.conv`
+written after the switch (the original stores lr into spec[5] before the
+conversion switch and then overwrites it inside); spelling the precision
+default as one `if` rather than an `if/else if` chain (the original exits the
+arm after the first store, which is an else-if).
+
+LEVER FOR THE NEXT ATTEMPT (one line): get the character into lr (declare the
+current-character local first and let the compiler colour it -- in the
+original lr, ip, r5 = 0 and r6 = 1 are the four scratch locals) so the
+prologue becomes push {r3, r4, r5, r6, r7, lr}; after that the offsets align
+and only the two jump-table handler orders are left to check.
+
+Verified with:
+  python tools/match.py one --src docs/notes/pkt_020924DC.c.txt       --func func_020924DC --addr 0x020924DC --cc 1.1p1 --arm --diff
+*/
+
+/*
+ * function: func_020924DC
+ * address:  0x020924DC
+ * packet:   pkt_020924DC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_020A61DC          0x020A61DC  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Spec {                  /* 16 bytes, copied out whole */
+    u8 f0;                     /* +0x00  0 = '-', 1 = none, 2 = '0'   */
+    u8 sign;                   /* +0x01  0, 1 = '+', 2 = ' '          */
+    u8 prec_p;                 /* +0x02  precision present            */
+    u8 hash;                   /* +0x03  '#'                          */
+    u8 len;                    /* +0x04  length-modifier code         */
+    u8 conv;                   /* +0x05  conversion character         */
+    u8 pad[2];                 /* +0x06                               */
+    u32 width;                 /* +0x08                               */
+    u32 prec;                  /* +0x0C                               */
+};
+
+extern u16 g_020A61DC[];       /* character-class map, bit 3 = digit */
+
+u32 func_020924DC(u8 *fmt, u32 **argp, struct Spec *out)
+{
+    struct Spec spec;
+    u8 c;
+    u8 *p;
+    u32 cont;
+    u32 v;
+
+    c = fmt[1];
+    spec.f0 = 1;
+    spec.sign = 0;
+    spec.prec_p = 0;
+    spec.hash = 0;
+    spec.len = 0;
+    spec.width = 0;
+    spec.prec = 0;
+    p = fmt + 1;
+
+    if (c == '%') {
+        spec.conv = '%';
+        *out = spec;
+        return (u32)(p + 1);
+    }
+
+    cont = 1;
+    while (cont != 0) {
+        switch (c) {
+        case '-': spec.f0 = 0; break;
+        case '+': spec.sign = 1; break;
+        case ' ': if (spec.sign != 1) spec.sign = 2; break;
+        case '#': spec.hash = 1; break;
+        case '0': if (spec.f0 != 0) spec.f0 = 2; break;
+        default: cont = 0; break;
+        }
+        if (cont != 0) {
+            c = *++p;
+        }
+    }
+
+    if (c == '*') {
+        v = *(*argp)++;
+        c = *++p;
+        spec.width = v;
+        if ((s32)v < 0) {
+            spec.f0 = 0;
+            spec.width = -v;
+        }
+    } else {
+        while (c < 0x80 && (g_020A61DC[c] & 8) != 0) {
+            spec.width = spec.width * 10 + (c - 0x30);
+            c = *++p;
+        }
+    }
+
+    if (spec.width > 0x1FD) {
+        spec.conv = 0xFF;
+        *out = spec;
+        return (u32)(p + 1);
+    }
+
+    if (c == '.') {
+        c = *++p;
+        spec.prec_p = 1;
+        if (c == '*') {
+            v = *(*argp)++;
+            c = *++p;
+            spec.prec = v;
+            if ((s32)v < 0) {
+                spec.prec_p = 0;
+            }
+        } else {
+            while (c < 0x80 && (g_020A61DC[c] & 8) != 0) {
+                spec.prec = spec.prec * 10 + (c - 0x30);
+                c = *++p;
+            }
+        }
+    }
+
+    if (c == 'h') {
+        spec.len = 2;
+        if (p[1] == 'h') {
+            spec.len = 1;
+            c = *++p;
+        }
+    } else if (c == 'l') {
+        spec.len = 3;
+        if (p[1] == 'l') {
+            spec.len = 4;
+            c = *++p;
+        }
+    } else if (c == 'j') {
+        spec.len = 6;
+    } else if (c == 'z') {
+        spec.len = 7;
+    } else if (c == 't') {
+        spec.len = 8;
+    } else if (c == 'L') {
+        spec.len = 9;
+    } else {
+        goto noconsume;
+    }
+    c = *++p;
+
+noconsume:
+    spec.conv = c;
+
+    switch (c) {
+    case 'd':
+    case 'i':
+    case 'o':
+    case 'u':
+    case 'x':
+    case 'X':
+        if (spec.len == 9) {
+            spec.conv = 0xFF;
+            break;
+        }
+        if (spec.prec_p == 0) {
+            spec.prec = 1;
+        } else if (spec.f0 == 2) {
+            spec.f0 = 1;
+        }
+        break;
+
+    case 'f':
+    case 'F':
+        if (spec.len == 2 || spec.len == 6 || spec.len == 7 || spec.len == 8 ||
+            spec.len == 4) {
+            spec.conv = 0xFF;
+            break;
+        }
+        if (spec.prec_p == 0) {
+            spec.prec = 6;
+        }
+        break;
+
+    case 'a':
+    case 'A':
+        if (spec.prec_p == 0) {
+            spec.prec = 0xD;
+        }
+        if (spec.len == 2 || spec.len == 6 || spec.len == 7 || spec.len == 8 ||
+            spec.len == 4) {
+            spec.conv = 0xFF;
+            break;
+        }
+        if (spec.len == 1) {
+            spec.conv = 0xFF;
+        }
+        break;
+
+    case 'E':
+    case 'G':
+        if (spec.prec == 0) {
+            spec.prec = 1;
+        }
+        if (spec.len == 2 || spec.len == 1 || spec.len == 6 || spec.len == 7 ||
+            spec.len == 8 || spec.len == 4) {
+            spec.conv = 0xFF;
+            break;
+        }
+        if (spec.prec_p == 0) {
+            spec.prec = 6;
+        }
+        break;
+
+    case 'e':
+        if (spec.len == 2 || spec.len == 1 || spec.len == 6 || spec.len == 7 ||
+            spec.len == 8 || spec.len == 4) {
+            spec.conv = 0xFF;
+            break;
+        }
+        if (spec.prec_p == 0) {
+            spec.prec = 6;
+        }
+        break;
+
+    case 'p':
+        spec.conv = 'x';
+        spec.hash = 1;
+        spec.len = 3;
+        spec.prec = 8;
+        break;
+
+    case 'c':
+        if (spec.len == 3) {
+            spec.len = 5;
+            break;
+        }
+        if (spec.prec_p != 0) {
+            spec.conv = 0xFF;
+            break;
+        }
+        if (spec.len != 0) {
+            spec.conv = 0xFF;
+        }
+        break;
+
+    case 's':
+        if (spec.len == 3) {
+            spec.len = 5;
+            break;
+        }
+        if (spec.len != 0) {
+            spec.conv = 0xFF;
+        }
+        break;
+
+    case 'n':
+        if (spec.len == 9) {
+            spec.conv = 0xFF;
+        }
+        break;
+
+    default:
+        spec.conv = 0xFF;
+        break;
+    }
+
+    *out = spec;
+    return (u32)(p + 1);
+}

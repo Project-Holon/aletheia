@@ -86,3 +86,29 @@ Two levers from the 0x02075A2C body, for the same reader:
   * `ldr r0,[pc]` / `ldr r0,[r0,#4]` is a global POINTER (pool word holds an
     object's address, dereferenced, then `+0x10e0` as two `add`s), not a
     symbol+offset pool base.
+
+==============================================================================
+addendum 2 (wave r4-6, lane 6): the 44-byte spelling of 0x02075968
+==============================================================================
+
+0x02075968 has a spelling better than the four above: three SEPARATE statements,
+each re-reading the field, in the image's clear order bit 0, bit 2, bit 1 -
+
+    o->f118 = o->f118 & ~(1u << 0);
+    o->f118 = o->f118 & ~(1u << 2);
+    o->f118 = o->f118 & ~(1u << 1);
+
+compiles to 44 bytes (the image's size, not the 36 the single-expression forms
+reach) with one load, the three `bic`s and one store.  Only TWO concrete bytes
+remain: the image's first clear writes a fresh register (`bic r2, r1, #1`, then
+`bic r1, r2, #4`), every spelling coalesces it (`bic r1, r1, #1`).  Same
+two-byte register wall, but at the right size - which is exactly what the park
+in src/pending/func_02075A2C.c needs closed, so this is the spelling to start
+the next pass from.
+
+0x02075994 (144 bytes of code + two pool words) is now PARKED at MATCH in
+src/pending/func_02075994.c.  Six of its eight sites resolve; the two that do
+not are PC24 0x02075A2C (single caller image-wide: this park's own call) and
+ABS32 g_02150178 (named by exactly one pool word image-wide, this one).
+Signed 1-bit bitfields at +0x118 are required at both ends of this packet: an
+unsigned field emits `lsrs r0, r0, #0x1f` where the image has `asrs`.

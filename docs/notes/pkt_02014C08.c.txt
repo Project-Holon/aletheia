@@ -1,0 +1,56 @@
+lane r4-1, packet pkt_02014C08 -- 0x02014C08, 176 bytes.
+
+Verdict: DIFF.  Compiled 176 bytes = the original's 176.  One call site is
+unattested (see below), and 12 concrete bytes remain in the third bit test.
+
+Relocations: 3 of 4 resolved.  The unresolved one is
+
+    +0070  bl func_020169E8   -> "020169E8 (thumb, from header) has no witness
+                                outside 02014C08..02014CB8"
+
+i.e. the only branch in the image that reaches 0x020169E8 is this call, so the
+`label` class cannot attest it and 0x020169E8 lives in pkt_020169E8, not in
+this lane's packets.  Blocking class: label.  The file therefore could not be
+filed even if it were byte-exact.
+
+The lever found here (worth keeping, it is the reason the file is 176 and not
+164): the last test's bit extraction must be an unsigned ONE-BIT BITFIELD, not
+a shift pair written by hand.  mwcc folds `(x << 0x1f) >> 0x1f` to
+`movs r0, #1 / ands r0, r1`, while `((struct { unsigned int b0 : 1; } *)p)->b0`
+keeps the original's `lsls r0, r0, #0x1f / lsrs r0, r0, #0x1f`.  The two other
+extractions (`<< 0x15 >> 0x1e` and `<< 0x13 >> 0x1f`) are wide enough that both
+spellings fold the same way, which is why only this one shows the difference.
+
+Residue, 6 instruction slots (12 bytes), all in that one statement -- the order
+in which the constant and the array element are loaded:
+
+    +0076  ldr r1, [sp, #4]      | ldr r1, [r0, r1]
+    +0078  ldr r0, [r0, r4]      | ldr r0, [sp, #4]
+    +007A  ldr r1, [r1, r0]      | ldr r0, [r1, r0]
+
+Nearest C (with `typedef struct B1 { unsigned int b0 : 1; } B1;`):
+
+void func_02014C08(char *self)
+{
+    int i;
+
+    for (i = 0; i < *(int *)(self + 0x10); i++) {
+        if (*(int *)(*(int *)(self + 0x14) + i * 4) == 0)
+            continue;
+        if (((*(unsigned int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x140) << 0x15) >> 0x1e) == 0)
+            func_020649D4((char *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x34),
+                          *(int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x174));
+        if (((*(unsigned int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x140) << 0x13) >> 0x1f) != 0)
+            func_020169E8(self);
+        if (((B1 *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x144))->b0 == 1) {
+            func_02016374();
+            func_020649D4((char *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x34), 0);
+            *(unsigned int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x144) &= ~1u;
+        }
+    }
+}
+
+The array base and index are deliberately re-read at every test: a call sits
+between them and the compiler cannot prove the callee does not rewrite the
+slot, which is exactly what the five separate `ldr r0, [r5, #0x14] / ldr r1,
+[r0, r4]` pairs in the original are.

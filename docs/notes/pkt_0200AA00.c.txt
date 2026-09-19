@@ -1,0 +1,30 @@
+Parked row: func_0200AA68 @ 0x0200AA68 (arm9, Thumb, 196 bytes)
+packet: pkt_0200AA00  (slice row 1 of lane r4-2; state=new, class=chain)
+
+Verdict: unfilable from this lane -- every one of the function's five call
+sites is unwitnessed outside the compared range, so the best available
+verdict is a MATCH cap, and two of the callees live in packets that are not
+this lane's:
+
+  +0x3A  bl 0x0200ACD0   attest(0x0200ACD0,'thumb',0x0200AA68,0x0200AB2C) -> None
+  +0x4E  bl 0x0200AC14   attest -> None   (packet pkt_0200AC14, not this lane's)
+  +0x5A  bl 0x0200AB50   attest -> None
+  +0x76  bl 0x0200ABE0   attest -> None
+  +0x84  bl 0x0200AD00   attest -> None   (packet pkt_0200AD00, not this lane's)
+
+(the probe was run with `match.attest(addr,'thumb',0x0200AA68,0x0200AB2C)`
+for each target; every one returned None, i.e. no `label`, `literal`,
+`veneer`, `runtime` or `matched` witness exists outside this function.)
+
+Filing the two outside-packet callees is not available to this lane, and
+neither of them is matched today, so the row parks here with the callees
+named: 0x0200AC14 (pkt_0200AC14) and 0x0200AD00 (pkt_0200AD00).  The other
+three targets (0x0200AB50, 0x0200ABE0, 0x0200ACD0) are unlabelled leaves
+inside the same packet family and each has exactly this one caller, so they
+would have to be filed before this row in any case; because they are
+single-caller, that still leaves the sites wildcarded.
+
+The body itself was not written: no worklist entry covers 0x0200AB04 or
+0x0200AB24 either (two unlabelled leaves inside the 196-byte listing extent
+that were not rows in the slice), so the extent has to be split before a
+`tu` file is even possible.

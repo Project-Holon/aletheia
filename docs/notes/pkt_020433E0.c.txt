@@ -1,0 +1,56 @@
+lane r4-1, packet pkt_020433E0 -- 0x020433E0, 188 bytes.
+
+Verdict: DIFF.  Compiled 188 bytes = the original's 188, 9 concrete bytes
+differ, all of them in the last two read-modify-writes.
+
+The whole body (ten argumentless calls, then ten `ldr`/`bl` release pairs off
+self+0..self+0x24) is byte for byte correct.  What is left:
+
+    +0080  ldr lr, [r4, #0x28]      | ldr lr, [r4, #0x2c]
+    +0084  ldr r3, [r4, #0x2c]      | ldr r1, [r4, #0x28]
+    +008C  ldr r1, [ip]             | ldr r3, [ip]           (ip = 0x04000000)
+    +0098  and r1, r1, r0           | and r3, r3, r0
+    +009C  orr r1, r1, lr           | orr r1, r3, r1
+    +00AC  orr r0, r0, r3           | orr r0, r0, lr
+
+The original loads self+0x28 into lr and self+0x2c into r3 (ascending offset,
+first value into lr); mwcc 1.1p1 with -O4,p consistently loads self+0x2c into
+lr first and self+0x28 into r1, i.e. descending offset and a different scratch.
+The instruction sequence apart from those registers is identical, including the
+pooled 0xFFCFFFEF mask and `ip`/`ip+0x1000` for 0x04000000 / 0x04001000.
+
+Spellings ruled out (each compiled):
+  * `int lo = *(int *)(self + 0x28); int hi = *(int *)(self + 0x2c);` -- same
+  * `unsigned int lo, hi;` -- same
+  * one-line `int lo = ..., hi = ...;` -- same
+  * mask in a local `int m = 0xFFCFFFEF;` -- same (and moves `mov ip`)
+  * mask spelled `~(0x300000u | 0x10u)` -- same
+  * no locals at all, the two fields inline in the RMW expressions -- 8 bytes
+    worse: the self+0x28 load sinks below the `mov ip` and `ldr r1, [ip]`
+
+Nearest C:
+
+extern void func_020808F4(void);   /* ... nine more argumentless calls ... */
+extern void func_0207FDCC(int a);  /* ... ten release calls ... */
+
+void func_020433E0(char *self)
+{
+    func_020808F4();
+    /* ... */
+    func_02080978();
+    func_0207FDCC(*(int *)(self + 0));
+    /* ... one call per word at +4 .. +0x24 ... */
+    func_0208040C(*(int *)(self + 0x24));
+    {
+        int lo = *(int *)(self + 0x28);
+        int hi = *(int *)(self + 0x2c);
+
+        *(volatile unsigned int *)0x04000000 =
+            (*(volatile unsigned int *)0x04000000 & 0xFFCFFFEF) | lo;
+        *(volatile unsigned int *)0x04001000 =
+            (*(volatile unsigned int *)0x04001000 & 0xFFCFFFEF) | hi;
+    }
+}
+
+(The declared `lo`/`hi` pair must sit in a nested block: mwccarm 1.1p1 rejects
+a declaration that follows a statement even under -lang c99.)

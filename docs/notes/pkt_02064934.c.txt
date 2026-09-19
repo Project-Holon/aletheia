@@ -1,0 +1,258 @@
+lane r4-1, packet pkt_02064934 -- three DIFF residues, one per row.
+This file holds the C of the nearest spelling for each and the exact residue.
+
+================================================================================
+0x02064934  (160 bytes)  compiled 160, 9 concrete bytes differ
+--------------------------------------------------------------------------------
+Residue: the two hoisted preheader loads and the loop init are in a different
+order.  The original is
+
+    +0014  ldr r0, [r7]         <- *self (the header object), for the test
+    +0018  mov r4, #0           <- i = 0
+    +001C  ldr r5, [r7, #0xc]   <- the base pointer
+
+and mwcc 1.1p1 with -O4,p always emits
+
+    +0014  ldr r5, [r7, #0xc]
+    +0018  ldr r0, [r7]
+    +001C  mov r4, #0
+
+i.e. the base load scheduled first and the loop init last.  The rest of the
+function (both arms, the rotated loops, the `popls` guards and the `bhi`
+back-edges) is byte for byte correct.
+
+Spellings ruled out (each one compiled, none changed the order):
+  * `char *base` declared before / after `unsigned short i`
+  * `unsigned short i = 0;` in the declaration, `for (; i < ...; i++)`
+  * `i = 0;` as a separate statement before `base = *(char **)(self + 0xc);`
+  * base assigned inside each arm (two loads -- 8 bytes worse)
+  * the loop bound spelled through a local `int *hdr = *(int **)self` (this
+    also removes the per-iteration reload of `[r7]`, 148 bytes)
+
+Nearest C:
+
+extern void func_02064364(char *e, int a1);
+
+void func_02064934(char *self, int a1)
+{
+    unsigned short i;
+    char *base = *(char **)(self + 0xc);
+
+    if (*(int *)(self + 8) == 1) {
+        for (i = 0; i < *(unsigned short *)(*(int *)self + 2); i++)
+            func_02064364(base + i * 0x5c, a1);
+    } else {
+        for (i = 0; i < *(unsigned short *)(*(int *)self); i++)
+            func_02064364(*(char **)(base + i * 0x28), a1);
+    }
+}
+
+================================================================================
+0x02064B68  (168 bytes)  compiled 164, 83 concrete bytes differ
+--------------------------------------------------------------------------------
+Residue: mwcc CSEs the header-pointer load `*(int *)(self + 0x34)` across the
+two arms of the `v == 1` test, so one `ldr r0, [r7, #0x34]` is hoisted into the
+common preheader and the else arm re-uses it (`ldrh r0, [r0]`) instead of
+reloading.  The original reloads in the else arm
+
+    +0064  ldr r0, [r7, #0x34]
+    +0068  ldrh r0, [r0]
+
+so it is 4 bytes longer.  Everything else -- including the `str r6, [r7, #0x14]`
+store, the `popls` guards and the `bhi` back-edges -- is the same shape.
+
+Spellings ruled out: guard written as `<= 0` in each arm (adds a second test),
+declarations reordered, `(self + 0x34) + 0` explicit offset, an arm-local
+`char *h` (drops the per-iteration reload, 148 bytes).
+
+Nearest C (from src/matched/func_02064B68.c):
+
+void func_02064B68(char *self, int a1)
+{
+    int v = *(int *)(self + 0x3c);
+    char *base = *(char **)(self + 0x40);
+    unsigned short i;
+
+    *(int *)(self + 0x14) = a1;
+    if (v == 1) {
+        for (i = 0; i < *(unsigned short *)(*(int *)(self + 0x34) + 2); i++)
+            func_020643C4(base + i * 0x5c, a1);
+    } else {
+        for (i = 0; i < *(unsigned short *)(*(int *)(self + 0x34)); i++)
+            func_020643C4(*(char **)(base + i * 0x28), a1);
+    }
+}
+
+================================================================================
+0x02064AB4  (180 bytes)  compiled 172, 64 concrete bytes differ
+--------------------------------------------------------------------------------
+Residue: one cross-jump.  mwcc shares case 2's call tail with the last call of
+the default arm, so case 2 becomes `ldrsh r1, [r5, #4] / ldrsh r2, [r5, #6] /
+b <the default arm's `add r0, r4, #0x48`>` and the function loses the original's
+
+    +006C  add r0, r4, #0x48
+    +0070  bl #0x20640dc
+    +0074  b #0x2064b54
+
+replacing it with a branch into the default arm's identically-encoded
+`add r0, r4, #0x48 / bl #0x20640dc` pair (8 bytes).
+
+Fixed along the way and worth keeping: the r6/r7 allocation.  With
+
+    char *p;
+    int item;    /* func_020629E8 result */
+    int kind;    /* the masked switch value */
+
+mwcc puts the switch value in r6 and the call result in r7; the original has
+them the other way round, and declaring `int kind;` BEFORE `int item;` -- i.e.
+the reverse of first-use order -- is what reproduces r6 = kind, r7 = item.
+
+Nearest C: src/matched/func_02064AB4.c (same as filed there).
+
+=== C source as last compiled (lane r4-1): src/matched/func_02064934.c
+
+/*
+ * function: func_02064934
+ * address:  0x02064934
+ * packet:   pkt_02064934
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02064364  0x02064364  arm
+ *
+ * Two shapes of the same table, picked by the word at +0x08: stride 0x5c
+ * entries reached by `mla` when it is 1, stride 0x28 pointer slots when it
+ * is not.  Both arms re-read their count from the header object at [self]
+ * on every iteration (that is what the `ldr r1, [r7]; ldrh r1, ...` pair
+ * inside each loop body is), and both guards use the SIGNED `popls` form
+ * while the loop back-edge uses `bhi`, so the guard is a signed comparison
+ * (-2 or less returns) and the loop bound an unsigned one.
+ */
+
+extern void func_02064364(char *e, int a1);
+
+void func_02064934(char *self, int a1)
+{
+    unsigned short i;
+    char *base = *(char **)(self + 0xc);
+
+    if (*(int *)(self + 8) == 1) {
+        for (i = 0; i < *(unsigned short *)(*(int *)self + 2); i++)
+            func_02064364(base + i * 0x5c, a1);
+    } else {
+        for (i = 0; i < *(unsigned short *)(*(int *)self); i++)
+            func_02064364(*(char **)(base + i * 0x28), a1);
+    }
+}
+
+=== C source as last compiled (lane r4-1): src/matched/func_02064B68.c
+
+/*
+ * function: func_02064B68
+ * address:  0x02064B68
+ * packet:   pkt_02064934
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020643C4  0x020643C4  arm
+ *
+ * Same two-table walk as func_02064934 but off the header object at +0x34
+ * and the base pointer at +0x40, with the caller's id parked at +0x14 before
+ * the branch.  The guard is signed (`popls`) and the loop back-edge unsigned
+ * (`bhi`), and the count is re-read from the header every iteration.
+ */
+
+extern void func_020643C4(char *e, int a1);
+
+void func_02064B68(char *self, int a1)
+{
+    unsigned short i;
+    int v = *(int *)(self + 0x3c);
+    char *base = *(char **)(self + 0x40);
+
+    *(int *)(self + 0x14) = a1;
+    if (v == 1) {
+        for (i = 0; i < *(unsigned short *)(*(int *)(self + 0x34) + 2); i++)
+            func_020643C4(base + i * 0x5c, a1);
+    } else {
+        for (i = 0; i < *(unsigned short *)(*(int *)(self + 0x34)); i++)
+            func_020643C4(*(char **)(base + i * 0x28), a1);
+    }
+}
+
+=== C source as last compiled (lane r4-1): src/matched/func_02064AB4.c
+
+/*
+ * function: func_02064AB4
+ * address:  0x02064AB4
+ * packet:   pkt_02064934
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02062F00  0x02062F00  arm
+ *   func_02062D40  0x02062D40  arm
+ *   func_020629E8  0x020629E8  arm
+ *   func_02064140  0x02064140  arm
+ *   func_020640DC  0x020640DC  arm
+ *   func_02064120  0x02064120  arm
+ *   func_02064100  0x02064100  arm
+ *   func_020643CC  0x020643CC  arm
+ *
+ * Same body as func_020649D4 from the header test down, but with a guard
+ * that returns early instead of the missed-lookup arm, and no call to
+ * func_02064934.  The early-out is ONE expression: the two tests are
+ * predicated onto a single `popeq` (`ldrne`/`cmpne`/`popeq`), which is what
+ * makes it a `||` inside a single `if` rather than two `if`s (two separate
+ * guards would each need their own `pop`).
+ */
+
+extern int func_02062F00(char *self);
+extern char *func_02062D40(char *self);
+extern int func_020629E8(int h, int v);
+extern void func_02064140(char *self, int v);
+extern void func_020640DC(char *self, int a, int b);
+extern void func_02064120(char *self, int a, int b);
+extern void func_02064100(char *self, int a);
+extern void func_020643CC(char *self, int a, int b);
+
+void func_02064AB4(char *self)
+{
+    char *p;
+    int kind;
+    int item;
+
+    if (func_02062F00(self) == 0 || *(unsigned short *)(*(int *)(self + 4) + 4) == 0)
+        return;
+    p = func_02062D40(self);
+    item = func_020629E8(*(int *)(self + 0x44), *(unsigned short *)p);
+    kind = *(int *)(*(int *)(self + 0x1c) + 4) & 0xff;
+    func_02064140(self + 0x48, 1);
+    switch (kind) {
+    case 0:
+        break;
+    case 2:
+        func_020640DC(self + 0x48, *(short *)(p + 4), *(short *)(p + 6));
+        break;
+    default:
+        func_02064120(self + 0x48, *(int *)(p + 4), *(int *)(p + 8));
+        func_02064100(self + 0x48, *(unsigned short *)(p + 2));
+        func_020640DC(self + 0x48, *(short *)(p + 0xc), *(short *)(p + 0xe));
+        break;
+    }
+    func_020643CC(self + 0x34, item, *(unsigned short *)(self + 0x30));
+}

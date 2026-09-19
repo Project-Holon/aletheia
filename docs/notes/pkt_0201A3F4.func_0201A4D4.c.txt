@@ -1,0 +1,54 @@
+pkt_0201A3F4 -- func_0201A4D4 @ 0x0201A4D4 (142 code bytes + 12 pool, Thumb)
+==========================================================================
+lane r4-4.  Verdict DIFF, and the closest near miss of the lane: compiled 156
+bytes against the original's 156, all 6 relocation sites resolved, and 6
+concrete instruction halfwords wrong -- all of them the same scheduling choice in
+the first three instructions of the parameter homing.  Nothing else differs.
+
+The function builds a 0x38-byte object through func_02030734, fills it with
+func_02045B38(0, 2, 0xa5, a2) and func_020457B0(0x40, a2), stamps the byte at
++0x34 from a3 (or from a0's +0xab byte when that is not 2), then runs the six
+constructor callbacks:
+
+    for (i = 0; i < 6; i++) {
+        int off = i * 4;
+        u8 *q = v7 + off;
+
+        *(u32 *)(q + 4) = func_02045EC0(*(u32 *)v7, i);
+        *(u32 *)(q + 0x1c) =
+            ((u32 (*)(u8 *, u32, u8 *, u32, u32))
+                 (*(u32 *)(tbl_0209E444 + off)))(a0, a1, v7, v10, a2);
+    }
+
+Three spellings are load bearing and were each found by diffing:
+
+  * the dispatch table is indexed by BYTE OFFSET, not by element number:
+    `*(u32 *)(tbl_0209E444 + off)` with `extern u8 tbl_0209E444[]` -- `tbl[i]`
+    on a u32 array emits `lsls #2` and the register file moves, and the two
+    locals `off` and `q` are both needed (dropping one costs a stack slot and
+    the whole frame changes);
+  * `i` must be `int`: the original's loop back edge is `cmp r4, #6 / blt`, not
+    `blo`;
+  * the indirect call's result must be stored directly, not through a named
+    local: with `r = (...)(...); *(u32 *)(q + 0x1c) = r;` mwcc keeps the result
+    in r3 across the store, pushes r3, and the frame becomes `push {r3,...}` +
+    `sub sp, #0x18` instead of the original's `push {r4,r5,r6,r7,lr}` +
+    `sub sp, #0x1c`.
+
+Residue (6 halfwords, +0x06..+0x12):
+
+    original                                   near miss
+    +0006 str r2, [sp, #0xc]      (spill a2)   +0006 ldr r0, [pc, #0x88]
+    +0008 ldr r0, [pc, #0x84]                  +0008 adds r4, r3, #0
+    +000A adds r4, r3, #0                      +000A str r1, [sp, #8]
+    +000E str r1, [sp, #8]                     +000E ldr r3, [pc, #0x84]
+    +0010 ldr r0, [sp, #0xc]      (reload a2)  +0010 str r2, [sp, #0xc]
+    +0012 ldr r3, [pc, #0x80]                  +0012 adds r0, r2, #0
+
+The original homes a2 early and then RELOADS it for the first allocator call's
+first argument; the near miss keeps it in r2 and copies.  Tried: a `u32 p2 = a2`
+local used in place of a2 everywhere, the local declaration order permuted two
+ways (v7/v10/i/f), and dropping the named result local.  All three compile to
+exactly the same six halfwords of residue, so this is a scheduling-free-list
+choice, not a source shape: the instruction multiset, the frame and the whole
+body from +0x14 to the epilogue are already identical.

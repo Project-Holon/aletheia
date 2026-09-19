@@ -1,0 +1,139 @@
+func_02051414 @ 0x02051414, pkt_02051414 - DIFF residue plus two
+permanent MATCH sites.
+=====================================================================
+
+Not reachable as EXACT whatever the C: two relocation sites have no witness
+outside the compared range.
+
+    +0098 PC24 func_020526A8  -> no witness outside 02051414..020514F0
+                                 (its only branch in the image is this call)
+    +00CC ABS32 g_020A159C    -> same, and it is plain data, so `literal` is
+                                 the only class that could ever apply
+
+Everything else resolves: twelve `label` calls plus `literal x35/x115/x67` for
+0x02148C08 / 0x02148B4C / 0x02148B98.
+
+On top of that the body is 130 concrete bytes out: the compiler keeps the
+model vector's address in r6 and recomputes the zero vector's from sp, where
+the original holds BOTH (r6 = &z, r7 = &v) and spills h->a0 -> r4.  The frame
+is 0x80 in both and the statement order (`v = 0x020A159C` copy, three zero
+stores, MTX_Identity33_(&m), func_0206A9DC(&z), MI_Copy36B(&m, 0x02148C08),
+the `bic 0xa4` on word 63 of 0x02148B4C, func_0206AA0C(&v), then the tail) is
+the one the original emits: moving the zero stores after the MTX_Identity33_
+call costs the r7 save and four bytes of frame, so they must come first.
+
+Closest C (moved out of src/matched/, which takes EXACT only):
+
+/*
+ * function: func_02051414
+ * address:  0x02051414
+ * packet:   pkt_02051414
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_020A159C      0x020A159C  data
+ *   g_02148B4C      0x02148B4C  data
+ *   g_02148B98      0x02148B98  data
+ *   g_02148C08      0x02148C08  data
+ *   func_020467EC   0x020467EC  arm
+ *   func_02046858   0x02046858  arm
+ *   func_02046AFC   0x02046AFC  arm
+ *   func_02046B40   0x02046B40  arm
+ *   func_020479D8   0x020479D8  arm
+ *   func_02048AD0   0x02048AD0  arm
+ *   func_020526A8   0x020526A8  arm
+ *   func_0206A9DC   0x0206A9DC  arm
+ *   func_0206AA0C   0x0206AA0C  arm
+ *   func_0206DB80   0x0206DB80  arm
+ *   MI_Copy36B      0x02082B60  arm
+ *   MTX_Identity33_ 0x0207ADC4  arm
+ *
+ * The 3D setup half of a two-phase object: the private block at +0x20 is
+ * brought up (two 0x24/0x20 sub-objects on the frame, the model vector at
+ * 0x020A159C copied in, the 3x3 built by MTX_Identity33_, a zero vector
+ * cleared into a local, func_0206A9DC, the 3x3 copied to the 0x02148C08
+ * scratch by MI_Copy36B, the low bits of word 63 of 0x02148B4C cleared,
+ * then the tail calls) and then the shared path func_020526A8 gets the
+ * object's first word and 0x02148B98.  The teardown runs only when the
+ * block at +0x20 was there on entry.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02051414.c \
+ *       --func func_02051414 --addr 0x02051414 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef struct {
+    u32 x, y, z;
+} VecFx32;
+
+typedef struct {
+    u32 m[9];
+} MtxFx33;
+
+typedef struct {
+    u32 w[8];
+} Blk32;
+
+typedef struct {
+    u32 w[9];
+} Blk36;
+
+extern VecFx32  g_020A159C;
+extern u32      g_02148B4C[];
+extern u32      g_02148B98[];
+extern u32      g_02148C08[];
+
+extern void func_020467EC(Blk32 *p);
+extern void func_02046858(Blk32 *p);
+extern void func_02046AFC(Blk36 *p);
+extern void func_02046B40(Blk36 *p);
+extern void func_020479D8(void);
+extern void func_02048AD0(u32 a);
+extern void func_020526A8(u32 a, void *b);
+extern void func_0206A9DC(void *p);
+extern void func_0206AA0C(VecFx32 *p);
+extern void func_0206DB80(void);
+extern void MI_Copy36B(const void *src, void *dst);
+extern void MTX_Identity33_(MtxFx33 *p);
+
+void func_02051414(u8 *a0)
+{
+    Blk32    b;
+    Blk36    g;
+    VecFx32  v;
+    MtxFx33  m;
+    u32      z[3];
+
+    if (*(u32 *)(a0 + 0x20) != 0) {
+        func_020467EC(&b);
+        func_02046AFC(&g);
+        v = g_020A159C;
+        z[0] = 0;
+        z[1] = 0;
+        z[2] = 0;
+        MTX_Identity33_(&m);
+        func_0206A9DC(z);
+        MI_Copy36B(&m, g_02148C08);
+        g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;
+        func_0206AA0C(&v);
+        func_02048AD0(*(u32 *)(a0 + 0x20));
+        func_020479D8();
+        func_0206DB80();
+    }
+    func_020526A8(*(u32 *)a0, g_02148B98);
+    if (*(u32 *)(a0 + 0x20) == 0)
+        return;
+    func_02046858(&b);
+    func_02046B40(&g);
+    func_020479D8();
+    func_0206DB80();
+}
+

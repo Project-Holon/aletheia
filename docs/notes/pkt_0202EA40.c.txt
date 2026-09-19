@@ -1,0 +1,114 @@
+DIFF residue: func_0202EA40 @ 0x0202EA40 (arm9, Thumb, 204 bytes)
+packet: pkt_0202EA40
+
+Verdict: DIFF, compiled 188 against 204, first concrete difference at +0x22.
+Nothing attests badly: both relocation sites resolve (the call at +0xB8 by
+`label` x8, the table word g_020A1B38 at +0xC0 by `literal` x113), so this
+row is a pure codegen wall, not an evidence wall.
+
+What the function is: a 5-bit-per-channel (BGR555) cross-fade of one row
+onto another.  A phase word at p->+0x10 advances by 0x400 with a wrap at
+0x10000 (storing phase - 0xFC00), the phase>>4 pairs index a *signed*
+halfword table at 0x020A1B38, and (table[..] + 0x1000) / 2 -- the signed
+divide by two, `lsrs #0x1f / adds / asrs #1` -- is the fade scale.  The loop
+walks p->count pixels of p->src and p->dst and writes
+`(red << 10) | (green << 5) | blue`, each channel
+`(u8)(c_a + (((c_b - c_a) * scale) >> 12))`, then tail-calls func_02061CA4
+(p->unk14, p->unk0c * 2, p->out, p->count * 2).
+
+Byte-identical in the current source: the prologue, the whole phase head
+including both arms' stores and the `b` to the join, the reload of p->phase
+for the table index, the table load, the signed halve, and the loop entry
+test (everything through +0x20).
+
+The residue from +0x22 on is a register-allocation chain, not a logic error:
+
+  ORIGINAL @ +0022   movs r5, #0        <- loop counter i
+  COMPILED           movs r6, #0
+  ... everything downstream shifts by one register (r6 holds the red<<10
+  accumulator in the original, r5 here) and the pool word's displacement
+  moves with it (+0x90 vs +0x88), which is also why the body comes out 16
+  bytes short at 188.
+
+Spellings tried for the counter/declaration order (all reproduce the head
+and all leave i in r6): `u32 i` declared first with `s32 scale` second;
+`scale` first and `i` second (kept, it is what puts scale in r4);
+`for (i = 0; i < p->count; i++)` with the bound re-read per iteration, which
+is what the original's re-load of p->+0xE at the loop bottom shows (the
+stores through p->out force the reload).  The `(u8)` masks on each channel
+are load-bearing: without them the `lsls #0x18 / lsrs #0x18` pairs and the
+green `lsls #0x18 / lsrs #0x13` (a `(u8)green << 5`) disappear.
+
+THE SOURCE AS IT STANDS (head through +0x20 byte-identical, 188 of 204)
+
+/*
+ * function: func_0202EA40
+ * address:  0x0202EA40
+ * packet:   pkt_0202EA40
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_020A1B38  0x020A1B38  data
+ *   func_02061CA4  0x02061CA4  arm
+ *
+ * DRAFT: 5-bit BGR555 cross-fade of a source row onto a destination row with
+ * a decaying scale taken from a signed table, then a tail call on the output
+ * row.  All sites resolve (the one pool word has 113 witnesses, the call 8).
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef signed int s32;
+
+struct Row {
+    u16 *src;
+    u16 *dst;
+    u16 *out;
+    u16 unk0c;
+    u16 count;
+    u16 phase;
+    u32 unk14;
+};
+
+extern s16 g_020A1B38[];
+extern void func_02061CA4(u32, u32, u16 *, u32);
+
+void func_0202EA40(struct Row *p)
+{
+    s32 scale;
+    u32 i;
+    s32 a;
+    s32 b;
+    s32 r;
+    s32 g;
+    s32 bl;
+
+    if (p->phase + 0x400 >= 0x10000) {
+        p->phase = p->phase - 0xFC00;
+    } else {
+        p->phase = p->phase + 0x400;
+    }
+
+    scale = (g_020A1B38[((p->phase >> 4) << 1) + 1] + 0x1000) / 2;
+
+    for (i = 0; i < p->count; i++) {
+        a = p->src[i];
+        b = p->dst[i];
+        r = (u8)(((a >> 10) & 0x1f)
+                 + (((((b >> 10) & 0x1f) - ((a >> 10) & 0x1f)) * scale) >> 12));
+        bl = (u8)((a & 0x1f)
+                  + ((((b & 0x1f) - (a & 0x1f)) * scale) >> 12));
+        g = (u8)(((a >> 5) & 0x1f)
+                 + (((((b >> 5) & 0x1f) - ((a >> 5) & 0x1f)) * scale) >> 12));
+        p->out[i] = (u16)((r << 10) | (g << 5) | bl);
+    }
+
+    func_02061CA4(p->unk14, p->unk0c * 2, p->out, p->count * 2);
+}

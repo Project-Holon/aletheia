@@ -54,3 +54,36 @@ C currently tried (scratch/scratch/w_02015590.c):
         __asm__("");
     }
 
+
+==========================================================================
+APPENDED, lane 3 of the 1025+ band (frontier probe)
+==========================================================================
+
+Rows of this packet: the Thumb entries 0x02014D90 (1984 code bytes, 946
+Thumb instructions) and 0x020155A0 (1022 code bytes, 479), plus 0x02015590
+(10 bytes, already documented above) and 0x020155A0's follower.
+
+VERTICAL SLICE, MEASURED (attest() over each row, src set so `matched`
+counts):
+
+  0x02014D90  5 call sites, 3 distinct targets, 0 capped.
+      +0x800  0x020155A0  label (2 witnesses outside the row)
+      0x020169D4, 0x02016FC8 both resolve `matched` -- pkt_02015F2C.json and
+      pkt_02016FC8.json already hold EXACT entries at those addresses.  The
+      13 pool words are all `literal`-attested; 0x02015438 = 0x0400044C and
+      0x020150B8 = 0x04000470 are hardware addresses spelled as integer
+      constants, so they raise no relocation at all.
+  0x020155A0  ZERO `bl` sites and zero `blx` in the row, 8 pool words, all
+      literal-attested (0x04000440, 0x04000450, 0x040004AC, 0x04000500 and
+      the four in-function constants 0xFFFA0000, 0xFFF80000, 0xFF000100,
+      0x010000C0).  It is a register writer: the whole body is str/strh to
+      the 0x04000xxx window with a few shape computations.
+
+VERDICT: both rows are attestation-clean and ISA-confirmed Thumb; neither was
+transcribed.  946 and 479 Thumb instructions are 1.6x and 3.5x the largest
+Thumb body this project has ever matched (604 bytes, 15 relocations), and the
+run's whole transcription budget went to two ARM bodies of the same packet
+family (see docs/notes/pkt_02031FE0.c.txt).  The blocking class is size, not
+evidence: 0x020155A0 is the cheapest row in this lane -- no call relocations
+at all, so a body that reproduces its bytes is EXACT on the first compile --
+and it should be the next thing attempted here.
