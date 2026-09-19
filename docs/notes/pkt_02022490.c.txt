@@ -430,3 +430,50 @@ rest are label/literal), so this row is one allocator choice away from EXACT
 and would then release src/pending/func_020225B4.c, whose only open site names
 0x02022490.  The allocator prefers r0 for a fresh temporary here and r2 there;
 nothing in the C selects it.
+
+
+==============================================================================
+func_02022518  0x02022518  THUMB  original 80 bytes, compiled 76 bytes  verdict DIFF
+==============================================================================
+
+61 concrete bytes differ. The frame is right (push {r3,r4,r5,r6,r7,lr}) but the
+original reads the 5th argument with ldr r0, [sp, #0x18]; lsls r0, r0, #0x10;
+lsrs r1, r0, #0x10 where the pinned front end emits add r0, sp, #0x18; ldrh r1, [r0],
+so every instruction from +000E on is shifted 2 bytes. Relocations (2 of 2) resolve:
+THM_CALL func_02030734 at +0026 and THM_CALL func_020056A0 at +003A. Not evidence-capped:
+this is the frame/argument-access class, same family as the pkt_0201F81C residue.
+Moved here from src/matched/func_02022518.c by the integrator after it verified DIFF.
+
+/*
+ * function: func_02022518
+ * address:  0x02022518
+ * packet:   pkt_02022490
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_020056A0  0x020056A0  thumb
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void *func_02030734(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void  func_020056A0(u32 a0, void *a1, u32 a2);
+
+void func_02022518(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+{
+    void *p;
+
+    p = func_02030734((u16)(((u16)a4 & 0x7FFF) | 0x8000), 0x10, 0, 0x020A73C8, 0x3E8);
+    *(u32 *)p = a0;
+    *(u32 *)((char *)p + 4) = a1;
+    *(u32 *)((char *)p + 8) = a2;
+    *(u32 *)((char *)p + 0xC) = a3;
+    func_020056A0(0x020225B5, p, 0x400);
+}

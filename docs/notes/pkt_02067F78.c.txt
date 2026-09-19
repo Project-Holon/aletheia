@@ -1,0 +1,81 @@
+func_02067FE4  0x02067FE4  76 bytes  ARM  pkt_02067F78  verdict DIFF
+=========================================================================
+
+Sibling of func_02067F9C (which is EXACT, src/matched/func_02067F9C.c).
+Same [lo, hi] chain walk, but the chain hangs off (*a0)->f0c, the link is at
+the record's +0x04, and the hit returns a pointer into the record's 3-byte
+element array at +0x08 instead of calling out.  Miss returns (*a0)+0x04.
+
+Residue (match.py one --addr 0x02067FE4 --cc 1.1p1 --arm --diff), with the
+closest C below: every instruction up to and including the two predicated
+comparisons reproduces exactly, and the frame/pool are right (76 bytes
+compiled against 76 original).  What is left is ONE codegen decision -
+the hit arm:
+
+  ORIGINAL                                     COMPILED
+  ldrh r2, [r3]                                ldrh r2, [r3]
+  cmp  r2, r1                                  cmp  r2, r1
+  ldrhls r0, [r3, #2]                          ldrhls r0, [r3, #2]
+  cmpls r1, r0                                 cmpls r1, r0
+  bhi  #0x206801c      <- branch over the arm  subls r0, r1, r2        <- predicated
+  sub  r0, r1, r2                              addls r1, r3, #8
+  add  r1, r3, #8                              addls r0, r0, r0, lsl #1
+  add  r0, r0, r0, lsl #1                      addls r0, r1, r0
+  add  r0, r1, r0                              bxls lr
+  bx   lr
+
+i.e. the original branches over the five-instruction hit arm while mwccarm
+if-converts it (the `s` suffix).  Every spelling of the same guard was tried
+and all of them if-convert the arm:
+
+  * `if (r->lo <= key && key <= r->hi) { return &r->elems[...]; }` with the
+    `r = r->next` after it (the shape whose register allocation is the
+    original's - `o` in ip, `r` in r3 - and whose guard comparisons match);
+  * the same guard with the walk in the else arm;
+  * the negated guard `if (r->lo > key || key > r->hi) { r = r->next;
+    continue; }`, which additionally if-converts the tail load
+    (`ldrhi r3, [r3, #4]`) and loses the back-edge as well.
+
+Nothing else is wrong: the `*3` element stride (`add r0, r0, r0, lsl #1`),
+the conditional `ldrhls` load and the `while` loop's top test + bottom
+back-edge all reproduce.  This is a codegen cap, not an evidence cap: the
+function has no relocations at all.
+
+Closest C (declaration order matters - `r` declared first puts `o` in ip,
+which the original does):
+
+```c
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+struct Rec {
+    u16  lo;    /* 0x00 */
+    u16  hi;    /* 0x02 */
+    struct Rec *next;   /* 0x04 */
+    u8   elems[];       /* 0x08, 3-byte elements */
+};
+
+struct Obj {
+    u8          pad_00[4];
+    u8          fallback;   /* 0x04 */
+    u8          pad_05[7];
+    struct Rec *chain;      /* 0x0c */
+};
+
+u8 *func_02067FE4(struct Obj **a0, unsigned int key)
+{
+    struct Rec *r;
+    struct Obj *o = *a0;
+
+    r = o->chain;
+
+    while (r != 0) {
+        if (r->lo <= key && key <= r->hi) {
+            return &r->elems[(key - r->lo) * 3];
+        }
+        r = r->next;
+    }
+
+    return &o->fallback;
+}
+```

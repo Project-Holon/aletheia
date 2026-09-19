@@ -1,6 +1,6 @@
 # A store scheduled between the argument setup and the `bl` names the call's second argument
 
-**Summary**: when a call result is both stored to a field and copied into `r1`
+summary: when a call result is both stored to a field and copied into `r1`
 that is *not* the store's source register, the value is a second argument of
 the next call: the store just got scheduled into the gap.
 

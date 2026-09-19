@@ -1,0 +1,35 @@
+packet pkt_02024938 - func_02024938 @ 0x02024938 (80 bytes) - DIFF, 32 concrete bytes
+
+Right shape for the first 0x24 bytes (the two nested clear loops into
+p + i*8 + j*2 + 0xC, with 0xFFFF in a pool word held live in r1).  Compiled
+76 vs 80.
+
+The whole residue is the second loop, two adjacent byte tables.  The original
+loads TWO pool words, base 0x0209F784 and base 0x0209F785 (one byte past it),
+and indexes both with the SAME r3 = 2*i:
+
+    ORIGINAL                                COMPILED (struct {u8 kind; u8 val;}[])
+    ldr r2, [pc, #0x20]      ; 0x0209F784   ldr r4, [pc, #0x1c]
+    movs r4, #0                             movs r5, #0
+    lsls r3, r4, #1                         lsls r0, r5, #1
+    ldrb r1, [r2, r3]                       adds r1, r4, r0
+    cmp r1, #2                              ldrb r0, [r4, r0]
+    bne skip                                cmp r0, #2
+    ldr r1, [pc, #0x18]      ; 0x0209F785   bne skip
+    ldrb r1, [r1, r3]                       ldrb r0, [r1, #1]      <- folds +1
+    bl func_020249A0                         ...
+    adds r4, r4, #1                         adds r5, r5, #1
+    cmp r4, #7 / blo                        cmp r5, #7 / blt
+    pop                                     pop
+
+Two things differ and both are spelling, not reading:
+  - the +1 must be a SYMBOL (a second extern at 0x0209F785), because `ldrb`
+    with a register offset has no immediate and this compiler otherwise folds
+    +1 into an immediate off the already-indexed base (`ldrb r0, [r1, #1]`),
+    which is four bytes shorter;
+  - the loop counter must be UNSIGNED (`blo`, not `blt`), so the index of the
+    second loop has to be a u32 separate from the `int` counters of the first
+    two loops.
+
+Untried at the time of writing: declaring the second table as its own extern
+AND keeping the u32 index (only the struct version was compiled).

@@ -1,0 +1,104 @@
+func_02065B74  0x02065B74  76 bytes  ARM  pkt_02065B74  verdict DIFF + MATCH cap
+==============================================================================
+
+Two independent findings on one function (MIi_CpuClear16(0, p, 0x48) then six
+field stores, four of them function pointers at +0x18..+0x24).
+
+1. EVIDENCE CAP (unfixable from this function's own C): the four ABS32 pool
+   words 0x02065020, 0x02065134, 0x020651B8, 0x020653A4 have no witness
+   outside 02065B74..02065BD0 - each of the four is a real func_ label with
+   no branch to it anywhere else in the image, and this table is their only
+   reference.  A `matched` entry for any of them (they are pkt_02065020,
+   pkt_02065134, pkt_020653A4) closes that site; until then the function caps
+   at MATCH even with byte-identical code.
+
+2. CODEGEN RESIDUE: mwccarm hoists all four address loads to the top of the
+   body and holds the two small constants (1 and 3) in lr/ip, where the
+   original interleaves load/store and uses r0 for the constants:
+
+   ORIGINAL                                  COMPILED
+   mov r0, #1                                ldr r3, [pc, #0x2c]
+   str r0, [r4, #0x10]                       ldr r2, [pc, #0x2c]
+   mov r0, #3                                ldr r1, [pc, #0x2c]
+   ldr r1, [pc, #0x20]                       ldr r0, [pc, #0x2c]
+   str r0, [r4, #0x14]                       mov lr, #1
+   ldr r0, [pc, #0x1c]                       mov ip, #3
+   str r1, [r4, #0x18]                       str lr, [r4, #0x10]
+   ldr r1, [pc, #0x18]                       str ip, [r4, #0x14]
+   str r0, [r4, #0x1c]                       str r3, [r4, #0x18]
+   ldr r0, [pc, #0x14]                       str r2, [r4, #0x1c]
+   str r1, [r4, #0x20]                       str r1, [r4, #0x20]
+   str r0, [r4, #0x24]                       str r0, [r4, #0x24]
+
+   The MIi_CpuClear16 call, the frame (`push {r4, lr}`) and the pool words
+   themselves are all correct; only the scheduling of the six stores differs.
+   Spelling tried: the plain `p->state = 1; p->mode = 3;` followed by four
+   assignments of `(u32)func_XXXXXXXX` (below).
+
+
+==============================================================================
+func_02065B74  0x02065B74  ARM  original 76 bytes, compiled 92 bytes  verdict DIFF
+==============================================================================
+
+Verified DIFF with the pinned compiler (compiled 92 bytes, 5 relocation sites, all resolved).
+The four ABS32 pool words are unwitnessed (0x02065020, 0x02065134, 0x020651B8, 0x020653A4)
+and the six stores are scheduled differently: mwccarm hoists all four address loads to the
+top and keeps 1 and 3 in lr/ip where the original interleaves load/store using r0.
+Moved here from src/matched/func_02065B74.c by the integrator after it verified DIFF.
+
+/*
+ * function: func_02065B74
+ * address:  0x02065B74
+ * packet:   pkt_02065B74
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Wipe and initialise a 0x48-byte object: MIi_CpuClear16(0, p, 0x48) first,
+ * then the state word at +0x10, the mode word at +0x14 and four function
+ * pointers at +0x18..+0x24 - a vtable laid out in the object itself, in pool
+ * order, not an array of addresses.
+ *
+ * symbols:
+ *   MIi_CpuClear16   0x02082A48  arm
+ *   func_02065020    0x02065020  arm
+ *   func_02065134    0x02065134  arm
+ *   func_020651B8    0x020651B8  arm
+ *   func_020653A4    0x020653A4  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+struct Obj {
+    u8   pad_00[0x10];
+    u32  state;     /* 0x10 */
+    u32  mode;      /* 0x14 */
+    u32  fn18;      /* 0x18 */
+    u32  fn1c;      /* 0x1c */
+    u32  fn20;      /* 0x20 */
+    u32  fn24;      /* 0x24 */
+};
+
+extern void MIi_CpuClear16(u32 val, void *dst, u32 size);
+
+extern void func_02065020(void);
+extern void func_02065134(void);
+extern void func_020651B8(void);
+extern void func_020653A4(void);
+
+void func_02065B74(struct Obj *p)
+{
+    MIi_CpuClear16(0, p, 0x48);
+
+    p->state = 1;
+    p->mode  = 3;
+
+    p->fn18 = (u32)func_02065020;
+    p->fn1c = (u32)func_02065134;
+    p->fn20 = (u32)func_020651B8;
+    p->fn24 = (u32)func_020653A4;
+}

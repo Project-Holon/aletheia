@@ -1,0 +1,25 @@
+packet pkt_02022940 - func_02022A44 @ 0x02022A44 (68 bytes) - DIFF, 32 bytes
+
+A three-state step machine on p->f0C.  `switch (p->f0C)` with cases 1/2/3 is
+the right skeleton - it produces the original's cmps/beq chain ending in a `b`
+to the join - but the committed body still differs by 32 bytes.  Compiled 66
+vs 68.
+
+What is settled from the original listing:
+
+  - case 1 calls func_02022A88(p) and compares the result against 1, then
+    increments p->f0C in place;
+  - case 2 loads p->f14 into r0 ONCE at the top of the function (before the
+    dispatch) and reuses it for `*(u32 *)(p->f14 + 0x20)` passed to
+    func_02030EAC (arm), then reloads p->f14 for func_020307B0 (arm), clears
+    p->f14, increments p->f0C and sets the result to 1;
+  - case 3 sets the result to 1 only, and the case-2 arm JUMPS INTO it
+    (`b` to the case-3 `movs r4, #1`), which is the compiler's cross-jump for
+    two arms that share a tail - so the source must write the same shared
+    statement in both arms rather than factoring it behind a label
+    (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md);
+  - the result variable is r4, zeroed before the dispatch and returned at the
+    single epilogue.
+
+Left as a near miss: the eager hoist of p->f14 out of the switch is what the
+committed spelling does not reproduce.

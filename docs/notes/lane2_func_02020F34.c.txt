@@ -1,0 +1,30 @@
+lane 2 (band 65-128) residue for func_02020F34 @ 0x02020F34, 80 bytes - DIFF, 8 concrete bytes.
+(Kept under this name because docs/notes/pkt_02020E60.c.txt already exists for
+other functions of the packet; this note is additive, nothing there was changed.)
+
+Right size (80), all 5 relocation sites resolved (func_02048F60 x3, arm; the
+table is `struct { u16 a; u16 b; }[]` at 0x0209EB6C - the case-1 and case-2
+arms read its two u16 halves, which is why the pool carries both 0x0209EB6C
+and 0x0209EB6E).  Control flow is identical: a cmp #0/#1/#2 chain, `b` to the
+default, `blx; pop` in each of the three arms and `movs r0,#0; pop` in the
+default - i.e.
+
+    switch (kind) {
+    case 0: func_02048F60(0x18, n); break;
+    case 1: func_02048F60(0x19, g_tbl[n].a); break;
+    case 2: func_02048F60(0x19, g_tbl[n].b); break;
+    default: return 0;
+    }
+
+Residue: the clamped index lives in r2 here and in r3 in the original.
+
+    ORIGINAL                                COMPILED
+    adds r3, r0, #0                         adds r2, r0, #0
+    cmp r3, r0 / movs r3, #0                cmp r2, r0 / movs r2, #0
+    adds r1, r3, #0 ...                     adds r1, r2, #0 ...
+    lsls r3, r3, #2 / ldrh r1, [r1, r3]     lsls r2, r2, #2 / ldrh r1, [r1, r2]
+
+Tried: the clamped value as a named local (`u32 n = a;`), as the parameter
+itself, and with the clamp written as an early `return 0`.  The clamp itself
+(`ldr r0, [pc, #0x3c]; cmp; bls; movs`) and the pool word 0x272 are right in
+every shape.

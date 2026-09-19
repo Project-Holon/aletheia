@@ -1,0 +1,53 @@
+func_02028BDC  0x02028BDC  78 bytes  thumb  pkt_02028BDC
+verdict: DIFF, 4 bytes wrong (one 4-instruction run), everything else identical.
+
+Residue (original | compiled). The whole difference is register allocation
+in the second half of the loop body -- the original keeps the loop index
+scaled by 2 in r1 and reuses r1 for the second pointer/value, the compiler
+gives that run r0:
+
+  +0032  adds r1, r5, r1   | adds r0, r5, r1
+  +0034  adds r1, #0xb0    | adds r0, #0xb0
+  +0036  ldrh r1, [r1]     | ldrh r0, [r0]
+  +0038  cmp r1, r6        | cmp r0, r6
+
+Both call sites resolve (label), and the first loop iteration, the guard
+chain and the epilogue are all byte-identical, so this is pure allocation,
+not a semantic difference. i is already `int` (the `blt` on the loop back
+edge matches).
+
+Closest C (this is what produced the DIFF above):
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    extern void func_020061E4(void);
+    extern void func_020061F0(void);
+
+    void func_02028BDC(u8 *p, u32 mask)
+    {
+        int i;
+
+        if ((*(u32 *)(p + 0xb4) & mask) == 0)
+            return;
+
+        *(u32 *)(p + 0xb4) &= ~mask;
+
+        if (*(u32 *)(p + 0xb4) != 0)
+            return;
+
+        for (i = 0; i < 2; i++) {
+            if (*(u16 *)(p + 0xac + i * 2) == 0xffff)
+                continue;
+            if (*(u16 *)(p + 0xb0 + i * 2) == 0xffff)
+                func_020061E4();
+            else
+                func_020061F0();
+        }
+    }
+
+Ruled out: u32 i (gives blo on both back edges); splitting the two
+0xac/0xb0 tests into two statements that each recompute `i * 2` (same
+allocation); caching the element pointer in a named local (adds a
+callee-saved register and shifts the whole body).

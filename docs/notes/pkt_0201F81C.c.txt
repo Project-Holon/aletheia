@@ -1,0 +1,25 @@
+packet pkt_0201F81C - func_0201F81C @ 0x0201F81C (70 bytes) - DIFF, 68 concrete bytes
+
+One ARM allocator call and a short fill loop; the compiled body is two bytes
+short (72 vs 76 with the 4 bytes of pool) and the whole frame is different:
+
+    ORIGINAL                                COMPILED
+    push {r3, r4, r5, r6, lr}               push {r3, r4, r5, lr}
+    sub sp, #4                              (no sub sp: the pushed r3 slot
+                                             is reused as the outgoing arg)
+    ...
+    movs r6, #0                             movs r3, #0
+    ... .word p[i*2] / p[i*2+1] ...          (same body, r3 as the index)
+
+The function is: p = func_02030734((u16)a1, (a0+1)*8, 1, 0x020A7374, 0x29);
+if (!p) return; then `for (i = 0; i < a0; i++) { p[i*2] = i; p[i*2+1] = i; }`
+followed by `p[i*2] = 0xFFFFFFFF; p[i*2+1] = a1;`.  The loop guard is
+unsigned (`blo` after `cmp r6, r5`), and the `mvns r1, r1` at the tail is the
+0xFFFFFFFF.
+
+Residue is entirely allocation: the original spends r6 on the loop index and a
+separate `sub sp, #4` on the outgoing argument area; this compiler keeps the
+index in r3 and reuses the `push {r3}` home slot.  The 5th argument (read by
+the original as `ldr r0, [sp, #0x18]` after a 6-register push) is a real stack
+parameter, not a truncation of a1 - declaring it as a 5th parameter is the
+next shape to try.

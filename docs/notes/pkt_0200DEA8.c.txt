@@ -1,0 +1,63 @@
+DIFF residue: func_0200DEA8 @ 0x0200DEA8  (pkt_0200DEA8, lane 1, 65-128 band)
+original 98 bytes (listing extent 104, the last 6 bytes are padding), closest C
+compiles to 104 bytes; 48 concrete bytes differ.  Every relocation resolves
+(MI_CpuCopy8 = label x546), so this is pure codegen.
+
+shape: record producer.  *a1 = 0xFFFF; *(u16 *)(a1 + 4) = p[0xd5]; then five
+MI_CpuCopy8(a0 + 0x104 + a2*0xF0 + off, a1 + dst, n) blits with
+(0xb4,8,0x10) (0xd6,0x18,8) (0xde,0x20,8) (0xe6,0x28,8) (0xb4,0x30,0xb4).
+The original keeps (a0 + 0x104) in r5 and (a2 * 0xF0) in r4 separately and
+re-adds them at each use, and materialises 0x104 as `movs r1, #0x41;
+lsls r1, r1, #2`.
+
+CLOSEST C (compiles 104 bytes, 48 bytes differ):
+
+```c
+extern void MI_CpuCopy8(void *dst, const void *src, u32 size);   /* 0x02082D44 */
+
+void func_0200DEA8(u8 *a0, u8 *a1, u32 a2)
+{
+    u8 *p = a0 + 0x104;
+    u32 off = a2 * 0xF0;
+
+    *(u32 *)a1 = 0xFFFF;
+    *(u16 *)(a1 + 4) = *(u8 *)(p + off + 0xd5);
+    MI_CpuCopy8(p + off + 0xb4, a1 + 8, 0x10);
+    MI_CpuCopy8(p + off + 0xd6, a1 + 0x18, 8);
+    MI_CpuCopy8(p + off + 0xde, a1 + 0x20, 8);
+    MI_CpuCopy8(p + off + 0xe6, a1 + 0x28, 8);
+    MI_CpuCopy8(p + off + 0xb4, a1 + 0x30, 0xb4);
+}
+```
+
+RESIDUE, original vs compiled (offset: original | compiled):
+
+  +0004 movs r1, #0x41          | ldr r1, [pc, #0x5c]   <- 0xFFFF pool load moved up
+  +0006 lsls r1, r1, #2         | adds r4, r2, #0
+  +0008 adds r5, r0, r1         | str r1, [r6]          <- *a1 = 0xFFFF
+  +000A adds r4, r2, #0         | movs r1, #0x41
+  +000C movs r0, #0xf0          | lsls r1, r1, #2
+  +000E muls r4, r0, r4         | adds r5, r0, r1
+  +0010 ldr r0, [pc, #0x50]     | movs r0, #0xf0
+  +0012 adds r1, r6, #0         | muls r4, r0, r4
+  +0014 str r0, [r6]            | adds r0, r5, r4
+  +0016 adds r0, r5, r4         | adds r0, #0xd5
+  +0018 adds r0, #0xd5          | ldrb r0, [r0]
+  +001A ldrb r0, [r0]           | adds r1, r6, #0
+  +001E movs r2, #0x10          | strh r0, [r6, #4]
+  +0020 strh r0, [r6, #4]       | adds r0, r5, r4
+  ... (rest is the same instruction sequence with the schedule shifted by 4
+  bytes; the per-call shape adds r0,r5,r4 / adds r1,r6,#0 / adds r0,#imm /
+  adds r1,#imm / movs r2,#imm / blx is identical)
+
+RULED OUT:
+  * `a0 += 0x104;` (mutating the parameter) instead of a separate `u8 *p`:
+    mwcc then folds the +0x104 into the *index* (`movs r1,#0xf0; adds r1,#0x14`)
+    and the 0x104 materialisation vanishes, costing 4 extra bytes.
+  * One folded pointer `a0 + 0x104 + a2*0xF0`: collapses r5/r4 into one
+    register, which reallocates the whole function.
+  * Named local for the tag word, and reordering the two initialisations: both
+    leave the pool load of 0xFFFF where it is (the original schedules it late,
+    right before `str r0,[r6]`, while mwcc 1.1p1 at -O4,p always hoists it).
+  * The remaining gap is scheduling + one register-allocator decision, not a
+    missing witness: MI_CpuCopy8 attests under `label` x546.

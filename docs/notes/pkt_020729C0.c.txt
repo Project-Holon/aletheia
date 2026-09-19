@@ -58,3 +58,24 @@ and it predicates as well (ldreq/ldreq/orreq/streq/bxeq), with the same
 moves the pool word to 0x0214DEC4 with a zero displacement, so the extern-array
 spelling is the one that keeps the original's `ldr r1, [r1, #4]` encoding.
 Compiled 64 bytes vs 72 original in every spelling tried here.
+
+lane6 addendum 2 (same address, third run): putting the shift in the for
+increment rather than at the end of the body restores the *72-byte* size and
+makes the increment block byte-identical to the original:
+
+    u32 m = 1; int i; u32 v = g_0214DEC0[1];
+    for (i = 0; i < 8; i++, m <<= 1)
+        if (!(v & m)) { g_0214DEC0[1] |= m; return i; }
+    return -1;
+
+compiles to 72 bytes with `+0004..+0010` and `+002C..+003C` matching
+byte for byte (`add r0,r0,#1` / `cmp r0,#8` / `lsl r3,r3,#1` / `blt`), so the
+ONLY residue is the five-instruction predicated arm
+(ldreq/ldreq/orreq/streq/bxeq vs `bne` + the block).  Separately, this spelling
+keeps `ldr r1, [pc, #0x24]` + `ldr r2, [r1, #4]` exactly as the original does,
+i.e. the volatile second read is preserved (drop the volatile and the reload is
+CSE'd into `v`).  (My own run of the cached-local spelling printed the site as
+`~ +0040 ABS32 g_0214DEC0 [wildcard]` rather than `literal x30`; that is a
+pool-position artefact of the 4-byte-shorter predicated body - the word lands at
++0040 instead of the original's +0044 and never lines up for comparison - not a
+missing witness, so a byte-perfect body would be EXACT here.)

@@ -1,0 +1,56 @@
+/*
+ * function: func_02051A54
+ * address:  0x02051A54
+ * packet:   pkt_02051A54
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * The caller's registered handler (the function pointer in the clact.c global
+ * 0x020A8140) is invoked with the two incoming arguments and a literal 0 in
+ * r2; r1 is never written, so the callee takes at least two arguments and the
+ * third is a constant zero.
+ *
+ * The result is appended to the current context's u32 table: the count
+ * halfword at base+0x25c is loaded once, incremented and stored back, and the
+ * value is written to base+0x58+count*4 - the store uses the OLD count, so the
+ * table is indexed before the increment.  The return value is the low
+ * halfword of the result scaled by eight, which the compiler writes as the
+ * fused unequal shift pair lsl #16 / lsr #13 (a u16 cast folded into the
+ * multiply, see
+ * docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md).
+ *
+ * The twin at 0x02051AB8 is the same shape over the parallel table 0x100
+ * higher (count at +0x25e, elements at +0x158).
+ *
+ * symbols:
+ *   g_020A8140   0x020A8140  data
+ *   g_02146A88   0x02146A88  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Ctx {
+    u8   pad_00[0x44];
+    u8  *base;      /* 0x44 */
+};
+
+extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
+extern struct Ctx *g_02146A88;
+
+u32 func_02051A54(u32 a, u32 b)
+{
+    u32 v = g_020A8140(a, b, 0);
+    u8 *base = g_02146A88->base;
+    u16 n = *(u16 *)(base + 0x25c);
+
+    *(u16 *)(base + 0x25c) = n + 1;
+    *(u32 *)(base + 0x58 + n * 4) = v;
+
+    return (u16)v * 8;
+}

@@ -1,0 +1,172 @@
+DIFF evidence, packet pkt_020694D8 (lane 6).  Two near misses, both blocked by one
+cross-cutting codegen decision: mwccarm dsi/1.1p1 at -O4,p if-converts a short guard
+block into predicated instructions where the original kept a plain conditional
+branch.  Instruction sequence, operands and loop shape are otherwise identical.
+
+================================================================================
+0x02069E20  104 bytes  arm  DIFF - codegen (1 guard block, 6 instructions)
+================================================================================
+
+Original (per match.py show --addr 0x02069E20 --arm):
+
+  02069E20  push {r3, r4, r5, lr}
+  02069E24  cmp r1, #0
+  02069E28  popeq {r3, r4, r5, pc}
+  02069E2C  mov r3, #1
+  02069E30  mov r4, #0
+  02069E34  ldrb r2, [r1, #0x19]
+  02069E38  mov r5, r4
+  02069E3C  cmp r2, #0
+  02069E40  ble #0x2069e78
+  02069E44  add r2, r1, r5, lsl #1
+  02069E48  ldrh r2, [r2, #0x1a]
+  02069E4C  tst r2, #0x100
+  02069E50  beq #0x2069e68          <- branch over the 5-instruction store block
+  02069E54  asr lr, r5, #5
+  02069E58  ldr ip, [r0, lr, lsl #2]
+  02069E5C  and r2, r5, #0x1f
+  02069E60  orr r2, ip, r3, lsl r2
+  02069E64  str r2, [r0, lr, lsl #2]
+  02069E68  ldrb r2, [r1, #0x19]
+  02069E6C  add r5, r5, #1
+  02069E70  cmp r5, r2
+  02069E74  blt #0x2069e44
+  02069E78  ldr r1, [r1, #0x10]
+  02069E7C  cmp r1, #0
+  02069E80  bne #0x2069e34
+  02069E84  pop {r3, r4, r5, pc}
+
+Closest C (reproduces every instruction except the guard block, 4 bytes shorter):
+
+    typedef struct Node {
+        u8  pad00[0x10];
+        struct Node *next;   /* +0x10 */
+        u8  pad14[5];
+        u8  count;           /* +0x19 */
+        u16 flags[1];        /* +0x1a */
+    } Node;
+
+    void func_02069E20(u32 *bits, Node *n)
+    {
+        int i;
+
+        if (n == 0)
+            return;
+
+        do {
+            for (i = 0; i < n->count; i++) {      /* bound re-read every pass */
+                if (n->flags[i] & 0x100)
+                    bits[i >> 5] |= 1 << (i & 0x1f);
+            }
+            n = n->next;
+        } while (n != 0);
+    }
+
+What the compiler emits at +0030 instead of the beq:
+
+  * +0030  beq #0x2069e68     | asrne lr, r5, #5
+  * +0034  asr lr, r5, #5     | andne r2, r5, #0x1f
+  * +0038  ldr ip, [r0, lr, lsl #2] | ldrne ip, [r0, lr, lsl #2]
+  * +003C  and r2, r5, #0x1f  | add r5, r5, #1
+  * +0040  orr r2, ip, r3, lsl r2 | orrne r2, ip, r3, lsl r2
+  * +0044  str r2, [r0, lr, lsl #2] | strne r2, [r0, lr, lsl #2]
+
+Everything else matches byte for byte: the `mov r4,#0 / mov r5,r4` counter reset,
+the ldrb re-read of n->count as the loop bound (it must NOT be hoisted into a
+register - `int c = n->count;` outside the loop puts the bound in r6 and pushes
+r6, four bytes and a whole register-different body), the signed `cmp r2,#0` /
+`ble` entry test, the add+ldrh base-offset form at 0x1a, and the do/while
+rotation of the outer walk.
+
+Ruled out (all four compiled, all DIFF):
+  - `for (i = 0; i < (int)n->count; i++)` with `(... & 0x100) != 0`
+  - `for(;;)` + `if (n == 0) break;` outer loop
+  - `while (n != 0)` outer loop
+  - `if (!(n->flags[i] & 0x100)) continue;`
+  - volatile u32 *bits (does not stop the if-conversion)
+  - `u32 m = n->flags[i];` bound to a local (adds a mov, loses the ldrh shape)
+
+================================================================================
+0x02069F08  116 bytes  arm  DIFF - codegen (if-converted head block + allocator)
+================================================================================
+
+Original: unlink `node` from the singly-linked list `*list` (next at +0x10),
+returning 1 when found, 0 otherwise; the unlink zeroes node->next.
+
+  02069F08  ldr r3, [r0]
+  02069F0C  cmp r3, #0
+  02069F10  moveq r0, #0
+  02069F14  bxeq lr
+  02069F18  cmp r3, r1                 ; cur == node
+  02069F1C  bne #0x2069f38             <- plain branch, r3 = cur
+  02069F20  ldr r3, [r3, #0x10]
+  02069F24  mov r2, #0
+  02069F28  str r3, [r0]
+  02069F2C  str r2, [r1, #0x10]
+  02069F30  mov r0, #1
+  02069F34  bx lr
+  02069F38  ldr r2, [r3, #0x10]        ; cur = prev->next, r2 = cur, r3 = prev
+  02069F3C  cmp r2, #0
+  02069F40  beq #0x2069f74
+  02069F44  cmp r2, r1
+  02069F48  bne #0x2069f64
+  02069F4C  ldr r1, [r2, #0x10]
+  02069F50  mov r0, #0
+  02069F54  str r1, [r3, #0x10]
+  02069F58  str r0, [r2, #0x10]
+  02069F5C  mov r0, #1
+  02069F60  bx lr
+  02069F64  mov r3, r2
+  02069F68  ldr r2, [r2, #0x10]
+  02069F6C  cmp r2, #0
+  02069F70  bne #0x2069f44
+  02069F74  mov r0, #0
+  02069F78  bx lr
+
+Closest C (both forms tried):
+
+    int func_02069F08(Node **list, Node *node)
+    {
+        Node *cur = *list;
+        Node *prev;
+
+        if (cur == 0)
+            return 0;
+
+        if (cur == node) {
+            *list = cur->next;
+            node->next = 0;
+            return 1;
+        }
+
+        prev = cur;
+        for (cur = cur->next; cur != 0; cur = cur->next) {
+            if (cur == node) {
+                prev->next = cur->next;
+                cur->next = 0;
+                return 1;
+            }
+            prev = cur;
+        }
+        return 0;
+    }
+
+Compiler instead at +0010:
+
+  * +0010  cmp r3, r1        | ldr r3, [r2, #0x10]   (predicated unlink block follows)
+  * +0014  bne #0x2069f38    | cmp r2, r1
+  * +0018  ldr r3, [r3, #0x10] | streq r3, [r0]
+  * +001C  mov r2, #0        | moveq r2, #0
+  * +0020  str r3, [r0]      | streq r2, [r1, #0x10]
+  * +0024  str r2, [r1, #0x10] | moveq r0, #1
+  * +0028  mov r0, #1        | bxeq lr
+  ...
+  * +005C  mov r3, r2        | cmp r3, #0
+  * +0060  ldr r2, [r2, #0x10] | bne #0x2069f3c
+
+i.e. the head `if (cur == node) { ... return 1; }` came out fully predicated
+(streq/moveq/bxeq, no branch) and the allocator put cur in r3 / prev in r2 instead
+of the original's cur=r2 / prev=r3.  Ruled out: the same function with a
+`while (cur != 0) { ...; prev = cur; cur = cur->next; }` tail (moves the
+`mov r3,r2` to the wrong place) and the loop-carried version with `prev` declared
+after `cur`.  No spelling that keeps the guard a branch was found.

@@ -1,0 +1,68 @@
+func_0202BB68  0x0202BB68  72 bytes  thumb  pkt_0202BB68
+func_0202BBB0  0x0202BBB0  76 bytes  thumb  pkt_0202BB68
+verdict: DIFF (both), 14 bytes wrong each -- same body, different
+register assignment for `v` (the compare result) plus the branch targets
+that follow from it. All concrete instructions are semantically right and
+signedness now matches (blt/bge); only the register choice differs.
+
+Residue (func_0202BB68, original | compiled):
+
+  +001E  adds r2, r0, #0     | lsls r1, r4, #2      <- original parks v in r2
+  +0020  lsls r0, r4, #2     | adds r2, r5, r1
+  +0022  adds r1, r5, r0     | movs r1, #0x79
+  +0024  movs r0, #0x79      | lsls r1, r1, #2
+  +0026  lsls r0, r0, #2     | ldr r1, [r2, r1]
+  +0028  ldr r0, [r1, r0]    | cmp r1, r0
+  +002A  cmp r0, r2           | blt #0x202bba2
+  +002C  bge #0x202bba0       | cmp r0, r1
+  ...
+
+The original copies the call result out of r0 into r2 (`adds r2, r0, #0`)
+so that r0/r1 stay free for the `p + i * 4` + 0x1e4 address computation;
+the compiler instead keeps v in r0 and computes the address in r1/r2,
+then swaps the compare operands. func_0202BBB0 is the mirror image
+(compare polarity and the *0x224* / func_0202BCA0 / func_0202BDD0 /
+func_0202BDE8 names differ).
+
+Closest C (func_0202BB68; BBB0 replaces 0x1e4->0x224, the two-argument
+func_0202BBFC call with the three-argument func_0202BCA0(q + i*0x1c,
+p + 0xc, p + 0x18), and swaps func_0202BC48/func_0202BC60 for
+func_0202BDD0/func_0202BDE8 with the two comparison arms exchanged):
+
+    typedef unsigned char u8;
+    typedef unsigned int  u32;
+
+    extern int  func_0202BBFC(u8 *a, u8 *b);
+    extern void func_0202BC48(u8 *p, u32 i);
+    extern void func_0202BC60(u8 *p, u32 i);
+
+    void func_0202BB68(u8 *p, u32 i)
+    {
+        u8 *q = p + 0x24;
+        int v;
+        int lv;
+
+        if (*(u32 *)(q + i * 0x1c) == 0)
+            return;
+
+        v = func_0202BBFC(q + i * 0x1c, p + 0xc);
+        lv = *(int *)(p + i * 4 + 0x1e4);
+
+        if (lv >= v) {
+            if (v >= lv)
+                return;
+            func_0202BC60(p, i);
+        } else {
+            func_0202BC48(p, i);
+        }
+    }
+
+Levers found: the pair must be compared as SIGNED `int` (`blo`/`bhs` mean
+u32); `*(int *)(p + i * 4 + 0x1e4)` and `*(int *)(p + 0x1e4 + i * 4)`
+compile identically here. Note func_0202BB68 has got the polarity
+`if (lv >= v) { if (v >= lv) return; f60(); } else f48();` while
+func_0202BBB0 is `if (v >= lv) { if (lv >= v) return; fde8(); } else fdd0();`
+-- they are NOT the same polarity.
+
+Ruled out: u32 lv/v; dropping the `lv` local; reordering the local
+declarations; spelling the field as `p + 0x1e4 + i * 4`.

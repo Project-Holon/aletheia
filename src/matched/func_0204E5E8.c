@@ -1,0 +1,46 @@
+/*
+ * function: func_0204E5E8
+ * address:  0x0204E5E8
+ * packet:   pkt_0204E410
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * fade.c: allocate the 0x20-byte singleton on the caller's heap, publish it at
+ * 0x02146A7C, clear it, then hand it to the fade initialiser.
+ *
+ * The heap id is the u16 parameter (the `lsl #16`/`lsr #16` pair at the top of
+ * the function is the zero-extension of a `unsigned short` argument), and it
+ * is forwarded to the allocator as its first argument, so the allocator takes
+ * (heap, size, align, file, line) exactly as func_0204E8C0's does.  The
+ * allocator's result stays in r0 across the store to the global, so the clear
+ * call's first argument is that same value, not a fresh load of the global.
+ *
+ * symbols:
+ *   func_02030734   0x02030734  arm
+ *   MI_CpuFill8     0x02082BCC  arm
+ *   func_0204E708   0x0204E708  arm
+ *   fade_File       0x020A7F8C  data
+ *   g_02146A7C      0x02146A7C  data
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
+                           u32 line);
+extern void  MI_CpuFill8(void *dst, u32 val, u32 size);
+extern void  func_0204E708(void);
+extern const char fade_File[];
+extern void *g_02146A7C;
+
+void func_0204E5E8(u32 heap)
+{
+    g_02146A7C = func_02030734((u16)heap, 0x20, 0, fade_File, 50);
+
+    MI_CpuFill8(g_02146A7C, 0, 0x20);
+    func_0204E708();
+}

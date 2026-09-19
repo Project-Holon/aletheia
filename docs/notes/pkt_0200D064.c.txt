@@ -1,0 +1,85 @@
+DIFF residue: func_0200D064 @ 0x0200D064  (pkt_0200D064, lane 1, 65-128 band)
+original 72 bytes, closest C compiles to 74 bytes; 48 bytes differ (see below).
+No home in src/matched (DIFF), no home in src/pending (MATCH only).
+
+shape: register probe; sub_0200C720(a1) is the "already used" test, then one
+bit of one byte in each of the four 0x54-byte-strided records based at p+0x5c.
+The u16 loop counter is re-truncated (lsls/lsrs #16) at every use - the tell
+that the counter is declared u16, not u32.  The hit path is a bare `bne` to the
+shared `pop`, i.e. the result was held in a named local initialised to 1 before
+the loop (my first spelling with `return 1` inside the loop emitted its own
+`movs r0,#1; pop` epilogue and lost 4 bytes - that spelling is ruled out).
+
+CLOSEST C (compiles 74 bytes, 48 bytes differ):
+
+```c
+extern int sub_0200C720(u32 a1);
+
+u32 func_0200D064(u8 *p, u16 a1)
+{
+    u16 i;
+    u32 m;
+    u32 r;
+
+    if (sub_0200C720(a1) != 0)
+        return 0;
+
+    a1 = (u16)(a1 - 1);
+    m = 1 << (a1 & 7);
+    i = 0;
+    r = 1;
+
+    while (i < 4) {
+        if (p[(u16)i * 0x54 + (a1 >> 3) + 0x5c] & m)
+            return r;
+        i++;
+    }
+
+    return 0;
+}
+```
+
+RESIDUE, original vs compiled (offset: original | compiled):
+
+  +0000 push {r3,r4,r5,r6,r7,lr} | push {r3,r4,r5,lr}
+  +0002 adds r4, r1, #0          | adds r5, r1, #0
+  +0004 adds r5, r0, #0          | adds r4, r0, #0
+  +0012 pop {r3,r4,r5,r6,r7,pc}  | pop {r3,r4,r5,pc}
+  +0018 lsrs r4, r0, #0x10       | lsrs r2, r0, #0x10
+  +001A movs r1, #7              | movs r0, #7
+  +001E movs r2, #1              | movs r1, #1
+  +0022 movs r3, #0 (i)          | asrs r2, r2, #3
+  +0024 movs r0, #1 (r)          | movs r0, #0 (i)
+  +0026 asrs r1, r4, #3          | adds r2, r4, r2      <- p+x hoisted out of the loop
+  +0028 movs r6, #0x54           | movs r3, #0x54
+  +002A lsls r4, r3, #0x10       | adds r4, r0, #0
+  +002C lsrs r4, r4, #0x10       | muls r4, r3, r4
+  +002E adds r7, r4, #0          | adds r4, r2, r4
+  +0030 muls r7, r6, r7          | adds r4, #0x5c
+  +0032 adds r4, r5, r7          | ldrb r4, [r4]
+  +0034 adds r4, r4, r1          | tst r4, r1
+  +0036 adds r4, #0x5c           | beq #...
+  +0038 ldrb r4, [r4]            | movs r0, #1
+  +003A tst r4, r2               | pop {r3,r4,r5,pc}
+  +003C bne #0x200d0aa           | adds r0, r0, #1
+  +003E adds r3, r3, #1          | lsls r0, r0, #0x10
+  +0040 cmp r3, #4               | lsrs r0, r0, #0x10
+  +0042 blo #0x200d08e           | cmp r0, #4
+  +0044 movs r0, #0              | blo #0x200d08e
+  +0046 pop {r3,r4,r5,r6,r7,pc}  | movs r0, #0
+
+RULED OUT:
+  * `return 1;` inside the loop (own `movs r0,#1; pop` epilogue, 4 bytes lost).
+    A named result local initialised before the loop is required - done above.
+  * `u32 i` with a `(u16)` cast on the index instead of a u16 counter: no
+    truncation is then needed and the lsls/lsrs #16 pair disappears.
+  * `(u8 *)p + (a1 >> 3)` folded into a base pointer, and every grouping of the
+    index sum tried (`i*0x54 + x + 0x5c` with x a u32 local, with x inline):
+    mwcc always hoists (p + x) into the preheader and re-adds only i*0x54,
+    whereas the original keeps p in r5 and x in r1 and burns a third `adds`
+    per iteration.  That single hoist is the whole 2-byte size difference and
+    it reallocates every register in the function.
+  * sign of the counter: `cmp r3, #4 / blo` (unsigned) is what pins u16.
+
+NOT the blocker: every relocation resolves (`sub_0200C720` is `label` x4), so
+this is pure codegen, not an evidence cap.

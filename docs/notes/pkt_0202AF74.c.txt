@@ -40,3 +40,62 @@ Verified with:
 
 Consequence: 0x0202AF34 (bare tail-call thunk to this address, one pool word in
 its own pool), 0x0202AE9C and 0x0202AE68 stay MATCH-capped on it.
+
+--- lane 3 (pkt_0202AF74), the three callees of the above ---
+
+func_0202AFAC 0x0202AFAC 80 bytes / func_0202AFFC 0x0202AFFC 80 bytes /
+func_0202B04C 0x0202B04C 88 bytes -- all three DIFF, 12 bytes wrong each:
+one three-instruction run in the tail-call argument setup. Everything else
+byte-identical, all relocations resolved (label).
+
+  +0034  ldrb r2, [r3, #0x16]  | str r0, [sp]        <- 5th arg stack store
+  +0036  adds r1, r6, r4       | ldrb r2, [r3, #0x16]
+  +0038  str r0, [sp]          | adds r1, r6, r4
+
+The original schedules the arg-3 load BEFORE the arg-5 stack store; the
+compiler puts the stack store first. Original argument-setup order is
+arg3, arg5, arg1, arg2, arg4 -- neither left-to-right nor right-to-left,
+so it is a scheduler artifact, not reachable by reordering the argument
+list. Closest C (func_0202AFAC; AFFC uses q+4 / +0x1c / func_0202B0D4 /
+func_0202B154, B04C uses q+8 / +0x22 / func_0202B104 / func_0202B174):
+
+    typedef unsigned char u8;
+    typedef unsigned int  u32;
+
+    extern u32 func_0202B0A4(u8 *p);
+    extern int func_0202B134(u8 *p);
+    extern u32 func_0202B194(u32 a, u32 b, u32 c, u32 d, u32 e);
+
+    u8 func_0202AFAC(u8 *p, int *q)
+    {
+        u32 n = func_0202B0A4(p);
+        u32 i;
+        int k;
+        int d;
+
+        if (n == 0) { i = 0; } else { i = (u8)(n - 1); }
+
+        if (n == i)
+            return *(u8 *)(p + n + 0x10);
+
+        k = *q >> 12;
+        d = k - func_0202B134(p);
+        if (d < 0) d = -d;
+
+        return (u8)func_0202B194(*(u8 *)(p + n + 0x16) << 4, *(u8 *)(p + n + 0x10),
+                                 *(u8 *)(p + i + 0x16) << 4, *(u8 *)(p + i + 0x10),
+                                 (u32)d);
+    }
+
+Two real levers on the way:
+  - `d = (*q >> 12) - func_0202B134(p);` makes the front end evaluate the
+    CALL first; binding the shifted load to a local k first (statement
+    order `k = *q >> 12; d = k - call(p);`) puts the load before the call
+    exactly as the original does.
+  - the callee must be `extern u32 func_0202B194(...)` with the result
+    cast `(u8)`, else the trailing `lsls r0,r0,#0x18; lsrs r0,r0,#0x18`
+    truncation is dropped and the function is 4 bytes short.
+
+Ruled out: inlining all five argument expressions (identical residue);
+binding arg1/arg2/arg3/arg4 to named locals (identical residue, the
+compiler re-schedules the loads back to the same place).

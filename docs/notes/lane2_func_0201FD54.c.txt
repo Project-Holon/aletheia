@@ -1,0 +1,27 @@
+lane 2 (band 65-128) residue for func_0201FD54 @ 0x0201FD54, 76 bytes - DIFF, 5 concrete bytes.
+(Kept under this name because docs/notes/pkt_0201FC5C.c.txt already exists for
+other functions of the packet; this note is additive, nothing there was changed.)
+
+Best C (scratch/lane2/func_0201FD54.c.txt) reproduces 71 of 76 bytes.
+Relocations: 2 of 2 resolved (func_0209C0A4, arm, blx).  Compiled 74 vs 76.
+
+Residue, one register pair:
+
+    ORIGINAL @ 0201FD54                     COMPILED
+    adds r0, r5, #0                         adds r1, r5, #0
+    adds r0, #0x30                          adds r1, #0x30
+    ldrb r0, [r0]                           ldrb r1, [r1]
+    muls r2, r1, r2                         muls r2, r0, r2
+    adds r0, r0, r2                         adds r0, r1, r2
+
+Everything else, including the 4-bit bitfield extraction of a0[0xB]
+(lsls #0x1c / lsrs #0x1c, which a plain `& 0xF` does NOT reproduce - the plain
+mask emits movs #0xf + ands) and the whole first half, is byte identical.
+
+The original holds the second func_0209C0A4 result in r1 and this compiler
+holds it in r0, with the complementary choice for the a0[0x30] temporary.
+There is no instruction in the original that moves the call result out of r0,
+so no C spelling of the same expression has been found that flips the pair.
+Shapes tried: `& 0xF` vs the bitfield (the bitfield wins the four bytes at
++003A..+003D), the product on either side of the addition, and a named
+`u32 v` local (the committed spelling).

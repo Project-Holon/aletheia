@@ -366,3 +366,62 @@ C currently tried (scratch/scratch/w_02014878.c):
         return 0;
     }
 
+------------------------------------------------------------------------
+func_02014BA8  0x02014BA8  (lane 1, 65-128 band; verdict DIFF, 2 bytes)
+------------------------------------------------------------------------
+
+harness output:
+
+    DIFF       func_02014BA8 @ 02014BA8 (arm9, Thumb)
+      compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+      compiled 96 bytes, 5 relocation site(s)
+      relocations: 5 of 5 resolved
+        +0024 THM_CALL sub_020307B0        -> 020307B0  [label x1061, e.g. 0200670C]
+        +002A THM_CALL sub_02030EAC        -> 02030EAC  [label x46, e.g. 02016912]
+        +0046 THM_CALL sub_02015BA4        -> 02015BA4  [label x9, e.g. 021FF10E]
+        +0054 THM_CALL sub_020307B0        -> 020307B0  [label x1061, e.g. 0200670C]
+        +005A THM_CALL sub_020307B0        -> 020307B0  [label x1061, e.g. 0200670C]
+      listing extent for the original: 96 bytes
+      2 concrete byte(s) differ
+        +003E    ldr r1, [r1, r0]   | ldr r0, [r1, r0]
+        +0040    cmp r1, #0         | cmp r0, #0
+
+Teardown routine: sub_02014CD4(a0); if [a0+0xc] != 0, unlink it through
+sub_02030EE8, free [q+4]->+0xc, [q+4] and q through sub_020307B0 (ARM, blx),
+close the handle with sub_02030EAC and clear the slot; then free every non-null
+element of the +0x14 vector (the +0x10 count is a signed int, guard is `blt`),
+the vector and the object.
+
+C currently tried (was src/matched/func_02014BA8.c, moved out):
+
+    void func_02014BA8(u8 *a0)
+    {
+        int i;
+
+        sub_02014CD4(a0);
+
+        if (*(void **)(a0 + 0xc) != 0) {
+            u8 *q = (u8 *)sub_02030EE8(*(void **)(a0 + 0xc));
+
+            sub_020307B0(*(void **)(*(u8 **)(q + 4) + 0xc));
+            sub_020307B0(*(void **)(q + 4));
+            sub_020307B0(q);
+            sub_02030EAC(*(void **)(a0 + 0xc));
+            *(void **)(a0 + 0xc) = 0;
+        }
+
+        for (i = 0; i < *(int *)(a0 + 0x10); i++) {
+            if (*(void **)(*(u8 **)(a0 + 0x14) + i * 4) != 0)
+                sub_02015BA4(a0);
+        }
+
+        sub_020307B0(*(void **)(a0 + 0x14));
+        sub_020307B0(a0);
+    }
+
+RULED OUT: binding the element to a named local before the test (no change);
+`!= NULL` vs `!= 0` (folds to the same `cmp`); a named `u8 *p = a0` local -
+using the parameter directly is required, with a local copy the whole body
+reallocates r4/r5 and 22 bytes differ.  Every site resolves, so the remaining
+2 bytes are the register allocator's pick of load destination, not evidence.
+
