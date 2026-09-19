@@ -1,0 +1,34 @@
+pkt_0204E8C0 (wave r7, pair 13): blocker 0x0204E914 is codegen-blocked, not evidence-blocked
+=============================================================================================
+
+Pair: file blocker 0x0204E914 (func_0204E914, 248 bytes, arm, pkt_0204E914),
+then promote the park src/pending/func_0204E8C0.c whose single unresolved site
+is the PC24 at +0x0044 into it.
+
+Blocker verdict: DIFF, 35 concrete bytes, same size (248).  The C in
+docs/notes/func_0204E914.c.txt (the closest spelling found so far) still
+compiles to 248 bytes and differs in exactly the register assignment of the
+inner loop, so this row is the allocator residue that note already writes up:
+
+    original                          compile
+    push {r4, r5, r6, r7, r8, lr}     push {r3, r4, r5, r6, r7, r8, sb, lr}
+    i -> r2 (shared with x)           i -> r4
+    k -> ip, x -> r2, y -> r3         k -> r2, x -> ip, y -> r3
+    add r8, r8, #0xc (in place)       add sb, r8, #0xc (fresh register)
+    str r7, [r8, ip, lsl #3]          str r8, [sb, r2, lsl #3]
+
+One thing this wave measured that the older note could not: the pool word
+0xC0000C00 at 0x0204EA08 carries NO relocation site.  Written as the plain
+literal `0xc0000c00` the compiler pools the same four bytes and the byte
+comparison passes there - so contrary to a site-level reading, this function
+has no own-pool-only data site and its only obstacle really is the 35-byte
+residue.  Three relocation sites in total, all resolved (0x04001000 and
+g_02146A80 by `literal`, func_020862F0 and func_0207E708 by `label`).
+
+Consequence for the pair: no source was filed - the promotion is impossible
+while the blocker is a DIFF, and the park src/pending/func_0204E8C0.c stays
+parked (MATCH, single unresolved site 0204E914, unchanged).  The lever for a
+future pass is the note's: make the clearing loop's counter and the inner x
+one register the *allocator's* own idea of sharing, and let the OAM base
+pointer be updated in place so that `sb` is not needed.  Every declaration
+ordering of the five locals was measured and 35 bytes is the floor.

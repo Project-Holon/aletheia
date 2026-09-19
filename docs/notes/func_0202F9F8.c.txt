@@ -1,0 +1,35 @@
+func_0202F9F8 -- DIFF: five-state audio step, not closed (wave r6, lane small-3)
+======================================================================
+
+Compiled 168 bytes against the original's 188; 115 concrete bytes differ: the
+case bodies are 20 bytes short in total and the dense-switch table lands at a
+different displacement.
+
+Decoded shape (verified against match.py show): dense halfword switch on *state
+(the SECOND argument, which arrives in r1 -- the first argument is never read),
+cases 0..4, every arm stores the next state through the same pointer and the
+function returns 0.  Case 1 also writes a 12-byte record at 0x02146948 (f00
+halfword 0, f02 byte 1, f03 byte 0, f04 word 1); case 2 bails out to state 4
+when the byte at 0x0214694B is set; case 3 forces f00 = 2 and f03 = 0; case 4
+clears the state word.  Every transition calls func_020312CC.
+
+The blocker to a byte-perfect body is the same one as in
+src/pending/func_02010AC4.c: the image *pools* the two small first arguments
+(ldr r0,[pc,#0x74] = 0x58, ldr r0,[pc,#0x68] = 0xB3) where a literal is
+materialised with movs.  Declaring them as symbols at 0x00000058 / 0x000000B3
+reproduces the load and the pool word; what is left after that is the layout of
+the five case bodies.
+
+Parked at MATCH in any case: three of the five ABS32 sites name addresses with
+no witness anywhere else --
+  func_021BD8E8 -> unresolved: 021BD8E8 (thumb, from header) has no witness outside 0202F9F8..0202FAA0; 14 overlays overlap this address (ov016, ov021, ov088, ov091, ov093, ov099, ov110, ov114, ov172, ov208, ov209, ov210, ov216, ov217), none resolvable without a region hint on the symbols: line
+  g_State4     -> unresolved: 0214694C (data, from header) has no witness outside 0202F9F8..0202FAA0
+  g_State      -> unresolved: 02146948 (data, from header) has no witness outside 0202F9F8..0202FAA0
+while 0x021B68D8 and 0x021BD574 resolve on `label` as Thumb overlay code
+(021B68D9 / 021BD575, the Thumb bit included) and func_020312CC resolves on
+`label` x1.
+
+Next attempt: solve the pooled small argument once for func_0202F9F8,
+func_02010AC4 and func_02010C34 (all three pass a small pooled first argument to
+func_020312CC), then re-lay the case bodies.  The row can only ever reach
+MATCH* because of the three unwitnessed data addresses.

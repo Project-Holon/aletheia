@@ -7,8 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  02074A98 - reached from the identical `blx` in
+ * status:   EXACT
+ * promoted: from src/pending 2026-09-19, no C change: blocker 0x02074A98 is filed in layout/matched/arm9/pkt_02074A6C.json and every site resolves (gate: manifest --verify --shard layout/matched/arm9/pkt_020063B4.json, then 0 rewritten).
+ * blocker (RESOLVED 2026-09-19):  02074A98 - reached from the identical `blx` in
  *           src/matched/func_02006448.c's loop only, so `label` has no
  *           witness outside the compared range and the callee is not
  *           matched.  All 102 concrete bytes and every other site are right.

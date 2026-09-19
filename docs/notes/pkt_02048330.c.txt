@@ -1,0 +1,157 @@
+pkt_02048330 -- 0x02048918 (220 bytes, ARM) DIFF, 7 bytes; the pair does not convert
+====================================================================================
+
+Row: the blocker of the parked src/pending/func_020480E4.c (its only unresolved
+site is the PC24 to 0x02048918, verified this run: MATCH, 60 bytes, 1 of 2
+sites resolved).  The blocker is NOT attestation-capped -- a first compile of
+the transcribed body resolves 11 of 11 relocation sites (label x10 plus
+`matched` for 0x0204754C) -- so this row is pure codegen.
+
+WHAT IT IS
+----------
+Walks the 8-byte-strided record at owner + index*8: halfword +0x1a is the window
+into the handle array at owner->f0C, halfword +0x1c is the count; the handle is
+opened (0x02047788), its element count taken (0x0204779C), each element visited
+(0x02047790 with a (u16) index, then 0x0204762C), then the record's flag byte
+(owner->f10 + base + i) is tested with 0xfd and 0xfe and the matching close
+paths run (0x02047554/0x02047504/0x0204754C/0x020470D0/0x02046EFC/0x02047738).
+`owner->f0C` is re-read every iteration (the store that could write it), the
+flag byte is loaded once per `if`, and the inner loop's index is truncated with
+the `lsl #0x10 / lsr #0x10` pair.
+
+THE RESIDUE
+-----------
+SIZE 220 = 220, all 11 sites resolve, 7 concrete bytes differ: exactly one
+register pair.  The body is instruction-for-instruction identical except that
+the window halfword and the inner bound hold r8/r7 the other way round:
+
+    +0010  ldrh r7,  [r0, #0x1a]    | ldrh r8,  [r0, #0x1a]
+    +0024  add  r0, r0, r7, lsl #2  | add  r0, r0, r8, lsl #2
+    +0040  mov  r8, r0              | mov  r7, r0
+    +0044  cmp  r8, #0              | cmp  r7, #0
+    +0068  cmp  r6, r8              | cmp  r6, r7
+    +0074  add  r0, r7, r0          | add  r0, r8, r0
+    +00A0  add  r0, r7, r0          | add  r0, r8, r0
+
+r4 = 0x02047788's result, r5 = the handle, r6 = the inner counter, sb = i,
+fp = count, sl = owner, and the whole push/pop list are already identical, so
+only the two long-lived locals `base` (u16, live from entry to the second `if`)
+and `n` (int, live from the 0x0204779C call to the inner-loop test) swap.
+
+WHAT WAS TRIED
+--------------
+19 spellings, all with the pinned `-O4,p` / `dsi/1.1p1` (this lane) plus the
+shapes below; every one lands on exactly those 7 bytes or worse, which is the
+signature of an allocation decided below the source:
+
+  - declaration order: the five locals {base, handle, rec, n, k} in 13 orders,
+    plus {count, i} moved in and out of the block (7 bytes for every order that
+    keeps rec/handle/k ahead of base; 12-23 for the others, i.e. the order does
+    reach the allocator, but it will not swap base and n)
+  - `base`/`count` as u16 (via the struct's fields) vs u32 (loaded through a
+    `*(u16 *)` cast): u32 base alone -> 7 bytes, both u32 -> 9
+  - the element pointer as `struct Ent *` vs `u8 *` with byte offsets vs no
+    local at all (`*(u16 *)(owner + index * 8 + 0x1A)`): 7, 21, 7
+  - `while` loop with a pre-initialised i: 7
+  - `count`/`base` assigned after their declarations rather than at them: 7
+  - the temp of the first `if` (0x02047554's result) declared at the top: 83
+  - `int count` instead of u16, `int n` last, `i` declared last: 7 each
+  - the two RTC-style struct orders and the `k`/`n` pair swapped: 12-23
+
+The best spelling (7 bytes) is kept below.  Closing it needs either a front end
+that colours `base` into r7, or a spelling whose IL makes the allocator process
+`base` before `n`; nothing in the C shape reachable from here does.
+
+CONSEQUENCE FOR THE PAIR
+------------------------
+src/pending/func_020480E4.c cannot be promoted while this row is DIFF: its site
+is `label`-blind (this call is the only branch image-wide to 0x02048918) and
+`matched` needs an EXACT manifest entry at 0x02048918.  The park is otherwise
+finished work: 60 bytes, every concrete byte right, and its sibling site
+(0x020482B4) resolves `matched` today.
+
+/* ---- closest source (7 concrete bytes) ----
+/*
+ * function: func_02048918
+ * address:  0x02048918
+ * packet:   pkt_02048330
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02047788  0x02047788  arm
+ *   func_0204779C  0x0204779C  arm
+ *   func_02047790  0x02047790  arm
+ *   func_0204762C  0x0204762C  arm
+ *   func_02047554  0x02047554  arm
+ *   func_020470D0  0x020470D0  arm
+ *   func_02046EFC  0x02046EFC  arm
+ *   func_0204754C  0x0204754C  arm
+ *   func_02047504  0x02047504  arm
+ *   func_02047738  0x02047738  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Ent {
+    u8  pad00[0x1A];
+    u16 f1A;
+    u16 f1C;
+};
+
+struct Owner {
+    u8   pad00[0x0C];
+    u32 *f0C;
+    u8  *f10;
+};
+
+extern u32 func_02047788(u32 handle);
+extern int func_0204779C(u32 handle);
+extern void func_02047790(u32 handle, u16 index);
+extern void func_0204762C(void);
+extern u32 func_02047554(u32 rec);
+extern void func_020470D0(void);
+extern void func_02046EFC(u32 value);
+extern u32 func_0204754C(u32 rec);
+extern void func_02047504(u32 rec);
+extern void func_02047738(u32 handle);
+
+void func_02048918(u8 *owner, u32 index)
+{
+    struct Owner *o = (struct Owner *)owner;
+    struct Ent *e = (struct Ent *)(owner + index * 8);
+    u32 rec;
+    u32 handle;
+    int k;
+    int n;
+    u16 base = e->f1A;
+    u16 count = e->f1C;
+    int i;
+
+    for (i = 0; i < count; i++) {
+        handle = o->f0C[base + i];
+        rec = func_02047788(handle);
+        n = func_0204779C(handle);
+        for (k = 0; k < n; k++) {
+            func_02047790(handle, (u16)k);
+            func_0204762C();
+        }
+        if (o->f10[base + i] & 0xfd) {
+            u32 v = func_02047554(rec);
+            func_020470D0();
+            func_02046EFC(v);
+        }
+        if (o->f10[base + i] & 0xfe) {
+            func_02046EFC(func_0204754C(rec));
+        }
+        func_02047504(rec);
+        func_02047738(handle);
+    }
+}
+*/

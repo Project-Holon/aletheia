@@ -1,0 +1,21 @@
+func_0206AE2C -- pinned to ../2.0 and parked at MATCH (wave r6, lane small-3)
+======================================================================
+
+Same pin decision and same tell as src/pending/func_0206AD64.c in this packet.
+Byte evidence: the image re-materialises the flags-object address 0x02148B4C
+from its pool word at +0044 (ldr r0,[pc,#0x14]), AFTER the calls at +0020 and
++0040, and loads 0x02148D4C fresh for the return; the frame is
+push {r3,r4,r5,lr} + sub sp,sp,#0x40.  dsi/1.1p1 keeps those two addresses live
+across the calls in callee-saved registers (push {r3,r4,r5,r6,r7,lr}) and 39
+concrete bytes differ.  dsi/../2.0/sp2 compiles this C to the original's 104
+bytes with ZERO concrete mismatches.
+
+Parked at MATCH; two open sites:
+  +0020 PC24 func_0206AD20 -> unresolved: 0206AD20 (arm, from header) has no witness outside 0206AE2C..0206AE94
+  +0064 ABS32 g_02148D4C -> unresolved: 02148D4C (data, from header) has no witness outside 0206AE2C..0206AE94
+Note the first call (0x0206AAD4, which the older packet note named as the cap)
+in fact resolves on label x15; the two sites above are the real ones.  The data
+site is the classic own-pool case: this function's pool word is the only
+mention of 0x02148D4C in the image.
+
+Next attempt: nothing here -- the row closes when 0x0206AD20 is EXACT.

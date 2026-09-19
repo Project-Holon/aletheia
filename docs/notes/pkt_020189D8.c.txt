@@ -135,3 +135,32 @@ scratch/_l2/wordrefs.py), so the `literal` class has no outside witness.  And
 that is what keeps src/pending/func_020189D8.c parked: its call site would
 need this file to be an EXACT manifest entry, which it can never be.  Both
 rows are permanent parks unless a second reader of 0x0209E2A4 appears.
+
+
+========================================================================
+wave r7 lane promo-3: 0x020189F0 re-measured -- the wall is confirmed, and it is
+the data table's, not the body's
+========================================================================
+
+This row is the single blocker on the parked MATCH file src/pending/func_020189D8.c
+and was re-run this pass with the pinned dsi/1.1p1, -O4,p -proc arm946e, --thumb.
+The wall stands and is the `literal` class, exactly as recorded above:
+
+    DIFF       func_020189F0 @ 020189F0 (arm9, Thumb)
+      compiled 16 bytes, 1 relocation site(s)
+      relocations: 0 of 1 resolved
+        +000C ABS32 g_0209E2A4  -> unresolved: 0209E2A4 (data, from header) has
+              no witness outside 020189F0..02018A00
+      10 concrete byte(s) differ (the prologue's register order, and the
+      commutative add at +0x06 recorded above)
+
+The decisive check is a raw little-endian word scan over all 242 loaded
+regions: the word 0x0209E2A4 occurs exactly once image-wide, at 0x020189FC,
+which is the pool word inside this function's own compared range.  There is no
+second reader, so `literal` can never fire; the address is not a `func_` label
+(it is data), a plain `data` declaration is not what `attest_matched` accepts
+(that class takes thumb/arm kinds only), and a function's own pool word cannot
+witness itself.  Both halves of the pair are therefore permanent parks: the
+blocker cannot enter the manifest at any spelling of its body (even a
+byte-perfect body caps at MATCH), and src/pending/func_020189D8.c cannot be
+promoted without it.

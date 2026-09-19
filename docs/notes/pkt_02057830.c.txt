@@ -68,3 +68,139 @@ written out flat), and every declaration order of d/s tried.
 
 The 132-byte extent ends with the pool-free `pop`/`bx lr`; there is nothing
 to witness, so the moment the slot lands this is EXACT.
+
+==============================================================================
+wave r6 lane rig-c (2026-09-19): the 1.2 pin turned this note's whole reading around
+==============================================================================
+
+The row above was read as an `-proc arm7tdmi` unit.  It is not: it is one of the
+1.2-sp2 rows of the rig family, and the pin makes it EXACT on the first compile.
+
+    python tools/match.py one --src src/matched/func_02058180.c \
+        --func func_02058180 --addr 0x02058180 --arm --cc ../1.2/sp2
+    -> EXACT  132 bytes, 0 relocation sites
+
+So the whole residue above (the scale-load slot, the `push {r4, lr}` frame, the
+byte-identical 32-instruction body) was the wrong front end, not a scheduler
+question.  The file now carries `compiler: ../1.2/sp2` and no volatile trick on
+`c` other than the one the C above already has; the note's C is filed verbatim
+in src/matched/func_02058180.c.
+
+Same run, same packet, filed EXACT with the pin:
+
+  0x02057AB8  src/matched/func_02057AB8.c    84 B  (row func_02057AB8.c.txt has no competitor:
+                                                   the row is a u16 5-bit field insert, and the
+                                                   second parameter slot is real: the image reads
+                                                   r2, so the source has an unused second argument
+                                                   `(struct Obj *o, int unused, int t)`)
+  0x02057B10  src/matched/func_02057B10.c    72 B  (docs/notes/func_02057B10.c.txt left this DIFF:
+                                                   both of its residues - the `stmdb sp!,{lr}` +
+                                                   `sub sp, sp, #4` frame and the unfolded
+                                                   `asr`/`add` - are 1.2/arm946e, and the note's
+                                                   own C is byte-exact under the pin)
+  0x02057E68  src/matched/func_02057E68.c   144 B  (docs/notes/func_02057E68.c.txt left this DIFF on
+                                                   the frame plus a hoisted breakpoint load; the pin
+                                                   fixes the frame, and its own suggested lever -
+                                                   bind both breakpoints to named ints before the
+                                                   first if - fixes the second: b0 = cv->_06;
+                                                   b1 = cv->_07; then the two tests use the locals)
+  0x02057EF8  src/matched/func_02057EF8.c   148 B  (docs/notes/func_02057EF8.c.txt left this DIFF on
+                                                   `mov r2, #0x800` + `adds r4, ip, r2` vs the
+                                                   immediate form; 1.2 keeps the constant in a
+                                                   register, one compile, EXACT)
+  0x02058180  src/matched/func_02058180.c   132 B
+  0x02058204  src/matched/func_02058204.c   188 B  -> EXACT* (extent 252 because the follower at
+                                                   0x020582CC is an unlabelled leaf; all 200 bytes
+                                                   of code+pool at 0x020582C0 compare identical)
+
+  0x02058204 in full, for the record (LCG + 3 unrolled scale/accumulate blocks,
+  `s->f26 % o->f06` guard where the image tests the *remainder* that _s32_div_f
+  leaves in r1, and the pooled global 0x02146A8C attested `literal x25`):
+
+    typedef unsigned short u16; typedef short s16; typedef unsigned int u32;
+    struct Obj { s16 v0; s16 v1; s16 v2; u16 f06; };
+    struct Src { char _00[0x26]; u16 f26; };
+    u32 g_02146A8C;
+
+    void func_02058204(struct Obj *o, struct Src *s, int *dst)
+    {
+        int r;
+        if (s->f26 % o->f06 != 0) return;
+        g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
+        r = g_02146A8C >> 23;
+        dst[0] = dst[0] + ((o->v0 * r - (o->v0 << 8)) >> 8);
+        ... (same for dst[1]/o->v1 and dst[2]/o->v2)
+    }
+
+  INTEGRATOR: seed 0x020582CC as arm; it is a leaf that saves nothing (its first
+  instruction is `ldrsh r1, [r0]`, three such triples and a pool), so the
+  EXACT* above is only about the missing label.
+
+Residues from the same run, closest C in each (all compile to the right size):
+
+R1. 0x02057B5C (100 B, 0 relocations) DIFF, 64 concrete bytes.
+    A table walk: `p = s->_10`, `n = p->n` (u8 at +8), `step = p->step` (u8 at +9),
+    and the first i with `t < end + step` stores `p->vals[i]` to o->_2c.
+    The image keeps the index in r4, the pointer in r5 and the running end in lr
+    (`push {r4,r5,lr}` + `sub sp, sp, #4`), tests `cmp r2, r1` (t vs end+step) and
+    predicatets the early exit `ldrblt/strblt/poplt/bxlt`; the compiler always
+    builds the same 80 bytes with the pointer in r4, index/end in lr/ip and the
+    early exit predicated on `gt` with the operands swapped.  Ruled out (each
+    compiled, all 80 bytes): eight declaration orders of p/i/end/n/step, `end +=
+    step` at the top of the body vs in the for-update (`i++, end += step`), a
+    while-loop form, a u8* cursor instead of `p->vals[i]`, and re-reading
+    p->n/p->step inside the loop.  The 20-byte gap is entirely the register plan
+    (2 callee-saved registers against 3); the next attempt should try the table
+    pointer as a *second* formal parameter (the image loads it from s->_10 and
+    then never re-reads s, and an r5-resident pointer dying later in the loop is
+    the only way it survives to the frame).
+
+R2. 0x02057BC0 (208 B code + 12 B pool) DIFF, 14 concrete bytes (7 instructions),
+    all in the 7-instruction tail.  Everything else is byte-exact:
+    a u16 bitfield record (lo:5, mid:5, hi:5 at +0, f02 at +2, a at +4, b at +5)
+    read through s->_0c, the three-way pick on `t < a` / `t < b`, two _s32_div_f
+    calls, then the same LCG global and the same 5-bit insert as 0x02057AB8.
+    Two results are worth keeping:
+      * `a = p->a; b = p->b;` as named ints is load-bearing: with the members
+        read in place the image's `ldrb r3, [r4, #5]` next to the first load is
+        lost (14 -> 56 differing bytes).
+      * the tail's `asr r1, r1, #8` needs the seed byte in a *signed int local*:
+        `r = g_02146A8C >> 24;` (the `>> 24` itself stays `lsr`).  Inline, or
+        with an explicit `(int)` cast, mwcc 1.2 proves the product non-negative
+        and emits `lsr` there instead.
+    What is left is a pure allocation tie-break in those 7 instructions: the
+    image wants n->r2, (seed>>24)->r1 destructive, cur->r3; every spelling tried
+    gives n->r3, (seed>>24)->r2, cur->r1 (the same class of tie-break as
+    0x02056460's `add r1`/`add lr`).  Closest C is kept in this note's working
+    directory record: 220 bytes, right size.
+
+R3. 0x02057F8C (284 B, the follower of the EXACT 0x02057EF8) DIFF, 5 concrete
+    bytes (2 instructions).  A three-parameter rig update: the target comes from
+    a sentinel pair (`target = a->target; if (c->f74 != 0x80000000) target =
+    c->f74;`), then a 2-bit mode field picks one of two bodies, each body running
+    the same two tests on `v = s->v` against `target` and `v + s->c`:
+    if (v < target) { if (v + s->c > target) { clamp } return; }
+    if (v + s->c < target) { clamp }
+    with the clamp either `s->c = target - v; s->f26 = s->f24;` (mode 0) or
+    `s->c = target - v; s->f18 = -FX_Mul(s->f18, a->f04);` (mode 1, and the
+    two-statement form matters: the image finishes the smull quartet and then
+    does a separate `rsb r0, r2, #0`).
+    The 284-byte layout only appears when the arm's fall-through is guarded
+    explicitly (`if (v < target) { ... return; } if (v < target) return; if (v +
+    s->c < target) { clamp }`): then every instruction is right except that the
+    image predicates the inner exit in mode 0 (`bxgt lr`, mine `bx lr`) and
+    branches to the arm tail in mode 1 (`ble <tail>`, mine `bxle lr`).  Written
+    as a plain if/else or with the returns merged (268/272 bytes) the whole arm
+    changes shape.  Next attempt: the shared tail reached from two tests is the
+    shape of a `goto` (or of a `switch` whose cases fall into one epilogue);
+    try `goto` for the two exits before trying anything else.
+
+Rows of this packet not attempted in this run (budget): 0x02057830 (644 B, the
+packet lead - jump-table driven, `sub sp, sp, #0x10` + three ldrh copies of a
+pooled triple at +0x47830, then a packed-store switch), 0x02057C9C (460 B,
+bitfield interpolation with two _s32_div_f calls), 0x020580A8 (212 B, a switch
+on a u16 at +2 calling 0x0207AF00/0x0207AF1C/0x0207AF38 through `blx` with a
+0x28-byte stack buffer, then `bl 0x0207B51C` - five relocation sites to attest,
+all `label` class), 0x02057F8C's follower 0x020582CC (unlabelled leaf, see
+above).  The first step in each is `match.py show --addr` and a `blx`/`pop {..,
+lr}` check, since the family pin is what these rows need.

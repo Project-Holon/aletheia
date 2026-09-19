@@ -116,3 +116,40 @@ which the compiler also computes out of the pooled pair.  This is
 docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md;
 `== 0`, `!x`, a ternary, `(u32)` casts, a named result local and an early
 return were all measured.
+
+======================================================================
+WAVE r7: NOT A WALL - the two rows are a `2.0` pin, measured 2026-09-19
+======================================================================
+
+The paragraph above says "no source shape reached the original" and that is
+still true for `dsi/1.1p1`.  The bytes do not name that front end, though:
+
+    u32 func_02074A6C(u32 a, u32 b) { return func_02074BEC(a, 0xff, b, 1, 0) == 0; }
+
+    dsi/1.1p1      DIFF  48 bytes, 35 differing
+        push {r3, r4, r5, lr} / mov r5, #1 / mov r2, r1 / mov r4, #0 /
+        str r4, [sp] / bl / ... / movne r5, r4 / mov r0, r5
+    dsi/../1.2/sp2 DIFF  56 bytes, 44 differing (frame-padding tell as well)
+    dsi/../2.0/sp2 EXACT 44 bytes, 0 differing
+
+The image is the 44-byte form (`push {r3, lr}`, `mov r3, #1`, `mov ip, #0;
+str ip, [sp]`, boolean rebuilt from immediates) - the "kept constants" tell
+docs/FRONTEND-PINS.md already tabulates as a 2.0 marker, measured here on a
+third family.
+
+Filed with `compiler: ../2.0/sp2` in the house header (shard pkt_02074A6C
+records `dsi/../2.0/sp2`):
+  * src/matched/func_02074A6C.c  EXACT  44 bytes
+  * src/matched/func_02074A98.c  EXACT  44 bytes
+0x02074AC4 (36 bytes, same shape) was not filed - it is outside this lane's
+packet and was not measured under the pin.
+
+ACTION FOR THE INTEGRATOR: both files need a row (or one family row) in
+docs/FRONTEND-PINS.md, which is outside a lane's write set; reverting the pin
+reverts both files and the two park promotions below.
+
+Promoted in the same wave, C untouched:
+  src/pending/func_02005A98.c -> src/matched/func_02005A98.c (EXACT,
+  pkt_02005A98), single unresolved site was func_02074A6C.
+  src/pending/func_02006448.c -> src/matched/func_02006448.c (EXACT,
+  pkt_020063B4), single unresolved site was func_02074A98.

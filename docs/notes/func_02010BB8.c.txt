@@ -1,0 +1,39 @@
+func_02010BB8 -- DIFF at 4 bytes: the AND-versus-BIC wall (wave r6, lane small-3)
+======================================================================
+
+Compiled 120 bytes against the original's 124; 4 concrete bytes differ and the
+compiled object is exactly one literal-pool word short.
+
+  +002A  ORIGINAL  ldr r2, [pc, #0x4c]   | COMPILED  movs r2, #0xe0
+  +002C  ORIGINAL  ands r3, r2           | COMPILED  bics r3, r2
+  +0034  ORIGINAL  ands r2, r3           | COMPILED  bics r3, r2
+  +0036  ORIGINAL  str r2, [r0]          | COMPILED  str r3, [r0]
+
+The image ANDs both display-control registers with the pooled word 0xFFFFFF1F
+(from the pool at 0x02010C30); dsi/1.1p1 rewrites "x & 0xFFFFFF1F" into
+"movs #0xE0; bics", which needs no pool word, so the whole tail is four bytes
+short.
+
+Measured control: the pooling path exists and is chosen purely by the
+constant's shape.  A constant whose complement is NOT an 8-bit immediate --
+0x7FFFFF1F, probed as "(u32)-(int)-2147483423" -- is pooled and ANDed by
+1.1p1 (compiled 124 bytes, one byte wrong: the pool word itself).  For
+0xFFFFFF1F the complement 0xE0 fits, and 1.1p1 takes BIC every time.
+
+Spellings ruled out (each compiled; each still 4 bytes off at 120 bytes):
+0xffffff1fu, ~0xe0u, ~0xe0, (u32)-225, -225, (unsigned int)0xffffff1f,
+(0xffffe0ffu | 0x1f0000u) (37 bytes off: the OR is materialised at run time),
+(0xffffffffu - 0xe0u), (0xffffff1fu), 0xffffff1fUL, 0xffffff1f,
+0xffffff1fu + 0u, 0xffffff1fu * 1u, 0xffffff1fu | 0u, 0xffffff1fu ^ 0u,
+0xffffff1fu & 0xffffffffu, (a1 ? 0xffffff1fu : 0xffffff1fu), 0xffffff1fu << 0,
+0xffffff1fu >> 0, 0xffffffffu ^ 0xe0u, ~~0xffffff1fu, 0xffffff1fu / 1u, a named
+u32 local, volatile lvalues, a volatile u32 pointer, two u32 pointer locals, a
+read/modify/write through a named v, a 5-bit/3-bit bitfield clear, and the
+constant-first spelling "0xffffff1f & x".  Also measured: -O4 without ,p gives
+the identical 4-byte residue, and neither dsi/../1.2/sp2 (140 bytes, different
+frame) nor dsi/../2.0/sp2 (120 bytes, different prologue) reproduces the
+function at all, so this is not a front-end pin.
+
+Next attempt: find a second reference to the word 0xFFFFFF1F inside the same
+translation unit (0x02010BB8..0x02013160) whose materialisation forces the pool
+word, or accept the 4-byte wall and file nothing.

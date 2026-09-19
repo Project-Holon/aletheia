@@ -1,0 +1,36 @@
+func_020360B8 -- DIFF at 178 bytes, 12 bytes short (wave r6, lane small-3)
+======================================================================
+
+Compiled 400 bytes against the original's 412; 178 concrete bytes differ.  The
+first listed difference (+0020, ldr lr,[pc,#0x170] against ldr lr,[pc,#0x164])
+is only the pool displacement moving with the size; the first *structural*
+difference is at +0098/+00A0.
+
+What matches byte for byte: the frame, ldr r3,[r0] / popepc, the
+mla ip, r2, r1, r3 schedule, the zero block mov r3,#0; mov r2,r3; mov r1,r3,
+the dense switch table and its fall-through, the whole of case 1 (the three
+predicated tst/ldrne/orrne/strne field ORs), the whole of case 3 (the three
+ldr/ldr/eor/and/str field clears) and the shared add ip,ip,#0xc / loop branch /
+epilogue.
+
+What is missing is twelve bytes: one ldr rN,[r0,#F] reload per case-2 arm.  The
+image re-reads the state word between the second predicated OR and the mask
+AND, so each arm carries a second load of the field; this C lets the first
+read stay live and each arm is one instruction short.  Residue, by address:
+  02036178  ORIGINAL ldr r5,[r0,#0x1c]   | COMPILED (absent, r5 reused)
+  020361B4  ORIGINAL ldr r5,[r0,#0x18]   | COMPILED (absent)
+  020361F0  ORIGINAL ldr r5,[r0,#0x20]   | COMPILED (absent)
+The function has NO relocations at all (its single pooled word is the constant
+0x0000FFFF), so a byte-perfect body would be filed EXACT, not MATCH -- it is
+the only row in this lane with that property.
+
+Ruled out: keeping the field in a named u32 f used by both test conditions and
+the merge expression (that compiles to 388 bytes and makes the register
+permutation worse); v |= p->f04 versus v = a | p->f04; one accumulator versus
+three (three plain `u32 a = b = c = 0` locals is what reproduces the
+mov r3,#0; mov r2,r3; mov r1,r3 zero-block).
+
+Next attempt: force the reload the way the image has it -- write the merge as
+two compound assignments on the field (o->F &= mask; o->F |= v;) and check
+whether mwcc re-reads the field for the second, or take the field's address
+(u32 *pf = &o->F) so the load cannot be reused.

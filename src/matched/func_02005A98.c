@@ -7,8 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  02074A6C - the `blx` inside this function is the only branch to
+ * status:   EXACT
+ * promoted: from src/pending 2026-09-19, no C change: blocker 0x02074A6C is filed in layout/matched/arm9/pkt_02074A6C.json and every site resolves (gate: manifest --verify --shard layout/matched/arm9/pkt_02005A98.json, then 0 rewritten).
+ * blocker (RESOLVED 2026-09-19):  02074A6C - the `blx` inside this function is the only branch to
  *           it anywhere in the image, so `label` has no witness outside the
  *           compared range and the callee is not matched.  Closes when
  *           0x02074A6C's own shard is written.  All 100 concrete bytes and

@@ -1,0 +1,27 @@
+func_02005BC0 -- closed from DIFF to MATCH* (wave r6, lane small-3)
+======================================================================
+
+The earlier note recorded this body as a DIFF (29 concrete bytes, compiled 88
+against an extent of 104).  Re-measured this wave it is byte-correct at 88
+bytes with 0 concrete differences; only the extent runs long to 104 because the
+follower at 0x02005C18 carries no label of its own (it is matched as a separate
+unit file, src/matched/unit_02005C18.c), which is the MATCH* convention.
+
+Two spellings closed it:
+  * do NOT bind the global to a named u8 *g local: spelling 0x020AA260 as an
+    expression at every use makes the tail re-materialise it from its pool word
+    (ldr r0,[pc,#0xc] at +0042), which the named local suppressed;
+  * read the delay counter at +8 into a named local so the load is reused by
+    the store (ldr r1,[r0,#8]; cmp r1,#0; beq; subs r1,r1,#1; str r1,[r0,#8]).
+
+Parked at MATCH*: four of the seven sites have no witness outside the range --
+  func_02072758 -> unresolved: 02072758 (arm, from header) has no witness outside 02005BC0..02005C18
+  func_020727B4 -> unresolved: 020727B4 (arm, from header) has no witness outside 02005BC0..02005C18
+  func_02073108 -> unresolved: 02073108 (arm, from header) has no witness outside 02005BC0..02005C18
+  g020AA414    -> unresolved: 020AA414 (data, from header) has no witness outside 02005BC0..02005C18
+(func_02005FF4 resolves label x1, func_02005C3C label x5, g020AA260 literal
+x18.)
+
+Next attempt: nothing in this function.  It closes when 0x02072758, 0x020727B4
+or 0x02073108 becomes an EXACT entry elsewhere, or when a second caller of any
+of them turns up in an overlay.

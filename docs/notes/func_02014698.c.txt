@@ -1,0 +1,77 @@
+====================================================================
+func_02014698 @ 0x02014698 (96 bytes, Thumb, pkt_02014628)
+lane small-4 of wave r6 -- STATUS: DIFF, 1 concrete byte of 96
+====================================================================
+
+Sibling of func_02014628 (0x02014628, EXACT, src/matched/func_02014628.c).
+The whole body is transcribed and compiles to the original's own 96 bytes,
+all 5 call sites resolve (label) and the frame, the jump table, the five arms
+and the shared notify/inc tail all reproduce.  One byte is left.
+
+The shape that gets there (the same "label inside the first arm + goto from
+the later arms" trick that makes the sibling exact):
+
+    switch (*mode) {
+    case 0:
+        r = (void *)func_020144DC(a0, p[1]);
+    notify:
+        func_02012374(obj, r);
+    inc:
+        (*mode)++;
+        goto ret0;
+    case 1:
+        func_020120B4(a0, p[2], p[3], p[4]);
+        goto inc;
+    case 2:
+        if (func_020120F0() != 0) {
+            goto ret0;
+        }
+        goto inc;
+    case 3:
+        r = (void *)func_020145CC(a0);
+        goto notify;
+    case 4:
+        return 1;
+    default:
+    ret0:
+        return 0;
+    }
+
+RESIDUE -- the last arm's tail jump only:
+
+  +0050   ORIGINAL  `f9 e7`  b #0x020146DE   |   COMPILED  b #0x020146CC
+
+0x020146CC is the `inc:` block (`ldr r0,[r4]; adds r0,r0,#1; str r0,[r4];
+b 0x020146F4`); 0x020146DE is a one-instruction block that is only
+`b #0x020146CC`, the block case 1 also falls into.  So the original shares
+case 1's and case 2's "goto inc" block; dsi/1.1p1 emits a second copy of
+`b inc` at 0x020146E8 instead.  This is not a global rule of the front end:
+the sibling 0x02014628 keeps two separate `b tail` (0x02014676 and
+0x0201468A) exactly as its original does.
+
+Spellings ruled out (each compiled at -O4,p -proc arm946e -thumb,
+dsi/1.1p1):
+  * `if (func_020120F0() != 0) { goto ret0; } goto inc;`  -- 1 byte (above)
+  * the same with `return 0;` in place of `goto ret0;`    -- 24 bytes
+  * `if (f() == 0) { goto inc; } else { goto ret0; }`     -- 4 bytes
+    (polarity flips to `beq #0x20146CC` + `b #0x20146F4`)
+  * the brace-less `if (f() != 0) goto ret0; goto inc;`    -- 1 byte
+  * a label `jmp: goto inc;` at the end of case 1 with case 2 doing
+    `goto jmp;`                                           -- 1 byte
+    (1.1p1 threads the jump through)
+  * `if (1) { goto inc; }` in case 2                       -- 1 byte
+  * case 2 written as `if (f()==0) goto inc;` with case 1's body copied in
+    behind a FALLTHROUGH comment                          -- 1 byte
+  * the whole source compiled with ../1.2/sp2              -- 57 bytes
+    (that front end emits `add r1, pc` + `bx r1` instead of `add pc, r1`,
+    so this row is not a 1.2 row)
+
+NEXT ATTEMPT, one line: make case 2's `goto inc` land on the block at
+0x020146DE (case 1's trailing `b inc`) -- the residue is that the front end
+emits a second copy of that two-byte block, so look for a spelling in which
+the two arms' tail jump is one statement the block builder shares.
+
+Cost of leaving it open: its caller 0x02014728 (src/pending/func_02014728.c)
+stays MATCH, because its `+002C ABS32 func_02014698` site needs either this
+file's EXACT manifest entry (`matched` class) or a pool word outside
+02014728..02014758.

@@ -1,0 +1,117 @@
+/* func_020730B8.c.txt -- DIFF residue, packet pkt_02072F5C (lane r6 small-2) */
+
+func_020730B8, 36 bytes of ARM, no relocations at all, so this row is pure
+code generation and was chased to the bottom.  Verdict: DIFF, 32 bytes
+compiled against 36.  The wall is if-conversion of a two-store arm; the
+closest spelling is recorded in full at the end.
+
+THE ORIGINAL (0x020730B8..0x020730DC, 9 instructions, no frame)
+
+  020730B8  ldr  r2, [r0]            ; o->p
+  020730BC  cmp  r2, #0
+  020730C0  bxeq lr                  ; if (p == 0) return;
+  020730C4  ldr  r2, [r0]            ; second, volatile read
+  020730C8  mov  r3, #1
+  020730CC  strh r3, [r2, #0x34]
+  020730D0  ldr  r0, [r0]            ; third read, into r0 (o is dead here)
+  020730D4  strh r1, [r0, #0x38]
+  020730D8  bx   lr
+
+FIRST DIFFERING INSTRUCTION: +0008 ORIG bxeq lr | OURS ldrne r2,[r0]
+(the whole 5-instruction arm is predicated, so every slot from +0008 on is
+off by one instruction and the compiled body is 4 bytes short)
+
+  +0008  ORIG 1e ff 2f 01  bxeq lr          | OURS 00 20 90 15  ldrne r2,[r0]
+  +000C  ORIG 00 20 90 e5  ldr r2,[r0]      | OURS 01 30 a0 13  movne r3,#1
+  +0010  ORIG 01 30 a0 e3  mov r3,#1        | OURS b4 33 c2 11  strhne r3,[r2,#0x34]
+  +0014  ORIG b4 33 c2 e1  strh r3,[r2,#0x34]| OURS 00 00 90 15 ldrne r0,[r0]
+  +0018  ORIG 00 00 90 e5  ldr r0,[r0]      | OURS b8 13 c0 11  strhne r1,[r0,#0x36]
+  +001C  ORIG b8 13 c0 e1  strh r1,[r0,#0x38]| OURS 1e ff 2f e1 bx lr
+
+THE ONE SPELLING THAT PRODUCES THE BRANCH, AND WHAT IT COSTS
+
+A short-circuit expression as a statement defeats the predication and gives
+the original's first SIX instructions byte for byte -- including the guard
+load, the cmp and `bxeq lr` at +8:
+
+    o->p == 0 || (o->p->h34 = 1, o->p->h38 = v);
+
+compiles to 40 bytes, and the extra four are at the tail:
+
+  +0018 ORIG ldr r0,[r0] | OURS ldr r2,[r0]     <- third volatile read, wrong reg
+  +001C ORIG strh r1,[r0,#0x38] | OURS strh r1,[r2,#0x38]
+  +0020 ORIG bx lr       | OURS ldr r0,[r0]     <- a FOURTH volatile read
+  +0024 ORIG (end)       | OURS bx lr
+
+The fourth read is the `||` result being materialised: it keeps `o` live to
+the end, and because r0 is still live the third read is allocated r2 where the
+original used r0.  Identical output from `if (o->p == 0 || (...)) return;`,
+from the `&&` spelling, from `(void)(o->p && (...))` and from the comma
+variant -- every one of them pays the extra load.  Making the last operand of
+the comma a constant (`..., 0`) folds the whole thing back to the predicated
+32-byte form.
+
+A LOOP BODY GETS THE REGISTERS RIGHT AND THE CONTROL FLOW WRONG
+
+`while (o->p != 0) { o->p->h34 = 1; o->p->h38 = v; break; }` (and the `for`
+equivalent) compiles the body with exactly the original's registers --
+`ldr r2,[r0] / mov r3,#1 / strh r3,[r2,#0x34] / ldr r0,[r0] / strh r1,[r0,#0x38]`
+-- but mwcc rotates the loop (an entry `b` to a test at the bottom, 44 bytes).
+The body register allocation is therefore reachable; the test placement is not.
+
+TWO FRONT ENDS, SAME BYTES
+
+`dsi/1.1p1` and `../1.2/sp2` emit exactly the same predicated 32 bytes for the
+plain spelling, so this is not a front-end difference and no pin is warranted
+by these bytes.
+
+SPELLINGS RULED OUT (all 32 bytes predicated unless noted)
+
+  if (o->p == 0) return; <two stores>            <- the plain form
+  if (!o->p) return; <two stores>
+  if (o->p != 0) { <two stores> }                 both polarities
+  if (o->p == 0) { return; } else { <two stores> }
+  if (o->p == 0) { return; } else { store1; } store2;
+  if (o->p != 0) { <two stores> } else { return; }
+  if (o->p == 0) return; <comma expression>       (comma in the body)
+  if (o->p != 0) { store1, store2; }              (comma as the single statement)
+  if (o->p == 0) goto out; <two stores> out:      (also with `return;` at out)
+  if (o->p == 0) goto done; ... if (0) goto done; done: return;
+  if (o->p == 0) return; store1; goto mid; mid: store2;
+  label `mid:` inside the arm with nothing jumping to it
+  switch (0) { case 0: break; } inside the arm
+  do { if (o->p == 0) break; <two stores> } while (0)
+  while (1) { if (o->p == 0) break; <two stores>; break; }
+  o->p == 0 ? (void)0 : (store1, store2, (void)0)
+  `(void)(o->p && (store1, store2))` and the `, 0` / `, 1` variants
+  a non-volatile `struct Sub *p` (28 bytes; the guard load lands in r3, the
+  body folds to one load -- the original's three reads need the volatile field)
+  a volatile *field* instead of a volatile pointer (still predicated)
+
+THE CLOSEST SPELLING (32 bytes, predicated; C as filed nowhere -- DIFF)
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    struct Sub { u8 pad00[0x34]; u16 h34; u8 pad36[2]; u16 h38; };
+    struct Obj { struct Sub * volatile p; };
+
+    void func_020730B8(struct Obj *o, u16 v)
+    {
+        if (o->p == 0) return;
+        o->p->h34 = 1;
+        o->p->h38 = v;
+    }
+
+Verified with:
+    python tools/match.py one --src <file> --func func_020730B8 \
+        --addr 0x020730B8 --cc 1.1p1 --arm --diff
+
+NEXT ATTEMPT, CONCRETELY: the two stores cannot be an if-arm of this front
+end -- they are predicated in every spelling that is structurally an `if`,
+and the only constructs that keep the branch (short-circuit, loop) each cost
+a load or a rotation.  What has not been tried is a *third statement* in the
+arm that compiles to nothing (the arm then exceeds whatever size the
+if-conversion pass accepts); if that is a dead end too, this row is
+compiler-blocked for 1.1p1 and belongs in the same class as 0x02060CD0.

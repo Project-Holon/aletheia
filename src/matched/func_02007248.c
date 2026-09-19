@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
+ *           every relocation site resolves and match.py one reports EXACT*.
+ * status:   EXACT*
  * blocker:  020334E8 (arm) reached only by the `blx` inside this function; also EXACT* -> the follower at 0x0200725A has no label
  *
  * symbols:

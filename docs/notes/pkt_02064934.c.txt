@@ -256,3 +256,71 @@ void func_02064AB4(char *self)
     }
     func_020643CC(self + 0x34, item, *(unsigned short *)(self + 0x30));
 }
+
+================================================================================
+wave r7 lane promo-3 (independent re-measurement of 0x02064B68 and 0x02064AB4)
+================================================================================
+
+Both rows above are the blockers of a parked MATCH file in this wave
+(0x02064B68 blocks src/pending/sub_0204D500.c, 0x02064AB4 blocks
+src/pending/sub_0204D4B4.c), so each was re-run this pass with the pinned
+dsi/1.1p1, -O4,p -proc arm946e, --arm.  Both re-verify as DIFF with every
+relocation site resolved, i.e. neither is an evidence wall and neither pair
+converts: the residue is codegen and it survived the extra spellings below.
+
+0x02064B68 -- DIFF, 168 bytes compiled against 168, 15 bytes (4 instructions)
+
+    ldr r0, [r7, #0x3c]
+    ldr r5, [r7, #0x40]   <- the original hoists the array base here
+    mov r6, r1
+    cmp r0, #1
+    mov r4, #0
+    str r6, [r7, #0x14]   <- and stores the argument here
+
+This front end always emits that store before the base load when both go
+through the same object pointer, so the whole function from +0x24 on is byte
+for byte identical and the prologue's five instructions are permuted.  The
+volatile-union C of docs/notes/sub_02064B68.c.txt is the spelling that keeps
+the size right (168) and the else arm's reload intact; the raw-offset C above
+(C source as last compiled, lane r4-1) reaches 164 because the header load is
+CSE'd across the arms as that note says.
+
+Spellings measured this pass against the prologue order, each compiled, each
+168 bytes and the same four instructions:
+  * the base read through `((const struct Renderer *)r)->unk_40` (the `const`
+    source-pointer lever of
+    docs/idioms/const-source-pointer-schedules-the-block-load-first.md does
+    not carry over from the struct-copy case to a scalar field load);
+  * the parameter declared `const struct Renderer *r` with the store through a
+    cast, and a named `const struct Renderer *cr = r` local, and a
+    `struct Renderer *const cr` local;
+  * a `void *volatile` base load: still scheduled after the store;
+  * the store written before the base declaration in the source.
+
+0x02064AB4 -- DIFF, 172 bytes compiled against 180, one cross-jumped call site
+
+Every one of the eight relocation sites resolves; the 8 bytes are the shared
+`add r0, r4, #0x48` / `bl func_020640DC` pair described above, reproduced
+independently this pass with the same 64 differing bytes.  The C in this run
+reached the original's instruction stream exactly from +0x00 to +0x68 and from
++0x78 to the epilogue, and the case-2 arm's own call is only lost to the
+cross-jump.
+
+Spellings measured this pass against the cross-jump, each compiled, each 172
+bytes and the same 64 differing bytes (on top of the `switch` form above):
+  * the switch with case 2 listed first, and with default listed before case 2
+    (that one also turns the case-2 test into a `beq`, wrong);
+  * `if (k != 0) { if (k == 2) A; else B; }` and the `goto tail` forms of both
+    the switch and the if-chain;
+  * the case-2 arguments bound to named `s16` locals, its result assigned to a
+    dead local, its arguments read through a named `struct P2 *` local;
+  * a `switch` nested inside `if (k != 0)`.
+
+Declaration-order finding confirmed independently: `u32 k;` before `u32 r;`
+(names reversed from first-use order) is what puts the masked switch value in
+r6 and the saved call result in r7, and the sink passed to func_02064140 /
+func_020640DC / func_02064120 / func_02064100 is at self+0x48 while the one
+passed to func_020643CC at the end is at self+0x34.  The switch value is a
+`(u8)` narrowing of a word field (`and r6, r1, #0xff`, not `ldrb`).
+
+Neither row's C is left in src/matched by this pass; this note is its home.

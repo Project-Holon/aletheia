@@ -1,0 +1,26 @@
+func_02005B6C -- parked as a veneer, no C source filed (wave r6, lane small-3)
+======================================================================
+
+The row is a 4-byte ARM stub plus its pointer word:
+
+  02005B6C  04 f0 1f e5   ldr pc, [pc, #-4]
+  02005B70  64 43 70 02   .word 0x02704364
+
+That is the second recognised ARM linker-stub encoding from docs/AGENT-BRIEF.md
+section 5 ("ldr pc,[pc,#-4]; .word target"), i.e. a linker veneer, not compiled
+C.  match.veneer_at(0x02005B6C) returns None because the pointer word
+0x02704364 is in no region of layout/layout.json
+(regions_containing(0x02704364) == []), so names_known_code() refuses it and
+the `veneer` class cannot attest it either.  match.attest_veneer(0x02005B6C,
+"arm", 0x02005B24, 0x02005B6C) is therefore None.
+
+The only branch to it anywhere in the image is the call inside func_02005B24,
+and match.py one reports that site verbatim as:
+
+  +002C THM_CALL func_02005B6C -> unresolved: 02005B6C (arm, from header) has no witness outside 02005B24..02005B6C
+
+No C spelling produces this shape (docs/AGENT-BRIEF.md, "Known walls"), so the
+row is parked with class `veneer`.  A `tu` range may not span it either
+(docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md),
+which is what keeps func_02005B24 and func_02005B74 from being folded into one
+unit to make their mutual call sites `local`.

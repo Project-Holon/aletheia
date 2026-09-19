@@ -1,0 +1,30 @@
+func_0206AD64 -- pinned to ../2.0 and parked at MATCH (wave r6, lane small-3)
+======================================================================
+
+Pin decision, one function, confirmed by compile.  Byte evidence:
+
+  image   0206AD64  88 bytes, frame push {r3, lr}; it LOADS the flags-object
+                    address 0x02148B4C from its pool word at +0014
+                    (ldr r3,[pc,#0x34]) rather than keeping it in a
+                    callee-saved register, and re-loads 0x02148C08 /
+                    0x02148B98 / 0x02148C7C / 0x02148CAC per use.
+  1.1p1   with this C: 96 bytes (100 with the same C spelled for it), frame
+          push {r3,r4,r5,lr}, 78 concrete bytes differ.
+  1.2     with this C: 100 bytes, frame stmdb sp!, {lr} + sub sp,#4, 76
+          concrete bytes differ -- not this function's front end either.
+  2.0     with this C: 88 bytes = the original's size, ZERO concrete
+          mismatches.
+
+That is the "kept constants" tell of docs/FRONTEND-PINS.md (the image
+rematerialises a constant from the pool where the dsi build keeps it live in a
+callee-saved register), the same tell and family as src/pending/
+func_0206B6A4.c, already pinned to dsi/../2.0/sp2.  The file's header therefore
+carries "compiler: ../2.0/sp2".  The FRONTEND-PINS.md entry itself is the
+integrator's to write: that file is outside this lane's write set, so the
+evidence lives here.
+
+Parked at MATCH: the only open site is func_0207B60C, whose only branch
+reference anywhere in the image is this function's own bl at 0x0206AD94 --
+  +0038 PC24 func_0207B60C -> unresolved: 0207B60C (arm, from header) has no witness outside 0206AD64..0206ADC4
+It unsticks when 0x0207B60C is itself EXACT (`matched`) or a second caller
+appears in an overlay.

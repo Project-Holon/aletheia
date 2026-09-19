@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
+ *           every relocation site resolves and match.py one reports EXACT*.
+ * status:   EXACT*
  * blocker:  0200D310 - not matched yet and this call at 0x0200D2B2 is the only branch to it in the image.  All 18 bytes right (verdict MATCH*: the listing extent runs two bytes long over the linker filler at 0x0200D2C2).
  */
 

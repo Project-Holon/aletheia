@@ -1,0 +1,73 @@
+pkt_02014808 - the five rows of lane small-1 (wave r6)
+======================================================
+
+0x02014808, 0x02014840 - already covered, not by this lane
+----------------------------------------------------------
+Both verified EXACT when re-run this wave, but they are covered by
+layout/matched/arm9/pkt_02014628.json (written mid-run by a concurrent agent on
+2026-09-19 16:02), whose two entries point at src/matched/func_02014808.c and
+src/matched/func_02014840.c.  They are NOT duplicated into this packet's shard:
+match.load_manifest_entries() raises "manifest shards disagree" if the same
+(address, kind, name) appears in two shards, so filing a second copy here would
+have broken every reader of the manifest.  Recorded so the duplicate is not
+attempted again.
+
+func_02014878 (0x02014878) - MATCH, all bytes right, blocked on own-pool data
+----------------------------------------------------------------------------
+The wave's cut sizes this row at 30 code bytes; the listing extent is 152 (the
+next label is 0x02014910) and the function itself is 0x02014878..0x02014900 with
+its four-word pool at 0x02014900..0x02014910.
+
+The version filed in src/pending/func_02014878.c reproduces all 152 concrete
+bytes (compiled 152, listing extent 152): the two calls resolve as `label` and
+the two 0x021BED00/0x021DC800 pool words resolve as `literal`.  Only the two
+small pooled words stay wildcarded:
+
+  +0088 ABS32 ov091_id  -> unresolved: 0000005B (data, from header) has no witness outside 02014878..02014910
+  +0090 ABS32 ov131_id  -> unresolved: 00000083 (data, from header) has no witness outside 02014878..02014910
+
+A raw word scan of the arm9 region settles it: 0x0000005B occurs exactly once
+(at 0x02014900) and 0x00000083 exactly once (at 0x02014908) in the whole
+3.9 MB image - both inside this function's own compared range.  `literal` has
+no witness to read, no cut can free them, and the shape is the FS_OVERLAY_ID()
+one recorded in docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md
+(a value in 0..255 that mwccarm would otherwise materialise with `movs`, so it
+cannot be written as a number at all).  This row is capped at MATCH for good.
+
+Earlier attempts were wrong by 76 bytes (the switch arms all returned instead
+of sharing the tail).  Three spellings were load-bearing:
+
+  * the switch value is read once into a local before the dispatch, which is
+    what keeps p[0] in r0 for the whole function (`ldr r1, [r4]` first);
+  * an arm that ends "return 0" must `break` so every arm shares the single
+    epilogue at 0x020148FC;
+  * the state-2 arm is THREE statements - `if (v == 0) { *mode = 5; break; }`,
+    `if (v == 1) { ...; *mode = 3; break; }` and a trailing `*mode = 5;`.
+    Written as if/else-if/else the second test comes out `beq` with its
+    `movs r0, #5` block inline; written as two separate guard `if`s it comes
+    out inverted.  Only the three-statement form gives the arm's out-of-line
+    block at 0x020148D2 with `bne` as the second test.
+
+func_02014910 (0x02014910) - MATCH, and it cannot be promoted from here
+----------------------------------------------------------------------
+src/pending/func_02014910.c is byte-correct (44 of 44 concrete bytes) and its
+two calls resolve.  Its remaining site is
+
+  +0028 ABS32 func_02014878 -> unresolved: 02014878 (thumb, from name) has no witness outside 02014910..0201493C
+
+The address is reachable only through this function's own pool word - a raw
+call-site scan finds no branch anywhere in the image into 0x02014878 - so the
+`label` class refuses and only a `matched` entry could attest it.  `matched`
+requires an EXACT/EXACT* manifest entry at 0x02014878, and 0x02014878 is itself
+permanently capped at MATCH by the two own-pool words above.  The chain is
+therefore closed at the bottom: promoting func_02014878 is impossible, so this
+row stays parked.  Its header now names that, not "unfiled callee".
+
+func_02014A10 (0x02014A10) - MATCH, own-pool data, raw-scan confirmed
+--------------------------------------------------------------------
+  +000C ABS32 sub_0209E054_Map -> unresolved: 0209E054 (data, from header) has no witness outside 02014A10..02014A20
+
+Raw word scan: 0x0209E054 occurs exactly once in arm9, at 0x02014A1C, this
+function's own pool word.  Twelve bytes of code and four of pool, no call:
+nothing about the C can change this, and the E3A4 siblings above show the same
+wall.  Parked at MATCH; the file in src/pending/ is byte-correct.

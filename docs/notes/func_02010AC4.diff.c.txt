@@ -1,0 +1,105 @@
+
+
+===== func_02010AC4 (0x) DIFF body, moved out of src/pending by the integrator at the wave r6 fold-in =====
+It was sitting in src/pending with no shard naming it (src/matched) / with a DIFF status (src/pending),
+both of which the same wave's scans flag: a DIFF in src/matched is one shard write away from a
+false EXACT entry, and a DIFF in src/pending breaks the rule that pending means MATCH only.
+Verdict re-measured at move time: DIFF. Packet: pkt_02010AC4. Address: 0x02010AC4.
+
+/*
+ * function: func_02010AC4
+ * address:  0x02010AC4
+ * packet:   pkt_02010AC4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Four-state loader step.  The context pointer is the FOURTH argument (it
+ * arrives in r3), and the state word it dispatches on lives at +0x1d4:
+ * case 0 rewinds the queue cursors and copies a 0x7b-byte block, case 1
+ * either finishes (state 4) or copies a 0xa9-byte block into +0x48, case 2
+ * finishes or pokes 0x0200F7B8, case 3 either finishes or copies a 0x73-byte
+ * block into +0x28.  Every copy goes through func_020312CC(size, src, dst).
+ * A state word above 3 returns 1 without doing anything.
+ *
+ * Residue: the two size arguments 0x7b and 0x73 come from the literal pool in
+ * the image (`ldr r0,[pc,#0x88]` at +0x3a and `ldr r0,[pc,#0x10]` at +0xb0)
+ * where this C materialises them with `movs`.  Same shape as the pooled small
+ * argument in src/pending/func_0202F9F8.c (0x58 / 0xb3): a small integer
+ * loaded from a pool instead of movs is an R_ARM_ABS32, i.e. the original
+ * spells those arguments as symbols, not as literals.
+ *
+ * symbols:
+ *   g_02010B84     0x021D6338  data
+ *   g_02010B90     0x021DA9A8  data
+ *   g_02010B94     0x021D654C  data
+ *   func_020312CC  0x020312CC  arm
+ *   func_0200F7B8  0x0200F7B8  thumb
+ *   func_0203CD98  0x0203CD98  arm
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02010AC4.c \
+ *       --func func_02010AC4 --addr 0x02010AC4 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern char g_02010B84[];
+extern char g_02010B90[];
+extern char g_02010B94[];
+
+extern void func_020312CC(u32 size, void *src, void *dst);
+extern void func_0200F7B8(u32 a);
+extern int  func_0203CD98(void);
+
+int func_02010AC4(u32 a0, u32 a1, u32 a2, char *ctx)
+{
+    switch (*(u32 *)(ctx + 0x1d4)) {
+    case 0:
+        *(u32 *)(ctx + 0x00) = *(u32 *)(ctx + 0x44);
+        *(u32 *)(ctx + 0x04) = 0;
+        *(u32 *)(ctx + 0x08) = 1;
+        *(u32 *)(ctx + 0x0c) = 0x32;
+        *(u32 *)(ctx + 0x10) = (u32)(ctx + 0x5c);
+        func_020312CC(0x7b, g_02010B84, ctx);
+        *(u32 *)(ctx + 0x1d4) += 1;
+        return 0;
+    case 1:
+        if (*(u32 *)(ctx + 0x1c) == 1) {
+            *(u32 *)(ctx + 0x1d4) = 4;
+            return 0;
+        }
+        *(u32 *)(ctx + 0x48) = *(u32 *)(ctx + 0x44);
+        *(u16 *)(ctx + 0x50) = *(u16 *)(ctx + 0x1d0);
+        *(u32 *)(ctx + 0x4c) = (u32)(ctx + 0x5c);
+        func_020312CC(0x1a8, g_02010B90, ctx + 0x48);
+        *(u32 *)(ctx + 0x1d4) += 1;
+        return 0;
+    case 2:
+        if (*(u32 *)(ctx + 0x54) == 1) {
+            *(u32 *)(ctx + 0x1d4) = 4;
+            return 0;
+        }
+        func_0200F7B8(0);
+        *(u32 *)(ctx + 0x1d4) += 1;
+        return 0;
+    case 3:
+        if (func_0203CD98() == 0 || *(u32 *)(ctx + 0x58) == 1) {
+            *(u32 *)(ctx + 0x14) = 1;
+            *(u32 *)(ctx + 0x1d4) = 0;
+            return 0;
+        }
+        *(u32 *)(ctx + 0x28) = *(u32 *)(ctx + 0x44);
+        *(u32 *)(ctx + 0x2c) = 0;
+        *(u32 *)(ctx + 0x30) = 1;
+        func_020312CC(0x73, g_02010B94, ctx + 0x28);
+        *(u32 *)(ctx + 0x1d4) += 1;
+        return 0;
+    }
+    return 1;
+}

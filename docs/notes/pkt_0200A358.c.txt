@@ -64,3 +64,46 @@ void sub_0200A358(u8 *p, int a1, int a2, int a3)
         sub_0200A480(p);
     }
 }
+
+================================================================================
+wave r7 lane promo-3: the row is a permanent wall, and here is the class
+================================================================================
+
+Row re-measured this pass as the BLOCKER of src/pending/func_0200A300.c (whose
+MATCH verdict names exactly this address and nothing else), with the pinned
+dsi/1.1p1, -O4,p -proc arm946e, --thumb.  Relocation-set probe of the row's own
+call targets (every target is the address the listing's own decode gives the
+`bl` at that site):
+
+    DIFF       func_0200A358 @ 0200A358 (arm9, Thumb)
+      compiled 64 bytes, 8 relocation site(s)
+      relocations: 6 of 8 resolved
+        +000E THM_CALL func_02082BCC  -> 02082BCC  [label x570, e.g. 02006CD8]
+        +0018 THM_CALL func_020071EC  -> 020071EC  [label x1,  e.g. 020071FE]
+        +001E THM_CALL func_02034AC4  -> 02034AC4  [label x12, e.g. 02005240]
+        +0024 THM_CALL func_021DFC20  -> 021DFC20  [label x3,  e.g. 02006F2C]
+        +0028 THM_CALL func_021DFEAC  -> unresolved (7 overlays overlap, no
+              func_ label at the address in any of them)
+        +002C THM_CALL func_021DFE90  -> unresolved (same seven overlays, same
+              absence of a label)
+        +0034 THM_CALL func_020071CC  -> 020071CC  [label x25, e.g. 02008734]
+        +003A THM_CALL func_0200A480  -> 0200A480  [label x13, e.g. 02009F00]
+
+The two unresolved lines are otherwise identical to the pair quoted at the top
+of this file, which the earlier pass got from the full near-miss C: the same
+two sites, the same seven overlays, the same refusal.  So the row's wall is not
+a property of any spelling: 0x021DFE90 and 0x021DFEAC are overlay-window
+addresses with no `func_` label in ov093, ov119, ov137, ov170, ov175, ov183 or
+ov228 (`grep` over asm/overlays/ finds `func_021DFC20` in ov228 and
+`func_021DFE98` in ov183 and neither of these two), the `veneer` class admits
+ARM shapes only while ov228's eight-byte Thumb thunk at 0x021DFE90 is exactly
+the shape mwccarm emits for a Thumb tail call, and a raw little-endian word
+scan over all 242 regions finds neither address as a pool word anywhere in the
+image, so `literal` has no outside witness either.  A destination can also not
+be cut free: both calls are inside the single 114-byte leaf that is the only
+caller of anything, and the range cannot be smaller than the function.
+
+0x021DFC20, by contrast, resolves through the `label` class with the ov228
+region hint, so the wall is those two addresses and not the row.  The pair
+(park src/pending/func_0200A300.c) therefore does not convert and no source of
+this row is filed: no C spelling converts an unattestable site.

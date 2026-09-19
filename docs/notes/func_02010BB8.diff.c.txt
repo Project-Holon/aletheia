@@ -1,0 +1,70 @@
+
+
+===== func_02010BB8 (0x) DIFF body, moved out of src/pending by the integrator at the wave r6 fold-in =====
+It was sitting in src/pending with no shard naming it (src/matched) / with a DIFF status (src/pending),
+both of which the same wave's scans flag: a DIFF in src/matched is one shard write away from a
+false EXACT entry, and a DIFF in src/pending breaks the rule that pending means MATCH only.
+Verdict re-measured at move time: DIFF. Packet: pkt_02010BB8. Address: 0x02010BB8.
+
+/*
+ * function: func_02010BB8
+ * address:  0x02010BB8
+ * packet:   pkt_02010BB8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Brightness/backlight bring-up: shut both engines' display FIFOs down, clear
+ * the two master-brightness registers, fill a 0x1a8-byte work buffer and stash
+ * the caller's value at the front of it.
+ *
+ * symbols:
+ *   func_02043534  0x02043534  arm
+ *   func_020435F4  0x020435F4  arm
+ *   func_0203064C  0x0203064C  arm
+ *   func_0203159C  0x0203159C  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_02031324  0x02031324  arm
+ *
+ * DIFF at 4 concrete bytes (+002A/+002C/+0034/+0036) and one missing pool
+ * word: the residue and the ~25 ruled-out spellings are in
+ * docs/notes/func_02010BB8.c.txt.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02010BB8.c \
+ *       --func func_02010BB8 --addr 0x02010BB8 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void  func_02043534(int a);
+extern void  func_020435F4(int a);
+extern void  func_0203064C(int a, int b, int c);
+extern u8   *func_0203159C(void *a, int b, int c);
+extern void  func_02082BCC(void *dst, int val, unsigned n);
+extern void *func_02031324(int a);
+
+int func_02010BB8(void *a0, int a1, int a2)
+{
+    u8 *p;
+
+    func_02043534(0);
+    func_020435F4(0);
+    *(u32 *)0x04000000u &= 0xffffe0ffu;
+    *(u32 *)0x04001000u &= 0xffffe0ffu;
+    *(u32 *)0x04000000u &= 0xffffff1fu;
+    *(u32 *)0x04001000u &= 0xffffff1fu;
+    *(u16 *)0x04000050u = 0;
+    *(u16 *)0x04001050u = 0;
+    func_0203064C(1, 0x5b, 0x800);
+    p = func_0203159C(a0, 0x1a8, 0x5b);
+    func_02082BCC(p, 0, 0x1a8);
+    *(u32 *)p = (u32)a2;
+    *(u32 *)(p + 8) = (u32)func_02031324(0x5b);
+    return 1;
+}

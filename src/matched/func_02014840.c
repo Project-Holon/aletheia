@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
+ *           every relocation site resolves and match.py one reports EXACT.
+ * status:   EXACT
  * blocker:  +0034 ABS32 func_020147B0          : 020147B0 (thumb, from name) has no witness outside 02014840..02014878
  */
 

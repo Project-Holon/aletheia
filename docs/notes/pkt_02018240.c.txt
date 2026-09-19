@@ -121,3 +121,57 @@ C, exactly as compiled for the residue above:
 Declaration order is load bearing twice over: `b, d, c` puts the flag at
 sp+4, the 0x36 id at sp+0xC and the 0x3A id at sp+8, and `v` before `pp` puts
 the running `pp` in r5 and the new one in r4.
+
+========================================================================
+wave r7 lane promo-3: 0x020182A8 re-measured (blocker of src/pending/func_02018240.c)
+========================================================================
+
+The row is the only blocker on the parked MATCH file above, so it was re-run
+this pass with the pinned dsi/1.1p1, -O4,p -proc arm946e, --thumb.  Verdict and
+residue are the same as this file records:
+
+    DIFF       func_020182A8 @ 020182A8 (arm9, Thumb)
+      compiled 128 bytes, 6 relocation site(s)
+      relocations: 6 of 6 resolved
+      listing extent for the original: 128 bytes
+      10 concrete byte(s) differ  (five halfwords, all in the prologue)
+
+      * +0004  str r2, [sp]                 | adds r7, r1, #0
+      * +0006  adds r7, r1, #0              | adds r1, r2, #0
+      * +0008  ldr r1, [sp]                 | str r2, [sp]
+      * +000A  movs r2, #0                  | str r1, [sp, #0xc]
+      * +000C  str r1, [sp, #0xc]           | adds r1, #0x36
+      * +000E  adds r1, #0x36               | movs r2, #0
+
+Everything from +0x10 to the epilogue is byte for byte identical, and the pair
+does not convert: all six relocation sites resolve, so this row is blocked by
+codegen alone.
+
+The single cause is confirmed as a forward-versus-reload decision, not a layout
+one: this front end keeps the incoming third argument live in r2 and copies it
+(`adds r1, r2, #0`) where the original spills it to its homed slot in the
+prologue (`str r2, [sp]`) and reloads it (`ldr r1, [sp]`), and it schedules the
+home store after the copy instead of before it.  Both spellings of the *use*
+side that this file records (`d = slot; d = slot + 0x36;` and
+`d = slot; d = d + 0x36;`) were re-run and reproduce the same five halfwords.
+
+Additional spellings measured this pass, each compiled, each 128 bytes and the
+same five halfwords wrong unless noted:
+
+  * `u32 slot = arg;` as a first-declared local, and again as the last-declared
+    local (declaration position does not move the slot from sp+0);
+  * `u32 slot;` declared first with `slot = arg;` as the first statement;
+  * `slot = slot;` as an explicit statement before the first id (it does force
+    an early store, but the store is still scheduled after the copy);
+  * the slot read through a `u32 *s = &slot;` local, `d = *s; d = *s + 0x36;`
+    (130 bytes: the pointer costs a register and the frame is repacked);
+  * `u32 slot[1]` with `slot[0] = arg;` (folds exactly like the scalar);
+  * `volatile u32 slot` as the third parameter (140 bytes: a reload before
+    every one of the five source reads, so the CSE that holds the two
+    adjacent reads of one id together is lost).
+
+Not attempted: an address-taken *parameter*.  That is the `push {r0, r1, r2,
+r3}` home-area shape, which the original's `push {r3, r4, r5, r6, r7, lr}` does
+not have, so it cannot be the spelling.
+
+No C of this row is left in src/matched; this note is its home.

@@ -1,0 +1,84 @@
+func_02031C30 (0x02031C30, ARM) - close near miss, 400 of 400 bytes, 16 instructions
+=================================================================================
+
+`python tools/match.py show --addr 0x02031C30` reports the region as
+02031C30..02031DC0 (400 bytes).  The lane cut's size column says 36: that is
+the worklist's `code_bytes` for the entry, and it is wrong for this function -
+the six jump-table arms at 0x02031C64..0x02031DBC are all part of it (the
+table at 0x02031C48 lists 0x02031C64, 0x02031C80, 0x02031CBC, 0x02031CD0,
+0x02031D38, 0x02031D80, and the shared epilogues are at 0x02031DB8/0x02031DBC).
+Treat this row as a 400-byte body, not a small one.
+
+All three callees are attested and resolve: func_02032970 [label x5],
+func_02032CD0 [label x5], func_020331A4 [label x5] - 10 of 10 relocation
+sites resolved, `relocations: 10 of 10`.  So this row can reach EXACT; it is
+not evidence-starved, only spelling-starved.
+
+Closest C (scratch/r6s1/c31c30_b.c) compiles to exactly 400 bytes and every
+concrete byte is right except 16 instructions in two blocks:
+
+  * +0084    b #0x2031d74                  | b #0x2031c70
+  * +0114    beq #0x2031d78                | addeq r0, r2, #1
+  * +0118    add r1, sp, #0                | strbeq r0, [r5, #0x1e]
+  * +011C    mov r0, r4                    | beq #0x2031db8
+  * +0120    bl #0x2032cd0                 | add r1, sp, #0
+  * +0124    movs r6, r0                   | mov r0, r4
+  * +0128    cmpne r6, #1                  | bl #0x2032cd0
+  * +012C    beq #0x2031db8                | movs r6, r0
+  * +0130    mov r0, r4                    | cmpne r6, #1
+  * +0134    mov r1, r6                    | beq #0x2031db8
+  * +0138    mov r2, #0                    | mov r0, r4
+  * +013C    bl #0x20331a4                 | mov r1, r6
+  * +0140    strb r6, [r4, #0x1f]          | mov r2, #0
+  * +0144    b #0x2031c70                  | bl #0x20331a4
+  * +0148    add r0, r2, #1                | strb r6, [r4, #0x1f]
+  * +014C    b #0x2031c78                  | b #0x2031c70
+
+(compiled offsets; add 0x02031C30 for addresses.  The two columns are the two
+instruction streams from +0114 on, offset by 4 bytes.)
+
+What the two spots are:
+
+**case 4's `if (q->a == q->b)` arm.**  The original does not if-convert it:
+`beq 0x02031D78` sends the equal path to an out-of-line block
+(0x02031D78 `add r0, r2, #1` feeding 0x02031C78 `strb r0, [r5, #0x1e]`, i.e.
+the state++ store shared with case 0's tail), and the rest of the arm stays
+inline.  Every spelling tried if-converts it instead (`addeq r0, r2, #1` +
+`strbeq` + `beq`), which is the same three instructions but laid out inline,
+and that layout then shifts everything after it by 4 bytes:
+
+  * `if (q->a == q->b) { p->state++; break; }` -> predicated (addeq/strbeq/beq)
+  * the same with `return 0` instead of `break` -> predicated `moveq r0, #0` +
+    `popeq`
+  * `if (q->a != q->b) { body } else { p->state++; break; }` + a trailing
+    `p->state++; break;` -> the arm is a real branch, but the extra tail block
+    makes the two epilogues land 4 bytes late
+
+**case 1's fall-through.**  The original branches to 0x02031D74, which is
+case 4's tail `b 0x2031C70` - one shared branch instruction for both arms'
+`p->state++; break;`.  The closest C emits its own `b #0x2031c70` instead, so
+the two arms do not share the tail.  Both spots are block-merge decisions, not
+wrong expressions: the moment case 4's arm goes out of line (0x02031D78), the
+shared tail at 0x02031D74 appears and case 1's branch should pick it up.
+
+Levers that did land, worth keeping:
+
+  * The dispatch value must be read once into a local before the switch
+    (`ldrb r2, [r5, #0x1e]` then `cmp r2, #5; addls pc, pc, r2, lsl #2`).
+  * Every arm that ends "state++ and return 0" must `break` and share the one
+    `return 0` after the switch, or the epilogue is duplicated per arm.
+  * The `cmpne`-fused test (`movs rN, r0; cmpne rN, #1; beq`) is what
+    `if (r != 0 && r != 1)` gives; the positive `if (r == 0 || r == 1)`
+    spelling is folded to an unsigned range test (`cmp r6, #1; bhi`) and is
+    wrong.  All four `func_02032CD0` result tests must be written negated.
+  * The 4th/5th arms' shared block `if (tmp == 1) p->state++;` is written out
+    in each arm and cross-jumped by the compiler, landing once at 0x02031D20.
+  * Argument order matters for which object each call gets: func_02032CD0 and
+    func_020331A4 take the FIRST parameter in cases 3 and 5 and the SECOND in
+    cases 1 and 4 - that is what puts `mov r0, r5` in some arms and
+    `mov r0, r4` in others.
+
+Next attempt should start from scratch/r6s1/c31c30_b.c and change ONLY case 4's
+equal-arm: it needs to be a branch to an out-of-line `p->state++` block placed
+after case 4's body, which is what mwcc does when the arm's tail is shared with
+another arm's identical tail rather than if-converted.

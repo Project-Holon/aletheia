@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
+ * promoted: from src/pending 2026-09-19, no C change: blocker 0x02066934 is filed in layout/matched/arm9/pkt_02066890.json and every site resolves (gate: manifest --verify --shard layout/matched/arm9/pkt_0204C060.json, then 0 rewritten).
  *
  * Blocked at MATCH: all 132 concrete bytes are correct and four of the five
  * relocation sites resolve, but the PC24 at +0x0054 (the call to

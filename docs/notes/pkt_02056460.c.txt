@@ -45,3 +45,83 @@ void func_0205650C(int a0, int a1, int a2, int a3)
 
 === end 0x0205650C
 
+==============================================================================
+wave r6 lane rig-c (2026-09-19): the 1.2-sp2 pin measured on this packet
+==============================================================================
+
+This packet is the 1.2 rig family (family pin `compiler: ../1.2/sp2`, see
+docs/FRONTEND-PINS.md); every row here failed under dsi/1.1p1 on a tell the pin
+fixes, so the pin was the first thing tried on every row of this slice.
+
+EXACT under the pin (nothing filed in this packet yet - see the residue below):
+none.
+
+RESIDUE 1 - 0x02056460 (164 B, 0 relocations): DIFF, 8 concrete bytes, same
+size (172).  The axis-(1,1,1) Rodrigues builder: t = FX_Mul(0x1000 - cosv,
+0x555), s = FX_Mul(sinv, 0x93D), then the twelve matrix stores.  The pin fixes
+everything the older note in docs/notes/func_02056460.c.txt blamed: the 64x64
+`mov r4, #0; mla r8, r7, r4, r8` three-term expansion and the `mov lr, #0x800`
+register-form rounding constant are both 1.2 behaviour, and with
+`compiler: ../1.2/sp2` the image is reproduced down to the interleaved schedule
+of the two smull quartets, the `sub sp, sp, #4` frame and the `pop {r4..sb, lr}`
++ `bx lr` return.  What is left is one allocation decision, repeated in 8
+instructions (offsets +0x44, +0x60, +0x64, +0x68, +0x7c, +0x80, +0x88, +0x90):
+
+    +0044    add r1, r3, r1        (image)      add lr, r3, r1      (compiled)
+    +0064    add ip, r3, r5        (image)      add r1, r3, r5      (compiled)
+
+i.e. `cosv + t` is written into the *parameter's own register* r1 in the image
+(killing cosv at its last use) and into a fresh caller-saved lr here; the other
+two sums then follow it, ip<->r1.  Note the operand order in the image is
+`t + cosv` (r3 + r1), so the source spells the commutative sum that way round:
+`cosv + t` compiles to `add lr, r1, r3` and costs 10 bytes, `t + cosv` costs 8.
+Ruled out (each compiled, all 172 bytes, none moved the register): the sum
+inlined in the three stores vs named locals d/e/f, five declaration orders of
+those locals, `d = t; d += cosv;`, assigning back to the parameter
+(`cosv = t + cosv;`), and three named locals with the stores in image order.
+
+    Closest C (172 bytes, size-exact; kept here because it is not byte-correct):
+
+    typedef int fx32; typedef long long fx64;
+    struct MtxFx43 { volatile fx32 _00,_01,_02,_10,_11,_12,_20,_21,_22,_30,_31,_32; };
+    static inline fx32 FX_Mul(fx32 v1, fx32 v2)
+    { return (fx32)(((fx64)v1 * v2 + 0x800) >> 12); }
+
+    void func_02056460(fx32 sinv, fx32 cosv, struct MtxFx43 *m)
+    {
+        fx32 t; fx32 s;
+        t = FX_Mul(0x1000 - cosv, 0x555);
+        s = FX_Mul(sinv, 0x93D);
+        m->_00 = t + cosv;  m->_10 = t + s;     m->_20 = t - s;   m->_30 = 0;
+        m->_01 = t - s;     m->_11 = t + cosv;  m->_21 = t + s;   m->_31 = 0;
+        m->_02 = t + s;     m->_12 = t - s;     m->_22 = t + cosv; m->_32 = 0;
+    }
+
+RESIDUE 2 - 0x0205650C (168 B): re-measured under the family pin, the note's C
+at the top of this file is 188 bytes (the image's size) with 78-79 concrete
+bytes wrong, and the FIRST difference is not a register at all:
+
+    +0010    lsl r2, r0, #8            (image)   lsl r0, r0, #0x18   (compiled)
+    +0014    lsl r0, r1, #8            (image)   lsl r1, r1, #0x18
+    +001C    lsr r0, r0, #0x10         (image)   lsr r4, r1, #0x10
+
+i.e. the image's `(u16)(x << 8)` is a `lsl #8` + `lsr #16` pair (bits 8..23 of
+the argument) while mwcc 1.2 always canonicalises the same source to
+`lsl #24` + `lsr #16`.  Ruled out: `(u16)(a0 << 8)` cast form, a `u16` local
+assigned the shifted int, an `int` local assigned the cast, and the
+`(x >> 6) & 0x3ff` spelling of the coordinate fields (that one is 196 bytes).
+So the pin does NOT close this row, and the remaining width is the whole
+register plan of the ten volatile stores (r5/r6/r8/ip/lr all rotate).  Worth
+one more pass only after the shift pair is explained.
+
+RESIDUE 3 - the rest of this packet was not attempted in this run.  One
+`show` each, and what the first step should be:
+  0x020565C8 (168 B) mirror of 0x0205650C with the paired field at bits 10..19
+      (`orr r5, r2, r7, lsl #10`) instead of 20..29 - solve 0x0205650C first,
+      the two files differ only there (and in which local holds which field).
+  0x020576D0 (352 B) 3x3 matrix multiply, `mov ip, #0x800` register-form
+      rounding (the 1.2 tell is present) and six smull quartets; mechanical,
+      transcribe the whole body before compiling.
+  0x02056684 (784 B) and 0x020569A4 (1544 B): stack-frame-heavy (0x24 / 0xc4
+      bytes of locals) lead functions of the rig; over budget for one row, take
+      them as a unit or leave for the next wave.

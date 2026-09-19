@@ -1,0 +1,36 @@
+pkt_02031F54 -- the pair does not convert; the residue is confirmed stable
+=========================================================================
+
+Row: the blocker of the parked src/pending/sub_020328E0.c (verified this run:
+MATCH, 1 of 4 sites unresolved, the PC24 to 0x02031F54; 596 bytes of finished
+work sitting behind it).
+
+0x02031F54 is already attempted and documented: docs/notes/func_02031F54.c.txt
+and docs/notes/pkt_02031EF8.c.txt record ~30 spellings and a five-byte residue,
+and name the cause as an allocation decided before the source shape can reach
+it (the pinned front end will not hand the second temporary r0).  A second pass
+this run compiled eight more spellings and reproduced the same five bytes, so
+the row is not re-walkable with the spelling lever:
+
+  direct byte-offset casts off a void* (4 instructions reordered, 16 bytes)
+  the same through a named struct's fields (16)
+  two, three and four parameters (16, the third dead)
+  u32[] subscripts off a u32* base (17)
+  a named local for the third value only (16)
+  an unused parameter plus the array form (16)
+  the three values bound to three locals, then stores (30, SIZE 60)
+  the pair-then-rest arrangement (33)
+
+Every spelling keeps the same 64 compiled bytes against the original's 64 and
+fails on the same instruction group (+0014..+0030): the original gives the
+three field loads r1, r0, r2 and can only schedule the call's argument copies
+after the store that frees r0, while this front end pre-assigns r0/r1 to the
+arguments and shares r2 between the second and third temporary.
+
+CONSEQUENCE FOR THE PAIR
+------------------------
+src/pending/sub_020328E0.c cannot be promoted: its site on 0x02031F54 is
+`label`-blind (the call inside the park is the only branch image-wide to
+0x02031F54, checked with image_call_sites: one site, 0x020328F0-ish, inside the
+park) and there is no pool word elsewhere in the image naming 0x02031F54, so
+`matched` at 0x02031F54 is the only route, and that needs this row EXACT.

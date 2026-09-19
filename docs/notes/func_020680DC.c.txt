@@ -1,0 +1,74 @@
+====================================================================
+func_020680DC @ 0x020680DC (116 bytes, ARM, pkt_02067FE4)
+lane small-4 of wave r6 -- STATUS: DIFF, identical size, no relocations
+====================================================================
+
+The function has no relocation sites at all (its only call is the register
+`blx r7` through o->fn), so byte equality is the whole test.  The whole body
+is transcribed and compiles to 116 bytes, the same as the original, and
+everything from +0x40 to the last byte is identical.  What differs is the
+eleven-instruction prologue and nothing else:
+
+  +0008  ORIG  add r4, sp, #0                    | COMP  str r2, [sp, #8]
+  +000C  ORIG  mov r3, #0                        | COMP  mov r8, r0
+  +0010  ORIG  mov r8, r0                        | COMP  add r5, sp, #8
+  +0014  ORIG  str r2, [sp, #8]                  | COMP  ldr r7, [r8, #4]
+  +0018  ORIG  str r3, [r4]                      | COMP  add r3, sp, #0
+  +001C  ORIG  str r3, [r4, #4]                  | COMP  mov r2, #0
+  +0020  ORIG  ldr r7, [r8, #4]                  | COMP  mov r0, r5
+  +0024  ORIG  add r0, sp, #8                    | COMP  mov r4, r1
+  +0028  ORIG  mov r4, r1                        | COMP  str r2, [r3]
+  +002C  ORIG  mov r6, #1                        | COMP  str r2, [r3, #4]
+  +0030  ORIG  blx r7                            | COMP  mov r6, #1
+                                                  (COMP's blx follows at +0034)
+
+Same instructions, different order and three different scratch choices: the
+original materialises z's base in r4 and the zero in r3, and leaves the a2
+spill until after `mov r8, r0`; 1.1p1 stores the a2 spill first, sinks the
+two z stores to just before the call, and uses r3 for the base and r2 for the
+zero.  The loop, the branches, the `addeq r6, r6, #1` and the tail arithmetic
+all match.
+
+The C that produces this residue (declaration order `v` before `z` is
+load-bearing: it is what puts `v` at sp+8 and `z` at sp+0, and any other order
+moves them):
+
+    struct H { u8 *p; int (*fn)(int *out); };
+
+    int func_020680DC(struct H *o, int a1, int a2)
+    {
+        int v = a2;
+        u32 z[2] = { 0, 0 };
+        int n = 1;
+        int (*fn)(int *) = o->fn;
+        int c;
+
+        c = fn(&v);
+        while (c != 0) {
+            if (c == 10) n++;
+            c = fn(&v);
+        }
+        return n * (a1 + (s8)o->p[1]) - a1;
+    }
+
+The `fn` local is required: without it the loop re-loads `o->fn` every
+iteration (`ldr r1, [r6, #4]` inside the loop) and the frame loses r7.
+
+MEASURED AND RULED OUT (all at -O4,p -proc arm946e; the diff count is out of
+116 bytes and the size is in bytes):
+  * all 120 declaration orders of {v, z, n, fn, c}: 48/49 bytes, size 116,
+    with the same residue; the order only decides the stack slots.
+  * `u64 z = 0;`, two scalar `u32 z0/z1 = 0;`, `struct Pair z = {0,0};` and
+    explicit `z[0]=0; z[1]=0;` statements: 100 bytes for the first three
+    (the aggregate initialiser is what keeps the two dead stores alive, and
+    the frame shrinks by the two words when it goes away).
+  * `while ((c = fn(&v)) != 0)`, a `for (c = fn(&v); c != 0; c = fn(&v))`
+    loop, and brace-less bodies: 49 bytes, unchanged.
+  * passing `&a2` directly instead of a `v` local: 92 bytes plus a
+    `push {r0, r1, r2, r3}` argument home area the original does not have.
+
+NEXT ATTEMPT, one line: get the `z` initialiser scheduled before the `v = a2`
+spill (the original's first instruction after `sub sp` is `add r4, sp, #0`
+and the spill comes third), because the whole 49-byte residue is the
+allocator following that order -- once the z base is computed first, r4/r3
+fall out as in the original.

@@ -107,3 +107,20 @@ The stride is `i * 0x1c` with the multiply in its own register, so the record
 type's sizeof must be 0x1c for the encoder to emit the image's `mov r0, #0x1c`
 + `mla` pair in the three sibling accessors - see src/matched/unit_0204F6B4.c,
 which reproduces 0x0204F6B4..0x0204F720 (108 bytes, three unlabelled leaves).
+
+Addendum, wave r6 (lane small-1): the front end is not the difference
+====================================================================
+
+The ip-vs-lr register choice above was re-tested against the 1.2 front end,
+because an extra `push {r3, lr}` frame is the shape docs/FRONTEND-PINS.md lists
+as a 1.2 tell.  Both builds emit the same 32-byte object for the
+struct-assignment spelling:
+
+    dsi/1.1p1     -O4,p -proc arm946e  -> 32 bytes, `mul ip, r1, ip`, `bx lr`
+    dsi/../1.2/sp2 -O4,p -proc arm946e -> 32 bytes, byte-identical
+
+so this row is NOT a per-file pin candidate: no dsi build spends the scaled
+index on lr, which is what the image does.  The image's 48-byte form needs the
+index live in a callee-saved register across both stores, and the closest
+spelling still lands on the 44-byte `mul ip` form with the address accumulated
+in place (the residue tabulated above).  Do not spend another compiler on it.

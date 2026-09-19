@@ -1,0 +1,40 @@
+func_02034558 -- DIFF at 13 bytes, register numbering only (wave r6 re-measure)
+======================================================================
+
+Re-measured this wave with the closest C from the earlier note: compiled 132
+bytes = the original's size, 13 concrete bytes differ, and every one is a
+register-number swap, not a structural difference:
+
+  +0008  ORIGINAL mov r7, r3        | COMPILED mov r5, r3
+  +000C  ORIGINAL mov r8, r1        | COMPILED mov r7, r1
+  +0024  ORIGINAL mov r4, r0        | COMPILED mov r8, r0
+  +0030  ORIGINAL mov r5, r0        | COMPILED mov r4, r0
+  +003C  ORIGINAL cmp r8, #1        | COMPILED cmp r7, #1
+  +0040  ORIGINAL sub r6, r0, r7    | COMPILED sub r6, r0, r5
+  +0054  ORIGINAL strh r0, [r5, #4] | COMPILED strh r0, [r4, #4]
+  +0058  ORIGINAL ldrh r1, [r5, #4] | COMPILED ldrh r1, [r4, #4]
+  +0064  ORIGINAL mov r1, r4        | COMPILED mov r1, r8
+  +006C  ORIGINAL str r0, [r5]      | COMPILED str r0, [r4]
+  +0070  ORIGINAL mov r0, r5        | COMPILED mov r0, r4
+  +0074  ORIGINAL strh r7, [r5, #6] | COMPILED strh r5, [r4, #6]
+
+The parameter rotation is heapId/kind/size between r4/r5/r6/r7/r8; seven
+spellings of the C (named locals for the bank pointer and the height, their
+declaration order, reading bank->unk_04 into a u16 local, if/else versus a
+ternary for the height) all land on the same permutation.
+
+Relocations, six: sub_02030734 resolves label x1013, sub_02033C00 label x20,
+_div_by_zero_check (0x0209C2B0, MSL/runtime.a) label x183 and the __FILE__
+string s_clact_c string x1; the two open sites are
+  sub_02034520 -> unresolved: 02034520 (arm, from header) has no witness outside 02034558..020345DC
+  sub_020345F8 -> unresolved: 020345F8 (arm, from header) has no witness outside 02034558..020345DC
+The first is the permanent one: src/pending/sub_02034520.c is itself capped at
+MATCH because its only ABS32 (the flag table g_FlagTable at 0x020A07C8) has no
+witness outside its own range, and a MATCH entry can never be a `matched`
+witness.
+
+Correction to the earlier note: the div helper called at +0x60 is 0x0209C2B0 =
+_div_by_zero_check, not _u32_div_f (0x02091268 is not a function at all).
+
+Next attempt: find a second reference to g_FlagTable (0x020A07C8) anywhere in
+the image before spending more time on the register permutation.

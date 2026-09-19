@@ -61,3 +61,33 @@ first temporary at r3 and leaves r0 free after the OS_DisableInterrupts call;
 every spelling tried here starts it at r0.  A source shape that keeps one more
 value live across the interrupt pair would shift the file up by one register
 and close the function with no other change.
+
+======================================================================
+WAVE r7 pair 11 (and its chain into pair 3), 2026-09-19
+======================================================================
+
+func_02050A70 itself is now transcribed and parked: src/pending/
+func_02050A70.c, status MATCH, all 164 concrete bytes correct, packet
+pkt_02050A70.  Its only two unresolved sites are the `bl 0x02050B14` pair, and
+this function holds the ONLY two branches to 0x02050B14 anywhere in the image,
+so `label` has no witness for it and no cut frees it:
+
+    +0050 PC24 func_02050B14 -> unresolved: 02050B14 (arm, from header) has
+                                no witness outside 02050A70..02050B14
+    +008C PC24 func_02050B14 -> unresolved: (same)
+    +00A0 ABS32 g_02146A84  -> 02146A84 [literal x5, e.g. 02050B7C]
+
+So the chain row above is a wall for two waves running: 0x02050B14 is the
+near miss written up at the top of this file (44 differing bytes, one-register
+allocator shift, no source reaches it), and until it has a shard entry both
+`bl` sites stay wildcarded.  The pair this blocks is:
+
+  * pair 11: park 0x0200567C (src/pending/func_0200567C.c) - its single
+    unresolved site is func_02050A70, which cannot be filed EXACT.
+  * pair 3, transitively: park 0x02005230 (src/pending/func_02005230.c) waits
+    on 0x0200567C, which waits on 0x02050A70, which waits on 0x02050B14.
+
+Also measured while transcribing (useful for whoever closes 0x02050B14): the
+0x02050A70 counter is `int`, not `u32` - the loop back edge is `blt`, which is
+the only byte that separates the two spellings.
+

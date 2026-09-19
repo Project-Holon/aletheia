@@ -46,3 +46,33 @@ void sub_0200E3E8(u8 *bits, int id, u32 value)
         value >>= 1;
     }
 }
+
+Addendum, wave r6 (lane small-1): the loop shape, 90 -> 88 bytes
+================================================================
+
+The C copied above compiles to 90 bytes against the image's 86.  Two changes
+take it to 88 and fix the whole wrapper (the +0000..+0012 prologue now matches
+instruction for instruction):
+
+  * the loop must be `while (n != 0) { ...; value >>= 1; n--; }` with `n`
+    unsigned.  A `for (i = 0; i < n; i++)` makes mwcc count UP with a signed
+    pre-test (`cmp r1, #0; ble`, `adds r6, r6, #1; cmp r6, r1; blt`); the image
+    counts DOWN (`subs r0, r0, #1; bne`) behind an equality guard
+    (`cmp r0, #0; beq`), which is what a `!= 0` loop gives.
+  * `byte` must be declared BEFORE `b` (`u32 byte = bit >> 3; u32 b = bit & 7;`)
+    or the two locals take each other's registers and nothing after +0002
+    lines up.
+
+What is left is a pure six-register permutation inside the loop: the image has
+n=r0, the mask constant 7=r1, byte=r2, b=r3, scratch=r6; the compiled object
+has n=r2, byte=r3, b=r6, the constant in r0 and the scratch in r1.  Same
+instruction count, same kinds, every operand shifted.  The five spellings tried
+on top of the 88-byte version - `u32` vs `int` for n and b, swapping the
+declaration order of bits/id/value, spelling the mask as `(u8) ~(1u << b)` vs
+`(u8)(0xFF ^ (1u << b))` - all leave the permutation unchanged.
+
+Note that this function can never be more than MATCH* anyway: both calls go to
+0x02167380/0x02167358, which sit in the ov009/ov010 overlap with no `func_`
+label in either listing, so neither site can be attested at any spelling
+(see the sub_0200E3A4 header).  The bytes are the only open question, and they
+are 2 bytes and one register permutation from done.

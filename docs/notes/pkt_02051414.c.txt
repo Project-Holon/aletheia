@@ -137,3 +137,24 @@ void func_02051414(u8 *a0)
     func_0206DB80();
 }
 
+
+======================================================================
+WAVE r7 pair 12, 2026-09-19: re-measured, still a wall
+======================================================================
+
+The C at the bottom of this file (the closest spelling) recompiles as: 220
+bytes compiled against 224 in the image, 149 concrete bytes differing, and
+the same two sites unresolved that this note names:
+
+    +0098 PC24 func_020526A8 -> unresolved: 020526A8 (arm, from header) has
+                                no witness outside 02051414..020514F0
+    +00CC ABS32 g_020A159C  -> unresolved: 020A159C (data, from header) has
+                                no witness outside 02051414..020514F0
+
+Both are confirmed still true this wave: func_020526A8 is in no shard and has
+no branch outside this range, and the pool word for 0x020A159C still has
+exactly one occurrence image-wide, inside the compared range.  The pair is
+therefore a wall twice over - the body is 149 bytes out AND the blocker could
+not be EXACT even if the body were closed.  The park src/pending/
+func_02051534.c stays parked (MATCH, single unresolved site 02051414,
+unchanged), and no source was filed for the blocker.

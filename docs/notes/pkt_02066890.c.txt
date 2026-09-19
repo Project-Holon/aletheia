@@ -176,3 +176,52 @@ void func_02066934(struct Rec02066934 *recs, u32 n, u32 cb)
         recs++;
     } while (i < n);
 }
+
+==============================================================================
+WAVE r7: func_02066934 is EXACT, not a DIFF - the nine stores write ZERO
+==============================================================================
+
+Filed 2026-09-19 as src/matched/func_02066934.c (packet pkt_02066890,
+dsi/1.1p1 -O4,p -proc arm946e, arm, 100 bytes, EXACT; gate
+`manifest --verify --shard pkt_02066890` twice, 0 rewritten the second time).
+The DIFF body above and the seventeen-byte register residue it records are
+superseded by this section and by docs/notes/func_02066934.c.txt.
+
+What the bytes say, and what the "copy" is
+------------------------------------------
+
+    02066950  mov r4, r5          ; r5 is the counter and holds 0 here
+    02066954  mov r0, r7          <- the loop's back edge (`blo 0x02066954`)
+    ...
+    0206698C  blo 0x02066954
+
+The `mov r4, r5` that feeds every one of the nine `str r4, [r7, #imm]` sits at
+0x02066950, OUTSIDE the back edge: it is in the preheader, executed once,
+while r5 is still the counter's zero.  So the stored value never changes and
+the nine words are cleared to zero; r4 is mwcc rematerialising the constant 0
+off the known-zero counter register.  Reading it as "the record's own loop
+index" (`v = i++`) puts that copy back inside the loop and is exactly the
+17-byte residue: the stores then disagree on every register.
+
+The C, both scheduling points measured
+--------------------------------------
+
+    u32 i = 0;                       /* BEFORE the three bank stores */
+    g_02148B20.cb = cb; g_02148B20.recs = recs; g_02148B20.count = n;
+    if (n == 0) return;
+    do {
+        func_020640B0(recs);
+        recs->unk_0c = 0; ... recs->unk_2c = 0;   /* nine plain zero stores */
+        recs++;
+        i++;
+    } while (i < n);
+
+  * initialising `i` before the bank stores is worth 12 bytes: after the
+    `if (n == 0) return;` the `mov r5, #0` is emitted after the `popeq` and
+    three instructions move.
+  * the nine stores as plain `0` literals: a named zero local is
+    byte-identical, so the constant is the point, not the local.
+
+What the pair paid: this function is the single unresolved site of
+src/pending/func_0204C660.c (PC24 at +0x0054), promoted in the same wave to
+src/matched/func_0204C660.c (EXACT, packet pkt_0204C060), C untouched.

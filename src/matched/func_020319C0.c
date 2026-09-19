@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
+ *           every relocation site resolves and match.py one reports EXACT*.
+ * status:   EXACT*
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020319C0.c \\

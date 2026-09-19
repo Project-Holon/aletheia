@@ -7,6 +7,78 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "func_02057AB8",
+   "address": "0x02057AB8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02057AB8.c",
+   "compiler": "dsi/../1.2/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm946e -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02057B10",
+   "address": "0x02057B10",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02057B10.c",
+   "compiler": "dsi/../1.2/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm946e -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02057E68",
+   "address": "0x02057E68",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02057E68.c",
+   "compiler": "dsi/../1.2/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm946e -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02057EF8",
+   "address": "0x02057EF8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02057EF8.c",
+   "compiler": "dsi/../1.2/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm946e -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02058180",
+   "address": "0x02058180",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02058180.c",
+   "compiler": "dsi/../1.2/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm946e -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02058204",
+   "address": "0x02058204",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02058204.c",
+   "compiler": "dsi/../1.2/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm946e -lang c99",
+   "status": "EXACT*"
+  },
+  {
    "name": "func_02058300",
    "address": "0x02058300",
    "kind": "game",

@@ -1,0 +1,38 @@
+func_02010AC4 -- DIFF at 2 bytes: a literal-pool slot permutation
+======================================================================
+
+Compiled 212 bytes = the original's extent, and exactly two concrete bytes
+differ, both of them pool-slot operands of case 3's call:
+
+  +00B0  ORIGINAL  ldr r0, [pc, #0x10]   | COMPILED  ldr r0, [pc, #0x1c]
+  +00B2  ORIGINAL  ldr r1, [pc, #0x1c]   | COMPILED  ldr r1, [pc, #0x18]
+
+The image's pool is, in slot order,
+  w0 0x021D6338   w1 0x00000073   w2 0x0000007B   w3 0x021DA9A8   w4 0x021D654C
+i.e. case 3's small argument took slot 1, before case 0's small argument took
+slot 2, even though case 0's body is emitted first.  This C gets the natural
+first-reference order (w1 0x7B, w4 0x73) and so permutes the last two loads.
+Everything else -- the four-case dense halfword switch, the bhi default
+returning 1, the shared "movs r0,#0; pop" epilogue every arm branches to, the
+|| in case 3, and all five non-pool relocation sites -- is byte-identical.
+
+Two structural notes that were load-bearing:
+  * the switch arms must `break` and the function must end with one
+    `return 0`: spelling `return 0` inside each arm gives each arm its own
+    epilogue and costs 36 bytes;
+  * the two small first arguments (0x7B, 0x73) are *pooled* in the image
+    (ldr r0,[pc,#0x88] / ldr r0,[pc,#0x10]) where a plain 0x7b literal is
+    materialised with movs; declaring them as symbols at 0x0000007B /
+    0x00000073 reproduces the instruction and the pool word.
+
+Parked at MATCH regardless of those two bytes: five ABS32 sites name addresses
+whose only pool word in the image is this function's own --
+  g_02010B84 -> unresolved: 021D6338 (data, from header) has no witness outside 02010AC4..02010B98
+  g_0000007B -> unresolved: 0000007B (data, from header) has no witness outside 02010AC4..02010B98
+  g_02010B90 -> unresolved: 021DA9A8 (data, from header) has no witness outside 02010AC4..02010B98
+  g_02010B94 -> unresolved: 021D654C (data, from header) has no witness outside 02010AC4..02010B98
+  g_00000073 -> unresolved: 00000073 (data, from header) has no witness outside 02010AC4..02010B98
+
+Next attempt: reproduce the pool-slot order (case 3's constant before case 0's)
+-- try declaring the two low symbols in the opposite order, or splitting the
+case bodies behind explicit gotos -- and then file the row as MATCH*.

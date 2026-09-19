@@ -1,0 +1,93 @@
+====================================================================
+func_0202F1B4 @ 0x0202F1B4 (194 code bytes + 4-byte pool word, Thumb,
+                           pkt_0202F1B4)
+lane small-4 of wave r6 -- STATUS: DIFF (whole body transcribed)
+====================================================================
+
+`match.py show` gives the extent 0x0202F1B4..0x0202F27C, 200 bytes; the pool
+word at 0x0202F278 is 0x00007532, so the code is 194 bytes.
+
+Compiled: 176 bytes, 13 relocation sites, 12 resolved (label or matched);
+`+0052 func_0202F47C` stays unresolved (its only branch image-wide is the
+call in case 0).  129 of 194 bytes differ.
+
+THE RESIDUE IS THE PARAMETER ALLOCATION AT THE HEAD, NOT THE ARMS.  The
+jump table, all seven arm bodies, the two `sub sp`-relative tail calls and
+the bhi-to-tail default all come out, but the frame and the register
+assignment do not:
+
+  +0002  ORIG  sub sp, #8               | COMP  (no sub sp; the pushed r3
+  +0004  ORIG  str r1, [sp]             | COMP      slot is the only local)
+  +0006  ORIG  adds r4, r0, #0          | COMP  adds r4, r0, #0
+  +0008  ORIG  adds r5, r2, #0          | COMP  adds r5, r1, #0
+  +000A  ORIG  adds r6, r3, #0          | COMP  adds r6, r2, #0
+  +000C  ORIG  ldr r7, [sp, #0x20]      | COMP  adds r7, r3, #0
+  +000E  ORIG  bl #0x2017dbc            | COMP  bl #0x2017dbc
+  +0012  ORIG  str r0, [sp, #4]         | COMP  str r0, [sp]
+  +0014  ORIG  ldr r0, [sp]             | COMP  cmp r5, #6
+
+The original spills the switch selector (parameter 1, r1) to [sp] BEFORE the
+func_02017DBC call and gives the four callee-saved registers to a/c/d/e
+(r4/r5/r6/r7).  dsi/1.1p1 instead keeps parameter 1 in r5, gives r4/r6/r7 to
+a/c/d, and re-loads the fifth parameter from its incoming stack slot in every
+arm that uses it (`ldr r2, [sp, #0x18]` three times), which costs two words
+of frame and 18 bytes overall.  Both choices keep five values alive across
+the call with only four callee-saved registers, so it is a spill-cost tie
+broken differently.
+
+The C that produces this residue:
+
+    void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e)
+    {
+        u32 h = func_02017DBC(a);
+
+        switch (b) {
+        case 0:
+            func_0202F2F4(a, 0);
+            func_0202F30C(a, d, 1);
+            func_0202F41C(a, c, e);
+        both:
+            func_0202F464(a);
+        last:
+            func_0202F47C(a);
+            break;
+        case 1:
+            func_0202F30C(a, 0x7532, 1);
+            goto both;
+        case 2:
+            if (func_02018488(a, c) != 1) func_0202F3AC(a, 1);
+            func_0202F30C(a, d, 1);
+            func_0202F41C(a, c, e);
+            goto last;
+        case 3:
+        case 4:
+            break;
+        case 5:
+            func_0202F30C(a, d, 0);
+            func_0202F41C(a, c, e);
+            goto last;
+        case 6:
+            func_0202F30C(a, d, 1);
+            break;
+        }
+        func_02017DE4(a, h);
+    }
+
+(`case 3/4` are the table entries that point straight at the tail, the othe
+empty arms; the pool word 0x7532 is a plain constant, not an address.)
+
+RULED OUT / MEASURED, each at -O4,p -proc arm946e -thumb:
+  * `u32 m = b;` + `switch (m)` (the obvious way to make the selector a
+    local): identical output, the copy is folded away.
+  * `u32 h;` declared and assigned in a separate statement: identical.
+  * `sub sp, #8` is NOT a front-end tell here: ../1.2/sp2 on the same source
+    gives 196 bytes and also keeps parameter 1 in r5 (`sub sp, #4`), while the
+    whole 165-byte diff shows a different dispatch (`add r1, pc` + `bx r1`).
+    So the row is a 1.1p1 row and the difference is the allocator's spill
+    choice.
+
+NEXT ATTEMPT, one line: force parameter 1's live range to span the
+func_02017DBC call in a way the allocator cannot satisfy by re-loading the
+incoming fifth-parameter slot -- the original spends a store on it, so look
+for a spelling in which the selector is read after the call through a
+separate named local that also survives to the tail.

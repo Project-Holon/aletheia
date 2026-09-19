@@ -1,0 +1,47 @@
+/* pkt_02032CD0.c.txt -- 0x02032CD0, oversized row, not attempted (lane r6 small-2) */
+
+THE ROW'S SIZE IN THE LANE TABLE IS WRONG, AND THAT IS THE WHOLE FINDING
+
+  lane table:  0x02032CD0 | code 68 | extent 68 | arm
+  worklist:    code 68, size 1220, extent 1236, end 0x02033194, one function
+  match.py show: arm9 02032CD0..020331A4 (1236 bytes, ARM)
+
+Both numbers come out of layout/worklist.json, which carries `code` and
+`size` as separate fields for this entry (68 against 1220).  The 68 is the
+`code` field, and the lane cut used it, so a 1.2 KB state machine was filed
+as a small-band row.  `show` and `size` agree: this is a 1220-byte function
+with its pool, and the next function starts at 0x020331A4.
+
+WHAT IT IS (read, not transcribed)
+
+  * prologue: push {r3, r4, r5, r6, r7, r8, sb, sl, lr}; sub sp, sp, #0x14
+    -- sb = a0 (the state object), r8 = a1 (the out parameter), r4, r5, r6,
+    r7, sl hold constants and a pooled address, so the first compile's
+    register story depends entirely on declaration order.
+  * a 12-case PC-relative dispatch on the byte at sb+0x18:
+      cmp r0, #0xb ; addls pc, pc, r0, lsl #2 ; b default (0x02033188)
+      case entries at 0x02032D08..0x02032D34, one `b` each, bodies from
+      0x02032D38 to 0x02033184.
+  * a shared `mov r0,#0 / add sp,#0x14 / pop {...pc}` epilogue at 0x02033188.
+  * four pool words at 0x02033194..0x020331A4: 0x02146994, 0x020A7848,
+    0x0000072A and 0x020A7888.
+  * every body is a straight-line run of calls (0x02033BFC, 0x0203331C,
+    0x02032A9C, 0x02034714, 0x020337B8, 0x02033BAC, 0x02032C84, 0x020328E0,
+    0x02032930, 0x020332FC, 0x0203335C, 0x020333F8, 0x02033BF0) with early
+    exits through the shared epilogue.
+
+VERDICT: not attempted, no compile run, so this file records a size judgment
+rather than a byte difference.  The row is 20% past the 1 KB line the wave
+rules draw, and a whole-body transcription is the *prerequisite* for even the
+first compile ("a partial body cannot be judged"), so spending the lane's
+budget here would have bought zero verdicts elsewhere.  The other 23 rows of
+this lane were all taken to a verdict; this one is handed on with the size
+correction, which is the part a next agent cannot recover from the lane table.
+
+NEXT ATTEMPT, CONCRETELY: transcribe 0x02032CD0..0x020331A4 in address order
+as ONE function, in the case order the jump table gives (case bodies in
+address order, the default last), with `sb`/`r8` as the two parameters and
+the +0x18 state byte selected by a dense `switch`.  Expect a first compile of
+1200+ bytes to differ on the register permutation and the per-arm zero
+materialisation; the declaration-order and hoisted-zero levers in
+docs/AGENT-BRIEF.md section "Levers" are the first things to vary.

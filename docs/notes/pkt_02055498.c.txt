@@ -212,3 +212,730 @@ rather than do.  All three rows' call sides are clean (7, 3 and 3 distinct
 `bl` targets, every one `label`-attested outside the row; the pool words are
 hardware addresses spelled as integer constants and carry no relocation), so
 the tree is the only thing standing between these rows and an EXACT entry.
+
+==========================================================================
+APPENDED, wave r6 lane rig-b: the 1.2 pin is in force, all four rows taken to
+a verdict
+==========================================================================
+
+Lane rig-b worked every row of scratch/lanes_r6_rig-b.md under the per-file pin
+docs/FRONTEND-PINS.md authorises for this family (`compiler: ../1.2/sp2`,
+`flags: -O4,p -proc arm7tdmi` - the packet's own proc hint from
+layout/proc_hints.txt; `-proc arm946e` was also measured and is NOT the right
+value for these bodies, see row 2 below).  Result: one EXACT, three DIFF.  The
+closest body for each DIFF row is kept at the end of this note, and no shard
+entry was written for this packet because a DIFF has no home in
+src/matched/ and none of the three is a MATCH.
+
+The fourth row of the lane, 0x020583CC (packet pkt_020583CC), is EXACT and
+filed as src/matched/func_020583CC.c: 80 bytes, 0 relocation sites,
+`python tools/match.py one --src src/matched/func_020583CC.c --func
+func_020583CC --addr 0x020583CC --arm --cc ../1.2/sp2` -> EXACT, and the same
+body under the pinned `--cc 1.1p1` is 72 bytes / 47 bytes differing, exactly as
+section 3 of the older part of this note measured.  That address is the lane's
+only new manifest address.
+
+1. CORRECTION: three of the six "register blx" rows do not have one
+
+docs/FRONTEND-PINS.md (and the earlier part of this note, section 5) lists
+0x02055498, 0x02055B80 and 0x02055FD4 among the rows that carry a register
+`blx rN` beside a `pop {..., lr}` return.  They do not.  A raw word scan of
+every code byte of the three rows (ARM BLX-register encoding 0xE12FFF3N,
+scan of 1752 + 1088 + 1080 bytes) finds 12 + 5 + 5 `bl` and zero `blx`:
+
+    0x02055498  1752 B, 12 bl, 0 blx   (indirect-call-free)
+    0x02055B80  1088 B,  5 bl, 0 blx
+    0x02055FD4  1080 B,  5 bl, 0 blx
+
+The rows that really pair blx with a pop-lr return are 0x0205429C, 0x02054718
+and 0x02054A68 (blx r3 at 0x02054344 / 0x020547C0 / 0x02054B10, blx r4 at
+0x020546E4 / 0x02054A3C / 0x02054D8C, quoted in docs/notes/pkt_0205429C.c.txt).
+This packet's rows carry the SECOND tell of the same table instead - the
+64-bit constant materialised into a register - and the ARMv4T epilogue:
+
+    0x02055498  mov r3,#0x800 + adds r1,r2,r3   (0x0205551C/0x02055520)
+                umull+mla+mla 64x64             (0x02055568/6C/74)
+    0x02055B80  mov r8,#0x800 + adds r2,r3,r8   (0x02055C04/08)
+                mov r3,#0x800 + adds r2,lr,r3   (0x02055C5C/64)
+    0x02055FD4  mov r0,#0x800 + adds r7,r7,r0   (0x02056068/70)
+                umull+mla+mla 64x64             (0x02056094/98/9C)
+
+and the two-instruction return `pop {...}; bx lr` (twice in each row: once
+predicated, at 0x02055504 / 0x02055BEC / 0x0205605C, once at the end).  The pin
+stands on that tell, which is why the three rows are pinnable at all - but the
+"blx" half of the family evidence should be corrected to the three rows named
+above.  Probe re-run this wave, one probe TU compiled at -O4,p -proc arm946e,
+differing only in the binary:
+
+    dsi/1.1p1    e29e0b02 adds r0, lr, #2048      + pop {r3, pc}
+    ../1.2/sp2   e3a00b02 mov r0, #2048           + stmfd sp!, {lr}
+                 e09e0000 adds r0, lr, r0           sub sp, sp, #4 ... add sp, sp, #4
+                                                    ldmfd sp!, {lr}; bx lr
+
+so the immediate form and the register form are different bytes (as this note
+already recorded) and the return through lr is 1.2-only at arm946e.
+
+2. THE PROC HINT IS PART OF THE PIN, AND IT IS arm7tdmi
+
+layout/proc_hints.txt gives pkt_02055498 `arm7tdmi`, and the bytes agree: at
+`-proc arm946e` the 1.2 front end builds 0x02055B80 with a nine-register push
+(`push {r4-r8, sb, sl, fp, lr}`) and an 0x3c frame against the original's eight
+registers and 0x40 frame, and 0x02055FD4 with an 0x4c frame against 0x3c.  At
+`-proc arm7tdmi` the prologue of 0x02055B80 matches instruction for instruction
+(`push {r4, r5, r6, r7, r8, sb, sl, lr}` / `sub sp, sp, #0x40`) and that of
+0x02055498 matches the whole frame setup (`push {r4, r5, r6, r7, r8, sb, sl,
+lr}` / `sub sp, sp, #0x88`), so arm7tdmi is the value to keep in the header's
+`flags:` line.  The 1.2 tree's constant materialisation does not depend on
+-proc (this note's section 2), so the two decisions are independent.
+
+3. THE RESIDUES, ROW BY ROW
+
+Every number below is `match.py one --cc ../1.2/sp2 --flags "-O4,p -proc
+arm7tdmi" --diff` on the body printed at the end of this note.  A residual
+difference of this size (72-86 percent of the slots) is not a C error: the call
+side of each row resolves completely, every relocation is `label`- or
+`literal`-attested, and the instruction *kernels* agree (the s64 pre-switch
+block, the umull/mla 64x64 expansion of the arms, the smull/rsb/adds/adc/lsr/
+orr FXMUL quartet, the sin/cos table pair load, the 5-5-5 pack).  What differs
+is global register assignment and scheduling from the first prologue slot on.
+
+  0x02055B80  1088 code B (1088 + 20 pool against a 1108 extent)
+    compiled 1100 (1080 code + 20 pool), 900 of 1100 concrete bytes differ
+    first difference 0x02055B88  original `mov r6, r1` | ours `mov r7, r0`
+    (argument-move order), then 0x02055B8C `ldrh r1, [r6, #0x2e]` | `mov r6, r1`
+    longest identical run: 8 instructions from 0x02055CFC (the D arm's position
+    build); 8 of the first 70 slots identical, none in the middle two quarters
+    ruled out by compile: -proc arm946e (nine-register push, 0x3c frame, 898
+    differing bytes: same class); keeping the system pointer in a live local
+    (costs the fp push, 1.2 and 1.1 both); RESOBJ spelled per statement in the
+    arms (no better, no worse: 892 vs 891); `(b5 + 1) * b0` operand order to
+    move the b0 extract after the b5 extract (mwcc still folds the +1 before
+    extracting b0: 901)
+  0x02055FD4  1080 code B (1080 + 20 pool against a 1164 extent)
+    compiled 1136 (1116 code + 20 pool), 948 of 1136 concrete bytes differ
+    first difference 0x02055FD8  original `sub sp, sp, #0x3c` | ours `#0x4c`
+    (twelve bytes of extra frame: this body keeps six scalars live where the
+    original keeps fewer); the push itself matches (nine registers)
+    longest identical run: 7 instructions from 0x02056178
+    ruled out by compile: -proc arm946e (0x4c frame survives, and it breaks the
+    prologue's eight/nine-register split)
+  0x02055498  1752 code B (1752 + 16 pool against a 1768 extent)
+    compiled 1872 (1856 code + 16 pool), 1610 of 1872 concrete bytes differ,
+    all 15 relocation sites resolved (`label`: VEC_CrossProduct x65,
+    VEC_Normalize x190, MI_Copy36B x47, MTX_MultVec33 x17, MTX_MultVec43 x35,
+    G3_MultMtx43 x95, func_020565C8 x15)
+    first difference 0x020554A0  original `mov r6, r1` | ours `mov r8, r0`
+    longest identical run: 17 instructions from 0x02055660 - the D arm's
+    all-zero guard chain (`cmp`/`bne` x3) is byte-exact, which fixes the arms'
+    control flow as right
+    size: 104 bytes (26 instructions) LONG, and the extra is in the arms'
+    duplicated per-component RESOBJ re-derivation (the variant that keeps one
+    `res` live is shorter and was the 1.1p1 measurement in the older part of
+    this note: 1700 vs 1756)
+    ruled out by compile: -proc arm946e at 1.2 (this row's own history: the
+    older section measured 1828 there)
+
+4. WHAT THE NEXT ATTEMPT SHOULD TRY FIRST, PER ROW
+
+  0x02055B80: make the original's `ldrsh r0, [r4, #0x30]` land in the PROLOGUE
+    (0x02055BC8, before the `addeq`/`popeq` early return).  Everything else in
+    the prologue is a register-name permutation of a schedule this body already
+    reproduces; mwcc hoists that one load for the original and not for ours, so
+    try reading `*(s16*)(res + 0x30)` into a named local declared BEFORE the
+    0x040004A4 store, and `w` with it.
+  0x02055FD4: the frame gap is the whole story (0x4c vs 0x3c).  `t`, `c`, `d`
+    and `kind` are read once in the original's prologue, so keep all four as
+    named locals and drop every other local that can be spelled as an
+    expression; the twelve bytes should come back.
+  0x02055498: cut the 104-byte overshoot first - bind the resource chain to one
+    `res` local inside the arms (do not spell RESOBJ per component) and let the
+    `if (s < 0) s = -s;` abs stay exactly where it is; the 17-instruction
+    identical run at 0x02055660 shows the arms' control flow is already right,
+    so only the per-arm allocation is left.
+
+--------------------------------------------------------------------------
+THE CLOSEST BODY FOR func_02055B80  (0x02055B80, 1088 code bytes)
+(kept here because a DIFF has no home in src/matched/; the file was
+deleted from the tree after this copy was taken)
+--------------------------------------------------------------------------
+
+/*
+ * function: func_02055B80
+ * address:  0x02055B80
+ * packet:   pkt_02055498
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   tbl_020A1B38    0x020A1B38  data
+ *   MTX_MultVec43   0x0207BC08  arm
+ *   G3_MultMtx43    0x0207D918  arm
+ *   func_020565C8   0x020565C8  arm
+ *
+ * Middle row of pkt_02055498, the 3D rig family (0x0205429C..0x020584E0).
+ * Same source shape as its neighbour 0x02055FD4 (which see): the u16 at q+0x2e
+ * is a 5/5/6 bitfield (b0, b5, b10), n = (b0 * (b5 + 1)) >> 5 is written into
+ * the low half of the 0x040004A4 word, and n == 0 returns early - the EQ comes
+ * from the `asrs` that computes n, so no cmp precedes the popeq.  Then
+ * w = *(s32*)(q+0x30), v5 = FXMUL(w, *(s16*)(res+0x30)), w64 = (s64)w, and a
+ * switch on the 3-bit field at bits 28..30 of *(u32*)(res+0x48) scales v5/w by
+ * t = *(s16*)(q+0x34).  Bit 23 of *(u32*)res picks the two arms: D builds
+ * pos = (q+8/0xc/0x10) + (q+0x38/0x3c/0x40) and E subtracts res+4/8/0xc from
+ * the same sum and additionally pushes res+4/8/0xc to 0x04000470; both then
+ * MTX_MultVec43 the position, build a 4x3 matrix whose 2x2 rotation block
+ * comes from the s16 sin/cos pair tbl_020A1B38[(*(u16*)(q+0x20)>>4)*2], scale
+ * it by v5/w, zero 0x04000454 and call G3_MultMtx43.  The common tail packs
+ * the 5-5-5 colour product of *(u16*)(q+0x36) and *(u16*)(sys+0x72) into
+ * 0x04000480 and calls func_020565C8(*(s16*)(sys+0x7c), *(s16*)(sys+0x7e), 0).
+ *
+ * FRONT END: pinned to ../1.2/sp2, see docs/FRONTEND-PINS.md (3D rig family,
+ * 0x0205429C..0x020584E0).  The pin is carried by the constant-materialisation
+ * tell, not by a register blx: this row contains NO register `blx rN` (raw
+ * word scan of all 1088 code bytes: 5 `bl` sites, 0 `blx`), but it does
+ * materialise 0x800 into a register and add it (`mov r8, #0x800` +
+ * `adds r2, r3, r8` at 0x02055C04/C08, `mov r3, #0x800` + `adds r2, lr, r3` at
+ * 0x02055C5C/C60), where every dsi build folds the same source to
+ * `adds rD, rS, #0x800`.  Its return is the ARMv4T pair
+ * `pop {r4,r5,r6,r7,r8,sb,sl,lr}; bx lr` (twice, the second predicated).
+ * Probe re-run this wave, same TU at -O4,p -proc arm946e: dsi/1.1p1 gives
+ * `e29e0b02 adds r0, lr, #2048` with `pop {r3, pc}`; ../1.2/sp2 gives
+ * `e3a00b02 mov r0, #2048` + `e09e0000 adds r0, lr, r0` with the two
+ * instruction return.  So the row is unreachable under the default pin and
+ * reachable under this one.
+ *
+ * Literal pool words 0x040004A4/A1B38/04000454/04000470/04000480: the four
+ * hardware addresses are spelled as integer constants and carry no relocation,
+ * tbl_020A1B38 is an ABS32 attested `literal` (x118 witnesses image-wide).
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02055B80.c \
+ *       --func func_02055B80 --addr 0x02055B80 --arm --cc ../1.2/sp2 --diff
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+typedef signed long long s64;
+
+typedef struct { s32 x, y, z; } VecFx32;
+typedef struct { s32 m[12]; } MtxFx43;
+
+typedef struct { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; } Q2E;           /* q+0x2e   */
+typedef struct { u32 f0 : 28; u32 kind : 3; u32 f31 : 1; } Res48;      /* res+0x48 */
+typedef struct { u32 f0 : 23; u32 flag : 1; u32 f24 : 8; } Res00;      /* res+0x00 */
+
+extern s16 tbl_020A1B38[];
+extern void MTX_MultVec43(const void *vec, const void *mtx, void *dst);
+extern void G3_MultMtx43(const void *mtx);
+extern void func_020565C8(s32 a, s32 b, s32 c);
+
+#define SYS     (*(u32 **)((u8 *)self + 0x40))
+#define RESOBJ  ((u8 *)*(u32 *)((u8 *)SYS + 0x20))
+#define FXMUL(a, b) ((s32)((((s64)(a) * (b)) + 0x800) >> 12))
+
+void func_02055B80(u32 *self, u8 *q)
+{
+    VecFx32 pos;
+    MtxFx43 m43;
+    u8 *res;
+    MtxFx43 *mtx;
+    Q2E *blk;
+    s32 n, w, v5, t;
+    s64 w64;
+
+    res = 0;
+    mtx = 0;
+    blk = (Q2E *)(q + 0x2e);
+
+    n = (s32)(((blk->b5 + 1) * blk->b0) >> 5);
+    res = (u8 *)*(u32 *)(*(u32 *)((u8 *)self + 0x40) + 0x20);
+    mtx = *(MtxFx43 **)((u8 *)self + 0x44);
+    *(volatile u32 *)0x040004A4 = (*(u32 *)((u8 *)self + 0x3c) | 0xc0) |
+                                  (((u32)blk->b10) << 24) | ((u32)n << 16);
+    (void)*(volatile u32 *)0x040004A4;
+    if (n == 0)
+        return;
+
+    w = *(s32 *)(q + 0x30);
+    v5 = FXMUL(w, *(s16 *)(res + 0x30));
+    w64 = (s64)w;
+
+    switch (((Res48 *)(res + 0x48))->kind) {
+    case 0:
+        t = *(s16 *)(q + 0x34);
+        v5 = FXMUL(v5, t);
+        w = (s32)FXMUL(w64, t);
+        break;
+    case 1:
+        t = *(s16 *)(q + 0x34);
+        v5 = FXMUL(v5, t);
+        break;
+    case 2:
+        t = *(s16 *)(q + 0x34);
+        w = (s32)FXMUL(w64, t);
+        break;
+    default:
+        break;
+    }
+
+    if (!((Res00 *)res)->flag) {
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40);
+        MTX_MultVec43(&pos, mtx, &pos);
+
+        t = (s32)((*(u16 *)(q + 0x20) >> 4) * 2);
+        m43.m[0] = FXMUL(tbl_020A1B38[t + 1], v5);
+        m43.m[1] = FXMUL(tbl_020A1B38[t], v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-tbl_020A1B38[t], w);
+        m43.m[4] = FXMUL(tbl_020A1B38[t + 1], w);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        G3_MultMtx43(&m43);
+    } else {
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38) - *(s32 *)(RESOBJ + 4);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c) - *(s32 *)(RESOBJ + 8);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40) - *(s32 *)(RESOBJ + 0xc);
+        MTX_MultVec43(&pos, mtx, &pos);
+
+        t = (s32)((*(u16 *)(q + 0x20) >> 4) * 2);
+        m43.m[0] = FXMUL(tbl_020A1B38[t + 1], v5);
+        m43.m[1] = FXMUL(tbl_020A1B38[t], v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-tbl_020A1B38[t], w);
+        m43.m[4] = FXMUL(tbl_020A1B38[t + 1], w);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 4);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 8);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 0xc);
+        G3_MultMtx43(&m43);
+    }
+
+    v5 = (s32)*(u16 *)(q + 0x36);
+    w = (s32)*(u16 *)((u8 *)SYS + 0x72);
+    *(volatile u32 *)0x04000480 = (u16)((((v5 & 0x1f) * (w & 0x1f)) >> 5) |
+                                        ((((v5 & 0x3e0) * (w & 0x3e0)) >> 0xf) << 5) |
+                                        ((((v5 & 0x7c00) * (w & 0x7c00)) >> 0x19) << 10));
+    func_020565C8(*(s16 *)((u8 *)SYS + 0x7c), *(s16 *)((u8 *)SYS + 0x7e), 0);
+}
+
+--------------------------------------------------------------------------
+THE CLOSEST BODY FOR func_02055FD4  (0x02055FD4, 1080 code bytes)
+(kept here because a DIFF has no home in src/matched/; the file was
+deleted from the tree after this copy was taken)
+--------------------------------------------------------------------------
+
+/*
+ * function: func_02055FD4
+ * address:  0x02055FD4
+ * packet:   pkt_02055498
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   tbl_020A1B38    0x020A1B38  data
+ *   MTX_MultVec43   0x0207BC08  arm
+ *   G3_MultMtx43    0x0207D918  arm
+ *   func_020565C8   0x020565C8  arm
+ *
+ * Third row of pkt_02055498, the 3D rig family (0x0205429C..0x020584E0), and
+ * the near-twin of 0x02055B80 (which see for the shared reading).  Differences
+ * measured in the original bytes:
+ *   - frame 0x3c, push {r4,r5,r6,r7,r8,sb,sl,fp,lr} (the twin is 0x40/8 regs);
+ *   - t = *(s16*)(q+0x34) is read ONCE in the prologue (0x02056034) and reused
+ *     by all three switch arms, where the twin re-reads it inside each arm;
+ *     c = *(u16*)(q+0x36) and d = *(u16*)(sys+0x72) are hoisted the same way;
+ *   - the switch dispatch is a cmp chain (0x0205607C `cmp r3,#0`,
+ *     0x020560C8 `cmp r3,#1`) because the kind field carries a u8 cast:
+ *     `lsl r2,r4,#1; lsr r2,r2,#0x1d; and r3,r2,#0xff`;
+ *   - the tail calls func_020565C8 with FOUR arguments
+ *     (*(s16*)(sys+0x78), *(s16*)(sys+0x7a), *(s16*)(res+0x50),
+ *     *(s16*)(res+0x52)) where the twin passes two and a zero.
+ *
+ * FRONT END: pinned ../1.2/sp2, see docs/FRONTEND-PINS.md (3D rig family).
+ * This row carries NO register `blx rN` (raw word scan of the 1080 code bytes:
+ * 5 `bl`, 0 `blx`); the pin rests on the constant-materialisation tell, as in
+ * the twin: `mov r0, #0x800` + `adds r7, r7, r0` at 0x02056068/70 (and the
+ * umull/mla 64x64 expansions at 0x02056094/98/9C), where every dsi build folds
+ * the same source to an immediate add, plus the ARMv4T return
+ * `pop {r4..sl, fp, lr}; bx lr`.
+ *
+ * Literal pool words 0x040004A4 / tbl_020A1B38 / 0x04000454 / 0x04000470 /
+ * 0x04000480 at 0x0205640C..0x0205641C.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02055FD4.c \
+ *       --func func_02055FD4 --addr 0x02055FD4 --arm --cc ../1.2/sp2 \
+ *       --flags "-O4,p -proc arm7tdmi"
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+typedef signed long long s64;
+
+typedef struct { s32 x, y, z; } VecFx32;
+typedef struct { s32 m[12]; } MtxFx43;
+
+typedef struct { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; } Q2E;           /* q+0x2e   */
+typedef struct { u32 f0 : 28; u32 kind : 3; u32 f31 : 1; } Res48;      /* res+0x48 */
+typedef struct { u32 f0 : 23; u32 flag : 1; u32 f24 : 8; } Res00;      /* res+0x00 */
+
+extern s16 tbl_020A1B38[];
+extern void MTX_MultVec43(const void *vec, const void *mtx, void *dst);
+extern void G3_MultMtx43(const void *mtx);
+extern void func_020565C8(s32 a, s32 b, s32 c, s32 d);
+
+#define SYS     (*(u32 **)((u8 *)self + 0x40))
+#define RESOBJ  ((u8 *)*(u32 *)((u8 *)SYS + 0x20))
+#define FXMUL(a, b) ((s32)((((s64)(a) * (b)) + 0x800) >> 12))
+
+void func_02055FD4(u32 *self, u8 *q)
+{
+    VecFx32 pos;
+    MtxFx43 m43;
+    u32 *sys;
+    u8 *res;
+    MtxFx43 *mtx;
+    Q2E *blk;
+    s32 n, w, v5, t;
+    s64 w64;
+    u32 kind, c, d;
+
+    sys = *(u32 **)((u8 *)self + 0x40);
+    res = (u8 *)*(u32 *)((u8 *)sys + 0x20);
+    blk = (Q2E *)(q + 0x2e);
+
+    n = (s32)((blk->b0 * (blk->b5 + 1)) >> 5);
+    mtx = *(MtxFx43 **)((u8 *)self + 0x44);
+    t = *(s16 *)(q + 0x34);
+    c = *(u16 *)(q + 0x36);
+    d = *(u16 *)((u8 *)sys + 0x72);
+    kind = (u32)(u8)((Res48 *)(res + 0x48))->kind;
+
+    *(volatile u32 *)0x040004A4 = (*(u32 *)((u8 *)self + 0x3c) | 0xc0) |
+                                  (((u32)blk->b10) << 24) | ((u32)n << 16);
+    (void)*(volatile u32 *)0x040004A4;
+    if (n == 0)
+        return;
+
+    w = *(s32 *)(q + 0x30);
+    v5 = FXMUL(w, *(s16 *)(res + 0x30));
+    w64 = (s64)w;
+
+    switch (kind) {
+    case 0:
+        v5 = FXMUL(v5, t);
+        w = (s32)FXMUL(w64, t);
+        break;
+    case 1:
+        v5 = FXMUL(v5, t);
+        break;
+    case 2:
+        w = (s32)FXMUL(w64, t);
+        break;
+    default:
+        break;
+    }
+
+    if (!((Res00 *)res)->flag) {
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40);
+        MTX_MultVec43(&pos, mtx, &pos);
+
+        t = (s32)((*(u16 *)(q + 0x20) >> 4) * 2);
+        m43.m[0] = FXMUL(tbl_020A1B38[t + 1], v5);
+        m43.m[1] = FXMUL(tbl_020A1B38[t], v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-tbl_020A1B38[t], w);
+        m43.m[4] = FXMUL(tbl_020A1B38[t + 1], w);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        G3_MultMtx43(&m43);
+    } else {
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38) - *(s32 *)(RESOBJ + 4);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c) - *(s32 *)(RESOBJ + 8);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40) - *(s32 *)(RESOBJ + 0xc);
+        MTX_MultVec43(&pos, mtx, &pos);
+
+        t = (s32)((*(u16 *)(q + 0x20) >> 4) * 2);
+        m43.m[0] = FXMUL(tbl_020A1B38[t + 1], v5);
+        m43.m[1] = FXMUL(tbl_020A1B38[t], v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-tbl_020A1B38[t], w);
+        m43.m[4] = FXMUL(tbl_020A1B38[t + 1], w);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 4);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 8);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 0xc);
+        G3_MultMtx43(&m43);
+    }
+
+    *(volatile u32 *)0x04000480 = (u16)((((c & 0x1f) * (d & 0x1f)) >> 5) |
+                                        ((((c & 0x3e0) * (d & 0x3e0)) >> 0xf) << 5) |
+                                        ((((c & 0x7c00) * (d & 0x7c00)) >> 0x19) << 10));
+    func_020565C8(*(s16 *)((u8 *)SYS + 0x78), *(s16 *)((u8 *)SYS + 0x7a),
+                  *(s16 *)(RESOBJ + 0x50), *(s16 *)(RESOBJ + 0x52));
+}
+
+--------------------------------------------------------------------------
+THE CLOSEST BODY FOR func_02055498  (0x02055498, 1752 code bytes)
+(kept here because a DIFF has no home in src/matched/; the file was
+deleted from the tree after this copy was taken)
+--------------------------------------------------------------------------
+
+/*
+ * function: func_02055498
+ * address:  0x02055498
+ * packet:   pkt_02055498
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   MTX_MultVec43   0x0207BC08  arm
+ *   MTX_MultVec33   0x0207B51C  arm
+ *   VEC_CrossProduct 0x0207CAE8 arm
+ *   VEC_Normalize   0x0207CCA4  arm
+ *   MI_Copy36B      0x02082B60  arm
+ *   G3_MultMtx43    0x0207D918  arm
+ *   func_020565C8   0x020565C8  arm
+ *
+ * Head row of pkt_02055498, the 3D rig family (0x0205429C..0x020584E0).
+ * Same source shape as the family's other rows: 5/5/6 bitfield at q+0x2e,
+ * n = (b0*(b5+1))>>5 into 0x040004A4 with an early return off the `asrs`, the
+ * 3-case switch on bits 28..30 of *(u32*)(res+0x48) scaling v5/w by
+ * *(s16*)(q+0x34), bit 23 of *(u32*)res picking the two arms, and the same
+ * 5-5-5 pack into 0x04000480.  Its arms carry the full billboard body:
+ * pos = (q+8/0xc/0x10) + (q+0x38/0x3c/0x40) (E arm subtracts res+4/8/0xc),
+ * vA = *(VecFx32*)(q+0x14), vB = (mtx->m[2], mtx->m[5], mtx->m[8]),
+ * VEC_CrossProduct, an all-zero exit, VEC_Normalize, MI_Copy36B,
+ * MTX_MultVec33, MTX_MultVec43, VEC_Normalize again, the
+ * s = |FXMUL(v0.z,-m[8]) + FXMUL(v0.x,-m[2]) + FXMUL(v0.y,-m[5])| sum and
+ * L = FXMUL(w, FXMUL(0x1000-s, k) + 0x1000), then the 4x3 matrix into
+ * sp+0x54 and G3_MultMtx43; E arm also pushes res+4/8/0xc to 0x04000470.
+ * Tail: func_020565C8(*(s16*)(sys+0x78), *(s16*)(sys+0x7a),
+ * *(s16*)(res+0x50), *(s16*)(res+0x52)).
+ *
+ * Body adapted from the 439-instruction transcription recorded in
+ * docs/notes/pkt_0205429C.c.txt (0x02054DB8, the same family, 1.1p1+arm7tdmi
+ * tuned); re-tuned here for the 1.2 pin and for this row's declaration order
+ * (whose stack layout the original fixes: v0 sp+0, pos sp+0xc, vA sp+0x18,
+ * vB sp+0x24, m33 sp+0x30, m43 sp+0x54, frame 0x88).
+ *
+ * FRONT END: pinned ../1.2/sp2, see docs/FRONTEND-PINS.md (3D rig family).
+ * No register `blx rN` in this row either (raw word scan of the 1752 code
+ * bytes: 12 `bl`, 0 `blx`); the pin rests on the constant-materialisation tell
+ * - `mov r3, #0x800` + `adds r1, r2, r3` at 0x0205551C/20 (and the umull/mla
+ * 64x64 expansion at 0x02055568/6C/74), where dsi/1.1p1 folds the same source
+ * to an immediate - and on the ARMv4T `pop {...lr}; bx lr` return.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02055498.c \
+ *       --func func_02055498 --addr 0x02055498 --arm --cc ../1.2/sp2 \
+ *       --flags "-O4,p -proc arm7tdmi"
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+typedef signed long long s64;
+
+typedef struct { s32 x, y, z; } VecFx32;
+typedef struct { s32 m[9]; } MtxFx33;
+typedef struct { s32 m[12]; } MtxFx43;
+
+typedef struct { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; } Q2E;           /* q+0x2e   */
+typedef struct { u32 f0 : 8; u32 k : 16; u32 f24 : 4; u32 kind : 3; u32 f31 : 1; } Res48; /* res+0x48 */
+typedef struct { u32 f0 : 23; u32 flag : 1; u32 f24 : 8; } Res00;      /* res+0x00 */
+
+extern void VEC_CrossProduct(const void *a, const void *b, void *out);
+extern void VEC_Normalize(const void *src, void *dst);
+extern void MTX_MultVec33(const void *vec, const void *mtx, void *dst);
+extern void MTX_MultVec43(const void *vec, const void *mtx, void *dst);
+extern void MI_Copy36B(const void *src, void *dst);
+extern void G3_MultMtx43(const void *mtx);
+extern void func_020565C8(s32 a, s32 b, s32 c, s32 d);
+
+#define SYS     (*(u32 **)((u8 *)self + 0x40))
+#define RESOBJ  ((u8 *)*(u32 *)((u8 *)SYS + 0x20))
+#define FXMUL(a, b) ((s32)((((s64)(a) * (b)) + 0x800) >> 12))
+
+void func_02055498(u32 *self, u8 *q)
+{
+    VecFx32 v0;
+    VecFx32 pos;
+    VecFx32 vA, vB;
+    MtxFx33 m33;
+    MtxFx43 m43;
+    MtxFx43 *mtx = *(MtxFx43 **)((u8 *)self + 0x44);
+    Q2E *blk = (Q2E *)(q + 0x2e);
+    s32 n = (s32)((blk->b0 * (blk->b5 + 1)) >> 5);
+    u32 w, v5, c, d;
+    s64 w64;
+    s32 t, s, L;
+
+    *(volatile u32 *)0x040004A4 = (*(u32 *)((u8 *)self + 0x3c) | 0xc0) |
+                                  (((u32)blk->b10) << 24) | ((u32)n << 16);
+    (void)*(volatile u32 *)0x040004A4;
+    if (n == 0)
+        return;
+
+    w = *(u32 *)(q + 0x30);
+    v5 = (u32)FXMUL(w, *(s16 *)(RESOBJ + 0x30));
+    w64 = (s64)(s32)w;
+
+    switch (((Res48 *)(RESOBJ + 0x48))->kind) {
+    case 0:
+        t = *(s16 *)(q + 0x34);
+        v5 = (u32)FXMUL(v5, t);
+        w = (u32)FXMUL(w64, t);
+        break;
+    case 1:
+        t = *(s16 *)(q + 0x34);
+        v5 = (u32)FXMUL(v5, t);
+        break;
+    case 2:
+        t = *(s16 *)(q + 0x34);
+        w = (u32)FXMUL(w64, t);
+        break;
+    default:
+        break;
+    }
+
+    if (!((Res00 *)RESOBJ)->flag) {
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40);
+        vA = *(VecFx32 *)(q + 0x14);
+        vB.x = mtx->m[2];
+        vB.y = mtx->m[5];
+        vB.z = mtx->m[8];
+        VEC_CrossProduct(&vA, &vB, &vA);
+        if (vA.x == 0 && vA.y == 0 && vA.z == 0)
+            return;
+        VEC_Normalize(&vA, &vA);
+        MI_Copy36B(mtx, &m33);
+        MTX_MultVec33(&vA, &m33, &vA);
+        MTX_MultVec43(&pos, mtx, &pos);
+        v0 = *(VecFx32 *)(q + 0x14);
+        VEC_Normalize(&v0, &v0);
+        s = FXMUL(v0.z, -mtx->m[8]) +
+            (FXMUL(v0.x, -mtx->m[2]) + FXMUL(v0.y, -mtx->m[5]));
+        if (s < 0)
+            s = -s;
+        L = FXMUL(w, FXMUL(0x1000 - s, ((Res48 *)(RESOBJ + 0x48))->k) + 0x1000);
+        m43.m[0] = FXMUL(vA.x, v5);
+        m43.m[1] = FXMUL(vA.y, v5);
+        m43.m[3] = FXMUL(-vA.y, L);
+        m43.m[4] = FXMUL(vA.x, L);
+        m43.m[2] = 0;
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        G3_MultMtx43(&m43);
+    } else {
+        pos.x = *(s32 *)(q + 8) - *(s32 *)(RESOBJ + 4) + *(s32 *)(q + 0x38);
+        pos.y = *(s32 *)(q + 0xc) - *(s32 *)(RESOBJ + 8) + *(s32 *)(q + 0x3c);
+        pos.z = *(s32 *)(q + 0x10) - *(s32 *)(RESOBJ + 0xc) + *(s32 *)(q + 0x40);
+        vA = *(VecFx32 *)(q + 0x14);
+        vB.x = mtx->m[2];
+        vB.y = mtx->m[5];
+        vB.z = mtx->m[8];
+        VEC_CrossProduct(&vA, &vB, &vA);
+        if (vA.x == 0 && vA.y == 0 && vA.z == 0)
+            return;
+        VEC_Normalize(&vA, &vA);
+        MI_Copy36B(mtx, &m33);
+        MTX_MultVec33(&vA, &m33, &vA);
+        MTX_MultVec43(&pos, mtx, &pos);
+        v0 = *(VecFx32 *)(q + 0x14);
+        VEC_Normalize(&v0, &v0);
+        s = FXMUL(v0.z, -mtx->m[8]) +
+            (FXMUL(v0.x, -mtx->m[2]) + FXMUL(v0.y, -mtx->m[5]));
+        if (s < 0)
+            s = -s;
+        L = FXMUL(w, FXMUL(0x1000 - s, ((Res48 *)(RESOBJ + 0x48))->k) + 0x1000);
+        m43.m[0] = FXMUL(vA.x, v5);
+        m43.m[1] = FXMUL(vA.y, v5);
+        m43.m[3] = FXMUL(-vA.y, L);
+        m43.m[4] = FXMUL(vA.x, L);
+        m43.m[2] = 0;
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 4);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 8);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RESOBJ + 0xc);
+        G3_MultMtx43(&m43);
+    }
+
+    c = *(u16 *)(q + 0x36);
+    d = *(u16 *)((u8 *)SYS + 0x72);
+    *(volatile u32 *)0x04000480 = (u16)((((c & 0x1f) * (d & 0x1f)) >> 5) |
+                                        ((((c & 0x3e0) * (d & 0x3e0)) >> 0xf) << 5) |
+                                        ((((c & 0x7c00) * (d & 0x7c00)) >> 0x19) << 10));
+    func_020565C8(*(s16 *)((u8 *)SYS + 0x78), *(s16 *)((u8 *)SYS + 0x7a),
+                  *(s16 *)(RESOBJ + 0x50), *(s16 *)(RESOBJ + 0x52));
+}
