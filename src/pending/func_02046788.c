@@ -41,7 +41,6 @@
  * stays wildcarded; matching 0x0206DB24 elsewhere (or a second caller)
  * closes it.
  */
-*/
 
 typedef unsigned char u8;
 typedef unsigned int  u32;

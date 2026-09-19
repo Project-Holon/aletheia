@@ -55,6 +55,15 @@ because decompiling it attests many other call sites at once or because it
 would unstick an existing `MATCH`-capped pending file. It is read-only and
 never touches `layout/worklist.json`.
 
+
+**Keep the header comment well formed.** Appending to a header is normal (blockers, levers, a run of
+tried spellings), but the block must close exactly once. Two shapes have silently broken the compiler
+and cost a wave each: a line ending in the three characters star slash slash, which closes the comment
+and leaves a stray slash, and a second closing line after the real one. Both make every file that has
+them unverifiable, so the park never reaches a shard and reads as a wall when it is finished work. If a
+source compiles to nothing or reports a declaration syntax error at the first line of the body, read the
+header before rewriting the C.
+
 ## 2. Verdicts, then the commands
 
 | verdict | meaning |
