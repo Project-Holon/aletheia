@@ -615,3 +615,107 @@ above, unchanged except for the one lever named per row.
 Neither row has a src/ entry this wave: both are DIFF, so no file was left in
 src/matched/ or src/pending/ and no shard was written for pkt_02057B5C.  The
 working copies were deleted after the copies above were taken.
+
+==============================================================================
+wave r10 lane closeC (2026-09-19): 0x02057BC0 is EXACT; 0x02057C9C and
+0x02057830 are reported residues.  Pin `--cc ../1.2/sp2` verbatim with
+`--flags "-O4,p -proc arm946e"` on every row (the packet's arm7tdmi census
+entry stays wrong for this band, as r8 measured).
+==============================================================================
+
+0x02057BC0 (220 B incl. the 12-byte pool) **EXACT** - 3 of 3 relocation sites
+resolved (two `label` _s32_div_f, one `literal` g_02146A8C).  Filed as
+src/matched/func_02057BC0.c, packet pkt_02057BC0, shard
+layout/matched/arm9/pkt_02057BC0.json.  The r8/r9 residue (13 bytes) was NOT a
+register-coloring tie-break at all; it was two wrong spellings in the C:
+
+  * the third arm's base is `p->hi`, not `p->mid`.  The image's base shift is
+    `lsl r6, r0, #0x11` at 0x02057C20 (rec << 17 = the hi channel); `p->mid +`
+    emits `lsl r6, ..., #0x16` (rec << 22).  The two are the same value -
+    hi + (t-0xff)*(hi-mid)/(0xff-b) == mid + (t-b)*(hi-mid)/(0xff-b) - but only
+    the hi form reproduces the image's allocation, `b`'s r3 dying at the
+    `rsb r1, r3, #0xff` on the line before r3 is reused for hi (0x02057C24).
+    This single change turned 8 of the 9 differing instructions byte-exact.
+
+  * the tail halfword is `w = (u16)((v * (0xff - q)) >> 8);` - a RIGHT shift.
+    The image's `lsl r0, r1, #8` / `lsr r0, r0, #0x10` at 0x02057C70 is the u16
+    cast of a shift of -8, not +8:
+    docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md
+    (32 - 16 = 16 = cast width; 8 - 16 = -8 = source shift).  The `<< 8` this
+    note carried compiles to `lsl #0x18`, one byte out - that byte was the last
+    mismatch.
+
+Both r9 levers and the whole r8 lever set are therefore dead ends for this row
+and should not be re-run: the residue was never the `b` register.
+
+0x02057C9C (460 B) DIFF, 65 concrete bytes, size exact (460/460), 6 of 6
+relocation sites at the original's offsets.  The r10 lever (bind
+`f = p->flag;` to a local at the top of each arm, both arms, `if (!f)`) was
+compiled and is FALSIFIED: the compiled diff is BYTE-IDENTICAL to the r8
+grouping's diff and to the r9 interleave's diff (verified with `diff` on the two
+`--diff` outputs).  Three named levers have now produced the identical diff on
+this row (r8: rec/v load+declaration orders, u16 rec/v order, hi/lo/mid division
+order; r9: the interleaved channel grouping; r10: the flag local), so the
+grouping/liveness shape is NOT what the allocator is reading.
+
+The residue is the arm's live-value triple, in BOTH arms (base 0x02057C9C):
+
+  arm 1 (0x02057CDC..): image  target v -> sb, record rec0 -> r8, flag tmp -> r4
+                        ours   target v -> r8, record rec0 -> r6, flag tmp -> sb
+    +0040  ldrh sb, [r0, #0x22]   | ldrh r8, [r0, #0x22]
+    +0048  ldrh r8, [r4]          | ldrh r6, [r4]
+    +004C  asr r7, sb, #5         | asr r7, r8, #5
+    +0050  asr fp, sb, #0xa       | asr fp, r8, #0xa
+    +0054  lsl r4, r0, #0x1d      | lsl sb, r0, #0x1d      (flag temp)
+    +0058  asr r6, r8, #5         | asr r5, r6, #5
+    +005C  asr r5, r8, #0xa       | asr r4, r6, #0xa
+    +0060  lsrs r4, r4, #0x1f     | lsrs sb, sb, #0x1f
+    +0064  and sb, sb, #0x1f      | and r8, r8, #0x1f
+    +0070  orreq r1, sb, r7, lsl #5 | orreq r1, r8, r7, lsl #5
+    +0078  and r8, r8, #0x1f      | and r6, r6, #0x1f
+    +007C  and r6, r6, #0x1f      | and r5, r5, #0x1f
+    +0080  and r5, r5, #0x1f      | and r4, r4, #0x1f
+    +0094  sub r4, r2, r3         | sub sb, r2, r3         (d follows the flag tmp)
+    +00B0  mov sb, r0             | mov r8, r0
+    the three divisions, their _s32_div_f sites and their offsets are identical,
+    only the register names cascade (ohi/olo/omid back into vlo/... 's registers).
+
+  arm 2 (0x02057D9C..): image  record rec1 -> r7, target v -> r8, flag tmp -> r3
+                        ours   record rec1 -> r8, target v -> r5, flag tmp -> r3
+    (the flag temp ALREADY agrees here - `lsl r3, r0, #0x1d` at 0x02057DB0 is
+    unmarked - so the `f` local is not the lever in either arm).
+
+Read as an allocation order: the image hands the arm's registers out as
+v -> sb, rec -> r8, vmid -> r7, rmid -> r6, rhi -> r5, flag -> r4 (arm 1) and
+rec -> r7, v -> r8, vmid -> r6, vhi -> sb, flag -> r3 (arm 2); every spelling
+tried hands them out as v -> r8, rec -> r6/r5/r4, flag -> sb (arm 1) and
+rec -> r8, v -> r5 (arm 2), i.e. exactly one register pair exchanged.  `p` (r4)
+is live across BOTH arms in the image too, so the flag temp in r4 is a scratch
+reuse of a dying-`b`-style register, not a freed callee-saved slot.  The one
+shape not tried: declare `v` and `rec` at BLOCK scope inside each arm (the note's
+ruled-out orders were all at function scope), so the declaration order relative
+to `d`/`den`/the output locals changes - the r6-rules declaration-order lever,
+one level down.  No src/ file is left for this row (a DIFF has no home in
+src/matched/); the closest body is the one in this note with `f = p->flag;`
+substituted for `p->flag` in both tests.
+
+0x02057830 (648 B incl. pool, 161 instructions) NOT TRANSCRIBED, reported.  The
+`show` was re-read this wave and confirms the r8 note's structure map line for
+line: `push {r4,r5,r6,lr}` + `sub sp, sp, #0x10`; the pooled triple at the word
+0x02057AAC (three consecutive halfwords, each `ldrh` + `strh` to [sp]/[sp,#2]/
+[sp,#4], a hand-written 6-byte copy, no ldm/stm); then
+`*(*(*(o+0x20)))`'s 2-bit field (`lsl #0x18` / `lsrs #0x1e` at 0x02057864) and a
+three-way switch - arms at 0x02057880 / 0x02057898 / 0x020578B0 writing
+{0/sp+8/sp+0xa} = {0,0,0x1000} in three different orders, the default arm at
+0x020578C8 calling 0x0207CDB8 with `o+0x50` and `sp+6`; all merge at 0x020578D4
+(`add r0, sp, #0` / `add r1, sp, #6`, `bl 0x0207CAA4`, then the
+`cmp r0, #0x1000` / `mov r1,#0x1000` / `rsb r1,r1,#0` out-of-range-immediate
+pair at 0x020578E0); then the long unrolled FX run: `ldrsh` pairs off the stack
+and off `o+0x84..0x8e`, two `smull` quartets per block sharing one pooled
+`mov r1, #0x800` (0x02057920), `lsr #0xc` + `orr ..., lsl #20` + `sub` +
+`strh` to o+0x84/0x86/0x88/0x8a/0x8c/0x8e, and two tail `bl 0x0207CDB8` calls
+with `mov r1, r0` at 0x02057A94/0x02057AA0.  The budget did not allow the body
+(644 bytes of code with no partial-body verdict possible), so this stays the
+packet's own run: transcribe WHOLE, `push {r4,r5,r6,lr}` + `sub sp,#0x10` frame,
+`-proc arm946e`, `--cc ../1.2/sp2`, and expect one repeated FX expression shape
+across the six stores and one shared 0x800 constant in a register.

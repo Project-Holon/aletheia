@@ -1,0 +1,53 @@
+pkt_020367C4 lane smallD - func_020368C0 (0x020368C0, 264 bytes including its pool)
+
+VERDICT: MATCH, capped on own-pool data. Every concrete byte of the 264 is right
+(0 concrete differences; only the two ABS32 fields at +00FC and +0104 stay
+wildcarded). The closest body is src/pending/func_020368C0.c - it is finished work,
+not a failed attempt, and it needs no further C.
+
+WHAT THE FUNCTION IS
+  int func_020368C0(Queue *q, u16 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
+  inserts a new node into a doubly-linked list, with three net_queue.c checks:
+    n = func_02036670(q, a1, a2, a3);
+    if (n == 0)               { log(0x020A79C4, 219, "0"); return 0; }
+    if (!((u16)a3 < 0xffff/2)) { log(0x020A79C4, 223, "(u16)size < (0xffff/2)"); }  <- no return
+    if (a5 != 0) {
+        if (!((int)(a3 + 5) < (int)func_0203660C(q->f14))) { log(..., 227, "0"); return 0; }
+        func_02036428(q->f14, a2, a3); func_0203666C(q->f14); n->f0 = 0;
+    } else n->f0 = a2;
+    n->fC = a3; n->fE = a1; n->f10 = a6; n->f11 = 0;
+    push front / push back on q->f4;   return 1;
+  The second check has NO early return in the image (it falls straight into the
+  `if (a5)` test); writing a `return 0` there adds 8 bytes and a whole extra block.
+
+WHY IT IS CAPPED (measured, not guessed)
+  match.py one prints, verbatim:
+    +00FC ABS32 g_020A79D0 -> unresolved: 020A79D0 (data, from header) has no witness outside 020368C0..020369C8
+    +0104 ABS32 g_020A79D4 -> unresolved: 020A79D4 (data, from header) has no witness outside 020368C0..020369C8
+  Both addresses are bytes of the packed __FILE__/assert-expression area at
+  0x020A7900: 0x020A79C4 "net_queue.c", 0x020A79D0 "0", 0x020A79D4
+  "(u16)size < (0xffff/2)". A raw word scan finds those two words only in this
+  function's own pool (0x020369BC and 0x020369C4), so neither can be witnessed from
+  outside the compared range. The third string, 0x020A79C4, has 10 outside pool
+  words and does resolve (`[literal x10, e.g. 02036A44]`) - so the cap is exactly
+  the two strings only this function uses, not a general data problem.
+  There is nothing to cut: --suggest-split has no second range here, and both words
+  are used inside this one body, so a smaller compared range cannot free them.
+
+RESIDUE THIS NOTE SAVES THE NEXT AGENT
+  Do not re-derive the body. If the packet is ever revisited, the only thing that
+  can move it is an outside witness for 0x020A79D0 / 0x020A79D4 (another function
+  in net_queue.c that logs the same two expression strings, once it is EXACT, would
+  attest them through the `matched` class).
+
+NOTES ON SPELLINGS THAT MATTERED (all measured)
+  * a3 must be `u32` at the call sites and truncated only in the check
+    (`!((u16)a3 < 0xffff/2)` gives the image's `lsl r0,r5,#0x10 / cmp r1,r0,lsr #16`,
+    while a `u16` parameter zero-extends at the top of the function and costs 8 bytes).
+  * the externs must declare u32 parameters; a u16 extern parameter inserts a
+    truncation at each call and costs 8 bytes per site.
+  * the size test is SIGNED where a u32/unsigned spelling gives `blo` instead of the
+    image's `blt` at +0074.
+  * the function returns the constant 1 on success (`mov r0,#1` at +00F0), not the
+    node pointer.
+  * the first `bl` at +0014 passes a1/a2/a3 raw - no masks before it.

@@ -296,3 +296,144 @@ DELETE NOTE: the three DIFF bodies this wave compiled (src/matched/
 func_02056460.c, func_0205650C.c, func_020565C8.c) were removed from
 src/matched/ - a DIFF has no home there - and only the closest bodies above
 survive, in this note.
+
+==============================================================================
+wave r10 lane closeB (2026-09-19): the three residues re-measured, five new
+spellings compiled
+==============================================================================
+
+compiler: ../1.2/sp2 (family pin).  proc: -proc arm946e on every row
+(layout/proc_hints.txt calls pkt_02056460 arm7tdmi; the wave-r8 measurement
+above already falsified that: five-register frame, 31 mismatches).
+
+One compile per spelling, no row converted.  Each row's closest body is
+reproduced verbatim below with its measured residue, so the next attempt
+starts from a first difference it can read instead of re-transcribing.
+
+RESIDUE 7 - 0x02056460 (164 B code, 172 B listing): DIFF, 8 concrete bytes,
+size-exact (172, 0 relocations).  Residue 1/4's body is unchanged and is
+STILL THE CLOSEST (8 bytes):
+
+    typedef int fx32; typedef long long fx64;
+    struct MtxFx43 { volatile fx32 _00,_01,_02,_10,_11,_12,_20,_21,_22,_30,_31,_32; };
+    static inline fx32 FX_Mul(fx32 v1, fx32 v2)
+    { return (fx32)(((fx64)v1 * v2 + 0x800) >> 12); }
+
+    void func_02056460(fx32 sinv, fx32 cosv, struct MtxFx43 *m)
+    {
+        fx32 t; fx32 s;
+        t = FX_Mul(0x1000 - cosv, 0x555);
+        s = FX_Mul(sinv, 0x93D);
+        m->_00 = t + cosv;  m->_10 = t + s;     m->_20 = t - s;   m->_30 = 0;
+        m->_01 = t - s;     m->_11 = t + cosv;  m->_21 = t + s;   m->_31 = 0;
+        m->_02 = t + s;     m->_12 = t - s;     m->_22 = t + cosv; m->_32 = 0;
+    }
+
+  The 8 sites (image | compiled), all three sums' registers:
+
+    +0044  add r1, r3, r1        | add lr, r3, r1        (d = t + cosv)
+    +0060  str r1, [r2]          | str lr, [r2]
+    +0064  add ip, r3, r5        | add r1, r3, r5        (e = t + s)
+    +0068  str ip, [r2, #0xc]    | str r1, [r2, #0xc]
+    +007C  str r1, [r2, #0x10]   | str lr, [r2, #0x10]
+    +0080  str ip, [r2, #0x1c]   | str r1, [r2, #0x1c]
+    +0088  str ip, [r2, #8]      | str r1, [r2, #8]
+    +0090  str r1, [r2, #0x20]   | str lr, [r2, #0x20]
+
+  i.e. d: image r1 / ours lr;  e: image ip / ours r1;  f (t - s, +006C sub
+  r0, r3, r5): r0 in BOTH - that one already agrees.
+
+  New this wave, each compiled at ../1.2/sp2 -proc arm946e:
+
+    * a fourth dead parameter, `..., struct MtxFx43 *m, fx32 unused` (r3 is
+      dead anyway: the image loads 0x555 into r3 at +0008) - 172 bytes,
+      still `add lr, r3, r1`.
+    * a named local copy `fx32 c = cosv;` before t, the three stores reading
+      `t + c` - 172 bytes, still `add lr, r3, r1`.  mwcc coalesces the copy
+      away entirely (no mov appears), so c does live in r1, and mwcc 1.2
+      STILL will not put the sum into it.
+    * `cosv = t + cosv;` with the three stores reading `cosv` - WORSE, 10
+      concrete bytes: the operand order flips to `add lr, r1, r3` (mwcc
+      canonicalises an assignment to put the assigned variable first in the
+      instruction), so this spelling is both wrong in order and still lr.
+      This is the shape Residue 1 already ruled out, reproduced.
+
+  DIAGNOSIS (new): the destination of each sum is the register freed by the
+  most recent death BEFORE the instruction, never the register the
+  instruction itself kills.  Evidence, image: e -> ip (ip died at +0050) and
+  f -> r0 (sinv died at +005C) - ours reproduces f -> r0 for exactly that
+  reason.  d -> r1 is the ONE site where the register chosen (cosv's r1) dies
+  AT the add itself, and mwcc 1.2 refuses that coalescing in every spelling
+  tried (9 now, counting waves 6/r8/r10).  So the row does not need a new
+  spelling of the sum; it needs cosv's live range to END BEFORE +0044.  A
+  fourth parameter does not do it, a copy local does not do it (coalesced),
+  and reassigning the parameter does not do it.  What has not been tried:
+  making cosv a value that mwcc must reload or repoint, e.g. computing
+  `sinv`/`cosv`/`m` out of a struct parameter (so cosv is a field load whose
+  register is a temp, with the add's operand being that temp and its range
+  ending before the add), or moving the `0x1000 - cosv` subtraction into a
+  named local declared before t so cosv's last use is that subtraction.
+
+RESIDUE 8 - 0x0205650C (168 B code, 188 B listing): DIFF, size-exact.  The
+wave-r8 all-inline body re-measured this wave at 61 concrete bytes (the same
+total wave r8 recorded) and is STILL THE CLOSEST:
+
+    typedef unsigned short u16; typedef unsigned int u32;
+    void func_0205650C(int a0, int a1, int a2, int a3)
+    {
+        *(volatile u32 *)0x04000500 = 1;
+        *(volatile u32 *)0x04000488 = 0;
+        *(volatile u32 *)0x04000490 = ((a2 - 0x1000) << 16 >> 22 & 0x3ff) | (((a3 + 0x1000) << 16 >> 22 & 0x3ff) << 20);
+        *(volatile u32 *)0x04000488 = (u16)(a0 >> 8);
+        *(volatile u32 *)0x04000490 = ((a2 + 0x1000) << 16 >> 22 & 0x3ff) | (((a3 + 0x1000) << 16 >> 22 & 0x3ff) << 20);
+        *(volatile u32 *)0x04000488 = (u16)(a0 >> 8) | ((u16)(a1 >> 8) << 16);
+        *(volatile u32 *)0x04000490 = ((a2 + 0x1000) << 16 >> 22 & 0x3ff) | (((a3 - 0x1000) << 16 >> 22 & 0x3ff) << 20);
+        *(volatile u32 *)0x04000488 = (u16)(a1 >> 8) << 16;
+        *(volatile u32 *)0x04000490 = ((a2 - 0x1000) << 16 >> 22 & 0x3ff) | (((a3 - 0x1000) << 16 >> 22 & 0x3ff) << 20);
+        *(volatile u32 *)0x04000504 = 0;
+    }
+
+  CORRECTION to Residue 5's diff table: this body does NOT reproduce
+  +0010/+0014.  Measured here, the shift pair is right in VALUE but wrong in
+  register: image `lsl r2, r0, #8` / `lsl r0, r1, #8`, compiled
+  `lsl r0, r0, #8` / `lsl r1, r1, #8` (in place in the parameter registers),
+  and then `lsr lr, r1, #0x10` / `lsr r5, r0, #0x10` against the image's
+  `lsr r0, r0, #0x10` / `lsr r1, r2, #0x10`.  So `(u16)(a0 >> 8)` is the
+  right VALUE and the right shift pair, but nothing yet makes mwcc write the
+  intermediate into r2 (a2's register, dead at +0004) and the results back
+  into r0/r1.  Residue 5's 61-byte total stands; its claim that +0010/+0014
+  already match does not.
+
+  the r10 lane lever, FALSIFIED by measurement: "make l/h the first
+  definitions in the source (u32, not u16), then the four coordinates" -
+  with the four coordinates ALSO named locals, that body is 80 concrete
+  bytes (worse than 61) and the first difference moves to +0004; with h
+  declared/defined before l it is 76.  Both bodies 188 bytes.  The specific
+  damage, measured on the 80-byte body: l and h end up in ip and r3 where the
+  image has them in r1 and r0 (the two parameter registers), and the four
+  coordinates take r5/r4/r6/r2 where the image has r7/r5/r4/r3 - i.e. making
+  l/h locals gives the COORDINATES the first picks, which is the opposite of
+  what the lever predicted.  Keep l/h inline in the store expressions (61 B).
+
+RESIDUE 9 - 0x020565C8 (168 B, 188 B listing): DIFF, size-exact, 56 concrete
+bytes, re-measured this wave with the mirror all-inline body (the <<10 form
+of the body above, `<< 10` on all four paired fields).  The total matches
+wave r8's 56, and its first differing instructions are
+
+    +0004  add ip, r3, #0x1000   | add r6, r3, #0x1000
+    +0008  sub r5, r2, #0x1000   | sub r4, r2, #0x1000
+    +000C  add r4, r2, #0x1000   | add ip, r2, #0x1000
+
+so the schedule itself already differs from 0x0205650C before any value
+lands: the coordinate plan is r7/r5/r4/r3 there and the compiled body starts
+r6/r4/ip.  Its image allocation is NOT 0x0205650C's (cm/cp/cP/cM =
+r7/r2/lr/r4 against 0x0205650C's r2/r7/lr/r4, and its first instruction is
+`add ip, r3, #0x1000`), so it stays a separate row: solve 0x0205650C's
+allocation first, then re-derive this one, do not copy the plan across.
+
+DELETE NOTE (wave r10): src/matched/func_02056460.c, func_0205650C.c and
+func_020565C8.c were created for these three measurements and removed again;
+no DIFF body was left in src/matched/.  The packet shard
+(layout/matched/arm9/pkt_02056460.json) still holds only func_020576D0
+(0x020576D0, wave r8) - nothing in this lane converted, so the shard was
+re-verified and left untouched.

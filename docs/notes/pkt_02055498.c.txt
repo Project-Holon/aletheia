@@ -1902,3 +1902,124 @@ void func_02055498(u32 *self, u8 *q)
     func_020565C8(*(s16 *)((u8 *)SYS + 0x78), *(s16 *)((u8 *)SYS + 0x7a),
                   *(s16 *)(RES + 0x50), *(s16 *)(RES + 0x52));
 }
+
+==========================================================================
+APPENDED, wave r10 lane closeA: the r9 section's named next step is COMPILED
+and FALSIFIED on all three rows
+==========================================================================
+
+Pin, verbatim, unchanged this wave and used for every compile below:
+
+    compiler: ../1.2/sp2      ->  python tools/match.py one ... --cc ../1.2/sp2
+    flags:    -O4,p -proc arm7tdmi          (layout/proc_hints.txt, pkt_02055498)
+
+Verdict: three DIFF.  Nothing converts, so no source was filed, no shard exists
+for this packet and `manifest --verify --shard pkt_02055498` prints `no such
+shard` (run twice, same answer - the honest result).  Every relocation of every
+row resolves: 15 of 15 (0x02055498), 6 of 6 (0x02055B80, 0x02055FD4), all
+`label` except tbl_020A1B38 (`literal` x113).  The residue is codegen.
+
+1. THE CLOSEST STATE, RE-MEASURED FIRST-HAND THIS WAVE
+
+The bodies at the end of the r8/r9 sections of this note were recompiled
+unchanged (extracted from this note, compiled once each, then removed again):
+
+    0x02055498  compiled 1768 against a 1768 extent - SIZE EXACT - 1223 of 1768
+      concrete bytes differ.  relocations 15 of 15.
+      first difference 0x020554A0  original `mov r6, r1` | ours `mov sb, r0`
+                     0x020554A4  original `ldrh r1, [r6, #0x2e]` | `mov r8, r1`
+                     0x020554A8  original `mov r7, r0` | `ldr r7, [sb, #0x44]`
+                     0x020554AC  original `ldr r4, [r7, #0x40]` | `ldrh r2, [r8, #0x2e]`
+    0x02055B80  compiled 1128 against the 1108 extent (20 LONG: 1108 code + 20
+      pool), 817 of 1128 differ.
+      first difference 0x02055B88  original `mov r6, r1` | ours `mov r7, r0`
+                     0x02055B8C  original `ldrh r1, [r6, #0x2e]` | `mov r6, r1`
+                     0x02055B90  original `mov r7, r0` | `ldrh r5, [r6, #0x2e]`
+    0x02055FD4  compiled 1136 against the 1104 real extent (1164 listing extent,
+      the unlabelled follower at 0x02056420 is inside it) - 36 LONG - 948 of
+      1136 differ; push {r4..sl, fp, lr} and `sub sp, sp, #0x3c` both match.
+      first difference 0x02055FDC  original `mov r8, r1` | ours `mov sb, r0`
+                     0x02055FE0  original `ldrh r3, [r8, #0x2e]` | `mov r8, r1`
+                     0x02055FE4  original `mov sb, r0` | `ldrh r2, [r8, #0x2e]`
+
+So the r8/r9 numbers in this note reproduce exactly, and the shared residue is
+one slot: the argument-move order at the top of the prologue plus the register
+the q+0x2e halfword lands in.
+
+2. THE VARIANT THE r9 SECTION ASKED FOR, AND WHAT IT MEASURED
+
+One change per row, applied to that closest body: the q+0x2e halfword becomes
+the body's FIRST value statement, read into a named `u16 raw` local
+(`raw = *(u16 *)(q + 0x2e);`), with `mtx = *(MtxFx43 **)((u8 *)self + 0x44)`
+after it (0x02055B80 / 0x02055FD4: `sv` last before the 0x040004A4 store), and
+b0/b5/b10 extracted from `raw` with the image's own shift pairs
+(`((u32)raw << 22) >> 27` = b5, `((u32)raw << 27) >> 27` = b0,
+`((u32)raw << 16) >> 26` = b10), leaving NO `Q2E *` dereference in the `n`
+expression.
+
+  0x02055498  compiled 1764 against the 1768 extent (4 SHORT - the closest body
+    is size-exact), 1429 of 1764 differ (closest: 1223).  The argument-move
+    order did NOT move: 0x020554A0 original `mov r6, r1` | ours `mov sb, r0`,
+    0x020554A4 `ldrh r1, [r6, #0x2e]` | `mov r8, r1`, 0x020554A8 `mov r7, r0` |
+    `ldrh r3, [r8, #0x2e]`.  The extraction also lost the image's form: original
+    0x020554B0-BC `lsl r0,r1,#0x16` / `lsl r2,r1,#0x1b` / `lsr r0,r0,#0x1b` /
+    `lsr r2,r2,#0x1b`, ours `lsl r0,r3,#0x16` / `lsr r0,r0,#0x1b` /
+    `add r1,r0,#1` / `and r0,r3,#0x1f`.
+  0x02055B80  compiled 1124 (1104 code + 20 pool = 16 long), 913 of 1124 differ
+    (closest: 817).  0x02055B88 `mov r6, r1` | `mov r7, r0`; 0x02055B90
+    `mov r7, r0` | `mov r6, r1`; 0x02055B94 `ldr r4, [r7, #0x40]` |
+    `ldrh r3, [r6, #0x2e]`; extraction again `and r0, r3, #0x1f` where the image
+    has the `lsl #0x1b` / `lsr #0x1b` pair.
+  0x02055FD4  compiled 1132 (1112 code + 20 pool = 32 long), 932 of 1132 differ
+    (closest: 948).  first difference 0x02055FDC original `mov r8, r1` | ours
+    `mov sb, r0`; 0x02055FE0 `ldrh r3, [r8, #0x2e]` | `mov r8, r1`; 0x02055FE4
+    `mov sb, r0` | `ldrh r6, [r8, #0x2e]`.
+
+TWO THINGS THIS PROVES, both worth not re-deriving:
+
+  (a) Statement order at the top of the body does not decide the argument-move
+      slot.  With the halfword load as the body's first value statement mwccarm
+      1.2 still saves BOTH incoming parameters first (self to a callee-saved
+      register BEFORE q, the opposite order to the image) and then places the
+      halfword load where the allocator wants it - r2 with the struct body, r3
+      with the raw body on 0x02055498/0x02055B80, r6 here.  The image instead
+      interleaves: `mov r6,r1` (q), `ldrh r1,[r6,#0x2e]` into the freed
+      parameter register, then `mov r7,r0` (self).  That is an allocator
+      choice, not a spelling one.
+  (b) The `Q2E *` dereference is LOAD-BEARING.  It is what makes the b0/b5
+      extraction come out as the image's `lsl`/`lsr` PAIR.  Through a named
+      `u16` local mwcc knows the top sixteen bits are zero and folds
+      `((raw << 27) >> 27)` to a single `and r0, r3, #0x1f`, which is 4 bytes
+      shorter than the image (accounting for the 4-byte shift on 0x02055498 and
+      part of the change on the twins).  So the r9 recipe trades a size loss and
+      a lost instruction form for no change at the first differing slot.
+
+The variant is strictly worse on every row and is not kept; the closest body per
+row remains the one at the end of the previous section (r9 for 0x02055498, r8
+for 0x02055B80 and 0x02055FD4).
+
+3. WHAT THE NEXT ATTEMPT SHOULD TRY FIRST, PER ROW
+
+The blocker is named from the first differing instruction the tool printed, not
+from a guess: `mov r6, r1 | mov sb, r0` (0x020554A0 / 0x02055B88 / 0x02055FDC).
+
+  0x02055498 (size already exact, 1223 differing): the two pointer live ranges.
+    Both variants born from a q-first statement still saved self first, so what
+    is left is the ALLOCATION, not the order.  Try giving the two parameters
+    source-level locals (`u8 *qq = q; u32 *ss = self;` as the first two
+    statements, everything else re-expressed through them) so the ranges are
+    born at statements the allocator can order, and expect the frame to grow if
+    it does not work - revert immediately.
+  0x02055B80 (1128 vs 1108): same slot, then the 20-byte overshoot.  The
+    overshoot is in the arms' re-derived resource chain (0x02055DFC-0x02055E14,
+    0x02055F18-0x02055F34), so after the slot, bind RES once inside the E arm
+    exactly as 0x02055498 does (that took its twin from 1780/1281 to 1768/1223)
+    and re-measure which of that row's two arms the image re-derives.
+  0x02055FD4 (1136 vs 1104): the frame (0x3c), the push and the hoisted scalars
+    (sv r7, t sl, c r5, d r4, kind r3, n fp) already match; only this arg-move
+    slot is left, plus the 36-byte overshoot which is the same per-arm chain as
+    its twin.  Do not re-tune the frame.
+
+No idiom file was added: the two findings above are properties of this packet's
+prologue, not a new reusable compiler quirk (the `and`/`lsl-lsr` substitution is
+range analysis, and the argument-move order is the allocator).
