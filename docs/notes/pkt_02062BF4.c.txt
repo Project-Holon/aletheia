@@ -1,0 +1,94 @@
+
+pkt_02062BF4 - func_02062BF4 (0x02062BF4, 276 bytes, arm) - SIZE, 8 bytes.
+=========================================================================
+verdict SIZE: compiled 268 bytes against an original extent of 276; the
+relocation to func_02062F90 resolves by label.
+
+The body is right everywhere except two shapes:
+
+1. +0018 - the `r == 3 || r == 4` guard.  Original:
+       cmp  r0, #3
+       cmpne r0, #4
+       bne  else
+   This compile folds the disjunction to a range test:
+       sub  r0, r0, #3
+       cmp  r0, #1
+       bhi  else
+   (same three instructions, same bytes of code, different bytes.)
+   The second, structurally identical guard `if (r != 2 && r != 4)` DOES
+   reproduce exactly, so only the ==/|| form is affected.
+
+2. the -8 bytes: the two arms of the outer if/else end in the same
+   `mov r0, r4; bl func_02062F90(p)` pair.  Written out in both arms mwcc
+   cross-jumps them into one shared block; the original keeps two copies.
+   That is exactly the 8-byte difference.
+
+Not a relocation problem and not a semantic unknown: the whole body including
+the `blx r2` callback (`((void (*)(int, int))p[10])(p[9], p[4])`) and the
+two-range tail clamp reproduces.
+
+---- closest C ----
+/*
+ * function: func_02062BF4
+ * address:  0x02062BF4
+ * packet:   pkt_02062BF4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   SIZE (268 compiled against a 276-byte extent) - see
+ *           docs/notes/pkt_02062BF4.c.txt
+ *
+ * symbols:
+ *   func_02062F90  0x02062F90  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+extern void func_02062F90(int *p);
+
+void func_02062BF4(int *p)
+{
+    int r;
+    int t;
+
+    r = p[6];
+    if (r == 0)
+        r = *(int *)(p[7] + 8);
+    if (r == 3 || r == 4) {
+        p[2] ^= 1;
+        t = *(int *)(p[7] + 0xc) + (*(u16 *)(p[7] + 2) << 3) - 8;
+        if ((unsigned int)p[0] > (unsigned int)t)
+            goto tail;
+        if (p[8] == 1)
+            ((void (*)(int, int))p[10])(p[9], p[4]);
+        r = p[6];
+        if (r == 0)
+            r = *(int *)(p[7] + 8);
+        if (r != 2 && r != 4)
+            p[3] = 0;
+        else
+            func_02062F90(p);
+    } else {
+        if (p[8] == 1)
+            ((void (*)(int, int))p[10])(p[9], p[4]);
+        r = p[6];
+        if (r == 0)
+            r = *(int *)(p[7] + 8);
+        if (r != 2 && r != 4)
+            p[3] = 0;
+        else
+            func_02062F90(p);
+    }
+
+tail:
+    t = *(int *)(p[7] + 0xc) + (*(u16 *)p[7] << 3) - 8;
+    if ((unsigned int)p[0] > (unsigned int)t) {
+        p[0] = t;
+        return;
+    }
+    if ((unsigned int)p[0] < (unsigned int)*(int *)(p[7] + 0xc))
+        p[0] = *(int *)(p[7] + 0xc);
+}

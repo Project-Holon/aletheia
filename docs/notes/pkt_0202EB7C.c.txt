@@ -1,0 +1,84 @@
+pkt_0202EB7C -- 0x0202EB9C (136 code bytes, Thumb) DIFF, not filed
+=================================================================
+Body: slot fetch/claim.  func_0200974C(a0) resolves the owner, func_0202ECB0
+looks up the slot; the 0x14 (no-slot) case seeds through func_0200856C /
+func_0202EC44 / func_0202EC24 / func_0202EC7C and reports 2, the ordinary case
+tests bit 3 of the slot byte at +0x26 of the 0x28-byte record and reports 1.
+
+Residue: compiled 128 bytes against 136.  The arm ORDER is inverted: the image
+falls through into the non-0x14 path (beq to the far 0x202EBDE arm) while the
+compilation emits the 0x14 path first and branches over it.  Source order in
+the original is therefore if (k != 0x14) { ... return 1; } with the 0x14 arm
+last, not the if (k == 0x14) { ... } spelling filed here.
+The bit-3 test (lsls #0x1c / lsrs #0x1f) and the movs r7,#1 / movs r7,#0
+boolean pair are both reproduced.
+
+Blocking class: label.  func_0202ED00 is called from six sites in the image
+and every one of them is inside this function's own range
+(0x0202EB9C..0x0202EC1C), so two sites (+0048, +006E) can never resolve; the
+callee is unfiled and lives outside this lane's packets (pkt_0202EB7C ends at
+0x0202EC24).  chain row: it cannot be promoted from this lane.
+
+/* ---- source under test ----
+/*
+ * function: func_0202EB9C
+ * address:  0x0202EB9C
+ * packet:   pkt_0202EB7C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+typedef struct {
+    u8 b0 : 1;
+    u8 b1 : 1;
+    u8 b2 : 1;
+    u8 b3 : 1;
+    u8 b4 : 1;
+    u8 b5 : 1;
+    u8 b6 : 1;
+    u8 b7 : 1;
+} Bits0202EB9C;
+
+extern u32  func_0200974C(u32 a);
+extern u32  func_0202ECB0(u32 a, u32 b);
+extern void func_0202ED00(u32 a, ...);
+extern void func_0202ED60(u32 a, u32 b, u32 c);
+extern u32  func_0200856C(u32 a);
+extern u32  func_0202EC44(u32 a, u32 b);
+extern u32  func_0202EC24(u32 a);
+extern u32  func_0202EC7C(u32 a, u32 b);
+
+int func_0202EB9C(u32 a0, u32 a1)
+{
+    u32 t = func_0200974C(a0);
+    u32 k = func_0202ECB0(t, a1);
+    int flag = 0;
+
+    if (k == 0x14) {
+        u32 idx = func_0200856C(a1);
+
+        if (func_0202EC44(t, idx) < 5) {
+            if (func_0202EC24(t) >= 0x14) {
+                func_0202ED00(t, 0);
+            }
+        } else {
+            func_0202ED00(t, func_0202EC7C(t, idx));
+        }
+        func_0202ED60(a0, a1, 0);
+        return 2;
+    }
+    if (((Bits0202EB9C *)(t + k * 0x28 + 0x26))->b3) {
+        flag = 1;
+    }
+    func_0202ED00(t);
+    func_0202ED60(a0, a1, flag);
+    return 1;
+}
+*/

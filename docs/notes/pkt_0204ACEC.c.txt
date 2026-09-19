@@ -1,0 +1,81 @@
+/*
+ * DIFF note - func_0204ACEC @ 0x0204ACEC, packet pkt_0204ACEC, 184 bytes, ARM.
+ * NOT filed: this is the best of four spellings, 17 concrete bytes of residue.
+ *
+ * VERDICT history (match.py one, --cc 1.1p1 --arm):
+ *   A) for(i=0;i<n.in.count;i++){...} + if(i==n.in.count) i=-1;  -> 196 bytes, 130 differ
+ *   B) local n = in.count; same shape                              -> 196 bytes, 133 differ
+ *   C) goto found / i = -1 fall-through  (best)                    -> 184 bytes, 17 differ
+ *   D) local Inner* + goto found                                   -> 184 bytes, 138 differ (count hoisted)
+ *
+ * The whole body except the loop's address base reproduces byte for byte under (C).
+ * Residue: the original materialises `&lbl_02146A74->in` (r2 + 0x104) ONCE and reads
+ * both fields through that base:
+ *      add r7, r2, #0x104 ; ldrh r2, [r7, #0x16] ; ldr ip, [r7, #0xc]
+ * while mwcc 1.1p1 with any of the four struct nestings I tried picks
+ *      add r3, r7, #0x100 ; ldrh r2, [r3, #0x1a] ; ldr ip, [r7, #0x110]
+ * i.e. it splits the 0x11a field offset as 0x100 + 0x1a and reaches arr straight off
+ * the global (0x110 is inside the ldr 12-bit immediate, 0x11a is not inside the ldrh
+ * 8-bit immediate, so only the ldrh forces a base and mwcc picks offset & ~0xFF for it).
+ * Nested sub-struct at 0x104 (outer->in(0x100)->com(0x104)) and an explicit
+ * (Inner*)(lbl + 0x104) cast both fold to the same 0x100 base. A live local Inner*
+ * pointer does emit `add r4, r2, #0x104`, but it also hoists the loop bound out of the
+ * loop (sp+4 frame, r8 push) and lands at 138 bytes of diff, which is worse.
+ *
+ * Everything else in the machine code reproduces exactly, including:
+ *   - the count re-read in the loop condition (ldrh r3,[r7,#0x16] at the back edge)
+ *     with `arr` hoisted (ldr ip,[r7,#0xc] before the loop)  [non-volatile struct]
+ *   - `bls` trip-count entry test and unsigned `blo` back edge (u32 i)
+ *   - the unconditional `i = -1` at the loop's normal exit (needs the goto spelling,
+ *     because a `for(...) if(c) break;` + `if (i == count) i = -1;` re-reads count and
+ *     emits an extra ldrh+cmp)
+ *   - `lsrs r3,r3,#0x1f` for the element test (u32 field shifted by 31, not `< 0`)
+ *   - the reloaded global + `add r0,r0,#0x104` at the post-call site
+ *
+ * Blocking class for the report: codegen (address-base selection for the ldrh).
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Elem0204ACEC {
+    u8 pad00[0x14];
+    u32 f14;
+} Elem0204ACEC;
+
+typedef struct Inner0204ACEC {
+    u8 pad00[0xc];
+    u32 arr;
+    u8 pad10[0x16 - 0x10];
+    u16 count;
+} Inner0204ACEC;
+
+typedef struct Outer0204ACEC {
+    u32 padFFF[0x41];
+    Inner0204ACEC in;
+} Outer0204ACEC;
+
+extern Outer0204ACEC *lbl_02146A74;
+extern void *func_02049250(u32 a0, u32 a1, u32 a2);
+extern void func_0204DEE8(Inner0204ACEC *a0, u32 a1, void *a2, u32 a3, u32 a4);
+extern void func_020307B0(void *a0);
+
+int func_0204ACEC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+{
+    u32 i;
+    void *v;
+
+    for (i = 0; i < lbl_02146A74->in.count; i++) {
+        if ((((Elem0204ACEC *)lbl_02146A74->in.arr)[i].f14 >> 31) != 0)
+            goto found;
+    }
+    i = -1;
+found:
+    if (i == (u32)-1)
+        return (int)i;
+    v = func_02049250(a0, a1, (u16)((a4 & 0x7fff) | 0x8000));
+    func_0204DEE8((Inner0204ACEC *)&lbl_02146A74->in, i, v, a2, a3);
+    func_020307B0(v);
+    return (int)i;
+}

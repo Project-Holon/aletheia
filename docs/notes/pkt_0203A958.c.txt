@@ -1,0 +1,72 @@
+
+pkt_0203A958 - func_0203A958 (0x0203A958, 316 bytes, arm) - DIFF, 45 bytes.
+===========================================================================
+verdict DIFF: compiled 316 bytes, original extent 316, 45 concrete bytes
+differ.  All 9 relocation sites resolve (g_021469D8 literal x45, the three
+net_*.c strings, func_020399A8 / func_0203A81C / func_02034714 by label).
+
+The first 0x40 bytes are byte-identical, including the a0 == 0xff fold to 8
+(`i = a0; if (a0 == 0xff) i = 8;` keeping the parameter itself in r7 for the
+two func_0203A81C calls as r1) and the mul r5, r4, r0 / *0x14 stride.
+
+Two residues:
+
+1. +007C..+0098 - the `*(u32 *)a2` value that feeds both the +0xb8 store and
+   the second func_0203A81C call.  The original hoists `ldr r2, [r6]` above
+   the `strb r4, [r0, #0xca]` and reuses r2 for both uses; this compile loads
+   it after the strb and therefore has to reload it for the call (and reloads
+   the g_021469D8 pointer too).  Spelling a scoped local `u32 w = *(u32 *)a2;`
+   between the two stores is the only form that keeps the size at 316; moving
+   the same statement above the strb, or giving it a named local with the
+   assignment before the strb, both add bytes.
+
+2. +00D4..+010C - the five halfword stores to +0xc0..+0xc8.  The original
+   alternates the value register (r2, r3, r2, r3) around a reloaded r1 base
+   and materialises `mov r1, #0` late, at +010C; this compile uses r3 for
+   every value and hoists `mov r1, #0` to +00DC, which pushes the base into
+   r2.  Source orderings c0,c2,c8,c6,c4 (recorded here) and c0,c2,c6,c8,c4
+   both give the same 45 bytes.
+
+The recorded C is the closest of seven spellings; nothing was left resolved
+from the bytes under test.
+
+---- closest C ----
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8    *g_021469D8;
+extern int    func_020399A8(void);
+extern int    func_0203A81C(int a0, int a1, int a2);
+extern void   func_02034714(char *a, u32 b, char *c);
+extern char   sNet3730[];
+extern char   sNet3733[];
+extern char   sNet3734[];
+
+void func_0203A958(int a0, int a1, u8 *a2, int a3, int a4)
+{
+    int i;
+
+    i = a0;
+    if (a0 == 0xff)
+        i = 8;
+    if (a4 != func_020399A8())
+        return;
+    if (func_0203A81C(*(u16 *)(a2 + 6), a0, *(u32 *)a2) == 0)
+        return;
+    if (*(u8 *)(g_021469D8 + i * 0x14 + 0xca) != 0)
+        func_02034714(sNet3730, 0x1ff, sNet3733);
+    *(u8 *)(g_021469D8 + i * 0x14 + 0xca) = 1;
+    {
+        u32 w = *(u32 *)a2;
+        *(u32 *)(g_021469D8 + i * 0x14 + 0xb8) = w;
+        *(u32 *)(g_021469D8 + i * 0x14 + 0xbc) = func_0203A81C(*(u16 *)(a2 + 6), a0, w);
+    }
+    if (*(u32 *)(g_021469D8 + i * 0x14 + 0xbc) == 0)
+        func_02034714(sNet3730, 0x203, sNet3734);
+    *(u16 *)(g_021469D8 + i * 0x14 + 0xc0) = *(u16 *)(a2 + 6);
+    *(u16 *)(g_021469D8 + i * 0x14 + 0xc2) = *(u16 *)(a2 + 8);
+    *(u16 *)(g_021469D8 + i * 0x14 + 0xc8) = *(u16 *)(a2 + 0xa);
+    *(u16 *)(g_021469D8 + i * 0x14 + 0xc6) = *(u16 *)(a2 + 4);
+    *(u16 *)(g_021469D8 + i * 0x14 + 0xc4) = 0;
+}

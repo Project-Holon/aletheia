@@ -1,0 +1,122 @@
+lane r3a-1 (the 129-256 byte band, 0x020069D4..0x0208806C) -- per-row verdicts
+================================================================================
+
+55 rows, 10334 worklist bytes, 38 packets.  This run filed 2 EXACT (one of
+them EXACT*), parked 3 MATCH-capped files in src/pending/, characterised 1
+DIFF residue, and confirmed that none of the 5 pre-existing parks in this
+slice is promotable from this lane (every one of their blockers is outside
+this lane's 38 packets).  The other 11 `new` rows and 34 `noted` rows are
+recorded below with the verdict and the reason it was not worked.
+
+EXACT, filed in src/matched/ and in a shard
+  0x02046FF8  176  arm    src/matched/func_02046FF8.c   pkt_02046FF8   EXACT
+  0x0200B2A4  162  thumb  src/matched/func_0200B2A4.c   pkt_0200B2A4   EXACT*
+
+PARKED at MATCH (byte-identical, no outside witness; src/pending/)
+  0x0204E388  136  arm    src/pending/func_0204E388.c  pkt_0204E130   label
+  0x0204BD94  148  arm    src/pending/func_0204BD94.c  pkt_0204BCF4   label
+  0x02036A50  164  arm    src/pending/func_02036A50.c  pkt_020369F8   label
+
+DIFF, characterised (no source file; C and residue in the note)
+  0x02017A20  260  thumb  docs/notes/pkt_02017A20.c.txt   24 bytes
+
+Shard writes: pkt_02046FF8 and pkt_0200B2A4, each run twice, second run
+`0 rewritten`.  Pending files are not shard members.
+
+All 55 rows
+-----------
+
+| address | size | isa | packet | state | verdict |
+| --- | --- | --- | --- | --- | --- |
+| `0x020069D4` | 136 | thumb | `pkt_020069D4` | new | not attempted: the named callee 0x02006948 is itself parked at MATCH in src/pending (its own header names 0x02072BDC/0x02072D20/0x02072A88 as single-caller targets), so this row is MATCH-capped before a line of C is written |
+| `0x0200AC14` | 172 | thumb | `pkt_0200AC14` | new | not reached (ready: no external blocker) |
+| `0x0200B2A4` | 162 | thumb | `pkt_0200B2A4` | new | EXACT*, filed |
+| `0x02011D9C` | 234 | thumb | `pkt_02011D9C` | new | not reached; chain on 0x02011FB8, 0x02034AC4, both outside this lane's packets |
+| `0x020172D8` | 214 | thumb | `pkt_020172D8` | new | not reached (ready: no external blocker) |
+| `0x02017A20` | 250 | thumb | `pkt_02017A20` | new | DIFF, 24-byte residue, note written |
+| `0x02017FB0` | 210 | thumb | `pkt_02017FB0` | new | not reached (ready: no external blocker) |
+| `0x0201862C` | 150 | thumb | `pkt_0201862C` | new | not reached (ready: no external blocker) |
+| `0x020186C8` | 196 | thumb | `pkt_0201862C` | new | not reached (ready: no external blocker) |
+| `0x0201CD10` | 222 | thumb | `pkt_0201CD10` | new | not reached; chain on 0x0201C808, outside this lane's packets |
+| `0x0202E688` | 182 | thumb | `pkt_0202E560` | new | not reached; chain on 0x02047A60, outside this lane's packets |
+| `0x02036A50` | 160 | arm | `pkt_020369F8` | new | MATCH, parked (label: 0x020369F8 and 0x020367C4 both single-caller; filing this lane's own 0x020369F8 would still leave 0x020367C4 unwitnessed) |
+| `0x0203FA08` | 228 | arm | `pkt_0203FA08` | new | not reached (ready: no external blocker) |
+| `0x02046FF8` | 176 | arm | `pkt_02046FF8` | new | EXACT, filed -- the slice's `chain` warning did not hold: all 8 relocation sites resolve (`label` x6, one of them x172), so the C landed on the first spelling |
+| `0x0204BD94` | 140 | arm | `pkt_0204BCF4` | new | MATCH, parked (label: 0x02065AA8 and 0x0204BE84 single-caller; 0x0204BE84 is pkt_0204BE84, not this lane's) |
+| `0x0204E388` | 132 | arm | `pkt_0204E130` | new | MATCH, parked (label: 0x0204E410 and 0x0204E4C0 single-caller; 0x0204E410 is pkt_0204E410, not this lane's) |
+| `0x02018790` | 138 | thumb | `pkt_0201862C` | park | not promotable: fully byte-correct in src/pending/unit_02018790.c, blocker is the `literal`/`string` class (a data table nothing outside the range attests) -- not a row in this lane's packets |
+| `0x020302A4` | 156 | arm | `pkt_020302A4` | park | not promotable: src/pending/sub_020302A4.c is MATCH with all 160 concrete bytes right; the unwitnessed site is the call to sub_02060CD0 at +0054, i.e. pkt_02060CD0, not this lane's |
+| `0x02041300` | 172 | arm | `pkt_02041300` | park | not promotable: src/pending/func_02041300.c is already MATCH*; the slice names 0x02042D2C as the unfiled callee, pkt_02042D2C, not this lane's |
+| `0x0204D7E0` | 204 | arm | `pkt_0204D7E0` | park | not promotable: src/pending/func_0204D7E0.c is MATCH with all 204 concrete bytes right; blocker is func_0204DA5C / sub_02034520's unwitnessed g_FlagTable literal, neither in this lane's packets |
+| `0x0208806C` | 164 | arm | `pkt_02087FBC` | park | not promotable: src/pending/func_0208806C.c is MATCH on one address, func_02088150, called only from +0x04 inside the compared range; pkt_02088150 is not this lane's |
+| `0x02012C18` | 196 | thumb | `pkt_02012C18` | noted | not re-derived, no new lever (chain on 0x0200EEAC) |
+| `0x02018328` | 246 | thumb | `pkt_02018240` | noted | not re-derived, no new lever |
+| `0x0201B850` | 204 | thumb | `pkt_0201B7EC` | noted | not re-derived, no new lever |
+| `0x0201DB20` | 154 | thumb | `pkt_0201DB20` | noted | not re-derived, no new lever |
+| `0x020343C0` | 252 | arm | `pkt_020343C0` | noted | not re-derived, no new lever |
+| `0x02039658` | 196 | arm | `pkt_020395EC` | noted | not re-derived, no new lever (chain on 0x0203A28C) |
+| `0x02039764` | 204 | arm | `pkt_02039764` | noted | not re-derived, no new lever |
+| `0x020398B4` | 172 | arm | `pkt_02039764` | noted | not re-derived, no new lever (chain on 0x02039658) |
+| `0x02039ACC` | 144 | arm | `pkt_02039A5C` | noted | not re-derived, no new lever |
+| `0x02039B5C` | 204 | arm | `pkt_02039A5C` | noted | not re-derived, no new lever |
+| `0x0203CDD4` | 136 | arm | `pkt_0203CDD4` | noted | not re-derived, no new lever |
+| `0x020433E0` | 184 | arm | `pkt_020433E0` | noted | not re-derived, no new lever |
+| `0x0204A39C` | 220 | arm | `pkt_0204A39C` | noted | not re-derived, no new lever |
+| `0x0205250C` | 148 | arm | `pkt_0205250C` | noted | not re-derived, no new lever (chain on 0x020583CC) |
+| `0x02063078` | 152 | arm | `pkt_02063078` | noted | not re-derived, no new lever |
+| `0x02063294` | 220 | arm | `pkt_02063078` | noted | not re-derived, no new lever |
+| `0x02063378` | 188 | arm | `pkt_02063078` | noted | not re-derived, no new lever |
+| `0x02065BD0` | 144 | arm | `pkt_02065B74` | noted | not re-derived, no new lever |
+| `0x0206A8FC` | 192 | arm | `pkt_0206A8FC` | noted | not re-derived, no new lever (chain on 0x0206DDA4) |
+| `0x02070274` | 232 | arm | `pkt_0207010C` | noted | not re-derived, no new lever |
+| `0x02070360` | 208 | arm | `pkt_0207010C` | noted | not re-derived, no new lever |
+| `0x02070434` | 240 | arm | `pkt_0207010C` | noted | not re-derived, no new lever |
+| `0x02070524` | 256 | arm | `pkt_0207010C` | noted | not re-derived, no new lever |
+| `0x02070730` | 256 | arm | `pkt_0207010C` | noted | not re-derived, no new lever |
+| `0x02070830` | 208 | arm | `pkt_0207010C` | noted | not re-derived, no new lever |
+| `0x02070948` | 216 | arm | `pkt_0207010C` | noted | not re-derived, no new lever |
+| `0x02070A24` | 208 | arm | `pkt_0207010C` | noted | not re-derived, no new lever |
+| `0x02073BF0` | 168 | arm | `pkt_02073BF0` | noted | not re-derived, no new lever |
+| `0x02074E10` | 140 | arm | `pkt_02074CD0` | noted | not re-derived, no new lever (chain on 0x020750EC) |
+| `0x02074E9C` | 160 | arm | `pkt_02074CD0` | noted | not re-derived, no new lever |
+| `0x02083298` | 156 | arm | `pkt_02083250` | noted | not re-derived, no new lever |
+| `0x02083334` | 156 | arm | `pkt_02083250` | noted | not re-derived, no new lever |
+| `0x020833D0` | 216 | arm | `pkt_02083250` | noted | not re-derived, no new lever |
+| `0x02087FBC` | 160 | arm | `pkt_02087FBC` | noted | not re-derived, no new lever |
+
+Extents
+-------
+
+Every `show` in this slice confirmed the row's real code extent matches the
+size column except the two rows the tool re-reported, both of which landed
+inside the 400-byte budget: 0x02046FF8 176 real (row says 176) and
+0x02017A20 260 real against a 250 row (its six-literal table is inside the
+range, not a trailing pool).  Nothing in this slice is oversized.
+
+Levers this run added to the last wave's list
+---------------------------------------------
+
+1. A `void` return is what keeps a loop-carried value in r0.  func_0204E388
+   tail-stores `func_02045A98()` and never copies r0, so the only local the
+   loop carries is the counter; declaring the function `u16`-returning makes
+   the last converted unit live across the loop and adds a callee-saved `sb`
+   to the frame (136 -> 140 bytes and 71 concrete bytes wrong).
+2. `u8 ch = *p; p++;` beats `u8 ch = *p++;` when the loop test already loaded
+   the same byte: the post-increment form emits its own `ldrb r0,[r6],#1` and
+   loses the `and r0,r0,#0xff` that reuses the test's `ldrsb` (four bytes).
+3. `(ch << 8) + *p` and `(ch << 8) | *p` differ by one byte (`add` against
+   `orr`) and are otherwise identical output: when the diff is a single
+   instruction in the third byte, check the operator before anything else.
+4. A signed loop counter against an `unsigned` index is what produces the
+   SINGLE `popls` guard plus a `blo` back-edge (func_0204BD94).  Writing the
+   obvious `if (count <= 0) return;` in front of the `for` emits both `pople`
+   and `popls` -- two predicated epilogues, four bytes of layout.
+5. Multiple `return 1` exits must all be `goto` to one label at the end
+   (func_02036A50): plain `return`s predicate each one inline and the frame
+   shifts by 25 bytes.  This is the same lever as last wave's, confirmed on a
+   second function.
+6. A boolean argument computed from a call compiles to `movs r3,#1; cmp r0,#0;
+   bne L; mov r3,r7` -- the value must be passed as an EXPRESSION
+   (`func(...) != 0` straight into the argument), never through a named local:
+   a local gets a stack slot and adds `sub sp, #8`, which shifts the whole
+   frame (func_0200B2A4, 170 -> 162 bytes).

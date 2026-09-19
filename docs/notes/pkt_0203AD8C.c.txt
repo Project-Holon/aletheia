@@ -1,0 +1,103 @@
+pkt_0203AD8C -- 0x0203AE20 (188 code bytes / 204 extent, ARM) DIFF, not filed
+=============================================================================
+Body: generator-state seeder called as func_0203AE20(g_021469DC + 0xc) from
+the parked func_0203AD8C.  OS_GetMacAddress fills the 6-byte MAC at sp+0,
+RTC_GetAlarmParam fills the two 0xc-byte structs at sp+8 and sp+0x14, the MAC
+bytes 3-5 and the six words are packed into one 32-bit seed (shift-16 products
+transcribed from the image), the seed plus the word at 0x02FFFC3C is handed to
+func_0203F034, and the two func_0203F0A8 draws are stored as one 64-bit value
+at +0 before the four constants (0x6C078965, 0x5D588B65, 0x00269EC3, 0) land
+at +8..+0x14.
+
+Residue: same size (204), 74 concrete bytes, every instruction present in the
+right order but the whole packing is register-shifted one slot.
+  original  ldr r2,[sp,#0x18] / ldr r3,[sp,#0x1c] / lsl r2 / mul r5,r3,r2 /
+            ldr r3,[sp,#0x14] / add r5,r3,r5,lsl #16
+  compiled  ldr r1,[sp,#0x18] / ldr r2,[sp,#0x1c] / lsl r1 / mul r1,r2,r1 /
+            ldr r2,[sp,#0x14] / add ip,r2,r1,lsl #16
+  the four constant loads at +0090..+00A4 are likewise rotated (r2/r3/r0
+  against r3/r2/r1), and the frame is `push {r3,r4,r5,r6,lr}` + `sub sp,#0x24`
+  (56 bytes) against `push {r4,r5,r6,lr}` + `sub sp,#0x20` (48 bytes).
+  ALL FIVE relocation sites resolve (OS_GetMacAddress label x44,
+  RTC_GetAlarmParam label x4, func_0203F034 label x6, func_0203F0A8 label x26
+  twice), so this row is not attestation-capped -- it is pure codegen.
+Three spellings tried: the struct order `S12 b; S12 c;` (which put the wrong
+struct at sp+8 and swapped the two call arguments), the corrected
+`S12 c; S12 b;` order (everything but the register rotation and the frame size
+then matches), and a named `u32 seed` local for the func_0203F034 argument
+(74 bytes either way).
+
+Blocking class: codegen.  This body is the sole blocker of the parked
+func_0203AD8C (src/pending/func_0203AD8C.c); its single unresolved site is this
+call, and `matched` would witness it the day this body is byte-correct.
+
+/* ---- source under test ----
+/*
+ * function: func_0203AE20
+ * address:  0x0203AE20
+ * packet:   pkt_0203AD8C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * symbols:
+ *   OS_GetMacAddress   0x02087C6C  arm
+ *   RTC_GetAlarmParam  0x020889C0  arm
+ *   func_0203F034      0x0203F034  arm
+ *   func_0203F0A8      0x0203F0A8  arm
+ *
+ * Seeds the generator state: the MAC bytes 3-5, the alarm parameter words and
+ * the word at 0x02FFFC3C are packed into one 32-bit seed (the shifts and the
+ * shift-16 product are transcribed from the image), the seed is handed to
+ * func_0203F034, and the two func_0203F0A8 draws are stored as one 64-bit
+ * value at +0 before the four MT-style constants land at +8..+0x14.
+ * Called as func_0203AE20(g_021469DC + 0xc) from func_0203AD8C.
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef unsigned long long u64;
+
+typedef struct {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+} S12;
+
+extern void OS_GetMacAddress(u8 *mac);
+extern void RTC_GetAlarmParam(u32 *a, u32 *b);
+extern void func_0203F034(u32 seed);
+extern u32  func_0203F0A8(void);
+
+void func_0203AE20(u8 *out)
+{
+    u8 mac[8];
+    S12 c;
+    S12 b;
+    u32 m;
+    u32 x;
+    u32 y;
+    u32 seed;
+    u32 v0;
+    u32 v1;
+
+    OS_GetMacAddress(mac);
+    RTC_GetAlarmParam((u32 *)&c, (u32 *)&b);
+    m = c.f0 + ((c.f8 * (c.f4 << 8)) << 16);
+    x = (mac[4] << 8) + (mac[3] << 16);
+    y = m + (b.f0 << 16);
+    y = y + ((b.f4 + b.f8) << 24);
+    x = mac[5] + x;
+    seed = (y + x) + *(u32 *)0x02FFFC3C;
+    func_0203F034(seed);
+    v1 = func_0203F0A8();
+    v0 = func_0203F0A8();
+    *(u64 *)out = ((u64)v1 << 32) + v0;
+    *(u32 *)(out + 8) = 0x6C078965;
+    *(u32 *)(out + 0xc) = 0x5D588B65;
+    *(u32 *)(out + 0x10) = 0x00269EC3;
+    *(u32 *)(out + 0x14) = 0;
+}
+*/

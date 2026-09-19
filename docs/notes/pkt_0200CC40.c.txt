@@ -1,0 +1,115 @@
+/*
+ * function: func_0200CC40
+ * address:  0x0200CC40
+ * packet:   pkt_0200CC40
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200C7F4        0x0200C7F4  thumb
+ *   func_0200C7C0        0x0200C7C0  thumb
+ *   func_0200CA98_Table  0x0209DE4C  data
+ *   func_0201ADE4        0x0201ADE4  thumb
+ *   func_0201AE1C        0x0201AE1C  thumb
+ *   func_0201AE14        0x0201AE14  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct FormCount {
+    u16 id;
+    u16 count;
+};
+
+extern const struct FormCount func_0200CA98_Table[];
+extern s32 func_0200C7F4(u32 a);
+extern u32 func_0200C7C0(u32 a);
+extern void *func_0201ADE4(u32 a, u32 b, u16 c);
+extern u32 func_0201AE1C(void *p, u32 b);
+extern void func_0201AE14(void *p);
+
+/*
+ * Residue and codegen wall:
+ * Common subexpression elimination (CSE).
+ * In the second half (four independent checks of the species bit across save bitmap groups),
+ * the original recomputes the shift, mask, and byte offset inside each conditional arm:
+ *   bit = (species - 1);
+ *   mask = 1 << (bit & 7);
+ *   offset = bit >> 3;
+ * whereas mwccarm hoists/shares these across blocks, yielding ~52 bytes of CSE savings
+ * that the original compilation did not perform.
+ */
+
+void func_0200CC40(u8 *save, u32 species, u32 *out1, u32 *out2, u32 *outForm)
+{
+    s32 idx = func_0200C7F4(species);
+    if (idx != -1) {
+        u32 base = func_0200C7C0(species);
+        u32 count = func_0200CA98_Table[idx].count;
+        u32 form;
+        for (form = 0; form < count; form++) {
+            u32 bit = (u16)(base + form);
+            u32 mask = 1 << (bit & 7);
+            u32 byte_idx = bit >> 3;
+            if (save[0x30E + byte_idx] & mask) {
+                *outForm = form;
+                *out2 = 0;
+                break;
+            }
+            if (save[0x317 + byte_idx] & mask) {
+                *outForm = form;
+                *out2 = 1;
+                break;
+            }
+        }
+        {
+            u32 bit = (u16)(species - 1);
+            u32 mask = 1 << (bit & 7);
+            u32 byte_idx = bit >> 3;
+            if ((save + 0x1AC)[byte_idx] & mask || (save + 0x254)[byte_idx] & mask) {
+                *out1 = 0;
+            }
+            if ((save + 0x200)[byte_idx] & mask || (save + 0x2A8)[byte_idx] & mask) {
+                *out1 = 1;
+            }
+        }
+    } else {
+        *outForm = 0;
+        {
+            u32 bit = (u16)(species - 1);
+            u32 mask = 1 << (bit & 7);
+            u32 byte_idx = bit >> 3;
+            if ((save + 0x1AC)[byte_idx] & mask) {
+                *out1 = 0;
+                *out2 = 0;
+            }
+            if ((save + 0x200)[byte_idx] & mask) {
+                *out1 = 1;
+                *out2 = 0;
+            }
+            if ((save + 0x254)[byte_idx] & mask) {
+                *out1 = 0;
+                *out2 = 1;
+            }
+            if ((save + 0x2A8)[byte_idx] & mask) {
+                *out1 = 1;
+                *out2 = 1;
+            }
+        }
+    }
+
+    {
+        void *p = func_0201ADE4(species, (u16)*outForm, *(u16 *)((u8 *)outForm + 4));
+        if (func_0201AE1C(p, 0x14) == 0xFF) {
+            *out1 = 2;
+        }
+        func_0201AE14(p);
+    }
+}

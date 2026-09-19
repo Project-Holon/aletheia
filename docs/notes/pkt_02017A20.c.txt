@@ -1,0 +1,114 @@
+band 129-256, lane r3a-1 -- DIFF residue for 0x02017A20
+=======================================================
+
+0x02017A20  260 -> 236  thumb  pkt_02017A20  new/ready  DIFF
+
+The best of three spellings.  Control flow, every branch target and all 11
+relocation sites reproduce (the tool resolves all 11: func_02017E1C label x267,
+func_020181F4 label x4, func_02017BC8 matched, func_02017988 label).  The
+residue is 24 bytes, all of it the six-element u16 table copy at
+0x02017A40..0x02017A5C plus the label shift it causes.
+
+  ORIGINAL @ 0x02017A40                     COMPILED
+  ldr r1, [pc, #0xdc]                       ldr r2, [pc, #0xc4]
+  add r0, sp, #8                            add r1, sp, #8
+  ldrh r2, [r1]                             lsls r3, r4, #1
+  add r6, sp, #8                            ldrh r0, [r2, r3]
+  strh r2, [r0]                             adds r4, r4, #1
+  ldrh r2, [r1, #2]                         cmp r4, #6
+  strh r2, [r0, #2]                         strh r0, [r1, r3]
+  ldrh r2, [r1, #4]                         blt #0x2017a44
+  strh r2, [r0, #4]
+  ldrh r2, [r1, #6]
+  strh r2, [r0, #6]
+  ldrh r2, [r1, #8]
+  strh r2, [r0, #8]
+  ldrh r1, [r1, #0xa]
+  strh r1, [r0, #0xa]
+
+The original is fully straight-line with no index register at all: six ldrh
+with immediate offsets 0,2,4,6,8,0xa and six strh storing back to `sp+8`
+through a second pointer set up as `add r6, sp, #8`.  Two pointers to the same
+local (`sp+8` in r0 and again in r6) means the source names the destination
+twice, and `add r0, sp, #8` / `add r6, sp, #8` are two separate address
+materialisations, which is not how a rolled `t[k] = g[k]` loop is built.
+
+Only TWO spellings were actually compiled, both with the copy written as a
+rolled index loop, and both produced the rolled five-instruction loop instead
+of the original's twelve straight-line instructions (24 bytes short, shifting
+every later label):
+
+  1. `for (k = 0; k < 6; k++) tbl[k] = g_0209E298[k];` with `u16 v` and a
+     `u16` third parameter on func_020181F4           -- 240 bytes compiled
+  2. the same copy, with func_020181F4's value parameter declared `int` and
+     the call sites written `(u16)v` / `(u8)i`        -- 236 bytes compiled
+
+What is NOT yet ruled out, and is the obvious next lever for whoever resumes:
+the source may copy the six u16 out of a struct-typed object (a struct
+assignment `Tbl t = *(const Tbl *)g_0209E298;` with `u16 v[6]`), or name the
+destination through a `u16 *` local, which is what would give the two separate
+`add ..., sp, #8` address materialisations.  Neither was tried here; the run
+stopped at two spellings, per the wave rule that a residue this shape is a
+documented wall rather than a puzzle.
+
+The whole C is below; everything outside the copy block is byte-identical, so
+whoever finds the copy shape lands the function with no further work.
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+extern const u16 g_0209E298[];
+extern int  func_02017E1C(int a0, int key, int off);
+extern void func_020181F4(int a0, int v, int i);
+extern void func_02017BC8(int a0, int i);
+extern void func_02017988(int a0, int idx);
+
+int func_02017A20(int a0, int idx, u8 val)
+{
+    u16 tbl[6];
+    u16 v;
+    int i, k;
+
+    if (func_02017E1C(a0, 5, 0) != 0x1df)
+        return 0;
+    for (k = 0; k < 6; k++)
+        tbl[k] = g_0209E298[k];
+    v = tbl[idx];
+    for (i = 0; i < 4; i++) {
+        int r = func_02017E1C(a0, i + 0x36, 0);
+
+        for (k = 1; k < 6; k++) {
+            if (r == 0 || r != tbl[k])
+                continue;
+            if (v != 0) {
+                func_020181F4(a0, (u16)v, (u8)i);
+                v = 0;
+            } else {
+                func_02017BC8(a0, i);
+                i--;
+            }
+            break;
+        }
+    }
+    if (v != 0) {
+        for (i = 0; i < 4; i++) {
+            if (func_02017E1C(a0, i + 0x36, 0) == 0) {
+                func_020181F4(a0, (u16)v, (u8)i);
+                break;
+            }
+        }
+        if (i == 4)
+            func_020181F4(a0, (u16)v, val);
+    }
+    if (func_02017E1C(a0, 0x36, 0) == 0)
+        func_020181F4(a0, 0x54, 0);
+    func_02017988(a0, idx);
+    return 1;
+}
+
+Two spellings inside the body that WERE right and should be kept if this is
+resumed: the inner scan is the disjunction `r == 0 || r != tbl[k]` before
+`continue` (a `&&` guard loses the predicated pair), and `v`/`i` are truncated
+at the call with an explicit `(u16)` / `(u8)` cast because the original emits
+`lsls r1,r7,#0x10; lsrs r1,r1,#0x10` and `lsls r2,r4,#0x18; lsrs r2,r2,#0x18`
+at each func_020181F4 site.

@@ -1,0 +1,61 @@
+func_02050DB8 @ 0x02050DB8 -- byte-correct except one callee with no witness
+===========================================================================
+
+packet pkt_02050C30, isa arm, real extent 284 bytes (280 code + a 4-byte
+literal pool word holding the address of the global pointer 0x02146A88).
+verdict: DIFF, 8 of 9 relocation sites resolved.
+
+Two independent residues, both documented here so the next pass knows the C
+is right and only these two things stand between it and EXACT:
+
+1. unwitnessed callee -- the hard blocker
+-----------------------------------------
+  +0020  bl func_0206168C   -> "unresolved: 0206168C (arm, from header) has no
+                                witness outside 02050DB8..02050ED4"
+
+  0x0206168C carries a `func_` label but no branch anywhere in the image
+  reaches it from outside this range, it appears in no literal pool, and no
+  manifest entry defines it.  0x0206168C lives in packet pkt_020613D8, which
+  is NOT this lane's (this lane owns pkt_02050C30, pkt_02062114, ...).  Filing
+  the callee is the fix and it is a sibling lane's row; do not reach into it.
+  Everything else in the function -- including the other eight sites, which
+  resolve [label]/[literal]/[matched] -- is fine.
+
+2. five-instruction register swap in the 16-entry search loop (20 bytes)
+------------------------------------------------------------------------
+  +00D8  mov r1, #0            | mov r2, #0
+  +00DC  ldr r2, [r0]          | ldr r1, [r0]
+  +00E0  ldr r0, [r2, r1, lsl #2] | ldr r0, [r1, r2, lsl #2]
+  +00E8  streq r4, [r2, r1, lsl #2] | streq r4, [r1, r2, lsl #2]
+  +00F0  add r1, r1, #1        | add r2, r2, #1
+  +00F4  cmp r1, #0x10         | cmp r2, #0x10
+
+  The original holds the array pointer in r2 and the index in r1; the
+  compiler here does the opposite.  The `cmp r0, r5` operand order (element
+  on the left) is a real tell and IS reproduced by binding the element to a
+  named local first:
+
+      u32 t = a[i];
+      if (t == (u32)p) { a[i] = 0; break; }
+
+  Without that local the compare comes out `cmp r5, r0` and the diff is 11
+  bytes instead of 9.  Ruled out for the remaining r1/r2 swap: declaration
+  order of `int i; u32 *a;` swapped; a separate `u32 j` index; `i = 0;`
+  hoisted above `a = arr_02146A88;`; pointer-walk form `*(a + i)`; `void *t`;
+  drawing `arr_02146A88[i]` inline (78 bytes); initialising `a` at its
+  declaration (206 bytes).
+
+What the rest of the function needs (it all matches)
+----------------------------------------------------
+  * `p->f258` is re-read after the first if/else (a call sits between the two
+    reads, so the reload is free) -- do not cache it in a local.
+  * both 0x40-iteration loops are `for (i = 0; i < 0x40; i++)` with a SIGNED
+    `int` counter (`blt`, not `blo`); the first loop's `mov r6, r4` (copy of
+    the live zero) versus the second loop's `mov r6, #0` falls out of that.
+  * the `p->f32 & 1` test is a shift pair (`ldrh; lsl #31; lsrs #31`), i.e. a
+    1-bit bitfield at +0x32, not a mask (a mask folds to `ands`).
+  * the global at 0x02146A88 is a *pointer variable* (`extern u32 *arr;`,
+    `[literal x50]`), so the code is `a = arr_02146A88; ... a[i]`.
+
+Closest source: scratch/r3b2_wip/db8_w1.c (9-byte residue, i.e. the loop swap
+only, with the unwitnessed site still wildcarded -> MATCH if the swap closes).

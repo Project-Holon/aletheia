@@ -1,0 +1,130 @@
+lane r3b-3, row 0x020933B8 (pkt_020933B8, ARM, packet state=new, class=ready).
+VERDICT: DIFF (SIZE 264 vs listing extent 280; the extent runs 4 bytes past the
+body because the follower 0x020934CC has no label, so the real body is 276).
+
+WHAT IT IS
+----------
+A decimal/odometer digit-update on a struct reached through the caller's r0:
+
+    +0x00  u16 unk
+    +0x02  s16 num        (ldrsh at the tail, strh at the reset)
+    +0x04  u8  len
+    +0x05  u8  str[]      ('0'..'9' text)
+
+Everything reproduces byte for byte -- all four reset/store blocks, the
+if/else that picks `carry = (u8)q[-1] & 1` against `carry = 1`, the
+for-loop body, the tail `b->num++ / len = 1 / str[0] = '1'` block and the
+`goto reset` cross-jump back to the top block -- EXCEPT the loop's exit
+path, 3 instructions / 12 bytes.
+
+RESIDUE (the one wall)
+----------------------
+The original keeps the "write the digit and leave the loop" arm as its own
+branchless block and splits the for-loop's increment from its test:
+
+    02093470  bne #0x209347c        ; if (carry) -> INC
+    02093474  cmp r4, #0
+    02093478  bne #0x2093484        ; if (v != 0) -> WRITE
+    0209347C  sub r1, r1, #1        ; INC
+    02093480  b #0x2093490
+    02093484  add ip, r4, #0x30     ; WRITE
+    02093488  strb ip, [r3]
+    0209348C  b #0x2093498
+    02093490  cmp r1, #0            ; TEST
+    02093494  bne #0x2093450
+    02093498  cmp r5, #0            ; END
+
+mwcc 1.1p1 instead predicates the 2-instruction write arm and fuses the
+decrement with the test, which is 12 bytes shorter:
+
+    02093478  addne ip, r4, #0x30
+    0209347C  strbne ip, [r3]
+    02093480  bne #0x209348c        ; -> END
+    02093484  subs r1, r1, #1
+    02093488  bne #0x2093450
+
+SPELLINGS TRIED (all reach the same 264-byte if-converted form)
+--------------------------------------------------------------
+1. `if (carry == 0 && v != 0) { *q = v + '0'; break; }`
+2. `if (carry == 0) { if (v == 0) continue; *q = v + '0'; break; }`
+3. `if (carry != 0) continue; if (v != 0) { *q = v + '0'; break; }` with the
+   explicit continues written out.
+4. `u8 d = v + '0'; *q = d; break;` (the temporary does not help)
+5. `if (v != 0) { *q = v + '0'; goto out; }` (296 bytes, worse)
+6. `while (idx != 0) { ...; idx--; }` and `do { ... } while (idx != 0);`
+   -- identical residue.
+7. writing the digit `b->str[k]` instead of `*q` -- identical residue.
+
+The two things that DID matter and could be useful to the next lane:
+* the reset block must be written `b->len = 1; b->num = 0; b->str[0] = '0';`
+  (that order), not len/str/num, or the three stores come out reordered;
+* the tail `if (idx == 0)` case must be an explicit `goto reset;` to the
+  label inside the `if (idx < 0)` block, or mwcc duplicates the 5-instruction
+  reset block inline (+20 bytes) instead of branching back.
+
+C (best spelling, 264 bytes, DIFF as described)
+-----------------------------------------------
+*/
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+typedef struct {
+    u16 unk0;
+    s16 num;
+    u8  len;
+    u8  str[1];
+} Ctr;
+
+void func_020933B8(Ctr *b, s32 idx)
+{
+    u8 *p;
+    u8 *q;
+    u32 v;
+    u32 carry;
+
+    if (idx < 0) {
+    reset:
+        b->len = 1;
+        b->num = 0;
+        b->str[0] = '0';
+        return;
+    }
+    if (idx >= b->len)
+        return;
+    p = b->str;
+    q = p + idx + 1;
+    v = (u8)(*--q - '0');
+    if (v == 5) {
+        u8 *s = p + b->len;
+        do {
+            s--;
+        } while (s > q && *s == '0');
+        if (s == q)
+            carry = (u8)q[-1] & 1;
+        else
+            carry = 1;
+    } else {
+        carry = v > 5;
+    }
+    for (; idx != 0; idx--) {
+        v = (u8)((*--q - '0') + carry);
+        carry = v > 9;
+        if (carry == 0 && v != 0) {
+            *q = (u8)(v + '0');
+            break;
+        }
+    }
+    if (carry != 0) {
+        b->num = b->num + 1;
+        b->len = 1;
+        b->str[0] = '1';
+        return;
+    }
+    if (idx == 0)
+        goto reset;
+    b->len = (u8)idx;
+}

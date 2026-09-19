@@ -1,0 +1,87 @@
+lane r3b-3 (257-512 byte band, 46 rows, 35 packets) -- per-row verdicts and
+evidence for the rows that are NOT recorded in their own pkt_*.c.txt note.
+Read this together with the JSON report the lane handed back.
+
+EXACT (filed in src/matched/, shard layout/matched/arm9/<packet>.json)
+--------------------------------------------------------------------
+0x02039160  344 bytes  ARM  pkt_02039160
+  src/matched/func_02039160.c, `match.py one` prints EXACT, 6/6 relocations
+  resolved (label x500/x357/x5/x110, literal x180 for lbl_021469D0).
+  Three levers earned this one:
+   * the whole body is written as NESTED guards with a single `return 0` at
+     the end of each guard block, which is what produces the shared exit
+     block at 0x020391D8 that two `beq` sites jump back to; spelling the
+     same tests as separate `if (x) return 0;` statements makes mwcc
+     predicate each return in place and costs the layout.
+   * the final pair of arms is written INVERTED --
+     `if (f() == 0 || p4[0x64] == 0) { call arm } else { global arm }` --
+     which is what puts the call arm first in the listing and makes the
+     `beq` jump backwards into it; the source-order-looking spelling
+     `if (f() != 0 && p4[0x64] != 0) { global } else { call }` puts the arms
+     the other way round.
+   * the mode argument is `u32`, not `s32`: `mode < 2` must emit `blo`, and
+     a signed parameter gives `blt` (one concrete byte).
+
+0x02038924  292 bytes  ARM  pkt_020385C4
+  src/matched/func_02038924.c, `match.py one` prints EXACT, 8/8 resolved.
+  Levers: `*(u16 *)(lbl + 0x100 + 0xe4)` spelled through the global (not as
+  one 0x1e4 field), `((r & 0xff00) >> 8)` rather than `(u8)(r >> 8)` -- the
+  mask first is what makes mwcc emit `and` then `asr` -- and the global
+  self-decrement placed BEFORE the `if (p == 0) return 0;` test, which is
+  what makes the decrement schedule above the conditional return.
+
+PARK (src/pending/, byte-correct but capped at MATCH)
+----------------------------------------------------
+0x02051230  304 bytes  ARM  pkt_02051230  -> src/pending/func_02051230.c
+  status MATCH: 5 of 7 relocation sites resolve, the two that do not are
+    +004C func_0206164C  unresolved: 0206164C (arm, from header) has no
+                         witness outside 02051230..02051360
+    +00E4 func_02052A50  same
+  Both callees live in packets this lane does not own (pkt_0206164C,
+  pkt_02052A50), so the park cannot be promoted from here; the first lane
+  that files either callee (or a caller of it elsewhere in the image)
+  converts this file with no edit.  Everything else is byte-exact,
+  including the four pool words 0x02051A3C/0x02051A54/0x02051AA0/0x02051AB8
+  (function pointers stored into the object's vtable slots) which mwcc
+  emitted without relocations, and the two 64-iteration zero loops.
+  Two spelling levers worth keeping: the function is `void` (spelling the
+  four exits `return 0;` adds three `mov r0, #0` and 12 bytes), and the
+  flag word must be built as `f = (func() == 1) ? 1 : 2;` -- the
+  `f = 1; if (func() != 1) f = 2;` form hoists the `mov r5, #1` above the
+  call and loses the schedule.
+
+NOT ATTEMPTED TO A VERDICT (class + the evidence behind it)
+----------------------------------------------------------
+0x02096990  896-byte extent (worklist `code` column says 268)  pkt_02096990
+  class size.  Real body is a 40-entry `addls pc, pc, r1, lsl #2` jump table
+  at 0x020969CC plus 40 inlined case arms that each load a different pool
+  word and call func_020968F4, then a second switch table at 0x02096CBC and
+  an 80-byte literal pool.  The listing extent runs to 0x02096D10 (the pool
+  end), so the row is more than double the 400-byte in-scope limit.
+
+0x0203FCA0  1828 code bytes + 48-byte pool  pkt_0203FCA0  class size.
+  Recon from the existing docs/notes/func_0203FCA0.c.txt: the previous lane
+  reproduced 325 of 469 instructions and confined the residue to four
+  byte-identical copies of a 37-instruction inner switch.  Out of scope for
+  a 257-512 band lane; the note is the deliverable.
+
+0x020358A0  448 bytes ARM pkt_020358A0 (ready) and
+0x02035F38  368 bytes ARM pkt_02035F38 (chain, needs 0x020360B8)
+  class literal.  Both read a halfword through a pool word whose value is
+  0x02FFFFA8 (= 0x03000000 - 0x58) and, in 0x02035F38, also shift that same
+  word right by 12 to use 0x2FFFF as a mask (`eor r0, r0, r3, lsr #12` /
+  `and r0, r0, r3, lsr #12`), which is the `~x ^ m` family from the wave
+  levers.  The same (0x02FFFFA8, 0x04000130) pool PAIR appears at
+  0x0200FA74, 0x0200FD30, 0x020353AC and elsewhere, so the literal class
+  can attest it -- the blocker is not evidence, it is that the
+  orr/eor/and/mvn-lsl/mvn-asr chain around the two hardware halfwords was
+  not reproduced.  A lane with more budget should start from
+  `~v & 0x2FFFF` with the mask spelled `(0x02FFFFA8 >> 12)`.
+
+0x02051F34  328 bytes ARM pkt_02051E74 (chain, needs 0x020520A4)
+  class codegen.  Body builds three 12-byte vectors on the stack
+  (sp+0, sp+0xc, sp+0x18) with 0x0207CA00/0x0207CA68/0x0207C768, packs the
+  value returned by 0x0207C768 into r1 of the 0x020520A4 call (a
+  value-in-register argument, not a re-evaluated one), and reaches its
+  shared compare tail (0x0205203C) from both arms.  Not reproduced; the
+  frame/argument packing is the lever to attack.

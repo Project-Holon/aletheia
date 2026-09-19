@@ -1,0 +1,109 @@
+pkt_020313EC -- 0x020313EC (204 code bytes, ARM) DIFF, not filed
+=================================================================
+Body: node-list rebuild.  p->f0c (if set) is released through func_020313A0,
+func_020315F0 decides whether the node at p->f08 is reusable, and the two arms
+either splice the successor node in or re-allocate it through func_02031538 and
+reset the four cursor fields.
+
+Residue: same size (204), 12 concrete bytes = three instruction slots reordered.
+  +003C-0048 original  ldr r0,[r5,#0x10] / cmp r0,#0 / ldr r0,[r5,#8] /
+                        ldr r6,[r0,#0x18]
+             compiled  ldr r1,[r5,#8] / ldr r0,[r5,#0x10] / ldr r6,[r1,#0x18] /
+                        cmp r0,#0
+  Every other instruction, both arms, the field offsets and the tail
+  return (r == 1) ? 2 : 1 are identical.
+Three spellings tried: if (p->f10 == 0) {...} else {...} (arm order was
+inverted, 87 bytes wrong), the same with the arms swapped (12 bytes), and the
+same with u32 t = p->f10; bound before the node load (still 12).  The
+fall-through arm is the source order: the image falls through into the
+p->f10 != 0 (re-allocate) arm and branches forward to the reuse arm.
+
+Blocking class: label, independent of the residue.  func_020315F0
+(0x020315F0) has one call site in the whole image and it is this function's own
+(+002C), so the site can never resolve; the callee is unfiled and lies outside
+this lane's packets (the slice names it: file first 0x020315F0).  The row is
+MATCH-capped even when the 12-byte scheduling residue is closed.
+
+/* ---- source under test ----
+/*
+ * function: func_020313EC
+ * address:  0x020313EC
+ * packet:   pkt_020313EC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+} Obj020313EC;
+
+typedef struct {
+    u8  pad[0x18];
+    u32 f18;
+    u32 f1c;
+} Node020313EC;
+
+extern void  func_020313A0(u32 a, u32 b);
+extern u32   func_020315F0(u32 a);
+extern void  func_02031590(void);
+extern u32   func_02031538(u32 a, u32 b, u32 c, u32 d);
+
+u32 func_020313EC(Obj020313EC *p)
+{
+    u32 r;
+    Node020313EC *node;
+    u32 np;
+
+    if (p->f08 == 0) {
+        return 0;
+    }
+    if (p->f0c != 0) {
+        func_020313A0((u32)p, p->f0c);
+    }
+    r = func_020315F0(p->f08);
+    if (r == 1) {
+        Node020313EC *hdr = (Node020313EC *)p->f08;
+        u32 t = p->f10;
+
+        node = (Node020313EC *)hdr->f18;
+        if (t != 0) {
+            func_02031590();
+            np = func_02031538(p->f14, p->f18, p->f1c, *(u16 *)p);
+            p->f08 = np;
+            if (node != 0) {
+                node->f1c = np;
+            }
+            ((Node020313EC *)p->f08)->f18 = (u32)node;
+            p->f10 = 0;
+            p->f14 = 0xffffffffu;
+            p->f18 = 0;
+            p->f1c = 0;
+        } else {
+            func_02031590();
+            p->f08 = (u32)node;
+            if (node != 0) {
+                node->f1c = 0;
+            }
+        }
+    }
+    if (p->f08 == 0) {
+        return 0;
+    }
+    return (r == 1) ? 2 : 1;
+}
+*/

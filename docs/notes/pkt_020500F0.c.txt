@@ -1,0 +1,94 @@
+pkt_020500F0 - residue note (side lane, 257-512 byte band)
+=========================================================
+
+func_020500F0 @ 020500F0 (324 bytes, ARM) - DIFF
+------------------------------------------------
+Subsystem: Slot allocator and dispatch manager batch populator.
+Exact size: 328 bytes compiled vs 328 bytes original.
+Residue: 13 instructions / 52 concrete bytes differ out of 328 (84% byte-identical).
+
+Differences:
+All logic, loop bounds, frame size, callee relocations (func_02033CA8, func_0204EF58, func_0204F10C),
+array addressing arithmetic, and pool constant (0xFFFF) match byte-for-byte.
+The residue is entirely load-delay scheduling in two places:
+1. At +0060..+0070 and +00A8..+00B8: Marshaling arguments for `func_0204EF58`. Original interleaves
+   the loads of `b6, b7, b4` before writing `b6, b7` to the outgoing stack arguments at `sp[0], sp[4]`,
+   filling ARM9 load-delay slots. mwcc evaluates and stores the outgoing stack arguments sequentially
+   through `r0`, incurring pipeline stalls.
+2. At +0110..+0118: In case 2, `ldr r1, [r1]` (`rec->unk0`) is scheduled in the load-delay slot of
+   `ldr r0, [pc, #0x30]` (`0xFFFF`) ahead of `strh r0, [r3, r2]`. Compiled emits the `strh`
+   immediately after `ldr r0`.
+
+Source attempt:
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct S8 {
+    u16 h;
+    u16 pad;
+    u32 w;
+};
+
+struct Rec {
+    u32 unk0;
+    u8 b4;
+    u8 b5;
+    u8 b6;
+    u8 b7;
+    u32 type;
+};
+
+struct Manager {
+    u8 pad0[4];
+    void *table;
+    u8 pad8[4];
+    struct S8 *array;
+    u8 pad10[4];
+    u32 pool;
+};
+
+extern int  func_02033CA8(u32 a, int b);
+extern u32  func_0204EF58(void *table, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void func_0204F10C(void *table, u32 idx);
+
+u16 func_020500F0(struct Manager *mgr, struct Rec *records, u32 count)
+{
+    int base_slot;
+    u32 i;
+    u32 zero1 = 0;
+    u32 zero2 = 0;
+
+    base_slot = func_02033CA8(mgr->pool, count);
+
+    for (i = 0; i < count; i++) {
+        struct Rec *rec = &records[i];
+        switch (rec->type) {
+        case 0:
+            mgr->array[base_slot + i].h = func_0204EF58(mgr->table, rec->unk0, rec->b4, rec->b5, rec->b6, rec->b7);
+            mgr->array[base_slot + i].w = zero1;
+            break;
+
+        case 1: {
+            u32 id = func_0204EF58(mgr->table, rec->unk0, rec->b4, rec->b5, rec->b6, rec->b7);
+            func_0204F10C(mgr->table, id);
+            mgr->array[base_slot + i].h = id;
+            mgr->array[base_slot + i].w = zero2;
+            break;
+        }
+
+        case 2:
+            mgr->array[base_slot + i].h = 0xffff;
+            mgr->array[base_slot + i].w = rec->unk0;
+            break;
+        }
+    }
+
+    return (u16)base_slot;
+}
+
+Spellings ruled out:
+- Storing `.w` before `.h` in case 2 (moves all `.w` calculation ahead of `.h`).
+- Explicit locals for `b4..b7` (mwcc reorders or spills).
+- Unprototyped `func_0204EF58` (causes identical sequential marshal).

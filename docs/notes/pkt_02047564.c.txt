@@ -1,0 +1,86 @@
+/*
+DIFF note, lane r3a-2, row 0x02047564 (arm, packet pkt_02047564).
+Verdict: DIFF, compiled 200 bytes = the original's 200, 24 concrete bytes differ.
+
+The whole function reproduces, including the 5-argument first call (the 0x6D2
+goes on the stack through `sub sp, sp, #4` / `str r4, [sp]`, which is why the
+prologue looks like a dead local - it is actually func_02030734's fifth
+argument), the two global pool words (0x02146A5C and 0x020A7EA8, both `literal`
+class, 115 and 30 witnesses), and every call site resolves `label` except
+func_0206E364, which stays unresolved (no witness outside the compared range).
+
+The residue is scheduling only: the same seven instructions reordered.
+  original: mov r6,r0; ldr r1,[pc]; ldr r0,[r8,#4]; strh r1,[r6];
+            mov r1,r7; str r8,[r6,#8]; bl
+  compiled: ldr r1,[pc]; mov r6,r0; strh r1,[r6]; str r8,[r6,#8];
+            ldr r0,[r8,#4]; mov r1,r7; bl
+i.e. mwcc sinks the `a1->f4` argument load to the call instead of hoisting it
+between the constant load and the first store, and it puts the constant in r1
+where the original puts it in r2.
+
+Spellings tried and ruled out: stores then call (above); a named local
+`int t = *(int *)(a1 + 4);` before the stores (moves the load up but puts the
+constant in r2 and sets r1 = a2 one instruction early); the call placed before
+the stores in source order (mwcc keeps it there and reallocates every register);
+a struct-typed destination `Obj *r` with `r->type` / `r->f8` field stores
+(same reorder).
+
+Residue class: codegen, 24 bytes.
+
+Verified with:
+  python tools/match.py one --src <this file> --func func_02047564 \
+      --addr 0x02047564 --cc 1.1p1 --arm --diff
+
+*/
+
+/*
+ * unit:     no
+ * function: func_02047564
+ * address:  0x02047564
+ * packet:   pkt_02047564
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF  (near miss, not filed)
+ *
+ * symbols:
+ *   g_02146A5C   0x02146A5C  data
+ *   g_020A7EA8   0x020A7EA8  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 g_02146A5C;
+extern u32 g_020A7EA8;
+
+extern int func_02030734(int a0, int a1, int a2, int a3, int a4);
+extern int func_0206E9A4(int a0, int a1);
+extern int func_02047554(int a0);
+extern int func_0206E964(int a0);
+extern int func_0206E364(int a0, int a1, int a2);
+extern void func_02069C74(int a0, int a1, int a2, int a3);
+
+int func_02047564(int a0, int a1, int a2)
+{
+    int r;
+    int x;
+    int y;
+    int z = 0;
+
+    r = func_02030734(*(u16 *)(*(u32 *)&g_02146A5C + 0x18), 0xC, 0,
+                      (int)&g_020A7EA8, 0x6D2);
+    *(u16 *)r = 0x59D1;
+    *(int *)(r + 8) = a1;
+    x = func_0206E9A4(*(int *)(a1 + 4), a2);
+    y = *(int *)(*(int *)(a0 + 4) + 4);
+    if (func_02047554(a0) != 0) {
+        z = func_0206E964(*(int *)(*(int *)(a0 + 0xC) + 4));
+    }
+    *(int *)(r + 4) = func_0206E364(*(u32 *)&g_02146A5C, x, y);
+    func_02069C74(*(int *)(r + 4), x, y, z);
+    return r;
+}

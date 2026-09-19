@@ -1,0 +1,94 @@
+pkt_020966B0 -- 0x020966B0 (196 bytes, ARM) DIFF, not filed
+=================================================================
+Body: u64 -> decimal digits.  Repeated 64-bit divmod against 10 through
+func_0209C018 (_ll_divmod_entry_flag1, remainder in r0) and func_0209C00C
+(_ll_divmod_entry_flag0, quotient in r0:r1), digits forward at p->f05, the run
+reversed in place, count-1 at p->f2 as a halfword.
+
+Residue: compiled 192 bytes against 196, every instruction reproduced, the
+whole difference a one-register shift of the callee-saved set.
+  original  r4=idx  r5=hi  r6=lo  r7=p  r8=0   sb=10
+  compiled  r4=hi   r5=lo  r6=p   r7=0  r8=10  sb=idx
+Two spellings tried against the earlier packet's attempt (see
+docs/notes/pkt_02096670.c.txt, which records the same function from the
+neighbour packet): the post-increment subscript p->f05[p->f04++] = ..., and
+the spelled-out idx = p->f04; p->f04 = idx + 1; p->f05[idx] = ...;.  The
+second one is the right shape and DOES recover the original's frame
+(push {r3,r4,r5,r6,r7,r8,sb,lr} with idx live across the call, and 10/0 held
+in sb/r8 across the loop), but the allocator still hands idx the top
+callee-saved register and shifts the value pair down by one.
+
+Blocking class: codegen -- register-choice residue, six registers rotated by
+one, both divmod call sites and every byte of the loop, the reversal and the
+tail reproduced.
+
+/* ---- source under test ----
+/*
+ * function: func_020966B0
+ * address:  0x020966B0
+ * packet:   pkt_020966B0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * symbols:
+ *   func_0209C018  0x0209C018  arm
+ *   func_0209C00C  0x0209C00C  arm
+ *
+ * Decimal conversion of a u64: repeated 64-bit divmod against 10 through the
+ * two MSL runtime entries func_0209C018 (_ll_divmod_entry_flag1, remainder in
+ * r0) and func_0209C00C (_ll_divmod_entry_flag0, quotient in r0:r1).  Digits
+ * are stored forward at p->f05, the digit run is reversed in place and the
+ * count minus one lands as a halfword at p->f2.
+ *
+ * The count load must precede the claim call: reading p->f04 into `idx` and
+ * bumping the field before the divmod keeps the index in a callee-saved
+ * register (r4) across the call, which is what makes the original's frame
+ * `push {r3,r4,r5,r6,r7,r8,sb,lr}`.  A post-increment subscript instead lets
+ * mwcc load the count after the call and drops to five saved registers.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+
+typedef struct {
+    u8  f00;
+    u8  f01;
+    u16 f02;
+    u8  f04;
+    u8  f05[1];
+} T020966B0;
+
+extern u32 func_0209C018(u64 v, u32 d, u32 flag);
+extern u64 func_0209C00C(u64 v, u32 d, u32 flag);
+
+void func_020966B0(T020966B0 *p, u64 v)
+{
+    u8 *a;
+    u8 *b;
+    u32 idx;
+
+    p->f00 = 0;
+    p->f04 = 0;
+    while (v != 0) {
+        idx = p->f04;
+        p->f04 = (u8)(idx + 1);
+        p->f05[idx] = (u8)func_0209C018(v, 10, 0);
+        v = func_0209C00C(v, 10, 0);
+    }
+    a = p->f05;
+    b = a + p->f04 - 1;
+    while (a < b) {
+        u8 x = *a;
+        u8 y = *b;
+
+        *b-- = x;
+        *a++ = y;
+    }
+    p->f02 = (u16)(p->f04 - 1);
+}
+*/

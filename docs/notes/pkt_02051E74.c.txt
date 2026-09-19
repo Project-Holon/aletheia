@@ -1,0 +1,88 @@
+pkt_02051E74 -- 0x02051E74 (160 code bytes, ARM) DIFF, not filed
+=================================================================
+Body: the scaled-2x2 rotation-matrix builder.  mode==1 takes the angle as a
+16-bit fraction, mode==2 converts through a 32x32 high multiply by 0x6C16C16D,
+the table at 0x020A1B38 supplies the (sin, cos) s16 pair, and the two vector
+magnitudes scale the result.
+
+Residue: 19 concrete bytes, all register-choice, no instruction differs.
+  +0034 original rsb r1, r1, r1, lsl #16    compiled rsb r2, ...
+  +0038 original umull r0, r2, r1, r0       compiled umull r0, r1, r2, r0
+  +003C-0040 the sub/add pair carries r2 where the original carries r1
+  +0050-0064 the table index lands in r1/r0 with the base in r2 in the
+       original, r2/r1 with the base in r0 in the compilation (an extra r3
+       is spent because the cast constant is materialised later)
+Two spellings tried: a named s16* tbl local (base hoisted to the top) and the
+inline cast expression.  Writing the mode-2 steps as ang = (ang << 16) - ang;
+(in place) rather than into a fresh t was the second spelling; the compiler
+still keeps the incoming parameter in r1 and puts the new value in r2.
+(s32)ang >> 4 is confirmed by the original's asr.
+
+Blocking class: label, and it is a one-address wall independent of the C.
+MTX_Rot22_ (0x0207AD64) and MTX_ScaleApply22 (0x0207AD70) each have exactly one
+branch anywhere in the image, and it is this function's own call
+(asm/arm9/main.s:158032 and :158042).  No outside witness exists, so the two
+sites can never resolve; the function is MATCH-capped at best and the remaining
+residue keeps it at DIFF.
+
+/* ---- source under test ----
+/*
+ * function: func_02051E74
+ * address:  0x02051E74
+ * packet:   pkt_02051E74
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * symbols:
+ *   MTX_Rot22_       0x0207AD64  thumb
+ *   MTX_ScaleApply22 0x0207AD70  arm
+ *   func_0207C778    0x0207C778  arm
+ *
+ * Builds a scaled 2x2 rotation matrix.  The fifth argument (a byte, read with
+ * ldrb off the incoming stack slot) selects the input angle format: 1 is a
+ * 16-bit fraction, 2 is degrees converted through a 32x32 high multiply by
+ * 0x6C16C16D.  Either way the angle ends up in 1/4096-of-a-turn units and the
+ * sign/cosine pair comes from the s16 table at 0x020A1B38, indexed by
+ * tbl[a*2] / tbl[a*2+1].  The two vectors are then reduced to their magnitudes
+ * and used as the x and y scale.
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef signed int    s32;
+typedef signed short  s16;
+typedef unsigned long long u64;
+
+extern void MTX_Rot22_(void *mtx, s32 sinVal, s32 cosVal);
+extern void MTX_ScaleApply22(void *mtx, void *dst, s32 xScale, s32 yScale);
+extern u32 func_0207C778(void *vec);
+
+void func_02051E74(void *mtx, u32 ang, void *v1, void *v2, u8 mode)
+{
+    s32 a;
+    s32 s;
+    s32 c;
+    u32 m1;
+    u32 m2;
+
+    if (mode == 1) {
+        ang = (((ang << 16) - ang) << 8) >> 16;
+    } else if (mode == 2) {
+        u32 q;
+
+        ang = (ang << 16) - ang;
+        q = (u32)(((u64)ang * 0x6C16C16Du) >> 32);
+        ang = ((q + ((ang - q) >> 1)) << 8) >> 16;
+    }
+    a = (s32)ang >> 4;
+    s = ((s16 *)0x020A1B38)[a * 2];
+    c = ((s16 *)0x020A1B38)[a * 2 + 1];
+    MTX_Rot22_(mtx, s, c);
+    m1 = func_0207C778(v1);
+    m2 = func_0207C778(v2);
+    MTX_ScaleApply22(mtx, mtx, m1, m2);
+}
+*/

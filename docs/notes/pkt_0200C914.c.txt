@@ -1,0 +1,99 @@
+/*
+DIFF note, lane r3a-2, row 0x0200C914 (thumb, packet pkt_0200C914).
+Verdict: DIFF, 208-byte body, 184 concrete bytes differ, no SIZE difference.
+
+The structure is right; the residue is register choice only. The compiler
+allocates the incoming id (r1) to r5 and the 5th parameter to r4; the original
+has the id in r4 and the start value in r5, and it spills the callee result to
+[sp+4] where mwcc keeps it in r6. Every differing instruction is one of those
+two choices (adds r4/r5, r1/r5, ldr r4/r5, r6/r2 for the pooled constant).
+
+Spellings tried and ruled out (all compiled 208 bytes, all DIFF):
+  * chain written as `switch (a1)` - mwcc answers the sparse switch with a
+    subs/bgt binary search, not the original's sequential compare chain.
+  * chain written as if/else-if (matches the original's layout and cross-jump
+    into one shared arm) with the locals declared in every order tried:
+      int v = a1; int start = a4; int mode = a3; int res; int cnt; unsigned i;
+    plus the permutations of (res, start, mode), with and without a named copy
+    of a1, with and without a named copy of a4, and with the a1 copy declared
+    first / last / named `id` as u16.
+  * `start = a4;` placed as a statement before the call, after the call, and
+    after the early `if (res == -1) return;` (that one is 6 bytes closer on the
+    head but still lands start in r4).
+  * assigning the zero to the parameter a4 directly instead of a local.
+  * 36-variant declaration/assignment/operand-order sweep
+    (scratch/_r3a2_v914search.py), zero hits.
+
+The residue is therefore `codegen`: mwcc 1.1p1's allocator gives the callee-saved
+pair r4/r5 to the opposite two live-across-call values, and no source-level
+spelling found moves it. Everything else - the shape of the two bit-set loops,
+the 0x305 / 0x2FC cast-base addressing, the (u8)(1 << (idx & 7)) mask form, the
+unsigned `start >= func_0200CC20(...)` guard that gives `blo` - is confirmed.
+
+Verified with:
+  python tools/match.py one --src <this file> --func func_0200C914 \
+      --addr 0x0200C914 --cc 1.1p1 --thumb --diff
+
+*/
+
+/*
+ * unit:     no
+ * function: func_0200C914
+ * address:  0x0200C914
+ * packet:   pkt_0200C914
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF  (near miss, not filed)
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_0200C7C0(int a0, int a1);
+extern u32 func_0200CC20(int a0);
+
+void func_0200C914(int a0, int a1, int a2, int a3, int a4)
+{
+    int res;
+    int start = a4;
+    int cnt;
+    unsigned i;
+
+    res = func_0200C7C0((u16)a1, a1);
+    if (res == -1) return;
+    if (a1 == 0x15F) {
+        start = 0;
+        cnt = 4;
+    } else if (a1 == 0x1A5) {
+        start = 0;
+        cnt = 2;
+    } else if (a1 == 0x22B) {
+        start = 0;
+        cnt = 2;
+    } else if (a1 == 0x288) {
+        start = 0;
+        cnt = 2;
+    } else {
+        if ((u32)start >= func_0200CC20((u16)a1)) start = 0;
+        cnt = 1;
+    }
+    if (a3 == 1) {
+        for (i = 0; i < (u32)cnt; i++) {
+            u8 m;
+            int idx = (u16)(res + start + i);
+            m = (u8)(1 << (idx & 7));
+            *(u8 *)((char *)a0 + 0x305 + (idx >> 3)) |= m;
+        }
+    } else {
+        for (i = 0; i < (u32)cnt; i++) {
+            u8 m;
+            int idx = (u16)(res + start + i);
+            m = (u8)(1 << (idx & 7));
+            *(u8 *)((char *)a0 + 0x2FC + (idx >> 3)) |= m;
+        }
+    }
+}

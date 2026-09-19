@@ -127,3 +127,82 @@ void func_020520A4(int *v, int s, int *out)
     out[1] = (int)(((long long)v[1] * s + 0x800) >> 12);
     out[2] = (int)(((long long)v[2] * s + 0x800) >> 12);
 }
+
+
+========================================================================
+second reading, merged from a parallel lane's file (pkt_020520A4_lane5.c.txt)
+========================================================================
+
+func_020524C8  0x020524C8  68 bytes  ARM  pkt_020520A4 (lane 5)  DIFF
+=====================================================================
+
+Drain a singly linked queue: while the head at +0x04 is non-null, save the
+current node's successor first (the call is free to unlink and free the
+node), hand the owner object to func_0205250C, continue with the saved
+successor.  The null-head exit is predicated (`addeq sp` / `popeq` /
+`bxeq lr`), so only that path pops the frame.
+
+The residue is register allocation of the loop-carried cursor, and it is
+the "keeping a cursor in a named local costs a callee-saved register"
+shape (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md):
+
+  ORIGINAL (68 bytes, 17 instr)                COMPILED (44 bytes, 11 instr)
+  push {r4, r5, lr}                            push {r3, r4, r5, lr}
+  sub  sp, sp, #4                              mov  r5, r0
+  mov  r5, r0                                  ldr  r4, [r5, #4]
+  ldr  r1, [r5, #4]      <- cursor in r1       cmp  r4, #0
+  cmp  r1, #0                                  popeq {r3, r4, r5, pc}
+  addeq sp, sp, #4
+  popeq {r4, r5, lr}
+  bxeq lr
+  ldr  r4, [r1]          <- loop                ldr  r4, [r4]      <- loop
+  mov  r0, r5                                  mov  r0, r5
+  bl   #0x205250c                              bl   #0x205250c
+  mov  r1, r4            <- cursor restored    (missing)
+  cmp  r4, #0                                  cmp  r4, #0
+  bne  #0x20524e8                              bne  #0x20524dc
+
+The original keeps the cursor in the scratch register r1 and re-establishes
+it after the call with `mov r1, r4`; mwccarm instead promotes the cursor to
+r4 (a named local that lives across the call's scheduling window) and then
+overwrites it with the successor, which is four bytes shorter AND costs the
+extra `push {r3}`/alignment pair.  Spelling tried, all landing on r4:
+
+  * `n = o->head; if (n == 0) return; do { nx = n->next;
+    func_0205250C(o); n = nx; } while (n != 0);` (below);
+  * the same as a `while (n != 0)` with the successor read first;
+  * `next` declared inside the loop vs. at the top of the function.
+
+The call site itself resolves (`literal x4`), so this is a codegen cap, not
+an evidence cap.  Closest C:
+
+```c
+typedef unsigned char u8;
+
+struct Node {
+    struct Node *next;  /* 0x00 */
+};
+
+struct Owner {
+    u8           pad_00[4];
+    struct Node *head;  /* 0x04 */
+};
+
+extern void func_0205250C(struct Owner *o);
+
+void func_020524C8(struct Owner *o)
+{
+    struct Node *n = o->head;
+
+    if (n == 0) {
+        return;
+    }
+
+    do {
+        struct Node *next = n->next;
+
+        func_0205250C(o);
+        n = next;
+    } while (n != 0);
+}
+```

@@ -1,0 +1,77 @@
+func_0200CA98 @ 0x0200CA98 -- algorithm fully decoded, frame shape not yet reproduced
+==================================================================================
+
+packet pkt_0200CA98, isa thumb, extent 392 bytes (380 code + 12 bytes of pool:
+0x0209DE4C, 0x0209DE4E, 0x30E, 0x317).  No calls at all -- the only two
+relocations are the two table addresses, and BOTH ATTEST: [literal x3] and
+[literal x2].  So the whole function is in reach; the residue is structure.
+
+Closest attempt: scratch/r3b2_wip/func_0200CA98.c -- DIFF, 392 bytes differ,
+compiled 416.  It is a first pass, not a wall: the decoded algorithm below is
+the deliverable, the C needs one more careful pass at the frame.
+
+What the function does (fully decoded from the listing)
+-------------------------------------------------------
+  u8 *p0, u32 id, u32 sel (r2), u32 alt (r3), u32 p4 (5th arg, [sp+0x20])
+
+  A u16 table of {key, len} pairs at 0x0209DE4C (stride 4; the low half at
+  0x0209DE4C, the high half at 0x0209DE4E).  Walk it accumulating the lengths
+  until the key matches:
+
+      acc = 0; i = 0;
+      for (;;) {
+          if (tblA[i*2] == id) {
+              cnt = tblB[i*2];                 /* the paired u16 */
+              for (j = 0; j < cnt; j++) {      /* unsigned */
+                  b = (u16)(acc + j);
+                  m = (u8)((1 << (b & 7)) ^ 0xff);
+                  ((u8 *)p0)[0x30e + (b >> 3)] &= m;
+                  ((u8 *)p0)[0x317 + (b >> 3)] &= m;
+              }
+              if (p4 >= cnt) p4 = 0;
+              b = (u16)(acc + p4);
+              /* set one bit; base picks one of two arrays nine bytes apart */
+              if (alt == 1) ((u8 *)p0)[0x317 + (b>>3)] |= (u8)(1 << (b&7));
+              else          ((u8 *)p0)[0x30e + (b>>3)] |= (u8)(1 << (b&7));
+              break;
+          }
+          acc += tblB[i*2];
+          i++;
+          if (tblA[i*2] == 0) break;           /* NOT an i<n bound */
+      }
+
+      x = (u16)(id - 1);
+      m = (u8)((1 << (x & 7)) ^ 0xff);
+      for (k = 0; k < 4; k++)                  /* four 0x54-byte records */
+          ((u8 *)p0)[0x1ac + k * 0x54 + (x >> 3)] &= m;
+
+      if (sel == 0) { alt==1 ? set(p0+0x254)  : set(p0+0x000); return; }
+      if (sel == 1) { alt==1 ? set(p0+0x2a8)  : set(p0+0x200); return; }
+                      alt==1 ? set(p0+0x254)  : set(p0+0x000);
+  (each `set(base)` is `((u8 *)base)[x>>3] |= (u8)(1 << (x&7))`, and each arm
+  has its own `add sp,#0xc; pop {r4,r5,r6,r7,pc}` -- the last three arms are
+  written out in the source because the original holds three separate
+  copies, not a merged pair.)
+
+Details that are pinned in the listing
+--------------------------------------
+  * `>> 3` is an ARITHMETIC shift (`asrs`) while the `(u16)` narrowing is
+    `lsls #16 / lsrs #16`: the index locals are signed ints initialised from a
+    u16 cast, they are not u16 variables.
+  * the clear mask is the xor form `(1 << (b & 7)) ^ 0xff` truncated to u8
+    (`movs #0xff / eors`), never a `~` -- mwcc otherwise folds it.
+  * the guard before the clear loop is `bls` (unsigned `> 0`), the loop back
+    edge is `blo` (unsigned `<`), and the p4 clamp is `blo` (`p4 >= cnt` ->
+    `p4 = 0`), so cnt/j/p4 are all unsigned while b/x are signed.
+  * the frame is 12 bytes: p0 at sp+0, id at sp+4, sel at sp+8, and the
+    incoming 5th argument is copied `[sp+0x20] -> r0 -> [sp+0x20]` on entry
+    (a redundant-looking round trip that is in the original).
+
+Frame shape that is NOT yet right: the closest attempt spills a fourth word
+and pushes r3 (`push {r3,r4,r5,r6,r7,lr}` + `sub sp,#0x10`, 416 bytes) where
+the original is `push {r4,r5,r6,r7,lr}` + `sub sp,#0xc`.  Reduce to exactly
+three spilled locals (p0, id, sel) and the size should fall into place; the
+`if (cnt > 0) { for (j...) }` nesting is also wrong -- the original has a
+single rotated guard, so write the bare `for (j = 0; j < cnt; j++)` with an
+unsigned cnt (that change alone moved the compiled size 416 -> 412 bytes and
+the diff 392 -> 398, i.e. it is necessary but not sufficient).

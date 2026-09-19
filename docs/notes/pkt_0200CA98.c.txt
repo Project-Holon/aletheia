@@ -1,0 +1,111 @@
+/*
+ * function: func_0200CA98
+ * address:  0x0200CA98
+ * packet:   pkt_0200CA98
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200CA98_Table  0x0209DE4C  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct FormCount {
+    u16 id;
+    u16 count;
+};
+
+extern const struct FormCount func_0200CA98_Table[];
+
+/*
+ * Residue and codegen wall:
+ * Loop-invariant code motion and address-expression factorisation difference.
+ * In the search loop match block (clearing 0x30E and 0x317 bitfields):
+ * mwccarm hoists the two bitmap pointers above the loop's entry test (cmp r7, #0),
+ * whereas the original computes them inside the guard after bls #0x200cafa and reloads
+ * the save data pointer from [sp] twice.
+ * In the 4-row clearing loop (0x1AC + k * 0x54):
+ * mwccarm hoists the base + (species >> 3) byte offset outside the loop and computes
+ * k * 0x54 as an increment, whereas the original forms base + k * 0x54 first and keeps
+ * the byte offset as the register offset [r2, r0] for ldrb/strb.
+ * Bracketing spellings tried: for/while/do-while, explicit if (count > 0) guards,
+ * row indexing through flat offsets, array of arrays, and volatile qualifications.
+ */
+
+void func_0200CA98(u8 *save, u32 species, u32 arg2, u32 arg3, u32 form)
+{
+    u32 sum = 0;
+    u32 i = 0;
+
+    while (func_0200CA98_Table[i].id != 0) {
+        if (species == func_0200CA98_Table[i].id) {
+            u32 count = func_0200CA98_Table[i].count;
+            if (count > 0) {
+                u8 *p1 = save + 0x30E;
+                u8 *p2 = save + 0x317;
+                u32 j;
+                for (j = 0; j < count; j++) {
+                    u32 bit = (u16)(sum + j);
+                    u8 mask = ~(1 << (bit & 7));
+                    u32 byte_idx = bit >> 3;
+                    p1[byte_idx] &= mask;
+                    p2[byte_idx] &= mask;
+                }
+            }
+            if (form >= count) {
+                form = 0;
+            }
+            if (arg3 == 1) {
+                u32 bit = (u16)(sum + form);
+                save[0x317 + (bit >> 3)] |= (1 << (bit & 7));
+            } else {
+                u32 bit = (u16)(sum + form);
+                save[0x30E + (bit >> 3)] |= (1 << (bit & 7));
+            }
+            break;
+        }
+        sum += func_0200CA98_Table[i].count;
+        i++;
+    }
+
+    {
+        u32 bit = (u16)(species - 1);
+        u32 byte_idx = bit >> 3;
+        u8 mask = ~(1 << (bit & 7));
+        u8 bit_mask = (1 << (bit & 7));
+        u8 *base = save + 0x1AC;
+        u32 k;
+
+        for (k = 0; k < 4; k++) {
+            base[k * 0x54 + byte_idx] &= mask;
+        }
+
+        if (arg2 == 0) {
+            if (arg3 == 1) {
+                (save + 0x254)[byte_idx] |= bit_mask;
+            } else {
+                base[byte_idx] |= bit_mask;
+            }
+        } else if (arg2 == 1) {
+            if (arg3 == 1) {
+                (save + 0x2A8)[byte_idx] |= bit_mask;
+            } else {
+                (save + 0x200)[byte_idx] |= bit_mask;
+            }
+        } else {
+            if (arg3 == 1) {
+                (save + 0x254)[byte_idx] |= bit_mask;
+            } else {
+                base[byte_idx] |= bit_mask;
+            }
+        }
+    }
+}

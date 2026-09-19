@@ -1,0 +1,62 @@
+func_0204DEE8 @ 0x0204DEE8 -- decoded, two unwitnessed callees AND a register shuffle
+====================================================================================
+
+packet pkt_0204DD08, isa arm, extent 296 bytes.
+verdict: DIFF (closest attempt 195 bytes, compiled 300 against 296).
+Closest source: scratch/r3b2_wip/dee8_m2.c
+
+Two independent blockers, one of them fatal to EXACT regardless of the C:
+
+1. `func_02063F4C` (0x02063F4C, two call sites, +00AC and +00FC) reports
+   "unresolved: 02063F4C (arm, from header) has no witness outside
+   0204DEE8..0204E014".  It has no label, appears in no pool outside this
+   range, and is not in the manifest.  It is a row of THIS lane
+   (0x02063F4C, packet pkt_0206380C, state `noted`) -- promoting this function
+   means filing func_02063F4C first.  The other 11 sites all resolve.
+
+2. the register allocation is a whole-function shuffle: the original keeps
+   arg0 in sb and arg5 in r6, this attempt puts arg0 in r7 and arg5 in sb;
+   the record pointer lands in r4 in the original and r8 here; and the two
+   output locals are swapped (`add r1, sp, #4` first in the original,
+   sp+8 here).  Ruled out: declaration order of the two output locals
+   (`u32 b; u32 a;`), and `sl = 0; if (t >= 0x200) sl = 1;` instead of the
+   if/else (195 vs 198 bytes -- both leave the shuffle in place).
+
+Decoded structure (the C is believed complete; only the allocation is wrong)
+---------------------------------------------------------------------------
+  u32 func_0204DEE8(char *sb, int idx, void *cb, u32 arg4, u32 arg5)
+  {
+      rec = *(u32 *)(sb + 0xc) + idx * 0x18;
+      t = arg5;
+      if (t >= 0x200) { t = (u16)(t - 0x200); sl = 1; } else sl = 0;
+      func_02062AD4(cb, &a);                       /* sp+4 */
+      if (func_02062A98(cb, &b) == 0) return 0;    /* sp+8, early popeq exit */
+      func_020637D4(rec);
+      if (func_0204D9B4(arg4, 0) != 0) {
+          p = func_02080C34();
+          if (sl) func_0208068C();
+          func_02063F4C(b, a, t, 1, rec);          /* 5th arg on the stack */
+          if (sl) func_020801F8(p);
+      }
+      if (func_0204D9B4(arg4, 1) != 0) {
+          q = func_02080C74();
+          if (sl) func_0208068C();
+          func_02063F4C(b, a, t, 2, rec);
+          if (sl) func_0208083C(q);
+      }
+      rec = *(u32 *)(sb + 0xc) + idx * 0x18;       /* recomputed, not cached */
+      v = rec[5];
+      v &= ~0x80000000;
+      rec[5] = v;
+      return v;
+  }
+
+  * the 0x200 test is `subhs r0, r6, #0x200 / lslhs / lsrhs r6` plus
+    `movlo sl, #0` and `movhs sl, #1`: an if-CONVERTED if/else, so it must be
+    written as a plain if/else (both arms assign sl) for the predication to
+    appear.  The order the compiler emits the two predicated moves
+    (movlo before movhs in the original) is not reproducible from the C here.
+  * the record stride is `idx * 0x18` with 0x18 materialised in a register
+    first (`mov r4,#0x18; mul r5,r1,r4`), which is what `idx * 0x18` emits.
+  * the trailing read-modify-write recomputes `sb->f0c + idx*0x18` rather
+    than reusing `rec`, so the source has the expression twice.

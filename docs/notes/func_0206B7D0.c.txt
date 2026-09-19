@@ -1,0 +1,61 @@
+func_0206B7D0 @ 0x0206B7D0 -- structure right, +0x14 flag variable not reproduced
+================================================================================
+
+packet pkt_0206B7D0, isa arm, extent 380 bytes.
+verdict: DIFF (closest attempt 283 bytes, compiled 368 against 380).
+Closest source: scratch/r3b2_wip/b7d0_v2.c
+
+The residue is one construct, repeated four times, and it is the whole
+function: mwcc hoists `st = p->f14 ? p->f8e : 0` (the `ldrbne/moveq` pair at
++0x34 in the original) above the field copies, so every downstream register
+assignment shifts.  In the original the ternary is at +0x34, after the four
+`p->f08 |= 4` / `p->fb8 = &p->f184` stores; in every attempt here it lands at
++0x14, immediately after the 0x200 guard.
+
+What the function does (decoded, so the next pass does not re-read the listing)
+------------------------------------------------------------------------------
+  if (!(p->f08 & 0x200)) {
+      b = p->f00[1];          /* u8 at +0xac, held in r4 across two calls */
+      p->fac = b;
+      p->f08 |= 4;
+      p->fb8 = (u32 *)p->f184;
+      st = p->f14 ? p->f8e : 0;
+      /* three stops, one per state 1..3; states 1 and 2 also re-read st and
+         take a flag out of p->f08 bit 6 before body1/body2 run */
+      if (st == 1) { p->f08 &= ~0x40; p->f14(p); st = p->f14 ? p->f8e : 0;
+                     flag = p->f08 & 0x40; } else flag = 0;
+      if (flag == 0) {
+          sub = p->f04;
+          if (sub->f18 == 0
+              || (sub->f4c[b >> 5] & (1u << (b & 0x1f))) == 0
+              || sub->f1c(p->fb8, sub->f18, b) == 0)
+              *p->fb8 = p->f00[2] & 1;
+      }
+      if (st == 2) { ...same as st == 1... }
+      if (flag == 0) { if (*p->fb8) p->f08 |= 1; else p->f08 &= ~1; }
+      if (st == 3) { p->f08 &= ~0x40; p->f14(p); }
+  }
+  p->f00 += 3;
+
+Notes that are pinned by the listing
+------------------------------------
+  * `sub->f1c` is a THREE-argument call: `ip->f18` is still live in r1 at the
+    call (`mov r2, r4` sets only the third), so it is
+    `f1c(p->fb8, ip->f18, b)` -- a two-argument spelling would need no r1.
+  * the `if (!(p->f08 & 0x200))` wrapper is required, not a `goto tail`:
+    the goto form compiles to 368 bytes, the wrapper to 376.
+  * `p->f14` is called with r0 = p (`mov r0, r6` before `blx r1`).
+  * the `flag` variable must be the same register for both `st == 1` and
+    `st == 2`; the original uses r0 for both, re-materialised each time.
+  * `sub->f4c[b >> 5]` is a u32 array at +0x4c indexed by the top three bits
+    of the byte, and `1u << (b & 0x1f)`; both `tst` forms come out as
+    `tst r0, r3, lsl r2` with r3 = 1.
+  * `*p->fb8 = p->f00[2] & 1` loads fb8 before the byte (`ldr r0,[r6,#0xb8]`
+    then `ldrb r1,[r1,#2]`), so keep the two loads in that source order.
+
+Spellings tried for the hoist, each measured at 283-285 bytes: named `flag`
+initialised before the branch instead of the else arm; a `switch (st)` form;
+moving the three `st = ...` reads; making `b` a `u32` local declared after
+`st`.  The scheduler move is the wall; a future pass should try a source in
+which the ternary's operands (`p->f14` and `p->f8e`) are already live as
+locals, or accept the residue.

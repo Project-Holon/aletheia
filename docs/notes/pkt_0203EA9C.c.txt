@@ -1,0 +1,106 @@
+
+pkt_0203EA9C - func_0203EA9C (0x0203EA9C, 360 bytes, arm) - DIFF, 2 concrete bytes.
+=================================================================================
+verdict DIFF: compiled 360 bytes, original extent 360, 2 bytes differ (one
+instruction's register field).  All 9 relocation sites resolve; the whole body
+matches instruction for instruction except:
+
+  +009C   ORIGINAL  sub r4, r1, r0      COMPILED  sub r0, r1, r0
+  +00A0   ORIGINAL  sub r4, r4, #0x10   COMPILED  sub r4, r0, #0x10
+
+r1 holds the buffer count read by the two `ldrh r1, [r4, #0x6c]` /
+`ldrb r1, [r4, #0x61]` arms, r0 the value func_02038D4C/func_02038D30 returns
+in r0, and r4 is the local `d`.  The original folds the first subtraction
+straight into d's own register; mwcc here reuses r0 (the dead call result) as
+the intermediate and only moves the second subtraction into r4.
+
+Spellings ruled out (all still 360/360, all 2 bytes, all the same pair):
+  d = d - v - 0x10;                  <- the one recorded here
+  d = (d - v) - 0x10;
+  d = d - v; d = d - 0x10;
+  d -= v;    d -= 0x10;
+  int w = d - v; d = w - 0x10;
+  unsigned v;
+  the mirror form where the *call result* is the accumulator
+  (d = func_02038D4C(); v = *(u16 *)(p + 0x6c); d = v - d - 0x10;) also gives
+  the same 2 bytes.
+Every spelling that binds the loaded count to a named local instead (so the
+load lands in r4) goes to 5 differing bytes, so the recorded form is strictly
+closest.
+
+Everything else about the function is pinned and reproduced: the
+`g == 0 || g->f20 == 0` disjunction sharing the first `popeq`, the f34 == 1
+arm, the unsigned f44 >= f24 test (bhs) with the signed `d <= 0x10` guard
+(ble), and the `goto tail` exits into the shared func_0203ED84(2) epilogue.
+
+---- closest C ----
+typedef unsigned char  u8;
+typedef unsigned short u16;
+extern int *g_021469F4;
+extern int  func_0203CD98(void);
+extern char *func_0203D798(void);
+extern int  func_02038D30(void);
+extern int  func_02038D4C(void);
+extern int  func_0203EC04(int a0);
+extern int  func_0203ED84(int a0);
+
+void func_0203EA9C(void)
+{
+    char *p;
+    int   d;
+    int   v;
+
+    if (g_021469F4 == 0 || *(int *)((char *)g_021469F4 + 0x20) == 0)
+        return;
+    if (func_0203CD98() != 1)
+        return;
+
+    if (*(int *)((char *)g_021469F4 + 0x34) == 1) {
+        if (func_0203ED84(0) == 1)
+            *(int *)((char *)g_021469F4 + 0x34) = 0;
+        goto tail;
+    }
+
+    if (*(unsigned int *)((char *)g_021469F4 + 0x44)
+            < *(unsigned int *)((char *)g_021469F4 + 0x24)) {
+        if (*(int *)((char *)g_021469F4 + 0x3c) != 1)
+            goto tail;
+
+        p = func_0203D798();
+        if (*(int *)((char *)g_021469F4 + 0x2c) == 1) {
+            v = func_02038D4C();
+            d = *(u16 *)(p + 0x6c);
+        } else {
+            v = func_02038D30();
+            d = *(u8 *)(p + 0x61);
+        }
+        d = d - v - 0x10;
+        if (d <= 0x10)
+            goto tail;
+
+        if (*(unsigned int *)((char *)g_021469F4 + 0x44) + (unsigned int)d
+                > *(unsigned int *)((char *)g_021469F4 + 0x24))
+            d = (int)(*(unsigned int *)((char *)g_021469F4 + 0x24)
+                    - *(unsigned int *)((char *)g_021469F4 + 0x44));
+        if (func_0203EC04(d) != 1)
+            goto tail;
+
+        *(int *)((char *)g_021469F4 + 0x44) += d;
+        if (*(int *)((char *)g_021469F4 + 0x38) == 1)
+            *(int *)((char *)g_021469F4 + 0x3c) = 0;
+    } else {
+        if (*(int *)((char *)g_021469F4 + 0x30) != 0)
+            goto tail;
+        if (func_0203ED84(1) == 1) {
+            *(int *)((char *)g_021469F4 + 0x30) = 1;
+            *(int *)((char *)g_021469F4 + 0x20) = 0;
+        }
+        goto tail;
+    }
+
+tail:
+    if (*(int *)((char *)g_021469F4 + 0x40) == 1) {
+        if (func_0203ED84(2) == 1)
+            *(int *)((char *)g_021469F4 + 0x40) = 0;
+    }
+}

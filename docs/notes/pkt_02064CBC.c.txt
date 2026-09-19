@@ -1,0 +1,69 @@
+/*
+DIFF note, lane r3a-2, row 0x02064CBC (arm, packet pkt_02064CBC).
+Verdict: DIFF, compiled 168 bytes against an original 180.
+
+Both loops reproduce instruction for instruction, including `mla r0, i, 0x5c,
+base` in the 0x3c==1 arm and `mul r0, i, 0x28; ldr r0, [base, r0]` in the other,
+and the `cmp r0, #0 / popls` guard. The 12 missing bytes are a code-motion
+residue: mwcc hoists the `*(int *)(a0 + 0x40)` base load (identical in both
+arms) above the `cmp r0, #1`, so it is loaded once into one register and the
+`i = 0` initialisation is shared with the earlier `*(u16 *)(a0 + 0x30) = 0`
+store (which is why the original's `mov r1, #0` also differs). The original
+keeps one load and one `mov r4/r5, #0` inside each arm.
+
+Spellings tried and ruled out:
+  * base inlined at both call sites - mwcc then reloads it inside the loop every
+    iteration (172 bytes, still wrong).
+  * a local `int b` in each arm with different names, different types
+    (`u32` vs `int` vs `int *`), and a pointer-typed load
+    `*(int **)(a0 + 0x40)`: still hoisted.
+  * the second arm written as a subscript `((int *)(char *)b)[i * 0x28 / 4]`:
+    that one reaches 180 bytes but emits the signed multiply-divide quartet
+    (mul, asr, add ... lsr #30, asr) where the original emits a plain `mul`.
+
+Residue class: codegen (load/code hoisting plus a shared zero register), 12
+bytes, 6 instructions. The semantics in the file below are the whole function.
+
+Verified with:
+  python tools/match.py one --src <this file> --func func_02064CBC \
+      --addr 0x02064CBC --cc 1.1p1 --arm --diff
+
+*/
+
+/*
+ * unit:     no
+ * function: func_02064CBC
+ * address:  0x02064CBC
+ * packet:   pkt_02064CBC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF  (near miss, not filed)
+ */
+
+typedef unsigned short u16;
+
+extern void func_0206469C(int a0, int a1);
+extern void func_020643A4(int a0);
+
+void func_02064CBC(int a0)
+{
+    u16 i;
+
+    *(u16 *)(a0 + 0x30) = 0;
+    func_0206469C(a0, *(int *)(a0 + 0x1C));
+    *(int *)(a0 + 0xC) = 1;
+    if (*(int *)(a0 + 0x3C) == 1) {
+        int b = *(int *)(a0 + 0x40);
+        for (i = 0; i < *(u16 *)(*(int *)(a0 + 0x34) + 2); i++) {
+            func_020643A4(b + i * 0x5C);
+        }
+    } else {
+        int b = *(int *)(a0 + 0x40);
+        for (i = 0; i < *(u16 *)(*(int *)(a0 + 0x34)); i++) {
+            func_020643A4(*(int *)(b + i * 0x28));
+        }
+    }
+}

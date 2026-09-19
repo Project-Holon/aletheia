@@ -1,0 +1,56 @@
+func_020500F0 @ 0x020500F0 -- 328/328 bytes, 28-byte argument-scheduling wall
+===========================================================================
+
+packet pkt_020500F0, isa arm, extent 328 bytes (the slice's 324 + the 4-byte
+pool word 0x0000FFFF).
+verdict: DIFF, 4 of 4 relocation sites resolved, size exact.
+
+The residue is three clusters, all pure scheduling / scratch-register choice;
+the source is otherwise pinned (see the right spellings list below).
+
+Cluster A (twice, +0060..+0072 and +00A8..+00BA, 5 instructions each) is the
+argument setup of the shared call
+
+    u16 func_0204EF58(void *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+
+  ORIGINAL                       | COMPILED
+  ldrb r3, [r1, #6]              | ldrb r0, [r1, #6]
+  ldrb r0, [r1, #7]              | str  r0, [sp]
+  ldrb r2, [r1, #4]              | ldrb r0, [r1, #7]
+  str  r3, [sp]                  | str  r0, [sp, #4]
+  str  r0, [sp, #4]              | ldrb r2, [r1, #4]
+  ldrb r3, [r1, #5]              | ldrb r3, [r1, #5]
+
+  The original batches the two stack-argument loads into r3/r0 and stores both
+  after loading r2; this compiler stores each byte immediately and reuses r0.
+  Same instruction count, different schedule.
+
+Cluster B (+0110..+0118) is the same class in the `case 2` arm: the original
+hoists `ldr r1, [r1]` (e->f0) above the `strh` of 0xffff, this compiler issues
+it after.
+
+Ruled out for cluster A (each measured, diff unchanged at 28): named `u32`
+locals for the two stack arguments (mwcc folds them away); `(u32)` casts on the
+two byte arguments; byte-pointer spellings `((u8 *)e)[6]`; reading f6/f7 as one
+`u16` and splitting it.  Ruled out for the whole function: declaring `base`
+after `i`, using a result local in case 0, and `*(u16 *)(base + i * 8) = ...`
+instead of the array-subscript form (diff 90).
+
+Spellings that ARE required (do not regress these)
+--------------------------------------------------
+  * the destination element must be written as an array subscript on an 8-byte
+    struct element with the byte offset inside the cast:
+        ((Out *)(p->f0c + base * 8))[i].f0 = ...;
+        ((Out *)(p->f0c + base * 8))[i].f4 = ...;
+    That is what emits the original's split `p->f0c + base<<3` / `i<<3`
+    addressing and the `strh r0, [r2, r1]` pair.  Same conclusion as the
+    sibling func_02050238 (src/matched/func_02050238.c).
+  * `base` must be declared before `i` (that alone took the diff from 264
+    bytes to 28 and fixed every `r6`/`r7` assignment).
+  * the early exit is the loop's own rotation (`for (i = 0; i < n; i++)` with
+    the `cmp r8, #0 / bls` head), NOT `if (n == 0) return (u16)base;` -- the
+    explicit early return makes mwcc if-convert the whole epilogue.
+  * `z1`/`z2` (the two `mov fp, r7` / `mov r5, r7` zeros) are two separate
+    locals initialised to 0 before the loop; they are not the same constant.
+
+Closest source: scratch/r3b2_wip/func_020500F0.c (= var_v0.c)

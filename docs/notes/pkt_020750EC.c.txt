@@ -1,0 +1,117 @@
+pkt_020750EC -- 0x020750EC (252 code bytes, ARM) DIFF, not filed
+=================================================================
+Body: slot-table reader/loader.  func_0207466C(idx) checks the slot, 0x3c bytes
+of the descriptor are read into the object at 0x0214EA54, the entry count at
++0x38 of that object sizes the payload, func_0207482C allocates it, the payload
+is read, MI_CpuCopy8/MI_CpuFill8 split and clear it, DC_StoreRange flushes.
+
+Residue: compiled 268 bytes against 264.
+  +0004-000C the parameter homes: original sb=idx, r7=a2 (a1 in r8), the
+       compilation r4=idx, sb=a2.  One-register shift of the whole frame.
+  +0014-0018 original movs r5, r0 + bne (the error code itself is returned
+       from r5, which is then reused for the buffer pointer); the compilation
+       returns r0 directly and never spends r5, which frees a register and
+       shifts every later allocation by one.
+  +0020, +0030, +0044 the zero constant: the image materialises
+       mov r3, #0 at BOTH func_020745A4 calls plus movne/moveq r0, #0 at four
+       returns; the compilation shares one zero in a register
+       (mov r5, #0 then mov r3, r5 / movne r0, r5).
+  +001C/+003C the object address 0x0214EA54 is loaded twice from two pool slots
+       in the image (0x020751E8 and 0x020751EC, same word); as a cast constant
+       mwcc keeps it in a callee-saved register across the call and emits one
+       pool word.
+Three spellings tried: the cast constant (above), the same with return err;
+from a named local, and a declared d_0214EA54 symbol for both uses.
+
+Blocking class: literal -- 0x0214EA54 appears in a literal pool ONLY inside
+this function's own compared range (0x020751E8/0x020751EC); nothing else in the
+image pools that word, so the symbol spelling can never resolve and the
+constant spelling can never reproduce the double load.  This is the documented
+own-pool-only-data park class.
+
+/* ---- source under test ----
+/*
+ * function: func_020750EC
+ * address:  0x020750EC
+ * packet:   pkt_020750EC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * symbols:
+ *   func_020745A4  0x020745A4  arm
+ *   func_0207466C  0x0207466C  arm
+ *   func_02074694  0x02074694  arm
+ *   func_0207482C  0x0207482C  arm
+ *   func_020742FC  0x020742FC  arm
+ *   func_020752D4  0x020752D4  arm
+ *   d_0214EA54     0x0214EA54  data
+ *   MI_CpuCopy8    0x02082D44  arm
+ *   MI_CpuFill8    0x02082BCC  arm
+ *   DC_StoreRange  0x020862D4  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+typedef struct {
+    u32 pad[0xe];
+    u32 f38;
+} T0214EA54;
+
+extern T0214EA54 d_0214EA54;
+
+extern u32 func_0207466C(u32 idx);
+extern int func_020745A4(u32 idx, void *dst, int len, u32 offset);
+extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
+extern u32 func_020742FC(void);
+extern void func_02074694(u32 a, void *b);
+extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
+extern void MI_CpuFill8(void *dst, u32 val, u32 size);
+extern void DC_StoreRange(void *addr, u32 size);
+
+u32 func_020750EC(u32 idx, u32 *a1, int a2)
+{
+    u32 n;
+    u32 entry_size;
+    u32 total;
+    u32 cb;
+    u32 *p;
+    u32 err = func_0207466C(idx);
+
+    if (err != 0) {
+        return err;
+    }
+    if (func_020745A4(idx, &d_0214EA54, 0x3c, 0) != 0x3c) {
+        return 0;
+    }
+    if (a1 == 0) {
+        return 0;
+    }
+    n = d_0214EA54.f38;
+    entry_size = n * 4;
+    total = entry_size * 2;
+    if (a2 != 0) {
+        cb = func_020742FC();
+    } else {
+        cb = 0;
+    }
+    p = (u32 *)func_0207482C(a1, total + 0x5c, 0x20752D4, cb, idx);
+    if (p == 0) {
+        return 0;
+    }
+    if (func_020745A4(idx, p, entry_size + 0x3c, 0) != entry_size + 0x3c) {
+        return 0;
+    }
+    MI_CpuCopy8((char *)p + 0x3c, (char *)p + 0x3c + *(u32 *)((char *)p + 0x38) * 4,
+                entry_size);
+    MI_CpuFill8((char *)p + 0x3c, 0, entry_size);
+    DC_StoreRange(p, total + 0x3c);
+    if (a2 != 0) {
+        func_02074694(idx, p);
+    }
+    return (u32)p;
+}
+*/

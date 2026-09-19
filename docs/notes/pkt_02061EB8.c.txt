@@ -1,0 +1,127 @@
+pkt_02061EB8 - residue note (side lane, 257-512 byte band)
+=========================================================
+
+func_02061EB8 @ 02061EB8 (320 bytes, ARM) - DIFF
+------------------------------------------------
+Subsystem: Memory allocator block finder and slicer with alignment.
+Exact size: 320 bytes compiled vs 320 bytes original.
+Residue: 41 concrete bytes differ out of 320 (87% byte-identical).
+
+Differences:
+The function search loop, alignment calculation, block splitting, `*(volatile u32 *)&found->f04`
+reload, unlinking from `headp`, and failure paths all match instruction-for-instruction.
+The remaining discrepancy is purely register allocation in the two list-insertion blocks:
+1. At +0078..+00C4: The popped free node is held in `r8` in original, but compiled assigns it
+   to scratch `r3` (since `mask = ~(align - 1)` in `r8` has ended its scope). Because compiled uses
+   `r3` for the node, it uses `r5` for the zero-constant instead of `r3`.
+2. At +0114..+011C: When prepending `found` back to `freep`, the original loads `ldr r3, [r1]` and
+   interleaves `mov r0, #0` into the ARM9 load-delay slot before `str r3, [r6, #0xc]`. Compiled
+   loads into `r0` and executes `str` directly.
+
+Source attempt:
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Node {
+    u32 f00;
+    u32 f04;
+    struct Node *f08;
+    struct Node *f0c;
+} Node;
+
+static inline void insert_head(Node **head, Node *node)
+{
+    if (*head != 0) {
+        (*head)->f08 = node;
+    }
+    node->f0c = *head;
+    node->f08 = 0;
+    *head = node;
+}
+
+int func_02061EB8(Node **headp, Node **freep, u32 *out, u32 size, u32 align)
+{
+    u32 aligned;
+    u32 needed;
+    u32 pad;
+    Node *found = 0;
+    Node *n = *headp;
+
+    if (n != 0) {
+        u32 mask = ~(align - 1);
+
+        while (1) {
+            if (align > 1) {
+                pad = n->f00;
+                needed = pad + (align - 1);
+                aligned = mask & needed;
+                pad = aligned - pad;
+                needed = size + pad;
+            } else {
+                aligned = n->f00;
+                pad = 0;
+                needed = size;
+            }
+
+            if (n->f04 >= needed) {
+                found = n;
+                break;
+            }
+
+            n = n->f0c;
+            if (n == 0) {
+                break;
+            }
+        }
+    }
+
+    if (found == 0) {
+        goto fail;
+    }
+
+    if (pad != 0) {
+        Node *newNode = *freep;
+        if (newNode != 0) {
+            *freep = newNode->f0c;
+        }
+        if (newNode == 0) {
+            goto fail;
+        }
+        newNode->f00 = found->f00;
+        newNode->f04 = pad;
+        newNode->f08 = 0;
+        newNode->f0c = 0;
+        insert_head(headp, newNode);
+    }
+
+    found->f04 -= needed;
+    found->f00 += needed;
+
+    if (*(volatile u32 *)&found->f04 == 0) {
+        Node *next = found->f0c;
+        Node *prev = found->f08;
+        if (prev != 0) {
+            prev->f0c = next;
+        } else {
+            *headp = next;
+        }
+        if (next != 0) {
+            next->f08 = prev;
+        }
+        insert_head(freep, found);
+    }
+
+    *out = aligned;
+    return 1;
+
+fail:
+    *out = 0;
+    return 0;
+}
+
+Spellings ruled out:
+- Declaring `Node *newNode` in outer function scope (causes `r4..r7` permutation with `n`, `found`, `needed`, `pad`).
+- Explicit `register Node *newNode` (ignored by mwccarm 1.1p1 when no call sites exist).
+- Inlined list insertions vs inline function helper (same register allocation and instructions).

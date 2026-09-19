@@ -1,0 +1,71 @@
+pkt_0201D6D8 -- 0x0201D768 (92 code bytes, Thumb) DIFF, not filed
+=================================================================
+Body: ring-buffer drain for the parked func_0201D6D8.  Copies len bytes out of
+the log buffer at p+0x18 in chunks of n, wrapping the head at p[2], and returns
+p+0x18 + the head value read before the loop.
+
+Residue: compiled 84 bytes against 92.  The allocator spills a different set:
+the image keeps p in r6, dst in r7 and n in r5 and puts len, total, base and
+the saved head on the frame ([sp],[sp+4],[sp+8],[sp+0xc]); the compilation
+spills dst instead and keeps total in r6, so the prologue store order and every
+later [sp] operand differ.  The two-assignment base spelling
+(base = (u8 *)p; base = (u8 *)p + 0x18;, the documented dead-store idiom) IS
+reproduced, as is the wrap test and the tail add.
+
+Blocking class: codegen (stack-slot/register allocation), and it is the
+blocker for the parked func_0201D6D8 (src/pending/func_0201D6D8.c), whose three
+call sites into 0x0201D768 resolve the day this body is byte-correct.
+
+/* ---- source under test ----
+/*
+ * function: func_0201D768
+ * address:  0x0201D768
+ * packet:   pkt_0201D6D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   MI_CpuCopy8    0x02082D44  arm
+ *
+ * Ring-buffer drain: copies `len` bytes out of the log buffer at p+0x18 in
+ * chunks of `n`, wrapping the head at p->f4, and returns the address the copy
+ * started from (p + 0x18 + the head value read before the loop).
+ *
+ * Two assignments to the spilled `base` local survive: the first stores the
+ * struct pointer, the second recomputes p+0x18 from the same register (see
+ * docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-second-assignment-recomputes.md).
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
+
+u8 *func_0201D768(u16 *p, u8 *dst, u32 len, u32 n)
+{
+    u32 total = 0;
+    u32 start = p[0];
+    u8 *base;
+    u16 head;
+
+    base = (u8 *)p;
+    base = (u8 *)p + 0x18;
+    if (len != 0) {
+        do {
+            head = p[0];
+            MI_CpuCopy8(dst + total, base + head, n);
+            head = (u16)(head + n);
+            if (head >= p[2]) {
+                head = 0;
+            }
+            p[0] = head;
+            total = (u16)(total + n);
+        } while (total < len);
+    }
+    return base + start;
+}
+*/

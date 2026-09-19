@@ -1,0 +1,123 @@
+/*
+ * function: func_0206E62C, func_0206E7EC
+ * address:  0x0206E62C (448B), 0x0206E7EC (360B)
+ * packet:   pkt_0206E62C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Container {
+    u8 pad0;
+    u8 count;
+    u8 pad2[4];
+    u16 sub_offset;
+} Container;
+
+/*
+ * Residue and codegen wall:
+ * Register allocation and early-exit predicating differences on 16-byte key Patricia trie lookup:
+ * 1. In both functions, when count < 16, the original performs a 4-word block load:
+ *      ldm r1, {r2, r3, ip, lr}
+ *    allocating the four scratch registers (r2, r3, ip, lr) simultaneously and then reassigning
+ *    r1 = 0 as loop counter. mwccarm splits this into ldm {r3, ip, lr} + ldr r1, [r1, #0xc]
+ *    because r2 is allocated early for a hoisted return constant (0 or -1).
+ * 2. In the Patricia trie descent loop:
+ *      while (prev_bit > cur_bit) { ... }
+ *    the original keeps the node pointer in r6 and trie base in r5 (or r4), while mwccarm
+ *    permutes the callee-saved registers (swapping r6/r7/r8 roles) and predicates the early returns
+ *    (moveq/popeq) rather than branching to the shared tail exit at the end of the translation unit.
+ */
+
+static inline const u32 *getTarget(const Container *c, u32 idx, u32 off) {
+    if (c == 0 || idx >= c->count) {
+        return 0;
+    } else {
+        const u8 *sub = (const u8 *)c + c->sub_offset;
+        u16 keys_offset = *(const u16 *)(sub + 2);
+        return (const u32 *)((const u8 *)sub + keys_offset + off);
+    }
+}
+
+static inline void *getValue(const Container *c, u32 idx) {
+    if (c == 0 || idx >= c->count) {
+        return 0;
+    } else {
+        const u8 *sub = (const u8 *)c + c->sub_offset;
+        u16 elem_size = *(const u16 *)sub;
+        return (void *)(sub + 4 + idx * elem_size);
+    }
+}
+
+void *func_0206E62C(const Container *c, const u32 *key) {
+    if (key == 0) {
+        return 0;
+    }
+
+    if (c->count < 16) {
+        u32 k0 = key[0];
+        u32 k1 = key[1];
+        u32 k2 = key[2];
+        u32 k3 = key[3];
+        u32 i;
+        u32 off;
+
+        if (c->count <= 0) {
+            return 0;
+        }
+
+        i = 0;
+        off = 0;
+        while (1) {
+            const u32 *target = getTarget(c, i, off);
+            if (target[0] == k0 && target[1] == k1 && target[2] == k2 && target[3] == k3) {
+                return getValue(c, i);
+            }
+            i++;
+            off += 16;
+            if (i >= c->count) {
+                break;
+            }
+        }
+        return 0;
+    } else {
+        const u8 *trie = (const u8 *)c + 8;
+        u8 node_idx = trie[1];
+        if (node_idx == 0) {
+            return 0;
+        } else {
+            int cur_bit = trie[node_idx * 4];
+            int prev_bit = trie[0];
+            const u8 *node = trie + (node_idx * 4);
+            u32 index;
+            const u32 *target;
+
+            while (prev_bit > cur_bit) {
+                u32 bit = (key[cur_bit >> 5] >> (cur_bit & 0x1f)) & 1;
+                node_idx = node[1 + bit];
+                prev_bit = node[0];
+                cur_bit = trie[node_idx * 4];
+                node = trie + (node_idx * 4);
+            }
+
+            index = node[3];
+            target = getTarget(c, index, index << 4);
+
+            if (target[0] == key[0] &&
+                target[1] == key[1] &&
+                target[2] == key[2] &&
+                target[3] == key[3]) {
+                return getValue(c, index);
+            }
+
+            return 0;
+        }
+    }
+}

@@ -1,0 +1,74 @@
+func_0200EF78 @ 0x0200EF78 -- 338/338 bytes, ONE instruction placed 16 bytes late
+=================================================================================
+
+packet pkt_0200EF78, isa thumb, listing extent 340 (the last two bytes are the
+alignment filler `movs r0, r0`, so the body is 338).
+verdict: DIFF, 4 of 4 relocation sites resolved -- this function is one
+scheduling decision away from EXACT and nothing else.
+
+The residue
+-----------
+
+One 2-byte instruction, `movs r2, #0x10` (the size argument both memcpy-like
+calls to func_02082D44 share), is materialised by mwcc at +0x18; the original
+materialises it at +0x28.  Everything before and after is instruction-for-
+instruction identical, in the same order; the constant's insertion point is the
+only difference, and the rest of the prologue is the same instruction stream
+rotated by one slot:
+
+  ORIGINAL                                  COMPILED
+  +0016 ldr r0, [r4]                        +0016 ldr r0, [r4]
+  +0018 ldrb r1, [r4, #4]                   +0018 movs r2, #0x10     <-- here
+  +001A str r0, [r5]                        +001A str r0, [r5]
+  +001C adds r0, r5, #0                     +001C adds r0, r5, #0
+  +001E adds r0, #0x7c                      +001E ldrb r1, [r4, #4]
+  +0020 strb r1, [r0]                       +0020 adds r0, #0x7c
+  +0022 adds r0, r5, #0                     +0022 strb r1, [r0]
+  +0024 ldrb r1, [r4, #5]                   +0024 adds r0, r5, #0
+  +0026 adds r0, #0x7d                      +0026 ldrb r1, [r4, #5]
+  +0028 movs r2, #0x10                      +0028 adds r0, #0x7d
+  +002A strb r1, [r0]                       +002A strb r1, [r0]
+
+Nothing writes r2 between the two points in either version (the preceding
+`blx func_02082BCC` is the last r2 kill, so both points are after it), so the
+placement is a pure list-scheduler tie-break, not a dependence.
+
+Spellings ruled out (all compile to the same 338 bytes, diff 14, constant
+still at +0x18)
+--------------------------------------------------------------------------
+  * size written `16`, `0x10u`, `sizeof(dst->f94)` / `sizeof(dst->fa4)`
+  * the first call's size as `sizeof(...)` with the second kept literal
+  * pointer-arithmetic arguments `(void *)((char *)src + 0x30)` in place of
+    `src->f30`
+  * the two calls' statement order swapped (diff 18, worse)
+  * a shared local `u32 n = 0x10;` for both sizes (diff 288, much worse)
+  * `dst->f7c = src->f04;` moved before `dst->f00 = src->f00;` (diff 17)
+  * `Triple t = {0,0,0}` at the declaration and the plain-field-store form of
+    the final aggregate copy (diff 71 / 269)
+
+What DID have to be right (each worth real bytes; keep these)
+------------------------------------------------------------
+  * the 12-byte stack aggregate at sp must be filled through a pointer
+    (`pt = (u32 *)&t; pt[0] = 0; pt[1] = 0; pt[2] = 0;`): the three zero
+    stores then use a register base (`str r7, [r2]`) while the three real
+    values use the sp form (`str r0, [sp]`), which is what the original does.
+    Writing `t.a = 0; t.b = 0; t.c = 0;` directly gives `str r7, [sp]` three
+    times -- 71 bytes of DIFF.  A `= {0,0,0}` initialiser is worse still: the
+    zeros are emitted at the top of the function (293 bytes).
+  * the final 12-byte copy is an aggregate assignment
+    (`*(Triple *)((char *)dst + 0x44) = t;` -> `ldm r2!`/`stm r3!`), not three
+    field stores.
+  * the three `ldrsb` reads of dst+0xe4 must go through a byte pointer local
+    (`p = dst->fe4; dst->f7e = p[13]; ...`): Thumb-1 has no immediate-offset
+    LDRSB, so the original holds the base in a register and the index in
+    another (`movs r3, #0xd; ldrsb r4, [r1, r3]`).  Reading `dst->fe4[13]`
+    folds 0xe4+13 into one 0xf1 offset off dst and gives a different base.
+  * `func_0216E2E8` is an overlay-resident (ov010) *thumb* function; declared
+    `arm` the tool refuses the site outright.
+
+Next lever: the constant's insertion point is the whole function.  Anything
+that changes the scheduler's ready-list order at +0x18 -- e.g. a source form
+in which the 0x10 node is created after the first field-copy nodes -- closes
+this to EXACT.  Nothing in the C that produces the surrounding bytes moves it.
+
+Closest source: scratch/r3b2_wip/ef78_h1.c

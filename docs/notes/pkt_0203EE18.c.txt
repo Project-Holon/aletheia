@@ -1,0 +1,94 @@
+
+pkt_0203EE18 - func_0203EE18 (0x0203EE18, 324 bytes total = 308 code + 4 pool
+words, arm) - DIFF, 52 concrete bytes.
+============================================================================
+verdict DIFF: compiled 324 bytes, original extent 324, 52 bytes differ.
+5 of the 8 relocation sites resolve (the four calls by `label`); the three
+ABS32 words are unresolved here only because this scratch spelling carries no
+`symbols:` block -- in the src/matched spelling they resolve 8 of 8 except
+s_020A7E28.  That one is the known cap on this row: src/pending/func_0203EE18.c
+is already MATCH with `blocker: s_020A7E28 (string) -- no witness outside
+0203EE18..0203EF5C; the format string "BufferSize is not enough!![%x][%x]\\n"
+has embedded control characters preventing string class attestation.`  So the
+best this address can reach without new evidence is MATCH, and what follows is
+the codegen residue on top of that.  Every guard, the case-0/1/2 bodies and the
+tail match byte for byte; the residue is three shapes:
+
+1. +0068 - the switch dispatch.  Original:
+       lsl  r0, r1, #0x1e
+       lsrs r0, r0, #0x1e
+       beq  case0
+   This compile: `ands r0, r1, #3` with a 2-bit bitfield, or a single
+   `lsrs r0, r1, #0x1e` with `struct { u32 lo:30; u32 top:2; }`.  Written as
+   the plain expression `(*a2 << 30) >> 30` mwcc folds the shift pair to the
+   mask; written as a bitfield it emits the cheaper single shift.  The
+   original keeps both shifts, i.e. the generic unsigned-bitfield extraction
+   of a 2-bit field at bits 30..31.  No spelling here reproduced both shifts.
+
+2. +00A0 - `mov ip, #0`.  The 4th argument of the func_02034734 assert is
+   passed on the STACK (`str ip, [sp]`), not in r3.  Declaring the callee
+   `(const char *, u32, const char *, ...)` puts a 4-arg call's 4th value in
+   r3; declaring it `unsigned long long` puts it on the stack but adds the
+   `mov ip, #0` high word.  Every other call site of func_02034734 in the
+   image has the same 4th-argument-on-the-stack shape.
+
+3. +00E4 - `bic r0, r0, #1` against `and r0, r0, #0xfe`.  The +0x10 flag is a
+   1-bit bitfield, so case 0 is `f0 = 0` (bic) and case 1 is `f0 = 1`
+   (bic + orr); the reproduced C spells it as a masked u8, which is one
+   instruction different in each of the two arms.
+
+Ruled out: `(u32)((int)*a2 << 30) >> 30` (adds a register copy),
+`{ u32 t = *a2; switch ((t << 30) >> 30) }`, `(*a2 << 30u) >> 30u`, and
+`(u32)*a2 >> 30`.  The best full-size spelling of the switch is the
+`(u32)(*a2) >> 30` form, which is also 52 bytes.
+
+---- closest C ----
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+struct W2 { u32 lo : 30; u32 top : 2; };
+struct F1 { u8 f0 : 1; u8 rest : 7; };
+
+
+extern unsigned int *g_021469F4;
+extern void *func_0203D798(void);
+extern int   func_020399A8(void);
+extern int   func_0203D1A4(int a0);
+extern void  func_02034734(const char *file, u32 line, const char *msg, unsigned long long val);
+extern char  sNet7D74[];
+extern char  sNet7E28[];
+
+void func_0203EE18(int a0, int a1, u32 *a2, int a3, int a4)
+{
+    int i;
+    u8 *p;
+
+    i = a0;
+    if (a0 == 0xff)
+        i = 0;
+    if (g_021469F4 == 0 || g_021469F4[i] == 0)
+        return;
+    p = (u8 *)func_0203D798();
+    if (g_021469F4 == 0 || g_021469F4[i] == 0)
+        return;
+    if (a4 != func_020399A8() && *(u8 *)(p + 0x64) == 0)
+        return;
+
+    switch (((struct W2 *)a2)->top) {
+    case 0:
+        if (*(unsigned int *)(g_021469F4[i] + 4) < (*a2 >> 2))
+            func_02034734(sNet7D74, 0x21f, sNet7E28, *a2 >> 2);
+        *(unsigned int *)(g_021469F4[i] + 8) = *a2 >> 2;
+        *(unsigned int *)(g_021469F4[i] + 0xc) = 0;
+        ((struct F1 *)(g_021469F4[i] + 0x10))->f0 = 0;
+        break;
+    case 1:
+        if (*(unsigned int *)(g_021469F4[i] + 0xc) == *(unsigned int *)(g_021469F4[i] + 8))
+            ((struct F1 *)(g_021469F4[i] + 0x10))->f0 = 1;
+        break;
+    case 2:
+        if (i != func_0203D1A4(func_020399A8()))
+            *(int *)((char *)g_021469F4 + 0x3c) = 1;
+        break;
+    }
+}
