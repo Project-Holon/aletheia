@@ -1,0 +1,98 @@
+pkt_02047400 -- func_02047400 @ 0x02047400, 244 bytes ARM.  STATUS: DIFF.
+==============================================================================
+
+First transcription of this row (wave r11 lane C, pin dsi/1.1p1,
+`-O4pm -proc arm946e`).  The body is recognised in full and the whole
+allocation/constructor sequence reproduces instruction for instruction from
++0x0068 to the epilogue; the divergence is at the front.
+
+The body (settled by the bytes):
+
+    void *func_02047400(void *a0, u32 n, void *a2)
+    {
+        p    = func_0206E954(*(void **)((u8 *)a0 + 4));   /* some lookup */
+        ofs  = 0;
+        if (p != 0) {
+            b = p + 8;
+            if (b != 0) {
+                if (n < p[9]) {
+                    idx = *(u16 *)(p + 0xe);
+                    cnt = *(u16 *)(b + idx);
+                    ofs = cnt * n + (s32)(b + idx + 4);
+                }
+            }
+        }
+        q = (ofs != 0) ? p + *(u32 *)ofs : 0;
+
+        if (a2 != 0) r4 = func_0206E964(*(void **)((u8 *)a2 + 4));
+
+        obj = func_02030734(*(u16 *)((u8 *)*(void **)&g_02146A5C + 0x18),
+                            0x10, 0, g_szG3DSystem, 0x608);
+        *(u16 *)obj        = 0x7A14;
+        *(void **)(obj + 8)  = a0;
+        *(void **)(obj + 0xc) = a2;
+        *(void **)(obj + 4)  = func_0206E348(*(void **)&g_02146A5C);
+        if (r4 != 0) { func_0206A2CC(q, r4); func_0206A4AC(q, r4); }
+        func_02069D14(*(void **)(obj + 4), q);
+        return obj;
+    }
+
+g_02146A5C is a two-word object whose first word is the pointer reached by
+`ldr r0, [r8]`.  0x020A7EA8 is the packed `__FILE__` string `g3d_system.c`
+(anchor at 0x020474FC); 0x608 = 1544 is its line number, and it is passed on
+the stack (`str r0, [sp]` is the prologue's first body instruction), which is
+the 5-argument AllocFromHeap shape.  All nine relocation sites resolve with
+classes `label` x6 + `literal` x3 (the global, the file string and the two
+inline small constants), so this row is NOT evidence-capped -- it is blocked
+by codegen alone.
+
+Residue: 147 concrete bytes, 248 compiled against 260 (listing extent,
+including the 16-byte pool).  Two independent causes, both below the source:
+
+1. IF-CONVERSION.  The image branches the `n < p[9]` body:
+
+       +0034  cmp r5, r1
+       +0038  bhs #0x2047450        ; -> mov r2, #0
+       +003C  ldrh r2, [r0, #0xe]
+       +0040  ldrh r1, [r3, r2]
+       +0044  add r2, r3, r2
+       +0048  add r2, r2, #4
+       +004C  mla r2, r1, r5, r2
+       +0050  b #0x2047454
+
+   where every spelling tried gets the whole six-instruction body predicated
+   off the compare (`ldrhlo`/`addlo`/`mlalo`), and the `mla` becomes a `mul`.
+
+2. REGISTER PLAN.  The image has a0 in r7 (held to the end for
+   `str r7, [sb, #8]`) and the zero-initialised local in r4, the short-lived
+   index in r5.  Every spelling gets a1 in r4 and the zero local in r5.
+
+Spellings measured (each compiled, pin dsi/1.1p1):
+
+  * nested `if (p != 0) { if (b != 0) { if (n < p[9]) { ... } } }` with
+    `ofs` pre-initialised at its declaration -- structure matches the image
+    (three separate branch targets) but the inner body is if-converted and
+    the register plan is swapped.  172 concrete bytes differ.
+  * a single conjunction `if (p != 0 && b != 0 && n < p[9]) { ... } else
+    q = 0;` -- the front end folds the conjunction into
+    `add r3, r0, #8 / cmp r0, #0 / cmpne r3, #0 / beq`, which the image does
+    NOT have (it has a plain `adds r3, r0, #8` + bare `beq`), and the
+    if-conversion goes away but the register plan is still swapped:
+    147 concrete bytes differ.
+
+Not re-derived: `ldr r0, [pc, #0x70]` / `str r0, [sp]` are the 0x608 line
+word, and the pool at 0x020474F4 (four words: 0x00000608, 0x02146A5C,
+0x020A7EA8, 0x00007A14) is fully accounted for.
+
+The next attempt should first try to make the image's `adds r3, r0, #8` +
+bare `beq` (a null test on a NAMED pointer local, not a folded conjunction)
+coexist with an un-predicated `n < p[9]` body -- i.e. keep the three separate
+`if` statements of spelling 1 and move the zero-init of `ofs` to a statement
+AFTER the `p` assignment (the image's `mov r2, #0` sits at the branch target
+0x2047450, not before the branch), then attack the r4/r5 swap by swapping the
+declaration order of the zero-initialised local and the index.
+
+Naming used: g_02146A5C (data), g_szG3DSystem @ 0x020A7EA8 (data),
+func_0206E954 / func_0206E964 / func_02030734 / func_0206E348 /
+func_0206A2CC / func_0206A4AC / func_02069D14 (all arm; the first five are
+`label`-attested, func_0206E348 is `matched`).

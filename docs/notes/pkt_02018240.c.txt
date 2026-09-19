@@ -175,3 +175,35 @@ r3}` home-area shape, which the original's `push {r3, r4, r5, r6, r7, lr}` does
 not have, so it cannot be the spelling.
 
 No C of this row is left in src/matched; this note is its home.
+
+========================================================================
+wave r11 lane C: 0x02018328 (246 bytes, Thumb) -- NOT TRANSCRIBED (budget)
+========================================================================
+
+First attempt on this row; the body was decompiled to a structural map but
+the lane budget ran out before a C was written, so there is no compiled
+comparison and no invented one.  MAP from `match.py show --addr 0x02018328`
+(extent 0x02018328..0x02018430, 264 bytes, Thumb; 246 code bytes):
+
+  * `push {r3, r4, r5, r6, r7, lr}` + `sub sp, #0x28`; a0 is homed to
+    sp+4 by the prologue and every later use is a reload (`ldr r0, [sp, #4]`).
+  * 5-argument heap alloc at 0x0201834A: `blx #0x2030734` with the line word
+    pooled (`str r0, [sp]` at +0x0A), size 0x68, and a file word in r3 --
+    the same AllocFromHeap shape as 0x02047400, and `blx` (not `bl`) because
+    that callee is ARM while this row is Thumb.
+  * three field reads `func_02017E1C(a0, 5 / 0x6f / 0x9e, 0)` at
+    +0x02E, +0x03C, +0x048, narrowed to u16, u16 and u8.
+  * `func_0201ADD0` at +0x05A over those fields and the allocated block.
+  * a PRE-TESTED `do { } while` loop entered through `b #0x20183e4`: the
+    back edge is the `beq #0x2018390` at +0x0E8, and the loop's continuation
+    is a boolean accumulator built exactly as the idiom
+    `int f = 0; ... if (bit) f = 1;` -- `movs r1, #0` at +0x0F4, two
+    `ldrh`/`cmp`/`bne` guards at +0x0FA..+0x10A, `movs r1, #1` at +0x10C,
+    then `cmp r1, #0` / `beq` back.
+  * epilogue `blx #0x20307b0` (ARM callee) then `adds r0, r6, #0` -- the
+    accumulator is the return value.
+
+The next attempt should start from the loop's boolean accumulator (that
+`movs r1,#0` ... `movs r1,#1` ... `cmp r1,#0` triple is the strongest anchor
+in the row) and from the `blx`/Thumb-ARM interworking pair, since the pin's
+`-proc arm946e` is what makes `blx` legal here.

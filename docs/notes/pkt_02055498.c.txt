@@ -2023,3 +2023,456 @@ from a guess: `mov r6, r1 | mov sb, r0` (0x020554A0 / 0x02055B88 / 0x02055FDC).
 No idiom file was added: the two findings above are properties of this packet's
 prologue, not a new reusable compiler quirk (the `and`/`lsl-lsr` substitution is
 range analysis, and the argument-move order is the allocator).
+
+==========================================================================
+APPENDED, wave r11 lane A: the named allocation lever (bind the parameters
+to body locals) is COMPILED and FALSIFIED; the E arm's resource chain is
+re-measured and its binding is now split per triple
+==========================================================================
+
+Pin, verbatim in every compile below (no value carried over from r10):
+
+    compiler: ../1.2/sp2      ->  python tools/match.py one ... --cc ../1.2/sp2
+    flags:    -O4,p -proc arm7tdmi          (layout/proc_hints.txt, pkt_02055498)
+
+Verdict: three DIFF.  Nothing converts, no source was filed, no shard exists for
+this packet - `manifest --verify --shard pkt_02055498` prints `no such shard:
+pkt_02055498` (run twice, identical output).  Every relocation of every row
+resolves: 15 of 15 (0x02055498), 6 of 6 (0x02055B80, 0x02055FD4), all `label`
+except tbl_020A1B38 (`literal` x113).  The residue is codegen, as in r6/r8/r9/r10.
+
+1. THE r11 LEVER, MEASURED: `u8 *qq = q; u32 *ss = self;` - FALSIFIED
+
+Each of the three closest bodies (r9 for 0x02055498, r8 for the twins) was
+changed in exactly one way: a `u8 *qq` / `u32 *ss` pair declared with the body's
+other locals, assigned as the body's first two statements, and every `q`/`self`
+use in the body (and in the `SYS` macro) re-expressed through them.  Result, all
+three rows:
+
+    0x02055498  1768 compiled (size EXACT, unchanged)  1223 differing (unchanged)
+    0x02055B80  1128 compiled (unchanged)               817 differing (unchanged)
+    0x02055FD4  1136 compiled (unchanged)               948 differing (unchanged)
+
+Byte-for-byte identical to the closest bodies on all three rows: the allocator
+coalesces the two locals into the incoming parameters, so the copy order, the
+register the q+0x2e halfword lands in, the frame and every byte of the prologue
+are exactly as before.  The r10 note's section 3 named this as the next thing to
+try; it is now ruled out by compile, together with the r10 statement-order lever
+and the r9 `u16 raw` spelling.  The argument-move slot is NOT reachable through
+the source: it is a save/allocator decision of this front end.
+
+2. A SECOND FALSIFICATION ON 0x02055498: DEFERRING THE `mtx` LOAD
+
+Moving `mtx = *(MtxFx43 **)((u8 *)self + 0x44);` from before the 0x040004A4 store
+to after it (the image issues that load late, `ldr r1, [r7, #0x44]` at
+0x020554B0 in the image's own schedule) gives 1768 compiled / 1224 differing
+against the closest body's 1768 / 1223 - size unchanged, one byte worse.  Not
+kept.
+
+3. THE E ARM'S RESOURCE CHAIN: THE BINDING IS PER TRIPLE, NOT PER ARM
+
+r9 measured "bind RES once in the E arm" as one change.  Split into the two
+triples it uses, the two halves are NOT equivalent (all numbers
+`--cc ../1.2/sp2 --flags "-O4,p -proc arm7tdmi"`, closest bodies as the base):
+
+  0x02055B80 (original 1088 code + 20 pool = 1108 extent)
+    no res local (r8 closest)                       1128 / 817 differing
+    `res` bound for the POSITION triple only        1104 / 789   <- 4 short
+    `res` bound for the 0x04000470 store triple only 1092 / 795  (push gains fp:
+                                                                 nine registers)
+    `res` bound for the whole E arm (r9's lever)    1068 / 812   (40 short)
+  0x02055FD4 (original 1080 code + 20 pool = 1100 real, 1164 listing incl. the
+  unlabelled follower at 0x02056420)
+    no res local (r8 closest)                       1136 / 948
+    `res` bound for the POSITION triple only        1112 / 909   <- 12 long
+    `res` bound for the store triple only           1132 / 977   (frame 0x4c:
+                                                                 prologue broken)
+    `res` bound for the whole E arm                 1108 / 922   (8 long of the
+                                                                 listing extent)
+
+So binding the store triple is the variant that costs a callee-saved register
+(the push gains fp on 0x02055B80, the frame widens to 0x4c on 0x02055FD4) and it
+is strictly worse; binding the POSITION triple keeps the original's prologue
+instruction for instruction (`push {r4,r5,r6,r7,r8,sb,sl,lr}` / `sub sp,#0x40`
+and the nine-register push / `sub sp,sp,#0x3c`) and is the best byte count either
+twin has had.  It also reproduces the image's own shape: the image derives the
+chain twice in the E arm (0x02055DFC-0x02055E14 and 0x02055F18-0x02055F34), i.e.
+once for the position triple and once, re-derived, for the store triple - which
+is exactly what this variant emits.  The new closest body for each twin is at the
+end of this section; 0x02055498's closest body is still the r9 one (both changes
+tried on it this wave were falsified, and it is the only size-exact row).
+
+4. WHAT THE NEXT ATTEMPT SHOULD TRY FIRST, PER ROW
+
+The blocker is named from the first differing instruction the tool printed, not
+from a guess: `mov r6, r1 | mov sb, r0` (0x020554A0) and `mov r6, r1 |
+mov r7, r0` (0x02055B88) / `mov r8, r1 | mov sb, r0` (0x02055FDC).  In the image
+the schedule is uniformly: copy q to its saved register, load the q+0x2e halfword
+straight back into the just-freed parameter register r1, and copy self only then;
+ours saves both parameters first (self into the higher callee-saved register) and
+places the halfword load after them.  Statement order (r10) and parameter-bound
+locals (this wave) both leave it untouched, so the next lever has to be one that
+changes which values are LIVE across the top of the body rather than how they are
+spelled - e.g. a first statement that uses `self` through a call-free expression
+mwcc cannot fold away, or a shape where one of the two parameters is dead after
+its first use.
+  0x02055498: size is already exact - do not touch it.  If the slot is attacked
+    at all, attack it on this row last.
+  0x02055B80: keep the position-triple binding (1104, 4 short) and find the
+    missing instruction; the candidate is the second derivation of the chain in
+    the original's store triple (0x02055F18-0x02055F34), which our macro lets
+    mwcc CSE away - spell that one chain by hand through a second local and see
+    whether the 4 bytes come back.
+  0x02055FD4: same binding (1112, 12 long of the real 1100); the frame, the push
+    and the hoisted scalars (sv r7, t sl, c r5, d r4, kind r3, n fp) still match,
+    so do NOT re-tune the frame - look for the 12 bytes in the same second
+    derivation.
+
+--------------------------------------------------------------------------
+THE CLOSEST BODY FOR func_02055B80, wave r11  (compiled 1104 vs the 1108
+extent = 4 SHORT; 789 differing, r8 was 817; prologue exact)
+--------------------------------------------------------------------------
+
+/*
+ * function: func_02055B80
+ * address:  0x02055B80
+ * packet:   pkt_02055498
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * wave r11: `res` binds the resource chain for the E arm's position triple only
+ * (789 differing, 1104 compiled) - the best state this row has had.
+ *
+ * symbols:
+ *   tbl_020A1B38    0x020A1B38  data
+ *   MTX_MultVec43   0x0207BC08  arm
+ *   G3_MultMtx43    0x0207D918  arm
+ *   func_020565C8   0x020565C8  arm
+ *
+ * Middle row of pkt_02055498, the 3D rig family (0x0205429C..0x020584E0).
+ * Body is wave r6's closest version (docs/notes/pkt_02055498.c.txt) with this
+ * wave's two measured corrections:
+ *   (a) the resource chain is a DOUBLE dereference - the original loads
+ *       P = *(u32*)(sys+0x20) and then the base it indexes with is
+ *       *(u32*)P (`ldr r2,[r4,#0x20]` / `ldr r4,[r2]` / `ldrsh r0,[r4,#0x30]`
+ *       at 0x02055BB0/B8/C8, and the same pair re-derived in the E arm at
+ *       0x02055DFC-0x02055E14 and 0x02055F18-0x02055F34).  wave r6's body used
+ *       the single dereference, which is a different instruction;
+ *   (b) *(s16*)(res+0x30) is bound to a named local read BEFORE the
+ *       0x040004A4 store, which is where the original issues it (0x02055BC8),
+ *       so the loaded value stays live across the volatile store in r0.
+ *
+ * Literal pool words 0x040004A4/A1B38/04000454/04000470/04000480: the four
+ * hardware addresses are spelled as integer constants and carry no relocation,
+ * tbl_020A1B38 is an ABS32 attested `literal`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02055B80.c \
+ *       --func func_02055B80 --addr 0x02055B80 --arm --cc ../1.2/sp2 \
+ *       --flags "-O4,p -proc arm7tdmi"
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+typedef signed long long s64;
+
+typedef struct { s32 x, y, z; } VecFx32;
+typedef struct { s32 m[12]; } MtxFx43;
+
+typedef struct { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; } Q2E;           /* q+0x2e   */
+typedef struct { u32 f0 : 28; u32 kind : 3; u32 f31 : 1; } Res48;      /* res+0x48 */
+typedef struct { u32 f0 : 23; u32 flag : 1; u32 f24 : 8; } Res00;      /* res+0x00 */
+
+extern s16 tbl_020A1B38[];
+extern void MTX_MultVec43(const void *vec, const void *mtx, void *dst);
+extern void G3_MultMtx43(const void *mtx);
+extern void func_020565C8(s32 a, s32 b, s32 c);
+
+#define SYS     (*(u32 **)((u8 *)self + 0x40))
+#define RES0    ((u8 *)*(u32 *)((u8 *)SYS + 0x20))
+#define RES     ((u8 *)*(u32 *)RES0)
+#define FXMUL(a, b) ((s32)((((s64)(a) * (b)) + 0x800) >> 12))
+
+void func_02055B80(u32 *self, u8 *q)
+{
+    VecFx32 pos;
+    MtxFx43 m43;
+    MtxFx43 *mtx;
+    Q2E *blk;
+    s32 n, w, v5, t, sv;
+    s64 w64;
+    u8 *res;
+
+    blk = (Q2E *)(q + 0x2e);
+    n = (s32)(((blk->b5 + 1) * blk->b0) >> 5);
+    sv = *(s16 *)(RES + 0x30);
+    mtx = *(MtxFx43 **)((u8 *)self + 0x44);
+    *(volatile u32 *)0x040004A4 = (*(u32 *)((u8 *)self + 0x3c) | 0xc0) |
+                                  (((u32)blk->b10) << 24) | ((u32)n << 16);
+    (void)*(volatile u32 *)0x040004A4;
+    if (n == 0)
+        return;
+
+    w = *(s32 *)(q + 0x30);
+    v5 = FXMUL(w, sv);
+    w64 = (s64)w;
+
+    switch (((Res48 *)(RES + 0x48))->kind) {
+    case 0:
+        t = *(s16 *)(q + 0x34);
+        v5 = FXMUL(v5, t);
+        w = (s32)FXMUL(w64, t);
+        break;
+    case 1:
+        t = *(s16 *)(q + 0x34);
+        v5 = FXMUL(v5, t);
+        break;
+    case 2:
+        t = *(s16 *)(q + 0x34);
+        w = (s32)FXMUL(w64, t);
+        break;
+    default:
+        break;
+    }
+
+    if (!((Res00 *)RES)->flag) {
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40);
+        MTX_MultVec43(&pos, mtx, &pos);
+
+        t = (s32)((*(u16 *)(q + 0x20) >> 4) * 2);
+        m43.m[0] = FXMUL(tbl_020A1B38[t + 1], v5);
+        m43.m[1] = FXMUL(tbl_020A1B38[t], v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-tbl_020A1B38[t], w);
+        m43.m[4] = FXMUL(tbl_020A1B38[t + 1], w);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        G3_MultMtx43(&m43);
+    } else {
+        res = RES;
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38) - *(s32 *)(res + 4);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c) - *(s32 *)(res + 8);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40) - *(s32 *)(res + 0xc);
+        MTX_MultVec43(&pos, mtx, &pos);
+
+        t = (s32)((*(u16 *)(q + 0x20) >> 4) * 2);
+        m43.m[0] = FXMUL(tbl_020A1B38[t + 1], v5);
+        m43.m[1] = FXMUL(tbl_020A1B38[t], v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-tbl_020A1B38[t], w);
+        m43.m[4] = FXMUL(tbl_020A1B38[t + 1], w);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)0x04000470 = *(u32 *)(RES + 4);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RES + 8);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RES + 0xc);
+        G3_MultMtx43(&m43);
+    }
+
+    v5 = (s32)*(u16 *)(q + 0x36);
+    w = (s32)*(u16 *)((u8 *)SYS + 0x72);
+    *(volatile u32 *)0x04000480 = (u16)((((v5 & 0x1f) * (w & 0x1f)) >> 5) |
+                                        ((((v5 & 0x3e0) * (w & 0x3e0)) >> 0xf) << 5) |
+                                        ((((v5 & 0x7c00) * (w & 0x7c00)) >> 0x19) << 10));
+    func_020565C8(*(s16 *)((u8 *)SYS + 0x7c), *(s16 *)((u8 *)SYS + 0x7e), 0);
+}
+
+--------------------------------------------------------------------------
+THE CLOSEST BODY FOR func_02055FD4, wave r11  (compiled 1112 vs the 1100
+real extent = 12 long; 909 differing, r8 was 948; prologue exact)
+--------------------------------------------------------------------------
+
+/*
+ * function: func_02055FD4
+ * address:  0x02055FD4
+ * packet:   pkt_02055498
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * wave r11: `res` binds the resource chain for the E arm's position triple only
+ * (909 differing, 1112 compiled) - the best state this row has had.
+ *
+ * symbols:
+ *   tbl_020A1B38    0x020A1B38  data
+ *   MTX_MultVec43   0x0207BC08  arm
+ *   G3_MultMtx43    0x0207D918  arm
+ *   func_020565C8   0x020565C8  arm
+ *
+ * Third row of pkt_02055498, the 3D rig family (0x0205429C..0x020584E0), the
+ * near-twin of 0x02055B80.  wave r6's closest body rebuilt with this wave's
+ * measured corrections:
+ *   (a) the resource chain is a DOUBLE dereference everywhere - the original
+ *       loads P = *(u32*)(sys+0x20) then indexes with *(u32*)P
+ *       (`ldr r4,[r1,#0x20]`/`ldr r5,[r4]`/`ldrsh r7,[r5,#0x30]` at
+ *       0x02055FF8/0x02056000/0x02056024; re-derived in the E arm at
+ *       0x0205624C-0x02056260; re-derived for the tail call at
+ *       0x020563E0-0x020563F8).  wave r6's body used the single dereference;
+ *   (b) NO pointer local for sys/res/blk - the original re-derives the whole
+ *       chain at every use (0x0205624C, 0x02056274, 0x020563E0), so keeping
+ *       `sys`/`res` in named locals is what widens the frame.  Only the
+ *       scalars the original hoists into registers in the prologue are named
+ *       locals here: sv (r7), t (sl), c (r5), d (r4), kind (r3), n (fp).
+ *   Original frame 0x3c = pos (12) at sp+0 + m43 (48) at sp+0xc, no spills.
+ *
+ * Literal pool words 0x040004A4 / tbl_020A1B38 / 0x04000454 / 0x04000470 /
+ * 0x04000480 at 0x0205640C..0x0205641C; the four hardware addresses are
+ * integer constants and carry no relocation.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02055FD4.c \
+ *       --func func_02055FD4 --addr 0x02055FD4 --arm --cc ../1.2/sp2 \
+ *       --flags "-O4,p -proc arm7tdmi"
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+typedef signed long long s64;
+
+typedef struct { s32 x, y, z; } VecFx32;
+typedef struct { s32 m[12]; } MtxFx43;
+
+typedef struct { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; } Q2E;           /* q+0x2e   */
+typedef struct { u32 f0 : 28; u32 kind : 3; u32 f31 : 1; } Res48;      /* res+0x48 */
+typedef struct { u32 f0 : 23; u32 flag : 1; u32 f24 : 8; } Res00;      /* res+0x00 */
+
+extern s16 tbl_020A1B38[];
+extern void MTX_MultVec43(const void *vec, const void *mtx, void *dst);
+extern void G3_MultMtx43(const void *mtx);
+extern void func_020565C8(s32 a, s32 b, s32 c, s32 d);
+
+#define SYS     (*(u32 **)((u8 *)self + 0x40))
+#define RES0    ((u8 *)*(u32 *)((u8 *)SYS + 0x20))
+#define RES     ((u8 *)*(u32 *)RES0)
+#define FXMUL(a, b) ((s32)((((s64)(a) * (b)) + 0x800) >> 12))
+
+void func_02055FD4(u32 *self, u8 *q)
+{
+    VecFx32 pos;
+    MtxFx43 m43;
+    MtxFx43 *mtx;
+    s32 n, w, v5, t, sv;
+    s64 w64;
+    u8 *res;
+    u32 kind, c, d;
+
+    n = (s32)((((*(Q2E *)(q + 0x2e)).b5 + 1) * (*(Q2E *)(q + 0x2e)).b0) >> 5);
+    sv = *(s16 *)(RES + 0x30);
+    t = *(s16 *)(q + 0x34);
+    c = *(u16 *)(q + 0x36);
+    d = *(u16 *)((u8 *)SYS + 0x72);
+    kind = (u32)(u8)((Res48 *)(RES + 0x48))->kind;
+    mtx = *(MtxFx43 **)((u8 *)self + 0x44);
+
+    *(volatile u32 *)0x040004A4 = (*(u32 *)((u8 *)self + 0x3c) | 0xc0) |
+                                  (((u32)(*(Q2E *)(q + 0x2e)).b10) << 24) |
+                                  ((u32)n << 16);
+    (void)*(volatile u32 *)0x040004A4;
+    if (n == 0)
+        return;
+
+    w = *(s32 *)(q + 0x30);
+    v5 = FXMUL(w, sv);
+    w64 = (s64)w;
+
+    switch (kind) {
+    case 0:
+        v5 = FXMUL(v5, t);
+        w = (s32)FXMUL(w64, t);
+        break;
+    case 1:
+        v5 = FXMUL(v5, t);
+        break;
+    case 2:
+        w = (s32)FXMUL(w64, t);
+        break;
+    default:
+        break;
+    }
+
+    if (!((Res00 *)RES)->flag) {
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40);
+        MTX_MultVec43(&pos, mtx, &pos);
+
+        t = (s32)((*(u16 *)(q + 0x20) >> 4) * 2);
+        m43.m[0] = FXMUL(tbl_020A1B38[t + 1], v5);
+        m43.m[1] = FXMUL(tbl_020A1B38[t], v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-tbl_020A1B38[t], w);
+        m43.m[4] = FXMUL(tbl_020A1B38[t + 1], w);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        G3_MultMtx43(&m43);
+    } else {
+        res = RES;
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38) - *(s32 *)(res + 4);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c) - *(s32 *)(res + 8);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40) - *(s32 *)(res + 0xc);
+        MTX_MultVec43(&pos, mtx, &pos);
+
+        t = (s32)((*(u16 *)(q + 0x20) >> 4) * 2);
+        m43.m[0] = FXMUL(tbl_020A1B38[t + 1], v5);
+        m43.m[1] = FXMUL(tbl_020A1B38[t], v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-tbl_020A1B38[t], w);
+        m43.m[4] = FXMUL(tbl_020A1B38[t + 1], w);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)0x04000470 = *(u32 *)(RES + 4);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RES + 8);
+        *(volatile u32 *)0x04000470 = *(u32 *)(RES + 0xc);
+        G3_MultMtx43(&m43);
+    }
+
+    *(volatile u32 *)0x04000480 = (u16)((((c & 0x1f) * (d & 0x1f)) >> 5) |
+                                        ((((c & 0x3e0) * (d & 0x3e0)) >> 0xf) << 5) |
+                                        ((((c & 0x7c00) * (d & 0x7c00)) >> 0x19) << 10));
+    func_020565C8(*(s16 *)((u8 *)SYS + 0x78), *(s16 *)((u8 *)SYS + 0x7a),
+                  *(s16 *)(RES + 0x50), *(s16 *)(RES + 0x52));
+}
+

@@ -48,3 +48,69 @@ the `beq` past it.  Spellings tried, all with the same three-line residue:
   `*(g_02150FEC.unk04 + 0x1b)` for the subscript;
   the object declared as a two-word struct with the pointer second.
 No cut helps: all 11 sites are inside the one function.
+
+========================================================================
+wave r11 lane C: 0x02092004 (the packet's 256-byte row) -- MATCH
+========================================================================
+
+func_02092004 @ 0x02092004, 256 bytes arm, first transcription.  This row is
+the SAME object family as func_02091D38 above (identical pool objects:
+0x020A8730 / 0x020A877C / 0x020A87C8 compared against a0, block base
+0x02153BD4 stride 0x18, arr_02153B8C, arr_02153BB0, g_02150FEC.unk04[0x1b])
+and its body is the note's shape with a three-argument tail call:
+
+    s32 func_02092004(u32 a0, u32 a1, u32 a2)
+    {
+        u32 idx = (a0 == (u32)g_020A8730) ? 2 : (a0 == (u32)g_020A877C) ? 3
+                : (a0 == (u32)g_020A87C8) ? 4 : 5;
+        u8 *blk = g_02153BD4 + idx * 0x18;
+        s32 r;
+
+        if (func_020860D0(blk) == 0) {
+            arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
+            arr_02153BB0[idx] = 1;
+        } else {
+            u32 cur = arr_02153B8C[idx];
+            u32 ref = g_02150FEC.unk04[0x1b];
+
+            if (cur == ref) arr_02153BB0[idx]++;
+            else {
+                func_02086028(blk);
+                arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
+                arr_02153BB0[idx] = 1;
+            }
+        }
+        r = func_02091E44(a0, a1, a2);
+        arr_02153BB0[idx]--;
+        if (arr_02153BB0[idx] == 0) func_02086078(blk);
+        return r;
+    }
+
+VERDICT: MATCH (pin dsi/1.1p1, -O4pm -proc arm946e, --arm).  284 compiled
+against a 284-byte listing extent, 10 of 11 relocation sites resolved; the
+one wildcard is +0x00D4 PC24 func_02091E44 -- "has no witness outside
+02092004..02092120", its only branch in the image is this call.  --suggest-split
+has nothing to offer (single function, site inside it).  Filed at
+src/pending/func_02092004.c.
+
+The register-pair residue this note records for 0x02091D38 reproduces here
+exactly -- the equality sides come out with the temporaries swapped:
+
+    orig +0084  ldr r0, [fp, #4]              | mine +0084  ldr r1, [fp, #4]
+    orig +0088  ldr r1, [r4, r7, lsl #2]      | mine +0088  ldr r0, [r4, r7, lsl #2]
+    orig +008C  ldr r0, [r0, #0x6c]           | mine +008C  ldr r1, [r1, #0x6c]
+    orig +0090  cmp r1, r0                    | mine +0090  cmp r1, r0
+
+and the spelling that fixes it is the one NOT tried on 0x02091D38: bind BOTH
+sides to named locals before the compare, with the array element first --
+
+    u32 cur = arr_02153B8C[idx];
+    u32 ref = g_02150FEC.unk04[0x1b];
+    if (cur == ref) ...
+
+as a nested `if`/`else` inside the outer `else` (not an `else if`), which is
+what puts two live named temporaries on the compare and lands `arr` in r1 /
+`field` in r0.  4 concrete bytes differed before this spelling (the whole
+three-instruction load pair); 0 after.  The same spelling is worth trying on
+0x02091D38's own THREE-line residue.
+

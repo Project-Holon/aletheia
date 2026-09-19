@@ -28,3 +28,34 @@ interleaving is.  Not filed, DIFF.
 The packet's other two small functions were not reached: 0x02070AFC (104) has an
 internal `loc_` (a mid-function label from a range-guard) and 0x02070B64 (116)
 is a five-call sequence; both are larger than they look and neither is a leaf.
+
+========================================================================
+wave r11 lane C: 0x02070524 (256 bytes, ARM) -- NOT TRANSCRIBED (budget)
+========================================================================
+
+First attempt on this row, abandoned to the lane budget before a C existed.
+No compiled comparison is claimed.  MAP from `match.py show --addr 0x02070524`
+(extent 0x02070524..0x02070624, 256 bytes, ARM):
+
+  * NO prologue at all: no `push`, no stack.  The function OPENS with its
+    exits -- `tst r1, #0x20000000` / `movne r0, r2` / `bxne lr`, so the
+    first source statement is an early return that replaces the result with
+    the third argument.  A leaf with three register arguments and four
+    `bx lr` epilogues (+0x08, +0x90, +0xA4, ...) at the ends of disjoint
+    arms.
+  * the whole body is one cascade of `tst`/`beq` on bits of r1, which is a
+    format/flag word: 0x20000000, 0xc0000000, 0x40000000, 0x10000000, then
+    `ands r2, r3, #3` and a two-bit `tst r3, #1` / `tst r3, #2` pair.
+  * the payload is a table gather and a weighted average: two pooled tables
+    indexed by <<2, then either `ldr` (32-bit samples) or `ldrsh` (16-bit
+    signed samples, on bit 0x10000000), then
+    `add r0, r2, r2, lsl #1` (= 3*a) / `add r0, r0, r1` /
+    `asr r0, r0, #2` -> `(3a + b) >> 2` in ONE expression, which is the
+    single strongest anchor in the row.
+  * `add r0, r0, r2` at +0x10 before the first `beq` is the accumulator
+    initialisation (`result = a + arg2`), so the tier is chosen first and
+    the average is computed per tier.
+
+Next attempt should write the `(3 * a + b) >> 2` arm first (it is six
+instructions and unambiguous), then build the flag cascade outward from it,
+with the early `tst #0x20000000` return first in source order.

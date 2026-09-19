@@ -116,3 +116,34 @@ s64 (umull/smull, settled), `(u64)-(s32)f28` (which forces an extra
 `asr #0x1f` + `mla` sign-extension pair and is wrong), u32 against s32
 fields, and `* 16` against `<< 4`.  No locals were added: the original's
 plan uses only r0-r4 + ip/lr, so a spill would show.
+
+========================================================================
+wave r11 lane C: 0x02071CDC (248 bytes, ARM) -- NOT TRANSCRIBED (budget)
+========================================================================
+
+First attempt on this row, abandoned to the lane budget before a C existed.
+No compiled comparison is claimed.  MAP from `match.py show --addr 0x02071CDC`
+(extent 0x02071CDC..0x02071DD4, 248 bytes, ARM):
+
+  * `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` (10 registers), sb = the
+    source struct, sl = the destination.
+  * three `ldrh` at sb+0x2c / +0x2e and one pair of `s32`/`ldr` at sb+0x18 /
+    +0x1c, each scaled `<< 12`; `func_0207C930(r0, r1)` is called with the
+    scaled pair both before and after the FX block (a sin/cos or scale
+    helper called twice).
+  * four `smull` + `lsr #0xc` + `orr ..., lsl #20` quartets -- the `s64`
+    `>> 12` on a `smull` pair, exactly the shape this packet's note already
+    records for 0x0207229C -- writing dst[0], dst[0x14] and the two
+    intermediates.
+  * `func_0207C86C` at +0x28, its result fed into `mul r0, r4, r0` /
+    `asr r0, r0, #0xc` / `str r0, [sl, #4]` (fixmul).
+  * the second half re-reads sb+0x2c/+0x2e and negates BOTH with the
+    two-statement shape `rsb r0, r3, #0` / `rsb r1, r1, #0` -- the lever
+    `n = a + b; n = 0 - n;` from scratch/R6-RULES.md -- then `lsl #0xb` and
+    a `smull` + `smlal` accumulation into r8:r7.
+
+The row is unfinished, not blocked: it is the same family as 0x0207229C in
+this note (smull FX with a `>> 12` and a bias), so that section's settled
+facts (the shift pair is `lsr #0xc` + `orr lsl #20`, the sign comes from the
+field type and not a cast, `smull` vs `umull` names the signedness) apply
+here and should be reused verbatim.
