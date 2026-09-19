@@ -1,18 +1,19 @@
 # Handoff state (2026-09-16)
 
-> Current figures, 2026-09-19, after the r6/r7 fold-in: **40.2721 percent** of ARM9 game code matched
-> byte for byte (156320 of 388160 bytes, 3101 functions), committed as `28227ff`. The live numbers are
+> Current figures, 2026-09-19, after the r8 fold-in: **41.3860 percent** of ARM9 game code matched
+> byte for byte (160644 of 388160 bytes, 3121 functions), committed as `1632faa`. The live numbers are
 > `layout/worklist.json`'s summary and `README.md`, and both are refreshed in the same commit as the change
 > they describe; 388160 is the denominator after six library bodies (12440 bytes) left the game pool by owner
 > decision today, which raised the percentage by 1.2272 points as BOOKKEEPING and is not matching.
 >
-> The session went 31.0250 percent to 40.2721 percent, of which 1.2272 points is that reclassification and the
-> rest is matched bytes. Two owner decisions were taken and are recorded in `docs/FRONTEND-PINS.md`: per-file
-> compiler pins where the bytes prove another front end built the function (the 3D rig family, whose first
-> harvest was 848 bytes), and the library curation. Two classes of verifier defect were fixed under
-> `scripts/verify_shards.py`, and the rule that came out of them is in the skill: an entry's identity is
-> four things (source, compiler pin, flags, region) and a verifier that drops any of them reports a correct
-> file as DIFF, which is how finished work gets "repaired" by the next reader.
+> The session went 31.0250 percent to 41.3860 percent, of which 1.2272 points is that reclassification and the
+> rest is matched bytes. Three owner decisions and one policy are recorded in `docs/FRONTEND-PINS.md`:
+> per-file compiler pins where the bytes prove another front end built the function (the 3D rig family, whose
+> pin has now paid 4644 bytes), the library curation, and the rule that the `-proc` is per row and
+> `layout/proc_hints.txt` is a census rather than an oracle. The verifier rule that came out of this session
+> is in the skill: an entry's identity is four things (source, compiler pin, flags, region) and a verifier
+> that drops any of them reports a correct file as DIFF, which is how finished work gets "repaired" by the
+> next reader.
 >
 > The numbers in the 2026-09-16 snapshot below are kept for the record, not as a live claim.
 
