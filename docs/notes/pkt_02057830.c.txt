@@ -204,3 +204,341 @@ on a u16 at +2 calling 0x0207AF00/0x0207AF1C/0x0207AF38 through `blx` with a
 all `label` class), 0x02057F8C's follower 0x020582CC (unlabelled leaf, see
 above).  The first step in each is `match.py show --addr` and a `blx`/`pop {..,
 lr}` check, since the family pin is what these rows need.
+
+==============================================================================
+wave r8 lane rigD (2026-09-19): three of these six rows are EXACT, two are
+measured DIFFs, one is reported; all with `compiler: ../1.2/sp2`
+==============================================================================
+
+Pin and proc used: `--cc ../1.2/sp2` with `-O4,p -proc arm946e` on every row
+below (the pin verbatim, per docs/FRONTEND-PINS.md).  The `arm7tdmi` entry in
+layout/proc_hints.txt covers this whole band, but it is wrong for these rows:
+on 0x02057B5C the same source is 41 bytes out at arm7tdmi against 28 at
+arm946e, so wave r6's measurement (arm946e for the band's small rows) holds
+for the rows that are left here too.  Rows filed (src/matched/, shards written
+and verified twice with `0 rewritten`):
+
+  0x02057F8C  src/matched/func_02057F8C.c   284 B  pkt_02057F8C  EXACT
+  0x020580A8  src/matched/func_020580A8.c   216 B  pkt_02057F8C  EXACT
+  0x02057B5C  src/matched/func_02057B5C.c   100 B  pkt_02057B5C  EXACT
+
+0x02057F8C - the r6 note's two levers were both necessary and both right.  The
+mode dispatch is a `switch` on a 2-bit bitfield member (a `u16 mode : 2` at
++6 of the target struct gives the image's `ldrh` + `lsl #30` + `lsrs #30`;
+the if/else-if spelling puts case 0's body at the first test and comes out
+260 bytes).  And the mode-1 clamp is the 64-BIT form:
+`-(int)(((long long)s->f18 * a->f04 + 0x800) >> 12)` gives the image's
+smull/adc/lsr/orr quartet, while the 32-bit spelling gives `mul/add/asr`
+(4 instructions, 260 bytes).  The r6 arm shape itself was already right: the
+inner `return` sits INSIDE the inner `if`, and the redundant
+`if (v < target) return;` after it is what makes the shared tail block exist.
+(The r6 note's suggested `goto` was not needed: the switch is what produces
+the 284-byte layout.)  The mode-1 arm also confirms that a `long long`
+product is the only way to the smull quartet here.
+
+0x020580A8 - first compile, EXACT under the pin, 5 of 5 relocation sites
+resolve (four `label` branch sites, one `literal` for the shared s16 table at
+0x020A1B38; the table symbol is declared once in the header's symbols block).
+Two spellings decide the body: each of the three `blx` cases re-reads
+`idx = o->f00 >> 4;` (hoisting it above the switch costs the `asr` slot), and
+the table subscripts are `idx * 2` / `idx * 2 + 1` - the `idx` / `idx + 1`
+spelling addresses the same halfwords but is 12 bytes short, because the image
+forms `lsl r2,r1,#1` + `add r1,r2,#1` + two `lsl #1`s.
+
+0x02057B5C - the r6 residue (80 bytes, "register plan") is closed; the lever
+in the r8 brief (the pointer surviving in r5) is real but is a SYMPTOM: for
+any function that needs r4+r5, mwcc 1.2 emits `push {r4,r5,lr}` + 4 bytes of
+realignment, which is exactly this 100-byte prologue/epilogue pair.  Three
+spellings get there, in this order of importance:
+  * the loop must carry TWO step values: `end += p->step` in the update (the
+    FIELD, re-read) together with a `step` local used by the test.  With one
+    spelling of step the compiler merges them and builds the 80-byte/`push
+    {r4, lr}` version with the pointer in r4.
+  * `i = 0;` is a statement before the guard and `end = 0;` sits after it, so
+    the scheduler keeps `mov r4, #0` above the test and `mov lr, r4` in the
+    preheader.  Both initialisers in the for-header is the same 100 bytes but
+    28 bytes wrong.
+  * the loop's continuation test reads `p->n` (the field) while the guard
+    tests the local `n`.  That is what assigns n to r3 and step to ip; testing
+    the local in both places is 6 bytes out (n and step swap registers) with
+    everything else already correct.  This last one is the whole difference
+    between the 100-byte near miss and EXACT.
+
+0x02057BC0 (220 B incl. the 12-byte pool) DIFF, 13 concrete bytes, all of them
+ONE register: the image loads `p->b` into r3 (`ldrb r3, [r4, #5]` at
+0x02057BD0, live to the `rsb r1, r3, #0xff` at 0x02057C1C) and the compiler
+insists on r0, which in turn puts the raw `ldrh [r4]` in r3 instead of r0 in
+the third arm (0x02057C54/5C/60/64/68/6C).  Everything else in all three arms
+and the whole tail is byte-exact, and the size is right (220/220).
+The r6 tail residue is FIXED and the fix is worth keeping: the seed byte in a
+signed int local (`r = g_02146A8C >> 24;` with `int r;`, the `>> 24` itself
+staying `lsr`) plus `f02` bound to a `u16` local reproduces the image's
+r2/r1/r3 plan for `p->f02` / `(seed>>24)` / `o->f2e` exactly; and the store is
+`o->f2e = (o->f2e & ~0x3e0) | ((w & 0x1f) << 5)` with `w` a `u16` local:
+`w = (u16)((v * (0xff - q)) << 8);`, which is the `lsl #8`/`lsr #16` narrowing
+the r8 brief asked about.
+Ruled out on the b register (each compiled, all 220 bytes, all 13 bytes out):
+declaration order of a/b/v/r/q/f02/w (24 permutations), assignment order of a
+and b, `u8`/`u16`/`u32`/`s16` types for a and b, b declared after the tail
+locals, a/b on one declaration line, a dummy local between them, the member
+read in place for the second test or for the third arm's divisor, `b > t` for
+the second test, nested-if instead of else-if, and void vs int vs unsigned
+short return types.  Closest C (220/220 bytes, 13 bytes out) in full:
+
+/*
+ * function: func_02057BC0
+ * address:  0x02057BC0
+ * packet:   pkt_02057B5C
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ * symbols:
+ *   _s32_div_f     0x0209C0A4  arm
+ *   g_02146A8C     0x02146A8C  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+
+struct Rec {
+    u16 lo : 5;
+    u16 mid : 5;
+    u16 hi : 5;
+    u16 _unused : 1;
+    u8 f02;
+    u8 _03;
+    u8 a;
+    u8 b;
+};
+
+struct S {
+    char _00[0xc];
+    struct Rec *f0c;
+};
+
+struct O {
+    char _00[0x2e];
+    u16 f2e;
+};
+
+u32 g_02146A8C;
+
+extern int _s32_div_f(int num, int den);
+
+void func_02057BC0(struct O *o, struct S *s, int t)
+{
+    struct Rec *p;
+    int a;
+    int b;
+    int v;
+    int r;
+    int q;
+    u16 f02;
+    u16 w;
+
+    p = s->f0c;
+    a = p->a;
+    b = p->b;
+
+    if (t < a) {
+        v = p->lo + t * (p->mid - p->lo) / a;
+    } else if (t < b) {
+        v = p->mid;
+    } else {
+        v = p->mid + (t - 0xff) * (p->hi - p->mid) / (0xff - b);
+    }
+
+    g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
+    r = g_02146A8C >> 24;
+    f02 = p->f02;
+    q = f02 * r;
+    q = q >> 8;
+    w = (u16)((v * (0xff - q)) << 8);
+    o->f2e = (o->f2e & ~0x3e0) | ((w & 0x1f) << 5);
+}
+
+
+0x02057C9C (460 B) DIFF, 65 concrete bytes, all of them the register plan of
+the two lerp arms.  Size is right (460/460) and the STRUCTURE is right.  The
+one lever that mattered: bind `s->f00` to a named local (`q = s->f00;`) ABOVE
+the first branch and use `q->f22` in both arms - that takes the compile from
+464 bytes/279 differing to 460 bytes/65 differing in one step, because the
+image loads `ldr r0, [r1]` early (0x02057C60 is arm 1's first instruction) and
+only dereferences it inside the arms.  What is left is one swap: the image
+puts the target value (`q->f22`) in `sb` and the record (rec0 at `p+0`) in r8
+in arm 1 (0x02057CDC/CE0/CE4), and rec1 in r7 with the target in r8 in arm 2
+(0x02057D9C/DA0); every spelling tried gives the two swapped (target in r8,
+record in r6/r5).  Ruled out: the order of the rec/v loads, the statement
+order of the six channel extractions, the declaration order of the channel
+locals, `u16 rec` vs `u16 v` declaration order, and lo/mid/hi instead of
+hi/lo/mid order of the three divisions (the image divides the HI channel
+first: `sub r0,r0,r5` at 0x02057D34, so the source order is likely hi, lo,
+mid).  Closest C (460/460 bytes, 65 bytes out) in full:
+
+/*
+ * function: func_02057C9C
+ * address:  0x02057C9C
+ * packet:   pkt_02057B5C
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ * symbols:
+ *   _s32_div_f     0x0209C0A4  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+
+struct Sub {
+    char _00[0x22];
+    u16 f22;
+};
+
+struct Rec {
+    u16 rec0;
+    u16 rec1;
+    u8 a;
+    u8 b;
+    u8 c;
+    u8 _07;
+    u16 lo2 : 2;
+    u16 flag : 1;
+    u16 rest : 13;
+};
+
+struct S {
+    struct Sub *f00;
+    char _04[4];
+    struct Rec *f08;
+};
+
+struct O {
+    char _00[0x36];
+    u16 f36;
+};
+
+extern int _s32_div_f(int num, int den);
+
+void func_02057C9C(struct O *o, struct S *s, int t)
+{
+    struct Rec *p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int den;
+    int vlo;
+    int vmid;
+    int vhi;
+    int rlo;
+    int rmid;
+    int rhi;
+    int olo;
+    int omid;
+    int ohi;
+    u16 v;
+    u16 rec;
+    struct Sub *q;
+
+    p = s->f08;
+    q = s->f00;
+    a = p->a;
+    b = p->b;
+    c = p->c;
+
+    if (t < a) {
+        o->f36 = p->rec0;
+        return;
+    }
+
+    if (t < b) {
+        rec = p->rec0;
+        v = q->f22;
+        rlo = rec & 0x1f;
+        rmid = (rec >> 5) & 0x1f;
+        rhi = (rec >> 10) & 0x1f;
+        vlo = v & 0x1f;
+        vmid = (v >> 5) & 0x1f;
+        vhi = (v >> 10) & 0x1f;
+        if (!p->flag) {
+            o->f36 = vlo | (vmid << 5) | (vhi << 10);
+            return;
+        }
+        d = t - a;
+        den = b - a;
+        ohi = rhi + d * (vhi - rhi) / den;
+        olo = rlo + d * (vlo - rlo) / den;
+        omid = rmid + d * (vmid - rmid) / den;
+        o->f36 = olo | (omid << 5) | (ohi << 10);
+        return;
+    }
+
+    if (t < c) {
+        rec = p->rec1;
+        v = q->f22;
+        rlo = rec & 0x1f;
+        rmid = (rec >> 5) & 0x1f;
+        rhi = (rec >> 10) & 0x1f;
+        vlo = v & 0x1f;
+        vmid = (v >> 5) & 0x1f;
+        vhi = (v >> 10) & 0x1f;
+        if (!p->flag) {
+            o->f36 = vlo | (vmid << 5) | (vhi << 10);
+            return;
+        }
+        d = t - b;
+        den = c - b;
+        ohi = rhi + d * (vhi - rhi) / den;
+        olo = rlo + d * (vlo - rlo) / den;
+        omid = rmid + d * (vmid - rmid) / den;
+        o->f36 = olo | (omid << 5) | (ohi << 10);
+        return;
+    }
+
+    o->f36 = p->rec1;
+}
+
+
+The row's shape, for the next attempt: `p = s->f08; a = p->a; b = p->b;
+c = p->c;` on a record `{u16 rec0; u16 rec1; u8 a; u8 b; u8 c; u8 _07;
+u16 lo2:2; u16 flag:1; u16 rest:13;}`; `q = s->f00` points at a struct with a
+u16 at +0x22; `o->f36` (u16 at +0x36) is the output.  Dispatch:
+`if (t < a) o->f36 = p->rec0; else if (t < b) <arm1>; else if (t < c) <arm2>;
+else o->f36 = p->rec1;`.  Each arm: channels of the target and of the record
+via `x & 0x1f` / `(x >> 5) & 0x1f` / `(x >> 10) & 0x1f` (the image's `asr` +
+`and` says the source shifts a u16 promoted to signed int), then `if
+(!p->flag)` writes the target's three channels back
+(`vlo | vmid<<5 | vhi<<10`, predicated as a group), otherwise
+`out.ch = rec.ch + (t - lo_bound) * (v.ch - rec.ch) / (hi_bound - lo_bound)`
+per channel with the same divisor register, and
+`o->f36 = olo | (omid << 5) | (ohi << 10)`.
+
+0x02057830 (648 B incl. pool: 161 instructions) NOT COMPILED, reported.  The
+one `show` was spent on structure, and the structure is not a spelling search:
+the prologue is `push {r4,r5,r6,lr}` + `sub sp, sp, #0x10`; a pooled word at
+0x02057AAC points at three consecutive halfwords that are copied to the stack
+frame one at a time (`ldrh r3,[r1]`, `ldrh r2,[r1,#2]`, `ldrh r0,[r1,#4]`,
+three `strh` to [sp], [sp,#2], [sp,#4] - a hand-written 6-byte copy, not a
+struct assignment, or the compiler would have used one ldm/stm); then a 2-bit
+bitfield of `*(*(*(o+0x20)))` selects one of three arms that each write the
+same three stack halfwords (`0` / `0` / `0x1000` in some order, the default
+arm calling 0x0207CDB8 with `o+0x50` and `sp+6`) and all merge at 0x020578D4,
+which calls 0x0207CAA4 and compares the result against +-0x1000
+(`cmp r0, #0x1000` then `mov r1,#0x1000; rsb r1,r1,#0` - the out-of-range
+immediate-subtract spelling); after that the function is a long unrolled run
+of FX blocks - `ldrsh` pairs off the stack, two `smull` quartets sharing one
+pooled `mov r1, #0x800`, `sub`, `strh` to `o+0x84/0x86/...`.  The r8 brief's
+"pooled triple copy, cmp operand order" is the first two of those features.
+Next attempt: transcribe WHOLE (a partial body cannot be judged), and expect
+the FX blocks to repeat one expression shape; 644 bytes is past the
+spelling-search budget, so this wants its own run.

@@ -61,3 +61,27 @@ void func_0204BE84(int a0, T *a1)
 
 === end 0x0204BE84
 
+==============================================================================
+wave r8 lane small-1: 0x0204BF28 re-verified (the row named after this packet)
+==============================================================================
+
+0x0204BF28  20 code + 4 pool = 24 bytes, ARM, src/pending/func_0204BF28.c,
+            status MATCH, unchanged.
+
+  Recompiled 2026-09-19 (1.1p1, --arm): 24 = 24, 0 of 1 sites resolved -
+    +0014 ABS32 g_020A1388 -> unresolved: 020A1388 (data, from header) has no
+            witness outside 0204BF28..0204BF40
+
+  Own-pool wall, confirmed by a raw word scan of the whole arm9 region:
+  0x020A1388 occurs exactly once, at 0x0204BF3C, which is this function's own
+  pool word and therefore inside the compared range.  `literal` needs the word
+  at a different address, and `matched` needs an EXACT manifest entry that
+  reproduces the bytes defining the target - and 0x020A1388 is a plain data
+  table, which nothing compiles.  Same wall the park's header names for
+  src/matched/func_0204C8B8.c and 0x020A138C
+  (docs/notes/clact_c_fan_in_1_blockers.c.txt).  No cut helps: the pool word is
+  inside the 24 bytes the function occupies.
+
+  Marked in this lane's report as parked, class own-pool, with the verbatim
+  unresolved line above.  No further transcription spent on it.
+

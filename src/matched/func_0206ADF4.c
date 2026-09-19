@@ -1,0 +1,44 @@
+/*
+ * function: func_0206ADF4
+ * address:  0x0206ADF4
+ * packet:   pkt_0206AA78
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Pin evidence (2.0), measured 2026-09-19 by wave r8 lane small-3: identical
+ * shape and identical tell to its twin src/matched/func_0206ADBC.c - the flags
+ * object 0x02148B4C is re-materialised from its pool word at +002C after the
+ * call, 56 bytes, `push {r3, lr}`, zero concrete mismatches under
+ * dsi/../2.0/sp2 where dsi/1.1p1 keeps the address live in r4 and grows the
+ * frame.  The only difference from the twin is the slot address returned
+ * (0x02148CAC instead of 0x02148C7C), which each function carries in its own
+ * pool.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206ADF4.c \
+ *       --func func_0206ADF4 --addr 0x0206ADF4 --cc ../2.0/sp2 --arm
+ *
+ * symbols:
+ *   g_02148B4C   0x02148B4C  data
+ *   g_02148CAC   0x02148CAC  data
+ *   func_0206AD64  0x0206AD64  arm
+ */
+
+typedef unsigned int u32;
+
+extern u32 g_02148B4C[];
+extern u32 g_02148CAC[];
+extern void func_0206AD64(void);
+
+u32 *func_0206ADF4(void)
+{
+    if ((g_02148B4C[0x3f] & 0x80) == 0) {
+        func_0206AD64();
+        g_02148B4C[0x3f] |= 0x80;
+    }
+    return g_02148CAC;
+}

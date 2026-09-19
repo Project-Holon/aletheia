@@ -1,0 +1,74 @@
+wave r8 lane small-1: the label-capped rows of this lane
+========================================================
+
+This note carries the rows whose verdict is "parked, class label" - the C is
+already written and byte-correct, every site's target is a cut-free call whose
+only branch image-wide is the call inside the parked function.  The rows live
+in six different packets; the two of this file's own packet come first and the
+rest are cross-referenced with the packet their park header names.
+
+pkt_02005230 (this packet)
+--------------------------
+0x02005230  12 bytes, thumb, src/pending/func_02005230.c (header says
+            packet pkt_0200520C, the packet it was cut under), MATCH.
+  Recompiled 2026-09-19: 12 = 12, 1 of 2 sites resolved -
+    +0002 THM_CALL func_02005430 -> 02005430 [matched x1]
+    +0006 THM_CALL func_0200567C -> unresolved: 0200567C (thumb, from name)
+            has no witness outside 02005230..0200523C
+  0x0200567C is a two-call forwarder in packet pkt_0200567C, not matched, and
+  nothing branches to it from outside this 12-byte function, so `label` has no
+  witness and `matched` has no entry to cite.  `--suggest-split` cannot help:
+  the call is inside the only function that makes it.
+
+0x020052EC  32 bytes, thumb, src/pending/func_020052EC.c, MATCH.
+  Recompiled: 32 = 32, 3 of 7 sites resolved.  Four of its seven callees are
+  reached only from this function: 0x02023FD8, 0x0200F734, 0x02026728 and
+  0x02010DCC (all arm).  Two of those four are themselves parked
+  (0x02023FD8 in src/pending/func_02023FD8.c, whose own cap is 0x02023E0C), so
+  the chain has to be filed callee-first: 0x02023E0C (a large function outside
+  this band) releases func_02023FD8, which releases this row.
+
+Other packets, same class, recompiled this run and unchanged
+------------------------------------------------------------
+0x02005F24  20 bytes, thumb, pkt_02005F24, src/pending/func_02005F24.c
+    +000E THM_CALL func_02072FE8 -> unresolved: 02072FE8 (arm, from header) has
+            no witness outside 02005F24..02005F38
+  (1 of 2 resolved; the other is sub_0200590C, label x19.)  0x02072FE8 is an
+  ARM function in pkt_02072EA8, another lane's packet this wave; the row
+  graduates for free the day that address is filed.
+
+0x0200D298  20 bytes, thumb, pkt_0200D144, src/pending/func_0200D298.c
+    +0002 THM_CALL func_0200D2D8 -> unresolved: 0200D2D8 (thumb, from name) has
+            no witness outside 0200D298..0200D2B0
+  The same range is also covered by the unit park src/pending/unit_0200D288.c
+  (0x0200D288..0x0200D368, 6 functions, byte-correct), whose header caps it on
+  0x0200C780 - reached only from 0x0200D2F4, inside func_0200D2D8.  A local cut
+  does NOT rescue either file: shrinking to a unit that contains 0x0200D2D8
+  makes the 0x0200D2D8 site local, but the same unit then contains
+  0x0200D2D8's own call to 0x0200C780, which has no witness and is 0xB08 bytes
+  away, so the unit would still be MATCH.  0x0200C780 is row 0x0200C780 of
+  lane small-3's slice (pkt_0200C780), still unfiled at 19:00 UTC+1; when it
+  lands, unit_0200D288 converts (its header says so) and this row is covered by
+  that promotion, not by its own single-function park.
+
+0x02011EAC  20 bytes, thumb, pkt_02011D9C, src/pending/func_02011EAC.c
+    +0004 THM_CALL func_02011FCC -> unresolved: 02011FCC (thumb, from header)
+            has no witness outside 02011EAC..02011EC0
+  0x02011FCC is itself parked (src/pending/func_02011FCC.c, 144 bytes, four
+  call sites in other packets), so no cut and no filing of this row alone
+  releases it.
+
+0x02011FB8  20 bytes, thumb, pkt_02011FB8, src/pending/func_02011FB8.c
+    +0004 THM_CALL func_02011F28 -> unresolved: 02011F28 (thumb, from header)
+            has no witness outside 02011FB8..02011FCC
+    +000A THM_CALL func_020267BC -> unresolved: 020267BC (thumb, from header)
+            has no witness outside 02011FB8..02011FCC
+  `match.py tu --suggest-split` on this file answers the cut question directly:
+  "the whole range as one file is NOT viable", each of the two sites has
+  exactly one witness image-wide and it is inside this range, and the best
+  partition leaves the function out (0 pieces).  The third site, func_02021438,
+  resolves `matched`.  Two callers in other packets (0x02011F28 lives at
+  0x02011F28 in this same packet's address window but under packet
+  pkt_02011F28, 0x020267BC under pkt_020267BC) - neither is in this lane.
+
+0x0204BF28  see docs/notes/pkt_0204BE84.c.txt (own-pool, not label).

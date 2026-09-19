@@ -124,3 +124,49 @@ in the fifteen argument positions differs otherwise, so a single spelling that
 pools the constants closes the function in one shot.  The 0x0E word says the
 source mentions 14 somewhere that generates no instruction - a table of seven
 ids with an unused entry is the most economical explanation.
+
+
+========================================================================
+APPENDED, wave r8 lane small-2: the constant is 0x0E in the 0/5 arm -- CLOSED
+to MATCH, 160/160 bytes, two single-witness pool words left.
+========================================================================
+
+The paragraph above is wrong in one place and right in its diagnosis.  The
+0x0E word at 0x0200F2CC IS loaded: the arm at 0x0200F2A8 is the 0/5 arm and
+its `ldr r0, [pc, #0x20]` resolves to 0x0200F2AC + 0x20 = 0x0200F2CC, i.e. 14,
+not the 0x0B the note assigned it.  0x0B is loaded only by the five-call arm
+(0x0200F26C -> 0x0200F2C8).  With that one case corrected AND every argument
+written as an absolute symbol instead of a number
+
+    extern u8 ov_id_0E[];      /* symbols: ov_id_0E  0x0000000E  data */
+    ...
+    case 0:
+    case 5:
+        func_02034A5C((u32)ov_id_0E);
+        break;
+
+the function is byte-correct: compiled 160, original 160, and the pool comes
+out as the image's seven words in the image's order (0x72, 9, 0x0D, 0x0A,
+0x0B, 0x0E, 0x0F) because mwcc emits pool words in first-use order and the
+cases are written in the memory order of the arms (6, 1, 2, 0/5, 3/4).  The
+note's "29 bytes" C was 29 bytes out for two separate reasons: the movs/pool
+operand kind (fixed by the absolute-symbol spelling above, which is
+docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md) and the
+0/5 arm's constant.
+
+Filed this pass: src/pending/func_0200F234.c, status MATCH.
+
+    +0084 ABS32 ov_id_72  -> unresolved: 00000072 has no witness outside 0200F234..0200F2D4
+    +0098 ABS32 ov_id_0E  -> unresolved: 0000000E has no witness outside 0200F234..0200F2D4
+
+Both are single-pool-word data addresses (0x00000072 and 0x0000000E each occur
+in exactly one literal pool in the whole image, this function's), so the
+`literal` class discards its only witness and the `data` kind has no other
+class available.  Nothing in the C changes if a second pool word holding
+either value ever appears; the file graduates for free.
+
+Verified with
+
+    python tools/match.py one --src src/pending/func_0200F234.c \
+        --func func_0200F234 --addr 0x0200F234 --cc 1.1p1 --thumb
+

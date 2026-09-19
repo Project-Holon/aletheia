@@ -80,3 +80,81 @@ the mask bound to a named u32 local (which additionally costs 12 bytes).
 Note the `while (func_0208A07C() & (1 << *a))` tail: the image's `mov r4, #1`
 outside the loop and `tst r0, r4, lsl r1` inside it are reproduced exactly by
 this spelling, so only the first arm is affected.
+
+
+==============================================================================
+wave r8 lane small-1: the same four bytes, measured against `../2.0/sp2`
+==============================================================================
+
+The 120-byte body above is CORRECT and it is FILED: under
+
+    --cc ../2.0/sp2 -O4,p -proc arm946e
+
+`func_02072D20` is EXACT, compiled 120 = original 120, 6 of 6 sites resolved
+(all `label`: func_0208A07C x5, func_02089D40 x50, func_02089B38 x50,
+func_02089CD4 x30 x2).  The file is src/matched/func_02072D20.c, header
+`compiler: ../2.0/sp2`, shard layout/matched/arm9/pkt_02072D20.json written
+twice with `0 rewritten` on the second run.
+
+What 1.1p1 gets wrong is exactly the "repeated small constant" above, and 2.0
+fixes it by NOT sharing the constant:
+
+    image       02072D3C  mov r2, #1      02072D50  mov r0, #1
+    dsi/1.1p1   02072D3C  mov r5, #1      02072D50  mov r0, r5     (4 bytes)
+    ../2.0/sp2  02072D3C  mov r2, #1      02072D50  mov r0, #1     = image
+
+That is the "kept constants" tell of docs/FRONTEND-PINS.md - "the image
+rematerialises a constant ... where the build keeps it live in a callee-saved
+register" -> 2.0 - and it is the same family as the pins already in force for
+src/matched/func_02074A6C.c and src/matched/func_02074A98.c.  This file is NOT
+yet an entry in docs/FRONTEND-PINS.md; this lane's write set does not include
+that document, so the measurement is recorded here and in the lane's report.
+
+Side effect for the idiom index, for whoever owns those files:
+docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md calls
+this "a front-end difference and the function is not reachable from C under
+`-O4,p`".  It is reachable: not under the 1.1p1 build, but under `../2.0/sp2`,
+and several of the near misses that idiom lists (pkt_02072A44, pkt_020733E8,
+pkt_02073AB4, pkt_02073F3C, pkt_020746E8, pkt_02073598) are in this same
+0x02072xxx/0x02073xxx window and were never measured under that pin.  They are
+reviewable at one compile each; they are not this lane's packets.
+
+Two more rows of this packet under the same pin
+-----------------------------------------------
+0x02072E8C 16 bytes -> src/pending/func_02072E8C.c, MATCH (own-pool)
+0x02072E7C 16 bytes -> src/pending/func_02072E7C.c, MATCH (own-pool)
+  Under 1.1p1 both are the 5-byte order DIFF recorded above (argument load
+  before the pool load).  Under `../2.0/sp2` the order is the image's and both
+  are byte-correct, one wildcard each.  Neither graduates: the arm9 region
+  contains 0x02073484 exactly once (0x02072E98) and 0x02073438 exactly once
+  (0x02072E88) - each thunk's own pool word, inside its own compared range -
+  so `literal` is empty, `label` needs an outside branch and the only `bx ip`
+  reaching each callee is the one in these bodies.
+
+  CONSEQUENCE: 0x02072E8C is the blocker named in src/pending/func_02005DE4.c
+  (`+000E THM_CALL func_02072E8C -> unresolved: no witness outside
+  02005DE4..02005DF8`).  Wave r8's rules call that pair a candidate double pay;
+  it is a WALL.  Recompiled after these filings: func_02005DE4 is still MATCH,
+  2 of 3 sites resolved, the 0x02072E8C site still unresolved - a MATCH park is
+  not a `matched` witness, and 0x02072E8C can never be EXACT.
+
+The three own-pool table accessors (0x02072D98, 0x02072DB0, 0x02072DD0) were
+recompiled and are unchanged: byte-correct, one wildcard each, and a raw word
+scan of the arm9 region gives exactly one occurrence of each pool target -
+0x0214E484 at 0x02072DAC, 0x0214E47C at 0x02072DCC, 0x0214E480 at 0x02072DE4 -
+every one of them inside its own function's range.  Own-pool wall, no cut and
+no spelling touches it.
+
+Cross-lane: the promotion my row paid for
+-----------------------------------------
+src/pending/func_02006948.c used to read
+
+    blocker:  02072BDC, 02072D20 and 02072A88 (all arm), each reached only from
+              this function (twice each)
+
+That file left src/pending during this run (19:01 UTC+1): another lane moved it
+to src/matched/func_02006948.c with `status: EXACT*` and a `promoted:` line
+citing `0x02072D20 was already a manifest entry`.  Verified here: EXACT*,
+58 bytes, 7 of 7 sites resolved, two of them `+000C/+0024 THM_CALL func_02072D20
+-> [matched x1]`.  So the row did pay twice - the second half was collected by
+that lane, not by this one, and is not claimed in this lane's promoted[].

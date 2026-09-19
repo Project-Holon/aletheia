@@ -287,3 +287,50 @@ void func_0206AE94(u32 *a, u32 *b, u32 *c, u32 *d)
     if (d != 0)
         *d = (g_02148B4C[0x28] >> 24) & 0xFF;
 }
+
+========================================================================
+APPENDED, wave r8 lane small-3 (0-128 byte band): the packet's dead end is the
+FRONT END, and the pin closes it
+========================================================================
+
+The "mwccarm keeps the global's address live across a call where the original
+re-materialises it from its pool word" behaviour recorded above is the 2.0
+"kept constants" tell in docs/FRONTEND-PINS.md, not an unreachable spelling.
+Measured 2026-09-19, per row, both front ends, same C:
+
+  0x0206ADBC  dsi/../2.0/sp2  EXACT  56/56, 0 concrete differences
+              dsi/1.1p1       21 concrete differences, frame push {r4, lr}
+  0x0206ADF4  dsi/../2.0/sp2  EXACT  56/56, 0 concrete differences
+  0x0206AE94  dsi/../2.0/sp2  EXACT  116/116, 0 concrete differences
+              dsi/1.1p1       if-converts all four guarded stores into
+                              predicated ldrne/andne/strne, 100 bytes, 81
+                              concrete differences
+  0x0206AAD4  dsi/../2.0/sp2  MATCH  68/68, 0 concrete differences (one
+                              own-pool site open)
+  0x0206AD20  dsi/../2.0/sp2  MATCH  68/68, 0 concrete differences (two sites
+                              open)
+
+So three of the eight rows the wave-4 lane parked here are EXACT under the pin
+and are filed in src/matched/ (func_0206ADBC.c, func_0206ADF4.c,
+func_0206AE94.c, all `compiler: ../2.0/sp2`); func_0206AAD4 and func_0206AD20
+are re-parked in src/pending/ with their C unchanged apart from the pin, each
+byte-correct with only its own-pool site(s) wildcarded:
+
+  func_0206AAD4  +0040 ABS32 g_02148C4C -> 0x02148C4C occurs exactly once in
+                 the whole arm9 image, at 0x0206AB14, this function's own pool
+  func_0206AD20  +001C PC24 func_0206AB18 -> the only branch to 0x0206AB18
+                 anywhere in the image is this one; +0040 ABS32 g_02148D0C ->
+                 0x02148D0C likewise occurs once, at 0x0206AD60, its own pool
+  func_0206AA78  unchanged (MATCH*): +0010 ABS32 g_02148BF4, one occurrence at
+                 0x0206AA88, its own pool
+  func_0206AD64  unchanged: +0030 PC24 func_0207B60C, the only branch to it
+  func_0206AE2C  unchanged: +0020 PC24 func_0206AD20 (still not EXACT, so
+                 `matched` cannot carry it) and +0064 ABS32 g_02148D4C, one
+                 occurrence at 0x0206AE90, its own pool
+
+Raw-word counts above are from a scan of the whole arm9 region
+(0x02004000+679552), not from the rows themselves.
+
+Two residues on the way, both ruled out: `volatile u32 *` destinations do not
+stop 1.1p1's if-conversion, and `-proc arm7tdmi` does not either (both still
+100 bytes / 81 differences for 0x0206AE94).

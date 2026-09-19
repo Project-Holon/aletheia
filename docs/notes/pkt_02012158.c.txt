@@ -74,3 +74,75 @@ int sub_02012164(u8 *p)
     }
     return 1;
 }
+
+========================================================================
+APPENDED, wave r8 lane small-2: 93 bytes down to FOUR.  The chain is one
+disjunction plus a goto, and only one instruction is still wrong.
+========================================================================
+
+The closest C above is 126 bytes where the image is 104, because a plain
+`if (c) { return 0; }` in every guard makes this front end write the exit out
+inline after each test: `beq <next>` + `movs r0,#0` + `pop {r4,pc}`.  The image
+has ONE false exit -- every guard branches to the same `movs r0,#0;
+pop {r4,pc}` at 0x020121C6 -- and the true exit written out separately at
+0x020121C2.
+
+Two spellings reach that shape:
+
+  * `if (a || b || c || d || e || (f() == 1 && g() == 1)) goto fail;` with the
+    statement between the two halves (func_0200921C) followed by its own
+    `if (...) goto fail;` and `return 1;` then `fail: return 0;`
+    (docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md);
+  * the same chain as separate `if (...) goto fail;` statements.
+
+Both compile to 102 bytes against the original's 104, and **98 of the 102 bytes
+are identical**.  The only residue is the first guard's scratch register:
+
+    +0012    adds r1, r4, #0        | adds r0, r4, #0
+    +0014    adds r1, #0x32         | adds r0, #0x32
+    +0016    ldrb r1, [r1]          | ldrb r0, [r0]
+    +0018    cmp r1, #0             | cmp r0, #0
+
+Same instruction multiset, same size, same everything else.  The image reaches
+the guard with r0 still live (it uses r1 as the scratch), which under this
+front end means the third call's result is what sits in r0 -- but binding that
+call's result to a local (int or u32, read or unread) does not reproduce it:
+six further spellings were compiled this pass (dead `int r = f();`, dead
+`u32 r = f();`, comma-operator guard, `u8 t = p[0x32];`, a second pointer
+local, a dereferenced form) and every one gives r0.
+
+The remaining relocation site is permanent, so this row can never be EXACT
+even at 104/104:
+
+    +0048 THM_CALL func_02158318  -> unresolved: no witness outside
+           02012164..020121CA; ov009 and ov010 both hold the address and
+           neither carries a func_ label, and image_call_sites() finds exactly
+           one branch to it in the whole image -- the one inside this range.
+           A region hint was tried for both overlays and does not change it.
+
+So the pair of deliverables is: the four-byte residue above (a register-choice
+wall, class of docs/notes/pkt_02072EA8.c.txt section 1), and the named blocker
+for the park.  The near-miss source is
+
+    int func_02012164(u8 *p)
+    {
+        func_02012138(p);
+        func_020120F8(p);
+        func_02012AC8();
+
+        if (p[0x32] != 0
+            || func_02013D34() != 0
+            || func_0200FB24() != 0
+            || func_0201214C(p) != 1
+            || func_02158318(p) != 1
+            || (func_02035390() == 1 && func_020353B0() == 1))
+            goto fail;
+
+        func_0200921C(*(u32 *)(p + 0x1c));
+        if (func_020090E0() == 0)
+            goto fail;
+        return 1;
+
+    fail:
+        return 0;
+    }

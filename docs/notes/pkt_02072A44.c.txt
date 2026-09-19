@@ -74,3 +74,53 @@ void func_02072BDC(Slot02072BDC *s)
     func_020894DC(1 << s->unk00, 0, 0, 0);
     s->unk08 = 0;
 }
+
+======================================================================
+APPENDED, wave r8 lane small-4: BOTH rows above are answered, and the answer
+is not a new spelling -- it is the front end, one pin per row.  Both are now
+filed in src/matched/ and the packet shard carries them.
+======================================================================
+
+0x02072A88 -- EXACT under `../1.2/sp2` (filed, was DIFF under 1.1p1).
+  The row is the tail-call schedule gap this note's section 1 describes and
+  docs/idioms/a-tail-calls-pool-word-is-scheduled-before-the-last-argument-write.md
+  calls unspellable: the image issues the callee's pool load into ip BEFORE the
+  `lsl` that writes the last argument.  Measured once more here, 1.1p1 against
+  1.2 on the SAME one-line body -- no spelling change at all:
+
+      void func_02072A88(u32 *p) { func_02072974(1 << *p); }
+
+      1.1p1        24 bytes, 8 concrete bytes differ (pool load last)
+      ../1.2/sp2   24 bytes, 0 concrete differences = the image, pools included
+
+  The instruction pair 1.1p1 cannot emit, quoted from the image: `ldr ip,
+  [pc, #4]` at 0x02072A84 immediately before `lsl r0, r1, r0` at 0x02072A88,
+  with the pool word after `bx ip`.  Same tell as the 12-byte thunks of
+  pkt_020526A8 (see docs/notes/pkt_020526A8.c.txt), so this is a third packet
+  the 1.2 front end owns a row in.
+
+0x02072BDC -- EXACT under `../2.0/sp2` (filed, was DIFF under 1.1p1 and under
+1.2, and 39 bytes out under 1.2).  This is the "kept constants" tell from
+docs/FRONTEND-PINS.md, and the measurement is unusually clean because the SAME
+C is byte-correct over one front end and 23 bytes wrong over the other:
+
+      1.1p1        60 bytes, 23 concrete bytes differ (zero rematerialised from
+                   a callee-saved register r4, object moved to r5, push grows
+                   to {r3, r4, r5, lr}) -- exactly section 2's residue above
+      ../2.0/sp2   60 bytes, 0 concrete differences = the image: both constants
+                   materialised as immediates, object kept in r4, two-register
+                   push
+
+  So the residue this note recorded as a codegen dead end was a front-end
+  difference, and no spelling could ever have moved it.  Same family and tell
+  as src/matched/func_02074A6C.c (2.0) and src/pending/func_0206B6A4.c.
+
+PAYS TWICE: the park src/pending/func_02006948.c (pkt_02006948, thumb) named
+02072BDC, 02072D20 and 02072A88 as its three blockers, "each reached only from
+this function (twice each)".  0x02072D20 was already a manifest entry, so the
+two rows filed here were the whole remainder: the park now verifies EXACT*
+with its C unchanged and has been promoted to src/matched/func_02006948.c
+(pending copy deleted, pkt_02006948 shard written).  One row paid twice, for
+the third and fourth time in this packet's history.
+
+Addresses are Black-image addresses.

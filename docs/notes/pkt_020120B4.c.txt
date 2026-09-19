@@ -115,3 +115,35 @@ Re-run this pass; both verdicts stand and neither is a near miss.
 
 Because 0x020120B4 cannot have a manifest entry, the pair 0x020120C0 ->
 0x020120B4 is a wall at both links.
+
+========================================================================
+APPENDED, wave r8 lane small-2: seven more spellings, one of them close, and
+the front-end sweep.  The verdict stands.
+========================================================================
+
+New this pass (spellings 16-21, all with dsi/1.1p1 -O4,p -proc arm946e --thumb
+unless stated):
+
+  * `__asm("nop")` as a statement after the call.  This is the ONLY spelling
+    that blocks the sibling call, and it reproduces the image's first three
+    instructions exactly -- `push {r3, lr}` / `ldr r0, [r0, #8]` / `blx` --
+    but the compiler emits the epilogue after the asm, so the object is
+    `pop {r3,pc}` + `mov r8,r8` where the image has `pop {r3,pc}` + `00 00`
+    (the assembler's section padding).  Twelve bytes against the image's ten
+    plus two; the two instructions are swapped, and no asm-free spelling
+    blocks the sibling call at all.
+  * `__asm("")` (empty) after the call: same 12-byte sibling call as the plain
+    form -- an empty asm does not block it.
+  * `__asm("nop")` is the only spelling of the 21 that gets a frame.
+  * ../1.2/sp2 and ../2.0/sp2 on the plain form: both also sibling-call
+    (1.2 gives the identical 12 bytes; 2.0 gives `ldr r3,[pc]` before the
+    `ldr r0,[r0,#8]`, 12 bytes).  So the shape is not a front-end difference
+    this project can pin: every front end in the collection will sibling-call
+    a tail call whose callee it can resolve, and the image's frame + immediate
+    `blx` must come from a source statement that generates no instruction at
+    all between the call and the epilogue.
+
+Nothing else changed: the row is a 10-byte codegen wall, class "call with a
+frame where the front end makes a sibling call".  Do not spend a further pass
+on spellings; spend one on the possibility that this stub was assembled by
+hand into the image (it is 10 bytes and sits between two accessors).

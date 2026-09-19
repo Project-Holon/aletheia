@@ -79,3 +79,64 @@ word at +0x0c needs a manifest entry for 0x02052770 and this attempt does not
 produce one.
 
 Addresses are Black-image addresses.
+
+
+==============================================================================
+APPENDED, wave r8 lane small-4 (0-128 byte bands): four rows filed, one parked
+==============================================================================
+
+This packet needs a per-file front-end pin, and the bytes say WHICH one per row.
+The tells are the ones already in docs/FRONTEND-PINS.md; the evidence per row:
+
+0x02052F58 and 0x02052F90 (48 code bytes each, filed EXACT, pin ../1.2/sp2).
+  The image carries a register `blx r3` at 0x02052F6C beside the ARMv4T return
+  `ldm sp!, {lr}; bx lr` at 0x02052F80 -- the interworking-conflict tell, a pair
+  no dsi build emits -- and the frame is `stmdb sp!, {lr}` + `sub sp, sp, #4`
+  where dsi/1.1p1 pads with a dead `push {r3}` (frame-padding tell).
+  Probe, same C, both compilers:
+    dsi/1.1p1  36 bytes, 27 concrete differences, and it folds the 16-bit mask
+               into a shift pair: `lsl r0,r0,#0x10; lsr r0,r0,#0xd`
+    ../1.2/sp2 56 bytes = the image, EVERY byte, mask ANDed with the pooled
+               0x0000FFFF at 0x02052F8C exactly as the image does
+  Body: `return (g_020A8148(a0, a1, 0) & 0xffff) << 3;` -- one line, and that
+  spelling is the one; the same C under 1.1p1 cannot be made to pool the mask
+  at all (fourteen spellings tried here, every one a shift pair).
+
+0x020528A8 and 0x020528BC (12 code bytes each, filed EXACT, pin ../1.2/sp2).
+  Tail-call thunks: `func_020528D0(a0, (void *)func_02052F58)` (and the
+  0x02052984/0x02052F90 twin).  The image issues the callee pool load into ip
+  FIRST and the argument pool load second; dsi/1.1p1 issues them in the other
+  order -- the tail-call schedule gap of
+  docs/idioms/a-tail-calls-pool-word-is-scheduled-before-the-last-argument-write.md
+  -- so this row needs the same 1.2 pin, and under it the two loads land in the
+  original's order.  Both rows then resolve their callback site through the
+  `matched` class, once src/matched/func_02052F58.c / func_02052F90.c are in
+  the manifest: the two 48-byte rows pay for the two 12-byte rows.
+
+0x02052FC8 (124 code bytes, PARKED MATCH in src/pending/, pin ../1.2/sp2).
+  Frame-padding tell (`push {r4, r5, lr}` + `sub sp, sp, #4`) and an ARMv4T
+  return with no register blx.  Two findings:
+
+  * The two bit tests are NOT spelled `(*v << 10) >> 31`.  That form loads the
+    word into the wrong scratch register -- r2 where the image uses r1 -- and
+    turns the second test's in-place `lsl r1, r1, #9` into a move, a six-byte
+    residue that survives every reordering tried (implicit vs explicit `!= 0`,
+    a named value local, the pointer chain inlined).  Declaring the word as a
+    bitfield struct
+
+        unsigned f0:21; b21:1; b22:1; rest:9;
+
+    reproduces the image byte for byte -- the tested bits are a 21/1/1/9 layout
+    of the word, and the 1-bit reads are what make the compiler shift in place.
+
+  * It caps at MATCH, not for lack of code but for want of a witness: both
+    callees, 0x02053044 and 0x0205312C, are reached ONLY from the two call
+    sites inside this function (all four PC24 fields unresolved), and both are
+    still-open rows of this packet.  Filing either one EXACT moves this row to
+    EXACT through `matched`.
+
+The remaining rows of the packet (0x020526A8, 0x02052770, 0x020528D0,
+0x02052984, 0x02052A50, 0x02052DC8 and the two callees above) are not this
+lane's rows and stay open.
+
+Addresses are Black-image addresses.

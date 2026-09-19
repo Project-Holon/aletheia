@@ -7,8 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  02072BDC, 02072D20 and 02072A88 (all arm), each reached only from this function (twice each)
+ * status:   EXACT*
+ * promoted: from src/pending 2026-09-19, no C change: blockers 0x02072A88
+ *           (src/matched/func_02072A88.c, ../1.2/sp2) and 0x02072BDC
+ *           (src/matched/func_02072BDC.c, ../2.0/sp2) are filed and
+ *           0x02072D20 was already a manifest entry, so all seven sites
+ *           resolve through the `matched` class.  EXACT* not EXACT: the
+ *           follower at 0x0200697A carries no label, nothing else differs.
+ * blocker:  (resolved)
  *
  * symbols:
  *   func_02072BDC  0x02072BDC  arm

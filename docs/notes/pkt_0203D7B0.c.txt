@@ -1,0 +1,39 @@
+wave r8 lane small-1: packet pkt_0203D7B0 (2 rows, 16 code bytes)
+=================================================================
+
+Both rows are the same artifact and neither is filable.  Class: veneer.
+
+  0x0203D7B0  8 bytes (worklist)   ARM   main.s line 155:
+              0203D7B0  00 c0 9f e5   ldr ip, [pc]
+              0203D7B4  1c ff 2f e1   bx ip
+              0203D7B8  e8 c8 03 02   .word 0x0203C8E8
+              `# blx 0x0203D7B0 from ov100 at 0x021B9A34, ov120 at 0x021D49E2,
+               and more overlays`
+
+  0x0203D7BC  8 bytes (worklist)   ARM   main.s line 156:
+              0203D7BC  00 c0 9f e5   ldr ip, [pc]
+              0203D7C0  1c ff 2f e1   bx ip
+              0203D7C4  00 c9 03 02   .word 0x0203C900
+              `# blx 0x0203D7BC from ov012 at 0x02172F5E, ov100 at 0x021B9A3A,
+               and more overlays`
+
+This is the `ldr ip,[pc]; bx ip; .word <target>` linker veneer, the first of
+the two shapes the R8 rules list for this band.  Here - unlike the 0x020911F0
+family in docs/notes/pkt_020911D8.c.txt - the pointer word names a region that
+IS extracted: 0x0203C8E8 (64-byte ARM function) and 0x0203C900 (52-byte ARM
+function).  That makes a *call site* that targets the stub attestable through
+the `veneer` class ("the stub itself, read from outside your range, is the
+evidence", docs/AGENT-BRIEF.md section 5), which is why layout/function_starts
+and the overlay listings carry the `blx` sites.  It does NOT make the stub rows
+themselves filable: `ldr ip,[pc]` + `bx ip` with no prologue, no local and no
+argument movement is not emittable from any C spelling (the compiler's own
+interworking / far-branch sequences are the ones that *create* a veneer, and
+they are never generated inside a single-function section - see
+docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md
+and docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md).
+
+Verdict: parked, class veneer, no source filed for either row.  Reported as a
+class in this lane's report rather than transcribed.  The worklist's 8-byte
+size for each row is the stub alone; the pool word is what the next row's
+`address:` does not cover, and the pair's real extent is the 12 bytes
+0x0203D7B0..0x0203D7BC and 0x0203D7BC..0x0203D7C8 that `match.py show` prints.

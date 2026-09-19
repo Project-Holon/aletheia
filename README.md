@@ -29,7 +29,7 @@ byte-matching ROM.
   - [x] Pokémon data field map and the message text cipher (`src/matched/`)
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
   - [x] About 1000 original source filenames recovered from `__FILE__` anchors (`layout/file_anchors.txt`)
-  - [~] 40.27% of ARM9 game code ships as verified C (3101 functions, updated at every wave integration)
+  - [~] 41.39% of ARM9 game code ships as verified C (3121 functions, updated at every wave integration)
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
   - [ ] Field and battle loop call trees

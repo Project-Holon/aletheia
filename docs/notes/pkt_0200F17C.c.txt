@@ -215,3 +215,64 @@ int sub_0200F4E4(void *a)
     }
     return flag;
 }
+
+========================================================================
+APPENDED, wave r8 lane small-2: the arms re-derived from the jump table --
+CLOSED to MATCH, 184/184 bytes, seven sites left.
+========================================================================
+
+The tabulated C above groups the arms wrongly, and that is why its residue is
+86 sites.  The jump table at 0x0200F18E (base 0x0200F190 = the `add pc, r0`'s
+PC + 4) is
+
+    selector: 0     1     2     3     4     5     6
+    entry:    006c  0030  004e  0078  0078  006c  000c
+    target:   1FC   1C0   1DE   208   208   1FC   19C
+
+so selectors 0 and 5 share the arm at 0x0200F1FC, 3 and 4 the one at
+0x0200F208, and 6, 1, 2 have their own (0x0200F19C, 0x0200F1C0, 0x0200F1DE).
+The note's C pairs 0 with 6 and gives 5 its own arm -- exactly the two sites
+the table contradicts.
+
+Two further things the note's C does not have:
+
+  * the arguments are absolute symbols, not addresses and not numbers.  Every
+    argument position loads its value from the pool (`ldr r0, [pc]`), and
+    mwccarm writes any literal in 0..255 with `movs`
+    (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).  The
+    pool holds seven words -- 0x0A, 0x0B, 9, 0x0D, 0x72, 0x0E, 0x0F -- and
+    all seven are loaded: the 5-call arm takes 0x0A, 0x0B, 9, 0x0D, 0x72, the
+    0/5 arm takes 0x0E and the 3/4 arm 0x0F.
+  * the function RETURNS INT.  The default arm at 0x0200F214 is
+    `movs r0, #0` + `pop {r3, pc}`, which only a `return 0` produces: each
+    case is `return <its last call>();` and the switch is followed by
+    `return 0;`.  Written as a void function with `break`s the file is four
+    bytes short (no `movs r0, #0`).
+
+With both corrections, and the cases written in the memory order of the arms
+(6, 1, 2, 0/5, 3/4 -- which is what puts each arm where the image has it), the
+function is byte-correct: compiled 184, original 184, and the pool comes out
+as the image's seven words in the image's order.
+
+Filed this pass: src/pending/func_0200F17C.c, status MATCH.
+
+Seven sites stay wildcarded, five of them permanent:
+
+    +003E, +005C, +007A  THM_CALL func_0215536C
+    +0086                THM_CALL func_02177020
+    +0092                THM_CALL func_021798D4
+    +00AC                ABS32    ov_id_72   (0x00000072, one pool word image-wide)
+    +00B0                ABS32    ov_id_0E   (0x0000000E, one pool word image-wide)
+
+For the three overlay calls, `image_call_sites()` returns exactly one site
+each and it is the call inside this range: two overlays hold each address
+(ov009, ov010) and neither carries a `func_` label, so `attest_overlay_label`
+fails at its third part.  A region hint on the symbols: line was tried for
+each (ov009 and ov010, and ov228/ov093 for the 0x021DFDC0 pair in
+pkt_0200A2B8) and changes nothing -- the missing witness is the outside
+branch, not the overlay identity, so no cut and no hint frees these sites.
+
+Verified with
+
+    python tools/match.py one --src src/pending/func_0200F17C.c \
+        --func func_0200F17C --addr 0x0200F17C --cc 1.1p1 --thumb

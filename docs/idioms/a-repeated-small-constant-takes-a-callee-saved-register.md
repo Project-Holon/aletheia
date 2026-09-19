@@ -1,5 +1,15 @@
 # A repeated small constant takes a callee-saved register, and everything below it moves up one
 
+> CORRECTION, 2026-09-19: this doc reads the shared-constant shape as a wall ("not
+> reachable from C under `-O4,p`"). It IS reachable, under the `../2.0/sp2` pin: the
+> same body that 1.1p1 compiles into `mov r5,#1` + `mov r0,r5` comes out as
+> `mov r2,#1` + `mov r0,#1` from 2.0, byte-exact, and one such row was filed this way
+> (`src/matched/func_02072D20.c`, 120 bytes; `docs/notes/pkt_02072D20.c.txt`). The
+> near misses this doc lists in the same window (`pkt_02072A44`, `pkt_020733E8`,
+> `pkt_02073AB4`, `pkt_02073F3C`, `pkt_020746E8`, `pkt_02073598`) were never measured
+> under that pin and should be re-measured before they are called walls. The text below
+> is kept as written, because it is an accurate description of what 1.1p1 does.
+
 summary: under `-O4,p` this front end materialises a small literal that is used
 more than once into the lowest callee-saved register at the top of the
 prologue and copies it into every argument register, where the original

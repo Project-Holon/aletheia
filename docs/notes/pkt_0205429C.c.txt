@@ -1,7 +1,14 @@
 pkt_0205429C - func_0205429C (0x0205429C, 1112 code bytes) and
                func_02054718 (0x02054718, 820 code bytes)
 
-STATUS: NOT CLOSED, and not attempted in C.  Both functions are blocked by the
+STATUS: the three rows that carry the register-BLX contradiction
+(0x0205429C, 0x02054718, 0x02054A68) are CLOSED -- EXACT under
+`compiler: ../1.2/sp2 -proc arm946e`, wave r8 lane rigA.  See the LAST
+section of this note, which supersedes the STATUS paragraph below;
+0x02054DB8 is still open (its own section is re-measured there too).
+Its predecessor reading follows for the record.
+
+STATUS (wave r6): NOT CLOSED, and not attempted in C.  Both functions are blocked by the
 same toolchain contradiction as 0x02053E1C, so no C was written for them; the
 evidence that they are out of reach is in the bytes, and it is stated here so
 the next agent does not spend a run rediscovering it.
@@ -1195,3 +1202,139 @@ NEXT ATTEMPT, per row:
               first difference is its extra `fp` push for the high word of
               the 0x800 constant, and the second is the two G3_MultMtx43 arm
               sites that cross-jump into one.
+
+==========================================================================
+APPENDED, wave r8 lane rigA: three of the four rows CLOSED.  The residue was
+FOUR source shapes, not one; all four are measured below.
+==========================================================================
+
+All three rows that carry the register-BLX contradiction are now EXACT under
+the family pin.  Measured 2026-09-19 with
+
+  python tools/match.py one --src src/matched/func_XXXX.c --func func_XXXX \
+      --addr 0xXXXX --arm --cc ../1.2/sp2
+
+  addr         code B  listing B  compiled B  relocs     diff slots  diff B
+  0x0205429C     1112      1148       1148     16 of 16       0         0  EXACT
+  0x02054718      820       848        848      9 of  9       0         0  EXACT
+  0x02054A68      820       848        848      9 of  9       0         0  EXACT
+  0x02054DB8     1744      1760       1776     15 of 15      --      1461  DIFF
+
+THE -PROC IS PER ROW, AND proc_hints IS A CENSUS, NOT AN ORACLE
+
+layout/proc_hints.txt infers `arm7tdmi` for pkt_0205429C from its four
+pop-lr epilogues.  That inference is right for 0x02054DB8 and WRONG for the
+other three: a register `blx rN` exists only under a v5+ proc, while the 1.2
+tree's arm7tdmi emits `mov lr, pc; bx rN`.  Measured on 0x02054718:
+`../1.2/sp2 -proc arm7tdmi` compiles to 856 bytes with 640 concrete bytes
+differing, against 848/848 EXACT at `-proc arm946e`.  So
+
+  0x0205429C, 0x02054718, 0x02054A68   -proc arm946e   (blx rN in the bytes)
+  0x02054DB8                           -proc arm7tdmi  (only there do the push
+                                       and the 0x88 frame match; at arm946e
+                                       the compile spends an extra `fp` push
+                                       on the high word of 0x800 and uses a
+                                       0x9c frame)
+
+THE FOUR SOURCE SHAPES.  Wave r6 called the residue "one r0/r1 swap in the
+prologue" and it was right about the FIRST of four; the other three were
+worth 82 of the last 100 bytes.  Each was found on 0x02054718 (the smallest
+body) and then applied unchanged to the other two rows.
+
+ 1. 0x040004A4 -- THE `|` CHAIN'S SOURCE ORDER DECIDES WHICH TEMPORARY CLAIMS
+    r0, because a chain coalesces its result into the FIRST operand's
+    register.  The b10 term must be written first:
+
+      v = ((u32)s->w.b10 << 24) | (obj->f3c | 0xc0) | ((u32)(n >> 5) << 16);
+
+    With `obj->f3c | 0xc0` first (the spelling wave r6 printed) the first
+    difference is at +0x14 -- obj->f3c in r1 where the image has r0 -- and
+    every later register number follows it: 100 concrete bytes over 55 slots,
+    in all three rows.  Wave r6 ruled out ten spellings for this seed (four /
+    three / one statement, `| 0xc0` hoisted before the bitfield product, named
+    hw/b0/b5/b10 locals in two orders, `u32 v;` first in the declaration list,
+    the s64 local before vs after the product); wave r8 ruled out seven more
+    (the one-expression form with the f3c term first, the arms' b10-first
+    order, `((u32)(s->w.b10 << 24))`, a named `e` holding the b10 shiftee, a
+    `u32 f3c` local, and the product written inline at both uses).  Only the
+    b10-first operand order moves the seed.
+
+ 2. THE SCALE MULTIPLY'S OPERAND ORDER: `(s64)a * res->f30`, not
+    `(s64)res->f30 * a`.  The smull's product pair lands in r6:r1 (as the
+    image has it) only with `a` on the left.  Worth 3 bytes.
+
+ 3. `case 0` RUNS `x` BEFORE `y`:
+
+      case 0:
+          x = (s32)(((s64)n * s->f34 + 0x800) >> 12);
+          y = (s32)(((a64 * s->f34) + 0x800) >> 12);
+          break;
+
+    The printed order (y first) is 29 concrete bytes by itself -- the largest
+    single piece left after the prologue fix.
+
+ 4. THE THREE 0x04000470 FIFO STORES GO THROUGH NAMED LOCALS LOADED IN
+    REVERSE FIELD ORDER:
+
+      u32 q4, q8, qc;              /* declared before `s32 c2;` */
+      ...
+      p = obj->f40->f20->f00;
+      qc = p->f0c;  q8 = p->f08;  q4 = p->f04;
+      *(volatile u32 *)0x04000470 = q4;
+      *(volatile u32 *)0x04000470 = q8;
+      *(volatile u32 *)0x04000470 = qc;
+
+    The image loads f0c, f08, f04 into three registers and then stores them
+    forward; written as three direct stores the compiler interleaves
+    load/store for 22 concrete bytes, and this is the last residue in the twin
+    rows.  Two traps: the declarations must sit in the function's declaration
+    list, because mwccarm 1.2 with `-lang c99` rejects a declaration after a
+    statement inside a block ("expression syntax error" at the declaration
+    line, then every use undefined); and a `volatile u32 *fifo` local spelled
+    for the FIFO address does NOT reproduce it.
+
+HOW TO READ IT.  mwccarm's ARM allocator hands low scratch registers out in
+the order the IR temporaries are created, and a `|` chain (or a multiply)
+coalesces its result into the first operand's register.  Both are visible in
+the emitted stream -- the first operand's register is the one the first `orr`
+writes in place -- so the source order of a commutative chain is a real,
+compilable lever.  Same signal as
+docs/idioms/a-four-term-or-chain-is-right-associated-in-arm.md and
+docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
+
+0x02054DB8 RE-MEASURED UNDER THE PIN: STILL A WALL
+
+The C printed earlier in this note (the 425-instruction transcription) under
+the family pin:
+
+  ../1.2/sp2 -proc arm7tdmi   1776 bytes against a 1760-byte extent, 15 of 15
+                              relocations resolved, 1461 concrete bytes
+                              differ.  The push and the 0x88 frame MATCH
+                              here (`push {r4, r5, r6, r7, r8, sb, sl, lr}` /
+                              `sub sp, sp, #0x88`), which is the first thing
+                              the note's "where to pick it up" asked for.
+  ../1.2/sp2 -proc arm946e   1828 bytes, 1575 concrete bytes differ, with the
+                              extra `fp` push and the 0x9c frame.  arm946e
+                              cannot be this row's proc.
+
+First real difference at +0x08, and it is not a statement:
+
+  +0008  ORIG mov r6, r1     | OURS mov r9, r1
+  +0010  ORIG mov r7, r0     | OURS (self never leaves r0)
+
+The image moves `q` to r6 and `self` to r7 (both callee-saved) and then
+interleaves the chain loads with the bitfield arithmetic (+14 ldr r4,[r7,#0x40],
++30 ldr r2,[r4,#0x20], +3C ldr r4,[r2], +50 ldrsh r0,[r4,#0x30], +54
+ldr r8,[r7,#0x44]); the transcription captures all four pointers in named
+locals with initialisers, so its loads all come first and the whole
+440-instruction body re-allocates (1461 bytes).  Assigning those locals lazily
+after the early return instead does not close it either (1776, 1462 bytes,
+same first difference).  Same class of residue the note recorded, now at the
+right proc and the right size (8 bytes out, not 68): ~60 allocation decisions
+over 440 instructions, on a row 4.3x the largest ARM game function the
+manifest has closed (404 bytes).  Two levers were NOT spent, in order:
+(a) the two arms' G3_MultMtx43 calls cross-jump into one site where the image
+keeps two -- the 8 bytes; (b) the note's own fact 3, spelling the chain out
+again inside the arms instead of keeping `res` live, which is what the image's
++5078/+52F0/+5184/+51AC/+51F4 re-derivations do.  Only (b) touches the
+parameter capture, so it is the one to try first.

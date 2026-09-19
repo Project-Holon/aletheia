@@ -87,3 +87,41 @@ family (see docs/notes/pkt_02031FE0.c.txt).  The blocking class is size, not
 evidence: 0x020155A0 is the cheapest row in this lane -- no call relocations
 at all, so a body that reproduces its bytes is EXACT on the first compile --
 and it should be the next thing attempted here.
+
+==========================================================================
+APPENDED, wave r8 lane small-3: 0x02015590 is a SPLIT ARTEFACT, not a body
+==========================================================================
+
+Re-derived from the image bytes, 2026-09-19.  The row's ten bytes are the
+fall-through tail of the function the worklist calls 0x02014D90, and no C
+function can carry them:
+
+    0201558C  f7ff fc00   bl #0x02014590      <- LAST instruction of 0x02014D90
+    02015590  0248        ldr r0, [pc, #8]    <- the "row" begins here
+    02015592  0121        movs r1, #1
+    02015594  0160        str r1, [r0]
+    02015596  6db0        add sp, #0x1b4
+    02015598  bdf0        pop {r4, r5, r6, r7, pc}
+    0201559A  46c0        mov r8, r8          <- padding
+    0201559C  04000448    .word 0x04000448
+
+  * the worklist's own cut agrees numerically: 0x02014D90 is listed as 2048
+    bytes with 1984 code bytes, i.e. it ends exactly at 0x02015590, and the
+    instruction immediately before the boundary is a `bl` that RETURNS, so
+    execution reaches 0x02015590 by fall-through;
+  * the `add sp, #0x1b4` / `pop {r4, r5, r6, r7, pc}` pair is that function's
+    epilogue, and a standalone function cannot emit a pop of registers it
+    never pushed nor an `add sp` with no matching frame.
+
+Compiled as a body in its own right, `*(volatile u32 *)0x04000448 = 1;` gives
+`ldr r0, [pc, #4]; movs r1, #1; str r1, [r0]; bx lr` (12 bytes with the pool
+word) against the original's 16: the two instructions that differ are exactly
+`+0006 add sp, #0x1b4` and `+0008 pop {r4, r5, r6, r7, pc}`, which the earlier
+DIFF table above already shows.  The 0x04000448 store itself is a plain
+integer constant, not a relocation (the frontier lane measured the same thing
+for 0x0400044C and 0x04000470 in this packet).
+
+Verdict: no source filed.  The address to report upstream is the spurious
+function start at 0x02015590 in layout/function_starts.txt (integrator's
+file); 0x02014D90's real extent is 0x02014D90..0x02015590 plus this tail, and
+the row contributes nothing that can be manifested.

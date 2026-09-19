@@ -69,3 +69,61 @@ veneer whose pool word is 0x02731920.  No C spelling produces any of them.
 The four real wrappers (0x020911D8, 0x02091200, 0x02091230, 0x0209125C) are
 parked MATCH; each of their callees' only reference in the image is the call
 site itself.
+
+
+==============================================================================
+wave r8 lane small-1: the same packet, re-measured row by row
+==============================================================================
+
+The lane's nine rows in this packet, each with a verdict.  Nothing above is
+wrong; what changes below is 0x0209128C (a DIFF becomes a PARK under a
+measured compiler pin) and the confirmation of the four veneer walls.
+
+ARTIFACTS (reported, not filed) - class veneer
+  0x020911F0  `78 47` bx pc + `c0 46` + ARM `ldr ip,[pc]; bx ip`, word 02731755
+  0x02091220  same shape, word 02731761
+  0x0209124C  same shape, word 02731765
+  0x02091284  ARM `ldr pc, [pc, #-4]` (04 F0 1F E5), word 02731920
+  Confirmed byte for byte against the image this run; the same class the R8
+  rules list for the eight stub addresses in this band (`ldr ip,[pc]; bx ip`
+  or `ldr pc,[pc,#-4]; .word 0x0273xxxx`, no region).  The pointer words land in
+  0x0273xxxx, which is in no region of layout/layout.json, so `veneer_at()`
+  cannot attest them either.  No transcriptions spent on these.
+
+WALLS (the four parks the stubs cap)
+  0x020911D8 -> 0x020911F0    src/pending/func_020911D8.c    MATCH, 2 of 3 sites
+  0x02091200 -> 0x02091220    src/pending/func_02091200.c    MATCH, 2 of 3
+  0x02091230 -> 0x0209124C    src/pending/func_02091230.c    MATCH, 2 of 3
+  0x0209125C -> 0x02091284    src/pending/func_0209125C.c    MATCH, 2 of 3
+  Recompiled this run (1.1p1, --thumb): all four are byte-correct (24/32/28/40
+  bytes) and each is capped on exactly one site, its stub, described above.
+  None of the four can be promoted: the blocker of each is an artifact, so no
+  source file can ever make the site resolve, and the remaining two sites in
+  each are already `label`-resolved.  Class: veneer.  (These are the pairs the
+  R8 rules would have called a double pay; they are walls.)
+
+0x0209128C (24 bytes, ARM) - was a DIFF, now a PARK under `../2.0/sp2`
+  The one-byte predication difference above is a FRONT END difference, not a
+  spelling problem.  Nineteen 1.1p1 spellings of the same assignment all leave
+  the first move unpredicated: `a0 != 0`, `!!a0`, `!(a0 == 0)`, `a0 ? 1 : 0`,
+  `(a0 != 0) ? 1 : 0`, `(a0 == 0) ? 0 : 1`, `x ? 1U : 0U`, `(a0 != 0) & 1`,
+  `(unsigned char)(a0 != 0)`, `int b = 0; if (a0) b = 1; g = b;`,
+  `int b = 1; if (!a0) b = 0; g = b;`, `int b; if (a0) b = 1; else b = 0;`,
+  `int b; if (a0 == 0) b = 0; else b = 1;`, `u8 b = a0 != 0; g = b;`,
+  `if (a0) g = 1; else g = 0;`, `int b; b = a0 ? 1 : 0; g = b;`, and the
+  `(int)`/`(unsigned char)`/`_Bool` cast forms.  Under
+
+      --cc ../2.0/sp2 -O4,p -proc arm946e
+
+  the file is byte-correct, 0 concrete differences, 28 = 28 bytes: parked as
+  src/pending/func_0209128C.c with `compiler: ../2.0/sp2` and
+  `status: MATCH`.  Its single wildcard is the ABS32 to g_02153B88, and a raw
+  word scan finds 0x02153B88 exactly once in the arm9 region - 0x020912A4,
+  this function's own pool word, inside the compared range - so it is the
+  own-pool wall and this row can never be EXACT.  This is the pin's evidence
+  entry; docs/FRONTEND-PINS.md is not in this lane's write set, so the row is
+  recorded here and in the lane's report for the integrator.
+
+  (The `literal x15` witness the park at src/pending/func_020912A8.c cites for
+  the same address is a witness that exists only for ranges that do not contain
+  0x020912A4 - which is why the site resolves there and cannot resolve here.)

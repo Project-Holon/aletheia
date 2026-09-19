@@ -67,3 +67,35 @@ C currently tried (scratch/scratch/w_02014428.c):
         *(u16 *)(p + 0x12) = 0;
     }
 
+========================================================================
+APPENDED, wave r8 lane small-4: func_02014428 filed EXACT, and the one
+"differing byte" above was a wrong symbol ADDRESS, not a register choice.
+========================================================================
+
+The diff above reads
+
+  * +0018    strb r4, [r7, #0xa]   |   strb r4, [r3, #0xa]
+
+at the ABS32 site.  That decodes as a register difference only because the two
+"instructions" are the POOL WORD being read as code.  The image's pool word,
+read from outside the function, is
+
+  0x02014440  bc 72 0a 02   ->  0x020A72BC
+
+while the C above declares `sBtlSetupFile` at 0x020A729C; the two differ in bit
+5 of the low byte (0xbc against 0x9c), which is exactly what shows up as `r7`
+against `r3`.  Declaring the symbol at 0x020A72BC instead makes the whole
+function EXACT, with the site resolving through the `string` class:
+
+    +0018 ABS32 sBtlSetupFile -> 020A72BC  [string x1, e.g. 020A72BA]
+
+Filed as src/matched/func_02014428.c (packet pkt_0201441C, dsi/1.1p1,
+-O4,p -proc arm946e, no pin), verified 28 bytes against 28, 0 concrete
+differences.  The sibling row 0x0201441C (src/pending/func_0201441C.c) is NOT
+affected: its data target 0x0209E050 is the correct address and still has no
+witness outside 0201441C..02014428, so it stays MATCH.
+
+Lesson for the next reader: when a single "register" byte differs at an ABS32
+relocation site, re-read the pool word from the image before touching the C.
+
+Addresses are Black-image addresses.

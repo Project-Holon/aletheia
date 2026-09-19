@@ -24,3 +24,30 @@ into one immediate, which is why the source has two terms at all.
 
 The pool word at 0x02063064 names func_02082A60, and the `label` class resolves
 it, so the only residue is the order of the four instructions.
+
+========================================================================
+APPENDED, wave r8 lane small-3: CLOSED, and the lever is the -proc
+========================================================================
+
+The order is a `-proc` decision, not an inexpressible one.  The row's own
+proc_hints line reads arm946e (the packet census cannot classify a tail-call
+thunk, which has neither `pop {...pc}` nor `pop {...,lr}; bx lr`), but at
+`-proc arm946e` every spelling above hoists the first `add` above the `ldr`,
+while at `-proc arm7tdmi` the same single-expression C reproduces the image's
+four instructions with ZERO concrete mismatches:
+
+    python tools/match.py one --src src/matched/sub_02063054.c \
+        --func sub_02063054 --addr 0x02063054 --arm \
+        --flags "-O4,p -proc arm7tdmi"
+    EXACT*  compiled 20 bytes, 1 relocation site (label), extent 36
+
+Filed as src/matched/sub_02063054.c, header `flags: -O4,p -proc arm7tdmi`, so
+the shard records and the chain rebuilds it with that proc.  The trailing `*`
+is the unlabelled follower at 0x02063068 (the already-matched sub_02063068,
+which needs no proc change: it has one `add`, and the single-add form has no
+scheduling freedom).
+
+Tried under arm946e this run, all identical: the sum as one expression,
+reversed constant order, a `u32` local holding the first add, `|` instead of
+`+`, and a `u32 *` second parameter.  dsi/../1.2/sp2 -proc arm946e is worse
+(it materialises the bias in r2 and needs 24 bytes).

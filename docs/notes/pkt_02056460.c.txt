@@ -125,3 +125,174 @@ RESIDUE 3 - the rest of this packet was not attempted in this run.  One
   0x02056684 (784 B) and 0x020569A4 (1544 B): stack-frame-heavy (0x24 / 0xc4
       bytes of locals) lead functions of the rig; over budget for one row, take
       them as a unit or leave for the next wave.
+
+==============================================================================
+wave r8 lane rigC (2026-09-19): the six rows to a verdict
+==============================================================================
+
+compiler: ../1.2/sp2 (family pin).  proc: -proc arm946e on every row.
+
+layout/proc_hints.txt records pkt_02056460 as arm7tdmi.  That is the FAMILY
+inference from the ARMv4T epilogue census and it is wrong for these rows.
+MEASURED on 0x02056460: at ../1.2/sp2 -proc arm7tdmi the prologue becomes
+`push {r4, r5, r6, r7, lr}` (five registers, and a different body) with 31
+concrete mismatches where arm946e leaves 8.  Every row below compiles at
+arm946e; none was measured at arm7tdmi beyond that one probe.  Same
+correction wave r6 made for pkt_02057830's small rows.
+
+EXACT (filed in src/matched/, in the packet shard)
+-------------------------------------------------
+
+0x020576D0  352 B  src/matched/func_020576D0.c  ../1.2/sp2 -proc arm946e
+
+  out = M * src, where M is a rig matrix whose two 3x2 s16 rows sit at
+  m+0x84 (r0) and m+0x8a (r1); the third row is their cross product,
+  normalised in place.  0x0207CB68 is the 104-byte cross product (six
+  smulbb / sub / +0x800 / asr #12 quartets), 0x0207CDB8 the 300-byte Fx16
+  normaliser (VEC_Fx16Normalize, named in src/matched/func_02014A20.c).
+
+      struct Vec16 { s16 x, y, z; };
+      struct Mtx3 { u8 pad[0x84]; s16 r0[3]; s16 r1[3]; };
+
+      func_0207CB68((VEC16 *)(m->pad + 0x84), (VEC16 *)(m->pad + 0x8a), &v);
+      func_0207CDB8(&v, &v);                    /* TWO arguments, same pointer */
+      out[0] = FX_Mul(src->x, m->r0[0]) + FX_Mul(src->y, m->r1[0]) + FX_Mul(src->z, v.x);
+      ... (out[1] with [1]/v.y, out[2] with [2]/v.z)
+
+  THE TELL: the normaliser's own body never reads r1 (it takes one argument,
+  r0 only), but the image materialises r1 anyway - `add r0, sp, #0` followed
+  by `mov r1, r0` at 0x020576F4/F8.  The call in the original source passes
+  the vector twice.  Calling it with one argument costs exactly those 4 bytes
+  (348 compiled against 352) and shifts every later instruction, so it reads
+  as a whole-body register plan diff and hides the fact that the rest of the
+  transcription is already correct.  This is the one thing to get right.
+  The `mov ip, #0x800` register-form rounding constant feeding `adds` is the
+  1.2 constant-materialisation tell.
+
+RESIDUE 4 - 0x02056460 (164 B code, 172 B incl. pool): DIFF, 8 concrete
+bytes, size-exact (172 bytes, 0 relocations).  Still the single allocation
+decision RESIDUE 1 above describes: the image writes `t + cosv` into the
+parameter register r1 (+0044 `add r1, r3, r1`), mwcc writes it into lr, and
+the other two sums follow it ip<->r1 (offsets +0044, +0060, +0064, +0068,
++007C, +0080, +0088, +0090).  Everything else in the 172 bytes matches,
+including the two smull quartets, the frame and the `pop {r4..sb, lr}` /
+`bx lr` return.
+
+  Ruled out this wave (each compiled at ../1.2/sp2 -proc arm946e, all 172
+  bytes, none moved the register), on top of RESIDUE 1's list:
+    * `d = t + cosv;` as a named local placed BETWEEN t and s, so that cosv's
+      last use is the sum itself, with the three stores reading d (the
+      liveness theory: cosv dies at the add, so r1 is free for the result) -
+      still `add lr, r3, r1`.
+    * the same with d placed after s, and with three named locals d/e/f
+      assigned in image order.
+    * `d = cosv + t;` - this one DOES change the operand order in the
+      instruction (`add lr, r1, r3`), so the image's `add r1, r3, r1` really
+      is the source's `t + cosv`, but the destination is still lr.
+    * `-proc arm7tdmi`: five-register frame, 31 mismatches (see above).
+
+  Closest C is still RESIDUE 1's body (unchanged, 172 bytes, 8 concrete
+  bytes).  mwcc 1.2 will not coalesce a sum into a dying PARAMETER register
+  in this shape: it reuses a dead parameter happily for the SECOND sum
+  (r1 for `t + s`) but not for the one whose source operand it killed.
+  Next attempt should try to change the live-range shape rather than the
+  spelling: e.g. give the function a fourth (dead) parameter, or hoist the
+  `t + cosv` sum into a position where cosv is already spilled - anything
+  that changes WHICH registers are free at +0044.
+
+RESIDUE 5 - 0x0205650C (168 B code, 188 B listing): DIFF, size-exact
+(188 bytes, 0 relocations).  The `(u16)(x << 8)` question is ANSWERED, and
+the answer is that the note's C above has the wrong value in it:
+
+    +0010    lsl r2, r0, #8      (image)   `(u16)(a0 << 8)` gives lsl r0, r0, #0x18
+    +0014    lsl r0, r1, #8                `(u16)(a1 << 8)` gives lsl r1, r1, #0x18
+    +001C    lsr r0, r0, #0x10             ... and then lsr #0x10
+    +0020    lsr r1, r2, #0x10
+
+  `u32 l = (u16)(a0 >> 8);` reproduces +0010/+0014 EXACTLY (mwcc emits the
+  pair into r2 and r0, exactly as the image does).  It is the unequal-shift-
+  pair rule of docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-
+  with-a-shift.md: second amount 16 is the u16 cast, the difference 16-8 is
+  the source shift, so the image's value is bits 8..23 of the argument
+  (`(u16)(a0 >> 8)` or `(a0 >> 8) & 0xFFFF`), NOT `(a0 & 0xFF) << 8`, which
+  is what the un-shifted `(u16)(a0 << 8)` would have stored.  The note's C
+  at the top of this file currently writes the WRONG BYTES to 0x04000488.
+
+  With that one change the residue drops from 78 to 61 concrete bytes and
+  the remaining difference is entirely the register plan:
+
+    +0004    sub r7, r2, #0x1000      (image)  compiled: sub r4, r2, #0x1000
+    +0008    add r5, r3, #0x1000               add r6, r3, #0x1000
+    +000C    add r4, r2, #0x1000               add ip, r2, #0x1000
+    +0018    sub r3, r3, #0x1000               sub r2, r3, #0x1000
+    +001C    lsr r0, r0, #0x10                 lsr lr, r1, #0x10
+    +0020    lsr r1, r2, #0x10                 lsr r5, r0, #0x10
+    +0024    ldr ip, [pc, #0x7c]               ldr r7, [pc, #0x7c]
+    +004C    and r2, r6, r2, asr #22           and r7, r3, r6, asr #22
+    +0060    str ip, [r3]                      str r2, [r1]
+    ... and every later store/pointer register with them
+
+  The image's plan: the four `v +/- 0x1000` temps in r7, r5, r4, r3 (the
+  a3-derived one in place in r3), l in r1 and h in r0 (both parameter
+  registers, reused), the four masked coordinates in r2, r7, lr, r4, the
+  two hardware pointers in r3/r6, 0x3FF in r6 and the zero in ip.  mwcc with
+  every spelling tried puts the two values in fresh registers and hands the
+  low registers to the coordinate temps instead.  Ruled out (each compiled,
+  all 188 bytes): the note's original C with the cast left alone; the cast
+  fix with h/l as u16 locals (37 lines, but it moves the lsl INTO the
+  parameter register: `lsl r0, r0, #8`, so u16 locals are wrong); h and l
+  declared in the other order (this one also breaks the lsl pair); the two
+  declared after the four coordinates (196 bytes - a wider frame); the whole
+  store block written inline with the shifts in the expressions (61 bytes -
+  the closest so far); the four coordinate expressions inline with named h/l
+  (196 bytes); unsigned parameters; `int` coordinate locals; named
+  intermediates for the `+/- 0x1000` halves.  Best C (61 bytes) is the
+  all-inline body:
+
+      *(volatile u32 *)0x04000500 = 1;
+      *(volatile u32 *)0x04000488 = 0;
+      *(volatile u32 *)0x04000490 = ((a2-0x1000)<<16>>22 & 0x3ff) | (((a3+0x1000)<<16>>22 & 0x3ff) << 20);
+      *(volatile u32 *)0x04000488 = (u16)(a0 >> 8);
+      *(volatile u32 *)0x04000490 = ((a2+0x1000)<<16>>22 & 0x3ff) | (((a3+0x1000)<<16>>22 & 0x3ff) << 20);
+      *(volatile u32 *)0x04000488 = (u16)(a0 >> 8) | ((u16)(a1 >> 8) << 16);
+      *(volatile u32 *)0x04000490 = ((a2+0x1000)<<16>>22 & 0x3ff) | (((a3-0x1000)<<16>>22 & 0x3ff) << 20);
+      *(volatile u32 *)0x04000488 = (u16)(a1 >> 8) << 16;
+      *(volatile u32 *)0x04000490 = ((a2-0x1000)<<16>>22 & 0x3ff) | (((a3-0x1000)<<16>>22 & 0x3ff) << 20);
+      *(volatile u32 *)0x04000504 = 0;
+
+  Next attempt: the ALLOCATION ORDER, not the spelling.  The image's first
+  coordinate temp lands in r7, which nothing in the source explains unless
+  the two l/h values are DEFINED BEFORE the coordinates in the source and
+  keep r0/r1 for the whole function.  Try the l/h definitions first as
+  `u32` (not u16) and the four coordinates after them, with the store block
+  inline; and try the four coordinate expressions in the source in the
+  order cm, cp, cP, cM versus the store order.
+
+RESIDUE 6 - 0x020565C8 (168 B): the mirror row, same finding, NOT solved.
+DIFF, size-exact 188 bytes, 56 concrete bytes with the same all-inline body
+(76 with the note's shape).  It differs from RESIDUE 5 only in the paired
+field's position (`orr r5, r2, r7, lsl #10` / `lsl r5, r5, #10` - bits 10..19
+instead of 20..29) and in which temp holds which field; the shift pair at
++0010/+0014 is identical and so is the answer: `(u16)(x >> 8)`.  Its first
+schedule differs from 0x0205650C's (`add ip, r3, #0x1000` leads, not
+`sub r7, r2, #0x1000`), so whoever solves 0x0205650C must re-check the plan
+against this row rather than copying it.
+
+NOT ATTEMPTED - reported without a body, per the lane brief (oversized for a
+spelling search, both are lead functions of the rig):
+
+  0x02056684 (784 B, listing extent to the next label is 800 B): prologue
+    `push {r4, r5, r6, r7, r8, sb, sl, fp, lr}` + `sub sp, sp, #0x24` (36
+    bytes of locals), ldrsh/ldrb field reads off r1->0x20, `mov r1, #0x800`
+    (the 1.2 tell) at 0x020566B4 feeding `adds r4, r4, r1`, an early-exit
+    `addle sp, sp, #0x24` / `pople {...}` at 0x020566DC.  Take it as a unit
+    with 0x020569A4 or leave it for a later wave.
+  0x020569A4 (1544 B): prologue `push {r4..fp, lr}` + `sub sp, sp, #0xc4`
+    (196 bytes of locals), pooled constants (ldr r2, [pc, #0xce8]), ldrsh
+    reads at sb+0x4e and writes back with `and`/`strh`.  Definitely a
+    multi-session body; not attempted.
+
+DELETE NOTE: the three DIFF bodies this wave compiled (src/matched/
+func_02056460.c, func_0205650C.c, func_020565C8.c) were removed from
+src/matched/ - a DIFF has no home there - and only the closest bodies above
+survive, in this note.
