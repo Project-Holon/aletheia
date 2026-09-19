@@ -59,3 +59,144 @@ No compiled comparison is claimed.  MAP from `match.py show --addr 0x02070524`
 Next attempt should write the `(3 * a + b) >> 2` arm first (it is six
 instructions and unambiguous), then build the flag cascade outward from it,
 with the early `tst #0x20000000` return first in source order.
+
+========================================================================
+wave r12 lane C: 0x02070524 (256 bytes, ARM) -- TRANSCRIBED, DIFF residue
+========================================================================
+
+Whole body written and compiled once per spelling (eight variants).  Pin
+dsi/1.1p1, `-O4,p -proc arm946e`, verbatim:
+
+  python tools/match.py one --src <f> --func func_02070524 --addr 0x02070524 \
+      --arm --cc 1.1p1 --flags "-O4,p -proc arm946e"
+
+No relocations at all (0 sites), so the row is EXACT the moment the bytes
+land: this is pure codegen.  Best body: 244 compiled against 256, 146
+concrete bytes differ, and the first 0x50 bytes are BYTE FOR BYTE identical.
+The skeleton that got there:
+
+    int func_02070524(u8 *data, u32 fmt, u32 ofs, u32 pos)
+    {
+        u32 lim;
+        u32 a, b;
+        s32 x, y;
+
+        if (fmt & 0x20000000)
+            return (s32)ofs;
+
+        data += ofs;
+
+        if ((fmt & 0xc0000000) == 0)
+            goto load;
+
+        lim = (u16)fmt;
+
+        if (fmt & 0x40000000) {
+            if (pos & 1) {
+                if (pos > lim) {
+                    pos = (lim >> 1) + 1;
+                    goto load;
+                }
+                pos >>= 1;
+                goto avg;
+            }
+            pos >>= 1;
+            goto load;
+        }
+
+        if ((pos & 3) == 0) {
+            pos >>= 2;
+            goto load;
+        }
+
+        if (pos > lim) {
+            pos = (pos & 3) + (lim >> 2);
+            goto load;
+        }
+
+        if ((pos & 1) == 0) {
+            pos >>= 2;
+            goto avg;
+        }
+
+        if (pos & 2) {
+            a = (pos >> 2) + 1;
+            b = pos >> 2;
+        } else {
+            a = pos >> 2;
+            b = (pos >> 2) + 1;
+        }
+
+        if (!(fmt & 0x10000000)) {
+            x = ((s32 *)data)[a];
+            y = ((s32 *)data)[b];
+        } else {
+            x = ((s16 *)data)[a];
+            y = ((s16 *)data)[b];
+        }
+        x *= 3;
+        x += y;
+        return x >> 2;
+
+    load:
+        if (fmt & 0x10000000)
+            return ((s16 *)data)[pos];
+        return ((s32 *)data)[pos];
+
+    avg:
+        if (!(fmt & 0x10000000)) {
+            x = ((s32 *)data)[pos];
+            y = ((s32 *)data)[pos + 1];
+        } else {
+            x = ((s16 *)data)[pos];
+            y = ((s16 *)data)[pos + 1];
+        }
+        return (x + y) >> 1;
+    }
+
+Settled by the bytes:
+
+  * the shared tails are real.  The image's LOAD block at +0xBC
+    (`tst r1,#0x10000000 / lslne r1,r3,#1 / ldrshne r0,[r0,r1] /
+    ldreq r0,[r0,r3,lsl #2] / bx lr`) is reached from FIVE sites and the AVG
+    block from two, so this front end only produces them when the arms end in
+    a real shared block: spelling the load/return out in every arm (variant 1)
+    compiled to 432 bytes with every tail duplicated, while `goto load` /
+    `goto avg` named labels reproduce the image's block set exactly.  The
+    LOAD block is instruction-for-instruction identical to the image's.
+  * `lim` is assigned AFTER the `(fmt & 0xc0000000) == 0` test, not declared
+    with an initialiser at the top: hoisting it above the early return costs
+    the row its first 0x18 bytes (`lsl ip,r1,#0x10 / lsr ip,ip,#0x10` appear
+    before `movne r0,r2`).
+  * the weighted arm's accumulate order is load-bearing: `x *= 3; x += y;`
+    gives the image's `add r0,r0,r1`; `(x * 3 + y)` and `(y + x * 3)` both
+    give `add r0,r1,r0` (the commutative-accumulator idiom).
+  * the weighted arm's index pair must be assigned in an if/else and the
+    loads/return written ONCE after it; duplicating the whole tail in both
+    arms (variants 2/3) makes the compiler branch over the else arm instead
+    of if-converting `tst r3,#2` into `lsrne/addne/lsreq/addeq`.
+
+RESIDUE (two spellings, both still open):
+
+  1. `pos >>= 2; goto load;` (+0x50) and `pos >>= 2; goto avg;` (+0x64) come
+     out as `lsreq r3,r3,#2` + `beq` (the shift predicated into the branch),
+     where the image has a bare `beq #+0x6C` / `beq #+0x64` to a SEPARATE
+     one-instruction block (`lsr r3,r3,#2`) that then falls into the shared
+     LOAD / jumps to AVG.  Two sites, 8 bytes.  Writing the arms with the
+     load/return duplicated instead (variant 6) does not merge — it goes the
+     other way: 308 compiled and the arm polarity flips (`bne`).
+  2. the AVG block's address form and its sum's register pair: the image does
+     `addeq r1,r0,r3,lsl #2 / ldreq r0,[r0,r3,lsl #2] / ldreq r1,[r1,#4]`
+     with the sum `add r0,r0,r1`, and every spelling here gets
+     `add r1,r3,#1 / ldreq r0,[r0,r1,lsl #2]` with the sum `add r0,r2,r0`.
+     Registering the two AVG values as fresh locals (`u`,`v`) and spelling the
+     tail `u += v; return u >> 1;` does not move it (variant 8), and a pointer
+     local `s32 *p = (s32 *)data + pos; x = p[0]; y = p[1];` takes it further
+     away (`ldreq r1,[r0,r3,lsl #2]!` writeback form), variant 7.
+
+Next attempt on this row should attack the AVG block's addressing form only
+(one change at a time): first try `y = ((s32 *)data)[pos] + 0;`-free spellings
+that force the `data + pos*4` address to be materialised, e.g.
+`y = *(s32 *)((u8 *)data + pos * 4 + 4);` with `x` written as the subscript
+form, since the image materialises the address for the SECOND load and then
+uses an immediate `#4` off it.  Do not re-run the duplicated-tail spelling.

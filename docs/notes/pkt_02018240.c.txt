@@ -207,3 +207,72 @@ The next attempt should start from the loop's boolean accumulator (that
 `movs r1,#0` ... `movs r1,#1` ... `cmp r1,#0` triple is the strongest anchor
 in the row) and from the `blx`/Thumb-ARM interworking pair, since the pin's
 `-proc arm946e` is what makes `blx` legal here.
+
+========================================================================
+wave r12 lane C: 0x02018328 (246 code bytes, Thumb) -- TRANSCRIBED, DIFF
+========================================================================
+
+Whole body written, one compile per spelling.  Pin dsi/1.1p1, `-O4,p`
+(the packet hint is arm946e), verbatim:
+
+  python tools/match.py one --src <f> --func func_02018328 --addr 0x02018328 \
+      --thumb --cc 1.1p1
+
+Verdict: DIFF, 264 compiled against 264 (the listing extent is the row plus
+its pool), 162 concrete bytes differ.  All EIGHT relocation sites resolve,
+so this row is codegen-blocked and nothing else.  In particular the
+own-pool question was CHECKED AND CLEARED, not assumed: the third pooled
+word of the call's argument setup is `0x020A72E4` = "poke_tool.c", and a
+raw little-endian scan of the whole arm9 region finds it at three pool
+sites - 0x0201742C, 0x02017478 (both OUTSIDE 0x02018328..0x02018430) and
+0x02018428 (inside) - so the `literal` class attests it fourfold and the
+`string` class carries it as a NUL-terminated run as well.  (`match.py one`
+reports `+0100 ABS32 g_020A72E4 -> literal x4, e.g. 0201742C`.)  A first
+draft that declared that word as a `data` extern at a misread address is
+what produced an "own-pool" scare; the bytes are `e4 72 0a 02`, not the word
+the misread produced.
+
+The structure the compile confirms, and the frame:
+
+    push {r3,r4,r5,r6,r7,lr}; sub sp,#0x28        (sp+0x14..sp+0x28 = `v`)
+    blk  = func_02030734(heap, 0x68, 0, "poke_tool.c", 0x644)
+    f1   = (u16)func_02017E1C(a0, 5,    0)
+    f2   = (u16)func_02017E1C(a0, 0x6f, 0)
+    f3   = (u8) func_02017E1C(a0, 0x9e, 0)
+    func_0201ADD0(f1, f2, blk)
+    ...loop...
+    func_020307B0(blk)
+    return res
+
+  * the heap word is `(u16)((arg2 & 0x7fff) | 0x8000)`: the image builds it
+    as `ands r1,r0 / adds r0,r0,#1 / orrs r0,r1 / lsls #0x10 / lsrs #0x10`
+    with 0x7fff pooled, and that whole prologue (0x00..0x22) reproduces byte
+    for byte, including the pooled `0x644` line word stored to `[sp]`.
+  * `v` is a five-pair stack object (`u16` pairs at +00, +04, +08, +0c,
+    +10), and the loop's head block is the one at +0xBC: it copies
+    `((Slot *)blk)[*p]` into `v.cur`, copies `v.cur` into `v.pre`, then
+    `stop = 0; if (v.pre.x == 0xFFFF && v.pre.y == 0xFFFF) stop = 1;` - the
+    `movs r1,#0` / `movs r1,#1` / `cmp r1,#0` / `beq` accumulator called out
+    in the map, reached from the entry's `b #0x20183e4`.
+  * the success path returns `(u16)(0x8000 | v.out.x)` and bumps `*p`; the
+    two `0xFFFF` / `0xFFFE` sentinels are the same pair 0x02018240 uses
+    (0xFFFF = empty, 0xFFFE = already known), so `func_0201808C` is the
+    "is this move known" reader.
+
+RESIDUE: first divergence at +0x34, one instruction, pure register choice:
+
+  +0034  lsrs r4, r0, #0x10   |  lsrs r7, r0, #0x10
+
+The three `func_02017E1C` results land the other way round: the image keeps
+`f1 = (u16)...(a0,5,...)` in r4 and `f2` in r7, this front end swaps them
+(f1 -> r7, f2 -> r4).  Everything before +0x34 reproduces exactly.  Because
+the swap is in the FIRST difference it propagates through the whole loop
+(the two values are the arguments to func_0201ADD0 and one of them is the
+loop's sentinel compare), which is most of the 162 bytes.  The declaration
+order of `f1`/`f2`/`f3` and the place where `f3` is stored (`[sp,#8]`) are
+the levers to try next; `f3`'s home is already right.
+
+Next attempt on this row should swap the declaration order of the two
+`(u16)func_02017E1C(...)` results (declare the 0x6f one first) and re-check
++0x34, then re-read the loop's two `ldrh`/`strh` pairs; do not touch the
+prologue or the alloc call, both of which already match.

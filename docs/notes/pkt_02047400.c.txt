@@ -96,3 +96,160 @@ Naming used: g_02146A5C (data), g_szG3DSystem @ 0x020A7EA8 (data),
 func_0206E954 / func_0206E964 / func_02030734 / func_0206E348 /
 func_0206A2CC / func_0206A4AC / func_02069D14 (all arm; the first five are
 `label`-attested, func_0206E348 is `matched`).
+
+==============================================================================
+wave r12 lane B (2026-09-19): the r11 note's two named levers measured; the row
+is 3 INSTRUCTIONS (12 bytes) out and the residue is a front-end if-conversion
+preference, not a spelling
+==============================================================================
+
+Pin and proc: dsi/1.1p1 with `-O4,p -proc arm946e` (unchanged).  `--cc
+../1.2/sp2` was probed ONCE as the alternative front end and is WRONG for this
+row: it gives a different frame - `push {r4,r5,r6,r7,r8,lr}` + `sub sp, sp, #8`
+where the image pads with the dead `push {r3}` (the 1.1x frame-padding tell of
+docs/FRONTEND-PINS.md) - and it makes the same two if-conversion decisions, so
+the row stays 1.1p1.
+
+Best state: compiled 248 bytes (232 code + 4 pooled words) against the image's
+260 (244 code + 16 pool), 9 of 9 relocation sites AT THE IMAGE'S OWN OFFSETS.
+Everything from +0x68 to the epilogue and the whole pool are already
+byte-identical; 164 concrete bytes differ and all of them are the same 3
+instructions at the front.  Compared with the r11 spellings (172 and 147
+differing, both 248 bytes) the register plan is now FIXED:
+
+  * the prologue matches: `push {r3,r4,r5,r6,r7,r8,sb,lr}`, r7 = a0, r5 = n,
+    r6 = a2, r4 = the zero-initialised local, sb = obj, and r5 is reused for q
+    once n dies.  That comes from `u32 z;` declared FIRST and `z = 0;` as the
+    first statement, with the named `p`, `b`, `idx`, `cnt` after it.
+  * the only front-of-function difference left is the SLOT of `mov r4, #0`:
+    the image issues it at +0x14 (after the two parameter copies), the compile
+    at +0x0C (before them) - same instruction, same register.
+
+The three missing instructions, one hunk (offsets from 0x02047400):
+
+    +001C  image `cmp r0, #0`          | ours `mov r2, r4`       ; ofs = 0, off the
+    +0020  image `beq #0x2047464`      | ours `beq #0x204744c`   ; known-zero z
+    +0034  image `cmp r5, r1`          | ours `cmp r5, r1`
+    +0038  image `ldrh r2, [r0, #0xe]` | ours `ldrhlo r2, [r0, #0xe]`
+    +003C  image `ldrh r1, [r3, r2]`   | ours `ldrhlo r1, [r3, r2]`
+    +0040  image `add r2, r3, r2`      | ours `addlo r2, r3, r2`
+    +0044  image `add r2, r2, #4`      | ours `addlo r2, r2, #4`
+    +0048  image `mla r2, r1, r5, r2`  | ours `mlalo r2, r1, r5, r2`
+    +004C  image `b #0x2047454`        | ours `cmp r2, #0`       ; the missing `b`
+    +0050  image `mov r2, #0`          | ours `ldrne r1, [r2]`
+    +0054  image `cmp r2, #0`          | ours `addne r5, r0, r1`
+    +0058  image `ldrne r1, [r2]`      | ours `moveq r5, #0`     ; the missing
+    +005C  image `addne r5, r0, r1`    | ours `cmp r6, #0`       ; `bne` + `mov`
+    +0060  image `bne #0x2047468`      | ...
+    +0064  image `mov r5, #0`          | ...
+
+everything after the hunk is byte-identical, merely shifted 12 bytes.
+
+Both differences are the SAME front-end decision - where the constant goes:
+
+ 1. mwcc 1.1p1 if-converts the five-instruction ofs body (`ldrhlo`/`addlo`/
+    `mlalo`) and therefore materialises `ofs = 0` unconditionally before the
+    guards, as `mov r2, r4` (the constant rematerialised off the known-zero z
+    register).  The image does NOT if-convert: the body has its own out-of-line
+    block ending in a `b` at +0x4C, over a real `mov r2, #0` at +0x50 which is
+    also the shared branch target of the `b == 0` and `n >= p[9]` guards - i.e.
+    the constant is SUNK into the guards' join, giving that block two
+    predecessors from outside.  The `mov` is the sink of the same `ofs = 0`.
+ 2. the q selection: the image predicates the then-arm (`ldrne`/`addne`) and
+    then branches over an out-of-line constant else (`bne #0x2047468` /
+    `mov r5, #0` at +0x64), which is ALSO the direct target of the `p == 0` test
+    at +0x20 (the compiler proved ofs == 0 on that path and folded `q = 0`
+    straight there).  Every spelling this wave compiles the else as a predicated
+    `moveq r5, #0` and sends the `p == 0` test to the `cmp r2, #0` instead.
+
+Spellings measured this wave (one compile each, all pin dsi/1.1p1, all 248 bytes
+and 164 differing bytes, i.e. byte-for-byte the same diff):
+
+  * V1 - the r12 lever: the note's spelling 1 with `ofs = 0;` moved to a
+    statement AFTER the `p = ...` assignment; declarations `z, p, b, q, obj,
+    ofs, idx, cnt`.  It does move the constant (it is no longer before the call)
+    but it lands on `mov r2, r4` at +0x1C, not on the image's sunk block.
+  * V2 - same, with the q selection spelled `if (ofs != 0) q = ...; else q = 0;`
+    instead of the ternary: the compiler emits the identical
+    `ldrne`/`addne`/`moveq`.
+  * V3 - V1 plus a redundant `else { ofs = 0; }` on the innermost
+    `if (n < p[9])`, so all three guards dominate the constant's block exactly as
+    in the image: still if-converted, still hoisted.
+  * V4 - V1 with the innermost body's two temporaries declared at BLOCK scope
+    inside the if (`u32 i = ...; u32 c = ...;`): block-scope declarations do not
+    inhibit if-conversion here (the same lever that was falsified on 0x02057C9C
+    below).
+  * V5 - the guard chain as gotos (`if (p == 0) goto out; b = p + 8; if (b == 0)
+    goto out; if (n >= p[9]) goto out; <body> out:`) : normalises to
+    byte-identical code.
+
+So the residue is not a spelling: under dsi/1.1p1 the sinking/if-conversion
+choice is made by the front end.  The next attempt should either find a
+syntactic form that is not predicable at all (the body is exactly 5 predicable
+instructions - a store or a call in it would force the branch, but the image's
+body has neither) or accept the row as a 3-instruction front-end-capability
+residue.
+
+Closest body in full (V1; V2-V5 differ only in the hunk above).  248/260 bytes,
+3 instructions out, 9 of 9 relocation sites resolved:
+
+    typedef unsigned char u8;
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef int s32;
+
+    extern void *func_0206E954(void *);
+    extern void *func_0206E964(void *);
+    extern void *func_02030734(u32, int, int, void *, int);
+    extern void *func_0206E348(void *);
+    extern void func_0206A2CC(void *, void *);
+    extern void func_0206A4AC(void *, void *);
+    extern void func_02069D14(void *, void *);
+    extern u32 g_02146A5C;
+    extern char g_szG3DSystem[];
+
+    void *func_02047400(void *a0, u32 n, void *a2)
+    {
+        u32 z;
+        u8 *p;
+        u8 *b;
+        void *q;
+        void *obj;
+        u8 *ofs;
+        u32 idx;
+        u32 cnt;
+
+        z = 0;
+        p = func_0206E954(*(void **)((u8 *)a0 + 4));
+        ofs = 0;
+        if (p != 0) {
+            b = p + 8;
+            if (b != 0) {
+                if (n < p[9]) {
+                    idx = *(u16 *)(p + 0xe);
+                    cnt = *(u16 *)(b + idx);
+                    ofs = (u8 *)(cnt * n + (s32)(b + idx + 4));
+                }
+            }
+        }
+        q = (ofs != 0) ? (void *)(p + *(u32 *)ofs) : 0;
+
+        if (a2 != 0) z = (u32)func_0206E964(*(void **)((u8 *)a2 + 4));
+
+        obj = func_02030734(*(u16 *)((u8 *)*(void **)&g_02146A5C + 0x18),
+                            0x10, 0, g_szG3DSystem, 0x608);
+        *(u16 *)obj = 0x7A14;
+        *(void **)((u8 *)obj + 8) = a0;
+        *(void **)((u8 *)obj + 0xc) = a2;
+        *(void **)((u8 *)obj + 4) = func_0206E348(*(void **)&g_02146A5C);
+        if (z != 0) {
+            func_0206A2CC(q, (void *)z);
+            func_0206A4AC(q, (void *)z);
+        }
+        func_02069D14(*(void **)((u8 *)obj + 4), q);
+        return obj;
+    }
+
+No src/ file is left for this row (a DIFF has no home in src/matched/) and no
+shard was written: the working copy was deleted after the body above was taken.
+

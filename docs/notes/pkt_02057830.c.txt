@@ -828,3 +828,122 @@ set rather than its order.  No src/ file is left for this row and no shard was
 written: the closest body is the one in this note (the r8 baseline, function
 scope, `if (!p->flag)`), and both working copies were deleted after the
 comparison.
+
+==============================================================================
+wave r12 lane B (2026-09-19): the fifth lever - no `rec`/`v` locals at all -
+compiled and FALSIFIED by the same 65-byte diff; the colouring tie-break is
+reachable by no spelling of the same live set
+==============================================================================
+
+Pin and proc, verbatim, one compile: `--cc ../1.2/sp2` with
+`--flags "-O4,p -proc arm946e"` (as r8/r9/r10/r11, and per docs/FRONTEND-PINS.md
+the packet's arm7tdmi census entry is wrong for this band).
+
+The r12 lever (the one dimension the r11 note left: change the arm's live-value
+COUNT rather than its order, by reading `p->rec0`/`p->rec1` and `q->f22` IN
+PLACE at each of the six channel extractions, with no `rec` and no `v` locals at
+all) was compiled, both arms, and is FALSIFIED:
+
+    compiled 460 bytes (image 460), 6 of 6 relocation sites at the image's
+    offsets, 65 concrete bytes differ.
+
+The diff is byte-for-byte the r8 grouping's, the r9 interleave's, the r10
+`f = p->flag;` shape's and the r11 block-scope one's - the same register pair
+exchanged in both arms:
+
+  arm 1 (0x02057CDC..)   image v -> sb, rec -> r8, rmid -> r6, rhi -> r5,
+                               flag temp -> r4 (p's dying register)
+                         ours  v -> r8, rec -> r6, rmid -> r5, rhi -> r4,
+                               flag temp -> sb
+    +0040  ldrh sb, [r0, #0x22]   | ldrh r8, [r0, #0x22]
+    +0048  ldrh r8, [r4]          | ldrh r6, [r4]
+    +004C  asr r7, sb, #5         | asr r7, r8, #5
+    +0050  asr fp, sb, #0xa       | asr fp, r8, #0xa
+    +0054  lsl r4, r0, #0x1d      | lsl sb, r0, #0x1d
+    +0058  asr r6, r8, #5         | asr r5, r6, #5
+    +005C  asr r5, r8, #0xa       | asr r4, r6, #0xa
+    +0060  lsrs r4, r4, #0x1f     | lsrs sb, sb, #0x1f
+    +0064  and sb, sb, #0x1f      | and r8, r8, #0x1f
+    +0070  orreq r1, sb, r7, lsl #5 | orreq r1, r8, r7, lsl #5
+    +0094  sub r4, r2, r3         | sub sb, r2, r3
+  arm 2 (0x02057D9C..)   image rec1 -> r7, v -> r8; ours rec1 -> r8, v -> r5
+  (the flag temp already agrees in arm 2, `lsl r3, r0, #0x1d` at 0x02057DB0 is
+  unmarked, so the flag local is not the lever in either arm)
+
+Every value in the arm is exactly one callee-saved register lower in ours and the
+flag temporary takes the top slot (sb) instead of p's dying r4.  Removing the
+two locals did NOT change the set the colourer sees - it CSEs the six in-place
+reads back into the same two loads - so the residue is confirmed as a pure
+allocation tie-break of the arm's live-value triple, not the count of source
+locals.  Five lever families (r8 grouping/order, r9 interleave, r10 flag local,
+r11 block scope, r12 in-place reads) now produce ONE identical diff.
+
+Closest body (460/460 bytes, 65 bytes out), the r12 spelling - identical to the
+r8 baseline in this note except that the two arms have no `rec` and no `v`
+locals:
+
+    void func_02057C9C(struct O *o, struct S *s, int t)
+    {
+        struct Rec *p; int a; int b; int c; int d; int den;
+        int vlo; int vmid; int vhi;
+        int rlo; int rmid; int rhi;
+        int olo; int omid; int ohi;
+        struct Sub *q;
+
+        p = s->f08;
+        q = s->f00;
+        a = p->a;
+        b = p->b;
+        c = p->c;
+
+        if (t < a) { o->f36 = p->rec0; return; }
+
+        if (t < b) {
+            rlo = p->rec0 & 0x1f;
+            rmid = (p->rec0 >> 5) & 0x1f;
+            rhi = (p->rec0 >> 10) & 0x1f;
+            vlo = q->f22 & 0x1f;
+            vmid = (q->f22 >> 5) & 0x1f;
+            vhi = (q->f22 >> 10) & 0x1f;
+            if (!p->flag) { o->f36 = vlo | (vmid << 5) | (vhi << 10); return; }
+            d = t - a;
+            den = b - a;
+            ohi = rhi + d * (vhi - rhi) / den;
+            olo = rlo + d * (vlo - rlo) / den;
+            omid = rmid + d * (vmid - rmid) / den;
+            o->f36 = olo | (omid << 5) | (ohi << 10);
+            return;
+        }
+
+        if (t < c) {
+            rlo = p->rec1 & 0x1f;
+            rmid = (p->rec1 >> 5) & 0x1f;
+            rhi = (p->rec1 >> 10) & 0x1f;
+            vlo = q->f22 & 0x1f;
+            vmid = (q->f22 >> 5) & 0x1f;
+            vhi = (q->f22 >> 10) & 0x1f;
+            if (!p->flag) { o->f36 = vlo | (vmid << 5) | (vhi << 10); return; }
+            d = t - b;
+            den = c - b;
+            ohi = rhi + d * (vhi - rhi) / den;
+            olo = rlo + d * (vlo - rlo) / den;
+            omid = rmid + d * (vmid - rmid) / den;
+            o->f36 = olo | (omid << 5) | (ohi << 10);
+            return;
+        }
+
+        o->f36 = p->rec1;
+    }
+
+(structs as in the r8 baseline: `struct Rec {u16 rec0; u16 rec1; u8 a; u8 b;
+u8 c; u8 _07; u16 lo2:2; u16 flag:1; u16 rest:13;}`; `struct Sub` has its u16 at
++0x22; `struct S {struct Sub *f00; char _04[4]; struct Rec *f08;}`; `struct O`
+has its u16 at +0x36.)
+
+No src/ file is left for this row and no shard was written (a DIFF has no home in
+src/matched/); the working copy was deleted after the body above was taken.  The
+next attempt must change WHICH ADDRESSES the arm touches, not how many values it
+holds - e.g. an inlined accessor for `p->rec0`/`q->f22` that the front end
+expands to the same two loads but with a different tree (the one shape five
+levers have not touched), or accept the row as an allocation-tie-break residue.
+

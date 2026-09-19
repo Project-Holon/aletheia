@@ -129,3 +129,58 @@ The two flag-driven `orrgt` pairs are the same lever lane C hit on
 register, not in value.  Next attempt should write the extraction chain as
 named locals (one per field) before the clamp and see whether the `orrgt`
 pair survives.
+
+========================================================================
+wave r12 lane C: 0x0204C2C8 (248 code bytes, ARM) -- named residue, no body
+========================================================================
+
+Not transcribed this pass: the lane's budget went to 0x02070524 (eight
+variants, still 146 bytes out), 0x02071CDC (EXACT) and 0x02018328 (162
+bytes out), and the rule below this file's own header holds - a named
+residue is worth more than a half-written body that cannot be judged.  What
+follows is the settled part of a fresh read of the whole row (260-byte
+extent, 248 code bytes, pool of three words at 0x0204C3C0), so the next
+attempt starts from facts rather than from the earlier map.
+
+Re-read, instruction by instruction, the body is ONE straight-line block
+with no loop and no shared tail; the only joins are the two `orrgt` pairs,
+and the row has exactly three relocations (the pool words 0x00C000C0,
+0x020A17F0, 0x020A17D8 - so `literal` carries two table pointers and the
+mask word is material, not a relocation at all).
+
+  * `x` is read THREE times (`ldr r3,[r4,#0x38]` at +0x0C, +0x4C, +0x5C) -
+    twice with no call between the first two - so the field is volatile or
+    aliased: settle that spelling first, because it decides the whole
+    register plan (`r4` is the only callee-saved register held across the
+    three reads in the image, and everything else is reloaded).
+  * the field pairs are bitfields of ONE word: `(x << 7) >> 0x17` is the
+    byte at bits 16..23 (kept in r6), `(x << 0x18) >> 0x18` the byte at
+    bits 0..7 (kept in lr), and the two 2-bit fields come out of the base
+    mask `x & 0x00C000C0` as `and #0xc000` + `asr #0xe` and
+    `and #0xc0000000` + `lsr #0x1e` (r5).  The first byte is then re-read
+    signed as `(r6 << 16) asr 16` - a bitfield, not a cast.
+  * the two clamps use the SAME pool word: `cmp r6,#0xff` /
+    `orrgt r2, r6, r0, asr #22` (0x00C000C0 >> 22 == 3) and `cmp r0,#0xff`
+    / `mvngt r3,#0xff` / `orrgt r0, r0, r3`; the second is `r0 |= 0xFFFFFF00`
+    in the original's register, so it is an OR-with-mask on the EXTENDED
+    value, which is why both `orrgt`s survive in one arm.
+  * the two tables are indexed by the same 2-bit field with stride 8 and
+    the low bit of the value picks the halfword: `ldrh r3,[r8, r3]` with
+    r8 = `ch << 1` and r3 = `tblA + idx * 8` (tblA = 0x020A17F0), then the
+    same shape from 0x020A17D8.  Both loads land in the same
+    `ldrh Rd, [Rm, Rn]` encoding, so the C indexes a 2-D table
+    (`u16 (*)[4]` or a struct of four u16), not two flat arrays.
+  * the tail is the call: `lsl r3, r0, #0xc` / `lsl r0, ... #0xc` /
+    `lsl r2, r2, #0xc` build three of the seven arguments, `str r0,[sp]` +
+    `stmib sp,{r0,r7}` + `str r1,[sp,#0xc]` place the four stack arguments,
+    `ldr r7,[sp,#0x28]` reads the CALLER's outgoing area, `ldm r1,{r0,r1}`
+    loads a pair through the second parameter, and `bl 0x0204C3CC` is
+    followed by `cmp r0,#0` / `movne r0,#1` / `moveq r0,#0` /
+    `str r0,[r4,#0x30]` - the result is normalised to 0/1 and stored,
+    which is the same shape as 0x0204C214's `> 0 && ... < f0c` conjunction
+    two rows below in this packet.
+
+Next attempt should write the `x` reads as three separate volatile reads
+FIRST and compile only the first 0x3C bytes (everything up to the second
+`ldr r3,[r4,#0x38]`), so the volatile decision and the field extraction are
+settled before the call's seven-argument stack build is written.
