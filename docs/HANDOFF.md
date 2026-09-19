@@ -1,13 +1,18 @@
 # Handoff state (2026-09-16)
 
-> Current figures, 2026-09-19 end of session: **39.5013 percent** of ARM9 game code matched byte for byte
-> (154260 of 388160 bytes, 3074 functions). Read both numbers with their caveats. 388160 is the new
-> denominator: six library bodies (12440 bytes) moved out of the game pool by owner decision today, which
-> raises the percentage by 1.2272 points as BOOKKEEPING, not by matching anything. And 154260/3074 include
-> the two waves still running at handoff (uncommitted shards); the committed figure is
-> `6a5e2ba` at 38.2741 percent of the OLD 400600-byte pool, which becomes 39.5013 percent of the new one
-> once the reclassification lands. The live figures are `layout/worklist.json`'s summary and `README.md`,
-> and both are refreshed in the same commit as the change they describe.
+> Current figures, 2026-09-19, after the r6/r7 fold-in: **40.2721 percent** of ARM9 game code matched
+> byte for byte (156320 of 388160 bytes, 3101 functions), committed as `28227ff`. The live numbers are
+> `layout/worklist.json`'s summary and `README.md`, and both are refreshed in the same commit as the change
+> they describe; 388160 is the denominator after six library bodies (12440 bytes) left the game pool by owner
+> decision today, which raised the percentage by 1.2272 points as BOOKKEEPING and is not matching.
+>
+> The session went 31.0250 percent to 40.2721 percent, of which 1.2272 points is that reclassification and the
+> rest is matched bytes. Two owner decisions were taken and are recorded in `docs/FRONTEND-PINS.md`: per-file
+> compiler pins where the bytes prove another front end built the function (the 3D rig family, whose first
+> harvest was 848 bytes), and the library curation. Two classes of verifier defect were fixed under
+> `scripts/verify_shards.py`, and the rule that came out of them is in the skill: an entry's identity is
+> four things (source, compiler pin, flags, region) and a verifier that drops any of them reports a correct
+> file as DIFF, which is how finished work gets "repaired" by the next reader.
 >
 > The numbers in the 2026-09-16 snapshot below are kept for the record, not as a live claim.
 
