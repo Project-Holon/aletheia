@@ -1,0 +1,46 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0202BEDC",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_0202BEDC",
+   "address": "0x0202BEDC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0202BEDC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "func_0202BEEC",
+   "address": "0x0202BEEC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0202BEEC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0202BF54",
+   "address": "0x0202BF54",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0202BF54.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  }
+ ]
+}

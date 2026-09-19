@@ -1,7 +1,8 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * address:  0x020189D8..0x02018A00, 40 bytes, two functions
+ * address:  0x020189D8..0x02018A00
+ * note:     40 bytes, two functions
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p

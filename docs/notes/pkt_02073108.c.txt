@@ -1,0 +1,29 @@
+
+======================================================================
+lane 6 residues, packet pkt_02073108
+======================================================================
+
+--- 0x02073108: DIFF
+ws +0018 PC24 func_02072894           -> unresolved: 02072894 (arm, from header) has no witness outside 02073108..02073128; note: listing says the original is 36 bytes, compiled 32
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02073108;
+
+extern u32 func_02072894(u32 player);
+
+u32 func_02073108(Obj02073108 **pp)
+{
+    if (*pp == 0) {
+        return 0;
+    }
+    return func_02072894((*pp)->unk3c);
+}
+
+WALL (same register numbering as pkt_02072F5C).  func_02073108 is
+`ldr r3, [r0]` in the image against the compiler's `ldr r0, [r0]`; the volatile
+pointee fixes the re-load but not the register.  Its callee 0x02072894 is also
+unwitnessed, see docs/notes and src/pending/func_02072894.c.

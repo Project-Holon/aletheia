@@ -13,3 +13,8 @@ becomes `bcc` but the guard's `<= 0` spelling makes mwccarm emit *two*
 conditional exits (popeq and popls, 68 bytes).  A `u32` local for the count
 re-loads the count instead of re-reading the byte in the loop condition,
 which loses the reload the original has.
+
+A previous pass had parked func_0206E5EC here as DIFF (2 bytes: the guard's
+unsigned `popls`).  It is EXACT now: the loop counter is initialised before the
+entry test and the guard is the loop's own pre-test, with no separate early
+return.

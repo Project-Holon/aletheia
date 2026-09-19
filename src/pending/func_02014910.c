@@ -8,29 +8,23 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * Verified with:
- *   python tools/match.py one --src src/pending/func_02014910.c \
- *       --func func_02014910 --addr 0x02014910 --cc 1.1p1 --thumb
+ * blocker:  +0028 ABS32 func_02014878          : 02014878 (thumb, from name) has no witness outside 02014910..0201493C
  */
 
-typedef unsigned char u8;
-typedef unsigned short u16;
 typedef unsigned int u32;
-typedef signed short s16;
-typedef signed char s8;
 
-extern void *sub_020122C0(void *owner, void *a, void *b, u32 size);
-extern u32  *sub_020124E8(void *d);
-extern void  func_02014878(void);
+extern void *func_020122C0(char *a0, int a1, int a2, int a3);
+extern u32 *func_020124E8(void);
+extern void func_02014878(void);
 
-void *func_02014910(void *a0, u32 a1, u32 a2, u32 a3)
+void *func_02014910(char *a0, int a1, int a2, int a3)
 {
-    void *d = sub_020122C0(a0, 0, func_02014878, 0x10);
-    u32 *p = sub_020124E8(d);
+    void *r = func_020122C0(a0, 0, (int)func_02014878, 0x10);
+    u32 *p = func_020124E8();
 
     p[0] = (u32)a0;
     p[1] = a1;
     p[2] = a2;
     p[3] = a3;
-    return d;
+    return r;
 }

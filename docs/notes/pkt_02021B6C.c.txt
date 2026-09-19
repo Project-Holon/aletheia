@@ -46,3 +46,59 @@ void func_02021FD8(u32 *p, int idx, int n, int c, u8 a5, u16 a6)
                   *(u32 *)((char *)p + off + 4) + n * 2,
                   c, a5, a6);
 }
+
+
+========================================================================
+
+func_02021FD8 @ 0x02021FD8  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  Everything
+outside the rows at the bottom is byte-identical, so this is
+a near miss, not a codegen failure.  Residue: two bytes: the entry sequence of the multiply-and-add pair
+    is scheduled differently.
+
+---- source (scratch/lane2/func_02021FD8.c) ----
+/*
+ * function: func_02021FD8
+ * address:  0x02021FD8
+ * packet:   pkt_02021B6C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_02021F64(u32 a0, u32 a1, int a2, u8 a3, u16 a4);
+
+void func_02021FD8(char *a0, int a1, int a2, int a3, u8 a4, u16 a5)
+{
+    char *e = a0 + a1 * 0x14;
+
+    func_02021F64(*(u32 *)e + a2 * 2, *(u32 *)(e + 4) + a2 * 2, a3, a4, a5);
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0004 adds r4, r0, #0 | movs r4, #0x14
+* +0006 lsls r6, r2, #1 | adds r5, r1, #0
+* +0008 movs r0, #0x14 | muls r5, r4, r5
+* +000A adds r2, r1, #0 | add r4, sp, #0x18
+* +000C muls r2, r0, r2 | ldrh r6, [r4, #4]
+* +000E add r5, sp, #0x18 | adds r1, r0, r5
+* +0010 ldrh r0, [r5, #4] | lsls r2, r2, #1
+* +0012 adds r1, r4, r2 | str r6, [sp]
+* +0014 str r0, [sp] | ldr r0, [r0, r5]
+* +0016 ldr r0, [r4, r2] | ldr r1, [r1, #4]
+* +0018 ldr r1, [r1, #4] | adds r0, r0, r2
+* +001A adds r2, r3, #0 | adds r1, r1, r2
+* +001C ldrb r3, [r5] | adds r2, r3, #0
+* +001E adds r0, r0, r6 | ldrb r3, [r4]
+* +0020 adds r1, r1, r6 | bl #0x2021f64 <- THM_CALL func_02021F64 [resolved: label]
+* +0022 bl #0x2021f64 | b4 ff 01 b0
+* +0024 b3 ff | add sp, #4
+* +0026 add sp, #4 | pop {r3, r4, r5, r6, pc}

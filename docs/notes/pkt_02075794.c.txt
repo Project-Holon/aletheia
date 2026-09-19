@@ -37,3 +37,28 @@ load/store of the field all come out byte for byte, so the residue is one
 register choice in the middle of an otherwise perfect function; it is the
 `a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags` family
 (no flag or source shape moves it).  Recorded, not ground further.
+
+======================================================================
+lane 6 residues, packet pkt_02075794
+======================================================================
+
+--- 0x02075968: DIFF
+ws note: listing says the original is 44 bytes, compiled 36
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8  unk000[0x118];
+    u32 unk118;
+    u8  unk11c[0x154 - 0x11c];
+    u32 *unk154;
+} Obj02075968;
+
+void func_02075968(Obj02075968 *o)
+{
+    if (o->unk154 != 0) {
+        *o->unk154 = 0;
+        o->unk154 = 0;
+    }
+    o->unk118 = (o->unk118 & ~1u) & ~4u & ~2u;
+}

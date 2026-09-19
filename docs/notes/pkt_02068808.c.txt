@@ -1,30 +1,67 @@
-pkt_02068808 (0x02068808..0x02068FC4), wave4-3
-Filed EXACT (pre-existing): func_02068FC4 (0x02068FC4, 40).
-Parked (src/pending/, blockers in the headers): func_02068A18, func_02068A68,
-func_02068E78.
+pkt_02068808 - DIFF residue (lane 5, 0-64 byte band)
+====================================================
 
-The packet is the NNS G2D-style fill engine: four of its seven open functions
-are over the 128-byte budget (0x02068808, 0x02068AE8, 0x02068C84, 0x02068EA0),
-so the work here is the three small ones.
+func_02068E78 @ 0x02068E78 (40 bytes, arm9, ARM) - DIFF, 23 concrete bytes
+------------------------------------------------------------------------
 
-func_02068A18 / func_02068A68 are the 4bpp/8bpp pixel-expansion pair, and they
-are blocked on one allocator behaviour rather than on the arithmetic: the two
-arms of `if (bpp == 4)` share the `| (x << 8)` step, and mwccarm factors that
-step out into a single unpredicated `orr lr, r1, r1, lsl #8` fed by an
-`orreq`-computed base.  The original keeps both arms predicated into one
-register (`orreq r0,r0,r0,lsl #8` / `orrne r0,r1,r1,lsl #8`) and pays four more
-bytes for it.  Nested temporaries, a single expression per arm, else-first
-order and writing through the parameter all produce the factored form; the
-source shape that prevents the merge was not found.  See also
-docs/idioms/a-factored-tail-lets-the-compiler-predicate-the-arms.md, which is
-the same family of decision.
+The original is a frameless leaf whose nine stores are written straight out:
 
-func_02068E78 is the seven-argument frameless initialiser (four registers,
-three stack words, nine separate stores).  mwccarm gives it `push {r4,lr}` and
-merges the two adjacent word stores at +0x10/+0x14 into an `stm`, so the whole
-register assignment differs; four statement orders were tried by the previous
-lane and two more here (descending store order, and splitting the last pair
-across a local), all merge.
+  02068E78  str   r2, [r0, #4]      <- argument 3
+  02068E7C  ldr   r2, [sp]          <- argument 4, from the stack
+  02068E80  str   r3, [r0, #8]      <- argument 4 (register)
+  02068E84  strb  r2, [r0, #0xc]    <- the stack word, narrowed to a byte
+  02068E88  ldr   r2, [sp, #4]
+  02068E8C  str   r1, [r0]
+  02068E90  ldr   r1, [sp, #8]
+  02068E94  str   r2, [r0, #0x14]   <- stack argument 6 lands at +20
+  02068E98  str   r1, [r0, #0x10]   <- stack argument 7 lands at +16
+  02068E9C  bx    lr
 
-0x02068A18 / 0x02068A68 / 0x02068E78 all have every relocation resolved; the
-residue is codegen only, so none of them is evidence-starved.
+mwccarm 1.1p1 instead saves `{r4, lr}` (the three stack words need a register
+each before the stores can be merged) and merges the two adjacent word stores
+into one `stm`.  Four statement orders were tried in the previous wave; lane 5
+added the `volatile` spellings (both the blanket `volatile u32 *q` form and a
+per-store `*(volatile u32 *)` form), which are strictly worse: 44 compiled
+bytes against the original 40, with the extra `push {r4, lr}`.
+
+The parameters are positional, not named field by field: r0 = p, r1..r3 the
+first three register arguments and the three words at [sp], [sp+4], [sp+8]
+arguments 5, 6 and 7.  Argument 6 lands at +20 and argument 7 at +16, so the
+declaration order in the C below is spelled to match the stores.
+
+Not filed anywhere: DIFF.  See also docs/notes/pkt_0204F684.c.txt for the same
+hoist-the-address/defer-the-load class in this region.
+
+Removed from src/pending/ by lane 5 (rule 2).  The source as it stood follows.
+
+/*
+ * function: func_02068E78
+ * address:  0x02068E78
+ * packet:   pkt_02068808
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * blocker:  DIFF, 40 bytes compiled against 40: mwccarm pushes {r4,lr} and merges two adjacent stores into an stm; the original is a frameless leaf with nine separate stores. Four statement orders tried, all merge
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02068E78.c \
+ *       --func func_02068E78 --addr 0x02068E78 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+/* r0=p, then four register args; the three stack words at [sp+0], [sp+4],
+ * [sp+8] are arguments 5, 6 and 7.  Argument 6 lands at +20 and argument 7 at
+ * +16, so the parameter order below is spelled to match the stores. */
+void func_02068E78(char *p, u32 a1, u32 a2, u32 a3, unsigned char a5, u32 a6, u32 a7)
+{
+    *(u32 *)(p + 4) = a2;
+    *(u32 *)(p + 8) = a3;
+    *(unsigned char *)(p + 12) = a5;
+    *(u32 *)p = a1;
+    *(u32 *)(p + 20) = a6;
+    *(u32 *)(p + 16) = a7;
+}

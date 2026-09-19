@@ -1,0 +1,7 @@
+
+A previous pass had parked func_0206AA0C here as DIFF (52 compiled against
+48).  It is EXACT now: the destination and the flag word are one object
+(0x02148C38 == g_02148B4C + 0xEC) and writing the destination as
+`*(Rec *)(g_02148B4C + 0x3b)` is what keeps the flag load behind the 12-byte
+copy; with two separate externs mwccarm hoists it and needs a second pool
+register.

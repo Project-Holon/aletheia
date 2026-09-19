@@ -1,7 +1,8 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * address:  0x0200BA58..0x0200BA78 and 0x0200BAC8..0x0200BAD4, three
+ * address:  0x0200BA58..0x0200BA78 and 0x0200BAC8..0x0200BAD4
+ * note:     three
  *           eight-byte tail calls in pkt_0200B938
  * region:   arm9
  * compiler: 1.1p1

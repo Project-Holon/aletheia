@@ -36,3 +36,36 @@ address load (see docs/idioms/a-ternary-flag-is-materialised-first-a-relational
 (r1 in the original) and the data symbol, whose only pool word in the image is
 at 0x020912A4 -- inside the compared range 0209128C..020912A8 -- so the literal
 class discards it and the function caps at MATCH even when the C is right.
+
+======================================================================
+lane 6 residues, packet pkt_020911D8
+======================================================================
+
+--- 0x0209128C: DIFF
+ws +0018 ABS32 g_02153B88             -> unresolved: 02153B88 (data, from header) has no witness outside 0209128C..020912A8
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+extern u8 g_02153B88;
+
+void func_0209128C(u32 v)
+{
+    g_02153B88 = (v != 0);
+}
+
+WALL (one-byte predication).  func_0209128C stores the boolean of its
+argument: the image predicates the first move (`cmp r0, #0; movne r1, #1; ...
+moveq r1, #0`), the compiler emits it unconditionally (`mov r1, #1; ... moveq
+r1, #0`).  `(v != 0)`, `v ? 1 : 0`, `(v == 0) ? 0 : 1`, `!!v`, a void*
+parameter, a two-armed if/else and a named boolean were all measured; one byte,
+and the pool word is unwitnessed anyway.
+
+
+Not code (not filable): 0x020911F0, 0x02091220 and 0x0209124C are the 2-byte
+`bx pc` Thumb/ARM switch stubs that precede each ARM veneer (the listing gives
+them a 2-byte extent, so the ARM `ldr ip, [pc]; bx ip` behind them falls
+outside their range), and 0x02091284 is the 4-byte ARM `ldr pc, [pc, #-4]`
+veneer whose pool word is 0x02731920.  No C spelling produces any of them.
+The four real wrappers (0x020911D8, 0x02091200, 0x02091230, 0x0209125C) are
+parked MATCH; each of their callees' only reference in the image is the call
+site itself.

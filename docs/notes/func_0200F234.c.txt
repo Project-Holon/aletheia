@@ -1,0 +1,126 @@
+packet pkt_0200F17C, second function: func_0200F234 (0x0200F234) - DIFF, the
+argument loads are pool words in the original and `movs` in every C spelling
+================================================================================
+
+This function is the packet's other half - the one the packet note of record
+(docs/notes/pkt_0200F17C.c.txt) did not cover, because it has 20 bytes of
+leading code (the dispatch) and 132 bytes of code plus a 14-byte jump table and
+a 28-byte pool inside its extent at 0x0200F234..0x0200F2D4 (160 bytes).
+
+Shape, read off the bytes at 0x0200F234:
+
+    push {r3, lr}
+    cmp  r0, #6
+    bhi  0x0200F2B6                 <- default arm, which is the shared `pop`
+    ... jump through the 7-entry u16 table at 0x0200F246, base 0x0200F248 ...
+    arms (in memory order):
+      0x0200F254  func_02034A5C(0x72); func_02034A5C(9); func_02034A5C(0x0D);
+                  func_02034AC4(0x0A); func_02034AC4(0x0B); pop
+      0x0200F274  func_02034A5C(9);   func_02034A5C(0x0D);
+                  func_02034AC4(0x0A); func_02034AC4(0x0B); pop
+      0x0200F28E  the same four calls again (a second, identical arm)
+      0x0200F2A8  func_02034A5C(0x0B); pop
+      0x0200F2B0  func_02034A5C(0x0F); pop
+    table entries in selector order 0..6: 60 2C 46 68 68 60 0C
+    so 0/5 share the 0x0B arm, 3/4 share the 0x0F arm, and 1 and 2 keep two
+    separate but identical four-call arms.
+
+The C below reproduces the dispatch, the jump table, all five arms and the
+relocation set exactly - but only 29 bytes of the 132-byte code region differ,
+and every one of them is the same thing: the original loads each small argument
+out of the literal pool
+
+    0200F254  18 48        ldr r0, [pc, #0x60]     -> 0x0200F2B8 = 0x00000072
+
+while any literal spelling gives
+
+    movs r0, #0x72
+
+so the pool of the original is seven consecutive words
+
+    0x0200F2B8  72 00 00 00   0x72
+    0x0200F2BC  09 00 00 00   9
+    0x0200F2C0  0D 00 00 00   13
+    0x0200F2C4  0A 00 00 00   10
+    0x0200F2C8  0B 00 00 00   11
+    0x0200F2CC  0E 00 00 00   14     <- no instruction in the function loads this
+    0x0200F2D0  0F 00 00 00   15
+
+Seven words rather than six, and the seventh is not the one the last arm uses:
+0x0200F2CC is referenced by nothing (every `ldr` in the function was checked;
+the loads are at 0x0200F254, F25A, F260, F266, F26C, F274, F27A, F280, F286,
+F28E, F294, F29A, F2A0, F2A8, F2B0 and they name F2B8, F2BC, F2C0, F2C4, F2C8
+and F2D0 only).  The pool therefore holds a constant the source mentions and
+the code does not use, and the load form is a pool word rather than an
+immediate - which is not reachable from a literal argument: mwccarm 1.1p1
+folded `func_02034A5C(9)` and `func_02034A5C(0x0F)` to `movs` in all of
+
+  * the plain literal spelling, cases written in selector order (99 bytes,
+    arms laid out in a different order as well);
+  * the same with the case labels reordered to 6, 1, 2, 0/5, 3/4 so the arms
+    come out in the original's memory order (29 bytes - the smallest residue
+    found, and the spelling reproduced below);
+  * `5: 0:` and `4: 3:` in place of `0: 5:` and `3: 4:` (identical, 29);
+  * a `static const u32 ids[7] = {0x72,9,13,10,11,14,15}` indexed by constant
+    subscripts (140 bytes: mwccarm materialises the array base in a register
+    and the pool/rodata placement moves, so the arms no longer line up);
+  * the same array without `static` (172 bytes: the array is copied to the
+    stack first).
+
+The C that gets closest, for the record (29 concrete bytes, all of them the
+fifteen argument loads):
+
+    typedef unsigned int u32;
+
+    extern void func_02034A5C(u32 id);
+    extern void func_02034AC4(u32 id);
+
+    void func_0200F234(u32 sel)
+    {
+        switch (sel) {
+        case 6:
+            func_02034A5C(0x72);
+            func_02034A5C(9);
+            func_02034A5C(13);
+            func_02034AC4(10);
+            func_02034AC4(11);
+            break;
+        case 1:
+            func_02034A5C(9);
+            func_02034A5C(13);
+            func_02034AC4(10);
+            func_02034AC4(11);
+            break;
+        case 2:
+            func_02034A5C(9);
+            func_02034A5C(13);
+            func_02034AC4(10);
+            func_02034AC4(11);
+            break;
+        case 0:
+        case 5:
+            func_02034A5C(11);
+            break;
+        case 3:
+        case 4:
+            func_02034A5C(15);
+            break;
+        }
+    }
+
+Verified with
+
+    python tools/match.py one --src scratch/_l1/cand/g1.c \
+        --func func_0200F234 --addr 0x0200F234 --cc 1.1p1 --thumb --diff
+
+and the scratch candidates are g1 (the C above), f234 (selector order, 99
+bytes), h1/h2 (the two array spellings).
+
+What the next pass should try, if it wants this function: a source in which
+each argument is a *distinct* pooled constant, e.g. seven `static const u32`
+objects whose values the compiler can fold to a pool word each, or a switch
+whose argument expression is a memory read the compiler still folds.  Nothing
+in the fifteen argument positions differs otherwise, so a single spelling that
+pools the constants closes the function in one shot.  The 0x0E word says the
+source mentions 14 somewhere that generates no instruction - a table of seven
+ids with an unused entry is the most economical explanation.

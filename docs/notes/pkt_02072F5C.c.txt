@@ -43,3 +43,242 @@ The nine-member family at 0x02072F88 remains parked as
 src/pending/unit_02072F88.c (MATCH): each member's only callee (0x020893E8 ...
 0x020895B0) has exactly one caller in the image, the member itself, so no cut
 helps and the targets are outside this window.
+
+======================================================================
+lane 6 residues, packet pkt_02072F5C
+======================================================================
+
+--- 0x02072F5C: DIFF
+ws 23 concrete byte(s) differ
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x2c];
+    u8 unk2c;
+} Obj02072F5C;
+
+extern void func_02075BAC(u8 *p, u32 a, u32 b);
+
+void func_02072F5C(Obj02072F5C **pp, u32 val)
+{
+    Obj02072F5C *p = *pp;
+
+    if (p != 0 && p->unk2c != 2) {
+        func_02075BAC(p->unk00 + 0x1c, val << 8, 0);
+    }
+}
+
+--- 0x02072F88: DIFF
+ws +0014 PC24 func_020893E8           -> unresolved: 020893E8 (arm, from header) has no witness outside 02072F88..02072FA4; note: listing says the original is 32 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02072F88;
+
+extern void func_020893E8(u32 player);
+
+void func_02072F88(Obj02072F88 **pp)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_020893E8((*pp)->unk3c);
+}
+
+--- 0x02072FA8: DIFF
+ws +0014 PC24 func_02089580           -> unresolved: 02089580 (arm, from header) has no witness outside 02072FA8..02072FC4; note: listing says the original is 32 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02072FA8;
+
+extern void func_02089580(u32 player);
+
+void func_02072FA8(Obj02072FA8 **pp)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_02089580((*pp)->unk3c);
+}
+
+--- 0x02072FC8: DIFF
+ws +0014 PC24 func_020895B0           -> unresolved: 020895B0 (arm, from header) has no witness outside 02072FC8..02072FE4; note: listing says the original is 32 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02072FC8;
+
+extern void func_020895B0(u32 player);
+
+void func_02072FC8(Obj02072FC8 **pp)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_020895B0((*pp)->unk3c);
+}
+
+--- 0x02072FE8: DIFF
+ws +0020 PC24 func_02089400           -> unresolved: 02089400 (arm, from header) has no witness outside 02072FE8..02073014; note: listing says the original is 48 bytes, compiled 44
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef short s16;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02072FE8;
+
+extern void  func_02089400(u32 player, u32 a, s16 v);
+extern s16   g_020A5D08[];
+
+void func_02072FE8(Obj02072FE8 **pp, u32 a, u32 idx)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_02089400((*pp)->unk3c, a, g_020A5D08[idx]);
+}
+
+--- 0x02073018: DIFF
+ws +0014 PC24 func_0208941C           -> unresolved: 0208941C (arm, from header) has no witness outside 02073018..02073034; note: listing says the original is 32 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02073018;
+
+extern void func_0208941C(u32 player);
+
+void func_02073018(Obj02073018 **pp)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_0208941C((*pp)->unk3c);
+}
+
+--- 0x02073038: DIFF
+ws +0014 PC24 func_02089438           -> unresolved: 02089438 (arm, from header) has no witness outside 02073038..02073054; note: listing says the original is 32 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02073038;
+
+extern void func_02089438(u32 player);
+
+void func_02073038(Obj02073038 **pp)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_02089438((*pp)->unk3c);
+}
+
+--- 0x02073058: DIFF
+ws +0014 PC24 func_02089454           -> unresolved: 02089454 (arm, from header) has no witness outside 02073058..02073074; note: listing says the original is 32 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02073058;
+
+extern void func_02089454(u32 player);
+
+void func_02073058(Obj02073058 **pp)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_02089454((*pp)->unk3c);
+}
+
+--- 0x02073078: DIFF
+ws +0014 PC24 func_02089470           -> unresolved: 02089470 (arm, from header) has no witness outside 02073078..02073094; note: listing says the original is 32 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02073078;
+
+extern void func_02089470(u32 player);
+
+void func_02073078(Obj02073078 **pp)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_02089470((*pp)->unk3c);
+}
+
+--- 0x02073098: DIFF
+ws +0014 PC24 func_020893B8           -> unresolved: 020893B8 (arm, from header) has no witness outside 02073098..020730B4; note: listing says the original is 32 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct {
+    u8 unk00[0x3c];
+    u8 unk3c;
+} Obj02073098;
+
+extern void func_020893B8(u32 player);
+
+void func_02073098(Obj02073098 **pp)
+{
+    if (*pp == 0) {
+        return;
+    }
+    func_020893B8((*pp)->unk3c);
+}
+
+--- 0x020730B8: DIFF
+ws note: listing says the original is 36 bytes, compiled 28
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    u8  unk00[0x34];
+    u16 unk34;
+    u16 unk38;
+} Obj020730B8;
+
+void func_020730B8(Obj020730B8 **pp, u16 v)
+{
+    if (*pp == 0) {
+        return;
+    }
+    (*pp)->unk34 = 1;
+    (*pp)->unk38 = v;
+}
+
+WALL (register numbering, measured 12 spellings).  The eleven wrappers
+0x02072F88..0x020730B8 and 0x02072F5C itself are byte-perfect except for the
+register the null test's load lands in: the image has `ldr r2, [r0]` (and
+`ldr r3, [r0]` in 0x02072F5C), the compiler always emits r1/r2.  The re-load
+after the guard needs a volatile-qualified pointee (`Obj *volatile *pp`); once
+that is in place the only residue is that register, two bytes per function.
+Measured and all off by the same register: plain `*pp`, `pp[0]`, a
+container-struct field, a volatile slot field, a `void **` parameter with
+casts, type-punned `*(u32 *)pp`, a named local, and an extra forwarded
+argument (that last one moves the register the other way, to r0).

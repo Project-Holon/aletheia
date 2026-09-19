@@ -1,0 +1,35 @@
+func_0202B8F4 (pkt_0202B7BC) and func_0202AF34 (pkt_0202AF34):
+artifacts, not C - four-byte linker veneers.
+
+Both are the same shape:
+
+    0202B8F4  00 4b        ldr r3, [pc, #0]
+    0202B8F6  18 47        bx r3
+    0202B8F8  f5 ba 02 02  .word 0x0202BAF5   (Thumb entry of 0x0202BAF4)
+
+    0202AF34  00 4b        ldr r3, [pc, #0]
+    0202AF36  18 47        bx r3
+    0202AF38  75 af 02 02  .word 0x0202AF75   (Thumb entry of 0x0202AF74)
+
+0x0202B8F4 sits in a run of identical veneers; the listing at
+asm/arm9 shows the same ten-byte pattern repeated at 0x0202B8F4, 0x0202B8FC,
+0x0202B904 and 0x0202B90C:
+
+    0202B8F4  ldr r3, [pc, #0]; bx r3; .word 0x0202BAF5
+    0202B8FC  ldr r3, [pc, #0]; bx r3; .word 0x0202BABD
+    0202B904  ldr r3, [pc, #0]; bx r3; .word 0x0202BAE9
+    0202B90C  ldr r3, [pc, #0]; bx r3; .word 0x0202BB41
+
+(measured: 00 4b 18 47 f5 ba 02 02 | 00 4b 18 47 bd ba 02 02 |
+ 00 4b 18 47 e9 ba 02 02 | 00 4b 18 47 41 bb 02 02 - 32 bytes of veneer
+ run, four 4-byte bodies and four target words interleaved)
+
+The worklist sizes each at 4 bytes of code while asm/arm9's listing extent
+runs to 32, which is what leaves the parked sources at MATCH*: the ABS32 site
+holds the target's Thumb entry, whose only occurrence in the image is that
+veneer's own pool word, so no class can witness it.
+
+No C spelling produces `ldr r3, [pc, #0]; bx r3` as a function body, so these
+are reported rather than attempted.  They are the blockers on
+src/pending/func_0202B710.c and src/pending/func_0202AE9C.c, both of which
+stay capped for as long as the veneer has no manifest entry.

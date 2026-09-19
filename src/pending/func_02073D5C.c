@@ -1,29 +1,31 @@
 /*
  * function: func_02073D5C
- * address:  0x2073D5C
- * packet:   pkt_02073624
+ * address:  0x02073D5C
+ * packet:   pkt_02073D5C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * blocker:  0x0214E9B4 is named by one pool word, its own (literal class); 0x0214E9FC likewise
- * symbols:
- *   g_0214E9B4       0x214E9B4  data
- *   g_0214E9FC       0x214E9FC  data
  *
- * Both addresses are bss, so no label will ever exist for them and no branch
- *  * can witness them; the literal class is the only door and it has one witness
- *  * each, inside this function's own pool. Byte for byte correct otherwise.
+ * blocker:  +0018 ABS32 g_0214E9B4             -> unresolved: 0214E9B4 (data, from header) has no witness outside 02073D5C..02073D7C
+ *
+ * symbols:
+ *   g_0214E9B4       0x0214E9B4  data
+ *   g_0214E9FC       0x0214E9FC  data
+ *
+ * Clears the two words of the sequence/index pair to zero.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02073D5C.c \
+ *       --func func_02073D5C --addr 0x02073D5C --cc 1.1p1 --arm
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
-extern int g_0214E9B4;
-extern int g_0214E9FC;
+extern u32 g_0214E9B4;
+extern u32 g_0214E9FC;
 
 void func_02073D5C(void)
 {

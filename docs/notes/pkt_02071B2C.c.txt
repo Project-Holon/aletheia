@@ -45,3 +45,27 @@ and was not reduced in this run.
    The sibling leaves 0x02071C14 (128) and 0x0207229C (132) are the same
    family with `smull` 64-bit scaling plus a `sub #0x1000` bias, and were not
    reduced.
+
+======================================================================
+lane 6 residues, packet pkt_02071B2C
+======================================================================
+
+--- 0x02072758: DIFF
+ws +0018 PC24 func_020731E0           -> unresolved: 020731E0 (arm, from header) has no witness outside 02072758..02072788; +001C PC24 func_02073D7C           -> unresolved: 02073D7C (arm, from header) has no witness outside 02072758..02072788; +0020 PC24 func_02075858           -> unresolved: 02075858 (arm, from header) has no witness outside 02072758..02072788; note: listing says the original is 60 bytes, compiled 48
+typedef unsigned int u32;
+
+extern u32  func_02089978(u32 a);
+extern void func_020731E0(void);
+extern void func_02073D7C(void);
+extern void func_02075858(void);
+extern void func_02089B38(u32 a);
+
+void func_02072758(void)
+{
+    while (func_02089978(0) != 0) {
+    }
+    func_020731E0();
+    func_02073D7C();
+    func_02075858();
+    func_02089B38(0);
+}

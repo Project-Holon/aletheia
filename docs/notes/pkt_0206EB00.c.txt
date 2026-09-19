@@ -17,3 +17,42 @@ but the clear call's argument order (fill value in r0, destination in r1) and
 the register the row cursor lands in do not reproduce.  Its ABS32 g_020A8224 is
 also named by exactly one pool word in the image, its own, so the entry is
 evidence-capped as well.
+
+======================================================================
+lane 6 residues, packet pkt_0206EB00
+======================================================================
+
+--- 0x0206EB7C: DIFF
+ws +0030 PC24 func_0206EE60           -> unresolved: 0206EE60 (arm, from header) has no witness outside 0206EB7C..0206EBB4; note: listing says the original is 60 bytes, compiled 56
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    int   unk00;
+    u8   *unk04;
+    u8   *unk08;
+} Hdr0206EB7C;
+
+extern void func_0206EE60(u32 a, u32 b, int len);
+
+void func_0206EB7C(u32 a, Hdr0206EB7C *h, u32 b)
+{
+    int limit = (int)((u32)*(u16 *)(h->unk08 + 4) << 12);
+    int len = h->unk00;
+
+    if (len >= limit) {
+        len = limit - 1;
+    } else if (len < 0) {
+        len = 0;
+    }
+    func_0206EE60(a, b, len);
+}
+
+A previous pass had parked func_0206EB7C here as DIFF with the note that the
+original recomputes the shift for the `- 1` arm where mwccarm shares it; that
+text is carried over here.  Re-measured, the first difference is earlier: the
+image moves the first argument into r3 (`mov r3, r0`) before it touches any
+pointer, and every spelling tried (a named `void *pp` local, a u32 copy
+recomputed at the call, a self-assignment) leaves the compiler at 56 bytes
+against the original's 60.

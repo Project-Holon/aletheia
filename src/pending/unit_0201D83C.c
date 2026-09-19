@@ -2,7 +2,8 @@
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
  * function: func_0201D83C
- * address:  0x0201D83C, 22 bytes, one function
+ * address:  0x0201D83C
+ * note:     22 bytes, one function
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p

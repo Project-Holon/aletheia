@@ -1,0 +1,45 @@
+
+
+========================================================================
+
+func_0201F9D0 @ 0x0201F9D0  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  Everything
+outside the rows at the bottom is byte-identical, so this is
+a near miss, not a codegen failure.  Residue: shape: the original copies its two incoming stack words to
+    its own outgoing argument area (`ldrh` from [sp+0x10],
+    `ldr` from [sp+0x14], then stores to [sp] and [sp+4]);
+    this front end forwards them in place, so the body comes
+    out six bytes shorter.
+
+---- source (scratch/lane2/func_0201F9D0.c) ----
+/*
+ * function: func_0201F9D0
+ * address:  0x0201F9D0
+ * packet:   pkt_0201F93C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned short u16;
+
+extern void func_0201F93C(int a0, int a1, int a2, u16 a3, int a4);
+
+void func_0201F9D0(int a0, int a1, int a2, u16 a3, int a4)
+{
+    func_0201F93C(a0, a1, a2, a3, a4);
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0000 push {r4, lr} | push {r3, r4, lr}
+* +0002 sub sp, #8 | sub sp, #4
+* +0004 add r4, sp, #0x10 | ldr r4, [sp, #0x10]
+* +0006 ldrh r4, [r4] | str r4, [sp]
+~ +0008 str r4, [sp] | bl #0x201f9dc <- THM_CALL func_0201F93C [wildcard]
+~ +000A ldr r4, [sp, #0x14] | 00 f8
+* +000C str r4, [sp, #4] | add sp, #4
+* +000E .byte ff f7 | pop {r3, r4, pc}

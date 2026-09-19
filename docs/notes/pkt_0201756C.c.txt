@@ -118,3 +118,91 @@ C currently tried (scratch/scratch/w_02017600.c):
         func_0201761C((void *)a0, a1, a2, a3, e, -1, 0, -1);
     }
 
+
+
+========================================================================
+
+func_0201756C @ 0x0201756C  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  The body below
+is byte-identical to the original everywhere except the rows
+listed after it, so it is a near miss, not a codegen failure.
+Residue: stack-argument scheduling: the same eleven instructions, but
+    the compiler hoists `ldr r6, [sp, #0x20]` above the two
+    constant stores where the original issues it between them.
+
+---- source (scratch/lane2/func_0201756C.c) ----
+/*
+ * function: func_0201756C
+ * address:  0x0201756C
+ * packet:   pkt_0201756C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+extern void func_02017588(int a0, int a1, int a2, int a3, int a4,
+                          int a5, int a6, int a7);
+
+void func_0201756C(int a0, int a1, int a2, int a3, int a4)
+{
+    func_02017588(a0, a1, a2, a3, a4, -1, 0, -1);
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0000 push {r4, r5, r6, lr} | push {r3, r4, r5, lr}
+* +0004 movs r5, #0 | ldr r4, [sp, #0x20]
+* +0006 mvns r5, r5 | movs r5, #0
+* +0008 str r5, [sp, #4] | str r4, [sp]
+* +000A movs r4, #0 | mvns r5, r5
+* +000C str r4, [sp, #8] | str r5, [sp, #4]
+* +000E ldr r6, [sp, #0x20] | movs r4, #0
+* +0010 str r5, [sp, #0xc] | str r4, [sp, #8]
+* +0012 str r6, [sp] | str r5, [sp, #0xc]
+* +001A pop {r4, r5, r6, pc} | pop {r3, r4, r5, pc}
+
+
+========================================================================
+
+func_02017600 @ 0x02017600  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  The body below
+is byte-identical to the original everywhere except the rows
+listed after it, so it is a near miss, not a codegen failure.
+Residue: stack-argument scheduling, identical to func_0201756C.
+
+---- source (scratch/lane2/func_02017600.c) ----
+/*
+ * function: func_02017600
+ * address:  0x02017600
+ * packet:   pkt_0201756C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+extern void func_0201761C(int a0, int a1, int a2, int a3, int a4,
+                          int a5, int a6, int a7);
+
+void func_02017600(int a0, int a1, int a2, int a3, int a4)
+{
+    func_0201761C(a0, a1, a2, a3, a4, -1, 0, -1);
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0000 push {r4, r5, r6, lr} | push {r3, r4, r5, lr}
+* +0004 movs r5, #0 | ldr r4, [sp, #0x20]
+* +0006 mvns r5, r5 | movs r5, #0
+* +0008 str r5, [sp, #4] | str r4, [sp]
+* +000A movs r4, #0 | mvns r5, r5
+* +000C str r4, [sp, #8] | str r5, [sp, #4]
+* +000E ldr r6, [sp, #0x20] | movs r4, #0
+* +0010 str r5, [sp, #0xc] | str r4, [sp, #8]
+* +0012 str r6, [sp] | str r5, [sp, #0xc]
+* +001A pop {r4, r5, r6, pc} | pop {r3, r4, r5, pc}

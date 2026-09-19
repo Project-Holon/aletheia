@@ -1,0 +1,49 @@
+The unsigned divide entry is 0x0209C2B0, which layout/runtime_arm9.txt calls
+`_div_by_zero_check`
+================================================================================
+
+Setup: `unsigned / unsigned` in this pinned front end emits a relocation named
+`_u32_div_f`; `signed / signed` emits `_s32_div_f`, and `%` behaves the same
+way.  Neither name is in `layout/runtime_arm9.txt`, so a `symbols:` block has
+to name the address, and the address the *image* uses for the unsigned case is
+not the one the runtime table's name suggests.
+
+What the two addresses actually are (both read from the image, ARM):
+
+    0209C0A4  eor ip, r0, r1                _s32_div_f
+    0209C0A8  and ip, ip, #0x80000000
+    0209C0AC  cmp r0, #0
+    0209C0B0  rsblt r0, r0, #0
+    0209C0B4  addlt ip, ip, #1
+    0209C0B8  cmp r1, #0
+    0209C0BC  rsblt r1, r1, #0
+    0209C0C0  beq 0x0209C29C              ; sign fix, then into the body
+
+    0209C2B0  cmp r1, #0                  _u32_div_f (the table calls it
+    0209C2B4  bxeq lr                        `_div_by_zero_check`)
+    0209C2B8  cmp r0, r1
+    0209C2BC  movlo r1, r0
+    0209C2C0  movlo r0, #0
+    0209C2C4  bxlo lr
+    0209C2C8  mov r2, #0x1c               ; restoring-division body follows
+
+0x0209C2B0 is not a check stub: it is the entry of the unsigned divide, it
+returns the quotient in r0 and the remainder in r1 (game callers read both -
+e.g. 0x0200E938 does `x / 10` and `x % 10` with two calls), and 0x0209C0A4
+sign-fixes its operands and branches *into the same body* further down
+(0x0209C29C).  The table's extent for 0x0209C0A4 (524 bytes) is what makes the
+two look like one routine with a stub on the end.
+
+So a function whose division site targets 0x0209C2B0 declares
+
+    symbols:
+      _u32_div_f  0x0209C2B0  arm
+
+and the site resolves as class `runtime` (attestation reads the address, not
+the name).  There are call sites for both entries image-wide, so this is not a
+mis-link: 0x0209C0A4 is the signed helper and 0x0209C2B0 the unsigned one.
+
+Found in: `docs/notes/func_0202EE0C.c.txt` (0x0202EE0C, the first lane-4 file
+to need it).  `layout/runtime_arm9.txt` is outside this lane's write set, so
+the name stays as it is; the next wave that edits that table may want to
+rename 0x0209C2B0 or add a `_u32_div_f` alias line.

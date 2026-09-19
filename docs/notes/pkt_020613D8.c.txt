@@ -1,74 +1,36 @@
-pkt_020613D8 -- residues, and one free function the worklist cannot see
-=======================================================================
+pkt_020613D8 - DIFF residues for the two multi-cell renderer rows (lane 5, 0-64 byte band)
+=========================================================================================
 
-Packet range 0x020613D8..0x02061808, ARM, compiler dsi/1.1p1 at -O4,p.
+Neither of these two rows is one of the band's 0-64 byte targets: they are the
+packet's two larger functions (0x020613D8, 116 bytes, and 0x02061460, 108
+bytes), left in src/pending/ as DIFF by an earlier wave.  Rule 2 of the band
+brief keeps DIFF sources out of src/pending/ and in the packet's note, so lane
+5 moved them here verbatim; their own headers carry the residue write-ups.
 
-Filed EXACT: 0x02061644, 8 bytes, shard layout/matched/arm9/pkt_020613D8.json
+  func_020613D8 - DIFF, 8 bytes: the compiler cross-jumps the two calls'
+    identical two-instruction tails (`str ip, [sp]; bl func_02061390`) into one
+    shared block where the original keeps both copies (128 compiled against
+    136).  Arm bodies, argument registers and the branch are otherwise
+    byte-identical.
+  func_02061460 - DIFF, 6 bytes (3 instructions): the register holding the
+    zero.  The original materialises the loop counter's zero first (`mov r5,
+    #0`) and derives the flag store's zero from it (`mov lr, r5`, ...); this
+    compiler materialises the loop's zero into lr first and gives the counter a
+    second `mov r5, #0`.  Sixty-four type/guard/compare spellings and ten
+    statement shapes were compiled; the best is six bytes.
 
-0x02061644, an unlabelled leaf (filed)
----------------------------------------
-Eight bytes of `mov r0, #0; bx lr` sitting between the tail of func_020614D4's
-literal pool (which ends at 0x02061640) and the next labelled function at
-0x0206164C, so disasm.py never labels it.  It is the default callback
-func_020613D8 installs at 0x020A8144 as a function pointer, so the pool word
-that names it is the only reference in the image and nothing else could attest
-it.  Filing it as an EXACT entry makes the pool word in func_020613D8 resolve
-through the `matched` class.
+The packet's own 0-64 byte rows are func_0206164C and func_0206168C (60 bytes
+each, DIFF, 10 concrete bytes of register assignment -- see
+docs/notes/pkt_0206164C.c.txt) and func_020616CC (308 bytes, still open, the
+only witness func_02051AA0 in pkt_02051A54 lacks).
 
-func_020613D8, 8 bytes short: the same cross-jump as pkt_020648E0
------------------------------------------------------------------
-The two five-argument table calls differ only in r2/r3, so this compiler
-cross-jumps their identical tails (`str ip, [sp]; bl func_02061390`) into one
-shared block; the original keeps both copies with `b end` between them (128
-compiled against 136).  The mode test has to be written `mode <= 2` -- that is
-the polarity whose fall-through arm is the (2, 0) pair and whose branch is the
-positive `bhi`, matching the original's layout.
+Removed from src/pending/ by lane 5 (rule 2).  The sources as they stood
+follow, verbatim.
 
-Spellings tried, none of which avoids the merge: `if (mode > 2) ... else ...`,
-separate `if`s, an explicit `goto`, the `switch (mode)` form (which does not
-merge but reorders the arms and repeats the second argument's setup, 136 bytes
-and 32 bytes wrong), and the four `#pragma` spellings (opt_common_subs,
-peephole, opt_dead_code, ipa) -- all still 128 bytes.
-
-A second, independent blocker on this function once the merge is solved: the
-call to func_02061460 is the ONLY branch to that address in the image, so that
-site can never be attested from outside this file's range.  It clears only
-when func_02061460 itself is matched (the `matched` class), or if the two
-functions are merged into one unit -- which is exactly what the merge above
-does not allow today.
-
-func_02061460, 6 bytes: which register holds zero
--------------------------------------------------
-Three instructions differ, all of them the zero register.  The original
-materialises the counter's zero first (`mov r5, #0`) and derives the flag
-store's zero from it (`mov lr, r5`, `mov r1, r5`, `mov r3, r5`).  This
-compiler materialises the loop's zero into lr first (`mov lr, #0`) and gives
-the counter a separate `mov r5, #0`.
-
-Types are pinned by the comparison and are not free: with `int i`/`int n` the
-counter is a full 32-bit local (no truncation across `i++`), the guard is
-unsigned (`cmp r7, #1; addhi`) which needs the `1u` spelling, and the flag
-test is signed (`strlt`/`strge`) which needs the plain `i < n`.  Sixty-four
-type/guard/compare combinations and ten statement shapes were compiled; the
-best is these six bytes, and the ternary spelling costs 73.
-
-func_0206164C / func_0206168C, 10 and 21 bytes: a register choice
------------------------------------------------------------------
-The two mirrors that copy five 2-word pairs between the caller's buffer and
-the 0x18-byte records at 0x020A816C.  For 0x0206164C the original holds the
-table pointer in ip and the destination index in lr; this C holds them the
-other way round, so the two `add`s that advance them come out swapped while
-every indexed access is byte-identical (10 bytes).  The shape that reaches 10
-is `int i; int j = 0; struct Ent *t = g;` with `j += 2` before `t++`.
-The 0x0206168C mirror does not reach the same figure with that shape (21
-bytes); its best register order was not found in the budget spent here.
-------------------------------------------------------------
-from src/pending/func_0206164C.c (removed there by lane 5)
-verdict: DIFF - see the header of the source below for the residue
-
+=== src/pending/func_020613D8.c (removed by lane 5) ===
 /*
- * function: func_0206164C
- * address:  0x0206164C
+ * function: func_020613D8
+ * address:  0x020613D8
  * packet:   pkt_020613D8
  * region:   arm9
  * compiler: 1.1p1
@@ -78,56 +40,75 @@ verdict: DIFF - see the header of the source below for the residue
  * status:   DIFF
  *
  * symbols:
- *   g_020A816C   0x020A816C  data
+ *   func_02061390   0x02061390  arm
+ *   func_02061460   0x02061460  arm
+ *   func_020614D4   0x020614D4  arm
+ *   func_02061644   0x02061644  arm
+ *   g_02146B70      0x02146B70  data
+ *   g_020A8140      0x020A8140  data
+ *   g_020A8144      0x020A8144  data
  *
- * Copies the first two words of each of the five 0x18-byte records at
- * 0x020A816C out into the caller's buffer, ten words in all.
+ * The mode selector of the NNS G2D multi-cell renderer.  It builds one of
+ * two five-slot tables through func_02061390 depending on the mode, publishes
+ * the mode word at 0x02146B70, re-runs func_02061460 (the table walker that
+ * lives just past this function), and installs the two callbacks at
+ * 0x020A8140 / 0x020A8144 when the second argument is non-zero.
  *
- * Ten concrete bytes differ and every instruction reproduces: the residue is
- * which of the three loop quantities gets which register.  The original holds
- * `i` in r3, the table pointer in ip and the destination index in lr; this C
- * holds `i` in r3, the index in ip and the table pointer in lr, so
- * `add ip, ip, #0x18` / `add lr, lr, #2` come out swapped while the indexed
- * store/address pair is byte-identical.  Declaration order moves the residue
- * (t,i,j -> 15 bytes, i,j,t -> 10, j,i,t -> 13) but never removes it: the
- * pointer-to-lr preference is an allocator decision.  See
- * docs/notes/pkt_0206164C.c.txt.
+ * The mode test is written `mode <= 2`: the original's fall-through arm is
+ * the (2, 0) table pair and its branch is the positive `bhi` to the (0, 2)
+ * pair, which is what mwccarm emits for the negated form.
+ *
+ * Residue, eight bytes: this compiler cross-jumps the two calls' identical
+ * two-instruction tails (`str ip, [sp]; bl func_02061390`) into one shared
+ * block, the original keeps both copies.  The arm bodies, the argument
+ * registers and the branch are otherwise byte-identical, and the size follows
+ * from the missing copy (128 compiled against 136).  Every source shape tried
+ * merges: separate `if`s, `else if`, an explicit `goto`, a `switch` on the
+ * mode (which instead reorders the arms and duplicates the second argument
+ * setup), and `#pragma opt_common_subs / peephole / opt_dead_code / ipa off`,
+ * none of which changes a byte.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0206164C.c \
- *       --func func_0206164C --addr 0x0206164C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/func_020613D8.c \
+ *       --func func_020613D8 --addr 0x020613D8 --arm --cc 1.1p1
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Ent020A816C {
-    u32 w[6];
-};
+extern u16 g_02146B70;
+extern u32 g_020A8140;
+extern u32 g_020A8144;
 
-extern struct Ent020A816C g_020A816C[];
+extern void func_02061390(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_02061460(void);
+extern void func_020614D4(void);
+extern void func_02061644(void);
 
-void func_0206164C(u32 *dst)
+void func_020613D8(u32 mode, u32 flag)
 {
-    int i;
-    int j = 0;
-    struct Ent020A816C *t = g_020A816C;
-
-    for (i = 0; i < 5; i++) {
-        dst[j] = t->w[0];
-        dst[j + 1] = t->w[1];
-        j += 2;
-        t++;
+    if (mode <= 2) {
+        func_02061390(4, 3, 2, 0, 1);
+    } else {
+        func_02061390(4, 3, 0, 2, 1);
     }
+
+    g_02146B70 = (u16)mode;
+    func_02061460();
+
+    if (flag == 0) {
+        return;
+    }
+
+    g_020A8140 = (u32)func_020614D4;
+    g_020A8144 = (u32)func_02061644;
 }
 
-------------------------------------------------------------
-from src/pending/func_0206168C.c (removed there by lane 5)
-verdict: DIFF - see the header of the source below for the residue
 
+=== src/pending/func_02061460.c (removed by lane 5) ===
 /*
- * function: func_0206168C
- * address:  0x0206168C
+ * function: func_02061460
+ * address:  0x02061460
  * packet:   pkt_020613D8
  * region:   arm9
  * compiler: 1.1p1
@@ -137,39 +118,77 @@ verdict: DIFF - see the header of the source below for the residue
  * status:   DIFF
  *
  * symbols:
+ *   g_02146B70   0x02146B70  data
  *   g_020A816C   0x020A816C  data
  *
- * The exact mirror of func_0206164C: writes the caller's ten words into the
- * first two words of each of the five 0x18-byte records at 0x020A816C.  Ten
- * concrete bytes differ for the same register-choice reason (this C holds the
- * table pointer in lr where the original holds it in ip).  See
- * docs/notes/pkt_0206164C.c.txt.
+ * The table walker of the NNS G2D multi-cell renderer, called by func_020613D8
+ * once the mode word is published.  Five 0x18-byte records at 0x020A816C: the
+ * first `n` of them (record 0 when n <= 1) get their enable word at +8 set to
+ * 1 and the rest to 0, and every record's two limit words at +0 / +4 are
+ * written from its own mode word at +0xC (0x10000 for the non-zero case,
+ * 0x20000 for the zero case).
+ *
+ * Residue, six bytes, three instructions: the register that holds zero.  The
+ * original materialises the loop counter's zero first (`mov r5, #0`) and
+ * derives the flag store's zero from it (`mov lr, r5`, `mov r1, r5`,
+ * `mov r3, r5`); this compiler materialises the loop's zero into lr first
+ * (`mov lr, #0`) and gives the counter a second `mov r5, #0`.  The two
+ * registers are otherwise identical.  Types are pinned by the byte
+ * comparison: the counter is a full 32-bit local (no truncation across the
+ * increment) and the guard is an unsigned compare (`addhi`) while the flag
+ * test is signed (`strlt`/`strge`), which only `int i` / `int n` with an
+ * unsigned guard reproduces.  Sixty-four type/guard/compare spellings and ten
+ * statement shapes were compiled; the best is six bytes.
+ *
+ * This is a separate file from func_020613D8 on purpose: the two functions are
+ * the only two places in the image that name 0x02146B70, so a unit spanning
+ * both would leave that pool word with no witness outside the compared range.
+ * Cut apart, each file's pool word is the other's witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0206168C.c \
- *       --func func_0206168C --addr 0x0206168C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/func_02061460.c \
+ *       --func func_02061460 --addr 0x02061460 --arm --cc 1.1p1
  */
 
 typedef unsigned short u16;
+typedef signed int     s32;
 typedef unsigned int   u32;
 
-struct Ent020A816C {
-    u32 w[6];
+struct Rec020A816C {
+    u32 unk_00;
+    u32 unk_04;
+    u32 unk_08;
+    u32 unk_0c;
+    u32 pad_10[2];
 };
 
-extern struct Ent020A816C g_020A816C[];
+extern u16 g_02146B70;
+extern struct Rec020A816C g_020A816C[];
 
-void func_0206168C(const u32 *src)
+void func_02061460(void)
 {
-    int i;
-    int j = 0;
-    struct Ent020A816C *t = g_020A816C;
+    int i = 0;
+    int n = g_02146B70;
+    struct Rec020A816C *t = g_020A816C;
 
-    for (i = 0; i < 5; i++) {
-        t->w[0] = src[j];
-        t->w[1] = src[j + 1];
-        j += 2;
-        t++;
+    if (n > 1u) {
+        n++;
     }
-}
 
+    do {
+        if ((s32)i < (s32)n) {
+            t->unk_08 = 1;
+        } else {
+            t->unk_08 = 0;
+        }
+        if (t->unk_0c != 0) {
+            t->unk_00 = 0;
+            t->unk_04 = 0x10000;
+        } else {
+            t->unk_00 = 0;
+            t->unk_04 = 0x20000;
+        }
+        i++;
+        t++;
+    } while (i < 5);
+}

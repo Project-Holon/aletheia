@@ -1,34 +1,38 @@
 /*
  * function: func_02072974
- * address:  0x2072974
- * packet:   pkt_02072894
+ * address:  0x02072974
+ * packet:   pkt_0207292C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * blocker:  0x020895F8 has no witness outside this range: its only caller is 0x02072984, inside this function
- * symbols:
- *   g_0214DEC0       0x214DEC0  data
  *
- * The address must stay `g_0214DEC0 + 8` in the store instruction, not
- *  * `g_0214DEC0 + 8` pre-added in the pool word: with the constant folded into
- *  * the relocation the pool word becomes 0x0214DEC8 and both the pool and the
- *  * load/store offset change.
+ * blocker:  +0010 PC24 func_020895F8           -> unresolved: 020895F8 (arm, from header) has no witness outside 02072974..020729A4
+ *
+ * symbols:
+ *   func_020895F8    0x020895F8  arm
+ *   g_0214DEC0       0x0214DEC0  data
+ *
+ * Releases one channel of the allocator: unlocks it and clears the channel bit
+ * from the word at g_0214DEC0 + 8.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02072974.c \
+ *       --func func_02072974 --addr 0x02072974 --cc 1.1p1 --arm
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
-struct G { u32 f0; u32 f4; u32 f8; };
-extern struct G g_0214DEC0;
-extern void func_020895F8(u32, u32);
+extern void func_020895F8(u32 chan, u32 a);
+extern u32  g_0214DEC0[];
 
-void func_02072974(u32 mask)
+void func_02072974(u32 chan)
 {
-    if (mask == 0) return;
-    func_020895F8(mask, 0);
-    g_0214DEC0.f8 &= ~mask;
+    if (chan == 0) {
+        return;
+    }
+    func_020895F8(chan, 0);
+    g_0214DEC0[2] &= ~chan;
 }

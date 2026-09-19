@@ -69,3 +69,50 @@ same failure mode as docs/idioms/a-small-constant-is-rematerialised-off-a-zero-
 register-unless-an-argument-shares-it.md, seen from the other side: here the
 argument /does/ share it and the original did not.  Recorded rather than ground
 further, -O4,p is pinned and no source shape reached the original.
+
+======================================================================
+lane 6 residues, packet pkt_02074A6C
+======================================================================
+
+--- 0x02074A6C: DIFF
+ws note: listing says the original is 44 bytes, compiled 48
+typedef unsigned int u32;
+
+extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 e);
+
+u32 func_02074A6C(u32 a, u32 b)
+{
+    return func_02074BEC(a, 0xff, b, 1, 0) == 0;
+}
+
+--- 0x02074A98: DIFF
+ws note: listing says the original is 44 bytes, compiled 48
+typedef unsigned int u32;
+
+extern u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 e);
+
+u32 func_02074A98(u32 a, u32 b)
+{
+    return func_02074E10(a, 0xff, b, 1, 0) == 0;
+}
+
+--- 0x02074AC4: DIFF
+ws note: listing says the original is 36 bytes, compiled 40
+typedef unsigned int u32;
+
+extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 e);
+
+u32 func_02074AC4(u32 a, u32 b, u32 c)
+{
+    return func_02074BEC(a, b, c, 1, 0) == 0;
+}
+
+WALL (small-constant pooling, the known one).  All three wrappers
+(0x02074A6C, 0x02074A98, 0x02074AC4) share it: the fourth argument 1 and the
+fifth 0 are pooled into two callee-saved registers at the top (`push {r3, r4,
+r5, lr}`) where the image materialises them at the call (`mov r3, #1` /
+`mov ip, #0; str ip, [sp]`, `push {r3, lr}`).  Same for the boolean result,
+which the compiler also computes out of the pooled pair.  This is
+docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md;
+`== 0`, `!x`, a ternary, `(u32)` casts, a named result local and an early
+return were all measured.

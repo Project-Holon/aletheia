@@ -50,3 +50,34 @@ Still open, four bytes from byte-correct:
   cap while that callee is not a manifest entry: its own code is 11 bytes out
   in addition (the guard's if-conversion), and the call site has no witness
   outside its range.  See docs/notes/lane6_band0_64_residues.c.txt.
+
+======================================================================
+lane 6 residues, packet pkt_02075BAC
+======================================================================
+
+--- 0x02075BAC: DIFF
+ws 9 concrete byte(s) differ
+typedef unsigned int u32;
+
+typedef struct {
+    u32 unk00;
+    u32 unk04;
+    u32 unk08;
+    u32 unk0c;
+} Obj02075BAC;
+
+extern u32 func_02075BD4(Obj02075BAC *o, u32 a, u32 b);
+
+void func_02075BAC(Obj02075BAC *o, u32 a, u32 b)
+{
+    o->unk00 = func_02075BD4(o, a, b);
+    o->unk04 = a;
+    o->unk0c = b;
+    o->unk08 = 0;
+}
+
+WALL (one scheduling slot).  func_02075BAC differs only in where the
+zero for +0x08 is materialised: the image stores +0x0C first and then
+`mov r0, #0; str r0, [r6, #8]`, the compiler hoists `mov r1, #0` above the
++0x0C store.  Statement order, `0u`, `(u32)0` and a named zero local were
+measured.

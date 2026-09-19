@@ -1,6 +1,6 @@
 /*
  * function: func_02072794
- * address:  0x2072794
+ * address:  0x02072794
  * packet:   pkt_02071B2C
  * region:   arm9
  * compiler: 1.1p1
@@ -8,22 +8,29 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * blocker:  0x02089754 and 0x02089774 each have no witness outside this range: their only caller is this function
  *
- * Both arms carry their own `pop {r3, pc}` in the original rather than a
- *  * cross-jumped shared tail, which is what the two-armed if/else gives.
+ * blocker:  +0010 PC24 func_02089754           -> unresolved: 02089754 (arm, from header) has no witness outside 02072794..020727B4; +0018 PC24 func_02089774           -> unresolved: 02089774 (arm, from header) has no witness outside 02072794..020727B4
+ *
+ * symbols:
+ *   func_02089754    0x02089754  arm
+ *   func_02089774    0x02089774  arm
+ *
+ * Master-pan switch: sets the pan to 0x40 when the argument is non-zero,
+ * otherwise resets it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02072794.c \
+ *       --func func_02072794 --addr 0x02072794 --cc 1.1p1 --arm
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+typedef unsigned int u32;
 
-extern void func_02089754(u32);
+extern void func_02089754(u32 pan);
 extern void func_02089774(void);
 
-void func_02072794(u32 v)
+void func_02072794(u32 on)
 {
-    if (v != 0) {
+    if (on != 0) {
         func_02089754(0x40);
     } else {
         func_02089774();

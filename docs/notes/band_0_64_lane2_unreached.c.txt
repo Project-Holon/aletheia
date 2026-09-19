@@ -1,0 +1,50 @@
+lane 2 of the 0-64 byte band: targets that reached no verdict
+================================================================
+
+Lane 2 is 61 functions, 2238 bytes, 40 packets, 0x02012E08..0x0202271C.
+43 reached a verdict and each is written up where it belongs:
+
+  5 EXACT / EXACT*  -> src/matched/, recorded in the packet shards
+                       pkt_02013C70, pkt_02014314, pkt_02021944
+ 24 MATCH          -> src/pending/, blocker named in the header
+ 14 DIFF           -> the pkt_XXXXXXXX.c.txt note of their own packet,
+                       source plus mismatching rows:
+                         func_02013D74
+                         func_020141A8
+                         func_0201756C
+                         func_02017600
+                         func_020189F0
+                         func_02019C38
+                         func_0201B7A0
+                         func_0201DBBC
+                         func_0201F9D0
+                         func_02021FD8
+                         func_02022490
+                         func_020224DC
+                         func_020225B4
+                         func_0202271C
+
+The remaining 18 were not transcribed before the budget ran out.
+None of them was tried and rejected; they are unstarted, not
+blocked.  Sizes come from layout/worklist.json.
+
+  0x02014428   22 bytes  pkt_0201441C
+  0x02014628   36 bytes  pkt_02014628
+  0x02014698   32 bytes  pkt_02014628
+  0x02014878   30 bytes  pkt_02014628
+  0x02015590   10 bytes  pkt_02014D90
+  0x02016028   62 bytes  pkt_02016028
+  0x020173F0   58 bytes  pkt_020173F0
+  0x020178D8   38 bytes  pkt_0201756C
+  0x02017B24   40 bytes  pkt_020179B8
+  0x0201B7EC   40 bytes  pkt_0201B7EC
+  0x0201B818   50 bytes  pkt_0201B7EC
+  0x0201C7A4   40 bytes  pkt_0201C7A4
+  0x0201C7D0   50 bytes  pkt_0201C7D0
+  0x0201FD18   58 bytes  pkt_0201FC5C
+  0x0201FEBC   54 bytes  pkt_0201FC5C
+  0x0202071C   34 bytes  pkt_02020408
+  0x02020E60   30 bytes  pkt_02020E60
+  0x02021984   62 bytes  pkt_02021944
+
+18 functions, 746 bytes.

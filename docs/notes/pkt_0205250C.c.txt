@@ -1,158 +1,71 @@
-pkt_0205250C (0x0205250C..0x02053218), wave2-E
-Parked: func_02052F58, func_02052F90, func_020528A8, func_020528BC
-(src/pending/, blockers in their headers).  Note the packet carries a
-`proc hint: arm7tdmi` from tools/procscan.py, but its functions use `blx r3`
-(ARMv5), so arm946e is right and the hint does not apply here.
+pkt_0205250C - DIFF residues and one wall (lane 5, 0-64 byte band)
+==================================================================
 
-func_02052F58 / func_02052F90 are the interesting residue (48 bytes each,
-44 compiled).  The original opens
+The packet carries the arm7tdmi `-proc` hint (layout/proc_hints.txt).  Lane 5
+worked four of its rows; none reaches EXACT, and one of them is blocked by a
+front-end conflict rather than by the C.
 
-    stmfd sp!,{lr} ; sub sp,sp,#4      (a live 4-byte frame, never addressed)
-    ldr r3,[pc]  -> &g_020A8148 ; ldr r3,[r3] ; blx r3
-    ldr r1,[pc]  -> 0x0000FFFF
-    and r0,r0,r1 ; lsl r0,r0,#3
+func_020528A8 @ 0x020528A8 (12 bytes) - DIFF, 4 concrete bytes + 1 wildcard
+---------------------------------------------------------------------------
+Image:
 
-so the mask is a *pool word* and a real `and`, and the frame is the
-signature of a 4-byte local that stayed in a register.  Every spelling tried
--- `x & 0xFFFF`, `(x & 0xFFFFu)`, `(u16)x << 3`, a `u16` local, `u32`/`int`
-local masks, `x % 65536 * 8`, a ternary -- folds the mask into a single
-`lsl #16 / lsr #13` pair and drops the frame (36 bytes).  Only a *64-bit*
-operand forces the pool mask back (`long long x` gives the right `and` and a
-44-byte function with `push {r3,lr}`), which is why the note keeps the 64-bit
-shape: the remaining 4 bytes are the frame, i.e. a 32-bit local that mwccarm
-refuses to fold.
+  020528A8  ldr   ip, [pc, #4]        ; = 0x020528D0, the tail-call target
+  020528AC  ldr   r1, [pc, #4]        ; = 0x02052F58, the value argument
+  020528B0  bx    ip                  ; tail call func_020528D0(a, 0x02052F58)
+  020528B4  .word 0x020528D0
+  020528B8  .word 0x02052F58
 
-That 0x0000FFFF pool word is also the cleanest test in the packet for
-`(u16)` cast versus mask: the cast is a shift pair, the mask plus a 64-bit
-value is a pool word.  func_02051AA0 (0x02051AA0, pkt_02051A54) shows the
-same tell in the other direction: `(u16)f(...) << 3` compiles to
-`lsl #16 / lsr #13` with no pool word at all.
+Every spelling tried (`(void *)func_02052F58`, `(u32)func_02052F58`, a
+`void (*)(void)` parameter, and the value bound to a local first) compiles to
+the same 20 bytes with the two loads in the other order and therefore the pool
+words in the other order:
 
-func_020528A8 / func_020528BC (12 bytes each) are tail-call thunks whose two
-pool words are `func_020528D0`/`func_02052984` (both `label x5`, resolved) and
-`func_02052F58`/`func_02052F90`.  Their only residue beyond that site is the
-load order of the two pool words (`ldr ip` before `ldr r1` in the original,
-the reverse in every spelling tried), and the second word stays wildcarded
-until func_02052F58/90 is itself filed.
-------------------------------------------------------------
-from src/pending/func_020528A8.c (removed there by lane 5)
-verdict: DIFF - see the header of the source below for the residue
+  ldr r1, [pc, #4] / ldr ip, [pc, #4] / bx ip / .word 0x02052F58 / .word 0x020528D0
 
-/*
- * function: func_020528A8
- * address:  0x020528A8
- * packet:   pkt_0205250C
- * region:   arm9
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- * blocker:  DIFF, 4 bytes: the pool loads come out in the opposite order (`ldr ip,[pc]` then `ldr r1,[pc]` in the original); also ABS32 func_02052F58 at +0x0c needs that function matched
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020528A8.c \
- *       --func func_020528A8 --addr 0x020528A8 --cc 1.1p1 --arm
- */
+mwccarm materialises a tail call's *argument* before the branch register; the
+original does the opposite.  Separately, the ABS32 to 0x02052F58 stays
+wildcarded: 0x02052F58 is a function address used as a value, and its only
+mention image wide is this pool word, so only a `matched` entry at 0x02052F58
+could attest it -- and 0x02052F58 is itself DIFF (below), so the site cannot
+close.  func_020528BC @ 0x020528BC (12 bytes) is the identical thunk one tag
+over (tail call func_02052984(a, 0x02052F90)) and fails identically, 4 bytes.
 
-extern int func_020528D0(int a, int (*cb)(void));
-extern int func_02052F58(int a, int b);
+func_02052F58 @ 0x02052F58 (48 bytes), func_02052F90 @ 0x02052F90 (48 bytes)
+----------------------------------------------------------------------------
+WALL - front-end conflict, reported not chased.  The image is
 
-int func_020528A8(int a)
-{
-    return func_020528D0(a, (int (*)(void))func_02052F58);
-}
+  02052F58  stmdb sp!, {lr}
+  02052F5C  sub   sp, sp, #4
+  02052F60  ldr   r3, [pc, #0x20]     ; &g_020A8148
+  02052F64  mov   r2, #0
+  02052F68  ldr   r3, [r3]            ; the installed function pointer
+  02052F6C  blx   r3                  ; <- register BLX
+  02052F70  ldr   r1, [pc, #0x14]     ; 0x0000ffff
+  02052F74  and   r0, r0, r1
+  02052F78  lsl   r0, r0, #3
+  02052F7C  add   sp, sp, #4
+  02052F80  ldm   sp!, {lr}
+  02052F84  bx    lr                  ; <- ARMv4T-style return
 
-------------------------------------------------------------
-from src/pending/func_020528BC.c (removed there by lane 5)
-verdict: DIFF - see the header of the source below for the residue
+`-proc arm7tdmi` (the packet's own hint) gives the ARMv4T frame but emits
+`mov lr, pc; bx r3` for the indirect call; `-proc arm946e` gives `blx r3` but
+the `push {r3, lr}` / `pop {r3, pc}` frame instead of the `stmdb`/`sub sp` one.
+Neither emits `blx r3` beside an `ldm sp!, {lr}; bx lr` return, which is
+docs/idioms/an-armv4t-style-return-and-a-register-blx-name-a-1-2-front-end-not-a-proc-value.md:
+the object came from a front end that is not one of the two `-proc` values this
+project can select.  Not a C shape and not a flag sweep (the compiler is
+pinned), so it is reported as a wall.  func_02052F90 is the same body against
+the second installed pointer (0x020A8140).
 
-/*
- * function: func_020528BC
- * address:  0x020528BC
- * packet:   pkt_0205250C
- * region:   arm9
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- * blocker:  DIFF, 4 bytes: same pool-load order residue as func_020528A8; ABS32 func_02052F90 at +0x0c needs that function matched
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020528BC.c \
- *       --func func_020528BC --addr 0x020528BC --cc 1.1p1 --arm
- */
+Chain attempt: func_02052634 (0x02052634, 116 bytes, this packet) is the only
+witness func_020515B4 lacks in pkt_02051534.  Lane 5 read it -- heap-style
+allocator wrapper, `func_02058380` / `func_02053A60` / `func_020583CC`, tag
+bit 14 of a doubly-indirected word -- and reached 116 compiled bytes with every
+relocation resolved but 76 concrete bytes of register-allocation residue: the
+original keeps p in r7 and the result in r4 (the `mov r4, #0` initialiser is
+coalesced into the result variable), while mwccarm 1.1p1 spends an extra
+callee-saved register on the constant 0 and puts p in r8 (`push
+{r4,r5,r6,r7,r8,lr}` against the original's `push {r4,r5,r6,r7,lr}` +
+`sub sp, sp, #4`).  Same class as docs/notes/pkt_02066E30.c.txt.  Not filed.
 
-extern int func_02052984(int a, int (*cb)(void));
-extern int func_02052F90(int a, int b);
-
-int func_020528BC(int a)
-{
-    return func_02052984(a, (int (*)(void))func_02052F90);
-}
-
-------------------------------------------------------------
-from src/pending/func_02052F58.c (removed there by lane 5)
-verdict: DIFF - see the header of the source below for the residue
-
-/*
- * function: func_02052F58
- * address:  0x02052F58
- * packet:   pkt_0205250C
- * region:   arm9
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- * blocker:  DIFF, 44 of the original's 48 bytes: the original opens `stmfd sp!,{lr}; sub sp,sp,#4` (a live 4-byte frame) and masks with a pool-loaded 0xFFFF plus `and`; every spelling tried (`& 0xFFFF`, `(u16)` cast, local mask, ternary, 64-bit operand) folds the mask to lsl#16/lsr#13 and drops the frame
- *
- * The mask is spelled `& 0xFFFF`, not a `(u16)` cast: the cast folds into a
- * single lsl/lsr pair (see func_02051AA0), the mask costs a pool word plus a
- * live `and`.
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02052F58.c \
- *       --func func_02052F58 --addr 0x02052F58 --cc 1.1p1 --arm
- */
-
-typedef unsigned int u32;
-
-extern u32 g_020A8148;
-
-int func_02052F58(int a, int b)
-{
-    return (((int (*)(int, int, int))g_020A8148)(a, b, 0) & 0xFFFF) << 3;
-}
-
-------------------------------------------------------------
-from src/pending/func_02052F90.c (removed there by lane 5)
-verdict: DIFF - see the header of the source below for the residue
-
-/*
- * function: func_02052F90
- * address:  0x02052F90
- * packet:   pkt_0205250C
- * region:   arm9
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- * blocker:  DIFF, same residue as func_02052F58 (its 0x020A8140 twin)
- *
- * Twin of func_02052F58 over the pointer slot at 0x020A8140.
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02052F90.c \
- *       --func func_02052F90 --addr 0x02052F90 --cc 1.1p1 --arm
- */
-
-typedef unsigned int u32;
-
-extern u32 g_020A8140;
-
-int func_02052F90(int a, int b)
-{
-    return (((int (*)(int, int, int))g_020A8140)(a, b, 0) & 0xFFFF) << 3;
-}
-
+Addresses are Black-image addresses.

@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * Blocked: three sites - the call to func_0202B818 and the two data
+ * pointers Data_0209FF88 / Data_0209FF8C, each named only by this
+ * function's own pool.  Closes when func_0202B818 is filed and the two
+ * tables acquire a second reference.
  * symbols:
  *   Data_0209FF88  0x0209FF88  data
  *   Data_0209FF8C  0x0209FF8C  data

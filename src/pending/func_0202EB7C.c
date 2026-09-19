@@ -27,3 +27,16 @@
  *   python tools/match.py one --src src/pending/func_0202EB7C.c \
  *       --func func_0202EB7C --addr 0x0202EB7C --cc 1.1p1 --thumb
  */
+
+typedef unsigned int u32;
+
+extern int func_0200856C(u32 a1);
+extern u32 func_0202EB9C(u32 a0, u32 a1);
+
+u32 func_0202EB7C(u32 a0, u32 a1)
+{
+    if (func_0200856C(a1) == 0) {
+        return 0;
+    }
+    return func_0202EB9C(a0, a1);
+}

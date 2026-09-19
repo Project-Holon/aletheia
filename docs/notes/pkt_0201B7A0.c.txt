@@ -60,3 +60,50 @@ C currently tried (scratch/scratch/w_0201B7A0.c):
         func_0201B850(a0, (u32)tbl_0209E45C + a1 * 3);
     }
 
+
+
+========================================================================
+
+func_0201B7A0 @ 0x0201B7A0  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  The body below
+is byte-identical to the original everywhere except the rows
+listed after it, so it is a near miss, not a codegen failure.
+Residue: the call to func_0201B850 is a sibling call here
+    (`ldr r3, [pc]; bx r3`) and a real `bl` inside a push/pop
+    frame in the original.
+
+---- source (scratch/lane2/func_0201B7A0.c) ----
+/*
+ * function: func_0201B7A0
+ * address:  0x0201B7A0
+ * packet:   pkt_0201B7A0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   sub_0209E45C_Map  0x0209E45C  data
+ */
+
+extern int func_0201B850(int a0, char *a1);
+extern char sub_0209E45C_Map[];
+
+int func_0201B7A0(int a0, int a1)
+{
+    return func_0201B850(a0, sub_0209E45C_Map + a1 * 3);
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0000 push {r3, r4, r5, lr} | lsls r2, r1, #1
+* +0002 lsls r4, r1, #1 | ldr r3, [pc, #8]
+* +0004 ldr r5, [pc, #8] | adds r1, r1, r2
+* +0006 adds r1, r1, r4 | adds r1, r3, r1
+* +0008 adds r1, r5, r1 | ldr r3, [pc, #4]
+~ +000A bl #0x201b850 | bx r3
+~ +000C 51 f8 | movs r0, r0 <- ABS32 sub_0209E45C_Map [wildcard]
+~ +000E pop {r3, r4, r5, pc} | movs r0, r0
+* +0010 b #0x201b06c | .byte 51 b8 01 02 <- ABS32 func_0201B850 [resolved: label]
+* +0012 lsls r1, r1, #8 | 01 02

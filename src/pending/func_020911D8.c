@@ -9,33 +9,31 @@
  * isa:      thumb
  * status:   MATCH
  *
- * blocker:  the tail call to func_020911F0 is a Thumb `bx pc` + ARM
- *           `ldr ip/bx ip` linker stub whose pointer word is 0x02731755,
- *           inside no region of layout/layout.json (the TWL-only arm9i
- *           module this project does not extract).  veneer_at() therefore
- *           refuses condition 4, and the only branch to 0x020911F0 in the
- *           whole image is the one inside this file, so the site stays
- *           wildcarded.  No C change can fix it: the stub is not
- *           producible from C, so it can never earn a shard entry either.
+ * blocker:  +0012 THM_CALL func_020911F0       -> unresolved: 020911F0 (thumb, from header) has no witness outside 020911D8..020911F0
  *
  * symbols:
- *   func_02085D88  0x02085D88  arm
- *   func_02088234  0x02088234  arm
- *   func_020911F0  0x020911F0  thumb
+ *   func_02085D88    0x02085D88  arm
+ *   func_02088234    0x02088234  arm
+ *   func_020911F0    0x020911F0  thumb
+ *
+ * Thumb wrapper over the ARM-side entry: aborts when the check fails, then
+ * hands the argument across the Thumb/ARM stub at 0x020911F0.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020911D8.c \
+ *       --func func_020911D8 --addr 0x020911D8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
-extern int func_02085D88(u32 a0);
+extern u32  func_02085D88(void);
 extern void func_02088234(void);
-extern int func_020911F0(u32 a0);
+extern void func_020911F0(u32 a);
 
-int func_020911D8(u32 a0)
+void func_020911D8(u32 a)
 {
-    if (func_02085D88(a0) == 0)
+    if (func_02085D88() == 0) {
         func_02088234();
-    {
-        int r = func_020911F0(a0);
-        return r;
     }
+    func_020911F0(a);
 }

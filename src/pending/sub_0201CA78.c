@@ -2,7 +2,8 @@
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
  * function: sub_0201CA78
- * address:  0x0201CA78, 80 bytes including two pool words, one function
+ * address:  0x0201CA78
+ * note:     80 bytes including two pool words, one function
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p

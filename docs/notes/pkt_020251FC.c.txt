@@ -144,3 +144,27 @@ void func_020253D4(u8 *p, u32 id, u32 bank)
         curr = next;
     } while (id == val);
 }
+
+
+------------------------------------------------------------------
+lane 3 re-attempt for func_020253D4 (0x020253D4), same residue.
+
+The function has ZERO relocations, so the residue above is the whole blocker.
+Ten further spellings were compiled and every one emits `movs r3, #1` for the
+bank offset where the original has `movs r4, #1`:
+
+  u32 offset = 1; u32 k, m;                 -> r3
+  u32 k, m; u32 offset = 1;                 -> r3
+  u32 m, k; u32 offset = 1;                 -> r3
+  u32 k, m, offset = 1;                     -> r3
+  u32 offset = 1, k, m;                     -> r3
+  u32 k; u32 m; u32 offset = 1;             -> r3
+  u32 m; u32 k; u32 offset = 1;             -> r3
+  u32 offset = 1; u32 m; u32 k;             -> r3
+  int offset = 1;                           -> r3
+  u32 offset; u32 k, m; offset = 1;         -> r3
+  plus `offset <<= 4; p += offset;` vs `p += offset << 4` (same)
+
+The loop body from +0016 on reproduces byte for byte in every variant; only
+the prologue's register for the offset differs. Nothing in the C selects it,
+so this one needs a front end that allocates the first block local into r4.

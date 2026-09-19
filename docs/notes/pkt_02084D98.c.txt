@@ -1,0 +1,6 @@
+
+
+Not code (not filable): func_02084D98 is an 8-byte linker veneer,
+`ldr r1, [pc]` / `bx r1` + the word 0x02084D78.  A compiler-generated tail
+call spends r3, not r1 (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so
+this is the linker's own branch island, not a function.

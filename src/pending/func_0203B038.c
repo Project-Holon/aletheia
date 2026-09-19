@@ -15,7 +15,7 @@
  * saves no `lr` is never auto-labelled) and the word appears in exactly one
  * literal pool image-wide - this function's own - so neither `label` nor
  * `literal` can attest it.
- *   blocker: data address 0x0203B018 has no witness (no func_ label, single
+ * blocker:  unk_0203B018, unk_0203B01C
  *            pool word, and no EXACT manifest entry covers it)
  *
  * Both 0x0203B018 and 0x0203B01C must be declared in the symbols: block:

@@ -1,48 +1,50 @@
-DIFF residue: func_02067A60, 0x02067A60 (64 bytes), arm9, ARM, packet pkt_02066E30
-================================================================================
+pkt_02066E30 - DIFF residue (lane 5, 0-64 byte band)
+====================================================
 
-The object is zeroed with MIi_CpuClear16(0, o, 0x70) and then seven field
-stores follow; the callee's relocation resolves (label x142), so the function
-is evidence-clean and the residue is codegen only: one register.
+func_02067A60 @ 0x02067A60 (64 bytes, arm9, ARM) - DIFF, 42 concrete bytes
+-------------------------------------------------------------------------
 
-  02067A60  push {r4, lr}          original        compiled
-  02067A64  mov  r4, r0            mov  r4, r0     push {r3, r4, r5, lr}
-  02067A68  mov  r1, r4            mov  r1, r4     mov  r5, r0
-  02067A6C  mov  r0, #0            mov  r0, #0     mov  r4, #0
-  02067A70  mov  r2, #0x70         mov  r2, #0x70  mov  r0, r4
-  02067A74  bl   MIi_CpuClear16    (same)          mov  r1, r5 ; mov r2, #0x70 ; bl
-  02067A78  mov  r1, #0                            mov  r1, #2
-  02067A7C  str  r1, [r4]                          str  r4, [r5]
-  02067A80  mov  r0, #2                            stmib r5, {r1, r4}
-  ...
+The function is a constructor: MIi_CpuClear16(0, p, 0x70) and then seven field
+stores.  Image:
 
-The whole-file difference is where the constant 0 lives.  In the original it
-is rematerialised after the call (`mov r1, #0`) and the object pointer keeps
-r4, so the function needs one callee-saved register and one push.  This
-compiler instead coalesces the call's first argument (also 0) with every
-later zero store, parks that constant in r4 across the call, and pushes a
-third register: `push {r3, r4, r5, lr}`, object in r5, zero in r4.
+  02067A60  push  {r4, lr}
+  02067A64  mov   r4, r0
+  02067A68  mov   r1, r4            ; destination
+  02067A6C  mov   r0, #0            ; the zero, as an immediate
+  02067A70  mov   r2, #0x70
+  02067A74  bl    MIi_CpuClear16
+  02067A78  mov   r1, #0            ; the zero again, in a scratch register
+  02067A7C  str   r1, [r4]
+  02067A80  mov   r0, #2
+  02067A84  stmib r4, {r0, r1}
+  02067A88  str   r1, [r4, #0xc]
+  02067A8C  str   r1, [r4, #0x24]
+  02067A90  mov   r0, #1
+  02067A94  str   r0, [r4, #0x30]
+  02067A98  str   r1, [r4, #0x28]
 
-The C filed as `src/pending/func_02067A60.c` is the spelling below and comes
-out 64 bytes with 42 concrete bytes differing:
+Every spelling tried compiles to the same 60 bytes with the constant shared
+across the call instead of rematerialised:
 
-    extern void MIi_CpuClear16(u32 v, void *dst, u32 size);
+  push {r3, r4, r5, lr} / mov r5, r0 / mov r4, #0 / mov r0, r4 / mov r1, r5 /
+  bl / ... every zero store is `str r4, [r5, ...]`
 
-    void func_02067A60(struct Obj *o)
-    {
-        MIi_CpuClear16(0, o, 0x70);
-        o->f00 = 0;
-        o->f04 = 2;
-        o->f08 = 0;
-        o->f0c = 0;
-        o->f24 = 0;
-        o->f30 = 1;
-        o->f28 = 0;
-    }
+so the compiler spends a second callee-saved register (r4) on the zero, which
+is live across the call, and the leaf is four bytes short of the original.
+Tried: the call written as `MIi_CpuClear16(0, p, 0x70)` with the argument
+spelled `0`, `0u` and `(u16)0`; the SDK wrapper `MI_CpuFill16(p, 0, 0x70)`
+(source order dest-first, both via a hand-written inline and via
+`#include <nitro/mi/memory.h>`); a `u16`/`u32` local holding the zero; a
+`struct S *q = p` alias used by the stores; the fields declared `void *`; the
+chained assignment `p->f00 = p->f08 = p->f0c = p->f24 = p->f28 = 0`; and the
+two plausible store orders (the image stores 0x24, then 0x30, then 0x28, which
+is what the C below follows).
 
-Spellings that were tried and land on the same allocation: the zero stores
-as `0u`, as a `u32 z = 0;` local, and the store order permuted (the stmib of
-f04/f08 fuses in every one of them, so the fusing is not the residue).  The
-constant's register is chosen before the source shape matters, i.e. this is
-the `initialising-the-result-at-its-declaration-costs-a-register` family:
-one register, twenty-three bytes of shifted code.
+The offset table is pinned by the stores: 0x00, 0x04, 0x08, 0x0c, 0x24, 0x28,
+0x30, and `stmib r4, {r0, r1}` is the compiler's merge of the two adjacent
+word stores at +4 and +8, so those are two separate u32 fields, not one
+8-byte object.
+
+Not filed anywhere: DIFF.  No source in src/matched/ or src/pending/.
+
+Addresses are Black-image addresses.

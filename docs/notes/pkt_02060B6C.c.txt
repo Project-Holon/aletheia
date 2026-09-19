@@ -1,17 +1,37 @@
-pkt_02060B6C -- near miss, func_02060C5C, 2 concrete bytes, register only.
+pkt_02060B6C - DIFF residue (lane 5, 0-64 byte band)
+====================================================
 
-0x02060C5C (56 bytes) is the twin of 0x020610E0 (pkt_020610E0) and has the
-same residue: the size threshold is 0x4c instead of 0x30 and the callee is
-func_02060814 instead of func_02060FA4, but the body is otherwise identical and
-the only bytes that differ are the register of the `end - start` temporary
-(original `sub r3, r1, r0`, this C `sub r2, r1, r0`).
+func_02060C5C @ 0x02060C5C (56 bytes, arm9, ARM) - DIFF, 2 concrete bytes
+------------------------------------------------------------------------
 
-The three-argument reading is ruled out here, not assumed: the callers of this
-address pass three arguments (`sub_02060C5C(mem, size, 0)` in
-docs/notes/sub_0202FC48.c.txt), so the source was tried with an unused third
-parameter and with the `void *mem, u32 size, u32 mode` prototype, both at the
-same two bytes.
+The twin of func_020610E0 one packet over, with a 0x4c threshold and
+func_02060814 as the callee:
 
-See docs/notes/pkt_020610E0.c.txt for the full list of spellings tried; do not
-re-derive it.  The rest of this packet's range is a 236-byte function
-(0x02060B6C) this agent did not attempt.
+  end   = (b + a) & ~3
+  start = (a + 3) & ~3
+  if (start > end || end - start < 0x4c) return 0;
+  return func_02060814(start, end);
+
+Everything reproduces except the register the duration lands in:
+
+  02060C78  sub r3, r1, r0 / cmp r3, #0x4c    <- image
+  compiled  sub r2, r1, r0 / cmp r2, #0x4c
+
+Both are byte-identical everywhere else, including the pair of `bic`s, the
+`bhi`/`bhs` polarity and the two returns.  Spellings tried this wave on top of
+the ones docs/notes/pkt_020610E0.c.txt records: the two bounds as `u8 *`
+pointers with the subtraction a pointer difference, the Yoda form
+`0x4c > end - start`, the negated `!(start <= end && end - start >= 0x4c)`,
+and the duration assigned to a `u32 len` after the first test -- 2, 16, 2 and
+16 concrete bytes respectively.  The choice of scratch register for a
+subtraction feeding a comparison is below the source text, which is the same
+conclusion the twin's note reaches; the packet is otherwise clean
+(src/matched/func_02060C94.c reproduces the range that follows).
+
+The PC24 to func_02060814 at +0x30 is wildcarded as well: that call is the only
+branch to 0x02060814 image wide, so the site needs a `matched` entry at
+0x02060814 (108 bytes, packet pkt_02060814) before this file can close.
+
+Not filed anywhere: DIFF.  No source in src/matched/ or src/pending/.
+
+Addresses are Black-image addresses.

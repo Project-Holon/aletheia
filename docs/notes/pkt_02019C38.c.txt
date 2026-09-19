@@ -67,3 +67,42 @@ C currently tried (scratch/scratch/w_02019C38.c):
         return a0 + 8 + *(u8 *)(a2 + (u32)tbl_0209E3A4 + i * 4);
     }
 
+
+
+========================================================================
+
+func_02019C38 @ 0x02019C38  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  The body below
+is byte-identical to the original everywhere except the rows
+listed after it, so it is a near miss, not a codegen failure.
+Residue: one instruction, the same `adds` operand-field order as
+    func_020189F0.
+
+---- source (scratch/lane2/func_02019C38.c) ----
+/*
+ * function: func_02019C38
+ * address:  0x02019C38
+ * packet:   pkt_02019C38
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   sub_0209E3A4_Map  0x0209E3A4  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+extern u8 sub_0209E3A4_Map[];
+
+void *func_02019C38(char *p, u32 f, u8 *t)
+{
+    return p + 8 + t[((f & 0x3E000) >> 13) * 4 + 0x0209E3A4];
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +000E adds r1, r1, r3 | adds r1, r3, r1

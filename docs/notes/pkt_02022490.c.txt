@@ -237,3 +237,145 @@ void func_020224DC(struct S *p, int idx)
     ((u32 *)p)[idx + 2] = (u32)func_020225F0;
     ((u32 *)p)[idx] = 0;
 }
+
+
+========================================================================
+
+func_02022490 @ 0x02022490  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  Everything
+outside the rows at the bottom is byte-identical, so this is
+a near miss, not a codegen failure.  Residue: four bytes: the guard block's call setup differs.
+
+---- source (scratch/lane2/func_02022490.c) ----
+/*
+ * function: func_02022490
+ * address:  0x02022490
+ * packet:   pkt_02022490
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   sub_020268A4_Sys  0x020268A4  data
+ */
+
+typedef unsigned int u32;
+
+extern void *func_02005624(int a0, void *a1, int a2);
+extern char sub_020268A4_Sys[];
+extern void func_02022478(void);
+extern void func_020225F0(void);
+
+void func_02022490(char *p, int a1, int a2, int a3)
+{
+    if (*(u32 *)(p + 0x10) == 0 && *(u32 *)(p + 0x14) == 0)
+        *(u32 *)(sub_020268A4_Sys + 0x54) =
+            (u32)func_02005624((int)func_02022478, p, 0);
+    *(u32 *)(p + a3 * 4) = a1;
+    if (a2 != 0)
+        *(u32 *)(p + a3 * 4 + 8) = a2;
+    else
+        *(u32 *)(p + a3 * 4 + 8) = (u32)func_020225F0;
+    *(u32 *)(p + a3 * 4 + 0x10) = 1;
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0016 ldr r0, [pc, #0x28] | ldr r0, [pc, #0x24]
+* +0020 ldr r1, [pc, #0x20] | ldr r1, [pc, #0x1c]
+* +0024 lsls r2, r7, #2 | lsls r0, r7, #2
+* +0026 str r6, [r5, r2] | adds r1, r5, r0
+* +0028 cmp r4, #0 | str r6, [r5, r0]
+* +002A beq #0x20224c2 | cmp r4, #0
+* +002C adds r0, r5, r2 | beq #0x20224c2
+* +002E str r4, [r0, #8] | str r4, [r1, #8]
+* +0030 b #0x20224c8 | b #0x20224c6
+* +0032 ldr r1, [pc, #0x14] | ldr r0, [pc, #0x10]
+* +0034 adds r0, r5, r2 | str r0, [r1, #8]
+* +0036 str r1, [r0, #8] | movs r0, #1
+* +0038 movs r1, #1 | str r0, [r1, #0x10]
+* +003A adds r0, r5, r2 | pop {r3, r4, r5, r6, r7, pc}
+* +003C str r1, [r0, #0x10] | movs r4, #0x79 <- ABS32 func_02022478 [resolved: matched]
+* +003E pop {r3, r4, r5, r6, r7, pc} | lsls r2, r0, #8
+~ +0040 movs r4, #0x79 | movs r0, r0 <- ABS32 sub_020268A4_Sys [wildcard]
+~ +0042 lsls r2, r0, #8 | movs r0, r0
+* +0044 ldr r4, [r4, #8] | movs r5, #0xf1 <- ABS32 func_020225F0 [resolved: literal]
+* +0046 lsls r4, r2, #8 | lsls r2, r0, #8
+
+
+========================================================================
+
+func_020224DC @ 0x020224DC  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  Everything
+outside the rows at the bottom is byte-identical, so this is
+a near miss, not a codegen failure.  Residue: four bytes: the same guard block as func_02022490.
+
+---- source (scratch/lane2/func_020224DC.c) ----
+/*
+ * function: func_020224DC
+ * address:  0x020224DC
+ * packet:   pkt_02022490
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   sub_020268A4_Sys  0x020268A4  data
+ */
+
+typedef unsigned int u32;
+
+extern char sub_020268A4_Sys[];
+extern void func_020225F0(void);
+extern void func_02030EAC(u32 a0);
+
+void func_020224DC(char *p, int a1)
+{
+    u32 v;
+
+    *(u32 *)(p + a1 * 4 + 0x10) = 0;
+    if (*(u32 *)(p + 0x10) == 0 && *(u32 *)(p + 0x14) == 0) {
+        v = *(u32 *)(sub_020268A4_Sys + 0x54);
+        if (v != 0) {
+            func_02030EAC(v);
+            *(u32 *)(sub_020268A4_Sys + 0x54) = 0;
+        }
+    }
+    *(u32 *)(p + a1 * 4 + 8) = (u32)func_020225F0;
+    *(u32 *)(p + a1 * 4) = 0;
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0000 push {r3, r4, r5, r6, r7, lr} | push {r4, r5, r6, lr}
+* +0002 adds r5, r0, #0 | lsls r1, r1, #2
+* +0004 lsls r4, r1, #2 | adds r5, r0, r1
+* +0006 movs r6, #0 | movs r4, #0
+* +0008 adds r0, r5, r4 | str r4, [r5, #0x10]
+* +000A str r6, [r0, #0x10] | ldr r1, [r0, #0x10]
+* +000C ldr r0, [r5, #0x10] | cmp r1, #0
+* +000E cmp r0, #0 | bne #0x2022500
+* +0010 bne #0x2022502 | ldr r0, [r0, #0x14]
+* +0012 ldr r0, [r5, #0x14] | cmp r0, #0
+* +0014 cmp r0, #0 | bne #0x2022500
+* +0016 bne #0x2022502 | ldr r6, [pc, #0x18]
+* +0018 ldr r7, [pc, #0x18] | ldr r0, [r6, #0x54]
+* +001A ldr r0, [r7, #0x54] | cmp r0, #0
+* +001C cmp r0, #0 | beq #0x2022500
+* +001E beq #0x2022502 | blx #0x2030eac <- THM_CALL func_02030EAC [resolved: label]
+* +0020 blx #0x2030eac | d8 ec 74 65
+* +0022 d6 ec | str r4, [r6, #0x54]
+* +0024 str r6, [r7, #0x54] | ldr r0, [pc, #0xc]
+* +0026 ldr r1, [pc, #0x10] | str r0, [r5, #8]
+* +0028 adds r0, r5, r4 | movs r0, #0
+* +002A str r1, [r0, #8] | str r0, [r5]
+* +002C movs r0, #0 | pop {r4, r5, r6, pc}
+* +002E str r0, [r5, r4] | mov r8, r8
+~ +0030 pop {r3, r4, r5, r6, r7, pc} | movs r0, r0 <- ABS32 sub_020268A4_Sys [wildcard]
+~ +0032 mov r8, r8 | movs r0, r0
+* +0034 ldr r4, [r4, #8] | movs r5, #0xf1 <- ABS32 func_020225F0 [resolved: literal]
+* +0036 lsls r4, r2, #8 | lsls r2, r0, #8

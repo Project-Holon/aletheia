@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * Blocked: MATCH on the call to func_0202C070 (pkt_0202BFF0, lane 4) - no
+ * manifest entry and no site outside this range.  Closes when func_0202C070
+ * is filed.
  *
  * Builds the +0x20 sub-object from the object's u16 id.
  *

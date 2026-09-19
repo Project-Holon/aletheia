@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * Blocked: Data_0209FF1C is named by this function's one pool word
+ * (0x0202A3D4) inside the compared range; `literal` has no outside site
+ * and the target is neither a string nor a pointer table.  Every concrete
+ * byte reproduces.
  *
  * symbols:
  *   Data_0209FF1C  0x0209FF1C  data

@@ -31,3 +31,96 @@ own pool word.  Both are eight instructions that pack a 16-bit field, a one-bit
 flag at bit 15 and a payload into 0x02148B4C + 0x94 and + 0x98, and both
 reproduce byte for byte on the first attempt.  The addresses to seed in
 layout/function_starts.txt are therefore 0x0206AA8C and 0x0206AAB0.
+
+======================================================================
+lane 6 residues, packet pkt_0206AA78
+======================================================================
+
+--- 0x0206AA78: DIFF
+ws note: listing says the original is 92 bytes, compiled 24
+typedef unsigned int u32;
+
+extern u32 g_02148B4C[];
+
+void func_0206AA78(u32 idx, u32 val)
+{
+    g_02148B4C[0x2a + idx] = val | (idx << 30);
+}
+
+--- 0x0206AAD4: DIFF
+ws note: listing says the original is 68 bytes, compiled 64
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+extern u32 g_02148B4C[];
+extern u8  g_02148B98[];
+extern u8  g_02148C4C[];
+extern void MTX_Inverse43(const void *src, void *dst);
+
+void *func_0206AAD4(void)
+{
+    if ((g_02148B4C[0x3f] & 8) == 0) {
+        MTX_Inverse43(g_02148B98, g_02148C4C);
+        g_02148B4C[0x3f] |= 8;
+    }
+    return g_02148C4C;
+}
+
+--- 0x0206AD20: DIFF
+ws +001C PC24 func_0206AB18           -> unresolved: 0206AB18 (arm, from name) has no witness outside 0206AD20..0206AD60; note: listing says the original is 68 bytes, compiled 64
+typedef unsigned int u32;
+
+extern u32  g_02148B4C[];
+extern char g_02148B54[];
+extern char g_02148D0C[];
+extern void func_0206AB18(void *a, void *b);
+
+void *func_0206AD20(void)
+{
+    if ((g_02148B4C[63] & 16) == 0) {
+        func_0206AB18(g_02148B54, g_02148D0C);
+        g_02148B4C[63] |= 16;
+    }
+    return g_02148D0C;
+}
+
+--- 0x0206ADBC: DIFF
+ws note: listing says the original is 56 bytes, compiled 52
+typedef unsigned int u32;
+
+extern u32  g_02148B4C[];
+extern char g_02148C7C[];
+extern void func_0206AD64(void);
+
+void *func_0206ADBC(void)
+{
+    if ((g_02148B4C[63] & 0x80) == 0) {
+        func_0206AD64();
+        g_02148B4C[63] |= 0x80;
+    }
+    return g_02148C7C;
+}
+
+--- 0x0206ADF4: DIFF
+ws note: listing says the original is 56 bytes, compiled 52
+typedef unsigned int u32;
+
+extern u32  g_02148B4C[];
+extern char g_02148CAC[];
+extern void func_0206AD64(void);
+
+void *func_0206ADF4(void)
+{
+    if ((g_02148B4C[63] & 0x80) == 0) {
+        func_0206AD64();
+        g_02148B4C[63] |= 0x80;
+    }
+    return g_02148CAC;
+}
+
+The four DIFF sources an earlier pass had parked in src/pending/ for
+0x0206AAD4 / 0x0206AD20 / 0x0206ADBC / 0x0206ADF4 are folded into this note
+(above) and removed from src/pending/, which holds MATCH entries only.
+
+See also docs/notes/pkt_0206A12C.c.txt (wave2-F), which documents the same
+global-address-live-across-a-call wall that the four residues above hit.

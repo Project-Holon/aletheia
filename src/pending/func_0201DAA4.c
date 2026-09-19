@@ -8,30 +8,24 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0201DAA4.c \
- *       --func func_0201DAA4 --addr 0x0201DAA4 --cc 1.1p1 --thumb
+ * blocker:  +0024 ABS32 func_0201DBF4          : 0201DBF4 (thumb, from name) has no witness outside 0201DAA4..0201DADC +0034 ABS32 func_0201E938          : 0201E938 (arm, from name) has no witness outside 0201DAA4..0201DADC
  */
 
-typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef signed short s16;
-typedef signed char s8;
 
 extern void func_0201DBF4(void);
 extern void func_0201DE40(void);
 extern void func_0201E538(void);
 extern void func_0201E738(void);
-extern void func_0201E928(void);
+extern void func_0201E938(void);
 
-void func_0201DAA4(void *p, u32 a1, u32 a2)
+void func_0201DAA4(char *p, int a, int b)
 {
-    *(u32 *)((u8 *)p + 0xc) = 0;
-    *(void **)((u8 *)p + 4) = func_0201DBF4;
-    if (a1 == 1) {
-        *(void **)((u8 *)p + 8) = (a2 == 1) ? func_0201DE40 : func_0201E538;
-    } else {
-        *(void **)((u8 *)p + 8) = (a2 == 1) ? func_0201E738 : func_0201E928;
-    }
+    *(u32 *)(p + 0xc) = 0;
+    *(u32 *)(p + 4) = (u32)func_0201DBF4;
+    if (a == 1)
+        *(u32 *)(p + 8) = (b == 1) ? (u32)func_0201DE40 : (u32)func_0201E538;
+    else
+        *(u32 *)(p + 8) = (b == 1) ? (u32)func_0201E738 : (u32)func_0201E938;
 }

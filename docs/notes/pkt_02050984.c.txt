@@ -1,0 +1,30 @@
+pkt_02050984 - the dispatch head and the handler stub (lane 5, 0-64 byte band)
+=============================================================================
+
+func_02050984 @ 0x02050984 (row 28 bytes, listing extent 76 bytes + a 16-byte
+pool, arm9, ARM) - MATCH*, parked (src/pending/func_02050984.c)
+
+The row is the four-way switch head of the id-to-handler selector: two
+subtracts normalise the id by 0x3FFC with no `mov` of the base, `addls pc, pc,
+r0, lsl #2` dispatches, and each arm is `ldr r0, [pc, #n]; bx lr` returning the
+address of one of four handlers; the default returns 0.  The pool words at
+0x020509D0..0x020509DC name
+
+  0x020509E0   the second arm's handler  <- now EXACT, see below
+  0x020509E8   the first arm's handler   <- EXACT, src/matched/func_020509E8.c
+  0x02050A00   the third arm's handler   <- still unwitnessed
+  0x02050A58   the fourth arm's handler  <- still unwitnessed
+
+Lane 5 filed the second arm: 0x020509E0 is eight bytes (`mov r0, #1; bx lr`),
+`int func_020509E0(void) { return 1; }` reproduces it byte for byte, and
+`manifest --verify --shard pkt_02050984` wrote it as the shard's single entry
+(8 bytes).  That resolves the row's ABS32 at +0x50 through the `matched` class
+and moves the file from three wildcarded sites to two.
+
+The two that remain are outside this packet's range (it ends at 0x020509E8),
+so they belong to the next packet over and lane 5 parked rather than reached
+across.  Both are plain `ldr r0, [pc]; bx lr` arms of the same table, i.e. the
+same eight-byte stub shape as 0x020509E0 and 0x020509E8; filing them the same
+way closes this file with no change to its C.
+
+Addresses are Black-image addresses.

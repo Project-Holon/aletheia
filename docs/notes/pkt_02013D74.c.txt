@@ -74,3 +74,51 @@ C currently tried (scratch/scratch/w_02013D74.c):
         return 1;
     }
 
+
+
+========================================================================
+
+func_02013D74 @ 0x02013D74  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  The body below
+is byte-identical to the original everywhere except the rows
+listed after it, so it is a near miss, not a codegen failure.
+Residue: block layout only: the compiler prints the `return 0` arm
+    inline and the `return 1` arm at the end, so the two arm
+    bodies come out in the opposite order from the original.
+
+---- source (scratch/lane2/func_02013D74.c) ----
+/*
+ * function: func_02013D74
+ * address:  0x02013D74
+ * packet:   pkt_02013D74
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned int u32;
+
+extern u32 func_02013A94(u32 key);
+extern int func_02013D9C(u32 a);
+
+int func_02013D74(u32 key)
+{
+    u32 v = func_02013A94(key);
+
+    if (v < 0x121 || v > 0x13c)
+        return func_02013D9C(v) == 1;
+    return 1;
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0006 ldr r1, [pc, #0x1c] | ldr r1, [pc, #0x20]
+* +0010 bls #0x2013d8e | bls #0x2013d96
+* +0022 mov r8, r8 | movs r0, #1
+* +0024 lsls r1, r4, #4 | pop {r3, pc}
+* +0026 movs r0, r0 | mov r8, r8
+* +0028 push {r3, lr} | lsls r1, r4, #4
+* +002A .byte ff f7 | movs r0, r0

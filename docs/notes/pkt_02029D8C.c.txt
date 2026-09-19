@@ -41,3 +41,19 @@ void func_02029D8C(u32 a0, u32 a1, u32 a2)
     func_02012984(a1);
     func_020289F8(a0, 5, func_02029EB4(a1, a2), 0x1e, 0);
 }
+
+
+------------------------------------------------------------------
+lane 3 re-attempt for func_02029D8C (0x02029D8C), same residue.
+
+The original copies the first call's result into r2 and then overwrites r2
+with the second call's result - a dead store this front end always removes,
+leaving the function 4 bytes short (44 against 48). Four spellings compiled:
+
+    func_02012984(a1); func_020289F8(a0, 5, func_02029EB4(a1, a2), 0x1e, 0);
+    u32 v = func_02012984(a1); ...; (void)v;
+    u32 v = func_02012984(a1); v = func_02029EB4(a1, a2); ... v ...
+    func_020289F8(a0, 5, v = func_02029EB4(a1, a2), 0x1e, 0);
+
+Every one drops the `adds r2, r0, #0` after the first call. Everything after
+it matches.

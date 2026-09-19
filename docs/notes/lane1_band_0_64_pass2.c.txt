@@ -1,0 +1,134 @@
+lane 1 of the second 0-64 byte band pass: verdicts for all 73 functions
+========================================================================
+
+Slice: scratch/band_64_lane1_targets.md, 73 functions, 0x02005230..0x02012444,
+50 packets.  This file is the lane's index: what graduated, what is parked, what
+is a wall, and what the next pass should not re-derive.
+
+PROMOTED TO src/matched/ + A SHARD (new manifest addresses)
+----------------------------------------------------------
+| address | size | packet | what closed it |
+| --- | --- | --- | --- |
+| `0x02011EC0` | 44 | `pkt_02011EC0` | already EXACT; the 0x02012088 site is now a `matched` witness (src/matched/func_02012088.c landed with an EXACT* entry).  Moved out of src/pending/ unchanged. |
+| `0x020123D8` | 52 | `pkt_020123D8` | written this pass; needs the `if (r != 0) { ... } return 0;` order, see the header. |
+| `0x0201240C` | 56 | `pkt_020123D8` | written this pass; the state must be bound before the switch and both arms must `break` to the shared tail. |
+| `0x02012444` | 44 | `pkt_020123D8` | parked at MATCH on the pool word 0x0201240D; that site resolves the moment 0x0201240C is an EXACT entry, and it was re-run after the first shard write.  Moved out of src/pending/ unchanged. |
+
+4 addresses, 196 bytes.  Shards written with
+`python tools/match.py manifest --verify --shard ...`:
+`layout/matched/arm9/pkt_02011EC0.json` (5 entries, 1 of them this lane's) and
+`layout/matched/arm9/pkt_020123D8.json` (5 entries, 3 of them this lane's).
+
+PARKED AT MATCH IN src/pending/ (byte-correct, one unwitnessed relocation)
+-------------------------------------------------------------------------
+44 of the lane's 73 functions.  Every one is byte-correct with its blocker named
+in the file header; none of them changed this pass except 0x02012444 above.  The
+blockers fall into three classes and the class is what matters for the next
+pass:
+
+* **`label`, callee outside the lane.**  0x02005230 (0200567C), 0x020052EC
+  (02023FD8/0200F734/02026728/02010DCC), 0x0200567C (02050A70), 0x020057C4
+  (02035108), 0x02005DE4 (02072E8C), 0x02005EB4 (02072FC8), 0x02005F24
+  (02072FE8), 0x02006224 (02072EC8), 0x02006948 (02072A88/02072BDC/02072D20),
+  0x02006AEC (02072C40), 0x02007168 (02031BB4), 0x02007248 (020334E8),
+  0x020073B0 (02031C30), 0x020097C4 (020A7198), 0x0200A848 (02161EEC/02161F00,
+  overlay), 0x0200F4E4 (0200F38C), 0x020107CC (0205FAA8), 0x02011EAC (02011FCC),
+  0x02011FB8 (02011F28/020267BC), 0x0201240C is now EXACT, 0x02005B24
+  (02005B74/02073FB8), 0x02005C28 (02072794), 0x020103E4 (0217963C, overlay),
+  0x0200E488 (0216736C, two overlays), 0x0200A300 (0200A358), 0x0200A338
+  (0200A3D0), 0x0200D298 (0200D2D8), 0x0200D2D8 (0200C780), 0x0200D2B0
+  (0200D310), 0x02012158 (02012BC8), 0x0200F7B8 (0200FC0C), 0x02010DB4
+  (02010DF4), 0x020120B4's callers.  These graduate one at a time as other
+  lanes file the callee; none of them needs this lane to change its C.
+* **`literal`, own-pool-only data.**  0x020082DC (0209DD64/020362A4), 0x02008CF8
+  (0209DDB4/020A70C4), 0x02008E30 (0209DDA0), 0x02008F08 (020A716C), 0x0200C780
+  (0209DE2C), 0x0200C7A0 (0209DE20), 0x020113F0 (0209DF24), 0x020120C0
+  (0x021D359C plus the 0x15 literal).  Permanent until the named address gets an
+  outside witness; the table address is named by exactly one pool word in the
+  whole image and that word is inside the function.
+* **overlay `label`.**  0x0200A2B8, 0x0200A2D8 (021DFDC0/021DFE00; seven
+  overlays hold the address and none carries a func_ label there with an outside
+  branch), 0x0200A338 (0200A3D0).
+
+WALLS (in-lane chains that cannot close)
+----------------------------------------
+* **0x020120B4 -> 0x0201240C -> 0x02012444** was the lane's best chain and it
+  broke at the first link.  0x020120B4's original is a *real* call with a frame
+  (`push {r3, lr}` / `ldr r0, [r0, #8]` / `blx` / `pop {r3, pc}`, 10 bytes) where
+  mwccarm 1.1p1 turns the same one-statement body into a Thumb tail call (12
+  bytes, `ldr r3, [pc]; bx r3`).  The packet note's five spellings are joined by
+  nine more this pass - a variadic callee, a no-prototype callee, an explicit
+  `return;`, a `u64`-returning callee, a `char`-returning callee, a struct local,
+  a `(void)v` use, and the field read through a second pointer - and all fourteen
+  give the same 12-byte tail call.  0x0201240C and 0x02012444 nevertheless
+  graduated: their sites to 0x020120B4 resolve through the `label` class (there
+  is an outside branch at 0x020120C8), so this wall cost the lane nothing.
+* **0x02010DF4 and 0x02010DCC, the rotated loop.**  docs/notes/pkt_02010DB4.c.txt
+  documents 21 spellings; thirteen more were tried here (the goto loop with an
+  explicit peeled test, `for (;;) { if (i >= 13) break; ... }`, the break after
+  the call, the `continue` guard, `while (13 > i)`, an `unsigned char` counter,
+  `int i` initialised at its declaration, the `s64`/`u32` bound forms).  The
+  closest remains the note's 1-byte residue: `for (i = 0; i < 13; i++) { if (i >=
+  13) break; f(i); }` reproduces 31 of the original's 32 bytes and differs only
+  in the back edge (`blt` to the body in the original, to the top test here).
+  The `continue` spelling (`if (i >= 13) continue;`) gets 4 bytes.  Nothing
+  reached a two-test loop.  0x02010DB4 therefore stays parked.
+* **0x020111BC**, 34 bytes: two independent residues, full write-up in
+  docs/notes/func_020111BC.c.txt (guard registers and the 64-bit-to-32-bit
+  return copy).  It is *not* an attestation problem - all four sites resolve.
+* **0x0200F234**, the packet pkt_0200F17C switch: the dispatch, the 7-entry jump
+  table and all five arms reproduce byte for byte, but the original loads each
+  small argument out of the literal pool (`ldr r0, [pc, #imm]`) where every C
+  spelling gives `movs r0, #imm`, and the pool carries a seventh word (0x0E) that
+  no instruction loads.  Full write-up in docs/notes/func_0200F234.c.txt.
+* **0x0200F17C**, 0x02010AC4 and 0x02010C34 are band members by their *leading
+  code* only: 22, 30 and 62 bytes of code, but their extents run to 184, 212 and
+  356 bytes (jump tables with the case bodies laid out after them).  The band
+  size column is the first code run, not the function.  0x0200F17C is already
+  written up (docs/notes/pkt_0200F17C.c.txt, 86 sites).  0x02010AC4 and
+  0x02010C34 are switches on a field (`ldr r0, [r4, r5]` with r5 = 0x1d4, and
+  `ldr r0, [r5]` with the state advanced inside an arm) and were not attempted;
+  the next pass should treat them as their true extent, not as 30 and 62 bytes.
+
+ARTIFACTS (not functions, not counted)
+--------------------------------------
+Six of the lane's 73 entries are linker veneers of the `ldr pc, [pc, #-4]` form
+(one instruction plus the pointer word the load uses), 8 bytes each:
+
+| address | pointer word | target |
+| --- | --- | --- |
+| `0x020053E4` | 0x020053E8 | 0x0273154C |
+| `0x02005420` | 0x02005424 | 0x027315D0 |
+| `0x02005428` | 0x0200542C | 0x027314F0 |
+| `0x02005454` | 0x02005458 | 0x027315C0 |
+| `0x02005B6C` | 0x02005B70 | 0x02704364 |
+| `0x02006D3C` | 0x02006D40 | 0x027047C0 |
+
+They carry `func_` labels in the generated listings (the `.global func_020053E4`
+/ `ldr pc, pool_020053E8` pattern in asm/arm9/src/000_02004000.s, and the same
+in 004_02010BB8.s), which is why the band screen classified them as ready rather
+than as artifacts - the artifact class in scratch/brief_band_0_64.md is written
+for the `ldr ip, [pc]; bx ip` shape.  No C spelling produces them, so they are
+recorded here and filed nowhere: the brief's rule ("do not attempt them and do
+not count them") applies to the whole family.
+
+Two of them cost the lane two MATCH entries: 0x020053EC's sites to 0x02005420
+and 0x02005428, and 0x02005440's site to 0x02005454, cannot resolve through the
+`veneer` class even in principle, because rule 4 of attest_veneer() wants the
+veneer's pointer word to name code inside a region and all six pointers land in
+0x0270_xxxx / 0x0273_xxxx, which no region in layout/layout.json covers
+(`match.veneer_at()` returns None for every one of the six; checked directly).
+The other four (0x020053E4, 0x02005454, 0x02005B6C, 0x02006D3C) *do* attest as
+`label x1` from outside the caller's range, which is why 0x020053EC's first
+site resolves and its two veneer sites do not.
+
+Housekeeping
+------------
+* `src/pending/func_0200EBD0.c` carried `status: DIFF`, which src/pending/ does
+  not hold (rule 2 of the brief).  Its C and its residue are in
+  docs/notes/pkt_0200EA3C.c.txt, so the file was removed from src/pending/.
+* Scratch candidates for this pass are in scratch/_l1/cand/ (g1, f234, h1, h2,
+  p111bc, e1-e4, f1-f4, m1-m5, s_div, s_mod, t1-t4, u1-u3, b1-b8, c1-c6), and
+  the two drivers used are scratch/_l1/verdicts.py (batch `match.py one` over a
+  file list, reading the address/isa/flags out of each header) and
+  scratch/_l1/try.py.

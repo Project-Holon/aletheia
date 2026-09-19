@@ -11,3 +11,8 @@ condition, `goto` around the call, a dead `int r` to hold the result,
 `volatile` on the local (which spills it to the stack instead), and a u32
 local cast at the call.  All nine give r0.  This is a pure register-choice
 residue: the instruction sequence and every branch target is already right.
+
+A previous pass had parked func_0206B780 and func_0206B7A8 here as DIFF (3
+bytes, the function pointer in r1 against r0).  Both are EXACT now: the
+callback takes the object itself (`p->unk0c(p)`), which is why the target has
+to live in r1 and why r0 still holds the object at the `blx`.

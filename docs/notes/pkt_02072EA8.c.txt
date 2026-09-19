@@ -85,3 +85,27 @@ the whole tail is wrong (12 concrete bytes). Writing the global as an object
 with members (`struct G { u32 f0, f4, f8; }; g_0214DEC0.f8`) keeps 0x0214DEC0
 in the pool and the +8 in the instruction, which is what the original does.
 Same for 0x02072A08 and its +4.
+
+======================================================================
+lane 6 residues, packet pkt_02072EA8
+======================================================================
+
+--- 0x02072EA8: DIFF
+ws note: listing says the original is 32 bytes, compiled 24
+typedef unsigned int u32;
+
+typedef struct {
+    u32 *unk00;
+} Obj02072EA8;
+
+void func_02072EA8(Obj02072EA8 *p)
+{
+    if (p->unk00 != 0) {
+        *p->unk00 = 0;
+        p->unk00 = 0;
+    }
+}
+
+WALL (if-conversion plus re-load).  func_02072EA8 is 32 bytes with branches
+and a fresh `ldr r1, [r0]` after the null test; every spelling examined
+(including a volatile block field) predicates the body to 24 bytes.

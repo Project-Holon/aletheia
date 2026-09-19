@@ -86,3 +86,69 @@ C currently tried (scratch/scratch/w_020141A8.c):
         *(u8 *)(p + 0x13) = func_0201441C(func_02014274(c));
     }
 
+
+
+========================================================================
+
+func_020141A8 @ 0x020141A8  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  The body below
+is byte-identical to the original everywhere except the rows
+listed after it, so it is a near miss, not a codegen failure.
+Residue: constant materialisation and store order: the original builds
+    -1 as `movs r5, #1; subs r0, r5, #2` and reuses r5 for the
+    three 1 stores; this front end loads 0x0000FFFF from the
+    pool instead and re-orders the first four stores.
+
+---- source (scratch/lane2/func_020141A8.c) ----
+/*
+ * function: func_020141A8
+ * address:  0x020141A8
+ * packet:   pkt_020141A8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+
+extern u32 func_02014274(int a0);
+extern u8 func_0201441C(int a0);
+
+void func_020141A8(char *p, u16 a1, u16 a2, u16 a3, u16 a4, s16 a5)
+{
+    *(u16 *)(p + 4) = a1;
+    *(u16 *)(p + 6) = -1;
+    *(u32 *)(p + 0) = 1;
+    *(u16 *)(p + 8) = a2;
+    *(u32 *)(p + 0xc) = 1;
+    *(u8 *)(p + 0x12) = 1;
+    *(u16 *)(p + 0x10) = a3;
+    *(u16 *)(p + 0xa) = 0;
+    *(u16 *)(p + 0x16) = a4;
+    *(u16 *)(p + 0x14) = a5;
+    *(u8 *)(p + 0x13) = func_0201441C(func_02014274(a2));
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0000 push {r3, r4, r5, lr} | push {r4, lr}
+* +0002 movs r5, #1 | adds r4, r0, #0
+* +0004 adds r4, r0, #0 | ldr r0, [pc, #0x2c]
+* +0006 subs r0, r5, #2 | strh r1, [r4, #4]
+* +0008 strh r1, [r4, #4] | strh r0, [r4, #6]
+* +000A strh r0, [r4, #6] | movs r0, #1
+* +000C movs r0, #0 | str r0, [r4]
+* +000E str r5, [r4] | strh r2, [r4, #8]
+* +0010 strh r2, [r4, #8] | str r0, [r4, #0xc]
+* +0012 str r5, [r4, #0xc] | strb r0, [r4, #0x12]
+* +0014 strb r5, [r4, #0x12] | movs r0, #0
+* +0018 add r1, sp, #0x10 | add r1, sp, #8
+* +0032 pop {r3, r4, r5, pc} | pop {r4, pc}
+* +0034 ldr r0, [r0, #0xc] | .byte ff ff 00 00
+* +0036 bx lr | 00 00

@@ -8,22 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * blocker:  +0008 ABS32 sub_0209E8C8_Map       : 0209E8C8 (data, from header) has no witness outside 0201F53C..0201F548
  * symbols:
- *   tbl_0209E8C8  0x0209E8C8  data
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0201F53C.c \
- *       --func func_0201F53C --addr 0x0201F53C --cc 1.1p1 --thumb
+ *   sub_0209E8C8_Map  0x0209E8C8  data
  */
 
 typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed char s8;
 
-extern u8 tbl_0209E8C8[];
+extern u8 sub_0209E8C8_Map[];
 
-u32 func_0201F53C(u32 i)
+u8 func_0201F53C(int i)
 {
-    return tbl_0209E8C8[i];
+    return sub_0209E8C8_Map[i];
 }

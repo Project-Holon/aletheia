@@ -1,0 +1,51 @@
+
+
+========================================================================
+
+func_020225B4 @ 0x020225B4  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  Everything
+outside the rows at the bottom is byte-identical, so this is
+a near miss, not a codegen failure.  Residue: two bytes: the three loads from the argument block are
+    scheduled into the call differently.
+
+---- source (scratch/lane2/func_020225B4.c) ----
+/*
+ * function: func_020225B4
+ * address:  0x020225B4
+ * packet:   pkt_020225B4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned int u32;
+
+extern void func_02022490(char *p, int a1, int a2, int a3);
+extern void func_02030EAC(int a0);
+extern void func_020307B0(u32 *a0);
+
+void func_020225B4(int a0, u32 *a1)
+{
+    func_02022490((char *)a0, (int)a1[0], (int)a1[1], (int)a1[2]);
+    func_02030EAC(a0);
+    func_020307B0(a1);
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0004 adds r5, r0, #0 | ldr r1, [r4]
+* +0006 ldr r0, [r4] | ldr r2, [r4, #4]
+* +0008 ldr r1, [r4, #4] | ldr r3, [r4, #8]
+* +000A ldr r2, [r4, #8] | adds r5, r0, #0
+~ +000C ldr r3, [r4, #0xc] | bl #0x20225c4 <- THM_CALL func_02022490 [wildcard]
+~ +000E bl #0x2022490 | 00 f8 28 1c
+* +0010 65 ff | adds r0, r5, #0
+* +0012 adds r0, r5, #0 | blx #0x2030eac <- THM_CALL func_02030EAC [resolved: label]
+* +0014 blx #0x2030eac | 72 ec 20 1c
+* +0016 70 ec | adds r0, r4, #0
+* +0018 adds r0, r4, #0 | blx #0x20307b0 <- THM_CALL func_020307B0 [resolved: label]
+* +001A blx #0x20307b0 | f0 e8 38 bd
+* +001C f0 e8 | pop {r3, r4, r5, pc}

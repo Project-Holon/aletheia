@@ -1,0 +1,105 @@
+func_020111BC (0x020111BC, packet pkt_020111BC) - DIFF, two residues and
+fifteen spellings
+================================================================================
+
+34 bytes of code, 44 with its two pool words.  Nothing about the shape is in
+doubt: a byte at +0x1e of one global gates the body, and the body is one
+64-bit multiply followed by a divide by 100, both of which are calls to the
+compiler's own runtime helpers.
+
+    020111BC  08 b5          push {r3, lr}
+    020111BE  08 49          ldr  r1, [pc, #0x20]        -> 0x02146208
+    020111C0  02 1c          adds r2, r0, #0             (the argument, saved)
+    020111C2  89 7f          ldrb r1, [r1, #0x1e]
+    020111C4  30 29          cmp  r1, #0x30
+    020111C6  09 d0          beq  0x020111DC             (shared `pop`)
+    020111C8  06 48          ldr  r0, [pc, #0x18]        -> 0x02146228
+    020111CA  00 21          movs r1, #0
+    020111CC  c0 8a          ldrh r0, [r0, #0x16]        (zero extended to r0:r1)
+    020111CE  d3 17          asrs r3, r2, #0x1f          (the argument as s64)
+    020111D0  8a f0 40 ef    blx  0x0209C054             _ll_mul
+    020111D4  64 22          movs r2, #0x64
+    020111D6  00 23          movs r3, #0
+    020111D8  8a f0 40 ee    blx  0x0209BE5C             _ll_divmod_body
+    020111DC  08 bd          pop  {r3, pc}
+
+The multiply takes the u16 first (r0:r1, high word zero because a u16 promotes
+to a non-negative int) and the argument second (r2:r3, sign extended) - so the
+expression is `v * (s64)a0`, not `(s64)a0 * v`.  The `_ll_mul` pool-word name
+and the `_ll_divmod_body` address both come from layout/runtime_arm9.txt (see
+docs/idioms/consecutive-ll-udiv-calls-are-one-chained-64-bit-expression.md);
+the compiler emits `_ll_sdiv` for the divide, so the symbols block pins
+`_ll_sdiv 0x0209BE5C arm` - the same address under the other name, exactly the
+move that file describes for `_ll_mul` / `_ull_mul` at 0x0209C054.
+
+The best spelling found is
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+    typedef signed int     s32;
+    typedef signed long long s64;
+
+    extern u8  g_02146208;
+    extern u16 g_02146228;
+
+    u32 func_020111BC(s32 a0)
+    {
+        if (*(u8 *)((u8 *)&g_02146208 + 0x1e) == 0x30)
+            return a0;
+        return (u32)(*(u16 *)((u8 *)&g_02146228 + 0x16) * (s64)a0 / 100);
+    }
+
+48 bytes compiled against the original's 34, 20 concrete bytes differ, and the
+residue is two separate things:
+
+1.  **The guard's registers.**  The original loads the address into r1 and the
+    byte through r1, keeping r0 (the argument) live until the `adds r2, r0, #0`
+    in between; every spelling here loads the address into r0 and the byte
+    through r0, because the compiler has already committed the argument to r2
+    before the load and is free to reuse r0.  Five bytes, and no spelling
+    moves it: reading the byte into a `u32 b` local first, the `!= 0x30` /
+    inverted-guard form, binding `s64 t = (s64)a0` before the guard, and
+    putting the byte load after the argument copy all give the same order.
+
+2.  **The truncation of the 64-bit quotient to the 32-bit return type.**  The
+    original returns the quotient's low word directly (`pop {r3, pc}`), so the
+    division's result is the last thing the function computes.  Every spelling
+    that keeps the value live - `return (u32)(...)`, `return (s32)(...)`, a
+    `u32 r` local, an `s64` local, a `union`, a non-volatile local - emits two
+    extra instructions before the pop,
+
+        adds r2, r0, #0
+        adds r0, r2, #0
+
+    which is mwccarm's register-pair copy for "take the low word of this 64-bit
+    value".  The only spelling that makes the truncation free is a *store*
+    (`out = (s32)(...)` into a volatile local reproduces the function exactly
+    at 44 bytes, the original's extent, and differs by the store alone) -
+    which is what the matched example in the idiom file above does, storing
+    into a struct field.  There is no store in this function.
+
+So: 34 of the original's bytes reproduce in every spelling, and the two
+residues are a register choice and a 64-bit-to-32-bit return conversion.  The
+function is worth one more look only with a spelling that both keeps the
+argument in r0 across the guard load and returns the low word of a 64-bit
+quotient without a copy.
+
+Fifteen spellings tried, all DIFF, none smaller than 20 concrete bytes:
+
+  `(s64)a0 * v / 100`; `v * (s64)a0 / 100`; `(s64)(u16)v * a0 / 100`;
+  `(u64)(u16)v * (s64)a0 / 100` (needs a u64 typedef, the spelling that first
+  resolved all four sites); `(void)(...)` (the whole expression is removed as
+  dead and the function comes out 12 bytes); a `s64 v` local; a `u32 r` local
+  assigned then returned; `s64 t = (s64)a0` before the guard; the same after;
+  a `volatile s32 out` local (44 bytes, the closest); the modulo spelling with
+  `_ll_mod` pinned at the same address; the inverted guard; the byte in a
+  `u32 b` local; the guard as `!= 0x30` with the division in the arm.
+
+Verified with
+
+    python tools/match.py one --src scratch/_l1/cand/s_div.c \
+        --func func_020111BC --addr 0x020111BC --cc 1.1p1 --thumb --diff
+
+Scratch candidates: p111bc.c, e1-e4, f1-f4, m1-m5, s_div, s_mod, t1-t4,
+u1-u3 in scratch/_l1/cand/.

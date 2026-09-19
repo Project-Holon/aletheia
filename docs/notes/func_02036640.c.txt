@@ -1,0 +1,44 @@
+func_02036640 @ 0x02036640, 44 bytes, arm, packet pkt_02036640
+verdict: DIFF, compiled 36 against 44.
+
+WHAT IT IS
+----------
+Distance from the +4 cursor to a wrapped marker: when the +0xc signed half has
+passed the +0xe one, the +0xe value is measured from the end of the buffer
+(+4) instead.
+
+    int func_02036640(struct Obj *o)
+    {
+        return (int)o->f4 -
+               ((o->fc > o->fe ? (int)o->f4 + o->fe : o->fe) - o->fc);
+    }
+
+The control flow, the predicated arms and the shared `sub r1, r1, r3` /
+`sub r0, r0, r1` tail are all right; the original shares the tail exactly this
+way.
+
+WHAT IS STILL WRONG
+-------------------
+The original re-reads the fields inside both arms, this file does not:
+
+    original                     this file
+    ldrsh r3, [r0, #0xc]         ldrsh r3, [r0, #0xe]
+    ldrsh r1, [r0, #0xe]         ldrsh r2, [r0, #0xc]
+    cmp   r3, r1                 cmp   r2, r3
+    ldrshgt r1, [r0, #0xe]       ldrgt r1, [r0, #4]
+    ldrgt r2, [r0, #4]           addgt r3, r1, r3
+    addgt r1, r2, r1             ldr   r1, [r0, #4]
+    ldrshle r1, [r0, #0xe]       sub   r0, r3, r2
+    ldr   r0, [r0, #4]           sub   r0, r1, r0
+    sub   r1, r1, r3
+    sub   r0, r0, r1
+
+The original loads +0xe three times (once for the guard, once per arm) and +4
+twice in the true arm; this front end CSEs the arm's re-read against the
+guard's and drops eight bytes and one predicated load.  Both arms therefore
+really do carry their own read in the source, and the guard's read must not be
+the one they see.  Tried and rejected: an if/else with two returns (same
+CSE), the arms bound to named locals, `(short)` casts on the arms' loads, and
+the whole expression split so the guard value is consumed before the
+conditional.  The CSE happens on the load, not on the expression, so the
+spelling that suppresses it is not obvious from this side.

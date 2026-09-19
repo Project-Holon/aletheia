@@ -1,57 +1,137 @@
-0x0206A12C near miss (register swap), written by the wave 5 chain work on 0x0206A12C's packet.
-The packet's other two functions, 0x0206A884 and 0x0206AA3C, verify EXACT and are filed.
-This body reproduces the whole schedule but binds the first two arguments the other way round:
-the original takes r5 then r4, mwcc takes r4 then r5. Ten spellings of the pair (named locals,
-declaration order, a temporary for the second argument) leave the same swap.
+pkt_0206A12C - DIFF residues (lane 5, 0-64 byte band)
+=====================================================
 
-residue:
-   * +0004    01 50 b0 e1                            | 01 40 b0 e1
-   * +0008    00 40 a0 e1                            | 00 50 a0 e1
-   * +0014    2c 00 94 e5                            | 2c 00 95 e5
-   * +0018    b0 23 d4 e1                            | b0 23 d5 e1
-   * +0020    38 30 94 e5                            | 38 30 95 e5
-   * +0028    03 00 84 e0                            | 03 00 85 e0
+Three rows of this packet are DIFF; the rest of the packet is other lanes'
+work.  All three are register-allocation or scheduling residues, not missing
+statements: the instruction multisets match.
 
+func_0206A17C @ 0x0206A17C (32 bytes) - DIFF, 16 concrete bytes
+--------------------------------------------------------------
+The original loads the word at +44 *after* the `strh` that clears bit 0 of the
+halfword at +50, and reuses r2 for it; every spelling tried -- including a
+named `u32` local, the two statements swapped, and `v = *(u32 *)(p + 44)` moved
+into the return expression -- hoists the load above the `strh` and uses r3.
+The store order below is the one that reaches the fewest differing bytes.
+
+func_0206A854 @ 0x0206A854 (44 bytes) - DIFF, 25 concrete bytes
+---------------------------------------------------------------
+The call's second argument is the post-increment pointer (`ldr r0, [r1], #4`
+with r1 = &g_02148B4C[1]), which the two spellings tried (`g_02148B4C[0]` and a
+named local) do not reproduce: mwccarm emits a plain `ldr r0, [r1]` and an
+extra `add` (40 compiled bytes against 48).  The pair of `bic #1` / `bic #2`
+also comes out as one `bic #3`.
+
+func_0206A9DC @ 0x0206A9DC (48 bytes) - DIFF, 45 concrete bytes
+---------------------------------------------------------------
+mwccarm hoists the &g_02148B4C load and gives the 12-byte copy destination lr,
+which forces a `push {r4, lr}`; the original loads the destination into r3
+before the `ldm`/`stm` pair and the flags base into r0 afterwards, so it is a
+frameless leaf (52 compiled bytes against 48).  This is the same shape as
+docs/notes/func_0206AA0C.c.txt records for 0x0206AA0C, where spelling the two
+objects as one made the difference -- tried here and it did not: with
+g_02148C2C as `g_02148B4C + 0x3b` the compiler still hoists the flags load.
+
+Not filed anywhere: DIFF.  Removed from src/pending/ by lane 5 (rule 2).
+The three sources as they stood follow, verbatim.
+
+=== src/pending/func_0206A17C.c (removed by lane 5) ===
 /*
- * function: func_0206A12C
- * address:  0x0206A12C
+ * function: func_0206A17C
+ * address:  0x0206A17C
  * packet:   pkt_0206A12C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
- *
- * symbols:
- *   func_0207FA0C    0x0207FA0C  arm
- *   func_0207FA40    0x0207FA40  arm
- *   func_0207FADC    0x0207FADC  arm
+ * status:   DIFF
+ * blocker:  DIFF, 4 bytes: the original loads the word at +44 *after* the strh and reuses r2 for it; every spelling tried hoists the load above the strh and uses r3
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206A12C.c \
- *       --func func_0206A12C --addr 0x0206A12C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0206A17C.c \
+ *       --func func_0206A17C --addr 0x0206A17C --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0207FA0C(char *p, int flag);
-extern void func_0207FA40(char *dst, u32 a, u32 b);
-extern void func_0207FADC(u32 v);
-
-void func_0206A12C(char *p, int flag)
+u32 func_0206A17C(char *p)
 {
-    char *p_loc;
-    u16 v;
+    u32 r;
 
-    p_loc = p;
-    if (flag)
-        func_0207FA0C(p_loc, flag);
-    func_0207FA40(p_loc + *(u32 *)(p_loc + 0x38), (u32)(*(u32 *)(p_loc + 0x2C) << 16) >> 13,
-                  (u32)(*(u16 *)(p_loc + 0x30) << 3));
-    v = (u16)(*(u16 *)(p_loc + 0x32) | 1);
-    *(u16 *)(p_loc + 0x32) = v;
-    if (flag)
-        func_0207FADC(v);
+    *(u16 *)(p + 50) = (u16)(*(u16 *)(p + 50) & ~1);
+    r = *(u32 *)(p + 44);
+    *(u32 *)(p + 44) = 0;
+    return r;
+}
+
+=== src/pending/func_0206A854.c (removed by lane 5) ===
+/*
+ * function: func_0206A854
+ * address:  0x0206A854
+ * packet:   pkt_0206A12C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * blocker:  DIFF, 40 compiled against 48: the call's second argument is the post-increment pointer (`ldr r0,[r1],#4` with r1 = &g[1]), which the spellings tried do not reproduce; the pair of `bic #1`/`bic #2` also comes out as one `bic #3`
+ *
+ * symbols:
+ *   g_02148B4C       0x02148B4C  data
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206A854.c \
+ *       --func func_0206A854 --addr 0x0206A854 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+extern u32 g_02148B4C[];
+extern void func_0206DDA4(u32 a, int b);
+
+void func_0206A854(void)
+{
+    func_0206DDA4(g_02148B4C[0], 62);
+    g_02148B4C[63] &= ~3u;
+}
+
+=== src/pending/func_0206A9DC.c (removed by lane 5) ===
+/*
+ * function: func_0206A9DC
+ * address:  0x0206A9DC
+ * packet:   pkt_0206A12C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * blocker:  DIFF, 52 compiled against 48: mwccarm hoists the &g_02148B4C load and gives the copy destination lr, forcing `push {r4,lr}`; the original loads the destination into r3 before the ldm/stm and the flags base into r0 afterwards
+ *
+ * symbols:
+ *   g_02148B4C       0x02148B4C  data
+ *   g_02148C2C       0x02148C2C  data
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206A9DC.c \
+ *       --func func_0206A9DC --addr 0x0206A9DC --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+struct S12 {
+    u32 a;
+    u32 b;
+    u32 c;
+};
+
+extern u32 g_02148B4C[];
+extern char g_02148C2C[];
+
+void func_0206A9DC(struct S12 *p)
+{
+    if (p == 0)
+        return;
+    *(struct S12 *)g_02148C2C = *p;
+    g_02148B4C[63] &= ~0xA4u;
 }

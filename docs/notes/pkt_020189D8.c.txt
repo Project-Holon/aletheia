@@ -62,3 +62,43 @@ C currently tried (scratch/scratch/w_020189F0.c):
         return base[(u32)tbl_0209E2A4 + i * 5];
     }
 
+
+
+========================================================================
+
+func_020189F0 @ 0x020189F0  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  The body below
+is byte-identical to the original everywhere except the rows
+listed after it, so it is a near miss, not a codegen failure.
+Residue: one instruction: the final `base + index` add comes out as
+    `adds r0, r2, r0` here and `adds r0, r0, r2` in the
+    original.  Six spellings of the same expression were
+    tried (indexed, parenthesised, pointer-arithmetic and a
+    named offset local); none produced the original's operand
+    field order.
+
+---- source (scratch/lane2/func_020189F0.c) ----
+/*
+ * function: func_020189F0
+ * address:  0x020189F0
+ * packet:   pkt_020189D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef signed char s8;
+
+extern void sub_0209E2A4_Map(void);
+
+s8 func_020189F0(int a, char *p)
+{
+    return p[0x0209E2A4 + a * 5];
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0006 adds r0, r0, r2 | adds r0, r2, r0

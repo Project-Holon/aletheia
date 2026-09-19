@@ -172,3 +172,58 @@ void func_0201DBF4(void *a0, int a1, int a2, int a3)
     func_0201DC44(a0, *(u32 *)((char *)a0 + 0x90),
                   *(u16 *)((char *)a0 + 0x7C), a2, a3);
 }
+
+
+========================================================================
+
+func_0201DBBC @ 0x0201DBBC  -- DIFF residue (lane 2, 0-64 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  The body below
+is byte-identical to the original everywhere except the rows
+listed after it, so it is a near miss, not a codegen failure.
+Residue: evaluation order inside the first call's first argument: the
+    original multiplies before it loads *(u32 *)(p + 0xc),
+    this front end loads first.
+
+---- source (scratch/lane2/func_0201DBBC.c) ----
+/*
+ * function: func_0201DBBC
+ * address:  0x0201DBBC
+ * packet:   pkt_0201DB20
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_02082D44(u32 a0, u32 a1);
+extern void func_0201DC44(char *a0, u32 a1, u16 a2, int a3, int a4);
+
+void func_0201DBBC(char *p, int a1, int a2, int a3)
+{
+    func_02082D44((u32)(*(u32 *)(p + 0xc) + a1 * *(u16 *)(p + 0x76)),
+                  *(u32 *)(p + 0x90));
+    func_0201DC44(p, *(u32 *)(p + 0x90), *(u16 *)(p + 0x7c), a2, a3);
+}
+
+---- mismatching rows (ORIGINAL | COMPILED) ----
+* +0006 adds r0, #0x76 | adds r6, r2, #0
+* +0008 adds r6, r2, #0 | adds r2, r5, #0
+* +000A ldrh r2, [r0] | adds r2, #0x76
+* +000C adds r0, r1, #0 | ldrh r2, [r2]
+* +000E adds r1, r5, #0 | ldr r0, [r5, #0xc]
+* +0012 adds r1, #0x90 | muls r2, r1, r2
+* +0014 ldr r3, [r5, #0xc] | adds r1, r5, #0
+* +0016 muls r0, r2, r0 | adds r1, #0x90
+* +001A adds r0, r3, r0 | adds r0, r0, r2
+* +0024 adds r5, #0x7c | str r4, [sp]
+* +0026 adds r1, #0x90 | adds r5, #0x7c
+* +0028 ldrh r2, [r5] | adds r1, #0x90
+* +002A ldr r1, [r1] | ldrh r2, [r5]
+* +002C adds r3, r6, #0 | ldr r1, [r1]
+* +002E str r4, [sp] | adds r3, r6, #0

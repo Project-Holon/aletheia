@@ -8,13 +8,26 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * blocker:  0214E46C
+ *
+ * blocker:  +0014 ABS32 g_0214E46C             -> unresolved: 0214E46C (data, from header) has no witness outside 02072EC8..02072EE0
+ *
  * symbols:
- *   g_0214E46C      0x0214E46C  data
+ *   g_0214E46C       0x0214E46C  data
+ *
+ * Reads the leading halfword of record `idx` at the same stride.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02072EC8.c \
+ *       --func func_02072EC8 --addr 0x02072EC8 --cc 1.1p1 --arm
  */
 
-extern unsigned char g_0214E46C[];
-int func_02072EC8(int a0)
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+extern u8 g_0214E46C[];
+
+u16 func_02072EC8(u32 idx)
 {
-    return *(unsigned short *)((char *)g_0214E46C + a0 * 0x24);
+    return *(u16 *)(g_0214E46C + idx * 0x24);
 }

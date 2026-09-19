@@ -9,31 +9,31 @@
  * isa:      thumb
  * status:   MATCH
  *
- * blocker:  the call to func_02091284 is an ARM long-branch stub
- *           (`ldr pc, [pc, #-4]`) whose pointer word is 0x02731920, inside
- *           no region of layout/layout.json (arm9i, not extracted), so
- *           veneer_at() refuses condition 4 and the site stays wildcarded.
- *           The stub is not producible from C, so it can never earn a
- *           shard entry either.
+ * blocker:  +0022 THM_CALL func_02091284       -> unresolved: 02091284 (arm, from header) has no witness outside 0209125C..02091284
  *
  * symbols:
- *   func_02085D88  0x02085D88  arm
- *   func_02088234  0x02088234  arm
- *   func_02091284  0x02091284  arm
+ *   func_02085D88    0x02085D88  arm
+ *   func_02088234    0x02088234  arm
+ *   func_02091284    0x02091284  arm
+ *
+ * Five-argument flavour: the fifth parameter is spilled back to [sp] for the
+ * ARM-side callee, which is why the frame carries one extra word.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0209125C.c \
+ *       --func func_0209125C --addr 0x0209125C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
-extern int func_02085D88(u32 a0);
+extern u32  func_02085D88(void);
 extern void func_02088234(void);
-extern int func_02091284(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void func_02091284(u32 a, u32 b, u32 c, u32 d, u32 e);
 
-int func_0209125C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+void func_0209125C(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    if (func_02085D88(a0) == 0)
+    if (func_02085D88() == 0) {
         func_02088234();
-    {
-        int r = func_02091284(a0, a1, a2, a3, a4);
-        return r;
     }
+    func_02091284(a, b, c, d, e);
 }

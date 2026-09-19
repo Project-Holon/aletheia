@@ -36,3 +36,16 @@ void func_0202715C(u32 a0)
     func_020274B4(a0);
     *(u8 *)(p + 0x62) = 1;
 }
+
+
+------------------------------------------------------------------
+lane 3 re-attempt for func_0202715C (0x0202715C), same residue.
+
+The store is at p+4+0x5e; the original emits two adds (`adds r0, r4, #4;
+adds r0, #0x5e`) and this front end folds them into one (`adds r4, #0x62`).
+Tried: a nested `struct Inner` member at 0x5e inside a struct whose second
+member starts at +4; the same with `*(u8 *)((char *)&p->in + 0x5e)`; and a
+byte pointer local. All fold. The same idiom is used by the neighbouring
+function at 0x02027186 (`adds r0, r1, #4; adds r0, #0x5e; strb`), so the
+original source clearly expressed the +4 as a value and the C shape that
+forces that has not been found.

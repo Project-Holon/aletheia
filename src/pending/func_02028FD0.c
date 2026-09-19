@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * Blocked: g_flagTable_0209FE1C is named by this function's one pool word
+ * (0x02028FDC), which lies inside the compared range, so the `literal`
+ * class discards it; the object is not a string and not a pointer table
+ * (no outside witness for the `string` or `data_table` class either).
+ * Every concrete byte reproduces.
  * symbols:
  *   g_flagTable_0209FE1C  0x0209FE1C  data
  */

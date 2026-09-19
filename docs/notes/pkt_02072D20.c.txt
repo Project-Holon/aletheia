@@ -1,0 +1,42 @@
+
+======================================================================
+lane 6 residues, packet pkt_02072D20
+======================================================================
+
+--- 0x02072DB0: DIFF
+ws note: listing says the original is 32 bytes, compiled 24
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+extern u8 g_0214E47C[];
+
+void func_02072DB0(u32 idx, u16 val)
+{
+    *(u16 *)(g_0214E47C + idx * 0x24) = val;
+}
+
+--- 0x02072DD0: MATCH (re-measured; parked in src/pending/func_02072DD0.c)
+ws ABS32 g_0214E480 at +0x14: no witness outside this function's own pool word
+
+--- 0x02072E7C: DIFF
+ws +000C ABS32 func_02073438          -> unresolved: 02073438 (arm, from header) has no witness outside 02072E7C..02072E8C
+typedef unsigned int u32;
+
+extern void func_02073438(u32 a);
+
+void func_02072E7C(u32 *p)
+{
+    func_02073438(*p);
+}
+
+--- 0x02072E8C: DIFF
+ws +000C ABS32 func_02073484          -> unresolved: 02073484 (arm, from header) has no witness outside 02072E8C..02072E9C
+typedef unsigned int u32;
+
+extern void func_02073484(u32 a);
+
+void func_02072E8C(u32 *p)
+{
+    func_02073484(*p);
+}

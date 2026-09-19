@@ -1,0 +1,49 @@
+func_0202EE0C @ 0x0202EE0C, 36 bytes, thumb, packet pkt_0202EE0C
+verdict: DIFF, 11 concrete bytes, compiled 34 against 36.
+
+WHAT IT IS
+----------
+A scaled-span helper.  The span (a3 - a2 - a4) is raised eight bits,
+multiplied by the caller's rate a1, divided by the total a0 and shifted back
+down; the quotient's top bits join a2 and half of a4:
+
+    u32 func_0202EE0C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
+    {
+        return a2 + ((a1 * (((a3 - a2) - a4) << 8)) / a0 >> 8) + (a4 >> 1);
+    }
+
+The division is the *unsigned* runtime helper, and that is the one real
+finding here: the image's call target is 0x0209C2B0, which
+layout/runtime_arm9.txt names `_div_by_zero_check`, but the code at that
+address is not a check - it is the unsigned divide entry (`cmp r1,#0; bxeq
+lr; cmp r0,r1; movlo r1,r0; ...` and then the restoring-division body), and
+it returns quotient in r0 and remainder in r1.  It is `_u32_div_f` in this
+front end's own naming: `unsigned / unsigned` emits exactly this target, while
+`signed / signed` emits `_s32_div_f`, which is the routine at 0x0209C0A4 that
+sign-fixes both operands and branches into the body at 0x0209C29C.
+
+Declaring `_u32_div_f` at 0x0209C2B0 in the file's `symbols:` block resolves
+the site (class `runtime`), and the whole expression then compiles in the
+right shape - the guard, the shift, the multiply, the divide, all four
+instruction groups land where the original has them.
+
+WHAT IS STILL WRONG
+-------------------
+Two things, both in the same four instructions:
+
+  0202EE18  lsls r2, r0, #8          this file: lsls r0, r0, #8
+  0202EE1A  adds r0, r2, #0          this file: (missing)
+  0202EE1C  muls r0, r1, r0          this file: muls r0, r1, r0
+  ...
+  0202EE24  lsrs r2, r0, #8          this file: lsrs r0, r0, #8
+
+The original materialises the scaled span in r2 and then copies it into r0
+for the MULS (whose destination and one operand must both be r0), which is
+two bytes more than shifting in place; and it keeps the quotient's high half
+in r2 rather than r0 at the tail, so the two `adds` land on different
+registers.  Every spelling tried compiles the same 34 bytes: a local for the
+scaled numerator (int, u32, declared before or after), `* 256` and `* 0x100`
+in place of `<< 8`, the multiply written on either side, the division bound to
+a local, and the two tail additions in either order.  The residue is the
+allocator's choice of a second temporary for a value it also has to place in
+r0, and it does not move with the source.

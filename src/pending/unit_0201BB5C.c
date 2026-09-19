@@ -2,7 +2,8 @@
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
  * unit:     yes
- * address:  0x0201BB5C, 224 bytes, two functions
+ * address:  0x0201BB5C
+ * note:     224 bytes, two functions
  * packet:   pkt_0201B038
  * region:   arm9
  * compiler: 1.1p1

@@ -184,3 +184,22 @@ u32 *func_020247A8(u32 a0)
     }
     return p;
 }
+
+
+------------------------------------------------------------------
+lane 3 re-attempt for func_020247A8 (0x020247A8), same residue.
+
+Seven spellings compiled, all 72/72 bytes, all with the same two-instruction
+residue: a0 is held in r7 and (u16)a0 in r6 where the original has r6 and r7.
+The cause is argument materialisation order - the original stores the 5th
+argument (0x32) first and casts afterwards, this front end casts first:
+
+    +0002  adds r6, r0, #0    | adds r7, r0, #0
+    +0004  movs r0, #0x32     | lsls r0, r7, #0x10
+    +0006  str r0, [sp]       | lsrs r6, r0, #0x10
+    +0008  lsls r0, r6, #0x10 | movs r0, #0x32
+    +000A  ldr r3, [pc, #0x34]| str r0, [sp]
+
+Tried: `u32 i = 0;` before and after the call, `int i`, the call split from
+its declaration, `u16 v = (u16)a0;` as a named local, for and while. The rest
+of the function, loop included, is byte-identical in all seven.

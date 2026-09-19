@@ -1,0 +1,7 @@
+
+
+Not code (not filable): the 44 bytes at 0x020A8FE6 do not decode as ARMv5TE.
+The listing contains Thumb-2 encodings (`cbz`/`cbnz`, a 32-bit `ldm`), which
+the ARM946E-S cannot execute, and the surrounding words read as data -- the
+image tail here is a data blob that the function sweep picked up, not a
+function.  Nothing to decompile.

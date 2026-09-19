@@ -1,0 +1,133 @@
+/*
+ * lane 3 of the second 0-64 byte band pass: residues and verdicts.
+ *
+ * Slice: 64 functions, 2218 bytes, 44 packets, 0x02022758..0x0202BA24.
+ * Every function in the slice now has a verdict.  This file collects the
+ * findings that are not already written up per packet, and names the class of
+ * every blocker.  Per-function residues for the packets that already had a
+ * note stay in that note; this file only adds what is new here.
+ *
+ * FILED EXACT (7 addresses, 5 shards, exit status of the gate in brackets)
+ *
+ *   0x02027198  68 bytes  pkt_02027198  [0]   two calls reordered + a named
+ *        temp for the inner call's result; the note's near miss was 4 bytes
+ *        short because the source had no `symbols:` block, which capped the
+ *        g_02146940 pool word at MATCH.
+ *   0x02029040  176 bytes pkt_02028FD0  [1]   a Thumb `add pc` switch whose
+ *        callees all take the object pointer - that is what keeps the index
+ *        in r1 and r0 holding p, and it is the whole difference from the
+ *        near miss.  EXACT, gate exit 0 for this entry.
+ *   0x02028FE0  94 bytes  pkt_02028FD0  [1]   EXACT* (listing extent 96: the
+ *        Thumb pad after `pop` is attributed to the extent, not the function).
+ *   0x0202939C  58 bytes  pkt_0202939C  [1]   EXACT*.  The near miss differed
+ *        in ONE compare: `bhs` where the original has `bge`.  p->f20 is `int`,
+ *        not u32 - the type, not the C shape, was the whole blocker.
+ *   0x020293D8  48 bytes  pkt_0202939C  [0]   same struct, same fix: `ble`
+ *        where u32 gives `beq`.
+ *   0x020248D8  56 bytes  pkt_02024838  [1]   EXACT*.  Near miss differed only
+ *        in where the two locals are initialised: declare `i` before `sum` and
+ *        assign `sum = 0` AFTER the `v &= 0x7ff`, and the allocator stops
+ *        swapping r5/r6.
+ *   0x02027198 (above) and 0x0202B6F8 / 0x0202B744 / 0x0202B63C are
+ *        promotions out of src/pending, not new derivations.
+ *
+ * PROMOTED out of src/pending (3): 0x0202B6F8, 0x0202B744 (pkt_0202B6F8
+ * shard) and 0x0202B63C (pkt_0202B59C shard).  All three were capped on a
+ * callee and turned EXACT/EXACT* the moment another lane filed that callee -
+ * the chain class paying out across lanes.  Re-running every parked file after
+ * each wave is what caught them.
+ *
+ * ARTIFACTS, not C (2): 0x0202AF34 and 0x0202B8F4 are four-byte linker
+ * veneers, `00 4b 18 47` (ldr r3, [pc, #0]; bx r3) followed by the target word
+ * `xx xx 02 02`.  Both sit in runs of identical veneers (0x0202B8F4,
+ * 0x0202B8FC, 0x0202B904, 0x0202B90C).  The worklist sizes them at 4 bytes
+ * while asm/arm9's listing extent runs to 32, which is what leaves them stuck
+ * at MATCH*.  No C spelling produces the shape; they are reported, not
+ * attempted.
+ *
+ * CAPPED AT MATCH, by class.  Every one of these is byte-correct over its
+ * compared range and sits in src/pending/ with its blocker in the header.
+ *
+ *   `literal`, one pool word and the object has no other reference in the
+ *   image (permanent until something else names it):
+ *     0x02024584  g_0209F71C      0x02024768  data_0209F734
+ *     0x02025BA0  g_0209FA36      0x02025C44  g_0209FA38/FA3C
+ *     0x02026388  g_0209FB70      0x020263B0  g_0209FB74
+ *     0x0202708C  g_0209FC04      0x02028C30  g_0209FDD0
+ *     0x02028E48  g_0209FD90      0x02028FD0  g_0209FE1C
+ *     0x02029E74  g_0209FE94/98   0x0202A3CC  Data_0209FF1C
+ *     0x0202B84C  Data_0209FF88/8C
+ *
+ *   `literal` on a code pointer whose address IS attested but whose pool word
+ *   is the only reference - these are the 0x0209F5xx/0x020A73xx function
+ *   pointers the object's own pool holds:
+ *     0x02022790  0x020227CC  (0x0209F574 / 0x0209F568, and the two
+ *                 0x020A73F0 / 0x020A73F8 tables)
+ *     0x020274B4  (0x02146940 pool is attested; 0x02027461 is not)
+ *
+ *   THM_CALL to a function with no manifest entry and no outside call site -
+ *   these graduate with coverage, not with C work:
+ *     0x02022F0C  func_02022F60   0x02028590  func_020285A4
+ *     0x020289F8  func_02028E0C   0x02028CB0  func_02028C30/02028C50
+ *     0x02029DFC  func_02028900   0x02029F14  func_02029F6C
+ *     0x0202AE68  func_0202AE9C   0x0202AE9C  func_0202AF34 (veneer)
+ *     0x0202B710  func_0202B8F4 (veneer)      0x0202B64C  func_0202C070
+ *     0x0202B4BC  func_0202B59C/0202B584       0x0202B544  six 0x0202B7xx
+ *                 thunks                       0x0202B7BC  func_0202AB5C
+ *                                              0x0202B7EC  sub_0202B90C
+ *     0x020267BC  func_02026D88
+ *
+ *   two classes at once (a data table AND an unfiled callee):
+ *     0x02028E0C  0x02028FD0 (via 0x02028E48) plus _s32_div_f
+ *
+ * DIFF: attempted here, still not byte-exact.  Each entry names the one
+ * instruction that will not come out and what was ruled out.
+ *
+ *   0x020253D4  pkt_020251FC.  A 48-byte, ZERO-relocation function: the whole
+ *        blocker is the prologue's register choice.  The original keeps the
+ *        bank-derived offset in r4 and shifts it in place; this front end puts
+ *        it in r3 and shifts into r2.  Ten declaration orders were compiled
+ *        (`u32 offset = 1;` first, last, `u32 offset = 1, k, m;`, `int
+ *        offset`, assign-later, and the same with the two counters declared
+ *        before and after): every one emits `movs r3, #1` where the original
+ *        has `movs r4, #1`.  Nothing in the C chooses that register.
+ *
+ *   0x020247A8  pkt_02024768.  Seven spellings compiled; all are 72/72 bytes
+ *        with the same residue: a0 lands in r7 and (u16)a0 in r6 where the
+ *        original has r6 and r7, because the original materialises the 5th
+ *        argument (0x32) before the (u16) cast and this front end does the
+ *        reverse.  Tried: `u32 i = 0;` before and after the call, `int i`,
+ *        the call split from its declaration, an explicit u16 local for the
+ *        cast, for and while.
+ *
+ *   0x02029D8C  pkt_02029D8C.  The original copies the first call's result
+ *        into r2 and then overwrites r2 with the second call's result - a dead
+ *        store this front end always removes.  Four spellings of the call
+ *        chain compiled (bare call, named temp + (void)v, reassigned temp,
+ *        assignment inside the argument list): all 44 bytes against 48, one
+ *        instruction short.
+ *
+ *   0x0202715C  pkt_0202715C.  `p->in.f5e = 1` where `in` sits at +4 and the
+ *        field at +0x5e: the original emits `adds r0, r4, #4; adds r0, #0x5e`,
+ *        this front end folds the two immediates into `adds r4, #0x62`.
+ *        Tried: a nested struct member, a byte-pointer off a nested struct,
+ *        and `*(u8 *)((char *)&p->in + 0x5e)`; all fold.
+ *
+ *   0x0202B374, 0x0202BA24  see docs/notes/pkt_0202B374.c.txt and
+ *        pkt_0202BA24.c.txt - both notes already had the full residue; the
+ *        attempts here (u8 count vs int count vs char, struct vs byte-pointer
+ *        addressing, six declaration orders) reproduce their conclusions and
+ *        add no new spelling.
+ *
+ *   0x02023F98  pkt_02023DDC.  The note's C is 60 bytes against 64.  The
+ *        second `if` block is where it diverges: the original re-loads the
+ *        pool word for both the call argument and the store, so the address
+ *        never lives in a callee-saved register; this front end CSEs the two
+ *        references into r5 across the call.  Same class as 0x0202715C.
+ *
+ *   0x02022758  the note's C is 56/56 with the loop and the guard right; the
+ *        remaining residue is the 0x020A73E0 table pointer, which is in the
+ *        `literal` class (no outside reference).  Parked-worthy C, but the
+ *        function also calls func_0209F56C, which has no witness, so it cannot
+ *        reach EXACT this pass; its C is in the note.
+ */

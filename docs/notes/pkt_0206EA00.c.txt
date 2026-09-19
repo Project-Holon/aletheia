@@ -1,0 +1,47 @@
+
+======================================================================
+lane 6 residues, packet pkt_0206EA00
+======================================================================
+
+--- 0x0206EA00: DIFF
+ws note: listing says the original is 44 bytes, compiled 40
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+u8 *func_0206EA00(u8 *p, u32 idx)
+{
+    if (p == 0) {
+        return 0;
+    }
+    if (idx >= p[6]) {
+        return 0;
+    }
+    return p + *(u16 *)(p + 8) + idx * 16;
+}
+
+--- 0x0206EA2C: DIFF
+ws note: listing says the original is 44 bytes, compiled 40
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+u8 *func_0206EA2C(u8 *p, u32 idx)
+{
+    if (p == 0) {
+        return 0;
+    }
+    if (idx >= p[7]) {
+        return 0;
+    }
+    return p + *(u16 *)(p + 0xa) + idx * 16;
+}
+
+WALL (if-conversion).  0x0206EA00 and 0x0206EA2C are 44 bytes in the
+image: two branches to one shared failure block (`mov r0, #0; bx lr`).
+Every C shape measured -- two ifs, `&&`, `||`, a nested pair, a single exit with
+a result local, and a goto -- comes out at 40 bytes because -O4,p predicates the
+three-instruction success arm instead of branching to the tail.
+
+The four DIFF sources a previous pass kept in src/pending for these functions
+are folded into this note; src/pending/ holds MATCH entries only.

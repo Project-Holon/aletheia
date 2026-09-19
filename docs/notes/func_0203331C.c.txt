@@ -1,0 +1,46 @@
+func_0203331C @ 0x0203331C, 64 bytes, arm, packet pkt_0203331C
+verdict: DIFF, 9 concrete bytes, right size (64), right instructions.
+
+WHAT IT IS
+----------
+One two-bit field of a packed array: word index i >> 4, pair (i & 15) * 2.
+
+    void func_0203331C(struct Obj *o, u32 i, u32 v)
+    {
+        u32 idx = i >> 4;
+        u32 sh = (i & 15) * 2;
+        long long mask = (long long)(3 << sh);
+
+        o->bits[idx] &= (u32)(mask ^ -1);
+        o->bits[idx] |= v << sh;
+    }
+
+Three levers were needed and all three are right:
+
+  * `i` is unsigned: with `int i` the index comes out `asr` instead of `lsr`.
+  * the two halves are two statements, not one expression, which is what
+    re-reads o->bits for the set half (the original loads [r0,#0x138] twice).
+  * the clear half is a **64-bit** complement written `mask ^ -1`, not a 32-bit
+    `~mask`: the original's `mov r3,#3; sub r1,r3,#4; eor r1,r1,r3,lsl lr`
+    triple is the low half of a 64-bit NOT with the high half dead
+    (docs/idioms/a-64-bit-complement-is-eors-with-minus-one-not-mvns.md).
+    Written `~(3 << sh)` this file emitted `mvn` and was four bytes short.
+
+WHAT IS STILL WRONG
+-------------------
+Only register colouring, nine bytes, in two temporaries:
+
+    original                    this file
+    lsl  lr, r1, #0x1c          lsl  r4, r1, #0x1c     ; the shift amount
+    lsr  r4, r1, #4             lsr  lr, r1, #4        ; the word index
+    lsr  lr, lr, #0x1b          lsr  r4, r4, #0x1b
+    eor  r1, r1, r3, lsl lr     eor  r1, r1, r3, lsl r4
+    ldr  r3, [ip, r4, lsl #2]   ldr  r3, [ip, lr, lsl #2]
+    ...and every later use follows.
+
+The original puts the shift amount in lr and the index in r4; this file has
+them the other way round.  `idx` and `sh` are dead the moment they are used,
+so binding either to a named local (in any declaration order) does not move
+them: the front end renames both away and colours the two live ranges the
+same way every time.  Same length, same instructions, nine bytes of colouring
+- the same family as docs/notes/func_02031F54.c.txt.
