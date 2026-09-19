@@ -1,0 +1,61 @@
+/* pkt_02066754.c.txt */
+
+function: func_02066754
+address:  0x02066754
+packet:   pkt_02066754
+region:   arm9
+compiler: 1.1p1
+flags:    -O4,p
+lang:     c99
+isa:      arm
+status:   DIFF (codegen wall: if-converted branch vs early return predicate scheduling)
+
+Subsystem: 2D affine transform matrix multiplication (Mtx23 Concat, fixed-point FX32 1.19.12).
+Size: 292 bytes (73 instructions).
+
+Semantics:
+Multiplies two 2x3 affine transformation matrices: C = A * B.
+Handles self-aliasing when `dst == b` by redirecting destination to a stack temporary `tmp`,
+and copying `tmp` to `dst` at the end (`*dst = tmp`).
+
+Residue:
+The original evaluates `cmp r2, lr` (where r2 is out, lr is &tmp on stack) early,
+at line +0074, and predicates stack restoration `addne sp, sp, #0x18` (+009C) and return
+`popne {r3, r4, r5, r6, r7, pc}` (+0108), followed by unconditional 6-word ldm/stm copy.
+Under mwcc -O4,p, writing `if (dst == b)` or `if (out != &tmp)` predicates the copy instructions
+(`ldmeq`, `stmeq`) instead of predicating the early return, resulting in a 32-byte discrepancy
+(260 vs 292 bytes).
+
+Best bracketing source:
+```c
+typedef signed int       s32;
+typedef signed long long s64;
+
+typedef struct Mtx23 {
+    s32 _00, _01;
+    s32 _10, _11;
+    s32 _20, _21;
+} Mtx23;
+
+void func_02066754(const Mtx23 *a, const Mtx23 *b, Mtx23 *dst)
+{
+    Mtx23 tmp;
+    Mtx23 *out = dst;
+
+    if (dst == b) {
+        out = &tmp;
+    }
+
+    out->_00 = (s32)(((s64)a->_01 * b->_10 + (s64)a->_00 * b->_00) >> 12);
+    out->_01 = (s32)(((s64)a->_01 * b->_11 + (s64)a->_00 * b->_01) >> 12);
+    out->_10 = (s32)(((s64)a->_11 * b->_10 + (s64)a->_10 * b->_00) >> 12);
+    out->_11 = (s32)(((s64)a->_11 * b->_11 + (s64)a->_10 * b->_01) >> 12);
+    out->_20 = b->_20 + (s32)(((s64)a->_21 * b->_10 + (s64)a->_20 * b->_00) >> 12);
+    out->_21 = b->_21 + (s32)(((s64)a->_21 * b->_11 + (s64)a->_20 * b->_01) >> 12);
+
+    if (out != &tmp) {
+        return;
+    }
+    *dst = tmp;
+}
+```

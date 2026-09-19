@@ -1,0 +1,103 @@
+/*
+ * pkt_0200BFA4 DIFF residue - func_0200BFA4 @ 0x0200BFA4 (170 bytes, Thumb).
+ *
+ * Not a coverage miss: the original is 170 bytes and the closest spelling I
+ * found compiles to 172, with all six relocation sites resolved (three
+ * `label` sites at the 4-byte accessors 0x0200864C/50/54, two `label` sites
+ * at the runtime `_ull_mul` 0x0209C054, and the 64-bit global 0x02146170 via
+ * `literal` from its own pool at 0x0200C050).  So the blocker is codegen, not
+ * evidence, and it is *purely* register allocation plus one stack slot - the
+ * instruction sequence from the mode dispatch on is identical, byte for
+ * byte, once the register names are normalised.
+ *
+ * What the original does and the near miss does not:
+ *
+ *   +0004  ORIG adds r7, r1, #0     NEAR adds r4, r1, #0
+ *   +0014  ORIG movs r4, #0         NEAR (absent here; the zero is only
+ *                                         materialised at +002A, in front of
+ *                                         the first `blx _ull_mul`)
+ *   prologue ORIG sub sp, #0x10     NEAR sub sp, #0xc
+ *
+ * The original keeps the second argument (pool pointer) in r7 and reserves r4
+ * from the very top of the function as the high half of the 64-bit
+ * accumulator, zeroing it at +0014, before the second accessor call.  With
+ * r4..r7 all spoken for, the three accessor results and the temporaries all
+ * need stack homes, which is why the frame is four words.  Every spelling I
+ * tried lets the allocator keep the second accessor's result in r7 and reuse
+ * r4 for the pool pointer - one slot fewer, same instruction count minus the
+ * `movs r4, #0`, and 2 bytes off.
+ *
+ * Spellings tried, all 6-of-6 relocation sites resolved, all DIFF:
+ *   - u32 hh/mm/ss locals, `(u64)mm*60 + (u64)hh*3600 + ss`, if/else chain
+ *     (168 bytes, the zero appears just before the first `blx`)
+ *   - the same with `u64 v = 0;` and three `+=` (176)
+ *   - the same with `(u64)hh*3600 + (u64)mm*60 + ss` (168)
+ *   - `switch (mode)` instead of the if/else chain (172); the original *is*
+ *     the switch shape - `cmp/beq` for 0, 1, 2 then `b` to the default at
+ *     0x0200C040 with every arm out of line - so the switch spelling is the
+ *     right one and the if/else chain's fall-through is wrong
+ *   - `u32 t[3]` array holding the three accessor results in call order, which
+ *     is the spelling that *does* produce the original's three consecutive
+ *     stack slots and makes the whole dispatch region byte-identical (172)
+ *   - `v = p1 + p2; v = v + t[2];`, `v = 0; v = v + p1 + p2 + t[2];`,
+ *     `v = p1; v += p2; v += t[2];` (all 172)
+ *
+ * The near miss is the `u32 t[3]` + `switch` version below.  Everything from
+ * the `cmp r6, #0` dispatch through the last case body is instruction for
+ * instruction the original; only the three prologue/mode-0 register choices
+ * above differ.
+ *
+ * Shape of the function: it is a clock-to-seconds conversion.
+ *   hh = func_0200864C(q)   /* ldrh r0,[r0]      - hours   *\/
+ *   mm = func_02008650(q)   /* ldrb r0,[r0,#2]   - minutes *\/
+ *   ss = func_02008654(q)   /* ldrb r0,[r0,#3]   - seconds *\/
+ *   v  = mm*60 + hh*3600 + ss          (two `blx _ull_mul`)
+ *   mode 0: g_02146170 = v                          (latches the clock)
+ *   mode 1: *(u64 *)(p + 0x1A8) += v - g_02146170    (adds the elapsed delta)
+ *   mode 2: return *(u64 *)(p + 0x1A8) - g_02146170
+ *   default: return *(u64 *)(p + 0x1A8)
+ * The 0x1A8 offset is materialised as `movs r1,#0x6a; lsls r1,r1,#2`, i.e.
+ * `p[0x6a]` as a 32-bit array index, and the mode-1 arm loads `p[0x1A8]`
+ * before the subtraction while mode 2 loads the global first.
+ *
+ * Near miss source (172 bytes, `status: MATCH` symbols block would be
+ * `_ull_mul 0x0209C054 arm` and `g_02146170 0x02146170 data`):
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+
+extern u16 func_0200864C(void *p);
+extern u8  func_02008650(void *p);
+extern u8  func_02008654(void *p);
+extern u64 _ull_mul(u64 a, u64 b);
+extern u64 g_02146170;
+
+u64 func_0200BFA4(u8 *p, void *q, u32 mode)
+{
+    u32 t[3];
+    u64 v;
+
+    t[0] = func_0200864C(q);
+    t[1] = func_02008650(q);
+    t[2] = func_02008654(q);
+    v = (u64)t[1] * 60 + (u64)t[0] * 3600 + (u64)t[2];
+
+    switch (mode) {
+    case 0:
+        g_02146170 = v;
+        break;
+    case 1:
+        *(u64 *)(p + 0x1A8) = *(u64 *)(p + 0x1A8) + (v - g_02146170);
+        break;
+    case 2:
+        return *(u64 *)(p + 0x1A8) - g_02146170;
+    }
+    return *(u64 *)(p + 0x1A8);
+}
+
+ * Verified with:
+ *   python tools/match.py one --src scratch/r2a4/bfa4_v8.c \
+ *       --func func_0200BFA4 --addr 0x0200BFA4 --cc 1.1p1 --thumb --diff
+ */

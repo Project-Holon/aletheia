@@ -8,7 +8,8 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * blocker:  ABS32 func_0205CF24 at +0x08: no branch anywhere outside this range reaches 0x0205CF24
+ * blocker:  +0008 ABS32 func_0205CF24          -> unresolved: 0205CF24 (arm, from name) has no witness outside 0205D010..0205D01C
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  */
 
 extern void func_0205CF24(void);

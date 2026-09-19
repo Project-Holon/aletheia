@@ -1,0 +1,82 @@
+pkt_0200C818 / sub_0200C914 @ 0x0200C914 (208 bytes, Thumb) -- DIFF, frame + one extra register
+=================================================================================================
+
+Not filed: every instruction is in the right order and the size is close
+(200 compiled vs 208 original), but the register allocator puts the
+call result and the argument registers in different places, and the
+original spends one extra instruction on the `-1` compare.
+
+Shape of the function (settled, reproduces the compare chain exactly):
+
+    void sub_0200C914(u8 *p, u32 id, u32 a2, int flag, u32 start)
+    {
+        s32 h = func_0200C7C0((u16)id);        /* 0x0200C7C0 */
+        if (h == -1) return;
+        if (id == 0x15F)      { start = 0; n = 4; }
+        else if (id == 0x1A5) { start = 0; n = 2; }
+        else if (id == 0x22B) { start = 0; n = 2; }
+        else if (id == 0x288) { start = 0; n = 2; }
+        else { if (start >= func_0200CC20((u16)id)) start = 0; n = 1; }
+        if (flag == 1) for (k = 0; k < n; k++) setbit(p + 0x305, (u16)(k + (h + start)));
+        else           for (k = 0; k < n; k++) setbit(p + 0x2FC, (u16)(k + (h + start)));
+    }
+
+with the six arms written out (the two `n = 2` arms are repeated, not
+shared by a helper) and `n` unsigned (the loop back-edges are `blo`, and
+the `cmp r2,#0` guard is `bls`).
+
+What reproduces exactly (230 of 250 bytes in the head):
+  - the whole if-chain, including the compiler tail-merging the third and
+    fourth cases onto the second arm's body, and the `movs r5,#0` /
+    `movs r2,#2` / `b` shape;
+  - `func_0200C7C0` truncating its argument (`lsls r1,#0x10; lsrs r1,#0x10`)
+    -- the callee's parameter has to be declared narrower than u32, or the
+    cast has to be spelled, otherwise the compiler CSEs the truncated id
+    into a stack slot and uses it for the second call as well, which costs
+    4 bytes and moves two instructions;
+  - the second call's argument re-truncation.
+
+The residue, in two parts.
+
+1. Frame and registers (the whole 200-byte body is allocated differently).
+   ORIGINAL                                COMPILED
+   push {r3,r4,r5,r6,r7,lr}                push {r3,r4,r5,r6,r7,lr}
+   sub sp, #8                              (no frame)
+   adds r4, r1, #0        id -> r4         adds r5, r1, #0      id -> r5
+   str  r0, [sp]          p  -> [sp]       str  r0, [sp]        p  -> [sp]
+   adds r6, r3, #0        flag -> r6       adds r7, r3, #0      flag -> r7
+   ldr  r5, [sp, #0x20]   start -> r5      ldr  r4, [sp, #0x18] start -> r4
+   ...
+   str  r0, [sp, #4]      h -> [sp+4]      adds r6, r0, #0      h -> r6
+
+   The original spills *two* values (p and h) and so allocates an 8-byte
+   frame on top of the six saved registers; the compiler here spills only
+   p, into the r3 pad slot, and keeps h in r6 across the second call.
+   With one spill mwcc uses the pad slot and no frame at all (`ldr r4,
+   [sp, #0x18]` reads the incoming stack argument at the same address the
+   original's `[sp, #0x20]` does); with two it allocates the frame.  So
+   the difference is exactly "one more value in memory", and no spelling
+   of this C that was tried asks for it: the constants 0x305/0x2FC are
+   already rematerialised per loop, `h` is used once per loop preheader,
+   and `start` is used in the compare and the chain.
+
+2. `mvn r1,#0; cmp r0,r1; beq` versus `cmp r0,#-1` + the loop's `mvn`.
+   The original keeps the sentinel -1 in r0 and compares against it.
+
+Spellings tried on the whole function (all 200 bytes, all 110+ bytes of
+diff): `u16 idx` / `u32 idx` parameters, `(u16)idx` casts in each arm,
+per-arm `u16 i = (u16)idx - 1;` locals, inline repeated expressions,
+`u16 k` vs `u32 k`, one shared `k` for both loops, `s32 h` / `u32 h` /
+`volatile s32 h`, `h` assigned separately after an uninitialised
+declaration, `u8 *volatile pp` in place of `p` (this one does force the
+8-byte frame and gets the size right at 208, but then the flag, not h, is
+the second spilled value and every register is still wrong), a 4-argument
+declaration of func_0200C7C0 passing the leftovers (`(u16)id, id, a2,
+flag`), and `(u8 *)p[...]` vs `(u8 *)(p + K)[...]` addressing.
+
+No external evidence is missing: both call targets resolve (label class,
+`0200C7C0 x2`, `0200CC20 x1`), so this is a codegen wall, not a witness
+wall.  110 of 208 concrete bytes differ.
+
+Verdict: DIFF, codegen (register allocation / frame), 2 of 7 bytes of
+residue in the head plus the frame; leave to a wider lever search.

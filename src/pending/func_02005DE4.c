@@ -12,7 +12,9 @@
  * symbols:
  *   func_02005FBC  0x02005FBC  thumb
  *   sub_0200590C   0x0200590C  thumb
- * blocker:  unresolved relocation(s): 02072E8C (arm, from name)*/
+ * blocker:  +000E THM_CALL func_02072E8C       -> unresolved: 02072E8C (arm, from name) has no witness outside 02005DE4..02005DF8
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
+ */
 
 typedef unsigned int u32;
 

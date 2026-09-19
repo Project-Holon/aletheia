@@ -1,0 +1,63 @@
+=== DIFF residue for 0x0204BE84 (156 bytes) -- lane r2a-5
+/*
+ * unit:     no
+ * function: func_0204BE84
+ * address:  0x0204BE84
+ * packet:   pkt_0204BE84
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF  (documented near miss; src/matched/ refuses DIFF)
+ *
+ * symbols:
+ *   func_02065B74   0x02065B74  arm
+ *   func_0204BF28   0x0204BF28  arm
+ *   g_020A1418      0x020A1418  data
+ *   g_020A13F4      0x020A13F4  data
+ *
+ * Four signed-16 bit inputs scaled by 12 into the object's first four
+ * words, then the third word of the 12-byte table record is replaced by a
+ * 4-byte-table lookup before the three words land at +0x28/+0x2c/+0x34
+ * (+0x30 is deliberately left alone).
+ */
+
+typedef unsigned int u32;
+typedef signed short s16;
+
+typedef struct { u32 w0, w1, w2; } S12;
+
+typedef struct {
+    s16 f0;
+    s16 f2;
+    s16 f4;
+    s16 f6;
+    u32 f8;
+    u32 fC;
+} T;
+
+extern void func_02065B74(int a0, T *a1);
+extern void func_0204BF28(int a0);
+extern S12  g_020A1418[];
+extern u32  g_020A13F4[];
+
+void func_0204BE84(int a0, T *a1)
+{
+    S12 t;
+
+    func_02065B74(a0, a1);
+    *(int *)(a0 + 0x00) = (int)a1->f0 << 12;
+    *(int *)(a0 + 0x04) = (int)a1->f2 << 12;
+    *(int *)(a0 + 0x08) = (int)a1->f4 << 12;
+    *(int *)(a0 + 0x0c) = (int)a1->f6 << 12;
+    func_0204BF28(a0);
+    t = g_020A1418[a1->f8];
+    t.w2 = g_020A13F4[a1->fC];
+    *(int *)(a0 + 0x28) = (int)t.w0;
+    *(int *)(a0 + 0x2c) = (int)t.w1;
+    *(int *)(a0 + 0x34) = (int)t.w2;
+}
+
+=== end 0x0204BE84
+

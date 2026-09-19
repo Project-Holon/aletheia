@@ -1,0 +1,65 @@
+=== DIFF residue for 0x0203335C (156 bytes) -- lane r2a-5
+/*
+ * unit:     no
+ * function: func_0203335C
+ * address:  0x0203335C
+ * packet:   pkt_0203331C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF  (documented near miss; src/matched/ refuses DIFF)
+ *
+ * symbols:
+ *   func_02033BF0  0x02033BF0  arm
+ *
+ * A 2-bit field walker: the count func_02033BF0 reads out of the object's
+ * +0x2c field decides how many 2-bit slots are visited in the bit array
+ * reached through +0x138, and the value in each slot is remapped 1 <-> 2
+ * and written back with a clear-then-set pair, which is why the array base
+ * is re-read between the two stores.
+ */
+
+typedef unsigned int u32;
+
+extern int func_02033BF0(int a0);
+
+#define BITS(p) ((u32 *)*(u32 **)((char *)(p) + 0x138))
+
+void func_0203335C(int a0)
+{
+    int n;
+    int i;
+    int s;
+    int c;
+
+    n = func_02033BF0(*(int *)(a0 + 0x2c));
+    i = 0;
+    s = 0;
+    c = 0;
+    n = n + 2;
+    if (n == 0) {
+        return;
+    }
+    for (; c < n; c++) {
+        u32 v = (BITS(a0)[i] >> s) & 3;
+        if (v != 0) {
+            if (v == 1) {
+                v = 2;
+            } else if (v == 2) {
+                v = 1;
+            }
+            BITS(a0)[i] &= ~0u ^ (3u << s);
+            BITS(a0)[i] |= v << s;
+        }
+        s += 2;
+        if (s >= 32) {
+            s -= 32;
+            i++;
+        }
+    }
+}
+
+=== end 0x0203335C
+

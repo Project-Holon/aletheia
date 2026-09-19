@@ -1,7 +1,7 @@
 /*
  * function: func_0204C660
  * address:  0x0204C660
- * packet:   pkt_0204BD64
+ * packet:   pkt_0204C060
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p

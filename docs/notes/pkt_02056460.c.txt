@@ -1,0 +1,47 @@
+=== DIFF residue for 0x0205650C (168 bytes) -- lane r2a-5
+/*
+ * unit:     no
+ * function: func_0205650C
+ * address:  0x0205650C
+ * packet:   pkt_02056460
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF  (documented near miss; src/matched/ refuses DIFF)
+ *
+ * The two 8-bit fractions a0/a1 and the two coordinates a2/a3 are packed
+ * into the 32-bit pairs at 0x04000488 / 0x04000490, with 0x04000500 armed
+ * and 0x04000504 cleared around them.  The four coordinate fields are
+ * `(c << 16 >> 22) & 0x3ff`, i.e. a 16-bit value shifted down by six, and
+ * the paired field rides in the top ten bits (<< 20).  The volatile stores
+ * are what fix the interleaving order.
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+void func_0205650C(int a0, int a1, int a2, int a3)
+{
+    u32 h  = (u16)(a1 << 8);
+    u32 l  = (u16)(a0 << 8);
+    u32 cm = (((a2 - 0x1000) << 16) >> 22) & 0x3ff;
+    u32 cp = (((a3 + 0x1000) << 16) >> 22) & 0x3ff;
+    u32 cP = (((a2 + 0x1000) << 16) >> 22) & 0x3ff;
+    u32 cM = (((a3 - 0x1000) << 16) >> 22) & 0x3ff;
+
+    *(volatile u32 *)0x04000500 = 1;
+    *(volatile u32 *)0x04000488 = 0;
+    *(volatile u32 *)0x04000490 = cm | (cp << 20);
+    *(volatile u32 *)0x04000488 = l;
+    *(volatile u32 *)0x04000490 = cP | (cp << 20);
+    *(volatile u32 *)0x04000488 = l | (h << 16);
+    *(volatile u32 *)0x04000490 = cP | (cM << 20);
+    *(volatile u32 *)0x04000488 = h << 16;
+    *(volatile u32 *)0x04000490 = cm | (cM << 20);
+    *(volatile u32 *)0x04000504 = 0;
+}
+
+=== end 0x0205650C
+

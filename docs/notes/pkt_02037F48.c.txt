@@ -1,0 +1,102 @@
+pkt_02037F48 DIFF residue - func_02037F48 @ 0x02037F48 (228 bytes, ARM).
+
+The packet's own head function, and the last of the packet's five rows to
+stay open.  It is NOT evidence-starved and NOT the wrong shape: the spelling
+below compiles to 228 bytes, the same as the original, and all seven
+relocation sites resolve -
+
+  +0004 PC24 func_0203D788          [label x500, e.g. 0203725C]
+  +0038 PC24 func_02037D98          [label x10, e.g. 020380AC]  (outside)
+  +0080 PC24 func_0203D6BC          [label x80, e.g. 02037274]
+  +008C PC24 func_0203D680          [label x35, e.g. 0203727C]
+  +00C8 PC24 func_020387A0          [label x5,  e.g. 02037F24]  (outside)
+  +00DC ABS32 g_021469D0            [literal x180, e.g. 02037470]
+  +00E0 ABS32 d_020A7A20            [literal x60, e.g. 02037230]
+
+Note that 0x02037D98 and 0x020387A0 - the two callees the lane table expected
+to need filing - have outside witnesses once the compared range is this one
+function (0x020380AC and 0x02037F24), so the "needs" column was pessimistic
+for this row.
+
+The residue is register allocation plus the layout of one guard:
+37 of the ~114 listing lines differ.  In the original p lives in r6 and the
+0x021469D0 pool address in r4; in the near miss p lands in r4 and the pool
+address in r5, which pushes the loop index into r6 and makes the whole body
+shift.  The original also keeps the `result != 1` failure arm as a separate
+out-of-line block (bne 0x02038014 returning after `strb r1, [r0, #0x1eb]`),
+where the near miss if-converts the same statements into ldrne/movne/strbne/
+popne.
+
+Spellings tried, all 7-of-7 resolved, all DIFF:
+  - if/else on the +0x5C poll with the then-arm holding the accepted path
+    (232 bytes - worse, the duplicate `cmp r5, #0` pair disappears only in the
+    early-return form)
+  - the early-return form with the locals declared p, n, i, v (228)
+  - the same with the locals declared n, i, v, p (228)
+
+Shape that is known right and should be kept by the next attempt:
+  - the +0x58 poll gates the whole function and returns 0 bytes early
+  - 0x02037D98(1) only when the 0x1EB byte is already set
+  - the +0x5C poll takes one argument, *(u32 *)g_021469D0, and its "accepted"
+    arm writes d_020A7A20 + 1 = 4 and 0x1EB = 1 before falling into the loop
+  - 0x0203D680's count is signed (`pople` on `cmp r5, #0`) and the loop test
+    is signed (`blt`), so both the count and the index are `s32`
+  - v is `(unsigned short)func_0203D6BC()` - the lsl/lsr #0x10 pair appears
+    before the 0x0203D680 call and before the index is zeroed
+  - the loop body passes (u16)index as r0, the +0x60 callback result as r1 and
+    the truncated v as r2 to 0x020387A0
+
+Near miss (228 bytes, `status: DIFF`; symbols block as in the parked header):
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed int s32;
+
+extern u8 *g_021469D0;
+extern u8 d_020A7A20[];
+extern u8 *func_0203D788(void);
+extern u32 func_0203D6BC(void);
+extern s32 func_0203D680(void);
+extern u32 func_02037D98(u32 a);
+extern void func_020387A0(u32 a, u32 b, u32 c);
+
+void func_02037F48(void)
+{
+    u8 *p;
+    s32 n;
+    s32 i;
+    u32 v;
+
+    p = func_0203D788();
+
+    if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0x58))() == 0)
+        return;
+
+    if (*(u8 *)(g_021469D0 + 0x1EB) != 0)
+        func_02037D98(1);
+
+    if (((u32 (*)(u32)) * (u32 *)(*(u32 *)(p + 0x340) + 0x5C))(*(u32 *)g_021469D0) != 1) {
+        *(u8 *)(g_021469D0 + 0x1EB) = 0;
+        return;
+    }
+
+    *(u8 *)(d_020A7A20 + 1) = 4;
+    *(u8 *)(g_021469D0 + 0x1EB) = 1;
+
+    v = (unsigned short)func_0203D6BC();
+    n = func_0203D680();
+    if (n <= 0)
+        return;
+
+    for (i = 0; i < n; i++)
+        func_020387A0((unsigned short)i,
+                      ((u32 (*)(u32))
+                           * (u32 *)(*(u32 *)(p + 0x340) + 0x60))(i), v);
+}
+
+Verified with:
+  python tools/match.py one --src scratch/r2a4/func_02037F48_nearmiss.c \
+      --func func_02037F48 --addr 0x02037F48 --cc 1.1p1 --arm --diff
+
+The rest of this packet is closed: 0x0203802C, 0x020380E4, 0x020381D8 and
+0x02038298 are EXACT in src/matched/ and in this packet's shard.

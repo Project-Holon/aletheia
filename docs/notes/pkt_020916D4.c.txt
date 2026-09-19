@@ -1,0 +1,50 @@
+lane r2a-1, packet pkt_020916D4
+address 0x020916D4, 236 bytes (listing extent 256, to the pool), ARM, state=new, class=chain
+verdict: DIFF (not filed; no source kept)
+
+Residue: compiled 248 bytes against the original's 256.  Everything up to
++0x21 is byte-identical; the first mismatch is +0x22 and the function then
+diverges wholesale.
+
+The +0x22 residue is a pure register choice in the index computation.  Both
+compilations agree on the whole sequence
+
+    mov  r7, r3            ; a3
+    mov  sl, r0            ; a0
+    mov  r6, #2
+    cmp  r7, r4            ; a3 vs 0x020A8730
+    movne r6, #5
+    mov  r0, #0x18
+
+and then split:
+
+    original:  mul r4, r6, r0      ; idx * 0x18 into r4 (the register the
+                                   ; 0x020A8730 constant just died in)
+               ldr r5, [pc]        ; 0x02153BD4
+               add r0, r5, r4
+    compiled:  mul r5, r6, r0      ; product into r5
+               ldr fp, [pc]        ; base into r11
+               add r0, r5, fp
+
+One register of difference in the allocator, and it costs a callee-saved
+register (fp vs r4), which is what then makes the rest of the function
+re-allocate.  Tried, with the same flag set: the base as a named `u8 *`
+local declared after `idx`; the base spelled as a literal inline at each of
+its three uses; `idx` declared before the base; and `((Hdr *)0x02150FEC)->b`
+(a member access at +4, which is what keeps the original's `ldr r1,[r0,#4]`
+from being folded to a second pool word).  None of them moves the product off
+r5.
+
+There is one more, larger residue behind it.  The original re-loads both
+0x02150FEC and 0x02153B8C from their pool words at every use site and writes
+the table slot with an addressing-mode store (`str r3, [r2, r6, lsl #2]`),
+which is why its arms are 8 and 6 instructions.  Every spelling tried lets
+mwcc CSE the 0x02153B8C base into a register and sink the store into the
+shared tail, giving 4-instruction arms and the 8-byte shortfall.  This is the
+same "address of a constant survives CSE" shape that has no C lever.
+
+Chain note: this function's own callee 0x020917D4 is nowhere matched or
+parked either (it is the follower at the end of pkt_020916D4), so even a
+byte-correct body would cap at MATCH on that one `bl` until 0x020917D4 has a
+manifest entry.  No source file retained (src/matched/ is EXACT-only); the
+address stays `new`.

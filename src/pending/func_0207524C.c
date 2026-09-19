@@ -10,6 +10,7 @@
  * status:   MATCH
  *
  * blocker:  +0020 PC24 func_020896AC           -> unresolved: 020896AC (arm, from header) has no witness outside 0207524C..02075274
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
  *   func_020751F4    0x020751F4  arm
@@ -19,7 +20,7 @@
  * data; the length survives in r4 across the first call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0207524C.c \
+ *   python tools/match.py one --src src/pending/func_0207524C.c \
  *       --func func_0207524C --addr 0x0207524C --cc 1.1p1 --arm
  */
 

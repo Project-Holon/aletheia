@@ -3,7 +3,7 @@
  *
  * unit:     yes
  * function: func_02072F34, func_02072F48
- * address:  0x2072F34
+ * address:  0x02072F34
  * packet:   pkt_02072EA8
  * region:   arm9
  * compiler: 1.1p1

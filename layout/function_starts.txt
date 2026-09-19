@@ -306,3 +306,6 @@ arm9_main  0x02029F54  thumb # 12-byte leaf, unit_02029F54.c EXACT
 arm9_main  0x02029F60  thumb # 12-byte leaf, unit_02029F60.c EXACT
 arm9_main  0x0200E368  thumb # 6-byte leaf (movs r0,#0xa1; lsls r0,r0,#2; bx lr = return 0x284); why func_0200E2BC prints MATCH* and its listing extent runs to 0x0200E370
 arm9_main  0x0203F328  arm   # real entry of a function whose worklist row starts 4 bytes late at 0x0203F32C; bare push {r0,r1,r2,r3} home area
+0x02017D30
+0x02031E68
+0x020336A4

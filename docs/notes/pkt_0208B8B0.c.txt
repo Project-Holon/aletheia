@@ -1,0 +1,64 @@
+pkt_0208B8B0 / func_0208B8B0 @ 0x0208B8B0 (144 bytes, ARM) -- DIFF, 9 bytes in the head
+=======================================================================================
+
+Two findings, one of them a correction to the lane table.
+
+The lane's `needs` column names 0x02088498 as the blocker.  It is not:
+match.py resolves it at [label x40], like every other call in the function.
+0x02088498 is the recognised long-branch veneer, so an ordinary extern
+declared at the veneer's own address covers it.  What does *not* resolve is
+the last pool word, `func_0208B950` at +0x98: 0x0208B950 is the address of
+the function immediately after this one and has no label of its own, so
+this row caps at MATCH even when every concrete byte is right -- which is
+the one thing standing between the body below and a park.
+
+The body (settled; the whole loop, both callback setups and the tail are
+byte-identical):
+
+    void func_0208B8B0(void)
+    {
+        if (g_02153000.f00 != 0) return;   /* ldrh/cmp/popne */
+
+        g_02153000.f00 = 1;
+        g_02153000.f30 = 0;
+        g_02153000.f34 = 0;
+        g_02FFF684 = 0;
+
+        func_02088498();                   /* the veneer at 0x02088498 */
+
+        while (func_020885EC(8, 1) == 0) { /* returns non-zero when armed */
+            func_02004490(0x64);           /* blx: Thumb callee */
+        }
+
+        func_020885A0(8, func_0208B950);   /* the interrupt handler */
+        g_02153000.f10 = g_02FFFC3C;
+        g_02153000.f0C = g_02FFFC3C;
+    }
+
+The residue is the first three instructions:
+
+    ORIGINAL                              COMPILED
+    ldr  r0, [pc, #0x84]                  ldr  r1, [pc, #0x84]
+    ldrh r1, [r0]                         ldrh r0, [r1]
+    cmp  r1, #0                           cmp  r0, #0
+    ...                                   ...
+    strh r4, [r0]                         strh r4, [r1]
+    str  r2, [r0, #0x30]                  str  r2, [r1, #0x30]
+    ldr  r1, [pc, #0x68]                  ldr  r0, [pc, #0x68]
+
+i.e. mwcc puts the *address* of g_02153000 in r0 and the loaded halfword
+in r1 here, and the other way round in every spelling tried.  Nine bytes
+of diff, three instructions, no size difference (160 both ways), and the
+shift propagates into the `ldr` of the second global and every store off
+the first.
+
+Tried, all 160 bytes and all 9 bytes of diff: `if (g.f00 != 0) return;`,
+`if (g.f00) return;`, `!= 0u`, `(u32)g.f00 != 0`, a `u16 v = g.f00;` local
+compared afterwards, a `u32 v` local, `*(u16 *)&g`, and a
+`struct S *p = &g_02153000;` local pointer (that one is worse: 156 bytes
+and 48 bytes of diff, because the pointer stays live and forces r5 out of
+the loop's constant pool).
+
+Verdict: DIFF, codegen (address register of the leading guard), 9 of 160
+concrete bytes, plus the 0x0208B950 pool word which will hold it at MATCH
+even after the head is fixed.

@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
+ * blocker:  +0018 PC24 func_0207FBBC           -> unresolved: 0207FBBC (arm, from name) has no witness outside 020618E4..02061908
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * PARKED AT MATCH: every concrete byte is right; the PC24 at +0x0018 is
  * wildcarded because 0x0207FBBC (GX_LoadClearImageColor) has exactly one
@@ -18,7 +20,7 @@
  * EXACT entry or a second caller.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020618E4.c \
+ *   python tools/match.py one --src src/pending/func_020618E4.c \
  *       --func func_020618E4 --addr 0x020618E4 --arm --cc 1.1p1
  */
 

@@ -1,0 +1,67 @@
+=== DIFF residue for 0x0204A39C (220 bytes) -- lane r2a-5
+
+Third arc_util.c member reader (packet pkt_0204A39C).  The best spelling
+reaches DIFF with exactly TWO instructions wrong out of 220 bytes; every
+other instruction, every pool word and all 7 relocation sites are right.
+
+Nearest miss, spelled in full:
+
+    int func_0204A39C(int a0, int a1, int a2, int a3, u32 *out)
+    {
+        int r;
+        int t;
+
+        *out = func_020493D4(a0, a1, a2, a3);
+        if (a2 != 0) {
+            r = func_02030734((u16)((a3 & 0x7fff) | 0x8000), *out, 0, sArcUtil3730, 1709);
+        } else {
+            r = func_02030734((u16)a3, *out, 0, sArcUtil3730, 1713);
+        }
+        if (r != 0) {
+            func_0204932C(a0, a1, r);
+            if (a2 != 0) {
+                *out = *(u32 *)r >> 8;
+                t = func_02030734((u16)a3, *out, 0, sArcUtil3730, 1721);
+                if (t != 0) {
+                    func_020834C0(r, t);
+                    func_020307B0(r);
+                }
+                r = t;
+            }
+        }
+        return r;
+    }
+
+with func_020493D4 / func_0204932C / func_02030734 / func_020834C0 /
+func_020307B0 declared as arm externs and sArcUtil3730 pinned at
+0x020A7F30 (data; the `literal` class attests it, x10 witnesses).
+
+Residue 1 -- the if arm's 16-bit truncation is folded away.
+  ORIGINAL  lsl r0, r6, #0x10 ; and r0, r1, r0, lsr #16
+  COMPILED  and r0, r6, r0
+The original keeps `(u16)a3` materialised and folds the `lsr #16` into the
+AND's barrel shifter; with `(u16)((a3 & 0x7fff) | 0x8000)` this compiler
+proves the cast redundant (0x7fff already bounds the value) and drops the
+lsl entirely, which also shifts every later instruction by four bytes.
+
+Residue 2 -- `mov r2, #0` (the shared third argument) is hoisted above the
+`beq` instead of sitting at the join point after the `lsr r0, r0, #0x10`.
+
+Spellings tried and rejected:
+  * u16 fourth parameter -- the compiler treats a3's upper half as
+    don't-care, emits only `and r0, r6, r0` in the if arm and drops the
+    truncation from the else arm too;
+  * `u16 n = (u16)a3;` / `u16 n = a3;` locals -- materialised ONCE, up
+    front, into an extra register, which additionally perturbs the
+    prologue (`mov r5, r3 ; lsl r4, r5, #0x10 ; ... ; lsr r4, r4, #0x10`);
+  * `((u16)a3 & 0x7fff) | 0x8000` -- right two-instruction shape in the if
+    arm but the else arm then also hoists `lsr r5, r4, #0x10` into a
+    register;
+  * assigning the cast result to a u16 local inside each arm -- same hoist.
+
+The sibling func_0204A1BC (0x0204A1BC) and func_0204A298 (0x0204A298) in
+packet pkt_0204A1BC have the same three __LINE__ sites and DO reach EXACT
+with the same spelling, because there the else arm passes `a3` raw with no
+truncation at all, so the merge never has to carry a 16-bit value.
+
+=== end 0x0204A39C

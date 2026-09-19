@@ -10,6 +10,7 @@
  * status:   MATCH
  *
  * blocker:  +0020 PC24 func_020896CC           -> unresolved: 020896CC (arm, from header) has no witness outside 02075274..020752A4; +0028 PC24 func_0208A38C           -> unresolved: 0208A38C (arm, from header) has no witness outside 02075274..020752A4
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
  *   func_020751F4    0x020751F4  arm
@@ -19,7 +20,7 @@
  * The bank flavour: same range invalidate plus the bank teardown.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02075274.c \
+ *   python tools/match.py one --src src/pending/func_02075274.c \
  *       --func func_02075274 --addr 0x02075274 --cc 1.1p1 --arm
  */
 

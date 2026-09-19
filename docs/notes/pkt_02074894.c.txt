@@ -1,0 +1,99 @@
+pkt_02074894 -- func_02074894: one step from EXACT, two spellings straddle it
+===========================================================================
+
+0x02074894 (76 bytes, arm9, ARM, packet pkt_02074894, lane r2b-2).  Not a
+MATCH cap and not an evidence problem: all three PC24 sites resolve
+(func_02061184 as `matched` from its own manifest entry, func_020749F8 and
+func_020611D4 as `label` with callers outside the range).  The residue is
+purely codegen, and it is small: a register allocation that costs one extra
+callee-saved register.
+
+THE ORIGINAL
+
+  02074894  push {r4, lr}
+  02074898  mov  r4, r0
+  0207489C  ldrh r1, [r4, #0xc]
+  020748A0  ldr  r0, [r4]
+  020748A4  bl   #0x2061184
+  020748A8  cmp  r0, #0
+  020748AC  mvneq r0, #0
+  020748B0  popeq {r4, pc}
+  020748B4  mov  r0, r4
+  020748B8  bl   #0x20749f8
+  020748BC  cmp  r0, #0
+  020748C0  ldrhne r0, [r4, #0xc]
+  020748C4  subne r0, r0, #1
+  020748C8  popne {r4, pc}
+  020748CC  ldr  r0, [r4]
+  020748D0  mov  r1, #0
+  020748D4  bl   #0x20611d4
+  020748D8  mvn  r0, #0
+  020748DC  pop  {r4, pc}
+
+THE TWO SPELLINGS, EACH ONE STEP AWAY
+
+(A) four statements, two `return -1` (the natural reading, 30 bytes of DIFF):
+
+    int func_02074894(Obj02074894 *a0)
+    {
+        if (func_02061184(a0->f00, a0->f0c) == 0)
+            return -1;
+        if (func_020749F8(a0) != 0)
+            return a0->f0c - 1;
+        func_020611D4(a0->f00, 0);
+        return -1;
+    }
+
+    gives the right predicated early exit, `push {r4,lr}` -> `push
+    {r3,r4,r5,lr}` and a tail of
+
+      +0038  mov r4, #0          (original: ldr r0, [r4])
+      +003C  ldr r0, [r5]
+      +0040  mov r1, r4          (original: mov r1, #0)
+      +0044  bl   #0x20611d4
+      +0048  sub r0, r4, #1      (original: mvn r0, #0)
+
+    i.e. the allocator kept the literal 0 that is the call's second argument
+    in a callee-saved register across the call and materialised the tail's
+    -1 as `0 - 1` off it, which in turn forces the object pointer into r5 and
+    a third saved register.  This is the family documented in
+    docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-
+    unless-an-argument-shares-it.md: two spellings of the same literal.
+
+(B) nested ifs, ONE `return -1` at the end (42 bytes of DIFF, but for a
+    different reason):
+
+    int func_02074894(Obj02074894 *a0)
+    {
+        if (func_02061184(a0->f00, a0->f0c) != 0) {
+            if (func_020749F8(a0) != 0)
+                return a0->f0c - 1;
+            func_020611D4(a0->f00, 0);
+        }
+        return -1;
+    }
+
+    gets the prologue and the tail exactly right - `push {r4, lr}`, `mov r4,
+    r0`, `mov r1, #0`, `mvn r0, #0`, `pop {r4, pc}` - and loses only the
+    early exit, which comes out as `beq 0x020748D4` (a branch to the shared
+    fail block) where the original has the predicated `mvneq r0, #0` /
+    `popeq {r4, pc}`.
+
+So the shape wanted is (B)'s single fail block for the allocator and (A)'s
+separate `return -1` for the predicate: two `return -1` statements give the
+predication but make the allocator share the constant; sharing the block
+stops the sharing but branches instead of predicating.
+
+Spellings tried on top of the two above, all landing on the same 30 bytes
+(A) or 42 bytes (B):
+  - `~0`, `0xFFFFFFFF`, `(int)-1` for either return;
+  - `func_020611D4` declared `void`;
+  - the key argument written `0u`, `(u8)0`, `(u16)0`, `'\0'`, `z + 0`;
+  - `u16 n = a0->f0c; return n - 1;`, `int rc = -1;` returned twice, and the
+    middle call's result bound to a local and reused (`r`);
+  - the middle test inverted (`== 0` + `if (…) { …; return -1; } return
+    a0->f0c - 1;`) and the object pointer bound to a local first.
+
+Recorded, not ground further: the next lever is a source shape that leaves
+the tail's -1 unshared without sharing the fail block; nothing in the idiom
+index names it yet.

@@ -8,7 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocker:  02022490 label
+ * blocker:  +000E THM_CALL func_02022490       -> unresolved: 02022490 (thumb, from name) has no witness outside 020225B4..020225D4
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
  *   func_02030EAC  0x02030EAC  arm

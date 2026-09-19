@@ -1,0 +1,60 @@
+pkt_02049C28 -- DIFF residue
+
+func_02049C28 @ 0x02049C28, 396 bytes, arm.  STATUS: DIFF (one instruction).
+
+Everything reproduces byte for byte from +005C to the end, including the
+eight-entry jump table, the case order, the handler-table dispatch and the
+BEGIN/END wrapper pairs.  Both compiles are 396 bytes.  The whole residue is
+the first 21 instructions:
+
+  orig +0008  ldr r5, [sp, #0x28]        a4 loaded into r5 at function entry
+  mine +0008  ldr r4, [pc, #0x178]       (r5 is instead reserved for v)
+  ...
+  orig +0048  ldr r1, [sp, #4]           blk in r1
+  mine +0044  ldr r2, [sp, #4]           blk in r2
+  orig +004C  cmp r5, #0                 a4 already in a register
+  mine +0048  ldr r0, [sp, #0x28]        a4 re-read from its incoming slot
+  ...
+  both        cmp r0/sl, #0 ; ldr r5/[r0,#8] ; mul r5, ...   (v is r5 either way)
+
+So the original gives the fifth parameter the register r5 across the two calls
+and reuses r5 for v once a4 dies; mwcc 1.1p1 here instead re-reads a4 from
+[sp,#0x28] at the point of use and allocates blk to r2.  Same instruction
+count, same size, 20 concrete bytes.
+
+Spellings tried on the fifth parameter, all identical output:
+  u32 a4; int a4; void *a4; volatile u32 a4;
+  a `u32 n = a4;` local declared first / last and used in the test;
+  `if (!a4)`; declarations of blk/pmcp/ok/v permuted for stack-slot order
+  (the surviving order, blk then pmcp, is the one that puts the two
+  out-pointers at [sp+4] and [sp] the way the original does - that part did
+  land, see +0024/+0030 of the compiled listing).
+
+The rest of the shape, recorded so it does not have to be re-derived:
+  ok = func_02062AD4(file, &pmcp);        /* PMCP block, pointer out */
+  if (func_02062A98(file, &blk) != 0) {   /* TTLP block; failure jumps to the
+                                             tail, it does NOT return, so the
+                                             whole body is inside one if */
+      blk->unk0c += a2;
+      if (a4 == 0) {
+          v = (ok == 0) ? blk->unk08
+                        : *(u16 *)pmcp * (blk->unk00 == 3 ? 0x20 : 0x200);
+          v -= a2;
+      }
+      func_020862F0(blk->unk0c, v);       /* DC_FlushRange */
+      switch (a1) {
+      case 2: GX_BeginLoadBGExtPltt();  call(); GX_EndLoadBGExtPltt();   break;
+      case 6: GXS_BeginLoadBGExtPltt(); call(); GXS_EndLoadBGExtPltt();  break;
+      case 3: GX_BeginLoadOBJExtPltt(); call(); GX_EndLoadOBJExtPltt();  break;
+      case 7: GXS_BeginLoadOBJExtPltt();call(); GXS_EndLoadOBJExtPltt(); break;
+      case 0: case 1: case 4: case 5: default: call(); break;
+      }
+  }
+  func_020307B0(a0);                      /* ENV_SetResourceSet */
+
+  call() = ((void (*)(u32, void *, u32))tbl_020A1364[a1])(blk->unk0c, a3, v)
+
+The source order of the four wrapped cases is 2, 6, 3, 7 -- that order is what
+the emitted bodies at 0x02049CF8, 0x02049D1C, 0x02049D40, 0x02049D64 say, and
+the table runs from 0 because cases 0, 1, 4 and 5 are real labels sharing the
+default arm.

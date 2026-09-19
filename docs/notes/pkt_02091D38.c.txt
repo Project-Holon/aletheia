@@ -1,0 +1,50 @@
+pkt_02091D38 -- DIFF residue
+
+func_02091D38 @ 0x02091D38, 268 bytes, arm.  STATUS: DIFF (3 instructions).
+
+Whole body reproduces: 265 of 268 bytes, all 11 relocation sites resolved
+(7 of them ABS32 to game data: 0x020A8730 / 0x020A877C / 0x020A87C8 are
+ADDRESSES compared against a0, so they must be declared as objects and the
+address taken, not as u32 values - declaring them `u32` makes the compiler
+dereference them, which was the first 100 bytes of diff).
+
+  idx = (a0 == 0x020A8730) ? 2 : (a0 == 0x020A877C) ? 3
+      : (a0 == 0x020A87C8) ? 4 : 5;
+  blk = 0x02153BD4 + idx * 0x18;                 /* stride 0x18, mul by 0x18 */
+  if (func_020860D0(blk) == 0) {
+      arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];   /* +0x6c field */
+      arr_02153BB0[idx] = 1;
+  } else if (arr_02153B8C[idx] == g_02150FEC.unk04[0x1b]) {
+      arr_02153BB0[idx]++;                       /* the EQ arm, if-converted */
+  } else {
+      func_02086028(blk);
+      arr_02153B8C[idx] = g_02150FEC.unk04[0x1b];
+      arr_02153BB0[idx] = 1;
+  }
+  r = func_02091CBC(a0);
+  arr_02153BB0[idx]--;
+  if (arr_02153BB0[idx] == 0) func_02086078(blk);
+  return r;
+
+g_02150FEC is a two-word object whose second word is the pointer; the pool
+word is exactly 0x02150FEC, so the C has to reach the field through
+`g_02150FEC.unk04`, not through a symbol named for 0x02150FF0.
+
+The residue is the register pair chosen for the two sides of the equality:
+
+  orig +007C  ldr r0, [sb, #4]        ; g_02150FEC.unk04
+  orig +0080  ldr r1, [r4, r7, lsl #2]; arr_02153B8C[idx]
+  orig +0084  ldr r0, [r0, #0x6c]
+  orig +0088  cmp r1, r0
+
+  mine +007C  ldr r1, [sb, #4]
+  mine +0080  ldr r0, [r4, r7, lsl #2]
+  mine +0084  ldr r1, [r1, #0x6c]
+  mine +0088  cmp r1, r0        (identical comparison, swapped temporaries)
+
+Everything after +0088 is byte-identical, including the predicated EQ arm and
+the `beq` past it.  Spellings tried, all with the same three-line residue:
+  `arr[idx] == field` and `field == arr[idx]` (mwcc canonicalises both);
+  `*(g_02150FEC.unk04 + 0x1b)` for the subscript;
+  the object declared as a two-word struct with the pointer second.
+No cut helps: all 11 sites are inside the one function.

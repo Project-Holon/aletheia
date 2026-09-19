@@ -9,12 +9,14 @@
  * isa:      arm
  * status:   MATCH
  *
- * blocker:  callee func_02084DA4 (the only branch to it in the whole image
+ * blocker:  +0034 PC24 func_02084DA4           -> unresolved: 02084DA4 (arm, from header) has no witness outside 020910D0..0209112C
+ *           callee func_02084DA4 (the only branch to it in the whole image
  *           is the one inside this file) has no witness outside
  *           020910D0..0209112C, so that one call site stays wildcarded.
  *           The C is byte-correct at every other offset: the file becomes
  *           EXACT with no edit once 0x02084DA4 has a shard entry of its
  *           own (it is a 0x02084xxx packet, outside this window).
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
  *   func_02087988  0x02087988  arm

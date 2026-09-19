@@ -9,11 +9,13 @@
  * isa:      arm
  * status:   MATCH
  *
- * blocker:  callees func_020913E8 and func_020913BC have no witness
+ * blocker:  +0024 PC24 func_020913E8           -> unresolved: 020913E8 (arm, from header) has no witness outside 020913FC..0209146C; +0030 PC24 func_020913BC           -> unresolved: 020913BC (arm, from header) has no witness outside 020913FC..0209146C; +0064 PC24 func_020913E8           -> unresolved: 020913E8 (arm, from header) has no witness outside 020913FC..0209146C
+ *           callees func_020913E8 and func_020913BC have no witness
  *           outside 020913FC..0209146C (the only branches to them are
- *           the two inside this file), so both call sites stay
+ *           the three sites inside this file), so those call sites stay
  *           wildcarded.  No C change is possible; the file becomes
  *           EXACT once either callee has its own shard entry.
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
  *   func_020913D0  0x020913D0  arm

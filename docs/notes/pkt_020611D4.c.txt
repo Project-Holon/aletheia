@@ -1,0 +1,77 @@
+pkt_020611D4 -- func_020611D4: loop not if-converted (one 4-byte block)
+========================================================================
+
+0x020611D4 (80 bytes, arm9, ARM, packet pkt_020611D4, lane r2b-2).  The
+function is a linked-list search that splices the found node out.  It has NO
+relocation at all (every offset is an immediate), so there is no evidence
+question: the only thing between it and a manifest entry is the shape of the
+search loop.
+
+THE ORIGINAL
+
+  020611D4  ldr  r3, [r0, #0x2c]        ; p = a0->f2c
+  020611D8  cmp  r1, #0
+  020611DC  cmpne r3, #0
+  020611E0  beq  #0x20611F8             ; if (a1 == 0 || p == 0) skip
+  020611E4  ldr  r2, [r3]               ; loop:
+  020611E8  cmp  r2, r1
+  020611EC  ldrne r3, [r3, #0xc]        ;   if (not found) p = p->f0c
+  020611F0  cmpne r3, #0                ;   if (not found) test p
+  020611F4  bne  #0x20611E4             ;   if (not found && p) loop
+  020611F8  cmp  r3, #0
+  020611FC  moveq r0, #0
+  02061200  bxeq lr
+  02061204  ldr  r1, [r3, #4]
+  02061208  str  r1, [r0, #0x24]
+  0206120C  ldr  r1, [r3, #8]
+  02061210  str  r1, [r0, #0x28]
+  02061214  ldr  r1, [r3, #0xc]
+  02061218  str  r1, [r0, #0x2c]
+  0206121C  mov  r0, #1
+  02061220  bx   lr
+
+The loop body is if-converted: the update (`p = p->f0c`) and the loop test
+are both predicated on "not found", and the back edge is the only branch.  A
+`break` out of the loop cannot produce that - the found case has to leave
+through the SAME block as the p == 0 case, and the found case is written as
+a conditional ASSIGNMENT, not as a branch out.
+
+NEVER THE SAME BLOCK TWICE
+
+Every spelling below reproduces the guard (`cmp r1,#0` / `cmpne r3,#0` /
+`beq`), the epilogue and the splice byte for byte; only the loop block
+differs, and it differs the same way each time - a real conditional branch
+on the found test plus an unpredicated update, six instructions instead of
+five, 4 bytes long, so every offset after it shifts:
+
+  +0010  ldr r2, [r3]          | ldr  r2, [r3]
+  +0014  cmp r2, r1            | cmp  r2, r1
+  +0018  ldrne r3, [r3, #0xc]  | beq  <found>        <- extra branch
+  +001C  cmpne r3, #0          | ldr  r3, [r3, #0xc]
+  +0020  bne  <loop>           | cmp  r3, #0
+                               | bne  <loop>
+
+Spellings tried (differing bytes in brackets):
+
+  [49] do { if (p->f00 == a1) break; p = p->f0c; } while (p != 0);
+  [49] same with the update folded into the loop condition
+       `while ((p = p->f0c) != 0)`
+  [49] for (;;) { if (p->f00 == a1) break; p = p->f0c; if (p == 0) break; }
+  [49] for (; p != 0; p = p->f0c) { if (p->f00 == a1) break; }
+  [49] do { if (p->f00 != a1) p = p->f0c; else break; } while (p != 0);
+  [49] the same control flow written out with explicit goto/labels
+  [50] do { if (p->f00 != a1) p = p->f0c; } while (p != 0 && p->f00 != a1);
+  [61] while (p->f00 != a1) { p = p->f0c; if (p == 0) break; }
+  [65] if (a1 != 0) { while (p != 0 && p->f00 != a1) p = p->f0c; }
+  [58] if (a1 != 0 && p != 0) { while (p != 0 && p->f00 != a1) p = p->f0c; }
+  [22] while (a1 != 0 && p != 0 && p->f00 != a1) p = p->f0c;   <- closest; the
+       compiler rotates this one correctly but enters the rotated loop with a
+       forward `b`, and the update still lands unpredicated at the bottom
+  [41] u16 n = a0->f0c bound before the middle test, the middle call's result
+       in a local, and the `!` form of both tests
+
+Every one of these compiles the loop as "test first, branch to the found
+exit", which is the shape the compiler prefers; the original's is "update
+predicated on not-found, one back edge".  The lever that is missing is the
+source construct mwccarm if-converts for this loop; nothing in the idiom
+index covers loop if-conversion yet.

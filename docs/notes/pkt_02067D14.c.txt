@@ -1,0 +1,83 @@
+pkt_02067D14 / func_02067DC8 @ 0x02067DC8 (228 bytes, ARM) -- DIFF, register swap
+=================================================================================
+
+Not filed: the size is right (224 code + 4 pool = 228, matching the
+original exactly) and the instruction sequence is identical, but mwcc
+assigns the two callee-saved locals the other way round, which perturbs
+26 of the 56 instructions (110 concrete bytes differ).
+
+Settled shape (reproduces the whole control flow, the switch table, both
+callback calls and the bit read-modify-write):
+
+    void func_02067DC8(u32 a0, s32 a1)
+    {
+        struct G02067DC8 *g = g_02148B48;          /* pointer variable at
+                                                      0x02148B48 */
+        struct Obj02067DC8 *o = g->f00;
+
+        if (o->f10 == 0) return;                   /* popeq */
+        g->f30 = 1;
+        if (o->f18 != 0) o->f18(g_02148B48, a0);   /* blx, g re-read */
+
+        g = g_02148B48;                            /* second read of the
+                                                      global, from the pool */
+        if (g->f30 != 0) {                         /* NOT an early return:
+                                                      the false arm lands on
+                                                      the f1c test below */
+            if (a1 != -1) {
+                u32 idx = o->f14;                  /* loaded before the call */
+                struct P02067DC8 *p = func_0206878(a1);
+                p->f20 = (p->f20 & ~(1 << idx)) | (1 << idx);
+            }
+            switch (o->f14) {
+            case 0: func_02067998(o, a0); break;   /* arm at +0x88 */
+            case 1:
+            case 2: func_02067340(o, a0); break;   /* shared arm at +0xA8 */
+            case 3: break;                         /* empty arm -> the table
+                                                      exists and case 3
+                                                      jumps to the tail */
+            }
+        }
+        if (o->f1c != 0) o->f1c(g_02148B48, a0);   /* third pool read */
+    }
+
+The residue:
+
+    ORIGINAL                              COMPILED
+    mov r4, r1          a1  -> r4         mov r5, r1          a1  -> r5
+    ldr r5, [r3]        obj -> r5         ldr r4, [r3]        obj -> r4
+    ldr r4, [r5, #0x14] idx -> r4         ldr r5, [r4, #0x14] idx -> r5
+
+    mvn r0, #0                            cmn r5, #1
+    cmp r4, r0
+    beq #0x2067e50
+
+The second one is the more interesting half: the original materialises the
+-1 sentinel in a register and compares against the register, where mwcc
+here folds the test into `cmp r5, #-1` (`cmn r5, #1`).  Both are one
+instruction's worth of difference and the whole body after it shifts by
+four bytes, so it cannot be fixed independently of the register swap.
+
+Spellings tried (all 228 bytes, all with the identical control flow, all
+110 bytes of diff): `s32 a1 != -1`, `u32 a1 != 0xFFFFFFFFu`, `!= ~0u`,
+`!= (u32)~0`, `!= 0u - 1u`, `!= (int)0xFFFFFFFF`, a `u32 none = (u32)-1;`
+local compared against, `void *a1 != (void *)-1` with a cast at the call,
+`u32 *a1 != (u32 *)-1`, `u32)(void *)-1`, locals declared uninitialised
+and assigned in statements, and the same with a pointer second parameter.
+
+Everything else is machine-identical, including the empty `case 3` (which
+is what makes the 4-entry `addls pc, pc, r0, lsl #2` table exist at all --
+without it there is no table), the `addls`/`b` pair before it for the
+default, and the third pool read for the final callback.
+
+Verdict: DIFF, codegen (two callee-saved locals swapped + sentinel
+compare), 110 of 224 concrete bytes.
+
+Evidence note for the two callbacks: 0x02067998 and 0x02067340 are each
+called from this function *and* from func_02067D14 (0x02067D14, parked at
+MATCH in src/pending/func_02067D14.c), which is why that file's header
+reads "called from nowhere else" -- the two callers are adjacent
+functions in one packet and neither is EXACT, so neither attests the
+other.  Both callees live in pkt_02066E30, which another lane holds, so
+the way to unstick both files is an EXACT entry for 0x02067998 or
+0x02067340 filed there -- not a change to either caller.

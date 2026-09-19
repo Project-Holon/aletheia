@@ -1,0 +1,128 @@
+/* pkt_02064EDC.c.txt */
+
+function: func_02064EDC
+address:  0x02064EDC
+packet:   pkt_02064EDC
+region:   arm9
+compiler: 1.1p1
+flags:    -O4,p
+lang:     c99
+isa:      arm
+status:   DIFF (codegen scheduling residue: 10 instructions out of 81)
+
+Subsystem: Cell-actor / OAM bank manager (associated with g_02147B88, g_02147C18, g_02148018, g_02148318).
+Code extent: 292 code bytes (324 extent bytes with literal pool).
+
+Differences:
+1. +0050..+0064: Around func_02082AC0 call:
+   Original evaluates r2 = 0x10, then ldr r0, [pc] (g_02148018), then strh r5, [r3] (cur->f0 = r5),
+   then add r0, r0, r5, lsl #5; add r1, r0, #0x10; mvn r0, #0; bl #0x2082ac0.
+   Compiler schedules strh r5, [r3] later or evaluates mvn r0, #0 earlier to fill load delay.
+2. +00B8..+00F0: 4-word copy into g_02148018[cur->f0]:
+   Original interleaves:
+     str r3, [lr, ip, lsl #5]
+     add ip, lr, ip, lsl #5
+     str r3, [ip, #4]
+     ldr r2, [r2, #0xc]    ; g_02147B88.unk_0c hoisted into load delay
+     str r3, [ip, #8]
+     lsl r1, r2, #0x10
+     str r3, [ip, #0xc]
+     asrs lr, r1, #0x10
+   Compiler folds base+index into add lr, ip, r3, lsl #5 first and schedules stores without interleaving the reload of unk_0c.
+
+Best bracketing source:
+```c
+typedef unsigned char  u8;
+typedef signed short   s16;
+typedef unsigned short u16;
+typedef signed int     s32;
+typedef unsigned int   u32;
+
+struct B88 {
+    u8  pad_00[4];
+    u32 unk_04;
+    u8  pad_08[4];
+    u32 unk_0c;
+};
+
+struct SlotC18 {
+    u16 f0;
+    u16 f2;
+    u16 f4;
+    u16 f6;
+};
+
+struct GlobA81F8 {
+    u8 pad[0x18];
+    u32 unk_18;
+    u32 unk_1c;
+};
+
+extern struct B88 g_02147B88;
+extern struct SlotC18 g_02147C18[];
+extern u16 g_02148318;
+extern u32 g_02148018[][8];
+extern u32 g_02147D28[];
+extern u32 g_02147D2C[];
+extern struct GlobA81F8 g_020A81F8;
+extern u32 g_020A8200[];
+extern u32 g_02147D18[];
+
+extern void func_02082AC0(u32 val, void *dst, u32 size);
+
+void func_02064EDC(void)
+{
+    struct SlotC18 *cur;
+    u16 r4;
+    u16 r5;
+    u32 size;
+    u32 *src;
+    u32 *dest;
+    int valid;
+    s32 k;
+
+    cur = &g_02147C18[(u16)g_02147B88.unk_0c];
+    valid = 1;
+    if (cur->f4 != 1 && cur->f4 != 2) {
+        valid = 0;
+    }
+    if (valid == 0) {
+        return;
+    }
+
+    r4 = cur->f2;
+    r5 = g_02148318;
+    size = 0x10;
+    if (r5 < 0x1f) {
+        g_02148318 = r5 + 1;
+    }
+    cur->f0 = r5;
+    func_02082AC0(~0U, (u8 *)&g_02148018[r5] + 0x10, size);
+
+    {
+        u32 i = g_02147B88.unk_0c;
+        if (g_02147B88.unk_04 == 0) {
+            src = (u32 *)((u8 *)g_02147D18 + i * 0x18);
+        } else {
+            u32 off = i * 0x18;
+            g_020A81F8.unk_18 = *(u32 *)((u8 *)g_02147D28 + off);
+            g_020A81F8.unk_1c = *(u32 *)((u8 *)g_02147D2C + off);
+            src = g_020A8200;
+        }
+
+        dest = (u32 *)((char *)g_02148018 + (g_02147C18[(u16)i].f0 << 5));
+        dest[0] = src[0];
+        dest[1] = src[1];
+        dest[2] = src[2];
+        dest[3] = src[3];
+    }
+
+    for (k = (s16)g_02147B88.unk_0c; k >= 0; k--) {
+        if (r4 != g_02147C18[k].f2) {
+            return;
+        }
+        g_02147C18[k].f4 = 3;
+        g_02147C18[k].f0 = r5;
+    }
+}
+```

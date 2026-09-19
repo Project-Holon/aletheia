@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
+ * blocker:  +0018 PC24 func_0207FC48           -> unresolved: 0207FC48 (arm, from name) has no witness outside 02061908..0206192C
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * PARKED AT MATCH: every concrete byte is right; the PC24 at +0x0018 is
  * wildcarded because 0x0207FC48 (GX_LoadClearImageDepth) has exactly one
@@ -16,7 +18,7 @@
  * The `*` is disasm.py's extent for the original running past the leaf.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02061908.c \
+ *   python tools/match.py one --src src/pending/func_02061908.c \
  *       --func func_02061908 --addr 0x02061908 --arm --cc 1.1p1
  */
 

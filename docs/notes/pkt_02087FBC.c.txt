@@ -1,0 +1,47 @@
+lane r2a-1, packet pkt_02087FBC
+address 0x02087FBC, 160 bytes (listing extent 176, to the pool), ARM, state=new, class=ready
+verdict: DIFF (not filed; no source kept)
+
+Residue: compiled 188 bytes against the original's 176, first concrete
+mismatch at +0x08 and every instruction after it.  The shape is right -- the
+`base[1] & 1` early return, the two aggregate copies, and the three closing
+calls all line up -- but the original's two copies are each ONE 8-byte
+aggregate move emitted as
+
+  02087FF0  ldm r1, {r2, r3}
+  02087FF4  stm r5, {r2, r3}
+
+and mwcc 1.1p1 will not emit a two-register ldm/stm pair at this size: every
+8-byte spelling tried comes out ldr/ldr/str/str (four instructions, 16 bytes
+of instructions where the original spends 8).  What was tried, all with
+mwcc 1.1p1 -O4,p -proc arm946e:
+
+    typedef struct { u32 a; u32 b; } Pair;
+    *(Pair *)dst = *(Pair *)src;              -> ldr/ldr/str/str
+    P8 *pd = (P8 *)d; P8 *ps = (P8 *)s; *pd = *ps;   -> ldr/ldr/str/str
+    u32 *pd = (u32 *)d; u32 *ps = (u32 *)s;
+        pd[0] = ps[0]; pd[1] = ps[1];         -> ldr/str/ldr/str
+    u32 a = s[0]; u32 b = s[1]; d[0] = a; d[1] = b;
+                                              -> ldr/ldr/stm (stores merge,
+                                                 loads do not)
+    typedef struct { u32 v[2]; } A;  *(A *)d = *(A *)s;
+                                              -> ldr/ldr/str/str
+    a 12-byte struct copy                     -> ldm {r0,r1,r2} / stm
+                                                 {r0,r1,r2}  (ldm/stm appears
+                                                 at 12 bytes and up)
+    P8 tmp; tmp = *(P8 *)s; *(P8 *)d = tmp;   -> ldr/ldr/str/str
+
+So the threshold for the ldm/stm form is between 8 and 12 bytes and an 8-byte
+copy never reaches it; the original's two-register ldm/stm therefore does not
+come from any 8-byte aggregate the front end can see.  Since the surrounding
+instructions all reproduce, the C is almost certainly right and this is a
+front-end codegen wall, not a source-shape error.
+
+Second, smaller residue: the original keeps 0x02151390 as its own pool word
+and `stm`s into it, while a C that names both constants lets mwcc fold
+0x02151390 to 0x02151384 + 0xc and emit `str`/`str` into [r4,#0xc]/[r4,#0x10].
+Declaring 0x02151390 as an extern object does not help either: a data symbol
+needs a `literal` witness and 0x02151390 has none.
+
+No source file retained (src/matched/ is EXACT-only).  The packet id is
+pkt_02087FBC; this address stays `new`.

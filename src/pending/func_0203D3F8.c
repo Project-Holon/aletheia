@@ -18,7 +18,13 @@
  *   func_02039468  0x02039468  arm
  *   func_02034714  0x02034714  arm
  *   func_02038C18  0x02038C18  arm
- */
+  * blocker:  label - 0x02038C18 and 0x020395EC each have exactly one branch in
+ *           the image and it is the call inside this function, so `label` has
+ *           no outside witness for either and no manifest entry covers them
+ *           yet.  File those two addresses first and this graduates with no
+ *           change to its C (every other site resolves).
+ *
+*/
 
 typedef unsigned char u8;
 typedef unsigned int  u32;

@@ -1,0 +1,117 @@
+pkt_0203D8F0 DIFF residue - func_0203D8F0 @ 0x0203D8F0 (228 bytes, ARM).
+
+Not an evidence miss and not a size miss: the spelling below compiles to 252
+bytes, the same as the original's listing extent, and all seven relocation
+sites resolve on the first try -
+
+  +004C PC24 func_02030734          [label x1013, e.g. 0200554A]
+  +00D0 PC24 func_02034F84          [label x26, e.g. 02012E54]
+  +00DC ABS32 g_021469F0            [literal x65, e.g. 0203DA1C]
+  +00E4 ABS32 d_020A7D34            [literal x20, e.g. 0203DBF8]
+  +00E8 ABS32 func_0203DC4C         [literal x4, e.g. 0203E418]
+  +00EC ABS32 func_0203E420         [literal x5, e.g. 0203D9E4]
+  +00F0 ABS32 func_0203E458         [literal x5, e.g. 0203D9E8]
+
+so 0x0203D8F0 is not chain-blocked either.  The residue is scheduling and
+register choice in exactly two regions; every other byte, including the whole
+112-byte ldm/stm copy loop and the tail from +00A4 to the end, is identical.
+
+Region 1, the allocator call set-up (+0028..+0050):
+
+  ORIG  ldrh r1, [r5, #0x54]        NEAR  mov r0, #0x72
+  ORIG  ldr r0, [pc, #0xb4]         NEAR  str r0, [sp]
+  ORIG  mov r6, #0x72               NEAR  ldrh r1, [r5, #0x54]
+  ORIG  and r0, r1, r0              NEAR  ldr r0, [pc, #0xac]
+  ORIG  orr r0, r0, #0x8000         NEAR  ldr r3, [pc, #0xac]
+  ORIG  ldr r3, [pc, #0xa4]         NEAR  and r0, r1, r0
+  ORIG  lsl r0, r0, #0x10           NEAR  orr r0, r0, #0x8000
+  ORIG  lsr r0, r0, #0x10           NEAR  lsl r0, r0, #0x10
+  ORIG  mov r1, #0x10c              NEAR  lsr r0, r0, #0x10
+  ORIG  mov r2, #1                  NEAR  mov r1, #0x10c
+  ORIG  str r6, [sp]                NEAR  mov r2, #1
+  ORIG  bl #0x2030734               NEAR  bl #0x2030734
+
+The original materialises the fifth argument (0x72) early into r6 and stores
+it to the outgoing stack slot as the last thing before the call; the near miss
+immediately stores it to [sp] out of r0 and evaluates the first argument
+afterwards.  Same instruction count, same order of the *values*, different
+scheduling.
+
+Region 2, the field store block (+0078..+00A0): the original interleaves the
+three source loads with their stores
+
+  ldr r0, [r5, #0x2c] ; str r4, [ip, #0x70] ; ldr r1, [r5, #0x18]
+  str r0, [ip, #0x80] ; ldr r0, [r5, #0x1c] ; str r1, [ip, #0x78]
+  str r0, [ip, #0x7c] ; mov r1, #3          ; strb r1, [ip, #0x65]
+
+while the near miss groups them (str r4,[ip,#0x70]; ldr; str; ldr; str; ...).
+Only the register holding one of the temporaries differs (r3 where the
+original uses r0); the store targets and the values are the same.
+
+Spellings tried, all 252 bytes and all 7-of-7 resolved, all DIFF:
+  - the three source loads and their stores written in the original's order
+    (the near miss below)
+  - the `u16` tag in a named local before the call (`u16 tag;`)
+  - the same plus `u32 size = 0x10C;` bound to a local
+  - the copy as `*(Base *)obj = *(Base *)src;` with Base = `u32 w[28]`
+
+Useful facts for whoever retries: the copied block is 112 bytes, not 128 -
+the original's loop is `mov lr, #7` with the decrement at the bottom, i.e.
+seven iterations of `ldm r7!, {r0-r3}` / `stm r6!, {r0-r3}`.  Writing the base
+struct as `u32 w[32]` compiles to `mov lr, #8` and 4 extra bytes.  The tag
+argument is `(u16)((*(u16 *)(src + 0x54) & 0x7FFF) | 0x8000)`; without the
+explicit `(u16)` cast the lsl/lsr #0x10 pair is missing.
+
+Near miss (252 bytes, `status: DIFF`; symbols block as above):
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u32 w[28];
+} Base;
+
+extern u8 *g_021469F0;
+extern void *func_02030734(u32 a, u32 size, u32 b, void *p, u32 c);
+extern void func_02034F84(u32 v);
+extern void func_0203DC4C(void);
+extern void func_0203E420(void);
+extern void func_0203E458(void);
+extern u8 d_020A7D34[];
+
+u8 *func_0203D8F0(u8 *src, u32 a1)
+{
+    u8 *obj;
+
+    if (g_021469F0 != 0 && g_021469F0[0x101] == 1) {
+        return src;
+    }
+
+    obj = (u8 *)func_02030734((u16)((*(u16 *)(src + 0x54) & 0x7FFF) | 0x8000),
+                              0x10C, 1, d_020A7D34, 0x72);
+    *(Base *)obj = *(Base *)src;
+
+    *(u32 *)(obj + 0x70) = a1;
+    *(u32 *)(obj + 0x80) = *(u32 *)(src + 0x2C);
+    *(u32 *)(obj + 0x78) = *(u32 *)(src + 0x18);
+    *(u32 *)(obj + 0x7C) = *(u32 *)(src + 0x1C);
+    *(u8 *)(obj + 0x65) = 3;
+    *(u32 *)(obj + 0x2C) = (u32)func_0203DC4C;
+    *(u32 *)(obj + 0x18) = (u32)func_0203E420;
+    *(u32 *)(obj + 0x1C) = (u32)func_0203E458;
+    *(u8 *)(obj + 0x104) = *(u8 *)(obj + 0x64);
+    *(u8 *)(obj + 0x64) = 0;
+    *(u8 *)(obj + 0x107) = *(u8 *)(obj + 0x60);
+
+    g_021469F0 = obj;
+    func_02034F84(0x20);
+    return g_021469F0;
+}
+
+Verified with:
+  python tools/match.py one --src scratch/r2a4/d8f0_base.c \
+      --func func_0203D8F0 --addr 0x0203D8F0 --cc 1.1p1 --arm --diff
+
+The early return returns the caller's own first argument (`mov r5, r0` then
+`popeq` with r0 untouched), which is why the C says `return src;`.

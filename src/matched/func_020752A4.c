@@ -1,6 +1,6 @@
 /*
  * function: func_020752A4
- * address:  0x20752A4
+ * address:  0x020752A4
  * packet:   pkt_02074A6C
  * region:   arm9
  * compiler: 1.1p1

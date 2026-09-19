@@ -8,7 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocker:  020911A0 (arm) reached only by this file's own pool-word tail call
+ * blocker:  +0004 ABS32 func_020911A0          -> unresolved: 020911A0 (arm, from header) has no witness outside 02005438..02005440
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
  *   func_020911A0  0x020911A0  arm
@@ -19,7 +20,7 @@
  * is four bytes of code plus its own two-word literal pool.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02005438.c \
+ *   python tools/match.py one --src src/pending/func_02005438.c \
  *       --func func_02005438 --addr 0x02005438 --cc 1.1p1 --thumb
  */
 

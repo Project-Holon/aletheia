@@ -10,6 +10,7 @@
  * status:   MATCH
  *
  * blocker:  +001C PC24 func_02089398           -> unresolved: 02089398 (arm, from header) has no witness outside 02073484..020734AC
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  *
  * symbols:
  *   func_02089398    0x02089398  arm
@@ -18,7 +19,7 @@
  * cached one at +0x2E, then caches it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02073484.c \
+ *   python tools/match.py one --src src/pending/func_02073484.c \
  *       --func func_02073484 --addr 0x02073484 --cc 1.1p1 --arm
  */
 

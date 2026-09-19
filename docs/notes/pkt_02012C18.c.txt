@@ -1,0 +1,33 @@
+lane r2a-1, packet pkt_02012C18
+address 0x02012C18, 196 bytes (row size; the listing extent is 204 and
+includes the 0x5EC pool word at 0x02012CDC), Thumb, state=new, class=chain
+verdict: DIFF, register-choice residue only (not filed; no source kept)
+
+Every instruction in the compiled body is the same instruction as the
+original's, in the same order, with the same sizes (204 bytes both ways);
+what differs is which callee-saved register each of the three long-lived
+values landed in.
+
+    original:  r6 = 0x000005EC   r7 = 0x15C (the p[0x57] byte offset)
+               r4 = h = *(u32 *)(p + 0x15C), kept live across the two
+               0x0200893C / 0x02008954 calls
+    compiled:  r4 = 0x000005EC   r6 = 0x15C   r7 = h
+
+That single rotation is the whole of the residue; it also moves the `beq` at
++0x0C by one halfword and costs the two-byte `c046` pool-alignment nop the
+compiled version needs and the original does not.  Tried, all at -O4,p
+-proc arm946e: `h` declared before `v`, after `v`, and after a third dummy
+`u32`; `h` spelled inline at both call sites (mwcc then reloads it, which the
+original does not do for the second call); the 0x5EC constant spelled as
+`p + 0x5EC` and as `&((u8 *)p)[0x5EC]`.  None of them moves `h` off r7.
+
+The sibling 0x02012CE0 in the same packet (pkt_02012C18) matches EXACT with
+the same body shape, which is what rules out a source error here: the two
+differ only in that 0x02012C18's h-uses are back to back with no intervening
+call.  A 2-15 byte register-choice residue is a documented wall and this is
+one at the larger end.  No source file retained (src/matched/ is
+EXACT-only).
+
+Chain note: this function's `needs` callee 0x0200EEAC also came back
+unresolved -- the relocation field is wildcarded, so even a byte-exact body
+would cap at MATCH on that site until 0x0200EEAC has a manifest entry.

@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocker:  020253D4 label
+ * blocker:  +0012 THM_CALL func_020253D4       -> unresolved: 020253D4 (thumb, from name) has no witness outside 02025518..02025536
+ *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
+ *           Verdict MATCH*: the listing's extent for the original is 32 bytes against 30 compiled.
  *
  * symbols:
  *   func_0204ADA4  0x0204ADA4  arm

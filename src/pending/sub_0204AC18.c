@@ -14,7 +14,12 @@
  *   func_0204DD08  0x0204DD08  arm
  *   func_020307B0  0x020307B0  arm
  *   unk_02146A74   0x02146A74  data
- */
+  *
+ * blocker:  label - 0x0204DD08 has exactly one branch in the image and it is
+ *           the call inside this function, so `label` has no outside witness
+ *           and no manifest entry covers it yet.  File 0x0204DD08 first and
+ *           this graduates with no change to its C.
+*/
 
 typedef unsigned char  u8;
 typedef unsigned short u16;

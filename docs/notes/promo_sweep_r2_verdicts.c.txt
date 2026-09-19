@@ -1,0 +1,72 @@
+promotion sweep r2 (scratch/promo_sweep_r2.md) -- verdict record
+================================================================
+
+The sweep's premise was "every address these parks name as a blocker now has a
+manifest entry or an SDK/runtime identity, so the expected outcome is EXACT with
+NO change to their C".  Re-running each park with its own compiler and ISA
+(dsi/1.1p1, the isa in its header) does not bear that out: not one of the 13
+parks reaches EXACT, so none was moved to src/matched/ and no shard was written.
+All 13 stay in src/pending/ with the real blocking site recorded in the header.
+
+  python tools/match.py one --src src/pending/<park>.c --func <name> \
+      --addr <addr> --cc 1.1p1 --<isa>
+
+| address    | verdict | unresolved site (blocker the tool printed)                                            |
+| ---------- | ------- | ------------------------------------------------------------------------------------- |
+| 0x02005438 | MATCH   | +0004 ABS32 func_020911A0 -> 020911A0 (arm, from header) no witness outside 02005438..02005440 |
+| 0x02005DE4 | MATCH   | +000E THM_CALL func_02072E8C -> 02072E8C (arm, from name) no witness outside 02005DE4..02005DF8 |
+| 0x020225B4 | MATCH   | +000E THM_CALL func_02022490 -> 02022490 (thumb, from name) no witness outside 020225B4..020225D4 |
+| 0x02025518 | MATCH*  | +0012 THM_CALL func_020253D4 -> 020253D4 (thumb, from name) no witness outside 02025518..02025536 |
+| 0x0205D010 | MATCH   | +0008 ABS32 func_0205CF24 -> 0205CF24 (arm, from name) no witness outside 0205D010..0205D01C |
+| 0x020618E4 | MATCH   | +0018 PC24 func_0207FBBC -> 0207FBBC (arm, from name) no witness outside 020618E4..02061908 |
+| 0x02061908 | MATCH*  | +0018 PC24 func_0207FC48 -> 0207FC48 (arm, from name) no witness outside 02061908..0206192C |
+| 0x02072794 | MATCH   | +0010 PC24 func_02089754, +0018 PC24 func_02089774 -> neither has a witness outside 02072794..020727B4 |
+| 0x02073484 | MATCH   | +001C PC24 func_02089398 -> no witness outside 02073484..020734AC                    |
+| 0x0207524C | MATCH   | +0020 PC24 func_020896AC -> no witness outside 0207524C..02075274                    |
+| 0x02075274 | MATCH   | +0020 PC24 func_020896CC, +0028 PC24 func_0208A38C -> neither has a witness outside 02075274..020752A4 |
+| 0x020910D0 | MATCH   | +0034 PC24 func_02084DA4 -> no witness outside 020910D0..0209112C                    |
+| 0x020913FC | MATCH   | +0024 PC24 func_020913E8, +0030 PC24 func_020913BC, +0064 PC24 func_020913E8 -> no witness outside 020913FC..0209146C |
+
+MATCH* on 0x02025518 (listing extent 32 bytes against 30 compiled) and
+0x02061908 (180 against 36) is MATCH plus disasm.py's extent note; it is not
+EXACT and not a promotion verdict.
+
+Why none of them can close yet
+-------------------------------
+
+Every unresolved site above is capped by the honesty rule in docs/MATCHING.md
+(no witness outside the compared range) and the graduation path in
+src/pending/README.md.  Step 1 (a cut) is already exhausted -- each range is one
+function wide and the only branch to the target is the site inside it.  Step 2
+(the `matched` class) needs the target address to be an entry of an EXACT
+manifest shard, and it is not: 0x020911A0, 0x02072E8C, 0x02022490, 0x020253D4,
+0x0205CF24, 0x0207FBBC, 0x0207FC48, 0x02089754, 0x02089774, 0x02089398,
+0x020896AC, 0x020896CC, 0x0208A38C, 0x02084DA4, 0x020913E8 and 0x020913BC have
+no shard entry in layout/matched/arm9/, and `matched_index()` over all shards
+returns None for each of them.  0x020911A0 (CTRDG_DummyInit) is named by
+layout/symbols_sdk.txt but is not in layout/symbols_sdk.json and is not in
+layout/runtime_arm9.txt, and no attest class trusts a name alone; the note in
+src/matched/unit_02005430.c already records that its only reference image wide
+is the park's own pool word.  Step 3 (a second caller) has not happened either.
+So the parks stay parked; each is worth re-running after every wave.
+
+The mechanism itself is live and was re-checked as a control:
+src/matched/func_02096670.c, promoted by the earlier pass, still prints EXACT
+with "+0020 PC24 func_020965B4 -> 020965B4 [matched x1]", i.e. a park does turn
+EXACT with no C change the moment its target has its own EXACT shard entry.
+The r2 parks simply have no such entry.
+
+Header edits made (park files only)
+-----------------------------------
+
+* blocker: field now carries the site line(s) the tool printed, plus a note that
+  the sweep re-ran and the site is still capped for want of an EXACT manifest
+  entry (src/pending/README.md: "update the header's evidence note with what was
+  tried and why it did not reach").
+* "Verified with:" paths pointing at src/matched/<name>.c (which do not exist --
+  the files are parked) now point at src/pending/<name>.c.
+* src/pending/func_02005DE4.c: the doubled comment terminator ("(arm, from
+  name)*/") is repaired; the header comment now closes on its own line.
+* No C body, no status: line, no address/packet/compiler/isa field was changed,
+  and nothing was moved or deleted.  No DIFF verdict, so docs/notes/ gained no
+  packet .c.txt.

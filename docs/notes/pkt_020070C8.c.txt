@@ -1,0 +1,92 @@
+pkt_020070C8 / func_020070C8 @ 0x020070C8 (134 bytes, Thumb) -- DIFF, 57 bytes, 6 short
+=====================================================================================
+
+The lane's `needs` column is stale: 0x0200725C and 0x02031AE0 are *not*
+unwitnessed any more.  match.py resolves all eight relocation sites of the
+current attempt --
+
+    +0008 THM_CALL func_02031AE0  [label x1]     (ARM callee, hence the blx)
+    +001C THM_CALL func_0200A5F8  [label x1]
+    +0024 THM_CALL func_0200A7EC  [label x1]
+    +002C THM_CALL func_02008784  [label x2]
+    +003A THM_CALL func_0200725C  [label x1]
+    +0044 THM_CALL func_020072A4  [label x7]
+    +0052 THM_CALL func_0200A7EC  [label x1]
+    +0072 THM_CALL func_020087C0  [matched x1]
+
+-- so this row is a codegen wall, not an evidence wall, and filing 0x0200725C
+or 0x02031AE0 would not change it.
+
+Settled shape (the whole control flow, all eight calls and the bit test):
+
+    u32 func_020070C8(struct S *s)
+    {
+        u32 r = func_02031AE0(s->f10, 1);         /* blx: ARM callee */
+        if (r != 1 && r != 2) return r;
+
+        s->f01 = 1;
+
+        x = func_0200A5F8(s);
+        func_0200A7EC(x, 0);
+
+        if (func_02008784(s, 6) == 1) {
+            y = func_0200725C(s, 6, 1);
+            func_020072A4(s, 6);
+            if (y == 1 || y == 2) func_0200A7EC(x, 1);
+        }
+
+        if (s->f0C != 0) {
+            for (i = 0; i < 9; i++) {
+                if (s->f0C & (1 << (i + 2))) func_020087C0(s, i);   /* reloads
+                                                             s->f0C each pass */
+            }
+        }
+        return r;
+    }
+
+Two residues, 128 compiled bytes against 134:
+
+1. `y == 1 || y == 2` folds.  The original spends four instructions on it
+
+       02007110  cmp r4, #1
+       02007112  beq #0x2007118
+       02007114  cmp r4, #2
+       02007116  bne #0x2007120
+
+   while this C gives the three-instruction range test
+
+       subs r0, r4, #1
+       cmp  r0, #1
+       bhi  #0x20071xx
+
+   so the original's condition is not the `||` of two equalities.  Tried:
+   `s32 y` instead of `u32 y` (no change), and the two equalities written as
+   two if-arms each with its own call (140 bytes, 71 bytes of diff, worse).
+
+2. The loop has an entry guard the rotated form does not need.  The original
+   emits *both* tests:
+
+       02007126  movs r4, #0          ; i = 0
+       02007128  cmp  r4, #9
+       0200712a  bge  #0x200714a      ; entry guard, provably true
+       0200712c  movs r6, #1          ; the constant 1 is inside the loop
+       0200712e  ldr  r2, [r5, #0xc]
+       ...
+       02007144  adds r4, r4, #1
+       02007146  cmp  r4, #9
+       02007148  blt  #0x200712e
+
+   with `movs r4, #0` sunk *after* the `if (s->f0C != 0)` branch, and the
+   constant `1` rematerialised per iteration.  This attempt keeps `movs r6, #1`
+   in the preheader and drops the entry guard.  Tried: `for`, `while`, a
+   hoisted `i = 0;` before the guard with `for (; i < 9; i++)`, a hoisted `i`
+   with `while`, `while (i < 9 && s->f0C != 0)`, and `1 << (i + 2)` as
+   `(1 << i) << 2` -- all 128 bytes, all with the rotated loop.
+
+Everything else lines up: the `r != 1 && r != 2` guard (which the compiler
+keeps as two compares, unlike the `||` above), the `s->f01 = 1` store, the two
+`func_0200A7EC` calls, and the per-iteration reload of `s->f0C` for the mask.
+
+Verdict: DIFF, codegen (one folded disjunction and one unrotated loop), 57 of
+128 concrete bytes.  No further evidence is needed; needs a spell of the
+`||`/loop pair that avoids both folds.

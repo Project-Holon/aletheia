@@ -1,0 +1,113 @@
+lane r2b-3, row 0x0203F7C4 (packet pkt_0203F768): DIFF residue, 288 of 304 bytes.
+
+0x0203F7C4 is a 304-byte (extent 0x0203F7C4..0x0203F8F4) ARM function that is
+the sole blocker named in the header of this lane's chain row 0x0203F768: the
+only branch reference to 0x0203F7C4 in the whole image is the `bl` at
+0x0203F780 inside 0x0203F768, so 0x0203F7C4 cannot be attested by the `label`
+class and only its own EXACT manifest entry would promote 0x0203F768 (parked at
+MATCH in src/pending/func_0203F768.c, byte-correct).
+
+WHAT THE FUNCTION IS
+
+A 2-D fixed-point angle/orientation helper.  It builds three 4.12 vectors on
+the stack from six fx32 parameters, subtracts the third from the first two
+(VEC_Subtract in place), takes the 2-D cross product of the two edges with a
+20.12 multiply, normalises the swap-vector (va.y, va.x, 0) through
+VEC_Normalize, forms vd = vb - va, dots the normalised vector with it
+(VEC_DotProduct) and returns a sign-corrected magnitude:
+
+    asrs  r0, r0, #0xc        ; dot >> 12
+    rsbmi r0, r0, #0          ; |.|
+    cmp   r7, #0              ; r7 = cross
+    mvnle r1, #0              ; r1 = -1
+    mulle r1, r0, r1          ; r1 = -|.|
+    movle r0, r1
+    add   sp, sp, #0x3c
+    pop   {r4, r5, r6, r7, r8, sb, pc}
+
+The callees are the SDK's libfx primitives, all resolved `label`:
+  VEC_Subtract   0x0207CA00  (a, b, ab)   -- ab = a - b
+  VEC_DotProduct 0x0207CA68  (a, b) -> fx32
+  VEC_Normalize  0x0207CCA4  (pSrc, pDst)
+The source is in the tree: sdk/TwlSDK/build/libraries/fx/common/src/fx_vec.c.
+
+WHAT REPRODUCES
+
+The whole prologue (all five vector initialisations, the two in-place
+VEC_Subtract calls, the register set r4..sb, the 0x3c frame) and the tail's
+abs-then-sign shape reproduce byte for byte; the residue is 16 bytes of
+scheduling in the middle plus the conditional-negate spelling.
+
+C THAT GETS CLOSEST (288 bytes, 141 concrete bytes differ)
+
+    #define FX_MUL(a, b) ((fx32)((((fx64)(a) * (b)) + 0x800) >> 12))
+
+    int func_0203F7C4(fx32 a0, fx32 a1, fx32 a2, fx32 a3, fx32 a4, fx32 a5)
+    {
+        VecFx32 va, vb, vc, vd, ve;
+        fx32 z, d;
+
+        va.x = a0 << 12; va.y = a1 << 12; va.z = 0;
+        vb.x = a2 << 12; vb.y = a3 << 12; vb.z = 0;
+        ve.x = a4 << 12; ve.y = a5 << 12; ve.z = 0;
+        VEC_Subtract(&va, &ve, &va);
+        VEC_Subtract(&vb, &ve, &vb);
+        vc.x = va.y;
+        vc.y = va.x;
+        vc.z = 0;
+        vd.x = 0;
+        vd.y = 0;
+        z = FX_MUL(va.x, vb.y) - FX_MUL(vb.x, va.y);
+        vd.z = z;
+        VEC_Normalize(&vc, &vc);
+        VEC_Subtract(&vb, &va, &vd);
+        d = VEC_DotProduct(&vc, &vd) >> 12;
+        if (d < 0)
+            d = -d;
+        if (z <= 0)
+            d *= -1;
+        return d;
+    }
+
+The declaration order va, vb, vc, vd, ve is forced: mwcc lays the later
+declaration at the lower stack address, and the frame is exactly 5 vectors
+with va at sp+0x30 and ve at sp+0 (docs/idioms/local-declaration-order-is-stack-order.md).
+
+THE TWO RESIDUES, IN DETAIL
+
+1. The tail. `d = -d;` gives `rsble r0, r0, #0` where the original has
+   `mvnle r1, #0; mulle r1, r0, r1; movle r0, r1` -- the multiply-by-minus-one
+   form. Writing the second negation as a multiplicative compound assignment
+   (`d *= -1;`) reproduces those three instructions exactly and takes the
+   compile from 280 to 288 bytes. `d = d * -1;` does not (it stays 280).
+
+2. The middle 16 bytes. The original keeps the zero constant live in r7
+   (`str r7, [sp, #0xc]`, `str r7, [sp, #0x10]`, `str r7, [sp, #0x20]`,
+   `add r2, r7, #0`), computes the two products out of r3/ip and reloads
+   va.y from the stack for the second one, then moves the cross product into
+   r7 with `add r7, r1, r2` (r2 held the zero).  Every spelling tried instead
+   reuses r2 as the first product's low word and finishes with
+   `sub r7, r7, r2`:
+
+   - `vc.x/vc.y/vc.z` then `vd.x/vd.y`             280 bytes, 134 differ
+   - `vd.x, vc.x, vd.y, vc.y, vc.z` (store order)   280 bytes, 134 differ
+   - `z` computed before the vc/vd stores            280 bytes, 134 differ
+   - `z = FX_MUL(..); z -= FX_MUL(..);`              288 bytes, 141 differ
+   - `vd.z = <expr>; z = vd.z;`                      280 bytes, 134 differ
+   - both products with explicit `(1 << 11)` rounding and `(fx32)` casts
+                                                    280 bytes, 134 differ
+   - `fx64 p1 = ...; fx64 p2 = ...; z = (p1 >> 12) - (p2 >> 12);`
+                                                    288 bytes, 141 differ
+   - reading `va.x/va.y/vb.x/vb.y` into named locals first
+                                                    288 bytes, 141 differ
+
+   The extra instructions in the original (`add r2, r7, #0` plus the r3/ip
+   allocation) say the cross-product result is materialised into the
+   callee-saved r7 through a copy, which is what a live-across-call local
+   costs; every attempt above let mwcc keep the value in r1 and clobber r7
+   with the first product's shifted result instead.  That is the lever left
+   for the next attempt.
+
+This note is a DIFF residue, not a park: 0x0203F7C4 has no home in
+src/matched/ or src/pending/, and while it stays open, src/pending/
+func_0203F768.c stays capped at MATCH for lack of a witness.
