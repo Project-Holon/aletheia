@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   g_02146A5C      0x02146A5C  data
@@ -24,12 +24,9 @@
  * allocator call - the callee may have replaced it - which is why the second
  * `ldr r1, [r4]` is there.
  *
- * blocker:  label.  The call to 0x02048F9C at +0x48 has no witness anywhere
- *           in the image: no branch outside this range reaches it, no pool
- *           word names it.  Its two siblings func_02046DB8 and func_02046E24
- *           are EXACT (src/matched/) with the same shape, and each of their
- *           loaders did have a witness - this one's does not.  Every concrete
- *           byte is right.
+ * Promoted by parks lane 2: the loader 0x02048F9C was filed first as an
+ * EXACT entry (src/matched/func_02048F9C.c, shard pkt_02048F9C) and the call
+ * at +0x48 now resolves through the `matched` class.  No change to the C.
  *
  * Addresses are Black-image addresses.
  *

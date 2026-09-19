@@ -7,9 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * blocker:  PC24 func_02052634 at +0x0c: 0x02052634 (pkt_0205250C, 116 bytes) open, no outside branch
+ * status:   EXACT
  *
+ * Promoted by parks lane 2: the callee 0x02052634 was filed first as an
+ * EXACT entry (src/matched/func_02052634.c, shard pkt_0205250C) and this
+ * file's call site now resolves through the `matched` class.  No change to
+ * the C was needed.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020515B4.c \

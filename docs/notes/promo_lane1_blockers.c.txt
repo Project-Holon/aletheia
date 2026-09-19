@@ -1,0 +1,93 @@
+Blocker evidence, promotion lane 1 (scratch/promo_lane1.md: 15 parks whose named
+callee is <= 256 bytes).  Written for the next pass so the same walls are not
+re-walked.  Every line below is `tools/match.py` output or an `attest()` probe
+run by scratch/l1_triage3.py, not a guess.
+
+The list is built on "match the callee and the park unblocks".  That holds only
+when the callee is itself attestable end to end.  Of the 15 rows, 11 stop short
+of that, and the reasons fall into three groups.
+
+A. Callee has a site nothing in the image can witness
+
+  row 1  func_02073108 <- 0x02072894 (MATCH, parked src/pending/func_02072894.c)
+         The park's site is fine; 0x02072894 is capped because 0x0208A0A4 (the
+         SDK leaf it tail-calls) has exactly one caller, this one.  0x0208A0A4
+         is 264 bytes of ARM with ZERO relocations, so it is pure transcription
+         and was attempted: ~50 C spellings land on a 4-5 byte residue in the
+         second node computation (an add/sub tree order plus the register the
+         pair lands in).  Best spelling: pre-loop
+         `{ u32 cur = *(u32 *)(base + 0x11C0); node = (off == 0) ? 0 : base +
+         (off - cur); }` with the destination-byte index reached as
+         `u8 *row = base + a * 0x24; row += b; sel = row[0x548];`.  Then the
+         loop's copy of the same expression is 5 bytes off; the pointer-cast
+         spelling `(u8 *)(base + off) - c` gets the registers right and the
+         tree wrong (4 bytes).  A wall on the same pattern as
+         docs/notes/pkt_02036568.c.txt.
+
+  row 2  func_0200A300 <- 0x0200A358
+         0x0200A358 is 120 bytes of Thumb and reproduces to a 4-byte residue
+         (the original has two extra `b` stubs that mwcc tail-merges for every
+         spelling tried, including the switch form).  It does not matter: two
+         of its sites, `bl` to 0x021DFEAC and 0x021DFE90, have no witness of any
+         class.  Seven overlays map that window (ov093, ov119, ov137, ov170,
+         ov175, ov183, ov228) and NOT ONE of them labels either address as a
+         function (`grep -n "func_021DFEAC" asm/overlays/*.s` is empty; ov228
+         holds both only as `.word` data), so a region hint cannot rescue them
+         either.  Its argument 0xE4 is the same FS_OVERLAY_ID shape as the 0xBC
+         in docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md,
+         but unlike 0xBC it DOES have outside witnesses (`literal x3`), so that
+         site is not the problem.
+
+  row 3  func_0200D298 <- 0x0200D2D8 (MATCH, src/pending/func_0200D2D8.c)
+         Chain: 0x0200D2D8 -> 0x0200C780 -> the data table 0x0209DE2C, which
+         has one pool word image-wide and it is inside 0x0200C780's own extent.
+         Terminal: unattestable data, not a code problem.
+
+  row 11 sub_02034EF8 <- 0x0203545C (MATCH, src/pending/sub_0203545C.c)
+         All 16 sites resolve except `bl PM_GoSleepMode` = 0x0208C154, which is
+         in layout/symbols_sdk.json (`TwlSDK/libspi.TWL.HYB.a`, pm.o, arm, 760
+         bytes) but has no branch anywhere in asm/arm9 or asm/overlays - the SDK
+         blob's internal callers are not in any listing, so `label` is empty and
+         `literal` too.  An SDK symbol that nothing in game code calls is not
+         attestable from here; it needs the SDK library itself in the manifest.
+
+B. Chain is longer than the lane list admits
+
+  row 4  func_02011EAC <- 0x02011FCC
+         14 call sites; 9 resolve (7 of them already `matched`), 4 do not:
+         0x02012380, 0x02021464, 0x0202627C, 0x0202B500.
+  row 5  func_02011FB8 <- 0x02011F28
+         7 sites, 5 resolve; 0x020261E4 and 0x0202B4BC do not - and 0x0202B4BC
+         is the row 7 park itself, so this row cannot close before row 7 can.
+         The park's second site, 0x020267BC, needs 0x02026D88 in turn.
+  row 7  func_0202B4BC <- 0x0202B59C (MATCH, src/pending/func_0202B59C.c)
+         0x0202B59C -> 0x0202B64C (16 bytes) -> 0x0202C070 (26 bytes) ->
+         0x0202C148, which is a DIFF (docs/notes/pkt_0202C148.c.txt).  The
+         park's own header already says this; the two-hop callee is 42 bytes of
+         work and still lands on the DIFF.
+  row 9  func_02030B50 <- 0x02030A7C (MATCH, src/pending/.../pkt_02030A7C)
+         Two problems, either one fatal: `bl` x2 to 0x0209128C (no witness),
+         and 0x02030A7C itself is data-capped - 0x02146970, 0x020A7824 and
+         0x0214697C each have exactly one pool word image-wide and it is inside
+         0x02030A7C's own extent.
+  row 10 sub_020348A4 <- 0x0204E328
+         0x0204E328 needs 0x0204E388 (136 B, which itself needs 0x0204E410 and
+         0x0204E4C0) and 0x0204E180 (424 B, which needs 0x02046300, 0x020463C0,
+         0x020463D8).  The park also carries an ABS32 to 0x020A796C with no
+         witness, which no callee lands.
+
+C. Codegen wall (documented elsewhere)
+
+  row 12 func_020364D4 <- 0x02036568
+         Already recorded: docs/notes/pkt_02036568.c.txt.  Seven more spellings
+         (for-loop headers, do/while, hoisting the value into a `u8` local,
+         `off + s->f0c`, `*(dst + k)` for `dst[k]`, `k++` in the subscript) all
+         reproduce the same eight-instruction schedule permutation.
+
+Still open and worth a future pass (each needs one or two more files, nothing
+structurally blocked):
+
+  row 6  func_0201F9D0 <- 0x0201F93C: only 0x0201FC5C (188 B Thumb) is
+         unmatched; 0x0201FC1C is already a `matched` witness.
+  row 8  func_0202EB7C <- 0x0202EB9C: only 0x0202ED00 (96 B Thumb) is
+         unmatched - see docs/notes/pkt_0202ED00.c.txt for its 6-byte residue.

@@ -1,0 +1,63 @@
+/*
+ * function: func_020525A0
+ * address:  0x020525A0
+ * packet:   pkt_0205250C
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02058380   0x02058380  arm
+ *   func_02053A60   0x02053A60  arm
+ *   func_020583CC   0x020583CC  arm
+ *
+ * Promote-first callee of src/pending/func_020515CC.c (parks lane 2).
+ * Same shape as its neighbour func_02052634 with two extra steps: the
+ * loader takes the address of a twelve-byte zeroed scratch block as its
+ * third argument, and a non-null third parameter is called back with the
+ * popped node before func_020583CC runs.
+ *
+ * Built by the 1.2 front end (ARMv4T-style `pop {... lr}; bx lr` epilogue
+ * and a `sub sp, sp, #4` alignment word), see
+ * docs/idioms/an-armv4t-style-return-and-a-register-blx-name-a-1-2-front-end-not-a-proc-value.md.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020525A0.c \
+ *       --func func_020525A0 --addr 0x020525A0 --cc ../1.2/sp2 --arm \
+ *       --flags "-O4,p -proc arm946e"
+ */
+
+typedef unsigned int u32;
+
+struct Scratch {
+    u32 a;
+    u32 b;
+    u32 c;
+};
+
+extern void *func_02058380(void *p);
+extern void func_02053A60(void *node, void *slot, struct Scratch *scratch);
+extern void func_020583CC(void *a, void *b);
+
+int func_020525A0(char *p, int b, void (*fn)(void *))
+{
+    void *r = 0;
+
+    if (*(u32 *)(p + 0x10) != 0) {
+        struct Scratch scratch = { 0, 0, 0 };
+
+        r = func_02058380(p + 0x10);
+        func_02053A60(r, (void *)(*(u32 *)(p + 0x28) + (b << 5)), &scratch);
+        if (fn != 0)
+            fn(r);
+        func_020583CC(p + 4, r);
+        if ((*(u32 *)(*(u32 *)(*(u32 *)((char *)r + 0x20))) << 0x11 >> 0x1f) != 0)
+            r = 0;
+    }
+    return (int)r;
+}

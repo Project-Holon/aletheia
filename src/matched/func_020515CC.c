@@ -1,0 +1,40 @@
+/*
+ * function: func_020515CC
+ * address:  0x020515CC
+ * packet:   pkt_020515CC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT*
+ * symbols:
+ *   g_02146A88      0x02146A88  data
+ *
+ * Promoted by parks lane 2: the callee 0x020525A0 was filed first as an
+ * EXACT entry (src/matched/func_020525A0.c, shard pkt_0205250C) and this
+ * file's call site now resolves through the `matched` class.  No change to
+ * the C was needed.
+ *
+ * EXACT*: every byte is identical; the inferred extent runs to 0x02051620
+ * because the follower at 0x02051610 has no label in layout/function_starts.txt
+ * (not this file's problem to fix - reported, not edited).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020515CC.c \
+ *       --func func_020515CC --addr 0x020515CC --cc 1.1p1 --arm
+ */
+
+extern int func_020525A0(void *p);
+extern int *g_02146A88;
+int func_020515CC(int *p, int a, int b, int c)
+{
+    int r;
+    if (*(int *)((char *)*(int *)p + 8) >= 0x18)
+        return -1;
+    g_02146A88[0x10] = c;
+    r = func_020525A0((void *)p[0]);
+    g_02146A88[0x10] = 0;
+    p[2] = r;
+    return r;
+}

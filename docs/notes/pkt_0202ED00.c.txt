@@ -1,0 +1,74 @@
+DIFF evidence, promotion lane 1 (parks whose callee is <= 256 B, callee 0x0202ED00).
+
+func_0202ED00  0x0202ED00  96 bytes  Thumb  packet pkt_0202EB7C chain  verdict DIFF (6 bytes)
+
+0x0202ED00 is the last unmatched callee of the r8 park func_0202EB7C
+(src/pending/func_0202EB7C.c, whose callee 0x0202EB9C needs it); every other
+site of 0x0202EB9C already resolves through the `matched` class, so this one
+address is the whole chain.
+
+The function is a compaction walk over a 0x14-entry table of 0x28-byte records:
+
+    struct Flags { u8 f0:1, f1:1, f2:1, f3:1, f4:1, f5:1, f6:1, f7:1; };
+    struct Rec  { u32 f0; u8 pad04[0x22]; struct Flags fl; u8 pad27; };
+    struct Tbl  { struct Rec r[0x14]; };
+
+    void func_0202ED00(struct Tbl *t, u32 n)
+    {
+        if (n >= 0x14)
+            return;
+        if (n < 0x13) {
+            struct Rec *p;
+            while (1) {
+                p = &t->r[n];
+                p[0] = p[1];                  /* 5 x ldm/stm, 8 bytes a step */
+                if (!p[1].fl.f4) {            /* lsls #27 / lsrs #31 tell */
+                    n++;
+                    break;
+                }
+                n++;
+                if (n >= 0x13)
+                    break;
+            }
+        }
+        while (n < 0x14) {                    /* bics r5, #0x10 / strb */
+            t->r[n].fl.f4 = 0;
+            n++;
+        }
+    }
+
+What is settled: the two unsigned bounds (`bhs`, so the count parameter is
+`u32`, not `int`), the parameter itself carried in r2 and incremented in
+place, the 0x28-byte aggregate copy lowered to five `ldm/stm {r0,r1}` pairs
+(which needs a 4-aligned Rec: with only u8 members the front end falls back
+to a 0x28-iteration `ldrb`/`strb` loop, 93 bytes wrong), the two separate
+`n++` sites, the flag test as a 1-bit bitfield (`lsls #0x1b` / `lsrs #0x1f`,
+not `ands`), and the clear as `bics` + `strb`.
+
+What is not: the destination/source register order of the copy.  The original
+
+    0014  adds r6, r3, r7        ; r6 = t + n*0x28   (destination)
+    0016  adds r5, r6, #0
+    0018  adds r5, #0x28         ; r5 = destination + 0x28 (source)
+    001C  ldm r5!, {r0, r1}
+    001E  stm r6!, {r0, r1}
+
+comes out with the pair the other way round for every spelling tried:
+
+    0014  adds r6, r3, r7
+    0016  adds r6, #0x28         ; source in r6
+    0018  adds r5, r3, r7        ; destination recomputed into r5
+    001C  ldm r6!, {r0, r1}
+    001E  stm r5!, {r0, r1}
+
+which is six bytes (the two `adds` and the two register fields).  All of
+`p[0] = p[1]`, `*p = *(p + 1)`, `p[0] = *(p + 1)`, `*(struct Rec *)p =
+*(struct Rec *)(p + 1)`, two named pointers `d`/`s`, `s[-1] = *s`,
+`*(u8 *)t + n*0x28` casts, a local `struct Rec *r = t->r`, and moving `p`
+outside the loop give 6, 6, 6, 6, 86, 86, 67, 30 and 6 bytes of residue
+respectively - the pointer-to-source/first-pointer-to-destination allocation
+is not reachable from the source, the same shape of wall as
+docs/notes/pkt_02036568.c.txt.
+
+Everything else about the file reproduces, and the tail loop and the shared
+exit are exact under each of the 6-byte spellings.

@@ -117,8 +117,18 @@ def entry_flags(entry):
     flags are whatever is not in match.BASE_FLAGS, ``-thumb`` or ``-lang X``.
     Reading them back from there rather than re-deriving them keeps the build
     honest: it compiles with the configuration the entry was verified under.
+
+    ``compiler`` is written as ``dsi/<version>``, and ``<version>`` may itself be
+    a relative path that escapes the dsi directory (``dsi/../1.2/sp2``) for a
+    function whose original was built by a different front end. Only the
+    ``dsi/`` prefix is peeled here, so the same string reaches
+    match.compiler_path that verified the entry: taking the last path component
+    (the old behaviour) turned ``dsi/../1.2/sp2`` into ``dsi/sp2`` and the chain
+    then refused to build a file match.py had already verified.
     """
-    version = entry["compiler"].split("/")[-1]
+    version = entry["compiler"]
+    if version.startswith("dsi/"):
+        version = version[4:]
     lang = entry.get("lang", "c99")
     thumb = entry.get("isa", "thumb") == "thumb"
     words = entry.get("flags", "").split()

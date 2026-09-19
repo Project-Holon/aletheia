@@ -7,15 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * PARKED AT MATCH.  Every concrete byte is right; the one open site is the
- * `bl` to 0x02037700, and the only branch anywhere in the image that reaches
- * 0x02037700 is this one, so `label` has no outside witness and the range
- * cannot be cut smaller than the function.  0x02037700 lies below this
- * window's first packet, so it cannot be matched from here either; it closes
- * the day that address is matched or gains a second caller.
- *   blocker: `bl` to 0x02037700 has no witness outside this range (single
- *            caller, address outside this packet's window)
+ * status:   EXACT
+ *
+ * Promoted from src/pending/ on lane 1.  Every concrete byte is right; the one
+ * open site was the `bl` to 0x02037700, whose only branch anywhere in the
+ * image is this one, so `label` had no outside witness.  With
+ * src/matched/func_02037700.c filed EXACT the site resolves through the
+ * `matched` class and the file prints EXACT with no change to its C.
  *
  * symbols:
  *   g_021469DC     0x021469DC  data

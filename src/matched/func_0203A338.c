@@ -7,13 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
- * PARKED AT MATCH.  Every concrete byte is right (80 of 80).  The one open
- * site is the `bl` to 0x0203971C, whose only branch site image-wide is this
- * one, so `label` has no outside witness.
- *   blocker: single-caller callee 0x0203971C - it closes the day that address
- *            is matched (a 72-byte arm9 function in packet pkt_020395EC)
+ * Promoted from src/pending/ on lane 1: every concrete byte is right (80 of
+ * 80).  The one open site was the `bl` to 0x0203971C, whose only branch site
+ * image-wide is this one, so `label` had no outside witness.  With
+ * src/matched/func_0203971C.c filed EXACT the site resolves through the
+ * `matched` class and the file prints EXACT with no change to its C.
  *
  * symbols:
  *   func_02034714  0x02034714  arm

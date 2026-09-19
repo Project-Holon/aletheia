@@ -1,0 +1,94 @@
+parks lane 2: promotion report, 9 rows
+======================================
+
+Lane 2 of the parks promotion effort: nine `src/pending/` files whose only
+missing witness was one callee of 256 bytes or less.  Work is bottom-up: file
+the callee as its own EXACT entry (which writes a shard), then re-run the park
+with its own compiler and ISA - its call site then resolves through the
+`matched` class and the file turns EXACT with no change to its C.
+
+One finding dominated the lane: four of the nine callees are not dsi/1.1p1
+builds at all.  The repo's own
+docs/idioms/an-armv4t-style-return-and-a-register-blx-name-a-1-2-front-end-not-a-proc-value.md
+covers `../1.2/sp2`; this lane adds `../2.0/sp2`, which the same per-file
+`compiler:` pin mechanism takes (match.py, manifest --verify and csrc.py all
+read the header back).  The tells, per callee, were measured, not assumed:
+
+  0x02052634  dsi/1.1p1 112 B (4 short, spare `push {r3}` for the alignment
+              word)  ->  ../1.2/sp2 116 B EXACT
+  0x020525A0  same family, same fix
+  0x020624C8  dsi/1.1p1 212 B (the two heap addresses held in r5/r6 instead of
+              being rematerialised from the pool) -> ../2.0/sp2 204 B EXACT
+  0x0206B6A4  dsi/1.1p1 224 B, 1.2 228 B -> ../2.0/sp2 220 B, byte-correct
+
+So a callee that is 4 bytes short *with a dead extra push* is a 1.2 build, and
+one that is longer because constants are kept live across a call is a 2.0
+build.  Both are one header field away from matching; neither is a C puzzle.
+
+Promoted (park moved to src/matched/, header status re-stamped, own shard
+written):
+
+  0x020515B4 -> src/matched/func_020515B4.c   callee 0x02052634 (116 B, 1.2)
+  0x02046E90 -> src/matched/func_02046E90.c   callee 0x02048F9C (148 B, 1.1p1)
+  0x020515CC -> src/matched/func_020515CC.c   callee 0x020525A0 (148 B, 1.2)
+                                              (EXACT*, follower at 0x02051610
+                                              has no label in
+                                              layout/function_starts.txt)
+
+Filed as new EXACT entries without their park:
+
+  0x02048F9C (148 B, arc_tool.c archive reader, 1.1p1)
+  0x020624C8 (204 B, sub-64K heap allocator, 2.0/sp2)
+
+Walls, with the class named:
+
+  0x02034558  evidence, one level down.  Its own call to sub_02034520 has no
+              witness outside the function (the only branch to sub_02034520 in
+              the image is that call) and sub_02034520 can never be EXACT
+              itself, because its single ABS32 to g_FlagTable (0x020A07C8) has
+              no second reference anywhere - docs/notes/func_02034558.c.txt
+              already records this and the lane could not falsify it: the word
+              at 0x02034554 is the only pool word naming the table, and the
+              five listings that show it are five copies of the same address.
+              Its park, src/pending/sub_0204A48C.c, carries two further
+              independent chains (func_0204BC94 -> func_0204BD3C ->
+              0x02063138 and func_0204C660 -> 0x02066934), all still open, so
+              the row is not promotable by any single callee.
+
+  0x02062884  evidence: the call at +0x0094 targets 0x02062810, which is a
+              linker stub with an argument adjustment -
+                  ldr ip,[pc,#4]; add r0,r0,#8; bx ip; .word 0x02062BAC
+              - and veneer_at() recognises only E59FC000 immediately followed
+              by E12FFF1C, or E51FF004 plus one word.  The `add` between the
+              load and the branch defeats the veneer class, `label` has no
+              outside branch (this call is the only one in the image) and
+              naming the real callee reproduces 3 different bytes.  Another
+              lane had already parked 0x02062884 at MATCH with the same
+              blocker; this lane appended the stub encoding and the 3-byte
+              experiment to that header rather than filing a duplicate, and
+              left src/pending/func_02062820.c parked.
+
+  0x020625D8  codegen, not evidence: 92 bytes in the original with TWO
+              identical pool words for 0x02146BB0 (0x02062628 and 0x0206262C,
+              both live, six loads between them) where every compiler in the
+              tree emits one deduplicated word and 84 bytes, and `mov r0, r1`
+              for the second `&g` instead of a fresh pool load.  Tried: a
+              struct member address instead of pointer arithmetic, a local
+              pointer, `*(u32 *)&field` casts, volatile fields, and every
+              build under 1.2/, 2.0/ and dsi/ - all 84 (or 96/228) bytes with
+              the same six-byte residue.  It is the second blocker of
+              src/pending/func_02062474.c (the row's named callee 0x020624C8
+              is filed EXACT, and that park's first site now resolves
+              `matched`), so that park stays parked on 0x020625D8.
+
+Not attempted, budget: 0x02051414 (208 B, park src/pending/func_02051534.c)
+and 0x02037C10 (356 B, park src/pending/func_0203CF5C.c).  The second is not
+promotable by its named callee in any case: func_0203CF5C names four
+single-caller callees (0x0203EA9C, 0x0203DC70, 0x02039D94 and this one) and
+none of the four has a manifest entry.
+
+0x0206B6A4 (216 B, the callee of src/pending/func_02047C8C.c) is byte-correct
+and parked at MATCH in src/pending/func_0206B6A4.c: five sites, three calls to
+0x0206B63C and two to 0x0206B4A0, have no witness outside the compared range.
+Filing 0x0206B63C (104 B) and 0x0206B4A0 (400 B) as EXACT entries promotes
+both it and that park.

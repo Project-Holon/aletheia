@@ -7,18 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
- * PARKED AT MATCH.  All 64 concrete bytes are right and five of the six
- * relocation sites resolve; the one open site is the PC24 at +0x0038, the
- * `bl` to func_02037E60.  That address has exactly one branch reference in
- * the whole image and it is this one, so no cut of a one-function file frees
- * it: the `label` class needs a second caller and there is none.
- *   blocker: `bl` to 0x02037E60 has no witness outside 02038340..02038380
- *            (fan-in 1); it closes the day 0x02037E60 is matched itself.
- * The other five sites are all attested and resolve: func_0203D798 (label
- * x357), func_0203D788 (label x500), func_02039338 (label x115),
- * func_02039160 (label x45) and func_02037D98 (label x10).
+ * Promoted from src/pending/ on lane 1.  All 64 concrete bytes are right; the
+ * one open site was the PC24 at +0x0038, the `bl` to func_02037E60, which had
+ * exactly one branch reference in the whole image (this one) and so no
+ * `label` witness.  With src/matched/func_02037E60.c filed EXACT the site
+ * resolves through the `matched` class and the file prints EXACT with no
+ * change to its C.
  *
  * The reading: refresh the UI object, ask its +0x340 owner's +0x70 virtual
  * whether the session is still up, then let the two teardown probes decide

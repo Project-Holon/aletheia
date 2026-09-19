@@ -1,0 +1,54 @@
+func_020625D8: a duplicate live pool word the pinned toolchain will not emit
+==========================================================================
+
+0x020625D8 (92 bytes, pkt_020625D8) is the second blocker of
+src/pending/func_02062474.c, after 0x020624C8 (filed EXACT this lane,
+../2.0/sp2, 204 B).  Both are called - 0x020624C8 through its address in a
+descriptor, 0x020625D8 through a `bl` - and both calls are the only
+references to their target anywhere in the image, so the park needs `matched`
+entries for both.
+
+0x020624C8 fell to the 2.0 front end; 0x020625D8 does not.  Reconstructed
+from the listing it is five steps, all of them clear:
+
+    g_02146BB0.f04 = func_02061DFC(g_02146BB0.f0c, g_02146BB0.f10 >> 4);
+    func_02061DF0(&g_02146BB0);
+    func_02061E48(&g_02146BB0, &g_02146BB4, 0, g_02146BB0.f08);
+    func_02061FF8(&g_02146BB0, &g_02146BB4);
+
+The six-byte wreck is at the end.  The original has TWENTY instructions
+followed by three pool words, two of which are the same word:
+
+    02062628  b0 6b 14 02   .word 0x02146BB0   (used at +0004, +0018, +0028)
+    0206262C  b0 6b 14 02   .word 0x02146BB0   (used at +0020, +002C, +0040)
+    02062630  b4 6b 14 02   .word 0x02146BB4   (used at +0034, +0044)
+
+Both copies are live - eight loads in total, six of the same address.  Every
+build in the tree emits ONE deduplicated word and the shorter 84-byte form,
+where the second use of `&g_02146BB0` is `mov r0, r1` reusing the register
+the previous site loaded.  Measured, all DIFF, all 84 bytes except where
+noted:
+
+    dsi/1.1p1                  84      ../2.0/sp2, sp1..sp2p4   84
+    ../1.2/sp2                 96      ../2.0/base, sp1p2..p7   84
+    ../1.2/base                96      ../1.2/sp3, sp4          84
+
+The C was varied to try to force the reload, none of it changed the outcome:
+a struct member (`&h->f04`) instead of a separate extern, a local pointer
+initialised from the address, `*(u32 *)&p->f08` casts, `volatile` fields, the
+pool-relative forms in
+docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md,
+and declaring the two words as one struct (which turns the second word into
+`sym+4`, still one deduplicated pool entry).
+
+What that leaves: the original came from a front end outside the tree, or the
+same front end with a pool rule this project's calibration has not seen - a
+word per *materialisation site group* rather than per constant.  Whoever
+picks this up should not re-run the compiler sweep; it has been run.  The
+useful next step is a tool that reports, for a compiled object, how many
+relocation entries reference each symbol and where their pool words sit, so
+the two orderings can be compared without a hand diff.
+
+Meanwhile the byte-correct C for 0x0206B6A4 (the other half of the same
+packet's blocker set) is parked in src/pending/func_0206B6A4.c, and
+src/pending/func_02062474.c stays MATCH.
