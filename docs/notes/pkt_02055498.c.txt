@@ -1633,3 +1633,272 @@ void func_02055FD4(u32 *self, u8 *q)
     func_020565C8(*(s16 *)((u8 *)SYS + 0x78), *(s16 *)((u8 *)SYS + 0x7a),
                   *(s16 *)(RES + 0x50), *(s16 *)(RES + 0x52));
 }
+
+==========================================================================
+APPENDED, wave r9 (one lane, tight budget): the res-triple lever measured,
+the argument-move slot named per row
+==========================================================================
+
+Pin and proc for all three rows, verbatim (re-measured this wave, no value
+carried over):
+    compiler: ../1.2/sp2        ->  --cc ../1.2/sp2
+    flags:    -O4,p -proc arm7tdmi
+Commands were `python tools/match.py one --src <body> --func <f> --addr <a>
+--arm --cc ../1.2/sp2 --flags "-O4,p -proc arm7tdmi" --diff`.
+
+  0x02055498  DIFF.  compiled 1768 against a 1768-byte extent - THE SIZE IS
+    NOW EXACT (r8 measured 1780, 12 long) - with 1223 of 1768 concrete bytes
+    differing (r8: 1281).  The combination the r8 section listed as "not yet
+    tried" is the one that did it: `res` is bound ONCE before the E arm's
+    position triple (`res = RES;` then the three components through
+    `*(s32*)(RES + 4/8/0xc)`) and the 0x04000470 store triple reuses that same
+    `res`.  Binding only the store triple was 1780/1281; binding the position
+    triple as well is 1768/1223.  First difference is unchanged:
+    0x020554A0  original `mov r6, r1` | ours `mov sb, r0`   (argument-move
+    order), then 0x020554A4 `ldrh r1, [r6, #0x2e]` | `mov r8, r1`.
+    The body at the end of this note is this wave's closest version.
+
+  0x02055B80  DIFF.  compiled 1128 (1108 code + 20 pool, 20 long), 817 of 1128
+    differ - byte-identical to the r8 measurement, so nothing regressed and
+    the `sv`-before-the-store hoist the r8 section asked for is in the body
+    and already reproduces the original's hoisted `ldrsh r0, [r4, #0x30]`.
+    First difference 0x02055B88 original `mov r6, r1` | ours `mov r7, r0`,
+    then 0x02055B8C `ldrh r1, [r6, #0x2e]` | `mov r6, r1`.  What this wave
+    adds: the original's halfword lands straight back in r1 - the parameter
+    register the `mov r6, r1` just freed - while ours spends a spare
+    callee-saved register (r5) on it, and the two argument copies come out in
+    the opposite order.  One scheduler/allocator choice at the top of the
+    prologue, not a body shape.
+
+  0x02055FD4  DIFF.  compiled 1136 (1116 code + 20 pool, 36 long), 948 of 1136
+    differ; push {r4..sl, fp, lr} and `sub sp, sp, #0x3c` both match the
+    original.  First difference 0x02055FDC original `mov r8, r1` | ours
+    `mov sb, r0` (argument-move order), then 0x02055FE0 `ldrh r3, [r8, #0x2e]`
+    | `mov r8, r1`.  Same class as its twin, and the halfword again wants the
+    freed parameter slot (image r3) where ours takes r2.
+
+NEXT ATTEMPT, per row (all three, same first thing).  The image's order is
+uniformly: copy `q` (r1) to its saved register FIRST, load the q+0x2e halfword
+immediately AFTER that copy - back into r1 - and only then copy `self` (r0).
+Ours copies self first and puts the halfword in a spare callee-saved register.
+The spelling not yet compiled for that slot: make the q+0x2e halfword read the
+body's first *value* statement (a named `u16 raw = *(u16 *)(q + 0x2e);`
+consumed by the b0/b5 extraction, instead of the `Q2E *blk` dereference inside
+the `n` expression), with `mtx = *(MtxFx43 **)((u8 *)self + 0x44)` after it and
+`sv` last before the 0x040004A4 store.  Every r6/r8/r9 body reads the halfword
+through the struct pointer inside `n = ...`, so the scheduler is free to sink
+that load past the self copy, which is exactly what it does.  Ruled out this
+wave: nothing new for these rows (the three bodies above are the r8 bodies
+re-measured, plus the res binding for 0x02055498).
+
+--------------------------------------------------------------------------
+THE CLOSEST BODY FOR func_02055498, wave r9  (1768/1768 bytes, 1223 differing)
+--------------------------------------------------------------------------
+
+/*
+ * function: func_02055498
+ * address:  0x02055498
+ * packet:   pkt_02055498
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p -proc arm7tdmi
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   MTX_MultVec33    0x0207B51C  arm
+ *   MTX_MultVec43    0x0207BC08  arm
+ *   VEC_CrossProduct 0x0207CAE8  arm
+ *   VEC_Normalize    0x0207CCA4  arm
+ *   MI_Copy36B       0x02082B60  arm
+ *   G3_MultMtx43     0x0207D918  arm
+ *   func_020565C8    0x020565C8  arm
+ *
+ * Head row of pkt_02055498, the 3D rig family (0x0205429C..0x020584E0).
+ * wave r6's closest body (docs/notes/pkt_02055498.c.txt) with this wave's two
+ * measured corrections:
+ *   (a) the resource chain is a DOUBLE dereference - the original loads
+ *       P = *(u32*)(sys+0x20) and indexes with *(u32*)P
+ *       (`ldr r2,[r4,#0x20]`/`ldr r4,[r2]`/`ldrsh r0,[r4,#0x30]` at
+ *       0x020554C8/D4/E8, again at 0x02055518/24/2C, and in the E arm at
+ *       0x020556xx).  wave r6's body used the single dereference;
+ *   (b) the resource chain is bound to ONE `res` local for the E arm's three
+ *       0x04000470 stores (the original derives the chain once for that triple,
+ *       0x02055AC0-0x02055AE8) and left as a macro everywhere else (the
+ *       original re-derives it once per component for the position triple,
+ *       0x0205585C/64/6C and 0x02055884/8C/94).  Measured alternatives:
+ *       res bound in both arms 1720 B / 1481 differing; E arm only 1732/1434;
+ *       no res local at all 1804/1312; this one 1780/1281.
+ *
+ * Stack layout fixed by the original (both arms identical): v0 sp+0, pos sp+0xc,
+ * vA sp+0x18, vB sp+0x24, m33 sp+0x30, m43 sp+0x54, frame 0x88.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02055498.c \
+ *       --func func_02055498 --addr 0x02055498 --arm --cc ../1.2/sp2 \
+ *       --flags "-O4,p -proc arm7tdmi"
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+typedef signed long long s64;
+
+typedef struct { s32 x, y, z; } VecFx32;
+typedef struct { s32 m[9]; } MtxFx33;
+typedef struct { s32 m[12]; } MtxFx43;
+
+typedef struct { u16 b0 : 5; u16 b5 : 5; u16 b10 : 6; } Q2E;           /* q+0x2e   */
+typedef struct { u32 f0 : 8; u32 k : 16; u32 f24 : 4; u32 kind : 3; u32 f31 : 1; } Res48;
+typedef struct { u32 f0 : 23; u32 flag : 1; u32 f24 : 8; } Res00;      /* res+0x00 */
+
+extern void VEC_CrossProduct(const void *a, const void *b, void *out);
+extern void VEC_Normalize(const void *src, void *dst);
+extern void MTX_MultVec33(const void *vec, const void *mtx, void *dst);
+extern void MTX_MultVec43(const void *vec, const void *mtx, void *dst);
+extern void MI_Copy36B(const void *src, void *dst);
+extern void G3_MultMtx43(const void *mtx);
+extern void func_020565C8(s32 a, s32 b, s32 c, s32 d);
+
+#define SYS     (*(u32 **)((u8 *)self + 0x40))
+#define RES0    ((u8 *)*(u32 *)((u8 *)SYS + 0x20))
+#define RES     ((u8 *)*(u32 *)RES0)
+#define FXMUL(a, b) ((s32)((((s64)(a) * (b)) + 0x800) >> 12))
+
+void func_02055498(u32 *self, u8 *q)
+{
+    VecFx32 v0;
+    VecFx32 pos;
+    VecFx32 vA, vB;
+    MtxFx33 m33;
+    MtxFx43 m43;
+    MtxFx43 *mtx;
+    Q2E *blk;
+    u8 *res;
+    s32 n, w, v5, t, s, L;
+    u32 c, d;
+    s64 w64;
+
+    blk = (Q2E *)(q + 0x2e);
+    mtx = *(MtxFx43 **)((u8 *)self + 0x44);
+    n = (s32)(((blk->b5 + 1) * blk->b0) >> 5);
+
+    *(volatile u32 *)0x040004A4 = (*(u32 *)((u8 *)self + 0x3c) | 0xc0) |
+                                  (((u32)blk->b10) << 24) | ((u32)n << 16);
+    (void)*(volatile u32 *)0x040004A4;
+    if (n == 0)
+        return;
+
+    w = *(s32 *)(q + 0x30);
+    v5 = FXMUL(w, *(s16 *)(RES + 0x30));
+    w64 = (s64)w;
+
+    switch (((Res48 *)(RES + 0x48))->kind) {
+    case 0:
+        t = *(s16 *)(q + 0x34);
+        v5 = FXMUL(v5, t);
+        w = (s32)FXMUL(w64, t);
+        break;
+    case 1:
+        t = *(s16 *)(q + 0x34);
+        v5 = FXMUL(v5, t);
+        break;
+    case 2:
+        t = *(s16 *)(q + 0x34);
+        w = (s32)FXMUL(w64, t);
+        break;
+    default:
+        break;
+    }
+
+    if (!((Res00 *)RES)->flag) {
+        pos.x = *(s32 *)(q + 8) + *(s32 *)(q + 0x38);
+        pos.y = *(s32 *)(q + 0xc) + *(s32 *)(q + 0x3c);
+        pos.z = *(s32 *)(q + 0x10) + *(s32 *)(q + 0x40);
+        vA = *(VecFx32 *)(q + 0x14);
+        vB.x = mtx->m[2];
+        vB.y = mtx->m[5];
+        vB.z = mtx->m[8];
+        VEC_CrossProduct(&vA, &vB, &vA);
+        if (vA.x == 0 && vA.y == 0 && vA.z == 0)
+            return;
+        VEC_Normalize(&vA, &vA);
+        MI_Copy36B(mtx, &m33);
+        MTX_MultVec33(&vA, &m33, &vA);
+        MTX_MultVec43(&pos, mtx, &pos);
+        v0 = *(VecFx32 *)(q + 0x14);
+        VEC_Normalize(&v0, &v0);
+        s = FXMUL(v0.z, -mtx->m[8]) +
+            (FXMUL(v0.x, -mtx->m[2]) + FXMUL(v0.y, -mtx->m[5]));
+        if (s < 0)
+            s = -s;
+        L = FXMUL(w, FXMUL(0x1000 - s, ((Res48 *)(RES + 0x48))->k) + 0x1000);
+        m43.m[0] = FXMUL(vA.x, v5);
+        m43.m[1] = FXMUL(vA.y, v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-vA.y, L);
+        m43.m[4] = FXMUL(vA.x, L);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        G3_MultMtx43(&m43);
+    } else {
+        res = RES;
+        pos.x = *(s32 *)(q + 8) - *(s32 *)(RES + 4) + *(s32 *)(q + 0x38);
+        pos.y = *(s32 *)(q + 0xc) - *(s32 *)(RES + 8) + *(s32 *)(q + 0x3c);
+        pos.z = *(s32 *)(q + 0x10) - *(s32 *)(RES + 0xc) + *(s32 *)(q + 0x40);
+        vA = *(VecFx32 *)(q + 0x14);
+        vB.x = mtx->m[2];
+        vB.y = mtx->m[5];
+        vB.z = mtx->m[8];
+        VEC_CrossProduct(&vA, &vB, &vA);
+        if (vA.x == 0 && vA.y == 0 && vA.z == 0)
+            return;
+        VEC_Normalize(&vA, &vA);
+        MI_Copy36B(mtx, &m33);
+        MTX_MultVec33(&vA, &m33, &vA);
+        MTX_MultVec43(&pos, mtx, &pos);
+        v0 = *(VecFx32 *)(q + 0x14);
+        VEC_Normalize(&v0, &v0);
+        s = FXMUL(v0.z, -mtx->m[8]) +
+            (FXMUL(v0.x, -mtx->m[2]) + FXMUL(v0.y, -mtx->m[5]));
+        if (s < 0)
+            s = -s;
+        L = FXMUL(w, FXMUL(0x1000 - s, ((Res48 *)(RES + 0x48))->k) + 0x1000);
+        m43.m[0] = FXMUL(vA.x, v5);
+        m43.m[1] = FXMUL(vA.y, v5);
+        m43.m[2] = 0;
+        m43.m[3] = FXMUL(-vA.y, L);
+        m43.m[4] = FXMUL(vA.x, L);
+        m43.m[5] = 0;
+        m43.m[6] = 0;
+        m43.m[7] = 0;
+        m43.m[8] = 0x1000;
+        m43.m[9] = pos.x;
+        m43.m[10] = pos.y;
+        m43.m[11] = pos.z;
+        *(volatile u32 *)0x04000454 = 0;
+        *(volatile u32 *)0x04000470 = *(u32 *)(res + 4);
+        *(volatile u32 *)0x04000470 = *(u32 *)(res + 8);
+        *(volatile u32 *)0x04000470 = *(u32 *)(res + 0xc);
+        G3_MultMtx43(&m43);
+    }
+
+    c = *(u16 *)(q + 0x36);
+    d = *(u16 *)((u8 *)SYS + 0x72);
+    *(volatile u32 *)0x04000480 = (u16)((((c & 0x1f) * (d & 0x1f)) >> 5) |
+                                        ((((c & 0x3e0) * (d & 0x3e0)) >> 0xf) << 5) |
+                                        ((((c & 0x7c00) * (d & 0x7c00)) >> 0x19) << 10));
+    func_020565C8(*(s16 *)((u8 *)SYS + 0x78), *(s16 *)((u8 *)SYS + 0x7a),
+                  *(s16 *)(RES + 0x50), *(s16 *)(RES + 0x52));
+}

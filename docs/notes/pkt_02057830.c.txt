@@ -542,3 +542,76 @@ pooled `mov r1, #0x800`, `sub`, `strh` to `o+0x84/0x86/...`.  The r8 brief's
 Next attempt: transcribe WHOLE (a partial body cannot be judged), and expect
 the FX blocks to repeat one expression shape; 644 bytes is past the
 spelling-search budget, so this wants its own run.
+
+==============================================================================
+wave r9 (one lane, tight budget): the r9 levers on both remaining rows, both
+DIFF, both residues are single register-coloring tie-breaks
+==============================================================================
+
+Pin and proc, verbatim, both rows (`--cc ../1.2/sp2`,
+`--flags "-O4,p -proc arm946e"`).  Bodies started from the "closest C" blocks
+above, unchanged except for the one lever named per row.
+
+0x02057BC0 (220 B incl. the 12-byte pool) DIFF, 13 concrete bytes, unchanged.
+  The r9 lever ("give the value a live range that starts at the guard instead
+  of at the hoisted load - a fourth local occupying r0 across the first test")
+  was compiled in both spellings available for it, and both are WORSE:
+
+    * `b = p->b;` read inside the else branch (nested if, the read after the
+      first test instead of before it): the load moves to +0x3C (+0x10 in the
+      original), is still allocated to r0, and the whole first-test block
+      shifts by 4 bytes.  Ruled out.
+    * `} else if (t < (b = p->b)) {` (the definition at the guard itself,
+      which is the lever's literal reading): 51 differing bytes, the load
+      sinks into the second arm and the first test's layout changes.  Ruled
+      out.
+
+  So the hoisted load at +0x10 in r3 is not reachable by moving the
+  definition, and the r8 measurement (24 declaration orders, five types, the
+  a/b assignment order, nested-if, `b > t`, in-place member reads, three
+  return types - all 13 bytes out) still stands.  The residue is exactly:
+    +0010  original `ldrb r3, [r4, #5]`      | ours `ldrb r0, [r4, #5]`
+    +0040  original `cmp r2, r3`             | ours `cmp r2, r0`
+    +0054  original `ldrh r0, [r4]`          | ours `ldrh r3, [r4]`
+    +005C  original `rsb r1, r3, #0xff`      | ours `rsb r1, r0, #0xff`
+    (+0060..+006C: the hi/mid extraction of the third arm, the same swap)
+  i.e. `b` and the third arm's `rec` have their registers exchanged and
+  nothing else differs.  Next attempt: the image's `b` dies at +0x1C, the
+  exact instruction where the third arm overwrites r3 with `hi`; a spelling
+  that makes the *record* value's live range start after `(0xff - b)`
+  (e.g. rec read through a local bound after the divisor rather than before
+  the channel extraction) is the one shape not tried.
+
+0x02057C9C (460 B) DIFF, 65 concrete bytes, size exact, unchanged.
+  The r9 lever ("compute the six channels in a grouping that matches the
+  asr/and interleave at 0x02057CEC..0x02057D08 - three statements per arm,
+  each doing target-then-record for one 5-bit channel") was compiled as the
+  interleaved order
+
+      vlo = v & 0x1f;  rlo = rec & 0x1f;
+      vmid = (v >> 5) & 0x1f;  rmid = (rec >> 5) & 0x1f;
+      vhi = (v >> 10) & 0x1f;  rhi = (rec >> 10) & 0x1f;
+
+  in both arms: 65 differing bytes, byte-for-byte the same diff as the
+  r8 grouping.  Ruled out (the grouping does not reach the allocator).
+  The residue is the pair swap in both arms:
+    arm1  +0040 original `ldrh sb, [r0, #0x22]` (target) | ours `ldrh r8, ...`
+          +0048 original `ldrh r8, [r4]`       (rec0)   | ours `ldrh r6, ...`
+          +0054 original `lsl r4, r0, #0x1d`   (flag)   | ours `lsl sb, ...`
+          +0094 original `sub r4, r2, r3`      (d)      | ours `sub sb, r2, r3`
+    arm2  0x02057D9C original `ldrh r7, [r4, #2]` (rec1) | ours swaps r7/r8
+  and the register names cascade through the whole arm (the same channel
+  extraction, the same three divisions in the same order, the same
+  `_s32_div_f` sites and offsets - the 6 relocation sites resolve at the
+  original's offsets).  Next attempt: the image's `p` (r4) is dead after the
+  flag load and its register is immediately reused for the flag temporary
+  (`lsl r4, r0, #0x1d`), while ours keeps p alive long enough to push the
+  flag temporary into sb; a spelling in which the arm's flag test is the last
+  use of p before the arm's own temporaries (e.g. `f = p->flag;` bound to a
+  local at the top of the arm, with `p` never read again in that arm) is the
+  untried shape, and it also decides the target/record pair by making r4 the
+  first free register in the arm.
+
+Neither row has a src/ entry this wave: both are DIFF, so no file was left in
+src/matched/ or src/pending/ and no shard was written for pkt_02057B5C.  The
+working copies were deleted after the copies above were taken.
