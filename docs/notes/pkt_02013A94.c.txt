@@ -96,3 +96,31 @@ C currently tried (scratch/scratch/w_02013A94.c):
         return 0;
     }
 
+
+==============================================================================
+APPENDED, lane 1 of the third 0-64 byte band pass (pass 3)
+==============================================================================
+
+Re-run this pass: 0x02013A94 still prints MATCH, unresolved 020A72A8 and
+020A72AA, and the wall is now measured on both sides.
+
+Every concrete byte of the 46-byte code run is reproduced, and the two
+relocation sites are the two lane pointers of one { key, value } table.  The
+only pool words in the image that name them are
+
+    asm/arm9/src/005_02013160.s   .word 0x020A72A8   /* 02013AC8 */
+    asm/arm9/src/005_02013160.s   .word 0x020A72AA   /* 02013ACC */
+
+and 0x02013AC8 / 0x02013ACC lie inside this function's own range
+(0x02013A94..0x02013AD0, the code plus its pool) - so the `literal` class
+discards its only witness, `label` does not apply to data, there is no
+terminated string before the table (docs/idioms/a-string-after-a-data-table-has-no-witness.md),
+and `data_table` needs eight in-region pointers.  Permanent until somebody
+outside reads the table.  0x02013C9C, 0x02013D74 and 0x02013FA8 in
+scratch/band_64_p3_lane2_targets.md therefore stay capped on this address.
+
+Housekeeping: this address has two pending files.  func_02013A94.c is the one
+with the row's packet id (pkt_02013A94); sub_02013A94.c carries the fuller
+write-up but names pkt_02013528.  Both print MATCH on the same two sites.
+Neither is in the manifest (src/pending/ is not scanned), so this is a naming
+question for the next pass, not a matching one.

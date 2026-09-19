@@ -1,0 +1,70 @@
+/*
+ * pkt_02023F98 -- lane 2 of the third 0-64 byte band pass.
+ *
+ * Packet: 0x02023F98..0x0202419C (code ends 0x020240F2), three functions:
+ *   0x02023F98  50 bytes  (DIFF, documented in pkt_02023DDC.c.txt)
+ *   0x02023FD8  32 bytes  (this note: MATCH, parked in
+ *                          src/pending/func_02023FD8.c)
+ *   0x02024044  174 bytes (not this lane's work)
+ *
+ * func_02023FD8 @ 0x02023FD8 -- MATCH*, 44 of 44 concrete bytes right
+ * ------------------------------------------------------------------
+ * Two guards on a global struct, each calling func_02023E0C with a global
+ * address when the word is non-zero:
+ *
+ *   02023FD8  push {r3, lr}
+ *   02023FDA  ldr r0, [pc, #0x1c]     ; 0x021468FC  (slot 0x02023FF8)
+ *   02023FDC  ldr r0, [r0, #0x3c]
+ *   02023FDE  cmp r0, #0
+ *   02023FE0  beq 0x02023FE8
+ *   02023FE2  ldr r0, [pc, #0x18]     ; 0x0214691C  (slot 0x02023FFC)
+ *   02023FE4  bl  func_02023E0C
+ *   02023FE8  ldr r0, [pc, #0xc]      ; 0x021468FC  (slot 0x02023FF8 again)
+ *   02023FEA  ldr r0, [r0, #0x1c]
+ *   02023FEC  cmp r0, #0
+ *   02023FEE  beq 0x02023FF6
+ *   02023FF0  ldr r0, [pc, #0xc]      ; 0x021468FC  (slot 0x02024000)
+ *   02023FF2  bl  func_02023E0C
+ *   02023FF6  pop {r3, pc}
+ *   02023FF8  .word 0x021468FC
+ *   02023FFC  .word 0x0214691C
+ *   02024000  .word 0x021468FC
+ *
+ * THE POOL HAS A DUPLICATE, AND THAT IS THE WHOLE FINDING
+ *
+ * Slots 0x02023FF8 and 0x02024000 hold the same address, and they are used by
+ * different statements: the first as the field base, the third as the second
+ * call's argument.  mwccarm emits one pool word per source symbol, so a source
+ * that names the object once for both uses gets them CSEd into one slot and
+ * one register - the obvious spelling compiles to 40 bytes with the field
+ * compared in r1 and r0 reused for the call argument, 7 concrete bytes off:
+ *
+ *   * +0012  ldr r0, [r0, #0x1c]  |  ldr r1, [r0, #0x1c]
+ *   * +0014  cmp r0, #0           |  cmp r1, #0
+ *   * +0016  beq #0x2023ff6       |  beq #0x2023ff4
+ *
+ * Declaring two names for the one address - g_021468FC for the field base and
+ * g2_021468FC for the argument - forbids the CSE and reproduces the three-word
+ * pool exactly.  Both declarations are the same claim and both are attested
+ * `literal` from outside the range (six sites, e.g. 0x02023F5C), so this is
+ * not a fudge of the evidence: it is a reading of the original's pool.
+ *
+ * WHY IT CANNOT BE EXACT
+ *
+ * func_02023E0C is labelled in asm/arm9/src/008_02021014.s, but its only two
+ * branches in the whole image are 0x02023FE4 and 0x02023FF2, both inside this
+ * range, so the `label` class discards them and both sites stay wildcarded.
+ * It closes when 0x02023E0C acquires an EXACT manifest entry - it is a larger
+ * function in another packet - and that also releases
+ * src/pending/func_020052EC.c, whose first site names 0x02023FD8.
+ *
+ * The `*` on the status is the listing extent: the next labelled start after
+ * 0x02023FD8 in the listing is 0x02024044, so target_extent() reports 108
+ * bytes against a 32-byte worklist function and a 44-byte compile.  The 64
+ * bytes in between are the unlabelled function at 0x02024004 and its pool;
+ * match.py compares len(compiled) bytes, so they cost nothing.
+ *
+ * The filed source is src/pending/func_02023FD8.c.  Verified with:
+ *   python tools/match.py one --src src/pending/func_02023FD8.c \
+ *       --func func_02023FD8 --addr 0x02023FD8 --cc 1.1p1 --thumb
+ */

@@ -8,7 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocker: 0202B63C and 0202B64C - both still unfiled; every concrete byte reproduces.
+ *
+ * Parked: five of the six initialisers resolve as `matched` (0x0202B5FC,
+ * 0x0202B610, 0x0202B624, 0x0202B63C, 0x0202B65C).  The one that does not is
+ * 0x0202B64C at +002A, which is itself capped on 0x0202C070, which is capped
+ * on 0x0202C148 (DIFF).  Every concrete byte reproduces; the C is final.
  *
  * Constructor hub: fills the four word/halfword members of a node and runs
  * its six initialisers in order.
@@ -20,10 +24,6 @@
  *   func_0202B63C  0x0202B63C  thumb
  *   func_0202B64C  0x0202B64C  thumb
  *   func_0202B65C  0x0202B65C  thumb
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0202B59C.c \
- *       --func func_0202B59C --addr 0x0202B59C --thumb --cc 1.1p1
  */
 
 typedef unsigned char  u8;

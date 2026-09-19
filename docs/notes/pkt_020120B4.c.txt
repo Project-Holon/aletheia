@@ -90,3 +90,28 @@ int func_020120B4(void *obj)
 {
     func_02031348(*(u32 *)((unsigned char *)obj + 8));
 }
+
+==============================================================================
+APPENDED, lane 1 of the third 0-64 byte band pass (pass 3)
+==============================================================================
+
+Re-run this pass; both verdicts stand and neither is a near miss.
+
+  0x020120B4  DIFF (10 bytes).  Fifteen spellings now across two passes
+              (this note's five, the second pass's ten: a variadic callee, a
+              no-prototype callee, an explicit `return;`, a u64-returning
+              callee, a char-returning callee, a struct local, a `(void)v` use,
+              a field read through a second pointer, an inverted return, a
+              goto shape).  All fifteen give this front end's twelve-byte tail
+              call where the original has a ten-byte real call with a frame.
+              No further spelling was tried this pass; the note's own
+              suggestion (a struct or u64 return type to block the tail call)
+              was already covered by the second pass.
+  0x020120C0  MATCH (src/pending/func_020120C0.c).  Both unresolved literals
+              are own-pool data and permanent: the pool word naming 0x15 and
+              the one naming 0x021D359C are at 0x020120D4 and inside
+              this function's own range, so the `literal` class discards its
+              only witness and no cut helps.  Unchanged this pass.
+
+Because 0x020120B4 cannot have a manifest entry, the pair 0x020120C0 ->
+0x020120B4 is a wall at both links.

@@ -1,0 +1,264 @@
+/*
+ * lane 2 of the third 0-64 byte band pass: verdicts for the convertible tail.
+ *
+ * Slice: scratch/band_64_p3_lane2_targets.md, 29 rows, 962 bytes, 25 packets,
+ * 0x02013C9C..0x0202AF34, plus the callees those rows name (0x02013A94 is
+ * outside the 29 but is the callee three of them name).
+ *
+ * Every row now has a verdict.  The lane produced NO new manifest entry, and
+ * the two rows it brought to a byte-correct park are the only state changes:
+ *
+ *   NEW PARK     0x02023FD8  pkt_02023F98  MATCH*  44 of 44 concrete bytes
+ *   NEW C        0x0202AF34  pkt_0202AF34  MATCH   8 of 8 concrete bytes
+ *                          (the file held the blocker note alone because the
+ *                           shape had been reported as an unrunnable linker
+ *                           veneer; a plain tail call reproduces it - see
+ *                           "THE THUNK" below)
+ *   CONFIRMED    0x02013A94  pkt_02013A94  MATCH   60 of 60 concrete bytes
+ *                          (already filed by an earlier pass; this lane
+ *                           re-derived it and re-measured both blockers)
+ *
+ * 0 new manifest addresses, 0 new bytes.  1 new file in src/pending/ and one
+ * existing file given its verified body.
+ *
+ * WHY THE LANE IS ALL PARKS AND RESIDUES
+ *
+ * The screen that built the target list marked a row `chain` when the callee
+ * it names had no manifest entry yet.  For 19 of the 29 rows that callee is
+ * itself only MATCH-capable, so filing it cannot witness anything: a MATCH
+ * file is deliberately outside the manifest (MATCHED_STATUS is EXACT/EXACT*
+ * only), and the caller's site therefore stays wildcarded, and the caller
+ * stays MATCH for ever.  Those 19 are the `label`/`literal` chains listed
+ * below.  The 9 DIFF rows have real residues, recorded per row.
+ *
+ * THE PERMANENT WALLS, WITH THE BYTE EVIDENCE
+ *
+ * The test that decides a `literal` cap is: does the address appear anywhere
+ * in the image as a pool word OUTSIDE the compared range.  This lane scanned
+ * every `.word 0xADDR` in asm/ (scratch/_l2/wordrefs.py) for each one.  A
+ * single hit inside the function's own pool is a permanent cap, and it is
+ * recorded here once so it is not re-derived:
+ *
+ *   address capped | data address | the only pool word that names it
+ *   ---------------+--------------+----------------------------------------
+ *   0x02013C9C     | 0x0209E026   | 0x02013CC4  (inside func_02013C9C)
+ *   0x02013FA8     | 0x0209DFC8   | 0x02013FD0  (inside func_02013FA8)
+ *   0x0201441C     | 0x0209E050   | 0x02014424  (inside func_0201441C)
+ *   0x020189F0     | 0x0209E2A4   | 0x020189FC  (inside func_020189F0)
+ *   0x02013A94     | 0x020A72A8   | 0x02013AC8  (inside func_02013A94)
+ *   0x02013A94     | 0x020A72AA   | 0x02013ACC  (inside func_02013A94)
+ *   0x02028C30     | 0x0209FDD0   | 0x02028C4C  (inside func_02028C30)
+ *   0x02028E48     | 0x0209FD90   | 0x02028E7C  (inside func_02028E48)
+ *   0x02028FD0     | 0x0209FE1C   | 0x02028FDC  (inside func_02028FD0)
+ *   0x02029F14     | 0x020A76BC   | 0x02029F3C  (inside func_02029F14)
+ *   0x0202AF34     | 0x0202AF75   | 0x0202AF38  (inside its own 8-byte extent)
+ *
+ * Each of those tables also fails `string` (no printable run) and
+ * `data_table` (not a run of in-region pointers), so nothing else can carry
+ * them.  Two of them cascade: 0x02028E48's cap caps 0x02028E0C, which caps
+ * 0x020289F8; 0x02013A94's two tables cap 0x02013A94 itself; 0x020189F0's
+ * cap caps 0x020189D8; 0x0202AF34's cap caps 0x0202AE9C, which caps
+ * 0x0202AE68.  None of those four chains can close from inside this lane.
+ *
+ * The other wall class is a code callee whose only branch in the image is the
+ * one inside the range under test, so `label` has no outside witness either:
+ *
+ *   0x02023FD8 <- func_02023E0C  (`bl` at 0x02023FE4 and 0x02023FF2 only; no
+ *                                other branch image-wide - grepped)
+ *   0x0202AF34 <- func_0202AF74  (no branch to it anywhere in asm/)
+ *   0x02029F6C <- 0x02029FD0, 0x02029FE4  (not labelled at all: scan_listing
+ *                                returns no start there, extent=None)
+ *   0x020267BC <- func_02026D88, 0x020274B4 <- func_02027460, 0x02028CB0 <-
+ *                                0x02028C30 and 0x02028C50 (the first of which
+ *                                is the permanent literal cap above), and
+ *                                0x02025518 <- func_020253D4 (a DIFF below)
+ *
+ * All of those are callees of 36 bytes or more in other packets, so they are
+ * not this lane's work either; the rows they block are listed as parked.
+ *
+ * THE DIFF RESIDUES (C is in the packet note named beside each)
+ *
+ *  0x02013D74  pkt_02013D74.  34 bytes, both sites resolve (label x30,
+ *      label x8), residue 12 bytes and it is arm ORDER, not codegen failure:
+ *      the original lays out `return 1` inline (0x02013D86..0x02013D8E) and
+ *      the `return 0` arm last; every spelling tried puts the 0 arm inline and
+ *      the 1 arm at the end.  Written this pass: the nested-if form
+ *      (`if (func_02013D9C(v) == 1) return 1; return 0;`) and the
+ *      inverted-guard form (`if (v >= 0x121 && v <= 0x13c) return 1; if (func
+ *      != 1) return 0; return 1;`).  The note's `return func_02013D9C(v) == 1;`
+ *      is closer: 4 bytes, all of them the block order.
+ *
+ *  0x020141A8  pkt_020141A8.  Two independent blockers, either of which alone
+ *      is fatal to EXACT:
+ *        (a) codegen: the original materialises -1 as `movs r5, #1; subs r0,
+ *            r5, #2` and keeps it in a callee-saved register for the three
+ *            `1` stores; this front end loads 0x0000FFFF from the pool and
+ *            reorders the first four stores (10 concrete bytes).
+ *        (b) extent: the compiled function is 56 bytes against a listing
+ *            extent of 92, and the extra 0x34 bytes are NOT padding - they are
+ *            the function at 0x020141DC, which layout/worklist.json lists as a
+ *            function but asm/arm9/src/005_02013160.s leaves as a bare
+ *            `.word 0x477068C0` with no func_ label.  match.py compares
+ *            len(compiled) bytes, so the tail lands inside the compared range
+ *            and can never be reproduced from this file.  A `tu` unit that
+ *            also spells func_020141DC is the only route, and that function is
+ *            a separate worklist entry with its own packet.
+ *
+ *  0x020173F0  pkt_020173F0.  58 bytes, all four sites resolve (three labels
+ *      and `sPokeToolFile` literal x6), residue 30 bytes: the argument block
+ *      for func_0201756C.  The original keeps the 4th incoming word on the
+ *      stack and re-loads it for each call argument (`ldr r1, [sp, #8]`,
+ *      `ldr r3, [sp, #4]`) where this front end keeps both in callee-saved
+ *      registers and pushes a seventh register to get them.  Same class as
+ *      0x0201756C below: the argument-block shape, not a missing witness.
+ *
+ *  0x0201756C  pkt_0201756C.  28 bytes, its one site resolves (label x2), so
+ *      this row is one codegen shape away from EXACT.  Residue 18 bytes: the
+ *      original stores the four stack arguments in the order [sp+4], [sp+8],
+ *      [sp+0xc], [sp] (arg6, arg7, arg8, then arg5, whose value has to be
+ *      loaded from the caller's frame) with arg5 in r6; this front end stores
+ *      [sp], [sp+4], [sp+8], [sp+0xc] (plain left-to-right) and allocates
+ *      arg5 to r4 (so it pushes r3 as padding).  Tried this pass: the note's
+ *      8-parameter form with a named `-1` local reused for both -1 arguments
+ *      (the original reuses r5 for both, which is what suggested it) and the
+ *      s32 form; both give the same 18 bytes.  The constant materialisation
+ *      itself already matches (`movs r5, #0; mvns r5, r5`).
+ *
+ *  0x020189F0  pkt_020189D8.  DIFF, and this pass NARROWED it to one byte.
+ *      `u32 k = 0x0209E2A4 + i * 5; return base[k];` reproduces 15 of the 16
+ *      bytes; the only residue is the final register add, `adds r0, r0, r2`
+ *      in the original against `adds r0, r2, r0` here (same value, operands
+ *      the other way round).  The two-spelling route that got the *structure*
+ *      right is the u32 local; `return base[tbl + i * 5]` and
+ *      `return base[i * 5 + tbl]` both load the table into r3 and compute the
+ *      sum in r0 instead (5 bytes).  It is not worth more spellings: the file
+ *      caps at MATCH even if the byte comes right, because its one ABS32 site
+ *      is the 0x0209E2A4 pool word at 0x020189FC, inside the range (see the
+ *      wall table), and 0x020189D8's call to 0x020189F0 would then need this
+ *      file to be an EXACT manifest entry, which it can never be.
+ *
+ *  0x02022490  pkt_02022490.  64 bytes, every site resolves (func_02022478 is
+ *      `matched` - it is already in the manifest - and the other three are
+ *      literals/labels), so this row IS one allocator choice away from EXACT
+ *      and would then release 0x020225B4.  Best this pass: 33 bytes, down
+ *      from the note's 47.  What fixed the first 14: writing the three stores
+ *      as byte-offset arithmetic on one `u32 idx4` (`*(u32 *)((u8 *)p + idx4)`,
+ *      `+ idx4 + 8`, `+ idx4 + 0x10`) makes the four parameter copies come out
+ *      exactly right (r5 = p, r6 = a1, r4 = a2, r7 = idx) - the note's
+ *      array-index form allocates a1 to r7 and cascades.  The remaining
+ *      residue is the index temporary: the original keeps it in r2 and
+ *      recomputes the address inside each arm (`lsls r2, r7, #2`,
+ *      `str r6, [r5, r2]`, `adds r0, r5, r2`, `str r4, [r0, #8]`), this front
+ *      end puts it in r0 and hoists the base address into r1 once
+ *      (`adds r1, r5, r0`, `str r6, [r5, r0]`, `str r4, [r1, #8]`).  Tried
+ *      this pass, all identical or worse: `u32 i = idx;` with `((u32 *)p)[i]`,
+ *      `((u32 *)p)[i + 2]`; `int k = idx << 2` with a `u32 *q` base;
+ *      `idx4` with the else-arm store moved after the guard; the parameters
+ *      typed u32 instead of void*; and `((u32 *)p)[idx]` with `u32 idx`.
+ *
+ *  0x020253D4  pkt_020251FC.  48 bytes, ZERO relocations, so the residue is
+ *      the whole blocker and it is 5 bytes of prologue: the original keeps
+ *      the bank-derived offset in r4 and shifts it in place (`movs r4, #1`,
+ *      `cmp r2, #0`, `bne`, `movs r4, #0`, `lsls r4, r4, #4`, `adds r0, r0,
+ *      r4`); every spelling puts it in r3 and shifts into r2.  Six more
+ *      spellings this pass, over the twelve already in the note: `u16 offset`;
+ *      `offset` defined in both arms of an if/else (a phi, hoping for a
+ *      callee-saved register); `offset = offset << 4` as its own statement;
+ *      `!bank` instead of `bank == 0`; a `bank ? 0 : 1` initialiser; and the
+ *      one structural idea left - one variable used first as the offset and
+ *      then as the byte probe (`val = 1; if (bank == 0) val = 0; p += val << 4;
+ *      val = (p + id)[6]; ...`), which would explain r4 by giving the
+ *      variable a live range that spans the function.  All five-byte residue,
+ *      byte for byte the same five.  The loop from +0016 reproduces exactly in
+ *      every variant, so this needs a front end that allocates the first
+ *      block local into r4, not another C shape.  It is the blocker on
+ *      src/pending/func_02025518.c.
+ *
+ *  0x0202715C  pkt_0202715C.  Confirmed, not re-derived: the original emits
+ *      `adds r0, r4, #4; adds r0, #0x5e` for `*(u8 *)(p + 0x62) = 1` where
+ *      this front end folds the two immediates into `adds r4, #0x62`.  The
+ *      neighbouring function at 0x02027186 uses the same idiom, so the
+ *      original source expressed the +4 as a value.  Its callee 0x020274B4 is
+ *      MATCH-capped, so it has no manifest route either.
+ *
+ *  0x02029D8C  pkt_02029D8C.  Confirmed, not re-derived: the original copies
+ *      the first call's result into r2 and then overwrites r2 with the second
+ *      call's result - a dead store this front end removes (44 bytes against
+ *      48).  Independent of that, the row sits behind func_020289F8, which is
+ *      capped by the permanent 0x0209FD90 chain.
+ *
+ * THE PARKS
+ *
+ *  0x0202AF34 (new C, pkt_0202AF34).  4 worklist code bytes, 8 compared with
+ *      the pool, all byte-exact.  Reported by the second pass as an artifact
+ *      - a four-byte linker veneer `00 4b 18 47` with no C spelling - and left
+ *      in src/pending/ as the blocker note alone.  It is not an artifact: a
+ *      plain tail call,
+ *
+ *          void func_0202AF34(void) { func_0202AF74(); }
+ *
+ *      compiles to exactly those two instructions plus the interworking pool
+ *      word 0x0202AF75, 8 of 8 bytes, and the harness prints MATCH.  The one
+ *      relocation cannot resolve because the pool word is inside the compared
+ *      range (the extent is 8 bytes), and 0x0202AF74 has no branch anywhere in
+ *      the image, so the file is a MATCH park like any other.  What it is not
+ *      is unreachable: it is the last link of the 0x0202AE68 ->
+ *      0x0202AE9C -> 0x0202AF34 chain, and it closes when 0x0202AF74 (50
+ *      bytes, another packet) is filed.
+ *
+ *  0x02023FD8 (new, pkt_02023F98).  32 worklist code bytes, 44 compared with
+ *      the pool: 30 of code and three literal words, all byte-exact.  The
+ *      blocker is the callee: func_02023E0C is labelled but its only two
+ *      branches image-wide are the two inside this function, so `label` has no
+ *      outside witness and the file can never be EXACT on its own.
+ *      The pool is the interesting part and the reason the obvious spelling
+ *      fails: it is THREE words and the first and third both hold 0x021468FC.
+ *      mwccarm emits a pool word per source SYMBOL, so the natural source -
+ *      one name for the object, used as the field base and as the second
+ *      call's argument - CSEs the two loads into one slot and one register
+ *      (40 bytes, 7 concrete bytes off).  The original loads it twice, so the
+ *      file declares two names for the one address (g_021468FC for the field
+ *      base, g2_021468FC for the argument) and comes out byte-exact; both are
+ *      attested `literal` from outside (x6, e.g. 0x02023F5C).  This is the
+ *      general lever for a pool with duplicate words: the duplicate says the
+ *      source reached the same address through two spellings.
+ *      The done-flag is `MATCH*`: the listing extent is 108 bytes because the
+ *      next labelled start in asm/arm9/src/008_02021014.s is 0x02024044, and
+ *      the 64 bytes between hold the unlabelled function at 0x02024004 and its
+ *      pool.  Worklist size 32, compared size 44.
+ *
+ *  0x02013A94 (confirmed, pkt_02013A94).  46 code bytes, 60 with the pool.
+ *      Already in src/pending/ from an earlier pass with the same two
+ *      blockers.  Re-derived here from the original bytes: `int i` (not u32 -
+ *      `i < 2` on a u32 gives `blo`, the original has `blt`), the two u16
+ *      tables indexed with `i * 2` (stride 4, which is what produces the
+ *      original's `lsls r3, r4, #2`), `*(p + i + 0x48)` in that operand order,
+ *      and NO `return` on the falling-out path (r0 still holds the key, and
+ *      the original's tail is a bare `pop {r4, r5}; bx lr`).  Filed source
+ *      unchanged.
+ *
+ * PACKET SHARDS
+ *
+ * No EXACT entry was written this pass, so no shard changed.  The gate was run
+ * over every shard of the lane's packets that already exists, to prove none of
+ * them is stale (0 rewritten in all eleven):
+ *
+ *   pkt_0201756C [1]  pkt_02022490 [0]  pkt_02025518 [0]  pkt_020266E0 [1]
+ *   pkt_020274B4 [1]  pkt_020289F8 [0]  pkt_02028FD0 [1]  pkt_02029F6C [1]
+ *   pkt_0202AE68 [0]  pkt_0202AF34 [1]  pkt_020251FC [1]
+ *
+ * [1] is the harness's own strict exit status: it prints "N entr(ies) are not
+ * EXACT" whenever an entry is EXACT*, which is a legitimate manifest status
+ * (MATCHED_STATUS accepts both).
+ *
+ * HOUSEKEEPING
+ *
+ * Nothing was moved out of src/matched/ and nothing DIFF-shaped was left in
+ * src/pending/.  scratch/_l2/ holds the candidates: cand/f13A94_*.c,
+ * cand/f23FD8*.c (the two parks), cand/f22490_{b..k}.c, cand/f253D4_{a..o}.c,
+ * cand/f1756C_{a,b}.c, cand/f189F0_{a..g}.c, cand/f13D74_{a,b}.c; the drivers
+ * are scratch/_l2/v.py (batch `match.py one` reading the header),
+ * scratch/_l2/extents.py (listing extent against worklist size) and
+ * scratch/_l2/wordrefs.py (every `.word 0xADDR` in asm/, for the literal
+ * wall test).
+ */

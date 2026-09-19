@@ -9,33 +9,17 @@
  * isa:      arm
  * status:   MATCH
  *
+ * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
+ * Both callees (0x02041B94, 792 bytes, pkt_02041B94 claimed by wave3-2, and
+ * 0x02041A1C, 332 bytes, the same packet as this row) have exactly one witness
+ * image wide and it is the branch inside this range, so no cut of a
+ * one-function file can free them; either one being matched to EXACT closes
+ * this file.  The global resolves on `literal`.
+ *
  * symbols:
  *   g_02146A44      0x02146A44  data
  *   func_02041B94   0x02041B94  arm
  *   func_02041A1C   0x02041A1C  arm
- *
- * Tear the video state down: nothing at all when the context slot is
- * already null, otherwise the two shutdown routines of the pair that
- * func_020416D4 drives, and then both halves of the halfword at +4 of the
- * context are zeroed.  The two stores re-read the slot, because the first
- * store could alias it; the zero is materialised once and shared.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020419E4.c \
- *       --func func_020419E4 --addr 0x020419E4 --cc 1.1p1 --arm
- *
- * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
- *
- * Every concrete byte is right; the site(s) above stay wildcarded because 02041B94 and 02041A1C
- * has exactly one witness image wide and it is the branch inside this very range.
- * Blocking evidence class: label/matched, no outside witness.  It unsticks when the
- * callee is itself EXACT (the `matched` class) or a second caller turns up.
- *
- * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
- * Blocking evidence class: label/matched, no outside witness.  Both callees
- * (0x02041B94 and 0x02041A1C) have exactly one witness image wide and it is
- * the branch inside this range, so no cut of a one-function file can free
- * them; either one being matched to EXACT closes this file.
  */
 
 typedef unsigned char  u8;

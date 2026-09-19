@@ -1,17 +1,21 @@
 /*
  * function: func_0202B7EC
  * address:  0x0202B7EC
- * packet:   pkt_0202B7BC
+ * packet:   pkt_0202B7EC
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- *
- * Parked: every concrete byte is right; the only unresolved relocation site(s)
- * target 0202B90C, which has no witness outside this range (no outside branch names it,
- * not a manifest entry, not in layout/runtime_arm9.txt).
  * status:   MATCH
+ *
+ * Parked: the only site, the ABS32 at +0008, names 0x0202B90C - the fourth
+ * four-byte Thumb linker veneer of the run at 0x0202B8F4/8FC/904/90C
+ * (`00 4b 18 47` + word 0x0202BB41).  Artifact class, hence permanent: no C
+ * spelling produces it, and with the ARM-only `veneer` class it has no witness
+ * of any other class either.  Every concrete byte reproduces.
+ * symbols:
+ *   sub_0202B90C  0x0202B90C  thumb
  */
 
 typedef unsigned char  u8;

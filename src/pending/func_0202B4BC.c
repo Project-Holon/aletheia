@@ -7,14 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- *
- * Blocked: call target func_0202B59C is not yet an EXACT manifest entry and
- * str_020A772C is named by one pool word only, inside this range. Every
- * concrete byte reproduces.
  * status:   MATCH
+ *
+ * Blocked: the THM_CALL at +0024 to func_0202B59C has no manifest entry yet;
+ * it is the last of four sites (str_020A772C resolves on `string`).  Chain:
+ * 0x0202B59C needs 0x0202B64C, which needs 0x0202C070, which needs 0x0202C148 -
+ * and 0x0202C148 is a DIFF (see docs/notes/pkt_0202C148.c.txt), so this row is
+ * capped for this pass.  Every concrete byte reproduces.
  * symbols:
  *   str_020A772C  0x020A772C  data
- *
  */
 
 typedef unsigned char u8;

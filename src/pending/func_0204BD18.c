@@ -1,7 +1,7 @@
 /*
  * function: func_0204BD18
  * address:  0x0204BD18
- * packet:   pkt_0204B954
+ * packet:   pkt_0204BCF4
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -11,26 +11,13 @@
  *
  * Blocked at MATCH: all 36 concrete bytes are correct, but the PC24 at
  * +0x0010 (the call to func_0204BD7C) has no witness of any class.  Its only
- * caller image wide is that call, so no cut frees it; the unblock is a
- * `matched` entry at 0x0204BD7C, which src/pending/func_0204BD7C.c cannot
- * itself supply: that file is byte-correct but capped at MATCH by a
- * fan-in-1 extern of its own in the 0x02063xxx range.
+ * caller image wide is that call, and that file is itself capped on 0x02063640
+ * (316 bytes, pkt_02063640, claimed by lane-C).  Chain capped for this pass.
+ *
+ * Run func_0204BD7C over both of a cell actor's 0x20-byte OAM sub-records.
  *
  * symbols:
  *   func_0204BD7C  0x0204BD7C  arm
- *
- * Run func_0204BD7C over both of a cell actor's 0x20-byte OAM sub-records.
- * func_0204BD18 next door is the same loop against func_0204BD7C.
- *
- * The base stays in a callee-saved register and the element address is
- * rebuilt as `add r0, r5, r4, lsl #5` every iteration, which is the subscript
- * form `&o->w[i]`; keeping a walking cursor instead would have spent the
- * shift once and the register twice
- * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0204BD18.c \
- *       --func func_0204BD18 --addr 0x0204BD18 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;

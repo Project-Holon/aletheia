@@ -53,3 +53,325 @@ original instructions against 424 compiled, the extra one being a reload in
 L_dual.  This is a compiler-frontier function (1692 bytes; the largest ARM
 function this repo has matched is 376 bytes), so it is parked rather than
 ground further.
+
+==============================================================================
+sub_02031FE0.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * PARKED AT DIFF.  The body is structurally complete: every call, every
+ * branch and every table entry reproduces the original, and the compiled
+ * length is exactly the original's 1704 bytes (1692 code + 12 bytes of
+ * literal pool).  What is left is one register-colouring residue inside the
+ * per-record inner loop at 0x02032344, 15 concrete bytes:
+ *
+ *   original  r4 = record offset + length (the sum)   r7 = func_02033B68 id
+ *             r5 = buf0 + sum   r6 = other + sum      r8 = func_02033BAC id
+ *   this file r4 = func_02033B68 id                   r5/r6 as above
+ *             r8 = the sum      r7 = func_02033BAC id
+ *
+ * i.e. the four locals (reco, recl, pa, pb) take r4..r7 in declaration order
+ * as docs/idioms/declaration-order-decides-which-register-a-local-gets.md
+ * predicts, while the original's sum temporary takes r4 and pushes them to
+ * r5..r8.  Declaring the sum as a local first (the order the idiom implies:
+ * sum, pa, pb, reco, recl) does NOT move it: mwcc keeps an add-derived local
+ * out of the declaration-order group and colours it after the loop counter
+ * instead, so the four still land on r4..r7.  All 24 declaration orders of
+ * the four, 4 positions for a named sum, nested-scope declarations, pointer
+ * arithmetic spellings and renamed variables were compiled; the best is the
+ * one in this file (15 concrete bytes, the r4/r8 pair above).  A second,
+ * 4-byte residue is the L_dual test: the original emits `cmp r1,#1; cmpne
+ * r0,#1` while this file emits `cmp r1,#1; cmpeq r0,#1` (same tests, the
+ * compiler here can prove rec[1].a != 0 in the else arm).
+ *
+ * function: func_02031FE0
+ * address:  0x02031FE0
+ * packet:   pkt_02031F9C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02030734        0x02030734  arm
+ *   func_020307B0        0x020307B0  arm
+ *   func_02031EAC        0x02031EAC  arm
+ *   func_02031F94        0x02031F94  arm
+ *   func_02031F9C        0x02031F9C  arm
+ *   func_020332FC        0x020332FC  arm
+ *   func_0203331C        0x0203331C  arm
+ *   func_020333F8        0x020333F8  arm
+ *   func_02033410        0x02033410  arm
+ *   func_020335E8        0x020335E8  arm
+ *   func_02033B68        0x02033B68  arm
+ *   func_02033BAC        0x02033BAC  arm
+ *   func_02033BF0        0x02033BF0  arm
+ *   func_02082A60        0x02082A60  arm
+ *   MIi_CpuClear32       0x02082A7C  arm
+ *   MATH_CalcCRC16CCITT  0x02081B8C  arm
+ *   unk_02146994         0x02146994  data
+ *   file_020A7848        0x020A7848  data
+ *
+ * backup_system.c.  The save-backup merger: read the same logical record out
+ * of both copy areas (the object's own buffer at +0x34 and a scratch buffer
+ * of the same size allocated here), and when exactly one read fails copy the
+ * surviving copy over the damaged one.  With both areas unreadable it walks
+ * the three layers record by record, compares each record's stored value
+ * against the object's table, re-derives the CRC-16/CCITT when the values
+ * agree, and records in the 2-bit-per-slot table at +0x138 whether the
+ * record should come from this copy, the other one, or is still in doubt
+ * (codes 1, 2 and 0).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/sub_02031FE0.c  *       --func func_02031FE0 --addr 0x02031FE0 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct SaveBackup {
+    u8 pad00[0x2C];
+    u32 unk2C;
+    u32 unk30;
+    u32 unk34;
+    u8 pad38[0x108];
+    u32 unk140;
+};
+
+struct SaveMain {
+    u8 pad000[4];
+    u8 crcTable[0x200];
+    u32 unk204;
+};
+
+struct Rec {
+    u32 a;
+    u32 b;
+};
+
+extern struct SaveMain *unk_02146994;
+extern const char file_020A7848[];
+
+extern void func_020333F8(struct SaveBackup *p);
+extern u32 func_02031EAC(struct SaveBackup *p, u32 id);
+extern u32 func_020335E8(u32 off, u8 *buf, u32 len, u32 handle);
+extern void func_02033410(struct SaveBackup *p, u32 v);
+extern void func_02031F9C(struct Rec *out, struct SaveBackup *p, u8 *buf,
+                          u32 sel);
+extern void func_0203331C(struct SaveBackup *p, u32 idx, u32 val);
+extern u32 func_020332FC(struct SaveBackup *p, u32 idx);
+extern u32 func_02033BF0(u32 table);
+extern u32 func_02033B68(u32 table, u32 id);
+extern u32 func_02033BAC(u32 table, u32 id);
+extern void func_02031F94(struct SaveBackup *p, u32 v);
+extern void func_02082A60(void *dst, const void *src, u32 len);
+extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
+extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
+extern void func_020307B0(void *p);
+
+u32 func_02031FE0(struct SaveBackup *p, u32 heapId, u32 mode, u32 seq)
+{
+    struct Rec rec[2];
+    u8 *buf[2];
+    u32 val[2];
+    u32 order[2];
+    u8 *buf0;
+    u8 *base;
+    u32 idx;
+    u8 *other;
+    u32 a;
+    u32 b;
+    u32 i;
+    u32 n;
+    u32 reco;
+    u32 recl;
+    u16 *pa;
+    u16 *pb;
+
+    func_020333F8(p);
+    buf0 = (u8 *)p->unk34;
+    other = (u8 *)func_02030734((u16)heapId, p->unk30, 0, file_020A7848,
+                                0x429);
+    a = func_020335E8(func_02031EAC(p, 1), buf0, p->unk30,
+                      unk_02146994->unk204);
+    b = func_020335E8(func_02031EAC(p, 2), other, p->unk30,
+                      unk_02146994->unk204);
+
+    if (a == 0 && b == 0) {
+        func_02033410(p, 1);
+        MIi_CpuClear32(0, buf0, p->unk30);
+        func_020307B0(other);
+        return 0;
+    }
+
+    if (a == 1 && b == 0) {
+        func_02033410(p, 2);
+        func_02082A60(buf0, other, p->unk30);
+    } else if (a == 0 && b == 1) {
+        func_02033410(p, 1);
+        func_02082A60(other, buf0, p->unk30);
+    }
+
+    func_02031F9C(&rec[0], p, buf0, 0);
+    func_02031F9C(&rec[1], p, other, 1);
+
+    if (mode == 1) {
+        if (rec[0].b != seq) {
+            rec[0].a = 2;
+        }
+        if (rec[1].b != seq) {
+            rec[1].a = 2;
+        }
+    }
+
+    if (rec[0].a == 0) {
+        if (rec[1].a != 0) {
+            func_0203331C(p, func_02033BF0(p->unk2C), 2);
+            func_0203331C(p, func_02033BF0(p->unk2C) + 1, 2);
+            func_02082A60(buf0 + ((p->unk30 - 0x10) - p->unk140),
+                          other + ((p->unk30 - 0x10) - p->unk140),
+                          p->unk140 + 0x10);
+        }
+        goto L_scan;
+    }
+    if (rec[1].a == 0) {
+        if (rec[0].a == 0) {
+            goto L_scan;
+        }
+            func_0203331C(p, func_02033BF0(p->unk2C), 1);
+            func_0203331C(p, func_02033BF0(p->unk2C) + 1, 1);
+            func_02082A60(other + ((p->unk30 - 0x10) - p->unk140),
+                          buf0 + ((p->unk30 - 0x10) - p->unk140),
+                          p->unk140 + 0x10);
+    } else {
+            if (rec[0].a == 1 && rec[1].a == 1) {
+                func_02033410(p, 1);
+                func_020307B0(other);
+                return 3;
+            }
+            func_02033410(p, 1);
+            func_020307B0(other);
+            return 0;
+    }
+
+L_scan:
+    if (rec[0].a != 0) {
+        goto L_ordered;
+    }
+    if (rec[0].b == 0 && rec[1].b == 0xFFFFFFFF) {
+        goto L_src0;
+    }
+    if (rec[0].b >= rec[1].b) {
+        goto L_src0;
+    }
+    if (rec[1].a == 0) {
+        goto L_ordered;
+    }
+
+L_src0:
+    buf[0] = buf0;
+    buf[1] = other;
+    order[0] = 1;
+    order[1] = 2;
+    val[0] = rec[0].b;
+    val[1] = rec[1].b;
+    goto L_layers;
+
+L_ordered:
+    order[0] = 2;
+    buf[1] = buf0;
+    buf[0] = other;
+    order[1] = 1;
+    val[0] = rec[1].b;
+    val[1] = rec[0].b;
+
+L_layers:
+    for (idx = 0; idx < 2; idx++) {
+        base = buf[idx] + ((p->unk30 - 0x10) - p->unk140);
+
+        for (i = 0; i < func_02033BF0(p->unk2C); i++) {
+            reco = func_02033B68(p->unk2C, i);
+            recl = func_02033BAC(p->unk2C, i);
+            pa = (u16 *)(buf0 + (reco + recl));
+            pb = (u16 *)(other + (reco + recl));
+            func_0203331C(p, i, 0);
+
+            if (pa[1] == ((u16 *)base)[i] || pb[1] == ((u16 *)base)[i]) {
+                if (pa[1] == ((u16 *)base)[i]) {
+                    if (pa[1] != MATH_CalcCRC16CCITT(unk_02146994->crcTable,
+                                                     buf0 + reco, recl)) {
+                        func_0203331C(p, i, 1);
+                    }
+                } else {
+                    func_0203331C(p, i, 1);
+                }
+            } else {
+                goto L_rec_done;
+            }
+
+            if (pb[1] == ((u16 *)base)[i]) {
+                if (pb[1] != MATH_CalcCRC16CCITT(unk_02146994->crcTable,
+                                                 other + reco, recl)) {
+                    if (func_020332FC(p, i) == 1) {
+                        goto L_rec_done;
+                    }
+                    func_0203331C(p, i, 2);
+                }
+            } else {
+                if (func_020332FC(p, i) == 1) {
+                    goto L_rec_done;
+                }
+                func_0203331C(p, i, 2);
+            }
+
+            if (func_020332FC(p, i) == 0) {
+                if (*(u16 *)&buf[idx][reco + recl] != pa[0]) {
+                    func_0203331C(p, i, 1);
+                }
+                if (*(u16 *)&buf[idx][reco + recl] != pb[0]) {
+                    if (func_020332FC(p, i) == 1) {
+                        goto L_rec_done;
+                    }
+                    func_0203331C(p, i, 2);
+                }
+            }
+        }
+
+    L_rec_done:
+        if (i < func_02033BF0(p->unk2C)) {
+            continue;
+        }
+        n = order[idx ^ 1];
+        func_0203331C(p, func_02033BF0(p->unk2C) + 1, n);
+        func_0203331C(p, func_02033BF0(p->unk2C), n);
+        goto L_done;
+    }
+
+L_done:
+    if (idx < 2) {
+        goto L_big;
+    }
+    func_02033410(p, 1);
+    func_020307B0(other);
+    return 3;
+
+L_big:
+    func_02082A60(buf[idx] + ((p->unk30 - 0x10) - p->unk140),
+                  buf0 + ((p->unk30 - 0x10) - p->unk140), p->unk140 + 0x10);
+    for (i = 0; i < func_02033BF0(p->unk2C); i++) {
+        if (func_020332FC(p, i) == 1) {
+            reco = func_02033B68(p->unk2C, i);
+            func_02082A60(other + reco, buf0 + reco,
+                          func_02033BAC(p->unk2C, i) + 4);
+        }
+    }
+    func_02031F94(p, val[idx]);
+    func_020307B0(other);
+    for (i = 0; i < func_02033BF0(p->unk2C); i++) {
+        func_020332FC(p, i);
+    }
+    return 1;
+}

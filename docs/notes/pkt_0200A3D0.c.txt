@@ -69,3 +69,42 @@ void func_0200A3D0(void *obj)
     }
     func_02082BCC(obj, 0, 0xc);
 }
+
+==============================================================================
+APPENDED, lane 1 of the third 0-64 byte band pass (pass 3)
+==============================================================================
+
+FUNC_0200A3D0 -> DIFF is CLOSED; now MATCH, parked in src/pending/func_0200A3D0.c
+
+  The residue above was never a codegen difference and no register-allocation
+  work could have fixed it.  The original's second call is
+
+    0200A3E4  04 48        ldr r0, [pc, #0x10]
+    0200A3E6  2a f0 3a eb  blx #0x2034a5c
+    ...
+    0200A3F8  e4 00 00 00  0x000000E4
+
+  a pool word holding a value much too small to be an address.  Per
+  docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md, that is
+  an R_ARM_ABS32 against an absolute symbol, not a number: `func_02034A5C(0xe4)`
+  gives `movs r0, #0xe4` (five numeric spellings were tried this pass - the
+  literal, `(u32)0xE4`, a macro, a `static const u32`, a file-scope
+  `const u32` - and all five give `movs`).  Declared as a symbol and passed
+  (`ov_abs_e4  0x000000E4  data`) the function reproduces all 44 bytes, and the
+  reading is confirmed by the harness: the site resolves as `literal x2`, i.e.
+  two other pool words in the image hold 0x000000E4 (e.g. 0x02007070).
+
+  Moved out of DIFF and parked at MATCH.  The one site left is
+  +0010 THM_CALL func_021DFDB8: seven overlays hold that address (ov093, ov119,
+  ov137, ov170, ov175, ov183, ov228) and NO listing in the tree carries a
+  func_ label there (the ov228 bytes are the eight-byte Thumb `ldr r3, [pc, #0];
+  bx r3` shape), so `label` cannot carry it, the `veneer` class admits ARM
+  shapes only, and the region-hint route cannot help.  Permanent until such a
+  label appears.
+
+  Consequence for this packet's neighbour: 0x0200A338's only unresolved site is
+  its call to 0x0200A3D0, and a MATCH entry is not a witness (`matched` wants
+  EXACT or EXACT*), so 0x0200A338 stays capped at MATCH too.
+
+  Candidates: scratch/_p3l1/cand/a3d0_f1.c (the DIFF), a3d0_c1/c5/c6.c (numeric
+  spellings), a3d0_f2/f3.c (the symbol; f2 is the one).

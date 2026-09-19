@@ -168,3 +168,36 @@ bank offset where the original has `movs r4, #1`:
 The loop body from +0016 on reproduces byte for byte in every variant; only
 the prologue's register for the offset differs. Nothing in the C selects it,
 so this one needs a front end that allocates the first block local into r4.
+
+------------------------------------------------------------------
+lane 2, third band pass: six more spellings for func_020253D4, same 5 bytes.
+
+The function has zero relocations, so the residue IS the blocker: only the
+bank-derived offset's register differs (r4 in the original, r3 in every
+spelling, with the shift landing in r2 instead of in place):
+
+    * +0002  movs r4, #1   | movs r3, #1
+    * +0008  movs r4, #0   | movs r3, #0
+    * +000A  lsls r4, r4, #4 | lsls r2, r3, #4
+    * +000C  adds r0, r0, r4 | adds r0, r0, r2
+
+Tried, all five-byte residue, byte for byte the same five:
+
+    u16 offset = 1; if (bank == 0) offset = 0          -> r3, shift in r2
+    u32 offset; if (bank != 0) offset = 1; else offset = 0   (phi)  -> r3
+    u32 offset = 1; ...; offset = offset << 4; p += offset;  -> r3
+    if (!bank) offset = 0;                             -> r3
+    u32 offset = bank ? 0 : 1;  + the if                -> r3
+    one variable used as BOTH the offset and the byte probe
+      (val = 1; if (bank == 0) val = 0; p += val << 4;
+       val = (p + id)[6]; ...)                          -> r3
+
+The last one was the structural idea left: reusing one source variable would
+give it a live range spanning the whole function, which is normally what makes
+an allocator reach for a callee-saved register (r4).  It does not here - the
+compiler still packs the short-lived offset into r3 and reuses r3 for `curr`
+once the offset dies, and gives r4 to the byte-probe temporary instead.  The
+prologue's `push {r4, r5}` and the entire loop from +0016 reproduce in every
+variant, so nothing in the C selects this register: it needs a front end that
+allocates the first block local into r4.  This is the blocker on
+src/pending/func_02025518.c.

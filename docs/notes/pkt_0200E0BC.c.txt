@@ -287,3 +287,58 @@ void func_0200E124(u32 *obj, u32 idx)
     }
     obj[hi - 1] &= 0xfffff800;
 }
+
+==============================================================================
+APPENDED, lane 1 of the third 0-64 byte band pass (pass 3)
+==============================================================================
+
+FUNC_0200E124 -> EXACT, filed in src/matched/, shard
+
+layout/matched/arm9/pkt_0200E0BC.json
+
+  With the two residues above (both of which were about the relocation set, not
+  about anything the C could see), the harness printed MATCH for two passes.
+  The missing byte pair was the POOL WORD, not an instruction:
+
+    0200E130  81 00        lsls r1, r0, #2        ; ret * 4
+    0200E132  0a 48        ldr r0, [pc, #0x28]    ; the pool word
+    0200E134  46 5a        ldrh r6, [r0, r1]      ; <<< no +2 immediate
+    ...
+    0200E15C  92 de 09 02  .word 0x0209DE92       ; == 0x0209DE90 + 2
+
+  The table is a run of four-byte records and the field the function reads is
+  the second one, so the address the original pools is `tbl + 2`, the address
+  of `.b`.  Every spelling that reaches the same element without a struct -
+  `u16 g[]` at `[i * 2]`, or the earlier `[i * 2 + 1]` - gives the same three
+  instructions and the wrong pool word (`tbl`, or 68 bytes of code).  Written
+  as `struct Rec { u16 a; u16 b; } g_0209DE90[]` and read as `.b`, the +2 is
+  folded into the address constant exactly as the original does: 64 bytes,
+  every concrete byte and all three relocations right, EXACT.
+
+  One more byte pair came from `u32 *o = obj;`: with `obj + (idx + 1)` written
+  directly, mwcc strength-reduces it to `(obj + idx) + 4` and reorders the
+  whole argument set-up (12 concrete bytes off); through the local it does not.
+
+  Lever: docs/idioms/a-field-read-from-a-table-folds-the-field-offset-into-the-pool-word.md
+
+  Candidates: scratch/_p3l1/cand/e124_a.c .. e124_a10.c (a9 is the one).
+
+FUNC_0200E0BC -> still DIFF, and the residue is a named family wall
+
+  Eight spellings this pass (scratch/_p3l1/cand/e0bc_b1.c .. e0bc_b12.c), best
+  is b6/b7/b8/b11 at 44 bytes - the original's size - with 9 concrete bytes
+  off.  Two findings worth keeping:
+
+  * The counter's SIGNEDNESS is one of them: `int i` with a redundant
+    `if (i >= 4) break;` gives `bge`/`blt` where the original has `bhs`/`blo`
+    (10 bytes off).  `u32 i` with the same guard gives the unsigned pair
+    (9 bytes off).  The peeled entry test only survives at all with the
+    redundant guard in the body; without it this front end deletes the entry
+    test outright and the function is 40 bytes.
+  * The remaining 9 bytes are the pool load and the back edge that follows
+    from it.  The original schedules the invariant table load BETWEEN the
+    peeled entry test and the loop body (0x0200E0C6, after the `bhs`) and every
+    spelling tried hoists it into the preheader, above the test.  That is the
+    identical residue docs/notes/pkt_02010DB4.c.txt records for 0x02010DCC,
+    byte for byte - same cause, same size.  The wall is now three functions
+    (0x0200E0BC, 0x02010DCC, 0x02010DF4), not one.

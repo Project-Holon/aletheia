@@ -9,16 +9,15 @@
  * isa:      arm
  * status:   MATCH
  *
- * blocker:  +0014 ABS32 g_0214E46C             -> unresolved: 0214E46C (data, from header) has no witness outside 02072EC8..02072EE0
- *
- * symbols:
- *   g_0214E46C       0x0214E46C  data
+ * blocker:  +0014 ABS32 g_0214E46C             -> unresolved: 0214E46C (data,
+ * from header) has no witness outside 02072EC8..02072EE0.  The `literal` class
+ * finds no pool word outside the compared range and the address is a record
+ * table, not a string or a data table by the rules' tests: permanent.
  *
  * Reads the leading halfword of record `idx` at the same stride.
  *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02072EC8.c \
- *       --func func_02072EC8 --addr 0x02072EC8 --cc 1.1p1 --arm
+ * symbols:
+ *   g_0214E46C       0x0214E46C  data
  */
 
 typedef unsigned int u32;

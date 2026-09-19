@@ -102,3 +102,36 @@ s8 func_020189F0(int a, char *p)
 
 ---- mismatching rows (ORIGINAL | COMPILED) ----
 * +0006 adds r0, r0, r2 | adds r0, r2, r0
+
+------------------------------------------------------------------
+lane 2, third band pass: the residue is ONE byte, and it does not matter.
+
+The u32-local spelling reproduces 15 of the 16 bytes:
+
+    s8 func_020189F0(u32 i, s8 *base)
+    {
+        u32 k = 0x0209E2A4 + i * 5;
+
+        return base[k];
+    }
+
+    +0000 lsls r2, r0, #2      | lsls r2, r0, #2
+    +0002 adds r2, r0, r2      | adds r2, r0, r2
+    +0004 ldr r0, [pc, #4]     | ldr r0, [pc, #4]
+    +0006 adds r0, r0, r2      | adds r0, r2, r0      <- the only residue
+    +0008 ldrsb r0, [r1, r0]   | ldrsb r0, [r1, r0]
+    +000A bx lr                | bx lr
+
+Same value, the ADD's operands the other way round; mwccarm normalises the
+constant to the left of a commutative add.  The two spellings that get the
+structure without the local - `return base[(u32)tbl_0209E2A4 + i * 5]` and
+`return base[i * 5 + 0x0209E2A4]` - both load the table into r3 and compute
+the sum in r0, 5 bytes off.
+
+Even a perfect byte would only reach MATCH: the file's one ABS32 site is the
+0x0209E2A4 pool word at 0x020189FC, which is inside the compared range, and
+that address occurs exactly once image-wide (checked with
+scratch/_l2/wordrefs.py), so the `literal` class has no outside witness.  And
+that is what keeps src/pending/func_020189D8.c parked: its call site would
+need this file to be an EXACT manifest entry, which it can never be.  Both
+rows are permanent parks unless a second reader of 0x0209E2A4 appears.

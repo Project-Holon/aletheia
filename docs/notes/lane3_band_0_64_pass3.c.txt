@@ -1,0 +1,204 @@
+/*
+ * lane 3 of the third 0-64 byte band pass: verdicts for the convertible tail.
+ *
+ * Slice: scratch/band_64_p3_lane3_targets.md, 37 rows, 1064 bytes, 21 packets,
+ * 0x0202B4BC..0x02091284.  Every row now has a verdict.
+ *
+ *   3 rows filed EXACT/EXACT*        94 bytes
+ *   8 rows DIFF, residues recorded  284 bytes
+ *   5 rows artifact                  14 bytes
+ *   1 row out of band (see below)    36 bytes
+ *  20 rows parked at MATCH          636 bytes
+ *
+ * NEW MANIFEST ADDRESSES: 4, 102 bytes.  Three are this lane's rows
+ * (0x0202F630 16, 0x0202F640 62, 0x02035108 16); the fourth is the eight-byte
+ * leaf 0x02035100, which is the unlock for 0x02035108 (see below).  Two
+ * sources were promoted out of src/pending/; no new file was added there.
+ *
+ * FILED EXACT
+ *
+ *   0x0202F640  62 code + 10 pool/compare 72  pkt_0202F498  EXACT*
+ *        A size dispatcher: count = func_02017DBC(), then if
+ *        func_0202F498(a, b) == 1 a `switch (b)` picks one of two argument
+ *        words (0x753B / 0x753D, bare literals with no relocation) for
+ *        func_02017E64(a, 0x96, word), and func_02017DE4(a, count) always
+ *        runs last.  The lever was the switch: written as
+ *        `if (b == 0) ... else if (b == 2) ...` the front end emits
+ *        `bne`-style arm dispatch and merges nothing (39 concrete bytes off);
+ *        as a two-case `switch` it emits the original's
+ *        `cmp/beq/cmp/beq/b` chain with the shared `bl` tail.  All four call
+ *        sites resolve on `label`; EXACT* because the compared output is 72
+ *        bytes (the two pool words are part of the body) against the listing
+ *        extent of the packet.
+ *
+ *   0x0202F630  16  pkt_0202F498  EXACT  (promoted out of src/pending/)
+ *        `func_0202F640(func_020185F0(a), b)`.  It was parked on 0x0202F640;
+ *        filing that address turned its second site into `matched x1` with no
+ *        change to its C.  The chain class paying exactly as advertised.
+ *
+ *   0x02035108  16 code + 8 pool  pkt_0203508C  EXACT  (promoted)
+ *        `func_02035100(g_021469BC)` - an ARM tail call through a pool word.
+ *        It was parked on 0x02035100, and that callee turned out to be an
+ *        unlabelled eight-byte leaf: `ldr r0, [r0, #0x1c]; bx lr`, printed by
+ *        disasm.py as `.word 0xE590001C / .word 0xE12FFF1E` inside
+ *        func_0203508C's word run, because only a prologue that saves lr is
+ *        traced (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+ *
+ *   0x02035100  8  pkt_0203508C  EXACT  (new, not one of the 37 rows)
+ *        The leaf above.  Filing it is the documented unblock for this shape
+ *        and is what src/pending/func_02035108.c named as its blocker.  Note
+ *        the difference from docs/idioms/a-veneer-attests-nothing-while-its-
+ *        target-is-an-unlabelled-leaf.md: there the pool word names a veneer,
+ *        and `names_known_code()` never consults the manifest, so only a
+ *        function_starts seed helps.  Here the pool word names the leaf
+ *        directly, so a `matched` entry is enough.
+ *
+ * THE SCHEDULE WALLS (the two chain nodes this lane could not close)
+ *
+ * 0x0202C148  76 bytes, Thumb, pkt_0202C148 (open packet, external callers 1)
+ *   The node that caps 0x0202C070 (lane row) -> 0x0202B64C -> 0x0202B59C ->
+ *   0x0202B4BC, i.e. four rows of this lane.  All five of its relocation sites
+ *   resolve (func_02049030 `label x9`, func_02030734 `label x1013`,
+ *   func_0202C2EC and func_0202C318 `matched`, the file string `literal x5`),
+ *   the size is exactly 80 bytes both ways, and the whole loop is
+ *   byte-identical; the residue is eight instructions of prologue and
+ *   argument-setup scheduling (17 concrete bytes).  FIFTEEN spellings measured
+ *   this pass, all producing the identical stream: statement order of the two
+ *   stores, `i` declared before/after `n`, assignment vs initialisation, a
+ *   byte-pointer store, a named size local, `n * 4` vs `n << 2` vs
+ *   `n * sizeof(u32)`, a cast on the size, the call result through a local, a
+ *   named `heap` local with the line as `heap + 0xa7`, `u32` parameter, `u8 *`
+ *   object, and the loop bound read back off the object.  The note
+ *   docs/notes/pkt_0202C148.c.txt (another lane) reached the same conclusion
+ *   from the other side; this pass adds the count and the chain consequence.
+ *
+ * 0x02036568  128 bytes, ARM, pkt_02036568 (open packet)
+ *   Caps lane row 0x020364D4.  Both sites resolve (`label x15`), size exact,
+ *   prologue/preheader/exit all byte-identical; the residue is seven to eight
+ *   instructions of loop-tail order after the second call (25 concrete bytes).
+ *   Seven more spellings measured here (increments in the body / in the `for`
+ *   clause / swapped, the store value through a `u8` local, `while`,
+ *   `do/while`, `*(dst + i)`), all 128 bytes with the same residue.
+ *   docs/notes/pkt_02036568.c.txt has the full write-up.
+ *
+ * THE PERMANENT MATCH CAPS, WITH THE BYTE EVIDENCE
+ *
+ *  0x0202B7BC  <- ABS32 0x0202AB5C.  Measured at 0x0202AB5C:
+ *                00 4B 18 47 | 61 AC 02 02
+ *                i.e. `ldr r3, [pc, #0]; bx r3` + the Thumb entry of
+ *                0x0202AC60.  A THUMB veneer: veneer_at() admits only the two
+ *                ARM encodings, disasm.py prints it as data, and no C spelling
+ *                produces it - permanent.
+ *  0x0202B7EC  <- ABS32 0x0202B90C, the fourth veneer of the run
+ *                00 4B 18 47 | 41 BB 02 02 at 0x0202B90C.  Same class.
+ *  0x0202B710  <- THM_CALL 0x0202B8F4, the head of that run
+ *                (00 4B 18 47 | F5 BA 02 02).  Same class.
+ *  0x0202B544  <- its two unresolved sites are exactly 0x0202B7BC and
+ *                0x0202B7EC, so this row is capped by the two veneers above;
+ *                its other four callees are already manifest entries.
+ *  0x020911D8 / 0x02091200 / 0x02091230 / 0x0209125C <- the two-byte `bx pc`
+ *                switch stubs 0x020911F0 / 0x02091220 / 0x0209124C
+ *                (78 47 C0 46 00 C0 9F E5 1C FF 2F E1 ...) and the four-byte
+ *                ARM veneer 0x02091284 (04 F0 1F E5 | 20 19 73 02, pointer
+ *                word 0x02731920, outside every extracted region).
+ *  0x02036500  <- ABS32 file_020A79C0, the one-character string "0" whose only
+ *                pool word is in-range; attest_string's four-character floor
+ *                refuses it.  (See src/pending/func_02036500.c for the full
+ *                argument; confirmed, not re-derived.)
+ *  0x02072EC8  <- ABS32 g_0214E46C, a record table whose only pool word is
+ *                inside the compared range; `literal` refuses, `string` and
+ *                `data_table` do not apply.
+ *
+ * THE REMAINING PARKS (byte-correct, blocker named in the file header)
+ *
+ *   0x0202B4BC  0x0202B59C  0x0202B64C  0x0202C070  the 0x0202C148 chain
+ *   0x020364D4  0x02036500  0x020419E4  0x0204BCF4  0x0204BD18
+ *   0x0204BD64  0x0204BD7C  0x02072EC8  0x020911D8  0x02091200
+ *   0x02091230  0x0209125C
+ *   - plus 0x0202B544, 0x0202B710, 0x0202B7BC, 0x0202B7EC, listed above.
+ *   Every one of these twenty was re-compiled this pass and is still MATCH
+ *   with the same site count; the four whose blocker is outside the lane
+ *   (0x0204BD64/7C on lane-C's 0x0206343C/0x02063640, 0x020419E4 on
+ *   0x02041B94/0x02041A1C) cannot close from inside any lane of this slice.
+ *   Sixteen of their headers were refreshed: the `packet:` field now names the
+ *   worklist's packet (several were stale - e.g. func_0204BD64 said
+ *   pkt_0204BD64, the worklist's packet is pkt_0204BCF4; func_0202C070 said
+ *   pkt_0202BE00, the worklist's is pkt_0202C070), and each blocker line names
+ *   its class and the reason it cannot clear this pass.  A future promotion
+ *   therefore lands in the right shard with one `match.py manifest --shard`.
+ *
+ * THE DIFF RESIDUES OF THE LANE'S OWN ROWS
+ *
+ *  0x02072A88  pkt_02072A44.  Confirmed, not re-derived: the single call site
+ *      resolves (`label x10`), the body is right, and the two instructions are
+ *      transposed (the pool load is scheduled after the shift here, before it
+ *      in the image).  Five spellings this pass, all 24 bytes with the same
+ *      8-byte residue.  This is exactly
+ *      docs/idioms/a-tail-calls-pool-word-is-scheduled-before-the-last-
+ *      argument-write.md, which says not to iterate.
+ *
+ *  0x02072FA8 / 0x02072FC8 / 0x02072FE8  pkt_02072F5C.  The existing
+ *      pkt_02072F5C note records the family wall as "the re-load after the
+ *      guard needs a volatile-qualified pointee; once that is in place the only
+ *      residue is that register".  This pass found the spelling that gets the
+ *      SIZE right: mwccarm 1.1p1 rejects `Obj * volatile *pp` outright
+ *      ("illegal function definition"), but a typedef -
+ *      `typedef Obj *ObjPtr; void f(ObjPtr volatile *pp)` - compiles to the
+ *      original's 32 bytes with the guard's second load in place.  Six further
+ *      spellings (named local for the guard, negated test, assignment in the
+ *      test, `pp[0]`, byte-pointer arithmetic, a volatile cast) all give the
+ *      same last 2 concrete bytes: the guard value lands in r1 where the image
+ *      has r3.  Independently of that, all three callees (0x02089580,
+ *      0x020895B0, 0x02089400) have exactly one branch image-wide and are not
+ *      worklist functions, so these rows cap at MATCH even with the register
+ *      right.  pkt_02072FC8/phrase covered by the same wall.
+ *
+ *  0x02072F5C (11 bytes, one `ldr` re-read), 0x02072BDC (23 bytes, a zero
+ *      materialised into a callee-saved register), 0x02072E8C (12 bytes, pool
+ *      load transposed - same idiom as 0x02072A88), 0x02075BAC (4 bytes, the
+ *      +8 zero materialised one slot early): all confirmed against
+ *      docs/notes/pkt_02072F5C.c.txt, lane6_band0_64_residues.c.txt and
+ *      pkt_02075BAC.c.txt, and not re-derived.
+ *
+ * OUT OF BAND
+ *
+ *  0x02031C30  the lane's size column (36) is the worklist's `code_bytes`, not
+ *      the function: the listing at asm/arm9/src/013_02030A2C.s opens
+ *      `func_02031C30` at 0x02031C30 with `push {r3,r4,r5,r6,r7,lr}`,
+ *      `ldrb r2, [r5, #0x1e]`, `cmp r2, #5`, `addls pc, pc, r2, lsl #2` and
+ *      runs the six-arm dispatcher and its arms (everything after the switch
+ *      table is printed as `.word`) down to the shared tail at 0x02031DB8,
+ *      with the next label `func_02031DC0` - a 400-byte function, not a 36-byte
+ *      one (packet extent_bytes 400).  It is not this band's work and 0x020073B0
+ *      stays capped on it.
+ *
+ * THE FIVE ARTIFACTS (reported, not attempted)
+ *
+ *  0x0202B8F4  4 bytes  the veneer run head (00 4B 18 47 | F5 BA 02 02)
+ *  0x020911F0  2 bytes  `bx pc` (78 47) + pad + ARM ldr ip/bx ip, word 0x02731755
+ *  0x02091220  2 bytes  same shape, word 0x02731761
+ *  0x0209124C  2 bytes  same shape, word 0x02731765
+ *  0x02091284  4 bytes  ARM `ldr pc, [pc, #-4]` (04 F0 1F E5), word 0x02731920
+ *
+ * PACKET SHARDS
+ *
+ *  pkt_0202F498  layout/matched/arm9/pkt_0202F498.json  [1]  3 entries:
+ *                0x0202F630 EXACT (new), 0x0202F640 EXACT* (new),
+ *                0x0202F738 EXACT* (pre-existing, untouched)
+ *  pkt_0203508C  layout/matched/arm9/pkt_0203508C.json  [0]  2 entries:
+ *                0x02035100 EXACT (new), 0x02035108 EXACT (new)
+ *
+ *  [1] is the harness's own strict exit status: it prints "2 entr(ies) are not
+ *  EXACT" because two entries are EXACT*, which is a legitimate manifest status
+ *  (MATCHED_STATUS accepts it) and the only status these two pool-carrying
+ *  bodies can have.
+ *
+ * HOUSEKEEPING
+ *
+ *  Nothing MATCH- or DIFF-shaped was left in src/matched/: the four new sources
+ *  there are exactly the four entries above.  The two DIFFs this lane measured
+ *  (0x0202C148, 0x02036568) were never in src/pending/ - they live in the
+ *  packet notes named above.  scratch/_l3_measure.py, scratch/c_f640.c,
+ *  scratch/c_72*.c, scratch/c_c148*.c, scratch/c_36568*.c and
+ *  scratch/_l3_park.py are the candidates and the header rewriter.
+ */

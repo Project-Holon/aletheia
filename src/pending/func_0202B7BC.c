@@ -9,9 +9,13 @@
  * isa:      thumb
  * status:   MATCH
  *
- * Parked: every concrete byte reproduces, but the one relocation site targets
- * 0x0202AB5C, which has no witness outside this range (no outside branch names
- * it, it is not a manifest entry, and it is not in layout/runtime_arm9.txt).
+ * Parked: the only site, the ABS32 at +0008, names 0x0202AB5C, which is a
+ * four-byte Thumb linker veneer (`ldr r3, [pc, #0]; bx r3` followed by the word
+ * 0x0202AC61 - measured at 0x0202AB5C..0x0202AB60) sitting in the word run
+ * before 0x0202AB64.  veneer_at() admits only the two ARM encodings, so the
+ * `veneer` class refuses a Thumb stub; `label` has no label (disasm.py prints
+ * it as data), `literal` has no pool word outside this range, and no C spelling
+ * produces the stub, so it can never be a manifest entry.  Permanent.
  *
  * symbols:
  *   func_0202AB5C  0x0202AB5C  thumb

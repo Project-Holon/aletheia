@@ -1,22 +1,23 @@
 /*
  * function: func_0202B64C
  * address:  0x0202B64C
- * packet:   pkt_0202B59C
+ * packet:   pkt_0202B64C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * Blocked: MATCH on the call to func_0202C070 (pkt_0202BFF0, lane 4) - no
- * manifest entry and no site outside this range.  Closes when func_0202C070
- * is filed.
+ *
+ * Blocked: the only site, the THM_CALL at +0006 to func_0202C070, has no
+ * manifest entry.  0x0202C070 is byte-correct but capped in turn on 0x0202C148,
+ * which is a DIFF (docs/notes/pkt_0202C148.c.txt), so this row cannot close
+ * this pass.  Every concrete byte reproduces.
  *
  * Builds the +0x20 sub-object from the object's u16 id.
  *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B64C.c \
- *       --func func_0202B64C --addr 0x0202B64C --thumb --cc 1.1p1
+ * symbols:
+ *   func_0202C070  0x0202C070  thumb
  */
 
 typedef unsigned char  u8;

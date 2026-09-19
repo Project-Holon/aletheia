@@ -274,3 +274,25 @@ void func_02010DF4(void)
         func_02010F50(i);
     g_02146228.f1c = 13;
 }
+
+==============================================================================
+APPENDED, lane 1 of the third 0-64 byte band pass (pass 3)
+==============================================================================
+
+Re-run this pass: this packet's verdicts are unchanged, and the wall below is
+now the shared wall of three functions.
+
+  0x02010DB4  MATCH (src/pending/func_02010DB4.c) - unresolved 02010DF4 only.
+              Permanent: 0x02010DF4 is DIFF and can never have a manifest
+              entry, so this row caps at MATCH.
+  0x02010DCC  DIFF, as documented above.
+  0x02010DF4  DIFF, as documented above (the one-byte back-edge near miss).
+
+The third member, added this pass, is func_0200E0BC in pkt_0200E0BC.  With the
+counter declared unsigned and the same redundant-guard spelling, it compiles to
+the original's 44 bytes and leaves exactly this note's 0x02010DCC residue: the
+invariant table load is scheduled after the peeled entry test in the original
+and hoisted into the preheader here, plus the back edge that follows from it -
+nine concrete bytes, the same nine.  Anything that closes one of the three
+closes the shape for all three, and nothing in twenty-nine spellings across the
+three addresses has.

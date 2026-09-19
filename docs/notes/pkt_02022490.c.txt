@@ -379,3 +379,54 @@ void func_020224DC(char *p, int a1)
 ~ +0032 mov r8, r8 | movs r0, r0
 * +0034 ldr r4, [r4, #8] | movs r5, #0xf1 <- ABS32 func_020225F0 [resolved: literal]
 * +0036 lsls r4, r2, #8 | lsls r2, r0, #8
+
+------------------------------------------------------------------
+lane 2, third band pass: 33 bytes, and the residue is one register choice.
+
+The parameter copies CAN be made to come out exactly right, which the note's
+spellings never managed.  What does it is writing the three tail stores as
+byte-offset arithmetic on one scaled index instead of array indexing:
+
+    u32 idx4 = (u32)idx << 2;
+
+    if (p->f10 == 0 && p->f14 == 0) {
+        *(void **)(g_021468A4 + 0x54) =
+            func_02005624((void *)func_02022478, p, 0);
+    }
+    *(u32 *)((u8 *)p + idx4) = (u32)a1;
+    if (a2 != 0) {
+        *(u32 *)((u8 *)p + idx4 + 8) = (u32)a2;
+    } else {
+        *(u32 *)((u8 *)p + idx4 + 8) = (u32)func_020225F0;
+    }
+    *(u32 *)((u8 *)p + idx4 + 0x10) = 1;
+
+Rows +0000..+0014 now match byte for byte, i.e. r5 = p, r6 = a1, r4 = a2,
+r7 = idx, exactly as the original.  The note's `((u32 *)p)[idx]` form
+allocates a1 to r7 and cascades through the whole function (47 bytes).
+
+What is left is the index temporary.  The original keeps it in r2 and
+recomputes the address inside each arm:
+
+    +0024  lsls r2, r7, #2      +0026  str r6, [r5, r2]
+    +002C  adds r0, r5, r2      +002E  str r4, [r0, #8]
+    +0034  adds r0, r5, r2      +0036  str r1, [r0, #8]
+    +003A  adds r0, r5, r2      +003C  str r1, [r0, #0x10]
+
+This front end puts the index in r0 and hoists the base address into r1 once:
+
+    lsls r0, r7, #2   adds r1, r5, r0   str r6, [r5, r0]
+    str r4, [r1, #8]  ...               str r1, [r1 + #0x10]
+
+Everything else - the guard, the two pool words, the else arm's
+`ldr r1, [pc]` and the shared tail - is byte-identical.  Tried this pass, all
+33 bytes or worse: `u32 i = idx;` with `((u32 *)p)[i]` / `[i + 2]`; `int k =
+idx << 2` with a `u32 *q` base (the note's array form); `idx4` with the else
+arm's store moved after the guard; `u32 idx` instead of `int idx`; and the
+byte-offset form with `(void *)p` passed to func_02005624.
+
+Every relocation in this file already resolves (func_02022478 is `matched`; the
+rest are label/literal), so this row is one allocator choice away from EXACT
+and would then release src/pending/func_020225B4.c, whose only open site names
+0x02022490.  The allocator prefers r0 for a fresh temporary here and r2 there;
+nothing in the C selects it.

@@ -1,18 +1,20 @@
 /*
  * function: func_0202B544
  * address:  0x0202B544
- * packet:   pkt_0202B4BC
+ * packet:   pkt_0202B500
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- *
- * Parked: every concrete byte is right; the only unresolved relocation site(s)
- * target 0202B7BC, which has no witness outside this range (no outside branch names it,
- * not a manifest entry, not in layout/runtime_arm9.txt).
  * status:   MATCH
-
+ *
+ * Parked: four of the six call sites resolve (0x0202B7B8, 0x0202B7C8,
+ * 0x0202B7D4, 0x0202B7E0 are manifest entries).  The two that stay unresolved
+ * are 0x0202B7BC and 0x0202B7EC, whose own single callees are the four-byte
+ * Thumb linker veneers at 0x0202AB5C and 0x0202B90C - artifact class, no C
+ * spelling produces them, so neither thunk can ever earn a manifest entry and
+ * no cut of this file frees the site.  Every concrete byte reproduces.
  */
 
 typedef signed char    s8;

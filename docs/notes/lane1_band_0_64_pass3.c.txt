@@ -1,0 +1,180 @@
+lane 1 of the third 0-64 byte band pass: verdicts for all 35 rows
+=================================================================
+
+Slice: scratch/band_64_p3_lane1_targets.md, 35 rows, 984 bytes, 26 packets,
+0x02005230..0x02013A94.  Every row of the slice was re-run against its own
+source this pass and every verdict below is a printed harness verdict, not a
+reading of the bytes.  This file is the lane's index.
+
+Headline: two rows converted to EXACT.  One (0x0200E124) by writing its own C
+against a lever nobody had used here; the other (0x020057C4) by the chain class
+working - its callee 0x02035108 is a lane 3 row and that lane filed it in the
+middle of this pass, after which the caller printed EXACT on the first re-run
+with no change to its C.  The rest of the slice is walls - the reason is in
+"what the slice actually is" below, and the useful output of this pass is that
+every wall now has a measured class, a named blocker and (where it is a
+codegen wall) a link to the sibling function that shows the same residue.
+
+PROMOTED TO src/matched/ + A SHARD (new manifest address)
+--------------------------------------------------------
+| address | size | packet | what closed it |
+| --- | --- | --- | --- |
+| `0x0200E124` | 54 (64 with its pool) | `pkt_0200E0BC` | the `.b` field read of a two-field record table: the original's pool word is `tbl + 2`, and only the struct spelling folds that offset into the pool word.  See docs/idioms/a-field-read-from-a-table-folds-the-field-offset-into-the-pool-word.md |
+| `0x020057C4` | 20 (24 with its pool) | `pkt_020057C4` | the chain class: its only blocker was the call to 0x02035108, a lane 3 row of this pass.  That lane's shard landed mid-pass, the site then resolved as `matched x1`, and the file printed EXACT with no change to its C.  Moved out of src/pending/ unchanged apart from its header. |
+
+2 addresses, 74 bytes.  Shards written with
+`python tools/match.py manifest --verify --shard pkt_XXXXXXXX`:
+`layout/matched/arm9/pkt_0200E0BC.json` (1 entry, EXACT - the shard did not
+exist before this pass) and `layout/matched/arm9/pkt_020057C4.json` (1 entry,
+EXACT - likewise new).  The six of this lane's 26 packets that already had a
+shard were re-verified and none needed a rewrite: pkt_02005438 (1 entry,
+EXACT*), pkt_02006948 (3), pkt_0200A2B8 (1), pkt_0200A3D0 (1), pkt_0200D144
+(1), pkt_02010BB8 (6).  The other 18 packets of the slice have no shard and
+cannot get one: every source that claims them is parked MATCH or is a DIFF
+residue, and the manifest is EXACT-only.
+
+DIFF -> MATCH (parked this pass, was a residue for two passes)
+-------------------------------------------------------------
+| address | size | packet | what changed |
+| --- | --- | --- | --- |
+| `0x0200A3D0` | 38 (44 with its pool) | `pkt_0200A3D0` | the argument `0xE4` is not a number: the original loads it from the pool, which only happens for an `R_ARM_ABS32` against an absolute symbol.  Declared as one (`ov_abs_e4 0x000000E4 data`) the function is byte-correct; the site resolves as `literal x2`, which is the confirmation.  Now `src/pending/func_0200A3D0.c`, MATCH, blocked on the 0x021DFDB8 Thumb veneer. |
+
+PARKED AT MATCH IN src/pending/ (byte-correct, blocker named, unchanged)
+-----------------------------------------------------------------------
+The 23 rows in the table below, plus 0x0200A3D0 from the DIFF -> MATCH section
+above: 24 of the 35 rows are parked in src/pending/ at the end of the pass, the
+same number as at the start, with one swap in each direction - 0x020057C4 was
+promoted out to src/matched/, and 0x0200A3D0 moved in from DIFF.  Nothing was rewritten in these files this pass; the class
+of each blocker is what the next pass needs.
+
+| address | size | packet | blocker (class) | pending file |
+| --- | --- | --- | --- | --- |
+| `0x02005230` | 12 | `pkt_02005230` | 0200567C - not matched, and capped in turn on 02050A70 (outside the band) | func_02005230.c |
+| `0x020052EC` | 32 | `pkt_02005230` | 02023FD8 (lane 2 row), 0200F734 (126 B, outside the band), 02026728, 02010DCC (DIFF, below) | func_020052EC.c |
+| `0x020053EC` | 44 | `pkt_02005328` | 020351D0 (veneer), 02005420 and 02005428 (veneers) - permanent | func_020053EC.c |
+| `0x02005440` | 16 | `pkt_02005438` | 02005454 (veneer) - permanent | func_02005440.c |
+| `0x0200567C` | 32 | `pkt_0200567C` | 02050A70 - outside the band | func_0200567C.c |
+| `0x02005B24` | 50 | `pkt_02005B24` | 02005B74, 02005B6C (veneer), 020726D0, 02073FB8, and the data symbol 020AA2BC (all inside its own range) | func_02005B24.c |
+| `0x02005DE4` | 20 | `pkt_02005DE4` | 02072E8C (lane 3 row) | func_02005DE4.c |
+| `0x02005EB4` | 40 | `pkt_02005EB4` | 02072FC8 (lane 3 row) | func_02005EB4.c |
+| `0x02005F24` | 20 | `pkt_02005F24` | 02072FE8 (lane 3 row) | func_02005F24.c |
+| `0x02006224` | 20 | `pkt_02006224` | 02072EC8 (lane 3 row) | func_02006224.c |
+| `0x02006948` | 58 | `pkt_02006948` | 02072BDC, 02072D20, 02072A88 (lane 3 rows), each twice | func_02006948.c |
+| `0x020073B0` | 36 | `pkt_020073B0` | 02031C30 (lane 3 row) | func_020073B0.c |
+| `0x0200A338` | 16 | `pkt_0200A2B8` | 0200A3D0 - which is now MATCH, not EXACT, so this stays capped | func_0200A338.c |
+| `0x0200C780` | 26 | `pkt_0200C738` | 0209DE2C, own-pool data: the one pool word in the image that names it is at 0x0200C79C, inside 0x0200C780..0x0200C7A0 - permanent | func_0200C780.c |
+| `0x0200D298` | 20 | `pkt_0200D144` | 0200D2D8, which is itself capped below | func_0200D298.c |
+| `0x0200D2D8` | 52 | `pkt_0200D2D8` | 0200C780 (own-pool data, permanent) | func_0200D2D8.c |
+| `0x0200F698` | 32 | `pkt_0200F38C` | 02156B70 (thumb).  Two overlays' windows hold it (ov009, ov010) and the harness offers the region-hint route, but no listing anywhere in the tree carries a `func_02156B70` label, so the hint cannot help - permanent | sub_0200F698.c |
+| `0x0200F7B8` | 4 | `pkt_0200F734` | 0200FC0C - outside the band, no entry, no other branch | func_0200F7B8.c (and the stale duplicate sub_0200F7B8.c, which names pkt_0200F6D8, a packet that does not exist) |
+| `0x02010DB4` | 18 | `pkt_02010DB4` | 02010DF4 (DIFF, below) - permanent | func_02010DB4.c |
+| `0x02011FB8` | 20 | `pkt_02011FB8` | 02011F28 (102 B, no lane's row) and 020267BC (lane 2 row).  docs/notes/pkt_02011F28.c.txt already has the constructive route - one unit over 0x02011F28..0x020120A4 - and it needs two functions written | func_02011FB8.c |
+| `0x020120C0` | 14 | `pkt_020120B4` | the literals 0x15 and 0x021D359C: the only pool words naming them are at 0x020120D4 and inside its own range - own-pool data, permanent | func_020120C0.c |
+| `0x02012E7C` | 60 | `pkt_02012E7C` | 020073B0, which is capped on 02031C30 (lane 3) - a two-link chain | func_02012E7C.c |
+| `0x02013A94` | 46 | `pkt_02013A94` | 020A72A8 and 020A72AA (data).  Both pool words that name them are at 0x02013AC8 and 0x02013ACC, inside the compared range, and the second is one of the two symbols - own-pool data, permanent.  docs/idioms/a-string-after-a-data-table-has-no-witness.md covers the class | func_02013A94.c (and the older sub_02013A94.c, which names pkt_02013528 and carries the fuller write-up) |
+
+CHAIN ROWS THAT BELONG TO ANOTHER LANE'S CALLEE
+-----------------------------------------------
+Eight blockers above are rows of lane 2/lane 3 of this same pass, not of this
+slice, so the caller converts with no change to its C the moment that lane
+files it: 02023FD8, 020267BC (lane 2); 02072E8C, 02072EC8, 02072A88, 02072BDC,
+02072FC8, 02072FE8, 02031C30, 02035108 (lane 3).  A re-check at the end of
+this pass found no EXACT entry for any of them yet; re-run the caller (its
+source does not change) and then
+`python tools/match.py manifest --verify --shard pkt_XXXXXXXX` as soon as one
+lands.  Five more blockers are outside the 0-64 band entirely and are not
+anybody's row in this pass: 02005BC0, 0200F734 (126 B), 02050A70, 0200FC0C,
+020726D0, 02073FB8.  Those rows are walls until a full-size pass takes them.
+
+DIFF RESIDUES (no home in src/matched/)
+---------------------------------------
+Five rows.  Every one of them is a codegen wall, none is an attestation
+problem, and three of them are the same wall.
+
+* **0x0200E0BC** (38 B, `pkt_0200E0BC`) - the rotated loop.  Best of eight
+  spellings this pass is the struct field read plus a redundant counter guard
+  plus an **unsigned** counter (`u32 i`, which is what turns the two compares
+  into `bhs`/`blo` as the original has them): 44 bytes, size right, 9 concrete
+  bytes off.  Those nine bytes are the invariant pool load, which the original
+  schedules BETWEEN the peeled entry test and the loop body and this front end
+  hoists into the preheader, plus the back edge that follows from it.  That is
+  the residue docs/notes/pkt_02010DB4.c.txt already recorded for 0x02010DCC
+  (nine bytes, same cause), byte for byte.  Three functions, one wall.
+* **0x02010DCC** (30 B, `pkt_02010DB4`) - the same wall, documented.
+* **0x02010DF4** (28 B, `pkt_02010DB4`) - the same wall without a table, and
+  the closest thing in the set: the note's `for` plus redundant
+  `if (i >= 13) break;` reproduces the size and every instruction but the back
+  edge (1 byte).  Not re-derived this pass.
+* **0x020120B4** (10 B, `pkt_020120B4`) - real call with a frame in the
+  original, tail call from this front end for all fifteen spellings tried
+  across two passes.  No new spelling this pass; the note lists them.
+* **0x0200A3D0** was the fifth and is now MATCH (above).
+
+ARTIFACTS: NOT FUNCTIONS, NOT ATTEMPTED, NOT COUNTED (4 rows)
+-------------------------------------------------------------
+| address | pointer word | target |
+| --- | --- | --- |
+| `0x02005420` | 0x02005424 | 0x027315D0 |
+| `0x02005428` | 0x0200542C | 0x027314F0 |
+| `0x02005454` | 0x02005458 | 0x027315C0 |
+| `0x02005B6C` | 0x02005B70 | 0x02704364 |
+
+Bytes: `04 f0 1f e5` (`ldr pc, [pc, #-4]`) plus the pointer word, ARM, in the
+middle of Thumb code - `mwld`'s long branch veneer for a Thumb `bl` that could
+not reach.  No C spelling produces them and the `veneer` class cannot carry
+them either: rule 4 wants the pointer word to name code inside a region of
+layout/layout.json, and all four land in 0x0270_xxxx / 0x0273_xxxx, the
+TWL-only `arm9i` module this project does not extract.  Full write-up:
+docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md.
+Correction to the second pass's note, which listed 0x02005454 and 0x02005B6C
+among the four stubs that *do* attest: re-run this pass, 0x02005440's site to
+0x02005454 and 0x02005B24's site to 0x02005B6C both report `no witness outside`
+(the only branch to each is the one inside the function under test, which the
+honesty rule discards).  Only 0x020053E4 and 0x02006D3C have an outside branch.
+
+NOT WRITTEN: 0x02010C34
+-----------------------
+1 row with no source.  Its blocker chain is permanent - it calls 0x0200F7B8,
+whose own blocker 0x0200FC0C has no entry and no other branch anywhere - so it
+cannot reach EXACT whatever the C says.  Its extent is also outside this band:
+`layout/worklist.json` gives 62 bytes of leading code but the listing runs
+0x02010C34..0x02010D98, 356 bytes, a `ldr r0, [r5]` state switch with a
+`ldrh`-based jump table at 0x02010C58 and the arms laid out after it.  The
+second pass's note said the same thing (docs/notes/lane1_band_0_64_pass2.c.txt,
+"band members by their leading code only").  Writing 356 bytes that cap at
+MATCH is not this lane's work; whoever takes the full-size pass should treat
+the extent, not the 62.
+
+WHAT THE SLICE ACTUALLY IS
+--------------------------
+The target list's premise was "file the callee first and the caller converts
+with no change to its C".  Counted against the built tree, the slice is:
+
+* 14 of the 35 rows name a callee that is itself a row of the list; the 15
+  distinct in-list callees are: 4 linker veneers (0x02005420, 0x02005428,
+  0x02005454, 0x02005B6C - no C exists), 4 codegen DIFF walls (0x0200E0BC,
+  0x02010DCC, 0x02010DF4, 0x020120B4), 7 that are themselves MATCH-capped
+  (0x0200567C on 0x02050A70, 0x02005F24 on 0x02072FE8, 0x020073B0 on
+  0x02031C30, 0x0200A3D0 on the 0x021DFDB8 veneer, 0x0200C780 and 0x0200F7B8
+  on own-pool data, 0x0200D2D8 on 0x0200C780).  A 4th, 5th, 6th and 7th caller
+  of those is what makes the 14.  No in-list callee was fileable, so no caller
+  converted through a callee - the one conversion (0x0200E124) came from
+  writing its own C, not from its callee.
+* 12 further callees are rows of lane 2 or lane 3 of this same pass:
+  02023FD8, 020267BC, 02072E8C, 02072EC8, 02072A88, 02072BDC, 02072D20,
+  02072FA8, 02072FC8, 02072FE8, 02031C30, 02035108.  Four rows waited on those
+  alone and convert with no change to their C the moment that lane writes its
+  shard: 0x020057C4, 0x02005DE4, 0x02006224, 0x02006948.  **0x02035108 landed
+  during this pass and 0x020057C4 converted** (see above); a re-check at the
+  end of the pass found no EXACT entry for the other eleven, so
+  0x02005DE4 (02072E8C), 0x02006224 (02072EC8) and 0x02006948
+  (02072A88/02072BDC/02072D20) are the three to re-run first the moment lane 3
+  reports.
+* 7 more callees are outside the 0-64 band entirely and are nobody's row in
+  this pass: 02005B74, 02005BC0, 0200F734 (126 bytes), 02011F28 (102 bytes),
+  02050A70, 020726D0, 02073FB8.  Rows blocked on those are walls until a
+  full-size pass takes them.
+
+Scratch for this pass: `scratch/_p3l1/` (`verdicts.py` batch driver, `one.py`
+single, `cand/` the 26 candidates: e124_a..a10, e0bc_b1..b12, a3d0_c1/c5/c6/
+f1/f2/f3).

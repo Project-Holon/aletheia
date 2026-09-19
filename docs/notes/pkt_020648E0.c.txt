@@ -94,3 +94,612 @@ The other residues in the packet, each named
   stored copy in r4, this C the other way round.  Full account in
   docs/notes/func_02066934.c.txt, including the store-fusion order that is
   already solved (cb / recs / count) and `v = i++` for the copy.
+
+==============================================================================
+func_02064934.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02064934
+ * address:  0x02064934
+ * packet:   pkt_020648E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02064364   0x02064364  arm
+ *
+ * Dispatches the "advance one frame" call over every node of the multi-cell
+ * bank in the two layouts the header discriminates: kind 1 is the node array
+ * (0x5C-byte records, count at header +2, the record address passed), anything
+ * else the cell array (0x28-byte stride, count at header +0, the pointer
+ * stored in each record's word 0 passed).  func_02064364 takes one argument;
+ * r1 carries the caller's own second parameter, which is why it is declared
+ * and passed through here.
+ *
+ * Residue, four bytes, one instruction: the order in which the two locals and
+ * the hoisted header load are set up.  The original emits `ldr r0, [r7]`
+ * (header), `mov r4, #0` (counter), `ldr r5, [r7, #0xc]` (base); this C emits
+ * base, counter, header.  Everything from the branch on is byte-identical,
+ * including both loops.  Shape matters: the counter must be initialised at the
+ * declaration and the loops written `for (; i < x->hdr->count; i++)` (nine
+ * bytes of residue with the init in the `for`, sixteen with the base declared
+ * first).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02064934.c \
+ *       --func func_02064934 --addr 0x02064934 --arm --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct NodeHdr02064934 {
+    u16 pad_00;
+    u16 count;
+};
+
+struct CellHdr02064934 {
+    u16 count;
+};
+
+struct Render02064934 {
+    void *hdr;      /* +0x00 */
+    u32   unk_04;
+    u32   kind;     /* +0x08 */
+    void *base;     /* +0x0C */
+};
+
+extern void func_02064364(void *anim, void *arg);
+
+void func_02064934(struct Render02064934 *x, void *arg)
+{
+    u16 i = 0;
+    void *base = x->base;
+
+    if (x->kind == 1) {
+        for (; i < ((struct NodeHdr02064934 *)x->hdr)->count; i++) {
+            func_02064364((u8 *)base + i * 0x5c, arg);
+        }
+    } else {
+        for (; i < ((struct CellHdr02064934 *)x->hdr)->count; i++) {
+            func_02064364(*(void **)((u8 *)base + i * 0x28), arg);
+        }
+    }
+}
+
+==============================================================================
+func_020649D4.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_020649D4
+ * address:  0x020649D4
+ * packet:   pkt_020648E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020629E8   0x020629E8  arm
+ *   func_02062D40   0x02062D40  arm
+ *   func_02062D4C   0x02062D4C  arm
+ *   func_020640DC   0x020640DC  arm
+ *   func_02064100   0x02064100  arm
+ *   func_02064120   0x02064120  arm
+ *   func_02064140   0x02064140  arm
+ *   func_020643CC   0x020643CC  arm
+ *   func_02064934   0x02064934  arm
+ *
+ * The timed form of the node walk: it advances the node's counter at +0x30 by
+ * the frame delta in the header's word at +4 first, and when func_02062D4C
+ * reports that the animation has no next frame it hands the whole node to
+ * func_02064934 instead.  The rest is func_0206469C's frame rebuild.
+ *
+ * Residue, eight bytes: the same cross-jumped `add r0, r4, #0x48;
+ * bl func_020640DC` tail that blocks func_0206469C.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_020649D4.c \
+ *       --func func_020649D4 --addr 0x020649D4 --arm --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Srt020649D4 {
+    u32 unk_00;
+    u32 unk_04;
+    u32 unk_08;
+    s16 unk_0c;
+    s16 unk_0e;
+    u16 unk_10;
+    u16 unk_12;
+};
+
+struct FrameHdr020649D4 {
+    u8  pad_00[4];
+    u32 kind;
+};
+
+struct Node020649D4 {
+    u16 unk_00;
+    u16 unk_02;
+    s16 unk_04;
+    s16 unk_06;
+    u32 unk_08;
+    s16 unk_0c;
+    s16 unk_0e;
+};
+
+struct Obj020649D4 {
+    u8  *unk_00;    /* +0x00 */
+    u8  *unk_04;    /* +0x04 */
+    u8   pad_08[0x14];
+    struct FrameHdr020649D4 *unk_1c;
+    u8   pad_20[0x10];
+    u16  unk_30;
+    u8   pad_32[2];
+    u32  unk_34[4];
+    void *unk_44;
+    struct Srt020649D4 unk_48;
+};
+
+extern void func_02064934(void *walk, void *arg);
+extern s32 func_02062D4C(struct Obj020649D4 *o);
+extern void *func_02062D40(struct Obj020649D4 *o);
+extern void *func_020629E8(void *bank, u32 idx);
+extern void func_02064140(struct Srt020649D4 *srt, u32 a);
+extern void func_020640DC(struct Srt020649D4 *srt, s16 x, s16 y);
+extern void func_02064100(struct Srt020649D4 *srt, u16 rot);
+extern void func_02064120(struct Srt020649D4 *srt, u32 sx, u32 sy);
+extern void func_020643CC(void *walk, u32 a, u16 b);
+
+void func_020649D4(struct Obj020649D4 *o, void *arg)
+{
+    struct Node020649D4 *p;
+    u32 k;
+    u32 r;
+    u16 d = *(u16 *)(o->unk_00 + 4);
+
+    if (func_02062D4C(o) == 0) {
+        func_02064934(o->unk_34, arg);
+        return;
+    }
+
+    o->unk_30 += d;
+
+    if (*(u16 *)(o->unk_04 + 4) == 0) {
+        return;
+    }
+
+    p = func_02062D40(o);
+    r = (u32)func_020629E8(o->unk_44, p->unk_00);
+    k = o->unk_1c->kind & 0xff;
+
+    func_02064140(&o->unk_48, 1);
+
+    if (k == 0) {
+        goto done;
+    }
+
+    if (k == 2) {
+        func_020640DC(&o->unk_48, p->unk_04, p->unk_06);
+    } else {
+        func_02064120(&o->unk_48, *(u32 *)&p->unk_04, p->unk_08);
+        func_02064100(&o->unk_48, p->unk_02);
+        func_020640DC(&o->unk_48, p->unk_0c, p->unk_0e);
+    }
+
+done:
+    func_020643CC(o->unk_34, r, o->unk_30);
+}
+
+==============================================================================
+func_02064AB4.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02064AB4
+ * address:  0x02064AB4
+ * packet:   pkt_020648E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020629E8   0x020629E8  arm
+ *   func_02062D40   0x02062D40  arm
+ *   func_02062F00   0x02062F00  arm
+ *   func_020640DC   0x020640DC  arm
+ *   func_02064100   0x02064100  arm
+ *   func_02064120   0x02064120  arm
+ *   func_02064140   0x02064140  arm
+ *   func_020643CC   0x020643CC  arm
+ *
+ * func_0206469C's frame rebuild behind the guard form: it returns when
+ * func_02062F00 says the animation has no next frame *or* the header's word at
+ * +4 has no halfword.  That disjunction is one `||` expression, which is what
+ * produces the predicated `ldrne`/`ldrhne`/`cmpne` chain followed by a single
+ * `popeq`.
+ *
+ * Residue, eight bytes: the same cross-jumped `add r0, r4, #0x48;
+ * bl func_020640DC` tail that blocks func_0206469C.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02064AB4.c \
+ *       --func func_02064AB4 --addr 0x02064AB4 --arm --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+
+struct Srt02064AB4 {
+    u32 unk_00;
+    u32 unk_04;
+    u32 unk_08;
+    s16 unk_0c;
+    s16 unk_0e;
+    u16 unk_10;
+    u16 unk_12;
+};
+
+struct FrameHdr02064AB4 {
+    u8  pad_00[4];
+    u32 kind;
+};
+
+struct Node02064AB4 {
+    u16 unk_00;
+    u16 unk_02;
+    s16 unk_04;
+    s16 unk_06;
+    u32 unk_08;
+    s16 unk_0c;
+    s16 unk_0e;
+};
+
+struct Obj02064AB4 {
+    u8  pad_00[4];
+    u8 *unk_04;     /* +0x04 */
+    u8  pad_08[0x14];
+    struct FrameHdr02064AB4 *unk_1c;
+    u8  pad_20[0x10];
+    u16 unk_30;
+    u8  pad_32[2];
+    u32 unk_34[4];
+    void *unk_44;
+    struct Srt02064AB4 unk_48;
+};
+
+extern u32 func_02062F00(struct Obj02064AB4 *o);
+extern void *func_02062D40(struct Obj02064AB4 *o);
+extern void *func_020629E8(void *bank, u32 idx);
+extern void func_02064140(struct Srt02064AB4 *srt, u32 a);
+extern void func_020640DC(struct Srt02064AB4 *srt, s16 x, s16 y);
+extern void func_02064100(struct Srt02064AB4 *srt, u16 rot);
+extern void func_02064120(struct Srt02064AB4 *srt, u32 sx, u32 sy);
+extern void func_020643CC(void *walk, u32 a, u16 b);
+
+void func_02064AB4(struct Obj02064AB4 *o)
+{
+    struct Node02064AB4 *p;
+    u32 k;
+    u32 r;
+
+    if (func_02062F00(o) == 0 || *(u16 *)(o->unk_04 + 4) == 0) {
+        return;
+    }
+
+    p = func_02062D40(o);
+    r = (u32)func_020629E8(o->unk_44, p->unk_00);
+    k = o->unk_1c->kind & 0xff;
+
+    func_02064140(&o->unk_48, 1);
+
+    if (k == 0) {
+        goto done;
+    }
+
+    if (k == 2) {
+        func_020640DC(&o->unk_48, p->unk_04, p->unk_06);
+    } else {
+        func_02064120(&o->unk_48, *(u32 *)&p->unk_04, p->unk_08);
+        func_02064100(&o->unk_48, p->unk_02);
+        func_020640DC(&o->unk_48, p->unk_0c, p->unk_0e);
+    }
+
+done:
+    func_020643CC(o->unk_34, r, o->unk_30);
+}
+
+==============================================================================
+func_02064B68.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02064B68
+ * address:  0x02064B68
+ * packet:   pkt_020648E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020643C4   0x020643C4  arm
+ *
+ * Hands every node of the renderer to func_020643C4 with the caller's argument,
+ * in the two layouts the kind word at +0x3C discriminates (kind 1: 0x5C-byte
+ * records at the base, count at header +2; otherwise the pointer in each
+ * 0x28-byte record's word 0, count at header +0).  The argument is stashed at
+ * +0x14 and the header pointer at +0x34 must be `volatile`, otherwise the two
+ * arms' opening load is common-subexpression-eliminated and hoisted above the
+ * branch, four bytes shorter.
+ *
+ * Residue, fifteen bytes: one field load scheduled after a field store instead
+ * of before it.  The original reads the array base at +0x40 (L) before storing
+ * the argument at +0x14 (S); every spelling tried stores first, and the
+ * conservative order for two accesses through the same pointer is store-last,
+ * which is what this C produces.  Everything from +0x20 on is byte-identical.
+ * See docs/notes/sub_02064B68.c.txt for the four spellings tried and for the
+ * file this entry unblocks once it is EXACT (src/pending/sub_0204D500.c).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02064B68.c \
+ *       --func func_02064B68 --addr 0x02064B68 --arm --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+
+struct NodeHdr02064B68 { u16 pad_00; u16 count; };
+struct CellHdr02064B68 { u16 count; };
+
+struct Node02064B68 { u8 pad_00[0x5c]; };
+struct Cell02064B68 { void *unk_00; u8 pad_04[0x24]; };
+
+union Hdr02064B68 {
+    struct NodeHdr02064B68 *nodes;
+    struct CellHdr02064B68 *cells;
+};
+
+struct Renderer02064B68 {
+    u8                 pad_00[0x14];
+    void              *unk_14;
+    u8                 pad_18[0x1c];
+    union Hdr02064B68 volatile unk_34;
+    u8                 pad_38[4];
+    u32                unk_3c;
+    void              *unk_40;
+};
+
+extern void func_020643C4(void *p, void *arg);
+
+void func_02064B68(struct Renderer02064B68 *r, void *arg)
+{
+    u16 i = 0;
+    void *base = r->unk_40;
+
+    r->unk_14 = arg;
+
+    if (r->unk_3c == 1) {
+        for (i = 0; i < r->unk_34.nodes->count; i++) {
+            func_020643C4(&((struct Node02064B68 *)base)[i], arg);
+        }
+    } else {
+        for (i = 0; i < r->unk_34.cells->count; i++) {
+            func_020643C4(((struct Cell02064B68 *)base)[i].unk_00, arg);
+        }
+    }
+}
+
+==============================================================================
+func_02064CBC.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02064CBC
+ * address:  0x02064CBC
+ * packet:   pkt_020648E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0206469C   0x0206469C  arm
+ *   func_020643A4   0x020643A4  arm
+ *
+ * Rebuilds every node's SRT block in one pass: clears the counter at +0x30,
+ * re-derives the current frame through func_0206469C, marks the node active at
+ * +0x0C, then restarts each node's cell animation from frame 0 through
+ * func_020643A4 in the same two layouts the other walks use (kind 1 is the
+ * 0x5C-stride node array with its count at header +2, anything else the
+ * 0x28-stride cell array with its count at header +0).
+ *
+ * The kind and header this function dispatches on are the +0x3C / +0x34 pair,
+ * not the +0x08 / +0x00 pair func_02064934 reads, and func_0206469C is called
+ * with the object's +0x1C field as a second argument.
+ *
+ * Residue, twelve bytes / three instructions, all register allocation.  The
+ * original clears +0x30 with a fresh zero (`mov r1, #0`), keeps the counter in
+ * r4 and the base in r5, and loads the kind before the header; this C reuses
+ * the loop's zero (`mov r5, #0`), keeps the counter in r5 and the base in r4,
+ * and hoists the base load above the kind test.  Every field offset and both
+ * loops are byte-identical once the struct padding is right (`hdr2` at +0x34,
+ * `kind2` at +0x3C with four bytes of padding between them); getting that
+ * padding wrong costs 135 bytes, not twelve.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02064CBC.c \
+ *       --func func_02064CBC --addr 0x02064CBC --arm --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct NodeHdr02064CBC {
+    u16 pad_00;
+    u16 count;
+};
+
+struct CellHdr02064CBC {
+    u16 count;
+};
+
+struct Obj02064CBC {
+    u8    pad_00[0x0c];
+    u32   unk_0c;   /* +0x0C */
+    u8    pad_10[0x0c];
+    void *unk_1c;   /* +0x1C */
+    u8    pad_20[0x10];
+    u16   unk_30;   /* +0x30 */
+    u8    pad_32[2];
+    void *hdr2;     /* +0x34 */
+    u8    pad_38[4];
+    u32   kind2;    /* +0x3C */
+    void *base;     /* +0x40 */
+};
+
+extern void func_0206469C(void *o, void *frame);
+extern void func_020643A4(void *anim);
+
+void func_02064CBC(struct Obj02064CBC *x)
+{
+    u16 i;
+
+    x->unk_30 = 0;
+    func_0206469C(x, x->unk_1c);
+    x->unk_0c = 1;
+
+    if (x->kind2 == 1) {
+        void *base = x->base;
+
+        for (i = 0; i < ((struct NodeHdr02064CBC *)x->hdr2)->count; i++) {
+            func_020643A4((u8 *)base + i * 0x5c);
+        }
+    } else {
+        void *base = x->base;
+
+        for (i = 0; i < ((struct CellHdr02064CBC *)x->hdr2)->count; i++) {
+            func_020643A4(*(void **)((u8 *)base + i * 0x28));
+        }
+    }
+}
+
+==============================================================================
+func_02064D70.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02064D70
+ * address:  0x02064D70
+ * packet:   pkt_020648E0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:  (none: the only branch out is the indirect callback)
+ *
+ * Calls a user callback once per node of the multi-cell bank, in the same two
+ * layouts the other walks use: kind 1 indexes the 0x5C-stride node array by a
+ * byte pulled out of the high half of the descriptor's halfword at +6, and
+ * anything else passes the pointer stored in the 0x28-stride cell array.
+ *
+ * The callback is `cb(arg, &hdr->descs[i], node, i)` and returning 0 stops the
+ * walk.  The descriptor stride of 8 bytes and the count at header +0 are read
+ * the same way in both arms, which is why the count is hoisted into a
+ * callee-saved register and never reloaded.
+ *
+ * Residue, four bytes, one instruction: the pre-loop register split.  The
+ * original holds hdr in r8, the count in sb and the counter in r7; this C
+ * holds hdr in r6, the count in r8 and the counter in sb.  Six declaration
+ * orders were compiled, all 200/204.  Two things recovered on the way and
+ * pinned by the comparison: the descriptor's index is an 8-bit bitfield at bit
+ * 8 of the halfword at +6 (the original masks with `and #0xff00` before the
+ * shift, so a plain `>> 8` on the halfword -- which compiles to `asr` -- is
+ * wrong), and the loop counter is a u16, hence the `lsl #16`/`lsr #16` pair
+ * per iteration.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02064D70.c \
+ *       --func func_02064D70 --addr 0x02064D70 --arm --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Obj02064D70 {
+    void *hdr;      /* +0x00 */
+    u32   unk_04;
+    u32   kind;     /* +0x08 */
+    void *base;     /* +0x0C */
+};
+
+typedef int (*Cb02064D70)(void *arg, void *desc, void *node, u32 idx);
+
+struct Desc02064D70 {
+    u16 unk_00;
+    u16 unk_02;
+    u16 unk_04;
+    u16 lo  : 8;
+    u16 idx : 8;
+};
+
+void func_02064D70(struct Obj02064D70 *x, Cb02064D70 cb, void *arg)
+{
+    void *hdr = x->hdr;
+    u16 n = *(u16 *)hdr;
+    u16 i;
+
+    if (x->kind == 1) {
+        u8 *base = x->base;
+
+        for (i = 0; i < n; i++) {
+            struct Desc02064D70 *desc = (struct Desc02064D70 *)((u8 *)hdr + 4 + i * 8);
+            u32 idx = desc->idx;
+
+            if (cb(arg, desc, base + idx * 0x5c, i) == 0) {
+                return;
+            }
+        }
+    } else {
+        u8 *base = x->base;
+
+        for (i = 0; i < n; i++) {
+            struct Desc02064D70 *desc = (struct Desc02064D70 *)((u8 *)hdr + 4 + i * 8);
+
+            if (cb(arg, desc, *(void **)(base + i * 0x28), i) == 0) {
+                return;
+            }
+        }
+    }
+}

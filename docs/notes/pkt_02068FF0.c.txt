@@ -22,3 +22,153 @@ compile here, so that part of the spelling is real; the frame still does not
 close, and the entry is evidence-capped anyway: the ABS32 g_020A18E8 at +0x74
 appears in exactly one literal pool in the whole image, its own, so no C can
 ever take it past MATCH.
+
+==============================================================================
+func_02068FF0.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02068FF0
+ * address:  0x02068FF0
+ * packet:   pkt_02068FF0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * blocker:  DIFF/SIZE, 180 compiled against 136: a partial reconstruction only.  The two `clz`+`rsb #0x1f` pairs are the front end's `__cntlz` intrinsic (it compiles here, so the spelling is real) and the bit-level table indexing through g_020A18F4[sh2*8 + sh1*2] is read correctly, but the frame does not close: the original reads its outgoing argument slot [sp, #0xc] before the compiler makes its first store there, i.e. the source keeps a fifth value in the frame that this C does not have.  Evidence-capped regardless: ABS32 g_020A18E8 at +0x74 appears in exactly one literal pool in the image, its own, so the entry could never reach EXACT.
+ *           (1) the two `clz` sequences are mwccarm's `__cntlz` intrinsic
+ *           (`clzlt` + `rsblt #0x1f`), not reachable from a plain C highest-
+ *           set-bit expression; (2) the frame reads its outgoing argument
+ *           slots ([sp, #0xc]) before the compiler's first store to them,
+ *           i.e. the source keeps a value in a local the scheduler moves.
+ *           The entry is evidence-capped regardless: ABS32 g_020A18E8 at
+ *           +0x74 appears in exactly one literal pool in the image, its own,
+ *           so it can never reach EXACT.
+ *
+ * symbols:
+ *   g_020A18F4       0x020A18F4  data
+ *   g_020A18E8       0x020A18E8  data
+ *   func_02068E78    0x02068E78  arm
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02068FF0.c \
+ *       --func func_02068FF0 --addr 0x02068FF0 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void  func_02068E78(char *p, u32 a1, u32 a2, u32 a3, u8 a5, u32 a6, u32 a7);
+extern const char g_020A18F4[];
+extern const char g_020A18E8[];
+
+void func_02068FF0(char *p, u32 arg1, u32 r2, u32 r3, u32 a5, u32 a6, u32 a7)
+{
+    u32 sh1;
+    u32 sh2;
+    u32 v;
+
+    sh1 = (r2 < 8) ? (u32)(31 - __cntlz(r2)) : 3;
+    sh2 = (r3 < 8) ? (u32)(31 - __cntlz(r3)) : 3;
+    v = (a5 & ~0xFFu) | (u8)g_020A18F4[sh2 * 8 + sh1 * 2];
+    v = (v & ~0xFF00u)
+        | ((u32)((u8)g_020A18F4[sh2 * 8 + sh1 * 2 + 1] << 24) >> 16);
+    func_02068E78(p, arg1, r2, r3, (u8)(v >> 0), (u32)(char *)g_020A18E8, a7);
+}
+
+==============================================================================
+func_02069128.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02069128
+ * address:  0x02069128
+ * packet:   pkt_02068FF0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * blocker:  DIFF, 45 bytes of 92: the rotated outer/inner loop pair, the `v | (hi << 12)` store and the row advance are all present but the inner counter starts at the outer index in the original (`mov r4, r6` / `mov r5, r4`) and the cursor and fill-value registers differ throughout; source shape that starts the inner count from y not found
+ *
+ * Triangular fill: row y writes w - y halfwords starting at the row origin,
+ * the value being the running counter v in the low twelve bits and the top
+ * four bits of hi above it (the pair is emitted as one left-twenty-eight
+ * shift and a right-sixteen in the `orr`'s shifter operand, which is the
+ * narrowing cast folded into the shift).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02069128.c \
+ *       --func func_02069128 --addr 0x02069128 --cc 1.1p1 --arm
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+void func_02069128(u16 *dst, int w, int h, int stride, u32 v, u32 hi)
+{
+    int y;
+
+    if (h == 0)
+        return;
+    for (y = 0; y < h; y++) {
+        int x;
+        u16 *row = dst;
+
+        for (x = y; x < w; x++) {
+            *row++ = (u16)(v | (hi << 12));
+            v++;
+        }
+        dst += stride;
+    }
+}
+
+==============================================================================
+func_02069184.c DIFF (verified by the harness; moved out of src/pending, which holds MATCH only)
+==============================================================================
+
+/*
+ * function: func_02069184
+ * address:  0x02069184
+ * packet:   pkt_02068FF0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * blocker:  DIFF, 39 bytes of 92: the original seeds the product chain with an explicit zero (`mov r2,#0` then `mla lr, r3, r5, r2`); every spelling here - `u32 r = 0;` with `+=`, a one-expression sum, `int` accumulator - is folded to a bare `mul ip, r3, r5` and the whole chain shifts by one register
+ *
+ * Integer bilinear interpolation of the sub-tile fraction pair (x, y): the
+ * integer parts are x >> 3 and y >> 3, the fractions are the three low bits
+ * split as (bit0 + bit1) and bit2, and the four products are accumulated into
+ * one register chain exactly as written here (the chain starts from an
+ * explicit zero, which is what puts the addend in a register instead of
+ * letting the first product be a bare `mul`).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_02069184.c \
+ *       --func func_02069184 --addr 0x02069184 --cc 1.1p1 --arm
+ */
+
+typedef unsigned int u32;
+
+u32 func_02069184(u32 x, u32 y)
+{
+    u32 xh = x >> 3;
+    u32 yh = y >> 3;
+    u32 a = (x & 1) + ((x & 2) >> 1);
+    u32 b = (y & 1) + ((y & 2) >> 1);
+    u32 c = (x & 4) >> 2;
+    u32 d = (y & 4) >> 2;
+    u32 r = 0;
+
+    r += xh * yh;
+    r += yh * (a * 2 + c);
+    r += xh * (b * 2 + d);
+    return r + (a + c) * (b + d);
+}

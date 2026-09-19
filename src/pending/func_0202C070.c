@@ -1,7 +1,7 @@
 /*
  * function: func_0202C070
  * address:  0x0202C070
- * packet:   pkt_0202BE00
+ * packet:   pkt_0202C070
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -9,12 +9,21 @@
  * isa:      thumb
  * status:   MATCH
  *
+ * Blocked: the THM_CALL at +0012 to func_0202C148 has no manifest entry.
+ * 0x0202C148 (76 bytes, pkt_0202C148, still open) is byte-correct except an
+ * eight-instruction schedule permutation in its prologue: 15 C spellings were
+ * measured and every one emits the same permuted block, so it is a DIFF and
+ * cannot be filed - see docs/notes/pkt_0202C148.c.txt.  The other two sites
+ * (func_0202C124, func_0202C118) resolve as `matched`.  Every concrete byte
+ * reproduces.
+ *
  * Creates a node through func_0202C124, prepares it with func_0202C118 and
  * binds the argument with func_0202C148.
  *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C070.c \
- *       --func func_0202C070 --addr 0x0202C070 --thumb --cc 1.1p1
+ * symbols:
+ *   func_0202C124  0x0202C124  thumb
+ *   func_0202C118  0x0202C118  thumb
+ *   func_0202C148  0x0202C148  thumb
  */
 
 typedef unsigned char u8;

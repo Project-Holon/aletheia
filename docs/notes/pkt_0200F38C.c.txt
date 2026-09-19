@@ -71,3 +71,27 @@ void func_0200F698(void *a0, void *a1)
     }
     func_02005F24(a0, a1);
 }
+
+==============================================================================
+APPENDED, lane 1 of the third 0-64 byte band pass (pass 3)
+==============================================================================
+
+Re-run this pass: func_0200F698 prints MATCH, one unresolved site.
+
+    +0010 THM_CALL func_02156B70  ->  no witness outside 0200F698..0200F6B8
+    (7 overlays overlap this address (ov009, ov010 are the two in the first
+     pass's write-up), none resolvable without a region hint)
+
+The harness offers the region-hint route (a fourth token on the symbols: line,
+see the `symbols:` parser and attest_overlay_label()), so it was checked
+directly this pass: no listing anywhere in the tree carries a func_ label at
+0x02156B70 - `grep -rn "func_02156B70" asm/` is empty, and the address appears
+only as an instruction operand and in the inst_index files.  Condition 2 of
+attest_overlay_label() can therefore never be satisfied for it, with or without
+a hint.  The site is a permanent MATCH, and so is this row and the chain that
+waits on it (0x02005230 -> 0x0200567C is a separate chain; this address's own
+callee is 0x02005F24, which is capped on 0x02072FE8).  0x0200F698 stays parked
+in src/pending/sub_0200F698.c.
+
+Housekeeping: that file names packet pkt_0200F17C in its header, but the row's
+packet is pkt_0200F38C and this note is the one for it.
