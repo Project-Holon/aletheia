@@ -1,0 +1,36 @@
+/* func_0206216C.c.txt */
+
+func_0206216C -- DIFF, 132 compiled against 128 original.
+
+0x0206216C (128 bytes) is the heap-handle builder of pkt_02062114: round the
+requested size up to 16 (0x10 for zero), refuse >= 0x7FFF0, ask the allocator
+func_02061EA4 for `size` bytes into a stack word, and answer a packed handle -
+bits 3..18 of the returned word in the low half, size/16 in bits 16..30 and the
+caller's flag in bit 31; 0 when either the size check or the allocation fails.
+The two pool pairs at +0x48/+0x4C and +0x3C/+0x34 are the two 0x02146B94 /
+0x02146B98 / 0x02146B9C argument pairs selected by the flag, and the
+`lsl #13 / lsr #16` pair is a 16-bit field read at bit 3 of the returned word.
+
+Not attempted to completion: the 4-byte overshoot and a call to func_02061EA4
+that has no witness outside 0206216C..020621F0 both leave this at DIFF for now,
+and the row is chain-class (0x02062270 is a 488-byte function in the same packet,
+far outside the 65-128 band).
+
+C attempted (132 bytes):
+
+```c
+extern u32 func_02061EA4(u32 a, u32 b, u32 *out, u32 size);
+extern u32 g_02146B94, g_02146B98, g_02146B9C;
+
+u32 func_0206216C(u32 size, u32 flag)
+{
+    u32 n = (size == 0) ? 0x10 : (size + 0xf) & ~0xf;
+    u32 local, r;
+
+    if (n >= 0x7fff0) return 0;
+    if (flag != 0) r = func_02061EA4((u32)&g_02146B98, (u32)&g_02146B9C, &local, n);
+    else           r = func_02061EA4((u32)&g_02146B94, (u32)&g_02146B9C, &local, n);
+    if (r == 0) return 0;
+    return ((local << 13) >> 16) | ((n >> 4) << 16) | (flag << 31);
+}
+```

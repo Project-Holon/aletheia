@@ -1,0 +1,49 @@
+/* func_02073D7C.c.txt */
+
+func_02073D7C -- DIFF, 136 compiled against 128 original.
+
+0x02073D7C (128 bytes, pkt_02073D5C) is the 0x0214E9FC scheduler tick: bail out
+when the record's first word is null or its second is non-null, run
+func_02075C08 on the embedded 0x3c sub-object, and if the +0x4c flag is set run
+the sub-object's poll twice - a non-zero answer from the second poll means the
+reload path func_02073DFC (the row's named chain callee) and return.  Otherwise
+compare func_02075BD4's result >> 8 (arithmetic, so a signed field) against the
+last published value at +0x50 and publish it through func_02089638(g+0x24, v, 0)
+only when it changed.
+
+Not completed: 8 bytes of overshoot.  Two independent blockers: the body is
+wrong, and the named callee 0x02073DFC (224 bytes, pkt_02073D5C) has no outside
+witness and is itself only reachable from this function, so the row is
+chain-class on top of the DIFF.
+
+C attempted (136 bytes):
+
+```c
+typedef struct G { u32 f00; u32 f04; char pad_08[0x1c]; u32 f24;
+                   char pad_28[0x14]; char f3c[4]; char pad_40[0xc];
+                   u32 f4c; s32 f50; } G;
+extern G g_0214E9FC;
+extern void func_02075C08(void *p);
+extern u32  func_02075C20(void *p);
+extern s32  func_02075BD4(void *p);
+extern void func_02073DFC(void);
+extern void func_02089638(u32 a, s32 b, u32 c);
+
+void func_02073D7C(void)
+{
+    G *g = &g_0214E9FC;
+    s32 v;
+
+    if (g->f00 == 0) return;
+    if (g->f04 != 0) return;
+    func_02075C08(g->f3c);
+    if (g->f4c != 0) {
+        func_02075C20(g->f3c);
+        if (func_02075C20(g->f3c) != 0) { func_02073DFC(); return; }
+    }
+    v = func_02075BD4(g->f3c) >> 8;
+    if (v == g->f50) return;
+    func_02089638(g->f24, v, 0);
+    g->f50 = v;
+}
+```

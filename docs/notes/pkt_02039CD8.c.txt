@@ -1,0 +1,37 @@
+pkt_02039CD8 / func_0203A020 @ 0x0203A020 (248 bytes, ARM) - DIFF, 7 concrete bytes
+=================================================================================
+
+Not filed: the size is right (248 of 248) and 241 of the 248 concrete bytes
+reproduce, but two independent residues remain.
+
+Residue 1 (+0x3c..+0x50) - the in-use byte, four bytes:
+    ORIGINAL                                 COMPILED
+    mov r3, #1                               mov r1, #1
+    mov r0, r6                               strb r1, [r5, #0xd]
+    add r1, r5, #6                           mov r0, r6
+    mov r2, #6                               add r1, r5, #6
+    strb r3, [r5, #0xd]                      mov r2, #6
+    bl func_02082D44                         bl func_02082D44
+The original materialises the `1` into r3 -- a register the memcpy call does
+not use -- and sinks the store to the last slot before the call.  Every
+spelling tried puts the value in r1 and keeps the store adjacent to the `mov`,
+because the value's live range ends at the store in this layout.
+Tried: `*(u8 *)(slot + 0xd) = 1;`, a `u8 one = 1;` local (block scope and
+function scope), `u32 one = 1;` assigned just before, `u8 *src = slot + 6;`
+bound before the store, `(u8)1`, and `&slot[6]` for the source argument.  All
+seven give the same r1 / same store slot.
+
+Residue 2 (+0xd8) - the plain tail, three bytes:
+    ORIGINAL                                 COMPILED
+    ldrb r1, [r4, #0x67]                     ldrb r0, [r4, #0x67]
+    ldrb r0, [r6, #7]                        strb r0, [r5, #0xf]
+    strb r1, [r5, #0xf]                      ldrb r0, [r6, #7]
+    strb r0, [r5, #0xe]                      strb r0, [r5, #0xe]
+The original groups both loads ahead of both stores; the compiler interleaves.
+Tried: two `u8` locals in a nested block, two function-scope locals assigned in
+order, and a comma-separated pair of stores -- the interleaving survives all
+three (the local versions also move the loads ahead of the first store but
+swap which register takes which field).
+
+Everything else reproduces exactly, including the tricky three-term
+conjunction at +0xa0 and the disjunction at +0x80.

@@ -1,0 +1,70 @@
+func_02064D70 (0x02064D70, ARM, 204 bytes, LANE 7 near miss): size is 4 bytes
+short and the high-byte extract is a three-instruction form
+============================================================================
+
+What the function is
+--------------------
+
+Name-record walker, the 0x5c/0x28 stride pair again (see
+docs/notes/func_02064934.c.txt): a table with a u16 count and an array of
+8-byte records; mode 1 hands the callback a pointer into the 0x5c-record
+array indexed by the record's *high byte*, every other mode hands it the
+first word of the 0x28-record array.  The callback gets (ctx, record, value,
+index) and a zero return stops the walk.
+
+    void func_02064D70(S02064D70 *p, int (*fn)(void *, void *, void *, int), void *ctx)
+    {
+        Tab02064D70 *tab = p->f00;
+        u16 n = tab->count;
+        u16 i;
+
+        if (p->f08 == 1) {
+            char *base = p->f0c;
+            for (i = 0; i < n; i++) {
+                u16 f = *(u16 *)(tab->entries + i * 8 + 6);
+                if (fn(ctx, tab->entries + i * 8, base + (f >> 8) * 0x5c, i) == 0) return;
+            }
+        } else {
+            char *base = p->f0c;
+            for (i = 0; i < n; i++) {
+                if (fn(ctx, tab->entries + i * 8, *(void **)(base + i * 0x28), i) == 0) return;
+            }
+        }
+    }
+
+Findings that are real and worth keeping
+----------------------------------------
+
+  * this is a **void** function whose early exit is `return;`: the guard is
+    `cmp r0, #0` / `popeq` and the only other exit is the fall-off-the-end
+    `pop`, which leaves r0 untouched.  A `return 0;` in an int function
+    materialises a value and changes both epilogues.
+  * `n` (the count) is loaded once, before the branch, from `*(u16 *)p->f00`
+    and never reloaded, while the 8-byte record array comes from the *word at
+    tab+4* - two different fields of the table header, not one pointer.
+  * the index handed to the callback is the loop counter itself (u16, same
+    `lsl #0x10` / `lsr #0x10` truncation dance), and it goes in r3.
+  * mode 1 computes the callback's third argument with `mla r2, ip, r6, sl`
+    (base + hi * 0x5c); every other mode with `mul r0, sl, r6` then
+    `ldr r2, [r7, r0]` (the first word of the 0x28-record).  Two different
+    record families behind one base pointer field.
+
+The residue
+-----------
+
+Compile 200 bytes against 204.  Three separate causes, all in the mode-1 arm:
+
+  * the high-byte extract.  The original is `and r2, r2, #0xff00` / `lsl r2,
+    r2, #8` / `lsr ip, r2, #0x10`, three instructions; every C spelling tried
+    (`f >> 8`, `(u8)(f >> 8)`, `((f >> 8) & 0xff)`, `(f & 0xff00) >> 8`, with
+    `f` as u16 and as u32) compiles to the single `asr`/`lsr` form, which is
+    the four bytes the file is short.
+  * the register file is rotated: original tab -> r8, count -> sb, i -> r7
+    (and base -> sl, i -> r7 in the first arm), compile tab -> r7 (or sb),
+    count -> r8, i -> sb/r8.
+  * declared locals in every order tried (`tab` with and without an
+    initialiser, `n` assigned at declaration versus in a separate statement,
+    `i` before and after `n`): the rotation persists.
+
+Classification: codegen (one three-instruction idiom) plus allocator.  Not
+filed: 200/204 is a concrete difference, not a MATCH.

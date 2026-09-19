@@ -1,0 +1,50 @@
+pkt_0206AFE4 -- front end, and the func_0206B4A0 near miss
+==========================================================
+
+The packet's six functions (0x0206AFE4, 0x0206B3D0, 0x0206B458, 0x0206B4A0,
+0x0206B63C, 0x0206B6A4) live in asm/arm9/src/023_0206A00C.s and, like the
+0x0206B6A4 park that sent this lane here, they do NOT come from dsi/1.1p1.
+
+0x0206B63C (104 bytes) is EXACT on BOTH `--cc ../2.0/sp2` and nothing else
+tried: 1.1p1 and 1.2 both if-convert the flagged-bit store into `asrne`/`ldrne`/
+`orrne`/`strne` and land at 100 bytes.  src/matched/func_0206B63C.c records
+`compiler: ../2.0/sp2` for that reason, and src/pending/func_0206B6A4.c already
+named the same front end for 0x0206B6A4.  Anyone picking up a 0x0206Bxxx
+address in this region should reach for 2.0/sp2 before spending a slot on the
+pinned 1.1p1.
+
+Filed this pass: 0x0206B63C (104 B) and 0x0206B458 (72 B, 2.0/sp2, its only
+relocation is the handler table 0x020A83B8, which has 14 witnesses).  Those are
+two of the three callees src/pending/func_0206B6A4.c needs; the third,
+0x0206B4A0, is the near miss below, so that park stays parked.
+
+0x0206B4A0 (400 bytes, ARM) -- DIFF, 4 bytes short, not filed
+-------------------------------------------------------------
+
+The best C found reproduces the whole shape -- the MIi_CpuClearFast(0, obj,
+0x188) zeroing, the two `= 1` stores, the fD4/fD8/fDC pointer assembly, the
+three table picks, the guarded arr0C/arr8C stores, the four flag tests and the
+tail callback -- but comes out 408 bytes against the original's 412, with the
+body from +0x40 on shifted by one instruction.  Three residues, all codegen
+rather than missing C:
+
+1. **The two word stores fuse.**  The original writes
+   `str r0, [r5]` / `str r4, [r5, #4]`; every spelling tried gives
+   `stm r5, {r0, r4}` instead, four bytes shorter.  Putting the stores in
+   either source order, and giving each its own temporary, did not stop the
+   fusion.
+2. **fD8/fDC conditional store.**  The original builds the value and stores
+   once (`ldrne r0, [r1, #8]` / `cmpne r0, #0` / `addne r0, r1, r0` /
+   `moveq r0, #0` / `str`).  Both the `a && b ? p + off : 0` ternary and the
+   `if (a && b) x = p + off; else x = 0;` statement come out with a
+   *predicated* store pair (`strne r0, [r5, #0xd8]` / `streq ...`) and a
+   materialised `moveq r1, #0`, 416 bytes.
+3. **cfg->f04 is re-read after every store.**  The original loads `[r4, #4]`
+   afresh before each of the five table/field reads.  Writing the member access
+   inline (rather than through a local `u32 *p`) does reproduce the re-reads,
+   but not the same scheduling: the compiler wants the offset load and the
+   pointer load in the opposite registers from the original.
+
+After the first of these is cracked the other two are worth re-deriving: the
+target C is the one in this note, minus the local `p`.  No source was left in
+src/matched/ or src/pending/ -- a DIFF has no home in either.

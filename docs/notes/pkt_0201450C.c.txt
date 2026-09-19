@@ -1,0 +1,56 @@
+
+==============================================================================
+duplicate park sub_0201450C.c (0x0201450C) removed; C differs from the kept file
+==============================================================================
+
+/*
+ * function: sub_0201450C
+ * address:  0x0201450C
+ * packet:   pkt_0201450C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ * blocker:  02188BD8, 0215FA44 have no witness outside 0201450C..02014552;
+ *           4 overlays overlap 02188BD8 (ov009, ov021, ov096, ov230) and 2
+ *           overlap 0215FA44 (ov009, ov010), none of which carries a func_
+ *           label at that address, so no region hint on the symbols: line
+ *           can resolve it.  A fragment count/release pair called only from
+ *           arm9 into the overlay window (the only other call site of
+ *           02188BD8 in the image is 020144A8, inside sub_02014488).
+ *
+ * Every concrete byte matches (70 of 70, offsets 0000..0045); the two `bl`
+ * fields stay wildcarded.  match.py printed MATCH* rather than MATCH only
+ * because the listing extent runs two bytes past the body (the follower at
+ * 02014552 has no label and prints as `movs r0, r0` padding).
+ */
+
+extern void sub_02012A30(int x);
+extern int sub_020120F0(void *p);
+extern void sub_02188BD8(int x);
+extern void sub_0215FA44(int x);
+
+int sub_0201450C(int a0, int *state, int *p)
+{
+    int t = p[2];
+    int *q = (int *)p[0];
+    int v = p[1];
+
+    sub_02012A30(t);
+
+    switch (*state) {
+    case 0:
+        sub_02188BD8(v);
+        (*state)++;
+        break;
+    case 1:
+        if (sub_020120F0(q) != 0)
+            break;
+        if (p[3] != 0)
+            sub_0215FA44(p[3]);
+        return 1;
+    }
+    return 0;
+}

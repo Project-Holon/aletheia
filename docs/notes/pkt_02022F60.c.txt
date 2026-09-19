@@ -1,0 +1,66 @@
+pkt_02022F60 -- func_02023568 (0x02023568, 134 bytes + 2 padding, thumb): DIFF residue
+==============================================================================
+
+Verdict: DIFF.  Compiled 134 bytes; the listing extent is 136, of which the
+last two bytes are `00 00` alignment padding before 0x020235F0, so the
+function itself is 134 and the *size* is right.  12 instructions differ, all
+of them by exactly one register number in the first 0x14 bytes; every other
+instruction in the function is byte-identical and in the identical position.
+
+What the function is
+--------------------
+A per-frame tick of a scaled-vector object.  `p->f40` counts up to `p->f3c`;
+on reaching it, the counter resets and either the raw vectors (`f20/f24/f28`
+plus `f2c` on the stack) or the 1/128-scaled ones (`f00/f04/f08` plus `f0c`)
+are handed to func_02023D60 along with `f48`, `f34`, `f30`.  The scaled path
+first ticks the sub-object at +0x10 through func_0202291C (already matched)
+while `f38` is above zero; when `f38 - 1` reaches zero the raw path runs and
+the function reports 1, otherwise it reports 0.
+
+Two shape tells that took the iterations, both already in the brief:
+  - the trailing `return 0` is a **shared tail**, so the body must be written
+    `if (++p->f40 >= p->f3c) { ... } return 0;` and not as an early
+    `if (...) return 0;` -- the early-return spelling inverts the branch and
+    moves the epilogue (that alone was 123 differing bytes);
+  - the `func_02023D60(scaled)` call sits *after* the inner if/else in the
+    source, not inside the `if` arm; that is what makes the compiler emit
+    `b` at the end of the arm and place the else arm in the middle.
+The `/128` on four fields is a signed division, not a shift: the
+`asrs #6 / lsrs #0x19 / adds / asrs #7` quartet at +0x4A.
+
+The residue
+-----------
+    offset   original                compiler
+    +0006    ldr r1, [r4, #0x40]     ldr r0, [r4, #0x40]
+    +0008    adds r2, r1, #1         adds r1, r0, #1
+    +000A    ldr r1, [r4, #0x3c]     ldr r0, [r4, #0x3c]
+    +000C    str r2, [r4, #0x40]     str r1, [r4, #0x40]
+    +000E    cmp r2, r1              cmp r1, r0
+    +0012    movs r1, #0             movs r0, #0
+    +0014    str r1, [r4, #0x40]     str r0, [r4, #0x40]
+    +0016    ldr r1, [r4, #0x38]     ldr r0, [r4, #0x38]
+    +0018    subs r1, r1, #1         subs r0, r0, #1
+    +001A    cmp r1, #0              cmp r0, #0
+    +001E    str r1, [r4, #0x38]     str r0, [r4, #0x38]
+    +0020    adds r1, r4, #0         adds r0, r4, #0
+
+The whole prologue is one register slot lower in the compiler's output
+(r0/r1 instead of r1/r2); from +0x24 on the two outputs coincide byte for
+byte.  Nothing in the C moves it: the allocator never needs r0 again after
+`adds r4, r0, #0`, so it hands the first temporary the lowest free register,
+while the original kept r0 reserved.
+
+Spellings tried, all 134 bytes:
+  1. `if (++p->f40 >= p->f3c) { ... } return 0;` + the scaled call after the
+     inner if/else  <- the closest, 12 bytes;
+  2. the same with the operands swapped in the test (`p->f3c <= ++p->f40`) --
+     14 bytes;
+  3. the increment as its own statement (`p->f40 = p->f40 + 1;` then
+     `if (p->f40 >= p->f3c)`) -- 13 bytes;
+  4. an early `if (++p->f40 < p->f3c) return 0;` -- 123 bytes, see above.
+Not tried: a named local holding the incremented counter (it would lengthen
+the live range of the value the allocator is choosing a register for), which
+is a sixteenth spelling of the same body.
+
+The full C is in scratch/l4_v23568_2.c; nothing of this function is filed in
+src/matched/ or src/pending/.

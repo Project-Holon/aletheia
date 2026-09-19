@@ -1,0 +1,195 @@
+lane 1 of the 65-128 byte band (pass 1): verdicts and residues
+==============================================================
+
+Slice: scratch/band_65_128_p1_lane1_targets.md, 119 rows, 11120 bytes, 92
+packets, range 0x02005A98..0x020261E4.  Work order for this pass was the
+`state=new` rows first; `park` rows were to be handled only by filing the
+callee named in their header; `noted` rows were left for a pass that brings a
+new lever.
+
+Every verdict quoted in this file is a printed `tools/match.py` verdict, never
+a reading of the bytes.  Compiler pinned `--cc 1.1p1`, `-O4,p -proc arm946e`,
+`--thumb` for every row here (all 26 ready rows of the slice are Thumb).
+
+EXACT (or EXACT*) -> src/matched/ + this lane's shards
+-----------------------------------------------------
+| address | size | packet | source | note |
+| --- | --- | --- | --- | --- |
+| `0x020117D8` | 100 | `pkt_020117D8` | src/matched/func_020117D8.c | EXACT |
+| `0x02014A20` | 94 | `pkt_02014808` | src/matched/func_02014A20.c | EXACT* (unlabelled follower pads 2 bytes) |
+| `0x02014BA8` | 96 | `pkt_02014808` | src/matched/func_02014BA8.c | EXACT |
+| `0x0201A374` | 128 | `pkt_0201A374` | src/matched/func_0201A374.c | EXACT |
+| `0x02022CEC` | 110 | `pkt_02022DCC` | src/matched/func_02022CEC.c | EXACT |
+| `0x02022DCC` | 82 | `pkt_02022DCC` | src/matched/func_02022DCC.c | EXACT* |
+| `0x02022EA0` | 82 | `pkt_02022EA0` | src/matched/func_02022EA0.c | EXACT* |
+| `0x02023B74` | 124 | `pkt_02023B74` | src/matched/func_02023B74.c | EXACT |
+| `0x02025470` | 74 | `pkt_02025470` | src/matched/func_02025470.c | EXACT* |
+| `0x020254BC` | 74 | `pkt_020254BC` | src/matched/func_020254BC.c | EXACT* |
+| `0x02025538` | 72 | `pkt_02025518` | src/matched/func_02025538.c | EXACT |
+| `0x02025FC8` | 72 | `pkt_02025FC8` | src/matched/func_02025FC8.c | EXACT |
+| `0x020261E4` | 102 | `pkt_020261E4` | src/matched/func_020261E4.c | EXACT |
+
+13 addresses, 1210 bytes.  Shards written with
+`python tools/match.py manifest --verify --shard pkt_XXXXXXXX`:
+pkt_020117D8 (1 entry), pkt_02014808 (3, one of them another lane's
+func_02014B08 which is DIFF and not this lane's file), pkt_0201A374 (1),
+pkt_02022DCC (2), pkt_02022EA0 (3, two being other lanes' entries),
+pkt_02023B74 (1), pkt_02025470 (1), pkt_020254BC (1), pkt_02025518 (2, one
+another lane's), pkt_02025FC8 (1), pkt_020261E4 (1).
+
+Levers that closed these, kept for the next pass
+------------------------------------------------
+* `0x02022CEC`: the family's 5th argument is a byte, not a word - the two
+  allocator arms differ only in `0x604` versus `0xc08` and the loop seed is
+  the loop index, not zero (`str r5, [r2, r1]` where `r5` is the counter).
+  Writing `= 0` produced the same instruction count with the counter in the
+  wrong register; writing `= i` reproduced the original's `r5` reuse.  The
+  loop counter must also be `int`, not `u32` (`blt`, not `blo`).
+* `0x0201A374`: the two guard bytes must be read through `a0[2]` / `a0[3]`
+  expressions, not through `u8` locals: hoisting them into locals makes the
+  prologue save `a0` differently and pre-loads both, four bytes short.
+* `0x02023B74`: one volatile read-modify-write per arm, and the merge value
+  is a 32-bit `u32 v`, not a `u16 v` - a `u16` local makes the compiler
+  re-truncate with `lsls/lsrs #0x10` after the `bics`.
+* `0x02025FC8`: the first arm must FALL THROUGH to the shared `return -1`
+  (`if (a0[8] == 1) { if (m & 0xf3) return f(a0); } else if ...`).  Written
+  with an explicit `return -1` in the first arm the two -1 exits do not
+  cross-jump and the function is four bytes long.
+* `0x020261E4`: the element pointer needs its own `base = p + 0x3c` local
+  declared after `p`; that is what puts `p` at `sp+8` and the base at `sp+4`.
+* Whole-slice note: `EXACT*` appears whenever the follower has no label, and
+  the harness then reports the compiled size as the floor (94 of 96, 82 of
+  84, 74 of 76, ...).  It is never a byte difference.
+
+DIFF residues (no home in src/matched/, C kept below)
+-----------------------------------------------------
+Five rows of the slice reached a real `DIFF` - same instruction sequence,
+concrete bytes differing in a register number, a stack slot or an operand
+order, and no lever found inside this pass' budget.  Their C is kept in
+`scratch/lane1/diff/` for the pass that brings a new lever.
+
+### 0x02023AF4 (82 compiled, 84 original) - flag register
+The whole body matches except that the original keeps its fill flag in `r7`
+and the loop's 0/1 constants in `r3`/`r6`, while this lane's compiles put the
+flag in `r2`/`r3` and the constants in the saved registers.  Two things were
+established and are worth keeping:
+
+* the split point must be two statements, `q = a2 * (int)(hi - lo) / a3;`
+  then `mid = q + lo;` - as one expression `a2 * (int)(hi - lo) / a3 + lo`
+  the compiler emits `adds r0, r6, r0` (lo first) where the original has
+  `adds r0, r0, r6`;
+* `lo` and `hi` must be `u32` - the band test is `bhi` (unsigned), while the
+  divide is `_s32_div_f`, so the multiply operand carries the `(int)` cast.
+
+### 0x0202590C (110 compiled, 112 original) - prologue scheduling
+Byte for byte identical from `+0x10` to the end; only the first five
+instructions differ: the original spills `a1` and `a2` to `sp+0`/`sp+4`
+BEFORE it loads the row bound, while every spelling tried here
+(`int i, j`, `s8`, explicit `u32 x = a1; y = a2;`, `s16 xy[2]` inside or
+outside the loop) loads `a0[0xcb]` first.  Everything else - both loop heads,
+both truncations, the stack-built source rectangle and the call argument
+order - is already right.
+
+### 0x0202570C (100 compiled, 102 original) - one extra live register
+The instruction sequence matches end to end once the offsets are shifted by
+the two bytes of a `push {r3, r4, r5, r6, r7, lr}` that this lane's compiles
+do not need: the original keeps a second copy of the outer index in `r7`
+(`adds r7, r6, #0; adds r4, r7, #0` before the inner guard), so its inner
+loop has a separate pre-test instead of the merged `cmp r6, r0; bhs`.
+`j = i`, `k = i; j = k`, and `j = 0` all compile to the shorter, correct
+form.  Semantics are not in doubt (both spellings free the same cells).
+
+### 0x02023E9C (84 compiled, 88 original extent) - prologue register order
+The body matches; the difference is `adds r4, r1, #0` (save `a1`) placed
+before the `a4` load in the original versus after it here, and with it the
+temp register (`r1` there, `r0` here) for the `(u8)` casts.  A struct-typed
+pointer parameter and a local `u8 *p = a0;` both reproduce the same wrong
+order.  Cost so far: five spellings.
+
+### 0x02017CC8 (98 compiled, 104 original) - parameter save order
+Same story at six bytes: the original saves `a1` to `r6`, `a2` to `r7` and
+`a0` to `r5` and keeps the field value in `r4`; every spelling tried saves
+`a1` to `r4` first, which then shifts the whole function.  The two-call
+`func_0201AE1C(func_02019C54(x, (u16)v), 0x14)` shape and the
+`if (A == 1 && y != 0xff) return;` guard both reproduce exactly.
+
+Rows of the slice NOT reached in this pass
+------------------------------------------
+The remaining ready rows of the `state=new` group are
+`0x02014BA8` (done), `0x020182A8`, `0x0201CAC8` (364-byte extent, a switch
+over a PC halfword table), `0x02020A58`, `0x02020B5C`, `0x02024230` (64-bit
+`_ll_mul` fixed-point ramp), `0x02025154` (five stack arguments and a
+0x40-byte scratch array), `0x02025360`, `0x02025A9C` (two data tables at
+0x0209F880/0x0209F884 whose only pool occurrences are inside the compared
+range - expect a `literal` cap) - all analysed far enough to describe, none
+compiled to a verdict inside the budget.
+
+The 20 `state=new` chain rows (0x0200AA00, 0x0201691C, 0x02017B4C,
+0x02018240, 0x0201FAD0, 0x02020CA0, 0x02022E20, 0x02023464, 0x020234C0,
+0x0202350C, 0x0202363C, 0x02023768, 0x0202384C, 0x020238B4, 0x0202390C,
+0x02023A50, 0x02023EF4, 0x020245D4, 0x0202465C, 0x020246C8) each name a
+callee that has no manifest entry and no SDK/runtime identity yet
+(`scratch/lane1/lookup.py` was used for all of them), so none of them can
+reach EXACT before that callee is filed; they were not attempted.
+
+The 23 `park` rows and the 50 `noted` rows were left untouched: the park
+rows' pending sources are byte-correct already and turn EXACT only when the
+callee in their header is filed, and none of those callees is in this lane's
+packets.  `0x02023AB0` (park, needs `0x02023AF4`) is the closest - it
+converts the moment the 0x02023AF4 residue above is closed, which is why
+that one is documented in full rather than abandoned.
+
+Park-row sweep re-run this pass (23 rows, all still MATCH/MATCH*)
+-----------------------------------------------------------------
+Every `state=park` row of the slice was re-run against its own source this
+pass (`match.py one`, `--thumb`, `--cc 1.1p1`), to see whether a lane that
+landed in the meantime had filed the callee its header names.  None had: all
+23 rows are still capped, each on exactly the site below, and no pending file
+was rewritten.
+
+| address | verdict | pending source | unresolved site (blocking class) |
+| --- | --- | --- | --- |
+| `0x02005A98` | MATCH | func_02005A98.c | 02074A6C, arm - the only branch to it is this function's own |
+| `0x02005B74` | MATCH | func_02005B74.c | 02074A54, arm - same, from the name |
+| `0x02005D34` | MATCH | func_02005D34.c | 02005EB4, thumb - in-band row, no manifest entry yet |
+| `0x02006448` | MATCH | func_02006448.c | 02074A98, arm - only caller |
+| `0x02006544` | MATCH | func_02006544.c | g_02140484 and g_0209D8C0, both data inside its own range (`literal` has no outside witness) |
+| `0x02006CBC` | MATCH | func_02006CBC.c | 02006D3C arm, and g_020A703C data inside its own range |
+| `0x02009800` | MATCH | sub_02009800.c | overlay 02157138 (ov009/ov010 overlap, no region hint) plus ov_id_0D |
+| `0x0200E3A4` | MATCH* | sub_0200E3A4.c | two overlay calls (02167380, 02167358), ov009/ov010 ambiguous |
+| `0x0200F734` | MATCH | sub_0200F734.c | overlay 02156460, ov009/ov010 ambiguous |
+| `0x0200FAAC` | MATCH | sub_0200FAAC.c | g0202617C, data inside its own range |
+| `0x02010360` | MATCH | sub_02010360.c | overlay 0217963C (ov009/ov014) plus g020461E0 data |
+| `0x02010E14` | MATCH* | sub_02010E14.c | g0202141C, g020214E8, data inside its own range |
+| `0x02014488` | MATCH* | sub_02014488.c | two overlay calls (02188BD8, 0215FA44), four and two overlays respectively |
+| `0x0201450C` | MATCH* | func_0201450C.c | same overlay pair as 0x02014488 |
+| `0x02014584` | MATCH* | func_02014584.c | 020120C0, thumb, in-band row, no manifest entry yet |
+| `0x02018488` | MATCH | sub_02018488.c | g_021462B0 data inside its own range |
+| `0x0201A59C` | MATCH | func_0201A59C.c | 0201A858, thumb, twice, only caller |
+| `0x0201BB5C` | MATCH | unit_0201BB5C.c | g_0209E474 data inside its own range (note: the unit's lead symbol is `sub_0201BB5C`, not `unit_0201BB5C` - probe with the `sub_` name) |
+| `0x0201CA78` | MATCH | sub_0201CA78.c | 02043AAC, arm, only caller |
+| `0x0201D7EC` | MATCH | func_0201D7EC.c | 0201D854, thumb, only caller |
+| `0x0201F73C` | MATCH | func_0201F73C.c | 0201F628, thumb, only caller |
+| `0x020235F0` | MATCH | func_020235F0.c | 0202368C, thumb, only caller |
+| `0x02023AB0` | MATCH* | func_02023AB0.c | **02023AF4** - a `state=new` row of THIS slice; it converts the instant the 0x02023AF4 residue above is closed |
+
+Five of the 23 (`0x02006544`, `0x0200FAAC`, `0x02010E14`, `0x02018488`,
+`0x0201BB5C`) name no callee at all in the slice's table, and the sweep shows
+why: their blocker is a DATA word whose only occurrence in the image sits
+inside the compared range, which no amount of filing another function will
+fix.  They are `literal` walls and are better read as "the pool word is a
+symbol the header must name with a region hint" than as chain rows.
+
+The other three classes the sweep exposes, for the next pass:
+* `label`-only because the callee has no other caller (02005A98, 02005B74,
+  02006448, 0201A59C, 0201CA78, 0201D7EC, 0201F73C, 020235F0, 02014584,
+  02005D34) - these convert as soon as the named callee is filed or gets a
+  second call site from anywhere in the image;
+* overlay-resident callees with no region hint on the `symbols:` line
+  (02009800, 0200E3A4, 0200F734, 02010360, 02014488, 0201450C) - they need a
+  fourth token naming ov009/ov010 (or ov021/ov096/ov230) on the symbol line,
+  which is a one-line header fix, not a code problem;
+* own-range data (listed above).
+
+`0x02023AB0` is the single park row whose blocker is inside this slice, and
+its residue is written up in full above for that reason.

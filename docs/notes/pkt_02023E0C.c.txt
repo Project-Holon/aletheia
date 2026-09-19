@@ -1,0 +1,130 @@
+DIFF residue: sub_02023E0C @ 0x02023E0C (144 bytes, Thumb, packet pkt_02023E0C)
+===========================================================================
+
+Verdict: DIFF.  Best compiled 140 bytes against the original's 144, and
+every concrete instruction sits in a systematic register permutation --
+the whole body is right, the allocation is not.
+
+The original pins four callee-saved locals:
+
+    r4 = p (the object pointer)
+    r5 = step   (s8,  p->f10, live from the first instruction to the
+                 `p->f1a += step` in the wrapped branch)
+    r6 = target (s16, p->f0a)
+    r7 = flag
+
+and keeps the frame delta `v = p->f14 * step` in the caller-saved r1,
+and p->f1a live in r0 across the whole decision tree.
+
+mwcc 1.1p1 gives, for every spelling tried:
+
+    r5 = p, r6 = v (the multiply result is promoted to a callee-saved
+    register), r4 = flag, and step/target stay in the scratch registers
+    r0/r1.
+
+Measured, holding everything else fixed:
+
+    declaration order of {v, target, step, flag} permuted four ways
+        (v first, v last, v second, v third)   140 bytes, identical
+                                               register map every time
+    disjunction written `c == p->f1a + v || c == p->f1a` vs the two
+        operand orders swapped                 140 bytes, unchanged
+    p->f1a and p->f18 reached through
+        pointer locals (drafted)               144 -> 140 bytes, this is
+                                               the 144-byte near miss that
+                                               the pointer locals buy back,
+                                               but the allocation still
+                                               does not move
+
+Declaration order has no effect at all on this function, so the four
+locals are being ordered by the allocator's own cost model, not by the
+source.  That is the residue: a whole-function register permutation, not
+a spelling problem.
+
+The structural notes that DID reproduce byte for byte and are worth
+keeping:
+
+  - the two entry tests are one `||` (the image has two `beq` to the same
+    target and then the fall-through), not two statements;
+  - the position store is `p->f1a = (s16)p->f1a + step` -- the shift pair
+    proves the truncation is on the old value, and the byte load of
+    p->f10 is `ldrsb`, so `step` is `s8`;
+  - the register select is `if (bits & 1) ... else if (bits & 2) ...` with
+    a shared call: mwcc tail-merges the two identical call sequences onto
+    one site and the first arm ends in a forward branch over the second
+    test;
+  - the tail `if (flag == 1) p->f1c = 0;` tests the literal 1 because the
+    flag is set in three places, not two.
+
+Compile line:
+  python tools/match.py one --src <this file's C> --func sub_02023E0C \
+      --addr 0x02023E0C --cc 1.1p1 --thumb
+
+symbols:
+  func_0207D658  0x0207D658  arm
+
+The C below is the closest draft (pointer locals for p->f1a / p->f18):
+
+typedef signed char  s8;
+typedef unsigned char u8;
+typedef short          s16;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Anim {
+    u32 f00;
+    u32 f04;
+    u16 f08;
+    u16 f0a;
+    u16 f0c;
+    u16 f0e;
+    s8  f10;
+    u8  f11;
+    u16 f12;
+    s16 f14;
+    u16 f16;
+    u16 f18;
+    s16 f1a;
+    u32 f1c;
+};
+
+extern void func_0207D658(void *reg, u32 a, s16 b);
+
+void sub_02023E0C(struct Anim *p)
+{
+    s8  step;
+    int v;
+    s16 target;
+    int flag;
+    u16 *timer;
+    s16 *pos;
+
+    step = p->f10;
+    v = p->f14 * step;
+    target = p->f0a;
+    flag = 0;
+    if (target == p->f1a + v || target == p->f1a) {
+        p->f1a = target;
+        flag = 1;
+    } else {
+        p->f1a = p->f1a + (s16)v;
+        p->f18 = p->f18 + p->f16;
+        if ((u16)p->f18 >= (u16)p->f08) {
+            timer = &p->f18;
+            pos = &p->f1a;
+            *pos = (s16)*pos + step;
+            if (p->f1a == target) {
+                flag = 1;
+            } else {
+                *timer = *timer - p->f08;
+            }
+        }
+    }
+    if (p->f04 & 1) {
+        func_0207D658((void *)0x04000050, p->f00, p->f1a);
+    } else if (p->f04 & 2) {
+        func_0207D658((void *)0x04001000 + 0x50, p->f00, p->f1a);
+    }
+    if (flag == 1)
+        p->f1c = 0;
+}

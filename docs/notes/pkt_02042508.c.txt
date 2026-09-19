@@ -1,0 +1,29 @@
+pkt_02042508 / func_02042508 @ 0x02042508 (172 bytes, ARM) - DIFF, scheduling of two loads
+==============================================================================================
+
+Not filed: the size is right (172 of 172) and the only differences are where
+two instructions sit.
+
+    ORIGINAL @ +0x18                        COMPILED @ +0x18
+    ldr r1, [pc, #0x7c]   ; 0xB93           ldr r2, [r7]          ; a1[0]
+    ldr r0, [pc, #0x7c]   ; g_02146A44       ldr r1, [pc, #0x7c]
+    str r1, [sp]                            ldr r0, [pc, #0x7c]
+    ldr r0, [r0]                            str r1, [sp]
+    ldr r2, [r7]          ; a1[0]           ldr r0, [r0]
+    ldrh r1, [r0]                           lsr r4, r2, #8        ; id, early
+    ldr r0, [pc, #0x6c]   ; 0x7FFF          ldrh r1, [r0]
+    lsr r4, r2, #8                          ldr r0, [pc, #0x6c]
+    and r0, r1, r0                          ldr r3, [pc, #0x5c]
+    orr r0, r0, #0x8000                     and r0, r1, r0
+    ...
+
+The original sets the stack argument up first and loads `a1[0]` immediately
+before the halfword it has to mask; the compiler here hoists the `a1[0]` load
+to the top of the block and takes the `>> 8` with it.  Two spellings tried
+(the `id` local assigned just before the key is computed, and the key bound to
+a `u16` local first) both keep the hoist.
+
+Everything from the mask onward reproduces exactly, so this is a scheduler
+decision and not a shape error: the `movs` test at +0x0c, the two pool loads
+(g_02146A44 and 0x7FFF), the (u16)((x & 0x7fff) | 0x8000) idiom, the
+0x00000B93 stack argument and the out-of-line non-zero arm are all correct.

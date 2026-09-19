@@ -1,0 +1,64 @@
+/* func_02074894.c.txt */
+
+func_02074894 -- near miss, DIFF, 30 concrete bytes (76 vs 80).  NOT a MATCH:
+the concrete bytes differ, so it is not parkable.
+
+0x02074894 (76 bytes) is the close path for one handle: func_02061184 decides
+whether the key is still live (-1 when not), func_020749F8 reports drain
+progress (remaining count - 1 when it advanced), and only when the drain is
+complete does func_020611D4 unlink the key, after which the call still answers
+-1.  All three call sites resolve in the compiled object -- func_02061184
+(label x5), func_020749F8 (label x15) and func_020611D4 (label x5) -- so a
+byte-correct body here would be EXACT with no further evidence needed.
+
+The residue is the tail only: the compiler shares the constant 0 between the
+call's second argument and the `-1` return,
+
+    original                    compiled
+    ldr  r0, [r4]               mov  r4, #0
+    mov  r1, #0                 ldr  r0, [r5]
+    bl   func_020611D4          mov  r1, r4
+    mvn  r0, #0                 bl   func_020611D4
+    pop  {r4, pc}               sub  r0, r4, #1
+
+which also costs a callee-saved register (r4 = the constant 0) and a fourth
+`push` slot.  Everything else -- both early-exit predicates, the u16 load and
+`subne r0, r0, #1` -- is byte-identical.
+
+Tried and rejected: `return -1` against `return ~0`, `(s32)0xffffffff`,
+`(u32)-1`, `s32 r = -1` at the top used by both returns, a shared `goto fail`
+tail (72 bytes), a `void *` key type, and reading p->f00 into a local first.
+All land on 80 bytes with the same tail.
+
+C attempted:
+
+```c
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef signed int    s32;
+typedef unsigned short u16;
+
+typedef struct S {
+    u32  f00;   /* 0x00 */
+    char pad_04[8];
+    u16  f0c;   /* 0x0c */
+} S;
+
+extern u32 func_02061184(u32 key, u32 a);
+extern s32 func_020749F8(S *p);
+extern s32 func_020611D4(void *owner, u32 key);
+
+s32 func_02074894(S *p)
+{
+    if (func_02061184(p->f00, p->f0c) == 0) {
+        return -1;
+    }
+
+    if (func_020749F8(p) != 0) {
+        return p->f0c - 1;
+    }
+
+    func_020611D4((void *)p->f00, 0);
+    return -1;
+}
+```

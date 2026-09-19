@@ -1,0 +1,67 @@
+/* DIFF residue: func_020278F4 @ 0x020278F4 (arm9, thumb, 128 bytes, pkt_020278F4)
+ *
+ * All six relocation sites resolve (func_02045770 x98, func_0201C6C4 x11,
+ * func_02045334 x45, func_02045374 x41, func_02045730 x77, func_02041B6C
+ * x57), so this is a codegen residue, not evidence.
+ *
+ * The one byte the closest spelling cannot produce is `adds r7, r4, #0` at
+ * +0x18, the first instruction of the selection loop's body: the original
+ * copies the u8 loop index into a second register (r7) at the top of the
+ * body and assigns `sel = r7` after the call at +0x32 (`adds r6, r7, #0`),
+ * while every spelling that keeps the array index in r4 lets mwccarm CSE the
+ * copy away and drop two bytes (126 instead of 128).
+ *
+ * Spellings tried, all DIFF:
+ *   - `u8 cur; cur = i;` at function scope, `sel = cur`     -> 126 (copy CSE'd)
+ *   - `u8 cur = i;` inside the loop                        -> 126
+ *   - `u32 sel = 1;` + `u32 cur = i;`                      -> 126
+ *   - `u8 nxt = i;` (different name)                       -> 126
+ *   - while-loop with `i++` at the bottom                  -> 126
+ *   - `u32 r = func(...); if (r == 1) sel = cur;`          -> 128 bytes but
+ *     the copy is replaced by the u8 truncation of `cur`
+ *     (`lsls r0, r4, #0x18; lsrs r6, r0, #0x18`), 41 bytes wrong
+ *
+ * Forcing a second live copy of the loop index across the call looks like it
+ * needs a spelling that makes the copy opaque to CSE (a local whose value is
+ * not provably the induction variable), which no plain-C variant found here
+ * achieves.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int  func_0201C6C4(u32 a, u32 b);
+extern u32  func_02045770(u32 p);
+extern void func_02045334(u32 p);
+extern void func_02045374(u32 p);
+extern void func_02045730(u32 p);
+extern void func_02041B6C(void);
+
+void func_020278F4(u8 *p)
+{
+    u8 i;
+    u8 sel;
+
+    if (*(u32 *)(p + 8) != 1) {
+        return;
+    }
+    sel = 1;
+    for (i = 0; i < *(u8 *)(p + 0x24); i++) {
+        if (func_0201C6C4(*(u32 *)(*(u32 *)(p + 0x34) + 0x14),
+                          func_02045770((*(u32 **)(p + 0x18))[i])) == 1) {
+            sel = i;
+        }
+    }
+    if (sel != 1) {
+        return;
+    }
+    for (i = 0; i < *(u8 *)(p + 0x24); i++) {
+        u32 v = (*(u32 **)(p + 0x18))[i];
+        func_02045334(v);
+        func_02045374(v);
+        func_02045730(v);
+        func_02041B6C();
+    }
+    *(u32 *)(p + 8) = 0;
+}

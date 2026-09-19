@@ -1,0 +1,57 @@
+pkt_0201EC74 -- func_0201EC74 (0x0201EC74, 144 bytes, thumb): DIFF/SIZE residue
+=============================================================================
+
+Verdict: DIFF / SIZE.  Compiled 152 bytes against the original's 144; the
+best spelling has 65 differing *instructions* and the whole difference is
+register assignment plus where the compiler placed the merged `return 0`.
+
+What the function is: the constructor of a variable-length record table.
+It allocates a 0x10 header and a `n * 0xc` record array through the debug
+allocator func_02030734(heap, size, flag, file, line), remembers `n` and the
+heap in the header, asks func_020457B0 for a handle, then fills each 0xc-byte
+record: func_0201ED50 initialises it and func_020457B0 gives it a sub-object
+at +8; the first record whose sub-object comes back null aborts the fill and
+the constructor returns 0.  Returns the header on success.
+
+Two facts worth keeping:
+  - the `__FILE__` argument is 0x020A7364 and the harness resolves it as the
+    `string` class (`[string x1, e.g. 020A7361]`) -- unlike the tables
+    recorded in docs/idioms/a-string-after-a-data-table-has-no-witness.md,
+    this one IS attestable, because the six bytes before it are a
+    NUL-terminated string.  Declare `extern char sFile_020A7364[];` and give
+    it `0x020A7364  data` in the symbols: block; the calls then resolve.
+  - func_020457B0 is ARM, not Thumb (the harness refuses the call otherwise),
+    same trap as func_02045A90 in pkt_0201D6D8.
+
+The residue, best spelling (scratch/l4_vEC74_2.c, 152 bytes, 65 rows):
+
+    original                       compiler
+    n         r7                   r5
+    file      r5                   r7
+    first failure `beq 0x201ecfa`  inlined: `bne +0x1c` over a local copy
+                                   of `add sp,#0xc; adds r0,r4,#0; pop`
+    3rd arg of the 2nd alloc
+      `adds r2, r4, #0`            same (i is the zero register)
+
+Every failure return in the original lands on ONE epilogue at the end of the
+function (`movs r0,#0; add sp,#0xc; pop`, at 0x201ecfa).  In every spelling
+tried the compiler merges the returns at the *first* failure site instead and
+branches over the copy, which is the 8 extra bytes; it also swaps the two
+callee-saved slots (the pool word for the file lands in r7, the parameter copy
+of `n` in r5, i.e. the opposite of the original).
+
+Spellings tried (all 152 bytes):
+  1. `u32 i = 0;` at the top, second alloc passes `i`, `for (; i < n; i++)`
+     -- 125 rows;
+  2. same with the file pointer bound to a local `void *file = sFile_020A7364;`
+     -- 125 rows, no change;
+  3. literal `0` as the second alloc's flag (this is the 65-row one);
+  4. literal `0` in both allocs, `i` declared without an initialiser and
+     initialised in the `for` -- 65 rows, same 152.
+Not tried: spelling the failure path as a `goto fail;` chain with one
+`return 0` at the end, which is the one shape that would force the merged
+epilogue into place; that is the next lever for this function, not a sixth
+spelling of the same body.
+
+The full C (spelling 3) is in scratch/l4_vEC74_2.c; nothing of this function
+is filed in src/matched/ or src/pending/.

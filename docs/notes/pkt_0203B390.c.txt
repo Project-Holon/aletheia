@@ -1,0 +1,27 @@
+pkt_0203B390 / func_0203B390 @ 0x0203B390 (172 bytes code + 12 pool, ARM) - DIFF, one instruction
+=======================================================================================================
+
+Not filed: the size is exactly right (184 bytes including the three pool
+words) and every instruction matches except one.
+
+    ORIGINAL @ +0x34                        COMPILED @ +0x34
+    cmpne r0, #1                            cmpne r0, #1
+    mov r0, #1                              beq #0x203b404
+    beq #0x203b408                          ...alt block starts here...
+                                            mov r0, #1   (inside the alt block)
+
+The constant that is func_02037928's first argument is hoisted into the block
+that *precedes* the branch in the original, and left inside the alt block
+here.  The whole function is otherwise byte-identical; the branch displacement
+is the only other changed value.
+
+Tried and all identical: the `||` guard with `goto alt` (current shape), the
+positive `!=` conjunction with an if/else, the same conjunction with an early
+`return` and the alt block after it, a free-standing `goto alt` with a local
+`u32 one = 1;` used as the argument, and the alt arm written first in the
+if/else.  Making `one` a local moves the materialisation to the top of the
+block, which is worse; the plain literal keeps it in the alt block.
+
+Note the polarity: `ldrbne r0, [r5, #0x56]; cmpne r0, #1; beq alt` means the
+alt path is taken when `p[0x53] == 0 || p[0x56] == 1`, so the func_02037A6C
+path needs `p[0x53] != 0 && p[0x56] != 1`.

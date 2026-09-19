@@ -1,0 +1,35 @@
+pkt_0204E410 / func_0204E410 @ 0x0204E410 (164 bytes code + 12 pool, ARM) - DIFF, loop counter colouring
+==============================================================================================================
+
+Not filed: the size is exactly right (176 bytes including the pool) and the
+four ASCII range answers, the two table bases, the halfword value load and the
+0x00000101 miss sentinel all reproduce.  One register choice rearranges five
+instructions of the lookup loop:
+
+    ORIGINAL                                 COMPILED
+    mov ip, #0                               mov r3, #0
+    ldrb r1, [r2, ip, lsl #2]                ldrb r1, [r2, r3, lsl #2]
+    lsl r3, ip, #2                           cmp r0, r1
+    cmp r0, r1                               ldreq r0, [pc, #0x20]
+    ldreq r0, [pc, #0x1c]                    lsleq r1, r3, #2
+    ldrheq r0, [r0, r3]                      ldrheq r0, [r0, r1]
+    bxeq lr                                  bxeq lr
+    add ip, ip, #1                           add r3, r3, #1
+
+The counter lands in r3 here and in the scratch ip there.  That is not
+cosmetic: because the counter owns r3, the `i << 2` byte offset for the
+halfword table cannot be precomputed into r3 and is instead re-derived inside
+the equal arm (`lsleq r1, r3, #2`), which is where the extra instruction comes
+from.  With the counter in ip the offset lives in r3 and is hoisted above the
+compare, exactly as the original shows.
+
+Tried with no effect on the counter: `int i;` then `u32 i;` (the unsigned loop
+index is required -- it is what turns the loop back-edge into `blo`, and it is
+the first change that made the tail of the function line up), and the value
+access spelled both as `unk_020A1482[i * 2]` (u16 element, stride four bytes)
+and as a byte offset `+ i * 4`.
+
+The two table words must be declared as two separate externs at 0x020A1480
+(strided-by-four key bytes) and 0x020A1482 (halfword values); a single
+four-byte-record struct collapses them onto one base plus offsets and loses
+the relocation.

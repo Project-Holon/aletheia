@@ -1,0 +1,73 @@
+func_02050278 (0x02050278, ARM, 136 bytes, LANE 7 near miss): right size, right
+instructions, three registers and one CSE away
+============================================================================
+
+What the function is
+--------------------
+
+Row-array teardown: for each of `count` 8-byte records in the `idx`-th group
+of the table at p->f0c, release the record's owned pointer and then call the
+group helper; the tail call hands the whole group to func_0203422C.
+
+    typedef struct {
+        u8 pad00[4]; void *f04; u8 pad08[4]; char *f0c; u8 pad10[4]; void *f14;
+    } S02050278;
+
+    void func_02050278(S02050278 *p, int idx, unsigned count)
+    {
+        unsigned i;
+
+        for (i = 0; i < count; i++) {
+            if (*(u16 *)(p->f0c + idx * 8 + i * 8) != 0xFFFF) {
+                func_0204F150(p->f04);
+            }
+            if (*(u32 *)(p->f0c + idx * 8 + i * 8 + 4) != 0) {
+                func_02046EFC(*(void **)(p->f0c + idx * 8 + i * 8 + 4));
+            }
+            func_02050088(p->f0c + (idx + i) * 8);
+        }
+        func_0203422C(p->f14, idx, count);
+    }
+
+Findings that are real
+----------------------
+
+  * `count` and `i` are **unsigned**.  The original's rotated for-loop entry
+    test is `movs r5, r2` / `beq` and the back edge is `cmp r4, r5` / `blo`;
+    with `int` both become `blt` and the whole file shifts.
+  * the `0xFFFF` sentinel is a literal pool word (0x0000FFFF at 0x02050300,
+    the four bytes of pad after the pop).  It is a constant, not a relocation.
+  * all four call targets are already witnessed (`label`), so the file is a
+    pure codegen residue: no blocking evidence class is involved.
+
+The residue
+-----------
+
+Same size (140 bytes with the pad word), 26 bytes differ.  Every instruction
+is present; the differences are register identity plus one deliberate CSE in
+the compile that the original does not perform:
+
+  original                             compile
+  p -> r7, idx -> r6, count -> r5      p -> r8, idx -> r7, count -> r6
+  sentinel -> r8                        sentinel -> sb
+  push {r4, r5, r6, r7, r8, lr}         push {r3, r4, r5, r6, r7, r8, sb, lr}
+  lsl r1, r4, #3 ... ldrh r1,[r1,r0]    lsl r5, r4, #3 ... ldrh r0,[r5,r0]
+  add r0, r0, r4, lsl #3                add r0, r0, r5   (reuses i*8)
+
+The compile keeps `i * 8` in r5 across the two record-field accesses; the
+original recomputes the shift for the second access and keeps the sentinel in
+r8, which is why it needs one fewer callee-saved register.  The extra register
+in the compile is what shifts every parameter name by one.
+
+What was tried
+--------------
+
+  * `int` count/index: wrong (blt), see above.
+  * `*(u16 *)(p->f0c + idx*8 + i*8)` versus indexing a typed 8-byte record
+    struct: identical.
+  * writing the second access as `((u32 *)(p->f0c + idx*8 + i*8))[1]`:
+    identical to the explicit `+4` form.
+
+Classification: allocator/CSE, not reachable from the C shape tried.  No flag
+sweep (the matrix is closed project-wide).  No source file was filed; this
+function does not belong in src/pending/ because it is not byte-correct.

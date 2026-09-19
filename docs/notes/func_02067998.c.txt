@@ -1,0 +1,79 @@
+func_02067998 (0x02067998, ARM, 196 bytes, LANE 7 near miss): the body is one
+addressing-mode choice away, and the only call is unwitnessed
+============================================================================
+
+Why it was attempted
+--------------------
+
+It is the named blocker of the parked src/pending/func_02067D14.c: "it turns
+EXACT the moment either gets an entry of its own".  This is that attempt and
+its result.
+
+What the function is
+--------------------
+
+Per-record dispatch for the callback table at 0x02148B48: for each of
+a1->count 6-byte records, mirror the record's three halfwords into the
+0x38/0x3a/0x3c slots of the singleton, raise the singleton's +0x30 flag, call
+the caller's f20 hook, then if the flag survived the hook call the
+0x0206775C flush on the mirrored triple, then the f24 hook.
+
+    typedef struct { u16 f0, f2, f4; } Rec02067998;
+    typedef struct { u16 count; u8 pad02[2]; Rec02067998 *recs; } B02067998;
+    typedef struct { u8 pad00[0x30]; u32 f30; u8 pad34[4];
+                     u16 f38, f3a, f3c; } C02067998;
+    typedef struct { u8 pad00[0x20];
+                     void (*f20)(C02067998 *, B02067998 *, int);
+                     void (*f24)(C02067998 *, B02067998 *, int); } A02067998;
+
+    extern C02067998 *g_02148B48;
+
+    void func_02067998(A02067998 *a0, B02067998 *a1)
+    {
+        C02067998 *t = g_02148B48;
+        u16 i;
+
+        for (i = 0; i < a1->count; i++) {
+            Rec02067998 *recs = a1->recs;
+
+            g_02148B48->f30 = 1;
+            t->f38 = recs[i].f0;
+            t->f3a = recs[i].f2;
+            t->f3c = recs[i].f4;
+            if (a0->f20 != 0) a0->f20(g_02148B48, a1, i);
+            if (g_02148B48->f30 != 0) func_0206775C(&t->f38);
+            if (a0->f24 != 0) a0->f24(g_02148B48, a1, i);
+        }
+    }
+
+This reaches the image's size exactly (200 bytes with the pool word) and
+leaves 19 bytes (6 instruction slots), all in the first four slots of the
+loop body: the compile schedules the `a1->recs` load before the
+`g_02148B48->f30 = 1` store, materialises the record pointer with `add r1,
+r3, r0` before the first halfword load, and so assigns i*6 to r0 and the
+record base to r3 where the original has i*6 in r1 and the base in r2.  The
+original's first load is the fused `ldrh r0, [r2, r1]` form and materialises
+`add r1, r2, r1` only afterwards.  Removing the `recs` local (indexing
+a1->recs[i] three times) reloads the table word on each access and costs 12
+extra bytes; hoisting the local out of the loop drops the per-iteration
+reload the original performs.
+
+Blocking evidence class
+-----------------------
+
+The 0x0206775C call is **unwitnessed**: `match.py` reports "0206775C (arm,
+from header) has no witness outside 02067998..02067A60" - 0x0206775C has no
+manifest entry and this call is the only branch to it in the image, so the
+site is `label`-refused.  Even a byte-perfect body therefore caps at MATCH,
+and a MATCH entry would **not** promote func_02067D14, whose header requires
+the blocker to "get an entry of its own" in the `matched` sense.  The other
+relocation, 0x02148B48, is fine (`literal x45`).
+
+Consequence for the lane's park row
+-----------------------------------
+
+pkt_02067D14's parked func_02067D14 needs 0x02067998 *and* 0x02067340.  Both
+are unfiled; 0x02067998 additionally needs 0x0206775C filed first (it is not
+in this lane's target list, so it was not touched).  The correct order is:
+file 0x0206775C, file 0x02067998, then 0x02067340, then func_02067D14
+graduates.  That is three functions outside this lane's write set.

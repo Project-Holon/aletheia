@@ -1,0 +1,55 @@
+/* func_0206B63C.c.txt */
+
+func_0206B63C -- near miss, DIFF, 39 concrete bytes (104 vs 104).
+
+0x0206B63C (104 bytes) walks a linked list (next at +0x10).  Each node carries
+a signed 8-bit count at +0x19 and a u16 flag array from +0x1a; every entry with
+bit 8 set contributes bit i of the node to bit i of the caller's bit array
+(bits + i/32, mask 1 << (i & 31)).
+
+Both compilations are the same instruction selection, but mwcc if-converts the
+`if (flag & 0x100)` body:
+
+    original                       compiled
+    beq  L2                        asrne lr, r5, #5
+    asr  lr, r5, #5                andne r2, r5, #0x1f
+    ldr  ip, [r0, lr, lsl #2]      ldrne ip, [r0, lr, lsl #2]
+    and  r2, r5, #0x1f             orrne r2, ip, r3, lsl r2
+    orr  r2, ip, r3, lsl r2        strne r2, [r0, lr, lsl #2]
+    str  r2, [r0, lr, lsl #2]
+
+so the branch disappears into predicate bits and `add r5, r5, #1` moves inside
+the guarded block.  The instruction count is identical; only the branch shape
+differs, and everything before the inner loop (`mov r3, #1`, the `mov r4, #0`
+pair, the ldrb/cmp/ble) and after it (`ldr r1,[r1,#0x10]`, the outer `bne`) is
+byte-identical.
+
+C attempted:
+
+```c
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct Node Node;
+struct Node {
+    u8  pad00[0x10];
+    Node *next;
+    u8  pad14[5];
+    u8  count;
+    u16 flags[1];
+};
+
+void func_0206B63C(u32 *bits, volatile Node *node)
+{
+    int i;
+
+    while (node != 0) {
+        for (i = 0; i < node->count; i++) {
+            if (node->flags[i] & 0x100)
+                bits[i >> 5] |= 1 << (i & 31);
+        }
+        node = node->next;
+    }
+}
+```

@@ -1,0 +1,55 @@
+/* func_0206A0C4.c.txt */
+
+func_0206A0C4 -- near miss, DIFF, one instruction and a leaf frame (76 vs 80).
+
+0x0206A0C4 (76 bytes, no relocations) detaches one or two buffers: for each of
+(outA, outB) that is non-null it clears bit 0 of a 16-bit status word at
++0x10/+0x20, hands the 32-bit block pointer at +0x08/+0x18 to the caller and
+nulls the field.
+
+The 1-bit-bitfield spelling of the clear (`u16 f10_0 : 1`) is the one that
+reproduces the instruction set exactly, `bic ip, ip, #1` included -- the plain
+`u16 f10 &= ~1` form instead loads a pooled 0xFFFFFFFE and `and`s, 92 bytes.
+With the bitfield the compiled body is instruction-for-instruction identical to
+the original, but mwcc hoists the `ldr ip, [r0, #8]` of the block pointer above
+the `strh` that writes the status word, and that hoist makes the mask and the
+pointer live at once, so the allocator reaches for lr and the leaf grows a
+`push {r3, lr}` / `pop {r3, pc}` frame: 20 instructions against 19.
+
+Tried and rejected: `&= 0xfffe`, `= x & 0xfffe`, `(u16)(x & ~1)`, a `u16`
+local, `volatile` on the status words, `char *` casts for both accesses (to
+break the alias-based hoist), and taking `u16 *st = &p->f10` into a local.
+All land on the same 80/92-byte shapes.
+
+C attempted (bitfield form, 20 instructions against 19):
+
+```c
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+typedef struct S {
+    char pad_00[8];
+    u32   f08;   /* 0x08  owned block A */
+    char pad_0c[4];
+    u16   f10;   /* 0x10  status A */
+    char pad_12[6];
+    u32   f18;   /* 0x18  owned block B */
+    char pad_1c[4];
+    u16   f20;   /* 0x20  status B */
+} S;
+
+void func_0206A0C4(S *p, u32 *outA, u32 *outB)
+{
+    if (outA != 0) {
+        p->f10 &= ~1;
+        *outA = p->f08;
+        p->f08 = 0;
+    }
+
+    if (outB != 0) {
+        p->f20 &= ~1;
+        *outB = p->f18;
+        p->f18 = 0;
+    }
+}
+```

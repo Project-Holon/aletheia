@@ -1,0 +1,30 @@
+pkt_0203DAC4 / func_0203DAC4 @ 0x0203DAC4 (236 bytes, ARM) - DIFF, one hoist
+==========================================================================
+
+Not filed: the size is exactly right (236 of 236) and the whole of both four-
+slot loops, the failure report, the +0x90 index store and the 0x021469F0
+reload after every call reproduce.
+
+The residue is that the six zero-byte stores address the stack frame through
+r8 rather than directly:
+
+    ORIGINAL                                 COMPILED
+    add r8, sp, #0                           mov r4, #0
+    mov r4, #0                               ldr r6, [pc, #0x84]
+    ldr r6, [pc, #0x80]                      add r8, sp, #0
+    strb r4, [r8]                            strb r4, [sp]
+    strb r4, [r8, #1]                        strb r4, [sp, #1]
+    ...                                      ...
+
+Both forms are the same six stores; the original materialises the buffer
+address once, before the zeroing, and keeps it in r8 for the second pass's
+`mov r0, r8`, while the compiler here addresses sp directly and only computes
+r8 where the call needs it.  Tried: writing the stores through `u8 buf[]`
+directly with sp addressing (same, and the r8 computation sinks further), and
+binding `u8 *p = buf;` immediately before the zeroing -- the compiler folds the
+pointer back to sp for the stores and sinks the address computation, giving
+the identical bytes as the direct form.
+
+The six stores must be six separate byte assignments and `buf` must be eight
+bytes: a `memset` or a zero initialiser collapses them into a word plus a
+halfword, and a six-byte frame loses the `add sp, sp, #8` pairing.

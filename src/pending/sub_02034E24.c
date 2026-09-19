@@ -9,6 +9,22 @@
  * isa:      arm
  * status:   MATCH
  *
+ * BLOCKER (re-derived after 0x020357E0 was filed in pkt_020357E0): the
+ * two capped sites this file used to name -- func_02035EE8 and
+ * func_020357E0 -- both resolve now (`matched`), and 9 of the 10
+ * relocation sites are closed.  The single remaining one is
+ *
+ *   +00CC ABS32 s_UiFile  0x020A7984 (data, declared in symbols)
+ *          -> no witness outside 02034E24..02034EF8
+ *
+ * 0x020A7984 is a string whose only pool word in the image is inside this
+ * function's own extent, and attest_string() refuses it: the bytes before
+ * it are not a NUL run that fixes its start.  No cut exists inside a
+ * single function section, so --suggest-split offers nothing.  It
+ * graduates the same way every own-pool string does: when some other
+ * matched function happens to pool 0x020A7984, or when the string area's
+ * neighbours are attested.
+ *
  * symbols:
  *   func_02030734    0x02030734  arm
  *   MI_CpuFill8      0x02082BCC  arm

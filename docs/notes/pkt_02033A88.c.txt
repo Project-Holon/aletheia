@@ -1,0 +1,56 @@
+DIFF residue: sub_02033A88 @ 0x02033A88 (224 bytes, ARM, packet pkt_02033A88)
+============================================================================
+
+Verdict: DIFF.  Best compiled 204 bytes against the original's 224.  The
+whole body reproduces in the right order; three things do not.
+
+1. THE FRAME.  The original opens `push {r3..lr}` then `sub sp, sp, #8`
+   and spills the caller's `v` (r1) to [sp, #4] -- it wants TWO stack
+   slots, [sp] for the fourth argument of the size assertion at the end
+   and [sp, #4] for the spill.  mwcc refuses the second slot on every
+   spelling tried: it reuses the pushed r3 home slot for the spill, which
+   removes `sub sp, sp, #8` from the prologue and `add sp, sp, #8` from
+   the `popls` epilogue.  8 bytes.
+
+2. THE DEAD MOVE.  The original has `mov r1, r5` (`r1 = i`) between the
+   `src[i].id` load and the `str` that publishes it to `dst[i].id`, and
+   then overwrites r1 from the spill slot two instructions later.  No
+   spelling of the body produced that move.  4 bytes.
+
+3. THE ALLOCATION AROUND IT.  With the source's three loop-invariant
+   pointers named as locals (`src`, `dst`, `count`), the compiler lands on
+
+       r4 = src, fp = dst, r5 = count, r6 = i, r7 = total, sb = i * 12
+
+   which is the original's map with r5/r6 exchanged (the original has
+   i in r5 and count in r6).  Declaring the index before the bound, or
+   dropping the bound local and reading p->count in the loop guard, both
+   changed which register holds the object pointer instead (p moved from
+   sl to r5) and made the match worse, so the r5/r6 exchange is not
+   reachable from declaration order.
+
+What DID reproduce and is worth keeping:
+
+  - the round-up to the next 0x100 is a two-armed if over the low byte,
+    not a mask: `pad = off & 0xff; if (pad != 0) pad = 0x100 - pad; else
+    pad = 0;` gives the original's `ands` / `rsbne` / `moveq` triple;
+  - the slot-id assertion is `if (i != src[i].id)` and fires
+    func_02034714(str_020A78CC, 0x9e, str_020A78F0);
+  - the guard is a plain `for (i = 0; i < n; i++)` with no outer
+    `if (n > 0)`: the extra guard is what makes the compiler emit both a
+    `beq` and a `bls` at the top and costs 8 more bytes;
+  - the final store is p->f0c = p->f08 + (p->f18 + total) and the size
+    assertion is `if (p->f0c > p->f10)` ->
+    func_02034734(str_020A78CC, 0xb3, str_020A7908, p->f10).
+
+Compile line:
+  python tools/match.py one --src <this file's C> --func sub_02033A88 \
+      --addr 0x02033A88 --cc 1.1p1 --arm
+
+symbols:
+  str_020A78CC   0x020A78CC  data
+  str_020A78F0   0x020A78F0  data
+  str_020A7908   0x020A7908  data
+  func_02033A3C  0x02033A3C  arm
+  func_02034714  0x02034714  arm
+  func_02034734  0x02034734  arm

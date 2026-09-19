@@ -1,0 +1,79 @@
+/* func_020611D4.c.txt */
+
+func_020611D4 -- near miss, DIFF, 22 concrete bytes (80 original vs 80 compiled).
+
+0x020611D4 (80 bytes) is an unlink-by-key helper over a singly linked list whose
+head lives at ctx+0x2c: find the node whose key matches, copy its two payload
+words into ctx+0x24/+0x28, publish node->next into ctx+0x2c, answer 1; answer 0
+when nothing matched (or the key is 0, or the list is empty).
+
+The original's loop is the NON-peeled, predicated-increment shape:
+
+    ldr  r3, [r0, #0x2c]
+    cmp  r1, #0            <- key != 0
+    cmpne r3, #0           <- && n != 0        (chain fused, one shared beq)
+    beq  L
+L:  ldr  r2, [r3]
+    cmp  r2, r1
+    ldrne r3, [r3, #0xc]   <- advance only on key mismatch
+    cmpne r3, #0
+    bne  L
+
+Every spelling of the loop reaches a different arrangement of the same 20
+instructions:
+
+  * `while (key != 0 && n != 0 && n->key != key) n = n->next;` (and the `for`
+    form) compiles to the un-rotated test block: `b` + increment at the loop
+    head, 80 bytes, 22 bytes off.
+  * `while (key != 0 && n != 0 && n->key != key && (n = n->next) != 0);`
+    gets the predicated increment right and only the entry block wrong:
+    80 bytes, 14 bytes off -- the closest of the set.
+  * `if (... && n != 0) { while (n->key != key) { n = n->next; if (!n) break; } }`
+    and the goto/`do{}while(1)` forms make mwcc peel the first iteration:
+    92 bytes.
+  * `do { if (n->key == key) break; n = n->next; } while (n != 0);` under the
+    entry guard is the right 19-instruction shape but emits the `break` as a
+    plain `beq` instead of predication: 84 bytes, 49 bytes off.
+
+Tested and rejected: nested `if` guards, `if (key == 0 || n == 0) goto tail;`
+(peels), a `u32 k = key` copy, and reading the key through a local.  The
+function has no relocations at all, so any of the 80-byte spellings would be
+EXACT the moment the loop rotates the way the original did.
+
+C attempted (best form, 14 bytes off):
+
+```c
+typedef unsigned int u32;
+
+typedef struct Node {
+    u32          key;    /* 0x00 */
+    u32          f04;    /* 0x04 */
+    u32          f08;    /* 0x08 */
+    struct Node *next;   /* 0x0c */
+} Node;
+
+typedef struct Ctx {
+    char  pad_00[0x24];
+    u32   f24;   /* 0x24 */
+    u32   f28;   /* 0x28 */
+    Node *f2c;   /* 0x2c */
+} Ctx;
+
+int func_020611D4(Ctx *ctx, u32 key)
+{
+    Node *n = ctx->f2c;
+
+    while (key != 0 && n != 0 && n->key != key) {
+        n = n->next;
+    }
+
+    if (n == 0) {
+        return 0;
+    }
+
+    ctx->f24 = n->f04;
+    ctx->f28 = n->f08;
+    ctx->f2c = n->next;
+    return 1;
+}
+```

@@ -1,0 +1,78 @@
+/* lane3_park_blockers.c.txt */
+
+Lane 3, 65-128 byte band: the addresses that keep this lane's ten `park` rows
+parked, and the non-filable artifacts the row headers point at.
+
+Ten of the lane's rows are files that are already byte-correct in src/pending/.
+Each can only move to src/matched/ when the callee named in its header has its
+own EXACT manifest entry, and for every one of them that callee is either
+outside this lane's packet slice, already claimed by another lane, or an
+address no C source can ever produce.  Verified again this run (all ten still
+report the same verdict, head to tail):
+
+  0x02062114  -> 0x02062270  488-byte function, packet pkt_02062114 (this
+                              lane's slice, but far outside the 65-128 band);
+                              the other named site, 0x0206216C, is this lane's
+                              row and stays DIFF (docs/notes/func_0206216C.c.txt).
+  0x02069D14  -> data literal 0x020A823C; the only pool word naming it is the
+                              function's own, so `literal` has no second
+                              occurrence.  Not a callee, not fileable.
+  0x02072894  -> 0x0208A0A4   SDK function (symbols_sdk.json only), no branch
+                              outside the function; SDK code is never compiled
+                              here.  (Note: src/pending/ carries two files for
+                              this one address, func_02072894.c and
+                              sub_02072894.c, with the same verified residue.)
+  0x02075014  -> 0x02074E9C   160-byte function in pkt_02074CD0, claimed by
+                              lane wave6-A; also needs 0x02075274, whose own
+                              callers 0x020896CC / 0x0208A38C are SDK.
+  0x02075A2C  -> 0x02075968   44-byte function in pkt_02075794; documented in
+                              docs/notes/pkt_02075794.c.txt as an 8-byte DIFF
+                              dead end (two BIC destinations).  Not fileable.
+  0x020910D0  -> 0x02084DA4   LINKER VENEER, not C: `ldr r1,[pc]; ldr r2,[pc];
+                              ldr ip,[pc]; mov r3,#1; bx ip` at 0x02084DA4
+                              (108-byte extent).  Never producible from a
+                              source file - see the 0x02084F44-class note
+                              below - so this row is parked permanently.
+  0x020913FC  -> 0x020913BC   LINKER VENEER: `ldr ip,[pc]; mov r1,r0; mov
+                              r0,#0; bx ip` at 0x020913BC.  Its second named
+                              callee, 0x020913E8, is a plain 20-byte
+                              `if (p) func_020913A4(p)` function that is not
+                              an open row in any packet this run, so it is not
+                              this lane's to file either.
+  0x020944CC  -> 0x02093BDC   BARE CALLER-SAVE HOME AREA, not C: the four-byte
+                              `push {r0,r1,r2,r3}` that disasm.py labels
+                              0x02093BE0 (packet pkt_020933B8, size 4).  No
+                              source can produce it, so this row is parked
+                              permanently.  (The file's own packet: line says
+                              pkt_02094488, not one of this lane's ids.)
+  0x02095AA4  -> 0x02094B8C   3824-byte function, packet pkt_02094B8C, claimed
+                              by lane wave3-4.  The trailing star in this
+                              file's verdict is the linker stub at 0x02095B2C
+                              (`ldr ip,[pc,#4]; mov r1,#0; bx ip; .word
+                              0x02095AA4`), which is also not producible.
+  0x0209D728  -> data only: 0x02153FB4 / 0x02153FB8 appear nowhere but this
+                              function's own pool.  Not a callee, not fileable.
+
+The 0x02084F44-class varargs wrapper, for the record (0x02084F44, 36 bytes,
+arm, packet pkt_02084F44 - a 0-64-band row, not this lane's):
+
+    02084F44  push {r3, lr}
+    02084F48  add  r2, sp, #0xc
+    02084F4C  bic  r2, r2, #3
+    02084F50  ldr  r1, [sp, #0xc]
+    02084F54  add  r2, r2, #4
+    02084F58  bl   0x02084F68
+    02084F5C  pop  {r3, lr}
+    02084F60  add  sp, sp, #0x10
+    02084F64  bx   lr
+
+It is the compiler's own `va_start`/frame-adjust thunk (the bic-and-bump of the
+stack pointer cannot be written in C and the epilogue is a plain `pop {r3, lr}`
++ `bx lr` pair, i.e. an ARMv4T-shaped return), so it and its siblings are to be
+reported and skipped rather than attempted.  None of this lane's 65-128 rows
+call one directly, but rows 0x020910D0 and 0x020913FC are blocked by the same
+class (a veneer whose only pool word names a target inside the blocked
+function), which is why both are parked for good.
+
+Nothing in this file changed any source: it is the residue report for the ten
+park rows this lane was asked to re-check.

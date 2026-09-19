@@ -45,7 +45,14 @@
  *   python tools/match.py one --src src/pending/func_0206B6A4.c \
  *       --func func_0206B6A4 --addr 0x0206B6A4 --cc ../2.0/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
- */
+  *
+ * 2026-09 lane5: 0x0206B63C is now an EXACT manifest entry (src/matched/func_0206B63C.c,
+ * packet pkt_0206AFE4, --cc ../2.0/sp2), so the three calls to it resolve as
+ * `matched` and this file is down to two unresolved sites, both the
+ * `bl func_0206B4A0` at +0x00a8/+0x00c0.  0x0206B4A0 is still unfiled:
+ * src/matched/func_0206B458.c (72 B) is filed, but 0x0206B4A0 itself is a
+ * DIFF near miss (4 bytes short; residue in docs/notes/pkt_0206AFE4.c.txt).
+*/
 
 typedef unsigned char u8;
 typedef unsigned int u32;

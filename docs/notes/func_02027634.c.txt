@@ -1,0 +1,72 @@
+/* DIFF residue: func_02027634 @ 0x02027634 (arm9, thumb, 90 bytes, pkt_02027634)
+ *
+ * Closest C reaches 96 bytes / 54 concrete bytes wrong.  All four relocation
+ * sites resolve (func_0204162C label x5, func_02049EF4 label x5,
+ * func_02082D44 label x549, func_020307B0 label x1069); the residue is pure
+ * register allocation and constant materialisation:
+ *
+ *   - the original copies the parameters to r7 (p), r5 (a2), r6 (a3) and
+ *     keeps the func_0204162C result in r4; every spelling tried put p in r5
+ *     and a3 in r7 instead, so every subsequent instruction is a different
+ *     register even where the shape is identical.
+ *   - the original materialises 0x540 with `movs r7, #0x15; lsls r7, r7, #6`
+ *     and uses it three times (two `adds` and both halfword accesses at
+ *     `[r0, r7]`).  Every spelling tried made mwccarm load 0x540 from a pool
+ *     word into r4 and derive 0x534 (`subs r4, #0xc`) for the memcpy
+ *     destination, which also loses the `adds r0, #0xc` on the tmp value.
+ *   - the original spills the func_02049EF4 result to `[sp, #4]` and keeps a
+ *     0xc-byte frame ([sp] outgoing line, [sp+4] handle, [sp+8] tmp).  With
+ *     the handle in r3 instead the compiler pushes a sixth register
+ *     (`push {r3, r4, r5, r6, r7, lr}`) and the frame shrinks to 8 bytes.
+ *
+ * Spellings tried (each one compile, all DIFF):
+ *   - u8 *src local + separate u16 *q local, `q[i] = (u16)((a4 << 12) + a3 +
+ *     (q[i] & 0xfff))`                                      -> 100 bytes
+ *   - q initialised straight after src (before the second call) -> 104
+ *   - `(u8 *)tmp + 0xc + 0x540` folded by hand to `+0x54c`      -> 104
+ *   - `t[(idx - 1) + 2]` style byte-offset form for the loop    -> 104
+ *   - declarations reordered (handle/tmp/i/src/d/q permutations) -> 96
+ *   - `u32 handle = func(...)` at declaration                   -> 96
+ *   - tmp as `u32 tmp[1]` / `u32 tmp[2]`                        -> CCERR / 100
+ *
+ * The body it should reproduce (90 bytes):
+ *
+ *   u8 *arr = func_0204162C(a1);
+ *   u32 tmp;
+ *   u32 handle = func_02049EF4(p, 0x1d, 0, &tmp, a2);
+ *   func_02082D44((u8 *)tmp + 0xc + 0x540, arr + 0x540, 0xc0);
+ *   func_020307B0(handle);
+ *   for (i = 0; i < 0x60; i++)
+ *       ((u16 *)(arr + 0x540))[i] =
+ *           (u16)((a4 << 12) + a3 + (((u16 *)(arr + 0x540))[i] & 0xfff));
+ *
+ * Blocking class: codegen (register allocation + constant pool choice), not
+ * evidence -- every site is attested.  Not attempted further.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8  *func_0204162C(int a0);
+extern u32  func_02049EF4(u8 *p, int kind, int zero, u32 *out, u32 a4);
+extern void func_02082D44(void *dst, const void *src, int size);
+extern void func_020307B0(u32 handle);
+
+void func_02027634(u8 *p, int a1, u32 a2, int a3, u32 a4)
+{
+    u32 tmp;
+    u32 handle;
+    int i;
+    u8 *src;
+    u16 *q;
+
+    handle = func_02049EF4(p, 0x1d, 0, &tmp, a2);
+    src = func_0204162C(a1);
+    q = (u16 *)(src + 0x540);
+    func_02082D44((u8 *)tmp + 0xc + 0x540, src + 0x540, 0xc0);
+    func_020307B0(handle);
+    for (i = 0; i < 0x60; i++) {
+        q[i] = (u16)((a4 << 12) + a3 + (q[i] & 0xfff));
+    }
+}

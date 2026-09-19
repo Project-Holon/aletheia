@@ -1,0 +1,28 @@
+pkt_02046B40 / func_02046B40 @ 0x02046B40 (136 bytes code + 24 pool, ARM) - DIFF, 8 bytes, register colouring
+===================================================================================================================
+
+Not filed: the compiled function is 152 bytes against the original's 160.
+
+The shape is right -- three inlined twelve-byte ldm/stm copies into the module
+object at +0x5c/+0x68/+0x74, the same three blocks mirrored into the globals
+at 0x02148D8C/0x02148D98/0x02148DA4, the three-argument call, and the
+`bic ... #0xe8` on 0x02148B4C + 0xfc -- but three of the four destination
+registers and the push set differ:
+
+    ORIGINAL                                 COMPILED
+    push {r3, r4, r5, r6, r7, lr}            push {r4, r5, r6, lr}
+    add r7, r3, #0x5c                        add r6, r3, #0x5c
+    add r6, r3, #0x68                        add r5, r3, #0x68
+    add r5, r3, #0x74                        add r4, r3, #0x74
+    ldr r4, [pc] / ldr lr, [pc] /            ldr lr, [pc] / ldr ip, [pc] /
+    ldr ip, [pc] / ldr r3, [pc]              ldr r3, [pc]
+
+The original uses one more callee-saved register and pushes r3 with it, which
+is the whole eight-byte difference.  The C is the natural three-block struct
+copy; the allocator simply picked a shallower set here.
+
+Two spellings that matter and are already in the file: the mirrored globals
+must be named at their own addresses (0x02148D8C etc.) rather than as offsets
+of one another, and the hardware pointer must stay a *base* symbol with 0xfc
+as a load offset (`g_02148B4C` extern array), because folding the two together
+moves the pool word to 0x02148C48 and loses the relocation.

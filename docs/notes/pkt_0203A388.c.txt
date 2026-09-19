@@ -1,0 +1,29 @@
+pkt_0203A388 / func_0203A388 @ 0x0203A388 (144 bytes code + 12 pool, ARM) - DIFF, 16 bytes, register colouring
+=================================================================================================================
+
+Not filed: the compiled function is 172 bytes against the original's 156.
+
+The residue is entirely the allocation of the fourth parameter.  The original
+leaves it on the caller's stack and re-reads it at the call:
+
+    ORIGINAL                                 COMPILED
+    push {r3, r4, r5, r6, r7, lr}            push {r3, r4, r5, r6, r7, r8, lr}
+    mov r5, r0            ; id               sub sp, sp, #4
+    mov r7, r1                               mov r5, r3    ; the 4th parameter
+    mov r6, r2                               mov r8, r0    ; id pushed to r8
+    bl func_0203D798                         mov r7, r1
+    mov r4, r0                               mov r6, r2
+    ldr r0, [sp, #0x18]   ; the 4th arg      bl func_0203D798
+    bl func_020395EC                         mov r4, r0
+                                             mov r0, r5
+                                             bl func_020395EC
+
+The `push {r3, ...}` in the original is the home area for the incoming r3: the
+compiler spills the fourth parameter there and reloads it after the module
+getter, freeing r5 for the slot id.  Here the allocator promotes the fourth
+parameter into r5 instead, which forces the id into r8 and an extra spill
+slot.  Everything after the first basic block is identical.
+
+Tried: declaring the fourth parameter as a pointer, reordering the locals
+(`u32 *p;` before the ctx initialiser moves the getter into the if and is much
+worse), and both statement orders for the two guard calls.

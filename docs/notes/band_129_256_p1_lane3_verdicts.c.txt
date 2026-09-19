@@ -1,0 +1,128 @@
+band 129-256, lane 3 (0x02039658..0x0204E410): per-row verdicts
+================================================================
+
+73 rows, 55 packets.  This run filed 5 EXACT, parked 2 MATCH-capped files and
+characterised 7 DIFF residues; the table below records the verdict reachable
+for every row, so the next lane does not re-derive any of them.
+
+EXACT (filed in src/matched/, in a shard)
+  0x02039CD8  188  src/matched/func_02039CD8.c   pkt_02039CD8
+  0x02042218  188  src/matched/func_02042218.c   pkt_02041FF4
+  0x02047260  152  src/matched/func_02047260.c   pkt_02047260
+  0x0204767C  188  src/matched/func_0204767C.c   pkt_0204767C
+  0x0204919C  156  src/matched/func_0204919C.c   pkt_0204919C
+
+PARKED at MATCH (src/pending/, blocker named in the header)
+  0x0203B5D4  180  src/pending/func_0203B5D4.c  ABS32 to 0x0203B52C, own-pool-only
+  0x0203B52C  168  src/pending/func_0203B52C.c  ABS32 to 0x0203B4DC and 0x0203B40C, own-pool-only
+
+DIFF, characterised (no file; the C and the residue are in the note)
+  0x0203A020  248  docs/notes/pkt_02039CD8.c.txt
+  0x0203A388  156  docs/notes/pkt_0203A388.c.txt
+  0x0203B390  184  docs/notes/pkt_0203B390.c.txt
+  0x02042508  172  docs/notes/pkt_02042508.c.txt
+  0x0203DAC4  236  docs/notes/pkt_0203DAC4.c.txt
+  0x02046B40  160  docs/notes/pkt_02046B40.c.txt
+  0x0204E410  176  docs/notes/pkt_0204E410.c.txt
+
+Remaining rows: verdict and the lever that changes it.
+
+| address | size | isa | packet | state | class | verdict / lever |
+| --- | --- | --- | --- | --- | --- | --- |
+| `0x02039CD8` | 188 | arm | `pkt_02039CD8` | new | chain | EXACT (filed) |
+| `0x0203A020` | 248 | arm | `pkt_02039CD8` | new | ready | DIFF, note |
+| `0x0203A388` | 144 | arm | `pkt_0203A388` | new | chain | DIFF, note |
+| `0x0203A85C` | 248 | arm | `pkt_0203A85C` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x0203ABC0` | 232 | arm | `pkt_0203A85C` | new | chain | chain: the only unwitnessed caller target is file first: 0x02038C18 -- file that first, the C may then be written against an attested callee |
+| `0x0203ACAC` | 196 | arm | `pkt_0203A85C` | new | chain | chain: the only unwitnessed caller target is file first: 0x02038C18,0x0203ABC0 -- file that first, the C may then be written against an attested callee |
+| `0x0203AE20` | 188 | arm | `pkt_0203AD8C` | new | chain | chain: the only unwitnessed caller target is file first: 0x0203F0A8 -- file that first, the C may then be written against an attested callee |
+| `0x0203B0C4` | 140 | arm | `pkt_0203B0C4` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x0203B390` | 172 | arm | `pkt_0203B390` | new | ready | DIFF, note |
+| `0x0203B52C` | 148 | arm | `pkt_0203B52C` | new | chain | MATCH, parked |
+| `0x0203B5D4` | 160 | arm | `pkt_0203B5D4` | new | ready | MATCH, parked |
+| `0x0203CBAC` | 220 | arm | `pkt_0203CBAC` | new | chain | chain: the only unwitnessed caller target is file first: 0x0200F17C,0x0203D8F0 -- file that first, the C may then be written against an attested callee |
+| `0x0203D8F0` | 228 | arm | `pkt_0203D8F0` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x0203DAC4` | 232 | arm | `pkt_0203DAC4` | new | ready | DIFF, note |
+| `0x0203FA08` | 228 | arm | `pkt_0203FA08` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x02042218` | 188 | arm | `pkt_02041FF4` | new | ready | EXACT (filed) |
+| `0x02042508` | 156 | arm | `pkt_02042508` | new | ready | DIFF, note |
+| `0x02043130` | 236 | arm | `pkt_02043130` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x02044BF0` | 236 | arm | `pkt_020445F4` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x02044EBC` | 164 | arm | `pkt_020445F4` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x02046300` | 136 | arm | `pkt_020461F4` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x02046B40` | 136 | arm | `pkt_02046B40` | new | ready | DIFF, note |
+| `0x02046CE0` | 200 | arm | `pkt_02046CE0` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x02046FF8` | 176 | arm | `pkt_02046FF8` | new | chain | chain: the only unwitnessed caller target is file first: 0x02047260,0x0206A00C,0x0206A12C -- file that first, the C may then be written against an attested callee |
+| `0x020470D0` | 168 | arm | `pkt_020470D0` | new | chain | chain: the only unwitnessed caller target is file first: 0x0206A0C4,0x0206A17C -- file that first, the C may then be written against an attested callee |
+| `0x02047180` | 132 | arm | `pkt_020470D0` | new | chain | chain: the only unwitnessed caller target is file first: 0x02047260 -- file that first, the C may then be written against an attested callee |
+| `0x02047260` | 148 | arm | `pkt_02047260` | new | ready | EXACT (filed) |
+| `0x02047400` | 244 | arm | `pkt_02047400` | new | chain | chain: the only unwitnessed caller target is file first: 0x02069D14,0x0206A2CC,0x0206A4AC -- file that first, the C may then be written against an attested callee |
+| `0x02047564` | 184 | arm | `pkt_02047564` | new | chain | chain: the only unwitnessed caller target is file first: 0x02069C74,0x0206E364 -- file that first, the C may then be written against an attested callee |
+| `0x0204767C` | 172 | arm | `pkt_0204767C` | new | ready | EXACT (filed) |
+| `0x02048918` | 220 | arm | `pkt_02048330` | new | chain | chain: the only unwitnessed caller target is file first: 0x020470D0 -- file that first, the C may then be written against an attested callee |
+| `0x0204919C` | 156 | arm | `pkt_0204919C` | new | ready | EXACT (filed) |
+| `0x02049C28` | 216 | arm | `pkt_02049C28` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x0204A1BC` | 200 | arm | `pkt_0204A1BC` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x0204A298` | 212 | arm | `pkt_0204A1BC` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x0204A39C` | 220 | arm | `pkt_0204A39C` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x0204A9D0` | 192 | arm | `pkt_0204A9D0` | new | chain | chain: the only unwitnessed caller target is file first: 0x020637BC -- file that first, the C may then be written against an attested callee |
+| `0x0204AA94` | 236 | arm | `pkt_0204A9D0` | new | chain | chain: the only unwitnessed caller target is file first: 0x020637BC -- file that first, the C may then be written against an attested callee |
+| `0x0204ACEC` | 180 | arm | `pkt_0204ACEC` | new | chain | chain: the only unwitnessed caller target is file first: 0x0204DEE8 -- file that first, the C may then be written against an attested callee |
+| `0x0204BD94` | 140 | arm | `pkt_0204BCF4` | new | chain | chain: the only unwitnessed caller target is file first: 0x0204BE84,0x02065AA8 -- file that first, the C may then be written against an attested callee |
+| `0x0204BE84` | 156 | arm | `pkt_0204BE84` | new | chain | chain: the only unwitnessed caller target is file first: 0x0204BF28,0x02065B74 -- file that first, the C may then be written against an attested callee |
+| `0x0204BF40` | 132 | arm | `pkt_0204BE84` | new | chain | chain: the only unwitnessed caller target is file first: 0x02063294 -- file that first, the C may then be written against an attested callee |
+| `0x0204C98C` | 164 | arm | `pkt_0204C944` | new | ready | ready, not reached this run (no external blocker: every call target is already attested) |
+| `0x0204D18C` | 152 | arm | `pkt_0204D18C` | new | chain | chain: the only unwitnessed caller target is file first: 0x020642C8,0x02066AE0 -- file that first, the C may then be written against an attested callee |
+| `0x0204D224` | 156 | arm | `pkt_0204D18C` | new | chain | chain: the only unwitnessed caller target is file first: 0x0206469C,0x02064754 -- file that first, the C may then be written against an attested callee |
+| `0x0204E388` | 132 | arm | `pkt_0204E130` | new | chain | chain: the only unwitnessed caller target is file first: 0x0204E410,0x0204E4C0 -- file that first, the C may then be written against an attested callee |
+| `0x0204E410` | 164 | arm | `pkt_0204E410` | new | ready | DIFF, note |
+| `0x0203AD8C` | 136 | arm | `pkt_0203AD8C` | park | chain | already byte-correct in src/pending; blocked on file first: 0x0203AE20 -- file it first |
+| `0x0203D3F8` | 204 | arm | `pkt_0203D3F8` | park | chain | already byte-correct in src/pending; blocked on file first: 0x02038C18,0x020395EC -- file it first |
+| `0x02041300` | 172 | arm | `pkt_02041300` | park | chain | already byte-correct in src/pending; blocked on file first: 0x02042D2C -- file it first |
+| `0x02045180` | 144 | arm | `pkt_02045180` | park | ready | already byte-correct in src/pending; blocked on - -- file it first |
+| `0x020461F4` | 256 | arm | `pkt_020461F4` | park | ready | already byte-correct in src/pending; blocked on - -- file it first |
+| `0x0204AC18` | 208 | arm | `pkt_0204AC18` | park | chain | already byte-correct in src/pending; blocked on file first: 0x0204DD08 -- file it first |
+| `0x0204D7E0` | 204 | arm | `pkt_0204D7E0` | park | chain | already byte-correct in src/pending; blocked on file first: 0x02034558 -- file it first |
+| `0x02039658` | 196 | arm | `pkt_020395EC` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02039764` | 204 | arm | `pkt_02039764` | noted | ready | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x020398B4` | 172 | arm | `pkt_02039764` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02039ACC` | 144 | arm | `pkt_02039A5C` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02039B5C` | 204 | arm | `pkt_02039A5C` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x0203CDD4` | 136 | arm | `pkt_0203CDD4` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x0203ECD8` | 168 | arm | `pkt_0203EC7C` | noted | ready | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x0203F258` | 152 | arm | `pkt_0203F258` | noted | ready | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x0203F540` | 180 | arm | `pkt_0203F540` | noted | ready | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x020433E0` | 184 | arm | `pkt_020433E0` | noted | ready | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02044CE0` | 164 | arm | `pkt_020445F4` | noted | ready | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02047B4C` | 184 | arm | `pkt_020479D8` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02047C04` | 136 | arm | `pkt_020479D8` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02047E88` | 192 | arm | `pkt_02047E88` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02047F4C` | 192 | arm | `pkt_02047E88` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x02048010` | 208 | arm | `pkt_02047E88` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x0204A6C8` | 212 | arm | `pkt_0204A6C8` | noted | ready | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x0204C214` | 180 | arm | `pkt_0204C060` | noted | ready | already attempted, residue in docs/notes; revisit only with a new lever |
+| `0x0204C2C8` | 248 | arm | `pkt_0204C060` | noted | chain | already attempted, residue in docs/notes; revisit only with a new lever |
+
+Levers worth carrying forward from this run
+-------------------------------------------
+1. A conditional return inside a loop body must be written as the `else` of
+   the positive test.  `if (f() == 0) return 0;` following the body makes mwcc
+   if-convert the epilogue into `moveq`/`popeq` and loses eight bytes;
+   `if (f() != 0) body; else return 0;` reproduces the out-of-line block.
+   (func_02039CD8, 180 -> 188 bytes.)
+2. A short-circuit `&&` in a guard loses the predicated `ldrbne`/`cmpne` chain
+   and emits a real branch.  `if (a == 0 || b == c) goto L;` is what produces
+   the predicated pair the originals show.  (func_0203A020, func_0203B390.)
+3. The `else` of a two-arm guard belongs at the end of the function, not as a
+   leading `return`: write `if (cond) { ...body... } else { fail; }` and let
+   the fail arm fall out of line.  (func_0203A020.)
+4. A function pointer called through a member is loaded into r1, not r0, when
+   the same statement also passes the preceding call's return value as the
+   first argument: `((void (*)(u32))p->f2c)(func_0203D650());`
+   (func_0203B52C, 172 -> 168 bytes and byte-exact.)
+5. Declaring the loop index unsigned is what turns the loop back-edge into
+   `blo`; a signed `int` emits `blt`.  (func_0204767C 192 -> 188 EXACT;
+   func_0204E410.)
+6. Two pool words two bytes apart (0x020A1480 / 0x020A1482) are two separate
+   symbols, not one four-byte record: a struct collapses them onto one base
+   plus offsets and loses a relocation.

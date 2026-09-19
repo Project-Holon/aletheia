@@ -1,0 +1,122 @@
+DIFF residue: sub_02036DC8 @ 0x02036DC8 (172 bytes, ARM, packet pkt_02036DC8)
+==========================================================================
+
+Verdict: DIFF, 12 bytes short (compiled 160 / original 172).  Every byte
+of the prologue, both GX bank calls, both DISPCNT reads and the mask all
+reproduce exactly; the residue is entirely in how the three-way compare
+on the masked display word is lowered.
+
+Original (0x02036E00..0x02036E2C):
+
+    02036E00  ldr r1, [pc, #0x60]      ; 0x00100010, the MIDDLE case
+    02036E04  cmp r2, r1
+    02036E08  bgt 0x02036E1C           ; > middle -> test the high case
+    02036E0C  bge 0x02036E38           ; == middle -> return b * 2
+    02036E10  cmp r2, #0x10
+    02036E14  beq 0x02036E30           ; == 0x10   -> return b * 4
+    02036E18  b   0x02036E48           ; default
+    02036E1C  add r0, r1, #0x100000    ; 0x00200010
+    02036E20  cmp r2, r0
+    02036E24  bgt 0x02036E48
+    02036E28  beq 0x02036E40           ; == high   -> return b
+    02036E2C  b   0x02036E48
+
+i.e. mwcc built a balanced binary search with 0x00100010 as the pivot,
+which is what it does for a `switch` over the three sparse constants
+{0x10, 0x00100010, 0x00200010}.
+
+mwcc 1.1p1 at -O4,p will not reproduce that tree from any spelling tried
+here.  Measured, all with the same 172-byte original as the target:
+
+    switch (m) { case 0x10: ... }       160 bytes, LINEAR chain, 0x10 first
+    switch, cases in any of the 6
+        source permutations                160 or 156 bytes, still linear
+    int m / u32 m / long m / (int)m     160 bytes, unchanged
+    if / else-if chain                 144 bytes, every arm PREDICATED
+                                       (lsleq/popeq), which the original
+                                       is not -- the original's three
+                                       returns sit at three separate
+                                       addresses reached by branches
+
+So the original's three return arms each have their own `pop {r4, pc}`,
+which only the `switch` spelling produces, but the pivot selection is
+stuck on the low case instead of the middle one.  This is a codegen
+wall, not a spelling problem: the case set, the expression type and the
+signedness are all fixed by the rest of the function matching byte for
+byte, and the tree shape is the one thing left.
+
+Both DISPCNT reads must be written as `*(volatile u32 *)0x04...`; with a
+plain pointer the compiler hoists the address computation out of the
+arms and shares a single load, which costs another 24 bytes.
+
+Compile line:
+  python tools/match.py one --src <this file's C> --func sub_02036DC8 \
+      --addr 0x02036DC8 --cc 1.1p1 --arm
+
+symbols:
+  str_020A79F0  0x020A79F0  data
+  str_020A79FC  0x020A79FC  data
+  GX_GetBankForOBJ     0x02080C24  arm
+  GX_GetBankForSubOBJ  0x02080C64  arm
+  func_02034714        0x02034714  arm
+/*
+ * function: sub_02036DC8
+ * address:  0x02036DC8
+ * packet:   pkt_02036DC8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Maps the display control word of the requested engine onto the icon
+ * render scale: the OBJ bank bits (20-21) and the OBJ-character mapping
+ * bit (4) together pick 4x, 2x or 1x, and anything else is a fatal
+ * configuration error.  The mask 0x00300010 is shared by both arms, so
+ * the compiler hoists it out of the if and the DISPCNT read happens
+ * inside; the switch then binary-searches the three sparse case values
+ * with 0x00100010 as the middle.
+ *
+ * symbols:
+ *   str_020A79F0  0x020A79F0  data
+ *   str_020A79FC  0x020A79FC  data
+ *   GX_GetBankForOBJ     0x02080C24  arm
+ *   GX_GetBankForSubOBJ  0x02080C64  arm
+ *   func_02034714        0x02034714  arm
+ */
+
+typedef unsigned int u32;
+typedef volatile unsigned int vu32;
+
+extern const char str_020A79F0[];
+extern const char str_020A79FC[];
+
+extern u32  GX_GetBankForOBJ(void);
+extern u32  GX_GetBankForSubOBJ(void);
+extern void func_02034714(const char *file, int line, const char *msg);
+
+u32 sub_02036DC8(u32 engine, u32 b)
+{
+    int m;
+
+    if (engine == 1) {
+        GX_GetBankForOBJ();
+        m = *(vu32 *)0x04000000 & 0x00300010;
+    } else {
+        GX_GetBankForSubOBJ();
+        m = *(vu32 *)0x04001000 & 0x00300010;
+    }
+
+    switch (m) {
+    case 0x10:
+        return b * 4;
+    case 0x00100010:
+        return b * 2;
+    case 0x00200010:
+        return b;
+    default:
+        func_02034714(str_020A79F0, 0xfb, str_020A79FC);
+        return b;
+    }
+}

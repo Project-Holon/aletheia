@@ -1,0 +1,46 @@
+/* DIFF residue: func_0203F32C @ 0x0203F32C (arm9, ARM, pkt_0203F32C, 80 bytes)
+ *
+ * This entry cannot be matched at the address the worklist gives it: the
+ * function really begins four bytes earlier.
+ *
+ *   0203F328  0f 00 2d e9  push {r0, r1, r2, r3}
+ *   0203F32C  f8 40 2d e9  push {r3, r4, r5, r6, r7, lr}
+ *   ...
+ *   0203F370  f8 40 bd e8  pop {r3, r4, r5, r6, r7, lr}
+ *   0203F374  10 d0 8d e2  add sp, sp, #0x10
+ *   0203F378  1e ff 2f e1  bx lr
+ *
+ * The bare `push {r0, r1, r2, r3}` at 0x0203F328 is the parameter home area
+ * mwccarm emits for a function that takes the address of a register
+ * (docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md), and
+ * it is what the two `add sp, sp, #0x10` epilogues balance: without it the
+ * frame is 0x10 short and `add r4, sp, #0x20` (0x0203F348) does not name a
+ * legible local.  The bytes before it end in `bx lr` (0x0203F324), so it is
+ * not a fall-through tail either.
+ *
+ * Still, 0x0203F32C and 0x0203F37C are where disasm.py put the two labels, so
+ * the 80-byte range this row names is the body only, minus its prologue.  A C
+ * body that takes the address of a parameter compiles to 84 bytes starting
+ * with `push {r0, r1, r2, r3}` and cannot line up at 0x0203F32C.
+ *
+ * Body, for whoever reseeds 0x0203F328 into layout/function_starts.txt (that
+ * file is the integrator's, not a lane's):
+ *
+ *   void func_0203F328(u16 *p, u32 n, ...)
+ *   {
+ *       u32 i;
+ *       n >>= 1;
+ *       if (n == 0) return;
+ *       for (i = 0; i < n; i++) {
+ *           func_0203F388(&<stack argument area>);
+ *           p[i] ^= <returned value>;
+ *       }
+ *   }
+ *
+ * `add r4, sp, #0x20` (0x0203F348) is the address of the home area of the
+ * second register parameter, so the source takes &param2; that is the same
+ * fact that makes the prologue open with the four-register push.
+ *
+ * Blocking class: wrong function start (artifact-class `push {r0,r1,r2,r3}`
+ * home area split off the function it belongs to).  Report, do not shard.
+ */

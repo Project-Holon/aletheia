@@ -1,0 +1,85 @@
+/* func_02075794.c.txt */
+
+func_02075794 -- near miss, DIFF, 200 compiled against 196 original, 8 of 8
+relocation sites resolve.
+
+0x02075794 (196 bytes) is pkt_02075794's lead function and the blocker named in
+src/pending/func_02075618.c.  It is a four-step open/bind path with an
+eight-argument signature (four in registers, four on the stack):
+
+    h = func_02073344(a0, a1, a3)            (r2 = a3 is moved into place first)
+    if (h == 0) return 0;
+    v = func_020734AC(a1, h);
+    if (func_02074CD0(a2, 6, v, 0, &slot) != 0) { func_020733DC(h); return 0; }
+    func_020733E8(h, s1 + *(u32 *)(s1 + 0x18), *(u32 *)s0, slot);
+    func_02072F48(a0, s0[6]);
+    func_02072F88(a0, s0[7]);
+    func_020730DC(a0, s2, s3);
+    return 1;
+
+Every instruction of that body reproduces, including the `sub sp, sp, #8` +
+`ldr r6, [sp, #0x20]` frame, the `movs r5, r0` / `addeq` / `popeq` early exit and
+the reversed stack-argument order of the two stack loads at 0x0207583C.  What
+does not reproduce is the callee-saved register assignment the allocator picks
+for the five values that live across the first call:
+
+    slot   original   this C
+    a0     r4         r4
+    a1     r8         r5
+    a2     r7         r8
+    s0     r6         r7
+    h      r5         r6
+
+Both assignments are monotonic, but over different orders -- the original
+assigns (a0, h, s0, a2, a1), this C assigns (a0, a1, h, s0, a2) -- and because
+this C's `r5` is taken by a1 the constant 0 for func_02074CD0's fourth argument
+is materialised into r5 and copied to r3 (`mov r5, #0; mov r3, r5`) where the
+original emits `mov r3, #0` directly.  That single extra instruction is the
+200-vs-196 difference; the register permutation accounts for the rest.
+
+Tried and rejected: locals declared with initialisers at their first use, three
+different declaration orders of the locals, the success path written first
+(matching the original's branch layout), `0u` / `(u32)0` / a `u32 zero = 0`
+local for the fourth argument, and an inverted `== 0` guard.  All seven spellings
+compile to exactly 200 bytes with the same register permutation.
+
+C attempted:
+
+```c
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern void *func_02073344(u32 a0, u32 a1, u32 a2);
+extern u32   func_020734AC(u32 a, void *h);
+extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
+extern void  func_020733DC(void *h);
+extern void  func_020733E8(void *h, u32 *a, u32 b, u32 c);
+extern void  func_02072F48(u32 a, u32 b);
+extern void  func_02072F88(u32 a, u32 b);
+extern void  func_020730DC(u32 a, u32 b, u32 c);
+
+u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3)
+{
+    void *h;
+    u32 v;
+    u32 slot;
+
+    h = func_02073344(a0, a1, a3);
+    if (h == 0) {
+        return 0;
+    }
+
+    v = func_020734AC(a1, h);
+
+    if (func_02074CD0(a2, 6, v, 0, &slot) != 0) {
+        func_020733DC(h);
+        return 0;
+    }
+
+    func_020733E8(h, (u32 *)(s1 + *(u32 *)(s1 + 0x18)), *(u32 *)s0, slot);
+    func_02072F48(a0, s0[6]);
+    func_02072F88(a0, s0[7]);
+    func_020730DC(a0, s2, s3);
+    return 1;
+}
+```

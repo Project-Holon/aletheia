@@ -1,0 +1,67 @@
+/* func_020737C0.c.txt */
+
+func_020737C0 -- near miss, DIFF, 57 concrete bytes, and a second,
+independent cap.
+
+0x020737C0 (120 bytes) initialises a 0x54-byte object: lazily create the heap
+through func_02060468(0x0214E8E8, 0) and latch 0x0214E8E4 = 1, then store the
+two code pointers (0x02073CA0, 0x02073CEC), the object's own address twice at
++0x0c/+0x1c, two nulls at +0x4c/+0x50, and clear bits 0 and 1 of +0x2c with two
+separate `bic` immediates.
+
+Two separate findings:
+
+1. The two `bic r0, r0, #1` / `#2` pair proves the source clears two 1-bit
+   fields, and writing `p->f2c &= ~3` in one statement instead folds to a single
+   `bic #3` (116 bytes).  With two statements the compiled body matches the
+   original's instruction multiset but mwcc hoists the `ldr r0, [r4, #0x2c]`
+   read-modify-write above the six stores (keeping the value live in r0 across
+   them) where the original performs it last.
+
+2. Even with a perfect body this file can only ever reach MATCH: the pool word
+   naming g_0214E8E4 is this function's own, so the data class has no outside
+   witness for it (`literal` finds no second occurrence).
+
+C attempted:
+
+```c
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern u32 g_0214E8E4;
+extern u8  g_0214E8E8[];
+extern u32 func_02060468(u8 *base, u32 flag);
+extern void func_02073CA0(void);
+extern void func_02073CEC(void);
+
+typedef struct S {
+    char pad_00[8];
+    void (*f08)(void);  /* 0x08 */
+    u32  f0c;           /* 0x0c */
+    char pad_10[8];
+    void (*f18)(void);  /* 0x18 */
+    u32  f1c;           /* 0x1c */
+    char pad_20[0xc];
+    u32  f2c;           /* 0x2c */
+    char pad_30[0x1c];
+    u32  f4c;           /* 0x4c */
+    u32  f50;           /* 0x50 */
+} S;
+
+void func_020737C0(S *p)
+{
+    if (g_0214E8E4 == 0) {
+        func_02060468(g_0214E8E8, 0);
+        g_0214E8E4 = 1;
+    }
+
+    p->f08 = func_02073CA0;
+    p->f0c = (u32)p;
+    p->f18 = func_02073CEC;
+    p->f1c = (u32)p;
+    p->f4c = 0;
+    p->f50 = 0;
+    p->f2c &= ~1;
+    p->f2c &= ~2;
+}
+```

@@ -1,0 +1,79 @@
+func_02051648 (0x02051648, ARM, 256 bytes, LANE 7 near miss): 268 of 272 bytes,
+the missing instruction is one `mov r0, #0`
+============================================================================
+
+What the function is
+--------------------
+
+Constructor for the 0x25c-byte record at `this`: zeroes three words, stores
+the id halfword, stamps the 0x25b byte from the source record or from zero,
+then hands twelve arguments to func_02048A24 (a 4-word struct inline plus
+four fields of a second struct plus a defaulted triple of pointers plus the
+truncated id) and stores its return at +0x20.
+
+    void func_02051648(Dst02051648 *this, Src02051648 *src, u16 a2, int *a3,
+                       int *a4, int *a5, u32 a6)
+    {
+        if (a3 == 0) a3 = &g_020A1590;
+        if (a4 == 0) a4 = &g_020A1584;
+        if (a5 == 0) a5 = &g_020A1578;
+        this->f24 = 0;
+        this->f28 = 0;
+        this->f2c = 0;
+        this->f30 = a2;
+        if (src != 0) {
+            this->f25b = (u8)src->f00;
+            this->f20 = func_02048A24(src->f00, src->f04, src->f08, src->f0c,
+                                      src->f10, src->f14, src->f18, src->f1c,
+                                      (int)a3, (int)a4, (int)a5, (u16)a6);
+        } else {
+            this->f25b = 0;
+            this->f20 = func_02048A24(0, 0xb50, 0xb50, 0x1555,
+                                      0, 0x1000, 0x384000, 0,
+                                      (int)a3, (int)a4, (int)a5, (u16)a6);
+        }
+    }
+
+Findings that are real and worth keeping
+----------------------------------------
+
+  * `src != 0` is the **fall-through** arm; `src == 0` is the branch
+    (`beq`).  Writing the null arm first loses the whole back half.
+  * the three pointer defaults are evaluated unconditionally *before* the
+    branch and the compiler predicated each one (`ldreq r3, [pc, ...]`).
+  * `this->f25b = (u8)src->f00` must be a cast of the *word* field: the
+    original is `ldr r2, [lr]` then `strb r2, [r4, #0x25b]`, not `ldrb`.
+  * a6 is truncated at the use site (`lsl #0x10` / `lsr #0x10`, three
+    instructions) rather than by declaring the parameter `u16`, which would
+    make the compiler emit a single `ldrh`.
+  * the four incoming stack words are at [sp+0x28..0x30] because the frame
+    is `push {r4, lr}` + `sub sp, #0x20`: the function takes four register
+    arguments and four stack arguments.
+  * the twelve-argument call reuses the frame as its outgoing argument area,
+    so the four leading record fields come from `ldm`/`ldr` directly into
+    r0-r3 and the rest is stored at [sp]..[sp+0x1c].
+
+The residue
+-----------
+
+Compile 268 bytes against 272.  The whole difference is one instruction: the
+original re-materialises zero for the null arm's first two statements
+
+  mov r0, #0 ; strb r0, [r4, #0x25b] ; str r0, [sp]
+
+where the compile reuses the zero still live in r0 from the prologue's three
+word stores.  Everything else matches instruction for instruction, including
+the conditional default loads and both twelve-argument call sequences.
+
+What was tried
+--------------
+
+  * `this->f25b = 0;`, `= (u8)0;`, `= '\0';` in the null arm: identical
+    bytes each time.
+  * swapping the arm order (null first): 52 bytes wrong, confirms the
+    fall-through rule above.
+  * `a6` as `u16` with `(int)a6` at the calls: emits `ldrh`, 2 bytes short.
+  * `src->f00` as `*(u8 *)src`: emits `ldrb`, one byte short at +0x4C.
+
+Classification: allocator, one live zero not killed across the branch.  Not
+filed: 268/272 is a concrete difference, not a MATCH.

@@ -1,0 +1,68 @@
+func_02064934 (0x02064934, ARM, 160 bytes, LANE 7 near miss): three instructions
+in the wrong order in the prologue, everything else identical
+============================================================================
+
+What the function is
+--------------------
+
+Two-way dispatch on p->f08 that walks the count table at p->f00 and calls
+func_02064364 once per entry, with a different entry stride per arm (0x5c
+records for mode 1, 0x28 records whose first word is a pointer for anything
+else).
+
+    typedef struct { u16 *f00; u8 pad04[4]; int f08; char *f0c; } S02064934;
+
+    void func_02064934(S02064934 *p, int arg)
+    {
+        u16 i;
+        char *base = p->f0c;
+
+        if (p->f08 == 1) {
+            for (i = 0; i < p->f00[1]; i++) func_02064364(base + i * 0x5c, arg);
+        } else {
+            for (i = 0; i < p->f00[0]; i++) func_02064364(*(void **)(base + i * 0x28), arg);
+        }
+    }
+
+With this shape the compile is 160 bytes, the same as the image, and 9 bytes
+differ: exactly three instruction slots at offsets +0x14, +0x18, +0x1C.
+
+  original                             compile
+  ldr r0, [r7]      (p->f00)           ldr r5, [r7, #0xc]   (base)
+  mov r4, #0        (i = 0)            ldr r0, [r7]
+  ldr r5, [r7, #0xc]                   mov r4, #0
+
+Same instructions, same registers, rotated scheduling.  Everything from the
+branch at +0x20 on is byte-identical, including both rotated loops and the
+`mla`/`mul` forms for the two strides.
+
+Findings that are real and worth keeping
+----------------------------------------
+
+  * `base` IS a source-level local: the loop reloads `p->f00` (through r7)
+    after every call but never reloads `p->f0c`, so the base must have been
+    hoisted into a register by the C, not by the optimiser.
+  * `i` is `u16`: the increment is materialised as `add r0, r4, #1` / `lsl
+    #0x10` / `lsr #0x10` / `cmp` on `r0, lsr #16`.
+  * the loop guard compiles to `popls` (unsigned `<=`) with an *unsigned*
+    bound, and the count is re-read from p->f00 on every iteration.
+  * the stride constants 0x5c and 0x28 live in the same register (r8) in the
+    two arms, which only happens when the two loops are separate statements
+    with their own constant.
+  * the first arm's address is `mla r0, r4, r8, r5`; the second is `mul r0,
+    r4, r8` then `ldr r0, [r5, r0]`.  This is the 0x5c/0x28 stride pair that
+    recurs in pkt_02064CBC (func_02064D70) - the same two record families.
+
+What was tried
+--------------
+
+  * `base` declared at function scope with an initialiser (the version above),
+    assigned in both arms before each loop, and declared inside each arm:
+    the first gives base into r5/i into r4 (right), the others move base into
+    r4 or push the branch test ahead of the loads (37 and 44 bytes wrong).
+  * a standalone `base = p->f0c;` statement instead of an initialiser:
+    identical bytes to the initialiser form.
+
+Classification: scheduler, same instructions in a rotated order, not
+reachable from the C shape.  Left as a note; not filed, since a 9-byte
+concrete difference is not a MATCH and cannot be parked.

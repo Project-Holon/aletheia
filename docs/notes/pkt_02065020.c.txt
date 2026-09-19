@@ -1,0 +1,35 @@
+/* pkt_02065020.c.txt */
+
+lane-3 rows 0x02065134 and 0x020653A4 (pkt_02065020) -- not attempted, reading
+recorded so the next pass does not re-derive it.
+
+Both are straight-line 0x02147B88 dispatchers and both end in an indirect
+`blx` of a function pointer taken out of the current 0x02147B88 slot's +0x3c
+(0x02065134) or +0x44 (0x020653A4) sub-object, so the sweep should start from
+the 0x02147B88 record rather than from C.
+
+0x02065134 (108 bytes):
+
+    r3 = 0x02147B88;  r2 = a1
+    r0 = [r3, #8]      ; slot object
+    r1 = [r0, #0x74]   ; sub-object
+    h  = [r1, #0x3c]   ; the indirect call target
+    if (h == 0) return
+    n  = [r3, #4];  i = [r3, #0xc]
+    if (n == 0) r3 = 0x02147D18 + i*0x18            ; mlaeq, 0x18-byte stride
+    else        { off = i*0x18;
+                  [0x020A81F8 + 0x18] = [0x02147D28 + off];
+                  [0x020A81F8 + 0x1c] = [0x02147D2C + off]; }
+    ip = [r1, #0x3c];  blx ip                       ; h(slot, sub, a1)
+
+0x020653A4 (124 bytes) is the same shape one slot over: the sub-object pointer
+comes from [0x02147B88+8]+0x74, the indirect target is at +0x44, the same
+0x02147D18 / 0x02147D28 / 0x02147D2C tables with the 0x18 stride feed
+0x020A81F8+0x18/+0x1c, and the final `blx lr` takes its three arguments from
+r0/r1/r2 plus the stack word [sp] written just before it (the same 0x18-stride
+index is put on the stack with `str r5, [sp]`).
+
+Neither was attempted: both need the whole 0x02147B88 record layout pinned first,
+and the two rows are 232 bytes between them whereas the lane's remaining budget
+went to the fifteen rows that did reach a verdict.  The pool words are
+0x02147B88, 0x02147D18, 0x02147D28, 0x02147D2C, 0x020A81F8, 0x020A8200.

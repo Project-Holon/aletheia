@@ -102,3 +102,54 @@ void func_02021FD8(char *a0, int a1, int a2, int a3, u8 a4, u16 a5)
 * +0022 bl #0x2021f64 | b4 ff 01 b0
 * +0024 b3 ff | add sp, #4
 * +0026 add sp, #4 | pop {r3, r4, r5, r6, pc}
+
+========================================================================
+
+func_02021C20 @ 0x02021C20  -- DIFF/SIZE residue (lane 4, 129-256 byte band)
+
+Compiler 1.1p1, -O4,p -proc arm946e, thumb.  Original 136 bytes, compiled
+140; 107 bytes differ.  Not a codegen failure: the arithmetic reproduces,
+the register assignment does not, and the 4 extra bytes are the two
+register-to-register copies that assignment forces.
+
+What it is: a 15-bit 5:5:5 colour blend over n pixels, per channel
+`out = c + ((target - c) * k) >> 4`, packed
+`dst[i] = (u8)r | ((u8)g << 5) | ((u8)b << 10)`.
+
+Two bitfield tells carry the whole body and are worth keeping:
+  - `pal->v` is a 15-bit **bitfield** at +4 (lsls 17/lsrs 17 at +0x2A), read
+    into an `int` local, which is why the following `>> 10` / `>> 5` are
+    **asrs**.  Written as `pal->f4 & 0x7fff` the compiler instead
+    materialises 0x7fff out of the literal pool (worse, and the only
+    spelling that changes the byte count for a different reason).
+  - `pal->k` is a 5-bit bitfield at bits 6-10 of the halfword at +2 (lsls
+    21/lsrs 27 at +0x32).  Written as `(f2 & 0x7ff) >> 6` it is 8 bytes of
+    shift plus an `ldr` from the pool for the mask.
+The three channel blends are emitted r, b, g in that order.
+
+The residue (all four spellings tried below compile to the same 140):
+
+  original                    compiler
+  i        r5                 r4
+  g        r6                 r7
+  rr       r7 (truncated)     r0
+  pal      reloaded [sp+8]    held in a register
+  bb<<10   r0                 r6
+
+The original spills the palette pointer and reloads it for each of the three
+field reads, and keeps `i`/`g` (not `rr`/`bb`) in the callee-saved slots
+r5/r6.  Every spelling tried keeps the pointer live in a register instead and
+lands the truncated channel in a scratch register, which costs
+`adds r5, r0, #0` / `adds r7, r2, #0` -- the 4 bytes.
+
+Spellings tried:
+  1. locals declared inside the loop, three `u8` locals assigned r,b,g,
+     packed `rr | (gg << 5) | (bb << 10)`;
+  2. same with every local hoisted to the function top (C89 style);
+  3. one packing expression, no intermediates;
+  4. mask form `(pal->f4 & 0x7fff)` (see above).
+Not tried: reordering the local *declarations* to steer the allocator into
+r5/r6/r7 -- a sixteenth spelling of the same body.
+
+The closest C is kept in scratch/l4_var_A.c; nothing of this function is
+filed in src/matched/ or src/pending/.

@@ -1,0 +1,58 @@
+/* func_0206B458.c.txt */
+
+func_0206B458 -- near miss, DIFF, 9 concrete bytes (72 vs 72).
+
+0x0206B458 (72 bytes, one data-table pool word) is a state pump: clear bit 6 of
+the flags at +0x08, read the state byte through the pointer at +0x00, dispatch
+on its low five bits through the table at 0x020A83B8 and hand the handler the
+top three bits as its second argument, then loop while bit 5 of the flags stays
+clear.
+
+Same size, same instruction set; the only difference is scheduling and the
+register holding the temporary pointer to the state byte:
+
+    original                     compiled
+    ldr  r1, [r4, #8]            ldr  r1, [r4, #8]
+    mov  r0, r4                  ldr  r0, [r4]        <- hoisted
+    bic  r1, r1, #0x40           bic  r1, r1, #0x40
+    str  r1, [r4, #8]            str  r1, [r4, #8]
+    ldr  r1, [r4]                ldrb r3, [r0]
+    ldrb r3, [r1]                mov  r0, r4          <- deferred
+    ...
+
+The original claims r0 for the call's first argument before it needs a scratch
+register (so the state pointer goes to r1, which the flag value has just
+freed); the compiled version takes r0 for the pointer and defers the argument.
+The pool word resolves (data_table x14).
+
+Tried and rejected: the handler in a function-pointer local, `for (;;)` with a
+break, a `((State *)p->f00)->f00` cast spelling, and passing `(S *)p` -- all
+compile to the same 72 bytes with the same 9-byte residue.
+
+C attempted:
+
+```c
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef struct {
+    u8 *p00;
+    u8  pad04[4];
+    u32 f08;
+} Ctx;
+
+typedef void (*Handler)(Ctx *ctx, u32 arg);
+
+extern Handler g_020A83B8[];
+
+void func_0206B458(Ctx *ctx)
+{
+    u32 cmd;
+
+    do {
+        ctx->f08 &= ~0x40u;
+        cmd = *ctx->p00;
+        g_020A83B8[cmd & 0x1f](ctx, cmd & 0xe0u);
+    } while ((ctx->f08 & 0x20u) == 0);
+}
+```
