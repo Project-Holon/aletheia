@@ -200,3 +200,84 @@ that force the `data + pos*4` address to be materialised, e.g.
 `y = *(s32 *)((u8 *)data + pos * 4 + 4);` with `x` written as the subscript
 form, since the image materialises the address for the SECOND load and then
 uses an immediate `#4` off it.  Do not re-run the duplicated-tail spelling.
+
+=====================================================================
+2026-09-21 -- ARM keyframe/animation subsystem, five functions worked
+=====================================================================
+
+The packet is one subsystem: a keyframe sampler family (0x0207010C u16,
+0x02070524 scalar u32/s16, 0x02070624 vector2), its driver 0x02070730, three
+near-identical slot-binding loops (0x02070360 / 0x02070830 / 0x02070948) and
+three small consumers (0x02070904, 0x02070A24, 0x02070AFC, 0x02070B64).
+
+Byte-correct, MATCH only:
+  0x02070904  src/pending/func_02070904.c
+              Blocked on evidence class `matched`: the single PC24 site is
+              the bl to 0x02070730, whose only branch in the image is this
+              one, so no `label` witness exists outside the compared range.
+              It unblocks the moment 0x02070730 reaches EXACT in a manifest.
+              Spelling note: BOTH struct fields the tail touches (+0x00 and
+              +0x10) must be `volatile`. With neither, or with only one,
+              mwcc hoists the +0x00 load above the +0x10 store and the last
+              five instructions reallocate.
+
+One shared codegen blocker, four functions, DIFF at exactly four bytes
+---------------------------------------------------------------------
+func_02070524, func_02070730, func_02070AFC and func_02070360 all reproduce
+every branch target, every register assignment and every instruction except
+one block, and each is exactly four bytes short.
+
+In every case the original spells a two-arm conditional as
+
+        <cond>eq  ...            /* the short arm, if-converted */
+        beq       join
+        <4 plain instructions>   /* the long arm, NOT if-converted */
+  join:
+
+while -O4,p if-converts BOTH arms, producing one fewer instruction:
+
+        <4 predicated instructions, ne>
+        <the short arm, eq>
+
+The four-instruction long arm sits exactly on this front end's
+if-conversion budget, and nothing tried moved it off:
+  - `goto` over the block with the label after it (the shared-exit idiom);
+  - the block's statements duplicated into each arm with its own `return`
+    (goes the other way: 12 bytes LONGER, the tail stops cross-jumping);
+  - the block ending in a `goto` to a join label with the tail written once;
+  - retyping the two narrowed locals u32 -> u16, which DOES produce the
+    `bne` skip the original has, but at the cost of a re-truncation
+    (`lsl #0x10 / lsr #0x10`) on every assignment: +16 bytes, not -4;
+  - splitting the narrowing into a named temporary re-assigned in place.
+
+For func_02070AFC the closest spelling is recorded in
+docs/notes/func_02070AFC.c.txt (100 of 104 bytes, first 0x40 exact, the sole
+PC24 to func_0206E62C resolves `label x9`). The same four-byte hole is at
++0x48 in func_02070AFC, +0xA0 in func_02070730, +0x8C in func_02070524 and
++0x6C in func_02070360.
+
+func_02070360 additionally has an unresolved guard spelling: the original
+exits the loop preamble with `cmp r0, #0 / popls`, and none of `== 0`
+(-> popeq), `(s32)x <= 0` (-> pople), `x < 1` (-> cmp #1 / poplo) or
+`u32 n = x; n <= 0` (-> popeq) reproduces the `ls`. All three relocations
+(MIi_CpuClear16 0x02082A48, func_0206E7EC 0x0206E7EC, data 0x020A8230)
+resolve cleanly, so the function is evidence-complete and only codegen-stuck.
+
+Two facts worth carrying forward
+--------------------------------
+  - func_0206E7EC takes TWO arguments. In func_02070360 the per-entry
+    pointer computed just before the call (r1) is not dead code; reading it
+    as a leftover costs the whole register plan (148 bytes instead of 208).
+  - the record pointer in func_02070730 is a local declared AFTER the three
+    parameter copies, which is what puts node/t/out in r7/r6/r5 and the
+    record in r4. Declared first, everything shifts one register.
+
+Untried in this run (oversized or out of budget): 0x0207010C (352 B),
+0x02070274, 0x02070434, 0x02070624, 0x02070830, 0x02070948, 0x02070A24,
+0x02070B64.
+
+Unlabelled follower: 0x02070BD8. `show --addr 0x02070B64` reports a 192-byte
+extent through 0x02070C24 while the worklist says 116; the run at 0x02070BD8
+(ldr r3,[pc,#0x40] ... bx lr, ending 0x02070C1C with a pool word at
+0x02070C20) is a separate leaf function with no `lr`-saving prologue and so
+no auto-label. It should be seeded into layout/function_starts.txt.

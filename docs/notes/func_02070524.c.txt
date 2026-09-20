@@ -1,0 +1,118 @@
+/*
+ * function: func_02070524
+ * address:  0x02070524
+ * packet:   pkt_0207010C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ *
+ * Scalar keyframe sampler. `flags` is the track descriptor word: bit 29 means
+ * the value is inline (return `off` unchanged), bits 31:30 select the key
+ * stride (full / half / quarter), bit 28 selects s16 keys over u32 keys, and
+ * bits 15:0 are the key count.
+ */
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+s32 func_02070524(u32 *base, u32 flags, u32 off, u32 idx)
+{
+    u32 n;
+    u32 i0;
+    s32 v0, v1;
+    s16 *h;
+    u32 *w;
+
+    if (flags & 0x20000000)
+        return off;
+
+    base = (u32 *)((int)base + off);
+
+    if (flags & 0xc0000000) {
+        n = flags & 0xffff;
+        if (flags & 0x40000000) {
+            if (idx & 1) {
+                if (idx > n) {
+                    idx = (n >> 1) + 1;
+                    goto plain;
+                }
+                idx = idx >> 1;
+                goto two;
+            }
+            idx = idx >> 1;
+            goto plain;
+        } else {
+            u32 r = idx & 3;
+            if (r != 0) {
+                if (idx > n) { idx = r + (n >> 2); goto plain; }
+                if (idx & 1) {
+                    if (idx & 2) { idx = idx >> 2; i0 = idx + 1; }
+                    else { i0 = idx >> 2; idx = i0 + 1; }
+                    if (!(flags & 0x10000000)) {
+                        v0 = base[i0];
+                        v1 = base[idx];
+                        goto quad;
+                    }
+                    h = (s16 *)base;
+                    v0 = h[i0];
+                    v1 = h[idx];
+                quad:
+                    return (v0 * 3 + v1) >> 2;
+                }
+                idx = idx >> 2;
+                goto two;
+            }
+            idx = idx >> 2;
+        }
+    }
+
+plain:
+    if (!(flags & 0x10000000))
+        return base[idx];
+    return ((s16 *)base)[idx];
+
+two:
+    if (!(flags & 0x10000000)) {
+        w = base + idx;
+        v0 = base[idx];
+        v1 = *(u32 *)((char *)w + 4);
+    } else {
+        h = (s16 *)base + idx;
+        v0 = ((s16 *)base)[idx];
+        v1 = *(s16 *)((char *)h + 2);
+    }
+    return (v0 + v1) >> 1;
+}
+
+=== 2026-09-21: probed under the per-file pin `--cc ../2.0/sp2`, NOT pinnable ===
+
+One probe of the C above under `../2.0/sp2 -O4,p -proc arm946e --arm`: DIFF,
+260 bytes against the original's 256, 40 concrete bytes out. The pin is
+REFUSED for this function, and the byte evidence points the other way.
+
+The whole first 0xB0 is byte-exact under the pin except +0x00A4 (`add r0, r0,
+r1` vs `add r0, r1, r0`); swapping the source to `(v1 + v0 * 3) >> 2` does not
+move it, the front end normalises the commutative add, so that one is a
+scheduling artefact of the real hole, not a spelling.
+
+The real 4-byte hole is at +0x00D4, and it is the "kept branches" tell of
+docs/FRONTEND-PINS.md RUNNING BACKWARDS. The `two:` block's u32 arm is four
+instructions, inside the predication budget of
+docs/idioms/an-arm-guard-block-of-five-instructions-or-fewer-is-predicated.md:
+
+  original @ +0x00D4          ../2.0/sp2
+  addeq r1, r0, r3, lsl #2    bne  #0x207060c
+  ldreq r0, [r0, r3, lsl #2]  add  r1, r0, r3, lsl #2
+  ldreq r1, [r1, #4]          ldr  r0, [r0, r3, lsl #2]
+  beq   #0x2070618            ldr  r1, [r1, #4]
+                              b    #0x207061c
+
+The IMAGE predicates the short arm here and ../2.0/sp2 keeps it as a branch,
+which is exactly 1.1p1 behaviour and the reason the 2.0 build is 4 bytes LONG
+rather than 4 bytes short. So this function reads as a 1.1p1 body, the pinned
+default, and the remaining gap is a C-shape question at the default compiler,
+not a front-end question. Do not pin it. No other front end was tried.

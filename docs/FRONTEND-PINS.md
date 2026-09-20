@@ -43,6 +43,7 @@ Rule, adopted 2026-09-19 by the owner:
 | `src/matched/func_020528A8.c`, `src/matched/func_020528BC.c`, `src/matched/func_02052F58.c`, `src/matched/func_02052F90.c`, `src/pending/func_02052FC8.c` | `../1.2/sp2` | `pkt_020526A8` is a 1.2 unit on two tells at once: `blx r3` beside `ldm sp!, {lr}; bx lr` at 0x02052F6C/0x02052F80, and `sub sp, sp, #4` where 1.1p1 pads with a dead `push {r3}` (the same tell as `func_020525A0.c`). Under the pin the same one-line C is byte-exact where 1.1p1 is 27 bytes out and folds the 16-bit mask into a shift pair |
 | `src/matched/func_02072A88.c` | `../1.2/sp2` | the tail-call tell again: `a-tail-calls-pool-word-is-scheduled-before-the-last-argument-write` is not unspellable, it is 1.2 |
 | `src/matched/func_02072BDC.c` | `../2.0/sp2` | the "kept constants" tell: 23 bytes out under 1.1p1, 39 under 1.2, byte-exact under the pin |
+| `src/matched/func_02069E20.c` | `../2.0/sp2` | the "kept branches" tell, the counterpart of "kept constants": the image keeps `tst r2, #0x100` at 0x02069E4C and `beq 0x02069E68` at 0x02069E50 over a five-instruction guard body at 0x02069E54..0x02069E64. 1.1p1 -O4,p always predicates a guard block of five instructions or fewer (`asrne/ldrne/andne/orrne/strne`), giving 100 bytes against the original's 104; under the pin the same C is 104 bytes, 0 mismatches |
 
 FLAGS ARE PART OF THE ENTRY, not just the compiler: a source whose header carries `flags: -O4,p -proc
 arm7tdmi` (the arm-epilogue class, `layout/proc_hints.txt`, `tools/procscan.py`) must be VERIFIED with that

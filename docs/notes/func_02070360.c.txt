@@ -1,0 +1,132 @@
+/*
+ * function: func_02070360
+ * address:  0x02070360
+ * packet:   pkt_0207010C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ *
+ * symbols:
+ *   MIi_CpuClear16   0x02082A48  arm
+ *   func_0206E7EC    0x0206E7EC  arm
+ *   data_020A8230    0x020A8230  data
+ *
+ * Binds one animation channel's per-node slot table: clears the halfword
+ * array at +0x1a, then for each of the source record's `b09` entries resolves
+ * the entry name through func_0206E7EC and stores the matching slot index,
+ * flagged with bit 8, at its position in the table.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Src70360 {
+    u8  pad00[8];
+    u8  b08;
+    u8  b09;
+    u8  pad0a[4];
+    u16 h0e;
+};
+
+struct Ctx70360 {
+    u8  pad00[8];
+    u32 f08;
+    u32 f0c;
+    u8  pad10[9];
+    u8  b19;
+    u16 h1a[1];
+};
+
+struct Arg70360 {
+    u8  pad00[8];
+    u32 f08;
+    u8  pad0c[12];
+    u8  b18;
+};
+
+extern u32 data_020A8230;
+
+void MIi_CpuClear16(u16 value, void *dest, u32 size);
+s32 func_0206E7EC(void *name, void *ent);
+
+void func_02070360(struct Ctx70360 *ctx, struct Src70360 *src, struct Arg70360 *arg)
+{
+    u32 i;
+    u8 *names;
+    u8 *base;
+    u8 *zero;
+    u32 step;
+    s32 slot;
+    s32 none;
+
+    if (arg != 0 && arg->f08 != 0)
+        names = (u8 *)arg + arg->f08;
+    else
+        names = 0;
+
+    ctx->f0c = data_020A8230;
+    ctx->b19 = arg->b18;
+    MIi_CpuClear16(0, ctx->h1a, (u32)ctx->b19 * 2);
+
+    {
+        u32 n = src->b09;
+        if (n <= 0)
+            return;
+    }
+
+    i = 0;
+    step = 0;
+    base = (u8 *)src + 8;
+    zero = 0;
+    none = -1;
+    do {
+        u8 *p;
+
+        if (base != 0 && i < src->b09) {
+            u8 *q = base + src->h0e;
+            p = q + *(u16 *)(q + 2) + step;
+        } else {
+            p = (u8 *)zero;
+        }
+
+        if (names != 0)
+            slot = func_0206E7EC(names + 4, p);
+        else
+            slot = none;
+
+        if (slot >= 0)
+            ctx->h1a[slot] = (u16)(i | 0x100);
+
+        i++;
+        step += 0x10;
+    } while (i < src->b09);
+}
+
+=== 2026-09-21: probed under the per-file pin `--cc ../2.0/sp2`, NOT pinnable ===
+
+One probe of the C above under `../2.0/sp2 -O4,p -proc arm946e --arm`: DIFF,
+208 bytes against the original's 212, 109 concrete bytes out -- still 4 bytes
+short, and far WORSE than at the pinned default. The pin is refused.
+
+The shortfall is not a predicated guard block at all. Two structural holes:
+
+ 1. +0x0048/+0x004C: the image emits `mov r6, #0` then `cmp r0, #0` then
+    `popls {...}`, an UNSIGNED `ls` early-out that keeps the induction
+    variable initialised ahead of the test. 2.0 emits `cmp r0, #0` then
+    `popeq {...}` and sinks the `mov` after it. The note's C spells the
+    guard `if (n <= 0) return;` on a u32, which is the `ls`; the extra word
+    the image spends is the hoisted `mov`, and 2.0 declines to hoist it.
+ 2. +0x006C: the image RE-READS `ldrb r0, [sb, #9]` at the top of the loop
+    before `cmp r6, r0`, where 2.0 keeps the count live from the entry load
+    and compares straight away. That single dropped re-read is the 4 bytes.
+
+Both are the pinned front end's own habits (hoist the zero, re-read the
+volatile-looking byte field each iteration), so this body reads as 1.1p1 and
+everything after +0x0064 is a register-numbering cascade from the two holes
+rather than independent evidence. Work it at the default compiler. No other
+front end was tried.

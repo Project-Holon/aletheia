@@ -86,3 +86,41 @@ call graph, argument set and shared exit are fully reproduced. Left as
 DIFF/note rather than filed to src/pending, since MATCH (byte-identical)
 was not reached. A future agent with more register-shuffle idioms in hand
 may close it; not worth further budget in this pass.
+
+----------------------------------------------------------------------
+2026-09-20 (second pass, pkt_0202363C)
+
+Re-derived the note's C and confirmed the diff is unchanged: 15 concrete
+bytes, all four relocations resolved, the whole function from +0x26 onward
+byte-identical. The divergence is exactly a uniform +1 shift of the scratch
+register bank in the two entry blocks (original r1/r2, compiled r0/r1).
+
+Newly tried this pass, all reproducing the identical 15-byte diff:
+  - naming the limit field in its own local (`lim = p->f20;` before the
+    compare, both before and after the `str` of the counter);
+  - splitting `ctr = p->f24 + 1` into a load statement and an add statement;
+  - declaring `result` uninitialised at the top and assigning 0 only at the
+    shared `ret0:` label, versus assigning 0 at entry and letting the
+    fall-through path return it unchanged (the entry assignment is dead-code
+    eliminated either way and never reserves r0);
+  - a fully struct-typed parameter with a second `struct S *p = self;` alias
+    local, to try to keep the incoming r0 live alongside the r4 copy;
+  - an unused second parameter `u32 arg1` (does not reserve r0);
+  - re-shaping the control flow as one nested `if (ctr >= lim) { if (n > 0)
+    {...} else {...} }` with a single trailing `result = 0; return result;`.
+    This last form is worth recording: it is byte-for-byte equivalent to the
+    note's `goto ret0` form (identical 15-byte diff) and reads better, so a
+    future agent may use either shape without losing ground.
+  - inverting the inner guard's polarity (`if (n <= 0) { ...return 1; }`
+    with the refill path falling through) is strictly worse: 56 bytes
+    differ, both branch polarities flip. Source order of the arms is
+    confirmed as in the note.
+
+Conclusion unchanged and now better supported: the entry block's register
+base is not a function of anything expressible in the C. Every C-level lever
+that this compiler is known to respond to (declaration order, named vs
+inline temporaries, cmp/commutative operand order, result-before-input
+initialisation, guard shape and polarity, struct vs cast field access) has
+now been tried and none of them moves r0/r1/r2 by one. Still DIFF; left as a
+note. The consequence for src/pending/func_0202363C.c is unchanged: it stays
+MATCH, since no `matched` witness for func_02023768 can be produced.

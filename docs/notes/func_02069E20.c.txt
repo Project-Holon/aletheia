@@ -1,0 +1,79 @@
+=== 2026-09-21: func_02069E20 (0x02069E20), packet pkt_02069D68 ===
+
+Blocked on: front end, not evidence and not spelling. Under the pinned
+default (dsi/1.1p1 -O4,p -proc arm946e) this C compiles to 100 bytes
+against the original's 104, with the loop body if-converted:
+
+  original            1.1p1
+  tst r2, #0x100      tst r2, #0x100
+  beq  <skip>         asrne lr, r5, #5
+  asr lr, r5, #5      andne r2, r5, #0x1f
+  ldr ip, [r0, lr, lsl #2]   ldrne ip, [r0, lr, lsl #2]
+  and r2, r5, #0x1f   orrne r2, ip, r3, lsl r2
+  orr r2, ip, r3, lsl r2     strne r2, [r0, lr, lsl #2]
+  str r2, [r0, lr, lsl #2]
+
+The guarded body is five instructions, which is exactly the predication
+budget in docs/idioms/an-arm-guard-block-of-five-instructions-or-fewer-is-predicated.md,
+so 1.1p1 always if-converts it and the original's `beq` is unreachable from
+any plain C spelling at the pinned flags. Everything OUTSIDE the body -- the
+prologue, the hoisted `mov r3,#1`/`mov r4,#0`/`mov r5,r4`, the `ldrb` count
+re-read at +0x48, the loop compare and both back-edges -- is byte-exact.
+
+This is the front-end tell recorded in
+docs/idioms/predication-of-short-guard-arms-is-the-front-end-not-the-shape.md:
+1.1p1 predicates short guard arms, dsi/../2.0/sp2 keeps them as branches.
+One confirming probe (this same C, one named front end, one function, not a
+sweep) returns EXACT at 104 bytes, 0 concrete mismatches, under
+`--cc ../2.0/sp2`. That is the "kept branches" counterpart of the entries
+already in docs/FRONTEND-PINS.md for the 0x0206A000-0x0206C000 neighbours
+func_0206AD64 / func_0206AE2C / func_0206B6A4, all pinned `../2.0/sp2`.
+Taking the pin is the owner's call under that document's rule 3, so this
+file is parked here at the default compiler rather than filed with a pin.
+
+Ruled out on the way, all still if-converted under 1.1p1: `continue` in
+either polarity, empty-then-else, the body hoisted behind a static helper,
+the word/bit indices bound to named locals, the mask pointer bound to a
+local, `volatile` on the mask parameter, on the mask store and on the
+tab1A[] member, `i / 32` and `i % 32` for the shifts, `while` for `for`,
+and hoisting the 1 and the 0 into locals. Spelling the guard as
+`(n->tab1A[i] >> 8) & 1` is the only variant that reaches the right SIZE,
+and only because its extra `asr` pays for the missing branch word.
+
+Unblocks: func_02069E88 (0x02069E88) is byte-exact already and sits at
+MATCH with 3 of 6 relocations resolved; its other three sites are the three
+calls to this address and need this entry EXACT in a shard to attest them.
+
+Verified with:
+  python tools/match.py one --src src/pending/func_02069E20.c \
+      --func func_02069E20 --addr 0x02069E20 --cc 1.1p1 --arm
+/
+
+--- the C (DIFF at the pinned default: 100 bytes vs 104, body if-converted) ---
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef struct Node {
+    u8 unk00[0x10];
+    struct Node *next;
+    u8 unk14[5];
+    u8 cnt19;
+    u16 tab1A[1];
+} Node;
+
+void func_02069E20(u32 *mask, Node *n)
+{
+    s32 i;
+
+    if (n == 0) return;
+    do {
+        for (i = 0; i < (s32)n->cnt19; i++) {
+            if (n->tab1A[i] & 0x100) {
+                mask[i >> 5] |= 1 << (i & 0x1f);
+            }
+        }
+        n = n->next;
+    } while (n != 0);
+}

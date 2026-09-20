@@ -58,3 +58,55 @@ case being compiled as an internal call target changes how mwcc allocates
 registers across the two functions. Neither attempted here to stay inside
 budget (docs/AGENT-BRIEF.md section 7 "stop grinding after a few
 principled rewrites").
+
+----------------------------------------------------------------------
+2026-09-21 (second pass, pkt_02021B6C)
+
+Re-attempted after closing its sibling func_02021CA8 to EXACT (the other
+half of what src/pending/func_02021BC8.c needs). Still DIFF: best reached
+this pass was 116 of 140 bytes differing, with the compiled output four
+bytes LONGER than the original's 136 -- i.e. slightly worse on both counts
+than the ~86/136 the first pass recorded, so that earlier phrasing (fully
+named intermediates, sg/target/sb/weight/sr extracted in the original's
+interleaved order) remains the best known C and should be the starting
+point, not this one.
+
+Field layout is now confirmed against the sibling, which is worth having:
+func_02021CA8, filed EXACT this session, reads the SAME halfword at c+2 as
+a `lo6:6; cur:5; max:5` bitfield triple and the halfword at c+4 as
+`target:15; sign:1`. So `struct C { u16 f0; u16 lo6:6; u16 weight:5;
+u16 hi:5; u16 target:15; u16 pad:1; }` is right, and the `weight` field
+this function multiplies by is the same 5-bit slot func_02021CA8 calls
+`cur`. That much is settled and need not be re-derived.
+
+Newly tried this pass, none of which moved the byte count at all (all
+exactly 116/140):
+  - `src` as `short *` rather than `u16 *`, and all nine value locals as
+    `s32` rather than `u32`, to try to produce the original's `asrs`
+    (arithmetic) shifts for `>>5` and `>>0xa` directly rather than as a
+    consequence of int promotion. The `asrs` appear either way; the type
+    change is invisible in the output.
+  - naming the loaded pixel in its own `px` local, read once per
+    iteration, instead of three `src[i]` subscripts.
+  - replacing the bitfield reads of c->target / c->weight with the
+    original's literal shift pairs (`(*(u16*)((u8*)c+4) << 0x11) >> 0x11`
+    and `(*(u16*)((u8*)c+2) << 0x15) >> 0x1b`) to force the two separate
+    `ldr r1,[sp,#8]` reloads the original performs. The compiler CSEs the
+    base-pointer reload regardless of how the field is spelled.
+  - moving the `u32 i` declaration from first to last among the locals
+    (declaration-order-decides-the-register idiom): the counter stays in
+    r7 where the original has it in r5, and nothing else moves.
+
+The two structural tells that no C spelling reached, and the thing to aim
+at next: the original hoists `mov ip, r0` (the saved `i*2` byte offset)
+ABOVE the `ldrh` that consumes the same r0, and it increments the loop
+counter at +0x1C, in the middle of the channel extraction, rather than at
+the bottom of the body. Both say the scheduler had a different live range
+for the index than any of these sources produce. The first pass's
+suggestion of per-channel helper functions, or a `tu` over
+0x02021BC8..0x02021CA8, is still the untried lever and still looks like the
+only one left; I did not spend budget on it because func_02021CA8 (the
+other blocker on src/pending/func_02021BC8.c) closed instead, and
+func_02021C20 is now that file's ONLY remaining unresolved relocation --
+so closing this one function is exactly what would promote
+src/pending/func_02021BC8.c from MATCH to EXACT.

@@ -1,0 +1,37 @@
+/* DIFF evidence note (2026-09-21), packet pkt_02020408.
+ * func_02020780 @ 0x02020780, Thumb, 310 code bytes + 2 pad.
+ *
+ * Verdict: DIFF, 310 of 310 bytes compiled (size exact), 92 concrete bytes
+ * differ.  Every instruction in the original is reproduced in the same
+ * order; the only difference is a fixed permutation of the register
+ * allocation:
+ *     original   obj=r0  row=r4  col=r3  rows=r2
+ *     compiled   obj=r3  row=r2  col=r0  rows=r4
+ * The compiled form copies obj into r3 and then spends r0 as a scratch for
+ * the +0x40/+0x42 field pointers; the original never moves obj out of r0.
+ *
+ * Tried and rejected (each changes nothing, all still 310/92):
+ *   - declaration order row/col/rows, rows/col/row, and split decl-then-init
+ *     (docs/idioms/declaration-order-decides-which-register-a-local-gets.md
+ *      does not reach this allocation)
+ *   - hoisting `base = obj->arr + col` versus subscripting obj->arr[col+row]
+ *     (CSE'd to the same code either way)
+ *   - a single `half` declared at function scope versus one per arm
+ *   - cast-based field access, *(u16 *)((u8 *)obj + 0x42), instead of the
+ *     struct member
+ *
+ * Fixes that DID get the size right, worth keeping:
+ *   - the shared tail: both arms must assign one `int ncol` and fall into a
+ *     single `obj->f40 = ncol; return 2;` (writing obj->f40 in each arm
+ *     duplicates the tail and costs 8 bytes;
+ *     docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md)
+ *   - `col == obj->count - rows` with NO u16 cast; the cast costs a
+ *     lsls/lsrs #0x10 pair the original does not have
+ *   - the forward inner loop bound is signed: `(int)row < rows - 1`
+ *     (original: subs r2,r2,#1 / cmp r4,r2 / bge, no truncation)
+ *
+ * The C below is byte-count-correct and semantically the function; only the
+ * register assignment is unreached.  Next agent: this is a candidate for the
+ * idiom index if a source shape is ever found that pins obj in r0.
+ */
+

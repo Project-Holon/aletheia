@@ -1,0 +1,134 @@
+/*
+ * function: func_02070730
+ * address:  0x02070730
+ * packet:   pkt_0207010C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ *
+ * symbols:
+ *   func_02070524    0x02070524  arm
+ *   func_02070624    0x02070624  arm
+ *
+ * Samples one animated node's six tracks (two scale, one rotation pair, two
+ * translation) out of the per-node track descriptor record, writing the
+ * results into the output block and maintaining the three "unchanged" bits of
+ * its flags word.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Rec70730 {
+    u32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24;
+};
+
+struct Out70730 {
+    u32 f00;
+    u32 pad04[5];
+    u32 f18, f1c, f20, f24, f28;
+};
+
+struct Node70730 {
+    u8  pad00[9];
+    u8  b09;
+    u8  pad0a[4];
+    u16 h0e;
+};
+
+s32 func_02070524(void *base, u32 flags, u32 off, u32 idx);
+s32 func_02070624(void *base, u32 flags, u32 off, u32 idx);
+
+void func_02070730(struct Node70730 *node, u32 idx, u32 t, struct Out70730 *out)
+{
+    u8 *tbl;
+    u32 fl;
+    s32 a, b;
+    struct Rec70730 *r;
+
+    tbl = (u8 *)node + 8;
+    if (tbl != 0 && idx < node->b09) {
+        u8 *p = tbl + node->h0e;
+        r = (struct Rec70730 *)(*(u16 *)p * idx + (u32)(p + 4));
+    } else {
+        r = 0;
+    }
+
+    fl = out->f00;
+
+    a = func_02070524(node, r->f18, r->f1c, t);
+    b = func_02070524(node, r->f20, r->f24, t);
+    if (a == 0 && b == 0) {
+        fl |= 4;
+    } else {
+        out->f28 = (u32)b;
+        out->f24 = (u32)a;
+        fl &= ~4u;
+    }
+
+    a = func_02070624(node, r->f10, r->f14, t);
+    if (a == 0x10000000) {
+        fl |= 2;
+        goto rot_done;
+    }
+    {
+        u32 rv = (u32)a;
+        *(u16 *)((u8 *)out + 0x20) = (u16)rv;
+        rv >>= 16;
+        *(u16 *)((u8 *)out + 0x22) = (u16)rv;
+    }
+    fl &= ~2u;
+rot_done:
+    ;
+
+    a = func_02070524(node, r->f00, r->f04, t);
+    b = func_02070524(node, r->f08, r->f0c, t);
+    if (a == 0x1000 && b == 0x1000) {
+        fl |= 1;
+    } else {
+        out->f18 = a;
+        out->f1c = b;
+        fl &= ~1u;
+    }
+
+    out->f00 = fl;
+}
+
+=== 2026-09-21: probed under the per-file pin `--cc ../2.0/sp2`: BYTE-CORRECT, filed pending ===
+
+One probe of the C above under `../2.0/sp2 -O4,p -proc arm946e --arm` gave
+DIFF at the right size (256 bytes, matching the original) with exactly 4
+concrete bytes out, and the diff NAMED the shape issue:
+
+  offset   original                 ../2.0/sp2
+  +0078    strne sb, [r5, #0x24]    strne r0, [r5, #0x28]
+  +007C    strne r0, [r5, #0x28]    strne sb, [r5, #0x24]
+
+i.e. the two stores of the translation pair are emitted in source order and
+the note's C wrote them backwards (`out->f28 = b;` before `out->f24 = a;`).
+Swapping the two statements to
+
+        out->f24 = (u32)a;
+        out->f28 = (u32)b;
+
+gives MATCH: 256 bytes, ZERO concrete mismatches, under the pin. That is the
+only change made; no iteration under the pin beyond the shape the diff named.
+
+The 4-byte hole at +0x00A0 reported at the pinned default is therefore the
+"kept branches" tell after all: under 1.1p1 this body is 4 bytes short, under
+../2.0/sp2 it is the right size and byte-for-byte right.
+
+Capped at MATCH, not EXACT, for lack of witnesses, not for lack of bytes: all
+5 relocation sites (4x func_02070524, 1x func_02070624) are unresolved because
+neither 0x02070524 nor 0x02070624 is EXACT in a shard, and this function is
+their only caller in the image, so no witness lies outside 02070730..02070830
+and no cut can free them. Filed as src/pending/func_02070730.c with the pin in
+its header. It becomes EXACT the moment func_02070524 and func_02070624 are
+filed EXACT -- and func_02070524 is the note above, which is NOT a 2.0 body.
+
+Its own caller src/pending/func_02070904.c stays MATCH for the same reason.

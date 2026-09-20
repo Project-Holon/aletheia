@@ -139,3 +139,56 @@ delay -- worth checking whether the SAME 0/result-capture swap shows up in
 any other already-EXACT file in the tree (a grep for `mov r., #0` right after
 a `bl` followed by `mov r., r0` in one of the idiom notes might already have
 the answer) before trying more C shapes here.
+
+
+2026-09-21 second pass (pkt_0204A6C8)
+-------------------------------------
+
+Re-derived the note's C verbatim and confirmed the verdict is exactly as
+recorded: DIFF, 216/216 bytes compiled, all four relocations resolved, and
+the only four bytes that differ are still the `mov r8, r0` / `mov r7, #0`
+pair at +0x88/+0x8C. Nothing above has rotted; every structural claim in
+this note still holds against the current tree.
+
+Four further levers tried this pass, each aimed specifically at the swap,
+none of which moved a single byte (all four still exactly 4/216):
+
+  - binding the constant to a named `u32 zero = 0;` assigned on the
+    statement AFTER the func_0204D9D4 call and passed as the fifth
+    argument, so that source order puts the result capture strictly first.
+  - spelling the fifth argument as a typed null pointer, `(void *)0` with
+    func_0204E0D0's fifth parameter declared `void *`, in case the integer
+    zero was being treated as a rematerialisable literal rather than a
+    value.
+  - sharing ONE `void *nil = (void *)0;` between the fifth argument and the
+    later `slot->unk_24 = nil;` store. This is the shape the original
+    actually has -- r7 holds the zero across the call and is reused by
+    `str r7, [r4, #0x24]` at +0x0B8 -- and the compiled output already
+    shares the register the same way, so the sharing was never the missing
+    ingredient; only the two instructions' order is.
+  - typing `handle` as `void *` end to end (which is func_0204D9D4's real
+    return type, and removes the `(u32)` cast at the capture), and
+    separately moving `handle`'s declaration from second to last among the
+    locals. Neither the type nor the declaration order reaches this pair.
+
+So the swap survives: the statement order, the declaration order, the
+constant's type, whether it is a literal or a named local, and whether it
+is shared with its later consumer. That is now the full cross-product of
+the C-level levers this front end is known to respond to at a call
+boundary, and it says the choice is made after the C is gone.
+
+The note's own next step -- looking for the same post-`bl` `mov rD, #0` /
+`mov rD, r0` pair in an already-EXACT file -- is still the right one and is
+still unspent; I did not get to it. Worth adding to it: the search should
+prefer ARM files, since every spelling tried here behaves identically and
+the sibling Thumb functions in the tree do not schedule their call results
+this way. If such a file exists, whatever it does differently at the call
+is the answer; if a sweep of the EXACT ARM corpus finds no instance of the
+original's order at all, that is itself the finding, and this function
+should be recorded as a known-unreachable schedule rather than re-attempted
+a fourth time.
+
+Consumer note: pkt_0202D7D8's func_0202D81C was closed to EXACT this same
+session and calls this function; it resolves func_0204A6C8 by `label`
+(x2 witnesses), so nothing downstream is blocked on this address reaching
+EXACT, and this remains a coverage-only near miss.

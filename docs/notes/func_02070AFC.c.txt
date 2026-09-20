@@ -1,0 +1,85 @@
+/*
+ * function: func_02070AFC
+ * address:  0x02070AFC
+ * packet:   pkt_0207010C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ *
+ * symbols:
+ *   func_0206E62C    0x0206E62C  arm
+ *
+ * Resolves one palette/texture slot index for the render record at +0x14:
+ * the 16-bit field at +0x2c (masked to 29 bits) plus the slot's own base
+ * index, with both halves truncated to 15 bits unless bit 0 of the entry's
+ * flags halfword says the slot is already absolute.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Ent70AFC { u16 h00; u16 h02; };
+
+struct Obj70AFC {
+    u8  pad00[0x2c];
+    u32 f2c;
+    u32 pad30[1];
+    u16 h34;
+};
+
+struct Dst70AFC { u8 pad00[0x14]; u32 f14; };
+
+struct Ent70AFC *func_0206E62C(void *p);
+
+void func_02070AFC(struct Obj70AFC *obj, void *unused, struct Dst70AFC *dst)
+{
+    struct Ent70AFC *e;
+    u32 base;
+    u32 idx;
+
+    if (obj != 0 && obj->h34 != 0)
+        e = func_0206E62C((u8 *)obj + obj->h34);
+    else
+        e = 0;
+
+    base = (u16)obj->f2c;
+    base = base & ~0xe0000000u;
+    base = (u16)base;
+    idx = e->h00;
+    if (e->h02 & 1)
+        goto done;
+    idx = idx << 15 >> 16;
+    base = base << 15 >> 16;
+done:
+    dst->f14 = idx + base;
+}
+
+=== 2026-09-21: probed under the per-file pin `--cc ../2.0/sp2`, NOT pinnable ===
+
+One probe of the C above under `../2.0/sp2 -O4,p -proc arm946e --arm`: DIFF,
+104 bytes -- the RIGHT size, matching the original -- with 12 concrete bytes
+out. So the 4-byte shortfall reported at the pinned default is gone under 2.0,
+but the body is not reproduced: every mismatch is a register-allocation
+difference in the tail, not a missing or extra instruction.
+
+  offset   original                 ../2.0/sp2
+  +0040    lsr r1, r1, #0x10        lsr r2, r1, #0x10
+  +0044    ldrh r0, [r0]            ldrh r1, [r0]
+  +004C    lsl r0, r0, #0xf         lsl r1, r1, #0xf
+  +0050    lsl r1, r1, #0xf         lsl r0, r2, #0xf
+  +0054    lsr r0, r0, #0x10        lsr r1, r1, #0x10
+  +0058    lsr r1, r1, #0x10        lsr r2, r0, #0x10
+  +005C    add r0, r0, r1           add r0, r1, r2
+
+The image puts the ENTRY index (`e->h00`) in r0 and the masked base in r1; the
+2.0 build puts the base in r2 and the entry index in r1, then adds the other
+way round. Instruction for instruction the shapes agree, so the hole at +0x48
+named at the default compiler is a size question 2.0 fixes and a live-range
+question it does not. That is not the "kept branches" tell and it is not
+evidence a different front end built this function, so the pin is refused: the
+remaining work is which of `idx`/`base` is computed first in the C. No other
+front end was tried.

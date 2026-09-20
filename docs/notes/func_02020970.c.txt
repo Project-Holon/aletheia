@@ -1,0 +1,32 @@
+/* DIFF evidence note (2026-09-21), packet pkt_02020408.
+ * func_02020970 @ 0x02020970, Thumb, 196 bytes.
+ *
+ * Verdict: DIFF, 196 of 196 bytes compiled (size exact), 34 concrete bytes
+ * differ.  Instruction-for-instruction identical apart from a 3-cycle
+ * permutation of three byte/word locals:
+ *     original   acc=r5  moved=r6  i=r7
+ *     compiled   acc=r6  moved=r5  i=r7   (and the variant acc=r6 moved=r7 i=r5)
+ * plus the loop guard encoding, `cmp r0,#1 / blo` where the original has
+ * `cmp r0,#0 / bls`.
+ *
+ * What the derivation established (all of it load-bearing, keep it):
+ *   - the guard must be spelled `if (count >= 1)`.  `count != 0`, `count > 0`,
+ *     `0U < count` and `!(count == 0)` all fold the test onto the still-live
+ *     r2 and lose the `ldr r0,[sp,#4]` reload of the spilled parameter,
+ *     costing 2 bytes (194 instead of 196).  Only `>= 1` reloads.
+ *   - the body is a do/while whose `continue` jumps to the top of the BODY,
+ *     not to the condition: `if (r == 2) { moved++; if (arr[f40+f42].unk04
+ *     == (void*)-3) continue; }` then `i++`, `while (i < count)`.
+ *   - the switch on the accumulated result returns 1 from `case 0` (and from
+ *     the default via the same `bhi`), while cases 2 and 3 share the
+ *     function's `movs r0,#0` tail.  An explicit `default: return 1;` is
+ *     wrong: it duplicates the arm and costs 8 bytes.
+ *   - `saved = obj->f42` is read before the loop and spilled to sp+0xc.
+ *
+ * Tried and rejected for the register permutation: every ordering of the
+ * three declarations, splitting declaration from initialisation, and every
+ * ordering of the three zero-initialisations.  The allocation follows
+ * first-use inside the loop, not source order, so the declaration-order
+ * idiom does not reach it.
+ */
+

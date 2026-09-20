@@ -1,0 +1,42 @@
+/* DIFF evidence note (2026-09-21), packet pkt_02020408.
+ * func_02020408 @ 0x02020408, Thumb, 338 code bytes (extent 340).
+ *
+ * Verdict: DIFF, compiled 314 of 338 bytes.  Not finished; this note records
+ * the structure so the next agent does not re-derive it.
+ *
+ * Control flow (confirmed against the listing, reproduced by the C below):
+ *     if (text == 0) return;                       // one long `b` to the tail
+ *     if (obj->f38 bit 7) { if (sel) A1 else B1 } else { if (sel) A2 else B2 }
+ * where `sel` is the FIFTH argument, read off the incoming stack at
+ * [sp,#0x30], and the f38 test is `ldrb [obj+0x38]; lsls #0x18; lsrs #0x1f`,
+ * i.e. bit 7 of the byte (a 7-bit field then a 1-bit field, in that order).
+ *
+ * Call shapes:
+ *   A (sel != 0):  pal = obj->f2C; h = obj->f28;
+ *                  func_0201C724(pal, func_02045770(*h), x, y,
+ *                                text, obj->f30, <packed>);
+ *                  *((u8 *)h + 4) = 1;
+ *   B (sel == 0):  func_0201C7D0(func_02045770(*obj->f28), x, y,
+ *                                text, obj->f30, <packed>);
+ *
+ * THE OPEN PROBLEM is <packed>.  The original builds it as, per arm:
+ *     ldrb r3,[obj+0x34];  obj += 0x35
+ *     r2 = ((r3 << 24) >> 28) & 0x1f
+ *     r0 = (((r3 << 28) >> 28) << 27) >> 17
+ *     r3 = ldrb[obj];  r3 = (((r3 << 28) >> 28) << 27) >> 22
+ *     packed = (u16)(r0 | r3 | r2)
+ * The `& 0x1f` and the `<< 27` on values already narrowed to four bits say
+ * the DESTINATION fields are five bits wide while the sources are four:
+ * see docs/idioms/shift-shift-pair-with-no-matching-type-is-a-bitfield.md
+ * (shift-pair-with-no-matching-type-is-a-bitfield.md).  Writing the obvious
+ * `(f34hi) | (f34lo << 10) | (f35lo << 5)` over 4-bit bitfields produces the
+ * right operation but the wrong shift pairs (no `<< 27`, no `ands 0x1f`), so
+ * the arm is 6 bytes short and the four arms compound to 314 vs 338.
+ *
+ * The other two arms (the f38-bit-clear side) read the SAME packed value out
+ * of bytes 0x17/0x18 instead of 0x34/0x35: `ldrb r2,[obj,#0x18]` /
+ * `ldrb r0,[obj,#0x17]` with the identical shift quartet.  So one inlined
+ * helper over a 5-bit-field struct, called with two different bases, is the
+ * likely source shape, not four written-out expressions.
+ */
+
