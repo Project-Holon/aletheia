@@ -145,6 +145,8 @@ def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
     env = dict(os.environ)
     env.setdefault("MWLibraries", workdir)
     env.setdefault("MWLibraryFiles", " ")
+    env.setdefault("WINEDEBUG", "-all")
+    env.setdefault("WINEDLLOVERRIDES", "mscoree,mshtml=")
     if sys.platform != "win32" and cmd and isinstance(cmd[0], str) and cmd[0].endswith(".exe"):
         wine_bin = shutil.which("wine64") or shutil.which("wine") or "wine64"
         cmd = [wine_bin] + list(cmd)
