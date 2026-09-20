@@ -74,9 +74,9 @@ python tools/build.py --split --only arm9   # ARM9 from its translation units
 ```
 
 `tools/build.py` needs GNU binutils for `arm-none-eabi`. Unpack the xPack
-`arm-none-eabi-gcc` Windows x64 zip into `tools/gcc-arm/` (no install needed)
+`arm-none-eabi-gcc` zip into `tools/gcc-arm/` (or install `arm-none-eabi-binutils` via Homebrew on macOS)
 or point `--toolchain` / `BW_ARM_TOOLCHAIN` at any `bin/` directory that has
-`arm-none-eabi-as`. See [docs/NOTES.md](docs/NOTES.md) for details.
+`arm-none-eabi-as`. On macOS and Linux, Windows host binaries (`mwccarm.exe`) run via `wine` / `wine64`. See [docs/NOTES.md](docs/NOTES.md) for details.
 
 ## Acknowledgments
 

@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Promoted from src/pending/ (which was capped at MATCH on the ABS32 to
- * func_02014628) by filing func_02014628 itself: its EXACT manifest entry is
- * the outside witness that site needed.  The pending copy is left in place
- * and is now redundant.
+ * symbols:
+ *   func_020122C0  0x020122C0  thumb
+ *   func_020124E8  0x020124E8  thumb
+ *   func_02014628  0x02014628  thumb
  */
 
 typedef unsigned int u32;

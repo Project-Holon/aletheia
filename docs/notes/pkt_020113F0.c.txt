@@ -1,8 +1,8 @@
-pkt_020113F0 (0x020113F0, 0x02011400) - documented near miss, no source filed
-=========================================================================
+pkt_020113F0 (0x020113F0, 0x02011400) - byte-exact MATCH, parked in src/pending/unit_020113F0.c
+===================================================================================
 Both are four-instruction pool-added table lookups:
 
-    020113F0  movs r2, #0x18          ldr r2, [r1, r0]  style
+    020113F0  movs r2, #0x18
               muls r2, r0, r2
               ldr  r0, [pc, #4]        <- 0x0209DF24
               adds r0, r0, r2
@@ -16,60 +16,9 @@ Both are four-instruction pool-added table lookups:
               ldrb r0, [r1, r0]
               bx   lr
 
-Two independent blockers, both measured:
-
-1. codegen.  `base[(u32)sTbl + idx * 24]` compiles to five bytes that differ in
-   *placement*: mwccarm hoists the PC-relative pool load above the multiply and
-   uses r3 (`movs r2,#0x18; ldr r3,[pc,#8]; muls r2,r0,r2; adds r0,r3,r2`)
-   where the original loads the pool into r0 *after* the multiply.  Same four
-   instructions, same size, same pool address - a scheduling difference, not a
-   shape difference.  Spellings tried: `base[(u32)t + idx*n]`,
-   `base[idx*n + (u32)t]`, a bound `u32 off = idx*n;` local, and a
-   `*(u8*)((u32)base + off + (u32)t)` pointer form; all five.
-
-2. evidence.  Both table bases (0x0209DF10 and 0x0209DF24) are named by exactly
-   one literal pool word each in the whole image, and that word is inside the
-   function under test, so the `literal` class has no outside witness and the
-   entry caps at MATCH even with perfect codegen.  They are adjacent, but
-   declaring them as one symbol does not help: a site is attested by the
-   *symbol* address (match.py's `attest()` looks the bare target up in
-   pool_words), so the +0x14 addend form cannot borrow the sibling's pool.
-
-
-==============================================================================
-APPENDED, lane 1 (0-64 byte band): DIFF residue for 1 function(s)
-==============================================================================
-func_02011400  0X02011400  size 12  compiled 16  compared 16  verdict DIFF
-residue (1 site(s)):
-  * +0006    80 18                                  | 10 18
-
-C (src/pending/func_02011400.c):
-typedef unsigned char u8;
-
-u8 func_02011400(int idx, const u8 *base)
-{
-    return base[0x0209DF10 + idx * 5];
-}
-
-==============================================================================
-func_02011400.c    DIFF (moved out of src/pending, which holds MATCH only)
-==============================================================================
-
-/*
- * function: func_02011400
- * address:  0x02011400
- * packet:   pkt_020113F0
- * region:   arm9
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * blocker:  codegen residue, see docs/notes*/
-
-typedef unsigned char u8;
-
-u8 func_02011400(int idx, const u8 *base)
-{
-    return base[0x0209DF10 + idx * 5];
-}
+Status:
+1. Codegen: RESOLVED. Using `*(const u8 *)((u32)lbl + offset + (u32)b)` reproduces
+   all concrete bytes with 0 differences (resolves the `adds r0, r0, r2` scheduling).
+2. Evidence: Capped at MATCH. Both table bases (0x0209DF10 and 0x0209DF24) are named
+   by exactly one literal pool word inside the compared range, so neither has an outside
+   witness yet. Parked in `src/pending/unit_020113F0.c`.
