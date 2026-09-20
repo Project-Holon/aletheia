@@ -1,0 +1,51 @@
+2026-09-20  packet pkt_02021B6C  func_02021FD8 (0x02021FD8, 44 bytes, thumb)
+
+DIFF, not filed. A short forwarding wrapper around func_02021F64 (see
+docs/notes/func_02021F64.c.txt, which is itself DIFF-not-EXACT).
+
+Signature reconstructed: func_02021FD8(u8 *p, u32 idx, u32 off,
+u32 count, u32 weight, struct { u16 r:5,g:5,b:5,pad:1 } color) -- args 1-4
+in r0-r3, args 5/6 (weight, color) arrive together on the caller's stack
+at the callee's incoming sp+0x18 (after this function's own
+push{r3,r4,r5,r6,lr}; sub sp,#4 prologue). Body:
+
+  struct Slot { u8 *p0, *p1; } *s = (Slot*)(p + idx*0x14);
+  func_02021F64((u16*)(s->p0 + off*2), (u16*)(s->p1 + off*2),
+                count, weight, color);
+
+Best result reached: `weight` as a plain `u32` fifth parameter and
+`color` as the bitfield struct sixth parameter gets 42 of 44 bytes
+right (only 22 concrete bytes differ, all in the "read weight, stash
+color into the outgoing stack slot" sequence) -- confirmed this is the
+right overall shape: same instruction count, same structure of
+"muls/lsls/ldrh/strh/ldr/ldr/adds/adds/ldrb/adds/adds/bl".
+
+The one remaining wrong instruction: original reads weight with
+`ldrb r3,[r5]` (a single byte at offset 0 of the incoming stack struct,
+r5 = sp+0x18), but every C phrasing tried compiles it as either a full
+`ldr` word read (when weight is `u32`) or, when weight is declared `u8`,
+mwcc promotes it to its OWN 4-byte-aligned stack slot instead of packing
+it into the same 8-byte struct as color (each individual scalar
+parameter, even u8, gets its own >=4-byte stack slot in this ABI, unlike
+a byte *inside* a struct). This means weight and color must be a single
+by-value struct argument (`struct { u8 weight; u8 pad[3]; Color color; }`,
+6 logical bytes rounded to 8) for `ldrb` to appear at all -- but passing
+that as one struct parameter compiled to a different (36-byte, clearly
+wrong shape) result instead of reproducing the split
+"ldrb-then-forward-in-r3 / ldrh-then-restash-to-new-stack-slot" original
+sequence exactly.
+
+Tried: struct-combined weight+color parameter (worse, 36 bytes, wrong
+shape entirely, register spill through r7); u8 weight with three explicit
+u8 padding parameters instead of a struct (worse, 36 bytes, each pad byte
+got its own stack slot as expected, confirming the "one struct or bust"
+diagnosis above without fixing it).
+
+Next step for whoever resumes: get the exact field layout/alignment mwcc
+expects for a 6-byte value struct passed on the stack (does it need an
+explicit `__attribute__` or a differently-shaped padding member to keep
+size 6 rather than round to 8?), or try passing `weight` as the struct's
+color argument is passed (embed both inside func_02021F64's own 5th
+argument type reused verbatim) rather than inventing a new wrapper
+struct. Not pursued further here to stay inside "a few principled
+rewrites then move on" (docs/AGENT-BRIEF.md section 7).

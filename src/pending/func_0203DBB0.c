@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-20: MATCH; see verify output.
+ *           --suggest-split offers nothing (single function, the one
+ *           unresolved site's only witness is inside this range).
  * blocker:  str_020A7D48 (string) -- no witness outside 0203DBB0..0203DC04;
  *           the file string at 0x020A7D34 is 16 bytes and the message string
  *           is 3 bytes past its terminator, so the `string` class refuses.

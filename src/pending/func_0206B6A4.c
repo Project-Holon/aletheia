@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-20: MATCH; see verify output.
+ *           --suggest-split offers nothing (single function, all five
+ *           unresolved sites' only witnesses are inside this range).
  *
  * symbols:
  *   g_02148DB0      0x02148DB0  data

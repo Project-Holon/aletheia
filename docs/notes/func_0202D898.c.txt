@@ -45,3 +45,29 @@ argument declared `volatile` (which reloads but also un-predicates the two
 `ldrh` reads and costs more than it fixes), and the arity written as six or
 seven scalars instead of one aggregate - and there is no cut that helps,
 because the site is an incoming argument, not an image address.
+
+2026-09-20 addendum (pkt_0202D7D8 re-attempt)
+----------------------------------------------
+Revisited while working the rest of this packet. Confirmed the struct-by-
+value model above is consistent with the packet's two now-EXACT siblings,
+func_0202D8D0 and func_0202D934 (both filed this session): those callers
+build the *exact same* five-call sequence (func_02017E88 x4 with selectors
+5/0x6f/0x6e/0x4c, func_02017EB4 x1) and forward straight into
+func_0202D7D8's already-EXACT 10-scalar signature with NO padding gap
+between the last register arg and the trailing scalars -- i.e. this
+compiler (-O4,p, dsi/1.1p1) does not reserve stack for a parameter unless
+it is genuinely read, and reserves exactly one word per one that is.
+
+Tried extending the plain-scalar model from those siblings to this
+function too (4 dead leading ints + 2 live trailing values, no struct) as
+an alternative to the aggregate: could not land the frame shape that way
+either (compiled `ldr r5,[sp,#0x18]` vs the listing's `[sp,#0x20]`, and the
+compiled prologue drops `r3`/`r7` the original's `push` keeps live) without
+guessing extra dead parameters that contradict the "no reservation for
+unused" rule established above. This is the same reload-across-a-call
+obstacle the original note already isolated, not a new blocker; did not
+find a way past it in a few further tries, so leaving this DIFF/near-miss
+as-is rather than re-deriving the earlier analysis. func_0202D9A4 (also in
+this packet) forwards its own five-call result set into this function and
+is blocked transitively on the same open question -- see
+docs/notes/func_0202D9A4.c.txt.

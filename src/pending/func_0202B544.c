@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH*
- * note:     re-verified 2026-09-20: MATCH*; see verify output
+ * note:     re-verified 2026-09-20: MATCH*; see verify output.
+ *           --suggest-split offers nothing (single function, both
+ *           unresolved sites' only witness is inside this range).
  *
  * Parked: four of the six call sites resolve (0x0202B7B8, 0x0202B7C8,
  * 0x0202B7D4, 0x0202B7E0 are manifest entries).  The two that stay unresolved

@@ -1,0 +1,55 @@
+2026-09-20  packet pkt_02021B6C  func_02021F64 (0x02021F64, 114 bytes, thumb)
+
+DIFF, not filed. Same family as func_02021C20 (docs/notes/func_02021C20.c.txt)
+-- a per-pixel RGB555 alpha-blend loop -- and hit the same wall.
+
+Signature: func_02021F64(u16 *src, u16 *dst, u32 count, u32 weight,
+struct { u16 r:5, g:5, b:5, pad:1 } color)  -- color is the 5th argument,
+passed by value on the stack (visible as `add r0,sp,#0x20; ldrh r0,[r0]`
+at function entry, i.e. args 1-4 in r0-r3, arg 5 spilled to the caller's
+stack frame at sp+0x20 inside the callee).
+
+Body, one iteration:
+  sv = src[i]  (RGB555: r=bits[0:5), g=bits[5:10), b=bits[10:15))
+  rb = sb + ((tb - sb) * weight >> 4)
+  rr = sr + ((tr - sr) * weight >> 4)
+  rg = sg + ((tg - sg) * weight >> 4)
+  dst[i] = rr | (rg << 5) | (rb << 10)
+No `(u8)` truncation anywhere in this one (unlike func_02021C20) -- every
+channel result stays a plain `int`/register value, matching the original
+exactly for the arithmetic. Channel extraction confirmed via shift-pair
+simulation: source bitfield shift-pairs are lsls#0x1b/lsrs#0x1b (r, width
+5), lsls#0x16/lsrs#0x1b (g, width5), lsls#0x11/lsrs#0x1b (b, width5); the
+`color` argument's fields use the identical widths at the identical
+offsets, i.e. color really is a plain RGB555 bitfield struct, not a
+richer struct with extra fields (confirmed: only 3 five-bit reads off it,
+total 15 of 16 bits, top bit unused).
+
+Got to 114/116 bytes compiled (2 bytes over) using a plain `int tr =
+color.r` bitfield-struct style call, with the source pixel read through a
+`union { u16 raw; struct Color c; }` to get shift-pair codegen for the
+per-pixel extraction instead of `&`/`>>` masks (masks compile to
+`movs #0x1f; ands`, which is the wrong shape here -- see
+docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md, this is
+the same idiom, just already known and applied correctly). That version's
+remaining diff was purely `count` and `i` picking the wrong two registers
+(spilling `count` to the stack) and the per-channel scheduling of
+`rb`/`rr`/`rg` versus `tb - sb` / `tr - sr` / `tg - sg` landing in a
+different order than the original -- the same class of -O4,p scheduling
+freedom seen on func_02021C20's three near-identical channel expressions.
+
+Tried and made it WORSE (118 bytes, +4 over): giving the per-pixel read a
+named `union S02021F64Px sv; sv.raw = src[i];` local. Taking its address
+implicitly for the `.c.r`/`.c.g`/`.c.b` field reads makes the compiler
+spill it to a stack slot (`add r0,sp,#0x10; strh r4,[r0]`) instead of
+keeping it purely in registers, which is not what the original does (the
+original never spills the per-pixel value to memory, only reads it once
+via `ldrh` and reuses the register value through three shift-pairs).
+
+Next step for whoever resumes this: read the per-pixel bitfields off a
+pointer straight into `src[i]`'s existing memory (`((struct Color*)&src[i])->r`
+style, not a value-copy union) while keeping `count`/`i` as the *first*
+declared locals ahead of `sv`/`tr`/`tg`/`tb`, since forcing register
+pressure order earlier helped register allocation in the sibling
+func_02021BC8 case (see src/matched/func_02021BC8.c). Not retried here to
+stay inside the "few principled rewrites" budget for this packet run.

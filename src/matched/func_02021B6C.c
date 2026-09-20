@@ -1,0 +1,56 @@
+/*
+ * function: func_02021B6C
+ * address:  0x02021B6C
+ * packet:   pkt_02021B6C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_02021930   0x02021930  thumb
+ *   func_02021BC8   0x02021BC8  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int func_02021930(u32 val, int bit);
+extern void func_02021BC8(u8 *p, u32 idx, u32 arg);
+
+struct S02021B6C {
+    u8 pad0[0xe];
+    u16 cap : 6;
+    u16 padE : 10;
+    u16 pad10[1];
+    u16 pad12a : 5;
+    u16 cur : 6;
+    u16 pad12b : 5;
+};
+
+struct S02021B6C_hdr {
+    u16 pad118a : 2;
+    u16 flags118 : 14;
+};
+
+void func_02021B6C(u8 *p, u32 idx, u32 arg)
+{
+    struct S02021B6C_hdr *hdr = (struct S02021B6C_hdr *)(p + 0x118);
+
+    if (func_02021930(hdr->flags118, idx) == 0) {
+        return;
+    }
+
+    {
+        struct S02021B6C *s = (struct S02021B6C *)(p + idx * 0x14);
+
+        if (s->cur < s->cap) {
+            s->cur = s->cur + 1;
+        } else {
+            s->cur = 0;
+            func_02021BC8(p, idx, arg);
+        }
+    }
+}

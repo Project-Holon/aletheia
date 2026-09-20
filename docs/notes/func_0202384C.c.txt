@@ -1,0 +1,98 @@
+2026-09-20 pkt_0202363C, func_0202384C (0x0202384C, 104 bytes, Thumb)
+
+Verdict: DIFF (96-100 bytes compiled depending on variant, vs. 104
+original; one relocation resolves as label, sub_02022D88, the other,
+func_020237B8, is a plain unresolved in-range call to the packet-mate
+already filed at src/matched/func_020237B8.c EXACT*).
+
+Semantics (fairly confident, logic reproduces the tail and the branch
+structure exactly): base = sub_02022D88(this, 0) (idx 0 makes the 0x604
+stride multiply a no-op, so this is really just this struct's own +0x0
+field read through the accessor). For row i in [0, 0xc0): let
+n = this->+0x14. Only the mid band n < i <= 2n mirrors an already
+computed pair from source index (2n-i) into base+0x300/base+0x480 word
+arrays; everywhere else (i <= n, and i more than 2n past it) calls
+func_020237B8(this->+0xc, this->+0x10, n, i, &tmp0, &tmp1) fresh -- a2 is
+n itself, still live in a register from the earlier compare against i, not
+i re-used. Both arms funnel into one shared tail that truncates tmp0/tmp1
+to s16 and stores them at base[0x300+i*2] / base[0x480+i*2].
+
+Best C reached:
+
+    typedef unsigned char  u8;
+    typedef signed short   s16;
+    typedef unsigned int   u32;
+    typedef signed int     s32;
+
+    struct Obj { u8 *base; };
+
+    extern void *sub_02022D88(struct Obj *obj, u32 idx);
+    extern void  func_020237B8(s32 a0, s32 a1, s32 a2, s32 a3, s32 *out0, s32 *out1);
+
+    struct Rec3 {
+        u8  pad0[0xc];
+        s32 fc;   /* +0xc */
+        s32 f10;  /* +0x10 */
+        s32 f14;  /* +0x14 */
+    };
+
+    void func_0202384C(struct Rec3 *r)
+    {
+        u8 *base = (u8 *)sub_02022D88((struct Obj *)r, 0);
+        s32 i;
+        s32 tmp0;
+        s32 tmp1;
+
+        for (i = 0; i < 0xc0; i++) {
+            s32 n = r->f14;
+
+            if (i > n) {
+                if (i <= n * 2) {
+                    s16 *src_p = (s16 *)(base + (n * 2 - i) * 2);
+                    tmp0 = src_p[0x180];
+                    tmp1 = src_p[0x240];
+                    goto store;
+                }
+            }
+
+            func_020237B8(r->fc, r->f10, n, i, &tmp0, &tmp1);
+
+        store:
+            *(s16 *)(base + 0x300 + i * 2) = (s16)tmp0;
+            *(s16 *)(base + 0x480 + i * 2) = (s16)tmp1;
+        }
+    }
+
+Where the diff lives: from the shared "store:" tail's *second* half onward
+(final strh of tmp1, loop increment, cmp/blt) the compiled bytes match the
+original exactly. Every concrete mismatch is confined to (a) the function's
+preamble immediately after the sub_02022D88 call and before the loop body,
+and (b) the mirror-lookup block. The original materialises r7 = sp+0xc
+(the address of the tmp0 stack slot -- the eventual out-pointer arg to
+func_020237B8) once, right after the sub_02022D88 call, and keeps it live
+across the whole loop; every C shape tried here instead has the compiler
+materialise r7 = 0x12<<6 (0x480, the second array's byte offset) at that
+point, and recomputes the tmp0 address per call site. This costs 4-8 bytes
+depending on variant and shifts several nearby registers by one slot
+(r0/r1/r2 vs r1/r2/r3-shaped, same flavour as the register-numbering
+artifact in func_02023768's DIFF note).
+
+Tried and rejected, all producing the same or a worse byte count:
+  - s16 locals for the pair vs. keeping them as s32 tmp0/tmp1 written
+    directly by both arms (the version above): the tmp0/tmp1-direct
+    version is the closest (96 vs 104 bytes) and is what's kept here.
+  - hoisting an explicit `s32 *p0 = &tmp0;` before the loop to hint an
+    early address materialisation: no change, the compiler folds it away
+    identically.
+  - a two-full-address mirror read (`base + 0x300 + src*2` twice) vs. one
+    `s16 *src_p` computed once with two indexed reads: no byte-count
+    change, same 96-byte result either way.
+  - un-hoisting tmp0/tmp1 into per-iteration locals (matching a literal
+    read of "inline everything"): produced 100 bytes, worse than hoisted.
+
+Left as a documented near miss rather than filed to src/pending, since the
+byte count itself differs (not just an unresolved relocation): this is
+SIZE/DIFF, not MATCH. A future pass with a working idiom for "which
+loop-invariant address gets pre-materialised into a callee-saved register"
+may close the remaining preamble bytes; the mid-loop and tail shape above
+should not need to change.

@@ -1,0 +1,114 @@
+2026-09-20 pkt_0202363C, func_02023964 (0x02023964, 236 bytes, Thumb)
+
+Verdict: DIFF (238 bytes compiled vs 236 original; 7 of 8 relocations
+resolve -- func_02022EA0 matched, four MI_CpuFill8 label sites, func_02022E20
+label, func_02022E88 label -- the eighth, func_02022F0C, is a plain
+unresolved in-range call to the packet-mate already filed at
+src/pending/func_02022F0C.c, status MATCH, "02022F60 label" blocker).
+
+Call-site arg marshaling for func_02022E20 is confirmed to be 10 scalar
+args, not fewer: r0=a6, r1/r2=the pair 0x20/0x3f (order swapped between
+the two branches), r3=0, and SIX MORE words pushed to the caller's own
+stack at sp[0]..sp[0x14] (a5, 0, 0, 0, 0, tag), which line up exactly
+with func_02022E20's own reads of its incoming sp+0x20 and sp+0x34 (its
+frame is push{r4-r7,lr}+sub sp,#0xc = 0x20 bytes below the caller's sp,
+so its sp+0x20/sp+0x34 are the caller's stack slot 0 and slot 0x14). A
+struct-by-value parameter for those six words compiles far worse (252
+bytes); ten plain scalar u32 parameters is what gets the call-site byte
+count to within 2 bytes of the original (238 vs 236) -- keep that shape
+for a future attempt, not the struct.
+
+Best C reached (semantics confident, byte-exactness not reached):
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    extern void func_02022EA0(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
+    extern void MI_CpuFill8(void *dst, u32 value, u32 size);
+    extern void func_02022F0C(u8 *a0, void *a1, u32 a2);
+    extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 s0, u32 s4,
+                              u32 s8, u32 sc, u32 s10, u32 s14);
+    extern u32  func_02022E88(u32 a0, u32 a1, u32 a2, u32 a3);
+
+    void func_02023964(u8 *a0, u8 *a1, u32 a2, u32 a3, u32 a5, u32 a6, u32 a7,
+                        u32 a8)
+    {
+        func_02022EA0(a0, a5, 1, 0, 0);
+
+        if (*(u16 *)(a1 + 6) == 0) {
+            MI_CpuFill8(a0, 1, 0xc0);
+            MI_CpuFill8(a0 + 0xc0, 1, 0xc0);
+        } else {
+            MI_CpuFill8(a0, 0, 0xc0);
+            MI_CpuFill8(a0 + 0xc0, 0, 0xc0);
+        }
+
+        *(u32 *)(a0 + 0x30c) = *(u32 *)(a1 + 0);
+        *(u32 *)(a0 + 0x310) = *(u16 *)(a1 + 4);
+        *(u32 *)(a0 + 0x324) = *(u16 *)(a1 + 6);
+        *(u32 *)(a0 + 0x328) = a8;
+        *(u32 *)(a0 + 0x314) = a2;
+        *(u32 *)(a0 + 0x318) = 0;
+        *(u32 *)(a0 + 0x31c) = a3;
+        *(u32 *)(a0 + 0x320) = 0;
+        *(u32 *)(a0 + 0x32c) = a6;
+        *(u32 *)(a0 + 0x330) = a7;
+
+        func_02022F0C(a0, a1, a3);
+
+        {
+            u16 tag2 = *(u16 *)(a1 + 6);
+
+            if (tag2 == 1) {
+                func_02022E20(a6, 0x20, 0x3f, 0, a5, 0, 0, 0, 0, tag2);
+            } else {
+                func_02022E20(a6, 0x3f, 0x20, 0, a5, 0, 0, 0, 0, tag2);
+            }
+        }
+
+        func_02022E88(a6, 1, a5, *(u32 *)(a0 + 0x324));
+    }
+
+a0..a3 are the register args (this, descriptor pointer, then two u32s
+saved to sp+0x18/0x1c at entry); a5/a6/a7/a8 are the four stack-passed
+args at the caller's own sp+0x38/0x3c/0x40/0x44 (the entry frame is
+push{r3-r7,lr} = 0x18 bytes + sub sp,#0x20, so incoming stack args start
+at sp+0x38). The MI_CpuFill8 branch, the whole 10-field stamp block's
+*source order* (0x30c, 0x310, 0x324, 0x328, 0x314, 0x318, 0x31c, 0x320,
+0x32c, 0x330 -- deliberately not offset-ascending, confirmed against the
+disassembly's own r1-relative offset chain), the func_02022F0C call, the
+tag-driven func_02022E20 branch and its stack-arg layout, and the closing
+func_02022E88 call (re-reading a0[0x324] fresh rather than reusing the
+value just stored, since it's captured from a live register at a
+different point in the original) are all reproduced correctly, i.e. this
+was closed as a genuine mechanical near miss, not a guess.
+
+Where the diff lives: from offset +0x52 (`movs r1,#0xc3` vs `movs r0,#0xc3`
+in the compiled output) through the end of the 10-field stamp block and
+into the func_02022E20 stack-arg setup, every register mentioned is
+shifted by one slot (r1->r0, r2->r1, r3->r2, matching the family already
+documented in docs/notes/func_02023768.c.txt and docs/notes/func_0202384C.c.txt
+for this same packet). Everything strictly before this point (both
+MI_CpuFill8 pairs and their branch) and everything from the func_02022E20
+call's register args (r0/r1/r2/r3) onward reproduces exactly modulo that
+same 2-byte cascading shift; the final func_02022E88 call and epilogue
+match byte for byte once the shift is accounted for.
+
+Tried and rejected:
+  - struct-by-value for func_02022E20's six stack words: 252 bytes, much
+    worse than the ten-scalar-params version kept above.
+  - a shared `u16 tag` local read once vs. re-read at both of the two use
+    points (the MI_CpuFill8 branch and the func_02022E20 branch): re-reading
+    is required, confirmed by the two separate `ldrh [r4,#6]` in the
+    original at 0x2023982 and 0x2023a08; caching it in one local costs an
+    extra store/reload and was strictly worse.
+  - a named `u8 *base = a0 + 0x30c;` for the field-stamp block, offsets
+    relative to it: 208 bytes, worse than direct `a0 + 0x3xx` addressing.
+  - binding `*(u32 *)(a1+0)` to a named local before the first store: no
+    byte-count change either way.
+
+Left as DIFF/note rather than filed to src/pending, since the byte count
+differs (not a pure relocation-witness gap). A future pass with a working
+idiom for this register-shift family (seen now in three functions of this
+one packet) could plausibly close all three at once.

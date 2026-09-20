@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-20: MATCH; see verify output.
+ *           --suggest-split offers nothing (single function, all four
+ *           unresolved sites' only witnesses are inside this range).
  * blocker:  func_0203EA9C, func_0203DC70, func_02039D94, func_02037C10 (label,
  *           all four) -- each has no witness outside 0203CF5C..0203CFA0; every
  *           branch to them in the image is this function's own call. Four of

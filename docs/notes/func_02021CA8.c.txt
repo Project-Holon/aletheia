@@ -1,0 +1,56 @@
+2026-09-20  packet pkt_02021B6C  func_02021CA8 (0x02021CA8, 158 bytes, thumb)
+
+Not attempted beyond initial reconnaissance; recorded so the next agent
+does not re-derive the same starting point from scratch.
+
+Signature: func_02021CA8(u8 *p, u8 idx, void *s) -- called from
+func_02021BC8 with s = (u8*)slot + 0xc, and from func_02021D50's switch
+table region too (per the entry_points list in worklist.py).
+
+Shape: three-way branch keyed off a struct comparison at *s:
+  1. ldrh r4,[s+2]; extract bits[11:16) (width5) into r3, bits[6:11)
+     (width5) into r4; if r4 != r3, skip to block 2 (0x2021ce2).
+     Otherwise: read p[0x118] (u16), test bit `idx` of (p[0x118] >> 2)
+     via a hand mask (1<<idx). If clear, fall to the shared epilogue at
+     0x2021d42 (no-op return). If set, XOR that bit off in place
+     (p[0x118] = ((p[0x118]>>2) ^ (1<<idx)) & 0x3FFF combined back with
+     the low two bits preserved via pool mask 0xFFFF0003) and return.
+     -- pool_02021D48 = 0xFFFF0003 confirms the low-16 mask is 0x0003,
+        i.e. bits[2:16) is the touched field, same field shape as
+        func_02021B6C's p[0x118] bits[2:16) flags register.
+  2. (0x2021ce2) reads *(s+4) as a sign flag test (bit31 of a 16<<16
+     shift, i.e. tests bit15 of the raw u16 at s+4 -- likely a sign or
+     mode flag). Branches to block 2a or 2b depending.
+  2a. (falls through, target 0x2021d02): computes
+        r4 = sext16(s+2 raw halfword) + zext5(s+6 bits[11:16))
+      clamped: if r4 > r3 (the width5 field from step 1, still in r3)
+      then r4 = r3. Then writes back into *(s+2) bits[11:16) (width5,
+      pool mask 0xFFFFF83F = low16 0xF83F clears bits[6:11), so this
+      write actually targets bits[6:11) not bits[11:16) -- re-check
+      before trusting this paragraph) preserving the rest via that pool
+      mask, and returns.
+  2b. (target 0x2021d18): same shape as 2a but SUBTRACTS the s+6 field
+      and clamps to a lower bound (bge instead of ble), writing back
+      through pool_02021D4C (0xFFFFF83F) the same way.
+  Shared epilogue at 0x2021d42: pop {r4,r5}; bx lr (no-op path taken when
+  block 1's bit test comes up clear).
+
+Pool constants confirmed from asm/arm9/src/008_02020FE4.s:
+  pool_02021D48 (0x02021D48) = 0xFFFF0003
+  pool_02021D4C (0x02021D4C) = 0xFFFFF83F
+
+Why parked instead of attempted: the struct at `s` (the function's third
+argument) does not match either struct used by its neighbours
+(func_02021BC8's S02021BC8, func_02021C20's S02021C20Color) field-for-
+field -- offset+2 here is a *pair* of width-5 fields (bits[6:11) and
+bits[11:16)), not a single width-5/width-6 pair the way the neighbours'
+offset+2 is. Reading the 2a/2b clamp blocks precisely (which of s+2/s+6's
+sub-fields is the write target vs the read source, and whether the second
+operand is sign- or zero-extended) needs another one or two `show`
+passes cross-checked against the pool words above before writing C; that
+work was not done here to stay inside the "small functions first, don't
+grind" budget for this run. The struct is very likely shared with (or a
+superset of) the S02021B6C used by func_02021B6C/func_02021BC8 -- the bit
+mask math on p[0x118] in block 1 is identical to func_02021B6C's flags
+field -- so cracking this one struct fully would likely also tighten the
+symbols block on both of those matched files.

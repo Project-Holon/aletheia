@@ -8,10 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
- * blocker:  020067D0 - the `bl` inside the loop is the only branch to it, so
- *           the `label` class has no witness outside the compared range.  All
- *           124 concrete bytes and every data site are right.
+ * note:     re-verified 2026-09-20: MATCH; func_020067D0 is now matched
+ *           (unit_020066E8.c) and its call site resolves.  Remaining
+ *           blockers are three data globals (g_02140484, g_0209D8C0,
+ *           g_02140534) with no witness outside this range; --suggest-split
+ *           offers nothing (single function, all witnesses internal).
+ * blocker:  g_02140484, g_0209D8C0, g_02140534 (data) - each has no witness
+ *           outside 02006544..020065D8.  All 124 concrete bytes and every
+ *           other site are right (4 of 7 relocations resolved).
  *
  * symbols:
  *   g_02140484     0x02140484  data

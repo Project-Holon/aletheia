@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-20: MATCH; see verify output.
+ *           --suggest-split offers nothing (single function, the one
+ *           unresolved site's only witness is inside this range).
  * blocker:  str_020A7D4C (string) -- no witness outside 0203E484..0203E4E8;
  *           the file string at 0x020A7D34 ("net_irq_wireless.c") ends at
  *           0x020A7D46, six bytes before this message, so the `string` class

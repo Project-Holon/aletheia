@@ -1,0 +1,46 @@
+2026-09-20  pkt_0202D7D8  func_0202D81C (0x0202D81C, 124-byte listing extent)
+
+Attempted, not filed (no src/matched or src/pending entry written). This is
+a near-miss note, not a source file.
+
+Shape: pushes {r3,r4,r5,r6,r7,lr}, sub sp,#0x18 (24 locals bytes). Mirrors
+the func_0202D7D8/func_0202D7C8 pattern for its first half:
+
+  t0 = func_0202D060();
+  t1 = sub_0202D064(t0, a1, a2, a3, a4, a5, a6);   // a1..a3 = r1..r3, a4..a6 stack
+  ret = func_0204A6C8(a0, t1, 1, a8, a9, ...);      // ARM SDK call via blx 0x204a6c8
+
+then `cmp r5, r0` against a pool literal 0x147 (a1 compared to 0x147),
+guarding a second block (bne skips to the shared epilogue at +0x88E) that:
+
+  - rebuilds the same 5-word arg block (a4,a5,a6,a7,<u16 field at
+    stack-base+0x14>) into sp[0..0x10]
+  - `add r0, sp, #0x14; bl 0x202d760` -- passes the ADDRESS sp+0x14 as
+    sub_0202D760's first argument
+  - `ldr r1, [sp, #0x14]` immediately after the call, feeding r1 into
+    `blx 0x204a9d0` as a second argument
+
+Blocker: sub_0202D760 (0x0202D760, in a neighbouring still-open packet)
+itself does `ldr r0, [r5]` on its first argument partway through its body
+(r5 = a0 there), i.e. it treats a0 as a pointer it *reads*, not one it
+writes. But in func_0202D81C the slot at sp+0x14 is never stored to before
+the `bl 0x202d760`, and is read immediately after as if sub_0202D760 wrote
+an out-value there. I could not reconcile "callee only reads *a0" with
+"caller treats the same address as an initialized-by-callee out-parameter"
+without inventing an implicit write inside sub_0202D760 that its own
+disassembly does not show me performing at the site I can see (no `str`
+through r5 in the 104-byte listing at 0x0202D760). Resolving this needs
+either: (a) reading sub_0202D760 far enough to find a hidden write path I
+missed, or (b) treating sp+0x14 as scratch that happens to already hold the
+value written earlier at sp+0x10 via overlapping frame layout (off-by-one
+guess I was not confident enough to commit to a header as EXACT/MATCH).
+
+Also note: sub_0202D064, sub_0202D760 (both 0x0202D0xx/0x0202D7xx range)
+and the ARM helpers at 0x0204A6C8 / 0x0204A9D0 are all still `open` in
+other packets, not yet in src/matched, so even a correct C body here would
+only reach MATCH/label evidence pending those functions' own filing
+elsewhere -- not a blocker unique to this address, just noted for the next
+agent.
+
+No further evidence attempted beyond a few principled C rewrites, per the
+budget guidance (stop grinding, move to easier ground in the packet).

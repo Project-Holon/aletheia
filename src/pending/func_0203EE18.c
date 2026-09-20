@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-20: MATCH; see verify output.
+ *           --suggest-split offers nothing (single function, the one
+ *           unresolved site's only witness is inside this range).
  * blocker:  s_020A7E28 (string) -- no witness outside 0203EE18..0203EF5C; format string "BufferSize is not enough!![%x][%x]\n" has embedded control characters preventing string class attestation.
  *
  * symbols:

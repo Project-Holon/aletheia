@@ -1,0 +1,60 @@
+2026-09-20  packet pkt_02021B6C  func_02021C20 (0x02021C20, 136 bytes, thumb)
+
+DIFF, not filed. Real attempt made; recorded here per AGENT-BRIEF section 6/7
+so the next agent does not re-derive the same dead end.
+
+Shape: per-pixel RGB555 alpha blend loop.
+  void func_02021C20(u16 *src, u16 *dst, struct Color *c, u32 count)
+  {
+      for (i = 0; i < count; i++) {
+          sr/sg/sb = src[i] channels (5 bits each, bit0, bit5, bit10);
+          weight   = c->[+2], bitfield bits[6:11) (5 bits);
+          target   = c->[+4], bitfield bits[0:15) (15 bits, RGB555);
+          tr/tg/tb = target channels;
+          r = (u8)(sr + (weight*(tr-sr) >> 4));
+          b = (u8)(sb + (weight*(tb-sb) >> 4));
+          g = sg + (weight*(tg-sg) >> 4);   /* not u8-truncated the same way */
+          dst[i] = r | (b << 10) | (((u32)g << 0x18) >> 0x13);
+      }
+  }
+
+struct layout confirmed by field offsets in the disassembly:
+  +0x00  u16 field0        (unused by this function)
+  +0x02  u16 bitfield: pad0:6, weight:5, pad:5
+  +0x04  u16 bitfield: target:15, pad:1
+
+This reconstruction gets the correct field offsets, the correct three-way
+5-bit channel split (bit0/bit5/bit10), the correct >>4 weighting, and the
+correct final pack shape (r | b<<10 | g-packed-via-shift). `match.py one`
+reaches DIFF with only register-allocation/instruction-order differences
+left (down to ~86 of 136 bytes differing, from ~104 on the first full
+attempt) — every arithmetic operator, shift amount and mask matches the
+original op-for-op, but mwcc's -O4,p scheduler resolves the three near-
+identical per-channel computations (r, b via plain `(u8)` truncate at
+shift-pair 0x18/0x18; g via the odd shift-pair 0x18/0x13 that folds the
+final `<<5` pack position into the truncation) to different registers than
+the original, and in one C phrasing it silently swapped which of r/b got
+the "odd" 0x18/0x13 truncation pattern versus the plain one, even though
+the source clearly marked r and b as u8 and g as the unmasked pack value.
+
+Tried:
+  - Extracting sg/sb/target/weight in the same order as the original loads
+    them (interleaved: sg, target-load, sb-raw, weight, sb-mask, sr, tr...).
+    Ordering nudges the diff count but never collapses it; -O4,p is doing
+    its own scheduling independent of statement order here.
+  - Naming every intermediate (sg_raw, sb_raw, r_raw, b_raw, g_raw, g_hi,
+    b_hi, g_packed) instead of one-line expressions, to pin down which
+    optimizer decision was source-order-sensitive. Slightly reduced the
+    diff (104 -> 86 bytes) but did not close it.
+  - int vs u32 for the pack expression: needed u32 for the final `g<<0x18`
+    (int would UB/differ on the >>0x13 arithmetic-vs-logical shift), this
+    part is confirmed correct against the original bytes at that site.
+
+Not tried / next step for whoever picks this back up: splitting the
+function into per-channel helper calls (so each channel's u8-cast becomes
+its own translation-unit-visible object, removing the scheduler's freedom
+to swap them), or trying the `tu` unit path together with 0x02021BC8 in
+case being compiled as an internal call target changes how mwcc allocates
+registers across the two functions. Neither attempted here to stay inside
+budget (docs/AGENT-BRIEF.md section 7 "stop grinding after a few
+principled rewrites").

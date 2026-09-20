@@ -1,0 +1,88 @@
+2026-09-20 pkt_0202363C, func_02023768 (0x02023768, 80 bytes, Thumb)
+
+Verdict: DIFF (15 concrete bytes differ, all 4 relocations resolve: label
+func_0202384C, label func_020056A0, literal func_02022568, literal
+func_02022D98). Every call site, call order, branch target and the shared
+"return 0" exit tail (via `goto`) byte-match exactly from the first `bl`
+onward (+0x26 through the end, byte for byte). The only divergence is
+confined to the two basic blocks before the first `bl` (offsets +0x04
+through +0x0C, and +0x14 through +0x18): the original allocates r1/r2 as
+scratch there, the compiled output allocates r0/r1 for the same operations,
+uniformly shifted by one register the whole way through. Logic, operand
+order, and instruction shapes are otherwise identical instruction-for-
+instruction.
+
+C reached (semantics confirmed correct, register choice not reproduced):
+
+    typedef unsigned char  u8;
+    typedef unsigned int   u32;
+    typedef int             s32;
+
+    extern void func_0202384C(void);
+    extern void func_020056A0(void *fn, void *p, u32 n);
+    extern void func_02022D98(void *p, void *c);
+    extern void func_02022568(u32 a0, u32 a1, u32 a2);
+
+    u32 func_02023768(u8 *p)
+    {
+        u32 result = 0;
+        s32 n;
+        s32 ctr = *(s32 *)(p + 0x24) + 1;
+
+        *(s32 *)(p + 0x24) = ctr;
+        if (ctr < *(s32 *)(p + 0x20)) {
+            goto ret0;
+        }
+        *(s32 *)(p + 0x24) = 0;
+
+        n = *(s32 *)(p + 0x1c) - 1;
+        if (n > 0) {
+            *(s32 *)(p + 0x1c) = n;
+            *(u32 *)(p + 0xc) = *(u32 *)(p + 0xc) + *(u32 *)(p + 0x18);
+            func_0202384C();
+            func_020056A0((void *)func_02022D98, p, 0x3ff);
+            goto ret0;
+        }
+
+        func_02022568(*(u32 *)(p + 0x34), *(u32 *)(p + 8), *(u32 *)(p + 0x28));
+        result = 1;
+        return result;
+
+    ret0:
+        result = 0;
+        return result;
+    }
+
+Semantics: advance a ring counter at +0x24 against its limit at +0x20;
+while still mid-ring (ctr < limit) return 0 immediately. Once the limit is
+reached, wrap +0x24 to 0 and decrement a countdown at +0x1c. If that
+countdown has now run out (<= 0), call func_02022568(this+0x34, this+8,
+this+0x28) and return 1. Otherwise store the decremented countdown back,
+add +0x18 into the accumulator at +0xc, call func_0202384C() (no
+arguments — confirmed by the absence of any r0=r4 copy before its `bl` in
+the original) to refill, schedule func_02022D98 through func_020056A0
+with a fixed 0x3ff-byte window, and return 0.
+
+Tried and rejected (all produced the identical 15-byte diff or worse):
+  - struct-typed parameter vs. raw u8 * with offset casts: no difference.
+  - naming the +1 counter result in a local vs. re-reading the field twice:
+    no difference in the first block's register choice.
+  - reordering local declarations (result/n/ctr in various orders): no
+    difference.
+  - `goto` to a shared "ret0: result = 0; return result;" tail vs. two
+    inline `return 0;` statements: the inline-return form is what makes
+    everything AFTER the first block worse (adds a third callee-saved
+    register, push {r3,r4,r5,lr}, +4 bytes total) — the goto/shared-exit
+    form is strictly better and is what closes the entire second half of
+    the function to an exact match; keep this shape for any future attempt.
+  - s32 vs u32 typed struct fields for the +0x1c/0x20/0x24 words: no
+    difference (signed compares were already required for the blt/ble to
+    reproduce, both forms tie).
+
+This reads as a plain register-bank-numbering artifact of -O4,p's
+allocator on the entry block, not a semantic gap: every relocation site is
+resolved (three of them via already-matched/labelled callees), and the
+call graph, argument set and shared exit are fully reproduced. Left as
+DIFF/note rather than filed to src/pending, since MATCH (byte-identical)
+was not reached. A future agent with more register-shuffle idioms in hand
+may close it; not worth further budget in this pass.
