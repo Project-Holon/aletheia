@@ -1,0 +1,62 @@
+/*
+ * function: func_0204BD94
+ * address:  0x0204BD94
+ * packet:   pkt_0204BCF4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ * blocker:  label -- func_02065AA8 and func_0204BE84, each reached only from
+ *           this body (the tool prints "no witness outside 0204BD94..0204BE2C");
+ *           func_0204BE84 lives in pkt_0204BE84, which is not this lane's.
+ *
+ * symbols:
+ *   s_clact_c       0x020A7F74  data
+ *   func_02065AA8   0x02065AA8  arm
+ *   func_02030734   0x02030734  arm
+ *   func_0204BE84   0x0204BE84  arm
+ *   func_02065B64   0x02065B64  arm
+ *
+ * Byte-identical at 148 bytes; only the two PC24 call fields at +0x14 and
+ * +0x68 stay wildcarded.  The 0x020A7F74 pool word is ABS32 into the string
+ * area and resolves `literal`, and func_02065B64 resolves `matched`.
+ *
+ * Spellings that mattered: `for (i = 0; i < count; i++)` with an unsigned `i`
+ * and a signed `count` is what gives the single `popls` loop guard and the
+ * `blo` back-edge.  Adding an explicit `if (count <= 0) return;` in front of
+ * the loop emits BOTH `pople` and `popls` and costs four bytes of layout.
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+struct Obj {
+    u8 pad_00[0x80];
+    u32 f80;
+    u8 pad_84[0x14];
+    u32 f98;
+    u32 f9c;
+};
+
+extern const char s_clact_c[];
+
+extern void  func_02065AA8(struct Obj *p);
+extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+extern void  func_0204BE84(void *dst, void *src);
+extern void  func_02065B64(struct Obj *p, void *slot);
+
+void func_0204BD94(struct Obj *obj, u8 *src, int count, u32 heap)
+{
+    u32 i;
+
+    func_02065AA8(obj);
+    obj->f80 = 1;
+    obj->f98 = (u32)func_02030734(heap, count * 0x48, 0, s_clact_c, 0xfc7);
+    obj->f9c = count;
+    for (i = 0; i < count; i++) {
+        func_0204BE84((void *)(obj->f98 + i * 0x48), src + i * 0x10);
+        func_02065B64(obj, (void *)(obj->f98 + i * 0x48));
+    }
+}
