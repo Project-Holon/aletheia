@@ -145,8 +145,12 @@ def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
     env = dict(os.environ)
     env.setdefault("MWLibraries", workdir)
     env.setdefault("MWLibraryFiles", " ")
+    if sys.platform != "win32" and cmd and isinstance(cmd[0], str) and cmd[0].endswith(".exe"):
+        wine_bin = shutil.which("wine64") or shutil.which("wine") or "wine64"
+        cmd = [wine_bin] + list(cmd)
     try:
         p = subprocess.run(cmd, cwd=workdir, capture_output=True, timeout=180, env=env)
+
     except Exception as exc:
         return None, cmd, str(exc), 127
     text = (p.stdout + b"\n" + p.stderr).decode("latin1", "replace")

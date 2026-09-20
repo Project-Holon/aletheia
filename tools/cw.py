@@ -128,7 +128,11 @@ def verkey(name):
 
 
 def run(cmd, cwd=None):
+    if sys.platform != "win32" and cmd and isinstance(cmd[0], str) and cmd[0].endswith(".exe"):
+        wine_bin = shutil.which("wine64") or shutil.which("wine") or "wine64"
+        cmd = [wine_bin] + list(cmd)
     env = dict(os.environ)
+
     # Silence the two "Environment variable not found" usage warnings; the
     # smoke test deliberately links nothing from the SDK.
     env.setdefault("MWLibraries", cwd or ".")
