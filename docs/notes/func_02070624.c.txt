@@ -1,0 +1,133 @@
+=== 2026-09-21: func_02070624, 268 bytes ARM, DIFF at 268 bytes / 18 bytes out ===
+
+Vector-2 keyframe sampler: the exact sibling of func_02070524 (same flag
+cascade word for word) but every key is a PAIR of s16 and the result is the
+two interpolated components packed back into one u32 with
+`lsl r1,#0x10 / orr r0, r1, r0, lsr #16`.  Three tails instead of two:
+`plain:` is a single `ldr` of the whole packed word, `two:` is the midpoint of
+two pairs and `quad:` is the (3a+b)>>2 weighted average of two pairs.
+
+Compiler: `--cc ../2.0/sp2 --arm`, flags as the project default
+(-O4,p -proc arm946e).  Zero relocation sites, so the row is EXACT the moment
+the bytes land.  Best body compiles to EXACTLY 268 bytes with 18 concrete
+bytes differing, all of them register-name choices in the two tail blocks.
+Verbatim:
+
+  python3 tools/match.py one --src <f> --func func_02070624 --addr 0x02070624 \
+      --arm --cc ../2.0/sp2 --diff
+
+THE ONE STRUCTURAL LEVER (worth carrying to every function of this family)
+--------------------------------------------------------------------------
+Every earlier spelling compiled to 272 bytes and opened with a spurious
+`push {r3, lr}` / `popne {r3, pc}`, which the image (a pure leaf, four bare
+`bx lr`) does not have.  The push is NOT caused by the packing expression, the
+return type, the front end (1.1p1 does it too), the number of index variables
+or the block scoping: it is register pressure in the two tail blocks, and it is
+fixed by the ORDER the four s16 values are read in.
+
+  Each tail reads four s16: two through a pointer local and two through a
+  byte-offset off `base`.  If the POINTER is created before the offset load,
+  the pointer, the offset, `base` and four values are live at once, mwcc wants
+  a sixth register and spills.  Loading the byte-offset value FIRST, and only
+  then creating the pointer, keeps it inside r0-r3+ip and the push disappears.
+
+  In the quad block the same effect needs the two pairs CONSUMED as they are
+  read: read the pair that is loaded by byte-offset, fold its `*3` and its add
+  immediately, and only then read the pointer pair.  Reading all four and then
+  doing both accumulates still pushes.
+
+Best body (`--cc ../2.0/sp2`, 268 bytes, 18 differing):
+
+    u32 func_02070624(u32 *base, u32 flags, u32 off, u32 idx)
+    {
+        u32 n;
+        u32 i0;
+
+        if (flags & 0x20000000)
+            return off;
+
+        base = (u32 *)((int)base + off);
+
+        if (flags & 0xc0000000) {
+            n = flags & 0xffff;
+            if (flags & 0x40000000) {
+                if (idx & 1) {
+                    if (idx > n) { idx = (n >> 1) + 1; goto plain; }
+                    i0 = idx >> 1;
+                    goto two;
+                }
+                idx = idx >> 1;
+                goto plain;
+            } else {
+                u32 r = idx & 3;
+                if (r != 0) {
+                    if (idx > n) { idx = r + (n >> 2); goto plain; }
+                    if (idx & 1) {
+                        s32 a, b, c, d;
+                        if (idx & 2) { idx = idx >> 2; i0 = idx + 1; }
+                        else         { i0 = idx >> 2; idx = i0 + 1; }
+                        c = *(s16 *)((char *)base + (i0 << 2));
+                        d = *(s16 *)((char *)base + (idx << 2));
+                        c *= 3;
+                        c += d;
+                        a = ((s16 *)(base + i0))[1];
+                        b = ((s16 *)(base + idx))[1];
+                        a *= 3;
+                        a += b;
+                        return ((u32)(c << 14) >> 16) | (u32)((a >> 2) << 16);
+                    }
+                    i0 = idx >> 2;
+                    goto two;
+                }
+                idx = idx >> 2;
+            }
+        }
+
+    plain:
+        return base[idx];
+
+    two:
+        {
+            s32 c = *(s16 *)((char *)base + (i0 << 2));
+            s16 *p = (s16 *)(base + i0);
+            s32 a = p[1];
+            s32 b = p[3];
+            s32 d = p[2];
+            a += b;
+            c += d;
+            return ((u32)(c << 15) >> 16) | (u32)((a >> 1) << 16);
+        }
+    }
+
+RESIDUE, 18 bytes, one cause
+----------------------------
+Everything from +0x0000 to +0x003C and from +0x0044 to +0x00A8 is byte-exact,
+and every remaining difference is a register NAME, never an opcode, an operand
+form or a branch target:
+
+  * +0040 / +00C4: `i0` is allocated r2 where the image uses r1
+    (`lsr r2, r3, #1` vs `lsr r1, r3, #1`).  Swapping the declaration order of
+    `n` and `i0` does not move it.
+  * +00AC..+00BC and +00F4..+0104: the two half-results land in the opposite
+    pair of registers, so the image's
+        asr r1, r0, #2 / add r2, ip, r3 / lsl r0, r2, #0xe /
+        lsl r1, r1, #0x10 / orr r0, r1, r0, lsr #16
+    comes out as the same five instructions with r0 and r1 exchanged
+    (`orr r0, r0, r1, lsr #16`).  The `orr`'s shifted operand and shift amount
+    are already right; only which half was computed into which register is
+    wrong, and it follows from which half's `add` is emitted first.
+
+Tried and rejected for the residue: the `|` operands written the other way
+round (272, pushes again); the two halves bound to named `hi`/`lo` locals
+(272, pushes); the `>> 2` bound to a fresh local so the `asr` writes a new
+register (272, pushes).  Each of those reorders the two adds correctly but
+costs the register-pressure win above, so the push comes back and the whole
+function shifts by four bytes.  The two are coupled: any spelling that emits
+the a-half's `add` before the c-half's also re-creates the sixth live value.
+
+Next attempt should look for a spelling that keeps the c-half read-and-folded
+FIRST (so no push) while still getting the a-half into the lower-numbered
+register - most likely by making the c-half's accumulate read from a variable
+that is already dead, rather than by reordering the statements.
+
+Status DIFF, so this is a note and not a file.

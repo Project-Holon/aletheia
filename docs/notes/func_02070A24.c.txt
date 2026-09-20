@@ -1,0 +1,98 @@
+=== 2026-09-21: func_02070A24, 216 bytes ARM, DIFF at 212 bytes ===
+
+Applies a keyframe sample to a render record: reads a descriptor through
+func_0206E62C, rewrites the record's f10 flags word, unpacks two 11-bit
+subfields into the record's f2c/f2e halfwords, and for each of the two builds
+a scale via func_0207C768 (or the identity 0x1000 when the value is unchanged).
+
+Compiler `--cc ../2.0/sp2 --arm`, project default flags.  ALL THREE
+relocations resolve cleanly, so this row is evidence-complete and purely
+codegen-stuck:
+
+    +0018 PC24 func_0206E62C  -> 0206E62C  [label x9,  e.g. 0206A350]
+    +009C PC24 func_0207C768  -> 0207C768  [label x39, e.g. 02014F72]
+    +00C0 PC24 func_0207C768  -> 0207C768  [label x39, e.g. 02014F72]
+
+That matters for the packet: func_02070A24 is one of the five callees that cap
+src/pending/func_02070B64.c at MATCH, and it needs no new evidence to unblock
+it, only the right C.
+
+Best body so far compiles to 212 bytes against 216.  The first 0x2C is
+byte-exact (prologue, the null guard with its `movs r5, r0` / `moveq r0, #0`
+early arm, the func_0206E62C call, and the `and r1, r1, #0x1c000000` /
+`cmp r1, #0x14000000` descriptor test):
+
+    void func_02070A24(struct S *s, u32 *src, struct T *t)
+    {
+        u32 *p; u32 q; u32 m;
+
+        if (s == 0) p = 0;
+        else        p = func_0206E62C((void *)((char *)s + 0x3c));
+
+        m = t->f10;
+        if ((p[0] & 0x1c000000) != 0x14000000) q = s->f8;
+        else                                   q = s->f18;
+        q = (q << 16) >> 16;
+        q = q & ~0xe0000000u;
+
+        m = m & 0xc00f0000u;
+        t->f10 = m;
+        t->f10 = m | (p[0] + q);
+
+        t->f2c = (u16)(p[1] & 0x7ff);
+        t->f2e = (u16)((p[1] & (0x7ffu << 11)) >> 11);
+        { u32 v = p[1];
+          u32 a = v & 0x7ff, b = (v & (0x7ffu << 11)) >> 11, c;
+          c = t->f2c;
+          if (a == c) t->f30 = 0x1000; else t->f30 = func_0207C768(a << 12, c << 12);
+          c = t->f2e;
+          if (b == c) t->f34 = 0x1000; else t->f34 = func_0207C768(b << 12, c << 12);
+        }
+    }
+
+Settled by the bytes:
+  * the descriptor test's polarity is `!=` with the f8 arm written FIRST.
+    Written `==` with the f18 arm first, the image's `ldrne r1,[r5,#8]` /
+    `ldreq r1,[r5,#0x18]` order inverts (the fall-through-arm idiom).
+  * the two f10 stores are real and both must be written: the masked value is
+    stored, then the OR of the masked value with `p[0] + q` is stored over it.
+    Writing only the second gives one `str` and loses four bytes.
+  * `p[0]` is RE-READ for the addend (`ldr r1, [r0]` at +0x0050) and must not
+    be bound to a local, or the reload folds into the earlier one.
+
+THE WALL, one decision, four bytes
+----------------------------------
+The image spells the sample value as THREE separate instructions into a
+callee-saved register that survives both f10 stores:
+
+    +0038  lsl r1, r1, #0x10
+    +003C  lsr r1, r1, #0x10
+    +0040  bic r5, r1, #0xe0000000
+
+The `bic` clears bits 31:29 of a value the preceding pair has already proved
+to be 16 bits wide, so it is a provable no-op, and every spelling tried lets
+mwcc fold it away and then fold the surviving `lsr #16` into the add's shifter
+operand (`add r2, r3, r2, lsr #16`), which is four bytes shorter and
+reschedules the whole middle of the function.
+
+Ruled out this run, none of which keeps the bic:
+  - `q & ~0xe0000000u` after the pair, and the equivalent `q & 0x1fffffffu`;
+  - the mask applied BEFORE the narrowing (`q &= 0x1fffffff` then the pair);
+  - the narrowing through a named `u16` local, then the mask (this DOES keep
+    the shift pair separate from the add, so it is the right half of the
+    answer, but the bic still folds);
+  - the mask moved onto the SUM, `(p[0] + q) & ~0xe0000000u`;
+  - the pair wrapped in its own block scope with a named `lo`;
+  - `volatile u32 q` (keeps the mask but spills q to the stack,
+    `streq r1,[sp]` / `ldr r2,[sp]`, far worse);
+  - a signed narrowing `(int)(q << 16) >> 16` (gives `asr`, not the image's
+    `lsr`).
+
+So the value is NOT a 16-bit narrowing followed by a redundant 29-bit mask.
+The next attempt should assume the two operations come from DIFFERENT sources:
+the `lsl/lsr #16` pair from a u16-typed struct field or function result that
+mwcc cannot see through, and the `bic` from a genuinely 29-bit-wide consumer
+(a 29-bit bitfield member, or an argument whose declared type is 29 bits of a
+packed word).  Reading them as one expression is what makes the mask dead.
+
+Status DIFF, so this is a note and not a file.

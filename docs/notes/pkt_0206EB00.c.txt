@@ -135,3 +135,129 @@ written merges them into one branch and then if-converts the whole table walk
 (`ldrhlo`/`addlo`/`mlalo`) where the image branches (`bhs`).  103 concrete bytes
 differ.  Recorded, not ground further - the sibling 0x0206EBB8 (152 bytes) opens
 with the very same double `beq` on one compare, so the two are one finding.
+
+==============================================================================
+2026-09-21, lane pkt_0206EB00: the packet is a ../2.0/sp2 unit
+==============================================================================
+
+The decisive finding for this packet is that FOUR of its eight functions carry
+the "kept branches" front-end tell of docs/FRONTEND-PINS.md at the same place:
+the resolve prologue they share emits TWO `beq` on ONE `cmp rX, #0`
+(0x0206EBCC/D0/D4, 0x0206EC68/6C/70, 0x0206ECFC/ED00/ED04), and the guard
+bodies further down are kept as branches where dsi/1.1p1 -O4,p predicates
+them.  Under ../2.0/sp2 the SAME C that 1.1p1 builds four bytes short builds
+to the original's length with zero concrete mismatches.
+
+Filed EXACT under the pin this pass:
+  0x0206EB00  124 B  src/matched/func_0206EB00.c
+  0x0206EBB8  152 B  src/matched/func_0206EBB8.c
+
+The shared resolve is the one already derived in src/matched/unit_0206E394.c,
+with the root read from the global stash at 0x02148DB0 instead of a parameter:
+  idx = root->hdr->b[1];  bank = root->[0xD4];
+  if (!bank) -> node = 0; if (idx >= bank->b[1]) -> entry = 0;
+  t = (u8 *)bank + bank->h[6]; entry = t + 4 + (*(u16 *)t) * idx;
+  node = (u8 *)bank + *(u32 *)entry;
+Writing `t` as a NAMED LOCAL is what reproduces `mla r2, r1, r3, r2`; folding
+the two `bank + off06` reads into one expression flips the mla's dest register
+and is the whole difference between DIFF and EXACT on 0x0206EBB8.
+
+0x0206EB00's own tell is the counter zero: dsi/1.1p1 CSEs the loop counter's
+`mov r4, #0` into the clear call's first argument and then needs a FOURTH
+callee-saved register, giving `push {r4, r5, r6, lr}` against the original's
+`push {r3, r4, r5, lr}` at the same 124 bytes.  ../2.0/sp2 rematerialises the
+zero.  The second lever, worth 11 bytes on its own, is that BOTH halfword
+accesses in the loop must be SUBSCRIPTS on u16 pointers
+(`((u16 *)(dst + 0x1A))[i]` and `((u16 *)ix)[i]`); any byte-offset spelling
+(`*(u16 *)(ix + i * 2)`, `(i << 1)`, `(i + i)`) lets the compiler
+strength-reduce one of them into a separate `ip` cursor and costs one
+instruction the image does not have.
+
+--- 0x0206EC50 (144 bytes): DIFF, 23 bytes, register naming only
+Under the pin the source below compiles to 144 bytes against the image's 144
+with every instruction in the right place and the right operand roles; the
+only residue is which registers the allocator picks.  The image is
+{bank = r4 (a callee-saved slot, hence `push {r4, lr}`), idx = lr,
+ entry = r3}; every spelling tried gives {bank = lr, idx = r3, entry = r2}
+and `push {r3, lr}`.  Declaration order (all 6 permutations of bank/idx/p),
+a u8 idx, hoisting the +0xE8 hook read, spelling the hook call as a cast
+constant, and a `register ... asm("r4")` (rejected by the front end) all leave
+the same 23-30 bytes.  This is NOT the double-`beq` residue the earlier note
+recorded: that is now reproduced exactly.
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef struct { u8 unk00; u8 idx01; } Hdr;
+typedef struct { u8 unk00; u8 cnt01; u8 unk02[4]; u16 off06; } Bank;
+typedef struct { Hdr *h; u8 pad[0xD0]; Bank *bank; u8 pad2[0x10];
+                 void (*hook)(void *, void *); } Root;
+typedef struct { u32 rel00; } Ent;
+
+void func_0206EC50(void *arg)
+{
+    Root *r = *(Root **)0x02148DB0;
+    Bank *b; u8 *p; u8 *t; u32 idx; u32 f;
+
+    idx = r->h->idx01;
+    b = r->bank;
+    if (b == 0) goto none;
+    if (b == 0) goto nullent;
+    if (idx >= b->cnt01) goto nullent;
+    t = (u8 *)b + b->off06;
+    idx = (u32)(t + 4 + (*(u16 *)t) * idx);
+    goto have;
+nullent:
+    idx = 0;
+have:
+    if (idx == 0) goto none;
+    p = (u8 *)b + ((Ent *)idx)->rel00;
+    goto set;
+none:
+    p = 0;
+set:
+    f = ((u16 *)p)[0];
+    p = p + 4;
+    if ((f & 1) == 0) p += 0xc;
+    if ((f & 2) == 0) { if ((f & 8) != 0) p += 4; else p += 0x10; }
+    r->hook(arg, p);
+}
+
+--- 0x0206ECE0 (384 bytes): DIFF, 19 bytes, register naming only
+Same story one size up: under the pin the source compiles to 384 against 384
+with every instruction, every branch target and every relocation right, and
+the residue is a three-cycle in the callee-saved names -- the image is
+{node = r5, k = r4, u = r7, v = r6} and every declaration order tried gives
+{node = r4, k = r7, u = r5, v = r6} (or a rotation of it); `node` always wins
+r4 because its live range opens first.
+
+Three shape findings that DID close and are the reusable part:
+  * the `f & 2` arm (`out[0] |= 2`) and the `f & 8 == 0` straight-copy arm are
+    both written LAST, reached by `goto`; the rotation arm is the source order
+    (docs/idioms/the-fall-through-arm-is-the-source-order.md).  Writing either
+    as an inline `if` body inverts a branch and costs ~35 bytes.
+  * `k` is SIGNED: the image's `asr r4, r2, #4`, not `lsr`.
+  * the four permutation tables at 0x020A1998..0x020A199B are ONE table of
+    4-byte rows read as four columns.  Declaring them `u8 x[]` and indexing
+    `x[k * 4]` lets the compiler CSE `k * 4` into an `lsl` the image does not
+    have; declaring `typedef struct { u8 c; u8 pad[3]; } Perm;` and indexing
+    `x[k].c` rematerialises `[rN, r4, lsl #2]` at every site, which is what
+    the image does, and is worth 24 bytes.
+  * the call to 0x020834A8 (thumb, reached by `blx`) takes ONE argument,
+    `out + 10`; r6/r7 are loaded before it because they are needed after,
+    not because they are passed.
+
+--- 0x0206EE60 (940 bytes): not attempted
+`push {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr}` plus `sub sp, sp, #0x30`: ten saved
+registers and a 48-byte frame, with at least six arms and calls to both
+0x0206F214 and 0x0206F36C.  Oversized for one pass; skipped after one `show`
+per the brief.  It is the unlock for src/matched/func_0206EB7C.c, whose only
+branch in the image is the one inside it.
+
+--- 0x0206F214 (340 B), 0x0206F36C (336 B): not attempted this pass
+Both are pure fixed-point interpolators over the same argument record
+(flags word at r2[0], data offset at r2[4]); they share the 0xC0000000 /
+0x40000000 / 0x20000000 flag tests and differ in whether they average two
+neighbours (F214) or lerp with the 12-bit fraction (F36C).  They are each
+other's natural unit and should be taken together.

@@ -1,0 +1,59 @@
+func_02071EFC / func_02072524 - the identity writer, 36 bytes, DIFF 9
+2026-09-21, lane pkt_02071DD4
+
+The same 36-byte leaf appears TWICE in this file, byte-identical, at
+0x02071EFC and 0x02072524. It is the identity member of the 0x02071CDC
+constructor family: it takes only the destination and writes six words.
+
+Image (both copies):
+
+  mov r2, #0x1000
+  str r2, [r0]
+  mov r1, #0
+  str r1, [r0, #4]
+  str r1, [r0, #0x10]
+  str r2, [r0, #0x14]
+  str r1, [r0, #0x30]
+  str r1, [r0, #0x34]
+  bx  lr
+
+dsi/1.1p1 -O4,p -proc arm946e, EVERY spelling measured:
+
+  mov r1, #0
+  mov r2, #0x1000
+  str r2, [r0]
+  ... (identical from here on)
+
+Exactly 9 concrete bytes, always the same three instructions, always the
+same swap: 1.1p1 materialises the ZERO first, the image materialises the
+0x1000 first. Nothing after +0134 differs; the size is right (36 bytes)
+under every spelling.
+
+Spellings measured (as the trailing function of the tu covering
+0x02071DD4..0x02071F20, and again of 0x02072440..0x02072548):
+
+  1. f00, f04, f10, f14, f30, f34  (the image's store order)      -> 9
+  2. f00, f14, f04, f10, f30, f34                                 -> 14
+  3. f00, f04, f14, f10, f30, f34                                 -> 13
+  4. f00, f04, f10, f14, f34, f30                                 -> 11
+  5. f00, f04, f14, f10, f30, f34 with `s32 one = 0x1000` bound    -> 9
+  6. same with `s32 one` AND `s32 zero` both bound                 -> 9
+  7. `d->f14 = d->f00;` (re-read of the just-stored field)         -> 9
+  8. all three constants hoisted above every store                 -> 9
+  9. f30 stored first                                              -> 21
+ 10. `d->f04 = one - one` (zero derived from the live constant)    -> 9
+
+The floor is 9 and it is not reachable by store order, by binding the
+constants to locals, by deriving the zero from the 0x1000, or by
+re-reading a stored field. The two functions it is adjacent to are EXACT
+(src/matched/unit_02071DD4.c, src/matched/unit_02072440.c) and deliberately
+STOP before this leaf, so that the 296 and 228 bytes in front of it count.
+
+This is the same shape as the "kept constants" tell of
+docs/FRONTEND-PINS.md, inverted: here the image is the one that keeps the
+LARGER constant live first. It was NOT probed against another front end -
+this lane's brief authorises one alternative-compiler probe only for the
+"kept branches" (beq-over-a-short-guard) tell, which this is not. If a
+later lane is authorised to probe it, this is a cheap, high-confidence
+target: 36 bytes, no relocations, two call sites' worth of coverage, and
+the one difference is three adjacent instructions.

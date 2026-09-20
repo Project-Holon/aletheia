@@ -1,0 +1,143 @@
+docs/notes/func_02069C74.c.txt
+
+2026-09-21 -- pkt_020694D8, func_02069C74 (0x02069C74, 148 code bytes +
+12 bytes of literal pool; the listing extent is 160).
+
+VERDICT: DIFF under `--cc ../2.0/sp2`, 160 bytes compiled against the
+original's 160, 44 concrete bytes wrong -- and the INSTRUCTION SEQUENCE is
+IDENTICAL, opcode for opcode, in order. Every remaining difference is
+REGISTER ALLOCATION. Not filed as a source; recorded here.
+
+What the function is: initialise the 0x1C-byte request object at `o`
+(state 0, cap 0x1000, payload pointer, aux word from r3, priority 0x7F,
+flag byte 0), then dispatch on the two-field key at the head of `key`
+(u8 tag at +0, u16 id at +2), looked up linearly in a 5-entry, 8-byte-
+stride table at 0x020A8240 whose live length is the word at 0x020A821C.
+A hit calls the entry's handler through `blx`; a miss, a zero count or a
+null handler just returns. The table (from 030_0209666C.s) is
+  020A8240 4D 00 41 4D 'M',0,'MA'  -> 02070360
+  020A8248 4D 00 50 54            -> 02070948
+  020A8250 4D 00 41 54            -> 02070830
+  020A8258 56 00 41 56            -> 02070BD8
+  020A8260 4A 00 41 43            -> 0206EB00
+so the tag alphabet is the 0x4D/0x56/0x4A of func_02069E88 and
+func_02069C14.
+
+THREE things the derivation established, all load-bearing:
+
+1. The two pool words 0x020A8240 and 0x020A8244 are TWO SEPARATE EXTERNS,
+   not one symbol+offset. `ldr r3,[pc,#0x28]` / `ldr r3,[r3,r5]` with
+   r5 = i*8 only comes out when the handler column is its own base
+   `extern u8 sHandlerFns[]` indexed `*(void(**)(void))(sHandlerFns +
+   (i << 3))`, while the key column is indexed normally as
+   `sHandlerKeys[i].tag` / `.id`. Modelling the table as ONE array of
+   8-byte structs collapses to a single pool word and 110+ wrong bytes;
+   modelling the handler column as `void (*[])(void)` indexed `[i*2]`
+   gives `lsl r1,r4,#1; ldr [r0,r1,lsl#2]` instead of `ldr [r3,r5]`.
+   Exactly one byte-offset expression may appear in the body, or the
+   compiler strength-reduces it into a second induction variable
+   (`mov r5,ip` + `add r5,r5,#8`) and the function grows to 164 bytes.
+
+2. The two key tests must be `if (...) goto next;` guards, NOT `&&` and
+   NOT nested `if`s. Both those spellings let the compiler predicate the
+   second test (`ldrheq r0,[r0,#2]` / `cmpeq r2,r0`) where the image keeps
+   a second `bne 0x02069CF8`.
+
+3. The FRONT END IS ../2.0/sp2 and this is the "kept branches" tell of
+   docs/FRONTEND-PINS.md, measured: with the same C, dsi/1.1p1 -O4,p
+   predicates that second guard, lands at 148 bytes against the original's
+   160, and is 121 concrete bytes wrong; ../2.0/sp2 keeps the branch,
+   lands at exactly 160 and is 44 wrong. The pin was NOT taken, because
+   what is left is not a byte the pin explains.
+
+WHAT IS STILL WRONG. The image saves five callee-saved registers
+(`push {r3, r4, r5, r6, r7, lr}`, r3 for alignment) and uses r4 for the
+key-table base, r5 for the scaled index, r6 for the hoisted tag, r7 for
+the count and ip for the loop counter. The build saves three
+(`push {r3, r4, r5, lr}`) and spends the caller-saved r3 -- freed by the
+early `str r3, [r0, #0x14]` -- on the table base, so every register name
+in the body is shifted. Two consequences visible in the diff:
+  +003C  original  popls {r3,r4,r5,r6,r7,pc}   build  popeq {r3,r4,r5,pc}
+  +0048  original  ldrb r3, [r4, ip, lsl #3]   build  ldrb r0, [r3, lr, lsl #3]
+The `ls` versus `eq` on `cmp rN, #0` is the same allocation decision seen
+from the condition side, not a signedness difference: `n` as s32 with
+`n <= 0` gives `pople` and costs four more bytes, `n` as u32 with `n == 0`
+gives `popeq`.
+
+Measured and ruled out, all under the pin, all 160 bytes:
+  - all six declaration orders of {tag, i, n}: 44 or 46 wrong, never fewer;
+  - hoisting `key->id` into a local (the image RELOADS `ldrh lr,[r1,#2]`
+    inside the loop, so it must not be hoisted; hoisting `key->tag` is
+    required, since the image loads `ldrb r6,[r1]` once before the loop);
+  - moving `n = sHandlerCount` before and after `tag = key->tag` (57 and
+    46 wrong respectively);
+  - `o->unk14 = a3` first versus in place.
+The lever that would move it is whatever keeps r3 from being reused, i.e.
+one more value live across the initialisation block. The third parameter
+(r2) is not stored anywhere by the image and is written `a2` unused here;
+if it is in fact live, that is the first thing to try next.
+
+--- the C as measured, DIFF 44/160 under ../2.0/sp2 ---
+
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef struct {
+    u8  tag;
+    u8  pad1;
+    u16 id;
+    u32 pad4;
+} HandlerKey;
+
+typedef struct {
+    u8  tag;
+    u8  pad1;
+    u16 id;
+} Key;
+
+typedef struct {
+    u32 state00;
+    u32 cap04;
+    Key *key08;
+    u32 unk0C;
+    u32 unk10;
+    u32 unk14;
+    u8  pri18;
+    u8  flag19;
+} Obj;
+
+extern u32 sHandlerCount;
+extern HandlerKey sHandlerKeys[];
+extern u8 sHandlerFns[];
+
+void func_02069C74(Obj *o, Key *key, u32 a2, u32 a3)
+{
+    u8 tag;
+    u32 i;
+    u32 n;
+
+    o->state00 = 0;
+    o->key08 = key;
+    o->unk10 = 0;
+    o->pri18 = 0x7f;
+    o->cap04 = 0x1000;
+    o->unk14 = a3;
+    o->flag19 = 0;
+    o->unk0C = 0;
+
+    n = sHandlerCount;
+    if (n == 0) return;
+    i = 0;
+    tag = key->tag;
+    do {
+        if (tag != sHandlerKeys[i].tag) goto next;
+        if (key->id != sHandlerKeys[i].id) goto next;
+        if (*(void (**)(void))(sHandlerFns + (i << 3)) == 0) return;
+        (*(void (**)(void))(sHandlerFns + (i << 3)))();
+        return;
+next:
+        i++;
+    } while (i < n);
+}

@@ -116,3 +116,73 @@ which is exactly 1.1p1 behaviour and the reason the 2.0 build is 4 bytes LONG
 rather than 4 bytes short. So this function reads as a 1.1p1 body, the pinned
 default, and the remaining gap is a C-shape question at the default compiler,
 not a front-end question. Do not pin it. No other front end was tried.
+
+=== 2026-09-21 (later run): the pin IS right, 256 bytes, 3 concrete bytes out ===
+
+The earlier "NOT pinnable" verdict above is WRONG and is superseded. Under
+`--cc ../2.0/sp2 --arm -O4,p -proc arm946e` the function now compiles to
+exactly 256 bytes with only THREE concrete bytes differing, all in the `two:`
+block. Everything from +0x0000 to +0x00D0 and from +0x00EC to the end is
+byte-for-byte identical.
+
+Three levers found this run, each worth carrying:
+
+  1. `add r0, r0, r1` at +0x00A4 (the weighted average's accumulate) is NOT a
+     commutative-normalisation artefact.  Spelling the quad tail as
+         v0 *= 3; v0 += v1; return v0 >> 2;
+     gives the image's `add r0, r2, r2, lsl #1` / `add r0, r0, r1` under BOTH
+     front ends.  `(v0 * 3 + v1) >> 2` as one expression gives `add r0,r1,r0`.
+  2. In the `two:` block the u32 arm must NOT compute its own pointer and then
+     load both values off it: mwcc merges those into `ldm r1,{r0,r1}`.  Load
+     one value by subscript off `base` and the other through the pointer.
+  3. The s16 arm must be spelled with a SEPARATE pointer local and a SEPARATE
+     byte-offset local, in that order, and v0 taken off the offset while v1 is
+     taken off the pointer.  This is what put the register allocation right and
+     took the residue from 7 differing bytes to 3.
+
+Best body (`two:` block only; everything above it is the C already recorded in
+this note, with lever 1 applied to the quad tail):
+
+    two:
+        w = base + idx;
+        if (!(flags & 0x10000000)) {
+            v0 = base[idx];
+            v1 = *(u32 *)((char *)w + 4);
+        } else {
+            s16 *g = (s16 *)base + idx;
+            u32 o = idx << 1;
+            v0 = *(s16 *)((char *)base + o);
+            v1 = g[1];
+        }
+        return (v0 + v1) >> 1;
+
+RESIDUE, one coupled decision, three bytes:
+
+      offset   ORIGINAL                       COMPILED (../2.0/sp2)
+      +00D4    addeq r1, r0, r3, lsl #2       add r1, r0, r3, lsl #2
+      +00E4    add   r1, r0, r3, lsl #1       lsl r2, r3, #1
+      +00E8    lsl   r2, r3, #1               add r1, r0, r3, lsl #1
+
+  The +0x00D4 `add` is the hoisted `w = base + idx`.  Hoisting it out of the
+  `if` is exactly what buys the predication of the u32 arm's two loads (leaving
+  it inside the arm makes 2.0 branch the whole arm and costs 4 bytes), but the
+  hoisted statement itself is then emitted UNPREDICATED, while the image has it
+  `eq`.  The +0x00E4/+0x00E8 swap is the scheduler putting the shorter-latency
+  `lsl` first; it is the same decision, because the two blocks are laid out
+  around the one branch.
+
+Ruled out this run, all still 3 or worse: `w` assigned inside the arm (260,
+whole arm branched); both `w` and `h` hoisted (252, both arms predicated);
+the loads written as conditional EXPRESSIONS, `v0 = c ? base[idx] : h[idx]`
+(272, hoists both addresses and forces a push/pop); the u32 arm given the
+same (pointer, byte-offset) pair shape as the s16 arm (260); the arms swapped
+into a `goto`-over-the-first form (256, same 3 bytes); `o` declared before `g`
+(same 3 bytes); the s16 arm's two assignments in the other order (256, loads
+swap too, 5 bytes).
+
+Next attempt should go at the +0x00D4 predicate ONLY: find a spelling where
+`w` is computed once, used only on the eq path, and the compiler still keeps
+it out of the arm.  A same-scope second use of `w` that is itself dead on the
+ne path is the untried shape.  Still status MATCH-at-best, so still a note
+and not a file; but this row is now three bytes from EXACT under the pin, not
+"not pinnable".

@@ -1,0 +1,124 @@
+pkt_02071DD4 - the 0x02071CDC constructor family, near misses
+2026-09-21
+
+The packet is ONE subsystem: eleven entry points, and eight of them are
+members of the same (DST, SRC) constructor family already represented by
+the EXACT src/matched/func_02071CDC.c. Shared shape, in every member:
+
+  struct SRC { .. s32 f18, f1c; s16 f20, f22; s32 f24, f28;
+                  u16 f2c, f2e; }
+  struct DST { s32 f00, f04; .. s32 f10, f14; .. s32 f30, f34; }
+
+  func_0207C930(f12, e12);         /* FX sin/cos setup, args swapped
+                                      between the two calls */
+  ... 2x2 block into f00/f14/f04/f10, f04 and f10 each scaled by a
+      func_0207C86C() result ...
+  func_0207C930(e12, f12);
+  ... f30/f34, always `(<u16 field> * <term>) << 4` or the 64-bit
+      `(m >> 8) + (<u16 field> << 15)` form ...
+
+Every `>> 12` on an s64 product folds to `lsr #0xc` + `orr .., lsl #20`;
+every `>> 8` to `lsr #8` + `orr .., lsl #24`. The sign always comes from
+the FIELD TYPE, never from a cast.
+
+SOLVED THIS RUN (EXACT):
+  0x02071DD4 + 0x02071EAC   src/matched/unit_02071DD4.c   296 B
+  0x020721BC                src/matched/func_020721BC.c   224 B
+  0x0207229C                src/matched/func_0207229C.c   132 B
+  0x02072440 + 0x020724E4   src/matched/unit_02072440.c   228 B
+
+Three levers paid for all four, and they are the first things to try on
+the rest of the family:
+
+  L1  OPERAND ORDER IN A COMMUTATIVE 64-BIT PAIR. mwcc gives the `smull`
+      to the SECOND operand and the `smlal` to the first. In func_020721BC
+      writing `f28*f20 + f24*f22` instead of `f24*f22 + f28*f20` reverses
+      all four loads and costs 12 concrete bytes - it is the whole
+      difference between DIFF and EXACT.
+  L2  WHERE THE `<<15` TERM SITS. In func_02071DD4 the f30 statement writes
+      it LAST, `(m >> 8) + (f2c << 15)`, and the f34 statement writes it
+      FIRST, `(f2e << 15) + (m >> 8)`. Uniform either way = 9 bytes out,
+      instruction-for-instruction identical, register names only.
+  L3  A NAMED LOCAL BEFORE THE STORE DEFEATS CSE. In func_0207229C the
+      high half must be bound to `hi` BEFORE `d->f30 = ..`; folded into
+      the f34 expression the compiler CSEs two `s->f1c` reads and the
+      function comes out 128 bytes against the image's 132. The addend
+      order is then `s->f1c + hi`, not `hi + s->f1c` (2 bytes).
+
+NEAR MISSES, all size-correct, all register-allocation only:
+
+  0x02072374, 204 B, DIFF 17. The full s32 2x2 block with plain f30/f34.
+    Correct size and instruction sequence. The image allocates r5 to the
+    `s->f1c` local and r6 to the `q` term; 1.1p1 allocates r6 and r5, and
+    orders the three loads f1c/f18/f20 where the image orders f18/f20/f1c.
+    Measured and NOT a lever: both declaration lists in all 12 orders
+    (insensitive, 17 every time); binding vs inlining each of the four
+    field reads; computing `q` before `r` (22 -> 17) and after (17 -> 22);
+    hoisting `bd` above the call; storing f00 through the local vs
+    directly; reversing the operand order of each of the four 64-bit
+    multiplies individually (18, 26, 35) and all together (26).
+    Best source: `e,a,c,b` bound in that order, then `q` before `r`.
+
+  0x02072068, 340 B, DIFF at 332 B (8 short, 2 instructions). The general
+    case: the s32 2x2 block AND the f24/f28 cross terms, so the f30/f34
+    pair is a full s64 intermediate multiplied by an s32 - the
+    umull/mla/mla triples at 0x02072140 and 0x02072164. The C that gets
+    to 332 B keeps `hA`/`hB` as s64 (truncating them to s32 loses the
+    triples entirely). The image spills the f2c read to `[sp]` at
+    0x020720AC and keeps `asr fp, lr, #0x1f` live; binding f2c to a local
+    before the block does not reproduce the spill. Same class as
+    0x02072374, one size step further out.
+
+  0x02072320, 84 B, DIFF at 80 B (one instruction short). The
+    identity-scale member. Two sub-problems, one solved: the double
+    negation `(0 - f2e) * (0 - f28)` only survives if the two negations
+    are SEPARATE named locals assigned before the `d->f30` store (folded,
+    68 B; separated, 80 B). What remains is `stm r0, {r2, lr}`: 1.1p1
+    merges the f00 and f04 stores into one `stm` where the image writes
+    `str r2,[r0]` .. `mov lr,#0` .. `str lr,[r0,#4]`, materialising the
+    zero LATE. Store order (six permutations), a `z` local, `d->f14 =
+    d->f00`, and hoisting all three constants were all measured; the
+    merge survives every one. Note the image's `push {r3, lr}` / `pop
+    {r3, pc}` with NO call in the body - lr is used as a scratch, which
+    is what the merge denies us.
+
+  0x02072758, 48 B, DIFF 2. Not family - the boot sequence:
+      while (func_02089978(0) != 0) ;
+      func_020731E0(); func_02073D7C(); func_02075858();
+      func_02089B38(0);
+    Size, all five relocations and 46 of 48 bytes are right. The single
+    difference is at +0024: the image emits `mov r0, #0` for the last
+    call, 1.1p1 emits `mov r0, r4`, reusing the zero it is already
+    holding in the loop's callee-saved register. Spellings measured, all
+    2 bytes: `z` local, bare literal `0`, `for (z = 0; ...)`, passing the
+    same `z` to the last call, and the truthiness form `while (f(0))`.
+    This is the "kept constants" tell of docs/FRONTEND-PINS.md verbatim,
+    the same one already pinned for func_02074A6C and func_02072D20 -
+    but it is NOT the "kept branches" tell, the only one this lane was
+    authorised to probe, so no alternative front end was tried. A lane
+    authorised for the kept-constants class should take this one first:
+    48 bytes, 2 bytes out, five relocations already resolved.
+
+  0x02071EFC / 0x02072524, 36 B each, DIFF 9. See
+  docs/notes/func_02071EFC.c.txt - the same leaf twice, and the same
+  constant-materialisation order.
+
+NOT ATTEMPTED (oversized for this run):
+  0x02071F20 (316 B) and 0x02072548 (380 B). Same file, same subsystem:
+  both build a 0x4c-byte stack record, dispatch through a 3-bit index into
+  a pointer table (`ldr r2, [r0, r1, lsl #2]` then `blx r2` at 0x02071F9C
+  / 0x02072604), then apply the f30/f34 scales through the same
+  smull/`>>12` idiom. They are the CALLERS of the family above, so every
+  member this packet files is a witness they will want.
+  0x02072548 additionally carries a visible "kept branches" tell: `tst r0,
+  #2` at 0x020725C0 and `beq 0x020725D8` at 0x020725C4 over a four-
+  instruction guard body (0x020725C8..0x020725D4), which 1.1p1 -O4,p
+  predicates. Whoever takes it should expect the docs/FRONTEND-PINS.md
+  probe to be in scope.
+
+UNLABELLED FOLLOWERS seeded for layout/function_starts.txt (leaf
+accessors that save no lr, so disasm.py never labels them):
+  0x02071EAC  (80 B, now EXACT inside unit_02071DD4.c)
+  0x02071EFC  (36 B)
+  0x020724E4  (64 B, now EXACT inside unit_02072440.c)
+  0x02072524  (36 B)
