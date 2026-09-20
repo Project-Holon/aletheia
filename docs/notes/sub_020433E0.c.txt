@@ -92,3 +92,70 @@ is unavailable and only an EXACT entry for 0x02080908 itself would attest
 it.  Worth revisiting once the 0x0208xxxx graphics layer is decompiled,
 since that would settle both the witness and probably the real parameter
 names.
+
+
+==== Second attempt, wave 1 of 2026-09-20 (Sonnet packet agent) ====
+
+function: sub_020433E0
+address:  0x020433E0
+packet:   pkt_020433E0
+status:   DIFF (near miss, not filed as a source)
+
+Summary
+-------
+Tears down and rebuilds the whole VRAM bank configuration from a 0x2c-byte
+descriptor: ten no-arg calls (four named GX_DisableBankFor* SDK entry
+points, six unlabelled 20-byte SDK thunks at 0x020808F4/0x020809A0/
+0x02080908/0x020809B4/0x02080964/0x02080978, each preloading a bank-mask
+constant and tail-branching into the shared `resetBankForX_` helper at
+0x020808BC), then ten GX_SetBankFor* calls each fed one u32 field of the
+descriptor (offsets 0x00-0x24), then a direct masked read-modify-write of
+the VRAMCNT hardware block at 0x04000000 (fields +0x28) and 0x04001000
+(field +0x2c), mask 0xFFCFFFEF.
+
+What was tried
+---------------
+The first 0x80 bytes (all twenty calls, prologue and struct-field loads)
+compile byte-identical (verified independently) -- the whole function
+matches except the final 0x34-byte epilogue that does the two masked
+MMIO writes. The original loads +0x28 into `lr` and +0x2c into `r3`
+*before* either address is computed, applies +0x28's value to the base
+register (0x04000000) first via `and`/`orr`/`str`, then computes the
+second address (`add r2, ip, #0x1000`), reads it, applies +0x2c's value,
+and stores.
+
+Five register-allocation attempts were made, all producing DIFF with the
+identical relocation set (both MMIO addresses resolve fine, this is pure
+codegen shape, not a witness problem):
+  1. Two `volatile u32 *` pointer locals, one cast per address, RMW
+     written as `*p = (*p & mask) | val` for base then hiReg in that
+     source order.
+  2. Same, with local declaration order of `lo`/`hi` swapped.
+  3. Same, with the *statement* order swapped (hiReg's write first,
+     then base's) -- this got the field-load order right (`lr` <- +0x28)
+     but then swapped which store happens first (hiReg before base).
+  4. Added a named `mask` local hoisted before both statements.
+  5. Deferred `hiReg`'s pointer computation to sit textually between the
+     two store statements (matching the original's instruction position
+     for `add r2, ip, #0x1000`).
+
+Every variant reproduces the same pair of registers holding the same pair
+of values, but with the pairing to (first-processed, second-processed)
+flipped from the original in a way that tracked which C statement came
+textually second, not which struct field was read first. None reproduced
+the original's exact ordering (field +0x28 into the register used first,
+applied to the low address, while both raw addresses's `ldr`/`add`
+sequencing stayed literally as originally ordered).
+
+Blocking evidence / next lever
+-------------------------------
+Not a relocation/witness problem. A future attempt might try spelling the
+whole epilogue as a single expression/inline helper called twice with
+explicit temporaries for the loaded value and address matched 1:1 to the
+disassembly's register list, or try `-O4,p`'s scheduling with the two
+RMWs written through a shared local function taking (addr, val) so the
+compiler cannot independently reorder them. Not pursued further to stay
+within packet budget (see AGENT-BRIEF.md "Skip oversized functions after
+a quick look" / stop-early guidance); the call-dispatch majority of the
+function (127 of 188 bytes) is solid and any future attempt only needs to
+fix the tail.

@@ -260,3 +260,68 @@ model.  That separates the two cases cleanly.  The scroll-load residue is
 the register allocator, not the scheduler, and nothing on the compiler
 side reaches it.  See
 docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.
+
+
+==== Second attempt, wave 1 of 2026-09-20 (Sonnet packet agent) ====
+
+function: sub_02040618
+address:  0x02040618
+packet:   pkt_02040618
+status:   DIFF (near miss, not filed as a source)
+
+Summary
+-------
+8-way switch on `layer` (0-7), preceded by a forwarding call to
+func_02042360(g_02146A44 + 8 + layer*0x2c, a, b) with a, b passed through
+untouched (same leftover-forwarding shape as sub_02040820.c). Each arm packs
+two 9-bit fields (loaded from the table element at +0x14/+0x18, stride
+layer*0x2c off g_02146A44, no +8) into one DS hardware scroll register:
+
+  layer 0 -> 0x04000010   layer 4 -> 0x04001010
+  layer 1 -> 0x04000014   layer 5 -> 0x04001014
+  layer 2 -> 0x04000018   layer 6 -> 0x04001018
+  layer 3 -> 0x0400001C   layer 7 -> 0x0400101C
+
+Layers 2, 3, 6, 7 additionally test a byte flag at +0x1c of the same table
+element (offsets 0x74/0xa0/0x124/0x150 = layer*0x2c + 0x1c) and, when it is
+set, call func_020423D4(layer) instead of writing the register.
+
+What was tried
+---------------
+Wrote the dispatch as a plain `switch (layer)` with the pack expression
+written both as `(x & mask) | ((y & mask) << 16)` and, after inspecting the
+original's operand order (`lsl r2,r4,#0x10` / `and r3,r0,r4` / `and
+r1,r2,r1 lsl#16` / `orr`), as `(x & mask) | ((mask << 16) & (y << 16))`
+with `mask` a local hoisted to 0x1FF before the switch (matching the
+original's single `ldr r4,[pc,#imm]` load of the literal 0x1FF that stays
+live in r4 across the whole dispatch). Neither reproduced the original
+register allocation (original keeps layer in r6, the *0x2c stride in r5,
+the table base pointer in r7, and the hoisted mask in r4, all pushed at
+entry as {r3,r4,r5,r6,r7,lr}; both attempts pushed a different callee-saved
+set and put layer in r5/index in r4). The second attempt also triggered a
+different codegen shape entirely for the mask/shift pair (`lsl r1,r0,#0x17`
++ `and r2,r2,r6`, a narrowing-shift idiom) rather than the original's
+`lsl`/`and`/`and`/`orr` sequence, suggesting -O4,p picked a different
+strength-reduction once the two masks were both named through one local
+instead of appearing as two independent `x & 0x1FF` / `y & 0x1FF`
+sub-expressions.
+
+Byte-level, both attempts diverge starting at the very first prologue
+instruction (register-list mismatch in the initial push), so the mismatch
+is a whole-function register-allocation problem, not a per-arm one; DIFF
+against the 520-byte listing extent (424-432 bytes compiled, ~300+ bytes
+differing).
+
+Blocking evidence / next lever
+-------------------------------
+Not a relocation/witness problem (func_02042360 and func_020423D4 both
+resolve to `label`, g_02146A44 resolves to `literal`); this is pure codegen
+shape. A future attempt should try: declaring `layer` as the loop/switch
+selector without pre-computing `elem`/`mask` as separate locals (let the
+compiler re-derive the +0x2c stride and 0x1FF mask inline per site, closer
+to how sub_02040820.c's single-call leftover-forwarding case reads), or
+writing the pack as two named locals (`u32 rx = x & 0x1FF; u32 ry = (y &
+0x1FF) << 16;`) per arm rather than one combined expression, per the
+"commutative operand order names the temporary" idiom family. Not
+attempted further here to stay within packet budget (see AGENT-BRIEF.md
+"Skip oversized functions after a quick look").

@@ -1,0 +1,181 @@
+func_0204A7A0 (pkt_0204A6C8) -- DIFF, structure resolved, scheduling unresolved,
+evidence-starved even if byte-perfect
+===============================================================================
+
+Address 0x0204A7A0, arm9, ARM, 308 bytes.  Sibling of func_0204A6C8.c
+(func_0204A6C8.c's own note has the shared table/scan writeup): claims the
+same free slot of the `cell` table at +0x104 of the singleton behind
+g_02146A74, but builds a fresh record instead of loading an archived one.
+
+Verdict from match.py one --cc 1.1p1 --arm (best C reached so far):
+
+  DIFF   compiled 308 bytes (correct size), 6 relocation site(s),
+         5 of 6 resolved, 103 concrete byte(s) differ
+         g_020A1430 (ABS32): unresolved -- 0x020A1430 has NO witness
+         anywhere in the image outside this function's own 0204A7A0..
+         0204A8D4 range (checked layout/*.json, layout/*.txt: nothing
+         references it).  Even a byte-perfect reproduction of this
+         function caps at MATCH, not EXACT, on this site alone.
+
+Shape, decoded from the disassembly (register renames only, no bytes
+invented):
+
+  s32 func_0204A7A0(u32 a1, u32 a2, u32 heapId)
+  {
+      // a1 = incoming r0, a2 = incoming r1, heapId = incoming r2
+      // (the incoming r3 is never read -- its push slot is pure 8-byte
+      // stack alignment padding, same as func_0204A6C8's r3)
+
+      ... same free-slot scan of g_02146A74's +0x104 `cell` table as
+          func_0204A6C8, same -1/-1 sentinel convergence ...
+
+      // g_020A1430: a 6-word (0x18-byte) template struct, memcpy'd onto
+      // the stack (ldm/stm of 4 then 2 words), then two of its six words
+      // patched:
+      //   word[2] (+8)    = *(volatile u32*)0x04000000 & 0x00300010
+      //                     (DISPCNT, masked -- same register/idiom as
+      //                     src/matched/unit_020434DC.c's *(volatile
+      //                     u32*)0x04000000 accesses)
+      //   word[4] (+0x10) = a1
+      //
+      // scratch block of size a1 (NOT sizeof the template -- the
+      // template and the allocation are two unrelated things sharing
+      // register a1's value) is carved with sub_02030734, tag 0x3c8,
+      // clear=1, site=s_clact_c (0x020A7F74), heapId encoded the
+      // same "(heapId & 0x7fff) | 0x8000" way func_0204D9D4.c documents;
+      // sub_02030734's *return value* is stored to [sp,#0x18] and not
+      // touched again until the very last call.
+      //
+      // sub_0204DACC publishes the LOCAL TEMPLATE'S ADDRESS (not the
+      // scratch block) as its "value" argument -- same "temporary must
+      // be a plain local whose address is taken" shape as
+      // src/matched/func_0204E0D0.c.  a4=0, a3=a2 (the incoming second
+      // argument), matching func_0204E0D0.c's own documented (a4,a3)
+      // argument-swap relative to func_0204DACC's parameter order.
+      //
+      // slot->unk_3c bit 31 AND bit 0 both get cleared here (two
+      // separate `bic` ops, `slot->unk_24 = 0` store scheduled between
+      // them) -- NOT just bit 0 the way func_0204A6C8 clears only bit 0.
+      // This is the "claim" side finishing what the scan's `!= 0` check
+      // started: bit 31 is the free/busy flag, bit 0 is a second flag
+      // this function also clears on claim.
+      //
+      // only THEN is the scratch block from sub_02030734 released via
+      // sub_020307B0, reloaded from [sp,#0x18] -- it is allocated,
+      // measured/registered by its side effects, and freed, never
+      // otherwise read.
+  }
+
+Best C reached (308/308 bytes -- correct size and relocation count, 103
+concrete bytes still differ in register allocation/scheduling across the
+template copy, the sub_02030734 argument setup, and the tail; not filed
+because status must equal the tool's own verdict, and this site is
+evidence-starved regardless):
+
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+  typedef signed int     s32;
+
+  struct RecC {
+      unsigned char pad_00[0x24];
+      void         *unk_24;
+      unsigned char pad_28[0x14];
+      u32           unk_3c_0  : 1;
+      u32           unk_3c_1  : 30;
+      u32           unk_3c_31 : 1;
+  };
+
+  struct CellTbl {
+      unsigned char pad_00[8];
+      struct RecC  *cell;
+      unsigned char pad_0c[8];
+      volatile u16  n_cell;
+  };
+
+  struct Res {
+      unsigned char pad_00[0x104];
+      struct CellTbl tbl;
+  };
+
+  struct Sys {
+      unsigned char pad_000[0x10c];
+      struct RecC  *cell;
+  };
+
+  struct Templ {
+      u32 w0, w1, w2, w3, w4, w5;
+  };
+
+  extern struct Res *g_02146A74;
+  extern const struct Templ g_020A1430;   /* no witness -- MATCH ceiling */
+  extern char s_clact_c[];
+
+  extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
+                            u16 tag);
+  extern void  sub_0204DACC(struct Res *owner, s32 idx, void *value, u32 a4,
+                            u32 a3);
+  extern void  sub_020307B0(void *p);
+
+  s32 func_0204A7A0(u32 a1, u32 a2, u32 heapId)
+  {
+      struct CellTbl *tbl;
+      struct RecC *cell;
+      struct RecC *slot;
+      struct Templ local;
+      void *p;
+      s32 i;
+      u32 busy;
+
+      tbl = &g_02146A74->tbl;
+      i = 0;
+      if ((u32)i < tbl->n_cell) {
+          cell = tbl->cell;
+          do {
+              busy = cell[i].unk_3c_31;
+              if (busy != 0) {
+                  goto found;
+              }
+              i++;
+          } while ((u32)i < tbl->n_cell);
+      }
+      i = -1;
+  found:
+      if (i == -1) {
+          return -1;
+      }
+
+      slot = &((struct Sys *)g_02146A74)->cell[i];
+
+      local = g_020A1430;
+      local.w2 = (*(volatile u32 *)0x04000000) & 0x00300010;
+      local.w4 = a1;
+
+      p = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), a1, 1, s_clact_c,
+                        0x3c8);
+
+      sub_0204DACC((struct Res *)&g_02146A74->tbl, i, &local, 0, a2);
+
+      slot->unk_3c_31 = 0;
+      slot->unk_24 = 0;
+      slot->unk_3c_0 = 0;
+
+      sub_020307B0(p);
+
+      return i;
+  }
+
+Remaining known-wrong spots (for whoever continues this):
+  - the compiler currently keeps `p` (sub_02030734's return value) live in a
+    register across the sub_0204DACC call instead of spilling it to
+    [sp,#0x18] the way the original does; the original's spill-then-reload
+    shape needs reproducing (try the
+    docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md
+    idiom explicitly, or increasing register pressure some other way).
+  - the loop/sentinel registers (i/busy -> r6..r7/sb/lr in the original vs
+    r7/lr in this draft) still don't land on the same physical registers as
+    func_0204A6C8's equivalent locals did after reordering; may need the
+    same declaration-order treatment applied more precisely, or may be an
+    effect of the later spill above changing allocation pressure.
+  - g_020A1430 needs an outside witness before this can ever reach EXACT;
+    worth checking whether any other clact.c-adjacent function's pool also
+    loads 0x020A1430 once more of the packet's neighbours are worked.

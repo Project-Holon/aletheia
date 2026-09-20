@@ -1,0 +1,237 @@
+/*
+ * DIFF near miss in pkt_0201C4E4 (arm9, waza_tool.c, Thumb), 456 code bytes.
+ *
+ * Function: sub_0201C4E4
+ * Address:  0x0201C4E4 (extent 0x0201C4E4..0x0201C6B4, 464 bytes incl. pool)
+ * Compiler: dsi/1.1p1, -O4,p -thumb
+ * Result:   DIFF, compiled 452-460 bytes across attempts vs original 464;
+ *           best attempt still ~380+ concrete bytes wrong, driven by a
+ *           prologue register-allocation mismatch (missing `r3` from the
+ *           original's `push {r3, r4, r5, r6, r7, lr}`) that cascades
+ *           through the whole function.
+ *
+ * All relocations resolve every attempt (func_0201DE00, func_0201DE18,
+ * func_0201DD78 x2, OS_GetTick x3, func_0201C974, func_0201D7C4, all
+ * `label`-class), so the blocker is codegen shape, not missing evidence.
+ * The struct layout and control flow below were reconstructed with high
+ * confidence from the disassembly and from the already-matched printsys.c
+ * neighbours (src/matched/unit_0201C450.c, unit_0201C6B4.c, unit_0201D7C4.c,
+ * unit_0201DE00.c, sub_0201DD78.c, and the parked src/pending/sub_0201C808.c
+ * for the PrintCtx.unk04 mode-nibble field and the RGB555 packing shape) but
+ * the exact C spelling that reproduces the original's register allocation
+ * was not found in the time budgeted for one function.
+ *
+ * Structure recovered (p is struct PrintSys *, built by sub_0201C450.c):
+ *
+ *   - p->unk06 counts calls; p->unk10 == 0 (ring empty) returns 1 with no
+ *     other side effects.
+ *   - func_0201DE00 reads back the current text colour into three stack
+ *     bytes, packed RGB555 as (b | g<<5 | r<<10) into a local used only at
+ *     the very end of the function (the "restore colour after the scan"
+ *     step).
+ *   - p->unk10's record's unk04 bits [23:20] (a 4-bit mode nibble, same
+ *     field src/pending/sub_0201C808.c sets to 1 on a fresh record) is
+ *     inspected once before the loop: mode 0 or 2 unpacks unk0E (RGB555,
+ *     r=bits[14:10], g=bits[9:5], b=bits[4:0]) and applies it via
+ *     func_0201DE18 (change test) / func_0201DD78 (apply), the pair
+ *     src/matched/unit_0201DE00.c and src/matched/sub_0201DD78.c cover.
+ *   - OS_GetTick() is read once, then the main loop begins (only entered if
+ *     p->unk10 != 0 at that point).
+ *   - Loop body: re-reads p->unk10 (q) fresh every iteration (never carries
+ *     it in a register across iterations). mode == 1 applies q's own colour
+ *     the same way, then stamps mode to 2 (q->unk04 = (q->unk04 &
+ *     0xFF0FFFFF) | (2<<20)) so it isn't reapplied.
+ *   - A nested scan advances p->unk14 one record at a time
+ *     (func_0201C974(p->unk10, 1, 1)) until *(u16*)p->unk14 (the record's
+ *     unk00) equals the ring's 0xFFFF sentinel; after every step it takes a
+ *     fresh OS_GetTick() and compares the 64-bit elapsed time since the tick
+ *     read before the loop against p->unk08 (running snapshot); once
+ *     elapsed exceeds p->unk08 the scan sets the "stop" flag (kept at
+ *     sp+0x10 for the whole function, initialised to 0 at entry, before even
+ *     the empty-ring check) and stops scanning for this frame, leaving the
+ *     marker not necessarily reached.
+ *   - If the marker *was* reached, the ring is stepped one slot
+ *     (func_0201D7C4(p, p->unk10)), p->unk10 replaces its head, and on
+ *     success p->unk14 is recomputed via the same (offset + 0x1C) wrap
+ *     func_0201D7C4 itself performs internally (src/matched/unit_0201D7C4.c)
+ *     rechecked a second time against a +4 margin, because this call is
+ *     choosing the record one slot past the one func_0201D7C4 just returned.
+ *   - The outer loop continues while stop == 0 and p->unk10 != 0.
+ *   - After the loop (or immediately if the ring was already empty before
+ *     entering it): func_0201DD78 re-applies the colour read back at the
+ *     very start (unconditional). If p->unk10 != 0, p->unk02 becomes the
+ *     byte offset of p->unk14 from &p->buf[0] and the function returns 0.
+ *     If the ring is now empty, p->unk00 = 0, p->unk02 = p->unk04,
+ *     p->unk14 = 0, p->unk07 &= ~0xF (clear low nibble), return 1 -- this
+ *     mirrors src/matched/unit_0201C6B4.c's sub_0201C6EC ring-reset shape
+ *     but additionally clears unk07's low nibble, which sub_0201C6EC does
+ *     not touch.
+ *
+ * What's still wrong: the original's prologue is `push {r3, r4, r5, r6, r7,
+ * lr}; sub sp, #0x18` (24 bytes of frame, six saved registers including the
+ * otherwise-unused r3 slot). Every C shape tried compiles to `push {r4, r5,
+ * r6, r7, lr}; sub sp, #0x14/0x1c` -- five registers, and a stack allocation
+ * that differs from the original by exactly the 4 bytes r3's push would
+ * have covered. This is very likely one more live value needing a register
+ * or one more 4-byte stack slot than the current local set provides (the
+ * "stop" flag was pinned to the stack with `volatile` to match its
+ * sp-resident behaviour in the original, which did help move the byte-exact
+ * prefix a few instructions deeper, but did not by itself restore the
+ * missing r3 save). Whatever's still missing is one register/stack-slot's
+ * worth of live state this reconstruction hasn't identified yet -- a good
+ * next place to look is whether p->unk08 (the Ticks union) needs its own
+ * named local instead of being read through p->unk08.v/.w each time, since
+ * the original's 64-bit subtract-and-compare block (OS_GetTick diff against
+ * p->unk08) is exactly the block whose register choices this reconstruction
+ * is least sure of.
+ *
+ * Best-attempt tried C (452-460 bytes depending on the exact phrasing,
+ * details above; kept for the next pass rather than re-derived from
+ * scratch):
+ */
+
+typedef unsigned char      u8;
+typedef unsigned short     u16;
+typedef unsigned int       u32;
+typedef signed short       s16;
+typedef unsigned long long u64;
+
+struct PrintCtx {
+    s16 unk00;
+    s16 unk02;
+    u32 unk04;
+    u16 unk08;
+    u16 unk0A;
+    u16 unk0C;
+    u16 unk0E;
+    void *unk10;
+    void *unk14;
+    void *unk18;
+};
+
+union Ticks {
+    u64 v;
+    struct {
+        u32 lo;
+        u32 hi;
+    } w;
+};
+
+struct PrintSys {
+    u16 unk00;
+    u16 unk02;
+    u16 unk04;
+    u8  unk06;
+    u8  unk07;
+    union Ticks unk08;
+    struct PrintCtx *unk10;
+    struct PrintCtx *unk14;
+    u8  buf[4];
+};
+
+extern void func_0201DE00(u8 *r, u8 *g, u8 *b);
+extern u32  func_0201DE18(u32 r, u32 g, u32 b);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern struct PrintCtx *func_0201C974(struct PrintCtx *q, u32 a, u32 b);
+extern void *func_0201D7C4(struct PrintSys *p, void *q);
+extern u64  OS_GetTick(void);
+
+u32 sub_0201C4E4(struct PrintSys *p)
+{
+    u64 tick;
+    u8 tb, tg, tr;
+    u16 color;
+    u32 mode;
+    struct PrintCtx *q;
+    volatile u32 stop;
+    u32 apply;
+    u32 rr, gg, bb;
+
+    stop = 0;
+    p->unk06++;
+    if (p->unk10 == 0) {
+        return 1;
+    }
+
+    func_0201DE00(&tr, &tg, &tb);
+    color = (u16)((tb & 0x1F) | ((tg & 0x1F) << 5) | ((tr & 0x1F) << 10));
+
+    q = p->unk10;
+    mode = (q->unk04 << 8) >> 28;
+    apply = 0;
+    if (mode == 0 || mode == 2) {
+        rr = (q->unk0E >> 10) & 0x1F;
+        gg = (q->unk0E >> 5) & 0x1F;
+        bb = q->unk0E & 0x1F;
+        apply = 1;
+    }
+    if (apply) {
+        if (func_0201DE18(rr, gg, bb) != 0) {
+            func_0201DD78(rr, gg, bb);
+        }
+    }
+
+    tick = OS_GetTick();
+
+    if (p->unk10 != 0) {
+        do {
+            q = p->unk10;
+            mode = (q->unk04 << 8) >> 28;
+            if (mode == 1) {
+                rr = (q->unk0E >> 10) & 0x1F;
+                gg = (q->unk0E >> 5) & 0x1F;
+                bb = q->unk0E & 0x1F;
+                if (func_0201DE18(rr, gg, bb) != 0) {
+                    func_0201DD78(rr, gg, bb);
+                }
+            }
+
+            q = p->unk10;
+            q->unk04 = (q->unk04 & 0xFF0FFFFFu) | (2u << 20);
+
+            while (p->unk14->unk00 != (s16)0xFFFF) {
+                stop = 1;
+                p->unk14 = func_0201C974(p->unk10, 1, 1);
+                tick = OS_GetTick() - tick;
+                if (p->unk08.v < tick) {
+                    stop = 1;
+                    break;
+                }
+                tick = OS_GetTick();
+            }
+
+            if (p->unk14->unk00 == (s16)0xFFFF) {
+                u32 off = (u16)((u8 *)p->unk10 - &p->buf[0]);
+
+                p->unk10 = func_0201D7C4(p, p->unk10);
+                if (p->unk10 != 0) {
+                    u32 off2;
+
+                    off = (u16)(off + 0x1C);
+                    if (off < p->unk04) {
+                        off2 = off;
+                    } else {
+                        off2 = 0;
+                    }
+                    off2 = (u16)(off2 + 4);
+                    if (off2 >= p->unk04) {
+                        off2 = 0;
+                    }
+                    p->unk14 = (struct PrintCtx *)(&p->buf[0] + off2);
+                }
+            }
+        } while (stop == 0 && p->unk10 != 0);
+    }
+
+    func_0201DD78((color >> 10) & 0x1F, (color >> 5) & 0x1F, color & 0x1F);
+    if (p->unk10 != 0) {
+        p->unk02 = (u16)((u8 *)p->unk14 - &p->buf[0]);
+        return 0;
+    }
+
+    p->unk00 = 0;
+    p->unk02 = p->unk04;
+    p->unk14 = 0;
+    p->unk07 &= ~0xF;
+    return 1;
+}

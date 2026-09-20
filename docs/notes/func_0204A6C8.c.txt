@@ -1,0 +1,141 @@
+func_0204A6C8 (pkt_0204A6C8) -- DIFF, 4 bytes, pure instruction scheduling
+===========================================================================
+
+Address 0x0204A6C8, arm9, ARM, 216 bytes.  All 216 bytes correct except a
+two-instruction swap; every relocation site resolves (matched/label/literal),
+so this is a real codegen near miss, not an attestation gap.
+
+Verdict from match.py one --cc 1.1p1 --arm:
+
+  DIFF   compiled 216 bytes, 4 relocation site(s), relocations: 4 of 4
+         resolved, 4 concrete byte(s) differ
+
+The only remaining diff, right after the archive-load call:
+
+  ORIGINAL                  | COMPILED (this file)
+  mov r8, r0                | mov r7, #0
+  mov r7, #0                | mov r8, r0
+
+i.e. the original captures the call result (r0 -> r8) *before* materialising
+the constant 0 that becomes func_0204E0D0's fifth (stacked) argument; every
+spelling tried here schedules the constant first regardless of statement
+order, declaration order, block scoping, or whether the constant is bound to
+a named local or a nested-block local (the
+docs/idioms/a-local-declared-at-its-first-use-schedules-its-store-there.md
+and docs/idioms/an-assignment-inside-a-call-argument-pins-the-load-in-a-callee-saved-register.md
+idioms were both tried and had no effect on this particular swap).
+
+Everything else about the function is settled and is worth keeping for the
+next attempt:
+
+  - Table: the 0x40-byte `cell` array and its u16 count sit at +0x104 of the
+    singleton behind g_02146A74 (0x02146A74), the same sub-object
+    src/matched/sub_0204A8D4.c retires and src/matched/func_0204D8AC.c
+    (struct Res there) sweeps.  Liveness is bit 31 of +0x3c: this function
+    claims a *free* slot, so the scan condition is
+    `cell[i].unk_3c_31 != 0` (bit set = free), the mirror image of
+    func_0204D8AC.c's teardown check (`== 0` there, since that function
+    is releasing live entries).
+  - The scan is the sub_0204AF28.c "guard, then do-while, goto found"
+    shape; the not-found sentinel is a second `mvn r, #0` compared against
+    the first, and the early return must be spelled `return -1;` (not
+    `return i;`) to land in the same register as the original's `moveq`.
+  - The post-loop `struct Sys` view (flat, cell array at absolute +0x10c)
+    must be a *separate* pointer expression from the loop's `tbl->cell`
+    (nested at +0x104+8): writing both through the same bound pointer
+    compiles 4 bytes short at 212 instead of 216.
+  - func_0204D9D4 is called with `(u16)((heapId & 0x7fff) | 0x8000)`, the
+    same "allocate high" cast func_0204D9D4.c documents; the compiler
+    rematerialises 0x7fff as `-1 + 0x8000` off the sentinel still sitting
+    in a register from the found-slot comparison, so 0x7fff never appears
+    as its own literal.
+  - func_0204E0D0 is called through `(struct Res *)&g_02146A74->tbl`
+    (i.e. `&g_02146A74->unk_104`), reinterpreted as func_0204E0D0's own
+    `owner` parameter, because both structs put their table at +8 of
+    that pointer.
+
+Working C (216/216 bytes concrete-correct except the two-instruction swap
+above; not filed because status must equal the tool's own verdict):
+
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+  typedef signed int     s32;
+
+  struct RecC {
+      unsigned char pad_00[0x24];
+      void         *unk_24;
+      unsigned char pad_28[0x14];
+      u32           unk_3c_0  : 1;
+      u32           unk_3c_1  : 30;
+      u32           unk_3c_31 : 1;
+  };
+
+  struct CellTbl {
+      unsigned char pad_00[8];
+      struct RecC  *cell;
+      unsigned char pad_0c[8];
+      volatile u16  n_cell;
+  };
+
+  struct Res {
+      unsigned char pad_00[0x104];
+      struct CellTbl tbl;
+  };
+
+  struct Sys {
+      unsigned char pad_000[0x10c];
+      struct RecC  *cell;
+  };
+
+  extern struct Res *g_02146A74;
+
+  extern void *func_0204D9D4(u32 owner, u32 which, u32 compressed, u32 heapId);
+  extern void  func_0204E0D0(struct Res *owner, s32 idx, u32 handle, u32 a3,
+                             u32 a4);
+  extern void  sub_020307B0(void *p);
+
+  s32 func_0204A6C8(u32 owner, u32 which, u32 compressed, u32 a3, u16 heapId)
+  {
+      struct CellTbl *tbl;
+      u32 handle;
+      struct RecC *cell;
+      struct RecC *slot;
+      s32 i;
+      u32 busy;
+
+      tbl = &g_02146A74->tbl;
+      i = 0;
+      if ((u32)i < tbl->n_cell) {
+          cell = tbl->cell;
+          do {
+              busy = cell[i].unk_3c_31;
+              if (busy != 0) {
+                  goto found;
+              }
+              i++;
+          } while ((u32)i < tbl->n_cell);
+      }
+      i = -1;
+  found:
+      if (i == -1) {
+          return -1;
+      }
+
+      slot = &((struct Sys *)g_02146A74)->cell[i];
+      handle = (u32)func_0204D9D4(owner, which, compressed,
+                                   (u16)((heapId & 0x7fff) | 0x8000));
+      func_0204E0D0((struct Res *)&g_02146A74->tbl, i, handle, a3, 0);
+      sub_020307B0((void *)handle);
+
+      slot->unk_24 = 0;
+      slot->unk_3c_0 = 0;
+
+      return i;
+  }
+
+Next steps for whoever picks this up: the swap looks like a post-call
+scheduling heuristic specific to how this front end fills the branch/link
+delay -- worth checking whether the SAME 0/result-capture swap shows up in
+any other already-EXACT file in the tree (a grep for `mov r., #0` right after
+a `bl` followed by `mov r., r0` in one of the idiom notes might already have
+the answer) before trying more C shapes here.

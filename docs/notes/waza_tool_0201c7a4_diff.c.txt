@@ -1,0 +1,65 @@
+/*
+ * DIFF near miss in pkt_0201C7A4 (arm9, waza_tool.c, Thumb).
+ *
+ * Function: sub_0201C7A4
+ * Address:  0x0201C7A4 (40 code bytes, extent to 0x0201C7D0 with one pool word)
+ * Compiler: dsi/1.1p1, -O4,p -thumb
+ * Result:   DIFF, compiled 48 bytes vs original's 40 code + 4 pool = 44
+ *
+ * Logic is fully recovered (every relocation resolves: sub_02045A90 [label,
+ * arm veneer], sub_0201C808 [label], sub_0201C8BC [label], g_0214655C
+ * [literal]).  The blocker is pure codegen scheduling, not evidence: the
+ * original reloads the address of the shared scratch object g_0214655C from
+ * the literal pool separately before each of the two calls that need it
+ * (two distinct `ldr r0, [pc, #n]` sites, both resolving to the same pool
+ * word), for 4 extra bytes over what a single cached load would cost.  Every
+ * C shape tried here instead has the compiler common-subexpression-eliminate
+ * the second `&g_0214655C` into a register left over from the reload (r4),
+ * producing a correct but 8-bytes-larger/differently-scheduled function.
+ *
+ * Tried and equally CSE'd: a local `struct Scratch *s = &g_0214655C;` bound
+ * once and reused; `volatile` on the global and on both pointer parameters
+ * (address-of a volatile object is still a compile-time constant, so this
+ * has no effect and the un-volatile-qualified compare is identical);
+ * `(struct Scratch *)&g_0214655C` re-cast at the second call site; the
+ * global re-declared as `struct Scratch g_0214655C[1]` with array-decay
+ * instead of `&` at both call sites; sub_0201C808 given a discarded `u32`
+ * return instead of `void`, on the theory that a return-value use might
+ * perturb scheduling before the second load.  None changed the outcome:
+ * compiled is 48 bytes every time, with the double reload always collapsed
+ * to a single load into r4 reused at both call sites.
+ *
+ * This is the fan-in-123 packet's only function, so nothing here is
+ * mechanical/oversized busywork to skip -- it looks like a genuine
+ * compiler-scheduling artifact this project's pinned -O4,p/dsi 1.1p1 simply
+ * doesn't reproduce for this exact call shape (two references to the same
+ * global's address separated by an unrelated call, with the call in
+ * between an extern of unknown effect).  Left as a documented near miss
+ * per the brief rather than filed to src/pending, since MATCH was never
+ * reached (every relocation is fully attested; the 8 bytes are concrete
+ * codegen difference, not a wildcarded site).
+ *
+ * Final tried C (DIFF, 48 vs 44 bytes, 32 concrete bytes differ):
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Scratch {
+    unsigned char unk_00[1];
+};
+
+struct StrObj;
+
+extern struct Scratch g_0214655C;
+
+extern u16  *sub_02045A90(struct StrObj *s);
+extern void  sub_0201C808(struct Scratch *s, u32 e, u32 a, u32 b, u32 c);
+extern void  sub_0201C8BC(struct Scratch *s, void *owner);
+
+void sub_0201C7A4(u32 a, u32 b, u32 c, struct StrObj *owner, u32 e)
+{
+    sub_02045A90(owner);
+    sub_0201C808(&g_0214655C, e, a, b, c);
+    sub_0201C8BC(&g_0214655C, owner);
+}

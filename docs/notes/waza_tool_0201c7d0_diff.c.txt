@@ -1,0 +1,54 @@
+/*
+ * DIFF near miss in pkt_0201C7D0 (arm9, waza_tool.c, Thumb).
+ *
+ * Function: sub_0201C7D0
+ * Address:  0x0201C7D0 (50 code bytes, extent to 0x0201C808 with pool words)
+ * Compiler: dsi/1.1p1, -O4,p -thumb
+ * Result:   DIFF, compiled 56 bytes matches the original's 56-byte extent
+ *           in total size but 37 concrete bytes differ (scheduling only).
+ *
+ * Same shape and same blocker as docs/notes/waza_tool_0201c7a4_diff.c.txt
+ * and docs/idioms/address-of-a-global-reread-across-an-extern-call-cannot-be-cached.md:
+ * six-argument sibling of sub_0201C724 (0x0201C724) and sub_0201C7A4
+ * (0x0201C7A4).  Forwards the fourth argument (a StrObj owner) through the
+ * ARM veneer sub_02045A90 discarding the return, then fills the shared
+ * scratch object g_0214655C from the first three arguments plus a fifth
+ * (stack) argument via sub_0201C808, stamps a sixth (stack, u16) argument
+ * via sub_0201C8A4, then hands the object plus owner to sub_0201C8BC.
+ *
+ * Every relocation resolves (sub_02045A90 label/arm veneer, sub_0201C808
+ * label, sub_0201C8A4 label, sub_0201C8BC label, g_0214655C literal); the
+ * original reloads &g_0214655C from the literal pool three separate times
+ * (three distinct `ldr r0, [pc, #n]`, all the same pool word) while -O4,p
+ * always caches the first load into r4 and reuses it for the second and
+ * third references, regardless of which of the C spellings tried in the
+ * idiom note above is used.  Total byte count happens to match (56 == 56)
+ * but the concrete schedule differs throughout the tail of the function,
+ * so this is a clean DIFF, not a wildcard/MATCH gap.
+ *
+ * Final tried C:
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Scratch {
+    unsigned char unk_00[1];
+};
+
+struct StrObj;
+
+extern struct Scratch g_0214655C;
+
+extern u16  *sub_02045A90(struct StrObj *s);
+extern void  sub_0201C808(struct Scratch *s, u32 e, u32 a, u32 b, u32 c);
+extern void  sub_0201C8A4(struct Scratch *s, u16 f);
+extern void  sub_0201C8BC(struct Scratch *s, void *owner);
+
+void sub_0201C7D0(u32 a, u32 b, u32 c, struct StrObj *owner, u32 e, u16 f)
+{
+    sub_02045A90(owner);
+    sub_0201C808(&g_0214655C, e, a, b, c);
+    sub_0201C8A4(&g_0214655C, f);
+    sub_0201C8BC(&g_0214655C, owner);
+}

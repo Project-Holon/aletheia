@@ -1,9 +1,17 @@
 /*
  * function: func_0201F73C
  * address:  0x0201F73C
- * packet:   pkt_0201F628
+ * packet:   pkt_0201F73C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     blocked on func_0201F628 (label class): its only image-wide
+ *   caller is the +0040 site inside this same function, so no witness
+ *   exists outside the range under test. --suggest-split confirms no
+ *   partition frees it (best partition: 0 pieces, function left out).
  * symbols:
  *   func_02045730 0x02045730 arm
  *   func_02045758 0x02045758 arm
