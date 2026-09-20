@@ -16,7 +16,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT*"
   },
   {
    "name": "unit_0204D494",
@@ -33,18 +33,6 @@
     "func_0204D494",
     "func_0204D4A4"
    ]
-  },
-  {
-   "name": "sub_0204D4B4",
-   "address": "0x0204D4B4",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/sub_0204D4B4.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
   }
  ]
 }

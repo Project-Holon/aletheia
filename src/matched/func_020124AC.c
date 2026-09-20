@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT *
+ * status:   EXACT
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020124AC.c \
  *       --func func_020124AC --addr 0x020124AC --cc 1.1p1 --thumb

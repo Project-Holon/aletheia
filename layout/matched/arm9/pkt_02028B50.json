@@ -83,18 +83,6 @@
    "functions": [
     "func_02028F18"
    ]
-  },
-  {
-   "name": "func_02028FD0",
-   "address": "0x02028FD0",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_02028FD0.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
   }
  ]
 }

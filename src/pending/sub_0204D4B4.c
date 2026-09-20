@@ -9,6 +9,7 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
+ * note:     re-verified 2026-09-20: MATCH; see verify output
  *
  * symbols:
  *   sub_02064AB4  0x02064AB4  arm

@@ -1,4 +1,7 @@
 /*
+ * function: unit_0201BB5C
+ * address:  0x0201BB5C
+ * packet:   pkt_0201BB5C
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
  * unit:     yes
@@ -10,7 +13,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH, every concrete byte right (0 differing bytes, 224 of 224)
+ * status:   MATCH
+ * note:     re-verified 2026-09-20: MATCH; see verify output
  *
  * The nibble-table twin of src/matched/unit_0201BA68.c: the same egg and
  * alternate-form index arithmetic, indexing a packed table of two four bit

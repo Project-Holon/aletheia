@@ -19,35 +19,11 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02067D14",
-   "address": "0x02067D14",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_02067D14.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
-  },
-  {
    "name": "func_02067EB0",
    "address": "0x02067EB0",
    "kind": "game",
    "region": "arm9",
    "source": "src/matched/func_02067EB0.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
-  },
-  {
-   "name": "func_02067F78",
-   "address": "0x02067F78",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_02067F78.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

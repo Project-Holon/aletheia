@@ -105,18 +105,6 @@
    ]
   },
   {
-   "name": "func_020289F8",
-   "address": "0x020289F8",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_020289F8.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT, every concrete byte right (0 differing bytes, 28 of 28)"
-  },
-  {
    "name": "unit_02028A50",
    "address": "0x02028A50",
    "kind": "game_unit",

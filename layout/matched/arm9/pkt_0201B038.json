@@ -105,21 +105,6 @@
     "sub_0201BA68",
     "sub_0201BABC"
    ]
-  },
-  {
-   "name": "unit_0201BB5C",
-   "address": "0x0201BB5C",
-   "kind": "game_unit",
-   "region": "arm9",
-   "source": "src/matched/unit_0201BB5C.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "functions": [
-    "unit_0201BB5C"
-   ]
   }
  ]
 }

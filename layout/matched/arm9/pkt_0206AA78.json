@@ -16,7 +16,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
    "name": "func_0206AAB0",
@@ -25,42 +25,6 @@
    "region": "arm9",
    "source": "src/matched/func_0206AAB0.c",
    "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
-  },
-  {
-   "name": "func_0206AAD4",
-   "address": "0x0206AAD4",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_0206AAD4.c",
-   "compiler": "dsi/../2.0/sp2",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
-  },
-  {
-   "name": "func_0206AD20",
-   "address": "0x0206AD20",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_0206AD20.c",
-   "compiler": "dsi/../2.0/sp2",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
-  },
-  {
-   "name": "func_0206AD64",
-   "address": "0x0206AD64",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_0206AD64.c",
-   "compiler": "dsi/../2.0/sp2",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
@@ -84,18 +48,6 @@
    "kind": "game",
    "region": "arm9",
    "source": "src/matched/func_0206ADF4.c",
-   "compiler": "dsi/../2.0/sp2",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
-  },
-  {
-   "name": "func_0206AE2C",
-   "address": "0x0206AE2C",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_0206AE2C.c",
    "compiler": "dsi/../2.0/sp2",
    "lang": "c99",
    "isa": "arm",

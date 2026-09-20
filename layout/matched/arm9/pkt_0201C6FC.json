@@ -19,21 +19,6 @@
    "status": "EXACT"
   },
   {
-   "name": "unit_0201C6FC",
-   "address": "0x0201C6FC",
-   "kind": "game_unit",
-   "region": "arm9",
-   "source": "src/matched/unit_0201C6FC.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "functions": [
-    "unit_0201C6FC"
-   ]
-  },
-  {
    "name": "sub_0201C724",
    "address": "0x0201C724",
    "kind": "game",

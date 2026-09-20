@@ -1,0 +1,44 @@
+/*
+ * function: func_0201F73C
+ * address:  0x0201F73C
+ * packet:   pkt_0201F628
+ * status:   MATCH
+ * note:     re-verified 2026-09-20: MATCH; see verify output
+ * symbols:
+ *   func_02045730 0x02045730 arm
+ *   func_02045758 0x02045758 arm
+ *   func_02045760 0x02045760 arm
+ *   func_02045748 0x02045748 arm
+ *   func_02045750 0x02045750 arm
+ *   func_0201F628 0x0201F628 thumb
+ *   func_020409B4 0x020409B4 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+
+typedef unsigned int u32;
+
+extern void *func_02045730(void *a0);
+extern u32   func_02045758(void *a0);
+extern u32   func_02045760(void *a0);
+extern u32   func_02045748(void *a0);
+extern u32   func_02045750(void *a0);
+extern void  func_0201F628(void *ctx, u32 v10, u32 v14, u32 v18, u32 v0, int a3, int a2);
+extern void  func_020409B4(void *ctx);
+extern void  func_02041B6C(void *ctx);
+
+void func_0201F73C(void *a0, int a1, int a2, int a3)
+{
+    void *ctx = func_02045730(a0);
+    u32 v10 = func_02045758(a0);
+    u32 v14 = func_02045760(a0);
+    u32 v18 = func_02045748(a0);
+    u32 v0  = func_02045750(a0);
+
+    func_0201F628(ctx, v10, v14, v18, v0, a3, a2);
+
+    if (a1 == 0) {
+        func_020409B4(ctx);
+    } else if (a1 == 1) {
+        func_02041B6C(ctx);
+    }
+}
