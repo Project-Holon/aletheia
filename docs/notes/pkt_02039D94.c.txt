@@ -96,3 +96,310 @@ void func_0203A020(u32 idx, u32 a1, u8 *a2, u32 a3, u32 a4, u32 a5, u8 *base)
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 240 bytes against 248, 178 concrete bytes out, 1.1p1
+
+=====================================================================
+APPENDED 2026-09-21 (wave 3, net_handle.c family, permuter run)
+=====================================================================
+
+The reading above was wrong about the function's SHAPE, not just its
+register colouring, and the corrected source below closes 167 of the 178
+concrete bytes it was out by.  Three structural fixes, each of which the
+earlier note had baked into the C as an assumption:
+
+1. THE FUNCTION TAKES FIVE PARAMETERS, NOT SEVEN.  The prologue is
+   `push {r3, r4, r5, r6, r7, lr}`, six registers and so 0x18 bytes of
+   frame, which makes `ldr r5, [sp, #0x18]` at +0x04 a read of the
+   CALLER's first stacked argument -- the fifth -- and not the seventh.
+   Written with seven parameters the displacement comes out `[sp, #0x20]`
+   and every later offset drifts.  This is the same misreading that
+   docs/notes/pkt_0203A388.c.txt made, and the family's handlers are all
+   four register arguments plus one stacked receiver (func_0203A150,
+   func_02039B5C, func_0203A27C, func_0203A388).
+
+2. THE MISMATCH ARM IS A TAIL BLOCK, NOT AN EARLY RETURN.  The image
+   branches forward with `bne #0x203a10c` to a three-instruction block
+   past the last epilogue.  Written as an early `if (...) { ...; return; }`
+   the compiler predicates it into `movne`/`strbne`/`popne` at the top,
+   two instructions fewer and everything after it displaced.  A `goto` to
+   a label at the bottom of the function is what reproduces it.
+
+3. THE `a2[8] == 0` ARM IS ALSO A TAIL BLOCK (`beq #0x203a0f8`), for the
+   same reason, and `r4 + 0x6e` IS A HALFWORD: the image reads it with
+   `ldrh`, so it is `*(u16 *)(r4 + 0x6e)` and not `r4[0x6e]`.
+
+With those three the compile is size-exact at 248/248 and 17 concrete
+bytes out.  Two further levers, both found against the permuter, take it
+to 11:
+
+4. The zero-arm's two loads are hoisted into named locals
+   (`u8 hi = r4[0x67]; u8 lo = a2[7];` before the two stores).  Spelled
+   inline, the two `ldrb` interleave with the two `strb` instead of both
+   preceding them.
+
+5. `r4` is `volatile u8 *`.  The record pointer is re-read at every use
+   across the four intervening calls; without `volatile` the compiler
+   proves the callees cannot change what it points at and keeps one load
+   live (docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md).
+   tools/permuter.py named this one directly, as `volatile-add(r4)`.
+
+RESIDUE, 11 concrete bytes, one instruction pair:
+
+  * +003C    mov r3, #1                  | mov r1, #1
+  * +0044    add r1, r5, #6              | strb r1, [r5, #0xd]
+  * +0048    mov r2, #6                  | add r1, r5, #6
+  * +004C    strb r3, [r5, #0xd]         | mov r2, #6
+
+The image materialises the in-use flag in r3 -- a register the following
+three-argument call does not need -- and lets the `strb` sink BELOW the
+call's whole argument setup; the compiler materialises it in r1, stores
+it immediately, and then has to rebuild r1 as the second argument.  This
+is the shape docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md
+describes, but from the other side: here the store has to sink, not rise.
+
+Ruled out for it: a named `u8 one = 1` local; an `int one = 1` with the
+cast at the store; binding the call's three arguments to locals first
+(`src`/`dst`/`n`) so the store is the last statement before the call; and
+the comma-expression form `MI_CpuCopy8((p[0xd] = 1, a2), p + 6, 6)`.  All
+four leave the residue exactly as above.
+
+Permuter, on top of fixes 1-5: mode hill exhausted (272 single mutations,
+only `volatile-add(r4)` improving), then mode anneal 3000 compiles in
+146 s with no improvement at all -- the best stayed
+`DIFF asm=205 bytes-out=11 size=248/248` from the first batch onward.
+The remaining pair is a scheduling choice the mutation set does not
+reach.
+
+/* best source, 248 bytes against 248, 11 concrete bytes out, 1.1p1 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u8 *func_0203D798(u32 a, u32 b, u8 *c, u32 d);
+extern u32 func_0203996C(u32 a);
+extern void func_02087C6C(u8 *p);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
+void func_0203A020(u32 idx, u32 a1, u8 *a2, u32 a3, u8 *base)
+{
+  volatile u8 *r4 = func_0203D798(idx, a1, a2, a3);
+  u8 *p;
+  u8 *own;
+  own = (u8 *) func_0203996C(0xff);
+  if (own != base)
+    goto mismatch;
+  p = *((u8 **) ((base + (idx * 4)) + 8));
+  if (p[0xd] != 0)
+    return;
+  p[0xd] = 1;
+  MI_CpuCopy8(a2, p + 6, 6);
+  p[0xc] = a2[6];
+  func_02087C6C(p);
+  if (a2[8] == 0)
+    goto zero;
+  if ((a2[6] != 0) && (a2[7] != r4[0x67]))
+  {
+    if ((*((u16 *) (r4 + 0x6e))) == a2[8])
+    {
+      p[0xf] = *((u16 *) (r4 + 0x6e));
+      p[0xe] = *((u16 *) (r4 + 0x6e));
+      return;
+    }
+  }
+  if (((a2[6] == 0) && (a2[7] == r4[0x67])) && ((*((u16 *) (r4 + 0x6e))) == a2[8]))
+  {
+    p[0xf] = *((u16 *) (r4 + 0x6e));
+    p[0xe] = *((u16 *) (r4 + 0x6e));
+  }
+  else
+  {
+    p[0xf] = 0xff;
+    p[0xe] = 0;
+  }
+  return;
+  zero:
+  {
+    u8 hi = r4[0x67];
+    u8 lo = a2[7];
+    p[0xf] = hi;
+    p[0xe] = lo;
+  }
+
+  return;
+  mismatch:
+  base[0x4e] = 1;
+
+}
+
+
+
+re-verified 2026-09-21 by tools/permuter.py: DIFF, 248 bytes against 248, 11 concrete bytes out, 1.1p1 (was: 240 against 248, 178 out)
+
+=====================================================================
+APPENDED 2026-09-21 (wave 3, net_handle.c family) -- func_02039D94 itself
+=====================================================================
+
+func_02039D94 @ 0x02039D94, 652 bytes (the packet's own lead function, not
+previously attempted in this note).  Now SIZE-EXACT at 652/652 with 14
+concrete bytes out, down from untouched.  It is the family's tick: five
+sequential phases over the nine-entry slot table plus a tail that drives
+the two callbacks at g+0x10/g+0x14.
+
+Structural findings, in the order they mattered:
+
+1. func_0203D4D0 TAKES EIGHT ARGUMENTS, NOT FOUR.  The `sub sp, sp, #0x10`
+   in the prologue exists only for this one call: `stm sp, {r0, r8}` plus
+   `str r8, [sp, #8]` and `str r8, [sp, #0xc]` lay four stacked arguments
+   down before it.  The first stacked one is `g_021469D4 + i * 2` (note
+   the `lsl #1`, a DIFFERENT scaling from the `+ i` the same loop uses for
+   the flag bytes at +0x10/+0x18) and the other three are zero.  Declared
+   with four parameters the whole frame disappears and every epilogue's
+   `add sp, sp, #0x10` with it.
+
+2. TWO CALL PAIRS ARE CHAINED, NOT INDEPENDENT.  In both the first loop
+   (0x02039DA4) and the third (0x02039EA0) the image calls
+   func_020395E0(i) and hands ITS RESULT to func_0203996C -- there is no
+   `mov r0, <counter>` between the two `bl`s.  Written as two independent
+   calls on `i` each costs 4 bytes.  The first loop additionally keeps the
+   func_020395E0 result in a named local because it is used AGAIN, narrowed
+   to u16, as func_02039160's argument after the func_0203996C call.
+
+3. THE TAIL'S u16 NARROWING IS AT THE CALL SITE, not at the assignment.
+   `a = f(); ... func_0203D3A8(e, 0xa, (u16)a, ...)` puts the `lsl`/`lsr`
+   pair after the SECOND callback; writing `u16 a = f();` puts it
+   immediately after the first and displaces four instructions.
+
+RESIDUE, 14 concrete bytes, two independent ties:
+
+  * +0070..+00F4 (9 lines)  one swapped pair, sb <-> sl: the image keeps the
+    0xFF entry pointer in sl and the second loop's index in sb, the compile
+    has them the other way round.  Nothing else in that loop differs.
+
+  * +0230/+0234 and +0240/+0244  `ldr r1, [r4, #0x14] / blx r1` against
+    `ldr r0, ... / blx r0`: the indirect call's target register.
+
+Ruled out for the sb/sl tie: a separate index variable for the second loop
+declared before `own`, the same declared after it, and calling the loop
+inline versus through the hoisted `own`.  Ruled out for the blx register:
+binding each callback to a named `u32 (*f)(void)` local before calling it
+(no change at all).
+
+Permuter: mode hill exhausted (270 single mutations, none better), then
+mode anneal 3000 compiles in 163 s, best unchanged at
+`DIFF asm=70 bytes-out=14 size=652/652` throughout -- the residue is
+outside the mutation set on both counts.
+
+/* best source, 652 bytes against 652, 14 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32 func_020395E0(u32 slot);
+extern u32 func_020395EC(void *p);
+extern u8 *func_0203996C(u32 idx);
+extern u32 func_02039160(u16 mode);
+extern u32 func_020399B8(u8 *e);
+extern void func_02039A5C(void);
+extern u32 func_02039338(void);
+extern u8 *func_020399A8(void);
+extern u32 func_02039CD8(u8 *e);
+extern u32 func_0203A2F0(u16 mask, u32 idx);
+extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
+extern u32 func_0203D378(void);
+extern u32 func_0203D394(void);
+extern u32 func_0203D4D0(u8 *e, u32 a, u32 b, u32 c, void *d, u32 e2, u32 f, u32 g2);
+extern u32 func_0203D3A8(u8 *e, u32 a, u32 b, void *q);
+extern void func_0203D650(void);
+extern u8 *func_0203D798(void);
+extern void func_02034714(const char *file, u32 line, const char *msg);
+
+extern u8 *g_021469D4;
+extern const char file_020A7A68[];
+extern const char msg_020A7A94[];
+
+void func_02039D94(void)
+{
+    u8 *e;
+    u8 *g;
+    u8 *own;
+    int i;
+    int zero;
+
+    zero = 0;
+
+    for (i = 0; i < 8; i++) {
+        u32 s = func_020395E0(i);
+        e = func_0203996C(s);
+        if (func_02039160((u16)s) == 0)
+            func_020399B8(e);
+    }
+
+    func_02039A5C();
+
+    if (func_0203D378() != 0) {
+        own = func_0203996C(0xff);
+        for (i = 0; i < 9; i++) {
+            u8 *r = g_021469D4 + i;
+            if (r[0x18] != 1)
+                continue;
+            if (func_0203D4D0(own, r[0x10], 8, 2,
+                              g_021469D4 + i * 2, 0, 0, 0) == 0)
+                continue;
+            if ((g_021469D4 + i)[0x10] == 0)
+                func_02034714(file_020A7A68, 0x29a, msg_020A7A94);
+            (g_021469D4 + i)[0x18] = 0;
+        }
+    }
+
+    for (i = 0; i < 9; i++) {
+        u8 *p;
+        p = func_0203996C(func_020395E0(i));
+        if (func_0203D394() == 0)
+            continue;
+        if (p[0x49] == 0)
+            continue;
+        if (func_020395EC(p) == 0xff)
+            continue;
+        if (func_0203D3A8(p, 7, 4, p + 0x46) != 0)
+            p[0x49] = 0;
+    }
+
+    if (func_02039338() == 0) {
+        own = func_0203996C(0xff);
+        if (own != 0) {
+            for (i = 0; i < 8; i++) {
+                u8 *s = *(u8 **)(own + i * 4 + 8);
+                if (s == 0 || s[0xd] == 0)
+                    continue;
+                if (func_0203A2F0(*(u16 *)(own + 0x40), i) != 0)
+                    continue;
+                if (func_02039CD8(own) != 0)
+                    *(u16 *)(own + 0x40) =
+                        func_0203A28C(*(u16 *)(own + 0x40), i, 1);
+            }
+        }
+    }
+
+    g = func_0203D798();
+    if (g[0x65] == 4)
+        return;
+
+    e = func_020399A8();
+    if (e[0x4e] != 1)
+        return;
+
+    if (*(void **)(g + 0x10) != 0 && *(void **)(g + 0x14) != 0) {
+        u32 a;
+        u32 b;
+        u32 (*f)(void);
+        func_0203D650();
+        f = *(u32 (**)(void))(g + 0x14);
+        a = f();
+        func_0203D650();
+        f = *(u32 (**)(void))(g + 0x10);
+        b = f();
+        if (func_0203D3A8(e, 0xa, (u16)a, (void *)b) != 0)
+            e[0x4e] = 0;
+    } else {
+        e[0x4e] = 0;
+    }
+}
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 652 bytes against 652, 14 concrete bytes out, 1.1p1

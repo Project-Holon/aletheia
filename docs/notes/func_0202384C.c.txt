@@ -97,3 +97,183 @@ loop-invariant address gets pre-materialised into a callee-saved register"
 may close the remaining preamble bytes; the mid-loop and tail shape above
 should not need to change.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-21, wave3 wipe_sub -- func_0202384C @ 0x0202384C, first source
+================================================================================
+
+The earlier sections of this file are about func_0202384C's CALLERS.  This
+section is the first written source for func_0202384C itself, which was
+untouched before this wave ("no recoverable source in this note").  It is a
+near miss, not a match, and it is filed here rather than in src/ accordingly.
+
+WHAT THE FUNCTION IS.  It rebuilds the wipe's per-scanline window table, one
+row for each of the screen's 0xC0 lines.  sub_02022D88 hands back the buffer
+whose two s16 arrays live at +0x300 (left edge) and +0x480 (right edge), 0xC0
+entries each.  The loop has a mirror shortcut: while the row index is inside
+the band (w->f14, 2 * w->f14] the pair is COPIED from the row 2*f14 - y
+already written earlier in the same pass, and only outside that band is it
+computed fresh through func_020237B8.  Both arms leave the pair in the same
+two stack slots and the store back to row y is written once after the if/else.
+
+THREE THINGS WERE ESTABLISHED AGAINST THE BYTES AND ARE WORTH KEEPING:
+
+1. func_020237B8's fifth argument is &l (the LEFT edge) and its sixth is &r.
+   The image stores r7 (which holds sp+0xc, the l slot) to [sp] and sp+8 to
+   [sp,#4], so the fifth argument is the sp+0xc one.  Reversed, the two
+   `strh` at the bottom of the loop write the wrong arrays and the function
+   is 55 bytes out instead of 54 -- a one-byte difference in the score, which
+   is exactly why it is worth stating: this is NOT diagnosable from the
+   bytes-out number and only the argument-slot reading fixes it.
+
+2. Both array bases are rematerialised per access (movs #3 / lsls #8 = 0x300,
+   movs #0x12 / lsls #6 = 0x480) rather than kept live, which is what
+   declaring them as members of one struct with a register-offset index
+   produces (docs/idioms/thumb-immediate-reach-costs-an-adds.md).  Hoisting
+   either base into a local is wrong: the permuter's own best point does that
+   and pays for it.
+
+3. The guard is TWO SEPARATE TESTS, not one `&&`.  The image spends a `bgt`
+   over an unconditional `b` at +0x16 (four bytes) where a conjunction folds
+   to a single conditional branch (two bytes).  That four-versus-two is
+   exactly the size gap.
+
+THE SIZE GAP AND WHAT CLOSES IT.  The source below compiles 98 bytes against
+104.  `tools/permuter.py --mode hill --budget 800 --jobs 8 --types` closes it
+at compile 219 with `temp(tmp=w->f10)`: hoisting w->f10 into a local before
+the loop gives 104/104 exactly.  BUT IT CLOSES THE GAP THE WRONG WAY.  The
+temp takes r7, and r7 is the register the image spends on `add r7, sp, #0xc`
+-- the address of the l slot, materialised once outside the loop and reused by
+every call.  So the size becomes right while bytes-out goes 55 -> 80, and the
+whole mirror arm that WAS byte-identical stops being so.
+
+  size 98/104, 55 out   <- the source below; mirror arm +0x1a..+0x34 is
+                           byte-identical, gap is the guard
+  size 104/104, 80 out  <- + temp(tmp=w->f10); size right, arm destroyed
+  size 104/104, 88 out  <- + the temp and a hoisted f14 or an inverted first
+                           test
+  size 104/104, 76 out  <- the anneal's own best (see below)
+
+PERMUTER RESULT:
+
+    --explain : a general reshuffle (r2->r0 x3, r1->r0 x3, r2->r1 x2,
+                r0->r1 x1, r7->r0 x1), NOT a swapped pair, so --focus has
+                nothing to aim at
+    --mode hill   --budget 800  --jobs 8 --types : 206 singles, best is the
+                  temp(tmp=w->f10) above, 104/104 at 80 out
+    --mode anneal --budget 3000 --jobs 8 --types : 3000 compiles in 717s,
+                  best 104/104 at 76 out via
+                  temp(tmp=w->f14 * 2) ; temp(tmp1=w->f0c) ; temp(tmp2=tmp - y)
+
+Neither run found the shape.  Note again that the anneal's summary line is not
+the best bytes-out point on this target.
+
+WHAT TO TRY NEXT, in order of how cheap it is:
+  - spell the two out-parameters so that &l is taken ONCE before the loop and
+    the call passes that pointer, WITHOUT introducing any other local that
+    could claim r7 (the attempt recorded as f84c_f/g/h in this wave put the
+    pointer in but let the f10 temp take r7 anyway, which is why they came out
+    at 98 and 104/80 respectively)
+  - the two tests as a chain of two plain `if`s over a goto, combined with the
+    pointer hoist but not with the f10 temp
+  - w->f14 read once per iteration into a local that is declared AFTER the
+    pointer, so the pointer wins r7 on declaration order
+    (docs/idioms/declaration-order-decides-which-register-a-local-gets.md)
+
+/* best source, 98 bytes against 104, 55 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_0202384C
+ * address:  0x0202384C
+ * packet:   pkt_0202384C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02022D88   0x02022D88  thumb
+ *   func_020237B8  0x020237B8  thumb
+ *
+ * Rebuilds the wipe's per-scanline window table, one row for each of the
+ * screen's 0xC0 lines.  sub_02022D88 hands back the buffer whose two s16
+ * arrays live at +0x300 (left edge) and +0x480 (right edge), 0xC0 entries
+ * each.
+ *
+ * The loop has a mirror shortcut: while the row index is inside the band
+ * (w->f14, 2 * w->f14] the pair is COPIED from the row 2*f14 - y already
+ * written earlier in the same pass, and only outside that band is it
+ * computed fresh through func_020237B8.  Both arms leave the pair in the
+ * same two stack slots at sp+0xc and sp+8, and the store back to row y is
+ * written ONCE after the if/else, which is what keeps the two `strh`
+ * sequences shared instead of duplicated into each arm
+ * (docs/idioms/switch-arms-tail-merge.md).
+ *
+ * The guard is two separate tests, not one `&&`: the image spends a `bgt`
+ * over an unconditional `b` at +0x16, the shape a chain of ifs whose first
+ * test is inverted produces, where one conjunction would fold to a single
+ * conditional branch.
+ *
+ * Both array bases are past the Thumb immediate reach and both are indexed
+ * by a register, so each is materialised per access (movs #3 / lsls #8 =
+ * 0x300, movs #0x12 / lsls #6 = 0x480) rather than kept live
+ * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202384C.c \
+ *       --func func_0202384C --addr 0x0202384C --cc 1.1p1 --thumb
+ */
+
+typedef signed short s16;
+typedef signed int   s32;
+typedef unsigned int u32;
+
+
+struct Wipe {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    s32 f0c;      /* 0x0c */
+    s32 f10;      /* 0x10 */
+    s32 f14;      /* 0x14  half-height of the mirrored band */
+};
+
+struct Buf {
+    s16 pad000[0x180];
+    s16 left[0xC0];   /* 0x300 */
+    s16 right[0xC0];  /* 0x480 */
+};
+
+extern struct Buf *sub_02022D88(struct Wipe *w, u32 idx);
+extern void func_020237B8(s32 a0, s32 a1, s32 a2, s32 a3, s32 *out0,
+                          s32 *out1);
+
+void func_0202384C(struct Wipe *w)
+{
+    struct Buf *b;
+    s32 y;
+    s32 l;
+    s32 r;
+
+    y = 0;
+    b = sub_02022D88(w, 0);
+
+    do {
+        if (y > w->f14) {
+            if (y <= w->f14 * 2) {
+                l = b->left[w->f14 * 2 - y];
+                r = b->right[w->f14 * 2 - y];
+                goto store;
+            }
+        }
+        func_020237B8(w->f0c, w->f10, 0, y, &l, &r);
+    store:
+        b->left[y] = (s16)l;
+        b->right[y] = (s16)r;
+        y = y + 1;
+    } while (y < 0xC0);
+}
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 98 bytes against 104, 55 concrete bytes out, 1.1p1

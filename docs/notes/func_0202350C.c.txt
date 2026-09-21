@@ -132,3 +132,126 @@ void func_0202350C(struct Obj *obj, u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
      +0058    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
    legend: '*' concrete mismatch, '~' relocation field (wildcarded)
 re-verified 2026-09-21 by tools/match.py: DIFF, 90 bytes against 92, 39 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-21, wave3 wipe_sub (permuter pass)
+================================================================================
+
+REAL PROGRESS THIS WAVE: 39 concrete bytes out down to 23, by two levers, and
+the source below REPLACES the one recorded earlier in this file.
+
+Lever 1 (hand, 39 -> 28): bind cfg[0x0a] to a named local.  It is
+func_02022E20's third argument and the only one the compiler was free to
+schedule; left inline it emits `ldrb r2, [r4, #0xa]` LAST, at +0x50, where
+the image emits it at +0x3c.  Binding it pins the load
+(docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
+Doing the same to cfg[0x0b] as well makes it worse, not better (40 out): only
+the one argument moves.
+
+Lever 2 (permuter, 28 -> 25, then 25 -> 23): `reorder(-2)`, i.e. hoist
+`obj->f40 = 0;` above `k8 = cfg[8];`.  Found by
+`--mode hill --budget 800 --jobs 8 --types` at compile 184, applied by hand to
+the readable source and re-verified.  A second `reorder(-2)` found by
+`--mode anneal --budget 3000` at compile 332 takes it to 23; a hand sweep of
+all 20 single-statement moves of the nine-store block confirms 23 is the floor
+and reproduces it at two distinct points (moving `obj->f44` up two, or
+`obj->f48` up one).
+
+WHAT IS LEFT, and it is one block.  With the source below the head
+(+0x00..+0x1c, the func_02022940 call) and the tail (+0x3e..+0x58, the eight
+stack stores before func_02022E20) are byte-identical.  The residue is
+entirely the nine-store block between them: the image interleaves the stores
+to obj->f30..f48 with the loads of the stack arguments in an order no
+statement permutation reproduces.  It is a scheduling plateau -- every
+spelling tried lands between 23 and 27 and none below.
+
+PERMUTER RESULT after lever 2:
+
+    --mode hill   --budget 800  --jobs 8 --types : 187 singles tried from the
+                                                   25-byte point, none improve
+    --mode anneal --budget 3000 --jobs 8 --types : reaches 23 at compile 332,
+                                                   then drifts to a worse-bytes
+                                                   point (52 out at 94 bytes)
+                                                   because its asm score
+                                                   prefers it; the 23-byte
+                                                   point is the one to keep
+
+Note for whoever picks this up: the anneal's `best` line is NOT the best
+bytes-out result on this target.  Read the numbered progress lines, not the
+summary, when bytes-out is what you care about.
+
+/* best source, 90 bytes against 92, 23 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_0202350C
+ * address:  0x0202350C
+ * packet:   pkt_02022F60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02022940  0x02022940  thumb
+ *   func_02022E20  0x02022E20  thumb
+ *
+ * Copies the wipe parameter block `cfg` into the live wipe object `obj`
+ * and starts it.  func_02022940 takes the object plus its two sub-blocks
+ * at +0x20 and +0x10 and the two halves of cfg; the field stores that
+ * follow record the caller's two stack arguments at +0x30 and +0x48, the
+ * byte fields cfg[8] and cfg[0x0b] at +0x34 and +0x44, and the two
+ * register arguments at +0x38 and +0x3c, with +0x40 zeroed.
+ * func_02022E20 then receives the whole unpacked parameter set.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202350C.c \
+ *       --func func_0202350C --addr 0x0202350C --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Obj {
+    u32 f00;
+    u8  pad04[0x0c];
+    u32 f10;       /* 0x10 */
+    u8  pad14[0x0c];
+    u32 f20;       /* 0x20 */
+    u8  pad24[0x0c];
+    u32 f30;       /* 0x30 */
+    u32 f34;
+    u32 f38;
+    u32 f3c;
+    u32 f40;
+    u32 f44;
+    u32 f48;
+};
+
+extern void func_02022940(struct Obj *o, void *a, void *b, u8 *cfg,
+                          u8 *cfg4, u32 a2);
+extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
+                          u32 a6, u32 a7, u32 a8, u32 a9);
+
+void func_0202350C(struct Obj *obj, u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
+{
+    u32 k8;
+    u32 ka;
+
+    func_02022940(obj, &obj->f20, &obj->f10, cfg, cfg + 4, a2);
+
+    obj->f40 = 0;
+    obj->f44 = cfg[0x0b];
+    k8 = cfg[8];
+    ka = cfg[0x0a];
+    obj->f30 = a4;
+    obj->f34 = k8;
+    obj->f38 = a2;
+    obj->f3c = a3;
+    obj->f48 = a5;
+    func_02022E20(a5, cfg[9], ka, k8, a4, cfg[0], cfg[1],
+                  cfg[2], cfg[3], obj->f44);
+}
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 90 bytes against 92, 23 concrete bytes out, 1.1p1

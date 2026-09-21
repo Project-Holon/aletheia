@@ -178,3 +178,28 @@ having no purchase here: the target is not an epilogue at all.
 
 Still DIFF, still evidence only.
 re-verified 2026-09-21 by tools/match.py: DIFF, 74 bytes against 76, 2 concrete bytes out, 1.1p1
+
+================================================================================
+CLOSED 2026-09-21, wave3 wipe_sub.  This note is now history.
+================================================================================
+
+func_020234C0 is EXACT* and lives in src/matched/func_020234C0.c.  The source
+recorded above was two concrete bytes out; the one missing line is
+
+    case 2:  ... t->obj = 0;  ret = 1;  break;
+
+a semantically dead assignment whose only effect is to let the compiler
+cross-jump case 2's exit onto case 3's own `movs r4, #1`, which is what the
+image's `b #0x2023504` (a branch to the immediately following instruction)
+records.  Read from src/matched/func_0202363C.c, which had it right all along.
+
+The same one line closed func_02022A44 and func_0202390C in the same wave.
+Written up as docs/idioms/a-dead-assignment-in-one-switch-arm-cross-jumps-
+its-break-onto-another.md, which also records that 131 permuter singles and
+3000 annealing compiles do not reach this residue and why (it is a
+cross-jumping decision; the --explain register map is empty).
+
+The EXACT* is an unlabelled follower, not a byte difference: the listing
+extent runs to 76 where the function is 74 bytes plus two of padding.  The
+follower at 0x0202350C wants seeding into layout/function_starts.txt (the
+integrator's file).

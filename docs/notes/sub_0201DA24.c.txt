@@ -113,3 +113,59 @@ void func_0201DA24(struct Font *f, u32 a, u32 b, u32 heap)
     }
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, sub_0201DA24.c:12: undefined identifier 'func_0201DA24'
+
+
+================================================================================
+CLOSED, 2026-09-21 (wave 3, gf_font.c family pass).  This function is now
+src/matched/sub_0201DA24.c, EXACT, 128 bytes, 9 of 9 relocations resolved.
+
+THE LEVER: the heap-id parameter is `u8`, not `u32`.
+
+    void func_0201DA24(struct Font *f, u32 a, u32 b, u8 heap)
+
+Everything else in the source recorded above is unchanged and was already
+right.  That one token is the whole nine bytes.
+
+WHY IT WORKS, which is the part worth carrying to other functions.  The residue
+this note describes is an INCOMING parameter's home store sliding from the front
+of the prologue's register shuffle to the back:
+
+    original                     u32 heap
+    adds r5, r0, #0              adds r5, r0, #0
+    str  r3, [sp, #4]    <-      adds r7, r1, #0
+    adds r7, r1, #0              ldr  r0, [r5, #0x50]
+    ldr  r0, [r5, #0x50]         ldr  r1, [r5, #0x54]
+    ldr  r1, [r5, #0x54]         adds r4, r2, #0
+    adds r4, r2, #0              str  r3, [sp, #4]    <-
+
+With a `u32` parameter, r3 already holds exactly the value the allocator call
+will want, so the home store is pure bookkeeping and mwcc is free to sink it to
+the end of the shuffle; it does, and the prologue comes out in declaration
+order.  With a `u8` parameter the home slot holds the NARROWED value, which is
+not what r3 holds, so the store has to be emitted before anything can clobber
+r3 - and that restores the original's order, which is first-use order (the heap
+id feeds the allocator, `a` and `b` are read only at the very end).  This note
+had already spotted that the original's order is first-use order; what it was
+missing is that a narrow parameter type is how you ask for it.
+
+HOW IT WAS FOUND: tools/permuter.py, the AST engine, in 205 compiles.
+
+    python3 tools/permuter.py --src da24.c --func func_0201DA24 \
+        --addr 0x0201DA24 --thumb --mode hill --budget 800 --jobs 8 --types
+
+    baseline  DIFF   asm=200   bytes-out=9    size=128/128
+        205  EXACT  asm=0     bytes-out=0    size=128/128  <- type:p(heap:u32->u8)
+
+Note that `--types` is required: the `type` mutation is the only one in the set
+that is not value-preserving, so it is off by default, and it is the only one
+that could have found this.  A `--explain` on the baseline printed an EMPTY
+register-substitution map, which correctly said this was not an allocation tie;
+the hill climb still closed it, so an empty map is a reason to keep going with
+`--types`, not a reason to stop.
+
+CROSS-REFERENCE: docs/notes/sub_0201DBBC.c.txt is the same phenomenon seen from
+the other side - there the original stores an OUTGOING argument to the stack
+LATER than mwcc does.  This lever does NOT transfer to it: narrowing every
+parameter of those two functions was tried in the same wave and changes nothing,
+because an outgoing argument's store time has nothing to do with the caller's
+own parameter types.  The two really are two heuristics, not one seen twice.

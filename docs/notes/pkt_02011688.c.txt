@@ -102,3 +102,91 @@ int func_02011688(struct Obj02011688 *obj, S12_02011688 *out, u32 idx)
     return 1;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 46 bytes against 56, 24 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED, wave 3 (family ica_anime.c, permuter.py pass)
+========================================================================
+
+The note's own source (46 bytes against 56, 24 concrete bytes out) had two
+structural errors, both fixed below; the residue that remains is a pure
+allocator artefact the AST permuter cannot reach.
+
+1. WRONG BRANCH POLARITY.  The note wrote `if (obj->f18 != div) return 0;`
+   with the copy as the fall-through of a `beq`.  The image falls through
+   INTO the copy and branches away to `movs r0,#0` (`bne #0x20116ba`), so
+   the source's `if` must be the POSITIVE test with the copy in its body and
+   `return 0` after it.  See
+   docs/idioms/the-fall-through-arm-is-the-source-order.md.
+
+2. STRUCT ASSIGNMENT IS THE WRONG SHAPE.  `*out = *(S12 *)(...)` compiles to
+   an inlined ldm/stm pair (`03 ca` / `03 c4`, the
+   aggregate-assignment-is-ldm-stm idiom).  The image does three separate
+   ldr/str pairs off a base that is ADVANCED between the first and the
+   second (`ldr r0,[r1,r3]` then `adds r1,r1,r3` then `[r1,#4]`, `[r1,#8]`),
+   which is a hand-written three-field copy through a u32 cursor, not a
+   struct copy.
+
+With both fixed the compile is 52 bytes against 56 and every instruction is
+in the right place and in the right order; the residue is that the image
+holds the modulo result in r2 and a SECOND copy of it in r3 (`adds r2,r1,#0`
+before the cmp, `adds r3,r2,#0` before the multiply) where the compiler
+keeps one value and multiplies in place.  Four extra bytes, two register
+copies, no instruction is missing or extra otherwise.
+
+  /* best source, 52 bytes against 56, 32 concrete bytes out, 1.1p1 */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Rec12 { u32 a, b, c; };
+
+struct IcaAnime {
+    u8  pad00[0x0c];
+    u32 f0c;
+    u8  pad10[0x08];
+    u32 f18;
+    u32 f1c;
+};
+
+u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
+{
+    u32 n = p->f0c;
+    u32 i = idx % n;
+
+    if (p->f18 == n) {
+        u32 off = i * 12;
+        u32 base = p->f1c;
+        dst->a = *(u32 *)(base + off);
+        base += off;
+        dst->b = *(u32 *)(base + 4);
+        dst->c = *(u32 *)(base + 8);
+        return 1;
+    }
+    return 0;
+}
+
+PERMUTER RESULT (tools/permuter.py, the AST engine).
+  --explain on the source above:  r3 -> r2 x4, r2 -> r1 x1, i.e. a clean
+  two-pair register substitution, the tool's declared residue class.
+  --mode hill --budget 800 --jobs 8 --types:  166 single mutations tried,
+      NO single mutation improves the baseline.
+  --mode hill --budget 600 --focus i,off,base:  122 tried, no improvement.
+  --mode anneal --budget 3000 --jobs 8 --types:  3000 compiles in 362 s.
+      Best found was SIZE-EXACT (56/56) but WORSE on bytes (36 out against
+      32), reached only through `volatile struct IcaAnime *p` plus
+      `u8 idx` -- both non-value-preserving (a u8 index truncates the
+      caller's argument), so it is recorded here and rejected, not adopted.
+      Mutation string: temp ; type:p(idx:u32->u8) ; expand(n x2) ;
+      struct-ref ; volatile-add(p) ; temp x2 ; decl-order ; expand ;
+      decl-order x2 ; commute(==).
+
+Eight further hand spellings were measured, all 52 bytes / 32 out: an extra
+named copy of the remainder before and inside the `if`, both declaration
+orders of `base`/`off`, `12 * i` against `i * 12`, a `goto fail` shape, a
+signed `int` modulo, a `struct Rec12 *` cursor with `->` field copies
+(50 bytes, worse), and the offset recomputed at each use.  The two copies
+are allocator output with no source lever, so the honest verdict is DIFF at
+4 bytes of size and 2 register copies.
+
+/* best source, 52 bytes against 56, 32 concrete bytes out, 1.1p1 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 52 bytes against 56, 32 concrete bytes out, 1.1p1

@@ -105,3 +105,128 @@ one (the same rebase appears in func_0201D854's neighbourhood).  A `volatile`
 qualifier would also break it but would be a claim about the field that the
 image does not support.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+================================================================================
+WAVE 3 (2026-09-21), gf_font.c family pass.  Rebuilt from this note, re-measured
+and run through the permuter.  The verdict is unchanged; what is new is that the
+note's own suggested lever has now been tried and does not work, and the residue
+is bounded much more tightly.
+
+Status: DIFF, 154 bytes compiled against 156, 139 concrete bytes out.  Exactly
+the state this note describes, reproduced from the source below.
+
+/* best source, 154 bytes against 156, 139 concrete bytes out, dsi/1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Blk {
+    u16 lo;
+    u16 hi;
+    u16 kind;
+    u16 pad06;
+    struct Blk *next;
+    u32 pad0C_;
+};
+
+struct Font {
+    u8  pad00[0x68];
+    u8 *unk68;
+    u32 pad6C;
+    u16 unk70;
+    u8  pad72[0x16];
+    u8 *unk88;
+};
+
+u32 func_0201DB20(struct Font *f, u16 c)
+{
+    struct Blk *b;
+    s32 lo, hi, mid, j;
+
+    b = (struct Blk *)f->unk88;
+    while (1) {
+        if (b->lo <= c && b->hi >= c) {
+            switch (b->kind) {
+            case 0:  return ((u16 *)b)[6] + (c - b->lo);
+            case 1:  return ((u16 *)b)[6 + (u16)(c - b->lo)];
+            case 2:
+                lo = 0;
+                hi = ((u16 *)b)[6] - 1;
+                while (lo <= hi) {
+                    mid = lo + (hi - lo) / 2;
+                    j = 2 * mid + 1;
+                    if (((u16 *)b)[6 + j] < c)      lo = mid + 1;
+                    else if (c < ((u16 *)b)[6 + j]) hi = mid - 1;
+                    else                            return ((u16 *)b)[6 + j + 1];
+                }
+                break;
+            }
+            return f->unk70;
+        }
+        b = b->next;
+        if (b == 0) return 0;
+        b = (struct Blk *)(f->unk88 + ((u8 *)b - f->unk68));
+    }
+}
+
+PERMUTER RESULT (tools/permuter.py, the AST engine)
+
+  --explain    baseline DIFF asm=790 bytes-out=139 size=154/156
+               register substitutions (image -> compiled), by count:
+                 r2 -> r3  x6     r5 -> r4  x5     r3 -> r4  x4
+                 r6 -> r5  x4     r4 -> r6  x2     r4 -> r2  x1
+                 r4 -> r0  x1     r3 -> r2  x1
+
+  --mode hill --budget 800 --jobs 8 --types
+               232  DIFF asm=730 bytes-out=139  <- temp(tmp=(u16 *) b)
+               no single mutation improves after that (208 sites tried)
+
+  --mode anneal --budget 3000 --jobs 8 --types
+               3000 compiles, best DIFF asm=705 bytes-out=139 size=154/156
+               mutations: decl-order(lo<->hi) ; temp(tmp=6 + j)
+                          ; temp(tmp1=(u16 *) b)
+
+The substitution map is a GENERAL RESHUFFLE, not one swapped pair, which is what
+this note's prose already said in words.  The annealed run improves the
+instruction-level score from 790 to 705 - real progress on the gradient - while
+bytes-out stays pinned at 139 and the size gap at two.  That is the signature of
+a residue whose cause is upstream of allocation: the register assignment is a
+CONSEQUENCE of the extra move, and the permuter can shuffle the consequences
+without ever reaching the cause.  The cause is the two-byte size gap, and until
+that closes the register map cannot.
+
+THE NOTE'S OWN SUGGESTED LEVER, NOW TRIED AND NEGATIVE
+
+This note proposed "a shape where the second read is not textually the same
+member access - an inlined helper that takes `f` and returns the rebased
+pointer".  Two forms were tried:
+
+    static inline struct Blk *rebase(struct Font *f, struct Blk *b)
+    { return (struct Blk *)(f->unk88 + ((u8 *)b - f->unk68)); }
+
+used at the rebase site alone, and then together with a matching
+
+    static inline struct Blk *first(struct Font *f)
+    { return (struct Blk *)f->unk88; }
+
+for the pre-loop read as well.  Both compile to 154 bytes with 139 out, byte for
+byte identical to the flat source.  mwcc inlines them before the CSE pass runs,
+so by the time common-subexpression elimination looks at the function the two
+reads are textually identical again and get merged exactly as before.  Wrapping
+the access in a function is not a way to hide it from CSE in this compiler.
+
+WHAT IS STILL UNTRIED
+
+The `u8`-parameter lever that closed func_0201DA24 in this same wave
+(docs/notes/sub_0201DA24.c.txt) is not applicable: that one pins an incoming
+parameter's home store, and this function's problem is a load inside a loop.
+The honest remaining candidates are (a) a `volatile` qualifier on the +0x88
+field, which WOULD break the CSE but is a claim about the field the image does
+not support and would be dishonest to file, and (b) the possibility that the
+original's pre-loop read and its in-loop read genuinely come from two different
+source-level expressions, e.g. the block pointer being passed into a small
+static worker that this function calls, so that the rebase happens in a
+different function entirely.  (b) is the shape to try next and needs a `tu`
+range, not a single-function `one`.

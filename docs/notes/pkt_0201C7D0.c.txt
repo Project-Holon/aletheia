@@ -87,3 +87,77 @@ C currently tried (scratch/scratch/w_0201C7D0.c):
     }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 56, 37 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-21, wave 3 printsys family lane: 37 bytes -> 4, ONE instruction left
+==============================================================================
+
+/* best source, 56 bytes against 56, 4 concrete bytes out, 1.1p1 */
+
+TWO LEVERS, both from the family header work and the AST permuter.
+
+LEVER 1 (structural, found by comparison with src/matched/sub_0201C724.c):
+THE SCRATCH IS A STRUCT PASSED BY ADDRESS, NOT A u8 ARRAY.
+
+    -    extern u8   g_0214655C[];
+    -    sub_0201C808(g_0214655C, ...);
+    +    struct Scratch { u8 unk_00[1]; };
+    +    extern struct Scratch g_0214655C;
+    +    sub_0201C808(&g_0214655C, ...);
+
+Spelled as an array the decayed pointer is ONE value, which the allocator
+parks in a callee-saved register and copies into r0 at each call site; spelled
+as a struct object, `&g_0214655C` is a fresh address expression per site and
+the compiler rematerialises the pool load.  On this function that alone is
+worth nothing in bytes (37 either way) but it is what src/matched/
+sub_0201C724.c and unit_0201C6FC.c both depend on, and on its sibling
+func_0201C7A4 it is the difference between 48 compiled bytes and the
+original's 44.  Recorded in docs/families/printsys.h.
+
+LEVER 2 (found by tools/permuter.py, --mode hill --budget 800 --jobs 8
+--types, 106 mutations tried, improvement at compile 103):
+
+    baseline  DIFF  asm=285  bytes-out=37  size=56/56
+        103   DIFF  asm=200  bytes-out=4   size=56/56
+    mutations type:ret-var(c)
+
+`c` MUST STAY LIVE IN r4 TO THE END OF THE FUNCTION.  With `return c;` added
+the entire body -- all four calls, both pool rematerialisations, the
+`add r1, sp, #0x18` / `ldrh r1, [r1, #4]` halfword read, the `str r4, [sp]`
+outgoing stack word -- is byte-identical to the image:
+
+    +0000..+002C   all 23 instructions EXACT
+  * +0030    pop {r3, r4, r5, r6, r7, pc}   |  adds r0, r4, #0
+  * +0032    mov r8, r8                     |  pop {r3, r4, r5, r6, r7, pc}
+    +0034..        the pool word, EXACT
+
+So the residue is ONE instruction: the `adds r0, r4, #0` that the return
+introduces and the original does not have.  The original is void and still
+keeps `c` in r4 across all four calls.
+
+WHAT THIS MEANS.  `return c` is not the answer -- it is a probe that proves
+where the answer is.  Something in the real source holds `c` live past the
+last call without producing a value in r0.  Candidates not yet found:
+  - a fifth argument to sub_0201C8BC that is `c`
+  - a store of `c` through one of the scratch pointers after the last call
+  - `c` being the object the whole chain is really threading, with the
+    scratch derived from it
+
+Tried this pass and NOT the answer:
+  - `return a` / `return b` / `return d` / `return e` (45, 46, 45, 45) and
+    `return &g_0214655C` (45) -- only `c` reaches 4, which is what makes the
+    liveness of `c` specifically a finding rather than an artefact
+  - `struct Scratch *s = &g_0214655C;` bound once and passed three times (37
+    -- it re-binds the address to one value, undoing lever 1)
+  - `(void)c;` after the last call (37 -- folded away)
+  - `volatile u32 c` as a parameter (55 -- strictly worse, it forces a home)
+
+THE SIBLING.  func_0201C7A4 (docs/notes/pkt_0201C7A4.c.txt) is the same
+function without the halfword stamp, and behaves identically under both
+levers: 32 out as written, 12 out with `return c`.  It differs in one way
+that matters -- it is FOUR BYTES LONG (48 compiled against 44 in the image)
+and stays 48 under every spelling tried, because with only two uses of the
+scratch instead of three the compiler caches the address in r4 and spends two
+`adds r0, r4, #0` plus alignment padding.  See that note.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 56, 4 concrete bytes out, 1.1p1

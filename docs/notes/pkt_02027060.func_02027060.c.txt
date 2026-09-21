@@ -41,3 +41,93 @@ u32 func_02027060(u32 a)
     return x < y;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 44 bytes against 44, 29 concrete bytes out, 1.1p1
+
+======================================================================
+2026-09-21 wave 4 (game_beacon family) -- func_02027060 permuted: 28 -> 4,
+then flat over 3056 compiles
+======================================================================
+
+The note's own source was 28 concrete bytes out.  Two independent changes
+took it to 4, and nothing takes it past 4.
+
+  1. The verdict polarity was inverted.  The original's `blo` at +001A
+     falls through to `movs r0, #1`, so the function answers 1 when the
+     incoming id's priority is at least the current mode's: `>=`, not `<`.
+
+  2. The SCHEDULE that the note could not produce -- both pool words loaded
+     up front, the two table lookups interleaved, g_02146940's pool word
+     FIRST -- appears only when the current-mode operand is written as the
+     LEFT operand of the comparison.  `permuter.py --mode hill` found it as
+     a single compare(flip) mutation in 56 compiles:
+
+         return ((u8) g_0209FC20[cur]) <= ((u8) g_0209FC20[a]);
+
+     with the global pointer bound to a local `g` and `cur = g->f34` ahead
+     of it.  That is the entire 28 -> 4 step; every other spelling the note
+     lists (and t1..t23 tried here: if/else, `!`, `? :`, `1 - (...)`, named
+     u8/u32 temporaries in both declaration orders, `>` with a negation,
+     `||`-of-`<`-and-`==`) falls back to the fully serialised 28-byte-out
+     schedule, or grows the function to 48 bytes.
+
+THE REMAINING 4 BYTES ARE A GENUINE CONTRADICTION IN C, not a search
+failure.  The residue is exactly two instruction pairs:
+
+    * +0014    lsrs r0, r0, #0x18   | lsrs r1, r1, #0x18
+    * +0016    lsrs r1, r1, #0x18   | lsrs r0, r0, #0x18
+    * +0018    cmp r0, r1           | cmp r1, r0
+    * +001A    blo #0x2027080       | bhi #0x2027080
+
+The original truncates the `a`-indexed value FIRST and puts it in cmp's
+LEFT slot with a `blo`.  This compiler ties the two together: whichever
+operand is written first in the comparison expression gets both the first
+`lsrs` and the left cmp slot.  Writing `a` first (`a >= cur`, `a < cur`,
+and every if/else form of either) therefore gets the cmp order right but
+ALSO throws away the interleaved schedule and goes back to 28 bytes out;
+writing `cur` first keeps the schedule and inverts the cmp.  There is no
+spelling that separates the two.
+
+  permuter.py --mode hill  --budget 800  --jobs 8 --types:  56 compiles,
+      28 -> 4 via compare(flip), then "no single mutation improves".
+  permuter.py --mode anneal --budget 3000 --jobs 8 --types: 3000 compiles
+      in 391 s from that point, 2993 distinct candidates, best unchanged at
+      DIFF asm=40 bytes-out=4 size=44/44.
+
+/* best source, 44 bytes against 44, 4 concrete bytes out, dsi/1.1p1 -O4,p */
+/*
+ * function: func_02027060
+ * address:  0x02027060
+ * packet:   pkt_02027060
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (4 bytes: the cmp/lsrs operand-order tie above)
+ *
+ * symbols:
+ *   g_02146940  0x02146940  data
+ *   g_0209FC20  0x0209FC20  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct S {
+    u8  pad[0x34];
+    u16 f34;
+};
+
+extern struct S *g_02146940;
+extern u32 g_0209FC20[];
+
+u32 func_02027060(u32 a)
+{
+    struct S *g = g_02146940;
+    u16 cur = g->f34;
+
+    return ((u8) g_0209FC20[cur]) <= ((u8) g_0209FC20[a]);
+}
+
+permuter best result line:
+  best      DIFF   asm=40    bytes-out=4    size=44/44   mutations compare(flip)

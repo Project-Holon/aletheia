@@ -125,3 +125,84 @@ void func_0201C8BC(u8 *a0, int a1)
     }
 }
 re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header
+
+==============================================================================
+2026-09-21, wave 3 printsys family lane: 36 bytes -> 17, residue (2) CLOSED
+==============================================================================
+
+/* best source, 184 bytes against 184, 17 concrete bytes out, 1.1p1 */
+
+First, the housekeeping this note's own re-verification line flagged: the
+source block above has no `isa:` line, which is why `match.py` reported
+"could not re-run, isa unknown in header".  With `region: arm9 / compiler:
+1.1p1 / flags: -O4,p / lang: c99 / isa: thumb` filled in it reproduces this
+note's figure exactly: DIFF, 184 against 184, 36 concrete bytes out.
+
+tools/permuter.py, --mode hill --budget 800 --jobs 8 --types (210 mutations
+tried):
+
+    baseline  DIFF  asm=615  bytes-out=36  size=184/184
+        396   DIFF  asm=110  bytes-out=17  size=184/184
+    mutations type:l(hi:u8->int) ; type:l(mid:u8->int)
+
+THE LEVER: hi AND mid ARE `int`, NOT `u8`.
+
+    -    u8 hi;
+    -    u8 mid;
+    +    int hi;
+    +    int mid;
+
+This closes residue (2) of this note in full -- the mirrored hi/mid/lo
+register assignment at +0x2A..+0x46, which the note recorded as "a pure
+allocator tie" after measuring four spellings (source order, reverse order,
+one shared `u16 v` versus three inlined reads, every permutation of the three
+names, `int v` versus `u16 v`).  It is not a tie: it is the declared width of
+the two locals.  The `(u8)` casts on the right-hand sides already truncate, so
+the narrow declared type carried no value information and was invisible in the
+diff -- the same blind spot docs/notes/sub_0201C4E4.c.txt records for its
+`saved` local on this same pass.  `lo` is indifferent (int or u8, 17 either
+way), which fits: it is the one whose value never needed a home.
+
+WHAT IS LEFT: 17 BYTES, ALL OF RESIDUE (1)
+
+Only the three-byte buffer clear remains, and the register map is down to one
+swapped pair (`--explain`: r0 -> r1 x6, r1 -> r0 x1):
+
+  * +0012    ldr  r0, [sp, #4]     |  ldr  r1, [sp, #4]
+  * +0014    add  r1, sp, #8       |  add  r0, sp, #4
+  * +0016    strb r0, [r1]         |  strb r1, [r0, #4]
+  * +0018    ldr  r0, [sp, #4]     |  ldr  r1, [sp, #4]
+  * +001A    strb r0, [r1, #1]     |  strb r1, [r0, #5]
+  * +001C    ldr  r0, [sp, #4]     |  ldr  r1, [sp, #4]
+  * +001E    strb r0, [r1, #2]     |  strb r1, [r0, #6]
+  * +00A0    add  r2, sp, #8       |  add  r2, sp, #4
+  * +00A2..  ldrb off r2 at 2/1/0  |  ldrb off r2 at 6/5/4
+
+The STACK LAYOUT IS ALREADY RIGHT -- `done` at sp+4 and `buf` at sp+8 in both.
+The difference is only which base register the three byte stores are addressed
+from: the original materialises `add r1, sp, #8` (buf's own address) and uses
+offsets 0/1/2, the compile derives the base from `done`'s address at sp+4 and
+uses offsets 4/5/6.  The reloads of `done` before every store are already
+reproduced by the `volatile int done` this note identified, and the 184-byte
+size is right.
+
+Tried this pass on top of the int fix, all landing on exactly 17 again:
+  - `buf` aliased through a `u8 *q = buf;` local for the three stores
+  - the same alias also at the tail `func_0201DD78(q[2], q[1], q[0])`
+  - `u8 buf[4]` instead of `u8 buf[3]` (its own word)
+  - `volatile u32 done` instead of `volatile int done`
+Strictly worse:
+  - `done` declared before `buf` (20 out)
+  - `buf` declared after the three ints (20 out)
+  - `u8 *volatile q = buf;` (192 bytes, 167 out -- gives q a home of its own)
+  - permuter --mode anneal --budget 3000 --jobs 8 --types from the 17-byte
+    point: 3000 compiles, no improvement
+
+So the base-register choice for a small byte array adjacent to a volatile
+scalar is the open question, and nothing reachable from the C moves it.
+
+0x0201C974 is unchanged: still MATCH-capped on 0x0201CAC8, whose only branch
+image-wide is at 0x0201C9D0 inside 0x0201C974 itself.  pkt_0201CA78 still owns
+0x0201CAC8 and no entry covers it.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1

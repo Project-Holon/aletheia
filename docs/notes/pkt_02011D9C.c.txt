@@ -106,3 +106,36 @@ it at MATCH.
 
 DIFF, so no file under src/.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED, wave 3 (family ica_anime.c): assessed, not attempted.  Reason.
+========================================================================
+
+This address was in the wave's list and was deliberately NOT spent on,
+after re-reading the note above and re-checking its blocker claim.  The
+reason is recorded so the next lane does not re-derive the decision:
+
+  * The note is correct that three sites (func_021882A0, func_02188354,
+    func_02188390) cap the address at MATCH no matter how good the C is.
+    Spot-checked against the same failure mode this wave hit independently
+    at 0x02012164, where func_02158318 is refused for exactly the reason
+    the note gives here -- the overlays overlap the address but none of
+    them LABELS it, so the fourth-token region hint has no candidate to
+    disambiguate and cannot rescue the site.  That mechanism is now
+    confirmed twice in this family.
+  * The note's draft is 207 concrete bytes out of 234.  That is not a
+    near miss and it is not the permuter's residue class: permuter.py is
+    for "every instruction and relocation right, a register or a spill
+    slot wrong".  Running it on a 207-out sketch spends compiles for
+    nothing, which is what the tool's own field report warns about.
+  * The honest next step is the one the note already names -- a `tu` unit
+    spanning func_02011FB8 and func_02011D40 so two of the six sites
+    become `local` -- and that is a unit-shaped job, not a single-function
+    one.  It still ends at MATCH on the three overlay sites.
+
+So: no new source, no new verdict, and the note's own "no recoverable
+source in this note" line stands.  The value of a slot here is capped at a
+pending MATCH file even on total success, which ranks below the four
+addresses this wave did move.
+
+re-verified 2026-09-21: no recoverable source in this note (unchanged)

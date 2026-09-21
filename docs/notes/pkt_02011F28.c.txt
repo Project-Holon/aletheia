@@ -101,3 +101,104 @@ void sub_02011F28(u8 *p, u16 a1, u32 a2)
     sub_020139B0(a1);
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 100 bytes against 104, 63 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED, wave 3 (family ica_anime.c, permuter.py pass)
+========================================================================
+
+Moved from 63 concrete bytes out at 100/104 to EIGHT concrete bytes out at
+102/104.  What remains is one swapped register pair on four instructions.
+
+THE TWO LEVERS THAT MOVED IT.
+
+1. A NAMED LOCAL FOR THE sub_020124F4 RESULT.  The image copies the return
+   value out of r0 (`adds r1, r0, #0`) before storing it to +0x1c, which a
+   direct `*(u32 *)(p + 0x1c) = (u32)sub_020124F4(...)` never does.
+
+2. A NAMED LOCAL FOR THE NEXT CALL'S ARGUMENT, read BETWEEN the call and
+   the store.  The image's order is
+
+       bl   sub_020124F4
+       adds r1, r0, #0        <- result copied out
+       ldrh r0, [r5]          <- the NEXT call's argument read while r0 free
+       str  r1, [r5, #0x1c]
+       str  r6, [r5, #0x20]
+       bl   sub_020261E4
+
+   so the `*(u16 *)p` re-read that feeds sub_020261E4 is a statement of its
+   own placed immediately after the first call, not an inline argument.
+   Writing `id = (int)*(u16 *)p;` on its own line between the two is worth
+   two bytes and 55 concrete bytes.
+
+  /* best source, 102 bytes against 104, 8 concrete bytes out, 1.1p1 */
+
+    void sub_02011F28(u8 *p, u16 a1, u32 a2)
+    {
+        void *r1c;
+        int id;
+        *(u16 *)p = a1;
+        *(u32 *)(p + 4) = a2;
+        *(u32 *)(p + 8) = (u32)func_02031324((int)*(u16 *)p);
+        *(u32 *)(p + 0xc) = 0;
+        *(u32 *)(p + 0x10) = 0;
+        *(u32 *)(p + 0x14) = 0;
+        *(u32 *)(p + 0x18) = 0;
+        r1c = sub_020124F4((int)*(u16 *)p);
+        id = (int)*(u16 *)p;
+        *(u32 *)(p + 0x1c) = (u32)r1c;
+        *(u32 *)(p + 0x20) = 0;
+        *(u32 *)(p + 0x24) = (u32)sub_020261E4(id);
+        *(u32 *)(p + 0x28) = 0;
+        *(u32 *)(p + 0x2c) = (u32)sub_0202B4BC((void *)*(u32 *)(p + 0x1c), a1);
+        p[0x32] = 0;
+        p[0x33] = (u8)(p[0x33] & ~1u);
+        sub_02012248(p);
+        sub_020122A4(p);
+        sub_020139B0(a1);
+    }
+
+(externs and typedefs unchanged from the note's first draft above.)
+
+THE RESIDUE, in full -- four instructions, eight bytes:
+
+    ORIGINAL                    COMPILED
+    +0022  adds r1, r0, #0    | ldrh r1, [r5]
+    +0024  ldrh r0, [r5]      | str  r0, [r5, #0x1c]
+    +0026  str  r1, [r5,#1c]  | str  r6, [r5, #0x20]
+    +0028  str  r6, [r5,#20]  | adds r0, r1, #0
+
+The instructions are the same three operations; the image puts the CALL
+RESULT in r1 and the ID in r0, the compiler does the reverse and therefore
+needs its copy at the end instead of the start.
+
+PERMUTER RESULT (tools/permuter.py, the AST engine).
+  --explain:  r0 -> r1 x1, r1 -> r0 x1.  One swapped pair, exactly the
+      shape the brief says to --focus.
+  --mode hill --budget 800 --jobs 8 --types --focus r1c,id:  128 tried.
+      Best 7 bytes out at 104/104 via `type:ret-var(r1c)` (returning r1c
+      from the void function).  REJECTED: it buys the two bytes by pushing
+      r7, so the object is `push {r3,r4,r5,r6,r7,lr}` where the image is
+      `push {r4,r5,r6,lr}` -- structurally further away, and the function
+      is void at every call site.
+  --mode hill --budget 800 --jobs 8 --types (unfocused):  same result.
+  --mode anneal --budget 1500 --jobs 8:  1500 compiles in 53 s, best 6
+      bytes out at 102/104, mutations
+      `commute(+) ; block(do0,3) ; temp(tmp=(u8)(p[0x33] & (~1u))) ;
+      temp(tmp1=*((u32 *)(p + 0x1c)))`.
+      Its generated C does not compile (a C99 mid-block declaration the
+      front end rejects: `f28a.c:56: expression syntax error`), so the one
+      real mutation, hoisting `tmp1 = *(u32 *)(p + 0x1c);` above the
+      sub_020261E4 call, was applied BY HAND to the readable source and
+      re-verified: it gives 6 out but spends r7 the same way ret-var does
+      (`push {r3,r4,r5,r6,r7,lr}`).  ALSO REJECTED, for the same reason:
+      fewer bytes out, worse shape.
+
+Eleven further hand spellings were measured around the 8-out point (both
+declaration orders of `r1c`/`id`, `u32` against `void *` for the result,
+`u16` against `int` for the id, an explicit `(int)id` cast at the call, the
++0x1c store before and after the +0x20 store, the id inline at the call,
+and no locals at all).  All are either 102/8-out or fall back to 100/63-out.
+The r0/r1 tie has no source lever in this front end.
+
+/* best source, 102 bytes against 104, 8 concrete bytes out, 1.1p1 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 102 bytes against 104, 8 concrete bytes out, 1.1p1

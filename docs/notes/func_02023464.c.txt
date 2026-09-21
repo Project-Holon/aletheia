@@ -149,3 +149,69 @@ void func_02023464(struct Task *t, u8 *cfg)
      +005A    lsls r2, r1, #8                        | lsls r2, r1, #8                        
    legend: '*' concrete mismatch, '~' relocation field (wildcarded)
 re-verified 2026-09-21 by tools/match.py: DIFF, 92 bytes against 92, 11 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-21, wave3 wipe_sub (permuter pass)
+================================================================================
+
+The source recorded above is still the best known and is unchanged; this
+section records what the AST permuter and a hand sweep established about the
+residue, so the next agent does not re-derive it.
+
+Baseline, re-verified in this wave with the extracted source:
+
+    DIFF  func_02023464 @ 02023464, 92 bytes against 92, 11 concrete bytes out
+    all 4 relocation sites now resolve (func_0202350C is sole-ref since the
+    2026-09-21 widening, func_02023464_File is literal)
+
+THE RESIDUE IS ONE SWAPPED REGISTER PAIR AND NOTHING ELSE.
+`tools/permuter.py --explain` prints it as
+
+    r6   -> r4    x2
+    r4   -> r6    x2
+    r0   -> r1    x1
+
+`o` (the allocated object) takes r4 in the image and r6 in every compile;
+`cfg` (the second parameter) takes r6 in the image and r4 in every compile.
+The r0/r1 entry is a consequence, not a separate fault: it is the `ldrb`
+of cfg[8] at +0x32 landing in the other scratch register.
+
+PERMUTER RESULT: FLAT.
+
+    --mode hill   --budget 800  --jobs 8 --types : 161 singles tried,
+                                                   no single mutation improves
+    --mode anneal --budget 3000 --jobs 8 --types : 3000 compiles in 248s,
+                                                   best unchanged at
+                                                   asm=240 bytes-out=11
+
+Both runs spent their full budget (the 2026-09-21 hill fix is working) and
+neither moved the score by a single point.  The mutation table reaches
+first-definition order, use counts, copy insertion, live-range shape and
+address-taking; this residue is reached by none of them.
+
+HAND SWEEP, also flat.  Four variants, all 11 bytes out with the identical
+substitution map:
+
+  - `k = cfg[8]` before `a = t->f18`            (the image's own load order
+    at +0x32..+0x36 loads k first and compares it before loading a; the
+    compiler reschedules it back, so source order does not reach this)
+  - `cfg[8]` left inline instead of bound to k
+  - both `a` and `k` left inline                (88 bytes, 42 out -- worse,
+    and the one variant that changes size)
+  - `a` and `k` declared in the opposite order
+
+The swap survives every one of them, which is what says it is an allocation
+tie rather than a scheduling or shape fault: r4 and r6 are both callee-saved,
+both live across the same two calls, and the colouring order that separates
+them is set before any of these edits take effect.
+
+WHAT WOULD PLAUSIBLY REACH IT, not tried here for want of budget: giving `o`
+a use before the func_0202350C call (which would move its first definition
+point ahead of cfg's), or a spelling in which cfg is re-derived from a
+parameter rather than used directly, so that cfg's live range starts after
+the allocation rather than at entry.  Both are cheap to try and neither is in
+the permuter's table.
+
+/* best source, 92 bytes against 92, 11 concrete bytes out, 1.1p1 */
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 92 bytes against 92, 11 concrete bytes out, 1.1p1

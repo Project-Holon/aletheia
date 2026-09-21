@@ -1,0 +1,122 @@
+========================================================================
+pkt_02012164 -- func_02012164 @ 0x02012164, 104 bytes
+========================================================================
+2026-09-21, wave 3 (family ica_anime.c).  New note; this address was
+untouched.  First derivation lands at FOUR concrete bytes out of 104, and
+is permanently capped at MATCH regardless, so no file is filed.
+
+WHAT IT IS
+----------
+The family's "can this animation still run" predicate.  Three unconditional
+calls, then a chain of six guards that all share ONE exit block, then a
+released-handle call and a seventh guard.  Returns 1 only if every guard
+passes.
+
+THE ONE THING THAT DECIDES THE SIZE
+-----------------------------------
+Written as a chain of separate `if (...) return 0;` statements it compiles
+to 126 bytes against the image's 104 -- each arm gets its own
+`movs r0,#0 / pop {r4,pc}`.  The image has exactly TWO epilogues, one at
+0x020121C2 (`movs r0,#1`) and one at 0x020121C6 (`movs r0,#0`), so every
+failing guard branches to the SAME block and the source is a single
+conjunction.  See
+docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
+Rewriting the six guards as one `&&` expression takes it from 126/93-out to
+102/4-out in one step.
+
+Note the sixth guard is a NEGATED conjunction, not a plain test: the image
+has `blx func_02035390 / cmp r0,#1 / bne +3 / blx func_020353B0 /
+cmp r0,#1 / beq exit`, i.e. the pair only fails when BOTH return 1.
+
+  /* best source, 102 bytes against 104, 4 concrete bytes out, 1.1p1 */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct IcaAnime {
+    u8  pad00[0x1c];
+    void *f1c;
+    u8  pad20[0x12];
+    u8  f32;
+};
+
+extern void  func_02012138(struct IcaAnime *p);
+extern void  func_020120F8(struct IcaAnime *p);
+extern void  func_02012AC8(void);
+extern u32   func_02013D34(void);
+extern u32   func_0200FB24(void);
+extern u32   func_0201214C(struct IcaAnime *p);
+extern u32   func_02158318(struct IcaAnime *p);   /* overlay-resident */
+extern u32   func_02035390(void);
+extern u32   func_020353B0(void);
+extern void  func_0200921C(void *h);
+extern u32   func_020090E0(void);
+
+u32 func_02012164(struct IcaAnime *p)
+{
+    func_02012138(p);
+    func_020120F8(p);
+    func_02012AC8();
+    if (p->f32 == 0
+     && func_02013D34() == 0
+     && func_0200FB24() == 0
+     && func_0201214C(p) == 1
+     && func_02158318(p) == 1
+     && !(func_02035390() == 1 && func_020353B0() == 1)) {
+        func_0200921C(p->f1c);
+        if (func_020090E0() != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+symbols: func_02012138 0x02012138 thumb; func_020120F8 0x020120F8 thumb;
+func_02012AC8 0x02012AC8 thumb; func_02013D34 0x02013D34 thumb;
+func_0200FB24 0x0200FB24 thumb; func_0201214C 0x0201214C thumb;
+func_02158318 0x02158318 thumb; func_02035390 0x02035390 arm;
+func_020353B0 0x020353B0 arm; func_0200921C 0x0200921C thumb;
+func_020090E0 0x020090E0 thumb.
+
+THE RESIDUE -- four bytes, one register pair
+--------------------------------------------
+    ORIGINAL                  COMPILED
+    +0012  adds r1, r4, #0  | adds r0, r4, #0
+    +0014  adds r1, #0x32   | adds r0, #0x32
+    +0016  ldrb r1, [r1]    | ldrb r0, [r0]
+    +0018  cmp  r1, #0      | cmp  r0, #0
+
+Identical instructions; the image reads p->f32 through r1 and leaves r0
+free, the compiler uses r0.  (The `adds #0x32` is the expected Thumb
+encoding artefact: ldrb reaches only +31, see
+docs/idioms/thumb-immediate-reach-costs-an-adds.md, not evidence of a
+second pointer.)  The compile is also two bytes SHORT of 104, which is one
+of those two copies.
+
+PERMUTER RESULT (tools/permuter.py, the AST engine)
+---------------------------------------------------
+  --explain:  r1 -> r0 x4.  A single-pair substitution.
+  --mode hill --budget 800 --jobs 8 --types:  107 single mutations tried,
+      NO single mutation improves the baseline.
+  --mode anneal --budget 2000 --jobs 8 --types:  2000 compiles, two
+      plateau drifts, best equals the baseline (asm=125, 4 out, 102/104).
+  Three hand spellings on top (p->f32 bound to a named u8 local before the
+  chain, `0 == p->f32` operand order, `!p->f32`): all three are 102/4-out.
+
+BLOCKER, and why no file is filed even at zero bytes out
+--------------------------------------------------------
+    +0038 THM_CALL func_02158318 -> unresolved: no witness outside
+          0x02012164..0x020121CA; TWO overlays overlap this address
+          (ov009, ov010), and NEITHER labels it.
+
+The fourth-token region hint cannot rescue it: both `func_02158318
+0x02158318 thumb ov009` and `... ov010` were tried and both report the
+same "none resolvable without a region hint" -- the hint only disambiguates
+between labelled candidates, and here there is nothing labelled in either
+overlay to name.  This address therefore caps at MATCH even from a
+byte-perfect source, exactly the way the three 0x0218xxxx sites cap
+func_02011D9C (see docs/notes/pkt_02011D9C.c.txt).  A later wave that
+traces a function start at 0x02158318 in one of the two overlays closes it.
+
+/* best source, 102 bytes against 104, 4 concrete bytes out, 1.1p1 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 102 bytes against 104, 4 concrete bytes out, 1.1p1

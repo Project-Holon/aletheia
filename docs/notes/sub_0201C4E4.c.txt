@@ -252,3 +252,71 @@ u32 func_0201C4E4(struct PrintSys *ps)
     return 1;
 }
 re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header
+
+==============================================================================
+2026-09-21, wave 3 printsys family lane: 25 bytes -> 12, the +0x42 block CLOSED
+==============================================================================
+
+/* best source, 464 bytes against 464, 12 concrete bytes out, 1.1p1 */
+
+tools/permuter.py found in one hill run (800 budget, 8 jobs, --types, 376
+mutations tried) what six hand passes of declaration reordering did not:
+
+    permuter best: DIFF  asm=270  bytes-out=12  size=464/464
+    mutations      type:l(saved:s32->u16)
+
+THE LEVER: `saved` IS A u16, NOT AN s32.
+
+    -    s32 saved;
+    +    u16 saved;
+
+One line.  It closes the whole +0x0042 residue -- the seven-instruction
+permutation this note's "WHAT IS LEFT" section describes, where the original
+finishes packing the saved colour and stores it before touching the record
+while the compile interleaves the two record loads into the packing.  With the
+narrower type the packing has nothing to interleave with: the store is forced
+before the record loads because the value must be truncated to a halfword
+first.
+
+This is the `type` mutation the AST permuter added and nothing in the previous
+two passes reached, because both passes were searching declaration ORDER (the
+lever that had closed other functions in the family) rather than declaration
+TYPE.  Worth generalising: a scalar local that is only ever read back through
+masks and shifts carries no evidence of its own width in the diff, so its
+width is a free variable the permuter can search and a human reading the
+disassembly cannot see.
+
+WHAT IS LEFT: 12 BYTES IN ONE PLACE
+
+Only the +0x0150 wrap tests remain, exactly as this note already described
+them, and they are unchanged by the type fix:
+
+  * +0150    lsrs r1, r0, #0x10        |  ldrh r1, [r5, #4]
+  * +0152    ldrh r0, [r5, #4]         |  lsrs r0, r0, #0x10
+  * +0154    cmp  r1, r0               |  cmp  r0, r1
+  * +0158    movs r1, #0               |  movs r0, #0
+  * +015A    adds r1, r1, #4           |  adds r0, r0, #4
+  * +015C    lsls r1, r1, #0x10        |  lsls r0, r0, #0x10
+  * +015E    lsrs r1, r1, #0x10        |  lsrs r2, r0, #0x10
+  * +0160    cmp  r1, r0               |  cmp  r2, r1
+  * +0164    movs r1, #0               |  movs r2, #0
+  * +016A    adds r0, r0, r1           |  adds r0, r0, r2
+
+The original computes the candidate offset FIRST and loads the ring size
+after it; the compile loads the size first.  The compare operand order is
+right in both, only the registers differ.
+
+Tried this pass on top of the u16 fix, all landing on exactly 12 again:
+  - `if (!(o < ps->unk04))` in place of `if (o >= ps->unk04)`, both sites
+  - `off` and `o` declared in the other order
+  - `o` typed u32 with the casts kept
+  - `off = (u32)(u16)(o + 4); o = (u16)off;` as an explicit round trip
+    (468 bytes, 114 out -- strictly worse, it materialises the truncation)
+  - permuter --mode anneal --budget 3000 --jobs 8 --types from the 12-byte
+    point: no improvement
+
+So the remaining residue is a register-allocation outcome in the wrap block,
+not an evaluation-order one, which is what the wave-19 pass already concluded
+for this half.  Not filed; still DIFF.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 464 bytes against 464, 12 concrete bytes out, 1.1p1

@@ -81,3 +81,65 @@ C currently tried (scratch/scratch/w_0201C7A4.c):
     }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 48 bytes against 44, 32 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-21, wave 3 printsys family lane: 32 bytes -> 12, but STILL FOUR LONG
+==============================================================================
+
+/* best source, 48 bytes against 44, 12 concrete bytes out, 1.1p1 */
+
+This is the sibling of func_0201C7D0 without the halfword stamp, and the two
+levers that worked there work here too.  Read docs/notes/pkt_0201C7D0.c.txt
+first; this note records only what is different, which is the size.
+
+Both levers applied:
+  1. the scratch declared `extern struct Scratch g_0214655C;` and passed as
+     `&g_0214655C`, not `extern u8 g_0214655C[]` (see the sibling note and
+     docs/families/printsys.h)
+  2. `return c;` -- the permuter's `type:ret-var(c)`, 32 out -> 12 out
+
+THE SIZE IS THE WALL, AND IT IS NOT THE SAME WALL AS THE SIBLING.
+
+func_0201C7D0 is size-exact at 56.  This one compiles 48 against the image's
+44, under EVERY spelling tried, and the four bytes are always the same shape:
+
+    ORIGINAL (44)                        COMPILED (48)
+    ldr r0, [pc, #0x14]   \              ldr r4, [pc, #0x18]   \
+    ...                    > 2 loads     adds r0, r4, #0        > 1 load +
+    ldr r0, [pc, #8]      /              adds r0, r4, #0       /   2 copies
+                                         mov r8, r8              (+ alignment)
+
+Both `ldr [pc]` in the original resolve to the SAME pool word at 0x0201C7CC
+(computed: (0x0201C7B4+4 & ~3) + 0x14 = 0x201C7CC, and (0x0201C7C2+4 & ~3) + 8
+= 0x201C7CC), so this is one symbol rematerialised twice, not two objects.
+
+WHY THE SIBLING ESCAPES AND THIS ONE DOES NOT: the sibling uses the scratch
+THREE times, this one twice.  At three uses mwccarm prefers to rematerialise
+the pool load at each site; at two it caches the address in a callee-saved
+register and spends two `adds r0, r4, #0`.  That is a cost-model threshold in
+the allocator, not something the C selects, which is why lever 1 -- which is
+exactly the "make the address expression fresh per site" change -- moves the
+sibling's byte count and not this one's size.
+
+Tried this pass, all 48 bytes:
+  - the struct spelling, with and without `return c`
+  - `extern struct Scratch g_0214655C[1];` with the array passed bare
+  - `#define SCR (&g_0214655C)` so the address is textually fresh per site
+  - the scratch declared as a 0x54-byte struct (large enough that the address
+    is the only thing that could be held)
+  - both callee prototypes taking `void *` instead of `struct Scratch *`
+  - a sixth (unused) parameter, to change the stacked-argument layout
+  - permuter --mode hill --budget 800 --jobs 8 --types: best 12 out, size
+    unchanged at 48
+  - permuter --mode anneal --budget 3000 --jobs 8 --types: 3000 compiles,
+    219s, best still 12 out at 48; mutation chain
+    block(do0,1) ; type:ret-var(c) ; block(do0,1)
+Strictly worse:
+  - a sixth argument passed to sub_0201C808 (52 bytes, 46 out)
+
+So there are two independent open questions here, and the second one is the
+real wall: (a) what holds `c` live without returning it, the same question the
+sibling asks, and (b) what makes the compiler rematerialise a pool address at
+only two use sites.  Not filed; still DIFF.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 48 bytes against 44, 12 concrete bytes out, 1.1p1

@@ -73,3 +73,150 @@ form it is a cast or a struct pointer, not an offset.
 func_0201DC44 itself is EXACT and filed; these two are the only functions of
 pkt_0201DB20 left, along with func_0201DB20 (docs/notes/sub_0201DB20.c.txt).
 re-verified 2026-09-21: no recoverable source in this note
+
+
+================================================================================
+WAVE 3 (2026-09-21), gf_font.c family pass: BOTH functions rebuilt and
+re-measured, and func_0201DBF4 has its own source here for the first time.
+The residue is unchanged and is now much better bounded.
+
+Status of the two: func_0201DBBC is 12 concrete bytes out against 56, and
+func_0201DBF4 is 12 concrete bytes out against 80 (the compile is 78; the
+two-byte gap is the `movs r0, r0` alignment pad at 0x0201DC42, not a
+difference).  The residue is the SAME twelve bytes in both, the outgoing
+stack-argument store sliding from last to third in the final call's shuffle.
+
+/* best source, 56 bytes against 56, 12 concrete bytes out, dsi/1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Font {
+    u32   unk00;
+    u32   unk04;
+    u32   unk08;
+    u8   *unk0C;
+    u8    pad10[0x40];
+    void *unk50;
+    u8    pad54[0x20];
+    u16   unk74;
+    u16   unk76;
+    u8    pad78[4];
+    u16   unk7C;
+    u8    unk7E;
+    u8    unk7F;
+    void *unk80;
+    void *unk84;
+    void *unk88;
+    void *unk8C;
+    void *unk90;
+};
+
+extern void func_02082D44(const void *src, void *dst, u32 n);
+extern void func_0201DC44(struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
+
+void func_0201DBBC(struct Font *f, u32 i, void *d, u8 *out)
+{
+    func_02082D44(f->unk0C + i * f->unk76, f->unk90, f->unk76);
+    func_0201DC44(f, f->unk90, f->unk7C, d, out);
+}
+
+/* best source, 78 bytes against 80, 12 concrete bytes out, dsi/1.1p1 */
+/* same header block; substitute this body: */
+
+extern void func_0204960C(void *handle, u32 off);
+extern void func_020495F4(void *handle, u32 n, void *dst);
+
+void func_0201DBF4(struct Font *f, u32 i, void *d, u8 *out)
+{
+    func_0204960C(f->unk50, (u32)f->unk80 + ((u32)f->unk8C + i * f->unk76));
+    func_020495F4(f->unk50, f->unk76, f->unk90);
+    func_0201DC44(f, f->unk90, f->unk7C, d, out);
+}
+
+Note on the multiply, which corrects this note's earlier prose: BOTH functions
+want `i * f->unk76`, not one each way.  Writing func_0201DBF4's as
+`f->unk76 * i` swaps the `muls` accumulator and adds three bytes on top of the
+twelve (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md
+still applies, it was just read off the wrong operand the first time).  With the
+multiply right, func_0201DBF4 lands on exactly the residue func_0201DBBC has.
+
+PERMUTER RESULT (tools/permuter.py, the AST engine)
+
+  func_0201DBBC  --explain          no register substitutions at all
+                 --mode hill        baseline DIFF asm=200 bytes-out=12 size=56/56
+                                    no single mutation improves (71 sites tried)
+                 --mode anneal      3000 compiles in 447 s, best unchanged:
+                                    DIFF asm=200 bytes-out=12 size=56/56
+  func_0201DBF4  --mode hill        baseline DIFF asm=300 bytes-out=12 size=78/80
+                                    no single mutation improves (85 sites tried)
+
+An EMPTY substitution map is the useful new fact.  Every register in both
+functions is already the register the image uses; nothing is mis-allocated.
+That rules out the whole class the permuter exists for and says the residue is
+a scheduling decision inside the call-setup sequence, downstream of allocation,
+which no source-level mutation of THIS function's body can reach.  Three
+thousand annealed compiles finding nothing is the evidence for that, not just
+a failure to search.
+
+ADDITIONALLY TRIED IN THIS WAVE, all still exactly 12 bytes out:
+
+  - `out` as `struct Metrics *` (a real four-byte struct), as `void *`, as
+    `u8 out[4]`, and with `const` on the parameter.
+  - the fifth argument spelled `&out[0]`, `out + 0`, `(u8 *)out`, and bound to
+    a local first.
+  - the callee's third parameter as `u16` instead of `u32`; the callee
+    declared with an empty parameter list (K&R, so nothing is prototyped).
+  - `i` as `u8`, `u16` and `int` - the narrow-parameter lever that closed
+    func_0201DA24 (src/matched/sub_0201DA24.c) in this same wave.  It does
+    nothing here, and the reason is instructive: there the residue is an
+    INCOMING parameter's home store, which a narrow type pins to the front of
+    the prologue; here it is an OUTGOING argument's stack store, and the
+    parameter's own type has no bearing on when that lands.
+  - all four register arguments bound to locals immediately before the call,
+    so only `out` is a live expression at the call.
+  - a six-parameter callee with a dummy sixth argument: 80 bytes out, which
+    confirms the arity is five.
+
+THE LAST STANDING HYPOTHESIS IS NOW RULED OUT
+
+The one shape a single-function `one` cannot express is the callee's DEFINITION
+being visible: if the original file defined func_0201DC44 after its two callers,
+with only a forward declaration in scope, mwcc would have seen its body when
+scheduling these two call sites.  That was tried in this wave as a `tu` over
+0x0201DBBC..0x0201DC88 with all three functions in one file, forward-declared in
+image order and defined in image order:
+
+  python3 tools/match.py tu --src unit_dbbc.c --addr 0x0201DBBC --thumb
+  DIFF, 41 concrete bytes differ
+
+and the per-site report shows BOTH call sites still carrying exactly their old
+twelve bytes, unchanged and in the same direction:
+
+  +0024  adds r5, #0x7c   | str  r4, [sp]     (func_0201DBBC's call)
+  +002E  str  r4, [sp]    | adds r3, r6, #0
+  +0074  adds r4, #0x7c   | str  r5, [sp]     (func_0201DBF4's call)
+  +007E  str  r5, [sp]    | adds r3, r7, #0
+
+(The remaining bytes past +0x9E are an unrelated artefact of the throwaway
+struct used for that experiment, which put the +0x59 byte at a different
+offset; they are not part of this residue.)
+
+So an inlining-visibility effect is not it either.  Together with the empty
+substitution map and the 3000 dry annealed compiles, the conclusion is that
+this is a scheduling decision mwcc makes inside call setup that no arrangement
+of THIS source reaches: it is not the argument list, not the parameter types,
+not the callee's linkage, not the callee's visibility, and not register
+allocation.  The two functions are parked here, deliberately, rather than
+ground on further.
+
+WHAT WOULD ACTUALLY MOVE IT
+
+A different compiler build is explicitly out of scope (docs/AGENT-BRIEF.md
+section 3 pins dsi/1.1p1 and -O4,p).  The realistic remaining lead is another
+function elsewhere in the image that calls a five-argument function and stores
+its fifth argument LAST the way these two do; if one exists and is already
+EXACT, its source shape is the answer and this residue closes by analogy.
+Worth a grep for `str rN, [sp]` immediately preceding a `bl` across the matched
+corpus rather than any further work on these two files.

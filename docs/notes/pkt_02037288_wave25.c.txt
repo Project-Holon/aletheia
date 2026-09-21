@@ -85,3 +85,250 @@ than from the same expression twice.
 
 Both sources are reproducible from this note; neither was left in src/.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+================================================================
+APPENDED wave 4 (net_system.c family, 2026-09-21)
+================================================================
+
+func_02037680  0x02037680  128 bytes  ARM  verdict DIFF, 8 bytes out, 6/6 sites resolved
+
+SIZE-EXACT at 128 bytes.  Every instruction lines up mnemonic-for-mnemonic;
+the entire residue is a three-register colouring tie inside the one mla block:
+
+  ORIGINAL @ +0x0034                      COMPILED
+  +0034  ldr r1, [r6]                     ldr r2, [r6]
+  +0038  ldr r2, [r1, #0x1e0]             ldr r1, [r2, #0x1e0]
+  +003C  ldr r0, [r1, #0x10]              ldr r0, [r2, #0x10]
+  +0040  add r3, r1, #0x4c                add r2, r2, #0x4c
+  +0044  mla r1, r5, r2, r0               mla r1, r5, r1, r0
+  +0048  add r0, r3, r5, lsl #4           add r0, r2, r5, lsl #4
+
+The original puts the struct pointer in r1, the stride in r2 and `p + 0x4c`
+in r3; the compiled form puts the struct pointer in r2 and reuses it for
+`p + 0x4c`, spending r1 on the stride.  Instruction count, order, operand
+shift amounts and the two literal-pool words are identical.
+
+Two shape findings this file DOES establish and the next lane should keep:
+  * func_0203640C takes TWO arguments here, not three.  r2 at the `bl` is
+    the stride left over from the `mla`; a three-argument call costs an
+    extra `mov r2, #0` (or `mov r2, r4`) and the file is 132/136 bytes.
+    (The same callee IS called with three real arguments elsewhere, e.g.
+    at 0x020374B4 inside func_02037478, so this is per-site, not per-callee.)
+  * `i * lbl_021469D0->f1E0` must be LIFTED into a local whose assignment
+    precedes the call statement.  Written in place as an argument
+    sub-expression the file is 11 bytes out; lifted it is 8.  The permuter
+    found this independently as `temp(tmp=i * lbl_021469D0->f1E0)`.
+
+Measured, all 128 bytes and all 8 or 11 out:
+  * i * f1E0 / f1E0 * i / lifted / compound-assigned in two statements (8, 8,
+    8, 12 out)
+  * the struct pointer bound to a local `q` spanning the call, the base and
+    stride each bound to their own local, the destination bound to its own
+    local (all 8)
+  * tools/permuter.py --mode hill --budget 800 --jobs 8 --types from the
+    11-out baseline: 103 mutations tried, best 8 out (the temp above)
+  * tools/permuter.py --mode hill --budget 800 --jobs 8 --types from the
+    8-out baseline: 120 mutations tried, NO single mutation improves
+  * tools/permuter.py --mode anneal --budget 3000 --jobs 8 --types from the
+    8-out baseline: 3000 compiles in 320 s, best still 8 out
+
+/* best source, 128 bytes against 128, 8 concrete bytes out, 1.1p1 */
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Net {
+    u8 pad00[0x10];
+    u32 f10;
+    u8 pad14[0x4c - 0x14];
+    u8 f4C[0x11c - 0x4c];
+    u8 f11C[0x1b4 - 0x11c];
+    u32 f1B4[8];
+    u8 pad1D4[0x1d7 - 0x1d4];
+    u8 f1D7[8];
+    u8 pad1DF[0x1e0 - 0x1df];
+    u32 f1E0;
+};
+
+extern const u8 str_020A7A24[];
+extern const u8 str_020A7A34[];
+extern struct Net *lbl_021469D0;
+extern void func_02034714(const u8 *file, int line, const u8 *msg);
+extern void func_0203640C(u8 *dst, u32 a);
+extern void func_02037234(u8 *p);
+
+void func_02037680(int i)
+{
+    if (i >= 8) {
+        func_02034714(str_020A7A24, 0x155, str_020A7A34);
+    }
+    lbl_021469D0->f1B4[i] = 0;
+    {
+        u32 off = i * lbl_021469D0->f1E0;
+        func_0203640C(lbl_021469D0->f4C + i * 16, off + lbl_021469D0->f10);
+    }
+    lbl_021469D0->f1D7[i] = 0;
+    func_02037234(lbl_021469D0->f11C + i * 16);
+}
+
+Verified with:
+  python3 tools/match.py one --src <this> --func func_02037680 \
+      --addr 0x02037680 --cc 1.1p1 --arm --diff
+
+permuter best result line:
+  best      DIFF   asm=40    bytes-out=8    size=128/128
+
+
+func_02037478  0x02037478  520 bytes  ARM  verdict DIFF, 135 bytes out, 18/18 sites resolved
+
+SIZE-EXACT at 520 bytes.  This SUPERSEDES the wave-25 row above, which was
+stuck at 528 bytes (ten callee-saved registers against the original's eight).
+
+THE 8-BYTE FRAME OVERRUN IS CLOSED, and the lever is not the one the wave-25
+row guessed at.  A size helper (`static u32 sz2(s32 n) { return n * 2; }`)
+does NOT inline at -O4,p and makes the file 564 bytes / 471 out -- strictly
+worse.  What works is spelling the SAME product DIFFERENTLY at its two sites,
+which stops the CSE that was costing the tenth register:
+
+    func_02082BCC(g->f0C, 0, n2 + n2);            /* not n2 * 2 */
+    func_0203640C(g + 0x3c, g->f0C, (u32)n2 << 1); /* not n2 * 2 */
+
+    func_02082BCC(g->f04, 0, n3 * 16 - n3);        /* not n3 * 15 */
+    func_0203640C(g + 0x1c, g->f04, ((u32)n3 << 4) - n3);
+
+    func_02082BCC(g->f14, 0, g->f1E0 + g->f1E0 * 2); /* not f1E0 * 3 */
+    func_0203640C(g + 0x2c, g->f14, g->f1E0 * 3);
+
+With the two sites spelled identically the compiler computes each product
+once into fp and spends `mov r2, fp` twice; with them spelled differently it
+rematerialises at each site, exactly as the original does (`lsl r2, r4, #1`
+twice at +0x0090 and +0x00A8, `rsb r2, r5, r5, lsl #4` twice at +0x00DC and
++0x00F0).  Applying the trick to the n2 pair alone gets 524 bytes; applying
+it to all three gets 520 and drops the fp/r3 pair from the push list.
+
+THE REMAINING 135 BYTES are a whole-function colouring permutation with no
+instruction inserted or deleted.  The original's map is
+
+    n1 -> r8   n2 -> r4   n3 -> r5   i -> r7   zero -> r6   pool -> sb
+
+and the compiled form swaps n1 with i (n1 -> r7, i -> r8) and re-shuffles
+r6/sb/sl downstream of that.  The tie is between the first count and the
+loop index, both live across the same three leading calls.
+
+One other shape finding worth keeping: func_0203640C is called with THREE
+arguments at four of the five sites here but with TWO inside the first loop
+(r2 is the stride left over from the `mla`, as in func_02037680 above).  One
+translation unit cannot declare both arities, so the two-argument site is
+written through a cast:
+
+    #define copy2(d, s) (((void (*)(u8 *, u8 *))func_0203640C)((d), (s)))
+
+Passing an explicit third argument there costs `mov r2, r4` and is 4 bytes
+long.
+
+Measured:
+  * the three spelling pairs above: 528 -> 524 -> 520 bytes
+  * static inline size helpers: 564 bytes, 471 out (much worse)
+  * the counts re-read from a fresh func_02037258() call at the second site:
+    536 bytes, 458 out
+  * six declaration orders of (n1, n2, n3, i): 520 bytes, 135 or 179 out;
+    no order reaches the original's map
+  * a separate `z` zero local assigned before the three calls, with `i = z`
+    after them: 520 bytes, 135 out (no change)
+  * tools/permuter.py --mode hill --budget 800 --jobs 8 --types from the
+    528-byte baseline: 327/647/799 improvements, best 524 bytes / 324 out
+    (temp(tmp=n2 * 2) ; temp(tmp1=(u8 *) lbl_021469D0) ;
+     temp(tmp2=(u8 *) lbl_021469D0))
+  * the same from that 524-byte point: 306 mutations tried, NO improvement
+  * tools/permuter.py --mode hill --budget 800 --jobs 8 --types from the
+    520-byte baseline below: best 516 bytes / 397 out -- the scorer prefers
+    the lower instruction score over the exact size, so its answer is four
+    bytes SHORT and must not be taken; its useful output is the hint
+    `decl-order(n1<->i)`, which names the tie correctly but does not close it
+    (all six orders measured above).
+
+/* best source, 520 bytes against 520, 135 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Net {
+    u32  f00;
+    u32 *f04;
+    u8  *f08;
+    u8  *f0C;
+    u8  *f10;
+    u8  *f14;
+    u8   pad18[0x1b0 - 0x18];
+    u32  f1B0;
+    u32  f1B4[8];
+    u8   pad1D4[0x1e0 - 0x1d4];
+    u32  f1E0;
+};
+
+extern struct Net *lbl_021469D0;
+extern u8 str_020A7A20[];
+extern s32 func_0203D680(void);
+extern s32 func_02037258(void);
+extern s32 func_0203D6BC(void);
+extern void func_02082BCC(u8 *p, u32 v, u32 n);
+extern void func_0203640C(u8 *dst, u8 *src, u32 n);
+#define copy2(d, s) (((void (*)(u8 *, u8 *))func_0203640C)((d), (s)))
+extern void func_02037234(u8 *p);
+extern void func_02037224(u32 a, u32 b);
+extern void func_02036B4C(u8 *p);
+
+void func_02037478(void)
+{
+    s32 n1;
+    s32 n2;
+    s32 n3;
+    s32 i;
+
+    n1 = func_0203D680();
+    n2 = func_02037258();
+    n3 = func_0203D6BC();
+
+    func_02082BCC(lbl_021469D0->f10, 0, lbl_021469D0->f1E0 * n1);
+    for (i = 0; i < n1; i++) {
+        copy2((u8 *)lbl_021469D0 + 0x4c + i * 16,
+              lbl_021469D0->f10 + i * lbl_021469D0->f1E0);
+        ((u8 *)lbl_021469D0)[0x1d7 + i] = 0;
+    }
+
+    func_02082BCC(lbl_021469D0->f0C, 0, n2 + n2);
+    func_0203640C((u8 *)lbl_021469D0 + 0x3c, lbl_021469D0->f0C, (u32)n2 << 1);
+    for (i = 0; i < n2; i++)
+        lbl_021469D0->f08[i] = 0;
+
+    func_02082BCC((u8 *)lbl_021469D0->f04, 0, n3 * 16 - n3);
+    func_0203640C((u8 *)lbl_021469D0 + 0x1c, (u8 *)lbl_021469D0->f04, ((u32)n3 << 4) - n3);
+    *(u8 *)lbl_021469D0->f00 = 0xff;
+    for (i = 1; i < n3; i++)
+        ((u8 *)lbl_021469D0->f00)[i] = 0;
+
+    func_02082BCC(lbl_021469D0->f14, 0, lbl_021469D0->f1E0 + lbl_021469D0->f1E0 * 2);
+    func_0203640C((u8 *)lbl_021469D0 + 0x2c, lbl_021469D0->f14,
+                  lbl_021469D0->f1E0 * 3);
+    for (i = 0; i < 8; i++) {
+        func_02037234((u8 *)lbl_021469D0 + 0x11c + i * 16);
+        lbl_021469D0->f1B4[i] = 0;
+    }
+    lbl_021469D0->f1B0 = 0;
+    func_02037234((u8 *)lbl_021469D0 + 0x19c);
+    func_02037224(4, 0x13a);
+    str_020A7A20[1] = 4;
+    func_02036B4C((u8 *)lbl_021469D0 + 0xcc);
+    func_02036B4C((u8 *)lbl_021469D0 + 0xf4);
+    ((u8 *)lbl_021469D0)[0x1e8] = 0;
+    ((u8 *)lbl_021469D0)[0x1eb] = 1;
+    ((u8 *)lbl_021469D0)[0x1ea] = 0;
+    ((u8 *)lbl_021469D0)[0x1ed] = 0;
+}
+
+Verified with:
+  python3 tools/match.py one --src <this> --func func_02037478 \
+      --addr 0x02037478 --cc 1.1p1 --arm --diff
+
+permuter best result line (from the 520-byte baseline above):
+  best      DIFF   asm=225   bytes-out=397  size=516/520

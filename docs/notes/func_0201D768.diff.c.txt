@@ -52,3 +52,71 @@ void *func_0201D768(Ring *p, u8 *src, u32 n, u32 step)
     return base + start;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 90 bytes against 92, 75 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-21, wave 3 printsys family lane: size CLOSED (90 -> 92), 72 bytes out
+==============================================================================
+
+/* best source, 92 bytes against 92, 72 concrete bytes out, 1.1p1 */
+
+src/pending/func_0201D768.c as it stood was NOT byte-correct and NOT MATCH: it
+is DIFF, 90 bytes compiled against the original's 92, 73 concrete bytes out.
+Its own header already carried the 2026-09-21 correction from EXACT to DIFF.
+This pass closes the two-byte size gap and leaves a pure allocation residue.
+
+THE LEVER: `total` IS A SPILLED LOCAL, i.e. `volatile`.
+
+    -    u32 total = 0;
+    +    volatile u32 total = 0;
+
+92 bytes against 92, every instruction present, 72 concrete bytes out (down
+from 73 at the wrong size).  The evidence in the image is direct: the original
+stores the running byte count to [sp, #4] and RELOADS it at +0x0040
+(`ldr r0, [sp, #4]`) for the one use per iteration, which a plain u32 keeps in
+a register.  That is the "the original spills the byte counter" observation the
+header of src/matched/unit_0201D69C.c records, now reproduced rather than only
+described.
+
+WHAT IS LEFT: THE FRAME SLOT ASSIGNMENT, 72 BYTES
+
+Same instruction multiset, same size, same single relocation.  The two spilled
+values are in each other's slots and the whole body is scheduled around that:
+
+    ORIGINAL   len -> [sp]      total -> [sp,#4]   base -> [sp,#8]   start -> [sp,#0xc]
+    COMPILED   len -> [sp]      start -> [sp,#4]   base -> [sp,#8]   total -> [sp,#0xc]
+
+`base` lands in the right slot in both, and is already written as the TWO
+assignments the original makes (`base = (u8 *)p;` then `base = base + 0x18;`,
+the aggregate-member non-folding of
+docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md).
+
+Tried this pass, size in brackets:
+  - `volatile u32 total` only                        [92, 72]  <- best
+  - `volatile u8 *base`  only                        [90, 73]
+  - all four locals volatile                         [96, 64]
+  - `volatile u32 vlen = len;` + volatile total      [94, 64]
+  - `volatile u32 len` as a parameter qualifier,
+    with volatile total                              [100, 74]
+  - same, with plain total                           [98, 88]
+  - same, with all three locals volatile             [104, 97]
+  - `volatile u16 start` + volatile total            [96, 64]
+  - `start` declared first, volatile total           [92, 72]
+  - `u32 start` instead of `u16 start`               [92, 72]
+  - `total = ...; dst = dst + n;` in the original's
+    statement order rather than dst first            [92, 72]
+  - permuter --mode hill --budget 800 --jobs 8 --types from the 92/72 point:
+    climbs the instruction score to asm=440 but drifts off size-exactness
+    (best 96 bytes, 88 out via expand(base) ; type:l(total:u32->u16) ;
+    cast(int) ; commute(+)).  Nothing it generates is both size-exact and
+    better than 72.
+
+The four spellings that reach 64 concrete bytes all cost size, so they are not
+on the path; the size-exact family is stuck at 72 with the slots mirrored.
+
+WHY THIS ONE IS WORTH MORE THAN ITS OWN ROW: closing func_0201D768 makes
+func_0201D6D8 an EXACT entry, and func_0201D6D8 is the site that caps
+sub_0201C758 (src/pending/unit_0201C6FC.c) -- the `bl` at 0x0201C79C is the
+only branch to it anywhere in the image, so only the `matched` class can carry
+it.  This is the one lever in the printsys family that promotes another file.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 92 bytes against 92, 72 concrete bytes out, 1.1p1

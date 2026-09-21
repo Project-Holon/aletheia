@@ -148,3 +148,79 @@ frame where the front end makes a sibling call".  Do not spend a further pass
 on spellings; spend one on the possibility that this stub was assembled by
 hand into the image (it is 10 bytes and sits between two accessors).
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020120B4.c:24: declaration syntax error
+
+========================================================================
+APPENDED, wave 3 (family ica_anime.c): the three pending files re-run, and
+five more spellings on 0x020120B4.  All three verdicts stand.
+========================================================================
+
+RE-RUN OF THE THREE PENDING FILES OF THIS FAMILY (match.py one, 1.1p1,
+--thumb), which is what the wave was asked to report precisely:
+
+  src/pending/func_020120B4.c  DIFF  12 bytes compiled against a 12-byte
+      extent, 12 concrete bytes out.  NOT a MATCH: it is mis-filed under
+      src/pending, which holds MATCH only.  The single relocation site
+      (+0008 ABS32 func_02031348) RESOLVES cleanly, class `label`, 24
+      witnesses.  Nothing is blocked by evidence here; the whole gap is
+      codegen, and the file's own header already says `status: DIFF`.
+
+  src/pending/func_020120C0.c  MATCH, correctly filed.  24 bytes, 3 sites,
+      2 of 3 resolved.  The ONE unresolved site is
+        +0010 ABS32 ov021_id -> 0x00000015 (data, from header) has no
+              witness outside 0x020120C0..0x020120D8
+      i.e. the small-constant overlay id, refused by the `literal` class
+      because the only pool word naming 0x15 image-wide is the one inside
+      this function's own range.  (The note's older prose lists TWO stuck
+      literals; that is now out of date -- the second, 0x021D359C, has
+      since been closed by `sole-ref` and reports
+      `[sole-ref x1, e.g. 021D359C]`.)  So the blocking symbol is
+      `ov021_id`, and the class that refuses it is `literal`, with
+      `sole-ref/data` declining it too because 0x15 is not an address in
+      any data section.
+
+  src/pending/func_02012158.c  MATCH, correctly filed.  12 bytes, 1 site,
+      0 of 1 resolved:
+        +0008 ABS32 func_02012BC8 -> 0x02012BC8 has no witness outside
+              0x02012158..0x02012164
+      The blocking symbol is `func_02012BC8` and the refusing class is
+      `label`: disasm.py traces no function start there (the address
+      disassembles as mid-stream ARM in the listing because the extent
+      resolver has nothing to anchor on), so `sole-ref/code`, which needs
+      the address to be exactly a traced label, declines it as well.
+      src/matched/unit_02012AE4.c ends AT 0x02012BC8 and documents the
+      same refusal from the other side.  No cut helps: this function is
+      twelve bytes and the call is its only statement, so the only witness
+      that could ever exist is inside the range under test.  Permanent
+      MATCH until a second caller of 0x02012BC8 is decompiled, or until
+      0x02012BC8 is itself filed EXACT (then `matched` carries it).
+
+FIVE MORE SPELLINGS ON 0x020120B4 (numbers 22-26), on top of the 21 the
+passes above record.  The target shape is a REAL call with a frame
+(`push {r3,lr} / ldr r0,[r0,#8] / blx / pop {r3,pc}`, 10 bytes) where every
+spelling gives this front end's 12-byte sibling call.
+
+  * a struct-by-value return (`struct R { u32 a,b,c; }`) on the callee:
+    still sibling-calls, 12 bytes.  This is the note's own suggested next
+    step from the first pass, and it does NOT work -- record it as closed.
+  * the same, with the result bound to a local and `(void)r`: gets a frame
+    but costs 18 bytes (the hidden return-buffer pointer), 6 too many.
+  * a `volatile` function pointer holding func_02031348, called through:
+    still 12 bytes.
+  * the callee given FIVE arguments (`func_02031348(p->f8,0,0,0,0)`),
+    which should defeat the tail call by the
+    a-tail-call-cannot-pass-a-fourth-argument idiom: it DOES get a frame,
+    but the four extra argument set-ups cost 18 bytes.
+  * func_020120B4 redeclared with the four parameters its caller actually
+    passes (`(struct IcaAnime *p, u32 id, void *ov, void *p2)`, evidenced
+    by func_020120C0's r0-r3 set-up) and returning the callee's u32:
+    still the 12-byte sibling call.  Worth recording because it settles
+    the arity question independently -- the extra parameters are real but
+    change no byte.
+
+That is 26 spellings across four passes.  Every one that gets a frame pays
+6-8 bytes for it; every one that costs nothing sibling-calls.  The first
+pass's standing recommendation -- that this 10-byte stub may be hand
+assembly rather than compiler output -- remains the only untested
+hypothesis, and this pass adds nothing against it.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 12 bytes against 12, 12 concrete bytes out, 1.1p1

@@ -245,3 +245,30 @@ from it, do not re-derive.
   }
   
 re-verified 2026-09-21 by tools/match.py: DIFF, 792 bytes against 848, 631 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED, wave 3 (family ica_anime.c): assessed, not attempted.  Reason.
+========================================================================
+
+Re-verified unchanged at DIFF, 792 bytes against 848, 631 concrete bytes
+out.  Not attempted this wave, and the decision is recorded so it is not
+re-taken blind:
+
+631 of 848 bytes wrong is a partially-correct SKETCH of a large
+float-conversion function, not a residue.  permuter.py, the tool this wave
+was run with, is explicitly for the allocation-tie class -- every
+instruction and relocation right with a register or spill slot wrong -- and
+its scoring (instruction-level score, then bytes out) has no gradient to
+offer when two thirds of the instruction stream does not correspond.  The
+same applies to any hand spelling sweep: the levers here are structural
+(the shape of the three conditional accumulations, the float conversion
+helper's inlining, the order the three table loops are written), and each
+one has to be settled by reading the image, not by permuting the draft.
+
+This is the wave's `--budget` call under the brief's "skip oversized
+functions after a quick look" and "stop early rather than grinding" rules:
+one 848-byte function with a two-thirds-wrong draft is worth more as a
+dedicated slot with a fresh derivation than as the tail of a wave that had
+four smaller residues to move first.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 792 bytes against 848, 631 concrete bytes out, 1.1p1

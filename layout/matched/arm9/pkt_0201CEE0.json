@@ -55,6 +55,18 @@
    "status": "EXACT"
   },
   {
+   "name": "sub_0201D37C",
+   "address": "0x0201D37C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201D37C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "sub_0201D42C",
    "address": "0x0201D42C",
    "kind": "game",
