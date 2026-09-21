@@ -147,3 +147,103 @@ this note (smull FX with a `>> 12` and a bias), so that section's settled
 facts (the shift pair is `lsr #0xc` + `orr lsl #20`, the sign comes from the
 field type and not a cast, `smull` vs `umull` names the signedness) apply
 here and should be reused verbatim.
+
+
+========================================================================
+2026-09-21, APPENDED: 0x02071C14 reduced to 13 bytes, register names only
+========================================================================
+
+The "sibling leaf 0x02071C14 (128), same family, not reduced" of section 2 is
+now SIZE-CORRECT and instruction-for-instruction identical to the image: 128
+bytes, 0 relocations, 13 concrete bytes out, every difference a register name
+in the SECOND scale block.  Not filed (no source in src/): a DIFF source is
+never left in src/matched, and it is byte-wrong, so it is not a park either.
+
+The C that gets there (verify with --cc ../2.0/sp2; 1.1p1 gives 19 out on the
+same source, so the front end is not the residue):
+
+    struct SRC { u8 pad_00[0x18]; s32 f18; s32 f1c; u8 pad_20[4];
+                 s32 f24; s32 f28; u16 f2c; volatile u16 f2e; };
+    struct DST { s32 f00; s32 f04; u8 pad_08[8]; s32 f10; s32 f14;
+                 u8 pad_18[0x18]; s32 f30; s32 f34; };
+
+    void func_02071C14(struct DST *d, struct SRC *s)
+    {
+        s32 a, b;
+        s32 e;
+        s32 g;
+
+        d->f00 = s->f18;
+        d->f14 = s->f1c;
+        d->f04 = 0;
+
+        e = (s32)s->f2e;
+        g = s->f28;
+        a = ((0 - (s32)s->f2c) << 11) - (s->f24 * (s32)s->f2c);
+        d->f30 = (s32)(((s64)s->f18 * a) >> 8) + ((s32)s->f2c << 15);
+
+        b = (g * e) + ((0 - e) << 11);
+        d->f34 = (s32)(((s64)b * s->f1c) >> 8) + ((s32)s->f2e << 15);
+
+        d->f10 = 0;
+    }
+
+This is the `>> 8` / `<< 15` variant of the family (pkt_02071DD4's L2), not the
+`>> 12` one: the shift pair is `lsr #8` + `orr ..., lsl #24` and the bias term
+is `field << 15`, added LAST in both statements.
+
+FOUR levers paid, in the order they did, all measured from 84 bytes out:
+
+ L-A  f2e IS `volatile`, AND its first use is bound to a local `e`.  The image
+      reads f2e TWICE -- `ldrh r2, [r1, #0x2e]` at 0x02071C38, shared by the
+      `mul` and the `rsb`, and `ldrh r1, [r1, #0x2e]` at 0x02071C7C for the
+      `<< 15` alone.  Plain (non-volatile) f2e CSEs the two into one load and
+      is 124 bytes, 4 short; plain `volatile` with no local gives THREE loads
+      (the `rsb` gets its own) and is 132, 4 long.  volatile + `e` is 128.
+      84 -> 79 out.
+ L-B  HOIST f2e's READ ABOVE THE f30 BLOCK.  `e = (s32)s->f2e;` written before
+      the `a` statement is what puts the first f2e load at +0x24, between the
+      f24 load and the first `mul`, and spends the callee-saved registers the
+      image spends.  79 -> 45 out (39 under the pin).
+ L-C  HOIST f28's READ TOO, into its own local `g`.  The image's
+      `ldr r6, [r1, #0x28]` sits at 0x02071C50, BEFORE the f30 store, which is
+      what makes the push a three-register `{r4, r5, r6, lr}`.  Assigning `g`
+      either beside `e` or immediately before the `d->f30` statement gives the
+      same answer.  39 -> 15 out.
+ L-D  THE SECOND smull's OPERAND ORDER IS `b * s->f1c`, not `s->f1c * b`
+      (pkt_02071DD4's L1, the commutative-64-bit tell).  15 -> 13 out.
+
+WHAT IS LEFT, and what does NOT move it.  The residue is exactly seven
+instructions at +0x50..+0x70, all correct, all with r4/r5 in the image where
+the compiler picks ip/lr:
+
+      +0050  mul r4, r6, r2      | mul ip, r6, r2
+      +0054  rsb r5, r2, #0      | rsb lr, r2, #0
+      +005C  add r4, r4, r5,lsl#11 | add ip, ip, lr, lsl #11
+      +0060  smull lr, ip, r2, r4 | smull lr, r2, ip, r2
+      +0064  lsr r2, lr, #8      | lsr ip, lr, #8
+      +006C  orr r2, r2, ip,lsl#24 | orr ip, ip, r2, lsl #24
+      +0070  add r1, r2, r1,lsl#15 | add r1, ip, r1, lsl #15
+
+The image keeps the f28*f2e product and the negated f2e in CALLEE-SAVED r4/r5
+across the `ldr r2, [r1, #0x1c]` at 0x02071C6C; the compiler keeps both in
+scratch and reloads f1c into lr instead.  Measured and NOT levers (13 every
+time unless noted):
+  * declaration order, all seven groupings tried (a,b/e/g separate lines; e,g
+    before a,b; g before e; b before a; one combined line; e,g,a,b; g,e,b,a) --
+    completely insensitive, unlike func_020731E0 and func_02073838 where it is
+    the whole allocation;
+  * binding the product `g * e` to its own local, binding `0 - e` to its own
+    local, and binding both (13 each);
+  * rewriting the `b` statement five ways: `0 - ((0-(g*e)) - ((0-e)<<11))`,
+    `(g*e) - ((s32)s->f2e << 11)`, `((0-e)<<11) - (0-(g*e))`, `(g*e) + (-e<<11)`
+    and `(g*e) - (e<<11)` (that last is 124 bytes, wrong size);
+  * binding s->f1c to a local before the f34 statement (15, worse);
+  * `volatile` on f18+f1c (27 out), on f24+f28 (58 out), on f2c (136 bytes).
+
+Next thing to try, untried here for budget: this is the same residue CLASS as
+0x02072374 in docs/notes/pkt_02071DD4.c.txt ("size-correct, register
+allocation only, 17 out"), which that lane also could not move.  Whatever
+breaks one probably breaks both, and they should be taken together.
+
+The other entry point of this packet, 0x02071B2C (232 bytes), was not reached.

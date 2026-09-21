@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  * symbols:
  *   g_0214E464  0x0214E464  data
  *
@@ -21,11 +21,13 @@
  * reorder, early read of o->f0, explicit (void *)0 cast) all hoist the zero.
  * Under the pin the same C is 152 bytes, 0 concrete mismatches.
  *
- * Blocked at MATCH, evidence class: none available for the PC24 site at +0x68.
- * func_02073624 has exactly one branch anywhere in the image (the `bl` at
- * 0x020733AC inside this very function), so `label` refuses it and no
- * `matched` entry covers 0x02073624.  Filing 0x02073624 would promote this
- * to EXACT unchanged.
+ * PROMOTED TO EXACT, 2026-09-21, with NO change to the C.  It was parked at
+ * MATCH because the PC24 site at +0x68 had no witness: func_02073624 has
+ * exactly one branch anywhere in the image (the `bl` at 0x020733AC inside this
+ * very function), so `label` refused it.  0x02073624 is now filed as
+ * src/matched/func_02073624.c (104 bytes, shard pkt_02073624, same ../2.0/sp2
+ * kept-constants pin), and the site resolves `matched x1`.  All six
+ * relocations are attested.
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32; typedef signed int s32;

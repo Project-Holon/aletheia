@@ -1,0 +1,174 @@
+==============================================================================
+pkt_020528D0 / func_02052984 @ 0x02052984, 204 bytes, ARM.
+Closed to a TWELVE-BYTE residue (six instructions, ALL of them a pure
+register-name swap) and NOT filed: a DIFF has no home in src/matched.  The
+shape is settled; what is left is register allocation.  Recorded in full so
+the next lane starts here.
+==============================================================================
+
+WHAT IT IS: the texture-upload pass of the material list.  GX_BeginLoadTex,
+then a walk of o->f32 rows of 0x14 bytes at o->f2c; each row's first word is a
+resource pointer.  A bit of the resource's second word decides between (a)
+copying the VRAM handle from ANOTHER row, indexed by an 8-bit field of the
+same word, and (b) allocating through the caller's callback and uploading with
+GX_LoadTex.  Then GX_EndLoadTex and `return 1`.
+
+COMPILER PIN, measured: ../1.2/sp2.  The interworking-conflict tell,
+`blx fp` at 0x02052A08 (`3b ff 2f e1`) beside the ARMv4T-style return
+`pop {r4, r5, r6, r7, r8, sb, sl, fp, lr}` / `bx lr` at 0x02052A48/0x02052A4C
+(`f0 4f bd e8` / `1e ff 2f e1`), which no dsi front end emits under
+-proc arm946e.  Numbers on the identical C: 1.1p1 -> 44 concrete bytes out,
+../2.0/sp2 -> 44, ../1.2/sp2 -> 12.  Use --cc ../1.2/sp2 here.
+
+FACTS THAT COST TIME, do not re-derive:
+
+ * o->f32 is a u16 at struct offset 0x32, so the padding after the f2c
+   pointer is a single u16, not a u32.  Getting it wrong gives ldrh #0x34
+   or #0x36 and reads as a whole-function diff.
+ * GX_LoadTex's first argument is `(char *)*(void **)r + 0x20`, i.e. the ROW's
+   first word plus 0x20 -- NOT `res->f00 + 0x20`.  The extra dereference costs
+   one `ldr` and shifts the tail.  Its second argument is the callback's
+   return value and its third is res->f08: (void *, u32, void *).
+ * the `lsl #0x1c` / `lsr #0x1c` pair on the field compared against 5 is a
+   4-bit UNSIGNED bitfield and must be spelled `(u32)(f << 28) >> 28`; an
+   `& 0xf` folds to a single `and r0, r1, #0xf` and loses four bytes
+   (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
+ * the two stack slots at [sp] and [sp,#4] hold the constants 1 and 0, and the
+   image assigns them AFTER the zero-trip guard, in the order
+   `mov r0,#1` / `mov r6,sb` / `str sb,[sp,#4]` / `str r0,[sp]`.  A plain
+   `while` hoists the `off = i` copy ABOVE the `cmp`; only the guarded
+   do-while below sinks it to the right place.  That fix alone moved the
+   residue from 15 mismatches to 12.
+
+THE RESIDUE, unchanged across every spelling measured:
+
+  * +0028    mov r6, sb              | mov r8, sb
+  * +003C    ldr r7, [r2, r6]        | ldr r7, [r2, r8]
+  * +0040    add r8, r2, r6          | add r6, r2, r8
+  * +0044    ldr r0, [r7, #4]        | ldr r1, [r7, #4]
+  * +0048    lsl r1, r0, #0xe        | lsl r0, r1, #0xe
+  * +004C    lsrs r1, r1, #0x1f      | lsrs r0, r0, #0x1f
+  * +0054    lsl r0, r0, #6          | lsl r0, r1, #6
+  * +0064    str r0, [r8, #4]        | str r0, [r6, #4]
+  * +006C    lsl r0, r0, #0x1c       | lsl r0, r1, #0x1c
+  * +008C    ldr r0, [r8]            | ldr r0, [r6]
+  * +00A0    str r5, [r8, #4]        | str r5, [r6, #4]
+  * +00AC    add r6, r6, #0x14       | add r8, r8, #0x14
+
+Two independent swaps, same length in every case:
+  (1) the byte offset `off` and the row address `r` trade r6 and r8.  The
+      image keeps the OFFSET in r6 (the register it also increments by 0x14)
+      and the ROW ADDRESS in r8; 1.2 does the reverse.
+  (2) the resource's flags word and its first shift trade r0 and r1.  The
+      image loads the word into r0 and shifts INTO r1; 1.2 loads into r1 and
+      shifts into r0.
+
+Spellings measured, all 12 except where noted:
+  1. `int i; int off;` (baseline, do-while form below)
+  2. `int off; int i;`                                   -> 16, WORSE
+  3. flags word inlined at all three uses, no `f` local   -> 12
+  4. `u32 f;` declared then assigned on its own statement -> 12
+  5. `u32 one; u32 zero;` moved before `int off`          -> 12
+  6. `int off` moved after both constants                 -> 12
+  7. `u32 f = *(u32 *)((char *)res + 4);`                 -> 12
+  8. row address read BEFORE the resource pointer         -> 17, WORSE
+  9. plain `while` instead of the guarded do-while        -> 15, WORSE
+ 10. explicit `if (i >= n) goto done;` guard + while      -> 19, WORSE (two guards)
+
+None of the ten moves the pair of swaps.  Next thing to try is a spelling that
+makes the ROW ADDRESS, not the offset, the loop-carried induction variable
+(advance `r` by one struct and derive the offset), which is the only shape not
+yet measured; note that binding `r` to a local declared before `res` is
+variant 8 and is worse, so it needs the pointer to be the thing INCREMENTED,
+not merely declared first.
+
+--- C as measured (variant 1, --cc ../1.2/sp2) ---
+
+/*
+ * function: func_02052984
+ * address:  0x02052984
+ * packet:   pkt_020528D0
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   GX_BeginLoadTex  0x0207F7A0  arm
+ *   GX_LoadTex       0x0207F7FC  arm
+ *   GX_EndLoadTex    0x0207F9B4  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Res {
+    u32 f00;
+    u32 f04;
+    void *f08;
+};
+
+struct Row {
+    struct Res *res;
+    u32 vram;
+    u32 pad[3];
+};
+
+struct Obj {
+    u32 pad0[11];
+    struct Row *f2c;
+    u16 pad1[1];
+    u16 f32;
+};
+
+typedef u32 (*Alloc)(void *, u32);
+
+extern void GX_BeginLoadTex(void);
+extern void GX_LoadTex(void *dst, u32 a, void *b);
+extern void GX_EndLoadTex(void);
+
+int func_02052984(struct Obj *o, Alloc alloc)
+{
+    int i;
+    int off;
+    u32 one;
+    u32 zero;
+
+    GX_BeginLoadTex();
+
+    i = 0;
+    if ((int)o->f32 > 0) {
+    one = 1;
+    off = i;
+    zero = 0;
+    do {
+        struct Res *res = *(struct Res **)((char *)o->f2c + off);
+        struct Row *r = (struct Row *)((char *)o->f2c + off);
+        u32 f = res->f04;
+
+        if ((f << 14) >> 31) {
+            r->vram = ((struct Row *)((char *)o->f2c
+                       + (u32)((f << 6) >> 24) * 0x14))->vram;
+        } else {
+            u32 arg;
+            if ((u32)(f << 28) >> 28 == 5)
+                arg = one;
+            else
+                arg = zero;
+            {
+                u32 v = alloc(res->f08, arg);
+                GX_LoadTex((char *)*(void **)r + 0x20, v, res->f08);
+                r->vram = v;
+            }
+        }
+        i++;
+        off += 0x14;
+    } while (i < (int)o->f32);
+    }
+
+    GX_EndLoadTex();
+    return 1;
+}

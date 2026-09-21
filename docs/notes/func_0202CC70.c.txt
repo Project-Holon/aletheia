@@ -1,0 +1,145 @@
+/*
+ * DIFF evidence note -- 2026-09-21, packet pkt_0202CC70.
+ * NOT a filed source: this is the closest near miss reached for
+ * func_0202CC70 @ 0x0202CC70 (238 code bytes, Thumb), recorded so the next
+ * agent does not re-derive the dead end.
+ *
+ * WHAT IS CERTAIN
+ *
+ * The function is the erase twin of src/matched/sub_0202CB4C.c and shares
+ * its struct Win (16-byte record: u32 tiles, w:6/h:6/dirty:1/unk:3 at +4,
+ * s8 x/y at +6/+7, u8 bg at +0xa, s8 xmin/xmax/ymin/ymax at +0xc..+0xf) and
+ * its struct WinMgr (wins pointer, mode:15/unk:1 at +6). Both relocation
+ * sites resolve cleanly and are NOT the blocker:
+ *   func_02041300 0x02041300 arm   [label x38]
+ *   g_020A0058    0x020A0058 data  [literal x2, witness 0x0202CC50]
+ * The dispatch tail `g_020A0058[mgr->mode](win->bg)` and the opening
+ * `win->dirty = 1` are byte-exact in every variant tried. The fill call is
+ * func_02041300(win->bg, 0, (u8)sx, (u8)sy, (u8)ow, (u8)oh, 0x10) -- seven
+ * arguments, the last three on the stack, and the argument marshalling at
+ * 0x0202CD26..0x0202CD46 matches that spelling exactly.
+ *
+ * WHAT IS WRONG
+ *
+ * Control flow, instruction selection and the four clip narrowings all line
+ * up one-for-one with the original; what will not reproduce is the spill
+ * slot assignment in 0x0202CC92..0x0202CD26. Best result is 236 or 240
+ * compiled bytes against 238, i.e. the shape is right and one or two
+ * register moves are misplaced.
+ *
+ * The specific tell not reproduced: at 0x0202CCB8 the original does
+ *     ldr r2, [sp, #0x14]   ; y
+ *     str r2, [sp, #0x18]   ; a SECOND slot holding the same y
+ *     adds r5, r2, #0       ; and a third copy in a register
+ * -- three live copies of win->y before the y1 guard. No spelling tried
+ * produces that third copy. It looks like the original had `oy` (and by
+ * symmetry `ox`) source-offset locals, as sub_0202CB4C.c genuinely does and
+ * passes to func_020410D0, which here are computed and then dead because
+ * func_02041300 takes no source offset. Writing them out explicitly and
+ * leaving them unused does not survive -O4,p dead-code elimination, so the
+ * copy cannot be recovered that way.
+ *
+ * A second tell: at 0x0202CCA6 `mov ip, r2` parks win->w (the 6-bit
+ * bitfield) in ip across the two guards, and ow is re-derived from ip at
+ * 0x0202CCCC with `lsls #24 / asrs #24`. Assigning `ow = win->w` before the
+ * x1 guard puts xmin in ip instead and loses 4-8 bytes; leaving win->w as a
+ * bare field expression puts w in ip correctly but then misnumbers the
+ * sy/oh slots.
+ *
+ * VARIANTS TRIED (all DIFF, byte counts against 238)
+ *   ow/oh as u8, sx/sy as u8                                    240
+ *   ow/oh as s8, sx/sy as s8                                    228
+ *   ow/oh as s8, sx/sy as s8 with (u8) casts at the call        244
+ *   ow/oh as s8, sx/sy as s32, all bounds unnamed               240
+ *   + sy hoisted above the y1 guard                             236
+ *   + x and y named locals                                      232
+ *   + y named, ow named before the x1 guard                     232
+ *   + y named only                                              228
+ *   six declaration orders over {sx,sy,ow,oh,x1,y1}        all DIFF
+ * Declaration order is NOT the lever here, unlike sub_0202CB4C.c where it
+ * was: all six orders give the same byte count.
+ *
+ * The C below is the 240-byte variant, kept as the starting point. Do not
+ * file it; it is not EXACT.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed char    s8;
+typedef signed int     s32;
+
+struct Win {
+    u32 tiles;
+    u16 w:6;
+    u16 h:6;
+    u16 dirty:1;
+    u16 unk04_13:3;
+    s8 x;
+    s8 y;
+    u8 pad_08[2];
+    u8 bg;
+    u8 pad_0b;
+    s8 xmin;
+    s8 xmax;
+    s8 ymin;
+    s8 ymax;
+};
+
+struct WinMgr {
+    struct Win *wins;
+    u16 pad_04;
+    u16 mode:15;
+    u16 unk06_15:1;
+};
+
+extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
+                          u32 a6);
+extern void (*g_020A0058[])(u32);
+
+void func_0202CC70(struct WinMgr *mgr, u32 idx)
+{
+    struct Win *win = &mgr->wins[idx];
+    s32 sx, sy;
+    s8 ow, oh;
+    s32 x1, y1;
+
+    win->dirty = 1;
+    if (win->x >= win->xmax) {
+        return;
+    }
+    if (win->y >= win->ymax) {
+        return;
+    }
+    x1 = win->x + win->w;
+    if (x1 < win->xmin) {
+        return;
+    }
+    sy = win->y;
+    y1 = sy + win->h;
+    if (y1 < win->ymin) {
+        return;
+    }
+
+    ow = win->w;
+    sx = win->x;
+    if (win->x < win->xmin) {
+        ow = ow - (s8)(win->xmin - win->x);
+        sx = win->xmin;
+    }
+    if (x1 >= win->xmax) {
+        ow = ow - (s8)(x1 - win->xmax);
+    }
+
+    oh = win->h;
+    if (win->y < win->ymin) {
+        sy = win->ymin;
+        oh = oh - (s8)(win->ymin - win->y);
+    }
+    if (y1 >= win->ymax) {
+        oh = oh - (s8)(y1 - win->ymax);
+    }
+
+    func_02041300(win->bg, 0, (u8)sx, (u8)sy, (u8)ow, (u8)oh, 0x10);
+    g_020A0058[mgr->mode](win->bg);
+}

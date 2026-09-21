@@ -1,0 +1,116 @@
+/*
+ * DIFF evidence note -- 2026-09-21, packet pkt_0202A9F4.
+ * NOT a filed source: this is the closest near miss reached for
+ * func_0202A9F4 @ 0x0202A9F4 (246 code bytes, Thumb), recorded so the next
+ * agent does not re-derive the dead end. Two bytes short at 248 compiled
+ * (actually 248 vs 246: one spill's worth), with EVERY instruction in the
+ * right order and ALL THIRTEEN relocations resolving.
+ *
+ * WHAT IS CERTAIN -- reuse all of this
+ *
+ * All 13 relocation sites resolve, none is a blocker:
+ *   func_02017E1C x3, func_02017E40 x3, func_02018A00, func_02019C90 x2,
+ *   func_020185B0 x3, _s32_div_f (0x0209C0A4).
+ * The party-record accessors are unit_02017E64.c's: func_02017E1C(rec, id,
+ * slot) reads, func_02017E40(rec, id, val) writes. 0x36 + slot is the move
+ * in that slot, the same base unit_0201B920.c uses.
+ *
+ * Control flow is confirmed instruction-for-instruction:
+ *   - the 4-iteration move scan is `for (slot = 0; slot < 4; slot++)` with a
+ *     SIGNED counter (`blt`, not `blo`) and a second named local copied from
+ *     it each iteration (`adds r6, r4, #0` at 0x0202AA14), which is what
+ *     makes `found = cur` rather than `found = slot`;
+ *   - `found` is seeded 0xff before the loop and passed as id 9;
+ *   - `masked = a3 & 0xf0` then `== 0x30` / `!= 0`, and the inner test is one
+ *     `&&` (`func_02019C90(...) != 0 && masked == 0x20`), sharing its exit;
+ *   - the tail divide truncates the QUOTIENT, not the dividend:
+ *     `(u8)(((s32)func_02017E1C(rec,0,0) >> 8) / 0x19)`. Casting the
+ *     dividend instead moves the lsls/lsrs pair above the blx and is wrong.
+ *
+ * WHAT IS WRONG -- the whole remaining delta, in one line
+ *
+ * The original spills `species` to sp+0xc (`str r0, [sp, #0xc]` at
+ * 0x0202AA12, stack frame `sub sp, #0x10`, and `push {r3,...}` for the
+ * even frame); every later use is `ldr r0, [sp, #0xc]`. The compiler
+ * instead keeps it in r7 and gets by with `sub sp, #0xc` and
+ * `push {r4,...}`. That one decision is the entire 2-byte gap and it
+ * cascades: with r7 free the original parks `alt` (0x1b) there before the
+ * first func_02019C90 call (`movs r7, #0x1b` at 0x0202AA6A), so `sel = alt`
+ * at 0x0202AA78 is `adds r6, r7, #0`; the compiler rematerialises
+ * `movs r6, #0x1b` at the same point instead.
+ *
+ * LEVERS TRIED, all still 248
+ *   species declared u16 / u32 / s32
+ *   species declared volatile (no effect at all on the frame)
+ *   species declared after `found` instead of before
+ *   `alt` spelled as its own named local, assigned before the call
+ *   the two species comparisons spelled through a `base` variable so both
+ *     a0 and species must stay live across them
+ *   cur/slot split (this one IS needed and is kept in the C below)
+ *
+ * What would plausibly work is anything that adds one more value live
+ * across the func_02019C90 pair, so the allocator runs out of callee-saved
+ * registers and spills species. Nothing in the visible behaviour supplies
+ * one, which suggests the original had a local this C has folded away --
+ * most likely the 0x1a/0x1b selector was a two-armed expression over a
+ * named variable rather than the `sel`/`alt` pair written here.
+ *
+ * The C below is that 248-byte variant. Do not file it; it is not EXACT.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern u32  func_02017E1C(void *rec, u32 id, u32 slot);
+extern void func_02017E40(void *rec, u32 id, u32 val);
+extern void func_020185B0(void *rec, u32 val);
+extern void func_02018A00(void *rec, u32 species, u32 arg);
+extern u32  func_02019C90(u32 species, u16 arg, u32 sel);
+
+void func_0202A9F4(u32 a0, void *rec, u32 a2, u32 a3)
+{
+    s32 slot;
+    s32 cur;
+    u32 found = 0xff;
+    u32 species;
+    u32 sel;
+    u32 alt;
+    u32 masked;
+    u32 base;
+
+    species = (u16)func_02017E1C(rec, 5, 0);
+    for (slot = 0; slot < 4; slot++) {
+        cur = slot;
+        if (func_02017E1C(rec, 0x36 + slot, cur) == 0xda) {
+            found = cur;
+        }
+    }
+    func_02017E40(rec, 9, found);
+    func_02017E40(rec, 0x6f, a2);
+
+    masked = a3 & 0xf0;
+    if (masked == 0x30) {
+        func_02018A00(rec, species, a2);
+    } else if (masked != 0) {
+        sel = 0x1a;
+        alt = 0x1b;
+        if (func_02019C90(species, (u16)a2, 0x1b) != 0 && masked == 0x20) {
+            sel = alt;
+        }
+        func_02017E40(rec, 0xa, func_02019C90(species, (u16)a2, sel));
+    }
+
+    base = 0x24a;
+    if (a0 == base && species == base + 0x39) {
+        func_020185B0(rec, 0xd);
+        return;
+    }
+    base = 0x24b;
+    if (a0 == base && species == base + 0x39) {
+        func_020185B0(rec, 0xa);
+        return;
+    }
+    func_020185B0(rec, (u8)(((s32)func_02017E1C(rec, 0, 0) >> 8) / 0x19));
+}

@@ -56,3 +56,45 @@ Still open in this packet, both with every site resolved and neither byte-correc
 It caps at MATCH whatever the C: its pool word for 0x02073CA0 has no outside
 witness while 0x02073CA0 is itself unclosed, and 0x0214E8E4 is a one-pool data
 address.
+
+
+2026-09-21, APPENDED: both "still open" rows above are now EXACT.
+--------------------------------------------------------------
+
+func_02073624  0x02073624  104 bytes  src/matched/func_02073624.c
+  The diagnosis above was right and complete: it is the kept-constants tell.
+  One probe under `--cc ../2.0/sp2` (docs/FRONTEND-PINS.md) takes the same C
+  from 108 bytes / 96 out to 104 bytes / 0 out.  One further byte-level lever
+  on top of the pin: b3d is `u8`, not `s8`.  The image loads it `ldrb r1,
+  [r4, #0x3d]` at 0x02073650; `s8` gives `ldrsb`, 3 bytes out at the right
+  size.  The compare stays signed (`movlt`) because the priority parameter is
+  s32, which is what makes the signed spelling look right.
+
+func_0207368C  0x0207368C  132 bytes  src/matched/func_0207368C.c
+  "the two struct-pointer fields at +4 and +8 ... need another pass" -- they
+  did, and here is what the pass found.  The body is the teardown counterpart
+  of func_02073624: clear the owner's back-pointer, unlink from the f04
+  sub-list, unlink from the f08 sub-list if present, then move the node from
+  the active list (0x0214E018) to the free list (0x0214E00C) and clear b2c.
+
+  THE ONE LEVER IS THE INNER CALL'S SECOND ARGUMENT.  Every func_020605B4 /
+  func_020604AC call in this function passes `v` -- except the one inside the
+  f08 guard, which passes `v->f08`.  The image's guard load `ldr r1, [r4, #8]`
+  at 0x020736C0 IS the argument register: `cmp r1, #0` / `beq 0x020736E4`
+  tests it in place and the call site then only computes r0.  Spelling it
+  `func_020604AC(base, v)` costs a fresh `mov r1, r4`, pushes the guard load
+  into r0, and is 4 bytes long (136).  With `v->f08` it is 132, 0 out.
+  The sub-list base is `(char *)v->f04 + 0xc`, held in r5 from before the
+  first func_020605B4 call and NOT re-read.
+
+  Also pinned ../2.0/sp2, same tell, same family: the image materialises four
+  separate zeros (0x0207369C, 0x020736B8, 0x020736D8, 0x020736FC) where 1.1p1
+  -O4,p CSEs them into one hoisted `mov r5, #0`, which costs a further
+  callee-saved register and turns `push {r3, r4, r5, lr}` (`38 40 2d e9`) into
+  `push {r4, r5, r6, lr}`: same 132 bytes, 40 concrete out.
+
+KNOCK-ON: filing 0x02073624 promoted src/pending/func_02073344.c (152 bytes,
+pkt_0207312C) to src/matched/ unchanged -- its PC24 site at +0x68 was blocked
+on exactly this address and now resolves `matched x1`.
+
+0x020737C0 (104) remains as described: MATCH-capped whatever the C.

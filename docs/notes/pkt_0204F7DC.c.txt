@@ -152,3 +152,140 @@ void func_0204FFFC(u8 *a0)
     func_0204ED24(*(u32 *)(a0 + 4));
     func_020307B0((u32)a0);
 }
+
+==============================================================================
+Addendum (this wave): func_0204FFFC @ 0x0204FFFC, 128 code bytes + 4 pool.
+Closed to a TWO-BYTE residue under the pinned 1.1p1 and not filed: DIFF has no
+home in src/matched.  Recorded so the next lane starts from here, not zero.
+==============================================================================
+
+The function is the billboard-actor teardown.  Shape is settled and every
+other byte is identical:
+
+    for (i = 0; i < (int)p->f1c; i++)
+        if (p->f18[i].id != 0xFFFF)
+            func_0204F5A8(p->f04);          /* ONE argument, not two */
+    func_02033C9C(p->f20);
+    func_020307B0(p->f18);
+    func_02033C9C(p->f14);
+    func_020307B0(p->f0c);
+    func_0204ED24(p->f04);
+    func_020307B0(p);
+
+Two facts that cost time and should not be re-derived:
+
+ * the row stride is 0x28 and the image spells it as a live `mov r6, #0x28` +
+   `mul r0, r4, r6` per iteration, which is what a plain subscript on the
+   array re-read from p->f18 gives.  Do NOT strength-reduce to a cursor.
+ * `func_0204F5A8` takes ONE argument.  Passing the loop index as a second
+   argument adds `mov r1, r4` and shifts 85 bytes
+   (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
+
+THE RESIDUE, unchanged across seven spellings:
+
+  offset     ORIGINAL @ 0204FFFC        | COMPILED
+  * +0028    ldr r1, [r1, r0]           | ldr r0, [r1, r0]
+  * +002C    cmp r1, r7                 | cmp r0, r7
+
+The image lands the loaded sentinel word BACK IN r1, clobbering the array
+pointer it was just loaded through, and leaves r0 free to be reloaded from
+p->f04 for the call.  1.1p1 -O4,p lands it in r0, clobbering the byte offset
+instead.  Purely a destination-register choice; the two encodings are the same
+length, so the function is 132/132 bytes with exactly these two bytes out.
+
+Spellings measured, all identical 2-byte residue:
+  1. `if (p->f18[i].id != 0xFFFF)` inline
+  2. `u32 id = p->f18[i].id; if (id != 0xFFFF)`
+  3. `struct Row *r = &p->f18[i]; if (r->id != 0xFFFF)`
+  4. reversed compare, `if (0xFFFF != id)`
+  5. sentinel bound to its own `u32 sentinel = 0xFFFF` local
+  6. explicit `int off = i * 0x28;` + `u32 *row = (u32*)((char*)p->f18 + off)`
+  7. call argument hoisted to `void *h = p->f04;` inside the taken arm
+
+Compiler probe (one, per the pin policy, on the register-forwarding tell):
+`--cc ../2.0/sp2` is WORSE, 21 concrete bytes out at the same 132.  So this is
+not a pin; 1.1p1 stays and the residue is a genuine near miss.
+
+--- C as measured (spelling 2) ---
+
+/*
+ * function: func_0204FFFC
+ * address:  0x0204FFFC
+ * packet:   pkt_0204F7DC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204F5A8  0x0204F5A8  arm
+ *   func_0204ED24  0x0204ED24  arm
+ *   func_02033C9C  0x02033C9C  arm
+ *   func_020307B0  0x020307B0  arm
+ *
+ * Teardown for the billboard actor block (billboard_act.c).  Every live
+ * 0x28-byte entry of the array at +0x18 -- live meaning its first word is
+ * not the 0xFFFF sentinel -- is released through func_0204F5A8 with the
+ * owner's +0x04 handle alone (the call passes one argument: see
+ * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md), then the five owned allocations at +0x20, +0x18,
+ * +0x14, +0x0C and the block itself are freed.
+ *
+ * The index is multiplied out fresh each iteration (`mul r0, r4, r6` with
+ * the stride kept live in r6) rather than strength-reduced to a cursor,
+ * which is what a subscript on the array pointer re-read from p->f18 gives;
+ * keeping the row in a local costs a callee-saved register and loses the mul.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0204FFFC.c \
+ *       --func func_0204FFFC --addr 0x0204FFFC --cc 1.1p1 --arm
+ */
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Row {
+    u32 id;
+    u32 rest[9];
+};
+
+struct Blk {
+    u32 f00;
+    void *f04;
+    u32 f08;
+    void *f0c;
+    u32 f10;
+    void *f14;
+    struct Row *f18;
+    u16 f1c;
+    u16 f1e;
+    void *f20;
+};
+
+extern void func_0204F5A8(void *a);
+extern void func_0204ED24(void *a);
+extern void func_02033C9C(void *a);
+extern void func_020307B0(void *a);
+
+void func_0204FFFC(struct Blk *p)
+{
+    int i = 0;
+
+    while (i < (int)p->f1c) {
+        u32 id;
+        id = p->f18[i].id;
+        if (id != 0xFFFF) {
+            void *h = p->f04;
+            func_0204F5A8(h);
+        }
+        i++;
+    }
+
+    func_02033C9C(p->f20);
+    func_020307B0(p->f18);
+    func_02033C9C(p->f14);
+    func_020307B0(p->f0c);
+    func_0204ED24(p->f04);
+    func_020307B0(p);
+}
