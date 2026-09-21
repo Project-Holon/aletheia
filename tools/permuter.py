@@ -1140,9 +1140,10 @@ class Score:
         self.wild, self.note, self.regdiff = list(wild), note, regdiff or {}
 
     def key(self):
+        # a variant that resolves fewer relocation sites is worse whatever its bytes say
         if self.size == self.tsize and self.status.startswith("DIFF"):
-            return (RANK.get(self.status, 9), 0, self.miss, self.asm)
-        return (RANK.get(self.status, 9), 1, self.asm, self.miss, abs(self.size - self.tsize))
+            return (RANK.get(self.status, 9), len(self.wild), 0, self.miss, self.asm)
+        return (RANK.get(self.status, 9), len(self.wild), 1, self.asm, self.miss, abs(self.size - self.tsize))
 
     def done(self):
         return self.status in ("EXACT", "EXACT*", "MATCH", "MATCH*")
