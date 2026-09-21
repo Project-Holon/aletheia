@@ -1,0 +1,69 @@
+
+======================================================================
+2026-09-21  lane: 0x02025360 (func_02025360, 116 bytes, thumb)
+verdict: DIFF, size-exact (116/116), 57 bytes differ, ZERO relocations.
+
+Semantics are fully recovered: a first-fit slot allocator over a 16-byte
+bank. p is the object, len the run length, bank selects bank 0 or 1.
+sel = bank ? 1 : 0; the slot count is p[sel + 4] (u8, compared signed so
+the guard is `ble`), and the slot array is (p + (sel<<4))[k + 6].  For
+each i below the count whose slot is free (0xff), scan forward len slots;
+if all len are free, stamp (u8)i into each and return i; otherwise resume
+the outer scan at the first busy slot.  Returns 0 when no run fits.
+
+Best spelling found (116 bytes, exact shape, only register names differ):
+
+    int func_02025360(u8 *p, int len, u32 bank)
+    {
+        int end, j, i;
+        u32 sel = 1;
+
+        if (bank == 0) sel = 0;
+        i = 0;
+        if (i < p[sel + 4]) {
+            do {
+                if ((p + (sel << 4))[i + 6] == 0xff) {
+                    end = i + len;
+                    for (j = i; j < end; j++) {
+                        if ((p + (sel << 4))[j + 6] != 0xff) { i = j; break; }
+                    }
+                    end = i + len;
+                    if (j == end) {
+                        for (j = i; j < end; j++)
+                            (p + (sel << 4))[j + 6] = (u8)i;
+                        return i;
+                    }
+                }
+                i++;
+            } while (i < p[sel + 4]);
+        }
+        return 0;
+    }
+
+RESIDUE, same class as func_020253D4 in docs/notes/pkt_020251FC.c.txt:
+the original parks the OBJECT POINTER p in ip (`mov ip, r0` at +0002) and
+recomputes `lsls rX, sel, #4` freshly at every use (+001A, +004E).  Every
+spelling tried parks the SHIFTED OFFSET in ip instead and keeps p in a low
+register, which costs nothing in size at this spelling but renames most of
+the body.  The function has zero relocations, so this residue is the whole
+blocker.
+
+Tried, all 114 or 116 bytes, none flips the ip assignment:
+  q = p + sel; ... q[4]                  -> count cached in r4, 110 bytes
+  (p + sel)[4]                           -> 112 bytes
+  p[sel + 4]                             -> 114 bytes, reload restored
+  for (i=0;i<count;i++) head-tested      -> 102 bytes, shape collapses
+  while (i < count) head-tested          -> 102/112 bytes
+  do/while guarded by `if (count > 0)`   -> 110 bytes, guard folds to `beq`
+  do/while guarded by `if (i < count)`   -> 114 bytes, guard is `ble` (right)
+  sel as int / u8 / u32                  -> identical output
+  decl order i,j,end / sel first / i first -> 114 bytes
+  decl order end,j,i  + `p[sel + 4]`     -> 116 bytes  <-- best, above
+  separate `u8 *dst` for the fill loop   -> 114 bytes, 72 differ
+  (bank ? 1u : 0u) recomputed per use    -> 156 bytes, far worse
+
+The `if (i < p[sel+4])` guard rather than `if (p[sel+4] > 0)` is load-bearing:
+only the former keeps the signed `cmp #0 / ble` the original has; the latter
+folds the unsigned load to `cmp #0 / beq`.  The `end = i + len` recompute
+after the scan loop is also load-bearing (two `adds r4, r0, r5` in the
+original, +0028 and +0042).

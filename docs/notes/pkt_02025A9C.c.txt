@@ -1,0 +1,122 @@
+
+======================================================================
+2026-09-21  lane: 0x02025A9C (func_02025A9C, 124 bytes, thumb)
+verdict: DIFF, size-exact (124/124), 2 bytes differ.
+ALSO evidence-capped: even at zero bytes this could only reach MATCH.
+
+Semantics fully recovered.  Reads the requested 2D engine's DISPCNT
+(0x04000000 when engine == 0, 0x04001000 otherwise), masks it with
+0x00300010, and maps the result to a slot index:
+
+    0x00100010 -> 1     0x00000010 -> 2     0x00200010 -> (empty arm)
+    anything else -> 0
+
+The empty 0x00200010 arm is real: the original has `bne default` at
++0024 immediately followed by `b default` at +0026, i.e. a comparison
+whose two outcomes both reach the default block.  It must be spelled as
+a case label with a bare `break`, placed textually BEFORE `default:`.
+
+Then, lazily, if obj->slot[mode] == (u32)-1 it calls
+func_0204AF28(arg, gModeTable[mode].a, gModeTable[mode].b, obj->field_4)
+and caches the result in obj->slot[mode].  Returns mode either way.
+
+gModeTable is at 0x0209F880, a 12-byte-stride table; the two pool words
+0x0209F880 and 0x0209F884 are base+0 and base+4 of one symbol (the
+pool-base-for-a-far-field idiom), not two objects.
+
+BLOCKER 1 (evidence): gModeTable's ONLY witnesses image-wide are the two
+pool words inside this very function's own pool (asm/arm9/main.s:268751).
+`literal` refuses a witness inside the compared range, so both ABS32 sites
+stay unresolved and the ceiling here is MATCH, not EXACT, regardless of C.
+Unsticking it needs a second reader of 0x0209F880 elsewhere in the image.
+
+BLOCKER 2 (codegen, 2 bytes): the single instruction at +0024.
+
+  * +0024    bne #0x2025acc   (original: fall through to the default body)
+             beq #0x2025ace   (compiled: jump past it to the merge point)
+
+Best spelling (124 bytes, everything else byte-identical):
+
+    switch (*reg & 0x00300010) {
+    case 0x00100010: mode = 1; break;
+    case 0x00000010: mode = 2; break;
+    case 0x00200010: break;
+    default:         mode = 0; break;
+    }
+
+Note the case ORDER is load-bearing and already correct: 0x00100010 must
+be written first even though `cmp r1, #0x10` is emitted first, because the
+arm BODIES are laid out in source order (movs r5,#1 at 0x2025AC4 precedes
+movs r5,#2 at 0x2025AC8).  Writing 0x00000010 first swaps both `beq`
+targets: 6 bytes instead of 2.
+
+Tried for the remaining 2 bytes, none better:
+  case 0x00200010 placed AFTER default:            2 bytes (same residue)
+  case 0x00200010 with `mode = 0; break;`          55 bytes
+  case 0x00200010 falling through into default:    120 bytes (cmp folded)
+  case 0x00200010: goto <default's label>;         120 bytes (cmp folded)
+  default first, then case 0x00200010               55 bytes
+  duplicate `mode = 0` bodies in both arms           55 bytes
+  `mode = engine & 0` / `mode = 0u` in the arm       55 bytes
+  if/else chain in place of the switch              108 bytes (cmp folded)
+  default body dropped, `mode = 0` before switch    cmp folded
+
+Every spelling that keeps the third `cmp` alive lands on `beq merge`;
+every spelling that would produce `bne default` folds the third `cmp`
+away entirely.  Nothing in the C selects between them.
+
+Full C, for the next lane:
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Obj {
+    u32 field_0;
+    u16 field_4;
+    u16 field_6;
+    u32 field_8;
+    u32 slot[3];
+};
+
+struct ModeEntry {
+    u32 a;
+    u32 b;
+    u32 c;
+};
+
+extern const struct ModeEntry gModeTable[];
+
+extern void *func_0204AF28(u32 arg, u32 a, u32 b, u16 w);
+
+u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg)
+{
+    volatile u32 *reg;
+    u32 mode;
+
+    if (engine == 0) {
+        reg = (volatile u32 *)0x04000000;
+    } else {
+        reg = (volatile u32 *)0x04001000;
+    }
+
+    switch (*reg & 0x00300010) {
+    case 0x00100010:
+        mode = 1;
+        break;
+    case 0x00000010:
+        mode = 2;
+        break;
+    case 0x00200010:
+        break;
+    default:
+        mode = 0;
+        break;
+    }
+
+    if (obj->slot[mode] != (u32)-1) {
+        return mode;
+    }
+
+    obj->slot[mode] = (u32)func_0204AF28(arg, gModeTable[mode].a,
+                                         gModeTable[mode].b, obj->field_4);
+    return mode;
+}

@@ -103,3 +103,71 @@ void func_0202DC48(u32 a, u32 b, u32 c, u32 d)
  * NEAR MISS (DIFF)
  */
 
+
+================================================================
+2026-09-21  pkt_0202DAA4  func_0202DB0C (0x0202DB0C, 184 bytes)
+
+NEAR MISS (DIFF, 75 of 184 bytes).  Not filed as a source: the shape below
+is believed correct end to end, but the fifth argument's register
+allocation could not be reproduced.
+
+Shape recovered (everything from +0x14 to +0x28 and the whole inner loop
+is byte-identical):
+
+  o = func_02030734(s.heap, 0x34, 1, g_020A77B8 /* "pms_draw.c" */, 0x81);
+  func_02082BCC(o, 0, 0x34);
+  *(u16 *)o        = s.heap;
+  *(void **)(o+8)  = a2;
+  *(void **)(o+4)  = a3;
+  o[0x30]          = s.kind;
+  o[0x31]          = 0xf;
+  *(u32 *)(o+0x2c) = 0;
+  n = s.kind * 0x28;
+  *(void **)(o+0xc) = func_02030734(s.heap, n, 1, g_020A77B8, 0x8c);
+  func_02082BCC(*(void **)(o+0xc), 0, n);
+  *(void **)(o+0x10) = a0;
+  *(void **)(o+0x14) = a1;
+  *(u16 *)(o+0x24)   = 0x440;              /* movs #0x11; lsls #6 */
+  func_0202DF68(o+0x10, s.count, *(u16 *)o);
+  for (i = 0; i < (s32)o[0x30]; i++)
+      func_0202E09C(*(u8 **)(o+0xc) + i*0x28, o+0x10, *(u16 *)o);
+  return o;
+
+Fifth argument: three fields in the incoming stack arg area at sp+0x20,
+read as `ldrb [base]` (count, +0), `ldrb [base,#4]` (kind, +4) and
+`ldrh [base,#8]` (heap, +8), base always spelled `add rN, sp, #0x20`.
+
+Residual, and the only residual: the original NEVER caches that base in a
+register.  It recomputes `add r0, sp, #0x20` at +0x0A and again
+`add r1, sp, #0x20` at +0x30 (two live bases at once at +0x2A..+0x32),
+which leaves r6 and r7 free for a2 and a3 and holds the frame at
+`sub sp, #0xc`.  Every spelling tried caches one base instead, which
+spills a3 to a new stack word and grows the frame to `sub sp, #0x10`:
+
+  153 -> 91  plain `struct Args { u8 count; u8[3]; u8 kind; u8[3]; u16 heap; }`
+             by value -> `volatile struct Args` (forces the second heap
+             re-read at +0x2A that the original has; without it the two
+             `ldrh` collapse to one).
+  91  -> 91  three separate `volatile u8 count, volatile u8 kind,
+             volatile u16 heap` stack params: same code, base cached at
+             sp+0x28 instead of sp+0x20.
+  91  -> 110 `volatile` on the `heap` member only (loses the count/kind
+             reloads as well).
+  91  -> 75  declaring `s32 i;` BEFORE `u8 *o;` -- declaration order is
+             stack/register order, and this is what puts the object in r5
+             and the counter in r4 as the original has them.
+  75  -> 75  `*(volatile u16 *)((volatile u8 *)&s + 8)` etc. in place of
+             the member selectors: identical output, the front end still
+             hoists one base.
+
+Untried lever for the next agent: whatever makes `&s` be taken twice
+rather than once (a helper taking `volatile struct Args *`, or the struct
+being the tail of a larger by-value parameter as in func_0202D81C, whose
+own note records the same "tail parameter must be volatile" tell).
+
+Relocations, for reference: both allocator calls resolve `label`, the
+ABS32 resolves `string` (0x020A77B8, pms_draw.c, anchor line 122 of
+layout/file_anchors.txt).  func_0202DF68 (+0x80) and func_0202E09C
+(+0xA0) have no witness outside 0202DB0C..0202DBC8, so even a
+byte-perfect body caps at MATCH until one of those two is filed EXACT
+from its own packet.

@@ -1,0 +1,100 @@
+func_02027BF4 @ 0x02027BF4 (arm9, Thumb, 228 bytes) - near miss, DIFF 59/228
+packet: pkt_02027B60   dated 2026-09-21
+
+Sibling of func_02027B60 (EXACT, src/matched/func_02027B60.c): same phase
+advance, same sine table tbl_020A1B38 at 2*(phase>>4)+1, same sub_02061CA4
+tail with 0xf / 0x1f on mode<=3.  Difference: this one lerps between two
+BGR555 colours passed as the 5th and 6th arguments (stack, sp+0x28 / +0x2c,
+read `ldrh [r1]` and `ldrh [r1,#4]`, i.e. 4-byte stride).
+
+The C below compiles to exactly 228 bytes and every byte from offset +0x44
+to the end (+0xE3) is byte-identical, including the whole lerp block, the
+0x18/0x13 pack, the `b` to fall-through in the phase advance, and both
+sub_02061CA4 call sites.  The only residue is scheduling in the unpack
+prologue (+0x04..+0x42): the original hoists `ldrh r1,[r1,#4]` (the c1 load)
+to +0x10, right after `movs r5,#0x1f`, and defers `asrs r3,#0xa` / `lsls
+r2,#0x13` to +0x3E/+0x42; the compiler instead issues the c1 load at +0x20
+and the shifts early.  Same instructions, same count, different order.
+
+Tried and rejected (each changed the size or made the diff larger):
+  - c0/c1 as u32 stack args: `ldr` + `<<16>>16` per arg, 236 bytes.
+  - interleaving the c0/c1 extraction (r0,r1,g0,g1,b0,b1): 51 bytes wrong
+    but the whole tail then shifts, no net gain.
+  - splitting mask and shift into separate statements / extra s32 locals:
+    232 bytes.
+  - reordering b/g/r in the lerp block: no change (59), the lerp already
+    matches.
+  - binding out/mode/slot to locals before the extraction: no change (59).
+  - declaring b1c first: 198 bytes wrong.
+The phase-advance shape is settled: the store must be written out in BOTH
+arms (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md), which
+is what produces the `b #0x2027c54` to the fall-through; an inlined helper
+with two returns is not inlined at all at -O4,p.
+
+Next lever: the six-way unpack is probably an inlined macro or a small
+static helper applied per channel; getting its expansion order right is
+what would pin the c1 load.  Addresses are Black-image addresses.
+
+--- best C so far (DIFF 59, 228 bytes) ---
+/*
+ * unit:     no
+ * function: func_02027BF4
+ * address:  0x02027BF4
+ * packet:   pkt_02027B60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   tbl_020A1B38   0x020A1B38  data
+ *   sub_02061CA4   0x02061CA4  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+extern s16 tbl_020A1B38[];
+extern s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size);
+
+void func_02027BF4(u16 *phase, u16 *out, u32 mode, u32 slot,
+                   u16 c0, u16 c1)
+{
+    s32 s;
+    u8 r0c, g0c, b0c;
+    u8 r1c, g1c, b1c;
+    u8 r, g, b;
+
+    r0c = (u8)(c0 & 0x1f);
+
+    g0c = (u8)((c0 & (0x1f << 5)) >> 5);
+    b0c = (u8)((c0 & (0x1f << 10)) >> 10);
+    r1c = (u8)(c1 & 0x1f);
+    g1c = (u8)((c1 & (0x1f << 5)) >> 5);
+    b1c = (u8)((c1 & (0x1f << 10)) >> 10);
+
+    if (*phase + 0x400 >= 0x10000) {
+        *phase = (u16)(*phase - 0xfc00);
+    } else {
+        *phase = (u16)(*phase + 0x400);
+    }
+
+    s = (s16)((tbl_020A1B38[2 * (*phase >> 4) + 1] + 0x1000) / 2);
+
+    b = (u8)(b0c + ((s * (b1c - b0c)) >> 12));
+    r = (u8)(r0c + ((s * (r1c - r0c)) >> 12));
+    g = (u8)(g0c + ((s * (g1c - g0c)) >> 12));
+
+    *out = (u16)(r | (g << 5) | (b << 10));
+
+    if (mode <= 3) {
+        sub_02061CA4((void *)0xf, slot * 32 + 0xc, (u32)out, 2);
+    } else {
+        sub_02061CA4((void *)0x1f, slot * 32 + 0xc, (u32)out, 2);
+    }
+}
