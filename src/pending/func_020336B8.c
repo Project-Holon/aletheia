@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   MATCH
+ * note:     re-verified 2026-09-20: MATCH; see verify output
  *
  * blocker:  func_020336A4 (ABS32, data/arm pointer) -- has no witness outside
  *           020336B8..020337B8.  The address is the unlabelled leaf that

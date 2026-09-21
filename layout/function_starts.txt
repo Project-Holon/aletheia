@@ -312,3 +312,59 @@ arm9_main  0x02031E68  arm   # 8-byte getter
 arm9_main  0x020336A4  arm   # 16-byte leaf plus pool
 arm9_main  0x020929E8  arm   # 4-byte veneer
 
+
+# 2026-09-21 wave integration: unlabelled leaf followers and corrected entry points
+# reported by the packet agents (each a run of .word between two labelled functions,
+# saving no lr; source of each is the wave note in docs/notes for its packet).
+arm9_main  0x02020780  thumb   # follower of func_0202071C (unit_020206C0.c reads EXACT* because of it)
+arm9_main  0x020235F0  thumb   # follower of func_02023568
+arm9_main  0x02021B18  thumb   # leaf after func_02021A84's pool
+arm9_main  0x02021EE4  thumb   # accessor run after func_02021D50's pool
+arm9_main  0x0202CE40  thumb   # Win-record accessor, follower of func_0202CDD4
+arm9_main  0x0202CF84  thumb   # Win-record accessor after func_0202CEBC
+arm9_main  0x0202CF8C  thumb   # Win-record accessor after func_0202CEBC
+arm9_main  0x0202CF98  thumb   # Win-record accessor after func_0202CEBC
+arm9_main  0x0202CFC0  thumb   # Win-record accessor after func_0202CEBC
+arm9_main  0x0202CFEC  thumb   # Win-record accessor after func_0202CEBC
+arm9_main  0x0202D018  thumb   # Win-record accessor after func_0202CEBC
+arm9_main  0x02028748  thumb   # set-bit accessor after func_020286C4
+arm9_main  0x02028754  thumb   # test-bit accessor after func_020286C4
+arm9_main  0x02026CE0  thumb   # leaf run after func_02026CA0
+arm9_main  0x02022AC4  thumb   # task callback passed to func_020056A0 from 0x020229A4
+arm9_main  0x02019FD0  thumb   # follower of sub_02019ED4
+arm9_main  0x02014264  thumb   # tail-call thunk after func_02014204
+arm9_main  0x0200EC98  thumb   # 26-byte accessor, follower of func_0200EC2C
+arm9_main  0x0201049C  thumb   # inside func_0201045C's compared range, no worklist row
+arm9_main  0x02025772  thumb   # follower of func_0202570C
+arm9_main  0x0202597A  thumb   # follower of func_0202590C
+arm9_main  0x020260E0  thumb   # Sound accessor after func_02026010 (ldrb +0xd)
+arm9_main  0x020260E4  thumb   # Sound accessor after func_02026010 (strb +0xd, 0xff to +0xe/+0xf)
+arm9_main  0x020260F0  thumb   # Sound accessor after func_02026010 (ldr +4)
+arm9_main  0x02028218  thumb   # leaf after func_02028178, zeroes +0x14 then tail-calls
+arm9_main  0x0202822E  thumb   # bare bx lr leaf after 0x02028218
+arm9_main  0x0202CD64  thumb   # leaf after func_0202CC70's pool
+arm9_main  0x020282A4  thumb   # follower of func_0202824C (p->f8 = 0; p->f10 = 0)
+arm9_main  0x02026608  thumb   # follower of func_02026504
+arm9_main  0x02027B30  thumb   # follower of func_02027A24
+arm9_main  0x02027CD8  thumb   # follower of 0x02027B30
+arm9_main  0x0202173C  thumb   # real entry of the function labelled 0x0202173E (push {r0-r3} home area)
+arm9_main  0x02021848  thumb   # real entry of the function labelled 0x0202184A (push {r0-r3} home area)
+arm9_main  0x02069C00  arm     # halfword post-increment reader after func_02069BA0
+arm9_main  0x02071EAC  arm     # follower of func_02071DD4 (in unit_02071DD4.c)
+arm9_main  0x02071EFC  arm     # identity writer leaf (func_02071EFC.c filed)
+arm9_main  0x020724E4  arm     # follower of func_02072440 (in unit_02072440.c)
+arm9_main  0x02072524  arm     # identity writer leaf, twin of 0x02071EFC (filed)
+arm9_main  0x02071180  arm     # leaf in pkt_02071104 (filed EXACT)
+arm9_main  0x02071360  arm     # leaf in pkt_02071104
+arm9_main  0x020713A4  arm     # leaf in pkt_02071104 (filed EXACT)
+arm9_main  0x0206A67C  arm     # follower of func_0206A5B4
+arm9_main  0x0203AD74  arm     # follower of 0x0203ACAC (unit_0203AD74.c exists)
+arm9_main  0x02039C2C  arm     # 16-byte leaf after func_02039B5C's pool
+arm9_main  0x02051880  arm     # leaf accessor inside pkt_02051838's extent
+arm9_main  0x0205189C  arm     # leaf accessor inside pkt_02051838's extent
+arm9_main  0x020518A4  arm     # leaf accessor inside pkt_02051838's extent
+arm9_main  0x02050084  arm     # ldr r0,[r0,#4]; bx lr after 0x0204FFFC's pool
+arm9_main  0x02053D2C  arm     # 4 bytes below func_02053D30
+arm9_main  0x02071C94  arm     # 36-byte leaf after func_02071C14
+arm9_main  0x02070BD8  arm     # leaf after 0x02070B64 (func_02070BD8.c filed EXACT)
+arm9_main  0x02091E44  arm     # real entry of the function labelled 0x02091E48 (push {r0-r3} home area)
