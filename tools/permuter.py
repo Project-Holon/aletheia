@@ -170,6 +170,8 @@ def base_ids(lv):
 
 def reads_of(node):
     r = ids_of(node)
+    if any(isinstance(n, c_ast.UnaryOp) and n.op == "&" for n, _, _, _ in walk(node)):
+        r.add("*mem")
     if any(isinstance(n, (c_ast.StructRef, c_ast.ArrayRef)) or
            (isinstance(n, c_ast.UnaryOp) and n.op == "*") for n, _, _, _ in walk(node)):
         r.add("*mem")
@@ -286,6 +288,8 @@ class Ctx:
         self.fdef = fdef
         self.locals = {}
         self.params = {}
+        self.addr_taken = {n.expr.name for n, _, _, _ in walk(fdef.body)
+                           if isinstance(n, c_ast.UnaryOp) and n.op == "&" and isinstance(n.expr, c_ast.ID)}
         fd = fdef.decl.type
         if fd.args:
             for p in fd.args.params:
@@ -462,6 +466,8 @@ class ExpandExpr:
         st = comp.block_items[i]
         name = st.lvalue.name if isinstance(st, c_ast.Assignment) else st.name
         rhs = st.rvalue if isinstance(st, c_ast.Assignment) else st.init
+        if name in ctx.addr_taken or (ids_of(rhs) & ctx.addr_taken):
+            return None
         deps = ids_of(rhs) | {"*mem"} if reads_of(rhs) & {"*mem"} else ids_of(rhs)
         # walk following statements; substitute uses until name or a dep is written
         done = 0
@@ -578,6 +584,8 @@ class CopySplit:
     @staticmethod
     def apply(ctx, site, rng):
         name = site
+        if name in ctx.addr_taken:
+            return None   # a callee may write it through the pointer; a copy would go stale
         d = ctx.locals.get(name) or ctx.params.get(name)
         # find statements (in the top block only, to keep the rename well defined) that use it
         top = ctx.fdef.body
@@ -1132,7 +1140,9 @@ class Score:
         self.wild, self.note, self.regdiff = list(wild), note, regdiff or {}
 
     def key(self):
-        return (RANK.get(self.status, 9), self.asm, self.miss, abs(self.size - self.tsize))
+        if self.size == self.tsize and self.status.startswith("DIFF"):
+            return (RANK.get(self.status, 9), 0, self.miss, self.asm)
+        return (RANK.get(self.status, 9), 1, self.asm, self.miss, abs(self.size - self.tsize))
 
     def done(self):
         return self.status in ("EXACT", "EXACT*", "MATCH", "MATCH*")
