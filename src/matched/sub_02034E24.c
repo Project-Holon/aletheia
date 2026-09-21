@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  *
  * BLOCKER (re-derived after 0x020357E0 was filed in pkt_020357E0): the
  * two capped sites this file used to name -- func_02035EE8 and

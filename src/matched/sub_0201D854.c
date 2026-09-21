@@ -1,6 +1,4 @@
 /*
- * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
- *
  * function: func_0201D854
  * address:  0x0201D854
  * packet:   pkt_0201D7EC
@@ -9,8 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     promoted 2026-09-21: the +0x16C ABS32 to 0x0201DC88 is now
+ *           attested `matched` by src/matched/sub_0201DC88.c, which closed
+ *           this file's last unresolved site.  13 of 13 relocations resolve.
  *
  * symbols:
  *   func_0201D854_File  0x020A7358  data

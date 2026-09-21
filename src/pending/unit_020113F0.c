@@ -3,7 +3,8 @@
  * function: func_020113F0
  * address:  0x020113F0
  * packet:   pkt_020113F0
- * status:   MATCH
+ * status:   DIFF
+ * note:     re-verified 2026-09-21 after the listing regeneration: DIFF
  * note:     re-verified 2026-09-20: MATCH; see verify output
  * symbols:
  *   lbl_0209DF24 0x0209DF24 data

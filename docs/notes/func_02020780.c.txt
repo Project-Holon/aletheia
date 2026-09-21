@@ -35,3 +35,26 @@
  * idiom index if a source shape is ever found that pins obj in r0.
  */
 
+
+/* ------------------------------------------------------------------
+ * 2026-09-21 (closer lane): NOT RE-ATTEMPTED.  Budget note.
+ *
+ * This address was on this pass's target list and was not worked, for a
+ * reason worth recording rather than leaving as an apparent skip: the
+ * note above describes the residue precisely (310 of 310 bytes, 92
+ * concrete out, a fixed four-way register permutation obj/row/col/rows)
+ * and lists what was tried, but it does NOT carry the C that reaches it,
+ * and no copy of that source survives in src/, scratch/ or any other
+ * note.  Re-deriving a 310-byte body from the prose is a whole slot of
+ * work before a single permuter run could even be scored against the
+ * documented 92, and this pass spent that budget closing 0x02021F64 and
+ * 0x0201DC88 and halving 0x02022490 instead.
+ *
+ * The same gap applies to docs/notes/func_0202D3D0.c.txt, where the
+ * rebuild cost this pass a slot and landed ten bytes worse than the
+ * documented best.  The lesson for both: a near-miss note whose residue
+ * is small enough to be worth resuming should carry its C verbatim, the
+ * way docs/notes/sub_0201DC88.c.txt and docs/notes/func_020234C0.c.txt
+ * do.  Whoever next picks up 0x02020780 should budget a full slot for
+ * the re-derivation before any permuter time.
+ * ------------------------------------------------------------------ */

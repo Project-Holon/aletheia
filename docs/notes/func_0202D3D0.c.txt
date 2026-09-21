@@ -132,3 +132,53 @@ between the two nibble arms.  Those are the two things to try next.
 
 Still DIFF, still evidence only.  src/pending/func_0202D760.c remains
 blocked on this one site.
+
+
+---
+2026-09-21 (closer lane, permuter pass).  Re-derived, best reached 39.
+
+The note above records a 29-byte residue but never carries the C that
+reaches it, so this pass had to rebuild the body from the recipe.  The
+rebuild lands at 216 bytes (size exact) and 39 concrete bytes, ten worse
+than the second pass's 29; the difference is presumably one of the second
+pass's spellings that the prose does not pin down.  Whoever takes this
+next should be aware that the 29-byte source does not exist anywhere in
+the tree and will have to be rebuilt too.
+
+Two structural facts the rebuild did establish, neither of them in the
+note, and both worth keeping:
+
+ 1. `by` must be a ONE-statement initialiser, `s32 by = (s32)((a1 & 0xf0)
+    >> 4) - 8;`.  Splitting it into the load-then-subtract pair that the
+    image's `str r0,[sp,#4] / subs r0,#8 / str r0,[sp,#4]` suggests costs
+    FOUR bytes (220 against 216) and takes the residue from 39 to 179.
+    The double store in the image is the compiler's own spill of a
+    single-expression initialiser, not two source statements.
+
+ 2. The skip must be `if (tab[0] != 0xff) { ...do/while... }` with the
+    `a1 >>= 8` outside the `if`, not `continue`; `continue` skips the
+    shift and is a whole-function diff.  `j = 0` above the test, as the
+    first pass found, is confirmed.
+
+Measured this pass against the 39, all 216 bytes and all still 39:
+  cx/cy assignment order swapped                     no change
+  cx/cy DECLARATION order swapped                    no change
+  (x%8) + (y%8)*8 with (cy*12 + cx)                  no change
+  (y%8)*8 + (x%8) hoisted to a named local `lo`      no change
+  `n` split into a per-arm `hi` / `lo` local
+    (the note's untried ASYMMETRY lever)             no change
+  blob spelled `obj[5]` rather than `(u8 *)obj[5]`
+    (the note's untried extern-RETURN-TYPE lever)    no change
+  the outer loop written `i = i + 1` not `i++`       220 bytes, 179 - worse
+
+So both of the two things the third-pass entry nominated as untried --
+a change to an extern's declared return type, and a deliberate asymmetry
+between the two nibble arms -- are now measured, and neither moves a byte.
+
+tools/permute.py --mode hill --budget 30 --seed 1: 19 compiles, best is the
+baseline at 39.  Byte-identical at 39: swap'&'@L33, decl-join@L38,
+swap'&'@L52, init-split@L24, swap'+'@L54, decl-join@L37, init-fold@L37,
+swap'+'@L36, init-split@L28.  Nothing improved.
+
+Still DIFF, still evidence only.  src/pending/func_0202D760.c remains
+blocked on this one site.

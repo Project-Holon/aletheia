@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  *
  * blocker:  +0010 PC24 func_02069C14           -> unresolved: 02069C14 (arm, from header) has no witness outside 0206E364..0206E388
  *

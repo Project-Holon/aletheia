@@ -93,3 +93,50 @@ mwccarm notices, and it notices whatever the C calls them.
 Confirmed again that neither pin helps, for the reason the note gives: the
 image predicates the error block (the 1.1p1 shape) AND rematerialises the
 constant (the 2.0 shape).  Not filed.
+
+==============================================================================
+2026-09-21, second closer lane: still one instruction, permuter sweep added
+==============================================================================
+
+REPRODUCED from the recipe above, with the previous lane's correction applied
+(`buf[0] = a0;` BEFORE `buf[1] = 0;`): 148 bytes under `--cc 1.1p1 --arm`,
+all three relocation sites resolving, and exactly ONE concrete instruction out
+
+  * +0070    mvnne r0, #0            | subne r0, r1, #0x23
+
+Recorded here because the note carries no source file: the locals are
+`u32 len; u32 sign; u32 err; u32 buf[2]; int r;` in that order, the call is
+`func_02095B3C(mode, 0x7FFFFFFFu, (u32)func_020946D8, buf, &len, &sign, &err)`
+with prototype `int (u32, u32, u32, u32 *, u32 *, u32 *, u32 *)`, and the
+signature is `int func_02095EAC(u32 a0, u32 *a1, u32 mode)`.
+
+PERMUTER, two seeds:
+  `--mode hill --budget 40 --seed 1`   14 compiles, best = baseline at 3
+  `--mode random --budget 40 --seed 3` 41 compiles, best = baseline at 3
+
+(3 reported = the one instruction's three differing bytes.)  Fifty-five
+compiles; every ranked variant is 148/3 across `decl-join`, `decl-swap`,
+`volatile-param`, `swap'!='` and two-mutation pairs.  One `decl-swap@L28` is
+7, i.e. worse -- the local order is load-bearing for the stack layout, as the
+note's recipe says.
+
+FOUR STRUCTURAL SPELLINGS ON TOP, all on the ORDER of the two constants
+rather than on either one's spelling, which is the angle the note's seventeen
+had not taken (they all varied how -1 or 0x22 is written; these vary which is
+defined first):
+ 18.  `r = -1;` assigned BEFORE the errno store, `return r;` after it -- 3.
+ 19.  `volatile int m = -1;` in the arm, errno stored, `return m;` -- 160
+      bytes, 72 out.  The volatile forces a stack slot and re-lays the tail.
+ 20.  the -1 derived from a local that is live but unrelated,
+      `return ~(int)(len - len);` -- 3.
+ 21.  a plain `int m;` assigned -1 before the store, copied to `r` after it,
+      `return r;` -- 3.
+
+Twenty-one spellings total across the three passes.  Defining the -1 first
+does not help: mwccarm's constant-reuse pass runs after linearisation and sees
+the two values differ by 0x23 whatever order the source defines them in, and
+the only spelling that breaks the fold breaks the frame with it.
+
+Neither pin helps, for the reason the note gives (the image predicates the
+error block AND rematerialises the constant; no front end in the collection
+does both), so no probe was repeated.  Not filed: DIFF, by rule 6.

@@ -124,3 +124,44 @@ initialisation, guard shape and polarity, struct vs cast field access) has
 now been tried and none of them moves r0/r1/r2 by one. Still DIFF; left as a
 note. The consequence for src/pending/func_0202363C.c is unchanged: it stays
 MATCH, since no `matched` witness for func_02023768 can be produced.
+
+
+======================================================================
+2026-09-21 (closer lane, permuter pass).  Unchanged at 15 concrete bytes.
+======================================================================
+
+Baseline reconfirmed from the note's own C: 80 bytes compiled, 4 of 4
+relocations resolved, 15 concrete bytes out, all of them the uniform +1
+scratch-register shift in the two entry blocks (original r1/r2, compiled
+r0/r1) that both earlier passes describe.  Nothing after +0x26 differs.
+
+tools/permute.py, two runs, nothing below 15:
+  --mode hill   --budget 35 --seed 1   10 compiles
+      best: baseline (15).  Byte-identical at 15: swap'+'@L43,
+      swap'+'@L34, decl-reverse@L30, swap'+'@L40, swap'+'@L42,
+      init-split@L30.  Worse: volatile-add@L32 (92 bytes, 89).
+      Two mutations came back CCERR rather than a score:
+      volatile-param@L28 and arg-temp[func_020056A0#0]@L45.
+  --mode random --budget 35 --seed 5   28 compiles
+      best: baseline (15).  Nine further single and double operand-order
+      and const-add variants, every one byte-identical at 15.
+
+Tried on top of the permuter's best, by hand, all 80 bytes unless noted:
+  `volatile u32 result`                             96 bytes, 93 - much worse
+  func_02022568 declared with a 4th argument, 0     19 - worse
+  func_0202384C declared as returning u32           15 - no change
+  a second alias local `u8 *q = p;` with the call
+    still passing `p`, to keep the incoming r0 live 15 - no change
+  the outer guard as `*(s32*)(p+0x20) > ctr`        18 - worse
+  the inner guard as `n >= 1`                       17 - worse
+  the inner guard as `1 <= n`                       17 - worse
+  the outer guard as `!(ctr >= *(s32*)(p+0x20))`    15 - no change
+
+The `if (count >= 1)` lever is therefore measured here and is strictly
+worse: the original's `ble` needs `n > 0` written as a comparison against
+zero, not against one.  Extern return type and extern arity are now both
+measured as well, and neither reserves r0.
+
+Conclusion unchanged over three passes: the entry block's register base is
+not a function of anything expressible in the C.  src/pending/func_0202363C.c
+stays MATCH.

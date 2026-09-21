@@ -53,3 +53,51 @@ declared locals ahead of `sv`/`tr`/`tg`/`tb`, since forcing register
 pressure order earlier helped register allocation in the sibling
 func_02021BC8 case (see src/matched/func_02021BC8.c). Not retried here to
 stay inside the "few principled rewrites" budget for this packet run.
+
+
+==============================================================================
+2026-09-21 (closer lane): CLOSED.  EXACT*, filed as src/matched/func_02021F64.c
+==============================================================================
+
+The note above stops at 114/116 bytes with the residue described as
+"`count` and `i` picking the wrong two registers" plus per-channel
+scheduling freedom.  That diagnosis was wrong, and the function closes with
+two changes, the second of them a single keyword.
+
+1.  The "next step" this note proposes is correct and is what gets the size
+    and the register allocation right: read the per-pixel bitfields off a
+    pointer into `src[i]`'s own memory,
+
+        int sr = ((struct Rgb555 *)&src[i])->r;
+
+    rather than through a value-copy union.  With this and the loop counter
+    declared `u16 i` (the image's `lsls #0x10 / lsrs #0x10` on the increment
+    at +0x58), the compile is 114 bytes -- size exact -- and the whole
+    function is byte-identical except for THREE bytes.
+
+2.  Those three bytes were the three `>> 4`s:
+
+        original   +003E/+004A/+0054   asrs r4, r4, #4
+        compiled   +003E/+004A/+0054   lsrs r4, r4, #4
+
+    `weight` was declared `u32`, which makes each `(t - s) * weight` an
+    unsigned product and each `>> 4` a logical shift.  Declaring it `int`
+    makes the products signed and the three shifts arithmetic.  That is the
+    whole remaining residue; nothing about register allocation or channel
+    scheduling was ever wrong.
+
+    So the fifth-argument struct, the count and the destination index are
+    unsigned, and the blend weight is signed:
+
+        void func_02021F64(u16 *src, u16 *dst, u32 count, int weight,
+                           struct Rgb555 color)
+
+EXACT*, not EXACT: the follower has no label so the inferred extent runs to
+116 against the 114 compiled, the difference being the alignment halfword at
+0x02021FD6.  Report 0x02021FD8 as an unlabelled follower.
+
+tools/permute.py was not needed here (the residue fell to the signedness
+read straight off the diff), and a `param-signedness` mutation is the change
+suggested to it in docs/notes/permuter.md on the strength of this result.
+
+Filed: src/matched/func_02021F64.c, shard arm9/pkt_02021B6C.json.

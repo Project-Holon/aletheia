@@ -1,0 +1,109 @@
+2026-09-21, large-function lane: relocation-witness screen of three
+untouched 1 KB ARM functions.  ALL THREE FAIL, but only just, and the
+gating decision is named per address at the end.  No source was filed for
+any of them and no C was written beyond the screening stubs, per the
+brief's rule that a target whose sites have no witness of any class is
+abandoned rather than polished into a park.
+
+METHOD, AND TWO WAYS TO GET IT WRONG (both paid for here).  For each
+address: one `match.py show --addr` to fix the ISA and extent, then a
+screening stub declaring every `bl` target and every non-zero pool word in
+the function's own literal pool, compiled with `match.py one --arm --cc
+1.1p1` so that `resolve_relocations()` prints an evidence class per site.
+
+  TRAP 1, THE STUB MUST BE THE RIGHT LENGTH.  A short stub is not a screen:
+  its compared range is only as long as it compiles, so a witness that will
+  be inside the real range is never exercised and every site reads
+  "resolved".  Each stub was therefore padded with dead `if (k == N) f();`
+  arms until its compiled length reached the function's real extent, which
+  is what puts the function's own pool and its own internal call sites
+  INSIDE the compared range, as they will be when the real body is written.
+  Over-padding is equally invalid: a stub compiled to 2896 bytes against a
+  1088-byte original swallows genuine outside witnesses and reported nine
+  false failures on target 3 before it was corrected.
+
+  TRAP 2, THE STUB MUST LIVE INSIDE THE REPO.  `source_key()` in
+  tools/match.py returns None for any path whose relpath to ROOT starts
+  with "../", and `attest_matched()` refuses outright when `src` is None
+  ("without it self-reference cannot be checked").  A stub written to a
+  scratchpad outside the tree therefore loses the ENTIRE `matched` class
+  silently: it reports as "no witness outside <range>", which is
+  indistinguishable from a genuine evidence failure.  On 0x02065438 this
+  turned four unresolved sites into nine.  Screening stubs go in
+  scratch/ (gitignored) or anywhere under ROOT, never in /tmp.
+
+1. 0x02067340, ARM, 1052 bytes (show: 02067340..0206775C), pkt_02066E30.
+   Prologue `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` / `sub sp, sp,
+   #0x40`.  Three `bl` targets (0x02067080, 0x02067B50, 0x02067B64) and 11
+   pool loads.  Stub 2016 bytes -> range 02067340..02067B20, 245 of 247
+   sites resolved.
+
+   TWO SITES UNRESOLVED:
+     PC24  func_02067080  -> no witness outside 02067340..02067B20
+     ABS32 data_020A18AC  -> no witness outside 02067340..02067B20
+
+   func_02067080 has exactly ONE branch anywhere in the image, the `bl` at
+   0x02067588, and 0x02067588 is inside this function's own body, so
+   `label` refuses it.  (grep of asm/arm9/src/*.s for `bl func_02067080`
+   returns that one site; the three .s files that show it are three
+   delinkings of the same range, not three call sites.)  It has no
+   `matched` entry either -- confirmed by calling attest_matched() directly.
+   0x020A18AC's only pool word image-wide is this function's own at
+   0x02067744.  Being one function, there is no `--suggest-split` cut.
+   0x02067B50 and 0x02067B64 both resolve `label` x36.
+   CAPS AT MATCH.
+
+2. 0x0206BA18, ARM, 1160 bytes (show: 0206BA18..0206BEA0), pkt_0206B7D0.
+   Prologue `push {r3, r4, r5, r6, r7, r8, lr}` / `sub sp, sp, #0x1c`.
+   One `bl` target (0x0206DDA4, label x320) and 6 pool words.  Stub 1172
+   bytes -> range 0206BA18..0206BEAC, 94 of 96 sites resolved.
+
+   TWO SITES UNRESOLVED:
+     ABS32 data_02148DB4  -> no witness outside 0206BA18..0206BEAC
+     ABS32 data_020A1954  -> no witness outside 0206BA18..0206BEAC
+
+   Each address's only occurrence image-wide is this function's own pool
+   (0x0206BE8C and 0x0206BE94), so `literal` has no outside witness.  Both
+   are `data`, so `sole-ref` is the class of last resort; attest_sole_ref()
+   was reached and declined both, which is why they print unresolved rather
+   than `[sole-ref]`.  The third pool word, 0x02148B4C, resolves literal
+   x96.  CAPS AT MATCH.
+
+3. 0x02065438, ARM, 1088 bytes (show: 02065438..02065878), pkt_02065020.
+   Prologue `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}`, no `sub sp`
+   (the frame is the ten-register push).  TEN distinct `bl` targets and 38
+   pool loads over 11 distinct data addresses.  Stub 1048 bytes -> range
+   02065438..02065850, 85 of 89 sites resolved.
+
+   FOUR SITES UNRESOLVED:
+     PC24 func_02064EDC, func_02067B48, func_02067D14, func_02067DC8
+
+   The 0x02067Axx..0x02067Dxx accessor family exists to serve this one
+   function: every branch to every member sits at an address inside
+   0x020654xx..0x020658xx, i.e. inside this function's own extent, so
+   `label` refuses all ten.  SIX of the ten are nevertheless carried by the
+   `matched` class, because they are already filed EXACT and a compiled
+   proof is not a reading of the image -- func_02067AAC, func_02067AC0,
+   func_02067B28, func_02067B40, func_02067BA4 and func_02067CB0, from
+   layout/matched/arm9/pkt_02067AAC.json and pkt_02067BA4.json (see
+   src/matched/unit_02067B40.c and src/matched/func_02067BA4.c).  The
+   remaining four have neither an outside branch nor a filing.
+   All ELEVEN data pool words resolve `literal` comfortably (x84, x48, x40,
+   x36, x36, x28, x24, x16, x16, x8, x4).
+   CAPS AT MATCH, four sites short.
+
+CONCLUSION, and the single decision that gates each.
+  0x02065438  -- FOUR sibling accessors unfiled: func_02064EDC,
+                 func_02067B48, func_02067D14, func_02067DC8.  These are
+                 small members of a family six of whose siblings are
+                 already EXACT; filing them converts all four sites to
+                 `matched` and this function to a clean EXACT candidate.
+                 THIS IS THE CHEAPEST OF THE THREE and the one to do next.
+  0x02067340  -- ONE callee, func_02067080, already fully decoded in
+                 docs/notes/pkt_02066E30.c.txt; filing it EXACT makes that
+                 site `matched`.  Then one data word, 0x020A18AC, still
+                 needs sole-ref or a second pool occurrence.
+  0x0206BA18  -- TWO data words, 0x02148DB4 and 0x020A1954, each with no
+                 occurrence outside its own pool and both declined by
+                 sole-ref.  Nothing in this function's own reach unblocks
+                 them; they need a second referent elsewhere in the image.

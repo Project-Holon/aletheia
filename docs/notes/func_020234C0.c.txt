@@ -128,3 +128,52 @@ u32 func_020234C0(struct Task *t)
      +0046    adds r0, r4, #0                        | adds r0, r4, #0                        
      +0048    pop {r4, r5, r6, pc}                   | pop {r4, r5, r6, pc}                   
    legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+
+==============================================================================
+2026-09-21 (closer lane, permuter pass).  Still DIFF at 2 concrete bytes.
+==============================================================================
+
+Baseline reconfirmed: the note's own C above compiles to 74 bytes (76 with
+the alignment halfword) with 2 concrete bytes out, both of them the single
+instruction at +0x42.
+
+  original   +0042  b #0x2023504     (the `movs r4, #1` of case 3)
+  compiled   +0042  b #0x2023506     (the shared `adds r0, r4, #0` tail)
+
+i.e. case 2's exit branches to case 3's first instruction -- the very next
+halfword -- rather than to the switch's join point.  mwccarm never emits a
+branch to the following instruction, so no switch shape that lets it fold
+that branch away can reproduce it.
+
+tools/permute.py, two runs, nothing below 2:
+  --mode hill   --budget 35 --seed 1   17 mutations, 13 compiles
+      best: baseline (2).  Byte-identical at 2: case-swap@L67,
+      init-fold@L50, swap'=='@L57, stmt-swap@L52, swap'+'@L58.
+      Worse: decl-swap@L49 (10), volatile-param@L47 (12),
+      case-swap@L62 (20), case-swap@L56 (35).
+  --mode random --budget 35 --seed 7   36 compiles
+      best: baseline (2).  Six further operand-order and stmt-swap
+      variants all byte-identical at 2.
+
+Tried on top of the permuter's best, by hand, all 74 bytes:
+  case 2 falling through into case 3 (no `break`)            72 bytes, 10
+  a `goto out;` from case 2 to a label after the switch       2
+  an explicit `default: break;` placed BEFORE case 3          2
+  `default: ret = 0; break;` after case 3                     2
+  `case 3: ret = 1;` falling into `default: break;`           2
+  `ret = 0;` written out as case 2's last statement           2
+  a `goto three; three:` pair at the end of case 2            72 bytes, 10
+  an empty `case 5:` label after case 2                       88 bytes, 75
+  an empty `case 4:` arm after case 3                         86 bytes, 75
+  `if / else if / else if` instead of the switch              72 bytes, 54
+
+The switch table, every branch target but one, both call sites and the whole
+epilogue are byte-identical in all of the 2-byte variants.  The residue is
+one branch destination and it is not reachable from any arrangement of case
+labels, fall-through, `goto` or `default` position that this front end will
+not immediately fold.  Consistent with
+docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md
+having no purchase here: the target is not an epilogue at all.
+
+Still DIFF, still evidence only.

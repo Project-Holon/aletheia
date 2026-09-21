@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   DIFF
+ * note:     re-verified 2026-09-21 after the listing regeneration: DIFF
  * note:     re-verified 2026-09-20: MATCH*; see verify output
  *
  * blocking: unresolved: 0202141C (data, from header) has no witness outside 02010E14..02010E; unresolved: 020214E8 (data, from header) has no witness outside 02010E14..02010E; unresolved: 0202142A (data, from header) has no witness outside 02010E14..02010E; unresolved: 02021428 (data, from header) has no witness outside 02010E14..02010E

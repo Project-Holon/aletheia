@@ -464,11 +464,31 @@ def gen_arg_temp(src):
     """`f(g(x))` -> `t = g(x); f(t)`, one named temporary per call argument."""
     body = src.body()
     out = []
+    # this compiler rejects a declaration once a non-declaration statement
+    # has appeared in the same block (C89-style decls-before-statements), so
+    # a temp can only be inserted directly before a line that is itself
+    # still inside the leading declaration run of its block.  Track, for
+    # each line, whether everything before it since the last block-opener is
+    # blank or a declaration.
+    decl_ok = [False] * len(body)
+    still_decls = True
+    for i, ln in enumerate(body):
+        s = ln.strip()
+        decl_ok[i] = still_decls
+        if not s:
+            continue
+        if "{" in s:
+            still_decls = True
+            continue
+        if not is_decl(ln):
+            still_decls = False
     for i, ln in enumerate(body):
         s = ln.rstrip()
         if not is_simple_stmt(ln) and not s.strip().startswith("return"):
             continue
         if s.count("(") < 2:
+            continue
+        if not decl_ok[i]:
             continue
         for m in CALL_ARG_RE.finditer(s):
             name = m.group(1)
@@ -551,10 +571,34 @@ def _temp_type(expr, src):
 PTR_DECL = re.compile(r"\*")
 
 
+CALL_BARE_ARG_RE = re.compile(r"[A-Za-z_]\w*\s*\(\s*([^)]*)\)")
+
+
+def _bare_call_arg_names(body_text):
+    """Names that appear as a bare (unadorned) argument in some call.
+
+    `f(p)` counts; `f(p->x)`, `f(*p)`, `f(p + 1)`, `f((const T *)p)` do not --
+    those pass something other than the pointer value's own type, so a
+    qualifier change on `p` itself does not reach an incompatible-pointer
+    call.  This is a conservative, textual approximation: it only needs to
+    catch the case where `p` is hand-off to an extern's parameter type
+    directly, which is where a qualifier mismatch becomes CCERR.
+    """
+    names = set()
+    for m in CALL_BARE_ARG_RE.finditer(body_text):
+        for arg in split_top(m.group(1), ","):
+            a = arg.strip()
+            if re.match(r"^[A-Za-z_]\w*$", a):
+                names.add(a)
+    return names
+
+
 def gen_qualifier(src, word):
     """Add or remove `volatile`/`const` on a pointer-typed local or parameter."""
     out = []
     lines = src.lines
+    body_text = "\n".join(src.body())
+    bare_args = _bare_call_arg_names(body_text)
     cand = list(range(src.open_i + 1, src.close_i))
     cand += list(range(src.sig_i, src.open_i + 1))
     for i in cand:
@@ -595,8 +639,18 @@ def gen_qualifier(src, word):
             # qualifier goes in front of the whole type, and in front of the
             # `struct`/`union`/`enum` keyword when there is one.
             for pm in re.finditer(
-                    r"((?:struct|union|enum)\s+)?([A-Za-z_]\w*)\s*\*\s*[A-Za-z_]\w*",
+                    r"((?:struct|union|enum)\s+)?([A-Za-z_]\w*)\s*\*\s*"
+                    r"([A-Za-z_]\w*)",
                     ln):
+                pname = pm.group(3)
+                if pname in bare_args:
+                    # passed as a bare argument somewhere: if the callee
+                    # expects `void *` or a differently-qualified pointer,
+                    # qualifying the parameter turns a legal call into an
+                    # illegal implicit conversion (CCERR, not a shape).
+                    # Skip rather than risk it -- this is a cheap, mechanical
+                    # check with no type information to weigh against.
+                    continue
                 st = pm.start(1) if pm.group(1) else pm.start(2)
 
                 def mkp(i=i, word=word, st=st):
@@ -831,9 +885,79 @@ def gen_bangbang(src):
     return out
 
 
+SIGN_PAIRS = {"u32": "int", "int": "u32",
+              "s32": "u32", "u16": "s16", "s16": "u16",
+              "u8": "s8", "s8": "u8"}
+
+
+def gen_param_signedness(src):
+    """Toggle a scalar parameter's or local's signedness: u32<->int,
+    s32<->u32, u16<->s16, u8<->s8, one declaration per mutation."""
+    out = []
+    lines = src.lines
+
+    # parameters: one declared type token per parameter in the signature
+    sig_text = "\n".join(lines[src.sig_i:src.open_i + 1])
+    for pm in re.finditer(r"(?<![\w*])(u32|int|s32|u16|s16|u8|s8)\s+"
+                          r"([A-Za-z_]\w*)\s*(?=[,)])", sig_text):
+        ty, nm = pm.group(1), pm.group(2)
+        other = SIGN_PAIRS.get(ty)
+        if other is None:
+            continue
+        # locate which physical line this parameter's type token is on
+        for i in range(src.sig_i, src.open_i + 1):
+            mm = re.search(r"(?<![\w*])(" + re.escape(ty) + r")\s+" +
+                           re.escape(nm) + r"\s*(?=[,)])", lines[i])
+            if not mm:
+                continue
+
+            def mk(i=i, ty=ty, other=other, span=mm.span(1)):
+                def fn(s):
+                    ls = list(s.lines)
+                    seg = ls[i]
+                    st, en = span
+                    if seg[st:en] != ty:
+                        return None
+                    ls[i] = seg[:st] + other + seg[en:]
+                    return s.with_lines(ls)
+                return fn
+            out.append(Mutation("param-signedness[%s]" % nm, i + 1, mk()))
+            break
+
+    # locals: a plain scalar declaration of one of the toggle types
+    body = src.body()
+    for i, ln in enumerate(body):
+        if not is_decl(ln):
+            continue
+        m = DECL_RE.match(ln.rstrip())
+        ty = m.group("type").strip()
+        other = SIGN_PAIRS.get(ty)
+        if other is None:
+            continue
+        if "*" in m.group("rest") or "=" in m.group("rest"):
+            continue
+        names = decl_names(ln)
+        if len(names) != 1:
+            continue
+
+        def mkl(i=i, ty=ty, other=other):
+            def fn(s):
+                bd = list(s.body())
+                mm = DECL_RE.match(bd[i].rstrip())
+                if mm.group("type").strip() != ty:
+                    return None
+                bd[i] = "%s%s %s;" % (mm.group("ind"), other,
+                                      mm.group("rest").strip())
+                return s.with_body(bd)
+            return fn
+        out.append(Mutation("param-signedness[%s]" % names[0],
+                            src.open_i + 2 + i, mkl()))
+    return out
+
+
 GENERATORS = [gen_decl_permute, gen_decl_split, gen_decl_join, gen_stmt_swap,
               gen_init_split, gen_init_fold, gen_arg_temp, gen_case_reorder,
-              gen_operand_swap, gen_bangbang]
+              gen_operand_swap, gen_bangbang, gen_param_signedness]
 
 
 def mutations(src):
@@ -1009,30 +1133,73 @@ def _evaluate(base, plans, scorer, budget, jobs):
 
 
 def search_hill(base, scorer, budget, rng, jobs):
-    """Keep the best source so far; accept any single mutation that improves."""
+    """Keep the best source so far; accept any single mutation that improves.
+
+    On a plateau (a batch of single mutations with no improvement) this does
+    NOT restart immediately: a stuck residue where nothing improves is
+    exactly the case where restarting wastes the rest of the budget on a
+    handful of candidates.  Instead it keeps sampling untried single
+    mutations of the current point until they run out, then untried *pairs*
+    (two single mutations composed), and only restarts from the baseline
+    once both are exhausted.  Compiles are still bounded by `budget`.
+    """
+    from concurrent.futures import ThreadPoolExecutor
+
     best_text = base.render()
     best_sc = scorer.score(best_text)
-    best_muts = []
     results = [Variant(best_text, [], best_sc)]
     spent = 1
     restarts = 0
     cur = Source(best_text, base.func)
     cur_sc, cur_muts = best_sc, []
-    while spent < budget:
+
+    # mutations of `cur` not yet tried this plateau, and the (i, j) index
+    # pairs of singles not yet tried as a composed pair
+    untried_singles = []
+    untried_pairs = []
+    exhausted_untried = 0  # count remaining at the moment budget runs out
+
+    def refresh_frontier():
+        nonlocal untried_singles, untried_pairs
         muts = mutations(cur)
-        if not muts:
-            break
         rng.shuffle(muts)
-        batch = muts[:max(jobs, 1)]
+        untried_singles = list(muts)
+        pairs = [(i, j) for i in range(len(muts)) for j in range(len(muts))
+                 if i != j]
+        rng.shuffle(pairs)
+        untried_pairs = [(muts[i], muts[j]) for (i, j) in pairs]
+
+    refresh_frontier()
+
+    while spent < budget:
+        batch_specs = []  # list of (kind, mutlist)
+        while len(batch_specs) < max(jobs, 1) and spent + len(batch_specs) < budget:
+            if untried_singles:
+                batch_specs.append([untried_singles.pop()])
+            elif untried_pairs:
+                a, b = untried_pairs.pop()
+                batch_specs.append([a, b])
+            else:
+                break
+        if not batch_specs:
+            # both singles and pairs exhausted at this point: restart
+            restarts += 1
+            cur = Source(base.render(), base.func)
+            cur_sc, cur_muts = results[0].score, []
+            refresh_frontier()
+            if restarts > 6 or (not untried_singles and not untried_pairs):
+                break
+            continue
+
         cands = []
-        for m in batch:
-            nxt = m.apply(cur)
-            if nxt is None or nxt.render() == cur.render():
+        for mlist in batch_specs:
+            src, names = apply_all(cur, mlist)
+            if src is None:
                 continue
-            cands.append((nxt.render(), cur_muts + [repr(m)]))
+            cands.append((src.render(), cur_muts + (names or [])))
         if not cands:
-            break
-        from concurrent.futures import ThreadPoolExecutor
+            continue
+
         with ThreadPoolExecutor(max_workers=jobs) as ex:
             scored = list(zip(cands, ex.map(lambda c: scorer.score(c[0]), cands)))
         spent += len(cands)
@@ -1040,19 +1207,21 @@ def search_hill(base, scorer, budget, rng, jobs):
         for (text, names), sc in scored:
             results.append(Variant(text, names, sc))
             if sc.done():
+                remaining = len(untried_singles) + len(untried_pairs)
+                print("hill: %d compiles, %d untried mutations remaining "
+                      "at exit" % (scorer.compiles, remaining))
                 return results
             if sc.key() < cur_sc.key():
                 cur, cur_sc, cur_muts = Source(text, base.func), sc, names
                 improved = True
-        if cur_sc.key() < best_sc.key():
-            best_sc, best_text, best_muts = cur_sc, cur.render(), cur_muts
-        if not improved:
-            restarts += 1
-            cur = Source(base.render(), base.func)
-            cur_sc, cur_muts = results[0].score, []
-            if restarts > 6:
-                break
-    _ = (best_muts,)
+        if improved:
+            # moved to a new point: the mutation frontier is now stale
+            refresh_frontier()
+
+    remaining = len(untried_singles) + len(untried_pairs)
+    exhausted_untried = remaining
+    print("hill: %d compiles, %d untried mutations remaining at exit"
+          % (scorer.compiles, exhausted_untried))
     return results
 
 

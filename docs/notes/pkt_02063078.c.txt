@@ -479,3 +479,42 @@ and immediate in place, but rule 2 of docs/FRONTEND-PINS.md requires the
 pinned front end to produce THE BYTES, and five of them are still wrong.
 
 Not filed: DIFF, by rule 6.
+
+==============================================================================
+2026-09-21, third closer lane: 0x02063378 still DIFF 5, permuter sweep added
+==============================================================================
+
+REPRODUCED from this note's "THE ACTUAL C" once more: 192 bytes under
+`--cc ../2.0/sp2 --arm`, the sole ABS32 resolving `literal`, 9 reported of
+which 4 are the following function's pool over-read.  The real residue is the
+same five bytes on the same instruction triple.
+
+PERMUTER, two seeds:
+  `--mode hill --budget 40 --seed 1`   14 compiles, best = baseline at 9
+  `--mode random --budget 40 --seed 5` 41 compiles, best = baseline at 9
+
+Fifty-five compiles.  Every ranked variant is 192/9, across `decl-swap`,
+`decl-split`, `init-split`, `const-add`, `const-param`, `volatile-param`,
+`volatile-drop`, `swap'=='` and `swap'+'` -- i.e. the tool's entire
+declaration-order, qualifier and commutative-operand vocabulary applied to
+this source changes nothing, which is the mechanical restatement of the rule
+this note already states.
+
+THREE STRUCTURAL SPELLINGS ON TOP, all aimed at LIVENESS rather than naming,
+since the note's rule is that naming is not the lever:
+ 20.  `obj->index` read through `*(volatile u32 *)` -- 192/9, unchanged.  The
+      volatile forces the load to happen but not where its result lands.
+ 21.  the multiply split from the add into its own block,
+      `{ u32 bk = obj->index * 0x540; ptr = g_02146BC8; ptr = ptr + bk; }` --
+      192/9.  The mla is re-formed from the two statements regardless.
+ 22.  the table base given a SECOND use after the multiply
+      (`if (ptr == g_02146BC8) return 0;`), so the base is provably live past
+      the mla and cannot be reused as its destination -- 204 bytes, 72 out.
+      Strictly worse, and informative: keeping the base live does stop the
+      reuse, but it costs a whole extra compare-and-branch, so there is no
+      shape where the base is live exactly across the mla and dead after it.
+
+Twenty-two spellings total on this row across the passes.  The note's rule
+stands and is now machine-confirmed: THE DESTINATION REGISTER OF AN `mla` IS
+NOT SOURCE-ADDRESSABLE.  Not filed: DIFF, by rule 6.  src/pending/func_0204BF40.c
+stays blocked, and 0x02063294 was not re-attempted this pass.

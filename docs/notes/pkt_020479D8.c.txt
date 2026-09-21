@@ -107,3 +107,47 @@ graph is func_02047788, func_0204755C, func_0206A9DC, func_02082B60(b+0x18,
 &g_02148C08), func_0206AA0C(b+0xc, &g_02148B4C), the +0x88 vector of
 *g_02146A5C, func_02047B4C(a), func_02047C8C(saved), and its three pool words
 at 0x02047B40..0x02047B48 are 0x02148C08 / 0x02148B4C / 0x02146A5C.
+
+==============================================================================
+2026-09-21, closer lane with tools/permute.py: 0x02047AC8 still DIFF 4
+==============================================================================
+
+The note's 4-byte recipe was transcribed into a file with the house header and
+reproduced exactly: 132 bytes under `--cc 1.1p1 --arm`, all ten relocation
+sites resolving, the same `bne #0x2047b38` / `popne {r4, r5, r6, pc}` at
++0x64.  Recorded here because the note gives the C as prose only and the next
+lane should not have to re-derive the struct shapes: `g_02148B4C` is
+`struct Reg { u8 pad_00[0xfc]; u32 f_fc; }`, `g_02146A5C` is a
+`struct Vec *` whose +0x88 is `void (*)(void)`, and the two `b + N` arguments
+are plain `u8 *` arithmetic.
+
+PERMUTER: `--mode hill --budget 35 --seed 1 --arm`, 11 compiles.  Best is the
+BASELINE at 4.  Three mutations tie it (`decl-swap@L45`, `swap'+'@L53`,
+`swap'+'@L51`); the other six are CCERR, all `const-`/`volatile-param` on the
+two `void *`-consuming parameters (the same legal-C limitation recorded in the
+permuter field report).  No second seed: the space is small and exhausted.
+
+FOUR STRUCTURAL SPELLINGS ON TOP, aimed at the note's own closing hypothesis
+("the lever is whatever stops the arm's tail from being a return at all").
+That hypothesis is now FALSIFIED -- every shape that removes the return from
+the arm lands in the note's 7-byte bucket, i.e. it also swaps r4/r5:
+
+ 15.  `volatile int r;` with the arm carrying no return.  144 bytes, 115 out
+      -- the volatile forces a stack slot and re-lays the whole tail.  Much
+      worse, and the only one of the four that changes the size.
+ 16.  `if (!!(r == 1)) { func_02047C8C(saved); } return r;` -- the `!!` lever.
+      132 bytes, 7 out (the r4/r5 bucket).
+ 17.  the arm's tail made a non-return statement, `func_02047C8C(saved);
+      saved = 0;` then the shared `return r`.  132 bytes, 7 out.
+ 18.  a `volatile int t = r;` guard carrier, `if (t == 1)`, with `return r`
+      shared.  148 bytes, 123 out.
+
+So the two buckets are not independent: the 4-byte bucket is exactly the set
+of shapes where the arm ENDS IN A RETURN, and every shape where it does not
+costs three more bytes on top.  The remaining instruction is therefore not
+reachable by removing the return; 1.1p1 -O4,p predicates a two-instruction
+arm's epilogue unconditionally, far below the five-instruction threshold
+docs/FRONTEND-PINS.md records for the "kept branches" tell.  The note already
+established ../2.0/sp2 does the same, so no probe was repeated.
+
+Eighteen spellings total across the passes.  Not filed: DIFF, by rule 6.

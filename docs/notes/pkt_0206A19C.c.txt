@@ -452,3 +452,50 @@ func_0206A2CC (still 9 bytes, the r8/sb base/accumulator swap)
   The swap does not respond to declaration order, initialisation order or
   arm-splitting.  0x0206A4AC was not re-measured separately: its residue is
   documented above as byte-identical to this one and no lever moved 0x0206A2CC.
+
+==============================================================================
+2026-09-21, closer lane with tools/permute.py: 0x0206A3CC still DIFF 2
+==============================================================================
+
+Reproduced from this note's own recorded source, unchanged: 224 bytes under
+`--cc ../2.0/sp2 --arm`, no relocations, the same two bytes at +0028/+002C
+(`lsr r5, r2, #0x10` / `ldrh r4, [r3]` against `lsr r4` / `ldrh r5`).
+
+PERMUTER, two seeds, and the pair is worth reading together because it is the
+clearest instance yet of the `hill` sampling trap now recorded in
+docs/notes/permuter.md:
+
+  `--mode hill --budget 40 --seed 1`   105 mutations available, FIVE compiles,
+                                        best = baseline at 2
+  `--mode random --budget 40 --seed 7` 41 compiles, best = baseline at 2
+
+`hill` stopped after 5 of a budget of 40 because on a residue where nothing
+improves, every batch is a no-improvement batch and the six restarts are spent
+at once.  The `random` seed is the one that actually sampled the 105-mutation
+space -- all ten of its best-ranked variants are 224/2, spanning `volatile-add`,
+`const-add`, `const-param`, `init-split`, `init-fold`, `decl-swap`, `stmt-swap`
+and two-mutation pairs.  Forty-six compiles between them, floor unmoved.
+
+FOUR STRUCTURAL SPELLINGS ON TOP, aimed at changing WHICH register is free at
+the two definition points rather than at naming them (the note's own reading
+is that this is r4-freed-by-the-`tst` versus r5-freed-by-the-`add ip`):
+ 25.  the +0x2c word read through `*(volatile u32 *)` -- 6 out, WORSE.  The
+      volatile pins the load but costs the truncation its fold.
+ 26.  `t = *(u16 *)(d + 2);` read BEFORE the `ip` computation, so the `tst`'s
+      register frees earlier relative to the `add`.  2.
+ 27.  the whole mask chain folded to one expression with `ip` first,
+      `z = (u16)((*(u32 *)(c + 0x2c)) & ~0xe0000000u);` -- 216 bytes, SIZE
+      wrong (172 out): the single def point lets 2.0 drop the second
+      truncation entirely.  This is a useful negative: the three-statement
+      spelling is load-bearing for the SIZE, not just the residue.
+ 28.  `ip` computed as the very first statement of the function.  2.
+
+Twenty-eight spellings total across the three passes.  The floor is 2 and it
+survives every reordering of the two definitions, which is what the previous
+append concluded; this pass adds that it also survives a 46-compile mechanical
+sweep of the tool's whole mutation vocabulary.  Same class as the mla triple
+of docs/notes/pkt_02063078.c.txt and the smull pair of
+docs/notes/pkt_02072374.c.txt.
+
+Not filed: DIFF, by rule 6.  (0x0206A2CC and 0x0206A4AC were not re-attempted
+this pass; the previous append's measurements stand.)

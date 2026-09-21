@@ -140,3 +140,36 @@ the swap untouched at 4.
 Also DIFF 4 under ../2.0/sp2 (section 2 measured this), so it is not a
 pin candidate and no probe was spent on it this pass.  Not filed: a
 DIFF source never goes in src/matched.
+
+==============================================================================
+2026-09-21, closer lane with tools/permute.py: 0x02071360 still DIFF 4
+==============================================================================
+
+Reproduced at 68 bytes under `--cc 1.1p1 --arm`, no relocations, the same
+r2/r3 swap.  The volatile re-read of f1c that the previous append identified
+as the SIZE lever is confirmed necessary and sufficient for the 68: without it
+the function is 64.
+
+PERMUTER: `--mode hill --budget 35 --seed 1 --arm`, 9 mutations available, 7
+compiles, mutation space exhausted so no second seed.  Best is the BASELINE at
+4.  Two `volatile-param@L44` variants and `swap'+'@L55` tie it; `swap'*'@L56`
+is 11 (confirming by machine the note's hand-measured "reversing the mul
+operand order (11)"); `const-param@L44` is 72 bytes / 63 out and a second
+`const-param` is CCERR.
+
+FOUR STRUCTURAL SPELLINGS ON TOP, all 68 bytes:
+ 19.  the f2e halfword ALSO read through `*(volatile u16 *)`, on top of the
+      f1c volatile.  4 -- the note measured volatile on the f2e side alone;
+      this is both sides at once, and it is the same 4.
+ 20.  the `<< 3` moved onto the scale operand instead of the product,
+      `n = n << 3; d->f34 = (s32)s->f2e * n;`.  11 out -- it reassociates the
+      multiply and lands in the same bucket as reversing the operands.
+ 21.  the volatile load and the `<< 1` split into two statements,
+      `n = *(volatile s32 *)&s->f1c; n = n << 1;`.  4.
+ 22.  the f2e widening bound to its own `s32 c;` declared AFTER `n`, with
+      `d->f34 = (c * n) << 3;`.  4.
+
+Twenty-two spellings total across the three passes.  The floor is 4 and it is
+the same class the rest of this family records: which of two just-freed
+registers receives a value, decided after linearisation.  Not a pin candidate
+(the note measured ../2.0/sp2 at 4 as well).  Not filed: DIFF, by rule 6.

@@ -199,3 +199,42 @@ NO PIN.  ../2.0/sp2 is the better of the two front ends (8 against 1.1p1's
 docs/FRONTEND-PINS.md requires the pinned front end to produce the bytes.
 
 Not filed: DIFF, and at 8 concrete bytes wrong it is not a park either.
+
+==============================================================================
+2026-09-21, third closer lane: still 8, permuter sweep plus three shapes
+==============================================================================
+
+REPRODUCED from "THE BEST SOURCE" above: 204 bytes under `--cc ../2.0/sp2
+--arm`, all four PC24 sites resolving `label`, 8 concrete out on the same
+seven-instruction r5/r6 swap (the 7-vs-8 counting difference the second closer
+lane already explains).
+
+PERMUTER, two seeds:
+  `--mode hill --budget 40 --seed 1`    16 compiles, best = baseline at 8
+  `--mode random --budget 40 --seed 11` 41 compiles, best = baseline at 8
+
+Fifty-seven compiles, every ranked variant 204/8.  This matters more here than
+on the other rows in this class, because the note's single largest body of
+hand-measurement is declaration order ("six groupings ... COMPLETELY
+INSENSITIVE -- 7 every time").  The permuter's vocabulary is precisely
+declaration and statement permutation -- `decl-swap`, `decl-split`,
+`decl-join`, `decl-reverse`, `stmt-swap`, singly and in pairs -- and it
+reproduces that finding mechanically in about ninety seconds.
+
+THREE STRUCTURAL SPELLINGS ON TOP, on liveness rather than naming:
+ 12.  `c`'s live range extended past `q`'s last use, by a trailing
+      `if (c == 0x7fffffff) d->f10 = 0;` -- 220 bytes, 60 out.  Much worse:
+      it adds a compare and re-lays the tail.
+ 13.  `q`'s live range SHORTENED, by moving `d->f30 = ((s32)s->f2c * q) << 4;`
+      ABOVE the second func_0207C930 call so q dies before it -- 204 bytes,
+      34 out.  Worse, and it confirms the note's row 5 (swapping the f30/f34
+      stores, 33 out) from the other direction.
+ 14.  `c = *(const s32 *)&s->f1c;` -- 8, unchanged.
+
+So both directions of the obvious liveness lever are strictly worse and the
+qualifier is inert.  Combined with (12)/(13) on 0x02063378 in
+docs/notes/pkt_02063078.c.txt, measured the same day, the class now has
+negative results from both ends on both rows.
+
+Thirty-odd spellings total across the four passes.  NO PIN (../2.0/sp2 is 8
+against 1.1p1's 14; rule 2 needs 0).  Not filed: DIFF, by rule 6.

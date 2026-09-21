@@ -1,0 +1,272 @@
+2026-09-21, large-function lane: 0x0201183C second pass -- DIFF, 868/848.
+
+func_0201183C @ 0x0201183C, 848 bytes, thumb, packet pkt_0201183C.
+STATUS: DIFF, 868 compiled against 848.  NOT filed as a source.
+This note SUPERSEDES the "what to try next" list in
+docs/notes/pkt_0201183C.c.txt.  Two of that note's claims are corrected
+and the residue is now 20 bytes, not 56, with the entire nine-block loop
+body reproduced BYTE-FOR-BYTE.  Read that note first for the function's
+semantics, the struct, the pool and the callee identification; everything
+below is delta.
+
+CORRECTION 1, THE SYMBOL NAMES.  The previous note's symbols: block names
+the compare helper `_fcmp` and the float-to-int helper `_f2s`.  1.1p1
+-O4,p -thumb does NOT emit those names from this source.  It emits `_fgr`
+(for `x > 0.0f`) and `_ffix` (for the `(s32)` cast).  With the old names,
+EIGHTEEN of the fifty-nine relocation sites report
+
+    THM_CALL _fgr -> unresolved: no address for '_fgr': not in the
+    symbols: block, not an address-bearing name, not in symbols_sdk.json
+
+so the previous note's whole measurement series was taken with 18 sites
+wildcarded, and its "618 concrete out" figures are not comparable to
+anything.  The correct block is
+
+ *   _fgr           0x0209BBB0  arm
+ *   _ffix          0x0209C494  arm
+
+and with it ALL 59 SITES RESOLVE (`_fgr` label x80, `_ffix` label x36,
+`_fmul` x14, `_fsub` x34, `_fadd` x34, and the four non-float callees).
+0x0209C494 is confirmed as `_ffix` by src/matched/func_0202BBFC.c and
+src/matched/func_0202BCA0.c, which already spell it that way.
+THIS FUNCTION HAS NO EVIDENCE PROBLEM: it is pure codegen.
+
+CORRECTION 2, THE RESIDUE IS `volatile`, AND THE PREVIOUS NOTE MEASURED
+THE WRONG SHAPE OF IT.  That note reports `volatile float *f` throughout
+at 872/763 and calls it an overshoot "because volatile forces a re-read in
+the COMPARE as well as the arms".  That reasoning is backwards -- the
+image DOES load twice per block, once for the compare and once inside the
+taken arm, which is exactly what volatile gives.  What the note actually
+measured was volatile on the OUTER local `f`, which is a different thing
+from volatile on the inlined helper's parameter.  Put the volatile on the
+HELPER's pointer parameter and the block body becomes byte-exact:
+
+    static inline s32 cvt(volatile float *f, s32 j)
+    {
+        if (f[j] > 0.0f)
+            return (s32)(0.5f - f[j] * 4096.0f);
+        return (s32)(f[j] * 4096.0f + 0.5f);
+    }
+
+call sites `cvt(f, k)`, `cvt(f, k + 1)`, `cvt(f, k + 2)`, with `f` itself
+declared as a plain `float *`.  Against the previous note's 792-byte best
+this is 868, and it reproduces, in every one of the nine blocks:
+
+  * `push {r4, r5, r6, r7, lr}` and `sub sp, #0x3c` -- BOTH EXACT.  The
+    previous best pushed six registers and spent a 0x48 frame; the nine
+    per-block spill slots at sp+0x18..sp+0x38 that note identifies as
+    "the 72-byte residue" are now all present and at the right offsets.
+  * the spilled-index shape verbatim:
+        lsls r0, r6, #2  /  str r0, [sp, #N]  /  ldr r0, [r4, r0]
+        movs r1, #0      /  blx _fgr          /  bls
+        ldr r1, [sp, #N] /  adds r0, r7, #0   /  ldr r1, [r4, r1]
+        blx _fmul
+    i.e. the byte offset spilled to the block's own slot and the float
+    RE-LOADED inside the arm, rather than the value being spilled.
+  * the per-site rematerialisation of 0.5f as `movs r0, #0x3f` /
+    `lsls r0, r0, #0x18`, which the previous best had hoisted into a
+    callee-saved register and spent `adds r0, r6, #0` on.  This was
+    read as a "kept constants" front-end tell; it is NOT.  It falls out
+    of the volatile helper under the DEFAULT 1.1p1.
+  * `f` kept live in r4 and 4096.0f in r7 across the whole loop,
+    matching the image's register assignment.
+
+The control flow was already solved and still is: every branch target
+lands on the original's address.
+
+THE 20-BYTE RESIDUE, one decision, nine times plus the prologue.  It is
+the OPERAND ORDER OF THE `_fadd` IN THE NEGATIVE ARM, worth 2 bytes at
+each of the nine blocks.
+
+  image   0201190A  3f 21    movs r1, #0x3f
+          0201190C  09 06    lsls r1, r1, #0x18
+          0201190E           blx _fadd            ; r0 = product, r1 = 0.5f
+  compile          adds r1, r0, #0                ; product moved r0 -> r1
+                   movs r0, #0x3f
+                   lsls r0, r0, #0x18
+                   blx _fadd                      ; r0 = 0.5f, r1 = product
+
+The image's `_fadd` takes the product FIRST.  1.1p1 canonicalises the
+commutative `+` so the product lands in r1 and 0.5f in r0, then pays a
+`mov` to get there -- and it does this no matter how the source spells it.
+The `_fsub` arm is unaffected and already byte-exact, because `-` is not
+commutative and `_fsub(0.5f, product)` pins r0 = 0.5f.
+
+SPELLINGS MEASURED AGAINST THE `_fadd` ORDER, ALL 868, ALL IDENTICAL BYTES
+(1.1p1 -O4,p -thumb, volatile-helper baseline unless stated):
+  `f[j] * 4096.0f + 0.5f`                              868
+  `0.5f + f[j] * 4096.0f`                              868
+  `p = f[j] * 4096.0f; return (s32)(p + 0.5f);`        868
+  `float h = 0.5f;` used in both arms                  816  (worse: h hoisted)
+  `f[j] * 4096.0f - -0.5f`                             812  (worse: 50 sites,
+                                                             -0.5f goes to pool)
+  `float x = 4096.0f;` bound before the arms           868
+  the one-line ternary instead of if/return            868
+  explicit `else` on the second return                 868
+  permuter --mode hill, seeds 1 and 7, 42 mutations
+    available, 50 compiles (incl. swap'+', swap'*',
+    decl-swap/reverse, init-fold, ne0->!!)             868 at best; the only
+                                                       variants that changed
+                                                       anything were
+                                                       volatile-param@L60 at
+                                                       872, i.e. worse
+
+  `p = f[j]; return (s32)(p * 4096.0f + 0.5f);` (load bound,
+    product not)                                       868
+  `(f[j] * 4096.0f) - (0.0f - 0.5f)` parenthesised     812 (worse: 50 sites,
+                                                            the negated
+                                                            constant pools)
+  arms swapped, `if (!(f[j] > 0.0f))` first            868 (identical bytes;
+                                                            the compiler
+                                                            re-derives the
+                                                            polarity, so the
+                                                            fall-through-arm
+                                                            idiom does not
+                                                            apply here)
+
+OTHER SHAPES MEASURED THIS PASS, for the record (all 1.1p1 unless noted):
+  previous note's value-taking `static inline s32 cvt(float x)`,
+    with the symbols block CORRECTED                            792
+  `static inline s32 cvt(float *p)` taking `&f[k]`              772
+  `static inline s32 cvt(const float *f, s32 j)`, if/else,
+    two textual reads of f[j]  -- const licenses the CSE        772
+  `#define cvt(x) ((s32)((x) > 0.0f ? ... ))`, a macro so 0.5f
+    is a fresh literal at each of the 27 textual sites          776
+  `((volatile float *)f)[j]` cast at each use inside a
+    plain-pointer helper -- IDENTICAL to the volatile
+    parameter, byte for byte                                    868
+
+FRONT-END PROBE: TAKEN, AND IT REFUTES A PIN.  The previous note left this
+open and guessed the residue "reads like the kept-constants family".  One
+probe each, per the one-probe rule, on both baselines:
+    ../2.0/sp2 on the 792-byte value-helper baseline   780 bytes, 673 out
+    ../2.0/sp2 on the 868-byte volatile baseline       832 bytes, 738 out
+Both are FURTHER from 848 than 1.1p1's 868.  DO NOT PIN THIS FUNCTION.
+The per-site 0.5f that motivated the kept-constants reading is produced by
+the default front end once the helper is volatile, so the tell was never
+there.
+
+WHAT TO TRY NEXT, in order.  (1) The `_fadd` commutation is the whole
+residue and it is a call-level register-allocation choice, not a statement
+or declaration one, so the levers are the ones that change what is live at
+the call: give the helper a second, unused pointer parameter; make the
+helper return `void` and take an out-pointer; or hoist the negative arm's
+product into a variable that is ALSO read after the call.  (2) NOT the non-commutative
+rewrite: both `- -0.5f` and the parenthesised `- (0.0f - 0.5f)` were
+measured at 812 bytes and 50 sites, because the negated constant goes to
+the literal pool and the two `_fadd` relocations disappear with it.  (3) A `-proc` other than arm946e was
+NOT probed; layout/proc_hints.txt was not consulted for this address.
+
+The best source reached is preserved verbatim below: 868 bytes, all 59
+relocation sites resolved, 20 bytes long, nine blocks byte-exact.  Start
+from it, not from the previous note's 792.
+
+----------------------------------------------------------------------
+  /*
+   * function: func_0201183C
+   * address:  0x0201183C
+   * packet:   pkt_0201183C
+   * region:   arm9
+   * compiler: 1.1p1
+   * flags:    -O4,p
+   * lang:     c99
+   * isa:      thumb
+   * status:   DIFF
+   * symbols:
+   *   _fgr           0x0209BBB0  arm
+   *   _ffix          0x0209C494  arm
+   *   _fmul          0x0209C77C  arm
+   *   _fsub          0x0209C95C  arm
+   *   _fadd          0x0209CB8C  arm
+   *   func_0209C2B0  0x0209C2B0  arm
+   *   func_02030734  0x02030734  arm
+   *   data_020A7270  0x020A7270  data
+   *   func_020307B0  0x020307B0  arm
+   *   func_0204944C  0x0204944C  arm
+   */
+  typedef unsigned char  u8;
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+  typedef int            s32;
+  
+  struct Vec3 { s32 x; s32 y; s32 z; };
+  
+  struct S0201183C {
+      u16 f00;
+      u16 f02;
+      u32 f04;
+      u32 f08;
+      u32 f0c;
+      u32 f10;
+      u32 f14;
+      s32 f18;
+      struct Vec3 *f1c;
+      struct Vec3 *f20;
+      struct Vec3 *f24;
+      u32 f28;
+      u32 f2c;
+      u32 f30;
+  };
+  
+  extern u32   func_0209C2B0(u32 a, u32 b);
+  extern float *func_02030734(u16 tag, u32 n, u32 z, void *heap);
+  extern void  func_020307B0(float *p);
+  extern u8    data_020A7270;
+  extern void  func_0204944C(u32 a, u32 b, u32 c, u32 d);
+  
+  static inline s32 cvt(volatile float *f, s32 j)
+  {
+      if (f[j] > 0.0f)
+          return (s32)(0.5f - f[j] * 4096.0f);
+      return (s32)(f[j] * 4096.0f + 0.5f);
+  }
+  
+  void func_0201183C(struct S0201183C *s, s32 q)
+  {
+      float *f;
+      s32 n;
+      s32 tot;
+      s32 k;
+      s32 i;
+      s32 sh;
+  
+      sh = q >> 12;
+      n = func_0209C2B0(s->f0c, 0);
+  
+      tot = 8;
+      k = 0;
+      if (s->f30 != 0) tot += n * 0xc;
+      if (s->f2c != 0) tot += n * 0xc;
+      if (s->f28 != 0) tot += n * 0xc;
+      if (s->f30 != 0) k += s->f18 * 0xc;
+      if (s->f2c != 0) k += s->f18 * 0xc;
+      if (s->f28 != 0) k += s->f18 * 0xc;
+  
+      f = func_02030734((u16)((s->f00 & 0x7fff) | 0x8000), k, 0, &data_020A7270);
+      func_0204944C(s->f04, s->f08, tot, k);
+  
+      k = 0;
+      for (i = 0; i < s->f18; i++) {
+          if (s->f30 != 0) {
+              s->f24[i].x = cvt(f, k);
+              s->f24[i].y = cvt(f, k + 1);
+              s->f24[i].z = cvt(f, k + 2);
+              k += 3;
+          }
+          if (s->f2c != 0) {
+              s->f20[i].x = cvt(f, k);
+              s->f20[i].y = cvt(f, k + 1);
+              s->f20[i].z = cvt(f, k + 2);
+              k += 3;
+          }
+          if (s->f28 != 0) {
+              s->f1c[i].x = cvt(f, k);
+              s->f1c[i].y = cvt(f, k + 1);
+              s->f1c[i].z = cvt(f, k + 2);
+              k += 3;
+          }
+      }
+      func_020307B0(f);
+      s->f14 = sh;
+  }
+  

@@ -77,6 +77,23 @@
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT"
+  },
+  {
+   "name": "sub_02034E24",
+   "address": "0x02034E24",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02034E24.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "0x020A7984"
+    ]
+   }
   }
  ]
 }

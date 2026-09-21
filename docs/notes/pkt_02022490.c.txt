@@ -548,3 +548,83 @@ the only image-wide caller of both func_02022518 and func_020225B4, so
 src/pending/func_02022518.c and src/pending/func_020225B4.c (a mutual
 cycle) stay capped at MATCH until this address is filed EXACT.
 ========================================================================
+
+
+========================================================================
+2026-09-21 (closer lane, permuter pass): func_02022490 @ 0x02022490.
+Residue 29 -> 16, and the SIZE is now right (76 == 76).  Still DIFF.
+========================================================================
+
+The previous entry's C reaches 72 bytes against the original's 76 with 29
+concrete out.  This pass fixes the size and more than halves the residue,
+and it does it with the exact lever that entry nominated as untried: a
+MIXED spelling, the first store written through the index and the later
+three through a pointer re-derived at each store.
+
+The 16-byte C:
+
+    void func_02022490(char *p, int a1, int a2, int a3)
+    {
+        int i4;
+
+        if (*(u32 *)(p + 0x10) == 0 && *(u32 *)(p + 0x14) == 0)
+            *(u32 *)(g_021468A4 + 0x54) =
+                (u32)func_02005624((int)func_02022478, p, 0);
+
+        i4 = a3 * 4;
+        *(u32 *)(p + i4) = a1;
+        if (a2 != 0)
+            ((u32 *)((char *)p + i4))[2] = a2;
+        else
+            ((u32 *)((char *)p + i4))[2] = (u32)func_020225F0;
+        ((u32 *)((char *)p + i4))[4] = 1;
+    }
+
+Two conditions on it, both load-bearing and both measured:
+
+ 1. `i4` must be DECLARED at the top and ASSIGNED after the guard.  Folding
+    the two together, `int i4 = a3 * 4;` above the `if`, costs four bytes
+    (back to 72) and takes the residue to 36.  The image's `lsls r2, r7, #2`
+    sits at +0x24, after the call, and only the split form puts it there.
+
+ 2. The first store must NOT use the `[2]`/`[4]` subscript spelling.  With
+    all four stores written the same way (either all byte-offset or all
+    subscript) the residue is 29 or 33.  It is the asymmetry that works,
+    which is exactly what the previous entry predicted from the image's
+    own mix of `str r6,[r5,r2]` (register offset) against three
+    `str rN,[r0,#imm]`.
+
+With this, +0x00..+0x22 and +0x28..+0x30 are byte-identical, BOTH branch
+targets are right, and all three tail pool words now land at the correct
+addresses (the previous entry's pool permutation is gone).  The 16 left are
+one register-role swap in +0x24..+0x3E:
+
+    original   index -> r2,  slot base -> r0,  stored value -> r1
+    compiled   index -> r0,  slot base -> r1,  stored value -> r0
+
+Nothing is missing, extra or reordered; `adds rB, r5, rIdx` is recomputed
+before each of the three offset stores in both, as it must be.
+
+Also measured this pass, on top of that 16-byte baseline, no change:
+  the guard as `!!a2`, and as `0 != a2`                        16
+  func_02005624 redeclared to return u32 and take a function
+    pointer, dropping both casts                               16
+  the stored value bound to a local `v` in each arm            16
+  the tail constant bound to a local `one = 1`                 16
+  a `u32 *q` re-assigned inside each arm and again at the tail 16
+  a3 declared unsigned                                     72 bytes, 36
+  a2 declared void *, with written-out arms                76 bytes, 23
+  written-out arms (each arm carrying its own `= 1` store)  76 bytes, 23
+  `volatile` on the store targets                          72 bytes, 29
+  `volatile int i4`                                        88 bytes, 82
+  a `char *volatile` base alias                            84 bytes, 69
+  a `goto tail;` from the a2 arm to the shared `= 1` store  72 bytes, 29
+  a fresh `char *q = p + i4;` inside each arm               72 bytes, 32
+
+tools/permute.py found nothing on either baseline and MISBEHAVED on both:
+on the 29-byte source it reported "mutations available: 32" and then ran
+ONE compile (the baseline) and stopped; on the 16-byte source it reported
+26 available and ran three.  See the field report in docs/notes/permuter.md.
+
+Consequence for the blocked pending files: unchanged.  src/pending/
+func_02022518.c and src/pending/func_020225B4.c stay capped at MATCH.

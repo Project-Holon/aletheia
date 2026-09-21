@@ -2,7 +2,8 @@
  * function: func_0201D7EC
  * address:  0x0201D7EC
  * packet:   pkt_0201D7EC
- * status:   MATCH
+ * status:   ISA
+ * note:     re-verified 2026-09-21 after the listing regeneration: ISA
  * note:     re-verified 2026-09-20: MATCH; see verify output
  * symbols:
  *   func_02030734 0x02030734 arm

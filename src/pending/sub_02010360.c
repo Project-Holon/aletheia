@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   DIFF
+ * note:     re-verified 2026-09-21 after the listing regeneration: DIFF
  * note:     re-verified 2026-09-20: MATCH; see verify output
  *
  * blocking: label/overlay 0x0217963C (no witness outside range, ov009|ov014 ambiguous);

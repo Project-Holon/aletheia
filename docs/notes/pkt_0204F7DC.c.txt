@@ -289,3 +289,43 @@ void func_0204FFFC(struct Blk *p)
     func_0204ED24(p->f04);
     func_020307B0(p);
 }
+
+==============================================================================
+2026-09-21, closer lane with tools/permute.py: still DIFF 2, floor confirmed
+mechanically
+==============================================================================
+
+Reproduced the note's "C as measured (spelling 2)" verbatim: 132 bytes, all
+seven PC24 sites resolving `label`, the same two bytes at +0028/+002C
+(`ldr r1, [r1, r0]` / `cmp r1, r7` against `ldr r0` / `cmp r0`).
+
+PERMUTER: `--mode hill --budget 35 --seed 1 --arm`, 9 mutations available,
+10 compiles.  Best is the BASELINE at 2.  Four mutations are byte-identical
+to it (`init-fold@L67`, `swap'!='@L69`, `init-split@L64`, `init-split@L70`)
+and the remaining five are CCERR -- `const-param`/`volatile-param` on the
+`struct Blk *p` parameter, which mwccarm rejects because the four externs
+take `void *` (verified by hand; see the field report in
+docs/notes/permuter.md).  The mutation space is genuinely exhausted at 9, so
+no second seed was spent: `hill` on this source enumerates all of it.
+
+THREE STRUCTURAL SPELLINGS ON TOP, all 132 bytes and all 2 out:
+  8.  `id = *(volatile u32 *)&p->f18[i].id;` -- the volatile re-read lever
+      that closed func_0206A67C and func_02071360's size.  It does not move
+      a destination-register choice, which is what this residue is.
+  9.  the sentinel bound to a `u32 sent = 0xFFFF;` declared before `i`, with
+      `if (id != sent)`.  (Spelling 5 in the list above bound it inside the
+      loop; this is the function-scope variant.)
+ 10.  `if (!!(id ^ 0xFFFF))` -- the `!!` lever from
+      a-small-constant-is-rematerialised..., since `!!` is what closed
+      func_0206419C's 2-byte residue.  Same 2 bytes.
+
+Ten spellings total across the passes.  Nothing reaches it, and the reason is
+the one the note already gives: the image lands the loaded sentinel back in
+r1, clobbering the array pointer it was just loaded through, and 1.1p1 lands
+it in r0.  Both encodings are the same length, no statement, declaration,
+type, qualifier or operand order changes which register the load targets.
+Same class as the mla/smull residues of docs/notes/pkt_02063078.c.txt and
+docs/notes/pkt_02072374.c.txt: a destination register chosen after
+linearisation.
+
+Not filed: DIFF, by rule 6.
