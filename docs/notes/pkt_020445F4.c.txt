@@ -524,3 +524,78 @@ keyed:
         }
     }
 }
+
+================================================================
+re-measured, appended 2026-09-21 (bmp.c family wave, header pass)
+
+All four rows above were re-measured against a fresh compile before any new
+work, per the brief's warning that notes go stale.  THREE ARE CONFIRMED
+EXACTLY AS RECORDED; one row's baseline is slightly better than written.
+
+  func_02044F64  CONFIRMED at 292/14.  The recorded source reproduces its
+                 recorded number on the nose.
+  func_02044D88  baseline is 312/260, BETTER than the row's recorded
+                 312/272 (the row's own permuter line said 312/259, so 260
+                 is where a clean rebuild of the shape lands).
+  func_02044BF0  the row says every spelling landed 212-220 against 240.
+                 Rebuilt with the new 0x02044CE0 lever (below) it lands
+                 200-208, i.e. FURTHER from the size, not nearer.
+  func_02044954  not re-attempted this wave.
+
+THE ONE TRANSFERABLE LEVER FOUND THIS WAVE lives in
+docs/notes/sub_02044CE0.c.txt: writing the tiled address as
+`rowInTile[pixels + ...]` rather than `pixels[... + rowInTile]` keeps the
+row-in-tile term out of the address sum and hands it to the store as the
+register offset, which is what every worker's `strb rX, [rBase, rIdx]` /
+`strh` actually is.  On 0x02044CE0 it fixes the SIZE (164 -> a correct 168).
+
+It does NOT transfer to the two 4bpp workers:
+  - on func_02044BF0 the same rewrite gives 200/183 (worse than the row's
+    212-220 band): the nibble merge's two arms are what dominate there, not
+    the address shape.
+  - on func_02044D88 it is inert.
+
+func_02044F64: THE 14-BYTE FLOOR IS NOW CONFIRMED EXHAUSTED ON THE SOURCE
+AXIS.  The row above swept all 720 declaration permutations.  This wave
+added, on top of that source, a sweep of the one lever the row named as
+still open (the SHAPE of the `dep` read):
+  - all four orderings of the three initial u16 reads:      14 each (INERT)
+  - `src->f08` re-read at the mla instead of `dep`:         87
+  - `dep` declared u32 in its own declaration block:        45
+  - `n = w * h * dep` computed BEFORE the func_02043678
+    call rather than after:                                 288 bytes, 225
+  - the mla product written `dep * (q / 8 * w + x)`:        14 (INERT)
+  - `i / (d * w)` / `i % (d * w)`:                          16
+and a permuter pass (hill, budget 40, 39 compiles) in which the ENTIRE TOP
+TEN ties at 14 -- including the baseline itself, `param-signedness`,
+`const-param`, `volatile-param`, `decl-split` and three `swap'*'`
+mutations.  A permuter whose every mutation ties is the signature of a
+residue that is not source-level at all.
+
+So the `dep` read shape is now measured and is NOT the lever; the row's
+closing guess should be treated as refuted.  The 14 residual bytes are two
+registers swapped (dep: sb vs r7, w*d: r7 vs sb) plus the f04/f06 load pair
+that feeds them, and nothing in the C reaches them.
+
+func_02044D88: the one NEW lever measured this wave is `volatile` on the
+rowbytes local, which is the only thing that moved it at all:
+  - baseline shape:                                  312 / 260
+  - `volatile s32 rowbytes`:                          300 / 241
+  - `volatile` on the pixels FIELD (the brief's
+    documented store-merge lever):                    312 / 260 (INERT)
+  - `volatile u32 fp = 0xf0`:                         316 / 272
+  - permuter on the volatile-rowbytes source
+    (hill, budget 40):                                300 / 240
+It is recorded rather than adopted: 300 is FOUR BYTES FURTHER from the
+original's 308 than the 312 baseline is, so it trades size for mismatch
+count and is not a genuine advance.  It does confirm that rowbytes is one
+of the two values the image spills, which is what the row at the top of
+this file predicted.
+
+VERDICT FOR THE WHOLE PACKET, unchanged and now measured twice: every one of
+these six workers fails on ONE class -- the image spends more registers
+and/or more spill slots than mwcc chooses to, and no source spelling reaches
+that decision.  Three independent permuter runs this wave (0x02044CE0,
+0x02044F64, 0x02044D88) each plateau with their whole top ten tied.  Nothing
+here is evidence-blocked: 0x02044CE0, 0x02044EBC, 0x02044D88, 0x02044BF0 and
+0x02044954 have ZERO relocations, and 0x02044F64's seven all resolve.

@@ -402,3 +402,37 @@ folding its `>> 22` into the OR's shifter operand.  Every spelling tried lets
 which frees r0, costs the pool word its second use and reallocates the block.
 Closing this row means finding a spelling in which the mask word is provably
 not a compile-time constant while still being materialised once.
+
+------------------------------------------------------------------------------
+2026-09-21, second full attempt on 0x0204C2C8 now that it can file as EXACT.
+------------------------------------------------------------------------------
+
+Ten levers measured against the 175-byte source. Floor is unchanged at 175
+(260 bytes compiled, correct size, 3/3 sites resolved).
+
+DEFEATING THE `(s32)k >> 22` CONSTANT FOLD -- the residue this note named as
+the single remaining cause -- DOES NOT WORK.  1.1p1 folds it to the literal 3
+under every spelling:
+    volatile u32 k                  -> 240 out, 272 bytes (volatile adds a
+                                       stack slot and 12 bytes; much worse)
+    extern const u32 k              -> 221 out, 272 bytes
+    second local  s32 kc = k >> 22  -> 175 (no-op)
+    written as  (s32)k / (1 << 22)  -> 175 (no-op)
+    k declared s32, shift direct    -> 175 (no-op)
+    s32 kk source + u32 k = (u32)kk -> 175 (no-op)
+That four of the six return EXACTLY 175 says the fold happens after every
+source-level distinction available; only the two that add a memory operand
+move the number, and both move it the wrong way.
+
+ALSO RULED OUT this pass -- the extraction's signedness.  The image emits
+`lsr r6, r2, #0x17` (unsigned) at +0x18 where the compile emits `asr`.  That
+looked like the tell, but forcing the unsigned form changes nothing:
+    a extracted unsigned, (s32)((*x << 7) >> 23)   -> 175
+    a and b both extracted unsigned                -> 175
+    a declared u32                                 -> 176
+The `asr`/`lsr` difference is a consequence of the register plan, not a cause.
+
+STATE: 175 concrete bytes out of 260, all three relocations resolved (the
+sole-ref/code widening carries func_0204C3CC).  The row is NOT evidence
+blocked; it is whole-body register allocation.  The next attempt should NOT
+re-run the fold levers or the signedness levers above.

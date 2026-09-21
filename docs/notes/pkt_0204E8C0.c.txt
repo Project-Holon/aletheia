@@ -32,3 +32,13 @@ future pass is the note's: make the clearing loop's counter and the inner x
 one register the *allocator's* own idea of sharing, and let the OAM base
 pointer be updated in place so that `sb` is not needed.  Every declaration
 ordering of the five locals was measured and 35 bytes is the floor.
+
+2026-09-21 CAP RE-CHECKED, LIFTED: this note parks src/pending/func_0204E8C0.c
+at MATCH on the "single unresolved site 0204E914". Probed today:
+0204E914 -> [label x4, e.g. 0204E904]. Re-run match.py one on the park; if it is
+still byte-correct it should now verify EXACT and move to src/matched.
+
+CORRECTION to the line just above: there is no longer a park to promote.
+src/pending/func_0204E8C0.c no longer exists; the row was already filed as
+src/matched/func_0204E8C0.c by an earlier wave. The cap re-check above stands
+(0204E914 resolves by label x4), but the action it suggested is already done.

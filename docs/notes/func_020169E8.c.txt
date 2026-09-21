@@ -1,0 +1,261 @@
+========================================================================
+pkt_020169E8 -- func_020169E8 @ 0x020169E8, 440 bytes
+========================================================================
+2026-09-21, family wave (mcss.c).  New note; the row was UNTOUCHED, with
+no previous attempt of any kind.  Taken from nothing to 4 concrete bytes.
+
+verdict DIFF: compiled 436 bytes against 440, 4 concrete bytes differ.
+all 9 relocation sites resolve (literal x14 for the mcss.c file word,
+literal x4 for the func_0201691C pool word, label for the rest).
+NOTHING IS EVIDENCE-BLOCKED.
+
+WHAT IT IS.  The twin of src/matched/func_0201624C.c, which is what made
+this tractable: same 0x2c-byte task context, same 0x10-byte inner block,
+same two allocations off the mcss.c __FILE__ word, same
+func_02030DA8-or-func_020056A0 tail.  The differences from the twin are
+(a) a frame-counter guard at the top, (b) an MIi-style blit through
+func_02021F64 instead of MIi_CpuCopy16, and (c) a one-byte-per-frame
+interpolator tail.  Everything in docs/families/mcss.h's struct McssTask
+and struct McssTaskInner is evidenced by this function as well as by the
+twin, which is why the two agree.
+
+FOUR FINDINGS, IN THE ORDER THEY PAID, 410 -> 236 -> 182 -> 15 -> 4:
+
+1.  THE GUARD'S EARLY RETURN LIVES AT THE END OF THE FUNCTION (410 -> 236).
+    The original opens
+
+        ldrsb r1, [r5, #0x136] ; cmp r1, #0 ; beq body ; b +0x2016b74
+
+    and 0x02016b74 is past the last epilogue.  Written as an ordinary
+    early return the compiler emits the decrement inline and shifts the
+    whole body down by four bytes.  It must be a `goto` to a block placed
+    after the normal return:
+
+        if (*(s8 *)(a1 + 0x136) != 0) goto dec;
+        ...
+        done: *(s8 *)(a1 + 0x136) = *(s8 *)(a1 + 0x137); return;
+        dec:  *(s8 *)(a1 + 0x136) = *(s8 *)(a1 + 0x136) - 1;
+
+    This is docs/idioms/guards-separated-by-statements-share-an-exit-only-
+    through-goto.md seen from the other side: here the goto is what moves
+    the rare arm out of line, not what merges two exits.
+
+2.  THE BLIT'S ARGUMENTS ARE AT 0x134 AND 0x13C, NOT 0x128 AND 0x134
+    (236 -> 182, and the size came to 440 exactly).  The original builds
+    them off the 0x148 constant already parked in r6:
+
+        subs r0, r6, #0xc   -> 0x13c   5th argument, (u16)
+        subs r6, #0x14      -> 0x134   4th argument, ldrb (u8)
+
+    so the call is
+
+        func_02021F64(*(void **)(a1 + 0xD4 or 0xD8), p->f04->f0c,
+                      <size/2>, *(u8 *)(a1 + 0x134), (u16)*(u32 *)(a1 + 0x13C));
+
+    The 0xD4/0xD8 select is on bit 28 of the +0x140 flag word, spelled
+    `(*(u32 *)(a1 + 0x140) << 3) >> 0x1F` -- a four-bit-wide-or-more
+    extraction, so the shift-pair spelling is safe here (contrast the
+    one-bit case in docs/notes/pkt_02014C08.c.txt, where it is not).
+
+3.  THE NARROWING BELONGS TO THE CALLEE'S PARAMETER, NOT THE CALL SITE
+    (182 -> 15).  The third argument is a signed halving of the +0xdc
+    size, which the original emits as
+
+        lsrs r3, r2, #0x1f ; adds r3, r2, r3 ; lsls r2, r3, #0xf ; lsrs r2, r2, #0x10
+
+    i.e. `(x + (x >> 31)) << 15 >> 16` -- a signed `/2` and ONE narrowing
+    to 16 bits.  Writing `(u32)(u16)((s32)x / 2)` at the call site adds a
+    second `lsls/lsrs` pair and costs 4 bytes plus the whole tail's
+    alignment; declaring the parameter `u16` and passing the plain
+    `(s32)x / 2` produces exactly the original's four instructions.  The
+    prototype that reproduces it is
+
+        void func_02021F64(void *a, void *b, u16 c, u8 d, u16 e);
+
+    This is the same lesson docs/families/mcss.h records for the heap
+    word, pointing the other way: a plain field wants its narrowing at
+    the use, a call argument wants it in the callee's declared type.
+
+4.  `step` MUST BE DECLARED BEFORE `cur` AND `tgt` (15 -> 4).
+    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
+    The interpolator tail needs `tgt` in r3 and the step's sign test's
+    operand in r2; with the locals declared
+
+        struct Obj *p; u32 flag; void *ret; s8 cur; s8 tgt; s32 step;
+
+    the allocator hands tgt r2 and the step r3, and eleven bytes across
+    six compares/stores come out swapped.  Moving `s32 step;` ahead of
+    the two `s8`s -- i.e.
+
+        struct Obj *p; u32 flag; void *ret; s32 step; s8 cur; s8 tgt;
+
+    -- puts them the right way round and every one of those eleven bytes
+    closes.  The three other orders tried (tgt before cur; the three
+    tail locals first; p/tgt/cur/step/flag/ret) all stay at 15.
+
+THE RESIDUE, 4 BYTES, IS ONE MISSING POOL WORD.
+
+    +0182    ldr r0, [pc, #0x30]   | ldr r0, [pc, #0x2c]
+    +01AC    .byte ff ef ff ff 35 01 00 00   (original)
+             .byte ff ff ff ef 37 01 00 00   (compiled)
+
+The original's literal pool carries BOTH 0x135 and 0x137 as words; this
+compile derives 0x135 from 0x134 (`adds r2, r0, #1`, which the original
+also does at +0x013C) and therefore needs only 0x137, so the pool is one
+word shorter and the function is 436 instead of 440.  Every one of the
+436 emitted bytes is correct; the gap is a pool word the original spends
+and this spelling does not.
+
+Tried against the 4-byte baseline, each a full recompile:
+  - re-reading `*(s8 *)(a1 + 0x135)` at the clamp store instead of
+    reusing `tgt` (440 bytes exactly, but 46 mismatches -- it buys the
+    pool word and loses the register allocation, and the two have not
+    been made to coexist);
+  - `tgt` assigned before `cur` (440 bytes, 97);
+  - the `done:`/`dec:` bodies lifted into named s8 temporaries (436, 4);
+  - tools/permute.py --mode hill --seed 5, budget 35, 34 compiles over
+    the 133 mutations available: best 440/97, nothing at or below 4;
+  - `volatile s8` on the 0x135 read (436, 4);
+  - the 0x136 and 0x137 accesses respelled as `0x135 + 1` and `0x135 + 2`
+    so the constant the compiler pools is 0x135 rather than 0x137 (436, 4
+    both times -- the front end folds the addition before it chooses the
+    pool word, so the spelling of the offset cannot reach this).
+
+NEXT LEVER.  Find the spelling that forces 0x135 into the pool WITHOUT
+disturbing the r2/r3 assignment the declaration order just bought.  The
+two are coupled through the same statement, which is why every attempt
+so far trades one for the other.  A cast that makes the 0x135 access a
+different type from the 0x134 access (so the compiler cannot fold the
++1) while still yielding an s8 value in the same register is the shape
+to look for.
+
+---- closest C (4 mismatches, 436 bytes against 440) ----
+/* best source, 436 bytes against 440, 4 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_020169E8
+ * address:  0x020169E8
+ * packet:   pkt_020169E8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   data_020A72CC  0x020A72CC  data
+ *   func_0201691C  0x0201691C  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed char    s8;
+typedef signed int     s32;
+
+extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void func_02021F64(void *a, void *b, u16 c, u8 d, u16 e);
+extern void func_02016C38(void *p);
+extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
+extern void *func_020056A0(void *callback, void *ctx, int a2);
+extern void func_0201691C(void *a0, void *a1);
+
+extern char data_020A72CC[];
+
+struct Inner {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    void *f0c;
+};
+
+struct Obj {
+    u8 pad00[4];
+    struct Inner *f04;
+    u8 pad08[4];
+    void *f0c;
+    u8 pad10[0xc];
+    u32 f1c;
+    void *f20;
+    void *f24;
+    u32 f28;
+};
+
+void func_020169E8(u8 *a0, u8 *a1)
+{
+    struct Obj *p;
+    u32 flag;
+    void *ret;
+    s32 step;
+    s8 cur;
+    s8 tgt;
+
+    if (*(s8 *)(a1 + 0x136) != 0) {
+        goto dec;
+    }
+
+    flag = 1;
+    p = (struct Obj *)func_02030734((u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000), 0x2C, 1, data_020A72CC, 0x9A1);
+    p->f20 = a0;
+    if (*(void **)(a0 + 8) == 0) {
+        flag = 0;
+    }
+    p->f28 = flag;
+    p->f24 = a1;
+    p->f0c = a1 + 0xC0;
+    p->f1c = *(u32 *)(a0 + 0x34) + (*(u32 *)(a1 + 0x148) << 5);
+
+    flag = 0;
+    p->f04 = (struct Inner *)func_02030734((u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000), 0x10, 0, data_020A72CC, 0x9A9);
+    p->f04->f00 = *(u32 *)(a1 + 0xC0);
+    p->f04->f04 = flag;
+    p->f04->f08 = *(u32 *)(a1 + 0xDC);
+    p->f04->f0c = func_02030734((u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000), *(u32 *)(a1 + 0xDC), 0, data_020A72CC, 0x9A9 + 5);
+
+    if ((*(u32 *)(a1 + 0x140) << 3) >> 0x1F) {
+        func_02021F64(*(void **)(a1 + 0xD8), p->f04->f0c,
+                      ((s32)*(u32 *)(a1 + 0xDC) / 2),
+                      *(u8 *)(a1 + 0x134), (u16)*(u32 *)(a1 + 0x13C));
+    } else {
+        func_02021F64(*(void **)(a1 + 0xD4), p->f04->f0c,
+                      ((s32)*(u32 *)(a1 + 0xDC) / 2),
+                      *(u8 *)(a1 + 0x134), (u16)*(u32 *)(a1 + 0x13C));
+    }
+
+    if (*(void **)(a1 + 4) != 0) {
+        func_02016C38(*(void **)(a1 + 4));
+        *(void **)(a1 + 4) = 0;
+    }
+
+    if (*(void **)(a0 + 8) != 0) {
+        ret = func_02030DA8(*(void **)(a0 + 8), func_0201691C, p, 0);
+    } else {
+        ret = func_020056A0(func_0201691C, p, 0);
+    }
+    *(void **)(a1 + 4) = ret;
+
+    cur = *(s8 *)(a1 + 0x134);
+    tgt = *(s8 *)(a1 + 0x135);
+    if (cur == tgt) {
+        *(u32 *)(a1 + 0x140) &= 0xEFFFFFFF;
+    } else {
+        step = *(s32 *)(a1 + 0x138);
+        *(s8 *)(a1 + 0x134) = (s8)(cur + (s8)step);
+        if (step < 0 || *(s8 *)(a1 + 0x134) < tgt) {
+            if (step < 0) {
+                tgt = *(s8 *)(a1 + 0x137);
+                if (*(s8 *)(a1 + 0x136) > tgt) {
+                    goto done;
+                }
+            } else {
+                goto done;
+            }
+        }
+        *(s8 *)(a1 + 0x134) = tgt;
+    }
+done:
+    *(s8 *)(a1 + 0x136) = *(s8 *)(a1 + 0x137);
+    return;
+dec:
+    *(s8 *)(a1 + 0x136) = *(s8 *)(a1 + 0x136) - 1;
+}

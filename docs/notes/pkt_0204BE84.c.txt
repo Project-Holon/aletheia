@@ -130,3 +130,32 @@ binding `g_020A1418[a1->f8]`'s index to a local ABOVE the four stores, so the
 `ldr r1,[r4,#8]` is scheduled into the block the way the image has it.  The
 volatile trick that closed func_0204D224 is NOT applicable here -- the four
 stores are already separate, there is no stm to break.
+
+------------------------------------------------------------------------------
+2026-09-21, second full attempt on 0x0204BE84 now that it can file as EXACT.
+------------------------------------------------------------------------------
+
+Thirteen levers measured. Floor unchanged at 110 out, 160 bytes compiled
+against the original's 164. All four relocation sites resolve.
+
+THE `volatile` LEVER THAT CLOSED func_0204D224 IS A NO-OP HERE, as this note
+predicted. Measured to be sure, one slot at a time and then all together:
+    volatile dest +0x00 / +0x04 / +0x08 / +0x0c  -> 110, 110, 110, 110
+    volatile src   f0 / f2 / f4 / f6             -> 110, 110, 110, 110
+    all four destinations volatile               -> 110
+Nine variants, all EXACTLY 110. The reason is structural: volatile works on
+func_0204D224 because it breaks an unwanted `stmib` merge, and here there is
+no merge to break -- the four stores are already separate instructions.
+
+POINTER-SPELLING LEVERS, also all exactly 110 (i.e. all no-ops):
+    stores through a local `int *p = (int *)a0`, as p[0..3]
+    the source struct reached through a local `T *q = a1`
+    the three tail stores through named u32 locals
+
+THE REAL DEFECT IS THE FOUR-BYTE SHORTFALL, i.e. ONE MISSING INSTRUCTION.
+The image carries `mov r0, r5` at +0x3c -- a0 re-materialised into r0 for the
+func_0204BF28 call while r5 still holds it -- and no spelling tried emits it.
+Everything from +0x50 onward is byte-identical once that shift is accounted
+for. Closing this row means finding what makes 1.1p1 keep a second live copy
+of a0 across the four stores; it is not reachable through volatile, through
+the store spelling, or through the pointer types.

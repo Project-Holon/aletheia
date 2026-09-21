@@ -119,3 +119,67 @@ expression, which would explain both the surviving separation and the
 right-associated `add` chain (`pixels + (j & 7)`, then `+ tileX`, then
 `+ tileRow`).  That shape was not reconstructed here.  Anyone picking this up
 should start from the C above and attack only the fusion.
+
+================================================================
+re-measured and ADVANCED, appended 2026-09-21 (bmp.c family wave)
+
+The note above is CORRECT on semantics and still the right starting point,
+but its "164 bytes, closest by size" floor has been beaten.  The size is now
+RIGHT (168/168) and the mismatch count is down from the note's implied ~73 to
+81, with a named source-level lever.
+
+THE LEVER: the subscript is written on the ROW-IN-TILE term, not on the
+pixel pointer.  The note's flat form
+
+    s->pixels[tileRow + tileX + rowInTile + (j & 7)] = value;
+
+always lets mwcc fuse the two i-derived invariants into one `mla` before the
+inner loop.  Writing the same address as
+
+    rowInTile[s->pixels + (j & 7) + ((j * 8) & 0x7fc0) + tileRow] = value;
+
+(an integer-subscripts-a-pointer expression, legal C and exactly the same
+value) keeps `rowInTile` OUT of the address sum and hands it to the `strb` as
+the register offset, which is what the image's `strb r7, [r6, sb]` is: r6 is
+rowInTile as a BASE, sb the rest of the address.  That alone takes the
+compile from 164 bytes to a correct 168 and drops the diff to 108.
+
+Hoisting the two invariants into named locals in the OUTER loop body is
+required alongside it -- inlining both expressions at the subscript goes back
+to 164 bytes.  So the shape that reaches 168 is:
+
+    for (i = y; i < bottom; i++) {
+        s32 tileRow = ((i * 8) & 0x7fc0) * tilesWide;
+        s32 rowInTile = (i * 8) & 0x38;
+        for (j = x; j < right; j++)
+            if (j >= 0 && i >= 0)
+                rowInTile[s->pixels + (j & 7) + ((j * 8) & 0x7fc0) + tileRow]
+                    = value;
+    }
+
+Declaration order then moves it the rest of the way.  Three permuter passes
+(hill, budget 35/40/45, 119 compiles) took 108 -> 89 -> 85 -> 81 purely on
+`decl-swap`/`decl-reverse` of the local block, and the run PLATEAUS at 81:
+the whole top ten of the third pass are 81 and DIFF.  The 81-byte source is
+the one above with the locals declared
+
+    s32 tilesWide; s32 i; s32 right = x + w; s32 j; s32 bottom = y + h;
+
+Operand order inside the address sum is INERT at this point: three orderings
+(tileRow last, tileRow first, the pointer parenthesised with (j & 7)) all give
+exactly 168/108 before the declaration sweep.  Reading s->pixels into a local
+inside the guard is worse (92 vs 85).
+
+WHAT IS STILL WRONG, and it is one thing: the original pushes TEN registers
+(`push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}`) and keeps `fp` live to hold
+the base pointer read (`ldr fp, [r0]`), while mwcc pushes EIGHT and re-uses
+r8.  Every remaining mismatch is downstream of that one extra live value: the
+compiler still folds `tileRow + rowInTile` at +0060 (`add r5, r8, r5`) where
+the image keeps them in r5 and r6 to the end.  So the residue is a register-
+pressure decision, the same class the rest of this family is stuck on, and no
+longer an address-shape question.
+
+0x02044EBC IS CONFIRMED STILL IDENTICAL.  `show` on both was re-run this
+wave: 168 bytes each, instruction for instruction the same, same pool
+constant 0x00007FC0, only branch displacements relocated.  Whatever closes
+one closes the other, and the source above is the one to start from.

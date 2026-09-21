@@ -1,18 +1,20 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * function: sub_02018488
  * address:  0x02018488
+ * packet:   pkt_02018488
  * note:     132 bytes, one function
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     re-verified 2026-09-21: EXACT.  The MATCH cap was lifted by the
+ *           sole-ref widening of 2026-09-21, not by any edit to the C:
+ *           the data address this file reaches now attests as
+ *           sole-ref/data.  Promoted from src/pending/ unchanged.
  *
- * Why it is capped: the ABS32 against the 0x021462B0 scratch buffer.  A scan
+ * Why it WAS capped (historical, resolved 2026-09-21): the ABS32 against the 0x021462B0 scratch buffer.  A scan
  * of every word in all 242 regions finds 0x021462B0 exactly once, in the pool
  * word at 0x02018508 that this function owns, so the `literal` class discards
  * its only witness and no cut helps.  The buffer's neighbour 0x021462F0 is

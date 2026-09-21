@@ -168,3 +168,45 @@ void func_0204D224(struct P *p, struct A *a1, u32 heap)
     func_02064754((u8 *)p + 0xc, p->f78, p->f08, p->f04, p->f70, 1);
     func_0206469C((u8 *)p + 0xc, func_020627D8(p->f74, 0));
 }
+
+------------------------------------------------------------------------------
+2026-09-21, second full attempt on the 2-byte residue: EXHAUSTED, allocator.
+------------------------------------------------------------------------------
+
+Sixteen further levers measured against the 2-byte source above.  NOTHING
+reaches 0.  Every lever either leaves the residue at exactly 2 (i.e. it is a
+no-op for allocation) or makes it worse:
+
+  volatile on a SECOND destination field:
+    f00 -> 2    f78 -> 2         (no-op: neither field is stored here)
+    f08 -> 15   f70 -> 11   f74 -> 11   (all worse)
+  helper parameter narrowing (the u8/u16-vs-int lever):
+    func_020648B4 2nd arg u8      -> 2
+    func_02064754 last arg u8     -> 2
+    func_020627D8 2nd arg u8      -> 2
+    func_0206469C 2nd arg int     -> 2
+    func_02030734 clear arg int   -> 2      (all no-ops)
+  reading the source through a differently typed pointer:
+    struct A f0c volatile         -> 2      (no-op)
+    struct A all four volatile    -> 10     (worse)
+  splitting/merging the temp that feeds the +0x04 and +0x70 stores:
+    extra copy temp for f04       -> 2
+    extra copy temp for f70       -> 2
+    both through copies           -> 2      (all no-ops; mwcc coalesces the
+                                             copy away before allocation)
+  front end:
+    ../2.0/sp2 on the identical source -> 83 bytes out (164 bytes compiled).
+    1.1p1 stays pinned; do NOT pin this row to 2.0.
+
+That the five narrowing levers and the three copy-temp levers all return
+EXACTLY 2 is the useful result: the residue is downstream of every
+source-level distinction available.  The two mismatched instructions are
+
+    +0028  str ip, [r5, #4]     |  str r0, [r5, #4]
+    +0030  str r0, [r5, #0x70]  |  str ip, [r5, #0x70]
+
+-- the same two values in each other's registers, every other byte of the
+function identical.  This is the allocator class of
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.
+Treat 0x0204D224 as CLOSED at 2 bytes unless a new register-allocation lever
+appears; it is not worth further budget.

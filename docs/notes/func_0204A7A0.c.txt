@@ -179,3 +179,11 @@ Remaining known-wrong spots (for whoever continues this):
   - g_020A1430 needs an outside witness before this can ever reach EXACT;
     worth checking whether any other clact.c-adjacent function's pool also
     loads 0x020A1430 once more of the packet's neighbours are worked.
+
+2026-09-21 CAP RE-CHECKED, LIFTED: this note says 0x020A1430 "has NO witness
+anywhere in the image outside this function" and that the row "caps at MATCH,
+not EXACT, on this site alone". That is no longer true. Probed with an isolated
+extern today: 020A1430 -> [literal x4, e.g. 0204A8C8]. The site resolves on the
+plain `literal` class; sole-ref is not even needed. A byte-exact func_0204A7A0
+is EXACT today. The 103-byte scheduling residue is now the ONLY thing between
+this row and a filing.

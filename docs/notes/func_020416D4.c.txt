@@ -27,3 +27,140 @@ Not attempted: the switch head cannot be compiled as a standalone fragment, so
 no C file can land on this row's 28 bytes.
 
 Addresses are Black-image addresses.
+
+========================================================================
+APPENDED 2026-09-21: the note above is STALE.  The 28-byte 'row' framing
+is wrong: func_020416D4 is a 784-byte function and it IS compilable as a
+whole.  Size now reproduces EXACTLY (784/784) and the first 0x88 bytes are
+byte-identical.  303 of 784 bytes still differ, all of them inside the four
+sub-dispatch arms (layers 2/3/6/7).
+
+WHAT CLOSED THE STRUCTURE (these are settled, do not re-derive):
+  * The return is a 2-BIT BITFIELD READ, not a mask.  Declaring
+        struct BgCnt { u16 prio : 2; u16 rest : 14; };
+    and COPYING the register into a local struct is what produces the
+    'lsl #0x1e / lsr #0x1e' pair AND the 'strh r1, [sp, #N]' spill in one
+    go.  A plain '(x & 3)' loses both; a plain u16 local loses the spill.
+  * Each arm needs its OWN local (c0..cN).  The distinct locals are what
+    place the spills at the descending slots 0x1e, 0x1c, 0x1a, ... .  One
+    reused local collapses them all onto [sp].
+  * The return type is u8: that is the 'and r0, r0, #0xff'.
+  * The eight top-level arms must all be present to keep the dense
+    'addls pc, pc, r0, lsl #2' table (empty-switch-arms idiom).
+  * The four sub-dispatch arms read the SAME register in all sub-cases;
+    only the stack slot differs.  Resolved pool words, per arm:
+        layer 0 -> 0x04000008   layer 1 -> 0x0400000A
+        layer 2 -> 0x0400000C   layer 3 -> 0x0400000E
+        layer 4 -> 0x04001008   layer 5 -> 0x0400100A
+        layer 6 -> 0x0400100C   layer 7 -> 0x0400100E
+    i.e. engine A/B BGxCNT.  The sub-dispatch key is the slot's +0x1C
+    mode byte, read via the 0x2c-stride record off g_02146A44.
+
+THE ONE REMAINING BLOCKER, concrete:
+  The original emits the FULL comparison chain before any arm body:
+        cmp r0,#0 ; beq A ; cmp r0,#1 ; beq B ; cmp r0,#2 ; beq C ; <fall>
+  Every spelling tried either fuses the first test ('cmp r0,#0 / bne')
+  or restores the chain at the cost of size:
+        if/else-if chain           784 bytes (EXACT SIZE), 303 differ, fused
+        mode cached in a u8 local  784 bytes, 303 differ, still fused
+        inner switch, 3 cases      768 bytes, 545 differ
+        inner switch, 4 locals     928 bytes, 660 differ
+  So the residue is ONE codegen question: what source shape emits an
+  unfused three-way cmp/beq chain that still falls through to a fourth
+  copy of the arm body.  Everything else about the function is solved.
+
+/* best source, 784 bytes against 784, 303 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_020416D4
+ * address:  0x020416D4
+ * packet:   pkt_020416D4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146A44  0x02146A44  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct BgCnt { u16 prio : 2; u16 rest : 14; };
+struct BgSlot { u8 pad_00[0x1c]; u8 mode; u8 pad_1d[0xf]; };
+extern struct BgSlot *g_02146A44;
+
+#define R(a) (*(struct BgCnt *)(a))
+
+u8 func_020416D4(u32 layer)
+{
+    struct BgCnt c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15;
+
+    switch (layer) {
+    case 0:
+        c0 = R(0x04000008);
+        return c0.prio;
+    case 1:
+        c1 = R(0x0400000a);
+        return c1.prio;
+    case 2:
+        if (g_02146A44[layer].mode == 0) {
+            c2 = R(0x0400000c);
+            return c2.prio;
+        } else if (g_02146A44[layer].mode == 1) {
+            c3 = R(0x0400000c);
+            return c3.prio;
+        } else if (g_02146A44[layer].mode == 2) {
+            c4 = R(0x0400000c);
+            return c4.prio;
+        }
+        break;
+    case 3:
+        if (g_02146A44[layer].mode == 0) {
+            c5 = R(0x0400000e);
+            return c5.prio;
+        } else if (g_02146A44[layer].mode == 1) {
+            c6 = R(0x0400000e);
+            return c6.prio;
+        } else if (g_02146A44[layer].mode == 2) {
+            c7 = R(0x0400000e);
+            return c7.prio;
+        }
+        break;
+    case 4:
+        c8 = R(0x04001008);
+        return c8.prio;
+    case 5:
+        c9 = R(0x0400100a);
+        return c9.prio;
+    case 6:
+        if (g_02146A44[layer].mode == 0) {
+            c10 = R(0x0400100c);
+            return c10.prio;
+        } else if (g_02146A44[layer].mode == 1) {
+            c11 = R(0x0400100c);
+            return c11.prio;
+        } else if (g_02146A44[layer].mode == 2) {
+            c12 = R(0x0400100c);
+            return c12.prio;
+        }
+        break;
+    case 7:
+        if (g_02146A44[layer].mode == 0) {
+            c13 = R(0x0400100e);
+            return c13.prio;
+        } else if (g_02146A44[layer].mode == 1) {
+            c14 = R(0x0400100e);
+            return c14.prio;
+        } else if (g_02146A44[layer].mode == 2) {
+            c15 = R(0x0400100e);
+            return c15.prio;
+        }
+        break;
+    }
+
+    return 0;
+}

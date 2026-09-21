@@ -1,10 +1,7 @@
 /*
- * function: unit_02018790
+ * function: func_02018790
  * address:  0x02018790
  * packet:   pkt_02018790
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
- * address:  0x02018790
  * note:     144 bytes, one function
  * region:   arm9
  * compiler: 1.1p1
@@ -19,7 +16,7 @@
  * reduces it below 17 with a subtract loop rather than a modulo, and indexes a
  * byte table at 0x0209E288.
  *
- * Why it is capped: the pool word at 0x0201881C is the only word in the whole
+ * Why it WAS capped (historical, resolved 2026-09-21): the pool word at 0x0201881C is the only word in the whole
  * image that holds 0x0209E288, so the `literal` class discards its only
  * witness and the table cannot be attested.  Same shape as
  * docs/idioms/a-string-after-a-data-table-has-no-witness.md.  No cut helps:
@@ -37,12 +34,20 @@
  *   python tools/match.py tu --src src/pending/unit_02018790.c \
  *       --addr 0x02018790 --thumb
  *
+ * RESOLVED 2026-09-21: the sole-ref widening accepts 0x0209E288 as
+ * sole-ref/data, so the table now attests and this unit verifies EXACT with no
+ * change to its C.  The one edit this wave made is the missing `_u32_div_f`
+ * line in the symbols: block below -- without it that site was unresolved and
+ * the unit reported MATCH for a reason that had nothing to do with the table.
+ *
+ * Historical note, no longer binding:
  * The `matched` class does not reach it either: an EXACT entry attests the code
  * it reproduced, never a data object one of its instructions loads, and
  * 0x0209E288 is a table.
  *
  * symbols:
  *   func_02018790_Table  0x0209E288  data
+ *   _u32_div_f           0x0209C2B0  arm
  */
 
 typedef unsigned char u8;

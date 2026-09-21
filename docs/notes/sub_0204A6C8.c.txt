@@ -194,3 +194,52 @@ archive load-and-decompress helper: both arms read the member through
 func_02049250 with the "allocate high" heap id, and the compressed arm
 expands it through func_020834C0 into a block sized from the header's top
 24 bits.  The uncompressed size shift is `>> 8`, not a masked field.
+
+2026-09-21 CAP RE-CHECKED, LIFTED: this note says 0x0204D9D4 "has no witness
+outside 0204A6C8..0204A7A0" and concludes "even with the four bytes closed this
+function is MATCH-capped, not EXACT". No longer true. Probed today:
+0204D9D4 -> [label x4, e.g. 0204A74C]. The row is capped by NOTHING but its own
+four-byte residue (two adjacent movs in the other order). Highest-value row in
+the family: 4 bytes from EXACT with every site attested.
+
+------------------------------------------------------------------------------
+2026-09-21, re-attacked once the cap lifted. Still 4 bytes; levers recorded.
+------------------------------------------------------------------------------
+
+The note body above was recompiled verbatim today:
+
+  DIFF  216 bytes compiled against the original's 216, 4 of 4 sites resolved
+    +0084 PC24  func_0204D9D4 -> [sole-ref x1]
+    +00AC PC24  func_0204E0D0 -> [sole-ref x1]
+    +00B4 PC24  func_020307B0 -> [label x756]
+    +00D4 ABS32 unk_02146A74  -> [literal x128]
+  4 concrete bytes differ
+
+So the WITNESS REGRESSION section above is now obsolete in both directions:
+0x0204D9D4 resolves (sole-ref/code) and so does 0x0204E0D0. This row is FOUR
+BYTES from EXACT with nothing else in the way. It is the best remaining target
+in the clact.c family.
+
+Nine further levers on the `mov r8, r0` / `mov r7, #0` tie-break, all measured
+today, NONE of which moves it:
+    volatile Slot.unk_24                 -> 4
+    volatile Slot.unk_3c                 -> 4
+    both slot fields volatile            -> 4
+    func_0204E0D0 5th arg as u16         -> 4
+    func_0204E0D0 5th arg as u8          -> 4
+    func_0204E0D0 5th arg as void*       -> 4
+    handle passed through a second local -> 4
+    func_020307B0 taking void*           -> 4
+    volatile u32 handle                  -> 25  (worse: forces a stack slot)
+
+Eight of the nine return EXACTLY 4, which is the same signature the
+func_0204D224 sweep produced: the residue is downstream of every source-level
+distinction, i.e. a pure allocator tie-break between two independent defs.
+The `volatile` lever that closed func_0204D224 does NOT transfer here, for the
+same structural reason it failed on func_0204BE84: there is no merged store to
+break, only an ordering choice between two moves.
+
+The one lever this note has always ended on -- a caller that pins a fifth
+argument other than a bare literal zero -- is still untried, and is NOT
+reachable from this function's own C. It needs a caller of 0x0204A6C8 to be
+decompiled first.

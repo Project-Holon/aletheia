@@ -325,3 +325,145 @@ writing the pack as two named locals (`u32 rx = x & 0x1FF; u32 ry = (y &
 "commutative operand order names the temporary" idiom family. Not
 attempted further here to stay within packet budget (see AGENT-BRIEF.md
 "Skip oversized functions after a quick look").
+
+========================================================================
+APPENDED 2026-09-21: the note above is STALE and its pessimism is
+wrong.  The residue is now 19 BYTES out of 520 (was '~300+ differing'),
+and the whole-function register-allocation claim does not hold: every
+instruction from +0x3C to +0x1B0 except two arms is byte-identical.
+
+THE THREE DECLARATIONS THAT CLOSED IT (settled, do not re-derive):
+  1. THE SHIFTED MASK IS ITS OWN NAMED LOCAL.  This was the big one:
+         u32 mask  = 0x1ff;
+         u32 hmask = mask << 16;
+         ... W(reg) = (x & mask) | (hmask & (y << 16));
+     Writing the pack as two independent '& 0x1FF' sub-expressions lets
+     -O4,p strength-reduce the pair into 'lsl #0x17 / lsr #7' (5-instruction
+     arms, 384 bytes).  Naming hmask forces the original's live
+     'lsl r2, r4, #0x10' and restores the 7-instruction arms.  275 -> 125.
+  2. LAYERS 6 AND 7 ARE GUARDED TOO.  The note missed these.  All FOUR of
+     layers 2/3/6/7 test a byte off the g_02146A44 base and divert to
+     func_020423D4(layer) when it is non-zero.  Guard offsets, read from
+     the ldrb encodings:
+         layer 2 -> +0x74    layer 3 -> +0xA0
+         layer 6 -> +0x124   layer 7 -> +0x150
+     Adding the two missing guards took 125 -> 19 and 416 -> 464 bytes.
+  3. LOAD ORDER IS scrollY THEN scrollX.  Reversing it costs 12 bytes
+     (19 -> 31).  Counter-intuitive but measured both ways.
+
+RESOLVED POOL WORDS (BGxOFS scroll registers), per arm:
+     layer 0 -> 0x04000010   layer 1 -> 0x04000014
+     layer 2 -> 0x04000018   layer 3 -> 0x0400001C
+     layer 4 -> 0x04001010   layer 5 -> 0x04001014
+     layer 6 -> 0x04001018   layer 7 -> 0x0400101C
+   plus 0x02146A44 (the singleton) and the literal 0x1FF in r4.
+   Layer 1 additionally tail-calls func_0203D814().
+
+THE ONE REMAINING BLOCKER, concrete:
+  All 19 bytes sit in exactly two places, both operand-ordering:
+    +0x30..+0x38  the original computes 'add r1, r2, r5' then loads
+                  [r1,#0x14] and [r1,#0x18] into r0 and r1 IN THAT ORDER;
+                  every spelling tried gets the base into r0 and the two
+                  loads swapped.
+    +0x84..+0x94  the case-1 arm ALONE orders its two masks the other way
+                  round from the other seven arms ('and r3, r2, r1, lsl
+                  #16' BEFORE 'and r4, r0, r4', and the orr/str land in
+                  r3/r2 not r1/r0).  Flipping the '|' operands there
+                  costs bytes (19 -> 47); naming the two halves as locals
+                  is neutral (19); reversing those locals costs (47).
+  So the residue is ONE question: what makes case 1, and only case 1,
+  allocate the pack into the r3/r4 pair instead of r1/r3.  The func_0203D814
+  call that follows it is the only structural difference between case 1
+  and case 0, so the answer is likely that the call's liveness pressure
+  has to be expressed in the source order, not that the arithmetic differs.
+
+/* best source, 464 bytes against 520, 19 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: sub_02040618
+ * address:  0x02040618
+ * packet:   pkt_02040618
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146A44     0x02146A44  data
+ *   func_02042360  0x02042360  arm
+ *   func_020423D4  0x020423D4  arm
+ *   func_0203D814  0x0203D814  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct BgLayer {
+    u32 unk00; u32 unk04; u32 unk08; u32 unk0C; u32 unk10;
+    u32 scrollX; u32 scrollY; u32 unk1C; u32 unk20; u32 unk24; u32 unk28;
+};
+
+extern struct BgLayer *g_02146A44;
+
+extern void func_02042360(void *p, u32 a, u32 b, u32 c);
+extern void func_020423D4(u32 layer);
+extern void func_0203D814(void);
+
+#define W(a) (*(volatile u32 *)(a))
+
+void sub_02040618(u32 layer, u32 a, u32 b, u32 c)
+{
+    u32 mask = 0x1ff;
+    u32 hmask = mask << 16;
+    u32 x, y;
+
+    func_02042360((u8 *)g_02146A44 + 8 + layer * sizeof(struct BgLayer), a, b, c);
+
+    y = g_02146A44[layer].scrollY;
+    x = g_02146A44[layer].scrollX;
+
+    switch (layer) {
+    case 0:
+        W(0x04000010) = (x & mask) | (hmask & (y << 16));
+        break;
+    case 1:
+        W(0x04000014) = (x & mask) | (hmask & (y << 16));
+        func_0203D814();
+        break;
+    case 2:
+        if (((u8 *)g_02146A44)[0x74] == 0) {
+            W(0x04000018) = (x & mask) | (hmask & (y << 16));
+        } else {
+            func_020423D4(2);
+        }
+        break;
+    case 3:
+        if (((u8 *)g_02146A44)[0xa0] == 0) {
+            W(0x0400001c) = (x & mask) | (hmask & (y << 16));
+        } else {
+            func_020423D4(3);
+        }
+        break;
+    case 4:
+        W(0x04001010) = (x & mask) | (hmask & (y << 16));
+        break;
+    case 5:
+        W(0x04001014) = (x & mask) | (hmask & (y << 16));
+        break;
+    case 6:
+        if (((u8 *)g_02146A44)[0x124] == 0) {
+            W(0x04001018) = (x & mask) | (hmask & (y << 16));
+        } else {
+            func_020423D4(6);
+        }
+        break;
+    case 7:
+        if (((u8 *)g_02146A44)[0x150] == 0) {
+            W(0x0400101c) = (x & mask) | (hmask & (y << 16));
+        } else {
+            func_020423D4(7);
+        }
+        break;
+    }
+}

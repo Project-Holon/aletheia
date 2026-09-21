@@ -90,3 +90,7 @@ void sub_0204B728(struct Obj *o, struct Xform *m)
     sub_0206380C(m, 2);
     o->unk_40 = *m;
 }
+
+2026-09-21 CAP RE-CHECKED, LIFTED: the header's claim that the only reference
+to 0x0204B728 is the `bl` inside the range no longer holds. Probed today:
+0204B728 -> [label x4, e.g. 0204CF5C].

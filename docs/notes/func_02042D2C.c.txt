@@ -124,3 +124,23 @@ WHAT IT COSTS
 src/pending/func_02041300.c (fan-in 224) needs all three blitters as
 `matched` witnesses.  Two of the three are now EXACT; this one is the last,
 so that file stays at MATCH.
+
+----- PERMUTER PASS, 2026-09-21 -----
+The 11-byte plateau above REPRODUCES exactly (264/264, 11 out) with the
+source recorded in this note, so the note is accurate and current.
+
+tools/permute.py (hill, budget 45, seed 3) was run as new ground -- the
+note's lever list predates the permuter.  44 further compiles, and the
+best is still 11.  Every rewrite the tool has (decl-swap, decl-join,
+init-split, swap'&', swap'==', volatile-add, const-param) is exactly
+neutral here: all of them score 11, none scores 10.
+
+That is now strong evidence for the note's own conclusion.  The three
+instructions at +0x10..+0x18 are mutually independent and the front end
+schedules them one way from every source spelling reachable by hand or
+by the permuter.  Treat 0x02042D2C as scheduler-capped, not as an
+unfinished function, and do not spend another lane re-deriving the body:
+the body is right.
+
+Consequence for src/pending/func_02041300.c is unchanged: it still needs
+this address as a 'matched' witness, so it stays at MATCH.

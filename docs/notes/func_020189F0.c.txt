@@ -1,0 +1,95 @@
+===== func_020189F0 (0x020189F0) -- poke_tool.c family wave, 2026-09-21 =====
+
+16 bytes, Thumb, one unlabelled leaf (it saves no lr, so disasm.py never
+labels it; see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+
+STATUS CHANGE WORTH RECORDING: this function's blocker is GONE.
+
+src/matched/unit_020188B4.c's header records 0x020189F0 as unreachable
+because it "loads the s8[][5] table at 0x0209E2A4 and the only word in the
+image that holds that address is the pool word under test, so no cut attests
+it".  That was true under the old `literal` rule.  It is no longer true: the
+sole-ref widening of 2026-09-21 accepts the address as sole-ref/data, and
+match.py now reports
+
+    +000C ABS32 func_020189F0_Table -> 0209E2A4  [sole-ref x1, e.g. 0209E2A4]
+
+resolved, not wildcarded.  The function is therefore an ordinary codegen
+problem now, not an evidence wall, and it is ONE BYTE away.
+
+/* best source, 16 bytes against 16, 1 concrete byte out, dsi/1.1p1 -O4,p */
+
+/*
+ * symbols:
+ *   func_020189F0_Table  0x0209E2A4  data
+ */
+typedef unsigned int u32;
+typedef signed char  s8;
+
+extern const s8 func_020189F0_Table[][5];
+
+s8 func_020189F0(u32 a, const s8 *b)
+{
+    u32 o = a + a * 4;
+    return b[o + (u32)func_020189F0_Table];
+}
+
+THE ONE BYTE
+------------
+  offset     ORIGINAL @ 020189F0        | COMPILED
+    +0000    lsls r2, r0, #2            | lsls r2, r0, #2
+    +0002    adds r2, r0, r2            | adds r2, r0, r2
+    +0004    ldr r0, [pc, #4]           | ldr r0, [pc, #4]
+  * +0006    adds r0, r0, r2            | adds r0, r2, r0
+    +0008    ldrsb r0, [r1, r0]         | ldrsb r0, [r1, r0]
+    +000A    bx lr                      | bx lr
+
+Everything is right except the operand order of the final `adds`.  The
+original accumulates INTO the register holding the table address (`adds r0,
+r0, r2`); the compiled form accumulates into the register holding the scaled
+index (`adds r0, r2, r0`).  This is exactly
+docs/idioms/commutative-operand-order-names-the-temporary.md, and the usual
+fix -- write the other operand second -- does not work here, because writing
+`b[(u32)func_020189F0_Table + o]` swaps the WRONG add: it reassociates the
+`a + a*4` scaling instead and goes from 1 wrong byte to 5.
+
+SPELLINGS TRIED (all 16 bytes, so the size is never in question):
+
+  b[o + (u32)tbl]           with u32 o = a + a * 4;           1 wrong byte
+  b[o + (u32)&tbl[0][0]]    same scaling                      1 wrong byte
+  b[o + (u32)tbl[0]]        with u32 o = a * 5;               1 wrong byte
+  b[(u32)tbl + o]                                             5 wrong bytes
+  b[(u32)t + o]             via const s8 *t = tbl;            5 wrong bytes
+  b[t + o]                  via u32 t = (u32)tbl;             5 wrong bytes
+  b[t + o]                  with o = a * 5, t declared after  5 wrong bytes
+  b[(u32)&tbl[a][0]]        index folded into the subscript   5 wrong bytes
+
+tools/permute.py, budget 150, 28 compiles: every mutation it has (declaration
+order, init-split, const/volatile on the parameter, param signedness,
+const-add, const-drop, arg-temp) stays at 1 wrong byte.  Nothing in its
+repertoire reaches the operand order of an add whose operands are a
+relocated symbol and a computed index.
+
+WHAT TO TRY NEXT
+----------------
+The shape the original wants is "table address is the accumulator, index is
+the addend".  The two levers not yet tried, both of which would change which
+value the compiler treats as the running temporary rather than merely
+reordering the text:
+
+  1. Declare the table as a pointer OBJECT rather than an array, e.g.
+     `extern const s8 *const func_020189F0_Table_p;` and index
+     `func_020189F0_Table_p[o]` -- a pointer load puts the symbol in a
+     register as a value, which may make it the natural accumulator.  Note
+     this changes the relocation from an ABS32 against the array to one
+     against a pointer word, so it must be checked that the site still
+     resolves before the byte count means anything.
+
+  2. Give the function a second statement that uses the table address first,
+     so it is already live in a register when the add happens.
+
+Neither is obviously right, and the function is 16 bytes, so this is a low
+priority: it is recorded here because the EVIDENCE status changed (the table
+now attests), which is the part a future lane would otherwise not know.
+
+Verdict for this wave: DIFF at 1 byte, no source filed, no shard entry.

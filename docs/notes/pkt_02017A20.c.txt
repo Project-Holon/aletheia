@@ -112,3 +112,46 @@ resumed: the inner scan is the disjunction `r == 0 || r != tbl[k]` before
 at the call with an explicit `(u16)` / `(u8)` cast because the original emits
 `lsls r1,r7,#0x10; lsrs r1,r1,#0x10` and `lsls r2,r4,#0x18; lsrs r2,r2,#0x18`
 at each func_020181F4 site.
+
+
+================================================================================
+2026-09-21 -- family wave (poke_tool.c), appended, nothing above edited
+================================================================================
+
+The section above nominates two untried levers for the six-u16 copy block: a
+struct assignment, and naming the destination through a `u16 *` local.  Both
+were tried this wave, plus a plain unrolled copy, and all three are recorded
+here so the next lane does not spend the same budget.
+
+  spelling                                            bytes   concrete diff
+  ----------------------------------------------------------------------------
+  rolled `for (k=0;k<6;k++) tbl[k]=g[k];` (earlier)      236       (baseline)
+  `struct Tbl { u16 v[6]; }`, `tbl = g_0209E298;`        244            141
+  unrolled `tbl[0]=g[0]; ... tbl[5]=g[5];`               244            145
+  `u16 *d = tbl;` then `d[0]=g[0]; ... d[5]=g[5];`       244            215
+  `u16 *d = tbl; const u16 *s = g;` then `d[k]=s[k];`    244            217
+
+All three new spellings compile to the SAME 244 bytes, which is 16 short of the
+original's 260 rather than the rolled loop's 24 short.  So the struct/unrolled
+forms do buy back eight bytes of the straight-line copy, and the copy block
+itself is no longer a rolled loop -- but the function is still short, and the
+concrete residue is WORSE than the rolled baseline (141 versus the earlier
+lane's 24), because the eight bytes come back in the wrong place and every
+later label shifts again.
+
+What this rules out: the copy block alone is not the whole gap.  The earlier
+section's reading -- that the two separate `add r0, sp, #8` / `add r6, sp, #8`
+materialisations mean the source names the destination twice -- is not
+reproduced by any of the four spellings above, including the two that name it
+through a pointer.  A pointer local gives ONE materialisation that is then
+reused, not two.
+
+The remaining hypothesis, untried: the 16 bytes are not in the copy at all but
+in the `i--` back-step of the inner scan, which the original may spell as a
+`goto` to the top of the outer loop rather than as a decrement, and the two
+`sp+8` pointers may simply be the compiler's own CSE of an address it needs on
+both sides of that branch.  That would make the copy block a consequence of the
+control flow rather than its cause, and it is where the next attempt should
+start.
+
+Verdict for this wave: 0x02017A20 stays DIFF, no source filed, no shard entry.

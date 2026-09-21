@@ -54,3 +54,60 @@ The array base and index are deliberately re-read at every test: a call sits
 between them and the compiler cannot prove the callee does not rewrite the
 slot, which is exactly what the five separate `ldr r0, [r5, #0x14] / ldr r1,
 [r0, r4]` pairs in the original are.
+
+================================================================================
+2026-09-21 (family wave, mcss.c).  THE BLOCKER IS GONE; residue 12 -> 7 bytes.
+================================================================================
+
+RE-MEASURED TODAY.  The note above says the file "could not be filed even if
+it were byte-exact" because `bl func_020169E8` had no witness.  That is no
+longer true: the sole-ref class was widened on 2026-09-21 and the site now
+reports
+
+    +0070 THM_CALL func_020169E8 -> 020169E8  [sole-ref x1, e.g. 020169E8]
+
+i.e. sole-ref/code, because 0x020169E8 is exactly a traced function start.
+All 4 of 4 relocations resolve.  **Nothing about this function is
+evidence-blocked any more.**  The `symbols:` block needs the line
+
+    func_020169E8  0x020169E8  thumb
+
+without it the naming convention guesses ARM and the site is refused.
+
+The residue also came down from the 12 the note records to 7, with the
+closest C unchanged.  The remaining 7 are one statement, the third bit test,
+and they are a pure REGISTER CHOICE, not an instruction difference:
+
+    +0076    ldr r1, [sp, #4]      | ldr r1, [r0, r4]
+    +0078    ldr r0, [r0, r4]      | ldr r0, [sp, #4]
+    +007A    ldr r1, [r0, r1]      | ldr r0, [r1, r0]
+    +007C    lsls r1, r1, #0x1f    | lsls r0, r0, #0x1f
+    +007E    lsrs r1, r1, #0x1f    | lsrs r0, r0, #0x1f
+    +0080    cmp  r1, #1           | cmp  r0, #1
+
+The original computes the bitfield into r1 and leaves r0 holding the element
+pointer; this front end computes it into r0.  Everything before +0x0076 and
+everything from +0x0082 to the epilogue is byte-identical, including the six
+spilled offset constants at sp+0..sp+0x10 and both `ldr r0,[r5,#0x14]` /
+`ldr r0,[r0,r4]` reload pairs the note's last paragraph explains.
+
+Measured against the 7-byte baseline today, each a full recompile:
+  - binding the bitfield pointer to a `B1 *` local before the test (7);
+  - binding the extracted bit to an `unsigned int` local (7);
+  - `1 == x` instead of `x == 1` (7);
+  - `x != 0` instead of `x == 1` (174 bytes, 53 -- strictly worse: `!= 0`
+    lets the compiler drop the `cmp` entirely and the function loses 2 bytes);
+  - tools/permute.py --mode hill --seed 7, budget 40, 38 compiles over the
+    133 mutations available: every result is 176 bytes / 7 mismatches.  The
+    tool has no purchase at all here, which is itself the finding.
+
+The lever is the same class as the one both docs/notes/func_020163C4.c.txt
+and docs/notes/func_02016630.c.txt end on: a scheduler/allocator tie-break
+between a spilled constant and a reloaded pointer that no spelling of the
+expression reaches.  Three functions in this family are now stuck on one
+compiler behaviour.
+
+The struct this function walks is documented in docs/families/mcss.h: the
+loop is over McssSys.slots[0 .. McssSys.count), the +0x140 word is the flag
+container whose partition that header adjudicates, and +0x144 is the second,
+separate flag word sub_02016380 sets and this function clears.

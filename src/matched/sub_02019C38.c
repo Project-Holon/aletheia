@@ -1,16 +1,18 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * function: func_02019C38
  * address:  0x02019C38
+ * packet:   pkt_02019C38
  * note:     28 bytes including its pool word, one function
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     re-verified 2026-09-21: EXACT.  The MATCH cap was lifted by the
+ *           sole-ref widening of 2026-09-21, not by any edit to the C:
+ *           the data address this file reaches now attests as
+ *           sole-ref/data.  Promoted from src/pending/ unchanged.
  *
  * The substruct permuter the whole poke_tool.c field machinery reaches every
  * block through: bits 13 to 17 of the personality word select one of 32
@@ -21,7 +23,7 @@
  * src/pending/sub_02018E34.c all index through it, and ov188 calls it eight
  * more times.
  *
- * Why it is capped: the one relocation is an ABS32 against the table at
+ * Why it WAS capped (historical, resolved 2026-09-21): the one relocation is an ABS32 against the table at
  * 0x0209E3A4, and a scan of every word in all 242 regions finds exactly one
  * occurrence of that address, the pool word at 0x02019C50 inside this
  * function.  The `literal` class discards its only witness under the honesty
