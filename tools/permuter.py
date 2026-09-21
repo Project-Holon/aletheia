@@ -981,6 +981,40 @@ class TypeChange:
         return "type:%s(%s:%s->%s)" % (kind, name, cur, new)
 
 
+@mutation("ret-var", 6, unsafe=True)
+class ReturnVar:
+    """A void function returns one of its pointer or integer parameters or locals instead
+    (the image keeps that value alive to the epilogue and colours around it).  A common
+    reconstruction miss; signature change, so --types only."""
+    @staticmethod
+    def sites(ctx):
+        rt = ctx.fdef.decl.type.type
+        if not (is_simple_type(rt) and rt.type.names == ["void"]):
+            return []
+        names = [n for n, d in ctx.params.items() if is_simple_type(d.type) or isinstance(d.type, c_ast.PtrDecl)]
+        names += [n for n, d in ctx.locals.items() if is_simple_type(d.type) or isinstance(d.type, c_ast.PtrDecl)]
+        return names
+
+    @staticmethod
+    def apply(ctx, site, rng):
+        name = site
+        d = ctx.params.get(name) or ctx.locals.get(name)
+        # return type = the variable's type
+        newt = copy.deepcopy(d.type)
+        inner = newt
+        while not isinstance(inner, c_ast.TypeDecl):
+            inner = inner.type
+        inner.declname = ctx.fdef.decl.name
+        ctx.fdef.decl.type.type = newt
+        for n, p, a, k in list(walk(ctx.fdef.body)):
+            if isinstance(n, c_ast.Return) and n.expr is None:
+                n.expr = c_ast.ID(name)
+        last = ctx.fdef.body.block_items[-1] if ctx.fdef.body.block_items else None
+        if not isinstance(last, c_ast.Return):
+            ctx.fdef.body.block_items.append(c_ast.Return(c_ast.ID(name)))
+        return "type:ret-var(%s)" % name
+
+
 def weighted_kinds(rng, allow_unsafe):
     kinds = [m for m in MUTATIONS if allow_unsafe or not m.unsafe]
     total = sum(m.weight for m in kinds)
