@@ -785,11 +785,12 @@ class CastSimple:
     """Wrap an integer expression in a cast to its own width or to int."""
     @staticmethod
     def sites(ctx):
-        return expr_sites(ctx, lambda n: isinstance(n, (c_ast.ID, c_ast.StructRef, c_ast.ArrayRef, c_ast.BinaryOp)))
+        return [s + (t,) for s in expr_sites(ctx, lambda n: isinstance(n, (c_ast.ID, c_ast.StructRef, c_ast.ArrayRef, c_ast.BinaryOp)))
+                for t in ("self", "int", "u32", "s32")]
 
     @staticmethod
     def apply(ctx, site, rng):
-        p, a, k, e, comp, i = site
+        p, a, k, e, comp, i, target = site
         if isinstance(p, c_ast.Assignment) and a == "lvalue":
             return None
         if isinstance(p, c_ast.UnaryOp) and p.op in ("&", "p++", "p--", "++", "--"):
@@ -798,7 +799,8 @@ class CastSimple:
         tn = type_name(t) if t is not None else None
         if tn is None or tn.endswith("*"):
             return None
-        target = rng.choice([tn, "int", "u32", "s32"])
+        if target == "self":
+            target = tn
         set_child(p, a, k, c_ast.Cast(c_ast.Typename(None, [], None, mk_type(target)), e))
         return "cast(%s)" % target
 
@@ -965,18 +967,22 @@ class StructRefForm:
 class TypeChange:
     """Change a local's or parameter's integer type (width or signedness).  Not
     value-preserving in general; enabled with --types and labelled 'type:'."""
+    TYPES = ("int", "u32", "s32", "u16", "s16", "u8", "s8")
+
     @staticmethod
     def sites(ctx):
-        out = [("l", n) for n, d in ctx.locals.items() if is_simple_type(d.type) and type_name(d.type) in INT_TYPES]
-        out += [("p", n) for n, d in ctx.params.items() if is_simple_type(d.type) and type_name(d.type) in INT_TYPES]
+        out = []
+        for kind, table in (("l", ctx.locals), ("p", ctx.params)):
+            for n, d in table.items():
+                if is_simple_type(d.type) and type_name(d.type) in INT_TYPES:
+                    out += [(kind, n, t) for t in TypeChange.TYPES if t != type_name(d.type)]
         return out
 
     @staticmethod
     def apply(ctx, site, rng):
-        kind, name = site
+        kind, name, new = site
         d = ctx.locals[name] if kind == "l" else ctx.params[name]
         cur = type_name(d.type)
-        new = rng.choice([t for t in ("int", "u32", "s32", "u16", "s16", "u8", "s8") if t != cur])
         d.type.type.names = new.split()
         return "type:%s(%s:%s->%s)" % (kind, name, cur, new)
 
@@ -1030,7 +1036,7 @@ def focus_ok(site, focus):
     if not focus:
         return True
     st = None
-    if isinstance(site, tuple) and len(site) == 6:
+    if isinstance(site, tuple) and len(site) in (6, 7) and isinstance(site[4], c_ast.Compound):
         st = site[4].block_items[site[5]]
     elif isinstance(site, tuple) and len(site) == 2 and isinstance(site[0], c_ast.Compound):
         st = site[0].block_items[site[1]]
@@ -1038,7 +1044,7 @@ def focus_ok(site, focus):
         return site[1] in focus
     elif isinstance(site, str):
         return site in focus
-    elif isinstance(site, tuple) and len(site) == 2 and site[0] in ("l", "p"):
+    elif isinstance(site, tuple) and len(site) in (2, 3) and site[0] in ("l", "p"):
         return site[1] in focus
     if st is None:
         return True
@@ -1197,7 +1203,7 @@ class Scorer:
         cmd += ["-ir", d]
         if c["sdk_include"] and os.path.isdir(match.SDK_INCLUDE):
             cmd += ["-I+" + match.SDK_INCLUDE]
-        cmd += ["-c"] + paths
+        cmd += ["-c"]
         env = dict(os.environ)
         env.setdefault("MWLibraries", d)
         env.setdefault("MWLibraryFiles", " ")
@@ -1206,28 +1212,42 @@ class Scorer:
         if sys.platform != "win32" and exe.endswith(".exe"):
             import shutil
             cmd = [shutil.which("wine64") or shutil.which("wine") or "wine64"] + cmd
+        out = {}
+        pending = list(zip(items, paths))
         t0 = time.time()
-        try:
-            p = subprocess.run(cmd, cwd=d, capture_output=True, timeout=300, env=env)
-            log = (p.stdout + b"\n" + p.stderr).decode("latin1", "replace")
-        except Exception as exc:
-            log = str(exc)
+        # mwccarm aborts the whole invocation at the first file with an error, so the files
+        # after it get no object: mark the culprit CCERR and re-run the survivors
+        while pending:
+            files = [pth for _, pth in pending]
+            try:
+                p = subprocess.run(cmd + files, cwd=d, capture_output=True, timeout=300, env=env)
+                log = (p.stdout + b"\n" + p.stderr).decode("latin1", "replace")
+            except Exception as exc:
+                log = str(exc)
+            rest = []
+            culprit_seen = False
+            for (k, t), pth in pending:
+                obj = pth[:-2] + ".o"
+                if os.path.exists(obj):
+                    try:
+                        out[k] = self._post(obj, pth)
+                    except Exception as exc:
+                        out[k] = Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=str(exc)[:120])
+                elif not culprit_seen:
+                    culprit_seen = True
+                    base = os.path.basename(pth)
+                    err = next((ln.strip() for ln in log.split("\n") if base in ln), None)
+                    out[k] = Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=err or match.first_line(log))
+                else:
+                    rest.append(((k, t), pth))
+            if len(rest) == len(pending):   # no progress at all: give up on the rest
+                for (k, t), pth in rest:
+                    out[k] = Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=match.first_line(log))
+                break
+            pending = rest
         dt = time.time() - t0
         if dt > 30:
             print("  [warn] a batch of %d compiles took %.0fs" % (len(items), dt), flush=True)
-        out = {}
-        for (k, t), pth in zip(items, paths):
-            obj = pth[:-2] + ".o"
-            if not os.path.exists(obj):
-                # find this file's own error line, else the first error of the batch
-                base = os.path.basename(pth)
-                err = next((ln.strip() for ln in log.split("\n") if base in ln and "error" in ln.lower()), None)
-                out[k] = Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=err or match.first_line(log))
-                continue
-            try:
-                out[k] = self._post(obj, pth)
-            except Exception as exc:
-                out[k] = Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=str(exc)[:120])
         return out
 
     def _post(self, obj, srcpath):
