@@ -1,0 +1,330 @@
+/* DIFF evidence note, 2026-09-21.  func_02024DFC @ 0x02024DFC.
+ * match.py says DIFF (compiled 852 of 856 bytes, 306 concrete bytes differ),
+ * so this is evidence only and the source below is NOT filed under
+ * src/matched.  It is a sibling of docs/notes/pkt_02024DFC.c.txt
+ * (func_02025154, the helper this one calls twice).
+ *
+ * WHAT IS SETTLED, in the order it was measured:
+ *
+ *  - Shape: five independent blocks gated on bits 0, 2, 3, 4 and 5 of the u16
+ *    at +0x04 of the object behind the pointer at 0x0214693C.  Each block
+ *    clears its own bit with `f04 = f04 - BIT` (a subtract, not an andnot),
+ *    and each of the last four sets a `done` flag; a final `if (done == 1)`
+ *    calls func_020409B4(g->f06).  `done = 1` is ALSO set inside block 0,
+ *    at the point the original emits `movs r7,#1` (+0x00C4), even though
+ *    block 0 is the one block whose own tail does not re-test it.
+ *
+ *  - func_020410D0 takes FOUR register arguments here, and the third and
+ *    fourth are real: (f06, 1, 0, 5) for the first call and (f06, 0x1C, 0, 2)
+ *    for the second.  Passing 0 for a3 costs an extra `movs r3,#0` at each
+ *    site and was worth 234 concrete bytes on its own -- the constants 5 and
+ *    2 are already live in r3 for the stack stores, which is why they read as
+ *    leftovers.  See
+ *    docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md
+ *    for the opposite case.
+ *
+ *  - The 0x4C-byte frame holds one struct at sp+0x18 (`add r4, sp, #0x18`).
+ *    The pointer handed to the first func_020410D0 is `&buf.w1E`
+ *    (sp+0x34, +2), NOT `&buf.w2A`; the second gets `&buf` itself.  The
+ *    scanline index table read late in block 4 is `(&buf.w12)[k]`
+ *    (`add r2,sp,#0x28; adds r2,#2`).
+ *
+ *  - The two six-element table copies in block 4 are UNROLLED in the original
+ *    (six ldrh/strh then six ldrb/strb).  Written as `for (i = 0; i < 6; i++)`
+ *    mwcc keeps the loop and the block is 40 bytes short.  Binding
+ *    `&buf.b08` to a named local to share it with the index lookup is WORSE
+ *    (+11 bytes of mismatch), so the original re-derives it.
+ *
+ *  - `g->f08 / 16` and `g->f08 % 16` are signed: the mod compiles to the
+ *    `lsrs #0x1f / lsls #0x1c / subs / rors #0x1c / adds` quintet and the div
+ *    to `lsls #0x14; lsrs #0x18`.  Each result is then truncated to u8.
+ *
+ *  - 0x421 * c is spelled `(c << 5) | c | (c << 10)`, three OR terms.
+ *    Written as `c * 0x421` the compiler emits `muls` and the block is wrong
+ *    by its whole length.
+ *
+ *  - Every ternary in the function has the FALSE value as the fall-through:
+ *    `k = 11; if (g->f14 == 0) k = 15;` gives `movs r2,#0xb; cmp; bne;
+ *    movs r2,#0xf`, which is the original.  The `?:` spelling inverts the
+ *    branch.  See docs/idioms/the-fall-through-arm-is-the-source-order.md.
+ *
+ *  - The two blend-table selectors are u8, not int: the original truncates
+ *    with `lsls #0x18; lsrs #0x18` before the index scale (and with
+ *    `lsls #0x18; lsrs #0x16` where the scale is 4).
+ *
+ *  - Field +0x1F, not +0x1C, is the index read after OS_IsRunOnTwl().
+ *
+ * THE RESIDUE, 306 bytes over 852 of 856: it is register allocation and
+ * instruction scheduling, not semantics.  Every remaining cluster has the
+ * right opcodes in the right order with two register numbers transposed,
+ * e.g. at +0x74 the original is `ldrb r0,[r6,#7]; ldr r1,[r6];
+ * lsls r0,r0,#0xc; adds r0,r0,r2; adds r0,r1,r0` against this source's
+ * `ldrb r2,...; ldr r0,...; lsls r2,...; adds r1,r2,r1; adds r0,r0,r1`.
+ * tools/permute.py (hill, budget 30 seed 1 and budget 60 seed 7, 89 compiles)
+ * plateaus at 306 and finds only `param-signedness[v]`, worth one byte; the
+ * 95 available mutations include decl-swap and every commutative swap, so
+ * the allocation is not reachable from a spelling of this body.
+ *
+ * THE BLOCKER, and it is separate from the DIFF: seven of the eight rodata
+ * addresses this function names -- 0209F834, 0209F838, 0209F840, 0209F848,
+ * 0209F852, 0209F868 and 0209F870 -- occur in exactly one literal pool
+ * image-wide, this function's OWN, which sits at 0x02025130..0x02025153,
+ * inside the compared range.  `grep` over src/matched and src/pending finds
+ * no other reader.  So even at zero concrete bytes wrong this range caps at
+ * MATCH until a second reader of those tables exists, and no cut helps: the
+ * pool is the function's own tail.  (0209F830 and 0214693C do resolve, by
+ * `literal`, because other pools name them.)
+ *
+ * The single decision this needs: whether to accept it at MATCH once the
+ * allocation is closed, or to wait for a second reader of the 0209F8xx
+ * tables to land and make it EXACT.
+ */
+
+/*
+ * function: func_02024DFC
+ * address:  0x02024DFC
+ * packet:   pkt_02024DFC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_0214693C          0x0214693C  data a4
+ *   d_0209F830          0x0209F830  data a4
+ *   d_0209F834          0x0209F834  data a2
+ *   d_0209F838          0x0209F838  data a4
+ *   d_0209F840          0x0209F840  data a4
+ *   d_0209F848          0x0209F848  data a4
+ *   d_0209F852          0x0209F852  data a2
+ *   d_0209F868          0x0209F868  data a4
+ *   d_0209F870          0x0209F870  data a2
+ *   func_02025154       0x02025154  thumb
+ *   func_020251D8       0x020251D8  thumb
+ *   func_020410D0       0x020410D0  arm
+ *   func_020409B4       0x020409B4  arm
+ *   func_02035630       0x02035630  arm
+ *   OS_IsRunOnTwl       0x02085D3C  arm
+ *   _s32_div_f          0x0209C0A4  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+struct G {
+    u32 f00;
+    u16 f04;
+    u8  f06;
+    u8  f07;
+    u8  f08;
+    u8  pad09[0x14 - 0x09];
+    u32 f14;
+    u8  pad18[0x1C - 0x18];
+    u8  f1C;
+    u8  f1D;
+    u8  pad1E[1];
+    u8  f1F;
+    u32 f20;
+};
+
+struct W {
+    u16 w00;   /* +0x18 */
+    u16 w02;
+    u16 w04;
+    u16 w06;
+    u8  b08;
+    u8  b09;
+    u8  b0A;
+    u8  b0B;
+    u8  b0C;
+    u8  b0D;
+    u16 w0E;
+    u16 w10;
+    u16 w12;
+    u16 w14;
+    u16 w16;
+    u16 w18;
+    u16 w1A;
+    u16 w1C;
+    u16 w1E;
+    u16 w20;
+    u16 w22;
+    u16 w24;
+    u16 w26;
+    u16 w28;
+    u16 w2A;
+    u16 w2C;
+    u16 w2E;
+    u16 w30;
+};
+
+extern struct G *g_0214693C;
+extern u16 d_0209F834[];
+extern u32 d_0209F840[];
+extern u16 d_0209F848[];
+extern u16 d_0209F852[];
+extern u32 d_0209F838[];
+extern u16 d_0209F870[];
+extern u8  d_0209F868[];
+extern u32 d_0209F830[];
+
+extern void func_02025154(u32 a0, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1);
+extern void func_020251D8(u32 a0, void *a1, u32 a2);
+extern void func_020410D0(u32 a0, u32 a1, u32 a2, u32 a3,
+                          u32 s0, void *s1, u32 s2, u32 s3, u32 s4, u32 s5);
+extern void func_020409B4(u32 a0);
+extern u32  func_02035630(void);
+extern u32  OS_IsRunOnTwl(void);
+
+void func_02024DFC(void)
+{
+    struct W buf;
+    struct G *g;
+    int done;
+    int k;
+    u32 v;
+
+    g = g_0214693C;
+    done = 0;
+    if (g == 0)
+        return;
+
+    if (g->f04 & 1) {
+        if (g->f1D < 10) {
+            buf.w1E = (u16)(g->f00 + ((g->f07 << 12) + 0xF));
+            v = g->f00 + ((g->f07 << 12) + 0x1F);
+        } else {
+            v = g->f00 + ((g->f07 << 12) + (g->f1D / 10 + 1));
+            buf.w1E = (u16)v;
+            v = buf.w1E + 0x10;
+        }
+        buf.w28 = (u16)v;
+
+        g = g_0214693C;
+        buf.w20 = (u16)(((g->f07 << 12) + (g->f1D / 10 + 1)) + g->f00);
+        k = 11;
+        if (g->f14 == 0)
+            k = 15;
+        g = g_0214693C;
+        buf.w22 = (u16)(((g->f07 << 12) + k) + g->f00);
+        buf.w24 = (u16)(((g->f07 << 12) + (g->f1C / 10 + 1)) + g->f00);
+        buf.w26 = (u16)(((g->f07 << 12) + (g->f1C / 10 + 1)) + g->f00);
+        buf.w2A = (u16)(buf.w20 + 0x10);
+        k = 27;
+        if (g->f14 == 0)
+            k = 31;
+        g = g_0214693C;
+        buf.w2C = (u16)(((g->f07 << 12) + k) + g->f00);
+        buf.w2E = (u16)(buf.w24 + 0x10);
+        buf.w30 = (u16)(buf.w26 + 0x10);
+        done = 1;
+        func_020410D0(g->f06, 1, 0, 5,
+                      2, &buf.w1E, 0, 0, 5, 2);
+        g = g_0214693C;
+        g->f04 = (u16)(g->f04 - 1);
+    }
+
+    g = g_0214693C;
+    if (g->f04 & 4) {
+        u8 sel;
+        sel = (g->f04 & 0x200) ? 1 : 0;
+        k = sel;
+        func_02025154(d_0209F834[k], g->f07, 9, 0, 3, 2);
+        func_020251D8(6, &d_0209F840[k], 2);
+        g = g_0214693C;
+        done = 1;
+        g->f04 = (u16)(g->f04 - 4);
+    }
+
+    g = g_0214693C;
+    if (g->f04 & 8) {
+        func_02025154(d_0209F848[g->f20], g->f07, 13, 0, 6, 2);
+        g = g_0214693C;
+        func_020251D8(8, &d_0209F852[g->f20 * 2], 2);
+        g = g_0214693C;
+        done = 1;
+        g->f04 = (u16)(g->f04 - 8);
+    }
+
+    g = g_0214693C;
+    if (g->f04 & 0x10) {
+        void *pp;
+        func_02025154(0x20, g->f07, 0x13, 0, 7, 2);
+        g = g_0214693C;
+        if (g->f04 & 0x800) {
+            if (func_02035630() == 0x1E)
+                g_0214693C->f08 = (u8)(g_0214693C->f08 + 2);
+            else
+                g_0214693C->f08 = (u8)(g_0214693C->f08 + 1);
+            g = g_0214693C;
+            if (g->f08 >= 0x50)
+                g->f08 = 0;
+            g = g_0214693C;
+            v = (u8)(g->f08 / 16);
+            k = (u8)(g->f08 % 16);
+            if (v < 4) {
+                int c;
+                k = k - 8;
+                if (k < 0)
+                    k = -k;
+                k = (u8)(8 - k);
+                c = (u8)(k * 13 / 8 + 6);
+                buf.w0E = (u16)((c << 5) | c | (c << 10));
+                c = (u8)(k * 22 / 8 + 9);
+                buf.w10 = (u16)((c << 5) | c | (c << 10));
+                pp = &buf.w0E;
+            } else {
+                pp = d_0209F838;
+            }
+        } else {
+            u8 sel2;
+            sel2 = (g->f04 & 0x1400) ? 1 : 0;
+            pp = &d_0209F838[sel2];
+        }
+        func_020251D8(10, pp, 2);
+        g = g_0214693C;
+        done = 1;
+        g->f04 = (u16)(g->f04 - 0x10);
+    }
+
+    g = g_0214693C;
+    if (g->f04 & 0x20) {
+        buf.w12 = d_0209F870[0];
+        buf.w14 = d_0209F870[1];
+        buf.w16 = d_0209F870[2];
+        buf.w18 = d_0209F870[3];
+        buf.w1A = d_0209F870[4];
+        buf.w1C = d_0209F870[5];
+        buf.b08 = d_0209F868[0];
+        buf.b09 = d_0209F868[1];
+        buf.b0A = d_0209F868[2];
+        buf.b0B = d_0209F868[3];
+        buf.b0C = d_0209F868[4];
+        buf.b0D = d_0209F868[5];
+        if (OS_IsRunOnTwl())
+            k = (&buf.b08)[g_0214693C->f1F];
+        else {
+            k = 5;
+            if (g_0214693C->f1F != 5)
+                k = 4;
+        }
+        g = g_0214693C;
+        buf.w00 = (u16)(((g->f07 << 12) + (&buf.w12)[k]) + g->f00);
+        buf.w04 = (u16)(buf.w00 + 0x10);
+        buf.w02 = (u16)(buf.w00 + 0x400);
+        buf.w06 = (u16)(buf.w04 + 0x400);
+        func_020410D0(g->f06, 0x1C, 0, 2,
+                      2, &buf, 0, 0, 2, 2);
+        func_020251D8(13, d_0209F830, 1);
+        done = 1;
+        g = g_0214693C;
+        g->f04 = (u16)(g->f04 - 0x20);
+    }
+
+    if (done == 1)
+        func_020409B4(g_0214693C->f06);
+}

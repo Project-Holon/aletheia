@@ -310,3 +310,217 @@ the stack across the two loops closes it, and closing it here very likely
 closes func_02044BF0 and func_02044D88 with the same lever.
 
 Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.
+
+================================================================
+near miss: func_020445F4 @ 0x020445F4, 856 bytes (+8 pool), pkt_020445F4
+verdict: DIFF, 314 concrete bytes at 864 compiled against the original's 864
+appended 2026-09-21
+================================================================
+
+THE FIFTH row of the tiled-blit family this note already covers, and the one
+the func_02044954 entry above nominated as the place to experiment.  It is
+the 4bpp DOUBLE copy: the same plain/keyed pair that func_02044954 has at
+16bpp, here at nibble granularity, so the two inner blocks are the
+func_02044BF0 body duplicated with one `cmp r5, r6` / `beq` colour-key test
+inserted in the second.
+
+NO RELOCATIONS AT ALL (0 sites), like func_02044954: nothing here is
+evidence-blocked, this is purely a codegen row.
+
+COMPILER: dsi/1.1p1, THE DEFAULT.  The 2.0 pin was probed ONCE and is
+decisively WRONG: 1136 bytes / 1023 mismatches against the default's 864 /
+314.  Do not re-probe it on this function.  This matters because the
+prologue LOOKS like the documented 1.2 "frame padding" tell -- the image is a
+NINE-register `push {r4, r5, r6, r7, r8, sb, sl, fp, lr}` with `sub sp, sp,
+#0x34`, an odd-register frame, exactly the shape that pinned func_020525A0.
+It is not the tell here: the correct C reaches the same nine-register push
+and the same 0x34 under plain 1.1p1.  The earlier rows' "no tell appears"
+reading of this packet is confirmed, now against a measured probe.
+
+Shape, and the THREE levers that closed 578 of the 892-byte starting gap.
+
+    void f(Surf *src, Surf *dst, int dx, int dy,
+           s16 sx, s16 sy, u16 cw, u16 ch, u16 key)
+
+with the family's own descriptor (u8 *pixels +0x00, u16 w +0x04, u16 h +0x06),
+four register arguments and five stacked at sp+0x58..sp+0x68 after the
+nine-register push and the 0x34 frame.  Clamps and strides are the family's:
+
+    xend = dst->w - sx;  xend = (xend < cw) ? dx + xend : cw + dx;
+    yend = dst->h - sy;  yend = (yend < ch) ? dy + yend : ch + dy;
+    srow = (src->w + (src->w & 7)) >> 3;
+    drow = (dst->w + (dst->w & 7)) >> 3;
+    if (key != 0xFFFF) goto keyed;
+
+  * THE GUARD TESTS THE SOURCE COORDINATES, NOT THE DESTINATION ONES.  This
+    is the single biggest lever on the row, worth 24 bytes of SIZE and 106
+    concrete (884 -> 860), and it is the thing four earlier passes over this
+    family got wrong.  The image's `cmp r8, #0` / `cmpge ip, #0` at
+    0x020446E0/E4 is `if (sxx >= 0 && syy >= 0)`, where sxx/syy are the
+    SOURCE cursors that run alongside x/y, not `if (x >= 0 && y >= 0)`.
+    Written on x/y the compiler still produces a plausible two-instruction
+    predicated guard and every constant and mask still matches, which is why
+    it survived this long; it costs 24 bytes in the address arithmetic
+    because the wrong pair of values has to stay live.
+  * THE ARMS ARE EVEN-FIRST.  The image predicates the ODD arm
+    (`andne/orrne/lslne/orrne/strhne` at 0x02044788..0x02044798) and lets the
+    EVEN arm fall through to 0x020447A0.  So the source is
+    `if (odd == 0) { even } else { odd }`, the fall-through-arm idiom again.
+    Written odd-first both arms invert and the block is 4 bytes long with
+    every following byte shifted.
+  * THE ROW INVARIANTS MUST BE NAMED LOCALS IN THE OUTER LOOP.  The four
+    values `(y<<2)&0x1c`, `((y<<2)&0x3fe0)*srow`, `(syy<<2)&0x1c` and
+    `((syy<<2)&0x3fe0)*drow` are what the image computes at
+    0x020446A0..0x020446DC and spills to [sp,#0xc], [sp,#0x10], [sp,#4] and
+    [sp,#8].  Written inline in the inner block they are rematerialised.
+    The `(y<<2)&0x1c` one must be applied AT THE LOAD as a subscript
+    (`sp[ry]`), not folded into the pointer: the image's `ldrb r6, [r4, r5]`
+    at 0x02044758 is a register-offset load, and folding ry into the address
+    gives a plain `ldrb [rN]` and 11 bytes.
+  * `0xf0` is a function-scope local (`u32 mfp = 0xf0;`), matching the
+    image's `mov sl, #0xf0` hoisted to 0x02044710, ABOVE the odd/even test.
+    Written as the literal `0xf0` inside both arms it is materialised twice.
+
+and the nibble block itself, which reproduces exactly:
+
+    a = ...tiled address...;  odd = (a & 1) != 0;  if (odd) a -= 1;
+    v  = (*sp >> (((u32)(x << 31)) >> 29)) & 0xf;   /* nibble select */
+    c  = *(u16 *)a;
+    hi = ((u32)(c << 8)) >> 16;      /* the image's own shift pair */
+    lo = (u32)((c & 0xff) << 16);    /* low byte parked in the high half */
+    sh = ((u32)(sxx << 31)) >> 29;
+    even: *(u16*)a = (((int)mfp >> sh) & (lo >> 16)) | (v << sh) | (hi << 8);
+    odd:  *(u16*)a = ((((hi & ((int)mfp >> sh)) | (v << sh)) << 8)) | (lo>>16);
+
+THE RESIDUE, 314 bytes, and it is the SAME spill class the other four rows of
+this packet end on -- but this row got FURTHER than any of them, and the
+permuter found the lever the earlier entries were asking for:
+
+  `volatile Surf *src` IS PART OF THE ANSWER.  The func_02044BF0 entry at the
+  top of this file guessed this ("only happens when the field is spelled
+  volatile") and then rejected it because it "still allocated a5/(a5<<4) into
+  r8/r5 instead of spilling".  On THIS row it is worth 24 bytes of size and
+  313 concrete (884/733 -> 864/314): it forces the duplicate `ldrh` of
+  src->w that the image has at 0x02044600, and it stops the base pointer
+  being hoisted out of the inner loop.  It is necessary and not sufficient.
+
+Measured, by compiled size / concrete mismatches:
+  - the shape above, non-volatile src:                 860 / 627
+  - + `volatile Surf *src` (permuter, hill, budget 30,
+    21902 untried mutations remaining):                864 / 314  <- SIZE EXACT
+  - second hill round from that baseline, budget 30:   864 / 312, best
+                                                       mutation `swap'*'@L75`
+                                                       alone; top eight all 312
+  - `yend = yend + dy` instead of `dy + yend`:         848 / 715 (the size
+                                                       breaks; the image's
+                                                       `addlt r5, r3, r6` is
+                                                       dy-first and load-bearing)
+  - src->w bound to a block-scoped temporary:          860 / 616
+  - `int mfp` instead of `u32 mfp`:                    864 / 314 (identical)
+  - the inner-loop bound test hoisted above the four
+    invariants (`if (dx >= xend) continue;`):          876 / 604
+
+At 864/314 the prologue is byte-exact through 0x0204468C except for two
+scheduling slips (the second `ldrh [r0,#4]` lands one slot early, the
+`add r7, r8, r7` one slot late) and one commutative order (`addlt r5, r3, r6`
+against the compiled `addlt r5, r6, r3`).  Everything from 0x02044690 on is
+the right instructions in the right order with the registers permuted.
+
+Next agent: this row is now the CHEAPEST in the family by a wide margin --
+size-exact, no relocations, and 314 bytes that are a register permutation
+rather than a missing instruction.  The remaining question is the packet's
+standing one, unchanged since the func_02044BF0 entry: what makes mwcc spend
+the extra spill slot the image spends.  But the search space is much smaller
+here than on the other four rows, and `volatile` on the source descriptor is
+now a MEASURED lever rather than a guess, so start from the source below.
+
+/* best source, 864 bytes against 864, 314 concrete bytes out, dsi/1.1p1 */
+typedef unsigned int   u32;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned char  u8;
+
+typedef struct {
+    u8  *pixels;
+    u16  w;
+    u16  h;
+} Surf;
+
+void func_020445F4(volatile Surf *src, Surf *dst, u32 dx, int dy,
+                   s16 sx, s16 sy, u16 cw, u16 ch, u16 key)
+{
+    int xend, yend;
+    int srow, drow;
+    int x, y;
+    int sxx, syy;
+    u32 mfp = 0xf0;
+
+    xend = dst->w - sx;
+    if (xend < cw) xend = dx + xend; else xend = cw + dx;
+
+    yend = dst->h - sy;
+    if (yend < ch) yend = dy + yend; else yend = ch + dy;
+
+    srow = (src->w + (src->w & 7)) >> 3;
+    drow = (dst->w + (dst->w & 7)) >> 3;
+
+    if (key != 0xFFFF) goto keyed;
+
+    if (dy >= yend) return;
+    for (y = dy, syy = sy; y < yend; y++, syy++) {
+        int ry = (y << 2) & 0x1c;
+        int py = ((y << 2) & 0x3fe0) * srow;
+        int rz = (syy << 2) & 0x1c;
+        int pz = ((syy << 2) & 0x3fe0) * drow;
+        for (x = dx, sxx = sx; x < xend; x++, sxx++) {
+            if (sxx >= 0 && syy >= 0) {
+                u8 *sp = src->pixels + ((x >> 1) & 3) + ((x << 2) & 0x3fe0) + py;
+                u8 *dp = dst->pixels + ((sxx >> 1) & 3) + ((sxx << 2) & 0x3fe0)
+                       + pz + rz;
+                u32 c, hi, lo, sh, v;
+                int odd;
+                if (((u32)dp & 1) != 0) { odd = 1; dp = dp - 1; } else odd = 0;
+                c = *(u16 *)dp;
+                v = (sp[ry] >> ((((u32)(x << 31)) >> 29))) & 0xf;
+                hi = ((u32)(c << 8)) >> 16;
+                lo = ((u32)((c & 0xff) << 16));
+                sh = ((u32)(sxx << 31)) >> 29;
+                if (odd == 0) {
+                    *(u16 *)dp = (u16)(((((int)mfp >> sh) & (lo >> 16)) | (v << sh)) | (hi << 8));
+                } else {
+                    *(u16 *)dp = (u16)(((((hi & ((int)mfp >> sh)) | (v << sh)) << 8)) | (lo >> 16));
+                }
+            }
+        }
+    }
+    return;
+keyed:
+    if (dy >= yend) return;
+    for (y = dy, syy = sy; y < yend; y++, syy++) {
+        int pz = ((syy << 2) & 0x3fe0) * drow;
+        int rz = (syy << 2) & 0x1c;
+        int ry = (y << 2) & 0x1c;
+        int py = ((y << 2) & 0x3fe0) * srow;
+        for (x = dx, sxx = sx; x < xend; x++, sxx++) {
+            if (sxx >= 0 && syy >= 0) {
+                u8 *sp = src->pixels + ((x >> 1) & 3) + ((x << 2) & 0x3fe0) + py;
+                u8 *dp = dst->pixels + ((sxx >> 1) & 3) + ((sxx << 2) & 0x3fe0)
+                       + pz + rz;
+                u32 c, hi, lo, sh, v;
+                int odd;
+                if (((u32)dp & 1) != 0) { odd = 1; dp = dp - 1; } else odd = 0;
+                v = (sp[ry] >> ((((u32)(x << 31)) >> 29))) & 0xf;
+                if (v == key) continue;
+                c = *(u16 *)dp;
+                hi = ((u32)(c << 8)) >> 16;
+                lo = ((u32)((c & 0xff) << 16));
+                sh = ((u32)(sxx << 31)) >> 29;
+                if (odd == 0) {
+                    *(u16 *)dp = (u16)(((((int)mfp >> sh) & (lo >> 16)) | (v << sh)) | (hi << 8));
+                } else {
+                    *(u16 *)dp = (u16)(((((hi & ((int)mfp >> sh)) | (v << sh)) << 8)) | (lo >> 16));
+                }
+            }
+        }
+    }
+}

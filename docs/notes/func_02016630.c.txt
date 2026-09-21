@@ -193,3 +193,54 @@ void func_02016630(struct Ctx *a0, u32 idx, struct Src *a2)
         *(void **)a1 = func_020056A0(func_02016880, p, 0);
     }
 }
+
+================================================================================
+2026-09-21: prototypes found and applied.  Still DIFF 36, 592 bytes (size exact).
+================================================================================
+
+The four ctor helpers ARE matched and their prototypes are now known:
+
+    src/matched/unit_02049DB4.c   0x02049FFC, and also 0x02049DF4, 0x02049F78
+    src/matched/unit_0204A07C.c   0x0204A07C
+    src/matched/unit_0204A0FC.c   0x0204A0FC, 0x0204A17C
+
+all of the uniform shape
+
+    void *f(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
+(the 4-argument forms func_02049F34 / func_02049F78 are
+`void *f(u32,u32,u32,u32)`, with the third argument passed as 0 internally).
+
+Applying them verbatim -- u32 for the first four parameters, u16 for the fifth,
+with the call sites rewritten to `(u32)` casts and the explicit `(u16)` cast on
+the heap word dropped because the parameter now narrows -- recompiles to 592
+bytes with 36 concrete mismatches, i.e. EXACTLY the previous count, in exactly
+the previous places.  The u16 fifth parameter is consistent with the original
+(the lsls/lsrs pair at each call site is still there and still matches), so the
+prototype is confirmed correct by the bytes -- it simply is not the lever.
+
+The prediction in the first half of this note is therefore retracted: the
+declared parameter types of 0x02049FFC..0x0204A17C do not reach this residue.
+
+Additionally measured against the 36-byte baseline, each a full recompile:
+  - all-u32 argument types (36) and all-void* types with u16 fifth (36);
+  - 4th argument as `(u32)a1 + off`, `(u32)&((u32*)a1)[n]`, `(void*)(a1+off)`;
+  - `volatile u32` on the heap word load;
+  - the second argument lifted into a named temporary before the call;
+  - tools/permute.py --mode random --seed 3 and --mode hill --seed 21, budget
+    30 each: 125 mutations, nothing below 36.
+
+The twin func_020163C4 came down from 231 to 26 on 2026-09-21 by two findings
+that do NOT apply here (this function's __LINE__ constants 0x8AB/0x8C3 already
+match, and its declaration order already puts h at the right slot).  What
+remains in BOTH functions is the same single scheduler tie-break:
+
+  original   ldr r0,[r4,r0]     ; heap word
+             ldr r1,[sp,#0x10]  <-- a2 reload FIRST
+             lsls/lsrs ; str r0,[sp]
+             adds r3,r4,#0      <-- a1 base for the 4th arg SECOND
+  compiled   adds r3,r4,#0 first, ldr r1,[sp,#0x10] second
+
+Closing one closes the other.  Nothing in the argument list, the parameter
+types, the struct field types, the declaration order or the statement order
+reaches it.

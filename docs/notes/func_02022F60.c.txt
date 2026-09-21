@@ -1,0 +1,351 @@
+/* DIFF evidence note, 2026-09-21.  func_02022F60 @ 0x02022F60.
+ * match.py says DIFF (compiled 1144 of 1284 bytes), so this is evidence only
+ * and the source below is NOT filed under src/matched.
+ *
+ * SETTLED, and it reproduces byte for byte wherever the two arms of an
+ * `f309` test do not cross-jump:
+ *
+ *  - The function has NO relocations at all.  Every pool word is a hardware
+ *    address or a plain mask, reached as a cast constant per
+ *    docs/idioms/volatile-reread-needs-two-locals.md:
+ *      0x04000006 VCOUNT, 0x04000004 DISPSTAT,
+ *      0x04001048 / 0x0400104A (sub-engine blend registers),
+ *      0x00000309 and 0xFFFFC0FF as plain immediates in the pool.
+ *    The pool is split in two: 0x02023254..0x0202326B (embedded mid-function,
+ *    which `show` mis-disassembles as code) and 0x02023450..0x0202345F.
+ *    The real code ends at 0x0202344E; the 1284-byte extent `show` reports
+ *    includes both pools.
+ *
+ *  - Struct: byte flags at +0xC0..+0x17F, a u32 at +0x180, a second copy of
+ *    the same pair at +0x184 (flags +0x244..+0x303, u32 at +0x304), then
+ *    u8 +0x308 (mode) and u8 +0x309 (selector).  +0x308 is loaded as
+ *    `movs r3,#0xc2; lsls r3,r3,#2` and +0x309 as `adds r0,r3,#1`, which is
+ *    what pins them as two adjacent bytes rather than a halfword.
+ *
+ *  - The scanline index is POINTER form, not subscript:
+ *    `((u8 *)p + n)[0xC0]` gives `adds r0,r1,r0; adds r0,#0xc0; ldrb r0,[r0]`,
+ *    which is the original.  `p->rows[0xC0 + n]` gives the one-instruction
+ *    shorter `ldrb r0,[r1,r0]` and is wrong.
+ *
+ *  - Each leaf is TWO statements, not one expression.  The original emits
+ *    `bics rX,#0x3f; movs rY,#0x3f; orrs rX,rY; movs rY,#0x20; orrs rY,rX;
+ *     strh rY,[..]` -- two separate `orrs` of constants that would fold if
+ *    written as one expression.  The spelling that reproduces it is
+ *        v = (REG & ~MASK) | A;
+ *        REG = v | B;
+ *    with `int v`, never `u16 v` (a u16 local costs a lsls/lsrs pair).
+ *    MASK/A/B per leaf: (0x3F, 0x3F, 0x20), (0x3F, 0x20, 0x20),
+ *    (0xC0FF, 0x2000, 0x2000) and (0xC0FF, 0x3F00, 0x2000).  The compiler
+ *    rematerialises 0x2000 as `lsrs r0, r2, #0xd` off the register already
+ *    holding 0x04001048, so writing the plain constant is correct.
+ *
+ * THE BLOCKER, and it is the whole 140-byte deficit: ten or so of the
+ * `if (p->f309 == 0) { X } else { X }` tests have two BYTE-IDENTICAL arms in
+ * the original (same mask, same values, same register class), and the
+ * original does NOT cross-jump them -- it writes both out, one reaching
+ * 0x0400104A as `0x04000004 + 0x46` off the already-loaded DISPSTAT address
+ * register and the other through a fresh pool load.  mwcc merges them for
+ * every spelling tried here, which is exactly 140 bytes short.
+ *
+ * Tried and no better (all still 1144 bytes):
+ *   - binding +0x308 to a named local declared after `n`
+ *     (docs/idioms/declaration-order-decides-which-register-a-local-gets.md);
+ *   - reading DISPSTAT into its own named local at each leaf
+ *     (docs/idioms/volatile-reread-needs-two-locals.md), which is what the
+ *     original's shared address register looked like it wanted;
+ *   - `u16 v` instead of `int v` (worse: adds a lsls/lsrs truncation pair
+ *     at every leaf).
+ *
+ * The single decision this needs is what source-level difference between the
+ * two arms defeats mwcc's cross-jumper here.  Everything else about the
+ * function is settled.  A plausible next move, untried for budget reasons:
+ * reach 0x0400104A in one arm through a pointer derived from the DISPSTAT
+ * address (`(volatile u16 *)((u8 *)&REG_DISPSTAT + 0x46)`) and through the
+ * plain cast constant in the other, which is the asymmetry the original's
+ * register allocation actually shows.
+ */
+
+/*
+ * function: func_02022F60
+ * address:  0x02022F60
+ * packet:   pkt_02022F60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * No external relocations at all: every pool word is a hardware register
+ * address (0x04000004 DISPSTAT, 0x04000006 VCOUNT, 0x04001048/0x0400104A
+ * the sub-engine blend registers) or a plain mask, so the whole function
+ * is pure computation reached through cast constants
+ * (docs/idioms/volatile-reread-needs-two-locals.md).
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+#define REG_VCOUNT   (*(volatile u16 *)0x04000006)
+#define REG_DISPSTAT (*(volatile u16 *)0x04000004)
+#define REG_1048     (*(volatile u16 *)0x04001048)
+#define REG_104A     (*(volatile u16 *)0x0400104A)
+
+struct S {
+    u8  rows[0x184];   /* 0x000: rows[0xC0 + i] is the per-scanline flag */
+    u8  rows2[0x180];  /* 0x184 */
+    u32 f304;          /* 0x304 */
+    u8  f308;          /* 0x308 */
+    u8  f309;          /* 0x309 */
+};
+
+void func_02022F60(struct S *p)
+{
+    int n;
+    int v;
+    int k;
+
+    n = REG_VCOUNT;
+    if (n >= 0xC0)
+        return;
+    n = n + 1;
+    if (n > 0xBF)
+        n -= 0xC0;
+
+    k = p->f308;
+    if (k == 1) {
+        if (((u8 *)p + n)[0xC0] == 0) {
+            if (p->f309 == 0) {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_104A & ~0x3F) | 0x3F;
+                    REG_104A = v | 0x20;
+                }
+            } else {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_104A & ~0x3F) | 0x3F;
+                    REG_104A = v | 0x20;
+                }
+            }
+            if (*(u32 *)((u8 *)p + 0x180) == 0) {
+                if (p->f309 == 0) {
+                    if (REG_DISPSTAT & 2) {
+                        v = (REG_1048 & ~0x3F) | 0x20;
+                        REG_1048 = v | 0x20;
+                    }
+                    return;
+                }
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & ~0x3F) | 0x3F;
+                    REG_1048 = v | 0x20;
+                }
+                return;
+            }
+            if (p->f309 == 0) {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & 0xC0FF) | 0x2000;
+                    REG_1048 = v | 0x2000;
+                }
+                return;
+            }
+            if (REG_DISPSTAT & 2) {
+                v = (REG_1048 & 0xC0FF) | 0x3F00;
+                REG_1048 = v | 0x2000;
+            }
+            return;
+        }
+        /* rows[0xC0 + n] != 0 */
+        if (p->f309 == 0) {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_104A & ~0x3F) | 0x20;
+                REG_104A = v | 0x20;
+            }
+        } else {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_104A & ~0x3F) | 0x20;
+                REG_104A = v | 0x20;
+            }
+        }
+        if (*(u32 *)((u8 *)p + 0x180) == 0) {
+            if (p->f309 == 0) {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & ~0x3F) | 0x3F;
+                    REG_1048 = v | 0x20;
+                }
+                return;
+            }
+            if (REG_DISPSTAT & 2) {
+                v = (REG_1048 & ~0x3F) | 0x3F;
+                REG_1048 = v | 0x20;
+            }
+            return;
+        }
+        if (p->f309 == 0) {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_1048 & 0xC0FF) | 0x3F00;
+                REG_1048 = v | 0x2000;
+            }
+            return;
+        }
+        if (REG_DISPSTAT & 2) {
+            v = (REG_1048 & 0xC0FF) | 0x3F00;
+            REG_1048 = v | 0x2000;
+        }
+        return;
+    }
+
+    /* f308 != 1 */
+    if (((u8 *)p + n)[0xC0] == 0) {
+        if (p->f309 == 0) {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_104A & ~0x3F) | 0x3F;
+                REG_104A = v | 0x20;
+            }
+        } else {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_104A & ~0x3F) | 0x3F;
+                REG_104A = v | 0x20;
+            }
+        }
+        if (*(u32 *)((u8 *)p + 0x180) == 0) {
+            if (p->f309 == 0) {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & ~0x3F) | 0x20;
+                    REG_1048 = v | 0x20;
+                }
+            } else {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & ~0x3F) | 0x20;
+                    REG_1048 = v | 0x20;
+                }
+            }
+        } else {
+            if (p->f309 == 0) {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & 0xC0FF) | 0x2000;
+                    REG_1048 = v | 0x2000;
+                }
+            } else {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & 0xC0FF) | 0x2000;
+                    REG_1048 = v | 0x2000;
+                }
+            }
+        }
+    } else {
+        if (p->f309 == 0) {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_104A & ~0x3F) | 0x20;
+                REG_104A = v | 0x20;
+            }
+        } else {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_104A & ~0x3F) | 0x20;
+                REG_104A = v | 0x20;
+            }
+        }
+        if (*(u32 *)((u8 *)p + 0x180) == 0) {
+            if (p->f309 == 0) {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & ~0x3F) | 0x3F;
+                    REG_1048 = v | 0x20;
+                }
+            } else {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & ~0x3F) | 0x3F;
+                    REG_1048 = v | 0x20;
+                }
+            }
+        } else {
+            if (p->f309 == 0) {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & 0xC0FF) | 0x3F00;
+                    REG_1048 = v | 0x2000;
+                }
+            } else {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & 0xC0FF) | 0x3F00;
+                    REG_1048 = v | 0x2000;
+                }
+            }
+        }
+    }
+
+    /* second half: the +0x184 mirror */
+    if (((u8 *)p + 0x184 + n)[0xC0] == 0) {
+        if (p->f309 == 0) {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_104A & ~0x3F) | 0x3F;
+                REG_104A = v | 0x20;
+            }
+        } else {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_104A & ~0x3F) | 0x3F;
+                REG_104A = v | 0x20;
+            }
+        }
+        if (p->f304 == 0) {
+            if (p->f309 == 0) {
+                if (REG_DISPSTAT & 2) {
+                    v = (REG_1048 & ~0x3F) | 0x20;
+                    REG_1048 = v | 0x20;
+                }
+                return;
+            }
+            if (REG_DISPSTAT & 2) {
+                v = (REG_1048 & ~0x3F) | 0x20;
+                REG_1048 = v | 0x20;
+            }
+            return;
+        }
+        if (p->f309 == 0) {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_1048 & 0xC0FF) | 0x2000;
+                REG_1048 = v | 0x2000;
+            }
+            return;
+        }
+        if (REG_DISPSTAT & 2) {
+            v = (REG_1048 & 0xC0FF) | 0x2000;
+            REG_1048 = v | 0x2000;
+        }
+        return;
+    }
+
+    if (p->f309 == 0) {
+        if (REG_DISPSTAT & 2) {
+            v = (REG_104A & ~0x3F) | 0x20;
+            REG_104A = v | 0x20;
+        }
+    } else {
+        if (REG_DISPSTAT & 2) {
+            v = (REG_104A & ~0x3F) | 0x20;
+            REG_104A = v | 0x20;
+        }
+    }
+    if (p->f304 == 0) {
+        if (p->f309 == 0) {
+            if (REG_DISPSTAT & 2) {
+                v = (REG_1048 & ~0x3F) | 0x3F;
+                REG_1048 = v | 0x20;
+            }
+            return;
+        }
+        if (REG_DISPSTAT & 2) {
+            v = (REG_1048 & ~0x3F) | 0x3F;
+            REG_1048 = v | 0x20;
+        }
+        return;
+    }
+    if (p->f309 == 0) {
+        if (REG_DISPSTAT & 2) {
+            v = (REG_1048 & 0xC0FF) | 0x3F00;
+            REG_1048 = v | 0x2000;
+        }
+        return;
+    }
+    if (REG_DISPSTAT & 2) {
+        v = (REG_1048 & 0xC0FF) | 0x3F00;
+        REG_1048 = v | 0x2000;
+    }
+}

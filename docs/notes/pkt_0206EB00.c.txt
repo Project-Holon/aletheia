@@ -716,3 +716,341 @@ copy:
 flag2:
     out[0] = out[0] | 2;
 }
+
+==============================================================================
+2026-09-21, later pass: 0x0206EE60 (940 B) DERIVED IN FULL, 63 bytes out
+==============================================================================
+
+The earlier entries in this note record 0x0206EE60 as "not attempted,
+oversized".  It has now been taken.  Result under the packet's ../2.0/sp2
+pin: 948 bytes against the image's 948 (SIZE EXACT), all 19 relocation sites
+resolved, 63 concrete bytes out.  NOT FILED: DIFF sources never go in
+src/matched or src/pending, by rule 6.
+
+COMPILER: ../2.0/sp2, the pin this packet already carries, and the evidence
+is decisive.  Under the default dsi/1.1p1 the same C is 864 bytes / 630
+mismatches; under the pin it is 948 / 63.  That is an 84-byte size swing on
+one source, the largest measured for this family.  No new pin row is needed:
+the packet is already a 2.0 unit per the 2026-09-21 entry above, and this
+function is simply its largest member.
+
+What the function is
+--------------------
+The flags-driven channel decoder for the animation records this whole packet
+serves.  Signature is four register arguments:
+
+    void f(Root *root, u32 idx, u32 t, Out *out)
+
+with root=sb, t=r8 (the 20.12 cursor), out=r7.  The record is found by the
+halfword table at root+0x14: rel = *(u16 *)((u8 *)root + idx*2 + 0x14), and
+the record's first word is the flag word f = *(u32 *)((u8 *)root + rel).
+
+f & 1 is the "dead channel" early out (out->f00 = 7, straight to the emit
+tail).  Otherwise the cursor p starts at the record's second word and the
+function walks SIX independent flag groups in order, each of which either
+reads a literal pair out of the record or calls an interpolator:
+
+  f & 6     rotation group guard -> f&2 sets out->f00 |= 4, else func_0206EBB8
+  f & 8/10/20   three scalar channels -> out->f4c / f50 / f54
+  f & 0xc0  second guard -> f&0x40 sets out->f00 |= 2, else func_0206ECE0
+  f & 0x100 the 3x3 matrix path (func_0206FFA0 + the nine-mul cofactor block)
+  f & 0x600 third guard -> f&0x200 sets out->f00 |= 1, else func_0206EC50
+  f & 0x800/0x1000/0x2000  three vector channels -> the res[] stack block
+
+`lerp` (r6 in the image) is computed ONCE at the top and selects the
+interpolator at every one of the six call sites:
+    lerp = (t & 0xfff) && (root->f08 & 1);
+with 0xfff read from the pool word at 0x0206F20C.  lerp != 0 picks the
+0x36C/0xFC5C/0xF6B0 family, lerp == 0 the 0xF214/0xF844/0xF4C8 family.
+
+SEVEN LEVERS THAT CLOSED, in order of how much each was worth.  Between them
+they took the source from 675 concrete bytes out to 63; none is optional.
+
+  * THE HOOK TAKES FOUR ARGUMENTS, not three.  This is worth the last 4
+    bytes of SIZE and was the single hardest thing to see.  The emit tail is
+        d = g_02148DB0;  d->hook(out, &res[0], d->first, k);
+    where `d->first` is the dispatcher's own first word (the image's
+    `ldr r2, [r4]` at +0x0394, r4 being the dispatcher pointer just loaded)
+    and k is `(out->f00 & 1) ? 4 : 0`.  Written as a three-argument call the
+    `ldr r2, [r4]` is dead, the compiler drops it, and the function is 944
+    against 948 with the whole tail shifted.  The hook pointer is at +0xE8,
+    NOT +0xE4: getting that wrong costs 23 bytes in the tail alone.
+  * `out->f00` MUST BE READ BEFORE THE POOL WORD in the emit tail.  The image
+    is `ldr r0, [r7]` / `add r1, sp, #0x18` / `tst r0, #1` / `ldr r0, [pc..]`;
+    writing `Disp *d = g_02148DB0;` before the `k` computation puts the pool
+    load first and costs 23 bytes.  Declare k first, d second.
+  * THE NINE-MUL COFACTOR BLOCK MUST BIND ALL SIX FIELDS TO LOCALS FIRST.
+    This is worth 20 bytes of SIZE on its own (968 -> 948).  The image loads
+    f3c, f2c, f28, f38, f30, f34 into six registers (which is what forces the
+    ten-register push with sl and fp) and only then issues the six `mul`s.
+    Written as three separate `out->fXX * out->fYY - ...` expressions the
+    compiler re-reads the fields per row, emits five instructions per row
+    instead of the image's shared shape, and needs no sl/fp: 20 bytes over.
+    The six locals must be DECLARED then ASSIGNED, not initialised in the
+    declaration: initialiser form reorders the loads.
+  * EVERY ONE OF THE SIX FLAG GROUPS IS `if ((f & bit) == 0) { call } else
+    { literal }` -- CALL ARM FIRST.  Writing the literal arm first (the
+    source-order reading of the image, since the literal block appears LATER
+    in the address space) inverts the branch at all six sites and costs 549
+    concrete bytes.  This is docs/idioms/the-fall-through-arm-is-the-source-
+    order.md applied six times: the image's `bne <literal block>` means the
+    literal arm is the ELSE.
+  * THE RESULT BLOCK IS `u32 res[6]` AT sp+0x18, LAID OUT AS ONE ARRAY.
+    res[0..2] are the three low words (sp+0x18/0x1c/0x20) and res[3..5] the
+    three high ones (sp+0x24/0x28/0x2c).  Declaring it as two `u32 ra[3];
+    u32 rb[3];` is FATAL: the hook only takes &ra[0], the compiler proves rb
+    dead and deletes all three of its stores, 896 bytes against 948.
+  * THE SCRATCH BLOCK `u32 tmp[6]` IS INDEXED 4/2/0, NOT 0/2/4.  The three
+    vector channels write their interpolator output to sp+0x10, sp+0x08 and
+    sp+0x00 in that order, i.e. the FIRST channel uses the HIGHEST slot.
+    Indexing tmp[0]/tmp[2]/tmp[4] in channel order gives the right size but
+    9 extra bytes of wrong stack offsets.
+  * `res` MUST BE DECLARED BEFORE `tmp`.  Later declaration takes the lower
+    stack address (docs/idioms/local-declaration-order-is-stack-order.md), so
+    res-then-tmp puts tmp at sp+0x00 and res at sp+0x18, which is the image.
+    The reverse order is 11 bytes out in the stack offsets alone.
+
+THE RESIDUE, 63 bytes, ONE CAUSE AND NOTHING ELSE: the image allocates
+{cursor p = r5, lerp = r6} and every spelling tried gives {p = r6, lerp = r5}.
+Every instruction, every branch target, every operand role and all 19
+relocations are correct; the 63 differing bytes are that one two-register
+swap appearing at 22 sites (the six `cmp rL, #0` interpolator selects, the
+six `mov r2, rP` argument writes, the four `add rP, rP, #8` advances, the
+`ldr r0, [rP], #4` post-increments and the literal reads off rP).
+
+Levers measured against the swap, all of them at 948/63 or worse:
+  - all six declaration orders of {p, f, rel, lerp}: three give 63, three 78
+  - `lerp` as u32 rather than int:                    63 (no change)
+  - `if (lerp)` rather than `if (lerp != 0)`:         63 (no change)
+  - the lerp test as two gotos to a shared label:     63 (no change)
+  - `register u32 *p`:                                63 (accepted, ignored)
+  - lerp flattened to `lerp = 0; if (..) lerp = 1;`:  944 bytes, 733 out
+    (the early `goto have` is load-bearing for the size)
+  - p initialised as `... + 1` before the f&1 guard:  948 / 81
+  - permuter, hill, budget 30 (30 compiles, 17388
+    untried mutations remaining):                     948 / 63, NOTHING moved;
+                                                      all ten survivors at 63
+
+So the whole remaining distance on this function is: what makes mwcc give the
+CURSOR the lower callee-saved register when the FLAG's live range opens
+later?  The flag is set at +0x4C and the cursor at +0x38, so the cursor's
+range opens first and should win r5 on any first-come rule; 2.0 gives it r6
+anyway.  That is the one open question, and it is 63 bytes from EXACT.
+
+/* best source, 948 bytes against 948, 63 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206EE60
+ * address:  0x0206EE60
+ * packet:   pkt_0206EC50
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02148DB0       0x02148DB0  data  a4
+ *   func_0206EBB8    0x0206EBB8  arm
+ *   func_0206EC50    0x0206EC50  arm
+ *   func_0206ECE0    0x0206ECE0  arm
+ *   func_0206F214    0x0206F214  arm
+ *   func_0206F36C    0x0206F36C  arm
+ *   func_0206F4C8    0x0206F4C8  arm
+ *   func_0206F6B0    0x0206F6B0  arm
+ *   func_0206F844    0x0206F844  arm
+ *   func_0206FC5C    0x0206FC5C  arm
+ *   func_0206FFA0    0x0206FFA0  arm
+ */
+
+typedef unsigned int   u32;
+typedef unsigned short u16;
+typedef unsigned char  u8;
+
+typedef struct {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    u32 f0c;
+    u32 f10;
+} Root;
+
+typedef struct {
+    u32 f00;
+    u8  pad04[0x24];
+    int f28;
+    int f2c;
+    int f30;
+    int f34;
+    int f38;
+    int f3c;
+    int f40;
+    int f44;
+    int f48;
+    u32 f4c;
+    u32 f50;
+    u32 f54;
+} Out;
+
+typedef struct {
+    u32  first;
+    u8   pad2[0xE4];
+    void (*hook)(Out *, u32 *, u32, u32);
+} Disp;
+
+extern Disp *g_02148DB0;
+
+extern void func_0206EBB8(Out *o);
+extern void func_0206EC50(Out *o);
+extern void func_0206ECE0(Out *o);
+extern void func_0206F214(u32 *out, u32 t, u32 *rec, Root *base);
+extern void func_0206F36C(u32 *out, u32 t, u32 *rec, Root *base);
+extern void func_0206F4C8(u32 *out, u32 t, u32 *rec, Root *base);
+extern void func_0206F6B0(u32 *out, u32 t, u32 *rec, Root *base);
+extern void func_0206F844(u32 *out, u32 t, u32 *rec, Root *base);
+extern void func_0206FC5C(u32 *out, u32 t, u32 *rec, Root *base);
+extern int  func_0206FFA0(u32 *out, u32 *a, u32 *b, u32 c);
+
+void func_0206EE60(Root *root, u32 idx, u32 t, Out *out)
+{
+    u32 *p;
+    u32 f;
+    u32 rel;
+    int lerp;
+    u32 res[6];
+    u32 tmp[6];
+
+    rel = *(u16 *)((u8 *)root + idx * 2 + 0x14);
+    f = *(u32 *)((u8 *)root + rel);
+    p = (u32 *)((u8 *)root + rel);
+    if ((f & 1) != 0) {
+        out->f00 = 7;
+        goto emit;
+    }
+    p = p + 1;
+    if ((t & 0xfff) != 0) {
+        if ((root->f08 & 1) != 0) {
+            lerp = 1;
+            goto have;
+        }
+    }
+    lerp = 0;
+have:
+    out->f00 = 0;
+    if ((f & 6) != 0) goto rot;
+    if ((f & 8) == 0) {
+        if (lerp != 0)
+            func_0206F36C(&out->f4c, t, p, root);
+        else
+            func_0206F214(&out->f4c, t, p, root);
+        p = p + 2;
+    } else {
+        out->f4c = *p++;
+    }
+    if ((f & 0x10) == 0) {
+        if (lerp != 0)
+            func_0206F36C(&out->f50, t, p, root);
+        else
+            func_0206F214(&out->f50, t, p, root);
+        p = p + 2;
+    } else {
+        out->f50 = *p++;
+    }
+    if ((f & 0x20) == 0) {
+        if (lerp != 0)
+            func_0206F36C(&out->f54, t, p, root);
+        else
+            func_0206F214(&out->f54, t, p, root);
+        p = p + 2;
+    } else {
+        out->f54 = *p++;
+    }
+    goto s3;
+rot:
+    if ((f & 2) != 0) {
+        out->f00 = out->f00 | 4;
+    } else {
+        func_0206EBB8(out);
+    }
+s3:
+    if ((f & 0xc0) != 0) goto rot2;
+    if ((f & 0x100) == 0) {
+        if (lerp != 0)
+            func_0206FC5C((u32 *)&out->f28, t, p, root);
+        else
+            func_0206F844((u32 *)&out->f28, t, p, root);
+        p = p + 2;
+    } else {
+        u32 *a = (u32 *)((u8 *)root + root->f0c);
+        u32 *b = (u32 *)((u8 *)root + root->f10);
+        if (func_0206FFA0((u32 *)&out->f28, a, b, *p) != 0) {
+            int m3c, m2c, m28, m38, m30, m34;
+            m3c = out->f3c;
+            m2c = out->f2c;
+            m28 = out->f28;
+            m38 = out->f38;
+            m30 = out->f30;
+            m34 = out->f34;
+            out->f40 = (m2c * m3c - m30 * m38) >> 12;
+            out->f44 = (m30 * m34 - m28 * m3c) >> 12;
+            out->f48 = (m28 * m38 - m2c * m34) >> 12;
+        }
+        p = p + 1;
+    }
+    goto s4;
+rot2:
+    if ((f & 0x40) != 0) {
+        out->f00 = out->f00 | 2;
+    } else {
+        func_0206ECE0(out);
+    }
+s4:
+    if ((f & 0x600) != 0) goto tr;
+    if ((f & 0x800) == 0) {
+        if (lerp != 0)
+            func_0206F6B0(&tmp[4], t, p, root);
+        else
+            func_0206F4C8(&tmp[4], t, p, root);
+        res[0] = tmp[4];
+        res[3] = tmp[5];
+    } else {
+        res[0] = p[0];
+        res[3] = p[1];
+    }
+    if ((f & 0x1000) == 0) {
+        if (lerp != 0)
+            func_0206F6B0(&tmp[2], t, p + 2, root);
+        else
+            func_0206F4C8(&tmp[2], t, p + 2, root);
+        res[1] = tmp[2];
+        res[4] = tmp[3];
+    } else {
+        res[1] = p[2];
+        res[4] = p[3];
+    }
+    if ((f & 0x2000) == 0) {
+        if (lerp != 0)
+            func_0206F6B0(&tmp[0], t, p + 4, root);
+        else
+            func_0206F4C8(&tmp[0], t, p + 4, root);
+        res[2] = tmp[0];
+        res[5] = tmp[1];
+    } else {
+        res[2] = p[4];
+        res[5] = p[5];
+    }
+    goto emit;
+tr:
+    if ((f & 0x200) != 0) {
+        out->f00 = out->f00 | 1;
+        goto emit;
+    }
+    func_0206EC50(out);
+    return;
+emit:
+    {
+        u32 k = (out->f00 & 1) ? 4 : 0;
+        Disp *d = g_02148DB0;
+        d->hook(out, &res[0], d->first, k);
+    }
+}

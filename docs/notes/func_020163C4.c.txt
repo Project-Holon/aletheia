@@ -208,3 +208,238 @@ void func_020163C4(struct Ctx *a0, u32 idx, struct Src *a2)
         *(void **)a1 = func_020056A0(func_02016880, p, 0);
     }
 }
+
+================================================================================
+2026-09-21: 231 -> 26 mismatches.  Size still 620 (exact).
+================================================================================
+
+The four ctor helpers ARE matched, in src/matched/unit_02049DB4.c (0x02049FBC),
+src/matched/func_0204A03C.c, src/matched/unit_0204A07C.c (0x0204A0BC) and
+src/matched/unit_0204A0FC.c (0x0204A13C).  Their real signature is uniform:
+
+    void *f(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+
+Declaring the 5th parameter u16 here is WRONG and was measured: it makes the
+compiler narrow at every call site (four extra lsls/lsrs pairs), giving 636
+bytes.  The original has no narrowing at the four call sites, so at this call
+site the argument is already 16-bit and the declared type must stay u32.  The
+helper prototypes are therefore NOT the lever this note predicted; that
+prediction is retracted.
+
+Two other things were, and together they took 231 -> 26:
+
+1. the join is a cross-jump, not a shared store.  The original's then-arm ends
+   `lsls/lsrs; b +0x38` and +0x38 is INSIDE the else-arm, at its own lsls/lsrs
+   before `str r0,[sp,#0xc]`.  So the then-arm value is narrowed twice and the
+   else-arm value once, sharing the second narrowing and the store.  The
+   spelling that produces this is a u32 temporary assigned in each arm with the
+   then-arm carrying its own cast, and one cast on the join:
+
+       u32 t;
+       if (a2->f20 == 1) {
+           t = (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000);
+       } else {
+           t = *(u32 *)(a1 + 0x14C);
+       }
+       h = (u16)t;
+
+   (620 bytes on its own; folding either cast away gives 612 or 608.)
+
+2. the __LINE__ argument to the first func_02030734 is 0x840, not 0x858.  The
+   original spells it `movs r0,#0x21 ; lsls r0,r0,#6`, four bytes cheaper than
+   the pool word 0x858 costs, and the whole tail was shifted by that.  The two
+   later func_02030734 calls keep 0x858 / 0x858+1 (pool word plus adds).
+
+3. declaration order: `h` must be declared BEFORE `flag`, which puts h at
+   sp+0xc and flag at sp+8 as the original does.
+
+The residue is now 26 bytes in exactly one repeated shape, identical to the one
+documented in docs/notes/func_02016630.c.txt, at the four ctor call sites:
+
+  original   ldr r0,[sp,#0xc]   ; h
+             ldr r1,[sp,#0x10]  <-- a2 reload FIRST
+             str r0,[sp]
+             ldr r0,[sp,#0x10]
+             adds r3,r4,#0      <-- a1 base for the 4th arg SECOND
+  compiled   the two swapped
+
+Tried and rejected against the 26-byte baseline, each a full recompile:
+  - every 5th-parameter type (u16 -> 636, int -> 26, u32 -> 26);
+  - 2nd/4th argument spelled `(u32)a1 + off`, `(void*)(a1+off)`,
+    `&((u32*)a1)[n]`, `(u8*)a1 + off`;
+  - struct Src fields retyped u32 with integer helper prototypes;
+  - `const struct Src *a2` (26), `struct Src *volatile a2` (636, refolds),
+    `u8 *volatile a1` (477);
+  - `flag = 1` as its own statement before the second call (26) or before the
+    first (45); `volatile u32 h` (46);
+  - a2 re-bound to a local struct pointer before each of the four calls;
+  - tools/permute.py --mode hill --seed 1 and --mode random --seed 11, budget
+    30 each, 105 mutations available: nothing below 26.
+
+The lever is unchanged from func_02016630: the scheduler's tie-break between
+the spilled-pointer reload and the callee-saved base materialisation, which no
+spelling of the argument list or of the declared types reaches.
+
+---- closest C (26 mismatches, 620 bytes) ----
+/*
+ * function: func_020163C4
+ * address:  0x020163C4
+ * packet:   pkt_020163C4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   MIi_CpuCopy16  0x02082A60  arm
+ *   data_020A72CC  0x020A72CC  data
+ *   func_02016880  0x02016880  thumb
+ *   func_02016630  0x02016630  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
+extern void *func_02049FBC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern void *func_0204A03C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern void *func_0204A0BC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern void *func_0204A13C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern u32 *func_02048F60(void *a0, void *a1, u32 a2);
+extern void *func_02049DB4(void *a0, void *a1, u32 a2, void *a3, u32 a4);
+extern void *func_02049F34(void *a0, void *a1, void *a2, u32 a3);
+extern void func_02063790(void *p);
+extern void func_020637D4(void *p);
+extern void sub_02016028(void *p, u32 flag);
+extern void func_02016C60(void *a, void *b);
+extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
+extern void *func_020056A0(void *callback, void *ctx, int a2);
+extern void func_02016880(void *a0, void *a1);
+
+extern char data_020A72CC[];
+
+struct Obj {
+    void *f00;
+    void *f04;
+    void *f08;
+    void *f0c;
+    void *f10;
+    void *f14;
+    u32 f18;
+    u32 f1c;
+    void *f20;
+    void *f24;
+    u32 f28;
+};
+
+struct Ctx {
+    void *f00;
+    void *f04;
+    void *f08;
+    u8 pad0c[8];
+    void **f14;
+    u8 pad18[0x18];
+    u32 f30;
+    u32 f34;
+    u32 (*f38)(void *, void *, u32);
+    u32 f3c;
+};
+
+struct Ctx;
+struct Src {
+    void *f00;
+    void *f04;
+    void *f08;
+    void *f0c;
+    void *f10;
+    void *f14;
+    void *f18;
+    void *f1c;
+    u32 f20;
+};
+
+extern void func_02016630(struct Ctx *a0, u32 idx, struct Src *a2);
+
+void func_020163C4(struct Ctx *a0, u32 idx, struct Src *a2)
+{
+    u8 *a1 = (u8 *)a0->f14[idx];
+    struct Obj *p;
+    u32 h;
+    u32 flag;
+    u32 *q;
+
+    {
+        u32 t;
+        if (a2->f20 == 1) {
+            t = (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000);
+        } else {
+            t = *(u32 *)(a1 + 0x14C);
+        }
+        h = (u16)t;
+    }
+
+    if (a0->f00 != 0 && a0->f04 == a2->f00) {
+        func_02016630(a0, idx, a2);
+        return;
+    }
+
+    *(u32 *)(a1 + (5 << 6)) &= 0xFFFFDFFF;
+    func_02063790(a1 + 0x9C);
+    func_020637D4(a1 + 0xC0);
+
+    *(void **)(a1 + 0x0C) = func_02049FBC(a2->f00, a2->f0c, 0, a1 + 0x10, h);
+    *(void **)(a1 + 0x1C) = func_0204A03C(a2->f00, a2->f10, (flag = 1), a1 + 0x20, h);
+    *(void **)(a1 + 0x14) = func_0204A0BC(a2->f00, a2->f14, 0, a1 + 0x18, h);
+    *(void **)(a1 + 0x24) = func_0204A13C(a2->f00, a2->f18, 0, a1 + 0x28, h);
+    sub_02016028(a1, 0);
+
+    q = func_02048F60(a2->f00, a2->f1c, h);
+    *(u32 **)(a1 + 0x2C) = q;
+    *(u32 **)(a1 + 0x30) = (u32 *)((u8 *)q + ((0x30 * q[0] + 0xC) & ~3u));
+
+    p = (struct Obj *)func_02030734((u16)(((u16)*(u32 *)(a1 + (5 << 6) + 0xC) & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
+                                    0x2C, 1, data_020A72CC, 0x840);
+    p->f20 = a0;
+    if (a0->f08 == 0) {
+        flag = 0;
+    }
+    p->f28 = flag;
+    p->f08 = a1 + 0x9C;
+    p->f0c = a1 + 0xC0;
+    p->f18 = a0->f30 + (idx << 0xE);
+    p->f1c = a0->f34 + (idx << 5);
+    p->f24 = a1;
+
+    p->f10 = func_02049DB4(a2->f00, a2->f04, 1, p,
+                           (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000));
+    p->f14 = func_02049F34(a2->f00, a2->f08, &p->f04,
+                           (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000));
+
+    *(void **)(a1 + 0xD4) = func_02030734(h,
+                                          (u32)((struct Src *)p->f04)->f08, 0,
+                                          data_020A72CC, 0x858);
+    *(void **)(a1 + 0xD8) = func_02030734(h,
+                                          (u32)((struct Src *)p->f04)->f08, 0,
+                                          data_020A72CC, 0x858 + 1);
+    *(void **)(a1 + 0xDC) = ((struct Src *)p->f04)->f08;
+    MIi_CpuCopy16(((struct Src *)p->f04)->f0c, *(void **)(a1 + 0xD4),
+                  (u32)((struct Src *)p->f04)->f08);
+
+    if (a0->f38 != 0) {
+        if (a0->f38(a2, p, a0->f3c) == 1) {
+            a0->f38 = 0;
+            a0->f3c = 0;
+        }
+    }
+    if (((*(u32 *)(a1 + (5 << 6)) << 4) >> 0x1C) != 0) {
+        func_02016C60(a1, p);
+    }
+    if (a0->f08 != 0) {
+        *(void **)a1 = func_02030DA8(a0->f08, func_02016880, p, 0);
+    } else {
+        *(void **)a1 = func_020056A0(func_02016880, p, 0);
+    }
+}
