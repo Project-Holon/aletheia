@@ -23,3 +23,145 @@ What is settled from the original listing:
 
 Left as a near miss: the eager hoist of p->f14 out of the switch is what the
 committed spelling does not reproduce.
+
+
+========================================================================
+pkt_02022940 - func_020229A4 @ 0x020229A4 (142 bytes) - DIFF, 51 bytes
+[appended 2026-09-21]
+========================================================================
+
+Size is exact (160/160 with the trailing pool) and 109 of 160 bytes match.
+Everything from +0x50 to the end is byte-identical; the residue is two
+register-allocation choices in the first half, plus the 2-byte shift they
+cause.
+
+What IS settled, and reproduces:
+
+  - The allocation is func_02030734((u16)p->f20, 0x24, 0, g_02027450, 0x9AC)
+    stored to p->f14, then func_02082BCC((void *)p->f14, 0, 0x24) (MI_CpuFill8),
+    then the object is re-READ from p->f14 (`ldr r4, [r5, #0x14]`), not kept
+    from the allocator's return value.
+  - Two s32 locals, `a` and `b`.  Only `b` is initialised to 0; `a` is
+    uninitialised and every arm of the 2x2 branch assigns it.  Writing
+    `s32 a = 0` adds a second `movs #0` and spills the flag parameter.
+  - The 2x2 branch is `if (flag == 0)` outer, `if (p->f24 == 0x7FFF)` inner,
+    and the inner halfword load is shared between both outer arms.  The
+    flag==0 arms set only `a` (0x10, or b - 0x10); the flag!=0 arms set
+    `a = b` first and then `b` (0x10, or b - 0x10).
+  - The tail is func_020222CC(p->f10, a); the seven stores into the job
+    object; j->f14 = func_0202290C(a, b, p->f04) -- note func_0202290C is
+    declared void in src/matched/unit_0202290C.c but the original stores its
+    r0, so it returns a value here; p->f0C incremented in place; and
+    j->f20 = func_020056A0(func_02022AC4, j, 0x80).  0x02022AC4 is an
+    unlabelled leaf (no lr-saving prologue), read out of the .word run.
+  - `j = (struct Job *)p->f14` must be assigned AFTER the 2x2 branch.
+    Assigning it before the branch (which is where the original's
+    `ldr r4, [r5, #0x14]` actually sits, at +0x26) makes the compiler spill
+    the flag parameter to a fresh 8-byte frame: 144 bytes off instead of 51.
+
+The residue: the original puts flag in r7, then reuses r7 for `a`, and keeps
+`b` in r6.  This front end puts flag in r4, `a` in r6 and `b` in r7, and
+additionally parks the constant 0x24 in a spare callee-saved register
+(`movs r6, #0x24`) because flag took a low register and left one free.
+Tried this pass, all 51 bytes or worse: swapping the declaration order of
+a and b in both directions; an explicit `u32 flag = flagin;` local copy;
+`sizeof(struct Job)` in place of the second literal 0x24; moving the `j`
+assignment after func_020222CC (55 bytes).  Declaration order does not
+move it -- the allocator is deciding on liveness.
+
+---- source (51-byte near miss) ----
+/*
+ * function: func_020229A4
+ * address:  0x020229A4
+ * packet:   pkt_02022940
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_020222CC  0x020222CC  thumb
+ *   func_0202290C  0x0202290C  thumb
+ *   func_020056A0  0x020056A0  thumb
+ *   func_02022AC4  0x02022AC4  thumb
+ *   g_02027450     0x02027450  data
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+struct Ctx {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    u32 f0C;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1C;
+    u32 f20;
+    u16 f24;
+};
+
+struct Job {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    u32 f0C;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1C;
+    u32 f20;
+};
+
+extern void *func_02030734(u32 a0, u32 a1, u32 a2, void *a3, u32 a4);
+extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void  func_020222CC(u32 a, s32 b);
+extern s32   func_0202290C(s32 a, s32 b, u32 c);
+extern u32   func_020056A0(void *fn, void *arg, u32 prio);
+extern void  func_02022AC4(void);
+extern char  g_02027450[];
+
+void func_020229A4(struct Ctx *p, u32 flag)
+{
+    struct Job *j;
+    s32 b = 0;
+    s32 a;
+
+    p->f14 = (u32)func_02030734((u16)p->f20, 0x24, 0, g_02027450, 0x9AC);
+    func_02082BCC((void *)p->f14, 0, 0x24);
+    if (flag == 0) {
+        if (p->f24 == 0x7FFF) {
+            a = 0x10;
+        } else {
+            a = b - 0x10;
+        }
+    } else {
+        if (p->f24 == 0x7FFF) {
+            a = b;
+            b = 0x10;
+        } else {
+            a = b;
+            b = b - 0x10;
+        }
+    }
+
+    j = (struct Job *)p->f14;
+    func_020222CC(p->f10, a);
+    j->f00 = p->f04;
+    j->f04 = p->f08;
+    j->f08 = 0;
+    j->f0C = a << 7;
+    j->f10 = b << 7;
+    j->f14 = func_0202290C(a, b, p->f04);
+    j->f18 = p->f10;
+    j->f1C = a;
+    p->f0C = p->f0C + 1;
+    j->f20 = func_020056A0((void *)func_02022AC4, j, 0x80);
+}

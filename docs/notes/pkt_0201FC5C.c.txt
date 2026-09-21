@@ -82,3 +82,29 @@ C currently tried (scratch/scratch/w_0201FD18.c):
         }
     }
 
+
+
+========================================================================
+pkt_0201FC5C - func_0201FDA0 @ 0x0201FDA0 (276 bytes) - SKIPPED, oversized
+[appended 2026-09-21]
+========================================================================
+
+Taken one `show` and judged not worthwhile for this run, per the brief's
+"skip oversized functions after a quick look".  Recording the survey so the
+next agent does not repeat it:
+
+276 bytes of straight-line construction with FIFTEEN external calls, six of
+them to addresses this tree has no signature for yet (0x02045B38,
+0x02045C04, 0x020450F0, 0x0201D7EC, 0x0201DC80, 0x0201F9D0, 0x02045374,
+0x0201F73C, 0x02045730, 0x020409B4, 0x02045334), plus a 0x24-byte stack
+struct at sp+0x18 that is MI_CpuFill8'd to zero and then filled field by
+field, plus four read-modify-write bitfield updates on the byte at +0xB of
+that struct (masks 0x0F/0x30/0xC0 -- three adjacent bitfields, not flags).
+The frame is `push {r4,r5,r6,r7,lr}; sub sp, #0x3c`; it returns the result
+of func_0201F9D0.
+
+That is far more unknown signature surface than a single C rewrite can
+settle, and the arity of each of those six calls has to be right before any
+byte comparison is informative.  The productive order is to decompile the
+callees first (several are in other packets) and come back to this one once
+their arities are attested, rather than guessing eleven signatures at once.

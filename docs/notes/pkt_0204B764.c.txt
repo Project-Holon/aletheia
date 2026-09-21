@@ -69,3 +69,22 @@ registers, so it is an emission order below the source text, not a C shape.
 See also docs/notes/pkt_0204F150.c.txt, docs/notes/pkt_0204F684.c.txt and
 docs/notes/pkt_0204F7DC.c.txt - the same hoist-the-address/defer-the-load
 pattern, four functions in this region.
+
+SUPERSEDED, wave 13 (2026-09-21)
+================================
+All three functions above are EXACT.  src/matched/unit_0204B764.c reproduces
+the whole 0x0204B764..0x0204B7F0 range as one translation unit: 3 code
+sections, 140 bytes laid out, 2 of 2 relocation sites resolved, verdict EXACT
+under the default dsi/1.1p1 -O4,p.  The scheduling residue documented above is
+a source-shape artefact after all, not an emission order below the source
+text: the middle function binds its copy to a NAMED struct local
+(`Struct36 s; s = *src; *(Struct36 *)(dst + 0x1c) = s;`) and the two wrappers
+cast the base once and assign straight through it, which puts the source
+address ahead of the destination move in every one of the three.
+
+Separately, the file had been filed with one per-function header block per
+function instead of a single `unit: yes` block with a comma-list of names, so
+`manifest --verify` recorded only the LAST of the three and both 0x0204B764
+and 0x0204B784 kept reading OPEN in the worklist although the bytes had been
+reproduced.  The header now carries the house unit shape and the shard entry
+is one `game_unit` row at 0x0204B764.

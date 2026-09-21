@@ -142,3 +142,40 @@ void func_020266E0(u32 a0)
     g_02146940 = func_02030734(a0, 0xbb4, 1, g_020A74C0, 0x5a);
     *(u8 *)(g_02146940 + 0xbad) = -1;
 }
+
+======================================================================
+2026-09-21 -- func_020266E0 revisited; func_02026728 closed EXACT
+======================================================================
+
+func_02026728 (0x02026728, 138 code bytes) is now EXACT and filed at
+src/matched/func_02026728.c.  Two spellings decided it: the per-iteration
+accesses in the 0x1e-entry loop must be written out fresh each time
+(p + i*0x60 + 0xc0) rather than cached in a local, and the increment must
+be the compound form `*(u16 *)(...) += 1`, which re-reads the halfword;
+plain assignment reuses the load made for the < 0xffff guard and loses
+four bytes.  The three-way comparison chain on func_0200864C's result is a
+switch with cases 0xa, 0x1e, 0x32, 0x64 and no default body.
+
+func_020266E0 moved forward but is still a near miss, so no source was
+filed.  Two findings worth keeping:
+
+  * The prologue `push {r3, r4, r5, lr}` with no `sub sp` is explained by
+    the size argument 0xbb4 being a POOL WORD, not a literal: mwccarm
+    would emit `movs`/`lsls` for a constant that size.  Declaring it as an
+    absolute symbol (`extern char sBeaconSize[]` at 0x00000BB4, used both
+    as the size argument and as `(u32)sBeaconSize - 7` for the trailing
+    byte store) gets the frame and the pool layout exactly right and
+    brings the compile to the correct 68 bytes.  This is the same shape as
+    docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
+
+  * What is still unreproduced is only the -1 store.  The original holds
+    the literal 1 (the third argument to func_02030734) in the callee-
+    saved r4 ACROSS the call and then derives the stored byte with
+    `subs r2, r4, #2`.  Every spelling tried -- `-1`, `(u8)(1 - 2)`, `0xff`,
+    a named `u32 one = 1` -- folds to `movs r2, #0xff` before the call, and
+    the register assignment of r4/r5 flips with it.  Everything else in the
+    function, both pool words included, is byte-identical.
+
+  * Even with that closed, the file caps at MATCH: 0x020A74BC and the
+    absolute 0x00000BB4 each have their only witness inside this function's
+    own range, and no cut helps because both sites sit in the one function.

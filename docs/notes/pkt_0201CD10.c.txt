@@ -1,0 +1,119 @@
+packet pkt_0201CD10 - func_0201CD10 @ 0x0201CD10 (222 bytes) - DIFF, 2 bytes  [2026-09-21]
+
+Size is exact (228/228 with the trailing pool) and 226 of 228 bytes are
+identical.  The residue is two adjacent loads swapped at the func_0201C808
+call site:
+
+  * +0028  ldr r1, [sp, #0x28]   |  ldr r3, [sp, #4]
+  * +0030  ldr r3, [sp, #4]      |  ldr r1, [sp, #0x28]
+
+i.e. the original materialises the 5th incoming argument (sp+0x28) before
+the spilled 2nd argument (sp+4); this front end does the reverse.  Nothing
+in the C selects it: tried binding a4 to a local before the call, reading it
+as *(u32 *)&a4, reading a1 through a volatile lvalue, casting o+0x34 to
+void * versus leaving it as u8 *, and hoisting the a4 read above the first
+blx (that last one is much worse -- it makes the whole argument block
+stack-resident and pushes r3, costing 4 bytes and shifting everything).
+
+What IS settled, and is worth keeping:
+
+  - func_020311B8's argument order is (a6, fn, 0x50, a7), not
+    (fn, 0x50, a6, a7): the pool word 0x0201CEE1 lands in r1, the size 0x50
+    in r2.  0x0201CEE0 is a real Thumb function and the pool word carries
+    the Thumb bit.
+  - The function RETURNS the allocated object (`adds r0, r4, #0` at +0x00D8
+    just before the epilogue), so it is `void *`, not `void`.
+  - The halfword written to o[0x20] is read as *(u16 *)((u8 *)&a4 + 0x14),
+    which reproduces `add r1, sp, #0x28; ldrh r2, [r1, #0x14]` exactly.
+    Spelling it as a plain `(u16)a9` parameter gives `ldr r2, [sp, #0x3c]`
+    and shifts every following instruction by two bytes: the arguments from
+    the 5th on are addressed off one base, not read individually.
+  - sub_0201CDF4 writes a 2-byte sign/magnitude pair; the original reads
+    pair[1] FIRST (strb to o[0x19]) and then caches pair[0] in one register
+    for the three stores to o[0x18], o[0x1C], o[0x1A].
+  - The six clears of the flag byte at offset 0x22 use the house spelling
+    from src/matched/unit_0201CDF4.c, two independent ((u8 *)p)[0x22]
+    expressions per statement, which is what keeps load and store addresses
+    recomputed (the offset is past ldrb's +31 reach,
+    docs/idioms/thumb-immediate-reach-costs-an-adds.md).
+
+---- source (2-byte near miss) ----
+/*
+ * function: func_0201CD10
+ * address:  0x0201CD10
+ * packet:   pkt_0201CD10
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02045770  0x02045770  arm
+ *   func_020311B8  0x020311B8  arm
+ *   func_02031290  0x02031290  arm
+ *   func_02045A90  0x02045A90  arm
+ *   func_0201CEE0  0x0201CEE0  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+extern u32   func_02045770(u32 p);
+extern void *func_020311B8(u32 a0, void *fn, u32 sz, u32 a3);
+extern void *func_02031290(void);
+extern u32   func_02045A90(u32 a);
+extern void  func_0201CEE0(void);
+extern void  func_0201C808(void *dst, u32 a1, u32 a2, u32 a3, u32 s0);
+extern void  sub_0201CDF4(s32 v, u8 *out);
+
+void *func_0201CD10(u32 a0, u32 a1, u32 a2, u32 a3,
+                   u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u32 a9, u32 a10)
+{
+    u8 *o;
+    void *r;
+    u32 h;
+    u8 pair[2];
+
+    h = func_02045770(a0);
+    r = func_020311B8(a6, (void *)func_0201CEE0, 0x50, a7);
+    o = (u8 *)func_02031290();
+
+    *(void **)(o + 0x10) = r;
+    func_0201C808(o + 0x34, a4, h, a1, a2);
+    sub_0201CDF4(a5, pair);
+    o[0x19] = pair[1];
+    {
+        u8 lo = pair[0];
+        o[0x18] = lo;
+        o[0x1C] = lo;
+        o[0x1A] = lo;
+    }
+    {
+        u8 hi = o[0x19];
+        o[0x1D] = hi;
+        o[0x1B] = hi;
+    }
+    *(u32 *)(o + 0x14) = func_02045A90(a3);
+    o[0x1E] = 0;
+    *(u32 *)(o + 0x24) = a10;
+    *(u32 *)(o + 0x28) = 0;
+    *(u32 *)(o + 0x2C) = 0;
+    *(u32 *)(o + 0x30) = 0;
+    *(u32 *)(o + 0x08) = a0;
+    *(u32 *)(o + 0x0C) = h;
+    *(u32 *)(o + 0x00) = 0;
+    o[0x20] = (u8)*(u16 *)((u8 *)&a4 + 0x14);
+    *(u32 *)(o + 0x04) = 1;
+    o[0x1F] = 0;
+    o[0x22] = o[0x22] & ~4u;
+    o[0x22] = o[0x22] & ~1u;
+    o[0x22] = o[0x22] & ~2u;
+    o[0x21] = 0;
+    o[0x22] = o[0x22] & ~8u;
+    o[0x22] = o[0x22] & ~0x10u;
+    return o;
+}

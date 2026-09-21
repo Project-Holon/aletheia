@@ -127,3 +127,64 @@ int func_02027060(u32 i)
     }
     return 1;
 }
+
+======================================================================
+2026-09-21 -- func_02026FB8 and func_02026CA0 closed; func_02027060 still open
+======================================================================
+
+func_02026FB8 (0x02026FB8, 150 code bytes) is EXACT and filed at
+src/matched/func_02026FB8.c.  It is pure bitfield packing over one object,
+and the four pool words name the field widths exactly:
+
+    0xFC00FFFF  ->  f0c bits 16..25, a 10-bit field
+    0x03FFFFFF  ->  f0c bits 26..31, a  6-bit field
+    0xFFFE0000 (0x03FFFFFF << 17) and 0x0001FFFF (0x03FFFFFF >> 9)
+                ->  f08 and f04 bits 0..16, two 17-bit fields
+    0xFFC1FFFF  ->  f08 bits 17..21, a  5-bit field, incremented in place
+
+Writing the struct as C bitfields in that layout reproduces all 168 bytes
+first try.  Note the single shared pool word 0x03FFFFFF serving three
+different masks through shifts; reading the three as separate constants
+would have split one word into three and lost the layout.
+
+func_02026CA0 (0x02026CA0, 54 code bytes) is now EXACT* and filed at
+src/matched/func_02026CA0.c.  The C previously recorded in this note was
+DIFF; two changes closed it:
+
+  * The bound test is a `while (i < 0x1e)`, not a leading `if` plus a
+    `do`/`while`.  The original's `bge` at +0006 jumps FORWARD to the tail
+    at 0x2026cd0, so the 0x1e return lives at the end of the function, not
+    before the loop.
+  * The mask test must be spelled `*(u32 *)(base + 0xba4) & (1 << i)`, with
+    the pooled mask on the LEFT.  Written the other way the shift is
+    scheduled before the two loads and four instructions come out in the
+    wrong order (see the commutative-operand-order idiom).
+  * The hit return is `*p = *p + 1; return *p - 1;` -- the original's
+    `subs r0, r1, #1` derives the result from the value it just STORED.
+    `return (*p)++;` instead keeps the pre-increment copy in a register and
+    gives `adds r0, r2, #0`.
+
+The EXACT* is an extent artefact: disasm.py infers 232 bytes because the
+followers at 0x02026CE0 and beyond save no lr and carry no label.
+
+func_02027060 (0x02027060, 36 code bytes) remains a DIFF and no source was
+filed for it.  The size is right at 44 bytes and every instruction is the
+right instruction; the only difference is SCHEDULING.  The original loads
+both pool words up front and then INTERLEAVES the two table lookups:
+
+    ldr r1, [pc]      ; &g_02146940      <- this pool word comes FIRST
+    ldr r2, [pc]      ; g_0209FC20
+    ldr r1, [r1]
+    lsls r0, r0, #2
+    ldrh r1, [r1, #0x34]
+    ldr r0, [r2, r0]
+    ...
+    cmp r0, r1
+
+Every spelling tried compiles the two lookups as two sequential chains with
+g_0209FC20 read first, and therefore emits the pool in the other order:
+both operands inline in one comparison, the index bound to a `u16 j` first,
+the two results bound to `u8 a`/`u8 b` in either declaration order, either
+initialisation order, and the comparison written both as `a < b` and as
+`b > a`.  All six give the identical 44 wrong bytes.  Whatever produces the
+interleaving is not operand order or declaration order at this call shape.

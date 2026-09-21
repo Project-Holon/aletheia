@@ -1,0 +1,57 @@
+/*
+ * function: func_0202751C
+ * address:  0x0202751C
+ * packet:   pkt_020274C8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_02030734       0x02030734  arm
+ *   func_020457B0       0x020457B0  arm
+ *   func_02045B38       0x02045B38  arm
+ *   func_02045EC0       0x02045EC0  arm
+ *   func_02045A38       0x02045A38  arm
+ *   func_02045924       0x02045924  arm
+ *   func_02045808       0x02045808  arm
+ *   func_02045C04       0x02045C04  arm
+ *   sBeaconStatus42     0x020A74D0  data
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void *func_02030734(int heap, int size, int align, const char *file, int line);
+extern void *func_020457B0(u32 n, u32 heap);
+extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
+extern void *func_02045EC0(void *a, u32 b);
+extern void  func_02045A38(void *a, void *dst, u32 n);
+extern void  func_02045924(void *dst, const void *src);
+extern void  func_02045808(void *a);
+extern void  func_02045C04(void *a);
+extern const char sBeaconStatus42[];
+
+typedef struct {
+    void *f000[0xb08 / 4];
+    void *fb08;
+} Obj;
+
+Obj *func_0202751C(u32 heap, u32 a1)
+{
+    Obj *p;
+    void *arc;
+    void *msg;
+    u16 buf[10];
+
+    p = (Obj *)func_02030734(heap, 0xb10, 1, sBeaconStatus42, 42);
+    p->fb08 = func_020457B0(9, heap);
+    arc = func_02045B38(0, 2, 8, a1);
+    msg = func_02045EC0(arc, 0x11);
+    func_02045A38(msg, buf, 9);
+    func_02045924(p->fb08, buf);
+    func_02045808(msg);
+    func_02045C04(arc);
+    return p;
+}
