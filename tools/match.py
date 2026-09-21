@@ -500,12 +500,14 @@ def target_extent(addr, region):
 #            address follows from where we placed the translation unit.  No
 #            image evidence is involved at all.
 #
-#   sole-ref the layout itself says a data object begins at that address: it
-#            is in a data section, it is an object START the listings, the SDK
-#            symbol table or the file-anchor table already carry, and the
-#            declared type's alignment holds.  `data` only, tried last of
-#            all, and an address interior to a labelled object is refused.
-#            See attest_sole_ref().
+#   sole-ref the layout itself recognises what the address lands on, without a
+#            second referrer.  Three sub-kinds, tried last of all, after every
+#            other class has failed: `sole-ref/data` (an object START in a
+#            data section, alignment satisfied, never an interior address);
+#            `sole-ref/code` (exactly a traced function start, respecting
+#            .thumb_func, or a recognised veneer); `sole-ref/string` (the
+#            start of a NUL-terminated printable run, even when the preceding
+#            object is a table rather than a string).  See attest_sole_ref().
 #
 # A site with no accepted witness stays wildcarded and the entry stays MATCH,
 # with the reason printed.  Nothing is ever back-filled from the original.
@@ -1547,7 +1549,40 @@ def attest_data_table(addr, lo, hi):
 #       ordinary extern, which is the conservative reading.  An address that
 #       does not meet it cannot be the object the source declares.
 #
-# The class never applies to code: `kind` has to be `data`.
+# The above is now `sole-ref/data` specifically: one of three named
+# sub-kinds under the `sole-ref` class, every one still tried only after
+# every stronger class has failed.
+#
+# WIDENED 2026-09-21.  The owner decided to widen the class to the standard
+# other matching-decompilation projects use: the address the original pool
+# word names is accepted whenever it lands on something the layout
+# recognises, without requiring a second referrer.  That standard already
+# describes `sole-ref/data` above; the widening adds two more shapes the
+# layout can equally well recognise on its own:
+#
+#   `sole-ref/code` (attest_sole_ref_code()): the address is exactly a
+#   traced function start -- a func_ label, respecting the .thumb_func ISA
+#   marker, or a recognised linker veneer.  This is the function-pointer and
+#   single-caller-callee shape: the same evidence `label` and `veneer`
+#   already trust, minus the requirement of an outside branch, which is
+#   exactly the case those two classes cannot reach.  An address that is not
+#   precisely a label start (an offset into a function, an unrecognised
+#   shape) is refused.
+#
+#   `sole-ref/string` (attest_sole_ref_string()): the address begins a
+#   NUL-terminated printable run in the listings, accepted even when the
+#   `string` class's stronger condition -- a real string immediately before
+#   it -- fails because the preceding object is a data table.  See
+#   docs/idioms/a-string-after-a-data-table-has-no-witness.md for the case
+#   this closes ("mail.c", "wifilist.c").
+#
+# Each sub-kind is recorded per site in the shard evidence as
+# "<subkind>:0xADDRESS" (sole_ref_sites()), so `grep sole-ref
+# layout/matched` and `tools/worklist.py --summary` can break the class's
+# coverage share down by sub-kind rather than reporting one number.
+#
+# The class never applies outside `data`/`thumb`/`arm`: see attest_sole_ref()
+# for the dispatch by `kind`.
 
 # Alignment tokens a `symbols:` line may carry, and the default for a data
 # extern with none.
@@ -1828,17 +1863,15 @@ def _map_attests(addr, lo, hi):
     return True
 
 
-def attest_sole_ref(addr, kind, align=None, lo=0, hi=0):
-    """The `sole-ref` class.  Returns (class, witnesses, site) or None.
+def attest_sole_ref_data(addr, align=None, lo=0, hi=0):
+    """The `sole-ref/data` sub-kind.  Returns (class, witnesses, site) or None.
 
-    Tried only after every other class has failed.  See the commentary above
-    for conditions (a), (b) and (c); each one is a separate refusal here.
-    Condition (b) is satisfied either by the listings' own block structure
-    (data_object_starts()) or by layout/data_objects.txt, and in the latter
-    case only on evidence outside `lo`..`hi`.
+    This is the original (wave-20) `sole-ref` rule, unchanged: see conditions
+    (a), (b) and (c) in the commentary above.  Condition (b) is satisfied
+    either by the listings' own block structure (data_object_starts()) or by
+    layout/data_objects.txt, and in the latter case only on evidence outside
+    `lo`..`hi`.
     """
-    if kind != "data":
-        return None
     # (a) inside a data section, never code
     region = _region_at(addr)
     in_bss = bool(bss_addresses_probe(addr))
@@ -1853,7 +1886,126 @@ def attest_sole_ref(addr, kind, align=None, lo=0, hi=0):
     a = SOLE_REF_DEFAULT_ALIGN if align is None else align
     if a > 1 and (addr % a):
         return None
-    return "sole-ref", 1, addr
+    return "sole-ref", 1, addr, "data"
+
+
+def attest_sole_ref_code(addr, kind):
+    """The `sole-ref/code` sub-kind.  Returns (class, witnesses, site) or None.
+
+    Widened 2026-09-21 to the standard other matching-decompilation projects
+    use: the address in the original pool word is accepted when it lands on
+    something the layout recognises, without requiring a second referrer.
+    This is the code counterpart of `sole-ref/data`: a function pointer
+    stored in a pool, or a single-caller callee, whose only reference is the
+    pool word under test, so `label` has no outside call to carry it and
+    `literal` discards its only witness.
+
+    The rule is narrow and reuses evidence `label`/`veneer` already trust:
+
+      * a traced function start -- a `func_XXXXXXXX` label `disasm.py` put in
+        the ARM9 listings, whose ISA is the `.thumb_func` marker it recorded
+        there (the same map `label` reads, `evidence().labels`); or
+      * a recognised linker veneer at the address (`veneer_at()`), which is
+        ARM by construction.
+
+    It refuses an address that is not exactly a label start or a veneer: no
+    interior offset, no guess.  It does not require an outside branch --
+    that is what `label` already covers, and this class exists for exactly
+    the case where no such branch exists.
+    """
+    if kind not in ("thumb", "arm"):
+        return None
+    thumb = evidence().labels.get(addr)
+    if thumb is not None:
+        if (thumb and kind != "thumb") or (not thumb and kind != "arm"):
+            return None
+        return "sole-ref", 1, addr, "code"
+    if kind == "arm" and veneer_at(addr) is not None:
+        return "sole-ref", 1, addr, "code"
+    return None
+
+
+def attest_sole_ref_string(addr, lo, hi):
+    """The `sole-ref/string` sub-kind.  Returns (class, witnesses, site) or None.
+
+    Widened 2026-09-21 alongside `sole-ref/code` and `sole-ref/data`: a
+    `__FILE__`-style site whose address begins a NUL-terminated printable run
+    in the listings, accepted even when the `string` class's stronger
+    condition -- a real string, not a data table, immediately before it --
+    fails.  This is exactly the shape
+    docs/idioms/a-string-after-a-data-table-has-no-witness.md documents:
+    "mail.c" and "wifilist.c" are each preceded by a static table rather than
+    a string, so the previous terminator does not fix their start the way
+    `attest_string()` requires, but the layout still says a printable,
+    NUL-terminated run begins exactly there.
+
+    Conditions, each a separate refusal:
+
+      1. the bytes at `addr` are a NUL-terminated printable ASCII run of at
+         least MIN_STRING_CHARS characters, entirely inside one region (the
+         same test `attest_string()` uses for condition 2);
+      2. `addr` is a real run START, not an offset into a longer one: the
+         byte immediately before it is NOT itself printable ASCII.  Without
+         this, any address one or more characters into a longer string is
+         "a NUL-terminated printable run" in its own right -- 0x020A7005 is
+         "fl_use.c\0", one byte into "gfl_use.c\0" -- which would make the
+         sub-kind accept an arbitrary mid-string offset as if it were an
+         object boundary.  This is the string counterpart of `sole-ref/code`
+         and `sole-ref/data` each demanding an exact object START;
+      3. `addr` is in a data section, not in code: the same test
+         `sole-ref/data` condition (a) uses (in_data_section()), so this
+         never fires on an instruction stream that happens to decode as
+         text, whether or not disasm.py put a func_ label at that exact
+         offset -- a byte in the middle of a function with no label of its
+         own is still refused;
+      4. the whole run lies outside the compared range.
+
+    It does not require anything about what precedes the run being a
+    terminator: that is the difference from `attest_string()`, and exactly
+    what lets it carry the data-table-neighbour case `attest_string()` must
+    refuse.  It still requires the byte before to not be printable text, so
+    an arbitrary interior offset of an unrelated table or string is refused
+    exactly as an interior offset of a known object is refused for
+    `sole-ref/data`.
+    """
+    region = _region_at(addr)
+    if region is None:
+        return None
+    data = region.data
+    base = region.base
+    off = addr - base
+    length = _printable_run_forward(data, off, len(data))
+    if length is None or length < MIN_STRING_CHARS:
+        return None
+    if off > 0:
+        prev = data[off - 1]
+        if 0x20 <= prev <= 0x7E:
+            return None             # addr is interior to a longer run
+    if not in_data_section(addr):
+        return None
+    if addr < hi and lo < addr + length + 1:
+        return None
+    return "sole-ref", 1, addr, "string"
+
+
+def attest_sole_ref(addr, kind, align=None, lo=0, hi=0):
+    """The `sole-ref` class.  Returns (class, witnesses, site, subkind) or None.
+
+    Tried only after every other class has failed, for every `kind`.  Three
+    named sub-kinds, dispatched by `kind`; see attest_sole_ref_data(),
+    attest_sole_ref_code() and attest_sole_ref_string() for what each
+    accepts and refuses.  `subkind` is one of "data", "code" or "string",
+    and attest() propagates it onto the resolved Site so the shard record
+    can name which one carried a given address.
+    """
+    if kind == "data":
+        proof = attest_sole_ref_data(addr, align, lo, hi)
+        if proof is not None:
+            return proof
+        return attest_sole_ref_string(addr, lo, hi)
+    if kind in ("thumb", "arm"):
+        return attest_sole_ref_code(addr, kind)
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -2009,7 +2161,9 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None):
     the overlay branch of the `label` class to resolve which of several
     overlapping overlays is meant.  `align` is the alignment the site's
     declared type demands, which only the `sole-ref` class consults.
-    Returns (class, witness_count, example_site).
+    Returns (class, witness_count, example_site), except for `sole-ref`,
+    which appends a fourth element naming the sub-kind ("data"/"code"/
+    "string"); callers that only need the class name still read element 0.
     """
     ev = evidence()
     if kind in ("thumb", "arm"):
@@ -2065,12 +2219,13 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None):
     if proof is not None:
         return proof
     # Last of all, after every other class has failed: the layout's own
-    # statement that a data object begins at this address.  See "the
-    # `sole-ref` class" above.
-    if kind == "data":
-        proof = attest_sole_ref(addr, kind, align, lo, hi)
-        if proof is not None:
-            return proof
+    # statement that a data object, a traced function or a printable string
+    # begins at this address.  See "the `sole-ref` class" above.  Every kind
+    # is tried here, code included: sole-ref/code exists for exactly the
+    # function pointers and single-caller callees that never reach `label`.
+    proof = attest_sole_ref(addr, kind, align, lo, hi)
+    if proof is not None:
+        return proof
     return None
 
 
@@ -2082,7 +2237,7 @@ class Site:
     """One relocation site after an attempt to resolve it."""
 
     __slots__ = ("off", "rtype", "name", "addend", "resolved", "value",
-                 "cls", "witnesses", "witness", "reason", "note")
+                 "cls", "witnesses", "witness", "reason", "note", "subkind")
 
     def __init__(self, off, rtype, name, addend):
         self.off = off
@@ -2096,6 +2251,7 @@ class Site:
         self.witness = 0
         self.reason = ""
         self.note = ""
+        self.subkind = ""       # set only for a "sole-ref" site; see attest()
 
     def describe(self):
         what = "%s %s" % (RELOC_NAMES.get(self.rtype, "r%d" % self.rtype),
@@ -2253,7 +2409,9 @@ def resolve_relocations(fb, place, decls, size=None, src=None):
                         st.reason += ("; %s overlaps this address but has "
                                       "no func_ label there" % cands[0])
                 continue
-            st.cls, st.witnesses, st.witness = proof
+            st.cls, st.witnesses, st.witness = proof[:3]
+            if st.cls == "sole-ref" and len(proof) > 3:
+                st.subkind = proof[3]
 
         ok = False
         if rtype == R_ARM_ABS32:
@@ -3194,11 +3352,15 @@ def collect_sources():
 
 
 def sole_ref_sites(result):
-    """Sorted, de-duplicated `sole-ref` target addresses of one verification.
+    """Sorted, de-duplicated `sole-ref` sites of one verification.
 
     Reads the per-site report resolve_relocations() already built, so there
-    is no second notion of what rested on the class.  Returns [] when the
-    entry used none, which is what keeps an unaffected shard byte-stable.
+    is no second notion of what rested on the class.  Each entry is spelled
+    "<subkind>:0xADDRESS" ("data"/"code"/"string"), e.g. "code:0x02067998",
+    so a shard entry's evidence names which sub-kind carried the site and
+    `grep sole-ref layout/matched` or worklist.py's summary can break the
+    share down.  Returns [] when the entry used none, which is what keeps an
+    unaffected shard byte-stable.
     """
     fb = getattr(result, "func", None)
     sites = getattr(fb, "sites", None) if fb is not None else None
@@ -3207,8 +3369,8 @@ def sole_ref_sites(result):
     out = set()
     for st in sites:
         if st.resolved and st.cls == "sole-ref" and st.value is not None:
-            out.add(st.value & ~1)
-    return ["0x%08X" % a for a in sorted(out)]
+            out.add((st.subkind or "data", st.value & ~1))
+    return ["%s:0x%08X" % (k, a) for k, a in sorted(out)]
 
 
 def entry_from_source(path, header, kind, rel, verify=False):
@@ -3605,6 +3767,33 @@ SOLE_REF_INTERIOR = 0x0209D900
 # a traced ARM function in the middle of a code section.
 SOLE_REF_CODE = 0x02096670
 
+# --- sole-ref/code, sole-ref/string (widened 2026-09-21) -------------------
+# 0x02005230 is a real func_ label (Thumb) with no in-region call
+# (evidence().calls has no entry for it) and no cross-region branch either
+# (xregion_calls() agrees): the `label` class has no witness at all, and
+# nothing pools it either, so `attest()` used to refuse it outright.  It is
+# the pure sole-ref/code case: a traced function start, carried on the
+# layout alone.
+SOLE_REF_CODE_LABEL = 0x02005230
+# one halfword past the label above: still inside the function's own first
+# instruction, not itself a label start.  sole-ref/code must refuse an
+# address that is merely interior to a traced function.
+SOLE_REF_CODE_NONLABEL = 0x02005232
+# "mail.c" (0x020A716C) and "wifilist.c" (0x020A7198): both immediately
+# follow a static table rather than a string (see
+# docs/idioms/a-string-after-a-data-table-has-no-witness.md), so
+# attest_string()'s condition 5 refuses them, and each name is passed by
+# exactly one function, so `literal` has no outside witness either.  The
+# layout still says a NUL-terminated printable run begins exactly there.
+SOLE_REF_STRING_AFTER_TABLE = 0x020A716C
+# one byte into "gfl_use.c" (SOLE_REF_ANCHOR + 1): also a NUL-terminated
+# printable run in its own right ("fl_use.c"), but NOT a run start -- the
+# byte before it is printable too.  sole-ref/string must refuse an address
+# that is merely an offset into a longer run, exactly as sole-ref/code
+# refuses an offset into a traced function and sole-ref/data refuses an
+# offset into a known object.
+SOLE_REF_STRING_INTERIOR = SOLE_REF_ANCHOR + 1
+
 # --- the data-object map (layout/data_objects.txt, tools/datamap.py) -------
 # 0x020050AC is in the rodata of the ARM9 static module.  disasm.py emits no
 # block start there and no ARM9 pool word names it; the ONLY reference to it
@@ -3705,14 +3894,26 @@ def cmd_selftest(args):
     # --- the label class -------------------------------------------------
     _check(res, "label: an outside caller attests a labelled function",
            cls(attest(FUNC_LABELLED, "thumb", 0, 0)), "label")
-    _check(res, "label: every witness inside the compared range is refused",
-           cls(attest(FUNC_LABELLED, "thumb", 0x02000000, 0x03000000)), None)
+    _check(res, "label: every call-site witness inside the compared range "
+                "is refused by the label class itself",
+           evidence().calls.get(FUNC_LABELLED, None) is not None and
+           not [s for s in evidence().calls.get(FUNC_LABELLED, ())
+                if not 0x02000000 <= s < 0x03000000], True)
+    _check(res, "label: with no call witness left, attest() now falls "
+                "through to sole-ref/code -- FUNC_LABELLED is still a real "
+                "traced label start, just no longer reached by any outside "
+                "branch in this synthetic image-wide range",
+           cls(attest(FUNC_LABELLED, "thumb", 0x02000000, 0x03000000)),
+           "sole-ref")
 
     # --- the cross-region label class ------------------------------------
     _check(res, "label: a bl from another region attests the target",
            cls(attest(FUNC_XREGION, "thumb", 0x02008828, 0x020089A8)), "label")
-    _check(res, "label: an image-wide compared range refuses even those",
-           cls(attest(FUNC_XREGION, "thumb", 0x02000000, 0x03000000)), None)
+    _check(res, "label: an image-wide compared range leaves the label class "
+                "no outside caller, but sole-ref/code still carries the "
+                "traced label start",
+           cls(attest(FUNC_XREGION, "thumb", 0x02000000, 0x03000000)),
+           "sole-ref")
 
     # --- the label class, overlay-resident callees -------------------------
     _check(res, "label: an overlay's own listing attests a callee in it",
@@ -3896,6 +4097,66 @@ def cmd_selftest(args):
     _check(res, "sole-ref: the layout does carry usable object starts",
            len(data_object_starts()) > 0, True)
 
+    # --- sole-ref/code (widened 2026-09-21) ---------------------------------
+    # The address in the original pool word is accepted when it lands on a
+    # traced function start, without requiring a second referrer: covers
+    # function pointers and single-caller callees the `label` class cannot
+    # reach for lack of an outside branch.
+    _check(res, "sole-ref/code: a traced label start with no outside "
+                "caller at all is carried by the layout alone",
+           cls(attest_sole_ref_code(SOLE_REF_CODE_LABEL, "thumb")),
+           "sole-ref")
+    _check(res, "sole-ref/code: attest() reaches the same result once "
+                "label/literal/veneer/matched have all failed",
+           cls(attest(SOLE_REF_CODE_LABEL, "thumb", 0, 0)), "sole-ref")
+    _check(res, "sole-ref/code: the wrong ISA for that same label is "
+                "refused, exactly as isa_evidence() would refuse it",
+           cls(attest_sole_ref_code(SOLE_REF_CODE_LABEL, "arm")), None)
+    _check(res, "sole-ref/code: an address merely interior to the function "
+                "-- one halfword past the label -- is not a label start "
+                "and is refused",
+           cls(attest_sole_ref_code(SOLE_REF_CODE_NONLABEL, "thumb")), None)
+    _check(res, "sole-ref/code: attest() refuses it too",
+           cls(attest(SOLE_REF_CODE_NONLABEL, "thumb", 0, 0)), None)
+    _check(res, "sole-ref/code: the class never applies to a data symbol",
+           cls(attest_sole_ref_code(SOLE_REF_CODE_LABEL, "data")), None)
+    _check(res, "sole-ref/code: a recognised ARM veneer is carried the same "
+                "way as a func_ label start",
+           cls(attest_sole_ref_code(VENEER, "arm")), "sole-ref")
+
+    # --- sole-ref/string (widened 2026-09-21) -------------------------------
+    # A __FILE__-style site whose address begins a NUL-terminated printable
+    # run, even when the preceding object is a table rather than a string
+    # (docs/idioms/a-string-after-a-data-table-has-no-witness.md): "mail.c"
+    # and "wifilist.c" are each closed by this sub-kind.
+    _check(res, "sole-ref/string: a __FILE__ string after a data table, "
+                "which attest_string() must refuse for lack of a "
+                "terminator in front of it, is carried by the layout alone",
+           cls(attest_sole_ref_string(SOLE_REF_STRING_AFTER_TABLE, 0, 0)),
+           "sole-ref")
+    _check(res, "sole-ref/string: the string class itself still refuses "
+                "the same address (no preceding string)",
+           cls(attest_string(SOLE_REF_STRING_AFTER_TABLE, 0, 0)), None)
+    _check(res, "sole-ref/string: with its one literal-pool witness inside "
+                "the compared range too, attest() falls all the way "
+                "through to sole-ref/string",
+           cls(attest(SOLE_REF_STRING_AFTER_TABLE, "data",
+                      0x02008F00, 0x02008F80)),
+           "sole-ref")
+    _check(res, "sole-ref/string: a non-printable data run is refused",
+           cls(attest_sole_ref_string(SOLE_REF_RUN_START, 0, 0)), None)
+    _check(res, "sole-ref/string: an address one byte into a longer "
+                "printable run is not itself a run START and is refused, "
+                "exactly as an offset into a known object is refused for "
+                "sole-ref/data",
+           cls(attest_sole_ref_string(SOLE_REF_STRING_INTERIOR, 0, 0)), None)
+    _check(res, "sole-ref/string: a witness inside the compared range is "
+                "refused",
+           cls(attest_sole_ref_string(SOLE_REF_STRING_AFTER_TABLE,
+                                      SOLE_REF_STRING_AFTER_TABLE - 0x10,
+                                      SOLE_REF_STRING_AFTER_TABLE + 0x10)),
+           None)
+
     # --- the data-object map -----------------------------------------------
     # layout/data_objects.txt (tools/datamap.py) is the finer set of
     # boundaries: the listings' own block structure emits the whole rodata
@@ -3927,8 +4188,10 @@ def cmd_selftest(args):
            "table-guess" in SOLE_REF_MAP_KINDS, False)
     _check(res, "map: the map's evidence does not override the code refusal",
            cls(attest_sole_ref(SOLE_REF_CODE, "data", 4, 0, 0)), None)
-    _check(res, "map: nor the alignment refusal",
-           cls(attest_sole_ref(SOLE_REF_MAP_OVERLAY, "data", align=16)), None)
+    _check(res, "map: nor the alignment refusal, isolated to the data "
+                "sub-kind (the dispatcher may still fall through to "
+                "sole-ref/string for the same address; see below)",
+           cls(attest_sole_ref_data(SOLE_REF_MAP_OVERLAY, align=16)), None)
 
     # --- two files attesting each other ------------------------------------
     # The pairwise case needs no machinery of its own: a compared range is one
@@ -3937,9 +4200,11 @@ def cmd_selftest(args):
     _check(res, "pairwise: a sibling file's call site is an outside witness",
            cls(attest(OS_GETOWNERRTCOFFSET, "arm", 0x02008B4C, 0x02008C20)),
            "label")
-    _check(res, "pairwise: one range holding both call sites has none",
+    _check(res, "pairwise: one range holding both call sites leaves the "
+                "label class no outside caller, but the target is still a "
+                "traced func_ label start, so sole-ref/code carries it",
            cls(attest(OS_GETOWNERRTCOFFSET, "arm", 0x02008AEC, 0x02008C20)),
-           None)
+           "sole-ref")
 
     # --- the matched class -------------------------------------------------
     # The one class whose witness is not a reading of the image: an EXACT
@@ -3948,13 +4213,15 @@ def cmd_selftest(args):
                 "can",
            cls(attest(MATCHED_CALLEE, "thumb", MATCHED_CALLER_LO,
                       MATCHED_CALLER_HI, MATCHED_CALLER_SRC)), "matched")
-    _check(res, "matched: no image class carries that site, and without a "
-                "file under test neither does this one",
+    _check(res, "matched: no manifest witness without a file under test, "
+                "but sole-ref/code still carries the label start itself",
            cls(attest(MATCHED_CALLEE, "thumb", MATCHED_CALLER_LO,
-                      MATCHED_CALLER_HI)), None)
-    _check(res, "matched: an entry may not witness its own source file",
+                      MATCHED_CALLER_HI)), "sole-ref")
+    _check(res, "matched: an entry may not witness its own source file, but "
+                "sole-ref/code does not consult the manifest at all and "
+                "still carries the label start",
            cls(attest(MATCHED_CALLEE, "thumb", 0x02000000, 0x03000000,
-                      MATCHED_CALLEE_SRC)), None)
+                      MATCHED_CALLEE_SRC)), "sole-ref")
     _check(res, "matched: the entry's ISA has to be the declared ISA",
            cls(attest(MATCHED_CALLEE, "arm", MATCHED_CALLER_LO,
                       MATCHED_CALLER_HI, MATCHED_CALLER_SRC)), None)
@@ -3965,9 +4232,10 @@ def cmd_selftest(args):
                 "layout records",
            cls(attest(MATCHED_MEMBER, "thumb", 0x02000000, 0x03000000,
                       MATCHED_CALLER_SRC)), "matched")
-    _check(res, "matched: not even a member address witnesses its own file",
+    _check(res, "matched: not even a member address witnesses its own file, "
+                "but it is still a traced label start for sole-ref/code",
            cls(attest(MATCHED_MEMBER, "thumb", 0x02000000, 0x03000000,
-                      MATCHED_MEMBER_SRC)), None)
+                      MATCHED_MEMBER_SRC)), "sole-ref")
     _check(res, "matched: an EXACT entry covers its address and every "
                 "function of its layout",
            sorted(matched_index([_matched_fixture()])),

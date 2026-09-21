@@ -169,7 +169,7 @@ class, the number of witnesses and one witness address:
 | `veneer` | the address holds an ARM linker veneer: a fixed twelve-byte (or eight-byte) encoding that loads a constant into `ip` or `pc` and branches to it, with the constant naming a known function. For a call the linker redirected through a stub, which nothing else can attest. |
 | `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
 | `string` | the address is the start of a NUL-terminated ASCII string whose position is fixed by the terminator of the string before it. For `__FILE__` arguments, which nothing else can attest. |
-| `sole-ref` | the layout itself says a data object begins at that address: it is in a data section, it is an object *start* the listings, the SDK symbol table, the file-anchor table or the `layout/data_objects.txt` map already carry (a map start on evidence outside the compared range: a lone reference never attests its own start), and the declared type's alignment holds. `data` only, tried last of all. |
+| `sole-ref` | the layout itself recognises what the address lands on, without a second referrer. Tried last of all. Three sub-kinds: `sole-ref/data` (an object *start* in a data section that the listings, the SDK symbol table, the file-anchor table or the `layout/data_objects.txt` map already carry, with the declared type's alignment satisfied); `sole-ref/code` (exactly a traced function start, respecting `.thumb_func`, or a recognised veneer); `sole-ref/string` (the start of a NUL-terminated printable run, even when the preceding object is a table rather than a string). See "The sole-ref class" below. |
 
 The `label` class reads branches from the whole image, not just from the region
 being matched, and it reads labels from the whole image too. `func_02014468`
@@ -320,36 +320,77 @@ instance — the pool word is inside the compared range, so `literal` discards
 its only witness; the object is a run of `u16` pairs, so `data_table` refuses
 it; and nothing branches to data, so `label` never applies. What the class
 rests on is not a second reference but the **layout**: the delinked image's
-own structure says an object begins at that address, read entirely from files
-that are never part of a compared range. It **accepts** an address only when
-all three of (a) it is in a data section of `layout/layout.json` — a
-`.word`/`.byte`/`.ascii` datum in the listings, or a declared bss range — and
-neither in a code section nor inside any traced function's extent; (b) it is
-the **start** of a known object, meaning a `pool_`/`veneer_`/`d_`/`g_`/`tbl_`
-label the listings carry at exactly that address, a data symbol of
-`layout/symbols_sdk.json`, a `__FILE__` anchor of `layout/file_anchors.txt`,
-or a `.word`-run start `disasm.py` emitted as its own block; and (c) the
-alignment the site's declared type demands is satisfied (a fourth `symbols:`
-token, `a1`/`a2`/`a4`/`a8`/`a16`; a data extern with none is assumed to want
-four). It **refuses** an address merely interior to a labelled object — which
-is exactly why 0x0209E904 above is still refused — an address in code, a
-misaligned address, and any kind but `data`. It is the weakest class in the
-set and is tried last, after every other has failed, so an address a stronger
-class can carry never reports as `sole-ref`; and it stays falsifiable in the
-way `literal` and `string` are, because the resolved word is still compared
-against the original and a wrong declaration comes out `DIFF`. Every site that
-rests on it is recorded in the shard entry as `evidence: {"sole-ref":
-["0x0209DEA0", ...]}`, so `grep sole-ref layout/matched` lists every entry
-that depends on the class, and `tools/worklist.py --summary` prints its share
-of coverage on its own line under the coverage figure rather than folding it
-in. `attest_sole_ref()` and `data_object_starts()` in `tools/match.py` are the
-implementation, and `match.py selftest` covers the acceptance and all four
-refusals.
+own structure says something recognisable begins at that address, read
+entirely from files that are never part of a compared range. It is the
+weakest class in the set and is tried last of all, after every other class
+has failed, so an address any stronger class can carry never reports as
+`sole-ref`; and it stays falsifiable in the way `literal` and `string` are,
+because the resolved word is still compared against the original and a wrong
+declaration comes out `DIFF`.
 
-Condition (b)'s boundaries come from `layout/data_objects.txt`, the ARM9
-data-object map, which `attest_sole_ref()` loads once (cached) and consults
-in addition to the listings' own block structure. That block structure alone
-is far too coarse to be useful: `disasm.py` emits the whole rodata tail
+**Widened 2026-09-21.** The owner decided to widen the class to the standard
+other matching-decompilation projects use: the address the original pool
+word names is accepted whenever it lands on something the layout
+recognises, without requiring a second referrer. That is now three named
+sub-kinds, each tried only after every stronger class has failed and each
+recorded separately in the shard evidence so it can be listed or vetoed on
+its own:
+
+- **`sole-ref/data`** (`attest_sole_ref_data()`) is the original (wave-20)
+  rule, unchanged. It **accepts** an address only when all three of (a) it
+  is in a data section of `layout/layout.json` — a `.word`/`.byte`/`.ascii`
+  datum in the listings, or a declared bss range — and neither in a code
+  section nor inside any traced function's extent; (b) it is the **start**
+  of a known object, meaning a `pool_`/`veneer_`/`d_`/`g_`/`tbl_` label the
+  listings carry at exactly that address, a data symbol of
+  `layout/symbols_sdk.json`, a `__FILE__` anchor of
+  `layout/file_anchors.txt`, or a `.word`-run start `disasm.py` emitted as
+  its own block; and (c) the alignment the site's declared type demands is
+  satisfied (a fourth `symbols:` token, `a1`/`a2`/`a4`/`a8`/`a16`; a data
+  extern with none is assumed to want four). It **refuses** an address
+  merely interior to a labelled object — which is exactly why 0x0209E904
+  above is still refused — an address in code, and a misaligned address.
+- **`sole-ref/code`** (`attest_sole_ref_code()`) covers a code-kind site
+  (`thumb` or `arm`) whose address is exactly a traced function start in the
+  listings: a `func_`/`sub_` label, respecting the `.thumb_func` marker for
+  ISA (the same `disasm.py` evidence the `label` class reads), or a
+  recognised veneer (the same shape `veneer_at()` reads for the `veneer`
+  class). It needs no branch from outside the range to reach it — that is
+  exactly the case the `label` class cannot carry, a function pointer stored
+  in a pool or a callee with a single caller. It **accepts** the address
+  whenever it is a label start or veneer with the declared ISA; it
+  **refuses** an address that is merely interior to a traced function (an
+  offset that is not itself a label) and any kind but `thumb`/`arm`.
+- **`sole-ref/string`** (`attest_sole_ref_string()`) covers a `__FILE__`-style
+  site whose address begins a NUL-terminated printable run in the listings,
+  even when the preceding object is a table rather than a string, the case
+  `docs/idioms/a-string-after-a-data-table-has-no-witness.md` documents
+  ("mail.c", "wifilist.c"): each is preceded by a static table, so
+  `attest_string()`'s condition that a real string terminator fix the start
+  cannot fire, and each name is passed by exactly one function, so `literal`
+  has no outside witness either. It **accepts** an address that begins a
+  printable, NUL-terminated run of at least four characters, entirely inside
+  a data section (never a traced function's extent) and outside the compared
+  range. It **refuses** an address that is not itself a run **start** —
+  merely an offset into a longer printable run, the string counterpart of
+  `sole-ref/data`'s interior refusal — and any address inside a traced
+  function's extent, so it never fires on code that happens to decode as
+  text.
+
+Every site that rests on any sub-kind is recorded in the shard entry as
+`evidence: {"sole-ref": ["<subkind>:0xADDRESS", ...]}`, e.g.
+`"code:0x02067998"` (`sole_ref_sites()`), so `grep sole-ref layout/matched`
+lists every entry that depends on the class and `tools/worklist.py
+--summary` prints its share of coverage, broken down by sub-kind, on its own
+lines under the coverage figure rather than folding it in. `attest_sole_ref()`
+dispatches to the three sub-kind functions by `kind`; `match.py selftest`
+covers each sub-kind's acceptance and refusals.
+
+Condition (b) of `sole-ref/data`'s boundaries come from
+`layout/data_objects.txt`, the ARM9 data-object map, which
+`attest_sole_ref_data()` loads once (cached) and consults in addition to
+the listings' own block structure. That block structure alone is far too
+coarse to be useful: `disasm.py` emits the whole rodata tail
 `0x0209D86C-0x020A8FE4` as ONE block, so exactly one address in 47 kB is a
 start and every other reference into it is refused as interior. The map
 recovers the real starts from four sources, all outside any compared range:
@@ -369,10 +410,10 @@ candidate lies inside the range under test, the map refuses it, exactly as
 `label` and `literal` discard a witness inside the compared range. That is
 why 0x0209E904 remains refused for `src/pending/func_020213F8.c` — the only
 pool word naming it image-wide is the one inside that function. The other
-refusals (code section, misalignment, non-`data` kind, an address interior
-to or between known starts) are unchanged, and `match.py selftest` covers
-the map cases too: an overlay-only start accepted, a lone in-range referrer
-refused, an address between two map starts refused.
+refusals (code section, misalignment, an address interior to or between
+known starts) are unchanged, and `match.py selftest` covers the map cases
+too: an overlay-only start accepted, a lone in-range referrer refused, an
+address between two map starts refused.
 
 ### The matched class
 

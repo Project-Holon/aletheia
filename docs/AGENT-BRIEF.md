@@ -277,34 +277,59 @@ answer is not a test. Eight evidence classes, each printed per site by
   routine is never also `label`-attestable the way an SDK symbol usually
   is. ARM only; declare it `arm` in your `symbols:` block.
 
-- **sole-ref**: the layout itself says a data object begins at that
-  address. `data` sites only, and tried last, after every other class has
-  failed, so an address any stronger class can carry never reports as
-  `sole-ref`. It accepts an address when all three hold: it lies in a data
-  section of the delinked image (a `.word`/`.byte`/`.ascii` datum in the
-  listings, or a bss range of `layout/layout.json`) and neither in a code
-  section nor inside any traced function's extent; it is the **start** of an
-  object something already carries at exactly that address (a `pool_`,
-  `veneer_`, `d_`, `g_` or `tbl_` label in the listings, a data symbol of
-  `layout/symbols_sdk.json`, a `__FILE__` anchor from
-  `layout/file_anchors.txt`, or a `.word`-run start `disasm.py` emitted as
-  its own block); and the alignment the declared type demands is satisfied
-  (state it as a fourth `symbols:` token, `a1`/`a2`/`a4`/`a8`/`a16`; without
-  one a data extern is assumed to want four). It **refuses** an address
-  merely interior to a labelled object, an address in code, a misaligned
-  address and any non-`data` kind, which is what keeps it from licensing an
-  arbitrary offset into rodata. It is recorded per site in the shard entry
-  (`evidence: {"sole-ref": ["0x..."]}`), so `grep sole-ref layout/matched`
-  lists every entry that depends on it, and `tools/worklist.py --summary`
-  reports its share of coverage on its own line rather than folding it into
-  the coverage figure. Like `literal` and `string` it stays falsifiable: the
-  resolved word is still compared against the original, so a wrong
-  declaration comes out `DIFF`. `attest_sole_ref()` in `tools/match.py` is
-  the implementation.
+- **sole-ref**: the layout itself recognises what the address lands on,
+  without a second referrer. Widened 2026-09-21 to the standard other
+  matching-decompilation projects use: the address the original pool word
+  names is accepted whenever it lands on something the layout recognises.
+  Tried last of all, after every other class has failed, so an address any
+  stronger class can carry never reports as `sole-ref`. Three named
+  sub-kinds, each recorded separately so it can be listed or vetoed later:
 
-  The boundaries themselves come from `layout/data_objects.txt`, the ARM9
-  data-object map, which `attest_sole_ref()` loads once and consults in
-  addition to the listings' own block structure. The map exists because that
+  - **sole-ref/data**: a data-kind site whose address lies in a data section
+    of the delinked image (a `.word`/`.byte`/`.ascii` datum in the listings,
+    or a bss range of `layout/layout.json`) and neither in a code section nor
+    inside any traced function's extent; it is the **start** of an object
+    something already carries at exactly that address (a `pool_`, `veneer_`,
+    `d_`, `g_` or `tbl_` label in the listings, a data symbol of
+    `layout/symbols_sdk.json`, a `__FILE__` anchor from
+    `layout/file_anchors.txt`, or a `.word`-run start `disasm.py` emitted as
+    its own block); and the alignment the declared type demands is satisfied
+    (state it as a fourth `symbols:` token, `a1`/`a2`/`a4`/`a8`/`a16`; without
+    one a data extern is assumed to want four). It **refuses** an address
+    merely interior to a labelled object, an address in code, and a
+    misaligned address. This is the original (wave-20) rule, unchanged.
+  - **sole-ref/code**: a code-kind site (`thumb` or `arm`) whose address is
+    exactly a traced function start in the listings — a `func_`/`sub_` label,
+    respecting the `.thumb_func` marker for ISA — or a recognised veneer, with
+    no requirement that a branch outside your range also reach it. This is
+    the function-pointer and single-caller-callee shape `label` cannot reach
+    for lack of an outside branch. It **refuses** an address that is not
+    exactly a label start (an offset into a function is not a start).
+  - **sole-ref/string**: a `__FILE__`-style site whose address begins a
+    NUL-terminated printable run in the listings, even when the preceding
+    object is a table rather than a string (the case
+    `docs/idioms/a-string-after-a-data-table-has-no-witness.md` documents,
+    where `attest_string()`'s terminator-of-the-previous-string condition
+    cannot fire). It **refuses** an address that is not itself a run start
+    (interior to a longer printable run) and an address inside a traced
+    function's extent, so it never fires on code that happens to decode as
+    text.
+
+  It is recorded per site in the shard entry as `evidence: {"sole-ref":
+  ["<subkind>:0xADDRESS", ...]}`, e.g. `"code:0x02067998"`, so `grep
+  sole-ref layout/matched` lists every entry that depends on it and
+  `tools/worklist.py --summary` reports its share of coverage, broken down
+  by sub-kind, on its own lines rather than folding it into the coverage
+  figure. Like `literal` and `string` it stays falsifiable: the resolved
+  word is still compared against the original, so a wrong declaration comes
+  out `DIFF`. `attest_sole_ref()` and its three sub-kind functions
+  (`attest_sole_ref_data()`, `attest_sole_ref_code()`,
+  `attest_sole_ref_string()`) in `tools/match.py` are the implementation.
+
+  The boundaries for `sole-ref/data` themselves come from
+  `layout/data_objects.txt`, the ARM9 data-object map, which
+  `attest_sole_ref_data()` loads once and consults in addition to the
+  listings' own block structure. The map exists because that
   block structure is far too coarse: `disasm.py` emits the whole rodata tail
   `0x0209D86C-0x020A8FE4` as ONE block, so exactly one address in 47 kB is a
   start and every other reference into it is refused as "interior". The map

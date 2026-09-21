@@ -256,6 +256,23 @@ def find_unit_member_addrs(source_path):
     return addrs
 
 
+SOLE_REF_SUBKINDS = ("data", "code", "string")
+
+
+def sole_ref_subkind(item):
+    """The sub-kind name ("data"/"code"/"string") of one sole-ref evidence item.
+
+    Since the 2026-09-21 widening, tools/match.py's sole_ref_sites() records
+    each item as "<subkind>:0xADDRESS" (e.g. "code:0x02067998").  A shard
+    written before the widening carries the bare "0xADDRESS" the single
+    original (data-only) sub-kind used; that legacy shape is read as "data",
+    the sub-kind it always meant.
+    """
+    if ":" in item:
+        return item.split(":", 1)[0]
+    return "data"
+
+
 def load_matched():
     """address -> dict(name, entry, kind) for everything the shards cover.
 
@@ -290,6 +307,11 @@ def load_matched():
         for addr, who in addrs:
             cover.setdefault(addr, {"name": who, "entry": name, "kind": kind,
                                     "sole_ref": list(sole)})
+        # `sole` items are "<subkind>:0xADDRESS" since the 2026-09-21
+        # sole-ref widening (tools/match.py sole_ref_sites()); a shard
+        # written before that widening carries the bare "0xADDRESS" the
+        # single original (data) sub-kind used, and is read the same way by
+        # sole_ref_subkind() below.
         if kind == "game_unit" and ent.get("source"):
             listed = set(a for a, _who in addrs)
             for addr in find_unit_member_addrs(ent["source"]):
@@ -940,6 +962,24 @@ def build_document(inv, packets):
     sole_bytes = sum(f["code_bytes"] for f in sole_funcs)
     sole_points = (100.0 * sole_bytes / game_bytes) if game_bytes else 0.0
 
+    # Break that share down by sub-kind ("data"/"code"/"string", the
+    # 2026-09-21 widening): a function whose sole_ref list names more than
+    # one sub-kind is counted once in each sub-kind's function/byte total,
+    # exactly as it is already counted once in the un-broken-down total
+    # above, so the three sub-kind totals do not have to sum to it.
+    sole_by_kind = {}
+    for sk in SOLE_REF_SUBKINDS:
+        sk_funcs = [f for f in sole_funcs
+                    if any(sole_ref_subkind(it) == sk
+                           for it in f["sole_ref"])]
+        sk_bytes = sum(f["code_bytes"] for f in sk_funcs)
+        sole_by_kind[sk] = {
+            "functions": len(sk_funcs),
+            "code_bytes": sk_bytes,
+            "coverage_percent": round(
+                (100.0 * sk_bytes / game_bytes) if game_bytes else 0.0, 4),
+        }
+
     packet_map = {}
     for p in packets:
         packet_map[p["id"]] = p
@@ -979,6 +1019,7 @@ def build_document(inv, packets):
             "functions_sole_ref": len(sole_funcs),
             "code_bytes_sole_ref": sole_bytes,
             "coverage_percent_sole_ref": round(sole_points, 4),
+            "sole_ref_by_subkind": sole_by_kind,
             "sdk_conflicts": sdk_conflicts,
         },
         "thunks": inv["thunks"],
@@ -1158,6 +1199,18 @@ def print_summary(doc):
             s.get("functions_sole_ref", 0),
         )
     )
+    by_kind = s.get("sole_ref_by_subkind") or {}
+    if by_kind:
+        parts = []
+        for sk in ("data", "code", "string"):
+            row = by_kind.get(sk) or {}
+            parts.append(
+                "%s: %d bytes (%.4f pts), %d fn"
+                % (sk, row.get("code_bytes", 0),
+                   row.get("coverage_percent", 0.0),
+                   row.get("functions", 0))
+            )
+        print("      by sub-kind -- " + "; ".join(parts))
     if s["packets"]:
         sizes = [p["function_count"] for p in doc["packets"].values()]
         codes = [p["code_bytes"] for p in doc["packets"].values()]
