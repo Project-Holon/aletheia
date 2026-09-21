@@ -169,7 +169,7 @@ class, the number of witnesses and one witness address:
 | `veneer` | the address holds an ARM linker veneer: a fixed twelve-byte (or eight-byte) encoding that loads a constant into `ip` or `pc` and branches to it, with the constant naming a known function. For a call the linker redirected through a stub, which nothing else can attest. |
 | `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
 | `string` | the address is the start of a NUL-terminated ASCII string whose position is fixed by the terminator of the string before it. For `__FILE__` arguments, which nothing else can attest. |
-| `sole-ref` | the layout itself recognises what the address lands on, without a second referrer. Tried last of all. Three sub-kinds: `sole-ref/data` (an object *start* in a data section that the listings, the SDK symbol table, the file-anchor table or the `layout/data_objects.txt` map already carry, with the declared type's alignment satisfied); `sole-ref/code` (exactly a traced function start, respecting `.thumb_func`, or a recognised veneer); `sole-ref/string` (the start of a NUL-terminated printable run, even when the preceding object is a table rather than a string). See "The sole-ref class" below. |
+| `sole-ref` | the layout itself recognises what the address lands on, without a second referrer. Tried last of all. Four sub-kinds: `sole-ref/data` (an object *start* in a data section that the listings, the SDK symbol table, the file-anchor table or the `layout/data_objects.txt` map already carry, with the declared type's alignment satisfied); `sole-ref/code` (exactly a traced function start, respecting `.thumb_func`, or a recognised veneer); `sole-ref/string` (the start of a NUL-terminated printable run, even when the preceding object is a table rather than a string); `sole-ref/self` (the target is in a data section and the ROM word at the site already names it — relocation agreement is the proof). See "The sole-ref class" below. |
 
 The `label` class reads branches from the whole image, not just from the region
 being matched, and it reads labels from the whole image too. `func_02014468`
@@ -331,7 +331,7 @@ declaration comes out `DIFF`.
 **Widened 2026-09-21.** The owner decided to widen the class to the standard
 other matching-decompilation projects use: the address the original pool
 word names is accepted whenever it lands on something the layout
-recognises, without requiring a second referrer. That is now three named
+recognises, without requiring a second referrer. That is now four named
 sub-kinds, each tried only after every stronger class has failed and each
 recorded separately in the shard evidence so it can be listed or vetoed on
 its own:
@@ -376,6 +376,25 @@ its own:
   `sole-ref/data`'s interior refusal — and any address inside a traced
   function's extent, so it never fires on code that happens to decode as
   text.
+- **`sole-ref/self`** (`attest_sole_ref_self()`, added 2026-09-21) is the
+  community standard itself, with nothing asked of the layout beyond "is
+  this data". objdiff, decomp.dev and the pret projects treat a relocation
+  site as matched when the relocation names the same address the original
+  word names; there is no second-referrer requirement, and a file-local
+  table used by exactly one function is the normal case, not a suspicious
+  one. Two guards, and they are the whole sub-kind: **(a)** the target is in
+  a data section — rodata, data or bss — and not inside any code extent, the
+  same `in_data_section()` test `sole-ref/data` condition (a) uses, so a
+  target inside a traced function's extent never qualifies and code targets
+  keep their existing rules; and **(b)** the ROM word at the relocation site
+  equals the word this resolution is about to write there. A byte-correct
+  compile implies (b), but it is asserted explicitly at the site so the
+  sub-kind states its own evidence rather than borrowing the comparison's; a
+  site with no readable ROM word (bss, off-image) is refused. Rationale: the
+  ROM word names the address, so relocation agreement *is* the proof, and
+  the site stays falsifiable exactly as the others are — a wrong declaration
+  names a different address, the words disagree, and the sub-kind refuses
+  before the comparison ever runs.
 
 Every site that rests on any sub-kind is recorded in the shard entry as
 `evidence: {"sole-ref": ["<subkind>:0xADDRESS", ...]}`, e.g.
@@ -383,7 +402,7 @@ Every site that rests on any sub-kind is recorded in the shard entry as
 lists every entry that depends on the class and `tools/worklist.py
 --summary` prints its share of coverage, broken down by sub-kind, on its own
 lines under the coverage figure rather than folding it in. `attest_sole_ref()`
-dispatches to the three sub-kind functions by `kind`; `match.py selftest`
+dispatches to the four sub-kind functions by `kind`; `match.py selftest`
 covers each sub-kind's acceptance and refusals.
 
 Condition (b) of `sole-ref/data`'s boundaries come from

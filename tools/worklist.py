@@ -256,11 +256,11 @@ def find_unit_member_addrs(source_path):
     return addrs
 
 
-SOLE_REF_SUBKINDS = ("data", "code", "string")
+SOLE_REF_SUBKINDS = ("data", "code", "string", "self")
 
 
 def sole_ref_subkind(item):
-    """The sub-kind name ("data"/"code"/"string") of one sole-ref evidence item.
+    """The sub-kind name ("data"/"code"/"string"/"self") of one item.
 
     Since the 2026-09-21 widening, tools/match.py's sole_ref_sites() records
     each item as "<subkind>:0xADDRESS" (e.g. "code:0x02067998").  A shard
@@ -962,11 +962,12 @@ def build_document(inv, packets):
     sole_bytes = sum(f["code_bytes"] for f in sole_funcs)
     sole_points = (100.0 * sole_bytes / game_bytes) if game_bytes else 0.0
 
-    # Break that share down by sub-kind ("data"/"code"/"string", the
-    # 2026-09-21 widening): a function whose sole_ref list names more than
-    # one sub-kind is counted once in each sub-kind's function/byte total,
-    # exactly as it is already counted once in the un-broken-down total
-    # above, so the three sub-kind totals do not have to sum to it.
+    # Break that share down by sub-kind ("data"/"code"/"string"/"self",
+    # the 2026-09-21 widening and the `self` sub-kind added with it): a
+    # function whose sole_ref list names more than one sub-kind is counted
+    # once in each sub-kind's function/byte total, exactly as it is already
+    # counted once in the un-broken-down total above, so the sub-kind
+    # totals do not have to sum to it.
     sole_by_kind = {}
     for sk in SOLE_REF_SUBKINDS:
         sk_funcs = [f for f in sole_funcs
@@ -1202,7 +1203,7 @@ def print_summary(doc):
     by_kind = s.get("sole_ref_by_subkind") or {}
     if by_kind:
         parts = []
-        for sk in ("data", "code", "string"):
+        for sk in SOLE_REF_SUBKINDS:
             row = by_kind.get(sk) or {}
             parts.append(
                 "%s: %d bytes (%.4f pts), %d fn"

@@ -282,7 +282,7 @@ answer is not a test. Eight evidence classes, each printed per site by
   matching-decompilation projects use: the address the original pool word
   names is accepted whenever it lands on something the layout recognises.
   Tried last of all, after every other class has failed, so an address any
-  stronger class can carry never reports as `sole-ref`. Three named
+  stronger class can carry never reports as `sole-ref`. Four named
   sub-kinds, each recorded separately so it can be listed or vetoed later:
 
   - **sole-ref/data**: a data-kind site whose address lies in a data section
@@ -314,6 +314,19 @@ answer is not a test. Eight evidence classes, each printed per site by
     (interior to a longer printable run) and an address inside a traced
     function's extent, so it never fires on code that happens to decode as
     text.
+  - **sole-ref/self**: the community standard itself — a relocation site is
+    matched when the relocation names the same address the original word
+    names, with no second-referrer requirement, and a file-local table used
+    by exactly one function is the normal case. Two guards: the target is in
+    a data section (rodata, data or bss) and **not** inside any code extent
+    — the same test `sole-ref/data` uses, so code targets keep their existing
+    rules and a target inside a code extent never qualifies; and the ROM word
+    at the relocation site equals the word about to be written there, checked
+    explicitly at the site (a byte-correct compile implies it; the sub-kind
+    states its own evidence rather than borrowing the comparison's). It
+    **refuses** a code target, a site with no readable ROM word (bss,
+    off-image) and any disagreement. Rationale: the ROM word names the
+    address, so relocation agreement is the proof.
 
   It is recorded per site in the shard entry as `evidence: {"sole-ref":
   ["<subkind>:0xADDRESS", ...]}`, e.g. `"code:0x02067998"`, so `grep
@@ -322,9 +335,10 @@ answer is not a test. Eight evidence classes, each printed per site by
   by sub-kind, on its own lines rather than folding it into the coverage
   figure. Like `literal` and `string` it stays falsifiable: the resolved
   word is still compared against the original, so a wrong declaration comes
-  out `DIFF`. `attest_sole_ref()` and its three sub-kind functions
+  out `DIFF`. `attest_sole_ref()` and its four sub-kind functions
   (`attest_sole_ref_data()`, `attest_sole_ref_code()`,
-  `attest_sole_ref_string()`) in `tools/match.py` are the implementation.
+  `attest_sole_ref_string()`, `attest_sole_ref_self()`) in `tools/match.py`
+  are the implementation.
 
   The boundaries for `sole-ref/data` themselves come from
   `layout/data_objects.txt`, the ARM9 data-object map, which

@@ -501,13 +501,16 @@ def target_extent(addr, region):
 #            image evidence is involved at all.
 #
 #   sole-ref the layout itself recognises what the address lands on, without a
-#            second referrer.  Three sub-kinds, tried last of all, after every
+#            second referrer.  Four sub-kinds, tried last of all, after every
 #            other class has failed: `sole-ref/data` (an object START in a
 #            data section, alignment satisfied, never an interior address);
 #            `sole-ref/code` (exactly a traced function start, respecting
 #            .thumb_func, or a recognised veneer); `sole-ref/string` (the
 #            start of a NUL-terminated printable run, even when the preceding
-#            object is a table rather than a string).  See attest_sole_ref().
+#            object is a table rather than a string); `sole-ref/self` (the
+#            target is in a data section and the ROM word at the site already
+#            names it -- relocation agreement is the proof).  See
+#            attest_sole_ref().
 #
 # A site with no accepted witness stays wildcarded and the entry stays MATCH,
 # with the reason printed.  Nothing is ever back-filled from the original.
@@ -1576,6 +1579,28 @@ def attest_data_table(addr, lo, hi):
 #   docs/idioms/a-string-after-a-data-table-has-no-witness.md for the case
 #   this closes ("mail.c", "wifilist.c").
 #
+# A FOURTH SUB-KIND, 2026-09-21: `sole-ref/self`
+# (attest_sole_ref_self()).  The three above all still ask the layout to
+# recognise the target as an object start, a function start or a string.
+# The community standard asks less: a relocation site is matched when the
+# relocation names the same address the original word names, with no
+# second-referrer requirement, and a file-local table used by exactly one
+# function is the normal case.  `self` is that standard, under two guards:
+#
+#   (a) the target is in a data section (rodata, data or bss) and not
+#       inside any code extent -- the same in_data_section() test
+#       `sole-ref/data` condition (a) uses.  Code targets keep their
+#       existing rules; a target inside a code extent never qualifies;
+#   (b) the ROM word at the relocation site equals the word this
+#       resolution is about to write there.  A byte-correct compile
+#       implies it, but the class asserts it at the site rather than
+#       leaning on the later comparison.
+#
+# Rationale: the ROM word names the address, so relocation agreement is
+# itself the proof.  The site is still falsifiable exactly as the others
+# are -- a wrong declaration names a different address, the words disagree,
+# and the class refuses before the comparison ever runs.
+#
 # Each sub-kind is recorded per site in the shard evidence as
 # "<subkind>:0xADDRESS" (sole_ref_sites()), so `grep sole-ref
 # layout/matched` and `tools/worklist.py --summary` can break the class's
@@ -1988,13 +2013,78 @@ def attest_sole_ref_string(addr, lo, hi):
     return "sole-ref", 1, addr, "string"
 
 
-def attest_sole_ref(addr, kind, align=None, lo=0, hi=0):
+def rom_word_at(addr):
+    """The little-endian 32-bit word the original image holds at `addr`.
+
+    None when the address is not inside a loaded region (bss, or off-image):
+    there is no ROM word to read, so a caller that needs one must refuse.
+    """
+    region = _region_at(addr)
+    if region is None:
+        return None
+    off = addr - region.base
+    if off < 0 or off + 4 > len(region.data):
+        return None
+    return struct.unpack_from("<I", region.data, off)[0]
+
+
+def attest_sole_ref_self(addr, kind, site=None, expect=None):
+    """The `sole-ref/self` sub-kind.  Returns (class, witnesses, site) or None.
+
+    Added 2026-09-21.  The community standard (objdiff, decomp.dev, the pret
+    projects) is that a relocation site is matched when the relocation names
+    the same address the original word names: there is no second-referrer
+    requirement, and a file-local table referenced by exactly one function is
+    the normal case, not a suspicious one.  The three sub-kinds above still
+    ask the layout to recognise the target as an object, a function or a
+    string; `self` asks only what that standard asks -- the ROM word at this
+    very site already names this address, and the address is data.
+
+    Two guards, and they are the whole class:
+
+      (a) THE TARGET IS DATA.  `in_data_section(addr)` -- the same test
+          `sole-ref/data` condition (a) uses.  A target inside a traced
+          function's extent, or on a byte the listings emit as an
+          instruction, NEVER qualifies: code targets keep their existing
+          rules (`label`, `veneer`, `runtime`, `sole-ref/code`), which is
+          where the ISA and the entry-point evidence live.  Only rodata,
+          data and bss addresses reach this class.
+
+      (b) THE ROM WORD AGREES.  The word the original image holds at the
+          relocation site equals the word this resolution is about to write
+          there.  A byte-correct compile implies it -- the comparison would
+          catch a mismatch anyway -- but it is asserted explicitly here, so
+          the class states its own evidence rather than borrowing the
+          comparison's.  A site with no readable ROM word (bss, off-image)
+          is refused, as is one whose word differs.
+
+    `site` is the link-time address of the relocation site and `expect` the
+    word about to be written there; without both, there is nothing to agree
+    with and the class refuses.
+    """
+    if kind != "data":
+        return None
+    if site is None or expect is None:
+        return None
+    if not in_data_section(addr):
+        return None
+    word = rom_word_at(site)
+    if word is None or word != (expect & 0xFFFFFFFF):
+        return None
+    return "sole-ref", 1, addr, "self"
+
+
+def attest_sole_ref(addr, kind, align=None, lo=0, hi=0,
+                    site=None, expect=None):
     """The `sole-ref` class.  Returns (class, witnesses, site, subkind) or None.
 
     Tried only after every other class has failed, for every `kind`.  Three
     named sub-kinds, dispatched by `kind`; see attest_sole_ref_data(),
-    attest_sole_ref_code() and attest_sole_ref_string() for what each
-    accepts and refuses.  `subkind` is one of "data", "code" or "string",
+    attest_sole_ref_code(), attest_sole_ref_string() and
+    attest_sole_ref_self() for what each
+    accepts and refuses.  `subkind` is one of "data", "code", "string" or
+    "self"; `site`/`expect` are the relocation site's link-time address and
+    the word about to be written there, which only `sole-ref/self` reads.
     and attest() propagates it onto the resolved Site so the shard record
     can name which one carried a given address.
     """
@@ -2002,7 +2092,10 @@ def attest_sole_ref(addr, kind, align=None, lo=0, hi=0):
         proof = attest_sole_ref_data(addr, align, lo, hi)
         if proof is not None:
             return proof
-        return attest_sole_ref_string(addr, lo, hi)
+        proof = attest_sole_ref_string(addr, lo, hi)
+        if proof is not None:
+            return proof
+        return attest_sole_ref_self(addr, kind, site, expect)
     if kind in ("thumb", "arm"):
         return attest_sole_ref_code(addr, kind)
     return None
@@ -2150,7 +2243,8 @@ def attest_matched(addr, kind, src=None):
     return "matched", 1, addr
 
 
-def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None):
+def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
+           site=None, expect=None):
     """Independent evidence for `addr`, or None.
 
     `lo`..`hi` is the byte range under comparison; a witness inside it does
@@ -2163,7 +2257,10 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None):
     declared type demands, which only the `sole-ref` class consults.
     Returns (class, witness_count, example_site), except for `sole-ref`,
     which appends a fourth element naming the sub-kind ("data"/"code"/
-    "string"); callers that only need the class name still read element 0.
+    "string"/"self"); callers that only need the class name still read
+    element 0.  `site` is the relocation site's link-time address and
+    `expect` the word about to be written there; only `sole-ref/self`
+    consults them, and without them that sub-kind refuses.
     """
     ev = evidence()
     if kind in ("thumb", "arm"):
@@ -2223,7 +2320,7 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None):
     # begins at this address.  See "the `sole-ref` class" above.  Every kind
     # is tried here, code included: sole-ref/code exists for exactly the
     # function pointers and single-caller callees that never reach `label`.
-    proof = attest_sole_ref(addr, kind, align, lo, hi)
+    proof = attest_sole_ref(addr, kind, align, lo, hi, site, expect)
     if proof is not None:
         return proof
     return None
@@ -2394,7 +2491,16 @@ def resolve_relocations(fb, place, decls, size=None, src=None):
                     st.note = "declared %s, no image evidence for the ISA" % kind
             region_hint = decls[name].region if name in decls else None
             align = decls[name].align if name in decls else None
-            proof = attest(target, kind, lo, hi, src, region_hint, align)
+            # For an ABS32 data site, the word this resolution is about to
+            # write is fully determined here; `sole-ref/self` needs it, and
+            # the site's link-time address, to check that the original image
+            # already names the same address at the same place.
+            self_site = self_expect = None
+            if rtype == R_ARM_ABS32 and kind == "data":
+                self_site = place_at
+                self_expect = (target + addend) & 0xFFFFFFFF
+            proof = attest(target, kind, lo, hi, src, region_hint, align,
+                           self_site, self_expect)
             if proof is None:
                 st.reason = ("%08X (%s, from %s) has no witness outside "
                              "%08X..%08X" % (target, kind, origin, lo, hi))
@@ -3356,7 +3462,8 @@ def sole_ref_sites(result):
 
     Reads the per-site report resolve_relocations() already built, so there
     is no second notion of what rested on the class.  Each entry is spelled
-    "<subkind>:0xADDRESS" ("data"/"code"/"string"), e.g. "code:0x02067998",
+    "<subkind>:0xADDRESS" ("data"/"code"/"string"/"self"), e.g.
+    "code:0x02067998",
     so a shard entry's evidence names which sub-kind carried the site and
     `grep sole-ref layout/matched` or worklist.py's summary can break the
     share down.  Returns [] when the entry used none, which is what keeps an
@@ -3786,6 +3893,20 @@ SOLE_REF_CODE_NONLABEL = 0x02005232
 # exactly one function, so `literal` has no outside witness either.  The
 # layout still says a NUL-terminated printable run begins exactly there.
 SOLE_REF_STRING_AFTER_TABLE = 0x020A716C
+
+# --- sole-ref/self (2026-09-21) -------------------------------------------
+# A real ABS32-shaped site: the pool word at 0x020049D4 holds 0x02004F94,
+# which is a rodata address (in_data_section() agrees) and no code extent
+# covers it.  This is the positive `self` case -- relocation agreement is
+# the whole evidence, no second referrer anywhere.
+SOLE_REF_SELF_SITE = 0x020049D4
+SOLE_REF_SELF_TARGET = 0x02004F94
+# The pool word at 0x020052E0 holds 0x0200FB6D, a Thumb function pointer:
+# 0x0200FB6C is inside a traced function's extent, so in_data_section()
+# refuses it and `self` must too, however well the ROM word agrees.  Code
+# targets keep their existing rules (`label`, `veneer`, `sole-ref/code`).
+SOLE_REF_SELF_CODE_SITE = 0x020052E0
+SOLE_REF_SELF_CODE_TARGET = 0x0200FB6C
 # one byte into "gfl_use.c" (SOLE_REF_ANCHOR + 1): also a NUL-terminated
 # printable run in its own right ("fl_use.c"), but NOT a run start -- the
 # byte before it is printable too.  sole-ref/string must refuse an address
@@ -4156,6 +4277,58 @@ def cmd_selftest(args):
                                       SOLE_REF_STRING_AFTER_TABLE - 0x10,
                                       SOLE_REF_STRING_AFTER_TABLE + 0x10)),
            None)
+
+    # --- sole-ref/self (2026-09-21) ----------------------------------------
+    # The community standard: the relocation names the address the original
+    # word already names, the target is data, and that is the proof.  Two
+    # guards and nothing else -- a data target, and ROM-word agreement at
+    # the site.
+    _check(res, "sole-ref/self: a lone pool word naming a rodata start is "
+                "carried by relocation agreement alone",
+           cls(attest_sole_ref_self(SOLE_REF_SELF_TARGET, "data",
+                                    SOLE_REF_SELF_SITE,
+                                    SOLE_REF_SELF_TARGET)),
+           "sole-ref")
+    _check(res, "sole-ref/self: it names itself as the sub-kind",
+           (attest_sole_ref_self(SOLE_REF_SELF_TARGET, "data",
+                                 SOLE_REF_SELF_SITE,
+                                 SOLE_REF_SELF_TARGET) or (None,))[-1],
+           "self")
+    _check(res, "sole-ref/self: a target inside a code extent is refused, "
+                "however exactly the ROM word agrees",
+           cls(attest_sole_ref_self(SOLE_REF_SELF_CODE_TARGET, "data",
+                                    SOLE_REF_SELF_CODE_SITE,
+                                    SOLE_REF_SELF_CODE_TARGET | 1)),
+           None)
+    _check(res, "sole-ref/self: that code target really is what "
+                "in_data_section() refuses",
+           in_data_section(SOLE_REF_SELF_CODE_TARGET), False)
+    _check(res, "sole-ref/self: a word differing from the ROM word at the "
+                "site is refused",
+           cls(attest_sole_ref_self(SOLE_REF_SELF_TARGET, "data",
+                                    SOLE_REF_SELF_SITE,
+                                    SOLE_REF_SELF_TARGET + 4)),
+           None)
+    _check(res, "sole-ref/self: with no site or expected word there is "
+                "nothing to agree with, and the class refuses",
+           cls(attest_sole_ref_self(SOLE_REF_SELF_TARGET, "data")), None)
+    _check(res, "sole-ref/self: the class never applies to a code symbol "
+                "kind",
+           cls(attest_sole_ref_self(SOLE_REF_SELF_TARGET, "thumb",
+                                    SOLE_REF_SELF_SITE,
+                                    SOLE_REF_SELF_TARGET)), None)
+    _check(res, "sole-ref/self: the dispatcher reaches it only after data, "
+                "string and every stronger class have failed",
+           (attest_sole_ref(SOLE_REF_SELF_TARGET, "data", 4,
+                            SOLE_REF_MAP_LONE_SITE - 0x40,
+                            SOLE_REF_MAP_LONE_SITE + 0x40,
+                            SOLE_REF_SELF_SITE,
+                            SOLE_REF_SELF_TARGET) or (None,))[-1],
+           "self")
+    _check(res, "sole-ref/self: rom_word_at() reads the site's original "
+                "word, and refuses an address outside every loaded region",
+           (rom_word_at(SOLE_REF_SELF_SITE), rom_word_at(0x00000000)),
+           (SOLE_REF_SELF_TARGET, None))
 
     # --- the data-object map -----------------------------------------------
     # layout/data_objects.txt (tools/datamap.py) is the finer set of
