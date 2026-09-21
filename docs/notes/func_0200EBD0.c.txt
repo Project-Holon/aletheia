@@ -73,3 +73,102 @@ Left as DIFF; no plausible C restructuring changes which physical
 register a short-lived caller-saved-shaped temporary lands in on this
 front end. Queued for a future attempt with `register` hints.
 re-verified 2026-09-21: no recoverable source in this note
+
+Wave 4 addendum (family symbol_save.c, the permuter)
+=====================================================
+
+The note's source was reconstructed from the prose above and reproduces the
+recorded state exactly: DIFF, 68 bytes against the 68-byte compared range,
+1 of 1 relocation resolved (func_0200EA3C carries `label`), 6 concrete bytes
+out.  It is filed below as a marker so the next lane does not re-derive it.
+
+/* best source, 68 bytes against 68, 6 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_0200EBD0
+ * address:  0x0200EBD0
+ * packet:   pkt_0200EBD0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200EA3C  0x0200EA3C  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Obj {
+    u8  pad[0x1554];
+    u32 unk1554;
+    u32 unk1558;
+};
+
+extern void func_0200EA3C(u8 *rec);
+
+void func_0200EBD0(struct Obj *obj)
+{
+    if (obj->unk1558 < 9999) {
+        u32 idx = obj->unk1554;
+        func_0200EA3C((u8 *)obj + idx * 0x16c);
+        idx = obj->unk1554 + 1;
+        obj->unk1554 = idx;
+        if (idx >= 15) {
+            obj->unk1554 = 0;
+        }
+        obj->unk1558 += 1;
+    }
+}
+
+tools/permuter.py --explain confirms the note's diagnosis precisely and adds
+nothing to it:
+
+    baseline  DIFF   asm=1250  bytes-out=6  size=68/92
+    register substitutions (image -> compiled), by count:
+      r6   -> r1    x4
+      r5   -> r4    x2
+      r6   -> r5    x2
+
+Permuter result line (both modes, no improvement at any point):
+
+    hill   --budget 800  --jobs 8 --types: no single mutation improves
+           DIFF asm=1250 bytes-out=6 size=68/92 (101 sites tried)
+    anneal --budget 3000 --jobs 8 --types: 3000 compiles in 246s, four
+           plateau-drifts, best unchanged at DIFF asm=1250 bytes-out=6
+
+A complete plateau at the baseline is itself the finding: the whole mutation
+set (temp, expand, reorder, hoist, copy, use, selfassign, decl-order, pad,
+split-assign, compound, commute, compare, addsub, cast, block, loop,
+struct-ref, goto-ret, volatile, addr, and type under --types) moves the
+allocator not at all here.  There is nothing left for it to move: the
+function has one call, two short-lived temporaries and no live range that
+crosses anything, so spill cost is uniform and the colouring is forced.
+
+THE `register` LEVER, WHICH THE NOTE LEFT UNTRIED, IS A NO-OP
+--------------------------------------------------------------
+The CONCLUSION above queues this function "for a future attempt with
+`register` hints" and records mwcc's handling of the keyword for this front
+end as unverified.  It is now verified, and the answer is no:
+
+  * `register u32 idx` on the index temporary alone: DIFF, 68 bytes, the
+    same 6 concrete bytes out, byte-identical output to the version with no
+    storage class at all.
+  * `register` on BOTH temporaries (the +0x1558 counter and the index):
+    DIFF, 68 bytes, the same 6 bytes out, again byte-identical.
+
+mwccarm 1.1p1 at -O4,p accepts the keyword and discards it; it does not bias
+the colouring toward either bank, so it cannot be used to ask for r6.  That
+closes the only lever the note had left.  (Raising the counter's use count
+instead -- reading it back as `obj->unk1558 = cnt + 1` -- does change the
+allocation, but by deleting the reload: 64 bytes, 24 out.  Wrong direction.)
+
+Still DIFF, and now for a stated reason rather than an open question: the
+original spends a callee-saved register on a value that does not need to
+survive the call, and neither the C shape, the mutation set, nor the storage
+class reaches that choice on this front end.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 68 bytes against 68, 6 concrete bytes out, 1.1p1

@@ -272,3 +272,208 @@ the s2/s1/s0 declaration order with s0 a u16, the written-out if/else for both
 bit stores, both if/elses before both calls, and the u16 decrement tail) is
 correct as written and was used unchanged.
 re-verified 2026-09-21: no recoverable source in this note
+
+======================================================================
+WAVE 4 billboard_act, 2026-09-21
+======================================================================
+
+func_02050468 @ 0x02050468 -- source restored, permuter flat at the note's floor
+-------------------------------------------------------------------------------
+
+The 2026-09-21 re-verify said "no recoverable source in this note": the
+func_02050468 section above (line 73) carries the analysis and the ten measured
+spellings but no compilable file.  Written out below.  ONE correction to the
+prose: the section says "the entry's first word to func_0204F5A8 with o->f04",
+which is right, but func_0204F5A8 must be declared with TWO parameters for that
+to compile into the image's `ldr r0,[r8,#4]; ldr r1,[r2,r1]; bl` -- declared
+with one it loses four bytes and 59 bytes differ.
+
+/* best source, 112 bytes against 112, 2 concrete bytes out, 1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Entry { u32 f00; u8 pad[0x24]; };
+
+struct Owner {
+    u32           f00;
+    void         *f04;
+    u8            pad_08[0x10];
+    struct Entry *f18;
+    u16           f1C;
+    u16           f1E;
+    void         *f20;
+};
+
+extern void func_0204F5A8(void *p, u32 idx);
+extern void func_020500B8(void *e);
+extern void func_0203422C(void *pool, u32 first, u32 count);
+
+void func_02050468(struct Owner *o, u32 first, u32 count)
+{
+    u32 i = 0;
+    u32 stride = 0x28;
+
+    if (count != 0) {
+        u32 row = first * stride;
+        do {
+            func_0204F5A8(o->f04, *(u32 *)((u8 *)o->f18 + row + i * stride));
+            func_020500B8((u8 *)o->f18 + (first + i) * stride);
+            i++;
+        } while (i < count);
+    }
+    func_0203422C(o->f20, first, count);
+}
+
+This reproduces the section's stated floor exactly: size 112/112, and the ONLY
+residue is the one commutative operand order it names,
+
+    ORIGINAL   add r1, r5, r1        (r5 = first * 0x28, r1 = the loaded o->f18)
+    COMPILED   add r1, r1, r5
+
+Note the `u32 stride = 0x28;` local: the section's closing paragraph is right
+that the stride must be ONE VALUE USED TWICE, not a literal at each use, and
+binding it to a local is what gives the image's `mov sb, r0` / `mov sl, r0`
+pair of copies.
+
+PERMUTER RESULT (tools/permuter.py, the AST engine).
+
+    --explain:
+      baseline  DIFF   asm=10    bytes-out=2    size=112/112
+      register substitutions (image -> compiled), by count:
+        r5   -> r1    x1
+        r1   -> r5    x1
+
+    One swapped PAIR on a single instruction -- the cleanest possible
+    allocation tie, and the permuter's best-case target class.
+
+    --mode hill --budget 800 --jobs 8 --types:
+      no single mutation improves DIFF asm=10 bytes-out=2 size=112/112
+      (202 tried)
+    --mode anneal --budget 3000 --jobs 8 --types:
+      compiles 3000 in 275s
+      best      DIFF   asm=10    bytes-out=2    size=112/112
+
+    3202 distinct compiles, no improvement, confirming the section's own
+    "beaten by none".  Worth recording as a NEGATIVE RESULT for the permuter
+    itself: a two-byte single-instruction operand swap is what the tool is
+    built for, and it did not move it.  The reason is visible in --explain: the
+    swap is between a LOOP-INVARIANT value (`row`, hoisted out of the loop) and
+    a LOOP-VARIANT field load, and the permuter's `temp`/`copy`/`hoist`
+    mutations all operate within the loop body, so none of them can change
+    which of the two the allocator numbered first.
+
+func_0204FFFC @ 0x0204FFFC -- NEW this wave, 2 bytes out
+--------------------------------------------------------
+
+Not previously written up.  The destructor for the billboard_act.c system
+object that func_0204FE94 builds (both are now EXACT/near: func_0204FE94 is
+filed at src/matched/func_0204FE94.c).  Size exact at 136, and the only residue
+is a two-byte register choice on the sentinel load.
+
+/* best source, 132 bytes against 136, 2 concrete bytes out, 1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Entry { u32 f00; u8 pad_04[0x24]; };
+
+struct Owner {
+    u32           f00;
+    void         *f04;
+    u8            pad_08[4];
+    void         *f0C;
+    u8            pad_10[4];
+    void         *f14;
+    struct Entry *f18;
+    u16           f1C;
+    u16           f1E;
+    void         *f20;
+};
+
+extern void func_0204F5A8(void *p);
+extern void func_02033C9C(void *p);
+extern void func_020307B0(void *p);
+extern void func_0204ED24(void *p);
+
+void func_0204FFFC(struct Owner *o)
+{
+    int i = 0;
+    int n = o->f1C;
+
+    if (n > 0) {
+        do {
+            struct Entry *e = (struct Entry *)((u8 *)o->f18 + i * 0x28);
+
+            if (e->f00 != 0xFFFF) {
+                func_0204F5A8(o->f04);
+            }
+            i++;
+        } while (i < o->f1C);
+    }
+
+    func_02033C9C(o->f20);
+    func_020307B0(o->f18);
+    func_02033C9C(o->f14);
+    func_020307B0(o->f0C);
+    func_0204ED24(o->f04);
+    func_020307B0(o);
+}
+
+    ORIGINAL   ldr r1, [r1, r0]  /  cmp r1, r8
+    COMPILED   ldr r0, [r1, r0]  /  cmp r0, r8
+
+Every other byte of the 132, including all seven relocation sites (all `label`)
+and the trailing 0xFFFF pool word, is identical.  The function is otherwise a
+textbook copy of its sibling func_020504D8: int counter, count re-read at the
+bottom of the loop, `blt` back edge, sentinel hoisted into a callee-saved
+register from the pool at 0x0205007C.
+
+ONE ARITY FINDING, worth four bytes and generally applicable in this family:
+func_0204F5A8 is called here with ONE argument (`ldr r0,[r5,#4]; bl`), not two.
+Declared `extern void func_0204F5A8(void *p, u32 idx);` the compile is 136
+bytes with 83 differing; declared `extern void func_0204F5A8(void *p);` it is
+132 bytes with 2 differing.  Contrast func_02050468 immediately above, where
+the same callee genuinely takes both.  So the arity is per-call-site evidence
+in this family, not a property to settle once in the header.
+
+HAND SPELLINGS MEASURED (all 2 bytes, none better):
+
+  the loaded word bound to a `u32 w` local, declared inside the loop        2
+  the same local declared at function scope                                 2
+  the comparison reversed, `0xFFFF != e->f00`                               2
+  base pointer and offset split into two locals                            2
+  offset local plus a `u32 w` load local                                    2
+  `o->f18[i].f00` with f18 typed `struct Entry *`                           2
+
+PERMUTER RESULT (tools/permuter.py, the AST engine).
+
+    --explain:
+      baseline  DIFF   asm=110   bytes-out=2    size=132/136
+      register substitutions (image -> compiled), by count:
+        r1   -> r0    x2
+
+    A single one-way substitution over two instructions: the image keeps the
+    loaded sentinel candidate in r1 where the compile puts it in r0.
+
+    --mode hill --budget 800 --jobs 8 --types:
+      no single mutation improves DIFF asm=110 bytes-out=2 size=132/136
+      (215 tried)
+    --mode anneal --budget 3000 --jobs 8 --types:
+      compiles 3000 in 319s
+      best      DIFF   asm=110   bytes-out=2    size=132/136
+
+    3215 distinct compiles, no improvement.  At 2 differing bytes this is not
+    byte-correct, so it belongs in neither src/matched/ nor src/pending/; the
+    source is recorded here in full instead.
+
+    REMAINING LEVER: the image's `ldr r1, [r1, r0]` overwrites its own base
+    register, which is the shape of a load whose result the allocator coalesced
+    onto the address's live range.  A source that keeps the base pointer live
+    past the compare would prevent that coalesce and might flip the choice; none
+    of the six spellings above does, because in all of them the base dies at the
+    load.
+
+re-verified 2026-09-21 by tools/match.py: func_02050468 DIFF, 112 bytes against 112, 2 concrete bytes out, 1.1p1; func_0204FFFC DIFF, 132 bytes against 136, 2 concrete bytes out, 1.1p1

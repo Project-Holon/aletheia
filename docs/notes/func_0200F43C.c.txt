@@ -136,3 +136,119 @@ int func_0200F43C(void *obj, int a1, int a2, int *out)
     return 2;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 170 bytes against 168, 113 concrete bytes out, 1.1p1
+
+Wave 4 addendum (family symbol_save.c, the permuter): SIZE IS NOW EXACT
+========================================================================
+
+The note above records the function as stuck at 170 bytes against 168 with
+"the whole of the 2-byte deficit is one register-allocation decision".  That
+diagnosis was wrong, and the permuter found the lever in its first hill pass.
+
+THE 2 BYTES ARE THE LOOP-INVARIANT CALL, HOISTED
+-------------------------------------------------
+The note asserts, under "What is NOT in doubt, and is worth keeping":
+
+    DWC_GetGsProfileId(p, tok) is re-called every iteration even though it
+    is loop-invariant; hoisting it out of the loop loses the second call and
+    changes the shape, so the original really does write it inside the body.
+
+That is not so.  `temp(tmp=DWC_GetGsProfileId(p, tok))` -- lift the call to a
+named local ABOVE the loop and read the local inside it -- is exactly the
+hoist the note ruled out, and it takes the function from 170 bytes to 168,
+the original's size, without losing either call: the pre-loop `<= 0` guard
+call and the hoisted one are still two separate `blx` sites, because the
+guard tests the call's value while the hoisted local feeds `id`.  The
+original's second `blx #0x20598ec` at +0x5A is the hoisted one, not a
+per-iteration one, and the loop body has only the array-record call.
+
+Two further spellings, found by reading the diff after the hoist, take the
+concrete residue from 124 to 115:
+
+  * `i = 0` must be assigned AFTER the `p = func_02009860(obj)` call, not
+    before it.  The original's `movs r5, #0` lands at +0x16, between the
+    first and second call; with `i = 0` written first the compiler sinks it
+    to +0x0C, before the first `bl`, and every register after it shifts.
+  * the `arr` index may be spelled either `i` or a literal `0`; both give
+    the same 115.
+
+/* best source, 168 bytes against 168, 115 concrete bytes out, 1.1p1 */
+
+int func_0200F43C(void *obj, int a1, int a2, int *out)
+{
+    int n, i, id;
+    void *p;
+    u8 *arr;
+    u8 tok[0xC];
+    int key;
+
+    p = func_02009860(obj);
+    i = 0;
+    arr = (u8 *)sub_020099C8(obj, i);
+    n = func_02009A34(obj);
+
+    if (DWC_CheckFriendKey(p, a1, a2) == 0)
+        return 3;
+
+    DWC_CreateFriendKeyToken(tok, a1, a2);
+    if (DWC_GetGsProfileId(p, tok) <= 0)
+        return 3;
+
+    key = DWC_GetGsProfileId(p, tok);
+    *out = i - 1;
+    for (; i < n; i++) {
+        id = key;
+
+        if (id == DWC_GetGsProfileId(p, arr + i * 0xC)) {
+            *out = i;
+            return 0;
+        }
+        if (*out < 0 && DWC_IsValidFriendData(arr + i * 0xC) == 0)
+            *out = i;
+    }
+    return 2;
+}
+
+WHAT IS LEFT
+------------
+    baseline  DIFF   asm=1190  bytes-out=115  size=168/168
+    register substitutions (image -> compiled), by count:
+      r4   -> r7    x8
+      r5   -> r4    x7
+      r7   -> r6    x3
+      r6   -> r5    x1
+      r5   -> r1    x1
+
+A 4-cycle of the callee-saved bank (r4->r7->r6->r5->r4) plus the resulting
+stack displacement: the original spills `n` to sp+0x08 and keeps `tok` at
+sp+0x14 with its address recomputed as `add rN, sp, #0x14` at each of its
+three use sites, where the compiled object caches that address in a register.
+Same frame size (0x20), same four callee-saved registers, same instruction
+count.
+
+Permuter result lines:
+
+    hill   --budget 800 --jobs 8 --types (from the note's 170-byte source):
+           DIFF asm=1170 bytes-out=114 size=168/168, three temp() lifts
+    hill   --budget 900 --jobs 8 (value-preserving only, from the 115 point):
+           no single mutation improves, 141 sites tried
+    anneal --budget 3000 --jobs 8 --types (from the 115 point):
+           best DIFF asm=1000 bytes-out=105 size=158/168 -- REJECTED, see below
+
+A CAUTION ON THE --types ANNEAL RESULT
+---------------------------------------
+The anneal run reported a much better intermediate (68 bytes out at 166) and
+a best of 105 out at 158, and BOTH are semantically invalid; they are not
+usable and are recorded here only so the next lane does not chase them.  The
+emitted C reads `tok` in `DWC_GetGsProfileId(p, tok)` BEFORE
+`DWC_CreateFriendKeyToken(tok, a1, a2)` fills it, and initialises
+`key_ = key` from an uninitialised `key`, having sunk the token construction
+into a `do { } while (0)` below both reads.  The scorer cannot see this: an
+uninitialised read is still a compile, and dropping a dependency frees the
+allocator, which is why it scores well.  This is the failure mode the brief
+warns about for `--types` results, and it applies to the block/copy mutations
+too, not only to type changes: check the data flow, not just the verdict.
+
+Declaration order remains inert, confirming the note's own 120-permutation
+sweep: n/key/id/i reorderings all give 115 or 116, never less.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 168 bytes against 168, 115 concrete bytes out, 1.1p1

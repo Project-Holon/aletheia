@@ -72,3 +72,108 @@ Classification: allocator/CSE, not reachable from the C shape tried.  No flag
 sweep (the matrix is closed project-wide).  No source file was filed; this
 function does not belong in src/pending/ because it is not byte-correct.
 re-verified 2026-09-21: no recoverable source in this note
+
+======================================================================
+WAVE 4 billboard_act, 2026-09-21: source filed, permuter flat at 26
+======================================================================
+
+The 2026-09-21 re-verify said "no recoverable source in this note": the prose
+above carries the shape but not a compilable file.  Written out below, it
+reproduces the note's stated residue exactly -- same size, same 26 bytes.
+
+/* best source, 140 bytes against 140, 26 concrete bytes out, 1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u8    pad00[4];
+    void *f04;
+    u8    pad08[4];
+    u8   *f0c;
+    u8    pad10[4];
+    void *f14;
+} S;
+
+extern void func_0204F150(void *p);
+extern void func_02046EFC(void *p);
+extern void func_02050088(void *p);
+extern void func_0203422C(void *pool, u32 idx, u32 count);
+
+void func_02050278(S *p, u32 idx, u32 count)
+{
+    u32 i;
+
+    for (i = 0; i < count; i++) {
+        if (*(u16 *)(p->f0c + idx * 8 + i * 8) != 0xFFFF) {
+            func_0204F150(p->f04);
+        }
+        if (*(u32 *)(p->f0c + idx * 8 + i * 8 + 4) != 0) {
+            func_02046EFC(*(void **)(p->f0c + idx * 8 + i * 8 + 4));
+        }
+        func_02050088(p->f0c + (idx + i) * 8);
+    }
+    func_0203422C(p->f14, idx, count);
+}
+
+All four call sites resolve (`label`), confirming the note: no evidence class
+is involved, this is codegen only.
+
+THE RESIDUE, restated precisely.  The whole 26 bytes is downstream of ONE
+decision at +0044:
+
+    ORIGINAL   add r0, r0, r4, lsl #3      (recompute i*8 into the address)
+    COMPILED   add r0, r0, r5              (reuse i*8, kept in r5 since +0020)
+
+The compile CSEs `i * 8` across the two record accesses and pays for it with a
+seventh callee-saved register (`push {r3,r4,r5,r6,r7,r8,sb,lr}` against the
+image's `{r4,r5,r6,r7,r8,lr}`), and that one extra register is what renames
+every parameter by one slot and accounts for all 26 differing bytes.  The
+image does NOT perform that CSE: it recomputes the shift and keeps the 0xFFFF
+sentinel in r8 instead.
+
+HAND SPELLINGS MEASURED THIS WAVE (all against --cc 1.1p1 -O4,p):
+
+  the form above (baseline)                                        26 bytes
+  second access as ((u32 *)(p->f0c + (idx+i)*8))[1]                62
+  first access with i*8 written leftmost, i*8 + (p->f0c + idx*8)   26
+  the sentinel bound to a `u16 sentinel = 0xFFFF;` local           26
+
+So 26 is a floor several spellings reach and none beats, matching the note's
+own list.
+
+PERMUTER RESULT (tools/permuter.py, the AST engine).
+
+    --explain:
+      baseline  DIFF   asm=190   bytes-out=26   size=140/140
+      register substitutions (image -> compiled), by count:
+        r5 -> r6 x3, r5 -> r4 x2, r6 -> r5 x2, r7 -> r6 x2,
+        r8 -> r7 x2, r8 -> sb x2, r1 -> r0 x2, r7 -> r8 x1,
+        r1 -> r5 x1, r4 -> r5 x1
+
+    A general reshuffle, not a swapped pair -- the signature of an extra
+    register in the file rather than a colouring tie, exactly as diagnosed.
+
+    --mode hill --budget 800 --jobs 8 --types:
+      no single mutation improves DIFF asm=190 bytes-out=26 size=140/140
+      (206 tried)
+    --mode anneal --budget 3000 --jobs 8 --types:
+      compiles 3000 in 269s
+      best      DIFF   asm=190   bytes-out=26   size=140/140
+
+    3206 distinct compiles, no improvement.  Note that the permuter's `expand`
+    and `temp` mutations are precisely the levers that ADD or REMOVE a value,
+    and neither direction suppresses this CSE: mwcc forms it in the optimiser
+    after the source-level value structure is gone.  Classification stands as
+    the note gave it -- allocator/CSE, not reachable from the C shape -- now
+    with 3206 compiles behind it rather than three hand attempts.
+
+    REMAINING LEVER for whoever picks this up: the target is to make the
+    compiler spend one FEWER callee-saved register, not to reorder anything.
+    Anything that shortens the live range of `count` or of the sentinel across
+    the two calls would do it; none of the value-preserving rearrangements in
+    the permuter's table changes a live range across a call, because calls and
+    memory stores never cross each other in its statement mover.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 140 bytes against 140, 26 concrete bytes out, 1.1p1

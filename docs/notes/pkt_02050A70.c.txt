@@ -92,3 +92,83 @@ Also measured while transcribing (useful for whoever closes 0x02050B14): the
 the only byte that separates the two spellings.
 
 re-verified 2026-09-21: no recoverable source in this note
+
+======================================================================
+WAVE 4 billboard_act, 2026-09-21: THE WALL IS CLOSED -- func_02050B14 is EXACT
+======================================================================
+
+func_02050B14 is filed at src/matched/func_02050B14.c, EXACT, 108 bytes, all
+three relocation sites resolved.  The two-wave chain this note describes is
+therefore unblocked at its root:
+
+  func_02050B14  EXACT (this wave)
+    -> func_02050A70  already EXACT (src/matched/func_02050A70.c); both its
+       `bl 0x02050B14` sites now resolve by the `matched` class
+    -> 0x0200567C (src/pending/func_0200567C.c), whose single unresolved site
+       is func_02050A70 -- re-verify it, it should promote
+    -> 0x02005230 (src/pending/func_02005230.c), transitively behind it
+
+THE 44-BYTE DIAGNOSIS ABOVE IS WRONG, and the correction is the useful part.
+
+The note concluded "what differs is only the register file ... everything is
+one register lower", classified it as an allocator shift, and left a
+"REMAINING LEVER" asking for a source shape that keeps one more value live
+across the interrupt pair.  That lever was never needed.  The residue was a
+WRONG RECORD STRIDE in the bank subscript, and every one of the 44 bytes was
+downstream of that single address computation.
+
+The image emits TWO different stride computations, and the note's
+reconstruction collapsed them into one:
+
+    02050B2C  mul r2, r4, r1            r1 = 0xc   -- the I/O REGISTER stride
+    02050B30  add r1, r3, r4, lsl #4               -- the BANK RECORD stride
+
+The bank record is 16 bytes, a power of two, so its subscript is a SHIFT; only
+the display register's 12-byte stride is a multiply.  Spell the bank record as
+four plain u32 words and subscript it normally and the shift appears, the
+multiply stays where it belongs, and the whole register file falls out
+identical with no other change:
+
+    typedef struct Slot { u32 unk00; u32 unk04; u32 unk08; u32 unk0C; } Slot;
+    extern Slot *g_02146A84;
+
+    void func_02050B14(u32 idx)
+    {
+        u32 s = OS_DisableInterrupts();
+        u32 v = g_02146A84[idx].unk08;
+
+        *(volatile u32 *)(0x040000B8 + idx * 12) =
+            ((v << 30) >> 31) << 30 |
+            ((v << 26) >> 31) << 26 |
+            ((v << 23) >> 30) << 23 |
+            ((v << 21) >> 30) << 21 |
+            (v >> 11);
+
+        OS_RestoreInterrupts(s);
+    }
+
+This is the note's own OR-chain spelling, unchanged -- so the note's hardest
+finding, the chain ORDER, was correct and is what made the one-line fix
+sufficient.  Recording both halves:
+
+  KEPT (the note was right): the bit-30 term is written FIRST and the bit-26
+  term SECOND, because mwcc fully materialises the SECOND operand of a
+  commutative chain
+  (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md)
+  and the image materialises the bit-26 term while folding the other three
+  placements into the ORs' shifter operands.  Descending destination order
+  mirrors all four extracts.  Every "RULED OUT" line above still stands.
+
+  CORRECTED (the note was wrong): the residue was never an allocation tie.
+  "Everything is one register lower" is what a wrong address computation looks
+  like when it consumes one extra temporary early in the function -- the same
+  surface symptom as a colouring difference, and the reason this sat for two
+  waves.  GENERAL LESSON, worth carrying to the next residue that reads this
+  way: before classifying a whole-function register shift as an allocator tie,
+  check every stride and scale in the function against the image's OWN choice
+  of shift versus multiply.  A power-of-two stride that the compiler is
+  emitting as a `mul` (or vice versa) shifts the register file exactly like a
+  colouring difference does, and unlike a colouring difference it is fixable
+  from the source in one line.
+
+re-verified 2026-09-21 by tools/match.py: func_02050B14 EXACT, 108 bytes against 108, 0 concrete bytes out, 1.1p1

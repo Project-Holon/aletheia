@@ -1,0 +1,149 @@
+sub_0203335C (0x0203335C, ARM, 156 bytes) - DIFF, 21 concrete bytes, pure
+register-allocation residue
+==========================================================================
+
+backup_system.c.  Walks the whole packed 2-bit-per-slot bitmap at offset
+0x138 and REMAPS every non-zero slot: 1 -> 2, 2 -> 1, 3 unchanged, 0 skipped
+entirely (the `beq` at +0x44 jumps the whole read-modify-write).  The slot
+count is sub_02033BF0(p->unk2c) + 2, the same count func_02033410 uses to
+fill the same bitmap, and the bit twiddling is the same clear-then-set pair
+that src/matched/sub_0203331C.c does for one slot.
+
+Neighbours already EXACT, all three worth reading first:
+  src/matched/unit_020332FC.c   0x020332FC  the one-slot getter
+  src/matched/sub_0203331C.c    0x0203331C  the one-slot setter (this wave)
+  src/matched/func_02033410.c   0x02033410  the fill-all sibling (this wave)
+
+STATE OF THE ART.  The best source below compiles to 156 bytes against 156
+with EVERY INSTRUCTION IDENTICAL to the original, in the same order, with
+the same opcodes, shifts and condition codes.  The only difference is which
+physical register holds which temporary.  This is the allocation-tie class
+the permuter exists for, and the permuter did NOT close it.
+
+The residue, 14 instructions / 21 concrete bytes:
+
+  * +0010    mov r2, #0                    | mov r7, #0
+  * +0014    mov r3, r2                    | mov r3, r7
+  * +0018    mov lr, r2                    | mov lr, r7
+  * +002C    mov sb, #3                    | mov r2, #3
+  * +0030    mvn r7, #0                    | mvn r8, #0
+  * +0038    ldr r5, [r6, r2, lsl #2]      | ldr r5, [r6, r7, lsl #2]
+  * +005C    eor r8, r7, sb, lsl r3        | eor sb, r8, r2, lsl r3
+  * +0060    ldr sl, [r6, r2, lsl #2]      | ldr sl, [r6, r7, lsl #2]
+  * +0064    and r8, sl, r8                | and sb, sl, sb
+  * +0068    str r8, [r6, r2, lsl #2]      | str sb, [r6, r7, lsl #2]
+  * +006C    ldr r8, [r4, #0x138]          | ldr sb, [r4, #0x138]
+  * +0070    ldr r6, [r8, r2, lsl #2]      | ldr r6, [sb, r7, lsl #2]
+  * +0078    str r5, [r8, r2, lsl #2]      | str r5, [sb, r7, lsl #2]
+  * +008C    addhs r2, r2, #1              | addhs r7, r7, #1
+
+i.e. the word index wants r2 and gets r7; the constant 3 wants sb and gets
+r2; the -1 wants r7 and gets r8; the mask temporary wants r8 and gets sb.
+One four-way rotation of four values, nothing else.
+
+LEVERS THAT LANDED (each is required; dropping any one costs bytes):
+
+  * `do { } while (i < n)` rather than `for`/`while`.  The `while` form emits
+    a second `cmp n, #0` / `popls` guard on top of the original's
+    flag-reusing `adds ip, r0, #2` / `popeq` pair and is 164 bytes, 8 over.
+  * `n` must be a DECLARATION INITIALISER evaluated before the zeroing of
+    w/sh/i, and the `if (n == 0) return;` must come after all four.  The
+    original's `mov r2,#0 / mov r3,r2 / mov lr,r2 / adds ip,r0,#2 / popeq`
+    is exactly that order.  Initialising the loop variables after the guard
+    instead (the natural spelling) puts the `adds`/`popeq` first and costs
+    20 more bytes (52 against 32).
+  * All loop variables u32, not int: the original's `subhs`/`addhs` are the
+    UNSIGNED conditionals; an int gives `subge`/`addge`.  (Same finding as
+    docs/notes/pkt_02033410.c.txt, where it was worth 38 bytes.)
+  * The clear mask is the 64-bit complement `(3 << sh) ^ -1`, never
+    `~(3 << sh)` -- see docs/idioms/
+    a-64-bit-complement-is-eors-with-minus-one-not-mvns.md and the header of
+    src/matched/sub_0203331C.c.
+  * A COPY of the bound, `n_ = n;`, declared between `sh` and `i`, with the
+    loop testing `n_` and the guard testing `n`.  This is the lever that
+    closed the sibling func_02033410 outright; here it is worth 11 bytes
+    (32 -> 21) but not the rest.
+  * `tmp = 3 << sh;` lifted out of the `if`, and the `(u32)` cast on the
+    first arm's comparison.  Both came out of the permuter search and are
+    worth 6 more bytes; neither is semantically meaningful.
+
+WHAT THE PERMUTER DID.  tools/permuter.py, ARM, 1.1p1, -O4,p:
+
+  --explain on the first size-exact source reported a general reshuffle
+  (10 distinct substitutions, r5->r3 x12 the largest), not a swapped pair.
+
+  --mode hill --budget 800 --jobs 8 --types from the 58-byte source: chased
+  the instruction score into a WRONG SIZE (asm 450 -> 370 but 152/156 and
+  125 bytes out).  Worth knowing: on this target the asm score and bytes-out
+  disagree, and the tool optimises the former first.  Re-seeding hill from a
+  hand-improved 32-byte source instead stayed size-exact and reached 31.
+
+  --mode anneal --budget 3000 --jobs 8, seeded from the 32-byte source:
+  32 -> 27 -> 21 via `temp(tmp=3 << sh) ; copy(n->n_@7) ; decl-order(v<->n_)
+  ; cast(u32) ; decl-order(tmp<->i)`.  Note it rediscovered the `copy(n->n_)`
+  lever on its own.
+
+  Two further 3000-compile anneals seeded from the 21-byte point, one with
+  --types and one without, both plateaued at 21 with no improvement at all.
+  Roughly 12 000 compiles total on this function.  The remaining rotation is
+  not reachable by any single or composed mutation in the table.
+
+/* best source, 156 bytes against 156, 21 concrete bytes out, 1.1p1 */
+permuter best result: DIFF   asm=105   bytes-out=21   size=156/156
+  (mutations temp(tmp=3 << sh) ; copy(n->n_@7) ; decl-order(v<->n_) ;
+   cast(u32) ; decl-order(tmp<->i))
+
+Verified with:
+  python tools/match.py one --src <this source> --func sub_0203335C \
+      --addr 0x0203335C --cc 1.1p1 --arm --diff
+
+symbols:
+  sub_02033BF0  0x02033BF0  arm
+
+typedef unsigned int u32;
+struct Obj0203335C
+{
+  char pad[0x2c];
+  void *unk2c;
+  char pad30[0x108];
+  u32 *slots;
+};
+extern u32 sub_02033BF0(void *p);
+void sub_0203335C(struct Obj0203335C *p)
+{
+  u32 n = sub_02033BF0(p->unk2c) + 2;
+  u32 w = 0;
+  u32 sh = 0;
+  int tmp;
+  u32 n_;
+  u32 i = 0;
+  u32 v;
+  n_ = n;
+  if (n == 0)
+    return;
+  do
+  {
+    v = (p->slots[w] >> sh) & 3;
+    tmp = 3 << sh;
+    if (v != 0)
+    {
+      if (((u32) v) == 1)
+        v = 2;
+      else
+        if (v == 2)
+        v = 1;
+      p->slots[w] &= tmp ^ (-1);
+      p->slots[w] |= v << sh;
+    }
+    sh += 2;
+    i++;
+    if (sh >= 0x20)
+    {
+      sh -= 0x20;
+      w++;
+    }
+  }
+  while (i < n_);
+}
+
+

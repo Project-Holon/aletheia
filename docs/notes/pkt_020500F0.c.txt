@@ -93,3 +93,95 @@ Spellings ruled out:
 - Explicit locals for `b4..b7` (mwcc reorders or spills).
 - Unprototyped `func_0204EF58` (causes identical sequential marshal).
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020500F0.c:12: undefined identifier 'pkt_020500F0'
+
+======================================================================
+WAVE 4 billboard_act, 2026-09-21: source restored, permuter flat at 28
+======================================================================
+
+The 2026-09-21 re-verify of the source above came out CCERR for a trivial
+reason -- the note's transcription had lost the `__FILE__`/extern block and the
+front end rejected an undefined identifier -- NOT because the shape was wrong.
+Restored and re-derived below; it reaches the note's stated floor exactly.
+
+/* best source, 328 bytes against 328, 28 concrete bytes out, 1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Out { u16 f0; u16 pad; u32 f4; };
+struct Rec { u32 f0; u8 b4; u8 b5; u8 b6; u8 b7; u32 type; };
+struct Mgr { u8 pad0[4]; void *f04; u8 pad8[4]; u8 *f0c; u8 pad10[4]; u32 f14; };
+
+extern int  func_02033CA8(u32 pool, u32 n);
+extern u16  func_0204EF58(void *t, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void func_0204F10C(void *t, u32 id);
+
+u16 func_020500F0(struct Mgr *p, struct Rec *recs, u32 n)
+{
+    int base;
+    u32 i;
+    u32 z1 = 0;
+    u32 z2 = 0;
+
+    base = func_02033CA8(p->f14, n);
+
+    for (i = 0; i < n; i++) {
+        struct Rec *e = &recs[i];
+        switch (e->type) {
+        case 0:
+            ((struct Out *)(p->f0c + base * 8))[i].f0 =
+                func_0204EF58(p->f04, e->f0, e->b4, e->b5, e->b6, e->b7);
+            ((struct Out *)(p->f0c + base * 8))[i].f4 = z1;
+            break;
+        case 1: {
+            u32 id = func_0204EF58(p->f04, e->f0, e->b4, e->b5, e->b6, e->b7);
+            func_0204F10C(p->f04, id);
+            ((struct Out *)(p->f0c + base * 8))[i].f0 = (u16)id;
+            ((struct Out *)(p->f0c + base * 8))[i].f4 = z2;
+            break;
+        }
+        case 2:
+            ((struct Out *)(p->f0c + base * 8))[i].f0 = 0xFFFF;
+            ((struct Out *)(p->f0c + base * 8))[i].f4 = e->f0;
+            break;
+        }
+    }
+    return (u16)base;
+}
+
+All four relocation sites resolve (func_02033CA8 label, func_0204EF58 label x2,
+func_0204F10C sole-ref/code), so this is a pure codegen residue with no
+evidence blocker.
+
+PERMUTER RESULT (tools/permuter.py, the AST engine).
+
+    --explain on the source above:
+      baseline  DIFF   asm=315   bytes-out=28   size=328/328
+      register substitutions (image -> compiled), by count:
+        r3   -> r0    x4
+        r2   -> r0    x2
+        r0   -> r1    x1
+
+    The r3 -> r0 x4 is exactly the note's cluster A, counted twice (the two
+    copies of the func_0204EF58 marshal at +0060 and +00A8): the image batches
+    the two stack-argument byte loads into r3 and r0 and stores both after
+    loading r2, while the compiler stores each byte immediately and reuses r0.
+    This is a SCHEDULE, not a colouring tie, which is why the permuter's
+    mutation table -- whose levers are all first-definition order, use counts,
+    live-range shape and address-taking -- cannot reach it.
+
+    --mode hill --budget 800 --jobs 8 --types:
+      no single mutation improves DIFF asm=315 bytes-out=28 size=328/328
+      (231 tried)
+    --mode anneal --budget 3000 --jobs 8 --types:
+      compiles 3000 in 233s
+      best      DIFF   asm=315   bytes-out=28   size=328/328
+
+    3231 distinct compiles, not one improvement on any of the three scoring
+    components.  Together with the note's own hand list above, cluster A should
+    now be treated as closed to source-level attack at -O4,p: the two stack
+    arguments are marshalled by the scheduler, and no value-preserving
+    rearrangement of this C moves them.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 328 bytes against 328, 28 concrete bytes out, 1.1p1

@@ -133,3 +133,112 @@ int sub_0200D064(u8 *base, u16 idx)
     return 0;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 72, 43 concrete bytes out, 1.1p1
+
+============================================================================
+APPENDED 2026-09-21, family wave 4 (musical_dist_save.c), with tools/permuter.py
+
+The note above was SIZE-WRONG as well as byte-wrong: its closest C compiles
+to 74 bytes against the original's 72.  The source below is SIZE-EXACT at
+72/72 and 42 concrete bytes out (was 74/72 and 48 out), so the residue is now
+purely the register allocation and not a missing/extra instruction.
+
+/* best source, 72 bytes against 72, 42 concrete bytes out, 1.1p1 */
+
+What closed the two-byte gap, found by tools/permuter.py and then written out
+by hand: the whole address expression INCLUDING the `+ 0x5c` must be lifted
+into ONE named local.  The permuter reached it as
+`temp(tmp = (((u16) i) * 0x54) + off)` followed by `type:l(tmp:u16->u32)`,
+and the size-exact point is the one where `+ 0x5c` is folded into that same
+temp rather than left on the subscript.  Writing `tmp = (u16)i*0x54 + off;`
+and then `p[tmp + 0x5c]` is 74 bytes; writing
+`tmp = ((u16)i * 0x54 + off) + 0x5c;` and then `p[tmp]` is 72.  mwccarm
+otherwise hoists `p + off` into the preheader (the hoist the note above
+diagnoses) and the extra `adds` is what the two bytes are.
+
+`s32 off` is load-bearing: the same source with `u32 off` is 74 bytes and
+44 out.  `>> 3` is `asrs` in the original, which is what pins the signedness.
+
+Permuter results on this residue, all foreground, cc 1.1p1 -O4,p --thumb:
+  --mode hill  --budget 800 --jobs 8 --types   from the 74-byte baseline:
+      best DIFF asm=585  bytes-out=42 size=70/72  (overshoots to 70)
+      the run passes through DIFF asm=715 bytes-out=42 size=72/72 at
+      compile 400, which is the size-exact point recorded here
+  --mode hill  --budget 800 --jobs 8 --types   from THIS 72-byte source:
+      no single mutation improves (213 singles tried); every improvement the
+      scorer finds trades the size back out (split-assign -> 74/49)
+  --mode anneal --budget 3000 --jobs 8 --types from THIS source:
+      best DIFF asm=180 bytes-out=47 size=74/72 -- a much better instruction
+      score at the cost of the size, i.e. the scorer prefers asm-score over
+      size-exactness and walks off this point.  Treat 72/42 as the wall.
+
+--explain on the 72-byte source prints a GENERAL reshuffle, not one swapped
+pair: r4->r3 x8, r4->r5 x6, r3->r0 x5, r7->r6 x4, r5->r6 x3, r4->r2 x3 and
+six more singles.  The mechanical cause is visible in the push list: the
+original is `push {r3,r4,r5,r6,r7,lr}` (four callee-saved registers plus an
+alignment word) and every 72-byte source here is `push {r4,r5,r6,lr}` (three).
+The original's loop body is
+    lsls r4, r3, #0x10 / lsrs r4, r4, #0x10   (truncate the counter)
+    adds r7, r4, #0 / muls r7, r6, r7         (r6 holds 0x54)
+    adds r4, r5, r7 / adds r4, r4, r1 / adds r4, #0x5c
+    ldrb r4, [r4]
+which keeps p in r5, the byte offset in r1 and 0x54 in r6 simultaneously --
+one live value more than any source shape tried produces.
+
+Shapes tried at 72 bytes, all flat at 42 concrete out:
+  * `u16 k = (u16)(id - 1)` as a separate local instead of reassigning `id`
+  * the bit position `id & 7` lifted into its own local before the shift
+  * `do`/`while` instead of `while`
+  * 0x54 in a named local (74 bytes, 44 out -- regresses)
+  * the row product `(u16)i * 0x54` in its own local (74 bytes, 44 out)
+  * a `u8 *q` pointer chain, `q = p + (u16)i*0x54; q = q + off; q = q + 0x5c`
+    (74 bytes, 50 out)
+  * `u16 id` parameter widened to `u32` (74 bytes, 63 out -- the parameter
+    really is u16, as the original's `subs r0,r4,#1 / lsls / lsrs` says)
+
+/*
+ * function: func_0200D064
+ * address:  0x0200D064
+ * packet:   pkt_0200D064
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200C720  0x0200C720  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern u32 func_0200C720(u16 id);
+
+u32 func_0200D064(u8 *p, u16 id)
+{
+    u32 i;
+    u32 m;
+    u32 r;
+    s32 off;
+    u32 tmp;
+
+    if (func_0200C720(id) != 0)
+        return 0;
+    id = (u16)(id - 1);
+    m = 1 << (id & 7);
+    i = 0;
+    r = 1;
+    off = (s32)id >> 3;
+    while (i < 4) {
+        tmp = ((u16)i * 0x54 + off) + 0x5c;
+        if (p[tmp] & m)
+            return r;
+        i++;
+    }
+    return 0;
+}
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 72, 42 concrete bytes out, 1.1p1

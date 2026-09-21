@@ -94,3 +94,52 @@ void func_02031F54(struct SaveBackup *p, u8 *buf)
     *(u16 *)(q + 0x0E) = func_02031E7C(p, buf);
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 64 bytes against 64, 16 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-21, backup_system.c family wave: run through tools/permuter.py
+================================================================================
+
+The source above is still the best known and is unchanged.  Re-verified this
+wave: DIFF, 64 bytes against 64, 16 concrete bytes out, 1.1p1.  (The prose at
+the top of this file says "five concrete bytes"; that predates the current
+scorer's counting and should be read as "six instructions".)
+
+/* best source, 64 bytes against 64, 16 concrete bytes out, 1.1p1 */
+permuter best result: DIFF   asm=245   bytes-out=16   size=64/64  (no improvement)
+
+--explain reports the residue as a MINIMAL substitution, not a reshuffle:
+
+    r0   -> r1    x1
+    r6   -> r5    x1
+
+Two values, one swap each.  That is the narrowest shape --explain can print
+and normally the easiest kind to move, which makes the negative result below
+worth recording rather than repeating.
+
+  --mode hill --budget 800 --jobs 8 --types: 81 single mutations tried, the
+  complete set for this body, NOT ONE of them improved on the baseline.  The
+  climber exhausted its singles and stopped.  asm stayed 245, bytes-out 16.
+
+  --mode anneal --budget 3000 --jobs 8 --types: 3000 compiles in 147s.  Every
+  point it reached that improved the instruction score LOST SIZE:
+
+      1215  DIFF  asm=240  bytes-out=20  size=64/64   (worse on bytes)
+      1422  DIFF  asm=210  bytes-out=50  size=72/64   (8 bytes long)
+      2712  DIFF  asm=155  bytes-out=32  size=68/64   (4 bytes long)
+
+  The search leaves the size-exact basin entirely and does not come back.  On
+  this target the instruction score is actively misleading: the baseline at
+  asm=245 is the best size-exact point the tool ever saw, and its "best"
+  output at asm=155 is a 68-byte compile that is strictly worse.  Do not take
+  the --out file from an anneal run on this function.
+
+Conclusion unchanged from the original note, now with the AST permuter behind
+it as well as the ~30 hand spellings: the first-definition order the allocator
+needs here is not reachable from any rewriting of this C.  The two values that
+want r0 and r6 are the second field load and the object pointer, and every
+mutation in the table that touches their definition points either does nothing
+or grows the function.  This residue needs a different build, not a different
+source.
+
+Still worth 596 bytes downstream: this function is the single branch witness
+for sub_020328E0 (now src/matched/sub_020328E0.c, which found another witness).

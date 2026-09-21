@@ -331,3 +331,34 @@ source-side type, and the early schedule of the destination load was the
 aliasing reload.  Sections 1 (0x0200EBD0) and 3 (0x0200EC98) are untouched
 by this and still stand.
 re-verified 2026-09-21 by tools/match.py: DIFF, 104 bytes against 108, 75 concrete bytes out, 1.1p1
+
+Wave 4 addendum (family symbol_save.c): 0x0200EA3C ITSELF IS UNTOUCHED
+=======================================================================
+
+A clarification of scope, because the "re-verified" line above is easy to
+misread.  That line (DIFF, 104 bytes against 108, 75 concrete bytes out)
+belongs to the "---- closest C ----" block, which is the section-2 source
+for 0x0200EC2C -- and section 2 is CLOSED, filed as src/matched/func_0200EC2C.c,
+EXACT*.  The line is stale prose, not a verdict on the packet's lead function.
+
+The packet's lead function 0x0200EA3C has no source anywhere in this note,
+in src/pending or in src/matched.  It was examined this wave and deliberately
+left: `match.py show --addr 0x0200EA3C --thumb` gives
+
+    arm9 0200EA3C..0200EBD0 (404 bytes, Thumb)
+    push {r3,r4,r5,r6,r7,lr} / sub sp, #0x28   -- a 0x28-byte frame,
+    179 lines of disassembly, calls out to func_0201AA18, func_020457B0
+    (arm), func_02082BCC (arm, the 0x168-byte MI_CpuFill8 of the record)
+    and onward
+
+That is a from-scratch derivation of a 404-byte function with a ten-slot
+spill frame, which is exactly the "skip oversized functions after a quick
+look" case of docs/AGENT-BRIEF.md section 7.  It is the largest single open
+function in the symbol_save.c family and the right shape for a wave of its
+own rather than a slot in a residue sweep.  Recorded so the next lane knows
+the look was taken and what it costs, not that it was overlooked.
+
+Section 1 (0x0200EBD0) of this note was worked this wave; its findings,
+including the disproof of the `register` lever, are appended to the end of
+docs/notes/func_0200EBD0.c.txt rather than here, next to that function's own
+fuller write-up.

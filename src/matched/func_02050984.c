@@ -7,18 +7,22 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH*
- * note:     re-verified 2026-09-20: MATCH*; see verify output
+ * status:   EXACT*
  *
- * PARKED AT MATCH.  Every one of the 92 compiled bytes is right - the
- * four-way `switch` head, all four case arms and the zero-returning default -
- * but three of its four ABS32 pool words have no witness, so those sites stay
- * wildcarded:
- *   blocker: label; ABS32 to 0x02050A58, 0x02050A00 and 0x020509E0 each have
- *            exactly one mention image wide and it is the pool word inside
- *            this very function (0x020509E0 is even inside this listing
- *            extent), so neither `label`, `literal` nor `matched` reaches
- *            them.  Only the fourth word, 0x020509E8, resolves (`matched`).
+ * PROMOTED from src/pending/func_02050984.c 2026-09-21 (wave 4, billboard_act).
+ * The C is UNCHANGED: it was parked at MATCH* because three of its four ABS32
+ * pool words -- 0x020509E0, 0x02050A00 and 0x02050A58 -- each had exactly one
+ * mention image wide, the pool word inside this very function, so neither
+ * `label` nor `literal` reached them.  All three handlers are now filed EXACT
+ * (src/matched/func_020509E0.c, func_02050A00.c, func_02050A58.c, shard
+ * arm9/pkt_02050984.json), so every site resolves by the `matched` class and
+ * this file verifies EXACT* with no edit to the body.
+ *
+ * EXACT*, not EXACT: the listing's extent runs 100 bytes because the follower
+ * at 0x020509E0 is reached only through this function's own pool word and has
+ * no prologue that saves lr, so disasm.py does not label it.  Report
+ * 0x020509E0 as a seed for layout/function_starts.txt; it is never a byte
+ * difference.
  *
  * The switch normalises the id with two subtracts and no `mov` of the base,
  * which is the whole reason the case labels read 0x3FFC..0x3FFF: the image
@@ -41,7 +45,7 @@
  *   func_020509E0  0x020509E0  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02050984.c \
+ *   python tools/match.py one --src src/matched/func_02050984.c \
  *       --func func_02050984 --addr 0x02050984 --cc 1.1p1 --arm
  */
 

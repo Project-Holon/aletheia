@@ -162,3 +162,144 @@ void sub_0200E878(void *dst)
     func_02082BCC(dst, 0, 0x10);
 }
 re-verified 2026-09-21 by tools/match.py: ERROR, n/a bytes against n/a, n/a concrete bytes out, function 'func_0200E7BC, sub_0200E874, sub_0200E878' not found in tu.o; object defines: $d, $t, func_0200E7BC, sub_0200E874, sub_0200E878
+
+Wave 4 addendum (family symbol_save.c, the permuter)
+=====================================================
+
+Two corrections to the record, then the permuter result.
+
+1. THE NOTE'S "re-verified" LINE READS ERROR FOR A TOOL REASON, NOT A CODE ONE
+-------------------------------------------------------------------------------
+The appended line
+
+    re-verified 2026-09-21 by tools/match.py: ERROR, ... function
+    'func_0200E7BC, sub_0200E874, sub_0200E878' not found in tu.o
+
+is a `match.py one` invocation applied to a `unit:` file.  This note's source
+is a three-function translation unit, so it must be checked with `tu`, which
+takes no --func.  Under `tu` it is DIFF, not ERROR, and all twelve
+relocations resolve:
+
+    python3 tools/match.py tu --src <file> --addr 0x0200E7BC --thumb --cc 1.1p1
+    DIFF  3 code section(s), 196 bytes laid out, 12 of 12 relocations resolved
+    0200E7BC  180  func_0200E7BC / 0200E870  4  sub_0200E874 / 0200E874  12  sub_0200E878
+
+Note in passing that as a unit the push set now comes out `{r4,r5,r6,lr}`
+against the original's `{r3,r4,r5,r6,r7,lr}` (151 bytes out), which is worse
+than the 138 the prose records; the single-function form below does not have
+that problem, so the unit's extra sections are perturbing the allocation.
+
+2. THE SINGLE-FUNCTION FORM IS SIZE-EXACT AND SLIGHTLY BETTER THAN THE NOTE
+----------------------------------------------------------------------------
+Lifting func_0200E7BC out on its own (the two trailing leaves are already
+filed as src/matched/unit_0200E874.c) gives 180 bytes against 180, eleven of
+eleven relocations resolved, and 135 concrete bytes out -- three better than
+the note's 138, with the same body and the note's closest pointer spelling.
+
+/* best source, 180 bytes against 180, 135 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_0200E7BC
+ * address:  0x0200E7BC
+ * packet:   pkt_0200E7BC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02017E1C   0x02017E1C  thumb
+ *   func_02045F5C   0x02045F5C  arm
+ *   func_0201F41C   0x0201F41C  thumb
+ *   g_020A7370      0x020A7370  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Bits0200E7BC {
+    u8 flag : 1;
+    u8 val : 7;
+};
+
+struct Rec0200E7BC {
+    u32 f0;
+    u16 name[11];
+    u8  pad1a;
+    struct Bits0200E7BC bits;
+    u8  b1b;
+    u32 f1c;
+};
+
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void func_02045F5C(void *bank, u32 id, void *dest, u32 n);
+extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern u32 g_020A7370;
+
+void func_0200E7BC(char *o, int idx, void *st)
+{
+    struct Rec0200E7BC *r = (struct Rec0200E7BC *)(o + idx * 32);
+
+    r->bits.val = func_02017E1C(st, 0x9e, 0);
+    if (func_02017E1C(st, 0x71, 0) != 0)
+        r->b1b = func_02017E1C(st, 0xa, 0);
+    else
+        r->b1b = 0xff;
+    r->f0 = func_02017E1C(st, 0, 0);
+    r->f1c = func_02017E1C(st, 7, 0);
+    if (func_02017E1C(st, 0x75, 0) != 0) {
+        func_02017E1C(st, 0x74, (u32)r->name);
+    } else {
+        u16 buf[12];
+
+        func_02045F5C((void *)g_020A7370, func_02017E1C(st, 5, 0), buf, 0xb);
+        func_0201F41C(buf, r->name, 0xb);
+    }
+    r->bits.flag = 1;
+}
+
+3. THE PERMUTER DOES NOT CLOSE IT, AND ITS GRADIENT POINTS THE WRONG WAY
+--------------------------------------------------------------------------
+    baseline  DIFF   asm=1850  bytes-out=135  size=180/200
+    register substitutions (image -> compiled), by count:
+      r6   -> r5    x8      <- the object pointer, the note's whole diagnosis
+      r1   -> r2    x3
+      r4   -> r5    x2
+      r5   -> r6    x2
+      r7   -> r1    x2
+      r2   -> r6    x2
+      r1   -> r0    x2
+
+Permuter result lines:
+
+    hill   --budget 800 --jobs 8 --types:
+           best DIFF asm=1400 bytes-out=103 size=184/200 (161 sites tried)
+           mutations temp(...) ; type:ret-var(idx) ; temp(...) ; type:l(tmp1:u32->u16)
+           REJECTED: type:ret-var(idx) makes this void function return a
+           value.  The original is void (it ends `r->bits.flag = 1` and pops
+           straight out), and all eight callers discard nothing because there
+           is nothing to discard, so the type change is semantically wrong
+           however well it scores.  It also costs 4 bytes of size.
+    anneal --budget 3000 --jobs 8 (value-preserving only, no --types):
+           best DIFF asm=1580 bytes-out=170 size=180/200, two plateau-drifts
+
+The value-preserving anneal is the informative one: over 3000 compiles it
+improves the INSTRUCTION score from 1850 to 1580 while making the byte
+residue WORSE, 135 -> 170.  The two objectives genuinely disagree on this
+function.  The scorer counts an aligned mnemonic with a different operand at
+5 and an inserted or deleted instruction at 100, so it will happily spend
+thirty operand mismatches to delete one instruction; here every candidate it
+likes has straighter code and a worse register assignment than the baseline.
+Where bytes-out is the goal and the residue is already a pure permutation
+with the instruction stream correct, the instruction score has no gradient
+left to give and the search wanders.  Take the baseline, not the reported
+best, whenever `--explain` shows a permutation and the size is already exact.
+
+The note's conclusion stands unchanged: this is the register-number tie
+between two pointers live across nine calls, it is below the source, and
+neither the seven hand spellings nor the mutation set reaches it.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 180 bytes against 180, 135 concrete bytes out, 1.1p1
