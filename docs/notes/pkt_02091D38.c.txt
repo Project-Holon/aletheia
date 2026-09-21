@@ -300,3 +300,75 @@ lands, `match.py show --addr 0x02091E44` reports a 4-byte extent and any
 
 Consequence unchanged: src/pending/func_02092004.c stays MATCH.  Only a
 `matched` entry at 0x02091E44 promotes it, and this row is not one.
+
+========================================================================
+2026-09-21, closer lane: 0x02091E44 re-derived.  Still DIFF, 448/28.
+========================================================================
+
+The section above records 448 bytes / 12 concrete out but does not print
+that source, so this pass rebuilt the C from the shape the section gives.
+It reaches 448 bytes at the correct entry (0x02091E44, `--arm --cc 1.1p1`)
+with 28 concrete out and all three relocation sites resolving
+(func_02091650 label x3, func_02091CBC label x3, g_02153FAC literal x24).
+The residue is the same two coupled decisions (a) and (b) the section
+names; the count is higher than 12 because this rebuild spends four
+further bytes on the f28/orr ordering inside the in-window arm, which the
+earlier lane's exact statement order evidently avoided.
+
+ONE DECODE FACT this rebuild had to re-find and which the section above
+does not state explicitly: THE f04 MODE IS NARROWED TO u8 BEFORE THE
+COMPARE.  The image is `lsl r1, r1, #0x16` / `lsr r1, r1, #0x1d` /
+`and r1, r1, #0xff` / `cmp r1, #1` at 0x02091E50..0x02091E5C, i.e. the
+bitfield read is stored into a `u8 mode` local and the compare is on the
+narrowed value, exactly as src/matched/func_02091CBC.c does for the same
+object.  Testing `((struct F04hiP *)&p->f04)->mode != 1` inline drops the
+`and` and the function compiles to 444 with 357 out -- this one line is
+worth 4 bytes and 329 mismatches, and it is the first thing to restore if
+a later lane starts from the prose rather than from a working source.
+
+THE BRIEF'S SPLIT-VIEW LEVER WAS TRIED IN FIVE FORMS AND DOES NOT SPLIT
+THE TRADE.  The section above establishes that making `m08` a
+`const struct F08P *` plus a `const u32 *cf08` fixes residue (a) (the
+`bic r0, ip, #7` off the register kept live from 0x02091F14) but enables
+the CSE that deletes the re-read at 0x02091F80, costing the 4 bytes that
+(b)'s cross-jump has already lost.  The suggestion was a const view for
+the FIRST use and a separate volatile view for the RE-READ.  Measured:
+
+  const `cf08` for the in-window read only, `m08` unqualified,
+    the clear arm reading `p->f08` plainly                        448/28
+  `const struct F08P *m08` alone, every word read plain           448/28
+  both `const m08` and `const cf08`, clear arm reading `*cf08`    444/160
+  both, with the clear arm reading `p->f08` plainly               444/160
+  a `const struct P *cp` alias used ONLY for the in-window
+    `u32 f08 = cp->f08;`, all stores through the unqualified `p`  448/28
+
+The split does not separate them: ANY const view that reaches the f08
+word at all triggers the same CSE against the volatile re-read the moment
+a second const-qualified access exists, and a single const view is not
+enough to defeat the intervening `str r0, [r6, #0x24]`.  The const
+qualification and the volatile re-read are competing for the same load,
+not for two different ones.
+
+FOUR FURTHER SPELLINGS on residue (b), the kept-branches cross-jump:
+  the two bounds guards split into `if (pos >= p->f18) goto clear;` and
+    a separate `if (pos >= p->f34) {...}` with a `clear:` label before
+    `v = p->f08 & ~7u;`                                           448/28
+  the first guard's arm writing its OWN copy of the clear statement
+    (`v = p->f08 & ~7u; goto stored;`) instead of falling to the
+    shared `clear:`                                               456/182
+  the f28 store written AFTER `v` is computed, matching the image's
+    `orr r0, r0, #2` / `str r1, [r6, #0x28]` order at 0x02091F64  448/32
+  the same plus the const alias for the f08 read                  448/32
+
+The "write the store out in each arm" lever of the closer brief is the
+456/182 row and is strictly worse here: this function's two arms do not
+share a store, they share the f08 WRITE at 0x02091F7C, which the section
+above already establishes must be one statement reached by `goto stored;`.
+
+THE PIN IS NOT RE-PROBED.  The section above spent two probes on
+../2.0/sp2 (468/107 at the correct entry) and says not to spend a third.
+Honoured.
+
+CONSEQUENCE UNCHANGED: src/pending/func_02092004.c stays MATCH.  Its sole
+wildcard is the PC24 to func_02091E44 and only a `matched` entry at
+0x02091E44 promotes it.  Not filed: DIFF, by rule 6.

@@ -414,3 +414,68 @@ plus the attribute read-modify-write swap) and for 0x02072374
 (docs/notes/pkt_02072374.c.txt, 7 bytes, r5/r6 on an `smull`); all three are
 one class and none of them is a front-end tell, so no pin is available for
 any of them.  Neither row filed.  src/pending/func_0204BF40.c stays blocked.
+
+==============================================================================
+2026-09-21, closer lane: 0x02063378 reproduced at 5, six more mla spellings
+==============================================================================
+
+REPRODUCED from the note's own "THE ACTUAL C" source, unchanged: 192 bytes
+under `--cc ../2.0/sp2 --arm`, the sole ABS32 site resolving `literal`, and
+9 reported concrete bytes of which 4 are the over-read of the FOLLOWING
+function's `fe ff 00 00` pool word at +0x00BC (the note already explains the
+192-vs-196 extent).  The real residue is FIVE bytes and it is exactly the
+instruction triple the note records:
+
+  * +005C    ldr lr, [r0]            | ldr r3, [r0]
+  * +0060    ldr r3, [pc, #0x58]     | ldr ip, [pc, #0x54]
+  * +0068    mla ip, lr, r2, r3      | mla ip, r3, r2, ip
+
+Everything else, all 47 other instructions, is byte-identical.
+
+THE BRIEF'S LEVER FOR THIS CLASS -- "multiply destination registers are not
+source-addressable, so look for a shape that changes which value is LIVE,
+not operand order" -- was taken literally and six shapes were measured on
+top of the note's source.  All six are 192 bytes and all six give the
+IDENTICAL triple:
+
+  * the bank index and the table base bound to their own named locals
+    (`u32 bank = obj->index; u8 *base = g_02146BC8;`) inside a block, the
+    product assigned to `ptr` afterwards
+  * the whole address written as ONE expression with `idx` read first
+    (`ptr = g_02146BC8 + obj->index * 0x540 + 0x100 + idx * 0x20;`)
+  * the byte offset bound to a `u32 off` local declared BEFORE `ptr`, the
+    base added separately
+  * the stride bound to a `u32 stride = 0x540;` local declared before `ptr`
+  * the multiply written stride-first, `0x540 * obj->index`
+
+and one shape that changes what is live and is strictly WORSE:
+
+  * the table base bound to a `u8 *base` local declared before `ptr` and
+    read BEFORE the early-out, so the failure return is `(u32)base` and the
+    base is live across the branch -- 192 bytes, 23 concrete out: the
+    `ldreq r0, [pc, #0x60]` / `popeq` pair at 0x020633CC becomes
+    `ldr ip, [pc]` / `moveq r0, ip` / `popeq` and the whole guard tail
+    permutes.  This is the "base hoisted above the early-out" row the note
+    already records at 19, re-measured at 23 on the corrected source.
+
+WHY NONE OF THEM REACHES IT, stated plainly for the next lane.  In the image
+the bank index is loaded into `lr` -- the register that held `max_idx` from
+`ldrh lr, [r0, #0xc]` at 0x0206737C and which died at the `sub r2, lr, ip`
+at 0x020633AC -- and the pool base into `r3`, which then dies immediately at
+the `ldr r3, [r1]` two instructions later.  2.0 instead reuses `ip`, the
+base's own register, as the mla destination, because it can see the base is
+dead after the multiply.  No C-level statement, declaration, block, cast or
+operand order tested changes that judgement: the reuse decision happens
+after linearisation, on a value the source has already spelled as dead.
+
+Confirming the note's own reading, this is character-for-character the same
+class as the r5/r6 swap on 0x02072374 (docs/notes/pkt_02072374.c.txt) -- a
+multiply-class instruction's operand register versus its destination -- and
+one fix would move all three rows (0x02063294, 0x02063378, 0x02072374).
+
+THE PIN IS STILL NOT TAKEN, for the reason the note gives: ../2.0/sp2
+reaches the original's exact byte count with every branch, predicate, offset
+and immediate in place, but rule 2 of docs/FRONTEND-PINS.md requires the
+pinned front end to produce THE BYTES, and five of them are still wrong.
+
+Not filed: DIFF, by rule 6.

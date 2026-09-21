@@ -361,3 +361,53 @@ seed is the FRONTEND-PINS "kept constants" tell in shape.  It is NOT a pin:
 ../2.0/sp2 gives the same 92 bytes with 24 concrete bytes out - better than
 1.1p1's 39, but not EXACT, so it buys nothing and must not be filed.  Do not
 probe the compiler on this function again.
+
+==============================================================================
+Appended 2026-09-21 (closer lane, wave 20) -- func_02069128 and func_02069078
+==============================================================================
+
+func_02069128 (92 bytes): the previous pass's best spelling was REPRODUCED
+exactly, 92 bytes / 15 concrete out, under `--cc 1.1p1`.  The residue is still
+the sunk `lsl ip, r4, #0x1c` at +0014 and the r4/ip naming that follows it.
+New spellings tried this pass, all 92 bytes unless noted:
+  - `if (h >= 1) { top = hi << 28; do {...} while (y < h); }` (26, worse);
+  - the same with `y = 0;` before the `if` (27, worse);
+  - `if (h < 1) return;` then `top` then a do/while (27, worse);
+  - `top` computed at the top of the OUTER loop body (100 bytes, SIZE);
+  - `top` computed inside the INNER loop (26, worse);
+  - `top = hi * 0x10000000u` instead of the shift (15, unchanged);
+  - the store's or respelled `(top >> 16) | v` (15, unchanged);
+  - the four remaining declaration orders of {top, x, y} that the earlier
+    permutation did not name individually: {x,y,top} 15, {y,x,top} 23,
+    {y,top,x} 23, {top,y,x} 23.
+Confirmed: the guard-splitting shapes that would make the shift sink past the
+`cmp r2, #0` all cost more than they buy.  Floor stays 15.  Do not re-probe
+the compiler (the earlier pass already measured ../2.0/sp2 at the same 15).
+
+func_02069078 (176 bytes): the pin probe this note licensed WAS RUN, and it
+is a real improvement but NOT a pin.  With the earlier pass's exact C:
+  dsi/1.1p1     176 bytes, 41 concrete out
+  ../2.0/sp2    176 bytes, 27 concrete out
+../2.0/sp2 DOES emit the image's true conditional-move pair,
+  02069058  cmp lr, #0x20 / movlt r2, lr / addge r2, lr, #0x20
+which 1.1p1 cannot -- the note's central finding is confirmed and the front
+end is the explanation for the `mov`+`addge` shape.  It is NOT a pin because
+27 is not 0: what is left under the pin is a three-way register rotation
+(image top=r1, index=r2, store value=r4; build top=r4, index=r1, value=r2)
+plus two scheduling swaps in the prologue,
+  +003C/+0040  original  add r6, lr, r2 ; ldr r4, [sp, #0x2c]
+               build     ldr r4, [sp, #0x2c] ; add r6, lr, r2
+  +004C/+0050  original  addge sp, sp, #8 ; lsl r1, r4, #0x1c
+               build     lsl r4, r4, #0x1c ; addge sp, sp, #8
+i.e. the image again SINKS the `hi << 28` past the outer loop's entry test,
+the same decision that holds func_02069128 at 15.  The two functions share
+one residue and closing either should close both.
+Spellings tried under the pin, all 176 bytes: `xend` before `yend` (27);
+`top` declared last (27) and first (27); `top` computed before yend/xend (31);
+`top` computed at the top of the outer loop (188, SIZE); `hi << 28 >> 16`
+inlined at the store (35); `v | (hi << 12)` with no `top` at all (172, SIZE);
+the or respelled `(top >> 16) | v` (27); the store value bound to a named
+`u16 c` then `v++` then the store (184, SIZE -- the func_02069128 lever does
+NOT carry over); the index bound to a named `int ix` local (27).
+Floor under the pin is 27, against 41 unpinned.  A later lane should write the
+C against ../2.0/sp2 from the start.

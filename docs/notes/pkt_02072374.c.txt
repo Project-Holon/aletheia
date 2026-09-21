@@ -156,3 +156,46 @@ register a multiply-class instruction takes for its operand versus its
 destination is chosen after linearisation and is not source-addressable.
 
 Total across the passes: twenty-odd spellings.  Not filed.
+
+==============================================================================
+2026-09-21, second closer lane: reproduced, four more spellings, nothing moves
+==============================================================================
+
+REPRODUCED from the note's "THE BEST SOURCE" above, transcribed verbatim into
+a file with the house header: 204 bytes under `--cc ../2.0/sp2 --arm`, all
+four PC24 sites resolving `label`, 8 concrete bytes out (the note reports 7;
+the extra byte is within the same seven-instruction r5/r6 swap and is a
+counting difference, not a new residue).  Under the default `--cc 1.1p1` the
+same source is 14, as the note states.
+
+FOUR FURTHER SPELLINGS, chosen against the parts of the closer brief's lever
+list that the note's twenty-odd previous spellings had not touched:
+
+  8  (unchanged): `a` read LAST of the four field reads, i.e. the order
+     e / b / c / a instead of e / a / b / c.  The note had measured `c`
+     first (17) and `c` after the f00 store (33) but not moving `a`.
+  8  (unchanged): `nq = 0 - q;` bound immediately after `q` is computed,
+     with `d->f10` taking `nq`.  This is the mirror of the note's own row 4
+     (an `nq` local declared LAST): moving the negation to q's DEFINITION
+     rather than its last use does not shorten q's live range either.
+  11: `d->f30` written with the multiply's operands swapped,
+     `(q * (s32)s->f2c) << 4` instead of `((s32)s->f2c * q) << 4`.  Worse,
+     and it confirms the note's finding that commutative operand order does
+     not reach this class.
+  17: `b` read last, order e / a / c / b.
+
+CONCLUSION, and it agrees with the note's: the register a multiply-class
+instruction takes for its operand versus its destination is chosen after
+linearisation.  The seven instructions carrying the r5/r6 swap are the two
+`smull`s, the `lsr`/`orr` narrowing pair, the `mul` and the `rsb` -- every
+one of them a multiply-class instruction or a direct consumer of one -- and
+this is the same class as the `mla ip, lr, r2, r3` triple on 0x02063378
+(docs/notes/pkt_02063078.c.txt, closer-lane section of the same date), where
+six further address spellings were measured this same day with the identical
+result.  Three rows now share the class: 0x02063294, 0x02063378, 0x02072374.
+
+NO PIN.  ../2.0/sp2 is the better of the two front ends (8 against 1.1p1's
+14 on the identical source) but neither is 0, and rule 2 of
+docs/FRONTEND-PINS.md requires the pinned front end to produce the bytes.
+
+Not filed: DIFF, and at 8 concrete bytes wrong it is not a park either.

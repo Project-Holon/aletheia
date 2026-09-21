@@ -273,3 +273,69 @@ reaches it.  Still DIFF, still not filed.
 
 The C that reaches 292 bytes / 4 concrete out is the note's "closest C"
 above with the two case labels reordered as shown.
+
+
+2026-09-21 -- closer lane.  Residue (a) survives fourteen more spellings.
+========================================================================
+
+REPRODUCED: the section above's C with `case 1:` before `case 2:` is 292
+bytes / 4 concrete out under `--cc 1.1p1 --thumb`, 4 of 4 relocations
+resolved.  The four bytes are exactly the four the section above lists
+(+001E, +0040, +00D6, +00FA): the mirrored sp+4 / sp+8 assignment.
+
+CONFIRMED FROM THE IMAGE, which the note above asserts but does not quote:
+the frame is `push {r4, r5, r6, r7, lr}` / `sub sp, #0x14`, `str r0, [sp]`
+at 0x0202D4AE spills `narc` into sp+0, the 2-way `shiny ? 9 : 0` value is
+written FIRST, at `str r0, [sp, #8]` (0x0202D4C6), and the 4-way
+`female/shiny` value SECOND, at `str r0, [sp, #4]` (0x0202D4E8).  1.1p1
+hands the first-written value sp+4 in every spelling below.
+
+BOTH PINS PROBED AND REFUSED.  On the identical source:
+    ../2.0/sp2   304 bytes, 265 concrete out
+    ../1.2/sp2   304 bytes, 280 concrete out
+against 1.1p1's 292/4.  Neither alternative front end even reaches the
+original's byte count, so this is not a front-end row and the probe should
+not be spent a third time.
+
+FOURTEEN SPELLINGS MEASURED THIS PASS, none of which the section above had
+tried.  All are 292 bytes; the count is the concrete bytes out:
+
+  4 (unchanged, the residue intact):
+    * a redundant `(s32)` cast on the *out_pal store's operand
+    * a spilled `s32 tmpi` temporary for the call's index, declared
+      immediately after `count`, with the call taking `tmpi`
+    * the two flags as a 2-element `s32 f[2]` array with `#define`s,
+      BOTH index orders (mode2=f[1]/pal=f[0] and the mirror) -- the array
+      is scalarised because its address is never taken, so the index does
+      not reach the frame layout
+    * a 4-element array with the flags at f[1] and f[2]
+    * a `void *n = narc;` local declared FIRST, with the call taking `n`
+      (to change what sp+0 holds)
+    * `pal = 0;` pre-initialised immediately after `idx = species * 0x14;`,
+      so pal's FIRST WRITE precedes mode2's block
+    * the same pre-initialisation placed textually immediately above the
+      mode2 if/else
+    * a `struct { s32 a; s32 b; } fl;` with `#define`s and a `(void)&fl;`
+      address-taking statement
+    * a third spilled `s32 pad1` local written before both flags and folded
+      into `idx`
+    * `pal = 0;` written inside case 1 after the call, killing pal's live
+      range at the call site
+  7:  `volatile s32 mode2`
+  9:  `volatile s32 pal`
+  20: the *out_pal store moved to the very END, after the *out_base store
+      (this lengthens mode2's live range past out_base and is the direct
+      test of the last-use hypothesis: it does NOT flip the slots, it just
+      permutes the four stores)
+  25: the pal block hoisted above the mode2 block (matches the section
+      above's own 25 for the same move, re-measured)
+
+WHAT THE NEGATIVES RULE OUT.  The slot choice is not driven by declaration
+order, first-write order, type, volatility, aggregate membership, the
+number of spilled locals, what occupies sp+0, or either value's live
+range: the two locals were made to start earlier, end later and end
+earlier, and the mirror image held at 4 every time.  1.1p1's frame
+allocator assigns these two slots from something that no statement-,
+declaration-, type- or naming-level edit in this function reaches.
+
+Still DIFF, still not filed.  The rest of the function is byte-exact.

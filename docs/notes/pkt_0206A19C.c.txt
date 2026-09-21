@@ -406,3 +406,49 @@ out:
     return ok;
 }
 
+
+==============================================================================
+Appended 2026-09-21 (closer lane, wave 20)
+==============================================================================
+
+Both residues above were REPRODUCED EXACTLY from the sources recorded in this
+note, under `--cc ../2.0/sp2`: func_0206A3CC is 224 bytes / 2 concrete out at
++0028/+002C, func_0206A2CC is 256 bytes / 9 concrete out at the eight offsets
+listed.  Neither moved.  New spellings tried this pass, all at the same size:
+
+func_0206A3CC (still 2 bytes, +0028 lsr / +002C ldrh register swap)
+  - `z = (u16)z;` moved INSIDE the `w` block, before and after the `w` read
+    (2, 2);
+  - `z` declared as `u16` instead of `u32` (2);
+  - the sum respelled `t + z` (4) and `t + z` with the two `>>1` statements
+    swapped (8) -- both worse, confirming the note's finding that the current
+    pairing is the floor;
+  - `t` reused directly as the destination of `*(u16 *)d` with the guard's
+    flag hoisted to its own `u32 fl = t & 1;` local, both with the `(u16)z`
+    truncation before and after the read (2, 2);
+  - `ip` declared last among the locals (2); `z` declared last (6, worse);
+    `t` declared before `z` (6, worse);
+  - `*(u16 *)b` bound to a named `u16 ob` local declared first (2);
+  - `ip = a + *(u16 *)b;` moved after the guard block (59, much worse);
+  - the guard's polarity flipped, `if (t & 1) t = w; else {...}` (2);
+  - `w` read through `*(volatile u16 *)` (2);
+  - both arms writing BOTH variables, i.e. the else arm carrying a redundant
+    `z = (u16)z;` (232 bytes, SIZE -- the redundant truncation is emitted);
+  - the whole z/t naming swapped through the function (4, worse).
+  Twelve new spellings, floor unchanged at 2.  The residue survives every
+  source-level reordering of the two definitions; it is the allocator's
+  choice of which just-freed register (r4, freed by the `tst` at +0020, or
+  r5, freed by the `add ip` at +0024) receives the truncated +0x2c value.
+
+func_0206A2CC (still 9 bytes, the r8/sb base/accumulator swap)
+  New spellings on top of the note's thirteen, all 256 bytes / 9 out:
+  - the three loop-body locals (`a`, `r3`, `t`) hoisted to function scope in
+    three positions -- first, last, and between `base` and `e1` (9, 9, 9);
+  - `ok = 1` moved after the `base` assignment (9);
+  - `acc = 0` moved after `zero`/`zero2` (9);
+  - `acc` retyped `char *` (34, worse);
+  - the `base` ternary written as an explicit if/else with the store in each
+    arm (30, worse -- the ternary is required).
+  The swap does not respond to declaration order, initialisation order or
+  arm-splitting.  0x0206A4AC was not re-measured separately: its residue is
+  documented above as byte-identical to this one and no lever moved 0x0206A2CC.

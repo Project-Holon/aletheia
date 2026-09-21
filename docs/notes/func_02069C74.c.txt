@@ -141,3 +141,93 @@ next:
         i++;
     } while (i < n);
 }
+
+==============================================================================
+Appended 2026-09-21 (closer lane, wave 20) -- 44 -> 34, and the lever
+==============================================================================
+
+The C above was reproduced exactly (160 bytes, 44 concrete out under
+`--cc ../2.0/sp2`).  ONE change took it to 34, and it is the note's own
+prediction that the dispatched handler is not a nullary function:
+
+    THE HANDLER TAKES `o`.  Declaring it `void (**)(Obj *)` and calling
+    `(*(void (**)(Obj *))(sHandlerFns + (i << 3)))(o);` makes the object
+    pointer live across the whole initialisation block, and the 0x7f/0x1000
+    pair at +0014..+0020 becomes BYTE-EXACT (`mov r4, #0x7f` / `strb r4` /
+    `mov r4, #0x1000` / `str r4`) where the nullary spelling put both
+    constants in ip.  The frame also grows from `push {r3, r4, r5, lr}` to
+    `push {r4, r5, r6, lr}`.  44 -> 34.
+
+Passing more arguments is not better: `(o, key, a2, a3)` gives 37, `(o, key)`
+gives 34, `(o)` alone gives 34.  So `o` is the load-bearing one and `a2` is
+still not evidenced as live.
+
+WHAT IS STILL WRONG, restated against the 34-byte build.  The image's frame is
+`push {r3, r4, r5, r6, r7, lr}` -- five real callee-saved registers plus the
+r3 alignment pad -- and the loop carries six values (r4 keys base, r5 i<<3,
+r6 tag, r7 count, ip index, r1 key).  The build carries the same six but puts
+the keys base in `lr` and the index in `r2`, needing only `{r4, r5, r6, lr}`.
+Every one of the 34 bytes follows from that: same opcodes, same order, same
+size, one fewer callee-saved register.  The `popls` vs `popeq` at +003C is the
+same decision seen from the condition side and is NOT a signedness question
+(`n < 1` and `n == 0` both give `popeq`, measured).
+
+Ruled out this pass, all 160 bytes, all on top of the `(Obj *)` handler:
+  - the handler pointer bound to a named `void (*fn)(Obj *)` local before the
+    null test (34);
+  - both key tests with the table operand on the LEFT of `!=` (34);
+  - `tag` retyped `u32` (34);
+  - `tag = key->tag;` before `i = 0;` (34);
+  - `if (n < 1) return;` in place of `if (n == 0) return;` (35);
+  - the keys base bound to a named `HandlerKey *kt` local, declared first
+    (35) and declared after `n` (43);
+  - `i = 0;` hoisted to the very top of the function and used as the zero for
+    all four zero stores (44 with the nullary handler; not better).
+
+The next lever is still one more value live across the loop, and the two
+remaining candidates are (a) the handler's true arity beyond `o` -- something
+the CALLEES at 0x02070360 / 0x02070948 / 0x02070830 / 0x02070BD8 / 0x0206EB00
+can settle, since `src/matched/func_02070BD8.c` is already filed and its
+signature is readable, and (b) a second use of `key` or of the count after
+the `blx`.  Reading func_02070BD8's filed signature is the cheapest next step
+and was not done this pass.
+
+------------------------------------------------------------------------------
+RESOLVED, same pass: BYTE-CORRECT under the pin, parked at MATCH
+------------------------------------------------------------------------------
+
+The "next lever" named two lines above was right, and reading
+`src/matched/func_02070BD8.c` (one of the five table handlers, already filed)
+settled it: its signature is `void func_02070BD8(struct S *s, u32 a, u8 *src)`,
+THREE arguments.  Spelling the dispatch
+
+    (*(void (**)(Obj *, Key *, u32))(sHandlerFns + (i << 3)))(o, key, a2);
+
+takes the function from 34 concrete bytes out to ONE, and `a2` -- written
+unused in every earlier spelling -- is indeed live.  Measured arities:
+nullary 44, `(o)` 34, `(o, key)` 34, `(o, key, a2)` 1, `(o, key, a2, a3)` 37,
+`(o, a2, a3)` 168 bytes SIZE, `(o, a2)` and `(o, a3)` 164 bytes SIZE.
+
+The last byte is the `popls` at +003C, and it IS reachable from C after all --
+the earlier reading of it as pure allocation was wrong.  It is the loop's
+ENTRY TEST, and it must be written as a comparison against the counter:
+
+    n = sHandlerCount;
+    i = 0;
+    if (i >= n) return;
+
+`if (n == 0) return;`, `if (n <= 0) return;` and `if (!(n > 0)) return;` all
+give `popeq` (1 byte out); `if (n < 1) return;` gives 2.  This is the same
+`i >= count` / `bls` lever docs/notes/pkt_0206A19C.c.txt records for
+func_0206A2CC's entry test, on a different packet.
+
+VERDICT: MATCH, 160/160 bytes, 0 concrete mismatches, under `../2.0/sp2`.
+Filed as `src/pending/func_02069C74.c` (MATCH, not EXACT) and recorded as a
+pin row in docs/FRONTEND-PINS.md.  The cap is evidential, not a codegen
+problem: all three ABS32 pool words 0x020A821C / 0x020A8240 / 0x020A8244 occur
+NOWHERE else in the image, so this function's own pool at 0x02069D08..0x02069D10
+is each one's only occurrence and the `literal` class has no outside witness.
+Being one function, no `--suggest-split` cut exists.  It unblocks when any
+other reader of that table is filed; `docs/notes/band_129_256_p1_lane3_verdicts.c.txt`
+names 0x02047564 as a caller chain that wanted this address, and filing the
+0x020A8240 table's other consumers is the way out.

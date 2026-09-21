@@ -90,3 +90,29 @@ u32 func_02069BA0(Bits *b, s32 n)
     }
     return acc & (u32)(mask >> (8 - n));
 }
+
+==============================================================================
+Appended 2026-09-21 (closer lane, wave 20)
+==============================================================================
+
+The C above was REPRODUCED exactly: 96 bytes compiled, 14 concrete out, the
+two swapped adjacent pairs at +0018/+001C and +0038/+003C, under `--cc 1.1p1`.
+New spellings tried this pass, all 96 bytes unless noted:
+  - the `b->have = 8` store spelled through a named `s32 eight = 8;` local
+    declared last (14);
+  - the recursive call's result bound to a named `u32 sub` local declared
+    after `acc`, with `acc = sub | acc;` as a separate statement (14);
+  - the parameter `n` overwritten with `shortfall` and the call written
+    `func_02069BA0(b, n)` (25, worse);
+  - the then-arm as `have = have - n; acc = held >> have; b->have = have;`
+    (14) and as `have -= n; acc = held >> have; b->have = (signed char)have;`
+    (14);
+  - the then-arm reading the just-stored count back through
+    `*(volatile signed char *)&b->have` (100 bytes, SIZE -- the re-read is
+    emitted, which the image does not do).
+ONE `--cc ../2.0/sp2` probe was run this pass, because the +0038/+003C pair is
+the constant-materialisation-order shape that FRONTEND-PINS records for
+func_020713A4 and func_02071EFC.  It is NOT a pin: ../2.0/sp2 gives 100 bytes
+(a SIZE miss) with 79 concrete out, much worse than 1.1p1's 96/14.  Do not
+probe the compiler on this function again.
+Floor stays 14.

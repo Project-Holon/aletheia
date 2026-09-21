@@ -416,3 +416,112 @@ CONSEQUENCE FOR THE PACKET: src/pending/func_02067998.c stays MATCH.  Only a
 `matched` entry at 0x0206775C promotes it, and this row is not one yet.  It
 is the single highest-value row left in this packet for exactly that reason:
 it converts a byte-correct 200-byte park for free.
+
+==============================================================================
+2026-09-21 - closer lane, 0x0206775C re-derived from scratch.  Still DIFF.
+==============================================================================
+
+The wave-19 section above records the best clean shape as 568 bytes / 99
+concrete out but does NOT print that source, so this pass rebuilt the C from
+the disassembly and the note's decode.  It reaches the original's EXACT 572
+bytes with 228 concrete out, all ten relocation sites resolving (func_0207D8E0
+/ func_02067B50 x2 / func_02067B64 x2 / func_02066E30 x2 by `label`,
+g_02148B48 / tbl_020A17F0 / tbl_020A17D8 by `literal`), under the note's pin
+`--cc ../2.0/sp2 --arm`.  The first 0x124 bytes -- the prologue, the
+func_0207D8E0 call, the f24 guard, BOTH flip-getter dispatches, both clamps,
+both table lookups, both `rsb` negations and both join blocks -- are
+BYTE-IDENTICAL.  The 228 is the tail alone and is register naming that
+cascades from the two residues below.
+
+FOUR NEW DECODE FACTS this pass established, none of them in the note above,
+and all four are needed to reach 572 at all:
+
+  * THE func_0207D8E0 ARGUMENT IS THE GLOBAL POINTER PLUS 0x40, NOT A FIELD.
+    The image is `ldr r0, [r1]` / `add r0, r0, #0x40` at 0x0206776C/0x02067770,
+    i.e. `(char *)g_02148B48 + 0x40`.  Spelling it `g_02148B48->f00 + 0x40`
+    inserts a second `ldr r0, [r0]` and costs 4 bytes plus the whole pool
+    displacement.
+  * EACH AXIS IS TRUNCATED TWICE, NOT ONCE.  The join at 0x02067800/0x02067804
+    is `lsl r0, r0, #0x10` / `lsr r1, r0, #0x10` and is followed at
+    0x0206780C/0x02067814 by `lsl r1, r1, #0x10` / `asr r5, r1, #0x10`: a
+    `(u16)` narrowing and then a `(s16)` sign-extend, written
+    `x = (s32)(s16)(u16)x;`.  A single `(s32)(s16)x` gives one shift pair and
+    is 8 bytes short on the pair of axes; this single change took the body
+    from 556 to 572 and the count from 363 to 228.
+  * THE SIMPLE (f24 == 0) ARM RE-READS THE GLOBAL.  `ldr r2, [pc, #0x68]` /
+    `ldr r5, [r2]` at 0x020677BC/0x020677C4 is a THIRD pool entry for
+    g_02148B48, after the two at 0x02067764 and 0x02067778.  Under the pin the
+    compiler still CSEs the guard's pointer into the arm and the arm is one
+    instruction short; see the negative list below.
+  * THE `w = *row & 0xc000c000` SHAPE/SIZE EXTRACT IS ONE READ SHARED BY BOTH
+    AXES, computed before the first getter call (`and r4, r2, r1` at
+    0x02067798), and both axes index it with `size = (w & 0xc0000000) >> 30;`
+    `shape = (s32)(w & 0xc000) >> 14;` written INSIDE each flip arm.  Hoisting
+    the pair above the axes costs the two `and` duplications.
+
+THE TWO RESIDUES THAT REMAIN, and the new measurements against them:
+
+ (a) THE SIMPLE ARM'S POOL RELOAD, 4 bytes.  Documented above.  Measured this
+     pass, all under the pin, all at 568 or worse:
+       - the guard's read left unbound (`if (g_02148B48->f24 != 0)`) with the
+         arm reading `g_02148B48` plainly                             568/219
+       - the arm's read through `*(struct Rig *volatile *)&g_02148B48` 568/232
+       - the guard's read through the same volatile view instead      572/375
+       - BOTH reads through the volatile view                         572/375
+       - `extern struct Rig *const volatile g_02148B48;`              572/375
+       - `*(volatile u32 *)&g_02148B48->f24` for the guard only        568/219
+       - the arm's three stacked arguments bound to three locals
+         (a8/a14/a18) before the x/y computation                      564/222
+       - the arm's global read moved between the x and y statements    568/219
+       - the arm's two shifted words bound to wx/wy locals first       568/225
+     The volatile-view spellings DO restore the reload and reach the
+     original's 572, but at 375 -- volatile on this pointer also defeats the
+     pin's own six reloads in the affine arm and permutes everything.  The
+     clean 572 (228) comes from the plain reads.
+
+ (b) THE FLIP GETTER'S `cmp` BEFORE THE WORD RE-READ, 2 instructions x 2 axes.
+     The image is `cmp r0, #0` / `ldr r0, [r7]` / `lsl r0, r0, #7` / `beq` at
+     0x0206779C..0x020677A8 and the identical shape on the y axis at
+     0x0206781C..0x02067828: the compare of the call result is emitted BEFORE
+     the shared word load, and the load and its shift then sit between the
+     compare and the branch.  Every natural spelling sinks the load above the
+     compare instead.  Measured this pass, on top of the 572-byte source:
+       - the call bound to `fx`, the shift a separate statement, `if (fx != 0)`
+         (the note's best-clean shape)                                 572/228
+       - the same with `fx = call() != 0;` and `if (fx)`               592/463
+       - the call inline in the condition with the shift written out in
+         both arms                                                     576/363
+       - `wx`/`wy` declared BEFORE `fx`/`fy`                           568/219
+     The note's own dead-`|| 1` hack is not re-measured here; it remains a
+     hack and is not a recoverable source shape.
+
+ (c) NEW, and coupled to (a): THE y SIGN-EXTEND IS DEFERRED TO THE CALL.  The
+     image keeps y as the UNSIGNED halfword in r4 from `lsr r4, r0, #0x10` at
+     0x02067884 across BOTH remaining getter calls and the flip-bit
+     write-back, and sign-extends it only at 0x0206786C/0x02067888
+     (`lsl r1, r4, #0x10` interleaved into the bic/orr chain, then
+     `asr r1, r1, #0x10` after the rig reload).  Writing that deferral --
+     `y = (s32)(u16)y;` at the join and `(s32)(s16)y` at the call -- is
+     correct and reproduces the interleave, but costs exactly the 4 bytes that
+     (a) is short, so the compile falls to 568.  Measured: deferral alone
+     568/219; deferral + volatile arm reload 568/219; deferral + both
+     568/232.  y kept `(s32)(s16)(u16)y` at the join is the 572/228 shape.
+     (a) and (c) trade against each other exactly as (a) and (b) do in
+     docs/notes/pkt_02091D38.c.txt's 0x02091E44 row.
+
+Also measured and rejected: x deferred the same way as y (564/359); the flip
+write-back's two stores hoisted above the y truncation (564/289); the rig
+bound before the write-back rather than after (564/286); the second store's
+value bound to its own local before the pair (568/219, unchanged).
+
+THE PIN IS CONFIRMED, AGAIN.  Under the default `--cc 1.1p1` the 572-byte
+source is 564 bytes with the whole callee-saved allocation permuted, exactly
+as the wave-19 section reports.  Nothing here disturbs the note's pin
+reasoning; 0x0206775C is a `../2.0/sp2` row.
+
+CONSEQUENCE UNCHANGED: src/pending/func_02067998.c stays MATCH, because only a
+`matched` entry at 0x0206775C promotes it and this row is still DIFF.  No pin
+row was added to docs/FRONTEND-PINS.md, since that file's rule 2 requires the
+pinned front end to produce THE BYTES and it does not yet.
+
+Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.
