@@ -155,3 +155,129 @@ Next agent: the wanted lever is whatever makes mwcc spend `lr` on the address
 expression rather than on the accumulator.  Both accumulators are live across
 the loop back-edge and dead at the stores, so a spelling that shortens `a`'s
 live range (or lengthens the slot pointer's) is the thing to look for.
+
+
+================================================================
+near miss: func_02048010 @ 0x02048010, 212 bytes (208 code + one 0xFFFF pool word), pkt_02047E88
+verdict: DIFF, 50 concrete bytes, CORRECT size, both relocation sites resolve
+appended 2026-09-21
+
+The third member of the 0x02047E88 twin family (0x02047E88, 0x02047F4C,
+0x02048010).  Same 64-slot linear search at an 8-byte stride, same
+`slot->f16 == 0xFFFF` hit test, same two-accumulator loop tail; the
+differences from the two 196-byte twins are that this one takes a THIRD
+parameter, passed on as func_02048258's fifth argument (which is what buys
+the `sub sp, sp, #4` frame and the `str r2, [sp]` at +0x48), and that its
+two callees are func_02048258 and func_02048744.
+
+Semantics are settled and the ENTIRE second call block (+0x68..+0x80) and
+the ENTIRE loop tail (+0x84..+0xC4) are byte-exact.  The 50-byte residue is
+confined to the first call block, and it is the same class the two rows
+above record for this packet:
+
+  * register allocation.  The original gives the slot address r7 and the
+    pooled 0xFFFF r3; the compiler swaps them (address r3, constant lr) and
+    the loaded f16 follows (original lr, compiled r7).
+  * scheduling.  The compiler hoists `lsl r1, r4, #0x10` and
+    `add lr, r6, #0x200` ABOVE the four halfword stores, where the image
+    emits both after the store block has retired -- verbatim the hoist the
+    func_02047F4C row above already records.
+
+The one lever that mattered and is worth carrying forward: the index
+truncation `(u16)i` MUST be recomputed at each of the two call sites.
+Written once and bound to a local (or left to CSE), the compiler shares one
+`lsl`/`lsr` pair between both calls and lands at 200 bytes against the
+original's 212, 144 concrete out -- the 12-byte gap is those two dropped
+instructions plus the frame pair.  Spelling each argument
+`(u32)(u16)(volatile int)i` forces the recomputation and is what takes the
+file to the correct 212 / 50; a plain `(u32)(u16)i` at both sites does not.
+A clean spelling for that recomputation is the open question here.
+
+Measured, all at 212/50 unless noted:
+  - permuter, hill, budget 40 (40 compiles):        no improvement, 50 floor
+  - `volatile int i;` loop counter:                 252 bytes (size wrong)
+  - a `static u32 trunc16(int)` helper:             224 bytes, emits a real
+                                                    call (2 extra relocations)
+  - `return (u16)(i & 0xFFFF);`:                    no change
+
+NOT probed under `--cc ../2.0/sp2`, deliberately: the func_02047F4C row above
+already measured 2.0 on this family's scheduling residue (204 against 196,
+156 concrete out) and recorded it as strictly worse with the tell absent.
+No kept constant, no kept branch and no re-read appears here either, so the
+pin policy's "one probe on a documented tell" does not apply.
+
+--- the source that reaches 50 bytes
+/*
+ * unit:     no
+ * function: func_02048010
+ * address:  0x02048010
+ * packet:   pkt_02047E88
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   func_02048258  0x02048258  arm
+ *   func_02048744  0x02048744  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Slot
+{
+    u8 pad_00[0x16];
+    u16 f16;
+    u16 f18;
+    u16 f1a;
+    u16 f1c;
+};
+
+struct Req
+{
+    u8 pad_00[4];
+    u16 f04;
+    u8 pad_06[6];
+    u16 f0c;
+};
+
+extern void func_02048258(u8 *rig, u32 idx, struct Req *req, u32 flags, u32 extra);
+extern void func_02048744(u8 *rig, u32 idx, struct Req *req, u32 flags);
+
+u16 func_02048010(u8 *rig, struct Req *req, u32 extra)
+{
+    struct Slot *slot;
+    u16 a, b;
+    int i;
+
+    a = 0;
+    b = 0;
+    for (i = 0; i < 0x40; i++)
+    {
+        u16 cur;
+
+        slot = (struct Slot *)(rig + i * 8);
+        cur = slot->f16;
+        if (cur == 0xFFFF)
+        {
+            u16 w = req->f04;
+
+            slot->f16 = a;
+            slot->f18 = w;
+            slot->f1a = b;
+            slot->f1c = req->f0c;
+            func_02048258(rig, (u32)(u16)(volatile int)i, req,
+                          ((struct Slot *)(rig + 0x200))->f16, extra);
+            func_02048744(rig, (u32)(u16)(volatile int)i, req,
+                          ((struct Slot *)(rig + 0x200))->f16);
+            return (u16)i;
+        }
+        a = cur + slot->f18;
+        b = slot->f1a + slot->f1c;
+    }
+    return 0xFFFF;
+}

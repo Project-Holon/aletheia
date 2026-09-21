@@ -1,0 +1,140 @@
+/*
+ * func_0202368C @ 0x0202368C  (pkt_0202368C, arm9, thumb, 206 bytes)
+ * verdict: DIFF, 2 concrete bytes, at +0x8A
+ *
+ * Near miss, documented rather than filed: 204 of 206 bytes are correct and
+ * all 10 relocations resolve (label / sole-ref/code for the two function
+ * pointers at pool_02023760 -> func_02022D98 and pool_02023764 ->
+ * func_02022AD0). The whole body below reproduces exactly; only one
+ * instruction differs.
+ *
+ * The residue:
+ *     original   +008A   adds r1, #0x81
+ *     compiled   +008A   subs r1, #0x7e
+ *
+ * Both land on 0x381. The original derives the two s16 offsets as a chain
+ * off ONE pool word 0x000003FF (pool_0202375C), which is also the third
+ * argument to func_020056A0:
+ *
+ *     r1 = 0x3FF          (pool, CSE'd with the func_020056A0 argument)
+ *     r1 -= 0xFF   -> 0x300   ldrsh r0,[r0,r1]
+ *     r1 += 0x81   -> 0x381   ldrsh r0,[r0,r1]     <- the instruction above
+ *
+ * with the intermediate spilled to [sp,#0x24] across the calls and reloaded
+ * before each use. Every spelling measured folds the two adjustments into
+ * one, reaching 0x381 from 0x3FF in a single subs #0x7e, because the
+ * reload breaks the dependency the source expresses and constant folding
+ * then reassociates -0xFF+0x81.
+ *
+ * Spellings measured, all DIFF at 2 (except as noted):
+ *   base[0x300/2] and base[0x381/2] as independent subscripts
+ *   off = 0x300; ... off + 0x81  (compound and spelled-out forms)
+ *   off = 0x3ff; off -= 0xff; ... off += 0x81  (compound and spelled-out)
+ *   off seeded from the func_020056A0 argument so the pool word is shared
+ *   off = off - 0xff / off = off + 0x81, with and without a dead re-store
+ *   advancing base itself instead of the offset                -> DIFF 100
+ *   advancing a char* cursor instead of the offset             -> DIFF 100
+ *   volatile on the two s16 loads                              -> DIFF 32
+ * tools/permute.py, two runs (118 and 141 compiles, budget 120/140), found
+ * nothing below 2 from either the 35-mismatch or the 2-mismatch baseline.
+ *
+ * The one mutation that mattered was const-param on the record pointer:
+ * const Par *par took the function from 35 mismatches to 2 in one step, by
+ * letting the f8/f9/fa field loads survive the ctx stores and schedule
+ * early into r1/r2/r3 the way the original does. That is the existing
+ * docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md, confirmed
+ * here on a ten-argument call.
+ *
+ * To close this, the next agent needs a spelling in which the second offset
+ * is genuinely not foldable from the pool constant -- most likely the two
+ * offsets are named enum/macro constants in the original whose definitions
+ * make 0x381 = 0x300 + 0x81 syntactically, not arithmetically. Everything
+ * else in the function is settled.
+ *
+ * The C that reaches 2 mismatches follows.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef int s32;
+
+typedef struct Par {
+    s16 f0;
+    s16 f2;
+    s16 f4;
+    s16 f6;
+    u8  f8;
+    u8  f9;
+    u8  fa;
+    u8  fb;
+} Par;
+
+typedef struct Ctx {
+    u32 pad0[3];
+    u32 c;
+    u32 h10;
+    u32 h14;
+    u32 h18;
+    u32 h1c;
+    u32 h20;
+    u32 h24;
+    u32 h28;
+    u32 h2c;
+    u32 h30;
+    u32 h34;
+} Ctx;
+
+extern u32 func_0202290C(s32 a, s32 b);
+extern void func_02022CEC(Ctx *ctx, u32 flag, u32 a2, u32 a3);
+extern void func_0202384C(Ctx *ctx);
+extern void func_020056A0(void *cb, Ctx *ctx, u32 v);
+extern s16 *func_02022D88(Ctx *ctx, u32 i);
+extern void func_02022D98(void);
+extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3,
+                          u32 s5, u32 s6, u32 s7, u32 s8,
+                          u32 s9, u32 s10);
+extern void func_02022E88(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void func_02022AD0(void);
+extern void func_02022518(u32 a0, Ctx *a1, void *a2, u32 a3, u32 s5);
+
+void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3,
+                   u32 s5, u32 s6, u32 s7, u32 s8)
+{
+    u32 t;
+    s16 *base;
+    u32 off;
+    s32 w;
+    s32 h;
+
+    t = func_0202290C(par->f0, par->f2);
+    func_02022CEC(ctx, par->f8, s5, s8);
+    ctx->c = par->f0 << 7;
+    ctx->h30 = s6;
+    ctx->h10 = par->f4;
+    ctx->h14 = par->f6;
+    ctx->h18 = t;
+    ctx->h1c = a2;
+    ctx->h20 = a3;
+    ctx->h24 = 0;
+    ctx->h34 = s7;
+    ctx->h28 = s8;
+    ctx->h2c = par->fb;
+    func_0202384C(ctx);
+    off = 0x3ff;
+    func_020056A0(func_02022D98, ctx, off);
+    base = func_02022D88(ctx, 0);
+    off -= 0xff;
+    w = *(s16 *)((char *)base + off);
+    off += 0x81;
+    h = *(s16 *)((char *)base + off);
+    func_02022E20(s6, par->f9, par->fa, par->f8,
+                  s5, w, 0, h, 0xc0, ctx->h2c);
+    if (par->f8 == 0) {
+        func_02022E88(s6, 1, s5, ctx->h2c);
+    } else {
+        func_02022E88(s6, 2, s5, ctx->h2c);
+    }
+    func_02022518(ctx->h34, ctx, func_02022AD0, s5, s8);
+}

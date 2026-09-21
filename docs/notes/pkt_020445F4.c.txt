@@ -167,3 +167,63 @@ the `w * d` product are still swapped (sb vs r7).  Declaration order has been
 swept exhaustively and 14 is its floor, so the remaining lever is somewhere
 else -- most likely the SHAPE of the `dep` read, since `dep` is the one value
 that is both an argument to func_02043678 and a multiplicand in the loop.
+
+
+================================================================
+near miss: func_02044D88 @ 0x02044D88, 308 bytes, pkt_020445F4
+verdict: DIFF, 259 concrete bytes at 312 compiled against the original's 308
+appended 2026-09-21
+
+The HALFWORD twin of the func_02044BF0 row at the top of this file.  Identical
+outer shape -- the same two clamps, the same `(w + (w & 7)) >> 3` rowbytes, the
+same `if (y0 >= yend) return;` early exit, the same `sub sp, sp, #8` two-slot
+spill frame and the same 4bpp tiled address arithmetic with the 0x3fe0 / 0x1c /
+(x>>1)&3 masks -- but it plots through a `u16 *` and a `strh` rather than a
+byte, which is what buys the extra 68 bytes and the two-arm nibble merge.
+
+Semantics of the inner block, decoded in full and NOT in doubt:
+
+    a  = base + ((x>>1)&3) + ((x<<2)&0x3fe0)
+              + ((y<<2)&0x3fe0)*rowbytes + ((y<<2)&0x1c);
+    odd = a & 1;  if (odd) a -= 1;     /* halfword-align downward */
+    p  = (u16 *)a;  c = *p;
+    hi = (c << 8) >> 16;               /* high byte, via the image's own
+                                          shift pair, not `c >> 8`     */
+    lo = (c & 0xff) << 16;             /* low byte parked in the high half */
+    sh = ((u32)(x << 0x1f)) >> 0x1d;   /* (x & 1) * 4 */
+    if (odd) *p = (((hi & (0xf0 >> sh)) | (val << sh)) << 8) | (lo >> 16);
+    else     *p = (((0xf0 >> sh) & (lo >> 16)) | (val << sh)) | (hi << 8);
+
+with `fp = 0xf0` hoisted out of both arms as the image does, `dy` a `u16`
+parameter (it is `ldrh`ed from [sp, #0x30]) and `val` a `u8` one (`ldrb` from
+[sp, #0x34]).  Every branch, every mask, every shift amount and both arms'
+instruction sequences reproduce; the whole outer loop, both clamps, the early
+exit and the entire tail are correct in shape.
+
+The residue is the SAME class the func_02044BF0 row records, and for the same
+reason: the original runs out of registers and the compiler does not spill
+where it did.  The image holds the loop-invariant 0xf0 in fp and spills two
+values to [sp] and [sp, #4]; mwcc keeps an extra value live instead, which
+costs it four bytes in the inner block and permutes most of the allocation.
+
+Measured, by compiled size / concrete mismatches:
+  - the shape above, `odd` as `(s32)(a & 1)`:       312 / 272
+  - permuter, hill, budget 40 (39 compiles):        312 / 259, `decl-reverse`
+                                                    on the local block plus one
+                                                    operand swap; still DIFF
+  - `odd` as a `!= 0` boolean, `a -= odd;`:         316 / 266
+  - both arms written as separate `(u16)` halves
+    rather than one u32 expression:                 324 / 278
+  - the same, with the low byte NOT parked in the
+    high half (`lo & 0xff` used directly):          332 / 277
+  - `dy`/`val` left as `s32`/`u32` parameters:      332 / 276 (the `ldrh`/`ldrb`
+                                                    at [sp,#0x30]/[sp,#0x34] are
+                                                    what name the two widths)
+
+NOT probed under `--cc ../2.0/sp2`: no kept constant, no kept branch and no
+re-read tell appears -- the residue is a spill decision, which the pin policy
+does not cover, and this packet has no pin.
+
+Next agent: the wanted lever is whatever makes mwcc spill the 0xf0 and the
+rowbytes the way the image does -- the same open question the func_02044BF0
+row at the top of this file ends on, on the byte-granularity twin.

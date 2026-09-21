@@ -1,0 +1,182 @@
+/* DIFF evidence note (2026-09-21), packet pkt_0201FF30.
+ * func_020200CC @ 0x020200CC, Thumb, 320 bytes (listing extent).
+ *
+ * Verdict: DIFF, compiled 320 of 320 bytes (SIZE EXACT), 81 concrete bytes
+ * differ -- and ALL 81 are the knock-on shift from ONE two-byte instruction
+ * sequence.  Everything before +0x56 and everything from +0x82 onward is
+ * byte-identical; the middle is the original's code displaced by two bytes.
+ *
+ * THE WHOLE RESIDUE, at +0x54:
+ *     original   movs r1, #0x40      compiled   movs r1, #0x40
+ *                tst  r1, r0                    adds r2, r0, #0
+ *                                               ands r2, r1
+ * i.e. mwcc materialises the masked value into a scratch register instead of
+ * using the two-register `tst`.  `held` (the func_0203633C result, r0) is
+ * live afterwards for the 0x80 test and for the f1Amid switch, so the
+ * compiler preserves r0 with a copy.  The original does NOT, even though its
+ * own later 0x80 test re-copies r0 (`adds r1, r0, #0; tst r1, r2`), so the
+ * original's allocator simply reached a different answer for the same
+ * liveness.  This is the same class of residue as
+ * docs/notes/func_02020970.c.txt: register allocation not reachable from the
+ * source spelling.
+ *
+ * Tried and rejected, all still 81 mismatches / 320 bytes:
+ *   - `0x40 & held`, `held & 0x40`, `held & 0x40u`, `(held & 0x40) != 0`,
+ *     `!!(held & 0x40)`, `(held >> 6) & 1`, `(held & 0x40) == 0x40`
+ *   - a named `u32 m40 = 0x40;` local for the mask
+ *   - a second local `held2 = held` feeding the 0x80 test and the switch,
+ *     so the 0x40 test is `held`'s last use (ties at 81, does not win)
+ *   - reusing the `one` local for the call's 2nd/3rd arguments and for the
+ *     f47 store in that arm (the rematerialised-small-constant idiom)
+ *   - hoisting the `two` local to function scope
+ *   - permute.py hill seed 7 (40) and random seed 31 (40); random found the
+ *     `held` declaration-order and case-2-last orderings that took the file
+ *     from 316/180 to 320/82, then plateaued at 81.
+ *
+ * WHAT IS SETTLED, and is the reason this is 2 bytes and not a rewrite:
+ *   - r4 = func_020362DC() ("keys") drives the bit-0 and bit-1 tests;
+ *     r0 = func_0203633C() ("held") drives 0x40, 0x80 and the f1Amid switch.
+ *     Getting these the other way round is a whole-function diff.
+ *   - the bit-1 arm is guarded by `o->f4A == 0` and returns `two - 4`
+ *     (`subs r0, r6, #4` off the still-live 2), not a bare -2.
+ *   - the bit-0 arm returns o->arr[o->f40 + o->f42].f4, 8-byte elements.
+ *   - the field at +0x1A is `u16 f1Alo:7; u16 f1Amid:2; u16 f1Atop:7;`
+ *     (`lsls #0x17 / lsrs #0x1e`); a :9/:2/:5 split gives `lsls #0x15`.
+ *   - the switch is case 0 / case 1 / case 2 / default with case 0 FIRST and
+ *     h computed before v in each arm; h lands in r1, v in r0 (v reuses
+ *     held's register).  Cases 1 and 2 read (0x20,0x10) and (0x40,0x80).
+ *   - the four func_02020970 call sites store 1/2/3/4 to o->f47 on a zero
+ *     return, each after func_020061E4(0x548), and each returns -1.
+ *   - func_02020970 resolves via sole-ref/code (x1); every func_020061E4,
+ *     func_020362DC and func_0203633C site resolves via `label`.  So this
+ *     function has NO evidence blocker: it is purely a codegen near miss and
+ *     reaches EXACT the moment that one `tst` is recovered.
+ *
+ * --- the 320-byte source (81 mismatches) ---
+ */
+
+/*
+ * function: func_020200CC
+ * address:  0x020200CC
+ * packet:   pkt_0201FF30
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020362DC  0x020362DC  arm
+ *   func_0203633C  0x0203633C  arm
+ *   func_020061E4  0x020061E4  thumb
+ *   func_02020970  0x02020970  thumb
+ *
+ * The per-frame key handler of the menu-cursor object built by
+ * func_0201FF30: same shape as func_0201FA04 one block down, over the wider
+ * struct that unit_020206C0.c already spells out.  Sound ids 0x54C / 0x551 /
+ * 0x548 sit in the trailing pool.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Elem {
+    void *unk00;
+    s32   f4;
+};
+
+struct Obj {
+    struct Elem *arr;
+    u8  pad_04[0x12 - 0x04];
+    u16 f12;
+    u8  pad_14[0x1A - 0x14];
+    u16 f1Alo : 7;
+    u16 f1Amid : 2;
+    u16 f1Atop : 7;
+    u8  pad_1C[0x40 - 0x1C];
+    u16 f40;
+    u16 f42;
+    u8  pad_44[3];
+    u8  f47;
+    u8  pad_48[2];
+    u8  f4A;
+};
+
+extern u32  func_020362DC(void);
+extern u32  func_0203633C(void);
+extern void func_020061E4(u32 id);
+extern int  func_02020970(struct Obj *o, u32 a, u32 b, u32 c);
+
+s32 func_020200CC(struct Obj *o)
+{
+    u32 keys = func_020362DC();
+    u32 one = 1;
+    u32 held = func_0203633C();
+
+    o->f47 = 0;
+
+    if (keys & one) {
+        func_020061E4(0x54C);
+        return o->arr[o->f40 + o->f42].f4;
+    }
+    if (o->f4A == 0) {
+        u32 two = 2;
+        if (keys & two) {
+            func_020061E4(0x551);
+            return two - 4;
+        }
+    }
+    if (held & 0x40) {
+        if (func_02020970(o, 1, 1, 0) == 0) {
+            func_020061E4(0x548);
+            o->f47 = 1;
+        }
+        return -1;
+    }
+    if (held & 0x80) {
+        if (func_02020970(o, 1, 1, 1) == 0) {
+            func_020061E4(0x548);
+            o->f47 = 2;
+        }
+        return -1;
+    }
+    {
+        u16 h, v;
+        switch (o->f1Amid) {
+        case 0:
+            h = 0;
+            v = 0;
+            break;
+        case 1:
+            h = (u16)(held & 0x20);
+            v = (u16)(held & 0x10);
+            break;
+        default:
+            h = 0;
+            v = 0;
+            break;
+        case 2:
+            h = (u16)(held & 0x40);
+            v = (u16)(held & 0x80);
+            break;
+        }
+        if (h != 0) {
+            if (func_02020970(o, 1, (u8)o->f12, 0) == 0) {
+                func_020061E4(0x548);
+                o->f47 = 3;
+            }
+            return -1;
+        }
+        if (v != 0) {
+            if (func_02020970(o, 1, (u8)o->f12, 1) == 0) {
+                func_020061E4(0x548);
+                o->f47 = 4;
+            }
+            return -1;
+        }
+    }
+    return -1;
+}

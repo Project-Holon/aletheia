@@ -65,3 +65,88 @@ Needed to finish: the compiler has to keep the mask in r0 while the value
 goes to r1; nothing in the C tried so far moves it.  The function is
 otherwise complete and byte-identical from +0000 to +0018 and in the whole
 dispatch tree.
+
+
+================================================================
+near miss: func_02036CA8 @ 0x02036CA8, 180 bytes code + 8 bytes pool = 188
+verdict: DIFF, 31 concrete bytes, CORRECT size, both relocation sites resolve
+appended 2026-09-21
+
+The packet's lead function, and the CALLER of the func_02036DC8 row above.
+It writes the two OAM/capture register blocks at 0x07000000 (LCDC 1) or
+0x07000400 (LCDC 0), the same bank pair that row decodes.
+
+Shape, fully confirmed -- size is exact, both relocation sites resolve
+(func_02036D64 by `label`, func_02036DC8 by `sole-ref/code`), and the whole
+tail from +0x84 to the end is byte-identical:
+
+    void func_02036CA8(Ctx *c)
+    {
+        u32 *p; int mode; u32 v, attr, w, sh;
+
+        mode = func_02036D64(c);
+        v    = func_02036DC8(mode, c->f00);
+
+        if (mode == 1) p = (u32 *)0x07000000;
+        else           p = (u32 *)0x07000400u;   /* MUST be a separate
+                                                    constant; see below */
+
+        if (c->f0f != 1) { attr = 0x40000200; w = 0; }
+        else {
+            w    = v | 0xe000;
+            attr = (c->f06 & 0xff) | 0x800;
+            sh   = (u32)(c->f04 << 0x17);
+            attr = attr | 0x40000000;
+            attr = attr | (sh >> 7);
+        }
+        p[0] = attr;  *(u16 *)((char *)p + 4) = (u16)w;
+
+        attr = c->f06 & 0xff;
+        sh   = (u32)(c->f04 << 0x17);
+        v    = v | 0xe000;
+        attr = attr | 0x40000000;
+        attr = attr | (sh >> 7);
+        p[2] = attr;  *(u16 *)((char *)p + 0xc) = (u16)v;
+
+        if (p != c->f10) {
+            u32 *q = c->f10;
+            q[0] = 0x07000400;  *(u16 *)((char *)q + 4)   = 0;
+            q = c->f10;                       /* the re-read is real */
+            q[2] = 0x07000400;  *(u16 *)((char *)q + 0xc) = 0;
+            c->f10 = p;
+        }
+    }
+
+Two levers that are already paid for and should be kept:
+  - the second bank pointer must be written as its own `0x07000400u`
+    constant in an if/else.  Derived from the first (`p = VRAM_A; if (mode
+    != 1) p = VRAM_B;` with VRAM_B defined as VRAM_A + 0x400, or any form
+    the compiler can fold) gives `addne r1, r1, #0x400` where the image has
+    `ldrne r1, [pc, #0x88]`, a pool load.
+  - the tail's `c->f10` must be re-read once between the two store pairs;
+    written as one local it drops an `ldr` and the tail is 4 bytes short.
+
+The 31-byte residue, entirely in the two attribute blocks:
+  * scheduling.  The image emits `lsl ip, ip, #0x17` at +0x4C BEFORE the
+    `orr r3, r3, #0x40000000` at +0x50, keeping the shifted value live over
+    an intervening operation; 1.1p1 -O4,p sinks the shift to its first use
+    and emits the two in the other order at both blocks.  No statement
+    ordering reaches it -- the shift was written as its own statement, in
+    both positions, and 1.1p1 re-derives the order from the use either way.
+    This is the `func_02070F2C` form of the tell in docs/FRONTEND-PINS.md.
+  * allocation.  The image gives the attribute word r3 and the halfword r2
+    (with a third value in ip); the compiler gives them r2 and r5.  Both
+    declaration orders of the two locals were measured; no change.
+
+Measured:
+  - the source above:                               188 / 31
+  - permuter, hill, budget 40 (40 compiles):        188 / 31, no improvement;
+                                                    every mutation ties baseline
+  - declaration order of `attr`/`w` swapped:        188 / 31
+  - `sh` computed inline at its use:                188 / 31
+
+PROBED ONCE under `--cc ../2.0/sp2`, per the pin policy, because the
+scheduling tell above is the documented one: 188 bytes, 40 concrete out --
+STRICTLY WORSE than 1.1p1's 31.  NOT a pin.  The residue is a 1.1p1
+scheduler/allocator choice below the source, and the correct front end is
+the default.
