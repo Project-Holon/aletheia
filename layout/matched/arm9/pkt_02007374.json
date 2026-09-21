@@ -17,6 +17,23 @@
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT"
+  },
+  {
+   "name": "func_020073B0",
+   "address": "0x020073B0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020073B0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02031C30"
+    ]
+   }
   }
  ]
 }

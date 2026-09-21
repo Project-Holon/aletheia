@@ -67,6 +67,23 @@
    "status": "EXACT"
   },
   {
+   "name": "sub_020302A4",
+   "address": "0x020302A4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_020302A4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02060CD0"
+    ]
+   }
+  },
+  {
    "name": "sub_02030344",
    "address": "0x02030344",
    "kind": "game",

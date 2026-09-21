@@ -35,6 +35,23 @@
    "functions": [
     "sub_0204D4C4"
    ]
+  },
+  {
+   "name": "sub_0204D500",
+   "address": "0x0204D500",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0204D500.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02064B68"
+    ]
+   }
   }
  ]
 }

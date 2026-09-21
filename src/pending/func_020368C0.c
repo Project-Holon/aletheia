@@ -2,6 +2,7 @@
  * function: func_020368C0
  * address:  0x020368C0
  * packet:   pkt_020367C4
+ * isa:      arm
  * status:   MATCH
  * note:     re-verified 2026-09-20: MATCH; see verify output
  * blocked:  own-pool - the only pooled words naming g_020A79D0 (0x020A79D0 "0")

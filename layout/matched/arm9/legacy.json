@@ -175,6 +175,40 @@
     "sub_02008998",
     "sub_020089A0"
    ]
+  },
+  {
+   "name": "sub_0201C808",
+   "address": "0x0201C808",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201C808.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x0201CA78"
+    ]
+   }
+  },
+  {
+   "name": "sub_0201CA78",
+   "address": "0x0201CA78",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0201CA78.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02043AAC"
+    ]
+   }
   }
  ]
 }

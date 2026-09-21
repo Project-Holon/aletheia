@@ -19,6 +19,23 @@
    "status": "EXACT"
   },
   {
+   "name": "func_02021BC8",
+   "address": "0x02021BC8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02021BC8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02021C20"
+    ]
+   }
+  },
+  {
    "name": "func_02021CA8",
    "address": "0x02021CA8",
    "kind": "game",

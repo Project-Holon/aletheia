@@ -7,6 +7,60 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "func_0204A600",
+   "address": "0x0204A600",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0204A600.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02066998"
+    ]
+   }
+  },
+  {
+   "name": "sub_0204A600",
+   "address": "0x0204A600",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0204A600.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02066998"
+    ]
+   }
+  },
+  {
+   "name": "unit_0204A600",
+   "address": "0x0204A600",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_0204A600.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "unit_0204A600"
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x02066998"
+    ]
+   }
+  },
+  {
    "name": "func_0204A648",
    "address": "0x0204A648",
    "kind": "game",

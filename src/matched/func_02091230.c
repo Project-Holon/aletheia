@@ -1,0 +1,38 @@
+/*
+ * function: func_02091230
+ * address:  0x02091230
+ * packet:   pkt_020911D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * blocker:  +0016 THM_CALL func_0209124C       -> unresolved: 0209124C (thumb, from header) has no witness outside 02091230..0209124C
+ *
+ * symbols:
+ *   func_02085D88    0x02085D88  arm
+ *   func_02088234    0x02088234  arm
+ *   func_0209124C    0x0209124C  thumb
+ *
+ * Two-argument flavour of func_020911D8.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02091230.c \
+ *       --func func_02091230 --addr 0x02091230 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned int u32;
+
+extern u32  func_02085D88(void);
+extern void func_02088234(void);
+extern void func_0209124C(u32 a, u32 b);
+
+void func_02091230(u32 a, u32 b)
+{
+    if (func_02085D88() == 0) {
+        func_02088234();
+    }
+    func_0209124C(a, b);
+}

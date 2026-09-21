@@ -19,6 +19,24 @@
    "status": "EXACT*"
   },
   {
+   "name": "func_02011FB8",
+   "address": "0x02011FB8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02011FB8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02011F28",
+     "code:0x020267BC"
+    ]
+   }
+  },
+  {
    "name": "func_0201205C",
    "address": "0x0201205C",
    "kind": "game",

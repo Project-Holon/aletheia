@@ -91,7 +91,27 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "0x020A7984"
+     "data:0x020A7984"
+    ]
+   }
+  },
+  {
+   "name": "sub_02034EF8",
+   "address": "0x02034EF8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_02034EF8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x020352DC",
+     "code:0x0203545C",
+     "code:0x02035A60",
+     "code:0x020360A8"
     ]
    }
   }
