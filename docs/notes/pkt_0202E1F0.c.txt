@@ -1,0 +1,181 @@
+packet pkt_0202E1F0  function func_0202E1F0 (0x0202E1F0 thumb)
+DIFF       func_0202E1F0 @ 0202E1F0 (arm9, Thumb)
+  compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 388 bytes, 23 relocation site(s)
+  relocations: 23 of 23 resolved
+    +001C THM_CALL func_02024570       -> 02024570  [label x1, e.g. 02008FE4]
+    +0028 THM_CALL func_0202465C       -> 0202465C  [matched x1, e.g. 0202465C]
+
+Closest reached: 388 bytes compiled against 412 original.  All 23
+relocations resolve (label/matched/literal), so this is a pure codegen
+near miss, not evidence-blocked.
+
+Settled facts, worth keeping for whoever picks this up:
+  - The signature is
+      func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
+                    void *w, struct Ctx cs, u32 cr)
+    with `cs` passed BY VALUE on the stack.  The original's
+    `add r5, sp, #0x60` + `ldrh r2, [r5, #0x10]` reads sp+0x70, which is
+    past any plausible pointer arg; treating it as a pointer costs the
+    `ldr` that the by-value form does not emit.  sp+0x60 is `w`, the
+    struct starts at sp+0x64, and its halfword field is at struct offset
+    0x0c (so `[r5,#0x10]` = sp+0x60 + 0x10).
+  - The `ldr r0,[sp,#0x64]; str r0,[sp,#0x64]` pair at +0x0006 and the
+    same at +0x000C/+0x0010 are the by-value struct arg being renormalised
+    in place; they appear only with the by-value spelling.
+  - `ws` is an 8-byte local at sp+0x38, not a larger buffer: frame is
+    locals 0x00..0x38, ws at 0x38 (8), marks[2] at 0x40 (8) = sub sp,#0x48.
+    Getting ws's size wrong is what moves the whole frame.
+  - The marks[] array at sp+0x40 is a separate 2-element u32 array from
+    o->f20[]; the first loop writes 1 to o->f20[i] when func_020244F8
+    answers non-zero and to marks[i] when func_020244D4 answers 0xffff.
+  - func_0202E040's first argument is `*(void **)((u8 *)&o->f20[i] + 8)`,
+    i.e. read off the cached &o->f20[i] pointer the original keeps at
+    sp+0x18, not off `o` directly.  Caching that pointer in a named local
+    is what took the file from 372 to 388 bytes.
+
+The residue: the original keeps `o` in r6 and `ws` in r7 throughout, and
+spills `n` (the func_0201D478 count) to sp+0x20, re-reading it at the
+bottom of both loops.  Every spelling tried makes mwccarm do the reverse:
+`n` in r6, `o` spilled to sp+0xc, which shifts the argument slots 0xc/0x10/
+0x14 by one and reallocates most of the body.  Tried:
+  - n declared before vs. after the arrays, i and cnt;
+  - o referenced immediately after the prologue to lengthen its live range;
+  - the two loop arms' temporaries as four distinct named locals vs. two
+    block-scoped pairs (the compiler CSEs them either way);
+  - ws as u8[8], u8[0x10] and u8[0x24];
+  - the Ctx halfword at struct offset 0x0c vs. 0x10.
+The lever this needs is whatever makes `n`, and not `o`, the spill
+candidate.  Everything downstream of that choice already matches
+instruction for instruction.
+
+---- closest C ----
+/*
+ * unit:     no
+ * function: func_0202E1F0
+ * address:  0x0202E1F0
+ * packet:   pkt_0202E1F0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02024570  0x02024570  thumb
+ *   func_0202465C  0x0202465C  thumb
+ *   func_0202441C  0x0202441C  thumb
+ *   func_0201D478  0x0201D478  thumb
+ *   func_020244F8  0x020244F8  thumb
+ *   func_020244D4  0x020244D4  thumb
+ *   func_02024368  0x02024368  thumb
+ *   func_0201D528  0x0201D528  thumb
+ *   func_0201D4BC  0x0201D4BC  thumb
+ *   func_0202E040  0x0202E040  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02043AF4  0x02043AF4  arm
+ *   func_02045808  0x02045808  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Ctx {
+    u32 f00;
+    u32 f04;
+    u16 f08;
+    u16 f0a;
+    u16 f0c;
+};
+
+struct Obj { u32 f00; u8 f04; u32 pad[6]; u32 f20[2]; };
+
+extern void func_02024570(void *w, void *a);
+extern void func_0202465C(void *w, u32 a, u16 b);
+extern void *func_0202441C(void *w, u32 n);
+extern s32  func_0201D478(void);
+extern u32  func_020244F8(void *w, u32 i);
+extern u32  func_020244D4(void *w, u32 i);
+extern void *func_02024368(void *w, u32 n, u32 c);
+extern void *func_0201D528(void *h, u8 i, u32 a, u32 b);
+extern void *func_0201D4BC(void *h, u8 i);
+extern void func_0202E040(void *h, u32 a, void *b, u32 c, void *d, void *e);
+extern u32  func_02045770(u32 a);
+extern void func_02043B5C(u32 a, u32 b);
+extern void func_0201C724(u32 a, u32 b, s16 c, s16 d, void *e, u32 f, u16 g);
+extern void func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f);
+extern void func_02045808(void *p);
+extern void func_02045374(u32 a);
+extern u32  func_02045730(u32 a);
+extern void func_02041B6C(void);
+
+void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
+                   void *w, struct Ctx cs, u32 cr)
+{
+    u32 marks[2];
+    u8 ws[8];
+    void *h;
+    void *glyph;
+    s32 i;
+    u32 cnt;
+    s32 n;
+    void *p0;
+    void *p1;
+    void *q0;
+    void *q1;
+    u32 *ent;
+
+    marks[0] = 0;
+    marks[1] = 0;
+    func_02024570(ws, w);
+    func_0202465C(ws, 1, cs.f0c);
+    o->f04 = 0;
+    o->f00 = a3;
+
+    cnt = cs.f0c;
+    h = func_0202441C(ws, cnt);
+    n = (u8)func_0201D478();
+
+    for (i = 0; i < n; i++) {
+        if (func_020244F8(ws, i) != 0) {
+            o->f20[i] = 1;
+        } else if (func_020244D4(ws, i) == 0xffff) {
+            marks[i] = 1;
+        }
+    }
+
+    glyph = func_02024368(ws, cnt, n);
+    func_02043B5C(func_02045770(o->f00), cr);
+    func_0201C724(func_02045770(o->f00), a1,
+                  (s16)cs.f00, (s16)cs.f04, glyph, a2, cs.f08);
+    o->f04 = 1;
+
+    for (i = 0; i < n; i++) {
+        ent = &o->f20[i];
+        if (*ent == 1) {
+            p0 = func_0201D528(glyph, (u8)i, a2, 0);
+            p1 = func_0201D4BC(glyph, (u8)i);
+            func_0202E040(*(void **)((u8 *)ent + 8),
+                          func_020244D4(ws, i), &cs, a3, p0, p1);
+        } else if (marks[i] == 1) {
+            q0 = func_0201D528(glyph, (u8)i, a2, 0);
+            q1 = func_0201D4BC(glyph, (u8)i);
+            func_02043AF4(func_02045770(a3), (u32)q0,
+                          (s16)((u32)q1 << 4), 0x54, cr, 0x10);
+        }
+    }
+
+    func_02045808(glyph);
+    func_02045808(h);
+    func_02045374(o->f00);
+    func_02041B6C();
+}

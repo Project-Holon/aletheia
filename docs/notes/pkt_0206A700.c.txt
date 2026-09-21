@@ -1,0 +1,54 @@
+pkt_0206A700 - func_0206A854: post-increment argument not reachable, 8 bytes
+============================================================================
+
+0x0206A854 (48 bytes, arm9, ARM).  Verdict DIFF, 56 compiled against 48.
+NOT filed: no source under src/matched/ or src/pending/ for this address.
+
+What the pin DID fix.  The note docs/notes/pkt_0206A12C.c.txt records this row
+under dsi/1.1p1 as "40 compiled against 48" with TWO residues: the missing
+post-increment AND "the pair of `bic #1` / `bic #2` also comes out as one
+`bic #3`".  Under `../2.0/sp2` -- the pin this packet's sibling
+src/matched/func_0206A700.c now carries, same file, same pass -- the two
+`bic`s survive separately and the whole tail is byte-identical:
+
+    0206A868  ldr  r0, [pc, #0x10]      reproduced
+    0206A86C  ldr  r1, [r0, #0xfc]      reproduced
+    0206A870  bic  r1, r1, #1           reproduced  (1.1p1 folded to bic #3)
+    0206A874  bic  r1, r1, #2           reproduced
+    0206A878  str  r1, [r0, #0xfc]      reproduced
+    0206A87C  pop  {r3, pc}             reproduced
+
+So the constant-folding half of the old note is a front-end artefact and is
+closed.  The arity in that note is also wrong: func_0206DDA4 takes THREE
+arguments here, not two -- r2 is set to 0x3e and r1 is live at the `bl`.
+
+The residue that remains, all of it in the first four instructions:
+
+  0206A854  push {r3, lr}              original          compiled
+  0206A858  ldr  r1, [pc, #0x20]       ONE pool word     ldr r0, [pc,#0x24]
+  0206A85C  mov  r2, #0x3e                               ldr r1, [pc,#0x24]
+  0206A860  ldr  r0, [r1], #4          post-increment    ldr r0, [r0]
+  0206A864  bl   func_0206DDA4                           mov r2, #0x3e
+
+The original materialises the base ONCE and derives the second argument from
+the first argument's own load: `ldr r0, [r1], #4` leaves r1 = base + 4, which
+is exactly the pointer handed to the callee.  Every spelling tried makes the
+compiler materialise base and base+4 as two separate pool words (0x02148B4C
+and 0x02148B50, visible as two ABS32 sites in the report), which costs one
+instruction and one pool word: 56 bytes against 48.
+
+Spellings measured under the pin, all identical at 43 concrete bytes / 56:
+  - `func_0206DDA4(g[0], &g[1], 0x3e);`               two pool words
+  - `u32 *q = g; func_0206DDA4(*q++, q, 0x3e);`       two pool words
+  - `u32 *q = g; u32 v = *q++; func_0206DDA4(v, q, 0x3e);`  two pool words
+  - a struct with f00 and rest[0x3f], passing `.rest` two pool words
+
+The third form sequences the increment before the call explicitly and still
+does not fuse; the compiler simply does not emit a write-back `ldr` for an
+argument pair, so the fusion is not reachable from C at this optimisation
+level.  This is the same class as
+docs/idioms/post-increment-of-a-field-spends-a-copy.md, one step further on:
+there the post-increment costs a copy, here it cannot be spelled at all.
+
+Recorded, not ground further.  The tail is worth keeping: if a later pass
+finds a spelling for the head, the rest of the function is already exact.

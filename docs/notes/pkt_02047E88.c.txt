@@ -79,3 +79,79 @@ void func_020480E4(u8 *owner, u32 index)
     slot->unk_1a = 0xFFFF;
     slot->unk_1c = 0xFFFF;
 }
+
+
+================================================================
+near miss: func_02047F4C @ 0x02047F4C and func_02047E88 @ 0x02047E88,
+196 bytes each (192 code + one 0xFFFF pool word), pkt_02047E88
+verdict: DIFF, 42 concrete bytes, correct size, both relocation sites resolve
+appended 2026-09-21
+
+The two addresses are the SAME function byte for byte except the second call
+target: 0x02047E88 calls func_02048330, 0x02047F4C calls func_02048744.  Both
+call func_02048120 first, with identical arguments.  One source fixes both.
+
+Shape, fully confirmed (every branch, constant, mask and store reproduces):
+
+  u16 alloc(u8 *rig, struct Req *req)
+  {
+      struct Slot *slot;            /* declaration order matters, see below */
+      u16 a, b;
+      int i;                        /* int: `blt`, not `blo` */
+
+      a = 0; b = 0;
+      for (i = 0; i < 0x40; i++) {
+          slot = (struct Slot *)(rig + i * 8);
+          if (slot->f16 == 0xFFFF) {        /* 0xFFFF is the pool word */
+              u16 w = req->f04;
+              slot->f16 = a;
+              slot->f18 = w;
+              slot->f1a = b;
+              slot->f1c = req->f0c;
+              func_02048120(rig, (u16)i, req, rig_cfg(rig)->f16);
+              func_02048744(rig, (u16)i, req, rig_cfg(rig)->f16);   /* or 02048330 */
+              return (u16)i;
+          }
+          a = slot->f16 + slot->f18;
+          b = slot->f1a + slot->f1c;
+      }
+      return 0xFFFF;                /* the same pooled word */
+  }
+
+with `rig_cfg(rig)` the re-evaluated inline `(struct Slot *)(rig + 0x200)` that
+src/matched/func_02048120.c already uses in this family.  The whole loop tail
+(+0x88..+0xB8) and the entire second call block (+0x60..+0x84) are byte-exact.
+
+What is left is register allocation, not semantics, and it is the same class
+the func_020480E4 row above records for this packet:
+
+  ORIGINAL                             COMPILED
+  mov r3, #0          (a -> r3)        mov lr, #0        (a -> lr)
+  add lr, r6, r4, lsl #3  (slot -> lr) add r1, r6, r4, lsl #3  (slot -> r1)
+
+The original gives the slot address the scratch `lr` and the first accumulator
+the caller-saved r3 (which is why the frame pushes the dummy r3); the compiler
+does the reverse.  That swap alone accounts for most of the 42, and it drags
+two scheduling differences with it: the compiler hoists `add r3, r6, #0x200`
+and `lsl ip, r4, #0x10` ABOVE the four halfword stores, where the image emits
+both after the store block has retired (+0x44/+0x4C).
+
+Levers measured, all on the 42-byte source unless noted:
+  - `a`/`b` declared in the other order:            43
+  - `a`/`b` as `int` or `u32` instead of `u16`:     180 bytes (size wrong)
+  - `slot` as a block-scope local inside the loop:  42 (identical)
+  - f0c bound to a second local to interleave the
+    loads with the stores, either spelling:        58
+  - the four stores written without the `w` local:  45
+  - `u32 i` (giving `blo`):                         loop tail wrong
+The 42-byte floor is the `u16 w = req->f04;` spelling above.
+
+Probed ONCE under `--cc ../2.0/sp2` on the scheduling residue, per the pin
+policy: 204 bytes against the original's 196, 156 concrete out.  NOT a pin --
+2.0 is strictly worse here and the tell is absent (no kept constant, no kept
+branch, no re-read); the residue is a 1.1p1 allocator choice below the source.
+
+Next agent: the wanted lever is whatever makes mwcc spend `lr` on the address
+expression rather than on the accumulator.  Both accumulators are live across
+the loop back-edge and dead at the stores, so a spelling that shortens `a`'s
+live range (or lengthens the slot pointer's) is the thing to look for.

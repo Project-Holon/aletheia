@@ -1,0 +1,85 @@
+pkt_02066998 - func_02066998: dead loop-entry compare, 8 bytes, AND capped
+==========================================================================
+
+0x02066998 (292 bytes, arm9, ARM).  Verdict DIFF, 284 compiled against 292
+under `../2.0/sp2`, 280 under the default dsi/1.1p1.  NOT filed: no source
+under src/matched/ or src/pending/ for this address.
+
+TWO independent problems.  Either alone would stop this row.
+
+(1) THE CAP, which no amount of C fixes.  The sole PC24 site at +0x94 names
+func_020640D4 (0x020640D4).  match.py reports:
+
+    +0094 PC24 func_020640D4 -> unresolved: 020640D4 (arm, from header)
+          has no witness outside 02066998..02066AB4
+
+The `bl` at 0x02066A34 inside this very function is the only branch anywhere
+in the image that reaches it, and src/matched/unit_020640B0.c defines
+func_020640D4 as a `local` symbol of its OWN object, which is not a witness
+for a call from a different object.  So even a byte-correct body caps at
+MATCH.  It is one function with one call site: there is nothing to split.
+
+(2) THE RESIDUE, 8 bytes, at the head of the inner loop:
+
+  020669E0  mov  r7, #0                original          compiled
+  020669E4  cmp  r7, #3                DEAD compare      ldr r8, [pc,#0xc4]
+  020669E8  bge  #0x2066a78            DEAD branch       mov fp, r7
+  020669EC  ldr  r5, [pc, #0xc4]                         mov r5, #1
+  020669F0  mov  fp, r7                                  ldr r0, [r6,#0x24]
+  020669F4  mov  r6, #1
+
+The image tests a counter it has just set to 0 against the bound 3 and
+branches over the loop on `bge` -- a compare that can never be taken.  Both
+front ends fold it out and fall straight into the body, which is why the
+body's own `add r7,#1` / `cmp r7,#3` / `blt` back edge at 0x02066A6C..0x02066A74
+reproduces exactly while the entry does not.  This is the same class as
+src/matched/func_02069AC4.c ("kept branches", dead-compare form), but the pin
+does NOT close it here: under `../2.0/sp2` the function is 284 bytes, still
+8 short and still missing exactly these two instructions.  So the tell is
+real but the pin is not the lever, and this row should not be pinned on it.
+
+Spellings measured, all folding the entry test away:
+  - `u32 k = 0; if (k < 3) { do { ... } while (k < 3); }`        280 / 284
+  - the same with `s32 k` (signed, to force `bge` rather than `bhs`)  284
+  - a plain `for (k = 0; k < 3; k++)` head                        same fold
+
+The register permutation (the object in r6 rather than r8, the table in r8
+rather than r5, the `1` in r5 rather than r6) is downstream of the fold, not
+a separate residue: the two folded instructions free the register the image
+spends, and every later assignment shifts by one.  Fixing the entry test
+should fix the allocation with it.
+
+What the body IS, decoded, so the next pass need not re-read the listing:
+
+  if (g.f04 <= 0) return;                  /* `ls`, so unsigned <= */
+  i = 0; off = 0;
+  do {
+      e = (Ent *)(g.f08 + off);            /* stride 0x30 */
+      if (e->f1c != 0) {
+          for (k = 0; k < 3; k++) {        /* the dead entry test lives here */
+              f = k;
+              if ((e->f24 >> k) & 1)
+                  if ((e->f20 >> k) & 1) f = 1;
+              if (f != 0) {
+                  base = (k == 0) ? e->f14 : e->f10;
+                  if (g.f00(tbl[k], func_020640D4(e, k),
+                            base + e->f28, e->f2c) != 0)
+                      e->f24 &= ~(1u << k);
+              }
+          }
+          e->f20 = 0;
+      }
+      i++; off += 0x30;
+  } while (i < g.f04);
+
+Pool: 0x02066AB4 = 0x02148B20 (the control block: f00 is a function pointer
+called through `blx`, f04 the count, f08 the array base), 0x02066AB8 =
+0x020A1808 (the three-entry s32 table indexed by k).  Note the base pool word
+0x02148B20 is loaded THREE times (0x020669A0, 0x020669C4, 0x02066A84) from the
+single pool entry, and both `i` and `off` are stack-spilled at sp+4 and sp+0
+across the whole loop -- both reproduce under either front end and are not
+part of the residue.
+
+Recorded, not ground further: the cap in (1) means even closing (2) yields
+MATCH, not EXACT, so the row is not worth more budget until a second caller
+of func_020640D4 is decompiled.

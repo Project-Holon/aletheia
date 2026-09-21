@@ -49,3 +49,121 @@ about the semantics is in doubt.  Next agent: the two spilled values are both
 loop-invariants computed *between* the clamps and the `if (a2 >= yend) return`,
 so a spelling that makes them live across the whole loop (rather than
 rematerialised) is what is wanted.
+
+
+================================================================
+near miss: func_02044F64 @ 0x02044F64, 292 bytes, pkt_020445F4
+verdict: DIFF, 14 concrete bytes, CORRECT SIZE, all 7 relocation sites resolve
+appended 2026-09-21
+
+Unlike the func_02044BF0 row above, nothing here is spilled or scheduled
+wrong.  The 14 residual bytes are ONE consistent register renaming and
+nothing else: every instruction, every shift amount, every multiply, both
+`mla`s, the four `_s32_div_f` calls, the loop bound and the whole tail are
+byte-identical in position and opcode.
+
+At the 14-byte floor only TWO registers are still swapped, plus the pair of
+u16 loads that feeds them:
+
+  ORIGINAL          COMPILED
+  dep -> sb         dep -> r7
+  w*d -> r7         w*d -> sb
+  f04 -> r3         f04 -> r4      (and f06 the other way round)
+
+w, h, d, i, n and dst all land in the image's own registers.
+
+What the function is
+--------------------
+De-tile an 8bpp tiled surface into a fresh linear one.  The descriptor is the
+same three-u16 shape the rest of this packet uses:
+
+    +0x00  u8 *pixels
+    +0x04  u16 f04      tile-grid width
+    +0x06  u16 f06      tile-grid height
+    +0x08  u16 f08      depth / bytes per texel
+
+The pixel dimensions are NOT `f * 8`.  The image computes each as
+`lsl #0xd` then `lsr #0x10`, which is `(u32)(f * 8192) >> 16`, i.e. the
+multiply-then-truncate-to-u16 form.  Writing `(u16)(f * 8)` instead compiles
+to `lsl #0x13` and is 219 bytes out; the `lsr` (not `asr`) is what forces the
+cast to be through `u32`.
+
+The C that reaches 25
+---------------------
+    struct Surf *func_02044F64(struct Surf *src, u32 keep, u32 a3)
+    {
+        struct Surf *dst;
+        s32 i, h, d, dep, w, n;     /* THIS ORDER; see the sweep below */
+
+        dep = src->f08;
+        w = (u32)(src->f04 * 8192) >> 16;
+        h = (u32)(src->f06 * 8192) >> 16;
+        d = (u32)(dep * 8192) >> 16;
+
+        dst = func_02043678(w, h, dep, a3);     /* FOUR arguments, see below */
+        n = w * h * dep;
+
+        for (i = 0; i < n; i++) {
+            s32 q, r, x, y;
+            q = i / (w * d);
+            r = i % (w * d);
+            y = r % d;                          /* remainder FIRST, see below */
+            x = r / d;
+            dst->pixels[i] =
+                src->pixels[(q % 8) * d + y + (q / 8 * w + x) * dep];
+        }
+
+        if (keep == 0) {
+            func_02043814(dst, src);
+            func_020437AC(dst);
+            dst = 0;
+        }
+        return dst;
+    }
+
+Three levers that each moved this a long way, all confirmed by compile:
+
+1. func_02043678 takes FOUR arguments, not three.  The image's `mov r3, r2`
+   at +0x0028 passes this function's own third parameter straight through as
+   the callee's fourth.  A three-argument declaration leaves that `mov` dead
+   and costs four bytes (296 against 292).
+
+2. The divisions are SIGNED.  `u32` dimensions give `_u32_div_f`, which has
+   no address in symbols_sdk.json and leaves four sites unresolved; `s32`
+   gives `_s32_div_f` at 0x0209C0A4 (`runtime` class, layout/runtime_arm9.txt)
+   and all four resolve.  `/` and `%` on the same pair are two separate calls
+   (docs/idioms/div-and-mod-are-two-calls.md), which is why four calls make
+   two divisions.
+
+3. The value added to `src->pixels` is the REMAINDER, not the quotient.  The
+   image's third `_s32_div_f` keeps r1 (`mov sl, r1`) and feeds `sl` into the
+   `add r3, r1, sl` against the base pointer, while the fourth call's r0
+   quotient goes into the `mla`.  Writing `y = r / d; x = r % d;` is 133
+   bytes out; swapping them to `y = r % d; x = r / d;` drops straight to 29.
+
+4. DECLARATION ORDER IS THE WHOLE REGISTER ALLOCATION HERE.  An exhaustive
+   sweep of all 720 permutations of the six locals (i, w, h, d, dep, n) was
+   run; the minimum is `i, h, d, dep, w, n` at 16 bytes, and flipping the
+   product to `n = w * h * dep` on top of it gives 14.  The obvious orders
+   are all much worse: `w, h, d, dep, n, i` is 25 and `dep, i, h, d, w, n`
+   is 29.  Nothing but declaration order moves these registers.
+
+Levers measured that did NOT help (all on the 14-byte source):
+  - `n = h * w * dep` instead of `w * h * dep`:             16
+  - the three next-best declaration orders from the sweep:  19 each
+  - `w * d` bound to a named loop-invariant local:          33
+    (the image RECOMPUTES `mul r7, r8, r6` inside the loop)
+  - `src->f08` re-read at the func_02043678 call
+    instead of `dep`:                                       14 (identical)
+  - `src->f08` re-read for `n`:                             296 bytes
+  - `h` assigned before `w`:                                27
+  - `i / (d * w)` / `i % (d * w)`:                          33
+  - `n = dep * (h * w)`:                                    32
+  - the index as `(src->pixels + ...)[...]` rather than one
+    flat subscript:                                         137
+
+Not filed: DIFF sources never go in src/matched.  Next agent: only `dep` and
+the `w * d` product are still swapped (sb vs r7).  Declaration order has been
+swept exhaustively and 14 is its floor, so the remaining lever is somewhere
+else -- most likely the SHAPE of the `dep` read, since `dep` is the one value
+that is both an argument to func_02043678 and a multiplicand in the loop.

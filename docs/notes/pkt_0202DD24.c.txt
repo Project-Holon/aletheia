@@ -1,0 +1,145 @@
+packet pkt_0202DD24  function func_0202DD24 (0x0202DD24 thumb)
+DIFF       func_0202DD24 @ 0202DD24 (arm9, Thumb)
+  compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 308 bytes, 18 relocation site(s)
+  relocations: 18 of 18 resolved
+    +001A THM_CALL func_02045758       -> 02045758  [label x7, e.g. 0201F750]
+    +0024 THM_CALL func_02045758       -> 02045758  [label x7, e.g. 0201F750]
+    +002C THM_CALL func_02045760       -> 02045760  [label x7, e.g. 0201F758]
+    +0036 THM_CALL func_02045760       -> 02045760  [label x7, e.g. 0201F758]
+
+The whole body from +0x86 (the two-iteration sprite-copy loop, the +0x18
+bitfield pair and the +0x20 copy loop) is instruction-for-instruction
+identical to the original; the residual is entirely in the prologue's
+register allocation.  The original keeps di = i*0x28 permanently in r7 and
+spills dj = j*0x28 to sp+0xc, reloading it before every `ldr r0,[r6,r0]`;
+every spelling tried below makes mwccarm choose the mirror image (dj in a
+register, di in the slot), which costs one extra frame word (sub sp,#0x24
+instead of #0x20, push {r4..} instead of push {r3,r4..}) and shifts the
+whole tail by two bytes.  Tried, all producing the same allocation:
+  - di/dj declared in both orders, with and without `register` on di;
+  - dst/src assigned in both orders;
+  - the shared *(u32 *)(base + dj) argument as a named local `t` and
+    respelled at each of the three 0x45334/0x45374/0x45730 call sites;
+  - dx/dy declared before and after dj/dst (stack-order idiom);
+  - ox/oy as (s16)(dx * 8) vs. a single interleaved pair.
+Consequence: the compiler schedules `lsls r0, r7, #0x13` (dx*8 folded with
+the s16 cast off the live register) where the original does
+`ldr r0,[sp,#4]; lsls r2,r0,#3; ... lsls r0,r2,#0x10; asrs r0,r0,#0x10`,
+i.e. reads dx back from the slot.  Getting dx and dy onto the stack, which
+is what forces that split shift pair, is the lever this needs.
+The 18 relocations all resolve (label class), so the function is not
+evidence-blocked: it is a pure codegen near miss, 20 bytes short.
+
+---- closest C ----
+/*
+ * unit:     no
+ * function: func_0202DD24
+ * address:  0x0202DD24
+ * packet:   pkt_0202DD24
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0202E430   0x0202E430  thumb
+ *   func_02045758  0x02045758  arm
+ *   func_02045760  0x02045760  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02043814  0x02043814  arm
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_0204B454  0x0204B454  arm
+ *   func_0204B404  0x0204B404  arm
+ *   func_0204B898  0x0204B898  arm
+ *   func_0204B878  0x0204B878  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Pt { s16 x; s16 y; };
+struct Ent { u32 pad[6]; u32 b0 : 1; u32 b1 : 1; };
+
+extern u32  sub_0202E430(u32 id);
+extern u32  func_02045730b(u32 a);
+extern u32  func_02045758(u32 a);
+extern u32  func_02045760(u32 a);
+extern u32  func_02045770(u32 a);
+extern void func_02043814(u32 a, u32 b);
+extern void func_02045334(u32 a);
+extern void func_02045374(u32 a);
+extern u32  func_02045730(u32 a);
+extern void func_02041B6C(void);
+extern void func_0204B454(void *h, struct Pt *p, u16 v);
+extern void func_0204B404(void *h, struct Pt *p, u16 v);
+extern u32  func_0204B898(void *h);
+extern void func_0204B878(void *h, u16 v);
+extern void func_0204B3DC(void *h, u32 v);
+
+void func_0202DD24(u8 *p, u32 i, u32 j)
+{
+    struct Pt pt;
+    s32 oy;
+    s32 ox;
+    u32 v;
+    u32 dj;
+    u8 *dst;
+    s32 dx;
+    s32 dy;
+    u8 *base = *(u8 **)(p + 0xc);
+    u32 di;
+    u8 *src;
+    u32 t;
+    s32 k;
+
+    di = i * 0x28;
+    dj = j * 0x28;
+    dst = base + dj;
+    src = base + di;
+
+    dx = (s32)func_02045758(*(u32 *)(base + dj)) -
+         (s32)func_02045758(*(u32 *)(base + di));
+    dy = (s32)func_02045760(*(u32 *)(base + dj)) -
+         (s32)func_02045760(*(u32 *)(base + di));
+    func_02043814(func_02045770(*(u32 *)(base + di)),
+                  func_02045770(*(u32 *)(base + dj)));
+
+    t = *(u32 *)(base + dj);
+    func_02045334(t);
+    func_02045374(t);
+    func_02045730(t);
+    func_02041B6C();
+
+    ox = (s16)(dx * 8);
+    oy = (s16)(dy * 8);
+
+    for (k = 0; k < 2; k++) {
+        v = sub_0202E430(func_02045730(*(u32 *)src));
+
+        func_0204B454(*(void **)(src + k * 4 + 8), &pt, (u16)v);
+        pt.x = (s16)(pt.x + ox);
+        pt.y = (s16)(pt.y + oy);
+        func_0204B404(*(void **)(dst + k * 4 + 8), &pt, (u16)v);
+        func_0204B878(*(void **)(dst + k * 4 + 8),
+                      (u16)func_0204B898(*(void **)(src + k * 4 + 8)));
+        func_0204B3DC(*(void **)(dst + k * 4 + 8),
+                      *(u32 *)(src + k * 4 + 0x20));
+    }
+
+    *(u8 *)(dst + 4) = *(u8 *)(src + 4);
+    ((struct Ent *)dst)->b0 = ((struct Ent *)src)->b0;
+    ((struct Ent *)dst)->b1 = ((struct Ent *)src)->b1;
+    for (k = 0; k < 2; k++) {
+        *(u32 *)(dst + k * 4 + 0x20) = *(u32 *)(src + k * 4 + 0x20);
+    }
+}
