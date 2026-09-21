@@ -7,6 +7,29 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "unit_02020E60",
+   "address": "0x02020E60",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_02020E60.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02020E60"
+   ],
+   "evidence": {
+    "sole-ref": [
+     "self:0x0209E9E8",
+     "self:0x0209E9EA",
+     "self:0x0209EB6C",
+     "self:0x0209EB6E"
+    ]
+   }
+  },
+  {
    "name": "unit_02020F08",
    "address": "0x02020F08",
    "kind": "game_unit",

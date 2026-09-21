@@ -19,6 +19,23 @@
    "status": "EXACT"
   },
   {
+   "name": "sub_0200F2D4",
+   "address": "0x0200F2D4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0200F2D4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02146178"
+    ]
+   }
+  },
+  {
    "name": "sub_0200F300",
    "address": "0x0200F300",
    "kind": "game",

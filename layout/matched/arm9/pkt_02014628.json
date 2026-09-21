@@ -111,6 +111,23 @@
      "code:0x02014878"
     ]
    }
+  },
+  {
+   "name": "func_02014A10",
+   "address": "0x02014A10",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02014A10.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0209E054"
+    ]
+   }
   }
  ]
 }

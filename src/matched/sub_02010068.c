@@ -1,0 +1,120 @@
+/*
+ * unit:     no
+ * function: sub_02010068
+ * address:  0x02010068
+ * packet:   pkt_02010068
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g0209DEA0      0x0209DEA0  data
+ *
+ * blocked: literal.  Every concrete byte matches; the only four unresolved
+ * sites are the four ABS32 pool words for g0209DEA0 (base+0/+2/+4/+6, the
+ * four u16 fields of an 8-byte-stride table indexed by a0).  The word
+ * 0x0209DEA0 appears in exactly one literal pool image-wide, at 0x02010148,
+ * which is inside this function's own extent, so no witness exists outside
+ * the compared range and no cut can free it.  Needs a second referrer of
+ * the table, or a matched neighbour that pools the same address.
+ *   func_0207E24C  0x0207E24C  arm
+ *   func_02082A7C  0x02082A7C  arm
+ *   func_0204A1BC  0x0204A1BC  arm
+ *   func_02062A4C  0x02062A4C  arm
+ *   func_020862F0  0x020862F0  arm
+ *   func_02082A60  0x02082A60  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_02062B30  0x02062B30  arm
+ *   func_0207DFB4  0x0207DFB4  arm
+ *   func_02062AD4  0x02062AD4  arm
+ *   func_02062A98  0x02062A98  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct ent {
+    u16 f0;
+    u16 f2;
+    u16 f4;
+    u16 f6;
+};
+
+struct res0 {
+    u8  pad[0x10];
+    u32 len;
+    void *ptr;
+};
+
+struct res1 {
+    u32 pad0;
+    u32 pad4;
+    u32 len;
+    u8  buf[4];
+};
+
+struct res2 {
+    u8  pad[0xc];
+    void *ptr;
+};
+
+extern struct ent g0209DEA0[];
+
+extern void *func_0207E24C(void);
+extern void *func_0207DFB4(void);
+extern void func_02082A7C(u32 val, void *dst, u32 n);
+extern void *func_0204A1BC(u32 a, u32 b, u32 c, u32 d);
+extern int func_02062A4C(void *h, struct res0 **out);
+extern void func_020862F0(void *p, u32 n);
+extern void func_02082A60(void *dst, const void *src, u32 n);
+extern void func_020307B0(void *h);
+extern int func_02062B30(void *h, struct res1 **out);
+extern void func_02062AD4(void *h, void *out);
+extern int func_02062A98(void *h, struct res2 **out);
+
+void sub_02010068(u32 a0)
+{
+    void *h;
+    struct res0 *r0p;
+    struct res1 *r1p;
+    struct res2 *r2p;
+    u32 sp0;
+    u16 id;
+
+    func_02082A7C(0, func_0207E24C(), 0x4000);
+
+    id = g0209DEA0[a0].f0;
+    h = func_0204A1BC(id, g0209DEA0[a0].f2, 0, 1);
+    if (func_02062A4C(h, &r0p) != 0) {
+        u32 n;
+        void *src;
+        func_020862F0(r0p->ptr, r0p->len);
+        n = r0p->len;
+        src = func_0207E24C();
+        func_02082A60(r0p->ptr, src, n);
+    }
+    func_020307B0(h);
+
+    h = func_0204A1BC(id, g0209DEA0[a0].f4, 0, 1);
+    if (func_02062B30(h, &r1p) != 0) {
+        u32 n;
+        void *src;
+        func_020862F0(r1p->buf, r1p->len);
+        n = r1p->len;
+        src = func_0207DFB4();
+        func_02082A60(r1p->buf, src, n);
+    }
+    func_020307B0(h);
+
+    h = func_0204A1BC(id, g0209DEA0[a0].f6, 0, 1);
+    func_02062AD4(h, &sp0);
+    if (func_02062A98(h, &r2p) != 0) {
+        func_020862F0(r2p->ptr, 0x20);
+        func_02082A60(r2p->ptr, (void *)0x05000000, 0x20);
+    }
+    func_020307B0(h);
+}

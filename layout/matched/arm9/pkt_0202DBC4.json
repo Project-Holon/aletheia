@@ -99,6 +99,23 @@
    "status": "EXACT*"
   },
   {
+   "name": "sub_0202E448",
+   "address": "0x0202E448",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/sub_0202E448.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x020A02A8"
+    ]
+   }
+  },
+  {
    "name": "unit_0202E54C",
    "address": "0x0202E54C",
    "kind": "game_unit",
