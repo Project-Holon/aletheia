@@ -1200,7 +1200,7 @@ class Scorer:
             cmd += ["-thumb"]
         if c["lang"]:
             cmd += ["-lang", c["lang"]]
-        cmd += ["-ir", d]
+        cmd += ["-nofail", "-ir", d]     # keep going past a file with errors
         if c["sdk_include"] and os.path.isdir(match.SDK_INCLUDE):
             cmd += ["-I+" + match.SDK_INCLUDE]
         cmd += ["-c"]
