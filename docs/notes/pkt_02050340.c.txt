@@ -142,3 +142,76 @@ Also note the callback's zero argument is the SAME r4 the stm already stored
 (`mov r0, r4`, not `mov r0, #0`), so the literal must be bound once and reused;
 and `add r2, r5, r2` puts the func_020473D8 result on the left, making the base
 the named temporary.
+
+
+==============================================================================
+2026-09-21, unblock lane.  func_02050550 worked; STRUCTURALLY BLOCKED.
+==============================================================================
+
+func_02050550  0x02050550  360 bytes  DIFF, 3 concrete bytes
+
+The body is now fully derived and compiles to the exact 360 bytes with only a
+commutative-add register-NAME swap left:
+
+  ORIGINAL   ldrh r1, [r6, #4]  /  ldr r0, [r7, #0xc]  /  add r1, r0, r1, lsl #3
+  COMPILED   ldrh r0, [r6, #4]  /  ldr r1, [r7, #0xc]  /  add r1, r1, r0, lsl #3
+
+Same arithmetic, same dest, only the two scratch registers exchanged; every
+other one of the 360 bytes is identical.  Sixteen spellings measured, all
+either 3 (the floor) or worse: `o->f0c + e->f04*8`, `e->f04*8 + o->f0c`,
+`o->f0c + 8*e->f04`, `o->f0c + (e->f04<<3)`, `&o->f0c[e->f04*8]`,
+`&((struct Rec8 *)o->f0c)[e->f04]`, `(u32 *)o->f0c + e->f04*2`, a named
+`u32 idx = e->f04` local, a named `u16 k`, a `u32 base = (u32)o->f0c` cast,
+`p = o->f0c; p = p + e->f04*8;` split into two statements, the whole
+expression recomputed fresh at both uses (no `p` local at all), `const`-qualified
+f0c, and moving the `p =` statement above/below the `rem = c->f02` load.
+Nothing moves it off 3, and nothing beats 3.
+
+THE FILE IS STILL NOT WORTH FILING, AND THIS IS THE IMPORTANT FINDING:
+
+  Even at 0 concrete mismatches func_02050550 would cap at MATCH, not EXACT.
+  Its `bl func_020506B8` at +0xDC is a relocation with NO witness outside
+  0x02050550..0x020506B0, and the ONLY branch to 0x020506B8 anywhere in the
+  image is that very `bl` (confirmed by grep over asm/arm9/src/*.s).  A MATCH
+  entry is never a witness, so func_02050550 could never attest
+  func_020504D8's `bl` either.
+
+  So the chain func_02050550 -> func_020504D8 is not one function deep, it is
+  two: func_020506B8 must be filed EXACT FIRST (it is the 128-byte DIFF,
+  4 bytes long, recorded in the wave-6 section above), then func_02050550
+  resolves, then func_020504D8 resolves.  Anyone picking this up should start
+  at func_020506B8 and its `&s2`-liveness lever, not here.
+
+The derived body of func_02050550, for whoever resumes (all of it verified
+except the one register swap):
+
+  * guard: `if (e->f08 == 0 || e->f18 == 0) return;` as ONE disjunction
+    (shares the `addeq sp`/`popeq` exit).
+  * `if (e->f12 != 0) { e->f12 = e->f12 - 1; return; }`.
+  * `c = (struct Cmd *)((u8 *)e->f08[e->f0e] + e->f10 * 4);` then
+    `while (func_02050920(c)) { if (func_02050944(e, c)) return; <recompute c>; }`
+    with the recompute written out in full at the bottom of the loop (e->f08
+    is re-read there, which is the `ldr r2, [r6, #8]` at +0x7C).
+  * `e->f10 = e->f10 + 1;` then `s0 = c->a; rem = c->f02;` IN THAT ORDER
+    (swapping them costs 19 bytes).
+  * struct Cmd is `u16 a : 14; u16 b : 1; u16 c : 1; u16 f02;` -- the
+    lsl#0x12/lsr#0x12 pair is the 14-bit field, the lsl#0x11/lsrs#0x1f and
+    lsl#0x10/lsrs#0x1f pairs are bits 14 and 15.
+  * Stack: s0 is a **u16** at sp+0, s1 (bit 15) a u32 at sp+4, s2 (bit 14) a
+    u32 at sp+8, so the declaration order is s2, s1, s0 (later declaration,
+    lower address) and s0 must be u16 or the `strh r0, [sp]` becomes `str`.
+  * The two bit writes are `if (c->b) s2 = 1; else s2 = 0;` written out as
+    if/else, NOT `s2 = (c->b != 0)`.  The ternary/comparison form emits
+    `movne/moveq` then ONE `str`; the if/else form emits the original's
+    `movne r0,#1 / strne r0,[sp,#8] / moveq r0,#0 / streq r0,[sp,#8]`, and
+    that is exactly the 8 bytes that took the file from 352 to 360.
+  * Both bit computations precede both of the func_0204F764/func_0204F794
+    calls? NO -- they interleave: compute s2, call 764, compute s1, call 794
+    is WRONG; the original computes s2 (sp+8), then s1 (sp+4), THEN calls 764
+    and 794 back to back.  Write both if/elses first.
+  * tail: `if (rem != 0) rem = rem - 1; e->f12 = rem;` with rem a u16 (the
+    `lslne/lsrne #0x10` pair is the u16 narrowing of the decrement).
+
+Finally, the earlier note's claim about the OTHER chain was checked and holds:
+0x020508BC, inside func_02050894, is the only branch to func_02050738 anywhere
+in the image, so filing func_02050738 EXACT does free func_02050894.

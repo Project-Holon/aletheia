@@ -148,3 +148,64 @@ The file is parked at src/pending/func_020680DC.c with this C. It is worth
 finishing: an EXACT here is the `matched` witness that unblocks the
 byte-correct 224-byte src/pending/func_02069818.c, whose two calls to this
 address are the only branches to it anywhere in the image.
+
+====================================================================
+2026-09-21, unblock lane, SECOND pass -- STILL DIFF 5, same pair swap
+====================================================================
+
+Re-verified the parked file and confirmed the note above: under the pinned
+`--cc ../2.0/sp2` it is 116 bytes with exactly the five bytes of the r5/r7
+pair swap and nothing else.  (Under the header's plain 1.1p1 it is 33, the
+hoisted `add r7, sp, #8` CSE the section above describes, so ANYONE
+re-measuring this file MUST pass `--cc ../2.0/sp2` or they will read the
+wrong residue and conclude the C regressed.)
+
+Eleven further spellings measured this pass, every one at 5 or worse, so the
+swap is confirmed to be an allocator priority and NOT reachable from source
+order or loop shape:
+
+  5   the parked C, unchanged                                  (the floor)
+  5   `n = 1;` hoisted above `decode = obj->decode;`
+  5   the guard written `if (ch == 0) goto done;` with the do-while
+      unnested and a `done:` label after it
+  5   `while (1) { ...; ch = decode(cur); if (ch == 0) break; }`
+  5   the loop call spelled `(*&decode)(cur)` to defeat any forwarding
+  5   a dead `cur = 0;` after the loop, lengthening cur's live range
+  6   `decode` declared LAST, after `cur`
+ 33   `cur = &c.handle;` hoisted above the first call (the CSE returns)
+ 33   a second `pre` local holding `&c.handle`, passed to the first call and
+      copied into `cur` (same CSE)
+ 51   the loop cursor spelled `q + 2` (112 bytes, four short)
+ 66   the first call written `obj->decode(&c.handle)` with the local bound
+      only inside the guard (120 bytes, four long)
+124   a `for (cur = &c.handle; ch != 0; ch = decode(cur))` head
+
+WHAT THE SWAP ACTUALLY IS, stated so the next pass does not re-derive it:
+four values want callee-saved registers and two of them are forced -- the
+object pointer takes r8 and the line count r6, and the stack base r4 is
+reused for `pitch` after the two zero stores retire.  That leaves exactly r5
+and r7 for `decode` and `cur`, and the two builds disagree on which way
+round.  The image gives the LATER-defined value (`cur`, defined in the loop
+preheader at 0x02068118) the LOWER register r5 and the earlier-defined
+`decode` the higher r7; 2.0/sp2 does the opposite.  `decode` has two uses and
+`cur` one, which is the likeliest priority key, and no C-level spelling
+changes either the definition points or the use counts without also changing
+the size.
+
+The next thing to try is therefore NOT another statement order.  It is a
+shape that gives `cur` a SECOND use inside the loop -- something the image's
+single `mov r0, r5` does not show but which a wider `tu` over the function's
+neighbours might explain -- or a measurement of whether some third dsi build
+in the collection breaks the tie the other way.  Note that any such probe is
+a compiler sweep and is forbidden by the brief without a documented tell, so
+it needs the owner's call, not a lane's.
+
+NO PIN ROW TAKEN, for the same reason as the section above: FRONTEND-PINS.md
+requires a compile that reaches EXACT and this is five bytes short.  The
+`compiler: ../2.0/sp2` value belongs in the file header (it is load-bearing
+for the SIZE) but not in the pins table.
+
+CONSEQUENCE FOR THE CHAIN: src/pending/func_02069818.c (224 bytes,
+byte-correct) stays parked.  Its two `bl`s to 0x020680DC are the only
+branches to this address anywhere in the image, so nothing but an EXACT here
+frees it, and this pass did not get one.

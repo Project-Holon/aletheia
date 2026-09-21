@@ -1,0 +1,122 @@
+/* DIFF evidence note, 2026-09-21.
+ * func_0202B04C @ 0x0202B04C.  Byte-close near miss; same scheduling class as
+ * docs/notes/func_0202AFAC.c.txt (the fifth, stack-passed argument's
+ * str [sp] is emitted one slot too early and no source shaping tried
+ * moved it).  NOT filed as a source: match.py says DIFF.
+ */
+
+/*
+ * function: func_0202B04C
+ * address:  0x0202B04C
+ * packet:   pkt_0202AF74
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0202B104  0x0202B104  thumb
+ *   func_0202B174  0x0202B174  thumb
+ *   func_0202B194  0x0202B194  thumb
+ *
+ * The third axis of the func_0202AFAC family: pos[2], func_0202B104 /
+ * func_0202B174 and the radius table at +0x22.  0x22 is past the +31
+ * reach of the Thumb ldrb immediate, which is why this one spends an
+ * extra `adds` per load where the +0x16 and +0x1c twins do not
+ * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
+ */
+
+typedef int            s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+
+extern u32 func_0202B104(u8 *obj, s32 *pos);
+extern s32 func_0202B174(u8 *obj);
+extern s32 func_0202B194(s32 a, s32 b, s32 c, s32 d, s32 e);
+
+u8 func_0202B04C(u8 *obj, s32 *pos)
+{
+    u32 cur;
+    u32 prev;
+    s32 d;
+    s32 v;
+    u8 *pp;
+    u8 *pc;
+
+    cur = func_0202B104(obj, pos);
+    if (cur == 0)
+        prev = 0;
+    else
+        prev = (u8)(cur - 1);
+
+    if (cur == prev)
+        return (obj + cur)[0x10];
+
+    v = pos[2] >> 12;
+    d = v - func_0202B174(obj);
+    if (d < 0)
+        d = -d;
+
+    pp = obj + prev;
+    pc = obj + cur;
+
+    return (u8)func_0202B194(pc[0x22] << 4, pc[0x10],
+                             pp[0x22] << 4, pp[0x10], d);
+}
+
+/* ---- diff at the time of writing ---- */
+ DIFF       func_0202B04C @ 0202B04C (arm9, Thumb)
+   compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+   compiled 86 bytes, 3 relocation site(s)
+   relocations: 3 of 3 resolved
+     +0006 THM_CALL func_0202B104       -> 0202B104  [matched x1, e.g. 0202B104]
+     +0028 THM_CALL func_0202B174       -> 0202B174  [label x1, e.g. 0202B10C]
+     +004C THM_CALL func_0202B194       -> 0202B194  [label x2, e.g. 0202AFF0]
+   listing extent for the original: 88 bytes
+   note: listing says the original is 88 bytes, compiled 86
+   13 concrete byte(s) differ
+   offset     ORIGINAL @ 0202B04C                    | COMPILED                              
+   ------------------------------------------------------------------------------------------
+     +0000    push {r3, r4, r5, r6, r7, lr}          | push {r3, r4, r5, r6, r7, lr}          
+     +0002    adds r6, r0, #0                        | adds r6, r0, #0                        
+     +0004    adds r5, r1, #0                        | adds r5, r1, #0                        
+     +0006    bl #0x202b104                          | bl #0x202b104                          <- THM_CALL func_0202B104 [resolved: matched]
+     +000A    adds r4, r0, #0                        | adds r4, r0, #0                        
+     +000C    bne #0x202b05e                         | bne #0x202b05e                         
+     +000E    movs r7, #0                            | movs r7, #0                            
+     +0010    b #0x202b064                           | b #0x202b064                           
+     +0012    subs r0, r4, #1                        | subs r0, r4, #1                        
+     +0014    lsls r0, r0, #0x18                     | lsls r0, r0, #0x18                     
+     +0016    lsrs r7, r0, #0x18                     | lsrs r7, r0, #0x18                     
+     +0018    cmp r4, r7                             | cmp r4, r7                             
+     +001A    bne #0x202b06e                         | bne #0x202b06e                         
+     +001C    adds r0, r6, r4                        | adds r0, r6, r4                        
+     +001E    ldrb r0, [r0, #0x10]                   | ldrb r0, [r0, #0x10]                   
+     +0020    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
+     +0022    ldr r0, [r5, #8]                       | ldr r0, [r5, #8]                       
+     +0024    asrs r5, r0, #0xc                      | asrs r5, r0, #0xc                      
+     +0026    adds r0, r6, #0                        | adds r0, r6, #0                        
+     +0028    bl #0x202b174                          | bl #0x202b174                          <- THM_CALL func_0202B174 [resolved: label]
+     +002C    subs r0, r5, r0                        | subs r0, r5, r0                        
+     +002E    bpl #0x202b07e                         | bpl #0x202b07e                         
+     +0030    rsbs r0, r0, #0                        | rsbs r0, r0, #0                        
+     +0032    adds r3, r6, r7                        | adds r3, r6, r7                        
+     +0034    adds r2, r3, #0                        | adds r2, r3, #0                        
+   * +0036    adds r2, #0x22                         | str r0, [sp]                           
+   * +0038    ldrb r2, [r2]                          | adds r1, r6, r4                        
+   * +003A    adds r1, r6, r4                        | adds r0, r1, #0                        
+   * +003C    str r0, [sp]                           | adds r0, #0x22                         
+   * +003E    adds r0, r1, #0                        | adds r2, #0x22                         
+   * +0040    adds r0, #0x22                         | ldrb r0, [r0]                          
+   * +0042    ldrb r0, [r0]                          | ldrb r2, [r2]                          
+     +0044    ldrb r1, [r1, #0x10]                   | ldrb r1, [r1, #0x10]                   
+     +0046    ldrb r3, [r3, #0x10]                   | ldrb r3, [r3, #0x10]                   
+     +0048    lsls r0, r0, #4                        | lsls r0, r0, #4                        
+     +004A    lsls r2, r2, #4                        | lsls r2, r2, #4                        
+     +004C    bl #0x202b194                          | bl #0x202b194                          <- THM_CALL func_0202B194 [resolved: label]
+     +0050    lsls r0, r0, #0x18                     | lsls r0, r0, #0x18                     
+     +0052    lsrs r0, r0, #0x18                     | lsrs r0, r0, #0x18                     
+     +0054    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
+   legend: '*' concrete mismatch, '~' relocation field (wildcarded)

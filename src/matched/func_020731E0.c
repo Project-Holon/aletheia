@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  * symbols:
  *   g_0214E018  0x0214E018  data
  *   g_020A5D08  0x020A5D08  data
@@ -25,17 +25,19 @@
  * Byte-correct: 356 bytes, 0 concrete mismatches, under the DEFAULT 1.1p1
  * -O4,p.  No compiler pin taken or needed.
  *
- * Blocked at MATCH, evidence class: `label` unavailable for two PC24 sites,
- * +0x04 (func_0208A054) and +0x13C (func_02089378).  Both targets ARE defined
- * and labelled in asm/arm9/src/028_02087E60.s, but every `bl` reaching either
- * one anywhere in the image (arm9 and all of asm/overlays) is inside this
- * function's own 356 bytes -- the `bl` at 0x020731E4 and the one at
- * 0x0207331C respectively.  `label` therefore refuses both for want of an
- * OUTSIDE branch, and neither address carries a `matched` manifest entry or
- * a runtime_arm9.txt row.  A split cannot help: each site's only witness is
- * the call that needs it.  Filing any second caller of either address, or an
- * EXACT entry covering 0x0208A054 / 0x02089378 themselves, promotes this file
- * to EXACT with no change to the C.
+ * PROMOTED TO EXACT, 2026-09-21 (unblock lane), with NO change to the C.
+ * It was parked at MATCH because the two PC24 sites at +0x04 (func_0208A054)
+ * and +0x13C (func_02089378) had no `label` witness: both targets are defined
+ * and labelled in asm/arm9/src/028_02087E60.s, but the only `bl` reaching
+ * either one anywhere in the image (arm9 and all of asm/overlays) was inside
+ * this function's own 356 bytes -- the `bl` at 0x020731E4 and the one at
+ * 0x0207331C respectively -- so `label` refused both for want of an OUTSIDE
+ * branch and a split could not help.  There is no second caller to find.
+ * Both callees were therefore written and filed directly instead:
+ * src/matched/func_02089378.c (32 bytes, shard pkt_02089378) and
+ * src/matched/func_0208A054.c (40 bytes, shard pkt_0208A054), each EXACT on
+ * its own evidence.  Both sites now resolve `matched x1` and all 13 of this
+ * file's relocations are attested.
  *
  * Levers that mattered, in the order they paid (all under 1.1p1):
  *  - The three sound-curve indices are PLAIN s16 subscripts.  Spelling any of

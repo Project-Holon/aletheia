@@ -1,0 +1,46 @@
+
+=== 2026-09-21, unblock lane: func_020731E0 PROMOTED TO EXACT ===
+
+The brief for this pass asked for "a second caller of 0x0208A054 or
+0x02089378".  THERE IS NONE, and that is the finding: a grep for `bl` to
+either address over all of asm/arm9/src/*.s and asm/overlays/*.s returns
+exactly one call site each -- 0x020731E4 for func_0208A054 and 0x0207331C for
+func_02089378 -- and both are inside func_020731E0's own 356 bytes.  (The
+grep appears to return three hits apiece only because three overlapping
+listings, 024_020730DC.s / 024_02073108.s / 024_020731E0.s, each transcribe
+the same instruction.)  Neither address appears in layout/worklist.json at
+all, so `worklist.py --targets` will never surface them either.
+
+So the unlock was taken the other way, by writing the two callees themselves.
+Both were EXACT on the first compile:
+
+  src/matched/func_02089378.c   32 bytes   shard arm9/pkt_02089378.json
+  src/matched/func_0208A054.c   40 bytes   shard arm9/pkt_0208A054.json
+
+func_02089378 is a forwarding leaf: `func_02089804(3, a, z, z, z)` with the
+three zeros bound to ONE named local.  The fifth argument is what produces the
+`str r2, [sp]` outgoing slot and therefore the `push {r3, lr}` frame rather
+than a bare `push {lr}`; declared with four parameters the frame loses the
+slot.  Writing the zeros as three separate literals loses the `mov r3, r2`
+copy.
+
+func_0208A054 is an accessor over the singleton at g_02152FA0.  The shape that
+matters is that it RE-READS the singleton pointer after the call
+(`ldr r0, [r4]` at 0x0208A06C) instead of caching the object: the base word,
+not the object, is what stays live in r4.  `func_020862B8(&g->f04, 4); return
+g->f04;` with two separate dereferences of the extern reproduces it exactly.
+
+With both filed, func_020731E0's +0x04 and +0x13C sites resolve `matched x1`,
+all 13 of its relocations are attested, and the parked 356-byte file verifies
+EXACT with NO change to its C.  It has been git mv'd to src/matched/, its
+`status:` set to EXACT, its blocker paragraph replaced by the promotion
+record, and shard arm9/pkt_0207312C.json rewritten.
+
+DOWNSTREAM, partially: src/pending/func_02072758.c now has 3 of 5
+relocations resolved (its +0x18 site takes func_020731E0 as `matched`) and
+sits at MATCH*.  The two that remain, +0x1C func_02073D7C (128 bytes) and
++0x20 func_02075858 (272 bytes), have no branch outside func_02072758's own
+bytes either, so they are the same situation one level down and must also be
+written directly.  Whoever takes that should start with func_02073D7C, the
+smaller of the two.  Note func_02072758 verifies under `--cc ../2.0/sp2`, not
+the default.

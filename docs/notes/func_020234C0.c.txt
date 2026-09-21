@@ -1,0 +1,130 @@
+/* DIFF evidence note, 2026-09-21 (revised after func_02023568 landed EXACT*).
+ * func_020234C0 @ 0x020234C0.  Byte-close near miss; match.py says DIFF, so this
+ * is evidence only and the source below is NOT filed.
+ */
+
+/*
+ * function: func_020234C0
+ * address:  0x020234C0
+ * packet:   pkt_02022F60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02023568  0x02023568  thumb
+ *   func_02022DCC  0x02022DCC  thumb
+ *   func_020307B0  0x020307B0  arm
+ *
+ * The per-frame step of the wipe/transition task set up at 0x02023464.
+ * The task block keeps its phase at +0x0c and the sub-object it allocated
+ * at +0x14.  Phase 1 polls func_02023568 and, once that answers 1, hands
+ * the sub-object's +0x44 field to func_02022DCC and advances; phase 2
+ * frees the sub-object (func_020307B0), clears the slot and advances;
+ * phase 3 is the terminal phase and is the only one that answers 1, which
+ * is how the caller learns the transition has finished.  Phase 0 and any
+ * other value answer 0 and do nothing.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_020234C0.c \
+ *       --func func_020234C0 --addr 0x020234C0 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned int  u32;
+
+struct Task {
+    u32   f00;
+    u32   f04;
+    u32   f08;
+    u32   phase;   /* 0x0c */
+    u32   f10;     /* 0x10 */
+    void *obj;     /* 0x14 */
+    u32   f18;     /* 0x18 */
+};
+
+extern u32  func_02023568(void *obj);
+extern void func_02022DCC(u32 a0, u32 a1, u32 a2);
+extern void func_020307B0(void *p);
+
+u32 func_020234C0(struct Task *t)
+{
+    void *obj;
+    u32   ret;
+
+    ret = 0;
+    obj = t->obj;
+
+    switch (t->phase) {
+    case 1:
+        if (func_02023568(obj) == 1) {
+            func_02022DCC(*(u32 *)((char *)obj + 0x44), t->f18, t->f10);
+            t->phase = t->phase + 1;
+        }
+        break;
+    case 2:
+        func_020307B0(obj);
+        t->phase = t->phase + 1;
+        t->obj = 0;
+        break;
+    case 3:
+        ret = 1;
+        break;
+    default:
+        break;
+    }
+
+    return ret;
+}
+
+
+/* ---- diff at the time of writing ---- */
+ DIFF       func_020234C0 @ 020234C0 (arm9, Thumb)
+   compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+   compiled 74 bytes, 3 relocation site(s)
+   relocations: 2 of 3 resolved
+     +001A THM_CALL func_02023568       -> unresolved: 02023568 (thumb, from header) has no witness outside 020234C0..0202350A
+     +0028 THM_CALL func_02022DCC       -> 02022DCC  [label x2, e.g. 02023664]
+     +0036 THM_CALL func_020307B0       -> 020307B0  [label x491, e.g. 0200670C]
+   listing extent for the original: 76 bytes
+   note: listing says the original is 76 bytes, compiled 74
+   2 concrete byte(s) differ
+   offset     ORIGINAL @ 020234C0                    | COMPILED                              
+   ------------------------------------------------------------------------------------------
+     +0000    push {r4, r5, r6, lr}                  | push {r4, r5, r6, lr}                  
+     +0002    adds r5, r0, #0                        | adds r5, r0, #0                        
+     +0004    ldr r0, [r5, #0xc]                     | ldr r0, [r5, #0xc]                     
+     +0006    movs r4, #0                            | movs r4, #0                            
+     +0008    ldr r6, [r5, #0x14]                    | ldr r6, [r5, #0x14]                    
+     +000A    cmp r0, #1                             | cmp r0, #1                             
+     +000C    beq #0x20234d8                         | beq #0x20234d8                         
+     +000E    cmp r0, #2                             | cmp r0, #2                             
+     +0010    beq #0x20234f4                         | beq #0x20234f4                         
+     +0012    cmp r0, #3                             | cmp r0, #3                             
+     +0014    beq #0x2023504                         | beq #0x2023504                         
+     +0016    b #0x2023506                           | b #0x2023506                           
+     +0018    adds r0, r6, #0                        | adds r0, r6, #0                        
+   ~ +001A    bl #0x2023568                          | bl #0x20234de                          <- THM_CALL func_02023568 [wildcard]
+     +001E    cmp r0, #1                             | cmp r0, #1                             
+     +0020    bne #0x2023506                         | bne #0x2023506                         
+     +0022    ldr r0, [r6, #0x44]                    | ldr r0, [r6, #0x44]                    
+     +0024    ldr r1, [r5, #0x18]                    | ldr r1, [r5, #0x18]                    
+     +0026    ldr r2, [r5, #0x10]                    | ldr r2, [r5, #0x10]                    
+     +0028    bl #0x2022dcc                          | bl #0x2022dcc                          <- THM_CALL func_02022DCC [resolved: label]
+     +002C    ldr r0, [r5, #0xc]                     | ldr r0, [r5, #0xc]                     
+     +002E    adds r0, r0, #1                        | adds r0, r0, #1                        
+     +0030    str r0, [r5, #0xc]                     | str r0, [r5, #0xc]                     
+     +0032    b #0x2023506                           | b #0x2023506                           
+     +0034    adds r0, r6, #0                        | adds r0, r6, #0                        
+     +0036    blx #0x20307b0                         | blx #0x20307b0                         <- THM_CALL func_020307B0 [resolved: label]
+     +003A    ldr r0, [r5, #0xc]                     | ldr r0, [r5, #0xc]                     
+     +003C    str r4, [r5, #0x14]                    | str r4, [r5, #0x14]                    
+     +003E    adds r0, r0, #1                        | adds r0, r0, #1                        
+     +0040    str r0, [r5, #0xc]                     | str r0, [r5, #0xc]                     
+   * +0042    b #0x2023504                           | b #0x2023506                           
+     +0044    movs r4, #1                            | movs r4, #1                            
+     +0046    adds r0, r4, #0                        | adds r0, r4, #0                        
+     +0048    pop {r4, r5, r6, pc}                   | pop {r4, r5, r6, pc}                   
+   legend: '*' concrete mismatch, '~' relocation field (wildcarded)

@@ -1,0 +1,246 @@
+/* DIFF evidence note, 2026-09-21.
+ * func_02020A58 @ 0x02020A58, packet see header below.  Byte-close near miss,
+ * NOT filed as a source: match.py says DIFF, so this is evidence only.
+ */
+
+/*
+ * function: func_02020A58
+ * address:  0x02020A58
+ * packet:   pkt_02020A58
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020437D4  0x020437D4  arm
+ *   func_020437DC  0x020437DC  arm
+ *   func_020437E4  0x020437E4  arm
+ *
+ * The 4bpp half of the window scroll/fill pair (func_02020B5C is the 8bpp
+ * twin, func_02020CA0 the front end that picks between them).  The bitmap
+ * is a tiled character buffer: func_020437DC / func_020437E4 give width
+ * and height in pixels, >>3 turns each into tiles, and a 4bpp tile is 32
+ * bytes.  `size` is the caller's byte limit, or the whole buffer when the
+ * caller passes 0.
+ *
+ * `color` is a single 4bpp pair replicated into all four bytes of a word
+ * and is what a source offset past the end of the buffer reads as.  `dir`
+ * selects the scan direction: case 0 walks forward from the base, case 1
+ * walks backwards from the end, and cases 2 and 3 do nothing.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02020A58.c \
+ *       --func func_02020A58 --addr 0x02020A58 --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern u32 *func_020437D4(void *bmp);
+extern u16  func_020437DC(void *bmp);
+extern u16  func_020437E4(void *bmp);
+
+void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
+{
+    u32  wt;
+    u32  fill;
+    s32  len;
+    s32  y;
+    s32  x;
+    u32  t;
+    s32  src;
+    s32  dst;
+    u32 *buf;
+
+    buf = func_020437D4(bmp);
+    fill = (color << 24) | (color << 16) | (color << 8) | color;
+    wt = (u32)func_020437DC(bmp) >> 3;
+    len = size;
+    if (len == 0)
+        len = (wt * ((u32)func_020437E4(bmp) >> 3)) << 5;
+
+    switch (dir) {
+    case 0:
+        for (y = 0; y < len; y += 0x20) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                dst = y + x * 4;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 2);
+                *(u32 *)((u8 *)buf + dst) =
+                    (src < len) ? *(u32 *)((u8 *)buf + src) : fill;
+                t++;
+            }
+        }
+        break;
+    case 1:
+        buf = (u32 *)((u8 *)buf + (len - 4));
+        for (y = 0; y < len; y += 0x20) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                u32 *q;
+                u32  v;
+                dst = y + x * 4;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 2);
+                if (src < len) {
+                    v = *(u32 *)((u8 *)buf - src);
+                    q = (u32 *)((u8 *)buf - dst);
+                } else {
+                    v = fill;
+                    q = (u32 *)((u8 *)buf - dst);
+                }
+                t++;
+                *q = v;
+            }
+        }
+        break;
+    case 2:
+    case 3:
+        break;
+    }
+}
+
+/* ---- diff at the time of writing ---- */
+ DIFF       func_02020A58 @ 02020A58 (arm9, Thumb)
+   compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+   compiled 258 bytes, 3 relocation site(s)
+   relocations: 3 of 3 resolved
+     +000C THM_CALL func_020437D4       -> 020437D4  [label x8, e.g. 0201CA3E]
+     +0022 THM_CALL func_020437DC       -> 020437DC  [label x9, e.g. 0201CF54]
+     +0036 THM_CALL func_020437E4       -> 020437E4  [label x7, e.g. 0201CF5C]
+   listing extent for the original: 260 bytes
+   note: listing says the original is 260 bytes, compiled 258
+   62 concrete byte(s) differ
+   offset     ORIGINAL @ 02020A58                    | COMPILED                              
+   ------------------------------------------------------------------------------------------
+     +0000    push {r4, r5, r6, r7, lr}              | push {r4, r5, r6, r7, lr}              
+     +0002    sub sp, #0x14                          | sub sp, #0x14                          
+   * +0004    adds r6, r3, #0                        | adds r5, r3, #0                        
+   * +0006    adds r7, r0, #0                        | adds r6, r0, #0                        
+   * +0008    adds r5, r1, #0                        | adds r4, r1, #0                        
+     +000A    str r2, [sp]                           | str r2, [sp]                           
+     +000C    blx #0x20437d4                         | blx #0x20437d4                         <- THM_CALL func_020437D4 [resolved: label]
+   * +0010    adds r4, r0, #0                        | adds r7, r0, #0                        
+   * +0012    lsls r1, r6, #0x18                     | lsls r1, r5, #0x18                     
+   * +0014    lsls r0, r6, #0x10                     | lsls r0, r5, #0x10                     
+   * +0016    lsls r2, r6, #8                        | lsls r2, r5, #8                        
+     +0018    orrs r0, r1                            | orrs r0, r1                            
+     +001A    orrs r0, r2                            | orrs r0, r2                            
+   * +001C    orrs r0, r6                            | orrs r0, r5                            
+     +001E    str r0, [sp, #4]                       | str r0, [sp, #4]                       
+   * +0020    adds r0, r7, #0                        | adds r0, r6, #0                        
+     +0022    blx #0x20437dc                         | blx #0x20437dc                         <- THM_CALL func_020437DC [resolved: label]
+     +0026    lsrs r0, r0, #3                        | lsrs r0, r0, #3                        
+     +0028    str r0, [sp, #8]                       | str r0, [sp, #8]                       
+     +002A    add r0, sp, #0x28                      | add r0, sp, #0x28                      
+     +002C    ldrh r0, [r0]                          | ldrh r0, [r0]                          
+     +002E    str r0, [sp, #0x10]                    | str r0, [sp, #0x10]                    
+     +0030    cmp r0, #0                             | cmp r0, #0                             
+     +0032    bne #0x2020a9c                         | bne #0x2020a9c                         
+   * +0034    adds r0, r7, #0                        | adds r0, r6, #0                        
+     +0036    blx #0x20437e4                         | blx #0x20437e4                         <- THM_CALL func_020437E4 [resolved: label]
+     +003A    lsrs r1, r0, #3                        | lsrs r1, r0, #3                        
+     +003C    ldr r0, [sp, #8]                       | ldr r0, [sp, #8]                       
+     +003E    muls r1, r0, r1                        | muls r1, r0, r1                        
+     +0040    lsls r0, r1, #5                        | lsls r0, r1, #5                        
+     +0042    str r0, [sp, #0x10]                    | str r0, [sp, #0x10]                    
+   * +0044    cmp r5, #3                             | cmp r4, #3                             
+   * +0046    bhi #0x2020b58                         | bhi #0x2020b56                         
+   * +0048    adds r0, r5, r5                        | adds r0, r4, r4                        
+     +004A    add r0, pc                             | add r0, pc                             
+     +004C    ldrh r0, [r0, #6]                      | ldrh r0, [r0, #6]                      
+     +004E    lsls r0, r0, #0x10                     | lsls r0, r0, #0x10                     
+     +0050    asrs r0, r0, #0x10                     | asrs r0, r0, #0x10                     
+     +0052    add pc, r0                             | add pc, r0                             
+     +0054    movs r6, r0                            | movs r6, r0                            
+     +0056    lsls r4, r2, #1                        | lsls r4, r2, #1                        
+   * +0058    lsls r2, r5, #2                        | lsls r0, r5, #2                        
+   * +005A    lsls r2, r5, #2                        | lsls r0, r5, #2                        
+     +005C    ldr r0, [sp, #0x10]                    | ldr r0, [sp, #0x10]                    
+     +005E    movs r6, #0                            | movs r6, #0                            
+     +0060    cmp r0, #0                             | cmp r0, #0                             
+   * +0062    ble #0x2020b58                         | ble #0x2020b56                         
+     +0064    movs r0, #7                            | movs r0, #7                            
+     +0066    str r0, [sp, #0xc]                     | str r0, [sp, #0xc]                     
+   * +0068    ldr r3, [sp]                           | ldr r4, [sp]                           
+   * +006A    movs r5, #0                            | movs r3, #0                            
+   * +006C    lsls r0, r5, #2                        | lsls r0, r3, #2                        
+   * +006E    adds r2, r6, r0                        | adds r5, r6, r0                        
+     +0070    movs r0, #7                            | movs r0, #7                            
+   * +0072    adds r7, r3, #0                        | adds r2, r4, #0                        
+   * +0074    ands r7, r0                            | ands r2, r0                            
+     +0076    ldr r0, [sp, #0xc]                     | ldr r0, [sp, #0xc]                     
+   * +0078    adds r1, r3, #0                        | adds r1, r4, #0                        
+     +007A    bics r1, r0                            | bics r1, r0                            
+     +007C    ldr r0, [sp, #8]                       | ldr r0, [sp, #8]                       
+     +007E    muls r1, r0, r1                        | muls r1, r0, r1                        
+   * +0080    adds r0, r7, #0                        | adds r0, r2, #0                        
+     +0082    orrs r0, r1                            | orrs r0, r1                            
+     +0084    lsls r0, r0, #2                        | lsls r0, r0, #2                        
+     +0086    adds r1, r6, r0                        | adds r1, r6, r0                        
+     +0088    ldr r0, [sp, #0x10]                    | ldr r0, [sp, #0x10]                    
+     +008A    cmp r1, r0                             | cmp r1, r0                             
+     +008C    bge #0x2020aea                         | bge #0x2020aea                         
+   * +008E    ldr r0, [r4, r1]                       | ldr r0, [r7, r1]                       
+     +0090    b #0x2020aec                           | b #0x2020aec                           
+     +0092    ldr r0, [sp, #4]                       | ldr r0, [sp, #4]                       
+   * +0094    adds r5, r5, #1                        | adds r3, r3, #1                        
+   * +0096    adds r3, r3, #1                        | adds r4, r4, #1                        
+   * +0098    str r0, [r4, r2]                       | str r0, [r7, r5]                       
+   * +009A    cmp r5, #8                             | cmp r3, #8                             
+     +009C    blt #0x2020ac4                         | blt #0x2020ac4                         
+     +009E    ldr r0, [sp, #0x10]                    | ldr r0, [sp, #0x10]                    
+     +00A0    adds r6, #0x20                         | adds r6, #0x20                         
+     +00A2    cmp r6, r0                             | cmp r6, r0                             
+     +00A4    blt #0x2020ac0                         | blt #0x2020ac0                         
+     +00A6    add sp, #0x14                          | add sp, #0x14                          
+     +00A8    pop {r4, r5, r6, r7, pc}               | pop {r4, r5, r6, r7, pc}               
+     +00AA    ldr r0, [sp, #0x10]                    | ldr r0, [sp, #0x10]                    
+     +00AC    movs r6, #0                            | movs r6, #0                            
+     +00AE    subs r0, r0, #4                        | subs r0, r0, #4                        
+   * +00B0    adds r4, r4, r0                        | adds r3, r7, r0                        
+     +00B2    ldr r0, [sp, #0x10]                    | ldr r0, [sp, #0x10]                    
+     +00B4    cmp r0, #0                             | cmp r0, #0                             
+   * +00B6    ble #0x2020b58                         | ble #0x2020b56                         
+     +00B8    movs r0, #7                            | movs r0, #7                            
+     +00BA    mov ip, r0                             | mov ip, r0                             
+   * +00BC    ldr r3, [sp]                           | ldr r4, [sp]                           
+     +00BE    movs r5, #0                            | movs r5, #0                            
+     +00C0    lsls r0, r5, #2                        | lsls r0, r5, #2                        
+     +00C2    adds r2, r6, r0                        | adds r2, r6, r0                        
+     +00C4    movs r0, #7                            | movs r0, #7                            
+   * +00C6    adds r7, r3, #0                        | adds r7, r4, #0                        
+     +00C8    ands r7, r0                            | ands r7, r0                            
+   * +00CA    adds r1, r3, #0                        | adds r1, r4, #0                        
+     +00CC    mov r0, ip                             | mov r0, ip                             
+     +00CE    bics r1, r0                            | bics r1, r0                            
+     +00D0    ldr r0, [sp, #8]                       | ldr r0, [sp, #8]                       
+     +00D2    muls r1, r0, r1                        | muls r1, r0, r1                        
+     +00D4    adds r0, r7, #0                        | adds r0, r7, #0                        
+     +00D6    orrs r0, r1                            | orrs r0, r1                            
+     +00D8    lsls r0, r0, #2                        | lsls r0, r0, #2                        
+     +00DA    adds r1, r6, r0                        | adds r1, r6, r0                        
+     +00DC    ldr r0, [sp, #0x10]                    | ldr r0, [sp, #0x10]                    
+     +00DE    cmp r1, r0                             | cmp r1, r0                             
+   * +00E0    bge #0x2020b42                         | bge #0x2020b40                         
+   * +00E2    subs r0, r4, r1                        | subs r0, r3, r1                        
+     +00E4    ldr r0, [r0]                           | ldr r0, [r0]                           
+   * +00E6    subs r1, r4, r2                        | b #0x2020b42                           
+   * +00E8    b #0x2020b46                           | ldr r0, [sp, #4]                       
+   * +00EA    ldr r0, [sp, #4]                       | subs r1, r3, r2                        
+   * +00EC    subs r1, r4, r2                        | adds r5, r5, #1                        
+   * +00EE    adds r5, r5, #1                        | adds r4, r4, #1                        
+   * +00F0    adds r3, r3, #1                        | str r0, [r1]                           
+   * +00F2    str r0, [r1]                           | cmp r5, #8                             
+   * +00F4    cmp r5, #8                             | blt #0x2020b18                         
+   * +00F6    blt #0x2020b18                         | ldr r0, [sp, #0x10]                    
+   * +00F8    ldr r0, [sp, #0x10]                    | adds r6, #0x20                         
+   * +00FA    adds r6, #0x20                         | cmp r6, r0                             
+   * +00FC    cmp r6, r0                             | blt #0x2020b14                         
+   * +00FE    blt #0x2020b14                         | add sp, #0x14                          
+   * +0100    add sp, #0x14                          | pop {r4, r5, r6, r7, pc}               
+   legend: '*' concrete mismatch, '~' relocation field (wildcarded)

@@ -1,0 +1,133 @@
+/* DIFF evidence note, 2026-09-21 (revised after func_02023568 landed EXACT*).
+ * func_0202350C @ 0x0202350C.  Byte-close near miss; match.py says DIFF, so this
+ * is evidence only and the source below is NOT filed.
+ */
+
+/*
+ * function: func_0202350C
+ * address:  0x0202350C
+ * packet:   pkt_02022F60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02022940  0x02022940  thumb
+ *   func_02022E20  0x02022E20  thumb
+ *
+ * Copies the wipe parameter block `cfg` into the live wipe object `obj`
+ * and starts it.  func_02022940 takes the object plus its two sub-blocks
+ * at +0x20 and +0x10 and the two halves of cfg; the field stores that
+ * follow record the caller's two stack arguments at +0x30 and +0x48, the
+ * byte fields cfg[8] and cfg[0x0b] at +0x34 and +0x44, and the two
+ * register arguments at +0x38 and +0x3c, with +0x40 zeroed.
+ * func_02022E20 then receives the whole unpacked parameter set.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0202350C.c \
+ *       --func func_0202350C --addr 0x0202350C --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Obj {
+    u32 f00;
+    u8  pad04[0x0c];
+    u32 f10;       /* 0x10 */
+    u8  pad14[0x0c];
+    u32 f20;       /* 0x20 */
+    u8  pad24[0x0c];
+    u32 f30;       /* 0x30 */
+    u32 f34;
+    u32 f38;
+    u32 f3c;
+    u32 f40;
+    u32 f44;
+    u32 f48;
+};
+
+extern void func_02022940(struct Obj *o, void *a, void *b, u8 *cfg,
+                          u8 *cfg4, u32 a2);
+extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
+                          u32 a6, u32 a7, u32 a8, u32 a9);
+
+void func_0202350C(struct Obj *obj, u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
+{
+    u32 k8;
+
+    func_02022940(obj, &obj->f20, &obj->f10, cfg, cfg + 4, a2);
+
+    k8 = cfg[8];
+    obj->f40 = 0;
+    obj->f44 = cfg[0x0b];
+    obj->f30 = a4;
+    obj->f34 = k8;
+    obj->f38 = a2;
+    obj->f3c = a3;
+    obj->f48 = a5;
+
+    func_02022E20(a5, cfg[9], cfg[0x0a], k8, a4, cfg[0], cfg[1],
+                  cfg[2], cfg[3], obj->f44);
+}
+
+
+/* ---- diff at the time of writing ---- */
+ DIFF       func_0202350C @ 0202350C (arm9, Thumb)
+   compiler dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+   compiled 90 bytes, 2 relocation site(s)
+   relocations: 1 of 2 resolved
+     +001C THM_CALL func_02022940       -> unresolved: 02022940 (thumb, from header) has no witness outside 0202350C..02023566
+     +0052 THM_CALL func_02022E20       -> 02022E20  [label x2, e.g. 0202372A]
+   listing extent for the original: 92 bytes
+   note: listing says the original is 92 bytes, compiled 90
+   39 concrete byte(s) differ
+   offset     ORIGINAL @ 0202350C                    | COMPILED                              
+   ------------------------------------------------------------------------------------------
+     +0000    push {r3, r4, r5, r6, r7, lr}          | push {r3, r4, r5, r6, r7, lr}          
+     +0002    sub sp, #0x18                          | sub sp, #0x18                          
+     +0004    adds r4, r1, #0                        | adds r4, r1, #0                        
+     +0006    adds r1, r4, #4                        | adds r1, r4, #4                        
+     +0008    adds r5, r0, #0                        | adds r5, r0, #0                        
+     +000A    adds r6, r2, #0                        | adds r6, r2, #0                        
+     +000C    str r1, [sp]                           | str r1, [sp]                           
+     +000E    adds r1, r5, #0                        | adds r1, r5, #0                        
+     +0010    adds r2, r5, #0                        | adds r2, r5, #0                        
+     +0012    adds r7, r3, #0                        | adds r7, r3, #0                        
+   * +0014    adds r1, #0x20                         | str r6, [sp, #4]                       
+   * +0016    adds r2, #0x10                         | adds r1, #0x20                         
+   * +0018    adds r3, r4, #0                        | adds r2, #0x10                         
+   * +001A    str r6, [sp, #4]                       | adds r3, r4, #0                        
+   ~ +001C    bl #0x2022940                          | bl #0x202352c                          <- THM_CALL func_02022940 [wildcard]
+     +0020    ldrb r3, [r4, #8]                      | ldrb r3, [r4, #8]                      
+     +0022    movs r0, #0                            | movs r0, #0                            
+   * +0024    ldrb r2, [r4, #0xb]                    | ldr r1, [sp, #0x30]                    
+   * +0026    ldr r1, [sp, #0x30]                    | str r0, [r5, #0x40]                    
+   * +0028    str r0, [r5, #0x40]                    | ldrb r0, [r4, #0xb]                    
+   * +002A    ldr r0, [sp, #0x34]                    | str r0, [r5, #0x44]                    
+   * +002C    str r2, [r5, #0x44]                    | ldr r0, [sp, #0x34]                    
+     +002E    str r1, [r5, #0x30]                    | str r1, [r5, #0x30]                    
+     +0030    str r3, [r5, #0x34]                    | str r3, [r5, #0x34]                    
+     +0032    str r6, [r5, #0x38]                    | str r6, [r5, #0x38]                    
+     +0034    str r7, [r5, #0x3c]                    | str r7, [r5, #0x3c]                    
+     +0036    str r0, [r5, #0x48]                    | str r0, [r5, #0x48]                    
+     +0038    str r1, [sp]                           | str r1, [sp]                           
+     +003A    ldrb r1, [r4]                          | ldrb r1, [r4]                          
+   * +003C    ldrb r2, [r4, #0xa]                    | str r1, [sp, #4]                       
+   * +003E    str r1, [sp, #4]                       | ldrb r1, [r4, #1]                      
+   * +0040    ldrb r1, [r4, #1]                      | str r1, [sp, #8]                       
+   * +0042    str r1, [sp, #8]                       | ldrb r1, [r4, #2]                      
+   * +0044    ldrb r1, [r4, #2]                      | str r1, [sp, #0xc]                     
+   * +0046    str r1, [sp, #0xc]                     | ldrb r1, [r4, #3]                      
+   * +0048    ldrb r1, [r4, #3]                      | str r1, [sp, #0x10]                    
+   * +004A    str r1, [sp, #0x10]                    | ldr r1, [r5, #0x44]                    
+   * +004C    ldr r1, [r5, #0x44]                    | str r1, [sp, #0x14]                    
+   * +004E    str r1, [sp, #0x14]                    | ldrb r1, [r4, #9]                      
+   * +0050    ldrb r1, [r4, #9]                      | ldrb r2, [r4, #0xa]                    
+     +0052    bl #0x2022e20                          | bl #0x2022e20                          <- THM_CALL func_02022E20 [resolved: label]
+     +0056    add sp, #0x18                          | add sp, #0x18                          
+     +0058    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
+   legend: '*' concrete mismatch, '~' relocation field (wildcarded)

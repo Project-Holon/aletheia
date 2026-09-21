@@ -1,0 +1,408 @@
+pkt_0206A19C - DIFF residues, wave 9 (2026-09-21)
+=================================================
+
+All four rows of this packet were worked under the ../2.0/sp2 pin already in
+force for this file (docs/FRONTEND-PINS.md).  None reached EXACT, so nothing is
+filed in src/; the sources are recorded verbatim below.  Three of the four are
+now at the correct SIZE with a small, purely register-naming residue, which is
+a large advance on the state docs/notes/pkt_0206A12C.c.txt left them in.
+
+THE FINDING THAT MOVED EVERYTHING: func_0206E62C TAKES TWO ARGUMENTS
+--------------------------------------------------------------------
+The previous pass read 0x0206A2CC's `bl 0x206e62c` as a one-argument call and
+treated the first nested-table lookup (the `add r1, r0, sb` chain at
+0x0206A318..0x0206A334) as a dead computation, which is why it came out 60
+bytes short.  It is not dead: it is the call's SECOND argument.
+`match.py show --addr 0x0206E62C` opens with
+
+    0206E630  00 00 51 e3  cmp r1, #0
+    0206E634  00 00 a0 03  moveq r0, #0
+    0206E638  f0 81 bd 08  popeq {r4, r5, r6, r7, r8, pc}
+
+so r1 is a live parameter, null-checked on entry.  Declaring
+
+    extern void *func_0206E62C(void *p, void *q);
+
+and writing `r3 = func_0206E62C(c + 0x3c, a);` took 0x0206A2CC from 252 bytes /
+162 mismatches straight to 256 bytes / 9 mismatches in one step.  The same
+change is what makes 0x0206A4AC land at its exact 264 bytes.
+
+Also corrected: the 4th argument of the inner dispatch (func_0206A19C from
+0x0206A2CC, func_0206A3CC from 0x0206A4AC) is the CONTEXT result r3, not the
+first lookup's r1 -- the same convention func_0206A5B4 already uses.
+
+THE ONE RESIDUE THAT REMAINS ON 0x0206A2CC / 0x0206A4AC
+--------------------------------------------------------
+Identical in both, 9 concrete bytes, pure register naming: the image puts the
+guarded base (`h + h->f8`) in r8 and the 0x10-strided accumulator in sb; the
+compile swaps the two.  Every other byte of both functions is correct,
+including both relocation sites on 0x0206A4AC (`label`, both resolved).
+
+    * +0018    addne r8, r0, r1     | addne sb, r0, r1
+    * +001C    moveq r8, #0         | moveq sb, #0
+    * +0020    ldrh r0, [r8]        | ldrh r0, [sb]
+    * +0028    add r5, r8, r0       | add r5, sb, r0
+    * +0038    mov sb, r6           | mov r8, r6
+    * +0068    add r1, r0, sb       | add r1, r0, r8
+    * +00D0    mov r0, r8           | mov r0, sb
+    * +00EC    add sb, sb, #0x10    | add r8, r8, #0x10
+
+Thirteen spellings were measured against this swap and ALL give exactly the
+same 9 bytes at the correct size, so it is not a declaration-order question:
+  - every permutation of `base`/`acc`/`e1`/`i`/`ok` in the declaration list
+    (five orders measured; two of them are WORSE at 22 and 34 bytes, the rest
+    identical at 9);
+  - `acc` initialised before `base` (25 bytes, worse);
+  - `acc` as `int`, as `char *`, and eliminated entirely in favour of an
+    inline `i * 0x10` (all 9 -- the accumulator local is not the cause);
+  - `acc` as the first operand of the `a` sum instead of the second;
+  - a second local `bb = base` used only for the dispatch call;
+  - reusing the parameter `h` as the base instead of a separate local;
+  - `zero`/`zero2` declared before `base`, and `acc` declared last;
+  - the `base` ternary rewritten as a goto-split guard chain (30 bytes, worse);
+  - hoisting `*(u16 *)base` into a named local.
+Anyone picking this up should attack the allocator's r8/sb preference directly
+and not re-run the declaration-order sweep.
+
+THE `volatile` COUNT RE-READ IS LOAD-BEARING ON 0x0206A2CC / 0x0206A4AC
+------------------------------------------------------------------------
+The image reads the entry count `ldrb r0, [r5, #1]` FRESH three times per
+iteration: at the loop's entry test, inside the first bounds guard, and at the
+loop tail.  There is no call between the first two, so 2.0 forwards the
+register and the function comes out 252 bytes with the whole body shifted by
+four.  Spelling the first guard's bound as `*(volatile u8 *)&e1->count`
+restores the re-read and the exact size.  Only TWO of the four reads need it
+(the entry test and the first guard); the second guard and the `while` sit
+after the extern call to func_0206E62C, which already breaks the CSE, and were
+measured plain at the same 9 bytes.
+
+The entry test must be spelled `if (i >= e1->count) goto out;` and NOT
+`if (e1->count == 0)`: the former gives the image's `bls`, the latter a `beq`.
+
+func_0206A3CC @ 0x0206A3CC (224 bytes) - DIFF, 2 concrete bytes
+----------------------------------------------------------------
+Was 9 bytes in the previous pass; now 2, and the residue has moved.  The old
+three-instruction scheduling residue around the sum truncation is GONE.  Four
+corrections did it, all reusable on this family:
+
+1. The +0x2c mask value and `*(u16 *)b` are DIFFERENT values.  The previous
+   reading had `lsr r5, r2, #0x10` at +0028 producing `*(u16 *)b`; it does not,
+   it overwrites r5 with the masked +0x2c word.  `*(u16 *)b` is used ONLY to
+   form `ip = a + *(u16 *)b` at +0024.
+2. `*(u16 *)d` is loaded UNCONDITIONALLY at +002C, outside the `tst r4, #1`
+   guard.  Writing it inside both arms (`else { t = *(u16 *)d; }`) costs one
+   extra instruction: 2.0 emits `ldrhne` in the guard PLUS a plain `ldrh`, 228
+   bytes.  Hoisting it to a block-scope `u16 w = *(u16 *)d;` before the `if`
+   gives the exact 224.
+3. The inner table stride is read through the TABLE BASE, not through `a`:
+   `char *tb = a + 4; st = *(u16 *)(tb + t2);` gives the image's
+   `ldrh lr, [r2, r7]`, while `*(u16 *)(a + 4 + t2)` makes 2.0 re-add r0 and
+   costs four bytes.
+4. The `q` merge is a goto-split, exactly as the pkt_0206A12C recipe says for
+   the guards: `if (a == 0) goto none;` ... `if (p != 0) { q = ...; goto have; }`
+   `none: q = zero2; have: ;`.  Written as nested if/else, 2.0 emits a
+   `moveq r3, r6` cross-jump where the image has a separate `mov r7, r5`.
+
+What remains is one register-name swap between the masked +0x2c value and the
+`*(u16 *)d` halfword at their point of definition:
+
+    * +0028    lsr r5, r2, #0x10    | lsr r4, r2, #0x10
+    * +002C    ldrh r4, [r3]        | ldrh r5, [r3]
+
+Ten spellings measured at 2 bytes and none better: swapping the two `>>1`
+statements (with the stored sum's operand order swapped to match -- this is
+what took 8 bytes to 2, the "commutative operand order names the temporary"
+idiom), `z` as `u16` throughout, `w` hoisted to function scope (6 bytes,
+WORSE), `w` declared before `z` (6 bytes, worse), `w` read before the `z`
+truncation and after it, `t` reused directly for `*(u16 *)d` with a separate
+`fl` local for the flag test, the `t = *(u16 *)(d + 2)` read moved to the top
+of the function, and binding the stored sum to a named `sum` local.  Moving
+the `ip` computation after the shift block is 59 bytes, much worse.
+
+func_0206A19C @ 0x0206A19C (300 bytes + a 4-byte pool word) - not re-attempted
+-------------------------------------------------------------------------------
+Left as the previous pass described it: the blocker is the prologue SPILL
+CHOICE (`str r0, [sp]` at 0x0206A1C4 spills the index pointer `sl + *(u16 *)sb`
+while the mask stays live in fp; every spelling tried spills the mask instead).
+Two things this pass learned that were NOT available then and should be applied
+before anyone re-derives it:
+  - the signature is (r0 = base, r1 = Ent b, r2 = c, r3 = Ent d), the same as
+    func_0206A3CC, and its two `bl 0x207c768` calls are a fixed-point divide
+    taking (num << 12, den << 12) with a `moveq r0, #0x1000` fast path when the
+    two halves are equal;
+  - the +0x2c/+0x18 select at 0x0206A1C8/CC is keyed on
+    `(d->f0 & 0x1c000000) == 0x14000000`, i.e. `ldrne [r2,#8]` / `ldreq
+    [r2,#0x18]`, and the mask is the same word-load-then-truncate-then-bic
+    quartet as 0x0206A3CC's.
+The 0x7ff pool word at 0x0206A2C8 is this function's own and is the `and` mask
+for the two 11-bit fields unpacked at 0x0206A260/64.
+
+Not filed anywhere: DIFF.  The three sources as they stood follow, verbatim.
+
+=== src/matched/func_0206A2CC.c (removed: DIFF) ===
+/*
+ * function: func_0206A2CC
+ * address:  0x0206A2CC
+ * packet:   pkt_0206A19C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206A2CC.c \
+ *       --func func_0206A2CC --addr 0x0206A2CC --arm --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u8  f0;
+    u8  count;
+    u8  f2;
+    u8  flags;
+    u16 f4;
+    u16 tbl;
+} Ent;
+
+extern void *func_0206E62C(void *p, void *q);
+extern void func_0206A19C(void *a, Ent *b, void *c, void *d);
+
+int func_0206A2CC(char *h, char *c)
+{
+    char *base;
+    Ent  *e1;
+    u32   i;
+    int   ok;
+    u32   acc;
+    void *zero;
+    void *zero2;
+
+    ok = 1;
+    base = (h != 0 && *(u32 *)(h + 8) != 0) ? h + *(u32 *)(h + 8) : 0;
+    e1 = (Ent *)(base + *(u16 *)base);
+    i = 0;
+    if (i >= *(volatile u8 *)&e1->count)
+        goto out;
+    acc = 0;
+    zero = 0;
+    zero2 = 0;
+    do {
+        void *a;
+        void *r3;
+        Ent  *t;
+
+        if (e1 != 0 && i < *(volatile u8 *)&e1->count) {
+            char *p = (char *)e1 + e1->tbl;
+            a = (char *)(p + *(u16 *)(p + 2)) + acc;
+        } else {
+            a = zero;
+        }
+        if (c != 0) {
+            r3 = func_0206E62C(c + 0x3c, a);
+        } else {
+            r3 = zero2;
+        }
+        if (r3 != 0) {
+            if (e1 != 0 && i < e1->count) {
+                u16 t2 = e1->tbl;
+                u16 st = *(u16 *)((char *)e1 + t2);
+                t = (Ent *)((char *)e1 + t2 + 4 + st * i);
+            } else {
+                t = 0;
+            }
+            if (!(t->flags & 1))
+                func_0206A19C(base, t, c, r3);
+        } else {
+            ok = 0;
+        }
+        i++;
+        acc += 0x10;
+    } while (i < e1->count);
+out:
+    return ok;
+}
+
+=== src/matched/func_0206A3CC.c (removed: DIFF) ===
+/*
+ * function: func_0206A3CC
+ * address:  0x0206A3CC
+ * packet:   pkt_0206A19C
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206A3CC.c \
+ *       --func func_0206A3CC --addr 0x0206A3CC --arm --cc ../2.0/sp2
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u8  f0;
+    u8  count;
+    u8  f2;
+    u8  flags;
+    u16 f4;
+    u16 tbl;
+} Ent;
+
+void func_0206A3CC(char *a, char *b, char *c, char *d)
+{
+    u32   z;
+    u16   t;
+    u8   *ip;
+    u32   i;
+    void *zero;
+    void *zero2;
+
+    z = (u16)*(u32 *)(c + 0x2c);
+    ip = (u8 *)(a + *(u16 *)b);
+    z &= ~0xe0000000u;
+    t = *(u16 *)(d + 2);
+    z = (u16)z;
+    {
+        u16 w = *(u16 *)d;
+        if (!(t & 1)) {
+            z = (u16)(z >> 1);
+            t = (u16)(w >> 1);
+        } else {
+            t = w;
+        }
+    }
+    i = 0;
+    if (i >= *(volatile u8 *)(b + 2))
+        goto out;
+    zero = 0;
+    zero2 = 0;
+    do {
+        u32   k;
+        char *p;
+        char *q;
+
+        k = ip[i];
+        if (a == 0)
+            goto none;
+        {
+            char *tb = a + 4;
+            if (tb != 0 && k < *(volatile u8 *)(a + 5)) {
+                u16 t2 = *(u16 *)(a + 0xa);
+                u16 st = *(u16 *)(tb + t2);
+                p = tb + t2 + 4 + st * k;
+            } else {
+                p = zero;
+            }
+            if (p != 0) {
+                q = a + *(u32 *)p;
+                goto have;
+            }
+        }
+none:
+        q = zero2;
+have:
+        ;
+        *(u16 *)(q + 0x1c) = (u16)(z + t);
+        i++;
+    } while (i < *(volatile u8 *)(b + 2));
+out:
+    *(u8 *)(b + 3) = (u8)(*(u8 *)(b + 3) | 1);
+}
+
+=== src/matched/func_0206A4AC.c (removed: DIFF) ===
+/*
+ * function: func_0206A4AC
+ * address:  0x0206A4AC
+ * packet:   pkt_0206A19C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0206A4AC.c \
+ *       --func func_0206A4AC --addr 0x0206A4AC --arm --cc 1.1p1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u8  f0;
+    u8  count;
+    u8  f2;
+    u8  flags;
+    u16 f4;
+    u16 tbl;
+} Ent;
+
+extern void *func_0206E62C(void *p, void *q);
+extern void func_0206A3CC(void *a, Ent *b, void *c, void *d);
+
+int func_0206A4AC(char *h, char *c)
+{
+    char *base;
+    Ent  *e1;
+    u32   i;
+    int   ok;
+    u32   acc;
+    void *zero;
+    void *zero2;
+
+    ok = 1;
+    base = (h != 0 && *(u32 *)(h + 8) != 0) ? h + *(u32 *)(h + 8) : 0;
+    e1 = (Ent *)(base + *(u16 *)(base + 2));
+    i = 0;
+    if (i >= *(volatile u8 *)&e1->count)
+        goto out;
+    acc = 0;
+    zero = 0;
+    zero2 = 0;
+    do {
+        void *a;
+        void *r3;
+        Ent  *t;
+
+        if (e1 != 0 && i < *(volatile u8 *)&e1->count) {
+            char *p = (char *)e1 + e1->tbl;
+            a = (char *)(p + *(u16 *)(p + 2)) + acc;
+        } else {
+            a = zero;
+        }
+        if (c != 0 && *(u16 *)(c + 0x34) != 0) {
+            r3 = func_0206E62C(c + *(u16 *)(c + 0x34), a);
+        } else {
+            r3 = zero2;
+        }
+        if (r3 != 0) {
+            if (e1 != 0 && i < e1->count) {
+                u16 t2 = e1->tbl;
+                u16 st = *(u16 *)((char *)e1 + t2);
+                t = (Ent *)((char *)e1 + t2 + 4 + st * i);
+            } else {
+                t = 0;
+            }
+            if (!(t->flags & 1))
+                func_0206A3CC(base, t, c, r3);
+        } else {
+            ok = 0;
+        }
+        i++;
+        acc += 0x10;
+    } while (i < e1->count);
+out:
+    return ok;
+}
+

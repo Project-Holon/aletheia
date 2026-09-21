@@ -166,3 +166,55 @@ The C is parked at src/pending/func_02070A24.c. All three relocations still
 resolve, so this row remains evidence-complete: an EXACT here is one of the
 five `matched` witnesses that would unblock the byte-correct 116-byte
 src/pending/func_02070B64.c.
+
+=== 2026-09-21, unblock lane SECOND pass: re-confirmed DIFF 60, no movement ===
+
+Re-verified the parked file.  Under the header's pin `--cc ../2.0/sp2` it is
+216 bytes with 60 concrete bytes out; under plain 1.1p1 it is 216 bytes with
+80.  ANYONE re-measuring MUST pass `--cc ../2.0/sp2`, or they will read the
+1.1p1 residue (which additionally reschedules the f2c re-read at +0x70/+0x80
+and the f30 store at +0xA8) and think the C regressed.
+
+The residue is unchanged from the section above and is now fully enumerated.
+Every one of the 60 bytes is the SAME decision, applied uniformly across 26
+instructions from +0x30 to +0xA0, plus the two pool words it reorders:
+
+  the image holds the 0x7ff field mask in r2 and the working value in r1;
+  this compile holds the mask in r1 and the working value in r2.
+
+The pool-word pair at +0xD0/+0xD4 swaps with it, and that is the useful clue:
+pool order follows FIRST REFERENCE, and the image's first pool reference is
+the 0x7ff mask at +0x30 (`ldr r2, [pc, #0x98]`), issued BEFORE the
+`ldreq r1, [r5, #0x18]` bitfield select at +0x34.  This compile issues the
+f10 mask (0xc00f0000) first.  So the image materialises the field mask ahead
+of everything, and that is what gives it r2.
+
+SIX MORE SPELLINGS MEASURED THIS PASS, all 216 bytes and all 60 out, i.e.
+the first-reference order is NOT reachable by moving the assignment:
+
+  60  `k = 0x7ff;` hoisted above `m = t->f10;`
+  60  `k` additionally declared FIRST in the local list as well as assigned
+      first
+  60  `k = 0x7ff;` hoisted above the whole `if (s == 0)` descriptor test,
+      i.e. the first statement of the function
+  60  the f10 mask ALSO bound to a local (`fm = 0xc00f0000u;`) and assigned
+      AFTER `k`, so both constants are named locals in the image's order
+  60  the mask written as the LEFT operand at all four of its uses
+      (`k & p[1]`, `k & v`, `(k << 11) & v`) -- this repeats the previous
+      section's measurement under the pin and confirms it
+  60  `m` eliminated entirely, the f10 read folded into its mask
+      (`m = t->f10 & 0xc00f0000u`) so the pool word is referenced inside the
+      same expression as the load
+
+This is the THIRD row in this wave with the identical signature (see
+docs/notes/func_020680DC.c.txt and the func_02050550 section of
+docs/notes/pkt_02050340.c.txt): a function that is size-exact, whose every
+instruction is the right instruction in the right place, and whose residue is
+a pure register-NAME assignment that does not move with declaration order,
+operand order, statement order, or the naming of the constants involved.  In
+all three the image gives a particular value the register the build gives to
+the other.  Recording the family here so the next agent treats it as one
+problem rather than three: the lever, if there is one, is a property of
+mwcc's allocator priority (use count and live-range start), not of the C.
+
+The chain is unchanged: src/pending/func_02070B64.c stays parked.

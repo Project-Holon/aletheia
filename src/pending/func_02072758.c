@@ -40,7 +40,17 @@
  *   func_02073D7C  0x02073D7C  arm
  *   func_02075858  0x02075858  arm
  *   func_02089B38  0x02089B38  arm
- */
+  *
+ * 2026-09-21, unblock lane: ONE OF THE THREE BLOCKING SITES IS NOW CLEARED.
+ * func_020731E0 (the +0x18 site) was promoted to src/matched/ this pass and
+ * resolves `matched x1`; the file is now MATCH* with 3 of 5 relocations
+ * resolved.  The two that remain are +0x1C (func_02073D7C, 128 bytes at
+ * 0x02073D7C) and +0x20 (func_02075858, 272 bytes at 0x02075858), neither of
+ * which has any branch outside this function's own bytes.  Both must be
+ * written and filed EXACT in their own right -- there is no second caller to
+ * find for either -- and then this file promotes with no change to the C.
+ * Verify it with `--cc ../2.0/sp2 --arm`, not the default 1.1p1.
+*/
 typedef int s32;
 
 extern s32  func_02089978(s32 a);

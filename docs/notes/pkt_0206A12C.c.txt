@@ -335,3 +335,27 @@ func_0206A4AC @ 0x0206A4AC (264 bytes) - not attempted
   Whatever closes 0x0206A2CC should close this one.
 
 func_0206A700 @ 0x0206A700 (276 bytes) - not attempted, budget
+
+
+================================================================================
+2026-09-21, wave 9 - pkt_0206A19C worked; see docs/notes/pkt_0206A19C.c.txt
+================================================================================
+
+The four ARM rows this note listed as open or near-miss for the neighbouring
+packet (0x0206A19C, 0x0206A2CC, 0x0206A3CC, 0x0206A4AC) belong to pkt_0206A19C
+and were worked in wave 9.  Their sources and residues are recorded in
+docs/notes/pkt_0206A19C.c.txt; nothing above is changed.  The one correction
+this note should carry forward, because it invalidates the reading recorded in
+the "func_0206A2CC ... not closed, 196 compiled" paragraph above:
+
+  func_0206E62C TAKES TWO ARGUMENTS, (r0, r1).  Its prologue null-checks r1
+  (`cmp r1, #0` / `moveq r0, #0` / `popeq` at 0x0206E630..0x0206E638).  The
+  first nested-table lookup at 0x0206A318..0x0206A334, which this note read as
+  a dead accumulator chain, is that second argument.  Declaring the extern with
+  two parameters takes 0x0206A2CC from 252 bytes / 162 mismatches to 256 bytes
+  / 9 mismatches, and 0x0206A4AC to its exact 264 bytes, in one step.  The 4th
+  argument of the dispatch call is the CONTEXT result r3, not the lookup.
+
+  0x0206A3CC is now 2 concrete bytes rather than 9, and the scheduling residue
+  this note described around the sum truncation is gone; the four corrections
+  that did it are written out in the new note.
