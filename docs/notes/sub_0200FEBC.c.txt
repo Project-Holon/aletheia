@@ -1,0 +1,132 @@
+===== sub_0200FEBC DIFF body =====
+/* best source, 400 bytes against 368, 348 concrete bytes out, dsi/1.1p1 -O4,p */
+/* Permuter hill-climb (97 compiles) found no improvement: 348 is a plateau, so the residue is structural, not a spelling. */
+/* Restore counterpart of sub_0200FD38 (docs/notes/sub_0200FD38.c.txt); both stall on the same shape: the original keeps obj in r4 live across the func_02010054 guard, and no source-level ordering lever reproduced that. */
+/* The bitfield unpack at 0x0200FF2E-0200FF64 (six fields of obj->unk10 packed into DISPCNT-adjacent 0x04000008) is the least certain part of the reconstruction. */
+
+/*
+ * function: sub_0200FEBC
+ * address:  0x0200FEBC
+ * packet:   pkt_0200FEBC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   WIP
+ *
+ * symbols:
+ *   sub_0200FEBC_Obj  0x0214617C  data
+ *
+ * Graphics restore for the module object at 0x0214617C; the counterpart of
+ * sub_0200FD38 (which saves the same state).
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32  func_02010054(void);
+extern void GXx_SetMasterBrightness_(void *reg, int v);
+extern void func_020435F4(u32 a);
+extern void *G2_GetBG1CharPtr(void);
+extern void *G2_GetBG1ScrPtr(void);
+extern void MIi_CpuCopy16(const void *src, void *dst, u32 len);
+extern void func_0203D828(u32 *a, u32 *b);
+extern void GX_SetGraphicsMode(u32 a, u32 b, u32 c);
+extern u32  func_020809A0(void);
+extern u32  func_020808F4(void);
+extern void GX_SetBankForBG(u32 bank);
+extern void GX_SetBankForSubBG(u32 bank);
+extern void GX_HBlankIntr(u32 on);
+extern void GX_VBlankIntr(u32 on);
+extern void func_0208459C(u32 a, u32 b);
+
+struct Obj {
+    void *unk00;
+    void *unk04;
+    void *unk08;
+    u32   unk0C;
+    u16   unk10;
+    u16   pad12;
+    u32   unk14;
+    u32   unk18;
+    u32   unk1C;
+    u32   unk20;
+    u32   unk24;
+    u32   unk28;
+    u32   unk2C;
+    u32   unk30;
+    u16   unk34;
+    u16   unk36;
+    u32   unk38;
+    u32   unk3C;
+    u16   unk40;
+};
+
+void sub_0200FEBC(u32 arg0)
+{
+    struct Obj *obj = (struct Obj *)0x0214617C;
+    void *brightA;
+    void *brightB;
+    u32 a, b;
+    u32 v;
+
+    if (func_02010054() == 0)
+        return;
+
+    brightA = (void *)0x0400006C;
+    GXx_SetMasterBrightness_(brightA, -16);
+    brightB = (void *)0x0400106C;
+    GXx_SetMasterBrightness_(brightB, -16);
+
+    *(u16 *)0x05000400 = obj->unk40;
+    func_020435F4(obj->unk38);
+
+    *(u16 *)0x04000050 = obj->unk34;
+    *(u16 *)0x04001050 = obj->unk36;
+
+    MIi_CpuCopy16(G2_GetBG1CharPtr(), obj->unk00, 0);
+    MIi_CpuCopy16(G2_GetBG1ScrPtr(), obj->unk04, 0);
+    MIi_CpuCopy16((const void *)0x05000000, obj->unk08, 0x20);
+
+    v = obj->unk10;
+    *(u16 *)0x04000008 =
+        (u16)((*(u16 *)0x04000008 & 0x43)
+              | (((v << 16) >> 30) << 14)
+              | ((((v << 24) >> 31) << 7))
+              | ((((v << 19) >> 27)) << 8)
+              | ((((v << 26) >> 28)) << 2)
+              | ((((v << 18) >> 31)) << 13));
+
+    if (((obj->unk10 << 25) >> 31) != 0)
+        *(u16 *)0x04000008 = (u16)(*(u16 *)0x04000008 | 0x40);
+    else
+        *(u16 *)0x04000008 = (u16)(*(u16 *)0x04000008 & 0xFFBF);
+
+    func_0203D828(&a, &b);
+    *(u32 *)0x04000014 = (a & 0x1FF) | ((b << 16) & (0x1FF << 16));
+
+    v = obj->unk0C;
+    GX_SetGraphicsMode((v << 12) >> 28, (v << 29) >> 29, (v << 28) >> 31);
+
+    *(u32 *)0x04000000 = (*(u32 *)0x04000000 & 0xFFFFE0FF)
+                       | (((obj->unk0C << 19) >> 27) << 8);
+    *(u32 *)0x04000000 = (*(u32 *)0x04000000 & 0xFFFF1FFF)
+                       | (((obj->unk0C << 16) >> 29) << 13);
+    *(u32 *)0x04001000 = (*(u32 *)0x04001000 & 0xFFFF1FFF)
+                       | (obj->unk3C << 13);
+
+    func_020809A0();
+    func_020808F4();
+    GX_SetBankForBG(obj->unk24);
+    GX_SetBankForSubBG(obj->unk28);
+    GX_HBlankIntr(obj->unk1C);
+    GX_VBlankIntr(obj->unk20);
+    func_0208459C(1, 1);
+
+    if (arg0 == 0) {
+        GXx_SetMasterBrightness_((void *)0x0400006C, obj->unk14);
+        GXx_SetMasterBrightness_((void *)0x0400106C, obj->unk18);
+    }
+}

@@ -1,0 +1,151 @@
+===== sub_0200545C DIFF body =====
+/* best source, 400 bytes against 376, 323 concrete bytes out, dsi/1.1p1 -O4,p */
+/* Permuter hill-climb (84 compiles) only regressed (best 367 vs baseline 323); baseline kept. */
+/* Evidence wall, independent of the codegen gap: 40 of 42 relocations resolve, but the two ABS32 sites on d_0209D8A0 / d_0209D8B0 have no witness outside 0200545C..020055EC. layout/data_objects.txt lines 295-296 show the ONLY pool words naming either address are 0x020055D8 and 0x020055DC, both inside this function, so the map refuses them under the lone-reference rule (same shape as 0x0209E904 for src/pending/func_020213F8.c). These two sites cap the function at MATCH even once the codegen is right; a second referrer elsewhere in the image, or a neighbouring unit that names them, is what would unstick it. */
+/* __FILE__ anchor 0x020A7004 (gfl_use.c) resolves fine via the string class. */
+
+/*
+ * function: sub_0200545C
+ * address:  0x0200545C
+ * packet:   pkt_02005454
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   WIP
+ *
+ * symbols:
+ *   g_0200545C_Obj  0x020AA194  data
+ *   s_gfl_use_c     0x020A7004  data
+ *   d_0209D8A0      0x0209D8A0  data
+ *   d_0209D8B0      0x0209D8B0  data
+ *   d_020A6C58      0x020A6C58  data
+ *   func_02005768   0x02005768  thumb
+ *
+ * Top-level system init for gfl_use.c (the __FILE__ anchor at 0x020055EC
+ * names it). Sets up the heaps on a non-TWL console, then brings up the
+ * graphics, card and sound subsystems.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32  OS_IsRunOnTwl(void);
+extern void *OS_GetArenaLo(u32 id);
+extern void *OS_GetArenaHi(u32 id);
+extern void *OS_InitAlloc(u32 id, void *lo, void *hi, u32 n);
+extern void OS_SetArenaLo(u32 id, void *lo);
+extern u32  OS_CreateExtraHeap(u32 id);
+extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
+
+extern void func_02030608(void *a, u32 b, u32 c, u32 d);
+extern void func_02030BA4(u32 a);
+extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void func_02030678(void *a, u32 b, u32 c);
+extern void func_0203EF5C(u32 a);
+extern void func_02048CEC(void *a, u32 b);
+extern void func_02034E24(u32 a, u32 b);
+extern u32  func_02085CBC(void);
+extern void func_02034978(void);
+extern void func_020346EC(u32 a, u32 b, void *c);
+extern void func_0203499C(u32 a, u32 b, u32 c, u32 d);
+extern void func_0203129C(u32 a);
+extern void *func_02030734(u32 a, u32 b, u32 c, void *d, u32 e);
+extern void *func_02030CB0(u32 a);
+extern void *func_02030CBC(u32 a, void *b);
+extern void func_020056D0(void);
+extern void func_0204E5E8(u32 a);
+extern void func_020316C8(u32 a, void *b, void *c);
+extern void func_0204E130(u32 a);
+extern void func_0203F3B4(void);
+extern void func_0200566C(void);
+extern void func_020057AC(void);
+extern void func_0204E6F4(u32 a);
+
+extern u8 s_gfl_use_c[];
+extern u8 d_0209D8A0[];
+extern u8 d_0209D8B0[];
+extern u8 d_020A6C58[];
+
+struct Obj {
+    u32   unk00;
+    void *unk04;
+    u32   unk08;
+    u32   unk0C;
+    void *unk10;
+    void *unk14;
+};
+
+struct Sub {
+    u8    pad00[0x18];
+    void *unk18;
+    void *unk1C;
+    void *unk20;
+    void *unk24;
+};
+
+void sub_0200545C(void)
+{
+    struct Obj *obj = (struct Obj *)0x020AA194;
+    struct Sub *sub;
+    void *p;
+    u32 zero;
+
+    if (OS_IsRunOnTwl() == 0) {
+        void *lo = OS_GetArenaLo(0);
+        void *hi = OS_GetArenaHi(0);
+        OS_InitAlloc(0, hi, lo, 1);
+        OS_SetArenaLo(0, OS_GetArenaLo(0));
+        obj->unk04 = (void *)OS_CreateExtraHeap(0);
+        obj->unk14 = OS_AllocFromHeap(0, (u32)obj->unk04, 0x3F00);
+    }
+
+    if (OS_IsRunOnTwl() != 0)
+        func_02030608(d_0209D8A0, 2, 0xAD, 0);
+    else
+        func_02030608(d_0209D8B0, 2, 0xAD, 0);
+
+    func_02030BA4(2 << 12);
+    func_0203064C(1, 7, 0x25 << 12);
+
+    if (OS_IsRunOnTwl() == 0)
+        func_02030678(obj->unk14, 0x3F00, 9);
+    else
+        func_0203064C(1, 9, 0x3F00);
+
+    zero = 0;
+    func_0203EF5C(0);
+    func_02048CEC(s_gfl_use_c, 0xEB);
+    func_02034E24(0, 0);
+
+    if ((func_02085CBC() & (0x81 << 24)) != 0)
+        func_02034978();
+    else
+        func_020346EC(zero, zero, d_020A6C58);
+
+    func_0203499C(0, 0x10, 4, 4);
+    func_0203129C(0);
+
+    obj->unk10 = func_02030734(0, 0x28, 0, (void *)0x02005769, 0x28);
+    sub = (struct Sub *)obj->unk10;
+
+    p = func_02030CB0(4);
+    sub->unk1C = func_02030734(0, 0, 0, (void *)0x02005769, 0x119);
+    sub->unk18 = func_02030CBC(4, sub->unk1C);
+
+    p = func_02030CB0(0x10);
+    sub->unk24 = func_02030734(0, 0, 0, (void *)0x02005769, 0x11C);
+    sub->unk20 = func_02030CBC(0x10, sub->unk24);
+
+    func_020056D0();
+    func_0204E5E8(0);
+    func_020316C8(7, (void *)0x0202F769, (void *)0x0202F775);
+    func_0204E130(0);
+    func_0203F3B4();
+    obj->unk0C = 0;
+    func_0200566C();
+    func_020057AC();
+    func_0204E6F4(2);
+}

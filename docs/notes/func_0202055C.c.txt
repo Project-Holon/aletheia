@@ -1,0 +1,120 @@
+/* best source, 356 bytes against 356, 96 concrete bytes out, dsi/1.1p1 -O4,p */
+/*
+ * func_0202055C @ 0x0202055C, packet pkt_02020408, isa thumb, verdict DIFF.
+ * Size exact (356/356) and every stack slot matches. Residue is two blocks:
+ *   +00C4..+00E4  the func_02020CA0 argument chain: the original schedules the
+ *     (k<<4)|k byte build after the /8 shift chain; every spelling tried puts it
+ *     before. Permuter (40 variants, 61 mutations available) found no improvement.
+ *   +0118..+012E  the loop-body y computation: the original loads o->hook (r5,#8)
+ *     between the two halves of the y expression; binding hook to a local, moving
+ *     the load, and both multiply operand orders all leave the same 2-byte shift.
+ * Not an evidence blocker: all 8 relocation sites resolve (label/sole-ref).
+ */
+
+/*
+ * function: func_0202055C
+ * address:  0x0202055C
+ * packet:   pkt_02020408
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Obj;
+
+struct Entry {
+    void *p0;
+    int   p4;
+};
+
+typedef void (*Hook)(struct Obj *o, int a, int b);
+
+struct Obj {
+    struct Entry *arr;
+    void *unk04;
+    Hook hook;
+    void *unk0C;
+    u16 count;
+    u16 rows;
+    u8 f14;
+    u8 f15;
+    u8 f16;
+    u8 f17lo : 4;
+    u8 f17hi : 4;
+    u8 f18lo : 4;
+    u8 f18hi : 4;
+    u8 f19;
+    u16 f1Alo : 3;
+    u16 f1Amid : 4;
+    u16 f1Apad : 2;
+    u16 f1Amid2 : 6;
+    u16 f1Atop : 1;
+    u8 pad1C[0x22 - 0x1C];
+    u16 f22;
+};
+
+extern u32  func_02045770(void *p);
+extern u32  func_02045738(void *p);
+extern void func_02043AF4(u32 a, u32 b, u32 c, u32 d, u16 e, u32 f);
+extern void func_020437DC(u32 a);
+extern void func_02020408(struct Obj *o, void *p, u32 c, u32 d, u32 e);
+extern void func_02020CA0(void *h, u32 a, u32 b, u32 c, u32 d);
+
+void func_0202055C(struct Obj *o, u16 row, u16 col, u16 n, int flag)
+{
+    int step;
+    int lim;
+    int i;
+    u16 r;
+
+    step = (u8)(o->f22 + o->f1Amid);
+
+    if (row != 0 && flag != 0) {
+        int idx = (row - 1) * 8;
+        int pal = (o->arr[row - 1].p4 != -3) ? o->f15 : o->f14;
+        u32 h = func_02045770(o->unk0C);
+        u32 w = func_02045738(o->unk0C);
+        u8 y;
+
+        func_02043AF4(h, 0, 0, ((w << 0x13) >> 0x10),
+                      (u16)(o->f17lo + ((col + 1) * step) * 2),
+                      o->f18lo);
+
+        y = (u8)(o->f17lo + col * step);
+        if (o->hook != 0) {
+            o->hook(o, o->arr[row - 1].p4, y);
+        }
+        func_02020408(o, *(void **)((u8 *)o->arr + idx), pal, y, 0);
+
+        {
+            u8 k = o->f18lo;
+            func_020437DC(func_02045770(o->unk0C));
+            func_02020CA0(o->unk0C, 0,
+                          (u16)((step * 2 / 8) * (step >> 3)),
+                          (u8)((k << 4) | k), step);
+        }
+    }
+
+    lim = (u16)(n + 1);
+    i = 0;
+    r = row;
+    if (lim <= 0) return;
+    do {
+        int pal = (o->arr[r].p4 != -3) ? o->f15 : o->f14;
+        u8 y = (u8)(o->f17lo + (i + col) * step);
+        if (o->hook != 0) {
+            o->hook(o, 0, y);
+        }
+        func_02020408(o, o->arr[r].p0, pal, y, 1);
+        r = (u16)(r + 1);
+        if (r >= o->count) return;
+        i++;
+    } while (i < lim);
+}

@@ -1,0 +1,140 @@
+===== sub_0200FD38 DIFF body =====
+/* best source, 356 bytes against 336, 275 concrete bytes out, dsi/1.1p1 -O4,p */
+/* permuter hill-climb (115 compiles) reached 258 via volatile-add@L68; not kept: codegen hack, not a semantic finding. */
+/* All 23 relocations resolve (label x21, sole-ref/code x2 on func_02010068). Blocker is codegen/structure, not evidence. */
+
+/*
+ * function: sub_0200FD38
+ * address:  0x0200FD38
+ * packet:   pkt_0200FC0C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   WIP
+ *
+ * symbols:
+ *   sub_0200FD38_Obj  0x0214617C  data
+ *
+ * Graphics re-init for the module object at 0x0214617C.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32  func_02010054(void);
+extern void func_02010068(u32 a);
+extern void func_020101D4(u32 a, u32 b);
+
+extern u32  GXx_GetMasterBrightness_(void *reg);
+extern void GXx_SetMasterBrightness_(void *reg, int v);
+extern u32  GX_HBlankIntr(u32 on);
+extern u32  GX_VBlankIntr(u32 on);
+extern void GX_SetBankForBG(u32 bank);
+extern void GX_SetGraphicsMode(u32 a, u32 b, u32 c);
+extern void *G2_GetBG1CharPtr(void);
+extern void *G2_GetBG1ScrPtr(void);
+extern void MIi_CpuCopy16(const void *src, void *dst, u32 len);
+extern u32  func_020808F4(void);
+extern u32  func_020809A0(void);
+extern u32  func_02043668(void);
+extern void func_020435F4(u32 a);
+
+struct Obj {
+    void *unk00;
+    void *unk04;
+    void *unk08;
+    u32   unk0C;
+    u16   unk10;
+    u16   pad12;
+    u32   unk14;
+    u32   unk18;
+    u32   unk1C;
+    u32   unk20;
+    u32   unk24;
+    u32   unk28;
+    u32   unk2C;
+    u32   unk30;
+    u16   unk34;
+    u16   pad36;
+    u32   unk38;
+    u32   unk3C;
+    u8    pad40[0x19];
+    u8    unk59;
+};
+
+void sub_0200FD38(u32 arg0, u32 arg1)
+{
+    struct Obj *obj = (struct Obj *)0x0214617C;
+    void *brightA;
+    void *brightB;
+    u32 *dispcnt;
+    u16 *vcnt;
+    u32 tmp;
+
+    if (func_02010054() == 0)
+        return;
+
+    brightA = (void *)0x0400006C;
+    brightB = (void *)0x0400106C;
+    obj->unk14 = GXx_GetMasterBrightness_(brightA);
+    obj->unk18 = GXx_GetMasterBrightness_(brightB);
+    GXx_SetMasterBrightness_(brightA, -16);
+    GXx_SetMasterBrightness_(brightB, -16);
+
+    if (arg1 == 0) {
+        obj->unk1C = GX_HBlankIntr(0);
+        obj->unk20 = GX_VBlankIntr(0);
+    }
+
+    obj->unk24 = func_020808F4();
+    obj->unk28 = func_020809A0();
+
+    GX_SetBankForBG(4);
+
+    dispcnt = (u32 *)0x04000000;
+    obj->unk0C = *dispcnt;
+    GX_SetGraphicsMode(1, 0, 0);
+
+    *dispcnt = (*dispcnt & 0xFFFFE0FF) | (1 << 9);
+    *dispcnt = *dispcnt & 0xFFFF1FFF;
+
+    obj->unk3C = (*(u32 *)0x04001000 & (0xE << 12)) >> 13;
+    *(u32 *)0x04001000 = *(u32 *)0x04001000 & 0xFFFF1FFF;
+
+    vcnt = (u16 *)0x0400000A;
+    tmp = *vcnt;
+    obj->unk10 = (u16)tmp;
+    *vcnt = (u16)((((tmp << 18) >> 31) << 13) | (4 | (*vcnt & 0x43)));
+    *vcnt = (u16)(*vcnt & 0xFFBF);
+    *(u32 *)((u8 *)vcnt + 0xA) = 0;
+
+    if (obj->unk59 != 0x60) {
+        void *p;
+        p = obj->unk00;
+        MIi_CpuCopy16(G2_GetBG1CharPtr(), p, 0);
+        p = obj->unk04;
+        MIi_CpuCopy16(G2_GetBG1ScrPtr(), p, 0);
+        MIi_CpuCopy16(0, obj->unk08, 0x20);
+    }
+
+    obj->unk34 = *(u16 *)0x04000050;
+    obj->unk34 = *(u16 *)0x04001050;
+    *(u16 *)0x04000050 = 0;
+    *(u16 *)0x04001050 = 0;
+
+    obj->unk38 = func_02043668();
+    func_020435F4(0);
+
+    if (*(u8 *)0x021461D5 == 0x60) {
+        func_02010068(1);
+    } else {
+        func_02010068(0);
+        func_020101D4(arg0, arg1);
+    }
+
+    GXx_SetMasterBrightness_(brightA, 0);
+    GXx_SetMasterBrightness_(brightB, 0);
+}

@@ -1,0 +1,157 @@
+/* best source, 412 bytes against 378, 231 concrete bytes out, dsi/1.1p1 -O4,p */
+/*
+ * func_02026A60 @ 0x02026A60, packet pkt_0202685C, isa thumb, verdict DIFF.
+ * First 58 bytes are byte-exact and every branch target in the body now lands
+ * on the correct address (the three scan loops, their shared tails, and the
+ * kind-chain at +00F4 all line up).
+ * Residue is one register-allocation decision, not a structural one: the
+ * original holds hi (base+0xBAD) in r1 and lo (base+0xBAC) in r2; every
+ * spelling tried gets them the other way round, and that swap then propagates
+ * through all three loops as the 231-byte residue. Tried: declaration-order
+ * swap (no effect -- the allocation follows load order, not declaration),
+ * deriving lo from a hi pointer minus one (worse, 340), and the permuter
+ * (35 variants over 128 available mutations, no improvement on baseline).
+ * Size is 412 vs 378 real code bytes: the compiler still emits one extra
+ * copy of the shared 'movs r0,#1 / mov ip,r0' tail that the original reaches
+ * by a backward branch from the third loop (+00EC -> +0074).
+ * Not an evidence blocker: both relocation sites resolve.
+ * Pool words decoded, for the next agent: 0x02026BDC=0x02146940 (the base
+ * global), 0xBAD/0xBAC the hi/lo cursor pair, 0xBA4 a bitmask word, 0xBA8 a
+ * counter, and the four kind constants 0x2932013A (kind 0x19), 0x48841DC1
+ * (0x1A), 0x701DDC92 (0x1B), 0xFEE48201 (0x32).
+ */
+
+/*
+ * function: func_02026A60
+ * address:  0x02026A60
+ * packet:   pkt_0202685C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146940     0x02146940  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Rec {
+    u8   pad00[0x60];
+};
+
+struct Req {
+    u8   f00;
+    u8   pad01[8 - 1];
+    u32  f08;
+    u8   pad0C[0x10 - 0x0C];
+    u16  f10;
+    u8   pad12[0x30 - 0x12];
+    u16  f30;
+    u8   pad32[0x3C - 0x32];
+    u32  f3C;
+    u8   pad40[0x46 - 0x40];
+    u16  f46;
+};
+
+extern u8 *g_02146940;
+extern void func_0202685C(u8 *base, struct Req *r);
+
+int func_02026A60(struct Req *r)
+{
+    u8 *base = g_02146940;
+    int hit = 0;
+    int i;
+    u16 kind;
+    signed char hi;
+    signed char lo;
+
+    if ((r->f00 & 2) == 0) {
+        return hit;
+    }
+
+    kind = r->f30;
+    if (kind == 0 || kind >= 0x33) {
+        return 0;
+    }
+
+    if (kind == 0x18) {
+        if (*(u16 *)(base + 0x14) != r->f46) {
+            return hit;
+        }
+    }
+
+    hi = *(signed char *)(base + 0xBAD);
+    lo = *(signed char *)(base + 0xBAC);
+
+    if (lo <= hi) {
+        for (i = lo; i <= hi; i++) {
+            struct Rec *rec = (struct Rec *)(base + i * 0x60);
+            if (r->f10 == *(u16 *)((u8 *)rec + 0x74)) {
+                if (kind == 1 ||
+                    ((r->f08 << 10) >> 27) == ((*(u32 *)((u8 *)rec + 0x6c) << 10) >> 27)) {
+                    return 0;
+                }
+                hit = 1;
+                goto tail;
+            }
+        }
+    } else {
+        for (i = lo; i < 0x1e; i++) {
+            struct Rec *rec = (struct Rec *)(base + i * 0x60);
+            if (r->f10 == *(u16 *)((u8 *)rec + 0x74)) {
+                if (kind == 1 ||
+                    ((r->f08 << 10) >> 27) == ((*(u32 *)((u8 *)rec + 0x6c) << 10) >> 27)) {
+                    return 0;
+                }
+                hit = 1;
+                goto tail;
+            }
+        }
+        i = 0;
+        if (hi < 0) {
+            goto tail;
+        }
+        for (; i <= hi; i++) {
+            struct Rec *rec = (struct Rec *)(base + i * 0x60);
+            if (r->f10 == *(u16 *)((u8 *)rec + 0x74)) {
+                if (kind == 1 ||
+                    ((r->f08 << 10) >> 27) == ((*(u32 *)((u8 *)rec + 0x6c) << 10) >> 27)) {
+                    return 0;
+                }
+                hit = 1;
+                goto tail;
+            }
+        }
+    }
+
+tail:
+    if (kind == 0x19) {
+        if (r->f3C != 0x2932013A) return 0;
+    } else if (kind == 0x1A) {
+        if (r->f3C != 0x48841DC1) return 0;
+    } else if (kind == 0x1B) {
+        if (r->f3C != 0x701DDC92) return 0;
+    } else if (kind == 0x32) {
+        if (r->f3C != 0xFEE48201) return 0;
+    }
+
+    if (hit == 1) {
+        u32 off = i * 0x60;
+        u8 *d = base + off + 0x64;
+        int k;
+        u32 *sd = (u32 *)d;
+        u32 *ss = (u32 *)r;
+        for (k = 0; k < 23; k++) sd[k] = ss[k];
+        *(u16 *)(base + off + 0xC0) = 0;
+        *(u32 *)(base + 0xBA4) |= (u32)(1 << i);
+    } else {
+        func_0202685C(base, r);
+        *(u32 *)(base + 0xBA8) = *(u32 *)(base + 0xBA8) + 1;
+    }
+    return 1;
+}

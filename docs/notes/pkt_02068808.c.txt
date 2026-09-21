@@ -575,3 +575,41 @@ the allocator refused a register).  Taking its address is the obvious next
 try and was not measured here.
 
 Not filed anywhere: DIFF, by rule 6.
+
+==============================================================================
+2026-09-21 - fifth pass (ARM lane). 0x02068C84 spill lever probed and refused.
+==============================================================================
+
+The fourth pass above ended by naming the next try: "find the source shape
+that makes 1.1p1 keep `bpp` in memory across the two calls ... Taking its
+address is the obvious next try and was not measured here."
+
+MEASURED NOW, and it does not work. Baseline re-derivation of the fourth
+pass's source under dsi/1.1p1 -O4,p gives 476 bytes / 382 concrete out (the
+fourth pass recorded 484/390; the four-byte discrepancy is a transcription
+difference in the notes, not a behaviour change -- the shape is the same).
+Three levers measured against that baseline:
+
+  1. `int *bp = &bpp;` with every use spelled `*bp`  ->  476 bytes, 380 out.
+     Two bytes better and the size gap is UNCHANGED. Taking the address does
+     not make the allocator spill it: 1.1p1 proves the pointer never escapes
+     and keeps the value in a register anyway.
+  2. `volatile int bpp_v = s->bpp; int bpp = bpp_v;`  ->  480 bytes, 388 out.
+     STRICTLY WORSE than baseline on both counts.
+  3. `volatile` on the five coordinate locals (x0, xe, ye, cy, ty), the
+     obvious way to chase the image's near-total stack traffic  ->  460 bytes,
+     378 out. The byte count improves slightly but the size gap WIDENS from
+     24 to 40. Wrong direction.
+
+So the "chase the spill decision" avenue the fourth pass proposed is closed
+for the two spellings that exist to force a spill. The image's `sub sp, #0x48`
+against 1.1p1's `#0x44` -- one extra stack word -- and its `str`/`ldr`
+immediately-adjacent pairs (0x02068C98/0x02068C9C, and again at 0x02068CCC,
+0x02068CDC, 0x02068D1C ...) remain unexplained by any source-level lever.
+0x02068C84 stays DIFF. The pin remains refused on the fourth pass's own
+measurement; do not re-probe it.
+
+0x02068AE8 was NOT re-probed this pass: the third pass's row above is explicit
+that both of its residual sites were measured against the pin and that the
+remaining work is allocation, so the same three levers would apply to it and
+two of the three are already known-worse on its sibling.
