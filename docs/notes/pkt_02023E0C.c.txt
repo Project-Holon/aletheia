@@ -128,3 +128,90 @@ void sub_02023E0C(struct Anim *p)
     if (flag == 1)
         p->f1c = 0;
 }
+
+
+======================================================================
+2026-09-21 (second pass, pkt_02023E0C): the other two functions
+
+This pass did not re-attempt sub_02023E0C; the note above stands and its
+whole-function register permutation was not revisited.  The packet's two
+untouched addresses were worked instead, and both are now resolved.
+
+0x02023E9C -> EXACT, filed src/matched/func_02023E9C.c
+------------------------------------------------------
+
+The initialiser for the 0x20-byte record that sub_02023E0C above drives.
+It confirms the struct the earlier note inferred, and pins three fields
+the earlier note left open: f08 is the step count, f14 the per-step delta
+and f16 its remainder.  Field map as now established:
+
+    f00  engine-A flag word     f10  sign, +1 or -1 (s8)
+    f04  engine-B flag word     f12  |to - from|
+    f08  step count             f14  per-step delta
+    f0a  from                   f16  remainder of that division
+    f1a  to                     f18  running accumulator (cleared here)
+                                f1c  active flag (set to 1 here)
+
+Three spellings were load-bearing, and two of them are worth carrying to
+any future attempt on sub_02023E0C, since that function lives in the same
+translation unit:
+
+  - `p->f1c = 1;` must be the FIRST statement of the function.  The
+    constant 1 has to land in r0 before the two stack arguments are
+    widened; written anywhere later in the block the allocator promotes it
+    to r6 and the whole entry block shifts register bank.  Measured at
+    three positions: first = EXACT, third = 14 bytes wrong, second = 19.
+    This is a real, cheap lever against exactly the kind of entry-block
+    bank shift the note above is stuck on, and it did not appear in that
+    note's list of things tried.  Worth a retry on sub_02023E0C.
+  - the two arguments arriving at sp+0x10 and sp+0x14 are widened with
+    `lsls #0x18` / `lsrs #0x18`, so they are INT parameters narrowed by a
+    (u8) cast, not u8 parameters.  Declaring them u8 makes the compiler
+    emit `ldrb` from the stack slot instead and loses 4 bytes.
+  - the negation in the sign branch re-reads the field: the original is
+    `ldrsh` + `subs r1,#0x13` + `muls`, four bytes more than the `rsbs`
+    the compiler folds from the value it already has in a register.  A
+    volatile-qualified read (`*(volatile s16 *)&p->f12 * -1`) is what
+    defeats that fold; without it the function compiles 84 bytes, not 88.
+    The -1 multiplier and the -1 stored to f10 in the other arm share one
+    register, derived by `subs #0x13` from the 0x12 field offset already
+    live for the `ldrsh`.
+
+`/` and `%` on the same operands are two separate _s32_div_f calls, as
+docs/idioms/div-and-mod-are-two-calls.md says; f14 takes the quotient from
+r0 and f16 the remainder from r1.
+
+0x02023EF4 -> MATCH, parked src/pending/func_02023EF4.c
+-------------------------------------------------------
+
+The front end for func_02023E9C.  All 108 bytes are byte-correct.  Four of
+six relocation sites resolve: G2x_SetBlendBrightness_ twice by label, and
+func_02023E9C twice by `matched`, which became available only after
+src/matched/func_02023E9C.c entered the shard in this same run -- the two
+functions do not attest each other's only call sites, so folding them into
+one unit would have cost the attestation rather than gained it.
+
+BLOCKER: the two ABS32 pool words at +0x60 and +0x68, the per-engine
+descriptor tables at 0x0202691C and 0x020268FC, which are func_02023E9C's
+FIRST argument.  Evidence class `literal`.  Neither word appears in a
+literal pool at any other address, and being plain data they can never be
+label-, veneer- or matched-attested.  A cut is not available either, since
+both sites live in the one function.  What would unstick it: any other
+function that loads either table address, or a decompilation of the data
+region that defines the tables.
+
+Two structural findings from this function correct the earlier note's read
+of the engine dispatch:
+
+  - the record pointer is func_02023E9C's SECOND argument, not its first.
+    The first is the engine's own descriptor table, loaded from the pool.
+    The earlier note's draft for sub_02023E0C assumed a single-argument
+    shape here; anything that models the engine dispatch should account
+    for the per-engine table.
+  - G2x_SetBlendBrightness_ is called with TWO arguments in the first arm
+    and THREE in the second, so the two arms cannot tail-merge.  Declaring
+    two externs at the same address (0x0207D658) with different arities is
+    what reproduces that, and is the reason the function is 108 bytes
+    rather than the ~96 a merged pair would give.  The second engine's
+    register word is the plain constant 0x04001050 in the pool, not
+    0x04000050 + 0x1000 computed at run time.

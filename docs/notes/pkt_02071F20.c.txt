@@ -1,0 +1,89 @@
+pkt_02071F20 - the two callers of the 0x02071CDC constructor family
+2026-09-21
+
+Follows docs/notes/pkt_02071DD4.c.txt, which cut this packet and listed
+0x02071F20 as "NOT ATTEMPTED (oversized)".  It is not oversized.
+
+SOLVED THIS RUN (EXACT):
+  0x02071F20   src/matched/func_02071F20.c   316 B, default 1.1p1,
+               no pin needed.
+
+Three levers paid for it, and all three are new to this family:
+
+  L1  THE SCALE FIELDS f30/f34 ARE `volatile`.  Each scale block applies
+      the object's scale to three record slots, and the image RE-READS
+      the scale from the object before the SECOND and THIRD multiply
+      (`ldr r2,[r4,#0x30]` at 0x02071FC4, `ldr r1,[r4,#0x30]` at
+      0x02071FDC).  Plain non-volatile C lets 1.1p1 forward the register
+      it still holds live and batch all three smulls together: 308 bytes
+      against 316, and the whole block reshaped.  Plain `volatile` on the
+      field overshoots the other way - it also re-reads for the GUARD
+      compare, 332 bytes - so the guard's own load is bound to a local
+      `s`, the FIRST multiply uses that local, and only the other two
+      re-read through the volatile field.  That exact split is the
+      only spelling measured that gives 316.
+
+  L2  THE CALL'S BASE IS A POINTER LOCAL, NOT `&r.f04`.  The image spends
+      TWO instructions on the second argument, `add r1, sp, #0` at
+      0x02072040 and `add r1, r1, #4` at 0x02072048.  `&r.f04` folds to a
+      single `add r1, sp, #4` and the function comes out 4 bytes short.
+      Binding `s32 *base = (s32 *)&r;` and passing `base + 1` reproduces
+      the pair.  Worth trying anywhere a stack record's body is passed
+      just past its header word.
+
+  L3  THE HEADER CONSTANTS ARE ORDERED BY THEIR STORES, NOT THEIR
+      DECLARATIONS.  The record's four non-zero header fields are stored
+      around a run of nine zero stores, and mwcc emits the four constant
+      `mov`s in order of the FIRST store that consumes each, sinking any
+      constant whose store sits after the zero run.  Only the source
+      order `f04, f48, f40, f44` gives the image's
+      `mov r1,#0 / mov r3,#3 / mov r2,#2 / mov r0,#0x1000`.  Measured:
+      f44-first is 27 bytes out, f48-first 8, and the three wrong
+      orderings differ from the right one by a pure ROTATION of the three
+      non-zero constants - a distinctive and easy-to-read signature.
+      Declaration order, and whether the constants are bound to locals at
+      all, are both insensitive; only the store order reaches it.
+
+The dispatch is `data_020A8458[o->f00 & 7](&r.f08, o)`, a `blx` through a
+pointer table; match.py attests the ABS32 site `data_table x16`, so the
+table needs no witness work.
+
+NEAR MISS, NOT FILED:
+
+  0x02072068, 340 B, DIFF at 332 B (8 short, 2 instructions), 213
+  concrete bytes.  The general member of the family: the s32 2x2 block
+  AND the f24/f28 cross terms, so the f30/f34 pair is a full s64
+  intermediate multiplied by an s32 (the umull/mla/mla triples at
+  0x02072140 and 0x02072164).  This run reached the SAME 332 bytes the
+  pkt_02071DD4 lane reached, from a different direction, which is some
+  evidence 332 is a real floor for the obvious shapes.
+
+  What is now known about the shape, beyond that note:
+  * The pairing is settled and is NOT symmetric.  `hA` = f24*f20 -
+    f28*f22 is scaled by f1c and ADDED to the f14 value to make the f34
+    term; `hB` = f28*f20 + f24*f22 is scaled by f18 and SUBTRACTED from
+    the f18*f20 value to make the f30 term.  Swapping the two pairings
+    costs 24 bytes (332 -> 356) and is the single largest lever found.
+  * Binding f18/f1c/f20/f22 to named locals before the first block is
+    worth 16 bytes (372 -> 356); without it every multiply re-reads.
+  * Writing the f30 statement BEFORE the f34 addend `c` is worth a
+    further 24 bytes (356 -> 332).  Anything that lengthens `c`'s live
+    range - hoisting the `- 0x1000`, computing `c` first, splitting the
+    subtract out - puts it straight back to 356.
+  * The residue is a stack frame.  The image allocates NO frame: it
+    spills exactly one value, the f2c read, into the `push {r3, ...}`
+    slot (`str r1,[sp]` at 0x020720AC, reloaded `ldr r0,[sp]` at
+    0x0207217C).  Every 332-byte spelling measured emits `sub sp, sp, #8`
+    instead and spills two.  Getting the spill count down to one is the
+    whole remaining 8 bytes, and reading f2c early into a local does NOT
+    do it (measured here and in the earlier note).
+
+  Not a compiler-pin candidate: the shortfall is a spill-count and
+  register-pressure difference, not any of the three pinnable tells
+  (kept branches, kept constants, re-read/forward).  No alternative front
+  end was probed, correctly.
+
+UNLABELLED FOLLOWERS: none new.  Both functions in this packet carry
+`func_` labels, and the 12 bytes after 0x02071F20's `pop` are its own
+literal pool (0x0207205C 0x00101610, 0x02072060 0x00101810, 0x02072064
+0x020A8458), not a follower.

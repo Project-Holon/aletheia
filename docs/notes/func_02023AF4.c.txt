@@ -1,0 +1,142 @@
+2026-09-21 pkt_02023AF4, func_02023AF4 (0x02023AF4, 82 bytes code, Thumb)
+
+Verdict: DIFF.  Compiled 82 bytes against the original's 82 bytes of code
+(the listing's 84-byte extent includes the two-byte `movs r0,r0` pad at
+0x02023B46).  13 concrete bytes differ.  The single relocation site
+resolves (_s32_div_f, label x150).  Every branch, every branch polarity,
+every call and the whole loop structure reproduce; the residue is one
+consistent register swap.
+
+Semantics (confident; the whole control flow is byte-exact):
+
+Paints a run of the 0xc0-byte array at out+0xc0 with a two-value pattern.
+The descriptor is three fields: two u8 bounds at +0 and +1 and a u16 flag
+at +2.  The split point is
+
+    split = (hi - lo) * num / den + lo
+
+with the division going through _s32_div_f (0x0209C0A4).  The bounds are
+then ordered, and this is where the two arms differ in more than order:
+
+  - lo <= hi (the FALL-THROUGH arm; the original's `bhi` jumps forward to
+    the other one): the run is [lo, hi) and the paint value is the flag
+    halfword's own value, loaded straight into the loop register.
+  - lo > hi: the bounds swap, and the paint value is the INVERSE sense of
+    the flag: 1 if the flag is zero, 0 if it is not.
+
+The loop then walks the run writing the current value into out[0xc0+i],
+and at the one index equal to `split` it flips the value (0 <-> 1) --
+flips the LIVE variable, not a per-iteration temporary: the flipped value
+persists for the rest of the run, which is what makes this a two-tone fill
+rather than a single odd byte.
+
+C reached (82 bytes, 13 differing, best of every shape tried):
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+    typedef signed int     s32;
+
+    void func_02023AF4(u8 *desc, u8 *out, s32 num, s32 den)
+    {
+        u32 lo = desc[0];
+        u32 hi = desc[1];
+        s32 q = (s32)(hi - lo) * num / den;
+        s32 split = q + lo;
+        s32 i;
+        s32 end;
+        s32 near;
+
+        if (lo <= hi) {
+            i = lo;
+            end = hi;
+            near = *(u16 *)(desc + 2);
+        } else {
+            u16 flag = *(u16 *)(desc + 2);
+
+            i = hi;
+            end = lo;
+            near = 1;
+            if (flag != 0) {
+                near = 0;
+            }
+        }
+
+        {
+            s32 one = 1;
+            s32 zero = 0;
+
+            while (i < end) {
+                if (i == split) {
+                    if (near == 0) {
+                        near = one;
+                    } else {
+                        near = zero;
+                    }
+                }
+                out[0xc0 + i] = (u8)near;
+                i++;
+            }
+        }
+    }
+
+Four spellings are load-bearing and were each isolated against the bytes.
+A future pass should start from these rather than rediscover them:
+
+  - the bounds are UNSIGNED.  The compare at +0x16 is `bhi`, not `ble`.
+    Typing lo/hi as s32 gives `ble` and a 56-byte diff that hides
+    everything else.
+  - the ordering test is `if (lo <= hi)` with the swap arm as the `else`.
+    Written the other way round (`if (lo > hi)` first) the compiler emits
+    the arms in source order and 33 bytes go wrong, because the original's
+    `bhi` is a forward branch over the fall-through arm.
+  - the split is `quotient + lo`, in that operand order (`adds r0,r0,r6`).
+    Writing `lo + quotient` puts lo in the left slot and costs 2 bytes at
+    +0x14.  Binding the quotient to its own named local `q` before the add
+    is what pins it; see docs/idioms/commutative-operand-order-names-the-
+    temporary.md.
+  - the loop must assign back into the SAME variable it tests (`near`),
+    not into a per-iteration temporary `v`.  The `v` form compiles 80
+    bytes (2 short) with 32 differing: the original keeps one loop-carried
+    register, and a temporary lets the compiler rematerialise instead.
+    The two constants must also be hoisted into named locals `one`/`zero`
+    declared in that order -- the original materialises both ONCE before
+    the loop (`movs r6,#1` / `movs r3,#0` at +0x32/+0x34) and selects
+    between them with register moves inside it.  Declaring them in the
+    other order swaps r6/r3 and costs 2 more bytes.
+  - inside the flip, the test is `if (near == 0) near = one; else near =
+    zero;`.  The inverted polarity flips the `bne` at +0x3C.
+
+Where the diff lives: 13 bytes across +0x1C..+0x4A, and it is one swap,
+not a scatter.  The original keeps `near` in r7 (the register the `desc`
+pointer occupied until its last use at +0x20) and the two constants in
+r6/r3.  mwcc keeps `near` in r2 and the constants in r7/r6.  Every
+instruction is otherwise identical in shape, operand role and order --
+including the two `ldrh [r7,#2]` in the two arms, the `adds r4,r6,#0`
+bound swap, and the whole loop body down to the `strb`/`cmp`/`blt`.
+
+Tried and rejected:
+  - all six permutations of the {i, end, near} declaration order.  Three
+    give 13 (the recorded result), three give 19; none moves `near` to r7.
+    Declaration order shifts which of the three shares a bank but not the
+    bank itself.
+  - `near` typed u16 and u32 rather than s32: 13 either way, no change.
+  - the else arm's flag read inlined into the `if` condition rather than
+    bound to a named `flag` local: 13, no change.
+  - reordering the else arm to assign `near = 1` before the bounds swap:
+    strictly worse (16), so the bounds swap really does come first.
+
+Conclusion: the same one-register-offset family already recorded for this
+translation unit in docs/notes/func_02023768.c.txt,
+docs/notes/func_02023964.c.txt and docs/notes/func_02023A50.c.txt.  Left
+as DIFF/note; no source file filed, since the comparison never reached
+MATCH.  This is the closest of the four (13 bytes, and the size is exact),
+so it is the best candidate to attack first if an idiom for the family
+turns up.
+
+Compile line:
+  python3 tools/match.py one --src <this file's C> --func func_02023AF4 \
+      --addr 0x02023AF4 --cc 1.1p1 --thumb
+
+symbols:
+  _s32_div_f  0x0209C0A4  arm

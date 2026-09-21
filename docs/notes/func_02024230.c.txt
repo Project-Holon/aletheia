@@ -1,0 +1,121 @@
+2026-09-21 pkt_02024230, func_02024230 (0x02024230, 82 bytes code, Thumb)
+
+Verdict: DIFF.  Compiled 92 bytes against the original's 92-byte extent
+(82 bytes of code plus the two pool words at 0x02024284 and 0x02024288,
+and the 2-byte `mov r8,r8` pad at 0x02024282) -- size exact, pool exact,
+pool word ORDER exact.  8 concrete bytes differ, confined to +0x18..+0x24.
+One of two relocation sites resolves (_s32_div_f is not used here;
+_ll_mul at 0x0209C054 resolves label x47).  The unresolved site is the
+ABS32 pool word for the table at 0x02021B38 -- see the blocker note at the
+end, which is a separate issue from the diff.
+
+Semantics (confident; everything outside the 8 bytes is byte-exact):
+
+Fills out[0..count) with a scaled sample of the shared s16 table at
+0x02021B38.  A phase counter starts at 0 and advances by `step` each
+iteration, wrapping through 16 bits (the `lsls #0x10` / `lsrs #0x10` pair
+at the bottom of the loop).  The table index is phase >> 4 -- an ARITHMETIC
+shift, so the phase is signed -- and the table STRIDE IS 4 BYTES, not 2:
+the original scales the index by 4 (`lsls r1,r0,#2`) and then reads a
+halfword (`ldrsh r0,[r0,r1]`), so the s16 entries sit one per 4-byte slot.
+Reading it as a packed s16 array is the single easiest way to lose this
+function; it costs 2 bytes at +0x1A and nothing else, so it looks like
+noise.
+
+Each sample is multiplied by the s32 amplitude in 64 bit through _ll_mul
+(contract r0:r1 * r2:r3 -> r0:r1), then rounded and narrowed twice: the
+64-bit splice (`adds` #0x800 / `adcs` the zero pool word / `lsls #0x14` /
+`lsrs #0xc` / `orrs`) recovers the low 32 bits of (product + 0x800) >> 12,
+and the trailing `asrs #0xc` takes that down to the s16 that is stored.
+
+C reached (92 bytes, 8 differing, best of every shape tried):
+
+    typedef unsigned short   u16;
+    typedef signed short     s16;
+    typedef signed int       s32;
+    typedef unsigned int     u32;
+    typedef signed long long s64;
+
+    extern const s16 sine_table_02021B38[];
+
+    void func_02024230(s16 *out, u32 count, u16 step, s32 amp)
+    {
+        u32 i;
+        s16 phase;
+
+        phase = 0;
+        i = 0;
+        while (i < count) {
+            s64 prod = (s64)sine_table_02021B38[(phase >> 4) * 2]
+                       * (s64)amp;
+
+            out[i] = (s16)((s32)((prod + 0x800) >> 12) >> 12);
+            i++;
+            phase = (s16)(phase + step);
+        }
+    }
+
+Four spellings are load-bearing.  Each was isolated against the bytes and
+each is worth more than it looks:
+
+  - the phase is s16, not u16.  `asrs r0,r5,#4` at +0x18 is the only
+    evidence, and a u16 phase gives `lsrs` there.
+  - the table stride is 4: the subscript is `[(phase >> 4) * 2]` on an s16
+    array, i.e. every other halfword.  See above.
+  - `phase` must be INITIALISED BEFORE `i`, and both must be assigned in
+    statements rather than in their declarators.  With declarator
+    initialisers, or with `i` assigned first, the two `movs #0` at
+    +0x0A/+0x0C swap registers and the whole loop follows -- 15 differing
+    bytes instead of 8.  Declaration order alone does not do it; it is the
+    order of the two assignment STATEMENTS that pins r5 to phase.  This is
+    the same lever as docs/idioms/assign-the-loop-counter-before-the-loop-
+    bound-or-zero-costs-a-pool-word.md, pointing the other way.
+  - the loop is a pre-tested `while (i < count)`, not a `do/while` behind
+    an `if (count == 0) return;` guard.  Both compile to the same 92
+    bytes, but the guard form emits `beq` at +0x10 where the original has
+    `bls`.  One byte, and it is the only tell.
+
+Where the diff lives: 8 bytes across +0x18..+0x24, which is the index
+computation and the two spill reloads feeding _ll_mul.  The original uses
+r0/r1 there (`asrs r0` / `lsls r1` / `ldr r0` / `ldrsh r0` / `ldr r2` /
+`ldr r3` / `asrs r1`), mwcc uses r2/r3 for the index pair and r0/r1 for
+the reloads -- the operand pair handed to _ll_mul is swapped end for end.
+Everything else is identical, including the whole rounding splice, the
+`strh`, the phase wrap and both loop edges.
+
+Tried and rejected, all reproducing exactly 8 differing bytes:
+  - four spellings of the index: a named `s32 idx` local, pointer form
+    `*(table + (phase>>4)*2)`, byte-offset form `*(s16 *)((char *)table +
+    (phase>>4)*4)`, and `<< 1` in place of `* 2`.  Identical output for
+    all four, so the index expression is not the lever.
+  - the multiply operand order, both ways, with and without a named local
+    for the table value (`s16 v` and `s32 v`): swapping the operands makes
+    it WORSE (15), so `table[...] * amp` is the correct source order even
+    though the register pair comes out swapped.
+  - hoisting the amplitude into an s64 local before the loop, and
+    declaring the parameter itself s64: much worse (28 and 31), so the
+    sign-extension really does happen at the call site inside the loop.
+  - dropping the `(s64)` cast on the table operand: 15, so both operands
+    are explicitly widened.
+
+BLOCKER, separate from the diff: the ABS32 pool word at +0x54 names the
+table at 0x02021B38 and has no witness outside this range.  Evidence class
+`literal` -- the word appears in no other literal pool in the image, and
+being plain data it can never be label-, veneer- or matched-attested.  So
+even a byte-exact version of this function would cap at MATCH rather than
+EXACT until something else in the image loads the same table address, or
+the data region is decompiled.  Worth knowing before spending budget on
+the remaining 8 bytes: closing them buys a park, not a shard entry.
+
+Conclusion: the residue is the same one-register-offset family recorded
+for the neighbouring 008_02020FE4.s functions
+(docs/notes/func_02023768.c.txt, func_02023964.c.txt, func_02023A50.c.txt,
+func_02023AF4.c.txt).  Left as DIFF/note; no source file filed.
+
+Compile line:
+  python3 tools/match.py one --src <this file's C> --func func_02024230 \
+      --addr 0x02024230 --cc 1.1p1 --thumb
+
+symbols:
+  _ll_mul               0x0209C054  arm
+  sine_table_02021B38   0x02021B38  data

@@ -1,0 +1,106 @@
+2026-09-21 pkt_02024A20, func_02024A20 (0x02024A20, 140 bytes code, Thumb)
+
+Verdict: DIFF.  Compiled 160 bytes against the original's 156-byte extent.
+20 concrete bytes differ, and 18 of them sit in the first six instructions
+(+0x06..+0x10); the remaining 2 are the displacement of one pool load that
+moves with them.  9 of 12 relocation sites resolve.  Everything from
++0x12 to the epilogue at +0x8A -- all seven calls, the whole global
+re-read chain, the if/else and its shared exit -- is byte for byte
+identical.
+
+Semantics (confident; this is the infowin singleton constructor):
+
+layout/file_anchors.txt names 0x020A7478 as this unit's infowin.c
+__FILE__ anchor, reached from the pool word at 0x02024AB0, so the source
+file is infowin.c and the line number baked into the allocation call is
+0x103 (259).  The function:
+
+  1. allocates a 0x28-byte record through the heap entry at 0x02030734,
+     passing (heap, 0x28, 0, __FILE__, __LINE__) -- the file pointer in r3
+     and the line number as the single stack argument at sp[0];
+  2. publishes the result in the one global slot at 0x0202693C;
+  3. zeroes the record through the memset-shaped routine at 0x02082BCC;
+  4. stores the two u8 arguments at +6 and +7, then calls func_020251FC
+     (a0, a1, heap);
+  5. stores func_020056A0(func_02024ABC, record, 1) at +0x24 and clears
+     +0x20 -- this is a callback registration whose ABS32 pool word is
+     0x02024ABD, the Thumb-tagged address of func_02024ABC;
+  6. stores func_0203568C() at +0x1f;
+  7. if the third argument is non-null, stores func_0201283C(a2) at +0xc
+     and func_02012BB0(a2) at +0x10; otherwise clears both;
+  8. clears +8 of a SECOND global record at 0x02020214, calls
+     func_02024ABC(), and stores 0x3f to that record's +4 halfword.
+
+Three findings are load-bearing and cost real time to establish:
+
+  - the two u8 arguments land at +6 and +7, NOT +8 and +9.  The record's
+    first three fields are u32/u16/u8/u8, so a struct that starts u32,u32
+    shifts every later field by 4 and turns a clean match into a 60-byte
+    scatter that looks like a codegen problem.  The tell is `strb r6,
+    [r0,#6]`.
+  - func_02012BB0 RETURNS A VALUE and that value is what lands at +0x10.
+    Declaring it `void` and writing a separate `infowin_ptr->f10 = 0;`
+    after the if/else costs 4 bytes and 40 differing: the original's two
+    arms converge on one `str r0,[r1,#0x10]` that stores whatever r0
+    holds -- the call's return value on the non-null path, and the zero
+    left over from the `f0c = 0` store on the null path.  Writing the
+    store into BOTH arms (`f10 = func_02012BB0(a2);` and `f10 = 0;`) is
+    what lets the compiler cross-jump them onto the single site; see
+    docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md.
+  - the global at 0x0202693C is re-read from memory before every single
+    field access -- eleven `ldr r0,[r4]` in 140 bytes.  This falls out for
+    free from a plain (non-volatile) global pointer, because every
+    intervening callee is an extern that may alias it.  Do NOT reach for
+    `volatile` here: qualifying the pointer volatile is strictly worse
+    (168 bytes, 132 differing), because it also blocks the reuse of r4 as
+    the pool base.
+
+Where the diff lives: the entry block schedules differently.  The original
+is  `str r3,[sp,#4]` / `ldr r0,[pc]` / `adds r7,r1` / `str r0,[sp]` /
+`adds r5,r2` / `ldr r0,[sp,#4]`  -- it spills the heap argument to sp[4]
+and RELOADS it into r0 for the call, even though r3 still holds it.  mwcc
+emits `ldr r0,[pc]` / `str r3,[sp,#4]` / `str r0,[sp]` / `adds r0,r3,#0`
+/ `adds r7,r1` / `adds r5,r2`, reusing r3 directly and saving the reload.
+That reload is the 4-byte size gap; the rest of the 20 is the reordering
+around it.
+
+Tried and rejected:
+  - forcing the reload by qualifying the heap parameter `volatile`, and by
+    binding it to a `volatile u32` local before the call: both much worse
+    (164 bytes, 144 differing).  The volatile makes the spill happen but
+    also forces a reload at the func_020251FC site, where the original
+    already has one naturally.
+  - a plain `u32 h = heap;` alias local: no change (160/20).
+  - the two u8 parameters widened to u32 with (u8) casts at the store
+    sites: no change (160/20), so the parameter types are not the lever.
+  - reordering the two `strb` stores and the func_020251FC call: no
+    change.
+
+Conclusion: the body is solved; the residue is entry-block scheduling of
+one argument spill, the same class of allocator artifact recorded for this
+wave's other four functions.  Left as DIFF/note; no source file filed,
+since the comparison never reached MATCH.
+
+Note for a future pass: even closing those 20 bytes would leave this at
+MATCH, not EXACT.  Two ABS32 sites have no outside witness -- the global
+pointer slot at 0x0202693C and the second global at 0x02020214, both
+evidence class `literal`, neither appearing in any other literal pool.
+The __FILE__ word at 0x020A7478 already resolves (class `string`), and
+the 0x02024ABD callback word resolves by label.
+
+Compile line:
+  python3 tools/match.py one --src <this file's C> --func func_02024A20 \
+      --addr 0x02024A20 --cc 1.1p1 --thumb
+
+symbols:
+  alloc_02030734   0x02030734  arm
+  memset_02082BCC  0x02082BCC  arm
+  func_020251FC    0x020251FC  thumb
+  func_020056A0    0x020056A0  thumb
+  func_0203568C    0x0203568C  arm
+  func_0201283C    0x0201283C  thumb
+  func_02012BB0    0x02012BB0  thumb
+  func_02024ABC    0x02024ABC  thumb
+  infowin_ptr      0x0202693C  data
+  infowin_state    0x02020214  data
+  infowin_file     0x020A7478  data

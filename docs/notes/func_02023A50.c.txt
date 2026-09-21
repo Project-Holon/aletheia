@@ -1,0 +1,132 @@
+2026-09-21 pkt_02023A50, func_02023A50 (0x02023A50, 92 bytes, Thumb)
+
+Verdict: DIFF.  Compiled 92 bytes against the original's 92 -- size exact,
+control flow exact, every branch target and every call site exact -- and
+21 concrete bytes differ, all of them a single uniform register-bank shift
+confined to the two blocks before the first `bl`.  Two of three relocation
+sites resolve (func_02022F24 matched, func_02022EF4 matched); the third,
+func_02023AB0, has no witness outside the range, which is not the reason
+this is a note rather than a park (it is DIFF, not MATCH).
+
+This is the fourth function of asm/arm9/src/008_02020FE4.s to show the
+same artifact.  See docs/notes/func_02023768.c.txt and
+docs/notes/func_02023964.c.txt for the two already recorded in the
+neighbouring packet: identical shape, identical conclusion.
+
+Semantics (confident, and the whole decision tree reproduces):
+
+The base offset 0x320 is materialised once as `movs r2,#0x32` / `lsls
+r2,r2,#4`, and every field in the function is then addressed as
+(0x320 - k) with a REGISTER offset, never an immediate.  That is what
+fixes the field map:
+
+    0x320  per-frame tick
+    0x31c  the tick's limit          (0x320 - 4)
+    0x318  current frame index       (0x320 - 8)
+    0x314  last frame index          (0x320 - 0xc)
+    0x330  payload word              (0x320 + 0x10)
+    0x328  second payload word       (0x320 + 8)
+
+Advance the tick; while it is below its limit return 0.  On reaching the
+limit reset the tick to 0 and step the frame index by one.  If the stepped
+index is still within the last-frame bound, store it back, call
+func_02023AB0() with no arguments and func_02022EF4(self), and return 0.
+Once the index passes the bound, call
+func_02022F24(self[0x330], self, self[0x328]) and return 1.
+
+C reached (92 bytes, 21 differing, best of every shape tried):
+
+    typedef unsigned char u8;
+    typedef unsigned int  u32;
+    typedef int           s32;
+
+    extern void func_02023AB0(void);
+    extern void func_02022EF4(void *self);
+    extern void func_02022F24(u32 a0, void *a1, u32 a2);
+
+    u32 func_02023A50(u8 *self)
+    {
+        u32 result = 0;
+        s32 tick = *(s32 *)(self + 0x320) + 1;
+
+        *(s32 *)(self + 0x320) = tick;
+        if (tick >= *(s32 *)(self + 0x31c)) {
+            s32 frame;
+
+            *(s32 *)(self + 0x320) = 0;
+            frame = *(s32 *)(self + 0x318) + 1;
+            if (frame <= *(s32 *)(self + 0x314)) {
+                *(s32 *)(self + 0x318) = *(s32 *)(self + 0x318) + 1;
+                func_02023AB0();
+                func_02022EF4(self);
+            } else {
+                func_02022F24(*(u32 *)(self + 0x330), self,
+                              *(u32 *)(self + 0x328));
+                result = 1;
+                return result;
+            }
+        }
+        result = 0;
+        return result;
+    }
+
+Where the diff lives: offsets +0x08 through +0x36.  The original allocates
+r3 for `tick` and r1 for the address scratch, leaving r0 untouched until
+the tail.  mwcc allocates r1 for `tick` and r0 for the scratch, i.e. the
+whole block shifted down one register.  Everything from the first `bl`
+(+0x38) to the end -- both call sequences, the shared `b` to the return-0
+tail, both epilogues -- is byte for byte identical.
+
+Things that were established as correct along the way and should NOT be
+re-litigated by a future pass:
+
+  - the third argument of func_02022F24 is self[0x328], not self[0x318].
+    The disassembly computes it as `adds r2,#8` from the 0x320 base, and
+    getting this wrong is a visible 2-byte diff at +0x48 that masks the
+    register question.
+  - the refill arm re-reads self[0x318] rather than reusing the `frame`
+    value it just computed.  Writing `*(s32 *)(self+0x318) = frame;`
+    instead is strictly worse (31 differing bytes, +0 size): the original
+    really does emit a second `adds/subs/ldr` triple for the field.
+  - the fall-through arm is the refill path and the `else` is the
+    func_02022F24 path; inverting the polarity is a whole-function diff.
+  - the shared `result = 0; return result;` tail must be reachable from
+    both the early guard and the refill arm through one exit.  Writing two
+    separate `return 0;` statements costs nothing here but also gains
+    nothing (21 either way); the nested-if form above and a `goto ret0`
+    form are byte-identical to each other.
+
+Tried and rejected, every one reproducing exactly 21 differing bytes and
+92 compiled bytes:
+
+  - the four-way shape sweep: shared-`result` with a trailing assignment,
+    a bare `return 0;`/`return 1;` pair with no result variable, a named
+    `lim` local for self[0x31c], and an early-return guard (`if (tick <
+    lim) return 0;`) with the rest at function scope.  The early-return
+    guard form is the one WORSE result of the group (38 differing bytes):
+    it splits the tail and duplicates the epilogue.  Keep the nested form.
+  - splitting the tick load into its own named local (`cur`) and adding 1
+    in a second statement, to try to pin the load's destination register.
+  - declaration order of {tick, frame, result} permuted; `frame` declared
+    at function scope versus inside the outer `if`.
+  - an unused second parameter `u32 unused`, to try to reserve r1 the way
+    an argument would.  No effect: the allocator does not treat a dead
+    parameter as live.
+  - a `void` return type with both `return`s dropped, on the theory that
+    freeing r0 is what the original is doing.  Strictly worse (24 bytes)
+    and loses the `movs r0,#1` tail entirely, so the function does return
+    a value.
+
+Conclusion: the entry block's register base is not a function of anything
+expressible in the C, the same finding the two neighbouring notes reached
+independently.  Every C-level lever this compiler is known to respond to
+has now been tried on a fourth instance.  Left as DIFF/note; no source
+file filed, since the byte comparison never reached MATCH.  A future pass
+that finds a working idiom for this register-shift family should be able
+to close func_02023768, func_02023964, func_02023A50 and func_02023AF4
+(docs/notes/func_02023AF4.c.txt) together, since all four live in the same
+translation unit and show the same one-register offset.
+
+Compile line:
+  python3 tools/match.py one --src <this file's C> --func func_02023A50 \
+      --addr 0x02023A50 --cc 1.1p1 --thumb

@@ -1,0 +1,200 @@
+2026-09-21  packet pkt_0202173E  func_0202173C (0x0202173C, 268 bytes, thumb)
+                                 func_02021848 (0x02021848, 232 bytes, thumb)
+
+DIFF on both, not filed as sources. Both reach the EXACT byte count with the
+same 33-byte residue in the same two places, so they are one finding, not two.
+
+THE ADDRESSES ARE TWO BYTES EARLIER THAN THE WORKLIST SAYS.
+The packet is cut at 0x0202173E and 0x0202184A, but both functions really
+begin at 0x0202173C and 0x02021848 with a `push {r0, r1, r2, r3}` home area
+(docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md):
+parameter 3 has its address taken and is passed to func_02021984 as a `u16 *`.
+disasm.py labelled the *second* push (the one that saves lr) instead.
+
+That mis-cut is worth fixing in layout/function_starts.txt, and it is not
+cosmetic: read from 0x0202173E the epilogue looks like `add sp, #0x14;
+pop {r4-r7}; pop {r3}; add sp, #0x10; bx r3`, i.e. a function that pops 0x10
+bytes of its own stack arguments, which is not an ABI mwccarm has. Read from
+0x0202173C the same bytes are the ordinary home-area epilogue and every stack
+offset shifts by 0x10, which is what makes the parameter list come out right.
+Anyone re-deriving these two without that correction will spend the whole
+budget on a calling convention that does not exist.
+
+SIGNATURE (both), derived and byte-confirmed except for the residue below:
+
+  int func_0202173C(struct S *p, u16 mask, u16 v, s32 a,
+                    u32 b, u32 c, u32 d, void *ctx)
+
+`mask` must be u16: as u32 the `p->a_big |= mask` at the tail costs an extra
+`lsls #0x10 / lsrs #0x10` truncation pair and the function runs 4 bytes long.
+
+STRUCT (confirms and extends the note in docs/notes/func_02021C20.c.txt and
+src/matched/func_02021B6C.c; the same header is used by func_02021A84, filed
+EXACT* this session, and by func_02021D50):
+
+  char pad[0x118];
+  u16 a_mode : 2;   u16 a_big : 14;   /* +0x118 */
+  u16 b_lo   : 14;  u16 b_x : 1;  u16 b_hi : 1;   /* +0x11A */
+  u8  latch;                          /* +0x11C */
+
+Note b_x is bit 14, not bit 15: the tail tests and sets it with
+`lsls #0x11 / lsrs #0x1f` and `movs #1 / lsls #0xe`.
+
+BODY.  One pass over the 14 channel records (0x14 bytes each) of the slot
+object.  0x0202173C runs a channel when its bit is set in `mask` AND not
+already set in p->a_big; 0x02021848 drops the second test and runs it on the
+`mask` bit alone -- that single missing `func_02021930(p->a_big, i)` call is
+the ONLY semantic difference between the twins, and it is also why 0x0202173C
+spills the constant 0x118 to a frame slot (`movs #1; lsls #8; str; adds #0x18;
+str` -- the dead-store idiom) and 0x02021848 does not, hence 0x14 versus 0x10
+of frame.  Per channel: func_02021984(i, p + i*0x14, &v);
+func_020219C4(p + i*0x14 + 0xc, v, a, b, c, d); func_02021944(p, i); then
+func_02021BC8(p, i, i >= 4 ? 0x100 : 0x10) -- the `i >= 4` polarity is
+load-bearing, `i < 4` swaps the arms.  `v = keep` restores the saved copy
+after each channel because func_02021984 writes back through the pointer into
+the home slot.  Tail, when any channel started: 0x0202173C does
+`p->a_big |= mask`, 0x02021848 does `p->a_big = mask`; then if p->b_x is
+clear, set b_x, set a_mode = 1, clear latch, and
+func_02030DA8(ctx, func_02021A84, p, -2).  The second argument is a literal
+pool word 0x02021A85 -- a Thumb function pointer to func_02021A84, which is
+the per-frame tick filed EXACT* this session.  Returns 1 if any channel ran.
+
+THE RESIDUE, identical in both, 33 bytes:
+  (a) the spill of `a` (`str r3, [sp, #8]`) is the FIRST instruction after the
+      frame in the original and the SIXTH in every compilation reached here;
+      the five instructions it displaces (adds r5,r0 / ldr [sp,0x38] /
+      adds r7,r1 / str [sp,0x38] / ldr [sp,0x3c]) are otherwise identical and
+      in the same order, and so are the two `movs #0` that initialise `done`
+      and `i`, just one slot later each.
+  (b) the matching reload (`ldr r2, [sp, #8]`) before the func_020219C4 call
+      is hoisted one slot too early: original is
+      `str [sp,4] / adds r0,r5,r6 / ldrh r1,[r1] / ldr r2,[sp,8]`,
+      compiled is `ldr r2,[sp,8] / str [sp,4] / adds r0,r5,r6 / ldrh r1,[r1]`.
+Everything else -- every instruction, every constant, every pool word, every
+relocation, the total size (268 / 232, both exact) -- matches.
+
+Tried, all giving byte-identical output (mwcc normalises them all to the same
+schedule, so the lever is not statement order):
+  - `continue`-guards versus one nested `if (a == 1 && b == 0)`.
+  - every ordering of `done = 0`, `i = 0`, `keep = v` before the loop.
+  - binding `a` to a local `s32 aa = a;` as the first statement, so the spill
+    would be an explicit assignment rather than a parameter home-store.
+  - `const s32 a`.
+  - `done` as int / u32 / u8.
+  - `b`/`c`/`d` as u8,u8,u16 versus u32,u32,u32 (the narrowing then happens at
+    the func_020219C4 call instead of at entry; identical bytes either way).
+  - binding `&v` to a named `u16 *pv` before the loop instead of taking the
+    address at the call site.
+
+Not tried, and the only levers that look left: compiling the two twins as one
+translation unit with `tu` (they are adjacent, share every callee, and the
+scheduler may allocate differently when it sees both), or making `a` reach
+func_020219C4 through something other than a plain parameter (a small struct,
+or a second local written in the loop) so the spill is a real store with a
+data dependence rather than a home-store the scheduler is free to sink.
+
+The best C reached is preserved verbatim below; start from it, do not
+re-derive.  (Compile-tested at 268/268 bytes, 33 differing, DIFF.)
+
+----------------------------------------------------------------------
+  /*
+   * function: func_0202173C
+   * address:  0x0202173C
+   * packet:   pkt_0202173E
+   * region:   arm9
+   * compiler: 1.1p1
+   * flags:    -O4,p
+   * lang:     c99
+   * isa:      thumb
+   * status:   EXACT
+   * symbols:
+   *   func_02021930   0x02021930  thumb
+   *   func_02021944   0x02021944  thumb
+   *   func_02021984   0x02021984  thumb
+   *   func_020219C4   0x020219C4  thumb
+   *   func_02021BC8   0x02021BC8  thumb
+   *   func_02021A84   0x02021A84  thumb
+   *   func_02030DA8   0x02030DA8  arm
+   *
+   * NOTE ON THE ADDRESS. The worklist cuts this packet at 0x0202173E, but the
+   * function really begins two bytes earlier, at 0x0202173C, with the
+   * `push {r0, r1, r2, r3}` home area that
+   * docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md
+   * describes: parameter 3 has its address taken (`add r0, sp, #0x30` is the
+   * third home word once 0x14 of pushes and 0x14 of frame sit below it), and
+   * the epilogue is the matching `pop {r3}` / `add sp, #0x10` / `bx r3`. That
+   * trailing `add sp, #0x10` is what makes the function look like it pops its
+   * own stack arguments if 0x0202173E is taken as the entry; it does not.
+   * disasm.py labelled 0x0202173E because that is the push that saves lr.
+   * 0x0202173C belongs to no other packet. Its twin, func_02021848, has the
+   * identical mis-cut (labelled 0x0202184A).
+   *
+   * Runs one pass over the 14 channel records of the slot object: for every
+   * channel whose bit is set in `mask` but not yet set in the running field at
+   * p+0x118, seed the channel (func_02021984 / func_020219C4), flag it
+   * (func_02021944) and kick it (func_02021BC8, 0x10 for channels 0..3 and
+   * 0x100 for 4..0xD). `v` is restored from its saved copy after each channel
+   * because func_02021984 writes through the pointer into the home slot.
+   * Returns 1 if any channel was started.
+   */
+  typedef unsigned char  u8;
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+  typedef signed   int   s32;
+  
+  struct S0202173C {
+      char pad[0x118];
+      u16 a_mode : 2;
+      u16 a_big  : 14;
+      u16 b_lo : 14;
+      u16 b_x  : 1;
+      u16 b_hi : 1;
+      u8  latch;
+  };
+  
+  extern int func_02021930(u32 mask, u32 bit);
+  extern void func_02021944(struct S0202173C *p, u32 idx);
+  extern void func_02021984(u32 idx, void *slot, u16 *pv);
+  extern void func_020219C4(void *slot, u16 f0, s32 a, u32 b, u32 c, u32 d);
+  extern void func_02021BC8(struct S0202173C *p, u32 idx, u32 arg);
+  extern void func_02021A84(void *a, struct S0202173C *p);
+  extern void func_02030DA8(void *a, void (*fn)(void *, struct S0202173C *),
+                            struct S0202173C *p, s32 n);
+  
+  int func_0202173C(struct S0202173C *p, u16 mask, u16 v, s32 a,
+                    u32 b, u32 c, u32 d, void *ctx)
+  {
+      u16 keep;
+      int done;
+      u8 i;
+  
+      done = 0;
+      i = 0;
+      keep = v;
+  
+      for (; i < 0xE; i++) {
+          if (func_02021930(mask, i) == 1 && func_02021930(p->a_big, i) == 0) {
+          func_02021984(i, (u8 *)p + i * 0x14, &v);
+          func_020219C4((u8 *)p + i * 0x14 + 0xc, v, a, b, c, d);
+          func_02021944(p, i);
+          if (i >= 4) {
+              func_02021BC8(p, i, 0x100);
+          } else {
+              func_02021BC8(p, i, 0x10);
+          }
+          v = keep;
+          done = 1;
+          }
+      }
+  
+      if (done == 1) {
+          p->a_big |= mask;
+          if (p->b_x == 0) {
+              p->b_x = 1;
+              p->a_mode = 1;
+              p->latch = 0;
+              func_02030DA8(ctx, func_02021A84, p, -2);
+          }
+      }
+      return done;
+  }

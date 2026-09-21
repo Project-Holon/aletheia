@@ -1,0 +1,84 @@
+pkt_020682F8 - the tile-row mask fill, near miss
+2026-09-21
+
+0x020682F8, 312 B, ARM. NOT FILED: DIFF, 63 concrete bytes, size correct.
+
+Shape (fully recovered, instruction-for-instruction):
+
+  void func_020682F8(u32 *dst, s32 x, s32 tile, s32 w, s32 h,
+                     u32 val, s32 bpp)
+
+  if (w == 8 && h == 8)  ->  func_02082AC0(val, dst, bpp << 3); return;
+                             (MIi_CpuFillFast(data, dest, size))
+  if (bpp == 4)          ->  32-bit mask arm, one word per row
+  else                   ->  64-bit mask arm, two words per row, with the
+                             >= 32 shift cases spelled out longhand
+
+The masks are built from the first/last pixel columns:
+
+  u = x << 2 (or << 3);  v = 0x20 (or 0x40) - (u + (w << 2 or 3));
+  lo = (~0u >> u) << (v + (x << 2));           /* 4bpp */
+  mlo = val & (lo >> v);  mhi = ~(lo >> v);
+
+The 8bpp arm needs the two halves of a 64-bit mask, and the image writes
+both >= 32 corrections out as a branch over a four-instruction block:
+
+  cmp r3, #0x20 / lsllo r5, r5, r1 / blo .. / sub lr,r3,#0x20 /
+  add r4,r1,lr / lsl r4,r5,r4 / lsr r5,r4,lr
+
+The `else` arm reads the still-undefined destination register
+(`add r1, lr, r3` with r3 stale); spelling that in C as
+`(hi >> (e + mhi)) << e`, reading the uninitialised `mhi`, is what
+reproduces the instruction.  It is deliberate, not an accident.
+
+COMPILER PIN, MEASURED AND IN SCOPE (docs/FRONTEND-PINS.md, "kept
+branches"):
+
+  dsi/1.1p1 -O4,p predicates BOTH four-instruction >= 32 blocks into
+  subhs/addhs/lslhs/lsrhs and drops the two `blo` branches, giving
+  304 bytes against the original's 312 - exactly the 8 bytes of the two
+  dropped branches, every other instruction identical.
+  ../2.0/sp2 keeps both branches: 312 bytes, correct size, correct
+  instruction sequence end to end.
+
+So the pin is right and the front end is settled.  What blocks the file
+is NOT the pin and NOT the shape:
+
+  the image is `push {r3, r4, r5, lr}` - two callee-saved registers plus
+  padding, with dst held in `ip` and `lr` reused as the shift scratch.
+  ../2.0/sp2 on every C spelling measured gives `push {r4, r5, r6, lr}`,
+  three callee-saved registers, with dst in `lr` and `ip` spent as the
+  shift scratch.  That one extra register renames almost every operand
+  downstream, which is the whole 63 bytes.  Nothing else differs: the
+  instruction at every one of the 78 offsets is the same opcode with the
+  same shape.
+
+MEASURED AND NOT A LEVER (all under ../2.0/sp2, all 312 bytes):
+  * all 24 declaration orders of the 8bpp tail's four locals
+    (p/end/alo/ahi): 63 .. 75, best is `ahi, end, p, alo` at 63.
+  * eight declaration orders of the 4bpp block's five locals: 63 .. 68,
+    three of them tie at 63; the order does not reach the push.
+  * scoping the two arms' locals into their own blocks instead of one
+    flat declaration list at the top: 92 -> 75, the single biggest win,
+    and worth doing first on any retry.
+  * aliasing the complements onto the mask locals (`lo = ~lo`) versus
+    fresh `nlo`/`nhi` names: 74 vs 108.  The image OVERWRITES
+    (`mvn r5, r5` / `mvn r3, r3`), so the aliasing form is correct.
+  * computing p/end before the masks versus after: 74 vs 75, noise.
+  * `while (p < end)` versus an explicit `if (p >= end) return;` before
+    a `do { } while`: identical.
+  * reusing mlo/mhi in the 8bpp arm rather than new alo/ahi: 82, worse.
+
+The next thing to try is whatever makes the allocator stop wanting a
+third callee-saved register in the 8bpp tail - six values are live
+across that loop (p, end, alo, ahi, lo, mhi) plus val in r0, and the
+image fits them by spending ip and lr.  Shortening one of those lives,
+e.g. by re-deriving `end` from a counter rather than keeping it live,
+is untried and is the obvious next move.
+
+NOT ATTEMPTED this run (budget): 0x02068430 (576 B) and 0x02068670
+(408 B).  Both are large.  0x02068670 is the outer blit driver and calls
+0x02068430 at 0x020687D8, so the two are a pair; 0x02068430's own
+prologue is `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` with a 0x28
+frame, and 0x02068670's is nine registers with a 0x2c frame.  Neither is
+a mechanical accessor.
