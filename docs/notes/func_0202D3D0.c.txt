@@ -1,0 +1,56 @@
+func_0202D3D0  0x0202D3D0  pkt_0202D2EC
+2026-09-21
+
+Near miss: SIZE-exact (216 == 216), 1 of 1 relocation resolved
+(ABS32 tile_tables -> 0x020A779C, class data_table), residual
+41 concrete bytes, all register allocation / scheduling.
+
+Shape recovered (whole inner loop body +0x36..+0x64 is byte-identical):
+
+  outer i = 0..3 over ip, tab = tile_tables[i]
+  skip the table entirely when tab[0] == 0xff
+  bx = (a1 & 0xf) - 8;  by = ((a1 & 0xf0) >> 4) - 8
+  inner do/while over 0xff-terminated pairs:
+     x = bx + (tab[j*2]   + 0x16)
+     y = by + (tab[j*2+1] + 0x10)
+     idx = ((y%8)*8 + (x%8) + ((y/8)*12 + (x/8))*64) / 2
+     v = blob[idx]                      (hoisted, NOT per-arm: see below)
+     x & 1 ? nibble 0xf0 in [0x10,0x30] -> += 0x50
+           : nibble 0x0f in [1,3]       -> += 5
+  a1 >>= 8 at the end of each outer iteration
+
+Levers that moved bytes, in order found:
+
+  79 -> 45   `j = 0` must be hoisted ABOVE the `tab[0] == 0xff` test,
+             not written just before the do/while. The original's
+             `movs r7,#0` sits at +0x12, between the table pointer load
+             and the terminator check.
+  45 -> 41   the two nibble range tests are SIGNED. `n` declared u32
+             gives blo/bhi at +0x96/+0x9a; s32 gives the original's
+             blt/bgt. Only 4 bytes, but it is the one type tell in the
+             function.
+
+Measured and rejected (all held at 41 except where noted):
+
+  v = blob[idx] moved inside each arm      212 bytes, 4 SHORT - wrong.
+                                           The load is genuinely hoisted
+                                           above the `x & 1` test.
+  cx = x/8, cy = y/8 bound to named locals  no change; already CSE'd.
+  (x%8) + (y%8)*8  vs  (y%8)*8 + (x%8)     no change, either order.
+
+What is left. The residual is two clusters. The division chains at
++0x66..+0x80: the original interleaves the y-chain and x-chain
+(`asrs r1,r2,#2` before `asrs r0,r3,#2`) where the compiled form runs
+one chain to completion before starting the other, and the sum lands in
+a different register (r5 vs r0) from +0x66 on. The `tst` block at
++0x88..+0x8e: the original emits `movs r1,#1; tst r1,r3` before
+`ldrb r2,[r4,r0]`, the compiled form loads the byte first. Both are the
+same underlying fact - the original has idx in r0 and v in r2, the
+compiled form has them in r2 and r1 - so one register assignment
+decision explains all 41 bytes. Source-level operand order does not
+reach it; the next thing to try is changing what else is live across
+the index computation (e.g. whether bx/by stay in registers or spill),
+since that is what drives the allocator here.
+
+Not a candidate for src/pending/: this is DIFF, not a wildcarded
+relocation, so it is evidence only.

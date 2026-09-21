@@ -53,3 +53,95 @@ u16 *func_02066380(void)
 
     return &g_020A81F8;
 }
+
+==============================================================================
+Wave pass 2026-09-21: 0x020663D0, 0x020664CC, 0x02066620 -- all DIFF
+==============================================================================
+
+All three are the same family and all three fail the same way under
+dsi/1.1p1 -O4,p.  Semantics are settled; the residue is codegen only, so
+none of them is filed as a source.
+
+Shape, common to all three
+--------------------------
+Each builds a 2x3 fixed-point affine matrix (MtxFx23, the type from
+docs/notes/pkt_02066754.c.txt) in a 0x18-byte stack temporary, then calls
+func_02066754 twice to concatenate it into the current slot of the two
+matrix tables g_02147D18[] and g_02148018[], indexed by g_02147B88.unk_0c
+with a 0x18 stride.  0x020664CC and 0x02066620 then share a byte-identical
+80-byte tail (0x02066570..0x02066604 and 0x02066690..0x02066720):
+
+    if (g_02147B88.unk_04 == 0 && g_020A81F8 == 0xFFFE)
+        g_020A81F8 = (u16)g_02147B88.unk_0c;
+    s = &g_02147C18[(u16)g_02147B88.unk_0c];       /* 8-byte stride, via
+                                                      lsl #16 then lsr #13 */
+    switch (s->unk_04) { ... }                     /* dense 0..3 table, arms
+                                                      1 and 3 identical,
+                                                      arms 0 and 2 empty */
+
+Per row
+-------
+0x020663D0 (252 bytes, three fx32 args x, y, z):
+  Fast path (g_02147B88.unk_04 != 0) adds x/y into the +0x00 words of the
+  g_02147D28 / g_02147D2C slots at stride 0x18 and z into g_02147B98[i];
+  slow path builds the translate matrix (0x1000, 0, 0, 0x1000, x, y) and
+  runs the two concatenations, then adds z into g_02147B98[i].
+  Best: 244 bytes / 145 concrete mismatches (four spellings measured).
+  One spelling reached the right 252 bytes (pointer-difference form for the
+  D2C access) at 139 mismatches but bought it with a `sub r2, r2, ip`
+  the original does not have.  Moving the g_02147B98 update above the two
+  calls gives 232 bytes / 188 -- strictly worse.
+
+0x020664CC (340 bytes, two fx32 args): scale.  First matrix is
+  (sx, 0, 0, sy, 0, 0); the second is the same with each diagonal passed
+  through func_0207C778 (the reciprocal helper, cf. docs/notes/pkt_02051E74).
+  Best: 344 bytes / 273 mismatches.  Call order, all four PC24 sites and all
+  five ABS32 sites already resolve correctly; only the schedule is wrong.
+
+0x02066620 (288 bytes, two fx32 args sn, cs): rotate.  One matrix
+  (cs, sn, -sn, cs, 0, 0) concatenated into both tables.
+  Best: 280 bytes / 236 mismatches.
+
+The single residue
+------------------
+In all three the original allocates MINIMALLY and interleaves, while
+1.1p1 -O4,p hoists and over-allocates:
+
+  * callee-saved registers.  0x02066620 is `push {r3, lr}` (0x08402de9),
+    1.1p1 needs `push {r4, r5, r6, lr}` at best and `push {r4, r5, r6, r7,
+    r8, lr}` for most spellings.  0x020664CC is `push {r3, r4, r5, lr}`
+    (0x38402de9) against 1.1p1's eight-register
+    `push {r3, r4, r5, r6, r7, r8, sb, lr}`.  0x020663D0 is
+    `push {r4, r5, r6, lr}` (0x70402de9) against `push {r4, r5, r6, r7, r8,
+    lr}`.
+  * the zero constant.  The original holds it in `lr` (`mov lr, #0`,
+    0x00e0a0e3, at 0x02066624 and 0x020664D0) and stores lr into the three
+    zero slots of the stack matrix.  1.1p1 always puts it in a callee-saved
+    register (r5/r2), which is what costs the extra push.
+  * pool loads.  The original re-loads g_02147B88 from a fresh
+    `ldr rN, [pc, ...]` at EVERY use and recomputes i*0x18 each time;
+    1.1p1 caches the base in a callee-saved register (r6/r7/sb) across the
+    calls, again paying a push for it.  The 0x020663D0 fast path shows this
+    most clearly: the original is load/add/store per component
+    (0x02066400..0x02066428), 1.1p1 hoists all three loads first.
+
+Compiler pin: probed and REJECTED
+---------------------------------
+0x02066620 matches the "kept branches" tell on its face -- the image keeps
+`bne 0x20666b8` at 0x0206669C over the guard and materialises the boolean
+into r0 (`movne r0, #1` / `mov r0, #0` / `cmp r0, #0` at 0x020666B0..
+0x020666BC) where 1.1p1 predicates the block to `ldreq/cmpeq/strheq`.
+One probe under `--cc ../2.0/sp2` per docs/FRONTEND-PINS.md: 320 bytes
+against the original's 288 and 161 mismatches, i.e. WORSE than 1.1p1's 280.
+The front end is not the blocker here, so no pin is taken for this family.
+The explicit-boolean spelling (r = 0/1/0 through a named int) is still the
+right one -- it is what restores the `bne` and the `movne rN, #1` / `cmp rN,
+#0` triple under 1.1p1 -- but the boolean lands in r5, not r0, and the store
+block stays predicated.
+
+What to try next
+----------------
+The register-allocation gap is the whole residue; every semantic question is
+answered above.  A spelling that keeps 1.1p1 from promoting the zero and the
+g_02147B88 base into callee-saved registers would close all three at once.
+Not found in this pass.

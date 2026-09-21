@@ -131,3 +131,68 @@ register - most likely by making the c-half's accumulate read from a variable
 that is already dead, rather than by reordering the statements.
 
 Status DIFF, so this is a note and not a file.
+
+=== 2026-09-21, unblock lane: one of the two coupled halves SOLVED, 268
+    bytes, residue now 15 instructions instead of 18 ===
+
+ONE STATEMENT MOVES IT. In the `two:` block, swap the order of the two
+accumulates so the c-half's `+=` comes FIRST:
+
+        s32 c = *(s16 *)((char *)base + (i0 << 2));
+        s16 *p = (s16 *)(base + i0);
+        s32 a = p[1];
+        s32 b = p[3];
+        s32 d = p[2];
+        c += d;                 /* <-- was second */
+        a += b;                 /* <-- was first  */
+        return ((u32)(c << 15) >> 16) | (u32)((a >> 1) << 16);
+
+That alone fixes BOTH `i0` allocations, the first of the two causes the
+section above names: `lsr r1, r3, #1` at +0x0040 and `lsr r1, r3, #2` at
++0x00C4 both come out with i0 in r1, as the image has them, and the whole
+`add r3, r0, r1, lsl #2` / `lsl ip, r1, #2` / three-`ldrsh` block at
++0x00D8..+0x00EC follows. Note the read order is UNCHANGED and the
+no-push property of the section above is preserved: it is only which
+accumulate retires first. The declaration-order experiments recorded above
+were looking in the wrong place; the lever is the STATEMENT order of the two
+`+=`, not the declaration list. 36 differing bytes -> 30.
+
+WHAT IS LEFT is the second cause alone, unchanged in character: the two half
+results land in the opposite pair of registers, in both tail blocks
+identically. The image emits the a-half's shift first and the c-half's add
+second,
+
+    +00AC  asr r1, r0, #2      |  +00F4  asr r1, r0, #1
+    +00B0  add r2, ip, r3      |  +00F8  add r0, ip, r3
+    +00B4  lsl r0, r2, #0xe    |  +00FC  lsl r0, r0, #0xf
+    +00B8  lsl r1, r1, #0x10   |  +0100  lsl r1, r1, #0x10
+    +00BC  orr r0, r1, r0, lsr #16  |  +0104  orr r0, r1, r0, lsr #16
+
+and the compile emits the c-half's add first, giving the same five
+instructions with r0 and r1 exchanged and `orr r0, r0, r1, lsr #16`. Ten
+instructions across the two blocks, every one a register NAME.
+
+RULED OUT THIS RUN, on top of the three spellings in the section above:
+  - the `|` operands written the other way round ON TOP of the accumulate
+    swap: 44 bytes, worse than the 30, and with the swap alone already
+    applied it no longer even buys the push back;
+  - the `|` operands reversed WITHOUT the accumulate swap: 272 bytes, the
+    push returns, 228 bytes out;
+  - binding the a-half's shift to its own statement before the c-half's
+    accumulate (`a += b; a = a >> 1; c += d;` with the `>> 1` then dropped
+    from the return expression): 268 bytes but the i0 win is LOST and the
+    residue goes back to 18 instructions. This is the shape the previous
+    section proposed as "most likely"; it is measured and it is wrong,
+    because forcing the a-half to retire first is exactly what re-orders the
+    i0 computation.
+
+So the two halves are still coupled, but the coupling is now known to run
+through WHICH ACCUMULATE RETIRES FIRST, and retiring the a-half first costs
+more than it buys. The next attempt should leave both accumulates where this
+run put them and go at the PACKING alone: a spelling of
+`(lo & 0xffff) | (hi << 16)` whose low half is computed from a value that is
+already dead, so the `lsl #0x10` falls on the a-half's register without
+moving either add.
+
+Status DIFF, so this stays a note and not a file. Under `--cc ../2.0/sp2`,
+268 bytes, no relocations, 30 concrete bytes out.

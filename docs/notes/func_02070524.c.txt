@@ -186,3 +186,50 @@ it out of the arm.  A same-scope second use of `w` that is itself dead on the
 ne path is the untried shape.  Still status MATCH-at-best, so still a note
 and not a file; but this row is now three bytes from EXACT under the pin, not
 "not pinnable".
+
+=== 2026-09-21, unblock lane: re-measured, residue confirmed at 3
+    instructions, four more spellings ruled out ===
+
+Re-ran the best body of the section above under `--cc ../2.0/sp2 --arm`:
+256 bytes, no relocations, and exactly the three differing instructions
+already recorded (+0x00D4 `addeq` emitted unpredicated, and the
++0x00E4/+0x00E8 `add`/`lsl` pair emitted in the other order). Nothing has
+drifted; this row is still three instructions from EXACT.
+
+Four more spellings measured, none of which predicates the +0x00D4 `add`:
+  - `w = base + idx;` moved INSIDE the eq arm as its first statement: 260
+    bytes, the whole arm is branched rather than predicated and the residue
+    grows to 11 instructions. (This re-confirms the section above from the
+    other direction: hoisting `w` is what buys the predication of the two
+    loads, and the hoisted statement is the price.)
+  - the eq arm rewritten as an early `goto` over the s16 arm, with its own
+    `return` and the s16 arm left as the fall-through: 268 bytes, the eq arm
+    loses predication entirely and the epilogue duplicates.
+  - the eq arm's two assignments in the other order (`v1` before `v0`),
+    with `v1 = w[1]`: 256 bytes, still 3, and the two `ldreq`s swap so it is
+    a fourth differing instruction, not a fix.
+  - `v1` spelled as the subscript `w[1]` instead of the byte-offset cast
+    `*(u32 *)((char *)w + 4)`: 256 bytes, identical 3-instruction residue.
+    The two spellings are interchangeable here.
+
+Two attacks on the SECOND half of the residue, both rejected, and they say
+the +0x00E4/+0x00E8 swap is not independently reachable:
+  - making the s16 arm's byte offset DEPEND on the pointer,
+    `u32 o = (u32)((char *)g - (char *)base);`: 256 bytes, and the `add`
+    does move ahead of the `lsl` as wanted, but the offset is then
+    materialised as `add r2, r0, r3, lsl #1` / `sub r1, r2, r0`, an extra
+    instruction that replaces the `lsl` and moves both `ldrsh` base
+    registers. Five instructions out instead of three.
+  - the same idea through element arithmetic,
+    `o = (u32)((s16 *)g - (s16 *)base) << 1;`: 268 bytes, the pointer
+    difference brings its own signed-division rounding pair
+    (`add r1, r1, r1, lsr #31` / `asr r1, r1, #1`).
+
+The conclusion of the section above stands and is now better evidenced: the
++0x00D4 predicate and the +0x00E4/+0x00E8 order are ONE decision taken around
+the single branch, and nothing that reorders the s16 arm's own operands
+reaches it. What is still untried is the shape that note named, a same-scope
+second use of `w` that is itself dead on the ne path, which none of the eight
+spellings measured across the two runs actually is.
+
+Status MATCH-at-best, so still a note and not a file.

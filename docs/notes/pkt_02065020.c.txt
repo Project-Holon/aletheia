@@ -33,3 +33,118 @@ Neither was attempted: both need the whole 0x02147B88 record layout pinned first
 and the two rows are 232 bytes between them whereas the lane's remaining budget
 went to the fifteen rows that did reach a verdict.  The pool words are
 0x02147B88, 0x02147D18, 0x02147D28, 0x02147D2C, 0x020A81F8, 0x020A8200.
+
+==============================================================================
+Wave pass 2026-09-21: 0x02065878, 0x020659D4, 0x02065AA8
+==============================================================================
+
+0x020659D4 -- EXACT, filed as src/matched/func_020659D4.c
+----------------------------------------------------------
+The per-command transform dispatcher.  Shape:
+
+    if (c->unk_08 == 0) return;
+    a = c->unk_00;  func_0206615C(c->unk_08);
+    if (c->unk_1e & 8) { translate, with per-axis sign flips }
+    if (c->unk_1e & 4) { rotate  from the sin/cos table at 0x020A1B38 }
+    if (c->unk_1e & 2) { scale   c->unk_10, c->unk_14, 0x1000 }
+    func_02065878(a);  func_02066380(1);
+
+Four levers, all needed, in the order they were found:
+
+  1. The two sign-flipped axis values are `int`, NOT `s16`.  Spelled `s16`
+     the compiler re-truncates after each `rsbne` and emits
+     `rsbne/lslne #0x10/asrne #0x10`, 12 bytes long; the original just
+     negates in place (0x02065904 `rsbne r6, r6, #0`).  The `ldrsh` at
+     0x020658EC/0x020658F4 is the cast at the LOAD, not the local's type.
+  2. func_020664CC takes THREE arguments, not two: the `mov r2, #0x1000`
+     at 0x02065970 is a live argument, not a leftover.  With two the file
+     is 4 bytes short.
+  3. The rotate index is `c->unk_1c >> 4` into an s16 PAIR table, reached
+     as g_020A1B38[i*2] / g_020A1B38[i*2+1]; that is what produces the
+     `lsl r1,r0,#1 / add r0,r1,#1 / lsl r3,r1,#1 / lsl r1,r0,#1` quartet.
+  4. THE LAST 8 BYTES: declaration order does not decide r6 vs r7 here,
+     INITIALISATION order does.  Both
+         int y = c->unk_1a; int x = c->unk_18;
+     and the reverse give the same (wrong) allocation, because the
+     initialisers are part of the declaration and the compiler orders them
+     together.  Splitting them apart is what fixes it:
+         int x, y;
+         y = c->unk_1a;
+         x = c->unk_18;
+     That, and only that, takes the file from 8 concrete mismatches to
+     EXACT.  Worth generalising: when two locals are both live across a
+     call and the registers come out transposed, split the declaration
+     from the assignment before touching anything else.
+
+0x02065878 -- DIFF, best 316 bytes against 348, not filed
+----------------------------------------------------------
+The same dispatcher one level up, on a 0x4e/0x48/0x4a/0x4c/0x40/0x44 field
+set instead of 0x1e/0x18/0x1a/0x1c/0x10/0x14, wrapped in a
+save/restore of g_020A81F8+4 around each of its two calls to func_02065438.
+All three levers from 0x020659D4 transfer and were applied.
+
+The whole residue is ONE construct, appearing twice (0x02065890..0x020658A8
+and 0x02065978..0x02065990), 20 bytes each:
+
+    ldr r2, [r5, #0x38]
+    mvn r0, #0
+    cmp r2, r0
+    movne r0, #1
+    moveq r0, #0        <- the boolean MATERIALISED
+    cmp r0, #0
+    beq <else>
+
+1.1p1 -O4,p always folds this to a single `bne`, costing 8 bytes per site,
+16 total, and then cross-jumps the two `func_02065438(a)` tails for the rest.
+Four spellings measured, all fold identically:
+    r = (v != -1);
+    if (v != -1) r = 1; else r = 0;
+    r = (v != -1) ? 1 : 0;
+    w = -1; r = (v != w) ? 1 : 0;      /* w named so the mvn survives */
+Duplicating the tail (an explicit `return` in each arm rather than an
+if/else) recovers 8 of the 40 bytes, 308 -> 316, and is the best reached.
+
+This is the "kept branches" tell of docs/FRONTEND-PINS.md on its face.  NOT
+probed under ../2.0/sp2 here: the sibling probe on 0x02066620 in
+pkt_02065D4C came back WORSE than 1.1p1 (320 vs 280 against an original of
+288), so the pin is not indicated for this family and the one-probe budget
+was spent there.  If someone revisits, probe THIS function rather than
+0x02066620: its tell is much cleaner (a materialised boolean at a known
+offset, twice) and 0x02066620's is confounded by register pressure.
+
+0x02065AA8 -- DIFF, best 184 bytes against 188, not filed
+----------------------------------------------------------
+Module reset.  Semantics fully settled:
+
+    func_02067A60(o);
+    clear o->+0x70..+0x94 (six u32, two u16, two u32, one u16 -- the
+        halfword/word split at +0x88/+0x8a and +0x94 is real, see the
+        strh at 0x02065AD0/0x02065AD4/0x02065AE0);
+    *(u32 *)(g_02147B88 + 0xc) = 0;
+    *(u16 *)g_020A81F8 = 0xFFFE;
+    for (i = 0; i < 0x20; i++) { func_02082AC0(-1, p + 0x10, 0x10);
+                                 p += 0x20; }        /* p from g_02148318 */
+    *(u16 *)g_02147C18 = 0;  *(u16 *)(g_02147C18 + 2) = 0;
+    func_02082AC0(0, g_02147C18, 0x100);
+    *(u32 *)(g_02147B88 + 4) = 0;
+
+One lever found and worth keeping: the loop must walk a real CURSOR
+(`p += 0x20` each iteration, the `add r7, r7, #0x20` at 0x02065B1C), not
+recompute `g_02148318 + i * 0x20`.  Spelled as the index form the compiler
+emits `add r1, r6, r4, lsl #5` inside the loop and the file is 114 concrete
+bytes out; with the cursor it drops to 74 and every register matches.
+
+Residue, 26 lines, two causes and both scheduling:
+  * 12 bytes of shift: the three pool loads at 0x02065AE4..0x02065AEC are
+    hoisted ABOVE the eleven field stores, so the whole clear block slides
+    by three words.  Source order already has the stores first; the
+    compiler moves them anyway.
+  * the tail zeros.  The original materialises `mov r0, #0` at 0x02065B28
+    and a SEPARATE `mov r1, #0` at 0x02065B44; 1.1p1 forwards the loop
+    counter's r4 (now zero) into both.  This is the "kept constants" tell.
+
+Probed once under ../2.0/sp2: 184 bytes, 50 concrete mismatches against
+1.1p1's 74.  Better, but NOT exact, so no pin was taken -- a pin needs the
+alternative front end to produce the bytes, not merely fewer wrong ones.
+`volatile` locals for the two tail zeros were tried and are much worse
+(208 bytes / 177), as is tying the +0xc store to the loop counter (27).

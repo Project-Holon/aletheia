@@ -72,3 +72,79 @@ spill (the original's first instruction after `sub sp` is `add r4, sp, #0`
 and the spill comes third), because the whole 49-byte residue is the
 allocator following that order -- once the z base is computed first, r4/r3
 fall out as in the original.
+
+====================================================================
+2026-09-21, unblock lane -- DIFF 5, down from the prologue-wide miss above
+====================================================================
+
+The prologue is now byte-identical and the whole 116-byte body is correct
+except for one callee-saved register PAIR SWAP: the image puts the decoder
+pointer in r7 and the loop's cursor address in r5, the compile puts them the
+other way round. Exactly five bytes:
+
+  +0020  ORIG  ldr r7, [r8, #4]   | COMP  ldr r5, [r8, #4]
+  +0030  ORIG  blx r7             | COMP  blx r5
+  +003C  ORIG  add r5, sp, #8     | COMP  add r7, sp, #8
+  +0044  ORIG  mov r0, r5         | COMP  mov r0, r7
+  +004C  ORIG  blx r7             | COMP  blx r5
+
+Everything else -- the `add r4, sp, #0` base, the `mov r3, #0` zero, the a2
+spill ordering, pitch in r4, the line count in r6, the loop, the
+`addeq r6, r6, #1`, and the whole tail -- matches.
+
+THREE THINGS FIXED THIS PASS, and they are the levers to keep:
+
+L1  THE STACK RECORD IS ZEROED THROUGH A CAST POINTER, not through the
+    struct members. `q = (u32 *)&c; q[0] = 0; q[1] = 0;` is what produces
+    the image's `add r4, sp, #0` base plus `mov r3, #0` and the two
+    `str r3, [r4]` / `str r3, [r4, #4]`. Writing `c.st0 = 0; c.st1 = 0;`
+    (or going through a `struct CURSOR *p`, which folds) makes the stores
+    plain `str r3, [sp]` / `[sp, #4]` with no base register at all, and the
+    whole prologue reorders. A separate 8-byte state object declared beside
+    the handle is NOT the answer either: it is dead-stripped, the frame
+    shrinks to `sub sp, sp, #4` and the function comes out 100 bytes.
+
+L2  THE LOOP IS A GUARDED DO-WHILE WITH THE CURSOR IN ITS OWN LOCAL.
+    `ch = decode(&c.handle); if (ch != 0) { cur = &c.handle; do { ... }
+    while (ch != 0); }`. The plain `while (ch != 0) { ... }` head does not
+    reproduce the image's separate `add r5, sp, #8` at 0x02068118, which
+    sits BEFORE the back-edge target 0x0206811C and so is the loop
+    preheader, not the body.
+
+L3  DECLARATION ORDER SETS pitch AND THE LINE COUNT. With the locals
+    declared `q, decode, ch, n, cur` the count lands in r6 and pitch in r4,
+    as the image has them. Declaring `cur` earlier (first, or between
+    `decode` and `ch`, or between `ch` and `n`) moves the count to r4 and
+    pitch to r5 and costs four more bytes in the tail arithmetic.
+
+THE PIN IS LOAD-BEARING AND IS THE "KEPT CONSTANTS" FAMILY. Under
+dsi/1.1p1 -O4,p the two `add rN, sp, #8` address materialisations (one for
+the pre-loop call at 0x02068124, one for the preheader at 0x02068118) are
+CSE'd into a single hoisted `add r6, sp, #8` above the zero stores, giving
+112 bytes against the original's 116. That merge survives EVERY spelling
+measured: both calls written `&c.handle`; the pre-call written `q + 2` and
+the loop `&c.handle` (and the reverse); the loop cursor spelled
+`(u32 *)((u8 *)&c + 8)`; the cursor typed `void *` instead of `u32 *`; and
+a union giving the same word two member paths (`&c.u.w` versus
+`&c.u.handle`). Under `--cc ../2.0/sp2` the same C rematerialises both, and
+the size and the whole prologue come right: that is the image
+rematerialising where the build keeps a value live, the tell of
+docs/FRONTEND-PINS.md verbatim. NO PIN ROW WAS TAKEN: the rule requires
+byte evidence confirmed by a compile reaching EXACT, and this is 5 bytes
+short.
+
+WHAT WAS MEASURED AND IS NOT A LEVER for the r5/r7 swap, all at DIFF 5 or
+worse: all four declaration orders of `cur` against `decode`/`ch`/`n`;
+assigning `cur` before `decode = obj->decode`; assigning it immediately
+after `q`; hoisting it above the first call entirely; sinking it inside the
+do-while body; reading the decoder inline as `obj->decode(&c.handle)` for
+the first call and binding it to the local only inside the guard; and
+moving `n = 1` above the decoder load. The swap does not move with source
+order, so it is an allocator priority, and the next thing to try is a
+different shape for the SECOND use of the decoder (the loop's call), not a
+different declaration list.
+
+The file is parked at src/pending/func_020680DC.c with this C. It is worth
+finishing: an EXACT here is the `matched` witness that unblocks the
+byte-correct 224-byte src/pending/func_02069818.c, whose two calls to this
+address are the only branches to it anywhere in the image.

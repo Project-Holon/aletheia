@@ -96,3 +96,73 @@ mwcc cannot see through, and the `bic` from a genuinely 29-bit-wide consumer
 packed word).  Reading them as one expression is what makes the mask dead.
 
 Status DIFF, so this is a note and not a file.
+
+=== 2026-09-21, unblock lane: THE WALL IS DOWN. 216 bytes, DIFF 60, one
+    register-naming swap ===
+
+The `bic r5, r1, #0xe0000000` at 0x02070A64 survives, the size is the
+original's 216 exactly, and every instruction of the body is the right
+instruction in the right place. What is left is ONE decision, applied
+uniformly: the image holds the 0x7ff field mask in r2 and the working value
+in r1, this compile holds the mask in r1 and the working value in r2. Every
+one of the 60 differing bytes is that swap or a consequence of it (the pool
+word order that follows from it, and the one extra pool reload it costs).
+
+THE LEVER THAT BROKE THE WALL, and the whole point of this section: the
+`lsl/lsr #16` pair and the `bic` DO come from different sources, exactly as
+the previous section predicted, and the split is in the STRUCT, not in the
+expression. The source fields are 16-BIT BITFIELDS:
+
+    struct S {
+        u8  pad_00[8];
+        u32 f8   : 16;
+        u32 f8h  : 16;
+        u8  pad_0c[0x0c];
+        u32 f18  : 16;
+        u32 f18h : 16;
+        u8  pad_1c[0x20];
+    };
+
+A `u32 x : 16` read is a full word `ldr` followed by `lsl #16` / `lsr #16`
+that mwcc will NOT fold into a shifter operand, because it is a bitfield
+extraction and not a narrowing cast; that is what keeps the image's
+`ldrne r1, [r5, #8]` word load (not an `ldrh`) AND the separate shift pair.
+The mask is then an ordinary `q & ~0xe0000000u` on a plain u32 local, and
+because the bitfield's value range is not propagated to the local, the
+`bic` is no longer provably dead and survives. Read as one expression --
+which is what every spelling in the section above did, u16 fields, u16
+locals, casts, masks before or after -- the compiler proves the mask dead
+and folds the `lsr #16` into `add r2, r3, r2, lsr #16` for 212 bytes. The
+29-bit bitfield reading of the CONSUMER was tried too and is wrong: a
+`u32 lo : 29` local costs a stack read-modify-write and gives 264 bytes.
+
+TWO MORE LEVERS, both needed for the 216:
+  * BIND THE 0x7ff MASK TO A LOCAL (`k = 0x7ff;`) assigned before the
+    descriptor test. Spelled inline at its four uses the function comes out
+    220 bytes: the constant is reloaded from the pool and the pool words
+    come out in the other order.
+  * THE SECOND SCALE NEEDS A RESULT TEMPORARY. `r = 0x1000; ... ;
+    t->f34 = r;` with ONE store after the `if`. Storing `t->f34` in each arm
+    lets the compiler tail-duplicate the epilogue (`streq r0, [r4, #0x34]` /
+    `popeq {r3, r4, r5, pc}`) instead of emitting the image's
+    `beq 0x2070aec` to a shared store, and costs four bytes. The FIRST
+    scale does not care.
+
+MEASURED AND NOT THE LEVER for the r1/r2 swap, all at DIFF 60 and 216
+bytes: the mask written as the LEFT operand of all three `and`s
+(`k & p[1]`, `k & v`, `(k << 11) & v`); `k` declared first, last, and in
+each of the three interior positions of the local list; assigning
+`k = 0x7ff` before the `m = t->f10` read. Folding the f10 mask into its own
+read (`m = t->f10 & 0xc00f0000u`) reschedules the whole middle and gives
+DIFF 78; reusing `q` and `m` as the tail temporaries instead of fresh
+locals gives 224 bytes.
+
+So the swap does not move with operand order or declaration order, the same
+signature the 0x020680DC row in this wave hit: it is an allocator priority,
+and the next thing to try is a different shape for the CONSUMER of the mask
+(the three `and`s), not another ordering of its definition.
+
+The C is parked at src/pending/func_02070A24.c. All three relocations still
+resolve, so this row remains evidence-complete: an EXACT here is one of the
+five `matched` witnesses that would unblock the byte-correct 116-byte
+src/pending/func_02070B64.c.

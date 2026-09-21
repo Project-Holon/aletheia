@@ -21,3 +21,124 @@ Two things worth recording for this packet:
     (p->f2 != 0) r = ((int (*)(int,int,int,int))p->f2)(1, local, v, 32);
     return r;` with `v = func_020473EC(*(u32 *)(q + 4))` -- filing it turns
     func_02050894 EXACT with no new evidence.
+
+
+==============================================================================
+wave 6 lane, pkt_02050340.  The four untouched functions 0x02050468,
+0x020504D8, 0x02050550, 0x020506B8 were worked; one parked at MATCH, two
+near misses recorded, 0x02050550 not reached.
+==============================================================================
+
+The single most valuable thing in this packet is now func_02050550: it is the
+witness that unblocks func_020504D8 (below), exactly the way func_02050738
+unblocks func_02050894 in the earlier note.  Two parked files in this one
+packet are waiting on their own neighbour.
+
+
+func_020504D8  0x020504D8  120 bytes  MATCH  -> src/pending/func_020504D8.c
+==============================================================================
+
+PARKED, every concrete byte of the 120 correct.  The one relocation site is
+the `bl` to func_02050550 at +0x5C, and func_02050550 is this packet's own
+360-byte function at 0x02050550 with no branch reaching it from outside the
+compared range: no `label`, `matched`, `literal` or `veneer` class attests it.
+Filing func_02050550 as EXACT turns this file EXACT with no new evidence.
+
+What it does: tick every live entry of the 0x28-stride array at o->f18, for
+each index below the live count at o->f1C; skip the entry whose first word is
+the sentinel 0xFFFF (which lives in the pool at 0x0205054C, not as an
+immediate); otherwise call the entry's hook at +0x20 with (owner, index,
+entry->f24) when one is installed, then hand the entry to func_02050550.
+
+Two shapes are load-bearing and both cost a measurable byte:
+
+  * The live count is re-read from o->f1C at the BOTTOM of the loop as well as
+    at the top - the hook and func_02050550 may each change it.  Caching it in
+    a local gives one load and a different loop shape.
+
+  * The guard is SIGNED and spelled as an early-out, not as an `if` wrapping
+    the loop.  `if (o->f1C > 0) { do ... while (i < o->f1C); }` compiles to
+    `popeq`; the original is `pople`, i.e. `<= 0`.  Writing
+
+        int n = o->f1C;
+        if (n <= 0) {
+            return;
+        }
+        do { ... } while (i < o->f1C);
+
+    is the difference between one concrete mismatch and none.  Note the guard
+    reads through the named `n` while the loop test re-reads the field.
+
+
+func_02050468  0x02050468  112 bytes  DIFF, 2 bytes
+==============================================================================
+
+Release a run of `count` entries from the 0x28-stride array at o->f18 starting
+at index `first`, then hand the range back to the allocator at o->f20.  Per
+entry: the entry's first word to func_0204F5A8 with o->f04, then the entry's
+own address to func_020500B8.  All three call sites resolve (`label`).
+
+Size is exact at 112 and the ONLY residue is one commutative operand order:
+
+  ORIGINAL   add r1, r5, r1        (r5 = first * 0x28, r1 = the loaded o->f18)
+  COMPILED   add r1, r1, r5
+
+so the row offset is the left operand and the freshly loaded field the right
+(docs/idioms/commutative-operand-order-names-the-temporary.md says the
+accumulator is the second operand, and here the ACCUMULATOR IS THE FIELD LOAD,
+not the arithmetic).  Ten spellings were measured; the 2-byte floor is reached
+by several and beaten by none:
+
+  *(u32 *)((u8 *)o->f18 + first * 0x28 + i * 0x28)          2 bytes
+  *(u32 *)(i * 0x28 + ((u8 *)o->f18 + first * 0x28))        2
+  *(u32 *)((u8 *)(o->f18 + first) + i * 0x28)               2
+  ((u32 *)((u8 *)o->f18 + first * 0x28))[i * 10]            7
+  binding `row = first * 0x28` to a named local             25-27
+  o->f18 retyped u32 and the sum written either way         64
+
+Front ends measured on the 2-byte form, to rule out a pin: 1.1p1 gives 2,
+../1.2/sp2 gives 82, ../2.0/sp2 gives 54.  1.1p1 is emphatically the right
+compiler here and NO pin is warranted.
+
+One detail worth keeping for whoever finishes it: the 0x28 stride is
+materialised ONCE into r0 and copied into TWO callee-saved registers, sb for
+the `mul r2, r4, sb` that walks the counter and sl for the `mla r0, r1, sl, r0`
+that forms the reset argument.  A plain literal 0x28 at each use gives a single
+shared register and loses the copy, so the stride wants to be one value used
+twice, not a constant.  The `movs r6, r2` / `beq` pair is the zero-count guard
+folded onto the argument move, so the count test must be the first statement.
+
+
+func_020506B8  0x020506B8  128 bytes  DIFF, 4 bytes long (132 compiled)
+==============================================================================
+
+Measure one entry and hand the measurements to the owner's optional callback
+at +0x08.  func_020473D8 turns the entry's +0x04 word into a base offset; the
+entry's +0x00 halfword then drives two queries against the owner's +0x04
+resource.  All three calls resolve (`matched`).
+
+The find here is that func_0204F344 takes SIX parameters, not four.  The
+`add r0, sp, #8` / `mov r4, #0` / `stm sp, {r0, r4}` triple before the call is
+the outgoing argument area: sp+0 and sp+4 are the fifth and sixth arguments,
+a pointer to the sp+0x08 slot and a zero.  Declared with four parameters the
+frame comes out `sub sp, sp, #8`; declared with six it is `sub sp, sp, #0x14`,
+which is the original.  That one change moved the file from 65 mismatches to a
+frame-exact 132 bytes.
+
+Stack slots, once the arity is right: s2 at sp+0x08, s3 at sp+0x0C, s4 at
+sp+0x10, so the locals are declared s4, s3, s2 (later declaration, lower
+address).  With that, +0x28 and the whole frame match.
+
+The remaining 4 bytes are the liveness of `&s2`.  It is used twice - once as
+the fifth argument to func_0204F344 and once as the callback's fourth argument
+across that call - so mwccarm spills it to a callee-saved register (r5) and
+pays an extra `push`, where the original recomputes `add r0, sp, #8` into the
+stm and lets the callback re-read `ldr r3, [sp, #8]`.  Typing the callback
+parameter as `u32 *` rather than `u32` did not change it.  The lever is to stop
+the address being one value with two uses - something that makes the second use
+a fresh `&s2` the compiler cannot CSE with the first.
+
+Also note the callback's zero argument is the SAME r4 the stm already stored
+(`mov r0, r4`, not `mov r0, #0`), so the literal must be bound once and reused;
+and `add r2, r5, r2` puts the func_020473D8 result on the left, making the base
+the named temporary.

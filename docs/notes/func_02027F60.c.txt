@@ -1,0 +1,57 @@
+func_02027F60  0x02027F60  pkt_02027D44
+2026-09-21
+
+Near miss: SIZE-exact (120 == 120), 7 of 7 relocations resolved
+(func_02030734, MI_CpuFill8, func_020275E4 x2, func_02049DB4,
+func_02049B40 all class label; ABS32 file_apptaskmenu -> 0x020A74E0
+class literal), residual 30 concrete bytes, all register allocation.
+
+Shape recovered (everything up to +0x40 is byte-identical):
+
+  r = func_02030734(heap, 0x18, 0, "app_taskmenu.c", 0x2c6)
+  MI_CpuFill8(r, 0, 0x18)
+  r->a(u16 @0) = a0;  r->b(u16 @2) = a1
+  r->c(u32 @0x10) = a2;  r->d(u32 @0x14) = a3
+  sel = (a0 > 3) ? 4 : 0
+  func_020275E4();  r->obj(@8) = func_02049DB4(0x20, heap, 0, &r[4], heap)
+  func_020275E4();  func_02049B40(0x1f, heap, sel, a1 << 5, heap, 0x40)
+  return r
+
+The heap id is the u16 stack argument at sp+0x28 (the 5th parameter,
+after four register args).
+
+Levers that moved bytes, in order found:
+
+  100 -> 44  func_02030734 takes a FIFTH argument, the pooled constant
+             0x2c6 (pool word at 0x02027FD0), passed on the stack. The
+             original's `ldr r0,[pc,#0x68]; str r0,[sp]` at +0x06/+0x0a
+             is that argument, not a local. Without it the body is 8
+             bytes short and every later offset is shifted by 2.
+  44 -> 30   the heap parameter must have its ADDRESS taken:
+             `u16 *hp = &heap;` declared before the first call, with
+             every use spelled `*hp`. That is what produces the original's
+             single `add r5,sp,#0x28` plus a fresh `ldrh` per call site.
+             Passing `heap` by value caches it in a register instead.
+
+Measured and rejected:
+
+  volatile u16 heap                     124 bytes, 4 LONG - reloads at
+                                        every use, including ones the
+                                        original caches.
+  hp = &heap assigned after the first    44 - the pointer has to be live
+  call (heap passed by value to it)      from the first call, not created
+                                         later.
+  func_02049B40 stack args swapped       32 - (*hp, 0x40) is the right
+  to (0x40, *hp)                         order, 0x40 is the LAST arg.
+
+What is left. All 30 bytes are one decision: the original keeps sp+0x28
+in r5 across both func_02049DB4 and func_02049B40 and spends r0/r1 on
+the small constants (0x20, 0x1f, 0x40), where the compiled form
+recomputes `add r0,sp,#0x28` before the second call and assigns the
+constants to r0 instead of r1. The `*hp` spelling gets the re-read but
+not the hoist. The next thing to try is what else is live across the
+two calls - `sel` in r7 and `a1<<5` are both computed early in the
+original, so pinning those to named locals ahead of the first call may
+free r5 the way the original does.
+
+Not a candidate for src/pending/: DIFF, not a wildcarded relocation.

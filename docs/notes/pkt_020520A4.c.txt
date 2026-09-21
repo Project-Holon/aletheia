@@ -206,3 +206,167 @@ void func_020524C8(struct Owner *o)
     } while (n != 0);
 }
 ```
+
+
+==============================================================================
+wave 6 lane, pkt_020520A4.  Two EXACT filed (0x020520FC, 0x020521BC); two near
+misses measured below (0x020524C8 re-measured, 0x020522E4 new).
+==============================================================================
+
+func_020520FC and func_020521BC: FILED EXACT (src/matched/).
+
+Both are MTX rotation builders over the shared interleaved sin/cos halfword
+table at 0x020A1B38 (index i = angle >> 4, sin at tbl[2*i], cos at tbl[2*i+1],
+the same table src/matched/func_0203F684.c uses).  Two findings worth keeping:
+
+  * func_020520FC: BOTH MTX_Concat33 calls take the destination matrix as the
+    LEFT operand - MTX_Concat33(dst, &tmp, dst) twice.  Writing the second as
+    MTX_Concat33(&tmp, dst, dst) reproduces 190 of 192 bytes and misses only
+    the two `mov` bytes at +00A4/+00A8.  That two-byte residue was the whole
+    function's diff.
+
+  * func_020521BC: declaration order is the entire difference between 184
+    correct bytes and four wrong ones.  The frame lays `flat` (the Vec3 copy)
+    at sp+0x48, `mx` at sp+0x24 and `my` at sp+0x00, so the locals must be
+    declared flat, mx, my - LATER declaration takes the LOWER stack address
+    (docs/idioms/local-declaration-order-is-stack-order.md).  Declared my, mx,
+    flat, every instruction is right and only the three `add rN, sp, #k`
+    immediates and the `str r1, [sp, #0x4c]` offset are wrong.  The structure
+    itself: copy the vector to a stack scratch with one ldm/stm pair, zero its
+    y, VEC_Mag that for the horizontal run, then pitch = FX_Atan2Idx(-v->y,
+    run) and yaw = FX_Atan2Idx(v->x, v->z).
+
+
+func_020524C8  0x020524C8  68 bytes  DIFF - CORRECTS the two earlier readings
+==============================================================================
+
+The two earlier entries in this file (the wave4-4 reading and the lane-5
+reading) both call this "twenty bytes of pure frame shape" and "a frame
+spelling away from EXACT" under the default -proc arm946e.  That framing is
+wrong, and the reason is measurable: this is an arm7tdmi unit.
+
+The epilogue is `pop {r4, r5, lr}` then `bx lr`, which names the unit
+-proc arm7tdmi (docs/FRONTEND-PINS.md, and the idiom file
+an-arm-epilogue-of-pop-lr-then-bx-names-a-proc-arm7tdmi-unit.md).  Measured,
+with the same C in all three cells:
+
+  1.1p1      -proc arm946e    44 bytes, frame wrong (push {r3} pad), bx absent
+  1.1p1      -proc arm7tdmi   52 bytes, bx lr right, frame still push {r3}
+  ../2.0/sp2 -proc arm7tdmi   52 bytes, 47 mismatches
+  ../1.2/sp2 -proc arm7tdmi   64 bytes, 23 mismatches   <- frame EXACT
+
+Under ../1.2/sp2 -proc arm7tdmi the first eight instructions are byte-identical,
+including the `sub sp, sp, #4` pad and the whole predicated null-head exit
+(`addeq sp` / `popeq {r4, r5, lr}` / `bxeq lr`).  So the frame is NOT the
+residue; the 1.2 + arm7tdmi pair reproduces it exactly.  That pin is real
+evidence on the "frame padding" tell in docs/FRONTEND-PINS.md, but the function
+is not EXACT under it, so NO pin was filed and no evidence row was added.
+
+What is actually left is the loop-carried cursor, 9 bytes at 68 bytes total:
+
+  ORIGINAL                          BEST (../1.2/sp2, -proc arm7tdmi, 68 B)
+  ldr  r1, [r5, #4]                 ldr  r0, [r5, #4]
+  cmp  r1, #0                       cmp  r0, #0
+  ...predicated exit, identical...  ...identical...
+  ldr  r4, [r1]      <- loop top    ldr  r4, [r0]
+  mov  r0, r5                       mov  r0, r5
+  bl   #0x205250c                   bl   #0x205250c
+  mov  r1, r4        <- copy first  movs r0, r4
+  cmp  r4, #0        <- then test   ldr  r4, [r4]
+  bne  ...                          bne  ...
+
+The original holds the cursor in r1 and re-establishes it after the call with
+`mov r1, r4`, then tests the SUCCESSOR.  The compiled form picks r0 for the
+cursor and reorders the copy against the load.  Thirteen spellings were
+measured across the three front ends: `next` declared with the loop and at the
+top; the test on `n` and on `next`; do/while, while(1)+break, and for(;;);
+the successor read before the call and at the loop head; the head re-read
+through a second owner pointer; and the initialiser moved out of the
+declaration.  The 68-byte, 9-mismatch shape is:
+
+```c
+void func_020524C8(struct Owner *o)
+{
+    struct Node *n = o->head;
+    struct Node *next;
+
+    if (n == 0) {
+        return;
+    }
+    next = n->next;
+    do {
+        func_0205250C(o);
+        n = next;
+        next = n->next;
+    } while (n != 0);
+}
+```
+
+Next thing to try: something that pins the cursor to r1 specifically rather
+than letting the allocator choose r0 - the two are interchangeable to the
+compiler here, so the lever is probably an extra use that makes r0 unavailable
+across the call, not another loop shape.
+
+
+func_020522E4  0x020522E4  440 bytes  DIFF  (484-byte extent)
+==============================================================================
+
+Character transcoder: one game character code in, one or two bytes out, return
+value says whether the output was two bytes wide.  Calls func_02045A98 (the
+terminator code) once at the top; everything else is a chain of inclusive range
+tests against pool constants.  The ranges, read off the pool at 0x0205249C:
+
+  0x3041 + 0x52   ->  c + 0x5E  + 0x5200      (hiragana)
+  0x30A1 + 0x3E   ->  c + 0x9F  + 0x5200      (katakana)
+  0x30E0 + 0x13   ->  c + 0x2A0 + 0x5000
+  0xFF21 + 0x19   ->  c + 0xFFFF833F          (fullwidth upper)
+  0xFF41 + 0x19   ->  c + 0xFFFF8340          (fullwidth lower)
+  0xFF10 + 9      ->  c + 0xFFFF833F          (fullwidth digits)
+  0x30FC, 0x8140, 0x2642, 0x2640  ->  single pairs, high byte 0x81
+  anything else   ->  '?' , one byte, return 0
+
+Best reached: 484 bytes (the exact extent), 128 concrete mismatches, all of
+them inside the four single-code arms at the tail.  The path there, in order,
+because each step is a reusable lever:
+
+  660 B  every arm writes its own store and its own return
+  532 B  arms share a store block reached by `goto`
+  484 B  TWO store blocks, one entered before the `mov r4, #1` and one after
+         (the original really does have both: +00F8 is inside the shared tail)
+  444 B  one shared exit `done:` that every path reaches, including the two
+         early returns - the original's `b #0x2052494` on the null path proves
+         the first arm jumps to the common exit rather than returning its own 0
+  448 B  the four single-code arms written out per arm again, not shared
+  484 B  `wide` and `one` DECLARED BEFORE `c`, which is what puts them in r4
+         and r7 and hoists `mov r7, #1` / `mov r4, #0` ABOVE the call
+  128 mismatches  the pack step written with a SIGNED shift
+
+That last one is the find worth keeping.  The original's truncation is
+
+  lsl r0, r0, #0x10 / lsr r1, r0, #0x10 / and r0, r1, #0xff00 / asr r0, r0, #8
+
+- an `asr`, not an `lsr`.  Writing the high byte as `(v & 0xFF00) >> 8` on an
+unsigned value gives `lsr` and 249 mismatches; writing it as
+`(u32)(((int)(lo & 0xFF00)) >> 8)` with `lo = (u16)v` gives `asr` and drops
+straight to 128, making the whole first pack block byte-identical:
+
+```c
+    lo = (u16)v;
+    hi = (u32)(((int)(lo & 0xFF00)) >> 8);
+    dst[0] = (u8)hi;
+    dst[1] = (u8)lo;
+    wide = one;
+    goto done;
+```
+
+With the prologue exact through +0x2C (twelve instructions) and all six range
+arms exact, what is left is only the four single-code arms.  The original
+materialises their shared high byte as `mvn r1, #0x7e` - NOT `mov r1, #0x81` -
+and derives 0x89 and 0x8A as `add r0, r1, #8` and `add r0, r1, #9` off that
+same register, then stores r1 and r0 through ONE block at +01A4 that all four
+arms branch to.  Writing `hi = ~0x7E` with `hi` typed `u32`, `int` or
+`signed char` did not survive to the `mvn`: the `(u8)` truncation at the store
+folds it back to a positive immediate every time.  The lever is probably to
+give the store a signed char destination so no truncation is written at all,
+which was not reached before the budget ran out.  Filed nowhere; the C is not
+in src/matched (a DIFF has no home there).
