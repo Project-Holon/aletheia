@@ -198,3 +198,117 @@ u32 func_0201DC88(struct Font *f, u32 v)
 Verified with:
   python tools/match.py tu --src (this file, once restored to src/pending) \
       --addr 0x0201DC88 --thumb
+
+
+==============================================================================
+APPENDED 2026-09-21 (packet pkt_0201DC88 re-run): residue cut to 17 bytes,
+all of it ONE register permutation.  Size exact at 208.
+==============================================================================
+
+The note above stops at "offsets 0x00-0x30 EXACT, everything after DIFFs".
+This pass gets 0x00..0x7B exact as well and leaves 17 concrete bytes, every
+one of them the same two-register swap in the tail:
+
+    original   rec (chain/record cursor) = r3    i (record counter) = r2
+    compiled   rec                       = r2    i                  = r3
+
+No instruction is missing, extra, or out of order.  Same residue class as
+docs/notes/func_02020780.c.txt.
+
+Four spellings the source above does not have, each one needed:
+
+ 1. the `v` parameter must be u32, not u16 and not int-from-u16.  A u16
+    parameter promotes to SIGNED int and every hash shift compiles `asrs`
+    where the original has `lsrs`.  The note's own C already has u32 here,
+    which is why its first 0x30 bytes were right.
+
+ 2. the hash xor chain's operand order is fixed:
+        ((v >> 12) ^ (v >> 11)) ^ (v >> 10) ^ (v >> 9)
+    The flat `(v>>9) ^ (v>>10) ^ (v>>11) ^ (v>>12)` above swaps the first two
+    `lsrs` (docs/idioms/
+    the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
+
+ 3. the `& 1` must be an explicit mask and the `<< 3` must go through a u16:
+        (u16)(parity & 1) << 3
+    folding the two together loses the original's `movs r1,#1 / ands r1,r2`
+    and its `lsls #0x10 / lsrs #0xd` pair.
+
+ 4. in the chain walk, the decrement must be bound to its own local and
+    applied AFTER the pointer advance:
+        u8 m = *rec; u16 d = (u16)(n - 1); rec += m + m*2 + 1; n = d;
+    The note's `rec += len*3 + 1; n--;` costs an extra `cmp rN,#0` before the
+    `bne` (the original's narrowing `lsrs` sets the flags itself).  Writing
+    `len*3` rather than `m + m*2` also matters: the original is
+    `lsls r2,r4,#1 / adds r2,r4,r2 / adds r2,r2,#1`, a shift-and-add, not a
+    multiply.
+    And `n` must be initialised BEFORE `rec`; the other order moves
+    `ldr r2,[r5,#0xc]` and costs four bytes.
+
+Tried and rejected against the surviving 17 bytes (all still 208 bytes):
+  - every declaration order of the four tail locals (17, 18 or 26 bytes; the
+    allocation does not follow declaration order here, so
+    docs/idioms/declaration-order-decides-which-register-a-local-gets.md does
+    not reach it)
+  - the record scan as a do/while with a hoisted zero guard (216 bytes)
+  - the counter as u8 vs u16, and the scan bound cached in a local
+
+The 17-byte C, verbatim, verified with:
+  python tools/match.py one --src <this C> --func sub_0201DC88 \
+      --addr 0x0201DC88 --cc 1.1p1 --thumb
+
+typedef unsigned char  u8;
+typedef signed   char  s8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Hdr0201DC88 {
+    u8  dflt[3];
+    u8  pad3;
+    u32 bits;       /* +4 */
+    u32 hash;       /* +8 */
+    u32 chain;      /* +0xc */
+};
+
+u8 sub_0201DC88(u8 *obj, u32 id)
+{
+    struct Hdr0201DC88 *h = *(struct Hdr0201DC88 **)(obj + 0x84);
+    u32 i = id * 2;
+    u8  b = ((u8 *)h + h->bits)[i >> 3];
+    u8  k = (u8)((b >> (6 - (i & 7))) & 3);
+    u16 slot;
+    s8  e;
+    u16 n;
+    u8 *p;
+    u8  cnt;
+    u8  idx;
+
+    if (k < 3)
+        return ((u8 *)h)[k];
+
+    slot = (u16)(((id & 0x1ff) ^ (u16)(((((id >> 12) ^ (id >> 11)) ^ (id >> 10)) ^ (id >> 9)) & 1) << 3) & 0x1ff);
+
+    e = ((s8 *)((u8 *)h + h->hash))[slot];
+    if (e >= 0)
+        return (u8)e;
+
+    n = (u16)((u16)(-e) - 1);
+    p = (u8 *)h + h->chain;
+    while (n != 0) {
+        u8 m = *p;
+        u16 d = (u16)(n - 1);
+        p += m + m * 2 + 1;
+        n = d;
+    }
+
+    cnt = *p;
+    p++;
+    idx = 0;
+    while (idx < cnt) {
+        u16 key = (u16)((p[0] << 8) | p[1]);
+        if (id == key)
+            return p[2];
+        idx = (u8)(idx + 1);
+        p += 3;
+    }
+    return obj[0x5e];
+}

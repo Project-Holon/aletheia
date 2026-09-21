@@ -1,0 +1,246 @@
+2026-09-21, closer lane: 0x0201183C first transcription -- DIFF.
+
+func_0201183C @ 0x0201183C, 848 bytes, thumb, packet pkt_0201183C.
+Previously untouched.  STATUS: DIFF, 776 compiled against 848, 618
+concrete out.  Not filed as a source.  The CONTROL FLOW IS SOLVED -- every
+branch target in the compile lands on the original's address -- and the
+residue is one structural decision worth 72 bytes, described at the end.
+
+WHAT THE FUNCTION IS.  A fixed-point-to-float record unpacker, the sibling
+of src/pending/func_02011B8C.c in the same packet and the same soft-float
+family as src/matched/func_0202BFF0.c.  It allocates one flat float buffer
+sized from the record's three optional channel arrays, hands the buffer to
+func_0204944C to be filled, then walks it converting every float back to
+4.12 fixed point into up to three Vec3 arrays hanging off the record.
+
+  s->f14 = q >> 12                 saved at entry, stored again at exit
+  n   = func_0209C2B0(s->f0c, 0)   element count
+  tot = 8 + 0xc*n  per SET flag of s->f30 / s->f2c / s->f28
+  k   = 0 + 0xc*s->f18 per the SAME three flags (f18 re-read each time)
+  f   = func_02030734((u16)((s->f00 & 0x7fff) | 0x8000), k, 0,
+                      &data_020A7270)
+  func_0204944C(s->f04, s->f08, tot, k)
+  for (i = 0; i < s->f18; i++)
+      per SET flag, three channels into s->f24[i] / s->f20[i] / s->f1c[i]
+  func_020307B0(f);  s->f14 = q >> 12;
+
+CALLEE IDENTIFICATION (all `label`-attestable, hundreds of outside
+witnesses each; none is an SDK symbol and none is in layout/runtime_arm9.txt):
+  0x0209BBB0  _fcmp   float compare (docs/notes/pkt_0209AF34_soft_float_library.c.txt
+              calls it __fcmp_1, "float compare, ordering 1")
+  0x0209C494  _f2s    float -> signed int
+  0x0209C77C  _fmul
+  0x0209C95C  _fsub
+  0x0209CB8C  _fadd
+  0x0209C2B0  func_0209C2B0, the element-count helper (not soft float)
+  0x02030734 / 0x020307B0  buffer alloc / free
+  0x0204944C  the fill call
+
+THE POOL, read from asm/arm9/src/004_02010B80.s (pool_02011B7C..B88):
+  0x000002BD  0x00007FFF  0x020A7270  0x45800000
+0x45800000 is 4096.0f and it is held in r7 across the whole loop;
+0x020A7270 is the heap handle passed as func_02030734's FOURTH argument
+(it is NOT zero -- passing 0 costs the pool word and a relocation site);
+0x00007FFF is the tag mask; 0x000002BD is the 0x8000-or'd tag constant the
+`ands r1, r0 / adds r0, r0, #1 / orrs r0, r1` triple builds.
+
+THE CONVERSION IDIOM, which is the whole body of the nine repeated blocks:
+      x > 0 ? 0.5f - x * 4096.0f : x * 4096.0f + 0.5f
+spelled `(s32)(...)` so the tail is `blx _f2s`.  Note the ASYMMETRY: the
+positive arm is `_fsub(0.5f, product)` (r0 = 0.5f, r1 = product) and the
+negative arm is `_fadd(product, 0.5f)`.  That is what the bytes say at
+0x020118EA..0x02011912 and at all eight repeats; it is not the symmetric
+round-half-away-from-zero it looks like, and writing it symmetrically
+swaps the operand registers in the `_fsub`.  0.5f is `movs #0x3f /
+lsls #0x18`, rematerialised at every one of the nine blocks, never pooled.
+
+LEVERS ALREADY MEASURED AND CONFIRMED (all in the best source below):
+  * the record's Vec3 arrays are THREE separate pointers at +0x1c, +0x20,
+    +0x24 and the flags gating them are +0x28, +0x2c, +0x30 -- in the
+    REVERSE pairing: f30 gates f24, f2c gates f20, f28 gates f1c.  Get the
+    pairing wrong and the three blocks' field offsets all shift.
+  * `tot` uses `n` (one register, three multiplies) while `k` RE-READS
+    s->f18 at each of its three sites.  A shared `s32 cnt = s->f18;` local
+    loses the three `ldr r3, [r5, #0x18]` the image keeps.
+  * `q >> 12` is computed ONCE at entry into a local and stored to s->f14
+    only at the exit.  Storing it at entry as well hoists the whole
+    prologue and is 4 bytes long.
+  * the struct must have NO field between +0x14 and +0x18 (an earlier
+    draft with a spare pointer there put every offset 4 too high and cost
+    the entire prologue).
+
+THE 72-BYTE RESIDUE, one decision.  The original's frame is `sub sp, #0x3c`
+and the compile's is `sub sp, #0x1c`: 32 bytes, eight stack slots.  The
+image gives EACH of the nine conversion blocks its OWN stack slot for the
+byte offset it computes -- sp+0x18, 0x1c, 0x20, 0x24, 0x28, 0x2c, 0x30,
+0x34, 0x38 -- via `lsls r0, r6, #2 / str r0, [sp, #N]`, and then RE-LOADS
+both the offset and the float from it inside each arm:
+
+  0201193A  lsls r0, r6, #2        ; offset
+  0201193C  str  r0, [sp, #0x1c]   ; its own slot
+  0201193E  ldr  r0, [r4, r0]      ; the float, for the compare
+  02011942  blx  _fcmp
+  02011946  bls  ...
+  02011948  ldr  r1, [sp, #0x1c]   ; offset re-loaded
+  0201194C  ldr  r1, [r4, r1]      ; float re-loaded, for the multiply
+
+i.e. the float is loaded TWICE per block, once for the compare and once
+inside the taken arm, off an offset that is spilled rather than kept live.
+1.1p1 -O4,p CSEs the two loads into one and keeps the offset in a register,
+which is the 72 bytes and the 32-byte frame both.
+
+SPELLINGS MEASURED AGAINST THAT RESIDUE, none of which reproduces it:
+  the ternary reading `f[k]` three times (the compiler CSEs all three) 776/618
+  explicit `f[k]`, `f[k + 1]`, `f[k + 2]` per block with `k += 3` at
+    the end, instead of a `k++` cursor                                772/615
+  `volatile float *f` throughout -- overshoots, because volatile forces
+    a re-read in the COMPARE as well as the arms                      872/763
+  a plain `f` for the compare plus a separate `volatile float *vf`
+    alias used only inside the two arms                               892/786
+  three declaration orders of the six locals (the register-allocation
+    lever) -- all byte-identical, these locals are all in registers    772/615
+
+THE INLINE-HELPER LEVER WAS TRIED, AND IT IS THE RIGHT DIRECTION BUT NOT
+THE ANSWER.  The nine blocks are not written out nine times in the source;
+a small static helper inlined by -O4,p at nine sites schedules each site
+independently
+(docs/idioms/an-inline-call-argument-is-scheduled-per-site-a-local-is-not.md).
+Three forms measured:
+
+  `static s32 cvt(float x)` WITHOUT `inline` -- emitted OUT OF LINE as its
+    own function, so the whole body collapses to nine calls       360/259
+  `static inline s32 cvt(float x)`, call sites `cvt(f[k])`        792/631
+  `static inline s32 cvt(float *p, s32 j)` with the LOAD inside
+    the helper, call sites `cvt(f, k)`                            772/618
+
+The value-taking inline form at 792 is the best source reached by any
+spelling and is 20 bytes nearer than every non-helper shape, which
+confirms the nine blocks really are one inlined helper.  It is still 56
+bytes short, so the per-site re-read is only partly recovered: the helper
+inlines and the compare/arm pair is scheduled per site, but 1.1p1 still
+keeps the byte offset live in a register instead of spilling it to the
+block's own stack slot, which is the 32-byte frame difference.
+
+WHAT TO TRY NEXT, in order.  (1) The helper taking the float BY ADDRESS
+(`cvt(&f[k])`) so the load is unavoidably inside it and the address is the
+thing that must live across the `blx _fcmp`.  (2) The helper returning
+into a named s32 local per channel rather than straight into the store.
+(3) Only then a front-end pin.
+
+NO PIN WAS PROBED.  The residue is a CSE decision, which reads like the
+"kept constants" family docs/FRONTEND-PINS.md records for ../2.0/sp2, but
+the rule is one probe on a DOCUMENTED tell and the documented tell for
+that family is a materialised constant or a kept branch, not a spilled
+index.  A probe here would be a guess.  Left for the next lane.
+
+Not filed: DIFF, by rule 6.  The best source reached is preserved verbatim
+below (792 bytes, 631 concrete out, the value-taking inline helper); start
+from it, do not re-derive.
+
+----------------------------------------------------------------------
+  /*
+   * function: func_0201183C
+   * address:  0x0201183C
+   * packet:   pkt_0201183C
+   * region:   arm9
+   * compiler: 1.1p1
+   * flags:    -O4,p
+   * lang:     c99
+   * isa:      thumb
+   * status:   DIFF
+   * symbols:
+   *   _fcmp          0x0209BBB0  arm
+   *   _f2s           0x0209C494  arm
+   *   _fmul          0x0209C77C  arm
+   *   _fsub          0x0209C95C  arm
+   *   _fadd          0x0209CB8C  arm
+   *   func_0209C2B0  0x0209C2B0  arm
+   *   func_02030734  0x02030734  arm
+   *   data_020A7270  0x020A7270  data
+   *   func_020307B0  0x020307B0  arm
+   *   func_0204944C  0x0204944C  arm
+   */
+  typedef unsigned char  u8;
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+  typedef int            s32;
+  
+  struct Vec3 { s32 x; s32 y; s32 z; };
+  
+  struct S0201183C {
+      u16 f00;
+      u16 f02;
+      u32 f04;
+      u32 f08;
+      u32 f0c;
+      u32 f10;
+      u32 f14;
+      s32 f18;
+      struct Vec3 *f1c;
+      struct Vec3 *f20;
+      struct Vec3 *f24;
+      u32 f28;
+      u32 f2c;
+      u32 f30;
+  };
+  
+  extern u32   func_0209C2B0(u32 a, u32 b);
+  extern float *func_02030734(u16 tag, u32 n, u32 z, void *heap);
+  extern void  func_020307B0(float *p);
+  extern u8    data_020A7270;
+  extern void  func_0204944C(u32 a, u32 b, u32 c, u32 d);
+  
+  static inline s32 cvt(float x)
+  {
+      return (s32)(x > 0.0f ? 0.5f - x * 4096.0f : x * 4096.0f + 0.5f);
+  }
+  
+  void func_0201183C(struct S0201183C *s, s32 q)
+  {
+      float *f;
+      s32 n;
+      s32 tot;
+      s32 k;
+      s32 i;
+      s32 sh;
+  
+      sh = q >> 12;
+      n = func_0209C2B0(s->f0c, 0);
+  
+      tot = 8;
+      k = 0;
+      if (s->f30 != 0) tot += n * 0xc;
+      if (s->f2c != 0) tot += n * 0xc;
+      if (s->f28 != 0) tot += n * 0xc;
+      if (s->f30 != 0) k += s->f18 * 0xc;
+      if (s->f2c != 0) k += s->f18 * 0xc;
+      if (s->f28 != 0) k += s->f18 * 0xc;
+  
+      f = func_02030734((u16)((s->f00 & 0x7fff) | 0x8000), k, 0, &data_020A7270);
+      func_0204944C(s->f04, s->f08, tot, k);
+  
+      k = 0;
+      for (i = 0; i < s->f18; i++) {
+          if (s->f30 != 0) {
+              s->f24[i].x = cvt(f[k]);
+              s->f24[i].y = cvt(f[k + 1]);
+              s->f24[i].z = cvt(f[k + 2]);
+              k += 3;
+          }
+          if (s->f2c != 0) {
+              s->f20[i].x = cvt(f[k]);
+              s->f20[i].y = cvt(f[k + 1]);
+              s->f20[i].z = cvt(f[k + 2]);
+              k += 3;
+          }
+          if (s->f28 != 0) {
+              s->f1c[i].x = cvt(f[k]);
+              s->f1c[i].y = cvt(f[k + 1]);
+              s->f1c[i].z = cvt(f[k + 2]);
+              k += 3;
+          }
+      }
+      func_020307B0(f);
+      s->f14 = sh;
+  }
+  

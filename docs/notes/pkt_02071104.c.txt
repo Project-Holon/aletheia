@@ -107,3 +107,36 @@ UNLABELLED FOLLOWERS seeded for layout/function_starts.txt:
   0x02071180  (72 B, now EXACT, ../2.0/sp2)
   0x02071360  (68 B, DIFF 4)
   0x020713A4  (36 B, now EXACT, ../2.0/sp2)
+
+2026-09-21, APPENDED by the unlabelled-leaf lane: 0x02071360 re-attacked
+with a label of its own (it was seeded into layout/function_starts.txt and
+now has a worklist row in pkt_020711C8).  It is SIZE-CORRECT at 68 bytes
+and still DIFF 4, the identical r2/r3 swap section 2 above records.
+
+What is NEW and worth keeping is the SIZE lever, which section 2 did not
+isolate: the f1c field is read TWICE by the image (`ldr r2, [r1, #0x1c]`
+at +000C for the f14 store and AGAIN at +001C for the scale chain), and
+1.1p1 -O4,p forwards the value it already holds live, dropping the second
+load.  That single dropped load is the whole four-byte shortfall.  Reading
+it through `*(volatile s32 *)&s->f1c` in the scale chain restores the
+fresh load and takes the function from 64 bytes to the image's 68 with
+the residue down to the 4-byte swap alone.  The same volatile-re-read
+lever closed src/matched/func_0206A67C.c to EXACT this pass, so it is the
+first thing to try on any leaf in this family that is exactly one load
+short.
+
+The remaining 4 bytes are the allocation swap and nothing else: the image
+loads f1c into r2 and f2e into r3, 1.1p1 the reverse.  MEASURED THIS PASS
+and NOT levers, on top of section 2's list: binding both fields to locals
+with the volatile in place, in either read order (4 each); hoisting the
+f2e read to the first statement of the function (29, much worse); the
+spelled-out `n = ct * n; d->f34 = n * 8;` chain with a u16 or an s32
+count local (11 each); `(s->f2e * n) << 3` instead of `* 8` (4); moving
+the f10 store above the f34 chain (36); moving the f14 store below it
+(46); and reversing the mul operand order (11, confirming section 2).
+Volatile on the f2e side instead of, or as well as, the f1c side leaves
+the swap untouched at 4.
+
+Also DIFF 4 under ../2.0/sp2 (section 2 measured this), so it is not a
+pin candidate and no probe was spent on it this pass.  Not filed: a
+DIFF source never goes in src/matched.

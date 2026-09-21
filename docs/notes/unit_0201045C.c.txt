@@ -1,0 +1,105 @@
+/* DIFF evidence note (2026-09-21), packet pkt_0201045C.
+ * A `unit:` file over 0x0201045C..0x020104F8, the shape
+ * docs/notes/pkt_0201045C.c.txt asked for.  Verdict DIFF, 152 of 152 bytes
+ * laid out, and the whole second function is byte-exact; the residue is TWO
+ * bytes in func_0201045C.
+ *
+ * FIRST, THE EXTENT CORRECTION, which is the useful finding here.
+ * layout/function_starts.txt line 337 seeds the leaf at 0x0201049C.  That is
+ * four bytes too high.  func_0201045C's own body ends at 0x02010490 with
+ * `pop {r4,r5,r6,pc}`, 0x02010492 is its alignment `mov r8,r8`, 0x02010494 is
+ * its pool word (0x021461E0), and the leaf's real prologue is at 0x02010498:
+ *     02010498  16 48   ldr r0, [pc, #0x58]
+ *     0201049A  02 68   ldr r2, [r0]
+ * Compiled at 0x02010498 the leaf is 96 bytes (0x02010498..0x020104F8,
+ * pool word included) and every byte matches; compiled at 0x0201049C it is
+ * shifted by two instructions and 94 of 96 bytes differ.  The tu layout above
+ * places it correctly at 0x02010494 and reproduces it exactly, which is the
+ * proof.  0x0201049C in function_starts.txt wants correcting to 0x02010498
+ * (integrator's file; not edited here).
+ *
+ * The leaf sub_02010498 takes no arguments and is byte-exact as written
+ * below: it reads the pointer at 0x021461E0 and, guarded on the halfword at
+ * +0x30C being zero, decrements four saturating non-negative counters at
+ * +0x318, +0x31C, +0x320 and +0x324, re-reading the global before each one.
+ *
+ * THE REMAINING TWO BYTES, in func_0201045C.  The original spends an extra
+ * register copy the compiler folds away:
+ *     original   movs r2,#0xc0 ; adds r3,r6,#0 ; muls r3,r2,r3 ; adds r1,r1,r3
+ *     compiled   movs r2,#0xc0 ; muls r2,r3,r2 ;                 adds r1,r1,r2
+ * i.e. the index is copied into a fresh register and that copy is the
+ * multiply's accumulator, leaving the index itself live although nothing
+ * reads it again (the post-call increment re-reads o->index from memory).
+ * The two locals also land in the opposite registers (original n=r3 i=r6).
+ *
+ * Tried and rejected, all still exactly this 2-byte residue:
+ *   - both declaration orders of n and i, and split decl-then-assign
+ *     (docs/idioms/declaration-order-decides-which-register-a-local-gets.md
+ *      does not reach this allocation)
+ *   - `if (n <= i)` instead of `if (i >= n)`: this DOES fix the cmp operand
+ *     order to `cmp r6,r3`, but flips the branch to `bls` and the registers
+ *     stay swapped, so it is not a net gain
+ *   - int, u16 and u32 spellings of n and i (int/u16 additionally turn the
+ *     two `bhs` into `bge`, so the guards are unsigned)
+ *   - `o + i*0xC0`, `&o[i*0xC0]`, `o + 0xC0*i`, and a named `u8 *rec` or
+ *     `u32 off` bound to the product (all CSE to the same folded muls)
+ *   - `off = 0xC0; off = off * i;` as two statements
+ *   - `(i & 3) * 0xC0`, which changes the shape but is not the original
+ *
+ * Verified with:
+ *   python tools/match.py tu --src <this file as .c> --addr 0x0201045C --thumb
+ *
+ * C below is verbatim from that state.  Filing it as a note, not a source:
+ * a DIFF has no home in src/matched, and src/pending holds MATCH only.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8 *g_021461E0;
+extern void func_02082D44(u8 *p, u8 *rec);
+
+void func_0201045C(u8 *p)
+{
+    u8 *o = g_021461E0;
+    u16 n;
+    u16 i;
+    u32 off;
+
+    n = *(u16 *)(o + 0x310);
+    if (n == 0)
+        return;
+    i = *(u16 *)(o + 0x316);
+    if (i >= n)
+        return;
+    if (i >= 4)
+        return;
+
+    off = 0xC0;
+    off = off * i;
+    func_02082D44(p, o + off);
+
+    *(u16 *)(g_021461E0 + 0x316) = *(u16 *)(g_021461E0 + 0x316) + 1;
+}
+
+void sub_02010498(void)
+{
+    u8 *o = g_021461E0;
+
+    if (o != 0 && *(u16 *)(o + 0x30C) != 0)
+        return;
+    if (o == 0)
+        return;
+    if (*(int *)(o + 0x318) > 0)
+        *(int *)(o + 0x318) = *(int *)(o + 0x318) - 1;
+    o = g_021461E0;
+    if (*(int *)(o + 0x31C) > 0)
+        *(int *)(o + 0x31C) = *(int *)(o + 0x31C) - 1;
+    o = g_021461E0;
+    if (*(int *)(o + 0x320) > 0)
+        *(int *)(o + 0x320) = *(int *)(o + 0x320) - 1;
+    o = g_021461E0;
+    if (*(int *)(o + 0x324) > 0)
+        *(int *)(o + 0x324) = *(int *)(o + 0x324) - 1;
+}

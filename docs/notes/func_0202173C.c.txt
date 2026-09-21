@@ -198,3 +198,51 @@ re-derive.  (Compile-tested at 268/268 bytes, 33 differing, DIFF.)
       }
       return done;
   }
+
+========================================================================
+2026-09-21, closer lane: the two remaining levers measured.  Still DIFF.
+========================================================================
+
+The section above ends by naming two untried levers.  Both are now tried
+and NEITHER splits the 33-byte residue.  Baseline re-confirmed first: the
+preserved source above is 268 bytes / 33 concrete out at the corrected
+entry 0x0202173C (`match.py one --thumb --cc 1.1p1`), exactly as recorded.
+The twin, built from this note's prose by dropping the second
+`func_02021930(p->a_big, i)` test and writing `p->a_big = mask;`, is
+232 bytes / 33 concrete out at 0x02021848 -- the same residue in the same
+two places, confirming the note's claim that they are one finding.
+
+LEVER 1: the `tu` over both twins.  DOES NOT HELP.
+  `match.py tu --addr 0x0202173C --thumb --cc 1.1p1` over one unit holding
+  both functions lays out 500 bytes in 2 code sections with ZERO padding --
+  0x0202173C 268 bytes, 0x02021848 232 bytes, both at the corrected entries
+  -- and differs in 66 concrete bytes, which is exactly 33 + 33.  The
+  scheduler makes the identical spill decision in both functions when it
+  sees them together; seeing the twin buys nothing.
+
+  (The layout itself is worth keeping: a 500-byte two-section unit with no
+  padding is independent confirmation, by compile, that BOTH corrected
+  entries are right.  8 of 15 relocation sites go unresolved in the `tu`
+  because the callees now sit inside the compared range, so `tu` is not a
+  route to EXACT here even if the residue closed.)
+
+LEVER 2: giving `a` a real data dependence.  DOES NOT HELP.
+  Three spellings measured beyond the ones already listed:
+    `volatile s32 a = a0;` as the first local                     268/38
+    a plain `s32 a; ... a = a0;` assigned BEFORE `done = 0;`      268/33
+    the same local declared LAST and assigned after `keep = v;`   268/33
+  The volatile form is strictly worse: it forces a genuine store but puts
+  it in the wrong slot and costs five further bytes.  The two plain forms
+  normalise to byte-identical output with the parameter spelling, which is
+  the same result this note already records for `s32 aa = a;`.
+
+CONCLUSION.  Every lever this note named is now spent.  The residue is a
+1.1p1 scheduling decision about WHERE the `str r3, [sp, #8]` home-store of
+parameter 3 lands relative to the five following instructions, and it is
+not reachable from the C: statement order, local binding, volatility,
+declaration order and the two-function unit all produce the same schedule.
+The next thing to try, if anyone does, is a front-end pin -- but note that
+NO pin has been probed on this row, and the tells here are scheduling, not
+the "kept constants" / "kept branches" families docs/FRONTEND-PINS.md
+records, so a probe is a genuine experiment rather than a documented tell.
+Not filed: DIFF, by rule 6.

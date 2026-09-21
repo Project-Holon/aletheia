@@ -372,3 +372,56 @@ Honoured.
 CONSEQUENCE UNCHANGED: src/pending/func_02092004.c stays MATCH.  Its sole
 wildcard is the PC24 to func_02091E44 and only a `matched` entry at
 0x02091E44 promotes it.  Not filed: DIFF, by rule 6.
+
+========================================================================
+2026-09-21, second closer lane: 0x02091E44 re-derived from prose.  DIFF.
+========================================================================
+
+Independently rebuilt from the sections above (all four original levers
+plus the three later ones: the `u8 mode` narrowing before the f04 compare,
+the single `p->f08 = v;` reached by `goto stored;` from both arms, and the
+`((volatile struct F08P *)&p->f08)->mode` re-read).  Reaches the SAME
+448 bytes / 28 concrete out at the corrected entry 0x02091E44
+(`match.py one --arm --cc 1.1p1`), all three relocation sites resolving
+(func_02091650 label, func_02091CBC label, g_02153FAC literal).  This is
+the third independent lane to land on 448/28 and none has reproduced the
+earlier lane's claimed 448/12, whose source that lane did not print.
+
+THE 28 BYTES, enumerated from `--diff` so the next lane need not re-derive:
+  +00D0/+00D4   residue (a): `ldr ip, [r6, #8]` / `lsl r0, ip, #0x1d` vs
+                the compile's `ldr r0` / `lsl r0, r0`.  2 instructions.
+  +00F4..+0128  residue (b): the image's `bhs 0x2091f48` / `bhs 0x2091f4c`
+                / `b 0x2091f74` triple against the compile's cross-jumped
+                `bhs`/`blo` pair, which shifts the eight following
+                instructions by one slot and lands the `bic r0, ip, #7`
+                (+011C), the `orr r0, r0, #2` (+0124) and the
+                `str r1, [r6, #0x28]` (+0128) against each other.
+Nothing outside those two windows differs.
+
+FOUR FURTHER SPELLINGS measured this pass on the in-window arm's ordering,
+which is where the earlier lane's 12 and this rebuild's 28 must differ:
+  the f18-minus-pos difference bound to a `u32 rem` computed BEFORE `v`
+    and stored to f28 AFTER it                                   448/32
+  the same with `v` split into a separate `& ~7u` then `| 2`     448/32
+  both bounds bound to `u32 hi = p->f18;` / `u32 lo = p->f34;`,
+    the guards nested, `lo` reused for the f24 subtraction       448/36
+  (the two 32s reproduce the row the section above already records)
+Every reordering of the arm is 32 or worse; 28 is this shape's floor and
+the plain `p->f28 = p->f18 - pos;` between the f24 store and `v` is the
+best of them.
+
+THE TRADE IS UNCHANGED AND STILL NOT SPLITTABLE.  Fixing (a) needs a const
+view that keeps the f08 word live in a register across the intervening
+`str r0, [r6, #0x24]`; any const view that reaches the word enables the CSE
+that deletes the volatile re-read at 0x02091F80, which is exactly the 4
+bytes (b)'s cross-jump has already lost.  Five const/volatile splits were
+measured by the previous lane and all collapse; nothing new was found.
+
+THE PIN IS NOT PROBED.  Two probes of `../2.0/sp2` are already on record
+(468/107 at the correct entry) with an explicit instruction not to spend a
+third.  Honoured.
+
+CONSEQUENCE UNCHANGED: src/pending/func_02092004.c STAYS MATCH and is NOT
+promoted.  Its sole wildcard is the PC24 to func_02091E44 and only a
+`matched` entry at 0x02091E44 promotes it; this row is still not one.
+Nothing was moved.  Not filed: DIFF, by rule 6.

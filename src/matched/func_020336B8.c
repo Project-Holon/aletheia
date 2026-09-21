@@ -7,18 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
- *
- * blocker:  func_020336A4 (ABS32, data/arm pointer) -- has no witness outside
- *           020336B8..020337B8.  The address is the unlabelled leaf that
- *           follows func_020335E8; it saves no lr, so disasm.py gives it no
- *           label and neither `label` nor `veneer` applies, and the single
- *           occurrence of the word in the image is the pool word at
- *           0x020337B4 inside this very range.  --suggest-split confirms no
- *           cut helps (1 witness image wide, 1 inside).  Every concrete byte
- *           of all 256 reproduces; seeding 0x020336A4 into
- *           layout/function_starts.txt is what unblocks it.
+ * status:   EXACT
  *
  * symbols:
  *   str_020A78A0            0x020A78A0  data
