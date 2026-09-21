@@ -1,0 +1,102 @@
+/*
+ * DIFF note, 2026-09-21, packet pkt_020245D4.
+ *
+ * Not a source file: this C is two bytes short of the original and is
+ * recorded here so the next agent does not re-derive the dead end.
+ *
+ * Both functions in this packet end in the same two-arm validator loop and
+ * both stop at the same single codegen difference. The original spends a
+ * conditional AND an unconditional branch where mwccarm 1.1p1 emits one
+ * inverted conditional:
+ *
+ *   original   cmp r0, #0 ; bne <loop increment> ; b <setfail>
+ *   compiled   cmp r0, #0 ; beq <setfail>
+ *
+ * Everything else is byte-identical (the guard chain, the shared fail exit,
+ * the pool words, the register allocation, the sp+4/sp+8 out-parameter
+ * slots and the placement of the `ok = 0` block between the two arms).
+ * Shapes tried for the else arm, all folding to the same single beq:
+ *   goto cont / goto setfail with a label at the loop tail;
+ *   the test written both polarities;
+ *   an empty true arm with the goto in the else;
+ *   the call result bound to a named local first;
+ *   a dummy statement at the cont label;
+ *   `break` versus `goto ret` for the fail path.
+ *
+ * Separately, func_020246C8 is evidence-capped as well: its call to
+ * func_02024768 has no witness outside the compared range, because
+ * 0x02024768 exists only as src/pending/func_02024768.c (a MATCH entry,
+ * which attest_matched() refuses). A second, matched caller of 0x02024768
+ * would unstick that site; the two-byte branch above would still remain.
+ */
+
+/*
+ * unit:     no
+ * function: func_020246C8
+ * address:  0x020246C8
+ * packet:   pkt_020245D4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_02024508   0x02024508  thumb
+ *   sub_02024520   0x02024520  thumb
+ *   func_02024768  0x02024768  thumb
+ *   func_020248D8  0x020248D8  thumb
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+extern u32 sub_02024508(u32 x);
+extern s32 sub_02024520(u32 x);
+extern u32 func_02024768(u32 x);
+extern u32 func_020248D8(u32 v, u32 *a1, u32 *a2);
+
+u32 func_020246C8(u16 *p, u32 mode, u32 flag)
+{
+    u32 ok = 1;
+    u32 y, x;
+
+    if (mode != 0) {
+        if (*p == 0xFFFF) {
+            return ok;
+        }
+    } else {
+        if (*p == 0xFFFF) {
+            *p = 0x6A1;
+            return 0;
+        }
+    }
+
+    if (sub_02024508(*p) != 0) {
+        s32 v;
+
+        if (flag != 0) {
+            v = sub_02024520(*p);
+            if (v >= 1 && v < 11) {
+                goto done;
+            }
+        } else {
+            ok = 0;
+            *p = 0x6A1;
+            goto done;
+        }
+    } else {
+        if (func_02024768(*p) == 0) {
+            if (func_020248D8(*p, &x, &y) != 0) {
+                goto done;
+            }
+        }
+    }
+bad:
+    ok = 0;
+    *p = 0x6A1;
+done:
+    return ok;
+}

@@ -261,3 +261,301 @@ Both are pure fixed-point interpolators over the same argument record
 0x40000000 / 0x20000000 flag tests and differ in whether they average two
 neighbours (F214) or lerp with the 12-bit fraction (F36C).  They are each
 other's natural unit and should be taken together.
+
+==============================================================================
+2026-09-21, packet pkt_0206EC50: the interpolator pair 0x0206F214 / 0x0206F36C
+==============================================================================
+
+Both taken this pass, both SIZE-EXACT, both left DIFF.  Neither is filed; the
+sources below are the residue and are the starting point for the next pass.
+
+--- 0x0206F214 (344 bytes incl. its one pool word 0x1fff0000): DIFF, 111 bytes
+    COMPILER: dsi/1.1p1 (the DEFAULT).  One pin probe was spent under
+    ../2.0/sp2 and it is WORSE: 352 bytes / 199 mismatches against the
+    default's 340 / 111.  Do not re-probe the pin on this function.
+
+Structure (all of it reproduced): `void f(int *out, int t, Rec *r, u8 *base)`
+with `Rec { u32 flags; u32 off04; }`; `p = base + r->off04`, `k = t >> 12`,
+`n = (flags & 0x1fff0000) >> 16` (one pool word).  0xC0000000 clear -> plain
+fetch.  0x40000000 set -> the /2 family (`k & 1`), else the /4 family
+(`k & 3`).  0x20000000 selects s16 vs u32 element width at EVERY leaf.
+Three leaves: `plain` (fetch element k), `pair` (average k and k+1), and the
+inline 3:1 weighted blend, which for the WORD width is a 64-bit expression:
+  long long s = (long long)((int *)p)[m] * 3 + ((int *)p)[k];
+  *out = (int)(s >> 2);
+reproducing `umull`/`asr #31`/`mla`/`adds`/`adc`/`lsr`/`orr ... lsl #30`
+exactly.  Getting that arm as plain 32-bit int costs the whole block.
+
+Levers that CLOSED (each worth real bytes, in order of discovery):
+  * the `k >>= 1` / `k >>= 2` shift-then-`goto plain` arms must be SEPARATE
+    LABELLED BLOCKS reached by goto, not `{ k >>= 1; goto plain; }` inline
+    inside the guard: inline lets the front end predicate the shift
+    (`lsreq r4, r4, #1`) and both branch targets move.  128 bytes.
+  * the half-shift arm of the 0x40000000 family is the EXCEPTION: it IS
+    inline (the image has `lsr r4,r4,#1 ; b plain` at +0x50, immediately
+    after the pair goto, not as a tail block).
+  * `plain` must be written word-arm-first with an early `return`
+    (`if (!(f & 0x20000000)) { *out = ((int *)p)[k]; return; }`) - writing
+    it s16-first, or with both arms falling to one store, flips the
+    `popeq {r4,pc}` the image has into a shared `pop`.
+  * EVERY element access must be a SUBSCRIPT on a cast pointer
+    (`((s16 *)p)[k]`, `((int *)p)[k + 1]`).  Any pointer form
+    (`(s16 *)p + k`, `(int *)(p + k * 4)`, a named `s16 *q` local) either
+    fuses the k/k+1 word pair into an `ldm` the image does not have, or
+    reallocates k out of r4.  Measured four ways, each costs 4-20 bytes.
+
+Residue, 111 bytes, TWO causes and nothing else:
+  1. REGISTER NAMING.  The image is {base+off = r1, mask/temp = r2}; every
+     spelling gives {base+off = r2, temp = r1}.  The scheduler also emits
+     `add r2, r3, ip` before `asr r4, r1, #0xc` where the image has them the
+     other way round.  All downstream mismatches are this swap.
+  2. Two surviving KEPT-BRANCH sites, 4 bytes: the image branches
+     `beq 0x0206F32C` out of `pair`'s width test at +0x00F8 and keeps
+     `popeq {r4, pc}` at +0x0140 in `plain`; 1.1p1 -O4,p predicates both.
+     This is the docs/FRONTEND-PINS.md tell, but ../2.0/sp2 does NOT fix it
+     here and costs 88 bytes elsewhere, so the pin is the wrong answer for
+     this function and the two sites want a source shape nobody found.
+
+/* best source, 340 bytes against 344, 111 concrete bytes out, dsi/1.1p1 */
+typedef unsigned int   u32;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned char  u8;
+
+typedef struct { u32 flags; u32 off04; } Rec;
+
+void func_0206F214(int *out, int t, Rec *r, u8 *base)
+{
+    u8 *p = base + r->off04;
+    u32 f = r->flags;
+    int k = t >> 12;
+    u32 n, m;
+    int a, b;
+
+    if ((f & 0xc0000000) == 0) goto plain;
+
+    n = (f & 0x1fff0000) >> 16;
+    if ((f & 0x40000000) != 0) {
+        if ((k & 1) != 0) {
+            if ((u32)k > n) {
+                k = (n >> 1) + 1;
+                goto plain;
+            }
+            k = (u32)k >> 1;
+            goto pair;
+        }
+        k = (u32)k >> 1;
+        goto plain;
+    }
+    m = k & 3;
+    if (m == 0) goto quarter_plain;
+    if ((u32)k > n) {
+        k = m + (n >> 2);
+        goto plain;
+    }
+    if ((k & 1) == 0) goto quarter_pair;
+    if ((k & 2) != 0) {
+        k = (u32)k >> 2;
+        m = k + 1;
+    } else {
+        m = (u32)k >> 2;
+        k = m + 1;
+    }
+    if ((f & 0x20000000) != 0) {
+        a = ((s16 *)p)[m];
+        b = ((s16 *)p)[k];
+        *out = (a * 3 + b) >> 2;
+        return;
+    }
+    {
+        long long s = (long long)((int *)p)[m] * 3 + ((int *)p)[k];
+        *out = (int)(s >> 2);
+    }
+    return;
+quarter_pair:
+    k = (u32)k >> 2;
+    goto pair;
+quarter_plain:
+    k = (u32)k >> 2;
+    goto plain;
+pair:
+    if ((f & 0x20000000) != 0) {
+        a = ((s16 *)p)[k];
+        b = ((s16 *)p)[k + 1];
+        a = (a + b) >> 1;
+        goto pair_store;
+    }
+    a = (((int *)p)[k + 1] >> 1) + (((int *)p)[k] >> 1);
+pair_store:
+    *out = a;
+    return;
+plain:
+    if ((f & 0x20000000) == 0) {
+        *out = ((int *)p)[k];
+        return;
+    }
+    *out = ((s16 *)p)[k];
+}
+
+--- 0x0206F36C (348 bytes incl. three pool words 0x0fff / 0x1fff0000 /
+    0x3fff): DIFF, 185 bytes
+    COMPILER: ../2.0/sp2, THE PIN, and the evidence is decisive.  Under the
+    default dsi/1.1p1 the same C is 340 bytes / 234 mismatches; under the pin
+    it is 348 / 185, SIZE EXACT, with the whole general path and the whole
+    lerp tail byte-identical and shifted by exactly four.  The pin was taken
+    on the documented "kept branches" tell (below) and is the one probe.
+
+This is NOT F214's sibling in shape, despite the shared flag words: F214
+takes `base` as a fourth argument, F36C takes a HEADER and reads the base
+from it.  `void f(int *out, int t, Rec *r, Hdr *h)` with
+`Hdr { u32 f00; u16 cnt04; u16 pad06; u32 f08; }`; `p = (u8 *)h + r->off04`.
+The function opens by testing whether k is the LAST element
+(`(int)(h->cnt04 - 1) != (t >> 12)`, the image's `sub r4,r4,#1` /
+`cmp r4, r1, asr #12`) and splits into two whole bodies from there:
+  * EQUAL (the last element): quantise k by the 0xC0000000/0x40000000 pair
+    inline (the image predicates this one: `andne/addne/andeq/addeq`, so it
+    must be an if/else, NOT gotos), then `h->f08 & 2` selects a wrap blend
+    against element 0 or a plain fetch.
+  * NOT EQUAL (the general path): a three-way selection of {mask, multiplier,
+    shift} = {0x0FFF, 1, 0} / {0x1FFF, 2, 1} / {0x3FFF, 4, 2}, then ONE
+    shared lerp tail `*out = (a * mul + (((b - a) * t) >> 12)) >> sh`.
+
+Levers that CLOSED:
+  * the three (mask, mul, sh) triples must each be assigned in their OWN arm
+    and reach the tail by `goto lerp`.  Writing `mul`/`sh` once before the
+    branch and only varying the mask CSEs the movs and loses the three
+    `mov r4,#N` / `mov r5,#N` pairs.
+  * the 0x40000000 arm's mask must be spelled `t & (int)(0x1fff0000u >> 16)`
+    so the front end reuses the SAME pool word it loaded for n, giving the
+    image's `and r1, r1, r3, lsr #16`.  Spelling it `0x1fff` loads a fourth
+    pool word.
+  * `n` must be its own local, extracted through a block-scoped temporary
+    (`{ u32 w = f & 0x1fff0000; n = w >> 16; }`); folding it into the
+    comparison collapses n into r3 and the `lsr #16` reuse above dies with it.
+  * in the lerp tail the k+1 element must be the POINTER form
+    (`*(int *)((u8 *)((int *)p + k) + 4)`), the opposite of F214: it is what
+    gives the image's `add r2, ip, lr, lsl #2` / `ldr r2, [r2, #4]` pair.
+  * the tail's word arm is the beq-taken one and the s16 arm falls through;
+    swapping them costs 4 bytes.
+
+Residue, 185 bytes, ONE cause: the wrap-blend block at +0x0058..+0x0060.  The
+image emits `ldreq r3,[ip,lr,lsl#2]` / `ldreq r1,[ip]` / `beq 0x0206F3DC`,
+i.e. it predicates the two loads and then BRANCHES to the shared
+`sub/mul/add/str` tail.  Both front ends instead predicate the s16 arm too
+(`lslne/ldrshne/ldrshne`) and fall through, 4 bytes short there and every
+byte after shifted.  Spellings measured, all identical at 185: `goto blend`
+to a shared label, block-scoped `int *q` / `s16 *q` pointer locals, a
+`k * 2` temporary to lengthen the s16 arm, and `*(s16 *)(p + k * 2)` byte
+arithmetic.  Writing the shared tail out in BOTH arms (the
+a-shared-exit-block-is-written-out-in-each-arm idiom) DOES produce the branch
+but loses the cross-jump: 372 bytes.  So the next pass needs a shape that
+keeps the two arms cross-jumpable while leaving the word arm three
+instructions long; that is the whole remaining distance on this function.
+
+/* best source, 348 bytes against 348, 185 concrete bytes out, ../2.0/sp2 */
+typedef unsigned int   u32;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned char  u8;
+
+typedef struct { u32 flags; u32 off04; } Rec;
+typedef struct { u32 f00; u16 cnt04; u16 pad06; u32 f08; } Hdr;
+
+void func_0206F36C(int *out, int t, Rec *r, Hdr *h)
+{
+    u8 *p = (u8 *)h + r->off04;
+    u32 f = r->flags;
+    int k = t >> 12;
+    u32 n, frac, mul, sh;
+    int a, b;
+
+    if ((int)(h->cnt04 - 1) != (t >> 12)) goto general;
+
+    if ((f & 0xc0000000) != 0) {
+        if ((f & 0x40000000) != 0) {
+            k = (k & 1) + ((u32)k >> 1);
+        } else {
+            k = (k & 3) + ((u32)k >> 2);
+        }
+    }
+    if ((h->f08 & 2) != 0) {
+        frac = t & 0xfff;
+        if ((f & 0x20000000) == 0) {
+            a = ((int *)p)[k];
+            b = *(int *)p;
+            goto blend;
+        }
+        a = *(s16 *)(p + k * 2);
+        b = *(s16 *)p;
+blend:
+        *out = a + (((b - a) * (int)frac) >> 12);
+        return;
+    }
+    if ((f & 0x20000000) != 0) {
+        *out = ((s16 *)p)[k];
+    } else {
+        *out = ((int *)p)[k];
+    }
+    return;
+
+general:
+    if ((f & 0xc0000000) == 0) goto last;
+    {
+        u32 w = f & 0x1fff0000;
+        n = w >> 16;
+    }
+    if ((f & 0x40000000) != 0) {
+        if ((u32)k >= n) {
+            k = n >> 1;
+            goto last;
+        }
+        k = (u32)k >> 1;
+        t = t & (int)(0x1fff0000u >> 16);
+        mul = 2;
+        sh = 1;
+        goto lerp;
+    }
+    if ((u32)k >= n) {
+        k = (k & 3) + ((u32)k >> 2);
+        goto last;
+    }
+    k = (u32)k >> 2;
+    t = t & 0x3fff;
+    mul = 4;
+    sh = 2;
+    goto lerp;
+last:
+    mul = 1;
+    t = t & 0xfff;
+    sh = 0;
+lerp:
+    if ((f & 0x20000000) == 0) {
+        a = ((int *)p)[k];
+        b = *(int *)((u8 *)((int *)p + k) + 4);
+        goto lerp2;
+    }
+    a = ((s16 *)p)[k];
+    b = *(s16 *)((u8 *)((s16 *)p + k) + 2);
+lerp2:
+    *out = (int)((a * (int)mul + (((b - a) * t) >> 12)) >> sh);
+}
+
+--- 0x0206EC50 (144 bytes): DIFF re-measured at 30 bytes, unchanged verdict
+The earlier entry in this note recorded 23-30 bytes of pure register-naming
+residue under ../2.0/sp2.  Re-verified this pass from that exact source:
+144 compiled against 144, 30 concrete bytes out, every instruction, every
+branch target and every operand role correct.  The image is
+{bank = r4, idx = lr, entry = r3} with `push {r4, lr}`; the compiler gives
+{bank = lr, idx = r3, entry = r2} with `push {r3, lr}`.  Four further
+spellings tried and rejected this pass, on top of the six the earlier entry
+records: `f = *(u16 *)p` instead of `((u16 *)p)[0]` (30, no change), the hook
+spelled as a cast through `(u8 *)r + 0xE8` instead of a struct member (30, no
+change), `b = r->bank` BEFORE `idx = r->h->idx01` (148 bytes, the header and
+bank loads swap and the size breaks), and the header deref split through a
+block-scoped `Hdr *hh` local (148 bytes, 116 out, the bank load hoists above
+the header load).  The residue is that the image spends a CALLEE-SAVED
+register on `bank` although nothing is live across the `blx`; no source
+shape found makes the allocator pay for r4 when it does not have to.
+Not filed.  0x0206ECE0 was not re-attempted this pass.
+
+--- 0x0206EE60 (940 bytes): still not attempted, budget spent on the pair.

@@ -22,3 +22,88 @@ change it.
 
 0x02047C8C is parked in src/pending (every byte right, capped on 0x0206B6A4,
 whose only caller in the image is this function).
+
+----------------------------------------------------------------------
+Appended 2026-09-21 (wave 8 lane, pkt_020479D8 second pass)
+----------------------------------------------------------------------
+
+0x02047C04 (136 bytes) and 0x02047B4C (184 bytes) are now EXACT and filed in
+src/matched/.  Both turned on stack-order-is-reverse-declaration-order:
+0x02047C04's three slots are `done` (sp+8), `arg` (sp+4), `zero` (sp+0)
+declared in that order, and 0x02047B4C's are the six-halfword block (sp+0x10),
+the three-word buffer (sp+4), then the single word (sp+0).  0x02047B4C also
+needs the `+ 0x14` folded into the null test on the owner pointer
+(`p != 0 ? p + 0x14 : 0`), which is what produces `moveq r5, #0` rather than
+a `moveq r5, #0x14`.  0x02047B4C reads MATCH until 0x02047C04 has a manifest
+entry: func_02047C04's only branch image-wide is the `bl` inside 0x02047B4C,
+so `label` refuses it and the `matched` class is the witness.  Run
+`manifest --verify --shard pkt_020479D8` once after filing 0x02047C04 and
+0x02047B4C flips to EXACT with no change to the C.
+
+0x02047AC8, 132 bytes, floor of 4 concrete bytes, ONE instruction.  The body
+is settled and the register allocation is settled; what will not move is the
+last branch:
+
+  02047B2C  01 00 00 1a  bne #0x2047b38      <- original
+            ..           popne {r4, r5, r6, pc}  <- every 1.1p1 spelling
+
+i.e. the image branches over the two-instruction release arm
+(`mov r0, r4` / `bl func_02047C8C` at 0x02047B30/0x02047B34) to a shared
+epilogue, and dsi/1.1p1 -O4,p instead predicates the epilogue itself and
+falls through.  The reachable C is
+
+    void *saved;  int r;
+    func_02047788();
+    saved = func_0204755C();
+    func_0206A9DC(b);
+    func_02082B60(b + 0x18, &g_02148C08);
+    g_02148B4C.f_fc &= ~0xa4;
+    func_0206AA0C(b + 0x0c, &g_02148B4C);
+    g_02146A5C->f88();
+    r = func_02047B4C(a);
+    if (r == 1) { func_02047C8C(saved); return r; }
+    return r;
+
+Fourteen spellings were measured and they fall into exactly three buckets, so
+the next agent should not re-derive them:
+
+  4 bytes (register allocation right, only the bne/popne wrong)
+    - early return inside the `r == 1` arm, with the same `return r` after it
+    - the same with an explicit `else { return r; }`
+    - the inverted `if (r != 1) return r; else { ...; return r; }`
+    - `if ((r = func_02047B4C(a)) != 1) return r;` then the call, then return
+    - a duplicated second `if (r == 1) return r;` between the two
+
+  7 bytes (the bne is still wrong AND r4/r5 come out swapped: the image puts
+  the saved func_0204755C result in r4 and the parameter copy in r5, the
+  compiler the other way round.  Nothing about declaration order moves this;
+  ONLY the early-return shape does, which is the single useful finding here)
+    - plain `if (r == 1) { func_02047C8C(saved); }` then `return r`
+    - the same with the parameter copied into a local declared after `saved`
+    - the same with the two locals' declarations swapped either way
+    - the parameter reassigned in place (`a = func_02047B4C(a); return a;`)
+    - `goto`/label to a shared exit
+    - `do { if (r != 1) break; ... } while (0);`
+    - `switch (r) { case 1: ...; break; }`
+    - the comma-expression form of the func_02047788/func_0204755C pair
+
+  17-35 bytes (a real shape change, all wrong)
+    - `if (func_02047B4C(a) == 1) { ...; return 1; } return 0;`
+    - `return 1` / literal returns in either arm
+    - `r = 1` assigned inside the arm
+
+This is the "kept branches" tell of docs/FRONTEND-PINS.md in shape, so ONE
+probe with `--cc ../2.0/sp2` was run on the 4-byte spelling, as the pins
+policy allows.  It is NOT a pin: ../2.0/sp2 gives the same 132 bytes with the
+same 4 bytes out, i.e. it predicates the epilogue too.  Do not re-probe the
+compiler on this function; the remaining instruction is a source-shape
+question, and the two-instruction arm is far under the five-instruction
+predication threshold, so the lever is whatever stops the arm's tail from
+being a return at all.
+
+0x02047AC8 is therefore left unfiled rather than parked: DIFF, not MATCH, so
+neither src/matched/ nor src/pending/ takes it.  For the record its call
+graph is func_02047788, func_0204755C, func_0206A9DC, func_02082B60(b+0x18,
+&g_02148C08), func_0206AA0C(b+0xc, &g_02148B4C), the +0x88 vector of
+*g_02146A5C, func_02047B4C(a), func_02047C8C(saved), and its three pool words
+at 0x02047B40..0x02047B48 are 0x02148C08 / 0x02148B4C / 0x02146A5C.

@@ -172,3 +172,192 @@ u32 func_02069184(u32 x, u32 y)
     r += xh * (b * 2 + d);
     return r + (a + c) * (b + d);
 }
+
+==============================================================================
+Appended 2026-09-21 (wave 8 lane, pkt_02068FF0 second pass)
+==============================================================================
+
+Nothing new reached EXACT.  Three functions were re-derived from scratch
+(0x02069078, 0x02069128, 0x02069184); all three come out at the RIGHT SIZE
+with the RIGHT instruction sequence and fail only on register naming or on a
+single scheduling decision.  The packet still has no shard.  What follows is
+what the next agent should NOT re-derive.
+
+------------------------------------------------------------------------------
+func_02069128 (92 bytes) - the earlier note's reading of it is WRONG
+------------------------------------------------------------------------------
+
+The earlier entry calls this "the triangular fill: row y writes w - y
+halfwords, the inner counter starting from the outer index (`mov r4, r6` /
+`mov r5, r4`)", and spends its budget looking for the source shape that starts
+the inner count from y.  There is no such shape, because the loop is not
+triangular.  Read the two moves again:
+
+  02069134  mov r6, #0          <- y = 0, ONCE, before the guard
+  ...
+  02069144  mov r4, r6          <- ALSO once: the outer loop's branch target
+  02069148  mov r7, r0             is 0x02069148, so 0x02069144 is NOT in it
+  0206914C  mov r5, r4          <- x = 0 at the top of every outer iteration
+
+r4 is set from r6 while r6 is still the initial zero and is never written
+again, so `mov r5, r4` seeds the inner counter with 0 on every row, not with
+y.  It is a plain rectangular fill of h rows of w halfwords, `dst += stride`
+per row.  Writing the triangular version is what produced the earlier 45-byte
+DIFF; the rectangular version below is 15 bytes out, and the 30 bytes between
+the two are the loop bound alone.
+
+Best spelling reached (92 bytes, 15 concrete bytes out, no relocations):
+
+    void func_02069128(u16 *dst, int w, int h, int stride, u32 v, u32 hi)
+    {
+        u32 top;
+        int x;
+        int y;
+
+        top = hi << 28;
+        for (y = 0; y < h; y++) {
+            u16 *row = dst;
+
+            for (x = 0; x < w; x++) {
+                u16 c = (u16)(v | (top >> 16));
+                v++;
+                *row++ = c;
+            }
+            dst += stride;
+        }
+    }
+
+Two findings inside that, both worth keeping:
+
+  * `x` MUST be declared at function scope, not inside the outer loop.  At
+    block scope the compiler re-materialises the zero per row and the count
+    goes 40 -> 30 bytes out; hoisting it is what produces the image's single
+    `mov r4, r6` above.
+  * the store must be split into a named `u16 c`, then `v++`, then `*row++ =
+    c`.  Writing `*row++ = (u16)(v | (top >> 16)); v++;` or `v++` inside the
+    store expression both put the `strh` before the `add ip, ip, #1`, where
+    the image has the add first: 22 -> 15.
+
+The residual 15 bytes are ONE scheduling decision in the prologue plus the
+register naming that follows from it.  The image is
+
+  02069128  push {r4, r5, r6, r7, r8, lr}
+  0206912C  ldr r4, [sp, #0x1c]        <- hi
+  02069130  ldr r8, [sp, #0x18]        <- v
+  02069134  mov r6, #0
+  02069138  cmp r2, #0
+  0206913C  lsl ip, r4, #0x1c          <- the shift SUNK past the compare,
+  02069140  pople {r4, r5, r6, r7, r8, pc}   into the branch's delay slot
+
+and every 1.1p1 spelling emits the `lsl` immediately after the two `ldr`s and
+before `mov r6, #0`, keeping `hi` in ip and the shifted value in r4 (the image
+has them the other way round).  Ruled out, all still 15 or worse: hoisting the
+shift to a local declared in any of the six positions relative to `x` and `y`
+(the full permutation was run: three give 15, three give 23), computing `top`
+inside the outer loop (84), inlining `hi << 28 >> 16` at the store (26),
+binding `hi` to a local first (26), `y = 0` as a statement before the shift,
+`while` instead of `for`, and initialising `x` and `y` at their declarations.
+
+This has the SHAPE of a FRONTEND-PINS "kept constants" scheduling row, so ONE
+`--cc ../2.0/sp2` probe was run on the 15-byte spelling, as the pins policy
+allows.  It is NOT a pin: ../2.0/sp2 gives the same 92 bytes and the same 15
+bytes out.  Do not re-probe the compiler here.
+
+------------------------------------------------------------------------------
+func_02069078 (176 bytes) - new, and the closest of the three
+------------------------------------------------------------------------------
+
+Not attempted before this pass.  It is the tiled wrapper around func_02069128:
+eight parameters, four of them on the stack.
+
+    void func_02069078(u16 *dst, int w, int h, int x, int y, int stride,
+                       u32 v, u32 hi)
+    {
+        int xend;
+        int yend;
+        u32 top;
+        int xx;
+        int yy;
+
+        if (stride <= 0x20) {
+            func_02069128(dst + (stride * y + x), w, h, stride, v, hi);
+            return;
+        }
+
+        yend = y + h;
+        xend = x + w;
+        top = hi << 28;
+
+        for (yy = y; yy < yend; yy++) {
+            u16 *row = dst + ((yy < 0x20 ? yy : yy + 0x20) << 5);
+
+            for (xx = x; xx < xend; xx++) {
+                row[(xx < 0x20 ? xx : xx + 0x3E0)] = (u16)(v | (top >> 16));
+                v++;
+            }
+        }
+    }
+
+176 bytes, 41 concrete bytes out, and the FIRST 0x3C BYTES ARE EXACT - the
+whole `stride <= 0x20` fast path, `mla r4, r5, lr, r3` / `add r0, r0, r4, lsl
+#1` / `stm sp, {ip, lr}` / `bl func_02069128` and its epilogue, reproduce byte
+for byte.  Everything after 0x020690B4 is the right instruction in the right
+order with different register numbers.
+
+The levers that were worth their time, in order of what they bought:
+
+  * `yend`, `xend` and `top` must ALL be computed BEFORE the loop and there
+    must be NO explicit `if (y >= yend) return;`.  With the explicit guard the
+    compiler emits a redundant `cmplt lr, r6` and the function is 180 bytes;
+    letting the `for`'s own entry test carry it gives the correct 176.  With
+    the three assignments after the guard instead, 188.
+  * `xend` declared before `yend`: 46 -> 41.
+
+Ruled out and still 41 or worse: ALL 120 declaration permutations of the five
+locals (the floor is 41, reached by four of them); both ternary polarities
+(`yy < 0x20 ? yy : yy + 0x20` and `yy >= 0x20 ? yy + 0x20 : yy`); both
+assignment orders of `yend`/`xend`; the select written out as a full
+`if/else` into a shared `int t` declared at function scope; and the address
+arithmetic respelled in bytes (`(char *)dst + (... << 6)` with `<< 1` at the
+store).
+
+The residual is one decision and its consequences.  The image selects with a
+true conditional move,
+
+  02069058  cmp lr, #0x20
+  0206905c  movlt r2, lr
+  02069060  addge r2, lr, #0x20
+
+while 1.1p1 emits `mov r1, lr` / `cmp lr, #0x20` / `addge r1, lr, #0x20` - the
+same three instructions and the same 176 bytes, but an unconditional move plus
+a predicated add instead of a predicated pair, which costs it the scratch
+register.  From there r5/r6 (yend/xend) and r1/r2/r4 (the selected index, the
+shifted `hi`, the store value) are all permuted against the image, and that
+permutation is the whole 41 bytes.  Nothing in C chooses between `movlt` and
+`mov` here, so the next lever is not a source shape: either a different
+front end emits the pair, or the two ends of the ternary are not what this
+reading says they are.  A pin probe was NOT run on this function; it is the
+one of the three that has not had one, and it is the best candidate in the
+packet.
+
+------------------------------------------------------------------------------
+func_02069184 (92 bytes) - confirmed stuck, do not re-derive
+------------------------------------------------------------------------------
+
+The earlier note is right and its C is the best reachable: 92 bytes, 39
+concrete bytes out, no relocations.  The residue is exactly the accumulator
+seed it names - the image emits `mov r2, #0` then `mla lr, r3, r5, r2`, and
+every spelling folds that to a bare `mul`.  Re-measured this pass and added to
+the ruled-out list: swapping the commutative operand order of the bit pair
+(`((x & 2) >> 1) + (x & 1)`, 39, no change); an explicit `u32 z = 0;` addend
+with every `mla` written as `prod + acc` (72); the four products as one
+returned sum expression (65); interleaving the `a`/`c` and `b`/`d`
+computations between the accumulations in the image's order (43); a
+`volatile u32 z = 0;` seed (90); and a dummy third parameter zeroed on entry
+(73).  All worse than the 39 the earlier note reached.
+
+ONE `--cc ../2.0/sp2` probe was run, as the pins policy allows, because the
+seed is the FRONTEND-PINS "kept constants" tell in shape.  It is NOT a pin:
+../2.0/sp2 gives the same 92 bytes with 24 concrete bytes out - better than
+1.1p1's 39, but not EXACT, so it buys nothing and must not be filed.  Do not
+probe the compiler on this function again.
