@@ -173,3 +173,4 @@ warrants a FRONTEND-PINS.md row; a pin would need byte evidence that an
 alternative front end makes the allocation choice the image shows, and for
 sub_02030D28 no such probe has been measured.
 ====================================================================
+re-verified 2026-09-21 by tools/match.py: DIFF, 124 bytes against 124, 13 concrete bytes out, 1.1p1

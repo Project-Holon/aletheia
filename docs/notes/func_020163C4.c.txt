@@ -443,3 +443,4 @@ void func_020163C4(struct Ctx *a0, u32 idx, struct Src *a2)
         *(void **)a1 = func_020056A0(func_02016880, p, 0);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 620 bytes against 620, 26 concrete bytes out, 1.1p1

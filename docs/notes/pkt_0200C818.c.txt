@@ -80,3 +80,4 @@ wall.  110 of 208 concrete bytes differ.
 
 Verdict: DIFF, codegen (register allocation / frame), 2 of 7 bytes of
 residue in the head plus the frame; leave to a wider lever search.
+re-verified 2026-09-21: no recoverable source in this note

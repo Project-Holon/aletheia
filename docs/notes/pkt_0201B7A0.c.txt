@@ -107,3 +107,4 @@ int func_0201B7A0(int a0, int a1)
 ~ +000E pop {r3, r4, r5, pc} | movs r0, r0
 * +0010 b #0x201b06c | .byte 51 b8 01 02 <- ABS32 func_0201B850 [resolved: label]
 * +0012 lsls r1, r1, #8 | 01 02
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0201B7A0.c:23: declaration syntax error

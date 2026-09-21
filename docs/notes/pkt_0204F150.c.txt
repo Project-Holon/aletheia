@@ -51,3 +51,4 @@ the branch that guards its only use, and the image has it after.  Nothing in
 the source text moves it; see
 docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
 ("the same instructions in a different slot").
+re-verified 2026-09-21: no recoverable source in this note

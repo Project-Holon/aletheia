@@ -38,3 +38,4 @@ _div_by_zero_check, not _u32_div_f (0x02091268 is not a function at all).
 
 Next attempt: find a second reference to g_FlagTable (0x020A07C8) anywhere in
 the image before spending more time on the register permutation.
+re-verified 2026-09-21: no recoverable source in this note

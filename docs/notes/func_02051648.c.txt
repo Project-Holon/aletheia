@@ -77,3 +77,4 @@ What was tried
 
 Classification: allocator, one live zero not killed across the branch.  Not
 filed: 268/272 is a concrete difference, not a MATCH.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02051648.c:12: declaration syntax error

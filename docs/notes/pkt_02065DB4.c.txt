@@ -287,3 +287,4 @@ bound of 8, a two-dimensional byte table at 0x020A18F4 indexed
 after the one `show`.  Its neighbours in docs/notes/pkt_02068FF0.c.txt
 (0x02069078, 0x02069128, 0x02069184) are the smaller members of the family
 and are all still DIFF on register naming.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02065DB4.c:175: declaration syntax error

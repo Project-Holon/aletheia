@@ -39,3 +39,4 @@ Note the shape shared with the dlist note: in both cases the value being loaded
 is a *counter* and the store before it writes a pointer or a call result, so a
 reader looking for the cause should expect the compiler's alias analysis rather
 than a missing statement.
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

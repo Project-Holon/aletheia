@@ -127,3 +127,4 @@ WALLS (the four parks the stubs cap)
   (The `literal x15` witness the park at src/pending/func_020912A8.c cites for
   the same address is a witness that exists only for ranges that do not contain
   0x020912A4 - which is why the site resolves there and cannot resolve here.)
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020911D8.c:12: undefined identifier 'pkt_020911D8'

@@ -36,3 +36,4 @@ whose only pool word in the image is this function's own --
 Next attempt: reproduce the pool-slot order (case 3's constant before case 0's)
 -- try declaring the two low symbols in the opposite order, or splitting the
 case bodies behind explicit gotos -- and then file the row as MATCH*.
+re-verified 2026-09-21: no recoverable source in this note

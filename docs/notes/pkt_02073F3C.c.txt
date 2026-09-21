@@ -43,3 +43,4 @@ entry's +8 word the same way, and finally stores the object into *g_0214EA50.
 Its record and loop were recovered but not reduced to bytes in this run; it is
 the best remaining candidate in this packet because every one of its branches
 has a plain label witness.
+re-verified 2026-09-21: no recoverable source in this note

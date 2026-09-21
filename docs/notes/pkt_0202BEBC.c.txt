@@ -26,3 +26,4 @@ the guarded field into r2 (`ldr r2,[r0]; cmp r2,#0`), every C spelling tried
 `*(u32 *)p`, a second declared parameter) loads it into r1.  It also caps at
 MATCH, on func_0202BF90.  No file was kept for any of the three: they are
 recorded here only.
+re-verified 2026-09-21: no recoverable source in this note

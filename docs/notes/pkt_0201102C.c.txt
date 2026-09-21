@@ -70,3 +70,4 @@ int func_020111BC(int v)
         return *(u16 *)(g_02146228 + 0x16) * (long long)v / 100;
     return v;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 48 bytes against 44, 20 concrete bytes out, 1.1p1

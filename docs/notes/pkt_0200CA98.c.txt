@@ -109,3 +109,4 @@ void func_0200CA98(u8 *save, u32 species, u32 arg2, u32 arg3, u32 form)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0200CA98.c:23: declaration syntax error

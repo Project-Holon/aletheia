@@ -97,3 +97,4 @@ NEXT LEVER for whoever picks this up: find the statement shape that stops the
 l->count load from being hoisted while keeping ofs in r3. Everything else in
 the five functions is already byte-exact, and the whole family is worth
 about 450 bytes.
+re-verified 2026-09-21: no recoverable source in this note

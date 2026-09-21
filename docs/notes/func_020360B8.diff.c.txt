@@ -102,3 +102,4 @@ void func_020360B8(struct Obj *o)
         p++;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 400 bytes against 412, 178 concrete bytes out, 1.1p1

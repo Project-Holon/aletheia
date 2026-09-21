@@ -32,3 +32,4 @@ void func_02029F6C(void)
         func_0203508C((u32)func_02029FD0, (u32)func_02029FE4);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 32 bytes against 32, 2 concrete bytes out, 1.1p1

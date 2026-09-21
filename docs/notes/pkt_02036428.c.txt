@@ -63,3 +63,4 @@ void func_02036428(char *self, char *src, int count)
     }
     *(unsigned short *)(self + 0xe) = func_02036624(self, i);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 168 bytes against 172, 107 concrete bytes out, 1.1p1

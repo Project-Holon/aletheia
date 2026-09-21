@@ -40,3 +40,4 @@
  * likely source shape, not four written-out expressions.
  */
 
+re-verified 2026-09-21: no recoverable source in this note

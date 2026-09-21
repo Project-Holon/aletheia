@@ -3,3 +3,4 @@ WALL (small-constant pooling).  func_02072758 differs only in the last call:
 the image has `mov r0, #0`, the compiler reuses the loop's pooled zero
 (`mov r0, r4`).  Two bytes, and unreachable for the same reason as
 pkt_02074A6C.  The three stage calls are also unwitnessed.
+re-verified 2026-09-21: no recoverable source in this note

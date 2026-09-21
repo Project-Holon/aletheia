@@ -2976,3 +2976,4 @@ void func_02055FD4(u32 *self, u8 *q)
     func_020565C8(*(s16 *)((u8 *)SYS + 0x78), *(s16 *)((u8 *)SYS + 0x7a),
                   *(s16 *)(RES + 0x50), *(s16 *)(RES + 0x52));
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02055498.c:28: declaration syntax error

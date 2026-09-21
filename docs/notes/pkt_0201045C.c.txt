@@ -215,3 +215,4 @@ blockers still stand: the compared range for that address runs to the next
 labelled entry point and swallows the unlabelled Thumb function at
 0x0201049C, so it needs a `unit:` file over 0x0201045C..0x020104F8, and the
 two locals are still register-swapped inside its own 54 bytes.
+re-verified 2026-09-21 by tools/match.py: DIFF, 80 bytes against 84, 48 concrete bytes out, 1.1p1

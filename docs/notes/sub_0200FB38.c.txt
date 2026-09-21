@@ -61,3 +61,4 @@ before the field access, and this front end picks r1 first when nothing
 else has claimed a register yet), not something source-level return-type
 or statement-order changes reach. Leave at DIFF; no further C variation
 queued.
+re-verified 2026-09-21: no recoverable source in this note

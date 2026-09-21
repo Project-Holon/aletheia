@@ -65,3 +65,4 @@ with the same spelling, because there the else arm passes `a3` raw with no
 truncation at all, so the merge never has to carry a 16-bit value.
 
 === end 0x0204A39C
+re-verified 2026-09-21: no recoverable source in this note

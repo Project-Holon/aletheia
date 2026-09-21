@@ -179,3 +179,4 @@ filed.  Two findings worth keeping:
   * Even with that closed, the file caps at MATCH: 0x020A74BC and the
     absolute 0x00000BB4 each have their only witness inside this function's
     own range, and no cut helps because both sites sit in the one function.
+re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 72, 36 concrete bytes out, 1.1p1

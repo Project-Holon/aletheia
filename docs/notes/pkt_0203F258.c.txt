@@ -65,3 +65,4 @@ is reproduced byte for byte).
 Ruled out: a `u32 *p = out + 2;` cursor, an array-parameter spelling
 (`u32 out[6]`), assigning out[5] = 0 first, and declaring the buffers in
 address order.  None of them move the two registers.
+re-verified 2026-09-21: no recoverable source in this note

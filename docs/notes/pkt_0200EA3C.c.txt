@@ -330,3 +330,4 @@ section 2 was not right: the mask instruction was a consequence of the
 source-side type, and the early schedule of the destination load was the
 aliasing reload.  Sections 1 (0x0200EBD0) and 3 (0x0200EC98) are untouched
 by this and still stand.
+re-verified 2026-09-21 by tools/match.py: DIFF, 104 bytes against 108, 75 concrete bytes out, 1.1p1

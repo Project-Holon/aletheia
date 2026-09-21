@@ -101,3 +101,4 @@ void func_0203AE20(u8 *out)
     *(u32 *)(out + 0x14) = 0;
 }
 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 204 bytes against 204, 74 concrete bytes out, 1.1p1

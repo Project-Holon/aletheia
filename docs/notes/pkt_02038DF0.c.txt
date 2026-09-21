@@ -136,3 +136,4 @@ in the image the incoming stack argument is loaded in the prologue, before
 the guard calls, so `n` is live across them.  Spell `lim` so that `n` is
 still live when it is used (`lim = n - 7` only at the first use of `lim`),
 and keep `fp = a1 & 0xff` after the guard.
+re-verified 2026-09-21: no recoverable source in this note

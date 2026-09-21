@@ -52,3 +52,4 @@ int sub_020117D8(u8 *p, int n, u8 *base, int total)
     *(u32 *)(p + 0x18) = (u32)n;
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 100 bytes against 100, 23 concrete bytes out, 1.1p1

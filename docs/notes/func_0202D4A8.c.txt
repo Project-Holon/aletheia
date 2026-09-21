@@ -393,3 +393,4 @@ Still DIFF, still not filed.  The rest of the function is byte-exact.  The
 honest summary is that 1.1p1's frame allocator orders these two slots from
 something upstream of the source text, and further source permutation on
 this function is not a good use of a lane.
+re-verified 2026-09-21 by tools/match.py: DIFF, 292 bytes against 292, 48 concrete bytes out, 1.1p1

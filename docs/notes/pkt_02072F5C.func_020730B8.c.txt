@@ -115,3 +115,4 @@ a load or a rotation.  What has not been tried is a *third statement* in the
 arm that compiles to nothing (the arm then exceeds whatever size the
 if-conversion pass accepts); if that is a dead end too, this row is
 compiler-blocked for 1.1p1 and belongs in the same class as 0x02060CD0.
+re-verified 2026-09-21: no recoverable source in this note

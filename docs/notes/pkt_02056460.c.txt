@@ -437,3 +437,4 @@ no DIFF body was left in src/matched/.  The packet shard
 (layout/matched/arm9/pkt_02056460.json) still holds only func_020576D0
 (0x020576D0, wave r8) - nothing in this lane converted, so the shard was
 re-verified and left untouched.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02056460.c:36: declaration syntax error

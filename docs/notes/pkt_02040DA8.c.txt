@@ -131,3 +131,4 @@ void func_02040DA8(u32 which, u32 val, u32 scale)
         break;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 208 bytes against 208, 34 concrete bytes out, 1.1p1

@@ -80,3 +80,4 @@ void func_0204A698(void)
     func_0204BB54();
     func_0204BAEC(1);
 }
+re-verified 2026-09-21 by tools/match.py: ERROR, n/a bytes against n/a, n/a concrete bytes out, function 'pkt_0204A600' not found in tu.o; object defines: $a, $d, func_0204A600, func_0204A648, func_0204A698

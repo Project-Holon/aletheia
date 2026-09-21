@@ -90,3 +90,4 @@ C currently tried (scratch/scratch/w_020145CC.c):
         return d;
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 52 bytes against 48, 18 concrete bytes out, 1.1p1

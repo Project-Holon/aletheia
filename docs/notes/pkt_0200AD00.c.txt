@@ -41,3 +41,4 @@ void sub_0200AD00(u8 *base, int n, u8 *ref)
         *(u32 *)(e + 0x10) = (*(u32 *)(e + 0x10) & 0xfffe007fu) | (x << 7);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 104 bytes against 156, 94 concrete bytes out, 1.1p1

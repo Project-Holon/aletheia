@@ -79,3 +79,4 @@ u8 *func_02067FE4(struct Obj **a0, unsigned int key)
     return &o->fallback;
 }
 ```
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02067F78.c:12: declaration syntax error

@@ -126,3 +126,4 @@ Levers worth carrying forward from this run
 6. Two pool words two bytes apart (0x020A1480 / 0x020A1482) are two separate
    symbols, not one four-byte record: a struct collapses them onto one base
    plus offsets and loses a relocation.
+re-verified 2026-09-21: no recoverable source in this note

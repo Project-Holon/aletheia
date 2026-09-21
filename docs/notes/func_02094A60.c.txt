@@ -62,3 +62,4 @@ u32 func_02094A60(const u8 *s, const u8 *reject)
 
     return (u32)(p_s - s) - 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 188 bytes against 192, 124 concrete bytes out, 1.1p1

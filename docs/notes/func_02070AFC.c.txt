@@ -83,3 +83,4 @@ question it does not. That is not the "kept branches" tell and it is not
 evidence a different front end built this function, so the pin is refused: the
 remaining work is which of `idx`/`base` is computed first in the C. No other
 front end was tried.
+re-verified 2026-09-21 by tools/match.py: DIFF, 100 bytes against 104, 24 concrete bytes out, 1.1p1

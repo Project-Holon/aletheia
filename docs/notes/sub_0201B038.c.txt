@@ -147,3 +147,4 @@ Not a blocker, but worth recording: 0x0201B220 is reached only from the `bl` at
 witness.  Since src/matched/unit_0201B220.c is an EXACT entry the `matched`
 class carries the site, and the diff above was taken before that entry was
 written, which is why the harness printed it unresolved.
+re-verified 2026-09-21: no recoverable source in this note

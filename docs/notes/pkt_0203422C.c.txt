@@ -133,3 +133,4 @@ s32 func_0203422C(struct AreaMan *p, u32 start, s32 len)
     return func_020344C8(p);
 }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 196 bytes against 204, 122 concrete bytes out, 1.1p1

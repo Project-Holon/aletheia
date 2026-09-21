@@ -55,3 +55,4 @@ void *sub_02005A98(int *items, int count)
     sub_02005834();
     return p;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 100 bytes against 108, 62 concrete bytes out, 1.1p1

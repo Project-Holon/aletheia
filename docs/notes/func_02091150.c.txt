@@ -43,3 +43,4 @@ case does not appear to be implemented. Any packet whose small ARM
 leaves call directly into a Thumb stub (SVC wrappers observed at
 0x02004490 in this packet) will hit the same wall; not something a C
 rewrite can fix.
+re-verified 2026-09-21: no recoverable source in this note

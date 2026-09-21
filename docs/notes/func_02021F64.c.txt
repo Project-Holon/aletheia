@@ -101,3 +101,4 @@ read straight off the diff), and a `param-signedness` mutation is the change
 suggested to it in docs/notes/permuter.md on the strength of this result.
 
 Filed: src/matched/func_02021F64.c, shard arm9/pkt_02021B6C.json.
+re-verified 2026-09-21: no recoverable source in this note

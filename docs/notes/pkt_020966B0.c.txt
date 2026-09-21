@@ -92,3 +92,4 @@ void func_020966B0(T020966B0 *p, u64 v)
     p->f02 = (u16)(p->f04 - 1);
 }
 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 192 bytes against 196, 112 concrete bytes out, 1.1p1

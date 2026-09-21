@@ -296,3 +296,4 @@ and hoisted into the preheader here, plus the back edge that follows from it -
 nine concrete bytes, the same nine.  Anything that closes one of the three
 closes the shape for all three, and nothing in twenty-nine spellings across the
 three addresses has.
+re-verified 2026-09-21 by tools/match.py: DIFF, 28 bytes against 32, 23 concrete bytes out, 1.1p1

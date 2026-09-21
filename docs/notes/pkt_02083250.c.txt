@@ -23,3 +23,4 @@ blocking class `artifact`, evidence = the cross-section branch at 0x02082F80 ->
 `lsl`/`lsr` pair per word.  Not attempted as C on purpose: two waves of this
 project have now spent budget on this family and both concluded it is not
 compiler output.
+re-verified 2026-09-21: no recoverable source in this note

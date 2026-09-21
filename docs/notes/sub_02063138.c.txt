@@ -134,3 +134,4 @@ different ways, or try computing `last` as `first + count` (pointer
 arithmetic on the already-scaled index) instead of a second array
 subscript, since that changes which register the bound lives in before
 the compare.
+re-verified 2026-09-21: no recoverable source in this note

@@ -118,3 +118,4 @@ u8 func_02028E48(struct T *p, u8 *a1)
     }
     return func_02028FD0(p, a1);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 56, 10 concrete bytes out, 1.1p1

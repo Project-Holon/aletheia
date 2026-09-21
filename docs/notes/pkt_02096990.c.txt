@@ -42,3 +42,4 @@ witness at all.  Even a byte-perfect body would cap at MATCH.
 
 No source written, no attempt made beyond the one `show` the budget rule
 allows.  Class: size.
+re-verified 2026-09-21: no recoverable source in this note

@@ -111,3 +111,4 @@ THE TWO RESIDUES, IN DETAIL
 This note is a DIFF residue, not a park: 0x0203F7C4 has no home in
 src/matched/ or src/pending/, and while it stays open, src/pending/
 func_0203F768.c stays capped at MATCH for lack of a witness.
+re-verified 2026-09-21: no recoverable source in this note

@@ -367,3 +367,4 @@ Scratch tooling this run (scratch/r6l/, all reusable):
   residue.py   exact word-by-word byte residue against the image
   mine.py      indexed listing of a compiled candidate
 
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02096ED0.c:12: undefined identifier 'pkt_02096ED0'

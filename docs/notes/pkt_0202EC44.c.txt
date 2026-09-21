@@ -82,3 +82,4 @@ pair, as docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md says.
     }
 
 Not filed; recorded here only.
+re-verified 2026-09-21: no recoverable source in this note

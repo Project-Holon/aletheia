@@ -118,3 +118,4 @@ void func_0202055C(struct Obj *o, u16 row, u16 col, u16 n, int flag)
         i++;
     } while (i < lim);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 356 bytes against 356, 96 concrete bytes out, 1.1p1

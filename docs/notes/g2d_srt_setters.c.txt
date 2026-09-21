@@ -65,3 +65,4 @@ table leaves that do match, src/matched/unit_020640B0.c:
   +0x0E  s16  translate y
   +0x10  u16  rotation
   +0x12  u16  dirty: bit1 scale, bit2 rotation, bit3 translation
+re-verified 2026-09-21: no recoverable source in this note

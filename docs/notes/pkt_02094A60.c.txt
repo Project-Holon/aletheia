@@ -32,3 +32,4 @@ problem: no spelling found moves the pointer off ip and the counter onto r3.
 
 No source filed (DIFF); the C is the one quoted in docs/notes/func_02094A60.c.txt
 with the packet: field corrected to pkt_02094A60.
+re-verified 2026-09-21: no recoverable source in this note

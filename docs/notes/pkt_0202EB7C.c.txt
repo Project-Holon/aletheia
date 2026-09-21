@@ -164,3 +164,4 @@ int func_0202EB9C(char *self, int a1)
     func_0202ED60(self, a1, 0);
     return 2;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 132 bytes against 136, 46 concrete bytes out, 1.1p1

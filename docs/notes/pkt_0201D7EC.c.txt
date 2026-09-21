@@ -80,3 +80,4 @@ struct Font *func_0201D7EC(u32 id, u32 resid, u32 fmt, u32 flag, u32 heap)
     }
     return f;
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 80 bytes against 80, 0 concrete bytes out, 1.1p1

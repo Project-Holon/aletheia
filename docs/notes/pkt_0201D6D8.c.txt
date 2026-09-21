@@ -69,3 +69,4 @@ u8 *func_0201D768(u16 *p, u8 *dst, u32 len, u32 n)
     return base + start;
 }
 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 84 bytes against 92, 75 concrete bytes out, 1.1p1

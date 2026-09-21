@@ -134,3 +134,4 @@ void sub_02064B68(struct Renderer *r, void *arg)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 168 bytes against 168, 15 concrete bytes out, 1.1p1

@@ -65,3 +65,4 @@ not the scheduler (the instruction multiset and the register assignment are
 identical) and not the allocator, and nothing in the source names the boundary;
 see docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
 for why the flag matrix is not the answer here.  Do not re-run it.
+re-verified 2026-09-21: no recoverable source in this note

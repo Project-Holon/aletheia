@@ -31,3 +31,4 @@ re-reads its value into r0 afterwards; the compiled version swaps the roles
 symbols block (84 bytes - an extra ABS32, and a different frame) and a
 late-assigned local `u32 *p = (u32 *)(0x21469DC)` (same swap).  This is the
 same colouring swap as func_020394F0 (docs/notes/pkt_020394F0.c.txt).
+re-verified 2026-09-21: no recoverable source in this note

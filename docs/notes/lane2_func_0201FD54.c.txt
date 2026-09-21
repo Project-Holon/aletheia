@@ -25,3 +25,4 @@ so no C spelling of the same expression has been found that flips the pair.
 Shapes tried: `& 0xF` vs the bitfield (the bitfield wins the four bytes at
 +003A..+003D), the product on either side of the addition, and a named
 `u32 v` local (the committed spelling).
+re-verified 2026-09-21: no recoverable source in this note

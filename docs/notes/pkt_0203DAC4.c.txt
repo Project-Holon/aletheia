@@ -28,3 +28,4 @@ the identical bytes as the direct form.
 The six stores must be six separate byte assignments and `buf` must be eight
 bytes: a `memset` or a zero initialiser collapses them into a word plus a
 halfword, and a six-byte frame loses the `add sp, sp, #8` pairing.
+re-verified 2026-09-21: no recoverable source in this note

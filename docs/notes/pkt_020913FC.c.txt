@@ -41,3 +41,4 @@ thunk, not one of the two encodings the veneer class recognises --
     020913CC  .word 0x02086C54
 so only a shard entry at 0x020913BC itself can ever attest it.  A source file
 for 0x020913BC is not writable either (twenty bytes of hand-written thunk).
+re-verified 2026-09-21: no recoverable source in this note

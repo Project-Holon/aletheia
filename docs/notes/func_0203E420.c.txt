@@ -32,3 +32,4 @@ a function-pointer cast, as a struct field call `p->fn()` (with the struct
 declared both with an explicit 0x78 pad and with named leading members), and
 as a local function pointer.  All of them produce the same register choice.
 55 bytes and the whole guard, the copy and the return are already right.
+re-verified 2026-09-21: no recoverable source in this note

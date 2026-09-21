@@ -223,3 +223,4 @@ void sub_02030B50(u32 heapId)
     sub_02060F50(sub_02030428(heapId), sub_02030A7C, 0);
     sub_0209128C(0);
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 84 bytes against 84, 0 concrete bytes out, 1.1p1

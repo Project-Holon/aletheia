@@ -375,3 +375,4 @@ L_big:
     }
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 1704 bytes against 1704, 27 concrete bytes out, 1.1p1

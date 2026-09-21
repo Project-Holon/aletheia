@@ -40,3 +40,4 @@ u32 func_02027060(u32 a)
 
     return x < y;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 44 bytes against 44, 29 concrete bytes out, 1.1p1

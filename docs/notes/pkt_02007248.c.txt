@@ -209,3 +209,4 @@ void sub_0200725C(void *a0, int a1, void *a2)
         func_02031DC0(*(void **)slot, *(void **)q, a2);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 68 bytes against 72, 38 concrete bytes out, 1.1p1

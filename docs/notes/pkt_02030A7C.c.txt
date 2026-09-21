@@ -119,3 +119,4 @@ EXACT*), which an idiom file should probably carry:
    unless-an-argument-shares-it.md, which is about `adds` off a zero but
    covers this: it is the cheapest way to check whether a small constant
    local was declared at all.
+re-verified 2026-09-21: no recoverable source in this note

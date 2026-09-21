@@ -220,3 +220,4 @@ THE BEST SOURCE (712 B / 73 out at arm7tdmi, 708 B / 66 out at arm946e):
     }
 
 No file written to src/matched/ or src/pending/.  Verdict recorded: DIFF.
+re-verified 2026-09-21: no recoverable source in this note

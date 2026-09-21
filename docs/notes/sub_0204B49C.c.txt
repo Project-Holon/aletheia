@@ -74,3 +74,4 @@ docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags
 through nothing in the matrix").  This is the copy-elision variant of the same
 residue.  Do not re-run the flag matrix on it; -O4,p / dsi/1.1p1 is pinned and
 the whole matrix is already documented as byte-identical for this class.
+re-verified 2026-09-21: no recoverable source in this note

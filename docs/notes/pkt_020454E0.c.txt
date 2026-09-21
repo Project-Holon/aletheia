@@ -197,3 +197,4 @@ this is not worth another source-permutation pass.  The next useful move, if
 any, is evidence about how 1.1p1 ranks the two low callee-saved registers
 when a parameter copy competes with a loop-invariant constant defined after
 a call -- a compiler-behaviour question, not a spelling question.
+re-verified 2026-09-21: no recoverable source in this note

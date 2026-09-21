@@ -143,3 +143,4 @@ void func_0202DD24(u8 *p, u32 i, u32 j)
         *(u32 *)(dst + k * 4 + 0x20) = *(u32 *)(src + k * 4 + 0x20);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 308 bytes against 328, 255 concrete bytes out, 1.1p1

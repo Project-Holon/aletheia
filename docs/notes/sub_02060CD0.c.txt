@@ -242,3 +242,4 @@ u32 sub_02060CD0(struct HeapHead *heap, void *memBlock, u32 size)
 
     return pMBHead->blockSize;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 352 bytes against 352, 26 concrete bytes out, 1.1p1

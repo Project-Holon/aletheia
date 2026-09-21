@@ -178,3 +178,4 @@ with no change to its C".  Counted against the built tree, the slice is:
 Scratch for this pass: `scratch/_p3l1/` (`verdicts.py` batch driver, `one.py`
 single, `cand/` the 26 candidates: e124_a..a10, e0bc_b1..b12, a3d0_c1/c5/c6/
 f1/f2/f3).
+re-verified 2026-09-21: no recoverable source in this note

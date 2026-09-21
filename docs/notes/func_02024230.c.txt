@@ -119,3 +119,4 @@ Compile line:
 symbols:
   _ll_mul               0x0209C054  arm
   sine_table_02021B38   0x02021B38  data
+re-verified 2026-09-21: no recoverable source in this note

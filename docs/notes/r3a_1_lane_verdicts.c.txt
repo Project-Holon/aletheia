@@ -120,3 +120,4 @@ Levers this run added to the last wave's list
    (`func(...) != 0` straight into the argument), never through a named local:
    a local gets a stack slot and adds `sub sp, #8`, which shifts the whole
    frame (func_0200B2A4, 170 -> 162 bytes).
+re-verified 2026-09-21: no recoverable source in this note

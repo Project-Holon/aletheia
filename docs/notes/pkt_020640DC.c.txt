@@ -186,3 +186,4 @@ void func_02064120(volatile struct Srt02064120 *p, s32 scaleX, s32 scaleY)
     p->scaleX = scaleX;
     p->scaleY = scaleY;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 32 bytes against 32, 19 concrete bytes out, 1.1p1

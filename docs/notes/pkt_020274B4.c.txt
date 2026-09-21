@@ -62,3 +62,4 @@ void func_020274C8(void)
         func_02005624((void *)func_020274F8, 0, 3);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 40 bytes against 84, 39 concrete bytes out, 1.1p1

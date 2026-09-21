@@ -101,3 +101,4 @@ first 4 bytes of any body compiled at those addresses can never match.  The
 integrator should decide whether the manifest carries the push address; for
 measurement, compile at the push.
 */
+re-verified 2026-09-21: no recoverable source in this note

@@ -54,3 +54,4 @@ Spellings that ARE required (do not regress these)
     locals initialised to 0 before the loop; they are not the same constant.
 
 Closest source: scratch/r3b2_wip/func_020500F0.c (= var_v0.c)
+re-verified 2026-09-21: no recoverable source in this note

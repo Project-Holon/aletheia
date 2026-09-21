@@ -79,3 +79,4 @@ CSE'd into `v`).  (My own run of the cached-local spelling printed the site as
 pool-position artefact of the 4-byte-shorter predicated body - the word lands at
 +0040 instead of the original's +0044 and never lines up for comparison - not a
 missing witness, so a byte-perfect body would be EXACT here.)
+re-verified 2026-09-21: no recoverable source in this note

@@ -4,3 +4,4 @@ over the 128-byte budget.  The 8-byte gap between them (0x0206E0BC..0x0206E0C4)
 is the first function's literal pool (0x02148B54, 0x02068FC4's address), not an
 unlabelled leaf, so there is nothing in this range at this budget and no shard
 exists for it.
+re-verified 2026-09-21: no recoverable source in this note

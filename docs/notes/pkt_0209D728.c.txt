@@ -11,3 +11,4 @@ Two tells worth keeping: the capacity test is an EQUALITY (cmp ip, #0x40 then mv
 >=, and mla r2, ip, r0, r2 is what a 12-byte element array indexed by the counter emits.
 
 The rest of the packet is filed: 0x0209D774, 0x0209D778 and 0x0209D77C are EXACT.
+re-verified 2026-09-21: no recoverable source in this note

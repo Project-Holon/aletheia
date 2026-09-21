@@ -108,3 +108,4 @@ settle, and the arity of each of those six calls has to be right before any
 byte comparison is informative.  The productive order is to decompile the
 callees first (several are in other packets) and come back to this one once
 their arities are attested, rather than guessing eleven signatures at once.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0201FC5C.c:34: declaration syntax error

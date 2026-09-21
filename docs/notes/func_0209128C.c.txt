@@ -42,3 +42,4 @@ word itself, so even a byte-correct C here would cap at MATCH under the
 literal-class rule (a witness must be a second, different address). Not
 worth another pass without a second caller of this global appearing
 elsewhere.
+re-verified 2026-09-21: no recoverable source in this note

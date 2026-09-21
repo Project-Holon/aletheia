@@ -67,3 +67,4 @@ only the former keeps the signed `cmp #0 / ble` the original has; the latter
 folds the unsigned load to `cmp #0 / beq`.  The `end = i + len` recompute
 after the scan loop is also load-bearing (two `adds r4, r0, r5` in the
 original, +0028 and +0042).
+re-verified 2026-09-21: no recoverable source in this note

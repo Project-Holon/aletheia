@@ -57,3 +57,4 @@ residue, two independent halves:
 
 The one relocation in play (func_02034714) resolves as `label` (340 call
 sites), so the residue is pure codegen, not evidence.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0203A150.c:12: undefined identifier 'pkt_0203A150'

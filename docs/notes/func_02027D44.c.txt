@@ -93,3 +93,4 @@ What is left.  Two independent residues:
       the arms apart (writing the strh in each) overshoots to 252.
 
 Not a candidate for src/pending/: DIFF, not a wildcarded relocation.
+re-verified 2026-09-21: no recoverable source in this note

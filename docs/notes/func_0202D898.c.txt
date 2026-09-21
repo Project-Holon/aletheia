@@ -71,3 +71,4 @@ as-is rather than re-deriving the earlier analysis. func_0202D9A4 (also in
 this packet) forwards its own five-call result set into this function and
 is blocked transitively on the same open question -- see
 docs/notes/func_0202D9A4.c.txt.
+re-verified 2026-09-21: no recoverable source in this note

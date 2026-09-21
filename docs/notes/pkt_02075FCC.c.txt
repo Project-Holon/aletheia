@@ -34,3 +34,4 @@ two predicated ORs into the returned flag word.  The `mov r3, r4` / `orrne r4,
 r4, #4` / `movne r3, #1` triple at +0x0000..+0x0044 is the conditional-execution
 chain idiom and should be reachable, but the run did not spend the budget on
 it.
+re-verified 2026-09-21: no recoverable source in this note

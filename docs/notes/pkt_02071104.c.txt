@@ -173,3 +173,4 @@ Twenty-two spellings total across the three passes.  The floor is 4 and it is
 the same class the rest of this family records: which of two just-freed
 registers receives a value, decided after linearisation.  Not a pin candidate
 (the note measured ../2.0/sp2 at 4 as well).  Not filed: DIFF, by rule 6.
+re-verified 2026-09-21: no recoverable source in this note

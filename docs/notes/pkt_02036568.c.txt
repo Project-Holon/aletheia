@@ -44,3 +44,4 @@ from the source.
 This one matters beyond itself: 0x02036568 is the blocker of the parked
 func_020364D4 (src/pending/func_020364D4.c), which promotes to EXACT the day
 this entry exists.
+re-verified 2026-09-21: no recoverable source in this note

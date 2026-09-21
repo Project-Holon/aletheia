@@ -51,3 +51,4 @@ int sub_0200AA00(int a, int b, void *p)
     q = q >> 12;
     return (u8)(((tbl020A1B38[q] + 0x1000) * 50) >> 12);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 112 bytes against 104, 97 concrete bytes out, 1.1p1

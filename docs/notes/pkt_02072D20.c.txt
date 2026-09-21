@@ -158,3 +158,4 @@ citing `0x02072D20 was already a manifest entry`.  Verified here: EXACT*,
 58 bytes, 7 of 7 sites resolved, two of them `+000C/+0024 THM_CALL func_02072D20
 -> [matched x1]`.  So the row did pay twice - the second half was collected by
 that lane, not by this one, and is not claimed in this lane's promoted[].
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02072D20.c:12: declaration syntax error

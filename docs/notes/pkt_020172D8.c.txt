@@ -48,3 +48,4 @@ nibble extractions as two statements, not one expression, if someone
 attempts it.
 
 Nothing filed under src/.
+re-verified 2026-09-21: no recoverable source in this note

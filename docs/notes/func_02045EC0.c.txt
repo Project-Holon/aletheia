@@ -124,3 +124,4 @@ u32 func_02045EC0(struct Owner *owner, u32 idx)
     func_02045CAC(owner, idx, res);
     return res;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 144 bytes against 144, 11 concrete bytes out, 1.1p1

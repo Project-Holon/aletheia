@@ -122,3 +122,4 @@ accessors that save no lr, so disasm.py never labels them):
   0x02071EFC  (36 B)
   0x020724E4  (64 B, now EXACT inside unit_02072440.c)
   0x02072524  (36 B)
+re-verified 2026-09-21: no recoverable source in this note

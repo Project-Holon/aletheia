@@ -233,3 +233,4 @@ second use of `w` that is itself dead on the ne path, which none of the eight
 spellings measured across the two runs actually is.
 
 Status MATCH-at-best, so still a note and not a file.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02070524.c:86: declaration syntax error

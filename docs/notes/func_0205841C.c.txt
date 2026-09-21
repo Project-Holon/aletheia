@@ -27,3 +27,4 @@ into stmib r0, {r2, lr}, so the VecFx32 components have to be declared
 volatile, which is the same stm-blocking trick the first pass had already
 identified. Both functions are then byte-exact, and the pair verifies as
 one unit over 0x0205841C..0x020584E0.
+re-verified 2026-09-21: no recoverable source in this note

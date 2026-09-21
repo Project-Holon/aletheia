@@ -38,3 +38,4 @@ difference is two things, both the same wall:
 Separately, func_020610E0 (the allocator) has no witness outside this range:
 its only branch in the image is this call, so even a byte-perfect body would
 cap at MATCH on that one site.
+re-verified 2026-09-21: no recoverable source in this note

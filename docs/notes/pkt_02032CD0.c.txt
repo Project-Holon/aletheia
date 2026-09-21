@@ -45,3 +45,4 @@ the +0x18 state byte selected by a dense `switch`.  Expect a first compile of
 1200+ bytes to differ on the register permutation and the per-arm zero
 materialisation; the declaration-order and hoisted-zero levers in
 docs/AGENT-BRIEF.md section "Levers" are the first things to vary.
+re-verified 2026-09-21: no recoverable source in this note

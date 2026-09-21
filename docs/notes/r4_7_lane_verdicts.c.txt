@@ -309,3 +309,4 @@ APPENDED, lane r4-7, measured with `match.py one --cc 1.1p1`
 0x0207229C  132 B  ARM  pkt_02071B2C  DIFF    81 concrete bytes, compiled 128
 0x02063294  228 B  ARM  pkt_02063078  DIFF    158 concrete bytes, compiled 208
 0x02063378  196 B  ARM  pkt_02063078  DIFF    137 concrete bytes, compiled 180
+re-verified 2026-09-21: no recoverable source in this note

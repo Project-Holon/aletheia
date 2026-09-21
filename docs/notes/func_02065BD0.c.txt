@@ -183,3 +183,4 @@ Recommendation: leave this one.  Twelve spellings and this reading have not
 moved it, and src/pending/func_0204CB44.c's other open site (func_0204CC6C) is
 now byte-correct in src/pending/func_0204CC6C.c and blocked only on three
 ordinary fan-in-1 callees, which is the cheaper end of the same chain.
+re-verified 2026-09-21: no recoverable source in this note

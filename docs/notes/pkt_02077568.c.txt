@@ -39,3 +39,4 @@ the 8-byte aggregate into two `ldr`/`str` pairs instead of `ldm`/`stm`.  The
 and 16 bytes under -O4,p.  Spelled member by member (u32 a[6]) the whole thing
 unrolls, so neither body was filed.  These read as hand-written save/restore
 routines rather than compiled C; 65 and 43 concrete bytes differ.
+re-verified 2026-09-21: no recoverable source in this note

@@ -48,3 +48,4 @@ void func_02023D60(u8 *base, u16 b, u16 c, u16 d, u32 e, u32 f, u32 g)
  * NEAR MISS: DIFF: 26 bytes of the 52 differ in the elem indexing; the call target func_02023DDC is also unattested (Thumb veneer).
  */
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 52 bytes against 52, 26 concrete bytes out, 1.1p1

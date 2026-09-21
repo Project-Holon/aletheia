@@ -71,3 +71,4 @@ What was tried
 Classification: allocator/CSE, not reachable from the C shape tried.  No flag
 sweep (the matrix is closed project-wide).  No source file was filed; this
 function does not belong in src/pending/ because it is not byte-correct.
+re-verified 2026-09-21: no recoverable source in this note

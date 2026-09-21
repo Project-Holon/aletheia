@@ -247,3 +247,4 @@ allocation only, 17 out"), which that lane also could not move.  Whatever
 breaks one probably breaks both, and they should be taken together.
 
 The other entry point of this packet, 0x02071B2C (232 bytes), was not reached.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02071B2C.c:12: undefined identifier 'pkt_02071B2C'

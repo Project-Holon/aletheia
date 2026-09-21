@@ -131,3 +131,4 @@ have rather than a spelling.  The natural next thing to try is a use of the
 clamped value after the call, which would force it into a callee saved
 register, but the function returns the literal 1 and there is nowhere in the
 original's bytes for such a use to hide.
+re-verified 2026-09-21: no recoverable source in this note

@@ -36,3 +36,4 @@ row at 0x02040EC0 is not filable at any budget.  Filed under notes, not in
 src/matched/ or src/pending/.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

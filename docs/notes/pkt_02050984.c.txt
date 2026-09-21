@@ -28,3 +28,4 @@ same eight-byte stub shape as 0x020509E0 and 0x020509E8; filing them the same
 way closes this file with no change to its C.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

@@ -86,3 +86,4 @@ C currently tried (scratch/scratch/w_02020234.c):
         func_020206C0(p);
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 52 bytes against 468, 1 concrete bytes out, 1.1p1

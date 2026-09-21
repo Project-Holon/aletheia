@@ -230,3 +230,4 @@ void func_02022AD0(struct ctl *ctl)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 540 bytes against 540, 8 concrete bytes out, 1.1p1

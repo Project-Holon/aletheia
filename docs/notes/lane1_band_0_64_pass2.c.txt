@@ -132,3 +132,4 @@ Housekeeping
   the two drivers used are scratch/_l1/verdicts.py (batch `match.py one` over a
   file list, reading the address/isa/flags out of each header) and
   scratch/_l1/try.py.
+re-verified 2026-09-21: no recoverable source in this note

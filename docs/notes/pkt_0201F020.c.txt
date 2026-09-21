@@ -57,3 +57,4 @@ u8 func_0201F548(u32 i)
 {
     return func_0201F548_Table[i];
 }
+re-verified 2026-09-21 by tools/match.py: ERROR, n/a bytes against n/a, n/a concrete bytes out, function 'func_0201F53C, func_0201F548' not found in tu.o; object defines: $d, $t, func_0201F53C, func_0201F548

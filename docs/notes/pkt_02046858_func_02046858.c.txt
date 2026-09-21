@@ -135,3 +135,4 @@ allocator a reason not to hoist: anything that makes the two constants
 non-CSE-able (a distinct volatile read, or a call between the stores and the
 switch that the front end cannot see through) changes 568 to a value that
 must be re-measured, and both were outside this pass's write set.
+re-verified 2026-09-21: no recoverable source in this note

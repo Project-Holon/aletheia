@@ -59,3 +59,4 @@ moving the three `st = ...` reads; making `b` a `u32` local declared after
 `st`.  The scheduler move is the wall; a future pass should try a source in
 which the ternary's operands (`p->f14` and `p->f8e`) are already live as
 locals, or accept the residue.
+re-verified 2026-09-21: no recoverable source in this note

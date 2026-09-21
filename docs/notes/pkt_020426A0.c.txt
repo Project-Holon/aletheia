@@ -268,3 +268,4 @@ try giving the branch-1 loop an explicit row-base local (a named
 `u16 *row = src + sx;` or the `src[(sy+i)*stride + sx + q]` subscript
 written as `row[(sy+i)*stride + q]`) and watch only `sub sp` and the
 `str r0,[sp,#0x8]` at 0x02042720.
+re-verified 2026-09-21: no recoverable source in this note

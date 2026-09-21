@@ -33,3 +33,4 @@ ways (three direct references, a named local, and a `const` pointer local) it
 always hoists.  This is the same behaviour as 0x02073AD0 in
 docs/notes/pkt_02073AB4.c.txt and 0x0207292C in docs/notes/pkt_02072F5C.c.txt
 and it is not reachable from C under -O4,p.
+re-verified 2026-09-21: no recoverable source in this note

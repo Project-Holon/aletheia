@@ -141,3 +141,4 @@ The C that is four bytes short
           func_02065438(actor);
       }
   }
+re-verified 2026-09-21: no recoverable source in this note

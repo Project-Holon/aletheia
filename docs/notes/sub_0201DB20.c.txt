@@ -104,3 +104,4 @@ pointer is the obvious candidate, since the original file almost certainly had
 one (the same rebase appears in func_0201D854's neighbourhood).  A `volatile`
 qualifier would also break it but would be a claim about the field that the
 image does not support.
+re-verified 2026-09-21: no recoverable source in this note

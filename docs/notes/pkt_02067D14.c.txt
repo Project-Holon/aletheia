@@ -138,3 +138,4 @@ Everything else in the shape above is confirmed correct and unchanged,
 including the empty `case 3` that makes the four-entry
 `addls pc, pc, r0, lsl #2` table exist, the shared 1/2 arm, and the third
 pool read for the final callback.  The source is in the filed file.
+re-verified 2026-09-21: no recoverable source in this note

@@ -234,3 +234,4 @@ struct SaveCtrl *func_02006F20(int heap)
     }
     return c;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 352 bytes against 356, 171 concrete bytes out, 1.1p1

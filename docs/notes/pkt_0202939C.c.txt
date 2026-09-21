@@ -99,3 +99,4 @@ void func_020293D8(struct T *p)
         func_02028BDC(p, 1);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 48 bytes against 48, 1 concrete bytes out, 1.1p1

@@ -52,3 +52,4 @@ there the post-increment costs a copy, here it cannot be spelled at all.
 
 Recorded, not ground further.  The tail is worth keeping: if a later pass
 finds a spelling for the head, the rest of the function is already exact.
+re-verified 2026-09-21: no recoverable source in this note

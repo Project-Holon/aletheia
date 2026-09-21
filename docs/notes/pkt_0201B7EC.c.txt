@@ -169,3 +169,4 @@ C currently tried (scratch/scratch/w_0201B818.c):
         }
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 64 bytes against 56, 49 concrete bytes out, 1.1p1

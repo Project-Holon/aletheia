@@ -271,3 +271,4 @@ guard, the written-out loop recompute, s0-before-rem, the 14/1/1 bitfield,
 the s2/s1/s0 declaration order with s0 a u16, the written-out if/else for both
 bit stores, both if/elses before both calls, and the u16 decrement tail) is
 correct as written and was used unchanged.
+re-verified 2026-09-21: no recoverable source in this note

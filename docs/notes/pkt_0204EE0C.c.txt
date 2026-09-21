@@ -64,3 +64,4 @@ void func_0204EEC8(struct Struct_0204EEC8 *p, u32 a1, s32 a2, u32 a3, u8 arg4)
     r4_p->valA = (u8)_s32_div_f(r4_p->val4, r4_p->val9);
     r4_p->valB = (u8)_s32_div_f(r4_p->val6, r4_p->val9);
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0204EE0C.c:48: expression syntax error

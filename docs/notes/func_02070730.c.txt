@@ -132,3 +132,4 @@ its header. It becomes EXACT the moment func_02070524 and func_02070624 are
 filed EXACT -- and func_02070524 is the note above, which is NOT a 2.0 body.
 
 Its own caller src/pending/func_02070904.c stays MATCH for the same reason.
+re-verified 2026-09-21 by tools/match.py: DIFF, 252 bytes against 256, 82 concrete bytes out, 1.1p1

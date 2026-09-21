@@ -54,3 +54,4 @@ int sub_020107FC(void *a0)
     }
     return -1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 84 bytes against 140, 63 concrete bytes out, 1.1p1

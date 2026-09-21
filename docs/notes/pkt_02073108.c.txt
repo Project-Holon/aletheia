@@ -27,3 +27,4 @@ WALL (same register numbering as pkt_02072F5C).  func_02073108 is
 `ldr r3, [r0]` in the image against the compiler's `ldr r0, [r0]`; the volatile
 pointee fixes the re-load but not the register.  Its callee 0x02072894 is also
 unwitnessed, see docs/notes and src/pending/func_02072894.c.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02073108.c:12: declaration syntax error

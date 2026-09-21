@@ -73,3 +73,4 @@ Checked and ruled out: the four bytes at 0x0203A66C are NOT a function start.
 `tst r5, #0x80` guard (`movne r0, r4` / `popne`), reached by the `bne` at
 0x0203A664.  The unlabelled stubs for this wave are in
 docs/notes/pkt_020395EC.c.txt instead.
+re-verified 2026-09-21: no recoverable source in this note

@@ -246,3 +246,4 @@ NO pin has been probed on this row, and the tells here are scheduling, not
 the "kept constants" / "kept branches" families docs/FRONTEND-PINS.md
 records, so a probe is a genuine experiment rather than a documented tell.
 Not filed: DIFF, by rule 6.
+re-verified 2026-09-21 by tools/match.py: DIFF, 268 bytes against 2, 33 concrete bytes out, 1.1p1

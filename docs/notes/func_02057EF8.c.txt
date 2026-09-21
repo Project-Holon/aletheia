@@ -85,3 +85,4 @@ void func_02057EF8(struct A *a, struct B *b)
     b->_0C = b->_0C + FX_Mul(a->w, a->y - b->_0C);
     b->_10 = b->_10 + FX_Mul(a->w, a->z - b->_10);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 140 bytes against 148, 87 concrete bytes out, 1.1p1

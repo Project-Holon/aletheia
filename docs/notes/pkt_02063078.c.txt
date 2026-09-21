@@ -518,3 +518,4 @@ Twenty-two spellings total on this row across the passes.  The note's rule
 stands and is now machine-confirmed: THE DESTINATION REGISTER OF AN `mla` IS
 NOT SOURCE-ADDRESSABLE.  Not filed: DIFF, by rule 6.  src/pending/func_0204BF40.c
 stays blocked, and 0x02063294 was not re-attempted this pass.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02063078.c:73: declaration syntax error

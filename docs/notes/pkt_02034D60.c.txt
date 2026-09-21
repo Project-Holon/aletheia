@@ -42,3 +42,4 @@ and the add is not where the original has it.
 Ruled out: this is not a witness problem (the one relocation, func_02078D34,
 resolves as `label` with 15 call sites image-wide); the whole 18 bytes are a
 constant-folding/scheduling choice in the second comparison.
+re-verified 2026-09-21: no recoverable source in this note

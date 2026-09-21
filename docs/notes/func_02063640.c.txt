@@ -187,3 +187,4 @@ register-to-register the sentinel has to be a value mwccarm cannot prove is
 -1 at the compare, and no honest spelling of a literal sentinel is that.  The
 count of failed spellings is now ten; the next attempt should not be another
 spelling of the constant.
+re-verified 2026-09-21: no recoverable source in this note

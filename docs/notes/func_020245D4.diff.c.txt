@@ -108,3 +108,4 @@ ret:
 fail:
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 132 bytes against 136, 35 concrete bytes out, 1.1p1

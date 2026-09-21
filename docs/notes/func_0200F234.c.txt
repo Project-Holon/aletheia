@@ -170,3 +170,4 @@ Verified with
     python tools/match.py one --src src/pending/func_0200F234.c \
         --func func_0200F234 --addr 0x0200F234 --cc 1.1p1 --thumb
 
+re-verified 2026-09-21: no recoverable source in this note

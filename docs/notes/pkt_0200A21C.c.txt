@@ -74,3 +74,4 @@ int func_0200A21C(u8 *obj)
     } while (n < (int)limit);
     return *(u16 *)(obj + 0x2ce) == func_0203F1FC(obj, 0x2ce);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 56, 8 concrete bytes out, 1.1p1

@@ -218,3 +218,4 @@ file names func_02065AA8 as one of two `label`-blocked targets, and a
 `src/pending/` entry is never a witness -- only an EXACT/EXACT* manifest entry
 attests.  0x02065AA8 must itself reach EXACT first, i.e. 0x02067A60 must be
 filed, and then both files promote together.
+re-verified 2026-09-21: no recoverable source in this note

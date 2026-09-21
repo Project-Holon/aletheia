@@ -72,3 +72,4 @@ u32 func_020637BC(u32 *p, u32 i)
     return 1;
 }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 20 bytes against 24, 12 concrete bytes out, 1.1p1

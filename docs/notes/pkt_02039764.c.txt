@@ -29,3 +29,4 @@ outside 02039834..020398B4 -- func_02039764 (label, all 9 branches to it are
 this function's own calls) and str_020A7A7C (data, `string` class refuses
 because the preceding string at 0x020A7A68 ends at 0x020A7A75, three bytes
 early). So this one belongs in src/pending/ as MATCH at best.
+re-verified 2026-09-21: no recoverable source in this note

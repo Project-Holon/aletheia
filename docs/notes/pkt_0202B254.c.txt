@@ -50,3 +50,4 @@ is the `ldm r2!, {r0, r1}` / `stm r4!, {r0, r1}` pair with the last word
 load/store after it, i.e. the normal 12-byte aggregate assignment of
 docs/idioms/aggregate-assignment-is-ldm-stm.md, and it only appears when both
 sides are spelled as the same struct type.
+re-verified 2026-09-21: no recoverable source in this note

@@ -255,3 +255,4 @@ earlier section put it: a cross-jump the compiler performs and the source
 cannot request.
 
 Verdict for this wave: 0x020186C8 stays DIFF, no source filed, no shard entry.
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

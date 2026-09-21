@@ -26,3 +26,4 @@ must be named at their own addresses (0x02148D8C etc.) rather than as offsets
 of one another, and the hardware pointer must stay a *base* symbol with 0xfc
 as a load offset (`g_02148B4C` extern array), because folding the two together
 moves the pool word to 0x02148C48 and loses the relocation.
+re-verified 2026-09-21: no recoverable source in this note

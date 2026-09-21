@@ -79,3 +79,4 @@ struct EventDataSystem *func_0216237C(u32 heapId)
     sys->scriptArc = func_020490F4(57, heapId);
     return sys;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 64 bytes against n/a, 60 concrete bytes out, 1.1p1

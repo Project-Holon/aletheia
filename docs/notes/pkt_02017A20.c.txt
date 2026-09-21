@@ -155,3 +155,4 @@ control flow rather than its cause, and it is where the next attempt should
 start.
 
 Verdict for this wave: 0x02017A20 stays DIFF, no source filed, no shard entry.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02017A20.c:12: undefined identifier 'band'

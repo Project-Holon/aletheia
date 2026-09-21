@@ -65,3 +65,4 @@ void func_020737C0(S *p)
     p->f2c &= ~2;
 }
 ```
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

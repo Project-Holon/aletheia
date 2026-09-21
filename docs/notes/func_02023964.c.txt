@@ -112,3 +112,4 @@ Left as DIFF/note rather than filed to src/pending, since the byte count
 differs (not a pure relocation-witness gap). A future pass with a working
 idiom for this register-shift family (seen now in three functions of this
 one packet) could plausibly close all three at once.
+re-verified 2026-09-21: no recoverable source in this note

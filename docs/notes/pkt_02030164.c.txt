@@ -100,3 +100,4 @@ WHAT THE EXTRA COMPILE PAID FOR (not in the brief's idiom index)
    original. The arena is passed straight from sub_0202FBAC's return into r1
    with no local bound in between, so the call is the nested form
    `func_02061358(p, sub_0202FBAC(heapId & 0x7FFF), len);`.
+re-verified 2026-09-21: no recoverable source in this note

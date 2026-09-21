@@ -104,3 +104,4 @@ void func_02056460(fx32 sinv, fx32 cosv, struct MtxFx43 *m)
     m->_22 = cosv + t;
     m->_32 = 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 144 bytes against 172, 116 concrete bytes out, 1.1p1

@@ -95,3 +95,4 @@ void func_0203A020(u32 idx, u32 a1, u8 *a2, u32 a3, u32 a4, u32 a5, u8 *base)
     }
 }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 240 bytes against 248, 178 concrete bytes out, 1.1p1

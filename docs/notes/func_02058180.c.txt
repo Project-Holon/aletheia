@@ -81,3 +81,4 @@ void func_02058180(struct A *a, struct B *b, struct C *c)
     c->y = c->y + ((((a->y - b->_0C) - b->_18) * a->w) >> 12);
     c->z = c->z + ((((a->z - b->_10) - b->_1C) * a->w) >> 12);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 128 bytes against 132, 82 concrete bytes out, 1.1p1

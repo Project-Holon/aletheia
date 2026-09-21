@@ -43,3 +43,4 @@ Tried and rejected: `g02146208[0x1a]` indexing, `&g02146208[0x1a]`, a `u8 t =
 the literal-address form `*(u8 *)0x0214621A` (which also loses the ABS32
 relocation, so it is not an option even if it had worked).  This is the same
 one-register/isomorphism family as pkt_02012C18's note.
+re-verified 2026-09-21: no recoverable source in this note

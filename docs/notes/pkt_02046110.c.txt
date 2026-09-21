@@ -58,3 +58,4 @@ void func_02046110(struct Obj *obj)
     func_0204960C(obj->unk_14, obj->unk_10 + off);
     func_020495F4(obj->unk_14, len, (const void *)obj->unk_04);
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02046110.c:12: undefined identifier 'near'

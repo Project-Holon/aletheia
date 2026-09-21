@@ -62,3 +62,4 @@ s32 func_02074894(S *p)
     return -1;
 }
 ```
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

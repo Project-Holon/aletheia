@@ -54,3 +54,4 @@ symbols:
   func_02033A3C  0x02033A3C  arm
   func_02034714  0x02034714  arm
   func_02034734  0x02034734  arm
+re-verified 2026-09-21: no recoverable source in this note

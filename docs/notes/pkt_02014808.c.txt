@@ -71,3 +71,4 @@ Raw word scan: 0x0209E054 occurs exactly once in arm9, at 0x02014A1C, this
 function's own pool word.  Twelve bytes of code and four of pool, no call:
 nothing about the C can change this, and the E3A4 siblings above show the same
 wall.  Parked at MATCH; the file in src/pending/ is byte-correct.
+re-verified 2026-09-21: no recoverable source in this note

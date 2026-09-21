@@ -61,3 +61,4 @@ RULED OUT:
     right before `str r0,[r6]`, while mwcc 1.1p1 at -O4,p always hoists it).
   * The remaining gap is scheduling + one register-allocator decision, not a
     missing witness: MI_CpuCopy8 attests under `label` x546.
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

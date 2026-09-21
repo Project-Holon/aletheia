@@ -150,3 +150,4 @@ u8 func_0202B04C(u8 *obj, s32 *pos)
  *
  * Still DIFF, still evidence only.
  * ================================================================ */
+re-verified 2026-09-21 by tools/match.py: DIFF, 86 bytes against 88, 13 concrete bytes out, 1.1p1

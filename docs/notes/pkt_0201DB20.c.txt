@@ -227,3 +227,4 @@ void func_0201DBBC(char *p, int a1, int a2, int a3)
 * +002A ldr r1, [r1] | ldrh r2, [r5]
 * +002C adds r3, r6, #0 | ldr r1, [r1]
 * +002E str r4, [sp] | adds r3, r6, #0
+re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 56, 28 concrete bytes out, 1.1p1

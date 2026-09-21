@@ -126,3 +126,4 @@ void func_02062688(struct AssetHeader *hdr)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 336 bytes against 336, 286 concrete bytes out, 1.1p1

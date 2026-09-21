@@ -72,3 +72,4 @@ form it is a cast or a struct pointer, not an offset.
 
 func_0201DC44 itself is EXACT and filed; these two are the only functions of
 pkt_0201DB20 left, along with func_0201DB20 (docs/notes/sub_0201DB20.c.txt).
+re-verified 2026-09-21: no recoverable source in this note

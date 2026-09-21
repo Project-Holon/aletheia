@@ -28,3 +28,4 @@ The body itself was not written: no worklist entry covers 0x0200AB04 or
 0x0200AB24 either (two unlabelled leaves inside the 196-byte listing extent
 that were not rows in the slice), so the extent has to be split before a
 `tu` file is even possible.
+re-verified 2026-09-21: no recoverable source in this note

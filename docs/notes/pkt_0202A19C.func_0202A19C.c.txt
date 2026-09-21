@@ -42,3 +42,4 @@ u32 func_0202A19C(u32 a0, struct Obj *p, u32 a2, u32 a3, u32 a4)
 
     return *(u8 *)((u8 *)func_0202A21C(p, x) + 7) == 2;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 46 bytes against 48, 36 concrete bytes out, 1.1p1

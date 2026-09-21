@@ -499,3 +499,4 @@ docs/notes/pkt_02072374.c.txt.
 
 Not filed: DIFF, by rule 6.  (0x0206A2CC and 0x0206A4AC were not re-attempted
 this pass; the previous append's measurements stand.)
+re-verified 2026-09-21 by tools/match.py: DIFF, 260 bytes against 264, 199 concrete bytes out, 1.1p1

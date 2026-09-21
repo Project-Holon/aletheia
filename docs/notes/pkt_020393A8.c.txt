@@ -81,3 +81,4 @@ s32 sub_020395EC(s32 id)
     sub_02034714(s_LinkFile, 110, s_LinkExpr);
     return -1;
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 108 bytes against 108, 0 concrete bytes out, 1.1p1

@@ -12,3 +12,4 @@ inside the window, so a label cannot attest it from outside, and the jump table 
 the 80 bytes the listing marks, which means the compared range does not cover it. Treated as a
 library-shaped helper and left open rather than parked, so a lane that wants it starts from the
 shape above.
+re-verified 2026-09-21: no recoverable source in this note

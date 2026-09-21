@@ -28,3 +28,4 @@ directly from the `str`/`ldr` offsets in the listing) and should fall out
 quickly once func_0202D898's signature is pinned down by a future agent;
 I stopped here rather than compound one unresolved signature guess with
 another, per the "stop grinding" budget rule.
+re-verified 2026-09-21: no recoverable source in this note

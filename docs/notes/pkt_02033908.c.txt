@@ -19,3 +19,4 @@ and 0x02033A88 is one row of another lane's packet, so the caller stays parked
 with the callee named in its header rather than reaching across.
 
 The C is in src/pending/func_02033908.c, header status MATCH.
+re-verified 2026-09-21: no recoverable source in this note

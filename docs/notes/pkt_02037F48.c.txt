@@ -100,3 +100,4 @@ Verified with:
 
 The rest of this packet is closed: 0x0203802C, 0x020380E4, 0x020381D8 and
 0x02038298 are EXACT in src/matched/ and in this packet's shard.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02037F48.c:12: undefined identifier 'pkt_02037F48'

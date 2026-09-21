@@ -138,3 +138,4 @@ void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3,
     }
     func_02022518(ctx->h34, ctx, func_02022AD0, s5, s8);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 220 bytes against 220, 2 concrete bytes out, 1.1p1

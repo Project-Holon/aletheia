@@ -218,3 +218,4 @@ problem rather than three: the lever, if there is one, is a property of
 mwcc's allocator priority (use count and live-range start), not of the C.
 
 The chain is unchanged: src/pending/func_02070B64.c stays parked.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02070A24.c:12: declaration syntax error

@@ -34,3 +34,4 @@ u32 func_0206216C(u32 size, u32 flag)
     return ((local << 13) >> 16) | ((n >> 4) << 16) | (flag << 31);
 }
 ```
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

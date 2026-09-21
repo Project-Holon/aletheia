@@ -32,3 +32,4 @@ same accessor (`ldr ip, [pc]; bx ip`, pool word 0x0204F704) and is not part
 of this row either.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

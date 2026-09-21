@@ -55,3 +55,4 @@ spelling of the same body.
 
 The full C (spelling 3) is in scratch/l4_vEC74_2.c; nothing of this function
 is filed in src/matched/ or src/pending/.
+re-verified 2026-09-21: no recoverable source in this note

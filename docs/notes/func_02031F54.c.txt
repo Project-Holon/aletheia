@@ -93,3 +93,4 @@ void func_02031F54(struct SaveBackup *p, u8 *buf)
     *(u32 *)(q + 8) = p->unk0C;
     *(u16 *)(q + 0x0E) = func_02031E7C(p, buf);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 64 bytes against 64, 16 concrete bytes out, 1.1p1

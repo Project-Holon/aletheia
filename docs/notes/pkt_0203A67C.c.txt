@@ -58,3 +58,4 @@ u32 func_0203A70C(u32 idx)
     return (*q)[idx].a;
 }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 32 bytes against 36, 14 concrete bytes out, 1.1p1

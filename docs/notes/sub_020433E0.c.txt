@@ -159,3 +159,4 @@ within packet budget (see AGENT-BRIEF.md "Skip oversized functions after
 a quick look" / stop-early guidance); the call-dispatch majority of the
 function (127 of 188 bytes) is solid and any future attempt only needs to
 fix the tail.
+re-verified 2026-09-21: no recoverable source in this note

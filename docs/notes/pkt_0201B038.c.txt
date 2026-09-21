@@ -211,3 +211,4 @@ void sub_0201B850(void *mon, const s8 *tbl, u32 map, u32 heap)
     }
     func_02017E40(mon, 9, friendship);
 }
+re-verified 2026-09-21 by tools/match.py: ERROR, n/a bytes against n/a, n/a concrete bytes out, function 'pkt_0201B038' not found in tu.o; object defines: $d, $t, sub_0201B7A0, sub_0201B7B4, sub_0201B7EC, sub_0201B818, sub_0201B850

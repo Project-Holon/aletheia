@@ -42,3 +42,4 @@ CSE), the arms bound to named locals, `(short)` casts on the arms' loads, and
 the whole expression split so the guard value is consumed before the
 conditional.  The CSE happens on the load, not on the expression, so the
 spelling that suppresses it is not obvious from this side.
+re-verified 2026-09-21: no recoverable source in this note

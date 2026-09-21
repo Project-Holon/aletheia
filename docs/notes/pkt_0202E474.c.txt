@@ -70,3 +70,4 @@ C currently tried (was scratch/_l2_c/func_0202E4EC.c):
 
 `data_020A77D0` is a `literal` site (0x0202E548, outside this range, and it
 also appears in the neighbouring 0x0202Exxx pools).
+re-verified 2026-09-21: no recoverable source in this note

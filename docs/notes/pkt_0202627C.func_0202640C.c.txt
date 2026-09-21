@@ -50,3 +50,4 @@ void func_0202640C(struct Obj *p, u32 a, u32 b)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 70 bytes against 72, 11 concrete bytes out, 1.1p1

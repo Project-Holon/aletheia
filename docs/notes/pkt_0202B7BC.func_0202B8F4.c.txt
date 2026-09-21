@@ -33,3 +33,4 @@ No C spelling produces `ldr r3, [pc, #0]; bx r3` as a function body, so these
 are reported rather than attempted.  They are the blockers on
 src/pending/func_0202B710.c and src/pending/func_0202AE9C.c, both of which
 stay capped for as long as the veneer has no manifest entry.
+re-verified 2026-09-21: no recoverable source in this note

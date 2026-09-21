@@ -110,3 +110,4 @@ other blocker on src/pending/func_02021BC8.c) closed instead, and
 func_02021C20 is now that file's ONLY remaining unresolved relocation --
 so closing this one function is exactly what would promote
 src/pending/func_02021BC8.c from MATCH to EXACT.
+re-verified 2026-09-21: no recoverable source in this note

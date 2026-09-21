@@ -374,3 +374,4 @@ a five-instruction prologue permutation, not a branch or a constant, so it
 does not match any tell in docs/FRONTEND-PINS.md and the one-probe budget
 went to 0x02064AB4.  If someone revisits it, the pin is still the first thing
 to try -- this packet is now known to be a 2.0 unit.
+re-verified 2026-09-21 by tools/match.py: DIFF, 172 bytes against 180, 64 concrete bytes out, 1.1p1

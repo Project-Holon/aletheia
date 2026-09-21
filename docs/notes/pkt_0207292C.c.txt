@@ -34,3 +34,4 @@ pushes {r4, lr} and re-materialises the address. Blocker class: codegen
 (register allocation), not evidence.
 Second, independent cap: PC24 0x020895D8 has no witness outside
 0207292C..02072970 - it would stay wildcarded even if the allocation matched.
+re-verified 2026-09-21: no recoverable source in this note

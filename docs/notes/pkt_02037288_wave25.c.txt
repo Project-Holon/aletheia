@@ -84,3 +84,4 @@ i.e. the two calls taking their length from a small inline function rather
 than from the same expression twice.
 
 Both sources are reproducible from this note; neither was left in src/.
+re-verified 2026-09-21: no recoverable source in this note

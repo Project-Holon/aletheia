@@ -599,3 +599,4 @@ that decision.  Three independent permuter runs this wave (0x02044CE0,
 0x02044F64, 0x02044D88) each plateau with their whole top ten tied.  Nothing
 here is evidence-blocked: 0x02044CE0, 0x02044EBC, 0x02044D88, 0x02044BF0 and
 0x02044954 have ZERO relocations, and 0x02044F64's seven all resolve.
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

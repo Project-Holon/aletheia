@@ -77,3 +77,4 @@ void func_02069E20(u32 *mask, Node *n)
         n = n->next;
     } while (n != 0);
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02069E20.c:12: declaration syntax error

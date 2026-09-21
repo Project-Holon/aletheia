@@ -135,3 +135,4 @@ s32 sub_020343C0(struct AreaMan *p, s32 start, u32 len)
 
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, sub_020343C0.c:12: undefined identifier 'NEAR'

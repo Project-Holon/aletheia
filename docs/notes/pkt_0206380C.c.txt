@@ -42,3 +42,4 @@ materialised constant: register colouring below the source text, like
 docs/notes/pkt_020610E0.c.txt.  Parked here rather than in a source tree.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

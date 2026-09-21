@@ -436,3 +436,4 @@ STATE: 175 concrete bytes out of 260, all three relocations resolved (the
 sole-ref/code widening carries func_0204C3CC).  The row is NOT evidence
 blocked; it is whole-body register allocation.  The next attempt should NOT
 re-run the fold levers or the signedness levers above.
+re-verified 2026-09-21 by tools/match.py: DIFF, 260 bytes against 260, 183 concrete bytes out, 1.1p1

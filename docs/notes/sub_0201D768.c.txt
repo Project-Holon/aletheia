@@ -106,3 +106,4 @@ in memory before the loop is entered is the thing to look for.
 
 func_0201D6D8, the only caller, is EXACT when compiled in a range with this
 function, so the two stand or fall together and neither is filed.
+re-verified 2026-09-21: no recoverable source in this note

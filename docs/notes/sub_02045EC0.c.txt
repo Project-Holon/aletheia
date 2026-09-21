@@ -175,3 +175,4 @@ scheduling model, and it moves nothing else about them.  No model
 reproduces the image, and -proc arm946e is the hardware, so the axis is
 not usable.  Do not try further source spellings here; see
 docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.
+re-verified 2026-09-21: no recoverable source in this note

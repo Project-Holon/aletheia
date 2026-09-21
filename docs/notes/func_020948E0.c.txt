@@ -107,3 +107,4 @@ byte_loop:
 
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_020948E0.c:55: undefined identifier 'p2'

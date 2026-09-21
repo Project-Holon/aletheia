@@ -143,3 +143,4 @@ u32 func_0209D7D4(u32 a, char *s, u32 *count)
     }
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 76, 43 concrete bytes out, 1.1p1

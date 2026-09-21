@@ -254,3 +254,4 @@ register-naming class as sub_02040618 and is a second, independent
 residue: the function is two decisions away from EXACT, not one.
 
 See docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.
+re-verified 2026-09-21: no recoverable source in this note

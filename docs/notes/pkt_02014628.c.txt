@@ -502,3 +502,4 @@ corrected spelling needs the func_0209C2B0 result as the loop bound and the
 func_02048F60 result as both the base and the return value; that is a
 correction to the C, not a new problem, and it is left here rather than tried
 blind because the register plan is already known to be sensitive.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02014628.c:46: declaration syntax error

@@ -138,3 +138,4 @@ The C that reaches 384 / 86:
     
         return 0;
     }
+re-verified 2026-09-21 by tools/match.py: DIFF, 384 bytes against 384, 86 concrete bytes out, 1.1p1

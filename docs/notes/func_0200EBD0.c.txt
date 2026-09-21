@@ -72,3 +72,4 @@ CONCLUSION
 Left as DIFF; no plausible C restructuring changes which physical
 register a short-lived caller-saved-shaped temporary lands in on this
 front end. Queued for a future attempt with `register` hints.
+re-verified 2026-09-21: no recoverable source in this note

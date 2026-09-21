@@ -38,3 +38,4 @@ NEXT STEP: do not re-dispatch this alone.  The order that pays is
 0x02096ED0 first (it lives in pkt_02096990, 343 bytes away from an already
 EXACT address in that same shard), because matching it converts this row from
 a MATCH ceiling to a fileable EXACT *and* removes the cap on 0x02094B8C.
+re-verified 2026-09-21: no recoverable source in this note

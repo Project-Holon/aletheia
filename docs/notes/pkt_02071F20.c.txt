@@ -87,3 +87,4 @@ UNLABELLED FOLLOWERS: none new.  Both functions in this packet carry
 `func_` labels, and the 12 bytes after 0x02071F20's `pop` are its own
 literal pool (0x0207205C 0x00101610, 0x02072060 0x00101810, 0x02072064
 0x020A8458), not a follower.
+re-verified 2026-09-21: no recoverable source in this note

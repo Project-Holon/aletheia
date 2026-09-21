@@ -96,3 +96,4 @@ Two further notes, so they are not re-checked
   the constructor is independently blocked on func_0201DA00.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

@@ -141,3 +141,4 @@ the local back to the global).  This is the second half of
 docs/notes/pkt_02073AB4.c.txt ("keeps a pool-loaded address live across a
 call") seen from the winning side: here the image does keep it live, but only
 from the second call onwards, and no spelling reaches that.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02072EA8.c:12: undefined identifier 'Near'

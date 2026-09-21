@@ -530,3 +530,4 @@ void func_0201761C(void *obj, void *a1, u32 a2, u32 lo, u32 hi,
     func_02017FB0(obj);
     func_02017DE4(obj, hdr);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 612 bytes against 700, 574 concrete bytes out, 1.1p1

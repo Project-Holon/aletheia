@@ -120,3 +120,4 @@ two references into the callee-saved r5:
 
 Same class as func_0202715C: the front end keeps a value the original
 re-materialises.
+re-verified 2026-09-21 by tools/match.py: DIFF, 40 bytes against 108, 11 concrete bytes out, 1.1p1

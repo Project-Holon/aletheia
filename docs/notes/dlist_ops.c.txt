@@ -107,3 +107,4 @@ void func_020605B4(struct DList *list, void *elem)
     node->next = 0;
     list->count--;
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 96 bytes against 96, 0 concrete bytes out, 1.1p1

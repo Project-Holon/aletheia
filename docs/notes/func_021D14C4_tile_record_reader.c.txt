@@ -102,3 +102,4 @@ Where the value goes
   func_021AB504, the terrain-class switch, and drops the tile when the answer
   is 8. That call chain is what attests the split of the word into a low-half
   terrain id and a high-half flag word.
+re-verified 2026-09-21: no recoverable source in this note

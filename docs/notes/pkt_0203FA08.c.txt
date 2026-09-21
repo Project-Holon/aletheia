@@ -42,3 +42,4 @@ value in r3 across the two helper calls and materialises the -1 abort as
 `ldr`/`add` scheduling of the same statements and puts the divmod's low word in a
 different register, which shifts the whole tail by one.  Not attempted further:
 the body is right and the difference is allocator scheduling, not C shape.
+re-verified 2026-09-21: no recoverable source in this note

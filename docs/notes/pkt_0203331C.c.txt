@@ -82,3 +82,4 @@ counters in ip/r5/lr with the count in r3; the original has r2 (idx), r3 (shift)
 lr (i) and the count in ip.  Declaration order, `for`-init versus separate
 assignment, `while` versus `for`, and single-line declarations were all compiled
 and none of them move the allocation.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0203331C.c:55: declaration syntax error

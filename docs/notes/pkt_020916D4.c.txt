@@ -48,3 +48,4 @@ parked either (it is the follower at the end of pkt_020916D4), so even a
 byte-correct body would cap at MATCH on that one `bl` until 0x020917D4 has a
 manifest entry.  No source file retained (src/matched/ is EXACT-only); the
 address stays `new`.
+re-verified 2026-09-21: no recoverable source in this note

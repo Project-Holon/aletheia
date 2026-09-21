@@ -104,3 +104,4 @@ symbols:
   infowin_ptr      0x0202693C  data
   infowin_state    0x02020214  data
   infowin_file     0x020A7478  data
+re-verified 2026-09-21: no recoverable source in this note

@@ -32,3 +32,4 @@ What the function does, for the next reader: it guards on a counter at +0x1554
 against 0x270F, calls func_0200EA3C on the slot at index *(u32 *)(a0 + 0x1550)
 of a 0x16C-byte array, advances that index modulo 15 (wrapping to 0 when it
 reaches 15) and bumps the counter.  func_0200EA3C resolves from its own label.
+re-verified 2026-09-21: no recoverable source in this note

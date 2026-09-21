@@ -61,3 +61,4 @@ void func_0206DB80(void)
         *(u32 *)g_0214BAB4[0] = 0;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 88 bytes against 92, 23 concrete bytes out, 1.1p1

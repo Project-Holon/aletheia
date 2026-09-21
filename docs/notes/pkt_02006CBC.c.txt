@@ -62,3 +62,4 @@ void sub_02006CBC(void *a)
     }
     *(u8 **)g02146164 = p1;
 }
+re-verified 2026-09-21 by tools/match.py: ERROR, n/a bytes against n/a, n/a concrete bytes out, ISA conflict for sub_02006D3C at 02006D3C: the source declares thumb, the image says arm (the func_02006D3C label in asm/arm9).  Fix the symbols: block (address from header); refusing to resolve the call at +0066.

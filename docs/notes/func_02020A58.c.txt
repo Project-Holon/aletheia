@@ -538,3 +538,4 @@ void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
  *     had not been swept on it for budget, and it is the first thing to
  *     try, since this twin has two more offset locals to rank.
  * ================================================================ */
+re-verified 2026-09-21 by tools/match.py: DIFF, 260 bytes against 260, 7 concrete bytes out, 1.1p1

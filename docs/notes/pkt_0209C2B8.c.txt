@@ -20,3 +20,4 @@ routine, a shift-by-2 dispatch and a 29-deep unroll are not shapes any C
 front end emits for `/`, and no source file can be cut at 0x0209C2B8 without
 truncating the routine mid-table.  Classify it with the other runtime
 material (layout/runtime_arm9.txt style) rather than as an open C function.
+re-verified 2026-09-21: no recoverable source in this note

@@ -41,3 +41,4 @@ Two spellings that look equivalent and are not:
 A short attempt at `tbl_020A1B38[...]` without the second `/ 360` (i.e. a
 scaled multiply by 0xFFFF >> 4 only) also fails: the magic multiply is there
 in the original and a plain multiply is not it.
+re-verified 2026-09-21: no recoverable source in this note

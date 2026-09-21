@@ -97,3 +97,4 @@ void func_0200C914(int a0, int a1, int a2, int a3, int a4)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 208 bytes against 224, 184 concrete bytes out, 1.1p1

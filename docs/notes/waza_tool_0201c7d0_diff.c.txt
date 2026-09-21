@@ -52,3 +52,4 @@ void sub_0201C7D0(u32 a, u32 b, u32 c, struct StrObj *owner, u32 e, u16 f)
     sub_0201C8A4(&g_0214655C, f);
     sub_0201C8BC(&g_0214655C, owner);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 56, 37 concrete bytes out, 1.1p1

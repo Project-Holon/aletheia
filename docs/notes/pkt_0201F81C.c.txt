@@ -23,3 +23,4 @@ index in r3 and reuses the `push {r3}` home slot.  The 5th argument (read by
 the original as `ldr r0, [sp, #0x18]` after a 6-register push) is a real stack
 parameter, not a truncation of a1 - declaring it as a 5th parameter is the
 next shape to try.
+re-verified 2026-09-21: no recoverable source in this note

@@ -93,3 +93,4 @@ void func_020314F4(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3)
     }
     obj->buffer = func_02031538(a1, a2, a3, obj->f00);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 68, 45 concrete bytes out, 1.1p1

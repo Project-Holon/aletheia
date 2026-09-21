@@ -25,3 +25,4 @@ x18.)
 Next attempt: nothing in this function.  It closes when 0x02072758, 0x020727B4
 or 0x02073108 becomes an EXACT entry elsewhere, or when a second caller of any
 of them turns up in an overlay.
+re-verified 2026-09-21: no recoverable source in this note

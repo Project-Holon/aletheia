@@ -66,3 +66,4 @@ What was tried
 Classification: scheduler, same instructions in a rotated order, not
 reachable from the C shape.  Left as a note; not filed, since a 9-byte
 concrete difference is not a MATCH and cannot be parked.
+re-verified 2026-09-21: no recoverable source in this note

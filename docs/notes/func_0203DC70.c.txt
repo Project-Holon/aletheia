@@ -33,3 +33,4 @@ table's setup.
 Reported as unreachable from this lane rather than attempted.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

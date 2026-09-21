@@ -103,3 +103,4 @@ Verified with
 
 Scratch candidates: p111bc.c, e1-e4, f1-f4, m1-m5, s_div, s_mod, t1-t4,
 u1-u3 in scratch/_l1/cand/.
+re-verified 2026-09-21: no recoverable source in this note

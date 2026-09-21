@@ -56,3 +56,4 @@ void func_0206B458(Ctx *ctx)
     } while ((ctx->f08 & 0x20u) == 0);
 }
 ```
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

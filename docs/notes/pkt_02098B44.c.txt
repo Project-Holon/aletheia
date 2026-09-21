@@ -51,3 +51,4 @@ is in this packet, 0x0209A524 is not.  The order that pays is 0x0209953C
 first (it uncaps 0x02098B48 at the same time, if it lands), then 0x0209A524.
 All three bodies are MSL soft-double library C of 181-528 instructions; the
 transcription cost is the real blocker, the evidence is not.
+re-verified 2026-09-21: no recoverable source in this note

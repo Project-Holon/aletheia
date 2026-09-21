@@ -72,3 +72,4 @@ void func_02057B10(struct Obj *o, struct Src *s, int t)
     cur = s->_14->_04;
     o->_34 = cur + (cur - 0x1000) * (t - 0xFF) / 255;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 60 bytes against 76, 53 concrete bytes out, 1.1p1

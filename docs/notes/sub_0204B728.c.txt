@@ -94,3 +94,4 @@ void sub_0204B728(struct Obj *o, struct Xform *m)
 2026-09-21 CAP RE-CHECKED, LIFTED: the header's claim that the only reference
 to 0x0204B728 is the `bl` inside the range no longer holds. Probed today:
 0204B728 -> [label x4, e.g. 0204CF5C].
+re-verified 2026-09-21 by tools/match.py: DIFF, 60 bytes against 60, 8 concrete bytes out, 1.1p1

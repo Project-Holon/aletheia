@@ -262,3 +262,4 @@
  * scratch/_l2/wordrefs.py (every `.word 0xADDR` in asm/, for the literal
  * wall test).
  */
+re-verified 2026-09-21: no recoverable source in this note

@@ -244,3 +244,4 @@ from it, do not re-derive.
       s->f14 = sh;
   }
   
+re-verified 2026-09-21 by tools/match.py: DIFF, 792 bytes against 848, 631 concrete bytes out, 1.1p1

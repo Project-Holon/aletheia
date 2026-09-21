@@ -54,3 +54,4 @@ void *sub_0200BAF4(int a0, int a1)
     }
     return h;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 96 bytes against 100, 75 concrete bytes out, 1.1p1

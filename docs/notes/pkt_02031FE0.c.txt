@@ -201,3 +201,4 @@ lets the allocator see `mode`'s live range end there -- e.g. reading mode into
 a named local before the call and never touching the parameter again -- is the
 first thing to try.  A body that is 57.1 percent byte-identical with an
 identical prologue and tail is a cheap start, not a wall.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02031FE0.c:12: undefined identifier 'pkt_02031FE0'

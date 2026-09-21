@@ -52,3 +52,4 @@ the two orderings can be compared without a hand diff.
 Meanwhile the byte-correct C for 0x0206B6A4 (the other half of the same
 packet's blocker set) is parked in src/pending/func_0206B6A4.c, and
 src/pending/func_02062474.c stays MATCH.
+re-verified 2026-09-21: no recoverable source in this note

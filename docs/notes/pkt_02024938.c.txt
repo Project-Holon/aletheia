@@ -33,3 +33,4 @@ Two things differ and both are spelling, not reading:
 
 Untried at the time of writing: declaring the second table as its own extern
 AND keeping the u32 index (only the struct version was compiled).
+re-verified 2026-09-21: no recoverable source in this note

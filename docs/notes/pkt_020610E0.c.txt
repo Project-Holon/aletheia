@@ -36,3 +36,4 @@ branch), `len = end - start` assigned inside the `||` (2, this packet's best),
 
 Stop here unless another packet pins which scratch register mwccarm 1.1p1
 prefers for a subtraction feeding a comparison; the choice is below the source.
+re-verified 2026-09-21: no recoverable source in this note

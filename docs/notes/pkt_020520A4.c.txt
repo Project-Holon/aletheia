@@ -370,3 +370,4 @@ folds it back to a positive immediate every time.  The lever is probably to
 give the store a signed char destination so no truncation is written at all,
 which was not reached before the budget ran out.  Filed nowhere; the C is not
 in src/matched (a DIFF has no home there).
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020520A4.c:22: declaration syntax error

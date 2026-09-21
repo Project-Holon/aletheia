@@ -53,3 +53,4 @@ void func_0206B63C(u32 *bits, volatile Node *node)
     }
 }
 ```
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

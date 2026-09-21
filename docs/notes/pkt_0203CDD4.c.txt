@@ -164,3 +164,4 @@ int func_0203CEAC(u32 a)
 
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 84 bytes against 88, 40 concrete bytes out, 1.1p1

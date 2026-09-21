@@ -111,3 +111,4 @@ int func_0206FFA0(int *dst, const s16 *src1, const s16 *src2, int id)
         return 1;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 348 bytes against 364, 274 concrete bytes out, 1.1p1

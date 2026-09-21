@@ -73,3 +73,4 @@ packet, decompiling it is usually cheaper than reasoning about cuts.  Four
 files in this wave (func_0204BB54, func_0204C6E4, func_0204C83C and
 unit_0204B9C4) went from MATCH to EXACT that way, with no new evidence class
 invented, only a manifest entry that did not exist before.
+re-verified 2026-09-21: no recoverable source in this note

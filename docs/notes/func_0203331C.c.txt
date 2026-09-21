@@ -44,3 +44,4 @@ so binding either to a named local (in any declaration order) does not move
 them: the front end renames both away and colours the two live ranges the
 same way every time.  Same length, same instructions, nine bytes of colouring
 - the same family as docs/notes/func_02031F54.c.txt.
+re-verified 2026-09-21: no recoverable source in this note

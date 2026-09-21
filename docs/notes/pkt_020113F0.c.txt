@@ -22,3 +22,4 @@ Status:
 2. Evidence: Capped at MATCH. Both table bases (0x0209DF10 and 0x0209DF24) are named
    by exactly one literal pool word inside the compared range, so neither has an outside
    witness yet. Parked in `src/pending/unit_020113F0.c`.
+re-verified 2026-09-21: no recoverable source in this note

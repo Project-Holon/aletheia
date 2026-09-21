@@ -416,3 +416,4 @@ u32 func_02053E1C(struct Obj *obj, struct S *s)
     return func_02053E1C_Hooks2[obj->f40->f20->f14->hw.sel1]
         (obj->f40->f7c, obj->f40->f7e, e);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 1128 bytes against 1152, 763 concrete bytes out, 1.1p1

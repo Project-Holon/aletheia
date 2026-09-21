@@ -76,3 +76,4 @@ void sub_0200F734(void)
     }
     *(u32 *)(g + 0x60) = func_02156460(*(u32 *)p, *(u32 *)(p + 4));
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 124 bytes against 132, 41 concrete bytes out, 1.1p1

@@ -168,3 +168,4 @@ Not filed anywhere: DIFF. The source as it stood follows.
             }
         }
     }
+re-verified 2026-09-21 by tools/match.py: DIFF, 520 bytes against 520, 357 concrete bytes out, 1.1p1

@@ -28,3 +28,4 @@ Tried: the clamped value as a named local (`u32 n = a;`), as the parameter
 itself, and with the clamp written as an early `return 0`.  The clamp itself
 (`ldr r0, [pc, #0x3c]; cmp; bls; movs`) and the pool word 0x272 are right in
 every shape.
+re-verified 2026-09-21: no recoverable source in this note

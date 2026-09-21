@@ -95,3 +95,4 @@ u32 sub_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n)
     return 0;
 }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 176 bytes against 176, 24 concrete bytes out, 1.1p1

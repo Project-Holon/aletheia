@@ -132,3 +132,4 @@ int sub_0200D064(u8 *base, u16 idx)
     }
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 72, 43 concrete bytes out, 1.1p1

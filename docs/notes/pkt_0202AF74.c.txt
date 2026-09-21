@@ -99,3 +99,4 @@ Two real levers on the way:
 Ruled out: inlining all five argument expressions (identical residue);
 binding arg1/arg2/arg3/arg4 to named locals (identical residue, the
 compiler re-schedules the loads back to the same place).
+re-verified 2026-09-21: no recoverable source in this note

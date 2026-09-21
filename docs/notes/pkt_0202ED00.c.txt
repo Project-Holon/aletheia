@@ -72,3 +72,4 @@ docs/notes/pkt_02036568.c.txt.
 
 Everything else about the file reproduces, and the tail loop and the shared
 exit are exact under each of the 6-byte spellings.
+re-verified 2026-09-21: no recoverable source in this note

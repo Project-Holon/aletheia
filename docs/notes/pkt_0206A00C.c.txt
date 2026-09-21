@@ -106,3 +106,4 @@ void func_0206A00C(Blk6A00C *b, int arg)
  *   -> DIFF, compiled 184 == 184 bytes, 5/5 relocation sites resolved (label),
  *      6 concrete bytes differ (listed above).
  */
+re-verified 2026-09-21 by tools/match.py: DIFF, 184 bytes against 184, 6 concrete bytes out, 1.1p1

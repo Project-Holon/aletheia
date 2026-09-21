@@ -37,3 +37,4 @@ class in this lane's report rather than transcribed.  The worklist's 8-byte
 size for each row is the stub alone; the pool word is what the next row's
 `address:` does not cover, and the pair's real extent is the 12 bytes
 0x0203D7B0..0x0203D7BC and 0x0203D7BC..0x0203D7C8 that `match.py show` prints.
+re-verified 2026-09-21: no recoverable source in this note

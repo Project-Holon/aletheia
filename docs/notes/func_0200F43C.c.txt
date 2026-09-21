@@ -135,3 +135,4 @@ int func_0200F43C(void *obj, int a1, int a2, int *out)
     }
     return 2;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 170 bytes against 168, 113 concrete bytes out, 1.1p1

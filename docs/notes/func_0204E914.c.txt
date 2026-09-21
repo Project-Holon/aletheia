@@ -117,3 +117,4 @@ src/pending/func_0204E8C0.c (the constructor, byte-correct MATCH) is blocked
 only on this function: 0x0204E914 has exactly one branch reference image-wide,
 the call at the end of func_0204E8C0, so its only possible witness is a
 `matched` entry here.
+re-verified 2026-09-21: no recoverable source in this note

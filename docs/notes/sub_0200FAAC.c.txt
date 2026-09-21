@@ -102,3 +102,4 @@ missing evidence and not obviously return-type driven, so this stays
 DIFF rather than forced to MATCH. Left as a near miss for a future
 attempt with more time to sweep entry statement order and tail branch
 polarity.
+re-verified 2026-09-21: no recoverable source in this note

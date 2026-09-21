@@ -383,3 +383,4 @@ void func_020433E0(volatile struct Cfg *c)
         REG_B = (REG_B & 0xffcfffef) | b;
     }
 }
+re-verified 2026-09-21: no recoverable source in this note

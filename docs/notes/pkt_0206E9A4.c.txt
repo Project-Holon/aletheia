@@ -94,3 +94,4 @@ end:
 ret0:
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 92 bytes against 92, 6 concrete bytes out, 1.1p1

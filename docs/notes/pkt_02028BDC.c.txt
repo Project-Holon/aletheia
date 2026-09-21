@@ -135,3 +135,4 @@ void func_02028BDC(struct S *s, u32 mask)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

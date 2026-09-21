@@ -128,3 +128,4 @@ Ruled out as a pin: the note already measured ../1.2/sp2 at 196 bytes with
 a different dispatch shape, so the alternative front end is further away,
 not closer.  No FRONTEND-PINS.md row is warranted.
 ====================================================================
+re-verified 2026-09-21: no recoverable source in this note

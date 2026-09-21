@@ -105,3 +105,4 @@ knowing about so they are not retried:
     (`moveq r1, #0` here versus `bne` + unconditional `mov r1, #0` there).
     Also tried and no better: `u32 *e` declared uninitialised (116 B), and a
     `u8 *e` byte-pointer form (116 B).
+re-verified 2026-09-21: no recoverable source in this note

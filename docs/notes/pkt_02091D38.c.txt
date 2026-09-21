@@ -425,3 +425,4 @@ CONSEQUENCE UNCHANGED: src/pending/func_02092004.c STAYS MATCH and is NOT
 promoted.  Its sole wildcard is the PC24 to func_02091E44 and only a
 `matched` entry at 0x02091E44 promotes it; this row is still not one.
 Nothing was moved.  Not filed: DIFF, by rule 6.
+re-verified 2026-09-21: no recoverable source in this note

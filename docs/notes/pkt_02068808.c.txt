@@ -613,3 +613,4 @@ measurement; do not re-probe it.
 that both of its residual sites were measured against the pin and that the
 remaining work is allocation, so the same three levers would apply to it and
 two of the three are already known-worse on its sibling.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02068808.c:85: declaration syntax error

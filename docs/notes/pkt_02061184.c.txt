@@ -57,3 +57,4 @@ u32 func_020611D4(struct Obj *obj, u32 val) {
     obj->head = curr->next;
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 84 bytes against 80, 49 concrete bytes out, 1.1p1

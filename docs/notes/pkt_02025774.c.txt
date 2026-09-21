@@ -60,3 +60,4 @@ u32 sub_02025B64(u32 key)
     }
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: MATCH, 48 bytes against 48, n/a concrete bytes out, 1.1p1

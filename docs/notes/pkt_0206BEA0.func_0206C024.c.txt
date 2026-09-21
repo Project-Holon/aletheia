@@ -39,3 +39,4 @@ flags in the original is the tell that the source had both zero-assignments as
 separate statements (not one shared block) and that mwcc did NOT if-convert them
 here -- the opposite of what this front end does with the same statements
 arranged slightly differently.
+re-verified 2026-09-21: no recoverable source in this note

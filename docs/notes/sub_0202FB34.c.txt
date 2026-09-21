@@ -150,3 +150,4 @@ void sub_0202FB34(struct Rc4 *ctx, const u8 *src, s32 len, u8 *dst)
  * an alternative front end emits the `lsr #24` addressing with the
  * seven-register push, which has not been measured.
  * ------------------------------------------------------------------------ */
+re-verified 2026-09-21 by tools/match.py: DIFF, 116 bytes against 120, 101 concrete bytes out, 1.1p1

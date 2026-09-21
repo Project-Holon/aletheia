@@ -35,3 +35,4 @@ Verified with:
   python tools/match.py one --src <cand> --func func_0202BA24 \
       --addr 0x0202BA24 --cc 1.1p1 --thumb
   -> DIFF, compiled 54, original 58, 52 concrete bytes differ.
+re-verified 2026-09-21: no recoverable source in this note

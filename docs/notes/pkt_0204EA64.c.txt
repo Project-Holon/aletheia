@@ -63,3 +63,4 @@ without a single byte of C changing:
 
 So when a small function in a packet is capped at MATCH by a sibling that is
 itself still open, do the sibling first and write the shard before giving up.
+re-verified 2026-09-21: no recoverable source in this note

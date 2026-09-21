@@ -57,3 +57,4 @@ this lane's brief authorises one alternative-compiler probe only for the
 later lane is authorised to probe it, this is a cheap, high-confidence
 target: 36 bytes, no relocations, two call sites' worth of coverage, and
 the one difference is three adjacent instructions.
+re-verified 2026-09-21: no recoverable source in this note

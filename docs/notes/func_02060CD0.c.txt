@@ -184,3 +184,4 @@ fixed, since both change what is live across the search.
 Verified with:
   python tools/match.py one --src src/matched/func_02060CD0.c \
       --func func_02060CD0 --addr 0x02060CD0 --cc 1.1p1 --arm --diff
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02060CD0.c:12: undefined identifier 'Near'

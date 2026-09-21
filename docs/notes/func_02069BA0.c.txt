@@ -116,3 +116,4 @@ func_020713A4 and func_02071EFC.  It is NOT a pin: ../2.0/sp2 gives 100 bytes
 (a SIZE miss) with 79 concrete out, much worse than 1.1p1's 96/14.  Do not
 probe the compiler on this function again.
 Floor stays 14.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02069BA0.c:12: undefined identifier 'docs'

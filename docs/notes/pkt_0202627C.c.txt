@@ -195,3 +195,4 @@ void func_020263D8(struct T *p, u32 a1, u32 a2)
  * 0x1C-byte record plus tail calls to 0x02026490; reproducing the table offsets
  * means reproducing every arm's instruction sequence exactly.  Left open.
  */
+re-verified 2026-09-21 by tools/match.py: DIFF, 40 bytes against 52, 11 concrete bytes out, 1.1p1

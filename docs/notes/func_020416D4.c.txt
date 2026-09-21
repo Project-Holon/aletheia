@@ -164,3 +164,4 @@ u8 func_020416D4(u32 layer)
 
     return 0;
 }
+re-verified 2026-09-21: no recoverable source in this note

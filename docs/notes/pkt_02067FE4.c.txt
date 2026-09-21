@@ -182,3 +182,4 @@ One 2.0 probe, same reasoning as the 0x02068030 row: `../2.0/sp2` gives the
 same 148 bytes with 46 mismatches rather than 52.  Again an improvement and
 again NOT pin evidence -- no kept constant, no kept branch, no re-read tell,
 and 46 is not 0.  NO PIN TAKEN.
+re-verified 2026-09-21: no recoverable source in this note

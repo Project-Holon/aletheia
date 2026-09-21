@@ -90,3 +90,4 @@ C currently tried (scratch/scratch/w_02016028.c):
         *(u32 *)(p + 0x144) &= ~1u;
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 58 bytes against 80, 53 concrete bytes out, 1.1p1

@@ -101,3 +101,4 @@ u64 func_0200BFA4(u8 *p, void *q, u32 mode)
  *   python tools/match.py one --src scratch/r2a4/bfa4_v8.c \
  *       --func func_0200BFA4 --addr 0x0200BFA4 --cc 1.1p1 --thumb --diff
  */
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0200BFA4.c:12: unterminated comment

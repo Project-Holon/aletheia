@@ -100,3 +100,4 @@ bad:
 done:
     return ok;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 116 bytes against 116, 1 concrete bytes out, 1.1p1

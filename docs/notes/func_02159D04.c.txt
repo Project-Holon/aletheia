@@ -153,3 +153,4 @@ void func_02159D04(struct MapMatrix *dst, const struct MatrixFile *src,
         func_02082A48(zone_id, zone_grid, 0x708);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 100 bytes against n/a, 99 concrete bytes out, 1.1p1

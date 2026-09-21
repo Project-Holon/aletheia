@@ -98,3 +98,4 @@ pkt_0207312C) to src/matched/ unchanged -- its PC24 site at +0x68 was blocked
 on exactly this address and now resolves `matched x1`.
 
 0x020737C0 (104) remains as described: MATCH-capped whatever the C.
+re-verified 2026-09-21: no recoverable source in this note

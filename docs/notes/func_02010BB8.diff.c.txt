@@ -68,3 +68,4 @@ int func_02010BB8(void *a0, int a1, int a2)
     *(u32 *)(p + 8) = (u32)func_02031324(0x5b);
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 120 bytes against 124, 7 concrete bytes out, 1.1p1

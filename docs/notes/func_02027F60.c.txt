@@ -55,3 +55,4 @@ original, so pinning those to named locals ahead of the first call may
 free r5 the way the original does.
 
 Not a candidate for src/pending/: DIFF, not a wildcarded relocation.
+re-verified 2026-09-21: no recoverable source in this note

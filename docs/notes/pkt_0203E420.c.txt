@@ -23,3 +23,4 @@ Only 4 bytes differ, the same register pair twice: the address constant
 `blx`, the 0x4C copy, the +0x90 return - is identical.  Ruled out: the global
 written as `*(u8 **)(0x21469F0)` inline instead of a symbol (same r0), and
 different positions for the virtual's result.
+re-verified 2026-09-21: no recoverable source in this note

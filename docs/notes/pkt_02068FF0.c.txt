@@ -411,3 +411,4 @@ the or respelled `(top >> 16) | v` (27); the store value bound to a named
 NOT carry over); the index bound to a named `int ix` local (27).
 Floor under the pin is 27, against 41 unpinned.  A later lane should write the
 C against ../2.0/sp2 from the start.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02068FF0.c:30: declaration syntax error

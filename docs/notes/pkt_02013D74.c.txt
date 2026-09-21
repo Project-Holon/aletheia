@@ -122,3 +122,4 @@ int func_02013D74(u32 key)
 * +0026 movs r0, r0 | mov r8, r8
 * +0028 push {r3, lr} | lsls r1, r4, #4
 * +002A .byte ff f7 | movs r0, r0
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02013D74.c:26: declaration syntax error

@@ -95,3 +95,4 @@ C currently tried (scratch/scratch/w_0202071C.c):
         }
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 70 bytes against 100, 62 concrete bytes out, 1.1p1

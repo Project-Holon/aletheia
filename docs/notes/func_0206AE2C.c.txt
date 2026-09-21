@@ -19,3 +19,4 @@ site is the classic own-pool case: this function's pool word is the only
 mention of 0x02148D4C in the image.
 
 Next attempt: nothing here -- the row closes when 0x0206AD20 is EXACT.
+re-verified 2026-09-21: no recoverable source in this note

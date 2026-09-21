@@ -76,3 +76,4 @@ C currently tried (scratch/scratch/w_02020DC8.c):
         *(void **)(p + 8) = func_020436FC((u32)tbl_0209E8CC, 1, 1, 0x20, a1);
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 32 bytes against 36, 26 concrete bytes out, 1.1p1

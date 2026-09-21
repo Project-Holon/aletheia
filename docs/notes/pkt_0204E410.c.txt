@@ -33,3 +33,4 @@ The two table words must be declared as two separate externs at 0x020A1480
 (strided-by-four key bytes) and 0x020A1482 (halfword values); a single
 four-byte-record struct collapses them onto one base plus offsets and loses
 the relocation.
+re-verified 2026-09-21: no recoverable source in this note

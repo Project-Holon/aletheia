@@ -5,3 +5,4 @@ A previous pass had parked func_0206AA0C here as DIFF (52 compiled against
 `*(Rec *)(g_02148B4C + 0x3b)` is what keeps the flag load behind the 12-byte
 copy; with two separate externs mwccarm hoists it and needs a second pool
 register.
+re-verified 2026-09-21: no recoverable source in this note

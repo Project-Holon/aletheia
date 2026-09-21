@@ -65,3 +65,4 @@ Residue, three independent 4-byte..6-byte groups:
 
 docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
 is the closest documented family for 1 and 3.
+re-verified 2026-09-21: no recoverable source in this note

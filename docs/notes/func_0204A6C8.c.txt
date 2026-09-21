@@ -192,3 +192,4 @@ Consumer note: pkt_0202D7D8's func_0202D81C was closed to EXACT this same
 session and calls this function; it resolves func_0204A6C8 by `label`
 (x2 witnesses), so nothing downstream is blocked on this address reaching
 EXACT, and this remains a coverage-only near miss.
+re-verified 2026-09-21: no recoverable source in this note

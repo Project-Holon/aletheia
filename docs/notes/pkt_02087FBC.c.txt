@@ -45,3 +45,4 @@ needs a `literal` witness and 0x02151390 has none.
 
 No source file retained (src/matched/ is EXACT-only).  The packet id is
 pkt_02087FBC; this address stays `new`.
+re-verified 2026-09-21: no recoverable source in this note

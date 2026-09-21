@@ -171,3 +171,4 @@ int func_0201240C(void *o, u32 *a1, u32 *a2)
     }
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 60 bytes against 56, 54 concrete bytes out, 1.1p1

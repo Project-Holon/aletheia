@@ -24,3 +24,4 @@ row is parked with class `veneer`.  A `tu` range may not span it either
 (docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md),
 which is what keeps func_02005B24 and func_02005B74 from being folded into one
 unit to make their mutual call sites `local`.
+re-verified 2026-09-21: no recoverable source in this note

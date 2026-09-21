@@ -33,3 +33,4 @@ Next attempt: solve the pooled small argument once for func_0202F9F8,
 func_02010AC4 and func_02010C34 (all three pass a small pooled first argument to
 func_020312CC), then re-lay the case bodies.  The row can only ever reach
 MATCH* because of the three unwitnessed data addresses.
+re-verified 2026-09-21: no recoverable source in this note

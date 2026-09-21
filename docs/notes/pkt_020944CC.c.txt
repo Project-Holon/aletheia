@@ -6,3 +6,4 @@ wrappers of this neighbourhood (with 0x02084F44, 0x0208CF38, 0x0208D7E4 and
 stack pointer, reloads the first vararg from [sp, #0xC] and passes the
 vararg area on to func_020944CC, then pops both the frame and the caller's
 argument block -- the ABI prologue that no C function body emits.
+re-verified 2026-09-21: no recoverable source in this note

@@ -31,3 +31,4 @@ src/matched/func_02072CC4.c).  Parked: 0x02072D98, 0x02072DB0, 0x02072DD0
 
 2. func_020729C0 is *not* in this packet (it is pkt_020729C0); its if-converted
    4-statement guard is written up in docs/notes/pkt_020729C0.c.txt.
+re-verified 2026-09-21: no recoverable source in this note

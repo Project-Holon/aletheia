@@ -54,3 +54,4 @@ was not re-run here, because that document already closed it project-wide.
 
 Verdict: DIFF, 5 instructions differing only in register numbers.  No source
 file filed; nothing further to try without a new lever on the allocator.
+re-verified 2026-09-21: no recoverable source in this note

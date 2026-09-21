@@ -40,3 +40,4 @@ The tag constant 0x5343524E is the literal pool word at 0x02062B60 ('NRCS' read
 little-endian); the other three accessors use 'KNBA' (0x0206266C), 'KBCM'
 (0x02062958) and 0x4345424b (see src/pending/func_02062820.c), which is how the
 family can be recognised from the bytes.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02062B30.c:12: undefined identifier 'pkt_02062B30'

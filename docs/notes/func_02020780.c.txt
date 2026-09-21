@@ -58,3 +58,4 @@
  * do.  Whoever next picks up 0x02020780 should budget a full slot for
  * the re-derivation before any permuter time.
  * ------------------------------------------------------------------ */
+re-verified 2026-09-21: no recoverable source in this note

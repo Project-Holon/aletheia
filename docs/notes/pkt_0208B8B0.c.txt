@@ -62,3 +62,4 @@ the loop's constant pool).
 Verdict: DIFF, codegen (address register of the leading guard), 9 of 160
 concrete bytes, plus the 0x0208B950 pool word which will hold it at MATCH
 even after the head is fixed.
+re-verified 2026-09-21: no recoverable source in this note

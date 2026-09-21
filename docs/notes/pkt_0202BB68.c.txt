@@ -66,3 +66,4 @@ func_0202BBB0 is `if (v >= lv) { if (lv >= v) return; fde8(); } else fdd0();`
 
 Ruled out: u32 lv/v; dropping the `lv` local; reordering the local
 declarations; spelling the field as `p + 0x1e4 + i * 4`.
+re-verified 2026-09-21: no recoverable source in this note

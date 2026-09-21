@@ -147,3 +147,4 @@ Nothing else changed: the row is a 10-byte codegen wall, class "call with a
 frame where the front end makes a sibling call".  Do not spend a further pass
 on spellings; spend one on the possibility that this stub was assembled by
 hand into the image (it is 10 bytes and sits between two accessors).
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020120B4.c:24: declaration syntax error

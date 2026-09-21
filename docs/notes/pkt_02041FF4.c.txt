@@ -74,3 +74,4 @@ Declare the nibble-loop counter as `u8 i` so the back edge masks with
 which must be the `tst`-and-return form rather than the rotated do/while.
 
 Best C: scratch/probe1/w2_02041FF4.c.
+re-verified 2026-09-21: no recoverable source in this note

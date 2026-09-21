@@ -54,3 +54,4 @@ int sub_0201450C(int a0, int *state, int *p)
     }
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: MATCH*, 70 bytes against 72, n/a concrete bytes out, 1.1p1

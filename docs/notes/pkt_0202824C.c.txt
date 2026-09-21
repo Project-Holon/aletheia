@@ -46,3 +46,4 @@ void func_020282AC(struct A *a, struct B *b, u32 c, u32 d, u32 e)
  * NEAR MISS: DIFF: 36 bytes of scheduling; the fifth-argument load is add+ldrh in the original.
  */
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 42 bytes against 44, 36 concrete bytes out, 1.1p1

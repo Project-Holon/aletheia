@@ -703,3 +703,4 @@ void func_02064D70(struct Obj02064D70 *x, Cb02064D70 cb, void *arg)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 200 bytes against 204, 132 concrete bytes out, 1.1p1

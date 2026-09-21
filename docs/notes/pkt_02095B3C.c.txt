@@ -140,3 +140,4 @@ the only spelling that breaks the fold breaks the frame with it.
 Neither pin helps, for the reason the note gives (the image predicates the
 error block AND rematerialises the constant; no front end in the collection
 does both), so no probe was repeated.  Not filed: DIFF, by rule 6.
+re-verified 2026-09-21: no recoverable source in this note

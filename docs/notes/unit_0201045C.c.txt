@@ -103,3 +103,4 @@ void sub_02010498(void)
     if (*(int *)(o + 0x324) > 0)
         *(int *)(o + 0x324) = *(int *)(o + 0x324) - 1;
 }
+re-verified 2026-09-21 by tools/match.py: MATCH, 96 bytes against n/a, n/a concrete bytes out, 1.1p1

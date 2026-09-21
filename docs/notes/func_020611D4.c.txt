@@ -77,3 +77,4 @@ int func_020611D4(Ctx *ctx, u32 key)
     return 1;
 }
 ```
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

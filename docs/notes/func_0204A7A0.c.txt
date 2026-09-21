@@ -187,3 +187,4 @@ extern today: 020A1430 -> [literal x4, e.g. 0204A8C8]. The site resolves on the
 plain `literal` class; sole-ref is not even needed. A byte-exact func_0204A7A0
 is EXACT today. The 103-byte scheduling residue is now the ONLY thing between
 this row and a filing.
+re-verified 2026-09-21: no recoverable source in this note

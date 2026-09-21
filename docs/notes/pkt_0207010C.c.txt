@@ -281,3 +281,4 @@ extent through 0x02070C24 while the worklist says 116; the run at 0x02070BD8
 (ldr r3,[pc,#0x40] ... bx lr, ending 0x02070C1C with a pool word at
 0x02070C20) is a separate leaf function with no `lr`-saving prologue and so
 no auto-label. It should be seeded into layout/function_starts.txt.
+re-verified 2026-09-21: no recoverable source in this note

@@ -164,3 +164,4 @@ witness itself.  Both halves of the pair are therefore permanent parks: the
 blocker cannot enter the manifest at any spelling of its body (even a
 byte-perfect body caps at MATCH), and src/pending/func_020189D8.c cannot be
 promoted without it.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020189D8.c:21: declaration syntax error

@@ -219,3 +219,4 @@ of ARM.  The other numbers in this note (the MSL scanf/strtod reading, the
 two state machines, the stack objects) were not re-derived; the state-machine
 map and the "library C, source not in this tree" conclusion are the reason no
 body was attempted here.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02094B8C.c:12: declaration syntax error

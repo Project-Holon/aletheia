@@ -49,3 +49,4 @@ void func_020225B4(int a0, u32 *a1)
 * +0018 adds r0, r4, #0 | blx #0x20307b0 <- THM_CALL func_020307B0 [resolved: label]
 * +001A blx #0x20307b0 | f0 e8 38 bd
 * +001C f0 e8 | pop {r3, r4, r5, pc}
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020225B4.c:25: declaration syntax error

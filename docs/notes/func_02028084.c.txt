@@ -145,3 +145,4 @@ Findings that are settled and should not be re-derived:
  - Blocker: the original spills a2 to [sp,#0xc] at +0x04 (before 'adds r5,r0,#0')
    and reloads a3 from [sp,#0x10] late at +0x52; the compiler here spills a3
    first and reloads a3 early at +0x3C.  Same slots, different order.
+re-verified 2026-09-21 by tools/match.py: DIFF, 196 bytes against 196, 45 concrete bytes out, 1.1p1

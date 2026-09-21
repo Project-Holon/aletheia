@@ -106,3 +106,4 @@ register in the function is off by one slot. Inverted `if (v != 0) {...} else
 flow and all shift the same way. Not pursued; as a consequence 0x02072E7C and
 0x02072E8C stay open (their only witness is a callee that is not EXACT), as
 does 0x02072E8C's sibling.
+re-verified 2026-09-21: no recoverable source in this note

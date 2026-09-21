@@ -201,3 +201,4 @@ prologue's `push {r4, r5}` and the entire loop from +0016 reproduce in every
 variant, so nothing in the C selects this register: it needs a front end that
 allocates the first block local into r4.  This is the blocker on
 src/pending/func_02025518.c.
+re-verified 2026-09-21 by tools/match.py: DIFF, 48 bytes against 48, 16 concrete bytes out, 1.1p1

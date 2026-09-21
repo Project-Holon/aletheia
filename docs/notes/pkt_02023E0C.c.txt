@@ -215,3 +215,4 @@ of the engine dispatch:
     rather than the ~96 a merged pair would give.  The second engine's
     register word is the plain constant 0x04001050 in the pool, not
     0x04000050 + 0x1000 computed at run time.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02023E0C.c:12: undefined identifier 'DIFF'

@@ -59,3 +59,4 @@ int func_0206EB7C(void *p, u32 *q, int v)
     return func_0206EE60(p, v, idx);
 }
 ```
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0206E964.c:12: invalid integer constant

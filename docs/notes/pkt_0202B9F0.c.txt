@@ -95,3 +95,4 @@ translation unit and would have to be explained together.
 
 src/matched/sub_0202BA24.c (which claimed EXACT and did not verify) has been
 removed; the shard pkt_0202B9F0 now holds only the EXACT entry at 0x0202B9F0.
+re-verified 2026-09-21: no recoverable source in this note

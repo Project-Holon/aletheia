@@ -36,3 +36,4 @@ Ruled out for the pointer: the parameter `a2` used directly (same r6), a local
 (that only moves n to r5).  Independently, the ABS32 to 0x020A7D4C has a
 single pool word and no preceding terminator, so this function is MATCH-class
 at best even with the colouring fixed.
+re-verified 2026-09-21: no recoverable source in this note

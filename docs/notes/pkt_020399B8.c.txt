@@ -38,3 +38,4 @@ offset and the register names).  Ruled out: `u32 n = 0;` at its declaration
 with `int i;` after it, `n = 0;` on its own line before the guard, declaring n
 inside the if-body with an early `return 0;` (72 bytes, wrong exit), and a
 `goto`-based shared label (68 bytes).
+re-verified 2026-09-21: no recoverable source in this note

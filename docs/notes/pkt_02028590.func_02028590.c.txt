@@ -25,3 +25,4 @@ void func_02028590(u32 a)
 {
     func_020285A4(a, 0x0209FD10);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 16 bytes against 20, 16 concrete bytes out, 1.1p1

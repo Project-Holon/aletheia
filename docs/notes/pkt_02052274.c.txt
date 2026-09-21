@@ -118,3 +118,4 @@ note records 0x020524C8 as a 1.2 + arm7tdmi body, and it was left alone on
 that basis.  Matching 0x020522E4 would also lift 0x02052274's PC24 site to
 the `matched` class, so the two should be taken together by whoever picks
 this packet up.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02052274.c:12: undefined identifier 'pkt_02052274'

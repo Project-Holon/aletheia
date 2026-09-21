@@ -109,3 +109,4 @@ same source with the byte expression written out as `p[i*2 + 0x2d]` (same
 code), with the +0x2C pointer hoisted into a local before the loop, and with
 the 5/2 constants as named locals - all three leave the extra callee-saved
 register in place.
+re-verified 2026-09-21 by tools/match.py: DIFF, 44 bytes against 44, 4 concrete bytes out, 1.1p1

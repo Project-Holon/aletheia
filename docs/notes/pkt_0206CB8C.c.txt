@@ -208,3 +208,4 @@ docs/FRONTEND-PINS.md does not apply.
 0x0206CB8C (1868 bytes) was not attempted: it is the packet's other row and
 is far past what one rewrite can hold, per the "skip oversized functions"
 rule of docs/AGENT-BRIEF.md section 7.
+re-verified 2026-09-21: no recoverable source in this note

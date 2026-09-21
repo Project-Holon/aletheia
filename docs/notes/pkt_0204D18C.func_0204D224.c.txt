@@ -210,3 +210,4 @@ function identical.  This is the allocator class of
 docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.
 Treat 0x0204D224 as CLOSED at 2 bytes unless a new register-allocation lever
 appears; it is not worth further budget.
+re-verified 2026-09-21 by tools/match.py: DIFF, 164 bytes against 184, 2 concrete bytes out, 1.1p1

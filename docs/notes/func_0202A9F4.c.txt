@@ -114,3 +114,4 @@ void func_0202A9F4(u32 a0, void *rec, u32 a2, u32 a3)
     }
     func_020185B0(rec, (u8)(((s32)func_02017E1C(rec, 0, 0) >> 8) / 0x19));
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 248 bytes against 256, 210 concrete bytes out, 1.1p1

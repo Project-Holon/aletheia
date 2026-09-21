@@ -57,3 +57,4 @@ into the array type via a `u8` table pointer cast instead of a runtime
 shift pair) to see whether either changes the scheduler's tie-break.
 Left as a near miss; the honest control-flow shape above is a solid
 starting point for a future attempt.
+re-verified 2026-09-21: no recoverable source in this note

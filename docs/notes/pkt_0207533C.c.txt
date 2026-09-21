@@ -65,3 +65,4 @@ than by a wrong shape:
         `func_02074BEC` with a 1, two output words on the stack, then
         func_020733E8 and three setters), and matching it is the next thing to
         do here because five other members of the packet call it.
+re-verified 2026-09-21: no recoverable source in this note

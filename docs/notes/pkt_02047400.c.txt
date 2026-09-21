@@ -253,3 +253,4 @@ Closest body in full (V1; V2-V5 differ only in the hunk above).  248/260 bytes,
 No src/ file is left for this row (a DIFF has no home in src/matched/) and no
 shard was written: the working copy was deleted after the body above was taken.
 
+re-verified 2026-09-21: no recoverable source in this note

@@ -44,3 +44,4 @@
  * Blocking class: wrong function start (artifact-class `push {r0,r1,r2,r3}`
  * home area split off the function it belongs to).  Report, do not shard.
  */
+re-verified 2026-09-21: no recoverable source in this note

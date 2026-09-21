@@ -163,3 +163,4 @@ the register instead of keeping it, which is the wrong mechanism and 356
 bytes.
 
 The pin is still not available: ../2.0/sp2 remains 360 bytes and 290 out.
+re-verified 2026-09-21 by tools/match.py: DIFF, 348 bytes against 352, 306 concrete bytes out, 1.1p1

@@ -76,3 +76,4 @@ function), which is why both are parked for good.
 
 Nothing in this file changed any source: it is the residue report for the ten
 park rows this lane was asked to re-check.
+re-verified 2026-09-21: no recoverable source in this note

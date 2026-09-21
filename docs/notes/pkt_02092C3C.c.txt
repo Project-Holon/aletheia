@@ -230,3 +230,4 @@ u32 func_02092C3C(u32 lo, u32 hi, u8 *buf, struct Spec8 spec, u32 w6, u32 w7)
 
     return (u32)p;
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02092C3C.c:32: declaration syntax error

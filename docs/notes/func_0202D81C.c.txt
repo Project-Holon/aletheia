@@ -44,3 +44,4 @@ agent.
 
 No further evidence attempted beyond a few principled C rewrites, per the
 budget guidance (stop grinding, move to easier ground in the packet).
+re-verified 2026-09-21: no recoverable source in this note

@@ -86,3 +86,4 @@ C currently tried (scratch/scratch/w_0201C7D0.c):
         sub_0201C8BC(g_0214655C, a3);
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 56, 37 concrete bytes out, 1.1p1

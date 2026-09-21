@@ -49,3 +49,4 @@ color argument is passed (embed both inside func_02021F64's own 5th
 argument type reused verbatim) rather than inventing a new wrapper
 struct. Not pursued further here to stay inside "a few principled
 rewrites then move on" (docs/AGENT-BRIEF.md section 7).
+re-verified 2026-09-21: no recoverable source in this note

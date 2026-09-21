@@ -116,3 +116,4 @@ int func_02078F30(u8 *a0, u32 a1, u32 a2, int a3)
     }
     return i == 0x14;
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 252 bytes against 252, 0 concrete bytes out, 1.1p1

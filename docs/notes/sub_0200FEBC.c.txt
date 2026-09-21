@@ -130,3 +130,4 @@ void sub_0200FEBC(u32 arg0)
         GXx_SetMasterBrightness_((void *)0x0400106C, obj->unk18);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 400 bytes against 408, 348 concrete bytes out, 1.1p1

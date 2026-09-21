@@ -52,3 +52,4 @@ u8 *sub_0200C52C(int a0, int a1)
     *(u8 **)(p + 0x24) = z + 0x10;
     return p;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 112 bytes against 120, 70 concrete bytes out, 1.1p1

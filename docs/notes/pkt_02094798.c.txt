@@ -137,3 +137,4 @@ byte_loop:
     } while ((c & 0xFF) != 0);
     return dst;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 200 bytes against 200, 2 concrete bytes out, 1.1p1

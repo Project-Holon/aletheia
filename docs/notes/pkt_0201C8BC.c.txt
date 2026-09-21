@@ -124,3 +124,4 @@ void func_0201C8BC(u8 *a0, int a1)
         func_0201DD78(buf[2], buf[1], buf[0]);
     }
 }
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

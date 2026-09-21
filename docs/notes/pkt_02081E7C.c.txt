@@ -75,3 +75,4 @@ Wave note, 2026-09-21.  DIFF / not-C.  No source filed.
    independent reason this address is not a single-function C file.
 
 No file written to src/matched/ or src/pending/.  Verdict recorded: DIFF.
+re-verified 2026-09-21: no recoverable source in this note

@@ -94,3 +94,4 @@ What is left.  ONE decision, and it is the whole residue:
   which a single reused `i` does not obviously produce.
 
 Not a candidate for src/pending/: DIFF, not a wildcarded relocation.
+re-verified 2026-09-21: no recoverable source in this note

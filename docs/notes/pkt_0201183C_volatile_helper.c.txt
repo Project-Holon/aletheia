@@ -360,3 +360,4 @@ the 852-byte shape before concluding anything about `_fadd`.
 Still DIFF, not filed.  The 852-byte source is the 868-byte source above
 with the preamble replaced by the folded three-`if` form shown here; no
 other line changes.
+re-verified 2026-09-21 by tools/match.py: DIFF, 868 bytes against 848, 818 concrete bytes out, 1.1p1

@@ -100,3 +100,4 @@ void sub_02011F28(u8 *p, u16 a1, u32 a2)
     sub_020122A4(p);
     sub_020139B0(a1);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 100 bytes against 104, 63 concrete bytes out, 1.1p1

@@ -143,3 +143,4 @@ void func_0202CC70(struct WinMgr *mgr, u32 idx)
     func_02041300(win->bg, 0, (u8)sx, (u8)sy, (u8)ow, (u8)oh, 0x10);
     g_020A0058[mgr->mode](win->bg);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 236 bytes against 244, 172 concrete bytes out, 1.1p1

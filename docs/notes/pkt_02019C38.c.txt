@@ -106,3 +106,4 @@ void *func_02019C38(char *p, u32 f, u8 *t)
 
 ---- mismatching rows (ORIGINAL | COMPILED) ----
 * +000E adds r1, r1, r3 | adds r1, r3, r1
+re-verified 2026-09-21 by tools/match.py: DIFF, 28 bytes against 28, 1 concrete bytes out, 1.1p1

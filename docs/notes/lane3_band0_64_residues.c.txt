@@ -131,3 +131,4 @@
  *        function also calls func_0209F56C, which has no witness, so it cannot
  *        reach EXACT this pass; its C is in the note.
  */
+re-verified 2026-09-21: no recoverable source in this note

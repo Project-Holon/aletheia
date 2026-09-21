@@ -92,3 +92,4 @@ void func_0203EE18(int a0, int a1, u32 *a2, int a3, int a4)
         break;
     }
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0203EE18.c:12: undefined identifier 'pkt_0203EE18'

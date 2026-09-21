@@ -73,3 +73,4 @@ sources above do not control.
 func_02037680 (recorded in docs/notes/pkt_02037288.c.txt) is the same class of
 residue in the other window: 128 bytes, all six relocations resolved, six
 instructions of mla operand allocation.
+re-verified 2026-09-21: no recoverable source in this note

@@ -43,3 +43,4 @@ void func_0201F9D0(int a0, int a1, int a2, u16 a3, int a4)
 ~ +000A ldr r4, [sp, #0x14] | 00 f8
 * +000C str r4, [sp, #4] | add sp, #4
 * +000E .byte ff f7 | pop {r3, r4, pc}
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0201F93C.c:21: declaration syntax error

@@ -203,3 +203,4 @@ argument (0x32) first and casts afterwards, this front end casts first:
 Tried: `u32 i = 0;` before and after the call, `int i`, the call split from
 its declaration, `u16 v = (u16)a0;` as a named local, for and while. The rest
 of the function, loop included, is byte-identical in all seven.
+re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 72, 52 concrete bytes out, 1.1p1

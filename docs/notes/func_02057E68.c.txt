@@ -87,3 +87,4 @@ void func_02057E68(struct Obj *o, struct Src *s, int t)
     }
     o->_34 = cv->_04 + (t - 0xFF) * (cv->_04 - cv->_02) / (0xFF - cv->_07);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 116 bytes against 144, 105 concrete bytes out, 1.1p1

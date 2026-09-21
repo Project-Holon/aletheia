@@ -98,3 +98,4 @@ void func_02027BF4(u16 *phase, u16 *out, u32 mode, u32 slot,
         sub_02061CA4((void *)0x1f, slot * 32 + 0xc, (u32)out, 2);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 228 bytes against 228, 59 concrete bytes out, 1.1p1

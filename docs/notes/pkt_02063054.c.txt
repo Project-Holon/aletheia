@@ -51,3 +51,4 @@ Tried under arm946e this run, all identical: the sum as one expression,
 reversed constant order, a `u32` local holding the first add, `|` instead of
 `+`, and a `u32 *` second parameter.  dsi/../1.2/sp2 -proc arm946e is worse
 (it materialises the bias in r2 and needs 24 bytes).
+re-verified 2026-09-21: no recoverable source in this note

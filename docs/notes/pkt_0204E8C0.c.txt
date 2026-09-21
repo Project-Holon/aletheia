@@ -42,3 +42,4 @@ CORRECTION to the line just above: there is no longer a park to promote.
 src/pending/func_0204E8C0.c no longer exists; the row was already filed as
 src/matched/func_0204E8C0.c by an earlier wave. The cap re-check above stands
 (0204E914 resolves by label x4), but the action it suggested is already done.
+re-verified 2026-09-21: no recoverable source in this note

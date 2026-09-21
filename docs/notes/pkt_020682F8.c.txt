@@ -82,3 +82,4 @@ NOT ATTEMPTED this run (budget): 0x02068430 (576 B) and 0x02068670
 prologue is `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` with a 0x28
 frame, and 0x02068670's is nine registers with a 0x2c frame.  Neither is
 a mechanical accessor.
+re-verified 2026-09-21: no recoverable source in this note

@@ -91,3 +91,4 @@ Also measured while transcribing (useful for whoever closes 0x02050B14): the
 0x02050A70 counter is `int`, not `u32` - the loop back edge is `blt`, which is
 the only byte that separates the two spellings.
 
+re-verified 2026-09-21: no recoverable source in this note

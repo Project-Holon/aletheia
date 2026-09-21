@@ -7,7 +7,8 @@
  * flags:    -O4,s
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   DIFF
+ * note:     status corrected 2026-09-21 from EXACT to DIFF by re-verification (58 concrete bytes out)
  *
  * function: func_0206EA2C
  * address:  0x0206EA2C
@@ -17,7 +18,8 @@
  * flags:    -O4,s
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   DIFF
+ * note:     status corrected 2026-09-21 from EXACT to DIFF by re-verification (58 concrete bytes out)
  */
 
 typedef unsigned char u8;

@@ -71,3 +71,4 @@ Nothing here is a dead end for a later pass: fix the signedness of the bank
 field, make the tables 8-byte record arrays, and it is byte-correct but still
 MATCH for the three unwitnessed data words - so it belongs in src/pending/
 with `literal` as the blocking class, not in a shard.
+re-verified 2026-09-21: no recoverable source in this note

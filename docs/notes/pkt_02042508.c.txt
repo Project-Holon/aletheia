@@ -82,3 +82,4 @@ closest spelling (172 = 172, 39 diff bytes):
             func_020425B4(a0, (u32)a1, a3, a2);
         }
     }
+re-verified 2026-09-21: no recoverable source in this note

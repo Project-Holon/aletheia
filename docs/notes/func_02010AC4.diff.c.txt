@@ -103,3 +103,4 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, char *ctx)
     }
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 244 bytes against 212, 155 concrete bytes out, 1.1p1

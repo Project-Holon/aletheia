@@ -47,3 +47,4 @@ in place of `<< 8`, the multiply written on either side, the division bound to
 a local, and the two tail additions in either order.  The residue is the
 allocator's choice of a second temporary for a value it also has to place in
 r0, and it does not move with the source.
+re-verified 2026-09-21: no recoverable source in this note

@@ -55,3 +55,4 @@ void func_0206296C(Hdr *p)
         func_0206295C(p->f10);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 124 bytes against 124, 68 concrete bytes out, 1.1p1

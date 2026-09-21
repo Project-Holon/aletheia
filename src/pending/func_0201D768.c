@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   DIFF
+ * note:     status corrected 2026-09-21 from EXACT to DIFF by re-verification (73 concrete bytes out)
  *
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm

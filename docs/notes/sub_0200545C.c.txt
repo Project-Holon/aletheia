@@ -149,3 +149,4 @@ void sub_0200545C(void)
     func_020057AC();
     func_0204E6F4(2);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 400 bytes against 412, 323 concrete bytes out, 1.1p1

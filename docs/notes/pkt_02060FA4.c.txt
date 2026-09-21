@@ -85,3 +85,4 @@ Ruled out, all at the pinned --cc 1.1p1 -O4,p -proc arm946e:
 func_02060FEC and func_02061184 above are from the same run and DO match, so
 the packet is not from a different front end: this is a scheduling tie-break on
 the guarded store sequence, not a compiler-version wall.
+re-verified 2026-09-21: no recoverable source in this note

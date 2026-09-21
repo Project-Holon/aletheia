@@ -238,3 +238,4 @@ negative results from both ends on both rows.
 
 Thirty-odd spellings total across the four passes.  NO PIN (../2.0/sp2 is 8
 against 1.1p1's 14; rule 2 needs 0).  Not filed: DIFF, by rule 6.
+re-verified 2026-09-21: no recoverable source in this note

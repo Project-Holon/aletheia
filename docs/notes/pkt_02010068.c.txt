@@ -247,3 +247,4 @@ void func_020101D4(u32 a0, u32 a1)
     func_0201ED04(obj);
     func_020437AC(surf);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 380 bytes against 376, 247 concrete bytes out, 1.1p1

@@ -51,3 +51,4 @@ int sub_02072894(int a0, int a1, int a2)
     if (p == 0) return 0;
     return sub_0208A0A4(p, a0, a1, a2);
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 84 bytes against 84, 0 concrete bytes out, 1.1p1

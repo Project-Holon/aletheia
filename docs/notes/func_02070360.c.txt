@@ -130,3 +130,4 @@ volatile-looking byte field each iteration), so this body reads as 1.1p1 and
 everything after +0x0064 is a register-numbering cascade from the two holes
 rather than independent evidence. Work it at the default compiler. No other
 front end was tried.
+re-verified 2026-09-21 by tools/match.py: DIFF, 208 bytes against 212, 130 concrete bytes out, 1.1p1

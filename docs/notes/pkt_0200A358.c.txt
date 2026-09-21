@@ -107,3 +107,4 @@ caller of anything, and the range cannot be smaller than the function.
 region hint, so the wall is those two addresses and not the row.  The pair
 (park src/pending/func_0200A300.c) therefore does not convert and no source of
 this row is filed: no C spelling converts an unattestable site.
+re-verified 2026-09-21 by tools/match.py: DIFF, 112 bytes against 120, 91 concrete bytes out, 1.1p1

@@ -235,3 +235,4 @@ u32 sub_0201C4E4(struct PrintSys *p)
     p->unk07 &= ~0xF;
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 452 bytes against 464, 396 concrete bytes out, 1.1p1

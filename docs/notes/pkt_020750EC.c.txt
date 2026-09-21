@@ -115,3 +115,4 @@ u32 func_020750EC(u32 idx, u32 *a1, int a2)
     return (u32)p;
 }
 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 268 bytes against 264, 200 concrete bytes out, 1.1p1

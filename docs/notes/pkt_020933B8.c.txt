@@ -128,3 +128,4 @@ void func_020933B8(Ctr *b, s32 idx)
         goto reset;
     b->len = (u8)idx;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 264 bytes against 280, 65 concrete bytes out, 1.1p1

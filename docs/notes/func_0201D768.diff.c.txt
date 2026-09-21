@@ -51,3 +51,4 @@ void *func_0201D768(Ring *p, u8 *src, u32 n, u32 step)
     }
     return base + start;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 90 bytes against 92, 75 concrete bytes out, 1.1p1

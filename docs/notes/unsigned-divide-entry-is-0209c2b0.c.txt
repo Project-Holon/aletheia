@@ -47,3 +47,4 @@ Found in: `docs/notes/func_0202EE0C.c.txt` (0x0202EE0C, the first lane-4 file
 to need it).  `layout/runtime_arm9.txt` is outside this lane's write set, so
 the name stays as it is; the next wave that edits that table may want to
 rename 0x0209C2B0 or add a `_u32_div_f` alias line.
+re-verified 2026-09-21: no recoverable source in this note

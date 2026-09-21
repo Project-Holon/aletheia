@@ -34,3 +34,4 @@ void sub_02013810(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 
     *(u32 *)a0 = 1;
     sub_02013284(a0, a1, (void *)0x28, (void *)a0, (int)a6, (int)a5, (int)a7);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 84, 49 concrete bytes out, 1.1p1

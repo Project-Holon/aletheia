@@ -48,3 +48,4 @@ u32 func_0202A1CC(struct Obj *p, u32 a1, u32 a2, u32 a3)
 
     return 0xFFFF;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 60 bytes against 64, 20 concrete bytes out, 1.1p1

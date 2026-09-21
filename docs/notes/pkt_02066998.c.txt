@@ -83,3 +83,4 @@ part of the residue.
 Recorded, not ground further: the cap in (1) means even closing (2) yields
 MATCH, not EXACT, so the row is not worth more budget until a second caller
 of func_020640D4 is decompiled.
+re-verified 2026-09-21: no recoverable source in this note

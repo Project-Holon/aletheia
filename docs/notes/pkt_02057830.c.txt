@@ -947,3 +947,4 @@ holds - e.g. an inlined accessor for `p->rec0`/`q->f22` that the front end
 expands to the same two loads but with a different tree (the one shape five
 levers have not touched), or accept the row as an allocation-tie-break residue.
 
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02057830.c:130: undefined identifier 'The'

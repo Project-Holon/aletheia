@@ -142,3 +142,4 @@ SEEDS FOR layout/runtime_arm9.txt (integrator's file, not written here)
 The names follow the runtime note's own convention and are descriptive, not
 claims about the exact symbol strings in the original archive; only the
 addresses and the classification are evidence-backed.
+re-verified 2026-09-21: no recoverable source in this note

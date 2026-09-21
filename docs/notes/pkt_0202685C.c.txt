@@ -188,3 +188,4 @@ the two results bound to `u8 a`/`u8 b` in either declaration order, either
 initialisation order, and the comparison written both as `a < b` and as
 `b > a`.  All six give the identical 44 wrong bytes.  Whatever produces the
 interleaving is not operand order or declaration order at this call shape.
+re-verified 2026-09-21 by tools/match.py: DIFF, 44 bytes against 44, 28 concrete bytes out, 1.1p1

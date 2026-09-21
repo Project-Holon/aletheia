@@ -67,3 +67,4 @@ void func_02025154(u32 base, u32 blk, u32 a2, u32 a3, u32 w, u32 h)
     }
     func_020410D0(((u8 *)g_0202693C)[6], a2, a3, w, h, buf, 0, 0, w, h);
 }
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

@@ -107,3 +107,4 @@ there, and that are worth trying on 0x0203A958's residue:
  - Declaration order of the locals decides the whole register allocation in
    all three; on func_0203ABC0 four orders were measured and three of them
    are EXACT while one is 7 bytes out on an r2/r3 swap.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0203A958.c:12: undefined identifier 'pkt_0203A958'

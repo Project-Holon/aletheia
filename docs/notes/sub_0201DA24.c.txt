@@ -112,3 +112,4 @@ void func_0201DA24(struct Font *f, u32 a, u32 b, u32 heap)
         f->unk08 = p;
     }
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, sub_0201DA24.c:12: undefined identifier 'func_0201DA24'

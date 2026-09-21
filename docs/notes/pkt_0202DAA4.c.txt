@@ -171,3 +171,4 @@ layout/file_anchors.txt).  func_0202DF68 (+0x80) and func_0202E09C
 (+0xA0) have no witness outside 0202DB0C..0202DBC8, so even a
 byte-perfect body caps at MATCH until one of those two is filed EXACT
 from its own packet.
+re-verified 2026-09-21 by tools/match.py: DIFF, 22 bytes against 24, 11 concrete bytes out, 1.1p1

@@ -167,3 +167,4 @@ ABI, and only the ORDER of the two `ldr`s differs.  That is a scheduler
 decision taken after register assignment, and nothing in the C reaches it.
 
 Total across the two passes: fifteen spellings.  Not filed.
+re-verified 2026-09-21 by tools/match.py: DIFF, 228 bytes against 228, 4 concrete bytes out, 1.1p1

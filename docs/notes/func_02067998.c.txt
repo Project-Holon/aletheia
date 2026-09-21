@@ -77,3 +77,4 @@ are unfiled; 0x02067998 additionally needs 0x0206775C filed first (it is not
 in this lane's target list, so it was not touched).  The correct order is:
 file 0x0206775C, file 0x02067998, then 0x02067340, then func_02067D14
 graduates.  That is three functions outside this lane's write set.
+re-verified 2026-09-21: no recoverable source in this note

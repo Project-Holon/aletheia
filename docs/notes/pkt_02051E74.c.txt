@@ -86,3 +86,4 @@ void func_02051E74(void *mtx, u32 ang, void *v1, void *v2, u8 mode)
     MTX_ScaleApply22(mtx, mtx, m1, m2);
 }
 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 168 bytes against 192, 18 concrete bytes out, 1.1p1

@@ -69,3 +69,4 @@ callee-saved register on the constant 0 and puts p in r8 (`push
 `sub sp, sp, #4`).  Same class as docs/notes/pkt_02066E30.c.txt.  Not filed.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

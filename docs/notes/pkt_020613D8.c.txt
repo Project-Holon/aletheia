@@ -366,3 +366,4 @@ EVIDENCE FILES
   scratch/p616cc_FULL.c  -- both halves; 217 differing bytes = WALL 1 + WALL 2
   scratch/p616cc_pad*.c  -- the 19 pad-block spellings that were compiled
   (all under scratch/, none of them is a candidate for src/)
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020613D8.c:59: undefined identifier 'func_020616CC'

@@ -52,3 +52,4 @@ in the "one argument plus the -1 that is the function's error code" form:
 front end shares.  Tried and all still 80 bytes: `~0` and `0xFFFFFFFFu` for
 the two returns, a `u32` return type, and `(u32)`/`(void *)0` spellings of
 the argument.
+re-verified 2026-09-21: no recoverable source in this note

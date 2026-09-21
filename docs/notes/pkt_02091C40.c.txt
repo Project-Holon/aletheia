@@ -70,3 +70,4 @@ the same swap (see scratch/l6_91C40_v*.c).
 Also measured, for whoever touches a neighbour: mwcc 1.1p1 in `-lang c99`
 mode REJECTS a C99 for-statement declaration (`for (int i = 0; ...)` ->
 "expression syntax error"), so the counter must be declared at block scope.
+re-verified 2026-09-21: no recoverable source in this note

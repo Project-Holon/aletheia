@@ -150,3 +150,4 @@ scheduling tell above is the documented one: 188 bytes, 40 concrete out --
 STRICTLY WORSE than 1.1p1's 31.  NOT a pin.  The residue is a 1.1p1
 scheduler/allocator choice below the source, and the correct front end is
 the default.
+re-verified 2026-09-21: no recoverable source in this note

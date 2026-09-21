@@ -182,3 +182,4 @@ swap'+'@L36, init-split@L28.  Nothing improved.
 
 Still DIFF, still evidence only.  src/pending/func_0202D760.c remains
 blocked on this one site.
+re-verified 2026-09-21: no recoverable source in this note

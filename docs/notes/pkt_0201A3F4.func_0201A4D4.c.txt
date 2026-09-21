@@ -52,3 +52,4 @@ ways (v7/v10/i/f), and dropping the named result local.  All three compile to
 exactly the same six halfwords of residue, so this is a scheduling-free-list
 choice, not a source shape: the instruction multiset, the frame and the whole
 body from +0x14 to the epilogue are already identical.
+re-verified 2026-09-21: no recoverable source in this note

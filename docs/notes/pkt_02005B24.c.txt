@@ -61,3 +61,4 @@ void sub_02005BC0(void)
         *(u32 *)(g + 8) = *(u32 *)(g + 8) - 1;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 88 bytes against 104, 37 concrete bytes out, 1.1p1

@@ -231,3 +231,4 @@ Being one function, no `--suggest-split` cut exists.  It unblocks when any
 other reader of that table is filed; `docs/notes/band_129_256_p1_lane3_verdicts.c.txt`
 names 0x02047564 as a caller chain that wanted this address, and filing the
 0x020A8240 table's other consumers is the way out.
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

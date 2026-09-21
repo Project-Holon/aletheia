@@ -413,3 +413,4 @@ void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 
     func_02042FF8(bgId, 0, tmpl->bufSize);
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_0203FCA0.c:12: undefined identifier 'func_0203FCA0'

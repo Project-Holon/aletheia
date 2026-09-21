@@ -1054,3 +1054,4 @@ emit:
         d->hook(out, &res[0], d->first, k);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 948 bytes against 948, 63 concrete bytes out, ../2.0/sp2

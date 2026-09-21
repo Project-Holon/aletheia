@@ -32,3 +32,4 @@ void func_0202E09C(u8 *o, u32 a, u32 b)
  * NEAR MISS (DIFF): legend: '*' concrete mismatch, '~' relocation field (wildcarded)
  */
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 44 bytes against 44, 1 concrete bytes out, 1.1p1

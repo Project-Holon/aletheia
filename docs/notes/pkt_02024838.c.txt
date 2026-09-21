@@ -51,3 +51,4 @@ int func_020248D8(u32 v, u32 *a1, u32 *a2)
     }
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 64, 12 concrete bytes out, 1.1p1

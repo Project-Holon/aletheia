@@ -88,3 +88,4 @@ function instead of a single `unit: yes` block with a comma-list of names, so
 and 0x0204B784 kept reading OPEN in the worklist although the bytes had been
 reproduced.  The header now carries the house unit shape and the shard entry
 is one `game_unit` row at 0x0204B764.
+re-verified 2026-09-21: no recoverable source in this note

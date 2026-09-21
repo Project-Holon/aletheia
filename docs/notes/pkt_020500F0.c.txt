@@ -92,3 +92,4 @@ Spellings ruled out:
 - Storing `.w` before `.h` in case 2 (moves all `.w` calculation ahead of `.h`).
 - Explicit locals for `b4..b7` (mwcc reorders or spills).
 - Unprototyped `func_0204EF58` (causes identical sequential marshal).
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020500F0.c:12: undefined identifier 'pkt_020500F0'

@@ -38,3 +38,4 @@ above), and the same written with `&&` instead of `||` (which adds a branch
 rather than removing one).  The remaining 40 bytes follow from that exit
 shape; the record's own +0xC length field and the `p[0] + p[3]` tail are
 separately fine and would close with it.
+re-verified 2026-09-21: no recoverable source in this note

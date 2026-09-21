@@ -50,3 +50,4 @@ u8 func_02028FD0(struct T *p, u8 *a1)
  * for the offsets to come out, which needs the arms written and compiled, not
  * guessed.  Left open.
  */
+re-verified 2026-09-21 by tools/match.py: DIFF, 16 bytes against 16, 5 concrete bytes out, 1.1p1

@@ -90,3 +90,4 @@ in the image (any version, any overlay) before spending more time on
 either this function or sub_02034520; without it, this whole branch of
 the dependency graph is a dead end by the honesty rules, not a codegen
 puzzle.
+re-verified 2026-09-21: no recoverable source in this note

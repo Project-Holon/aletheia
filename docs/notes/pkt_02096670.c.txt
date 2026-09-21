@@ -40,3 +40,4 @@ calls and the `add r1, r7, r4` digit store identically and differs only in the
 register numbers.  The `b = p->f05 + p->f04 - 1` bound is also folded
 differently: the original computes `(p+5) + n` and then `- 1`, the compilation
 `(p+4) + n`, which is the same address by a different route.
+re-verified 2026-09-21: no recoverable source in this note

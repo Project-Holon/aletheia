@@ -83,3 +83,4 @@ the `bne`.  Everything tried below CSEs them:
   - the index init moved above and below each arm's counting call
   - `for (i = 0; ...)` in place of the do/while preamble in each arm
 
+re-verified 2026-09-21: no recoverable source in this note

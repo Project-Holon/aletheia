@@ -193,3 +193,4 @@ The other three classes the sweep exposes, for the next pass:
 
 `0x02023AB0` is the single park row whose blocker is inside this slice, and
 its residue is written up in full above for that reason.
+re-verified 2026-09-21: no recoverable source in this note

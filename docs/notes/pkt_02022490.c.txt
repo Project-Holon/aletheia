@@ -751,3 +751,4 @@ Consequence for the blocked pending files: UNCHANGED.  This function is
 still the only image-wide caller of both func_02022518 and func_020225B4,
 so src/pending/func_02022518.c and src/pending/func_020225B4.c stay capped
 at MATCH.  Nothing was promoted or moved this pass.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02022490.c:35: declaration syntax error

@@ -104,3 +104,4 @@ honest statement is: same record type, no reader, unreferenced data. Do not
 re-run the scans above; extend the search instead (the ARM7 image, or the
 Download Play child binaries under extract/dl_rom/, neither of which is
 disassembled in this tree) if the question is worth reopening.
+re-verified 2026-09-21: no recoverable source in this note

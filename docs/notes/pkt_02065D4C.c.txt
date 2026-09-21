@@ -145,3 +145,4 @@ The register-allocation gap is the whole residue; every semantic question is
 answered above.  A spelling that keeps 1.1p1 from promoting the zero and the
 g_02147B88 base into callee-saved registers would close all three at once.
 Not found in this pass.
+re-verified 2026-09-21 by tools/match.py: DIFF, 84 bytes against 80, 37 concrete bytes out, 1.1p1

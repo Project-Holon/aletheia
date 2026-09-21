@@ -72,3 +72,4 @@ Other packets, same class, recompiled this run and unchanged
   pkt_02011F28, 0x020267BC under pkt_020267BC) - neither is in this lane.
 
 0x0204BF28  see docs/notes/pkt_0204BE84.c.txt (own-pool, not label).
+re-verified 2026-09-21: no recoverable source in this note

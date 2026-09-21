@@ -45,3 +45,4 @@ three-instruction success arm instead of branching to the tail.
 
 The four DIFF sources a previous pass kept in src/pending for these functions
 are folded into this note; src/pending/ holds MATCH entries only.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0206EA00.c:12: declaration syntax error

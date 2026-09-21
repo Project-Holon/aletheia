@@ -54,3 +54,4 @@ void func_020433E0(char *self)
 
 (The declared `lo`/`hi` pair must sit in a nested block: mwccarm 1.1p1 rejects
 a declaration that follows a statement even under -lang c99.)
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

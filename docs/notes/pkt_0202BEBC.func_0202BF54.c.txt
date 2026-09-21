@@ -78,3 +78,4 @@ void func_0202BF54(struct Obj *p)
  * Closing it promotes src/pending/func_0202BEDC.c and
  * src/pending/func_0202B744.c, which are blocked on nothing else now.
  */
+re-verified 2026-09-21 by tools/match.py: DIFF, 46 bytes against 60, 2 concrete bytes out, 1.1p1

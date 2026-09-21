@@ -101,3 +101,4 @@ int func_02011688(struct Obj02011688 *obj, S12_02011688 *out, u32 idx)
     *out = *(S12_02011688 *)(obj->f1c + rem * 12);
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 46 bytes against 56, 24 concrete bytes out, 1.1p1

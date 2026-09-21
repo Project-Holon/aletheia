@@ -100,3 +100,4 @@ u8 sub_0201441C(u32 id)
 {
     return sub_0201441C_Table[id];
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 12 bytes against 12, 0 concrete bytes out, 1.1p1

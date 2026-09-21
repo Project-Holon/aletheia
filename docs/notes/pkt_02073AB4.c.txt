@@ -66,3 +66,4 @@ once, which is exactly what that would predict.
                  SND_StopTimer(timer, 0, 1 << f48, 0) argument set-up,
                  `f2c &= ~2`, tag/Flush/Wait, and one shared exit block that
                  calls func_02073BB0 (src/matched/func_02073BB0.c).
+re-verified 2026-09-21: no recoverable source in this note

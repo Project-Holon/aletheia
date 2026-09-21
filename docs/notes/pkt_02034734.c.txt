@@ -82,3 +82,4 @@ void sub_020348A4(const char *s)
         func_0204E328(sub_020348A4_Newline, &unk_021469AC);
     }
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 92 bytes against 92, 0 concrete bytes out, 1.1p1

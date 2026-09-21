@@ -183,3 +183,4 @@ longer an address-shape question.
 wave: 168 bytes each, instruction for instruction the same, same pool
 constant 0x00007FC0, only branch displacements relocated.  Whatever closes
 one closes the other, and the source above is the one to start from.
+re-verified 2026-09-21: no recoverable source in this note

@@ -251,3 +251,4 @@ u32 func_0201C4E4(struct PrintSys *ps)
     ps->unk07lo = 0;
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

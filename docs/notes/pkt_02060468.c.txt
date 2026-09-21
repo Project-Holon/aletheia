@@ -136,3 +136,4 @@ void func_020604AC(struct RingBuffer *buf, void *data)
         return;
     }
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 24 bytes against 24, 0 concrete bytes out, 1.1p1

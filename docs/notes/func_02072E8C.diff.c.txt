@@ -29,3 +29,4 @@ void func_02072E8C(void **a, void *b)
 {
     func_02073484(*a, b);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 16 bytes against 16, 5 concrete bytes out, 1.1p1

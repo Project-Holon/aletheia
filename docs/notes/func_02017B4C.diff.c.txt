@@ -55,3 +55,4 @@ u32 func_02017B4C(void *a0, u32 a1, u32 a2, u32 a3)
     func_0202F1B4(a0, 2, a1, a2, a3);
     return func_02017DE4(a0, v);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 120 bytes against 124, 104 concrete bytes out, 1.1p1

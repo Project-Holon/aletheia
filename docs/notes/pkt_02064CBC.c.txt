@@ -67,3 +67,4 @@ void func_02064CBC(int a0)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 168 bytes against 180, 118 concrete bytes out, 1.1p1

@@ -69,3 +69,4 @@ src/pending/ (which holds byte-correct MATCH-capped sources only).
    exactly, but the pool word 0x0209E8CA then has no witness (the word appears
    in this function's own pool only), so the file stays at MATCH. The chain
    func_0201F53C <- func_0201F548 is capped on that same private data table.
+re-verified 2026-09-21: no recoverable source in this note

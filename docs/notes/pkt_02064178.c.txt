@@ -231,3 +231,4 @@ r0/r1/r2, and declaring the fourth parameter costs a `mov r3, #0` and shifts
 the tail.
 
 FRONTEND-PINS.md row added for this address.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02064178.c:12: undefined identifier 'pkt_02064178'

@@ -68,3 +68,4 @@ Compile 200 bytes against 204.  Three separate causes, all in the mode-1 arm:
 
 Classification: codegen (one three-instruction idiom) plus allocator.  Not
 filed: 200/204 is a concrete difference, not a MATCH.
+re-verified 2026-09-21: no recoverable source in this note

@@ -58,3 +58,4 @@ The source order of the four wrapped cases is 2, 6, 3, 7 -- that order is what
 the emitted bodies at 0x02049CF8, 0x02049D1C, 0x02049D40, 0x02049D64 say, and
 the table runs from 0 because cases 0, 1, 4 and 5 are real labels sharing the
 default arm.
+re-verified 2026-09-21: no recoverable source in this note

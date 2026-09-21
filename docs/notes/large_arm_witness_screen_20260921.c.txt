@@ -107,3 +107,4 @@ CONCLUSION, and the single decision that gates each.
                  occurrence outside its own pool and both declined by
                  sole-ref.  Nothing in this function's own reach unblocks
                  them; they need a second referent elsewhere in the image.
+re-verified 2026-09-21: no recoverable source in this note

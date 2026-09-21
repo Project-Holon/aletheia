@@ -29,3 +29,4 @@ void func_0202B2CC(u8 *p, u32 i)
     func_02005C3C();
     func_02073018(r, 0xFCFF, *(s16 *)(p + 4 + i * 2), (u32)(p + 4 + i * 2));
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0202B2CC.func_0202B2CC.c:23: illegal implicit conversion from 'void' to

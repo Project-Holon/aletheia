@@ -81,3 +81,4 @@ void sub_02013284(u8 *a0, void *a1, int a2, u32 *a3, u32 *a4, int a5, int a6)
         break;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 184 bytes against 184, 48 concrete bytes out, 1.1p1

@@ -48,3 +48,4 @@ rather than missing C:
 After the first of these is cracked the other two are worth re-deriving: the
 target C is the one in this note, minus the local `p`.  No source was left in
 src/matched/ or src/pending/ -- a DIFF has no home in either.
+re-verified 2026-09-21: no recoverable source in this note

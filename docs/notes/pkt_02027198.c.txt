@@ -76,3 +76,4 @@ void func_02027198(void)
     }
     *(u8 *)(p + 0x62) = 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 60 bytes against 68, 55 concrete bytes out, 1.1p1

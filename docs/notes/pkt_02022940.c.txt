@@ -165,3 +165,4 @@ void func_020229A4(struct Ctx *p, u32 flag)
     p->f0C = p->f0C + 1;
     j->f20 = func_020056A0((void *)func_02022AC4, j, 0x80);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 160 bytes against 160, 51 concrete bytes out, 1.1p1

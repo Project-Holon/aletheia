@@ -48,3 +48,4 @@ blocked.  Sizes come from layout/worklist.json.
   0x02021984   62 bytes  pkt_02021944
 
 18 functions, 746 bytes.
+re-verified 2026-09-21: no recoverable source in this note

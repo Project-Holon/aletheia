@@ -56,3 +56,4 @@ func_0204F684; changing the declaration order of `a`, `b` and `base` moves the
 residue around but never closes it.  Parked here rather than in a source tree.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

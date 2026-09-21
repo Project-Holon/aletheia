@@ -174,3 +174,4 @@ WHAT A RECONSTRUCTION WILL NEED
   class;
 * the entry will still be MATCH until 0x020A7330 acquires a witness, so it
   belongs in src/pending/ when it is byte correct, not in the manifest.
+re-verified 2026-09-21: no recoverable source in this note

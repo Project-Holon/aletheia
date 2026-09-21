@@ -107,3 +107,4 @@ u32 func_020313EC(Obj020313EC *p)
     return (r == 1) ? 2 : 1;
 }
 */
+re-verified 2026-09-21 by tools/match.py: DIFF, 204 bytes against 204, 12 concrete bytes out, 1.1p1

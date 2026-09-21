@@ -75,3 +75,4 @@ three spilled locals (p0, id, sel) and the size should fall into place; the
 single rotated guard, so write the bare `for (j = 0; j < cnt; j++)` with an
 unsigned cnt (that change alone moved the compiled size 416 -> 412 bytes and
 the diff 392 -> 398, i.e. it is necessary but not sufficient).
+re-verified 2026-09-21: no recoverable source in this note

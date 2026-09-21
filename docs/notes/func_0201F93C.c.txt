@@ -125,3 +125,4 @@ Two further blockers found on the way, both fan-in 1 from inside this
 function and both therefore unresolved even if the codegen above were
 closed: func_0201FC1C (0x0201FC1C) and func_0201FC5C (0x0201FC5C).  Closing
 0x0201F93C needs all three.
+re-verified 2026-09-21: no recoverable source in this note

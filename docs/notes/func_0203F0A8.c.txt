@@ -140,3 +140,4 @@ cannot take the folded form, does not apply here because the value in
 question is an address, not a datum.
 
 Do not re-attempt without a genuinely new reading of the source shape.
+re-verified 2026-09-21: no recoverable source in this note

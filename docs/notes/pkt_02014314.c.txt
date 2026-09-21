@@ -296,3 +296,4 @@ C currently tried (scratch/scratch/w_02014388.c):
         return g_02146268 + i;
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 64 bytes against 68, 21 concrete bytes out, 1.1p1

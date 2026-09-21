@@ -24,3 +24,4 @@ void func_0202B7D4(u8 *p)
 {
     sub_0202BECC(*(void **)(p + 0x18));
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 12 bytes against 12, 1 concrete bytes out, 1.1p1

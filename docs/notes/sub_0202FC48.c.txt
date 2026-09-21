@@ -300,3 +300,4 @@ Two consequences.
 Still true and worth keeping: everything in the "Ruled out" lists above was
 re-verified as producing exactly 376 bytes and 121 differing bytes, so none of
 those spellings is a partial fix for anything else in this family.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, sub_0202FC48.c:100: declaration syntax error

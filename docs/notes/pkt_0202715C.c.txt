@@ -49,3 +49,4 @@ byte pointer local. All fold. The same idiom is used by the neighbouring
 function at 0x02027186 (`adds r0, r1, #4; adds r0, #0x5e; strb`), so the
 original source clearly expressed the +4 as a value and the C shape that
 forces that has not been found.
+re-verified 2026-09-21 by tools/match.py: DIFF, 24 bytes against 60, 10 concrete bytes out, 1.1p1

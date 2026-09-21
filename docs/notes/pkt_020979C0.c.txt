@@ -34,3 +34,4 @@ a packet agent's budget:
     the two strongest candidates in the 1025+ band -- both are attested as
     real code, both call only runtime/SDK/soft-float helpers, and neither is
     reachable from a game-side call except through one wrapper.
+re-verified 2026-09-21: no recoverable source in this note

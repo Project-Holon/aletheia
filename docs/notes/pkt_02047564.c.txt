@@ -84,3 +84,4 @@ int func_02047564(int a0, int a1, int a2)
     func_02069C74(*(int *)(r + 4), x, y, z);
     return r;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 200 bytes against 200, 24 concrete bytes out, 1.1p1

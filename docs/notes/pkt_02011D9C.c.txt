@@ -105,3 +105,4 @@ it at MATCH.
     }
 
 DIFF, so no file under src/.
+re-verified 2026-09-21: no recoverable source in this note

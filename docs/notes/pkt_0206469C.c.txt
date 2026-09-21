@@ -137,3 +137,4 @@ void func_0206469C(struct Obj0206469C *o)
 done:
     func_020643CC(o->unk_34, r, o->unk_30);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 176 bytes against 184, 73 concrete bytes out, 1.1p1

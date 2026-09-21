@@ -172,3 +172,4 @@ int func_02052984(struct Obj *o, Alloc alloc)
     GX_EndLoadTex();
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 204 bytes against 204, 16 concrete bytes out, ../1.2/sp2

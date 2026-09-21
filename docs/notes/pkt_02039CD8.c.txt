@@ -35,3 +35,4 @@ swap which register takes which field).
 
 Everything else reproduces exactly, including the tricky three-term
 conjunction at +0xa0 and the disjunction at +0x80.
+re-verified 2026-09-21: no recoverable source in this note

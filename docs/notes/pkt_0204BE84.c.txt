@@ -159,3 +159,4 @@ Everything from +0x50 onward is byte-identical once that shift is accounted
 for. Closing this row means finding what makes 1.1p1 keep a second live copy
 of a0 across the four stores; it is not reachable through volatile, through
 the store spelling, or through the pointer types.
+re-verified 2026-09-21 by tools/match.py: DIFF, 160 bytes against 164, 110 concrete bytes out, 1.1p1

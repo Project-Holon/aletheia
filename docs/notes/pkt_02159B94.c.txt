@@ -61,3 +61,4 @@ void func_02159B94(void *dst, u32 matrix_id, u32 zone_id, u32 heap)
     func_02159D04(dst, raw, matrix_id, zone_id);
     func_020307B0(raw);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 38 bytes against n/a, 34 concrete bytes out, 1.1p1

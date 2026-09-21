@@ -89,3 +89,4 @@ the family.  Its two saturating values are INT_MIN and INT_MAX - the same value
 written in both arms folds the compare away and loses twelve bytes - and the
 three range conditions must be one `||` chain, or the shared error block is
 laid out after the final return and the whole tail moves.
+re-verified 2026-09-21: no recoverable source in this note

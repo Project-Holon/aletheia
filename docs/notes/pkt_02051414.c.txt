@@ -158,3 +158,4 @@ therefore a wall twice over - the body is 149 bytes out AND the blocker could
 not be EXACT even if the body were closed.  The park src/pending/
 func_02051534.c stays parked (MATCH, single unresolved site 02051414,
 unchanged), and no source was filed for the blocker.
+re-verified 2026-09-21 by tools/match.py: DIFF, 220 bytes against 224, 152 concrete bytes out, 1.1p1

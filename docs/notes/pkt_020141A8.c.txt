@@ -276,3 +276,4 @@ MATCH* not MATCH: the inferred extent runs to 0x02014262 but the real
 function ends at 0x02014262 with an unlabelled follower at 0x02014264 --
 a four-instruction `ldr r1,[pc,#4]; ldr r3,[pc,#8]; bx r3` tail-call
 thunk, not compiled C.  Worth seeding into layout/function_starts.txt.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020141A8.c:56: declaration syntax error

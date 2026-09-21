@@ -31,3 +31,4 @@ The rest of the unit (the whole of func_02035B58 and the tail of
 func_02035ADC) reproduces byte for byte, so the entry is one scheduling
 decision short of EXACT.  The neighbouring leaf at 0x02035A70 that the pair
 calls is already matched, so attestation is not the blocker.
+re-verified 2026-09-21: no recoverable source in this note

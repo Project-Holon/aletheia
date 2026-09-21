@@ -11,3 +11,4 @@ at this budget and no shard exists for it.
 The same is true of the two containers on either side of it that this lane did
 not own: 0x0206DF14 is pkt_0206DB40's last function and 0x0206DB80 is the next
 packet's.
+re-verified 2026-09-21: no recoverable source in this note

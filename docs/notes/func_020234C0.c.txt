@@ -177,3 +177,4 @@ docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md
 having no purchase here: the target is not an epilogue at all.
 
 Still DIFF, still evidence only.
+re-verified 2026-09-21 by tools/match.py: DIFF, 74 bytes against 76, 2 concrete bytes out, 1.1p1

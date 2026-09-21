@@ -66,3 +66,4 @@ This packet is also the reason the idiom
 docs/idioms/runtime-helper-reloc.md exists: game-code callers reference
 these addresses as named externs (`_u32_div_f`, `_ll_udiv`, `_ull_mul`)
 pinned in a `symbols:` block.  That is the correct and only treatment.
+re-verified 2026-09-21: no recoverable source in this note

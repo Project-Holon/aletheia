@@ -113,3 +113,4 @@ void func_0200CC40(u8 *save, u32 species, u32 *out1, u32 *out2, u32 *outForm)
         func_0201AE14(p);
     }
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0200CC40.c:28: declaration syntax error

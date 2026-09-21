@@ -5,3 +5,4 @@ The listing contains Thumb-2 encodings (`cbz`/`cbnz`, a 32-bit `ldm`), which
 the ARM946E-S cannot execute, and the surrounding words read as data -- the
 image tail here is a data blob that the function sweep picked up, not a
 function.  Nothing to decompile.
+re-verified 2026-09-21: no recoverable source in this note

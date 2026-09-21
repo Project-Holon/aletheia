@@ -68,3 +68,4 @@
  *   python tools/match.py one --src src/pending/func_02023FD8.c \
  *       --func func_02023FD8 --addr 0x02023FD8 --cc 1.1p1 --thumb
  */
+re-verified 2026-09-21: no recoverable source in this note

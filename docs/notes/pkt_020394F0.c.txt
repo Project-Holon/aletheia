@@ -38,3 +38,4 @@ spelling the out-of-range-subtract idiom records).  Ruled out: the
 `(int)*(int *)((char *)(0x21469D0))` spelling used by the matched files in
 this region (same r2 colouring), and a local `u32 *g` holding the constant
 (which would need a callee-saved register the original does not push).
+re-verified 2026-09-21: no recoverable source in this note

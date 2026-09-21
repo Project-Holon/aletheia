@@ -75,3 +75,4 @@ Cost of leaving it open: its caller 0x02014728 (src/pending/func_02014728.c)
 stays MATCH, because its `+002C ABS32 func_02014698` site needs either this
 file's EXACT manifest entry (`matched` class) or a pool word outside
 02014728..02014758.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02014698.c:12: declaration syntax error

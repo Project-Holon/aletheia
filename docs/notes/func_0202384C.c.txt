@@ -96,3 +96,4 @@ SIZE/DIFF, not MATCH. A future pass with a working idiom for "which
 loop-invariant address gets pre-materialised into a callee-saved register"
 may close the remaining preamble bytes; the mid-loop and tail shape above
 should not need to change.
+re-verified 2026-09-21: no recoverable source in this note

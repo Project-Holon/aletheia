@@ -71,3 +71,4 @@ int func_020070C8(char *self)
     }
     return t;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 126 bytes against 136, 104 concrete bytes out, 1.1p1

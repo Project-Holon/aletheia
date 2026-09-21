@@ -32,3 +32,4 @@ destination with `*d++` 37, plain `dst[i*2]`/`g[i].w[...]` indexing 59,
 
 The 10-byte version differs only in those two `add`s, so the range is
 otherwise complete; the pointer-to-`lr` preference is an allocator decision.
+re-verified 2026-09-21: no recoverable source in this note

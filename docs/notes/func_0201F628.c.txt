@@ -97,3 +97,4 @@ void func_0201F628(u32 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
     func_02041300(id, (u16)(base + 7), x,      y1, w, 1, pal);
     func_02041300(id, (u16)(base + 8), x1, y1, 1, 1, pal);
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_0201F628.c:12: undefined identifier 'func_0201F628'

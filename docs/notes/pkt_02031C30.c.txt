@@ -82,3 +82,4 @@ Next attempt should start from scratch/r6s1/c31c30_b.c and change ONLY case 4's
 equal-arm: it needs to be a branch to an out-of-line `p->state++` block placed
 after case 4's body, which is what mwcc does when the arm's tail is shared with
 another arm's identical tail rather than if-converted.
+re-verified 2026-09-21: no recoverable source in this note

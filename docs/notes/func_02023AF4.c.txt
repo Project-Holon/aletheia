@@ -140,3 +140,4 @@ Compile line:
 
 symbols:
   _s32_div_f  0x0209C0A4  arm
+re-verified 2026-09-21: no recoverable source in this note

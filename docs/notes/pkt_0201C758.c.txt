@@ -62,3 +62,4 @@ WHAT WAS RULED OUT
 - Declaring the function `int` returning 0: the early path in the original
   pops straight out of the register set it entered with (`f8 bd` with no
   `movs r0`), so it cannot be returning a value.
+re-verified 2026-09-21: no recoverable source in this note

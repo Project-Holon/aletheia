@@ -155,3 +155,4 @@ tail:
     }
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 412 bytes against 576, 231 concrete bytes out, 1.1p1

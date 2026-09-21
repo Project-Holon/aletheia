@@ -125,3 +125,4 @@ a source file: `layout/function_starts.txt` and `disasm.py` itself are
 both off limits to a packet agent under the write-set contract, and
 guessing at a `tu` split here without being able to adjust those would
 just recreate the same three-way fragmentation in the C sources.
+re-verified 2026-09-21: no recoverable source in this note

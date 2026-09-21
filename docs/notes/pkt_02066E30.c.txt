@@ -840,3 +840,4 @@ into a callee-saved register across the mode branch, WITHOUT collapsing the
 0x0206775C row above answers with a pin and this row cannot.
 
 Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02066E30.c:128: declaration syntax error

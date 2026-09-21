@@ -159,3 +159,4 @@ void *func_02067FE4(struct Container02067FE4 *c, u32 val)
 
     return (u8 *)c->inner + 4;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 76, 39 concrete bytes out, 1.1p1

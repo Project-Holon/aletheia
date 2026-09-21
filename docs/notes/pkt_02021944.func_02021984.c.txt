@@ -43,3 +43,4 @@ void func_02021984(int a, struct Obj *obj, u16 *out)
 
     *out &= mask;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 60 bytes against 64, 48 concrete bytes out, 1.1p1

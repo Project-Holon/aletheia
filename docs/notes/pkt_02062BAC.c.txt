@@ -46,3 +46,4 @@ void func_02062BAC(struct Header02062BAC *header) {
         table[i] += (u32)header;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 76 bytes against 72, 51 concrete bytes out, 1.1p1

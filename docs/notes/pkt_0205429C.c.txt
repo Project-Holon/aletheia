@@ -1338,3 +1338,4 @@ keeps two -- the 8 bytes; (b) the note's own fact 3, spelling the chain out
 again inside the arms instead of keeping `res` live, which is what the image's
 +5078/+52F0/+5184/+51AC/+51F4 re-derivations do.  Only (b) touches the
 parameter capture, so it is the one to try first.
+re-verified 2026-09-21 by tools/match.py: DIFF, 848 bytes against 848, 100 concrete bytes out, ../1.2/sp2

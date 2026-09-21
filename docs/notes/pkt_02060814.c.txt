@@ -192,3 +192,4 @@ back into the same local that held the address, and `q++` instead of the
 byte-cast add.  All five compile to the same eight instructions.  The original
 is one `mov r0, r4` longer because it holds the result in the callee-saved
 register the compiler only reaches for when the value must survive a call.
+re-verified 2026-09-21: no recoverable source in this note

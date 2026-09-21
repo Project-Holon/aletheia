@@ -127,3 +127,4 @@ source-level spelling reaches, on a body that is otherwise exactly right. It
 remains the gate on `func_0202C070` -> `func_0202B64C` -> `func_0202B59C` ->
 `func_0202B4BC`, all four of which stay `MATCH`/`MATCH*` in `src/pending/`
 for this reason and were left untouched this pass.
+re-verified 2026-09-21: no recoverable source in this note

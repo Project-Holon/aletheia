@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   DIFF
+ * note:     status corrected 2026-09-21 from EXACT to DIFF by re-verification (46 concrete bytes out)
  *
  * symbols:
  *   g_02146954  0x02146954  data
@@ -20,7 +21,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   DIFF
+ * note:     status corrected 2026-09-21 from EXACT to DIFF by re-verification (46 concrete bytes out)
  *
  * symbols:
  *   func_02010F50  0x02010F50  thumb

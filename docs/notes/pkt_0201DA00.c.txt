@@ -77,3 +77,4 @@ void func_0201DAA4(struct Font *f, u32 a, u32 b)
         f->unk08 = p;
     }
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 56 bytes against 56, 0 concrete bytes out, 1.1p1

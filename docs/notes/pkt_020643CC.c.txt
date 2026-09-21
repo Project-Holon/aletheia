@@ -280,3 +280,4 @@ void func_020643CC(struct Root *root, struct MultiCellData *d, u32 total)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 620 bytes against 636, 537 concrete bytes out, 1.1p1

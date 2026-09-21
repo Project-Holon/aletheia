@@ -59,3 +59,4 @@ What the rest of the function needs (it all matches)
 
 Closest source: scratch/r3b2_wip/db8_w1.c (9-byte residue, i.e. the loop swap
 only, with the unwitnessed site still wildcarded -> MATCH if the swap closes).
+re-verified 2026-09-21: no recoverable source in this note

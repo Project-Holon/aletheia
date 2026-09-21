@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   DIFF
+ * note:     status corrected 2026-09-21 from EXACT to DIFF by re-verification (47 concrete bytes out)
  *
  * symbols:
  *   func_02060614  0x02060614  arm

@@ -153,3 +153,4 @@ r5/r6/r7 -- a sixteenth spelling of the same body.
 
 The closest C is kept in scratch/l4_var_A.c; nothing of this function is
 filed in src/matched/ or src/pending/.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02021B6C.c:25: declaration syntax error

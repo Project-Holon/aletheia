@@ -76,3 +76,4 @@ void *func_02034558(u32 heapId, u32 kind, u32 a, u32 size, u32 b)
     bank->unk_06 = (u16)size;
     return bank;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 132 bytes against 132, 13 concrete bytes out, 1.1p1

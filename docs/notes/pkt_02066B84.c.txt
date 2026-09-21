@@ -67,3 +67,4 @@ declaration) and keep `v & 0xC000C000` as a named temporary before the two
 extractions.
 
 Best C: scratch/probe1/w_02066B84.c.
+re-verified 2026-09-21: no recoverable source in this note

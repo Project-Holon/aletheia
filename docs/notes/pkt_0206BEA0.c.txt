@@ -117,3 +117,4 @@ same effort on the packet next door (0x02054DB8, 1744 bytes) reached 24.5%
 byte identity with a 60-byte size gap, which is the honest measure of what
 one run buys on a function of this class.  The map and the cap above are what
 a later run needs to decide whether to spend the days.
+re-verified 2026-09-21: no recoverable source in this note

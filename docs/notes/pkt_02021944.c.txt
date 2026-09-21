@@ -179,3 +179,4 @@ C currently tried (scratch/scratch/w_02021984.c):
         *a2 &= (u16)v;
     }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 74 bytes against 64, 63 concrete bytes out, 1.1p1

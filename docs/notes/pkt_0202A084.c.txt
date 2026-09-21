@@ -39,3 +39,4 @@ Verified with:
   python tools/match.py one --src <cand> --func func_0202A084 \
       --addr 0x0202A084 --cc 1.1p1 --thumb
   -> DIFF, compiled 96, original 100, 50 concrete bytes differ.
+re-verified 2026-09-21: no recoverable source in this note

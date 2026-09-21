@@ -74,3 +74,4 @@ NOT a compiler-pin candidate.  One probe under `../2.0/sp2`: 380 bytes, i.e.
 TWELVE SHORT of the original, so 2.0 is strictly further away than the
 default and no tell of the FRONTEND-PINS families is present.  1.1p1 stays.
 
+re-verified 2026-09-21: no recoverable source in this note

@@ -128,3 +128,4 @@ whatever makes the copy's live range be created first.  A third local, or a
 different function shape that defines the copy before the counter's zero, is
 the thing to look for.  Do not re-derive the store order or the
 post-increment: both are settled above.
+re-verified 2026-09-21: no recoverable source in this note

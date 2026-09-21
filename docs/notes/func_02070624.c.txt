@@ -196,3 +196,4 @@ moving either add.
 
 Status DIFF, so this stays a note and not a file. Under `--cc ../2.0/sp2`,
 268 bytes, no relocations, 30 concrete bytes out.
+re-verified 2026-09-21: no recoverable source in this note

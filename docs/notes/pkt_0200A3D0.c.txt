@@ -108,3 +108,4 @@ FUNC_0200A3D0 -> DIFF is CLOSED; now MATCH, parked in src/pending/func_0200A3D0.
 
   Candidates: scratch/_p3l1/cand/a3d0_f1.c (the DIFF), a3d0_c1/c5/c6.c (numeric
   spellings), a3d0_f2/f3.c (the symbol; f2 is the one).
+re-verified 2026-09-21 by tools/match.py: DIFF, 38 bytes against 44, 2 concrete bytes out, 1.1p1

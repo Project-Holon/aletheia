@@ -130,3 +130,4 @@ translation unit and show the same one-register offset.
 Compile line:
   python3 tools/match.py one --src <this file's C> --func func_02023A50 \
       --addr 0x02023A50 --cc 1.1p1 --thumb
+re-verified 2026-09-21: no recoverable source in this note

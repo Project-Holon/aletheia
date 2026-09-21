@@ -39,3 +39,4 @@ Note also that func_020750EC has no witness outside this range in the
 image-wide branch scan, so even a byte-perfect body caps at MATCH on that site
 (func_02075080 resolves as `matched`).  This is the same one-caller SDK shape
 as docs/notes/pkt_02074A6C.c.txt.
+re-verified 2026-09-21: no recoverable source in this note

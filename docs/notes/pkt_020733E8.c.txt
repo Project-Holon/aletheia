@@ -58,3 +58,4 @@ on the three wrappers; it is what stops all three of these too.
    0x02072894, and 0x02072894 is itself byte-correct but MATCH-capped on
    0x0208A0A4 (see docs/notes/pkt_02072894.c.txt), so no promotion is possible
    from here.
+re-verified 2026-09-21: no recoverable source in this note

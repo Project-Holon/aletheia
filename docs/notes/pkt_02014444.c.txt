@@ -38,3 +38,4 @@ u16 sub_02014A10(u32 index)
 {
     return (u16)sub_02014A10_Table[index];
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 16 bytes against 16, 0 concrete bytes out, 1.1p1

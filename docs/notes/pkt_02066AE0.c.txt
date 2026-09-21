@@ -66,3 +66,4 @@ int func_02066AE0(void)
 
     return -1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 92 bytes against 88, 78 concrete bytes out, 1.1p1

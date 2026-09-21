@@ -62,3 +62,4 @@ int sub_02006448(void *a0, void *a1, void *a2)
     sub_020059A0(a2);
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 112 bytes against 112, 26 concrete bytes out, 1.1p1

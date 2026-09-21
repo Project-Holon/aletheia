@@ -41,3 +41,4 @@ void func_02021944(struct Obj *p, u32 bit)
     x = (u16)(1 << bit);
     p->f11A = (u16)((p->f11A & 0xC000) | (v | x));
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 64 bytes against 64, 42 concrete bytes out, 1.1p1

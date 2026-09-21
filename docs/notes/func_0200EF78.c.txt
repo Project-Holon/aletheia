@@ -72,3 +72,4 @@ in which the 0x10 node is created after the first field-copy nodes -- closes
 this to EXACT.  Nothing in the C that produces the surrounding bytes moves it.
 
 Closest source: scratch/r3b2_wip/ef78_h1.c
+re-verified 2026-09-21: no recoverable source in this note

@@ -36,3 +36,4 @@ byte for byte.  All six relocations resolve (three `label` calls, `literal`
 x180 for 0x021469D0, x30 for 0x020A7A24, `string` for 0x020A7A34), so the
 attestation side is not the blocker and the entry is 6 instructions short of
 EXACT.
+re-verified 2026-09-21: no recoverable source in this note

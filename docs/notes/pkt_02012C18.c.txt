@@ -31,3 +31,4 @@ EXACT-only).
 Chain note: this function's `needs` callee 0x0200EEAC also came back
 unresolved -- the relocation field is wildcarded, so even a byte-exact body
 would cap at MATCH on that site until 0x0200EEAC has a manifest entry.
+re-verified 2026-09-21: no recoverable source in this note

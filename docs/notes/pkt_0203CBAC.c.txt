@@ -266,3 +266,4 @@ void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
         func_02037010(req->f5c, req->f5e, (u8)(m + 0xff) <= 1, req->f56);
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 488 bytes against 492, 202 concrete bytes out, 1.1p1

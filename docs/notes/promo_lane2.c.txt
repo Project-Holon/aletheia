@@ -92,3 +92,4 @@ and parked at MATCH in src/pending/func_0206B6A4.c: five sites, three calls to
 0x0206B63C and two to 0x0206B4A0, have no witness outside the compared range.
 Filing 0x0206B63C (104 B) and 0x0206B4A0 (400 B) as EXACT entries promotes
 both it and that park.
+re-verified 2026-09-21: no recoverable source in this note

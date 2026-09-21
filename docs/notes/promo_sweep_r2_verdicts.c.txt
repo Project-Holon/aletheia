@@ -70,3 +70,4 @@ Header edits made (park files only)
 * No C body, no status: line, no address/packet/compiler/isa field was changed,
   and nothing was moved or deleted.  No DIFF verdict, so docs/notes/ gained no
   packet .c.txt.
+re-verified 2026-09-21: no recoverable source in this note

@@ -312,3 +312,4 @@ u8 sub_0201DC88(u8 *obj, u32 id)
     }
     return obj[0x5e];
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, sub_0201DC88.c:12: declaration syntax error

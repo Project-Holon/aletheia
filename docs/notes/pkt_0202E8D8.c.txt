@@ -95,3 +95,4 @@ C currently tried (was scratch/_l2_c/func_0202E940.c):
 `data_020A7804` is a `literal` site (the same pool word also sits at
 0x0202E9A8 in func_0202E9AC and in the pools of the neighbouring 0x0202Exxx
 block, all outside this range).
+re-verified 2026-09-21: no recoverable source in this note

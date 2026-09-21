@@ -282,3 +282,4 @@ Measured and all off by the same register: plain `*pp`, `pp[0]`, a
 container-struct field, a volatile slot field, a `void **` parameter with
 casts, type-punned `*(u32 *)pp`, a named local, and an extra forwarded
 argument (that last one moves the register the other way, to r0).
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02072F5C.c:12: undefined identifier 'pkt_02072F5C'

@@ -85,3 +85,4 @@ NOT ATTEMPTED TO A VERDICT (class + the evidence behind it)
   value-in-register argument, not a re-evaluated one), and reaches its
   shared compare tail (0x0205203C) from both arms.  Not reproduced; the
   frame/argument packing is the lever to attack.
+re-verified 2026-09-21: no recoverable source in this note

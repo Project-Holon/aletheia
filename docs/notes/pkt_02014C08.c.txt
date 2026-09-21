@@ -111,3 +111,4 @@ The struct this function walks is documented in docs/families/mcss.h: the
 loop is over McssSys.slots[0 .. McssSys.count), the +0x140 word is the flag
 container whose partition that header adjudicates, and +0x144 is the second,
 separate flag word sub_02016380 sets and this function clears.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02014C08.c:12: undefined identifier 'lane'

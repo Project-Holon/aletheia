@@ -209,3 +209,4 @@ CONSEQUENCE FOR THE CHAIN: src/pending/func_02069818.c (224 bytes,
 byte-correct) stays parked.  Its two `bl`s to 0x020680DC are the only
 branches to this address anywhere in the image, so nothing but an EXACT here
 frees it, and this pass did not get one.
+re-verified 2026-09-21: no recoverable source in this note

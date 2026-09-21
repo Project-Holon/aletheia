@@ -72,3 +72,4 @@ packet's shard was written.  src/pending/func_0202AB28.c and
 src/pending/func_0202AB84.c are the harmless version of the same thing: they are
 byte-correct and already matched by src/matched/sub_0202AB28.c and
 sub_0202AB84.c, so they can never graduate and could be deleted.
+re-verified 2026-09-21: no recoverable source in this note

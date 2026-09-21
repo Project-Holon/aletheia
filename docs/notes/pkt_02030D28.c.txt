@@ -77,3 +77,4 @@ WHAT WAS RULED OUT
   the compiler CSEs `add r6, r4, #8` either way.
 - Indexing the list as an array (`((char **)a0)[4]` etc.): same bytes, the
   offsets are all outside the Thumb immediate reach anyway.
+re-verified 2026-09-21: no recoverable source in this note

@@ -119,3 +119,4 @@ int func_02039160(int arg0) {
     }
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 340 bytes against 344, 283 concrete bytes out, 1.1p1

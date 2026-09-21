@@ -51,3 +51,4 @@ NOTES ON SPELLINGS THAT MATTERED (all measured)
   * the function returns the constant 1 on success (`mov r0,#1` at +00F0), not the
     node pointer.
   * the first `bl` at +0014 passes a1/a2/a3 raw - no masks before it.
+re-verified 2026-09-21: no recoverable source in this note

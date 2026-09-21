@@ -53,3 +53,4 @@ void func_02046A94(u32 index, const u16 *src)
     func_0206AA78(index,
                   ((struct SlotRec *)(g_02146A5C + index * 8))->unk_42);
 }
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

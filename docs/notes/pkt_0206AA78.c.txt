@@ -334,3 +334,4 @@ Raw-word counts above are from a scan of the whole arm9 region
 Two residues on the way, both ruled out: `volatile u32 *` destinations do not
 stop 1.1p1's if-conversion, and `-proc arm7tdmi` does not either (both still
 100 bytes / 81 differences for 0x0206AE94).
+re-verified 2026-09-21 by tools/match.py: DIFF, 100 bytes against 116, 81 concrete bytes out, 1.1p1

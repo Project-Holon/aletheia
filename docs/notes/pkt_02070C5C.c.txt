@@ -27,3 +27,4 @@ which is byte-for-byte right for the two inner cases and for the trailing
 fall-through after the first test (beq, not bne) - it re-lays the outer arms.
 The straightforward `if (f & 4) {...} else if (f & 2) {...} else {...}` and the
 reverse-nested variant were tried too.  Not filed; a DIFF, not a MATCH.
+re-verified 2026-09-21: no recoverable source in this note

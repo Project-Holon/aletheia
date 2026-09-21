@@ -92,3 +92,4 @@ the field would force the reload but also force reloads at the two other
 sites, which the original does not have.
 
 Verdict: DIFF, 12 bytes short, structurally complete.  No source file filed.
+re-verified 2026-09-21: no recoverable source in this note

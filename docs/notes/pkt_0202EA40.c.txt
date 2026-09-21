@@ -112,3 +112,4 @@ void func_0202EA40(struct Row *p)
 
     func_02061CA4(p->unk14, p->unk0c * 2, p->out, p->count * 2);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 188 bytes against 204, 120 concrete bytes out, 1.1p1

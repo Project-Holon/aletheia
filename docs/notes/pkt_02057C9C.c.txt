@@ -209,3 +209,4 @@ Not filed anywhere: DIFF. The source as it stood follows.
         }
         out->col = k->c1;
     }
+re-verified 2026-09-21 by tools/match.py: DIFF, 408 bytes against 460, 345 concrete bytes out, 1.1p1

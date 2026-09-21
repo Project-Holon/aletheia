@@ -112,3 +112,4 @@ not are PC24 0x02075A2C (single caller image-wide: this park's own call) and
 ABS32 g_02150178 (named by exactly one pool word image-wide, this one).
 Signed 1-bit bitfields at +0x118 are required at both ends of this packet: an
 unsigned field emits `lsrs r0, r0, #0x1f` where the image has `asrs`.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02075794.c:12: undefined identifier 'pkt_02075794'

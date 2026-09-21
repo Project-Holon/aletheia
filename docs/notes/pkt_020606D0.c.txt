@@ -82,3 +82,4 @@ void func_020606D0(struct Obj020606D0 *o, u32 a, u32 b, u32 c, u16 d)
 
     func_020604AC((void *)func_020606A8(o), o);
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 112 bytes against 124, 91 concrete bytes out, 1.1p1

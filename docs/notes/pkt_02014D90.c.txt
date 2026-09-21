@@ -125,3 +125,4 @@ Verdict: no source filed.  The address to report upstream is the spurious
 function start at 0x02015590 in layout/function_starts.txt (integrator's
 file); 0x02014D90's real extent is 0x02014D90..0x02015590 plus this tail, and
 the row contributes nothing that can be manifested.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02014D90.c:27: declaration syntax error

@@ -53,3 +53,4 @@ void *sub_02005D34(void *a0, int a1)
     }
     return p;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 96 bytes against 92, 48 concrete bytes out, 1.1p1

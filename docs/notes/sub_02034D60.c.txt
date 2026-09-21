@@ -94,3 +94,4 @@ or a sibling copy of the same window test elsewhere in the image to compare
 against.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

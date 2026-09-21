@@ -80,3 +80,4 @@ void func_0200EEAC(void *o, u32 *p)
     }
     *(u16 *)((unsigned char *)o + 6) = i;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 42 bytes against 44, 12 concrete bytes out, 1.1p1

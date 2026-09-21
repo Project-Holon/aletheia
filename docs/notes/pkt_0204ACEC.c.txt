@@ -106,3 +106,4 @@ itself costs four bytes: 188 compiled against 184.
 
 The blocking class is unchanged and is codegen, not evidence: address-base
 selection for the ldrh.  All four relocations resolve.
+re-verified 2026-09-21 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1

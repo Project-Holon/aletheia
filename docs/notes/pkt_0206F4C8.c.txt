@@ -169,3 +169,4 @@ s32 func_0206FFA0(s32 *out, s16 *a, s16 *b, u32 flags)
     out[5] = (p << 19) >> 19;
     return 1;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 428 bytes against 364, 330 concrete bytes out, 1.1p1

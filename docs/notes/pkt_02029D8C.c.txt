@@ -57,3 +57,4 @@ leaving the function 4 bytes short (44 against 48). Four spellings compiled:
 
 Every one drops the `adds r2, r0, #0` after the first call. Everything after
 it matches.
+re-verified 2026-09-21 by tools/match.py: DIFF, 44 bytes against 48, 25 concrete bytes out, 1.1p1

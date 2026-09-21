@@ -271,3 +271,4 @@ void func_02073DFC(void)
  * src/pending/func_02073D7C.c stays blocked, and
  * src/pending/func_02072758.c behind it.
  * ================================================================ */
+re-verified 2026-09-21 by tools/match.py: DIFF, 228 bytes against 232, 86 concrete bytes out, 1.1p1

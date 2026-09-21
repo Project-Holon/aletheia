@@ -162,3 +162,4 @@ Artifacts and non-code rows in this slice (reported, not filed):
 The four wrappers themselves (0x020911D8, 0x02091200, 0x02091230, 0x0209125C)
 stay MATCH: each tail-branches into one of the stubs above (blocker class
 `veneer`), which is what src/pending/func_020911D8.c and its siblings name.
+re-verified 2026-09-21: no recoverable source in this note

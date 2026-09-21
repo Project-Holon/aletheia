@@ -259,3 +259,5 @@ done:
 dec:
     *(s8 *)(a1 + 0x136) = *(s8 *)(a1 + 0x136) - 1;
 }
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 436 bytes against 440, 4 concrete bytes out, dsi/1.1p1

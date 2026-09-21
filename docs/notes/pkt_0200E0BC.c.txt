@@ -342,3 +342,4 @@ FUNC_0200E0BC -> still DIFF, and the residue is a named family wall
     identical residue docs/notes/pkt_02010DB4.c.txt records for 0x02010DCC,
     byte for byte - same cause, same size.  The wall is now three functions
     (0x0200E0BC, 0x02010DCC, 0x02010DF4), not one.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0200E0BC.c:35: declaration syntax error

@@ -53,3 +53,4 @@ int func_0209D7D4(int unused, char *str, u32 *len)
     func_0209D774(p);
     return 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 68 bytes against 76, 26 concrete bytes out, 1.1p1

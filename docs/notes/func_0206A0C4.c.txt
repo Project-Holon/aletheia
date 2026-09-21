@@ -53,3 +53,4 @@ void func_0206A0C4(S *p, u32 *outA, u32 *outB)
     }
 }
 ```
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

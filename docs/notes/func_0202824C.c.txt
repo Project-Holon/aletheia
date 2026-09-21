@@ -109,3 +109,4 @@ fail:
  *   0x0202824C game func_0202824C dsi/1.1p1 EXACT*
  * This note is kept only as the record of the tooling defect.
  * ------------------------------------------------------------------ */
+re-verified 2026-09-21 by tools/match.py: EXACT*, 86 bytes against 88, 0 concrete bytes out, 1.1p1

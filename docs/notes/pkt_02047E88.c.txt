@@ -281,3 +281,4 @@ u16 func_02048010(u8 *rig, struct Req *req, u32 extra)
     }
     return 0xFFFF;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 212 bytes against 212, 50 concrete bytes out, 1.1p1

@@ -47,3 +47,4 @@ void sub_02035A60(void)
 {
     func_020358A0(func_02035224());
 }
+re-verified 2026-09-21 by tools/match.py: EXACT, 16 bytes against 16, 0 concrete bytes out, 1.1p1

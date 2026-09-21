@@ -142,3 +142,4 @@ void func_0202E688(u32 a0)
     func_02047A60(a0, buf.f);
 }
 
+re-verified 2026-09-21 by tools/match.py: DIFF, 232 bytes against 232, 10 concrete bytes out, 1.1p1

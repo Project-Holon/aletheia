@@ -58,3 +58,4 @@ int sub_02012380(void *p)
         }
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 64 bytes against 68, 38 concrete bytes out, 1.1p1

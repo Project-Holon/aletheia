@@ -162,3 +162,4 @@ void func_02073DFC(void)
     }
     g->f0 = 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 228 bytes against 232, 86 concrete bytes out, 1.1p1

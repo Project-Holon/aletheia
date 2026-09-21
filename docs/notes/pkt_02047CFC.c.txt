@@ -126,3 +126,4 @@ The C that reaches 332 (drop it in and iterate from there):
     
         return r;
     }
+re-verified 2026-09-21 by tools/match.py: DIFF, 332 bytes against 344, 283 concrete bytes out, 1.1p1

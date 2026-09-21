@@ -140,3 +140,4 @@ The remaining rows of the packet (0x020526A8, 0x02052770, 0x020528D0,
 lane's rows and stay open.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

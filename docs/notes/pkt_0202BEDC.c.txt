@@ -36,3 +36,4 @@ Verified with:
   -> DIFF, compiled 46, original 60 (46 code + pool), 2 concrete bytes differ.
 
 Consequence: 0x0202BEDC (thunk to this address) and 0x0202B744 stay MATCH-capped.
+re-verified 2026-09-21: no recoverable source in this note

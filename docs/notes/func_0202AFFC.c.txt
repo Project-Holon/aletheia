@@ -135,3 +135,4 @@ u8 func_0202AFFC(u8 *obj, s32 *pos)
  * and 0x0202B04C must reach EXACT before src/pending/func_0202AF74.c can
  * be promoted; this one is not the bottleneck, the shared decision is.
  * ================================================================ */
+re-verified 2026-09-21 by tools/match.py: DIFF, 78 bytes against 80, 6 concrete bytes out, 1.1p1

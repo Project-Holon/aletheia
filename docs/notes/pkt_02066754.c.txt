@@ -55,3 +55,4 @@ void func_02066754(const MtxFx23 *a, const MtxFx23 *b, MtxFx23 *dst)
         *orig_dst = tmp;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 260 bytes against 292, 212 concrete bytes out, 1.1p1

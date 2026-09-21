@@ -161,3 +161,4 @@ void sub_0200E878(void *dst)
 {
     func_02082BCC(dst, 0, 0x10);
 }
+re-verified 2026-09-21 by tools/match.py: ERROR, n/a bytes against n/a, n/a concrete bytes out, function 'func_0200E7BC, sub_0200E874, sub_0200E878' not found in tu.o; object defines: $d, $t, func_0200E7BC, sub_0200E874, sub_0200E878

@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   DIFF
+ * note:     status corrected 2026-09-21 from EXACT to DIFF by re-verification (9 concrete bytes out)
  *
  * symbols:
  *   func_0208CFD8  0x0208CFD8  arm

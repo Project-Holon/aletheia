@@ -243,3 +243,4 @@ The one lever this note has always ended on -- a caller that pins a fifth
 argument other than a bare literal zero -- is still untried, and is NOT
 reachable from this function's own C. It needs a caller of 0x0204A6C8 to be
 decompiled first.
+re-verified 2026-09-21: no recoverable source in this note

@@ -97,3 +97,4 @@ Spellings tried on top of the two above, all landing on the same 30 bytes
 Recorded, not ground further: the next lever is a source shape that leaves
 the tail's -1 unshared without sharing the fail block; nothing in the idiom
 index names it yet.
+re-verified 2026-09-21: no recoverable source in this note

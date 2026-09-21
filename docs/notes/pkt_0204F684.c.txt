@@ -124,3 +124,4 @@ index on lr, which is what the image does.  The image's 48-byte form needs the
 index live in a callee-saved register across both stores, and the closest
 spelling still lands on the 44-byte `mul ip` form with the address accumulated
 in place (the residue tabulated above).  Do not spend another compiler on it.
+re-verified 2026-09-21: no recoverable source in this note

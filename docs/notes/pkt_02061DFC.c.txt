@@ -53,3 +53,4 @@ void func_02061DFC(struct Node02061DFC *arr, u32 count)
     end = (u32 *)&arr[count];
     end[-1] = 0;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 76 bytes against 76, 2 concrete bytes out, 1.1p1

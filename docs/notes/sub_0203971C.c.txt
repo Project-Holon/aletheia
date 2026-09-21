@@ -68,3 +68,4 @@ docs/notes/sub_02034D60.c.txt: a scratch-register choice that the source shape
 does not reach.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21: no recoverable source in this note

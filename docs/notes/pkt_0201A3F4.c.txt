@@ -35,3 +35,4 @@ would pin the load to memory) - the ordering here is between a load and two
 stores with no aliasing question between them, so this is the same
 "materialised temporary not reachable from C" class as
 docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.
+re-verified 2026-09-21: no recoverable source in this note

@@ -63,3 +63,4 @@ docs/idioms/a-re-read-of-a-field-just-stored-is-one-volatile-read-not-a-volatile
 Re-deriving the address (a `u32 *` cast off a `u8 *` base, a subscript, a
 named local copy) was also tried in this wave and does not defeat the
 store-to-load forwarding: all three still give `mov r1, r1`.
+re-verified 2026-09-21: no recoverable source in this note

@@ -30,3 +30,4 @@ it is blocked twice over.
    version keeps them separate and pushes r3/r7 as well. Expressible in C only
    by making the live ranges different from the source's, so it is left here
    with the two blockers named rather than ground further.
+re-verified 2026-09-21: no recoverable source in this note

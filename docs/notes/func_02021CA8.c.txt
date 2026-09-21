@@ -54,3 +54,4 @@ superset of) the S02021B6C used by func_02021B6C/func_02021BC8 -- the bit
 mask math on p[0x118] in block 1 is identical to func_02021B6C's flags
 field -- so cracking this one struct fully would likely also tighten the
 symbols block on both of those matched files.
+re-verified 2026-09-21: no recoverable source in this note

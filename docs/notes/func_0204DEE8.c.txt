@@ -64,3 +64,4 @@ Decoded structure (the C is believed complete; only the allocation is wrong)
 2026-09-21 CAP RE-CHECKED, LIFTED: this note quotes "unresolved: 02063F4C has
 no witness outside ...". Probed today: 02063F4C -> [label x8, e.g. 0204DF90].
 The site resolves; re-attack this row on codegen alone.
+re-verified 2026-09-21: no recoverable source in this note

@@ -225,3 +225,4 @@ The C, both scheduling points measured
 What the pair paid: this function is the single unresolved site of
 src/pending/func_0204C660.c (PC24 at +0x0054), promoted in the same wave to
 src/matched/func_0204C660.c (EXACT, packet pkt_0204C060), C untouched.
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

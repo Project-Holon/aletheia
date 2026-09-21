@@ -349,3 +349,4 @@ void func_02022F60(struct S *p)
         REG_1048 = v | 0x2000;
     }
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 1144 bytes against 1284, 1047 concrete bytes out, 1.1p1

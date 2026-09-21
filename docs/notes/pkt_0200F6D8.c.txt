@@ -36,3 +36,4 @@ void sub_0200F7B8(unsigned int arg)
 {
     func_0200FC0C(arg);
 }
+re-verified 2026-09-21 by tools/match.py: EXACT*, 8 bytes against 72, 0 concrete bytes out, 1.1p1

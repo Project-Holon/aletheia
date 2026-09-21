@@ -90,3 +90,4 @@ Worth one more session: src/pending/func_0202BEDC.c and
 src/pending/func_0202B744.c are both blocked on 0x0202BF54 alone now that
 0x0202B804 is attested through unit_0202B7F8.c, so this one instruction's
 operand order is worth three functions.
+re-verified 2026-09-21: no recoverable source in this note

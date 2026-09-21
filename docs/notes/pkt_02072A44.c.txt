@@ -124,3 +124,4 @@ with its C unchanged and has been promoted to src/matched/func_02006948.c
 the third and fourth time in this packet's history.
 
 Addresses are Black-image addresses.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02072A44.c:12: undefined identifier 'pkt_02072A44'

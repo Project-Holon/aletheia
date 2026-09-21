@@ -275,3 +275,4 @@ void func_0202271C(char *p)
 * +002C pop {r4, pc} | pop {r3, r4, r5, pc}
 ~ +0030 sbcs r2, r0, #0x890000 | movs r0, r0 <- ABS32 sub_0209F570_Obj [wildcard]
 ~ +0032 09 02 | movs r0, r0
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0202271C.c:38: declaration syntax error

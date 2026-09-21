@@ -69,3 +69,4 @@ s32 func_020365E8(u8 *p)
         v = *(s16 *)(p + 0x0E);
     return v - a;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 28 bytes against 36, 18 concrete bytes out, 1.1p1

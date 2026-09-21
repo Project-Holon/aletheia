@@ -85,3 +85,4 @@ Two spelling facts that ARE settled and that the filed sibling carries:
     expression, `-(f20 + f22) + 0x1000`, folds to a single `rsb r2, r1, #0x1000`
     and loses four bytes plus the whole block; see
     docs/idioms/a-two-statement-negation-blocks-the-rsb-fold.md.
+re-verified 2026-09-21: no recoverable source in this note

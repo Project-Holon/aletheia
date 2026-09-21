@@ -131,3 +131,4 @@ void func_0202350C(struct Obj *obj, u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
      +0056    add sp, #0x18                          | add sp, #0x18                          
      +0058    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
    legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+re-verified 2026-09-21 by tools/match.py: DIFF, 90 bytes against 92, 39 concrete bytes out, 1.1p1

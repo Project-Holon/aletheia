@@ -29,3 +29,4 @@ are identical in every case.
 The allocator's own view is that the value crosses the call, so it must live in
 a preserved register and the frame grows by one.  If someone later finds the
 spelling that makes mwccarm keep it in r2, all three siblings fall at once.
+re-verified 2026-09-21: no recoverable source in this note

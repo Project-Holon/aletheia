@@ -60,3 +60,4 @@ not stop it.  The address comparison needs the *address*: with
 `extern u32 g_020A8730;` and `a3 == g_020A8730` the compiler loads the word at
 0x020A8730 and compares that, 12 bytes of diff before anything else; declare it
 `extern u32 g_020A8730[];` and compare `(u32)g_020A8730`.
+re-verified 2026-09-21: no recoverable source in this note

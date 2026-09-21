@@ -34,3 +34,4 @@ src/pending/sub_020328E0.c cannot be promoted: its site on 0x02031F54 is
 0x02031F54, checked with image_call_sites: one site, 0x020328F0-ish, inside the
 park) and there is no pool word elsewhere in the image naming 0x02031F54, so
 `matched` at 0x02031F54 is the only route, and that needs this row EXACT.
+re-verified 2026-09-21: no recoverable source in this note

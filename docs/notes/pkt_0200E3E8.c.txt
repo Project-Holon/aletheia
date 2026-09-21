@@ -76,3 +76,4 @@ Note that this function can never be more than MATCH* anyway: both calls go to
 label in either listing, so neither site can be attested at any spelling
 (see the sub_0200E3A4 header).  The bytes are the only open question, and they
 are 2 bytes and one register permutation from done.
+re-verified 2026-09-21 by tools/match.py: DIFF, 90 bytes against 100, 69 concrete bytes out, 1.1p1

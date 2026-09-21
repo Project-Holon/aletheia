@@ -54,3 +54,4 @@ Verified with:
       --addr 0x0202EE0C --cc 1.1p1 --thumb   -> DIFF, 36 vs 36, 6 bytes
   python tools/match.py one --src <cand> --func func_0202EE8C \
       --addr 0x0202EE8C --cc 1.1p1 --thumb   -> DIFF, 64 vs 64 (extent 64), 6 bytes
+re-verified 2026-09-21: no recoverable source in this note

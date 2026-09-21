@@ -37,3 +37,4 @@ function at all, so this is not a front-end pin.
 Next attempt: find a second reference to the word 0xFFFFFF1F inside the same
 translation unit (0x02010BB8..0x02013160) whose materialisation forces the pool
 word, or accept the 4-byte wall and file nothing.
+re-verified 2026-09-21: no recoverable source in this note

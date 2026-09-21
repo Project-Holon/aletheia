@@ -182,3 +182,4 @@ void func_02065BD0(int a0)
     *(volatile int *)(0x04000444 + 0x10) = 0;
     func_02064E3C();
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 164 bytes against 168, 75 concrete bytes out, 1.1p1

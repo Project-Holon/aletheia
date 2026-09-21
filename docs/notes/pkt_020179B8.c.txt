@@ -61,3 +61,4 @@ WHAT WAS RULED OUT
   reorders the branches and loses the `bne 02017D0C` shape.
 - Casting the second `func_02019C54` result to `unsigned short` before passing
   it to func_0201AE1C changes nothing; the (u16) truncation on r4 is right.
+re-verified 2026-09-21: no recoverable source in this note

@@ -95,3 +95,4 @@ re-tried.
 The true function is 72 code bytes (0x02051838..0x02051880); the listing's
 116-byte extent runs on into three unlabelled leaf accessors at 0x02051880,
 0x0205189C and 0x020518A4, so a byte-exact result here would come out EXACT*.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02051838.c:28: declaration syntax error

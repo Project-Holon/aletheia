@@ -34,3 +34,4 @@ Shapes tried for the residue itself: the clamped value as `u32 delta` (the
 committed spelling), as `u8 delta`, with the lim clamp written as two separate
 if statements, and with the `a2 == 0x7F` case first.  All four land on the same
 two-byte residue in r2 versus r4.
+re-verified 2026-09-21: no recoverable source in this note

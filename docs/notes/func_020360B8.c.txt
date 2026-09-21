@@ -34,3 +34,4 @@ Next attempt: force the reload the way the image has it -- write the merge as
 two compound assignments on the field (o->F &= mask; o->F |= v;) and check
 whether mwcc re-reads the field for the second, or take the field's address
 (u32 *pf = &o->F) so the load cannot be reused.
+re-verified 2026-09-21: no recoverable source in this note

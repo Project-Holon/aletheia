@@ -75,3 +75,4 @@ exit", which is the shape the compiler prefers; the original's is "update
 predicated on not-found, one back edge".  The lever that is missing is the
 source construct mwccarm if-converts for this loop; nothing in the idiom
 index covers loop if-conversion yet.
+re-verified 2026-09-21: no recoverable source in this note

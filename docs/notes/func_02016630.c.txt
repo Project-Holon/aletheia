@@ -244,3 +244,4 @@ remains in BOTH functions is the same single scheduler tie-break:
 Closing one closes the other.  Nothing in the argument list, the parameter
 types, the struct field types, the declaration order or the statement order
 reaches it.
+re-verified 2026-09-21 by tools/match.py: DIFF, 592 bytes against 592, 36 concrete bytes out, 1.1p1

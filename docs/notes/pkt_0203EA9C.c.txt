@@ -104,3 +104,4 @@ tail:
             *(int *)((char *)g_021469F4 + 0x40) = 0;
     }
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0203EA9C.c:12: undefined identifier 'pkt_0203EA9C'

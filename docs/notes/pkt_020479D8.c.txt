@@ -151,3 +151,4 @@ docs/FRONTEND-PINS.md records for the "kept branches" tell.  The note already
 established ../2.0/sp2 does the same, so no probe was repeated.
 
 Eighteen spellings total across the passes.  Not filed: DIFF, by rule 6.
+re-verified 2026-09-21: no recoverable source in this note

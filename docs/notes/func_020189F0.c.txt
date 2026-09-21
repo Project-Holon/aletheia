@@ -93,3 +93,5 @@ priority: it is recorded here because the EVIDENCE status changed (the table
 now attests), which is the part a future lane would otherwise not know.
 
 Verdict for this wave: DIFF at 1 byte, no source filed, no shard entry.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 16 bytes against 16, 1 concrete bytes out, dsi/1.1p1

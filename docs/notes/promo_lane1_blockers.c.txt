@@ -91,3 +91,4 @@ structurally blocked):
          unmatched; 0x0201FC1C is already a `matched` witness.
   row 8  func_0202EB7C <- 0x0202EB9C: only 0x0202ED00 (96 B Thumb) is
          unmatched - see docs/notes/pkt_0202ED00.c.txt for its 6-byte residue.
+re-verified 2026-09-21: no recoverable source in this note

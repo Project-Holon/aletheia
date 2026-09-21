@@ -276,3 +276,4 @@ Next attempt on this row should swap the declaration order of the two
 `(u16)func_02017E1C(...)` results (declare the 0x6f one first) and re-check
 +0x34, then re-read the loop's two `ldrh`/`strh` pairs; do not touch the
 prologue or the alloc call, both of which already match.
+re-verified 2026-09-21: no recoverable source in this note

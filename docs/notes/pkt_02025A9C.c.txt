@@ -120,3 +120,4 @@ u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg)
                                          gModeTable[mode].b, obj->field_4);
     return mode;
 }
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02025A9C.c:12: declaration syntax error

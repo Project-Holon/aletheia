@@ -148,3 +148,4 @@ void func_020160D4(char *a0, char *a1, int a2, int a3)
  * a2 as live earlier than a3 -- e.g. a2 reaching a call before the
  * first func_02030734 rather than only reaching func_02021F64.
  * ------------------------------------------------------------------ */
+re-verified 2026-09-21 by tools/match.py: DIFF, 376 bytes against 376, 12 concrete bytes out, 1.1p1

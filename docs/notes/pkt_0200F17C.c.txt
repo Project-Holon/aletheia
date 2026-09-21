@@ -276,3 +276,4 @@ Verified with
 
     python tools/match.py one --src src/pending/func_0200F17C.c \
         --func func_0200F17C --addr 0x0200F17C --cc 1.1p1 --thumb
+re-verified 2026-09-21 by tools/match.py: EXACT, 60 bytes against 60, 0 concrete bytes out, 1.1p1

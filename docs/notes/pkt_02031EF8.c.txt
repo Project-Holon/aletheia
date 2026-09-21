@@ -45,3 +45,4 @@ allocation is decided before the source shape can reach it:
 Note for whoever picks this up: the function is the ONLY branch witness for
 src/pending/sub_020328E0.c (596 bytes, parked at MATCH for that reason), so
 closing these five bytes closes 660.
+re-verified 2026-09-21: no recoverable source in this note

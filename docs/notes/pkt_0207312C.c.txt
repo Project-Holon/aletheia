@@ -44,3 +44,4 @@ bytes either, so they are the same situation one level down and must also be
 written directly.  Whoever takes that should start with func_02073D7C, the
 smaller of the two.  Note func_02072758 verifies under `--cc ../2.0/sp2`, not
 the default.
+re-verified 2026-09-21: no recoverable source in this note

@@ -161,3 +161,4 @@ the initialiser on the declaration (both declaration orders), `r = 1;` before
 the loop, `r` assigned at the top of the body, `*out = 0` placed before and
 after r's initialisation, `u32 v` against `u32 v = 0`, and `return 1` with r
 unused.  All eight give the same prologue order.
+re-verified 2026-09-21: no recoverable source in this note

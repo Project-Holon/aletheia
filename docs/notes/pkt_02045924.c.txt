@@ -48,3 +48,4 @@ void func_02045924(struct Buf *buf, u16 *src)
 The sibling func_02045994 @ 0x02045994 (104 bytes, same packet) is the same
 shape with an explicit length argument and the same terminator; it was not
 attempted in this wave.
+re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header

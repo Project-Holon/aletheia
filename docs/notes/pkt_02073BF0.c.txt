@@ -38,3 +38,4 @@ spends budget on the body.
 
 func_02073D5C (32) stays parked MATCH: 0x0214E9B4 is named by exactly one pool
 word in the image, its own.
+re-verified 2026-09-21: no recoverable source in this note

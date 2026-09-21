@@ -172,3 +172,4 @@ top half is clear) and later a 4-byte read, which is why the slot is
 
 Both functions are byte-identical to the image; there is no MATCH-capped
 residue and nothing to park in src/pending/.
+re-verified 2026-09-21: no recoverable source in this note

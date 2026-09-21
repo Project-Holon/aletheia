@@ -39,3 +39,4 @@ Unlabelled leaves / stubs found in this window
   0x0203C3EC  76 bytes code + 24 pool: maps a table word to 0/1/3/4/5/2.
   0x0203B018  4-byte `bx lr` no-op, used as the report identifier by the
               parked func_0203B038.
+re-verified 2026-09-21: no recoverable source in this note

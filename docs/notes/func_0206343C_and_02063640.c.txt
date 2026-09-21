@@ -34,3 +34,4 @@ Next agent: func_0206343C's function-pointer table deserves a look on its
 own, independent of this blocker, since func_02063138 uses the same
 0x540-byte-record table structure and may share callers worth resolving
 together.
+re-verified 2026-09-21: no recoverable source in this note

@@ -25,3 +25,4 @@ block, which is worse; the plain literal keeps it in the alt block.
 Note the polarity: `ldrbne r0, [r5, #0x56]; cmpne r0, #1; beq alt` means the
 alt path is taken when `p[0x53] == 0 || p[0x56] == 1`, so the func_02037A6C
 path needs `p[0x53] != 0 && p[0x56] != 1`.
+re-verified 2026-09-21: no recoverable source in this note

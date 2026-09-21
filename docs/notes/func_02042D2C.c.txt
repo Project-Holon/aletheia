@@ -144,3 +144,4 @@ the body is right.
 
 Consequence for src/pending/func_02041300.c is unchanged: it still needs
 this address as a 'matched' witness, so it stays at MATCH.
+re-verified 2026-09-21: no recoverable source in this note

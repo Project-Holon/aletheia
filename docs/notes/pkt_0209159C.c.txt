@@ -53,3 +53,4 @@ add r1,r1,#0xff; and r1,r1,#0xff; cmp r1,#1; bhi` -- i.e. `(u8)(mode - 1) > 1`
 -- where `(u8)(mode - 1)` written as a subtraction compiles to `sub r1,r1,#1`.
 See docs/idioms/a-u8-decrement-is-spelled-as-the-wraparound-add.md; the
 wraparound spelling is what the source needs, not the subtraction.
+re-verified 2026-09-21: no recoverable source in this note

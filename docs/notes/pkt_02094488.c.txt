@@ -43,3 +43,4 @@ word in the whole image, at 0x02094774, which is *inside* the compared range
 02094750..02094778, so the literal class discards it.  The function is a
 one-line indirect call and would otherwise be trivial; it needs either the
 label range to stop at 0x02094774 or a second witness for 0x02153FB0.
+re-verified 2026-09-21: no recoverable source in this note

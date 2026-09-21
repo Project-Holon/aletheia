@@ -56,3 +56,4 @@ int func_0204F044(C044 *a0, int a1, int a2, int a3, u32 a4, u8 a5, u8 a6)
     }
     return idx;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 200 bytes against 200, 52 concrete bytes out, 1.1p1

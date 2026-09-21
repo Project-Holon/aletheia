@@ -612,3 +612,4 @@ int func_02060CD0(struct ExpHeap *heap, void *block, u32 size)
     }
     return hdr->size;
 }
+re-verified 2026-09-21 by tools/match.py: DIFF, 352 bytes against 352, 50 concrete bytes out, 1.1p1

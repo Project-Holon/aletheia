@@ -219,3 +219,4 @@ C as left (35 bytes, best known for this address):
     }
 
 No file was filed for this address: DIFF is note-only.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020173F0.c:39: declaration syntax error

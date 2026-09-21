@@ -359,3 +359,4 @@ the "func_0206A2CC ... not closed, 196 compiled" paragraph above:
   0x0206A3CC is now 2 concrete bytes rather than 9, and the scheduling residue
   this note described around the sum truncation is gone; the four corrections
   that did it are written out in the new note.
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0206A12C.c:40: declaration syntax error

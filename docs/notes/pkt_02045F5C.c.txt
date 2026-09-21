@@ -116,3 +116,4 @@ void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
     str[len] = func_02045A98();
 }
 ```
+re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02045F5C.c:12: declaration syntax error

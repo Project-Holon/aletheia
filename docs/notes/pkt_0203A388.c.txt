@@ -27,3 +27,4 @@ slot.  Everything after the first basic block is identical.
 Tried: declaring the fourth parameter as a pointer, reordering the locals
 (`u32 *p;` before the ctx initialiser moves the getter into the if and is much
 worse), and both statement orders for the two guard calls.
+re-verified 2026-09-21: no recoverable source in this note
