@@ -6,6 +6,10 @@ This project shares no code with any existing decompilation effort. All tooling
 (ROM extraction/rebuilding, disassembly, build system) is written independently
 for this repository.
 
+![ARM9 game-code coverage map: one tile per function, area is code bytes, green is matched](docs/coverage_map.svg)
+
+*Coverage map of the ARM9 static image, regenerated with `python3 tools/coveragemap.py` at every wave integration. Each block is a translation unit; each tile a function, sized by code bytes. Green is byte-exact C, pale green rests on the sole-ref evidence class, grey is open, dark blocks are SDK and runtime code (excluded from the percentage).*
+
 ## Goal
 
 Fully decompile Pokémon Black (and eventually White) to readable, buildable C source that produces a
@@ -30,10 +34,6 @@ byte-matching ROM.
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
   - [x] About 1000 original source filenames recovered from `__FILE__` anchors (`layout/file_anchors.txt`)
   - [~] 53.50% of ARM9 game code ships as verified C (3561 functions, updated at every wave integration)
-
-![ARM9 game-code coverage map: one tile per function, area is code bytes, green is matched](docs/coverage_map.svg)
-
-*Coverage map of the ARM9 static image, regenerated with `python3 tools/coveragemap.py` at every wave integration. Each block is a translation unit; each tile a function, sized by code bytes. Green is byte-exact C, pale green rests on the sole-ref evidence class, grey is open, dark blocks are SDK and runtime code (excluded from the percentage).*
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
   - [ ] Field and battle loop call trees
