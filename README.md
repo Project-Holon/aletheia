@@ -10,7 +10,6 @@ for this repository.
 
 ![ARM9 game-code coverage map by original source file](docs/coverage_map_files.svg)
 
-*Coverage maps of the ARM9 static image, regenerated with `python3 tools/coveragemap.py` at every wave integration. Each tile is a function, sized by code bytes. In the first map a block is a translation unit of the split image; in the second a block is an original source file, inferred from the `__FILE__` anchors (the upper half of the image carries no anchors and is drawn as one block). Green is byte-exact C, pale green rests on the sole-ref evidence class, grey is open, dark blocks are SDK and runtime code (excluded from the percentage).*
 
 ## Goal
 
@@ -35,7 +34,7 @@ byte-matching ROM.
   - [x] Pokémon data field map and the message text cipher (`src/matched/`)
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
   - [x] About 1000 original source filenames recovered from `__FILE__` anchors (`layout/file_anchors.txt`)
-  - [~] 57.48% of ARM9 game code ships as verified C (3693 functions, updated at every wave integration)
+  - [~] 58.16% of ARM9 game code ships as verified C (3712 functions, updated at every wave integration)
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
   - [ ] Field and battle loop call trees

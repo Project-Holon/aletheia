@@ -152,3 +152,125 @@ established ../2.0/sp2 does the same, so no probe was repeated.
 
 Eighteen spellings total across the passes.  Not filed: DIFF, by rule 6.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+family wave (g3d_system.c, 2026-09-21): func_020479D8 @ 0x020479D8, 136 bytes
+ARM.  Size-exact throughout; the permuter takes the residue from 30 concrete
+bytes to 22 and the remainder is one register's colour.
+==============================================================================
+
+Pin: dsi/1.1p1, `-O4,p -proc arm946e`, ARM.  136 bytes against the image's 136
+from the first compile onward, 6 of 6 relocation sites resolved (`label` on
+func_0207BCA0, `literal` on all five globals: 0x02146A5C x115,
+0x02148D8C/0x02148D98/0x02148DA4 x14 each, 0x02148B98 x61, 0x02148B4C x115).
+Never evidence-blocked; codegen only.
+
+WHAT THE FUNCTION IS.  The no-argument sibling of src/matched/func_02046B40.c.
+func_02046B40 copies three 12-byte blocks from its argument into the context's
++0x5C/+0x68/+0x74 and then broadcasts those three into g_02148D8C/D98/DA4;
+func_020479D8 does only the second half -- it broadcasts the context's own
+three view blocks out, calls MTX_LookAt (func_0207BCA0, confirmed by
+layout/symbols_sdk.json) with the three block addresses plus &g_02148B98,
+clears 0xE8 out of word 63 of 0x02148B4C, and runs the context's +0x88
+callback through a fresh re-read of the global.  The Blk typedef, the three
+destination globals and the `&= ~0xE8u` are all taken verbatim from
+func_02046B40, which is EXACT, so none of that is in question.
+
+THE PERMUTER'S FINDING, and the readable form of it.  `--mode anneal --budget
+3000 --jobs 6 --types` improved 30 -> 22 with
+
+    mutations hoist-up(v2,-3) ; temp(tmp=*v0) ; expand(v0 x2) ;
+              hoist-up(v1,-3) ; block(do0,4)
+
+Stripped of the noise (the `do {} while (0)` and the re-expanded v0) the whole
+lever is: COMPUTE ALL THREE BLOCK ADDRESSES BEFORE THE FIRST STORE, and bind
+the first block's VALUE to a temporary rather than storing it straight
+through.  Written out by hand it reaches the identical 22 and needs no
+permuter output:
+
+    u8 *o = (u8 *)g_02146A5C;
+    Blk *v1, *v2;  Blk t;
+
+    v1 = (Blk *)(o + 0x68);      /* addresses first ... */
+    t  = *(Blk *)(o + 0x5C);     /* ... then the value  */
+    v2 = (Blk *)(o + 0x74);
+    g_02148D8C = t;
+    g_02148D98 = *v1;
+    g_02148DA4 = *v2;
+    func_0207BCA0((Blk *)(o + 0x5C), v1, v2, &g_02148B98);
+
+Note `v0` must NOT be a cached local: recomputing `o + 0x5C` at the call is
+what keeps it in the same register as the `ldm` source (binding it costs 9
+bytes, see the ruled-out list).
+
+WHAT IS LEFT: 22 bytes, and the structure is instruction-for-instruction
+right.  Only one register's colour differs, and it cascades:
+
+    +0008  image `ldr ip, [pc, #0x64]`   ours `ldr r3, [pc, #0x64]`
+    +0010  image `ldr r3, [pc, #0x60]`   ours `ldr ip, [pc, #0x60]`
+    +001C  image `stm ip, {r0,r1,r2}`    ours `add r6, r5, #0x68`
+    +0020  image `add ip, r5, #0x68`     ours `stm r3, {r0,r1,r2}`
+    +0044  image `mov r1, ip`            ours `mov r1, r6`
+    +0000  image `push {r3,r4,r5,lr}`    ours `push {r4,r5,r6,lr}`
+
+The image REUSES ip: it holds the destination &g_02148D8C, is consumed by the
+first `stm`, and is then immediately recoloured to `o + 0x68`.  We give `o +
+0x68` a fresh callee-saved r6 instead, which is why the push list gains r6 and
+loses the r3 pad.  Nothing in C expresses "reuse the caller-saved register the
+previous store just freed"; it is a colouring choice, and every attempt to
+force the reuse by shortening v1's live range moves the whole plan instead.
+
+RULED OUT THIS WAVE (each one compile, pin unchanged, all 136/136):
+  * the plain three-statement form (`g_02148D8C = *(Blk *)(o + 0x5C);` etc,
+    the direct transcription of func_02046B40's second half): 30;
+  * `o` advanced in place (`o += 0x74;`) so it dies into the third block,
+    with and without the compound-assignment spelling of the `&= ~0xE8u`: 30;
+  * all three addresses bound as named `Blk *` locals up front: 31;
+  * three separate reads of the global instead of one `o`: 31;
+  * the two destination globals bound to named `Blk *` pointers first: 30;
+  * the value temporary kept but v0 ALSO bound to a local: 31;
+  * v1 computed AFTER the first store (the shape that would seem to force the
+    ip reuse), with and without a named destination pointer: 31 both;
+  * `--mode hill --budget 800 --types` from the plain form: 30, exhausted at
+    90 sites; from the 22-byte form: 22, exhausted at 150 sites;
+  * `--mode anneal --budget 3000 --jobs 6 --types`: best stays 22
+    (asm=465), the last 43 batches dry.
+
+Residue class: codegen / register colouring, 22 bytes, size exact.
+
+/* best source, 136 bytes against 136, 22 concrete bytes out, 1.1p1 */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef struct { u32 w[3]; } Blk;
+
+extern u32 *g_02146A5C;
+extern Blk g_02148D8C;
+extern Blk g_02148D98;
+extern Blk g_02148DA4;
+extern Blk g_02148B98;
+extern u32 g_02148B4C[];
+
+extern void func_0207BCA0(void *a0, void *a1, void *a2, void *a3);
+
+void func_020479D8(void)
+{
+    u8 *o = (u8 *)g_02146A5C;
+    Blk *v1;
+    Blk *v2;
+    Blk t;
+
+    v1 = (Blk *)(o + 0x68);
+    t  = *(Blk *)(o + 0x5C);
+    v2 = (Blk *)(o + 0x74);
+    g_02148D8C = t;
+    g_02148D98 = *v1;
+    g_02148DA4 = *v2;
+    func_0207BCA0((Blk *)(o + 0x5C), v1, v2, &g_02148B98);
+    g_02148B4C[0x3F] &= ~0xE8u;
+    ((void (*)(void))((u32 *)g_02146A5C)[0x22])();
+}
+
+permuter best result line:
+  best      DIFF   asm=465   bytes-out=22   size=136/136

@@ -96,3 +96,102 @@ The true function is 72 code bytes (0x02051838..0x02051880); the listing's
 116-byte extent runs on into three unlabelled leaf accessors at 0x02051880,
 0x0205189C and 0x020518A4, so a byte-exact result here would come out EXACT*.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02051838.c:28: declaration syntax error
+
+
+==============================================================================
+FAMILY WAVE 4, particle.c lane, 2026-09-21: SIZE-EXACT at last (the note's two
+earlier spellings were both 68 bytes against 72), residue down from 35/38/53
+to TEN, and the permuter exhausted on those ten.
+==============================================================================
+
+The note above re-verified CCERR because the filed C's header carried the
+verdict `status: EXACT` on a file that does not compile in place; the C itself
+is fine.  Re-derived from the listing.  Two things the note did not have:
+
+1. THE REAL EXTENT IS 72 BYTES, not 116.  `match.py show --addr 0x02051838`
+   now reports `arm9 02051838..02051880 (72 bytes, ARM)`: the three unlabelled
+   leaf accessors the note worried about (0x02051880, 0x0205189C, 0x020518A4)
+   have since been filed as their own EXACT entries in this same shard
+   (src/matched/func_02051880.c, func_0205189C.c, func_020518A4.c), so the
+   extent no longer runs on and a byte-exact result here would be plain EXACT,
+   not EXACT*.  The note's closing paragraph is superseded.
+
+2. `volatile u32 *q` IS THE SIZE.  Every non-volatile spelling tried -- the
+   note's two, plus `u32 a = q[0], b = q[1], c = q[2];` as separate
+   initialisers, as `*(u32 *)((char *)q + k)`, through a three-word struct,
+   with q[1] or q[2] left inline at its statement, and all six declaration
+   orders of the three locals -- compiles to 68 bytes, because the compiler
+   merges the two adjacent q loads into one `ldmib r1, {r4, lr}` that the
+   image does not have.  That merge is exactly the four missing bytes and it
+   is the note's addendum item 2 ("what it cannot avoid").  Qualifying the
+   PARAMETER volatile makes each of the three q reads its own load and the
+   file comes out 72 bytes against 72.  It is a legal spelling with the same
+   observable behaviour as the image (each word read exactly once, in source
+   order), but it is a hypothesis about the original source, not a proof.
+
+THE RESIDUE, ten bytes, is then TWO SWAPPED REGISTER PAIRS and nothing else:
+every one of the eighteen instructions matches the image mnemonic for
+mnemonic and operand for operand apart from the names.
+
+    --explain:  baseline DIFF asm=50 bytes-out=10 size=72/72
+                register substitutions (image -> compiled):
+                  lr -> r3 x?,  r3 -> lr,  ip -> r2,  r2 -> ip
+
+    offset     ORIGINAL                       | COMPILED
+    * +0004    ldr lr, [r0, #0x20]            | ldr r3, [r0, #0x20]
+      +0008    ldr r4, [r1]                   | ldr r4, [r1]
+    * +000C    ldr r2, [lr]                   | ldr r2, [r3]
+    * +0010    ldr r3, [r1, #4]               | ldr lr, [r1, #4]
+    * +0014    ldr ip, [r2, #4]               | ldr r2, [r2, #4]
+    * +0018    ldr r2, [r1, #8]               | ldr ip, [r1, #8]
+    * +001C    add r1, r4, ip                 | add r1, r4, r2
+      +0020    str r1, [r0, #0x28]            | str r1, [r0, #0x28]
+    * +0024    ldr r1, [lr]                   | ldr r1, [r3]
+      +0028    ldr r1, [r1, #8]               | ldr r1, [r1, #8]
+    * +002C    add r1, r3, r1                 | add r1, lr, r1
+      +0030    str r1, [r0, #0x2c]            | str r1, [r0, #0x2c]
+    * +0034    ldr r1, [lr]                   | ldr r1, [r3]
+      +0038    ldr r1, [r1, #0xc]             | ldr r1, [r1, #0xc]
+    * +003C    add r1, r2, r1                 | add r1, ip, r1
+      +0040    str r1, [r0, #0x30]            | str r1, [r0, #0x30]
+      +0044    pop {r4, pc}                   | pop {r4, pc}
+
+PERMUTER, EXHAUSTED.  tools/permuter.py:
+    --mode hill --budget 800 --jobs 8 --types:  157 mutations tried, FOUND the
+        size (baseline asm=175 bytes-out=38 size=68/72 -> asm=50 bytes-out=10
+        size=72/72 via `volatile-add(q)`), then "no single mutation improves".
+        This is the mutation the section above is built on: the permuter found
+        the four missing bytes that two hand passes had missed.
+    --mode anneal --budget 3000 --jobs 8 --types:  3000 compiles in 567s,
+        best unchanged at DIFF asm=50 bytes-out=10 size=72/72, three plateau
+        drifts, never a single improving candidate.
+
+Classification: allocation tie, two swapped pairs, whole AST mutation table
+exhausted at 3000 compiles.  Same class as func_02050C30 and func_02037680.
+
+/* best source, 72 bytes against 72, 10 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_02051838
+ * address:  0x02051838
+ * packet:   pkt_02051838
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ */
+
+typedef unsigned int u32;
+
+void func_02051838(char *p, volatile u32 *q)
+{
+    u32 a = q[0];
+    u32 b = q[1];
+    u32 c = q[2];
+
+    *(u32 *)(p + 0x28) = a + *(u32 *)((u32)**(u32 ***)(p + 0x20) + 4);
+    *(u32 *)(p + 0x2c) = b + *(u32 *)((u32)**(u32 ***)(p + 0x20) + 8);
+    *(u32 *)(p + 0x30) = c + *(u32 *)((u32)**(u32 ***)(p + 0x20) + 12);
+}

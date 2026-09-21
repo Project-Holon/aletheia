@@ -159,3 +159,57 @@ not be EXACT even if the body were closed.  The park src/pending/
 func_02051534.c stays parked (MATCH, single unresolved site 02051414,
 unchanged), and no source was filed for the blocker.
 re-verified 2026-09-21 by tools/match.py: DIFF, 220 bytes against 224, 152 concrete bytes out, 1.1p1
+
+
+==============================================================================
+FAMILY WAVE 4, particle.c lane, 2026-09-21: ONE of the two permanent MATCH
+sites is gone; the other is still permanent, and the body residue is unmoved.
+==============================================================================
+
+Re-run of the C at the bottom of this file, unchanged, under today's
+tools/match.py:
+
+  DIFF, compiled 220 bytes against 224, 152 concrete bytes out,
+  17 of 18 relocation sites resolved.
+
+  +0098 PC24 func_020526A8 -> 020526A8  [sole-ref x1, e.g. 020526A8]  RESOLVED
+  +00CC ABS32 g_020A159C   -> unresolved: 020A159C (data, from header) has no
+                              witness outside 02051414..020514F0
+
+func_020526A8 is no longer a blocker.  It carries a traced `func_` label and
+the sole-ref/code sub-kind added 2026-09-21 accepts a code-kind site that is
+exactly a label start with no outside branch required, which is precisely the
+single-caller-callee shape this site has.  Nothing was filed to achieve this
+and no source for 0x020526A8 exists; the class simply reaches it now.  The
+note's header line "Not reachable as EXACT whatever the C: TWO relocation
+sites" should be read as ONE from here on.
+
+g_020A159C is still permanent and the reason is now exactly visible in
+layout/data_objects.txt line 524:
+
+  arm9  0x020A159C  pool  pool word at 0x020514E4 in arm9:019_0204CAAC,
+                          pool word at 0x020514E4 in arm9:019_0204D3A0,
+                          pool word at 0x020514E4 in arm9:019_0204D3C4,
+                          pool word at 0x020514E4 in arm9:019_0204D42C
+
+All four referrers are the SAME pool word, 0x020514E4, at four different
+listing spellings of one unit -- and 0x020514E4 is inside 02051414..020514F0,
+the compared range.  The datamap's "a lone reference never contributes its own
+start" rule therefore refuses it, correctly.  sole-ref/self cannot help either
+because that sub-kind is tried only after the others and needs the ROM word at
+the site to equal the word written there, which a 152-bytes-out compile does
+not give.  The three immediate neighbours 0x020A1578 / 0x020A1584 / 0x020A1590
+each have TWO distinct referrers (0x02050DA8-B0 and 0x02051748-50) and resolve
+by `literal x5` without trouble; 0x020A159C is the one vector in the group
+that only this function uses.
+
+The wall is therefore now single, not double, but it is still a wall: even a
+byte-perfect body caps at MATCH, and the body is 152 bytes out with the
+register-allocation diagnosis in the section above unchanged.  No permuter run
+was spent on it: the function cannot reach EXACT this wave whatever the AST
+does, and the lane's budget went to the four residues that could.
+
+What would unblock it, in order of cost: an EXACT entry anywhere in the image
+that declares 0x020A159C in its `symbols:` block as kind `data` (that makes it
+a `data-decl` start in the datamap, which is an out-of-range witness), or a
+second pool word naming it from an overlay.  Neither exists today.

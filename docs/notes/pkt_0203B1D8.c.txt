@@ -29,3 +29,135 @@ Ruled out: `u32 f = <load>` at the declaration (as above), a `void (*f)(void)`
 local with `f()`, and an inline re-read `*(u32 *)(p + 8)` at the call (that
 one loads the field twice and is four bytes wrong, not three).
 re-verified 2026-09-21: no recoverable source in this note
+
+
+APPENDED 2026-09-21 (family wave 4, net_state.c) -- permuter run, then CLOSED
+============================================================================
+
+SUPERSEDED, read the second appended section at the bottom of this file
+first: this function is now EXACT* in src/matched/func_0203B1D8.c.  The
+permuter measurements below stand and are kept because they are the evidence
+that the search space was genuinely exhausted before the real lever was
+found; the conclusion they draw ("no source-level lever in this function")
+is WRONG and is corrected at the end.
+
+The note above is confirmed and the residue is now measured rather than
+estimated.  Re-derived source below is SIZE-EXACT (76 bytes = 72 code + one
+pool word; the listing's "84 bytes" is the unlabelled-follower artefact, the
+two `bx lr` fillers at 0x0203B224/0x0203B228, not a size error) and all
+relocations resolve.  Exactly 3 concrete bytes differ, the same three the
+original note names.
+
+  python3 tools/permuter.py --src f0203B1D8.c --func func_0203B1D8 \
+      --addr 0x0203B1D8 --arm --explain
+
+    baseline  DIFF   asm=215   bytes-out=3    size=76/84
+    register substitutions (image -> compiled), by count:
+      r1   -> r0    x3
+
+A single clean pair, no general reshuffle: the callback word `f08` lands in
+r1 in the image and r0 in every compile.  The base pointer is dead after the
+load, so both colourings are legal and the allocator takes the lowest.
+
+PERMUTER RESULT, both modes, no improvement at all:
+
+  --mode hill  --budget 800  --jobs 8 --types
+    no single mutation improves DIFF asm=215 bytes-out=3 (76 singles tried)
+    best      DIFF   asm=215   bytes-out=3    size=76/84
+
+  --mode anneal --budget 700 --jobs 8 --types
+    compiles 700 in 89s, 700 distinct candidates
+    best      DIFF   asm=215   bytes-out=3    size=76/84
+
+The score never moved off asm=215 / bytes-out=3 across 776 distinct compiles.
+That is a flat landscape, not an unsearched one: every `temp`, `copy`,
+`expand`, `reorder`, `hoist`, `use`, `selfassign`, `decl-order` and `type`
+mutation the engine offers on this body leaves the tie exactly where it was.
+
+Additionally ruled out by hand this wave, beyond the three spellings the
+original note lists:
+  - `(*s->f08)()` explicit-dereference call form: identical, 3 bytes out.
+  - re-reading the global into the SAME local after the call
+    (`s = g_021469DC;` rather than a fresh compare): identical, 3 bytes out.
+  - `struct Sys *volatile v` to force a memory home for the base and deny
+    the allocator the reuse: this DOES change the allocation but costs
+    8 bytes (84 vs 76), so it is worse, not a fix.
+
+Assessment: a Chaitin allocation tie with no source-level lever in this
+function.  The one thing that would break it is a use of the base pointer
+live across the `blx`, and there is none in the original either -- the image
+simply numbered the callback value first.  Closing it likely needs a
+different value-numbering trigger from surrounding context (the function is a
+leaf in its own unit here), not another spelling.  Recommend leaving it as a
+known 3-byte residue rather than spending further budget.
+
+  /* best source, 76 bytes against 76, 3 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+extern void func_0203C934(void);
+
+struct Sys {
+    u8  pad_00[8];
+    void (*f08)(void);
+};
+
+extern struct Sys *g_021469DC;
+
+u32 func_0203B1D8(void)
+{
+    struct Sys *s = g_021469DC;
+    void (*f)(void);
+
+    if (s == 0)
+        return 1;
+    f = s->f08;
+    if (f != 0)
+        f();
+    if (g_021469DC == 0)
+        return 1;
+    func_0203C934();
+    return 0;
+}
+
+
+APPENDED 2026-09-21 (same wave, later) -- CLOSED, EXACT*
+========================================================
+
+Filed as src/matched/func_0203B1D8.c, status EXACT*.  The `*` is the
+unlabelled-follower artefact only (the two `bx lr` fillers at 0x0203B224 and
+0x0203B228 carry no label, so the inferred extent reads 84 where the function
+is 76); all 76 compiled bytes match and both relocations resolve.
+
+THE LEVER: the callback at +0x08 TAKES AN ARGUMENT.  Everything above this
+line assumed `void (*f08)(void)`, and every spelling of a void-arity call
+lets the allocator put the loaded pointer in r0, which is the whole 3-byte
+residue.  Declared `void (*f08)(u32)` and called as
+
+    s->f08((u32)s);
+
+r0 is pinned to the argument, the pointer is forced into r1, and the three
+bytes resolve together.  EXACT* on the first compile with that change.
+
+This is a NET_STATE.C FAMILY IDIOM, not a one-off.  It closed
+func_0203AF40 in the same wave (there the argument is func_0203D650()'s
+return value rather than the object itself), and src/pending/func_0203B52C.c
+had already written it down in prose without generalising it.  The rule for
+the next agent:
+
+    In net_state.c, a `ldr rN, [base, #off] / cmp rN, #0 / blx rN` where N
+    is NOT r0 means the callback is being passed something, and the thing
+    passed is whatever r0 already holds at that point (the object pointer,
+    or the result of the call immediately preceding).  Guessing void arity
+    produces the r0 spelling and an irreducible-looking 2-3 byte residue.
+
+WHY THE PERMUTER COULD NOT HAVE FOUND THIS.  Worth recording, because 776
+distinct compiles returning a perfectly flat score is otherwise a strong
+signal that a function is closed.  Every permuter.py mutation except `type`
+is value-preserving, and `type` changes the integer type of a local or
+parameter, not a function pointer's SIGNATURE.  Changing a callback's arity
+is outside the mutation table entirely, so no budget on this body would ever
+have reached it.  A flat anneal is evidence that no rearrangement of the
+existing statements helps -- it is NOT evidence that the declarations are
+right.  When the permuter goes flat on a small residue, re-examine the
+TYPES, especially function-pointer arities, before writing the function off.

@@ -66,3 +66,56 @@ Residue, three independent 4-byte..6-byte groups:
 docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md
 is the closest documented family for 1 and 3.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+CLOSED 2026-09-21 (family wave 5, mystery_data.c).  EXACT.
+================================================================================
+Filed as src/matched/func_0200AC14.c, 188 bytes, EXACT, both relocation sites
+resolved.  The note above is superseded; its three residue groups had ONE
+common cause and it was in the parameter list, not in any statement shape.
+
+The note read the eight stack words at sp+0x18..sp+0x34 as a single 0x20-byte
+parameter block passed BY VALUE, because the function takes its address once
+(`add r0, sp, #0x18`) and reads fields off it with `ldrb r1, [r0, #4]`,
+`ldrh r1, [r0, #0xc]` and so on.  They are EIGHT SEPARATE SCALAR PARAMETERS:
+
+    void sub_0200AC14(Self *self, const void *src, u32 a2, u32 a3,
+                      u8 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7)
+
+Every stack argument occupies its own word slot regardless of declared width,
+so the OFFSETS are identical under both readings and the disassembly cannot
+separate them by offset.  What separates them is that only the scalar form
+lets the compiler base the narrow loads off one `add r0, sp, #0x18` while
+keeping p3 a plain `ldr r0, [sp, #0x24]` SCHEDULED AHEAD of the +0x10 store --
+residue 1 of the note, which no spelling of the struct form reaches.  Residues
+2 and 3 fall out with it unchanged: the a3 insert accumulates into the keep
+register, and the bit-6 insert keeps its explicit `& 1` and `(u8)` cast rather
+than folding them into one shift pair.
+
+Evidence that the struct form was a dead end rather than a spelling problem,
+which is the part worth keeping: on the best struct version (size-exact at 188
+bytes, 10 concrete bytes out, residue 1 alone),
+
+  python3 tools/permuter.py --src F --func sub_0200AC14 --addr 0x0200AC14 \
+      --thumb --explain
+    baseline  DIFF   asm=400   bytes-out=10   size=188/188
+    (no register substitutions at all -- a pure scheduling residue)
+
+  --mode hill   --budget 800  --jobs 8 --types
+    no single mutation improves; 158 tried
+    best  DIFF  asm=400  bytes-out=10  size=188/188
+
+  --mode anneal --budget 3000 --jobs 8 --types
+    compiles 3000 in 204s, three plateau drifts, never once left
+    asm=400 bytes-out=10 size=188/188
+    best  DIFF  asm=400  bytes-out=10  size=188/188
+
+3000 value-preserving mutations of the statement shape, plus the `--types`
+integer-type mutations, and the score did not move by one point.  That is the
+signal to stop permuting and re-read the DECLARATIONS: a residue no mutation
+of the body can reach is not in the body.  Re-reading the parameter list
+closed it in one compile.
+
+/* best source, 188 bytes against 188, 0 concrete bytes out, 1.1p1 */
+(the full source is src/matched/func_0200AC14.c; its header carries the
+bitfield widths and their evidence)

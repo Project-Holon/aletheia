@@ -108,3 +108,58 @@ region hint, so the wall is those two addresses and not the row.  The pair
 (park src/pending/func_0200A300.c) therefore does not convert and no source of
 this row is filed: no C spelling converts an unattestable site.
 re-verified 2026-09-21 by tools/match.py: DIFF, 112 bytes against 120, 91 concrete bytes out, 1.1p1
+
+================================================================================
+UPDATED 2026-09-21 (family wave 5, mystery_data.c).  BYTE-CORRECT, still MATCH.
+================================================================================
+Parked as src/pending/func_0200A358.c, status MATCH: 120 bytes, ALL OF THEM
+RIGHT, 8 of 10 relocation sites resolved.  The note above was correct that the
+WALL is permanent and correct about which two addresses it is, but its "closest
+C" was at DIFF, 112 bytes against 120, 91 concrete bytes out -- i.e. the body
+was also wrong, and that part was fixable.
+
+The note's C spelled the dispatch on a2 as an `if`:
+
+    int t = 1;
+    ...
+    if (a2 == 1) { t = sub_020071EC(a1); }
+
+The original is a SWITCH whose case 0 and default arm are written out
+SEPARATELY even though they do the same thing:
+
+    0200A36A  cmp r4, #0 / beq  ->  0200A374: b 0200A37E   (t = 1)
+    0200A36E  cmp r4, #1 / beq  ->  0200A376: bl 0x20071EC
+    0200A372  b            ->      0200A37E: movs r0, #1   (default, t = 1)
+
+Two distinct branch targets that both land on the same `movs r0, #1` is the
+tell: an `if` collapses them into one.  Writing
+
+    switch (a2) {
+    case 0:  t = 1;                    break;
+    case 1:  t = sub_020071EC(a1);     break;
+    default: t = 1;                    break;
+    }
+
+recovers the missing 8 bytes AND the register allocation in one edit -- the
+`if` form spilled a3 to `[sp]` where the original keeps it in r7 -- taking the
+row from 91 concrete bytes out to zero.  This is
+docs/idioms/empty-switch-arms-are-what-make-the-table.md read the other way
+round: an arm that is redundant in C is not redundant in the bytes.
+
+The wall itself is unchanged and re-confirmed this wave.  0x021DFEAC (+0x4A)
+and 0x021DFE90 (+0x56) are held by seven overlays (ov093, ov119, ov137, ov170,
+ov175, ov183, ov228) and labelled by none of them, so attest_overlay_label
+refuses at part 1 and no region hint helps; `veneer` admits ARM shapes only;
+no pool word anywhere in the image holds either address, so `literal` has no
+witness; and the two calls are inside the one 120-byte leaf, so no cut makes
+the compared range smaller than the function.  0x021DFC20 does resolve, with
+the ov228 region hint on its symbols: line.  It closes the day disasm.py
+labels either address, and not before.
+
+Consequence for the neighbour: src/matched/func_0200A300.c names 0x0200A358 as
+its blocker and asks for it to become `matched`.  A MATCH entry is never a
+witness, so that conversion still does not happen -- but func_0200A300 is
+already EXACT on its own, so nothing is lost.
+
+/* best source, 120 bytes against 120, 0 concrete bytes out, 1.1p1 */
+(the full source is src/pending/func_0200A358.c)

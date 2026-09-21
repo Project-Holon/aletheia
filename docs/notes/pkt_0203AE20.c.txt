@@ -1,0 +1,197 @@
+pkt_0203AE20 / func_0203AE20 @ 0x0203AE20 (188 bytes code + 16 pool/data, ARM)
+==============================================================================
+2026-09-21, family wave 4 (net_state.c).  Was UNTOUCHED before this wave.
+
+STATUS: DIFF, size-exact (204/204), all 6 relocations resolve, 8 concrete
+bytes out.  Not filed: `src/matched` takes EXACT only.
+
+WHAT THE FUNCTION IS
+--------------------
+The net_state RNG seeder.  It builds a 32-bit seed by mixing the console's
+MAC address with the RTC date and time, seeds the generator through
+func_0203F034, draws TWO 32-bit values from func_0203F0A8 into one 64-bit
+result, and then writes three well-known constants and a zero after it.
+
+The three constants identify the generator beyond doubt:
+
+    0x6C078965   0x5D588B65   0x00269EC3
+
+These are the Gen-V multiplier/increment constants.  They are stored to
++0x08, +0x0C and +0x10 of the caller's record with +0x14 zeroed, i.e. the
+function hands back {seeded 64-bit state, multiplier, increment, 0}.
+
+The 64-bit draw is not two independent fields.  The image ends with
+
+    adds ip, r0, #0
+    adc  lr, r5, #0
+    stm  r4, {ip, lr}
+
+a `stm` of an adjacent register pair, which is the tell for ONE u64 member
+written in one go (the `adds`/`adc` pair is the 64-bit add that the
+`((u64)hi << 32) + lo` form produces).  Typing +0x00 as two u32 fields gives
+two separate `str`s and is a real diff, not a register residue.
+
+THE FOUR STRUCTURAL FACTS IT TOOK TO GET SIZE-EXACT
+---------------------------------------------------
+All four were wrong in the obvious first draft and each one is worth more
+than a byte, so they are recorded for whoever picks this up next:
+
+1. THE DATE STRUCT HAS FOUR MEMBERS, NOT THREE.  The SDK's RTCDate carries a
+   trailing weekday field (year, month, day, WEEKDAY).  With three members
+   the frame is `sub sp, sp, #0x20` and the prologue is `push {r4, r5, r6,
+   lr}`; with four it is `sub sp, sp, #0x24` and `push {r3, r4, r5, r6, lr}`,
+   which is what the image has.  The pushed r3 is the odd register that keeps
+   the frame 8-byte aligned, so the prologue itself is evidence for the
+   member count.
+
+2. THE MAC BUFFER IS SIX BYTES.  `u8 mac[6]`, not 8 and not 12.  Combined
+   with (1) this is what puts the RTC structs at sp+8 (time) and sp+0x14
+   (date), matching the two `add r0, sp, #0x14` / `add r1, sp, #8` argument
+   setups exactly.
+
+3. DECLARATION ORDER IS STACK ORDER, and the order that works is
+   `struct Date d; struct Time t; u8 mac[6];` -- the LAST declaration takes
+   the LOWEST address (docs/idioms/local-declaration-order-is-stack-order.md),
+   so mac lands at sp+0 where OS_GetMacAddress writes it.  Reversing the two
+   structs swaps BOTH the stack slots and the call arguments together, which
+   is why several plausible orderings all look half-right.
+
+4. func_020889C0 TAKES (date, time) IN THAT ORDER.
+
+THE SEED EXPRESSION
+-------------------
+Recovered exactly; this part of the function is byte-identical.  The
+grouping matters and is not the one a naive reading gives:
+
+    seed = ((d.year + ((d.day * (d.mon << 8)) << 16)) + (t.hour << 16))
+             + ((t.min + t.sec) << 24);
+    seed = seed + (mac[5] + ((mac[3] << 16) + (mac[4] << 8)));
+    seed = seed + g_02FFFC3C;
+
+Note it must be written as THREE separate assignments to `seed`, not one
+expression: the permuter's `split-assign(seed)` mutation applied twice is
+what took the residue from 48 bytes to 10, and folding them back into a
+single expression undoes it.  `d.day * (d.mon << 8)` and not the commuted
+form is the `commute(*)` the search also found.
+
+g_02FFFC3C is the DS system region word at 0x02FFFC3C; it resolves
+`literal x36, e.g. 02008C54`, so this function has no attestation problem at
+all -- every one of its 6 relocation sites resolves and it would be EXACT,
+not MATCH, the moment the last 8 bytes fall.
+
+THE REMAINING RESIDUE: 8 BYTES, ALL IN THE CONSTANT TAIL
+---------------------------------------------------------
+The entire seed computation, both RNG calls, the 64-bit `adds`/`adc`/`stm`
+and the frame all match.  What is left is a two-pair register-naming tie
+across the four constant stores:
+
+      +0090  ldr r2, [pc, #0x28]     | ldr r3, [pc, #0x28]
+      +0098  ldr r3, [pc, #0x24]     | ldr r2, [pc, #0x24]
+      +009C  ldr r0, [pc, #0x24]     | ldr r1, [pc, #0x24]
+      +00A0  mov r1, #0              | mov r0, #0
+      +00A4  str r2, [r4, #8]        | str r3, [r4, #8]
+      +00A8  str r3, [r4, #0xc]      | str r2, [r4, #0xc]
+      +00AC  str r0, [r4, #0x10]     | str r1, [r4, #0x10]
+      +00B0  str r1, [r4, #0x14]     | str r0, [r4, #0x14]
+
+--explain reduces it to `r2 -> r3 x2` (plus the r0/r1 pair): the image gives
+the FIRST pool constant r2 and the zero r1, the compile gives them r3 and r0.
+Both colourings are legal; the store order and the values are right.
+
+PERMUTER, three passes, 2700 distinct compiles
+----------------------------------------------
+  --mode hill   --budget 800 --jobs 8 --types   (from the hand source)
+      baseline  DIFF  asm=445  bytes-out=50  size=204/204
+      189  DIFF  asm=430  bytes-out=49   <- commute(+)
+      388  DIFF  asm=425  bytes-out=48   <- commute(+)
+      no single mutation improves (201 tried)
+      best      DIFF  asm=425  bytes-out=48  size=204/204
+
+  --mode anneal --budget 900 --jobs 8 --types   (from that best)
+      611  DIFF  asm=50   bytes-out=10   <- split-assign(seed) ; split-assign(seed) ; commute(*)
+      compiles 900 in 46s
+      best      DIFF  asm=50   bytes-out=10  size=204/204
+
+  --mode anneal --budget 900 --jobs 8 --types   (from that best)
+      300  DIFF  asm=40   bytes-out=8    <- commute(+)
+      compiles 900 in 46s
+      best      DIFF  asm=40   bytes-out=8   size=204/204
+
+  --mode anneal --budget 900 --jobs 8 --types   (from that best)
+      plateau at 769, no improvement
+      best      DIFF  asm=40   bytes-out=8   size=204/204
+
+The permuter earned its keep here: 50 -> 8 bytes out, and `split-assign`
+twice was the move no hand reading suggested.  The last pass is a genuine
+plateau.
+
+Additionally ruled out by hand after the plateau:
+  - the four tail fields as `u32 k[4]` with `k[0..3]` stores instead of four
+    named members: identical, 8 bytes out (`r2 -> r3 x2`).
+  - writing `o->f14 = 0;` FIRST so the zero is materialised before the pool
+    loads: WORSE, 10 bytes out.
+  - a named `u32 z = 0;` local declared ahead of the constant stores and used
+    for the +0x14 store: identical, 8 bytes out.
+
+Assessment: an allocation tie in the tail, of the same shape as the residues
+in this family that turned out NOT to be ties (see pkt_0203B1D8.c.txt, where
+a flat permuter landscape hid a wrong function-pointer arity).  The lesson
+from that one applies here too: before spending more search budget, re-check
+the TYPES at the tail -- in particular whether the caller's record really is
+four separate u32 words, or whether +0x08..+0x14 is a nested struct or a
+second u64 pair whose assignment would fix the register naming the way the
++0x00 u64 did.  That hypothesis is untested and is the recommended next step.
+
+  /* best source, 204 bytes against 204, 8 concrete bytes out, 1.1p1 */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+extern void OS_GetMacAddress(u8 *p);
+extern void func_020889C0(void *date, void *time);
+extern void func_0203F034(u32 seed);
+extern u32 func_0203F0A8(void);
+extern u32 g_02FFFC3C;
+struct Date
+{
+  u32 year;
+  u32 mon;
+  u32 day;
+  u32 wday;
+};
+struct Time
+{
+  u32 hour;
+  u32 min;
+  u32 sec;
+};
+struct Out
+{
+  u64 v;
+  u32 f08;
+  u32 f0c;
+  u32 f10;
+  u32 f14;
+};
+void func_0203AE20(struct Out *o)
+{
+  struct Date d;
+  struct Time t;
+  u8 mac[6];
+  u32 seed;
+  OS_GetMacAddress(mac);
+  func_020889C0(&d, &t);
+  seed = ((d.year + ((d.day * (d.mon << 8)) << 16)) + (t.hour << 16)) + ((t.min + t.sec) << 24);
+  seed = seed + (mac[5] + ((mac[3] << 16) + (mac[4] << 8)));
+  seed = seed + g_02FFFC3C;
+  func_0203F034(seed);
+  {
+    u32 hi = func_0203F0A8();
+    o->v = (((u64) hi) << 32) + func_0203F0A8();
+  }
+  o->f08 = 0x6C078965;
+  o->f0c = 0x5D588B65;
+  o->f10 = 0x00269EC3;
+  o->f14 = 0;
+}
+
+

@@ -29,3 +29,57 @@ The body itself was not written: no worklist entry covers 0x0200AB04 or
 that were not rows in the slice), so the extent has to be split before a
 `tu` file is even possible.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+CLOSED 2026-09-21 (family wave 5, mystery_data.c).  EXACT*.
+================================================================================
+Filed as src/matched/func_0200AA68.c, 154 bytes, EXACT*, ALL FIVE relocation
+sites resolved.  (This note is filed under pkt_0200AA00 but is about
+0x0200AA68; the separate row at 0x0200AA00 is now src/matched/func_0200AA00.c,
+EXACT, and was never covered here.)
+
+The note's verdict -- "unfilable from this lane; every one of the function's
+five call sites is unwitnessed outside the compared range, so the best
+available verdict is a MATCH cap" -- no longer holds, for two independent
+reasons, either of which alone would have been enough:
+
+  1. All five callees are matched today: 0x0200ACD0, 0x0200AC14, 0x0200AB50,
+     0x0200ABE0 and 0x0200AD00 (the last two filed in this same wave).
+  2. The `sole-ref/code` class widened 2026-09-21 accepts a code target that
+     is exactly a traced function start WITHOUT requiring a branch to it from
+     outside the compared range.  That is precisely the single-caller-callee
+     shape the note diagnosed as unattestable, and all five sites now report
+     `sole-ref x1`.
+
+The note's other blocker -- "no worklist entry covers 0x0200AB04 or 0x0200AB24
+either, so the extent has to be split before a `tu` file is even possible" --
+also resolved on its own: both unlabelled leaves are matched as
+src/matched/unit_0200AB04.c, and no `tu` is needed, because `one` compares the
+154 bytes of the function and reports EXACT* for the 196-byte listing extent.
+
+What the body actually needed, none of it a statement shape (all three are
+declaration-level, and the full reasoning is in the filed source's header):
+
+  a. sub_0200AC14 takes eight separate scalar parameters, not a 0x20-byte
+     struct by value -- see the CLOSED section of docs/notes/pkt_0200AC14.c.txt.
+     The struct reading makes this caller emit an ldm/stm block copy where the
+     original stores each field into its own outgoing word.
+  b. `a2` is u16, not u32.  Found by the permuter and by nothing else:
+       python3 tools/permuter.py --src F --func sub_0200AA68 \
+           --addr 0x0200AA68 --thumb --mode hill --budget 800 --jobs 8 --types
+       191  DIFF  asm=2355  bytes-out=46  size=150/196  <- type:p(a2:u32->u16)
+       (from a baseline of asm=2565 bytes-out=74; 189 single mutations tried)
+     That one mutation aligned the whole first 0x5C bytes of the function.
+     Nothing in the disassembly states a2's width directly; it shows only in
+     the register allocation downstream, which is the residue class
+     permuter.py exists for.
+  c. The flag word at +0x348 is an 8-bit bitfield on both the write and the
+     read.  `((Flags *)&r->f348)->b0 = sub_0200AB50(...)` interleaves the
+     truncation with the mask work the way the original does; the hand-written
+     `r->f348 = (r->f348 & ~0xff) | slot` hoists it out and is 4 bytes short,
+     and the matching bitfield read at the end is what produces the SECOND
+     `lsls #0x18 / lsrs #0x18` pair at +0x92 that a plain `(u8)(f348 & 0xff)`
+     folds away.
+
+/* best source, 154 bytes against 154, 0 concrete bytes out, 1.1p1 */
+(the full source is src/matched/func_0200AA68.c)

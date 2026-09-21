@@ -75,3 +75,176 @@ TWELVE SHORT of the original, so 2.0 is strictly further away than the
 default and no tell of the FRONTEND-PINS families is present.  1.1p1 stays.
 
 re-verified 2026-09-21: no recoverable source in this note
+
+
+==============================================================================
+FAMILY WAVE 4, particle.c lane, 2026-09-21: source RECOVERED, the note's
+"12 out" residue re-measured at 37 out, and the permuter exhausted on it.
+==============================================================================
+
+The note above carried no compilable source ("re-verified 2026-09-21: no
+recoverable source in this note"), so the C was rebuilt from the listing plus
+this note's four settled decisions, all of which held.  The rebuilt source is
+at the bottom of this section.  Two declarations the note did NOT record and
+that are worth four bytes each:
+
+  * g_02146A88 is `extern u32 *g_02146A88;` and the scan is `tab = g_02146A88`
+    -- ONE dereference.  Declared `u32 **` (a pointer to the table) the
+    compiler emits an extra `ldr r1, [r0]` before the loop and the whole file
+    shifts four bytes.
+  * g_020A15A8 is `extern u32 g_020A15A8[];`, an ARRAY, not a pointer
+    variable: the image does `ldr r3, [pc, #0x54]` then
+    `ldr r0, [r3, r4, lsl #2]`, one indirection.  Declared `u32 *` it costs a
+    second `ldr r0, [r0]`.
+  * the func_02051648 guard's polarity is the OPPOSITE of what the note says.
+    The note reads "the guard's polarity is `if (a2 == 1)`, i.e. the call is
+    in the FALSE arm"; the image's `bne #0x2050d50` at 0x02050D28 SKIPS the
+    call, so the call runs when a2 == 1 and the source is plain
+    `if (a2 == 1) func_02051648(...);`.  Written `!= 1` the file is still 392
+    bytes but the branch inverts (43 out instead of 37).
+
+With those three fixed the file is SIZE-EXACT at 392 with all eleven
+relocation sites resolved (func_02052DC8 now resolves through the new
+sole-ref/code sub-kind, and g_020A15A8 through data_table x18), and the
+residue is 37 concrete bytes, all of them inside the fourteen instructions of
+the final func_02052DC8 argument setup -- the exact window the note already
+identified.  Every one of the 378 bytes before +0x128 is identical.  The 37
+versus the note's 12 is a different measurement of the same window, not a
+regression: this rebuild's schedule differs from the note's in more places
+inside it.
+
+PERMUTER, EXHAUSTED.  tools/permuter.py on the size-exact source:
+
+    --explain:  baseline DIFF asm=460 bytes-out=37 size=392/392
+                register substitutions (image -> compiled):
+                  r6 -> r2 x2,  r2 -> r1 x2,  r1 -> r0 x1
+    --mode hill --budget 800 --jobs 8 --types:
+                230 compiles, best DIFF asm=300 bytes-out=37 size=392/392
+                <- volatile-add(a5); "no single mutation improves ... (226
+                tried)" -- singles EXHAUSTED, bytes-out unmoved
+    --mode anneal --budget 3000 --jobs 8 --types:
+                3000 compiles in 84s, best unchanged at
+                DIFF asm=300 bytes-out=37 size=392/392
+
+So the whole mutation table (temp, expand, reorder, hoist, copy, use,
+selfassign, decl-order, pad, split-assign, compound, commute, compare, addsub,
+cast, block, loop, struct-ref, goto-ret, volatile, addr and type) reaches this
+schedule from four different starting points and never moves it.  The only
+mutation that improved anything improved the INSTRUCTION score (460 -> 300)
+without touching a byte, i.e. it aligned more mnemonics while leaving the
+operands wrong: confirmation that the residue is operand allocation inside a
+fixed instruction set, not instruction selection.
+
+Four hand spellings of the argument setup were measured on top of the
+size-exact source, all 392 bytes and all 37 out: the table element bound to a
+local declared before the three truncations; the same local declared after
+them; the truncations assigned in the image's r6/r4/r3 order; and the
+truncations assigned in reverse.  A fifth, the truncations written as explicit
+`<< 16 >> 16` on u32s, is 43 out.  Argument ORDER matters and is settled:
+`(tab[i], 0x18, 0xc8, t0, t1, t2)` with t0 = (u16)a3, t1 = (u16)a4,
+t2 = (u16)a5 is 37 out; `(..., t2, t0, t1)` is 43.
+
+Classification: scheduler tie inside one basic block, fourteen instructions,
+no lever in the AST reaches it.  Same class as func_02037680
+(docs/notes/pkt_02037288.c.txt) and func_02051838 (below in
+docs/notes/pkt_02051838.c.txt).
+
+/* best source, 392 bytes against 392, 37 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_02050C30
+ * address:  0x02050C30
+ * packet:   pkt_02050C30
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146A88     0x02146A88  data
+ *   g_020A7FC0     0x020A7FC0  data
+ *   g_020A1590     0x020A1590  data
+ *   g_020A1584     0x020A1584  data
+ *   g_020A1578     0x020A1578  data
+ *   g_020A15A8     0x020A15A8  data
+ *   func_02030734  0x02030734  arm
+ *   func_02051648  0x02051648  arm
+ *   func_02052DC8  0x02052DC8  arm
+ *   MI_CpuFill8    0x02082BCC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct { u32 x, y, z; } Vec3;
+
+extern u32 *g_02146A88;
+extern const char g_020A7FC0[];
+extern Vec3 g_020A1590;
+extern Vec3 g_020A1584;
+extern Vec3 g_020A1578;
+extern u32 g_020A15A8[];
+
+extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file,
+                           u32 line);
+extern void  func_02051648(void *this, void *src, u32 a2, void *a3, void *a4,
+                           void *a5, u32 a6);
+extern u32   func_02052DC8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void  MI_CpuFill8(void *dst, u32 v, u32 n);
+
+struct Emit {
+    u32  f00;
+    u8   pad04[0x08];
+    u32  f0c;
+    u32  f10;
+    u32  f14;
+    u8   pad18[0x1a];
+    u16  f32;
+    Vec3 f34;
+    Vec3 f40;
+    Vec3 f4c;
+    u8   pad58[0x202];
+    u8   f25a;
+};
+
+void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap)
+{
+    struct Emit *e;
+    u32 *tab;
+    int i = 0;
+    u16 t0, t1, t2;
+
+    tab = g_02146A88;
+    do {
+        if (tab[i] == 0)
+            break;
+        i++;
+    } while (i < 16);
+    if (i >= 16)
+        return 0;
+
+    e = (struct Emit *)func_02030734((u16)heap, 0x260, 0, g_020A7FC0, 285);
+    MI_CpuFill8(e, 0, 0x260);
+    e->f34 = g_020A1590;
+    e->f40 = g_020A1584;
+    e->f4c = g_020A1578;
+    e->f32 = e->f32 & ~1u;
+    MI_CpuFill8((void *)a0, 0, a1);
+    e->f0c = a0;
+    e->f10 = a0;
+    e->f14 = a0 + a1;
+    e->f25a = (u8)i;
+    g_02146A88[i] = (u32)e;
+
+    if (a2 == 1)
+        func_02051648(e, 0, 0x2000, 0, 0, 0, heap);
+
+    t0 = (u16)a3;
+    t1 = (u16)a4;
+    t2 = (u16)a5;
+    e->f00 = func_02052DC8(g_020A15A8[i], 0x18, 0xc8, t0, t1, t2);
+    return e;
+}

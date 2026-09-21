@@ -42,3 +42,44 @@ void sub_0200AD00(u8 *base, int n, u8 *ref)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 104 bytes against 156, 94 concrete bytes out, 1.1p1
+
+================================================================================
+CLOSED 2026-09-21 (family wave 5, mystery_data.c).  EXACT*.
+================================================================================
+Filed as src/matched/func_0200AD00.c, 108 bytes, EXACT*, no relocations.
+EXACT* because the unlabelled leaf at 0x0200AD6C follows without a label, so
+the listing extent runs to 156; the 108 bytes of sub_0200AD00 itself (code and
+both pool words) are byte for byte right.  0x0200AD6C should be seeded into
+layout/function_starts.txt by the integrator.
+
+The note's C above was at 94 concrete bytes out -- effectively a whole-function
+mismatch -- and its cause is one declaration.  It did the packed-word field by
+hand:
+
+    v = *(u32 *)(e + 0x10);
+    *(u32 *)(e + 0x10) = (v & 0xfffe007fu) | ((((v >> 7) & 0x3ff) + 1) << 7);
+
+which compiles the read as `lsrs #7` plus an `ands` against a materialised
+0x3FF, three instructions and a pool constant the original never has.  The
+original reads the field as `lsls #0xf / lsrs #0x16` and writes it back as
+`lsls #0x16 / lsrs #0xf`: an EQUAL-width shift pair with no matching type,
+which is docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md -- a
+10-bit unsigned BITFIELD at bit 7, not a hand-rolled mask.  Declaring the
+packed word with the `struct Entry` bitfields the family already evidences
+(func_0200A8D0 / func_0200A8E4 / func_0200A8F8 in src/matched/unit_0200A864.c
+prove the 7 / 10 / 1 widths at +0x10, and src/matched/unit_0200AB04.c proves
+the bit-7 flag at +0x1B) took the row from 94 concrete bytes out to 2 in one
+edit, and dropped the lr push with it: the hand-written form needed a spill
+the bitfield form does not.
+
+The last two bytes were the guard's operand order.  Both sides are loads, and
+the side the SOURCE names first lands in the left register:
+`ref->unk14 != e->unk14` gives `ldr r2, [r6, #0x14]` then `ldr r1, [r5, #0x14]`,
+and the natural-reading `e->unk14 != ref->unk14` gives them the other way
+round.  docs/idioms/cmp-operand-order-names-the-temporary.md; this is the third
+function in the family to turn on it (src/matched/func_0200ABE0.c and
+src/matched/func_0200AA00.c are the others), which is worth knowing before
+starting any other scan in this range.
+
+/* best source, 108 bytes against 108, 0 concrete bytes out, 1.1p1 */
+(the full source is src/matched/func_0200AD00.c)

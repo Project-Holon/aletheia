@@ -136,3 +136,188 @@ non-CSE-able (a distinct volatile read, or a call between the stores and the
 switch that the front end cannot see through) changes 568 to a value that
 must be re-measured, and both were outside this pass's write set.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+family wave (g3d_system.c, 2026-09-21): the control flow is now byte-exact and
+the argument shapes are settled; the residue is confined to the eight-store
+prologue.  A 124-byte permuter result was REJECTED as undefined behaviour.
+==============================================================================
+
+Pin unchanged: dsi/1.1p1, `-O4,p -proc arm946e`, ARM.  Best honest state:
+compiled 568 bytes against the image's 572, 372 concrete bytes differ, 9 of 9
+relocation sites resolved (`label` x4 on func_0207C408/func_0207C554,
+`sole-ref/code` x2 on func_0207C1D0, `literal` x3 on the three globals), so
+this row is still codegen-blocked and not evidence-blocked.
+
+TWO THINGS THIS WAVE SETTLED THAT EARLIER PASSES HAD WRONG.
+
+1. THE ARITY.  The calls are 7 arguments in case 0 and EIGHT in cases 1 and 2,
+   not 7 throughout.  The frame is `sub sp, sp, #0x10` (four outgoing stack
+   words) because cases 1 and 2 store to [sp], [sp,#4], [sp,#8] AND [sp,#0xc];
+   case 0 leaves [sp,#0xc] untouched.  With every call declared 7-argument the
+   frame comes out `sub sp, sp, #0xc` and the epilogue `pop {r3, r4, pc}`,
+   which is 24 bytes short before any allocation question is reached.  The
+   argument lists the bytes fix are:
+
+     case 0:  func_0207C408(f20, f24, f28, f30, f34, 0x1000|f38, hw)
+     case 1:  func_0207C1D0(f20, f24, f28, f2c, f30, f34, 0x1000|f38, hw)
+     case 2:  func_0207C554(f20, f24, f28, f2c, f30, f34, 0x1000|f38, hw)
+
+   (case 0 skips f2c; cases 1 and 2 carry it as the fourth register argument,
+   which is what `ldr r3, [r3, #0x2c]` at +0x14C and +0x1D8 proves.)
+
+2. THE DISPATCH POLARITY.  A chain of `if (g->f1c == 0) {...} if (g->f1c == 1)
+   {...}` emits `bne` and falls THROUGH into case 0; the image emits three
+   forward `cmp`/`beq` with the default return sitting between the tests and
+   the arms.  Writing the three tests as `goto c0/c1/c2` with the arms as
+   labelled blocks after a bare `return` reproduces the image's dispatch
+   exactly:
+
+     +0078  ldr r1, [r3, #0x1c]   +0084  cmp r1, #1    +0090  beq #0x20469fc
+     +007C  cmp r1, #0           +0088  beq #0x2046970 +0094  add sp, sp, #0x10
+     +0080  beq #0x20468f4       +008C  cmp r1, #2     +0098  pop {r4, pc}
+
+   all six of those instructions and every arm's body now match; with the
+   `if`-chain they did not.  That, plus the arity, is what moves the row from
+   548/419 to 568/372.  The early-return-inside-each-arm shape the previous
+   note found (to defeat the cross-jump of the shared tails) is still needed
+   and is kept.
+
+THE RESIDUE IS NOW ONE REGION: +0x0008..+0x0078, the eight stores.
+
+Everything from the dispatch onward is right except for a uniform four-byte
+shift, and the shift's cause is the single `stmib` the previous note already
+identified.  Inside the prologue the image alternates TWO temporaries and
+keeps the two pool addresses in r1 and r0:
+
+     image:  ldr r4,[r0]    ldr r2,[r1]   ldr r3,[r0,#4]   str r4,[r2,#0x1c]
+             ldr r2,[r1]    ldr r4,[r0,#8]  str r3,[r2,#0x20]  ...
+
+i.e. a software-pipelined load-ahead, `load(n+1)` issued before `store(n)`,
+with r4 and r3 taking turns.  Ours issues `ldr ip / ldr r3 / str ip` with ONE
+temporary and hoists the second pool word into the freed slot.
+
+Writing the pipeline out by hand DOES reproduce the alternation:
+
+     u32 t0 = a[0], t1 = a[1];
+     g_02146A5C->f1c = t0;  t0 = a[2];
+     g_02146A5C->f20 = t1;  t1 = a[3];   ... etc
+
+gives `ldr ip / ldr lr / str ip / ldr ip / str lr`, the image's shape with a
+different pair of registers -- but it frees a register early, which lets the
+`stmib` merge of the previous note reappear, so the total goes back to 568/376.
+The two levers are mutually exclusive: the pipelining needs a spare register
+and the `stmib` suppression needs that register to be busy.
+
+REJECTED: A 124-BYTE PERMUTER RESULT THAT IS UNDEFINED BEHAVIOUR.
+-----------------------------------------------------------------
+`tools/permuter.py --mode hill --budget 900 --types` reported
+
+    322  DIFF  asm=1495  bytes-out=142  size=572/572  <- temp(tmp=g->f1c)
+    633  DIFF  asm=1430  bytes-out=130  size=572/572  <- copy(hw->hw_@23)
+    899  DIFF  asm=1390  bytes-out=124  size=572/572  <- copy(hw->hw_1@20)
+
+i.e. the correct SIZE (572/572, which no hand spelling has reached) and a third
+of the byte residue.  It must not be filed.  The mutation chain emitted
+
+    tmp = g->f1c;          /* <-- reads g */
+    g   = g_02146A5C;      /* <-- assigns g */
+
+so `tmp` is loaded through an UNINITIALISED POINTER, and the two `copy`
+mutations left `hw_1 = hw;` and `hw_ = hw_1;` as dead statements after
+`return`, with `hw_`/`hw_1` read in the arms while only ever assigned on
+unreachable paths.  The 572-byte size is the compiler exploiting that
+undefined behaviour, not a better model of the source.  Swapping the two
+statements into the defined order -- the only change -- returns the compile to
+568 bytes and 372 differing, which is the honest number quoted above.  This is
+the failure mode docs/AGENT-BRIEF.md warns about for `--types`/mutation chains:
+the score was real and the program was not.
+
+RULED OUT THIS WAVE (each one compile, pin unchanged, all at 568 bytes):
+  * `u32 mode = g->f1c;` bound before the dispatch, in the defined order
+    (568/377 -- the size gain really did come only from the UB);
+  * a named `u32 k = 0x1000;` declared before `hw`, after `hw`, and `hw`
+    spelled as a `u8 *` with the cast at the call site (all 568/377, i.e.
+    byte-identical, confirming the previous note's "cannot be reached from C");
+  * `extern struct G *volatile g_02146A5C;` (568/377), a `hw = hw;` self-assign
+    (568/377), and both constants inline at all six sites (568/377);
+  * the eight stores pipelined through two alternating temporaries, on top of
+    both the plain and the permuter-best sources (568/376 both times).
+
+Residue class: codegen / register colouring, 4 bytes short and 372 out, all of
+it in the eight-store prologue plus the uniform shift the `stmib` causes.
+
+/* best source, 568 bytes against 572, 372 concrete bytes out, 1.1p1 */
+/* (this is 858d: the goto dispatch + the 7/8 arity, with hw a plain local;
+   it is the 858_fixed.c measurement with the permuter's dead copies removed) */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct G {
+    u8  pad_00[0x1c];
+    u32 f1c; u32 f20; u32 f24; u32 f28;
+    u32 f2c; u32 f30; u32 f34; u32 f38;
+};
+
+extern struct G *g_02146A5C;
+extern u32 g_02148B4C[];
+extern u8  g_02148B54[];
+
+extern void func_0207C408(u32,u32,u32,u32,u32,u32,u32);
+extern void func_0207C1D0(u32,u32,u32,u32,u32,u32,u32,u32);
+extern void func_0207C554(u32,u32,u32,u32,u32,u32,u32,u32);
+
+void func_02046858(u32 *a)
+{
+    u32 hw;
+    struct G *g;
+
+    hw = (u32)g_02148B54;
+    g_02146A5C->f1c = a[0];
+    g_02146A5C->f20 = a[1];
+    g_02146A5C->f24 = a[2];
+    g_02146A5C->f28 = a[3];
+    g_02146A5C->f2c = a[4];
+    g_02146A5C->f30 = a[5];
+    g_02146A5C->f34 = a[6];
+    g_02146A5C->f38 = a[7];
+
+    g = g_02146A5C;
+    if (g->f1c == 0) goto c0;
+    if (g->f1c == 1) goto c1;
+    if (g->f1c == 2) goto c2;
+    return;
+c0:
+    if (g->f38 == 0) {
+        func_0207C408(g->f20, g->f24, g->f28, g->f30, g->f34, 0x1000, hw);
+        g_02148B4C[0x3F] &= ~0x50u;
+        return;
+    }
+    func_0207C408(g->f20, g->f24, g->f28, g->f30, g->f34, g->f38, hw);
+    g_02148B4C[0x3F] &= ~0x50u;
+    return;
+c1:
+    if (g->f38 == 0) {
+        func_0207C1D0(g->f20, g->f24, g->f28, g->f2c, g->f30, g->f34, 0x1000, hw);
+        g_02148B4C[0x3F] &= ~0x50u;
+        return;
+    }
+    func_0207C1D0(g->f20, g->f24, g->f28, g->f2c, g->f30, g->f34, g->f38, hw);
+    g_02148B4C[0x3F] &= ~0x50u;
+    return;
+c2:
+    if (g->f38 == 0) {
+        func_0207C554(g->f20, g->f24, g->f28, g->f2c, g->f30, g->f34, 0x1000, hw);
+        g_02148B4C[0x3F] &= ~0x50u;
+        return;
+    }
+    func_0207C554(g->f20, g->f24, g->f28, g->f2c, g->f30, g->f34, g->f38, hw);
+    g_02148B4C[0x3F] &= ~0x50u;
+    return;
+}
+
+permuter best result line (the honest one, from the defined-order source):
+  best      DIFF   asm=1415  bytes-out=377  size=568/572
+permuter best result line (REJECTED, undefined behaviour, see above):
+  best      DIFF   asm=1390  bytes-out=124  size=572/572

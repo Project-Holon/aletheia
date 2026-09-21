@@ -26,3 +26,12 @@ Note the polarity: `ldrbne r0, [r5, #0x56]; cmpne r0, #1; beq alt` means the
 alt path is taken when `p[0x53] == 0 || p[0x56] == 1`, so the func_02037A6C
 path needs `p[0x53] != 0 && p[0x56] != 1`.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+APPENDED 2026-09-21 (family wave 4, net_state.c) -- CLOSED, EXACT
+=================================================================
+
+This residue is closed.  See src/matched/func_0203B390.c, status EXACT, whose
+header carries the full diagnosis of why the conclusion above was wrong.
+Everything in this note before this line is superseded and should not be
+used as a starting point.

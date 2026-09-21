@@ -67,3 +67,160 @@ void sub_0201347C(u8 *a0, void *a1, void *a2, void *a3, u32 a4, u16 a5)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 122 bytes against 120, 108 concrete bytes out, 1.1p1
+
+==============================================================================
+wave 4 (family btl_setup.c, permuter pass 2026-09-21)
+==============================================================================
+
+func_0201347C (0x0201347C) IS NOW EXACT* and filed at
+src/matched/func_0201347C.c.  The note above compiled 122 bytes against 120
+and missed 108 of them; two leftover-register readings close it, both the same
+idiom as func_020135C0's:
+
+ 1. func_0201AC2C takes the func_0201A920 result as a SECOND argument.  The
+    `adds r1, r0, #0; str r1, [r4, #0x28]` is not a copy before the store -
+    r1 is the argument, and the store sources it from there.  The declaration
+    must be variadic, `void func_0201AC2C(u32 a, ...)`, because sibling call
+    sites in this family pass one register and others pass two; a fixed
+    two-parameter declaration emits a spurious `movs r1, #0`.
+
+ 2. func_020076D0 takes THREE arguments and its first is the RETURN VALUE of
+    the func_0201293C call immediately above it.  The image sets only r1 and
+    r2 (`add r1, sp, #4; add r2, sp, #0`) and leaves r0 holding what
+    func_0201293C returned.  Declaring func_0201293C as returning u32 and
+    passing that result explicitly produces the original bytes with no extra
+    `adds`, because the value is already in r0.  Declaring func_020076D0 with
+    two parameters puts the pointers in r0/r1 instead and is a two-byte miss.
+
+Also: the two out-parameters are declared x then y but passed as (&x, &y) in
+argument slots 2 and 3, with x at sp+4 and y at sp+0 - the
+later-declaration-at-the-lower-address rule.
+
+------------------------------------------------------------------------------
+func_02013360 (0x02013360) remains DIFF.  Size-exact, body phase-shifted.
+------------------------------------------------------------------------------
+
+284 bytes compiled against 284, 266 concrete bytes out.  The high byte count
+is misleading: the instruction stream is very nearly right and is displaced by
+roughly one instruction from the third instruction onward, so almost every
+line mismatches on position rather than on content.  The register substitution
+map is small and consistent with a phase shift, not a reallocation:
+
+    r1 -> r0  x3    r2 -> r1  x2    r5 -> r4  x1
+    r0 -> r1  x1    r4 -> r5  x1
+
+The head is where it goes wrong:
+
+    image                              compiled
+    +0002  adds r5, r0, #0             adds r4, r1, #0
+    +0004  adds r4, r1, #0             adds r5, r0, #0
+    +0006  adds r6, r2, #0             ldr r1, [pc, #0x108]
+    +0008  adds r1, r5, #0             adds r0, #0x84
+    +000A  movs r0, #0                 strh r1, [r0]
+
+The image moves all three parameters into callee-saved registers first and
+only then starts the store run; the compiler interleaves the first store into
+the move sequence and never recovers alignment.  Note also that the image
+materialises the zero ONCE (`movs r0, #0` at +0x000A) and reuses r0 as the
+stored value for the whole run of six zero stores, which is why the base
+register is r1 throughout; the compiled form uses r0 as the base instead.
+
+The body content is otherwise understood.  The function is a plain object
+initialiser:  0xffff to +0x84, zeros to +0x20/+0x21/+0x22/+0x23/+0x94/+0x1c,
+two read-modify-write clears of bits 0 and 1 of +0xc1, a1 to +0x58, then three
+counted zero loops (4 iterations over the +0x24 and +0x34 slot pairs, 6 over
++0xc2, 7 over +0x78 with a 1 written to +0x7f between the second and third),
+then eleven accessor calls whose results land at +0x34, +0x60, +0x64, +0x68,
++0x70, +0x6c and +0x5c, a 0x10-byte memcpy of the third argument to +8 via
+func_02082D44 (ARM, blx), the constant pair 0x468 / 0x468+0x14 to +0x18 and
++0x1a, 1 to +0x8c, and a final guarded func_02013144(o, 2).
+
+One spelling finding: the +0xc1 clears are `bics` against a register holding
+1 and 2, which `x &= ~1` does not produce directly; writing them as explicit
+read-modify-write (`*(o+0xc1) = *(o+0xc1) & ~1;`) improves the instruction
+score from 725 to 720 but not the byte count.
+
+What was tried and did not move it:
+
+ - permuter hill, --budget 800 --jobs 8 --types: 321 mutations tried, best was
+   type:l(t:u32->u16) at 193 bytes out.  REJECTED on data flow: t is handed to
+   func_0200873C as a full word, and narrowing it is a semantic claim the
+   bytes do not support (the brief's warning that a --types change can
+   truncate a caller's argument).  Its instruction score got WORSE (720 ->
+   735) while bytes-out fell, which is the signature of a coincidental
+   alignment rather than a real fix.
+ - permuter anneal from that point, --budget 3000 --jobs 8 --types: 139 bytes
+   out via a nine-mutation chain
+   `copy(t->t_@26) ; copy(t->t_1@26) ; compare(const) ; addr(t) ;
+    decl-order(i<->j) ; temp(...) ; compare(const) ; commute(+) ;
+    selfassign(t_1)`.
+   REJECTED: the chain introduces two shadow copies of t, takes its address,
+   and self-assigns one of them; the instruction score rose to 1810, i.e. the
+   instruction stream moved FURTHER from the image while bytes-out fell.  This
+   is precisely the "mutation chain that scores well and is not admissible C"
+   case.  Neither result was applied.
+ - hoisting the +0x58 store (a1's only consumer) to the head so all three
+   parameter moves are forced out first: no change, 266 bytes out.
+
+The lever is the head scheduling, i.e. what makes mwccarm sink the first
+store below the three parameter moves.  Until that is found the rest of the
+body cannot be scored, because every line after it is displaced.
+
+/* best source, 284 bytes against 284, 266 concrete bytes out, 1.1p1 */
+void func_02013360(u8 *o, void *a1, const void *a2)
+{
+    u32 i;
+    u32 j;
+    u32 t;
+    u32 u;
+
+    *(u16 *)(o + 0x84) = 0xffff;
+    *(o + 0x20) = 0;
+    *(o + 0x21) = 0;
+    *(o + 0x22) = 0;
+    *(u32 *)(o + 0x94) = 0;
+    *(o + 0x23) = 0;
+    *(o + 0xc1) = *(o + 0xc1) & ~1;
+    *(u32 *)(o + 0x1c) = 0;
+    *(o + 0xc1) = *(o + 0xc1) & ~2;
+    *(u32 *)(o + 0x58) = (u32)a1;
+    for (i = 0; i < 4; i++) {
+        *(u32 *)(o + i * 4 + 0x24) = 0;
+        *(u32 *)(o + i * 4 + 0x34) = 0;
+    }
+    for (j = 0; j < 6; j++) {
+        *(o + j + 0xc2) = 0;
+    }
+    *(o + 0x7f) = 1;
+    for (i = 0; i < 7; i++) {
+        *(o + i + 0x78) = 0;
+    }
+    *(u32 *)(o + 0x34) = func_02012944(a1);
+    *(u32 *)(o + 0x60) = func_0201292C(a1);
+    *(u32 *)(o + 0x64) = func_02012924(a1);
+    *(u32 *)(o + 0x68) = func_0200CA1C(a1);
+    *(u32 *)(o + 0x70) = func_02012F20(a1);
+    *(u32 *)(o + 0x6c) = func_02012F2C(a1);
+    t = func_02012EBC(a1);
+    u = func_0200C0E8();
+    *(u32 *)(o + 0x5c) = func_0200873C(t);
+    *(o + 0x80) = (u8)func_0200C258(u);
+    func_02082D44(o + 8, a2, 0x10);
+    *(u16 *)(o + 0x18) = 0x468;
+    *(u16 *)(o + 0x1a) = 0x468 + 0x14;
+    *(u32 *)(o + 0x8c) = 1;
+    if (func_020142E8(func_0201296C(a1), 0x96d) != 0) {
+        func_02013144(o, 2);
+    }
+}
+
+(externs: the fourteen in the symbols block that heads this source in the
+working file - func_0200873C, func_0200C0E8, func_0200C258, func_0200CA1C,
+func_02012924, func_0201292C, func_02012944, func_0201296C, func_02012EBC,
+func_02012F20, func_02012F2C, func_02013144, func_020142E8 all thumb, and
+func_02082D44 arm.)
+
+permuter best result line:
+  best      DIFF   asm=735   bytes-out=193  size=284/284   (hill, type:l(t:u32->u16), REJECTED)
+  best      DIFF   asm=1810  bytes-out=139  size=284/284   (anneal, 9-mutation chain, REJECTED)
+re-verified 2026-09-21 by tools/match.py: DIFF, 284 bytes against 284, 266 concrete bytes out, 1.1p1

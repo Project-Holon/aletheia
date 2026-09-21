@@ -1,0 +1,56 @@
+pkt_02046440 -- func_02046440 @ 0x02046440, 796 bytes ARM.  STATUS: not
+attempted, sized out.  (family wave g3d_system.c, 2026-09-21)
+==============================================================================
+
+Recorded under docs/AGENT-BRIEF.md section 7, "skip oversized functions after
+a quick look": one `match.py show`, a one-line judgment, no compile.  This is
+a placeholder so the next agent does not re-derive the judgment, not a near
+miss.
+
+WHAT IT IS.  The g3d_system.c constructor: the function that allocates the
+context at 0x02146A5C in the first place and brings the whole subsystem up.
+`ldr r1, [pc, #0x2dc]` / `str r0, [r1]` at +0x3C..+0x40 stores the
+func_02030734 result into the singleton slot, and everything after that is
+initialisation through it.  Its first act is
+`func_02030734(heapId, 0xa0, 0, <file>, 0x5c)`, so the context is 0xA0 bytes
+and this row is line 92 of g3d_system.c.
+
+WHY IT WAS NOT TAKEN THIS WAVE.
+
+  * 796 bytes, 0x50-byte frame, `push {r4,r5,r6,r7,r8,sb,sl,lr}` -- eight
+    callee-saved registers live at once, so the allocation is heavily
+    constrained and every spelling question couples to every other one.
+  * Six incoming arguments, two of them passed on the stack and read back as
+    `ldrh r8, [sp, #0x74]` and `ldrh r0, [sp, #0x70]`, so the prototype has to
+    be settled before any body work begins.
+  * Roughly thirty calls, including three to functions this wave did not
+    touch (func_0206210C, func_0206246C, func_02062114, func_020613D8,
+    func_02062474) whose arities are unknown here, plus
+    `func_0206A700`/`func_0206DF14`/`func_0207DB1C` back to back at
+    +0x58..+0x60.
+  * Dense bit-packing on the arguments: `lsl r0, r6, #7`, `lsl r0, r6, #0x11`,
+    `lsl r0, r4, #9`, `lsl r0, r4, #0xe`, `lsl r0, r4, #0x1e` + `lsr #0x10`.
+    Each of those is a separate width/signedness question
+    (docs/idioms/unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift.md
+    and shift-pair-with-no-matching-type-is-a-bitfield.md both apply), and
+    getting any one wrong is a whole-function diff.
+  * Two inlined 32-byte struct copies at +0x19C
+    (`ldm sb!, {r0,r1,r2,r3}` / `stm r8!, ...` twice, the idiom in
+    docs/idioms/aggregate-assignment-is-ldm-stm.md) over a stack buffer at
+    sp+0x30, then a 16-bit field block built at sp+4 and handed to
+    func_02046A94 four times with indices 0,1,2,3.
+
+WHAT IS ALREADY KNOWN AND USABLE.  Its two largest callees are now EXACT:
+func_02046858 is NOT (it is the DIFF documented in
+docs/notes/pkt_02046858_func_02046858.c.txt and is called from +0x1C8), but
+func_02046A94 IS exact in src/matched/ and the four calls at +0x1FC..+0x220
+pass it (0,&buf) (1,&buf) (2,&buf) (3,&buf) with the same buffer, which fixes
+that buffer's shape as the four u16 of func_02046A94's `src[0..3]`.
+docs/families/g3d_system.h (written this wave) carries the context layout this
+function builds, so a later attempt starts from the settled struct rather than
+re-deriving +0x18/+0x1C/+0x20../+0x88/+0x94.
+
+SUGGESTED ORDER FOR A LATER ATTEMPT.  Settle the six-argument prototype from
+the two `[sp,#0x70]`/`[sp,#0x74]` reads first; then the three shift widths on
+r6 and r4; then write the two struct copies as plain aggregate assignments and
+check only the frame size before going further.  Do not start from the top.

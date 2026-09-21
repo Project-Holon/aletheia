@@ -85,3 +85,122 @@ int func_02047564(int a0, int a1, int a2)
     return r;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 200 bytes against 200, 24 concrete bytes out, 1.1p1
+
+==============================================================================
+family wave (g3d_system.c, 2026-09-21): the permuter halves the residue --
+24 concrete bytes out becomes 11, and the remainder is a 4-instruction
+scheduling window that neither the AST search nor eight hand spellings move
+==============================================================================
+
+Pin unchanged: dsi/1.1p1, `-O4,p -proc arm946e`, ARM.  200 bytes against the
+image's 200 throughout; every relocation site resolves as before.
+
+WHAT THE PERMUTER FOUND.  `tools/permuter.py --mode hill --budget 800 --types`
+from the note's own source above improved the score twice and then exhausted
+every single mutation (217 sites):
+
+    baseline  DIFF  asm=615  bytes-out=24
+        230   DIFF  asm=215  bytes-out=16   <- temp(tmp=*((int *) (a1 + 4)))
+        443   DIFF  asm=230  bytes-out=11   <- temp(tmp1=*((int *) (a1 + 4)))
+    no single mutation improves (217 tried)
+
+Both mutations are the same lever twice: LIFT `*(int *)(a1 + 4)` OUT OF THE
+CALL AND INTO A NAMED LOCAL, so the load gets its own definition point ahead
+of the two stores instead of being scheduled at the call.  That is exactly
+the missing hoist the r3a-2 note names ("mwcc sinks the a1->f4 argument load
+to the call instead of hoisting it"), and it is worth 13 of the 24 bytes.
+
+The readable equivalent -- no permuter output needed -- reaches the identical
+11, and is the source recorded at the end of this section:
+
+        u16 tag = 0x59D1;
+        int h;
+        r = func_02030734(...);
+        h = *(int *)(a1 + 4);
+        *(u16 *)r = tag;
+        *(int *)(r + 8) = a1;
+        x = func_0206E9A4(h, a2);
+
+Note the tag must ALSO be a named local assigned before the load; with the
+tag written as a bare `0x59D1` at the store the score is 16, not 11.
+
+WHAT IS LEFT: four instructions, one window, +0x0040..+0x004C.
+
+    +0040  image `ldr r1, [pc, #0x7c]`   ours `ldr r0, [r8, #4]`
+    +0044  image `ldr r0, [r8, #4]`      ours `ldr r2, [pc, #0x78]`
+    +0048  image `strh r1, [r6]`         ours `mov r1, r7`
+    +004C  image `mov r1, r7`            ours `strh r2, [r6]`
+
+Same four values, same four slots, permuted.  The whole residue is WHICH
+REGISTER THE POOLED TAG LANDS IN: the image puts 0x59D1 in r1 (loaded first,
+consumed by the `strh`, then immediately reused for func_0206E9A4's second
+argument `a2`), we put it in r2 because r1 is already coloured for that
+argument by the time the constant is materialised.  `--explain` reports the
+whole residue as exactly two substitutions, `r1 -> r6 x1` and `r7 -> r0 x1`.
+
+RULED OUT THIS WAVE (each one compile, all 200 bytes, pin unchanged):
+  * `--mode hill --budget 800 --types` from the note's source: 11, exhausted;
+  * `--mode hill --budget 800 --types` from the 11-byte source: no single
+    mutation improves, 229 sites tried;
+  * `--mode anneal --budget 3000 --jobs 8 --types` from the permuter's own
+    11-byte best: 2200-3000 compiles, best stays asm=230 / bytes-out=11, the
+    last 39 batches all dry;
+  * tag + load lifted into a nested block, both orders (11 and 16);
+  * the load lifted but the tag left inline at the store (16);
+  * a struct-typed destination `struct R { u16 tag; u16 p; int f4; int f8; }`
+    with `rr->tag` / `rr->f8` field stores (11 -- identical code to the cast
+    spelling, so the struct buys nothing here);
+  * the load hoisted ABOVE the func_02030734 allocation call (71 -- the load
+    then has to survive the call and costs a callee-saved register);
+  * a comma-expression forcing the call before the stores (130).
+
+Residue class: codegen / register colouring, 11 bytes, 4 instructions.
+This is the same shape as the 0x02046858 residue in
+docs/notes/pkt_02046858_func_02046858.c.txt (a pooled constant that the
+allocator will not put in the image's register), and like that one it did not
+yield to a source spelling.
+
+/* best source, 200 bytes against 200, 11 concrete bytes out, 1.1p1 */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 g_02146A5C;
+extern u32 g_020A7EA8;
+
+extern int func_02030734(int a0, int a1, int a2, int a3, int a4);
+extern int func_0206E9A4(int a0, int a1);
+extern int func_02047554(int a0);
+extern int func_0206E964(int a0);
+extern int func_0206E364(int a0, int a1, int a2);
+extern void func_02069C74(int a0, int a1, int a2, int a3);
+
+int func_02047564(int a0, int a1, int a2)
+{
+    int r;
+    int x;
+    int y;
+    int z = 0;
+
+    {
+        u16 tag = 0x59D1;
+        int h;
+        r = func_02030734(*(u16 *)(*(u32 *)&g_02146A5C + 0x18), 0xC, 0,
+                          (int)&g_020A7EA8, 0x6D2);
+        h = *(int *)(a1 + 4);
+        *(u16 *)r = tag;
+        *(int *)(r + 8) = a1;
+        x = func_0206E9A4(h, a2);
+    }
+    y = *(int *)(*(int *)(a0 + 4) + 4);
+    if (func_02047554(a0) != 0) {
+        z = func_0206E964(*(int *)(*(int *)(a0 + 0xC) + 4));
+    }
+    *(int *)(r + 4) = func_0206E364(*(u32 *)&g_02146A5C, x, y);
+    func_02069C74(*(int *)(r + 4), x, y, z);
+    return r;
+}
+
+permuter best result line:
+  best      DIFF   asm=230   bytes-out=11   size=200/200

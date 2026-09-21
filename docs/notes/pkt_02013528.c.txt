@@ -164,3 +164,117 @@ u32 sub_02013A94(u32 id)
     return id;
 }
 re-verified 2026-09-21 by tools/match.py: MATCH, 60 bytes against 60, n/a concrete bytes out, 1.1p1
+
+==============================================================================
+wave 4 (family btl_setup.c, permuter pass 2026-09-21)
+==============================================================================
+
+func_020135C0 (0x020135C0) IS NOW EXACT and filed at src/matched/func_020135C0.c.
+The near miss above was right about the variadic func_0201AC2C declaration and
+wrong about the trailing register copy.  The `adds r1, r0, #0` before the
++0x28 store is not a copy: r1 is the SECOND ARGUMENT of the second
+func_0201AC2C call.  Writing `func_0201AC2C(a3, r)` with r the func_0201A920
+result that the +0x28 store also consumes gives the original bytes exactly.
+The variadic declaration is what lets the two sites differ in arity.
+
+The permuter localised the residue to a single r1 -> r0 substitution
+(`--explain`) and its hill mode reached the right size at 6 bytes out with
+copy(r->r_@6), but that mutation is `r_ = r;` before r is assigned - an
+uninitialised read.  The tool pointed at the right place; the admissible
+spelling was the argument reading.
+
+------------------------------------------------------------------------------
+func_02013528 (0x02013528) remains DIFF, and this is the residue to beat.
+------------------------------------------------------------------------------
+
+The body is solved.  Size is exact and only FOUR instructions at the prologue
+differ - a pure scheduling residue, no register substitution at all
+(`--explain` prints no substitution map):
+
+    image                              compiled
+    +0002  sub sp, #0x14               sub sp, #0x14
+    +0004  str r3, [sp]                adds r7, r0, #0
+    +0006  adds r7, r0, #0             adds r4, r1, #0
+    +0008  adds r4, r1, #0             adds r5, r2, #0
+    +000A  adds r5, r2, #0             str r3, [sp]
+
+The image spills the fourth argument to sp+0 BEFORE moving the first three
+parameters out of r0/r1/r2; the compiler emits the same five instructions with
+the spill last.  Everything from +0x000C to the end is byte-identical.
+
+Three structural findings that got it this far, all of them needed:
+
+ 1. The stack sub-block is `u32 sub[4]`, not six words.  The frame is 0x14:
+    sp+0 is the a3 spill and sp+4..sp+0x14 is the 0x10-byte block handed to
+    func_0201320C.  Declaring sub[6] gives `sub sp, #0x1c` and shifts every
+    subsequent stack offset by 8.
+
+ 2. The trailing loop is a do/while, not a for.  A `for (i = 0; i < 4; i++)`
+    emits the bottom test only; the image has `cmp r4, #0 / beq` at the TOP of
+    the body branching to the increment.
+
+ 3. That top test is an `if (i != 0)` guard INSIDE the loop, not a loop
+    condition - the `beq` target 0x020135B2 is `adds r4, r4, #1`, the
+    increment, so iteration 0 skips the body and still counts.  This is the
+    same shape sub_020130DC (EXACT) has in its own four-slot loop, where slot
+    0 is deliberately excluded.
+
+What was tried and did not move it:
+
+ - permuter hill, --budget 800 --jobs 8 --types: 270 single mutations tried,
+   "no single mutation improves", flat at 6 bytes out.
+ - permuter anneal, --budget 3000 --jobs 8 --types: 3000 distinct compiles in
+   283s, two plateau drifts, never improved on the baseline by one byte.  The
+   mutation set does not reach a parameter-spill scheduling decision.
+ - a3 declared u8 / u16 / u32 / int: all four DIFF, identical residue.  The
+   spill position does not move with the parameter's type.
+ - a3 bound to a local assigned as the first statement, both plain and
+   volatile: DIFF.
+ - the +0x22 store (a3's only consumer) moved to the head of the store group:
+   DIFF.
+
+The lever is whatever makes mwccarm schedule the r3 home-area store ahead of
+the parameter moves.  It is not the type, not the use position, and not any
+statement permutation the AST engine offers.
+
+/* best source, 148 bytes against 152, 6 concrete bytes out, 1.1p1 */
+void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u32 a7)
+{
+    u32 sub[4];
+    u32 i;
+
+    func_020130C4(o);
+    func_0201320C(sub);
+    sub[0] = 9;
+    sub[1] = 1;
+    func_02013360(o, a1, sub);
+    func_0201333C(o, a1, a7);
+    *(u32 *)o = 3;
+    *(u32 *)(o + 4) = a2;
+    *(u32 *)(o + 0x1c) = a4;
+    *(o + 0x20) = a5;
+    *(o + 0x22) = a3;
+    *(o + 0x21) = a6;
+    *(u16 *)(o + 0x84) = 0xff;
+    *(u16 *)(o + 0x1a) = 0x47d;
+    i = 0;
+    do {
+        if (i != 0) {
+            u8 *e = o + i * 4;
+            if (*(u32 *)(e + 0x34) == 0)
+                *(u32 *)(e + 0x34) = func_0200846C(a7);
+            if (*(u32 *)(e + 0x24) == 0)
+                *(u32 *)(e + 0x24) = func_0201A920(a7);
+        }
+        i++;
+    } while (i < 4);
+}
+
+(full source, header included, is the file this section was derived from; the
+externs are the ten in the symbols block of src/matched/func_020135C0.c plus
+func_0200846C 0x0200846C thumb, func_0201320C 0x0201320C thumb and
+func_02013360 0x02013360 thumb.)
+
+permuter best result line:
+  best      DIFF   asm=200   bytes-out=6    size=152/152      (anneal, 3000 compiles)
+re-verified 2026-09-21 by tools/match.py: DIFF, 148 bytes against 152, 6 concrete bytes out, 1.1p1

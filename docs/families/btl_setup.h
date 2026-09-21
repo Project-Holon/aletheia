@@ -241,6 +241,35 @@ extern void  sub_02012EBC(void);                          /* sub_020138C4 */
  * declaration, `void func_0201AC2C(u32 a, ...)`, reproduces both.  See
  * docs/notes/pkt_02013528.c.txt.
  *
+ * WAVE 4 (2026-09-21) RESULT: five of the seven open functions closed.
+ * func_02013160 EXACT*, func_02013284 EXACT, func_0201347C EXACT*,
+ * func_020135C0 EXACT, func_02013810 EXACT*.  func_02013360 and
+ * func_02013528 remain DIFF and are documented in their notes.
+ *
+ * THE FAMILY'S SIGNATURE IDIOM: leftover registers are real arguments.
+ * Three separate functions in this range were stuck on the same thing - an
+ * instruction that reads as a gratuitous register copy, or a call that sets
+ * only some of r0-r2, is in fact an argument being passed.  func_0201AC2C
+ * must be declared variadic, `void func_0201AC2C(u32 a, ...)`, because its
+ * call sites differ in arity (func_020135C0 and func_0201347C, both EXACT);
+ * the `adds r1, r0, #0` before a +0x28 store is that call's SECOND argument,
+ * not a copy.  func_020076D0 takes three arguments and its first is the
+ * return value of the func_0201293C call above it (func_0201347C).  Assume
+ * an unexplained live register at a call site is an argument before
+ * assuming it is an allocator artefact.
+ *
+ * SECOND FAMILY IDIOM: the +0x48 slot array is register-offset addressed.
+ * func_02013284 indexes it as `*(u32 *)(base + off)` with `u8 *base` and a
+ * separate byte offset, NOT as `slot = (u32 *)(o + 0x48 + n * 4)`.  The
+ * single-pointer form folds base and index into one value and rotates the
+ * allocation of r5/r6/r7.
+ *
+ * THIRD: func_02013160's switch needs an explicit empty `case 0:` for its
+ * jump table to exist at all, and its four-slot loop counter is `int`, not
+ * `u32` (blt, not blo).  The four-slot loops in this family are not all the
+ * same: sub_020130DC and func_02013528 guard the body with `i != 0`,
+ * func_02013160 and func_02013360 do not.
+ *
  * func_020139B0 and sub_02013A94 are capped at MATCH for lack of any
  * witness for the "zonedata.c" anchor at 0x020A72B0 and the substitution
  * table at 0x020A72A8/0x020A72AA: the table sits between the two anchors,

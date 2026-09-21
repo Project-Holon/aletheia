@@ -85,12 +85,16 @@ extern VecFx32 g_020A1590;                  /* 0x020A1590 */
 extern VecFx32 g_020A1584;                  /* 0x020A1584 */
 extern VecFx32 g_020A1578;                  /* 0x020A1578 */
 
-/* 0x020A15A8: the sixteen-entry slot-table base word inside the singleton's
- * reach; `literal x18`.  0x020A159C: the model vector func_02051414 copies;
+/* 0x020A15A8: a sixteen-entry u32 ARRAY indexed by the slot number, whose
+ * element is func_02052DC8's first argument.  An ARRAY, not a pointer
+ * variable: the image does `ldr r3, [pc, ...]` then `ldr r0, [r3, r4, lsl #2]`,
+ * ONE indirection (func_02050C30).  Contrast g_02146A88, which IS a pointer
+ * variable and needs its own `ldr`.  0x020A159C: the model vector func_02051414 copies;
  * exactly ONE pool word image-wide, inside func_02051414 itself, so it is a
  * permanent MATCH blocker for that function (docs/notes/pkt_02051414.c.txt).
  */
 extern VecFx32 g_020A159C;                  /* 0x020A159C -- MATCH blocker */
+extern u32     g_020A15A8[];                /* 0x020A15A8 -- per-slot arg   */
 
 /* The two registered emit handlers, function POINTERS (an indirect `blx`,
  * two arguments forwarded and a literal 0 in r2).  Owned by clact.c.
@@ -211,15 +215,15 @@ extern void  func_02050ED4(void);               /* EXACT, ctx teardown       */
 
 /* Emitter lifecycle.  func_02050C30's LAST THREE parameters are u32 truncated
  * with (u16) casts at the use, NOT u16 parameters (docs/notes/pkt_02050C30). */
-extern int   func_02050C30(int a0, int a1, int a2, u32 a3, u32 a4, u32 a5,
-                           int heap);          /* OPEN, 392 B, 12 bytes out  */
-extern void  func_02050DB8(u32 p);              /* OPEN, 280 B, unwitnessed
-                                                   callee 0x0206168C + a 20 B
-                                                   r1/r2 loop swap           */
+extern void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
+                           u32 heap);          /* OPEN, size EXACT at 392,
+                                                   37 bytes out, permuter
+                                                   exhausted (3000 anneal)   */
+extern void  func_02050DB8(u8 *p);              /* EXACT (wave 4)            */
 extern void  func_02051648(struct ParticleEmitter *this,
                            struct ParticleSrc *src, u16 a2,
                            int *a3, int *a4, int *a5, u32 a6);
-                                                /* OPEN, 268/272, one mov r0,#0 */
+                                                /* EXACT (wave 4)            */
 
 /* Per-frame passes over the sixteen slots */
 extern int   func_02051504(void);               /* EXACT, count live slots   */
@@ -232,15 +236,20 @@ extern int   func_020515CC(int *p, int a, int b, int c);  /* EXACT*          */
 extern void  func_02051230(u8 *o, u32 a1, u32 a2, u32 a3);  /* EXACT         */
 extern void  func_02051360(void *p);            /* EXACT, sets flags bit 0   */
 extern void  func_020513F8(void *p, int a);     /* EXACT                     */
-extern void  func_02051394(u8 *o);              /* OPEN, size EXACT, two
-                                                   unwitnessed callees:
-                                                   0x020528A8 / 0x020528BC   */
+extern void  func_02051394(u32 *p);             /* EXACT (wave 4)            */
 extern void  func_02051414(u8 *a0);             /* OPEN, permanent MATCH:
-                                                   func_020526A8 and
-                                                   g_020A159C have no witness */
+                                                   g_020A159C has no witness
+                                                   outside the range (its only
+                                                   pool word is inside it);
+                                                   func_020526A8 NO LONGER a
+                                                   blocker, sole-ref/code     */
 
 /* Geometry / vector setters on the block */
-extern void  func_02051838(char *p, u32 *q);    /* OPEN, 72 B, scheduler     */
+extern void  func_02051838(char *p, volatile u32 *q);
+                                                /* OPEN, size EXACT at 72,
+                                                   10 bytes out, two swapped
+                                                   register pairs, permuter
+                                                   exhausted (3000 anneal)   */
 extern void  func_02051880(struct ParticleEmitter *o, const VecFx32_16 *v);
 extern void  func_0205189C(void *o, u32 v);     /* EXACT, +0x6C              */
 extern void  func_020518A4(void *o, u16 v);     /* EXACT, +0x70              */

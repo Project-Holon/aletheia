@@ -31,3 +31,12 @@ Note the assert argument 0x0203C00C is a data address with no outside witness
 of its own, so even with the register fixed this function could only reach
 MATCH: the `string`/`literal` classes have nothing to read there.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+APPENDED 2026-09-21 (family wave 4, net_state.c) -- CLOSED, EXACT
+=================================================================
+
+This residue is closed.  See src/matched/func_0203AF40.c, status EXACT, whose
+header carries the full diagnosis of why the conclusion above was wrong.
+Everything in this note before this line is superseded and should not be
+used as a starting point.
