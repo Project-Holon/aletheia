@@ -1132,9 +1132,18 @@ class Scorer:
         path = os.path.join(d, os.path.basename(c["src"]))
         with open(path, "w") as fh:
             fh.write(text)
+        t0 = time.time()
         try:
             r = match.run_one(path, c["func"], c["addr"], c["cc"], c["flags"], c["thumb"], c["lang"],
                               region=c["region"], sdk_include=c["sdk_include"])
+        except Exception as exc:
+            return Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=str(exc)[:120])
+        finally:
+            dt = time.time() - t0
+            if dt > 20:
+                print("  [warn] one compile took %.0fs (text %d bytes) %s" % (dt, len(text), d), flush=True)
+        try:
+            pass
         except Exception as exc:
             return Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=str(exc)[:120])
         if r.status == "CCERR" or r.func is None:
@@ -1183,6 +1192,8 @@ def search(prog, scorer, args, rng, log):
     seen = {hashlib.sha1(base.text.encode()).hexdigest()}
     cur = base
     stall = 0
+    dry = 0
+    nb = 0
     t0 = time.time()
     while scorer.compiles < args.budget:
         plans = []
@@ -1201,6 +1212,16 @@ def search(prog, scorer, args, rng, log):
         if not plans:
             log("no applicable mutations left")
             break
+        cap = int(len(base.text) * 1.5) + 400
+        rendered = [(pl, prog.render(pl[0])) for pl in plans]
+        plans = [pl for pl, txt in rendered if len(txt) <= cap and hashlib.sha1(txt.encode()).hexdigest() not in seen]
+        if not plans:
+            dry += 1
+            if dry > 30:
+                log("search space exhausted (%d distinct variants)" % len(seen))
+                break
+            continue
+        dry = 0
         vs = evaluate(prog, scorer, plans, args.jobs)
         improved = False
         for v in vs:
@@ -1216,6 +1237,10 @@ def search(prog, scorer, args, rng, log):
                 elite.append(v)
         elite.sort(key=lambda x: x.score.key())
         del elite[12:]
+        nb += 1
+        if nb % 5 == 0 or improved:
+            log("  [%4.0fs] compiles=%-5d batch=%-2d distinct=%-5d stall=%-3d cur=%s | best=%s" % (
+                time.time() - t0, scorer.compiles, len(vs), len(seen), stall, cur.score, elite[0].score))
         if improved:
             stall = 0
         else:
