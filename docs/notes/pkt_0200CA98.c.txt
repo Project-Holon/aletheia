@@ -110,3 +110,64 @@ void func_0200CA98(u8 *save, u32 species, u32 arg2, u32 arg3, u32 form)
     }
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0200CA98.c:23: declaration syntax error
+
+============================================================================
+APPENDED 2026-09-21, family wave 4 (musical_dist_save.c), with tools/permuter.py
+
+/* best source, 400 bytes against 392, 344 concrete bytes out, 1.1p1 */
+
+As with docs/notes/pkt_0200CC40.c.txt, the "re-verified 2026-09-21 ... CCERR
+... declaration syntax error" line on the note above is the re-verifier
+compiling the whole note file including its prose banner, not a fault in the
+C.  The verdict the note's C carries is DIFF.
+
+The algorithm is fully decoded and agreed by both earlier notes; see
+docs/notes/func_0200CA98.c.txt for the line-by-line decode, which remains
+correct.  This pass applied the family's three type facts (the ones that
+closed func_0200C914 and moved func_0200D144 in the same wave: u32 sentinels,
+u16 loop counters where a `lsls/lsrs #0x10` pair appears, and SIGNED bit
+indices because every `>> 3` is `asrs`) and the per-arm
+`(p + (x >> 3))[CONST]` addressing form, and ran the permuter on the result.
+
+  baseline (corrected types, all arms written out):  408 bytes, 396 out
+  --mode hill --budget 800 --jobs 8 --types:         400 bytes, 344 out
+      via `temp(tmp = (u16)(acc + form))` then `type:l(b:s32->u32)`
+      then `decl-order(b<->acc)`; only 3 singles tried before it ran out,
+      which is itself the signal that the mutation table does not reach
+      this residue.
+
+Still EIGHT bytes long and 344 concrete out, i.e. nowhere near.  The frame
+is the reason and the earlier note's instinct about it was right:
+
+    0200CA98  push {r4, r5, r6, r7, lr}
+    0200CA9A  sub sp, #0xc
+    0200CA9C  str r0, [sp]          p
+    0200CA9E  ldr r0, [sp, #0x20]   the fifth argument, round-tripped
+    0200CAA0  mov lr, r3            alt PARKED IN lr
+    0200CAA2  str r1, [sp, #4]      id
+    0200CAA6  str r2, [sp, #8]      sel
+    0200CAA8  str r0, [sp, #0x20]
+
+`mov lr, r3` is the thing to explain.  The original spends the LINK REGISTER
+as a general-purpose callee-saved register for `alt`, which it can only do
+because the function makes no calls at all (the note in
+docs/notes/func_0200CA98.c.txt records that there are no `bl`s, only the two
+table relocations).  mwccarm will do this, but only when the register
+pressure in the body demands a fifth callee-saved value on top of r4-r7; no
+source shape tried here produces that pressure, so every compile pushes
+{r4,r5,r6,r7,lr} and then keeps `alt` in a stack slot or an argument
+register instead, and the eight extra bytes are the reloads.
+
+This is the same "one more live value than the source shape produces" wall as
+func_0200D064 in this family (there it is one callee-saved register, here it
+is lr), and it is out of reach of permuter.py's mutation table: `temp`,
+`copy`, `use` and `selfassign` all raise spill cost for a NAMED value, and
+what is wanted is pressure on the allocator as a whole.
+
+Budget note: this function and func_0200CC40 were given a decoding and
+type-correction pass each rather than a full permuter search, because
+func_0200D144 in the same packet range was untouched and returned far more
+per compile (untouched -> 320/322 with 22 concrete out).  Both remain the
+hardest two in the family.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 400 bytes against 392, 344 concrete bytes out, 1.1p1

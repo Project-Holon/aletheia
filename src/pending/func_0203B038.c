@@ -8,7 +8,11 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-21 (family wave 4): MATCH, 3 of 4 sites now
+ *           resolved.  Adding the symbols: block (it had none) let
+ *           0x0203B01C resolve as `literal x8, e.g. 0203B43C`; previously it
+ *           reported "no address for 'unk_0203B01C'".  The ONE remaining
+ *           site is 0x0203B018.
  * PARKED AT MATCH.  Every concrete byte is right (76 of 76) and the file is
  * the right size; the one open site is the ABS32 to 0x0203B018, the bare
  * `bx lr` filler word that sits between func_0203AFCC's literal pool and the
@@ -16,8 +20,17 @@
  * saves no `lr` is never auto-labelled) and the word appears in exactly one
  * literal pool image-wide - this function's own - so neither `label` nor
  * `literal` can attest it.
- * blocker:  unk_0203B018, unk_0203B01C
- *            pool word, and no EXACT manifest entry covers it)
+ * blocker:  unk_0203B018 only.  The 4-byte `bx lr` no-op at 0x0203B018 is
+ *           referenced by exactly ONE word image-wide, the pool word at
+ *           0x0203B080 (grep of asm/ finds it in main.s and the four unit
+ *           listings, all the same address), and 0x0203B080 lies inside this
+ *           function's own compared range 0203B038..0203B084.  `label`
+ *           refuses (a `bx lr` saves no lr so disasm.py never labels it),
+ *           `literal` refuses (no second occurrence outside the range) and
+ *           `sole-ref/code` refuses (not a traced function start).  Blocking
+ *           class: none available, own-pool-only code.  It would unstick if a
+ *           future EXACT entry covered 0x0203B018 itself, but that address is
+ *           outside pkt_0203B038's range (0x0203B038..0x0203B084).
  *
  * Both 0x0203B018 and 0x0203B01C must be declared in the symbols: block:
  * written as plain integer literals the pair folds into one pool word plus a
@@ -26,6 +39,12 @@
  *
  * The call's completion callback is the leaf at 0x0203B01C (bumps the +0x46
  * halfword by 0x3C); the report's identifier is the no-op at 0x0203B018.
+ *
+ * symbols:
+ *   func_02037A6C  0x02037A6C  arm
+ *   func_0203AD80  0x0203AD80  arm
+ *   unk_0203B018   0x0203B018  arm
+ *   unk_0203B01C   0x0203B01C  arm
  *
  * Addresses are Black-image addresses.
  *

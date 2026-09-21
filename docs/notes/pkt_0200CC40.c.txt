@@ -114,3 +114,172 @@ void func_0200CC40(u8 *save, u32 species, u32 *out1, u32 *out2, u32 *outForm)
     }
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0200CC40.c:28: declaration syntax error
+
+============================================================================
+APPENDED 2026-09-21, family wave 4 (musical_dist_save.c), with tools/permuter.py
+
+/* best source, 356 bytes against 402, 300 concrete bytes out, 1.1p1 */
+
+Two corrections to the note above before anything else.
+
+FIRST, the "re-verified 2026-09-21 ... CCERR ... declaration syntax error"
+line on the note above is an artefact of the re-verifier compiling the whole
+note file, prose banner and all.  The C in it is well formed; the verdict it
+should carry is DIFF.
+
+SECOND, the note's C carries the same three TYPE errors that were holding
+func_0200C914 open until this wave (see docs/notes/pkt_0200C914.c.txt and
+src/matched/func_0200C914.c).  Corrected here:
+  * `s32 idx = func_0200C7F4(species); if (idx != -1)` should be
+    `u32 idx` compared against `(u32)-1`.  The original builds the sentinel
+    `movs r0,#0 / mvns r0,r0` at 0x0200CC58 and compares by register.
+  * func_0200C7F4 and func_0200C7C0 both take the species id as u32 and pass
+    it through untruncated (`ldr r0,[sp]` straight into the call, no
+    `lsls/lsrs #0x10` pair).
+  * the bit index is a SIGNED int holding a `(u16)` value: every `>> 3` in
+    the original is `asrs`.
+With those three fixed and the per-arm addressing written as
+`(p + (x >> 3))[CONST]`, the compiled size moves from the note's shape to
+356 bytes against the original's 402, with 300 concrete out.
+
+THE WALL IS UNCHANGED IN KIND and the note's CSE diagnosis is right, but the
+mechanism is more specific than "mwccarm hoists/shares these across blocks":
+the original RE-READS ITS PARAMETERS FROM THEIR STACK HOMES in every block.
+The frame is `push {r4,r5,r6,r7,lr}` + `sub sp,#0xc` with
+
+    p       -> r4 (kept)
+    id      -> [sp]        re-read `ldr r0,[sp]` at 0x0200CC60, 0x0200CCB8,
+                           0x0200CD14 and again in the else arm
+    out1    -> [sp,#4]     re-read at 0x0200CCE0, 0x0200CD0A, 0x0200CD34, ...
+    out2    -> [sp,#8]     re-read at 0x0200CD38, ...
+    outForm -> [sp,#0x20]  round-tripped `ldr r0,[sp,#0x20] / str r0,[sp,#0x20]`
+                           on entry at 0x0200CC46/0x0200CC4A, then re-read
+
+That entry round-trip on the fifth argument is the tell: the original's
+source has something that forces all four of id/out1/out2/outForm to have
+memory homes, and each block then reloads rather than sharing.  mwccarm with
+ordinary parameters keeps them in registers and shares the loads, which is
+where the ~46 missing bytes are.
+
+Shapes compiled this pass, cc 1.1p1 -O4,p --thumb:
+  * corrected types, `(p + (x >> 3))[CONST]` throughout:   356 bytes, 300 out
+  * the same with `s32 x` / `u32 m` declared INSIDE each block rather than
+    once at the top (to defeat the sharing by scope):      360 bytes, 300 out
+    -- scoping does not defeat it; the compiler CSEs regardless
+  * `volatile u32 id` parameter, to force the per-block re-read:
+                                                           364 bytes, 324 out
+    -- it does force the reloads but costs more than it buys, and it makes
+    the four bitmap tests in the else arm each reload id separately where
+    the original reloads it once per GROUP
+
+PERMUTER: not run to completion on this one.  At 46 bytes short with 300
+concrete out, the residue is a whole-function parameter-homing decision and
+not the allocation-tie class permuter.py addresses; the budget went to
+func_0200D144 (untouched, now 320/322 with 22 out) instead.  The next agent
+should start from the corrected-type source below, and the lever to look for
+is whatever makes all four of id/out1/out2/outForm spill -- an address taken,
+a helper the source calls with them, or a wider frame than five arguments.
+
+/*
+ * function: func_0200CC40
+ * address:  0x0200CC40
+ * packet:   pkt_0200CC40
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200C7F4        0x0200C7F4  thumb
+ *   func_0200C7C0        0x0200C7C0  thumb
+ *   func_0200CA98_Table  0x0209DE4C  data
+ *   func_0201ADE4        0x0201ADE4  thumb
+ *   func_0201AE1C        0x0201AE1C  thumb
+ *   func_0201AE14        0x0201AE14  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct FormCount {
+    u16 id;
+    u16 count;
+};
+
+extern const struct FormCount func_0200CA98_Table[];
+extern u32 func_0200C7F4(u32 id);
+extern u32 func_0200C7C0(u32 id);
+extern void *func_0201ADE4(u32 a, u16 b, u16 c);
+extern u32 func_0201AE1C(void *p, u32 b);
+extern void func_0201AE14(void *p);
+
+void func_0200CC40(u8 *p, u32 id, u32 *out1, u32 *out2, u32 *outForm)
+{
+    u32 idx;
+    u32 base;
+    u32 cnt;
+    u32 form;
+    s32 x;
+    u32 m;
+
+    idx = func_0200C7F4(id);
+    if (idx != (u32)-1) {
+        base = func_0200C7C0(id);
+        cnt = func_0200CA98_Table[idx].count;
+        for (form = 0; form < cnt; form++) {
+            x = (u16)(base + form);
+            m = 1 << (x & 7);
+            if ((p + (x >> 3))[0x30E] & m) {
+                *outForm = form;
+                *out2 = 0;
+                break;
+            }
+            if ((p + (x >> 3))[0x317] & m) {
+                *outForm = form;
+                *out2 = 1;
+                break;
+            }
+        }
+        x = (u16)(id - 1);
+        m = 1 << (x & 7);
+        if (((p + (x >> 3))[0x1AC] & m) || ((p + (x >> 3))[0x254] & m)) {
+            *out1 = 0;
+        }
+        if (((p + (x >> 3))[0x200] & m) || ((p + (x >> 3))[0x2A8] & m)) {
+            *out1 = 1;
+        }
+    } else {
+        *outForm = 0;
+        x = (u16)(id - 1);
+        m = 1 << (x & 7);
+        if ((p + (x >> 3))[0x1AC] & m) {
+            *out1 = 0;
+            *out2 = 0;
+        }
+        if ((p + (x >> 3))[0x200] & m) {
+            *out1 = 1;
+            *out2 = 0;
+        }
+        if ((p + (x >> 3))[0x254] & m) {
+            *out1 = 0;
+            *out2 = 1;
+        }
+        if ((p + (x >> 3))[0x2A8] & m) {
+            *out1 = 1;
+            *out2 = 1;
+        }
+    }
+    {
+        void *h = func_0201ADE4(id, (u16)*outForm, (u16)outForm[1]);
+        if (func_0201AE1C(h, 0x14) == 0xFF) {
+            *out1 = 2;
+        }
+        func_0201AE14(h);
+    }
+}
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 356 bytes against 402 (listing extent 416), 300 concrete bytes out, 1.1p1

@@ -56,3 +56,78 @@ free r5 the way the original does.
 
 Not a candidate for src/pending/: DIFF, not a wildcarded relocation.
 re-verified 2026-09-21: no recoverable source in this note
+
+== 2026-09-21, wave 4 (family app_taskmenu, permuter) ==
+
+The note above had no recoverable source, so the shape was rebuilt from the
+listing.  Rebuilt state: SIZE-exact 120/120, 7 of 7 relocations resolved,
+30 concrete bytes out (down from the 30 the prose claims, reached from a
+35-byte start).
+
+One correction to the prose above: the record's field offsets are +0x00 u16,
++0x02 u16, +0x08 obj, +0x10 a2, +0x14 a3, which needs EXPLICIT PADDING in the
+struct.  Declaring the five live fields with no pad members puts obj at +0x04,
+a2 at +0x08 and a3 at +0x0c, which reads as a 35-byte diff whose first four
+mismatches are `str r0,[r4,#0x10]` against `str r0,[r4,#8]`.  Adding pad04 and
+pad0c takes it from 35 to 30 with no other change.
+
+The note's "func_02049B40 stack args swapped to (0x40, *hp) -> 32" entry is
+confirmed on the rebuilt source: (*hp, 0x40) is 30 and (0x40, *hp) is 32, so
+the heap id really is the fifth argument and 0x40 the sixth, even though the
+original's `str r1,[sp]` at +0x58 carries 0x40 and `str r1,[sp,#4]` at +0x60
+carries the heap.  The compiler emits the two stack stores out of argument
+order here; reading the slot order off the stores is what misleads.
+
+Permuter: --explain reports the residue as four register substitutions
+(r1->r0 x2, r5->r0, r2->r0, r1->r2), i.e. the r5 hoist the prose names.
+--mode hill --budget 800 --jobs 8 --types: 186 single mutations tried, none
+improves.  --mode anneal --budget 3000 --jobs 8 --types on the unpadded
+source found 35 -> 34 via `temp(tmp=*hp) ; temp(tmp1=a0 > 3) ; struct-ref ;
+temp(tmp2=*r)`, which the padding fix supersedes.  The residue is unmoved by
+the mutation set: it is the allocator keeping sp+0x28 in a callee-saved
+register across both calls, which no expression-level rewrite reaches.
+
+/* best source, 120 bytes against 120, 30 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void *func_02030734(u16 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
+extern u32   func_020275E4(void);
+extern u32   func_02049DB4(u32 a, u16 heap, u32 c, void *d, u16 heap2);
+extern u32   func_02049B40(u32 a, u16 heap, u32 c, u32 d, u16 heap2, u32 f);
+extern const char sFile_020A74E0[];
+
+struct R {
+    u16 a;          /* +0x00 */
+    u16 b;          /* +0x02 */
+    u32 pad04;      /* +0x04 */
+    u32 obj;        /* +0x08 */
+    u32 pad0c;      /* +0x0c */
+    u32 c;          /* +0x10 */
+    u32 d;          /* +0x14 */
+};
+
+u32 *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap)
+{
+    u16 *hp = &heap;
+    struct R *r;
+    u32 sel;
+
+    sel = 0;
+    r = (struct R *)func_02030734(*hp, 0x18, 0, sFile_020A74E0, 0x2c6);
+    MI_CpuFill8(r, 0, 0x18);
+    r->a = a0;
+    r->b = a1;
+    r->c = a2;
+    r->d = a3;
+    if (a0 > 3) {
+        sel = 4;
+    }
+    func_020275E4();
+    r->obj = func_02049DB4(0x20, *hp, 0, (u8 *)r + 4, *hp);
+    func_020275E4();
+    func_02049B40(0x1f, *hp, sel, a1 << 5, *hp, 0x40);
+    return (u32 *)r;
+}

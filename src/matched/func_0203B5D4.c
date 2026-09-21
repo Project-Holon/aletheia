@@ -7,16 +7,22 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     promoted MATCH -> EXACT on 2026-09-21 (family wave 4).
  *
- * Blocked at MATCH: all 180 concrete bytes are correct.  The one unresolved
- * site is the ABS32 to 0x0203B52C at +0x00a4 -- a module-name string whose
- * only pool word image-wide is inside this compared range, so neither
- * `literal` (no second occurrence) nor `string` (the preceding data is a
- * table, not a NUL-terminated string) can attest it.  Filing 0x0203B52C
- * itself does not help: the address is data, not the code at the same
- * address.  Blocking class: none available, own-pool-only data.
+ * THE FIX WAS THE DECLARATION, NOT THE C.  The body is byte-identical to the
+ * parked version; only the +0x00a4 site's spelling changed.  The earlier
+ * header read that word as a module-name STRING (`str_0203B52C`, kind
+ * `data`) and concluded no class could attest it.  It is not a string: it is
+ * the CODE ADDRESS of func_0203B52C, handed to func_0203AD80 as the
+ * reporting call's identifier tag, exactly the way func_0203B038 hands it
+ * the no-op at 0x0203B018 and func_0203B52C hands it func_0203B4DC.  Spelt
+ * `func_0203B52C 0x0203B52C arm` and passed as `(void *)func_0203B52C`, the
+ * site resolves `sole-ref x1` -- sole-ref/code, since 0x0203B52C is exactly
+ * a traced ARM function start, and that sub-kind needs no outside branch.
+ *
+ * The companion site at +0x00ac (0x0203B48C) already resolved `literal x8`
+ * and is unchanged.
  *
  * symbols:
  *   func_0203D788  0x0203D788  arm
@@ -26,7 +32,7 @@
  *   func_0203D700  0x0203D700  arm
  *   func_0203AD80  0x0203AD80  arm
  *   g_021469DC     0x021469DC  data
- *   str_0203B52C   0x0203B52C  data
+ *   func_0203B52C  0x0203B52C  arm
  *   str_0203B48C   0x0203B48C  data
  *
  * Verified with:
@@ -39,7 +45,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32  g_021469DC;
-extern char str_0203B52C[];
+extern void func_0203B52C(void);
 extern char str_0203B48C[];
 
 extern void *func_0203D788(void);
@@ -73,7 +79,7 @@ void func_0203B5D4(struct Slot *p)
     if (func_020393A8() != 0) {
         func_0203B2A8(*(u16 *)(func_0203D798() + 0x56));
         func_0203D700();
-        func_0203AD80(g_021469DC, str_0203B52C, 0, 0x2c1);
+        func_0203AD80(g_021469DC, (void *)func_0203B52C, 0, 0x2c1);
         return;
     }
     if (p->f56 == 1)

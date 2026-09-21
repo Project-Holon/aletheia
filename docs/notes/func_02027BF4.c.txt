@@ -99,3 +99,36 @@ void func_02027BF4(u16 *phase, u16 *out, u32 mode, u32 slot,
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 228 bytes against 228, 59 concrete bytes out, 1.1p1
+
+== 2026-09-21, wave 4 (family app_taskmenu, permuter) ==
+
+The note's best source re-verified unchanged: DIFF, 228 bytes against 228,
+59 concrete bytes out, 1.1p1.  No improvement found this wave.
+
+Permuter: --explain reports a three-site residue, r2 -> r1 x3, consistent
+with the prose's "the original hoists the c1 load and defers the shifts".
+--mode hill --budget 800 --jobs 8 --types (322 mutations tried) and
+--mode anneal --budget 3000 --jobs 8 (3000 compiles, 132s) both report a
+"best" that is WORSE by the only measure that counts: 232 bytes against 228
+with 214 concrete bytes out, reached by `cast(u32) ; cast(u16)` and later by
+three `temp` lifts.  The scorer's leading term is an instruction-level score
+(mnemonic alignment), and on this target a size-wrong variant scores 630
+against the size-exact baseline's 830, so the search climbs off the good
+point on its first batch and never comes back.
+
+PRACTICAL RULE for this residue class: on a target that is already
+SIZE-exact with a small bytes-out, read the bytes-out column of the ranking,
+not the "best" line.  The permuter has no notion that a size change is
+disqualifying; its verdict rank puts DIFF-of-wrong-size and DIFF-of-right-
+size in the same bucket.  Treat any permuter result whose size column is not
+N/N as void on a size-exact baseline.
+
+The prose's "next lever" (a per-channel inlined helper for the six-way
+unpack) is untried and remains the best hypothesis: the original's order is
+r0c, g0 MASK only, b0 MASK only, r1c, g1c in full, b1c mask+asrs, with the
+`asrs r3,#0xa` / `lsls r2,#0x13` for the c0 channels deferred to +0x3E/+0x42,
+which is a per-argument expansion order no single-expression spelling of the
+six extractions reproduces.
+
+/* best source, 228 bytes against 228, 59 concrete bytes out, 1.1p1 */
+(unchanged; see the "best C so far" block above)

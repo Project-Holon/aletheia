@@ -98,3 +98,41 @@ void func_0200C914(int a0, int a1, int a2, int a3, int a4)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 208 bytes against 224, 184 concrete bytes out, 1.1p1
+
+============================================================================
+CLOSED 2026-09-21, family wave 4 (musical_dist_save.c).
+
+func_0200C914 is now EXACT*: src/matched/func_0200C914.c.
+
+The note above is superseded and its "codegen, register allocation, no
+source-level spelling found moves it" verdict was WRONG.  The residue was
+three TYPE errors, not an allocator tie, and the 36-variant statement-order
+sweep it records could never have found them:
+
+  1. `unsigned i` should be `u16 i`.  The loop counter is truncated
+     `lsls #0x10 / lsrs #0x10` at the top of each loop body; `unsigned`
+     drops that and loses 8 bytes (208 against 216 code bytes).  The note's
+     "208-byte body, no SIZE difference" reading was itself the error: the
+     listing extent is 224 bytes, of which 216 are code and 8 are pool.
+  2. `int res` compared against a literal `-1` should be `u32 res` compared
+     against `(u32)-1`.  func_0200C7C0 is defined returning `u32` in
+     src/matched/unit_0200C7C0.c and answers `(u32)-1` for "not listed".  The
+     original builds the sentinel `movs r1, #0 / mvns r1, r1` and uses a
+     register `cmp`; the `int` spelling folds it to `cmp r0, #-1` and
+     reallocates the whole head, which is what the note's r4/r5 swap was.
+  3. `int idx` is right and `u32 idx` is wrong: `idx >> 3` is `asrs` in the
+     original.  With everything else correct those two `asrs`/`lsrs` pairs
+     were the LAST TWO concrete bytes out.
+
+The path was 184 out (this note's C) -> 166 (u16 counter) -> 2 (u32
+sentinel) -> EXACT* (signed idx).  The permuter's `--mode hill --budget 800
+--jobs 8 --types` run on this note's C found `type:ret-var(res)` and
+`type:l(i:unsigned->u16)` and got to 220/224 with 190 out, which is what
+pointed at the type class; the rest was read off `match.py one --diff`.
+
+Lesson for the family, and applied to func_0200D144 in the same wave: in
+"musical_dist_save.c" the search helpers return u32 with a `(u32)-1`
+sentinel, loop counters that show a `lsls/lsrs #0x10` pair are u16, and bit
+indices that show `asrs` are signed ints holding a `(u16)` value.
+
+re-verified 2026-09-21 by tools/match.py: EXACT*, 216 bytes, 0 concrete bytes out, 1.1p1

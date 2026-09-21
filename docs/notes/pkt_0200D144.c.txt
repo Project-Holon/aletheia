@@ -1,0 +1,227 @@
+
+============================================================================
+NEW 2026-09-21, family wave 4 (musical_dist_save.c), with tools/permuter.py
+
+func_0200D144 @ 0x0200D144, thumb, packet pkt_0200D144.  Previously UNTOUCHED
+(no note, no source anywhere in the tree).  Listing extent 340 bytes, of which
+322 are this function's own code: the 12 bytes from 0x0200D288 are the
+unlabelled follower func_0200D288 (`cmp r1,#0 / bne / movs r1,#0x4d / lsls #4
+/ ldr r0,[r0,r1] / bx lr`, i.e. `return b != 0 ? 0 : p->unk4D0`), which
+disasm.py does not label because it saves nothing --
+see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  Report it to
+the integrator for layout/function_starts.txt.
+
+/* best source, 320 bytes against 322, 22 concrete bytes out, 1.1p1 */
+
+FULLY DECODED.  Every relocation resolves (func_0200C720 and func_0200C7C0,
+both `label`), so this is pure codegen and never an evidence cap.
+
+  u32 func_0200D144(u8 *p, u32 id, u32 sel, u32 alt, u32 form)   /* form at [sp,#0x18] */
+
+  It is the five-way READER over the same bitmaps func_0200C818 and
+  func_0200C914 write, and it is the sibling of func_0200D064 (the four-row
+  seen test) and of func_0200CED4 (the single-row caught test).
+
+    if (func_0200C720(id)) return (u32)-1;        /* the -1 is movs/mvns */
+    res = func_0200C7C0(id);
+    if (res != (u32)-1) {                         /* species has form entries */
+        x = (u16)(res + form);
+        return (p + alt * 9 + (x >> 3))[0x2FC] >> (x & 7) & 1;
+    }
+    /* no form entries: read the plain per-species bitmaps */
+    sel == 0 : alt == 1 ? bit at +0x104 : bit at +0x05C
+    sel == 1 : alt == 1 ? bit at +0x158 : bit at +0x0B0
+    else     : alt == 1 ? (+0x104 || +0x158) : (+0x05C || +0x0B0)
+
+  The four single-bitmap arms each answer through a named result local
+  (`r = 1; if (!bit) r = 0; return r;`), which is what gives the shared
+  `bne #0x200d284 / movs r0,#0 / pop` tail.  The last two arms each carry
+  their OWN `movs r0,#1; pop`, reached by `goto`, and share only the
+  `movs r0,#0`: that is the difference between the two label sets `oneA`
+  and `oneB` in the source below and is worth eight bytes.
+
+FOUR TYPE FACTS, all of them the same ones that closed func_0200C914 in this
+wave (see src/matched/func_0200C914.c):
+
+  1. func_0200C7C0 returns u32 and its "not listed" answer is compared as
+     `(u32)-1`.  The original builds it `movs r1,#0 / mvns r1,r1` and uses a
+     register `cmp`; an `int` with a literal `-1` folds to an immediate
+     compare and reallocates the head.
+  2. func_0200C7C0's PARAMETER here is u32, not u16: the original passes r4
+     straight through (`adds r0, r4, #0`), with no `lsls/lsrs #0x10` pair in
+     front of the call.  Declaring it `u16` costs that pair (4 bytes).
+  3. the bit index `x` is a SIGNED int holding a `(u16)` value: `x >> 3` is
+     `asrs` throughout.  `u32 x` gives `lsrs` and is wrong at every site.
+  4. func_0200C720's parameter is u32 (same tell, no truncation at the call).
+
+THE ADDRESSING FORM IS PER ARM and is the whole remaining residue class.
+Two spellings of the same byte access compile differently and the original
+uses BOTH, in different arms:
+
+    (p + (x >> 3))[CONST]   -> adds rB, p, off ; ldrb rX, [rB, #CONST]
+                               or with CONST in a register when out of reach
+    p[CONST + (x >> 3)]     -> the constant becomes the base and off the
+                               register operand of the ldrb
+
+  arms 1-5 (the 0x2FC/0x104/0x05C/0x158/0x0B0 single tests and the first
+  half of the alt==1 pair) want the FIRST form; the second test of the last
+  arm (+0xB0) wants the SECOND.  Getting one of the six wrong costs 2 or 4
+  bytes and 15-20 concrete bytes.  The mixture in the source below is the
+  best of the twelve mixtures compiled.
+
+RESIDUE, 320 against 322, 22 concrete bytes out.  Arms 1-5 reproduce
+INSTRUCTION FOR INSTRUCTION.  Everything out is in the second test of the
+last arm plus the branch-target shifts it causes:
+
+  +0126  adds r0, r5, r1        | (first test, now right)
+  +0130  adds r0, r5, r1        | adds r1, #0xb0
+  +0132  adds r0, #0xb0         | ldrb r0, [r5, r1]
+  +0134  ldrb r0, [r0]          | tst r0, r2
+  (plus five `bne #0x200d284` -> `bne #0x200d282` and three more shifted
+   targets, all consequences of the two-byte shortfall above)
+
+The original materialises `p + (x >> 3)` into a register a SECOND time for
+the +0xB0 test (`adds r0, r5, r1` twice, with `asrs r1` held live), then adds
+0xB0 as an immediate and loads with a plain `[r0]`.  mwccarm reuses the
+already-formed offset and folds the load into a register-offset `ldrb
+r0,[r5,r1]`, which is exactly 2 bytes shorter.
+
+RULED OUT for that last test (all compiled, cc 1.1p1 -O4,p --thumb):
+  * `(p + (x >> 3))[0xB0]`                    324 bytes, 42 out
+  * `*(p + (x >> 3) + 0xB0)`                  324 bytes, 42 out
+  * `((u8 *)(p + (x >> 3)))[0xB0]`            324 bytes, 42 out
+  * `((u8 *)(p + 0xB0))[x >> 3]`              324 bytes, 42 out
+  * `off = x >> 3;` then `(p + off)[0xB0]`    324 bytes, 42 out
+  * `q = p + (x >> 3);` re-assigned before each test (u8 *q local)
+                                              324 bytes, 42 out
+  * recomputing `x = (u16)(id - 1);` between the two tests
+                                              324 bytes, 42 out
+  * the two arms' `zero`/`one` label blocks in the other order
+                                              320 bytes, 23 out
+Every one of them is FOUR bytes long where the baseline is two SHORT, i.e.
+the two spellings bracket the original and nothing lands between them.
+
+PERMUTER, foreground, cc 1.1p1 -O4,p --thumb:
+  --explain on the 320-byte source: a SMALL substitution map
+    (r2->r3 x6, r2->r1 x4, r3->r1 x2, and six singles), consistent with
+    "one arm's instruction selection", not a whole-function reshuffle.
+  --mode hill --budget 800 --jobs 8 --types: 389 single mutations tried,
+    NO single mutation improves.  (On the earlier 324-byte baseline: 398
+    tried, likewise none.)
+  --mode anneal --budget 3000 --jobs 8 --types: 3000 compiles, best
+    unchanged at asm=1065 bytes-out=22 size=320/340.  Re-run at budget 1500
+    reproduced it exactly.
+The mutation table does not reach "which half of a base+offset expression is
+materialised into a register", which is the single remaining choice here --
+the same class as the near misses recorded for func_0200D064 (above),
+func_0200CA98 and func_0200CC40 in this family.
+
+/*
+ * function: func_0200D144
+ * address:  0x0200D144
+ * packet:   pkt_0200D144
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200C720  0x0200C720  thumb
+ *   func_0200C7C0  0x0200C7C0  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern u32 func_0200C720(u32 id);
+extern u32 func_0200C7C0(u32 id);
+
+u32 func_0200D144(u8 *p, u32 id, u32 sel, u32 alt, u32 form)
+{
+    u32 res;
+    s32 x;
+    u32 m;
+    u32 r;
+
+    if (func_0200C720(id) != 0) {
+        return (u32)-1;
+    }
+    res = func_0200C7C0(id);
+    if (res != (u32)-1) {
+        x = (u16)(res + form);
+        m = 1 << (x & 7);
+        r = 1;
+        if (((p + alt * 9 + (x >> 3))[0x2FC] & m) == 0) {
+            r = 0;
+        }
+        return r;
+    }
+    if (sel == 0) {
+        if (alt == 1) {
+            x = (u16)(id - 1);
+            m = 1 << (x & 7);
+            r = 1;
+            if (((p + (x >> 3))[0x104] & m) == 0) {
+                r = 0;
+            }
+            return r;
+        }
+        x = (u16)(id - 1);
+        m = 1 << (x & 7);
+        r = 1;
+        if (((p + (x >> 3))[0x5C] & m) == 0) {
+            r = 0;
+        }
+        return r;
+    }
+    if (sel == 1) {
+        if (alt == 1) {
+            x = (u16)(id - 1);
+            m = 1 << (x & 7);
+            r = 1;
+            if (((p + (x >> 3))[0x158] & m) == 0) {
+                r = 0;
+            }
+            return r;
+        }
+        x = (u16)(id - 1);
+        m = 1 << (x & 7);
+        r = 1;
+        if (((p + (x >> 3))[0xB0] & m) == 0) {
+            r = 0;
+        }
+        return r;
+    }
+    if (alt == 1) {
+        x = (u16)(id - 1);
+        m = 1 << (x & 7);
+        if ((p + (x >> 3))[0x104] & m) {
+            goto oneA;
+        }
+        if ((p + (x >> 3))[0x158] & m) {
+            goto oneA;
+        }
+        goto zero;
+oneA:
+        return 1;
+    }
+    x = (u16)(id - 1);
+    m = 1 << (x & 7);
+    if ((p + (x >> 3))[0x5C] & m) {
+        goto oneB;
+    }
+    if (p[0xB0 + (x >> 3)] & m) {
+        goto oneB;
+    }
+    goto zero;
+oneB:
+    return 1;
+zero:
+    return 0;
+}
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 320 bytes against 322 (listing extent 340, 12 of which are the unlabelled follower at 0x0200D288), 22 concrete bytes out, 1.1p1

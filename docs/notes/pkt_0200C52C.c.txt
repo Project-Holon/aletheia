@@ -53,3 +53,55 @@ u8 *sub_0200C52C(int a0, int a1)
     return p;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 112 bytes against 120, 70 concrete bytes out, 1.1p1
+
+============================================================================
+APPENDED 2026-09-21, family wave 4 (musical_dist_save.c), with tools/permuter.py
+
+/* best source, 116 bytes against 120, 58 concrete bytes out, 1.1p1 */
+
+The residue is unchanged from the description in src/matched/unit_0200C5A4.c:
+the original spends `movs r7, #6` at 0x0200C56C to park the save-block id in
+a callee-saved register, so the second use of it (the func_020073D8 call at
+0x0200C58A) is `adds r1, r7, #0` rather than a second `movs r1, #6`.  Doing
+so costs it a register, and the visible consequence is that the FIRST
+parameter is homed to the stack at entry (`str r0, [sp, #4]`) while the
+func_02012EBC result keeps r6.  Every source shape does the reverse, and the
+two extra instructions the original carries are the four missing bytes.
+
+What this pass adds is that the permuter agrees, and that its ONE size-exact
+route is SEMANTICALLY WRONG and was rejected.
+
+  --explain: a very small map -- r2->r1 x2, r3->r0 x1, r1->r6 x1.  The
+  residue is NOT an allocation reshuffle; the first 0x34 bytes reproduce
+  exactly and the diff starts only where the missing instruction shifts
+  everything.
+  --mode hill --budget 800 --jobs 8 --types: 186 single mutations tried, NO
+  single mutation improves.
+  --mode anneal --budget 3000 --jobs 8 --types: reaches
+      DIFF asm=495 bytes-out=28 size=120/120
+  with mutations `temp(tmp = (u32) a0)` then `type:l(tmp:u32->u16)`, i.e. it
+  lifts the system pointer into a temporary and then NARROWS THAT TEMPORARY
+  TO u16.  REJECTED: the store at +0x28 is a full 32-bit word (`str r1,
+  [r4, #0x28]`), and a u16 temporary truncates the pointer.  The only reason
+  it reaches 120 bytes is that the truncation emits a spurious
+  `lsls r1, r6, #0x10 / lsrs r1, r1, #0x10` pair, which is four bytes of the
+  WRONG four bytes -- the diff at those offsets is `lsls/lsrs` against the
+  original's `movs r7,#6 / adds r1,r7,#0`.  This is exactly the
+  "a --types result can be semantically wrong" case the wave brief warns
+  about; the callers (func_0200C5C8 in src/matched/unit_0200C5A4.c) pass a
+  real system pointer.
+
+Additional legitimate shapes compiled this pass, all 116 bytes / 58 out:
+  * the id 6 as a named `u32 id` local, declared first, declared last, and
+    assigned before or after the func_02012EBC call
+  * 0x20000 as a named local reused for both the allocation size and the
+    func_020072CC size argument
+  * a `void *sys = a0;` copy used for both the call and the +0x28 store
+  * the __FILE__ pointer as a declared `extern const char g_020A71D4[]`
+    rather than a cast constant (this is the right spelling and resolves as
+    `literal`; it does not change the codegen)
+
+Verdict unchanged: codegen, a register the original spends and no source
+spelling buys.  Same class as 0x0200B2A4 and 0x0200B37C.
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 116 bytes against 120, 58 concrete bytes out, 1.1p1

@@ -94,3 +94,144 @@ What is left.  Two independent residues:
 
 Not a candidate for src/pending/: DIFF, not a wildcarded relocation.
 re-verified 2026-09-21: no recoverable source in this note
+
+== 2026-09-21, wave 4 (family app_taskmenu, permuter) ==
+
+The note above had no recoverable source; rebuilt from the listing following
+the note's four levers (void func_020355C4, signed int prev, the 0x80 arm's
+fall-through order, 0x551 in the `held & 2` arm).  Rebuilt state: SIZE-exact
+248/248, 11 of 11 relocations resolved, 84 concrete bytes out.
+
+Note that 84, not the prose's 48, is what this shape reads: the prose's
+figure came from a source that is not in the note, and the two extra residues
+are the two the prose itself names as unresolved -- residue (a), the r0/r1
+mirror in the `held & one` / `held & 2` arms, and residue (b), the 2-byte
+cross-jump -- plus the branch-target shift they cause downstream.  The
+rebuilt source's diff is exactly the prose's described shape:
+
+  * +0088  movs r0, #1        | movs r1, #1        <- residue (a)
+  * +008A  adds r1, r6, #0    | adds r0, r6, #0
+  * +00A4  ldr r0, [pc,#0x4c] | b #0x2027daa       <- residue (b)
+
+Measured this wave, all 248 bytes and all 84 out (no change):
+  - `one & held` instead of `held & one`             84
+  - `held & (one + one)` for the 0x40 arm's mask     84
+  - `one` declared before `prev`                     84
+  - `one = 1` hoisted to the top of the function     84
+  - `hit`/`held` declaration order swapped           84
+  - `cur = m->cursor` lifted before the final guard  84
+Rejected, worse:
+  - an explicit shared-exit `goto play` with a `sound` local carrying 0x54C /
+    0x551 into one func_020061E4 call site            98
+    (this is the natural reading of residue (b)'s `b #0x2027dac` into the
+    0x40 arm, and it does NOT reproduce it: the original's cross-jump is the
+    compiler's own tail merge of two separately-written call sites, not a
+    goto in the source)
+
+Permuter: --explain reports a general reshuffle, not one swapped pair
+(r1->r0 x10, r0->r1 x4, plus four singletons), which is the signature of a
+residue no single mutation reaches.  --mode hill --budget 800 --jobs 8
+--types: 313 mutations tried, none improves.  --mode anneal --budget 3000
+--jobs 8 --types (462s) reached 84 -> 57 with an eleven-mutation stack, but
+its second mutation is `volatile-add(m)`, the same semantic change the prose
+above measured and rejected on principle; the value-preserving prefix of
+that stack (`decl-order(hit<->held)`, the two `temp(m->cursor)` lifts,
+`hoist-down`) is worth 0 bytes on its own, as the table above records.  So
+the 57 is not a usable result: it is bought with a `volatile` this function
+does not justify.
+
+/* best source, 248 bytes against 248, 84 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Row {
+    u8  pad00[8];
+    u32 f08;
+};
+
+struct Menu {
+    u8  cursor;     /* +0x00 */
+    u8  pad01;      /* +0x01 */
+    u16 h2;         /* +0x02 */
+    u32 pad04[2];   /* +0x04 */
+    u32 f0C;        /* +0x0C */
+    u32 f10;        /* +0x10 */
+    u32 pad14;      /* +0x14 */
+    u32 *f18;       /* +0x18 */
+    struct Row *f1C;/* +0x1C */
+    u32 pad20;      /* +0x20 */
+    u8  count;      /* +0x24 */
+    u8  pad25[0x34 - 0x25];
+    u32 f34;        /* +0x34 */
+};
+
+extern u32  func_020362DC(void);
+extern u32  func_0203633C(void);
+extern int  func_020355C4(void);
+extern void func_020355D8(u32 a);
+extern void func_02027B30(u32 cell, u32 ctx, u32 sel);
+extern void func_020061E4(u32 id);
+
+void func_02027D44(struct Menu *m)
+{
+    u32 held;
+    u32 hit;
+    int prev;
+    u32 one;
+
+    held = func_020362DC();
+    hit  = func_0203633C();
+    if (m->f10 == 1) {
+        return;
+    }
+    if (func_020355C4() == 1) {
+        if ((held & 2) == 0) {
+            if ((held & 0xC3) == 0) {
+                return;
+            }
+            func_02027B30(m->f18[m->cursor], m->f34, 1);
+            func_020355D8(0);
+            func_020061E4(0x548);
+            return;
+        }
+    }
+    prev = m->cursor;
+    if (hit & 0x40) {
+        if (prev == 0) {
+            m->cursor = (u8)(m->count - 1);
+        } else {
+            m->cursor = (u8)(prev - 1);
+        }
+        m->h2 = 0;
+        func_020061E4(0x54C);
+    } else if (hit & 0x80) {
+        if (prev >= m->count - 1) {
+            m->cursor = 0;
+        } else {
+            m->cursor = (u8)(prev + 1);
+        }
+        m->h2 = 0;
+        func_020061E4(0x54C);
+    } else {
+        one = 1;
+        if (held & one) {
+            m->f0C = one;
+            if (m->f1C[prev].f08 == one) {
+                func_020061E4(0x551);
+            } else {
+                func_020061E4(0x54C);
+            }
+        } else if (held & 2) {
+            m->f0C = one;
+            m->cursor = (u8)(m->count - 1);
+            func_020061E4(0x551);
+            func_020355D8(0);
+        }
+    }
+    if (prev == m->cursor) {
+        return;
+    }
+    func_02027B30(m->f18[prev], m->f34, 0);
+    func_02027B30(m->f18[m->cursor], m->f34, 1);
+}
