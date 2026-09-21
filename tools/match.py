@@ -1761,6 +1761,11 @@ def in_data_section(addr):
         return False
     if addr in data:
         return True
+    # the listings record the start of each datum; a halfword or byte inside a .word (or a
+    # byte inside a .hword) is data too, and objects are only halfword or byte aligned when
+    # their element type is
+    if (addr & ~1) in data or (addr & ~3) in data:
+        return True
     return addr in bss_addresses_probe(addr)
 
 
