@@ -559,3 +559,160 @@ shape found makes the allocator pay for r4 when it does not have to.
 Not filed.  0x0206ECE0 was not re-attempted this pass.
 
 --- 0x0206EE60 (940 bytes): still not attempted, budget spent on the pair.
+
+==============================================================================
+2026-09-21, later pass: 0x0206ECE0 re-derived from scratch, 49 bytes out
+==============================================================================
+
+The earlier entry in this note recorded 0x0206ECE0 at "19 bytes, register
+naming only" under ../2.0/sp2 but did NOT keep the source.  It has now been
+re-derived from the note's four shape findings.  Result: 384 bytes against
+the image's 384, all six relocations resolved, every instruction and every
+branch target in the right place, 49 concrete bytes out.  30-compile hill
+permute (decl-swap, stmt-swap, operand swaps, param signedness) moves it
+NOT AT ALL: all ten survivors sit at 384/49.  Not filed.
+
+The 49 is the same three-cycle the earlier entry named, now measured on a
+kept source: the image is {node = r5, k = r4, u = r7, v = r6} and every
+spelling gives {node = r4, k = r7, u = r5, v = r6}.  All six declaration
+orders of k/u/v were run explicitly this pass: three give 49, three give 62.
+
+TWO NEW SHAPE FINDINGS that the earlier entry did not have, and that are
+worth 127 and 8 bytes respectively.  Both are required to reach 384/49:
+
+  * the four permutation bytes are FOUR SEPARATE ABS32 SYMBOLS, not one
+    table.  g_020A1998, g_020A1999, g_020A199A and g_020A199B each get
+    their own pool word in the image (0x0206EE50..0x0206EE5C), and each is
+    indexed `[k]` through a 4-byte-stride struct.  The earlier entry's
+    "ONE table of 4-byte rows read as four columns, indexed x[k].c" is
+    right about the stride and wrong about the symbol count: declaring one
+    array and indexing x[k*4+n] emits ONE pool word and the compiled size
+    goes 384 -> 388 with 176 bytes out.  Four externs is 384 / 57.
+  * the three stores of the f&8 arm must each REBUILD the base expression
+    `((u32 *)((u8 *)out + 0x28))[...]` at the site.  Binding it to a
+    `u32 *o` local is fatal: the compiler then keeps o live and emits
+    `str rV, [o, rI, lsl #2]` where the image has the per-site pair
+    `add rT, r8, rI, lsl #2` / `str rV, [rT, #0x28]`, 376 bytes / much
+    worse.  Same rule in the straight-copy arm, where the `o` local IS
+    correct (that arm has nine consecutive constant offsets).
+  * the two table lookups must be bound to named ints BEFORE the k-indexed
+    store, so the two `ldrb` land ahead of the `add r2, r8, r4, lsl #2`:
+    the image's order is tbl-load, tbl-load, rsbne, k-store, u-store,
+    v-store.  Writing the k-store first (source order) puts it before the
+    loads: 57 -> 49.
+
+/* best source, 384 bytes against 384, 49 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206ECE0
+ * address:  0x0206ECE0
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02148DB0      0x02148DB0  data  a4
+ *   g_020A1998      0x020A1998  data  a1
+ *   g_020A1999      0x020A1999  data  a1
+ *   g_020A199A      0x020A199A  data  a1
+ *   g_020A199B      0x020A199B  data  a1
+ *   func_020834A8   0x020834A8  thumb
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef signed short s16;
+
+typedef struct { u8 unk00; u8 idx01; } Hdr;
+typedef struct { u8 unk00; u8 cnt01; u8 unk02[4]; u16 off06; } Bank;
+typedef struct { Hdr *h; u8 pad[0xD0]; Bank *bank; } Root;
+typedef struct { u32 rel00; } Ent;
+
+typedef struct { u8 c; u8 pad[3]; } Perm;
+
+extern Root *g_02148DB0;
+extern Perm g_020A1998[];
+extern Perm g_020A1999[];
+extern Perm g_020A199A[];
+extern Perm g_020A199B[];
+
+extern void func_020834A8(void *p);
+
+void func_0206ECE0(u32 *out)
+{
+    Root *r = g_02148DB0;
+    Bank *b;
+    u8 *node;
+    u8 *t;
+    u32 idx;
+    u32 f;
+    s16 *p;
+    int k;
+    int u;
+    int v;
+
+    idx = r->h->idx01;
+    b = r->bank;
+    if (b == 0) goto none;
+    if (b == 0) goto nullent;
+    if (idx >= b->cnt01) goto nullent;
+    t = (u8 *)b + b->off06;
+    idx = (u32)(t + 4 + (*(u16 *)t) * idx);
+    goto have;
+nullent:
+    idx = 0;
+have:
+    if (idx == 0) goto none;
+    node = (u8 *)b + ((Ent *)idx)->rel00;
+    goto set;
+none:
+    node = 0;
+set:
+    f = ((u16 *)node)[0];
+    p = (s16 *)(node + 4);
+    if ((f & 1) == 0) p = (s16 *)((u8 *)p + 0xc);
+    if ((f & 2) != 0) goto flag2;
+    if ((f & 8) == 0) goto copy;
+
+    k = (int)(f & 0xf0) >> 4;
+    u = p[0];
+    v = p[1];
+    func_020834A8(out + 10);
+    f = ((u16 *)node)[0];
+    {
+        int s1 = g_020A1999[k].c;
+        int s2 = g_020A1998[k].c;
+        ((u32 *)((u8 *)out + 0x28))[k] = ((f & 0x100) != 0) ? -0x1000 : 0x1000;
+        ((u32 *)((u8 *)out + 0x28))[s1] = (u32)u;
+        ((u32 *)((u8 *)out + 0x28))[s2] = (u32)v;
+    }
+    f = ((u16 *)node)[0];
+    if ((f & 0x200) != 0) v = -v;
+    ((u32 *)((u8 *)out + 0x28))[g_020A199A[k].c] = (u32)v;
+    f = ((u16 *)node)[0];
+    if ((f & 0x400) != 0) u = -u;
+    ((u32 *)((u8 *)out + 0x28))[g_020A199B[k].c] = (u32)u;
+    return;
+
+copy:
+    {
+        u32 *o = (u32 *)((u8 *)out + 0x28);
+        o[0] = (u32)(int)((s16 *)node)[1];
+        o[1] = (u32)(int)p[0];
+        o[2] = (u32)(int)p[1];
+        o[3] = (u32)(int)p[2];
+        o[4] = (u32)(int)p[3];
+        o[5] = (u32)(int)p[4];
+        o[6] = (u32)(int)p[5];
+        o[7] = (u32)(int)p[6];
+        o[8] = (u32)(int)p[7];
+    }
+    return;
+
+flag2:
+    out[0] = out[0] | 2;
+}

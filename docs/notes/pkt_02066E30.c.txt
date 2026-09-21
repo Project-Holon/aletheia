@@ -743,3 +743,100 @@ void func_02067080(const struct Mtx22 *m, volatile u32 *oam, const struct Vec2 *
          | (((u32)(p.x << 23)) >> 7);
 }
 ```
+
+==============================================================================
+2026-09-21 - wave 26 ARM lane.  0x02066E30 itself (DIFF, not filed)
+==============================================================================
+
+func_02066E30 @ 0x02066E30 (592 listing bytes, 564 code + a 28-byte pool)
+verdict: DIFF, 576 bytes / 386 concrete out, all 5 relocation sites resolving
+(func_02066B84 by `sole-ref/code`, g_02148B2C / tbl_020A17F0 / tbl_020A17D8 /
+g_020A8218 by `literal`), under the DEFAULT dsi/1.1p1 -O4,p --arm.
+
+NEW row; the packet's earlier passes documented its callee (0x02066B84), its
+callers (0x0206775C, 0x02067080) and unit_02067B40, never this address.
+
+WHAT IT IS, decoded in full.  The 3D-geometry emitter of the composer: seven
+parameters (x, y, z, the OAM row pointer, and three descriptor words that are
+forwarded untouched), a 0x1c-byte frame of which sp+4..sp+0x18 is a six-word
+texture-coordinate buffer that func_02066B84 fills -- the buffer's address is
+passed as the call's FIFTH, stacked argument (`add ip, sp, #4` / `str ip,
+[sp]` at 0x02066E38/0x02066E5C).
+
+The seven pool words at 0x02067064..0x0206707C resolve as:
+
+  0x02067064  0xC000C000   the shape/size mask, the same one 0x02067080,
+                           0x0206775C and unit_02067B40 use
+  0x02067068  0x020A17F0   objWidth[3][4],  u16, 8-byte row stride
+  0x0206706C  0x02148B2C   the render context (f04 polygon counter, f08 gate)
+  0x02067070  0x020A17D8   objHeight[3][4], same shape
+  0x02067074  0x04000470   MTX_TRANSLATE
+  0x02067078  0x0400046C   MTX_SCALE  (the +0x1c, +0x24, +0x94 and +0x98
+                           displacements off it are TEXCOORD 0x04000488,
+                           VTX_10 0x04000490, BEGIN_VTXS 0x04000500 and
+                           END_VTXS 0x04000504)
+  0x0206707C  0x020A8218   the per-quad polygon-counter increment
+
+and the body is:
+
+  1. func_02066B84(oam, a4, a5, a6, uv);
+  2. mode = *oam & 0x300; when it is neither 0x100 nor 0x300, OR in
+     *oam & 0x30000000 -- the same fold 0x02067080's note records;
+  3. if mode == 0x300, mask the word with 0xC000C000 and index both tables
+     with shape = (v & 0xc000) >> 14 (an ASR, 0x02066E98) and
+     size = (v & 0xc0000000) >> 30 (an LSR, 0x02066E9C), the row base as
+     `tbl + (shape << 3)` and the element as a REGISTER-OFFSET load whose
+     BASE is `size << 1` (`ldrh ip, [lr, r3]` at 0x02066EC0), then offset the
+     pen by HALF each entry (`asr #1`);
+  4. three MTX_TRANSLATE words: x << 12, y << 12 and the depth, which is
+     `ctx->f04 + (z << 12)` when ctx->f08 is set and `z << 12` otherwise --
+     emitted as the predicated pair `addne r4, r0, r4, lsl #12` /
+     `lsleq r4, r4, #0xc` at 0x02066EC8/0x02066EE4;
+  5. three MTX_SCALE words: uv[4] << 12, uv[5] << 12, 0x1000;
+  6. BEGIN_VTXS(1), then four TEXCOORD / VTX_10 pairs of a unit quad, the
+     TEXCOORD each `((u16)((s32)(uv[i] << 8) >> 16) << 16) | (u16)(...)`
+     (the image's own `lsl #8` / `asr #0x10` / `lsl #0x10` / `lsr #0x10`
+     quartet, NOT a plain `(s16)(uv[i] << 8) >> 8`), the VTX_10 words
+     0x10000, 0x10040, 0x40, 0 -- x and y of 0x40 = 1.0 in 4.6;
+  7. END_VTXS, and ctx->f04 += g_020A8218 when ctx->f08 is set.
+
+STATE REACHED: 576 against 592.  The mode fold at +0x38..+0x50 is
+BYTE-IDENTICAL (`and r1, r2, #0x300` / `cmp r1, #0x100` / `cmpne r1, #0x300`
+/ `andne r0, r2, #0x30000000` / `orrne r1, r1, r0` / `cmp r1, #0x300` /
+`bne`), as are `sub sp, sp, #0x1c`, `mov r4, r2` and the whole depth
+predication.
+
+THE RESIDUE is ONE register.  The image's frame is the four-callee-saved
+`push {r4, r5, r6, r7, lr}` (`f0 40 2d e9`) with x, y, z and oam in r6, r5,
+r4, r7, and it RELOADS the &g_02148B2C pool word at every use (0x02066EA0,
+0x02066EF4, 0x02067030) -- three references to the ONE pool entry at
+0x0206706C.  1.1p1 -O4,p hoists that base into a callee-saved register and
+needs `push {r3, r4, r5, r6, r7, r8, lr}`, which permutes every other
+assignment (x r6->r7, oam r7->r8).
+
+THE PIN WAS PROBED ONCE AND IS REFUSED.  `--cc ../2.0/sp2 --arm` on the same
+source gives 624 bytes / 454 concrete out, WORSE than the default's 576/386,
+so the pool-reload here is not the 2.0 "kept constants" tell that pinned
+src/pending/func_020727B4.c and 0x0206775C in this same packet.  Both rows in
+this file that are pinned stay pinned; this one is a dsi/1.1p1 row and the
+missing lever is a source shape.
+
+Levers measured (compiled size / concrete out, all --cc 1.1p1 --arm):
+  - the port as a `volatile u32 *g` local reused across all the stores: 576/386
+  - the port as a cast constant per store, `*(volatile u32 *)(0x0400046C+n)`,
+    so nothing holds the base:                                         576/386
+  - the context through `*(volatile Ctx *)&g_02148B2C`:                576/386
+  - the tables as `tbl[i1][i2]` subscripts instead of the byte-offset
+    register form:                                                     576/386
+  - `i2` extracted with a signed `>> 30` (gives `asr`, one byte wrong) 576/386
+  - the depth computed as a plain `pz` local before the branch:        432/375
+    (collapses the predication; much worse)
+  - permuter, hill, budget 30 (30 compiles, 2981 untried):             no
+    improvement on the baseline
+
+Next agent: the wanted lever is whatever stops 1.1p1 hoisting &g_02148B2C
+into a callee-saved register across the mode branch, WITHOUT collapsing the
+`addne`/`lsleq` depth predication -- the same pool-reload question the
+0x0206775C row above answers with a pin and this row cannot.
+
+Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.

@@ -227,3 +227,86 @@ does not cover, and this packet has no pin.
 Next agent: the wanted lever is whatever makes mwcc spill the 0xf0 and the
 rowbytes the way the image does -- the same open question the func_02044BF0
 row at the top of this file ends on, on the byte-granularity twin.
+
+================================================================
+near miss: func_02044954 @ 0x02044954, 668 bytes, pkt_020445F4
+verdict: DIFF, 574 concrete bytes at 640 compiled against the original's 668
+appended 2026-09-21 (wave 26 ARM lane)
+
+The 16bpp member of the same tiled-blit family as the func_02044BF0 (4bpp),
+func_02044D88 (halfword-plot) and func_02044F64 (de-tile) rows above, and it
+fails on the SAME class they do: the residue is register allocation and one
+spill slot, not semantics.
+
+NO RELOCATIONS AT ALL (0 sites), so nothing here is evidence-blocked; this is
+purely a codegen row.
+
+Shape, decoded in full and not in doubt.  The descriptor is the family's own
+three-u16 one (u8 *pixels +0x00, u16 w +0x04, u16 h +0x06) and the signature
+is nine arguments, four in registers and five stacked at sp+0x48..sp+0x58
+after the ten-register push and the 0x20 frame:
+
+    void f(Surf *src, Surf *dst, s32 dx, s32 dy,
+           s16 sx, s16 sy, u16 cw, u16 ch, u16 key)
+
+    xend = dst->w - sx;  xend = (xend < cw) ? dx + xend : cw + dx;
+    yend = dst->h - sy;  yend = (yend < ch) ? dy + yend : ch + dy;
+    srow = (src->w + (src->w & 7)) >> 3;      /* 8bpp tile row stride */
+    drow = (dst->w + (dst->w & 7)) >> 3;
+    if (key != 0xFFFF) goto keyed;            /* the 0x02044ADC copy */
+    ... plain copy ...
+
+and the inner block, both copies, is
+
+    q = dst->pixels + (x & 7) + ((x << 3) & 0x7fc0)
+                    + ((dy << 3) & 0x38) + ((dy << 3) & 0x7fc0) * drow;
+    p = src->pixels + (sxx & 7) + ((sxx << 3) & 0x7fc0)
+                    + ((sy << 3) & 0x38) + ((sy << 3) & 0x7fc0) * srow;
+    if ((u32)p & 1) { c = p[-1] | (p[0] << 8); p -= 1; }
+    else            { c = p[0]  | (p[1] << 8); }
+    *(u16 *)q = (u16)c;                       /* keyed copy: only when
+                                                 (u16)c != key */
+
+The two pool words at 0x02044BE8/0x02044BEC are 0x0000FFFF (the colour key
+sentinel, `cmp r4, r5` at 0x020449C8) and 0x00007FC0 (the tile-row mask,
+loaded fresh at 0x02044A08, 0x02044A24, 0x02044A4C, 0x02044A6C, 0x02044B08,
+0x02044B18, 0x02044B4C and 0x02044B78 -- EIGHT references to the one word),
+which is what confirms the mask is 0x7fc0 and not a shifted 0x3fe0.
+
+STATE REACHED: 640 bytes / 574 out.  What already reproduces exactly: the
+ten-register `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}`, the
+`str r4, [sp]` spill of sx at 0x02044968, both clamps with their
+`addge`/`addlt` predication, the `strlt`/`strge [sp, #0x18]` pair, the two
+`asr #3` row strides stored to [sp, #0x14] and [sp, #0x10], the `bne
+#0x2044adc` dispatch to the keyed copy, and both `addge sp, sp, #0x20` /
+`popge` early exits.
+
+THE RESIDUE, as on every other row of this family: the original spends a
+0x20 frame (five spill slots: [sp], [sp,#4], [sp,#0xc], [sp,#0x10],
+[sp,#0x14], [sp,#0x18]) and mwcc spends 0x1c, keeping one more value live in
+a register instead.  Specifically the image RE-READS sx through the stack --
+`str r4, [sp]` at 0x02044968 immediately followed by `ldr r5, [sp]` at
+0x02044970 -- and reloads the key through `str r5, [sp, #0xc]` /
+`ldr r4, [sp, #0xc]` at 0x02044968/0x02044A24, where every spelling tried
+forwards the register it already holds.
+
+Measured:
+  - the shape above:                                   640 / 574
+  - permuter, hill, budget 30 (29 compiles, 15110
+    untried mutations remaining):                      640 / 573, best
+                                                       mutation `stmt-swap@L126`
+                                                       alone; the whole top ten
+                                                       are 573 and DIFF
+
+NOT probed under `--cc ../2.0/sp2`: no kept constant, no kept branch and no
+re-read tell appears -- the residue is the spill decision this packet's other
+three rows already end on, which the pin policy does not cover, and this
+packet has no pin.
+
+Next agent: this is the fourth row of the packet to end on exactly the same
+open question, and it is the cheapest one to experiment on because it has no
+relocations at all -- any spelling that makes mwcc spill sx and the key to
+the stack across the two loops closes it, and closing it here very likely
+closes func_02044BF0 and func_02044D88 with the same lever.
+
+Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.

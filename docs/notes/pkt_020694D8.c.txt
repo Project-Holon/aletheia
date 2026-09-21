@@ -170,3 +170,83 @@ of the original's cur=r2 / prev=r3.  Ruled out: the same function with a
 `while (cur != 0) { ...; prev = cur; cur = cur->next; }` tail (moves the
 `mov r3,r2` to the wrong place) and the loop-carried version with `prev` declared
 after `cur`.  No spelling that keeps the guard a branch was found.
+
+==============================================================================
+2026-09-21 - wave 26 ARM lane.  0x020698F8 (DIFF, not filed)
+==============================================================================
+
+func_020698F8 @ 0x020698F8 (460 listing bytes, 444 code + a 16-byte pool)
+verdict: DIFF.  Best measured 388 bytes / 233 concrete out under
+`--cc ../2.0/sp2 --arm`; 372 / 259 under the default 1.1p1.
+
+WHAT IT IS, decoded in full.  The NFTR font-resource open entry of the same
+renderer file as src/matched/func_0206958C.c and src/matched/func_020696F4.c.
+It validates the resource against three accepted (signature, version) pairs,
+calls the assert reporter func_02088234 when none holds, relocates the
+section table through func_02069AC4, looks up the 'FINF' section with
+func_02062B64 and hands the caller header+8.  A legacy resource additionally
+clears the byte at +7 of the FINF payload's +8 pointer.
+
+The four pool words at 0x02069AB4..0x02069AC0 pin every constant:
+0x4E465452 ('NFTR'), 0x00000102, 0x00000101 and 0x46494E46 ('FINF'); the
+third version bound, 0x0100, is an immediate (`cmp r0, #0x100` at 0x02069A34).
+
+THE PIN IS TAKEN HERE AND IT IS `../2.0/sp2`, the same "kept constants" tell
+its two packet-mates already carry.  The image frame is the four-register
+`push {r4, r5, r6, lr}` (`70 40 2d e9`) with ONE zero, `mov r4, #0` at
+0x0206990C, reused as the false value of the outer null guard (`mov r0, r4`
+at 0x02069970).  dsi/1.1p1 -O4,p CSEs a SECOND zero into a fifth callee-saved
+register and emits `push {r3, r4, r5, r6, r7, lr}`, permuting the whole
+allocation.  Under the pin the prologue, `movs r6, r0`, `mov r5, r1`,
+`mov r4, #0` and the first guard block at +0x14..+0x34 are BYTE-EXACT:
+
+    +0000  push {r4, r5, r6, lr}      identical
+    +0004  movs r6, r0                identical
+    +0008  mov r5, r1                 identical
+    +000C  mov r4, #0                 identical
+    +0014  cmp r6, #0                 identical
+    +0018  beq #0x2069928             identical
+    +001C  ldr r1, [r6]               identical
+    +0024  cmp r1, r0                 identical
+    +0028  moveq r0, #1               identical
+    +002C  beq #0x206992c             identical
+    +0030  mov r0, #0                 identical
+    +0034  cmp r0, #0                 identical
+
+so the pin is NOT in doubt; it is recorded here for the next lane.  Not
+appended to docs/FRONTEND-PINS.md's "Pins in force" table, because the rule
+there admits a row only for a file that reaches EXACT, and this one does not.
+
+THE RESIDUE is ONE decision, repeated six times.  Each of the six guard
+operands is normalised TWICE in the image -- the quartet
+
+    02069934  movne r0, #1
+    02069938  moveq r0, #0
+    0206993C  cmp r0, #0
+    02069940  beq <next group>
+
+follows the `cmp r0, #0` that already set the flags, so the value is
+materialised, re-normalised and re-tested.  Every spelling measured collapses
+the second normalisation:
+
+  - `ok = (p != 0 && p->sig == M) != 0;` then `if (ok != 0)`:  388 / 233 (best)
+  - the same with an explicit double `((x != 0) != 0)`:        388 / 233 (folded)
+  - `u8 ok;` instead of `u32 ok;`:                             400 / 243
+  - the three groups fused into one `CHK(v)` macro with the
+    sig and ver tests inside one `&&`:                         400 / 279
+  - nested ternaries, `res != 0 ? (A(sig) ? A(ver) : 0u) : 0u`: 336 / 235
+    (drops the first group's normalisation entirely)
+  - the value produced by a `static` helper per operand:       260 / 150, and
+    the helpers are NOT inlined -- six unresolvable PC24 sites
+  - permuter, hill, budget 30 (30 compiles, 2171 untried):     no improvement
+    on the baseline at either front end
+
+The untried direction is whatever makes the boolean opaque to the flag
+forwarder WITHOUT costing a register or a call: the compiler proves the
+second `cmp r0, #0` redundant under every natural source shape, and the image
+keeps it.  This is the assert-macro argument shape -- the guard's VALUE is
+consumed, not its flags -- and the note pkt_020694D8 already records "about
+ten assert guards plus OS_Terminate" for this address.
+
+Not filed anywhere: DIFF, by rule 6.  No source in src/matched/ or
+src/pending/.  Addresses are Black-image addresses.

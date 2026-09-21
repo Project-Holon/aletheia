@@ -1,0 +1,289 @@
+==============================================================================
+2026-09-21: 0x02065DB4 (func_02065DB4, 716 bytes incl. two pool words)
+==============================================================================
+
+Taken this pass from scratch.  Best: 728 bytes against the image's 716, 575
+concrete bytes out, ALL 28 relocations resolved (26 PC24 + 2 ABS32).  NOT
+filed; this is a long way from EXACT and the residue is register allocation
+across the whole body, not one local decision.
+
+Semantics, settled and reusable
+-------------------------------
+The driver over the list a->list, with two whole bodies selected by
+a->mode_08:
+
+  * mode_08 == 1: the "per-entry transform" body.  First a clear loop over
+    a->list->cnt_02 (the SECOND halfword, at +2) writing zero into the word
+    array at g_02148718 + 4 (the image is `ldr r3, pool` / `add r0, r3,
+    r2, lsl #2` / `str r4, [r0, #4]`, so the base is the pool word itself
+    and the object starts at +4, NOT at +0x404).  Then `g_02148718.f404 = 1`
+    as a flag, the body, then `= 0` on the way out.
+  * anything else: the "plain forward" body, which just calls
+    func_020659D4 (EXACT in src/matched/) on each 0x28-byte record of
+    a->base_0c.
+
+Both bodies then fork AGAIN on `g_02147B88.f8->f80 != 0`, exactly the
+save/restore bracket that src/matched/func_02065D4C.c already reproduces
+EXACT: func_02066E20() -> saved, func_02066DEC(1), func_02066E10(f80),
+<loop>, func_02066DEC(0), func_02066E10(saved), func_02066DFC().  FOUR
+near-identical loop bodies result, and the image writes all four out.
+
+The per-entry loop body (both copies) is:
+  e = &a->list->ents[i];                 /* 8-byte entries, ldr [r2,#4] */
+  k = (u32)((e->unk_06 & 0xff00) << 8) >> 16;   /* UNSIGNED: the image is
+                                                   `lsr sb, r0, #0x10` */
+  g_02148718.h00 = (s16)k;               /* strh through the SAME base the
+                                            f404 flag used, held in fp */
+  func_0206615C();                       /* NO argument: r0 at the call site
+                                            still holds the shifted halfword,
+                                            a leftover, not a passed value
+                                            (a-forwarding-call-passes-one-
+                                            argument idiom) */
+  y = e->unk_04; x = e->unk_02;          /* both s16, ldrsh */
+  if (func_02067B50(f80)) x = -x;
+  if (func_02067B64(f80)) y = -y;
+  func_020663D0(x << 12, y << 12, 0);
+  func_02065878((u8 *)a->base_0c + k * 0x5c);   /* `mov r0,#0x5c` /
+                                                   `mla r0, sb, r0, r8` */
+  func_02066380(1);
+  i = (u16)(i + 1);                      /* the image's lsl#16/lsr#16 pair
+                                            and `cmp r1, r0, lsr #16` */
+
+The u16 counter idiom (add, lsl #0x10, lsr #0x10, compare against the
+halfword through `r0, lsr #16`) reproduces byte-for-byte in all four loops
+and is not part of the residue.
+
+Levers that moved it, in order
+------------------------------
+  * the cleared array is at pool+4, not at +0x404.  Declaring it as
+    `(&g.f404)[j]` gave `str r7, [r0, #0x404]`; a member `int arr04[]`
+    right after the s16/pad pair gives the image's `[r0, #4]`.
+  * `k` must be UNSIGNED (lsr, not asr): 5 bytes.
+  * func_0206615C takes NO argument.  Declaring it `void f(int)` and
+    calling `f(0)` costs a `mov r0, r7` the image does not have: 8 bytes
+    of size (736 -> 728).
+  * `i = 0` must be INSIDE the f80 arm, not before the test.  Hoisted it
+    becomes a `mov r7, #0` between the `ldr r0,[r5,#8]` and the `cmp`:
+    8 bytes.  The SAME move in the mode_08 != 1 body is WRONG and costs
+    4 bytes (732/582) - there the zero really is shared.
+  * the g_02147B88 chain must be re-read through a volatile cast, as
+    func_02065D4C.c does; without it the f80 load is hoisted out of the
+    three call sites that need it fresh.
+
+The residue, 575 bytes, ONE cause
+---------------------------------
+Register allocation, everywhere.  The image holds the g_02148718 pool base
+in fp for the whole mode_08==1 body and re-uses it for BOTH the f404 flag
+store and the per-entry `strh sb, [fp]`; every spelling tried (a named
+`struct G18 *g` local bound before the flag store, a member access, a
+byte-offset cast) re-loads it from a fresh `ldr r1, [pc, ...]` inside the
+loop and spends the freed register elsewhere, which then rotates the names
+of i (sl vs r8), the entry cursor (r7 vs sb), k (sb vs sl) and base
+(r8 vs fp) and shifts every instruction after.  The image also emits
+`mov r0, r6` / `ldr r0, [r0, #8]` for the f80 argument where the compiler
+emits the two loads directly; that is the same over-allocation seen from
+the other side.
+
+30-compile hill permute from the 728-byte baseline: best 736/565, i.e. it
+trades 8 bytes of size for 10 of mismatch.  No progress.
+
+Compiler pin: probed and REJECTED
+---------------------------------
+The image keeps `bne 0x2065fac` at +0x10 over a whole body and
+rematerialises `mov r0, #1` at +0x80 where 1.1p1 CSEs it from r4, which is
+the "kept branches"/"kept constants" pair of docs/FRONTEND-PINS.md.  ONE
+probe under `--cc ../2.0/sp2`: 736 bytes / 529 mismatches against the
+default's 728 / 575.  Neither is size-exact and the pin buys nothing on
+size, so NO pin is taken and none is filed in docs/FRONTEND-PINS.md.  Do
+not re-probe.
+
+/* best source, 728 bytes against 716, 575 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_02065DB4
+ * address:  0x02065DB4
+ * packet:   pkt_02065DB4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02148718     0x02148718  data  a4
+ *   g_02147B88     0x02147B88  data  a4
+ *   func_02066E20  0x02066E20  arm
+ *   func_02066DEC  0x02066DEC  arm
+ *   func_02066E10  0x02066E10  arm
+ *   func_02066DFC  0x02066DFC  arm
+ *   func_0206615C  0x0206615C  arm
+ *   func_02067B50  0x02067B50  arm
+ *   func_02067B64  0x02067B64  arm
+ *   func_020663D0  0x020663D0  arm
+ *   func_02065878  0x02065878  arm
+ *   func_02066380  0x02066380  arm
+ *   func_020659D4  0x020659D4  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed   short s16;
+typedef unsigned int   u32;
+typedef int            fx32;
+
+struct Ent {
+    u16 unk_00;
+    s16 unk_02;
+    s16 unk_04;
+    u16 unk_06;
+};
+
+struct List {
+    u16 cnt_00;
+    u16 cnt_02;
+    struct Ent *ents;
+};
+
+struct Arg {
+    struct List *list;
+    u8   pad_04[4];
+    int  mode_08;
+    void *base_0c;
+};
+
+struct G18 {
+    s16 h00;
+    u8  pad_02[2];
+    int arr04[0x100];
+    int f404;
+};
+
+struct Inner { u8 pad[0x80]; int f80; };
+struct Ctx   { u8 pad[8]; struct Inner *f8; };
+
+extern struct G18 g_02148718;
+extern struct Ctx g_02147B88;
+#define CTX ((volatile struct Ctx *)&g_02147B88)
+
+extern int  func_02066E20(void);
+extern void func_02066DEC(int);
+extern void func_02066E10(int);
+extern void func_02066DFC(void);
+extern void func_0206615C(void);
+extern int  func_02067B50(int a);
+extern int  func_02067B64(int a);
+extern void func_020663D0(fx32 x, fx32 y, fx32 z);
+extern void func_02065878(void *a);
+extern void func_02066380(int a);
+extern void func_020659D4(void *a);
+
+void func_02065DB4(struct Arg *a)
+{
+    u16 i;
+    int saved;
+    struct G18 *g;
+
+    if (a->mode_08 != 1)
+        goto other;
+
+    {
+        u16 j = 0;
+        while (j < a->list->cnt_02) {
+            g_02148718.arr04[j] = 0;
+            j = (u16)(j + 1);
+        }
+    }
+    g = &g_02148718;
+    g->f404 = 1;
+    if (CTX->f8->f80 != 0) {
+        i = 0;
+        saved = func_02066E20();
+        func_02066DEC(1);
+        func_02066E10(CTX->f8->f80);
+        while (i < a->list->cnt_00) {
+            struct Ent *e = &a->list->ents[i];
+            void *base = a->base_0c;
+            u32 k;
+            int x, y;
+
+            k = (u32)((e->unk_06 & 0xff00) << 8) >> 16;
+            g->h00 = (s16)k;
+            func_0206615C();
+            y = e->unk_04;
+            x = e->unk_02;
+            if (func_02067B50(CTX->f8->f80) != 0)
+                x = -x;
+            if (func_02067B64(CTX->f8->f80) != 0)
+                y = -y;
+            func_020663D0(x << 12, y << 12, 0);
+            func_02065878((u8 *)base + k * 0x5c);
+            func_02066380(1);
+            i = (u16)(i + 1);
+        }
+        func_02066DEC(0);
+        func_02066E10(saved);
+        func_02066DFC();
+    } else {
+        i = 0;
+        while (i < a->list->cnt_00) {
+            struct Ent *e = &a->list->ents[i];
+            void *base = a->base_0c;
+            u32 k;
+            int x, y;
+
+            k = (u32)((e->unk_06 & 0xff00) << 8) >> 16;
+            g->h00 = (s16)k;
+            func_0206615C();
+            y = e->unk_04;
+            x = e->unk_02;
+            if (func_02067B50(CTX->f8->f80) != 0)
+                x = -x;
+            if (func_02067B64(CTX->f8->f80) != 0)
+                y = -y;
+            func_020663D0(x << 12, y << 12, 0);
+            func_02065878((u8 *)base + k * 0x5c);
+            func_02066380(1);
+            i = (u16)(i + 1);
+        }
+    }
+    g_02148718.f404 = 0;
+    return;
+
+other:
+    {
+        void *base = a->base_0c;
+        i = 0;
+        if (CTX->f8->f80 != 0) {
+            saved = func_02066E20();
+            func_02066DEC(1);
+            func_02066E10(CTX->f8->f80);
+            while (i < a->list->cnt_00) {
+                func_020659D4((u8 *)base + i * 0x28);
+                i = (u16)(i + 1);
+            }
+            func_02066DEC(0);
+            func_02066E10(saved);
+            func_02066DFC();
+        } else {
+            while (i < a->list->cnt_00) {
+                func_020659D4((u8 *)base + i * 0x28);
+                i = (u16)(i + 1);
+            }
+        }
+    }
+}
+
+==============================================================================
+2026-09-21: 0x020691E0 (748 bytes) -- not attempted, one `show` only
+==============================================================================
+
+`push {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr}` plus `sub sp, sp, #0x38`: ten saved
+registers and a 56-byte frame with SEVEN incoming stack arguments read from
+[sp,#0x60] through [sp,#0x6c], a `clz`-based log2 computed twice against a
+bound of 8, a two-dimensional byte table at 0x020A18F4 indexed
+`[r1 + r2*2]` and `[r1 + r2*2 + 1]`, and a RECURSIVE tail
+(`bl 0x20691e0` at 0x020694B0) that accumulates a return value through
+[sp,#0x24].  Oversized for one pass per the brief's section 7; skipped
+after the one `show`.  Its neighbours in docs/notes/pkt_02068FF0.c.txt
+(0x02069078, 0x02069128, 0x02069184) are the smaller members of the family
+and are all still DIFF on register naming.
