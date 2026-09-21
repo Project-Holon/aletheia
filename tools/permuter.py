@@ -178,16 +178,61 @@ def reads_of(node):
     return r
 
 
+def mem_accesses(node, writes):
+    """(base, field) for every memory access in `node`: field is the member name for p->f /
+    s.f, a constant index for a[3], or None when unknown (then it may alias anything)."""
+    out = set()
+    for n, p, a, k in walk(node):
+        is_store = isinstance(p, c_ast.Assignment) and a == "lvalue" or \
+            (isinstance(p, c_ast.UnaryOp) and p.op in ("p++", "p--", "++", "--", "&"))
+        if writes != is_store and not (writes is False and is_store and isinstance(p, c_ast.Assignment) and p.op != "="):
+            continue
+        if isinstance(n, c_ast.StructRef):
+            base = n.name.name if isinstance(n.name, c_ast.ID) else None
+            if isinstance(n.name, c_ast.UnaryOp) and n.name.op == "*" and isinstance(n.name.expr, c_ast.ID):
+                base = n.name.expr.name
+            out.add((base, n.field.name))
+        elif isinstance(n, c_ast.ArrayRef):
+            base = n.name.name if isinstance(n.name, c_ast.ID) else None
+            out.add((base, "[%d]" % const_val(n.subscript) if const_val(n.subscript) is not None else None))
+        elif isinstance(n, c_ast.UnaryOp) and n.op == "*":
+            out.add((None, None))
+    return out
+
+
+def may_alias(x, y):
+    """Two accesses (base, field) may touch the same memory unless both are named fields or
+    constant indices of the same base object with different names."""
+    bx, fx = x
+    by, fy = y
+    if fx is None or fy is None:
+        return True
+    if bx is not None and bx == by:
+        return fx == fy
+    # different base pointers: a struct field and an array slot never alias by name; two
+    # struct fields with different names are taken as distinct objects (type-based rule)
+    return fx == fy
+
+
 def independent(a, b):
     """True when statements a and b can be swapped without changing the result."""
     wa, wb, ra, rb = writes_of(a), writes_of(b), reads_of(a), reads_of(b)
     if "*" in wa or "*" in wb:
         return False
-    if "*mem" in wa and ("*mem" in wb or "*mem" in rb):
+    # register-level dependencies
+    if (wa - {"*mem"}) & rb or (wb - {"*mem"}) & ra or (wa - {"*mem"}) & (wb - {"*mem"}):
         return False
-    if "*mem" in wb and ("*mem" in wa or "*mem" in ra):
-        return False
-    return not (wa & rb) and not (wb & ra) and not (wa & wb)
+    # memory-level dependencies, field by field
+    if "*mem" in wa or "*mem" in wb:
+        sa, sb = mem_accesses(a, True), mem_accesses(b, True)
+        la, lb = mem_accesses(a, False), mem_accesses(b, False)
+        for x in sa:
+            if any(may_alias(x, y) for y in sb | lb):
+                return False
+        for y in sb:
+            if any(may_alias(y, x) for x in la):
+                return False
+    return True
 
 
 def is_simple_type(t):
