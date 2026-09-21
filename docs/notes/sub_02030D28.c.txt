@@ -131,3 +131,45 @@ void sub_02030D28(struct Ctx *c)
 
     c->cursor->fn = 0;
 }
+
+====================================================================
+2026-09-21, time_icon.c family wave.  Baseline re-verified with the family
+header (docs/families/time_icon.h) in place: still 124 bytes, correct
+size, 13 concrete bytes out, 0 relocation sites.  The measurement is
+stable and the note's C is confirmed as the right starting point.
+
+tools/permute.py run mechanically over the body, --mode hill --budget 40
+--seed 1 --arm, 17 compiles:
+
+  rank 1  DIFF 124  13 miss  (baseline)
+  rank 2-7 DIFF 124  13 miss  every combination of swap'!='@L76,
+                              swap'=='@L85, swap'!='@L86
+  rank 8-10 DIFF 160 103 miss volatile-param@L74 (and its combinations)
+
+Only seven mutations have any purchase on this source -- three comparison
+swaps, volatile-param and const-param on the single parameter -- because
+the body has no local declarations at all to permute (that is the point of
+the function: the traversal state lives in the context, not in locals).
+Every value-preserving variant compiles to byte-identical output at 13
+mismatches; the only variants that move the number move it the wrong way,
+and volatile-param costs 36 bytes.
+
+This closes the question the note left open.  The hand-written list of six
+spellings and the permuter's mechanical enumeration agree: the residue is
+not reachable from the source.  The original shortens r1's live range by
+clobbering the loop-carried register with the successor pointer at the top
+of the body; 1.1p1 -O4,p keeps r1 live across the body and spends r0/r2 on
+the temporaries.  Both are correct allocations of identical live ranges,
+and C has no way to express which register a value gets.
+
+FAMILY CONTEXT: this is the THIRD register-allocation residue in the
+0x0202EE30..0x02030FC8 span, alongside sub_0202FB34 (the step constant
+cannot be kept in lr because lr goes to the strength-reduced S-box base)
+and func_0202F1B4 (a five-live-values/four-callee-saved-registers spill
+tie broken the other way).  All three are the same class of wall: correct
+semantics, correct size or near it, and a residue that lives entirely in
+the register allocator.  None of the three is a front-end tell, so none
+warrants a FRONTEND-PINS.md row; a pin would need byte evidence that an
+alternative front end makes the allocation choice the image shows, and for
+sub_02030D28 no such probe has been measured.
+====================================================================

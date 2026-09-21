@@ -79,3 +79,30 @@ found:
     func_020307B0(v);
     return (int)i;
 }
+
+==============================================================================
+FAMILY WAVE (clact.c), 2026-09-21: the 0x104 sub-object spelling does not help
+==============================================================================
+
+docs/families/clact.h settles that +0x104 of the singleton is a real 0x20-byte
+sub-object (struct ClRes) that func_0204D7E0 constructs and func_0204D8AC
+destroys, and that func_0204DEE8 takes a pointer to it.  So the natural C for
+this row spells the outer pad as exactly 0x104 and reaches both the count and
+the array through `&g->res`, which is the shape the header predicts.
+
+MEASURED: no change.  184 bytes (correct size), 4/4 sites resolved once
+lbl_02146A74 is in the symbols: block, and the SAME 17 concrete bytes out that
+this note's spelling (C) already had.  mwcc still splits the 0x11a field offset
+as 0x100 + 0x1a and still reaches the array straight off the global at +0x110,
+regardless of whether the sub-object is declared as a nested struct, reached by
+a cast, or reached by `&g->res`.  The address-base choice is made by the ldrh's
+8-bit immediate reach, not by the source's struct nesting, exactly as the
+original analysis said.
+
+ALSO TRIED, worse: named `ClRes *r` local plus `volatile u16 count`, on the
+theory that the volatile would stop the loop-bound hoist that made the earlier
+named-local attempt cost 138 bytes.  It does stop the hoist, but the volatile
+itself costs four bytes: 188 compiled against 184.
+
+The blocking class is unchanged and is codegen, not evidence: address-base
+selection for the ldrh.  All four relocations resolve.

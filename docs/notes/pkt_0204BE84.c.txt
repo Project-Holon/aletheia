@@ -85,3 +85,48 @@ wave r8 lane small-1: 0x0204BF28 re-verified (the row named after this packet)
   Marked in this lane's report as parked, class own-pool, with the verbatim
   unresolved line above.  No further transcription spent on it.
 
+
+==============================================================================
+FAMILY WAVE (clact.c), 2026-09-21: 0x0204BE84 re-measured, all sites resolve
+==============================================================================
+
+Re-verified the body transcribed above under dsi/1.1p1 -O4,p --arm with the
+symbols: block filled in:
+
+  DIFF  compiled 160 bytes against the original's 164, 4 of 4 sites resolved
+    +0010 PC24  func_02065B74 -> [sole-ref x1]
+    +0048 PC24  func_0204BF28 -> [sole-ref x1]
+    +0098 ABS32 g_020A1418    -> [data_table x2]
+    +009C ABS32 g_020A13F4    -> [literal x4]
+  110 concrete bytes differ
+
+Worth noting for whoever takes this next: this row is NOT evidence-blocked.
+All four sites resolve today (func_02065B74 and func_0204BF28 both by the
+widened sole-ref/code class).  A byte-exact result is EXACT.  That is a change
+from when the body above was written.
+
+WHAT THE RESIDUE ACTUALLY IS.  Everything from +0x50 to the end is already
+byte-identical; the diff only looks total because the compile is FOUR BYTES
+SHORT and the two-column view shifts every later row by one instruction.  The
+whole residue is the first store block: the image hoists all four `ldrsh`
+loads and the four `lsl #12` above the first `str`, interleaved as
+
+    ldrsh f0 ; ldrsh f2 ; ldrsh f6 ; lsl ; lsl ; ldrsh f4 ; ldr f8 ; lsl ;
+    str ; lsl ; mov ; str ; str ; str
+
+-- note the f8 word load lands INSIDE the block, before the stores -- while
+every spelling tried emits the natural load/shift/store quartet four times.
+
+TRIED THIS WAVE, both worse or neutral:
+  * four named temporaries for the shifted values, the lever that took
+    func_0204D224 from 115 bytes to 2 (see
+    docs/notes/pkt_0204D18C.func_0204D224.c.txt).  Here it lets mwcc CSE the
+    shifts instead: 156 bytes, EIGHT short, 95 out.
+  * store order permuted so f6 precedes f4 (matching the image's load order):
+    160 bytes, 109 out.  One byte better than the baseline, i.e. noise.
+
+Next lever to try, untested: force the f8 load to happen before the stores by
+binding `g_020A1418[a1->f8]`'s index to a local ABOVE the four stores, so the
+`ldr r1,[r4,#8]` is scheduled into the block the way the image has it.  The
+volatile trick that closed func_0204D224 is NOT applicable here -- the four
+stores are already separate, there is no stm to break.

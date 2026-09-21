@@ -8,9 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-21 (time_icon.c family wave): MATCH, 212 bytes,
+ *           8 of 10 relocation sites resolved.  Down from 3 unresolved sites to 2.
  * blocker:  ABS32 g_02146970 at +0xC8: 0x02146970 has 1 witness image-wide (a pool word at 0x02030B44), inside this extent
- * blocker:  ABS32 str_system_name at +0xCC: 0x020A7824 has 1 witness image-wide (a pool word at 0x02030B48), inside this extent; the string class refuses it too
+ * blocker:  (CLEARED 2026-09-21) ABS32 str_system_name at +0xCC now RESOLVES on
+ *           sole-ref x1 -- the class was widened 2026-09-21 to accept an address that
+ *           lands on something the layout recognises, and 0x020A7824 is the start of a
+ *           NUL-terminated printable run (sole-ref/string).  The note below about
+ *           attest_string() refusing it is still accurate for the OLD `string` class
+ *           and is kept for the record, but it no longer blocks this file.
  * blocker:  ABS32 g_0214697C at +0xD0: 0x0214697C has 1 witness image-wide (a pool word at 0x02030B4C), inside this extent
  * symbols:
  *   g_02146970      0x02146970  data

@@ -109,3 +109,44 @@ void sub_0202FB34(struct Rc4 *ctx, const u8 *src, s32 len, u8 *dst)
     ctx->i = i - 1;
     ctx->j = j;
 }
+
+/* ------------------------------------------------------------------------
+ * 2026-09-21, time_icon.c family wave.  Re-attacked with the family header
+ * (docs/families/time_icon.h) in place.  The note above is CONFIRMED, not
+ * superseded: the 116-byte source below re-verifies at exactly 116 bytes,
+ * 101 concrete bytes out, so the four-byte gap is stable and was not a
+ * stale measurement.
+ *
+ * Three further spellings of the left-justified representation, all aimed
+ * at the one thing the note identifies as the blocker -- getting the step
+ * constant CSE'd into a register (the original's `mov lr, #0x1000000`,
+ * reused by both `add r7, lr, r7, lsl #24` and `add r7, r7, lr`) instead of
+ * folded into each add as an immediate:
+ *
+ *   step held in a named u32 local, struct-typed ctx      128 bytes
+ *     -> the compiler spends lr on the strength-reduced S-box base
+ *        (`add lr, r0, #4`), so lr is not available for the constant and
+ *        the step folds to `add ip, r4, #0x1000000`.  This is the note's
+ *        "strength-reduces &s[i >> 24] into its own register" finding,
+ *        now localised to the exact register conflict that causes it:
+ *        the original spends lr on the CONSTANT and keeps the base in r0.
+ *   ctx as u8 * with `ctx += 4`, indices off ctx[-4]/ctx[-3]  144 bytes
+ *     -> denying the struct costs a further callee-saved register:
+ *        push {r3, r4, r5, r6, r7, r8, sb, lr} against the original's
+ *        seven-register push {r4, r5, r6, r7, r8, sb, lr}.
+ *   step seeded from a `volatile u32 one` to defeat the folding  136 bytes
+ *     -> the volatile earns its own stack slot and the frame grows; the
+ *        constant does reach a register but by then the shape is further
+ *        from the original than the plain u8-index version.
+ *
+ * So the register allocation is the wall, not the arithmetic: every source
+ * spelling that makes the step a live register value also takes lr (or a
+ * callee-saved register) away from something the original needs it for.
+ * The C cannot assign registers, so this is not steerable from the source.
+ * Still the closest: the 116-byte u8-index version above.  No pin is
+ * proposed -- the tells in docs/FRONTEND-PINS.md are kept-constant and
+ * kept-branch shapes, and this is neither; it is a byte-wide induction
+ * variable representation choice, and a pin would need byte evidence that
+ * an alternative front end emits the `lsr #24` addressing with the
+ * seven-register push, which has not been measured.
+ * ------------------------------------------------------------------------ */

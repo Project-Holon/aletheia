@@ -51,3 +51,87 @@ Ruled out: u32 i (gives blo on both back edges); splitting the two
 0xac/0xb0 tests into two statements that each recompute `i * 2` (same
 allocation); caching the element pointer in a named local (adds a
 callee-saved register and shifts the whole body).
+
+
+======================================================================
+2026-09-21, FAMILY wave (field_sound_system.c).  Re-attacked with
+docs/families/field_sound_system.h in place.  Still DIFF, still the SAME
+4 bytes.  This is now believed to be a codegen wall, not a search failure.
+
+The residue is unchanged from the original write-up: the original consumes
+the scaled index r1 in place for the second access, the compiler preserves
+r1 and allocates r0.
+
+  +0032  adds r1, r5, r1   | adds r0, r5, r1
+  +0034  adds r1, #0xb0    | adds r0, #0xb0
+  +0036  ldrh r1, [r1]     | ldrh r0, [r0]
+  +0038  cmp r1, r6        | cmp r0, r6
+
+What the header fixed, and why it did not help here: the family header
+establishes that +0xac and +0xb0 are TWO u16[2] tables in one struct (the
+`struct SysSlots` shape func_02028B50's header argues for and func_02028B18
+and func_02028BA0 confirm), and that the 0xffff comparand is a full 32-bit
+pool constant in r6, not a Thumb immediate.  Both were already right in the
+previous best source, so the header confirmed the model rather than
+correcting it.
+
+Measured this pass, each a structurally distinct spelling, each 84 bytes
+with exactly 4 mismatches:
+
+  struct with u16 lo[2]/u16 hi[2] and a nested if       (the prior best)
+  the same with `continue` instead of nesting
+  the same with 0xffff written on the LEFT of both compares
+  ONE u16 cell[4] field, second access spelled cell[i+2]
+  raw `*(u16 *)(o + 0xac + i*2)` byte arithmetic, as func_02028BA0 does
+  the 0xffff sentinel hoisted into a named u32 local
+  a `while` loop with the increment written out
+  an `else if` chain sharing one exit instead of a nested if
+  compound `s->mask &= ~mask` instead of the spelled-out assignment
+  a named local bound to the hi value before the compare
+  both values bound to named locals with `continue`
+
+tools/permute.py, 120-mutation budget, 55 compiles: baseline 4 mismatches,
+best 4 mismatches, and EVERY one of the top ten ranked variants also 4.
+The mutation set (swap of comparison operand order, parameter signedness,
+declaration order) has no purchase at all here -- the allocation of that
+one four-instruction run is invariant under every source-level rewrite
+either the permuter or this pass could express.
+
+Conclusion: the C model is correct and complete.  The difference is which
+register mwccarm assigns to a dead-after-use scaled index in the second
+half of a two-iteration loop body.  Not closable from C at -O4,p /
+dsi/1.1p1.  Do not re-derive the semantics; if this is ever revisited,
+the question is a codegen one, not a spelling one.
+
+/* best source, 84 bytes against 84, 4 concrete bytes out, dsi/1.1p1 -O4,p */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_020061E4(void);
+extern void func_020061F0(void);
+
+struct S { u8 pad[0xac]; u16 lo[2]; u16 hi[2]; u32 mask; };
+
+void func_02028BDC(struct S *s, u32 mask)
+{
+    int i;
+
+    if ((s->mask & mask) == 0)
+        return;
+
+    s->mask = s->mask & ~mask;
+
+    if (s->mask != 0)
+        return;
+
+    for (i = 0; i < 2; i++) {
+        if (s->lo[i] != 0xffff) {
+            if (s->hi[i] == 0xffff)
+                func_020061E4();
+            else
+                func_020061F0();
+        }
+    }
+}

@@ -8,7 +8,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * note:     re-verified 2026-09-20: DIFF; see verify output
+ * note:     re-verified 2026-09-21 (time_icon.c family wave): DIFF, 168 bytes compiled
+ *           against the listing's 188-byte extent, 115 concrete bytes out.
+ *
+ * HEADER CORRECTION.  The prose block below says "PARKED AT MATCH.  Every concrete
+ * byte is right".  That is NOT true of this file as it stands and has not been true
+ * since at least 2026-09-20, when the status line was already set to DIFF.  The two
+ * disagreed; the status line is the correct one and the prose is stale.  The real
+ * residue is structural, not evidential: the compiled switch arms are in a different
+ * order from the original's and one arm is missing the `movs r0, #0xb3` argument, so
+ * the body is 20 bytes short.  The three unattested ABS32 sites described below are
+ * real and would still cap the file, but they are the SECOND problem, not the first.
+ * Fixing the arm order and the missing argument comes before any evidence work.
  *
  * Audio-state step: dispatch on the byte-pair state word the caller points
  * at and run one transition per arm, storing the next state through the same

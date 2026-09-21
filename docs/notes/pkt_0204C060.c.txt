@@ -352,3 +352,53 @@ int func_0204C2C8(struct Obj *o, struct Pair *p, s32 unused2, s32 unused3,
                            a2 << 12, ax << 12, bx << 12, b2 << 12, box) ? 1 : 0;
     return 0;
 }
+
+==============================================================================
+FAMILY WAVE (clact.c), 2026-09-21: 0x0204C2C8's stated BLOCKER IS GONE
+==============================================================================
+
+The section above ends with:
+
+  "BLOCKER, independent of codegen: the sole PC24 site at +0x00D8 needs
+   func_0204C3CC, whose only branch anywhere in the image is the `bl` at
+   0x0204C3A4 INSIDE this function, so `label` refuses it. ... Even a
+   byte-exact result here caps at MATCH until then."
+
+That is no longer true.  The sole-ref class was widened on 2026-09-21
+(docs/AGENT-BRIEF.md section 5, sole-ref/code): a code-kind site whose address
+is exactly a traced function start is now attested with no outside branch
+required.  0x0204C3CC is exactly such a start, and match.py now prints
+
+  +00D8 PC24 func_0204C3CC  -> 0204C3CC  [sole-ref x1, e.g. 0204C3CC]
+
+with all three sites resolved.  A byte-exact 0x0204C2C8 is therefore EXACT
+today, without filing 0x0204C3CC first.  This row's value went up accordingly
+and it should be re-prioritised.
+
+CODEGEN STATE, re-measured this wave.  The note above claims its C reaches
+"60 concrete bytes out".  That does NOT reproduce: the source as transcribed
+in this file compiles to 260 bytes (correct size, 3/3 sites resolved) with
+183 concrete bytes differing under dsi/1.1p1 -O4,p.  Either the 60 figure was
+measured on a source that did not survive into the note, or on different
+flags.  Treat 183 as the real baseline.
+
+Best this wave: 175, by moving the mask/index computation BELOW the first
+clamp so the statement order matches the image (`cmp r6,#0xff` / `orrgt` come
+before `and r5, r3, r0` in the original).  Keep the three `*x` volatile reads:
+collapsing them to one named local drops the size to 256 and loses the plan.
+
+TRIED AND WORSE, do not repeat:
+  * the note's own "add an eighth argument to widen the outgoing area to
+    0x10" suggestion -- it overshoots to 268 bytes (200 out).  The image's
+    `ldr r7,[sp,#0x28]` is the FIFTH parameter being re-read, not an eighth
+    argument, so the 0x10 outgoing area has to come from the argument shapes,
+    not from the count.
+  * one named local for `*x` instead of three volatile reads (256 bytes).
+
+REMAINING RESIDUE, one concrete cause: the first clamp.  The image emits
+`orrgt r2, r6, r0, asr #22`, keeping the pool word 0x00C000C0 live in r0 and
+folding its `>> 22` into the OR's shifter operand.  Every spelling tried lets
+1.1p1 constant-fold `(s32)k >> 22` to the literal 3 and emit `orrgt r0, r6, #3`,
+which frees r0, costs the pool word its second use and reallocates the block.
+Closing this row means finding a spelling in which the mask word is provably
+not a compile-time constant while still being materialised once.

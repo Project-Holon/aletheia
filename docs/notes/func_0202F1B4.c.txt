@@ -91,3 +91,40 @@ func_02017DBC call in a way the allocator cannot satisfy by re-loading the
 incoming fifth-parameter slot -- the original spends a store on it, so look
 for a spelling in which the selector is read after the call through a
 separate named local that also survives to the tail.
+
+====================================================================
+2026-09-21, time_icon.c family wave.  The "NEXT ATTEMPT" above was tried
+in both readings and neither closes the residue.  Baseline re-verified:
+the note's own C still gives 176 bytes / 129 concrete bytes out, so the
+measurement is stable.
+
+  1. selector declared `volatile u32 b`           184 bytes, 166 out
+     Intended to force the spill-before-the-call by denying the allocator
+     the option of keeping the selector in r5.  It does deny it, but the
+     cure is worse: volatile makes every READ of the selector a fresh
+     load, so instead of the original's one `str r1, [sp]` at the head the
+     arms each reload it, the frame still carries no `sub sp, #8`, and the
+     body drifts further than the baseline.
+
+  2. `sel = b; ee = e;` bound to plain named locals BEFORE the call, both
+     live to the tail                              176 bytes, 129 out
+     Byte-identical to the baseline: the copies fold away exactly as the
+     note already measured for `u32 m = b`.  Binding the fifth parameter
+     as well does not change the tie either -- the allocator still prefers
+     re-loading the incoming stack slot in each arm over spending a head
+     store, and still keeps parameter 1 in r5.
+
+DIAGNOSIS UNCHANGED, now with the mechanism named: five values must live
+across the func_02017DBC call and only four callee-saved registers exist,
+so one must be spilled.  The original spends ONE store at the head
+(`str r1, [sp]`) and gives r4/r5/r6/r7 to a/c/d/e.  1.1p1 -O4,p instead
+keeps parameter 1 in r5 and pays with THREE `ldr r2, [sp, #0x18]` reloads
+in the arms.  Both are legal allocations of the same live ranges; which one
+is chosen is a spill-cost decision inside the register allocator, and no
+source-level spelling reaches it -- C can express which values are live,
+which is already correct here, but not which of them goes to memory.
+
+Ruled out as a pin: the note already measured ../1.2/sp2 at 196 bytes with
+a different dispatch shape, so the alternative front end is further away,
+not closer.  No FRONTEND-PINS.md row is warranted.
+====================================================================

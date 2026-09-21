@@ -57,3 +57,114 @@ __FILE__ string 0x020A7F74 (see
 docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).  The size
 argument here is the return value of func_020648B4(*(u32 *)(a1 + 0x14), 1), not a
 constant.
+
+==============================================================================
+FAMILY WAVE (clact.c), 2026-09-21: func_0204D224 driven 115 -> 2 bytes
+==============================================================================
+
+Two levers, both new, take this row from "compiled 160 against 184, 111-115
+bytes out" to 164 against 184 with TWO concrete bytes differing.  All six
+relocation sites resolve (func_020648B4/02030734/02064754/020627D8/0206469C
+by `label`, s_clact_c by `literal` x52), so this row is NOT evidence-blocked:
+it is two register assignments away from EXACT.
+
+LEVER 1 -- `volatile` on the destination's +0x04 field defeats the stmib.
+The earlier waves recorded that the compiler merges the first two stores into
+`stmib r5, {r3, ip}` where the image keeps four separate `str`, and tried to
+break the merge by REORDERING the store statements.  Reordering does not work
+(it only permutes which pair merges).  Declaring the +0x04 member
+`volatile u32` does: a volatile store cannot be merged into a multiple-store,
+so all four stores stay separate, the frame comes back to the image's shape
+and the residue collapses from 115 to 9.  Note the +0x74 member must stay
+NON-volatile -- making both volatile costs the register plan and goes to 36.
+
+LEVER 2 -- the four temporaries pair with the stores in a permuted order.
+With lever 1 in place the only residue is which temporary feeds which store.
+The 24 pairings were swept; the image's is
+
+    p->f04 = t2;  p->f08 = t1;  p->f70 = t0;  p->f74 = t3;
+
+(that is, the f04 and f70 stores take each other's "natural" temporary), which
+reaches 2 bytes.  The declaration ORDER of the four temporaries does not
+matter -- all 24 orders were swept with the pairing above and none beat it,
+because mwcc re-sorts the loads itself; only the store pairing is reachable
+from the source.
+
+THE LAST TWO BYTES.  The residue is exactly:
+
+    +0028  str ip, [r5, #4]     |  str r0, [r5, #4]
+    +0030  str r0, [r5, #0x70]  |  str ip, [r5, #0x70]
+
+i.e. the f0c and f14 values are in each other's registers at the two stores.
+Every load is now byte-identical and every instruction from +0x38 to the end
+is byte-identical.  This is the allocator class of
+docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md:
+same instructions, same order, two registers swapped.  Swapping the two stores
+in the source just swaps the residue back (measured: the `t0/t2` pairing gives
+9 and the `t2/t0` pairing gives 2; nothing gives 0).
+
+/* best source, 164 bytes against 184, 2 concrete bytes out, dsi/1.1p1 -O4,p */
+/*
+ * function: func_0204D224
+ * address:  0x0204D224
+ * packet:   pkt_0204D18C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   s_clact_c      0x020A7F74  data
+ *   func_020648B4  0x020648B4  arm
+ *   func_02030734  0x02030734  arm
+ *   func_02064754  0x02064754  arm
+ *   func_020627D8  0x020627D8  arm
+ *   func_0206469C  0x0206469C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+struct P {
+    u32 f00;
+    volatile u32 f04;
+    u32 f08;
+    u8  pad_0c[0x70 - 0x0c];
+    u32 f70;
+    u32 f74;
+    u32 f78;
+};
+
+struct A {
+    u8  pad_00[0x0c];
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+};
+
+extern char s_clact_c[];
+extern u32  func_020648B4(u32 a, u32 b);
+extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void func_02064754(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern u32  func_020627D8(u32 a, u32 b);
+extern void func_0206469C(void *a, u32 b);
+
+void func_0204D224(struct P *p, struct A *a1, u32 heap)
+{
+    u32 t0 = a1->f0c;
+    u32 t1 = a1->f10;
+    u32 t2 = a1->f14;
+    u32 t3 = a1->f18;
+
+    p->f04 = t2;
+    p->f08 = t1;
+    p->f70 = t0;
+    p->f74 = t3;
+
+    p->f78 = (u32)func_02030734(heap, func_020648B4(t2, 1), 0, s_clact_c, 0x171d);
+    func_02064754((u8 *)p + 0xc, p->f78, p->f08, p->f04, p->f70, 1);
+    func_0206469C((u8 *)p + 0xc, func_020627D8(p->f74, 0));
+}
