@@ -76,3 +76,114 @@ stays MATCH, because its `+002C ABS32 func_02014698` site needs either this
 file's EXACT manifest entry (`matched` class) or a pool word outside
 02014728..02014758.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02014698.c:12: declaration syntax error
+
+========================================================================
+APPENDED 2026-09-22 -- family wave 6 (field_status.c), permuter lane
+========================================================================
+STATUS: DIFF, 1 concrete byte of 96.  Unchanged from the 2026-09-21
+write-up above; this section records that the PERMUTER has now been run
+against it and cannot move it, so the residue should not be re-attacked
+by search.
+
+The note's own re-verify line said CCERR because the body above is prose
+inside a listing, not a compilable file.  The source was reconstructed
+from that listing verbatim and does compile; the recovered file is the
+one marked below and it reproduces the documented residue exactly.
+
+/* best source, 96 bytes against 96, 1 concrete bytes out, dsi/1.1p1 */
+
+typedef unsigned int u32;
+
+extern u32  func_020144DC(u32 a, u32 b);
+extern void func_020120B4(u32 a, u32 b, u32 c, u32 d);
+extern u32  func_020120F0(void);
+extern u32  func_020145CC(u32 a);
+extern void func_02012374(void *evt, void *out);
+
+u32 func_02014698(void *obj, u32 *mode, u32 *p)
+{
+    u32 a0 = p[0];
+    void *r;
+
+    switch (*mode) {
+    case 0:
+        r = (void *)func_020144DC(a0, p[1]);
+    notify:
+        func_02012374(obj, r);
+    inc:
+        (*mode)++;
+        goto ret0;
+    case 1:
+        func_020120B4(a0, p[2], p[3], p[4]);
+        goto inc;
+    case 2:
+        if (func_020120F0() != 0) {
+            goto ret0;
+        }
+        goto inc;
+    case 3:
+        r = (void *)func_020145CC(a0);
+        goto notify;
+    case 4:
+        return 1;
+    default:
+    ret0:
+        return 0;
+    }
+}
+
+All 5 relocation sites resolve (label).  The residue is the single byte
+the earlier section names:
+
+  +0050   ORIGINAL  `f9 e7`  b #0x020146DE   |   COMPILED  b #0x020146CC
+
+PERMUTER RESULT -- the residue is not an allocation tie
+-------------------------------------------------------
+  python3 tools/permuter.py --src F --func func_02014698 \
+      --addr 0x02014698 --thumb --explain
+  baseline  DIFF   asm=5     bytes-out=1    size=96/96
+  (no register substitutions printed at all)
+
+  --mode hill   --budget 800  --jobs 8 --types
+      no single mutation improves DIFF asm=5 bytes-out=1 (108 tried)
+  --mode anneal --budget 900  --jobs 8 --types
+      best DIFF asm=5 bytes-out=1 size=96/96 (900 compiles, 66s)
+
+That EMPTY substitution map is the finding.  Every other stuck row in
+this wave printed at least one `image -> compiled` pair; this one prints
+none, which says every register and every spill slot is already right
+and the only difference is which block the branch at +0x50 lands on.
+The permuter's whole mutation set (temp/expand/reorder/hoist/copy/
+use/selfassign/decl-order/...) exists to perturb the colouring, so a
+residue with no colouring component is outside what it can reach, and
+1008 compiles across the two modes confirm that empirically rather than
+by argument.  Per the lane lesson "a residue the permuter cannot move at
+all is usually in the declarations": here it is not the declarations,
+it is the block builder, and the corollary is that this row will not
+fall to search of any budget.
+
+TWO FURTHER SPELLINGS TRIED BY HAND (both re-confirm the earlier list)
+  * case 1 tail labelled `jmp: goto inc;` with case 2 doing `goto jmp;`
+    -- 1 byte, identical residue.  (1.1p1 threads the jump through; this
+    duplicates the 2026-09-21 entry and is recorded again only because
+    it is the shape the residue most obviously suggests.)
+  * case 2 given its own copy of case 1's call before `goto inc`
+    -- 102 bytes, 6 bytes LONGER.  Copying the arm does not persuade the
+    front end to share the tail; it just emits the arm twice.
+
+WHAT WOULD ACTUALLY CLOSE IT
+The original shares case 2's tail jump with case 1's trailing `b inc`,
+i.e. the original's block builder left a jump-to-a-jump in place and
+1.1p1's threads it.  No C-level change can express "please do not thread
+this branch": the threading happens after the source shape is gone.  So
+no C change could help, and this is a front-end block-layout difference,
+not a decompilation error.  The 95 other bytes, all 5 relocations and
+the entire control-flow graph are right.
+
+COST OF LEAVING IT OPEN -- REDUCED, and worth re-checking
+The earlier section says its caller 0x02014728 stays MATCH for want of
+this file's EXACT entry.  That is NO LONGER TRUE: src/matched/func_02014728.c
+is EXACT today (its +002C ABS32 func_02014698 site now carries, per its
+own header, a filed blocker), so this row no longer blocks anything
+downstream.  Its only remaining value is its own 96 bytes of coverage.
+re-verified 2026-09-22 by tools/match.py: DIFF, 96 bytes against 96, 1 concrete bytes out, dsi/1.1p1

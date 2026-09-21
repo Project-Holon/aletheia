@@ -32,3 +32,55 @@ func_02035ADC) reproduces byte for byte, so the entry is one scheduling
 decision short of EXACT.  The neighbouring leaf at 0x02035A70 that the pair
 calls is already matched, so attestation is not the blocker.
 re-verified 2026-09-21: no recoverable source in this note
+
+--------------------------------------------------------------------------
+RESOLVED 2026-09-22 (family wave 5, touchpanel.c).  func_02035ADC is EXACT
+in src/matched/func_02035ADC.c; this note's near miss is superseded.
+
+The 21-byte head was a DECLARATION residue, not a scheduling one.  All four
+spellings tried above, and four more added this wave (`&p[i*4]`, a `u32 *`
+base with a cast, x/y pre-bound to locals so the address expression is
+scheduled last, and a `rec` local declared last among the locals), give the
+identical 21-byte head, because all eight are pointer arithmetic on a `u8 *`
+parameter: the record address becomes a value that must be computed and kept
+live, and the compiler always materialises it ABOVE the two tag compares.
+The original computes it with `add r0, r7, r4, lsl #2` BELOW both compares,
+which is only possible if the address is an addressing-mode computation
+rather than a live value.
+
+Declaring the record as a four-byte struct and indexing the array does that:
+
+    struct R { u8 t; u8 a; u8 b; u8 c; };
+    int func_02035ADC(struct R *p, u32 x, u32 y)
+    {
+        int i = 0;
+        while (p[i].t != 0xff) {
+            if (p[i].t != 0xfd) {
+                if (p[i].t == 0xfe) {
+                    if (func_02035A70((u8 *)&p[i], x, y) != 0) return i;
+                } else {
+                    if (func_02035AA4((u8 *)&p[i], x, y) != 0) return i;
+                }
+            }
+            i++;
+        }
+        return -1;
+    }
+
+EXACT with no permuter mutation at all.
+
+Permuter record, for the lesson rather than the result.  From every
+pointer-spelled start tools/permuter.py reports the residue as a single clean
+substitution (`r0 -> r1 x3`) and converges on the same best point:
+
+    hill   800/8 jobs --types:  DIFF asm=30 bytes-out=8 size=124/124
+                                <- temp(tmp=p + (i * 4))
+    anneal 900/8 jobs --types:  plateau at the same point, 900 compiles, 53s
+
+and that mutation is NOT value-preserving here: it hoists `p + i * 4` out of
+the loop where `i` is still 0, so `tmp` is a stale `p` for every iteration
+after the first.  It is still the useful signal, because it says the lever is
+how the record address is BOUND, not where the statements sit; the legitimate
+version of "bind the address differently" is the struct declaration.  A
+residue the permuter cannot move below a floor from any start is in the
+declarations, as the earlier lanes' lesson says.

@@ -101,3 +101,141 @@ prologue.
 Both residues are tie-breaks with every concrete value correct.  DIFF,
 so no file under src/.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED 2026-09-22 -- family wave 6 (field_status.c), permuter lane
+========================================================================
+STATUS: DIFF, 16 concrete bytes of 204 (212 compared, see extent note).
+Both residues above reproduce exactly.  This section records the
+recovered compilable source (the 2026-09-21 re-verify line said "no
+recoverable source in this note", because the body above is a listing
+in prose) and the fact that the PERMUTER has now been run and moves
+neither residue.
+
+/* best source, 212 bytes against 212, 16 concrete bytes out, dsi/1.1p1 */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern u32   func_02014A10(u32 a);
+extern void *func_02014A20(u32 archive, u32 member, u32 *count, u16 heap);
+extern u32   func_02013F2C(u16 id);
+extern u32   func_02013B38(u16 id);
+extern void *func_0201407C(u16 heap, u32 a, u32 b);
+extern u32   func_020140DC(void *q);
+extern void  func_020140B4(void *q);
+extern void  func_02014A80(void *p, u32 count, s32 off, u32 b0, u16 *b1);
+extern void  sub_020307B0(void *p);
+
+void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
+                   u32 b0, u16 *b1, u32 b2)
+{
+    u32 count;
+    void *p = 0;
+    s32 o2;
+    s32 o1;
+
+    o1 = a2 * 0x3c;
+    o2 = a1 * 0xe10;
+
+    if (a3 != 0) {
+        u32 m = func_02014A10(a3);
+        p = func_02014A20(0x3e, m, &count,
+              (u16)((*(u16 *)((char *)&b0 + 8) & 0x7fff)
+                    | (0xfffffff + 1)));
+    }
+    if (p == 0) {
+        u32 t = func_02013F2C((u16)id);
+        if (t != 0xfffffff)
+            p = func_02014A20(0x52, t, &count,
+                  (u16)((*(u16 *)((char *)&b0 + 8) & 0x7fff) | 0x8000));
+    }
+    if (p == 0) {
+        u32 h = (*(u16 *)((char *)&b0 + 8) & 0x7fff) | 0x8000;
+        void *q = func_0201407C((u16)h, func_02013B38((u16)id), b0);
+        p = func_02014A20(0x3d, func_020140DC(q), &count, (u16)h);
+        func_020140B4(q);
+    }
+    func_02014A80(p, count, o1 + o2, b0, b1);
+    sub_020307B0(p);
+}
+
+ALL ELEVEN RELOCATIONS NOW RESOLVE -- this is new
+--------------------------------------------------
+Under the evidence rules as they stand on 2026-09-22, `match.py one`
+reports "relocations: 11 of 11 resolved" for this file.  Four of the
+sites ride on sole-ref that would not have carried a year-old run:
+    +0038 THM_CALL func_02014A20  -> 02014A20  [sole-ref x1]
+    +006A THM_CALL func_02014A20  -> 02014A20  [sole-ref x1]
+    +0098 THM_CALL func_020140DC  -> 020140DC  [sole-ref x1]
+    +00A6 THM_CALL func_02014A20  -> 02014A20  [sole-ref x1]
+So this row is NOT evidence-blocked in any degree: the only thing
+between it and EXACT is the 16 bytes of codegen.  That is worth stating
+plainly, because it changes how the row should be triaged -- it is a
+pure codegen row, not a witness row, and no amount of filing elsewhere
+in the family will close it.
+
+PERMUTER RESULT -- three substitutions, none reachable
+-------------------------------------------------------
+  --explain
+  baseline  DIFF   asm=255   bytes-out=16   size=212/212
+  register substitutions (image -> compiled), by count:
+    r0   -> r5    x1
+    r2   -> r0    x1
+    r6   -> r5    x1
+
+  --mode hill   --budget 800  --jobs 8 --types
+      no single mutation improves (238 tried)
+  --mode anneal --budget 1200 --jobs 8 --types
+      best DIFF asm=255 bytes-out=16 (1200 compiles, 57s)
+  --mode anneal --budget 700  --focus o1,o2,b0,p,count --types
+      best DIFF asm=255 bytes-out=16 (700 compiles, 33s)
+
+~2140 compiles, a flat plateau throughout: bytes-out never left 16 and
+the instruction score never left 255.  Unlike func_02014698 (whose map
+is empty), this one DOES print substitutions, so it looks like the
+allocation-tie class the engine is built for -- but the three pairs are
+CONSEQUENCES of the two residues, not independent choices:
+
+  * r0->r5 and the r5 pair are the sentinel-vs-rematerialised tag of
+    RESIDUE 1.  The original has 0x0FFFFFFF live in r5 from a pool load,
+    so r5 is occupied and r0 takes 0x3e; the compiled form synthesises
+    the tag into r5 with movs+lsls and frees the ordering, so the two
+    instructions swap.  The register difference is downstream of the
+    materialisation choice; no reordering mutation can fix it while the
+    constant is still being synthesised.
+  * r2->r0 is RESIDUE 2's `adds r2, r6, r7` moving across the
+    `ldr r3, [sp, #0x20]` reload.
+
+HAND ATTEMPTS ADDED TO THE EARLIER LIST (RESIDUE 1)
+  * binding the sentinel to a named local shared by the tag expression
+    and the compare -- `const u32 sentinel = 0xfffffff;` used as
+    `(sentinel + 1)` and `t != sentinel`  -- 16 bytes, unchanged.
+  * the same local without `const`                    -- 16 bytes.
+These are the natural reading of "make the two uses one value so the
+pool word is shared", and they fail: 1.1p1 constant-folds the local
+away before pool allocation, so the compare re-materialises its own
+copy and the tag is still movs+lsls.  The earlier list's entries
+(`0x10000000u`, `(u32)0xfffffff + 1`, `(0xfffffff + 1)`) were four
+different spellings of the CONSTANT; these two are spellings of the
+SHARING, and the whole axis is now closed.
+
+COULD ANY C CHANGE HELP?
+Residue 1: no.  The original's pool word is 0x0FFFFFFF and the tag is
+that word PLUS ONE, i.e. the original compiler allocated the pool entry
+for the later compare first and then noticed the adjacent constant.
+That is a pool-allocation-order effect inside the back end; C chooses
+the value, not which constants share a pool slot, and every spelling of
+the value has now been tried.
+Residue 2: no C change found, and the commutative tell is explicitly
+ruled out above (`o2 + o1` swaps the adds operands without moving the
+load).  The original issues the b0 reload before the sum; 1.1p1 sums
+first.  Both orders are legal and the scheduler picks by its own cost
+model, which the source cannot address.
+
+TRIAGE: leave as DIFF.  188 of 204 bytes, all 11 relocations, every
+concrete value, both truncation pairs and the whole tail are right; the
+remainder is two independent back-end tie-breaks.  DIFF, so no file
+under src/.
+re-verified 2026-09-22 by tools/match.py: DIFF, 212 bytes against 212, 16 concrete bytes out, dsi/1.1p1

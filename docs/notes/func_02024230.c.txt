@@ -120,3 +120,80 @@ symbols:
   _ll_mul               0x0209C054  arm
   sine_table_02021B38   0x02021B38  data
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================
+APPENDED 2026-09-22, family wave 5 (pmsi_param.c).
+
+The permuter closed 7 of the 8 bytes on the FIRST hill run.  The mutation it
+named was `temp(tmp=(s64) sine_table_02021B3)`: lift the widened table load
+into its own named local before the multiply.  That is a mutation the earlier
+note explicitly recorded as tried and rejected ("the multiply operand order,
+both ways, with and without a named local for the table value (`s16 v` and
+`s32 v`)") -- the difference is that the local must be declared **s64**, i.e.
+the widening cast is what gets bound to the name, not the table value.  With
+an s16 or s32 local the (s64) conversion still happens inside the multiply
+expression and nothing moves.
+
+  python3 tools/permuter.py --src <best source> --func func_02024230 \
+      --addr 0x02024230 --thumb --mode hill --budget 800 --jobs 8 --types
+
+  baseline  DIFF   asm=65    bytes-out=8    size=92/92  unresolved=1
+      174  DIFF   asm=10    bytes-out=1    size=92/92  unresolved=1  <- temp(tmp=(s64) sine_table_02021B3)
+  best      DIFF   asm=10    bytes-out=1    size=92/92  unresolved=1
+
+--explain on the 8-byte baseline printed a clean pairwise swap, which is the
+tell that it is the allocation-tie class the AST permuter was built for:
+
+  r0 -> r2 x5,  r1 -> r3 x2,  r2 -> r0 x1,  r3 -> r1 x1
+
+THE REMAINING ONE BYTE is at +0x48: the original wraps the phase with
+`lsrs r5, r0, #0x10` (UNSIGNED narrowing) where the compiled form emits
+`asrs r5, r0, #0x10`.  So the phase variable is stored as a u16 but READ as
+an s16 -- both halves of the earlier note's "phase is s16" reading are half
+right.  Every spelling of that split was tried and all are worse than the
+single byte:
+  - `u16 phase` with `((s16)phase >> 4)` at the read:            60 bytes out
+  - `u32 phase` with `(u16)` wrap and `(s16)` read:              31 bytes out
+  - `s16 phase` with a `(s16)(u16)(phase + step)` wrap chain:    13 bytes out
+  - a second named `s16 idx = phase;` local for the signed read: 31 bytes out
+`--mode anneal --budget 3000 --jobs 8 --types` drifted away from the 1-byte
+point and never returned to it (best 64 bytes out at 74/92), so anneal is the
+wrong mode on a residue this tight; hill's deterministic single-mutation
+sweep is what found it.
+
+BLOCKER unchanged and still decisive: the ABS32 pool word at +0x54 names the
+s16 table at 0x02021B38 and has no witness outside this 92-byte range, so
+even the byte-exact version caps at MATCH, not EXACT.  Closing the last byte
+buys a park, not a shard entry.  Left as DIFF, no source filed.
+
+/* best source, 92 bytes against 92, 1 concrete bytes out, 1.1p1 */
+typedef unsigned short   u16;
+typedef signed short     s16;
+typedef signed int       s32;
+typedef unsigned int     u32;
+typedef signed long long s64;
+
+extern const s16 sine_table_02021B38[];
+
+void func_02024230(s16 *out, u32 count, u16 step, s32 amp)
+{
+    u32 i;
+    s16 phase;
+
+    phase = 0;
+    i = 0;
+    while (i < count) {
+        s64 v = (s64)sine_table_02021B38[(phase >> 4) * 2];
+        s64 prod = v * (s64)amp;
+
+        out[i] = (s16)((s32)((prod + 0x800) >> 12) >> 12);
+        i++;
+        phase = (s16)(phase + step);
+    }
+}
+
+permuter best result line:
+  best      DIFF   asm=10    bytes-out=1    size=92/92  unresolved=1
+  mutations temp(tmp=(s64) sine_table_02021B3)
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 92 bytes against 92, 1 concrete bytes out, 1.1p1

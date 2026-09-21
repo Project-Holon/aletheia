@@ -1,13 +1,9 @@
 /*
- * function: unit_0201BB5C
- * address:  0x0201BB5C
- * packet:   pkt_0201BB5C
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * unit:     yes
  * address:  0x0201BB5C
  * note:     224 bytes, two functions
- * packet:   pkt_0201B038
+ * packet:   pkt_0201BB5C
+ * function: sub_0201BB5C, sub_0201BBE8
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -28,17 +24,14 @@
  * 652 * 2 + 7, so the two agree.
  *
  * ---------------------------------------------------------------------------
- * WHY IT IS CAPPED
+ * WHY IT WAS CAPPED (HISTORY)
  * ---------------------------------------------------------------------------
- * The pool word at 0x0201BBE4 is the only word in the 3.9 MB image that holds
- * 0x0209E474, and both loads in sub_0201BB5C read that one word, so the
- * `literal` class discards its only witness under the honesty rule.  No cut
- * helps: shrinking the range to sub_0201BB5C alone keeps its own pool word
- * inside it, and the `string` class does not apply to a table.  This is the
- * data twin of the case
- * docs/idioms/a-string-after-a-data-table-has-no-witness.md records for a file
- * name: nothing else in the image ever names the object, so it closes only if
- * some other function is found to load the same address.
+ * NO LONGER CAPPED (re-verified 2026-09-22).  The pool word at 0x0201BBE4 is
+ * still the only word in the image that holds 0x0209E474, so the `literal`
+ * class does discard its only witness.  What closed it is the sole-ref
+ * widening of 2026-09-21: 0x0209E474 is 4-aligned and starts a recognised
+ * data object, so the site now resolves as `sole-ref` and the unit is EXACT.
+ * The old "WHY IT IS CAPPED" reading below is kept only as history.
  *
  * The cut between this pair and sub_0201BA68/sub_0201BABC is what let those
  * two land EXACT.  sub_0201BB5C is reached only from 0x0201BC34, inside this

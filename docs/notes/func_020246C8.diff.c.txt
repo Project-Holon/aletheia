@@ -49,6 +49,8 @@
  *   func_020248D8  0x020248D8  thumb
  */
 
+/* best source, 116 bytes against 116, 1 concrete bytes out, 1.1p1 */
+
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
@@ -101,3 +103,123 @@ done:
     return ok;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 116 bytes against 116, 1 concrete bytes out, 1.1p1
+
+/* ================================================================
+ * APPENDED 2026-09-22, family wave 5 (pmsi_param.c).
+ *
+ * TWO CORRECTIONS TO THE PROSE ABOVE.
+ *
+ * 1. The evidence cap is GONE.  0x02024768 is now src/matched/func_02024768.c
+ *    and EXACT, so this function's call to it resolves -- as `sole-ref` (the
+ *    class was widened 2026-09-21), not as `matched`.  All four relocation
+ *    sites resolve.  The note's claim that "a second, matched caller of
+ *    0x02024768 would unstick that site" is stale; nothing further is needed.
+ *
+ * 2. The SIBLING func_020245D4 IS NOW CLOSED, and the lever that closed it is
+ *    recorded in src/matched/func_020245D4.c and docs/families/pmsi_param.h.
+ *    It is the mixed case of docs/idioms/two-arms-write-the-tail-out-and-the-
+ *    third-branches-back-into-one.md: BOTH arms of the two-arm word check
+ *    write `ok = 0; goto ret;` out, and the label sits INSIDE THE FIRST ARM'S
+ *    COPY.  Combined with writing the `!= 0` arm first, that took
+ *    func_020245D4 from DIFF 132/136 to EXACT.  So the joint diagnosis in the
+ *    header above -- "both functions stop at the same single codegen
+ *    difference" -- was wrong: they are two different residues that happened
+ *    to look alike.
+ *
+ * THE REMAINING RESIDUE HERE IS ONE BYTE, and it is not the four-byte branch
+ * problem the prose describes.  At +0x3E:
+ *
+ *   original   blt #0x202470c     (-> the `b #0x2024728` at +0x44)
+ *   compiled   blt #0x2024728     (straight to the final target)
+ *
+ * Both `b #0x2024728` instructions at +0x44 and +0x46 ARE emitted, correctly
+ * and in the right order.  Only the conditional branch's TARGET differs: the
+ * original hops through the nearer `b`, the compiler folds the hop away.
+ * Nothing in the source reaches that choice.
+ *
+ * WHAT WAS TRIED, all measured against the same 116-byte extent:
+ *   - tools/permuter.py --mode hill --budget 800 --jobs 8 --types:
+ *       220 single mutations tried, "no single mutation improves", best
+ *       unchanged at DIFF asm=5 bytes-out=1 size=116/116.
+ *   - tools/permuter.py --mode anneal --budget 3000 --jobs 8 --types:
+ *       3000 compiles in 209s, best unchanged at bytes-out=1.  Per the
+ *       brief's lesson, a residue the permuter cannot move at all is usually
+ *       in the declarations -- but here the parameter list is already forced
+ *       by the call sites and every scalar type was swept by --types.
+ *   - about twenty hand-written control-flow shapes, every one of which is
+ *     WORSE (19 to 24 bytes out) rather than equal: the v<1 and v>=11 exits
+ *     split into separate `goto`s; a two-label chain (bad1/bad2) into bad;
+ *     an intermediate `hop:` label; `else if` in place of `&&`; the flag test
+ *     hoisted out of the nest; the fail block written out in the flag arm, in
+ *     the v-range arm, in the 768 arm, and in pairs of those; the exact
+ *     construction that closed func_020245D4, transposed onto this function.
+ *     The baseline nested shape below is the unique 1-byte point; every
+ *     perturbation of it jumps to 19 or more.
+ *
+ * Conclusion: filed as DIFF evidence, not a source.  The next lever is not in
+ * this function's C.  Worth one look the day mwccarm's branch-relaxation
+ * order is understood, or if a sibling in another family is found that emits
+ * the same redundant hop and IS closed.
+ *
+ * best source marker below the comment block.
+ */
+
+/* best source, 116 bytes against 116, 1 concrete bytes out, 1.1p1 */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+extern u32 sub_02024508(u32 x);
+extern s32 sub_02024520(u32 x);
+extern u32 func_02024768(u32 x);
+extern u32 func_020248D8(u32 v, u32 *a1, u32 *a2);
+
+u32 func_020246C8(u16 *p, u32 mode, u32 flag)
+{
+    u32 ok = 1;
+    u32 y, x;
+
+    if (mode != 0) {
+        if (*p == 0xFFFF) {
+            return ok;
+        }
+    } else {
+        if (*p == 0xFFFF) {
+            *p = 0x6A1;
+            return 0;
+        }
+    }
+
+    if (sub_02024508(*p) != 0) {
+        s32 v;
+
+        if (flag != 0) {
+            v = sub_02024520(*p);
+            if (v >= 1 && v < 11) {
+                goto done;
+            }
+        } else {
+            ok = 0;
+            *p = 0x6A1;
+            goto done;
+        }
+    } else {
+        if (func_02024768(*p) == 0) {
+            if (func_020248D8(*p, &x, &y) != 0) {
+                goto done;
+            }
+        }
+    }
+bad:
+    ok = 0;
+    *p = 0x6A1;
+done:
+    return ok;
+}
+
+permuter best result line:
+  best      DIFF   asm=5     bytes-out=1    size=116/116
+  (hill: no single mutation improves, 220 tried; anneal: 3000 compiles, unchanged)
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 116 bytes against 116, 1 concrete bytes out, 1.1p1

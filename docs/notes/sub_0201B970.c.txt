@@ -132,3 +132,142 @@ clamped value after the call, which would force it into a callee saved
 register, but the function returns the literal 1 and there is nowhere in the
 original's bytes for such a use to hide.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED 2026-09-22 -- family wave 5 (shinka_check.c), permuter pass
+========================================================================
+
+THE NOTE'S SOURCE DID NOT REPRODUCE, AND THE REASON IS A DECLARATION
+--------------------------------------------------------------------
+The 2026-09-21 re-verification line above ("no recoverable source in this
+note") is accurate: the source recorded in THE SOURCE THAT REPRODUCES
+EVERYTHING BUT TEN BYTES compiles to 130 bytes, not 126, and 59 concrete
+bytes out -- not the ten this note claims.
+
+The missing four bytes are NOT in the body.  They are in the prototype of
+the callee:
+
+    extern u8 sub_0201C158(u16 move, u32 ppUp);      /* what this note had */
+    extern u8 sub_0201C158(u32 move, u32 ppUp);      /* what reproduces */
+
+`move` is already narrow -- it was truncated to u16 at its own assignment,
+`move = (u16)func_02017E1C(mon, slot + 0x36, 0);`.  Declaring the CALLEE's
+first parameter `u16` makes the compiler re-truncate it at the call site, so
+a second `lsls r0, #0x10` / `lsrs r0, #0x10` pair appears in front of the
+`bl`, and that pair is the four bytes.  With the wide declaration the size is
+the original's 126 and the residue is exactly the ten bytes this note
+describes.
+
+This is the general lesson the brief records as "a residue the permuter
+cannot move at all is usually in the declarations", in its callee-prototype
+form: a truncation emitted AT THE CALL constrains the CALLEE's parameter
+width, never the local's.  src/matched/unit_0201C158.c declares its own
+function `u8 sub_0201C158(u16 move, u32 ppUp)` and is EXACT, because inside
+that file the parameter's width is not observable -- only a CALLER can see
+it.  The two files are both right and they disagree; docs/families/
+shinka_check.h now records the wide spelling as the adjudicated one.
+
+THE REMAINING TEN BYTES ARE A REGISTER-ALLOCATION TIE, AND THE PERMUTER
+CONFIRMS THE NOTE'S "FLAT RANKING" FINDING
+-----------------------------------------------------------------------
+    python3 tools/permuter.py --src <below> --func sub_0201B970 \
+        --addr 0x0201B970 --thumb --explain
+
+    baseline  DIFF   asm=345   bytes-out=10   size=126/128
+    register substitutions (image -> compiled), by count:
+      r4   -> r2    x2
+      r2   -> r0    x1
+      r4   -> r7    x1
+
+That is the clean swapped-register shape the AST permuter exists for, so it
+was given a full run of both searches:
+
+    --mode hill  --budget 800  --jobs 8 --types
+        best DIFF asm=1255 bytes-out=54 size=128/128, 187 mutations tried
+        (the single improving mutation it found, temp(tmp=(u8)(pp + (u8)amount)),
+        trades 44 bytes of correctness for the two bytes of size -- the
+        scorer ranks verdict, then asm score, then bytes-out, then size gap,
+        and here the size-exact candidate wins on asm score while being far
+        worse on bytes.  Read the bytes-out column, not just "best".)
+
+    --mode anneal --budget 1500 --jobs 8 --types
+        1500 compiles in 43s, best unchanged at bytes-out=54 size=128/128;
+        never beat the baseline's bytes-out=10.
+
+So the permuter agrees with this note's own conclusion, now on 1500+ distinct
+machine-generated shapes rather than eighty hand ones: NOTHING IN THE SOURCE
+SHAPE MOVES THAT REGISTER.  The original keeps the clamped PP in r4, the
+callee-saved register it has lived in since its first definition, and spends
+`adds r2, r4, #0` to place it in the third argument register; every generated
+shape coalesces the last definition straight into r2.
+
+The residue, unchanged from the body of this note:
+
+    ORIGINAL @ 0201B960                      COMPILED
+    lsrs r4, r1, #0x18                     | lsrs r2, r1, #0x18
+    cmp  r4, r0                            | cmp  r2, r0
+    bls  0x201b9d8                         | bls  0x201b9da
+    adds r4, r0, #0                        | lsls r0, r0, #0x18
+    ldr  r1, [sp]                          | lsrs r2, r0, #0x18
+    adds r0, r7, #0                        | ldr  r1, [sp]
+    adds r2, r4, #0                        | adds r0, r7, #0
+    bl   func_02017E40                     | bl   func_02017E40
+
+WHAT IS LEFT TO TRY
+-------------------
+The note's own suggestion -- a use of the clamped value after the call, which
+would force it into a callee-saved register -- remains the only hypothesis
+that explains the live range, and remains unfindable in the original's bytes,
+which return the literal 1.  The next thing genuinely untried is the shape of
+sub_0201B970's OWN return: it is declared `u32` here and reached by
+unit_0201B9F0.c as `sub_0201B970(mon, i, 0x7F)` with the result discarded, so
+the return type is NOT constrained by any caller in the image and a `void`
+return would free r0 (docs/idioms/a-void-return-frees-r0-for-the-switch-
+dispatch-index.md is the same lever in a different place).  The two epilogues
+that load r0 with 1 and 0 argue against it, but it has not been measured.
+
+/* best source, 126 bytes against 128, 10 concrete bytes out, 1.1p1 */
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+
+    extern u32  func_02017E1C(void *p, u32 id, u32 v);
+    extern void func_02017E40(void *p, u32 id, u32 v);
+    extern u8   sub_0201C158(u32 move, u32 ppUp);
+
+    u32 sub_0201B970(void *mon, u32 slot, u32 amount)
+    {
+        u32 move;
+        u32 id;
+        u8  pp;
+        u32 ppUp;
+        u32 max;
+
+        move = (u16)func_02017E1C(mon, slot + 0x36, 0);
+        if (move == 0) {
+            return 0;
+        }
+        id = slot;
+        id = slot + 0x3A;
+        pp = (u8)func_02017E1C(mon, id, 0);
+        ppUp = func_02017E1C(mon, slot + 0x3E, 0);
+        max = sub_0201C158(move, (u8)ppUp);
+        if (pp < max) {
+            if (amount == 0x7F) {
+                pp = max;
+            } else {
+                pp = (u8)(pp + (u8)amount);
+                if (pp > max) {
+                    pp = max;
+                }
+            }
+            func_02017E40(mon, id, pp);
+            return 1;
+        }
+        return 0;
+    }
+
+permuter best result line:
+    best      DIFF   asm=345   bytes-out=10   size=126/128   (baseline; neither
+    hill (800 budget, 187 mutations) nor anneal (1500 compiles) improved on it)

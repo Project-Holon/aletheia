@@ -9,6 +9,12 @@
  * isa:      thumb
  * status:   MATCH*
  * note:     re-verified 2026-09-20: MATCH*; see verify output
+ * note:     re-verified 2026-09-22 (family wave 6, field_status.c): still
+ *           MATCH*, 2 of 4 sites resolved, no change to the C.  Same two
+ *           overlay targets as src/pending/sub_02014488.c, and re-checked
+ *           the same way: 0x02188BD8 and 0x0215FA44 are a function start
+ *           in none of the overlays whose window covers them, so the
+ *           `label` refusal is not an ambiguity a region hint can settle.
  * blocker:  02188BD8, 0215FA44 - both are overlay-resident and no overlay
  *           listing carries a func_ label at either address; 4 overlays
  *           overlap 0x02188BD8 (ov009, ov021, ov096, ov230) and 2 overlap

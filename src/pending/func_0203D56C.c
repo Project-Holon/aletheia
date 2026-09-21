@@ -9,7 +9,9 @@
  * isa:      arm
  * status:   MATCH
  * note:     re-verified 2026-09-20: MATCH; see verify output
- * blocker:  ABS32 func_020394C0 at +0x08: no branch anywhere outside this range reaches 0x020394C0
+ *
+ * symbols:
+ *   func_020394C0  0x020394C0  arm
  */
 
 extern void func_020394C0(void);

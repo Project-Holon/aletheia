@@ -8,9 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  0209E462 (literal) - its only pool word is this function's own,
- *           at 0x0201B84C, inside the compared range; every concrete byte is
- *           right.
+ * was-blocked: 0209E462.  The `literal` class still refuses it -- the only
+ *           pool word in the image holding 0x0209E462 is this function's own,
+ *           at 0x0201B84C, inside the compared range.  The site resolves as
+ *           `sole-ref` instead, so the entry is EXACT and not MATCH.
  *
  * symbols:
  *   g_0209E462     0x0209E462  data
@@ -27,7 +28,7 @@
  * 0x0201B84C, behind the C0 46 alignment filler at 0x0201B84A.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0201B818.c \
+ *   python tools/match.py one --src src/matched/func_0201B818.c \
  *       --func func_0201B818 --addr 0x0201B818 --cc 1.1p1 --thumb
  */
 

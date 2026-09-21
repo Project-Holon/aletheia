@@ -9,6 +9,16 @@
  * isa:      thumb
  * status:   MATCH
  * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-22 (family wave 6, field_status.c): still
+ *           MATCH, 4 of 6 sites resolved, no change to the C.  The two
+ *           own-pool words are unaffected by the widened sole-ref rules,
+ *           and necessarily so: sole-ref/data and sole-ref/self both
+ *           require the target to lie in a DATA SECTION, but 0x0000005B
+ *           and 0x00000083 are absolute small integers that land nowhere
+ *           in the image at all.  No widening of an address-based
+ *           evidence class can ever reach them; only a second referrer
+ *           elsewhere in the image (a `literal` witness) would, and there
+ *           is none.  This row is closed at the bottom.
  * blocker:  own-pool: the two pooled small constants 0x0000005B and 0x00000083
  *           appear exactly once each in the whole arm9 image, in this
  *           function's own pool (0x02014900 and 0x02014908), so no `literal`

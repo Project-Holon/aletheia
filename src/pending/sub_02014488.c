@@ -9,6 +9,19 @@
  * isa:      thumb
  * status:   MATCH*
  * note:     re-verified 2026-09-20: MATCH*; see verify output
+ * note:     re-verified 2026-09-22 (family wave 6, field_status.c) in a
+ *           fresh process after the evidence rules widened twice: still
+ *           MATCH*, 3 of 5 sites resolved, no change to the C.  The two
+ *           blockers were re-checked against the overlay listings by hand
+ *           and are CLOSED AT THE BOTTOM, not merely unfiled: neither
+ *           0x02188BD8 nor 0x0215FA44 is a function start in ANY candidate
+ *           overlay, so no `thumb ovNNN` region hint on the symbols: line
+ *           can resolve them.  0x02188BD8 falls mid-instruction in ov009
+ *           (inside `bl func_02193734`) and in ov096, and lands on plain
+ *           .word data in ov021 and ov230; 0x0215FA44 falls inside a `str`
+ *           in ov009 and on .word data in ov010.  A region hint only picks
+ *           between labelled candidates; it cannot create a label.  This
+ *           row therefore needs a decompiled overlay, not a better hint.
  *
  * blocking: unresolved: 02188BD8 (thumb, from header) has no witness outside 02014488..02014; unresolved: 0215FA44 (thumb, from header) has no witness outside 02014488..02014
  *

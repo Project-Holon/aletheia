@@ -170,3 +170,122 @@ C currently tried (scratch/scratch/w_0201B818.c):
     }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 64 bytes against 56, 49 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED 2026-09-22 -- family wave 5 (shinka_check.c), permuter pass
+========================================================================
+
+func_0201B818 IS CLOSED.  It is EXACT in src/matched/func_0201B818.c as of
+fe0d88e.  The DIFF recorded for it above was a wrong shape (an outer
+`if (count > 0)` guard around the loop, which the original does not have);
+the loop alone, with the bound re-evaluated in the condition, is byte-exact.
+Its ABS32 to 0x0209E462 resolves as `sole-ref`.  See the CAUTION at the end
+of this section about that address.
+
+func_0201B7EC: FROM 27 BYTES OUT TO 4, AND WHERE THE REST IS
+-------------------------------------------------------------
+The C recorded above is wrong in one declaration, and that one error is
+most of its 27 bytes:
+
+    extern u32 func_0203F0A8(u32 a0);     /* what this note had */
+    extern u32 func_0203F0A8(void);       /* what is true */
+
+0x0203F0A8 is the RNG and IT TAKES NO ARGUMENTS.  src/matched/unit_02011D28.c
+and src/matched/unit_0201B100.c both declare it `void` and are EXACT.  Passing
+it an argument still compiles and still emits the same `blx`, so the error is
+invisible in the verdict; it only moves the registers around it.
+
+The second error is the shape of the test.  `(v >> 31) & 1` on a bare
+temporary folds to a single `lsrs`, but the original materialises a zero and
+shifts it:
+
+    movs r1, #0        <- a zero that survives
+    lsrs r0, r0, #0x1f
+    lsls r1, r1, #1    <- shifted, though it is provably still zero
+    orrs r1, r0
+    movs r0, #1
+    tst  r0, r1
+
+That is a ONE-BIT ACCUMULATOR, `m = (m << 1) | bit`, written as separate
+statements.  It has to be separate statements: written as one expression the
+compiler folds the whole thing and the four instructions collapse.  And the
+zero has to be assigned AFTER the call -- assigned before it, `m` is live
+across the `blx`, takes a callee-saved register and the prologue grows to
+`push {r3, r4, r5, r6, r7, lr}`.  Measured, at size 44/44 throughout:
+
+    m = 0; m = (m<<1) | (rand()>>31);     as one expression     27 bytes out
+    u8 m, cast at the use                                       25 bytes out
+    m = m << 1; m = m | t;   (two statements, m = 0 first)      14 bytes out
+    ... with m = 0 moved AFTER the call                          5 bytes out
+    ... with t = rand(); t = t >> 31; split too                  4 bytes out
+
+The last split is the permuter's own finding (`split-assign(t)`, --mode hill,
+134 compiles).  Both searches were then run to exhaustion on the 4-byte shape:
+
+    --mode hill   --budget 800  --jobs 8 --types
+        143 mutations tried, no single mutation improves; best bytes-out=4
+    --mode anneal --budget 1200 --jobs 8 --types (and a 3000 run on the
+        earlier 27-byte shape, 3000 compiles in 141s)
+        1200 compiles in 95s, best bytes-out=4, never improved
+
+THE RESIDUE IS TWO ORDER-TIED SHIFTS
+------------------------------------
+    ORIGINAL @ 0201B7EC                    COMPILED
+    movs r1, #0                          | movs r1, #0
+    lsrs r0, r0, #0x1f                   | lsls r1, r1, #1     <- swapped
+    lsls r1, r1, #1                      | lsrs r0, r0, #0x1f  <- swapped
+    orrs r1, r0                          | orrs r1, r0
+    (everything from here to the end matches exactly)
+
+The two shifts are independent -- they touch different registers -- so the
+compiler is free to schedule them either way and every source order tried
+gives the same answer.  Statement orders measured, all 44 bytes, all 4 out:
+`t` shifted before `m`, after `m`, `m = 0` before/after the call in each
+combination, and `m | t` written `t | m`.  The permuter's `reorder` and
+`hoist` mutations target exactly this and do not move it either.
+
+This is the same class as docs/notes/sub_0201B970.c.txt's residue: an
+instruction-scheduling tie that no value-preserving source change reaches.
+Untried, and the only lever left: the accumulator may not be a local at all
+but a field or a parameter of the caller, which would give it a memory home
+and pin the order.  Nothing in the 44 bytes shows where such a home would be.
+
+CAUTION FOR WHOEVER READS THIS NEXT: A REFUSAL CAN BE STALE
+-----------------------------------------------------------
+Early in this run, 0x0209E462 (func_0201B818's table) was refused by every
+sole-ref sub-kind and `in_data_section(0x0209E462)` returned False, because
+the 3-byte stride puts that row at +6 into a word and only 4-aligned
+neighbours were recognised.  It was about to be recorded here as a permanent
+cap.  Re-checked an hour later in the SAME session it returned True and the
+function verified EXACT.  `in_data_section()` is answered from the listings
+and layout/data_objects.txt, which other lanes regenerate, so re-run the
+check before recording any address as permanently unattestable.
+
+/* best source, 44 bytes against 44, 4 concrete bytes out, 1.1p1 */
+
+    typedef unsigned int u32;
+    typedef signed char  s8;
+
+    extern u32  func_0203F0A8(void);                 /* 0x0203F0A8  arm */
+    extern void func_0201B850(void *a0, const s8 *tbl, int a2, int a3);
+    extern const s8 g_0209E465[];                    /* 0x0209E465  data */
+
+    void func_0201B7EC(void *a0, int a1, int a2)
+    {
+        u32 m;
+        u32 t;
+
+        t = func_0203F0A8();
+        t = t >> 31;
+        m = 0;
+        m = m << 1;
+        m = m | t;
+        if ((m & 1) == 0) {
+            func_0201B850(a0, g_0209E465, a1, a2);
+        }
+    }
+
+permuter best result line:
+    best      DIFF   asm=200   bytes-out=4    size=44/44
+    mutations split-assign(t)        (hill 800: 143 tried, no further single
+    mutation improves; anneal 1200: 1200 compiles, no improvement)

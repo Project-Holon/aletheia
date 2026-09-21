@@ -1,10 +1,8 @@
 /*
- * PARKED AT MATCH.  Every concrete byte is right; the one open site is the
- * `bl` to 0x020358A0, which has no outside witness: the only branch to that
- * address in the whole image is the one inside this function, and the target
- * is a 448-byte function that carries no `func_` label, so the `label` class
- * cannot reach it either.  It closes the day 0x020358A0 is matched itself (its
- * manifest entry becomes the witness) or a second caller turns up.
+ * Previously parked at MATCH: the `bl` to 0x020358A0 had no outside witness.
+ * Closed 2026-09-22 (family wave 5) when 0x020358A0 was itself decompiled to
+ * EXACT in src/matched/func_020358A0.c; that manifest entry is now the
+ * witness and the site resolves on class `matched`.
  *
  * function: func_02035A60
  * address:  0x02035A60
@@ -15,7 +13,6 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * blocker:  `bl` to 0x020358A0: no branch outside this range reaches it and it carries no func_ label
  *
  * symbols:
  *   func_02035224  0x02035224  arm
@@ -27,7 +24,7 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02035A60.c \
+ *   python tools/match.py one --src src/matched/func_02035A60.c \
  *       --func func_02035A60 --addr 0x02035A60 --cc 1.1p1 --arm
  */
 

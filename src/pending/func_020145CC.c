@@ -9,6 +9,11 @@
  * isa:      thumb
  * status:   MATCH
  * note:     re-verified 2026-09-20: MATCH; see verify output
+ * note:     re-verified 2026-09-22 (family wave 6, field_status.c): still
+ *           MATCH, 3 of 4 sites resolved, no change to the C.  The single
+ *           blocker 0x0215FA34 is the same overlay-export class as the
+ *           two in sub_02014488.c: ov009 and ov010 both cover it and
+ *           neither labels a function there, so no region hint helps.
  * blocker:  +0024 THM_CALL func_0215FA34       : 0215FA34 (arm, from name) has no witness outside 020145CC..020145FC; 2 overlays overlap this address (ov009, ov010), none resolvable without a region hint on the symbols: line
  */
 
