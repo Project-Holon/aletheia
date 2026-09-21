@@ -152,3 +152,70 @@ This row's `needs` column names 0x02017588.  That callee's call site in this
 function resolves through the `literal` class (it is a Thumb bl to a labelled
 address with outside references), so the remaining difference here is pure
 codegen, not a missing witness.
+
+
+========================================================================
+2026-09-21 -- func_02017430 revisit (appended, earlier sections unchanged)
+========================================================================
+
+Residue reduced from 45 concrete bytes to 35.  What moved it: the
+stacked-argument read the previous section diagnosed is reached through
+the *last* stacked parameter's own address, not through b0 plus an
+offset:
+
+    *(unsigned short *)((char *)&b3)          <- 35 bytes differ
+    *(unsigned short *)((char *)&b0 + 0xc)    <- 45 bytes differ
+    ((unsigned short *)&b0)[6]                <- 40 bytes differ
+
+With that spelling every instruction from +0x0C through +0x20 is
+byte-identical, including `add r0, sp, #0x28` / `ldrh r0, [r0, #0xc]`,
+the `movs r2,#1` / pool load pair and the allocator call.
+
+WHAT IS LEFT (35 bytes, one cause)
+----------------------------------
+The original spills the r3 parameter (a3) to the frame and pushes only
+{r4,r5,r6,lr}; this front end keeps a3 in r7 and pushes {r4,r5,r6,r7,lr},
+which shrinks `sub sp` from #0x18 to #0x14 and shifts every later
+instruction:
+
+    ORIGINAL                       COMPILED
+    push {r4, r5, r6, lr}          push {r4, r5, r6, r7, lr}
+    sub sp, #0x18                  sub sp, #0x14
+    str r3, [sp, #0x14]            adds r4, r3, #0
+    ...
+    ldr r1, [sp, #0x14]            (a3 read straight out of r4)
+
+Nothing after that differs in *content*; the outgoing argument block is
+built from the same values in the same slots.  This is a register-
+allocation tie-break, not a semantic difference: with five values live
+across the allocator call the original preferred a memory spill over a
+fifth callee-saved register, and this front end preferred the register.
+
+Tried and did NOT move it (all still 35-63 bytes):
+  - binding a3 to a local before the call (`int q3 = a3;`)
+  - reaching a3 through `*(int *)((char *)&b0 - 4)`, the address form
+    that fixed b3 (63 bytes: it makes a3 memory but at the wrong slot)
+  - reaching b3 as `*(unsigned short *)((char *)&a3 + 0x10)` (46 bytes)
+  - declaring v at its initialisation rather than separately
+
+func_02017588 at 0x02017588 (pkt_0201756C) shows the *same* residue from
+the same cause; see that packet's note.  A lever that fixes either one
+should be tried on both.
+
+C as left (35 bytes, best known for this address):
+
+    void *func_02017430(int a0, int a1, int a2, int a3, int b0, int b1,
+                        int b2, int b3)
+    {
+        void *v;
+
+        v = func_02030734(*(unsigned short *)((char *)&b3),
+                          func_020173EC(), 1,
+                          (const char *)&sPokeToolFile, 0xba);
+        if (v != 0) {
+            func_02017588(v, a0, a1, a2, a3, b0, b1, b2);
+        }
+        return v;
+    }
+
+No file was filed for this address: DIFF is note-only.

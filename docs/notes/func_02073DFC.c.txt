@@ -1,0 +1,146 @@
+/* DIFF evidence note, 2026-09-21, unblock lane.
+ * func_02073DFC @ 0x02073DFC, packet pkt_02073D7C.  Byte-close near miss,
+ * NOT filed as a source: match.py says DIFF (228 of 232 bytes), so this is
+ * evidence only.
+ *
+ * WHY IT MATTERS.  This is the root of a three-deep chain:
+ *   func_02073DFC -> func_02073D7C -> func_02072758
+ * func_02073D7C is byte-correct and parked at src/pending/func_02073D7C.c;
+ * its ONLY unresolved relocation is the `bl` to 0x02073DFC at +0x44, which
+ * is the only branch to that address anywhere in the image.  Filing
+ * func_02073DFC EXACT promotes func_02073D7C with no C change, and
+ * func_02073D7C is one of the two remaining blockers on
+ * src/pending/func_02072758.c (the other is func_02075858, untouched this
+ * pass for budget).
+ *
+ * WHAT IS SETTLED.  The structure, the struct layout, every call's arity and
+ * every branch polarity are right; 228 of the 232 bytes are produced and the
+ * control flow lines up instruction for instruction from +0x2C onward.
+ *
+ * The one non-obvious find, worth 4 of the 8 bytes originally missing:
+ *   func_020894DC TAKES FOUR ARGUMENTS, not three, and the fourth is 0.
+ *   The `mov r3, #0` at +0x18 reads as a dead store but is the outgoing
+ *   fourth argument; declared with three parameters the function compiles to
+ *   224 bytes and that instruction has nowhere to come from.
+ *
+ * WHAT IS LEFT: 4 bytes, one zero.  The original materialises a FRESH
+ * `mov r0, #0` at +0xD4, immediately before `str r0, [r4]`, although a zero
+ * is already live in r5 from the spin loop's two arguments.  mwccarm hoists
+ * one `mov r6, #0` to the top of the function (+0x08, before the first load)
+ * and reuses it for the loop arguments AND the final store, which is both
+ * one instruction short and misplaced.  This is the same shape as
+ * docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md
+ * read in reverse: here the original does NOT share, and the compiler does.
+ *
+ * Measured and rejected, all held at 228 except where noted:
+ *   while (func_02085E50(g_0214E9BC, 0, 0))   literal args, no `z` local  228
+ *   `for (z = 0; func_02085E50(...); )`                                   228
+ *   do { } while (func_02085E50(...));                                    228
+ *   z declared u32 instead of s32                                         228
+ *   the pointer bound to a `u8 *p` local before the loop                  228
+ *   `s->f00 = z;` (store the loop's own zero)         232 bytes, but costs
+ *                                                     a sixth callee-saved
+ *                                                     register: push becomes
+ *                                                     {r4,r5,r6,r7,r8,lr},
+ *                                                     151 bytes differ
+ *   the `on` ternary rewritten as two explicit if/else statements
+ *   with a named `mask`                                                   228
+ *
+ * The lever to try next is whatever stops the zero being one value with
+ * three uses (two loop arguments and the final store) without adding a
+ * register: e.g. making the two loop arguments not both zero at the source
+ * level, or finding that func_02085E50's second and third arguments are not
+ * the same expression in the original at all.
+ *
+ * The best C reached, verbatim, 228/232 bytes, DIFF:
+ */
+
+/*
+ * function: func_02073DFC
+ * address:  0x02073DFC
+ * packet:   pkt_02073D7C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   WIP
+ *
+ * symbols:
+ *   g_0214E9FC     0x0214E9FC  data
+ *   g_0214E9BC     0x0214E9BC  data
+ *   func_020894DC  0x020894DC  arm
+ *   func_02089D40  0x02089D40  arm
+ *   func_02089B38  0x02089B38  arm
+ *   func_02089CD4  0x02089CD4  arm
+ *   func_02085E50  0x02085E50  arm
+ *   func_020729A4  0x020729A4  arm
+ *   func_02072974  0x02072974  arm
+ *   func_02072A08  0x02072A08  arm
+ *   func_0208972C  0x0208972C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+typedef struct St {
+    u32 f00;
+    u32 f04;
+    u8  pad08[0x18];
+    u32 f20;
+    u32 f24;
+    u32 f28;
+    s32 f2c;
+} St;
+
+extern St   g_0214E9FC;
+extern u8   g_0214E9BC[];
+extern void func_020894DC(u32 a, u32 b, u32 c, s32 d);
+extern s32  func_02089D40(void);
+extern void func_02089B38(s32 a);
+extern void func_02089CD4(s32 a);
+extern s32  func_02085E50(void *p, s32 b, s32 c);
+extern void func_020729A4(void);
+extern void func_02072974(void);
+extern void func_02072A08(s32 a);
+extern void func_0208972C(s32 a, s32 b, s32 c, s32 d);
+
+void func_02073DFC(void)
+{
+    St  *s;
+    s32  on;
+    s32  h;
+    s32  z;
+
+    s = &g_0214E9FC;
+    if (s->f00 == 0) {
+        return;
+    }
+
+    on = (s->f2c >= 0);
+    func_020894DC(s->f24, s->f28, on ? (u32)(1 << s->f2c) : 0, 0);
+
+    if (on) {
+        h = func_02089D40();
+        func_02089B38(1);
+        func_02089CD4(h);
+        z = 0;
+        while (func_02085E50(g_0214E9BC, z, z) != 0)
+            ;
+    }
+
+    if (s->f28 != 0) {
+        func_020729A4();
+    }
+    if (s->f20 != 0) {
+        func_02072974();
+    }
+    if (on) {
+        func_02072A08(s->f2c);
+    }
+    if (s->f04 == 1) {
+        func_0208972C(0, 0, 0, 0);
+    }
+    s->f00 = 0;
+}

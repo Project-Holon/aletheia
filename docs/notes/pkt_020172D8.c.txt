@@ -1,0 +1,50 @@
+========================================================================
+pkt_020172D8 -- func_020172D8 @ 0x020172D8, 214 bytes: judged, not tried
+========================================================================
+2026-09-21.  New note; this packet had none.  No C was written, so this
+is a triage record rather than a DIFF residue.
+
+One `show` and a one-line judgment, per the brief's oversized-function
+rule.  It is neither a mechanical accessor nor a short leaf: a triple
+nest whose two outermost induction variables live in the *high*
+registers, which is the expensive part.
+
+    020172E2  mov lr, r0        <- outer counter i, 0..3, in lr
+    020172EC  mov ip, r0        <- inner table cursor in ip
+    020172E4  mov r0, lr        ... reloaded through r0 at every use
+    020173A0  mov r0, lr
+    020173A4  mov lr, r0
+
+mwcc only spends lr and ip on a local when every low register is
+committed across the whole loop body, so the C has to present at least
+seven simultaneously live values for 214 bytes and get their declaration
+order right as well; the "declaration order decides which register a
+local gets" idiom applies to r4-r7 but says nothing about which two
+locals get promoted to lr/ip, and there is no idiom file for that yet.
+Getting it wrong is a whole-function diff, not a trimmable residue, so
+this is a poor use of a slot next to the shorter open work in the
+neighbouring packets.
+
+Shape, for whoever does take it:
+  - outer loop i = 0..3 over a table of 4 pointers at the pool word
+    loaded by `ldr r0, [pc, #0xc4]` (0x020173B0, = 0x020A72D4);
+    a1 is shifted right by 8 at the end of each pass (0201739C), so the
+    four passes consume one byte of a1 each.
+  - each table entry is a list of 2-byte records terminated by 0xFF in
+    byte 0 (+0x1A and +0xBE both test `cmp r0, #0xff`).
+  - per record: byte 0 plus (a1 & 0xF) - 8, and byte 1 plus
+    ((a1 & 0xF0) >> 4) - 8, both truncated to u8 (`lsls/lsrs #0x18`),
+    become two indices written to sp+0x10 and sp+0x14; bit 0 of the
+    first selects between the two inner bodies.
+  - inner loop k = 0..1 reads a0[idx] and, gated on the low nibble
+    being in [0x10,0x30] (bit-0 arm) or [1,3] (bit-0-clear arm), adds
+    0x50 or 5 to the byte in place.
+
+The `subs r0, #8` pairs at +0x2A/+0x3C are each stored twice to the same
+frame slot (`str` at 0x02017300 then again at 0x02017304), which is the
+dead-store-to-a-spilled-local idiom: the second assignment recomputes
+from the stored value, so both stores survive.  Worth writing the two
+nibble extractions as two statements, not one expression, if someone
+attempts it.
+
+Nothing filed under src/.

@@ -178,3 +178,40 @@ int sub_020104F8(u8 *obj)
     }
     return 0;
 }
+
+==============================================================================
+APPENDED 2026-09-21: 0x020104F8 is CLOSED. EXACT, src/matched/sub_020104F8.c
+==============================================================================
+
+The 48-byte residue on sub_020104F8 above was three separate errors, and
+each one alone still misses:
+
+ 1. the pool word at 0x02010548 is 0x021461E0, not 0x020461E0 (the earlier C
+    had it as a cast literal `*(void **)0x020461E0`), and the global holds a
+    POINTER, not the object.  The original does ONE `ldr r1, [r7]` and then
+    `ldr r1, [r1, r0]` with r0 = 0x304.  Declaring it `extern u8
+    *g_021461E0;` and writing `*(u8 **)(g_021461E0 + 0x304)` is the shape;
+    `u8 **` costs an extra `ldr` at both sites.  It is the same global
+    func_0201045C reads, which is worth knowing for that function too.
+
+ 2. func_0203EFC8 takes THREE arguments and the third is the result of
+    func_0203F004.  This is what the apparently dead `adds r2, r0, #0` at
+    0x02010518 is: r2 is written immediately after the first call and is
+    still live, never rewritten, when `blx #0x203efc8` runs twenty-four
+    bytes later.  Read as a two-argument call with a named local for the
+    comparison, mwcc folds the copy away and the function comes out 80
+    bytes; a function-scope local or a `volatile` one gives the value a
+    stack home (`str r0, [sp]` / `ldr r0, [sp]`) rather than r2.  The local
+    has to be declared inside the loop body.
+    docs/idioms/a-loop-carried-value-in-a-callees-argument-register-names-the-arity.md
+
+ 3. `i` must be initialised before `q = obj + 0xC`.  The original opens
+    `movs r4, #0` then `adds r6, #0xc`; a plain `for (i = 0; ...)` written
+    after the `q` declaration emits those two the other way round, and that
+    swap is the last two wrong bytes.
+
+func_0201045C (section above) is NOT addressed by this pass and its two
+blockers still stand: the compared range for that address runs to the next
+labelled entry point and swallows the unlabelled Thumb function at
+0x0201049C, so it needs a `unit:` file over 0x0201045C..0x020104F8, and the
+two locals are still register-swapped inside its own 54 bytes.

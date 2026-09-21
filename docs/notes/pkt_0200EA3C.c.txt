@@ -296,3 +296,37 @@ void sub_0200EC2C(struct Src0200EC2C *base, int idx, struct Dst0200EC2C *out)
         out->f14[i] = rec->f32[i];
     }
 }
+
+==============================================================================
+APPENDED 2026-09-21: section 2 is CLOSED. 0x0200EC2C is EXACT*.
+==============================================================================
+
+func_0200EC2C now reproduces all 108 bytes and both relocation sites; the
+file is src/matched/func_0200EC2C.c, verdict EXACT* (the trailing star is
+the unlabelled accessor at 0x0200EC98 running the inferred extent long, not
+a byte difference).
+
+The 76-byte residue of section 2 needed three spellings held at once, and
+each one alone still misses:
+
+  1. the SOURCE byte at +3 is a `u8 a:6; u8 b:2;` bitfield pair, not a plain
+     u8.  It is the source-side bitfield read that emits the
+     `lsls #26 / lsrs #26` truncation the note reported as unreachable.  A
+     plain u8 source with `& 0x3f` / `>> 6` compiles 104 bytes and loses the
+     shift pair entirely.
+  2. the DESTINATION byte at +0x13 is the same pair.  That is what makes the
+     insert `movs r1, #0x3f; ands r1, r3` instead of one immediate mask.
+     The note tried this one on its own; on its own it is not enough.
+  3. the source pointer must be `const`
+     (`const struct Src0200EC2C *base`, and the derived `s` const too).
+     Without it the store to dst->f13a may alias s->f03a, so mwcc reloads
+     `ldrb r1, [r4, #3]` for the `:2` field and the function comes out
+     110 bytes.  With it, the byte is loaded once into r2 and stays live
+     across the first insert, which is the original's shape exactly.
+     docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
+
+So the "Thumb has no immediate AND, this is a front-end choice" reading in
+section 2 was not right: the mask instruction was a consequence of the
+source-side type, and the early schedule of the destination load was the
+aliasing reload.  Sections 1 (0x0200EBD0) and 3 (0x0200EC98) are untouched
+by this and still stand.

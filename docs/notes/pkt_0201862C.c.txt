@@ -220,3 +220,38 @@ u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5)
     }
     return v;
 }
+
+
+================================================================================
+2026-09-21 -- follow-up on 0x020186C8 (lane r4-6), appended, nothing above edited
+================================================================================
+
+Re-derived the 0x020186C8 skeleton independently and reproduced the earlier
+lane's result exactly: the best spelling is 192 bytes against an original 196
+code bytes (200-byte extent), all 8 relocation sites resolved, with the first
+0x66 bytes byte-identical and the residue confined to the a5 switch tail.  The
+earlier section's diagnosis stands and is confirmed, not superseded.
+
+One spelling the earlier section did not record, and which is worth ruling out
+so nobody re-tries it: writing the case-1 break as an explicit `goto` into the
+shared toggle, so that case 1 jumps straight past the shared compare into the
+shared `eors`.  This is the obvious way to spell "the compare is duplicated but
+the eors is shared", and it is worse, not better:
+
+  * case 1 ends `if (cond) goto toggle; goto done;` with the label `toggle:`
+    placed on the `v ^= 0x10000u;` inside the shared `if` body
+                                                    212 bytes, 60 diff bytes
+  * case 1 ends `if (!cond) goto done; goto toggle;`, same label placement
+                                                    212 bytes, 60 diff bytes
+  * plain `break;` (the earlier section's best skeleton)
+                                                    192 bytes, 66 diff bytes
+
+mwcc will not fold a `goto` into the interior of an `if` body it also reaches
+by fall-through; it materialises a second copy of the toggle plus a branch, so
+the goto forms come out 20 bytes LONG where the plain break is 4 bytes SHORT.
+The original's shape -- duplicated compare, shared eors -- is therefore not
+reachable by spelling the control flow explicitly, which leaves it where the
+earlier section put it: a cross-jump the compiler performs and the source
+cannot request.
+
+Verdict for this wave: 0x020186C8 stays DIFF, no source filed, no shard entry.

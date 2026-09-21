@@ -215,3 +215,59 @@ except the one register swap):
 Finally, the earlier note's claim about the OTHER chain was checked and holds:
 0x020508BC, inside func_02050894, is the only branch to func_02050738 anywhere
 in the image, so filing func_02050738 EXACT does free func_02050894.
+
+
+==============================================================================
+2026-09-21, unblock lane, second pass.  CHAIN CLOSED.  All three filed EXACT.
+==============================================================================
+
+func_020506B8 -> func_02050550 -> func_020504D8 all verify EXACT and are in
+arm9/pkt_02050340.json.  src/pending/func_020504D8.c was promoted to
+src/matched/ with no C change, exactly as the earlier section predicted.
+
+Two corrections to the sections above, both of them the whole difficulty:
+
+1. func_020506B8's `&s2` liveness problem DOES NOT EXIST.  It was an artifact
+   of the wrong parameter order on func_0204F344.  The arity of six is right,
+   but r2 is the CALLER'S OWN THIRD ARGUMENT, not an out-pointer:
+
+       void func_0204F344(u32 res, u32 id, u32 a2, u32 *o0, u32 *o1, u32 z);
+
+   i.e. (o->f04, e->f00, a2, &s3, &s2, 0), where a2 is func_020506B8's own
+   third parameter passed straight through.  Written that way the function is
+   EXACT at 128 bytes on the first compile - no spill, no extra push, and
+   nothing has to be done about CSE of the address.  The earlier note read
+   `mov r2, r4` at +0x30 as a zero and went looking for a liveness lever that
+   was never needed.
+
+2. func_02050550's 3-byte commutative residue IS reachable, and none of the
+   sixteen spellings in the earlier section is the one.  It falls to writing
+   the pointer as an accumulation in two statements, with the SCALED term
+   first and the base added into it:
+
+       p = (u8 *)(e->f04 * 8);
+       p = p + (u32)o->f0c;
+
+   That gives the original's `ldrh r1,[r6,#4] / ldr r0,[r7,#0xc] /
+   add r1, r0, r1, lsl #3`.  Every single-expression form, including
+   `e->f04 * 8 + o->f0c` and a `u32 q = e->f04 * 8;` temporary, holds at 3:
+   it is not the operand ORDER inside one add that matters but whether the
+   scaled value is a live pointer the base is then accumulated into.
+
+Also needed to reach 360 bytes at all, and not in the earlier section:
+
+  * func_0204F764 takes THREE arguments, (o->f04, e->f00, &s2).  With two,
+    `s2` is dead, the whole bit-14 if/else is eliminated and the frame comes
+    out `sub sp,#8` instead of `sub sp,#0xc`.  The `add r2, sp, #8` at +0xF8
+    is that third argument materialised early, not a stray.
+  * func_020506B8's SECOND argument is `p`, not `e`.  The original reuses the
+    r1 that `add r1, r0, r1, lsl #3` just produced; passing `e` costs the
+    extra `mov r1, r6` at +0xDC and shifts every byte after it by four.  So
+    the row pointer, not the entry, is what gets measured.
+  * struct Own's f0c is at offset 0x0C and is a `u8 *`.
+
+Everything else in the earlier derivation of func_02050550 (the disjunction
+guard, the written-out loop recompute, s0-before-rem, the 14/1/1 bitfield,
+the s2/s1/s0 declaration order with s0 a u16, the written-out if/else for both
+bit stores, both if/elses before both calls, and the u16 decrement tail) is
+correct as written and was used unchanged.

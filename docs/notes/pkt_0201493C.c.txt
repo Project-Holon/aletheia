@@ -1,0 +1,102 @@
+========================================================================
+pkt_0201493C -- func_0201493C @ 0x0201493C, 204 bytes, DIFF residue 16
+========================================================================
+2026-09-21.  New note; this packet had none.
+
+Derived from nothing (no prior draft existed).  188 of 204 bytes are
+byte-identical, including all five pool references, all three
+func_02014A20 call sites, both `lsls #0x10 / lsrs #0x10` truncation
+pairs and the whole tail.  Two independent residues remain, both
+scheduling, neither semantic.
+
+WHAT IT IS
+----------
+A three-way fallback archive load.  Try the caller-supplied id, then the
+id func_02013F2C maps for the current record, then a freshly built one,
+each through func_02014A20(archive, member, &count, heap); stop at the
+first that returns non-NULL, then hand the block plus a byte offset to
+func_02014A80 and free it.
+
+The heap argument in every attempt is the seventh stacked parameter's
+low halfword masked to 0x7FFF and OR'd with a tag, then narrowed to u16:
+the tag's low 16 bits are always zero, so it is dead in the value and
+alive only in the codegen.  Note the *address* form for that read,
+`add r3, sp, #0x20; ldrh r3, [r3, #8]`, not `ldrh [sp, #0x28]`: the same
+"stacked argument reached through a pointer expression" idiom that
+func_02017430 needs (see pkt_020173F0's note).
+
+    void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
+                       u32 b0, u16 *b1, u32 b2)
+    {
+        u32 count;
+        void *p = 0;
+        s32 o2;
+        s32 o1;
+
+        o1 = a2 * 0x3c;
+        o2 = a1 * 0xe10;
+
+        if (a3 != 0) {
+            u32 m = func_02014A10(a3);
+            p = func_02014A20(0x3e, m, &count,
+                  (u16)((*(u16 *)((char *)&b0 + 8) & 0x7fff)
+                        | (0xfffffff + 1)));
+        }
+        if (p == 0) {
+            u32 t = func_02013F2C((u16)id);
+            if (t != 0xfffffff)
+                p = func_02014A20(0x52, t, &count,
+                      (u16)((*(u16 *)((char *)&b0 + 8) & 0x7fff) | 0x8000));
+        }
+        if (p == 0) {
+            u32 h = (*(u16 *)((char *)&b0 + 8) & 0x7fff) | 0x8000;
+            void *q = func_0201407C((u16)h, func_02013B38((u16)id), b0);
+            p = func_02014A20(0x3d, func_020140DC(q), &count, (u16)h);
+            func_020140B4(q);
+        }
+        func_02014A80(p, count, o1 + o2, b0, b1);
+        sub_020307B0(p);
+    }
+
+Two levers that were needed to get here, both worth reusing:
+  - `id` is a u32 parameter cast to u16 at each call, not a u16
+    parameter: that is what produces the `lsls #0x10 / lsrs #0x10` pairs
+    at +0x42 and +0x82 rather than a bare `adds r0, r4, #0`.
+  - o1 and o2 must be *declared* in the order o2, o1 (which fixes
+    r7 = a1's product, r6 = a2's) but *assigned* o1 first (which fixes
+    the multiply order).  Declaring-with-initialiser gets one or the
+    other, never both; see the "declaration order decides which register
+    a local gets" idiom.
+
+RESIDUE 1 (10 bytes) -- the 0x10000000 tag is not pooled
+--------------------------------------------------------
+    ORIGINAL                       COMPILED
+    ldr r5, [pc, #0xa0]            movs r5, #0xe1
+    adds r5, r5, #1                lsls r5, r5, #0x1c
+    orrs r3, r5                    orrs r3, r5
+
+The original materialises 0x10000000 as the pool word 0x0FFFFFFF (the
+sentinel the *second* block compares against, at 0x02014A0C) plus one.
+This front end rematerialises it as movs+lsls and never notices the
+pool word it will emit later for the compare.  Tried, all unchanged at
+16 bytes: `0x10000000u`, `(u32)0xfffffff + 1`, `(0xfffffff + 1)`, and
+binding the sentinel to a local shared by both uses.  Guarding the first
+block on the sentinel as well (`a3 != 0 && a3 != 0xfffffff`) is much
+worse, 167 bytes: it is not a missing test.
+
+RESIDUE 2 (6 bytes) -- final call argument schedule
+---------------------------------------------------
+    ORIGINAL                       COMPILED
+    ldr r3, [sp, #0x20]            adds r2, r6, r7
+    ...                            ldr r3, [sp, #0x20]
+    adds r2, r6, r7                adds r0, r5, #0
+
+The original issues the b0 reload before summing the two products; this
+front end sums first.  `o2 + o1` instead of `o1 + o2` swaps the adds
+operands (`adds r2, r7, r6`) without moving the load, so the sum is not
+the commutative-order tell here.  Inlining the sum into the call
+argument is far worse (162 bytes): it moves both multiplies out of the
+prologue.
+
+Both residues are tie-breaks with every concrete value correct.  DIFF,
+so no file under src/.

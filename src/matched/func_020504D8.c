@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_02050550  0x02050550  arm
@@ -31,12 +31,10 @@
  * The 0xFFFF sentinel lives in the pool at 0x0205054C rather than as an
  * immediate, which is why r7 is loaded once before the loop.
  *
- * BLOCKER: capped at MATCH for lack of an outside witness.  The single
- * relocation site is the `bl` to func_02050550 at +0x5C, and func_02050550 is
- * this packet's own 360-byte function at 0x02050550 with no branch to it from
- * anywhere outside the compared range - no `label`, `matched`, `literal` or
- * `veneer` class reaches it.  Every concrete byte of the 120 is correct.
- * Filing func_02050550 as EXACT turns this file EXACT with no new evidence.
+ * UNBLOCKED 2026-09-21: func_02050550 was filed EXACT
+ * (src/matched/func_02050550.c, shard arm9/pkt_02050340.json), so the single
+ * relocation site, the `bl` at +0x5C, is now attested `matched` and this file
+ * verifies EXACT unchanged.  No C was altered to promote it.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020504D8.c \

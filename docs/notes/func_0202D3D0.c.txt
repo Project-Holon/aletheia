@@ -54,3 +54,50 @@ since that is what drives the allocator here.
 
 Not a candidate for src/pending/: this is DIFF, not a wildcarded
 relocation, so it is evidence only.
+
+---
+2026-09-21 (second pass, unblock lane)
+
+Residual improved 41 -> 29 concrete mismatches. The one lever that moved
+it, and which the first pass measured as "no change", is binding the two
+/8 quotients to named locals AND leaving the modulo sum unbound:
+
+    cx = x / 8;
+    cy = y / 8;
+    idx = ((y % 8) * 8 + (x % 8) + (cx + cy * 12) * 64) / 2;
+
+This makes the compiler interleave the two signed-division chains the way
+the original does at +0x68..+0x78 instead of running one to completion.
+(The first pass tried cx/cy inside the single expression; the difference
+is that they must be separate statements above the idx statement.)
+
+The remaining 29 is the same single fact the first pass named, unchanged:
+the original holds idx in r0 and v in r2 with the modulo sum parked in r5
+across the division work; the compiled form has idx in r2 and v in r1 and
+parks the sum in r0.  Everything downstream (+0x86..+0xB0) is that swap
+applied instruction for instruction; the opcodes and the control flow are
+identical.
+
+Measured and rejected this pass (all held at 29):
+  cx/cy assignment order swapped            no change (CSE'd)
+  (cx + cy*12) vs (cy*12 + cx)              no change
+  (y%8)*8 + (x%8) bound to a local `lo`     no change
+  (x%8) + (y%8)*8, both orders              no change
+  idx declared u32 instead of s32           no change
+  v declared s32 instead of u8              no change
+  pv = blob + idx; *pv = ...  (pointer form)no change
+  declaration order of idx / v / n, 3 perms no change
+  arms swapped to test (x&1)==0 first       30, worse
+  blob re-derived as ((u8*)obj[5])[idx]     93, much worse
+  v read inside each arm                    212 bytes, SIZE
+
+Conclusion unchanged: source-level operand order, local binding, types and
+declaration order do not reach this allocator decision.  Still DIFF, still
+evidence only, still not a src/pending/ candidate.
+
+Consequence for the blocked pending file: src/pending/func_0202D760.c is
+now down to ONE unresolved site.  func_0202D2EC was filed EXACT this wave
+(src/matched/func_0202D2EC.c, shard arm9/pkt_0202D2EC.json), so the +0x58
+THM_CALL is attested `matched`.  Only the +0x50 call to func_0202D3D0 is
+left; this function is its only caller image-wide, so nothing but an EXACT
+here will promote that file.

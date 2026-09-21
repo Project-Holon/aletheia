@@ -276,3 +276,62 @@ C currently tried (was scratch/_l2_c/func_02017900.c):
 The two pool words are both `literal` sites (0x020A7370 also sits at
 0x0200E870 and 0x020178CC; 0x021462F0 at 0x020178D0 and 0x02018504), all
 outside this range, so nothing here is witness-starved.
+
+
+========================================================================
+2026-09-21 -- func_02017588 (0x02017588, 118 bytes) first full derivation
+========================================================================
+
+The packet's biggest open function, and previously undocumented.  Every
+instruction from +0x2C to the end is byte-identical; the whole residue is
+the same prologue/spill tie-break that func_02017430 (pkt_020173F0) hits.
+
+WHAT IT IS
+----------
+An eight-argument forwarder with a fixed epilogue of side effects:
+
+    void func_02017588(int a0, int a1, int a2, int a3, int a4, int a5,
+                       int a6, int a7)
+    {
+        int t;
+
+        func_02017528(a0);
+        func_0201761C(a0, a1, a2, a3, a4, a5, a6, a7);
+        func_02019A50(a0 + 0x88, 0x54, 0);
+        func_02019A50(a0 + 0x88, 0x54, *(int *)a0);
+        func_02017E40(a0, 0x9e, a2);
+        t = func_02008F08(2 << 0xe);
+        func_02017E40(a0, 0xa7, t);
+        func_020307B0(t);
+        func_020185C4(a0);
+    }
+
+func_02017528 takes a0 (it is `push {r4,lr}; adds r4,r0,#0` and clears
+0xdc bytes at a0 through MI_CpuFill8 at 0x02082AC0, then runs the same
+0x88/0x54 pair this function repeats).  The `2 << 0xe` argument to
+func_02008F08 is emitted as `movs r0,#2; lsls r0,r0,#0xe` in both.
+
+RESIDUE (106 bytes, all of it alignment)
+----------------------------------------
+    ORIGINAL                       COMPILED
+    push {r4, r5, r6, lr}          push {r3, r4, r5, r6, r7, lr}
+    sub sp, #0x18                  sub sp, #0x10
+    str r3, [sp, #0x10]            adds r7, r3, #0
+    ldr r1, [sp, #0x28]            (a4 read fresh at the call)
+    str r1, [sp, #0x14]
+
+The original spills a3 and a4 into two frame slots above the outgoing
+argument area before the func_02017528 call, and so needs only three
+callee-saved registers; this front end keeps a3 in r7, reads a4 fresh,
+and pushes a fourth.  Everything after the `bl 0x201761c` matches byte
+for byte, six bytes later.
+
+Tried and did NOT move it (all still 106 bytes):
+  - `int b3 = a3, b4 = a4;` before the call, forwarding the locals
+  - the same for a5/a6/a7
+  - func_02017528 declared void-argument versus taking a0
+  - a0 spelled as `char *` / `int *` with casts at every use (CCERR or
+    unchanged)
+
+Same cause as func_02017430; whichever lever forces the spill will fix
+both.  DIFF, so nothing was filed under src/.

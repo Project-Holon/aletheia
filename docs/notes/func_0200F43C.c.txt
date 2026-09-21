@@ -1,0 +1,137 @@
+func_0200F43C @ 0x0200F43C -- near miss, DIFF, one spill slot (2 bytes)
+2026-09-21, packet pkt_0200F43C.
+
+The friend-list lookup in the DWC wrapper file: build a friend-key token
+from (a1, a2), compare its GS profile id against every entry of the 0xC-byte
+friend record array, report the matching slot through *out.  Returns 3 if
+the key is bad or the token has no profile id, 0 on a hit, 2 if the list was
+walked without one; *out is left holding the first slot whose record fails
+DWC_IsValidFriendData when there is no hit, and -1 when there is not even a
+free one.
+
+The C below compiles 170 bytes against the original's 168, and the whole of
+the 2-byte deficit is one register-allocation decision:
+
+    original   push {r3, r4, r5, r6, r7, lr}   sub sp, #0x20
+               r4 = obj (dead after the third call, then reused for the
+                    0xC * i product inside the loop)
+               r7 = arr,  r6 = out,  r5 = i
+               sp+0x00 a1, +0x04 a2, +0x08 n, +0x0C p, +0x10 id,
+               +0x14 the 12-byte token
+
+    compiled   push {r4, r5, r6, r7, lr}       sub sp, #0x24
+               r7 = p (live across the whole loop),  r6 = arr,
+               r5 = out,  r4 = i
+               obj spilled to sp+0x00, everything else shifted up one word,
+               token at sp+0x18
+
+Both use exactly four callee-saved registers and the same 56 bytes of frame
+in total; mwcc simply picks the long-lived `p` for r7 and spills the
+short-lived `obj`, where the original does the reverse and reloads `p` from
+sp+0x0C at each of its four use sites.  Every instruction, every call, every
+branch and all nine relocation sites are otherwise identical; the 68 flagged
+bytes are that one swap plus the resulting uniform +4 stack displacement.
+
+Tried, all still 170 bytes:
+  * all 120 permutations of the five local declarations (swept
+    programmatically), including the token declared first and last
+  * a `void *o = obj;` local copy, and `void *const obj` as the parameter
+  * `do { } while (i < n)` guarded by `if (n > 0)` versus `for (; i < n; i++)`
+    (both give the original's `cmp r0,#0 / ble` preheader, so the loop shape
+    itself is right)
+  * `int id` at function scope (the original does spill it, at sp+0x10) and
+    as an inner-block local
+  * the token as `u8[0xC]`, `u8[0x10]` and `unsigned int[3]`
+  * `arr = sub_020099C8(obj, i)` with i already zero, and the `p`/`arr`
+    assignment order swapped
+
+What is NOT in doubt, and is worth keeping:
+  * the inline `movs r0, #0xc; muls r4, r0, r4` at 0x0200F4A0 proves the
+    record stride is written out in this function, so sub_020099C8 is called
+    once before the loop with index 0 and indexed by hand afterwards, not
+    called per iteration.
+  * DWC_GetGsProfileId(p, tok) is re-called every iteration even though it
+    is loop-invariant; hoisting it out of the loop loses the second call and
+    changes the shape, so the original really does write it inside the body.
+  * `*out = -1` is spelled off the loop counter (`subs r0, r5, #1` with
+    r5 already zero), i.e. the source sets *out before the loop with the
+    counter already initialised; a bare `*out = -1` costs a `movs`.
+
+--- the 170-byte source ---
+
+/*
+ * function: func_0200F43C
+ * address:  0x0200F43C
+ * packet:   pkt_0200F43C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02009860           0x02009860  thumb
+ *   sub_020099C8            0x020099C8  thumb
+ *   func_02009A34           0x02009A34  thumb
+ *   DWC_CheckFriendKey      0x02059354  arm
+ *   DWC_CreateFriendKeyToken 0x02059980 arm
+ *   DWC_GetGsProfileId      0x020598EC  arm
+ *   DWC_IsValidFriendData   0x020596D8  arm
+ *
+ * The friend-list lookup: build a key token from (a1, a2), compare its GS
+ * profile id against every entry of the 0xC-byte friend record array, and
+ * report the matching slot through *out.  Returns 3 if the key is bad, 0 on
+ * a hit, 2 if the list was walked without one; *out is left holding the
+ * first free (invalid-data) slot when there is no hit, and -1 when there is
+ * not even a free one.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0200F43C.c \
+ *       --func func_0200F43C --addr 0x0200F43C --cc 1.1p1 --thumb
+ */
+
+typedef unsigned char u8;
+
+extern void *func_02009860(void *obj);
+
+extern void *sub_020099C8(void *obj, int i);
+extern int   func_02009A34(void *obj);
+
+extern int  DWC_CheckFriendKey(void *p, int a1, int a2);
+extern void DWC_CreateFriendKeyToken(void *tok, int a1, int a2);
+extern int  DWC_GetGsProfileId(void *p, const void *rec);
+extern int  DWC_IsValidFriendData(const void *rec);
+
+int func_0200F43C(void *obj, int a1, int a2, int *out)
+{
+    int n, i, id;
+    void *p;
+    u8 *arr;
+    u8 tok[0xC];
+
+    i = 0;
+    p = func_02009860(obj);
+    arr = (u8 *)sub_020099C8(obj, i);
+    n = func_02009A34(obj);
+
+    if (DWC_CheckFriendKey(p, a1, a2) == 0)
+        return 3;
+
+    DWC_CreateFriendKeyToken(tok, a1, a2);
+    if (DWC_GetGsProfileId(p, tok) <= 0)
+        return 3;
+
+    *out = i - 1;
+    for (; i < n; i++) {
+        id = DWC_GetGsProfileId(p, tok);
+
+        if (id == DWC_GetGsProfileId(p, arr + i * 0xC)) {
+            *out = i;
+            return 0;
+        }
+        if (*out < 0 && DWC_IsValidFriendData(arr + i * 0xC) == 0)
+            *out = i;
+    }
+    return 2;
+}

@@ -21,13 +21,17 @@
  * docs/notes/func_0202D81C.c.txt: a0 is a genuine out-parameter, written
  * by func_02049E34 via its a3, not read-only.
  *
- * Blocked at MATCH: every concrete byte is identical; the THM_CALL sites
- * for func_0202D3D0 (+0x50) and func_0202D2EC (+0x58) stay wildcarded
- * because neither address has any witness outside 0202D760..0202D7C8 --
- * this function is their only caller image-wide, so no evidence class
- * (label/matched) can attest them.  Filing either of those two addresses
- * as EXACT from pkt_0202D2EC promotes this file to EXACT unchanged.
- * (docs/notes/func_0202D3D0.c.txt is a documented near miss at 41 bytes.)
+ * Blocked at MATCH: every concrete byte is identical.  2026-09-21, unblock
+ * lane: ONE OF THE TWO BLOCKING SITES IS NOW CLEARED.  func_0202D2EC was
+ * filed EXACT (src/matched/func_0202D2EC.c, shard arm9/pkt_0202D2EC.json),
+ * so the +0x58 THM_CALL resolves `matched`.  Only +0x50, the call to
+ * func_0202D3D0, is still wildcarded: this function is that address's only
+ * caller image-wide, so no evidence class (label/matched) can attest it and
+ * nothing but an EXACT at 0x0202D3D0 will promote this file.  That function
+ * is a documented near miss, now at 29 concrete mismatches (down from 41)
+ * and stuck on one register-assignment decision -- see
+ * docs/notes/func_0202D3D0.c.txt, which records the lever that halved it
+ * and the twelve spellings that do not move it further.
  *
  * symbols:
  *   func_0202D060   0x0202D060  thumb

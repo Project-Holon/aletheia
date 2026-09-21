@@ -214,3 +214,65 @@ void sub_02014204(u8 *p, int a1)
         *(struct Blk12_02014204 *)(p + 0x10) = *(struct Blk12_02014204 *)buf;
     }
 }
+
+
+========================================================================
+2026-09-21 -- func_02014204 (0x02014204, 94 bytes) filed at MATCH*
+========================================================================
+
+New work; appended, nothing above changed.  Every concrete byte is
+correct on the first draft.  Filed as src/pending/func_02014204.c,
+status MATCH*, because one relocation site cannot be attested and no cut
+moves it.
+
+BLOCKER
+-------
+    +0020  func_02013C70   no witness outside 02014204..02014262
+The call at 0x02014224 is the *only* branch to 0x02013C70 anywhere in
+the image, so the `label` class has nothing outside the range, and
+src/pending/func_02013C70.c is itself only MATCH (its pool word for
+tbl_0209E010 has no outside witness either), so the `matched` class
+cannot stand in.  `--suggest-split` agrees: "the whole range as one file
+is NOT viable", best partition 0 pieces, this function left out.  It is
+a two-deep evidence chain, not something a different C spelling fixes.
+
+The other two calls DO resolve, and how they resolve is the reusable
+lesson: sub_02013B74 and sub_02013B90 are members of the EXACT
+unit_02013AD0 entry, but they only attest once (a) the file spells them
+`sub_`, the name the unit's `functions:` list uses, with a symbols:
+line each, and (b) the file under test is under src/, because
+attest_matched takes the source path in manifest spelling and refuses
+the whole class when it is missing.  Compiled from /tmp the same source
+reports 1 of 4 resolved; compiled from src/ it reports 3 of 4.
+
+WHAT IT IS
+----------
+Zero the 0x1c-byte record through func_020140F8, then fill it:
+
+    p->a = 1; p->b = id; p->c = -1; p->d = 2; p->e = 0;
+    if (func_02013C70(id)) {
+        sub_02013B90(id, &v);          /* three u32s, low halfwords */
+        p->f = 1; p[0x12] = 1;
+        p->g = v.x; p->i = v.y; p->h = v.z;
+    } else {
+        sub_02013B74(id, &v);          /* same three, pre-shifted <<16 */
+        p->f = 0;
+        *(struct v3 *)((u8 *)p + 0x10) = v;   /* ldm/stm, 12 bytes */
+    }
+
+The else arm's `ldm r4!,{r0,r1} / adds r5,#0x10 / stm r5!,{r0,r1} / ldr /
+str` at +0x50 is the inlined aggregate assignment idiom: writing the
+three fields out individually there does not reproduce it, because
+sub_02013B74 has already shifted each value into the high halfword, so
+the arm copies whole words while the if arm copies halfwords.  That
+asymmetry between the two callees is the whole reason the two arms look
+different.
+
+Field 0x06 must be `s16` and written `-1`: as `u16` with 0xffff it costs
+a pool word (the same finding the func_020141A8 section above records
+for the sibling function, which is still open on exactly that point).
+
+MATCH* not MATCH: the inferred extent runs to 0x02014262 but the real
+function ends at 0x02014262 with an unlabelled follower at 0x02014264 --
+a four-instruction `ldr r1,[pc,#4]; ldr r3,[pc,#8]; bx r3` tail-call
+thunk, not compiled C.  Worth seeding into layout/function_starts.txt.
