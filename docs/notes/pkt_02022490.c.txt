@@ -628,3 +628,126 @@ ONE compile (the baseline) and stopped; on the 16-byte source it reported
 
 Consequence for the blocked pending files: unchanged.  src/pending/
 func_02022518.c and src/pending/func_020225B4.c stay capped at MATCH.
+
+========================================================================
+2026-09-21, closer lane: the 16-byte baseline re-measured, permuter now
+works and finds nothing, and the ../2.0/sp2 probe is negative
+========================================================================
+
+The previous entry's 16-byte C was re-derived verbatim and re-measured:
+`match.py one --thumb --cc 1.1p1` gives **76 bytes, 16 concrete out**,
+exactly as recorded. The baseline is sound and both of its load-bearing
+conditions (the split `i4` declaration, the mixed byte-offset/subscript
+store spelling) reproduce.
+
+**The permuter defect that entry reported is fixed, and the re-run is a
+clean negative.** The previous entry could not get a real search out of
+`tools/permute.py` (one compile of 32 available, three of 26). The
+2026-09-21 fixes in `docs/notes/permuter.md` resolve it, and this pass got
+full-budget runs on this exact source:
+
+* `--mode hill --budget 22 --seed 1`: **22 of 22 compiles spent**, 0 cached.
+  Top ten all tie the baseline at 16: `swap'+'` at five different sites,
+  `param-signedness` on `a1`, `a2`, `i4`, `swap'!='@L37`.
+* `--mode random --budget 22 --seed 7`: **23 compiles**, including the
+  double mutations `hill` does not reach (`swap'!='@L37, swap'+'@L38`;
+  `swap'+'@L41, param-signedness[a3]`; `swap'+'@L31, swap'!='@L37`).
+  Nothing below 16.
+
+So the operand-order and signedness axes are now exhausted mechanically, not
+just by hand. That closes out the previous entry's "also measured" list
+rather than extending it: 45 compiles across both modes, no variant under 16.
+
+**One compiler probe, negative.** This region carries many `../2.0/sp2`
+pins, so the pin was worth one measurement on a residue this settled:
+`--cc ../2.0/sp2` gives **76 bytes, 16 concrete out** -- the identical
+count, not an improvement and not a regression. Both front ends make the
+same register-role choice here, which is itself informative: the swap
+(index -> r2 / base -> r0 / value -> r1 in the image, against index -> r0 /
+base -> r1 / value -> r0 compiled) is not a front-end difference of the kind
+the pin corrects, so no pin is warranted and 1.1p1 stands. Recorded so the
+next lane does not spend the probe again.
+
+Conclusion unchanged, and now bounded on three axes (hand spellings in the
+previous entry, mechanical spellings here, and both front ends): the
+function is byte-correct in shape, instruction-for-instruction, with one
+register-role assignment that no source-level spelling reaches.
+
+Consequence for the blocked pending files: unchanged. `src/pending/
+func_02022518.c` and `src/pending/func_020225B4.c` stay capped at MATCH, and
+the mutual cycle between 0x02022490 and 0x020225B4 is not broken by this
+pass.
+
+
+========================================================================
+2026-09-21 (closer lane): func_02022490 @ 0x02022490.  Still 76/76, 16.
+The permuter defect is FIXED and its verdict here is now trustworthy.
+========================================================================
+
+BASELINE REPRODUCED: the 16-byte C from the entry above is 76 bytes against
+the original's 76, 4 of 4 relocations resolved, 16 concrete out, under
+`--cc 1.1p1 --thumb`.  (Header note: the address is `g_021468A4`
+0x021468A4, not the `sub_020268A4_Sys` of the older entry.)
+
+THE PERMUTER DEFECT IS GONE.  The entry above records the tool running ONE
+compile on the 29-byte source and THREE on the 16-byte one, and
+docs/notes/permuter.md opens a field report on it.  Re-run on the same
+16-byte source against the post-fix tool:
+
+  --mode hill   --budget 40 --seed 3   39 compiles
+  --mode random --budget 40 --seed 17  33 compiles
+
+72 compiles, no CCERR rows, every best-of-ten row 76 bytes / 16 mismatches.
+The `param-signedness` mutation was exercised on a1, a2, a3 and i4 and moved
+nothing.  So the earlier "permuter found nothing" on this function was void
+and is now a real negative.
+
+ONE CORRECTION TO THE ENTRY ABOVE.  That entry's condition 2 says the first
+store must not use the `[2]`/`[4]` subscript spelling, and attributes the
+16-byte result to "the asymmetry" between subscript and byte-offset forms.
+Measured here, that is not quite the tell.  What is load-bearing is the
+`(char *)` RE-CAST of `p` in the three later stores, independent of whether
+they are then written as subscripts or as byte offsets:
+
+  `((u32 *)((char *)p + i4))[2]` / `[4]`   (the entry's own C)  76 B, 16
+  `*(u32 *)((char *)p + i4 + 8)` / `+ 0x10`                     76 B, 16
+  `((u32 *)(p + i4))[2]` / `[4]`      -- cast dropped           72 B, 29
+  `*(u32 *)(p + i4 + 8)` / `+ 0x10`   -- cast dropped           72 B, 29
+
+So the four-byte size gap and half the residue turn on the redundant
+`(char *)` alone.  Whoever takes this next should keep that cast and stop
+treating the subscript form as the lever.
+
+SEVEN FURTHER SPELLINGS MEASURED THIS PASS, none of which the entry above
+had tried:
+
+  76 B, 16 (unchanged):
+    * `a3` reassigned in place as the scaled index, `i4` removed entirely
+    * the three later stores as byte offsets with the `(char *)` kept
+      (the correction above)
+    * each arm opening a block with its own `int v = ...;` and storing `v`,
+      plus a third block for the tail store (the per-arm written-out form)
+    * `volatile` on the three later stores' pointer CASTS
+      (`((u32 *volatile)((char *)p + i4))[2]`) rather than on a local
+    * the first store spelled `((u32 *)p)[a3]`, i.e. the unscaled index
+      through a u32 subscript, with the other three unchanged
+    * `unsigned int i4` instead of `int i4`
+  76 B, 20:  the guard inverted, `if (a2 == 0)` with the arms swapped
+  80 B, 33:  fully written-out arms, each carrying its own `= 1` tail store
+
+WHAT THE RESIDUE IS, restated from the diff and unchanged: a register-role
+swap over +0x24..+0x3E.  The image puts the scaled index in r2 and
+recomputes the slot base into r0 before each of the three offset stores;
+the compile puts the index in r0 and the base in r1.  Two secondary tells
+in the image that no spelling has reproduced: at +0x32 the else-arm's pool
+word is loaded into r1 BEFORE `adds r0, r5, r2`, and at +0x38 `movs r1, #1`
+is materialised BEFORE `adds r0, r5, r2` -- i.e. the image computes the
+stored VALUE first and the address second, at both sites, while every
+compile does address-then-value.  Binding the value to a named local in
+each arm (tried in the entry above and again here as a per-arm block) does
+not flip it.
+
+Consequence for the blocked pending files: UNCHANGED.  This function is
+still the only image-wide caller of both func_02022518 and func_020225B4,
+so src/pending/func_02022518.c and src/pending/func_020225B4.c stay capped
+at MATCH.  Nothing was promoted or moved this pass.

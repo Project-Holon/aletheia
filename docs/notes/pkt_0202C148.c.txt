@@ -71,3 +71,59 @@ file argument as a named local makes the hoist earlier, not later; `int n`
 declared uninitialised and assigned on its own line is what fixed the register
 numbering (with `int n = call();` the parameter p landed in r7 instead of r6).
 Closing func_0202C148 closes func_0202C070 and func_0202B64C.
+
+## 2026-09-21 (closer lane): func_0202C148 re-measured, still DIFF at 17
+
+Re-derived the note's own C above under `match.py one --thumb --cc 1.1p1`.
+The tool says **80 bytes, 17 concrete bytes out**, all of them in the single
+window +0006..+001E. The tail (the whole loop, +0020 onward) and the prologue
+are byte-identical, and the two `movs #0x93` are reproduced exactly, so the
+note's paragraph above is right about where the residue is but slightly wrong
+about why: `movs r4, #0x93` is not "the 0x93 still in r4" left over from the
+first argument, it is a second, independent materialisation that this compiler
+already emits. Nothing needs to be done to obtain it.
+
+The residue is purely the schedule of two loads against two stores:
+
+    original           compiled
+    strb r7,[r6,#4]    ldr r0,[sp,#4]
+    adds r4,#0xa7      ldr r3,[pc,#0x34]
+    str  r4,[sp]       strb r7,[r6,#4]
+    ldr  r0,[sp,#4]    adds r4,#0xa7
+    ldr  r3,[pc,#0x30] lsls r1,r7,#2
+    lsls r1,r7,#2      movs r2,#0
+    movs r2,#0         str  r4,[sp]
+
+i.e. the original completes the `p[4]` store and the line-number spill before
+touching the heapId reload and the file pool word; 1.1p1 hoists both loads
+above the store. Same instructions, same registers, same count.
+
+Measured this pass, all 80 bytes / 17 mismatches, none better:
+
+* `tools/permute.py --mode hill --budget 40 --seed 1`, **40 of 40 compiles
+  spent** (no under-spend; the 2026-09-21 fix is working). Best ten all tie the
+  baseline at 17: `init-fold`, `swap'+'` at both sites, `param-signedness[i]`,
+  `param-signedness[heapId]`, `init-split`, `decl-swap`, `volatile-param`.
+* `*(volatile u8 *)(p + 4) = (u8)n;` -- a volatile store cannot be sunk below
+  the loads, and this is the most direct expression of the ordering the
+  original has. It does not move: still 17. That is the strongest negative
+  here, because if the front end were merely choosing a legal reordering, the
+  volatile store would have forbidden it.
+* the allocator result bound to a named `void *q` before the field store.
+* a `struct Blk *` parameter with `p->cnt` / `p->arr` field accesses in place
+  of the byte-offset casts.
+
+**One compiler probe, on the documented tell** of
+`a-repeated-small-constant-takes-a-callee-saved-register.md`, whose 2026-09-19
+correction says the shared-small-constant shape is reachable under
+`../2.0/sp2`: `--cc ../2.0/sp2` compiles this body to **92 bytes** against an
+80-byte original, 68 out. Decisively worse, so no pin is warranted here and
+1.1p1 stands. Recording it so the next lane does not spend the probe again:
+the correction's advice does not generalise to this function, because 1.1p1
+already emits the doubled `movs` that the correction is about.
+
+Conclusion unchanged, and now bounded: this is a scheduling difference no
+source-level spelling reaches, on a body that is otherwise exactly right. It
+remains the gate on `func_0202C070` -> `func_0202B64C` -> `func_0202B59C` ->
+`func_0202B4BC`, all four of which stay `MATCH`/`MATCH*` in `src/pending/`
+for this reason and were left untouched this pass.

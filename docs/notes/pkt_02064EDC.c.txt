@@ -126,3 +126,217 @@ void func_02064EDC(void)
     }
 }
 ```
+
+
+==============================================================================
+2026-09-21 - chain lane (large-ARM witness screen follow-up).  0x02064EDC.
+==============================================================================
+
+Attempted because docs/notes/large_arm_witness_screen_20260921.c.txt names
+this address as one of the four unfiled siblings gating 0x02065438
+(pkt_02065020): filing all four converts that function's four unresolved
+PC24 sites to `matched` and makes it a clean EXACT candidate.
+
+STILL DIFF, but the baseline above was WRONG and is corrected here.  Under
+match.py today the source recorded above compiles to 328 bytes against the
+original's 324 -- a SIZE error, not a 10-instruction scheduling residue --
+because it emits NINE pool words where the image has EIGHT.
+
+TWO SYMBOL CORRECTIONS.  The original's pool at 0x02065000..0x0206501C is,
+in order, 0x02147B88, 0x02147C18, 0x02148318, 0x02148018, 0x02147D28,
+0x020A81F8, 0x02147D2C, 0x020A8200.  Reading each pool load's pc-relative
+target against that table:
+
+  * g_02147D18 DOES NOT APPEAR IN THE POOL AT ALL.  The `ldreq r1, [pc,
+    #0xb0]` at 0x02064F54 targets 0x0206500C = 0x02148018, so the source
+    of the four-word row copy in the `unk_04 == 0` arm is g_02148018, not
+    g_02147D18.  That one substitution removes the ninth pool word and
+    fixes the size.
+  * THE COUNTER AND THE BANK ARRAY ARE SWAPPED relative to the note above.
+    The `ldr r0, [pc, #0xe8]` at 0x02064F10 whose `ldrh r5, [r0]` reads the
+    counter and whose `strhlo r1, [r0]` bumps it targets 0x02065000 =
+    0x02147B88, i.e. the counter is the u16 at offset 0 of g_02147B88, not
+    g_02148318.  The `ldr r0, [pc, #0xd4]` at 0x02064F2C that feeds
+    `add r0, r0, r5, lsl #5` (and the `ldr lr, [pc, #0x68]` at 0x02064F98
+    that feeds `str r3, [lr, ip, lsl #5]`) targets 0x02065008 = 0x02148318,
+    so the 32-byte-per-slot bank array is g_02148318, not g_02148018.
+
+With both corrections the pool comes out in the image's own order, all nine
+relocation sites resolve `literal`, and the body is 324 bytes with 44
+concrete out.  Two further levers took it to 42:
+
+  * the backward loop's bound is `(u16)g_02147B88.unk_0c`, not `(s16)`.
+    The image's `lsrs lr, r1, #0x10` at 0x02064FCC is an unsigned
+    truncation whose `popmi` can never fire; `(s16)` gives `asrs` and one
+    byte wrong.  (-1 byte)
+  * the first word of the four-word row copy must be written through the
+    scaled-index form, `g_02148318[slot][0] = src[0];`, with `dest`
+    assigned only afterwards, so the image's `str r3, [lr, ip, lsl #5]` at
+    0x02064FA4 precedes its `add ip, lr, ip, lsl #5` at 0x02064FAC.
+    (-1 byte)
+
+THE RESIDUE, 42 of 292 concrete bytes, in two clusters:
+
+  (a) +0x0050..+0x0060, the memclear call setup.  The image is
+
+        ldr  r0, [pc, #0xd4]        ; &g_02148318
+        strh r5, [r3]               ; cur->f0 = slot
+        add  r0, r0, r5, lsl #5
+        add  r1, r0, #0x10
+        mvn  r0, #0
+
+      i.e. the slot store RETIRES BEFORE the address arithmetic and the
+      ~0 argument is materialised LAST, into the register the base was
+      just computed in.  1.1p1 -O4,p hoists `mvn r0, #0` to the top of the
+      group and sinks the `strh` to the bottom, five instructions
+      permuted.  Binding the destination to its own local, spelling the
+      constant `(u32)-1` instead of `~0U`, and the permuter's own
+      operand-order and declaration rewrites all keep the compiler's
+      order.
+
+  (b) +0x00B8..+0x00EC, the four-word row copy.  The image interleaves the
+      re-read of g_02147B88.unk_0c (`ldr r2, [pc, #0x58]` / `ldr r2, [r2,
+      #0xc]`) into the load-delay slots BETWEEN the four stores, and takes
+      `ip` for the scaled index and `lr` for the bank base.  Every
+      spelling measured lets 1.1p1 finish the copy first and read the word
+      afterwards.  Hoisting the re-read into the copy block by hand
+      (assigning the loop counter there) collapses the loop instead: 312
+      bytes, 131 out.
+
+NOT A PIN.  `--cc ../2.0/sp2 -O4,p -proc arm946e` on the same source is 324
+bytes with the SAME 43 concrete out and the same distribution as 1.1p1, so
+neither front end reproduces either cluster.  Do not spend the probe again.
+
+PERMUTER, both modes, no improvement.  66 mutations available.
+`--mode hill --budget 40 --seed 1`: 40 compiles, best 42 (baseline).
+`--mode random --budget 40 --seed 7`: 41 compiles, best 42 (baseline).
+Nine distinct declaration-order, operand-order, const/volatile and
+parameter-signedness rewrites are all byte-identical to the baseline at 42,
+which closes out the spelling space the tool reaches.  Both clusters are
+instruction scheduling, which is outside its mutation table.
+
+Verdict: DIFF, 324 bytes (size now correct), 42 of 292 concrete bytes, two
+scheduling clusters.  0x02065438 was NOT attempted this pass: it needs all
+four of its siblings EXACT and this is one of them.
+
+The corrected source follows.
+
+```c
+/*
+ * function: func_02064EDC
+ * address:  0x02064EDC
+ * packet:   pkt_02064EDC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * symbols:
+ *   g_02147B88    0x02147B88  data
+ *   g_02147C18    0x02147C18  data
+ *   g_02148318    0x02148318  data
+ *   g_02148018    0x02148018  data
+ *   g_02147D28    0x02147D28  data
+ *   g_02147D2C    0x02147D2C  data
+ *   g_020A81F8    0x020A81F8  data
+ *   g_020A8200    0x020A8200  data
+ *   func_02082AC0 0x02082AC0  arm
+ */
+
+typedef unsigned char  u8;
+typedef signed short   s16;
+typedef unsigned short u16;
+typedef signed int     s32;
+typedef unsigned int   u32;
+
+struct B88 {
+    u8  pad_00[4];
+    u32 unk_04;
+    u8  pad_08[4];
+    u32 unk_0c;
+};
+
+struct SlotC18 {
+    u16 f0;
+    u16 f2;
+    u16 f4;
+    u16 f6;
+};
+
+struct GlobA81F8 {
+    u8 pad[0x18];
+    u32 unk_18;
+    u32 unk_1c;
+};
+
+extern struct B88 g_02147B88;
+extern struct SlotC18 g_02147C18[];
+extern u32 g_02148318[][8];
+extern u32 g_02148018[];
+extern u32 g_02147D28[];
+extern u32 g_02147D2C[];
+extern struct GlobA81F8 g_020A81F8;
+extern u32 g_020A8200[];
+
+extern void func_02082AC0(u32 val, void *dst, u32 size);
+
+void func_02064EDC(void)
+{
+    struct SlotC18 *cur;
+    u16 r4;
+    u16 r5;
+    u32 size;
+    u32 *src;
+    u32 *dest;
+    int valid;
+    s32 k;
+
+    cur = &g_02147C18[(u16)g_02147B88.unk_0c];
+    valid = 1;
+    if (cur->f4 != 1 && cur->f4 != 2) {
+        valid = 0;
+    }
+    if (valid == 0) {
+        return;
+    }
+
+    r4 = cur->f2;
+    r5 = *(u16 *)&g_02147B88;
+    size = 0x10;
+    if (r5 < 0x1f) {
+        *(u16 *)&g_02147B88 = r5 + 1;
+    }
+    cur->f0 = r5;
+    func_02082AC0(~0U, (u8 *)&g_02148318[r5] + 0x10, size);
+
+    {
+        u32 i = g_02147B88.unk_0c;
+        if (g_02147B88.unk_04 == 0) {
+            src = (u32 *)((u8 *)g_02148018 + i * 0x18);
+        } else {
+            u32 off = i * 0x18;
+            g_020A81F8.unk_18 = *(u32 *)((u8 *)g_02147D28 + off);
+            g_020A81F8.unk_1c = *(u32 *)((u8 *)g_02147D2C + off);
+            src = g_020A8200;
+        }
+
+        {
+            u32 slot = g_02147C18[(u16)i].f0;
+            g_02148318[slot][0] = src[0];
+            dest = &g_02148318[slot][0];
+            dest[1] = src[1];
+            dest[2] = src[2];
+            dest[3] = src[3];
+        }
+    }
+
+    for (k = (u16)g_02147B88.unk_0c; k >= 0; k--) {
+        if (r4 != g_02147C18[k].f2) {
+            return;
+        }
+        g_02147C18[k].f4 = 3;
+        g_02147C18[k].f0 = r5;
+    }
+}
+```

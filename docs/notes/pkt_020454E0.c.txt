@@ -159,3 +159,41 @@ available to try.
 Still DIFF, still not filed.  Verdict unchanged after seventeen measured
 spellings across three lanes: this is register allocation for one parameter
 copy, and no source-level shape reached from the solved body moves it.
+
+
+2026-09-21 -- closer lane, permuter pass with param-signedness.  Still 2 bytes.
+==============================================================================
+
+Baseline reproduced from the note above verbatim: 536 bytes, 9 of 9
+relocations resolved, exactly 2 concrete bytes out, and they are the same
+two (+0014 `mov r6,r2` vs `mov r4,r2`, +0028 `lslne r0,r6,#0x1c` vs
+`lslne r0,r4,#0x1c`).
+
+tools/permute.py run twice on the solved body, post-fix build (the tool now
+spends its full budget, per the Fixes section of docs/notes/permuter.md):
+
+  --mode hill   --budget 40 --seed 5   28 mutations available, 40 compiles
+  --mode random --budget 40 --seed 11  41 compiles
+
+Both best-of-ten tables are entirely 536 bytes / 2 mismatches; the only rows
+worse than baseline are `swap'|'`-family rewrites at 4.  THE NEW MUTATION
+WAS EXERCISED AND DOES NOTHING HERE: `param-signedness[base]`,
+`param-signedness[pal]` and `param-signedness[pn]` all appear in the
+rankings at 2, so the toggle the earlier field report nominated (and which
+closed func_02021F64 by hand) is now measured on this target and refuted.
+Spelling 18 of the note's series, in effect, and the first machine-generated
+one to cover all three declarations.
+
+Combined with the seventeen hand spellings across the three earlier lanes,
+this residue has now survived every source-level lever this project has:
+statement order, declaration order, parameter naming, parameter type,
+parameter signedness, const/volatile qualification, operand order on `+`,
+`&`, `|` and `!=`, ternary versus if/else, and the call result bound to a
+local.  Nothing reaches the allocator's choice of scratch for the one
+`pal` copy.
+
+Still DIFF, still not filed.  Recommendation unchanged and now stronger:
+this is not worth another source-permutation pass.  The next useful move, if
+any, is evidence about how 1.1p1 ranks the two low callee-saved registers
+when a parameter copy competes with a loop-invariant constant defined after
+a call -- a compiler-behaviour question, not a spelling question.

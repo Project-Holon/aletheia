@@ -270,3 +270,93 @@ from it, not from the previous note's 792.
       s->f14 = sh;
   }
   
+
+
+======================================================================
+2026-09-21 -- closer lane.  868 -> 852.  The residue is NOT the _fadd
+order; it is the PROLOGUE, and this note's "20 bytes" was never the
+tool's number.
+======================================================================
+
+BASELINE REPRODUCED, with a correction to how it was counted.  The C
+preserved above compiles to 868 bytes against the original's 848 with
+all 59 relocation sites resolved -- that part holds exactly.  But
+`match.py one` scores it at **818 concrete bytes out**, not 20.  The
+size is wrong, so compare() truncates the target and every byte after
+the first divergence counts; 20 is an instruction-aligned eyeball of
+the loop body, the same miscount docs/notes/permuter.md documents for
+0x02051C88 and func_0202D4A8.  Start from 818/868, not 20/868.
+
+WHERE THE 20 BYTES ACTUALLY ARE.  The `--diff` divergence begins at
+**+0x0008**, in the prologue, long before the first _fadd.  The nine
+loop blocks are as byte-exact as this note claims; what is 20 bytes
+long is the six-flag preamble that computes `tot` and `k`.  Read the
+image at 0x0201183C..0x0201188E:
+
+  * `tot` lives in r7 and `k` in r6 for the whole preamble, both in
+    registers, nothing spilled.  The compile SPILLS `tot` to sp+0x14
+    and reloads/restores it around every one of the six `if`s -- that
+    `ldr`/`adds`/`str` triple, six times, is the overshoot.
+  * the image reads each flag ONCE and reuses the register for that
+    flag's second test: f30 -> r4 (tested at +0x18 and again at +0x3A),
+    f2c -> r0 (+0x24, +0x46), f28 -> r1 (+0x30).  The compile re-reads
+    every flag at all six sites.
+
+THE LEVER, worth 16 bytes: FOLD EACH FLAG'S TWO EFFECTS INTO ONE `if`.
+
+    tot = 8;
+    k = 0;
+    if (s->f30 != 0) { tot += n * 0xc; k += s->f18 * 0xc; }
+    if (s->f2c != 0) { tot += n * 0xc; k += s->f18 * 0xc; }
+    if (s->f28 != 0) { tot += n * 0xc; k += s->f18 * 0xc; }
+
+in place of the six separate `if`s.  **868 -> 852 bytes, 818 -> 719
+concrete out.**  Four bytes from the original's length, and it is the
+best this function has reached in three passes.  It is value-preserving:
+`n` and `s->f18` are both loop-invariant here and neither arm writes a
+field any guard reads.
+
+A SECOND IMAGE FACT THIS NOTE DOES NOT RECORD, and it matters for the
+symbols block's semantics rather than its addresses: at 0x0201184E the
+image does `adds r2, r1, #0`, taking `n` out of **r1**, not r0, across
+the `blx` to func_0209C2B0 -- while r1 held `s->f0c`, loaded at
+0x02011844 and nominally clobbered by the call.  Either func_0209C2B0
+returns its result in r1, or it preserves r1 and `n` is not the value
+this C thinks it is.  The compile has `n` in r0 (an ordinary r0 return)
+and that difference sits at the head of the remaining residue.  Settling
+this is the next real question on this function, and it is an evidence
+question about the callee, not a spelling question.
+
+MEASURED THIS PASS (1.1p1 -O4,p -thumb, on the volatile-helper baseline
+unless the 852 shape is named):
+
+  the folded three-`if` preamble above              **852 B, 719 out**
+  folded preamble + tot/k declared first in the
+    block                                             852 B, 719 out
+  folded preamble + `n` declared last                 852 B, 719 out
+  folded preamble + `sh = q >> 12;` moved AFTER the
+    func_0209C2B0 call                                852 B, 758 out (worse)
+  the three flags bound to locals a30/a2c/a28 and
+    tested six times                                  868 B, 817 out
+    (hoists all three loads above the first branch,
+     which the image does not do)
+  `tot = tot + n * 0xc;` spelled out instead of `+=`  868 B, 818 out
+  `0xc * n` / `0xc * s->f18`, the image's `muls`
+    operand order                                     868 B, 818 out
+  four declaration-order permutations of the six
+    locals (tot/k first, sh/n first, f first, n last) 868 B, 818 out each
+
+WHAT THIS MEANS FOR THE `_fadd` HYPOTHESIS.  This note's central claim --
+that the whole residue is the commutative `_fadd` operand order, worth 2
+bytes at each of nine blocks -- is not supported by the tool's diff.  The
+_fadd order may well still cost bytes inside the blocks, but it cannot be
+"the 20-byte residue", because 16 of those 20 were the preamble and are
+now gone WITHOUT touching a single float expression.  The eight spellings
+this note measured against the _fadd order are all still 868 because they
+all kept the six-`if` preamble; they were measuring the preamble, not the
+addition.  Whoever takes this next should re-measure that series on top of
+the 852-byte shape before concluding anything about `_fadd`.
+
+Still DIFF, not filed.  The 852-byte source is the 868-byte source above
+with the preamble replaced by the folded three-`if` form shown here; no
+other line changes.

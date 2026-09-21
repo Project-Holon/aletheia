@@ -339,3 +339,57 @@ allocator assigns these two slots from something that no statement-,
 declaration-, type- or naming-level edit in this function reaches.
 
 Still DIFF, still not filed.  The rest of the function is byte-exact.
+
+
+2026-09-21 -- closer lane.  Permuter (both modes) plus five restructurings.
+===========================================================================
+
+REPRODUCED: the case-1-before-case-2 C is 292 bytes / 4 concrete out under
+`--cc 1.1p1 --thumb`, 4 of 4 relocations resolved, and the four bytes are
+the four this note already lists (+001E, +0040, +00D6, +00FA).  Note for
+whoever reads a dispatch brief: the extent is 292 bytes, not 276.
+
+tools/permute.py, post-fix build, on that exact source:
+
+  --mode hill   --budget 40 --seed 4   40 compiles
+  --mode random --budget 40 --seed 23  41 compiles
+
+81 compiles, every best-of-ten row 292 bytes / 4 mismatches.  The new
+`param-signedness` mutation was exercised on species, mode, base, egg, idx,
+hidden and pal and moved nothing; so did `volatile-param`, `decl-swap`,
+`decl-join`, `init-fold`, `swap'=='`, `swap'!='`, `swap'+'` and `ne0->!!`.
+
+FIVE RESTRUCTURINGS, not reorderings, all 292 bytes / 4 out, all with the
+same mirrored slot pair:
+
+  (a) `pal` built by ACCUMULATION: the female 2-way written first
+      (`pal = female ? 0 : 2;`), then the mode2 block, then `pal += mode2;`.
+      This makes pal's first write precede mode2's entirely and makes pal
+      DEPEND on mode2 -- a data dependence, not a textual order.       4
+  (b) the pal block written first and mode2 derived from it
+      (`mode2 = female ? pal : pal - 2;`), inverting the dependence.   4
+  (c) mode2 first, pal derived from it
+      (`pal = female ? mode2 : mode2 + 2;`), collapsing pal's 4-way
+      into a 2-way on top of mode2.                                    4
+  (d) pal's full 4-way first, then mode2 derived as `pal`/`pal - 2`.   4
+  (e) mode2 given a SECOND, later write (`if (shiny != 0) mode2 = 9;`
+      after the pal block), restarting its live range.                 4
+
+(a), (c) and (d) are the first spellings in this note's history where one
+flag is computed FROM the other rather than beside it, which is the
+strongest available test of the "first-write order" and "live range"
+hypotheses: making the two values genuinely dependent, in either direction,
+does not move the slots either.
+
+WHAT THIS ADDS TO THE RULE-OUT LIST.  On top of declaration order, first-write
+order, type, signedness, volatility, aggregate membership, spilled-local count,
+what occupies sp+0, and live-range extension in both directions, the slot
+assignment also survives making the two values data-dependent on each other in
+either direction, and survives a second write to one of them.  Across four
+lanes this residue has now held at exactly 4 bytes through roughly forty
+distinct source shapes.
+
+Still DIFF, still not filed.  The rest of the function is byte-exact.  The
+honest summary is that 1.1p1's frame allocator orders these two slots from
+something upstream of the source text, and further source permutation on
+this function is not a good use of a lane.
