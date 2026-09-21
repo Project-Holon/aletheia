@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   EXACT*
  *
  * symbols:
  *   func_02045730  0x02045730  arm
@@ -16,14 +16,11 @@
  *   func_02020A58  0x02020A58  thumb
  *   func_02020B5C  0x02020B5C  thumb
  *
- * Blocked at MATCH: every concrete byte is right, but the two THM_CALL
- * sites at +0x36 and +0x4e (func_02020A58 and func_02020B5C) have no
- * witness outside 0x02020CA0..0x02020CF6.  This function is the only
- * caller of either in the whole image, so neither `label` nor `matched`
- * can attest them until func_02020A58 / func_02020B5C are themselves
- * filed EXACT; --suggest-split cannot help, since the range is one
- * function.  Blocking evidence class: none available (needs a second
- * caller, or an EXACT manifest entry at 0x02020A58 / 0x02020B5C).
+ * UNBLOCKED 2026-09-21: the two THM_CALL sites at +0x36 and +0x4e now
+ * attest `matched` off src/matched/func_02020A58.c and the newly filed
+ * src/matched/func_02020B5C.c.  All 5 relocation sites resolve and the
+ * verdict is EXACT*; promoted from src/pending/ unchanged apart from
+ * this header.  EXACT* only because 0x02020CF8 has no label.
  *
  * Window-fill front end.  The window descriptor names a BG channel
  * (func_02045730, the +2 accessor) and carries the bitmap it draws into

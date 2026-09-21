@@ -207,3 +207,96 @@ is NOT the front end for this row despite both tells reading like the
 Consequence for the packet: src/pending/func_02092004.c stays MATCH.  Its
 sole wildcard is the PC24 to func_02091E44, and only a `matched` entry at
 0x02091E44 promotes it.
+
+========================================================================
+0x02091E44 RE-WORKED at the CORRECT entry (wave 19 lane) -- still DIFF
+========================================================================
+
+The section above compared the 448-byte source at 0x02091E48, which is the
+BODY label, not the function.  Compared at 0x02091E44 (`match.py one --addr
+0x02091E44 --arm`, 1.1p1) the same C is 448 bytes against a 448-byte
+function and the 20-byte residue falls to 12.  The `push {r0, r1, r2, r3}`
+home area at 0x02091E44 and all three `pop {r4, r5, r6, lr}; add sp, sp,
+#0x10; bx lr` epilogues reproduce exactly, so the entry-point reading is
+confirmed by compile, not only by the idiom.  NOT FILED: still DIFF.
+
+Best source (448 bytes, 12 concrete out, all three relocation sites
+resolving -- func_02091650 label x3, func_02091CBC label x3, g_02153FAC
+literal x24).  It is the section above's body with the f08 word bound to a
+local INSIDE the innermost window arm and the post-store mode test read
+through a volatile bitfield pointer:
+
+    struct F08P *m08 = (struct F08P *)&p->f08;
+    ...
+    if (a2 != 2 && ((struct F04loP *)&p->f04)->mode != 3) {
+        if (m08->mode - 2 <= 1)
+            if (pos < p->f18 && pos >= p->f34) {
+                u32 f08 = p->f08;
+                p->f24 = p->f1c + (pos - p->f34);
+                p->f28 = p->f18 - pos;
+                v = (f08 & ~7u) | 2;
+                goto stored;
+            }
+    }
+    v = p->f08 & ~7u;
+stored:
+    p->f08 = v;
+    if (((volatile struct F08P *)&p->f08)->mode != 0)
+        goto done;
+
+Two NEW levers, both needed for the 448:
+
+  * the f08 write is ONE statement `p->f08 = v;` reached by `goto stored;`
+    from both arms; the arms compute `v` and do not store.  Storing per arm
+    loses the join at 0x02091F7C.
+  * the post-store mode test at 0x02091F80 is a genuine RE-READ of the word
+    just written, and only `((volatile struct F08P *)&p->f08)->mode`
+    reproduces it.  A plain `m08->mode` forwards `v` (4 bytes out); a
+    `*(volatile u32 *)&p->f08 & 7u` spelling gives `tst r0, #7` instead of
+    the `lsl #0x1d` / `lsrs #0x1d` pair; binding the volatile read to a
+    local costs a stack slot and spills `pos` to sp+0x1c (468 bytes).
+
+The residue is now TWO coupled decisions that trade against each other, and
+no C spelling reaches both at once:
+
+ (a) the image keeps the f08 word live in ip from `ldr ip, [r6, #8]` at
+     0x02091F14 through `bic r0, ip, #7` at 0x02091F60, across the
+     intervening `str r0, [r6, #0x24]`.  1.1p1 re-reads it.
+ (b) the image writes the in-window failure out twice, `bhs 0x02091F48`
+     into an unconditional `b 0x02091F74` at 0x02091F48 plus
+     `bhs 0x02091F4C`; 1.1p1 cross-jumps them to `bhs`/`blo` and drops
+     the `b`.  This is the "kept branches" tell.
+
+THE TRADE, measured: making m08 a `const struct F08P *` (plus a
+`const u32 *cf08 = &p->f08;` for the later read) FIXES (a) -- `bic r0, ip,
+#7` is byte-exact and the +00D0/+00D4 pair matches -- but the CSE it
+enables removes the re-read's instruction and the compile falls to 444
+bytes, shifting the entire tail: 51 concrete bytes out against the
+unqualified version's 12.  The two gains are mutually exclusive: (a)'s fix
+costs exactly the 4 bytes that (b)'s cross-jump already lost.
+
+Spellings measured at the correct entry, all 12 out or worse:
+  `goto clear` split of the two bounds guards into separate `if`s (448/12,
+    identical cross-jump); `!(pos >= p->f18 || pos < p->f34)` negated
+    disjunction (444/51); explicit `else { goto clear; }` (460); named `hi`
+    / `lo` locals for the two bounds (444, and it swaps the cmp operands);
+  the f08 word hoisted above the mode test with the mode taken as a shift
+    pair `((f08 << 0x1d) >> 0x1d)` (440: the pair folds to `and r0, ip, #7`,
+    the idiom the section above already records); the same hoist with
+    `m08->mode` for the test (448, but it costs a `mov r0, r1` copy);
+  `((struct F08P *)&f08)->mode` on a plain local (460).
+
+THE PIN WAS RE-PROBED AT THE CORRECT ENTRY AND IS STILL REFUSED.
+`--cc ../2.0/sp2` on the 448-byte source is 468 bytes, 107 concrete out,
+against 1.1p1's 448/12.  Both residues read like the "kept branches" and
+re-read/forward families docs/FRONTEND-PINS.md records for 2.0, and the
+front end is nonetheless NOT 2.0 for this row.  Two probes have now been
+spent on it; do not spend a third.
+
+FOR THE INTEGRATOR: 0x02091E44 is a SEED-FILE item.  layout/function_starts.txt
+labels only 0x02091E48; the function starts at 0x02091E44.  Until the seed
+lands, `match.py show --addr 0x02091E44` reports a 4-byte extent and any
+`one` run at that address prints "listing says the original is 4 bytes".
+
+Consequence unchanged: src/pending/func_02092004.c stays MATCH.  Only a
+`matched` entry at 0x02091E44 promotes it, and this row is not one.

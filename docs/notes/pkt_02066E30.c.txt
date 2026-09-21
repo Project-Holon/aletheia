@@ -295,3 +295,124 @@ The source that reaches 644/704 follows.
         *oam = (*oam & 0xfe00ff00) | ((p.y >> 12) & 0xff)
              | (((u32)(p.x << 23)) >> 7);
     }
+
+==============================================================================
+2026-09-21 - wave 19 ARM lane.  0x02067998 (MATCH, parked) and 0x0206775C (DIFF)
+==============================================================================
+
+func_02067998 @ 0x02067998 (200 bytes, arm9, ARM) - MATCH, BYTE-CORRECT
+----------------------------------------------------------------------
+
+The list driver of this subsystem: walks the u16-counted row list, copies
+each six-byte row into the rig's +0x38..+0x3c scratch triple, and calls the
+caller's optional +0x20 pre hook and +0x24 post hook around func_0206775C,
+which runs only while the rig's +0x30 gate is still set.  The gate is
+re-armed to 1 at the TOP of every iteration, so a hook may clear it to skip
+exactly one row.
+
+200 bytes, 0 concrete mismatches, under the DEFAULT 1.1p1 -O4,p --arm.
+FILED at src/pending/func_02067998.c, status MATCH.  Parked, not filed to
+matched: the sole wildcard is the +0x0088 PC24 to func_0206775C, whose only
+branch anywhere in the image is the `bl` at 0x02067A20 inside this very
+function (checked by grep over asm/arm9/: four hits, all the same address).
+`one --suggest-split` does not exist as a flag on this tool version, and no
+cut could help anyway -- the site is inside the single function.  It promotes
+with NO edit the moment 0x0206775C has a `matched` entry.
+
+Two levers, both needed for the 0 mismatches:
+  * the gate store `g_02148B48->gate = 1;` must come BEFORE the read of
+    `lst->rows`.  Reading the row base first permutes the first 0x10 bytes
+    of the loop body (`ldr r2, [sb, #4]` lands above the `str r6, [r0, #0x30]`).
+  * the entry test is `lst->count <= i` against the ZERO counter, not
+    `lst->count == 0`.  The image's `popls` at 0x020679B8 is the UNSIGNED
+    compare of the loop's own pre-test hoisted to the entry; spelling it
+    `== 0` gives `popeq` and is the only byte wrong.
+
+
+func_0206775C @ 0x0206775C (572 bytes, arm9, ARM) - DIFF, 568/99
+----------------------------------------------------------------
+
+NEW row; neither earlier pass reached it.  The per-row entry of the same
+composer: sign-extends the 9-bit x (attr1 bits 0..8, `lsl #7` / `lsr #0x17`)
+and the 8-bit y (attr0 bits 0..7, `lsl #0x18` / `lsr #0x18`) out of the row's
+packed word, and when the rig's +0x24 flip mask is live, mirrors each axis
+about the sprite's own extent -- objWidth[shape][size] from 0x020A17F0 and
+objHeight[shape][size] from 0x020A17D8, the same two 3x4 u16 tables on the
+8-byte row stride that 0x02067080 and unit_02067B40 use, indexed out of one
+`and r4, v, 0xc000c000` -- then writes the two flip bits back into the word
+through masks 0x10000000 / 0x20000000 and tails into func_02066E30 with
+three stacked arguments (rig->f08 + 0xc, rig->f14, rig->f18).
+
+The two arms are separate tails: the `f24 == 0` arm has its OWN `bl
+func_02066E30` at 0x0206797C and its own epilogue, and must be written as an
+early `return` rather than as an `else` feeding a shared tail (the shared
+tail is 44 bytes short).
+
+THE PIN IS TAKEN HERE AND IT IS `../2.0/sp2` -- the "kept constants" tell, in
+the pool-reload form that pinned `src/pending/func_020727B4.c`.  The image
+RELOADS the &g_02148B48 pool word SIX separate times, at 0x02067764,
+0x02067778, 0x02067808, 0x02067888, 0x020678D8 and 0x02067918, six distinct
+pool entries for ONE symbol, which is why the frame is the seven-register
+`push {r3, r4, r5, r6, r7, r8, lr}` (`f8 41 2d e9`).  1.1p1 -O4,p hoists the
+base into a callee-saved register and folds the pool, giving 564 bytes
+against the original's 572 with 130 concrete out and the WHOLE register
+allocation permuted (row r7->r4, mask r4->r5, x r5->r6, y r6->r7, and an
+eight-register `push {r4, r5, r6, r7, r8, sb, lr}`).  Under the pin the SAME
+source is 568 bytes with 99 out and the prologue, `mov r7, r0` and every
+callee-saved assignment BYTE-EXACT.  This does not contradict the 0x02067080
+row above, which was probed and refused: these are two different rows and
+0x02067080 is still not a 2.0 row.
+
+The volatile lever this note already records for 0x02067080 carries over and
+is worth 40 bytes here: `row` must be `volatile u32 *`.  The image re-reads
+the packed word at 0x0206778C, 0x020677A0, 0x02067820, 0x0206788C, 0x0206789C,
+0x020678B4, 0x0206791C and 0x02067928; without volatile 1.1p1 CSEs them and
+the body is 524.
+
+THE RESIDUE, 4 bytes and a scheduling permutation, is ONE decision repeated
+on both axes.  The image emits, per axis:
+
+  02067840  cmp r0, #0          <- the flip-getter's result
+  02067844  ldr r0, [r7]        <- the packed word, read AFTER the cmp
+  02067848  lsl r0, r0, #7      <- and shifted, still before the branch
+  0206784C  beq <else arm>
+
+i.e. the load and the shift are SHARED by both arms and sit between the
+compare and the branch, while the clamp (`cmp #0xff` / `orrgt` / `lslgt` /
+`asrgt`) is written out per arm.  Spellings measured, all under the pin:
+
+  * the call inline in the `if` and `(*row << 7) >> 23` written out in both
+    arms: 576/102, and the load is duplicated into each arm (the arms are
+    each 4 bytes long, the whole tail shifts).
+  * the flip bound to a local and the shift hoisted above the `if`
+    (`fx = call(); wx = *row << 7; if (fx != 0)`): 568/108 on the x axis
+    alone, and this is the shape that FIXES the branch target -- it is the
+    best measured.  Applying the SAME shape to the y axis as well drops it
+    back to 560/108, so the two axes do not want the same spelling.
+  * the clamp hoisted above the branch too (shared `t` computed once):
+    544/116, too much sharing -- the image duplicates the clamp.
+  * a `flip` local with the shift inside the `if` scope: 556/133.
+  * the shift sequenced after the call by a comma expression in the
+    condition, `call() != 0 ? (wx = *row << 7, 1) : (wx = *row << 7, 0)`:
+    584/131.
+  * a dead `if (fx != 0 || 1) wx = *row << 7;` between the call and the
+    test, which is the only spelling that puts the `cmp` BEFORE the `ldr`:
+    568/99, the lowest count reached.  Not kept -- it is a hack, not a
+    recoverable source shape, and it still leaves the y axis and the
+    register naming of the `rsb` out.
+
+The best clean source is at 568 bytes, 99 concrete out, all 10 relocation
+sites resolving (func_0207D8E0 / func_02067B50 x2 / func_02067B64 x2 /
+func_02066E30 x2 by `label`, g_02148B48 / tbl_020A17F0 / tbl_020A17D8 by
+`literal`).  Not filed anywhere: DIFF, by rule 6.
+
+WHAT IS LEFT is a source shape, not a front end: the pin is settled and
+correct.  The untried direction is whichever spelling makes the flip getter's
+result a live flag consumed by the branch while the word read is an ordinary
+statement between them -- the compiler is sinking the load below the compare
+under every natural spelling and the image sinks the compare instead.
+
+CONSEQUENCE FOR THE PACKET: src/pending/func_02067998.c stays MATCH.  Only a
+`matched` entry at 0x0206775C promotes it, and this row is not one yet.  It
+is the single highest-value row left in this packet for exactly that reason:
+it converts a byte-correct 200-byte park for free.

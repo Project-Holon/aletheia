@@ -212,3 +212,62 @@ void func_02073DFC(void)
  * docs/FRONTEND-PINS.md the moment the three registers fall into place.
  * The C below is the first pass's C verbatim; only `compiler:` changed.
  * ================================================================ */
+
+/* ================================================================
+ * 2026-09-21, THIRD pass (closer lane).  Still 12 concrete bytes under
+ * the pin, still the same three-register rotation, ELEVEN further
+ * spellings measured and every one held at 12.
+ *
+ * The second pass's C reproduced verbatim under `--cc ../2.0/sp2`:
+ * 232 bytes, 11 relocation sites, 12 concrete bytes out, and they are
+ * the nine slots the second pass names (+0x20, +0x24, +0x28, +0x44,
+ * +0x50, +0x5C, +0x64, +0x68, +0x6C, +0x70, +0x74, +0xA4).
+ *
+ * The second pass's recommended next lever, a TYPE tell on `h`, was the
+ * first thing tried and it does NOT move it:
+ *   func_02089D40 returning `void *`, `h` a `void *`, func_02089CD4
+ *     taking `void *`                                             12
+ *   func_02089D40 returning `u32`, `h` a `u32`, func_02089CD4
+ *     taking `u32`                                                12
+ *   `on` declared u32 with an explicit (u32) cast on the compare    12
+ *   g_0214E9BC declared `void *` and passed as `&g_0214E9BC`        12
+ *
+ * Further shapes measured this pass, all 232 bytes and all 12 out:
+ *   `h` and `z` collapsed into ONE local (the image DOES reuse r5 for
+ *     both, `mov r5, r0` at +0x50 then `mov r5, #0` at +0x68, so this
+ *     looked like the tell -- it is not, 2.0 reuses its own register
+ *     for both either way)                                        12
+ *   the same collapse with `h` declared before `on`                12
+ *   `on` declared LAST of the three                                12
+ *   the two loop arguments as two DISTINCT locals `z` and `z2 = z`
+ *     (the first pass's own suggested direction, measured here under
+ *     the pin for the first time)                                  12
+ *   a `u8 *p` local for g_0214E9BC assigned inside the `if (on)`
+ *     block, declared last                                         12
+ *   the same `p` declared FIRST, right after `s`                    12
+ *   `on` spelled with the double negation `!!(s->f2c >= 0)` (the
+ *     lever that closed func_0206419C's materialised zero)          12
+ *   `h = s->f2c;` read into a local before the compare, `on` derived
+ *     from the local                                               12
+ *   declaration order z / h / on                                   12
+ *
+ * WHAT THE ALLOCATION ACTUALLY LOOKS LIKE, measured rather than
+ * inferred.  The image's assignment is by DESCENDING live range:
+ * `on` is live from +0x20 to +0xA4 (the whole body) and gets the
+ * HIGHEST callee-saved register r7; the pool pointer is live from
+ * +0x64 to +0x6C and gets r6; `h` is live +0x50..+0x5C and `z`
+ * +0x68..+0x74, non-overlapping, and SHARE r5, the lowest.  2.0 does
+ * the opposite: longest range to the lowest register, r5 for `on`,
+ * r6 for the h/z pair, r7 for the pointer.  Nothing at the source
+ * level reached that ranking across twenty measured spellings between
+ * the second and third passes.
+ *
+ * The pin itself is not in doubt and remains unrecorded in
+ * docs/FRONTEND-PINS.md only because the file is still DIFF: under the
+ * default 1.1p1 this C is 228 bytes (one instruction short, the zero
+ * CSEd three ways), under the pin it is 232 with every opcode, operand
+ * shape and branch target identical.
+ *
+ * src/pending/func_02073D7C.c stays blocked, and
+ * src/pending/func_02072758.c behind it.
+ * ================================================================ */

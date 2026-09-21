@@ -107,3 +107,55 @@ this up should chase the allocation, not the front end.
 
 Not filed anywhere: DIFF, by rule 6.  Two bytes from EXACT on a 536-byte
 function, and the packet has no other row.
+
+
+2026-09-21 -- closer pass, EIGHT further spellings, still exactly 2 bytes
+========================================================================
+
+Baseline from the note above reproduced verbatim: 536 bytes, 9 of 9
+relocations resolved, 2 concrete bytes differ, and they are the same two
+the note names (+0014 `mov r6,r2` vs `mov r4,r2`, +0028 `lslne r0,r6,#0x1c`
+vs `lslne r0,r4,#0x1c`).
+
+One correction to the note's diagnosis, measured here: the compile does NOT
+withhold r4 from the constant.  It materialises `mov r4, #0x11` at +0040
+exactly as the image does; `pal`'s copy merely dies at +0028 and the
+allocator reuses r4 for the constant four instructions later.  So the two
+values genuinely share r4 in the compile and share nothing in the image,
+which gives `pal` its own r6 that `pn` then overwrites.  The lever, if one
+exists, has to lengthen or re-rank the parameter copy's live range without
+changing any other byte -- nothing in these eight did.
+
+Spellings measured on this pass, all 536 bytes, all the same 2 bytes out
+unless noted:
+
+  9.  a named `u32 t;` for the func_02041680 result, declared AFTER `u32 pn;`
+  10. the same `u32 t;` declared BEFORE `u32 pn;` (the declaration-order
+      lever that closed 0x02020A58; it does nothing here)
+  11. the third parameter NAMED `pn` and reassigned in place, with the
+      if/else kept intact (`pn = (pn & 0xf) << 12;` / `pn = 0;`)
+  12. the same, with the shift written the image's way, `(pn << 28) >> 16`
+  13. a second copy local `u32 p2 = pal;` feeding the shift, `pn` separate
+  14. `base` declared `u16` (the caller at 0x021EB130 narrows it with
+      `lsls r1,#0x10 / lsrs r1,#0x10`, so this is the caller's own type)
+  15. `pal` declared `u8`
+  16. the layer index bound to `u32 lay = cfg->unk_02;` before the call
+  17. the whole selection as one ternary initialiser on `u32 pn`
+
+Two further shapes are WORSE and are recorded so they are not retried:
+  * `u32 pn = pal;` initialiser then `if (...==1) pn = 0; else pn = (pn&0xf)<<12;`
+    -- 17 bytes out, the arms swap exactly as the note's "invert the test"
+    entry already reports.
+  * hoisting the mask, `u32 q = pal & 0xf;` before the call with `pn = q<<12;`
+    -- 408 bytes out, the `and` is computed unconditionally above the call
+    and the whole predicated selection collapses.
+
+Also confirmed from the image: func_020454E0 takes exactly three arguments.
+The two call sites image-wide are `blx 0x020454E0` at 0x021EB134 (ov093) and
+0x021B68B4 (ov098); the ov093 site sets r0/r1/r2 only and leaves r3 holding
+an unrelated value from two calls earlier, so no fourth-argument spelling is
+available to try.
+
+Still DIFF, still not filed.  Verdict unchanged after seventeen measured
+spellings across three lanes: this is register allocation for one parameter
+copy, and no source-level shape reached from the solved body moves it.

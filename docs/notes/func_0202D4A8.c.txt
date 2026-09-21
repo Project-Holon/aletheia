@@ -177,3 +177,99 @@ void func_0202D4A8(void *narc, u32 species, s32 form, s32 mode,
         *out_base = base;
     }
 }
+
+
+2026-09-21 -- closer pass.  RESIDUE (b) IS SOLVED.  29/48 -> 4 bytes.
+====================================================================
+
+The note's own "closest C" above reproduces at 292 bytes with 48
+concrete bytes out under `--cc 1.1p1 --thumb`, not 29; the 29 in the
+header line is a miscount, and the two clusters the note names are the
+real content of those 48 (the +0xE8 branch alone displaces every byte
+from +0xE8 to the epilogue by two).
+
+THE LEVER FOR (b) IS THE CASE ORDER, AND IT IS THE SIMPLE ONE: write
+`case 1:` BEFORE `case 2:` in the switch, everything else unchanged.
+
+    switch (mode) {
+    case 0:
+        break;
+    case 1:
+        count = func_020490A8(narc, (u32)(idx + pal + 1));
+        mode = 1;
+        if (count == 0) {
+            mode = 0;
+        }
+        break;
+    case 2:
+        mode = 0;
+        break;
+    default:
+        break;
+    }
+
+That is it.  48 -> 4.  The note's reading of (b) was that reproducing
+the redundant `b` costs a register permutation; it does not, as long as
+the reordering is done by moving the CASE LABELS and not by a `goto`.
+With case 1 written second the compiler emits `cmp r4,#2 / beq 0x202d592
+/ b 0x202d594` for the dispatch tail and lets case 1's `count == 0` path
+branch into case 2's `movs r4, #0` at 0x0202D592, exactly as the image
+does, and the three register parameters stay in r4/r5/r6 throughout.
+Measured against the alternatives:
+
+  case 1 before case 2 (the answer)                                  4
+  case 1 before case 2 with an explicit `goto zero;` into case 2    67
+  case order 0/2/1 with `goto zero;` backwards into case 2          84
+  an if / else-if chain over 0, 1, 2                                67
+  case 1's arm spelled as if/else on `count` instead of
+    `mode = 1;` then the conditional override                       28
+
+WHAT IS LEFT: residue (a) alone, 4 concrete bytes in 2 instruction
+pairs, and it is exactly the swap the note describes:
+
+  orig +001E  str r0, [sp, #8]   | mine  str r0, [sp, #4]      (mode2)
+  orig +0040  str r0, [sp, #4]   | mine  str r0, [sp, #8]      (pal)
+  orig +00D6  ldr r1, [sp, #4]   | mine  ldr r1, [sp, #8]      (call index)
+  orig +00FA  ldr r0, [sp, #8]   | mine  ldr r0, [sp, #4]      (*out_pal)
+
+Both values pass through r0 and are spilled immediately, so this is the
+frame allocator alone.  The frame is `sub sp, #0x14`: sp+0 holds the
+spilled `narc`, sp+4 and sp+8 hold these two, sp+0xc and sp+0x10 are
+unused in both.  The image gives the FIRST-WRITTEN value sp+8 and the
+second sp+4; 1.1p1 gives the first-written sp+4.
+
+Measured and rejected this pass, all held at exactly 4 bytes:
+  six permutations of the six local declarations, including
+    idx/count/first/hidden/pal/mode2 and both of the two flag
+    locals moved to the front, the middle and the back    4, 50, 53 x4
+  `mode2` declared u32 with the cast dropped at *out_pal             4
+  `mode2` written as a ternary instead of if/else                    4
+  the two locals as ONE comma declaration, either order              4
+  a `void *n = narc;` local declared first, and declared last,
+    with the call taking `n` (to change what sp+0 holds)             4
+  the two NAMES swapped so the 2-way value feeds the call and the
+    4-way value feeds *out_pal (confirms the slot choice is not
+    semantic: identical 4 bytes, mirrored)                           4
+
+And rejected as strictly worse (recorded so they are not retried):
+  swapping the two COMPUTATION BLOCKS, with and without the
+    matching declaration swap                                    69, 69
+  the `pal` block hoisted above `idx = species * 0x14`               38
+  the `pal` block between `idx` and the `mode2` block                25
+  the `mode2` block moved down below the egg/form dispatch           25
+  `pal` restructured shiny-first (one outer test, two inner)         12
+  `pal` derived from `mode2` (`pal = mode2 + (female ? 0 : 2)`)
+                                                     272 bytes, 241 out
+  `mode2`/`pal` computed inside one shared `if (shiny == 0)`
+                                                     284 bytes, 243 out
+  the *out_pal store written before the *out_index store             18
+
+So the coupling the note suspected between the two clusters is not
+real: (b) came out with no cost to (a), and (a) survives every source
+shape that leaves the rest of the function byte-correct.  Whoever takes
+this next needs something that makes the allocator hand out sp+8 before
+sp+4, and nothing at the statement, declaration, type or naming level
+reaches it.  Still DIFF, still not filed.
+
+The C that reaches 292 bytes / 4 concrete out is the note's "closest C"
+above with the two case labels reordered as shown.
