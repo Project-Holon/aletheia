@@ -155,3 +155,232 @@ void func_02048918(u8 *owner, u32 index)
     }
 }
 */
+
+==============================================================================
+2026-09-21 - 0x02048744 (456 code bytes + 12 pool, ARM) -- FIRST BODY. DIFF.
+==============================================================================
+
+New row for this packet; the earlier sections cover 0x02048330 only. The body
+below compiles to 480 bytes against the original's 468-byte extent (456 code +
+the three-word pool at 0x0204890C), 353 concrete bytes out at its best, with
+ALL NINE relocation sites resolving: eight PC24 by `label` and the ABS32
+__FILE__ word by `literal x9`. So this row is codegen alone -- there is no
+evidence problem here and it would be EXACT, not MATCH, the moment the C lands.
+
+What the function is. g3d_util.c (the pool word at 0x02048914 holds 0x020A7EB8,
+which layout/file_anchors.txt names g3d_util.c). Signature:
+
+    func_02048744(struct Set *set, s32 idx, struct Arg *arg, s32 flags)
+
+`set` is both the owner record and the base of an 8-byte-stride entry array,
+so the entry is `(char *)set + idx * 8` and its fields are read at +0x16
+(base), +0x1A (slot) and +0x1C (count) -- the SAME three fields, at the same
+offsets and with the same `add r1, sl, r1, lsl #3` addressing, that
+0x02048918 uses two rows later, so the layout is confirmed twice.
+
+  set->f00   void **   handle table, indexed by `base + id`
+  set->f04   u8 *      per-handle "used" byte array, same indexing
+  set->f0c   void **   output array, indexed by `slot + i`
+
+`arg->f08` is an array of 16-byte records:
+
+  +0x00 u16 texture id       +0x02 u16 passed to func_02047400
+  +0x04 u16 palette id       +0x08 struct * table    +0x0C u16 table count
+
+and `flags` becomes the heap tag `(flags & 0x7fff) | 0x8000` -- the 0x00007FFF
+pool word at 0x0204890C -- which is then passed to func_02030734 NARROWED TO
+16 BITS (`lsl r1, r1, #0x10` / `lsr r0, r1, #0x10` at 0x02048854/0x0204885C),
+so the allocator's first parameter is a u16, not an int. The __LINE__ argument
+is 0x261 = 609.
+
+Per entry: mark the texture slot used, resolve the palette (three arms, see
+below), bind them with func_02047400, allocate a `count * 4` index array with
+func_02030734(tag, n*4, 1, __FILE__, 609), fill it from func_02047564 skipping
+the 0xFF sentinel, publish the result of func_0204767C into set->f0c[slot+i],
+and free the scratch array with func_020307B0.
+
+SETTLED, and worth not re-deriving:
+
+  * The palette record's field at +0x04, NOT +0x02, is the one compared
+    against the texture id (`ldrh r1, [r6, #4]` at 0x020487B4 and again at
+    0x020487E4/0x02048804). +0x02 is a separate halfword and is func_02047400's
+    second argument (`ldrh r1, [r6, #2]` at 0x02048834). Reading the compare
+    field as +0x02 costs the whole middle of the function.
+  * The equal arm is the BRANCH TARGET (`beq 0x2048818`), so the source order
+    is `if (pal_id != tex_id) { ... } else { ... }` -- the != arm falls
+    through. Written the other way round the two `bl` sites swap.
+  * The equal arm calls func_02047348 and, only when it returns 0, calls
+    func_02046FF8 on the SAME pointer; the not-equal arm calls
+    func_02046F50(handle, 1) and compares against 1, taking the "mark used"
+    path on success and the func_02046FF8 path otherwise. The literal 1 is
+    SHARED between the `strb` and func_02046F50's second argument (`mov r4,#1`
+    at 0x020487A4 then `mov r1, r4` at 0x020487D0), so it must be one value in
+    the C, not two.
+  * func_02047564 takes THREE arguments: (bound, handle_table[base+id], the
+    halfword at +2 of the table record). The 0xFF sentinel arm shares the
+    store with the call arm (`moveq r0, fp` then one `str r0, [r5, r8, lsl #2]`),
+    so write the value to a local and store it once.
+  * The inner loop RE-READS the table count `ldrh r2, [r6, #0xc]` at the top
+    of every iteration (0x020488C0), so the bound is a fresh field read, not a
+    hoisted local.
+
+THE RESIDUE, 12 bytes. Every spelling measured lands at 480 rather than 468.
+The image computes the handle-table base ONCE before the arm split --
+`ldr r2, [sl]` / `add r2, r2, r7, lsl #2` at 0x020487B0/0x020487BC -- and then
+indexes it twice as `[r2, r3, lsl #2]` and `[r2, r1, lsl #2]`; every arm of
+every spelling tried re-loads `set->f00` and re-adds `base * 4` inside the arm.
+Hoisting it to a named `void **arr = set->f00 + base;` local does NOT fix it
+(480 bytes, 368 out -- worse), because 1.1p1 then keeps `arr` in a callee-saved
+register and reallocates the rest. The next thing to try is making the table
+base a parameter-shaped expression the compiler cannot sink, e.g. reading it
+through a `const`-qualified pointer (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md).
+
+NOT a pin row: not probed under ../2.0/sp2, because neither documented tell is
+present -- there is no kept branch over a short predicated guard and no
+rematerialised constant; the difference is purely where one address expression
+is computed.
+
+Not filed anywhere: DIFF. The source as it stood follows.
+
+    /*
+     * function: func_02048744
+     * address:  0x02048744
+     * packet:   pkt_02048330
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   DIFF
+     *
+     * g3d_util.c (the __FILE__ pool word at 0x02048914 names 0x020A7EB8, see
+     * layout/file_anchors.txt). Build one resource set's worth of material
+     * bindings: for every entry of the set, mark its texture slot used, resolve
+     * the texture through func_02046F50 / func_02047348 / func_02046FF8, allocate
+     * a palette index array with func_02030734 (__FILE__/__LINE__ 609), fill it
+     * from func_02047564 skipping the 0xFF sentinel, and hand the pair to
+     * func_0204767C before freeing the scratch array.
+     *
+     * symbols:
+     *   func_02046F50    0x02046F50  arm
+     *   func_02046FF8    0x02046FF8  arm
+     *   func_02047348    0x02047348  arm
+     *   func_02047400    0x02047400  arm
+     *   func_02047564    0x02047564  arm
+     *   func_0204767C    0x0204767C  arm
+     *   func_02030734    0x02030734  arm
+     *   func_020307B0    0x020307B0  arm
+     *   g3d_util_file    0x020A7EB8  data
+     *
+     * Verified with:
+     *   python tools/match.py one --src src/matched/func_02048744.c \
+     *       --func func_02048744 --addr 0x02048744 --cc 1.1p1 --arm
+     */
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef int            s32;
+    typedef unsigned int   u32;
+
+    struct Ent {
+        u8  pad_00[0x16];
+        u16 f16;
+        u8  pad_18[2];
+        u16 f1a;
+        u16 f1c;
+    };
+
+    struct Sub {
+        u16 f00;
+        u16 f02;
+        u16 f04;
+        u8  pad_06[2];
+        struct Pal *f08;
+        u16 f0c;
+    };
+
+    struct Pal { u16 f00; u16 f02; };
+
+    struct Set {
+        void **f00;
+        u8    *f04;
+        u8     pad_08[4];
+        void **f0c;
+    };
+
+    struct Arg { u8 pad_00[8]; struct Sub *f08; };
+
+    extern s32  func_02046F50(void *tex, s32 kind);
+    extern void func_02046FF8(void *tex);
+    extern s32  func_02047348(void *tex);
+    extern void *func_02047400(void *tex, s32 a, void *b);
+    extern void *func_02047564(void *pal, void *a, s32 b);
+    extern void *func_0204767C(void *a, void **b);
+    extern void *func_02030734(u16 heap, s32 size, s32 one, const char *file, s32 line);
+    extern void  func_020307B0(void *p);
+
+    extern const char g3d_util_file[];
+
+    void func_02048744(struct Set *set, s32 idx, struct Arg *arg, s32 flags)
+    {
+        struct Ent *e = (struct Ent *)((char *)set + idx * 8);
+        s32 n = e->f1c;
+        s32 base = e->f16;
+        s32 slot = e->f1a;
+        s32 i = 0;
+        s32 key;
+
+        if (n <= 0)
+            return;
+        key = (flags & 0x7fff) | 0x8000;
+
+        do {
+            struct Sub *sub = arg->f08 + i;
+            void *tex;
+            void *pal;
+            void **tmp;
+            s32 j;
+            s32 cnt;
+
+            set->f04[base + arg->f08[i].f00] = 1;
+            tex = set->f00[base + arg->f08[i].f00];
+            if (sub->f04 != arg->f08[i].f00) {
+                if (func_02046F50(set->f00[base + sub->f04], 1) == 1) {
+                    set->f04[base + sub->f04] = 1;
+                    pal = set->f00[base + sub->f04];
+                } else {
+                    pal = set->f00[base + sub->f04];
+                    func_02046FF8(pal);
+                }
+            } else {
+                pal = tex;
+                if (func_02047348(tex) == 0)
+                    func_02046FF8(tex);
+            }
+            pal = func_02047400(tex, sub->f02, pal);
+
+            tmp = func_02030734((u16)key, sub->f0c * 4, 1, g3d_util_file, 609);
+            j = 0;
+            cnt = sub->f0c;
+            if (cnt > 0) {
+                void *zero = 0;
+
+                do {
+                    u16 id = sub->f08[j].f00;
+                    void *v;
+
+                    if (id == 0xff)
+                        v = zero;
+                    else
+                        v = func_02047564(pal, set->f00[base + id],
+                                          sub->f08[j].f02);
+                    tmp[j] = v;
+                    j++;
+                    cnt = sub->f0c;
+                } while (j < cnt);
+            }
+            set->f0c[slot + i] = func_0204767C(pal, tmp);
+            func_020307B0(tmp);
+            i++;
+        } while (i < n);
+    }

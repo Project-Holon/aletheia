@@ -305,3 +305,175 @@ FILED: src/matched/func_02068EA0.c, status EXACT, compiler ../2.0/sp2, with
 the evidence row appended to docs/FRONTEND-PINS.md as the rule requires.
 The func_02068E78 paragraph above stands as written: that one is a spill/frame
 difference, not a re-read, so it remains unpinned and unfiled.
+
+==============================================================================
+2026-09-21 - third pass (ARM lane, large-function slot). 0x02068AE8 only.
+==============================================================================
+
+func_02068AE8 @ 0x02068AE8 (412 bytes) - DIFF, 412 compiled, 263 concrete out
+-----------------------------------------------------------------------------
+NEW row; the two earlier passes never reached it. The structure is SOLVED: the
+compiled body is the original's exact 412 bytes, the sole PC24 site resolves
+`label` to func_020682F8, the prologue/epilogue, the four stack-slot spills,
+both loop shapes and the `stm sp, {th, px, bpp}` argument build are all in the
+right place. The residue is register allocation only.
+
+What the function is: a rectangle fill on a TILED 8x8 surface.
+
+  s->f00  char *base      the tile buffer
+  s->f04  int   w         unused here
+  s->f08  int   h         unused here
+  s->f0c  u8    bpp       4 or 8, and `(bpp << 6) / 8` is the tile stride
+  s->f10  int   stride    tiles per row
+
+  func_02068AE8(s, px_arg, x, y, w, h)
+
+expands `px_arg` to a full word exactly as func_02068A18 does (4bpp doubles
+the nibble then the byte, 8bpp doubles the byte, then once more for the word),
+rounds x and y DOWN to a multiple of 8 and x+w / y+h UP, and walks the covered
+tiles. Per tile it computes the sub-rectangle inside that tile and calls
+
+  func_020682F8(tile, xoff, yoff, tw, th, px, bpp)
+
+which is the seven-argument single-tile filler at 0x020682F8 (r0..r3 plus
+[sp+0x10]/[sp+0x14]/[sp+0x18]); the fast path there is `d == 8 && e == 8`,
+i.e. a whole tile, which confirms arguments 4 and 5 are the sub-rectangle's
+width and height and 2/3 its offsets.
+
+THREE LEVERS that each moved the size, in the order they were found:
+
+ 1. The pixel expansion must be written DEFAULT-THEN-OVERRIDE, exactly the fix
+    this file's second pass found for func_02068A18:
+        px = arg | (arg << 8);
+        if (bpp == 4) { u32 t = arg | (arg << 4); px = t | (t << 8); }
+        px = px | (px << 16);
+    An if/else with two arms factors the shared `| (x << 8)` step and loses 4
+    bytes (404 instead of 408).
+ 2. `rowadv = s->f10 * tilesz` must be a HOISTED LOCAL. Recomputing the row
+    advance as `row += s->f10 * tilesz` inside the loop makes 1.1p1 emit an
+    `mla` per iteration (416 bytes).
+ 3. `bpp` must be declared `u8`, not `int`. This is the one that closes the
+    size: with `int bpp = s->bpp;` the body is 408 bytes and 330 out; with
+    `u8 bpp = s->bpp;` it is the original's 412 and 276 out, because the u8
+    keeps the `ldrb` value narrow enough that the allocator stops trying to
+    share the `bpp << 6` temporary with the tile stride.
+    Writing the `px` initialiser as a separate statement after the
+    declarations rather than in the declaration takes 276 to 263.
+
+TWO SITES IN THE RESIDUE ARE THE DOCUMENTED PIN TELLS, and the pin is NOT the
+answer here -- this was measured, do not re-probe:
+
+  a) "kept branches", at +0x00E8. The image emits
+         cmp r1, r0 / movge r8, #0 / bge 0x2068be4 / mov r1, r0 /
+         ldr r0, [sp, #0x2c] / sub r8, r1, r0
+     i.e. a real branch over a THREE-instruction else body, where 1.1p1 -O4,p
+     predicates the whole thing to `movlt r1,r0 / ldrlt r0,[sp,#0x2c] /
+     movge r5,#0 / sublt r5,r1,r0`. Spelling the y-offset as an if/else, as an
+     else-first if/else and as a ternary all predicate.
+  b) re-read/forward, at +0x0158. The image RE-READS the tile stride from its
+     own spill slot, `ldr r0, [sp, #0x14]` then `add r7, r7, r0`, although the
+     value is live; 1.1p1 forwards the register and emits `add r7, r7, fp`.
+
+Under `../2.0/sp2 -O4,p -proc arm946e` the SAME source is 412 bytes and 276
+concrete out -- byte for byte the same count as 1.1p1 on the u8 version. The
+pin does NOT close either site here, so 0x02068AE8 is NOT a 2.0 row and the
+remaining 263 bytes are a source/allocation problem, not a front end. The
+specific allocation to chase: the image keeps `px` in sl and `bpp` in fp
+across the whole body and spills `cy` to [sp,#0x2c]; every spelling measured
+spills `px` to [sp,#0x2c] instead and keeps `cy` in [sp,#0x18].
+
+Not filed anywhere: DIFF. The source as it stood follows.
+
+    /*
+     * function: func_02068AE8
+     * address:  0x02068AE8
+     * packet:   pkt_02068808
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   DIFF
+     *
+     * Fill an axis-aligned rectangle on a tiled 8x8 surface. The rectangle is
+     * clipped to whole tiles (both coordinates rounded down to a multiple of 8,
+     * both extents rounded up), and each tile in the covered range is handed to
+     * func_020682F8 with the sub-rectangle offsets and extents inside that tile.
+     *
+     * symbols:
+     *   func_020682F8    0x020682F8  arm
+     *
+     * Verified with:
+     *   python tools/match.py one --src src/matched/func_02068AE8.c \
+     *       --func func_02068AE8 --addr 0x02068AE8 --cc 1.1p1 --arm
+     */
+
+    typedef unsigned char u8;
+    typedef unsigned int  u32;
+
+    struct Surface {
+        char *base;   /* +0x00 */
+        int   w;      /* +0x04 */
+        int   h;      /* +0x08 */
+        u8    bpp;    /* +0x0C */
+        int   f10;    /* +0x10 stride in tiles */
+    };
+
+    extern void func_020682F8(char *tile, int xo, int yo, int tw, int th,
+                              u32 px, int bpp);
+
+    void func_02068AE8(struct Surface *s, u32 arg, int x, int y, int w, int h)
+    {
+        u8 bpp = s->bpp;
+        u32 px;
+        int x1 = x + w;
+        int y1 = y + h;
+        int tilesz;
+        int rowadv;
+        int x0, xe, ye, cy;
+        char *row;
+
+        px = arg | (arg << 8);
+        if (bpp == 4) {
+            u32 t = arg | (arg << 4);
+            px = t | (t << 8);
+        }
+        px = px | (px << 16);
+
+        cy = y & ~7;
+        tilesz = (bpp << 6) / 8;
+        x0 = x & ~7;
+        row = s->base + tilesz * ((cy / 8) * s->f10 + (x0 / 8));
+        ye = (y1 + 7) & ~7;
+        rowadv = s->f10 * tilesz;
+        xe = (x1 + 7) & ~7;
+
+        if (cy >= ye)
+            return;
+        do {
+            int yo;
+            int cx;
+            char *p = row;
+            int th;
+            if (cy >= y) {
+                yo = 0;
+            } else {
+                yo = y - cy;
+            }
+            th = y1 - cy;
+            if (th > 8)
+                th = 8;
+            th -= yo;
+            for (cx = x0; cx < xe; cx += 8) {
+                int xo = (cx < x) ? x - cx : 0;
+                int tw = x1 - cx;
+                if (tw > 8)
+                    tw = 8;
+                tw -= xo;
+                func_020682F8(p, xo, yo, tw, th, px, bpp);
+                p = p + tilesz;
+            }
+            row = row + rowadv;
+            cy = cy + 8;
+        } while (cy < ye);
+    }

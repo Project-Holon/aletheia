@@ -1,0 +1,60 @@
+/*
+ * function: func_0202DAA4
+ * address:  0x0202DAA4
+ * packet:   pkt_0202DAA4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * Loads two archived resources into a pair of consumers.  Each half
+ * turns the caller's id into an archive entry index (func_0202D61C for
+ * the first, func_0202D5D8 for the second), pulls the entry out of the
+ * archive set named by the fifth, stack-passed u16 argument, hands the
+ * unpacked payload to its consumer and then frees the container with
+ * the common finalizer func_020307B0.
+ *
+ * The u16 fifth argument is re-read from the incoming argument area for
+ * the second call rather than cached, so it is spelled as a `volatile
+ * u16' stack parameter.
+ *
+ * symbols:
+ *   func_0202D5D8  0x0202D5D8  thumb
+ *   func_0202D61C  0x0202D61C  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_02049250  0x02049250  arm
+ *   func_02049E74  0x02049E74  arm
+ *   func_0204A9D0  0x0204A9D0  arm
+ *   func_0204ADEC  0x0204ADEC  arm
+ *   func_02062A98  0x02062A98  arm
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32   func_0202D5D8(u32 id, u32 sel);
+extern u32   func_0202D61C(u32 id, u32 sel);
+extern void  func_020307B0(void *p);
+extern void *func_02049250(void *set, u32 entry, u16 which);
+extern void *func_02049E74(void *set, u32 entry, u32 flag, void **out, u16 which);
+extern void  func_0204A9D0(void *dst, void *src);
+extern void  func_0204ADEC(void *dst, void *src, u32 flag);
+extern void  func_02062A98(void *res, void **out);
+
+void func_0202DAA4(void *set, u32 id, void *dstA, void *dstB, volatile u16 which)
+{
+    void *res;
+    void *b;
+    void *a;
+
+    res = func_02049250(set, func_0202D61C(id, 0), which);
+    func_02062A98(res, &b);
+    func_0204ADEC(dstB, b, 1);
+    func_020307B0(res);
+
+    res = func_02049E74(set, func_0202D5D8(id, 0), 1, &a, which);
+    func_0204A9D0(dstA, a);
+    func_020307B0(res);
+}

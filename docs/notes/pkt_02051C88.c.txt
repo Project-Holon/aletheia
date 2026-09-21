@@ -1,0 +1,126 @@
+pkt_02051C88 - func_02051C88: ONE instruction out of 352 bytes
+=============================================================
+
+0x02051C88, 348 code bytes (listing extent 352), arm, ten-register frame.
+The per-frame slot refresh: func_02035C38 reports whether input is live, and
+if it is, func_02035BA4/func_02035C08 name the two slot indices that own the
+touch and the hover, func_02035C60 gives the shared third argument, and every
+slot state byte at slots[i]+1 is rewritten to (a == i) or (b == i) depending
+on its previous value.  Then every slot is dispatched through the eight-entry
+handler table at 0x020A15E8 indexed by slots[i].kind, and any handler result
+other than -1 is forwarded to ctx->f08(i, v, ctx->f0c).  Returns whether any
+slot newly became the hover.
+
+BEST REACHED: 1.1p1 -O4,p, 348 bytes against the original 352, all five
+relocation sites resolved (four PC24 by `label`, the table ABS32 by
+`literal`).  EVERY instruction in the function corresponds one for one,
+in order, in opcode and in addressing mode.  The whole 4-byte residue is
+ONE instruction:
+
+    02051CE4  03 b0 a0 e1   mov fp, r3
+
+a FOURTH copy of the constant 1.  The image holds four constants live across
+the state loop -- r3 = 1 and r2 = 0 for the touch arm, r1 = 1 and r0 = 0 for
+the hover arm, plus fp = 1 for the `ret = 1` at 0x02051D38
+(`movne r6, fp`, `0b 60 a0 11`) -- which is what forces the ten-register
+`push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` (`f8 4f 2d e9`).  1.1p1 -O4,p
+CSEs the fourth 1 into the r3 it already has, emits `movne r6, r3`, and needs
+only nine registers.  This is the "kept constants" tell of
+docs/FRONTEND-PINS.md in its purest measured form.
+
+THE PIN DOES NOT FIX IT.  ../2.0/sp2 probed once: 360 bytes, 290 concrete
+out, and restructured from the prologue.  1.1p1 is the front end.
+
+MEASURED AND REJECTED (all return to 348, or worse):
+  * `s32 one = 1;` declared inside the else arm and used for both the state
+    byte and `ret = one` -- CSEd back into r3, 348
+  * both state-byte assignments written as explicit `? 1 : 0` ternaries
+    rather than a bare `(a == i)` comparison -- 348, identical bytes
+  * the same `one` hoisted above the loop as a `volatile s32` assigned after
+    the func_02035C60 call: this DOES force a fourth register, but volatile
+    spills it to the stack and reloads it every iteration -- 356 bytes,
+    172 concrete out (better on the count, wrong on the mechanism)
+
+The lever, if one exists, is whatever makes the `ret = 1` constant live in a
+callee-saved register WITHOUT a stack slot: a non-volatile local that 1.1p1
+cannot prove equal to the r3 it already holds.  Everything else in this
+function is already byte-for-byte right.
+
+The C that reaches 348:
+
+    /*
+     * function: func_02051C88
+     * address:  0x02051C88
+     * packet:   pkt_02051C88
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   EXACT
+     *
+     * symbols:
+     *   g_020A15E8    0x020A15E8  data
+     *   func_02035C38 0x02035C38  arm
+     *   func_02035BA4 0x02035BA4  arm
+     *   func_02035C08 0x02035C08  arm
+     *   func_02035C60 0x02035C60  arm
+     */
+    
+    typedef unsigned char  u8;
+    typedef unsigned int   u32;
+    typedef signed int     s32;
+    
+    struct Slot { u8 kind; u8 state; u8 pad[2]; };
+    
+    struct Ctx {
+        s32   f00;            /* 0x00 */
+        u32   n;              /* 0x04 */
+        void (*cb)(s32, s32, s32);  /* 0x08 */
+        s32   arg;            /* 0x0c */
+        struct Slot *slots;   /* 0x10 */
+    };
+    
+    extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
+    
+    extern s32 func_02035C38(void);
+    extern s32 func_02035BA4(s32);
+    extern s32 func_02035C08(s32);
+    extern s32 func_02035C60(void);
+    
+    s32 func_02051C88(struct Ctx *c)
+    {
+        s32 a, b, h, sel;
+        s32 ret = 0;
+        u32 i;
+    
+        a = 0;
+        h = func_02035C38();
+        if (h != 0) {
+            a = func_02035BA4(c->f00);
+            b = func_02035C08(c->f00);
+            sel = func_02035C60();
+    
+            for (i = 0; i < c->n; i++) {
+                if (c->slots[i].state != 0) {
+                    c->slots[i].state = (u8)((a == (s32)i) ? 1 : 0);
+                } else {
+                    c->slots[i].state = (u8)((b == (s32)i) ? 1 : 0);
+                    if (c->slots[i].state != 0)
+                        ret = 1;
+                }
+            }
+        } else {
+            sel = 0;
+            for (i = 0; i < c->n; i++)
+                c->slots[i].state = (u8)a;
+        }
+    
+        for (i = 0; i < c->n; i++) {
+            s32 v = g_020A15E8[c->slots[i].kind](&c->slots[i], h, sel);
+            if (v != -1)
+                c->cb((s32)i, v, c->arg);
+        }
+    
+        return ret;
+    }

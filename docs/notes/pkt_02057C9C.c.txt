@@ -1,0 +1,211 @@
+pkt_02057C9C - DIFF evidence, 2026-09-21 (ARM lane, large-function slot)
+========================================================================
+
+func_02057C9C @ 0x02057C9C (460 bytes, arm9, ARM) - DIFF
+--------------------------------------------------------
+The packet's only row. 468 bytes compiled under `../1.2/sp2` against the
+original's 460 (331 concrete out), 432 under the default 1.1p1 (343 out). All
+six relocation sites resolve, every one of them `_s32_div_f` at 0x0209C0A4 by
+`label`, so this row is codegen alone: the moment the C lands it is EXACT, not
+MATCH.
+
+THE PROC IS arm7tdmi, and it is load-bearing. layout/proc_hints.txt puts
+0x02057C9C inside the census band `packet pkt_02057830  0x02057830 0x02058300
+... arm7tdmi`, and the bytes agree: all four exits are the ARMv4T pair
+`pop {r4, r5, r6, r7, r8, sb, sl, fp, lr}` then `bx lr` (0x02057CCC/0x02057CD0,
+0x02057D28/0x02057D2C, 0x02057D8C/0x02057D90, 0x02057E4C/0x02057E50), never
+`pop {..., pc}`. Compile with `flags: -O4,p -proc arm7tdmi`; `match.py one`
+does NOT read the header's flags line, so pass `--flags '-O4,p -proc arm7tdmi'`
+explicitly or the run silently uses arm946e and reports a different size.
+
+Caution on FRONTEND-PINS.md: its "3D rig unit" section says wave r8 measured
+`-proc arm946e` correct for the pkt_02057830 rows. That is falsified HERE by
+the epilogues, which are unambiguous. Quote the proc per row, measured.
+
+What the function is: a two-segment RGB555 colour keyframe blend.
+
+    func_02057C9C(struct Out *out, struct Ctx *ctx, s32 t)
+
+    ctx->f00  struct Node *   the live rig node; its u16 at +0x22 is the
+                              current colour
+    ctx->f08  struct Key *    the keyframe record
+    out->f36  u16             where the result is written, by all four exits
+
+    key +0x00 u16 c0    +0x02 u16 c1
+        +0x04 u8  t0    +0x05 u8  t1    +0x06 u8  t2    +0x08 u16 flags
+
+  t <  t0   -> out->f36 = k->c0                       (predicated, `lt`)
+  t <  t1   -> blend k->c0 towards node->col          (predicated exit, `eq`)
+  t <  t2   -> blend k->c1 towards node->col          (predicated exit, `eq`)
+  otherwise -> out->f36 = k->c1
+
+Each blend is the same five-bit-per-channel shape: mask the three channels of
+both colours with `& 0x1f` after an `asr` by 0 / 5 / 10, then per channel
+`base + (t - ta) * (target - base) / (tb - ta)`, the division being three
+separate `bl _s32_div_f` calls in the order BLUE, RED, GREEN (0x02057D44,
+0x02057D58, 0x02057D6C). The reassembly is `r | (g << 5) | (b << 10)`.
+
+TWO TELLS SETTLED FROM THE BYTES:
+
+  * The flag test is `lsrs r4, r4, #0x1f` at 0x02057CFC -- a LOGICAL shift --
+    after `lsl r4, r0, #0x1d`. So the flags field must be read into an
+    UNSIGNED variable: `s32 f` gives `asrs` and is wrong. When bit 2 of the
+    flags is clear the blend is skipped entirely and the (already masked and
+    reassembled) colour is stored by the predicated `eq` exit.
+  * Which colour that short-circuit exit writes is NOT the same in the two
+    segments. In the first it writes the NODE's colour (`orreq r1, sb, r7,
+    lsl #5` with sb/r7/r0 all derived from node->col at 0x02057CDC); in the
+    second it writes the KEY's c1 (`orreq r1, r7, r5, lsl #5` with r7 from
+    `ldrh r7, [r4, #2]` at 0x02057D9C). Writing the same one in both costs
+    the whole second half.
+  * In the first segment the three MASKS of the base colour land AFTER the
+    predicated exit (0x02057D14..0x02057D20) while the three SHIFTS land
+    before it; declaring all six as initialisers in one run reproduces this,
+    declaring the base's three after the `if` does not.
+
+THE RESIDUE, 8 bytes, and it is the frame. The image is
+`push {r4..fp, lr}` (NINE registers) plus `sub sp, sp, #4`, i.e. exactly one
+spill slot, and each of the four exits pays one `add sp, sp, #4`. Under
+`../1.2/sp2 -proc arm7tdmi` the same C gets the nine-register push and the
+`sub sp` -- the frame SHAPE is right, and offsets +0x30/+0x34, +0x8C/+0x90 and
++0xA4/+0xA8 line up byte for byte -- but the frame is `#0xc`, three words, so
+1.2 spills two more values than the image does. The image keeps all three
+division results live in registers (sb, r7, r0) across the two remaining
+calls; 1.2 spills one (`str r0, [sp]` at 0x02057D48's offset) and 1.1p1
+collapses the frame to `push {r3, r4, ...}` + `#0x1c` and loses 28 bytes.
+
+Measured, all on the same source, all at `-proc arm7tdmi`:
+  dsi/1.1p1      432 bytes, 343 concrete out
+  ../1.2/sp2     468 bytes, 331 concrete out   <- closest
+  (2.0 not probed: neither documented pin tell is present -- there is no kept
+   branch over a short predicated guard and no rematerialised constant; the
+   difference is one spill slot.)
+
+Also measured and WORSE, do not repeat: splitting each channel's shift and
+mask into two statements (492/412 under 1.2); folding the three blends into
+compound assignments on the base channels, `bb = bb + (num * (db - bb)) / den`
+and friends (444/322 under 1.2, 416/358 under 1.1p1); reordering the six
+channel declarations so the base's shifts precede the target's.
+
+Next thing to try: force the three division results to be consumed in the
+image's assembly order by writing the three `orr` terms as one expression
+rather than three named locals, which is what removes 1.2's need for a home
+for the first result.
+
+Not filed anywhere: DIFF. The source as it stood follows.
+
+    /*
+     * function: func_02057C9C
+     * address:  0x02057C9C
+     * packet:   pkt_02057C9C
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p -proc arm7tdmi
+     * lang:     c99
+     * isa:      arm
+     * status:   DIFF
+     *
+     * The skeleton-math band 0x02052000..0x02058000 is compiled
+     * `-proc arm7tdmi` (layout/proc_hints.txt, packet band pkt_02057830), and
+     * the epilogues here are the ARMv4T `pop {..., lr}` + `bx lr` pair that names
+     * that proc.
+     *
+     * Two-segment colour keyframe blend in RGB555: below the first key time the
+     * key's own colour is written out, between the first and second key times the
+     * key colour is interpolated channel by channel towards the rig node's live
+     * colour, between the second and third the second key colour is, and past the
+     * third the second key colour is written out. Bit 2 of the key's flag word
+     * short-circuits the interpolation to the live colour.
+     *
+     * symbols:
+     *   _s32_div_f       0x0209C0A4  arm
+     *
+     * Verified with:
+     *   python tools/match.py one --src src/matched/func_02057C9C.c \
+     *       --func func_02057C9C --addr 0x02057C9C --cc 1.1p1 --arm \
+     *       --flags '-O4,p -proc arm7tdmi'
+     */
+
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+    typedef int            s32;
+
+    struct Key {
+        u16 c0;   /* +0x00 */
+        u16 c1;   /* +0x02 */
+        u8  t0;   /* +0x04 */
+        u8  t1;   /* +0x05 */
+        u8  t2;   /* +0x06 */
+        u8  pad7;
+        u16 flg;  /* +0x08 */
+    };
+
+    struct Node { u8 pad_00[0x22]; u16 col; };
+
+    struct Ctx { struct Node *node; u8 pad_04[4]; struct Key *key; };
+
+    struct Out { u8 pad_00[0x36]; u16 col; };
+
+    void func_02057C9C(struct Out *out, struct Ctx *ctx, s32 t)
+    {
+        struct Key *k = ctx->key;
+        s32 t0 = k->t0;
+        struct Node *n = ctx->node;
+        s32 t1 = k->t1;
+        s32 t2 = k->t2;
+
+        if (t < t0) {
+            out->col = k->c0;
+            return;
+        }
+        if (t < t1) {
+            s32 d = n->col;
+            u32 f = k->flg;
+            s32 b = k->c0;
+            s32 dg = (d >> 5) & 0x1f;
+            s32 db = (d >> 10) & 0x1f;
+            s32 dr = d & 0x1f;
+            s32 bg = (b >> 5) & 0x1f;
+            s32 bb = (b >> 10) & 0x1f;
+            s32 br = b & 0x1f;
+            s32 num, den, ob, orr, og;
+
+            if (((f << 29) >> 31) == 0u) {
+                out->col = (u16)(dr | (dg << 5) | (db << 10));
+                return;
+            }
+            num = t - t0;
+            den = t1 - t0;
+            ob = (num * (db - bb)) / den;
+            orr = (num * (dr - br)) / den;
+            og = (num * (dg - bg)) / den;
+            out->col = (u16)((br + orr) | ((bg + og) << 5) | ((bb + ob) << 10));
+            return;
+        }
+        if (t < t2) {
+            s32 b = k->c1;
+            s32 d = n->col;
+            u32 f = k->flg;
+            s32 bg = (b >> 5) & 0x1f;
+            s32 bb = (b >> 10) & 0x1f;
+            s32 br = b & 0x1f;
+            s32 dg = (d >> 5) & 0x1f;
+            s32 db = (d >> 10) & 0x1f;
+            s32 dr = d & 0x1f;
+            s32 num, den, ob, orr, og;
+
+            if (((f << 29) >> 31) == 0u) {
+                out->col = (u16)(br | (bg << 5) | (bb << 10));
+                return;
+            }
+            num = t - t1;
+            den = t2 - t1;
+            ob = (num * (bb - db)) / den;
+            orr = (num * (br - dr)) / den;
+            og = (num * (bg - dg)) / den;
+            out->col = (u16)((dr + orr) | ((dg + og) << 5) | ((db + ob) << 10));
+            return;
+        }
+        out->col = k->c1;
+    }

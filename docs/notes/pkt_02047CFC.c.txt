@@ -1,0 +1,128 @@
+pkt_02047CFC - func_02047CFC: twelve bytes of frame, everything else identical
+=====================================================================
+
+0x02047CFC, 336 code bytes (listing extent 344), arm, g3d_util.c.
+The 3D-rig double-array constructor: five func_02030734 allocations with
+__LINE__ 92/97/98/105/106 against "g3d_util.c" at 0x020A7EB8, two byte-array
+fill loops, and a 0x40-iteration loop that writes 0xFFFF into the four
+halfwords at +0x16/+0x18/+0x1a/+0x1c of each 8-byte row.
+
+BEST REACHED: 1.1p1 -O4,p, 332 bytes against the original 344, with every
+instruction from +0x08 to the end identical in opcode and operand shape and
+only the pool displacements and register names shifted.  The residue is
+exactly three instructions of FRAME:
+
+  original:  push {r3,r4,r5,r6,r7,r8,sb,sl,lr} / sub sp,sp,#4 ... add sp,sp,#4
+  1.1p1:     push {r3,r4,r5,r6,r7,r8,sb,lr}          (no sub/add, one register fewer)
+
+The extra callee-saved register sl exists because the image materialises the
+allocator align argument 1 TWICE -- `mov r5, #1` (`01 50 a0 e3`) at 0x02047D0C
+for calls 1..3 and a second `mov sl, #1` (`01 a0 a0 e3`) at 0x02047DB0 for
+calls 4..5 -- and reloads the __FILE__ pool word a second time,
+`ldr sb, [pc, #0x9c]` at 0x02047DA8, into the register that held na.  It also
+hoists the second loop zero into r4 (`mov r4, #0` at 0x02047DC8) ABOVE the
+fourth call.  1.1p1 -O4,p CSEs all of these into the one r5 and the one r4 it
+already has, so it needs eight callee-saved registers instead of nine and
+folds the outgoing-args slot into the push.
+
+MEASURED AND REJECTED (all 332, 283 concrete out, no movement):
+  * the align 1 bound to its own s32 local, one per half (`one`, `one2`)
+  * the __FILE__ pointer bound to its own local, one per half (`fa`, `fb`)
+  * the second-half zero bound to a local, declared inside the block
+  * the same zero hoisted to the top of the function as `s32 zero = 0`
+  * the first fill loop written with the value split from the counter
+    (`s32 v = i; r->f04[i] = (u8)v;`)
+  * i = zero rather than i = 0 as the second loop initialiser
+
+THE ONE THING THAT DID MOVE, and it is settled: the 0xFFFF written by the
+0x40-row loop is a POOL WORD (`ldr r1, [pc, #0x30]` at 0x02047E18 against the
+word 0x0000FFFF at 0x02047E50), so the four fields must be u16 and the
+constant written plain 0xffff.  Spelled (s16)0xffff the front end folds it to
+`mvn r0, #0`, four bytes shorter and no pool word: 328 bytes.
+
+THE PIN IS NOT THE ANSWER HERE.  ../2.0/sp2 was probed once on this residue
+and is WORSE, not better: 324 bytes, 276 concrete out, and structurally
+different from the first instruction -- it rematerialises the __FILE__ pool
+word at every call site and uses only six callee-saved registers
+(`push {r3, r4, r5, r6, r7, lr}` against the image nine).  1.1p1 is the front
+end that built this function; the missing register is a C lever nobody has
+found yet, not a compiler.
+
+The C that reaches 332 (drop it in and iterate from there):
+
+    /*
+     * function: func_02047CFC
+     * address:  0x02047CFC
+     * packet:   pkt_02047CFC
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   EXACT
+     *
+     * symbols:
+     *   func_02047CFC_File  0x020A7EB8  data
+     *   func_02030734       0x02030734  arm
+     */
+    
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef signed short   s16;
+    typedef unsigned int   u32;
+    typedef signed int     s32;
+    
+    extern const char func_02047CFC_File[];
+    extern void *func_02030734(s32 heap, u32 size, s32 align,
+                               const char *file, s32 line);
+    
+    struct Rig {
+        u8 *f00;      /* 0x00 */
+        u8 *f04;      /* 0x04 */
+        s16 f08;      /* 0x08 */
+        u8  pad_0a[2];
+        u8 *f0c;      /* 0x0c */
+        u8 *f10;      /* 0x10 */
+        s16 f14;      /* 0x14 */
+        u16 f16;      /* 0x16 */
+        u16 f18;
+        u16 f1a;
+        u16 f1c;
+    };
+    
+    struct Rig *func_02047CFC(s32 na, s32 nb, s32 heap)
+    {
+        const char *fa = func_02047CFC_File;
+        s32 one = 1;
+        struct Rig *r;
+        s32 i;
+    
+        r = (struct Rig *)func_02030734(heap, 0x218, one, fa, 92);
+        *(s16 *)((u8 *)r + 0x200 + 0x16) = (s16)heap;
+    
+        r->f00 = (u8 *)func_02030734(heap, na * 4, one, fa, 97);
+        r->f04 = (u8 *)func_02030734(heap, na, one, fa, 98);
+        r->f08 = (s16)na;
+        for (i = 0; i < na; i++)
+            r->f04[i] = (u8)i;
+    
+        {
+            const char *fb = func_02047CFC_File;
+            s32 one2 = 1;
+            s32 zero = 0;
+            r->f0c = (u8 *)func_02030734(heap, nb * 4, one2, fb, 105);
+            r->f10 = (u8 *)func_02030734(heap, nb, one2, fb, 106);
+            r->f14 = (s16)nb;
+            for (i = zero; i < nb; i++)
+                r->f10[i] = (u8)zero;
+        }
+        for (i = 0; i < 0x40; i++) {
+            struct Rig *p = (struct Rig *)((u8 *)r + i * 8);
+            p->f16 = 0xffff;
+            p->f18 = 0xffff;
+            p->f1a = 0xffff;
+            p->f1c = 0xffff;
+        }
+    
+        return r;
+    }

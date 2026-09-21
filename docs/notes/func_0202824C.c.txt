@@ -1,0 +1,111 @@
+/*
+ * function: func_0202824C
+ * address:  0x0202824C
+ * packet:   pkt_0202824C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Touch hit test against a window.  func_02035D20 reports whether the
+ * screen is being touched and where; if so the window's origin and
+ * extent are read off its descriptor in tile units and scaled to
+ * pixels by 8, and the touch point must fall inside that rectangle.
+ *
+ * The extent accessor func_02045738 is called twice rather than once
+ * with its result reused: it is an external ARM call, so the compiler
+ * cannot prove it pure, and both calls survive.
+ *
+ * symbols:
+ *   func_02045738  0x02045738  arm
+ *   func_02045758  0x02045758  arm
+ *   func_02045760  0x02045760  arm
+ */
+
+typedef unsigned int u32;
+
+extern u32 func_02035D20(u32 *x, u32 *y);
+extern u32 func_02045738(void *w);
+extern u32 func_02045758(void *w);
+extern u32 func_02045760(void *w);
+
+u32 func_0202824C(void **p)
+{
+    u32 x;
+    u32 y;
+    u32 left;
+    u32 top;
+    u32 right;
+    u32 bottom;
+
+    if (func_02035D20(&x, &y) == 0) {
+        goto fail;
+    }
+
+    left = func_02045758(p[0]) * 8;
+    top = func_02045760(p[0]) * 8;
+    right = left + func_02045738(p[0]) * 8;
+    bottom = top + func_02045738(p[0]) * 8;
+
+    if (x - left > right - left) {
+        goto fail;
+    }
+    if (y - top > bottom - top) {
+        goto fail;
+    }
+    return 1;
+fail:
+    return 0;
+}
+
+/* ------------------------------------------------------------------
+ * NEAR MISS, 2 bytes, tooling defect not codegen.
+ *
+ * match.py one --src ... --func func_0202824C --addr 0x0202824C --cc 1.1p1 --thumb
+ *   DIFF, 2 concrete bytes differ, at +000A only:
+ *     original  blx #0x2035d20
+ *     compiled  bl  #0x2035d20
+ *   Every other byte of the 86-byte body is identical, and the other
+ *   four relocation sites resolve `label'.
+ *
+ * Cause: asm/arm9/src/ carries TWO generations of translation unit 14,
+ * 014_02035268.s (current, ranges 0x02035268..0x02039594) and
+ * 014_02035284.s (stale, ranges 0x02035284..0x02039658).  The address
+ * 0x02035D20 is ARM code and is labelled `func_02035D20' in the current
+ * listing under .arm; the stale listing pins the same address under
+ * .thumb with a .thumb_func marker.  evidence() scans the directory in
+ * sorted order and lets the last definition win, so ev.labels[0x02035D20]
+ * comes out True and isa_evidence() reports thumb.
+ *
+ * Consequence: declaring `func_02035D20 0x02035D20 arm' in the symbols:
+ * block is rejected outright ("ISA conflict ... the source declares arm,
+ * the image says thumb"), and omitting it falls back to the naming
+ * convention, which also yields thumb and therefore emits `bl'.  There
+ * is no third spelling: no linker veneer exists for this target, and the
+ * 0x02035268 unit's own EXACT file (src/matched/unit_02035C70.c, verified
+ * with `tu --arm') already proves the region is ARM.
+ *
+ * Fix belongs to the integrator, not to a packet agent: delete the stale
+ * asm/arm9/src/014_02035284.s (or re-run disasm.py --split so it is not
+ * regenerated).  Once ev.labels[0x02035D20] reads arm, the C below should
+ * reach EXACT* unchanged -- EXACT* rather than EXACT because the listing
+ * extent runs 96 bytes against a 86-byte body: 0x020282A4 is an
+ * unlabelled follower (a leaf that saves nothing; it is
+ * `void f(void *p) { p->f8 = 0; p->f10 = 0; }').
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------
+ * RESOLVED 2026-09-21.  The integrator removed the stale
+ * asm/arm9/src/014_02035284.s, so isa_evidence(0x02035D20) now reads
+ * ("arm", "the func_02035D20 label in asm/arm9") and the `blx' encodes.
+ * The C above, unchanged except for the restored
+ * `func_02035D20  0x02035D20  arm' line in its symbols: block, was
+ * filed as src/matched/func_0202824C.c and verifies EXACT*, with all
+ * five relocation sites resolved `label' (0x02035D20 now shows 81
+ * witnesses).  EXACT* not EXACT because of the unlabelled follower at
+ * 0x020282A4 described above; the shard entry is
+ *   0x0202824C game func_0202824C dsi/1.1p1 EXACT*
+ * This note is kept only as the record of the tooling defect.
+ * ------------------------------------------------------------------ */

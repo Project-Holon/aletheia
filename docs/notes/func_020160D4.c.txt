@@ -1,0 +1,150 @@
+/*
+ * function: func_020160D4
+ * address:  0x020160D4
+ * packet:   pkt_020160D4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * mcss.c: builds the per-scene fade/transition context.  Three debug
+ * allocations out of the heap named by the u16 at +0x14c (masked to
+ * 0x7fff and forced into the 0x8000 bank), then a palette blend and a
+ * copy, and finally either a task registration (func_0201691C as the
+ * callback, through the owner-aware path or the plain one) or, if the
+ * caller has already set the "skip" bit at +0x140, an immediate teardown
+ * of everything just allocated.  Either way the done bit 0x10000000 is
+ * latched into the same word at +0x140.
+ *
+ * The three heap ids are recomputed rather than cached: each is a fresh
+ * `ldr`+lsls/lsrs of the int field at +0x14c, so the field is an `int`
+ * truncated at the call, not a u16 member (see func_02016984 in this
+ * same file).  The two __LINE__ pool words 0x761 and 0x769 are the
+ * consecutive-line idiom: 0x76e is derived from 0x769 with `adds #5`.
+ *
+ * symbols:
+ *   data_020A72CC  0x020A72CC  data
+ *   func_0201691C  0x0201691C  thumb
+ *   func_02016C38  0x02016C38  thumb
+ *   func_02021F64  0x02021F64  thumb
+ *   func_020056A0  0x020056A0  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_02030DA8  0x02030DA8  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_02082A60  0x02082A60  arm
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern char data_020A72CC[];
+
+extern void  func_0201691C(void *a, void *b);
+extern void  func_02016C38(int v);
+extern void  func_02021F64(int a, int b, u16 c, int d, u16 e);
+extern int   func_020056A0(int fn, int arg, int n);
+extern int   func_02030734(u16 heap, int size, int kind, int file, int line);
+extern int   func_02030DA8(int owner, int fn, int arg, int n);
+extern void  func_020307B0(int p);
+extern void  func_02082A60(int a, int b, int c);
+
+void func_020160D4(char *a0, char *a1, int a2, int a3)
+{
+    char *o;
+
+    o = (char *)func_02030734(
+            (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
+            0x2c, 1, (int)data_020A72CC, 0x761);
+
+    *(char **)(o + 0x20) = a0;
+    *(int *)(o + 0x28) = (*(int *)(a0 + 8) != 0);
+    *(char **)(o + 0x24) = a1;
+    *(char **)(o + 0xc) = a1 + 0xc0;
+    *(int *)(o + 0x1c) = *(int *)(a0 + 0x34) + (*(int *)(a1 + 0x148) << 5);
+
+    *(char **)(o + 4) = (char *)func_02030734(
+            (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
+            0x10, 0, (int)data_020A72CC, 0x769);
+
+    **(int **)(o + 4) = *(int *)(a1 + 0xc0);
+    *(int *)(*(char **)(o + 4) + 4) = 0;
+    *(int *)(*(char **)(o + 4) + 8) = *(int *)(a1 + 0xdc);
+    *(int *)(*(char **)(o + 4) + 0xc) = func_02030734(
+            (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
+            *(int *)(a1 + 0xdc), 0, (int)data_020A72CC, 0x76e);
+
+    func_02021F64(*(int *)(a1 + 0xd4),
+                  *(int *)(*(char **)(o + 4) + 0xc),
+                  (u16)(*(int *)(a1 + 0xdc) / 2),
+                  a2, (u16)a3);
+    func_02082A60(*(int *)(*(char **)(o + 4) + 0xc),
+                  *(int *)(a1 + 0xd8), *(int *)(a1 + 0xdc));
+
+    if (*(int *)(a1 + 8) != 0) {
+        func_02016C38(*(int *)(a1 + 8));
+        *(int *)(a1 + 8) = 0;
+    }
+
+    if (((u32)(*(u32 *)(a1 + 0x140) << 0x13) >> 0x1f) == 0) {
+        if (*(int *)(a0 + 8) != 0) {
+            *(int *)(a1 + 8) = func_02030DA8(*(int *)(a0 + 8),
+                                             (int)func_0201691C, (int)o, 0);
+        } else {
+            *(int *)(a1 + 8) = func_020056A0((int)func_0201691C, (int)o, 0);
+        }
+    } else {
+        func_020307B0(*(int *)(*(char **)(o + 4) + 0xc));
+        func_020307B0(*(int *)(o + 4));
+        func_020307B0((int)o);
+    }
+
+    *(int *)(a1 + 0x140) |= 0x10000000;
+}
+
+/* ------------------------------------------------------------------
+ * NEAR MISS (DIFF, 12 of 376 bytes).  Every byte from +0x16 to the end
+ * of the function is identical, all 13 relocation sites resolve, and
+ * the frame (`sub sp, #0xc`) and register assignment are right.  The
+ * only residual is the SCHEDULING of six prologue instructions: the
+ * original spills a2 before touching the pool,
+ *
+ *   +0006  str r2, [sp, #4]        <- a2 spilled first
+ *   +0008  ldr r0, [pc, #0x158]    <- 0x761, the __LINE__ word
+ *   +000A  adds r5, r1, #0
+ *   +000C  str r0, [sp]
+ *   +000E  movs r0, #0x53
+ *   +0014  str r3, [sp, #8]        <- a3 spilled last, after the ldr
+ *
+ * while every spelling tried emits the same six instructions with a3
+ * spilled first and a2 last.  The instruction MULTISET is identical;
+ * only the order differs.
+ *
+ * Levers tried, all leaving exactly these 12 bytes wrong:
+ *   - a2 and a3 bound to locals (`int v2 = a2;` / `u16 v3 = (u16)a3;`)
+ *     at the top of the body, either one alone;
+ *   - `(void)a2;` as the first statement;
+ *   - `a2 = a2;` immediately before the func_02021F64 call;
+ *   - a3 declared u32 rather than int;
+ *   - a2 declared u32 rather than int;
+ *   - the second allocation's result inlined into `*(char **)(o + 4)`
+ *     instead of going through a named `s` local (this and the
+ *     `char *s` spelling are byte-identical everywhere).
+ * Spellings that made it WORSE, for the record:
+ *   - `u16 a3` as the parameter type: frees the sp+8 slot entirely,
+ *     every pool displacement shifts by 4 and the truncation before
+ *     the func_02021F64 call disappears (168 bytes wrong).  The u16
+ *     must be produced by a cast AT the call, not by the parameter.
+ *
+ * Two findings that WERE needed and are worth keeping:
+ *   - the +0x140 skip bit is `((u32)(*(u32 *)(a1+0x140) << 0x13) >> 0x1f)`:
+ *     spelled on a signed int it becomes `asrs` and loses two bytes;
+ *   - the free path is the ELSE arm.  Written as the if-arm the whole
+ *     0x011C..0x0150 block reverses (53 bytes wrong): the fall-through
+ *     arm is the source order.
+ *
+ * Untried lever for the next agent: whatever makes the front end treat
+ * a2 as live earlier than a3 -- e.g. a2 reaching a call before the
+ * first func_02030734 rather than only reaching func_02021F64.
+ * ------------------------------------------------------------------ */

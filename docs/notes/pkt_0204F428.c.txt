@@ -1,0 +1,140 @@
+pkt_0204F428 - func_0204F428: exact size, register allocation only
+==================================================================
+
+0x0204F428, 380 code bytes (listing extent 384), arm, no relocations.
+Allocate a free 0x1c-byte record: scan p->recs[0..p->count) for the first
+record whose low 14 bits of f00 read 0x3FFF (the free sentinel, held as the
+pool word 0x00003FFF at 0x0204F5A4), then write the eight fields and return
+the index; return 0 when no record is free.
+
+BEST REACHED: 1.1p1 -O4,p, 384 bytes, THE EXACT SIZE, 86 concrete bytes out.
+Every instruction corresponds one for one, in order, in opcode, in shifter
+operand and in addressing mode.  The whole residue is that the struct pointer
+lands in r5 instead of r4: the image opens `mov r4, r0` (`00 40 a0 e1`) and
+spends r5 as a scratch, while 1.1p1 opens `mov r5, r0` and spends r4.  Every
+one of the 86 bytes is that swap propagating through the eighteen
+`ldr rN, [r4, #8]` re-reads of the record base.
+
+THREE TYPE FACTS ARE SETTLED, and each one was worth bytes:
+
+  * p->count at +0x0e is u16 and the loop bound is a plain s32 local.
+    The image is `ldrh sb, [r4, #0xe]` (`be 90 d4 e1`) followed by a SIGNED
+    `ble`; declaring the field s16 gives `ldrsh` and is one byte wrong.
+
+  * the 6th stacked parameter (the 5-bit field at [sp,#0x24]) IS declared
+    u8.  The image loads it `ldrb r6, [sp, #0x24]` (`24 60 dd e5`), one
+    instruction.  Declared u32 and masked `(u32)k & 0x1f` in the expression,
+    1.1p1 emits `ldr` + `and #0xff` + `and #0x1f`, four bytes long: 388.
+
+  * the 5th, 7th and 8th stacked parameters are NOT u16.  The image loads
+    each as a full word and truncates in the expression -- `ldr r0, [sp,
+    #0x2c]` / `lsl r0, r0, #0x10` / `lsr r0, r0, #0x10` at 0x0204F484..8C,
+    and `ldr r5, [sp, #0x28]` at 0x0204F4B8 -- so they are u32 parameters
+    with an explicit (u16) cast at the point of use.  Declared u16 the front
+    end emits `ldrh` and drops the shift pair: 360 bytes.
+
+THE PIN IS NOT THE ANSWER.  ../2.0/sp2 probed once: 392 bytes, 306 concrete
+out.  1.1p1 is the front end that built this; the residue is allocation.
+
+MEASURED AND REJECTED (all return to 384 / 86):
+  * the struct pointer bound to its own first-declared local (`q = p`)
+  * declaration order i-before-n and n-before-i, both ways
+  * the record pointer `r` bound once per iteration versus every access
+    re-spelled as a fresh `(u8 *)p->recs + i * 0x1c` cast
+
+AND ONE THAT IS WORSE, do not repeat it: writing the free-slot mask the way
+the image derives it (`nm = -0x4000; vv = (nm >> 18) & (id << 16 >> 16);
+`f00 = (f00 & nm) | vv`) with the new value computed FIRST, matching the
+image order at 0x0204F468..0x0204F478, gives 380 bytes and 307 out.  The
+plain `(f00 & ~0x3fff) | (0x3fff & (u16)id)` is the spelling that holds the
+size.
+
+The C that reaches 384 / 86:
+
+    /*
+     * function: func_0204F428
+     * address:  0x0204F428
+     * packet:   pkt_0204F428
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   EXACT
+     */
+    
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef signed short   s16;
+    typedef unsigned int   u32;
+    typedef signed int     s32;
+    
+    struct Vec3 { s32 a, b, c; };
+    
+    struct Rec {                 /* 0x1c bytes */
+        u16 f00;
+        u16 f02;
+        struct Vec3 f04;
+        u16 f10;
+        u16 f12;
+        u16 f14;
+        u16 f16;
+        u16 f18;
+        u16 f1a;
+    };
+    
+    struct Pool {
+        u8 pad_00[8];
+        struct Rec *recs;   /* 0x08 */
+        u8 pad_0c[2];
+        u16 count;          /* 0x0e */
+    };
+    
+    s32 func_0204F428(struct Pool *p, u32 id, u16 v12, u16 v14,
+                      struct Vec3 *src, u8 k, u32 w, u32 mode)
+    {
+        struct Pool *q;
+        s32 i;
+        s32 n;
+    
+        q = p;
+        n = q->count;
+    
+        for (i = 0; i < n; i++) {
+            struct Rec *r = (struct Rec *)((u8 *)q->recs + i * 0x1c);
+    
+            if ((u32)(r->f00 << 18) >> 18 != 0x3fff)
+                continue;
+    
+            r->f00 = (u16)((r->f00 & ~0x3fff) | (0x3fff & (u32)(u16)id));
+    
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f00 =
+                (u16)((((struct Rec *)((u8 *)q->recs + i * 0x1c))->f00 & ~0xc000)
+                      | ((u32)((u32)(u16)mode << 30) >> 16));
+    
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f12 = v12;
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f14 = v14;
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f16 = 0;
+    
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f04 = *src;
+    
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 =
+                (u16)((((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 & ~0x1f)
+                      | ((u32)k & 0x1f));
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 =
+                (u16)(((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 & ~0x1e0);
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 =
+                (u16)(((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 & ~0x200);
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 =
+                (u16)((((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 & ~0xf000)
+                      | ((u32)((u32)(u16)w << 28) >> 16));
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 =
+                (u16)(((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 & ~0x400);
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 =
+                (u16)(((struct Rec *)((u8 *)q->recs + i * 0x1c))->f18 & ~0x800);
+            ((struct Rec *)((u8 *)q->recs + i * 0x1c))->f10 = 0;
+            return i;
+        }
+    
+        return 0;
+    }
