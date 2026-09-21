@@ -1,0 +1,109 @@
+pkt_020454E0 -- DIFF residue (2026-09-21, ARM lane)
+=================================================
+
+func_020454E0 @ 0x020454E0 (536 bytes, arm9, ARM) -- DIFF, exactly 2 bytes.
+
+The packet's only row.  The body is SOLVED: 536 compiled against the
+original's 536, all 9 relocation sites resolved (`label` for both callees),
+and 534 of 536 bytes identical including every one of the eight call
+sequences instruction for instruction, the `stm sp, {r1, r5}` argument
+merges at 0x02045558 and 0x02045680, and the epilogue.
+
+What it is: the eight border pieces of a window frame, drawn from a run of
+eight consecutive tile numbers and skipping the centre.  func_02041680 on
+the layer answers 1 for 8bpp (no palette bits) and anything else puts
+(pal & 0xf) << 12 into the top nibble of every tile number.  Each piece is
+one func_02041300 fill with mode 0x11, laid out around the configuration
+block's x/y at +3/+4 and its width/height at +7/+8:
+
+       base+0   base+1 (w wide)   base+2
+       base+3                     base+4    (h tall)
+       base+5   base+6 (w wide)   base+7
+
+The struct is the `struct Cfg` of src/matched/sub_02045374.c unchanged, and
+func_02041300's prototype is the one src/matched/func_0201F7A8.c pins:
+  void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
+
+The source that reaches 534/536:
+
+    void func_020454E0(struct Cfg *cfg, u32 base, u32 pal)
+    {
+        u32 pn;
+
+        if (func_02041680(cfg->unk_02) != 1)
+            pn = (pal & 0xf) << 12;
+        else
+            pn = 0;
+
+        func_02041300(cfg->unk_02, (u16)(pn | base), (u8)(cfg->unk_03 - 1),
+                      (u8)(cfg->unk_04 - 1), 1, 1, 0x11);
+        func_02041300(cfg->unk_02, (u16)(pn | (base + 1)), cfg->unk_03,
+                      (u8)(cfg->unk_04 - 1), cfg->unk_07, 1, 0x11);
+        func_02041300(cfg->unk_02, (u16)(pn | (base + 2)),
+                      (u8)(cfg->unk_03 + cfg->unk_07), (u8)(cfg->unk_04 - 1),
+                      1, 1, 0x11);
+        func_02041300(cfg->unk_02, (u16)(pn | (base + 3)),
+                      (u8)(cfg->unk_03 - 1), cfg->unk_04, 1, cfg->unk_08, 0x11);
+        func_02041300(cfg->unk_02, (u16)(pn | (base + 4)),
+                      (u8)(cfg->unk_03 + cfg->unk_07), cfg->unk_04,
+                      1, cfg->unk_08, 0x11);
+        func_02041300(cfg->unk_02, (u16)(pn | (base + 5)),
+                      (u8)(cfg->unk_03 - 1), (u8)(cfg->unk_04 + cfg->unk_08),
+                      1, 1, 0x11);
+        func_02041300(cfg->unk_02, (u16)(pn | (base + 6)), cfg->unk_03,
+                      (u8)(cfg->unk_04 + cfg->unk_08), cfg->unk_07, 1, 0x11);
+        func_02041300(cfg->unk_02, (u16)(pn | (base + 7)),
+                      (u8)(cfg->unk_03 + cfg->unk_07),
+                      (u8)(cfg->unk_04 + cfg->unk_08), 1, 1, 0x11);
+    }
+
+Two levers that are load-bearing and worth keeping:
+  * the x/y/w/h fields must be re-read from cfg at EVERY call site, not
+    hoisted into locals.  The image emits a fresh `ldrb r0, [r8, #2]` for the
+    layer and fresh `ldrb`s for +3/+4/+7/+8 at all eight sites; hoisting them
+    reorders every argument build.
+  * the tile number must be narrowed with an explicit `(u16)` cast on the
+    whole `pn | (base + k)` expression.  That is the image's
+    `lsl r1, r1, #0x10` / `lsr r1, r1, #0x10` pair at each site; a `u16`
+    local instead narrows once and loses the pair.
+
+THE RESIDUE IS TWO BYTES AND IT IS REGISTER NAMING ONLY:
+
+  orig +0014  mov r6, r2            | mine +0014  mov r4, r2
+  orig +0028  lslne r0, r6, #0x1c   | mine +0028  lslne r0, r4, #0x1c
+
+i.e. the incoming `pal` parameter is copied to r6 in the image and to r4 in
+every compile.  Everything else, including the `lsrne r6, r0, #0x10` and
+`moveq r6, #0` that WRITE r6 two instructions later, is already identical:
+the image lets `pn` overwrite the register `pal` was copied into, and 1.1p1
+gives `pal` its own r4 and then still writes `pn` to r6.  The image's r4 and
+r5 are the loop-invariant constants 0x11 and 1, both defined AFTER the
+func_02041680 call, so the image's allocator reserved the two low
+callee-saved registers for them ahead of the parameter copy and 1.1p1 does
+not.
+
+SEVEN spellings measured, every one 536 bytes and exactly these same 2 bytes:
+  1. `u32 pn;` with the if/else (the source above)
+  2. assigning back into the parameter, `pal = (pal & 0xf) << 12; else pal = 0;`
+  3. a named `u32 pn = pal;` copy reassigned in both arms
+  4. the shift written as the image spells it, `(pal << 28) >> 16`
+  5. `u8 m = 0x11;` as a named local declared before pn
+  6. `u32 one = 1; u32 mode = 0x11;` both hoisted as named locals declared
+     before pn and passed at all eight sites
+  7. the call result bound to a local, `u32 d = func_02041680(...); if (d != 1)`
+  8. the third parameter declared `u16`, `u8` and `int` in turn
+Two further shapes are strictly WORSE and are recorded so they are not
+retried: `pn = 0;` as an initialiser with a bare `if` (80 bytes out, the zero
+is hoisted above the call) and inverting the test to `== 1` first (17 bytes
+out, the arms swap and the `cmp`/`mov r5,#1` pair reorders).
+
+NO PIN PROBE WAS SPENT.  This is not any of the three tells
+docs/FRONTEND-PINS.md authorises: there is no kept branch (the whole
+selection is predicated `lslne`/`lsrne`/`moveq` in the image AND in every
+compile), no constant materialised where 1.1p1 forwards a live register, and
+no re-read of a just-loaded chain.  It is the allocator's choice of scratch
+for one parameter copy, which the pin policy does not cover.  Whoever picks
+this up should chase the allocation, not the front end.
+
+Not filed anywhere: DIFF, by rule 6.  Two bytes from EXACT on a 536-byte
+function, and the packet has no other row.

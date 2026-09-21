@@ -1,0 +1,222 @@
+pkt_02053218 / func_02053A60  0x02053A60..0x02053D30 (708 code + 12 pool = 720, ARM)
+Wave note, 2026-09-21.  DIFF, 66 bytes out.  No source filed.
+
+WHAT IT IS
+A per-instance init of a ~0x9C struct from a config record.  r0 = the object,
+r1 = the config (stored to o->f20 as the FIRST statement and re-read from
+memory for every subsequent use), r2 = a Vec3 of s32.
+
+  o->f20 = cfg; o->f24 = 0;
+  o->f28/f2c/f30 = pos->x/y/z + cfg->f00->f04/f08/f0c;
+  o->f40 = o->f44 = o->f48 = 0;  o->f3c = 0; o->f38 = o->f3c; o->f34 = o->f38;
+  o->f4c = o->f4e = 0;
+  o->f50/f52/f54 <- res->f1c/f1e/f20 (u16), o->f56 <- res->f38 (u16)
+  o->f58/f5c/f60/f64/f68/f6c <- res->f10/f14/f18/f24/f28/f2c (s32)
+  o->f70 <- res->f3e (u16), o->f72 = 0x7fff
+  byte o->f80 <- res->f44, byte o->f81 <- res->f45,
+  then WORD o->f80 &= ~0x70000  and  o->f80 &= 0x0007ffff  (a bitfield union)
+  o->f74 = 0x80000000
+  o->f78 = 0x1000 << bits[25:24] of res->f48   (`lsl #6` / `lsr #0x1e`)
+  o->f7a = 0x1000 << bits[27:26] of res->f48   (`lsl #4` / `lsr #0x1e`)
+  if (res->f4c & 1) o->f78 = -o->f78;   if (res->f4c & 2) o->f7a = -o->f7a;
+  if (res->f00 & 0x10000) { the same four-step pair on cfg->f14->f10,
+      bits[1:0] -> o->f7c, bits[5:4] -> o->f7e, bit 4 and bit 5 as the signs }
+  o->f04 = 0; o->f00 = o->f04; o->f14 = 0; o->f08 = o->f14;
+  o->f18 = 0; o->f0c = o->f18; o->f90 = o->f94 = o->f98 = 0;
+
+Pool, reached forward: 0x02053D24 = 0x00007FFF (-> strh at +0x130),
+0x02053D28 = 0x0007FFFF (-> the `and` at +0x164).  Two separate words.
+
+THE THREE LEVERS THAT MATTER (each measured, each worth a lot)
+
+(a) `o` IS A `volatile struct Obj *`.  The image re-reads `[r0, #0x20]` before
+    EVERY use (31 times) and re-reads a field it has just written
+    (`str r3,[r0,#0x3c]` then `ldr r2,[r0,#0x3c]` at +0x74/+0x78).  A plain
+    struct pointer lets 1.1p1 forward the incoming r1 into every use and gives
+    580 bytes / 480 out.  Making only `f20` volatile HOISTS all the reloads to
+    the top (668 bytes / 537 out).  Qualifying the whole pointer volatile is
+    the only spelling that reloads once, in place, per statement: 716 / 310.
+    An offset-macro spelling (`*(s32 *)((u8 *)o + 0x24)`) reloads the INNER
+    `cfg->f00` per use but still forwards r1 for `[r0,#0x20]`: 592 / 490.
+
+(b) `pos` IS ALSO VOLATILE (`const volatile struct Vec3 *`).  Without it the
+    three pos loads are hoisted into one run at the top; with it they
+    interleave the way the image does (+0x14, +0x34, +0x54), and the frame
+    drops from `push {r3, r4, r5, lr}` to the image's `push {r4, r5, r6, lr}`.
+    712 / 209.  Then writing the three adds as `cfg_chain + pos->k` rather
+    than `pos->k + cfg_chain` takes it to 712 / 185.
+
+(c) THE 2-BIT FIELD AT BIT 0 NEEDS A SIGNED LOCAL PLUS A CAST.  Every other
+    extraction in the function survives as a shift pair, but bits[1:0] --
+    `lsl r1, r1, #0x1e` / `lsr r1, r1, #0x1e` at +0x214/+0x218 -- folds to
+    `and r1, r1, #3` under every direct spelling, losing 4 bytes and shifting
+    the whole rest of the `if` body.  Measured:
+      (v << 30) >> 30 inline                     -> and  (704 B)
+      u32 t = v << 30; ... t >> 30               -> and  (708 B / 197 out)
+      (u32)((v << 30) >> 30) with u32 v          -> and  (708 B / 197 out)
+      s32 t = v; (u32)((t << 30) >> 30)          -> PAIR (708 B / 72 out)
+      s32 t = v; s32 u = t << 30; (u32)u >> 30   -> PAIR (712 B / 78 out)  <-- use this
+    The last form is the one that also keeps `lsr` rather than `asr`.
+    Binding the guard's `o->f20` to a local `c` and using that same `c` for
+    the FIRST body statement only (later statements re-read `o->f20`) is what
+    reproduces the image's reuse of r2 across the `beq` at +0x204/+0x208.
+    Reading the 0x50/0x52 pair through two u16 temps (both loads, then both
+    stores) is worth a further 5 bytes.
+
+THE BLOCKER: THE SAME arm946e/arm7tdmi CONFLICT docs/notes/pkt_02053218.c.txt
+RECORDS FOR THIS PACKET, one function over, and it is IRRECONCILABLE.
+
+  * The epilogue at 0x02053D1C/0x02053D20 is the ARMv4T pair
+      70 40 bd e8   pop {r4, r5, r6, lr}
+      1e ff 2f e1   bx lr
+    which only `-proc arm7tdmi` (and the other v4/v4T procs) emits; every v5TE
+    proc gives `pop {r4, r5, r6, pc}`.
+  * FOUR sites use `smulbb`, the ARMv5TE signed 16x16 multiply:
+      82 01 61 e1   smulbbne r1, r2, r1   at +0x1C4, +0x1E8, +0x25C, +0x280
+    `-proc arm7tdmi` cannot emit it and gives plain `mulne r1, r2, r1`.
+
+  So the single source measures, on the SAME C:
+      -proc arm7tdmi  712 bytes (the exact code length), 73 concrete out,
+                      epilogue EXACT, all four smulbb wrong
+      -proc arm946e   708 bytes, 66 concrete out,
+                      all four smulbb EXACT, epilogue wrong
+  Neither proc can be right for both, and the 32-proc sweep in
+  docs/notes/pkt_02053218.c.txt already established that no proc value in the
+  collection splits the difference, and no dsi front end changes the epilogue
+  form for a given proc.  This function is the arm7tdmi/v5TE conflict with a
+  NEW second horn: pkt_02053218's recorded case is `blx rN` versus the v4T
+  return, this one is `smulbb` versus the v4T return.  Same class, same
+  conclusion.
+
+RESIDUE UNDER arm946e (66 bytes), beyond the 8-byte epilogue:
+  * the zero constant lands in `ip` where the image keeps it in `r3`, and
+    0x80000000 lands in `r3` where the image keeps it in `lr`; every
+    `str <zero>` in the 0x40/0x44/0x48/0x3c/0x4c/0x4e run then differs by one
+    register field (24 bytes);
+  * 1.1p1 DERIVES the second pool constant -- `ldr r4, [pc]` = 0x7FFF then
+    `add lr, r4, #0x78000` -- where the image loads 0x0007FFFF from its own
+    pool word at 0x02053D28 (the two differ by an encodable rotated immediate,
+    so the fold is unavoidable from C; writing the mask as 0xFFF8FFFF, as
+    `&=`, or through named locals all fold the same);
+  * one `mvnne r1, #0` at +0x1C0 becomes `subne r1, r3, #0x80000001`, the
+    same constant-sharing cascade;
+  * `strhne r1,[r0,#0x7a]` and the following `ldr r2,[r0,#0x20]` are swapped.
+  All of these are downstream of the register-allocation cascade the proc
+  choice starts, so none is separately closable.
+
+NOT a front-end pin.  One probe, per FRONTEND-PINS.md rule 2, on the best
+source at `-proc arm946e`: `../2.0/sp2` gives 728 bytes / 284 out against
+1.1p1's 708 / 66.  1.1p1 is correct; the blocker is the proc, not the build.
+
+ALSO CORRECTED HERE: worklist.py prints `proc hint: arm7tdmi` for this packet
+from layout/proc_hints.txt.  For THIS row the census is half right -- the
+epilogue really is arm7tdmi -- but the four `smulbb` say the unit was built
+v5TE, so the hint cannot be taken as a whole-unit instruction the way
+FRONTEND-PINS.md's 3D-rig paragraph warns ("the census is NOT an oracle ...
+quote the proc per row, measured").
+
+THE BEST SOURCE (712 B / 73 out at arm7tdmi, 708 B / 66 out at arm946e):
+    typedef unsigned char u8;
+    typedef short s16;
+    typedef unsigned short u16;
+    typedef int s32;
+    typedef unsigned int u32;
+    
+    struct Res0 {
+        u32 f00; s32 f04; s32 f08; s32 f0c;
+        s32 f10; s32 f14; s32 f18;
+        u16 f1c; u16 f1e; u16 f20; u16 f22;
+        s32 f24; s32 f28; s32 f2c; s32 f30;
+        s32 f34; u16 f38; u16 f3a; u16 f3c; u16 f3e;
+        s32 f40; u8 f44; u8 f45; u8 f46; u8 f47;
+        u32 f48; u32 f4c;
+    };
+    
+    struct Sub14 { s32 f00; s32 f04; s32 f08; s32 f0c; u32 f10; };
+    
+    struct Cfg {
+        struct Res0 *f00;
+        s32 f04; s32 f08; s32 f0c; s32 f10;
+        struct Sub14 *f14;
+    };
+    
+    struct Vec3 { s32 x, y, z; };
+    
+    struct Obj {
+        s32 f00; s32 f04; s32 f08; s32 f0c;
+        s32 f10; s32 f14; s32 f18; s32 f1c;
+        struct Cfg *f20;
+        s32 f24; s32 f28; s32 f2c; s32 f30;
+        s32 f34; s32 f38; s32 f3c; s32 f40;
+        s32 f44; s32 f48;
+        u16 f4c; u16 f4e; u16 f50; u16 f52; u16 f54; u16 f56;
+        s32 f58; s32 f5c; s32 f60; s32 f64; s32 f68; s32 f6c;
+        u16 f70; u16 f72;
+        u32 f74;
+        s16 f78; s16 f7a; s16 f7c; s16 f7e;
+        u32 f80;
+        s32 f84; s32 f88; s32 f8c; s32 f90; s32 f94; s32 f98;
+    };
+    
+    void func_02053A60(volatile struct Obj *o, struct Cfg *cfg, const volatile struct Vec3 *pos)
+    {
+        struct Res0 *r;
+        struct Cfg *c;
+    
+        o->f20 = cfg;
+        o->f24 = 0;
+        o->f28 = o->f20->f00->f04 + pos->x;
+        o->f2c = o->f20->f00->f08 + pos->y;
+        o->f30 = o->f20->f00->f0c + pos->z;
+        o->f40 = 0;
+        o->f44 = 0;
+        o->f48 = 0;
+        o->f3c = 0;
+        o->f38 = o->f3c;
+        o->f34 = o->f38;
+        o->f4c = 0;
+        o->f4e = 0;
+        r = o->f20->f00;
+        { u16 h0 = r->f1c, h1 = r->f1e; o->f50 = h0; o->f52 = h1; }
+        o->f54 = r->f20;
+        o->f56 = o->f20->f00->f38;
+        o->f58 = o->f20->f00->f10;
+        o->f5c = o->f20->f00->f14;
+        o->f60 = o->f20->f00->f18;
+        o->f64 = o->f20->f00->f24;
+        o->f68 = o->f20->f00->f28;
+        o->f6c = o->f20->f00->f2c;
+        o->f70 = o->f20->f00->f3e;
+        o->f72 = 0x7fff;
+        *(u8 *)&o->f80 = o->f20->f00->f44;
+        *((u8 *)&o->f80 + 1) = o->f20->f00->f45;
+        o->f80 = o->f80 & ~0x70000u;
+        o->f80 = o->f80 & 0x0007ffffu;
+        o->f74 = 0x80000000u;
+        o->f78 = (s16)(0x1000 << ((o->f20->f00->f48 << 6) >> 30));
+        o->f7a = (s16)(0x1000 << ((o->f20->f00->f48 << 4) >> 30));
+        if ((o->f20->f00->f4c << 31) >> 31)
+            o->f78 = (s16)(o->f78 * -1);
+        if ((o->f20->f00->f4c << 30) >> 31)
+            o->f7a = (s16)(o->f7a * -1);
+        c = o->f20;
+        if ((c->f00->f00 << 15) >> 31) {
+            { s32 t = c->f14->f10; s32 u = t << 30; o->f7c = (s16)(0x1000 << ((u32)u >> 30)); }
+            o->f7e = (s16)(0x1000 << ((o->f20->f14->f10 << 28) >> 30));
+            if ((o->f20->f14->f10 << 27) >> 31)
+                o->f7c = (s16)(o->f7c * -1);
+            if ((o->f20->f14->f10 << 26) >> 31)
+                o->f7e = (s16)(o->f7e * -1);
+        }
+        o->f04 = 0;
+        o->f00 = o->f04;
+        o->f14 = 0;
+        o->f08 = o->f14;
+        o->f18 = 0;
+        o->f0c = o->f18;
+        o->f90 = 0;
+        o->f94 = 0;
+        o->f98 = 0;
+    }
+
+No file written to src/matched/ or src/pending/.  Verdict recorded: DIFF.

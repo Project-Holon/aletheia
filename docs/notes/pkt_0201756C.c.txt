@@ -335,3 +335,198 @@ Tried and did NOT move it (all still 106 bytes):
 
 Same cause as func_02017430; whichever lever forces the spill will fix
 both.  DIFF, so nothing was filed under src/.
+
+========================================================================
+func_0201761C  0x0201761C  pkt_0201756C
+2026-09-21  (appended)
+========================================================================
+
+Oversized (680 code bytes, ~35 calls).  Taken as far as a structural
+reconnaissance rather than a match; recorded so the next agent does not
+re-derive the frame layout.  Verdict DIFF, 612 compiled against 700,
+50 of 50 relocations resolved by label.  Nothing filed under src/.
+
+Frame and argument layout (push {r4,r5,r6,lr} + sub sp,#0x10, so the
+frame is 0x20 and the first stacked argument is at sp+0x20):
+
+  r0       obj          sp+0x20  arg5
+  r1       a1           sp+0x24  arg6
+  r2       a2           sp+0x28  arg7 low   } one u64, mutated in place
+  r3       a3           sp+0x2c  arg7 high  }
+
+The prologue at +0x04..+0x18 is the tell: it does
+`ldr r1,[sp,#0x24]; str r1,[sp,#0x24]` and the same for +0x28 and +0x2c,
+i.e. it reloads and rewrites three incoming stack slots without changing
+them.  That is what a by-value parameter looks like when the body later
+ASSIGNS to it and the compiler keeps it in its own home slot rather than
+a register.  Any spelling that binds these to locals adds a frame word
+(sub sp,#0x14, push {r4..r7,lr}) and loses ~24 bytes immediately.
+
+Established:
+
+  - The `movs rX,#0 / mvns rX,rX / eors / eors / orrs / bne` sextets at
+    +0x30, +0x54, +0x74 and +0x8E are 64-bit EQUALITY tests, not 32-bit
+    (idioms/a-64-bit-complement-is-eors-with-minus-one-not-mvns.md).
+    The constants compared against are, in order, 0, 1, (u64)-1 and 0.
+  - At +0x66 the original does `str r5,[sp,#0x28]; str r4,[sp,#0x2c]`
+    with r5 = a3 and r4 = arg5, i.e. it assembles the u64 parameter from
+    TWO separate 32-bit arguments: `((u64)arg5 << 32) | a3`.
+  - The block at +0xAE..+0xC6 is a search loop around func_02017ED8:
+    a 64-bit value is incremented (`adds r5,r0,#1` with an `adcs r4,r0`
+    carry into the high word, masked by the pool word at +0x1F8) and
+    retried while func_02017ED8 keeps returning non-zero.  This is the
+    single largest piece still missing from the C below and accounts for
+    most of the 88-byte shortfall.
+  - The two six-call runs at +0x154 and +0x1CE are the same six field
+    ids (0x46, 0x47, 0x48, 0x4A, 0x4B, 0x49 -- note 0x4A and 0x4B come
+    before 0x49) written either from six fresh func_0203F0A8 results or
+    from six 5-bit fields of arg6 at shifts 0, 5, 10, 15, 20, 25.  Each
+    unpacked field carries its own `lsls #0x18 / lsrs #0x18`, so the
+    argument is (u8)-cast at the call site, not stored through a u8.
+    The func_0203F0A8 variant uses `lsrs r3,r2,#0x1b` OR'd with
+    `lsls r2,r4,#5`, so it is not a plain truncation of the result.
+  - All four pool words have outside witnesses and are ordinary ABS32
+    data symbols: 0x0209DF0C (u8), 0x020A7370 (a 0x20-byte buffer passed
+    to func_02045F5C), 0x021462F0 (a pointer, loaded then dereferenced),
+    0x0209DF08 (u8).  No relocation here is evidence-starved; a correct
+    C reaches EXACT.
+  - The tail from +0x23A (field ids 0xA, 0x6E, 0x70, then func_02017FB0
+    and func_02017DE4) is straightforward and already compiles clean.
+
+What is wanted next is the func_02017ED8 retry loop and the exact
+spelling of the three in-place parameter mutations.  The rest of the
+setter sequence below is believed correct.
+
+---- closest C ----
+/*
+ * unit:     no
+ * function: func_0201761C
+ * address:  0x0201761C
+ * packet:   pkt_0201756C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02017550  0x02017550  thumb
+ *   func_02017DBC  0x02017DBC  thumb
+ *   func_02019C54  0x02019C54  thumb
+ *   func_020056EC  0x020056EC  thumb
+ *   func_0203F0A8  0x0203F0A8  arm
+ *   func_02017E64  0x02017E64  thumb
+ *   func_02017ED8  0x02017ED8  thumb
+ *   func_02045F5C  0x02045F5C  arm
+ *   func_02018584  0x02018584  thumb
+ *   func_0201AE1C  0x0201AE1C  thumb
+ *   func_02019C7C  0x02019C7C  thumb
+ *   func_02017F08  0x02017F08  thumb
+ *   func_02017FB0  0x02017FB0  thumb
+ *   func_02017DE4  0x02017DE4  thumb
+ *   g0209DF0C      0x0209DF0C  data
+ *   g020A7370      0x020A7370  data
+ *   g021462F0      0x021462F0  data
+ *   g0209DF08      0x0209DF08  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned long long u64;
+typedef signed int     s32;
+
+extern void  func_02017550(void);
+extern u32   func_02017DBC(void *obj);
+extern void *func_02019C54(void *a, u32 b);
+extern u32   func_020056EC(u32 a);
+extern u64   func_0203F0A8(void);
+extern void  func_02017E64(void *obj, u32 id, u32 val);
+extern int   func_02017ED8(u64 a, u32 b);
+extern void  func_02045F5C(void *a, void *b, void *c, u32 n);
+extern u32   func_02018584(void *a, u32 b, u32 c);
+extern u32   func_0201AE1C(void *a, u32 b);
+extern u32   func_02019C7C(void *a);
+extern u32   func_02017F08(void *obj);
+extern void  func_02017FB0(void *obj);
+extern void  func_02017DE4(void *obj, u32 a);
+
+extern u8  g0209DF0C;
+extern u8  g020A7370[];
+extern u8 *g021462F0;
+extern u8  g0209DF08;
+
+void func_0201761C(void *obj, void *a1, u32 a2, u32 lo, u32 hi,
+                   u32 a5, u64 a6)
+{
+    u32 t;
+    u32 hdr;
+    void *rec;
+    u64 stamp;
+    u32 v;
+
+    func_02017550();
+    hdr = func_02017DBC(obj);
+    rec = func_02019C54(a1, 0);
+
+    if (a6 == 0) {
+        a6 = func_020056EC(0);
+        func_0203F0A8();
+    } else if (a6 == 1) {
+        a6 = ((u64)hi << 32) | lo;
+    }
+
+    func_02017E64(obj, 0, (u32)a6);
+
+    {
+        u64 k = ((u64)hi << 32) | lo;
+        u32 id;
+
+        if (k == (u64)-1) {
+            id = func_020056EC(0);
+        } else if (k == 0) {
+            id = 0;
+        } else {
+            id = lo;
+        }
+        func_02017E64(obj, 7, id);
+    }
+    func_02017E64(obj, 0xc, g0209DF0C);
+    func_02017E64(obj, 5, (u32)a1);
+    func_02045F5C(g021462F0, a1, g020A7370, 0x20);
+    func_02017E64(obj, 0x74, (u32)g020A7370);
+    func_02017E64(obj, 8, func_02018584(a1, 0, a2));
+    func_02017E64(obj, 9, func_0201AE1C(rec, 0x16));
+    func_02017E64(obj, 0x99, a2);
+    func_02017E64(obj, 0x77, g0209DF08);
+    func_02017E64(obj, 0x98, 4);
+
+    if (a5 == (u32)-1) {
+        func_02017E64(obj, 0x46, (u32)func_0203F0A8());
+        func_02017E64(obj, 0x47, (u32)func_0203F0A8());
+        func_02017E64(obj, 0x48, (u32)func_0203F0A8());
+        func_02017E64(obj, 0x4a, (u32)func_0203F0A8());
+        func_02017E64(obj, 0x4b, (u32)func_0203F0A8());
+        func_02017E64(obj, 0x49, (u32)func_0203F0A8());
+    } else {
+        func_02017E64(obj, 0x46, (u8)(a5 & 0x1f));
+        func_02017E64(obj, 0x47, (u8)((a5 >> 5) & 0x1f));
+        func_02017E64(obj, 0x48, (u8)((a5 >> 10) & 0x1f));
+        func_02017E64(obj, 0x4a, (u8)((a5 >> 15) & 0x1f));
+        func_02017E64(obj, 0x4b, (u8)((a5 >> 20) & 0x1f));
+        func_02017E64(obj, 0x49, (u8)((a5 >> 25) & 0x1f));
+    }
+
+    v = 0x1a;
+    if (func_02019C7C(rec) == 2) {
+        if ((a6 & 0x10000) != 0) {
+            v = 0x1b;
+        }
+    }
+    func_02017E64(obj, 0xa, func_0201AE1C(rec, v));
+    func_02017E64(obj, 0x6e, func_02017F08(obj));
+    func_02017E64(obj, 0x70, func_020056EC(0x19));
+    func_02017FB0(obj);
+    func_02017DE4(obj, hdr);
+}

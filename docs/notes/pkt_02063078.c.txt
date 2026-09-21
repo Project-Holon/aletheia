@@ -358,3 +358,59 @@ CONSEQUENCE FOR src/pending/func_0204BF40.c: its blocker, the PC24 to
 func_02063294 at +0x78, is UNCHANGED.  0x02063294 did not reach EXACT, so
 there is still no `matched` entry for it and the park stays parked.  It
 promotes the moment someone closes the 13-byte register residue above.
+
+==============================================================================
+2026-09-21, closer lane: 0x02063378 still DIFF at 5 bytes, ten more spellings
+==============================================================================
+
+Reproduced the note's C under ../2.0/sp2: 192 bytes, the single relocation
+site resolved by `literal`, the same one instruction triple out --
+
+  * +005C    ldr lr, [r0]                | ldr r3, [r0]
+  * +0060    ldr r3, [pc, #0x58]         | ldr ip, [pc, #0x54]
+  * +0068    mla ip, lr, r2, r3          | mla ip, r3, r2, ip
+
+(the fourth reported difference, `.byte fe ff 00 00` at +0xBC, is the
+over-read of the FOLLOWING function's pool word that the note already
+explains, not a compiled byte).
+
+TEN FURTHER SPELLINGS MEASURED, ALL 5 BYTES OUT AT THE SAME THREE OFFSETS
+unless noted, and all on top of the note's nine:
+
+  on separating declaration from assignment (the lever that closed
+  0x02020A58 on this same pass):
+    10. `u8 *base; u32 bank;` declared after `idx`, assigned
+        `base = g_02146BC8; bank = obj->index;` in that order
+    11. the same two declared and assigned in the opposite order
+  on giving the multiplier its own name:
+    12. `u32 stride; stride = 0x540;` with `bank * stride`
+    13. bank, stride and base all three named, assigned in first-use order
+  on the order of the base computation and the cursor re-read:
+    14. `idx = obj->cur_idx;` moved ABOVE the base computation
+    15. the whole address folded to one `&g_02146BC8[...]` expression
+        (86 out -- it hoists 0x540 into a `mov r2, #0x540` of its own and
+        re-lays the block, strictly worse)
+  on declaration order and types of the surviving locals:
+    16. `u8 *ptr;` declared AFTER `u32 idx;`
+    17. `idx` declared `u16` instead of `u32` (the narrowing-cast lever)
+    18. the mla's result bound to its own `u8 *bankp` local before the
+        `+ 0x100 + idx * 0x20` add
+  on the failure return's pool load, which loads the SAME word into r0:
+    19. a `u8 *tbl` local assigned `g_02146BC8` before the `ge` guard, used
+        both for the failure `return (u32)tbl;` and as the mla's addend
+        (23 out -- it sinks the pool load above the `cmp r2, #0` and
+        predicates the return as `moveq r0, ip`, strictly worse)
+
+Nineteen spellings total across the two passes.  The finding is now firm and
+is worth stating as a rule: THE DESTINATION REGISTER OF AN `mla` IS NOT
+SOURCE-ADDRESSABLE.  The image spends three distinct registers on the triple
+(lr for the loaded index, r3 for the pool base, ip for the destination); 2.0
+spends two, reusing the base's ip as the destination.  Every way of naming,
+ordering, retyping or re-associating the three operands leaves that decision
+untouched, because it is made after the expression tree is linearised.
+
+The same residue shape is recorded for 0x02063294 (13 bytes, the same triple
+plus the attribute read-modify-write swap) and for 0x02072374
+(docs/notes/pkt_02072374.c.txt, 7 bytes, r5/r6 on an `smull`); all three are
+one class and none of them is a front-end tell, so no pin is available for
+any of them.  Neither row filed.  src/pending/func_0204BF40.c stays blocked.

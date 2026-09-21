@@ -1,0 +1,179 @@
+func_0202D4A8  0x0202D4A8  pkt_0202D3D0
+2026-09-21
+
+Near miss: SIZE-exact (292 == 292), 4 of 4 relocations resolved by label
+(func_02019C90 x3, func_020490A8), residual 29 concrete bytes.
+
+Shape recovered.  13-parameter function; frame is push {r4-r7,lr} +
+sub sp,#0x14, so the first stacked argument is at sp+0x28.  Mapping:
+
+  r0 narc           sp+0x28 base        sp+0x38 out_pal
+  r1 species (u32)  sp+0x2c shiny       sp+0x3c out_mode
+  r2 form   (s32)   sp+0x30 egg         sp+0x40 out_base
+  r3 mode   (s32)   sp+0x34 out_index   sp+0x44 out_ptr
+                                        sp+0x48 female
+
+Established facts:
+
+  - species is u32, not u16.  The three func_02019C90 calls each carry
+    their own `lsls #0x10; lsrs #0x10` pair, i.e. a (u16) cast written at
+    the call site.  Declaring the parameter u16 instead moves those
+    truncations to the prologue and costs 60+ bytes.
+  - form is SIGNED: the bound test at +0x8C is `blt`, not `blo`.
+  - The four pool words at 0x0202D5BC are plain literals, not relocations:
+    0x000001EA (species 490), 0x0000028A (index 650), 0x000037AD,
+    0x000032F0.  0x1EA/0x28A are out of image range.
+  - The mode dispatch is a real `switch` with an explicit empty `default:`.
+    An if/else-if chain over the same three values loses the third `cmp`
+    from the dispatch head and permutes r4/r5/r6 across the whole body.
+  - In the mode==1 arm the `movs r4,#1` lands AFTER the blx, so the
+    assignment must be written after the call result is bound to a local
+    (`count = func_020490A8(...); mode = 1; if (count == 0) mode = 0;`).
+    Writing `mode = 1;` before the call emits it before the blx.
+  - The `egg` arm is `(species == 0x1EA ? 1 : 0) + 0x28A` scaled by 0x14,
+    written as a separate s32 temporary; the compiler materialises
+    `movs r1,#1 / cmp / movs r1,#0` exactly as the original does.
+
+The residue, 29 bytes in two independent clusters:
+
+  (a) 2 bytes at +0x1E and +0x40.  The two computed stack locals land in
+      the wrong slots: the original puts the 2-way `shiny ? 9 : 0` value
+      at sp+8 and the 4-way `female/shiny` value at sp+4, and reads sp+4
+      as the func_020490A8 index and sp+8 as *out_pal.  Every spelling
+      tried gives the mirror.  mwccarm assigns these two slots by
+      FIRST-WRITE order, not by declaration order: swapping the two
+      declarations (both orders tried, with and without the other four
+      locals regrouped) changes nothing, and swapping the two computation
+      blocks instead simply swaps which value is read where, leaving the
+      same 2 bytes wrong.  Routing the call through the other variable
+      (so the 4-way value is the index) forces `idx` out of r7 onto the
+      stack and costs 100+ bytes, so that is not the lever either.
+  (b) the 2 bytes at +0xE8, a `b` to the immediately following
+      instruction.  The original's mode==1 failure path branches to the
+      mode==2 arm's `movs r4,#0` rather than cross-jumping into it.
+      Writing case 1 above case 2 with an explicit fall-through, or with
+      an explicit `goto` to a label inside case 2, does reproduce the
+      redundant branch but simultaneously permutes r4/r5/r6 for the three
+      register parameters (species/form/mode), trading 2 bytes for 17.
+      The two clusters appear to be coupled through the arm ordering.
+
+Both residues are layout artefacts of a single allocator decision; the
+semantics above are believed complete.  Whoever picks this up should look
+for the spelling that pins the first-write order of the two flag locals
+independently of the switch arm order.
+
+---- closest C ----
+/*
+ * unit:     no
+ * function: func_0202D4A8
+ * address:  0x0202D4A8
+ * packet:   pkt_0202D3D0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02019C90  0x02019C90  thumb
+ *   func_020490A8  0x020490A8  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern u32 func_02019C90(u16 species, u32 form, u32 attr);
+extern int func_020490A8(void *narc, u32 index);
+
+void func_0202D4A8(void *narc, u32 species, s32 form, s32 mode,
+                   u32 base, u32 shiny, u32 egg,
+                   u32 *out_index, u32 *out_pal, u32 *out_mode, u32 *out_base,
+                   u32 **out_ptr, u32 female)
+{
+    s32 idx;
+    s32 count;
+    s32 first;
+    s32 hidden;
+    s32 mode2;
+    s32 pal;
+
+    idx = species * 0x14;
+
+    if (shiny == 0) {
+        mode2 = 0;
+    } else {
+        mode2 = 9;
+    }
+
+    if (female != 0) {
+        if (shiny == 0) {
+            pal = 0;
+        } else {
+            pal = 9;
+        }
+    } else {
+        if (shiny == 0) {
+            pal = 2;
+        } else {
+            pal = 0xb;
+        }
+    }
+
+    if (egg != 0) {
+        s32 t;
+
+        if (species == 0x1ea) {
+            t = 1;
+        } else {
+            t = 0;
+        }
+        idx = (t + 0x28a) * 0x14;
+    } else if (form != 0) {
+        first = (s32)func_02019C90((u16)species, 0, 0x1f);
+        hidden = (s32)func_02019C90((u16)species, 0, 0x23);
+        count = (s32)func_02019C90((u16)species, 0, 0x20);
+        if (form >= count) {
+            form = 0;
+        }
+        if (hidden != 0) {
+            if (out_ptr != 0 && form != 0) {
+                *out_ptr = (u32 *)(base + (u32)((first + form - 1) * 2 + 0x37ad));
+            }
+        } else if (form != 0) {
+            idx = (first + form - 1) * 0x14 + 0x32f0;
+        }
+    }
+
+    switch (mode) {
+    case 0:
+        break;
+    case 2:
+        mode = 0;
+        break;
+    case 1:
+        count = func_020490A8(narc, (u32)(idx + pal + 1));
+        mode = 1;
+        if (count == 0) {
+            mode = 0;
+        }
+        break;
+    default:
+        break;
+    }
+
+    if (out_index != 0) {
+        *out_index = (u32)idx;
+    }
+    if (out_pal != 0) {
+        *out_pal = (u32)mode2;
+    }
+    if (out_mode != 0) {
+        *out_mode = (u32)mode;
+    }
+    if (out_base != 0) {
+        *out_base = base;
+    }
+}

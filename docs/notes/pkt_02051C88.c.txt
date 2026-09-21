@@ -124,3 +124,42 @@ The C that reaches 348:
     
         return ret;
     }
+
+==============================================================================
+2026-09-21, closer lane: still DIFF at 348/352, the fourth constant unmoved
+==============================================================================
+
+Reproduced the note's C exactly: 1.1p1 -O4,p, 348 bytes, all five relocation
+sites resolved, the same single missing `mov fp, r3` at 0x02051CE4.
+
+SIX FURTHER SPELLINGS MEASURED, ALL 348 (i.e. none forces the fourth live
+copy of the constant 1, and none was byte-different from the baseline in any
+other respect):
+
+  1. `ret = c->slots[i].state;` in place of `ret = 1;` -- the state byte is
+     provably 1 in that arm, so this is the mirror of the `!!q` lever that
+     closed 0x0206419C; here it does nothing, the compiler forwards the byte.
+  2. a function-scope `s32 one;` assigned `one = 1;` immediately after the
+     func_02035C60 call and used only for `ret = one;`.  CSEd into r3.
+  3. FIVE separate constant locals at once -- `u8 one, zero, one2, zero2;`
+     plus `s32 one3;`, all assigned after func_02035C60, feeding the two
+     state-byte ternaries and the `ret` assignment with a distinct name each.
+     This is the strongest form of "give every copy its own variable" and the
+     allocator still unifies all five into the two registers it wants:
+     348 bytes, 87 concrete out (WORSE than the baseline's 4-byte residue,
+     because the extra names perturb the loop body's schedule).
+  4. `u8 ret` with `return (s32)ret;` -- a different type for the carrier.
+  5. `ret |= (c->slots[i].state != 0);` -- an or-accumulate instead of a
+     conditional store, so the 1 is never written as a literal at all.
+  6. `s32 one = 1;` declared LAST of all the locals (the declaration-order
+     lever that decides register assignment elsewhere in this project).
+
+Together with the three spellings the note already records, that is nine.
+The conclusion stands and is now better supported: this is not reachable by
+naming, typing or ordering the constant in the C.  1.1p1 -O4,p unifies the
+`ret = 1` literal with the state-byte `1` whenever both are live in the same
+loop, and the only measured way to break the unification (`volatile`) spills
+the register instead of keeping it, which is the wrong mechanism and 356
+bytes.
+
+The pin is still not available: ../2.0/sp2 remains 360 bytes and 290 out.

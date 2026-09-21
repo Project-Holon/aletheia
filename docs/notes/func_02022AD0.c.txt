@@ -1,0 +1,232 @@
+func_02022AD0  0x02022AD0  pkt_02022AD0
+2026-09-21
+
+Near miss: SIZE-exact (540 == 540), 3 of 3 relocations resolved by label
+(func_02022D88 x3, witnesses at 0x02022DAE and 0x020236FE), residual
+8 concrete bytes, all in ONE of the three call blocks.
+
+Shape fully recovered.  This is a per-scanline window update driven off
+VCOUNT.  The four pool words at 0x02022CDC are I/O register addresses
+written as cast constants, NOT relocations:
+
+  0x04000006  REG_VCOUNT
+  0x04000004  REG_DISPSTAT   (the window regs are reached off this base:
+                              +0x3C WIN0H, +0x3E WIN1H, +0x40, +0x42)
+  0x04001040  sub-engine WIN0H
+  0x04001042  sub-engine WIN1H
+
+Established facts:
+
+  - func_02022D88(ctl, which) returns a pointer into a table whose
+    layout is:  s16 x[0xC0] at +0,  s16 y[0xC0] at +0x180,  and a u32
+    flag at +0x600.  The 0x300-byte hole between y[] and flag is real:
+    the original scales the hoisted 0x180 constant by `lsls #2` to reach
+    the flag, so the offset is 0x600 and not the 0x300 a packed struct
+    would give.  Getting this wrong costs `lsls #1` and cascades.
+  - `s16`, not u16: the accesses are `ldrsh` with a register offset,
+    which is the only spelling that exists for a signed halfword load
+    (see idioms/ldrsh-register-offset-is-signedness.md).
+  - The packed halfword written to the window register is
+    `((x << 8) & 0xff00) | (u32)(u8)y`, computed in u32 with NO
+    intermediate (u16) cast.  Adding one inserts a spurious
+    `lsls #0x10 / lsrs #0x10` pair into all six copies (48 bytes).
+  - The VCOUNT compare is signed (`bge`), so `line` is s32.
+  - `next = line + 1; if (next > 0xbf) next -= 0xc0;` reproduces the
+    original's `cmp #0xbf / ble / subs #0xc0` exactly; a modulo does not.
+  - ctl fields: +4 mode (compared against 1), +8 sel (the main/sub
+    engine selector).  Each of the three blocks tests flag then sel,
+    giving the 2x2 tree that is written out six times in the original
+    and which mwccarm cross-jumps back together on its own.
+
+The residue: 8 bytes at +0x00CC..+0x00D6, the SECOND of the three
+func_02022D88 blocks (the `mode != 1` path's first call).  The original
+emits
+
+    adds r3, r0, #0 ; lsls r5, r5, #1 ; movs r6, #6 ; adds r1, r3, r5
+
+and the compile emits
+
+    movs r6, #6 ; adds r3, r0, #0 ; lsls r5, r5, #1 ; adds r0, r3, r5
+
+i.e. the `movs r6,#6` is hoisted one slot too early and the sum lands in
+r0 instead of r1.  Blocks one and three are byte-identical, and they
+differ from block two only in that they end in `return` while block two
+falls through into block three.  Tried, all held at 8 bytes:
+
+  - reading ctl->sel before / between / after the three array reads in
+    block two (block one's order, `sel` first, is confirmed correct by
+    its own byte-exactness, and copying it into block two changes
+    nothing);
+  - reading p->flag first, so the flag load leads the block;
+  - binding block two's returned pointer to its own named local, and to
+    a nested-scope copy, to lengthen its live range past the merge;
+  - hoisting `next * 2` into a scaled local once for all three blocks
+    (the original re-derives the scale inside each block, so this is
+    wrong in the other direction and costs more).
+
+The lever wanted is whatever makes mwccarm defer the 0x180 constant
+materialisation in a block that is NOT terminated by a return.  Both
+neighbours prove the C is right; this is one scheduling decision.
+
+---- closest C ----
+/*
+ * unit:     no
+ * function: func_02022AD0
+ * address:  0x02022AD0
+ * packet:   pkt_02022AD0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02022D88  0x02022D88  thumb
+ *
+ * The four pool words at 0x02022CDC are 0x04000006, 0x04000004,
+ * 0x04001040 and 0x04001042: I/O register addresses, written as cast
+ * constants, not relocations.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+struct ctl {
+    u32 pad0;
+    u32 mode;
+    u32 sel;
+};
+
+struct sched {
+    s16 x[0xc0];
+    s16 y[0xc0];
+    u8  pad[0x300];
+    u32 flag;
+};
+
+extern struct sched *func_02022D88(struct ctl *ctl, u32 which);
+
+#define REG_VCOUNT  (*(volatile u16 *)0x04000006)
+#define REG_A       ((volatile u16 *)0x04000004)
+#define REG_B       ((volatile u16 *)0x04001040)
+#define REG_C       ((volatile u16 *)0x04001042)
+
+void func_02022AD0(struct ctl *ctl)
+{
+    struct sched *p;
+    s32 line;
+    s32 next;
+    s32 x;
+    s32 y;
+    u32 flag;
+    u32 sel;
+
+    line = REG_VCOUNT;
+    if (line >= 0xc0) {
+        return;
+    }
+    next = line + 1;
+    if (next > 0xbf) {
+        next -= 0xc0;
+    }
+
+    if (ctl->mode == 1) {
+        p = func_02022D88(ctl, 0);
+        sel = ctl->sel;
+        y = p->y[next];
+        x = p->x[next];
+        flag = p->flag;
+        if (flag == 0) {
+            if (sel == 0) {
+                if ((REG_A[0] & 2) != 0) {
+                    REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                    REG_A[0x20] = 0xc0;
+                }
+            } else {
+                if ((REG_A[0] & 2) != 0) {
+                    REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                    REG_B[2] = 0xc0;
+                }
+            }
+        } else {
+            if (sel == 0) {
+                if ((REG_A[0] & 2) != 0) {
+                    REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                    REG_A[0x21] = 0xc0;
+                }
+            } else {
+                if ((REG_A[0] & 2) != 0) {
+                    REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                    REG_C[2] = 0xc0;
+                }
+            }
+        }
+        return;
+    }
+
+    p = func_02022D88(ctl, 0);
+    y = p->y[next];
+    x = p->x[next];
+    flag = p->flag;
+    sel = ctl->sel;
+    if (flag == 0) {
+        if (sel == 0) {
+            if ((REG_A[0] & 2) != 0) {
+                REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_A[0x20] = 0xc0;
+            }
+        } else {
+            if ((REG_A[0] & 2) != 0) {
+                REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_B[2] = 0xc0;
+            }
+        }
+    } else {
+        if (sel == 0) {
+            if ((REG_A[0] & 2) != 0) {
+                REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_A[0x21] = 0xc0;
+            }
+        } else {
+            if ((REG_A[0] & 2) != 0) {
+                REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_C[2] = 0xc0;
+            }
+        }
+    }
+
+    p = func_02022D88(ctl, 1);
+    sel = ctl->sel;
+    y = p->y[next];
+    x = p->x[next];
+    flag = p->flag;
+    if (flag == 0) {
+        if (sel == 0) {
+            if ((REG_A[0] & 2) != 0) {
+                REG_A[0x1e] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_A[0x20] = 0xc0;
+            }
+        } else {
+            if ((REG_A[0] & 2) != 0) {
+                REG_B[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_B[2] = 0xc0;
+            }
+        }
+    } else {
+        if (sel == 0) {
+            if ((REG_A[0] & 2) != 0) {
+                REG_A[0x1f] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_A[0x21] = 0xc0;
+            }
+        } else {
+            if ((REG_A[0] & 2) != 0) {
+                REG_C[0] = ((x << 8) & 0xff00) | (u32)(u8)y;
+                REG_C[2] = 0xc0;
+            }
+        }
+    }
+}

@@ -49,3 +49,47 @@ folds `sub r0, r1, #0x23` for the -1.  The image predicates the block (the
 in the collection does both.
 
 Not filed.  DIFF, 4 bytes, one instruction.  No source written.
+
+==============================================================================
+2026-09-21, closer lane: still DIFF, one instruction, eleven more spellings
+==============================================================================
+
+Reproduced at 148 bytes, both relocation sites resolved, the same single
+`mvnne r0, #0` vs `subne r0, r1, #0x23` at +0x70.
+
+One correction to the note's recipe, needed before the residue is reachable
+at all: the buf initialisation must be written `buf[0] = a0;` BEFORE
+`buf[1] = 0;`.  The reverse order (which the note's prose implies) gives two
+extra mismatches at +0x1C/+0x20, the two `str` to sp+0xc / sp+0x10 swapped.
+With the stores in that order the file is exactly one instruction out.
+
+ELEVEN FURTHER SPELLINGS MEASURED, ALL FOLD `sub r0, r1, #0x23`:
+
+  on the returned -1:
+    7.  a named `int m1 = -1;` declared after `r` and assigned before the
+        guard, returned as `return m1;`
+    8.  `r = -1; g_02153FAC = 0x22; return r;` (the carrier is the call
+        result's own register)
+    9.  `return ~0;`
+   10.  `return 0 - 1;`
+   11.  `return (int)(a1 - a1 - 1);` -- derived from a pointer, so the
+        constant cannot be folded from the errno value at the source level
+  on the errno store, i.e. attempts to stop 0x22 being live in r1:
+   12.  `*(volatile u32 *)&g_02153FAC = 0x22u;`
+   13.  `extern volatile u32 g_02153FAC;`
+   14.  `extern int g_02153FAC;` (signed)
+   15.  `extern u32 g_02153FAC[1];` with `g_02153FAC[0] = 0x22;`
+   16.  `g_02153FAC = 34;` (decimal, same value, different token)
+  on the control flow:
+   17.  `if (err == 0) goto ok; g_02153FAC = 0x22; return -1; ok: ...`
+        -- unlike the note's rejected guard inversion this keeps the
+        predicated block and the 148 bytes, and is still exactly 1 out
+
+Seventeen spellings total across the two passes.  The fold is in the
+back end's constant-reuse pass and no source-level spelling of either the
+stored 0x22 or the returned -1 reaches it: the two values differ by 0x23,
+mwccarm notices, and it notices whatever the C calls them.
+
+Confirmed again that neither pin helps, for the reason the note gives: the
+image predicates the error block (the 1.1p1 shape) AND rematerialises the
+constant (the 2.0 shape).  Not filed.

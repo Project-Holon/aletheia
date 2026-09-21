@@ -48,3 +48,250 @@ word stores at +4 and +8, so those are two separate u32 fields, not one
 Not filed anywhere: DIFF.  No source in src/matched/ or src/pending/.
 
 Addresses are Black-image addresses.
+
+==============================================================================
+2026-09-21 - second pass (ARM lane, large-function slot). 0x02067080 only.
+==============================================================================
+
+func_02067080 @ 0x02067080 (676 code bytes, listing extent 704 with the
+28-byte pool) - DIFF, 644 compiled, 422 concrete out.
+
+NEW row; the first pass never reached it.  It is the OAM affine-placement
+step of the same NNS G2D cell composer that unit_02067B40 documents, and
+that unit's note is what decodes it: the two tables at 0x020A17F0 (objWidth)
+and 0x020A17D8 (objHeight), three rows of four u16 on an 8-byte row stride,
+indexed by shape (attr0 bits 14-15) and size (attr1 bits 14-15).
+
+WHAT IT IS, fully decoded.  The single word at *oam is attr0 in bits 0-15 and
+attr1 in bits 16-31.  The six pool words at 0x02067324..0x0206733C are
+0x01ff0000, 0xc000c000, 0x020A17F0, 0x020A17D8, 0x02148B48, 0xc1fffcff and
+0xfe00ff00, and they pin every field:
+
+  x  = 9-bit signed, attr1 bits 0-8   (mask 0x01ff0000, >> 16)
+  y  = 8-bit signed, attr0 bits 0-7   (mask 0x000000ff)
+  mode = attr0 bits 8-9 (0x300); when it is neither 0x100 nor 0x300 the
+         attr1 bits 12-13 (0x30000000) are OR'd in before the 0x300 test
+  shape = attr0 bits 14-15, size = attr1 bits 14-15, both out of one
+          `and r3, v, 0xc000c000`
+
+and the body is:
+
+  1. sign-extend x and y out of the word, each << 12 into a 12.12 pair held
+     at [sp,#8] / [sp,#0xc];
+  2. if mode == 0x300 (the double-size affine case) add
+     objWidth[shape][size] << 11 and objHeight[shape][size] << 11;
+  3. multiply the pair by the 2x2 matrix at r0 (m00 +0x00, m01 +0x04,
+     m10 +0x08, m11 +0x0c) in 64-bit, rounding with +0x1000 and shifting
+     back by 12: smull / adds #0x1000 / adc / smlal / lsr #0xc / orr lsl #20,
+     twice;
+  4. re-read g_02148B48->f04; when non-zero, force mode to 0x300 if it is 2
+     and to 0x100 otherwise, writing it back through mask 0xc1fffcff;
+  5. re-read the word, recompute shape/size, take HALF of each table entry
+     (`asr #1`) and add m*(halfW,halfH) - (half << 12) to the pair, then, if
+     mode is still 0x300, subtract the two halves again;
+  6. add the caller's offset pair at r2 and pack the result back into the
+     word through mask 0xfe00ff00: the y goes in as `(py >> 12) & 0xff` and
+     the x as `(px << 23) >> 7`, i.e. 9 bits into attr1 bits 0-8.
+
+STATE REACHED: 644 bytes against 704, and offsets +0x0008..+0x00C4 are
+BYTE-IDENTICAL -- the whole field extraction, the mode fold, both table
+lookups and both `add rD, rS, rT, lsl #11` are exactly right, with all three
+ABS32 sites resolving by `literal`.
+
+FOUR LEVERS that each moved it, in the order found:
+  * the `oam` parameter must be `volatile u32 *`.  The image RE-READS the
+    word at 0x02067088, 0x020670B8, 0x020670D8, 0x0206720C and again at
+    0x020672FC; without volatile 1.1p1 CSEs all five into one load and the
+    body is 592 bytes.
+  * the y extraction must be spelled off a FRESH read, `*oam & 0xff`, not off
+    the local the x extraction already read.  With the shared local the
+    `and r3, r3, #0xff` is hoisted next to the x mask and the first 0x34
+    bytes shift.
+  * the mode==0x300 test at step 5 must be a materialised boolean,
+    `u32 dbl = (mode == 0x300); if (dbl != 0) {...}`.  The image emits
+    `moveq r0, #1` / `movne r0, #0` / `cmp r0, #0` / `beq` at
+    0x020672AC..0x020672B8, reusing the flags of a `cmp r4, #0x300` set
+    fourteen instructions earlier at 0x0206727C; a plain `if (mode == 0x300)`
+    re-tests and loses the pair.
+  * the step-5 offsets must be written as `-(half << 12)` bound to its own
+    local and added first, so the image's `rsb r7, r5, #0` / `mla r7, r6, ip,
+    r7` / `mla r7, r6, r3, r7` chain comes out; `a*hw + b*hh - ox` folds the
+    shift into a `sub rD, rS, rT, lsl #12` and splits the mlas into muls.
+
+THE RESIDUE IS ONE SOURCE SHAPE, NOT A FRONT END.  It is the alias guard at
+0x020670CC..0x020670D8 and 0x02067120..0x02067140:
+
+  020670CC  add r3, sp, #8
+  020670D4  cmp r3, r3          <- a DEAD compare, both operands the same reg
+  020670D8  addeq r3, sp, #0
+  ...
+  02067120  add r4, sp, #0
+  0206712C  cmp r3, r4
+  02067130  bne 0x020671C4
+  02067134  ldr r4, [sp]  / ldr r3, [sp, #4]
+  0206713C  str r4, [sp, #8] / str r3, [sp, #0xc]
+
+That is an inlined matrix-times-vector helper with a runtime `if (out == in)
+use a temporary, then copy back` guard, partially constant-folded: the
+compiler proved the two pointers equal enough to turn the first compare into
+`cmp r3, r3` but kept BOTH the compare and the copy.  The consequence is
+visible and is the whole remaining 60 bytes: because `d` is an unresolved
+pointer, the image must STORE `d->x` before it may start the second 64-bit
+chain (`str r4, [r3]` at 0x020670F8 sits between the two `smull` groups),
+while every spelling measured here lets 1.1p1 prove `d` is the temporary,
+interleave the two smull/smlal chains and drop one callee-saved register
+(`push {r3, r4, r5, r6, r7, lr}` against the image's
+`push {r4, r5, r6, r7, r8, lr}`).  Writing the guard as `(&p == &p) ? &t :
+&p` reproduces the copy-back block and the doubled `f04` arms -- it took the
+body from 616 to 644 -- but not the compare, because the condition folds at
+compile time.  Three chain spellings were measured after that (two separate
+`s64 a` assignments, the sum written as one expression, and each product
+bound to its own s64 local) and all three interleave.
+
+The thing to find is a spelling in which the destination pointer is genuinely
+opaque to 1.1p1 at the point of the two stores.  A second `volatile`, or the
+helper taking its out-pointer through a parameter that is not provably `&t`,
+are the two untried directions.
+
+THE PIN WAS PROBED AND REFUSED.  `--cc ../2.0/sp2 -O4,p -proc arm946e` on the
+same source is 644 bytes -- the SAME size as 1.1p1 -- with 422 concrete out
+against 1.1p1's 422 at the same count but a worse distribution, and it does
+not reproduce the dead compare either.  So despite the dead `cmp r3, r3` and
+the doubled `andeq/orreq/streq` + `and/orr/str` arms at
+0x02067170..0x02067188 both reading like the "kept branches" tell that
+pinned func_02069AC4, 0x02067080 is NOT a 2.0 row.  Do not spend the probe
+again.
+
+Not filed anywhere: DIFF, by rule 6.  The source as it stood is in
+/tmp only; the shape above is the complete record.
+
+The source that reaches 644/704 follows.
+
+    /*
+     * function: func_02067080
+     * address:  0x02067080
+     * packet:   pkt_02066E30
+     * region:   arm9
+     * compiler: 1.1p1
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   DIFF
+     *
+     * symbols:
+     *   g_02148B48      0x02148B48  data
+     *   tbl_020A17F0    0x020A17F0  data
+     *   tbl_020A17D8    0x020A17D8  data
+     */
+
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+    typedef short          s16;
+    typedef int            s32;
+    typedef long long      s64;
+
+    struct Vec2 { s32 x; s32 y; };
+    struct Mtx22 { s32 m00; s32 m01; s32 m10; s32 m11; };
+    struct Work { u32 f00; u32 f04; };
+
+    extern struct Work *g_02148B48;
+    extern const u16 tbl_020A17F0[3][4];
+    extern const u16 tbl_020A17D8[3][4];
+
+    void func_02067080(const struct Mtx22 *m, volatile u32 *oam, const struct Vec2 *ofs)
+    {
+        struct Vec2 p;
+        struct Vec2 t;
+        u32 v;
+        u32 mode;
+        s32 sx;
+        s32 sy;
+        u32 shape;
+        u32 size;
+        u32 f04;
+
+        v = *oam;
+        sx = (s32)(s16)((v & 0x01ff0000) >> 16);
+        if (sx > 0xff)
+            sx = (s32)(s16)(sx | 0xff00);
+        p.x = sx << 12;
+
+        sy = (s32)(*oam & 0xff);
+        if (sy > 0x7f)
+            sy = (s32)(s16)(sy | 0xff00);
+        p.y = sy << 12;
+
+        v = *oam;
+        mode = v & 0x300;
+        if (mode != 0x100 && mode != 0x300)
+            mode |= (v & 0x30000000);
+        if (mode == 0x300) {
+            u32 w = v & 0xc000c000;
+
+            size = (w & 0xc0000000) >> 30;
+            shape = (s32)(w & 0xc000) >> 14;
+            p.x = p.x + (tbl_020A17F0[shape][size] << 11);
+            p.y = p.y + (tbl_020A17D8[shape][size] << 11);
+        }
+
+        {
+            struct Vec2 *d = (&p == &p) ? &t : &p;
+
+            s64 a;
+
+            a = (s64)m->m10 * p.y;
+            a = a + 0x1000;
+            a = a + (s64)m->m00 * p.x;
+            d->x = (s32)(a >> 12);
+            a = (s64)m->m11 * p.y;
+            a = a + 0x1000;
+            a = a + (s64)m->m01 * p.x;
+            d->y = (s32)(a >> 12);
+            if (d != &p)
+                p = *d;
+        }
+
+        f04 = g_02148B48->f04;
+        if (f04 != 0) {
+            u32 nm = (f04 == 2) ? 0x300 : 0x100;
+            u32 ov = *oam;
+
+            if (nm == 0x100)
+                *oam = (ov & 0xc1fffcff) | nm;
+            else
+                *oam = (ov & 0xc1fffcff) | nm;
+        }
+
+        v = *oam;
+        mode = v & 0x300;
+        if (mode != 0x100 && mode != 0x300)
+            mode |= (v & 0x30000000);
+        {
+            u32 w = v & 0xc000c000;
+            s32 hw;
+            s32 hh;
+            s32 ox;
+            s32 oy;
+            u32 dbl;
+
+            size = (w & 0xc0000000) >> 30;
+            shape = (s32)(w & 0xc000) >> 14;
+
+            hw = (s32)tbl_020A17F0[shape][size] >> 1;
+            ox = hw << 12;
+            hh = (s32)tbl_020A17D8[shape][size] >> 1;
+            p.x = p.x + (m->m00 * hw + m->m10 * hh + -ox);
+            oy = hh << 12;
+            p.y = p.y + (m->m01 * hw + m->m11 * hh + -oy);
+            dbl = (mode == 0x300);
+            if (dbl != 0) {
+                p.x = p.x - ox;
+                p.y = p.y - oy;
+            }
+        }
+
+        p.x = p.x + ofs->x;
+        p.y = p.y + ofs->y;
+        *oam = (*oam & 0xfe00ff00) | ((p.y >> 12) & 0xff)
+             | (((u32)(p.x << 23)) >> 7);
+    }

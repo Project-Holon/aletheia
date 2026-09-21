@@ -1,0 +1,77 @@
+pkt_02081E7C / func_02081E7C  0x02081E7C..0x02082198 (796 bytes, ARM)
+Wave note, 2026-09-21.  DIFF / not-C.  No source filed.
+
+1. THE FUNCTION IS SHA-1, NOT MD5.
+   layout/runtime_arm9.txt line 54 and the earlier frontier probe both call
+   0x02081E7C "the MD5 transform".  It is not.  The pool immediately BEFORE the
+   entry, at 0x02081E6C..0x02081E78, holds
+
+     02081E6C  99 79 82 5a   0x5a827999
+     02081E70  a1 eb d9 6e   0x6ed9eba1
+     02081E74  dc bc 1b 8f   0x8f1bbcdc
+     02081E78  d6 c1 62 ca   0xca62c1d6
+
+   the four SHA-1 round constants (MD5 has 64 distinct T[i], not four).  Every
+   other feature agrees: FIVE state words (`ldm fp, {r4, r5, r6, r7, r8}` at
+   0x02081EE0 and the five-way `ldm`/`add`/`stm` tail at 0x02082174..0x0208218C),
+   80 rounds in five ranges (the counter compares at 0x02081F2C, 0x02081FBC,
+   0x02082048, 0x020820E0, 0x0208216C are #0x10, #0x14, #0x28, #0x3c, #0x50),
+   `ror #27` = rotl 5 on a, `ror #2` = rotl 30 on b, and the message schedule
+   w[i] = rotl(w[i-16]^w[i-14]^w[i-8]^w[i-3], 1) spelled `ror r3, r3, #0x1f`.
+   The context is {u32 h[5]; u32 block[16];}: state at +0x00, block at +0x14
+   (`add r8, fp, #0x14`).
+   The three-instruction byte swap is the ror trick, four words per iteration
+   through `ldm r8!, {r4,r5,r6,r7}` / `stm r1!, {r4,r5,r6,r7}` with the counter
+   `subs sb, sb, #4` from #0x10:
+
+     eor r2, r4, r4, ror #16
+     and r2, r3, r2, lsr #8        ; r3 = 0xFFFF00FF, from `mvn r3, #0xff00`
+     eor r4, r2, r4, ror #8
+
+2. IT IS NOT COMPILED C, UNDER ANY FRONT END IN THE TREE.
+   The blocker is ROR.  mwccarm's C front end never forms a rotate node at all:
+   an or-of-shifts is emitted as the literal pair of shifts, and there is no
+   `__ror` intrinsic (it compiles to a `bl __ror` with an unresolved PC24).
+   Measured, all at 0x02081E7C, `-O4,p -proc arm946e -arm`:
+
+     (x >> 8) | (x << 24)   dsi/1.1p1   -> lsl r1, r0, #0x18 / orr r0, r1, r0, lsr #8
+     (x << 24) | (x >> 8)   dsi/1.1p1   -> lsr r1, r0, #8    / orr r0, r1, r0, lsl #24
+     r = x; r >>= 8; r |= x << 24;      -> lsl r1, r0, #0x18 / orr r0, r1, r0, lsr #8
+     (x >> n) | (x << (32-n)), n var    -> rsb r2, r1, #0x20 / lsl r2, r0, r2 / orr ...
+     __ror(x, 8)                        -> bl __ror  (PC24, no such symbol)
+
+   ONE probe on the alternative front end, per FRONTEND-PINS.md rule 2, on the
+   same one-line source: `../2.0/sp2 -O4,p -proc arm946e` gives the IDENTICAL
+   `lsl r1, r0, #0x18` / `orr r0, r1, r0, lsr #8`.  So this is not a front-end
+   pin: no build in the collection emits a ROR from C, and the image uses ROR
+   as a bare instruction (`ror r6, r5, #2` at 0x02081F1C, `ror r3, r3, #0x1f` at
+   0x02081F88) AND as a shifter operand of three different opcodes
+   (`eor ..., ror #16`, `eor ..., ror #8`, `add sl, sl, r4, ror #27`), nine
+   distinct sites in 796 bytes.
+
+   Best C measured: the full five-loop SHA-1 with the ror trick spelled out,
+   the do/while counter bounds of the image (16, 20, 40, 60, 80), the byte-swap
+   as a four-at-a-time pointer loop, and the ROR mask written 0xFFFF00FFu so it
+   materialises as `mvn r3, #0xff00`.  It is 988 bytes against the original's
+   796 and 917 concrete bytes out; a plainer ROTL spelling with the naive
+   (x>>24)|((x>>8)&0xff00)|... byte swap is 892 bytes and 816 out.  The
+   STRUCTURE is right in both -- the five loops, their bounds, the register
+   rotation, the tail -- and every residual byte is the shift expansion.
+
+3. CONCLUSION.  0x02081E7C is hand-written ARM assembly, the same standing as
+   the MSL/runtime.a bodies listed in layout/runtime_arm9.txt.  The owner's
+   2026-09-19 decision kept it as "open game work because the game calls it
+   deliberately"; that call-site argument is about who calls it, not about what
+   produced the bytes, and the bytes say assembler.  It is not reachable by C
+   at -O4,p under 1.1p1 or 2.0, and no amount of C spelling will produce a ROR.
+   Recommend reclassifying it into layout/runtime_arm9.txt (integrator's file,
+   not edited here) or leaving it permanently open as a known assembly body.
+
+   The pool at 0x02081E6C..0x02081E78 sits BEFORE the entry and is reached by
+   four negative-displacement loads (`ldr ip, [pc, #-0x80]` at 0x02081EE4,
+   #-0x15c at 0x02081FC4, #-0x1e4 at 0x02082050, #-0x278 at 0x020820E8).  A C
+   compile places its pool AFTER the body, so even a byte-perfect body would
+   need the constants to come from a preceding function's unit -- a second,
+   independent reason this address is not a single-function C file.
+
+No file written to src/matched/ or src/pending/.  Verdict recorded: DIFF.

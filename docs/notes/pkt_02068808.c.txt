@@ -477,3 +477,101 @@ Not filed anywhere: DIFF. The source as it stood follows.
             cy = cy + 8;
         } while (cy < ye);
     }
+
+==============================================================================
+2026-09-21 - fourth pass (ARM lane). 0x02068C84 only.
+==============================================================================
+
+func_02068C84 @ 0x02068C84 (500 bytes) - DIFF, 484 compiled, 390 concrete out
+------------------------------------------------------------------------------
+NEW row; no previous pass reached it.  It is the SWIZZLED twin of
+func_02068AE8 in the section above: same surface, same pixel expansion, same
+whole-tile clipping, the same seven-argument per-tile filler func_020682F8,
+but the tile's byte offset is NOT a linear row advance.  It comes from a call
+to func_020681E4 once per tile, and the two extra arguments that call takes
+are the LOW TWO BYTES of the surface's +0x10 word:
+
+    func_020681E4(tx, ty, s->w, s->h, (u8)s->f10, (u8)(s->f10 >> 8))
+
+The image proves the two-bytes-of-one-word reading: `ldr r1, [r0, #0x10]` at
+0x02068D34 loads the whole word and 0x02068D74..0x02068D88 extract byte 0 and
+byte 1 out of it with two shift pairs (`lsl #0x18 / lsr #0x18` and
+`lsl #0x10 / lsr #0x18`), spilling both to [sp,#0x20] and [sp,#0x24].
+Declaring them as two `u8` struct fields gives two `ldrb`s and is 8 bytes
+short.
+
+Shape (the whole loop nest reproduces instruction for instruction):
+
+  void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h)
+  {
+      u32 px;  int bpp = s->bpp;
+      int x1 = x + w, y1 = y + h;
+      if (bpp == 4) { px = arg | (arg << 4); px = px | (px << 8); }
+      else          { px = arg | (arg << 8); }
+      px = px | (px << 16);
+      x0 = x & ~7;  cy = y & ~7;  tilesz = (bpp << 6) / 8;
+      xe = (x1 + 7) & ~7;  ye = (y1 + 7) & ~7;  ty = cy / 8;
+      sw = s->w; sh = s->h; base = s->base;
+      f10 = s->f10; sx = (u8)f10; sy = (u8)(f10 >> 8);
+      if (cy >= ye) return;
+      do {
+          int tx = x0 / 8;
+          yo = (cy >= y) ? 0 : y - cy;
+          th = y1 - cy;  if (th > 8) th = 8;  th -= yo;
+          for (cx = x0; cx < xe; cx += 8) {
+              int off = func_020681E4(tx, ty, sw, sh, sx, sy);
+              int xo = (cx < x) ? x - cx : 0;
+              int tw = x1 - cx;  if (tw > 8) tw = 8;  tw -= xo;
+              func_020682F8(base + tilesz * off, xo, yo, tw, th, px, bpp);
+              tx = tx + 1;
+          }
+          ty = ty + 1;  cy = cy + 8;
+      } while (cy < ye);
+  }
+
+ONE LEVER that this row needs and func_02068AE8 did not: the pixel expansion
+must be a TWO-ARMED if/else here, NOT the default-then-override form the
+second pass found for func_02068A18 / func_02068AE8.  The image predicates
+BOTH arms into the same register -- `orreq r1, fp, fp, lsl #4` at 0x02068CD0,
+`orreq r1, r1, r1, lsl #8` at 0x02068CE0, `orrne r1, fp, fp, lsl #8` at
+0x02068D04, `orr fp, r1, r1, lsl #16` at 0x02068D20 -- which is exactly what
+the if/else gives.  Default-then-override here emits an unpredicated
+`orr r2, r1, r1, lsl #8` plus a `streq`/`strne` pair to a spill slot and is
+4 bytes worse.  So the two spellings are NOT interchangeable across the
+family: A18/AE8 want default-then-override, C84 wants the if/else.
+
+The whole back half is right.  From +0x0124 to the end every instruction
+matches one-for-one in kind and order -- the `sublt r1, sl, r4` / `movge r1,
+#0` clamp, the `stm sp, {th, px}` argument build, the `mla r0, tilesz, off,
+base`, both `bl` sites and both loop tails.  The residue is SPILL-SLOT and
+REGISTER assignment only:
+
+  * the image spills `bpp` to [sp,#0x10] and RE-READS it as a word at every
+    use -- `str r4, [sp, #0x10]` at 0x02068C98 immediately followed by
+    `ldr r1, [sp, #0x10]` at 0x02068C9C, then again at 0x02068CDC for the
+    `lsl r5, r2, #6` and at 0x02068DA4... -- while 1.1p1 -O4,p keeps it in a
+    register.  `int bpp` and `u8 bpp` are byte-for-byte identical here (484
+    both ways), so the u8 lever that closed AE8's size does nothing on C84.
+  * because bpp is in a register, 1.1p1 MERGES the third stacked argument
+    into the argument build, emitting `stmib sp, {r2, fp}` where the image
+    writes `stm sp, {r5, fp}` at 0x02068D20 and a separate
+    `str r2, [sp, #8]` at 0x02068E30.  That merge is the whole 4-byte
+    difference at the call, and the remaining 12 are the corresponding slot
+    shuffle (the image needs one more spill word: `sub sp, sp, #0x48` and a
+    ten-register `push {r3, ...}` against 1.1p1's `#0x44` and nine).
+
+THE PIN WAS PROBED AND REFUSED.  `--cc ../2.0/sp2 -O4,p -proc arm946e` on the
+same source is 488 bytes and 409 concrete out, against 1.1p1's 484/390: it
+narrows the size gap by 4 and makes the byte count WORSE, and does not
+reproduce the bpp spill either.  So despite the `stm` merge reading like the
+"kept constants" tell, 0x02068C84 is NOT a 2.0 row -- the same conclusion the
+third pass reached for its sibling 0x02068AE8, measured independently.  Do
+not spend the probe again.
+
+The thing to chase is the spill decision, not the front end: find the source
+shape that makes 1.1p1 keep `bpp` in memory across the two calls (the image's
+`ldrb` / `str` / immediate `ldr` triple at 0x02068C8C..0x02068C9C is a local
+the allocator refused a register).  Taking its address is the obvious next
+try and was not measured here.
+
+Not filed anywhere: DIFF, by rule 6.

@@ -189,3 +189,45 @@ void func_0206419C(char *self)
 Note the doubled `func_02062D40(self)` at 0x020641B4/0x020641BC is real: the
 first call's result is discarded and the second's is kept.  Both are in the
 image and removing either changes the size.
+
+==============================================================================
+2026-09-21, closer lane: 0x0206419C is EXACT.  Filed src/matched/func_0206419C.c
+==============================================================================
+
+THE LEVER IS `r = !!q;`.  The note above lists fourteen spellings of the first
+guard's false arm, every one of which either hoists the zero above the
+`cmp r2, #0` or lets 2.0 forward the provably-zero r2 as `moveq r0, r2`.  The
+double negation does neither:
+
+    q = *(int *)(o + 0xc);
+    r = !!q;
+    if (r == 0) return;
+
+gives the image's `cmp r2, #0` / `movne r0, #1` / `moveq r0, #0` triple at
+0x02064240..0x02064248 exactly, at the original's 240 bytes, 0 concrete
+mismatches, under ../2.0/sp2.  Read it as: `!!q` is two boolean conversions,
+so the compiler materialises the result from immediates in both arms rather
+than reasoning about what q holds in the eq arm.  `(q != 0)` alone is NOT the
+same thing -- it is the `r = (q != 0);` spelling and it restructures the
+whole tail (five instructions out).
+
+Everything else in the note's C is unchanged, including the `char *o;`-before-
+`int kind;` declaration order and the `*(volatile int *)` read of the +0x38
+sentinel.
+
+The ninth relocation site (PC24 func_02066ABC at +0xE8) resolves by `matched`,
+not by `label`: func_02066ABC has no branch outside this function's own `bl`,
+but src/matched/func_02066ABC.c is an EXACT manifest entry, and that compiled
+proof is the witness.  It needs the `symbols:` line
+`func_02066ABC  0x02066ABC  arm` in the header, and the file must live under
+src/ for attest_matched() to see it: verifying the identical C from a scratch
+directory reports MATCH, because the self-reference check compares source
+paths in manifest spelling and a path outside the tree never matches an entry.
+That is a verification artefact, not a property of the C.
+
+Its arity is three, not four: src/matched/func_02066ABC.c declares
+`int func_02066ABC(int, int, int, int)` but the image's call site sets only
+r0/r1/r2, and declaring the fourth parameter costs a `mov r3, #0` and shifts
+the tail.
+
+FRONTEND-PINS.md row added for this address.

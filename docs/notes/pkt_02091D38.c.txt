@@ -114,3 +114,96 @@ what puts two live named temporaries on the compare and lands `arr` in r1 /
 three-instruction load pair); 0 after.  The same spelling is worth trying on
 0x02091D38's own THREE-line residue.
 
+
+========================================================================
+0x02091E44 (the packet's 444-byte row, body labelled 0x02091E48) -- DIFF
+========================================================================
+
+func_02091E44 @ 0x02091E44, 444 bytes arm.  STATUS: DIFF, 20 concrete bytes
+in two residues, 448 compiled against 444.  Not filed as a source.
+
+The listing labels only 0x02091E48; 0x02091E44 is the 4-byte
+`push {r0, r1, r2, r3}` home area (the address-of-a-parameter idiom -- the
++0x38 callback is handed `&pos` as `add r1, sp, #0x14`).  So the real
+function starts at 0x02091E44 and the epilogue is
+`pop {r4, r5, r6, lr}; add sp, sp, #0x10; bx lr`, NOT a 1.2 interworking
+tell: there is no `blx rN` beside an ARMv4T return here except the
+`blx ip` through the callback, and 1.2 was not probed for that reason.
+
+Body (reproduces 424 of 444; struct and bitfield views taken from
+src/matched/func_02091CBC.c, same object):
+
+  s32 func_02091E44(struct P *p, u32 pos, u32 a2)
+  {
+      mode = ((struct F04A *)&p->f04)->mode;        /* f04 bits 7..9 */
+      if (mode != 1 || p->f0d != 0) { g_02153FAC = 0x28; return -1; }
+      if (m08->mode == 1)                           /* f08 bits 0..2 */
+          if (func_02091650(p, 0) != 0) {
+              p->f0d = 1; p->f28 = 0; g_02153FAC = 0x28; return -1;
+          }
+      if (a2 == 1) { a2 = 0; pos += func_02091CBC(p); }
+      if (a2 != 2 && ((struct F04B *)&p->f04)->mode != 3) {   /* f04 bits 2..4 */
+          if (m08->mode - 2 <= 1)
+              if (pos < p->f18 && pos >= p->f34) {
+                  p->f24 = p->f1c + (pos - p->f34);
+                  p->f28 = p->f18 - pos;
+                  p->f08 = (p->f08 & ~7u) | 2;
+                  goto stored;
+              }
+      }
+      p->f08 = p->f08 & ~7u;
+  stored:
+      if (m08->mode != 0) goto done;                /* re-read of the store */
+      if (p->f38 != 0)
+          if (p->f38(p->f00, &pos, a2, p->f48) != 0) {
+              p->f0d = 1; p->f28 = 0; g_02153FAC = 0x28; return -1;
+          }
+      p->f0c = 0; p->f18 = pos; p->f28 = 0;
+  done:
+      return 0;
+  }
+
+Four levers were needed to get here and are worth keeping:
+  * `a2 = 0;` BEFORE `pos += func_02091CBC(p);` -- the reverse order puts
+    `mov r5, #0` after the `bl` (3 instructions out).
+  * the f08 3-bit state must be read through the `struct F08P` bitfield
+    view.  A `v8 & 7` spelling folds to `and r0, ip, #7` where the image
+    keeps the `lsl #0x1d` / `lsr #0x1d` pair; a `(v8 << 29) >> 29` spelling
+    folds the same way.
+  * the final `return 0` is SHARED between the `m08->mode != 0` early-out
+    at 0x02091F8C and the fall-through tail: it must be `goto done;`, not a
+    second `return 0`, or the `mov r0, #0` is written out twice and the
+    whole tail shifts.
+  * the `stored:` join is real -- both arms `str r0, [r6, #8]` at
+    0x02091F7C, so the two f08 writes must converge on one statement via
+    `goto`, not be written per arm.
+
+The 20-byte residue is TWO 1.1p1 codegen decisions, both the mirror of
+tells docs/FRONTEND-PINS.md already records, and neither is reachable from
+the C:
+
+ (a) forward-vs-re-read, MIRRORED.  The image loads f08 ONCE into ip at
+     0x02091F14 (`08 c0 96 e5`) and still holds it for the `bic r0, ip, #7`
+     at 0x02091F60, across the intervening `str r0, [r6, #0x24]`.  1.1p1
+     -O4,p RE-READS it (`ldr r0, [r6, #8]` before the bic) and therefore
+     spells the extract `lsl r0, r0, #0x1d` off r0 instead of ip.  Binding
+     f08 to a local costs a `mov r0, r1` copy and makes it WORSE (51 bytes
+     out under three placements: before the mode test, after it with the
+     mode in its own local, and inside the innermost arm).
+
+ (b) kept branches.  The image writes the in-window failure out twice:
+     `bhs 0x02091F48` at 0x02091F3C reaching an unconditional
+     `b 0x02091F74` (`09 00 00 ea`) at 0x02091F48, and `bhs 0x02091F4C` at
+     0x02091F44 falling into the body.  1.1p1 cross-jumps the pair to
+     `bhs`/`blo` straight to 0x02091F74 and drops the `b`, which is the
+     whole 4-byte deficit.  Nested ifs, `&&`, and a positive
+     `goto inwin` / `goto clear` split all cross-jump identically.
+
+THE PIN WAS PROBED AND REFUSED.  `--cc ../2.0/sp2` on the same source is
+464 bytes, 310 concrete out -- far worse than 1.1p1's 448/20.  `../2.0/sp2`
+is NOT the front end for this row despite both tells reading like the
+"kept branches" / re-read family.  Do not spend the probe again.
+
+Consequence for the packet: src/pending/func_02092004.c stays MATCH.  Its
+sole wildcard is the PC24 to func_02091E44, and only a `matched` entry at
+0x02091E44 promotes it.

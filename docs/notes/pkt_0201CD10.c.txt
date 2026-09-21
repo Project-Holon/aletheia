@@ -117,3 +117,53 @@ void *func_0201CD10(u32 a0, u32 a1, u32 a2, u32 a3,
     o[0x22] = o[0x22] & ~0x10u;
     return o;
 }
+
+==============================================================================
+2026-09-21, closer lane: still DIFF, the same 2 bytes, ten more spellings
+==============================================================================
+
+Reproduced exactly: 228 bytes, 4 concrete bytes out, the two adjacent loads at
++0x28 / +0x30 swapped and nothing else.
+
+Worth recording before the spellings, because it changes what closing this row
+would be worth: EVEN AT ZERO CONCRETE BYTES THIS FILE CAPS AT `MATCH`.  The
+ABS32 site at +0xE0 needs 0x0201CEE0, whose only pool word anywhere in the
+image is this function's own at 0x0201CDF0, inside the 228-byte compared
+range.  `literal` has no outside witness and `label` does not apply to a data
+word.  It promotes when some other file names 0x0201CEE0 in a pool -- the
+address is referenced from src/matched/unit_0201D478.c, unit_0201D4BC.c,
+unit_0201D528.c, unit_0201D5C4.c, sub_0201D304.c, sub_0201D26C.c,
+sub_0201D42C.c, sub_0201D2C8.c and sub_0201D33C.c, so a `matched` witness may
+already be one manifest refresh away; it was not resolving on this pass.
+
+TEN FURTHER SPELLINGS MEASURED, ALL IDENTICAL AT 4 BYTES OUT unless noted:
+
+  on which argument is "named" at the call site (the inline-argument idiom):
+    1. `q1 = a1;` bound to a local declared after `pair[2]`, passed as q1
+    2. `q4 = a4;` bound the same way, passed as q4
+    3. both bound, a4's assignment written first
+  on the shape of the surrounding statements:
+    4. `*(void **)(o + 0x10) = r;` moved BELOW the func_0201C808 call
+       (177 out -- it re-lays the whole argument block, strictly worse)
+    5. a4 read as `*(u32 *)((u8 *)&a4 + 0)`, i.e. through the same stacked-
+       argument base the o[0x20] halfword read already uses
+  on declaration order of the three locals (the lever that decides register
+  assignment elsewhere, and that closed 0x02020A58 on this same pass):
+    6. `void *r; u32 h; u8 *o;`  (pointer declared last)
+    7. `u32 h; u8 *o; void *r;`
+  on the callee's and the caller's prototypes (the "give an extern its real
+  return type and arity" lever):
+    8. `extern u32 func_0201C808(...)` instead of void
+    9. the callee's 4th parameter typed `void *`, the argument cast
+   10. the callee's 2nd parameter typed `void *`, the argument cast
+   11. the OUTER function's a1 parameter typed `void *`, cast at the call
+
+The declaration-order lever is the interesting negative here.  It is what
+closed 0x02020A58 this pass (six locals reordered, 7 concrete bytes to 0) and
+it does not move this row by a single byte, which says the two loads are not
+being ranked against each other by the allocator at all: they are two reads of
+two stack slots into two registers whose assignment is already fixed by the
+ABI, and only the ORDER of the two `ldr`s differs.  That is a scheduler
+decision taken after register assignment, and nothing in the C reaches it.
+
+Total across the two passes: fifteen spellings.  Not filed.

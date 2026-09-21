@@ -121,3 +121,38 @@ a front-end tell.
 
 NOT FILED.  No source under src/: a DIFF is never left in src/matched, and at
 7 concrete bytes wrong it is not a park either.
+
+==============================================================================
+2026-09-21, closer lane: still 7 bytes, seven more spellings, one new negative
+==============================================================================
+
+Reproduced under ../2.0/sp2: 204 bytes, all four PC24 sites resolving `label`,
+the same r5/r6 swap on the seven instructions the note lists.
+
+SEVEN FURTHER SPELLINGS, on the two levers the closer brief named for this
+class and none of which the note had tried:
+
+  "name the high half of a smull as a local before the intervening store" --
+  the residue's first two instructions ARE an smull and the store `d->f14 = r`
+  does sit between the two consumers, so this was the obvious candidate:
+    1. `s64 pq; pq = (s64)e * b;` with `q = (s32)(pq >> 12);` written AFTER
+       the f14 store (the product bound, the narrowing deferred) -- 24 out,
+       strictly worse
+    2. `s64 pr; pr = (s64)c * a; r = (s32)(pr >> 12);` (the OTHER product
+       bound, the one whose result the store consumes) -- 7, unchanged
+    3. both products bound to their own s64 locals, narrowed in place -- 7
+  on lengthening or shortening the two competing live ranges:
+    4. `nq` local for `0 - q`, declared last, so q's final use is a copy -- 7
+    5. the d->f30 and d->f34 stores swapped, so q's last use moves later
+       -- 33 out
+    6. `c = s->f1c;` read FIRST of the four field reads -- 17 out
+    7. `c = s->f1c;` read after the d->f00 store -- 33 out
+
+Nothing reaches it, and (1) is the informative one: binding the 64-bit product
+does not decouple the smull's operand register from its result register, it
+just adds a copy.  The residue is the same class as 0x02063378's mla triple
+(docs/notes/pkt_02063078.c.txt, closer-lane section of the same date): the
+register a multiply-class instruction takes for its operand versus its
+destination is chosen after linearisation and is not source-addressable.
+
+Total across the passes: twenty-odd spellings.  Not filed.

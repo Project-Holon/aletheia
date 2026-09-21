@@ -464,3 +464,77 @@ void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
 }
 
 /* ================================================================ */
+
+/* ================================================================
+ * 2026-09-21, FOURTH pass (closer lane).  EXACT.  Filed as
+ * src/matched/func_02020A58.c, 260 bytes, 0 concrete mismatches,
+ * all 3 relocation sites resolved, default 1.1p1, no pin.
+ *
+ * THE LEVER FOR RESIDUE (a) IS DECLARATION ORDER, and the third
+ * pass came within one permutation of it.  That pass measured "five
+ * permutations of x / dst / src / y" and got 7, 8, 8, 8 -- but all
+ * five kept `t` where it was, between `x` and `src`.  The block that
+ * works moves `t` DOWN past both offsets and leaves `x` LAST:
+ *
+ *     u32  wt;
+ *     u32  fill;
+ *     s32  len;
+ *     s32  y;
+ *     s32  src;      <-- src and dst BEFORE t
+ *     s32  dst;
+ *     u32  t;
+ *     s32  x;        <-- x declared LAST
+ *     u8  *buf;
+ *
+ * Nothing else in the third pass's C changes: the u8 * accessor
+ * return type stays, case 1's asymmetric v-first / q-first arms stay,
+ * case 0's ternary stays, the statement order inside both inner loops
+ * stays.  This single reordering takes the file from 7 concrete bytes
+ * to 0, putting `x` in r5 and `dst` in r2 in case 0's inner loop the
+ * way the image has them.
+ *
+ * Two neighbouring permutations also reach EXACT, so the constraint is
+ * not a single point:
+ *     y / dst / t / src / x        (dst before t, src after t)
+ *     y / dst / src / t / x        (both offsets before t)
+ * and two do NOT (6 out, the residue moving from x/dst to t/dst):
+ *     y / t / dst / src / x
+ *     y / src / t / dst / x
+ * Read the rule as: BOTH offsets must be declared before `t`, and `x`
+ * must be declared after `t`.  Moving `x` alone to the end gives 6,
+ * not 0 -- it fixes the counter and breaks the cursor -- which is why
+ * the third pass's permutations stalled at 7 and 8.
+ *
+ * This is docs/idioms/declaration-order-decides-which-register-a-local
+ * -gets.md on four locals at once rather than two, and the third pass's
+ * reading of the residue ("an arm-local allocation decision, not a
+ * declaration-order one") was wrong: it IS declaration order, it just
+ * needs all four moved together.  Case 1 was already right under every
+ * ordering because its extra live value `q` pins its own allocation.
+ *
+ * CONSEQUENCE.  src/pending/func_02020CA0.c is now down to ONE blocker.
+ * Re-verified after filing: MATCH*, 4 of 5 relocations resolved, the
+ * THM_CALL to func_02020A58 at +0x36 now attesting `matched` off the new
+ * entry.  Only the +0x4E call to func_02020B5C is left, so 0x02020B5C
+ * (the 8bpp twin, still OPEN in this packet) promotes it single-handed.
+ *
+ * NOTE FOR WHOEVER TAKES 0x02020B5C, from a partial attempt this pass.
+ * It is 322 code bytes and it is NOT the 4bpp function with the
+ * constants doubled: it copies TWO words per tile column, so each inner
+ * iteration has two guarded stores, not one.  What was established:
+ *   - the constants are `len << 6` (not << 5), `y += 0x40`, `x * 8` for
+ *     dst, `<< 3` for the src shift, and case 1 rebases `buf + (len - 8)`
+ *   - the SECOND store's bound is `len + 4`, not `len`: the image
+ *     computes it once at 0x02020BC0 (`adds r0, r0, #4`) and spills it,
+ *     which is the `str r0, [sp, #0x18]` at 0x02020BC2
+ *   - the second store's address must be a SEPARATE s32 local (`dst2 =
+ *     dst + 4`), not `buf + dst + 4`: the image keeps dst in r2 and
+ *     spells the second address `adds r0, r2, #4` / `str r1, [r4, r0]`,
+ *     a register-offset store off the same base, where the pointer form
+ *     compiles to `adds r7, r4, r5` / `str r0, [r7, #4]`
+ *   - with those three the size is EXACT (324) and the shape is right;
+ *     what was left is spill-slot assignment and the sp+0x14 / sp+0x18
+ *     ordering, at 191 concrete out.  The declaration-order lever above
+ *     had not been swept on it for budget, and it is the first thing to
+ *     try, since this twin has two more offset locals to rank.
+ * ================================================================ */
