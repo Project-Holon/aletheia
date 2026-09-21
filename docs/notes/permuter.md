@@ -383,3 +383,56 @@ unchanged (536 bytes, 2 mismatches, DIFF -- this target's gap is a known
 register-allocation residue the note already diagnoses, not something any
 of these mutations reach). Runtime under 5 seconds. `--list` confirms the
 new mutation is offered.
+
+## permuter.py -- the AST engine (2026-09-21)
+
+`tools/permuter.py` is the successor of `permute.py` for the allocation-tie residue class:
+every instruction and relocation right, a register or a spill slot wrong, permute.py flat.
+It parses the file with pycparser (`python3 -m pip install --user pycparser`; the sources are
+self-contained so no preprocessor is involved, and a file with inline asm in the function body
+cannot be parsed and stays with permute.py), mutates the function's syntax tree, regenerates the
+C and scores it through the same `match.run_one()` path as `match.py one`.
+
+Why the mutations are what they are.  mwccarm allocates by Chaitin graph colouring: values are
+numbered in the order the optimised IR creates them, the spill cost of a value is
+flow_weight * (2 * uses + definitions), copies are coalesced, and each value takes the lowest
+legal colour in simplify order.  So a register choice follows first-definition order, use and
+definition counts, copy insertion, live-range shape and address-taking.  The mutation set
+targets exactly those (weights in parentheses):
+
+| name | what it does to the allocator |
+| --- | --- |
+| `temp` (100) | lift an expression into a named local: a new value with its own definition point and use count |
+| `expand` (20) | substitute a local's single assignment into its uses: removes a value |
+| `reorder` (12), `hoist` (15) | move a statement, or a load, earlier or later: changes first-definition order |
+| `copy` (15) | split a live range with a fresh copy of a variable from a chosen point on |
+| `use` (10), `selfassign` (5) | a dead read `if (x) {}` or `x = x;`: raises use or definition count, hence spill cost |
+| `decl-order` (10), `pad` (2) | stack slot order and an unused slot |
+| `split-assign` (10), `compound` (3), `commute` (6), `compare` (5), `addsub` (4), `cast` (8), `block` (6), `loop` (4), `struct-ref` (2), `goto-ret` (5) | expression and block shape, which sets the order the IR creates values |
+| `volatile` (5), `addr` (3) | force or release a memory home |
+| `type` (8, `--types` only) | integer type of a local or parameter; not value-preserving, labelled `type:` |
+
+All but `type` are value-preserving; statements are only moved past statements they are
+independent of (no shared writes, calls and memory stores never cross each other).
+
+Scoring is a tuple: verdict rank, then an instruction-level score (aligned mnemonics with
+different operands cost 5 per operand, inserted or deleted instructions 100 each, in the
+style of decomp-permuter's scorer), then concrete bytes out, then the size gap.  The
+instruction score is what gives a gradient where bytes-out is flat.  Wildcarded relocation
+fields are never a difference.
+
+```
+python3 tools/permuter.py --src F --func NAME --addr 0xADDR [--thumb|--arm] --explain
+python3 tools/permuter.py --src F --func NAME --addr 0xADDR --budget 200 --jobs 6 --out best.c
+python3 tools/permuter.py ... --mode hill          # exhaust singles from the best, deterministic
+python3 tools/permuter.py ... --focus cur,lerp     # only statements mentioning these names
+python3 tools/permuter.py ... --list               # sites per mutation, no compiles
+```
+
+`--explain` prints the residue as a register-substitution map (image register -> compiled
+register, with counts), which is the fastest way to see whether a residue is one swapped pair
+or a general reshuffle, and which names to pass to `--focus`.  The isa, compiler and flags
+default to the file's header.  The default search (`anneal`) walks from the best point with 1
+to 3 mutations per candidate, keeps an elite of twelve, broadens when stuck and drifts to
+another elite member after fifteen dry batches.  Every candidate compiles in its own temp
+directory; the only file written in the tree is `--out`.
