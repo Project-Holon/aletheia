@@ -56,3 +56,45 @@ spelling of the same body.
 The full C (spelling 3) is in scratch/l4_vEC74_2.c; nothing of this function
 is filed in src/matched/ or src/pending/.
 re-verified 2026-09-21: no recoverable source in this note
+
+RESOLVED 2026-09-22 -- family wave 5, wordset.c.  EXACT, filed as
+src/matched/func_0201EC74.c.
+=============================================================================
+
+The note's own "next lever" was right and was the first of two.
+
+1. `goto fail;` with ONE `return 0;` at the end of the function, in place of
+   four separate `return 0;` statements.  This is the explicit-goto case of
+   docs/idioms/guards-separated-by-statements-share-an-exit-only-through-goto.md:
+   statements sit between the guards, so nothing but the goto reproduces the
+   shared epilogue at 0x0201ECFA.  It alone took the compile from 152 bytes /
+   65 differing rows to 144 bytes / 14 differing bytes, and fixed the
+   callee-saved swap the note recorded (r5/r7) at the same time.
+
+2. `u8 heap` in place of `u32 heap`.  With the goto chain in place the whole
+   remaining residue was the prologue schedule: `ldr r5,[pc]` ahead of
+   `adds r7,r0,#0`, `str r1,[sp,#4]` ahead of `str r2,[sp,#8]`, and the
+   `str r7,[r6]` / `ldr r0,[sp,#8]` pair at +0022 swapped.  Narrowing the
+   third parameter changes nothing that runs -- the value is spilled to sp+8
+   untruncated and read back as a word for `p->heap = heap` -- but it changes
+   the order mwccarm's value numbering creates the three incoming values in,
+   and the prologue schedule follows that order.
+
+Found by tools/permuter.py, which is exactly the residue class it is for:
+
+    python3 tools/permuter.py --src <goto-chain source> --func func_0201EC74 \
+        --addr 0x0201EC74 --thumb --explain
+      baseline  DIFF   asm=855  bytes-out=14  size=144/144
+      register substitutions (image -> compiled), by count:
+        r0   -> r1    x1
+        r1   -> r0    x1
+
+    python3 tools/permuter.py ... --mode hill --budget 800 --jobs 8 --types
+      244  EXACT  asm=0  bytes-out=0  size=144/144  <- type:p(heap:u32->u8)
+
+A two-instruction `--explain` residue that no statement-level mutation moves
+is the declaration signature the permuter notes describe; here it was one
+parameter's width.
+
+re-verified 2026-09-22 by tools/match.py: EXACT, 144 bytes against 144,
+0 concrete bytes out, 1.1p1.

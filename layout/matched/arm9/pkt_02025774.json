@@ -67,6 +67,26 @@
    "status": "EXACT"
   },
   {
+   "name": "sub_02025BA0",
+   "address": "0x02025BA0",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/sub_02025BA0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_02025BA0"
+   ],
+   "evidence": {
+    "sole-ref": [
+     "self:0x0209FA36"
+    ]
+   }
+  },
+  {
    "name": "unit_02025BEC",
    "address": "0x02025BEC",
    "kind": "game_unit",

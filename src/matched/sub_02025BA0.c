@@ -11,8 +11,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  *
  * symbols:
  *   sub_02025BA0_Table  0x0209FA36  data

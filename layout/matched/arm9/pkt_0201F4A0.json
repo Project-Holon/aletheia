@@ -22,6 +22,23 @@
      "self:0x0209E8C8"
     ]
    }
+  },
+  {
+   "name": "func_0201F548",
+   "address": "0x0201F548",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0201F548.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0209E8CA"
+    ]
+   }
   }
  ]
 }

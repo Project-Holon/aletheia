@@ -63,7 +63,7 @@ Getting this wrong is a 134-byte diff on its own; with it right, everything
 from +0x0000 to +0x0078 (the whole prologue, all six shifts, all nine stores
 and BOTH VEC_Subtract calls) is byte-exact.
 
-/* best source, 292 bytes against 304, 145 concrete bytes out, 1.1p1 */
+/* earlier source, no helper, 292 bytes against 304, 145 concrete bytes out, 1.1p1 */
 
     typedef signed int   s32;
     typedef signed long long s64;
@@ -207,23 +207,137 @@ The size is reachable by accident in several ways; the SCHEDULE of the block
 d.y, d.z) is not reachable by any of them.  Every compile hoists the first
 smull above the stores, because nothing in C makes the stores depend on it.
 
+THE INLINED HELPER: THE READING THAT ACTUALLY WORKS
+----------------------------------------------------
+The two shapes above -- a.x needing a SECOND live value, and the difference
+needing a second consumer -- are both what an inlined helper with its own
+locals produces.  Writing the cross product that way collapses the residue
+from 145 bytes out at 292 to 55 bytes out AT THE RIGHT SIZE:
+
+/* best source, 304 bytes against 304, 55 concrete bytes out, 1.1p1 */
+
+    static inline fx32 mulfx(fx32 p, fx32 q)
+    {
+        return (fx32)(((s64)p * q + 0x800) >> 12);
+    }
+
+    static inline fx32 cross2(const struct VecFx32 *p,
+                              const struct VecFx32 *q)
+    {
+        fx32 px = p->x;
+        fx32 py = p->y;
+
+        return mulfx(px, q->y) - mulfx(q->x, py);
+    }
+
+and in the body, in place of the `cross = 0; cross = cross + (...)` block:
+
+        f.z = cross2(&a, &b);
+        cross = f.z + a.z;
+
+`static inline` is load-bearing on both helpers: plain `static` emits two
+real calls.  `px`/`py` are the two locals that give a.x and a.y their extra
+live values -- `mov r1, r0` at +0x0094 is `px` -- and `cross = f.z + a.z`
+supplies the second consumer, a.z being a zero that is already resident.
+
+WHAT THIS BUYS, EXACTLY
+-----------------------
+Byte-exact with this shape, where the 292-byte spelling was not:
+
+    +0x0000..+0x00A4   the whole prologue, all six shifts, all nine vector
+                       stores, both VEC_Subtract calls, the interleaved
+                       d/f store schedule (f.x, d.x, f.y, d.y, d.z in that
+                       order), the `mov r1, r0` copy, the first smull and
+                       its rounding add
+    +0x00D8            add r5, sp, #0x18
+    +0x00E8..+0x0124   VEC_Normalize, the third VEC_Subtract,
+                       VEC_DotProduct, the asrs/rsbmi absolute value and the
+                       whole mvn/mul/mov re-signing tail
+
+WHAT IS STILL LEFT: 55 BYTES, +0x00A8..+0x00D4 AND +0x00DC..+0x00E4
+--------------------------------------------------------------------
+Only the SECOND mulfx and the zero copy, and it is an issue-order
+difference, not a register one.  The original interleaves:
+
+    original                         compiled
+    add r2, r7, #0                   lsr r7, r1, #0xc
+    ldr r7, [sp, #0x24]              adc r0, r0, #0
+    ldr r3, [sp, #0x34]              orr r7, r7, r0, lsl #20
+    adc r0, r0, #0                   ldr r2, [sp, #0x24]
+    smull ip, r3, r7, r3             ldr r1, [sp, #0x34]
+    adds r7, ip, #0x800              ldr r0, [sp, #0x38]
+    lsr r1, r1, #0xc                 smull r3, r1, r2, r1
+    ...                              ...
+
+The original starts the second multiply's two loads BEFORE finishing the
+first product's 64-bit normalisation, and parks the register-resident zero
+in r2 in the gap that opens up.  Every compile finishes the first product
+first and then issues the second, which also makes it load a.z from
+sp+0x38 instead of reusing the zero already in a register.
+
+Varying the helper's internal bindings does not move it: binding all four
+operands (px, py, qx, qy), binding only qx, and splitting mulfx's product
+into a named s64 temporary all give exactly 55 bytes out at 304.  Sourcing
+the added zero from c.z instead of a.z also gives exactly 55; from f.x,
+d.z, or a `cross = 0` local it drops to 300 bytes and 115 out, and from a
+literal `0` to 296 and 110 out -- so `a.z` / `c.z` (a zero read from a
+vector the subtract has already written) is the right class of operand.
+
+THE PERMUTER'S VERDICT ON THIS SHAPE
+-------------------------------------
+    --explain    baseline DIFF asm=730 bytes-out=55 size=304/304
+    --mode hill --budget 800 --jobs 8 --types
+        -> no single mutation improves; 238 sites tried and EXHAUSTED
+
+The engine cannot help here by construction: it mutates the syntax tree of
+the NAMED function only, and the whole residue is now inside two `static
+inline` helpers it never rewrites.  That is worth knowing for the next
+lane -- the permuter's silence on this file is a limitation of its scope,
+not evidence that the shape is flat.
+
 WHERE A NEXT ATTEMPT SHOULD LOOK
 ---------------------------------
-Not at the tail and not at the declarations: both are solved and byte-exact
-(the tail's mvn/mul/mov is reproduced exactly by the `sign` local, and the
-whole prologue through +0x0078 matches).  The open question is only the
-twelve bytes and the schedule in the cross block, and the shape to explain is:
+Not at the declarations, the tail, the store schedule or the first
+multiply: all solved and byte-exact.  The open question is one block,
++0x00A8..+0x00E4, and one question about it: what makes the compiler start
+the second mulfx's loads before finishing the first one's normalisation.
 
-  (a) what source-level construct gives a.x TWO live values (`mov r1, r0`),
-      when d.y = a.x has already consumed one; and
-  (b) what gives the difference a second consumer that adds a
-      register-resident zero to it, when f.z takes the difference itself.
+Two of the obvious levers were tried in this lane and BOTH are dead ends;
+do not repeat them.
 
-Both smell like ONE inlined helper -- something of the form
-`static fx32 cross2(const struct VecFx32 *p, const struct VecFx32 *q)` whose
-own local copies survive inlining, or a helper that returns a struct.  That
-reading has not been tried and is the one thing left worth a lane.  Do not
-re-attempt by permuting this spelling: 6000 compiles across two anneals say it
-is flat.
+  * Restructuring cross2's subtraction does nothing.  All four of
+        fx32 r1 = mulfx(px, q->y); fx32 r2 = mulfx(q->x, py); return r1 - r2;
+        fx32 r2 = mulfx(q->x, py); return mulfx(px, q->y) - r2;
+        fx32 r1 = mulfx(px, q->y); return r1 - mulfx(q->x, py);
+        return -mulfx(q->x, py) + mulfx(px, q->y);
+    give EXACTLY 55 bytes out at 304, identical to the baseline.  The
+    commutative-order idiom does not reach this residue: the order the two
+    products are created in is already right, it is the INTERLEAVING of the
+    second one's loads with the first one's normalisation that is wrong.
 
-re-verified 2026-09-21 by tools/permuter.py: DIFF, 292 bytes against 304, 145 concrete bytes out, 1.1p1
+  * Running the permuter against a manually inlined copy does not work, and
+    the reason is itself the finding: hand-inlining the two helpers is NOT
+    the same code.  Writing
+        px = a.x; py = a.y;
+        f.z = (fx32)(((s64)px * b.y + 0x800) >> 12)
+            - (fx32)(((s64)b.x * py + 0x800) >> 12);
+    with px/py as ordinary locals of func_0203F7C4 gives 296 bytes and 142
+    out -- WORSE than the 292-byte spelling that has no helper at all, and
+    far worse than the 304/55 the `static inline` version reaches.  The
+    helper's value numbering survives inlining in a way no spelling in the
+    caller's own scope reproduces, so there is no equivalent flat source for
+    the permuter to chew on.  (This is the mirror image of
+    docs/idioms/four-shift-pairs-for-one-offset-are-an-inlined-u16-helper.md:
+    there the repeated truncation betrays the helper, here it is the extra
+    live value and the issue order.)
+
+Still untried, and now the only avenues left:
+  * giving mulfx a third, unused parameter or an extra consumer of its
+    64-bit intermediate, to change its inlined value count
+  * a cross2 that returns the two products separately (by out-pointer or as
+    a small struct) and subtracts them in the caller
+  * a differently-shaped mulfx -- an unsigned or u64 intermediate, or the
+    rounding add folded into the caller -- since the rounding `+ 0x800` and
+    the `>> 12` are what the normalisation sequence is made of
+
+re-verified 2026-09-22 by tools/permuter.py: DIFF, 304 bytes against 304, 55 concrete bytes out, 1.1p1

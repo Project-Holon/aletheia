@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT*
  *
  * symbols:
  *   tbl_020A08B6   0x020A08B6  data  a2

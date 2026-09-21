@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  * blocker:  0209E462 (literal) - its only pool word is this function's own,
  *           at 0x0201B84C, inside the compared range; every concrete byte is
  *           right.

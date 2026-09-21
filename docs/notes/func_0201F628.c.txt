@@ -98,3 +98,51 @@ void func_0201F628(u32 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
     func_02041300(id, (u16)(base + 8), x1, y1, 1, 1, pal);
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_0201F628.c:12: undefined identifier 'func_0201F628'
+
+RESOLVED 2026-09-22 -- family wave 5, wordset.c.  EXACT, filed as
+src/matched/func_0201F628.c.
+=============================================================================
+
+The "closed scheduler class" verdict above is WITHDRAWN.  The 86-byte residue
+was not the scheduler and was not unreachable from C: it was one parameter's
+declared width.
+
+    void func_0201F628(u16 id, u8 x, u8 y, u8 w, u8 h, u32 pal, u16 base)
+                       ^^^ was u32
+
+Nothing else in the source above changed.  With `u32 id` the first parameter
+is a fresh full-word value in mwccarm's value numbering and is created before
+the three stack-argument stores; with `u16 id` it is created after them, which
+is the image's order, and all four of the sites the note lists -- the +0004
+argument spill and the three `str r5,[sp,#8]` palette stores at +005C, +00C2
+and +00F4 -- fall into place together.  That is consistent: they were never
+four independent scheduler decisions, they were one value-creation order seen
+four times.
+
+The narrowing is attested from the caller side.  func_0201F73C hands this the
+result of func_02045730, and src/matched/func_0201F7A8.c -- the sibling that
+calls func_02041300 directly instead of through this function -- already
+declares func_02045730 as returning u8.
+
+    python3 tools/permuter.py --src <the C above> --func func_0201F628 \
+        --addr 0x0201F628 --thumb --explain
+      baseline  DIFF   asm=1220  bytes-out=86  size=276/276
+      register substitutions (image -> compiled), by count:
+        r5   -> r0    x2
+
+    python3 tools/permuter.py ... --mode hill --budget 800 --jobs 8 --types
+      249  EXACT  asm=0  bytes-out=0  size=276/276  <- type:p(id:u32->u16)
+
+LESSON FOR THE NEXT READER.  `--explain` reported the entire residue as a
+single swapped register pair (`r5 -> r0 x2`).  Per the permuter notes, a
+residue that no statement-level mutation moves at all lives in the
+declarations, not in the statement order -- and a single swapped pair is that
+shape.  A "same instructions, same registers, different issue slots" reading
+of a diff is not on its own evidence that the source is exhausted; run the
+permuter with --types before writing a do-not-re-attempt verdict.
+
+CONSEQUENCE.  src/matched/func_0201F73C.c is now EXACT on its own terms: the
+`matched` class carries the 0x0201F628 call site it was waiting on.
+
+re-verified 2026-09-22 by tools/match.py: EXACT, 276 bytes against 276,
+0 concrete bytes out, 1.1p1.

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  * blocker:  ABS32 unk_0202F0A5 at +0x3C: layout/data_objects.txt line 180 records
  *           0x0202F0A5 as a `pool` row whose only referrer sites image-wide are the
  *           pool word at 0x0202EEC8 (listed twice, once per unit listing), which lies

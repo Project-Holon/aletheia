@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  * blocker:  +0028 ABS32 sub_0209E026_Map       : 0209E026 (data, from header) has no witness outside 02013C9C..02013CC8
  * symbols:
  *   sub_0209E026_Map  0x0209E026  data
