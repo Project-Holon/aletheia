@@ -169,7 +169,7 @@ class, the number of witnesses and one witness address:
 | `veneer` | the address holds an ARM linker veneer: a fixed twelve-byte (or eight-byte) encoding that loads a constant into `ip` or `pc` and branches to it, with the constant naming a known function. For a call the linker redirected through a stub, which nothing else can attest. |
 | `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
 | `string` | the address is the start of a NUL-terminated ASCII string whose position is fixed by the terminator of the string before it. For `__FILE__` arguments, which nothing else can attest. |
-| `sole-ref` | the layout itself says a data object begins at that address: it is in a data section, it is an object *start* the listings, the SDK symbol table or the file-anchor table already carry, and the declared type's alignment holds. `data` only, tried last of all. |
+| `sole-ref` | the layout itself says a data object begins at that address: it is in a data section, it is an object *start* the listings, the SDK symbol table, the file-anchor table or the `layout/data_objects.txt` map already carry (a map start on evidence outside the compared range: a lone reference never attests its own start), and the declared type's alignment holds. `data` only, tried last of all. |
 
 The `label` class reads branches from the whole image, not just from the region
 being matched, and it reads labels from the whole image too. `func_02014468`
@@ -345,6 +345,34 @@ of coverage on its own line under the coverage figure rather than folding it
 in. `attest_sole_ref()` and `data_object_starts()` in `tools/match.py` are the
 implementation, and `match.py selftest` covers the acceptance and all four
 refusals.
+
+Condition (b)'s boundaries come from `layout/data_objects.txt`, the ARM9
+data-object map, which `attest_sole_ref()` loads once (cached) and consults
+in addition to the listings' own block structure. That block structure alone
+is far too coarse to be useful: `disasm.py` emits the whole rodata tail
+`0x0209D86C-0x020A8FE4` as ONE block, so exactly one address in 47 kB is a
+start and every other reference into it is refused as interior. The map
+recovers the real starts from four sources, all outside any compared range:
+**pool**, a literal-pool word in any ARM9 unit listing (`asm/arm9/src*/*.s`)
+or any overlay listing (`asm/overlays/*.s`) whose value lands in an ARM9
+data section — the strongest, since an instruction stream loads that exact
+address; **data-decl**, a `symbols:` line of kind `data` in a
+`src/matched/*.c` whose entry is `EXACT`/`EXACT*` in a shard; **string**, a
+NUL-terminated printable run whose start is fixed by the preceding
+terminator; and **table-guess**, a clearly-labelled heuristic (a run in
+which a fixed record stride repeats) that is written for a reader and is
+**never** accepted as evidence by the class. Regenerate it with `python3
+tools/datamap.py`; it carries addresses, kinds and referrer sites only, and
+no game data. A `pool` row records its referrers in full, because **a lone
+reference never contributes its own start**: when every referrer of a
+candidate lies inside the range under test, the map refuses it, exactly as
+`label` and `literal` discard a witness inside the compared range. That is
+why 0x0209E904 remains refused for `src/pending/func_020213F8.c` — the only
+pool word naming it image-wide is the one inside that function. The other
+refusals (code section, misalignment, non-`data` kind, an address interior
+to or between known starts) are unchanged, and `match.py selftest` covers
+the map cases too: an overlay-only start accepted, a lone in-range referrer
+refused, an address between two map starts refused.
 
 ### The matched class
 

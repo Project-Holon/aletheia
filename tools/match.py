@@ -1741,11 +1741,101 @@ def bss_addresses_probe(addr):
     return set()
 
 
-def attest_sole_ref(addr, kind, align=None):
+# ---------------------------------------------------------------------------
+# the data-object map
+# ---------------------------------------------------------------------------
+#
+# data_object_starts() above recovers boundaries from the listings' own block
+# structure, which is coarse: disasm.py emits the whole rodata tail
+# 0x0209D86C-0x020A8FE4 as ONE block, so exactly one address in 47 kB is a
+# start and every other reference into it is refused as "interior".
+#
+# layout/data_objects.txt is the finer map, built by tools/datamap.py from
+# sources that all lie outside any compared range: literal-pool words in every
+# ARM9 unit listing and every overlay listing, NUL-terminated string runs,
+# `symbols:` data lines of src/matched files whose entries are EXACT, and a
+# clearly-labelled periodic-structure heuristic.
+#
+# The evidence has to be OUTSIDE the range under test, exactly as for every
+# other class.  A `pool` row carries its referring sites, so a start whose
+# only referrer is inside lo..hi does not count: a lone reference never
+# attests its own start.  A `string`, `data-decl` or `table-guess` row carries
+# no site, because its witness is a file (the image's own NUL structure, a
+# verified source, the map itself) and not an address inside the image.
+#
+# `table-guess` is a heuristic with no witness at all and is NEVER accepted
+# here; it is written to the map for a reader, not for the matcher.
+
+_DATA_MAP = {}
+
+_MAP_SITE_RE = re.compile(r"pool word at 0x([0-9A-Fa-f]{8})")
+
+# Kinds of layout/data_objects.txt row the class will accept.  `table-guess`
+# is deliberately absent: a repeated stride is a guess, not a witness.
+SOLE_REF_MAP_KINDS = ("pool", "string", "data-decl")
+
+
+def data_object_map():
+    """{addr: (kind, [referrer sites], evidence text)} from the map file.
+
+    Loaded once and cached.  A missing file is not an error: the class then
+    falls back to data_object_starts() alone, which is what it used before
+    the map existed.
+    """
+    if "m" in _DATA_MAP:
+        return _DATA_MAP["m"]
+    out = {}
+    path = os.path.join(ROOT, "layout", "data_objects.txt")
+    try:
+        fh = open(path, "r", errors="replace")
+    except OSError:
+        _DATA_MAP["m"] = out
+        return out
+    with fh:
+        for line in fh:
+            if line.startswith("#") or not line.strip():
+                continue
+            parts = line.split(None, 3)
+            if len(parts) < 3 or not parts[1].startswith("0x"):
+                continue
+            try:
+                addr = int(parts[1], 16)
+            except ValueError:
+                continue
+            ev = parts[3].rstrip("\n") if len(parts) > 3 else ""
+            sites = [int(m, 16) for m in _MAP_SITE_RE.findall(ev)]
+            out[addr] = (parts[2], sites, ev)
+    _DATA_MAP["m"] = out
+    return out
+
+
+def _map_attests(addr, lo, hi):
+    """True when the map says an object starts at `addr` on outside evidence.
+
+    `lo`/`hi` are the compared range.  A row whose every referring site lies
+    inside it is refused: the range under test may not witness its own start.
+    """
+    row = data_object_map().get(addr)
+    if row is None:
+        return False
+    kind, sites, _ev = row
+    if kind not in SOLE_REF_MAP_KINDS:
+        return False
+    if kind == "pool":
+        # at least one referrer outside the compared range
+        return any(not (lo <= s < hi) for s in sites)
+    # string / data-decl: the witness is a file, never an address in the image
+    return True
+
+
+def attest_sole_ref(addr, kind, align=None, lo=0, hi=0):
     """The `sole-ref` class.  Returns (class, witnesses, site) or None.
 
     Tried only after every other class has failed.  See the commentary above
     for conditions (a), (b) and (c); each one is a separate refusal here.
+    Condition (b) is satisfied either by the listings' own block structure
+    (data_object_starts()) or by layout/data_objects.txt, and in the latter
+    case only on evidence outside `lo`..`hi`.
     """
     if kind != "data":
         return None
@@ -1757,7 +1847,7 @@ def attest_sole_ref(addr, kind, align=None):
     if not in_data_section(addr):
         return None
     # (b) the start of a known object, not its interior
-    if addr not in data_object_starts():
+    if addr not in data_object_starts() and not _map_attests(addr, lo, hi):
         return None
     # (c) the declared type's alignment
     a = SOLE_REF_DEFAULT_ALIGN if align is None else align
@@ -1978,7 +2068,7 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None):
     # statement that a data object begins at this address.  See "the
     # `sole-ref` class" above.
     if kind == "data":
-        proof = attest_sole_ref(addr, kind, align)
+        proof = attest_sole_ref(addr, kind, align, lo, hi)
         if proof is not None:
             return proof
     return None
@@ -3508,11 +3598,31 @@ SOLE_REF_RUN_START = 0x020963F4
 # it is the ordering case: `literal` answers first and the class only speaks
 # once that witness is inside the compared range.
 SOLE_REF_ALSO_LITERAL = 0x02004F7C
-# interior to the 0x0209D86C run: the blocker of src/pending/func_020213F8.c,
-# and the address the class must refuse.
-SOLE_REF_INTERIOR = 0x0209E904
+# interior to the 0x0209D86C run, and named by nothing at all: no block start,
+# no pool word anywhere in the image, no string, no declaration.  The address
+# the class must refuse however wide the compared range.
+SOLE_REF_INTERIOR = 0x0209D900
 # a traced ARM function in the middle of a code section.
 SOLE_REF_CODE = 0x02096670
+
+# --- the data-object map (layout/data_objects.txt, tools/datamap.py) -------
+# 0x020050AC is in the rodata of the ARM9 static module.  disasm.py emits no
+# block start there and no ARM9 pool word names it; the ONLY reference to it
+# anywhere in the image is a literal-pool word in ov009's listing.  That is
+# the map's own case: evidence read from a file no ARM9 comparison ever
+# includes.
+SOLE_REF_MAP_OVERLAY = 0x020050AC
+SOLE_REF_MAP_OVERLAY_SITE = 0x02157588
+# 0x02004F94 has exactly one referrer image-wide, the pool word at 0x020049D4.
+# Outside that range the map attests it; with that one site inside the range
+# under test, the start has no witness left and the class must refuse it,
+# because a lone reference never attests its own start.
+SOLE_REF_MAP_LONE = 0x02004F94
+SOLE_REF_MAP_LONE_SITE = 0x020049D4
+# one word past SOLE_REF_MAP_OVERLAY, and before the next map start at
+# 0x020050C4: an address BETWEEN two map starts is interior to neither's
+# object and is refused.
+SOLE_REF_MAP_BETWEEN = 0x020050B0
 
 MATCHED_MEMBER = 0x0200B6E0
 MATCHED_MEMBER_SRC = "src/matched/unit_0200B67C.c"
@@ -3785,6 +3895,40 @@ def cmd_selftest(args):
            None)
     _check(res, "sole-ref: the layout does carry usable object starts",
            len(data_object_starts()) > 0, True)
+
+    # --- the data-object map -----------------------------------------------
+    # layout/data_objects.txt (tools/datamap.py) is the finer set of
+    # boundaries: the listings' own block structure emits the whole rodata
+    # tail as one 47 kB run, so almost every reference into it used to be
+    # refused as interior.  The map's evidence still has to lie OUTSIDE the
+    # range under test.
+    _check(res, "map: the map loads and carries object starts",
+           len(data_object_map()) > 0, True)
+    _check(res, "map: a start attested only by an overlay pool word is "
+                "accepted",
+           cls(attest_sole_ref(SOLE_REF_MAP_OVERLAY, "data")), "sole-ref")
+    _check(res, "map: that start is not one the listings' block structure "
+                "already carried",
+           SOLE_REF_MAP_OVERLAY in data_object_starts(), False)
+    _check(res, "map: a start with one referrer outside the range is "
+                "accepted",
+           cls(attest_sole_ref(SOLE_REF_MAP_LONE, "data", 4, 0, 0)),
+           "sole-ref")
+    _check(res, "map: a start whose only referrer is inside the range under "
+                "test is refused -- a lone reference never attests its own "
+                "start",
+           cls(attest_sole_ref(SOLE_REF_MAP_LONE, "data", 4,
+                               SOLE_REF_MAP_LONE_SITE - 0x40,
+                               SOLE_REF_MAP_LONE_SITE + 0x40)), None)
+    _check(res, "map: an address between two map starts is refused",
+           cls(attest_sole_ref(SOLE_REF_MAP_BETWEEN, "data", 4, 0, 0)), None)
+    _check(res, "map: the map never accepts a table-guess row, which is a "
+                "heuristic and not a witness",
+           "table-guess" in SOLE_REF_MAP_KINDS, False)
+    _check(res, "map: the map's evidence does not override the code refusal",
+           cls(attest_sole_ref(SOLE_REF_CODE, "data", 4, 0, 0)), None)
+    _check(res, "map: nor the alignment refusal",
+           cls(attest_sole_ref(SOLE_REF_MAP_OVERLAY, "data", align=16)), None)
 
     # --- two files attesting each other ------------------------------------
     # The pairwise case needs no machinery of its own: a compared range is one

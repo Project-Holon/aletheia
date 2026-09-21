@@ -302,6 +302,33 @@ answer is not a test. Eight evidence classes, each printed per site by
   declaration comes out `DIFF`. `attest_sole_ref()` in `tools/match.py` is
   the implementation.
 
+  The boundaries themselves come from `layout/data_objects.txt`, the ARM9
+  data-object map, which `attest_sole_ref()` loads once and consults in
+  addition to the listings' own block structure. The map exists because that
+  block structure is far too coarse: `disasm.py` emits the whole rodata tail
+  `0x0209D86C-0x020A8FE4` as ONE block, so exactly one address in 47 kB is a
+  start and every other reference into it is refused as "interior". The map
+  recovers the real starts from four sources, all of them outside any byte
+  range a matcher compares: **pool**, a literal-pool word in any ARM9 unit
+  listing or any overlay listing whose value lands in an ARM9 data section
+  (the strongest — an instruction stream loads that exact address);
+  **data-decl**, a `symbols:` line of kind `data` in a `src/matched/*.c`
+  whose entry is `EXACT`/`EXACT*` in a shard; **string**, a NUL-terminated
+  printable run whose start is fixed by the preceding terminator; and
+  **table-guess**, a clearly-labelled heuristic (a run in which a fixed
+  record stride repeats) that is written for a reader and is **never**
+  accepted as evidence by the class. Regenerate it with `python3
+  tools/datamap.py`; it holds addresses, kinds and referrer sites only, and
+  no game data. A `pool` row records its referring sites in full, because
+  **a lone reference never contributes its own start**: when every referrer
+  of a candidate start lies inside the range under test, the map refuses it,
+  exactly as `label` and `literal` refuse a witness inside the compared
+  range. That is why `0x0209E904` is still refused for
+  `src/pending/func_020213F8.c` — the only pool word naming it image-wide is
+  the one inside that function. The existing refusals are unchanged: code
+  section, misalignment, non-`data` kind and an address that is merely
+  interior to (or between) known starts.
+
 The `label` class also covers an ARM9 `bl`/`blx` into an overlay-resident
 function: the address needs a `func_` label in exactly one overlay's own
 listing (`asm/overlays/`) with the ISA you declared, plus an outside branch,
