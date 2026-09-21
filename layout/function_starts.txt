@@ -334,9 +334,7 @@ arm9_main  0x02022AC4  thumb   # task callback passed to func_020056A0 from 0x02
 arm9_main  0x02019FD0  thumb   # follower of sub_02019ED4
 arm9_main  0x02014264  thumb   # tail-call thunk after func_02014204
 arm9_main  0x0200EC98  thumb   # 26-byte accessor, follower of func_0200EC2C
-arm9_main  0x0201049C  thumb   # inside func_0201045C's compared range, no worklist row
-arm9_main  0x02025772  thumb   # follower of func_0202570C
-arm9_main  0x0202597A  thumb   # follower of func_0202590C
+arm9_main  0x02010498  thumb   # leaf after func_0201045C; real prologue is 4 bytes before the old 0x0201049C seed (docs/notes/unit_0201045C.c.txt)
 arm9_main  0x020260E0  thumb   # Sound accessor after func_02026010 (ldrb +0xd)
 arm9_main  0x020260E4  thumb   # Sound accessor after func_02026010 (strb +0xd, 0xff to +0xe/+0xf)
 arm9_main  0x020260F0  thumb   # Sound accessor after func_02026010 (ldr +4)
@@ -368,3 +366,6 @@ arm9_main  0x02053D2C  arm     # 4 bytes below func_02053D30
 arm9_main  0x02071C94  arm     # 36-byte leaf after func_02071C14
 arm9_main  0x02070BD8  arm     # leaf after 0x02070B64 (func_02070BD8.c filed EXACT)
 arm9_main  0x02091E44  arm     # real entry of the function labelled 0x02091E48 (push {r0-r3} home area)
+arm9_main  0x0200ECB4  thumb   # unlabelled follower (ldr r1,[pc,#8] leaf, no lr-saving prologue)
+arm9_main  0x02021F08  thumb   # unlabelled follower (push {r3,r4} leaf, no lr-saving prologue)
+arm9_main  0x0203A27C  arm     # unlabelled follower after func_0203A28C's predecessor block (ldrb r0,[r2] leaf)
