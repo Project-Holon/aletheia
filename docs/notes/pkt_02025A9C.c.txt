@@ -121,3 +121,190 @@ u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg)
     return mode;
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02025A9C.c:12: declaration syntax error
+
+======================================================================
+2026-09-21  lane 2 (family wave 5, bmp_oam.c): the EVIDENCE BLOCKER IS
+GONE.  Verdict now DIFF at 124/124 with 2 concrete bytes out and ALL
+THREE RELOCATIONS RESOLVED.  If the 2 bytes close, this reaches EXACT.
+======================================================================
+
+Two things changed since the section above was written.
+
+1.  THE TABLE BASE IS 0x0209F87C, NOT 0x0209F880.  The section above
+    declared `gModeTable` at 0x0209F880 with a {a, b, c} record, reading
+    .a and .b.  The real object starts four bytes earlier.  The proof is
+    in the SAME original translation unit: func_020255A0 (the bmp_oam
+    grid constructor, 0x020255A0, docs/notes/pkt_020255A0.c.txt) carries
+    the pool word 0x0209F87C at 0x02025708 and indexes it with
+    `[r0, mode*12]` to read the record's FIRST member, which it passes as
+    func_0204A7A0's size argument.  The data confirms it
+    (asm/arm9/main.s 269209-269217):
+
+        0209F87C  .word 0x00000130      record 0: {0x130, 0, 1}
+        0209F880  .word 0x00000000
+        0209F884  .word 0x00000001
+        0209F888  .word 0x00000130      record 1: {0x130, 3, 4}
+        0209F88C  .word 0x00000003
+        0209F890  .word 0x00000004
+        0209F894  .word 0x00000130      record 2: {0x130, 6, 7}
+        0209F898  .word 0x00000006
+        0209F89C  .word 0x00000007
+
+    So the record is
+
+        struct ModeEntry { u32 size; u32 a; u32 b; };
+        extern const struct ModeEntry gModeTable[3];   /* 0x0209F87C */
+
+    and this function reads .a and .b, i.e. base+4 and base+8 -- the
+    pool-base-for-a-far-field idiom, one symbol, exactly as the section
+    above already suspected, but with the base one word lower.
+
+2.  THAT FIXES BLOCKER 1 OUTRIGHT.  With the symbol declared at
+    0x0209F87C, the two ABS32 sites are attested by func_020255A0's pool
+    word at 0x02025708, which is OUTSIDE 0x02025A9C..0x02025B18.  They
+    now report
+
+        +0074 ABS32 gModeTable  -> 0209F880  [literal x3, e.g. 02025708]
+        +0078 ABS32 gModeTable  -> 0209F884  [literal x3, e.g. 02025708]
+
+    on the plain `literal` class; `sole-ref` is not even needed.  (With
+    the old 0x0209F880 declaration the sites do resolve too, but only
+    through sole-ref/self, since the widening of 2026-09-21.  Either way
+    the ceiling is no longer MATCH.  The 0x0209F87C spelling is the one
+    to use: it is the stronger class and it is the object that actually
+    exists.)
+
+    The section above's "the ceiling here is MATCH, not EXACT, regardless
+    of C" is therefore SUPERSEDED.  Both the widened sole-ref rules and,
+    independently, the correct table base remove it.
+
+3.  BLOCKER 2 IS UNCHANGED AND IS NOW THE ONLY THING LEFT.  Still the
+    single instruction at +0024:
+
+      * +0024   bne #0x2025acc   (original: fall through to the default)
+                beq #0x2025ace   (compiled: jump past it to the merge)
+
+PERMUTER, on the corrected source:
+
+    --explain
+      baseline  DIFF   asm=10    bytes-out=2    size=124/124
+      (NO register substitution map at all -- not an allocation tie)
+
+    --mode hill --budget 800 --jobs 8 --types
+      no single mutation improves DIFF asm=10 bytes-out=2 size=124/124
+      (159 tried)
+
+    --mode anneal --budget 3000 --jobs 8 --types
+      compiles 3000 in 237s
+      best      DIFF   asm=10    bytes-out=2    size=124/124
+      (plateaued and drifted three times at 746, 1630 and 2476; the
+       score never moved off the baseline in 3000 distinct compiles)
+
+The residue is completely flat to the permuter's whole mutation table,
+which matches what the hand sweep in the section above found: nothing in
+the C selects between `bne default` and `beq merge`.
+
+ADDITIONALLY TRIED THIS LANE, none better than 2 bytes:
+  `mode = 0;` hoisted before the switch                81 bytes
+  `case 0x00200010: goto dflt;` with dflt on default   72 bytes
+  Duff-style `default: if (0) { case 0x00200010: ; }`  72 bytes
+  if/else chain with an explicit `else { mode = 0; }` 108 bytes (85 out)
+  `case 0x00200010:` falling into `default:`           72 bytes
+  `case 0x00200010: mode = mode; break;`                2 bytes (same)
+  `case 0x00200010:` grouped with `case 0x00300010:`  136 bytes
+  `case 0x00200010:` written FIRST of the four arms      2 bytes (same)
+  the switch value bound to a named local first          2 bytes (same)
+  `mode = 0;` before the switch with the arm keeping
+    its own `mode = 0; break;`                          81 bytes
+
+Note the last two: a named local for the switch value and moving the
+empty arm to the front BOTH keep the 124-byte size and the same 2-byte
+residue, confirming the arm order claim in the section above (the arm
+BODIES are laid out in source order) is about the bodies, not about the
+comparison sequence -- the comparisons are emitted in a fixed order the
+source cannot reach.
+
+CROSS-LANE NOTE ON THE PROTOTYPE.  func_020255A0 calls this function as
+`func_02025A9C(sys, param->f14, engine)`: `ldr r1,[r4,#0x14]` (the
+system handle) then `ldr r2,[sp,#0x18]` (the engine selector) at
++00C4/+00C6.  So the parameter names in the source below are the wrong
+way round -- the second parameter is the handle and the third is the
+engine.  It makes NO difference to this function's bytes (each argument
+is used exactly once), so the source below is left as it verified, but a
+later lane consolidating the two into one unit should use the caller's
+order.  docs/families/bmp_oam.h records the caller's reading.
+
+/* best source, 124 bytes against 124, 2 concrete bytes out, 1.1p1 */
+/*
+ * function: func_02025A9C
+ * address:  0x02025A9C
+ * packet:   pkt_02025A9C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   gModeTable     0x0209F87C  data
+ *   func_0204AF28  0x0204AF28  arm
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Obj {
+    u32 field_0;
+    u16 field_4;
+    u16 field_6;
+    u32 field_8;
+    u32 slot[3];
+};
+
+struct ModeEntry {
+    u32 size;
+    u32 a;
+    u32 b;
+};
+
+extern const struct ModeEntry gModeTable[];
+
+extern void *func_0204AF28(u32 arg, u32 a, u32 b, u16 w);
+
+u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg)
+{
+    volatile u32 *reg;
+    u32 mode;
+
+    if (engine == 0) {
+        reg = (volatile u32 *)0x04000000;
+    } else {
+        reg = (volatile u32 *)0x04001000;
+    }
+
+    switch (*reg & 0x00300010) {
+    case 0x00100010:
+        mode = 1;
+        break;
+    case 0x00000010:
+        mode = 2;
+        break;
+    case 0x00200010:
+        break;
+    default:
+        mode = 0;
+        break;
+    }
+
+    if (obj->slot[mode] != (u32)-1) {
+        return mode;
+    }
+
+    obj->slot[mode] = (u32)func_0204AF28(arg, gModeTable[mode].a,
+                                         gModeTable[mode].b, obj->field_4);
+    return mode;
+}
+
+permuter best result line:
+  best      DIFF   asm=10    bytes-out=2    size=124/124   (hill 159 tried, anneal 3000 compiles, both flat)

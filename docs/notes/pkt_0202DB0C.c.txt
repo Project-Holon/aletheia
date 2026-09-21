@@ -1,0 +1,146 @@
+packet pkt_0202DB0C  function func_0202DB0C (0x0202DB0C thumb)
+
+Wave 5 (family pms_draw.c, 2026-09-21).  Previously UNTOUCHED; this is the
+first attempt on it.  Reached size-exact with 68 concrete bytes out and an
+instruction stream that is identical to the original from +0x7A to the end.
+
+Settled facts:
+  - The trailing arguments are THREE SEPARATE WORD SLOTS read as u8 / u8 /
+    u16, not a by-value struct.  The original does `add rN, sp, #0x20` and
+    then `ldrb [rN]`, `ldrb [rN,#4]`, `ldrh [rN,#8]`, re-materialising the
+    base at each of the three sites.  A 12-byte by-value struct makes the
+    compiler cache the base in a callee-saved register and costs eight
+    bytes; a volatile struct caches it too.
+  - The first parameter of the three, e0, must be declared `int`, not u8.
+    `u8 e0` compiles four bytes longer overall even though the ONE site
+    that consumes it (the func_0202DF68 argument) is a byte load in the
+    original.  This is the last unexplained byte pair; see the residue.
+  - The SECOND allocator call's heap argument is `p->f00`, the field the
+    function has just stored, not the `heap` parameter re-read.  Spelling
+    it as the parameter makes the compiler keep a copy of it in a
+    callee-saved register from the prologue on and costs the frame word
+    that `sub sp, #0xc` (not #0x10) denies it.  This one change took the
+    file from 188 bytes with a spilled `d` to 184 with `d` in r7.
+  - The count field at +0x30 is u8 and the loop counter is s32: the
+    original loads `ldrb` and compares `ble`/`blt`.  s8 gives `ldrsb` and
+    a different compare.
+  - The allocator result must be bound to a named local before the
+    memset (the permuter's `temp` mutation found this); assigning it
+    straight into `p` reallocates the prologue.
+
+The residue, 68 bytes in ONE block (+0x2E..+0x78):
+  original                          compiled
+    adds r2, r5, #0                   adds r1, r5, #0
+    add  r1, sp, #0x20                adds r1, #0x30
+    strh r0, [r5]                     strh r0, [r5]
+    str  r6, [r5, #8]                 str  r6, [r5, #8]
+    str  r7, [r5, #4]                 str  r7, [r5, #4]
+    ldrb r1, [r1, #4]                 add  r0, sp, #0x20
+    adds r2, #0x30                    ldrb r0, [r0, #4]
+    movs r3, #0xf                     movs r2, #0xf
+    strb r1, [r2]                     ...
+The original builds `&p->count` in r2 in TWO steps straddling the e1 load
+and keeps the constant 0xf in r3; the compiler builds the address in one
+step and rotates r0/r1/r2 by one.  Everything before +0x2E and everything
+from +0x7A to the epilogue is byte-identical.  All seven relocations
+resolve (label, sole-ref, string), so this is a pure allocation tie, not
+evidence-blocked.
+
+Tried and rejected, all scoring the same 505/68 or worse:
+  - the f30/f31 stores through an explicit `u8 *q`, with q computed before
+    the f00 store, after it, and as two separate `(u8 *)p + 0x30/0x31`;
+  - the constant 0xf bound to a named local;
+  - the f30 store moved before f00, between f00 and f08, and after f31;
+  - `n = e1 * 0x28` hoisted above and sunk below the f2c store;
+  - `heap` bound to a local read once and used for both allocator calls
+    (asm 2235, much worse);
+  - the permuter: hill 800 and focused hill 1500 with --types from this
+    point, "no single mutation improves" both times; anneal 3000 drifted
+    to asm 915, worse than this point's 505.
+The lever this needs is whatever puts the address temporary in r2 rather
+than r1, i.e. one more live value across the three field stores.
+
+---- best source, 184 bytes against 184, 68 concrete bytes out, 1.1p1 ----
+/*
+ * unit:     no
+ * function: func_0202DB0C
+ * address:  0x0202DB0C
+ * packet:   pkt_0202DB0C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_0202DF68  0x0202DF68  thumb
+ *   func_0202E09C  0x0202E09C  thumb
+ *   s_pms_draw_c   0x020A77B8  data  a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed char s8;
+typedef unsigned int u32;
+struct Cfg
+{
+  u8 f00;
+  u8 pad01[3];
+  u8 f04;
+  u8 pad05[3];
+  u16 f08;
+};
+struct Obj
+{
+  u16 f00;
+  u8 pad02[2];
+  u32 f04;
+  u32 f08;
+  u8 *f0c;
+  u8 f10[0x14];
+  u16 f24;
+  u8 pad26[2];
+  u32 f28;
+  u32 f2c;
+  u8 f30;
+  u8 f31;
+};
+extern void *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
+extern void func_02082BCC(void *p, u32 v, u32 n);
+extern void func_0202DF68(u8 *o, u32 a, u32 b);
+extern void func_0202E09C(u8 *e, u8 *o, u32 b);
+extern char s_pms_draw_c[];
+struct Obj *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, int e0, u8 e1, u16 e2)
+{
+  struct Obj *p;
+  u32 n;
+  int i;
+  struct Obj *tmp = (struct Obj *) func_02030734(e2, 0x34, 1, s_pms_draw_c, 0x81);
+  p = tmp;
+  func_02082BCC(p, 0, 0x34);
+  p->f00 = e2;
+  p->f08 = c;
+  p->f04 = d;
+  p->f30 = e1;
+  p->f31 = 0xf;
+  p->f2c = 0;
+  n = ((u8) e1) * 0x28;
+  p->f0c = (u8 *) func_02030734(p->f00, n, 1, s_pms_draw_c, 0x8c);
+  func_02082BCC(p->f0c, 0, n);
+  *((u32 *) (&p->f10[0])) = a;
+  *((u32 *) (&p->f10[4])) = b;
+  p->f24 = 0x11 << 6;
+  func_0202DF68(&p->f10[0], e0, p->f00);
+  for (i = 0; i < ((int) p->f30); i++)
+  {
+    func_0202E09C(p->f0c + (i * 0x28), &p->f10[0], p->f00);
+  }
+
+  return p;
+}
+
+
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 184 bytes against 184, 68 concrete bytes out, 1.1p1

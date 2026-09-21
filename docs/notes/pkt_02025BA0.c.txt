@@ -39,3 +39,66 @@ u16 func_02025BA0(u32 i)
     return 0xe7;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 24 bytes against 76, 12 concrete bytes out, 1.1p1
+
+======================================================================
+2026-09-21  lane 2 (family wave 5, bmp_oam.c): correction to the
+re-verification line above, and the re-run of the two pending files.
+======================================================================
+
+THE "DIFF, 24 bytes against 76, 12 concrete bytes out" LINE IS AN
+ARTEFACT OF THE EXTENT, NOT OF THE C.  The function really is 24 bytes.
+disasm.py's extent for it runs to 76 because the 24 bytes are followed
+by unlabelled filler and the literal pool before func_02025BEC, and
+func_02025BA0's own prologue saves no lr so the follower is never
+labelled (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+Comparing 24 compiled bytes against a 76-byte window reports 12 bytes
+out purely from the 52 bytes of pool that were never code.
+
+The byte-correct file is src/pending/sub_02025BA0.c, re-run today:
+
+    MATCH*     func_02025BA0 @ 02025BA0 (arm9, Thumb)
+      compiled 24 bytes, 1 relocation site(s)
+      relocations: 0 of 1 resolved
+        +0014 ABS32 sub_02025BA0_Table -> unresolved: 0209FA36 (data,
+              from header) has no witness outside 02025BA0..02025BB8
+      listing extent for the original: 76 bytes
+      note: listing says the original is 76 bytes, compiled 24
+
+The `*` is the unlabelled follower, never a byte difference.  So the
+verdict is MATCH*, the C is settled, and the file stays in src/pending.
+
+STILL CAPPED, AND THE 2026-09-21 SOLE-REF WIDENING DOES NOT LIFT IT.
+0x0209FA36 is two bytes INTERIOR to the 12-byte record array whose start
+is 0x0209FA34, so sole-ref/data refuses it ("an address merely interior
+to a labelled object"), and the only pool word naming 0x0209FA36
+image-wide is this function's own at 0x02025BB4, inside the compared
+range.  sole-ref/self does not fire either: the ROM word at the
+relocation site is inside the range whose bytes are under comparison and
+the site's own class is refused before that.  Declaring it as an offset
+off g_0209FA34 changes the pointer arithmetic mwccarm emits and stops
+reproducing the bytes, as the header already records.  Unsticking it
+needs a second reader of 0x0209FA36 somewhere else in the image.
+
+Its caller func_02025B94 (src/matched/sub_02025B94.c) is EXACT anyway,
+through the `label` class on a second caller in ov186 at 0x02185CC6, so
+nothing downstream is blocked by this cap.
+
+SIBLING RE-RUN, same lane: src/pending/func_02025B64.c
+
+    MATCH      func_02025B64 @ 02025B64 (arm9, Thumb)
+      compiled 48 bytes, 2 relocation site(s)
+      relocations: 1 of 2 resolved
+        +0028 ABS32 g_0209FA34 -> 0209FA34  [literal x3, e.g. 02025B60]
+        +002C ABS32 g_0209FA3D -> unresolved: 0209FA3D (data, from
+              header) has no witness outside 02025B64..02025B94
+      listing extent for the original: 48 bytes
+
+Same shape, same blocker, one record byte further in (+0x09 rather than
++0x02) and one alignment worse.  0x0209FA34 itself resolves through
+`literal` from 0x02025B60, which is the pool of func_02025B3C -- so the
+table's START is attested and only the interior columns are not.  Both
+files stay MATCH; neither is promotable.
+
+docs/families/bmp_oam.h section 6 records the whole 0x0209FA34 record
+layout and which function reads which column, so a later lane does not
+re-derive the five separate externs.

@@ -1,0 +1,119 @@
+/*
+ * function: func_02012C18
+ * address:  0x02012C18
+ * packet:   pkt_02012C18
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * 204 bytes, 0x02012C18..0x02012CDC (the listing extent 204 includes the
+ * 0x5EC pool word at 0x02012CDC).  Sibling of func_02012CE0, same shape plus
+ * an opening guard `if (func_020071E4(*(u32 *)p) == 1) return;`.
+ *
+ * docs/notes/pkt_02012C18.c.txt recorded this as an unmovable register
+ * rotation (r4/r6/r7) -- it was not.  The rotation was downstream of ONE
+ * wrong argument order: the original is
+ *     func_020097F0(func_02009D08(*(u32 *)p), v);
+ * i.e. the inner call's result is argument 1 and the 0x0201283C result is
+ * argument 2, the OPPOSITE of the sibling's func_020097F0(v, func_02009D08())
+ * at 0x02012D6E.  With the arguments the sibling's way, mwcc needs an extra
+ * `adds r0, r7, #0` at the call, which shifts everything after it by two
+ * bytes, forces the trailing `c046` pool-alignment nop, and reallocates the
+ * three callee-saved registers -- which is what the note saw and read as the
+ * whole residue.  Swapping them alone takes the file from that DIFF to EXACT
+ * with no other change.  (docs/idioms/cmp-operand-order-names-the-temporary.md
+ * generalised: the call-result operand order names which value gets the
+ * named-local treatment.)
+ *
+ * symbols:
+ *   func_020071E4  0x020071E4  thumb
+ *   func_020127A4  0x020127A4  thumb
+ *   func_02008808  0x02008808  thumb
+ *   func_020088B8  0x020088B8  thumb
+ *   func_02012964  0x02012964  thumb
+ *   func_020071CC  0x020071CC  thumb
+ *   func_0200EEAC  0x0200EEAC  thumb
+ *   func_020127B8  0x020127B8  thumb
+ *   func_0200BE6C  0x0200BE6C  thumb
+ *   func_020127C4  0x020127C4  thumb
+ *   func_0200A864  0x0200A864  thumb
+ *   func_0200A884  0x0200A884  thumb
+ *   func_0200B3C8  0x0200B3C8  thumb
+ *   func_0200893C  0x0200893C  thumb
+ *   func_02008954  0x02008954  thumb
+ *   func_0201283C  0x0201283C  thumb
+ *   func_02009D08  0x02009D08  thumb
+ *   func_020097F0  0x020097F0  thumb
+ *   func_02008964  0x02008964  thumb
+ *   func_0200E89C  0x0200E89C  thumb
+ *   func_02008748  0x02008748  thumb
+ *   func_0200863C  0x0200863C  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32  func_020071E4(u32 h);
+extern u32  func_020127A4(void *p);
+extern void func_02008808(u32 h, u32 v);
+extern void func_020088B8(u32 h, u32 v);
+extern u32  func_02012964(void *p);
+extern u32  func_020071CC(u32 h, u32 id);
+extern void func_0200EEAC(u32 a, u32 b);
+extern u32  func_020127B8(void *p);
+extern void func_0200BE6C(u32 h, u32 v);
+extern u32  func_020127C4(void *p);
+extern u32  func_0200A864(u32 h);
+extern void func_0200A884(u32 a, u32 b);
+extern void func_0200B3C8(u32 h, void *p);
+extern void func_0200893C(u32 a, u32 b);
+extern void func_02008954(u32 a, void *b);
+extern u32  func_0201283C(void *p);
+extern u32  func_02009D08(u32 h);
+extern void func_020097F0(u32 a, u32 b);
+extern void func_02008964(u32 a, void *b);
+extern void func_0200E89C(u32 h, void *p);
+extern u32  func_02008748(u32 h);
+extern void func_0200863C(u32 a, u32 b);
+
+void func_02012C18(u8 *p)
+{
+    u32 v;
+    u32 h;
+
+    if (func_020071E4(*(u32 *)p) == 1) {
+        return;
+    }
+
+    v = func_020127A4(p);
+    func_02008808(*(u32 *)p, v);
+    func_020088B8(*(u32 *)p, v);
+
+    v = func_02012964(p);
+    func_0200EEAC(v, func_020071CC(*(u32 *)p, 0x29));
+
+    func_0200BE6C(*(u32 *)p, func_020127B8(p));
+
+    v = func_020127C4(p);
+    func_0200A884(func_0200A864(*(u32 *)p), v);
+
+    func_0200B3C8(*(u32 *)p, p + 0x5EC);
+
+    h = *(u32 *)(p + 0x15C);
+    func_0200893C(h, *(u32 *)(p + 0x1B8));
+    func_02008954(h, p + 0x1C4);
+
+    v = func_0201283C(p);
+    func_020097F0(func_02009D08(*(u32 *)p), v);
+
+    func_02008964(*(u32 *)(p + 0x15C), p + 0x1C5);
+
+    func_0200E89C(*(u32 *)p, p + 0x694);
+
+    v = func_02008748(*(u32 *)p);
+    func_0200863C(*(u32 *)(p + 0x6AC), v);
+}

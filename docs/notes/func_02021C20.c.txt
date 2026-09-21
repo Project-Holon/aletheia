@@ -111,3 +111,126 @@ func_02021C20 is now that file's ONLY remaining unresolved relocation --
 so closing this one function is exactly what would promote
 src/pending/func_02021BC8.c from MATCH to EXACT.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+========================================================================
+2026-09-21, family wave 5 (palanm.c), permuter pass: func_02021C20
+@ 0x02021C20.  SIZE IS NOW EXACT and the residue is 116 -> 69 by hand,
+then 69 -> 65 by tools/permuter.py.  Still DIFF.
+========================================================================
+
+The previous two entries both ended size-wrong (132/136 on the first pass,
+140/136 on the second) and never reached a size-exact source, which is why
+their byte counts are not comparable with each other or with this one.  This
+pass reaches 136/136 and the count below is against that.
+
+/* best source, 136 bytes against 136, 69 concrete bytes out, 1.1p1 */
+
+TWO THINGS THE EARLIER PASSES HAD WRONG, both worth more than any spelling
+sweep:
+
+1.  THE SOURCE CHANNELS ARE NOT BITFIELDS.  The first pass's reconstruction
+    and the sibling func_02021F64 both read the pixel through a
+    `struct Rgb555` bitfield pointer, which compiles to `lsls #0x16 /
+    lsrs #0x1b` pairs.  The image has `asrs r2, r0, #5` then `ands r6, #0x1f`
+    -- an ARITHMETIC shift of an `int` followed by an explicit mask.  So this
+    function, unlike its sibling, reads the pixel into a plain `int` and does
+    the extraction by hand:
+
+        int px = src[i];
+        int sg = (px >> 5) & 0x1f;
+
+    `src` stays `u16 *` (the load is `ldrh`, not `ldrsh`); it is the `int`
+    px and the C `>>` on a signed int that produce the `asrs`.  Declaring
+    `src` as `s16 *` gives the right shift but costs `ldrsh` and four bytes.
+
+2.  THE DECLARATION ORDER OF THE FIVE EXTRACTIONS IS THE WHOLE SIZE GAP.
+    All 120 orderings of `sg`, `t`, `sb`, `w`, `sr` were compiled.  Eight of
+    them are size-exact at 136 and the other 112 are 138 or 140.  Every
+    size-exact ordering has BOTH of `t` and `w` (the two field reads off `c`)
+    ahead of ALL THREE pixel extractions; no ordering that interleaves them
+    reaches 136.  The best two are
+
+        t, w, sb, sg, sr   136 bytes, 69 out     <- the source below
+        w, t, sb, sg, sr   136 bytes, 69 out
+
+    and the worst size-exact one is 75.  This is the declaration-order
+    idiom (docs/idioms/declaration-order-decides-which-register-a-local-
+    gets.md) deciding a size, not just a register: with a pixel extraction
+    first, the pointer `c` has to stay live across it and the reload costs
+    a slot.
+
+THE PERMUTER, run on that 136/69 baseline:
+
+  --explain          no single dominant substitution; a general reshuffle
+                     (r4->r0 x8, r5->r7 x5, r2->r3 x3, then a long tail)
+  --mode hill   --budget 800 --jobs 8 --types
+                     199 single mutations tried, NONE improves 69
+  --mode anneal --budget 3000 --jobs 8 --types
+                     3000 compiles in 267s.  Best 65 out, still 136/136,
+                     via `cast(int) ; cast(u32) ; expand(rb x1) ; use(sr) ;
+                     expand(sg x2)` -- i.e. a dead `if (sr) {}` read plus
+                     two re-expansions of already-bound locals.  The
+                     instruction-level score fell a long way on that path
+                     (asm 3025 -> 1440, so the SCHEDULE got much closer even
+                     though only four more bytes landed), but the winning
+                     source is an artefact -- a dead read and a duplicated
+                     subexpression -- not a readable reading of the
+                     original, so it is NOT preserved as the best source.
+
+  Also seen and rejected during the pre-size-fix runs, recorded so nobody
+  chases them: the hill search on the 140-byte baseline will happily take
+  `type:l(px:int->u8)` because it makes the size come out right.  It is
+  semantically wrong (it throws away ten of the sixteen pixel bits) and only
+  looks good because the scorer weighs size after bytes-out.  A `u8` pixel
+  cannot be the original.
+
+WHAT IS LEFT, restated: 69 concrete bytes over a 136-byte function in which
+every instruction, every shift amount, every mask and the total size are
+right.  It is a register-allocation residue with no single swapped pair.
+The structural tells the second pass named both survive: the image hoists
+`mov ip, r0` ABOVE the `ldrh` that consumes r0, and increments the loop
+counter at +0x1C in the middle of the channel extraction.  Neither the hand
+sweep nor 3800 permuter compiles reached either.
+
+Consequence for the blocked pending file: UNCHANGED.  func_02021C20 is
+still src/pending/func_02021BC8.c's only unresolved relocation.
+
+The best source, verbatim (136 bytes against 136, 69 concrete out, 1.1p1):
+
+----------------------------------------------------------------------
+  typedef unsigned char  u8;
+  typedef unsigned short u16;
+  typedef unsigned int   u32;
+  typedef signed   short s16;
+
+  struct C02021C20 {
+      u16 f0;
+      u16 lo6 : 6;
+      u16 weight : 5;
+      u16 hi : 5;
+      u16 target : 15;
+      u16 sign : 1;
+  };
+
+  void func_02021C20(u16 *src, u16 *dst, struct C02021C20 *c, u32 count)
+  {
+      u32 i;
+
+      for (i = 0; i < count; i++) {
+          int px = src[i];
+          int t = c->target;
+          int w = c->weight;
+          int sb = (px >> 0xa) & 0x1f;
+          int sg = (px >> 5) & 0x1f;
+          int sr = px & 0x1f;
+          u8 rr = (u8)(sr + (((t & 0x1f) - sr) * w >> 4));
+          u8 rb = (u8)(sb + ((((t >> 0xa) & 0x1f) - sb) * w >> 4));
+          u8 rg = (u8)(sg + ((((t >> 5) & 0x1f) - sg) * w >> 4));
+
+          dst[i] = (u16)(rr | (rg << 5) | (rb << 0xa));
+      }
+  }
+----------------------------------------------------------------------
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 136 bytes against 136, 69 concrete bytes out, 1.1p1

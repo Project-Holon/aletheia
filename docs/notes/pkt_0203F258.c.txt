@@ -66,3 +66,120 @@ Ruled out: a `u32 *p = out + 2;` cursor, an array-parameter spelling
 (`u32 out[6]`), assigning out[5] = 0 first, and declaring the buffers in
 address order.  None of them move the two registers.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+WAVE 5 (family gf_standard.c, permuter lane), 2026-09-21
+================================================================================
+
+The C recorded above was re-derived verbatim and re-verified: it still gives
+exactly the residue this note describes, no better and no worse.
+
+/* best source, 164 bytes against 164, 8 concrete bytes out, 1.1p1 */
+
+    typedef unsigned char u8;
+    typedef unsigned int  u32;
+    typedef unsigned long long u64;
+
+    extern void sub_02088168(void *p);
+    extern void sub_020813D8(void *p);
+    extern void sub_0208142C(void *ctx, void *buf, u32 n);
+    extern void sub_020814C0(void *ctx, void *out);
+    extern void sub_02082D44(void *in, void *out, u32 n);
+
+    void func_0203F258(u32 *out)
+    {
+        u8 a[8];
+        u8 c[0x20];
+        u8 b[0x14];
+        u8 d[0x60];
+
+        sub_02088168(c);
+        sub_020813D8(d);
+        sub_0208142C(d, b, 0x14);
+        sub_0208142C(d, c, 0x20);
+        sub_020814C0(d, b);
+        sub_02082D44(b, a, 8);
+        *(u64 *)out = *(u64 *)a;
+        out[2] = 0x6C078965;
+        out[3] = 0x5D588B65;
+        out[4] = 0x00269EC3;
+        out[5] = 0;
+    }
+
+symbols: sub_02088168 0x02088168 arm, sub_020813D8 0x020813D8 arm,
+         sub_0208142C 0x0208142C arm, sub_020814C0 0x020814C0 arm,
+         sub_02082D44 0x02082D44 arm.  All five resolve as `label`.
+
+THE PERMUTER'S VERDICT
+----------------------
+tools/permuter.py --explain reduces the residue to a single clean fact:
+
+    baseline  DIFF   asm=40    bytes-out=8    size=164/164
+    register substitutions (image -> compiled), by count:
+      r0   -> r1    x4
+      r1   -> r0    x4
+
+One swapped pair, nothing else -- exactly the allocation-tie class the
+permuter exists for.  It does not move:
+
+    --mode hill   --budget 800  --types   ->  no single mutation improves
+                                              DIFF asm=40 bytes-out=8
+                                              (64 sites tried, all of them)
+    --mode anneal --budget 3000 --types   ->  best DIFF asm=40 bytes-out=8
+                                              (3000 distinct compiles, four
+                                              plateau drifts, never once
+                                              below 8)
+
+HAND LEVERS TRIED ON TOP OF THAT, ALL 8 BYTES OR WORSE
+------------------------------------------------------
+Because a residue the permuter cannot move at all is usually in the
+declarations, the parameter list and the buffer types were swept by hand.
+Every one of these gives IDENTICAL output to the baseline -- byte for byte,
+8 out, same two registers:
+
+    void func_0203F258(u32 out[6])                   (array parameter)
+    void func_0203F258(u8 *out)  with (u32 *) casts
+    void func_0203F258(u32 *out, u32 unused)         (a second, ignored
+                                                      parameter, to see if an
+                                                      incoming live r1 breaks
+                                                      the tie -- it does not)
+    u32 *p = out + 2; p[0..3] = ...                  (cursor local)
+    u32 z = 0; ... out[5] = z;                       (named zero)
+    u64 v = *(u64 *)a; *(u64 *)out = v;              (named u64 temporary)
+    declaration order c,a,b,d and c,b,d,a            (a moved within the
+                                                      group; the ORDER of the
+                                                      four buffers is already
+                                                      pinned, see above)
+
+And these are worse, not better:
+
+    struct Out { u32 lo, hi, k0, k1, k2, k3; } *out  31 bytes out
+      -- the field spelling reorders the two stores
+    out[5] = 0 written FIRST                         31 bytes out
+      -- hoists `mov #0` above the ldm/stm, which is a real code change
+    the ldm/stm copy written LAST                    26 bytes out
+    struct Pair { u32 v[2]; } for the 8-byte copy    51 bytes out, 168 bytes
+    struct Out with a struct Pair head               51 bytes out, 168 bytes
+      -- both grow the function: the aggregate assignment stops being the
+         inlined ldm/stm pair once either side is a named struct object
+    u32 *q = (u32 *)a; out[0] = q[0]; out[1] = q[1]; 55 bytes out, 172 bytes
+      -- confirms the note's original finding from the other direction
+
+WHAT THIS MEANS
+---------------
+The eight bytes are the allocator's choice of which of {r0, r1} colours the
+first of the four tail constants, and the whole tail mirrors that one
+choice.  Every value-preserving spelling of the tail, and every declaration
+of the parameter and of the four buffers, leaves the choice untouched; the
+permuter's 3064 compiles say the same thing from the mutation side.
+
+The function is never called directly anywhere in the image -- its address
+appears only as the pool word at 0x020056CC, i.e. it is installed as a
+function pointer -- so no call site constrains the signature either, and
+there is no outside evidence left to bring to bear.
+
+Do not re-attempt by spelling the tail differently.  A genuinely new reading
+would have to change what happens BEFORE the ldm/stm (the five calls and the
+four stack buffers), and that part is already byte-exact.
+
+re-verified 2026-09-21 by tools/permuter.py: DIFF, 164 bytes against 164, 8 concrete bytes out, 1.1p1

@@ -141,3 +141,59 @@ question is an address, not a datum.
 
 Do not re-attempt without a genuinely new reading of the source shape.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+WAVE 5 (family gf_standard.c, permuter lane), 2026-09-21
+================================================================================
+
+The C recorded above was re-derived verbatim and re-verified.  It still gives
+exactly the residue this note describes.
+
+/* best source, 340 bytes against 340, 16 concrete bytes out, 1.1p1 */
+
+  (the source in WHAT THE C IS above, unchanged; symbols g_021469F8
+   0x021469F8 data and func_0203F034 0x0203F034 arm, both resolved)
+
+THE PERMUTER'S VERDICT -- IT CONFIRMS THIS NOTE'S OWN CONCLUSION
+----------------------------------------------------------------
+tools/permuter.py --explain narrows the 16 bytes to one swapped pair:
+
+    baseline  DIFF   asm=250   bytes-out=16   size=340/340
+    register substitutions (image -> compiled), by count:
+      r2   -> ip    x1
+      ip   -> r2    x1
+
+That LOOKS like the allocation-tie class the permuter is built for, and it
+is not.  The engine cannot move it by any amount:
+
+    --mode hill   --budget 800  --types   ->  no single mutation improves,
+                                              314 sites tried and EXHAUSTED
+    --mode anneal --budget 3000 --types   ->  best DIFF asm=250 bytes-out=16,
+                                              3000 distinct compiles, never
+                                              once below 16, several plateau
+                                              drifts
+
+3314 compiles across the whole mutation set -- temp, expand, reorder, hoist,
+copy, use, selfassign, decl-order, pad, split-assign, compound, commute,
+compare, addsub, cast, block, loop, struct-ref, goto-ret, volatile, addr and
+the type mutations -- and not one of them changes the score by a single
+point.  A residue that is flat under every value-preserving transform AND
+under the integer-type mutations is not a colouring tie; it is the
+instruction-selection residue this note already diagnosed:
+
+    the original addresses mt[kk] with the scaled-register form
+    [r0, r1, lsl #2]; every compile folds it onto the base register r3 that
+    the +4 and +0x634 / -0x38c accesses need, as [r3, #0].
+
+The r2/ip swap the substitution map reports is a CONSEQUENCE of that folding
+(the dependence on r3 drags the mt[kk] load ahead of the mt[kk+1] load and
+the two masks travel with it), not an independent choice the allocator made.
+That is why permuting the allocator's inputs cannot reach it.
+
+The note's closing instruction stands, and is now backed by the engine as
+well as by the hand sweep: do not re-attempt without a genuinely new reading
+of the source shape.  In particular, do not spend another lane re-running
+the permuter on this function -- the search space is exhausted at singles
+and flat at 3000 under annealing.
+
+re-verified 2026-09-21 by tools/permuter.py: DIFF, 340 bytes against 340, 16 concrete bytes out, 1.1p1

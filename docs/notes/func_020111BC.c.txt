@@ -104,3 +104,111 @@ Verified with
 Scratch candidates: p111bc.c, e1-e4, f1-f4, m1-m5, s_div, s_mod, t1-t4,
 u1-u3 in scratch/_l1/cand/.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+WAVE 5 (net_save.c family, 2026-09-22): SIZE-EXACT AT 3 CONCRETE BYTES OUT
+================================================================================
+
+The note above ("no recoverable source") is superseded.  The shape is now
+closed to a single register choice, and the source below is size-exact at
+44/44 with THREE bytes wrong, all of them the same substitution.
+
+The two things the earlier fifteen spellings missed:
+
+  1.  The return type is `s64`, not `s32`, and the value returned is the
+      64-bit quotient WITHOUT a narrowing cast.  The original's arm ends at
+      `blx _ll_sdiv` and falls straight into `pop {r3, pc}`: whatever the
+      helper left in r0:r1 is the return value.  Any `(s32)` cast, or an
+      `s32` return type, adds the four-byte `adds r0, r2, #0` / `asrs r1,
+      r2, #0x1f` pair the original does not have, and the function comes out
+      48 bytes.
+
+  2.  The else arm RETURNS NOTHING - the function falls off the end of a
+      non-void function.  The original's `beq` lands directly on the shared
+      `pop {r3, pc}` with no value materialised.  Writing `return v;` in the
+      else arm (or making the whole thing `v = ...; return v;`) costs the
+      same four bytes as (1).  This is undefined behaviour in C and almost
+      certainly means the original is a `void` wrapper whose callee's result
+      is simply left in place, but no void spelling reproduces it: a void
+      function dead-code-eliminates the whole expression and comes out two
+      bytes (`bx lr`).
+
+  /* best source, 44 bytes against 44, 3 concrete bytes out, 1.1p1 */
+
+    typedef unsigned char      u8;
+    typedef unsigned short     u16;
+    typedef signed int         s32;
+    typedef signed long long   s64;
+
+    extern u8 g_02146208[];     /* 0x02146208  data */
+    extern u8 g_02146228[];     /* 0x02146228  data */
+    /* _ll_mul   0x0209C054  arm
+     * _ll_sdiv  0x0209BE5C  arm */
+
+    s64 func_020111BC(s32 v)
+    {
+        if (g_02146208[0x1e] != 0x30) {
+            return (s64)*(u16 *)(g_02146228 + 0x16) * v / 100;
+        }
+    }
+
+THE RESIDUE.  `tools/permuter.py --explain` names it exactly:
+
+    baseline  DIFF   asm=20    bytes-out=3    size=44/44
+    register substitutions (image -> compiled), by count:
+      r1   -> r3    x3
+
+The three bytes are the guard's table pointer.  The original loads it into
+r1 BEFORE it copies the argument:
+
+    +0000  push {r3, lr}
+    +0002  ldr  r1, [pc, #0x20]    <- g_02146208, into r1
+    +0004  adds r2, r0, #0         <- v, into r2
+    +0006  ldrb r1, [r1, #0x1e]
+    +0008  cmp  r1, #0x30
+
+the compiled version emits the same five instructions with the pointer in
+r3 and the two loads in the other order.  Every instruction, every
+relocation and the size are otherwise identical; the function is a pure
+allocation tie.
+
+PERMUTER, BOTH MODES, NO MOVEMENT.  660 compiles across the two searches,
+not one of them beats the baseline:
+
+    python3 tools/permuter.py --src b6.c --func func_020111BC \
+        --addr 0x020111BC --thumb --mode hill --budget 800 --jobs 8 --types
+      baseline  DIFF   asm=20    bytes-out=3    size=44/44
+      no single mutation improves DIFF   asm=20  bytes-out=3  size=44/44 (60 tried)
+      best      DIFF   asm=20    bytes-out=3    size=44/44
+
+    python3 tools/permuter.py --src b6.c --func func_020111BC \
+        --addr 0x020111BC --thumb --mode anneal --budget 600 --jobs 4 --types
+      compiles 600 in 72s
+      best      DIFF   asm=20    bytes-out=3    size=44/44
+
+Ten further spellings by hand, all 44/44 and all 3 out, none better:
+`*(u8 *)(g_02146208 + 0x1e)` in place of the subscript; `0x30 !=` with the
+operands swapped; the guard inverted with an early `return;`; the argument
+lifted into a named `s32 t` before the guard; a `s64 r` local assigned then
+returned; an unused second parameter.  Two spellings are WORSE and are
+recorded so they are not retried: `(s64)v * *(u16 *)(...)` with the operands
+the other way round (34 out, and four bytes short - the multiply must be
+TABLE-VALUE-FIRST, the same rule func_02010FF4's header states for the
+32-bit siblings), and lifting the u16 factor into a `u16 f` local before the
+guard (34 out, the load is hoisted above the branch).  Lifting the TABLE
+pointer into a `u8 *t` local before the guard is neutral (3 out, unchanged);
+making it a file-scope `static u8 *const` is much worse (31 out, the pointer
+gains a pool word of its own).
+
+Per docs/AGENT-BRIEF.md and the permuter note, a residue no mutation moves
+lives in the declarations.  The declarations here are one scalar parameter
+and one scalar return; both have been swept (`s32`/`s64`/`u32` argument,
+`s64`/`s32`/`void` return).  What is left is the ORDER in which the two
+first values are created, and no value-preserving C rewriting reaches it:
+the argument is always the function's first value because it arrives in r0.
+The likely real source has something before the guard that consumes r0 -
+most plausibly this is not the whole function but the tail of a larger one
+that was split, or the argument reaches it through a different signature
+than the four-byte scalar assumed here.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 44 bytes against 44, 3 concrete bytes out, 1.1p1

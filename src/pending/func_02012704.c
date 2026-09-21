@@ -8,7 +8,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH*
- * note:     re-verified 2026-09-20: MATCH*; see verify output
+ * note:     re-verified 2026-09-21 by tools/match.py: MATCH*, unchanged.
+ *           10 of 15 relocations resolved, all 148 compiled bytes correct.
+ *           The five unresolved sites are the family's overlay wall, now
+ *           written up once in docs/families/game_data.h: ov009 and ov010
+ *           both hold each address and the only branch image-wide is the
+ *           `bl` in this function, so `label` has no outside witness and
+ *           `sole-ref/code` cannot see an overlay label at all (it reads
+ *           evidence().labels, the ARM9 listings only).  The `ov010` hints
+ *           on the symbols: lines narrow the candidates but do not supply
+ *           the missing branch.  The constructor this destroys,
+ *           src/pending/func_020124F4.c, is capped by the same four-of-a-kind
+ *           wall (0x0216237C, 0x0216CC58, 0x0215E31C, 0x021647A0).
  * symbols:
  *   func_020307B0   0x020307B0  arm
  *   func_021647D8   0x021647D8  thumb  ov010

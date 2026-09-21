@@ -1,0 +1,163 @@
+================================================================================
+func_02010DCC and func_02010DF4 -- the two thirteen-slot loops of net_save.c
+WAVE 5 (net_save.c family, 2026-09-22)
+================================================================================
+
+Two adjacent functions in the play-time table block (see
+docs/families/net_save.h section 4), both a bare `for` over the thirteen
+counter slots, both stuck at the SAME residue, and both mis-sourced in
+src/pending before this pass.
+
+WHAT THE PENDING FILES HAD WRONG.  src/pending/unit_02010DCC.c and
+src/pending/func_02010DF4.c (hand-written EXACT, corrected to DIFF by the
+2026-09-21 re-verification) read the wrong globals and dropped the tails:
+
+  - unit_02010DCC.c named `g_02146954` for the counter array.  The pool word
+    at 0x02010DEC is `e8 61 14 02` = 0x021461E8, the family's counter array,
+    which src/matched/func_02010EC0.c and func_02010EEC.c already declare.
+  - Both files stopped at the loop.  func_02010DCC ends in a TAIL CALL:
+    `ldr r3, [pc, #8]; bx r3` with the pool word 0x02010FAD at 0x02010DF0,
+    which is sub_02010FAC+1, the empty placeholder already matched as
+    src/matched/sub_02010FAC.c.  func_02010DF4 ends with
+    `g_02146228[0x1c] = 0xd`, the deselect the family's func_02010F50 does
+    the same way.
+
+With those two corrections both functions reproduce every instruction they
+have.  The remaining gap is one shape, described below, and it is identical
+in the two.
+
+/* best source, 32 bytes against 32, 13 concrete bytes out, 1.1p1 */
+
+    typedef unsigned char u8;
+    typedef signed char   s8;
+    extern void func_02010F50(int idx);   /* 0x02010F50  thumb */
+    extern u8   g_02146228[];             /* 0x02146228  data  */
+
+    void func_02010DF4(void)
+    {
+        s8 i;
+
+        for (i = 0; i < 13; i++) {
+            func_02010F50(i);
+        }
+        g_02146228[0x1c] = 0xd;
+    }
+
+/* best source, 40 bytes against 40, 23 concrete bytes out, 1.1p1 */
+
+    typedef signed char  s8;
+    typedef unsigned int u32;
+    extern u32  g_021461E8[];      /* 0x021461E8  data  */
+    extern void sub_02010FAC(void);/* 0x02010FAC  thumb */
+
+    void func_02010DCC(void)
+    {
+        s8 i;
+
+        for (i = 0; i < 13; i++) {
+            if (g_021461E8[i] > 1) {
+                g_021461E8[i]--;
+            }
+        }
+        sub_02010FAC();
+    }
+
+THE RESIDUE: A PRE-LOOP GUARD THE COMPILER WILL NOT EMIT FOR AN int.
+
+Both originals open a loop that starts at a literal zero with an UNFOLDED
+entry test:
+
+    02010DF4  push {r4, lr}
+    02010DF6  movs r4, #0        <- i = 0
+    02010DF8  cmp  r4, #0xd      <- and then it compares it against 13 anyway
+    02010DFA  bge  #0x2010e08
+    02010DFC  adds r0, r4, #0    <- the loop body
+    ...
+    02010E02  adds r4, r4, #1    <- a PLAIN int increment, no truncation
+    02010E04  cmp  r4, #0xd
+    02010E06  blt  #0x2010dfc
+
+With an `int` counter mwccarm folds `0 < 13` and drops the guard, giving
+28 bytes against the original's 32 and 19 out.  Every int spelling folds it:
+`for`, `while`, a hoisted `int n = 13` bound, `13 > i` with the operands
+reversed, `i != 13`, the increment moved into the body, and an explicit
+`goto`-structured pre-test with the guard written by hand.  All six compile
+to exactly the same 28 bytes.
+
+The ONE thing that emits the guard is a NARROW counter -- `s8`, `char`,
+`u8`, `s16` all do it, because the compiler can no longer prove the widened
+value's range.  That buys the two missing bytes at the top, and immediately
+spends four at the bottom: the increment becomes `adds r0, r4, #1; lsls r0,
+r0, #0x18; lsrs r4, r0, #0x18` (or the `asrs` pair for the signed types)
+where the original has a plain `adds r4, r4, #1`.  Net size is then exactly
+right, 32/32 and 40/40, and the thirteen (resp. twenty-three) bytes out are
+the truncation pair plus the branch displacements it shifts.
+
+So the original needs BOTH an unfolded entry guard AND an untruncated
+increment, and no C type gives both:
+
+  counter type     guard emitted   increment    size     bytes out
+  ---------------  --------------  -----------  -------  ---------
+  int / u32        no              plain        28/32    19
+  s8 / char        yes             truncating   32/32    13
+  u8               yes             truncating   32/32    14
+  s16              yes             truncating   32/32    13
+  ORIGINAL         yes             plain        32/32    --
+
+Declaring the callee `func_02010F50(s8)` rather than `(int)` does not help
+(13 out, unchanged): the truncation is in the increment, not at the call.
+
+PERMUTER: 1050 COMPILES, NO MOVEMENT.
+
+    python3 tools/permuter.py --src f02010DF4.c --func func_02010DF4 \
+        --addr 0x02010DF4 --thumb --mode hill --budget 150 --jobs 8 --types
+      baseline  DIFF   asm=205   bytes-out=23   size=28/32
+           38   DIFF   asm=415   bytes-out=14   size=32/32  <- type:l(i:int->u8)
+           72   DIFF   asm=410   bytes-out=13   size=32/32  <- cast(int)
+      best      DIFF   asm=410   bytes-out=13   size=32/32
+      mutations type:l(i:int->u8) ; cast(int)
+
+That run is what FOUND the narrow-counter lever (the `type` mutation, which
+`--types` enables, is the only one in the table that changes a local's
+integer type).  Two further searches from the improved point move nothing:
+
+    ... --mode anneal --budget 400 --jobs 8 --types   (from the s8 source)
+      compiles 400 in 36s
+      best      DIFF   asm=410   bytes-out=13   size=32/32
+
+    ... --mode anneal --budget 500 --jobs 6 --types   (from the int source)
+      compiles 500 in 43s
+      best      DIFF   asm=410   bytes-out=23   size=32/32
+      mutations type:ret-var(i)
+
+and on func_02010DCC:
+
+    python3 tools/permuter.py --src dcc_s8.c --func func_02010DCC \
+        --addr 0x02010DCC --thumb --mode hill --budget 400 --jobs 4 --types
+      baseline  DIFF   asm=620   bytes-out=23   size=40/40
+      no single mutation improves (60 tried); the one candidate it ranks,
+      type:l(i:s8->int), is the int form above and is WORSE (36/40, 35 out)
+
+WHAT WOULD CLOSE IT.  The residue is not an allocation tie -- every register
+in both functions is already right -- it is one instruction present in the
+original and absent from every compile of an int counter.  The plausible
+readings, in order:
+
+  1.  The bound is not the literal 13 in the source but a symbol the
+      compiler cannot fold at the guard yet folds to `#0xd` at both compare
+      sites.  Nothing in C does that for a file-scope `const int` or an
+      enum (both tried, both fold), but a value arriving through a macro
+      that expands to a call the optimiser inlines late would.
+  2.  The counter is a `u8`/`s8` FIELD of a struct or a global rather than a
+      local, so the widening happens at the load and the increment operates
+      on the widened value.  This is worth one attempt if either function is
+      revisited; it needs a plausible home for the variable, and none of the
+      family's four globals has a spare byte at a fitting offset.
+  3.  The two functions are the body of ONE source loop that was split, and
+      the guard belongs to the caller's shape.
+
+Neither function is worth more budget on its own: they are 30 and 28 bytes
+of body, both fully understood, and the gap is two instructions.
+
+re-verified 2026-09-22 by tools/match.py: func_02010DF4 DIFF, 32 bytes against 32, 13 concrete bytes out, 1.1p1
+re-verified 2026-09-22 by tools/match.py: func_02010DCC DIFF, 40 bytes against 40, 23 concrete bytes out, 1.1p1

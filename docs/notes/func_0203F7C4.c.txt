@@ -1,0 +1,229 @@
+func_0203F7C4 @ 0x0203F7C4, packet pkt_0203F7C4, family gf_standard.c (ARM).
+Untouched before wave 5; this is the first write-up.
+
+DIFF at 128 concrete bytes out of 304, right size, right control flow, right
+call sequence, right stack layout, every constant and every relocation right.
+The residue is entirely inside one block: the 2D cross product between the
+second VEC_Subtract and VEC_Normalize.
+
+WHAT IT IS
+----------
+The SIGNED perpendicular distance from a point C to the line through A and B,
+in 20.12 fixed point, with the sign taken from which side of AB the point
+falls on.  Six plain-integer coordinates arrive and are shifted into 20.12 on
+entry; the last two come off the stack at sp+0x58 and sp+0x5c, which is what
+fixes the arity at six.
+
+    a = (ax<<12, ay<<12, 0)      at sp+0x30
+    b = (bx<<12, by<<12, 0)      at sp+0x24
+    c = (cx<<12, cy<<12, 0)      at sp+0x00
+    a = a - c                    VEC_Subtract(&a, &c, &a)
+    b = b - c                    VEC_Subtract(&b, &c, &b)
+    d = (a.y, a.x, 0)            at sp+0x18   NOTE: no negation, see below
+    f.z = a.x*b.y - b.x*a.y      the 2D cross, both products 20.12 rounded
+    cross = f.z + 0
+    VEC_Normalize(&d, &d)
+    f = b - a                    VEC_Subtract(&b, &a, &f)   at sp+0x0c
+    dist = VEC_DotProduct(&d, &f) >> 12
+    if (dist < 0) dist = -dist
+    if (cross <= 0) { sign = -1; dist = dist * sign; }
+    return dist
+
+Three readings that are NOT obvious and are pinned by the bytes:
+
+  * `d = (a.y, a.x, 0)` really has NO sign flip.  A perpendicular would be
+    (a.y, -a.x, 0) or (-a.y, a.x, 0); the original stores the two loads
+    straight through (`ldr r0,[sp,#0x34]; str r0,[sp,#0x18]` and
+    `ldr r0,[sp,#0x30]; str r0,[sp,#0x1c]`) with no rsb anywhere.  The sign
+    is recovered afterwards from the cross product instead, which is why the
+    tail takes the absolute value and then re-signs it.
+  * the vector at sp+0x0c is written TWICE: first (0, 0, cross) field by
+    field, then wholesale by VEC_Subtract(&b, &a, &f), which discards it.
+    The first three stores are dead and are in the source anyway -- they are
+    emitted, so they are written.  Only `cross` survives the overwrite, in a
+    register.
+  * the final negation is a MULTIPLY, not an rsb:
+        mvnle r1, #0        ; r1 = -1
+        mulle r1, r0, r1
+        movle r0, r1
+    Writing `dist = -dist` gives `rsble r0, r0, #0` and is eight bytes short.
+    The -1 must be bound to its own local inside the branch and multiplied:
+        if (cross <= 0) { sign = -1; dist = dist * sign; }
+
+DECLARATION ORDER, WHICH IS THE WHOLE STACK LAYOUT
+---------------------------------------------------
+Later declaration sits at the LOWER stack address
+(docs/idioms/local-declaration-order-is-stack-order.md), so the address order
+c@0x00, f@0x0c, d@0x18, b@0x24, a@0x30 means the source declares
+
+    struct VecFx32 a; struct VecFx32 b; struct VecFx32 d;
+    struct VecFx32 f; struct VecFx32 c;
+
+Getting this wrong is a 134-byte diff on its own; with it right, everything
+from +0x0000 to +0x0078 (the whole prologue, all six shifts, all nine stores
+and BOTH VEC_Subtract calls) is byte-exact.
+
+/* best source, 292 bytes against 304, 145 concrete bytes out, 1.1p1 */
+
+    typedef signed int   s32;
+    typedef signed long long s64;
+    typedef s32 fx32;
+
+    struct VecFx32 { fx32 x; fx32 y; fx32 z; };
+
+    extern void VEC_Subtract(const struct VecFx32 *a, const struct VecFx32 *b,
+                             struct VecFx32 *out);        /* 0x0207CA00 */
+    extern void VEC_Normalize(const struct VecFx32 *a, struct VecFx32 *out);
+                                                          /* 0x0207CCA4 */
+    extern fx32 VEC_DotProduct(const struct VecFx32 *a,
+                               const struct VecFx32 *b);  /* 0x0207CA68 */
+
+    s32 func_0203F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy)
+    {
+        struct VecFx32 a;
+        struct VecFx32 b;
+        struct VecFx32 d;
+        struct VecFx32 f;
+        struct VecFx32 c;
+        fx32 cross;
+        fx32 dist;
+        s32  sign;
+
+        a.x = ax << 12;  a.y = ay << 12;  a.z = 0;
+        b.x = bx << 12;  b.y = by << 12;  b.z = 0;
+        c.x = cx << 12;  c.y = cy << 12;  c.z = 0;
+
+        VEC_Subtract(&a, &c, &a);
+        VEC_Subtract(&b, &c, &b);
+
+        f.x = 0;
+        d.x = a.y;
+        f.y = 0;
+        d.y = a.x;
+        d.z = 0;
+
+        cross = 0;
+        cross = cross + ((fx32)(((s64)a.x * b.y + 0x800) >> 12)
+                       - (fx32)(((s64)b.x * a.y + 0x800) >> 12));
+        f.z = cross;
+
+        VEC_Normalize(&d, &d);
+        VEC_Subtract(&b, &a, &f);
+        dist = VEC_DotProduct(&d, &f) >> 12;
+        if (dist < 0) {
+            dist = -dist;
+        }
+        if (cross <= 0) {
+            sign = -1;
+            dist = dist * sign;
+        }
+        return dist;
+    }
+
+symbols: VEC_Subtract 0x0207CA00 arm, VEC_DotProduct 0x0207CA68 arm,
+         VEC_Normalize 0x0207CCA4 arm.  All five sites resolve as `label`.
+VEC_Subtract's direction (a - b into out) was read off 0x0207CA00 itself, not
+guessed; the other two are pinned by src/matched/func_0205429C.c.
+
+WHAT IS LEFT: TWELVE BYTES AND THE SCHEDULE OF ONE BLOCK
+---------------------------------------------------------
+The compile is 292 bytes against 304.  Three instructions are missing, all of
+them in the cross-product block, and the original's shape is:
+
+    +0088  ldr r0, [sp, #0x30]      ; a.x, loaded ONCE
+    +0094  mov r1, r0               ; <- MISSING: a second value holding a.x
+    +0098  ldr r0, [sp, #0x28]      ; b.y
+    +00A0  smull r3, r0, r1, r0
+    ...
+    +00A8  add r2, r7, #0           ; <- MISSING: a live-range split of the
+                                    ;    register-resident zero (r7 has held
+                                    ;    0 since +0x0010 and is about to be
+                                    ;    clobbered by the b.x load)
+    +00D4  sub r1, r1, r7           ; the raw difference
+    +00E0  add r7, r1, r2           ; <- cross = difference + that zero
+    +00E4  str r1, [sp, #0x14]      ; f.z = the RAW difference, not `cross`
+
+So f.z and the compared value are two DIFFERENT values in the original: f.z
+gets the bare subtraction and `cross` gets it plus a zero that lives in a
+register across the entire function (the same zero as a.z, b.z, c.z, d.z,
+f.x and f.y).  Every attempt to say that in C folds the `+ 0` away.
+
+LEVERS TRIED, WITH SIZES
+------------------------
+    cross = 0; cross = cross + (p1 - p2); f.z = cross;      292  (this file)
+    f.z = p1 - p2; cross = f.z + b.z;                       296  (closest on
+                                                                 size without
+                                                                 volatile)
+    f.z = p1 - p2; cross = f.z + a.z;                       296
+    f.z = p1 - p2; cross = f.z + d.z;                       292
+    f.z = p1 - p2; cross = f.z + f.x;                       292
+    f.z = p1 - p2; cross = f.z;                             288
+    separate `acc` local, acc = 0 then acc = cross + acc;   292
+    a shared `fx32 z = 0;` used for all seven zeros
+      and for the `+ z`                                     288 (z folds)
+    ax2/ay2 locals bound before the multiplies               292
+    cross accumulated in two statements (+p1 then -p2)      292
+    the full 3D cross product, all three components         376
+    dist = -dist inside the branch (instead of * sign)      292, and the tail
+                                                                 goes to rsb
+    sign = ~0 / sign = 0 - 1 instead of sign = -1           292, identical
+    the sign multiply written outside the branch
+      (sign = 1; if (...) sign = -1; return dist * sign;)   292, but the
+                                                                 multiply is
+                                                                 unconditional
+
+THE PERMUTER'S VERDICT
+----------------------
+    --explain            baseline DIFF asm=2555 bytes-out=134 size=280/304
+                         (before the declaration-order fix)
+    --explain            baseline DIFF asm=2235 bytes-out=145 size=292/304
+                         (this file)
+
+    --mode hill --budget 800 --jobs 8 --types
+        reaches size-exact in three mutations:
+        volatile-add(cross) ; expand(cross x1) ; decl-order(dist<->d)
+        -> DIFF asm=2915 bytes-out=139 size=304/304, then exhausts (21 tried)
+
+    --mode anneal --budget 3000 --jobs 8 --types (from that point)
+        -> best DIFF asm=2220 bytes-out=138 size=304/304
+        mutations decl-order(c<->sign) ; temp(tmp=((s64)b.x * a.y + 0)) ;
+                  block(do0,1) ; cast(s32) ; block(do0,1) ; cast(s32) ;
+                  split-assign(cross)
+
+    --mode anneal --budget 3000 --jobs 8 --types (from the 296-byte variant)
+        -> best DIFF asm=2085 bytes-out=128 size=304/304
+        mutations temp(tmp=VEC_DotProduct(&d,&f)>) ; temp(tmp1=ax<<12) ;
+                  temp(tmp2=-dist) ; commute(+) ; use(ay) ; temp(tmp3=by<<12) ;
+                  temp(tmp4=b.x) ; commute(+) ; commute(*) ; commute(*) ;
+                  type:p(by:s32->int) ; temp(tmp5=(fx32)((0x800+(b.y*)) ;
+                  temp(tmp6=b.y*((s64)a.x)) ; split-assign(tmp6)
+
+The engine REACHES the right size and cannot get the bytes: 128 out of 304 at
+best, from 145.  Read that carefully -- `volatile fx32 cross` buys the twelve
+bytes by giving the value a memory home, and a pile of synthetic temporaries
+buys a few more, but neither is a plausible source shape and neither converges.
+The size is reachable by accident in several ways; the SCHEDULE of the block
+(stores of d and f interleaved BEFORE both smulls, in the order f.x, d.x, f.y,
+d.y, d.z) is not reachable by any of them.  Every compile hoists the first
+smull above the stores, because nothing in C makes the stores depend on it.
+
+WHERE A NEXT ATTEMPT SHOULD LOOK
+---------------------------------
+Not at the tail and not at the declarations: both are solved and byte-exact
+(the tail's mvn/mul/mov is reproduced exactly by the `sign` local, and the
+whole prologue through +0x0078 matches).  The open question is only the
+twelve bytes and the schedule in the cross block, and the shape to explain is:
+
+  (a) what source-level construct gives a.x TWO live values (`mov r1, r0`),
+      when d.y = a.x has already consumed one; and
+  (b) what gives the difference a second consumer that adds a
+      register-resident zero to it, when f.z takes the difference itself.
+
+Both smell like ONE inlined helper -- something of the form
+`static fx32 cross2(const struct VecFx32 *p, const struct VecFx32 *q)` whose
+own local copies survive inlining, or a helper that returns a struct.  That
+reading has not been tried and is the one thing left worth a lane.  Do not
+re-attempt by permuting this spelling: 6000 compiles across two anneals say it
+is flat.
+
+re-verified 2026-09-21 by tools/permuter.py: DIFF, 292 bytes against 304, 145 concrete bytes out, 1.1p1

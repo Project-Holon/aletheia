@@ -72,3 +72,153 @@ field, make the tables 8-byte record arrays, and it is byte-correct but still
 MATCH for the three unwitnessed data words - so it belongs in src/pending/
 with `literal` as the blocking class, not in a shard.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+==============================================================================
+2026-09-21, family wave 5 (billboard.c) with tools/permuter.py: the note above
+is WRONG on two counts, and correcting both turns an "can never be EXACT"
+verdict into a size-exact, FULLY ATTESTED 64-byte residue.
+==============================================================================
+
+CORRECTION 1 -- the two `bl 0x209c0a4` are not calls to a game function.
+0x0209C0A4 is `_s32_div_f`, row 16 of layout/runtime_arm9.txt: the mwccarm/MSL
+runtime's signed 32-bit divide (docs/idioms/runtime-helper-reloc.md).  The two
+"calls" are the two DIVISIONS
+
+    dst->f0a = dst->f04 / (b & 0xff);
+    dst->f0b = dst->f06 / dst->f09;
+
+and the same helper is spelled out as four `/` and `%` in the already-EXACT
+sibling src/matched/func_0204F344.c, which is where the identification comes
+from.  Declaring it `extern u32 func_0209C0A4(u32, u32)` and writing the calls
+by hand compiles to the same two `bl`s, so this does not move a byte on its
+own -- but it is what the source actually said, and the `symbols:` line must
+read `_s32_div_f  0x0209C0A4  arm`.
+
+CORRECTION 2 -- the three pool words DO attest, all three, as sole-ref.
+The note says "every one of its three literal-pool words is data whose only
+occurrence in the image is inside this function, so all three sites stay
+unresolved whatever the C is (MATCH at best)".  That was true under the
+wave-20 rule.  The 2026-09-21 widening of sole-ref (see docs/AGENT-BRIEF.md
+section 5) changed it: with the C below, `match.py one` prints
+
+    relocations: 5 of 5 resolved
+      +0084 ABS32 gTexSizeTbl -> 020A14C0  [sole-ref x1]
+      +0088 ABS32 gTexParamS  -> 020A14D4  [sole-ref x1]
+      +008C ABS32 gTexParamT  -> 020A14D8  [sole-ref x1]
+
+so func_0204EEC8 is NOT capped at MATCH and does not belong in src/pending/.
+It is an ordinary DIFF that will file as EXACT the moment the 64 bytes close.
+
+TWO TRAPS WORTH THE NEXT LANE'S TIME.
+
+  * THE POOL-WORD ORDER IS PART OF THE EVIDENCE.  sole-ref/self checks the ROM
+    word AT the relocation site, so if the compiler emits the three pool words
+    in a different order than the image (0x020A14C0, D4, D8), the site-to-
+    symbol mapping is off by one and TWO OF THE THREE SITES REPORT
+    "no witness outside", exactly the failure the note diagnosed as a missing
+    witness.  It is not a missing witness; it is a wrong pool order, and it is
+    fixed from the source by the statement order and the temporaries below.
+    Every intermediate spelling in this lane that came out "3 of 5 resolved"
+    had S and T the wrong way round.
+
+  * A LOWER BYTE COUNT CAN BE THE WORSE RESULT.  Dropping the `u8 c` parameter
+    to `u32` reaches 52 concrete bytes -- and compiles `push {r4, r5, r6, lr}`
+    against the image's `push {r4, r5, r6, r7, r8, lr}`, reads `c` from
+    [sp,#0x10] instead of [sp,#0x18], and drops back to 3 of 5 resolved.  The
+    permuter's scorer ranks it first (52 < 64) and `--mode anneal` walks
+    straight to it from any starting point; it is a dead end.  `c` is `u8`:
+    the image loads it `ldrb lr, [sp, #0x18]`, and the five callee-saved
+    registers r4-r8 are the shape to hold.
+
+THE TYPE THAT CLOSED THE SIZE, and the permuter found it, not a hand sweep:
+`st` (the low 3-bit field) declared **u16**.  As `s32` or `u32` the front end
+refuses to keep the `and r2, r2, #7` live and recomputes the table index as a
+fused `lsl #0x1d` / `lsr #26` pair, which is one instruction and four bytes
+too many: 148 against 144.  Declared u16 it is 144/144.  This is the
+`type:l(st:s32->u16)` mutation of `--mode hill --budget 800 --types`.
+
+THE OTHER TYPE FACTS, all measured:
+  * the bank field IS signed -- `and r4, r2, #0x70` + `asr ip, r4, #4`.  With
+    `u32 fmt` the compiler emits `lsr` and the byte is wrong; `s32 fmt` with
+    `(fmt & 0x70) >> 4` gives the `asr`.
+  * the two parameter tables are 8-BYTE-STRIDE record arrays
+    (`ldr ip, [r8, ip, lsl #3]`), and 0x020A14D8 is exactly 0x020A14D4 + 4, so
+    they are the two words of one record type reached through two symbols.
+    gTexSizeTbl is a plain u32 array (`lsl #2`).
+  * `b` is passed wide and masked at the division (`and r1, r3, #0xff`), not
+    declared u8: declared u8 the mask disappears and the byte is wrong.
+
+THE RESIDUE, 64 concrete bytes at 144/144 with 5 of 5 resolved: the scheduling
+of the prologue.  The image interleaves the three `ldr [pc]` pool loads with
+the shift arithmetic and delays the `strh r0, [r4, #4]`; mwcc hoists the first
+pool load above the `and` and emits the store early.  Every instruction is
+present on both sides, in the same opcode and addressing mode; it is the order
+and the register fields.
+
+PERMUTER, three passes, all from this source:
+  `--explain`: a general reshuffle, not one swapped pair (13 distinct
+  substitutions, the largest lr->r5 x3).
+  `--mode hill --budget 800 --jobs 8 --types`: 225 candidates, no single
+  mutation improves 64.
+  `--mode anneal --budget 3000 --jobs 8 --types`: walks to the 52-byte
+  wrong-prologue branch described above and stays there; on the correct branch
+  it is flat.
+
+/* best source, 144 bytes against 144, 64 concrete bytes out, 1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Cell {
+    u8  pad_00[4];
+    u16 f04;
+    u16 f06;
+    u8  f08;
+    u8  f09;
+    u8  f0a;
+    u8  f0b;
+    u8  pad_0c[8];
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+};
+
+struct Pair8 { u32 w; u32 pad; };
+
+extern const u32 gTexSizeTbl[];             /* 0x020A14C0 */
+extern const struct Pair8 gTexParamS[];     /* 0x020A14D4 */
+extern const struct Pair8 gTexParamT[];     /* 0x020A14D8 */
+
+void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
+{
+    s32 sb = (fmt & 0x70) >> 4;
+    u32 st = (u16)(fmt & 7);
+    u16 sti;
+    int w4 = 1 << (sb + 3);
+    u32 st1;
+
+    dst->f04 = (u16)w4;
+    dst->f06 = (u16)(1 << (st + 3));
+    st1 = st;
+    dst->f14 = gTexSizeTbl[idx];
+    sti = (u16)st1;
+    dst->f18 = gTexParamS[sb].w;
+    dst->f1c = gTexParamT[sti].w;
+    dst->f09 = c;
+    dst->f08 = (u8)b;
+    dst->f0a = (u8)((s32)dst->f04 / (s32)(b & 0xff));
+    dst->f0b = (u8)((s32)dst->f06 / (s32)dst->f09);
+}
+
+/* The `st1`/`sti` pair and the `w4` temporary are not decoration: they are the
+ * `copy` and `temp` mutations the permuter kept, and removing them puts the
+ * two parameter-table pool words back in the wrong order (3 of 5 resolved,
+ * 68 bytes).  Keep them, or re-derive an equivalent that holds the order. */
+
+Not filed: DIFF, by rule 6.  Note that unlike the original verdict this one is
+a plain codegen residue, NOT an evidence ceiling: the moment the 64 bytes
+close this is EXACT in src/matched, not MATCH in src/pending.
+re-verified 2026-09-21 by tools/match.py: DIFF, 144 bytes against 144, 64 concrete bytes out, 5 of 5 relocations resolved, 1.1p1

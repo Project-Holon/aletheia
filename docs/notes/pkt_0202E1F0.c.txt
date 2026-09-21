@@ -180,3 +180,218 @@ void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
     func_02041B6C();
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 388 bytes against 412, 317 concrete bytes out, 1.1p1
+
+
+================================================================
+APPENDED 2026-09-21, wave 5 (family pms_draw.c).
+================================================================
+
+THE SIGNATURE IN THE SECTION ABOVE IS WRONG, and correcting it is most of
+the progress here.  The evidence is func_0202DC60, this function's only
+caller, which wave 5 closed as EXACT* (src/matched/func_0202DC60.c).  Its
+bytes say:
+
+  - The register arguments are (e, a1, a2, a3) where a1 is the owner's
+    +0x08 POINTER, a2 the word at +0x04 and a3 the caller's own `a`.
+    func_0202DC60's prologue parks `a` in r4 with `adds r4, r1, #0`
+    precisely because it is the LAST argument consumed
+    (`adds r3, r4, #0` immediately before the `bl`).
+  - The trailing arguments are FIVE PLAIN WORD SLOTS: `w` and four more.
+    They are NOT a 16-byte struct passed by value.  func_0202DC60 stores
+    each one straight into its slot with `str`; the by-value spelling
+    makes the compiler stage a local and `ldm`/`stm` it into the outgoing
+    area, eighteen bytes more, and func_0202DC60 does not go EXACT with
+    it.  So func_0202E1F0's parameter list ends
+        ..., void *w, struct Cs *cs, u16 c1, u32 c2, u16 c3
+  - `cs`, the first of the four, is a POINTER, not a struct.  This
+    function does `ldr r2,[sp,#0x64]; ldr r2,[r2]` and
+    `ldr r3,[sp,#0x64]; ldr r3,[r3,#4]`, then narrows both with
+    `lsls #0x10` / `asrs #0x10`.  The `ldr r0,[sp,#0x64]; str r0,[sp,#0x64]`
+    pair the section above read as by-value renormalisation is the
+    ordinary shape of a stack parameter whose value is re-read.
+  - The func_0201C724 seventh argument is c1 (sp+0x68, read as u16 via
+    `add r0,sp,#0x60; ldrh r0,[r0,#8]`), NOT c3.  The section above had
+    the two confused.
+  - The tail is `flags.b0 = 1; flags.b1 = 1;` written as BITFIELDS.  As
+    masks the compiler folds `(x | 1) | 2` into `x | 3` and loses four
+    bytes; the original's `bics #1; orrs #1; orrs #2` only comes out of
+    a bitfield pair.  The section above omitted the trailing
+    func_02045730 call and the whole flag store.
+
+With those five corrections the file is SIZE-EXACT at 412 bytes (the
+section above reached 388) and the instruction stream matches the
+original essentially everywhere; see the score progression:
+
+    the section above's source                388/412, 317 out
+    + corrected signature, +f18 bitfields     412/412, 294 out, asm 4410
+    + c1 (not c3) as the 7th 0201C724 arg     412/412, 373 out, asm 4200
+    + volatile s32 n                          420/412, 391 out, asm 4385
+    + volatile u16 c3 as well                 424/412, 330 out, asm 2975  BEST
+
+`volatile s32 n` IS the lever the section above asked for ("whatever makes
+n, and not o, the spill candidate"): with it, `o` lands in r6 and stays
+there, exactly as the original, and the `r6 -> r7` substitution in the
+permuter's --explain map disappears.  `volatile u16 c3` then recovers the
+original's `add r0,sp,#0x60; ldrh r0,[r0,#0x10]` re-read and halves the
+instruction score again.  The cost is that volatile emits a store and a
+reload where the original's spill emits only the reload, which is the
+twelve bytes the best point is over.
+
+Remaining residue at the best point: `ws` should live in r7 and the
+sp+0x60 parameter base in r5; the compile puts `ws` in r5 and
+re-materialises the base.  The original reaches that by loading `w` into
+r7 for the func_02024570 call and then REUSING r7 for `add r7, sp, #0x38`
+immediately afterwards.  Also unfixed: the constant 1 stored into
+o->f20[i] is hoisted into r5 in the original (`movs r5, #1` before the
+loop) and emitted inline in the compile; binding it to a local does not
+move it.
+
+Tried and rejected: `w` bound to a local before the call; c3 read through
+a `volatile u16 *`; the 1 bound to `one`.  All three score identically to
+the best point -- the compiler normalises them away.  Permuter hill 1200
+with --types from the corrected point walked the byte count down to 277
+while raising the instruction score from 4200 to 6970, i.e. the
+bytes-out tiebreak pulls it off the structurally-correct plateau; do not
+trust it on this function without reading --explain.
+
+What this still needs: a spelling that gives the parameter base a
+callee-saved home (r5) and `ws` r7, and a form of the `n` spill that does
+not cost the volatile store.  A named 8-byte stack struct holding `ws`,
+declared before everything else, is the obvious untried candidate.
+
+---- best source, 424 bytes against 412, 330 concrete bytes out, 1.1p1 ----
+/*
+ * unit:     no
+ * function: func_0202E1F0
+ * address:  0x0202E1F0
+ * packet:   pkt_0202E1F0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ *
+ * symbols:
+ *   func_02024570  0x02024570  thumb
+ *   func_0202465C  0x0202465C  thumb
+ *   func_0202441C  0x0202441C  thumb
+ *   func_0201D478  0x0201D478  thumb
+ *   func_020244F8  0x020244F8  thumb
+ *   func_020244D4  0x020244D4  thumb
+ *   func_02024368  0x02024368  thumb
+ *   func_0201D528  0x0201D528  thumb
+ *   func_0201D4BC  0x0201D4BC  thumb
+ *   func_0202E040  0x0202E040  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02043AF4  0x02043AF4  arm
+ *   func_02045808  0x02045808  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Cs { u32 f00; u32 f04; };
+
+struct Flags { u32 b0 : 1; u32 b1 : 1; u32 rest : 30; };
+
+struct Obj { u32 f00; u8 f04; u8 pad05[0x13]; struct Flags f18; u32 f1c; u32 f20[2]; };
+
+extern void  func_02024570(void *ws, void *w);
+extern void  func_0202465C(void *ws, u32 a, u32 b);
+extern void *func_0202441C(void *ws, u32 n);
+extern s32   func_0201D478(void);
+extern u32   func_020244F8(void *ws, u32 i);
+extern u32   func_020244D4(void *ws, u32 i);
+extern void *func_02024368(void *ws, u32 n, u32 c);
+extern void *func_0201D528(void *g, u8 i, u32 a, u32 b);
+extern void *func_0201D4BC(void *g, u8 i);
+extern void  func_0202E040(void *h, u32 a, struct Cs *cs, u32 c,
+                           void *d, void *e);
+extern u32   func_02045770(u32 a);
+extern void  func_02043B5C(u32 a, u32 b);
+extern void  func_0201C724(u32 a, u32 h, s16 x, s16 y,
+                           void *g, u32 f, u32 k);
+extern void  func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f);
+extern void  func_02045808(void *p);
+extern void  func_02045374(u32 a);
+extern u32   func_02045730(u32 a);
+extern void  func_02041B6C(void);
+
+void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
+                   void *w, struct Cs *cs, u16 c1, u32 c2, volatile u16 c3)
+{
+    u32 marks[2];
+    u8 ws[8];
+    void *h;
+    void *g;
+    s32 i;
+    u32 cnt;
+    volatile s32 n;
+    void *p0;
+    void *p1;
+    u32 *ent;
+
+    void *wp = w;
+    volatile u16 *c3p = &c3;
+    u32 one;
+
+    marks[0] = 0;
+    marks[1] = 0;
+    func_02024570(ws, wp);
+    func_0202465C(ws, 1, *c3p);
+    o->f04 = 0;
+    o->f00 = a3;
+
+    cnt = *c3p;
+    h = func_0202441C(ws, cnt);
+    n = (u8)func_0201D478();
+
+    one = 1;
+    for (i = 0; i < n; i++) {
+        if (func_020244F8(ws, i) != 0) {
+            o->f20[i] = one;
+        } else if (func_020244D4(ws, i) == 0xffff) {
+            marks[i] = 1;
+        }
+    }
+
+    g = func_02024368(ws, cnt, n);
+    func_02043B5C(func_02045770(o->f00), c2);
+    func_0201C724(a1, func_02045770(o->f00),
+                  (s16)cs->f00, (s16)cs->f04, g, a2, c1);
+    o->f04 = 1;
+
+    for (i = 0; i < n; i++) {
+        ent = &o->f20[i];
+        if (*ent == 1) {
+            p0 = func_0201D528(g, (u8)i, a2, 0);
+            p1 = func_0201D4BC(g, (u8)i);
+            func_0202E040(*(void **)((u8 *)ent + 8),
+                          func_020244D4(ws, i), cs, a3, p0, p1);
+        } else if (marks[i] == 1) {
+            p0 = func_0201D528(g, (u8)i, a2, 0);
+            p1 = func_0201D4BC(g, (u8)i);
+            func_02043AF4(func_02045770(a3), (u32)p0,
+                          (s16)((u32)p1 << 4), 0x54, c2, 0x10);
+        }
+    }
+
+    func_02045808(g);
+    func_02045808(h);
+    func_02045374(o->f00);
+    func_02045730(o->f00);
+    func_02041B6C();
+    o->f18.b0 = 1;
+    o->f18.b1 = 1;
+}
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 424 bytes against 412, 330 concrete bytes out, 1.1p1

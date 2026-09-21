@@ -247,3 +247,91 @@ the "kept constants" / "kept branches" families docs/FRONTEND-PINS.md
 records, so a probe is a genuine experiment rather than a documented tell.
 Not filed: DIFF, by rule 6.
 re-verified 2026-09-21 by tools/match.py: DIFF, 268 bytes against 2, 33 concrete bytes out, 1.1p1
+
+
+========================================================================
+2026-09-22, family wave 5 (palanm.c), permuter pass: func_0202173C
+@ 0x0202173C and its twin func_02021848 @ 0x02021848.  Both baselines
+reproduced.  THE AST PERMUTER CANNOT BE RUN ON EITHER ADDRESS, and the
+reason is the mis-cut this note opens with.  Still DIFF, 33 each.
+========================================================================
+
+BASELINES REPRODUCED, both from this note's own preserved source:
+
+  func_0202173C  0x0202173C  268 bytes against 268, 33 concrete out, 1.1p1
+  func_02021848  0x02021848  232 bytes against 232, 33 concrete out, 1.1p1
+
+The twin was rebuilt exactly as the previous entry describes -- drop the
+second `func_02021930(p->a_big, i)` test, change `p->a_big |= mask` to
+`p->a_big = mask` -- and lands on the same count in the same two places,
+which is now the third independent confirmation that they are one finding.
+
+/* best source, 268 bytes against 268, 33 concrete bytes out, 1.1p1 */
+(the source preserved verbatim in the first section of this note; it is
+unchanged and is still the right starting point.  Its twin is that source
+with the two edits above, and needs no separate copy.)
+
+THE NEW FINDING IS ABOUT THE TOOL, NOT THE FUNCTION.  tools/permuter.py
+(the AST engine, docs/notes/permuter.md's last section) is the right class
+of tool for this residue on paper: its `reorder` and `hoist` mutations
+target first-definition order, which is exactly what a misplaced home-store
+is.  It cannot be used here.
+
+  python3 tools/permuter.py --src <the source above> --func func_0202173C \
+      --addr 0x0202173C --thumb --explain
+
+  baseline  DIFF   asm=12500 bytes-out=33   size=268/2
+                                                   ^^^
+
+`size=268/2`.  The permuter takes the ORIGINAL's size from the listing
+extent, and the listing extent at 0x0202173C is TWO BYTES -- because
+disasm.py labelled 0x0202173E, so the "function" at 0x0202173C is just the
+`push {r0, r1, r2, r3}` halfword before the label.  That is the same
+mis-cut this note opens with, seen from the other side.
+
+The consequence is not a cosmetic wrong number.  The permuter's score is a
+tuple (verdict, instruction score, bytes-out, SIZE GAP), so with the target
+size reading 2 the search is rewarded for making the function SMALLER.  It
+duly does:
+
+  --mode hill --budget 800 --jobs 8 --types
+      248  bytes-out=112  size=122/2   <- expand(i x10)
+      499  bytes-out=107  size=116/2   <- copy(keep->keep_@6)
+      739  bytes-out=94   size=110/2   <- volatile-add(b)
+      best bytes-out=94   size=110/2
+
+Every "improvement" is the search demolishing the function toward two
+bytes: 33 concrete out became 94, and the tool reported that as progress
+because 110 is nearer 2 than 268 is.  `--focus done,i,keep,a` does not help
+-- same poisoning, it just reaches it with fewer compiles.  The twin at
+0x02021848 reads `02021848..0202184A (2 bytes)` and behaves identically.
+
+So the permuter's verdict on these two addresses is VOID, in the precise
+sense the permute.py field report used: not "the tool searched and found
+nothing", but "the tool was never given the right target".  Do not record a
+negative for it here.  Nothing was filed from these runs and this note's
+best source is unchanged by them.
+
+WHAT WOULD MAKE THE PERMUTER USABLE HERE, in order of cost:
+
+  1.  Seed 0x0202173C and 0x02021848 into layout/function_starts.txt (the
+      integrator's file; this note has asked for that since its first
+      section, and it is now blocking a tool and not just a reader).  Once
+      the extents read 268 and 232, `--explain` and both searches become
+      meaningful on the residue they were built for.
+  2.  Failing that, an explicit size override on permuter.py -- there is no
+      `--extent` / `--size` flag today, and `--explain`'s own output is the
+      place the wrong number first shows, so a one-line guard that REFUSES
+      to search when the listing extent is smaller than the baseline
+      compile would have turned this into an error instead of 800 wasted
+      compiles.
+
+Until one of those lands, the residue stands exactly as the previous entry
+left it: a 1.1p1 scheduling decision about where `str r3, [sp, #8]` lands
+relative to the five instructions after it, unreached by statement order,
+local binding, volatility, declaration order, the two-function `tu`, or
+(now) the AST permuter, which never got a fair run.
+
+Not filed: DIFF, by rule 6.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 268 bytes against 268, 33 concrete bytes out, 1.1p1

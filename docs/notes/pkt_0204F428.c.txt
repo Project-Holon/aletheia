@@ -139,3 +139,159 @@ The C that reaches 384 / 86:
         return 0;
     }
 re-verified 2026-09-21 by tools/match.py: DIFF, 384 bytes against 384, 86 concrete bytes out, 1.1p1
+
+
+==============================================================================
+2026-09-21, family wave 5 (billboard.c) with tools/permuter.py: 86 -> 52
+concrete bytes, and the note's "MEASURED AND REJECTED" list had the right
+lever in it, written the wrong way round.
+==============================================================================
+
+Reproduced the note's C verbatim: 384/384, 86 concrete out, 0 relocations.
+Two permuter findings then took it to 52, and the second one reverses a
+sentence of the note above.
+
+FINDING 1 -- `--mode hill --budget 800 --jobs 8 --types` from the note's C
+finds `temp(tmp=~0x3fff)`: LIFT THE FREE-SLOT MASK INTO A NAMED LOCAL,
+declared with the other locals and assigned before the loop.
+
+    int tmp;
+    tmp = ~0x3fff;
+    ...
+    r->f00 = (u16)((r->f00 & tmp) | (0x3fff & (u32)(u16)id));
+
+That alone drops the instruction score from 605 to 585 at the same 86 bytes;
+`--mode anneal --budget 3000 --jobs 8 --types` on top of it (3000 compiles in
+151s) adds five more `temp` lifts of the repeated record-pointer casts and
+reaches asm=250, **52 concrete bytes**.
+
+ONE GOTCHA WHEN APPLYING A PERMUTER RESULT HERE: pycparser regenerates the
+lifted declaration as a C99 mid-block `int tmp = ~0x3fff;` AFTER the first
+statements, and mwccarm rejects that with "expression syntax error" at that
+line plus "undefined identifier 'tmp'" below.  Hoist it into the declaration
+block by hand; the compiled bytes are identical.
+
+FINDING 2 -- the note says, of deriving the mask the way the image does:
+
+    "AND ONE THAT IS WORSE, do not repeat it: writing the free-slot mask the
+     way the image derives it ... with the new value computed FIRST ... gives
+     380 bytes and 307 out."
+
+The *order* was what was worse, not the derivation.  With FINDING 1's `tmp` in
+place, deriving the 0x3FFF mask FROM it -- and leaving the statement order
+alone -- is right:
+
+    r->f00 = (u16)((r->f00 & tmp) | (((u32)tmp >> 18) & (u32)(u16)id));
+
+The image at +0x0038..+0x0040 is `mov r5, #0x4000` / `rsb r5, r5, #0` /
+`lsr r6, r5, #0x12`: it materialises -0x4000 once and shifts it down by 18 to
+get 0x3FFF, rather than spending a second pool word.  With the plain literal
+the compile has `ldr r6, [pc, #0x134]` there, a pool word the image does not
+have.  After this change those three instructions match exactly, and the
+opcode/addressing-mode correspondence is one-for-one over the whole function.
+
+WHAT THE RESIDUE IS NOW, and it is finally what the note's title claims.
+`--explain` before FINDING 1 showed a general reshuffle dominated by r2->r1
+x21 -- i.e. the note's "the whole residue is that the struct pointer lands in
+r5 instead of r4" was not yet true.  After both findings it IS: the map is
+r5->r4 x6, r5->r7 x4, r7->r0 x3, r1->r0 x3, and the seed is the single
+instruction at +0x0004,
+
+    image:  mov r4, r0        mwcc:  mov r5, r0
+
+with every remaining byte one of the eighteen `ldr rN, [r4, #8]` re-reads
+carrying the swap.
+
+EXHAUSTED FROM THE NEW POINT:
+  `--mode hill --budget 1500 --jobs 8 --types`: 330 candidates, no single
+  mutation improves 52.
+  `--mode anneal --budget 3000 --jobs 8 --types`: flat at asm=250 / 52.
+  Declaration order of the locals, four ways (q first, tmp first, q last, and
+  q removed entirely with `p` used directly): all exactly 384 / 52.  The
+  "declaration order decides which register a local gets" idiom does not reach
+  this one -- the copy `mov r4, r0` is the parameter's home, not a local's.
+
+THE THREE TYPE FACTS from the original note are unchanged and re-confirmed:
+u16 count at +0x0e with a signed s32 loop bound; the 6th stacked parameter u8
+(`ldrb r6, [sp, #0x24]`); the 5th, 7th and 8th u32 with an explicit (u16) cast
+at the point of use.
+
+/* best source, 384 bytes against 384, 52 concrete bytes out, 1.1p1 */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef signed int s32;
+struct Vec3
+{
+  s32 a;
+  s32 b;
+  s32 c;
+};
+struct Rec
+{
+  u16 f00;
+  u16 f02;
+  struct Vec3 f04;
+  u16 f10;
+  u16 f12;
+  u16 f14;
+  u16 f16;
+  u16 f18;
+  u16 f1a;
+};
+struct Pool
+{
+  u8 pad_00[8];
+  struct Rec *recs;
+  u8 pad_0c[2];
+  u16 count;
+};
+s32 func_0204F428(struct Pool *p, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode)
+{
+  struct Pool *q;
+  s32 i;
+  s32 n;
+  int tmp1;
+  u16 tmp2;
+  u32 tmp3;
+  struct Rec *tmp4;
+  struct Rec *tmp5;
+  int tmp;
+  tmp = ~0x3fff;
+  q = p;
+  n = q->count;
+  for (i = 0; i < n; i++)
+  {
+    struct Rec *r = (struct Rec *) (((u8 *) q->recs) + (i * 0x1c));
+    if ((((u32) (r->f00 << 18)) >> 18) != 0x3fff)
+      continue;
+    r->f00 = (u16) ((r->f00 & tmp) | ((((u32) tmp) >> 18) & ((u32) ((u16) id))));
+    tmp3 = ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f00;
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f00 = (u16) ((tmp3 & (~0xc000)) | (((u32) (((u32) ((u16) mode)) << 30)) >> 16));
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f12 = v12;
+    tmp4 = (struct Rec *) (((u8 *) q->recs) + (i * 0x1c));
+    tmp4->f14 = v14;
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f16 = 0;
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f04 = *src;
+    tmp5 = (struct Rec *) (((u8 *) q->recs) + (i * 0x1c));
+    tmp5->f18 = (u16) ((tmp5->f18 & (~0x1f)) | (((u32) k) & 0x1f));
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 = (u16) (((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 & (~0x1e0));
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 = (u16) (((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 & (~0x200));
+    tmp1 = ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 & (~0xf000);
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 = (u16) (tmp1 | (((u32) (((u32) ((u16) w)) << 28)) >> 16));
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 = (u16) (((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 & (~0x400));
+    tmp2 = (u16) (((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 & (~0x800));
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f18 = tmp2;
+    ((struct Rec *) (((u8 *) q->recs) + (i * 0x1c)))->f10 = 0;
+    return i;
+  }
+
+  return 0;
+}
+
+
+
+Not filed: DIFF, by rule 6.
+re-verified 2026-09-21 by tools/match.py: DIFF, 384 bytes against 384, 52 concrete bytes out, 1.1p1

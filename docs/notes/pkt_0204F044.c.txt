@@ -57,3 +57,62 @@ int func_0204F044(C044 *a0, int a1, int a2, int a3, u32 a4, u8 a5, u8 a6)
     return idx;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 200 bytes against 200, 52 concrete bytes out, 1.1p1
+
+
+==============================================================================
+2026-09-21, family wave 5 (billboard.c) with tools/permuter.py: the note's
+verdict holds.  52 bytes, mechanically confirmed as a floor.
+==============================================================================
+
+Reproduced the note's C at 200/200 with 52 concrete out and 2 of 2 relocations
+resolved, then ran the AST permuter over it.
+
+PERMUTER, all three passes, all flat:
+  `--explain`: a GENERAL reshuffle, not one swapped pair.  Ten distinct
+  substitutions, r4->r0 x12 and r1->r0 x11 leading.  The note's description
+  ("the same swap r0<->r1, ip propagates") understates it slightly, but the
+  conclusion is the same.
+  `--mode hill --budget 800 --jobs 8 --types`: 203 candidates, NO single
+  mutation improves DIFF asm=285 bytes-out=52.
+  `--mode anneal --budget 3000 --jobs 8 --types`: 3000 compiles in 303s, best
+  is still asm=285 bytes-out=52.  Not one candidate in three thousand moved
+  the instruction score, let alone the bytes.
+
+DECLARATIONS PROBED BY HAND, since a residue the permuter cannot move at all
+is usually in the declarations.  All return to exactly 200 / 52:
+  * `idx` as `int` rather than `u32` (with the extern's out-parameter matched)
+  * the return type `int` rather than `u32`
+  * `Desc.count` as `u16` rather than `int`
+  * func_0204EEC8's two trailing parameters as `u32` rather than `u8`
+And two that are WORSE, do not repeat them:
+  * the sixth parameter `a6` as `u32`: 204 bytes, 96 out.  The image loads it
+    `ldrb ip, [sp, #0x28]`; it is u8, and so is `a5` at [sp,#0x24].
+  * `volatile u32 idx` with a volatile out-parameter on the extern: 216 bytes,
+    104 out.
+  * the byte-offset spelling `(u8 *)desc->slots + idx * 0x28` at every site,
+    with and without a named stride local: 200 bytes but 56 out, worse than
+    the subscript form.  The subscript is right -- it is what emits the
+    `mov rN, #0x28` + `mla` pair the image has, and the already-EXACT siblings
+    src/matched/func_0204EF58.c and func_0204EFC8.c use the same spelling for
+    the same array.
+
+WHERE THE RESIDUE IS SEEDED, precisely.  Everything through +0x24 is
+byte-identical; the first differing instruction is +0x0028 and the whole rest
+follows from it:
+
+    image:  ldr r1, [sp, #4]   ; mov r0, #0x28 ; mul r2, r1, r0
+    mwcc:   ldr r0, [sp, #4]   ; mov ip, #0x28 ; mul r1, r0, ip
+
+The image parks the stride constant in **r0**, a caller-saved register that is
+dead at that point, and gives the index r1.  1.1p1 gives the index r0 and
+parks the stride in ip.  Both are legal, both are the same length, and the
+choice is made after linearisation -- the same class as the destination-
+register residues of docs/notes/pkt_0204F7DC.c.txt (func_0204FFFC),
+docs/notes/pkt_02063078.c.txt and docs/notes/pkt_02072374.c.txt.
+
+The note's own C is still the best source and is reproduced above unchanged;
+the only thing this pass adds is that the floor is now mechanical rather than
+asserted.  Blocking class for the report: codegen.
+
+Not filed: DIFF, by rule 6.
+re-verified 2026-09-21 by tools/match.py: DIFF, 200 bytes against 200, 52 concrete bytes out, 1.1p1

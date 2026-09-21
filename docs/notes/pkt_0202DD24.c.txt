@@ -144,3 +144,165 @@ void func_0202DD24(u8 *p, u32 i, u32 j)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 308 bytes against 328, 255 concrete bytes out, 1.1p1
+
+
+================================================================
+APPENDED 2026-09-21, wave 5 (family pms_draw.c).
+================================================================
+
+The lever the previous section asked for -- "getting dx and dy onto the
+stack, which is what forces that split shift pair" -- is exactly right,
+and it is spelled `volatile`.  Declaring dx, dy AND dj volatile takes the
+file from 308 bytes / 255 concrete bytes out to 314 / 225, and drops the
+permuter's instruction-level score from 3835 to 2550.  With that, the
+whole call sequence from +0x16 onward is the original's instruction
+stream; what remains wrong is the stack SLOT assignment, not the code.
+
+  - `volatile s32 dx; volatile s32 dy;` alone: 310/328, 175 bytes out,
+    asm 3835.  This is what forces `ldr r0,[sp,#4]; lsls r2,r0,#3` in
+    place of the folded `lsls r0, r7, #0x13`.
+  - adding `volatile u32 dj`: 314/328, 225 bytes out, asm 2550, and the
+    original's `ldr r0,[sp,#0xc]` reload before each `ldr r0,[r6,r0]`
+    appears.  BEST POINT.
+  - `volatile u32 di` instead of dj: asm 5625, much worse -- di really
+    does live in a register, as the previous section said.
+  - `volatile` on `dst` as well: no change at all from the dx/dy point.
+
+Remaining residue at the best point: the original lays dy at sp+0x00, dx
+at sp+0x04, dst at sp+0x08 and dj at sp+0x0c; the compile puts dj at
+sp+0x18, dx at sp+0x14, dy at sp+0x10 and dst at sp+0x00, so every slot
+reference is wrong by a constant and the tail is fourteen bytes short.
+Re-ordering the four declarations (both directions, and with dst moved
+between them) does not move them: the compiler assigns the volatile
+group its own run above the non-volatile locals regardless of source
+order, which is what defeats
+docs/idioms/local-declaration-order-is-stack-order.md here.
+
+Permuter from the best point: hill 500 reached asm 1845 at 326/328 with
+`volatile-add(i)`, but that mutation takes the address of a parameter and
+opens the function with `push {r0,r1,r2,r3}` (the home-area idiom), which
+the original does not have -- a scorer artefact, not a real improvement.
+A second hill round reached 328/328 exactly, at asm 2380 and 302 bytes
+out, and the emitted source does not re-parse (the permuter wrote a
+`temp` of a cast expression that mwccarm rejects).  Neither is progress
+over the 314/2550 point below.
+
+What this still needs: a spelling that puts the three volatile locals in
+the LOW stack slots.  A candidate not tried for lack of budget is a
+single volatile struct holding dy/dx/dst/dj in that order, which would
+give the group one base and a fixed internal layout.
+
+---- best source, 314 bytes against 328, 225 concrete bytes out, 1.1p1 ----
+/*
+ * unit:     no
+ * function: func_0202DD24
+ * address:  0x0202DD24
+ * packet:   pkt_0202DD24
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_0202E430   0x0202E430  thumb
+ *   func_02045758  0x02045758  arm
+ *   func_02045760  0x02045760  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02043814  0x02043814  arm
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_0204B454  0x0204B454  arm
+ *   func_0204B404  0x0204B404  arm
+ *   func_0204B898  0x0204B898  arm
+ *   func_0204B878  0x0204B878  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Pt { s16 x; s16 y; };
+struct Ent { u32 pad[6]; u32 b0 : 1; u32 b1 : 1; };
+
+extern u32  sub_0202E430(u32 id);
+extern u32  func_02045730b(u32 a);
+extern u32  func_02045758(u32 a);
+extern u32  func_02045760(u32 a);
+extern u32  func_02045770(u32 a);
+extern void func_02043814(u32 a, u32 b);
+extern void func_02045334(u32 a);
+extern void func_02045374(u32 a);
+extern u32  func_02045730(u32 a);
+extern void func_02041B6C(void);
+extern void func_0204B454(void *h, struct Pt *p, u16 v);
+extern void func_0204B404(void *h, struct Pt *p, u16 v);
+extern u32  func_0204B898(void *h);
+extern void func_0204B878(void *h, u16 v);
+extern void func_0204B3DC(void *h, u32 v);
+
+void func_0202DD24(u8 *p, u32 i, u32 j)
+{
+    struct Pt pt;
+    s32 oy;
+    s32 ox;
+    u32 v;
+    volatile u32 dj;
+    u8 *dst;
+    volatile s32 dx;
+    volatile s32 dy;
+    u8 *base = *(u8 **)(p + 0xc);
+    u32 di;
+    u8 *src;
+    u32 t;
+    s32 k;
+
+    di = i * 0x28;
+    dj = j * 0x28;
+    dst = base + dj;
+    src = base + di;
+
+    dx = (s32)func_02045758(*(u32 *)(base + dj)) -
+         (s32)func_02045758(*(u32 *)(base + di));
+    dy = (s32)func_02045760(*(u32 *)(base + dj)) -
+         (s32)func_02045760(*(u32 *)(base + di));
+    func_02043814(func_02045770(*(u32 *)(base + di)),
+                  func_02045770(*(u32 *)(base + dj)));
+
+    t = *(u32 *)(base + dj);
+    func_02045334(t);
+    func_02045374(t);
+    func_02045730(t);
+    func_02041B6C();
+
+    ox = (s16)(dx * 8);
+    oy = (s16)(dy * 8);
+
+    for (k = 0; k < 2; k++) {
+        v = sub_0202E430(func_02045730(*(u32 *)src));
+
+        func_0204B454(*(void **)(src + k * 4 + 8), &pt, (u16)v);
+        pt.x = (s16)(pt.x + ox);
+        pt.y = (s16)(pt.y + oy);
+        func_0204B404(*(void **)(dst + k * 4 + 8), &pt, (u16)v);
+        func_0204B878(*(void **)(dst + k * 4 + 8),
+                      (u16)func_0204B898(*(void **)(src + k * 4 + 8)));
+        func_0204B3DC(*(void **)(dst + k * 4 + 8),
+                      *(u32 *)(src + k * 4 + 0x20));
+    }
+
+    *(u8 *)(dst + 4) = *(u8 *)(src + 4);
+    ((struct Ent *)dst)->b0 = ((struct Ent *)src)->b0;
+    ((struct Ent *)dst)->b1 = ((struct Ent *)src)->b1;
+    for (k = 0; k < 2; k++) {
+        *(u32 *)(dst + k * 4 + 0x20) = *(u32 *)(src + k * 4 + 0x20);
+    }
+}
+
+re-verified 2026-09-21 by tools/match.py: DIFF, 314 bytes against 328, 225 concrete bytes out, 1.1p1

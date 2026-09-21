@@ -752,3 +752,81 @@ still the only image-wide caller of both func_02022518 and func_020225B4,
 so src/pending/func_02022518.c and src/pending/func_020225B4.c stay capped
 at MATCH.  Nothing was promoted or moved this pass.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02022490.c:35: declaration syntax error
+
+
+========================================================================
+2026-09-22, family wave 5 (palanm.c): func_02022490 @ 0x02022490 IS CLOSED.
+EXACT, filed at src/matched/func_02022490.c.  tools/permuter.py found the
+lever at compile 160 of 800, on the 16-byte baseline this note preserved.
+========================================================================
+
+Every entry above is correct as far as it goes, and the last two were right
+that the residue is a three-way register rotation over +0x24..+0x3E which no
+hand spelling reaches.  `tools/permuter.py --explain` prints it as
+
+    r2 -> r0  x3
+    r1 -> r0  x3
+    r0 -> r1  x2
+
+i.e. exactly the index/base/value rotation the last entry describes in
+prose.  The lever, which no entry had tried and which the note's own list of
+~70 measured spellings could not have produced, is
+
+    temp(tmp = (char *)p)
+
+-- a SECOND `char *` alias of the base pointer, declared AFTER the first
+store and used in EXACTLY ONE of the two arms:
+
+    i4 = a3 * 4;
+    *(u32 *)(p + i4) = a1;
+
+    char *q = (char *)p;              <- the whole fix
+
+    if (a2 != 0)
+        ((u32 *)(q + i4))[2] = a2;    <- the alias, used here only
+    else
+        ((u32 *)((char *)p + i4))[2] = (u32)func_020225F0;
+    ((u32 *)((char *)p + i4))[4] = 1;
+
+WHY IT WORKS, and why every uniform spelling in this note failed.  mwccarm
+allocates by Chaitin colouring over values numbered in IR creation order.
+The alias is a fresh value with its own definition point and a use count of
+ONE, so it takes a colour of its own instead of coalescing into `p`, and
+that single extra value is enough to push the index into r2 and the slot
+base into r0 where the image has them.  Both conditions are load-bearing and
+both were measured:
+
+  the alias live in BOTH arms                         back to 16 out
+  the alias hoisted above the `i4 = a3 * 4;`          back to 16 out
+  `char *q; ... q = p;` (declaration and assignment
+    split, C89 style, q assigned where the C99 decl
+    would be)                                         back to 16 out
+  the alias inside a `{ }` block around the if/else    back to 16 out
+
+Only the C99 mid-block DECLARATION WITH INITIALISER, at that exact point,
+produces it.  The last entry's correction about the redundant `(char *)`
+re-cast on the other two stores also still holds -- dropping it costs four
+bytes -- so the final source carries both.
+
+ONE TRAP WORTH THE INK.  A mid-block declaration needs `-lang c99`, and
+`match.py one` DOES NOT READ the `lang:` header field: it defaults to no
+`-lang` at all and reports this source as
+
+    CCERR  ... expression syntax error / undefined identifier 'tmp'
+
+which reads exactly like a broken permuter output and is why the `--out`
+file looks wrong if you verify it the obvious way.  `tools/permuter.py` DOES
+read the header, which is why its own compile said EXACT while the hand
+re-verification said CCERR.  Verify this file with `--lang c99` on the
+command line.  The manifest path (match.py's own header parser, which
+defaults lang to c99) is unaffected, so the shard entry verifies normally.
+
+CONSEQUENCE FOR THE BLOCKED PENDING FILES: THIS IS THE UNBLOCK.  This
+function was the only image-wide caller of both func_02022518 and
+func_020225B4, and it is now an EXACT manifest entry, so both
+src/pending/func_02022518.c and src/pending/func_020225B4.c should have
+their sites resolve on the `matched` class and are candidates for promotion.
+Neither was touched on this pass (they are outside this wave's write set);
+whoever takes them next should re-run them before rewriting any C.
+
+re-verified 2026-09-22 by tools/match.py: EXACT, 76 bytes against 76, 0 concrete bytes out, 1.1p1

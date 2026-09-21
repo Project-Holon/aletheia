@@ -1,0 +1,309 @@
+======================================================================
+2026-09-21  lane: 0x020255A0 (func_020255A0, 364 bytes, thumb)
+family: bmp_oam.c (docs/families/bmp_oam.h)
+verdict: DIFF, SIZE-EXACT (364/364), 16 concrete bytes out.
+evidence: ALL 12 RELOCATIONS RESOLVE.  This is a pure codegen residue --
+if the 16 bytes close, the function reaches EXACT, not MATCH.
+======================================================================
+
+WHAT IT IS.  The bmp_oam grid CONSTRUCTOR, the mirror of func_0202570C
+(EXACT*, src/matched/func_0202570C.c).  Allocates the 0xCC-byte grid
+object, derives the cell grid from the source bitmap's pixel extents,
+then for every cell of the rows x cols grid creates a resource
+(func_0204A7A0) and an actor (func_0204B294), sets the actor's byte
+field (func_0204B6F4) and clears it (func_0204BA20).
+
+SEMANTICS FULLY RECOVERED.  Everything below is byte-evidenced.
+
+1.  THE GRID OBJECT IS TWO PARALLEL POINTER ARRAYS, not an array of
+    structs.  The cell cursor advances by FOUR bytes per cell
+    (`lsls r1, r7, #2` at +00D2) and both stores reach off the same
+    register: `str r0, [r6, #0x68]` at +00EA for the resource and
+    `str r0, [r6, #4]` at +012C for the actor.  So act[] starts at +4,
+    res[] at +0x68, and 0x68 - 4 = 0x64 = 25 pointers.  Writing it as
+    one array of 0x6c-byte cells compiles 12 bytes long and 213 bytes
+    out; the `u8 *` cursor spelling below is what gets the size right.
+
+2.  THE TWO LOOP COUNTERS ARE u8, and so are cols and rows.  Every
+    iteration ends with the `lsls #0x18 / lsrs #0x18` truncation pair
+    (+0142/+0144 for the inner, +0150/+0152 for the outer).  u32
+    counters compile 8 bytes SHORT; that one change took the file from
+    356/364 to size-exact.  The permuter found the rows one on its own
+    (`type:l(rows:u32->u8)`, -4 bytes out).
+
+3.  THE CELL GEOMETRY IS 32 x 16 PIXELS.  cols = width/32 and
+    rows = height/16, each ROUNDED UP, and the rounding is spelled as a
+    SIGNED remainder test: `lsrs r2,r0,#0x1f / lsls r1,r0,#0x1b /
+    subs r1,r1,r2 / movs r0,#0x1b / rors r1,r0 / adds r0,r2,r1 / beq`
+    is `(s32)func_020437DC(bmp) % 32 != 0`.  An unsigned `& 31` test is
+    three instructions shorter.  The same quartet with #0x1c/#0x1c is
+    the % 16 for rows.
+
+4.  struct Param's x and y ARE s16.  `movs r0,#4 / ldrsh r1,[r4,r0]` at
+    +00EC/+00EE and `movs r0,#6 / ldrsh r1,[r4,r0]` at +00FA/+00FC:
+    register-offset ldrsh is the only encoding there is, and it is the
+    signedness tell (docs/idioms/ldrsh-register-offset-is-signedness.md).
+
+5.  struct Param's fc at +0x0c is a WORD narrowed at the use, not a byte
+    field: `ldr r1,[r4,#0xc]` then `lsls #0x18 / lsrs #0x18`.  An
+    `ldrb` would be four bytes shorter.
+
+6.  THE POINT OBJECT IS ZEROED WITH FOUR HALFWORD STORES through one
+    pointer (`add r1,sp,#0x2c / movs r0,#0 / strh r0,[r1] ..
+    strh r0,[r1,#6]`).  Assigning the members individually emits two
+    `strb` for +6/+7 and loses the prologue; the `u16 *q = (u16 *)&pt;`
+    cursor spelling is what reproduces it.
+
+7.  func_02025A9C's ARGUMENT ORDER IS (sys, param->f14, engine), NOT
+    (sys, engine, param->f14).  The original loads `ldr r1,[r4,#0x14]`
+    then `ldr r2,[sp,#0x18]` at +00C4/+00C6; the other order swaps the
+    pair.  Worth 4 bytes.  Note this makes func_02025A9C's second
+    parameter the system handle and its third the engine selector, which
+    is the reverse of what docs/notes/pkt_02025A9C.c.txt assumed from
+    that function alone; the caller is the stronger evidence.  (Both
+    orders compile the same bytes INSIDE func_02025A9C, since it uses
+    each argument exactly once, so this does not disturb that lane.)
+
+8.  func_0204B294's fourth argument is sys->slot[mode]: `lsls r3,r3,#2`
+    on the mode then `adds r3,r5,r3 / ldr r3,[r3,#0xc]` reads the same
+    three-word slot array func_02025538 seeds with -1 and func_02025B18
+    releases.
+
+9.  gModeTable's BASE IS 0x0209F87C, not 0x0209F880.  This function's
+    pool word is 0x0209F87C and it indexes `[r0, mode*12]` for the first
+    member, while func_02025A9C's 0x0209F880/0x0209F884 are base+4 and
+    base+8 of the same symbol.  The record is {0x130, a, b} and the
+    three rows are {0x130,0,1}, {0x130,3,4}, {0x130,6,7} (asm/arm9/main.s
+    lines 269209-269217).  Declaring the base here also UPGRADES
+    func_02025A9C's two sites from `sole-ref` to `literal`, because
+    0x02025708 is an outside witness.
+
+THE RESIDUE (16 bytes, three adjacent-instruction swaps):
+
+  * +0024  str r0, [sp, #0x24]     |  ldr r1, [r4]
+  * +0026  ldr r0, [r4]            |  str r0, [sp, #0x24]
+  * +0028  ldr r1, [sp, #0x24]     |  str r1, [r0]
+  * +002A  str r0, [r1]            |  ldr r0, [r4]
+        the original SPILLS g to its slot before reading param->bmp and
+        then reloads g to store through it; the compiler keeps g in r0
+        and reads param->bmp first.
+
+  * +010A  adds r3, r5, r3         |  ldr r2, [r4, #8]
+  * +010C  ldr r2, [r4, #8]        |  adds r3, r5, r3
+        param->f8's load is scheduled one instruction early.
+
+  * +012C  str r0, [r6, #4]        |  movs r2, #0
+  * +0132  movs r2, #0             |  str r0, [r6, #4]
+        the actor store and the zero materialisation are swapped.
+
+All three are pure instruction scheduling with identical register
+assignment; --explain reports NO register substitutions at all
+(`baseline DIFF asm=640 bytes-out=16 size=364/364`, empty substitution
+map), which is the signature of a scheduling residue rather than an
+allocation tie.
+
+PERMUTER RESULTS.
+
+  base 64 bytes out (before the declaration-order fix):
+    hill  --budget 800 --jobs 8 --types
+      315  DIFF asm=1065 bytes-out=45  <- type:l(rows:u32->u8)
+      no single mutation improves (296 tried)
+  base 23 bytes out:
+    hill  --budget 800 --jobs 8 --types
+      315  DIFF asm=1020 bytes-out=21  <- reorder(+1)
+      no single mutation improves (318 tried)
+  base 16 bytes out (the source below):
+    --explain: baseline DIFF asm=640 bytes-out=16 size=364/364,
+               no register substitutions
+    hill  --budget 800 --jobs 8 --types:
+      no single mutation improves DIFF asm=640 bytes-out=16
+      size=364/364 (317 tried)
+    anneal --budget 3000 --jobs 8 --types:
+      compiles 3000 in 137s
+      best DIFF asm=640 bytes-out=16 size=364/364
+      (plateau at 1792 and 2684, drifted twice, never moved)
+
+Both of the permuter's finds were applied and are in the source below:
+`rows`/`cols` as u8 (worth 4 concrete bytes and the whole 8-byte size
+gap once both counters followed), and moving `f8 = param->f8;` one
+statement earlier (worth 2).
+
+TRIED BY HAND FOR THE REMAINING 16, none better:
+  declaration order permuted to place every spill (this is what took the
+    file from 64 to 49: stack order is REVERSE declaration order, see
+    docs/idioms/local-declaration-order-is-stack-order.md; the settled
+    order is mode, g, rows, i, j, engine, cols, row, cell, yoff, f8,
+    giving 0xc=yoff 0x10=row 0x14=cols 0x18=engine 0x1c=i 0x20=rows
+    0x24=g 0x28=mode)                                     49 bytes
+  binding param->f8 to a local before the pt stores        27 (kept)
+  func_02025A9C argument order swapped                     41 -> 23 (kept)
+  lifting func_0204B294's result into a named `act` and
+    binding (u8)param->fc beside it                        16 (kept)
+  `g->bmp = bm;` through a named temporary                  21
+  `if (g) {}` between the allocation and the store          16
+  storing the actor AFTER func_0204B6F4 instead of before   16
+  a named `zero` local for func_0204B6F4's third argument   16
+  `slot = sys->slot[mode];` hoisted to a local             CCERR
+  moving `f8 = param->f8;` back after pt.f6                 18
+
+The three swaps are independent of each other (fixing any one by hand
+does not disturb the other two) and none of them is reachable from the
+source: every spelling that moves one instruction across its partner
+also moves the register assignment, which lands further away.  This is
+the same class as the 2-byte residue at 0x02025A9C in the same file.
+
+/* best source, 364 bytes against 364, 16 concrete bytes out, 1.1p1 */
+/*
+ * function: func_020255A0
+ * address:  0x020255A0
+ * packet:   pkt_020255A0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_020437DC  0x020437DC  arm
+ *   func_020437E4  0x020437E4  arm
+ *   func_0204A7A0  0x0204A7A0  arm
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B6F4  0x0204B6F4  arm
+ *   func_0204BA20  0x0204BA20  arm
+ *   func_02025A9C  0x02025A9C  thumb
+ *   gModeTable     0x0209F87C  data
+ *   g_020A7494     0x020A7494  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+struct Point {
+    s16 x;
+    s16 y;
+    u16 f4;
+    u8  f6;
+    u8  f7;
+};
+
+struct Grid {
+    void *bmp;
+    void *act[25];
+    void *res[24];
+    u16   f_c8;
+    u8    cols;
+    u8    rows;
+};
+
+struct Sys {
+    u32 f0;
+    u16 f4;
+    u16 f6;
+    u32 f8;
+    u32 slot[3];
+};
+
+struct Param {
+    void *bmp;
+    s16   x;
+    s16   y;
+    u32   f8;
+    u32   fc;
+    u8    f10;
+    u8    f11;
+    u16   f12;
+    u32   f14;
+};
+
+struct ModeEntry {
+    u32 size;
+    u32 a;
+    u32 b;
+};
+
+extern const struct ModeEntry gModeTable[];
+extern u8   g_020A7494[];
+
+extern void *func_02030734(u32 heap, u32 size, u32 clear, const u8 *file, u32 line);
+extern u32   func_020437DC(void *bmp);
+extern u32   func_020437E4(void *bmp);
+extern void *func_0204A7A0(u32 a1, u32 a2, u32 heap);
+extern u32   func_02025A9C(struct Sys *sys, u32 engine, u32 arg);
+extern void *func_0204B294(u32 a, void *res, u32 c, u32 d, struct Point *pt,
+                           u16 f, u16 g);
+extern void  func_0204B6F4(void *p, u32 a, u32 b);
+extern void  func_0204BA20(void *p, u32 a);
+
+struct Grid *func_020255A0(struct Sys *sys, struct Param *param)
+{
+    struct Point pt;
+    u32 mode;
+    struct Grid *g;
+    u8 rows;
+    u8 i;
+    u8 j;
+    u32 engine;
+    u8 cols;
+    u8 *row;
+    u8 *cell;
+    u32 yoff;
+    u32 f8;
+
+    {
+        u16 *q = (u16 *)&pt;
+        q[0] = 0;
+        q[1] = 0;
+        q[2] = 0;
+        q[3] = 0;
+    }
+
+    g = func_02030734(sys->f4, 0xcc, 1, g_020A7494, 0xa3);
+    g->bmp = param->bmp;
+    cols = (u8)(func_020437DC(param->bmp) >> 5);
+    rows = (u8)(func_020437E4(param->bmp) >> 4);
+    if ((s32)func_020437DC(param->bmp) % 32 != 0) {
+        cols = (u8)(cols + 1);
+    }
+    if ((s32)func_020437E4(param->bmp) % 16 != 0) {
+        rows = (u8)(rows + 1);
+    }
+    g->cols = cols;
+    g->rows = rows;
+    g->f_c8 = param->f12;
+    *(u32 *)((u8 *)g + 0x64) = param->f14;
+
+    engine = sys->f8;
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            row = (u8 *)g + i * cols * 4;
+            yoff = i << 4;
+            mode = func_02025A9C(sys, param->f14, engine);
+            cell = row + j * 4;
+            *(void **)(cell + 0x68) =
+                func_0204A7A0(gModeTable[mode].size, param->f14, sys->f4);
+            pt.x = (s16)(param->x + (j << 5));
+            pt.y = (s16)(param->y + yoff);
+            f8 = param->f8;
+            pt.f6 = param->f10;
+            pt.f7 = param->f11;
+            {
+                void *act = func_0204B294(sys->f0, *(void **)(cell + 0x68),
+                                          f8, sys->slot[mode], &pt,
+                                          param->f12, sys->f4);
+                u32 fc = (u8)param->fc;
+                *(void **)(cell + 4) = act;
+                func_0204B6F4(act, fc, 0);
+            }
+            func_0204BA20(*(void **)(cell + 4), 0);
+        }
+    }
+    return g;
+}
+
+permuter best result line:
+  best      DIFF   asm=640   bytes-out=16   size=364/364   (hill 317 tried, anneal 3000 compiles, both flat)

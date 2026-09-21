@@ -32,3 +32,56 @@ Chain note: this function's `needs` callee 0x0200EEAC also came back
 unresolved -- the relocation field is wildcarded, so even a byte-exact body
 would cap at MATCH on that site until 0x0200EEAC has a manifest entry.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED 2026-09-21, family wave 5 (game_data.c lane): CLOSED, EXACT.
+========================================================================
+
+The diagnosis above is wrong and the function is now
+src/matched/func_02012C18.c, status EXACT, 204/204 bytes, 22 of 22
+relocations resolved.
+
+The note reads the residue as an unmovable rotation of three callee-saved
+registers (r6=0x5EC / r7=0x15C / r4=h in the original versus r4/r6/r7 in the
+compile) and concludes "register-choice residue only".  The rotation was
+real but it was a CONSEQUENCE, not the cause.  The cause was ONE swapped
+argument pair, 0x8E bytes into the function:
+
+    original:   adds r4, r0, #0        (the 0x0201283C result -> r4)
+                ldr  r0, [r5]
+                bl   #0x2009d08
+                adds r1, r4, #0        (r4 is argument TWO)
+                bl   #0x20097f0
+
+i.e. the original is
+
+    func_020097F0(func_02009D08(*(u32 *)p), v);        /* v = func_0201283C(p) */
+
+and NOT the sibling func_02012CE0's order at 0x02012D6E,
+
+    func_020097F0(v, func_02009D08(*(u32 *)p));        /* what was tried */
+
+The two siblings genuinely disagree here.  Written the sibling's way mwcc
+must add one `adds r0, r7, #0` at the call to get v into r0, which shifts
+every instruction after +0x96 by two bytes, forces the trailing `c046`
+pool-alignment nop the note mentions, and reallocates the three callee-saved
+registers -- producing exactly the rotation the note recorded as the whole
+residue.  Swapping the two arguments, with no other change at all, takes the
+file from that DIFF straight to EXACT.
+
+Lesson worth keeping: when a residue reads as "registers rotated, every
+instruction otherwise identical", check the instruction COUNT and the byte
+offsets first.  Here the rotation was accompanied by a two-byte shift and an
+inserted `adds`, which is the tell that a value reached a call in the wrong
+argument slot -- a source fact -- rather than the allocator making a free
+choice.  A pure allocation tie does not change the instruction count.
+
+/* best source, 204 bytes against 204, 0 concrete bytes out, EXACT */
+permuter not needed; the fix was found by reading the --diff instruction
+counts.  See src/matched/func_02012C18.c for the source and the full
+reasoning in its header.
+
+The note's chain remark about 0x0200EEAC is also stale: 0x0200EEAC now
+resolves [matched x1], so that site is no longer a cap.
+re-verified 2026-09-21 by tools/match.py: EXACT (filed as
+src/matched/func_02012C18.c)
