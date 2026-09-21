@@ -1,0 +1,120 @@
+pkt_02052274 - func_02052274 (0x02052274, 112 bytes, arm) - DIFF, 8 bytes.
+===========================================================================
+
+Continues the reading in docs/notes/pkt_020520A4.c.txt ("func_02052274
+0x02052274 112 bytes (compiled 104)"), which recorded the residue as the
+callee-saved set plus the frame pad.  That reading is now CORRECTED: the
+frame and the callee-saved set are both reproducible under the pinned
+dsi/1.1p1 -O4,p, and the residue is down from 104-vs-112 (wrong size) to
+112 bytes exact with 8 concrete bytes out.
+
+Verdict DIFF, not MATCH: the one PC24 site is still unwitnessed (0x020522E4
+is this packet's other open function and nothing branches to it from outside
+the range), but the byte difference is real and independent of that, so the
+file is NOT parked in src/pending/ - this note is the record.
+
+---- what fixed the size and the frame ----
+
+Three levers, in the order they mattered:
+
+1. BOTH cursors are initialised BEFORE the `n == 0` guard.  Writing
+   `i = 0; j = 0; if (n == 0) return;` is what produces the original's
+   `mov r6, #0` at +0008 ahead of `movs r8, r2`, the nine-register
+   `push {r3, r4, r5, r6, r7, r8, sb, sl, lr}` and the `sub sp, sp, #4`
+   pad.  With the guard first, the compiler drops to eight callee-saved
+   registers, needs no pad, and lands at 92 bytes.  This single change is
+   worth 20 bytes of frame.
+
+2. The scratch word is RESET INSIDE the loop from a separate zero-valued
+   local (`z`), not initialised once outside.  `scratch = z;` at the top of
+   the body gives the original's `mov r5, r6` / `str r5, [sp]` pair; a
+   single `scratch = 0;` before the loop loses the copy and the register.
+
+3. `i++` sits BEFORE the `scratch == 1` early return, not after it.  The
+   original's `add r6, r6, #1` at +0054 is ahead of the `addeq sp, sp, #4` /
+   `popeq` epilogue pair; putting the increment after the guard emits it
+   below them.  Worth 12 bytes.
+
+---- the 8-byte residue ----
+
+  * +0024    mov r5, r6            | add r5, sp, #0
+  * +0028    add r4, sp, #0        | mov r4, r6
+  * +002C    mov r2, r4            | mov r2, r5
+  * +0038    str r5, [sp]          | str r4, [sp]
+
+Two values are materialised at the same point - the scratch POINTER
+(`add rD, sp, #0`) and the scratch's zero SEED (`mov rD, r6`, copied from
+the already-zero i) - and the two compiles disagree only about which gets
+r4 and which gets r5.  Every instruction is otherwise identical, in order,
+and the r2 argument setup and the `str` follow the swap consistently.  The
+image gives the SEED the lower register (r4 <- pointer, r5 <- seed is the
+compile; the image is r5 <- seed... read the columns: image has
+`mov r5, r6` first, then `add r4, sp, #0`, i.e. the seed is materialised
+FIRST and takes r5 while the pointer takes r4; the compile materialises the
+pointer first into r5).  So the tell is materialisation ORDER at equal
+priority, and the C does not appear to reach it.
+
+Ten spellings measured, all 8 bytes or worse:
+
+  - declaration order of `z` and `p`: all six permutations of
+    {scratch, z, p, i, j} that keep i/j adjacent - 8, 8, 8, 21, 21, 40
+  - initialisation order `z = i; p = &scratch;` vs `p = &scratch; z = i;`
+    - 8 and 21 (so the assignment order DOES matter, and the better of the
+      two is already the one that matches the image's seed-first order;
+      it just does not move the register choice)
+  - `z = i` vs `z = 0` - both 8
+  - scratch reached through `*p` throughout instead of by name - 10
+  - `scratch` declared as `u32 scratch[1]` with `p = scratch` - 8
+  - subscript call arguments `&a[i * 2]`, `&b[j]` instead of pointer
+    arithmetic - 8
+
+---- not pinnable ----
+
+No compiler probe was run, and none is authorized: the residue matches none
+of the three tells in docs/FRONTEND-PINS.md.  There is no kept branch (no
+guard block predicated away - the instruction COUNT is identical), no kept
+constant (nothing is rematerialised that the other build forwards; both
+builds materialise the same two values at the same point), and no re-read of
+a just-loaded chain.  A two-register swap at equal materialisation priority
+is a scheduling coin-flip, not a front-end signature.  Do not sweep it.
+
+---- closest C (112 bytes, 8 out) ----
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern int func_020522E4(u8 *a, u8 *b, u32 *scratch);
+
+void func_02052274(u8 *a, u8 *b, u32 n)
+{
+    u32 scratch;
+    u32 z;
+    u32 *p;
+    u32 i;
+    u32 j;
+
+    i = 0;
+    j = 0;
+    if (n == 0)
+        return;
+    z = i;
+    p = &scratch;
+    do {
+        scratch = z;
+        if (func_020522E4(a + i * 2, b + j, p) == 1)
+            j += 2;
+        else
+            j += 1;
+        i++;
+        if (scratch == 1)
+            return;
+    } while (i < n);
+}
+
+---- the rest of the packet ----
+
+0x020522E4 (440 bytes) and 0x020524C8 (68 bytes) were NOT attempted in this
+run.  Both already carry readings in docs/notes/pkt_020520A4.c.txt; that
+note records 0x020524C8 as a 1.2 + arm7tdmi body, and it was left alone on
+that basis.  Matching 0x020522E4 would also lift 0x02052274's PC24 site to
+the `matched` class, so the two should be taken together by whoever picks
+this packet up.

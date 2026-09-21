@@ -33,3 +33,152 @@ an explicit `else` around the `b = next` update; a named `off` local for
 around both arms; `(u32)` casts on the two halfword loads.  All five give
 the same predicated block.  The entry stride really is 3
 (`add r0, r0, r0, lsl #1`), not 12.
+
+----------------------------------------------------------------------
+0x02068030  func_02068030  DIFF  (172 bytes, compiled 172 for the closest C)
+    appended 2026-09-21, lane pkt_02067FE4
+
+Measure a run of text to the next newline.  c->f04 is a CALLBACK (`blx r5`,
+twice) that advances a cursor kept in a 4-byte stack slot and returns the
+next character code, 0 at end of string and 0xa at a newline.  For each
+character: look the code up with func_02067F9C; if that returns the sentinel
+0xFFFF (pool word at 0x020680D8) substitute c->f00->h02; then take the s8 at
++2 of func_02067FE4's result as the glyph width and accumulate
+`w += gap + width`.  Afterwards, if the `last` out-param is non-null store
+the cursor when the stop was a newline and 0 otherwise, and if w > 0 subtract
+one trailing `gap`.
+
+The SIZE is exact at 172 and the whole control-flow skeleton reproduces:
+both `blx r5`, the `ldreq/ldrheq` sentinel pair at +0x50/+0x54, the
+`ldreq/movne/str` out-param trio at +0x88..+0x90 and the `cmp r4,#0` /
+`subgt r4,r4,r7` tail at +0x94/+0x98 are all byte-identical.  The residue is
+49 bytes and is ENTIRELY one register permutation in the prologue, which then
+propagates:
+
+    original                          compiled
+    mov r8, r0        (ctx -> r8)     mov sb, r0        (ctx -> sb)
+    str r2, [sp]                      add r4, sp, #0    (&slot cached in r4)
+    ldr r5, [r8, #4]                  ldr r5, [sb, #4]
+    add r0, sp, #0                    mov r0, r4
+    mov r7, r1                        mov r8, r1
+    mov r6, r3                        mov r7, r3
+    mov r4, #0                        str r2, [sp]
+    blx r5                            mov r6, #0
+    movs r1, r0       (ch -> r1)      blx r5
+    beq ...                           cmp r0, #0        (ch stays in r0)
+
+Two independent decisions, neither reachable from the C:
+  (a) the image RECOMPUTES `add r0, sp, #0` at each of the two call sites,
+      where 1.1p1 caches `&slot` once in callee-saved r4 and issues
+      `mov r0, r4`.  The address is already written inline at both sites in
+      the C, so there is no shorter spelling to try.
+  (b) the image keeps the character in r1 via `movs r1, r0` (a named local
+      whose compare sets flags), where 1.1p1 leaves it in r0 and spends a
+      separate `cmp r0, #0`.
+
+Spellings measured at 1.1p1 -O4,p -proc arm946e, all 172 bytes:
+  49 bytes out: `next` cached in a local declared first, slot/w/ch after,
+                all four initialised at their declarations  (BEST, kept in
+                src/pending/func_02068030.c)
+  49 bytes out: same, with declaration split from initialisation
+  51 bytes out: `next` declared LAST with an initialiser
+  53 bytes out: `slot` declared or assigned before `next`
+  53 bytes out: `w = 0` assigned before `next = c->next`
+Loop shape was settled separately and is NOT the issue: a single
+`while (ch != 0 && ch != 0xa)` folds the two exits and gives 168 bytes, four
+short; an `if (ch != 0) { while (ch != 0xa) {...} }` with the re-test at the
+bottom gives 176, four long.  The `do { if (ch == 0xa) break; ... } while
+(ch != 0)` above is the only one of the three that lands on 172.
+
+One 2.0 probe was taken because the prologue permutation superficially
+resembles the "kept constants" family: `../2.0/sp2` gives the same 172 bytes
+with 34 mismatches rather than 49.  That is an improvement but NOT pin
+evidence under docs/FRONTEND-PINS.md -- there is no kept constant, no kept
+branch and no re-read/forward tell here, and 34 residual bytes is not
+byte-correctness.  NO PIN TAKEN.  Do not read the 34 as a reason to pin this
+file; it would have to reach 0.
+
+----------------------------------------------------------------------
+0x020681E4  func_020681E4  SKIPPED as oversized (248 bytes)
+    appended 2026-09-21, lane pkt_02067FE4
+
+One `show` taken, judgment recorded rather than attempted, per the brief's
+"skip oversized functions after a quick look" rule.  Recording the READING so
+the next agent does not spend the look again.
+
+It is a rectangle/quadtree area-overlap accumulator, not an accessor and not
+a short leaf.  Six live values (r0..r3 plus two incoming stack words at
+sp+0x20 and sp+0x24 that are also written back at 0x020682C8/0x020682CC),
+a callee-saved set of seven, and a running product sum in r5 built by four
+`mla`s -- one per arm of an irregular FOUR-way split on two independent
+`cmp ... bhi` tests at 0x02068208/0x0206821C and 0x02068248/0x02068250.
+Each arm subtracts a different pair of the masked extents and jumps to a
+shared tail at 0x02068290; the fourth arm instead falls through to the
+`pop` at 0x0206828C with a three-term `add ... lsl` reduction.
+
+The loop-carried part is the hard bit: the tail at 0x02068290..0x020682D0
+recomputes BOTH shift amounts from the data with a `clz` / `rsb #0x1f`
+pair guarded by `cmp #8` (so `movge` takes a saturating constant 3 from
+sl/sb and `movlt` takes the computed log2), then uses the two results as a
+2-D index into a byte table at the pool word 0x020A18F4 (`ldrb r7, [r7, r6,
+lsl #1]` with row stride 8, i.e. an 8 x N table of PAIRS), writes the pair
+back to the two stack words and branches back to 0x02068204.  So the shift
+amounts are table-driven per iteration, which means the C needs the table's
+contents to be right before any byte of the loop can be checked, and the
+table is data outside this packet.
+
+Estimate: not a one-sitting rewrite.  Anyone taking it should start from the
+0x020A18F4 table, confirm its shape (8-byte rows of u8 pairs) and only then
+write the four arms; the `mvn r4, #0` / `and rX, rY, r4, lsl rN` idiom
+throughout is a "low N bits of" mask built from a variable shift, not a
+constant, so the masks are NOT spellable as literals.
+
+----------------------------------------------------------------------
+0x02068150  func_02068150  DIFF  (148 bytes, compiled 148 for the closest C)
+    appended 2026-09-21, lane pkt_02067FE4
+
+Multi-line text extent.  Calls func_02068030 (the row above) once per line,
+threading its `last` out-param back in as the next line's start, keeping the
+widest line in a two-word stack local and counting lines; then
+`h = (lines - 1) * (lead + c->f00->b01) - lead` and copies the {w,h} pair to
+the caller's struct with `stm r8, {r0, r1}`.  b01 is the font's line height
+and is s8 (`ldrsb r1, [r0, #1]` at 0x020681C0).
+
+SIZE is exact at 148 and the whole loop body from 0x0206818C to 0x020681B4 is
+byte-identical except for register names.  52 bytes out, all of it one
+register permutation plus one store-order decision.
+
+The store order is the interesting half and is NOT spellable:
+
+    original                       compiled
+    str r1, [sp, #4]               stm sl, {r0, r1}
+    stm r8, {r0, r1}               str r1, [r5, #4]
+
+i.e. the image writes the computed height into the LOCAL first and only then
+copies both words out with the stm; 1.1p1 issues the stm first and the
+local's own store after.  Both are 148 bytes, so this is a scheduling choice
+between two independent stores, not a semantic difference.
+
+What the size hinges on, and it is worth knowing: the extent local must be
+touched through a CACHED POINTER (`struct Ext *p = &e;` with p->w / p->h),
+matching the image's `add sb, sp, #0` at 0x02068160.  Writing the same
+accesses as plain `e.w` / `e.h` folds the pointer away and gives 144 bytes,
+four short, with 110 out.  That one decision is worth 4 bytes and 58
+mismatches, so keep it.
+
+Spellings measured at 1.1p1 -O4,p -proc arm946e:
+  52 bytes out, 148: cached pointer, `p` declared right after `e`  (BEST,
+                     kept in src/pending/func_02068150.c)
+  52 bytes out, 148: same, declarations split from initialisation
+  53 bytes out, 148: height bound to a local `h`, then p->h = h and the two
+                     out-fields written separately (tries to force the order
+                     above; it does not)
+  55 bytes out, 148: `p` declared after `lines`
+ 110 bytes out, 144: plain `e.w`/`e.h` throughout, no cached pointer
+ 110 bytes out, 144: cached pointer for the two zero stores only, named
+                     access for the loop and the height
+
+One 2.0 probe, same reasoning as the 0x02068030 row: `../2.0/sp2` gives the
+same 148 bytes with 46 mismatches rather than 52.  Again an improvement and
+again NOT pin evidence -- no kept constant, no kept branch, no re-read tell,
+and 46 is not 0.  NO PIN TAKEN.

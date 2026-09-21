@@ -70,3 +70,40 @@ void func_0203A958(int a0, int a1, u8 *a2, int a3, int a4)
     *(u16 *)(g_021469D8 + i * 0x14 + 0xc6) = *(u16 *)(a2 + 4);
     *(u16 *)(g_021469D8 + i * 0x14 + 0xc4) = 0;
 }
+
+
+---- append, 2026-09-21 (packet re-run) ----
+
+The DIFF above stands at 45 bytes under dsi/1.1p1 -O4,p; it was NOT improved
+and it is NOT pinnable.
+
+Two further spellings measured, both worse:
+
+ - Interleaving the halfword VALUE loads one step ahead of their stores
+   (nested scopes binding v0..v3 so each load retires before the previous
+   store), which is the shape the original's alternating r2/r3 value register
+   suggests: 65 bytes out, worse than the recorded 45.
+
+ - One compiler probe under `../2.0/sp2` per the FRONTEND-PINS rule. The
+   residue at +00D4..+010C does read like the documented "kept constants"
+   tell: the image materialises `mov r1, #0` LATE at +010C (`00 10 a0 e3`),
+   after the 0xc8 store, where 1.1p1 -O4,p sinks it to +00DC ahead of the
+   whole store run. That is the same shape as func_020713A4 / func_02071EFC.
+   The probe REFUTES the pin: `../2.0/sp2` gives 324 bytes against the
+   original's 316 and 189 concrete bytes out, against 45 at the pinned
+   default. So this function is 1.1p1 and the residue is a scheduling miss in
+   the C, not a front-end tell. Do not re-probe 2.0 on it.
+
+The rest of the packet was finished in this run and folded into a unit:
+0x0203AA94 / 0x0203ABC0 / 0x0203ACAC are src/matched/unit_0203AA94.c, EXACT
+over 736 bytes with all 13 relocations resolved. The levers that mattered
+there, and that are worth trying on 0x0203A958's residue:
+
+ - The +0x57 / +0x17 status byte is a PAIR OF 4-BIT BITFIELDS, `u8 lo : 4;
+   u8 hi : 4;`. Spelling the nibble tests as `>>4` / `& 0xf` compiles to
+   `asr` / `tst`; only the bitfield struct gives the image's `lsl #0x18` /
+   `lsrs #0x1c` and `lsl #0x1c` / `lsrs #0x1c` shift pairs. This is the
+   single change that took func_0203AA94 from 223 bytes out to 0.
+ - Declaration order of the locals decides the whole register allocation in
+   all three; on func_0203ABC0 four orders were measured and three of them
+   are EXACT while one is 7 bytes out on an r2/r3 swap.
