@@ -1,0 +1,76 @@
+==============================================================================
+0x02050C30  func_02050C30  DIFF  (392 bytes, compiled 392, 12 concrete out)
+    appended 2026-09-21, lane pkt_02050C30 small-5
+==============================================================================
+
+Open a particle emitter slot.  Scan the sixteen-entry table the 0x02146A88
+singleton holds for the first free slot, return 0 when all sixteen are taken,
+then allocate the 0x260-byte emitter on the caller's heap through
+func_02030734 (particle.c line 285, the 0x0000011D pool word at 0x02050DA0),
+zero it with MI_CpuFill8, copy the three three-word default blocks at
+0x020A1590 / 0x020A1584 / 0x020A1578 into +0x34, +0x40 and +0x4C, clear bit 0
+of the flags halfword at +0x32, zero the caller's own span with a second
+MI_CpuFill8, wire the span fields at +0x0C/+0x10/+0x14, write the slot index
+to the byte at +0x25A, publish the emitter into the table, optionally run
+func_02051648 when the third argument is NOT 1, and finish by storing
+func_02052DC8's result at +0x00.
+
+SIZE IS EXACT at 392 and ALL ELEVEN relocation sites resolve: func_02030734
+and MI_CpuFill8 by `label`, func_02051648 by `label`, func_02052DC8 by
+`sole-ref`, and all six pool words by `literal` -- 0x02146A88 (x40, e.g.
+0x02050BE4), 0x020A7FC0 (x4, e.g. 0x02050BE0), 0x020A1590 / 0x020A1584 /
+0x020A1578 (x4 each, e.g. 0x02051748 / 0x0205174C / 0x02051750) and
+0x020A15A8 (x18).  Nothing here is evidence-starved.
+
+The residue is TWELVE bytes and it is entirely the argument setup of the
+final func_02052DC8 call, one scheduling decision:
+
+    original                          compiled
+    ldr r3, [pc, #0x54]               lsl r0, r0, #0x10
+    lsl r0, r0, #0x10                 lsr r2, r0, #0x10
+    lsr r6, r0, #0x10                 lsl r0, r1, #0x10
+    lsl r1, r1, #0x10                 str r2, [sp]
+    lsl r2, r5, #0x10                 lsr r2, r0, #0x10
+    ldr r0, [r3, r4, lsl #2]          lsl r1, r5, #0x10
+    str r6, [sp]                      ldr r0, [pc, #0x3c]
+    lsr r4, r1, #0x10                 str r2, [sp, #4]
+    lsr r3, r2, #0x10                 ldr r0, [r0, r4, lsl #2]
+    mov r1, #0x18                     lsr r3, r1, #0x10
+    mov r2, #0xc8                     mov r1, #0x18
+    str r4, [sp, #4]                  mov r2, #0xc8
+
+The three 16-bit truncations are `lsl #16` / `lsr #16` pairs in both columns.
+The image issues the table pool load FIRST, then all three `lsl`s back to
+back, and only then the three `lsr`s interleaved with the two stack stores;
+1.1p1 -O4,p pairs each `lsl` with its own `lsr` immediately and sinks the
+pool load into the middle.  Every byte before 0x02050D58 is identical.
+
+Two decisions that ARE settled and worth keeping:
+  * the three default blocks are STRUCT ASSIGNMENTS of a three-word type,
+    not nine field stores.  Written out field by field the compiler emits
+    nine ldr/str pairs off three separate pool bases, 416 bytes and 346 out
+    (the `aggregate-assignment-is-ldm-stm` idiom).
+  * the trailing three arguments are `u32` PARAMETERS truncated with `(u16)`
+    casts, not `u16` parameters.  Declared `u16` the compiler emits a single
+    `ldrh` per argument instead of the image's `ldr` + `lsl`/`lsr` triple,
+    368 bytes, 86 out and four short at every one of the three sites.
+  * the free-slot scan is `do { if (tab[i] == 0) break; i++; } while (i < 16);`
+    followed by a separate `if (i >= 16) return 0;`.  The `while` form with
+    the bound test at the top reorders the `ldr`/`cmp` pair and costs 8 bytes.
+  * the func_02051648 guard's polarity is `if (a2 == 1)`, i.e. the call is in
+    the FALSE arm; `!= 1` inverts the `bne` at 0x02050D28.
+
+Spellings measured at 1.1p1 -O4,p -proc arm946e, all 392 bytes:
+  12 out: three named `u16` temporaries assigned before the table load  (BEST)
+  12 out: same, table load first
+  12 out: same, temporaries written as explicit `<< 16 >> 16`
+  12 out: func_02052DC8 declared with `u16` in its last three parameter slots
+  13 out: the three truncations inline in the call expression
+Permuter, hill mode, budget 30: 37 mismatches by its own count at baseline
+and 37 at every one of the thirty variants it reached (param-signedness,
+decl-swap, init-fold, volatile-param).  No mutation touched the schedule.
+
+NOT a compiler-pin candidate.  One probe under `../2.0/sp2`: 380 bytes, i.e.
+TWELVE SHORT of the original, so 2.0 is strictly further away than the
+default and no tell of the FRONTEND-PINS families is present.  1.1p1 stays.
+

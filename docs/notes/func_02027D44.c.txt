@@ -1,0 +1,95 @@
+func_02027D44  0x02027D44  pkt_02027D44
+2026-09-21
+
+Near miss: SIZE-exact (248 == 248), 11 of 11 relocations resolved (all
+class label: func_020362DC, func_0203633C, func_020355C4, func_02027B30 x3,
+func_020355D8 x2, func_020061E4 x4), residual ~48 concrete bytes, all of it
+register allocation plus one 2-byte cross-jump.
+
+Shape recovered.  Byte-identical for the whole first half (+0x00..+0x64) and
+the whole final tail's instruction sequence:
+
+  held = func_020362DC();  hit = func_0203633C();
+  if (m->f10 == 1) return;
+  if (func_020355C4() == 1) {          <- VOID call, no argument.  The
+      if (held & 2) goto move;            original has no `adds r0,r5,#0`
+      if ((held & 0xC3) == 0) return;     before the blx; passing `m` adds
+      func_02027B30(m->f18[m->cursor], m->f34, 1);   two bytes and shifts
+      func_020355D8(0);                              everything after it.
+      func_020061E4(0x548);
+      return;
+  }
+move:
+  prev = m->cursor;                    <- signed int, NOT u8: +0x7C is
+  if (hit & 0x40)      { cursor = prev ? prev-1 : count-1; h2 = 0; s(0x54C); }
+  else if (hit & 0x80) { if (prev >= count-1) cursor = 0;
+                         else cursor = prev+1;  h2 = 0; s(0x54C); }
+  else { one = 1;
+         if (held & one) { m->f0C = one;
+                           s(m->f1C[prev*0xC+8] == one ? 0x551 : 0x54C); }
+         else if (held & 2) { m->f0C = one; cursor = count-1;
+                              s(0x551); func_020355D8(0); } }
+  if (prev == m->cursor) return;
+  func_02027B30(m->f18[prev],      m->f34, 0);
+  func_02027B30(m->f18[m->cursor], m->f34, 1);
+
+count is `*(u8 *)((char *)m + 0x24)`; s() is func_020061E4.
+
+Levers that moved bytes, in order found:
+
+  264 -> 260  func_020355C4 takes NO argument.  The original's blx at +0x16
+              has no r0 setup; declaring it `int f(void)` removes the
+              `adds r0,r5,#0` and realigns the whole first third.
+  260 -> 252  `prev` must be a signed int, not u8.  +0x7C/+0x7E is a plain
+              `cmp r4,r0; blt`, with no `lsls/lsrs #0x18` truncation pair,
+              which only a signed compare produces.
+  252 -> 248  the 0x80 arm's source order is `if (prev >= count-1) cursor=0;
+              else cursor=prev+1;` -- the fall-through arm in the original is
+              `movs r0,#0`, and this compiler never reorders if/else (see
+              docs/idioms/the-fall-through-arm-is-the-source-order.md).
+  248 -> 248  the `held & 2` arm plays sound 0x551, not 0x548: the pool word
+              at +0xB6 is pc#0x38 -> 0x02027E34 = 0x0551.  Getting it wrong
+              costs a FOURTH pool word (the original has exactly three:
+              0x0548, 0x0551, 0x054C at 0x02027E30/34/38) while the total
+              still reads 248, so the size alone does not catch it.
+
+Measured and rejected:
+
+  m->h2 = 0 written into both branches   252 bytes -- the strh stops being
+  of the `held & one` arm                cross-jumped and each arm grows.
+  `one & held` instead of `held & one`   48 -- identical, the operand-order
+                                         idiom has no purchase here.
+  `held & (one + one)` for the 0x40      48 -- no change; the 2 still lands
+  mask                                   in its own register.
+  `one` declared after `prev` / before   48 both ways.
+  `one = 1` folded into the declaration  48 -- same as assigning it inside
+  vs. assigned inside the else arm       the arm.
+  volatile struct Menu *m                48 -> "56" by the permuter's count
+                                         but it introduces a NEW diff at
+                                         +0x2A (the ldrb/ldr pair reorders)
+                                         and is a semantic change this
+                                         function does not justify.  Not a
+                                         principled fix; rejected.
+
+Permuter: two runs (hill seed 1, random seed 7, budget 30 each, 37 mutations
+available) found nothing but `volatile-param` above.
+
+What is left.  Two independent residues:
+
+  (a) register allocation in the `held & one` / `held & 2` arms.  The
+      original pins the constant 1 in r0 and copies `held` into r1
+      (`movs r0,#1; adds r1,r6,#0; tst r1,r0`, then `str r0,[r5,#0xc]`),
+      and keeps r0 = 1 live all the way through the `held & 2` arm, where
+      it spends r1 on the mask 2 (`movs r1,#2; tst r1,r6`) and still stores
+      r0.  Every spelling tried gets the mirror image: 1 in r1, held in r0.
+      What is live across the arm that the compiler does not know about is
+      the likely tell -- something else in the original is using r0 for a
+      reason not yet recovered.
+  (b) a 2-byte cross-jump.  The original's `held & one` arm ends both its
+      branches with `ldr r0,[pc,#0x4c]; b #0x2027dac`, jumping INTO the
+      0x40 arm at the shared `bl func_020061E4`.  The compiled form merges
+      the second of those two into a fall-through and loses two bytes,
+      which shifts every branch target after +0x66 down by two.  Forcing
+      the arms apart (writing the strh in each) overshoots to 252.
+
+Not a candidate for src/pending/: DIFF, not a wildcarded relocation.

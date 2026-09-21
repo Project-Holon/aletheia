@@ -1,0 +1,86 @@
+DIFF evidence, wave 25 lane, packet pkt_02037288 (0x02037288, 0x02037478).
+Companion to docs/notes/pkt_02037288.c.txt, which records func_02037680 in
+the same packet.  Neither function below is filed; both are near misses whose
+whole residue is register/scheduling, not semantics.
+
+
+func_02037288  0x02037288  496 bytes  ARM  verdict DIFF, 4 bytes (1 pair)
+
+The C reproduces 492 of 496 bytes and all 17 relocation sites resolve.  The
+whole residue is ONE adjacent instruction pair, inside the fourth of nine
+func_02030734(heap, size, align, __FILE__, __LINE__) calls:
+
+  ORIGINAL @ +0x00B0                      COMPILED
+  +00B0  mov r3, r4                       lsl r1, r1, #1
+  +00B4  lsl r1, r1, #1                   mov r3, r4
+
+r4 holds the __FILE__ pointer str_020A7A24, kept live across all nine calls;
+r1 is the size argument, `g_021469D0->f1e0 * 2`.  The original writes the
+third argument register BEFORE it finishes computing the second; the compiled
+form finishes the size first.  The immediately preceding call at line 0xe6
+has size `f1e0 * 3` and emits `mov r3, r4` then `add r1, r1, r1, lsl #1` --
+the original order -- under BOTH, so the difference is only the single-
+instruction `lsl` form of `* 2`, not the argument shape.
+
+Measured and all identical at 4 bytes:
+  * `f1e0 * 2`, `2 * f1e0`, `f1e0 + f1e0`, `f1e0 << 1`
+  * the size bound to a `u32 sz` local declared immediately before the call
+  * the f1e0 read through `*(volatile u32 *)&...`
+  * `const u8 *file` versus `u8 *file` in the prototype
+  * tools/permute.py --mode hill --budget 30: 30 compiles, best still 4
+Under `--cc ../2.0/sp2` the same C is 469 concrete bytes out (one probe, the
+pin is DECLINED; 1.1p1 is right for this function).
+
+Three things the file DOES establish and the next lane should keep:
+  * the prototype is `int func_02037288(u32 a0, u32 heap, u32 c)`, NOT void
+    as src/matched/func_02037700.c declares it.  The tail's `mov r0, #1` at
+    +0x01D0 is a `return 1`, and without it the file is 38 bytes out.
+  * func_02030734's first parameter is `u32` here, not `u16`: the original
+    passes `mov r0, r8` with no narrowing at any of the nine sites, unlike
+    src/matched/func_0203174C.c where the `lsl`/`lsr` pair appears per call.
+  * the +0x1e0 store is `(c != 0) ? m + 0x40 : a0 + 0x40`, two separate adds
+    (`add r1, r7, #0x40` / `addeq r1, r5, #0x40`); the factored
+    `(c != 0 ? m : a0) + 0x40` gives `movne r5, r8` plus one add and is 28
+    bytes longer.
+
+
+func_02037478  0x02037478  520 bytes  ARM  verdict DIFF, 8 bytes over
+
+The C is structurally identical instruction for instruction, all 18
+relocation sites resolve, and the ONLY difference is one extra callee-saved
+register: the original frame is `push {r4, r5, r6, r7, r8, sb, sl, lr}`
+(8 registers, 520 bytes), the compiled one
+`push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` (10, 528).
+
+The cause is common subexpression elimination of a SIZE PRODUCT across a
+(clear, copy) pair.  The function does five passes shaped
+
+    func_02082BCC(p, 0, n * k);
+    func_0203640C(dst, p, n * k);
+
+and the original rematerialises `n * k` at both calls -- `lsl r2, r4, #1`
+twice at +0x0090 and +0x00A8 for `n4 * 2`, `rsb r2, r5, r5, lsl #4` twice at
++0x00DC and +0x00F0 for `n5 * 15`, `add r2, r2, r2, lsl #1` twice for
+`f1e0 * 3` -- while 1.1p1 -O4,p computes each product once into fp and spends
+`mov r2, fp`, which is what costs the tenth register.  The count itself (r4,
+r5, r8) is correctly held in a callee-saved register under both; it is only
+the product that differs.
+
+Measured, all 528 bytes:
+  * `n * 2` / `2 * n` / `n + n` / `n << 1` at every site
+  * `int` versus `u32` for the three counts and the loop index
+  * tools/permute.py --mode hill --budget 30: 29 compiles, best 350 (baseline
+    352), no variant under 528
+A `volatile` count local forces the reload but also reloads the count itself
+and is 532 bytes / 459 out.
+Under `--cc ../2.0/sp2` the same C is 600 bytes, 525 concrete out (one probe,
+the pin is DECLINED).
+
+This is the same family as the "kept constants" rows of docs/FRONTEND-PINS.md
+in shape but NOT in front end: here 2.0 is much worse, so the lever must be a
+source spelling that stops the product being CSEd while keeping the count
+cached.  The obvious untried candidate is a size helper the original inlined,
+i.e. the two calls taking their length from a small inline function rather
+than from the same expression twice.
+
+Both sources are reproducible from this note; neither was left in src/.

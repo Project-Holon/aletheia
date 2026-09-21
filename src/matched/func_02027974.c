@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * field_sound_system.c.  Blocked on: label/matched.  Every concrete byte
- * reproduces; the two unresolved relocations are the calls to func_02027D44
- * and func_02027E3C, whose only branch anywhere in the image is the one
- * inside this function, and neither address has a manifest entry yet.  A
- * split cannot help: both call sites sit in this single function.  Filing
- * either callee EXACT would promote this file to EXACT unchanged.
+ * field_sound_system.c.  EXACT: all seven relocations resolve.  The calls to
+ * func_02027D44 and func_02027E3C carry on class sole-ref/code (each is the
+ * only branch anywhere in the image to its target, and each target is exactly
+ * a traced Thumb function start); func_02027E3C was additionally filed EXACT
+ * in src/matched/ on 2026-09-21, which would carry that site on class matched
+ * as well.
  * symbols:
  *   func_020278F4  0x020278F4  thumb
  *   func_02027D44  0x02027D44  thumb

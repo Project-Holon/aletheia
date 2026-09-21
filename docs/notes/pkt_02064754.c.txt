@@ -1,0 +1,85 @@
+==============================================================================
+0x02064754  func_02064754  DIFF  (352 bytes; best C is 356, 55 concrete out)
+    appended 2026-09-21, lane pkt_0206469C small-5
+==============================================================================
+
+Bind a cell bank to an animation object, in one of two shapes chosen by the
+last argument.  kind == 1 is the FLAT shape: one array of 0x5C-byte cells,
+sized by func_02064648(a4), each initialised with func_0206428C against the
+bank row func_020627D8(bank, 0) returns, and each given a `1` at +0x58.
+Anything else is the TWO-LEVEL shape: func_020648E0(cells) counts 0x28-byte
+group headers, the 0x58-byte cell array starts immediately after them at
+`cells + n * 0x28`, each group header is opened with func_02064178(hdr, 1)
+and made to point at its own cell, which is then initialised the same way.
+Both arms end in a byte-identical four-call tail -- func_02062F38(o),
+`o->f44 = a4`, func_02064140(&o->f48, 1), `o->f30 = 0` -- which the image
+WRITES OUT TWICE, at 0x02064868..0x02064888 and again at
+0x0206488C..0x020648AC.
+
+Everything reproduces.  All ELEVEN relocation sites resolve (nine `label`,
+one `sole-ref`, and func_020627D8 by `label x34`), the two duplicated tails
+come out duplicated, both `(u16)(i + 1)` loop counters come out as the
+`add/lsl #16/cmp .. lsr #16/lsr #16/bhi` quintet, and from 0x0206477C
+onward the two columns are instruction-for-instruction identical, only
+shifted by one slot and with the callee-saved set rotated.
+
+The residue is ONE instruction and it is a CSE the C cannot suppress:
+
+    original                          compiled
+    cmp r4, #1                        cmp r4, #1
+    str r0, [sp, #0x28]               mov r5, #0      <- hoisted here
+    bne #0x20647e8                    bne #0x20647e8
+    mov r0, #1                        ldr r0, [sp, #0x28]
+    ...  mov r6, #0  (arm 1, after    ...
+         the func_02064648 call)
+    ...  mov r5, #0  (arm 2, after
+         the func_020648E0 mla)
+
+The image materialises the loop index's zero SEPARATELY in each arm, after
+that arm's own counting call.  Both front ends CSE the two into one
+`mov rN, #0` placed above the `bne`, which costs the four bytes and then
+rotates the whole callee-saved allocation (n r5->sb, i r6->r5, base r4->r6,
+cell sb->r4) through both arms.
+
+Spellings measured at 1.1p1 -O4,p -proc arm946e:
+  356 bytes, 55 out: `void *volatile a4` + `a4 = (void *)a4;`, separate
+                     index locals `i` (arm 1) and `j` (arm 2), literal 0 for
+                     o->f3C / o->f34   (BEST)
+  352 bytes, 60 out: same without the volatile (loses the `ldr r0, [sp,#0x28]`
+                     reload before the func_02064648 call, so the head is one
+                     instruction short instead of one long)
+  352 bytes, 60 out: one shared index local
+  360 bytes, 83 out: index init moved below the `if (n == 0)` guard in arm 1
+  368 bytes:         a4 cached in a separate `void *volatile` local (buys its
+                     own stack slot)
+  348 bytes:         plain `void *a4`, no self-assign (no respill at all)
+Permuter, hill mode, budget 30 from the 356 baseline: every variant it found
+was `volatile-drop`, i.e. back to the 352/60 row.  No mutation reached the
+split.
+
+The a4 respill is worth recording on its own.  The image reads the fifth
+stack argument at 0x02064760 and stores it straight back to its OWN incoming
+slot at 0x02064774, then re-reads it at 0x02064788 for the func_02064648
+call and once more in each tail: four reads and one write of [sp, #0x28].
+Only `void *volatile a4` plus an explicit self-assignment reproduces that
+pattern; volatile alone gives the four reads and no write, and the
+self-assignment alone gives the write but lets the value stay live in a
+register across the branch.
+
+NOT a compiler-pin candidate.  One probe under `../2.0/sp2` (the packet's
+sibling func_02064AB4 carries that pin for the cross-jump tell, so the
+family was worth one look): 356 bytes, 42 concrete out -- the SAME size as
+1.1p1, so 2.0 hoists the zero identically.  The tell that pins
+func_02064AB4, arms writing a shared tail out separately, is already
+satisfied here by BOTH front ends, since both duplicate the two tails.
+There is no byte in this function that 1.1p1 cannot emit, so under the
+project rule no pin may be taken.
+
+What would close it: a spelling that keeps the two index zeros apart across
+the `bne`.  Everything tried below CSEs them:
+  - separate locals `i` and `j`, declared in either order
+  - `o->f3C = 0; o->f34 = 0;` written as literals, as `j`, and as a third
+    named zero local
+  - the index init moved above and below each arm's counting call
+  - `for (i = 0; ...)` in place of the do/while preamble in each arm
+
