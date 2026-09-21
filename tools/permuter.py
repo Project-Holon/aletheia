@@ -31,7 +31,7 @@ Usage:
 Requires pycparser (python3 -m pip install --user pycparser).  Sources that use inline
 asm or preprocessor macros in the function body are not parseable here; use permute.py.
 """
-import argparse, copy, difflib, hashlib, os, random, re, sys, threading, time
+import argparse, copy, difflib, hashlib, os, random, re, subprocess, sys, threading, time
 from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1141,56 +1141,119 @@ class Score:
 
 
 class Scorer:
+    """Compile-and-compare with a content-addressed cache.
+
+    Variants are compiled in BATCHES: mwccarm accepts many source files per invocation and
+    the cost is almost all process start-up under wine, so one start serves up to
+    BATCH variants (measured: 8 files in 0.34 s against 0.33 s for one).  Each batch gets
+    its own temp dir; the post-compile steps mirror match.run_one() exactly.
+    """
+    BATCH = 16
+
     def __init__(self, cfg):
         self.cfg = cfg
         self.cache = {}
         self.lock = threading.Lock()
         self.compiles = 0
+        self.decls = match.declared_symbols(match.read_header(cfg["src"]))
+        self.srckey = match.source_key(cfg["src"])
+        self.reg = match.find_region(cfg["addr"], cfg["region"])
+        self.tsize, self.tthumb = match.target_extent(cfg["addr"], self.reg.name)
 
     def score(self, text):
-        key = hashlib.sha1(text.encode("utf-8")).hexdigest()
-        with self.lock:
-            hit = self.cache.get(key)
-        if hit is not None:
-            return hit
-        val = self._run(text, key)
-        with self.lock:
-            self.cache[key] = val
-            self.compiles += 1
-        return val
+        return self.score_many([text])[0]
 
-    def _run(self, text, key):
+    def score_many(self, texts):
+        keys = [hashlib.sha1(t.encode("utf-8")).hexdigest() for t in texts]
+        with self.lock:
+            todo = {k: t for k, t in zip(keys, texts) if k not in self.cache}
+        items = list(todo.items())
+        chunks = [items[i:i + self.BATCH] for i in range(0, len(items), self.BATCH)]
+        if chunks:
+            with ThreadPoolExecutor(max(1, min(len(chunks), self.cfg.get("jobs", 4)))) as ex:
+                for res in ex.map(self._compile_batch, chunks):
+                    with self.lock:
+                        self.cache.update(res)
+                        self.compiles += len(res)
+        with self.lock:
+            return [self.cache[k] for k in keys]
+
+    def _compile_batch(self, items):
         c = self.cfg
-        d = os.path.join(c["tmp"], key[:12])
+        d = os.path.join(c["tmp"], items[0][0][:12])
         os.makedirs(d, exist_ok=True)
-        path = os.path.join(d, os.path.basename(c["src"]))
-        with open(path, "w") as fh:
-            fh.write(text)
+        paths = []
+        for k, t in items:
+            pth = os.path.join(d, "v_%s.c" % k[:12])
+            with open(pth, "w") as fh:
+                fh.write(t)
+            paths.append(pth)
+        exe = match.compiler_path(c["cc"])
+        cmd = [exe] + list(match.BASE_FLAGS) + list(c["flags"])
+        if c["thumb"]:
+            cmd += ["-thumb"]
+        if c["lang"]:
+            cmd += ["-lang", c["lang"]]
+        cmd += ["-ir", d]
+        if c["sdk_include"] and os.path.isdir(match.SDK_INCLUDE):
+            cmd += ["-I+" + match.SDK_INCLUDE]
+        cmd += ["-c"] + paths
+        env = dict(os.environ)
+        env.setdefault("MWLibraries", d)
+        env.setdefault("MWLibraryFiles", " ")
+        env.setdefault("WINEDEBUG", "-all")
+        env.setdefault("WINEDLLOVERRIDES", "mscoree,mshtml=")
+        if sys.platform != "win32" and exe.endswith(".exe"):
+            import shutil
+            cmd = [shutil.which("wine64") or shutil.which("wine") or "wine64"] + cmd
         t0 = time.time()
         try:
-            r = match.run_one(path, c["func"], c["addr"], c["cc"], c["flags"], c["thumb"], c["lang"],
-                              region=c["region"], sdk_include=c["sdk_include"])
+            p = subprocess.run(cmd, cwd=d, capture_output=True, timeout=300, env=env)
+            log = (p.stdout + b"\n" + p.stderr).decode("latin1", "replace")
         except Exception as exc:
-            return Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=str(exc)[:120])
-        finally:
-            dt = time.time() - t0
-            if dt > 20:
-                print("  [warn] one compile took %.0fs (text %d bytes) %s" % (dt, len(text), d), flush=True)
+            log = str(exc)
+        dt = time.time() - t0
+        if dt > 30:
+            print("  [warn] a batch of %d compiles took %.0fs" % (len(items), dt), flush=True)
+        out = {}
+        for (k, t), pth in zip(items, paths):
+            obj = pth[:-2] + ".o"
+            if not os.path.exists(obj):
+                # find this file's own error line, else the first error of the batch
+                base = os.path.basename(pth)
+                err = next((ln.strip() for ln in log.split("\n") if base in ln and "error" in ln.lower()), None)
+                out[k] = Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=err or match.first_line(log))
+                continue
+            try:
+                out[k] = self._post(obj, pth)
+            except Exception as exc:
+                out[k] = Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=str(exc)[:120])
+        return out
+
+    def _post(self, obj, srcpath):
+        """The post-compile half of match.run_one()."""
+        c = self.cfg
+        fb = match.extract_function(obj, c["func"], prefer_thumb=c["thumb"])
+        n = len(fb.data)
+        match.resolve_relocations(fb, c["addr"], self.decls, src=self.srckey)
+        _, tgt = match.target_bytes(c["addr"], n, region=self.reg.name)
+        status, diffs = match.compare(fb, tgt)
+        note = ""
+        if self.tsize is not None and self.tsize != n:
+            note = "listing says the original is %d bytes, compiled %d" % (self.tsize, n)
+            if status in ("EXACT", "MATCH"):
+                status += "*"
+        if self.tthumb is not None and self.tthumb != fb.thumb:
+            status = "ISA"
+        tsize = self.tsize or n
         try:
-            pass
-        except Exception as exc:
-            return Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=str(exc)[:120])
-        if r.status == "CCERR" or r.func is None:
-            return Score("CCERR", 10 ** 6, 10 ** 9, 0, 0, note=match.first_line(r.log))
-        tsize = r.target_size or r.size
-        try:
-            _, tgt = match.target_bytes(c["addr"], tsize, region=r.region or None)
+            _, tgt_full = match.target_bytes(c["addr"], tsize, region=self.reg.name)
         except Exception:
-            tgt = r.target
-        asm, regdiff = asm_score(r.func.data, r.func.mask, tgt, r.func.thumb)
-        wild = [s.describe() for s in r.func.sites if not s.resolved]
-        miss = len(r.diffs) if r.status.startswith("DIFF") else 0
-        return Score(r.status, miss, asm, r.size, tsize, wild, r.note, regdiff)
+            tgt_full = tgt
+        asm, regdiff = asm_score(fb.data, fb.mask, tgt_full, fb.thumb)
+        wild = [s.describe() for s in fb.sites if not s.resolved]
+        miss = len(diffs) if status.startswith("DIFF") else 0
+        return Score(status, miss, asm, n, tsize, wild, note, regdiff)
 
 
 # ---------------------------------------------------------------------------
@@ -1207,8 +1270,7 @@ class Variant:
 def evaluate(prog, scorer, plans, jobs):
     """plans: list of (fdef, labels). Compile in parallel; return Variants."""
     texts = [prog.render(fd) for fd, _ in plans]
-    with ThreadPoolExecutor(max(jobs, 1)) as ex:
-        scores = list(ex.map(scorer.score, texts))
+    scores = scorer.score_many(texts)
     return [Variant(fd, labels, sc, t) for (fd, labels), sc, t in zip(plans, scores, texts)]
 
 
@@ -1231,7 +1293,7 @@ def search(prog, scorer, args, rng, log):
     t0 = time.time()
     while scorer.compiles < args.budget:
         plans = []
-        for _ in range(max(args.jobs, 1)):
+        for _ in range(max(args.jobs, 1) * Scorer.BATCH // 2):
             if scorer.compiles + len(plans) >= args.budget:
                 break
             # parent: mostly the current point; sometimes another elite; rarely the base
@@ -1410,7 +1472,7 @@ def main(argv=None):
     tmp = os.path.join("/tmp", "permuter-%d" % os.getpid())
     os.makedirs(tmp, exist_ok=True)
     cfg = dict(src=args.src, func=args.func, addr=int(args.addr, 0), cc=cc, flags=flags.split(), thumb=args.thumb, lang=lang,
-               region=region, sdk_include=not args.no_sdk_include, tmp=tmp)
+               region=region, sdk_include=not args.no_sdk_include, tmp=tmp, jobs=args.jobs)
     scorer = Scorer(cfg)
     if args.explain:
         v = evaluate(prog, scorer, [(prog.funcdef(), [])], 1)[0]
