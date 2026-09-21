@@ -308,3 +308,159 @@ void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
  * this pass for budget, but it is the cheaper of the two now that the
  * allocator question is answered.
  * ================================================================ */
+
+/* ================================================================
+ * 2026-09-21, THIRD pass (unblock lane).  Residual 38 -> 7 concrete
+ * bytes, and the SIZE is now exact (260 == 260).  Residue (b) of the
+ * second pass is SOLVED; only residue (a) survives.
+ *
+ * THE LEVER FOR (b): the two arms of case 1 must assign `v` and `q` in
+ * OPPOSITE orders.  Not both v-then-q (the second pass's C, 258 bytes,
+ * the compiler CSEs `q = buf - dst` above the branch), and not both
+ * q-then-v (260 bytes but 15 out, the arms then schedule the load
+ * wrong).  The one spelling that reproduces the original's duplicated
+ * `subs r1, r4, r2` at +0xE6 AND +0xEC is:
+ *
+ *     if (src < len) {
+ *         v = *(u32 *)(buf - src);      // v FIRST in the taken arm
+ *         q = (u32 *)(buf - dst);
+ *     } else {
+ *         q = (u32 *)(buf - dst);       // q FIRST in the else arm
+ *         v = fill;
+ *     }
+ *     t++;
+ *     *q = v;
+ *
+ * Read it as the shared-exit-block idiom with a twist: writing the same
+ * statement order in both arms is exactly what invites the cross-jump.
+ * Asymmetric order in the two arms is what keeps both copies alive.
+ * This alone fixes the two missing bytes AND the six displaced branch
+ * targets (+0x46, +0x62, +0xB6, +0xE0 and the two switch-table entries
+ * for cases 2 and 3), 38 -> 7.
+ *
+ * Measured on the way, from the second pass's u8 * base (258/38):
+ *   v-then-q in BOTH arms (the second pass's C)          258 bytes, 38
+ *   q-then-v in BOTH arms                                260 bytes, 15
+ *   v FIRST taken / q FIRST else   <-- THE ANSWER        260 bytes,  7
+ *   q FIRST taken / v FIRST else                         260 bytes, 15
+ *   ternary for v, q hoisted above the if                258 bytes, 44
+ *   store `*q = v` duplicated into both arms too         262 bytes, 44
+ *
+ * WHAT IS LEFT: 7 concrete bytes, residue (a) unchanged and unreached.
+ * Case 0's inner loop holds the counter `x` in r5 and `dst` in r2; the
+ * compiled form has them the other way round.  All six mismatching
+ * slots (+0x6A, +0x6C, +0x6E, +0x94, +0x98, +0x9A) are that one swap.
+ * Case 1's inner loop, which now matches byte for byte, gets the same
+ * two locals right from the same declarations, so this is an arm-local
+ * allocation decision, not a declaration-order one.
+ *
+ * Measured and rejected this pass, all held at 7 unless noted:
+ *   declaration order of x / dst / src / y, 5 permutations   7, 8, 8, 8
+ *   x declared u32                                              9
+ *   inner loop as do/while with an explicit x++                 7
+ *   dst = x * 4 + y   /   dst = (x << 2) + y                    7, 8
+ *   src's operands commuted ((wt*...) | (t&7))                  7
+ *   src computed before dst                                   252 bytes
+ *   t++ moved above the store                                  39
+ *   case 0's store written out in each arm of an if/else         8
+ *   case 0 given a `v` local via the ternary                     7
+ *   case 0 given a `q` pointer local (buf + dst)              264 bytes
+ *   case 0 mirrored on case 1's v/q asymmetric shape          264 bytes
+ *   separate counters x (case 0) and x2 (case 1)                15
+ *
+ * The next lever is whatever changes the ALLOCATOR'S RANKING inside
+ * case 0 alone.  Case 1 wins r5 for `x` because its inner body has one
+ * more live value (`q`) than case 0's; case 0 has a register to spare
+ * and spends it the other way.  Something that consumes a register in
+ * case 0's body without changing its bytes -- or a shape where `dst`
+ * genuinely has two uses the way case 1's does -- is what to try, since
+ * every reordering, retyping and rebinding above does not reach it.
+ *
+ * Best C reached this pass, 260 bytes, 7 concrete out, DIFF:
+ */
+
+/*
+ * function: func_02020A58
+ * address:  0x02020A58
+ * packet:   pkt_02020A58
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ *
+ * symbols:
+ *   func_020437D4  0x020437D4  arm
+ *   func_020437DC  0x020437DC  arm
+ *   func_020437E4  0x020437E4  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern u8  *func_020437D4(void *bmp);
+extern u16  func_020437DC(void *bmp);
+extern u16  func_020437E4(void *bmp);
+
+void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
+{
+    u32  wt;
+    u32  fill;
+    s32  len;
+    s32  y;
+    s32  x;
+    u32  t;
+    s32  src;
+    s32  dst;
+    u8  *buf;
+
+    buf = func_020437D4(bmp);
+    fill = (color << 24) | (color << 16) | (color << 8) | color;
+    wt = (u32)func_020437DC(bmp) >> 3;
+    len = size;
+    if (len == 0)
+        len = (wt * ((u32)func_020437E4(bmp) >> 3)) << 5;
+
+    switch (dir) {
+    case 0:
+        for (y = 0; y < len; y += 0x20) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                dst = y + x * 4;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 2);
+                *(u32 *)(buf + dst) =
+                    (src < len) ? *(u32 *)(buf + src) : fill;
+                t++;
+            }
+        }
+        break;
+    case 1:
+        buf = buf + (len - 4);
+        for (y = 0; y < len; y += 0x20) {
+            t = start;
+            for (x = 0; x < 8; x++) {
+                u32 *q;
+                u32  v;
+                dst = y + x * 4;
+                src = y + (((t & 7) | (wt * (t & ~7u))) << 2);
+                if (src < len) {
+                    v = *(u32 *)(buf - src);
+                    q = (u32 *)(buf - dst);
+                } else {
+                    q = (u32 *)(buf - dst);
+                    v = fill;
+                }
+                t++;
+                *q = v;
+            }
+        }
+        break;
+    case 2:
+    case 3:
+        break;
+    }
+}
+
+/* ================================================================ */

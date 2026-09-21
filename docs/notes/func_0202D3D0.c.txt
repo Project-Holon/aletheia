@@ -101,3 +101,34 @@ now down to ONE unresolved site.  func_0202D2EC was filed EXACT this wave
 THM_CALL is attested `matched`.  Only the +0x50 call to func_0202D3D0 is
 left; this function is its only caller image-wide, so nothing but an EXACT
 here will promote that file.
+
+---
+2026-09-21 (third pass, unblock lane) -- NOT RE-ATTEMPTED.
+
+Budget note, recorded so the next lane does not assume this address was
+skipped for lack of interest.  This pass worked the same unblock list
+and spent its whole budget on the four addresses above it:
+0x02073DFC (the one licensed ../2.0/sp2 probe, which fixed the +0xD4
+zero and left a three-register rotation), 0x02020A58 (38 -> 7 concrete
+bytes, the asymmetric-arm lever, see its note), 0x0202AFAC and its two
+twins, and 0x02022490.  Nothing new was measured here.
+
+The second pass's conclusion stands unqualified: 29 concrete bytes, one
+allocator decision (idx in r0 / v in r2 with the modulo sum parked in
+r5, against the compile's idx in r2 / v in r1 and the sum in r0), and
+sixteen source-level spellings measured against it without moving a
+byte.  Do not re-run that list.
+
+One cross-reference worth carrying in: the 0x02020A58 result this pass
+is a case where a residual that also looked like pure register naming
+DID fall to a source change -- but the lever was a TYPE tell (the
+accessor's return type, second pass there) and then an ASYMMETRY tell
+(the two arms of an if/else assigning their two locals in opposite
+orders, third pass there), not any reordering or rebinding.  Neither
+class has been tried here: every entry in this note's rejected list is
+a reordering, a rebinding or a retyping of a LOCAL, never a change to
+an extern's declared return type and never a deliberate asymmetry
+between the two nibble arms.  Those are the two things to try next.
+
+Still DIFF, still evidence only.  src/pending/func_0202D760.c remains
+blocked on this one site.

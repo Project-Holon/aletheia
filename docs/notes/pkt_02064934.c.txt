@@ -324,3 +324,53 @@ passed to func_020643CC at the end is at self+0x34.  The switch value is a
 `(u8)` narrowing of a word field (`and r6, r1, #0xff`, not `ldrb`).
 
 Neither row's C is left in src/matched by this pass; this note is its home.
+
+==============================================================================
+2026-09-21, pkt_02064934 lane: 0x02064AB4 is CLOSED -- EXACT under the
+../2.0/sp2 pin, filed as src/matched/func_02064AB4.c
+==============================================================================
+
+The two rows above (lane r4-1 and wave r7 lane promo-3) both landed on the
+same residue and both stopped at "the residue is codegen".  They were right,
+and it is the codegen of the WRONG FRONT END.  Neither lane probed the pin.
+
+Taking the C from "C source as last compiled (lane r4-1)" UNCHANGED -- every
+lever those two lanes found is correct and none needed revisiting, including
+the `int kind;`-before-`int item;` declaration order that puts the masked
+switch value in r6 and the call result in r7 -- and running it once under
+../2.0/sp2 gives EXACT: 180 bytes, 0 concrete mismatches, all 9 relocation
+sites resolved.  Under 1.1p1 the identical source is 172 bytes and 64 out.
+
+THE TELL is the "kept branches" row of docs/FRONTEND-PINS.md, in its
+cross-jump form (the same shape as src/matched/func_0206A5B4.c and
+src/matched/func_02063828.c).  The image writes the case-2 call tail out in
+its own arm --
+
+    0206 4B20   add r0, r4, #0x48
+    0206 4B24   bl  func_020640DC
+    0206 4B28   b   0x02064B54
+
+-- although the default arm ends in a byte-identical
+`add r0, r4, #0x48` / `bl func_020640DC` pair at 0x02064B4C/0x02064B50.
+1.1p1 -O4,p cross-jumps the two, branching case 2 straight into the default
+arm's pair, and loses exactly those 8 bytes.  Between them the two earlier
+lanes measured a dozen spellings against this -- case 2 listed first, default
+before case 2, `if (k != 0) { if (k == 2) A; else B; }`, both `goto tail`
+forms, the case-2 arguments as named s16 locals, its result assigned to a
+dead local, its arguments through a named `struct P2 *`, and a switch nested
+inside `if (k != 0)` -- and every one cross-jumps.  It is not spellable under
+1.1p1, which is what makes it a pin rather than a C problem.
+
+CONSEQUENCE, and it is why this row was worth the probe: filing it promoted
+src/pending/sub_0204D4B4.c to src/matched/sub_0204D4B4.c unchanged.  That
+file's sole ABS32 site named 0x02064AB4 and its header recorded "no evidence
+class at all" -- zero witnesses image-wide, nothing branching to the address
+because it is reached only through the table row at 0x020A1394.  With a
+matched entry at 0x02064AB4 the site resolves `matched x1` and the file is
+EXACT.  Two entries for one probe.
+
+0x02064B68 (the other row above) was NOT re-probed this pass: its residue is
+a five-instruction prologue permutation, not a branch or a constant, so it
+does not match any tell in docs/FRONTEND-PINS.md and the one-probe budget
+went to 0x02064AB4.  If someone revisits it, the pin is still the first thing
+to try -- this packet is now known to be a 2.0 unit.

@@ -148,3 +148,73 @@ Probed once under ../2.0/sp2: 184 bytes, 50 concrete mismatches against
 alternative front end to produce the bytes, not merely fewer wrong ones.
 `volatile` locals for the two tail zeros were tried and are much worse
 (208 bytes / 177), as is tying the +0xc store to the loop counter (27).
+
+==============================================================================
+2026-09-21, pkt_02065AA8 lane: 0x02065AA8 is CLOSED -- byte-correct, filed as
+src/pending/func_02065AA8.c under the ../2.0/sp2 pin
+==============================================================================
+
+The row above ("0x02065AA8 -- DIFF, best 184 bytes against 188, not filed")
+is superseded.  It reaches 188 bytes with ZERO concrete mismatches.  The
+previous pass's reading was right about the shape and wrong about one address,
+and that one address was the whole wall.
+
+THE BUG IN THE PREVIOUS READING.  The note above records the tail as
+
+    *(u16 *)g_02147C18 = 0;  *(u16 *)(g_02147C18 + 2) = 0;
+    func_02082AC0(0, g_02147C18, 0x100);
+
+Three references to 0x02147C18, one pool word.  The image has FOUR loads and
+FIVE pool words, and the two halfword stores do not go to 0x02147C18 at all:
+
+    0206 5B24   ldr r3, [pc, #0x24]    -> 0x02065B50 = 88 7b 14 02 = 0x02147B88
+    0206 5B30   ldr r1, [pc, #0x28]    -> 0x02065B60 = 18 7c 14 02 = 0x02147C18
+
+so the two `strh r0, [r3]` / `strh r0, [r3, #2]` at 0x02065B2C / 0x02065B38
+clear the first two halfwords of g_02147B88 -- the SAME object whose +0xc is
+zeroed at 0x02065AF4 and whose +4 is zeroed at 0x02065B48 -- and only the
+memclear's pointer argument is 0x02147C18.  Spelled the note's way the source
+needs two distinct pool words for one symbol and comes out 192 bytes; spelled
+correctly it is 188 with nothing left over.  Worth generalising: when a
+compiled function is 4 bytes LONG and the excess is a pool word, check that
+two `ldr rN, [pc, #...]` at different displacements are really the same
+symbol before assuming the compiler failed to CSE them.
+
+THE PIN, and it is a real one.  Under the DEFAULT 1.1p1 the same C is 184
+bytes and 62 concrete out, in exactly the two places the note above names:
+
+  * the four pool loads at 0x02065AE4..0x02065AF0 are hoisted ABOVE the
+    eleven field stores of the 0x70..0x94 clear block, sliding the whole
+    block by three words;
+  * the tail zeros are CSE'd.  The image materialises `mov r0, #0`
+    (`00 00 a0 e3`) at 0x02065B28 and a SEPARATE `mov r1, #0`
+    (`00 10 a0 e3`) at 0x02065B44; 1.1p1 folds both into one `mov r4, #0`
+    and spends `mov r0, r4` at the call.
+
+That is the "kept constants" tell of docs/FRONTEND-PINS.md, twice over, and
+under ../2.0/sp2 the same C is 188 bytes with 0 mismatches -- both the store
+order and both zeros come back.  The previous pass probed 2.0 once, got
+184/50, and correctly declined the pin on that evidence; the 50 was the
+0x02147B88-vs-0x02147C18 error, not the front end.
+
+THE LOOP LEVER FROM THE NOTE ABOVE STILL HOLDS and is still needed: the loop
+must walk a real cursor (`p += 0x20`, the `add r7, r7, #0x20` at 0x02065B1C),
+not recompute `g_02148318 + i * 0x20`.  A `do { } while (i < 0x20)` is the
+shape; the two invariant arguments (-1 and 0x10) must be named locals hoisted
+above the loop, which is what produces `mvn r5, #0` / `mov r4, #0x10` at
+0x02065AFC/0x02065B00 and the `mov r0, r5` / `mov r2, r4` pair inside it.
+
+WHY IT IS PARKED, NOT FILED.  MATCH, not EXACT, and the cap is evidence, not
+bytes: 6 of the 7 relocation sites resolve (both func_02082AC0 calls `label`,
+all four data words `literal`), but the PC24 at +0x0008 needs func_02067A60,
+whose only branch anywhere in the image is this function's own `bl` at
+0x02065AB0, so `label` refuses it and there is no matched entry to stand in.
+It promotes the moment 0x02067A60 is filed or a second caller of it appears.
+`--suggest-split` cannot help: the call is one instruction into a 188-byte
+body and there is nothing to cut.
+
+CONSEQUENCE FOR src/pending/func_0204BD94.c: its blocker is UNCHANGED.  That
+file names func_02065AA8 as one of two `label`-blocked targets, and a
+`src/pending/` entry is never a witness -- only an EXACT/EXACT* manifest entry
+attests.  0x02065AA8 must itself reach EXACT first, i.e. 0x02067A60 must be
+filed, and then both files promote together.

@@ -8,8 +8,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     promoted 2026-09-21: the blocker named below, 0x02064AB4, was
+ *           filed EXACT as src/matched/func_02064AB4.c (pin ../2.0/sp2) by the
+ *           pkt_02064934 lane, so the sole ABS32 site now resolves `matched`.
  *
  * symbols:
  *   sub_02064AB4  0x02064AB4  arm
@@ -20,7 +22,7 @@
  * word, but to a different target.  It saves nothing, so disasm.py gives it
  * no label.
  *
- * Blocked on: no evidence class at all.  `--suggest-split` reports zero
+ * Was blocked on: no evidence class at all.  `--suggest-split` reported zero
  * witnesses image-wide for 0x02064AB4: nothing branches to it (so no `label`),
  * no other pool holds the word (so no `literal`), and it is inside the G2D
  * block that has no matched entry yet.  The address is reachable only through

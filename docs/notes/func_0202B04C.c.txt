@@ -120,3 +120,33 @@ u8 func_0202B04C(u8 *obj, s32 *pos)
      +0052    lsrs r0, r0, #0x18                     | lsrs r0, r0, #0x18                     
      +0054    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
    legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+/* ================================================================
+ * 2026-09-21, second pass (unblock lane).  NOT RE-ATTEMPTED THIS PASS,
+ * for the same reason as the 0x0202AFFC twin: the residual here is the
+ * same single decision measured on 0x0202AFAC, and it is visible in
+ * this function's own listing at +0x34..+0x3C --
+ *
+ *     0202B080  adds r2, r3, #0
+ *     0202B082  adds r2, #0x22
+ *     0202B084  ldrb r2, [r2]        <- third argument's load
+ *     0202B086  adds r1, r6, r4
+ *     0202B088  str  r0, [sp]        <- fifth argument, stored LAST
+ *
+ * where mwccarm 1.1p1 emits the `str r0, [sp]` before the `ldrb`.  The
+ * only structural difference from the 4bpp/X twin is that this axis
+ * reads its radius at +0x22 rather than +0x16, which is past the Thumb
+ * `ldrb` immediate reach of +31 and therefore costs the extra
+ * `adds r2, #0x22` pair (see
+ * docs/idioms/thumb-immediate-reach-costs-an-adds.md); that is an
+ * encoding artefact, not a second near miss.
+ *
+ * See the dated section of docs/notes/func_0202AFAC.c.txt for the eight
+ * spellings measured and rejected, and for the untried levers.  The
+ * per-file compiler pin is the one to measure first and it would move
+ * all three axis routines at once, which is what
+ * src/pending/func_0202AF74.c needs: it is blocked at MATCH on all
+ * three THM_CALL sites and nothing less than all three EXACT frees it.
+ *
+ * Still DIFF, still evidence only.
+ * ================================================================ */

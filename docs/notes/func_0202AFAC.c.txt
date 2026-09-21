@@ -123,3 +123,59 @@ u8 func_0202AFAC(u8 *obj, s32 *pos)
      +004A    lsrs r0, r0, #0x18                     | lsrs r0, r0, #0x18                     
      +004C    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
    legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+/* ================================================================
+ * 2026-09-21, second pass (unblock lane).  NO IMPROVEMENT: still 6
+ * concrete bytes, still 78 bytes against the original's 80.  Recording
+ * the dead ends so the next lane does not re-derive them.
+ *
+ * The whole residual is ONE scheduling decision, at +0x34..+0x38:
+ *
+ *     ORIGINAL                         COMPILED
+ *     +0032 adds r3, r6, r7            adds r3, r6, r7      (same)
+ *     +0034 ldrb r2, [r3, #0x16]       str  r0, [sp]
+ *     +0036 adds r1, r6, r4            ldrb r2, [r3, #0x16]
+ *     +0038 str  r0, [sp]              adds r1, r6, r4
+ *
+ * The image writes the FIFTH (stacked) argument `d` to [sp] LAST, after
+ * both register-argument address computations have retired.  mwccarm
+ * 1.1p1 retires the stack store FIRST, the moment the outgoing frame is
+ * known, and nothing at the source level was found to delay it.  The
+ * missing 2 bytes are the same fact: the original spends one more slot
+ * because the store is not folded into the argument setup.
+ *
+ * The twin at 0x0202B04C (docs/notes/func_0202B04C.c.txt) shows the
+ * IDENTICAL shape at +0x84..+0x88 (`ldrb r2,[r2]` / `adds r1,r6,r4` /
+ * `str r0,[sp]`), so this is one decision shared by all three axis
+ * routines, not three separate near misses.  Fixing any one of them
+ * fixes all three, and all three EXACT is what src/pending/func_0202AF74.c
+ * needs.
+ *
+ * Measured and rejected this pass, all held at exactly 6 concrete bytes
+ * and 78 compiled unless noted:
+ *   pc/pp declaration order swapped                              6
+ *   the third argument `pp[0x16] << 4` bound to a local `b`       6
+ *   `d + 0` as the fifth argument                                6
+ *   `d` declared u32 with an explicit (s32) cast in the guard     6
+ *   explicit (s32) casts on pp[0x16] and pp[0x10]                6
+ *   d / pp / pc declaration order, 3 further permutations         6
+ *   pp and pc computed BEFORE the `d` computation               38, worse
+ *   the abs spelled inline as `d < 0 ? -d : d` in the call      27, worse
+ *
+ * So operand order, local binding, types, declaration order and inlining
+ * the fifth argument's expression all leave the store where it is.  The
+ * untried levers, in the order they look most likely:
+ *   1. make the fifth argument depend on a value that is not ready until
+ *      after the third argument's load -- e.g. if `d` in the original is
+ *      not the abs at all but something read through `pp`/`pc`;
+ *   2. the per-file compiler pin.  This scheduling difference (the
+ *      original keeps a store where the build folds it forward) is the
+ *      SHAPE of the "kept constants"/"kept branches" family in
+ *      docs/FRONTEND-PINS.md.  No probe was licensed for this address on
+ *      this pass and none was run, so this is a hypothesis, not a
+ *      measurement -- but it is the first thing to measure next, and the
+ *      three twins would all move together.
+ *
+ * Still DIFF, still evidence only.  src/pending/func_0202AF74.c remains
+ * blocked at MATCH on all three of its THM_CALL sites.
+ * ================================================================ */

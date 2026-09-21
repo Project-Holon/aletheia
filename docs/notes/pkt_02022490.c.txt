@@ -477,3 +477,74 @@ void func_02022518(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     *(u32 *)((char *)p + 0xC) = a3;
     func_020056A0(0x020225B5, p, 0x400);
 }
+
+
+========================================================================
+2026-09-21, unblock lane: func_02022490 @ 0x02022490, still DIFF.
+
+Best residual reached: 29 concrete bytes, 72 compiled against the
+original's 76.  The PROLOGUE IS NOW EXACT -- all of +0x00..+0x14
+(the push, the four argument copies in the original's r5/r6/r4/r7
+order, both guard loads and both `bne`) is byte-identical, which the
+two earlier passes in this file never got.  The C that does it is the
+lane-2 version at the bottom of this file, with the data symbol
+renamed to `g_021468A4` and declared `extern char g_021468A4[]`:
+
+    void func_02022490(char *p, int a1, int a2, int a3)
+    {
+        if (*(u32 *)(p + 0x10) == 0 && *(u32 *)(p + 0x14) == 0)
+            *(u32 *)(g_021468A4 + 0x54) =
+                (u32)func_02005624((int)func_02022478, p, 0);
+        *(u32 *)(p + a3 * 4) = a1;
+        if (a2 != 0)
+            *(u32 *)(p + a3 * 4 + 8) = a2;
+        else
+            *(u32 *)(p + a3 * 4 + 8) = (u32)func_020225F0;
+        *(u32 *)(p + a3 * 4 + 0x10) = 1;
+    }
+
+WHAT IS LEFT is one decision and it is the whole 29 bytes.  The image
+keeps the scaled index `r2 = a3 * 4` live and RECOMPUTES the slot base
+`adds r0, r5, r2` FRESH before every one of the three offset stores:
+
+    +0024 lsls r2, r7, #2          <- index scaled once, kept in r2
+    +0026 str  r6, [r5, r2]        <- slot[0], register-offset
+    +002C adds r0, r5, r2          <- base recomputed (1)
+    +002E str  r4, [r0, #8]
+    +0034 adds r0, r5, r2          <- base recomputed (2)
+    +0036 str  r1, [r0, #8]
+    +003A adds r0, r5, r2          <- base recomputed (3)
+    +003C str  r1, [r0, #0x10]
+
+mwccarm 1.1p1 does the opposite at every spelling tried: it computes
+`adds r1, r5, r0` ONCE above the `if` and reuses r1 in both arms and
+after the join, which is 4 bytes shorter and shifts every branch target
+and both pool loads (+0x16, +0x20, +0x32) by 4.  The three pool words
+at the tail are then permuted, which is the rest of the 29.
+
+Measured and rejected this pass, all held at 29 / 72 bytes unless noted:
+  `off = a3 * 4` bound to a local, all three stores `p + off + K`   29
+  a `u32 *q = (u32 *)p` cursor, stores as q[a3], q[a3+2], q[a3+4]   84 bytes
+  a `Slot` struct cast written out fresh at each store,
+    ((Slot *)(p + a3 * 4))->f8 etc.                                 29
+  array-subscript spelling *(u32 *)&p[a3 * 4 + K]                   80 bytes
+
+So binding the offset, casting to a struct per store and re-spelling
+the address arithmetic all fail: the CSE happens after the source shape
+is gone.  What is NOT yet tried, and is the next lever: the store to
+slot[0] at +0x26 uses the REGISTER-OFFSET form `str r6, [r5, r2]` while
+the other three use `[r0, #imm]`, so the original is treating slot[0]
+and slots[2]/[4] as different addressing shapes.  A source that writes
+the first store through the index and the later ones through a pointer
+that is re-derived inside each arm (rather than one uniform spelling
+for all four) is the shape to try.  Failing that, this has the profile
+of the per-file compiler pin family in docs/FRONTEND-PINS.md -- the
+image KEEPS a recomputation the build folds away, which is the "kept
+constants" tell -- but no probe was licensed for this address on this
+pass and none was run, so that is a hypothesis, not a measurement.
+
+Consequence for the blocked pending files: unchanged.  This function is
+the only image-wide caller of both func_02022518 and func_020225B4, so
+src/pending/func_02022518.c and src/pending/func_020225B4.c (a mutual
+cycle) stay capped at MATCH until this address is filed EXACT.
+========================================================================

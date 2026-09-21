@@ -1,0 +1,147 @@
+== 2026-09-21 ==
+
+func_02028084 (0x02028084, 178 code bytes, Thumb, pkt_02028084) -- DIFF, 22 of
+196 bytes, all instruction scheduling.  Structure is settled: the body below
+reproduces the exact size, every call in order, every relocation resolved
+(8 of 8), and every instruction present with the right operands.  The only
+residue is a two-instruction scheduling window in three places.
+
+/*
+ * unit:     no
+ * function: func_02028084
+ * address:  0x02028084
+ * packet:   pkt_02028084
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   MI_CpuFill8    0x02082BCC  arm
+ *   sub_020450F0   0x020450F0  arm
+ *   func_020282D8  0x020282D8  thumb
+ *   sub_0201D304   0x0201D304  thumb
+ *   func_02045770  0x02045770  arm
+ *   sub_0201C724   0x0201C724  thumb
+ *   g_020A74E0     0x020A74E0  data
+ *
+ * Nine-argument constructor: allocate a 0x20-byte menu object on heap a8
+ * (the __FILE__ pool word 0x020A74E0 is app_taskmenu.c, line 0x337), zero
+ * it, then build the BG layer and the text window.  func_0202800C, the only
+ * in-image caller, forwards all nine arguments unchanged, which is where the
+ * u8/u8/u32/u32/u16 spelling of the five stack arguments comes from.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+
+struct Cfg {
+    u16 f00;
+    u16 f02;
+    u8  pad04[0x10 - 0x04];
+    u32 f10;
+    u32 f14;
+};
+
+struct Src {
+    u32 f00;
+    u16 f04;
+    u8  pad06[8 - 6];
+    u32 f08;
+};
+
+struct Obj {
+    u32 f00;
+    u8  pad04[0x0c - 0x04];
+    u32 f0c;
+    u8  pad10[0x12 - 0x10];
+    u16 f12;
+    u8  pad14[0x18 - 0x14];
+    struct Cfg *f18;
+    u16 f1c;
+    u16 f1e;
+};
+
+extern char  g_020A74E0[];
+extern void *func_02030734(int heap, int size, int c, void *file, int line);
+extern void  MI_CpuFill8(void *p, u8 v, u32 n);
+extern u32   sub_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void  func_020282D8(u32 bg, struct Cfg *c, u32 d);
+extern u32   sub_0201D304(void *s, u32 a, u32 b);
+extern void *func_02045770(void *cell);
+extern void  sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+
+struct Obj *func_02028084(struct Cfg *cfg, struct Src *src, u32 a2, u32 a3,
+                          u8 a4, u8 a5, u32 a6, u32 a7, u16 heap)
+{
+    struct Obj *o;
+    u32 bg;
+    s16 w;
+
+    w = 2;
+    o = (struct Obj *)func_02030734(heap, 0x20, 0, g_020A74E0, 0x337);
+    MI_CpuFill8(o, 0, 0x20);
+    o->f18 = cfg;
+    o->f0c = 1;
+    o->f12 = (u16)(a6 + 1);
+    bg = sub_020450F0((u8)cfg->f00, a2, a3, a4, a5, (u8)(cfg->f02 + 1), 1);
+    o->f00 = bg;
+    func_020282D8(bg, cfg, src->f08);
+    if (a7 == 1) {
+        w = (u8)(((a4 << 3) - sub_0201D304((void *)src->f00, cfg->f10, 0)
+                  - 0x10) >> 1);
+    }
+    sub_0201C724((void *)cfg->f14, (u32)func_02045770((void *)o->f00),
+                 (s16)(w + 8), 6, src->f00, cfg->f10, src->f04);
+    o->f1c = 0x3545;
+    o->f1e = 0x7B2C;
+    return o;
+}
+
+Residual diff (original | compiled):
+  * +0004    str r2, [sp, #0xc]                     | adds r5, r0, #0                        
+  * +0006    adds r5, r0, #0                        | ldr r0, [pc, #0xac]                    
+  * +000A    ldr r0, [pc, #0xa8]                    | str r0, [sp]                           
+  * +000C    ldr r3, [pc, #0xa8]                    | add r0, sp, #0x28                      
+  * +000E    str r0, [sp]                           | adds r6, r1, #0                        
+  * +0010    add r0, sp, #0x28                      | str r2, [sp, #0xc]                     
+  * +0012    adds r6, r1, #0                        | ldrh r0, [r0, #0x10]                   
+  * +0014    ldrh r0, [r0, #0x10]                   | ldr r3, [pc, #0xa0]                    
+  * +003C    str r1, [sp]                           | ldr r2, [sp, #0x10]                    
+  * +003E    ldrh r1, [r5, #2]                      | str r1, [sp]                           
+  * +0040    adds r1, r1, #1                        | ldrh r1, [r5, #2]                      
+  * +0042    lsls r1, r1, #0x18                     | adds r1, r1, #1                        
+  * +0044    lsrs r1, r1, #0x18                     | lsls r1, r1, #0x18                     
+  * +0046    str r1, [sp, #4]                       | lsrs r1, r1, #0x18                     
+  * +0048    str r0, [sp, #8]                       | str r1, [sp, #4]                       
+  * +004A    ldrh r0, [r5]                          | str r0, [sp, #8]                       
+  * +004C    ldrb r3, [r3]                          | ldrh r0, [r5]                          
+  * +004E    ldr r1, [sp, #0xc]                     | ldrb r3, [r3]                          
+  * +0050    lsls r0, r0, #0x18                     | ldr r1, [sp, #0xc]                     
+  * +0052    ldr r2, [sp, #0x10]                    | lsls r0, r0, #0x18                     
+  * +005A    ldr r2, [r6, #8]                       | str r0, [r4]                           
+  * +005C    adds r1, r5, #0                        | ldr r2, [r6, #8]                       
+  * +005E    str r0, [r4]                           | adds r1, r5, #0                        
+
+Findings that are settled and should not be re-derived:
+ - Signature is fixed by the only caller, func_02028084's caller func_0202800C
+   (src/matched/func_0202800C.c): (u32,u32,u32,u32,u8,u8,u32,u32,u16).
+ - arg0 (r5) is the Cfg struct (u16 f00, u16 f02, u32 f10, u32 f14) and is
+   stored to o->f18.  arg1 (r6) is the Src struct (u32 f00, u16 f04, u32 f08).
+ - func_020282D8's first argument is the sub_020450F0 return value, NOT the
+   allocated object: 'str r0,[r4]' at +0x5E leaves r0 live as the argument.
+   Passing the object instead costs an extra 'adds r0,r4,#0' and 2 bytes.
+ - w (r7) must be initialised to 2 BEFORE the func_02030734 call ('movs r7,#2'
+   at +0x1A); placing it after costs a reschedule of the whole prologue.
+ - The 0x20450F0 prototype is the one in src/matched/sub_020450F0.c:
+   (u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot).
+ - Tried and did NOT change the residue: binding a2/a3 to leading locals,
+   u8 parameters on the sub_020450F0 prototype, u16 a6, moving w=2.
+ - Blocker: the original spills a2 to [sp,#0xc] at +0x04 (before 'adds r5,r0,#0')
+   and reloads a3 from [sp,#0x10] late at +0x52; the compiler here spills a3
+   first and reloads a3 early at +0x3C.  Same slots, different order.

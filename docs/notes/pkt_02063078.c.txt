@@ -161,3 +161,200 @@ u32 func_02063378(struct Obj02063378 *obj, struct ColorData *colors) {
         return cur_idx;
     }
 }
+
+==============================================================================
+wave pass 2026-09-21 (pkt_02063078 lane): both rows above re-derived, both
+still DIFF, both improved by a large margin, and both now PINNED-SHAPED
+==============================================================================
+
+The two DIFFs above are twins of one another and the residues recorded for
+them (a 4-byte prologue register shift) were symptoms of two separate C
+errors, not of codegen.  Both are fixed below; what is left in each is a pure
+register-NAMING residue at the SAME instruction triple, at the original's
+exact size.  Neither is an evidence wall: every relocation site resolves.
+
+THREE LEVERS, in the order they were found.  All three transfer between the
+twins and are worth trying first on any member of this family (the
+0x02146BC8 window/bank accessors of unit 22).
+
+  1. THE FIRST GUARD IS A BRANCH, NOT A PREDICATE.  Written as
+         if (cur <= max + 1 && min <= max) ok = 1;
+     the compiler predicates the second test's load and emits
+     `ldrhls r3, [r0, #0xa]` / `cmpls`, and the whole function walks off.
+     The original's `bgt` at 0x020632AC / 0x02063390 is a real branch, and
+     it comes back only from the negated-outer spelling with a SIGNED
+     compare:
+         if (!((s32)cur > (s32)max + 1)) { if (min <= max) ok = 1; }
+     The signedness matters: `cmp ip, r2` + `bgt` is a signed test on two
+     values that were both zero-extended by `ldrh`, so the C cannot use the
+     u16s directly.
+
+  2. THE CUR FIELD IS RE-READ, AND ONLY `volatile` KEEPS THE RE-READ.
+     The image loads the cursor halfword twice, at +0x08 (for the guard) and
+     again at 0x020633E8 / 0x020632FC (for the array index and the return
+     value).  Both front ends forward the first load and drop the second.
+     Six spellings were measured -- a second named local, an index local
+     distinct from the returned value, the read placed after the base
+     computation, the read placed before it, a u32 index with a u16 narrowing
+     cast, and a fresh `obj->cur_idx` at each use -- and every one forwards.
+     Declaring the GUARD's read `*(volatile u16 *)&obj->cur_idx` (the guard's,
+     not the later one's) is what makes both loads survive.  On 0x02063378
+     this single change took the file from 91 concrete bytes out to 5.
+
+  3. THE FAILURE RETURN IS A SEPARATE EPILOGUE (0x02063294 only).  The image
+     branches to its own `mov r0, #0` / `pop {r4, pc}` at 0x02063368; written
+     as a plain `return 0;` inside the guard, 2.0 cross-jumps it into a
+     `moveq r0, #0` / `popeq` and every following instruction shifts by four.
+     `goto fail;` with `fail: return 0;` as the last statement of the
+     function restores it, and takes 0x02063294 from 119 out at 224 bytes to
+     13 out at the original's exact 228.
+
+MEASURED, both rows, same C shape, all sites resolved:
+
+    0x02063294   1.1p1: 220 bytes, 137 out   ../2.0/sp2: 228 bytes, 13 out
+    0x02063378   1.1p1: 184 bytes,  83 out   ../2.0/sp2: 192 bytes,  5 out
+                 (192 vs the listing's 196 is the over-read of the FOLLOWING
+                  function's `fe ff 00 00` pool word, not a missing word;
+                  the compiled pool is the correct single 0x02146BC8 entry)
+
+THE PIN IS INDICATED AND WAS NOT TAKEN.  Both rows show the "kept branches"
+tell of docs/FRONTEND-PINS.md on its face -- 1.1p1 predicates the four-
+instruction count block (`subne/addne/lslne/lsrne`) where the image keeps the
+`beq` at 0x020632C4 / 0x020633A8, and 2.0 keeps it -- and under the pin each
+row reaches the original's EXACT byte count with every branch, every
+predicate, every offset and every immediate in place.  But a pin needs the
+alternative front end to produce THE BYTES, and it does not: what is left is
+register allocation.  Recorded here rather than filed, per rule 2 of
+docs/FRONTEND-PINS.md.
+
+RESIDUE 0x02063378 -- 5 bytes, ONE instruction triple, ../2.0/sp2:
+
+  * +005C    ldr lr, [r0]                | ldr r3, [r0]
+  * +0060    ldr r3, [pc, #0x58]         | ldr ip, [pc, #0x54]
+  * +0068    mla ip, lr, r2, r3          | mla ip, r3, r2, ip
+
+  The image gives the bank index its own register (lr) and the pool base its
+  own (r3), leaving ip free as the mla destination.  2.0 reuses the base's
+  register ip as the destination.  Nine spellings measured, all identical:
+  the base bound to a named `u8 *`, the index bound to a named u32, both
+  bound, the two declarations in either order, `&g_02146BC8[bank * 0x540]`,
+  the u32-cast-arithmetic form, `bank * 0x540 + g_02146BC8`, the base hoisted
+  above the early-out (worse, 19 out), and the base read before the guard.
+
+RESIDUE 0x02063294 -- 13 bytes, the same triple plus one more, ../2.0/sp2:
+
+  * +0058    ldr r4, [r0]                | ldr ip, [r0]
+  * +005C    ldr ip, [pc, #0x78]         | ldr lr, [pc, #0x78]
+  * +0064    mla ip, r4, r3, ip          | mla lr, ip, r3, lr
+  * +006C    add r4, ip, #0x100          | add r4, lr, #0x100
+  * +009C    ldr r1, [r3]                | ldr ip, [r3]
+  * +00A0    lsl ip, r1, #0x16           | lsl r1, ip, #0x16
+  * +00A4    lsr ip, ip, #0x1e           | lsr r1, r1, #0x1e
+  * +00A8    tst ip, #1                  | tst r1, #1
+  * +00B0    bic ip, r1, #0x3e000000     | bic ip, ip, #0x3e000000
+
+  The second block is the same kind of swap on the attribute read-modify-
+  write: the image keeps the loaded word in r1 and spends ip on the shift
+  pair, 2.0 does the reverse.  Binding the shift result to its own named
+  local makes it WORSE (228 bytes but 13 out at different offsets); leaving
+  the shift chain inline as `((raw << 22) >> 30) & 1` is the better of the
+  two.  Three further spellings of the bank computation (the `valid` local
+  reused to hold the bank, a `u32 bank` local declared first, and the index
+  folded into the 0x100 add) all give exactly 13.
+
+THE ACTUAL C, both rows, as last compiled.  These supersede the two sources
+at the top of this file, which carry the pre-lever spellings and headers that
+read `status: EXACT` and were never that.
+
+---- 0x02063378, ../2.0/sp2, 192 bytes, 5 concrete out ----
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int s32;
+struct ColorData { s32 c0, c1, c2, c3; };
+struct Obj02063378 { u32 index; u8 pad[6]; u16 min_idx; u16 max_idx; u16 cur_idx; };
+extern u8 g_02146BC8[];
+
+u32 func_02063378(struct Obj02063378 *obj, struct ColorData *colors) {
+    u16 max_idx = obj->max_idx;
+    u16 cur_idx = *(volatile u16 *)&obj->cur_idx;
+    u32 valid = 0;
+    u32 count;
+    u32 ge;
+    u8 *ptr;
+    u32 idx;
+    if (!((s32)cur_idx > (s32)max_idx + 1)) {
+        if (obj->min_idx <= max_idx) valid = 1;
+    }
+    if (valid == 0) count = 0;
+    else count = (u16)(max_idx - cur_idx + 1);
+    if (count >= 1) ge = 1; else ge = 0;
+    if (ge == 0) return (u32)g_02146BC8;
+    ptr = g_02146BC8 + obj->index * 0x540;
+    idx = obj->cur_idx;
+    ptr = ptr + 0x100 + idx * 0x20;
+    *(u16 *)(ptr + 0x6)  = (u16)(colors->c0 >> 4);
+    *(u16 *)(ptr + 0xe)  = (u16)(colors->c1 >> 4);
+    *(u16 *)(ptr + 0x16) = (u16)(colors->c2 >> 4);
+    *(u16 *)(ptr + 0x1e) = (u16)(colors->c3 >> 4);
+    obj->cur_idx = obj->cur_idx + 1;
+    return idx;
+}
+
+  Note the failure return is `(u32)g_02146BC8`, not 0: the original's
+  `ldreq r0, [pc, #0x60]` at 0x020633CC loads the pool word and returns it.
+  That is almost certainly the real source returning a pointer-typed NULL
+  substitute or the table base itself; it is reproduced verbatim here because
+  it is what the bytes say.
+
+---- 0x02063294, ../2.0/sp2, 228 bytes, 13 concrete out ----
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct OamEntry { u16 attr0, attr1, attr2, pad; };
+struct Win02063294 { u32 bank; u16 min_oam; u16 max_oam; u16 cur_oam; };
+extern u8 g_02146BC8[];
+
+u32 func_02063294(struct Win02063294 *win, struct OamEntry *src, u32 mode)
+{
+    u16 max_oam = win->max_oam;
+    u16 cur_oam = *(volatile u16 *)&win->cur_oam;
+    u32 valid = 0;
+    u32 count;
+    u32 ge;
+    u8 *ptr;
+    u32 idx;
+    if (!((int)cur_oam > (int)max_oam + 1)) {
+        if (win->min_oam <= max_oam) valid = 1;
+    }
+    if (valid == 0) count = 0;
+    else count = (u16)(max_oam - cur_oam + 1);
+    if (count >= 1) ge = 1; else ge = 0;
+    if (ge == 0) goto fail;
+    ptr = g_02146BC8 + win->bank * 0x540;
+    idx = win->cur_oam;
+    ptr = ptr + 0x100;
+    {
+        struct OamEntry *dst = (struct OamEntry *)(ptr + idx * 8);
+        dst->attr0 = src->attr0;
+        dst->attr1 = src->attr1;
+        dst->attr2 = src->attr2;
+        if (mode != 0xFFFE) {
+            u32 raw = *(u32 *)dst;
+            if (((raw << 22) >> 30) & 1) {
+                *(u32 *)dst = (raw & ~0x3E000000) | ((mode << 27) >> 2);
+            }
+        }
+    }
+    win->cur_oam = win->cur_oam + 1;
+    return 1;
+fail:
+    return 0;
+}
+
+CONSEQUENCE FOR src/pending/func_0204BF40.c: its blocker, the PC24 to
+func_02063294 at +0x78, is UNCHANGED.  0x02063294 did not reach EXACT, so
+there is still no `matched` entry for it and the park stays parked.  It
+promotes the moment someone closes the 13-byte register residue above.

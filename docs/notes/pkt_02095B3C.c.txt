@@ -1,0 +1,51 @@
+pkt_02095B3C - func_02095EAC, one-instruction constant fold
+===========================================================
+
+0x02095EAC, 140 bytes of code (148-byte extent incl. the two pool words), ARM.
+The seven-argument sibling of src/matched/func_02095AA4.c: the same MSL
+string-to-number entry, calling the wide core func_02095B3C instead of
+func_02094B8C, returning int rather than u64.
+
+Everything but ONE instruction reproduces under the default 1.1p1 -O4,p, with
+both relocation sites resolved (`label` for the PC24 to 0x02095B3C, `literal`
+for the two ABS32 pool words 0x020946D8 / 0x02153FAC):
+
+    +0070  image    mvnne r0, #0            (00 00 e0 13)
+           1.1p1    subne r0, r1, #0x23
+
+That is, the image materialises the -1 return FRESH, while 1.1p1 derives it
+from the 0x22 it has just left live in r1 for the `g_02153FAC = 0x22` store two
+instructions earlier.  Shape, size (148), stack frame, register allocation and
+every other byte are identical.
+
+The C that gets there (locals declared len, sign, err, buf[2], r -- later
+declaration is the LOWER stack address, which is what puts buf at sp+0xc and
+the three out-params at sp+0x14/0x18/0x1c):
+
+    r = func_02095B3C(mode, 0x7FFFFFFFu, (u32)func_020946D8, buf,
+                      &len, &sign, &err);
+    if (a1 != 0) *a1 = a0 + len;
+    if (err != 0) { g_02153FAC = 0x22; return -1; }
+    if (sign != 0) r = -r;
+    return r;
+
+Six spellings measured, ALL fold the same way, all 1 instruction out:
+  1. `return -1;` (baseline)
+  2. `int e = 0x22; g_02153FAC = (u32)e; return ~0;`
+  3. `r = -1; return r;` (and the same with the store after the assignment)
+  4. `extern volatile u32 g_02153FAC;`
+  5. `return (int)0xFFFFFFFFu;`
+  6. `len = 0xFFFFFFFFu; return (int)len;` (a different local as the carrier)
+Inverting the guard (`if (err == 0) { ... } g_02153FAC = 0x22; return -1;`) is
+15 instructions out, not 1: it re-lays the whole tail and is strictly worse.
+
+This is the "kept constants" tell of docs/FRONTEND-PINS.md in its exact form,
+so the ../2.0/sp2 probe was taken once, as the pin rule allows.  IT DOES NOT
+HELP AND THE PIN IS NOT TAKEN: under ../2.0/sp2 the same C is 9 instructions
+out, because 2.0 refuses to predicate the error block at all (it emits
+`beq 0x02095F28` over a plain `ldr/mov/str/add sp/sub/pop` run) AND still
+folds `sub r0, r1, #0x23` for the -1.  The image predicates the block (the
+1.1p1 shape) and rematerialises the constant (the 2.0 shape); neither front end
+in the collection does both.
+
+Not filed.  DIFF, 4 bytes, one instruction.  No source written.

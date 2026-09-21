@@ -144,3 +144,71 @@ void func_02073DFC(void)
     }
     s->f00 = 0;
 }
+
+/* ================================================================
+ * 2026-09-21, second pass (unblock lane).  THE PIN IS CORRECT AND IT
+ * WAS MEASURED: `compiler: ../2.0/sp2` takes the residual from 228/232
+ * concrete-correct (8 bytes out, 1.1p1) to 220/232 (12 bytes out) BUT
+ * fixes the one thing the first pass could not reach.
+ *
+ * The one probe licensed for this family was spent on:
+ *     match.py one --src <this C> --func func_02073DFC \
+ *         --addr 0x02073DFC --arm --cc ../2.0/sp2
+ * with the C below UNCHANGED from the first pass except for the
+ * `compiler:` line.
+ *
+ * WHAT THE PIN FIXED, exactly as the first pass predicted it would:
+ * the 4 bytes at +0xD4.  Under 1.1p1 the zero is one value with three
+ * uses (two loop arguments and the final store) and the whole tail is
+ * one instruction short.  Under ../2.0/sp2 the image's FRESH
+ * `mov r0, #0` at +0xD4 immediately before `str r0, [r4]` is emitted,
+ * the function is 232 bytes, and the tail from +0xC0 to +0xDC is
+ * byte-identical.  This is the "kept constants" tell of
+ * docs/FRONTEND-PINS.md, measured on this family for the first time.
+ *
+ * WHAT IS LEFT UNDER THE PIN: 12 concrete bytes, and all 12 are THREE
+ * REGISTER NAMES, nothing else.  The opcodes, the operand shapes, the
+ * control flow and every branch target are identical instruction for
+ * instruction across all 232 bytes.  The image and the compile disagree
+ * only on which callee-saved register holds which of the three locals:
+ *
+ *     local            image      compiled
+ *     `on`  (bool)     r7         r5
+ *     `h`   (handle)   r5         r6
+ *     ptr   (pool)     r6         r7
+ *
+ * i.e. a cyclic rotation r5 -> r6 -> r7 -> r5.  The six mismatching
+ * slots are +0x20, +0x24, +0x28, +0x44 (`on`), +0x50, +0x5C (`h`),
+ * +0x64 (ptr) and +0x74, +0xA4 -- every one of them a `mov`/`cmp`
+ * naming one of the three.  The image allocates in USE order (h is
+ * touched at +0x50, ptr at +0x64, on last at... no: on is SET first at
+ * +0x20 yet gets the HIGHEST register), which is the reverse of what
+ * 2.0 does here.
+ *
+ * Measured and rejected under the pin, all held at 12 concrete bytes:
+ *   declaration order `h` before `on`                            12
+ *   `h`/`z` both declared before `on`                            12
+ *   a `u8 *p` local for g_0214E9BC, declared last                12
+ *   the same `p` declared between `on` and `h`                   12
+ *   the same `p` declared first, right after `s`                 12
+ *   `p` ASSIGNED before the first call (live across it)          18, worse
+ *   `on` declared u32 instead of s32                             12
+ *   `on` spelled `(s->f2c >= 0) ? 1 : 0`                         12
+ *   `sc = s->f2c` bound to a local and used in both places       12
+ *
+ * So declaration order, local binding and the boolean's spelling all
+ * fail to reach it, exactly as they failed to reach the analogous
+ * rotation in docs/notes/func_02020A58.c.txt before the type tell was
+ * found there.  The lever to try next is a TYPE tell on one of the
+ * three, by analogy: `h` is used only as an opaque token passed
+ * straight back to func_02089CD4, so declaring func_02089D40's return
+ * (and `h`) as a pointer or an unsigned type rather than s32 is the
+ * cheapest untried change, and it is the one that moved the identical
+ * three-way rotation on 0x02020A58.
+ *
+ * NOTE FOR THE CHAIN: this is still DIFF, so src/pending/func_02073D7C.c
+ * is still blocked and src/pending/func_02072758.c behind it.  But the
+ * pin is now measured evidence for this address and belongs in
+ * docs/FRONTEND-PINS.md the moment the three registers fall into place.
+ * The C below is the first pass's C verbatim; only `compiler:` changed.
+ * ================================================================ */

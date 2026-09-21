@@ -41,3 +41,151 @@ original uses r2 and stores it second:
 
 Writing the sentinel as `0xffffffffu`, `(u32)-1` or a named `u32` local makes
 no difference.
+
+==============================================================================
+2026-09-21, pkt_02064178 lane: 0x020642C8 closed (MATCH, parked), 0x0206419C
+down to 2 bytes
+==============================================================================
+
+0x020642C8 -- BYTE-CORRECT, filed as src/pending/func_020642C8.c
+----------------------------------------------------------------
+132 bytes, 0 concrete mismatches, under the DEFAULT 1.1p1.  No pin needed
+(../2.0/sp2 gives the same 132/0 with the same C, so the bytes decide nothing
+and the default stands).
+
+The eight-argument forwarder into func_02066890: four arguments in registers
+and four written to [sp]..[sp,#0xc], each re-read from the caller's own
+stacked arguments at [sp,#0x28]..[sp,#0x3c], then the object fixups.
+
+TWO LEVERS, both `volatile`, both needed, and the second only visible once
+the first is in:
+
+  1. THE +0x38 STORE HAPPENS TWICE.  The image stores it at 0x02064318 and
+     AGAIN at 0x02064328 with the +0x34 store between them.  Written as plain
+     assignments mwcc drops the first as dead and the function is 128 bytes
+     against 132, 64 concrete out.  Marking that field `volatile` keeps both.
+  2. WITH ONLY (1), the +0x34 store sinks below the `add r0, r7, #0x3c` /
+     `mov r1, #1` argument setup for func_02064140 -- right size, 11 concrete
+     bytes out at +0x54..+0x5C.  Marking that field `volatile` too pins it
+     above them, matching 0x0206431C, and the file goes to 0.
+
+Both are ordinary field stores in the real source; `volatile` is standing in
+for whatever ordering the original had and is simply the spelling that
+reproduces the bytes.  Generalisable: a duplicated store to one field plus a
+neighbouring store that must not sink is two separate `volatile` decisions,
+and fixing the first one alone leaves a residue that looks like scheduling.
+
+PARKED, NOT FILED: `label`.  Three of the four PC24 sites resolve
+(func_02064140 x21, func_02062F38 x9, func_0206434C x15), but func_02066890
+has no branch anywhere in the image outside this function's own `bl` at
+0x02064314 and no matched entry, so the site stays wildcarded.  It promotes
+as soon as 0x02066890 or a second caller of it is filed.  `--suggest-split`
+has nothing to cut: the call is the function's first statement.
+
+0x0206419C -- DIFF, 240 bytes against 240, 2 concrete bytes, not filed
+-----------------------------------------------------------------------
+ONE INSTRUCTION out, at the original's exact size, under ../2.0/sp2.  Every
+one of the 9 relocation sites resolves, so this is not an evidence wall.
+
+This is the sibling of 0x02064AB4 (pkt_02064934) -- the same
+`func_02064140(self+X, 1)` / switch-on-`(u8)` / case-2-vs-default shape, on
+self+0x3c instead of self+0x48 -- and it inherits that row's pin:
+
+  * the case-2 cross-jump.  1.1p1 shares case 2's `add r0, r4, #0x3c` /
+    `bl func_020640DC` tail with the default arm's identical pair at
+    0x02064234/0x02064238, costing 8 bytes; 2.0 writes both out.  1.1p1 is
+    196 bytes against the original's 240.
+
+FOUR FURTHER LEVERS found on top of that, all on the two materialised
+booleans of the tail (0x02064240..0x02064250 and 0x0206425C..0x0206426C):
+
+  1. BOTH GUARDS ARE MATERIALISED BOOLEANS, not predicated tests.  Written as
+     `if (x) return;` the pair folds into one `ldrne`/`mvnne`/`cmpne` chain
+     and the function is 208 bytes.  Each needs its own `int` result assigned
+     in both arms.
+  2. EACH GUARD NEEDS ITS OWN VARIABLE.  Reusing one `r` for both lets the
+     second fold back; `r` and `r2` keeps both (228 bytes).
+  3. THE SECOND GUARD'S SENTINEL MUST BE READ, NOT FOLDED.  Reading the +0x38
+     field through `*(volatile int *)` is what keeps the `mvn r0, #0` at
+     0x02064258 as a separate materialisation instead of a `cmn`.
+  4. THE FIRST GUARD'S FALSE ARM IS `r = q;`, NOT `r = 0;`.  This is the one
+     that is still 2 bytes out and it is worth spelling out.  Any form that
+     writes a literal zero -- `else r = 0;`, `r = 0;` before the test,
+     `r = 1;` before it, `(q != 0) ? 1 : 0`, a named `int z = 0`, `q & 0`,
+     `q * 0`, `kind * 0` -- hoists the constant ABOVE the `cmp r2, #0` and
+     gives either 228 bytes or a `mov r0, #0` / `cmp` / `movne` order.  Only
+     `else r = q;` (q is provably zero in that arm) keeps the image's
+     `cmp r2, #0` / `movne r0, #1` / `moveq r0, #0` order at the right size.
+     It is then 2 bytes out because the image REMATERIALISES the zero,
+     `moveq r0, #0` at 0x02064248, where 2.0 forwards the already-zero r2 as
+     `moveq r0, r2`.
+
+  Plus the declaration-order lever: `char *o;` must be declared BEFORE
+  `int kind;` (the reverse of first-use order), which is what puts the object
+  pointer in r6 and the masked switch value in r7.  With them the other way
+  round the file is 12 bytes out instead of 2.
+
+  MEASURED:  1.1p1 196 bytes / (size)   ../2.0/sp2 240 bytes / 2 out.
+  Residue, ../2.0/sp2, the whole of it:
+
+    * +00AC    moveq r0, #0        | moveq r0, r2
+
+  Fourteen spellings of that one arm were measured and are listed above; none
+  rematerialises the constant.  This is the "kept constants" tell in its
+  purest form, but 2.0 forwards here too, so there is no third front end to
+  reach for and the row stays a DIFF.  Whoever picks it up next needs a way
+  to make the false arm's zero come from somewhere other than the compared
+  value -- that is the entire remaining problem.
+
+C as last compiled (../2.0/sp2, 240 bytes, 2 out):
+
+extern char *func_02062D40(char *self);
+extern int func_0206285C(char *a, int v);
+extern void func_02064140(char *p, int v);
+extern void func_020640DC(char *p, int a, int b);
+extern void func_02064120(char *p, int a, int b);
+extern void func_02064100(char *p, int a);
+extern void func_02066ABC(int a, int b, int c);
+
+void func_0206419C(char *self)
+{
+    char *p;
+    char *o;
+    int kind;
+    int q;
+    int r;
+    int r2;
+    if (*(unsigned short *)(*(int *)(self + 4) + 4) == 0)
+        return;
+    func_02062D40(self);
+    p = func_02062D40(self);
+    o = *(char **)(self + 0x34);
+    *(int *)(self + 0x30) = func_0206285C(o, *(unsigned short *)p);
+    kind = *(int *)(*(int *)(self + 0x1c) + 4) & 0xff;
+    func_02064140(self + 0x3c, 1);
+    switch (kind) {
+    case 0:
+        break;
+    case 2:
+        func_020640DC(self + 0x3c, *(short *)(p + 4), *(short *)(p + 6));
+        break;
+    default:
+        func_02064120(self + 0x3c, *(int *)(p + 4), *(int *)(p + 8));
+        func_02064100(self + 0x3c, *(unsigned short *)(p + 2));
+        func_020640DC(self + 0x3c, *(short *)(p + 0xc), *(short *)(p + 0xe));
+        break;
+    }
+    q = *(int *)(o + 0xc);
+    if (q != 0) r = 1; else r = q;
+    if (r == 0) return;
+    if (*(volatile int *)(self + 0x38) != -1) r2 = 1; else r2 = 0;
+    if (r2 == 0) return;
+    {
+        int *t = (int *)(*(int *)(q + 4) + *(unsigned short *)p * 8);
+        func_02066ABC(*(int *)(self + 0x38), t[0], t[1]);
+    }
+}
+
+Note the doubled `func_02062D40(self)` at 0x020641B4/0x020641BC is real: the
+first call's result is discarded and the second's is kept.  Both are in the
+image and removing either changes the size.

@@ -113,3 +113,25 @@ u8 func_0202AFFC(u8 *obj, s32 *pos)
      +004A    lsrs r0, r0, #0x18                     | lsrs r0, r0, #0x18                     
      +004C    pop {r3, r4, r5, r6, r7, pc}           | pop {r3, r4, r5, r6, r7, pc}           
    legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+/* ================================================================
+ * 2026-09-21, second pass (unblock lane).  NOT RE-ATTEMPTED THIS PASS.
+ * The whole budget for this family went to the 0x0202AFAC twin, whose
+ * residual is byte-for-byte the same decision (the fifth stacked
+ * argument's `str [sp]` emitted one slot early, and the 2 bytes that
+ * costs).  Every lever measured there -- operand order, local binding
+ * for the third argument, declaration order, the types of `d` and of
+ * the two byte loads, and inlining the abs into the call -- held the
+ * residual unchanged, so none of them is worth re-running here.
+ *
+ * See the dated section of docs/notes/func_0202AFAC.c.txt for the full
+ * list and for the two untried levers, of which the per-file compiler
+ * pin is the one to measure first: the shape (the image KEEPS a store
+ * the build folds forward) is the "kept constants" family of
+ * docs/FRONTEND-PINS.md, and all three axis routines would move
+ * together under it.
+ *
+ * Still DIFF, still evidence only.  All three of 0x0202AFAC, 0x0202AFFC
+ * and 0x0202B04C must reach EXACT before src/pending/func_0202AF74.c can
+ * be promoted; this one is not the bottleneck, the shared decision is.
+ * ================================================================ */

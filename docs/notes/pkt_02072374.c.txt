@@ -1,0 +1,123 @@
+pkt_02072374 - func_02072374 reduced from 17 to 7, register names only
+======================================================================
+2026-09-21
+
+docs/notes/pkt_02071DD4.c.txt records this address as "204 B, DIFF 17,
+correct size and instruction sequence, register allocation only", and
+docs/notes/pkt_02071B2C.c.txt records the same residue class on 0x02071C14
+(13 out, r4/r5 vs ip/lr).  Both notes' levers were taken.  The residue is now
+SEVEN concrete bytes, one register pair, and the function is still not filed.
+
+THE ONE LEVER THAT MOVED IT, and it is new for this family: THE TWO `<< 12`
+SHIFTED ANGLE VALUES ARE NAMED LOCALS LIVE ACROSS THE WHOLE BODY.  The image
+spends `mov r0, fp` / `mov r1, r8` at 0x02072390/0x02072394 and again
+`mov r0, r8` / `mov r1, fp` at 0x020723F4/0x020723F8, i.e. it computes
+`f2c << 12` into r8 and `f2e << 12` into fp ONCE, before the first
+func_0207C930, and re-feeds the SAME two registers to the second call with the
+arguments swapped.  That is what forces the ten-register
+`push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` (`f8 4f 2d e9`).
+
+Spelling the two calls inline --
+
+    func_0207C930((s32)s->f2e << 12, (s32)s->f2c << 12);
+    ...
+    func_0207C930((s32)s->f2c << 12, (s32)s->f2e << 12);
+
+-- makes the compiler RE-READ f2c/f2e and re-shift at the second call (`ldrh
+r0,[r8,#0x2c]` / `ldrh r1,[r8,#0x2e]` / two `lsl`s at +0x78..+0x84), which
+frees sl and fp and gives an EIGHT-register push: still 204 bytes, but 43
+concrete bytes out.  Binding them:
+
+    f12 = (s32)s->f2c << 12;
+    e12 = (s32)s->f2e << 12;
+    func_0207C930(e12, f12);
+    ...
+    func_0207C930(f12, e12);
+
+takes it from 43 to 13 in one step.  This is the mirror of the "kept constants"
+pin tell: here the IMAGE keeps the value live and the naive C rematerialises
+it, so the fix is in the C, not in the compiler.
+
+Two more, each worth 2-4 bytes, both from pkt_02071DD4's L1/L3:
+  * f20 IS BOUND BEFORE f1c (`b` then `c`), matching the image's load order
+    f22 / f18 / f20 / f1c at 0x0207239C..0x020723A8.  13 -> 11.
+  * `q` (the f18*f20 term) IS COMPUTED BEFORE `r` (the f1c*f22 term), with
+    `d->f14 = r;` written immediately after `r`.  11 -> 7.
+
+THE BEST SOURCE (204 bytes, 0 relocation problems, all four PC24 sites
+resolving `label`; verify with --cc ../2.0/sp2, which is 7 out where the
+default 1.1p1 is 14 on the same source):
+
+    struct SRC { u8 pad_00[0x18]; s32 f18; s32 f1c; s16 f20; s16 f22;
+                 u8 pad_24[8]; u16 f2c; volatile u16 f2e; };
+    struct DST { s32 f00; s32 f04; u8 pad_08[8]; s32 f10; s32 f14;
+                 u8 pad_18[0x18]; s32 f30; s32 f34; };
+
+    void func_02072374(struct DST *d, struct SRC *s)
+    {
+        s32 e, a, c, b;
+        s32 q, r;
+        s32 f12, e12;
+
+        f12 = (s32)s->f2c << 12;
+        e12 = (s32)s->f2e << 12;
+        func_0207C930(e12, f12);
+
+        e = s->f18;
+        a = (s32)s->f22;
+        b = (s32)s->f20;
+        c = s->f1c;
+
+        d->f00 = (s32)(((s64)e * a) >> 12);
+        q = (s32)(((s64)e * b) >> 12);
+        r = (s32)(((s64)c * a) >> 12);
+        d->f14 = r;
+        d->f04 = ((s32)(((s64)c * b) >> 12) * func_0207C86C()) >> 12;
+
+        func_0207C930(f12, e12);
+
+        d->f30 = ((s32)s->f2c * q) << 4;
+        d->f34 = ((0 - (s32)s->f2e) * (r - 0x1000)) << 4;
+        d->f10 = ((0 - q) * func_0207C86C()) >> 12;
+    }
+
+WHAT IS LEFT: exactly one register pair, r5 <-> r6.  The image gives r5 to the
+f1c local and r6 to the `q` term; the compiler gives r6 to f1c and r5 to `q`.
+Seven instructions carry it, all otherwise identical:
+
+      +0034  ldr r5, [sb, #0x1c]   | ldr r6, [sb, #0x1c]
+      +0048  smull r2, r1, r5, r3  | smull r2, r1, r6, r3
+      +0058  lsr r6, r2, #0xc      | lsr r5, r2, #0xc
+      +005C  orr r6, r6, r1,lsl#20 | orr r5, r5, r1, lsl #20
+      +0068  smull r2, r1, r5, r7  | smull r2, r1, r6, r7
+      +0094  mul r2, r1, r6        | mul r2, r1, r5
+      +00B8  rsb r1, r6, #0        | rsb r1, r5, #0
+
+This is character-for-character the SAME residue shape pkt_02071B2C.c.txt
+records for 0x02071C14 (there r4/r5 against ip/lr), so the two are one class
+and one fix will move both.
+
+MEASURED AND NOT LEVERS (7 unless noted), all on top of the source above:
+  * declaration order, six groupings: `e,a,b,c,q,r` one line; `c` first; `c`
+    on its own line; `q,r` declared first; `r,q` instead of `q,r`; `c,q` then
+    `e,a,b,r`.  COMPLETELY INSENSITIVE -- 7 every time.  Same finding as
+    0x02071C14, and unlike func_020731E0 / func_02073838.
+  * re-reading f1c at its second use instead of binding `c` (46 out) or at its
+    first use (42): both destroy the schedule, they do not shorten the live
+    range.
+  * `volatile s32 f1c` (12), `(s64)b * c` at the f04 term (12).
+  * operand order of each 64-bit multiply individually and in pairs:
+    `a * c` (12), `b * e` (17), `b*c`+`a*c` (12), `a*e`+`b*e` (13),
+    `a*c`+`b*e` (17).  All strictly worse.
+  * moving the `d->f14 = r;` store after the `q` statement (12), and folding it
+    into the assignment as `d->f14 = r = ...` (9).
+  * `q` after `r` with the f14 store last (9); `q` hoisted above `r` with the
+    f14 store last (7, the same as the filed shape, just reordered source).
+
+FRONT END IS NOT THE RESIDUE.  1.1p1 gives 14 on the identical source and
+../2.0/sp2 gives 7, so the pin is the better of the two, but neither is 0 and
+no pin is taken: a pin needs 0 mismatches, and this is a codegen residue, not
+a front-end tell.
+
+NOT FILED.  No source under src/: a DIFF is never left in src/matched, and at
+7 concrete bytes wrong it is not a park either.

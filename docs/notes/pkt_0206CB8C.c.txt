@@ -156,3 +156,55 @@ i.e. the four occurrences are the four blocking words themselves.  So no
 widening of the `literal` class to overlays, and no other class, can attest
 them: the addresses are simply never mentioned anywhere else in the ROM in any
 encoding.
+
+==============================================================================
+2026-09-21, pkt_0206CB8C lane: 0x0206D2E8 is EXACT under the ../2.0/sp2 pin,
+filed as src/matched/func_0206D2E8.c
+==============================================================================
+
+The second (and only other) row of this packet.  220 bytes, 0 concrete
+mismatches, sole PC24 site resolving `label x3`.
+
+Semantics: a script-opcode step.  Run the hook at +0x34 when the mode byte at
++0x96 is 1, decode the nine-byte instruction at [s] into a byte offset
+(p[1..4]) and a payload (p[5..8]) -- both assembled a byte at a time because
+the stream is unaligned, which is what the `ldrb`/`orr ... lsl #8/#16/#24`
+runs at 0x0206D354..0x0206D38C are -- hand them to func_0206DC00 unless flag
+0x100 or the hook's own 0x40 bit is set, run the hook again in mode 3, and
+advance the cursor by 9.
+
+The mode read is a GUARDED read, twice: `ldrbne r4, [r5, #0x96]` /
+`moveq r4, #0` at 0x0206D2F8/0x0206D2FC and again at
+0x0206D328/0x0206D330.  Spelled `if (s->cb != 0) m = s->mode; else m = 0;`
+both times -- the hook can replace itself, so the second read is not
+redundant and must be written out.
+
+THE PIN is the re-read/forward tell (the src/matched/func_02070BD8.c /
+src/matched/func_02068EA0.c family).  The hook dispatch appears twice, at
+0x0206D308..0x0206D31C and 0x0206D39C..0x0206D3B0, and both times the image
+loads the hook pointer AFTER the flag store has retired:
+
+    ldr r1, [r5, #8] / mov r0, r5 / bic r1, r1, #0x40 /
+    str r1, [r5, #8] / ldr r1, [r5, #0x34] / blx r1
+
+1.1p1 -O4,p proves the store cannot alias the 0x34 field and hoists that load
+above the read-modify-write:
+
+    ldr r0, [r5, #8] / ldr r1, [r5, #0x34] / bic r2, r0, #0x40 /
+    mov r0, r5 / str r2, [r5, #8]
+
+-- the same 220 bytes with those five instructions permuted at BOTH sites, 28
+concrete bytes out and nothing else wrong in the function.  Four spellings
+were measured against it and all hoist: a `volatile` hook field, a `volatile`
+flags field, the compound `s->flags &= ~0x40u` form, and binding the flag word
+and the hook to named locals inside a block with the hook's read written last.
+Under the pin the same C is 220 bytes, 0 mismatches.
+
+Note this function is NOT a 1.2 candidate despite carrying `blx r1` twice:
+its return is `pop {r4, r5, r6, pc}` at 0x0206D3C0, not the ARMv4T
+`pop {..., lr}` / `bx lr` pair, so the interworking-conflict tell of
+docs/FRONTEND-PINS.md does not apply.
+
+0x0206CB8C (1868 bytes) was not attempted: it is the packet's other row and
+is far past what one rewrite can hold, per the "skip oversized functions"
+rule of docs/AGENT-BRIEF.md section 7.

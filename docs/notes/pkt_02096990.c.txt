@@ -1,0 +1,44 @@
+pkt_02096990 - func_02096990, oversized, confirmed
+==================================================
+2026-09-21
+
+docs/notes/r3b3_lane_verdicts.c.txt already classes this row "size, not
+attempted to a verdict".  This lane took one `show` and CONFIRMS it, with the
+shape recorded so the next reader does not need the listing either.
+
+0x02096990, ARM.  The worklist `code` column says 268 bytes; the real body is
+812 and the listing extent 896 (0x02096990..0x02096D10, the pool end).
+
+Shape: a recursive number formatter.
+
+  * A 41-entry dense dispatch, `add r1, r4, #0x20` / `cmp r1, #0x28` /
+    `addls pc, pc, r1, lsl #2` at 0x020969C0..0x020969C8, i.e. `switch (n)`
+    over the range -32..+8 with the default at 0x02096C1C.  The table is 41
+    `b` instructions at 0x020969CC..0x02096A70, of which 24 go to the default
+    (empty arms, the `empty-switch-arms-are-what-make-the-table` idiom) and
+    17 to real arms.
+  * Two out-of-table guards ahead of it: `mvn r2, #0x34` (= -53) with a
+    `bgt` / `bge` pair at 0x020969A4..0x020969AC, and a `sub r0, r2, #0xb`
+    (= -64) equality test at 0x020969B0.
+  * SEVENTEEN near-identical five-instruction arms, each
+    `ldr r1, [pc, #imm]` / `add r2, r2, #k` (or `mov r2, #k`) /
+    `bl 0x020968F4` / `add sp, sp, #0x4c` / `pop {r3, r4, r5, r6, pc}`, with
+    k running 0x25, 0x2b, 0x30, 0x32, 0x32, 0x33, 0x33, 0x33, 0x34, 0x34,
+    0x34, 0, 0, 0, 0, 1, 1, 1, 2, 2 -- a per-arm string pointer plus a
+    per-arm length bias.
+  * The default at 0x02096C1C halves the argument (`and r0, r4, #0x80000000`
+    / `add r1, r4, r0, lsr #31` / `asr r1, r1, #1`, the signed `n / 2` idiom)
+    and RECURSES into 0x02096990 with a 0x26-byte stack buffer, then calls
+    0x02096774, then on odd `n` runs a 9-iteration halfword copy loop
+    (0x02096C5C..0x02096C74) into a second 0x26-byte stack buffer and makes a
+    further pair of calls.
+
+WHY IT IS OUT OF SCOPE, beyond the size: the seventeen arms need seventeen
+DISTINCT ABS32 pool words into the packed string area at 0x020A8ABC..0x020A8B8C
+(the 24-word pool at 0x02096CBC..0x02096D10).  Each is a `string`-class site in
+the sense of docs/idioms/a-string-after-a-data-table-has-no-witness.md, and the
+run has a data table, not a string, ahead of it, so several of them have no
+witness at all.  Even a byte-perfect body would cap at MATCH.
+
+No source written, no attempt made beyond the one `show` the budget rule
+allows.  Class: size.
