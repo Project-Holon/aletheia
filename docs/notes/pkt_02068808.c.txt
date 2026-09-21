@@ -183,3 +183,125 @@ void func_02068A68(char *p, u32 arg)
         i++;
     } while (i < *(u32 *)(p + 8));
 }
+
+==============================================================================
+2026-09-21 - second pass (ARM lane). No new EXACT; three residues refined.
+==============================================================================
+
+func_02068E78 @ 0x02068E78 (40 bytes) - DIFF under 1.1p1, EXACT under ../2.0/sp2
+-------------------------------------------------------------------------------
+The previous section's four statement orders plus the volatile spellings are
+confirmed: under dsi/1.1p1 EVERY source shape tried emits `push {r4, lr}` and
+merges two adjacent word stores into an `stm`, because 1.1p1 hoists all three
+incoming stack words live at once and so needs a callee-saved register. The
+image is frameless and re-reads each stack word into r2 late.
+
+NEW measurement: under `../2.0/sp2 -O4,p -proc arm946e` the same function is
+EXACT, 40 bytes, 0 mismatches, with this source:
+
+    typedef unsigned char u8;
+    struct Blit { int f0; int f4; int f8; u8 fc; int f10; int f14; };
+    void func_02068E78(struct Blit *p, int a1, int a2, int a3, int a4,
+                       int a5, int a6)
+    {
+        p->f4 = a2;
+        a2 = a4;          /* reuse a2's register for the stack word */
+        p->f8 = a3;
+        p->fc = (u8)a2;
+        p->f0 = a1;
+        p->f14 = a5;
+        p->f10 = a6;
+    }
+
+NOT FILED and NOT PINNED. The pin was deliberately withheld: the difference is
+register pressure / scheduling (1.1p1 spills to r4, the image needs no frame),
+which is NEITHER of the two tells docs/FRONTEND-PINS.md authorises ("kept
+branches" over a <=5-instruction predicated guard, "kept constants" where
+1.1p1 forwards a live register). Taking it would have widened the pin policy
+by a new tell on one lane's say-so. If the owner accepts a third tell, call it
+"kept frame" (the image keeps a frameless leaf where 1.1p1 spills a stack
+argument to a callee-saved register) and this function is the measurement.
+
+func_02068A18 @ 0x02068A18 (80 bytes) - DIFF, 72 compiled (was 68)
+-------------------------------------------------------------------
+Improvement on the previous section: the "factored `| (x << 8)`" blocker is
+NOT unspellable. Writing the 8bpp value as the DEFAULT and the 4bpp case as an
+override, rather than as two arms of an if/else, keeps both steps predicated
+exactly as the image does (`orreq`/`orreq`/`orrne` all into one register):
+
+    u32 t = arg | (arg << 8);
+    if (bpp == 4) { u32 u = arg | (arg << 4); t = u | (u << 8); }
+    px = t | (t << 16);
+
+with `int w = *(int *)(p + 4);` hoisted before it so the `ldr ip,[r0,#4]` lands
+third. That takes the body from 68 to 72 bytes and makes offsets +0000..+0010
+byte-identical. The residual 8 bytes are the image's `mov r3, r0` (it copies
+the surface pointer up front and reads every field through r3) plus the
+`mov r0, r1` before the call. Holding the pointer in a named local, reordering
+the `n` product both ways, and binding `dst`/`px`/`n` to locals in all three
+orders do not produce either move. ../2.0/sp2 is NOT the answer here: it
+factors the arms exactly as 1.1p1 does, also 68 bytes, so this is a source
+shape still to be found, not a front end.
+
+func_02068A68 @ 0x02068A68 (128 bytes) - DIFF, 116 compiled
+------------------------------------------------------------
+The A18 default-then-override fix above was applied here too and does NOT move
+this one: still 116 against 128, same as the previous section recorded. The
+row loop shape is right; the residue is the same class plus register choice.
+
+func_02068EA0 @ 0x02068EA0 (180 code bytes, listing extent 292) - DIFF, 284
+----------------------------------------------------------------------------
+New work; no previous section. Structure is essentially solved - 284 bytes
+against the listing's 292, with +0000..+005C byte-identical including both
+`bl` sites landing at the image's own offsets. Shape:
+
+  - Six parameters: (ctx, font, x, y, code, a6); the two stack words the image
+    reads at [sp,#0x28]/[sp,#0x2c] are arguments 5 and 6.
+  - `idx = func_02067F9C(font, code); if (idx == 0xffff) idx = (*font)->dflt;`
+    The 0xffff sentinel is the pool word at 0x02068FC0 and is exactly
+    func_02067F9C's documented "not found" return (src/matched/func_02067F9C.c).
+  - A TWO-element local array `out[2]` passed as the callee's sixth argument:
+    out[0] is func_02067FE4's return (stored [sp,#8]), out[1] is the glyph
+    pointer computed independently as
+    `(char *)hdr + 8 + idx * hdr->stride`, the image's `mla r1,r4,r1,r2`
+    stored to [sp,#0xc]. Getting out[1] into the source is what took the body
+    from 256 to 284.
+  - An EIGHT-case dense switch on `hdr[7]` (`cmp r1,#7`), arms pairing as
+    0 / 1,2 / 3,4 / 5,6 / 7-empty, dispatched by `addls pc, pc, r1, lsl #2`.
+  - Returns `out[0][2]` as a signed byte (`ldrsb r0,[r0,#2]` after the call).
+
+The whole remaining 8 bytes is ONE tell at +0x60: the image RE-READS the
+pointer chain, `ldr r1,[r7]` then `ldr r3,[r1,#8]`, to get the header a second
+time before the switch, where 1.1p1 reuses the register it already loaded at
++0x48 for the stride computation. Tried and all identical at 284/149: a
+`volatile` qualifier on the outer load, struct-typed field chains, binding the
+header to a local after out[1] instead of before, and spelling each arm's
+header access as a fresh `(*font)->hdr` chain. The load is CSE'd through every
+one. This is the highest-value residue in the packet: eight bytes on an
+otherwise solved 180-byte function.
+
+Nothing from this pass was filed to src/matched or src/pending; all four are
+DIFF and belong here by rule 6.
+
+------------------------------------------------------------------------------
+CORRECTION to the func_02068EA0 entry above, same pass: RESOLVED, now EXACT.
+------------------------------------------------------------------------------
+The eight-byte re-read residue described above is NOT an unfound source shape.
+It is the re-read/forward front-end tell already documented in
+docs/FRONTEND-PINS.md (the func_02070BD8 row): 1.1p1 forwards a live register
+where the image re-loads. Under `../2.0/sp2 -O4,p -proc arm946e` the same C is
+292 bytes, 0 mismatches. Two further corrections to the shape described above
+were needed to get there, both visible only once the size was right:
+
+  - The last two parameters are (int a6, u16 code), not (u32 code, int a6):
+    the image reads the halfword at [sp,#0x2c] and the word at [sp,#0x28], so
+    the u16 character code is the LAST argument, not the fifth.
+  - The switch has eight arms and case 7 is NOT empty: its table slot at
+    0x02068F34 branches to 0x02068F38, which is case 0's body, so 7 shares
+    case 0's `x += g[0]`. Spelling 7 as an empty arm costs exactly the one
+    mismatching table word.
+
+FILED: src/matched/func_02068EA0.c, status EXACT, compiler ../2.0/sp2, with
+the evidence row appended to docs/FRONTEND-PINS.md as the rule requires.
+The func_02068E78 paragraph above stands as written: that one is a spill/frame
+difference, not a re-read, so it remains unpinned and unfiled.

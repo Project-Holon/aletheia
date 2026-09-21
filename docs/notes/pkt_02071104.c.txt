@@ -1,0 +1,109 @@
+pkt_02071104 - the 0x02071104 matrix family, pins and near misses
+2026-09-21
+
+The packet is the same subsystem as pkt_02071DD4: the (DST, SRC)
+constructor family of docs/notes/pkt_02071DD4.c.txt, with the identical
+struct shapes. The three levers recorded there (L1 smull/smlal operand
+order, L2 where the <<15 term sits, L3 a named local before the store)
+all transfer unchanged, and the SRC/DST layouts needed no edits.
+
+The packet's eight listed entry points hide THREE unlabelled leaves that
+save no lr, so disasm.py never labels them and the listing folds them
+into the preceding function's extent:
+
+  0x02071180  (72 B, inside 0x02071104's 196-byte extent)
+  0x02071360  (68 B, inside 0x020712A8's 288-byte extent)
+  0x020713A4  (36 B, likewise)
+
+SOLVED THIS RUN (EXACT, both under a per-file pin):
+
+  0x020713A4  src/matched/func_020713A4.c  36 B  compiler ../2.0/sp2
+  0x02071180  src/matched/func_02071180.c  72 B  compiler ../2.0/sp2
+
+Both are the "kept constants" tell of docs/FRONTEND-PINS.md, and both are
+the SAME underlying decision: WHERE THE ZERO IS MATERIALISED.
+
+  0x020713A4 is the identity constructor, six stores and no arithmetic.
+    The image emits `mov r2, #0x1000` FIRST (01 2a a0 e3), then
+    `str r2, [r0]`, and only then `mov r1, #0` (00 10 a0 e3) at
+    0x020713AC. 1.1p1 -O4,p schedules the zero first for the same 36
+    bytes, 9 concrete out. Binding both constants to locals in either
+    declaration order, and writing f14 immediately after f00, all keep
+    the zero-first schedule.
+
+  0x02071180 is the translate-only constructor. The image emits
+    `mov ip, #0` (00 c0 a0 e3) at 0x0207118C, AFTER the `str r2, [r0]`
+    at 0x02071184, which is what keeps the f00 and f04 stores separate.
+    1.1p1 hoists the zero above the f00 store and MERGES the pair into
+    one `stm r0, {r2, ip}`, giving 68 bytes against the image's 72 with
+    the whole body shifted by four (57 concrete out).
+
+    This is the same stm-merge stall recorded for 0x02072320 in
+    docs/notes/pkt_02071DD4.c.txt, where the lane was not authorised to
+    probe the constants class. It IS the pin, and 0x02072320 should be
+    re-probed under ../2.0/sp2 by whoever next holds that packet - it is
+    80 B against 84 and one instruction short, the same shape.
+
+NEAR MISSES, all size-correct, all register allocation only. None of the
+three is a pin candidate: neither documented tell is present (no kept
+branch over a <=5 instruction guard, no `mov rD,#imm` rematerialisation
+of a value 1.1p1 forwards live), so no alternative front end was probed.
+
+  0x020712A8, 184 B, DIFF 4. The identity-2x2 member. Getting the SIZE
+    right needed one real lever, worth keeping: the f30 negation must be
+    THREE separate statements,
+        n = a + b;  n = 0 - n;  n = n + 0x1000;
+    Folded to `(0 - (f20 + f22)) + 0x1000`, 1.1p1 emits the single
+    `rsb r0, r0, #0x1000` and the function is 180 B. The f34 arm has no
+    negation and folds normally; spelling it out too costs 4 more bytes.
+    What remains is a stable r1/r2 swap: the image loads f20 into r1 and
+    f2c into r2 (`add r0, r1, r0` / `mul r0, r2, r0`), 1.1p1 the reverse.
+    Measured and NOT levers: five declaration orders (insensitive, 4
+    every time); binding f2c to a local read before, between and after
+    the f20/f22 pair (4 each); `b + a` instead of `a + b` (6);
+    reversing either mul's operand order (11 for f30, 4 for f34).
+
+  0x02071360, 68 B, DIFF 4. The copy-through leaf. Same class exactly:
+    the image loads f1c into r2 and f2e into r3, 1.1p1 the reverse
+    (`lsl r1, r2, #1` / `mul r1, r3, r1`). The three-statement negation
+    above is already required here and gives the right size. Measured
+    and NOT levers: binding f1c and f2e to locals in either read order
+    (4 each), declaring them in either order (4), reversing the mul
+    operand order (11). Also DIFF 4 under ../2.0/sp2, which is another
+    reason to read it as allocation rather than front end.
+
+  0x02071510, 300 B, DIFF at 292 B (8 short, 2 instructions). The
+    flag-driven upload dispatcher: reads the flag word at +0x00 five
+    times and pushes register blocks through
+    func_0206DDA4(reg, ptr, count) with regs 0x19/0x1a/0x1b/0x1c.
+    The whole first half is byte-identical once `flag` is declared
+    BEFORE the `m = f00 & 0x18` mask local (that swap alone fixes the
+    r4/r5 pair and takes 103 -> 98). The shortfall is entirely in the
+    f00&2 chain: the image gives the 0x19 and 0x1a arms EACH their own
+    `bl #0x206dda4` followed by `b 0x20715fc` to a shared continuation,
+    while 1.1p1 cross-jumps both arms to one shared call site.
+    Measured and NOT levers: flattening the chain to if/else-if with a
+    distinct call per arm (111, worse); an explicit `goto done` label
+    after the chain (98); spelling the pointer `(u8 *)o + 0x28` instead
+    of `&o->f28` (98). The "shared exit block written out in each arm"
+    idiom does not reach it because both arms call the SAME function
+    with only the two immediates differing, which is exactly what this
+    front end cross-jumps.
+
+NOT ATTEMPTED (oversized for this run, one `show` each):
+  0x02071104 (124 B labelled, 196 B extent incl. the 0x02071180 leaf)
+  0x020711C8 (224 B) - the full smull 2x2 member, the L1/L2 levers apply
+  0x020713C8 (316 B) - builds a 0x4c stack record, dispatches through a
+    3-bit index into a pointer table (`ldr r2,[r0,r1,lsl #2]`, `blx r2`
+    at 0x02071444), then applies the f30/f34 scales; the CALLER shape
+    that pkt_02071DD4 flagged at 0x02071F20 / 0x02072548
+  0x0207163C (512 B) - bitmap alloc/free around a 0x18-byte table and a
+    six-slot smull block, three pool words of table base addresses
+  0x02071858 (452 B) - the 0x3c stack-record sibling of 0x020713C8
+  0x02071A24 (264 B) - the general member: s64 intermediates through
+    smull/smlal with the f24/f28 cross terms, same shape as 0x02072068
+
+UNLABELLED FOLLOWERS seeded for layout/function_starts.txt:
+  0x02071180  (72 B, now EXACT, ../2.0/sp2)
+  0x02071360  (68 B, DIFF 4)
+  0x020713A4  (36 B, now EXACT, ../2.0/sp2)

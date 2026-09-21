@@ -187,3 +187,151 @@ void func_0206A12C(char *p, int flag)
         return;
     func_0207FADC(v);
 }
+
+
+================================================================================
+2026-09-21 - second pass under the ../2.0/sp2 pin (this packet's ARM rows)
+================================================================================
+
+Lane 5's three rows above were all measured under dsi/1.1p1 only.  Two of them
+are resolved by the documented ../2.0/sp2 pin (docs/FRONTEND-PINS.md); the rest
+of this section records what the pin does NOT fix.
+
+RESOLVED, now filed EXACT in src/matched/
+-----------------------------------------
+
+func_0206A17C @ 0x0206A17C (32 bytes) -> EXACT, compiler ../2.0/sp2
+  Lane 5's diagnosis was right and the cause is the "kept constants" tell, not
+  the source.  The image materialises the store's zero EARLY, `mov r1, #0` at
+  0x0206A180 (`00 10 a0 e3`), between the `ldrh` and the `bic`, and loads the
+  buffer pointer only at 0x0206A18C once the flags read-modify-write has
+  retired.  1.1p1 -O4,p hoists the buffer load and sinks the constant:
+  `ldrh r3 / ldr r2,[r0,#0x2c] / mov r1,#0 / bic r3,r3,#1 / strh r3`, the same
+  32 bytes with the first five instructions permuted, 16 concrete bytes out.
+  Three further orderings (block-scoped `old`, statement-split compound assign,
+  raw pointer casts) all schedule identically under 1.1p1.  Under the pin the
+  filed C is 32 bytes, 0 mismatches.  The one spelling change that mattered is
+  binding the halfword through a u32 local before the mask, which keeps the
+  mask an encodable `bic #1` instead of a pool `and 0xFFFE`.
+
+func_0206A5B4 @ 0x0206A5B4 (200 bytes) -> EXACT*, compiler ../2.0/sp2
+  New row, not in lane 5's set.  The "kept branches" tell.  The image writes
+  the zero result of the context lookup out TWICE, once per arm: `mov r3, #0`
+  at 0x0206A614 reached by the inner bounds failure and a second `mov r3, #0`
+  at 0x0206A61C reached by the outer null/offset guard, each with its own
+  branch to 0x0206A620 (`02 00 00 ea` at 0x0206A610, `00 00 00 ea` at
+  0x0206A618).  1.1p1 -O4,p cross-jumps them into a single `mov r3, #0` and
+  emits the two branches back to back: 196 bytes against 200, every following
+  instruction identical and shifted by exactly four.  Four spellings of the
+  split (goto to a shared label, chained else-if, hoisted `r3 = 0` initialiser,
+  duplicated-else) all fold the same way under 1.1p1.
+  Two further tells that cost time and are worth reusing on this family:
+    - the entry count is at +1 and the flags byte at +3, so the leading field
+      must be two u8s, not one u16, or every `ldrb [rN,#1]` becomes `#2`;
+    - the `mla` operand order is decided by which factor is a NAMED LOCAL.
+      Binding the table stride to `u16 st = *(u16 *)((char *)e1 + t2);` and
+      writing `st * i` gives `mla r1, lr, r2, r1`; both inline spellings
+      (`i * *(u16*)...` and `*(u16*)... * i`) give `mla r1, r2, lr, r1`.
+  EXACT* only: 0x0206A67C has no label, so the inferred extent runs to 332
+  bytes.  Reported as an unlabelled follower, not seeded here.
+
+NOT resolved by the pin - near misses, all at the correct size
+--------------------------------------------------------------
+
+func_0206A12C @ 0x0206A12C (80 bytes) - DIFF, 9 concrete bytes, both compilers
+  Byte-correct in size and instruction sequence; the residue is purely that r4
+  and r5 are swapped (the image has `movs r5, r1` / `mov r4, r0`, the compile
+  `movs r4, r1` / `mov r5, r0`, and the seven dependent references follow).
+  Lane 5's row above did not reach this size; the fix that did was the LAST
+  call's argument.  r0 at 0x0206A174 holds the flags halfword just stored, not
+  the object pointer, so 0x0207FADC takes the VALUE:
+      u16 v = (u16)(p->f32 | 1);  p->f32 = v;  if (flag) func_0207FADC(v);
+  With the object passed instead, the compile is 84 bytes with an extra
+  `mov r0, r4`.  Seven allocation shapes were then measured and all give the
+  same 9 bytes: caching both parameters into locals in either order, a third
+  unused parameter, an unsigned `flag`, deferring the `p` cache until after the
+  first call, a separate `keep` copy of the flag, braces on the first guard,
+  and hoisting the 0x0207FA40 destination into a named local.  ../2.0/sp2 gives
+  the identical 9 bytes, so this is not the pin's family.
+
+func_0206A854 @ 0x0206A854 (48 bytes) - DIFF, 4 bytes over, under the pin
+  Lane 5's row, advanced but not closed.  Two of its three blockers are solved:
+  the single pool word is 0x02148B4C, NOT 0x02148B50 (both `ldr [pc]` at
+  0x0206A858 and 0x0206A868 resolve to the one word at 0x0206A880, `4c 8b 14
+  02`), and the callee takes THREE arguments, r2 = 0x3e, matching
+  func_0206DDA4's signature in src/matched/func_0206A884.c.  The `bic #1` /
+  `bic #2` pair does come out separately once the two masks are two statements.
+  What remains is the "kept constants" tell PLUS a fusion 2.0 does not do.
+  1.1p1 keeps the base live in callee-saved r4 and emits `push {r4, lr}` where
+  the image has `push {r3, lr}` and a second pool reload - the tell exactly -
+  so the pin is right for the frame; under ../2.0/sp2 the frame, the two bics
+  and the whole instruction sequence match, at 52 bytes against 48.  The four
+  missing bytes are the post-increment fusion: the image spends ONE pool word
+  on `ldr r0, [r1], #4`, using r1 both as the loaded value's base and as the
+  call's second argument, while 2.0 emits two pool words and a plain
+  `ldr r0, [r0]`.  Measured spellings that do not fuse it, under both
+  compilers: `*p++` in the call expression, `u32 a = *p++;` split out,
+  `a = *p; p++;`, `g[0]` with `&g[1]`, `g[0]` with `g + 1`, and the same four
+  against a struct-typed object.  Folding the flags tail into one local closes
+  the size to 48 under 1.1p1 but then collapses the bics to `bic #3`, so the
+  two constraints are in tension and neither compiler satisfies both.
+
+func_0206A3CC @ 0x0206A3CC (224 bytes) - DIFF, 9 concrete bytes, under the pin
+  The closest of the large rows and the most reusable.  Correct size, correct
+  instruction multiset, correct branch structure; the residue is three
+  instructions scheduled differently around the sum truncation:
+      image    lsl lr, r2, #0x10 / add r2, r0, #4 / lsr r4, lr, #0x10
+      compile  lsl r2, r2, #0x10 / lsr r4, r2, #0x10 / add r2, r0, #4
+  Four things had to be right to get here and are worth carrying to 0x0206A4AC
+  and 0x0206A2CC, which share the shape:
+    - the +0x2c field is read as a WORD then truncated, `u32 v = (u16)*(u32 *)
+      (c + 0x2c); v &= ~0xe0000000u;`, which gives the image's lsl/lsr/bic/lsl
+      quartet; `& 0xffff & ~0xe000` folds to a pool word instead;
+    - the two halfword adjustments are `>> 1`, not a shift pair: `a >> 1` gives
+      `lsl #0xf` + `lsr #0x10`, while `((u32)a << 15) >> 16` gives `lsl #0x1f`
+      and `(u16)((u32)a << 15)` gives `#0x1f` too (168 bytes out either way);
+    - the null guard and the bounds guard must be SEPARATE, reached by an
+      explicit `goto` into the else arm, or the compiler merges them into
+      `cmpne` and loses the image's two `beq`s (this alone is 57 -> 20 bytes);
+    - the index pointer `base + e->f0` must be computed BEFORE the +0x2c read,
+      or the `add ip, r0, r5` lands after the `lsr` that finishes the mask
+      (20 -> 9 bytes).
+  Under 1.1p1 the same C is 216 bytes and predicates the `>> 1` pair into
+  `lsleq/lsreq`, the "kept branches" tell again, so the pin is certainly right
+  for this row; it is the last three instructions that no spelling reached.
+  Shapes measured at 9 bytes and not better: hoisting `sum` out of the loop
+  (228 bytes), hoisting `base + 4` out of the loop (228), both hoists together
+  (228), `b + a` instead of `a + b` (11 bytes), reusing `t` as the base+4 temp
+  before the guard split (the guards then merge), declaring `z` before `t`,
+  and `sum` as a function-scope local in either declaration position.
+
+func_0206A19C @ 0x0206A19C (300 bytes) - DIFF, 246 bytes, 308 compiled
+  Same family, one level up: this is the callee 0x0206A2CC dispatches to.  The
+  loop body reproduces from +0x50 onward once the A3CC recipe above is applied
+  (the `mla` form, the separate guards, the word-load-then-truncate mask).  The
+  open problem is the prologue's SPILL CHOICE.  The image spills the index
+  pointer `base + e->f0` to [sp] (the `push {r3, ...}` slot) and keeps the mask
+  live in fp; every spelling tried spills the mask to [sp] instead and
+  recomputes the index, and the two-local version asks for a second slot and a
+  `sub sp, sp, #8` the image does not have.  Dropping the `idx` local gets the
+  frame right (308 bytes, no `sub sp`) but inverts which value is spilled.
+  ../2.0/sp2 gives the identical 308/246, so this is not the pin's family
+  either.  Anyone picking this up should start from the no-idx shape and attack
+  the spill choice, not the loop.
+
+func_0206A2CC @ 0x0206A2CC (256 bytes) - not closed, 196 compiled
+  Attempted once with the A3CC recipe; 60 bytes short, so the body is missing
+  statements rather than mis-scheduled.  Note that its inner lookup is NOT the
+  plain `mla` accessor: 0x0206A324..0x0206A334 reads a second offset out of the
+  table (`ldrh r0,[r1,#2]` then `add r0,r1,r0`) and adds the 0x10-strided
+  accumulator sb, a different shape from the one in 0x0206A3CC/0x0206A5B4, and
+  the sb accumulator is real (`add sb, sb, #0x10` at 0x0206A2B8 feeding
+  `add r1, r0, sb` at 0x0206A334).  Not re-attempted after that reading.
+
+func_0206A4AC @ 0x0206A4AC (264 bytes) - not attempted
+  Same shape as 0x0206A2CC, differing in the context lookup (an inline
+  `ldrhne r0,[sl,#0x34]` guard where 0x0206A2CC calls straight into
+  func_0206E62C) and in reading `[r8, #2]` where 0x0206A2CC reads `[r8]`.
+  Whatever closes 0x0206A2CC should close this one.
+
+func_0206A700 @ 0x0206A700 (276 bytes) - not attempted, budget
