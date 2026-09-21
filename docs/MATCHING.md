@@ -158,7 +158,7 @@ from a claim about the source into a tautology. So `match.py` records, for
 every address it knows, *where in the image it learned it*, and discards any
 witness that falls inside the range being compared.
 
-Six classes of evidence are accepted, and every resolved site prints its
+Seven classes of evidence are accepted, and every resolved site prints its
 class, the number of witnesses and one witness address:
 
 | class | what it means |
@@ -169,6 +169,7 @@ class, the number of witnesses and one witness address:
 | `veneer` | the address holds an ARM linker veneer: a fixed twelve-byte (or eight-byte) encoding that loads a constant into `ip` or `pc` and branches to it, with the constant naming a known function. For a call the linker redirected through a stub, which nothing else can attest. |
 | `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
 | `string` | the address is the start of a NUL-terminated ASCII string whose position is fixed by the terminator of the string before it. For `__FILE__` arguments, which nothing else can attest. |
+| `sole-ref` | the layout itself says a data object begins at that address: it is in a data section, it is an object *start* the listings, the SDK symbol table or the file-anchor table already carry, and the declared type's alignment holds. `data` only, tried last of all. |
 
 The `label` class reads branches from the whole image, not just from the region
 being matched, and it reads labels from the whole image too. `func_02014468`
@@ -308,6 +309,42 @@ map by name as well, but that lookup is not itself evidence: a name found
 there still has to clear `attest()` before anything is written. What an
 `EXACT` shard entry carries beyond the name is the subject of the next
 section.
+
+#### The sole-ref class
+
+Approved after the wave-20 handoff, for the one shape `literal` and
+`data_table` both leave stranded: a static object exactly one function
+references, through one pool word, whose contents are not pointers.
+`sub_0209E904_Tbl` in `src/pending/func_020213F8.c` is the canonical
+instance — the pool word is inside the compared range, so `literal` discards
+its only witness; the object is a run of `u16` pairs, so `data_table` refuses
+it; and nothing branches to data, so `label` never applies. What the class
+rests on is not a second reference but the **layout**: the delinked image's
+own structure says an object begins at that address, read entirely from files
+that are never part of a compared range. It **accepts** an address only when
+all three of (a) it is in a data section of `layout/layout.json` — a
+`.word`/`.byte`/`.ascii` datum in the listings, or a declared bss range — and
+neither in a code section nor inside any traced function's extent; (b) it is
+the **start** of a known object, meaning a `pool_`/`veneer_`/`d_`/`g_`/`tbl_`
+label the listings carry at exactly that address, a data symbol of
+`layout/symbols_sdk.json`, a `__FILE__` anchor of `layout/file_anchors.txt`,
+or a `.word`-run start `disasm.py` emitted as its own block; and (c) the
+alignment the site's declared type demands is satisfied (a fourth `symbols:`
+token, `a1`/`a2`/`a4`/`a8`/`a16`; a data extern with none is assumed to want
+four). It **refuses** an address merely interior to a labelled object — which
+is exactly why 0x0209E904 above is still refused — an address in code, a
+misaligned address, and any kind but `data`. It is the weakest class in the
+set and is tried last, after every other has failed, so an address a stronger
+class can carry never reports as `sole-ref`; and it stays falsifiable in the
+way `literal` and `string` are, because the resolved word is still compared
+against the original and a wrong declaration comes out `DIFF`. Every site that
+rests on it is recorded in the shard entry as `evidence: {"sole-ref":
+["0x0209DEA0", ...]}`, so `grep sole-ref layout/matched` lists every entry
+that depends on the class, and `tools/worklist.py --summary` prints its share
+of coverage on its own line under the coverage figure rather than folding it
+in. `attest_sole_ref()` and `data_object_starts()` in `tools/match.py` are the
+implementation, and `match.py selftest` covers the acceptance and all four
+refusals.
 
 ### The matched class
 

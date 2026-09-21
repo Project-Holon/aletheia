@@ -500,6 +500,13 @@ def target_extent(addr, region):
 #            address follows from where we placed the translation unit.  No
 #            image evidence is involved at all.
 #
+#   sole-ref the layout itself says a data object begins at that address: it
+#            is in a data section, it is an object START the listings, the SDK
+#            symbol table or the file-anchor table already carry, and the
+#            declared type's alignment holds.  `data` only, tried last of
+#            all, and an address interior to a labelled object is refused.
+#            See attest_sole_ref().
+#
 # A site with no accepted witness stays wildcarded and the entry stays MATCH,
 # with the reason printed.  Nothing is ever back-filled from the original.
 
@@ -1064,20 +1071,23 @@ _ADDR_NAME_RE = re.compile(r"^(?:func|sub)_(0[0-9A-Fa-f]{7})$")
 class Decl:
     """One entry of a source file's `symbols:` block."""
 
-    __slots__ = ("name", "addr", "kind", "origin", "region")
+    __slots__ = ("name", "addr", "kind", "origin", "region", "align")
 
-    def __init__(self, name, addr, kind, origin, region=None):
+    def __init__(self, name, addr, kind, origin, region=None, align=None):
         self.name = name
         self.addr = addr
         self.kind = kind        # "thumb", "arm" or "data"
         self.origin = origin    # "header" or "name"
         self.region = region    # overlay hint, e.g. "ov021", or None
+        self.align = align      # declared type's alignment, or None
 
 
 def declared_symbols(fields):
     """Parse the `symbols:` block of a matched source file's header.
 
-    A line is normally `name 0xADDR kind`.  A fourth token names the overlay
+    A line is normally `name 0xADDR kind`.  A fourth token is either the
+    declared type's alignment (`a1`, `a2`, `a4`, `a8`, `a16`, read by the
+    `sole-ref` class) or the overlay
     the address lives in (`func_021D21C0  0x021D21C0  thumb  ov021`), for a
     callee that only exists in an overlay: overlays overlap in address
     space, so without this the `label` class has no way to know which of
@@ -1093,12 +1103,24 @@ def declared_symbols(fields):
                 % line)
         if len(parts) == 3:
             name, addr, kind = parts
-            region = None
+            extra = None
         else:
-            name, addr, kind, region = parts
+            name, addr, kind, extra = parts
         if kind not in ("thumb", "arm", "data"):
             raise SystemExit("bad symbol kind %r for %s" % (kind, name))
-        out[name] = Decl(name, int(addr, 0), kind, "header", region)
+        region = align = None
+        if extra is not None:
+            if re.match(r"^a[0-9]+$", extra):
+                # the declared type's alignment, which the `sole-ref` class
+                # checks the address against
+                align = int(extra[1:])
+                if align not in (1, 2, 4, 8, 16):
+                    raise SystemExit(
+                        "bad alignment %r for %s: want a1/a2/a4/a8/a16"
+                        % (extra, name))
+            else:
+                region = extra
+        out[name] = Decl(name, int(addr, 0), kind, "header", region, align)
     return out
 
 
@@ -1448,6 +1470,303 @@ def attest_data_table(addr, lo, hi):
 
 
 # ---------------------------------------------------------------------------
+# the `sole-ref` class
+# ---------------------------------------------------------------------------
+#
+# Approved as a new evidence class after the wave-20 handoff.  It exists for
+# the shape `literal` and `data_table` both leave stranded: a static object
+# that exactly one function in the image references, through one pool word,
+# and whose contents are not pointers.  `sub_0209E904_Tbl` in
+# `src/pending/func_020213F8.c` is the canonical instance.  The pool word is
+# inside the compared range, so `literal` discards its only witness; the
+# object is a run of u16 pairs, so `data_table` refuses it too; and nothing
+# in the image branches to data, so `label` never applies.  Every concrete
+# byte of such a file is right and it is stuck at MATCH.
+#
+# What the class rests on is NOT a second reference.  It is the LAYOUT: the
+# delinked image's own structure says there is an object beginning at that
+# address, and that statement is read entirely from files that are never part
+# of any compared range (layout/layout.json, layout/symbols_sdk.json,
+# layout/file_anchors.txt and the generated listings' block structure).  It is
+# the weakest class in the set and is tried last, after every other class has
+# failed, so an address any stronger class can carry never reports as
+# `sole-ref`.
+#
+# It is still falsifiable in exactly the way `literal`, `string` and
+# `data_table` are: the resolved word is written into the bytes and compared
+# against the original, so a wrong declaration resolves to a wrong word and
+# comes out DIFF.  What the class buys is permission to write the word at all.
+#
+# Three conditions, each a separate refusal in attest_sole_ref():
+#
+#   (a) THE ADDRESS IS IN DATA.  It lies inside a loaded region of
+#       layout/layout.json, and inside that region it is a data address and
+#       not a code one: the generated listings classify every byte of the
+#       image, and the address must fall on a byte the listings emit as a
+#       `.word`/`.byte`/`.short`/`.ascii` datum rather than as an
+#       instruction, and must not lie inside any traced function's extent
+#       (from the first byte of a func_ label to the start of the next
+#       block).  A bss address, which no listing covers because bss is not
+#       in the image, qualifies through the layout's own bss_start/bss_end
+#       instead.  A code address is refused outright.
+#
+#   (b) THE ADDRESS IS AN OBJECT BOUNDARY.  Something the project already
+#       carries has to name exactly that address as the START of an object.
+#       Four sources, and only these four, because they are the only ones
+#       this layout has (see data_object_starts() for what each contributes
+#       in the ARM9 image):
+#
+#         * a data label the listings emit at that address.  disasm.py emits
+#           `pool_XXXXXXXX` for a literal pool and `veneer_XXXXXXXX` for a
+#           linker stub; it emits no `d_`/`g_`/`tbl_` labels at all, so those
+#           spellings are accepted if they ever appear but contribute nothing
+#           today;
+#         * a data symbol of layout/symbols_sdk.json.  Today every recovered
+#           SDK symbol in that file is a function, so this source likewise
+#           contributes nothing yet; it is here so that a data symbol added
+#           later is honoured without a code change;
+#         * a file anchor: the `string_addr` column of layout/file_anchors.txt
+#           is the start of a __FILE__ literal, which is an object boundary
+#           the harvester established from outside any compared range;
+#         * the start of a `.word` run the listings emit as its own block,
+#           i.e. the first data address after a run of instructions.  This is
+#           disasm.py's own block structure (`_block_starts`), the closest
+#           thing a stripped image has to an object-file boundary.
+#
+#       An address that is merely INTERIOR to one of those objects is
+#       refused.  That is the condition that keeps the class narrow: it does
+#       not let a caller point at an arbitrary offset into rodata and call
+#       the layout a witness.  0x0209E904 (the func_020213F8 blocker above)
+#       is interior to the 0x0209D86C run and is refused for exactly this
+#       reason.
+#
+#   (c) THE ALIGNMENT HOLDS.  The site's declared type has an alignment, and
+#       the address has to satisfy it.  A `symbols:` line may state it as a
+#       fourth token (`a1`, `a2`, `a4`, `a8`); without one, an ABS32 data
+#       reference is assumed to want the four-byte alignment mwccarm gives an
+#       ordinary extern, which is the conservative reading.  An address that
+#       does not meet it cannot be the object the source declares.
+#
+# The class never applies to code: `kind` has to be `data`.
+
+# Alignment tokens a `symbols:` line may carry, and the default for a data
+# extern with none.
+SOLE_REF_DEFAULT_ALIGN = 4
+
+_DATA_DIRECTIVE_RE = re.compile(
+    r"^\s*\.(word|byte|short|hword|2byte|4byte|ascii|asciz|string|space|zero)\b")
+_LINE_ADDR_RE = re.compile(r"/\*\s*([0-9A-Fa-f]{8})[\s*]")
+_DATA_LABEL_RE = re.compile(
+    r"^(pool|veneer|d|g|tbl)_([0-9A-Fa-f]{8}):$")
+
+_LAYOUT_DATA = {}
+
+
+def _scan_data_structure():
+    """Classify the ARM9 image's bytes and find its data object starts.
+
+    One pass over the same listings evidence() reads.  Returns
+
+        (code_addrs, data_addrs, object_starts, func_extents)
+
+    where `object_starts` is the set of addresses at which the listings, the
+    SDK symbol table or the file-anchor table say an object begins, and
+    `func_extents` is [(lo, hi)] for every traced function.
+
+    The listings are split into overlapping unit files, so the same address
+    is described by more than one file; they agree, and the union is taken.
+    """
+    if "d" in _LAYOUT_DATA:
+        return _LAYOUT_DATA["d"]
+    code = set()
+    data = set()
+    starts = set()
+    func_at = {}
+    for path in evidence_files():
+        prev_data = False
+        try:
+            fh = open(path, "r", errors="replace")
+        except OSError:
+            continue
+        with fh:
+            for line in fh:
+                s_ = line.strip()
+                m = _DATA_LABEL_RE.match(s_)
+                if m:
+                    starts.add(int(m.group(2), 16))
+                    continue
+                ma = _LINE_ADDR_RE.search(line)
+                if ma is None:
+                    continue
+                addr = int(ma.group(1), 16)
+                if _DATA_DIRECTIVE_RE.match(line):
+                    data.add(addr)
+                    if not prev_data:
+                        # the first datum after code: disasm.py emitted a new
+                        # block here, which is a run start.
+                        starts.add(addr)
+                    prev_data = True
+                else:
+                    code.add(addr)
+                    prev_data = False
+    # a func_ label's extent, so an address inside traced code is refused even
+    # when some other unit file happens not to cover it.
+    labels = sorted(evidence().labels)
+    all_code = sorted(code)
+    extents = []
+    import bisect
+    for a in labels:
+        i = bisect.bisect_right(all_code, a)
+        end = a
+        # walk forward through contiguous code addresses
+        while i < len(all_code) and all_code[i] - end <= 4:
+            end = all_code[i]
+            i += 1
+        extents.append((a, end + 4))
+    # SDK data symbols (none today: every entry of symbols_sdk.json is a
+    # function) and file anchors.
+    for e in _sdk_symbol_records():
+        if e.get("kind") == "data" or e.get("data") is True:
+            starts.add(int(e["address"]) if not isinstance(e["address"], str)
+                       else int(e["address"], 0))
+    starts |= file_anchor_starts()
+    out = (code, data, starts, extents)
+    _LAYOUT_DATA["d"] = out
+    return out
+
+
+def _sdk_symbol_records():
+    """The raw records of layout/symbols_sdk.json."""
+    path = os.path.join(ROOT, "layout", "symbols_sdk.json")
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            return json.load(fh).get("symbols", [])
+    except (OSError, ValueError):
+        return []
+
+
+_ANCHORS = {}
+
+
+def file_anchor_starts():
+    """String addresses from layout/file_anchors.txt.
+
+    Column 4 of that table is the address of a __FILE__ literal, which is the
+    start of an object: the harvester established it from pool sites, and the
+    table is read from a file that is never part of a compared range.
+    """
+    if "a" in _ANCHORS:
+        return _ANCHORS["a"]
+    out = set()
+    path = os.path.join(ROOT, "layout", "file_anchors.txt")
+    try:
+        with open(path, "r", errors="replace") as fh:
+            for line in fh:
+                if line.startswith("#"):
+                    continue
+                parts = line.split()
+                if len(parts) >= 4:
+                    try:
+                        out.add(int(parts[3], 16))
+                    except ValueError:
+                        continue
+    except OSError:
+        pass
+    _ANCHORS["a"] = out
+    return out
+
+
+def data_object_starts():
+    """Every address at which this layout says a data object begins."""
+    return _scan_data_structure()[2]
+
+
+def in_data_section(addr):
+    """True when `addr` is a data address of a loaded region, not a code one.
+
+    Three ways to be data: the listings emit a datum there; the layout puts
+    it in bss (which no listing covers, because bss is not in the image); or
+    -- refused -- the listings emit an instruction there, or the address is
+    inside a traced function's extent.
+    """
+    code, data, _starts, extents = _scan_data_structure()
+    if addr in code:
+        return False
+    import bisect
+    lows = [lo for lo, _hi in extents]
+    i = bisect.bisect_right(lows, addr) - 1
+    if i >= 0 and extents[i][0] <= addr < extents[i][1]:
+        return False
+    if addr in data:
+        return True
+    return addr in bss_addresses_probe(addr)
+
+
+def _bss_ranges():
+    """(lo, hi) for every bss range layout/layout.json declares."""
+    if "bss" in _LAYOUT_DATA:
+        return _LAYOUT_DATA["bss"]
+    out = []
+    try:
+        with open(os.path.join(ROOT, "layout", "layout.json")) as fh:
+            lay = json.load(fh)
+    except (OSError, ValueError):
+        _LAYOUT_DATA["bss"] = out
+        return out
+    a9 = lay.get("arm9") or {}
+    for blk in [a9.get("static") or {}] + list(a9.get("autoloads") or []):
+        lo = blk.get("bss_start")
+        hi = blk.get("bss_end")
+        if lo and hi and hi > lo:
+            out.append((lo, hi))
+    for ov in lay.get("overlays") or []:
+        lo, hi = ov.get("bss_start"), ov.get("bss_end")
+        if lo and hi and hi > lo:
+            out.append((lo, hi))
+    _LAYOUT_DATA["bss"] = out
+    return out
+
+
+def bss_addresses_probe(addr):
+    """A one-element set holding `addr` when it is in bss, else empty.
+
+    Spelled as a set so in_data_section() reads uniformly; bss is far too
+    large to enumerate.
+    """
+    for lo, hi in _bss_ranges():
+        if lo <= addr < hi:
+            return {addr}
+    return set()
+
+
+def attest_sole_ref(addr, kind, align=None):
+    """The `sole-ref` class.  Returns (class, witnesses, site) or None.
+
+    Tried only after every other class has failed.  See the commentary above
+    for conditions (a), (b) and (c); each one is a separate refusal here.
+    """
+    if kind != "data":
+        return None
+    # (a) inside a data section, never code
+    region = _region_at(addr)
+    in_bss = bool(bss_addresses_probe(addr))
+    if region is None and not in_bss:
+        return None
+    if not in_data_section(addr):
+        return None
+    # (b) the start of a known object, not its interior
+    if addr not in data_object_starts():
+        return None
+    # (c) the declared type's alignment
+    a = SOLE_REF_DEFAULT_ALIGN if align is None else align
+    if a > 1 and (addr % a):
+        return None
+    return "sole-ref", 1, addr
+
+
+# ---------------------------------------------------------------------------
 # the `matched` class
 # ---------------------------------------------------------------------------
 #
@@ -1589,7 +1908,7 @@ def attest_matched(addr, kind, src=None):
     return "matched", 1, addr
 
 
-def attest(addr, kind, lo, hi, src=None, region_hint=None):
+def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None):
     """Independent evidence for `addr`, or None.
 
     `lo`..`hi` is the byte range under comparison; a witness inside it does
@@ -1598,8 +1917,9 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None):
     which the `matched` class needs to refuse self-reference.  `region_hint`
     is an overlay name from the source's own `symbols:` line, used only by
     the overlay branch of the `label` class to resolve which of several
-    overlapping overlays is meant.  Returns (class, witness_count,
-    example_site).
+    overlapping overlays is meant.  `align` is the alignment the site's
+    declared type demands, which only the `sole-ref` class consults.
+    Returns (class, witness_count, example_site).
     """
     ev = evidence()
     if kind in ("thumb", "arm"):
@@ -1654,6 +1974,13 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None):
     proof = attest_matched(addr, kind, src)
     if proof is not None:
         return proof
+    # Last of all, after every other class has failed: the layout's own
+    # statement that a data object begins at this address.  See "the
+    # `sole-ref` class" above.
+    if kind == "data":
+        proof = attest_sole_ref(addr, kind, align)
+        if proof is not None:
+            return proof
     return None
 
 
@@ -1820,7 +2147,8 @@ def resolve_relocations(fb, place, decls, size=None, src=None):
                 if found is None:
                     st.note = "declared %s, no image evidence for the ISA" % kind
             region_hint = decls[name].region if name in decls else None
-            proof = attest(target, kind, lo, hi, src, region_hint)
+            align = decls[name].align if name in decls else None
+            proof = attest(target, kind, lo, hi, src, region_hint, align)
             if proof is None:
                 st.reason = ("%08X (%s, from %s) has no witness outside "
                              "%08X..%08X" % (target, kind, origin, lo, hi))
@@ -2549,7 +2877,7 @@ CONT_RE = re.compile(r"^\s*\*\s*([A-Za-z_][A-Za-z0-9_]*\s*,\s*)*"
 
 SYMBOL_RE = re.compile(
     r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*)\s+(0[xX][0-9A-Fa-f]+)\s+"
-    r"(thumb|arm|data)(?:\s+(ov\d{3}))?\s*$")
+    r"(thumb|arm|data)(?:\s+(ov\d{3}|a\d{1,2}))?\s*$")
 SYMBOLS_OPEN_RE = re.compile(r"^\s*\*?\s*symbols\s*:\s*$", re.IGNORECASE)
 
 
@@ -2775,6 +3103,24 @@ def collect_sources():
     return out
 
 
+def sole_ref_sites(result):
+    """Sorted, de-duplicated `sole-ref` target addresses of one verification.
+
+    Reads the per-site report resolve_relocations() already built, so there
+    is no second notion of what rested on the class.  Returns [] when the
+    entry used none, which is what keeps an unaffected shard byte-stable.
+    """
+    fb = getattr(result, "func", None)
+    sites = getattr(fb, "sites", None) if fb is not None else None
+    if not sites:
+        return []
+    out = set()
+    for st in sites:
+        if st.resolved and st.cls == "sole-ref" and st.value is not None:
+            out.add(st.value & ~1)
+    return ["0x%08X" % a for a in sorted(out)]
+
+
 def entry_from_source(path, header, kind, rel, verify=False):
     """One manifest entry, optionally recompiled to record a live status."""
     h = header
@@ -2800,6 +3146,12 @@ def entry_from_source(path, header, kind, rel, verify=False):
             r = run_one(path, names[0], addr, h.get("compiler", "1.1p1"),
                         flags.split(), thumb, lang, region=region)
         status = r.status
+        # Auditability: the `sole-ref` class is the weakest in the set, so an
+        # entry that rests on it says so, per site, in the manifest itself.
+        # `grep sole-ref layout/matched` then lists every entry that depends
+        # on the class.  An entry that uses no such site records nothing, so
+        # every shard that predates the class stays byte for byte identical.
+        sole = sole_ref_sites(r)
     entry = {
         "name": os.path.splitext(fn)[0] if is_unit else names[0],
         "address": "0x%08X" % addr,
@@ -2815,6 +3167,8 @@ def entry_from_source(path, header, kind, rel, verify=False):
     }
     if is_unit:
         entry["functions"] = names
+    if verify and sole:
+        entry["evidence"] = {"sole-ref": sole}
     return entry
 
 
@@ -3139,6 +3493,27 @@ MATCHED_CALLER_LO, MATCHED_CALLER_HI = 0x02017E1C, 0x02017E40
 # func_0200B6E0 is not the address of src/matched/unit_0200B67C.c, it is the
 # second function that unit's layout records: the same byte comparison covered
 # it, so the entry attests it too.
+# --- the sole-ref class ----------------------------------------------------
+# 0x020A7004 is the __FILE__ string of gfl_use.c: layout/file_anchors.txt
+# records it as an object start, so condition (b) holds there, and it is well
+# inside the rodata blob so condition (a) does too.  It is also the start of a
+# NUL-terminated run whose left neighbour terminates, so the `string` class
+# carries it first -- which is exactly what the ordering case below checks.
+SOLE_REF_ANCHOR = 0x020A7004
+# 0x020963F4 is a `.word` run start disasm.py emitted as its own block, four
+# aligned but not eight, which is the alignment case.  No pool word in the
+# image names it, so it is also the pure case: only this class can carry it.
+SOLE_REF_RUN_START = 0x020963F4
+# 0x02004F7C is another run start, and one literal pool word does name it, so
+# it is the ordering case: `literal` answers first and the class only speaks
+# once that witness is inside the compared range.
+SOLE_REF_ALSO_LITERAL = 0x02004F7C
+# interior to the 0x0209D86C run: the blocker of src/pending/func_020213F8.c,
+# and the address the class must refuse.
+SOLE_REF_INTERIOR = 0x0209E904
+# a traced ARM function in the middle of a code section.
+SOLE_REF_CODE = 0x02096670
+
 MATCHED_MEMBER = 0x0200B6E0
 MATCHED_MEMBER_SRC = "src/matched/unit_0200B67C.c"
 
@@ -3363,6 +3738,53 @@ def cmd_selftest(args):
     _check(res, "string: the wide window still refuses a witness inside the "
                 "compared range",
            cls(attest_string(STR_BOX_SAVEDATA, 0x020A7000, 0x020A7100)), None)
+
+    # --- the sole-ref class ------------------------------------------------
+    # The layout's own statement that a data object begins at an address, and
+    # the weakest class in the set: tried only after every other has failed,
+    # `data` only, object STARTS only, and the declared alignment has to hold.
+    _check(res, "sole-ref: the literal class carries an object start that a "
+                "pool word also names, and answers first",
+           cls(attest(SOLE_REF_ALSO_LITERAL, "data", 0, 0)), "literal")
+    _check(res, "sole-ref: with that one pool witness inside the compared "
+                "range, the layout's object start carries it instead",
+           cls(attest(SOLE_REF_ALSO_LITERAL, "data",
+                      0x02000000, 0x03000000)), "sole-ref")
+    _check(res, "sole-ref: a data address at a known object start that no "
+                "pool word names at all is the class's own case",
+           cls(attest(SOLE_REF_RUN_START, "data", 0, 0)), "sole-ref")
+    _check(res, "sole-ref: a file anchor is an object start too, but the "
+                "string class is stronger and answers first",
+           cls(attest(STR_PLAYTIME, "data", 0x0200857C, 0x020085A0)),
+           "string")
+    _check(res, "sole-ref: once the string and literal classes have failed, "
+                "the anchor still attests the address",
+           cls(attest(SOLE_REF_ANCHOR, "data", 0x02000000, 0x03000000)),
+           "sole-ref")
+    _check(res, "sole-ref: an address inside a code section is refused",
+           cls(attest_sole_ref(SOLE_REF_CODE, "data")), None)
+    _check(res, "sole-ref: and attest() does not reach the class for it "
+                "either",
+           cls(attest(SOLE_REF_CODE, "data", 0x02000000, 0x03000000)), None)
+    _check(res, "sole-ref: an address interior to a labelled object is "
+                "refused",
+           cls(attest_sole_ref(SOLE_REF_INTERIOR, "data")), None)
+    _check(res, "sole-ref: one byte past an object start is not a start",
+           cls(attest_sole_ref(SOLE_REF_ANCHOR + 1, "data", align=1)), None)
+    _check(res, "sole-ref: the declared type's alignment has to hold",
+           cls(attest_sole_ref(SOLE_REF_RUN_START, "data", align=8)), None)
+    _check(res, "sole-ref: the same address at the alignment it does meet "
+                "is accepted",
+           cls(attest_sole_ref(SOLE_REF_RUN_START, "data", align=4)),
+           "sole-ref")
+    _check(res, "sole-ref: the class never applies to a code symbol",
+           cls(attest_sole_ref(SOLE_REF_RUN_START, "arm")), None)
+    _check(res, "sole-ref: a data address the layout carries no object start "
+                "for is refused however wide the compared range",
+           cls(attest(SOLE_REF_INTERIOR, "data", 0x02000000, 0x03000000)),
+           None)
+    _check(res, "sole-ref: the layout does carry usable object starts",
+           len(data_object_starts()) > 0, True)
 
     # --- two files attesting each other ------------------------------------
     # The pairwise case needs no machinery of its own: a compared range is one

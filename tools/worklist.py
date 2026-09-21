@@ -286,8 +286,10 @@ def load_matched():
             m = re.search(r"([0-9A-Fa-f]{8})$", member)
             if m:
                 addrs.append((int(m.group(1), 16), member))
+        sole = ((ent.get("evidence") or {}).get("sole-ref")) or []
         for addr, who in addrs:
-            cover.setdefault(addr, {"name": who, "entry": name, "kind": kind})
+            cover.setdefault(addr, {"name": who, "entry": name, "kind": kind,
+                                    "sole_ref": list(sole)})
         if kind == "game_unit" and ent.get("source"):
             listed = set(a for a, _who in addrs)
             for addr in find_unit_member_addrs(ent["source"]):
@@ -661,6 +663,10 @@ def build_inventory():
             fn["cls"] = "matched"
             fn["matched_name"] = ment["name"]
             fn["matched_entry"] = ment["entry"]
+            if ment.get("sole_ref"):
+                # the entry that covers this function rests on the weakest
+                # evidence class; the coverage line reports its share apart.
+                fn["sole_ref"] = list(ment["sole_ref"])
             if ment.get("implied"):
                 fn["matched_implied"] = True
             if addr in sdk:
@@ -926,6 +932,14 @@ def build_document(inv, packets):
     game_bytes = bytes_by["matched"] + bytes_by["open"]
     coverage = (100.0 * bytes_by["matched"] / game_bytes) if game_bytes else 0.0
 
+    # The share of the matched coverage that rests on the `sole-ref` class,
+    # counted over the entries whose manifest record names at least one such
+    # site.  Reported apart from the coverage figure, never folded into it.
+    sole_funcs = [f for f in funcs
+                  if f["cls"] == "matched" and f.get("sole_ref")]
+    sole_bytes = sum(f["code_bytes"] for f in sole_funcs)
+    sole_points = (100.0 * sole_bytes / game_bytes) if game_bytes else 0.0
+
     packet_map = {}
     for p in packets:
         packet_map[p["id"]] = p
@@ -962,6 +976,9 @@ def build_document(inv, packets):
             "code_bytes_game": game_bytes,
             "packets": len(packets),
             "coverage_percent": round(coverage, 4),
+            "functions_sole_ref": len(sole_funcs),
+            "code_bytes_sole_ref": sole_bytes,
+            "coverage_percent_sole_ref": round(sole_points, 4),
             "sdk_conflicts": sdk_conflicts,
         },
         "thunks": inv["thunks"],
@@ -1131,6 +1148,15 @@ def print_summary(doc):
     print(
         "  coverage by bytes        %8.4f%%  (%d / %d game code bytes)"
         % (s["coverage_percent"], s["code_bytes_matched"], s["code_bytes_game"])
+    )
+    print(
+        "    of which resting on sole-ref: %d bytes (%.4f percent points), "
+        "%d function(s)"
+        % (
+            s.get("code_bytes_sole_ref", 0),
+            s.get("coverage_percent_sole_ref", 0.0),
+            s.get("functions_sole_ref", 0),
+        )
     )
     if s["packets"]:
         sizes = [p["function_count"] for p in doc["packets"].values()]

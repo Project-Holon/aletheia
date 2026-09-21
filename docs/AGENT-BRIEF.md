@@ -242,7 +242,7 @@ per-finding, but only if you respect this list.
 A relocation may only be resolved when its target address is attested by
 evidence *outside* the byte range under comparison. Reading the answer out
 of the bytes you are checking and then confirming the bytes contain the
-answer is not a test. Seven evidence classes, each printed per site by
+answer is not a test. Eight evidence classes, each printed per site by
 `match.py`:
 
 - **local**: the symbol is defined in the same object you compiled; its
@@ -276,6 +276,31 @@ answer is not a test. Seven evidence classes, each printed per site by
   carries for an SDK symbol, given a class of its own because a runtime
   routine is never also `label`-attestable the way an SDK symbol usually
   is. ARM only; declare it `arm` in your `symbols:` block.
+
+- **sole-ref**: the layout itself says a data object begins at that
+  address. `data` sites only, and tried last, after every other class has
+  failed, so an address any stronger class can carry never reports as
+  `sole-ref`. It accepts an address when all three hold: it lies in a data
+  section of the delinked image (a `.word`/`.byte`/`.ascii` datum in the
+  listings, or a bss range of `layout/layout.json`) and neither in a code
+  section nor inside any traced function's extent; it is the **start** of an
+  object something already carries at exactly that address (a `pool_`,
+  `veneer_`, `d_`, `g_` or `tbl_` label in the listings, a data symbol of
+  `layout/symbols_sdk.json`, a `__FILE__` anchor from
+  `layout/file_anchors.txt`, or a `.word`-run start `disasm.py` emitted as
+  its own block); and the alignment the declared type demands is satisfied
+  (state it as a fourth `symbols:` token, `a1`/`a2`/`a4`/`a8`/`a16`; without
+  one a data extern is assumed to want four). It **refuses** an address
+  merely interior to a labelled object, an address in code, a misaligned
+  address and any non-`data` kind, which is what keeps it from licensing an
+  arbitrary offset into rodata. It is recorded per site in the shard entry
+  (`evidence: {"sole-ref": ["0x..."]}`), so `grep sole-ref layout/matched`
+  lists every entry that depends on it, and `tools/worklist.py --summary`
+  reports its share of coverage on its own line rather than folding it into
+  the coverage figure. Like `literal` and `string` it stays falsifiable: the
+  resolved word is still compared against the original, so a wrong
+  declaration comes out `DIFF`. `attest_sole_ref()` in `tools/match.py` is
+  the implementation.
 
 The `label` class also covers an ARM9 `bl`/`blx` into an overlay-resident
 function: the address needs a `func_` label in exactly one overlay's own
