@@ -1,0 +1,814 @@
+
+==============================================================================
+APPENDED wave 8 second lane (pkt_02064B68), 2026-09-22
+==============================================================================
+
+Closed this lane (all in src/matched): func_02066080, func_020663D0,
+func_02065878, func_02066380, func_0206615C, func_020651B8, func_02065020,
+func_02065BD0.  The DIFF rows below are the best sources for the rest.
+
+------------------------------------------------------------------------------
+0x02065134  func_02065134  DIFF
+/* best source, 132 bytes against 132, 2 concrete bytes out, dsi/1.1p1 */
+------------------------------------------------------------------------------
+Same two-byte lr/r4 tie the first lane recorded (docs/notes/pkt_02064CBC.c.txt),
+now on the corrected declarations: 0x02147D28/0x02147D2C are &g_02147D18[0].tx/.ty
+and 0x020A8200 is the Mtx inside g_020A81F8 (+8).  Those declarations put every
+relocation on g_02147D18/g_020A81F8 and leave the residue unchanged.  Tried this
+pass, all 132/2: base pointer local before k; `g_02147D18 + i`; the two-ifs form
+(140); off hoisted above the branch (34); off inside the else arm (2); the
+selection as the inline helper that closed func_02065020 (140, the helper moves
+the slot read into the arms).  1.2/1.3/2.0 base/sp1 all 132/2 too.
+permuter: best      DIFF   asm=10    bytes-out=2    size=132/132 (hill, 129 single mutations, none improves)
+
+/*
+ * unit:     no
+ * function: func_02065134
+ * address:  0x02065134
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02147B88  0x02147B88  data  a4
+ *   g_02147D18  0x02147D18  data  a4
+ *   g_020A81F8  0x020A81F8  data  a4
+ */
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef int fx32;
+
+typedef struct { fx32 m00, m01, m10, m11, tx, ty; } Mtx;
+
+typedef void (*Fn)(void *a, void *b, void *c, Mtx *m);
+
+struct Obj74 {
+    u8 pad_00[0x3c];
+    Fn f3c;
+};
+
+struct Obj {
+    u8            pad_00[0x74];
+    struct Obj74 *f74;
+};
+
+struct Bank {
+    u8          pad_00[4];
+    int         f04;
+    struct Obj *f08;
+    u32         f0c;
+};
+
+struct Scr {
+    u8  pad_00[8];
+    Mtx mtx;
+};
+
+extern struct Bank g_02147B88;
+extern Mtx         g_02147D18[];
+extern struct Scr  g_020A81F8;
+
+void func_02065134(void *a0, void *a1)
+{
+    struct Obj *o = g_02147B88.f08;
+    struct Obj74 *v = o->f74;
+    Mtx *m;
+    int k;
+    u32 i;
+
+    if (v->f3c == 0)
+        return;
+
+    k = g_02147B88.f04;
+    i = g_02147B88.f0c;
+    if (k == 0) {
+        m = &g_02147D18[i];
+    } else {
+        g_020A81F8.mtx.tx = g_02147D18[i].tx;
+        g_020A81F8.mtx.ty = g_02147D18[i].ty;
+        m = &g_020A81F8.mtx;
+    }
+
+    v->f3c(o, v, a1, m);
+}
+
+
+------------------------------------------------------------------------------
+0x020653A4  func_020653A4  DIFF
+/* best source, 148 bytes against 148, 31 concrete bytes out, dsi/1.1p1 */
+------------------------------------------------------------------------------
+Corrected declarations as for func_02065134.  Without a volatile the slot read is
+hoisted above the test (144, 4 short, the image reads it in each arm); with the
+eq-arm read volatile (this source) the pool order is D18, D2C, D28 against the
+image's D18, D28, 81F8, D2C and a lr/r4/r5 rotation remains.  The plain (144)
+form gets the pool order right.  ../2.0/sp2 does not predicate the selection
+(152).  The inline-helper spelling that closed func_02065020 is 144 here.
+permuter: best      DIFF   asm=500   bytes-out=31   size=148/148 (hill 121 + anneal 800, none improves)
+
+/*
+ * unit:     no
+ * function: func_020653A4
+ * address:  0x020653A4
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02147B88  0x02147B88  data  a4
+ *   g_02147D18  0x02147D18  data  a4
+ *   g_020A81F8  0x020A81F8  data  a4
+ */
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef int fx32;
+
+typedef struct { fx32 m00, m01, m10, m11, tx, ty; } Mtx;
+
+typedef void (*Fn)(void *a, void *b, void *c, void *d, Mtx *m);
+
+struct Obj74 {
+    u8 pad_00[0x44];
+    Fn f44;
+};
+
+struct Obj {
+    u8            pad_00[0x74];
+    struct Obj74 *f74;
+};
+
+struct Bank {
+    u8          pad_00[4];
+    int         f04;
+    struct Obj *f08;
+    u32         f0c;
+};
+
+struct Scr {
+    u8  pad_00[8];
+    Mtx mtx;
+};
+
+extern struct Bank g_02147B88;
+extern Mtx         g_02147D18[];
+extern struct Scr  g_020A81F8;
+
+void func_020653A4(void *a0, void *a1, void *a2)
+{
+    struct Obj *o = g_02147B88.f08;
+    struct Obj74 *v = o->f74;
+    Mtx *m;
+
+    if (v->f44 == 0)
+        return;
+
+    if (g_02147B88.f04 == 0) {
+        m = &g_02147D18[((volatile struct Bank *)&g_02147B88)->f0c];
+    } else {
+        g_020A81F8.mtx.tx = g_02147D18[g_02147B88.f0c].tx;
+        g_020A81F8.mtx.ty = g_02147D18[g_02147B88.f0c].ty;
+        m = &g_020A81F8.mtx;
+    }
+
+    v->f44(o, v, a1, a2, m);
+}
+
+
+------------------------------------------------------------------------------
+0x020664CC  func_020664CC  DIFF
+/* best source, 340 bytes against 340, 46 concrete bytes out, ../2.0/sp2 */
+------------------------------------------------------------------------------
+The scale builder.  Semantics settled: M = (sx,0,0,sy,0,0) concatenated by
+func_02066754 into g_02147D18[slot]; then M = (inv(sx),0,0,inv(sy),0,0) with
+func_0207C778 (fx32 FX_Inv-shaped, one argument) into g_02148018[slot]; then the
+shared tail: `r = (unk_04 == 0 && g_020A81F8 != 0xFFFE)`, if !r g_020A81F8 =
+slot; then g_02147C18[(u16)slot] (8-byte SlotRec) is promoted: the dense switch
+table sends states 0, 2 AND 3 to the body (state 1 and default skip), body is
+n = slotLimit; slotLimit = n+1; rec->f2 = n; rec->state = 1.  The first lane's
+reading "arms 1 and 3 identical" was the table read one entry off.
+Levers found: pin ../2.0/sp2 (1.1p1 is 320 bytes, eight-register push); the
+destination pointer computed BEFORE the six matrix stores (54 from 112); the
+tail's three limit/record accesses through volatile casts (the image stores
+slotLimit before rec->f2; 46).  Residue: the head's zero is first-defined
+before the slot load in the image (mov lr,#0 at +0x0c) and sx/sy land r5/r4
+against r4/r5; the SlotRec pointer takes r4 where the image has ip.
+permuter: best      DIFF   asm=1170  bytes-out=54   size=340/340 (hill 180 + anneal 700 before the tail lever; none improves)
+
+/*
+ * unit:     no
+ * function: func_020664CC
+ * address:  0x020664CC
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02147B88     0x02147B88  data  a4
+ *   g_02147D18     0x02147D18  data  a4
+ *   g_02148018     0x02148018  data  a4
+ *   g_020A81F8     0x020A81F8  data  a2
+ *   g_02147C18     0x02147C18  data  a4
+ *   func_02066754  0x02066754  arm
+ *   func_0207C778  0x0207C778  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            fx32;
+
+typedef struct { fx32 m00, m01, m10, m11, tx, ty; } Mtx;
+
+struct Manager {
+    u16 slotCount;
+    u16 slotLimit;
+    u32 unk_04;
+    u8  pad_08[4];
+    u32 slot;
+};
+
+struct SlotRec {
+    u16 unk_00;
+    u16 unk_02;
+    u16 state;
+    u16 unk_06;
+};
+
+extern struct Manager g_02147B88;
+extern Mtx  g_02147D18[];
+extern Mtx  g_02148018[];
+extern u16  g_020A81F8;
+extern struct SlotRec g_02147C18[];
+
+extern void func_02066754(const Mtx *a, const Mtx *b, Mtx *out);
+extern fx32 func_0207C778(fx32 v);
+
+void func_020664CC(fx32 sx, fx32 sy, fx32 sz)
+{
+    Mtx m;
+    int r;
+    struct SlotRec *s;
+    Mtx *d;
+
+    d = &g_02147D18[g_02147B88.slot];
+    m.m00 = sx;
+    m.m01 = 0;
+    m.m10 = 0;
+    m.m11 = sy;
+    m.tx = 0;
+    m.ty = 0;
+    func_02066754(&m, d, d);
+
+    m.m00 = func_0207C778(sx);
+    m.m01 = 0;
+    m.m10 = 0;
+    m.m11 = func_0207C778(sy);
+    d = &g_02148018[g_02147B88.slot];
+    m.tx = 0;
+    m.ty = 0;
+    func_02066754(&m, d, d);
+
+    if (g_02147B88.unk_04 == 0 && g_020A81F8 != 0xFFFE)
+        r = 1;
+    else
+        r = 0;
+    if (r == 0)
+        g_020A81F8 = g_02147B88.slot;
+
+    s = &g_02147C18[(u16)g_02147B88.slot];
+    switch (s->state) {
+    case 0:
+    case 2:
+    case 3: {
+        u16 n = ((volatile struct Manager *)&g_02147B88)->slotLimit;
+        ((volatile struct Manager *)&g_02147B88)->slotLimit = n + 1;
+        ((volatile struct SlotRec *)s)->unk_02 = n;
+        s->state = 1;
+        break;
+    }
+    case 1:
+        break;
+    }
+}
+
+
+------------------------------------------------------------------------------
+0x02066620  func_02066620  DIFF
+/* best source, 288 bytes against 288, 17 concrete bytes out, ../2.0/sp2 */
+------------------------------------------------------------------------------
+The rotate builder, M = (cs, sn, -sn, cs, 0, 0) into both tables, same tail as
+func_020664CC.  From 236 out (docs/notes/pkt_02065D4C.c.txt) to 17: pin
+../2.0/sp2, destination computed before the stores, second call spelled
+inline (permuter expand(d)), the volatile tail (30 -> 18), and the tx store
+moved between d and m00 (17).  Residue: zero/offset/base rotate over lr, ip,
+r2 in the head (image zero=lr, off=ip, base=r2).  Tried: SDK-style inline
+MTX_Rot22 helper, a single MakeRot helper in three store orders, volatile slot
+reads, int/u32 slot and params, non-const concat prototype: all 17..53.
+permuter: best      DIFF   asm=85    bytes-out=17   size=288/288 (hill 165 + anneal 1500 over the earlier 30-out form; none improves)
+
+/*
+ * unit:     no
+ * function: func_02066620
+ * address:  0x02066620
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02147B88     0x02147B88  data  a4
+ *   g_02147D18     0x02147D18  data  a4
+ *   g_02148018     0x02148018  data  a4
+ *   g_020A81F8     0x020A81F8  data  a2
+ *   g_02147C18     0x02147C18  data  a4
+ *   func_02066754  0x02066754  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int fx32;
+typedef struct 
+{
+  fx32 m00;
+  fx32 m01;
+  fx32 m10;
+  fx32 m11;
+  fx32 tx;
+  fx32 ty;
+} Mtx;
+struct Manager
+{
+  u16 slotCount;
+  u16 slotLimit;
+  u32 unk_04;
+  u8 pad_08[4];
+  u32 slot;
+};
+struct SlotRec
+{
+  u16 unk_00;
+  u16 unk_02;
+  u16 state;
+  u16 unk_06;
+};
+extern struct Manager g_02147B88;
+extern Mtx g_02147D18[];
+extern Mtx g_02148018[];
+extern u16 g_020A81F8;
+extern struct SlotRec g_02147C18[];
+extern void func_02066754(const Mtx *a, const Mtx *b, Mtx *out);
+void func_02066620(fx32 sn, fx32 cs)
+{
+  Mtx m;
+  int r;
+  struct SlotRec *s;
+  Mtx *d;
+  d = &g_02147D18[g_02147B88.slot];
+  m.tx = 0;
+  m.m00 = cs;
+  m.m01 = sn;
+  m.m10 = -sn;
+  m.m11 = cs;
+  m.ty = 0;
+  func_02066754(&m, d, d);
+  d = &g_02148018[g_02147B88.slot];
+  func_02066754(&m, &g_02148018[g_02147B88.slot], &g_02148018[g_02147B88.slot]);
+  if ((g_02147B88.unk_04 == 0) && (g_020A81F8 != 0xFFFE))
+    r = 1;
+  else
+    r = 0;
+  if (r == 0)
+    g_020A81F8 = g_02147B88.slot;
+  s = &g_02147C18[(u16) g_02147B88.slot];
+  switch (s->state)
+  {
+    case 0:
+
+    case 2:
+
+    case 3:
+    {
+      u16 n = ((volatile struct Manager *)&g_02147B88)->slotLimit;
+      ((volatile struct Manager *)&g_02147B88)->slotLimit = n + 1;
+      ((volatile struct SlotRec *)s)->unk_02 = n;
+      s->state = 1;
+      break;
+    }
+
+    case 1:
+      break;
+
+  }
+
+}
+
+
+
+
+------------------------------------------------------------------------------
+0x02064B68  sub_02064B68  DIFF
+/* best source, 168 bytes against 168, 11 concrete bytes out, ../2.0/sp2 */
+------------------------------------------------------------------------------
+Under ../2.0/sp2 with the kind word read into a local FIRST (kind, then
+base, then the store) the prologue loads come out in the image's order; only
+the `str r6, [r7, #0x14]` sits two instructions early (before the cmp / mov
+r4,#0 instead of after).  15 -> 11 against the note's 1.1p1 source.  Moving
+the store / the i=0 / the decl order (five spellings) and an inline
+Walk(&r->bank) helper (22/30) do not move it.
+permuter: best      DIFF   asm=200   bytes-out=11   size=168/168 (hill 107, none improves)
+
+/*
+ * function: sub_02064B68
+ * address:  0x02064B68
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   sub_020643C4  0x020643C4  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct NodeHdr { u16 pad_00; u16 count; };
+struct CellHdr { u16 count; };
+
+struct Node { u8 pad_00[0x5c]; };
+struct Cell { void *unk_00; u8 pad_04[0x24]; };
+
+union Hdr {
+    struct NodeHdr *nodes;
+    struct CellHdr *cells;
+};
+
+struct Renderer {
+    u8                 pad_00[0x14];
+    void              *unk_14;
+    u8                 pad_18[0x1c];
+    union Hdr volatile unk_34;
+    u8                 pad_38[4];
+    u32                unk_3c;
+    void              *unk_40;
+};
+
+extern void sub_020643C4(void *p, void *arg);
+
+void sub_02064B68(struct Renderer *r, void *arg)
+{
+    u16 i = 0;
+    void *base;
+    u32 kind = r->unk_3c;
+    base = r->unk_40;
+    r->unk_14 = arg;
+    if (kind == 1) {
+        for (i = 0; i < r->unk_34.nodes->count; i++) {
+            sub_020643C4(&((struct Node *)base)[i], arg);
+        }
+    } else {
+        for (i = 0; i < r->unk_34.cells->count; i++) {
+            sub_020643C4(((struct Cell *)base)[i].unk_00, arg);
+        }
+    }
+}
+
+
+------------------------------------------------------------------------------
+0x02064EDC  func_02064EDC  DIFF
+/* best source, 324 bytes against 324, 28 concrete bytes out, ../2.0/sp2 */
+------------------------------------------------------------------------------
+Re-derived with the corrected declarations (the matrix read is an inline
+GetMtx whose eq arm is &g_02148018[slot] and whose else arm is the scratch tx/ty
+from &g_02147D18[0].tx/.ty; g_02148318 is a 0x20-byte record, 2x2 matrix then a
+0x10-byte tail).  Cluster (a) of the earlier note (the memclear setup order) is
+CLOSED: `f2 = cur->f2` must be read AFTER the slotCount update, just before
+`cur->f0 = n`.  Remaining: cluster (b), the four-word copy -- the image
+interleaves the loop's slot reload into the copy and takes ip/lr where we take
+lr/r2.  Writing the first word through the index form (y) helps by 2; a
+volatile loop-bound read, hoisting k into the copy, and a Mtx22 struct copy
+(288, ldm/stm) do not.
+permuter: best      DIFF   asm=865   bytes-out=28   size=324/324 (hill 182 found hoist-down(f2); anneal 900 none further)
+
+/*
+ * unit:     no
+ * function: func_02064EDC
+ * address:  0x02064EDC
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02147B88     0x02147B88  data  a4
+ *   g_02147C18     0x02147C18  data  a4
+ *   g_02148318     0x02148318  data  a4
+ *   g_02148018     0x02148018  data  a4
+ *   g_02147D18     0x02147D18  data  a4
+ *   g_020A81F8     0x020A81F8  data  a4
+ *   func_02082AC0  0x02082AC0  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int fx32;
+typedef struct 
+{
+  fx32 m00;
+  fx32 m01;
+  fx32 m10;
+  fx32 m11;
+  fx32 tx;
+  fx32 ty;
+} Mtx;
+struct Manager
+{
+  u16 slotCount;
+  u16 slotLimit;
+  u32 unk_04;
+  void *obj;
+  u32 slot;
+};
+struct SlotRec
+{
+  u16 f0;
+  u16 f2;
+  u16 state;
+  u16 f6;
+};
+struct Aff
+{
+  fx32 m00;
+  fx32 m01;
+  fx32 m10;
+  fx32 m11;
+  u8 f10[0x10];
+};
+struct Scr
+{
+  u8 pad_00[8];
+  Mtx mtx;
+};
+extern struct Manager g_02147B88;
+extern struct SlotRec g_02147C18[];
+extern struct Aff g_02148318[];
+extern Mtx g_02148018[];
+extern Mtx g_02147D18[];
+extern struct Scr g_020A81F8;
+extern void func_02082AC0(int val, void *dst, int size);
+inline static Mtx *GetMtx(void)
+{
+  Mtx *m;
+  if (g_02147B88.unk_04 == 0)
+  {
+    m = &g_02148018[g_02147B88.slot];
+  }
+  else
+  {
+    g_020A81F8.mtx.tx = g_02147D18[g_02147B88.slot].tx;
+    g_020A81F8.mtx.ty = g_02147D18[g_02147B88.slot].ty;
+    m = &g_020A81F8.mtx;
+  }
+  return m;
+}
+
+void func_02064EDC(void)
+{
+  struct SlotRec *cur;
+  u16 f2;
+  u16 n;
+  int valid;
+  int k;
+  Mtx *m;
+  struct Aff *d;
+  cur = &g_02147C18[(u16) g_02147B88.slot];
+  valid = 1;
+  if ((cur->state != 1) && (cur->state != 2))
+    valid = 0;
+  if (valid == 0)
+    return;
+  n = g_02147B88.slotCount;
+  if (n < 0x1f)
+    g_02147B88.slotCount = n + 1;
+  f2 = cur->f2;
+  cur->f0 = n;
+  func_02082AC0(-1, g_02148318[n].f10, 0x10);
+  m = GetMtx();
+  {
+    u16 j = g_02147C18[(u16) g_02147B88.slot].f0;
+    g_02148318[j].m00 = m->m00;
+    d = &g_02148318[j];
+    d->m01 = m->m01;
+    d->m10 = m->m10;
+    d->m11 = m->m11;
+  }
+  for (k = (u16) g_02147B88.slot; k >= 0; k--)
+  {
+    if (f2 != g_02147C18[k].f2)
+      return;
+    g_02147C18[k].state = 3;
+    g_02147C18[k].f0 = n;
+  }
+
+}
+
+
+
+
+------------------------------------------------------------------------------
+0x02065DB4  func_02065DB4  DIFF
+/* best source, 716 bytes against 716, 29 concrete bytes out, ../2.0/sp2 */
+------------------------------------------------------------------------------
+From 728/575 (docs/notes/pkt_02065DB4.c.txt, 1.1p1) to SIZE-EXACT 716/29.
+Levers: pin ../2.0/sp2 (the note's one probe was on a source with the flip
+query argument wrong); func_02067B50/B64 take g_02147B88.obj (+8), NOT f80;
+the per-entry body as an inline DrawEnt(u8 *base, struct Ent *e) with locals
+declared y, x, k; the mode==1 bracket with i=0 hoisted above the f80 test and
+the plain bracket with its own loops.  The permuter's `if (saved) {}` dead read
+(a use-count bump) is what took 712 -> 716; it is an artefact to replace, not a
+spelling to keep.  Residue: a 3-cycle over the entry pointer / counter / k
+(image r7/sl/sb, ours sb/r7/sl).  Every instruction and relocation is right.
+permuter: best      DIFF   asm=145   bytes-out=29   size=716/716 (hill 250 from 712/169: use(saved); hill 210 from here: none)
+
+/*
+ * unit:     no
+ * function: func_02065DB4
+ * address:  0x02065DB4
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02148718     0x02148718  data  a4
+ *   g_02147B88     0x02147B88  data  a4
+ *   func_02066E20  0x02066E20  arm
+ *   func_02066DEC  0x02066DEC  arm
+ *   func_02066E10  0x02066E10  arm
+ *   func_02066DFC  0x02066DFC  arm
+ *   func_0206615C  0x0206615C  arm
+ *   func_02067B50  0x02067B50  arm
+ *   func_02067B64  0x02067B64  arm
+ *   func_020663D0  0x020663D0  arm
+ *   func_02065878  0x02065878  arm
+ *   func_02066380  0x02066380  arm
+ *   func_020659D4  0x020659D4  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef int fx32;
+struct Ent
+{
+  u16 unk_00;
+  s16 unk_02;
+  s16 unk_04;
+  u16 unk_06;
+};
+struct List
+{
+  u16 cnt_00;
+  u16 cnt_02;
+  struct Ent *ents;
+};
+struct Arg
+{
+  struct List *list;
+  u8 pad_04[4];
+  int mode_08;
+  u8 *base_0c;
+};
+struct G18
+{
+  s16 h00;
+  u8 pad_02[2];
+  int arr04[0x100];
+  int f404;
+};
+struct Inner
+{
+  u8 pad[0x80];
+  int f80;
+};
+struct Ctx
+{
+  u8 pad[8];
+  struct Inner *f8;
+};
+extern struct G18 g_02148718;
+extern struct Ctx g_02147B88;
+extern int func_02066E20(void);
+extern void func_02066DEC(int);
+extern void func_02066E10(int);
+extern void func_02066DFC(void);
+extern void func_0206615C(void);
+extern int func_02067B50(void *a);
+extern int func_02067B64(void *a);
+extern void func_020663D0(fx32 x, fx32 y, fx32 z);
+extern void func_02065878(void *a);
+extern void func_02066380(int a);
+extern void func_020659D4(void *a);
+inline static void DrawEnt(u8 *base, struct Ent *e)
+{
+  int y;
+  int x;
+  u32 k;
+  k = ((u32) ((e->unk_06 & 0xff00) << 8)) >> 16;
+  g_02148718.h00 = k;
+  func_0206615C();
+  y = e->unk_04;
+  x = e->unk_02;
+  if (func_02067B50(g_02147B88.f8) != 0)
+    x = -x;
+  if (func_02067B64(g_02147B88.f8) != 0)
+    y = -y;
+  func_020663D0(x << 12, y << 12, 0);
+  func_02065878(base + (k * 0x5c));
+  func_02066380(1);
+}
+
+void func_02065DB4(struct Arg *a)
+{
+  u16 i;
+  int saved;
+  if (saved)
+  {
+  }
+  if (a->mode_08 == 1)
+  {
+    u16 j;
+    for (j = 0; j < a->list->cnt_02; j++)
+      g_02148718.arr04[j] = 0;
+
+    g_02148718.f404 = 1;
+    i = 0;
+    if (g_02147B88.f8->f80 != 0)
+    {
+      saved = func_02066E20();
+      func_02066DEC(1);
+      func_02066E10(g_02147B88.f8->f80);
+      for (; i < a->list->cnt_00; i++)
+        DrawEnt(a->base_0c, &a->list->ents[i]);
+
+      func_02066DEC(0);
+      func_02066E10(saved);
+      func_02066DFC();
+    }
+    else
+    {
+      for (; i < a->list->cnt_00; i++)
+        DrawEnt(a->base_0c, &a->list->ents[i]);
+
+    }
+    g_02148718.f404 = 0;
+  }
+  else
+  {
+    u8 *base = a->base_0c;
+    if (g_02147B88.f8->f80 != 0)
+    {
+      saved = func_02066E20();
+      func_02066DEC(1);
+      func_02066E10(g_02147B88.f8->f80);
+      for (i = 0; i < a->list->cnt_00; i++)
+        func_020659D4(base + (i * 0x28));
+
+      func_02066DEC(0);
+      func_02066E10(saved);
+      func_02066DFC();
+    }
+    else
+    {
+      for (i = 0; i < a->list->cnt_00; i++)
+        func_020659D4(base + (i * 0x28));
+
+    }
+  }
+}
+
+
+

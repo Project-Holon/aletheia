@@ -383,3 +383,190 @@ bytes, and the search has not yet exhausted the 6! orderings.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 460 bytes against 460, 73
 concrete bytes out, ../1.2/sp2 -proc arm946e.
+
+==========================================================================
+WAVE 8 (second lane on pkt_02052F58): 73 -> 28 concrete out, ../1.2/sp2
+-proc arm946e.  NOT CLOSED.
+==========================================================================
+New reading of the row: it is a keyframed colour ramp, and each of the two
+middle segments is ONE shared routine inlined twice -- a static inline
+ColLerp(out, from, to, on, num, den) that splits both RGB555 colours into
+channels, returns the `to` colour recomposed when the key's bit-2 flag is
+clear, and otherwise stores GX_RGB(from + num * (to - from) / den) per channel
+(the three _s32_div_f calls come out in b, r, g order from the GX_RGB
+expression tree, as in the image).  Segment 1 is ColLerp(k->c0, n->col, ...),
+segment 2 is ColLerp(n->col, k->c1, ...).  Three findings:
+  * the helper must be VOID and store through `out` itself with an early
+    `return` (a value-returning helper merges the two exits: 436 bytes);
+  * GX_RGB without a (GXRgb) cast (the cast adds lsl/lsr 16 in the exit);
+  * t0, n, t1, t2 read into locals at the top, in that order.
+That is 460/460 at 95 out.  The channel DECLARATION ORDER inside the helper
+was then exhausted, all 720 orders: best is
+    tr, fr, tg, fg, fb, tb      -> 28 out (two orders tie)
+and with it SEGMENT 1 (0x02057CD4..0x02057D90) IS BYTE-EXACT.  Every remaining
+byte is in segment 2, a to/from register swap (image to=r7 from=r8, tg=r5
+fg=r6; ours the reverse).  Measured and flat, each at 28: helper parameter
+order (6 orders x 72 channel orders), parameter and local types (72 type
+combinations), pointer arguments (&k->c0 / &n->col) with loads inside the
+helper (1440 variants), permuter --mode hill (155 singles) and --mode anneal
+--budget 2000 on the top-level function.  Across all 720 channel orders
+segment 2 never gets below 13 differing instructions, so segment 2 is NOT the
+same inlined body as segment 1 in the original's eyes: the next thing to try
+is a second helper (or segment 2 written out by hand) with its own
+declaration order, or the from/to roles reversed in segment 2's parameter
+list with the lerp written `to + num * (from - to) / -den`-style.
+
+/* best source, 460 bytes against 460, 28 concrete bytes out, ../1.2/sp2 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int s32;
+typedef u16 GXRgb;
+#define GX_RGB(r, g, b) (((r) << 0) | ((g) << 5) | ((b) << 10))
+struct KeyF { u16 b0 : 2; u16 on : 1; u16 rest : 13; };
+struct Key {
+    GXRgb c0;
+    GXRgb c1;
+    u8 t0;
+    u8 t1;
+    u8 t2;
+    u8 pad7;
+    struct KeyF f;
+};
+struct Node { u8 pad_00[0x22]; GXRgb col; };
+struct Ctx { struct Node *node; u8 pad_04[4]; struct Key *key; };
+struct Out { u8 pad_00[0x36]; GXRgb col; };
+
+static inline void ColLerp(struct Out *out, s32 from, s32 to, u32 on, s32 num, s32 den)
+{
+    s32 tr = to & 0x1f;
+    s32 fr = from & 0x1f;
+    s32 tg = (to >> 5) & 0x1f;
+    s32 fg = (from >> 5) & 0x1f;
+    s32 fb = (from >> 10) & 0x1f;
+    s32 tb = (to >> 10) & 0x1f;
+    if (!on) {
+        out->col = GX_RGB(tr, tg, tb);
+        return;
+    }
+    out->col = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
+}
+void func_02057C9C(struct Out *out, struct Ctx *ctx, s32 t)
+{
+    struct Key *k = ctx->key;
+    s32 t0 = k->t0;
+    struct Node *n = ctx->node;
+    s32 t1 = k->t1;
+    s32 t2 = k->t2;
+    if (t < t0) {
+        out->col = k->c0;
+        return;
+    }
+    if (t < t1) {
+        ColLerp(out, k->c0, n->col, k->f.on, t - t0, t1 - t0);
+        return;
+    }
+    if (t < t2) {
+        ColLerp(out, n->col, k->c1, k->f.on, t - t1, t2 - t1);
+        return;
+    }
+    out->col = k->c1;
+}
+
+permuter best result line:
+  best      DIFF   asm=140   bytes-out=28   size=460/460
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 460 bytes against 460, 28
+concrete bytes out, ../1.2/sp2 -proc arm946e.
+
+--------------------------------------------------------------------------
+WAVE 8 ADDENDUM: 28 -> 16.  The suggestion above was tested at once.
+--------------------------------------------------------------------------
+Giving segment 2 its OWN copy of the helper (ColLerp2, identical text) and
+exhausting ITS 720 channel declaration orders while ColLerp keeps
+tr, fr, tg, fg, fb, tb: best is ColLerp2 = tr, fr, fg, tg, fb, tb -> 16 out.
+Segment 1 stays exact.  What is left is ONE swap in segment 2: the image
+keeps `to` (k->c1) and tr in r7 and `from` (n->col) in r8, ours the reverse
+(13 instructions, 16 bytes).  Flat, each measured: all 720 ColLerp2
+parameter orders; the lerp written (tr - fr) * num / den, num * (..) / den + fr,
+fr - num * (fr - tr) / den (20); the `if (on)` arm first.  The two segments
+genuinely have different declaration orders in the original, which says they
+are two hand-written blocks (or two helpers), not one inline used twice.
+
+/* best source, 460 bytes against 460, 16 concrete bytes out, ../1.2/sp2 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int s32;
+typedef u16 GXRgb;
+#define GX_RGB(r, g, b) (((r) << 0) | ((g) << 5) | ((b) << 10))
+struct KeyF { u16 b0 : 2; u16 on : 1; u16 rest : 13; };
+struct Key {
+    GXRgb c0;
+    GXRgb c1;
+    u8 t0;
+    u8 t1;
+    u8 t2;
+    u8 pad7;
+    struct KeyF f;
+};
+struct Node { u8 pad_00[0x22]; GXRgb col; };
+struct Ctx { struct Node *node; u8 pad_04[4]; struct Key *key; };
+struct Out { u8 pad_00[0x36]; GXRgb col; };
+
+static inline void ColLerp(struct Out *out, s32 from, s32 to, u32 on, s32 num, s32 den)
+{
+    s32 tr = to & 0x1f;
+    s32 fr = from & 0x1f;
+    s32 tg = (to >> 5) & 0x1f;
+    s32 fg = (from >> 5) & 0x1f;
+    s32 fb = (from >> 10) & 0x1f;
+    s32 tb = (to >> 10) & 0x1f;
+    if (!on) {
+        out->col = GX_RGB(tr, tg, tb);
+        return;
+    }
+    out->col = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
+}
+static inline void ColLerp2(struct Out *out, s32 from, s32 to, u32 on, s32 num, s32 den)
+{
+    s32 tr = to & 0x1f;
+    s32 fr = from & 0x1f;
+    s32 fg = (from >> 5) & 0x1f;
+    s32 tg = (to >> 5) & 0x1f;
+    s32 fb = (from >> 10) & 0x1f;
+    s32 tb = (to >> 10) & 0x1f;
+    if (!on) {
+        out->col = GX_RGB(tr, tg, tb);
+        return;
+    }
+    out->col = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
+}
+void func_02057C9C(struct Out *out, struct Ctx *ctx, s32 t)
+{
+    struct Key *k = ctx->key;
+    s32 t0 = k->t0;
+    struct Node *n = ctx->node;
+    s32 t1 = k->t1;
+    s32 t2 = k->t2;
+    if (t < t0) {
+        out->col = k->c0;
+        return;
+    }
+    if (t < t1) {
+        ColLerp(out, k->c0, n->col, k->f.on, t - t0, t1 - t0);
+        return;
+    }
+    if (t < t2) {
+        ColLerp2(out, n->col, k->c1, k->f.on, t - t1, t2 - t1);
+        return;
+    }
+    out->col = k->c1;
+}
+
+permuter best result line: not applicable to this residue (the permuter only
+mutates the top-level function; hill on the 28 body tried 155 singles flat).
+  best      DIFF   asm=140   bytes-out=28   size=460/460   (pre-ColLerp2)
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 460 bytes against 460, 16
+concrete bytes out, ../1.2/sp2 -proc arm946e.

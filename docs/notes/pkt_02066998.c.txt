@@ -242,3 +242,16 @@ permuter best result line:
   no single mutation improves DIFF   asm=1060  bytes-out=183  size=272/292 (290 tried)
 
 Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.
+
+==============================================================================
+2026-09-22 - wave 8.  Still DIFF; two more loop-entry spellings, no change.
+==============================================================================
+
+Measured on the 276-byte source above: `s32 k = 0;` hoisted above the
+`if (e->f1c != 0)` test (272/194 1.1p1, 276/200 2.0) and a `for (k = z; ...)`
+head seeded from a separate zero local that also initialises f (276/197,
+280/199).  Both fold the dead `cmp r7, #3 / bge` exactly as before.  One
+reading worth recording: the image's `mov fp, r7` / `mov r1, fp` is the
+constant 0 CSE'd into a callee-saved register, which is 1.1p1's habit (the
+kept-constants tell runs the other way), so the pin may be wrong for this row
+even though it gives the better frame.

@@ -170,3 +170,313 @@ s32 func_0206FFA0(s32 *out, s16 *a, s16 *b, u32 flags)
     return 1;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 428 bytes against 364, 330 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, wave 8 (pkt_0206EB00 pseudo-family): 0x0206F4C8, 0x0206FC5C, 0x0206F844
+==============================================================================
+
+These three are members of the animation-channel family documented in
+docs/families/cluster_0206EB00.h (func_0206F4C8 = vector-2 plain sampler,
+func_0206FC5C = rotation lerp sampler, func_0206F844 = rotation plain
+sampler).  Their vector-2 lerp sibling func_0206F6B0 and the scalar pair
+func_0206F214 / func_0206F36C are now EXACT.
+
+--- 0x0206F4C8 (488 B incl. one pool word): DIFF, 2 bytes, ../2.0/sp2p2
+COMPILER: ../2.0/sp2p2, the pin func_0206F214 takes.  It carries the same
+"64-bit multiply by a constant" tell twice (0x0206F59C..0x0206F5B0 and
+0x0206F5D8..0x0206F5E0): under ../2.0/sp2 the same C is 500 bytes, 264 out.
+Structure written from func_0206F214 and func_0207010C: the quad arm's index
+pair is fresh (i0, j), the `two:` block takes its own index m, keys are
+V2s / V2i structs.  Levers found this pass: function-scope `int a, b` shared
+by the s16 quad and the s32 x blend (15 -> 12), the s32 y blend's key bound
+to `a` before `w3 = (long long)a * 3` (-> 9), the s16 blends as
+`(a * 3 + b) >> 2` expressions (-> 7).  The last 5 bytes before the residue
+needed a VOLATILE read of the s16 y key (`((volatile V2s *)p)[i0].y`), found
+by the anneal; that is almost certainly not the original spelling and is why
+this is not filed even at 2.  The 2 remaining bytes are one operand order,
+`adds r5, r5, r6` (product low word first) at 0x0206F5B4, which every
+spelling of the s32 x blend tried (seven) gives the other way round.
+python3 tools/permuter.py ... --cc ../2.0/sp2p2 --mode anneal --budget 2000 --jobs 8 --types:
+  best      DIFF   asm=10    bytes-out=2    size=488/488
+Without the volatile the best is 7 (the s16 y pair lands in r1/r2 where the
+image has r3/r2).
+
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 */
+/*
+ * function: func_0206F4C8
+ * address:  0x0206F4C8
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2p2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ */
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef unsigned char  u8;
+
+typedef struct { u32 flags; u32 off04; } Rec;
+typedef struct { s16 x; s16 y; } V2s;
+typedef struct { int x; int y; } V2i;
+
+void func_0206F4C8(int *out, int t, Rec *r, u8 *base)
+{
+    u8 *p;
+    u32 f;
+    u32 k;
+    u32 off;
+    u32 n, i0, j, m;
+    long long w3;
+    int a, b;
+
+    off = r->off04;
+    k = (u32)(t >> 12);
+    p = base + off;
+    f = r->flags;
+
+    if (f & 0xc0000000) {
+        n = (f & 0x1fff0000) >> 16;
+        if (f & 0x40000000) {
+            if (k & 1) {
+                if (k > n) {
+                    k = (n >> 1) + 1;
+                    goto plain;
+                }
+                m = k >> 1;
+                goto two;
+            }
+            k = k >> 1;
+            goto plain;
+        } else {
+            u32 q = k & 3;
+            if (q != 0) {
+                if (k > n) { k = q + (n >> 2); goto plain; }
+                if (k & 1) {
+                    if (k & 2) { j = k >> 2; i0 = j + 1; }
+                    else { i0 = k >> 2; j = i0 + 1; }
+                    if (f & 0x20000000) {
+                        a = ((V2s *)p)[i0].x;
+                        b = ((V2s *)p)[j].x;
+                        out[0] = (a * 3 + b) >> 2;
+                        a = ((volatile V2s *)p)[i0].y;
+                        b = ((V2s *)p)[j].y;
+                        out[1] = (a * 3 + b) >> 2;
+                        return;
+                    }
+                    a = ((V2i *)p)[i0].x;
+                    b = ((V2i *)p)[j].x;
+                    out[0] = (int)(((long long)a * 3 + b) >> 2);
+                    a = ((V2i *)p)[i0].y;
+                    w3 = (long long)a * 3;
+                    out[1] = (int)((w3 + ((V2i *)p)[j].y) >> 2);
+                    return;
+                }
+                m = k >> 2;
+                goto two;
+            }
+            k = k >> 2;
+        }
+    }
+
+plain:
+    if (f & 0x20000000) {
+        out[0] = ((V2s *)p)[k].x;
+        out[1] = ((V2s *)p)[k].y;
+    } else {
+        out[0] = ((V2i *)p)[k].x;
+        out[1] = ((V2i *)p)[k].y;
+    }
+    return;
+
+two:
+    if (f & 0x20000000) {
+        V2s *s = (V2s *)p + m;
+        int a = ((V2s *)p)[m].x;
+        int b = s[1].x;
+        out[0] = (a + b) >> 1;
+        out[1] = (s[0].y + s[1].y) >> 1;
+    } else {
+        V2i *w = (V2i *)p + m;
+        int a = ((V2i *)p)[m].x;
+        int b = w[1].x;
+        out[0] = (a + b) >> 1;
+        out[1] = (w[0].y + w[1].y) >> 1;
+    }
+}
+
+--- 0x0206FC5C (836 B incl. three pool words): DIFF, 804 against 836, 626 out
+First derivation.  The body is fully read: the func_0206F6B0 cascade (k,
+k2, frac, mul, no final shift), key k and k2 each decoded by func_0206FFA0
+into stack matrices (m0 at sp+0x24 declared first, m1 at sp+0), rows 0-1
+lerped and VEC_Normalize'd, row 2 rebuilt by the cross product when either
+decode returned 1 (`ok = 0; ok |= ...; ok |= ...` -- the image's
+`orr r5, r0, #0`), else lerped and normalised.  The last-key path decodes
+key k straight into out and does the same row-2 choice.  Two levers found:
+the masked cursor must be a NEW variable (`frac`, not `t` reassigned), which
+frees t's callee-saved register and fixes the prologue; and the row-2 branch
+is `if (ok == 0) { lerp; normalise } else { cross }`.  The remaining 32
+bytes of size are both cross-product blocks: the compiler merges five of the
+six row loads into `ldmib sl, {..}` because it allocates them to ascending
+registers, where the image uses {r8, r5, r4, r2, r6, r7} and six separate
+`ldr`.  Every later byte is shifted.
+python3 tools/permuter.py ... --cc ../2.0/sp2 --mode hill --budget 800 --jobs 8 --types:
+  best      DIFF   asm=3125  bytes-out=540  size=836/836  (type:ret-var(n) ; hoist-down(m1,+4))
+That permuter point is size-exact but spills a pointer to the stack (a
+`sub sp, #0x4c` frame), so it is a different wrong shape, not progress.
+
+/* best source, 804 bytes against 836, 626 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206FC5C
+ * address:  0x0206FC5C
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   func_0206FFA0   0x0206FFA0  arm
+ *   VEC_Normalize   0x0207CCA4  arm
+ */
+typedef unsigned int   u32;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned char  u8;
+
+typedef struct { u32 flags; u32 off04; } Rec;
+typedef struct { u32 f00; u16 cnt04; u16 pad06; u32 f08; u32 f0c; u32 f10; } Hdr;
+
+extern int  func_0206FFA0(int *out, s16 *a, s16 *b, u32 id);
+extern void VEC_Normalize(const int *src, int *dst);
+
+static inline void cross_row2(int *m)
+{
+    int m5, m1, m4, m2, m3, m0;
+    m5 = m[5];
+    m1 = m[1];
+    m4 = m[4];
+    m2 = m[2];
+    m3 = m[3];
+    m0 = m[0];
+    m[6] = (m1 * m5 - m2 * m4) >> 12;
+    m[7] = (m2 * m3 - m0 * m5) >> 12;
+    m[8] = (m0 * m4 - m1 * m3) >> 12;
+}
+
+void func_0206FC5C(int *out, int t, Rec *r, Hdr *h)
+{
+    u8 *p = (u8 *)h + r->off04;
+    u32 f = r->flags;
+    int k = t >> 12;
+    u32 oa = h->f0c;
+    u32 ob = h->f10;
+    u32 n, k2, mul;
+    u32 ok;
+    int frac;
+    int m0[9];
+    int m1[9];
+
+    if ((int)(h->cnt04 - 1) != (t >> 12)) goto general;
+
+    if ((f & 0xc0000000) != 0) {
+        if ((f & 0x40000000) != 0) {
+            k = (k & 1) + ((u32)k >> 1);
+        } else {
+            k = (k & 3) + ((u32)k >> 2);
+        }
+    }
+    if ((h->f08 & 2) != 0) {
+        k2 = 0;
+        goto last;
+    }
+    if (func_0206FFA0(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k]) != 0) {
+        {
+            int m5, m1, m4, m2, m3, m0;
+            m5 = out[5];
+            m1 = out[1];
+            m0 = out[0];
+            m4 = out[4];
+            m2 = out[2];
+            m3 = out[3];
+            out[6] = (m1 * m5 - m2 * m4) >> 12;
+            out[7] = (m2 * m3 - m0 * m5) >> 12;
+            out[8] = (m0 * m4 - m1 * m3) >> 12;
+        }
+    } else {
+        VEC_Normalize(out + 6, out + 6);
+    }
+    return;
+
+general:
+    if ((f & 0xc0000000) == 0) goto next;
+    {
+        u32 w = f & 0x1fff0000;
+        n = w >> 16;
+    }
+    if ((f & 0x40000000) != 0) {
+        if ((u32)k >= n) {
+            k = n >> 1;
+            k2 = k + 1;
+            goto last;
+        }
+        k = (u32)k >> 1;
+        k2 = k + 1;
+        frac = t & (int)(0x1fff0000u >> 16);
+        mul = 2;
+        goto lerp;
+    }
+    if ((u32)k >= n) {
+        k = (k & 3) + ((u32)k >> 2);
+        k2 = k + 1;
+        goto last;
+    }
+    k = (u32)k >> 2;
+    k2 = k + 1;
+    frac = t & 0x3fff;
+    mul = 4;
+    goto lerp;
+next:
+    k2 = k + 1;
+last:
+    frac = t & 0xfff;
+    mul = 1;
+lerp:
+    ok = 0;
+    ok |= func_0206FFA0(m0, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k]);
+    ok |= func_0206FFA0(m1, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k2]);
+    out[0] = m0[0] * (int)mul + (((m1[0] - m0[0]) * frac) >> 12);
+    out[1] = m0[1] * (int)mul + (((m1[1] - m0[1]) * frac) >> 12);
+    out[2] = m0[2] * (int)mul + (((m1[2] - m0[2]) * frac) >> 12);
+    out[3] = m0[3] * (int)mul + (((m1[3] - m0[3]) * frac) >> 12);
+    out[4] = m0[4] * (int)mul + (((m1[4] - m0[4]) * frac) >> 12);
+    out[5] = m0[5] * (int)mul + (((m1[5] - m0[5]) * frac) >> 12);
+    VEC_Normalize(out, out);
+    VEC_Normalize(out + 3, out + 3);
+    if (ok == 0) {
+        out[6] = m0[6] * (int)mul + (((m1[6] - m0[6]) * frac) >> 12);
+        out[7] = m0[7] * (int)mul + (((m1[7] - m0[7]) * frac) >> 12);
+        out[8] = m0[8] * (int)mul + (((m1[8] - m0[8]) * frac) >> 12);
+        VEC_Normalize(out + 6, out + 6);
+    } else {
+            int m5, m1, m4, m2, m3, m0;
+            m5 = out[5];
+            m1 = out[1];
+            m0 = out[0];
+            m4 = out[4];
+            m2 = out[2];
+            m3 = out[3];
+            out[6] = (m1 * m5 - m2 * m4) >> 12;
+            out[7] = (m2 * m3 - m0 * m5) >> 12;
+            out[8] = (m0 * m4 - m1 * m3) >> 12;
+        }
+}
+
+--- 0x0206F844 (1044 B): not attempted this pass (budget spent on the
+eleven functions ahead of it).  From the listing it is the plain (no lerp)
+rotation sampler: func_0206F214's cascade with func_0206FFA0 decodes in
+place of the key loads (twelve calls) and VEC_Normalize.  Take it with
+../2.0/sp2p2 and the fc5c levers above.

@@ -386,4 +386,63 @@ extern void  func_02065C78(void);                         /* EXACT       */
 extern void  func_02065CE4(void *actor);                  /* EXACT, 2.0  */
 extern void  func_02065D4C(void *actor);                  /* EXACT, 2.0  */
 
+/* ================================================================== *
+ * WAVE 8 SECOND LANE (2026-09-22): what was proved
+ * ================================================================== *
+ *
+ * Eight more EXACT: func_02066080, func_02066380 (1.1p1), func_02065020
+ * (1.1p1), func_020663D0, func_0206615C, func_02065878, func_020651B8,
+ * func_02065BD0 (all ../2.0/sp2).  Near misses in docs/notes/pkt_02064B68.c.txt.
+ *
+ * 1. g_02147D28 / g_02147D2C ARE NOT OBJECTS.  They are &g_02147D18[0].tx and
+ *    &g_02147D18[0].ty: a field of table[i] with a run-time i puts the member
+ *    offset in the relocation addend.  Declare
+ *        typedef struct { fx32 m00, m01, m10, m11, tx, ty; } Mtx;
+ *        extern Mtx g_02147D18[];
+ *    and write g_02147D18[i].tx; the pool words, their ORDER and the
+ *    load/store interleave then come out as the image has them (this is what
+ *    closed func_020663D0 and func_0206615C).  Likewise 0x02147C1C is
+ *    &g_02147C18[0].state, and 0x020A8200 is the Mtx at g_020A81F8 + 8:
+ *        struct Scr { u8 pad_00[8]; Mtx mtx; };  extern struct Scr g_020A81F8;
+ *    The ScratchMtx / g_020A8200 / u8[] spellings above are superseded.
+ *
+ * 2. THE PART 2 MATRIX SELECTION IS AN INLINE HELPER returning Mtx *:
+ *        if (unk_04 == 0) m = &g_02147D18[slot];
+ *        else { scr.mtx.tx = g_02147D18[slot].tx; scr.mtx.ty = ...ty;
+ *               m = &scr.mtx; }
+ *    Called as an argument it reproduces both slot-read shapes of
+ *    func_02065020 with no volatile.  func_02064EDC's variant selects
+ *    g_02148018[slot] in the eq arm.
+ *
+ * 3. CALLBACK ARITY: vtbl +0x34 is (a1, Mtx *m, vtbl), not (a1, vtbl, m);
+ *    +0x38 is (obj, vtbl, a1, m); +0x3c (obj, vtbl, a1, m); +0x40 and +0x44
+ *    are (obj, vtbl, a1, a2, m) with m on the stack.
+ *
+ * 4. A MATERIALISED BOOLEAN (movCC #1 / movCC' #0 / cmp #0) in this cluster is
+ *    spelled as a NEGATED comparison: `r = !(x == -1)` (func_02065878),
+ *    `r = !(slot > 0)` (func_02066380), `r = !(next >= 0x20)`
+ *    (func_0206615C).  The direct comparison folds into a branch.
+ *
+ * 5. func_0206615C / func_02066380 are the matrix-slot PUSH / POP; both take
+ *    one int that neither reads (callers pass the flag word / 1).  The PUSH
+ *    copies tx, ty, g_02147B98 (translate mode) or D18, 8018, B98 (full), in
+ *    that order, and promotes the g_02147C18 record state 1 -> 2.
+ *
+ * 6. The shared tail of func_020664CC / func_02066620: the dense switch on
+ *    g_02147C18[(u16)slot].state sends states 0, 2 and 3 to the body (state
+ *    1 skips): n = slotLimit; slotLimit = n + 1; rec->f2 = n; rec->state = 1.
+ *    Under the pin the slotLimit read/write and the rec->f2 store must be
+ *    volatile-cast to keep the image's store order.
+ *
+ * 7. func_02065878 / func_02066080 / func_020659D4 are the same transform
+ *    applier with the DrawCmd record at +0x30 / +0x34 / +0x00; func_02065DB4
+ *    is the list drawer func_02066080 calls on its +0x34 record; the entry
+ *    flip queries func_02067B50/B64 take g_02147B88.obj, never ->f80.
+ *
+ * 8. Compiler pin tally for the range is now 10 x ../2.0/sp2 against 7 x
+ *    1.1p1.  The PART 2 dispatchers that PREDICATE the selection (ldreq /
+ *    mlaeq) are 1.1p1 (func_02065020, and the near misses func_02065134,
+ *    func_020653A4); func_020651B8's selection is the same C under 2.0.
+ */
+
 #endif /* CLUSTER_02064B68_H */

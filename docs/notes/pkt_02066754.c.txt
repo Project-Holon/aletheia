@@ -204,3 +204,17 @@ and, annealed a further 2000 compiles from that point:
   best      DIFF   asm=1260  bytes-out=92   size=292/292
 
 Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.
+
+==============================================================================
+2026-09-22 - wave 8.  CLOSED: EXACT under ../2.0/sp2, filed.
+==============================================================================
+
+src/matched/func_02066754.c.  The `const volatile` inputs, the hoisted first
+product and the fx64 row-sum local above are all unnecessary: the plain
+SDK-style body, one expression per element written `a0*b0 + a1*b1` (the
+second product is the smull, the first the smlal accumulator), a
+`p = (ab == b) ? &tmp : ab` select and a struct copy-back, is byte-exact under
+the pin.  The per-element reloads are simply the stores through p, which may
+alias a and b.  Pin tell (row in docs/FRONTEND-PINS.md): kept branches, the
+`addne sp` / `popne` exit ahead of the unpredicated ldm/stm copy-back, which
+1.1p1 predicates (260 or 284 bytes).

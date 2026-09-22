@@ -330,4 +330,18 @@ extern void func_0206775C(u16 *row);
  * the most reusable finding in this cluster. */
 extern void func_02067998(struct Hooks *h, struct List *lst);
 
+/* ================================================================== *
+ * WAVE 8 ADDENDUM (2026-09-22)
+ * ================================================================== *
+ * func_02066754 and func_02066E30 are now EXACT under ../2.0/sp2 (both on
+ * the "kept branches" tell; rows in docs/FRONTEND-PINS.md).  The general
+ * lesson for PART 2: write the composer with the TwlSDK inlines reproduced
+ * locally (G3_Translate / G3_Scale / G3_TexCoord / G3_Vtx10 / G3_Begin /
+ * G3_End, G2_GetOBJEffect, G2_GetOBJShape) and the GXOamAttr BITFIELD layout
+ * (x:9, y:8, flipH:1, flipV:1), not hand-rolled masks.  The extent tables
+ * are read as byte offsets, `*(u16 *)((u8 *)tbl + shape * 8 + size * 2)`,
+ * which fixes the shape/size register pair.  func_0206775C reaches 572/108
+ * that way (docs/notes/pkt_02066E30.c.txt).  func_02066754 needed no
+ * volatile at all: `a0*b0 + a1*b1` per element, plain pointers. */
+
 #endif /* CLUSTER_02066740_H */

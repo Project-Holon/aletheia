@@ -112,3 +112,131 @@ int func_0206FFA0(int *dst, const s16 *src1, const s16 *src2, int id)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 348 bytes against 364, 274 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, wave 8 (pkt_0206EB00 pseudo-family): 0x0206FFA0 under ../2.0/sp2
+==============================================================================
+
+Both earlier entries measured this function under dsi/1.1p1 (428 and 348
+bytes).  Under the family pin ../2.0/sp2 a straightforward transcription is
+SIZE-EXACT at 364 with 87 concrete bytes out, and the permuter takes it to
+75.  The declarations (four Perm column externs, s16 row pointers, the
+13-bit packed row code as an s16 accumulator shifted by 3 per key) are in
+docs/families/cluster_0206EB00.h.  Levers: the lookup of g_020A1998 must
+come before the k-indexed store (the pool order 1998, 1999, 199A, 199B
+fixes the order), and the +-0x1000 value is computed before k.
+
+Residue, all register naming: in the permutation arm the image keeps the
+zero of the nine clears in r4 and derives -0x1000 from it (`subne r5, r4,
+#0x1000`), with the three row keys in r1/ip/r3; in the packed-row arm the
+image's {v4 = lr, index*2 = ip} are swapped.  Tried: Row3/Row5 struct
+types for the key rows (147), binding both lookups before the store (101),
+the packed code as one nested expression (99) or as four s16 locals (99),
+int keys (80).  Same numbers under ../2.0/sp2p2.
+python3 tools/permuter.py ... --cc ../2.0/sp2 --mode hill --budget 800 --jobs 8 --types:
+  best      DIFF   asm=1280  bytes-out=75   size=364/364  (expand(v x1) ; temp(tmp=g_020A1998[k].c) ; reorder(+3))
+... anneal --budget 2000 from there: no further improvement (75).
+
+/* best source, 364 bytes against 364, 75 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206FFA0
+ * address:  0x0206FFA0
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_020A1998      0x020A1998  data  a1
+ *   g_020A1999      0x020A1999  data  a1
+ *   g_020A199A      0x020A199A  data  a1
+ *   g_020A199B      0x020A199B  data  a1
+ */
+typedef unsigned int u32;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef struct 
+{
+  u8 c;
+  u8 pad[3];
+} Perm;
+extern Perm g_020A1998[];
+extern Perm g_020A1999[];
+extern Perm g_020A199A[];
+extern Perm g_020A199B[];
+int func_0206FFA0(int *out, s16 *a, s16 *b, u32 id)
+{
+  int tmp;
+  if (id & 0x8000)
+  {
+    u32 i;
+    s16 *row;
+    int h0;
+    int h1;
+    int h2;
+    int k;
+    int v;
+    int s1;
+    int s2;
+    out[8] = 0;
+    out[7] = 0;
+    out[6] = 0;
+    out[5] = 0;
+    out[4] = 0;
+    out[3] = 0;
+    out[2] = 0;
+    out[1] = 0;
+    out[0] = 0;
+    i = (id & 0x7fff) * 3;
+    row = a + i;
+    h0 = a[i];
+    h1 = row[1];
+    h2 = row[2];
+    v = (h0 & 0x10) ? (-0x1000) : (0x1000);
+    k = h0 & 0xf;
+    tmp = g_020A1998[k].c;
+    s1 = tmp;
+    out[k] = (h0 & 0x10) ? (-0x1000) : (0x1000);
+    s2 = g_020A1999[k].c;
+    out[s1] = h1;
+    out[s2] = h2;
+    if (row[0] & 0x20)
+      h2 = -h2;
+    out[g_020A199A[k].c] = h2;
+    if (row[0] & 0x40)
+      h1 = -h1;
+    out[g_020A199B[k].c] = h1;
+    return 0;
+  }
+  else
+  {
+    u32 i = (id & 0x7fff) * 5;
+    s16 *row = b + i;
+    s16 v0;
+    s16 v1;
+    s16 v2;
+    s16 v3;
+    s16 v4;
+    s16 p;
+    v4 = row[4];
+    out[4] = v4 >> 3;
+    v0 = b[i];
+    out[0] = v0 >> 3;
+    v1 = row[1];
+    out[1] = v1 >> 3;
+    v2 = row[2];
+    out[2] = v2 >> 3;
+    v3 = row[3];
+    p = v4 & 7;
+    p = (v0 & 7) | (p << 3);
+    p = (v1 & 7) | (p << 3);
+    out[3] = v3 >> 3;
+    p = (v2 & 7) | (p << 3);
+    p = (v3 & 7) | (p << 3);
+    out[5] = (p << 19) >> 19;
+    return 1;
+  }
+}

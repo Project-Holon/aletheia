@@ -614,3 +614,254 @@ that both of its residual sites were measured against the pin and that the
 remaining work is allocation, so the same three levers would apply to it and
 two of the three are already known-worse on its sibling.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02068808.c:85: declaration syntax error
+
+==============================================================================
+2026-09-22 - wave 8 (pseudo-family cluster_020682DC).  A18 and A68 CLOSED.
+==============================================================================
+
+func_02068A18 and func_02068A68 are now EXACT under dsi/1.1p1 and filed in
+src/matched/.  THE LEVER, which every earlier pass on this file missed: the
+final `| (t << 16)` step of the pixel expansion is written INSIDE BOTH ARMS,
+
+    if (bpp == 4) { t = arg | (arg << 4); t = t | (t << 8); arg = t | (t << 16); }
+    else          { t = arg | (arg << 8); arg = t | (t << 16); }
+
+The compiler tail-merges exactly that one shared step back out of the arms,
+so the arms stay predicated into a temporary (orreq/orreq/orrne r0) and the
+merged `orr r1, r0, r0, lsl #16` lands in the parameter's own register, which
+is the image.  Written once after the join, the shared `| (x << 8)` step is
+tail-merged instead (68 bytes), and writing the arms through the parameter in
+place sinks the orrne past the multiply (76 bytes).  Default-then-override
+(the second pass's 72-byte form) is not needed.  A18 also needs `n = w * h`
+as its own statement; A68 needs `dst = s->base` assigned AFTER the two
+products (in the declaration it is the same bytes with dst in r5, 24 out).
+
+func_02068AE8 -- still DIFF.  The both-arms expansion plus `int bpp` makes
+the first 0x4C bytes (prologue, both argument spills, the whole expansion)
+byte-identical under both front ends; the residue is allocation: the image
+keeps bpp in fp and SPILLS the tile size to [sp,#0x14] (re-read inside the
+inner loop), every spelling here keeps the tile size in a register and
+spills bpp or px instead; and the y-offset `movge r8,#0 / bge` branch over a
+three-instruction else stays predicated under both front ends (if/else,
+else-first, ternary all measured).  Declaring the locals in the image's
+stack-slot order (cy, x1, y1, ye, row, x0, tilesz, rowadv) does not move it.
+permuter from the 1.1p1 source: hill best 164 out, but only through
+`volatile tilesz` plus a temp that reads x0 before it is assigned (a data-flow
+bug, rejected); anneal 2000 best 183 via an 18-mutation chain.
+
+/* best source, 412 bytes against 412, 245 concrete bytes out, ../2.0/sp2 (also 412/245 under 1.1p1) */
+/*
+ * function: func_02068AE8
+ * address:  0x02068AE8
+ * packet:   pkt_02068808
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * Fill an axis-aligned rectangle on a tiled 8x8 surface. The rectangle is
+ * clipped to whole tiles (both coordinates rounded down to a multiple of 8,
+ * both extents rounded up), and each tile in the covered range is handed to
+ * func_020682F8 with the sub-rectangle offsets and extents inside that tile.
+ *
+ * symbols:
+ *   func_020682F8    0x020682F8  arm
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02068AE8.c \
+ *       --func func_02068AE8 --addr 0x02068AE8 --cc 1.1p1 --arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Surface {
+    char *base;   /* +0x00 */
+    int   w;      /* +0x04 */
+    int   h;      /* +0x08 */
+    u8    bpp;    /* +0x0C */
+    int   f10;    /* +0x10 stride in tiles */
+};
+
+extern void func_020682F8(char *tile, int xo, int yo, int tw, int th,
+                          u32 px, int bpp);
+
+void func_02068AE8(struct Surface *s, u32 arg, int x, int y, int w, int h)
+{
+    int cy;
+    int x1;
+    int y1;
+    int ye;
+    char *row;
+    int x0;
+    int tilesz;
+    int rowadv;
+    int bpp;
+    int xe;
+
+    bpp = s->bpp;
+    x1 = x + w;
+    y1 = y + h;
+    if (bpp == 4) { u32 t = arg | (arg << 4); t = t | (t << 8); arg = t | (t << 16); }
+    else { u32 t = arg | (arg << 8); arg = t | (t << 16); }
+    cy = y & ~7;
+    tilesz = (bpp << 6) / 8;
+    x0 = x & ~7;
+    row = s->base + tilesz * ((cy / 8) * s->f10 + (x0 / 8));
+    ye = (y1 + 7) & ~7;
+    rowadv = s->f10 * tilesz;
+    xe = (x1 + 7) & ~7;
+    if (cy >= ye)
+        return;
+    do {
+        int yo;
+        int cx;
+        char *p = row;
+        int th;
+        if (cy >= y) {
+            yo = 0;
+        } else {
+            yo = y - cy;
+        }
+        th = y1 - cy;
+        if (th > 8)
+            th = 8;
+        th -= yo;
+        for (cx = x0; cx < xe; cx += 8) {
+            int xo = (cx < x) ? x - cx : 0;
+            int tw = x1 - cx;
+            if (tw > 8)
+                tw = 8;
+            tw -= xo;
+            func_020682F8(p, xo, yo, tw, th, arg, bpp);
+            p = p + tilesz;
+        }
+        row = row + rowadv;
+        cy = cy + 8;
+    } while (cy < ye);
+}
+
+permuter best result line (hill 800, from the 1.1p1 412/252 variant):
+  best      DIFF   asm=3870  bytes-out=164  size=412/412
+  mutations volatile-add(tilesz) ; temp(tmp=((cy / 8) * s->f10) + (x) ; temp(tmp1=...)   [rejected: reads x0 uninitialised]
+
+func_02068C84 -- still DIFF, but 500 against 500 and 72 out under ../2.0/sp2
+(was 484/390).  Three new levers, all measured:
+  * The +0x10 word is a BITFIELD STRUCT copied whole into a local,
+    `struct Swz { u32 x:8; u32 y:8; u32 rest:16; } f10 = s->f10;`.  That is
+    what the image's otherwise-dead `str r1, [sp, #0x44]` is (the struct
+    local's home), and the two shift pairs are the field reads.  It is also
+    what gives the 0x48 frame and the bpp spill the fifth pass chased with
+    address-taking and volatile: both appear on their own once the struct
+    local exists.
+  * Declaring the locals in the image's stack-slot order (f10, cy, x1, y1,
+    ye, base, tx0, x0, sy, sx, sh, sw, tilesz, bpp -- later declaration at the
+    lower address) with `tx0 = x0 / 8` as its own hoisted local: 484 -> 496.
+  * `yo = (cy < y) ? y - cy : 0;` (cy on the left of the compare): 496 -> 500.
+The pin DOES help this row now: ../2.0/sp2 500/72 against 1.1p1 492/256 on the
+same source.  What is left: the image's yo `movge sb,#0 / bge` branch over a
+three-instruction else (both front ends predicate it here) and the loop
+registers (image cx r4, tx r6, xe r7, ty r8, th r5; compiled cx r6, tx r7,
+xe r4, ty r5, th r8).
+
+/* best source, 500 bytes against 500, 72 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02068C84
+ * address:  0x02068C84
+ * packet:   pkt_02068808
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020681E4    0x020681E4  arm
+ *   func_020682F8    0x020682F8  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Swz { u32 x : 8; u32 y : 8; u32 rest : 16; };
+
+struct Surface {
+    char *base;   /* +0x00 */
+    int   w;      /* +0x04 */
+    int   h;      /* +0x08 */
+    u8    bpp;    /* +0x0C */
+    struct Swz f10; /* +0x10 */
+};
+
+extern int func_020681E4(int tx, int ty, int w, int h, int sx, int sy);
+extern void func_020682F8(char *tile, int xo, int yo, int tw, int th,
+                          u32 px, int bpp);
+
+void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h)
+{
+    struct Swz f10;
+    int cy;
+    int x1;
+    int y1;
+    int ye;
+    char *base;
+    int tx0;
+    int x0;
+    int sy;
+    int sx;
+    int sh;
+    int sw;
+    int tilesz;
+    u8 bpp;
+    int xe, ty, cx;
+
+    bpp = s->bpp;
+    x1 = x + w;
+    y1 = y + h;
+    if (bpp == 4) { u32 t = arg | (arg << 4); t = t | (t << 8); arg = t | (t << 16); }
+    else { u32 t = arg | (arg << 8); arg = t | (t << 16); }
+    x0 = x & ~7;
+    cy = y & ~7;
+    ye = (y1 + 7) & ~7;
+    tilesz = (bpp << 6) / 8;
+    tx0 = x0 / 8;
+    f10 = s->f10;
+    ty = cy / 8;
+    xe = (x1 + 7) & ~7;
+    sw = s->w;
+    sh = s->h;
+    base = s->base;
+    sx = f10.x;
+    sy = f10.y;
+    if (cy >= ye)
+        return;
+    do {
+        int tx = tx0;
+        int yo, th;
+        yo = (cy < y) ? y - cy : 0;
+        th = y1 - cy;
+        if (th > 8)
+            th = 8;
+        th -= yo;
+        for (cx = x0; cx < xe; cx += 8) {
+            int off = func_020681E4(tx, ty, sw, sh, sx, sy);
+            int xo = (cx < x) ? x - cx : 0;
+            int tw = x1 - cx;
+            if (tw > 8)
+                tw = 8;
+            tw -= xo;
+            func_020682F8(base + tilesz * off, xo, yo, tw, th, arg, bpp);
+            tx = tx + 1;
+        }
+        ty = ty + 1;
+        cy = cy + 8;
+    } while (cy < ye);
+}
+
+permuter best result lines (../2.0/sp2):
+  hill 800 from the 82-byte variant:  best DIFF asm=1110 bytes-out=72 size=500/500 via reorder(+1) (applied above)
+  anneal 1500 from this source:       best DIFF asm=1095 bytes-out=69 size=500/500
+    mutations decl-order(th<->tx) ; block(if1,3) ; temp(tmp=~7) ; decl-order(cx<->sh) ; temp(tmp1=~7) ; split-assign(xe) ; decl-order(cx<->tilesz) ; copy(x0->x0_@40)

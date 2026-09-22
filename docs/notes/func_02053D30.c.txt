@@ -144,3 +144,37 @@ Not filed anywhere: DIFF.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 236 bytes against 236, 41
 concrete bytes out, ../1.2/sp2 -proc arm946e.
+
+==========================================================================
+WAVE 8 (second lane on pkt_02052F58), ../1.2/sp2 -proc arm946e: NOT CLOSED.
+==========================================================================
+The SDK-inline lever that closed 0x0205650C / 0x020565C8 this wave was tried
+here and does NOT beat the 41 above.  Body: G3_TexImageParam(fmt, 1, sizS,
+sizT, repS, repT, col0, p->addr) / G3_TexPlttBase(p->pltt, fmt) /
+G3_MtxMode(3) / G3_Identity() / G3_Scale(sx << 12, sy << 12, 0) /
+G3_MtxMode(1), each a static inline with the SDK parameter types (GXTexFmt
+etc. as int enums), plus the `struct TexW w = p->w;` copy:
+
+    SDK inlines, struct copy                     236/236, 50 out
+    + fmt bound to a local / w assigned apart    236/236, 50 out
+    + hand-inlined TEXIMAGE (note's tmp form)    236/236, 47 out
+    struct passed BY VALUE to a SetTex() inline  236/236, 59 out
+    bitfields read through p->w directly         244 bytes (SIZE)
+    u32 raw copy + (struct TexW *)&raw           256 bytes (SIZE)
+  permuter on the SDK-inline body: hill (88 singles) 44 out
+  [type:ret-var(p); temp(tmp=p->sy)], anneal 2000 -> 43 out
+  [temp(tmp=p->sy); temp(tmp1=w.fmt)].
+
+What the SDK body gets wrong is the same thing the note's body gets wrong:
+the `cmp lr, #2` for G3_TexPlttBase is scheduled BEFORE the TEXIMAGE_PARAM
+store (+0x40) where the image has it after (+0x6C), and the TEXIMAGE pool
+pointer takes ip instead of r3.  Something in the original serialises the
+compare after the store; a plain int `fmt` does not.
+
+/* best source, 236 bytes against 236, 41 concrete bytes out, ../1.2/sp2 */
+(unchanged: the body at the top of this note's 2026-09-22 section.)
+permuter best result line (this wave, SDK-inline body):
+  best      DIFF   asm=375   bytes-out=43   size=236/236
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 236 bytes against 236, 41
+concrete bytes out, ../1.2/sp2 -proc arm946e (note body, unchanged).

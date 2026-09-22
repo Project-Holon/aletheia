@@ -1055,3 +1055,209 @@ emit:
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 948 bytes against 948, 63 concrete bytes out, ../2.0/sp2
+
+==============================================================================
+2026-09-22, wave 8 (pkt_0206EB00 re-run with the AST permuter)
+==============================================================================
+
+Filed EXACT this pass (see each file's header and docs/FRONTEND-PINS.md):
+  0x0206EC50  144 B  src/matched/func_0206EC50.c   ../2.0/sp2 (neutral)
+  0x0206F214  344 B  src/matched/func_0206F214.c   ../2.0/sp2p2 (NEW pin)
+  0x0206F36C  348 B  src/matched/func_0206F36C.c   ../2.0/sp2
+  0x0206F6B0  404 B  src/matched/func_0206F6B0.c   ../2.0/sp2
+  0x0207010C  360 B  src/matched/func_0207010C.c   ../2.0/sp2
+  0x02070274  236 B  src/matched/func_02070274.c   ../2.0/sp2 (neutral)
+The consolidated declarations are in docs/families/cluster_0206EB00.h.
+
+What closed the three residues this note had carried:
+  * 0x0206EC50 (was 23-30 bytes of pure register naming): TWO declaration
+    facts, neither of which any respelling of the body could reach.  The
+    root's hook takes FOUR arguments (arg, payload, root->h, flags) -- the
+    image loads root->h into r2 and never writes r2 again, and the flags stay
+    in r3 to the blx -- and the node resolve is two NESTED INLINE HELPERS
+    (entry_of / resolve).  Hill + anneal (4000+ compiles) on the flat goto
+    body bottomed out at 7 bytes; the inline form is EXACT immediately.
+  * 0x0206F36C (was 185): the wrap blend and the lerp tail both want the
+    s16 arm FIRST as a plain if/else, with the lerp tail spelled exactly as
+    func_02070524's `two:` block; and `t & 0xfff` before `mul = 1`.
+  * 0x0206F214 (was 111 under 1.1p1): it is a sp2p2 function.  The 64-bit
+    3:1 blend cannot be spelled under ../2.0/sp2 (every spelling adds a
+    `mov ip,#0` + `mla` for the constant's high word); sp2p2 folds it.  Then
+    the permuter supplied the two last levers (a temporary for k >> 2 in the
+    `k & 2` arm, and the 64-bit product bound before the sum).
+
+Still DIFF, recorded below: 0x0206ECE0 (41), 0x0206EE60 (63).  The others of
+the pseudo-family are in docs/notes/pkt_0206F4C8.c.txt (0x0206F4C8,
+0x0206F844, 0x0206FC5C) and docs/notes/pkt_0206FFA0.c.txt (0x0206FFA0).
+
+--- 0x0206ECE0 (384 B): DIFF, 49 -> 41
+Two changes from the previous best: the FIRST table lookup is g_020A1998
+(the pool order is 1998, 1999, 199A, 199B; the earlier source had 1999 first
+and paid for it in the pool and two stores), and the permuter's
+decl-order(node<->u) plus a `u16 *` temporary for the node.  The residue is
+still the callee-saved three-cycle {node, k, u} (image r5/r4/r7).  Tried
+and rejected: the nested-inline resolve that closed 0x0206EC50 (52), a
+set_rot() inline helper for the permutation block (101), computing the
++-0x1000 value before the lookups (55).
+python3 tools/permuter.py ... --cc ../2.0/sp2 --mode hill --budget 800 --jobs 8 --types:
+  best      DIFF   asm=755   bytes-out=46   size=384/384  (temp(tmp=(u16 *) node))
+... then --mode anneal --budget 2000 --jobs 8 --types from that point:
+  best      DIFF   asm=730   bytes-out=41   size=384/384  (decl-order(node<->u))
+
+/* best source, 384 bytes against 384, 41 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206ECE0
+ * address:  0x0206ECE0
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ *
+ * symbols:
+ *   g_02148DB0      0x02148DB0  data  a4
+ *   g_020A1998      0x020A1998  data  a1
+ *   g_020A1999      0x020A1999  data  a1
+ *   g_020A199A      0x020A199A  data  a1
+ *   g_020A199B      0x020A199B  data  a1
+ *   func_020834A8   0x020834A8  thumb
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef signed short s16;
+typedef struct 
+{
+  u8 unk00;
+  u8 idx01;
+} Hdr;
+typedef struct 
+{
+  u8 unk00;
+  u8 cnt01;
+  u8 unk02[4];
+  u16 off06;
+} Bank;
+typedef struct 
+{
+  Hdr *h;
+  u8 pad[0xD0];
+  Bank *bank;
+} Root;
+typedef struct 
+{
+  u32 rel00;
+} Ent;
+typedef struct 
+{
+  u8 c;
+  u8 pad[3];
+} Perm;
+extern Root *g_02148DB0;
+extern Perm g_020A1998[];
+extern Perm g_020A1999[];
+extern Perm g_020A199A[];
+extern Perm g_020A199B[];
+extern void func_020834A8(void *p);
+void func_0206ECE0(u32 *out)
+{
+  Root *r = g_02148DB0;
+  Bank *b;
+  int u;
+  u8 *t;
+  u32 idx;
+  u32 f;
+  s16 *p;
+  int k;
+  u8 *node;
+  int v;
+  u16 *tmp;
+  idx = r->h->idx01;
+  b = r->bank;
+  if (b == 0)
+    goto none;
+  if (b == 0)
+    goto nullent;
+  if (idx >= b->cnt01)
+    goto nullent;
+  t = ((u8 *) b) + b->off06;
+  idx = (u32) ((t + 4) + ((*((u16 *) t)) * idx));
+  goto have;
+  nullent:
+  idx = 0;
+
+  have:
+  if (idx == 0)
+    goto none;
+
+  node = ((u8 *) b) + ((Ent *) idx)->rel00;
+  goto set;
+  tmp = (u16 *) node;
+  none:
+  node = 0;
+
+  set:
+  f = tmp[0];
+
+  p = (s16 *) (node + 4);
+  if ((f & 1) == 0)
+    p = (s16 *) (((u8 *) p) + 0xc);
+  if ((f & 2) != 0)
+    goto flag2;
+  if ((f & 8) == 0)
+    goto copy;
+  k = ((int) (f & 0xf0)) >> 4;
+  u = p[0];
+  v = p[1];
+  func_020834A8(out + 10);
+  f = ((u16 *) node)[0];
+  {
+    int s1 = g_020A1998[k].c;
+    int s2 = g_020A1999[k].c;
+    ((u32 *) (((u8 *) out) + 0x28))[k] = ((f & 0x100) != 0) ? (-0x1000) : (0x1000);
+    ((u32 *) (((u8 *) out) + 0x28))[s1] = (u32) u;
+    ((u32 *) (((u8 *) out) + 0x28))[s2] = (u32) v;
+  }
+  f = ((u16 *) node)[0];
+  if ((f & 0x200) != 0)
+    v = -v;
+  ((u32 *) (((u8 *) out) + 0x28))[g_020A199A[k].c] = (u32) v;
+  f = ((u16 *) node)[0];
+  if ((f & 0x400) != 0)
+    u = -u;
+  ((u32 *) (((u8 *) out) + 0x28))[g_020A199B[k].c] = (u32) u;
+  return;
+  copy:
+  {
+    u32 *o = (u32 *) (((u8 *) out) + 0x28);
+    o[0] = (u32) ((int) ((s16 *) node)[1]);
+    o[1] = (u32) ((int) p[0]);
+    o[2] = (u32) ((int) p[1]);
+    o[3] = (u32) ((int) p[2]);
+    o[4] = (u32) ((int) p[3]);
+    o[5] = (u32) ((int) p[4]);
+    o[6] = (u32) ((int) p[5]);
+    o[7] = (u32) ((int) p[6]);
+    o[8] = (u32) ((int) p[7]);
+  }
+
+  return;
+  flag2:
+  out[0] = out[0] | 2;
+
+}
+
+--- 0x0206EE60 (948 B): DIFF, 63, unchanged
+The previous entry's source is still the best.  New this pass, all 948/63:
+the lerp test as an inline helper (needs_lerp), the record fetch as an
+inline helper (get_rec), a separate `rec` pointer with p = rec + 1 formed
+after the f & 1 exit, and both helpers together.  Moving p's assignment
+after the lerp computation breaks the size (952).  Under ../2.0/sp2p2 the
+same 948/63.
+python3 tools/permuter.py ... --cc ../2.0/sp2 --mode hill --budget 800 --jobs 8 --types --focus p,lerp:
+  no single mutation improves DIFF   asm=315   bytes-out=63   size=948/948 (296 tried)
+The cursor/lerp r5/r6 swap is a declaration-level fact that none of the
+above reaches; by analogy with 0x0206EC50 the next thing to try is the
+channel-group bodies as inline helpers taking (out field, t, p, root, lerp).

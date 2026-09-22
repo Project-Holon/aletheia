@@ -212,8 +212,10 @@ extern u32 (*const Rig_Hooks2[])(s32, s32, s32, s32);      /* 0x020A7FDC */
  *   costs it four bytes.  A mixed-prototype table.
  * Rig_Hooks2[0] = func_020565C8, [1] = func_0205650C: the two textured-quad
  *   emitters, identical but for which VTX_10 field the second coordinate
- *   lands in (bits 10..19 for 020565C8, bits 20..29 for 0205650C).  These
- *   DO return u32 (the shape is only reachable with a non-void return).
+ *   lands in (bits 10..19 for 020565C8, bits 20..29 for 0205650C).
+ *   CORRECTED wave 8: both rows return VOID and are EXACT
+ *   (src/matched/func_0205650C.c, func_020565C8.c).  The earlier "they DO
+ *   return u32" was an artefact of the hand-inlined spelling; see shape 8.
  */
 
 /* ------------------------------------------------------------------ *
@@ -275,5 +277,49 @@ extern void func_02053A60(volatile void *inst, void *cfg, const struct VecFx32 *
  *     before a later group of uses is sometimes the only thing that moves a
  *     stuck residue.  (func_02056460.)
  */
+
+/* ------------------------------------------------------------------ *
+ * WAVE 8 ADDITIONS (second lane), each measured to EXACT.
+ *
+ *  8. THE GX REGISTER WRITES ARE SDK INLINE FUNCTIONS, NOT CASTS IN THE BODY.
+ *     func_0205650C / func_020565C8 went from 40 / 50 concrete bytes of
+ *     "pure register naming" to EXACT by writing the body as
+ *       G3_Begin(1); G3_TexCoord(s, t); G3_Vtx10(x, y, z); G3_End();
+ *     with each a static inline taking the SDK's parameter TYPES:
+ *       G3_TexCoord(fx32 s, fx32 t)  = (u32)(u16)(s >> 8) | (u32)(u16)(t >> 8) << 16
+ *       G3_Vtx10(fx16 x, fx16 y, fx16 z) = (x >> 6 & 0x3ff) | .. << 10 | .. << 20
+ *     The fx16 parameter is where the `lsl #16 / asr #22` narrowing comes
+ *     from; passing the value through a typed parameter changes the
+ *     allocator's value order, which no respelling of the hand-inlined body
+ *     reproduced.  (Tried on func_02053D30 as G3_TexImageParam /
+ *     G3_TexPlttBase / G3_Scale: no gain there, 43 vs the note's 41.)
+ *
+ *  9. The emitter/particle rows (func_02056684) are an SPL-style particle
+ *     system.  Particle (the list node the free-list pop func_02058380
+ *     returns): +0x08 VecFx32 pos, +0x14 VecFx32 vel, +0x20 u16, +0x22 s16,
+ *     +0x24 u16 life, +0x26 u16 age, +0x28/+0x2a u16 0xFFFF/(life>>1) and
+ *     0xFFFF/life, +0x2c u8, +0x2d u8, +0x2e RigBf16, +0x30 fx32 scale,
+ *     +0x34 u16 0x1000, +0x36 u16 colour, +0x38 VecFx32 -- the same layout
+ *     struct RigS above describes, so RigS IS the particle.  The RNG is the
+ *     LCG g_02146A8C = g * 0x5EEDF715 + 0x1B0CB173, and in func_02056684 the
+ *     random term must be a MACRO whose update is an assignment used as a
+ *     value: ((v) * (s32)((g = g * A + C) >> 23) - ((v) << 8)) >> 8.  As an
+ *     inline function it is 8 bytes short and 534 out.
+ *
+ * 10. Declaration order of two pointer locals decides r6/r7: in
+ *     func_02056684 `struct Ptcl *p;` must be declared BEFORE `d`; the
+ *     permuter's hill pass could not move it (222 singles).
+ *
+ * 11. MTX_Concat43 operand order is per row: func_02053E1C (otherwise a
+ *     transcription of func_0205429C) concatenates (m2, m3, m1) where
+ *     func_0205429C has (m3, m2, m1) -- the only 2 bytes it had wrong.
+ *
+ * 12. The billboard rows that build their own 4x3 matrix fill it in
+ *     DIFFERENT element orders: func_02055B80 row-major m[0..11];
+ *     func_02054DB8 column-wise _00,_10,_01,_11,_20,_21,_02,_12,_22 then the
+ *     translation.  The store order in the image is the source order (the
+ *     scheduler only hoists the constant and translation stores), and it was
+ *     worth 118 bytes on func_02054DB8 (442 -> 324).
+ * ------------------------------------------------------------------ */
 
 #endif /* CLUSTER_02052F58_H */

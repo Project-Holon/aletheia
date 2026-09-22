@@ -83,3 +83,283 @@ prologue is `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` with a 0x28
 frame, and 0x02068670's is nine registers with a 0x2c frame.  Neither is
 a mechanical accessor.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22 - wave 8 (pseudo-family cluster_020682DC).  0x020682F8 CLOSED.
+==============================================================================
+
+func_020682F8 is EXACT under ../2.0/sp2 and filed (src/matched/func_020682F8.c,
+pin row in docs/FRONTEND-PINS.md).  The push-width residue above was a source
+lever: u and the 64 - (u + w*8) remainder are UNSIGNED (blo, not blt), the
+remainder is named once for the first >= 32 test and written out again at
+each later use (holding it in a local across the arm costs the third
+callee-saved register; found by tools/permuter.py as expand(v)), the 4bpp
+mask is built in two statements, and the fill/bound locals are declared
+`set` before `end` (4bpp) and `slo, shi, p, end` (8bpp).
+
+func_02068430 @ 0x02068430 (576 bytes) - DIFF, NEW row.  A bit-stream glyph
+blit into one 8x8 tile: it takes a pointer to a ten-word parameter block
+{dst, src, x, y, w, h, stride-in-bits, src-bpp, dst-bpp, palette-base} that
+func_02068670 builds on its stack, clips the glyph's column/row range to the
+tile, and per row opens an MSB-first bit reader (func_02069BA0, the
+docs/notes/func_02069BA0.c.txt cursor object {u8 *cur; s8 have; u8 acc;}) at
+`src + ((u32)bit >> 3)`, skips `bit % 8` bits, and ORs each non-zero source
+pixel plus the palette base into the destination word(s): one word per row
+at 4bpp (mask 0xf held in fp), two at 8bpp with a real `bhs` / `b` if/else
+choosing the word.  That if/else is the kept-branches shape (1.1p1 predicates
+it: 564 bytes against 576), so ../2.0/sp2 is the front end: 576/195.  Size
+lever: the clipped column end is a u32 variable reassigned in place
+(`cend = cend * bpp`), not a fresh product.  Residue is allocation only (image
+bit r4, sbpp r8, cend sl; compiled r6, r4, r5) plus the image's `mov sl, r6`.
+
+/* best source, 576 bytes against 576, 195 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02068430
+ * address:  0x02068430
+ * packet:   pkt_020682F8
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02069BA0    0x02069BA0  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef struct Bits {
+    u8 *cur;
+    signed char have;
+    unsigned char acc;
+} Bits;
+
+struct Blit {
+    u32 *dst;     /* +0x00 */
+    u8  *src;     /* +0x04 */
+    int  x;       /* +0x08 */
+    int  y;       /* +0x0C */
+    int  w;       /* +0x10 */
+    int  h;       /* +0x14 */
+    int  stride;  /* +0x18  source row, in bits */
+    int  sbpp;    /* +0x1C  source bits per pixel */
+    int  bpp;     /* +0x20  destination bpp, 4 or 8 */
+    int  base;    /* +0x24  palette base added to a non-zero pixel */
+};
+
+extern u32 func_02069BA0(Bits *b, int n);
+
+void func_02068430(struct Blit *p)
+{
+    int x = p->x;
+    int y = p->y;
+    u32 c0 = (x >= 0) ? x : 0;
+    int r0 = (y >= 0) ? y : 0;
+    u32 cend = x + p->w;
+    int r1 = y + p->h;
+    int bpp;
+    int sbpp;
+    u8 *src;
+    int stride;
+    u32 *dst;
+    int bit;
+
+    if ((int)cend >= 8) cend = 8;
+    if (r1 >= 8) r1 = 8;
+    if (y > 0) y = 0;
+    if (x > 0) x = 0;
+    bpp = p->bpp;
+    sbpp = p->sbpp;
+    cend = cend * bpp;
+    stride = p->stride;
+    c0 = c0 * bpp;
+    bit = -y * stride + -x * sbpp;
+    src = p->src;
+    dst = p->dst;
+
+    if (bpp == 4) {
+        int base = p->base;
+        u32 *row = dst + r0;
+        u32 *end = dst + r1;
+        Bits b;
+        while (row < end) {
+            u32 wd = *row;
+            u32 c;
+            b.cur = src + ((u32)bit >> 3);
+            b.have = 0;
+            b.acc = 0;
+            func_02069BA0(&b, bit % 8);
+            for (c = c0; c < cend; c += 4) {
+                u32 v = func_02069BA0(&b, sbpp);
+                if (v != 0)
+                    wd = (wd & ~(0xf << c)) | ((base + v) << c);
+            }
+            *row++ = wd;
+            bit += stride;
+        }
+    } else {
+        int base = p->base;
+        u32 *end = dst + r1 * 2;
+        u32 *row = dst + r0 * 2;
+        Bits b;
+        while (row < end) {
+            u32 lo = row[0];
+            u32 hi = row[1];
+            u32 c;
+            b.cur = src + ((u32)bit >> 3);
+            b.have = 0;
+            b.acc = 0;
+            func_02069BA0(&b, bit % 8);
+            for (c = c0; c < cend; c += 8) {
+                u32 v = func_02069BA0(&b, sbpp);
+                if (v != 0) {
+                    v = base + v;
+                    if (c < 0x20)
+                        lo = (lo & ~(0xff << c)) | (v << c);
+                    else
+                        hi = (hi & ~(0xff << (c - 0x20))) | (v << (c - 0x20));
+                }
+            }
+            row[0] = lo;
+            row[1] = hi;
+            row += 2;
+            bit += stride;
+        }
+    }
+}
+
+permuter best result lines (../2.0/sp2, from this source):
+  hill 800:     best DIFF asm=2000 bytes-out=188 size=576/576 via hoist-up(dst,-11) ; decl-order(c<->wd)
+  anneal 2000:  best DIFF asm=1905 bytes-out=159 size=576/576 via a 23-mutation chain (not recoverable)
+
+func_02068670 @ 0x02068670 (408 bytes) - DIFF, NEW row.  The glyph-draw entry
+func_02068EA0 reaches through its context's vtable with (ctx, font, x, y,
+color, out[2]): it clips the glyph (width out[0][1], height = font header
+byte 1) to the surface's tile grid, fills the func_02068430 parameter block
+(src = out[1], stride-in-bits = header bpp * header cell width via `smulbb`,
+palette base = color - 1) and walks the covered tiles right to left and
+bottom to top, x and y stepping by -8 inside each tile.  Size-exact under
+both front ends (408): 1.1p1 254 out, ../2.0/sp2 263.  Needed for size: the
+surface's w/h/base read up front into locals, `tx0 = (x > 0) ? (u32)x >> 3 : 0`,
+and the two empty-range checks as separate returns with ny computed before
+the nx test.  Residue: the image spills the glyph-pair argument to its own
+incoming slot (`str r4, [sp, #0x54]` then reloads it) and keeps base in lr;
+every spelling here spills base instead (frame 0x30 and a pushed r3 under
+1.1p1).
+
+/* best source, 408 bytes against 408, 254 concrete bytes out, 1.1p1 */
+/*
+ * function: func_02068670
+ * address:  0x02068670
+ * packet:   pkt_020682F8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02068430    0x02068430  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Surface {
+    char *base;   /* +0x00 */
+    u32   w;      /* +0x04  in tiles */
+    u32   h;      /* +0x08  in tiles */
+    u8    bpp;    /* +0x0C */
+    int   stride; /* +0x10  tiles per row */
+};
+
+struct Hdr { u8 cw; u8 ch; u8 pad[4]; u8 bpp; };
+struct Fnt { u8 pad[8]; struct Hdr *hdr; };
+
+struct Blit {
+    char *dst;    /* +0x00 */
+    u8   *src;    /* +0x04 */
+    int   x;      /* +0x08 */
+    int   y;      /* +0x0C */
+    int   w;      /* +0x10 */
+    int   h;      /* +0x14 */
+    int   stride; /* +0x18 */
+    int   sbpp;   /* +0x1C */
+    int   bpp;    /* +0x20 */
+    int   base;   /* +0x24 */
+};
+
+extern void func_02068430(struct Blit *p);
+
+void func_02068670(struct Surface *s, struct Fnt **font, int x, int y, int color, u8 **g)
+{
+    struct Blit b;
+    int tilesz = (s->bpp << 6) / 8;
+    int gw = g[0][1];
+    struct Hdr *hdr = (*font)->hdr;
+    u32 sw, sh;
+    char *base;
+    int gh;
+    int tx0, ty0, tx1, ty1, nx, ny, xe, ye, cx;
+    char *dst;
+    int skip;
+
+    if (gw == 0)
+        return;
+    sw = s->w;
+    sh = s->h;
+    base = s->base;
+    gh = hdr->ch;
+    if (x + gw < 0)
+        return;
+    if (y + gh < 0)
+        return;
+    tx0 = (x > 0) ? (u32)x >> 3 : 0;
+    ty0 = (y > 0) ? (u32)y >> 3 : 0;
+    tx1 = (u32)(x + gw + 7) >> 3;
+    if (sw <= (u32)tx1)
+        tx1 = sw;
+    ty1 = (u32)(y + gh + 7) >> 3;
+    if (sh <= (u32)ty1)
+        ty1 = sh;
+    nx = tx1 - tx0;
+    ny = ty1 - ty0;
+    if (nx < 0)
+        return;
+    if (ny < 0)
+        return;
+    ty0 = s->stride * ty0 + tx0;
+    skip = (s->stride - nx) * tilesz;
+    dst = base + tilesz * ty0;
+    b.src = g[1];
+    b.base = color - 1;
+    b.w = gw;
+    b.h = gh;
+    if (x >= 0)
+        x &= 7;
+    b.sbpp = (*font)->hdr->bpp;
+    if (y >= 0)
+        y &= 7;
+    ye = y - (ny << 3);
+    b.bpp = s->bpp;
+    xe = x - (nx << 3);
+    b.stride = (*font)->hdr->bpp * (*font)->hdr->cw;
+    for (; y > ye; y -= 8) {
+        b.y = y;
+        for (cx = x; cx > xe; cx -= 8) {
+            b.dst = dst;
+            b.x = cx;
+            func_02068430(&b);
+            dst += tilesz;
+        }
+        dst += skip;
+    }
+}
+
+permuter best result lines:
+  1.1p1 hill 800 from this source:       best DIFF asm=4820 bytes-out=241 size=408/408 via hoist-down(ty0,+5) ; copy(xe->xe_@50)
+  ../2.0/sp2 hill 800 (ternaries flipped): best DIFF asm=4180 bytes-out=215 size=408/408 via temp(tmp=tx1 - tx0) ; decl-order(ty1<->dst)

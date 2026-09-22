@@ -32,7 +32,7 @@
  *     hook, with root->h as its third argument, is what func_0206EE60 calls
  *     at its emit tail.  A three-argument call is 21 bytes out.
  *
- * Compiler: filed under the packet's ../2.0/sp2 unit pin.  With the inline
+ * Front end: filed under the packet's ../2.0/sp2 unit pin.  With the inline
  * helpers this function is compiler-neutral (EXACT under dsi/1.1p1 as well,
  * measured 2026-09-22): the "kept branches" double `beq` the earlier note
  * attributed to the front end is what the nested inline produces under both.

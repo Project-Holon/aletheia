@@ -615,3 +615,25 @@ u32 func_020565C8(s32 s, s32 t, s32 x, s32 z)
 re-verified 2026-09-22 by tools/match.py: 0x02056460 EXACT (filed);
 0x0205650C DIFF 188/188 40 out; 0x020565C8 DIFF 188/188 50 out; all
 ../1.2/sp2 -proc arm946e.
+
+==========================================================================
+WAVE 8 (second lane on pkt_02052F58): 0x0205650C AND 0x020565C8 CLOSED.
+==========================================================================
+Both are EXACT and filed: src/matched/func_0205650C.c and
+src/matched/func_020565C8.c (../1.2/sp2 -proc arm946e).  The residue above
+(40 / 50 concrete out, "pure register naming") was not an allocator tie at all:
+it was the SHAPE of the source.  The rows are written with the NitroSDK
+immediate-mode inlines as static inline FUNCTIONS with their own typed
+parameters, and return VOID:
+
+    G3_Begin(1); G3_TexCoord(0, 0); G3_Vtx10((fx16)(x - 0x1000), 0, (fx16)(z + 0x1000));
+    G3_TexCoord(s, 0); ...; G3_TexCoord(s, t); ...; G3_TexCoord(0, t); ...; G3_End();
+
+  with G3_TexCoord(fx32 s, fx32 t) = (u32)(u16)(s >> 8) | ((u32)(u16)(t >> 8) << 16)
+  and  G3_Vtx10(fx16 x, fx16 y, fx16 z) = ((x >> 6) & 0x3ff) | ... << 10 | ... << 20.
+
+The note's "void is 196 bytes" is true only of the hand-inlined body; through
+the inline functions void is 188/188 and EXACT with no permuter step.  The
+u32-return variant of the same inline body is 4 bytes out (the image frees r0
+for the END pool pointer, i.e. nothing is returned).  0x020565C8 is the same
+source with the second coordinate in the VTX_10 y slot.
