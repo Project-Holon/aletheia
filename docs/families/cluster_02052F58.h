@@ -319,7 +319,32 @@ extern void func_02053A60(volatile void *inst, void *cfg, const struct VecFx32 *
  *     func_02054DB8 column-wise _00,_10,_01,_11,_20,_21,_02,_12,_22 then the
  *     translation.  The store order in the image is the source order (the
  *     scheduler only hoists the constant and translation stores), and it was
- *     worth 118 bytes on func_02054DB8 (442 -> 324).
+ *     worth 118 bytes on func_02054DB8 (442 -> 324; 286 after item 13).
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * 13. THE SCALE PRODUCT OF THE BILLBOARD ROWS (measured wave 8, three rows).
+ *     In the rows that preload SubC->f30 before the POLYGON_ATTR store
+ *     (func_02055B80, func_02055FD4, func_02054DB8, func_02055498) write
+ *         a = s->f30;
+ *         a64 = (s64)(s32)a;
+ *         n = (s32)((a64 * sc + 0x800) >> 12);
+ *     i.e. the sign-extended copy FIRST and the product on it.  FX_Mul(a, sc)
+ *     swaps the product's lo/hi registers and, through them, s/obj in the
+ *     prologue; the permuter cannot find this (hill flat on func_02055B80).
+ *     It closed func_02055B80 (9 -> 0) and the top of func_02054DB8.
+ *
+ * 14. TWINS.  func_02055498 is instruction-for-instruction func_02054DB8
+ *     except the final quad-emitter arguments (f78/f7a/SubC f50/f52 against
+ *     f7c/f7e/0/0).  func_02055FD4 is func_02055B80 plus preloads and an
+ *     if/else-if/else dispatch.  Both DB8 and 5498 sit at 286 out, all in the
+ *     billboard matrix block (docs/notes/func_02054DB8.c.txt).
+ *
+ * 15. func_02057C9C is a colour ramp through an inlined VOID helper
+ *     ColLerp(out, from, to, on, num, den); the two segments need DIFFERENT
+ *     channel declaration orders (segment 1 exact with tr,fr,tg,fg,fb,tb;
+ *     segment 2 best at tr,fr,fg,tg,fb,tb), 16 out
+ *     (docs/notes/pkt_02057C9C.c.txt).
  * ------------------------------------------------------------------ */
 
 #endif /* CLUSTER_02052F58_H */
