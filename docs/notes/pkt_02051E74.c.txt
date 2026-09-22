@@ -244,3 +244,7 @@ permuter best result line (from the source above):
   best      DIFF   asm=620   bytes-out=56   size=328/328
 
 Addresses are Black-image addresses.
+
+==============================================================================
+CLOSED wave 9: func_02051E74 is EXACT* (sdk class now carries MTX_Rot22_/MTX_ScaleApply22; plain (ang*0xFFFF)/360 spelling)
+and func_02051F34 is EXACT (register local d compared at the join, res.d stored after the limit load). Both in src/matched.

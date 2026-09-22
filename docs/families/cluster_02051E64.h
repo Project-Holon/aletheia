@@ -18,12 +18,12 @@
  *
  *   PART 1, 0x02051E64..0x020522E4 -- GEOMETRY AND FIXED-POINT MATH.
  *     Small leaf helpers over the SDK's libfx: a scaled 2x2 rotation builder
- *     (0x02051E74, still DIFF), a ray/sphere intersection test
- *     (0x02051F34, still DIFF), a 3x3 vector scale (0x020520A4), the
+ *     (0x02051E74, EXACT* wave 9), a segment/sphere intersection test
+ *     (0x02051F34, EXACT wave 9), a 3x3 vector scale (0x020520A4), the
  *     three-angle rotation composer (0x020520FC) and the look-at builder
  *     (0x020521BC).  The last three all read the shared interleaved sin/cos
  *     halfword table at 0x020A1B38 at index angle >> 4, sin at tbl[2*i] and
- *     cos at tbl[2*i+1].  0x02052274/0x020522E4 are a character-encoding
+ *     cos at tbl[2*i+1].  0x02052274/0x020522E4 are a UCS-2 to Shift-JIS
  *     converter that sits in the same address run but shares nothing else.
  *
  *   PART 2, 0x020524C8..0x02052984 -- THE LIST/RIG MANAGER.  Four
@@ -135,6 +135,13 @@ void func_020521BC(const struct Vec3 *v, struct Mtx33 *dst);
  * case; it reports "stop the run" by storing 1 into its scratch out-param.
  */
 extern int func_020522E4(u8 *src, u8 *dst, u32 *scratch);        /* 0x020522E4 */
+/*
+ * func_020522E4's own EXACT spelling (wave 9) is
+ *   int func_020522E4(u16 *src, char *dst, u32 *stop);
+ * one UCS-2 unit to Shift-JIS; dst MUST be plain signed char (the 0x81 lead
+ * byte is `mvn r1,#0x7e` and 0x89/0x8a are adds off it).  The caller's u8*
+ * view above is a different TU and still matches.
+ */
 void func_02052274(u8 *src, u8 *dst, u32 n);
 
 /* ================================================================== *
@@ -316,6 +323,52 @@ void func_020528BC(u32 a0);
  * hand spellings each by earlier lanes).  Written inline, the compiler
  * performs the hoist ITSELF and colours in the image's order.  This closed
  * func_02052770 (33 bytes out -> EXACT) and func_02052274 (8 -> EXACT).
+ */
+
+/* ================================================================== *
+ * WAVE 9 ADDITIONS (second lane): the constructor and the binder
+ * ================================================================== */
+
+/*
+ * The Head as the constructor func_02052DC8 and the binder func_02052A50
+ * see it (both EXACT, 1.2).  0x00 is the allocator callback (`blx r8`/
+ * `blx [sl]`), 0x04/0x10/0x1c are three list headers of three words each,
+ * 0x28 the 0x20-byte records, 0x2c the 0x14-byte material rows, 0x30/0x32
+ * their counts, 0x34/0x36 the two pool sizes, 0x38 a word of 6-bit fields
+ * (0..5, 6..11, 12..17 = copy of 0..5, 18..23, bit 24, 25..31) whose every
+ * write is its own read-modify-write under 1.2.  The Head is 0x4c bytes.
+ *
+ *   struct Head *func_02052DC8(void *(*alloc)(u32), u16 n1, u16 n2,
+ *                              u16 a3, u16 a4, u16 a5);
+ *     n1 nodes of 0x9c bytes onto the recycle list at +0x10,
+ *     n2 records of 0x44 bytes onto the list at +0x1c.
+ *   void func_02052A50(struct Head *h, struct Hdr *d);
+ *     d->nrec at +8, d->nrow at +0xa; walks d from byte 0x20.
+ *
+ * The material row is fuller than PART 3 above records:
+ *   struct Row { struct Res *res; u32 tex_vram; u32 pltt_vram;
+ *                u32 f0c;   -- copy of res's +4 flag word
+ *                u16 w, h;  -- 1 << (code + 3), codes at res+4 bits 4..7, 8..11
+ *              };
+ * and struct Res's +4 word is kind:4, w:4, h:4, ..., bit 17 "share another
+ * row's texture handle", bits 18..25 that row's index; +0x1c is the
+ * resource's byte size (the binder's cursor advance).
+ *
+ * THE CLUSTER'S SECOND LESSON, closed four functions in wave 9 and matches
+ * the first one above: on the 1.2 front end, DO NOT hand-strength-reduce.
+ * A byte-offset induction variable (`off += 0x14`), a hand-advanced
+ * `char *p += 0x9c`, or constants hoisted into locals (`one = 1; zero = 0`)
+ * all reproduce the image's instruction stream and still leave a two- or
+ * three-register cycle no permuter mutation moves (func_020528D0: 2231
+ * permuter compiles flat at 8 bytes in wave 7).  Write `&o->f2c[i]` /
+ * `&p[i]` over a typed element and `kind == 5 ? 1 : 0`: the stack slots
+ * holding 1 and 0 and the offset register are the compiler's OWN strength
+ * reduction and come out in the image's colours.  func_020528D0,
+ * func_02052984, func_02052DC8 closed on the first compile of that spelling.
+ * Corollaries measured on func_02052A50: optional-pointer fills are if/else,
+ * not `?:`; a {fn, data} entry fill that is data, fn, cursor, p++ in that
+ * order is NOT if-converted (any other order is, and loses 40 bytes); and a
+ * sum of 1-bit fields is written straight from the fields, not via locals.
  */
 
 #endif /* CLUSTER_02051E64_H */

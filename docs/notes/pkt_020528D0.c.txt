@@ -350,3 +350,7 @@ permuter best result line:
   (anneal, 2000 compiles in 187s: best unchanged)
 
 Addresses are Black-image addresses.
+
+==============================================================================
+CLOSED wave 9: func_020528D0, func_02052984 (and func_02052A50, func_02052DC8) are EXACT in src/matched under ../1.2/sp2.
+The residue above was hand strength reduction: write &o->f2c[i] and kind == N ? 1 : 0 instead of off/one/zero locals.
