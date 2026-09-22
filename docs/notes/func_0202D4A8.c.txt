@@ -394,3 +394,52 @@ honest summary is that 1.1p1's frame allocator orders these two slots from
 something upstream of the source text, and further source permutation on
 this function is not a good use of a lane.
 re-verified 2026-09-21 by tools/match.py: DIFF, 292 bytes against 292, 48 concrete bytes out, 1.1p1
+
+
+2026-09-22 -- wave 6 bundle lane.  permuter.py (the AST engine) closes the
+rule-out list; residue (a) is not reachable from the source text.
+===========================================================================
+
+REPRODUCED from this note's own prescription: the "closest C" above with
+`case 1:` written before `case 2:` is 292 bytes / 4 concrete out under
+`--cc 1.1p1 --thumb`, 4 of 4 relocations resolved by label, and the four
+bytes are the four this note already lists (+001E, +0040, +00D6, +00FA).
+
+WHAT IS NEW.  Every earlier pass on this function used tools/permute.py
+(the textual permuter).  This lane ran tools/permuter.py, the pycparser
+AST engine, which is the tool written specifically for this residue class
+-- "every instruction and relocation right, a register or a spill slot
+wrong, permute.py flat" (docs/notes/permuter.md).  It was never run here.
+
+  --explain                                  prints NO register-substitution
+                                             map: the residue is a stack-slot
+                                             pair, not a register pair, which
+                                             is itself the confirmation that
+                                             the frame allocator is the actor
+  --mode hill   --budget 800 --jobs 8 --types    320 mutations tried
+        "no single mutation improves"; best DIFF asm=20 bytes-out=4 size=292/292
+  --mode anneal --budget 2000 --jobs 8 --types   2000 compiles in 149s
+        two plateau drifts, every batch flat
+        best DIFF asm=20 bytes-out=4 size=292/292
+
+2320 distinct compiles, both engines, every candidate identical at 4 bytes
+out and asm=20 (four operand differences, no inserted or deleted
+instruction anywhere).  The AST engine's mutation set is aimed exactly at
+what Chaitin allocation keys on -- first-definition order (`temp`,
+`reorder`, `hoist`), use and definition counts (`use`, `selfassign`,
+`copy`), stack slot order (`decl-order`, `pad`), and memory homes
+(`volatile`, `addr`) -- and `decl-order` and `pad`, the two that address
+frame layout directly, moved nothing.
+
+CONCLUSION, now with the right tool behind it.  Across five lanes this
+residue has held at exactly 4 bytes through roughly forty hand spellings
+and 2320 machine-generated ones, including both permuters.  The two spill
+slots sp+4 and sp+8 are assigned upstream of anything the C text can
+express.  This function should not be dispatched again as a permutation
+target.  If it is ever to close it needs a change of PREMISE -- the
+13-parameter signature itself, or the comparator/callee widths -- not
+another reordering.  The rest of the function is byte-exact.
+
+Still DIFF, still not filed.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 292 bytes against 292, 4 concrete bytes out, 1.1p1

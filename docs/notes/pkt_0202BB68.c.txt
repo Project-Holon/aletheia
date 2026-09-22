@@ -67,3 +67,119 @@ func_0202BBB0 is `if (v >= lv) { if (lv >= v) return; fde8(); } else fdd0();`
 Ruled out: u32 lv/v; dropping the `lv` local; reordering the local
 declarations; spelling the field as `p + 0x1e4 + i * 4`.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+2026-09-22 -- wave 6 bundle lane.  The twins 0202BB68 / 0202BBB0, and the
+one residue they share.
+===========================================================================
+
+func_0202BB68 (0x0202BB68, 72 bytes) and func_0202BBB0 (0x0202BBB0, 76
+bytes) are STRUCTURAL TWINS and should be worked as a pair.  Both:
+
+  - take (u8 *o, int i);
+  - index a 0x1c-stride entry array based at o + 0x24, and return early
+    when the entry's first word is zero;
+  - call a comparator on that entry, giving a signed s32;
+  - load a second s32 from a word array indexed by i * 4 (at o + 0x1e4 for
+    0202BB68, o + 0x224 for 0202BBB0 -- both materialised as
+    `movs #0x79/#0x89; lsls #2`, which is what fixes the two base offsets);
+  - dispatch to one of two helpers on the sign of the difference, each arm
+    carrying its own `pop`, with a third fall-through exit.
+
+Only two things differ, and both are confirmed from the image:
+  - 0202BBB0's comparator takes THREE arguments, not two: +0x0016..+0x001C
+    sets up r1 = o + 0xc AND r2 = o + 0x18 before the bl.  0202BB68 sets
+    up r1 = o + 0xc only.  Declaring 0202BCA0 with two parameters loses
+    the `adds r2, r5, #0 / adds r2, #0x18` pair outright.
+  - the compare polarity is MIRRORED between them: 0202BB68 tests
+    `cmp r0, r2` (array value left) then `cmp r2, r0`; 0202BBB0 tests
+    `cmp r2, r0` then `cmp r0, r2`.
+
+/* best source, 68 bytes against 72, 37 concrete bytes out, 1.1p1 */
+/* (the 0202BBB0 twin of the same shape: 72 against 76, 36 out) */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef signed int    s32;
+
+extern s32  func_0202BBFC(void *e, void *q);
+extern void func_0202BC48(u8 *o, int i);
+extern void sub_0202BC60(u8 *o, int i);
+
+void func_0202BB68(u8 *o, int i)
+{
+    u8 *e = o + 0x24;
+    s32 v;
+    s32 lv;
+
+    if (*(u32 *)(e + i * 0x1c) == 0) {
+        return;
+    }
+    v  = func_0202BBFC(e + i * 0x1c, o + 0xc);
+    lv = *(s32 *)(o + i * 4 + 0x1e4);
+    if (lv < v) {
+        func_0202BC48(o, i);
+        return;
+    }
+    if (v < lv) {
+        sub_0202BC60(o, i);
+    }
+}
+
+THE RESIDUE IS ONE INSTRUCTION, AND IT IS THE SAME ONE IN BOTH.  Every
+byte up to the comparator call is already exact in both twins.  The
+original then spends a register copy that no spelling reproduces:
+
+  orig 0202BB68 +001E  adds r2, r0, #0     <- the missing instruction
+  orig 0202BB68 +0020  lsls r0, r4, #2
+  mine 0202BB68 +001E  lsls r1, r4, #2     (no copy; call result stays r0)
+
+The copy moves the comparator's result out of r0 BEFORE the array address
+is computed, so the array load lands in r0 and the compare reads
+`cmp r0, r2`.  Mine leaves the result in r0, computes the address into r1
+and compares `cmp r1, r0` -- the mirror.  That single absent copy is the
+whole 4-byte size gap in both twins; every later byte is merely displaced
+by it.  --explain reports it as a 3-way rotation, r0->r1 x8, r2->r0 x2,
+r1->r2 x1 (0202BB68).
+
+Per docs/idioms/cmp-operand-order-names-the-temporary.md the copy should
+appear when the call result is bound to a named local and the array read
+is the unnamed temporary, which is exactly what the source above writes.
+It does not appear.
+
+TRIED AND REJECTED THIS LANE (all still 68/72 and 72/76):
+  * `lv` inlined into both compares, array read spelled twice          68
+  * both compares written with the operands swapped                    68
+  * the two guards nested (`if (lv >= v) { if (v >= lv) return; ... }`) 68
+  * the polarity of 0202BBB0's two compares exchanged            72, 36 out
+  * `e` dropped, `o + 0x24 + i * 0x1c` written out at both uses         68
+  * `lv` declared before `v`, and both after `e`                        68
+
+tools/permuter.py, this exact source:
+  0202BB68  --mode hill   --budget 800 --jobs 8 --types   167 tried
+            best DIFF asm=480 bytes-out=40 size=72/72
+            <- type:l(v:s32->u8) ; temp(tmp=func_0202BBFC(...))
+  0202BB68  --mode anneal --budget 2000 --jobs 8 --types  2000 compiles
+            best DIFF asm=465 bytes-out=28 size=72/72
+            <- goto-ret ; type:ret-var(i)
+  0202BBB0  --mode hill   --budget 800 --jobs 8 --types   182 tried
+            best DIFF asm=470 bytes-out=40 size=76/76
+            <- type:l(lv:s32->u8) ; expand(lv x1)
+
+READ THE PERMUTER'S ANSWER CAREFULLY, IT IS A TRAP.  Both engines reach
+size-exact, but only through `type:l(v:s32->u8)` -- narrowing the local to
+u8.  That buys the four bytes as masking instructions, not as the copy,
+and bytes-out RISES from 37 to 40.  `goto-ret` likewise reaches 28 out by
+folding the two arms onto one exit, which contradicts the image: the
+original carries a separate `pop` in each arm (+0x36 and +0x42 in
+0202BB68).  Neither is the lever; do not file either.
+
+WHAT IS LEFT.  A spelling that makes 1.1p1 spend a copy on the comparator
+result while leaving the two locals' types and the two separate epilogues
+alone.  The next lane should look at the COMPARATOR'S declared return type
+(s32 here, but nothing in either caller's bytes actually proves the width
+-- a narrower or wider return, or a struct return, would change where the
+result has to live) rather than at the caller's statement order, which
+this lane and the permuter have now exhausted between them.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 68 bytes against 72, 37 concrete bytes out, 1.1p1

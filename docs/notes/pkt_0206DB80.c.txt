@@ -62,3 +62,29 @@ void func_0206DB80(void)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 88 bytes against 92, 23 concrete bytes out, 1.1p1
+
+==============================================================================
+CLOSED 2026-09-22 (pseudo-family wave 7, cluster_0206BEA0).  NOT an allocator
+limit: a compiler pin miss.
+==============================================================================
+
+The residue above -- "mwccarm keeps the global's address in r4 across the
+func_02082AA8 call ... where the original re-materialises it from its pool
+word twice more" -- is what dsi/1.1p1 does and what dsi/../2.0/sp2 does not.
+With `compiler: ../2.0/sp2` in the header and NO change to the C beyond
+spelling the global as `u32 *g_0214BAB4[2]`, func_0206DB80 is EXACT: 92 bytes,
+0 mismatches, all three relocation sites resolving (func_0206DBDC `label`,
+func_02082AA8 `label`, g_0214BAB4 `literal x30`).
+
+Filed as src/matched/func_0206DB80.c, packet pkt_0206BEA0.  Pin evidence row
+in docs/FRONTEND-PINS.md.  The rest of this note stands as the record of the
+1.1p1 measurement; it was correct about what 1.1p1 emits and wrong only in
+treating 1.1p1 as the compiler that built the function.
+
+The general lesson for the upper half of the ARM9 image: the
+address-rematerialisation residue (the original re-loading one pool word N
+times where every compile hoists it into a callee-saved register, with the
+push width differing to match) is a 2.0/sp2 TELL, not a codegen wall.  See
+also docs/notes/func_0206DDA4.c.txt, which records the same residue on the
+sibling 40 bytes away and which the pin moves from 12 bytes short to
+size-exact.

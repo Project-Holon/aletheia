@@ -93,3 +93,116 @@ sites, which the original does not have.
 
 Verdict: DIFF, 12 bytes short, structurally complete.  No source file filed.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+APPENDED 2026-09-22 (pseudo-family wave 7, cluster_0206BEA0).  The pin moves
+this from 12 bytes short to SIZE-EXACT; 46 concrete bytes remain, all in one
+load-hoist.
+==============================================================================
+
+Residue #1 of the note above ("the original never spends a callee-saved
+register on &g_0214BAB4 ... every compile pushes {r3,r4,r5,r6,r7,lr}") is the
+same address-rematerialisation tell that dsi/../2.0/sp2 reproduces and
+dsi/1.1p1 does not, measured on the sibling func_0206DB80 40 bytes away and
+now filed as src/matched/func_0206DB80.c with an evidence row in
+docs/FRONTEND-PINS.md.  Under `compiler: ../2.0/sp2` the push is
+`push {r4, r5, r6, lr}` exactly as the image has it, the pool word IS
+re-materialised at +0x04 / +0x70 / +0x9C, and the whole first half of the
+function (+0x00 .. +0x94, fifty instructions including the `popeq`, the
+post-indexed `ldr r1,[r2],#4` and both `lsl r2,r4,#2`) reproduces
+instruction for instruction.
+
+Residue #2 of the note above (the CSE of the two `unk_04` tests) does have a
+lever, and it is the same one the note rejected as unspellable: a SECOND
+declaration of the same address, `volatile`-qualified, used at exactly the one
+site that must reload.  Declaring
+
+    extern struct GxState g_0214BAB4;                /* 0x0214BAB4 data */
+    extern volatile struct GxState g_0214BAB4_v;     /* 0x0214BAB4 data */
+
+and spelling only the middle flush arm's test as `g_0214BAB4_v.unk_04` gives
+228 bytes against the original's 228, with `ldr r0,[pc,#0x38]` /
+`ldr r0,[r0,#4]` at +0x9C/+0xA0 restored.  This does not force reloads at the
+other two sites the way a `volatile` on the single declaration would, which is
+the objection the note raised and which the two-declaration form answers.  The
+cost is one extra ABS32 site (7 rather than 6), both resolving `literal`.
+
+WHAT IS LEFT: one load, moved.  At +0x1C the compile hoists
+`ldr r0,[r3,#4]` above the `beq #0x206de58`, because the `list != 0` arm's
+test at +0x20 and the `list == 0` arm's test at +0xB4 are the same expression
+and it sinks them to a common point.  The image keeps a load in each arm.
+Measured and rejected: making the LAST arm volatile too (236 bytes, the arm
+grows a pool reload the image does not have), making the FIRST test volatile
+instead (236 bytes, the hoist moves rather than disappears), and 230 permuter
+mutations from the size-exact point (`--mode hill --budget 800 --jobs 8
+--types`), which report "no single mutation improves" without moving a byte --
+the brief's signal that the residue is in the declarations, not the statements.
+A third declaration for the last arm is the obvious next thing to try and was
+not measured.
+
+/* best source, 228 bytes against 228, 46 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206DDA4
+ * address:  0x0206DDA4
+ * packet:   pkt_0206BEA0
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_0214BAB4     0x0214BAB4  data
+ *   g_0214BAB4_v   0x0214BAB4  data
+ *   func_02082B0C  0x02082B0C  arm
+ *   func_02082AA8  0x02082AA8  arm
+ *   func_0206DB80  0x0206DB80  arm
+ *   func_0206DBDC  0x0206DBDC  arm
+ */
+
+typedef unsigned int u32;
+
+struct GxList { u32 count; u32 cmds[1]; };
+struct GxState { struct GxList *list; void *unk_04; };
+extern struct GxState g_0214BAB4;
+extern volatile struct GxState g_0214BAB4_v;
+
+extern void func_02082B0C(const void *src, void *dst, u32 n);
+extern void func_02082AA8(const void *src, void *dst, u32 n);
+extern void func_0206DB80(void);
+extern void func_0206DBDC(void);
+
+void func_0206DDA4(u32 cmd, const void *params, u32 n)
+{
+    if (g_0214BAB4.list != 0) {
+        if (g_0214BAB4.unk_04 != 0) {
+            u32 count = g_0214BAB4.list->count;
+            if (count + 1 + n <= 0xc0) {
+                g_0214BAB4.list->count = count + 1;
+                g_0214BAB4.list->cmds[count] = cmd;
+                if (n == 0)
+                    return;
+                func_02082B0C(params,
+                              &g_0214BAB4.list->cmds[g_0214BAB4.list->count],
+                              n * 4);
+                g_0214BAB4.list->count += n;
+                return;
+            }
+        }
+        if (g_0214BAB4.list->count != 0) {
+            func_0206DB80();
+        } else if (g_0214BAB4_v.unk_04 != 0) {
+            func_0206DBDC();
+        }
+    } else if (g_0214BAB4.unk_04 != 0) {
+        func_0206DBDC();
+    }
+    *(u32 *)0x04000400 = cmd;
+    func_02082AA8(params, (void *)0x04000400, n * 4);
+}
+
+permuter best result line:
+  baseline  DIFF   asm=435   bytes-out=46   size=228/228
+  no single mutation improves DIFF   asm=435   bytes-out=46   size=228/228 (230 tried)
+  best      DIFF   asm=435   bytes-out=46   size=228/228

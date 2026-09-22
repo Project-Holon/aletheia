@@ -40,3 +40,130 @@ separate statements (not one shared block) and that mwcc did NOT if-convert them
 here -- the opposite of what this front end does with the same statements
 arranged slightly differently.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+APPENDED 2026-09-22 (pseudo-family wave 7, cluster_0206BEA0).  Compiler
+corrected to ../2.0/sp2; size-exact reached; the doubled `beq` explained.
+==============================================================================
+
+The note above measured this function under dsi/1.1p1.  The cluster's
+compiler is dsi/../2.0/sp2 (docs/FRONTEND-PINS.md; the sibling
+src/matched/func_0206DB80.c closed to EXACT on the pin alone), so every
+figure above is a measurement of the wrong front end.
+
+THE DOUBLED `beq` IS SOLVED.  The note's own tell -- "the doubled `beq` on the
+same flags in the original is the tell that the source had both
+zero-assignments as separate statements" -- was half right.  It is one
+statement: an INLINED helper whose own `if (t == 0) return 0;` the compiler
+kept even though the caller had already tested the same pointer.  The twin
+function func_0206BEA0 at 0x0206BEA0 makes this unambiguous, because there the
+helper's argument is `rec + 4` rather than `rec`, so the redundant test shows
+up as `adds ip, lr, #4` / `beq` -- a test on a value that cannot be zero.  The
+helper is written out in docs/families/cluster_0206BEA0.h as
+`gx_rec_lookup()`.  It must be spelled INLINE at the call site with the
+redundant null test kept; written as a real `static`, 2.0/sp2 emits an
+out-of-line `bl` (112 bytes, 58 out).
+
+THE ZERO ARMS ARE `goto`s, NOT if/else.  Same finding as on the twin: with
+if/else, 2.0/sp2 if-converts each zero arm to a predicated `moveq`/`movhs`
+beside its branch (8 bytes short, value in the wrong register); with explicit
+`goto`s to one shared zero label per lookup the image's `b` / `mov r2,#0` /
+`cmp r2,#0` triple reproduces.  On func_0206BEA0 this was worth 36 concrete
+bytes.  It was NOT separately re-measured on func_0206C024 in this wave --
+the twin took the budget -- so the first thing the next lane should do here is
+transplant the shape from func_0206BEA0's best source (appended to
+docs/notes/pkt_0206BEA0.c.txt) onto this function, whose only structural
+differences are the missing `+ 4`, the +0xdc base instead of +0xd8, the
+tbl_020A82D8 table instead of tbl_020A82C8, and the simpler three-bit gate.
+
+BEST MEASURED THIS WAVE, before that transplant: 160 bytes against 160 (SIZE-
+EXACT, which the 1.1p1 measurement above never reached -- it was 148 against
+160), 87 concrete bytes out, reached by the permuter from a 152-byte
+hand-inlined if/else source:
+
+  --mode hill --budget 800 --jobs 8 --types
+    204  DIFF  asm=1575  bytes-out=96  size=160/160  <- type:l(w:u32->u16)
+    400  DIFF  asm=1575  bytes-out=92  size=160/160  <- temp(tmp=rec->off)
+    607  DIFF  asm=985   bytes-out=87  size=160/160  <- temp(tmp1=(u8 *) rec)
+    797  DIFF  asm=800   bytes-out=87  size=160/160  <- type:l(k:u32->int)
+    best DIFF  asm=800   bytes-out=87  size=160/160
+  --mode anneal --budget 900 --jobs 8 --types: 900 compiles in 57s, plateau,
+    best unchanged at asm=800 bytes-out=87 size=160/160
+
+87 out is far worse than the twin's 33, and the difference is entirely the
+goto shape, which is why the transplant and not more permuting is the next
+step here.
+
+/* best source, 160 bytes against 160, 87 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206C024
+ * address:  0x0206C024
+ * packet:   pkt_0206BEA0
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   tbl_020A82D8   0x020A82D8  data
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Rec
+{
+  u8 f0;
+  u8 n;
+  u8 f2;
+  u8 f3;
+  u16 f4;
+  u16 off;
+};
+struct Ctx
+{
+  u8 *cur;
+  u32 p04;
+  u32 flags;
+  u8 p0c[0xdc - 0x0c];
+  struct Rec *rec;
+};
+extern void (*tbl_020A82D8[])(struct Ctx *);
+void func_0206C024(struct Ctx *c)
+{
+  u16 w;
+  struct Rec *rec;
+  int k;
+  u8 *q;
+  u16 *r;
+  u32 tmp;
+  u8 *tmp1;
+  tmp1 = (u8 *) rec;
+  w = c->flags;
+  if (((!(w & 0x200)) && (w & 1)) && (!(w & 2)))
+  {
+    rec = c->rec;
+    k = c->cur[1];
+    tmp = rec->off;
+    if (rec == 0)
+      q = 0;
+    else
+      if (k >= rec->n)
+      q = 0;
+    else
+    {
+      u8 *p = ((u8 *) rec) + tmp;
+      u16 sz = *((u16 *) p);
+      q = (p + 4) + (sz * k);
+    }
+    if (q != 0)
+      r = (u16 *) (tmp1 + (*((u32 *) q)));
+    else
+      r = 0;
+    tbl_020A82D8[*r](c);
+  }
+  c->cur = c->cur + 2;
+}
+
+

@@ -102,3 +102,62 @@ u64 func_0200BFA4(u8 *p, void *q, u32 mode)
  *       --func func_0200BFA4 --addr 0x0200BFA4 --cc 1.1p1 --thumb --diff
  */
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0200BFA4.c:12: unterminated comment
+
+2026-09-22 -- wave 6 bundle lane.  The CCERR was the NOTE, not the source.
+===========================================================================
+
+THE 2026-09-21 RE-VERIFY LINE ABOVE ("CCERR ... pkt_0200BFA4.c:12:
+unterminated comment") IS AN ARTEFACT OF THIS FILE'S OWN FORMATTING, NOT a
+statement about the C.  The whole note is wrapped in one `/* ... */`, and
+the "Shape of the function" prose at line 12 contains inner `/* ... */`
+comments on the hh/mm/ss lines.  The first inner `*/` closes the outer
+block early and everything after it is parsed as code.  Whoever ran the
+automated re-verify fed the note file itself to the compiler.
+
+The embedded source is fine.  Extracted verbatim (the `typedef` line to the
+closing brace) and given the symbols block the note's own text prescribes:
+
+    symbols:
+      _ull_mul     0x0209C054  arm
+      g_02146170   0x02146170  data a8
+
+it compiles cleanly and resolves ALL SIX relocation sites -- the two
+`_ull_mul` THM_CALLs and the g_02146170 ABS32 included.  Without that
+symbols block the three sites report "no address for '_ull_mul' /
+'g_02146170': not in the symbols: block", which is what a bare extraction
+of the fragment shows; that is a missing header, not a missing witness.
+
+/* best source, 172 bytes against 180, 79 concrete bytes out, 1.1p1 */
+(the source already in this note, unchanged, plus the symbols block above)
+
+CORRECTION TO THIS NOTE'S PREMISE.  The note says "the original is 170
+bytes and the closest spelling compiles to 172", i.e. two bytes LONG.
+match.py reports the listing extent as 180, so the near miss is eight bytes
+SHORT, not two long, and 79 concrete bytes differ rather than the handful
+the note's register-permutation reading implies.  The "instruction for
+instruction identical once register names are normalised" claim should be
+re-checked against the 180-byte extent before anyone builds on it.
+
+tools/permuter.py on the extracted source with the symbols block:
+  --explain   a broad 7-way register reshuffle (r2->r4, r6->r1, r7->r0,
+              r0->r4, r6->r2, r4->r1, r7->r3, one occurrence each), which is
+              the signature of a GENERAL reallocation, not a swapped pair --
+              consistent with 79 bytes out and inconsistent with the note's
+              "only three register choices differ" reading
+  --mode hill --budget 800 --jobs 8 --types   146 mutations tried
+              "no single mutation improves"
+              best DIFF asm=1505 bytes-out=79 size=172/180
+
+WHAT THE NEXT LANE SHOULD DO FIRST.  Re-derive the extent.  If the function
+really is 180 bytes, the missing eight are a whole instruction group the
+current source does not emit at all, and no amount of register permutation
+will find them; the `u32 t[3]` + `switch` shape should be re-opened rather
+than refined.  Do not spend a lane on operand-order spellings until the
+size question is settled.
+
+AND: when this note is next edited, the inner `/* */` comments in the prose
+should be neutralised, or the automated re-verify will keep reporting CCERR
+for a source that compiles.  See docs/AGENT-BRIEF.md section 1 on exactly
+this hazard.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 172 bytes against 180, 79 concrete bytes out, 1.1p1 (the CCERR above was the note's own comment nesting)

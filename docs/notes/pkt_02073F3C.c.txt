@@ -44,3 +44,125 @@ Its record and loop were recovered but not reduced to bytes in this run; it is
 the best remaining candidate in this packet because every one of its branches
 has a plain label witness.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22, wave 7 (pseudo-family pkt_020737C0)
+================================================================================
+
+func_02073F3C is CLOSED.  It is filed EXACT at src/matched/func_02073F3C.c with
+the body this note already reconstructed and no change to the C at all: the
+pooled-zero wall above is a dsi/1.1p1 artefact, and the function compiles
+byte-exact under the ../2.0/sp2 front end, the pin five other functions of this
+cluster already carry (func_02073AD0, func_02073B3C, func_02073CA0,
+func_020737C0, func_02074894).  Read the whole "what blocks it is the zero"
+paragraph above as a property of the wrong compiler, not of the source.
+
+func_02073FB8 -- near miss, DIFF, 5 concrete bytes out of 144, size-exact.
+
+0x02073FB8 (144 bytes) is the module's open path: zero the four words at
++0x88..+0x94, open the stream object at +0x7C with func_020788D8, reset the
+0x48-byte reader at +0x34 with func_020788AC and bind it to the stream with
+func_020789A4, latch +0x30 = 1, and hand the two caller arguments to
+func_02074048; only a successful func_02074048 publishes the object into
+ptr_0214EA50 and answers 1.
+
+Two structural findings, both recovered and both worth keeping:
+
+1. The pair at +0x7C/+0x80 is loaded with a single `ldm r1, {r1, r2}` and
+   handed to func_020789A4 as arguments two and three.  That is a nested
+   two-word struct PASSED BY VALUE, not two scalar fields:
+
+       struct Pair { u32 a; u32 b; } f7c;
+       extern u32 func_020789A4(void *p, struct Pair v);
+       ... func_020789A4(c->f34, c->f7c) ...
+
+   Spelling it as two scalars (`func_020789A4(c->f34, c->f7c, c->f80)`) emits
+   two separate `ldr`s and is 14 bytes out.  By value it is 5.
+   (docs/idioms/aggregate-assignment-is-ldm-stm.md is the neighbouring tell.)
+
+2. The second parameter is dead.  The image copies r0/r2/r3 to r6/r5/r4 and
+   never reads r1, so the prototype is four arguments with the second unused,
+   which is what leaves r1 free at all.
+
+The residue is one register class and nothing else:
+
+    original                    compiled
+    mov ip, #0                  mov r1, #0
+    str ip, [r6, #0x90]         str r1, [r6, #0x90]
+    str ip, [r6, #0x88]         str r1, [r6, #0x88]
+    str ip, [r6, #0x8c]         str r1, [r6, #0x8c]
+    str ip, [r6, #0x94]         str r1, [r6, #0x94]
+
+Every other instruction, every operand and all five relocations are identical.
+The image parks the zero in ip, the one scratch register that can never carry
+an argument; we park it in r1, the dead parameter's own register.
+
+tools/permuter.py could not move it AT ALL, which per the brief points at the
+declarations rather than the statements:
+
+    --explain:  baseline DIFF asm=25 bytes-out=5 size=144/144
+                register substitutions (image -> compiled): ip -> r1  x5
+    --mode hill   --budget 800  --jobs 8 --types:
+                no single mutation improves (130 tried), best unchanged
+    --mode anneal --budget 2000 --jobs 8 --types:
+                2000 compiles in 149s, entirely flat, best unchanged
+
+Tried and rejected by hand after the permuter: a fifth parameter (to make r1
+non-final), the zero bound to a named local used by all four stores, `!f(x)`
+against `f(x) == 0` on the first guard, and moving the +0x94 store past the
+first call (118 bytes out -- the store order 90/88/8c/94 is fixed).
+
+The likely remaining lever is the arity or the type of a callee, or the true
+parameter list: something must make r1 unavailable at the point the zero is
+materialised.  All five relocations resolve, so a byte-correct body here is
+EXACT with no further evidence needed.
+
+/* best source, 144 bytes against 144, 5 concrete bytes out, ../2.0/sp2 */
+
+```c
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Ctx {
+    u8  pad00[0x30];
+    u32 f30;
+    u8  f34[0x48];
+    struct Pair { u32 a; u32 b; } f7c;
+    u8  pad84[4];
+    u32 f88;
+    u32 f8c;
+    u32 f90;
+    u32 f94;
+};
+
+extern struct Ctx *ptr_0214EA50;
+extern u32  func_020788D8(void *p);
+extern void func_020788AC(void *p);
+extern u32  func_020789A4(void *p, struct Pair v);
+extern u32  func_02074048(struct Ctx *c, u32 a, u32 b);
+
+u32 func_02073FB8(struct Ctx *c, u32 unused, u32 a, u32 b)
+{
+    c->f90 = 0;
+    c->f88 = 0;
+    c->f8c = 0;
+    c->f94 = 0;
+    if (func_020788D8(&c->f7c) == 0) return 0;
+    func_020788AC(c->f34);
+    if (func_020789A4(c->f34, c->f7c) == 0) return 0;
+    c->f30 = 1;
+    if (func_02074048(c, a, b) == 0) return 0;
+    ptr_0214EA50 = c;
+    return 1;
+}
+```
+
+permuter best result line:
+  best      DIFF   asm=25    bytes-out=5    size=144/144
+
+symbols needed (all five sites resolve):
+  ptr_0214EA50   0x0214EA50  data
+  func_020788D8  0x020788D8  arm
+  func_020788AC  0x020788AC  arm
+  func_020789A4  0x020789A4  arm
+  func_02074048  0x02074048  arm

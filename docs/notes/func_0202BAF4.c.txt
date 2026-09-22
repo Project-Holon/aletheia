@@ -1,0 +1,109 @@
+func_0202BAF4  0x0202BAF4  pkt_0202BAF4  (iss_3ds_sys.c family)
+2026-09-22 -- wave 6 bundle lane.  New note; the function was untouched (U).
+
+Near miss: the whole function is recovered except one pre-loop guard.
+
+EXTENT.  match.py show reports 84 bytes, but the FUNCTION is 74: it ends at
+the `pop {r4, r5, r6, pc}` at 0x0202BB3C plus its 2-byte pad.  0x0202BB40
+onward is a separate 8-byte ARM long-branch veneer
+(`ldr r3,[pc,#0]; bx r3; .word 0x0202BA25`), not part of this function --
+see docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md.
+Anyone dispatched on this address should size against 74, not 84.
+
+SHAPE, fully recovered from the image:
+  - one parameter, the family's `u8 *o` object;
+  - early return when *(u32 *)(o + 4) is ZERO (`ldr r1,[r5,#4]; cmp r1,#0;
+    beq` to the epilogue) -- note the polarity, zero returns;
+  - one call to sub_0202BE24(o);
+  - a loop i = 0 .. 0x10 over the family's 0x1c-stride entry array based at
+    o + 0x24 (`movs r6,#0x1c; muls; adds r0,r5,r0; ldr r0,[r0,#0x24]`),
+    skipping entries whose first word is zero;
+  - four in-family calls per live entry, each taking (o, i):
+    func_0202BB68, func_0202BBB0, func_0202BC78, func_0202BE00.
+  - the loop counter is SIGNED: the bottom test is `blt`, not `blo`.
+
+/* best source, 70 bytes against 74, 55 concrete bytes out, 1.1p1 */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern void sub_0202BE24(u8 *o);
+extern void func_0202BB68(u8 *o, int i);
+extern void func_0202BBB0(u8 *o, int i);
+extern void func_0202BC78(u8 *o, int i);
+extern void func_0202BE00(u8 *o, int i);
+
+void func_0202BAF4(u8 *o)
+{
+    int i;
+
+    if (*(u32 *)(o + 4) == 0) {
+        return;
+    }
+    sub_0202BE24(o);
+    for (i = 0; i < 0x10; i++) {
+        if (*(u32 *)(o + i * 0x1c + 0x24) != 0) {
+            func_0202BB68(o, i);
+            func_0202BBB0(o, i);
+            func_0202BC78(o, i);
+            func_0202BE00(o, i);
+        }
+    }
+}
+
+THE RESIDUE IS FOUR BYTES, AND IT IS ONE INSTRUCTION PAIR.  The original
+emits a REDUNDANT ZERO-TRIP GUARD between the counter's initialisation and
+the loop body:
+
+  orig +000E  movs r4, #0
+  orig +0010  cmp  r4, #0x10      <- these two
+  orig +0012  bge  #0x202bb3c     <- are what I cannot get
+  orig +0014  movs r6, #0x1c      (loop body starts here)
+
+1.1p1 folds that test in every spelling below, because `i` is provably 0
+at that point.  All 55 differing bytes are the body displaced by those
+four; nothing inside the loop is actually wrong.
+
+TRIED AND REJECTED BY HAND (all 70 bytes, i.e. the guard still folded):
+  * `i = 0;` hoisted above the sub_0202BE24 call, with `for (; i < 0x10;)`
+  * a separate `int n = 0x10;` bound, assigned before the call
+  * a `while` loop with the increment written at the bottom of the body
+  * an explicit `if (i >= 0x10) return;` written between `i = 0;` and a
+    do/while -- the front end folds the written-out guard too
+  * a `u8 *e = o + i * 0x1c;` pointer temporary inside the body
+
+NARROW COUNTER TYPES REACH THE SIZE BUT NOT THE SHAPE.  `u8 i`, `short i`
+and `char i` all compile to exactly 74 bytes, but at 54, 53 and 53
+concrete bytes out respectively: the four bytes come back as promotion
+masking spread through the body, and the guard is STILL absent at +0x10.
+Size agreement here is a coincidence, not progress; do not file any of them.
+
+tools/permuter.py on the 70-byte source:
+  --explain                                 no register map (it is a size
+                                            gap, not an allocation tie)
+  --mode hill   --budget 800 --jobs 8 --types   182 tried
+        119  DIFF 84/84 bytes-out=74  <- temp(tmp = i < 0x10)
+        271  DIFF 84/84 bytes-out=73  <- temp(tmp1 = i * 0x1c)
+        best DIFF asm=1370 bytes-out=73 size=84/84
+  --mode anneal --budget 2000 --jobs 8 --types (from the hill result)
+        best DIFF asm=1750 bytes-out=47 size=84/84
+        <- temp ; goto-ret ; hoist-down ; type:ret-var(o) ; block(if1,1) ;
+           copy(o->o_@9) ; temp ; copy(tmp->tmp_@12)
+
+THE ONE REAL FINDING: `temp(tmp = i < 0x10)` -- lifting the LOOP CONDITION
+ITSELF into a named local -- is the only mutation in either engine that
+makes the guard appear.  It is the right diagnosis (the condition must be
+a value the front end cannot constant-fold at the entry edge) but the wrong
+spelling: it materialises the flag as a register the loop then has to keep
+live, which is why bytes-out climbs from 55 to 73 even as the size lands.
+
+WHAT THE NEXT LANE SHOULD TRY.  Not statement order -- that is exhausted.
+The guard's `bge` is SIGNED against 0x10, and the loop bottom's `blt` is
+too, so both read the same signed counter; but the counter's INITIAL value
+may not be the literal 0 the source assumes.  Look for a spelling where the
+starting index comes from the object (a field at o + 8 .. o + 0x20, several
+of which no matched sibling constrains) rather than from a constant: an
+opaque start makes the zero-trip test unfoldable for free, with no extra
+live value, which is exactly the shape the image shows.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 70 bytes against 74 (84 listing extent, incl. an 8-byte veneer), 55 concrete bytes out, 1.1p1

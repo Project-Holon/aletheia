@@ -84,3 +84,161 @@ Recorded, not ground further: the cap in (1) means even closing (2) yields
 MATCH, not EXACT, so the row is not worth more budget until a second caller
 of func_020640D4 is decompiled.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22 - pseudo-family wave 7 (cluster_02066740).  THE CAP IS GONE.
+==============================================================================
+
+THE HEADLINE: problem (1) above, "THE CAP, which no amount of C fixes", NO
+LONGER HOLDS.  `sole-ref/code` was widened on 2026-09-21 (docs/AGENT-BRIEF.md
+section 5) to accept a code-kind relocation whose address is exactly a traced
+function start, with NO requirement that a branch from outside the compared
+range also reach it.  func_020640D4 is exactly such a start, so the site now
+reports
+
+    +008C PC24 func_020640D4  -> 020640D4  [sole-ref x1, e.g. 020640D4]
+
+and all three relocation sites of this function resolve.  A byte-correct body
+here is now EXACT, not MATCH.  The note's closing verdict ("the row is not
+worth more budget until a second caller of func_020640D4 is decompiled") is
+superseded: the row is worth budget again, and only problem (2), the dead
+entry compare, is left.
+
+THREE DECODE FIXES this pass, worth 20 of the 32 bytes the earlier pass was
+short, all confirmed against the listing:
+
+  * THE BIT TESTS ARE MASKS, NOT SHIFTS.  The image is
+    `tst r0, r6, lsl r7` twice (0x02066A00, 0x02066A0C) with r6 holding a
+    live 1.  That is `(e->f24 & (1u << k)) != 0`.  The earlier decode's
+    `(e->f24 >> k) & 1` compiles to `lsr r0, r0, r7` / `tst r0, #1` -- two
+    instructions where the image has one, on both tests, and it also frees
+    the register the image spends on the constant 1.  Worth 12 bytes.
+  * THE ENTRY GUARD.  The image's `cmp r0, #0` / `bls` at 0x020669B0 is the
+    unsigned form; `count == 0` gives `beq`/`popeq`.  Spelling it
+    `count <= i` against the zero counter restores `popls` but costs a
+    reload of the spilled `i` (the counter is volatile here), so the best
+    measured source keeps `== 0` and accepts the one-byte `eq`/`ls`
+    difference; `<= 0u`, `< 1u` and `!(> 0u)` all fold to `eq` as well.
+  * BOTH LOOP VARIABLES ARE STACK HOMES.  `i` at sp+4 and `off` at sp+0 are
+    written and re-read at every use across the whole body.  Two
+    `volatile u32` locals reproduce that exactly and are what gives the
+    `sub sp, sp, #8` frame; without volatile both stay in registers.
+
+THE FRONT END MOVED TOO.  Under `--cc ../2.0/sp2 -O4,p --arm` the same source
+is 276 bytes with `push {r3, r4, r5, r6, r7, r8, sb, lr}` -- the r3 PADDING
+register the image also pushes -- against dsi/1.1p1's 272 bytes and
+`push {r4, ...}`.  2.0 is the better front end for this row on both the size
+and the frame shape, and it is the same pin that closed func_02066AE0 and
+func_02066890 in this cluster on 2026-09-22.  It does NOT close this one.
+
+STATE REACHED: DIFF, 276 bytes against 292, 189 concrete out, all three
+relocation sites resolving, under `--cc ../2.0/sp2 --arm`.  (272 / 183 under
+the default dsi/1.1p1.)  Up from the earlier pass's 284 / uncounted.
+
+WHAT IS LEFT is the 16 bytes of problem (2) and nothing else: the dead
+`mov r7, #0` / `cmp r7, #3` / `bge` entry test at 0x020669E0..0x020669E8, and
+the two extra callee-saved registers (sl, fp) the image spends because of it.
+Both front ends fold the compare away under every spelling measured:
+  - `u32 k = 0; if ((s32)k < 3) { do { ... } while ((s32)k < 3); }`  folds
+  - a plain `for (k = 0; k < 3; k++)` head                            folds
+  - `s32 k` signed, to force `bge` rather than `bhs`                  folds
+  - `volatile s32 k` (new this pass): does NOT fold, but spills the counter
+    to the stack for the whole inner loop: 324 bytes / 227 out under 1.1p1
+    and 328 / 230 under 2.0.  Right branch, wrong everything else.
+  - `f` hoisted out of the inner loop so the `mov fp, r7` at 0x020669F0 has
+    a source-level home (new this pass): no change, 272 / 183.
+PERMUTER, `--mode hill --budget 800 --jobs 8 --types` on the 272-byte source:
+290 single mutations tried, NOT ONE improves the baseline.  This residue is
+not reachable by a spelling rewrite from this shape.
+
+The best source follows.
+
+/* best source, 276 bytes against 292, 189 concrete bytes out, ../2.0/sp2 */
+/*
+ * unit:     no
+ * function: func_02066998
+ * address:  0x02066998
+ * packet:   pkt_02066998
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02148B20      0x02148B20  data
+ *   tbl_020A1808    0x020A1808  data
+ *   func_020640D4   0x020640D4  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef int           s32;
+
+struct Ent02066998 {
+    u8  pad_00[0x10];
+    u32 f10;
+    u32 f14;
+    u8  pad_18[4];
+    u32 f1c;
+    u32 f20;
+    u32 f24;
+    u32 f28;
+    u32 f2c;
+};
+
+struct Bank02066998 {
+    u32 (*f00)(s32 a, u32 b, u32 c, u32 d);
+    u32 count;
+    u8 *base;
+};
+
+extern struct Bank02066998 g_02148B20;
+extern const s32 tbl_020A1808[3];
+extern u32 func_020640D4(struct Ent02066998 *e, u32 k);
+
+void func_02066998(void)
+{
+    volatile u32 i;
+    volatile u32 off;
+
+    i = 0;
+    if (g_02148B20.count == 0)
+        return;
+    off = i;
+
+    do {
+        struct Ent02066998 *e = (struct Ent02066998 *)(g_02148B20.base + off);
+
+        if (e->f1c != 0) {
+            u32 k = 0;
+            if ((s32)k < 3) {
+                do {
+                    u32 f = k;
+                    if ((e->f24 & (1u << k)) != 0) {
+                        if ((e->f20 & (1u << k)) != 0)
+                            f = 1;
+                    }
+                    if (f != 0) {
+                        u32 base = (k == 0) ? e->f14 : e->f10;
+                        if (g_02148B20.f00(tbl_020A1808[k],
+                                           func_020640D4(e, k),
+                                           base + e->f28, e->f2c) != 0)
+                            e->f24 = e->f24 & ~(1u << k);
+                    }
+                    k++;
+                } while ((s32)k < 3);
+            }
+            e->f20 = 0;
+        }
+        i = i + 1;
+        off = off + 0x30;
+    } while (i < g_02148B20.count);
+}
+
+permuter best result line:
+  baseline  DIFF   asm=1060  bytes-out=183  size=272/292
+  no single mutation improves DIFF   asm=1060  bytes-out=183  size=272/292 (290 tried)
+
+Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.

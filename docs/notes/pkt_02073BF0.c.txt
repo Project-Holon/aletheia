@@ -39,3 +39,122 @@ spends budget on the body.
 func_02073D5C (32) stays parked MATCH: 0x0214E9B4 is named by exactly one pool
 word in the image, its own.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22, wave 7 (pseudo-family pkt_020737C0)
+================================================================================
+
+func_02073BF0 -- near miss, DIFF, 27 concrete bytes out of 176, SIZE-EXACT,
+and structurally complete: every instruction of the image is present, in the
+image's order, with the image's operands and addressing modes.  The whole
+residue is register colouring inside the loop.
+
+0x02073BF0 (176 bytes) is the per-frame step of the sound object: ask
+func_0209C2B0 for a base value from the (+0x30, +0x34) pair, scale it by the
+frame counter at +0x40, fill g_0214E8F4[0 .. f50) with
+g_0214E934[o->f54[i]].a + step, invoke the callback at +0x38, then advance the
+frame counter at +0x40 and wrap it at +0x34.
+
+THE FINDING THAT COST THE RUN, and the one worth keeping: the callback's
+ARGUMENT LIST.  The image sets up only r0 and the two stack words at [sp] and
+[sp+4], which reads at first like a 6-argument call whose arguments 2-4 are
+leftovers (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-
+leftovers.md).  It is not.  The apparently pointless `ldr r2, [pc, #0x3c]` at
++0x68 resolves to 0x02073C58 + 8 + 0x3c = 0x02073C9C, whose word is
+g_0214E8F4 -- the array the loop just filled.  So argument THREE is the array
+itself, and arguments two and four really are leftovers (the loop's `base` and
+its final counter value, still live in their registers).  The call is
+
+    ((void (*)(u32, u32, u32 *, u32, u32, u32))o->f38)
+        (arg, base, g_0214E8F4, (u32)i, o->f28, o->f3c);
+
+Reading that pool word as a dead load instead is what kept every earlier shape
+off size.  Measured ladder, all ../2.0/sp2:
+
+    (arg, 0, 0, 0, f28, f3c)                       180 bytes, 125 out
+    (arg, 0, 0, f28, f3c)          [5 args]        164 bytes, 134 out
+    (arg, arg, arg, arg, f28, f3c)                 180 bytes, 123 out
+    (arg, base, step, i, f28, f3c)                 172 bytes,  81 out
+    (arg, base, g_0214E8F4, i, f28, f3c)           176 bytes,  28 out   <- size-exact
+    a 5-word struct by value in r1-r3 + 2 stack    200 bytes, 144 out
+
+The remaining 27 bytes are one general reshuffle of the loop's colouring: the
+image keeps the induction variable in `lr` and the two pool bases in r2/r0,
+where we get r3 and lr/ip.  Nothing is inserted or deleted.
+
+tools/permuter.py moved it by one byte and no further:
+
+    --explain:  baseline DIFF asm=140 bytes-out=28 size=176/176
+                register substitutions (image -> compiled): a general
+                reshuffle -- r1->r0 x8, lr->r3 x6, r1->r2 x2, r2->r3 x2,
+                r3->r1 x2, ip->lr, r2->ip, r0->r2, r1->lr, ip->r0
+    --mode hill   --budget 800  --jobs 8 --types:
+                203 compiles, one improvement -- commute(*), i.e. writing the
+                scale as `o->f40 * base` rather than `base * o->f40`, which is
+                the accumulator tell of
+                docs/idioms/commutative-operand-order-names-the-temporary.md
+                -- then no single mutation improves (201 tried)
+    --mode anneal --budget 2000 --jobs 8 --types (from that point):
+                2000 compiles in 130s, entirely flat
+
+Per the brief, a residue the permuter cannot move is usually in the
+declarations.  The untried levers are the signedness/width of f50 and f54 (the
+index byte is an unsigned char here, and `ldr r1,[r2,r1,lsl #3]` fixes the
+8-byte stride), and the exact type of the counter the callback receives.
+
+/* best source, 176 bytes against 176, 27 concrete bytes out, ../2.0/sp2 */
+
+```c
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef signed int    s32;
+
+struct Ent { u32 a; u32 b; };
+extern struct Ent g_0214E934[];
+extern u32 g_0214E8F4[];
+
+struct Obj {
+    u8  pad00[0x28];
+    u32 f28;
+    u8  pad2c[4];
+    u32 f30;
+    s32 f34;
+    u32 f38;      /* callback */
+    u32 f3c;
+    s32 f40;      /* frame counter */
+    u8  pad44[0xc];
+    s32 f50;      /* active slot count */
+    u8  f54[4];   /* slot indices */
+};
+
+extern u32 func_0209C2B0(u32 a, s32 b);
+
+void func_02073BF0(struct Obj *o, u32 arg)
+{
+    u32 base;
+    s32 i;
+    u32 step;
+
+    base = func_0209C2B0(o->f30, o->f34);
+    step = o->f40 * base;
+    for (i = 0; i < o->f50; i++) {
+        g_0214E8F4[i] = g_0214E934[o->f54[i]].a + step;
+    }
+    ((void (*)(u32, u32, u32 *, u32, u32, u32))o->f38)
+        (arg, base, g_0214E8F4, (u32)i, o->f28, o->f3c);
+    o->f40 = o->f40 + 1;
+    if (o->f40 >= o->f34) o->f40 = 0;
+}
+```
+
+permuter best result line:
+  best      DIFF   asm=135   bytes-out=27   size=176/176
+  mutations commute(*)
+
+All three relocation sites resolve (func_0209C2B0 by label, both data words by
+literal), so a byte-correct body here is EXACT with no further evidence needed.
+
+symbols:
+  g_0214E934     0x0214E934  data
+  g_0214E8F4     0x0214E8F4  data
+  func_0209C2B0  0x0209C2B0  arm

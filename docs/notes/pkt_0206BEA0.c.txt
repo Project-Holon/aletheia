@@ -118,3 +118,174 @@ byte identity with a 60-byte size gap, which is the honest measure of what
 one run buys on a function of this class.  The map and the cap above are what
 a later run needs to decide whether to spend the days.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+APPENDED 2026-09-22 (pseudo-family wave 7, cluster_0206BEA0) -- func_0206BEA0
+@ 0x0206BEA0, 176 bytes, ARM.  SIZE-EXACT and BRANCH-EXACT under the
+../2.0/sp2 pin; 29 concrete bytes remain and they are a pure register tie.
+==============================================================================
+
+The compiler for this cluster is `../2.0/sp2`, not 1.1p1 (see
+docs/FRONTEND-PINS.md and the sibling src/matched/func_0206DB80.c, which the
+pin alone closed to EXACT).  Everything below is measured under the pin.
+
+WHAT THE FUNCTION IS.  The first of the two twin opcode dispatchers of this
+family (func_0206C024 at 0x0206C024 is the other, one slot over; see
+docs/notes/pkt_0206BEA0.func_0206C024.c.txt).  Gate on the context's +0x08
+flag word, look the current record up in a two-level table hung off +0xd8,
+dispatch through tbl_020A82C8 on the halfword the lookup lands on, and
+advance the cursor by 2.
+
+THREE STRUCTURAL FINDINGS, all of them new and all confirmed by the bytes:
+
+1. THE DOUBLED `beq` IS AN INLINED HELPER'S OWN NULL TEST.  At
+   0x0206BEE4/0x0206BEE8 the image has `adds ip, lr, #4` immediately followed
+   by `beq #0x206bf10`, i.e. it tests `rec + 4` against zero -- which can only
+   be false for `rec == -4`.  That is a redundant test the compiler kept.  The
+   same shape appears in func_0206C024 as the notorious DOUBLE `beq` on one
+   `cmp ip, #0` at +0x34/+0x38, which that note flagged as unexplained.  Both
+   are one thing: the source calls a helper
+
+       static u8 *gx_rec_lookup(struct GxRecTbl *t, u32 k)
+       { if (t == 0) return 0; if (k >= t->n) return 0; ... }
+
+   with an argument the CALLER has already null-tested (`rec` at +0xd8, or
+   `rec + 4`), and mwcc inlines it without folding the second test away.
+   Writing the helper as a real `static` does NOT reproduce this -- 2.0/sp2
+   leaves it as an out-of-line `bl` (132 bytes, 73 out).  It has to be written
+   out by hand at the call site, redundant null test included.
+
+2. THE ZERO ARMS ARE `goto`s TO ONE SHARED `mov r2, #0`, NOT if/else.  With
+   if/else (or the conditional operator), 2.0/sp2 if-converts every zero arm to
+   a predicated `moveq r1,#0` / `movhs r1,#0` next to its branch, which is 8
+   bytes short and leaves the value in the wrong register.  Explicit `goto`s
+   to one shared label per lookup -- one for the inner two early returns, one
+   for the outer `rec == 0` -- reproduce the image's `b #0x206bf14` /
+   `mov r2,#0` / `cmp r2,#0` triple and the `bne #0x206bf28` / `mov r2,#0`
+   pair exactly.  This is the `guards-separated-by-statements-share-an-exit-
+   only-through-goto` idiom applied twice in one function, and it is worth
+   ~40 concrete bytes here.  Going from if/else to gotos took this function
+   from 69 concrete bytes out to 33.
+
+3. THE LOOKUP READS ITS TWO SCALARS OFF THE OUTER POINTER, NOT THE INNER ONE.
+   The image has `ldrb r0,[lr,#5]` and `ldrh r2,[lr,#0xa]` where `lr` is `rec`
+   -- the same addresses as `t->n` and `t->off` on `t = rec + 4`, but off the
+   other base.  Spelling them `rec[5]` and `*(u16 *)(rec + 0xa)` while the
+   stride arithmetic still runs off `t` is worth 2 more bytes and, more
+   usefully, pins which of the two pointers each field belongs to.  The same
+   offsets read off `ip` (= rec) at +1 and +6 in func_0206C024 are what proves
+   the +4: the two dispatchers are the same table four bytes apart.
+
+WHAT IS LEFT.  33 bytes (29 after one permuter mutation), every one of them a
+register name.  `--explain` reports the residue as a clean substitution map:
+
+  r2 -> r1 x13,  lr -> ip x4,  ip -> r1 x3,  ip -> r2 x2,  r2 -> r0 x2,
+  lr -> r2 x2
+
+Every branch target, every immediate, every instruction and every relocation
+is right; the image parks a value in `lr` where the compile parks it in `ip`,
+and everything downstream shifts one register.  Measured and rejected:
+`--mode hill --budget 800 --jobs 8 --types` (227 mutations, "no single
+mutation improves"); `--mode anneal --budget 1200 --jobs 8 --types` (1200
+compiles, 77s, reaches 29 via `temp(tmp=*((u32 *) q))` and then plateaus);
+ALL 24 permutations of the four local declarations, measured exhaustively
+(best 33, worst 36, no permutation below 33); and `k` as `u32` / `int` / `u8`
+(33 / 34 / 33).  By the brief's own rule -- a residue no mutation moves is in
+the declarations or in the reading of the image -- the remaining lever is a
+declaration this note has not found, most likely the arity or return type of
+the dispatched function pointer, which would change what is live across the
+`blx`.
+
+/* best source, 176 bytes against 176, 33 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206BEA0
+ * address:  0x0206BEA0
+ * packet:   pkt_0206BEA0
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   tbl_020A82C8   0x020A82C8  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Tbl {
+    u8  f0;
+    u8  n;
+    u8  f2;
+    u8  f3;
+    u16 f4;
+    u16 off;
+};
+
+struct Ctx {
+    u8  *cur;
+    u32 p04;
+    u32 flags;
+    u8  p0c[0xad - 0x0c];
+    u8  last;
+    u8  pad[0xd8 - 0xae];
+    u8  *rec;
+};
+
+extern void (*tbl_020A82C8[])(struct Ctx *);
+
+void func_0206BEA0(struct Ctx *c)
+{
+    u32 w;
+    u32 k;
+    u8 *rec;
+    u8 *q;
+
+    w = c->flags;
+    if (!(w & 0x200)) {
+        k = c->cur[1];
+        if (!(w & 1)) {
+            if (!(w & 8)) goto go;
+            if (k == c->last) goto out;
+        }
+        go:
+        {
+            rec = c->rec;
+            if (rec == 0) goto zero2;
+            {
+                u8 *t = rec + 4;
+                u16 o;
+                if (t == 0) goto zero;
+                if (k >= rec[5]) goto zero;
+                o = *(u16 *)(rec + 0xa);
+                {
+                    u8 *p = t + o;
+                    u16 sz = *(u16 *)(t + o);
+                    q = p + 4 + sz * k;
+                }
+                goto have;
+            zero:
+                q = 0;
+            have:
+                if (q != 0) {
+                    q = rec + *(u32 *)q;
+                    goto call;
+                }
+            }
+        zero2:
+            q = 0;
+        call:
+            tbl_020A82C8[*(u16 *)q](c);
+        }
+    }
+out:
+    c->cur = c->cur + 2;
+}
+
+permuter best result line:
+  baseline  DIFF   asm=165   bytes-out=33   size=176/176
+  best      DIFF   asm=325   bytes-out=29   size=176/176
+  mutations temp(tmp=*((u32 *) q))
