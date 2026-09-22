@@ -251,3 +251,115 @@ ten assert guards plus OS_Terminate" for this address.
 Not filed anywhere: DIFF, by rule 6.  No source in src/matched/ or
 src/pending/.  Addresses are Black-image addresses.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22 - wave 7 pseudo-family lane, cluster pkt_020694D8.
+==============================================================================
+
+0x020694D8 IS NOW EXACT and filed as src/matched/func_020694D8.c under the
+cluster pin `../2.0/sp2`.  The two levers that closed it are written up in
+that file's header and are worth repeating here because both are general:
+
+  1. DECLARATION ORDER of the two cached context fields.  The image opens
+     `ldr r4, [fp, #8]` / `ldr r5, [fp, #4]` -- two separate loads in
+     DESCENDING offset order, the one order mwccarm's ldm coalescer cannot
+     merge.  Declare the +0x08 local BEFORE the +0x04 local and the loads come
+     out separate and in that order; declare them the other way round and they
+     fold to `ldmib fp, {r4, r5}`, the body shifts one slot and 94 of 180 bytes
+     differ.  Permuting the two ASSIGNMENTS does not help -- every order was
+     measured (94 / 95 / 97 bytes out, two of them 184 bytes).  It is the
+     DECLARATION that picks the register, and the register picks the order.
+  2. THE LOOP BACK EDGE.  `bne #0x206951c` at 0x02069554 tests only `c != 0`
+     and jumps to the `cmp r0, #0xa` at 0x0206951C: the newline test is the
+     loop TOP and the NUL test is the BOTTOM.  Spelled
+     `while (c != 0xa) { ...; c = next(&cur); if (c == 0) break; }` the
+     compiler fuses the bottom pair to `cmp r0, #0 / cmpne r0, #0xa`, four
+     bytes too many (184 bytes, 59 out), and moves the `ldrsb r7, [sp, #0x40]`
+     load of st.dx from BETWEEN the two compares to after them.  Two explicit
+     labels and a `goto` keep them apart and the file goes EXACT.
+
+The measured ladder, for the record: 111 bytes out (no cached fields) -> 94
+(fields cached, wrong declaration order) -> 59 (declaration order fixed,
+184 bytes) -> EXACT (goto loop).  The permuter, run on the 94-out baseline
+(hill, budget 800, --types), reached 91 and reported "no single mutation
+improves": both remaining levers are in the DECLARATIONS and in the loop
+SHAPE, which is exactly the residue class the brief says the permuter cannot
+move.  It was the hand read of the diff, not the search, that closed this one.
+
+/* best source, 180 bytes against 180, 0 concrete bytes out, ../2.0/sp2 */
+  -- see src/matched/func_020694D8.c
+
+==============================================================================
+0x020698F8  460 bytes (444 code + 16 pool)  arm  DIFF - advanced, not closed
+==============================================================================
+
+The 2026-09-21 note above stands in its diagnosis and is superseded in its
+numbers.  That pass measured 388 bytes / 233 concrete out as its best; this
+pass reaches FULL SIZE-EXACT, 460 bytes against 460, 184 concrete out, with
+long runs now byte-identical INCLUDING the literal-pool displacements
+(+0x0044..+0x0070 and beyond are exact, `ldr r0, [pc, #0x164]` included).
+
+TWO CORRECTIONS TO THE EARLIER READING, both byte-evidenced:
+
+  a. THE VERSION FIELD IS AT +0x06, NOT +0x08.  `ldrh r1, [r6, #6]` at
+     0x02069948 / 0x020699BC and `ldrh r0, [r6, #6]` at 0x02069A30.  The
+     struct is `{ u32 sig; u16 unk04; u16 ver; }`.  A `u32 unk04` between them
+     puts the field at +0x08 and every version compare reads the wrong
+     halfword.
+  b. EACH GROUP IS A PAIR OF SEPARATELY-NORMALISED GUARDS, not one `&&`.
+     The image's shape per group is
+         sig test -> normalise -> test -> ver test -> normalise -> test
+     i.e. `if (NORM(p != 0 && p->sig == 'NFTR')) { NORM(p != 0 && p->ver >= V) }`,
+     which is why each group carries TWO `cmp r6, #0` and the dead second
+     `beq` (0x0206997C/0x02069980/0x02069984 are `cmp r6,#0` followed by TWO
+     consecutive `beq`s on the same flags -- an assert macro expanding its
+     pointer guard twice).  Fusing the two halves into one `&&` loses the
+     inner pair and 240+ bytes differ.
+
+WHAT CLOSED THE SIZE.  The permuter's `--types` mutation, which the earlier
+pass did not run: declaring the per-group booleans `u16` rather than `s32`
+forces the normalisation the compiler otherwise proves redundant.  Ladder:
+
+  - s32 throughout, macro form, ver at +0x08:        312 / 223
+  - ver corrected to +0x06:                          336 / 240
+  - split into two normalised guards per group:      372 / 258
+  - permuter hill 800 --types: `u16 ok`:             432 / 310
+  - `u16 a` as well (hand-applied from that hint):   444 / 271  <- code-exact
+  - permuter anneal 2000 --jobs 8 --types:           460 / 184  <- SIZE-EXACT
+
+/* best source, 460 bytes against 460, 184 concrete bytes out, ../2.0/sp2 */
+  permuter best result line:
+    best  DIFF  asm=3045  bytes-out=184  size=460/460
+    mutations temp(tmp=(res != 0) && (res->sig ) ; temp(tmp1=b != 0) ;
+      temp(tmp2=(res != 0) && (res->ver ) ; temp(tmp3=res->sig) ;
+      temp(tmp4=res->ver) ; split-assign(tmp2) ; hoist-down(tmp,+3) ;
+      temp(tmp5=res->sig) ; temp(tmp6=res->sig) ; block(if1,1) ; compare(const)
+
+THE ONE REMAINING RESIDUE, and it is a single decision repeated six times:
+where the image normalises with
+
+    cmp r0, #0 / movne r0, #1 / moveq r0, #0
+
+the `u16` spelling that buys the right SIZE emits the truncation
+
+    lsl r0, r0, #0x10 / lsrs r0, r0, #0x10 / moveq r0, #0
+
+Same three instructions, same length, wrong opcodes.  The `u16` is buying the
+normalisation for the wrong reason: it wants a TRUNCATION and the image wants
+a BOOLEAN RE-TEST.  What is needed is a 32-bit value the compiler cannot prove
+is already 0-or-1.  Measured and rejected this pass: a `volatile s32` staging
+local for each boolean (432 / 287 -- the memory home costs a load and a store
+per guard and does not produce the triple), `u16 b` (420 / 298), `u16 a` with
+`u16 b` (432 / 291), and the doubled `NORM(NORM(x))` spelling (folded, byte
+for byte identical to the single form).
+
+The untried direction, unchanged from the earlier note but now much better
+bounded: the boolean must reach the flag forwarder as an opaque 32-bit value.
+A same-file `static` helper returning `int` was already measured at 260 / 150
+by the earlier pass and is NOT inlined (six unresolvable PC24 sites), so the
+helper must be forced inline, or the opacity must come from somewhere that
+costs no call.  With the size now exact and the pool displacements matching,
+whoever takes this next is 184 bytes from EXACT on a 460-byte function, not
+the 233-of-388 the earlier note left.
+
+Not filed: DIFF, by rule 6.  Addresses are Black-image addresses.

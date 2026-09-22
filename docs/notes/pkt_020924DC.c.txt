@@ -507,3 +507,71 @@ noconsume:
     return (u32)(p + 1);
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020924DC.c:30: declaration syntax error
+
+========================================================================
+2026-09-22, wave 7 pseudo-family lane: source RECOVERED, permuter spent.
+Still DIFF, now SIZE-EXACT at 1292/1292 with 763 concrete out.
+========================================================================
+
+FIRST, A CORRECTION TO THIS FILE'S OWN RE-VERIFY LINE.  The line
+"re-verified 2026-09-21 by tools/match.py: CCERR ... declaration syntax
+error" is an artefact of how the file was fed to the compiler, not a
+property of the source.  THE SOURCE IN THIS NOTE IS INTACT AND COMPILES.
+It begins at the header comment on line 253 and runs to line 508; the 177
+lines above it are the first probe lane's plain-text map (not C) and the
+re-verify line itself is appended after the closing brace.  Extract with
+
+    sed -n '253,508p' docs/notes/pkt_020924DC.c.txt > /tmp/f.c
+
+and it compiles clean, reproducing the note's own 1288 bytes against the
+1292-byte extent with 941 concrete out and the single 0x020A61DC
+relocation resolving (class `literal`).  A future automated re-verify
+sweep over this file should use that line range.
+
+SECOND, THE PERMUTER WAS RUN, WHICH NO EARLIER LANE HAD DONE, AND IT
+BOUGHT THE FOUR MISSING BYTES PLUS 178 MISMATCHES.  All runs at
+`--arm --cc 1.1p1`:
+
+  --explain    baseline DIFF asm=9070 out=941 size=1288/1292
+               register substitutions, image -> compiled, by count:
+                 lr -> r3  x29     r0 -> r1  x12    r2 -> r5  x11
+                 r3 -> r2  x7      r5 -> r3  x6     r2 -> r0  x5
+                 r2 -> r7  x4      r0 -> lr  x3     r0 -> r6  x3
+               The `lr -> r3 x29` row CONFIRMS BY MEASUREMENT the lever
+               this note's earlier lane named from the bytes: the image
+               keeps the current character in lr and 1.1p1 puts it in r3.
+
+  --mode hill --budget 800 --jobs 8 --types
+               1288/941 -> 1292/775.  SIZE IS NOW EXACT.  Three mutations:
+                 temp(tmp = g_020A61DC[c] & 8)     -> 1292/795
+                 temp(tmp1 = *((*argp)++))         -> 1292/784
+                 decl-order(cont <-> c)            -> 1292/775
+               "no single mutation improves ... (4 tried)" at exit.
+
+  --mode anneal --budget 2000 --jobs 8 --types (from the hill best)
+               1292/775 -> 1292/763, then plateau.  2000 compiles in 127 s,
+               eleven mutations composed, "plateau, drifting" at 1726.
+
+THE FIRST OF THOSE THREE IS THE INTERESTING ONE and is worth writing into
+any rebuild by hand: lifting the character-class test `g_020A61DC[c] & 8`
+into a named temporary is what recovers the four bytes the body was short.
+`decl-order(cont <-> c)` is the earlier lane's "declare the current-
+character local first" lever, confirmed independently by the search.
+
+WHERE IT STOPS.  763 of 1292 is still a whole-function colouring class
+away.  This is a 322-instruction function with TWO in-function
+`addpl pc, pc, r0, lsl #2` jump tables and four scratch values the image
+holds in lr, ip, r5 and r6; 1.1p1 spills two of them and the displacement
+of every branch after the spill moves.  The permuter's mutation table
+reaches statement order, live-range splitting, temporaries, block shape
+and integer types, and none of those recolours a value into lr.  The
+gradient is real (941 -> 763 over 2800 compiles) but the remaining
+distance is not a handful of mutations.
+
+NOT FILED: DIFF, by rule 6.  The row was in this wave's bundle only "if
+straight-line", and it is not: the two jump tables and the flag/width/
+precision/length state machine make it the opposite.  A later lane wanting
+it should start from the anneal output rather than from this note's source,
+and should expect the pin NOT to help (docs/families/cluster_020929E8.h
+records that ../2.0/sp2 and ../1.2/sp2 are both measurably worse than
+1.1p1 throughout this cluster, measured on func_020933B8).

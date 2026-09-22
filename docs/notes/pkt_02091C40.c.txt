@@ -71,3 +71,46 @@ Also measured, for whoever touches a neighbour: mwcc 1.1p1 in `-lang c99`
 mode REJECTS a C99 for-statement declaration (`for (int i = 0; ...)` ->
 "expression syntax error"), so the counter must be declared at block scope.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+2026-09-22, wave 7 pseudo-family lane: CLOSED.  EXACT.
+========================================================================
+
+0x02091C40 IS NOW EXACT and filed at src/matched/func_02091C40.c, under the
+project default dsi/1.1p1 -O4,p --arm.  The note above is right about the
+shape and about three of its four levers, and its 26-byte "pure register
+naming" residue was not an allocator tie at all: it was two spellings.
+
+FIRST, the two byte temps.  This function is the `strncmp` twin of
+src/matched/func_0209AB8C.c, which is the same table-driven case-insensitive
+compare WITHOUT the count and which has been byte-exact since wave 11.  That
+file's own header records the lever this note was missing: the temps are the
+interleaved declaration `int c1; u8 m1; int c2; u8 m2;` with the mask taken
+as a NARROWING STORE into a `u8`, not as `c1 &= 0xff` on the `int`s.  The u8
+spelling is what colours the masked c1 into r4 and the raw c2 into r5, which
+is exactly the assignment this note describes the image as having and 1.1p1
+as refusing.  With it the residue falls from 26 bytes to 12.
+
+SECOND, and this one is new to both files, THE TABLE BASE IS ASSIGNED INSIDE
+THE GUARD.  `const u8 *tab = g_020A60DC;` at the top of the function hoists
+its pool load above the `ble`; the image emits
+
+    mov lr, #0
+    ble  0x02091cb0
+    ldr  ip, [pc, #0x60]
+
+i.e. the table is not loaded at all on the n <= 0 path.  Declaring `tab` at
+the top and ASSIGNING it as the first statement inside `if (n > 0) { ... }`
+reproduces that order and is the last 12 bytes.  Three instructions, one
+statement moved.
+
+LESSON: the note's residue read as a register swap (the `--explain`-style
+substitution map it prints by hand is a clean four-way permutation) and was
+diagnosed as an allocator tie that no C could reach, after nine spellings.
+It was two ordinary source facts.  Before concluding "allocator tie", check
+for a byte-exact sibling of the same function elsewhere in the image -- here
+one existed 0x9000 bytes away and carried both answers in its header.
+
+The note's C99-for-declaration finding stands and is carried into the filed
+file's header: mwccarm 1.1p1 in `-lang c99` mode rejects
+`for (int i = 0; ...)` with "expression syntax error".

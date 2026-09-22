@@ -1,0 +1,85 @@
+DIFF evidence, pseudo-family cluster pkt_02083298 (0x02083298..0x02084C1C).
+2026-09-22, wave 7 pseudo-family lane.
+
+VERDICT FOR ALL THREE OPEN FUNCTIONS: NOT COMPILED C.  These are hand-written
+ARM assembly, the misaligned backward-copy kernels of the MSL/runtime
+`memmove`, and no C source at any optimisation level or front end can produce
+them.  They should be taken out of the `open` pool the same way
+layout/runtime_arm9.txt takes the rest of the runtime out, not carried as
+open game work.  Recorded here so the next lane does not re-derive this.
+
+  0x02083298  156 bytes  arm   src misalignment 1  (shift 8 / 24)
+  0x02083334  156 bytes  arm   src misalignment 2  (shift 16 / 16)
+  0x020833D0  216 bytes  arm   src misalignment 3  (shift 24 / 8)
+
+THE EVIDENCE, four independent tells, each fatal on its own.
+
+1. CROSS-FUNCTION BRANCHES INTO ANOTHER FUNCTION'S INTERIOR.  All three end
+   with an unconditional branch to 0x02083460:
+
+     02083324  4d 00 00 ea  b #0x2083460      (from 0x02083298's body)
+     020833C0  26 00 00 ea  b #0x2083460      (from 0x02083334's body)
+     0206345C  ff ff ff ea  b #0x2083460      (from 0x020833D0's body)
+
+   0x02083460 is INSIDE the extent of 0x020833D0 (which runs to 0x020834A8).
+   It is the shared byte-drain tail
+
+     02083460  tst r2, #4 / ldrbne r3, [r0, #-1]! / strbne r3, [r1, #-1]!  x4
+     02083484  tst r2, #2 / ldrbne / strbne  x2
+     02083498  tst r2, #1 / ldrbne / strbne
+     020834A4  bx lr
+
+   A C compiler emits one section per function and cannot branch from one
+   function into the middle of another; see
+   docs/idioms/tail-call-is-a-pool-word-and-bx.md for the project's own
+   statement of that constraint.  Three functions sharing one epilogue that
+   lives inside the third is assembly, not C.
+
+2. A `pop` THAT IS NOT A RETURN AND DOES NOT RESTORE.  Each kernel does
+
+     020832F4  f0 47 bd e8  pop {r4, r5, r6, r7, r8, sb, sl, lr}
+
+   restoring lr but NOT pc, then falls straight through into the word-at-a-time
+   drain at 0x020832F8 and on into the shared byte tail.  The frame is popped
+   mid-function and execution continues.  mwccarm's epilogue is always
+   `pop {..., pc}` under -proc arm946e (the pins document states this), so this
+   cannot be a compiled epilogue at all.
+
+3. AN EIGHT-REGISTER ROTATE NETWORK WITH NO C EXPRESSION.  The body is
+
+     ldmdbge r0!, {r4, r5, r6, r7, r8, sb, sl, lr}
+     lslge r3, lr, #8   / orrge lr, ip, lr, lsr #24
+     lslge ip, sl, #8   / orrge sl, r3, sl, lsr #24
+     ... six more pairs, alternating r3 and ip as the carry ...
+     stmdage r1!, {r4, r5, r6, r7, r8, sb, sl, lr}
+
+   Eight words are loaded, each is combined with the carry-out of its
+   NEIGHBOUR through two alternating scratch registers, and all eight are
+   stored back.  Every instruction in the block is predicated `ge` off a single
+   `subs r2, r2, #0x20` so the block is both the loop body and its own guard.
+   The register set is chosen to make `ldmdb`/`stmda` encode, which is a
+   hand allocation, not a colouring.
+
+4. THE NEIGHBOURS ARE ALREADY-ADMITTED ASSEMBLY.  The cluster's matched
+   member func_020834B8 (src/matched/func_020834B8.c) is
+
+     020834B8  swp r0, r0, [r1]
+     020834BC  bx lr
+
+   a two-instruction atomic-exchange stub.  mwccarm has no intrinsic that
+   emits `swp`.  Its presence eight bytes past the end of the byte-drain tail
+   confirms the whole 0x02083298..0x020834C0 run is the hand-written runtime
+   block, and that the "pseudo-family" adjacency that grouped these three with
+   func_020834B8, func_02084AB0 and func_02084C1C is grouping a library, not a
+   translation unit.
+
+WHY THE THREE ARE THREE.  They are the same kernel specialised on
+`src & 3`: 0x02083298 shifts by 8/24 (misalignment 1), 0x02083334 by 16/16
+(misalignment 2), 0x020833D0 by 24/8 (misalignment 3).  Each closes by
+re-adding its own misalignment to the pointer and the count
+(`add r0, r0, #3 / add r2, r2, #3`, `#2`, `#1` respectively) before falling
+into the shared tail -- the dispatch that picks among them lives outside this
+cluster and indexes them as a jump table.
+
+No C was written and none should be.  No source filed in src/matched or
+src/pending.  Addresses are Black-image addresses.

@@ -49,3 +49,123 @@ byte-correct body would cap at MATCH on that one `bl` until 0x020917D4 has a
 manifest entry.  No source file retained (src/matched/ is EXACT-only); the
 address stays `new`.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+2026-09-22, wave 7 pseudo-family lane: 0x020916D4 CLOSED, 0x020917D4 DIFF
+========================================================================
+
+0x020916D4 IS NOW EXACT and filed at src/matched/func_020916D4.c.  Both of
+this note's diagnoses above were wrong and are superseded: the residue was
+never an allocator tie on the `mul` destination, and the "address of a
+constant survives CSE" reading of the 8-byte shortfall had no basis.  The
+function is simply the four-argument member of the refcounted-resource
+wrapper family whose three-argument member src/matched/func_02092004.c
+already reproduces byte-exactly, and transcribing that sibling's shape with
+the id dispatch narrowed to two ways (`a3 == g_020A8730 ? 2 : 5`) and the
+call retargeted at func_020917D4 is EXACT on the FIRST compile, under the
+project default dsi/1.1p1 -O4,p --arm.  No permuter run was needed.
+
+What the earlier pass was missing was the arm structure, not a register
+hint.  The sibling writes the `cur`/`ref` pair as two named locals in a
+nested if/else inside the outer else, writes the two table stores out in
+full in BOTH the then arm and the inner else arm rather than factoring
+them, and re-reads `g_02150FEC.unk04[0x1b]` at each of its three use sites.
+That is what produces the image's 8- and 6-instruction arms, the
+`str r3,[r2,r6,lsl #2]` addressing-mode store and the per-site pool
+reloads.  LESSON FOR THE NEXT LANE: before diagnosing an allocator tie,
+grep the image for a byte-exact sibling that shares the pool objects.
+Three of this pseudo-family's four open rows fell to exactly that check.
+
+/* best source, 788 bytes against 788, 456 concrete bytes out, dsi/1.1p1 */
+
+0x020917D4 (788 bytes, ARM, the callee 0x020916D4 branches to) is a
+BUFFERED READ -- `fread` over the same struct func_02091CBC /
+func_020915C4 / func_02091E44 operate on.  It was transcribed whole this
+pass and reaches SIZE-EXACT 788/788 with every relocation site resolving
+(func_02096508 x2 sole-ref, func_0209149C sole-ref, func_020915C4 x2
+sole-ref, func_02092344 label, func_0209159C label, func_0209C2B0 label)
+and, critically, WITH EVERY BRANCH TARGET IDENTICAL: the `--diff` matching
+rows include all nineteen branch and call sites, so the control-flow graph
+is proven correct and the whole 456-byte residue is register naming.
+
+The body, in the shape that reaches 788/456:
+
+    u32 func_020917D4(u8 *buf, u32 sz, u32 cnt, struct F *p)
+    {
+        if (func_02096508(p, 0) == 0) func_02096508(p, -1);
+        zero = 0;
+        n = sz * cnt;
+        if (n == 0 || p->f0d != 0 || f04.hi_mode == 0) return 0;
+        lock = (f04.b12 != 0 && f04.lo_mode == 2);
+        if (f08.mode == 0 && (f04.lo_mode & 1) != 0) {
+            p->f08 = (p->f08 & ~7u) | 2; p->f28 = 0;
+        }
+        if (f08.mode < 2) { p->f0d = 1; p->f28 = 0; return 0; }
+        if ((f04.lo_mode & 1) != 0 && func_0209149C() != 0) {
+            p->f0d = 1; p->f28 = 0; return 0;
+        }
+        done = 0;
+        if (n != 0) {
+            while (f08.mode >= 3) { ...ungetc stack drain, halfword or byte... }
+            if (f08.mode == 2) p->f28 = p->f30;
+        }
+        while (n != 0) { ...refill through func_020915C4, copy through
+                            func_02092344, advance f24/f28/buf/done/n... }
+        if (n != 0 && lock == 0) { ...direct-read path through f1c/f20... }
+        return func_0209C2B0(done, sz);
+    }
+
+FIVE LEVERS were needed to get from the first transcription (820 bytes,
+688 out) to 788/456, and each is worth four to thirty-two bytes:
+
+  * the THREE early returns after the multiply share ONE epilogue at
+    0x02091830, so they must be a single disjunction
+    `if (n == 0 || p->f0d != 0 || mode == 0) return 0;`.  Written as three
+    separate `if`s the compiler predicates each one into its own
+    `moveq r0,#0 / popeq`, which is 4 bytes and 46 mismatches.
+  * `done` is initialised LATE, at the `n != 0` test, not with `zero` at
+    the top: the image's `mov r6, #0` sits at +0x0108 beside `cmp r5, #0`.
+  * the byte path's table index is the f08 bitfield view, not
+    `(p->f08 << 29) >> 29`: the explicit shift pair folds to
+    `and r0, r0, #7` where the image keeps `lsl #0x1d` / `lsr #0x1d`.
+    (The halfword path's `lsr #28` is a different shift and is safe
+    spelled either way.)
+  * THE TAIL CALLS func_020915C4 ONCE, not twice.  Writing
+    `if (func_020915C4(...) != 0) { if (func_020915C4(...) == 1) ... }`
+    emits both calls and is the whole 28-byte overshoot; binding the
+    result to `s32 r` and testing `r` twice is what lands 788/788.
+  * `-1` is written as a literal, not derived from the `zero` local; with
+    `~0` off `zero` the compiler emits `sub r1, r6, #1`.
+
+THE 456-BYTE RESIDUE IS ONE COLOURING CLASS AND THE PERMUTER DOES NOT
+REACH IT.  `tools/permuter.py --explain` reports a general reshuffle, not
+a swapped pair -- the image holds the object in r8, the remaining count in
+r5, the running total in r6 and the flag in r7, and 1.1p1 puts the object
+in sb and shifts everything after it:
+
+    r5 -> r7  x12    r8 -> r4  x8     r6 -> r8  x8     r4 -> r6  x5
+    r7 -> sl  x4     r2 -> sb  x3     sl -> r5  x2     sb -> fp  x2
+
+Measured this pass, all at 788/788:
+  `--mode hill --budget 800 --jobs 8 --types`            486 -> 478
+  `--mode anneal --budget 2000 --jobs 8 --types`         486 -> 456
+  three local declaration orders (n/done/zero/lock,
+    lock/n/done/zero, done/n/lock/zero) by hand          486, 486, 487
+The hill run reports "no single mutation improves ... (57 tried)" and the
+anneal run plateaus at 456 with eleven mutations composed, so the whole
+mutation table has been spent on it.  The object's home register is
+decided by the order mwcc's optimised IR creates the values, and nothing
+in the mutation set (which reaches statement order, live-range splitting,
+temporaries and integer types) moves an incoming PARAMETER's colour.
+
+NOT FILED: DIFF, by rule 6.  The source is not retained; this note's body
+sketch plus the five levers reproduces 788/456 in one sitting.  The next
+lane's only untried lever is the FRONTEND PIN, which was NOT probed here
+because docs/families/cluster_020929E8.h records that the alternatives are
+measurably worse throughout this neighbourhood and every matched source in
+0x02091xxx-0x02092xxx carries `compiler: 1.1p1`.  THE PIN WAS PROBED THIS PASS AND IS
+REFUSED: `--cc ../2.0/sp2` on the 788/456 source is 820 bytes, 686
+concrete out, against 1.1p1's 788/456 -- it loses size-exactness as well
+as 230 bytes.  Do not spend a second probe.  Nothing is left that the
+current tooling reaches; this row wants a mutation that recolours an
+incoming parameter, which tools/permuter.py does not offer.

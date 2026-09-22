@@ -426,3 +426,88 @@ promoted.  Its sole wildcard is the PC24 to func_02091E44 and only a
 `matched` entry at 0x02091E44 promotes it; this row is still not one.
 Nothing was moved.  Not filed: DIFF, by rule 6.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+2026-09-22, wave 7 pseudo-family lane: 0x02091D38 CLOSED (EXACT).
+0x02091E44 STILL DIFF, AND THE PERMUTER CANNOT SCORE IT.
+========================================================================
+
+0x02091D38 IS NOW EXACT and filed at src/matched/func_02091D38.c, 268/268,
+all 11 relocation sites resolving, dsi/1.1p1 -O4,p --arm.  The fix is
+EXACTLY the one the "wave r11 lane C" section above predicted from
+0x02092004 and flagged as "worth trying on 0x02091D38's own THREE-line
+residue": bind both sides of the equality to named locals in a NESTED
+if/else inside the outer else, array element first --
+
+    u32 cur = arr_02153B8C[idx];
+    u32 ref = g_02150FEC.unk04[0x1b];
+    if (cur == ref) arr_02153BB0[idx]++;
+    else { func_02086028(blk); ...; }
+
+not an `else if` on the bare expression.  Two live named temporaries on the
+compare is what lands arr in r1 and the field in r0.  The prediction was
+correct and cost one compile to confirm.  The whole file is the 0x02092004
+source with the three-argument tail call replaced by
+`func_02091CBC(a0)` and the signature narrowed to one argument.
+
+THE SAME FAMILY HAS A THIRD MEMBER, now also closed: 0x020916D4 is the
+FOUR-argument one with a two-way id dispatch, EXACT this pass at
+src/matched/func_020916D4.c (see docs/notes/pkt_020916D4.c.txt).
+
+------------------------------------------------------------------------
+0x02091E44: the row is TOOLING-BLOCKED, not spelling-blocked.
+------------------------------------------------------------------------
+
+This pass rebuilt the source from the sections above and independently
+reproduced 448 bytes / 28 concrete out at the corrected entry 0x02091E44,
+making it the FOURTH lane to land on exactly 448/28.  All three
+relocation sites resolve.  No new spelling was found, and the two coupled
+residues (a) and (b) are as the sections above describe.
+
+WHAT IS NEW, AND IT SUPERSEDES THE "RUN THE PERMUTER" INSTRUCTION FOR
+THIS ROW: tools/permuter.py CANNOT SCORE 0x02091E44, and its search is
+not merely unhelpful there but actively inverted.  The scorer takes its
+target size from `match.target_extent(addr)`, which for 0x02091E44 is the
+MIS-SEEDED FOUR-BYTE EXTENT -- layout/function_starts.txt labels only
+0x02091E48, so the listing calls 0x02091E44 a four-byte row.  `Score.key`
+then never takes its size-exact branch (it requires `size == tsize`) and
+ranks candidates by `(asm, miss, abs(size - 4))`, i.e. the size term
+rewards SHRINKING THE FUNCTION.  Measured:
+
+  --explain                       baseline DIFF asm=11100 out=28  size=448/4
+                                  (prints NO register-substitution map: the
+                                   residue is branch structure, not a swap)
+  --mode hill --budget 800 --jobs 8 --types
+                                  "best" DIFF asm=9900 out=347 size=400/4
+                                  via copy(v), temp(tmp=(mode != 1) || ...),
+                                  temp(tmp1=p->f18 - pos)
+
+The run reports a 400-byte, 347-bytes-out variant as an IMPROVEMENT on a
+448-byte, 28-bytes-out baseline, purely because 400 is nearer 4 than 448
+is.  Anneal was not spent after that: the gradient points away from the
+answer, so a longer run is worse, not better.
+
+Compiling the body-only source at the BODY label 0x02091E48 is not a
+usable substitute either: the four-byte home-area push shifts the whole
+function, so `--explain` there reports 448/444 with 367 bytes out and a
+spurious `ip -> r0 x3` map that is an artefact of the misalignment.
+
+ONE HAND SPELLING was measured this pass on residue (b), the kept-branches
+cross-jump, and is not in the lists above: the second bounds guard written
+POSITIVELY into the body (`if (pos >= hi) goto clear; if (pos >= p->f34)
+goto inwin; goto clear; inwin: ...`), to try to reproduce the image's
+`bhs 0x2091f4c` falling into an unconditional `b`.  448/32 -- worse than
+the plain nested spelling's 28.  Consistent with the four spellings the
+previous lane measured; 28 remains this shape's floor.
+
+FOR THE INTEGRATOR, RESTATED AND NOW LOAD-BEARING FOR TOOLING TOO:
+0x02091E44 is a SEED-FILE item.  Until 0x02091E44 is seeded into
+layout/function_starts.txt (and the later label at 0x02091E48 removed),
+not only does `match.py show` report a four-byte extent, but
+tools/permuter.py silently searches in the wrong direction on this row.
+A later lane should NOT spend budget on a permuter run here before the
+seed lands.
+
+CONSEQUENCE UNCHANGED: src/pending/func_02092004.c stays MATCH.  Its sole
+wildcard is the PC24 to func_02091E44 and only a `matched` entry at
+0x02091E44 promotes it.  Not filed: DIFF, by rule 6.

@@ -174,3 +174,179 @@ the same class the rest of this family records: which of two just-freed
 registers receives a value, decided after linearisation.  Not a pin candidate
 (the note measured ../2.0/sp2 at 4 as well).  Not filed: DIFF, by rule 6.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, pseudo-family lane (docs/families/cluster_02070B64.h): 0x020711C8
+closed EXACT, 0x02071104 taken 46 -> 6, 0x020712A8 confirmed at 4
+==============================================================================
+
+THE PACKET'S TWO BIGGEST OPEN ROWS ARE NOW ONE.  0x020711C8, which this note
+listed under NOT ATTEMPTED as "the full smull 2x2 member", is filed EXACT at
+src/matched/func_020711C8.c, 224 bytes, compiler ../2.0/sp2.  Three things
+were needed and the note's own levers were only the first of them.
+
+  1. L4 of docs/families/cluster_02070B64.h -- the two `<< 12` shifted angle
+     values bound to named locals live across the whole body.  This is the
+     lever docs/notes/pkt_02072374.c.txt discovered and it transfers here
+     unchanged: the image's `lsl r8, r2, #0xc` / `lsl fp, r1, #0xc` at
+     0x020711DC/0x020711E0 and the `mov r1, fp` / `mov r0, r8` pair at
+     0x0207123C/0x02071250 are the same shape, and they are what force the
+     ten-register push.  Got the function to 224 bytes and 35 concrete out.
+
+  2. TWO LIVE-RANGE SPLITS, found by tools/permuter.py in one hill pass
+     (`temp(tmp=s->f18 - (x7 + x6))` then `temp(tmp1=(s32)((((s64) p) * b) >)`,
+     632 compiles, 35 -> 12).  A fresh temporary computed BEFORE its neighbour
+     and only then copied into the real local gives the value its own
+     definition point, so it is numbered on the far side of the neighbour and
+     the two colours come out the image's way round.  Both splits are
+     necessary: removing either takes the source back to 35 UNDER THE PIN, so
+     this is a source effect, not a front-end one.
+
+  3. THE PIN, ../2.0/sp2.  The last 12 bytes under the default dsi/1.1p1 are a
+     straight exchange of r5/r0 on the two `ldrsh`es at 0x020711F0/0x020711F8
+     and of r6/r7 on the two narrowing pairs that consume them: 1.1p1 loads
+     f20 before f22 and colours the first product r7, where the image loads
+     f22 first (`ldrsh r5, [sb, #0x22]`, f2 52 d9 e1) and colours it r6.  Same
+     scheduling tell already measured for func_02070F2C at 0x02070F54/
+     0x02070F5C -- 1.1p1 refuses to separate a load from its first use and
+     reorders the pair to follow the consumption order.
+
+     MEASURED AND NOT LEVERS under 1.1p1, on top of (1) and (2): splitting
+     x6's range instead of x7's (28); both ranges split (28); x5 hoisted
+     between the two f18 products (19); the f00 store moved below the f14
+     store (16); binding f2c to a local before the f30 chain (35).  2000
+     anneal compiles plateaued at 12.  Under the pin the SAME source is 0.
+
+  Note also the f34 operand is `(x5 - x4) - s->f1c` with the `+ 0x2000` as a
+  SEPARATE statement: the image's `sub r0, r1, r0` at 0x02071280 and
+  `add r0, r0, #0x2000` at 0x02071284 are two instructions, not a folded one.
+
+------------------------------------------------------------------------------
+0x02071104, 124 B: 46 -> 6 concrete, DIFF.  NOT PREVIOUSLY MEASURED AT ALL
+------------------------------------------------------------------------------
+
+This note listed 0x02071104 under NOT ATTEMPTED.  It is the `f18/f1c direct
+copy` member with a `>> 8` (not `>> 12`) reduction on the f24/f28 cross terms
+and NO FX calls at all, so it is the cheapest member of the family that still
+has 64-bit products.  Four findings, in order:
+
+  * THE REDUCTION IS `>> 8`, NOT `>> 12`.  The image's `lsr r4, ip, #8` /
+    `orr r4, r4, r3, lsl #24` at 0x02071130/0x02071134 is the 8-bit form of
+    the family's narrowing fold; the usual `>> 12` gives `lsr #0xc` +
+    `lsl #20`.  Reading the shift off the `lsl` amount (32 - shift) is the
+    quickest check.
+  * THE f34 NEGATION IS THREE STATEMENTS (L3/L-H).  `m = f1c << 1; m = 0 - m;
+    m = m + 0x2000;`.  Folded, the compiler emits one `rsb r1, r3, #0x2000`
+    and the function is 120 bytes against the image's 124.  This is the whole
+    four-byte size gap and is the only SIZE lever here.
+  * THE SECOND smull'S OPERANDS ARE WRITTEN `f28 * (s64)f1c`, NOT
+    `(s64)f1c * f28`.  permuter `commute(*)`.
+  * THE f18 PRODUCT'S LIVE RANGE IS SPLIT (`t = <product>; n = t;`) AND SO IS
+    THE f1c SHIFT'S (`u = f1c << 1; m = u;`).  permuter `temp` x2.
+
+  Together: 46 -> 40 (the size lever) -> 8 (hill, 783 compiles) -> 6 (anneal,
+  366 compiles).  Hill then exhausts 247 single mutations at 6 and 2000 anneal
+  compiles plateau there.
+
+  THE REMAINING 6 BYTES are five instructions and one pair of registers.  The
+  image loads f1c into r4 and f28 into ip; the compile loads f1c into ip and
+  f28 into r3:
+
+      +0040  ldr r4, [r1, #0x1c]     | ldr ip, [r1, #0x1c]
+      +0044  ldr ip, [r1, #0x28]     | ldr r3, [r1, #0x28]
+      +0048  lsl r3, r4, #1          | lsl r4, ip, #1
+      +004C  smull lr, ip, r4, ip    | smull lr, ip, r3, ip
+      +0050  rsb r4, r3, #0          | rsb r4, r4, #0
+
+  Every one is a multiply-class instruction or a direct consumer of one, which
+  is the family's L8/L-J residue class.  MEASURED AND NOT LEVERS: binding f1c
+  and f28 to locals in the image's read order (6); binding f1c alone to a
+  local defined before the shift (6); five declaration groupings (6 every
+  time, confirming L-I).
+
+  COMPILER: ../2.0/sp2 is the better of the two here -- 6 against the default
+  1.1p1's 33 on the identical source -- but NEITHER is 0, so no pin is taken
+  (rule 2 of docs/FRONTEND-PINS.md).  The figures above are all under sp2.
+
+  /* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 */
+
+    void func_02071104(struct DST *d, struct SRC *s)
+    {
+        s32 z = 0;
+        s32 n;
+        s32 t;
+        s32 u;
+
+        d->f00 = s->f18;
+        d->f14 = s->f1c;
+        d->f04 = z;
+
+        t = (s32)(((s64)s->f18 * s->f24) >> 8);
+        n = t;
+        n = 0 - n;
+        d->f30 = (s32)s->f2c * n;
+
+        {
+            s32 m;
+            u = s->f1c << 1;
+            m = u;
+            m = (s32)(0 - m);
+            m = m + 0x2000;
+            d->f34 = (s32)s->f2e * (s32)((s->f28 * (s64)s->f1c) >> 8)
+                   + ((s32)s->f2e * m << 3);
+        }
+
+        d->f10 = z;
+    }
+
+  permuter best result line:
+    best      DIFF   asm=30    bytes-out=6    size=124/124
+    (hill: 247 single mutations tried, none improves; anneal: 2000 compiles,
+     plateau at 6 with three drifts)
+
+------------------------------------------------------------------------------
+0x020712A8, 184 B: CONFIRMED at 4, floor re-measured by machine
+------------------------------------------------------------------------------
+
+Section 2 of this note records this address at DIFF 4 with the r1/r2 swap and
+five measured non-levers.  Re-derived from scratch this pass with L4 in place
+(the note's source predates that lever) and it is STILL 4, and still the same
+swap:
+
+      +005C  ldrsh r1, [r5, #0x20]   | ldrsh r2, [r5, #0x20]
+      +0064  ldrh r2, [r5, #0x2c]    | ldrh r1, [r5, #0x2c]
+      +0068  add r0, r1, r0          | add r0, r2, r0
+      +0074  mul r0, r2, r0          | mul r0, r1, r0
+
+`--explain` reports it as exactly two substitutions, r1 -> r2 x2 and
+r2 -> r1 x2: one clean pair, no reshuffle.  Hill exhausts 274 single
+mutations at 4; anneal runs 2000 compiles and plateaus at 4 with four drifts.
+
+MEASURED AND NOT LEVERS THIS PASS, on top of section 2's five: binding f20,
+f22 and f2c to locals in the image's load order (4); `f22 + f20` instead of
+`f20 + f22` (6, worse); splitting n's live range with a temp (4); binding the
+FX result to a local before the f04 store (4); computing the f34 value before
+the f30 store, L-C style (48, much worse).
+
+Also 4 under ../2.0/sp2 on the identical source, so it is not a pin candidate
+either -- confirming section 2's reading.  Not filed: a DIFF never goes in
+src/matched.
+
+------------------------------------------------------------------------------
+WHAT THIS PASS CHANGES ABOUT THE FAMILY'S STANDING CONCLUSION
+------------------------------------------------------------------------------
+
+This note, docs/notes/pkt_02071DD4.c.txt and docs/notes/pkt_02072374.c.txt all
+concluded that the multiply-class register swap "is chosen after linearisation
+and is not source-addressable".  THAT IS TOO STRONG, and two rows proved it
+this pass: 0x02072374 sat in the class at 7-8 across three lanes and fell to a
+single statement reorder (moving the `d->f00` store DOWN past the two
+narrowings), and 0x02072068 sat in it at 16 and fell to a single live-range
+split.  Both were found by tools/permuter.py in one hill pass each after hand
+sweeps had exhausted.
+
+The corrected rule, now written into docs/families/cluster_02071EAC.h as L-J:
+treat a member in this class as OPEN, run the permuter (hill first, it is
+deterministic and exhausts the singles; anneal after), and only THEN record a
+floor.  0x02071104 at 6 and 0x020712A8 at 4 have both had that treatment and
+are recorded as floors on that basis, not on a hand sweep's.
