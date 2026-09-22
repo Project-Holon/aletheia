@@ -51,7 +51,18 @@
  * subsystem pin OPPOSITE WAYS and each function must be measured.
  *
  *   ../2.0/sp2   func_020713A4  func_02071510  func_02071858  func_02071C94
+ *                func_0207163C  func_02071C14                 (wave 10)
  *   dsi/1.1p1    func_020713C8  func_02071B2C  func_02071CDC  unit_02071DD4
+ *   EITHER       func_02071360  func_02071A24                 (wave 10: same
+ *                C byte-exact under both; filed under the default)
+ *
+ * Wave-10 additions to the tells.  func_0207163C is "kept constants" on a
+ * CALL ARGUMENT: the image rematerialises `mov r2, #0x18` before each of
+ * its four MIi_CpuCopy32 calls, 1.1p1 keeps 0x18 in a callee-saved
+ * register (536 vs 540 bytes).  func_02071C14 shows a THIRD, smaller tell:
+ * with everything else identical, 1.1p1 schedules the final
+ * `ldrh r1, [r1, #0x2e]` one slot earlier than the image (6 bytes, one
+ * swapped pair); 2.0 is exact.
  *
  * Both of this cluster's 2.0 tells are documented in docs/FRONTEND-PINS.md:
  *
@@ -118,13 +129,14 @@ extern void func_0207C930(s32 a12, s32 b12);
    loses the second `bl`. */
 extern s32  func_0207C86C(void);
 
-/* The 0x18-byte block copy of func_0207163C (the one function of this
-   cluster still open).  Called four times with a literal `mov r2, #0x18`,
-   which is what fixes the size. */
-extern void func_02082A90(void *dst, const void *src, u32 n);
+/* The 0x18-byte block copy of func_0207163C.  It is MIi_CpuCopy32 and it
+   takes the SOURCE FIRST (src, dst, size) -- src/matched/func_0207163C.c
+   names it that way and the argument order there is the data flow.  Called
+   four times with a literal `mov r2, #0x18`, which is what fixes the size. */
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 n); /* 0x02082A90 */
 
 /* ================================================================== *
- * 1.  Data objects (func_0207163C's pool, still open)
+ * 1.  Data objects (func_0207163C's pool; EXACT wave 10, ../2.0/sp2)
  * ================================================================== */
 
 /* The allocator's owner block.  Reached as `ldr r3, [r2]` then
@@ -135,16 +147,13 @@ extern void func_02082A90(void *dst, const void *src, u32 n);
    as a base the compiler forms once, not a member offset per access. */
 extern void *ptr_02148DB0;              /* 0x02148DB0  a4                     */
 
-/* The six per-component matrix tables, stride implied by the `mul ip, r0,
-   #0x18` / `mul r3, r4, #0x18` index scaling: each table is an array of
-   0x18-byte records, and one slot's record is read from table N and written
-   to table N at the OTHER slot's index.  Six consecutive pool words. */
-extern u8 g_02149BB4[];                 /* 0x02149BB4  a4, stride 0x18        */
-extern u8 g_02149BB8[];                 /* 0x02149BB8  a4, stride 0x18        */
-extern u8 g_02149BBC[];                 /* 0x02149BBC  a4, stride 0x18        */
-extern u8 g_02149BC0[];                 /* 0x02149BC0  a4, stride 0x18        */
-extern u8 g_02149BC4[];                 /* 0x02149BC4  a4, stride 0x18        */
-extern u8 g_02149BC8[];                 /* 0x02149BC8  a4, stride 0x18        */
+/* The per-slot matrix table.  PROVEN ONE OBJECT (wave 10): the six
+   consecutive pool words 0x02149BB4 .. 0x02149BC8 are ONE `s32 [][6]` table
+   whose column k is addressed as symbol + 4k, because the register-offset
+   `ldr r, [base, ip]` (ip = slot * 0x18) has no room for a further
+   immediate.  Declared as a single 2-D extern, src/matched/func_0207163C.c
+   reproduces all six words; six separate externs are not needed.         */
+extern s32 g_02149BB4[][6];             /* 0x02149BB4  a4, stride 0x18        */
 
 /* ================================================================== *
  * 2.  struct Cel -- the SOURCE object of every constructor
@@ -225,12 +234,20 @@ struct Mtx {
  *   0x020713A4   36 B  identity: 0x1000 / 0 only, no source read at all
  *   0x02071EFC   36 B  identity again (a separate copy, see its note)
  *   0x02071360   68 B  * f18/f1c straight through, f34 from f1c and f2e
+ *                         (EXACT wave 10: f34 is spelled with the operand
+ *                         doubled OUT, `(0x1000 - f1c + 0x1000 - f1c) * f2e
+ *                         * 8`; every factored form folds the negate)
  *   0x02071C94   72 B    f18/f1c through, f30/f34 from f24/f28 and f2c/f2e
  *   0x02071EAC   80 B    the unlabelled leaf folded into unit_02071DD4
  *   0x02071C14  128 B  * f18/f1c through, BOTH translations through smull
+ *                         (EXACT wave 10, 2.0: source fields bound to locals
+ *                         before the f30 store, f2c local typed u16)
  *   0x02071DD4  216 B    the s16-only variant
  *   0x02071B2C  232 B  * the full rotate, f22/f20 through ldrsh
  *   0x02071A24  264 B  * the full rotate AND the smull quartet
+ *                         (EXACT wave 10: func_02071CDC's body with
+ *                         func_02071C14's multipliers; closed by the f34
+ *                         bias-first rule below and nothing else)
  *   0x02071CDC  268 B    the smull quartet variant
  *
  * The five biggest all share ONE spelling rule that no smaller one exposes,

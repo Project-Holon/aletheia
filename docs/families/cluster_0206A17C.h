@@ -114,6 +114,50 @@ extern int  func_0206A4AC(char *h, char *c);            /* bulk, via A3CC  */
 extern int  func_0206A5B4(char *h, char *c, u32 i2, u32 i3);  /* one entry */
 extern void func_0206A67C(char *h);                     /* clear every done bit */
 
+/* PROVEN wave 10: PART 1 IS NITROSYSTEM G3D TEXTURE/PALETTE BINDING.
+ * Four EXACT files (func_0206A19C/2CC/3CC/4AC) were closed by writing them
+ * as the NitroSystem source is shaped, with its types and static inlines,
+ * after 4600+ permuter compiles on raw-offset spellings had stalled:
+ *
+ *   func_0206A2CC  NNS_G3dBindMdlTex(mdl, tex)           -> BOOL
+ *   func_0206A19C  bindMdlTex_Internal_(mat, bind, tex, texData)
+ *   func_0206A4AC  NNS_G3dBindMdlPltt(mdl, tex)          -> BOOL
+ *   func_0206A3CC  bindMdlPltt_Internal_(mat, bind, tex, plttData)
+ *   func_0206E62C  NNS_G3dGetResDataByName(dict, name)
+ *   (func_0206A5B4 / func_0206A67C are then very likely the ...Ex /
+ *    NNS_G3dReleaseMdlTex-style forms; not re-derived here.)
+ *
+ * Layouts every one of those four files pins (use these, not struct Ent):
+ *   ResDict      { u8 revision; u8 numEntry; u16 sizeDictBlk; u16 dummy;
+ *                  u16 ofsEntry; }                  -- the "Ent" above is this
+ *   entry header { u16 sizeUnit; u16 sizeTotal; }   data at +4, names
+ *                  (16 bytes each) at hdr + sizeTotal
+ *   ResMat       { u16 ofsDictTexToMatList; u16 ofsDictPlttToMatList;
+ *                  ResDict dict; }  -- so the material dict is mat + 4
+ *   ResMdl       ofsMat at +8
+ *   ResTex       texInfo.vramKey +0x08, tex4x4Info.vramKey +0x18,
+ *                plttInfo.vramKey +0x2c, plttInfo.ofsDict (u16) +0x34,
+ *                texInfo dict +0x3c
+ *   bind record  { u16 offset; u8 numIdx; u8 flag; }  (bit 0 = bound; this is
+ *                the "count at +1 / flags at +3" pair read off the records,
+ *                NOT fields of the dictionary header)
+ *   TexData      { u32 texImageParam; u32 extraParam; } width = bits 0..10,
+ *                height = bits 11..21 of extraParam
+ *   PlttData     { u16 offset; u16 flag; }
+ *   MatData      texImageParam +0x14, texPlttBase (u16) +0x1c,
+ *                origWidth/origHeight (u16) +0x20/+0x22, magW/magH +0x24/+0x28
+ *
+ * The load-bearing inline shapes:
+ *   GetMat(mdl):  `if (mdl && mdl->ofsMat) return mdl + ofsMat; return 0;`
+ *                 -- the SAME guard as a ternary is the 9-byte r8/sb swap.
+ *   GetMatDataByIdx(mat, idx): `if (mat) { d = GetResDataByIdx(&mat->dict,
+ *                 idx); if (d) return mat + *d; } return 0;`
+ *   Gfd key address: (key & 0xffff) << 3, then >> 3 at the use: 2.0 folds the
+ *                 pair to `bic #0xe0000000`, which is where that odd bic
+ *                 comes from.  In the pltt binder the result goes into a u16
+ *                 local (plttBase and vramOffset are both u16).
+ */
+
 /* ================================================================== *
  * PART 2: the rig register block, 0x0206A700..0x0206AE94
  * ================================================================== */
@@ -174,10 +218,16 @@ extern void func_0206AD64(void);                        /* 0x0206AD64 */
 
 /* The 4x4 fixed-point matrix inverse: Gauss-Jordan with partial pivoting over
  * a 1.19.12 fixed-point 4x4, returning 0 on success and -1 on a singular
- * matrix.  Its 0x48-byte frame is the working copy of the identity it
- * accumulates into, (a) is the input/output matrix pair.  Reference only --
- * this function is still open (520 bytes, ten callee-saved registers). */
-extern int  func_0206AB18(u32 *a, u32 *b);              /* 0x0206AB18 */
+ * matrix.  EXACT since wave 10 (src/matched/func_0206AB18.c): (a) is the
+ * source MtxFx44, copied into the 0x40-byte stack working copy with
+ * MI_Copy64B (0x02082BA0); (b) is the destination, set to identity by
+ * MTX_Identity44_ (0x0207BDB4) and accumulated into.  Row normalisation uses
+ * FX_InvFx64c (0x0207C788, one argument) and the rounded FX_Mul32x64c inline;
+ * elimination is an unrounded (fx64)a * b >> 12.  The last 17 bytes were
+ * VARIABLE IDENTITY: the elimination-row loop variable must be the same
+ * variable that recorded the pivot row. */
+typedef struct { s32 m[4][4]; } MtxFx44;
+extern int  func_0206AB18(const MtxFx44 *src, MtxFx44 *dst);  /* 0x0206AB18 */
 
 /* The mode entry points and the publishers. */
 extern void func_0206A700(void);    /* build the block                      */

@@ -166,4 +166,31 @@ extern s32  func_0206E7EC(const Tbl *t, Key key);
    src/matched/func_0206E954.c, which is a single return expression. */
 extern int  func_0206E954(int p0, int p1, int p2, int p3);
 
+
+/* ================================================================== *
+ * WAVE 10 ADDENDUM (2026-09-22) -- BOTH OPEN ROWS NOW EXACT
+ * ================================================================== *
+ * func_0206E62C and func_0206E7EC are EXACT under ../2.0/sp2, NOT 1.1p1:
+ * src/matched/func_0206E62C.c and src/matched/func_0206E7EC.c.  The section
+ * "THE COMPILER" above is superseded.  The tell was not a push list: the
+ * image keeps a SEPARATE +0x10 induction register for the scan's key pointer
+ * (`add r4, r4, #0x10` beside `add r1, r1, #1`), i.e. `name_array + i` is
+ * strength-reduced.  dsi/1.1p1 never does that (it emits
+ * `add rN, base, i, lsl #4` and one fewer callee-saved register); 2.0 does.
+ *
+ * The code is NitroSystem g3d's resource dictionary (NNSG3dResDict):
+ *   Tbl     = { u8 revision; u8 numEntry; u16 sizeDictBlk; u16 dummy_;
+ *               u16 ofsEntry; TreeNode node[]; }
+ *   Sub     = { u16 sizeUnit; u16 ofsName; u8 data[]; }  (entry header)
+ *   Key     = struct { u32 val[4]; }  (NNSG3dResName)
+ *   62C     = GetResDataByName, 7EC = GetResDictIdxByName.
+ * The two accessors are `static inline` helpers (dict && idx < numEntry ?
+ * ... : 0) and inline fine.  Levers that mattered: `u32 i` declared BEFORE
+ * the four key words (else the four-word ldm splits); guard polarity
+ * `dict != 0 && idx < numEntry` so the compute arm falls through; the trie
+ * bit index SIGNED (asr #5).  The last 5 bytes (child index r3/r4 tie) were
+ * closed by the permuter: re-spell the child expression in the `bit`
+ * update instead of reading it back from `n`.
+ */
+
 #endif /* CLUSTER_0206E62C_H */

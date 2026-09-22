@@ -632,3 +632,26 @@ still the blocker and the two levers it lists are still the place to start.
 Not filed: DIFF, by rule 6.  Three functions of this cluster DID close this
 pass and are filed in src/matched: func_0206A854, func_0206A8FC and
 func_0206A9DC (see docs/families/cluster_0206A17C.h for the subsystem).
+
+==============================================================================
+2026-09-22, wave 10 second lane (cluster pkt_0206A17C): ALL FOUR CLOSED, EXACT
+==============================================================================
+
+func_0206A19C, func_0206A2CC, func_0206A3CC and func_0206A4AC are now EXACT
+under ../2.0/sp2 and filed in src/matched (shard pkt_0206A17C), together with
+func_0206AB18.  The DIFF sources above are superseded; do not re-work them.
+
+The residues above were never register ties the allocator was free to pick.
+They were in the DECLARATIONS.  This half of the cluster is NitroSystem G3D
+texture/palette binding (NNS_G3dBindMdlTex / NNS_G3dBindMdlPltt and their
+static bindMdl*_Internal_ helpers, func_0206E62C = NNS_G3dGetResDataByName).
+Rewriting each one with the NitroSystem resource structs and static inlines
+closed it within one to three compiles:
+  - 0x0206A3CC (2 bytes): plttBase / vramOffset as u16 locals,
+    vramOffset = (u16)(GfdGetPlttKeyAddr(key) >> 3) with the helper an inline
+    ((key & 0xffff) << 3), and GetMatDataByIdx as an inline with `if (mat)`.
+  - 0x0206A2CC / 0x0206A4AC (9 bytes): the same code with GetMat(mdl) as an
+    inline `if (mdl && mdl->ofsMat) return ...; return 0;`.  The identical
+    guard as a ternary is exactly the r8/sb swap.
+  - 0x0206A19C (never closed before): first compile of the NitroSystem shape.
+Full layouts are in docs/families/cluster_0206A17C.h.
