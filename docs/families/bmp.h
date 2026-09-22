@@ -245,39 +245,56 @@ void func_02043AAC(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
                    u32 a7, u32 a8, u16 a9, u16 a10);
 
 /* ------------------------------------------------------------------ *
- * THE EIGHT WORKERS -- the family's open functions.  Every prototype
- * below is fixed by the dispatcher above, not guessed.
+ * THE WORKERS.  As of 2026-09-23 (wave 10) eight of them are EXACT in
+ * src/matched, and the prototypes below are the ones those sources compile
+ * with.  They supersede the dispatcher-derived guesses this block held
+ * before, in three places:
+ *
+ *   1. THE FIRST SURFACE IS THE ONE READ AND THE SECOND THE ONE WRITTEN.
+ *      Every blit loads pixels from r0 and stores through r1; the clip
+ *      clamps w/h to r0's extent and tests dx/dy against r1's.  The
+ *      dispatcher's (dst, src) names were never evidenced, so they are
+ *      called (src, dst) here.
+ *   2. THE KEY IS u16 ON THE WORKER SIDE in all five keyed workers: it is
+ *      ldrh'd off the stack even where func_020439A0 passes it wide.
+ *   3. The fill workers' parameter types differ from worker to worker; each
+ *      one is fixed by its own stack loads (ldrh/ldrb/ldr).
  * ------------------------------------------------------------------ */
 
-/* The blit family, from func_020439A0's first arm (kind != 2).  All
- * nine arguments wide. */
-void func_02043B98(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
-                   int sx, int sy, u32 w, u32 h, u32 key);  /* depth 0x20 */
-void func_02043F4C(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
-                   int sx, int sy, u32 w, u32 h, u32 key);  /* else       */
+/* kind != 2 arm of func_020439A0.  Clipped up front by the inlined helper
+ * ClipRect (below); u32 extents (movhi/subhi/blo), s32 origins (bge/bgt). */
+void func_02043B98(struct Bmp *src, struct Bmp *dst, s32 x, s32 y,
+                   s32 dx, s32 dy, u32 w, u32 h, u16 key); /* 4bpp  EXACT */
+void func_02043F4C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y,
+                   s32 dx, s32 dy, u32 w, u32 h, u16 key); /* 8bpp  EXACT */
 
-/* The blit family, from func_020439A0's second arm (kind == 2).  Narrow
- * parameters, exactly as the dispatcher's shift pairs spell them. */
-void func_020445F4(struct Bmp *dst, struct Bmp *src, u16 x, u16 y,
-                   s16 sx, s16 sy, u16 w, u16 h, u32 key); /* depth 0x20 */
-void func_02044954(struct Bmp *dst, struct Bmp *src, u16 x, u16 y,
-                   s16 sx, s16 sy, u16 w, u16 h, u32 key); /* else       */
+/* kind == 2 arm.  Narrow parameters, exactly as the dispatcher's shift
+ * pairs spell them (u16 x/y are load-bearing: see the clip temporary
+ * below).  The destination is written a HALFWORD at a time. */
+void func_020445F4(struct Bmp *src, struct Bmp *dst, u16 x, u16 y,
+                   s16 dx, s16 dy, u16 w, u16 h, u16 key); /* 4bpp  EXACT */
+void func_02044954(struct Bmp *src, struct Bmp *dst, u16 x, u16 y,
+                   s16 dx, s16 dy, u16 w, u16 h, u16 key); /* 8bpp  EXACT */
 
-/* The fill family, from func_02043AF4.  Six wide arguments.  The
- * workers' own stack loads narrow the last two further: the
- * near-miss notes measure `ldrh` at [sp,#0x30] and `ldrb` at [sp,#0x34]
- * in func_02044D88, i.e. the fifth is a u16 extent and the sixth a u8
- * fill value, even though the dispatcher passes both wide. */
-void func_02044BF0(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-void func_02044CE0(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-void func_02044D88(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-void func_02044EBC(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+/* The fill workers, from func_02043AF4.  x, y, w are s32 in all four (the
+ * per-pixel `cmp/cmpge/blt` guard is signed); the stack loads fix h and
+ * the value. */
+void func_02044BF0(struct Bmp *b, s32 x, s32 y, s32 w, u16 h, u32 value);
+                                           /* 4bpp nibble, ldr   EXACT */
+void func_02044CE0(struct Bmp *b, s32 x, s32 y, s32 w, u16 h, u8 value);
+                                           /* 8bpp byte          EXACT */
+void func_02044D88(struct Bmp *b, s32 x, s32 y, s32 w, u16 h, u8 value);
+                                           /* 4bpp via halfword  EXACT */
+void func_02044EBC(struct Bmp *b, s32 x, s32 y, s32 w, u16 h, u8 value);
+                                           /* twin of CE0        EXACT */
 
-/* 0x0204427C  the tenth-argument worker, reached only through
- * func_02043AAC.  Its last two parameter types come from that
- * forwarder's narrowing loads, above. */
-void func_0204427C(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
-                   u32 a7, u32 a8, u16 a9, u8 a10);
+/* 0x0204427C  4bpp -> 8bpp expanding blit, reached only through
+ * func_02043AAC, whose narrowing loads fix the last two types.  The key is
+ * only a mode switch (0xFFFF = store every pixel, else skip nibble 0), and
+ * pal is added to every non-zero nibble.  Still DIFF (keyed-loop spill
+ * choice, docs/notes/pkt_02043B98.c.txt). */
+void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y,
+                   s32 dx, s32 dy, u32 w, u32 h, u16 key, u8 pal);
 
 /* 0x02044F64  the de-tile entry point.  NOT reached from either
  * dispatcher: docs/notes/pkt_020445F4.c.txt records that it calls
@@ -407,6 +424,78 @@ extern void  OS_Terminate(void);                          /* 0x02088234 */
  * (308 bytes, and 204 out against the signed source's 272), so it is a
  * trap rather than a lever: check for the `cmpge` triple before accepting
  * any signedness change to a loop counter in this family.
+ * ------------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------------ *
+ * THE ADDRESS LEVER THAT CLOSED SIX WORKERS (2026-09-23, wave 10).
+ *
+ * Every worker addresses a pixel as ONE INTEGER SUM over the pixel
+ * pointer cast to u32, evaluated inside the guarded inner body.  Only the
+ * tile-row mask is lifted into a function-scope local:
+ *
+ *     tileY = (i * 8) & 0x7fc0;                     (4bpp: *4, 0x3fe0)
+ *     *(u8 *)((u32)s->pixels + (j & 7) + ((j * 8) & 0x7fc0)
+ *             + tileY * tilesWide + ((i * 8) & 0x38)) = value;
+ *
+ * LICM then hoists the tile-row product and the in-tile row into the
+ * inner loop's preheader, after the entry test, which is where the image
+ * computes them.  It does NOT fold the two into one mla there.  Every
+ * pointer-arithmetic, subscript or per-row-local spelling lets it fold
+ * them (func_02044CE0: 79-81 out) or computes them before the entry test.
+ * The ten-register push and the fp use follow once the fold is gone.
+ * Both spellings were compiled and compared; see the func_02044CE0 source.
+ *
+ * Refinements, each measured on the function named:
+ *   - where the image addresses [p, row] (base = pointer, index = the
+ *     in-tile row), the row is added to the pointer as a second statement
+ *     `p += row` (func_02044BF0, 6 -> 0).  A fifth term of the sum gives
+ *     [row, p], which is the func_02044CE0/func_02043F4C store shape;
+ *   - ONE TILE-ROW LOCAL PER ADDRESS PER LOOP.  The two-loop workers
+ *     (plain and keyed copies) need four: sharing a pair across the two
+ *     loops costs about 150 bytes of allocation (func_02044954: 149 vs 4);
+ *   - where both a source and a destination address exist, the SOURCE
+ *     tile-row local is assigned first so the preheader computes the
+ *     source row/product first (func_02043B98, 100 -> 0).
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * THE CLIP HELPER of the kind != 2 blits and func_0204427C (EXACT in
+ * func_02043B98 and func_02043F4C).  Inlined: the image's `mov r4,#0` /
+ * `mov r4,#1` / `cmp r4,#0` is its return value.  The spelling that
+ * matches:
+ *
+ *   static inline s32 ClipRect(struct Surf *src, const struct Surf *dst,
+ *                              s32 *x, s32 *y, s32 *dx, s32 *dy,
+ *                              u32 *w, u32 *h)
+ *   {
+ *       u32 ch = *h;            <- *h BEFORE *w (88 out the other way)
+ *       u32 cw = *w;
+ *       if (cw > src->width) cw = src->width;
+ *       if (*dx >= dst->width || *dx <= -(s32)cw) return 0;
+ *       ...same for y...
+ *       if (*dx < 0) { cw += *dx; *x -= *dx; *dx = 0; }
+ *       else if (*dx + cw > dst->width) cw -= *dx + cw - dst->width;
+ *       ...same for y...
+ *       *w = cw; *h = ch; return 1;
+ *   }
+ *
+ * The `const` on dst is load-bearing and counter-intuitive: without it
+ * the compiler keeps dst->width live across the clip and does not re-read
+ * it for the row stride (812 bytes against 816).
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * THE CONDITIONAL-ADD OPERAND ORDER of the kind == 2 blits (func_020445F4,
+ * func_02044954; 4 bytes each).  The image computes
+ *
+ *     t = dst->width - dx;  xend = (t < w) ? x + t : w + x;
+ *
+ * as `add fp, r2, r5` / `addge fp, r6, r2`.  Writing the difference into
+ * xend itself and then `xend = x + xend` makes the compiler put the reused
+ * variable first (`add fp, r5, r2`) whatever the source operand order.
+ * The fix is a fresh temporary t, and on func_02044954 ONLY together with
+ * u16 x/y parameters (fresh t with s32 x/y: 167 out).
  * ------------------------------------------------------------------ */
 
 #endif /* BMP_H */

@@ -780,3 +780,94 @@ whose locals are assigned after the declaration block.  The `type:` and
 
 re-verified 2026-09-22 by tools/match.py: func_02044F64 292/292 bytes, 6
 concrete out, 7/7 relocations resolved, dsi/1.1p1 -O4,p -proc arm946e, ARM.
+
+================================================================
+WAVE 10, appended 2026-09-23 (bmp.c family, third lane)
+
+CLOSED THIS PASS, all EXACT in src/matched (shard pkt_020445F4):
+func_020445F4, func_02044954, func_02044BF0, func_02044CE0, func_02044D88
+and func_02044EBC.  Every near-miss row above on those six is superseded;
+each source's header lists the levers, and docs/families/bmp.h records the
+family-wide ones.  The one that opened all of them: the tiled address is
+ONE INTEGER SUM over `(u32)s->pixels`, with only the tile-row mask lifted
+into a function-scope local, instead of pointer arithmetic or per-row
+locals.  The "missing spill" every row above ends on was never a
+register-pressure mystery: it came from those spellings letting the
+compiler fold the tile-row product and the in-tile row into one mla.
+
+The rest of the levers were per function: the in-tile row added to the
+pointer afterwards (`p += row`) wherever the image addresses [p, row];
+func_02044BF0's `hi = value << 4` assigned inside the guarded body;
+func_02044D88's right clamp done before bottom is computed; and in the two
+blits a fresh temporary t for the clip with u16 x/y parameters (reusing
+xend/yend swaps the operands of the conditional add).
+
+
+func_02044F64: STILL 6 OUT, NOW MEASURED AGAINST THE PERMUTER AS WELL
+---------------------------------------------------------------------
+Source unchanged from the 2026-09-22 block above (`u32 h`, the other four
+locals s32).  The residue is the same f04/f06 load-register pair.
+permuter this pass: `--explain` (r3 -> r4 x4, r4 -> r3 x2, one swapped
+pair), `--mode hill --budget 800 --types` (no single mutation of 248
+improves), `--mode anneal --budget 2000 --types` (flat at 6 throughout).
+Hand spellings measured this pass, all 292 bytes:
+  - `u16 pw = src->f04, ph = src->f06` read first:                 6
+  - `(u32)(f << 13) >> 16` in place of `* 8192`:                    6
+  - dep read after w and h:                                          6
+  - static inline u16 accessors, multiply form:                     6
+  - static inline u16 accessors, `(u16)(GetW(src) >> 3)`:           13
+  - h read before w:                                                20
+  - `n = dep * (w * h)`:                                             6
+  - `n = h * w * dep`:                                               8
+  - w/h passed to func_02043678 as the inline expressions:          14
+  - dep passed as src->f08 directly:                                19
+  - `((u32)f * 8192) >> 16`:                                         16
+The lever the other five workers gave up (a fresh temporary where a
+variable was reused) has no counterpart here: w, h, d and dep are already
+distinct.  The residue survives every order, type and temporary spelling
+of the three reads.  So it is most likely the prototype of func_02044F64
+itself (only three parameters are visible, and a fourth dead one changes
+nothing in the body).  Or it is how the extents reach the u16 truncation
+(the lsl #13 / lsr #16 pair reads like `(u16)(width / 8)` through
+something the compiler cannot prove fits).
+
+/* best source, 292 bytes against 292, 6 concrete bytes out, dsi/1.1p1 */
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+    typedef signed int     s32;
+    struct Surf { u8 *pixels; u16 f04; u16 f06; u16 f08; };
+    extern struct Surf *func_02043678(u32 w, u32 h, u32 d, u32 heap);
+    extern void func_02043814(struct Surf *dst, struct Surf *src);
+    extern void func_020437AC(struct Surf *s);
+    struct Surf *func_02044F64(struct Surf *src, u32 keep, u32 a3)
+    {
+        struct Surf *dst;
+        s32 i, d, dep, w, n;
+        u32 h;
+        dep = src->f08;
+        w = (u32)(src->f04 * 8192) >> 16;
+        h = (u32)(src->f06 * 8192) >> 16;
+        d = (u32)(dep * 8192) >> 16;
+        dst = func_02043678(w, h, dep, a3);
+        n = w * h * dep;
+        for (i = 0; i < n; i++) {
+            s32 q, r, x, y;
+            q = i / (w * d);
+            r = i % (w * d);
+            y = r % d;
+            x = r / d;
+            dst->pixels[i] = src->pixels[(q % 8) * d + y + (q / 8 * w + x) * dep];
+        }
+        if (keep == 0) {
+            func_02043814(dst, src);
+            func_020437AC(dst);
+            dst = 0;
+        }
+        return dst;
+    }
+permuter best result line:
+    best      DIFF   asm=30    bytes-out=6    size=292/292
+
+re-verified 2026-09-23 by tools/match.py: func_02044F64 292/292 bytes, 6
+concrete out, 7/7 relocations resolved, dsi/1.1p1 -O4,p -proc arm946e, ARM.
