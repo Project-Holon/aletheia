@@ -340,3 +340,5 @@ re-verified 2026-09-21 by tools/match.py: DIFF, 228 bytes against 232, 86 concre
  * permuter best result line:
  *   best      DIFF   asm=60    bytes-out=12   size=232/232
  * ================================================================ */
+
+re-verified 2026-09-22 (wave 10, pkt_020737C0 second lane): func_02073DFC CLOSED EXACT (src/matched/func_02073DFC.c): func_020729A4(s->f28) and func_02072974(s->f20) take the field their guard tests, as their own matched sources declare; with those two signatures the body above is byte-exact under ../2.0/sp2 unchanged.

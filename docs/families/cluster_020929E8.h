@@ -417,4 +417,27 @@ extern u32 func_02093BDC(FmtWriter w, void *state, const u8 *fmt, ...);
  *     secure-printf constraint handler; func_020922CC = wcstombs.
  * ================================================================== */
 
+/* ================================================================== *
+ * 7.  WAVE 10 LANE 3 (2026-09-22): qsort, AND THE LAST BLOCKER
+ *
+ *   0x0209455C  qsort  EXACT  src/matched/func_0209455C.c (312 B, ARM)
+ *     MSL stdlib qsort.c heapsort, verbatim structure (l/r/j, lp/rp/ip/jp/kp,
+ *     table_ptr(i) = base + size*(i-1)).  Two levers: the byte-swap macro
+ *     assigns its COUNT before its two pointers (mov r2,r8 precedes the two
+ *     ldr/mov of the pointers), and the swapped bytes are unsigned char.
+ *     disasm.py has no label at 0x0209455C, so worklist row pkt_02094534
+ *     (code_end 0x0209455C) counts it as extent: it wants a seed.  With it
+ *     the 0x02094530..0x02094750 span is closed end to end (sprintf,
+ *     qsort, rand 0x02094694, srand 0x020946C8, __StringRead 0x020946D8).
+ *
+ *   0x02093BDC  __pformatter  still MATCH* in src/pending, NO C CHANGE CAN
+ *     CLOSE IT.  Confirmed 2026-09-22: memchr compiled ALONE at 0x020923C4
+ *     (the unit's own body, nothing else) is EXACT, 44 bytes, so either
+ *     integrator fix works: (a) header of src/matched/unit_020923B0.c ->
+ *     `function: func_020923B0, func_020923C4, func_020923F0` and re-verify
+ *     pkt_020923B0 (entry_from_source() takes unit members from that line,
+ *     matched_index() then indexes 0x020923C4), or (b) seed 0x020923C4 in
+ *     layout/function_starts.txt (sole-ref/code).
+ * ================================================================== */
+
 #endif /* CLUSTER_020929E8_H */

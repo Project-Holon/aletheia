@@ -207,8 +207,13 @@ struct SndSeq {
    the `ldr r2,[pc,#0x3c]` that looks like a dead load is g_0214E8F4 going into
    argument three.  Arguments two and four are leftovers (the loop's base value
    and its final counter) and any live value spells them. */
-typedef void (*SndSeqCb)(u32 arg, u32 base, u32 *scratch,
-                         u32 i, u32 f28, u32 f3c);
+typedef void (*SndSeqCb)(u32 arg, s32 n, u32 *scratch,
+                         u32 base, u32 f28, u32 f3c);
+/* WAS: (arg, base, scratch, i, f28, f3c).  PROVEN wave 10 by
+   src/matched/func_02073BF0.c (EXACT): r1 is the f50 COUNT the loop test just
+   loaded and r3 is the base the image copied out of r0 before the multiply;
+   they are real arguments, not leftovers.  The same callback slot is filled by
+   func_020738C0 from its seventh parameter.                                  */
 
 /* ================================================================== *
  * 2.  struct SndGlobal -- the single global sequence object, subsystem A
@@ -349,6 +354,17 @@ extern u32  func_02089D40(void);                       /* save   -- returns a
                                                           token handed back   */
 extern void func_02089B38(u32 a);                      /* mute, always (1)    */
 extern void func_02089CD4(u32 token);                  /* restore             */
+extern void func_02089660(u32 chan, int fmt, u32 data, int loopmode,
+                          int a, int b, int vol, int pan, u32 period, int e);
+                                  /* PCM channel setup, 10 args (0x02072AA0) */
+extern void func_02089540(s32 chan, u32 a, u32 b, void (*cb)(void *),
+                          void *arg);             /* timer arm, cb + context */
+extern s32  func_020729C0(void);   /* claim a channel bit, -1 when none left  */
+extern void func_020729A4(u32 mask);   /* PROVEN wave 10: takes g.f28          */
+extern void func_02072974(u32 chan);   /* PROVEN wave 10: takes g.f20          */
+extern void func_02072A08(u32 bit);    /* takes g.f2c / o->f48                 */
+/* The two lines above are what closed func_02073DFC after 2215 flat permuter
+   candidates: declared void(void) the three callee-saved locals rotate. */
 extern void func_0208C808(void *sub);
 extern void func_0208C828(void *sub);
 extern void func_0208C86C(void *sub);
@@ -372,6 +388,11 @@ extern void func_02073AD0(struct SndObj *o, s32 v);    /* push base + re-emit */
 extern void func_02073B3C(struct SndObj *o);           /* full teardown       */
 extern void func_02073BB0(struct SndObj *o);
 extern void func_02073BF0(struct SndSeq *o, u32 arg);  /* per-frame step      */
+extern void func_02073BE0(void *o);  /* 16-byte timer-callback leaf:
+                                        func_02073BF0(o, 1), unlabelled       */
+extern int  func_020738C0(struct SndObj *o, int fmt, u32 base, u32 len,
+                          u32 rate, s32 frames, u32 cb, u32 ctx);
+                                      /* start: 8 args, 4 on the stack        */
 extern void func_02073CA0(struct SndObj *o);           /* short teardown      */
 extern void func_02073CEC(struct SndObj *o);
 extern void func_02073D5C(void);
@@ -384,7 +405,11 @@ extern void func_02073F3C(void);                       /* global shutdown     */
 extern int  func_02078B44(void *file, u32 pos, int origin);   /* seek         */
 extern int  func_02078B70(void *file, void *dst, int len);    /* read         */
 extern void func_020788AC(void *stream);
-extern u32  func_020788D8(void *pair);
+extern u32  func_020788D8(void *pair, const char *path);
+/* WAS: func_020788D8(void *pair).  PROVEN wave 10: it opens by PATH (moves r1
+   to r0 for its own lookup), and func_02073FB8's second parameter -- the path
+   string 0x020A7010 its only caller loads -- is forwarded to it; that live r1
+   is what parks the zero in ip.  */
 extern u32  func_020789A4(void *stream, struct ArcPair v);    /* BY VALUE     */
 
 /* --- subsystem B: the allocator / list layer ----------------------------- */
@@ -401,8 +426,15 @@ extern void  func_020611D4(u32 owner, s32 key);
 extern void  func_02082A90(void *dst, void *src, u32 n);      /* memcpy       */
 
 /* --- subsystem B: this cluster's own ------------------------------------- */
-extern u32   func_02073FB8(struct Arc *c, u32 unused, u32 a, u32 b);
-extern u32   func_02074048(struct Arc *c, u32 a, u32 b);      /* 472 B, open  */
+extern u32   func_02073FB8(struct Arc *c, const char *path, u32 *heap, u32 all);
+extern u32   func_02074048(struct Arc *c, u32 *heap, u32 all);  /* 472 B EXACT */
+/* func_02074048 reads the 0x30-byte header over the object itself, then (heap
+   != 0, a WRAPPING if) allocates and reads (+0x18 off, +0x1c size) -> +0x90,
+   (+0x20, +0x24) -> +0x88 and, when `all` && +0x14, (+0x10, +0x14) -> +0x8c,
+   each through func_0207482C with one of three 12-byte release callbacks: */
+extern void  func_020746C4(void *payload, u32 size, struct Arc *c); /* f90=0 */
+extern void  func_020746D0(void *payload, u32 size, struct Arc *c); /* f88=0 */
+extern void  func_020746DC(void *payload, u32 size, struct Arc *c); /* f8c=0 */
 extern void  func_02074220(struct Arc *h, u8 *base);   /* relocate + publish  */
 extern struct Arc *func_020742E4(struct Arc *val);     /* swap the global     */
 extern struct Arc *func_020742FC(void);
@@ -424,6 +456,9 @@ extern void  func_02074770(struct ReqOwner *o);        /* drain everything    */
 extern u32   func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
 extern s32   func_02074894(struct ReqOwner *o);        /* close one handle    */
 extern void  func_020748E0(struct ReqOwner *o, s32 k); /* bounded drain       */
+/* func_020748E0 (EXACT wave 10): the second func_0206062C of each outer
+   iteration takes the node cursor n itself as its null cursor (n is 0 at
+   entry and after every inner walk), declaration order a, any, n.            */
 extern void  func_020749F8(struct ReqOwner *o);
 extern void  func_02074A34(void);
 

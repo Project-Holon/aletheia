@@ -158,3 +158,5 @@ symbols:
   g_0214E934     0x0214E934  data
   g_0214E8F4     0x0214E8F4  data
   func_0209C2B0  0x0209C2B0  arm
+
+re-verified 2026-09-22 (wave 10, pkt_020737C0 second lane): func_02073BF0 CLOSED EXACT (src/matched/func_02073BF0.c): callback args are (arg, o->f50, g_0214E8F4, base, f28, f3c); then permuter hill closed the last 9 bytes with decl-order step,i,base and a named local for the slot's buffer address.

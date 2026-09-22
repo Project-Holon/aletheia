@@ -166,3 +166,5 @@ symbols needed (all five sites resolve):
   func_020788AC  0x020788AC  arm
   func_020789A4  0x020789A4  arm
   func_02074048  0x02074048  arm
+
+re-verified 2026-09-22 (wave 10, pkt_020737C0 second lane): func_02073FB8 CLOSED EXACT (src/matched/func_02073FB8.c): the second parameter is the path string, forwarded to func_020788D8(&c->f7c, path); a live r1 parks the zero in ip.  func_02074048 also CLOSED EXACT (src/matched/func_02074048.c): wrapping if (heap != 0), named read results, three 12-byte release callbacks func_020746C4/D0/DC filed EXACT.

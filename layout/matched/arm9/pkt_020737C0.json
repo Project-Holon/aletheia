@@ -24,6 +24,52 @@
    }
   },
   {
+   "name": "func_020738C0",
+   "address": "0x020738C0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020738C0.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02089540"
+    ]
+   }
+  },
+  {
+   "name": "func_02073BE0",
+   "address": "0x02073BE0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02073BE0.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02073BF0",
+   "address": "0x02073BF0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02073BF0.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0214E8F4"
+    ]
+   }
+  },
+  {
    "name": "func_02073CA0",
    "address": "0x02073CA0",
    "kind": "game",
@@ -34,6 +80,26 @@
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT"
+  },
+  {
+   "name": "func_02073DFC",
+   "address": "0x02073DFC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02073DFC.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0214E9BC"
+    ],
+    "sdk": [
+     "0x0208972C"
+    ]
+   }
   },
   {
    "name": "func_02073F3C",
@@ -48,11 +114,76 @@
    "status": "EXACT"
   },
   {
+   "name": "func_02073FB8",
+   "address": "0x02073FB8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02073FB8.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x020788D8"
+    ]
+   }
+  },
+  {
+   "name": "func_02074048",
+   "address": "0x02074048",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02074048.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02074220",
    "address": "0x02074220",
    "kind": "game",
    "region": "arm9",
    "source": "src/matched/func_02074220.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_020746C4",
+   "address": "0x020746C4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020746C4.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_020746D0",
+   "address": "0x020746D0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020746D0.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_020746DC",
+   "address": "0x020746DC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020746DC.c",
    "compiler": "dsi/../2.0/sp2",
    "lang": "c99",
    "isa": "arm",
@@ -94,6 +225,18 @@
    "kind": "game",
    "region": "arm9",
    "source": "src/matched/func_02074894.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_020748E0",
+   "address": "0x020748E0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020748E0.c",
    "compiler": "dsi/../2.0/sp2",
    "lang": "c99",
    "isa": "arm",

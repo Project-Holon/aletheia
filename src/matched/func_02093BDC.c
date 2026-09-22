@@ -7,19 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH*
- *
- * blocker:  sole-ref/code or matched for func_020923C4 (memchr).  Every
- *           concrete byte is right (2220 bytes, home push through the pool);
- *           the one open site is the `bl 0x020923C4` of the %.*s path.  Its
- *           only caller image-wide is this call, and although memchr is
- *           byte-exact inside src/matched/unit_020923B0.c, that unit's shard
- *           entry (pkt_020923B0) lists only func_020923B0 as a member, so the
- *           `matched` class does not see 0x020923C4, and disasm.py has no
- *           label there (a leaf; it prints as .word).  Integrator fix: list
- *           func_020923C4 / func_020923F0 as members of unit_020923B0 in
- *           pkt_020923B0, or seed 0x020923C4 in layout/function_starts.txt
- *           (then sole-ref/code carries it).  No C change can close it.
+ * status:   EXACT*
  *
  * note:     MSL printf.c `__pformatter`, the vfprintf core.  REAL entry:
  *           0x02093BDC is the home-area push {r0,r1,r2,r3} (forced by &arg);

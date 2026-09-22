@@ -236,3 +236,5 @@ symbols:
   func_02074A34  0x02074A34  arm
   func_02061184  0x02061184  arm
   func_020749F8  0x020749F8  arm
+
+re-verified 2026-09-22 (wave 10, pkt_020737C0 second lane): func_020748E0 CLOSED EXACT (src/matched/func_020748E0.c): the second func_0206062C takes the node cursor n (always 0 there) instead of a literal 0, declaration order a, any, n.
