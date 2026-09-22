@@ -335,3 +335,23 @@ u32 func_020929E8(u32 value, u8 *buf, struct Spec8 spec, u32 w6, u32 w7)
 
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 592 bytes against 592, 112 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-22, wave 9 second lane.  CLOSED: func_020929E8 is EXACT.
+================================================================================
+Both named residues above were declaration errors, not allocation ties:
+  (a) the "missing slot" was the by-value descriptor.  It is MSL's 16-byte
+      print_format {u8 justification_options, sign_options,
+      precision_specified, alternate_form, argument_options, conversion_char;
+      int field_width; int precision;}, not an 8-byte Spec8 plus two scalar
+      words.  With the real struct the frame, push list and home-area reads
+      come out right at once.
+  (b) the dead 64-bit guard is literally `if (num != 0x8000000000000000LL)`
+      on the 32-bit `long num` (MSL long2str compares against LLONG_MIN).
+      It reproduces as written once (a) is fixed.
+  Last 2 bytes: the digit pointer is `unsigned char *` (ldrb for *p != '0').
+The file is src/matched/func_020929E8.c, a straight transcription of MSL
+printf.c long2str; no permuter mutation was needed.  The same transcription
+closed the 64-bit twin (src/matched/func_02092C38.c, real entry 0x02092C38),
+double2hex (func_02092F0C.c), float2str (func_020934CC.c) and brought
+__pformatter to MATCH* (src/pending/func_02093BDC.c).

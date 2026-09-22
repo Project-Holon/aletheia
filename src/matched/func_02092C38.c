@@ -1,0 +1,130 @@
+/*
+ * function: func_02092C38
+ * address:  0x02092C38
+ * packet:   pkt_020929E8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT*
+ *
+ * note:     MSL printf.c `longlong2str`, the 64-bit twin of func_020929E8
+ *           (same source template over long long).  This is the REAL entry:
+ *           the listing labels 0x02092C38 as a 4-byte row and 0x02092C3C as
+ *           the function, but 0x02092C38 is the home-area push
+ *           {r0,r1,r2,r3} that saves no lr, so disasm.py placed the label
+ *           four bytes late.  Wants a seed at 0x02092C38 in
+ *           layout/function_starts.txt and the label at 0x02092C3C removed
+ *           (that is also what the trailing star is: the listing extent at
+ *           0x02092C38 is 4 bytes, the body is 724).  `%` and `/` on
+ *           unsigned long long emit _ull_mod / _ll_udiv, the standard mwcc
+ *           names of the two runtime divmod entry points.
+ *
+ * symbols:
+ *   _ll_udiv  0x0209C00C  arm
+ *   _ull_mod  0x0209C018  arm
+ */
+typedef struct {
+    unsigned char justification_options;
+    unsigned char sign_options;
+    unsigned char precision_specified;
+    unsigned char alternate_form;
+    unsigned char argument_options;
+    unsigned char conversion_char;
+    int field_width;
+    int precision;
+} print_format;
+
+unsigned char *func_02092C38(long long num, unsigned char *buff, print_format format)
+{
+    unsigned long long unsigned_num, base;
+    unsigned char *p;
+    int n, digits;
+    int minus = 0;
+
+    unsigned_num = num;
+    minus = 0;
+    p = buff;
+    *--p = 0;
+    digits = 0;
+
+    if (!num && !format.precision && !(format.alternate_form && format.conversion_char == 'o'))
+        return p;
+
+    switch (format.conversion_char) {
+    case 'd':
+    case 'i':
+        base = 10;
+        if (num < 0) {
+            if (num != 0x8000000000000000LL)
+                unsigned_num = -num;
+            minus = 1;
+        }
+        break;
+    case 'o':
+        base = 8;
+        format.sign_options = 0;
+        break;
+    case 'u':
+        base = 10;
+        format.sign_options = 0;
+        break;
+    case 'x':
+    case 'X':
+        base = 16;
+        format.sign_options = 0;
+        break;
+    }
+
+    do {
+        n = unsigned_num % base;
+        unsigned_num /= base;
+        if (n < 10)
+            n += '0';
+        else {
+            n -= 10;
+            if (format.conversion_char == 'x')
+                n += 'a';
+            else
+                n += 'A';
+        }
+        *--p = n;
+        ++digits;
+    } while (unsigned_num != 0);
+
+    if (base == 8 && format.alternate_form && *p != '0') {
+        *--p = '0';
+        ++digits;
+    }
+
+    if (format.justification_options == 2) {
+        format.precision = format.field_width;
+        if (minus || format.sign_options)
+            --format.precision;
+        if (base == 16 && format.alternate_form)
+            format.precision -= 2;
+    }
+
+    if (buff - p + format.precision > 509)
+        return 0;
+
+    while (digits < format.precision) {
+        *--p = '0';
+        ++digits;
+    }
+
+    if (base == 16 && format.alternate_form) {
+        *--p = format.conversion_char;
+        *--p = '0';
+    }
+
+    if (minus)
+        *--p = '-';
+    else if (format.sign_options == 1)
+        *--p = '+';
+    else if (format.sign_options == 2)
+        *--p = ' ';
+
+    return p;
+}

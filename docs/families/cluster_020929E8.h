@@ -366,4 +366,55 @@ extern u32 func_02093BDC(FmtWriter w, void *state, const u8 *fmt, ...);
  * The full measurement is in docs/notes/pkt_020929E8.c.txt.
  * ================================================================== */
 
+/* ================================================================== *
+ * 6.  WAVE 9 (2026-09-22): THE CLUSTER IS MSL printf.c, TRANSCRIBED
+ *
+ * Proven by five byte-exact transcriptions of MSL printf.c under dsi/1.1p1:
+ *   0x020929E8  long2str      EXACT   src/matched/func_020929E8.c
+ *   0x02092C38  longlong2str  EXACT*  src/matched/func_02092C38.c
+ *   0x02092F0C  double2hex    EXACT*  src/matched/func_02092F0C.c
+ *   0x020933B8  round_decimal EXACT*  (wave 7)
+ *   0x020934CC  float2str     EXACT   src/matched/func_020934CC.c
+ *   0x02093BDC  __pformatter  MATCH*  src/pending/func_02093BDC.c
+ * SUPERSEDES sections 1 and 5 above:
+ *   - struct Spec8 + (width_alt, width) is WRONG.  The descriptor is MSL's
+ *     16-byte print_format passed by value:
+ *         typedef struct {
+ *             unsigned char justification_options;  +0  0 left,1 right,2 zero_fill
+ *             unsigned char sign_options;           +1  0 only_minus,1 '+',2 ' '
+ *             unsigned char precision_specified;    +2
+ *             unsigned char alternate_form;         +3
+ *             unsigned char argument_options;       +4  1 hh,2 h,3 l,4 ll,5 wide,
+ *                                                       6 intmax,7 size_t,
+ *                                                       8 ptrdiff,9 long double
+ *             unsigned char conversion_char;        +5
+ *             int field_width;                      +8
+ *             int precision;                        +C
+ *         } print_format;
+ *     The "missing slot" and "dead 64-bit guard" residues of section 5 were
+ *     both this declaration plus `num != 0x8000000000000000LL`.
+ *   - All text pointers are UNSIGNED char (ldrb everywhere); MSL was built
+ *     char-unsigned, the project flags are -char signed, so spell uchar.
+ *   - The 0x02092F10 / 0x020934D0 / 0x02093BE0 rows are four bytes late:
+ *     the entries are 0x02092F0C, 0x020934CC and 0x02093BDC (home push),
+ *     exactly as section "THE HOME AREA" predicted, and all compile at the
+ *     earlier address.  0x02094534 is already covered by
+ *     src/matched/func_02094530.c (sprintf, EXACT, pkt_02094488).
+ *   - strcpy(p, "-INF") etc. is mwcc's `__memcpy` INTRINSIC:
+ *     `__memcpy(p, s_020A8A40, 5)` with the strings declared as NON-const
+ *     `extern char s_[N]`.  A struct copy, or a const source, gives the
+ *     same bytes with the wrong registers (src r1 instead of r3).
+ *   - isupper() is a static INLINE FUNCTION over __ctype_map (bit 0x200),
+ *     not a macro (macro form CSE's its 0 with a live 0.0 argument).
+ *   - Runtime compares: `!=` on double is 0x0209BAC8 (_dneq, __dcmp_6),
+ *     `<` is 0x0209B9A0 (_dls, __dcmp_4); 64-bit `%` / `/` are _ull_mod
+ *     0x0209C018 / _ll_udiv 0x0209C00C (the section-0 note about divmod
+ *     entry points is only about naming: plain `%` and `/` are right).
+ *   - Callees: func_020972F0 = __num2dec(const decform*, double, decimal*),
+ *     decform {char style; short digits;}, decimal {u8 sgn; char unused;
+ *     short exp; {u8 length; u8 text[34]; u8 unused;} sig;} (40 bytes);
+ *     func_020924DC = parse_format(fmt, &arg, &format); func_02094750 = the
+ *     secure-printf constraint handler; func_020922CC = wcstombs.
+ * ================================================================== */
+
 #endif /* CLUSTER_020929E8_H */
