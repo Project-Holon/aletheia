@@ -93,3 +93,69 @@ void func_020966B0(T020966B0 *p, u64 v)
 }
 */
 re-verified 2026-09-21 by tools/match.py: DIFF, 192 bytes against 196, 112 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, wave 7 pseudo-family lane (pkt_020949F4): permuter run, still DIFF
+==============================================================================
+
+Reproduced the note's source above verbatim under `--cc 1.1p1 --arm`: DIFF,
+192 bytes against 196, 112 concrete bytes out, both PC24 sites resolving by
+`label`.  The permuter's `--explain` names the residue exactly as the note's
+prose does, a rotation of the whole callee-saved set by one:
+
+  r6 -> r5 x6   r5 -> r4 x5   r2 -> r3 x4   r7 -> r6 x3   r8 -> r7 x3
+  r3 -> r2 x3   sb -> r8 x2   r1 -> sb x2   r4 -> sb x1   r5 -> r8 x1
+
+THE FOUR-BYTE GAP IS ONE INSTRUCTION, AND IT IS NAMED.  The image's loop head
+is
+
+    ldrb r1, [r7, #4]       ; n = p->f04, into a scratch
+    ...
+    add  ip, r1, #1         ; n + 1
+    mov  r4, r1             ; <-- COPY of n into a callee-saved register
+    ...
+    strb ip, [r7, #4]
+    bl   0209c018
+    add  r1, r7, r4         ; the index survives the call in r4
+
+Every compilation folds the `mov r4, r1` away, keeping the loaded byte in one
+register and using it for both the +1 and the post-call index.  The residue is
+therefore a live-range SPLIT the front end declines to make, not a shape.
+
+PERMUTER, 2800 compiles total across two runs on the note's source:
+  `--mode hill  --budget 800  --jobs 8 --types`   195 mutations tried
+  `--mode anneal --budget 2000 --jobs 8 --types`  2000 compiles, 119s
+Both converge on the same point and then plateau:
+
+    baseline  DIFF  asm=355  bytes-out=112  size=192/196
+    best      DIFF  asm=585  bytes-out=68   size=196/196
+    mutations temp(tmp=(u8)(idx + 1)) ; compare(flip)
+
+That best is SIZE-EXACT and cuts the residue from 112 concrete bytes to 68,
+but it is NOT legal C: the permuter hoisted `tmp = (u8)(idx + 1)` above the
+loop, where `idx` is still uninitialised, and it is the uninitialised read --
+an extra value with its own definition point outside the loop -- that buys the
+fourth byte.  Writing the same temporary legally (assigned inside the loop,
+after `idx = p->f04`) lets mwcc fold it straight back out and returns to
+192/112.  Recorded because it confirms the diagnosis above: what the image has
+and no legal source produces is one extra live value across the two calls.
+
+TEN FURTHER HAND SPELLINGS, all 192 bytes / 112 out unless noted:
+  declaration order, four ways: idx first, idx between the two pointers,
+    `int idx` first, `int idx` last -- the locals never reach the stack, so
+    docs/idioms/local-declaration-order-is-stack-order.md has no purchase.
+  `u8 idx` (narrow, so the +1 needs a widen);
+  the digit lifted to `u8 d` before the store;
+  `u8 *slot = &p->f05[idx];` taken before the call;
+  `p->f04 = p->f04 + 1;` (re-reading the field rather than using idx);
+  `nxt = p->f04 + 1;` computed BEFORE `idx = p->f04`;
+  `u8 *q = p->f05;` hoisted out of the loop -- 126 out, worse;
+  the constants 10 and 0 as named `u32` locals initialised before the loop,
+    to try to pin them to sb/r8 as the image has them.
+
+Blocking class: codegen -- allocation tie, the whole callee-saved set rotated
+by one plus one declined live-range split.  Not filed.
+
+/* best source, 192 bytes against 196, 112 concrete bytes out, 1.1p1 */
+/* (the source is the one quoted in the `---- source under test ----` block
+   above, unchanged; every variant listed here scored the same or worse) */

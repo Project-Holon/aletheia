@@ -1,0 +1,189 @@
+pkt_02096774 -- func_02096774 @ 0x02096774 (384 bytes, ARM) DIFF, not filed
+===========================================================================
+2026-09-22, wave 7 pseudo-family lane (pkt_020949F4).  First attempt on this
+address; no earlier note exists for it.
+
+WHAT IT IS.  Packed-decimal (BCD) MULTIPLY, the section-C member of
+docs/families/cluster_020949F4.h: `r = x * y` over three struct Bcd records
+(flag at +0, signed decimal exponent at +2, digit count at +4, one decimal
+digit per byte from +5).  A schoolbook convolution:
+
+  * the product has `x->f04 + y->f04 - 1` digit columns, and a 64-byte stack
+    scratch (`sub sp, sp, #0x40`) holds them;
+  * the outer loop walks columns from the LEAST significant end, writing
+    backward with `strb sb, [r6, #-1]!`;
+  * the inner loop is one `mla r4, ip, r3, r4` per term, walking x forward
+    (`ldrb ip, [sb], #1`) and y backward (`ldrb r3, [sl], #-1`), with the two
+    index bounds clamped against both counts -- that is the
+    `movmi sb, #0 / submi sl, r5, #1` pair at +0x54 and the
+    `cmp r8, r3 / movgt r8, r3` at +0x64;
+  * the column digit is the accumulator mod 10 and the carry is / 10, spelled
+    as the usual reciprocal `ldr r3, [pc, #0xe0]` (0xCCCCCCCD, the pool word
+    at 0x020968F0) + `umull` + `lsr #3`;
+  * the exponent is `x->f02 + y->f02`, incremented if a final carry pushes a
+    leading digit out;
+  * the tail is the SAME below-5 / above-5 / exactly-5 rounding tail
+    src/matched/func_020968F4.c carries, ending in one `bl 0x02096620`.
+
+VERDICT.  DIFF, 384 bytes against 384, 152 concrete bytes out at best, the one
+PC24 (func_02096620) resolving by `label` (10 witnesses).  Everything from
++0x00C8 to the epilogue at +0x0178 -- the exponent add, the final-carry store,
+the bounded copy-out, all three rounding guards, the trailing-zero scan and
+the call -- is INSTRUCTION-IDENTICAL and differs only in that the image holds
+the scratch cursor in r6 and its end in r7 where the compilation holds them in
+sb and lr.  The same rotation runs through the loops.
+
+PERMUTER, 2900 compiles across three runs:
+  `--mode hill   --budget 800  --jobs 8 --types`            56 mutations
+  `--mode anneal --budget 1500 --jobs 8 --types`            1500, 154s
+  `--mode hill   --budget 600  --focus out,end,tmp2,n,carry` 88 mutations
+
+    baseline  DIFF  asm=1710  bytes-out=282  size=376/384
+    hill      DIFF  asm=2075  bytes-out=161  size=384/384
+              temp(tmp1=y->f04 - 1) ; temp(tmp2=(&tmp[n]) + 1)
+    focus     DIFF  asm=2220  bytes-out=152  size=384/384
+              + temp(tmp3=n - tmp1) ; compare(const)
+    anneal from the hill point: 1500 compiles, no improvement, plateau at 161.
+
+BOTH OF THE HILL'S MUTATIONS ARE LEGAL and were kept: lifting `y->f04 - 1` and
+`&tmp[n] + 1` into named locals is what takes the body from 376 bytes to the
+original's 384 and the residue from 282 concrete bytes to 161.  This is the
+`temp` mutation doing exactly what docs/notes/permuter.md says it is for --
+a new value with its own definition point and use count -- and it is the
+difference between "the wrong size" and "the right size, wrong registers".
+
+PLACEMENT OF THE LIFTED TEMPORARY IS LOAD-BEARING and cost a pass to find.
+`tmp1 = y->f04 - 1;` must be assigned immediately AFTER `r->f00 = 0;`.  The
+same assignment moved up one statement (next to `n = ...`) is 380 bytes and
+323 out, because mwcc then hoists the `ldrb [r2, #4]` into the prologue and the
+whole outer-loop head re-lays.  Note also that `match.py`'s compile path
+rejects the C99 mid-block declaration the permuter emits (`expression syntax
+error`, then `undefined identifier`), so the permuter's `--out` file has to be
+rewritten with the declaration at the top of the function before it will
+verify at all.
+
+FOUR HAND SPELLINGS ON TOP, all worse:
+  the two `+5` array bases computed before the index arithmetic (the order the
+    image's `add lr, r1, #5` / `add fp, r2, #5` at +0x38 suggests) -- 380/313;
+  `hi` recomputed in the else arm rather than lifted -- 376/283;
+  the column digit as `carry % 10` -- 392/333 (the modulo is a second
+    reciprocal sequence, docs/idioms/div-and-mod-are-two-calls.md);
+  the quotient lifted to `carry2` and the digit as `carry - carry2 * 10` --
+    384/161, i.e. exactly equivalent to the accepted form.
+
+The image's `mov sl, #0xa` + `umull r8, sb, sl, sb` against the compilation's
+`mov r4, #0xa` + `mul r4, r5, r4` is NOT a real difference: both are `q * 10`
+with the high half discarded, and it is the register rotation that makes the
+`umull` form get chosen.
+
+Blocking class: codegen -- allocation tie.  Size-exact, every instruction
+placed, the scratch cursor/end pair and the accumulator chain rotated.  This is
+the same wall as docs/notes/pkt_020966B0.c.txt one function earlier, and the
+family header records it as a cluster property.
+
+/* best source, 384 bytes against 384, 152 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_02096774
+ * address:  0x02096774
+ * packet:   pkt_020949F4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * symbols:
+ *   func_02096620  0x02096620  arm
+ */
+
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Bcd {
+    u8  f00;
+    u8  f01;
+    s16 f02;
+    u8  f04;
+    u8  f05[32];
+};
+
+extern void func_02096620(struct Bcd *p, int idx);
+
+void func_02096774(struct Bcd *r, struct Bcd *x, struct Bcd *y)
+{
+    u8 tmp[64];
+    u8 *out;
+    u8 *end;
+    u32 carry;
+    int n;
+    int i;
+    u8 *tmp2;
+    int tmp1;
+
+    n = x->f04 + y->f04 - 1;
+    tmp2 = &tmp[n] + 1;
+    carry = 0;
+    out = tmp2;
+    end = out;
+    r->f00 = 0;
+    tmp1 = y->f04 - 1;          /* MUST be here, not next to `n =` */
+    if (n > 0) {
+        do {
+            const u8 *px = x->f05;
+            const u8 *py = y->f05;
+            int lo = n - tmp1 - 1;
+            int hi;
+            int k;
+
+            if (lo < 0) {
+                lo = 0;
+                hi = n - 1;
+            } else {
+                hi = y->f04 - 1;
+            }
+            k = hi + 1;
+            if (k > (int)x->f04 - lo)
+                k = (int)x->f04 - lo;
+            py = py + hi;
+            px = px + lo;
+            while (k > 0) {
+                carry = carry + (u32)(*px++) * (u32)(*py--);
+                k--;
+            }
+            n--;
+            *--out = (u8)(carry - carry / 10 * 10);
+            carry = carry / 10;
+        } while (n > 0);
+    }
+    r->f02 = (s16)(x->f02 + y->f02);
+    if (carry != 0) {
+        *--out = (u8)carry;
+        r->f02 = (s16)(r->f02 + 1);
+    }
+    i = 0;
+    while (i < 32 && out < end) {
+        r->f05[i] = *out++;
+        i++;
+    }
+    r->f04 = (u8)i;
+    if (out >= end)
+        return;
+    if (*out < 5)
+        return;
+    if (*out == 5) {
+        u8 *q = out + 1;
+
+        while (q < end) {
+            if (*q != 0)
+                goto tail;
+            q++;
+        }
+        if ((out[-1] & 1) == 0)
+            return;
+    }
+tail:
+    func_02096620(r, r->f04);
+}

@@ -368,3 +368,258 @@ Scratch tooling this run (scratch/r6l/, all reusable):
   mine.py      indexed listing of a compiled candidate
 
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02096ED0.c:12: undefined identifier 'pkt_02096ED0'
+
+
+================================================================================
+THIRD RUN, wave 7 pseudo-family lane pkt_02096D10 (2026-09-22): verdict still
+DIFF, but the residue is DOWN from 124 concrete bytes out to 95 with the size
+still exact.  First run of tools/permuter.py (the AST engine) on this row.
+Nothing filed; the row stays here and not in src/pending/, which holds MATCH.
+================================================================================
+
+WHY THIS RUN IS DIFFERENT FROM THE FIRST TWO.  Both earlier runs searched
+SPELLINGS (the first by hand, the second with a batched 1152-combination grid
+over seven named knobs) and both plateaued at 102-124 concrete bytes out with
+`base` stuck in r5.  This run searched the SYNTAX TREE instead, with
+tools/permuter.py, whose mutation set targets the allocator's own inputs
+(first-definition order, use and definition counts, copy insertion, live-range
+shape) rather than a human's list of respellings.  It found a strictly better
+point that neither earlier search reached, and it found it in about four
+minutes of wall clock.
+
+    baseline (the source transcribed in this note's first run)
+      DIFF  asm=835  bytes-out=124  size=672/672
+
+    --mode hill --budget 800 --jobs 8 --types
+      DIFF  asm=765  bytes-out=108   <- decl-order(i<->p)
+      DIFF  asm=770  bytes-out=107   <- reorder(-1)
+      (no single further mutation improves; 3 sites tried from the best)
+
+    --mode anneal --budget 2000 --jobs 8 --types, from that point
+      DIFF  asm=755  bytes-out=104   <- decl-order(diff<->e)
+      DIFF  asm=735  bytes-out=102   <- + decl-order(q<->p) ; temp(tmp=(*pa)<1)
+      DIFF  asm=725  bytes-out=102   <- + decl-order(diff<->n) ; expand(e x1)
+      DIFF  asm=690  bytes-out=95    <- + hoist-down(k,+1)
+
+    --mode anneal --budget 2500 again from THAT point: 2500 compiles, 39 dry
+      batches, two plateau drifts, no improvement.  95 is a real floor for the
+      mutation set.
+
+  BEST RESULT LINE:
+    DIFF  func_02096ED0 @ 02096ED0 (arm9, ARM), compiled 672 bytes against a
+    672-byte listing extent, 0 relocation sites, 95 concrete bytes differ.
+  MUTATION CHAIN the permuter names:
+    decl-order(diff<->e) ; decl-order(q<->p) ; temp(tmp=(*pa) < 1) ;
+    decl-order(diff<->n) ; expand(e x1) ; hoist-down(k,+1)
+
+WHAT THE RESIDUE IS NOW.  `--explain` on the 95-byte point:
+
+    r5 -> r3  x11     r4 -> r3  x9     r5 -> r4  x3     r2 -> r1  x2
+    r3 -> r5  x10     r4 -> r2  x7     r1 -> r3  x2     (+ five singletons)
+
+i.e. a clean r3<->r5 TRANSPOSITION plus r4 spilling into r3/r2, against the
+first run's 16-entry general reshuffle.  The first divergence is unchanged and
+is still the same two words:
+
+    +0090  ldrb r4, [r2, #4]   |  ldrb r3, [r2, #4]     (the b->ndigits temp)
+    +0094  add  r3, r0, #5     |  add  r5, r0, #5       (`base`)
+
+The image gives the b->ndigits temporary r4 and `base` r3; we give them r3 and
+r5.  Both registers are freed by the same instruction, the pad loop's
+`strb r4,[r3,#5]` at 0x02096F50, and that is the tie the allocator breaks the
+other way.  This is exactly the second run's point 6, now reached with 95 bytes
+out instead of 102 and with the rotation narrowed to one transposition.
+
+THREE FURTHER LEVERS TRIED THIS RUN, ALL MEASURED, NONE BETTER:
+
+  1. This note's second-run point 3 (`a->f4 = q - base + 1`, the tail spelled
+     through `base`) re-applied ON TOP of the permuted point: 676 bytes, i.e.
+     it still costs the one instruction it cost before.  Spelled with the trim
+     loop's bound also moved to `base` (`q = base + a->f4; while (q > base)`):
+     672 bytes but 172 out, strictly worse than the baseline.
+  2. Point 4 (the two-step tail `i = q - a->buf; a->f4 = i + 1;`): 676 bytes,
+     same cost, unchanged.
+  3. NEW: naming the `b->f4 + diff` bound as its own local `m` ahead of
+     `base`, so the temporary gets a definition point of its own before the
+     base pointer's -- the direct attack on the tie described above, in both
+     declaration orders (m first, and m last).  Both compile to 672 bytes and
+     95 concrete bytes out: IDENTICAL to the permuted point.  The temporary is
+     already a distinct value to the allocator; giving it a name changes
+     nothing.
+
+NO COMPILER PIN IS JUSTIFIED, and this run did not re-open the question: the
+second run measured all seven dsi builds emitting a byte-identical body for
+this C, so docs/FRONTEND-PINS.md's rule (an instruction the pinned front end
+cannot emit) is not met.  This row is NOT the cluster_020737C0 push-list tell.
+
+WHAT CHANGED AROUND THIS ROW THIS WAVE.  0x02097170 is now EXACT
+(src/matched/func_02097170.c, this lane), which settles the subsystem: the
+whole 0x02096D10..0x02097990 cluster is MSL's decimal floating-point
+conversion layer, and 0x02096ED0 is its packed-decimal SUBTRACT-with-rounding.
+The adjudicated struct and prototype set is now written down once in
+docs/families/cluster_02096D10.h; the `DB` record there is this note's `DB`
+with the field names settled (sign, pad01, exp10, ndigits, digits[33]).
+
+The two blocking facts for 0x0209739C are unchanged: its only unattested site
+is this address, and this address still has no shard entry, so 0x0209739C
+would still cap at MATCH.  The fan-in observation of the first run also stands
+(two `bl` sites image-wide, both inside 0x0209739C, which is itself library C),
+so the first run's reclassification recommendation -- move 0x02096ED0 to
+layout/runtime_arm9.txt, an integrator decision, not a lane's -- is now
+supported by a third independent measurement and by the family header's
+identification of the whole cluster as MSL library code.
+
+/* best source, 672 bytes against 672, 95 concrete bytes out, dsi/1.1p1 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef struct 
+{
+  u16 f0;
+  s16 f2;
+  u8 f4;
+  u8 buf[33];
+} DB;
+void func_02096ED0(DB *a, const DB *src, DB *b)
+{
+  int diff;
+  u8 *e;
+  int up;
+  u8 *q;
+  u8 *base;
+  u8 *pa;
+  u8 *pb;
+  u8 *p;
+  int i;
+  u8 *t;
+  int n;
+  u8 *d;
+  u8 k;
+  int tmp;
+  *a = *src;
+  if (b->buf[0] == 0)
+    return;
+  n = a->f4;
+  if (n < b->f4)
+    n = b->f4;
+  diff = a->f2 - b->f2;
+  n += diff;
+  if (n > 0x20)
+    n = 0x20;
+  while (a->f4 < n)
+    a->buf[a->f4++] = 0;
+
+  base = a->buf;
+  pa = base + n;
+  if ((b->f4 + diff) < n)
+    pa = base + (b->f4 + diff);
+  pb = b->buf + ((pa - base) - diff);
+  p = pb;
+  while ((pa > base) && (pb > b->buf))
+  {
+    pa--;
+    pb--;
+    if ((*pa) < (*pb))
+    {
+      q = pa - 1;
+      if ((*q) == 0)
+      {
+        do
+        {
+          q--;
+        }
+        while ((*q) == 0);
+      }
+      while (q != pa)
+      {
+        *q -= 1;
+        q++;
+        *q += 10;
+      }
+
+    }
+    *pa = (*pa) - (*pb);
+  }
+
+  i = p - b->buf;
+  if (i < b->f4)
+  {
+    up = 0;
+    if ((*p) < 5)
+      up = 1;
+    else
+      if ((*p) == 5)
+    {
+      e = b->buf + b->f4;
+      t = p + 1;
+      while (t < (b->buf + b->f4))
+      {
+        if ((*t) != 0)
+          goto trim;
+        t++;
+      }
+
+      pa = ((base + i) + diff) - 1;
+      if (((*pa) & 1) != 0)
+        up = 1;
+    }
+    if (up != 0)
+    {
+      tmp = (*pa) < 1;
+      if (tmp)
+      {
+        q = pa - 1;
+        if ((*q) == 0)
+        {
+          do
+          {
+            q--;
+          }
+          while ((*q) == 0);
+        }
+        while (q != pa)
+        {
+          *q -= 1;
+          q++;
+          *q += 10;
+        }
+
+      }
+      *pa -= 1;
+    }
+  }
+  trim:
+  p = base;
+
+  while ((*p) == 0)
+    p++;
+
+  if (p > base)
+  {
+    e = base + a->f4;
+    k = p - base;
+    a->f2 -= k;
+    d = base;
+    while (p < e)
+      *(d++) = *(p++);
+
+    a->f4 -= k;
+  }
+  q = a->buf + a->f4;
+  while (q > a->buf)
+  {
+    q--;
+    if ((*q) != 0)
+      break;
+  }
+
+  a->f4 = (q - a->buf) + 1;
+}
+
+
+
+Verified with:
+  python3 tools/match.py one --src <the file above> --func func_02096ED0 \
+      --addr 0x02096ED0 --cc 1.1p1 --arm
+  -> DIFF, 672 bytes compiled against a 672-byte listing extent, 0 relocation
+     sites, 95 concrete bytes differ, first difference at +0x0090.

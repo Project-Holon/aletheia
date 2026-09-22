@@ -221,3 +221,59 @@ THE BEST SOURCE (712 B / 73 out at arm7tdmi, 708 B / 66 out at arm946e):
 
 No file written to src/matched/ or src/pending/.  Verdict recorded: DIFF.
 re-verified 2026-09-21: no recoverable source in this note
+
+==========================================================================
+2026-09-22, wave 7 (pseudo-family cluster pkt_02052F58): *** SOLVED. ***
+src/matched/func_02053A60.c, EXACT, 716/716, zero relocation sites.
+==========================================================================
+
+THE "arm7tdmi EPILOGUE VERSUS v5TE smulbb CONFLICT" ABOVE DOES NOT EXIST.
+It is an artefact of measuring only `1.1p1`.  The whole of
+0x0205429C..0x020584E0 is pinned to `../1.2/sp2` (docs/FRONTEND-PINS.md,
+"the 3D rig unit"), and 1.2 at `-proc arm946e` emits BOTH horns at once:
+the ARMv4T `pop {r4, r5, r6, lr}` / `bx lr` return AND the four `smulbb`.
+
+The note's own source, unchanged except for the compiler line, measures:
+
+    1.1p1      -proc arm946e    708 bytes,  66 concrete out   (this note)
+    1.1p1      -proc arm7tdmi   712 bytes,  73 concrete out   (this note)
+    ../1.2/sp2 -proc arm946e    716 bytes,  17 concrete out   <- SIZE-EXACT
+
+Three spellings close the remaining 17.  The first was found by
+`tools/permuter.py --mode hill --budget 500`, the other two by
+`--mode anneal --budget 1500 --focus pos,f28,f2c,f30,cfg`, EXACT at compile
+321:
+
+  1. `volatile struct Res0 *r` for the cached descriptor pointer around the
+     +0x50/+0x52/+0x54 halfword copies.  Without `volatile` the two `ldrh`
+     for f1c and f1e swap registers (4 instructions).  This is the note's own
+     "the two halfwords must be loaded into locals before either is stored"
+     finding, but the local-pair alone is not enough: the POINTER has to be
+     volatile too, or mwcc re-associates the pair.
+  2. `const struct Vec3 *pos`, NOT `const volatile struct Vec3 *pos`.  The
+     note's source qualifies it volatile; with volatile, the three position
+     adds and the whole descriptor chain that feeds them are 10 instructions
+     of register naming out (r1<->r4, r5<->r1, r6<->r5).
+  3. `o->f28 = pos->x + o->f20->f00->f04;` -- POSITION FIRST.  The note's
+     source writes the field first.  Field-first costs the same 10
+     instructions in the other direction; this is
+     docs/idioms/commutative-operand-order-names-the-temporary.md, and the
+     image's `add r1, r5, r1` with r5 = pos->x on the left names it.
+
+Everything else is the note's source and is unchanged and correct: the
+`volatile struct Obj *o`, the every-time re-read of `o->f20->f00` for each
+copied field, `(s16)(x * -1)` for the four sign flips (which is what gives
+`mvn r1, #0` + `smulbb r1, r2, r1` and NOT `rsb` -- measured this wave, the
+alternatives `* (u16)0xffff` (a pooled word and a 32-bit `mul`), `* (s16)-1`,
+`* ~0`, a `s16 neg = -1` local, a file-scope `static const s16`, and
+`-1 * (s32)x` all fail), and the bitfield spellings of the two 2-bit
+exponents and their sign bits.
+
+CORRECTION TO THIS NOTE'S PROC PARAGRAPH: `layout/proc_hints.txt` says
+arm7tdmi for this packet and the epilogue agrees, but the census is reading
+the RETURN FORM, which under the 1.2 front end is v4T at arm946e as well.
+The hint is not evidence against arm946e for a 1.2-built unit.  Quote the
+proc per row, MEASURED UNDER THE PIN.
+
+re-verified 2026-09-22 by tools/match.py: EXACT, 716 bytes against 716, 0
+concrete bytes out, ../1.2/sp2 -proc arm946e.

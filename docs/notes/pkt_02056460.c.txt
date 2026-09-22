@@ -438,3 +438,180 @@ no DIFF body was left in src/matched/.  The packet shard
 (0x020576D0, wave r8) - nothing in this lane converted, so the shard was
 re-verified and left untouched.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02056460.c:36: declaration syntax error
+
+==========================================================================
+RESIDUE 10 - wave 7, pseudo-family cluster pkt_02052F58 (docs/families/
+cluster_02052F58.h).  0x02056460 CLOSED; 0x0205650C and 0x020565C8 improved.
+==========================================================================
+
+*** 0x02056460 IS NOW EXACT, filed at src/matched/func_02056460.c. ***
+
+The earlier note (docs/notes/func_02056460.c.txt, "DIFF, 144 bytes against
+172, 116 concrete out, 1.1p1") was measured under the wrong build.  Under
+this cluster's family pin, `../1.2/sp2 -proc arm946e`, a straightforward
+transcription is 172/172 with only 8 concrete bytes out, and the permuter
+closes the remaining 8.
+
+What the row is: Rig_Hooks[1] (the table at 0x020A7FE4 is
+{ 0x02056420, 0x02056460 }; main.s 277876/277877).  Both rows take
+(sin, cos, MtxFx43 *).  Row 0 is the rotation about +Y.  Row 1, this one, is
+the rotation about the diagonal axis (1,1,1)/sqrt(3): the two pool words are
+0x555 = 4096/3 (that is k*k for k = 1/sqrt(3)) and 0x93D = 4096/sqrt(3)
+(that is k), so with d = FX_Mul(0x1000 - cos, 0x555) and e = FX_Mul(sin,
+0x93D) the matrix is the textbook axis-angle form: diagonal d + cos, the two
+off-diagonals d - e and d + e, translation row zero.
+
+THREE FACTS THE ROW TURNS ON:
+  1. It returns VOID, not u32.  The table is declared
+     `u32 (*const [])(s32, s32, void *)` in src/matched/func_02054718.c, but
+     a `return 0` here emits an extra `mov r0, r4` and makes the function 176
+     bytes against 172.  A mixed-prototype table.
+  2. `d + cos` is written out at ALL THREE diagonal sites, never bound to one
+     local.  A shared `s32 a = d + cs;` puts the value in lr where the image
+     has it in r1, the cos parameter's own register: 8 bytes out and nothing
+     else wrong.
+  3. `cs2 = cs;` splits the cos parameter's live range before the second
+     group of stores, and `p = d; p = p + e;` gives the first `d + e` its own
+     definition point.  Without both the same 8 bytes stay wrong.
+Facts 2 and 3 were found by `tools/permuter.py --mode anneal --budget 2000
+--jobs 8 --types`, EXACT at compile 1499 from the 8-byte baseline.
+
+--------------------------------------------------------------------------
+0x0205650C (168 B code, 188 B listing): DIFF, size-exact, 40 concrete out
+--------------------------------------------------------------------------
+Down from RESIDUE 5's 61.  RESIDUE 5's `(u16)(x >> 8)` finding is confirmed
+and kept.  Two NEW findings on top of it:
+
+  * THE FUNCTION RETURNS u32.  Rig_Hooks2 (0x020A7FDC) is
+    { func_020565C8, func_0205650C } and src/matched/func_02054718.c declares
+    it `u32 (*const [])(s32, s32, s32, s32)`.  A `void` return is 196 bytes
+    against 188 -- it pushes a seventh callee-saved register and a 4-byte
+    frame -- because the last texcoord value `tu << 16` has to land in r0,
+    the return register, which is exactly where the image puts it
+    (`lsl r0, r0, #0x10` at +0x88).  RESIDUE 5's "196 bytes - a wider frame"
+    observations were all this.  This single change is worth 8 bytes of size
+    and takes the residue from 150 to 59.
+  * THE COORDINATE PACK IS A SIGNED SHIFT.  `and rD, r6, v, asr #22` with
+    r6 = 0x3ff, so the packed field is `(((s32)(v << 16)) >> 22) & 0x3ff` on
+    a SIGNED intermediate.  An unsigned `>> 22` gives `lsr` and is 3 bytes
+    out on its own.  The obvious reading is GX's VTX_10 packing of a fx32
+    coordinate: the y field is a constant zero here and folds away, so the
+    expression reduces to `P10(x) | (P10(z) << 20)`.
+
+  Best source, 188 bytes against 188, 40 concrete bytes out, ../1.2/sp2
+  -proc arm946e.  It is the permuter's own output after
+  `--mode anneal --budget 1500 --jobs 8 --types`; the two dead `if (x) {}`
+  blocks are use-count bumps the search found and they are worth 13 bytes
+  over the same body without them.
+
+    /* best source, 188 bytes against 188, 40 concrete bytes out, ../1.2/sp2 */
+    typedef signed int   s32;
+    typedef unsigned int u32;
+    typedef unsigned short u16;
+    #define GX_BEGIN     (*(volatile u32 *)0x04000500)
+    #define GX_END       (*(volatile u32 *)0x04000504)
+    #define GX_TEXCOORD  (*(volatile u32 *)0x04000488)
+    #define GX_VTX10     (*(volatile u32 *)0x04000490)
+    #define P10(v)  ((u32)(((s32)((v) << 16) >> 22) & 0x3ff))
+    #define VTX10(a,b,c)  (P10(a) | (P10(b) << 10) | (P10(c) << 20))
+
+    u32 func_0205650C(s32 s, s32 t, s32 x, s32 z)
+    {
+        u32 su;
+        u32 tu;
+        u32 tmp;
+        GX_BEGIN = 1;
+        GX_TEXCOORD = 0;
+        su = (u16)(s >> 8);
+        tu = (u16)(t >> 8);
+        GX_VTX10 = VTX10(x - 0x1000, 0, z + 0x1000);
+        GX_TEXCOORD = su;
+        if (tu) { }
+        tmp = su | (tu << 16);
+        GX_VTX10 = VTX10(x + 0x1000, 0, (u32)z + 0x1000);
+        GX_TEXCOORD = tmp;
+        GX_VTX10 = VTX10(x + 0x1000, 0, z - 0x1000);
+        GX_TEXCOORD = tu << 16;
+        GX_VTX10 = VTX10(x - 0x1000, 0, z - 0x1000);
+        if (s) { }
+        GX_END = 0;
+        return tu;
+    }
+
+  permuter best result line:
+    best      DIFF   asm=200   bytes-out=40   size=188/188
+    mutations use(tu) ; use(s) ; temp(tmp=su | (tu << 16)) ; cast(u32) ;
+              reorder(-2) ; block(if1,2)
+
+  THE RESIDUE IS PURE REGISTER NAMING and the instruction stream is
+  identical to the image, one for one, from +0x00 to the pool.  `--explain`
+  says the dominant substitution is `r1 -> r2` nine times, i.e. `su`: the
+  image keeps su in r1 and tu in r0, the two argument registers they arrive
+  derived from, and mwcc hands both of them fresh registers instead.  RULED
+  OUT this wave, each compiled: self-assignment of su and tu at their second
+  uses (`su = su | (tu << 16); tu = tu << 16;` -- 51 out); the fully inline
+  body with no coordinate locals (53); the mask written `0x3ff & (...)`
+  (unchanged); four coordinate locals declared x0/x1/z0/z1 in that order
+  (43); `--mode hill` to exhaustion from three different baselines (no single
+  mutation improves any of them); `--mode anneal --focus su,tu,x0,x1,z0,z1`
+  (unchanged at 40).  The next thing to try is the allocation order of the
+  four packed coordinates, not the spelling: the image's FIRST computed value
+  is `x - 0x1000` while every spelling tried computes `z + 0x1000` first.
+
+--------------------------------------------------------------------------
+0x020565C8 (168 B code, 188 B listing): DIFF, size-exact, 50 concrete out
+--------------------------------------------------------------------------
+Down from RESIDUE 6's 56.  The mirror row, and the mirroring is now read off
+the bytes exactly: the second coordinate lands in the VTX_10 **y** field
+(bits 10..19, `orr r5, r2, r7, lsl #10`) where 0x0205650C puts it in the z
+field (bits 20..29).  So the vertex is `VTX10(x, z, 0)` here and
+`VTX10(x, 0, z)` there -- the same four corners submitted in a different
+plane.  Everything else is identical, the `(u16)(x >> 8)` texcoords and the
+u32 return included.
+
+  /* best source, 188 bytes against 188, 50 concrete bytes out, ../1.2/sp2 */
+#define GX_BEGIN     (*(volatile u32 *)0x04000500)
+#define GX_END       (*(volatile u32 *)0x04000504)
+#define GX_TEXCOORD  (*(volatile u32 *)0x04000488)
+#define GX_VTX10     (*(volatile u32 *)0x04000490)
+#define P10(v)  ((u32)(((s32)((v) << 16) >> 22) & 0x3ff))
+#define VTX10(x,y,z)  (P10(x) | (P10(y) << 10) | (P10(z) << 20))
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned short u16;
+u32 func_020565C8(s32 s, s32 t, s32 x, s32 z)
+{
+  u32 su;
+  u32 tu;
+  GX_BEGIN = 1;
+  su = (u16) (s >> 8);
+  tu = (u16) (t >> 8);
+  GX_TEXCOORD = 0;
+  GX_VTX10 = VTX10(x - 0x1000, 0, z + 0x1000);
+  GX_TEXCOORD = su;
+  GX_VTX10 = VTX10(x + 0x1000, 0, z + 0x1000);
+  GX_TEXCOORD = su | (tu << 16);
+  GX_VTX10 = VTX10(x + 0x1000, 0, z - 0x1000);
+  GX_TEXCOORD = tu << 16;
+  GX_VTX10 = VTX10(x - 0x1000, 0, z - 0x1000);
+  GX_END = 0;
+  return tu;
+}
+
+
+
+  permuter best result line:
+    best      DIFF   asm=270   bytes-out=50   size=188/188
+
+  Best source: 0x0205650C's source above with the four `VTX10(a, 0, c)`
+  calls rewritten `VTX10(a, c, 0)` and the names changed.  188/188, 50
+  concrete out.  `--mode anneal --budget 1000 --jobs 6 --types` does not
+  improve it (best DIFF asm=270 bytes-out=50 size=188/188).  RESIDUE 6's
+  warning holds and is now measured: this row's first computed value is
+  `z + 0x1000` (`add ip, r3, #0x1000`), 0x0205650C's is `x - 0x1000`, so the
+  two rows need DIFFERENT allocation orders and a solution for one does not
+  transfer.  Solve 0x0205650C first.
+
+re-verified 2026-09-22 by tools/match.py: 0x02056460 EXACT (filed);
+0x0205650C DIFF 188/188 40 out; 0x020565C8 DIFF 188/188 50 out; all
+../1.2/sp2 -proc arm946e.

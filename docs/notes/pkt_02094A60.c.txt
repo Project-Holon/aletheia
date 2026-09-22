@@ -33,3 +33,32 @@ problem: no spelling found moves the pointer off ip and the counter onto r3.
 No source filed (DIFF); the C is the one quoted in docs/notes/func_02094A60.c.txt
 with the packet: field corrected to pkt_02094A60.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, wave 7 pseudo-family lane (pkt_020949F4): CLOSED, EXACT
+==============================================================================
+This note's diagnosis was correct in every particular except its conclusion.
+The register table it prints (cursor on ip vs r3, counter on r3 vs ip, and the
+consequent `subs r3,r3,#1 / bne` against `sub ip,ip,#1 / cmp / bgt`) is exactly
+the residue, and it IS reachable -- but only after a prior, larger fix that the
+note's three tried spellings could not see past.
+
+The note's near miss is 188 bytes against 192 with 124 concrete bytes out.
+Changing the character local from `u8 c` to `int c` -- and nothing else -- makes
+it 192/192 with TEN concrete bytes out, every byte from +0x30 to the epilogue
+identical.  The image's standalone `and ip, r4, #0xff` whose result indexes the
+map with an ARITHMETIC shift is the tell; with `u8` the cast folds away, the
+mask vanishes, the map index folds into the load, and the function loses four
+bytes AND a callee-saved register, which is why the near miss opened
+`push {r4, lr}` instead of `push {r3, r4, r5, lr}`.
+
+With that in place the note's own lever then works: declaring the counter
+BEFORE the cursor (`u32 i = 8;` then `u8 *p = map;`) closes the remaining ten
+bytes and the function is EXACT.  The note's attempt at this lever failed only
+because it was applied on top of the `u8 c` body, where the register pressure
+is different.  (`int i` instead of `u32 i` is 160 bytes out -- a signed counter
+costs a separate `cmp`/`bgt` where the unsigned one gets `subs`/`bne`.)
+
+So this is NOT the free-list ordering family of pkt_02019C38/pkt_02012C18, and
+the note's closing sentence should be read as withdrawn.  Filed:
+src/matched/func_02094A60.c, EXACT, 192 bytes, no relocation sites.

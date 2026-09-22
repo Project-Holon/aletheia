@@ -183,3 +183,75 @@ void func_02065BD0(int a0)
     func_02064E3C();
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 164 bytes against 168, 75 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED wave 7 pseudo-family lane (pkt_02064B68), 2026-09-22 -- 0x02065BD0
+==============================================================================
+
+/* best source, 168 bytes against 168, 53 concrete bytes out, dsi/1.1p1 */
+
+The lane r4-1 addendum above was 164 bytes against 168 (4 short, 75 out).
+The permuter's hill mode closed the SIZE gap with one mutation,
+`type:ret-var(i)`: the function returns `int`, not `void`, and its return
+value is the loop counter `i` left over from the sweep.  That is the four
+bytes -- an `int` return keeps `i`'s final value live past the loop and
+costs the extra `mov`/`pop` shape the image has.  Every other lever from the
+r4-1 addendum still stands and is still needed (the four extern ARRAYS, the
+`int` loop variable against the `ldrh` bound giving signed `ble`/`blt`).
+
+Residue at 53: the preheader schedule the addendum already describes --
+mwcc hoists the `ldrh` loop bound above the `strh r1, [r0]` store to
+0x020A81F8 and re-orders the `str r4, [r5, #0xc]`, so the preheader is
+str/ldrh/ldr/ldr/cmp/strh where the image has ldr/ldr/str/strh/ldrh -- plus
+the register rotation that follows from it (r0->r4 x3, r1->r4 x2, r1->r2,
+r0->r1, r3->r1).  The compiler pin was probed and REJECTED: ../2.0/sp2 gives
+84 concrete out against 1.1p1's 75 on the 164-byte form and 63 against 53 on
+the 168-byte form, so this is not the "kept constants" front end.
+Permuter: hill 166 mutations; anneal 2000 compiles, best unchanged at 53.
+
+/*
+ * unit:     no
+ * function: func_02065BD0
+ * address:  0x02065BD0
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02082AC0  0x02082AC0  arm
+ *   func_02064E3C  0x02064E3C  arm
+ *   g_02147B88     0x02147B88  data
+ *   g_02148318     0x02148318  data
+ *   g_02147C18     0x02147C18  data
+ *   g_020A81F8     0x020A81F8  data
+ */
+extern char g_02147B88[];
+extern char g_02148318[];
+extern char g_02147C18[];
+extern char g_020A81F8[];
+
+extern void func_02082AC0(int val, char *dst, int size);
+extern void func_02064E3C(void);
+
+int func_02065BD0(int a0)
+{
+    char *p = g_02148318;
+    int i;
+
+    *(int *)(g_02147B88 + 8) = a0;
+    *(int *)(g_02147B88 + 0xc) = 0;
+    *(unsigned short *)g_020A81F8 = 0xFFFE;
+    for (i = 0; i < *(unsigned short *)g_02147B88; i++, p += 0x20)
+        func_02082AC0(-1, p + 0x10, 0x10);
+    *(unsigned short *)g_02147C18 = 0;
+    *(unsigned short *)(g_02147C18 + 2) = 0;
+    func_02082AC0(0, g_02147C18, 0x100);
+    *(volatile int *)0x04000444 = 0;
+    *(volatile int *)(0x04000444 + 0x10) = 0;
+    func_02064E3C();
+    return i;
+}

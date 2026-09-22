@@ -68,3 +68,127 @@ void func_02064CBC(int a0)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 168 bytes against 180, 118 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED wave 7 pseudo-family lane (pkt_02064B68), 2026-09-22
+==============================================================================
+
+0x02065134  func_02065134  DIFF, 132 bytes against 132, 2 concrete bytes out,
+            1.1p1  -- an allocator tie, exhausted by both permuter modes
+
+/* best source, 132 bytes against 132, 2 concrete bytes out, dsi/1.1p1 */
+
+The residue is TWO BYTES and is purely which register holds the pool base of
+g_02147D18 in the predicated arm:
+
+  * +002C    ldreq lr, [pc, #0x3c]     | ldreq r4, [pc, #0x3c]
+  * +0034    mlaeq r3, ip, r3, lr      | mlaeq r3, ip, r3, r4
+
+Everything else -- all six ABS32 sites, the `popeq` early exit, the
+unconditional `ldr ip, [r3, #0xc]` hoist, the `mov r3, #0x18`, the
+`blx ip` tail -- is byte-identical.  The image spends NO callee-saved
+register on that base (it uses the scratch `lr`, which is free across a
+predicated block that contains no call); the compile reuses r4, the one
+callee-saved register the frame already pushed for the `f3c` and `f04`
+reads.
+
+Permuter, tools/permuter.py, the AST engine:
+  --explain          lr -> r4 x2, a clean two-instruction substitution
+  --mode hill --budget 800 --types    128 mutations tried, none improves
+  --mode anneal --budget 2000 --types 2000 compiles, best unchanged at
+                     DIFF asm=10 bytes-out=2 size=132/132
+
+Hand sweep after the permuter, all 132 bytes and all 2 out: `i` declared
+before / after / between `m` and `k`; `m` declared first of all; the base
+lifted into its own named local inside the arm; the callback's fourth
+parameter typed `struct Mtx *`, `const struct Mtx *`, `u32` and
+`void *volatile` (the last two compile, the first two are CCERR against a
+`u8 *` in the else arm).  The compiler pin was probed: ../2.0/sp2 gives the
+same 132/2, so the front end is not the lever here.
+
+What would settle it is a spelling in which the frame does not already own a
+callee-saved register at the branch -- i.e. one where `f04` and `f3c` are not
+both live into the predicated block.  Not found in this pass.
+
+/*
+ * unit:     no
+ * function: func_02065134
+ * address:  0x02065134
+ * packet:   pkt_02064B68
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02147B88  0x02147B88  data  a4
+ *   g_02147D18  0x02147D18  data  a4
+ *   g_02147D28  0x02147D28  data  a4
+ *   g_02147D2C  0x02147D2C  data  a4
+ *   g_020A81F8  0x020A81F8  data  a4
+ *   g_020A8200  0x020A8200  data  a4
+ */
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef void (*Fn)(void *a, void *b, void *c, void *m);
+
+struct Obj74 {
+    u8 pad_00[0x3c];
+    Fn f3c;
+};
+
+struct Obj {
+    u8            pad_00[0x74];
+    struct Obj74 *f74;
+};
+
+struct Bank {
+    u8          pad_00[4];
+    int         f04;
+    struct Obj *f08;
+    u32         f0c;
+};
+
+struct Mtx { u8 pad[0x18]; };
+
+struct Scr {
+    u8  pad_00[0x18];
+    u32 f18;
+    u32 f1c;
+};
+
+extern struct Bank g_02147B88;
+extern struct Mtx  g_02147D18[];
+extern u8          g_02147D28[];
+extern u8          g_02147D2C[];
+extern struct Scr  g_020A81F8;
+extern u8          g_020A8200[];
+
+void func_02065134(void *a0, void *a1)
+{
+    struct Obj *o = g_02147B88.f08;
+    struct Obj74 *v = o->f74;
+    void *m;
+    int k;
+    u32 i;
+
+    if (v->f3c == 0)
+        return;
+
+    k = g_02147B88.f04;
+    i = g_02147B88.f0c;
+    if (k == 0) {
+        m = &g_02147D18[i];
+    } else {
+        u32 off = i * 0x18;
+
+        g_020A81F8.f18 = *(u32 *)&g_02147D28[off];
+        g_020A81F8.f1c = *(u32 *)&g_02147D2C[off];
+        m = g_020A8200;
+    }
+
+    v->f3c(o, v, a1, m);
+}

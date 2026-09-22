@@ -1,0 +1,146 @@
+func_02053D30 - DIFF evidence, 2026-09-22 (wave 7, pseudo-family cluster
+pkt_02052F58; see docs/families/cluster_02052F58.h)
+==========================================================================
+
+func_02053D30 @ 0x02053D30 (216 code bytes, 236-byte listing extent, arm9,
+ARM) - DIFF, SIZE-EXACT, 41 concrete bytes out, zero relocation sites.
+
+WHAT IT IS.  The per-texture-row setup of the 3D billboard rig: it is the
+first thing both dispatchers call (src/matched/func_02053044.c and
+src/matched/func_0205312C.c call it on `obj->f2c + index * 0x14`, so its one
+argument is a 0x14-byte texture row), and it writes five geometry-engine
+registers from that row:
+
+    0x040004A8  TEXIMAGE_PARAM   one packed word, built below
+    0x040004AC  PLTT_BASE        row->pltt >> (4 - (fmt == 2))
+    0x04000440  MTX_MODE         3 (texture), then 1 at the end
+    0x04000454  MTX_IDENTITY     0
+    0x0400046C  MTX_SCALE        three words: sx<<12, sy<<12, 0
+
+The TEXIMAGE_PARAM word is assembled from `row->addr >> 3` plus SIX bitfields
+of the row's word at +0x0c, each one an equal-amount `lsl`/`lsr` pair in the
+image, which is the bitfield tell (docs/idioms/shift-pair-with-no-matching-
+type-is-a-bitfield.md; a mask would fold to `ands`):
+
+    bits  0..3   -> word bits 26..29   texture format
+    bits  4..7   -> word bits 20..22   size S
+    bits  8..11  -> word bits 23..25   size T
+    bits 12..13  -> word bits 16..17   repeat/flip S
+    bits 14..15  -> word bits 18..19   repeat/flip T
+    bit  16      -> word bit  29       colour-0 transparent
+    plus a constant `orr ip, ip, #0x40000000` (bit 30, TexCoord transform).
+
+The `cmp lr, #2` / `moveq r1,#1` / `movne r1,#0` / `rsb r1, r1, #4` quartet
+at +0x6C is `4 - (fmt == 2)`, i.e. the palette base is shifted by 3 for the
+4-colour format and by 4 otherwise.  The bytes give no other reading.
+
+PROC AND BUILD, measured: `../1.2/sp2`, `-O4,p -proc arm946e`, the cluster
+family pin.  At that setting the C below is 236 bytes against 236 with 41
+concrete out.  (This range's notes were all previously measured at 1.1p1;
+see docs/notes/pkt_02053A60.c.txt and docs/notes/pkt_02057C9C.c.txt, both of
+which recorded a wrong conclusion because of it.)
+
+/* best source, 236 bytes against 236, 41 concrete bytes out, ../1.2/sp2 */
+ * status:   DIFF
+ */
+#define G_TEXIMAGE_PARAM (*(volatile u32 *)0x040004A8)
+#define G_PLTT_BASE      (*(volatile u32 *)0x040004AC)
+#define G_MTX_MODE       (*(volatile u32 *)0x04000440)
+#define G_MTX_IDENTITY   (*(volatile u32 *)0x04000454)
+#define G_MTX_SCALE      (*(volatile u32 *)0x0400046C)
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned short u16;
+struct TexW
+{
+  u32 fmt : 4;
+  u32 sizS : 4;
+  u32 sizT : 4;
+  u32 repS : 2;
+  u32 repT : 2;
+  u32 col0 : 1;
+  u32 rest : 15;
+};
+struct Tex
+{
+  u32 f00;
+  u32 addr;
+  u32 pltt;
+  struct TexW w;
+  u16 sx;
+  u16 sy;
+};
+void func_02053D30(struct Tex *p)
+{
+  struct TexW w = p->w;
+  u32 shift;
+  u16 sx;
+  u16 sy;
+  int tmp = (p->addr >> 3) | (((u32) w.fmt) << 26);
+  G_TEXIMAGE_PARAM = (((((tmp | 0x40000000) | (((u32) w.sizS) << 20)) | (((u32) w.sizT) << 23)) | (((u32) w.repS) << 16)) | (((u32) w.repT) << 18)) | (((u32) w.col0) << 29);
+  shift = 4 - (w.fmt == 2);
+  G_PLTT_BASE = p->pltt >> shift;
+  G_MTX_MODE = 3;
+  G_MTX_IDENTITY = 0;
+  sx = p->sx;
+  sy = p->sy;
+  G_MTX_SCALE = ((u32) sx) << 12;
+  G_MTX_SCALE = ((u32) sy) << 12;
+  G_MTX_SCALE = 0;
+  G_MTX_MODE = 1;
+}
+
+
+
+THE RESIDUE IS PURE REGISTER NAMING, and the instruction stream is otherwise
+identical to the image one for one, +0x00 through the pool, with only three
+instructions transposed (+0x30/+0x34/+0x3C, the `lsl #0xf` and `lsl #0x12`
+against the `lsr #0x1c`).  The permutation is consistent:
+
+    image ip -> compiled lr  x5      the running TEXIMAGE_PARAM accumulator
+    image r3 -> compiled ip  x4      the 0x040004A8 pool pointer
+    image r1 -> compiled r0   x4     the MTX_SCALE value
+    image lr -> compiled r3  x3      the format field, live to the `cmp`
+
+Two shapes are already RIGHT and must be kept:
+  * `struct TexW w = p->w;` as a struct copy.  That is what produces the
+    `str r7, [sp]` at +0x10, a dead store to the one spilled word the frame
+    holds (docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-
+    second-assignment-recomputes.md).  Reading the word as a plain u32 loses
+    it.
+  * `sx` and `sy` bound to locals BEFORE the three MTX_SCALE stores.  The
+    image loads both halfwords back to back (`ldrh r1,[r0,#0x10]` /
+    `ldrh r2,[r0,#0x12]` at +0xA4/+0xA8); writing `p->sx` and `p->sy` inline
+    interleaves load and store and is worth 18 bytes (61 out instead of 43).
+    Same lever as shape 4 of src/matched/func_02054718.c.
+  * `int tmp = (p->addr >> 3) | ((u32)w.fmt << 26);` lifted out of the `|`
+    chain -- the permuter's own `temp(...)`, worth 2 bytes.
+
+RULED OUT, each compiled at the pin:
+  * `--mode hill --budget 500` to exhaustion (no single mutation improves),
+    `--mode anneal --budget 1200`, `--mode anneal --budget 1000 --focus
+    w,fmt,shift,sx,sy`, `--mode anneal --budget 1100 --focus tmp,shift,p`.
+    All four plateau at exactly 41.  A residue no mutation moves is in the
+    declarations (docs/notes/permuter.md).
+  * binding the format field to a `u32 fmt` local, and not binding it (43);
+  * folding `shift` into the PLTT_BASE expression (43);
+  * a `volatile u32 *` pointer local for 0x040004A8 or for 0x0400046C, taken
+    before the stores (43);
+  * a live-range split `p2 = p;` before the sx/sy loads (43);
+  * assembling the TEXIMAGE_PARAM word into a `u32 v` and storing it (43);
+  * writing the `|` chain as seven progressive `v = v | ...;` statements (87
+    -- much worse, the chain must be one expression);
+  * `volatile struct TexW w` (211).
+
+NEXT THING TO TRY, and it is a declaration question, not a spelling one: the
+image's 0x040004A8 pool pointer lands in r3 and the accumulator in ip, i.e.
+the POINTER is created before the accumulator.  Every spelling above creates
+the accumulator first.  The struct `Tex` itself may also be wrong at the
+edges: the image never touches +0x00, so `u32 f00` is a guess, and if the
+row's real first member is two halfwords or the row is reached through a
+different base the parameter's type changes and the whole plan with it.
+
+Not filed anywhere: DIFF.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 236 bytes against 236, 41
+concrete bytes out, ../1.2/sp2 -proc arm946e.

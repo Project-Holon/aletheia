@@ -141,3 +141,56 @@ Neither pin helps, for the reason the note gives (the image predicates the
 error block AND rematerialises the constant; no front end in the collection
 does both), so no probe was repeated.  Not filed: DIFF, by rule 6.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, wave 7 pseudo-family lane (pkt_020949F4): permuter exhausted
+==============================================================================
+
+Reproduced from the recipe above with the previous lane's correction
+(`buf[0] = a0;` before `buf[1] = 0;`): 148 bytes, three relocation sites all
+resolving, exactly ONE concrete instruction out at +0x0070,
+`mvnne r0, #0` against `subne r0, r1, #0x23`.  Third independent reproduction.
+
+`--explain` prints NO register-substitution map at all -- baseline
+`DIFF asm=10 bytes-out=3 size=148/148` and nothing else.  That is itself the
+finding: this residue is not an allocation tie, so the engine the permuter is
+built for has no purchase on it, which is consistent with the previous lane's
+55-compile result and with the diagnosis in the prose above.
+
+PERMUTER, 2132 compiles this pass on top of the previous lane's 55:
+  `--mode hill   --budget 800  --jobs 8 --types`   132 mutations tried,
+      "no single mutation improves"
+  `--mode anneal --budget 2000 --jobs 8 --types`   2000 compiles, 83s,
+      two plateau drifts, best never moved off the baseline
+Every one of the 2132 is 148/3.  With `--types` enabled this pass swept the
+integer type of every local and parameter as well, which the previous lane's
+run did not.
+
+FOUR FURTHER SPELLINGS BY HAND, none of them tried by the earlier passes,
+all still 3:
+ 22.  the whole function returned as `u32` with `return 0xFFFFFFFFu;` and the
+      negation as `r = (u32)(-(int)r);` -- an unsigned constant node rather
+      than a signed one, in case the fold is typed.  148/3.
+ 23.  `extern int g_02153FAC;` (signed errno).  148/3.
+ 24.  `int mode` rather than `u32 mode` -- the lever that closed
+      func_02094A60 two addresses away (see that file's header).  148/3.
+ 25.  the 0x22 through a block-local enum constant,
+      `{ enum { E = 0x22 }; g_02153FAC = E; }`.  148/3.
+Also re-measured: `extern u8 g_02153FAC;` is 4 out, WORSE (the byte store
+costs its own instruction), and inverting the guard so the error block is the
+fall-through is 152 bytes and 45 out, confirming the earlier lane's finding
+that the predicated block is what holds the size.
+
+TWENTY-FIVE SPELLINGS AND ~2200 PERMUTER COMPILES ACROSS FOUR LANES.  The
+conclusion does not change and this note should be treated as closed: the two
+constants differ by 0x23, mwccarm's constant-reuse pass runs after
+linearisation and notices whatever the C calls them, and the only front end in
+the collection that rematerialises the constant (../2.0/sp2) refuses to
+predicate the error block, which costs nine instructions instead of one.
+
+/* best source, 148 bytes against 148, 3 concrete bytes out, 1.1p1 */
+/* the source is the one the previous lane's section quotes in full:
+   `int func_02095EAC(u32 a0, u32 *a1, u32 mode)`, locals
+   `u32 len; u32 sign; u32 err; u32 buf[2]; int r;` in that order,
+   `buf[0] = a0;` before `buf[1] = 0;`, the call
+   `func_02095B3C(mode, 0x7FFFFFFFu, (u32)func_020946D8, buf, &len, &sign, &err)`. */

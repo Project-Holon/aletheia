@@ -210,3 +210,176 @@ Not filed anywhere: DIFF. The source as it stood follows.
         out->col = k->c1;
     }
 re-verified 2026-09-21 by tools/match.py: DIFF, 408 bytes against 460, 345 concrete bytes out, 1.1p1
+
+==========================================================================
+2026-09-22, wave 7 (pseudo-family cluster pkt_02052F58).
+*** THE PROC CONCLUSION ABOVE IS WRONG.  arm946e, not arm7tdmi. ***
+DIFF, 460/460 SIZE-EXACT, 73 concrete bytes out (was 331).
+==========================================================================
+
+This note pins 0x02057C9C to `-proc arm7tdmi` from its four ARMv4T
+`pop {r4..fp, lr}` / `bx lr` exits, and warns that FRONTEND-PINS.md's
+arm946e for the pkt_02057830 rows "is falsified HERE by the epilogues".
+It is not.  Under the range's family pin, `../1.2/sp2`, the 1.2 front end
+emits the v4T return form at arm946e too -- the same correction that closed
+0x02053A60 this wave (docs/notes/pkt_02053A60.c.txt, appended section).
+
+Measured on THIS NOTE'S OWN SOURCE, unchanged:
+
+    ../1.2/sp2 -proc arm7tdmi   468 bytes, 331 concrete out  (this note)
+    ../1.2/sp2 -proc arm946e    460 bytes, 118 concrete out  <- SIZE-EXACT
+
+So the 8-byte "residue, and it is the frame" the note diagnoses as an extra
+spill slot is not a spill slot at all: it is the wrong proc.  At arm946e the
+frame is `push {r4..fp, lr}` + `sub sp, sp, #4`, exactly the image's, and
+every one of the four exits pays its one `add sp, sp, #4`.
+
+Two permuter passes take 118 -> 87 -> 73:
+    --mode hill   --budget 400  --jobs 8 --types   -> 87  (decl-order(br<->db))
+    --mode anneal --budget 900  --jobs 8 --types   -> 75
+    --mode anneal --budget 900  --jobs 8 --types   -> 73
+  best      DIFF   asm=875   bytes-out=73   size=460/460
+  mutations cast(u32) ; temp(tmp1=(num * (bg - dg)) / den) ; decl-order(ob<->bb)
+
+/* best source, 460 bytes against 460, 73 concrete bytes out, ../1.2/sp2 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int s32;
+struct Key
+{
+  u16 c0;
+  u16 c1;
+  u8 t0;
+  u8 t1;
+  u8 t2;
+  u8 pad7;
+  u16 flg;
+};
+struct Node
+{
+  u8 pad_00[0x22];
+  u16 col;
+};
+struct Ctx
+{
+  struct Node *node;
+  u8 pad_04[4];
+  struct Key *key;
+};
+struct Out
+{
+  u8 pad_00[0x36];
+  u16 col;
+};
+void func_02057C9C(struct Out *out, struct Ctx *ctx, s32 t)
+{
+  struct Key *k = ctx->key;
+  s32 t2 = k->t2;
+  struct Node *n = ctx->node;
+  s32 t1 = k->t1;
+  s32 t0 = k->t0;
+  s32 tmp;
+  s32 tmp1;
+  if (t < t0)
+  {
+    out->col = k->c0;
+    return;
+  }
+  if (t < t1)
+  {
+    s32 d = n->col;
+    u32 f = k->flg;
+    s32 b = k->c0;
+    s32 dg = (d >> 5) & 0x1f;
+    s32 br = b & 0x1f;
+    s32 dr = d & 0x1f;
+    s32 bg = (b >> 5) & 0x1f;
+    s32 bb = (b >> 10) & 0x1f;
+    s32 db = (d >> 10) & 0x1f;
+    s32 num;
+    s32 den;
+    s32 ob;
+    s32 orr;
+    s32 og;
+    if (((f << 29) >> 31) == 0u)
+    {
+      out->col = (u16) ((dr | (dg << 5)) | (db << 10));
+      return;
+    }
+    num = t - t0;
+    den = t1 - t0;
+    ob = (num * (db - bb)) / den;
+    orr = (num * (dr - br)) / den;
+    if (bb)
+    {
+    }
+    og = (num * (dg - bg)) / den;
+    out->col = (u16) (((br + orr) | ((bg + og) << 5)) | ((bb + ob) << 10));
+    return;
+  }
+  if (t < t2)
+  {
+    s32 b = k->c1;
+    s32 d = n->col;
+    u32 f = k->flg;
+    s32 bg = (b >> 5) & 0x1f;
+    s32 ob;
+    s32 br = b & 0x1f;
+    s32 dg = (d >> 5) & 0x1f;
+    s32 db = (d >> 10) & 0x1f;
+    s32 dr = d & 0x1f;
+    s32 num;
+    s32 den;
+    s32 bb = (b >> 10) & 0x1f;
+    s32 orr;
+    s32 og;
+    tmp = br | (bg << 5);
+    if (((f << 29) >> 31) == 0u)
+    {
+      out->col = (u16) (tmp | (bb << 10));
+      return;
+    }
+    num = t - t1;
+    den = t2 - ((u32) t1);
+    ob = (num * (bb - db)) / den;
+    orr = (num * (br - dr)) / den;
+    tmp1 = (num * (bg - dg)) / den;
+    og = tmp1;
+    out->col = (u16) (((dr + orr) | ((dg + og) << 5)) | ((db + ob) << 10));
+    return;
+  }
+  out->col = k->c1;
+}
+
+
+
+WHAT IS STILL WRONG, and it is one shape, not many.  The image computes ALL
+FIVE shifts of a segment consecutively and only then the masks:
+
+    +004C  asr r7, sb, #5        dg = d >> 5
+    +0050  asr fp, sb, #0xa      db = d >> 10
+    +0054  lsl r4, r0, #0x1d     the flags << 29
+    +0058  asr r6, r8, #5        bg = b >> 5
+    +005C  asr r5, r8, #0xa      bb = b >> 10
+    +0060  lsrs r4, r4, #0x1f    the flag test
+    +0064  and sb, sb, #0x1f     dr, dg, db masked -- BEFORE the exit
+    +0068  and r7, r7, #0x1f
+    +006C  and r0, fp, #0x1f
+    +0070  orreq ...             the short-circuit exit
+    +0078  and r8, r8, #0x1f     br, bg, bb masked -- AFTER the exit
+    +007C  and r6, r6, #0x1f
+    +0080  and r5, r5, #0x1f
+
+Six initialisers of the form `(x >> n) & 0x1f` get the asr/and interleaved
+per channel instead.  RULED OUT, measured this wave at arm946e: splitting
+each channel into `dg = d >> 5;` at the declaration and `dg = dg & 0x1f;` as
+a later statement -- 492 bytes against 460, 371 out, which is the same
+finding the note already records at arm7tdmi and it survives the proc
+correction.  The masks-before-the-exit / masks-after-the-exit split has to
+come out of the initialiser run itself, so the lever is the DECLARATION
+ORDER of the six, not their shape; `decl-order(br<->db)` alone was worth 31
+bytes, and the search has not yet exhausted the 6! orderings.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 460 bytes against 460, 73
+concrete bytes out, ../1.2/sp2 -proc arm946e.

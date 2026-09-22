@@ -219,3 +219,296 @@ file names func_02065AA8 as one of two `label`-blocked targets, and a
 attests.  0x02065AA8 must itself reach EXACT first, i.e. 0x02067A60 must be
 filed, and then both files promote together.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+APPENDED wave 7 pseudo-family lane (pkt_02064B68), 2026-09-22
+==============================================================================
+
+Three near misses of the PART 2 "vtable dispatcher" family of
+docs/families/cluster_02064B68.h, all size-exact and all stuck on the same
+register-allocation tie.  Semantics are settled for all three; see the header
+for the shared matrix-selection block, which is byte-right in every source
+below.
+
+------------------------------------------------------------------------------
+0x02065020  func_02065020  DIFF
+/* best source, 276 bytes against 276, 35 concrete bytes out, dsi/1.1p1 */
+------------------------------------------------------------------------------
+
+Two dispatches in one function: the +0x34 callback whose int return decides
+the host's +0x30 flag, then the +0x38 callback, each preceded by its own copy
+of the matrix-selection block.
+
+THE LEVER that took it from 272 bytes / 185 out to 276 / 35 was the permuter's
+`expand(v x3)`: the vtable pointer must NOT be held in a named local across
+the first callback.  Spelled `struct Obj74 *v = g_02147B88.f08->f74;` and used
+three times, mwcc keeps `v` in r4 and reallocates the whole body; written out
+as `g_02147B88.f08->f74` at each of the three uses inside the first dispatch
+(and left as the local only for the second), the object and vtable reads come
+back where the image has them.  This is the same class as
+docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md
+run in reverse.
+
+The residue at 35 is a uniform register rotation across the whole selection
+block (r0->r1, r1->r2, r2->r3, r3->ip), i.e. one allocation tie at the top of
+the function that shifts everything below it.  Permuter: hill 230 mutations,
+none improves; anneal 2000 compiles in 163s, best unchanged.
+
+A wrong turn worth recording: the `f34` callback's argument order looks like
+`(a1, m, vt)` from a naive read of the `mov r0, r5` / `mov r2, r4` pair, but
+the permuter's own EXACT-block output settles it as `(a1, vt, m)` -- the `m`
+argument is already in r1 from the selection block and needs no move, which is
+why no `mov r1, ...` appears.
+
+------------------------------------------------------------------------------
+0x020653A4  func_020653A4  DIFF
+/* best source, 148 bytes against 148, 31 concrete bytes out, dsi/1.1p1 */
+------------------------------------------------------------------------------
+
+The five-argument dispatcher (+0x44 slot; the matrix goes on the stack,
+`str rN, [sp]`, which is what the `sub sp, sp, #4`-free
+`push {r3, r4, r5, lr}` frame pays for).
+
+THE LEVER that took it from 144 bytes (4 short) to 148 exact: unlike its
+sibling func_02065134, this function must read g_02147B88.f0c INSIDE BOTH
+ARMS, not hoisted above the branch -- the image has `ldreq lr, [lr, #0xc]` in
+the selected arm AND a second `ldr r4, [lr, #0xc]` in the other.  Writing
+`g_02147B88.f0c` twice is not enough; mwcc CSEs the two reads.  Each read
+spelled `((volatile struct Bank *)&g_02147B88)->f0c` reproduces both.  This is
+the same volatile-cast lever src/matched/func_02065D4C.c and
+src/matched/func_02065CE4.c carry for the pool word itself.
+
+Residue at 31: a three-way register rotation (lr<->r4, r4->r5) plus a pool
+ORDERING difference -- the image's literal pool runs D28, 81F8, D2C where
+every compile emits D2C, D28, 81F8, i.e. mwcc hoists the second table's base
+load above the first store.  Two reorderings of the two scratch stores (a
+named temporary per store; a volatile cast on the scratch object) leave both
+the rotation and the pool order unchanged.  Permuter: hill 143 mutations, none
+improves; anneal 2000 compiles in 145s, best unchanged at 31.
+
+------------------------------------------------------------------------------
+0x02066380  func_02066380  DIFF
+/* best source, 80 bytes against 80, 31 concrete bytes out, ../2.0/sp2 */
+------------------------------------------------------------------------------
+
+The matrix-slot POP, the counterpart of func_0206615C.  Supersedes the
+DRAFT recorded in docs/notes/pkt_02065D4C.c.txt, which was 84 bytes against
+80 with 37 out.
+
+Two levers over that draft, both named by the permuter's hill mode
+(`temp(tmp=g_02147B88.f_c - 1)` and
+`temp(tmp1=g_020A81F8 > g_02147B88.f_c)`): the decrement and the comparison
+must each be lifted into their own named local, and the comparison must be
+evaluated BEFORE the store -- which is exactly the image's
+`ldrh r2, [r0]` / `sub r3, r3, #1` / `str r3, [r1, #0xc]` / `cmp r2, r3`
+order.  That closes the 4-byte size gap.  The `u16 *` return type and the
+`return (u16 *)r;` early exit stay from the earlier draft: they are what
+materialise the boolean into the `movle #1` / `movgt #0` / `cmp` / `bxne`
+quartet instead of letting mwcc predicate the whole body away (a `void`
+function is 56 bytes, 43 out).
+
+Residue at 31: the guard's `f_c` read is CSE'd into r3 and reused after the
+branch where the image reloads it from the second pool word, and the tail's
+`return &g_020A81F8;` costs one `ldr r0, [pc, #4]` the image does not have.
+Making the guard read volatile restores the reload but costs 4 bytes
+(84/35); making the function void loses the boolean.  Both fixes are needed
+at once and no spelling delivers both.  The pin helps here (31 out under
+../2.0/sp2 against 35 under 1.1p1) but does not close it, so no pin is
+taken.  Permuter: hill 107 mutations; anneal 2000 compiles in 195s, best
+unchanged.
+
+=== C source, 0x02065020 (276/276, 35 out, dsi/1.1p1) ===
+/*
+ * function: func_02065020   address: 0x02065020   packet: pkt_02064B68
+ * compiler: 1.1p1   flags: -O4,p   isa: arm   status: DIFF
+ * symbols: g_02147B88 0x02147B88 data a4 / g_02147D18 0x02147D18 data a4
+ *          g_02147D28 0x02147D28 data a4 / g_02147D2C 0x02147D2C data a4
+ *          g_020A81F8 0x020A81F8 data a4 / g_020A8200 0x020A8200 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef int (*Fn34)(void *a, void *b, void *m);
+typedef void (*Fn38)(void *a, void *b, void *c, void *m);
+struct Obj74
+{
+  u8 pad_00[0x34];
+  Fn34 f34;
+  Fn38 f38;
+};
+struct Obj
+{
+  u8 pad_00[0x74];
+  struct Obj74 *f74;
+};
+struct Bank
+{
+  u8 pad_00[4];
+  int f04;
+  struct Obj *f08;
+  u32 f0c;
+};
+struct Mtx
+{
+  u8 pad[0x18];
+};
+struct Scr
+{
+  u8 pad_00[0x18];
+  u32 f18;
+  u32 f1c;
+};
+extern struct Bank g_02147B88;
+extern struct Mtx g_02147D18[];
+extern u8 g_02147D28[];
+extern u8 g_02147D2C[];
+extern struct Scr g_020A81F8;
+extern u8 g_020A8200[];
+struct Host
+{
+  u8 pad_00[0x30];
+  u32 f30;
+};
+void func_02065020(struct Host *h, void *a1)
+{
+  struct Obj74 *v = g_02147B88.f08->f74;
+  void *m;
+  if (g_02147B88.f08->f74->f34 != 0)
+  {
+    if (g_02147B88.f04 == 0)
+    {
+      m = &g_02147D18[g_02147B88.f0c];
+    }
+    else
+    {
+      u32 off = g_02147B88.f0c * 0x18;
+      g_020A81F8.f18 = *((u32 *) (&g_02147D28[off]));
+      g_020A81F8.f1c = *((u32 *) (&g_02147D2C[off]));
+      m = g_020A8200;
+    }
+    if (g_02147B88.f08->f74->f34(a1, g_02147B88.f08->f74, m) == 0)
+    {
+      h->f30 = 0;
+      return;
+    }
+    h->f30 = 1;
+  }
+  if (v->f38 == 0)
+    return;
+  if (g_02147B88.f04 == 0)
+  {
+    m = &g_02147D18[g_02147B88.f0c];
+  }
+  else
+  {
+    u32 off = g_02147B88.f0c * 0x18;
+    g_020A81F8.f18 = *((u32 *) (&g_02147D28[off]));
+    g_020A81F8.f1c = *((u32 *) (&g_02147D2C[off]));
+    m = g_020A8200;
+  }
+  v->f38(g_02147B88.f08, v, a1, m);
+}
+
+
+
+=== C source, 0x020653A4 (148/148, 31 out, dsi/1.1p1) ===
+/*
+ * function: func_020653A4   address: 0x020653A4   packet: pkt_02064B68
+ * compiler: 1.1p1   flags: -O4,p   isa: arm   status: DIFF
+ * symbols: same six data addresses as func_02065020 above
+ */
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef void (*Fn)(void *a, void *b, void *c, void *d, void *m);
+
+struct Obj74 {
+    u8 pad_00[0x44];
+    Fn f44;
+};
+
+struct Obj {
+    u8            pad_00[0x74];
+    struct Obj74 *f74;
+};
+
+struct Bank {
+    u8          pad_00[4];
+    int         f04;
+    struct Obj *f08;
+    u32         f0c;
+};
+
+struct Mtx { u8 pad[0x18]; };
+
+struct Scr {
+    u8  pad_00[0x18];
+    u32 f18;
+    u32 f1c;
+};
+
+extern struct Bank g_02147B88;
+extern struct Mtx  g_02147D18[];
+extern u8          g_02147D28[];
+extern u8          g_02147D2C[];
+extern struct Scr  g_020A81F8;
+extern u8          g_020A8200[];
+
+void func_020653A4(void *a0, void *a1, void *a2)
+{
+    struct Obj *o = g_02147B88.f08;
+    struct Obj74 *v = o->f74;
+    void *m;
+    int k;
+
+    if (v->f44 == 0)
+        return;
+
+    k = g_02147B88.f04;
+    if (k == 0) {
+        m = &g_02147D18[((volatile struct Bank *)&g_02147B88)->f0c];
+    } else {
+        u32 off = ((volatile struct Bank *)&g_02147B88)->f0c * 0x18;
+
+        g_020A81F8.f18 = *(u32 *)&g_02147D28[off];
+        g_020A81F8.f1c = *(u32 *)&g_02147D2C[off];
+        m = g_020A8200;
+    }
+
+    v->f44(o, v, a1, a2, m);
+}
+
+=== C source, 0x02066380 (80/80, 31 out, ../2.0/sp2) ===
+/*
+ * function: func_02066380   address: 0x02066380   packet: pkt_02064B68
+ * compiler: ../2.0/sp2   flags: -O4,p   isa: arm   status: DIFF
+ * symbols: g_02147B88 0x02147B88 data / g_020A81F8 0x020A81F8 data
+ */
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef struct
+{
+    u8 pad[0xc];
+    int f_c;
+} S02066380;
+
+extern S02066380 g_02147B88;
+extern u16 g_020A81F8;
+
+u16 *func_02066380(void)
+{
+    int r = g_02147B88.f_c <= 0;
+    int tmp;
+    int tmp1;
+
+    if (r != 0)
+        return (u16 *)r;
+
+    tmp = g_02147B88.f_c - 1;
+    tmp1 = g_020A81F8 > g_02147B88.f_c;
+    g_02147B88.f_c = tmp;
+    if (tmp1)
+        g_020A81F8 = 0xFFFE;
+
+    return &g_020A81F8;
+}
