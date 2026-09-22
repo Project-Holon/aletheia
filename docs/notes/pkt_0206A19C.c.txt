@@ -500,3 +500,135 @@ docs/notes/pkt_02072374.c.txt.
 Not filed: DIFF, by rule 6.  (0x0206A2CC and 0x0206A4AC were not re-attempted
 this pass; the previous append's measurements stand.)
 re-verified 2026-09-21 by tools/match.py: DIFF, 260 bytes against 264, 199 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, pseudo-family wave 7 (cluster pkt_0206A17C): all four residues
+reproduced under the CORRECT pin, and the permuter run to exhaustion on two
+==============================================================================
+
+FIRST, A CORRECTION TO THE RE-VERIFIED LINE AT THE FOOT OF THIS FILE.  It
+reads "DIFF, 260 bytes against 264, 199 concrete bytes out, 1.1p1", which is
+func_0206A4AC measured under dsi/1.1p1.  That is the WRONG COMPILER for these
+sources and it understates them badly.  Every one of the three sources
+recorded in this note is a `../2.0/sp2` file -- the header of the
+func_0206A3CC block says so, and the other two carry `compiler: 1.1p1` only
+because the lane that wrote them never updated the field.  Measured this pass:
+
+  function        1.1p1                          ../2.0/sp2
+  func_0206A2CC   252/256, 191 concrete out      256/256,  9 concrete out
+  func_0206A3CC   220/224, 165 concrete out      224/224,  2 concrete out
+  func_0206A4AC   260/264, 199 concrete out      264/264,  9 concrete out
+
+So the pin is worth ~190 bytes on each of these and the 1.1p1 figure should
+not be quoted as the state of the work.  The three sources in this note are
+correct AS RECORDED; only the compiler field needs setting to ../2.0/sp2
+before anyone re-measures them.  This also matches the cluster around them:
+eight members of pseudo-family pkt_0206A17C carry the same pin.
+
+func_0206A3CC -- PERMUTER RUN TO EXHAUSTION, floor still 2
+----------------------------------------------------------
+`tools/permuter.py --explain` prints the residue as exactly
+
+    baseline  DIFF   asm=10   bytes-out=2   size=224/224
+    register substitutions (image -> compiled), by count:
+      r5 -> r4  x1
+      r4 -> r5  x1
+
+a single symmetric pair at the correct size, which is the residue class the
+AST engine exists for.  Both searches were run:
+
+  --mode hill   --budget 800  --jobs 8 --types   315 single mutations tried,
+                                                 NONE improves
+  --mode anneal --budget 2000 --jobs 8 --types   2000 distinct compiles in
+                                                 118s, 34 stalls, floor 2
+
+2315 distinct compiles on top of the 28 hand spellings the three previous
+appends measured.  The floor does not move.
+
+WHY IT CANNOT MOVE, read off the diff rather than guessed.  The two differing
+rows are the DEFINITION points, +0028 `lsr r5, r2, #0x10` (the truncated
++0x2c value) and +002C `ldrh r4, [r3]` (the halfword at *d).  The block that
+CONSUMES them, +0034..+0040, is byte-identical in image and compile:
+
+    +0034  lsl r2, r4, #0xf     |  lsl r2, r4, #0xf
+    +0038  lsl r3, r5, #0xf     |  lsl r3, r5, #0xf
+    +003C  lsr r4, r2, #0x10    |  lsr r4, r2, #0x10
+    +0040  lsr r5, r3, #0x10    |  lsr r5, r3, #0x10
+
+Each value is shifted from rN back into the SAME rN, so the consumer is
+symmetric under the swap and exerts no pressure on it at all.  Nothing
+downstream distinguishes the two registers, which is precisely why no source
+reordering reaches the choice: the allocator is free, and it picks the other
+way.  Anyone returning to this should not try another spelling of the two
+definitions -- that ground is now covered by 2315 compiles plus 28 hand
+variants -- and should treat it as the same immovable allocation tie as the
+mla triple of docs/notes/pkt_02063078.c.txt.
+
+Also corrected while re-reading the image: the note's prose above calls the
+guard arm a `>>1`, but the image spells it `lsl #0xf` then `lsr #0x10`, i.e.
+the shift folded with a u16 truncation (the
+`unequal-shift-pair-is-a-narrowing-cast-folded-with-a-shift` idiom), not a
+bare shift.  The recorded source's `(u16)(z >> 1)` already produces this; the
+prose was just loose.
+
+  /* best source, 224 bytes against 224, 2 concrete bytes out, ../2.0/sp2 */
+  (the func_0206A3CC source recorded verbatim earlier in this file, with
+   `compiler: ../2.0/sp2` in its header)
+  permuter best result line:
+    best      DIFF   asm=10    bytes-out=2    size=224/224
+
+Four further spellings measured this pass, all 2: the `*d` halfword read
+inside each arm of the guard instead of hoisted (228 bytes, SIZE -- worse, and
+confirms the hoist is load-bearing); the `(u16)z` truncation moved inside the
+`w` block after the read; the guard's flag lifted into its own `u32 fl` local
+so `t` is created only in the arms; and the `ip` computation moved above the
+`z` chain.
+
+func_0206A2CC -- PERMUTER RUN TO EXHAUSTION, floor still 9
+----------------------------------------------------------
+Same treatment, same outcome.  `--explain` under the pin:
+
+    baseline  DIFF   asm=45   bytes-out=9   size=256/256
+    register substitutions (image -> compiled), by count:
+      r8 -> sb  x4
+      sb -> r8  x4
+
+again symmetric, again at the correct size, confirming this note's own
+reading that the image puts the guarded base in r8 and the 0x10-strided
+accumulator in sb and the compile swaps them.
+
+  --mode hill   --budget 800  --jobs 8 --types   285 single mutations, none
+                                                 improves
+  --mode anneal --budget 2000 --jobs 8 --types   2000 distinct compiles in
+                                                 156s, floor 9
+
+2285 distinct compiles on top of this note's thirteen plus the second
+append's further spellings.  Unmoved.
+
+  /* best source, 256 bytes against 256, 9 concrete bytes out, ../2.0/sp2 */
+  (the func_0206A2CC source recorded verbatim earlier in this file, with
+   `compiler: ../2.0/sp2` in its header)
+  permuter best result line:
+    best      DIFF   asm=45    bytes-out=9    size=256/256
+
+func_0206E62C's signature was re-checked against the image while doing this,
+since a callee's parameter width is the other place this class of residue
+hides: `cmp r1, #0` / `moveq r0, #0` / `popeq` at 0x0206E630..0x0206E638
+confirms two live pointer parameters and nothing narrower, so the note's
+`extern void *func_0206E62C(void *p, void *q);` stands.
+
+func_0206A4AC -- reproduced at 9, not separately permuted
+----------------------------------------------------------
+264/264 with 9 concrete out under the pin, byte-for-byte the same residue and
+the same eight offsets as func_0206A2CC, exactly as the first append predicted.
+Not permuted separately: the two functions differ only in the table offset
+(K=2 rather than 0) and the context argument, and no lever moved func_0206A2CC.
+
+func_0206A19C -- still not re-attempted
+----------------------------------------------------------
+Unchanged from the first append's description; the prologue spill choice is
+still the blocker and the two levers it lists are still the place to start.
+
+Not filed: DIFF, by rule 6.  Three functions of this cluster DID close this
+pass and are filed in src/matched: func_0206A854, func_0206A8FC and
+func_0206A9DC (see docs/families/cluster_0206A17C.h for the subsystem).

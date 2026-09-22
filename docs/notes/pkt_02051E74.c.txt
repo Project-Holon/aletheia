@@ -87,3 +87,160 @@ void func_02051E74(void *mtx, u32 ang, void *v1, void *v2, u8 mode)
 }
 */
 re-verified 2026-09-21 by tools/match.py: DIFF, 168 bytes against 192, 18 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED, wave 7 pseudo-family cluster_02051E64: func_02051F34, the function
+BELOW this note's subject, taken from scratch to size-exact with a 56-byte
+residue.  Not filed.  (func_02051E74 itself was not re-attempted: the note
+above establishes it is MATCH-capped by a one-address label wall independent
+of the C, and that reading still holds.)
+==============================================================================
+
+func_02051F34 @ 0x02051F34, 328 bytes, ARM, --cc 1.1p1 -O4,p.
+NOT the 1.2 pin: this is a PART 1 math helper of cluster_02051E64 and
+dsi/1.1p1 is right for it (see docs/families/cluster_02051E64.h).
+
+WHAT IT IS: a segment-versus-sphere intersection test.  Given a segment
+(seg->p0 at +0x00, seg->p1 at +0x0c) and a ball (centre at +0x00, radius at
++0x0c), it projects the centre onto the segment --
+t = FX_Div(dot(d, c - p0), dot(d, d)) where d = p1 - p0 -- and takes one of
+two paths:
+
+  * 0 <= t <= 0x1000 (the projection lands ON the segment): scale d by t,
+    subtract, measure, and compare the distance against the ball radius
+    PLUS the word at seg+0x18.  That extra term is the `ldr r1,[r6,#0x18]`
+    / `add r1,r2,r1` pair at +00A8/+00B0 and is easy to miss: without it
+    the arm tail-merges with the else and the function is 32 bytes short.
+  * otherwise (the projection is off either end): measure to p1 first, and
+    only if that misses, measure to p0.
+
+The result is written into a 20-byte out-struct at sp+0x24 -- { u32 hit;
+Vec3 normal; int dist; } -- which is copied to the caller's buffer with the
+`ldm r5!,{r0-r3}; stm r4!,{r0-r3}; ldr; str` quintet at +0128..+0134 when
+the third argument is non-null, and `hit` is returned.
+
+WHAT FIXED THE FRAME (0x38, nine registers pushed):
+The three out-values must be ONE declared struct at the top of the frame,
+not three separate locals.  Written separately the compiler packs the frame
+to 0x34 and the ldm/stm copy becomes field-by-field moves: 296 bytes, 32
+short.  Declared as a struct with the locals AFTER it in the order
+sd, bc, tmp -- the later declaration takes the LOWER stack address, per
+docs/idioms/local-declaration-order-is-stack-order.md -- the frame, the
+push list and every `add rN, sp, #k` immediate come out right in one go.
+
+WHAT FIXED THE SIZE (328 exactly):
+Three temporaries, all found by tools/permuter.py --mode hill and none of
+them obvious: bind dot(d, d), bind dot(d, c - p0) and bind b->r.  The two
+dot products must each be a NAMED LOCAL before FX_Div rather than inline
+arguments -- this is docs/idioms/cmp-operand-order-names-the-temporary.md
+in its call-argument form, and it is worth 4 bytes and the whole of the
++0044..+0068 schedule.
+
+THE RESIDUE: 56 concrete bytes at 328/328 after
+`--mode anneal --budget 1500 --jobs 8 --types`, down from 72 at the
+hand-written point.  It is register allocation across the two arms, not
+shape: the branch targets, the call order, the frame and the stack offsets
+all agree.  The anneal's own mutation stack at 56 is fourteen deep and no
+longer legible as C, so it is NOT reproduced here; the honest record is the
+hand-written 72-byte source below plus the three permuter temps named above,
+which is the point a next lane should restart from with a fresh anneal.
+
+/* best source, 332 bytes against 328, 72 concrete bytes out, 1.1p1 */
+/*
+ * function: func_02051F34
+ * address:  0x02051F34
+ * packet:   pkt_02051F34
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * symbols:
+ *   VEC_Subtract    0x0207CA00  arm
+ *   VEC_DotProduct  0x0207CA68  arm
+ *   VEC_Mag         0x0207CBD0  arm
+ *   VEC_Normalize   0x0207CCA4  arm
+ *   FX_Div          0x0207C768  arm
+ *   func_020520A4   0x020520A4  arm
+ */
+
+typedef unsigned int u32;
+
+struct Vec3 { int x; int y; int z; };
+
+struct Seg {
+    struct Vec3 p0;   /* 0x00 */
+    struct Vec3 dir;  /* 0x0c */
+    u32 pad18;
+};
+
+struct Ball {
+    struct Vec3 c;    /* 0x00 */
+    int r;            /* 0x0c */
+};
+
+struct Out {
+    u32 hit;          /* 0x00 */
+    struct Vec3 n;    /* 0x04 */
+    int d;            /* 0x10 */
+};
+
+extern void VEC_Subtract(const struct Vec3 *a, const struct Vec3 *b, struct Vec3 *d);
+extern int  VEC_DotProduct(const struct Vec3 *a, const struct Vec3 *b);
+extern int  VEC_Mag(const struct Vec3 *v);
+extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
+extern int  FX_Div(int a, int b);
+extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
+
+u32 func_02051F34(struct Seg *seg, struct Ball *b, struct Out *out)
+{
+    struct Out  res;    /* sp+0x24: res.hit, n, d -- copied out as one block */
+    struct Vec3 sd;     /* sp+0x18 */
+    struct Vec3 bc;     /* sp+0x0c */
+    struct Vec3 tmp;    /* sp+0x00 */
+    int t;
+    int lim;
+
+    res.hit = 0;
+    VEC_Subtract(&seg->dir, (struct Vec3 *)seg, &sd);
+    VEC_Subtract((struct Vec3 *)b, (struct Vec3 *)seg, &bc);
+
+    t = FX_Div(VEC_DotProduct(&sd, &bc), VEC_DotProduct(&sd, &sd));
+    if (t >= 0 && t <= 0x1000) {
+        func_020520A4(&sd, t, &sd);
+        VEC_Subtract(&sd, &bc, &tmp);
+        res.d = VEC_Mag(&tmp);
+        lim = b->r + seg->pad18;
+    } else {
+        VEC_Subtract((struct Vec3 *)b, &seg->dir, &tmp);
+        res.d = VEC_Mag(&tmp);
+        lim = b->r;
+        if (res.d <= lim) {
+            res.hit = 1;
+            goto done;
+        }
+        tmp = bc;
+        res.d = VEC_Mag(&tmp);
+        lim = b->r;
+    }
+    if (res.d <= lim)
+        res.hit = 1;
+done:
+    ;
+
+    if (out != 0) {
+        VEC_Normalize(&tmp, &res.n);
+        *out = res;
+    }
+    return res.hit;
+}
+
+permuter best result line (from the source above):
+  baseline  DIFF   asm=730   bytes-out=72   size=332/328
+    398  DIFF   asm=1105  bytes-out=72   size=328/328  <- temp(tmp2=b->r)
+    599  DIFF   asm=840   bytes-out=63   size=328/328  <- temp(tmp3=VEC_DotProduct(&sd, &bc))
+  anneal from there, 1500 compiles in 61s:
+  best      DIFF   asm=620   bytes-out=56   size=328/328
+
+Addresses are Black-image addresses.

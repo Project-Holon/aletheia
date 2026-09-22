@@ -173,3 +173,180 @@ int func_02052984(struct Obj *o, Alloc alloc)
     return 1;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 204 bytes against 204, 16 concrete bytes out, ../1.2/sp2
+
+==============================================================================
+APPENDED, wave 7 pseudo-family cluster_02051E64: func_020528D0 taken from
+scratch to an EIGHT-BYTE residue.  Not filed; a DIFF has no home in
+src/matched.  This is the PALETTE twin of func_02052984 above and its
+residue is the SAME shape, so the two close together.
+==============================================================================
+
+func_020528D0 @ 0x020528D0, 180 bytes, ARM, --cc ../1.2/sp2
+-O4,p -proc arm946e (same 1.2 pin as its twin, and for the same measured
+reason: `blx fp` at 0x02052938 beside the ARMv4T return at 0x0205297C).
+
+WHAT IT IS: the texture-PALETTE upload pass.  GX_BeginLoadTexPltt, then a
+walk of o->f32 rows of 0x14 bytes at o->f2c; each row's first word is a
+resource pointer.  A row whose resource has a zero size word (res->f10) is
+skipped with a zero handle; otherwise the caller's callback allocates VRAM
+and GX_LoadTexPltt uploads.  The handle is stored at row+0x08 (its twin
+stores the TEXTURE handle at row+0x04: two fields, not one).  Then
+GX_EndLoadTexPltt and `return 1`.
+
+THREE FINDINGS, none of them in the twin's note, each worth real bytes:
+
+ 1. The callback's FIRST argument is `res->f10` (the size word), NOT the
+    resource pointer.  The image emits no `mov r0, rN` before the `blx fp`
+    -- it reuses the register the `ldr r0,[r7,#0x10]` size guard already
+    loaded.  Passing `res` instead costs exactly that one `mov` and
+    compiles to 184 bytes against 180.  Four bytes, and it reads as a
+    scheduling difference rather than a wrong argument, which is what makes
+    it expensive to find.
+ 2. The 4-bit kind field must be a DECLARED BITFIELD, not a shift pair on a
+    loaded word.  Both `(res->f04 << 28) >> 28` and a `u32 f` temporary
+    holding the word fold to `and r0, r0, #0xf`; only
+    `u32 kind : 4;` in the struct produces the image's
+    `lsl r1,r1,#0x1c / lsr r1,r1,#0x1c` pair.  This is the same finding the
+    twin's note records for func_02052FC8's 21/1/1/9 word, and it
+    generalises: on this front end a bitfield READ shifts in place, a
+    masked word does not.
+ 3. `u32 v` (the handle) must be declared BEFORE `struct Row *r`, not
+    after.  Found by tools/permuter.py as `decl-order(r<->v)`; worth four
+    bytes (12 out -> 8 out) and reachable no other way.
+
+THE RESIDUE, 8 bytes, 6 instructions, a pure two-cycle register swap:
+
+  * +0028    mov r5, sb              | mov r8, sb
+  * +003C    ldr r7, [r0, r5]        | ldr r7, [r0, r8]
+  * +0040    add r8, r0, r5          | add r5, r0, r8
+  * +0070    ldr r1, [r8]            | ldr r1, [r5]
+  * +0088    str r6, [r8, #8]        | str r6, [r5, #8]
+  * +0094    add r5, r5, #0x14       | add r8, r8, #0x14
+
+The byte OFFSET `off` and the ROW ADDRESS trade r5 and r8.  The image keeps
+the offset in r5 (the register it also increments by 0x14) and the row
+address in r8; this compile does the reverse.  Every instruction is
+otherwise identical, in order, and the argument setup follows the swap
+consistently.  This is the twin's residue (2) with r5/r8 in place of
+r6/r8; the twin's residue (1), the r0/r1 flags-word swap, is GONE here,
+closed by finding 2 above -- so applying the bitfield declaration to
+func_02052984 should take it from 12 bytes out to 8, the same wall.
+
+WHAT WAS MEASURED AND DID NOT MOVE IT (all 8 out unless noted):
+  - tools/permuter.py --mode hill --budget 800 --types:  231 single
+    mutations from the 8-byte point, none improved.
+  - tools/permuter.py --mode anneal --budget 2000 --jobs 8 --types:
+    2000 compiles in 187s, best unchanged at 8.  Register map from
+    --explain at that point: r5 -> r8 x4, r8 -> r5 x1.
+  - the ROW POINTER as the induction variable (the shape the twin's note
+    named as the one untried): 168 bytes, TWELVE SHORT.  This is now
+    measured and is NOT the answer; the offset really is the induction
+    variable.
+  - no `r` local at all, everything through `(char *)o->f2c + off`: 184.
+  - `r` derived from `res` / `res` derived from `r->res`: 13 and 17.
+  - `r` as `char *` rather than `struct Row *`: 8.
+  - `off` as u32 rather than int: 8.  `off = 0` rather than `off = i`: 8.
+  - all six declaration permutations of {i, off, one, zero}: 8, 8, 8, 8,
+    14, and one CCERR.
+  - `v` declared outside the loop: CCERR (declaration after statement).
+  - a hoisted `struct Row *base = o->f2c`: CCERR, same reason.
+
+The cluster's own closing lever (write an address-of INLINE rather than
+binding it to a hoisted pointer local -- it closed func_02052770 from 33
+bytes out and func_02052274 from 8) was tried here and is NOT it: the row
+address is genuinely a loop-body local in both compiles, and removing it
+costs four bytes rather than saving eight.
+
+/* best source, 180 bytes against 180, 8 concrete bytes out, ../1.2/sp2 */
+/*
+ * function: func_020528D0
+ * address:  0x020528D0
+ * packet:   pkt_020528D0
+ * region:   arm9
+ * compiler: ../1.2/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF (8 concrete bytes out, register swap)
+ * symbols:
+ *   GX_BeginLoadTexPltt  0x0207FA0C  arm
+ *   GX_LoadTexPltt       0x0207FA40  arm
+ *   GX_EndLoadTexPltt    0x0207FADC  arm
+ */
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Res {
+    u32 f00;
+    u32 kind : 4;
+    u32 f04_hi : 28;
+    u32 f08;
+    u32 f0c;
+    u32 f10;
+};
+
+struct Row {
+    struct Res *res;
+    u32 pad04;
+    u32 vram;
+    u32 pad[2];
+};
+
+struct Obj {
+    u32 pad0[11];
+    struct Row *f2c;
+    u16 pad1[1];
+    u16 f32;
+};
+
+typedef u32 (*Alloc)(void *, u32);
+
+extern void GX_BeginLoadTexPltt(void);
+extern void GX_LoadTexPltt(void *dst, u32 a, u32 b);
+extern void GX_EndLoadTexPltt(void);
+
+int func_020528D0(struct Obj *o, Alloc alloc)
+{
+    int i;
+    int off;
+    u32 one;
+    u32 zero;
+
+    GX_BeginLoadTexPltt();
+
+    i = 0;
+    if ((int)o->f32 > 0) {
+    one = 1;
+    off = i;
+    zero = i;
+    do {
+        struct Res *res = *(struct Res **)((char *)o->f2c + off);
+        u32 v = zero;
+        struct Row *r = (struct Row *)((char *)o->f2c + off);
+
+        if (res->f10 != 0) {
+            u32 arg;
+            if (res->kind == 2)
+                arg = one;
+            else
+                arg = zero;
+            v = alloc((void *)res->f10, arg);
+            GX_LoadTexPltt((void *)(*(u32 *)r + res->f0c), v, res->f10);
+        }
+        r->vram = v;
+        i++;
+        off += 0x14;
+    } while (i < (int)o->f32);
+    }
+
+    GX_EndLoadTexPltt();
+    return 1;
+}
+
+permuter best result line:
+  baseline  DIFF   asm=40    bytes-out=8    size=180/180
+  no single mutation improves DIFF   asm=40    bytes-out=8    size=180/180 (231 tried)
+  (anneal, 2000 compiles in 187s: best unchanged)
+
+Addresses are Black-image addresses.
