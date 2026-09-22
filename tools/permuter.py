@@ -427,6 +427,12 @@ class TempForExpr:
             return None
         if isinstance(expr, c_ast.FuncCall) and isinstance(p, c_ast.Compound):
             return None  # a bare call statement; nothing to lift
+        if has_call(expr):
+            # lifting a call ahead of the statement reorders side effects unless it is the
+            # statement's only call; the scorer cannot see a changed call order or count
+            ncalls = sum(1 for n, _, _, _ in walk(comp.block_items[i]) if isinstance(n, c_ast.FuncCall))
+            if ncalls > 1:
+                return None
         t = ctx.type_of(expr)
         if t is None or isinstance(t, c_ast.ArrayDecl):
             t = mk_type(rng.choice(("int", "u32", "s32")))
