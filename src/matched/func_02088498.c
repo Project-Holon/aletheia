@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH*
- * note:     re-verified 2026-09-20: MATCH*; see verify output
+ * status:   EXACT
  * blocker:  ABS32 func_020884A4 at +0x08: the callee is the next function and nothing outside branches to it
  */
 

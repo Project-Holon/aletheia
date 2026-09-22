@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-21 in a fresh process: MATCH; see verify output.
+ * status:   EXACT
  *           function_starts.txt line 337 seeds this leaf at 0x0201049C (4 bytes
  *           too high); the real prologue and byte-exact fit are at 0x02010498,
  *           per docs/notes/unit_0201045C.c.txt.

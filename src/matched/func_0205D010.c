@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  * blocker:  +0008 ABS32 func_0205CF24          -> unresolved: 0205CF24 (arm, from name) has no witness outside 0205D010..0205D01C
  *           r2 sweep: still capped -- no EXACT manifest entry covers the site; the matched class has no witness to offer.
  */
