@@ -41,3 +41,60 @@ little-endian); the other three accessors use 'KNBA' (0x0206266C), 'KBCM'
 (0x02062958) and 0x4345424b (see src/pending/func_02062820.c), which is how the
 family can be recognised from the bytes.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02062B30.c:12: undefined identifier 'pkt_02062B30'
+
+================================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family lane (pkt_02062688 / pkt_02094750).
+================================================================================
+
+Re-measured and CONFIRMED as a wall.  The note above is right in every respect;
+this appendix only records what was measured against it, so a later lane does
+not re-derive the same dead end.  (The "CCERR" on the 2026-09-21 re-verify line
+is an artefact of the re-verifier compiling the note's prose, not the C: the
+source in src/pending/func_02062B30.c compiles fine and is DIFF, 19 concrete
+bytes, 48 against 52.)
+
+The residue in one line: the image predicates its `r == 0` arm
+(`moveq`/`streq`/`popeq`, three instructions) and leaves the `r != 0` arm as a
+plain fall-through; every C spelling predicates BOTH arms and drops the
+`popeq`, which is the whole four-byte gap.
+
+Why the documented escape does not apply.  The sibling accessor func_02062634
+IS byte-exact with the same source shape, and the difference is visible in the
+image: its false arm is SIX instructions (`add`/`bl`/`add`/`str`/`mov`/`pop`)
+because it has a fixup call to make, so it clears the five-instruction
+threshold of
+docs/idioms/an-arm-guard-block-of-five-instructions-or-fewer-is-predicated.md.
+func_02062B30 is the ONLY member of the eight-accessor family whose block has
+no fixup to run (tag 'NRCS', the NSCR screen-data body needs none), so its
+false arm is four instructions and there is nothing to move into it -- exactly
+the situation
+docs/idioms/a-guard-whose-arm-can-carry-the-body-is-not-predicated.md excludes.
+The family membership is itself the evidence that the C is right.
+
+Measured this wave, all 48 bytes against 52, all with the same 19 or 21 out:
+
+  - the negative form (`if (r == 0) { *out = 0; return 0; } ...`)   19 out
+  - the positive form (`if (r != 0) { *out = r + 8; return 1; } ...`) 21 out
+  - an explicit `goto fail;` for the zero arm                       48 bytes
+  - `char *volatile *` for the out-parameter                        48 bytes
+  - `&res[8]` instead of `res + 8`, with an explicit `else`         48 bytes
+  - the sibling cluster's compiler `--cc ../2.0/sp2`                48 bytes
+    (checked because the brief says to try the sibling's compiler first; this
+    cluster has no pin -- all 19 matched sources are 1.1p1 -- and sp2 gives
+    the identical predication, so the threshold is not a front-end property)
+
+tools/permuter.py: hill exhausts all 48 single mutations from the pending
+source without improving it; anneal at 2000 candidates reaches 18 concrete
+bytes out (`block(do0,1) ; use(r1) ; temp(tmp=res + 8) ; split-assign(tmp) ;
+expand(tmp x1)`) but never moves the SIZE off 48/52, which is the only number
+that matters here.  A mutation search cannot help: no value-preserving
+rewriting of a four-instruction arm can make the compiler stop predicating it.
+
+/* best source, 48 bytes against 52, 19 concrete bytes out, 1.1p1 */
+(unchanged -- src/pending/func_02062B30.c, status DIFF, as it stands)
+
+permuter best result line:
+  best      DIFF   asm=145   bytes-out=18   size=48/52
+  mutations block(do0,1) ; use(r1) ; temp(tmp=res + 8) ; split-assign(tmp) ;
+            expand(tmp x1)
+re-verified 2026-09-22 by tools/match.py: DIFF, 48 bytes against 52, 19 concrete bytes out, 1.1p1

@@ -127,3 +127,215 @@ void func_02062688(struct AssetHeader *hdr)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 336 bytes against 336, 286 concrete bytes out, 1.1p1
+
+
+================================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family lane (pkt_02062688 / pkt_02094750).
+================================================================================
+
+The source recorded above (286 of 336 concrete bytes out) is superseded.  It had
+the right SEMANTICS but the wrong shape in both halves, and the register residue
+it reports as "7 callee-saved vs 5" is a consequence, not a cause.  Two
+structural facts were read off the image and neither is in that source:
+
+ 1. THE SECOND HALF WALKS BY BYTE CURSOR, NOT BY INDEX.  The outer loop of the
+    sub-bank walk advances `add r3, r3, #0xc` and the inner one `add r8, r8, #4`,
+    with a SEPARATE plain counter compared against a reloaded `ldrh`
+    (`cmp r1, r5` / `blo`).  Writing `&nodes[k]` with a u16 index compiles a
+    `mul` by 12 and pays an `lsl #16`/`lsr #16` truncation pair per iteration.
+    The counters in this half are u32; only the FIRST half's two counters are
+    u16 (they do carry the truncation pairs, at +0x70/+0x80 and +0x94/+0x9C).
+
+ 2. THE +0x04/+0x08 PAIR IS RE-LOADED AFTER THE STORES, WITH ONE `ldmib`.
+    This is the same "re-read the optimiser deletes" lever that closed the
+    cluster's sibling func_0206296C this wave -- see the new
+    docs/families/cluster_02062688.h -- and it is where this function still
+    stands open.
+
+BEST SOURCE NOW, and exactly what is left.  Two measured points, both better
+than anything previously recorded:
+
+  a9  -- 332 bytes against 336, 237 concrete bytes out.  MISLEADING NUMBER:
+         every one of those 237 is a four-byte SHIFT.  The compile is
+         instruction-for-instruction and register-for-register identical to the
+         image except that it lacks the one `ldmib r0, {r4, r5}` at +0x30, so
+         everything after +0x2C lands four bytes early.  This is the source
+         below.
+  a9 + permuter anneal (2000 candidates, `temp(tmp=(u32) seq[i].frames) ;
+         expand(mc x3) ; decl-order(k<->m) ; goto-ret ; hoist-up(m,-1) ;
+         commute(+) ; selfassign(sub) ; temp(tmp1=seq[i].frames[j].data) ;
+         hoist-down(off,+1) ; decl-order(frames<->seq) ; hoist-up(tmp,-1) ;
+         temp(tmp2=sub + 8) ; type:ret-var(tmp2) ; decl-order(k<->mc) ;
+         commute(+)`) -- 336 bytes against 336, 95 concrete bytes out.  Size
+         exact, but it buys the four bytes back somewhere other than the
+         `ldmib`, so it is a worse starting point than a9 despite the better
+         score.
+
+THE ONE REMAINING OBSTACLE, stated precisely.  The re-load and the `ldmib`
+merge cannot currently be had at the same time:
+
+  - WITHOUT `volatile`, the two reads of +0x04 and +0x08 are folded into the
+    values just stored (a9: `add r4, r1, r0` / `str r4, [r0, #4]` reuses r4),
+    so there is no second load to merge and the function is four bytes short.
+  - WITH `volatile` (variant a5/a8, 340 bytes), the second load DOES appear,
+    correctly placed at +0x30 and correctly into r4 and r5 -- but as two
+    separate `ldr`s, because the compiler may not combine volatile accesses.
+    Four bytes long instead of four bytes short.
+
+That the merge itself is reachable is proved from the other direction: writing
+the three fixups as plain field stores makes the compiler emit `stmib r0,
+{r4, r5}` for the +0x04/+0x08 PAIR OF STORES (variant b2).  So the peephole
+fires on this exact register pair and offsets; only the volatile qualifier on
+the loads blocks it.
+
+Spellings measured against this, all rejected:
+
+  - `volatile` on the whole bank pointer, reads plain            340 bytes
+  - `volatile` on the bank, reads as one `*(volatile u32 *)` each 340 bytes
+  - `volatile` on the bank, pair read through a `volatile struct BankPair *`
+    by value                                                     356 bytes (spills to a stack home)
+  - same, non-volatile struct-typed pair copy                    356 bytes (same spill)
+  - `volatile` STORES (`*(volatile u32 *)&bank->offSeq = ...`), plain reads
+                                                                 332 bytes, reads hoist ABOVE the stores
+  - two struct types over the same bytes, offsets `u32` for the store side and
+    pointers for the read side (defeating the alias check)       328 bytes, reads hoist to the top
+  - a `static void fixup(u32 *p, void *base)` helper called three times
+                                                                 NOT INLINED -- three real `bl`s, 348 bytes
+  - a `u32 *p` cursor doing the three read-modify-writes         328 bytes
+  - a dead `bank->unk10 = bank->unk10;` between the stores and the reads
+                                                                 340 bytes
+
+tools/permuter.py, run from both a3 (size-exact, 143 out) and a9: hill exhausts
+every single mutation from either (102 and 58 sites tried) without reaching the
+`ldmib`; anneal at 2000 candidates gets a9 to 95 bytes out at size 336 but never
+emits the merged load.  The residue the permuter cannot move at all is in the
+reading of the image, per the lesson in the brief -- here specifically in HOW THE
+SECOND READ IS SPELLED, not in the allocation.
+
+WHAT A NEXT LANE SHOULD TRY.  Something that makes the re-load unforwardable
+WITHOUT `volatile`: an intervening store the compiler cannot prove disjoint from
++0x04/+0x08 (the image has none, so it would have to be a spelling artefact), or
+a different declaration of the bank whose +0x04/+0x08 the store side does not
+name at all.  Note the image's THIRD fixup (+0x0c) keeps its value in r6 and is
+never re-read, so whatever the original wrote, it distinguishes the first two
+fields from the third -- that asymmetry is the strongest unused clue.
+
+/* best source, 332 bytes against 336, 237 concrete bytes out, 1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct AnimFrame {              /* stride 8 */
+    u32 data;                   /* +0x00  offset into the frame-data pool   */
+    u32 duration;               /* +0x04                                    */
+};
+
+struct AnimSequence {           /* stride 0x10 */
+    u16 numFrames;              /* +0x00 */
+    u16 loopStart;              /* +0x02 */
+    u32 animType;               /* +0x04 */
+    u32 playMode;               /* +0x08 */
+    struct AnimFrame *frames;   /* +0x0c */
+};
+
+struct MultiCellNode {          /* stride 0x0c */
+    u16 numCells;               /* +0x00 */
+    u16 unk02;                  /* +0x02 */
+    u8 *unk04;                  /* +0x04 */
+    u32 *cells;                 /* +0x08 */
+};
+
+struct MultiCellBank {
+    u16 numNodes;               /* +0x00 (bank + 8) */
+    u16 unk02;
+    struct MultiCellNode *nodes;/* +0x04 */
+};
+
+struct BankPair {
+    u32 seq;
+    u32 frames;
+};
+
+struct AnimBank {
+    u16 numSequences;           /* +0x00 */
+    u16 numTotalFrames;         /* +0x02 */
+    struct AnimSequence *seq;   /* +0x04 */
+    struct AnimFrame *frames;   /* +0x08 */
+    u8 *pool;                   /* +0x0c */
+    u32 unk10;                  /* +0x10 */
+    u8 *sub;                    /* +0x14 */
+};
+
+void func_02062688(volatile struct AnimBank *bank)
+{
+    u16 i, j;
+    u16 n;
+    struct AnimSequence *seq;
+    struct AnimFrame *frames;
+    u8 *pool;
+    u8 *sub;
+
+    bank->seq    = (struct AnimSequence *)((u32)bank->seq + (u32)bank);
+    bank->frames = (struct AnimFrame *)((u32)bank->frames + (u32)bank);
+    pool         = (u8 *)bank->pool + (u32)bank;
+    bank->pool   = pool;
+
+    i = 0;
+    n = bank->numSequences;
+    {
+        struct BankPair *pp = (struct BankPair *)((u8 *)bank + 4);
+        seq = (struct AnimSequence *)pp->seq;
+        frames = (struct AnimFrame *)pp->frames;
+    }
+
+    while (i < n) {
+        seq[i].frames = (struct AnimFrame *)((u32)seq[i].frames + (u32)frames);
+        for (j = 0; j < seq[i].numFrames; j++) {
+            seq[i].frames[j].data = seq[i].frames[j].data + (u32)pool;
+        }
+        n = bank->numSequences;
+        i++;
+    }
+
+    sub = bank->sub;
+    if (sub != 0) {
+        u32 k, m;
+        u32 off, coff;
+        volatile struct MultiCellBank *mc;
+        sub = sub + (u32)bank;
+        bank->sub = sub;
+        mc = (volatile struct MultiCellBank *)(sub + 8);
+        mc->nodes = (struct MultiCellNode *)((u32)mc->nodes + (u32)mc);
+        k = 0;
+        off = 0;
+        if (mc->numNodes == 0) {
+            return;
+        }
+        do {
+            u8 *nb = (u8 *)mc->nodes;
+            struct MultiCellNode *n = (struct MultiCellNode *)(nb + off);
+            coff = 0;
+            m = 0;
+            n->unk04 = n->unk04 + (u32)mc;
+            n->cells = (u32 *)((u8 *)n->cells + (u32)mc);
+            while (m < *(volatile u16 *)(nb + off)) {
+                u8 *cb = (u8 *)n->cells;
+                *(u32 *)(cb + coff) = *(u32 *)(cb + coff) + (u32)mc;
+                m++;
+                coff += 4;
+            }
+            k++;
+            off += 0xc;
+        } while (k < mc->numNodes);
+    }
+}
+
+permuter best result line (from a9, anneal 2000, --types):
+  best      DIFF   asm=1030  bytes-out=95   size=336/336
+  mutations temp(tmp=(u32) seq[i].frames) ; expand(mc x3) ; decl-order(k<->m) ;
+            goto-ret ; hoist-up(m,-1) ; commute(+) ; selfassign(sub) ;
+            temp(tmp1=seq[i].frames[j].data) ; hoist-down(off,+1) ;
+            decl-order(frames<->seq) ; hoist-up(tmp,-1) ; temp(tmp2=sub + 8) ;
+            type:ret-var(tmp2) ; decl-order(k<->mc) ; commute(+)
+re-verified 2026-09-22 by tools/match.py: DIFF, 332 bytes against 336, 237 concrete bytes out, 1.1p1

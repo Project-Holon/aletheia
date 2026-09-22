@@ -131,3 +131,110 @@ everything after +0x0064 is a register-numbering cascade from the two holes
 rather than independent evidence. Work it at the default compiler. No other
 front end was tried.
 re-verified 2026-09-21 by tools/match.py: DIFF, 208 bytes against 212, 130 concrete bytes out, 1.1p1
+
+=== 2026-09-22, wave 7 pseudo-family lane (pkt_02070360): THE 4-BYTE HOLE IS
+    CLOSED. Size-exact at 212 bytes, residue down to 10 instructions, all of
+    them one prologue scheduling window ===
+
+/* best source, 212 bytes against 212, 10 concrete bytes out, 1.1p1 */
+
+THE LEVER, and it is the whole of the size question the two sections above
+spent their passes on: `src->b09` must be declared `volatile`.
+
+    struct Src70360 {
+        u8  pad00[8];
+        u8  b08;
+        volatile u8 b09;        /* <-- was plain u8 */
+        u8  pad0a[4];
+        u16 h0e;
+    };
+
+The section above diagnosed hole 2 exactly right -- "the image RE-READS
+`ldrb r0, [sb, #9]` at the top of the loop before `cmp r6, r0`, where the
+compile keeps the count live from the entry load" -- and then attributed it to
+the front end. It is not the front end; it is the field. The image reads
+`[sb,#9]` THREE times (0x020703A4 at entry, 0x020703CC at the loop top,
+0x02070418 at the loop bottom), which is only what a C compiler emits when it
+may not prove the count unchanged across the `bl func_0206E7EC` in the loop
+body. `volatile` is what says so, and it buys exactly the missing four bytes:
+208 -> 212, the original's size, on the unchanged body of the section above.
+This also means hole 1 (the "hoisted `mov r6, #0`" / `popls` early-out) was
+never an independent hole at all -- it is downstream of the same decision and
+comes right on its own once the size is right.
+
+`../2.0/sp2` is still REFUSED, and now for a better reason than the earlier
+probe had: under the pin the same volatile body is the WRONG SIZE again. The
+"NOT pinnable" verdict of the 2026-09-21 section stands; work this at 1.1p1.
+
+TWO FURTHER LEVERS, both found by tools/permuter.py --mode hill --budget 800
+--jobs 8 --types (45 -> 29 on its own score, 23 -> 11 differing instructions),
+and both worth carrying:
+
+  1. `expand(base x2)`: the loop's `base` local must NOT exist. Substituting
+     its single assignment into its two uses -- writing `((u8 *)src + 8)` at
+     both the null test and the `q` computation, rather than binding it once
+     before the loop -- is what fixes the r5/r6/r7 three-cycle rotation the
+     `--explain` map named (r6->r5 x7, r7->r6 x4, r5->r7 x3). The `add r5,
+     sb, #8` at 0x020703B8 is still emitted once, hoisted out of the loop by
+     the compiler; binding it in the C is what mis-orders the value numbering.
+  2. `temp(tmp=arg->b18)`: the `arg->b18` read must be bound to its own local
+     before the `ctx->f0c` store, `tmp = arg->b18; ctx->f0c = data_020A8230;
+     ctx->b19 = tmp;`, not read at the point of the `ctx->b19` store.
+
+And one more, measured by hand on top of those two: the count guard must be
+written against the induction variable AFTER it is initialised,
+
+    i = 0;
+    { u32 n = src->b09; if (n <= i) return; }
+
+not `if (n <= 0) return;` before `i = 0;`. That is the difference between the
+image's `popls` at 0x020703B0 and a `popeq`, and it is the last of the three
+the earlier sections were reading as front-end behaviour. 11 -> 10.
+
+RESIDUE, 10 instructions, ONE cause, no relocation or operand differences
+
+Everything from 0x02070360 to +0x001C and from +0x004C to the end of the
+function is byte-for-byte identical, the loop body and both epilogues
+included, and all three relocation sites resolve (MIi_CpuClear16 `label x136`,
+func_0206E7EC `label x10`, data_020A8230). The whole residue is the ORDER of
+the eight instructions between the `ldr r0,[pc,#0xac]` pool load and the
+`bl MIi_CpuClear16`, i.e. one scheduling window in the prologue:
+
+      offset  ORIGINAL                  COMPILED (1.1p1)
+      +0020   add r1, sl, #0x1a         ldrb r2, [r2, #0x18]
+      +0024   ldr r3, [r0]              ldr r1, [r0]
+      +0028   mov r0, #0                mov r6, #0
+      +002C   str r3, [sl, #0xc]        str r1, [sl, #0xc]
+      +0030   ldrb r2, [r2, #0x18]      strb r2, [sl, #0x19]
+      +0034   moveq r7, #0              mov r0, r6
+      +0038   strb r2, [sl, #0x19]      add r1, sl, #0x1a
+      +0040   bl #0x2082a48             moveq r7, #0
+      +0044   ldrb r0, [sb, #9]         bl #0x2082a48
+      +0048   mov r6, #0                ldrb r0, [sb, #9]
+
+The same ten instructions, the same operands, one position apart. Two coupled
+sub-decisions: the image materialises MIi_CpuClear16's first argument as a
+fresh `mov r0, #0` at +0x0028 and its `&ctx->h1a` second argument EARLY at
++0x0020, where the compile shares the zero with the loop counter's r6
+(`mov r0, r6`) and sinks the `add r1` to +0x0038; and the image reads
+`arg->b18` LATE, at +0x0030, between the two stores, where lever 2 above puts
+it first. Lever 2 is still a net gain (it fixed four downstream registers),
+but it buys the read position at the wrong end of the window.
+
+RULED OUT this run for the window: reading `arg->b18` after the `ctx->f0c`
+store (`ctx->f0c = ...; tmp = arg->b18; ctx->b19 = tmp;`) -- 212 bytes, the
+identical 10 instructions, so the statement order in the C does not reach the
+scheduler here.
+
+NEXT ATTEMPT should go at the SHARED ZERO alone, since that is what pins the
+window: find a spelling in which MIi_CpuClear16's fill argument cannot be the
+same value as the loop counter's initialiser (the image spends two separate
+`mov #0`, at +0x0028 and +0x0048, for what the compile CSEs into one r6). The
+untried shapes are a differently-typed zero at the call (`(u16)0`), and
+initialising `i` from something the compiler cannot constant-fold to zero
+until after the call. This is the same class as
+docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md
+read in the opposite direction.
+
+Status DIFF at 10 instructions, so this stays a note and not a file; but the
+row is now SIZE-EXACT with a byte-identical loop, which it has never been.

@@ -138,3 +138,63 @@ byte_loop:
     return dst;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 200 bytes against 200, 2 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family lane (pkt_02062688 / pkt_02094750).
+================================================================================
+
+Re-measured and CONFIRMED at 198 of 200 bytes.  The note above is right and its
+source still compiles to exactly that; this appendix records the attempts made
+against it this wave, all failing, so the wall is not re-probed a fourth time.
+
+Context that is new.  The cluster's other word-at-a-time routine, func_020948E0
+(strcmp), was recorded as a 28-of-276-byte register-allocation wall alongside
+this one and CLOSED BYTE-EXACT this wave.  Its residue turned out not to be a
+register-allocation wall at all: one `u32` local had to hold both the 32-bit
+word and the single byte, because the image leaves its word loop with a branch
+onto a `cmp` of the register still holding the WORD.  Declaring a separate
+`unsigned char` added a third value live across the loop and widened the
+prologue, which was the entire 28 bytes.  See src/matched/func_020948E0.c and
+the new docs/families/cluster_02094750.h.
+
+That trick was tried here and does NOT close this function.  Rewriting
+func_02094798 so the single `u32 w` serves as both the word and the copied byte
+(`w = *src; *dst = (u8)w; if ((w & 0xFF) == 0) ...`) compiles to 200 bytes with
+the SAME 2 concrete bytes out.  So the two routines' residues are genuinely
+different in kind, and this one really is the register-choice wall the note
+calls it.
+
+Also measured this wave, all 200 bytes, all 2 out:
+
+  - the `for (;;) { ...; if (haszero) break; }` shape the brief calls for,
+    with the sum and the complement each bound to their own named local and
+    the complement assigned SECOND (`sum = w + C; inv = ~w; if (sum & inv & M)`)
+    -- chosen because the image computes `add` before `mvn` in the loop test
+    and `mvn` before `add` in the pre-loop test, so the operand that lands in
+    the destination register is in both cases the one holding `~w`; binding
+    them in image order does not reproduce the choice
+
+tools/permuter.py, `--explain`: the residue is exactly `lr -> r4 x2`, i.e. one
+instruction's destination register, nothing else in 200 bytes.  Hill exhausts
+all 280 single mutation sites without improving it; anneal at 2000 candidates
+(169 s, `--types`) never leaves `asm=10 bytes-out=2 size=200/200`.  A residue
+the permuter cannot move at all is in the declarations or in the reading of the
+image, per the brief's lesson -- and since the declarations here are the C
+library's own and the four other haszero tests in the same function all land
+correctly, the reading is not in doubt either.  This is a genuine mwccarm
+accumulator-choice tie with no source-level lever.
+
+RECOMMENDATION: treat this as closed-as-unreachable rather than open.  Two of
+this function's 200 bytes are unreachable from C at the pinned flags; the other
+198, including both pool words, the alignment compare, both byte loops and the
+word loop, are settled and reproduce exactly.
+
+/* best source, 200 bytes against 200, 2 concrete bytes out, 1.1p1 */
+(unchanged -- the source in the section above, verbatim)
+
+permuter best result line:
+  baseline  DIFF   asm=10    bytes-out=2    size=200/200
+  register substitutions (image -> compiled), by count:  lr   -> r4    x2
+  best      DIFF   asm=10    bytes-out=2    size=200/200   (hill: 280 sites, no
+            single mutation improves; anneal: 2000 candidates, no improvement)
+re-verified 2026-09-22 by tools/match.py: DIFF, 200 bytes against 200, 2 concrete bytes out, 1.1p1

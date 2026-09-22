@@ -84,3 +84,90 @@ evidence a different front end built this function, so the pin is refused: the
 remaining work is which of `idx`/`base` is computed first in the C. No other
 front end was tried.
 re-verified 2026-09-21 by tools/match.py: DIFF, 100 bytes against 104, 24 concrete bytes out, 1.1p1
+
+=== 2026-09-22, wave 7 pseudo-family lane (pkt_02070360): the pin IS right,
+    104 bytes, residue down from 12 bytes to 4 ===
+
+The "NOT pinnable" verdict of the section above is SUPERSEDED, on the same
+grounds the sibling docs/notes/func_02070524.c.txt was superseded: 2.0/sp2 is
+the only front end that gives this function its SIZE (104 bytes; the pinned
+default is 100, four short), and this cluster's two byte-exact neighbours --
+src/matched/func_02070524.c and src/matched/func_02070624.c, both filed EXACT
+this wave -- are both pinned to `../2.0/sp2`. Refusing the pin because the
+residue is an allocation question rather than a "kept branches" one was the
+wrong test: rule 2 of docs/FRONTEND-PINS.md asks which front end produces the
+bytes, and only 2.0 produces the right number of them.
+
+/* best source, 104 bytes against 104, 4 concrete bytes out, ../2.0/sp2 */
+
+ONE LEVER, and it halves the residue. The two shift-pair truncations at the
+tail must be written BASE FIRST, index second:
+
+    idx = e->h00;
+    if (fl & 1)
+        goto done;
+    base = base << 15 >> 16;        /* <-- was second */
+    idx  = idx  << 15 >> 16;        /* <-- was first  */
+done:
+    dst->f14 = idx + base;
+
+with the entry's flag halfword bound to its own local (`u32 fl = e->h02;`)
+read before `idx`. That fixes the first three of the seven differing
+instructions the section above tabulates -- the `lsr r1,r1,#0x10` at +0x0040,
+the `ldrh r0,[r0]` at +0x0044 and the final `add r0,r0,r1` all come out with
+the image's registers -- and leaves only the four in the truncation block
+itself. 12 concrete bytes -> 4.
+
+RESIDUE, 4 instructions, a single r0/r1 exchange confined to the guarded block
+
+      offset   ORIGINAL                 COMPILED (../2.0/sp2)
+      +004C    lsl r0, r0, #0xf         lsl r1, r1, #0xf
+      +0050    lsl r1, r1, #0xf         lsl r0, r0, #0xf
+      +0054    lsr r0, r0, #0x10        lsr r1, r1, #0x10
+      +0058    lsr r1, r1, #0x10        lsr r0, r0, #0x10
+
+Same four instructions, same shift amounts, `idx` and `base` in each other's
+register. Everything outside 0x02070B48..0x02070B54 is byte-exact, including
+the `add r0, r0, r1` / `str r0, [r4, #0x14]` that follow it, so whichever of
+the two truncations is emitted first simply takes r0.
+
+RULED OUT this run (each measured under the pin, at 104 bytes):
+  - the tail bound to a fresh sum local, `u32 sum = idx + base; dst->f14 =
+    sum;` (7, worse: the sum leaves r0);
+  - `idx += base; dst->f14 = idx;` and `base = idx + base; dst->f14 = base;`
+    (7 each, same reason);
+  - the `+` operands written the other way round, `base + idx` (5);
+  - `*(volatile u32 *)&dst->f14 = ...` (7);
+  - `dst->f14` declared `volatile` in the struct (7);
+  - the unused second parameter typed `u32` rather than `void *` (7);
+  - the entry fields read by subscript off a `u16 *` rather than through the
+    struct (7);
+  - `obj->f2c` declared as a `u16` field pair and read directly, dropping the
+    `(u16)` cast (15 -- the image's `ldr`+`lsl`+`lsr` proves the field is a
+    32-bit word narrowed at the use, so this one is wrong C, not just a worse
+    spelling);
+  - the whole guarded block written as `if (!(fl & 1)) { ... }` instead of the
+    `goto done` (7);
+  - reading `idx` before `base` at the top (7).
+
+WHAT THE PERMUTER SAYS, and it is the clearest pointer this note has. The only
+mutation that reaches 2 instructions out, from 12, is `type:ret-var(idx)`:
+giving the function a `u32` return type and returning `idx`. That is not
+admissible as C -- src/matched/func_02070B64.c calls this address as
+`void func_02070AFC(void *p, u32 v, void *ctx)` and ignores any result, and
+returning the pre-sum index would be meaningless -- but it names the cause
+exactly: the image's allocation is the one a LIVE-OUT r0 produces. Returning
+the SUM instead (`return dst->f14 = idx + base;`, and the two- statement
+form) was measured and gives 7, so it is specifically `idx` surviving to the
+end that ties the block the image's way.
+
+NEXT ATTEMPT should therefore look for a way to keep `idx` live past the
+truncation block WITHOUT a return value: a second, later read of `idx` that
+the compiler cannot fold away, or `idx` given a memory home (`&idx` taken, or
+`volatile`) while `base` is not. None of the fifteen spellings above does
+that; every one of them lets `idx` die at the `add`.
+
+Status DIFF at 4 instructions under `--cc ../2.0/sp2 --arm`, 104 bytes, one
+PC24 site (func_0206E62C, resolved `label`). Still a note and not a file, but
+the compiler question is now settled and the residue is a quarter of what the
+section above recorded.
