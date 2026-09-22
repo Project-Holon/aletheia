@@ -363,17 +363,37 @@ def mutation(name, weight, unsafe=False):
 
 
 def expr_sites(ctx, pred):
-    """(parent, attr, idx, expr, stmt) for expressions inside statements of the body."""
+    """(parent, attr, idx, expr, stmt) for expressions inside statements of the body.
+
+    Only expressions whose evaluation is unconditional within their own statement slot are
+    offered: nothing under a nested block (those belong to the inner slot), nothing in a loop
+    statement, and nothing on the right of && / || or in a ?: arm or a non-block if arm, so a
+    mutation that inserts code before the statement (temp) cannot hoist a guarded read."""
     out = []
     for comp, i in stmt_slots(ctx.fdef):
         st = comp.block_items[i]
-        for n, p, a, k in walk(st):
-            if p is None:
-                continue
-            if isinstance(p, c_ast.Decl) or isinstance(p, c_ast.Typename):
-                continue
-            if pred(n) and not isinstance(p, (c_ast.Case,)):
+        if isinstance(st, (c_ast.While, c_ast.DoWhile, c_ast.For)):
+            continue
+        stack = [(st, None, None, None, False)]
+        while stack:
+            n, p, a, k, guarded = stack.pop()
+            if p is not None and not guarded and not isinstance(p, (c_ast.Decl, c_ast.Typename, c_ast.Case)) and pred(n):
                 out.append((p, a, k, n, comp, i))
+            for attr, child in reversed(list(n.children())):
+                m = re.match(r"(\w+)(?:\[(\d+)\])?", attr)
+                name, idx = m.group(1), (int(m.group(2)) if m.group(2) else None)
+                if isinstance(child, c_ast.Compound):
+                    continue
+                g = guarded
+                if isinstance(n, c_ast.If) and name != "cond":
+                    g = True
+                if isinstance(n, c_ast.BinaryOp) and n.op in ("&&", "||") and name == "right":
+                    g = True
+                if isinstance(n, c_ast.TernaryOp) and name != "cond":
+                    g = True
+                if isinstance(n, (c_ast.While, c_ast.DoWhile, c_ast.For, c_ast.Switch)):
+                    g = True
+                stack.append((child, n, name, idx, g))
     return out
 
 
