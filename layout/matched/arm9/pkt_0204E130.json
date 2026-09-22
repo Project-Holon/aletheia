@@ -19,8 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x0204E180",
-     "code:0x0204E388"
+     "code:0x0204E180"
     ]
    }
   },
@@ -34,12 +33,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0204E410"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

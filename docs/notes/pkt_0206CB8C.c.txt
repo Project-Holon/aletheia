@@ -209,3 +209,8 @@ docs/FRONTEND-PINS.md does not apply.
 is far past what one rewrite can hold, per the "skip oversized functions"
 rule of docs/AGENT-BRIEF.md section 7.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+APPENDED 2026-09-22 (wave 8, second lane on pkt_0206BEA0): CLOSED
+==============================================================================
+func_0206CB8C is EXACT (src/matched/func_0206CB8C.c): NitroSystem NNSi_G3dFuncSbc_NODEMIX. Both bss pool words (0x0214A1B4, 0x0214A1F4) now resolve sole-ref/self, so the cap recorded above is gone. The file header lists the levers.

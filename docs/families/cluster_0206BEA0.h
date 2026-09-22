@@ -79,10 +79,11 @@ typedef signed int     s32;
  * Two words.  Word 0 is the head of the display list currently being
  * captured (null when commands go straight at the FIFO); word 1 is a
  * secondary object whose non-zero value means a transfer is in flight.
- * func_0206DBDC spins on a THIRD word at +4 of the same address read as a
- * different shape -- the two spellings below are both attested and both
- * needed, because func_0206DBDC only reproduces with `volatile` on its word
- * and func_0206DDA4 only reproduces without it.
+ * func_0206DBDC spins on the word at +4.  CORRECTED 2026-09-22 (wave 8):
+ * the word at +4 is a `volatile u32` FIELD in every user -- func_0206DDA4
+ * closed to EXACT only once the field itself was volatile (the earlier
+ * "only reproduces without it" was measured with a second volatile
+ * declaration of the whole object, which costs an extra pool word).
  * ------------------------------------------------------------------ */
 
 struct GxList {
@@ -93,7 +94,12 @@ struct GxList {
 struct GxState {
     struct GxList *list;    /* +0x00  func_0206DB40, func_0206DB60,
                                        func_0206DB80, func_0206DDA4 */
-    void          *unk_04;  /* +0x04  func_0206DDA4, func_0206DBDC */
+    volatile u32   unk_04;  /* +0x04  DL-send in flight; volatile
+                                       (func_0206DDA4, func_0206DBDC,
+                                       func_0206DC00 stores 1, the DMA
+                                       callback 0x0206DBF4 clears it) */
+    u32            f08;     /* +0x08  func_0206DC00: selects the Fast
+                                       GX-command DMA variant */
 };
 
 extern struct GxState g_0214BAB4;
@@ -247,6 +253,9 @@ extern void  func_0206DBDC(void);      /* spin while g_0214BAB4.unk_04 != 0 */
 /* Geometry-engine reset: drain, clear 440/444/454, optionally spin two
  * readiness polls, then arm 448 and 440. */
 extern void  func_0206DE88(void *a, void *b);
+                               /* = NNS_G3dGetCurrentMtx(MtxFx43 *m,
+                                  MtxFx33 *n): func_0206D434 passes (0, &n),
+                                  func_0206D778 passes (&m, 0) */
 
 extern void  func_0206DF14(void);      /* clip-matrix reset via 0x04000600 */
 
@@ -274,16 +283,14 @@ extern void  func_0206D3C4(void *o, u32 which);  /* the 0x1b three-word push */
 extern void  func_0206D434(struct GxScript *c);  /* 816 B, works through +0xb0 */
 extern void  func_0206D778(struct GxScript *c);  /* 908 B */
 
-extern void  func_0206DC00(void *p, u32 v);      /* 404 B; the forwarder every
-                                                    gated handler calls with a
-                                                    pointer and a word */
-extern void  func_0206DF3C(void *a, void *b, void *c);
-                                                 /* 384 B, fixed-point matrix
-                                                    multiply: smull/smlal
-                                                    quartets against a 0x40-byte
-                                                    matrix at a pooled global,
-                                                    results shifted right 12 */
-extern void  func_0206E0C4(void);                /* 644 B */
+extern void  func_0206DC00(const u32 *dl, u32 sz);
+                                                 /* 404 B, NNS_G3dGeSendDL:
+                                                    src/pending (MATCH, TWL
+                                                    targets + callback leaf) */
+extern int   func_0206DF3C(const void *pWorld, int *px, int *py);
+                                                 /* NNS_G3dWorldPosToScrPos */
+extern int   func_0206E0C4(int px, int py, void *pNear, void *pFar);
+                                                 /* NNS_G3dScrPosToWorldLine */
 
 /* --- the tail forwarders (all EXACT, all trivial) --- */
 extern void  func_0206E348(int a0, int a1, int a2, int a3);  /* -> func_02061330
@@ -308,5 +315,70 @@ extern void  func_0206A700(void);
 extern void  func_02061330(u32 a, u32 b);
 extern void  func_02061344(void);
 extern u32   func_02069C14(u32 a, u32 b);
+
+
+/* ================================================================== *
+ * WAVE 8 (2026-09-22): THE CLUSTER IS NITROSYSTEM G3D.
+ *
+ * Every open member closed to EXACT once the subsystem was named.  The
+ * 0x0206B94C..0x0206D778 run is the SBC (structure byte code) interpreter of
+ * NitroSystem's sbc.c, one handler per opcode, and 0x0206DB40..0x0206E388 is
+ * gecom.c / util.c.  Filed this wave (all ../2.0/sp2, all EXACT):
+ *
+ *   func_0206BEA0  NNSi_G3dFuncSbc_MAT       func_0206C024  NNSi_G3dFuncSbc_SHP
+ *   func_0206C0C4  NNSi_G3dFuncSbc_NODEDESC  func_0206C524  NNSi_G3dFuncSbc_BB
+ *   func_0206C82C  NNSi_G3dFuncSbc_BBY       func_0206CB8C  NNSi_G3dFuncSbc_NODEMIX
+ *   func_0206D434  NNSi_G3dFuncSbc_ENVMAP    func_0206D778  NNSi_G3dFuncSbc_PRJMAP
+ *   func_0206DDA4  NNS_G3dGeBufferOP_N       func_0206DF3C  NNS_G3dWorldPosToScrPos
+ *   func_0206E0C4  NNS_G3dScrPosToWorldLine
+ * and func_0206DC00 = NNS_G3dGeSendDL parked MATCH in src/pending.
+ * Already matched and now named: func_0206BF50 (SHP default handler, in
+ * tbl_020A82D8), func_0206D2E8 (CALLDL), func_0206D3C4 (POSSCALE),
+ * func_0206DB80 (NNS_G3dGeFlushBuffer), func_0206DBDC (wait for DL send),
+ * func_0206DE88 (NNS_G3dGetCurrentMtx), func_0206AE94 (NNS_G3dGlbGetViewPort).
+ *
+ * THE HANDLER SIGNATURE is void (NNSG3dRS *rs, u32 opt).  `opt` is the
+ * opcode's flag bits (0x20 store-after, 0x40 restore-before, 0x60 both).
+ * MAT and SHP dispatch through their tables with FOUR arguments,
+ * (rs, opt, data, idx): that is what pins data in r2 and idx in r3 across the
+ * blx and it was the whole 29-byte residue of func_0206BEA0.
+ *
+ * THE CONTEXT (struct GxScript above) is NNSG3dRS:
+ *   +0x00 c (cursor)          +0x04 pRenderObj        +0x08 flag
+ *   +0x0c cbVecFunc[32]       +0x8c cbVecTiming[32]   (callback of opcode k at
+ *                                                      +0x0c+4k, timing +0x8c+k)
+ *   +0xac currentNode  +0xad currentMat  +0xae currentNodeDesc
+ *   +0xb0 pMatAnmResult  +0xb4 pJntAnmResult  +0xcc isEvpCached[] (bit per node)
+ *   +0xd4 pResNodeInfo (dict at +0)  +0xd8 pResMat (dict at +4)
+ *   +0xdc pResShp (dict at +0)  +0xe8 funcJntScale  +0xec funcJntMtx
+ *   +0x12c tmpJntAnmResult (0x58 bytes)
+ * RSFLAG bits seen: 0x001 mat valid, 0x002 mat transparent (skip SHP), 0x008
+ * mat cached vs +0xad, 0x010 nodedesc valid, 0x040 callback-skip, 0x080
+ * record, 0x100 NOGECMD, 0x200 skip-SBC, 0x400 skip-NODEDESC.
+ *
+ * THE CALLBACK INLINES every handler expands (write them as static inline,
+ * they reproduce exactly):
+ *   timing = rs->cbVecFunc[k] ? rs->cbVecTiming[k] : 0;
+ *   A (timing 1) and B (timing 2): clear flag 0x40, call, RE-READ timing,
+ *       return flag & 0x40;   C (timing 3): same without the re-read.
+ *
+ * THE DICTIONARY LOOKUP (gx_rec_lookup above) is two static inlines,
+ * NNS_G3dGetResDataByIdx(dict, idx) { if (dict && idx < dict->numEntry) ... }
+ * and a Get*DataByIdx(res, idx) { if (res) { data = ...(&res->dict, idx);
+ * if (data) return (u8 *)res + *data; } return 0; } -- written that way the
+ * doubled zero arm needs no goto.
+ *
+ * NNS_G3dGlb is at 0x02148B4C: +0x08 prjMtx (MtxFx44), +0x4c cameraMtx
+ * (MtxFx43), +0xa0 viewport word, +0xbc a 3x3, +0xe0 a VecFx32, +0xfc flag
+ * (bit 0 / bit 1 select the camera-undo paths in BB/BBY/ENVMAP/PRJMAP).
+ * Static data: 0x020A8328 (BB) and 0x020A8370 (BBY) are 0x48-byte command
+ * blocks {cmd, prm[2], MtxFx43, VecFx32 scale}; 0x020A82B8 is two
+ * {TEXIMAGE_PARAM op, param} pairs (PRJMAP uses +0, ENVMAP +8); 0x020A82E8 a
+ * MtxFx44 (PRJMAP); 0x020A1974 pivotUtil_[9][4] (NODEDESC); 0x0214A1B4 the
+ * NODEMIX envelope cache, 0x64 per node {MtxFx44 M; MtxFx33 N}.
+ *
+ * THE PIN: 1.1p1 reproduces MAT, SHP and WorldPosToScrPos too, but is DIFF or
+ * SIZE on every other member above; ../2.0/sp2 is the cluster compiler.
+ * ================================================================== */
 
 #endif /* CLUSTER_0206BEA0_H */

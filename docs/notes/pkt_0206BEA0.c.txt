@@ -289,3 +289,9 @@ permuter best result line:
   baseline  DIFF   asm=165   bytes-out=33   size=176/176
   best      DIFF   asm=325   bytes-out=29   size=176/176
   mutations temp(tmp=*((u32 *) q))
+
+==============================================================================
+APPENDED 2026-09-22 (wave 8, second lane on pkt_0206BEA0): CLOSED
+==============================================================================
+func_0206BEA0 and func_0206C0C4 are EXACT (src/matched/func_0206BEA0.c, src/matched/func_0206C0C4.c).
+func_0206BEA0 is NitroSystem NNSi_G3dFuncSbc_MAT: the handler takes (rs, opt) and the table call passes (rs, opt, mat, idx); that arity was the 29-byte register residue. func_0206C0C4 is NNSi_G3dFuncSbc_NODEDESC; the four pivot-table pool words are now attested sole-ref/self, so the MATCH cap recorded above no longer applies.

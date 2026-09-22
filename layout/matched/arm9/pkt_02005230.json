@@ -20,13 +20,10 @@
    "evidence": {
     "sole-ref": [
      "code:0x0200530C",
-     "code:0x02005B24",
-     "code:0x02006544",
-     "code:0x02006F20",
-     "code:0x020082DC",
-     "code:0x02010DB4",
-     "code:0x020266E0",
-     "code:0x02034704"
+     "code:0x02006F20"
+    ],
+    "sdk": [
+     "0x02034704"
     ]
    }
   }
