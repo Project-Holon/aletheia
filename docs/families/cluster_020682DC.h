@@ -31,6 +31,11 @@
  *          func_02068AE8 412/245, func_02068C84 500/72 (2.0),
  *          func_02068808 not attempted this wave, func_02068E78 (see note)
  *   Notes: docs/notes/pkt_020682F8.c.txt, docs/notes/pkt_02068808.c.txt.
+ * WAVE 9 (2026-09-22): func_02068C84 500/8 under ../2.0/sp2 (was 72), the
+ *   last 8 one `stm`/`sub` scheduling pair; func_02068AE8's loop header
+ *   now byte-identical (but 416/227, bpp/tile-size spill swapped); 0x430 and
+ *   0x670 unchanged (0x670 is one spill choice: the image spills the glyph
+ *   pair argument to its own incoming slot, every compile spills base).
  *
  * FRONT END.  Mixed, decided per function by the tells in
  * docs/FRONTEND-PINS.md, never by family.  0x020682F8 is "kept branches" (a
@@ -154,5 +159,21 @@ extern void func_02068A68(struct Surface *s, u32 arg);
  * as a real branch the compilers here predicate. */
 extern void func_02068AE8(struct Surface *s, u32 arg, int x, int y, int w, int h);
 extern void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h);
+
+/* ================================================================== *
+ * 4. The tile-walk loop (wave 9, measured on func_02068C84, carries to
+ *    func_02068AE8's loop header)
+ * ================================================================== */
+
+/* Per row, in this order:
+ *     yo = (cy < y) ? y - cy : 0;      -- cy LEFT of the compare; this is
+ *                                         what keeps the image's real
+ *                                         `movge rY, #0 / bge` branch
+ *     tx = tx0;   (or p = row;)        -- AFTER yo, not in a declaration
+ *     t = y1 - cy; if (t > 8) t = 8;   -- clamp in a temporary ...
+ *     th = t - yo;                     -- ... then a separate th
+ * and the loop registers are colored in DECLARATION ORDER at function
+ * scope: C84 `int cx, th, tx, xe, ty;` gives r4..r8 exactly (the only one
+ * of all 120 orders that does); AE8's `cx, th, xe, p, yo` does the same. */
 
 #endif /* CLUSTER_020682DC_H */

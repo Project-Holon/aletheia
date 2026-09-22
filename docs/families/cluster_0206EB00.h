@@ -220,9 +220,10 @@ void func_0206F36C(int *out, int t, Rec *r, AnmRoot *h);
 void func_0206F4C8(int *out, int t, Rec *r, u8 *base);
 /* src/matched/func_0206F6B0.c: vector-2, lerp */
 void func_0206F6B0(int *out, int t, Rec *r, AnmRoot *h);
-/* not attempted: rotation, plain (calls func_0206FFA0, VEC_Normalize) */
+/* DIFF (1048/10, ../2.0/sp2, wave 9): rotation, plain (func_0206FFA0,
+   VEC_Normalize); docs/notes/pkt_0206F4C8.c.txt */
 void func_0206F844(int *out, int t, Rec *r, AnmRoot *h);
-/* DIFF: rotation, lerp; decodes keys k and k2 into two stack matrices,
+/* DIFF (836/8, ../2.0/sp2, wave 9): rotation, lerp; decodes keys k and k2 into two stack matrices,
    lerps rows 0 and 1, normalises them, and rebuilds row 2 by the cross
    product when either decode returned 1, else lerps and normalises it. */
 void func_0206FC5C(int *out, int t, Rec *r, AnmRoot *h);
@@ -251,6 +252,27 @@ extern void VEC_Normalize(const void *src, void *dst);     /* 0x0207CCA4    */
  *    shared `two:` block takes its own index (func_0207010C).
  *  - A `k & 2` arm that rewrites k goes through a named temporary in
  *    func_0206F214; direct `k = k >> 2` moves k out of r4.
+ * ================================================================== */
+
+/* ================================================================== *
+ * 8.  Rotation samplers (wave 9, func_0206FC5C 836/8, func_0206F844 1048/10)
+ *
+ *  - The row-2 cross product is three temporaries from DIRECT field reads,
+ *    stored after all three are computed:
+ *        a = (m[1]*m[5] - m[2]*m[4]) >> 12;
+ *        b = (m[2]*m[3] - m[0]*m[5]) >> 12;
+ *        c = (m[0]*m[4] - m[1]*m[3]) >> 12;   m[6] = a; m[7] = b; m[8] = c;
+ *    Six bound locals merge five loads into `ldmib` (32 bytes short in FC5C).
+ *    (func_0206EE60's cofactor block is the opposite: there the six locals
+ *    ARE right; it reads out->f28.. of a struct, not an int array.)
+ *  - The decode-or accumulator: `ok = 0; ok |= dec(..); ok |= dec(..);`
+ *    directly gives the folded `orr rX, r0, #0`; F844's 3:1 arm writes
+ *    `ok = 0` before its index split and gets the image's `mov sl, #0`.
+ *  - The second key of a pair is `((u16 *)p + k2)[1]`, not `p[k2 + 1]`.
+ *  - Load order at entry is p, k, oa, ob, f (flags last) in FC5C.
+ * ECE0 (384/40): the flag word is re-read INTO THE SAME variable after the
+ * func_020834A8 call, or k is sunk past the call (105).  The wave-8 41-byte
+ * source read an uninitialised pointer and is retracted.
  * ================================================================== */
 
 #endif /* CLUSTER_0206EB00_H */

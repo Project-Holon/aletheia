@@ -865,3 +865,148 @@ permuter best result lines (../2.0/sp2):
   hill 800 from the 82-byte variant:  best DIFF asm=1110 bytes-out=72 size=500/500 via reorder(+1) (applied above)
   anneal 1500 from this source:       best DIFF asm=1095 bytes-out=69 size=500/500
     mutations decl-order(th<->tx) ; block(if1,3) ; temp(tmp=~7) ; decl-order(cx<->sh) ; temp(tmp1=~7) ; split-assign(xe) ; decl-order(cx<->tilesz) ; copy(x0->x0_@40)
+
+==============================================================================
+2026-09-22, wave 9 (cluster_020682DC remainder).  0x02068C84 72 -> 8.
+==============================================================================
+
+func_02068C84 -- still DIFF, 500 against 500, 8 concrete bytes out, ../2.0/sp2
+(was 72).  Three new levers, all measured, on top of the wave-8 source above:
+  * th goes through a TEMPORARY: `t = y1 - cy; if (t > 8) t = 8; th = t - yo;`
+    The image computes the clamp in r0 and only then `sub r5, r0, sb`; with
+    `th -= yo` in place th is clamped in its own register.  72 -> 42.
+  * `tx = tx0` is assigned AFTER the yo ternary, not in the loop-block
+    declaration: the image's `ldr r6, [sp, #0x2c]` comes after the yo branch
+    joins.  42 -> 27 (together with the th temporary).
+  * The five loop registers are colored in DECLARATION ORDER: declare
+    `cx, th, tx, xe, ty` (all at function scope, in that order) and they land
+    in r4, r5, r6, r7, r8, exactly the image.  All 120 orders were compiled;
+    only this one reaches 8 (the next best is 13).  27 -> 8.
+The last 8 bytes are one scheduling pair at +0x019C/+0x01A0: the image emits
+`stm sp, {r5, fp}` (th, px as stack arguments 5 and 6) BEFORE
+`sub r3, r2, r1` (tw - xo), the compile after it.  Measured and flat: tw
+through a temporary (two spellings), `tw - xo` inline as the argument,
+`tw -= xo` inside the argument list, a ternary clamp, `u32 tw`, a named
+tile pointer, the call's first argument cast to u32 *, px as a separate
+local (187/208, far worse), xo after tw (26), and the same source under
+2.0 base/sp1/sp2p2/sp2p3/sp2p4 (all 8).  1.1p1 is 492 bytes.
+permuter from this source (../2.0/sp2):
+  hill 800:     no single mutation improves DIFF asm=200 bytes-out=8 size=500/500 (505 tried)
+  anneal 2000:  best DIFF asm=200 bytes-out=8 size=500/500 (nothing moved)
+
+/* best source, 500 bytes against 500, 8 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02068C84
+ * address:  0x02068C84
+ * packet:   pkt_02068808
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020681E4    0x020681E4  arm
+ *   func_020682F8    0x020682F8  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Swz { u32 x : 8; u32 y : 8; u32 rest : 16; };
+
+struct Surface {
+    char *base;   /* +0x00 */
+    int   w;      /* +0x04 */
+    int   h;      /* +0x08 */
+    u8    bpp;    /* +0x0C */
+    struct Swz f10; /* +0x10 */
+};
+
+extern int func_020681E4(int tx, int ty, int w, int h, int sx, int sy);
+extern void func_020682F8(char *tile, int xo, int yo, int tw, int th,
+                          u32 px, int bpp);
+
+void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h)
+{
+    struct Swz f10;
+    int cy;
+    int x1;
+    int y1;
+    int ye;
+    char *base;
+    int tx0;
+    int x0;
+    int sy;
+    int sx;
+    int sh;
+    int sw;
+    int tilesz;
+    u8 bpp;
+    int cx;
+    int th;
+    int tx;
+    int xe;
+    int ty;
+
+    bpp = s->bpp;
+    x1 = x + w;
+    y1 = y + h;
+    if (bpp == 4) { u32 t = arg | (arg << 4); t = t | (t << 8); arg = t | (t << 16); }
+    else { u32 t = arg | (arg << 8); arg = t | (t << 16); }
+    x0 = x & ~7;
+    cy = y & ~7;
+    ye = (y1 + 7) & ~7;
+    tilesz = (bpp << 6) / 8;
+    tx0 = x0 / 8;
+    f10 = s->f10;
+    ty = cy / 8;
+    xe = (x1 + 7) & ~7;
+    sw = s->w;
+    sh = s->h;
+    base = s->base;
+    sx = f10.x;
+    sy = f10.y;
+    if (cy >= ye)
+        return;
+    do {
+        int yo, t;
+        yo = (cy < y) ? y - cy : 0;
+        tx = tx0;
+        t = y1 - cy;
+        if (t > 8)
+            t = 8;
+        th = t - yo;
+        for (cx = x0; cx < xe; cx += 8) {
+            int off = func_020681E4(tx, ty, sw, sh, sx, sy);
+            int xo = (cx < x) ? x - cx : 0;
+            int tw = x1 - cx;
+            if (tw > 8)
+                tw = 8;
+            tw -= xo;
+            func_020682F8(base + tilesz * off, xo, yo, tw, th, arg, bpp);
+            tx = tx + 1;
+        }
+        ty = ty + 1;
+        cy = cy + 8;
+    } while (cy < ye);
+}
+
+func_02068AE8 -- still DIFF.  The C84 loop levers transfer: with the yo
+ternary `(cy < y) ? y - cy : 0`, th through a temporary, `p = row` after yo,
+and the loop registers declared `cx, th, xe, p, yo` (image r4..r8), the whole
+loop header +0x00DC..+0x0144 is byte-identical, including the kept `movge
+r8, #0 / bge` branch the earlier passes could not produce.  But that source
+is 416 bytes against 412: the compiler spills bpp (to [sp,#0x14]) and keeps
+the tile size in fp, where the image keeps bpp in fp and spills the tile
+size, so the call's third stack argument costs a reload plus a separate
+`str` instead of the image's `stm sp, {r5, sl, fp}`.  Measured and flat:
+bpp at every declaration position as int/u32/u8 (42 variants, best 416/227),
+all 120 orders of the five loop registers x int/u8 bpp (240, best 416/227),
+the tile size recomputed as `(bpp << 6) / 8` at one, two or three sites
+(CSE'd to the same code, or 420), bpp re-read as `s->bpp` at the call (420).
+The size-exact best is still the wave-8 412/245 source above.
+permuter from the 416/227 source: hill 800 best DIFF asm=4050 bytes-out=137
+size=412/412 via hoist-down(row,+4) ; type:l(x0:int->u8) -- REJECTED, the
+u8 x0 truncates a coordinate (data-flow change).

@@ -363,3 +363,45 @@ void func_02068670(struct Surface *s, struct Fnt **font, int x, int y, int color
 permuter best result lines:
   1.1p1 hill 800 from this source:       best DIFF asm=4820 bytes-out=241 size=408/408 via hoist-down(ty0,+5) ; copy(xe->xe_@50)
   ../2.0/sp2 hill 800 (ternaries flipped): best DIFF asm=4180 bytes-out=215 size=408/408 via temp(tmp=tx1 - tx0) ; decl-order(ty1<->dst)
+
+==============================================================================
+2026-09-22, wave 9 (cluster_020682DC remainder).  0x02068430, 0x02068670.
+==============================================================================
+
+Both still DIFF; the best sources above stand unchanged (re-measured:
+func_02068430 576/576 195 out under ../2.0/sp2, 564 bytes under 1.1p1;
+func_02068670 408/408 254 out under 1.1p1, 263 under ../2.0/sp2, 263 under
+sp2p2 and sp1, 416 under ../1.2/sp4).
+
+func_02068670.  The residue is ONE spill decision.  At the pressure peak
+(+0x44..+0xDC: s, font, x, y, gw, gh, tilesz, sw, sh, base, g plus four
+temporaries) one value must live in memory.  The image spills the glyph
+pair argument g to its OWN incoming slot (`ldr r4, [sp, #0x54]` then
+`str r4, [sp, #0x54]` at +0x08/+0x10, reloaded at +0xD8 for g[1]) and needs
+nine pushed registers and a 0x2c frame; every compile keeps g in lr and
+spills base to a new slot instead (ten registers with a dead r3, frame
+0x30).  By use count g (2 uses) should be the dearer of the two, so the
+original's g must be cheaper or base dearer in some way not yet found.
+Measured and not it: base read at its use (404 bytes, then the prologue is
+right but 4 bytes are lost elsewhere), the w/h/base/gh loads moved above
+the gw == 0 return (the image does load them before `popeq`; 259 out),
+`dst` initialised from s->base and advanced in place (420).
+permuter (1.1p1): hill 800 best DIFF asm=4820 bytes-out=241 size=408/408
+via hoist-down(ty0,+5) ; copy(xe->xe_@50); anneal 2000 best DIFF asm=3905
+bytes-out=199 size=408/408 via a 25-mutation chain of temporaries whose
+output is C99 mixed declarations (not a recoverable source, not taken).
+
+func_02068430.  Pure allocation (image x r5, y r4, cend sl, bpp r7 reused
+for the 4bpp palette base, sbpp r8, bit r4; compiled x r6, y r3, cend r4,
+sbpp r5, bit r6, base sl in both arms).  The `mov sl, r6` after the
+`cend * bpp` multiply is reproduced (the compile has `mov r4, sb`): it is
+the Rd != Rm constraint of `mul` on a variable reassigned in place.  Two
+declaration orders of the four clip bounds measured (195 and 206).
+permuter (../2.0/sp2): hill 800 best DIFF asm=2000 bytes-out=188
+size=576/576 via hoist-up(dst,-11) ; decl-order(c<->wd); anneal 2000 from
+that point best DIFF asm=1885 bytes-out=175 size=576/576 via a 13-mutation
+chain (temp(tmp=base + v) ; temp(tmp1=(u32) bit) ; ... ; decl-order(hi<->c)),
+not a readable source.
+
+/* best source, 576 bytes against 576, 195 concrete bytes out, ../2.0/sp2 -- the wave-8 source above, unchanged */
+/* best source, 408 bytes against 408, 254 concrete bytes out, 1.1p1 -- the wave-8 source above, unchanged */

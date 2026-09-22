@@ -480,3 +480,335 @@ eleven functions ahead of it).  From the listing it is the plain (no lerp)
 rotation sampler: func_0206F214's cascade with func_0206FFA0 decodes in
 place of the key loads (twelve calls) and VEC_Normalize.  Take it with
 ../2.0/sp2p2 and the fc5c levers above.
+
+==============================================================================
+2026-09-22, wave 9 (cluster_0206EB00 remainder).  0x0206FC5C, 0x0206F844.
+==============================================================================
+
+--- 0x0206FC5C (836 B): DIFF, 804/626 -> 836/836 and 8 out, ../2.0/sp2
+THE SIZE LEVER: the cross product (both copies) is NOT six bound locals.
+It is the three rows computed from direct field reads into three
+temporaries, stored after all three are computed:
+    a = (out[1] * out[5] - out[2] * out[4]) >> 12;
+    b = (out[2] * out[3] - out[0] * out[5]) >> 12;
+    c = (out[0] * out[4] - out[1] * out[3]) >> 12;
+    out[6] = a;  out[7] = b;  out[8] = c;
+The bound-locals form lets the compiler merge five loads into `ldmib`
+(32 bytes short); the direct reads give the image's six separate `ldr`
+in its m5, m1, m4, m2, m3, m0 order.  804 -> 836, 626 -> 38.
+Then the declarations: every local declared without an initialiser and
+assigned in the order p, k, oa, ob, f (f LAST: the image's `ldr r3, [r2]`
+follows the two table-offset loads), with the register locals declared
+`ob, p, ok, k2, frac, mul, oa`: 38 -> 8 (151 orders sampled).
+What is left: p and oa swapped (image p r8, oa r4 -- the offset temporary's
+r4 is reused for oa; the compile adds p in place into r4).  Measured and
+flat at 8: p as u16 *, oa/ob as int, the offset through a named temporary,
+`&((u8 *)h)[off]`, `off + (u8 *)h`, a u32 cast sum, p assigned after the
+table offsets (15), all 120 orders of {p, oa, ob, ok, k2} with frac/mul last
+(floor 28), and sp2p2/sp2p4/sp1 (8).
+permuter (../2.0/sp2): hill 600 no single mutation improves DIFF asm=40
+bytes-out=8 size=836/836 (442 tried); anneal 900 best DIFF asm=40
+bytes-out=8 size=836/836.
+
+/* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206FC5C
+ * address:  0x0206FC5C
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0206FFA0   0x0206FFA0  arm
+ *   VEC_Normalize   0x0207CCA4  arm
+ */
+typedef unsigned int   u32;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned char  u8;
+
+typedef struct { u32 flags; u32 off04; } Rec;
+typedef struct { u32 f00; u16 cnt04; u16 pad06; u32 f08; u32 f0c; u32 f10; } Hdr;
+
+extern int  func_0206FFA0(int *out, s16 *a, s16 *b, u32 id);
+extern void VEC_Normalize(const int *src, int *dst);
+
+void func_0206FC5C(int *out, int t, Rec *r, Hdr *h)
+{
+    u32 f;
+    int k;
+    u32 n;
+    u32 ob;
+    u8 *p;
+    u32 ok;
+    u32 k2;
+    int frac;
+    u32 mul;
+    u32 oa;
+    int m0[9];
+    int m1[9];
+
+    p = (u8 *)h + r->off04;
+    k = t >> 12;
+    oa = h->f0c;
+    ob = h->f10;
+    f = r->flags;
+
+    if ((int)(h->cnt04 - 1) != (t >> 12)) goto general;
+
+    if ((f & 0xc0000000) != 0) {
+        if ((f & 0x40000000) != 0) {
+            k = (k & 1) + ((u32)k >> 1);
+        } else {
+            k = (k & 3) + ((u32)k >> 2);
+        }
+    }
+    if ((h->f08 & 2) != 0) {
+        k2 = 0;
+        goto last;
+    }
+    if (func_0206FFA0(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k]) != 0) {
+        {
+            int a, b, c;
+            a = (out[1] * out[5] - out[2] * out[4]) >> 12;
+            b = (out[2] * out[3] - out[0] * out[5]) >> 12;
+            c = (out[0] * out[4] - out[1] * out[3]) >> 12;
+            out[6] = a;
+            out[7] = b;
+            out[8] = c;
+        }
+    } else {
+        VEC_Normalize(out + 6, out + 6);
+    }
+    return;
+
+general:
+    if ((f & 0xc0000000) == 0) goto next;
+    {
+        u32 w = f & 0x1fff0000;
+        n = w >> 16;
+    }
+    if ((f & 0x40000000) != 0) {
+        if ((u32)k >= n) {
+            k = n >> 1;
+            k2 = k + 1;
+            goto last;
+        }
+        k = (u32)k >> 1;
+        k2 = k + 1;
+        frac = t & (int)(0x1fff0000u >> 16);
+        mul = 2;
+        goto lerp;
+    }
+    if ((u32)k >= n) {
+        k = (k & 3) + ((u32)k >> 2);
+        k2 = k + 1;
+        goto last;
+    }
+    k = (u32)k >> 2;
+    k2 = k + 1;
+    frac = t & 0x3fff;
+    mul = 4;
+    goto lerp;
+next:
+    k2 = k + 1;
+last:
+    frac = t & 0xfff;
+    mul = 1;
+lerp:
+    ok = 0;
+    ok |= func_0206FFA0(m0, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k]);
+    ok |= func_0206FFA0(m1, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k2]);
+    out[0] = m0[0] * (int)mul + (((m1[0] - m0[0]) * frac) >> 12);
+    out[1] = m0[1] * (int)mul + (((m1[1] - m0[1]) * frac) >> 12);
+    out[2] = m0[2] * (int)mul + (((m1[2] - m0[2]) * frac) >> 12);
+    out[3] = m0[3] * (int)mul + (((m1[3] - m0[3]) * frac) >> 12);
+    out[4] = m0[4] * (int)mul + (((m1[4] - m0[4]) * frac) >> 12);
+    out[5] = m0[5] * (int)mul + (((m1[5] - m0[5]) * frac) >> 12);
+    VEC_Normalize(out, out);
+    VEC_Normalize(out + 3, out + 3);
+    if (ok == 0) {
+        out[6] = m0[6] * (int)mul + (((m1[6] - m0[6]) * frac) >> 12);
+        out[7] = m0[7] * (int)mul + (((m1[7] - m0[7]) * frac) >> 12);
+        out[8] = m0[8] * (int)mul + (((m1[8] - m0[8]) * frac) >> 12);
+        VEC_Normalize(out + 6, out + 6);
+    } else {
+            int a, b, c;
+            a = (out[1] * out[5] - out[2] * out[4]) >> 12;
+            b = (out[2] * out[3] - out[0] * out[5]) >> 12;
+            c = (out[0] * out[4] - out[1] * out[3]) >> 12;
+            out[6] = a;
+            out[7] = b;
+            out[8] = c;
+        }
+}
+
+--- 0x0206F844 (1048 B incl. its pool word): NEW, DIFF, 10 out, ../2.0/sp2
+First derivation; size-exact at once under ../2.0/sp2 (1.1p1 is 1032).
+It is func_0206F214's cascade with func_0206FFA0 decodes in place of key
+loads and the FC5C row handling: plain (decode key k into out; cross
+product if it returned 1, else normalise row 2), two (decode k2 into out
+and k2+1 into the second stack matrix, rows summed, no shift), and the 3:1
+blend (decode i0 into out and k2 into the first stack matrix, `out[i] =
+m[i] + out[i] * 3`, again no shift).  The two stack matrices are 9 ints each,
+ma at sp+0x24 declared first.  Levers:
+  * the cross product spelled as in FC5C above;
+  * in the 3:1 path `ok = 0` is written BEFORE the `if (k & 2)` index split
+    (the image's `mov sl, #0` / `orr sl, sl, r0`); in the two path directly
+    before the first decode (the image's folded `orr r8, r0, #0`); 451 -> 404
+    and the size right in that arm;
+  * the second decode of the two path indexes `((u16 *)p + k2)[1]` (the
+    image's `add r1, r8, sb, lsl #1` / `ldrh r3, [r1, #2]`); 404 -> 16;
+  * locals declared `ob, oa, p, ok, k2` (120 orders measured): 16 -> 10.
+What is left: k2 and ok of the 3:1 arm swapped (image k2 sb, ok sl).  A
+separate ok variable for that arm at six declaration positions (10) and
+spelling the index with k reassigned as func_0206F214 does (52) do not move it.
+permuter (../2.0/sp2): hill 600 no single mutation improves DIFF asm=50
+bytes-out=10 size=1048/1048 (437 tried).
+
+/* best source, 1048 bytes against 1048, 10 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206F844
+ * address:  0x0206F844
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0206FFA0   0x0206FFA0  arm
+ *   VEC_Normalize   0x0207CCA4  arm
+ */
+typedef unsigned int   u32;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned char  u8;
+
+typedef struct { u32 flags; u32 off04; } Rec;
+typedef struct { u32 f00; u16 cnt04; u16 pad06; u32 f08; u32 f0c; u32 f10; } Hdr;
+
+extern int  func_0206FFA0(int *out, s16 *a, s16 *b, u32 id);
+extern void VEC_Normalize(const int *src, int *dst);
+
+void func_0206F844(int *out, int t, Rec *r, Hdr *h)
+{
+    u32 f;
+    u32 k;
+    u32 n, i0;
+    u32 ob;
+    u32 oa;
+    u8 *p;
+    u32 ok;
+    u32 k2;
+    int ma[9];
+    int mb[9];
+
+    f = r->flags;
+    k = (u32)(t >> 12);
+    p = (u8 *)h + r->off04;
+    oa = h->f0c;
+    ob = h->f10;
+
+    if (f & 0xc0000000) {
+        n = (f & 0x1fff0000) >> 16;
+        if (f & 0x40000000) {
+            if (k & 1) {
+                if (k > n) {
+                    k = (n >> 1) + 1;
+                    goto plain;
+                }
+                k2 = k >> 1;
+                goto two;
+            }
+            k = k >> 1;
+            goto plain;
+        } else {
+            u32 m = k & 3;
+            if (m != 0) {
+                if (k > n) { k = m + (n >> 2); goto plain; }
+                if (k & 1) {
+                    ok = 0;
+                    if (k & 2) { k2 = k >> 2; i0 = k2 + 1; }
+                    else { i0 = k >> 2; k2 = i0 + 1; }
+                    ok |= func_0206FFA0(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[i0]);
+                    ok |= func_0206FFA0(ma, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k2]);
+                    out[0] = ma[0] + out[0] * 3;
+                    out[1] = ma[1] + out[1] * 3;
+                    out[2] = ma[2] + out[2] * 3;
+                    out[3] = ma[3] + out[3] * 3;
+                    out[4] = ma[4] + out[4] * 3;
+                    out[5] = ma[5] + out[5] * 3;
+                    VEC_Normalize(out, out);
+                    VEC_Normalize(out + 3, out + 3);
+                    if (ok == 0) {
+                        out[6] = ma[6] + out[6] * 3;
+                        out[7] = ma[7] + out[7] * 3;
+                        out[8] = ma[8] + out[8] * 3;
+                        VEC_Normalize(out + 6, out + 6);
+                    } else {
+                        int a, b, c;
+                        a = (out[1] * out[5] - out[2] * out[4]) >> 12;
+                        b = (out[2] * out[3] - out[0] * out[5]) >> 12;
+                        c = (out[0] * out[4] - out[1] * out[3]) >> 12;
+                        out[6] = a;
+                        out[7] = b;
+                        out[8] = c;
+                    }
+                    return;
+                }
+                k2 = k >> 2;
+                goto two;
+            }
+            k = k >> 2;
+        }
+    }
+    goto plain;
+
+two:
+    ok = 0;
+    ok |= func_0206FFA0(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k2]);
+    ok |= func_0206FFA0(mb, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p + k2)[1]);
+    out[0] = out[0] + mb[0];
+    out[1] = out[1] + mb[1];
+    out[2] = out[2] + mb[2];
+    out[3] = out[3] + mb[3];
+    out[4] = out[4] + mb[4];
+    out[5] = out[5] + mb[5];
+    VEC_Normalize(out, out);
+    VEC_Normalize(out + 3, out + 3);
+    if (ok == 0) {
+        out[6] = out[6] + mb[6];
+        out[7] = out[7] + mb[7];
+        out[8] = out[8] + mb[8];
+        VEC_Normalize(out + 6, out + 6);
+    } else {
+        int a, b, c;
+        a = (out[1] * out[5] - out[2] * out[4]) >> 12;
+        b = (out[2] * out[3] - out[0] * out[5]) >> 12;
+        c = (out[0] * out[4] - out[1] * out[3]) >> 12;
+        out[6] = a;
+        out[7] = b;
+        out[8] = c;
+    }
+    return;
+
+plain:
+    if (func_0206FFA0(out, (s16 *)((u8 *)h + oa), (s16 *)((u8 *)h + ob), ((u16 *)p)[k]) != 0) {
+        int a, b, c;
+        a = (out[1] * out[5] - out[2] * out[4]) >> 12;
+        b = (out[2] * out[3] - out[0] * out[5]) >> 12;
+        c = (out[0] * out[4] - out[1] * out[3]) >> 12;
+        out[6] = a;
+        out[7] = b;
+        out[8] = c;
+    } else {
+        VEC_Normalize(out + 6, out + 6);
+    }
+}

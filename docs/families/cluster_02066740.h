@@ -344,4 +344,33 @@ extern void func_02067998(struct Hooks *h, struct List *lst);
  * that way (docs/notes/pkt_02066E30.c.txt).  func_02066754 needed no
  * volatile at all: `a0*b0 + a1*b1` per element, plain pointers. */
 
+
+/* ================================================================== *
+ * WAVE 9 ADDENDUM, third lane (2026-09-22) -- all three still DIFF
+ * ================================================================== *
+ * PART 2 is NitroSystem g2d renderer code written with SDK/NNS inlines, and
+ * ../2.0/sp2 is the right front end for ALL of it (func_02067080 and
+ * func_02066B84 are size-exact only under 2.0; 1.1p1 is 20-40 bytes off).
+ *
+ * func_02066B84 is the software-sprite TEXTURE SETUP, not a "descriptor
+ * decoder": (const GXOamAttr *oam, const NNSG2dImageAttr *img, u32 texAddr,
+ * u32 plttAddr, fx32 *uv).  NNSG2dImageAttr = { sizeS, sizeT, fmt,
+ * bExtendedPlt, plttUse, mappingType } at +0..+0x14.  0x020A1824 = u32
+ * chars-per-row by sizeS; 0x020A1844 / 0x020A1874 = u32 [3][4] texture
+ * sizeS / sizeT by (shape, size); 0x020A181C = GXTexFmt[2] by colorMode.
+ * The optional UV hook is WORD 0 OF g_02148B2C (the render context), called
+ * (&uv[0], &uv[1], &uv[2], &uv[3], flipH, flipV).  616/151,
+ * docs/notes/pkt_02066B84.c.txt.
+ *
+ * func_02067080 is NNS DoAffineTransforme_: (const MtxFx22 *m, GXOamAttr
+ * *oam, const NNSG2dFVec2 *ofs); rig +0x04 selects AFFINE (1) / DOUBLE (2).
+ * Proven levers: MulVec22 as an inline with the src==dst temp (that IS the
+ * dead alias compare); G2_SetOBJEffect arms must differ textually or 2.0
+ * merges them; `-ox` as its own statement; the double flag a materialised
+ * u32 tested `& 1`.  704/37, residue r8-vs-ip only.
+ *
+ * func_0206775C: the flip write-back's first store already has flipV
+ * cleared: `a = ((a & ~HF) | hf << 28) & ~VF; a = a | vf << 29;`.  572/95.
+ */
+
 #endif /* CLUSTER_02066740_H */

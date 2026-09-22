@@ -989,3 +989,314 @@ void func_0206775C(GXOamAttr *oam)
 permuter best result line (hill 800, ../2.0/sp2, from this source):
   best      DIFF   asm=1765  bytes-out=104  size=572/572
   mutations type:l(hf:u32->int)
+
+==============================================================================
+2026-09-22 - wave 9 third lane (cluster_02066740).  0x02067080 to 704/37,
+0x0206775C to 572/95.  Both still DIFF, both ../2.0/sp2.
+==============================================================================
+
+func_02067080 -- 704 against 704 (676 code + 28 pool), 37 concrete out,
+../2.0/sp2 (../2.0/base gives the same 704/37; 1.1p1 is 680/559 on this
+source, so this IS a 2.0 row once the body is written with the SDK/NNS
+inlines -- the earlier "DO NOT PROBE AGAIN" was measured on a hand-rolled
+body).  What moved it from 668/330:
+  * the whole body rewritten with inlines: RepeatX/RepeatY (s16 |= 0xff00),
+    G2_GetOBJEffect, G2_GetOBJShape, a MulVec22(m, &pos, &pos) inline whose
+    `if (src == dst) p = &tmp; ... if (p == &tmp) *dst = tmp;` IS the alias
+    guard (no pointer-cast trick needed), and G2_SetOBJPosition.  Frame and
+    first half then come out right with no further levers.
+  * G2_SetOBJEffect's two arms must NOT be textually identical or 2.0 merges
+    them (no compare left at all).  The image's `cmp r5,#0x100 / andeq /
+    orreq / streq / beq` then the unpredicated copy is reproduced by
+    `if (eff != AFFINE) oam->attr01 = ...; else *(u32 *)oam = ...;` (same
+    value, different lvalue spelling).  A switch keeps the arms but does not
+    if-convert (+4 bytes); `||` conditions are folded away.
+  * the recentring block needs `-ox` MATERIALISED (`rsb` then two `mla`):
+    `fx32 dx = -ox; dx += m->_00 * hw; hh = h >> 1; dx += m->_10 * hh;`
+    as separate statements; any single expression gets reassociated into
+    `sub ..., lsl #12`.
+  * the double-size flag must be a materialised byte:
+    `u32 dbl; ... dbl = (effect == DOUBLE); if (dbl & 1) {...}` placed after
+    the pos.y update.  That is what gives the image's moveq/movne/cmp and
+    the reload of pos inside the arm.  BOOL/int flags are threaded away
+    (684 bytes).
+  * permuter lever applied: the 17D8 table base bound to a local
+    (`const u8 *tblH`) before the effect read; oy expanded.
+RESIDUE (permuter hill 800 + anneal 1400/2000 flat at 30-37): the image keeps
+the 64-bit accumulator low half and the 17D8 base in r8 (push r4-r8), the
+compile uses ip (push r3-r7).  One colouring choice; everything else is
+knock-on.  Not a front-end tell (sp1/sp2/sp2p4/base agree).
+permuter best result line: best DIFF asm=155 bytes-out=30 size=704/704
+  (anneal, mutations temp/split-assign/hoist of m->_10*hh and a `do{}while(0)`
+  block -- not a source anyone would write; the readable 37 below is filed).
+
+/* best source, 704 bytes against 704, 37 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02067080
+ * address:  0x02067080
+ * packet:   pkt_02066E30
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF (704/704, 37 out)
+ *
+ * symbols:
+ *   g_02148B48      0x02148B48  data
+ *   tbl_020A17F0    0x020A17F0  data
+ *   tbl_020A17D8    0x020A17D8  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef int            s32;
+typedef long long      s64; typedef int BOOL;
+#define TRUE 1
+#define FALSE 0
+typedef s32            fx32;
+typedef s64            fx64;
+
+typedef enum {
+    GX_OAM_EFFECT_NONE = 0x0000,
+    GX_OAM_EFFECT_AFFINE = 0x0100,
+    GX_OAM_EFFECT_NODISPLAY = 0x0200,
+    GX_OAM_EFFECT_AFFINE_DOUBLE = 0x0300
+} GXOamEffect;
+
+typedef enum {
+    GX_OAM_SHAPE_8x8 = 0
+} GXOamShape;
+
+typedef struct { u32 attr01; u16 attr2; u16 _3; } GXOamAttr;
+typedef struct { fx32 x; fx32 y; } FVec2;
+typedef struct { fx32 _00; fx32 _01; fx32 _10; fx32 _11; } MtxFx22;
+
+struct Rig { u32 f00; u32 f04; };
+extern struct Rig *g_02148B48;
+extern const u16 tbl_020A17F0[3][4];
+extern const u16 tbl_020A17D8[3][4];
+
+static inline GXOamEffect G2_GetOBJEffect(const GXOamAttr *oam)
+{
+    GXOamEffect effect;
+    effect = (GXOamEffect)(oam->attr01 & 0x0300);
+    if (effect == GX_OAM_EFFECT_AFFINE || effect == GX_OAM_EFFECT_AFFINE_DOUBLE)
+        return effect;
+    return (GXOamEffect)(effect | (oam->attr01 & 0x30000000));
+}
+static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
+{
+    return (GXOamShape)(oam->attr01 & (0x0000c000 | 0xc0000000));
+}
+static inline void G2_SetOBJEffect(GXOamAttr *oam, GXOamEffect eff, int rsParam)
+{
+    if (eff != GX_OAM_EFFECT_AFFINE)
+        oam->attr01 = (oam->attr01 & ~(0x0300 | 0x3e000000)) | eff;
+    else
+        *(u32 *)oam = (*(u32 *)oam & ~(0x0300 | 0x3e000000)) | eff;
+}
+static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
+{
+    oam->attr01 = (oam->attr01 & ~(0x01ff0000 | 0x000000ff)) | ((u32)y & 0xff) | (((u32)x << 23) >> 7);
+}
+static inline s16 RepeatX(s16 x)
+{
+    if (x > 0xff)
+        x |= 0xff00;
+    return x;
+}
+static inline s16 RepeatY(s16 y)
+{
+    if (y > 0x7f)
+        y |= 0xff00;
+    return y;
+}
+static inline void MulVec22(const MtxFx22 *m, const FVec2 *src, FVec2 *dst)
+{
+    FVec2 tmp;
+    FVec2 *p;
+    if (src == dst)
+        p = &tmp;
+    else
+        p = dst;
+    p->x = (fx32)(((fx64)m->_10 * src->y + 0x1000 + (fx64)m->_00 * src->x) >> 12);
+    p->y = (fx32)(((fx64)m->_11 * src->y + 0x1000 + (fx64)m->_01 * src->x) >> 12);
+    if (p == &tmp)
+        *dst = tmp;
+}
+
+void func_02067080(const MtxFx22 *m, GXOamAttr *oam, const FVec2 *ofs)
+{
+    FVec2 pos;
+
+    pos.x = RepeatX((s16)((oam->attr01 & 0x01ff0000) >> 16)) << 12;
+    pos.y = RepeatY((s16)(oam->attr01 & 0xff)) << 12;
+    if (G2_GetOBJEffect(oam) == GX_OAM_EFFECT_AFFINE_DOUBLE) {
+        GXOamShape shape = G2_GetOBJShape(oam);
+        pos.x += *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2) << 11;
+        pos.y += *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2) << 11;
+    }
+    MulVec22(m, &pos, &pos);
+    if (g_02148B48->f04 != 0)
+        G2_SetOBJEffect(oam, g_02148B48->f04 == 2 ? GX_OAM_EFFECT_AFFINE_DOUBLE : GX_OAM_EFFECT_AFFINE, 0);
+    {
+        const u8 *tblH = (const u8 *)tbl_020A17D8;
+        GXOamEffect effect = G2_GetOBJEffect(oam);
+        GXOamShape shape = G2_GetOBJShape(oam);
+        int w = *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
+        int h = *(u16 *)(tblH + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
+        int hw = w >> 1;
+        fx32 ox = hw << 12;
+        int hh;
+        fx32 dx = -ox;
+        fx32 dy;
+        u32 dbl;
+        dx += m->_00 * hw;
+        hh = h >> 1;
+        dx += m->_10 * hh;
+        pos.x += dx;
+        dy = -(hh << 12);
+        dy += m->_01 * hw;
+        dy += m->_11 * hh;
+        pos.y += dy;
+        dbl = (effect == GX_OAM_EFFECT_AFFINE_DOUBLE);
+        if (dbl & 1) {
+            pos.x -= ox;
+            pos.y -= hh << 12;
+        }
+    }
+    pos.x += ofs->x;
+    pos.y += ofs->y;
+    G2_SetOBJPosition(oam, pos.x >> 12, pos.y >> 12);
+}
+
+func_0206775C -- 572 against 572, 95 out (was 108), ../2.0/sp2.  New reading
+of the flip write-back: the image's FIRST store already has flipV cleared
+(`bic r2,r1,#0x10000000 / orr r2,r2,r6,lsl #28 / bic r2,r2,#0x20000000` then
+`str r2` and `str r3` = r2 | vf<<29).  So it is
+    oam->attr01 = ((oam->attr01 & ~HF) | (hf << 28)) & ~VF;
+    oam->attr01 = oam->attr01 | (vf << 29);
+(three-statement `&= ~VF; |= vf<<29` spelling measures the same, 106).  hf as
+int (permuter type mutation) gives 95.  Remaining: y(u16) and hf swapped
+between r4/r6, and the pre-join y in r1 not r0.  Tried and flat: split u16
+locals for y, an s16-parameter prototype for func_02066E30 (worse, 299-387),
+all x/y type combinations, declaration orders.
+permuter best result line (hill 800 + anneal 2000 on the new reading):
+  best DIFF asm=1190 bytes-out=95 size=572/572  mutations type:l(hf:u32->int)
+
+/* best source, 572 bytes against 572, 95 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206775C
+ * address:  0x0206775C
+ * packet:   pkt_02066E30
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF (572/572, 95 out)
+ *
+ * symbols:
+ *   func_0207D8E0   0x0207D8E0  arm
+ *   func_02067B50   0x02067B50  arm
+ *   func_02067B64   0x02067B64  arm
+ *   func_02066E30   0x02066E30  arm
+ *   g_02148B48      0x02148B48  data
+ *   tbl_020A17F0    0x020A17F0  data
+ *   tbl_020A17D8    0x020A17D8  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef int            s32;
+
+typedef enum { GX_OAM_SHAPE_8x8 = 0 } GXOamShape;
+typedef union {
+    u32 attr01;
+    struct {
+        u32 y:8; u32 rsMode:2; u32 objMode:2; u32 mosaic:1; u32 colorMode:1; u32 shape:2;
+        u32 x:9; u32 rsParam:5; u32 size:2;
+    } b;
+    struct { u32 _0:28; u32 flipH:1; u32 flipV:1; u32 _1:2; } f;
+} Attr01;
+typedef struct { Attr01 a; u16 attr2; u16 _3; } GXOamAttr;
+
+struct Rig {
+    u32 pad_00[2];
+    u32 f08;        /* +0x08 */
+    u32 pad_0c[2];
+    u32 f14;        /* +0x14 */
+    u32 f18;        /* +0x18 */
+    u32 pad_1c[2];
+    u32 f24;        /* +0x24 */
+    u32 pad_28[6];
+    u32 mtx[12];    /* +0x40 */
+};
+
+extern struct Rig *g_02148B48;
+extern const u16 tbl_020A17F0[3][4];
+extern const u16 tbl_020A17D8[3][4];
+extern void func_0207D8E0(const void *m);
+extern u32 func_02067B50(const struct Rig *r);
+extern u32 func_02067B64(const struct Rig *r);
+extern void func_02066E30(int x, int y, int z, const GXOamAttr *oam, u32 a4, u32 a5, u32 a6);
+
+static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
+{
+    return (GXOamShape)(oam->a.attr01 & (0x0000c000 | 0xc0000000));
+}
+
+static inline int OamX(const GXOamAttr *oam)
+{
+    int x = oam->a.b.x;
+    if (x > 0xff)
+        x = (s16)(x | 0xff00);
+    return x;
+}
+
+static inline int OamY(const GXOamAttr *oam)
+{
+    int y = oam->a.b.y;
+    if (y > 0x7f)
+        y = (s16)(y | 0xff00);
+    return y;
+}
+
+void func_0206775C(GXOamAttr *oam)
+{
+    func_0207D8E0(g_02148B48->mtx);
+    if (g_02148B48->f24 != 0) {
+        GXOamShape shape = G2_GetOBJShape(oam);
+        int x, y;
+        int hf; u32 vf;
+
+        if (func_02067B50(g_02148B48)) {
+            x = OamX(oam);
+            x = -(x + *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
+        } else {
+            x = OamX(oam);
+        }
+        x = (s16)(u16)x;
+        if (func_02067B64(g_02148B48)) {
+            y = OamY(oam);
+            y = -(y + *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2));
+        } else {
+            y = OamY(oam);
+        }
+        y = (u16)y;
+        hf = oam->a.f.flipH;
+        hf = func_02067B50(g_02148B48) ^ hf;
+        vf = oam->a.f.flipV;
+        vf = func_02067B64(g_02148B48) ^ vf;
+        oam->a.attr01 = ((oam->a.attr01 & ~0x10000000) | (hf << 28)) & ~0x20000000;
+        oam->a.attr01 = oam->a.attr01 | (vf << 29);
+        func_02066E30(x, (s16)y, -1, oam, g_02148B48->f08 + 0xc, g_02148B48->f14, g_02148B48->f18);
+    } else {
+        func_02066E30(OamX(oam), OamY(oam), -1, oam, g_02148B48->f08 + 0xc, g_02148B48->f14, g_02148B48->f18);
+    }
+}

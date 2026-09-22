@@ -1261,3 +1261,156 @@ python3 tools/permuter.py ... --cc ../2.0/sp2 --mode hill --budget 800 --jobs 8 
 The cursor/lerp r5/r6 swap is a declaration-level fact that none of the
 above reaches; by analogy with 0x0206EC50 the next thing to try is the
 channel-group bodies as inline helpers taking (out field, t, p, root, lerp).
+
+==============================================================================
+2026-09-22, wave 9 (cluster_0206EB00 remainder).  0x0206ECE0, 0x0206EE60.
+==============================================================================
+
+--- 0x0206ECE0 (384 B): DIFF, 41 -> 40, and the 41 source is RETRACTED
+The wave-8 41-byte source above has a data-flow bug introduced by the
+permuter: `tmp = (u16 *) node;` sits in dead code after `goto set`, so
+`f = tmp[0]` reads an uninitialised pointer.  Do not build on it.
+The clean flat-goto source below (the 49-byte pass's body with the pool
+order corrected to g_020A1998 first, and locals declared k, u, node, v after
+the resolve temporaries) is 384/384 and 40 out.  What is left is ONE swap:
+the image has k in r4 and u in r7, the compile k in r7 and u in r4; node
+(r5), v (r6) and out (r8) are right, and the post-call block's schedule
+follows from the swap.
+Measured and flat at 40 or worse: all 24 orders of {k, node, v, u} before
+and after the resolve temporaries (48), 150 random orders of all ten locals
+(floor 40), the three k/u/v statement orders (96 with four decl orders), the
++-0x1000 value hoisted before the lookups in four spellings (47-49), an Out
+struct parameter with m[9] at +0x28 (40), and the same source under sp2p2,
+sp1 and 1.1p1 (all 40).  The EC50-style nested inline resolve is 52 even
+with the reassigned-flag lever (needed: `f` re-read into the SAME variable
+after the call, or the compiler sinks k past the call and keeps the flag
+word live, 105).
+permuter (../2.0/sp2) from this source:
+  hill 800:    no single mutation improves DIFF asm=725 bytes-out=40 size=384/384 (353 tried)
+  anneal 2000: best DIFF asm=725 bytes-out=40 size=384/384 (nothing moved)
+
+/* best source, 384 bytes against 384, 40 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_0206ECE0
+ * address:  0x0206ECE0
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02148DB0      0x02148DB0  data  a4
+ *   g_020A1998      0x020A1998  data  a1
+ *   g_020A1999      0x020A1999  data  a1
+ *   g_020A199A      0x020A199A  data  a1
+ *   g_020A199B      0x020A199B  data  a1
+ *   func_020834A8   0x020834A8  thumb
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef signed short s16;
+
+typedef struct { u8 unk00; u8 idx01; } Hdr;
+typedef struct { u8 unk00; u8 cnt01; u8 unk02[4]; u16 off06; } Bank;
+typedef struct { Hdr *h; u8 pad[0xD0]; Bank *bank; } Root;
+typedef struct { u32 rel00; } Ent;
+
+typedef struct { u8 c; u8 pad[3]; } Perm;
+
+extern Root *g_02148DB0;
+extern Perm g_020A1998[];
+extern Perm g_020A1999[];
+extern Perm g_020A199A[];
+extern Perm g_020A199B[];
+
+extern void func_020834A8(void *p);
+
+void func_0206ECE0(u32 *out)
+{
+    Root *r = g_02148DB0;
+    Bank *b;
+    u8 *t;
+    u32 idx;
+    u32 f;
+    s16 *p;
+    int k;
+    int u;
+    u8 *node;
+    int v;
+
+    idx = r->h->idx01;
+    b = r->bank;
+    if (b == 0) goto none;
+    if (b == 0) goto nullent;
+    if (idx >= b->cnt01) goto nullent;
+    t = (u8 *)b + b->off06;
+    idx = (u32)(t + 4 + (*(u16 *)t) * idx);
+    goto have;
+nullent:
+    idx = 0;
+have:
+    if (idx == 0) goto none;
+    node = (u8 *)b + ((Ent *)idx)->rel00;
+    goto set;
+none:
+    node = 0;
+set:
+    f = ((u16 *)node)[0];
+    p = (s16 *)(node + 4);
+    if ((f & 1) == 0) p = (s16 *)((u8 *)p + 0xc);
+    if ((f & 2) != 0) goto flag2;
+    if ((f & 8) == 0) goto copy;
+
+    k = (int)(f & 0xf0) >> 4;
+    u = p[0];
+    v = p[1];
+    func_020834A8(out + 10);
+    f = ((u16 *)node)[0];
+    {
+        int s1 = g_020A1998[k].c;
+        int s2 = g_020A1999[k].c;
+        ((u32 *)((u8 *)out + 0x28))[k] = ((f & 0x100) != 0) ? -0x1000 : 0x1000;
+        ((u32 *)((u8 *)out + 0x28))[s1] = (u32)u;
+        ((u32 *)((u8 *)out + 0x28))[s2] = (u32)v;
+    }
+    f = ((u16 *)node)[0];
+    if ((f & 0x200) != 0) v = -v;
+    ((u32 *)((u8 *)out + 0x28))[g_020A199A[k].c] = (u32)v;
+    f = ((u16 *)node)[0];
+    if ((f & 0x400) != 0) u = -u;
+    ((u32 *)((u8 *)out + 0x28))[g_020A199B[k].c] = (u32)u;
+    return;
+
+copy:
+    {
+        u32 *o = (u32 *)((u8 *)out + 0x28);
+        o[0] = (u32)(int)((s16 *)node)[1];
+        o[1] = (u32)(int)p[0];
+        o[2] = (u32)(int)p[1];
+        o[3] = (u32)(int)p[2];
+        o[4] = (u32)(int)p[3];
+        o[5] = (u32)(int)p[4];
+        o[6] = (u32)(int)p[5];
+        o[7] = (u32)(int)p[6];
+        o[8] = (u32)(int)p[7];
+    }
+    return;
+
+flag2:
+    out[0] = out[0] | 2;
+}
+
+--- 0x0206EE60 (948 B): DIFF, 63, unchanged
+The cursor/lerp r5/r6 swap does not move under: all 24 orders of
+{p, f, rel, lerp} with the two arrays after and before them (48 variants,
+floor 63), and the three scalar channels as one inline helper
+`p = scal(&out->f4c, f & 8, lerp, t, p, root)` (63).
+permuter (../2.0/sp2), anneal 900 --focus p,lerp: best DIFF asm=315
+bytes-out=63 size=948/948 (nothing moved).  The source in the 2026-09-21
+section above stays the best.
+/* best source, 948 bytes against 948, 63 concrete bytes out, ../2.0/sp2 -- the 2026-09-21 source above, unchanged */
