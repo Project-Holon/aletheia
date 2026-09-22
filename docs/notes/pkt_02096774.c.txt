@@ -187,3 +187,17 @@ void func_02096774(struct Bcd *r, struct Bcd *x, struct Bcd *y)
 tail:
     func_02096620(r, r->f04);
 }
+
+2026-09-22, wave 9: CLOSED for the wave-9 rows.  0x02095B3C, 0x02095EAC,
+0x02096004, 0x020966B0, 0x02096774, 0x02096990 and 0x02096ED0 are now EXACT
+under 1.1p1 (0x02096594 and 0x020965B4 are NOT among them and stay open), all
+from the Metrowerks ansi_fp.c / strtoul.c source shapes: src/matched/
+func_02095B3C.c (__strtoul), func_02095EAC.c (strtoul: `value = ULONG_MAX;
+errno = ERANGE;` in the if-arm, `else if (negative)`, one return -- the fold
+never happens when the -1 is a definition of the result rather than a
+returned constant), func_02096004.c (__strtoull), func_020966B0.c (__ull2dec:
+`text[length++] = val % 10` is the "declined live-range split"),
+func_02096774.c (__timesdec), func_02096990.c (__two_exp, every string site
+resolves under the widened sole-ref class) and func_02096ED0.c (__minus_dec).
+The allocation-tie diagnoses recorded above were the wrong reading: the
+residues were source shape.  See docs/families/cluster_020949F4.h.

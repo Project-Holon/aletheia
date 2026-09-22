@@ -16,10 +16,10 @@
  *
  *   0x02096D10  matched  func_02096D10  string/record equality
  *   0x02096DF0  matched  func_02096DF0  string/record ordering
- *   0x02096ED0  OPEN     672 B          packed-decimal subtract + round
+ *   0x02096ED0  matched  func_02096ED0  MSL __minus_dec (wave 9)
  *   0x02097170  matched  func_02097170  double -> packed decimal (this wave)
  *   0x020972F0  matched  func_020972F0  digit-text -> packed decimal
- *   0x0209739C  OPEN     1492 B         decimal string -> double (strtod core)
+ *   0x0209739C  OPEN     1492 B         MSL __dec2num, DIFF 1520/1524 (wave 9)
  *   0x02097990  matched  func_02097990  frexp + ldexp composition
  *
  * THE SUBSYSTEM.  This is the Metrowerks Standard Library's DECIMAL
@@ -197,7 +197,7 @@ extern void func_02096670(DB *p, int n);       /*  64 B, MATCH in src/pending */
    shift of the callee-saved set; the body is in docs/notes/pkt_02096670.c.txt.
    The second parameter really is a u64 -- it arrives in r0:r1 and both halves
    are tested (`cmp r5,#0 / cmpeq r6,#0`). */
-extern void func_020966B0(DB *p, u64 v);       /* 196 B, open                 */
+extern void func_020966B0(DB *p, u64 v);       /* 196 B, EXACT (wave 9)       */
 
 /* MULTIPLY two records into a third.  The long-multiplication kernel is the
    `mla r4, ip, r3, r4` loop at 0x020967F0 over the two digit arrays, the
@@ -206,7 +206,7 @@ extern void func_020966B0(DB *p, u64 v);       /* 196 B, open                 */
    are ADDED as signed halfwords at 0x0209683C.  Result digits are capped at
    0x20 and the tail is handed to func_02096620 to round.  r is written, a and
    b are read only. */
-extern void func_02096774(DB *r, DB *a, DB *b);/* 384 B, open                 */
+extern void func_02096774(DB *r, DB *a, DB *b);/* 384 B, EXACT (wave 9)       */
 
 /* Build a record from a NUL-terminated ASCII digit string, with the exponent
    passed in.  `sub r3,r3,#0x30` per digit, stop at 0x20 digits, then the
@@ -224,14 +224,16 @@ extern void func_020968F4(DB *p, const char *s, int exp10);  /* 156 B, open   */
    area at 0x020A8ABC have no `string`-class witness (a data table precedes
    the run), so even a byte-perfect body caps at MATCH.  See
    docs/notes/pkt_02096990.c.txt. */
-extern void func_02096990(DB *p, int n);       /* 896 B extent, open          */
+extern void func_02096990(DB *p, long n);      /* 896 B, EXACT (wave 9)       */
 
-/* SUBTRACT b from a, with rounding, into a (a is also the destination of an
-   opening 38-byte copy from src).  DIFF at 95 concrete bytes out with the size
-   exact; the residue is an allocator tie between `base` and the b->ndigits
-   temporary.  See docs/notes/pkt_02096ED0.c.txt -- THREE lanes have now
-   measured this row and the body is not in question. */
-extern void func_02096ED0(DB *a, const DB *src, DB *b);      /* 672 B, open   */
+/* MSL __minus_dec: z = x - y, rounding the digits of y past z's precision.
+   EXACT since wave 9 (src/matched/func_02096ED0.c), from the Metrowerks
+   source verbatim -- the "allocator tie between base and the b->ndigits
+   temporary" of docs/notes/pkt_02096ED0.c.txt was the declaration list
+   `int zlen, dexp; u8 *ib, *i, *ie; const u8 *jb, *j, *jn;` and the
+   borrow loops `while (*k == 0) --k; while (k != i) { --*k; *++k += 10; }`.
+   Argument order is (dest, minuend, subtrahend): the opening copy is *z = *x. */
+extern void func_02096ED0(DB *z, const DB *x, const DB *y);  /* 672 B, EXACT  */
 
 /* Convert a double to a record.  EXACT in src/matched/func_02097170.c.        */
 extern void func_02097170(DB *r, double x);    /* 384 B, EXACT                */
@@ -243,15 +245,20 @@ extern void func_02097170(DB *r, double x);    /* 384 B, EXACT                */
    with only the first used -- a forwarding shape, not a mistake. */
 extern void func_020972F0(void *a0, int a1, int a2, DB *p); /* EXACT          */
 
-/* Decimal string -> double.  The strtod core; docs/notes/pkt_02094B8C.c.txt
-   reaches it from 0x020957E0.  1492 bytes, 373 instructions, 33 `bl` sites to
-   17 targets, six pool words including the doubles 0x3FF00000 (x4),
-   0x7FF00000 and 0x40140000.  Sixteen of the seventeen targets attest; the
-   seventeenth is func_02096ED0, whose only two branches image-wide are inside
-   this function, so a byte-perfect body STILL caps at MATCH until 0x02096ED0
-   gains a shard entry.  Not straight-line; do not take it before 0x02096ED0.
-   See docs/notes/pkt_0209739C.c.txt. */
-extern double func_0209739C(DB *p, /* ... */ int n);         /* 1492 B, open  */
+/* MSL __dec2num: decimal record -> double.  1492 bytes.  Wave 9 wrote the
+   whole Metrowerks body (docs/notes/pkt_0209739C.c.txt, best source there):
+   1520 bytes against 1524, 721 concrete bytes out, every instruction in
+   order.  Two field facts it pinned: the record's sign byte is UNSIGNED
+   (`ldrb`, so `u8 sign`, not MSL's `char`), and `dec.exp += (s16)(len - 1)`
+   carries an explicit short cast (the lsl/asr pair).  The residue is WHERE
+   1.1p1 POOLS ADDRESS CONSTANTS: it materialises &feval, &dec, &x64 and a
+   zero together right after the digit loop and shares the zero with pow's
+   5.0 low word (4 bytes); the image pools &x64 / &dec / 0 again at the
+   refinement loop's preheader.  About twelve loop/scope/goto structures and
+   the inline-helper form all leave the pool point unchanged.  0x02096ED0 is
+   no longer a cap (it resolves by sole-ref/code and is EXACT); the one open
+   witness is the pow_10 table at 0x020A8A7C.  Signature: (const DB *d). */
+extern double func_0209739C(const DB *d);                    /* 1492 B, open  */
 
 /* frexp/ldexp composition: `t = 0; v = frexp(a0, &t); t += a2;
    return ldexp(v, t);`, i.e. multiply a double by 2^a2 through the two

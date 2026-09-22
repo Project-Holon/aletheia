@@ -39,3 +39,258 @@ NEXT STEP: do not re-dispatch this alone.  The order that pays is
 EXACT address in that same shard), because matching it converts this row from
 a MATCH ceiling to a fileable EXACT *and* removes the cap on 0x02094B8C.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, wave 9 (pkt_02096D10 remainder): transcribed, DIFF, hoisting wall
+==============================================================================
+
+WHAT IT IS: MSL __dec2num (ansi_fp.c), decimal record -> double, written from
+the Metrowerks source shape: length/'0'/'I'/'N' early returns through
+copysign (0x0209A368) with `d->sign == 0 ? 1.0 : -1.0` and `(double)
+__float_huge` (0x020A8814, via _f2d); `decimal dec = *d`, ASCII->digits,
+`dec.exp += (s16)(dec.sig.length - 1)` (the image's lsl/asr pair is that
+cast); the overflow guard against __str2dec(&max, "1797693134862315807937
+28714053034151", 308) via __less_dec; the 8-digit chunk accumulator over the
+static pow_10[8] table (0x020A8A7C); pow(5.0, +/-exponent) through _dflt/
+__ddiv/__dmul; ldexp; DBL_MAX on fpclassify == 2; then the refinement loop
+(__num2dec_internal / __equals_dec / __less_dec, ++/-- on the bit pattern
+through `u64 *ll = (u64 *)&guess`, a struct swap through diff1, and
+round-half-even on `*(u64 *)&first_guess & 1`).  The body below reproduces
+every instruction of the first 0x29C bytes except pool displacements, and
+every instruction of the refinement loop and tail in the same order.
+
+TWO FIXES THE FIRST DRAFT NEEDED, both now in the body: `u8 sign` (the image
+reads it with `ldrb`, a plain `char` gives `ldrsb`), and the chunk loop
+counts a SEPARATE index up to ndig and indexes pow_10 by `ndig - 1`
+(`add r2,r2,#1 / cmp r2,r7`, `add r3,r0,r7,lsl #3`), not by the count.
+
+THE RESIDUE (1520 bytes against 1524, 721 concrete bytes out, one
+instruction): pooled constants.  1.1p1 materialises &feval, &dec, &x64 and a
+zero (the high word of the `& 1` mask) together at the block after the digit
+loop (+0x2A0), and the zero is then shared with pow's 5.0 low word (one
+`mov r0, #0` lost -> the 4 bytes).  The image pools only &feval/&dec there;
+&dec (again, sb), &x64 (r4) and the zero (r8) are materialised separately at
+the refinement loop's preheader (+0x3A4..+0x3AC), and pow keeps its two
+immediate `mov r0, #0`.  Everything after +0x2A0 is the same instruction
+stream with the registers shifted by that choice.
+
+Measured, all 1520/721 (hoist point unchanged): found block after the loop
+or inside it (goto found / break), for(;;) / while(1) / goto-label loop /
+flag-controlled while(searching) with the found block inside, x64/diff
+declared in the loop body or in a nested block, guess/ll outer vs inner,
+equals-> `goto done` vs direct return vs structured `if (!equals) {...}`,
+an outer `for(;;){...break;}` wrapper, pointer locals for &x64/&dec (copy-
+propagated away), the loop as a static inline helper (inlined, 709 out,
+same hoist).  With the zero removed (a u32 `& 1` test, not the image) pow
+regains its immediates but &x64 still hoists to +0x2A0: the hoist point is
+not driven by the zero.  All dsi builds (1.1 .. 1.6sp2) give the identical
+1520/721; 1.2/* and 2.0/* are 1576..1660 bytes.  No pin.
+
+Witnesses: 35 of 36 sites resolve; 0x02096ED0 now resolves (sole-ref/code,
+and it is EXACT this wave in pkt_02096D10), so the old "capped by 0x02096ED0"
+note is obsolete.  The one open site is pow_10 at 0x020A8A7C, the only pool
+word naming it is this function's own; expect sole-ref/self once the bytes
+agree, otherwise it caps at MATCH.
+
+PERMUTER (1.1p1, --arm, --types):
+  --explain  baseline DIFF asm=1100 bytes-out=721 size=1520/1524,
+             map r5->r6 x10, r7->r8 x6, r6->r7 x5, r4->r5 x3, r8->sb x3
+  --mode hill   --budget 800  -> best DIFF asm=875 bytes-out=373
+             size=1524/1524 via type:l(nd:int->u8) ; reorder(-2) -- a size
+             compensation (the u8 counter adds an `and #0xff`), not a fix
+  --mode anneal --budget 2000 -> best DIFF asm=4025 bytes-out=595
+             size=1524/1524 via volatile/temp chains -- rejected, not the image
+
+/* best source, 1520 bytes against 1524, 721 concrete bytes out, 1.1p1 */
+/*
+ * function: func_0209739C
+ * address:  0x0209739C
+ * packet:   pkt_02096D10
+ * isa:      arm
+ * symbols:
+ *   func_0209A368  0x0209A368  arm
+ *   func_020968F4  0x020968F4  arm
+ *   func_02096DF0  0x02096DF0  arm
+ *   func_02096D10  0x02096D10  arm
+ *   func_02096ED0  0x02096ED0  arm
+ *   func_02097170  0x02097170  arm
+ *   func_0209AB80  0x0209AB80  arm
+ *   func_0209A7A8  0x0209A7A8  arm
+ *   func_020921F4  0x020921F4  arm
+ *   __float_huge   0x020A8814  data
+ *   _f2d           0x0209BD38  arm
+ *   _dfltu         0x0209B790  arm
+ *   _dmul          0x0209B2E8  arm
+ *   _dadd          0x0209AC04  arm
+ *   _deq           0x0209BA3C  arm
+ *   _dflt          0x0209B750  arm
+ *   _ddiv          0x0209D1E0  arm
+ *   _dsub          0x0209AF34  arm
+ *   pow_10         0x020A8A7C  data
+ *   s_020A8B90     0x020A8B90  data  a1
+ */
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned long long u64;
+
+typedef struct decimal {
+    u8 sign;
+    u8 unused;
+    s16 exp;
+    struct {
+        u8 length;
+        u8 text[32];
+        u8 unused;
+    } sig;
+} decimal;
+
+extern float __float_huge;
+extern const double pow_10[8];
+extern const char s_020A8B90[];
+
+extern double func_0209A368(double x, double y);          /* copysign */
+extern void func_020968F4(decimal *d, const char *s, s16 exp);
+extern int func_02096DF0(const decimal *a, const decimal *b); /* __less_dec */
+extern int func_02096D10(const decimal *a, const decimal *b); /* __equals_dec */
+extern void func_02096ED0(decimal *z, const decimal *x, const decimal *y);
+extern void func_02097170(decimal *d, double x);
+extern double func_0209AB80(double x, double y);          /* pow */
+extern double func_0209A7A8(double x, int n);             /* ldexp */
+extern int func_020921F4(double x);                       /* fpclassify */
+
+double func_0209739C(const decimal *d)
+{
+    if (d->sig.length <= 0)
+        return func_0209A368(0.0, d->sign == 0 ? 1.0 : -1.0);
+
+    switch (d->sig.text[0]) {
+    case '0':
+        return func_0209A368(0.0, d->sign == 0 ? 1.0 : -1.0);
+    case 'I':
+        return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
+    case 'N': {
+        double result;
+        u64 *ll = (u64 *)&result;
+        *ll = 0x7FF0000000000000ULL;
+        if (d->sign)
+            *ll |= 0x8000000000000000ULL;
+        *ll |= 0x0008000000000000ULL;
+        return result;
+    }
+    }
+
+    {
+        decimal dec = *d;
+        u8 *i = dec.sig.text;
+        u8 *e = i + dec.sig.length;
+        double first_guess;
+        int exponent;
+
+        for (; i < e; ++i)
+            *i -= '0';
+        dec.exp += (s16)(dec.sig.length - 1);
+        exponent = dec.exp;
+
+        {
+            decimal max;
+            func_020968F4(&max, s_020A8B90, 308);
+            if (func_02096DF0(&max, &dec))
+                return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
+        }
+
+        i = dec.sig.text;
+        first_guess = *i++;
+
+        while (i < e) {
+            unsigned long ival = 0;
+            int nd;
+            double temp1, temp2;
+            int ndig = (int)(e - i) % 8;
+
+            if (ndig == 0)
+                ndig = 8;
+            for (nd = 0; nd < ndig; ++nd, ++i)
+                ival = ival * 10 + *i;
+            temp1 = first_guess * pow_10[ndig - 1];
+            temp2 = temp1 + ival;
+            if (ival != 0 && temp1 == temp2)
+                break;
+            first_guess = temp2;
+            exponent -= ndig;
+        }
+
+        if (exponent < 0)
+            first_guess /= func_0209AB80(5.0, -exponent);
+        else
+            first_guess *= func_0209AB80(5.0, exponent);
+
+        first_guess = func_0209A7A8(first_guess, exponent);
+
+        if (func_020921F4(first_guess) == 2)
+            *(u64 *)&first_guess = 0x7FEFFFFFFFFFFFFFULL;
+
+        {
+            decimal feval;
+            double guess;
+            u64 *ll = (u64 *)&guess;
+            int is_low = 0;
+            int is_high;
+
+            func_02097170(&feval, first_guess);
+            if (func_02096D10(&feval, &dec))
+                goto done;
+            if (func_02096DF0(&feval, &dec))
+                is_low = 1;
+            is_high = 1;
+            if (is_low)
+                is_high = 0;
+            guess = first_guess;
+
+            {
+                decimal x64;
+                decimal diff1;
+                decimal diff2;
+
+                for (;;) {
+                    if (!is_high) {
+                        ++*ll;
+                        if (func_020921F4(guess) == 2)
+                            goto done;
+                    } else {
+                        --*ll;
+                    }
+                    func_02097170(&x64, guess);
+                    if (is_low && !func_02096DF0(&x64, &dec))
+                        goto found;
+                    if (!is_low && !func_02096DF0(&dec, &x64)) {
+                        double t;
+                        diff1 = feval;
+                        feval = x64;
+                        x64 = diff1;
+                        t = first_guess;
+                        first_guess = guess;
+                        guess = t;
+                        goto found;
+                    }
+                    feval = x64;
+                    first_guess = guess;
+                    continue;
+                found:
+                    func_02096ED0(&diff1, &dec, &feval);
+                    func_02096ED0(&diff2, &x64, &dec);
+                    if (func_02096D10(&diff1, &diff2)) {
+                        if (*(u64 *)&first_guess & 1)
+                            first_guess = guess;
+                    } else if (!func_02096DF0(&diff1, &diff2)) {
+                        first_guess = guess;
+                    }
+                    break;
+                }
+            }
+        }
+    done:
+        if (dec.sign)
+            first_guess = -first_guess;
+        return first_guess;
+    }
+}

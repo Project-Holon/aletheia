@@ -24,9 +24,10 @@
  *
  *   B. 0x02095AA4..0x020964F8 -- <stdlib.h> string-to-number.  Three cores
  *      (func_02094B8C = _msl_scanf_strtod_core per layout/runtime_arm9.txt,
- *      func_02095B3C and func_02096004, both ~900-byte dense-switch scanners)
+ *      func_02095B3C = MSL __strtoul and func_02096004 = MSL __strtoull, both
+ *      EXACT since wave 9, 880 and 1012 bytes)
  *      and four thin clamping wrappers over them -- func_02095AA4 (strtod),
- *      func_02095EAC (strtol), func_02095F40 (the s32 form) and
+ *      func_02095EAC (strtoul), func_02095F40 (the s32 form) and
  *      func_020963F8 (the s64 form).  Every wrapper has the SAME shape, and
  *      it is the shape to copy for a new one:
  *
@@ -53,8 +54,12 @@
  *      carry (bumping the exponent on overflow), func_02096670 truncates to a
  *      new length and rounds, func_020966B0 converts a u64 to the record,
  *      func_02096774 multiplies two records, func_020968F4 parses a decimal
- *      string into one, and func_02096990 (oversized, out of scope -- see
- *      docs/notes/pkt_02096990.c.txt) formats one.  func_02096578 (u16
+ *      string into one, and func_02096990 builds 2^n as one (MSL __two_exp,
+ *      EXACT since wave 9: the 21 digit-string sites all resolve under the
+ *      widened sole-ref class).  MSL's own names: __ull2dec, __timesdec,
+ *      __str2dec, __two_exp; the record is MSL's `decimal`
+ *      { char sign; char unused; short exp; struct { u8 length;
+ *      u8 text[32]; u8 unused; } sig; }, 38 bytes.  func_02096578 (u16
  *      strlen) and func_02096594 (u16 strcpy) are two unlabelled leaves that
  *      happen to sit in the same word run.
  *
@@ -109,14 +114,32 @@
  *      an unsigned counter is `subs`/`bne` and on a signed one costs a
  *      separate `cmp`/`bgt`.
  *
- * THE WALL THAT IS NOT A SOURCE PROBLEM.  Three functions in section C and
- * the strtol wrapper are size-exact with every instruction reproduced and
- * only the callee-saved register NUMBERS rotated by one (func_020966B0,
- * func_02096774) or one back-end constant fold out (func_02095EAC).  Between
- * them they have absorbed some forty hand spellings and about six thousand
- * permuter compiles across four lanes.  If a function in this range is
- * size-exact and differs only in which register holds which value, stop:
- * that is the allocation-tie class, not the C.
+ * THE "WALL" WAS A SOURCE PROBLEM AFTER ALL (wave 9, 2026-09-22).  Earlier
+ * lanes filed func_020966B0, func_02096774 and func_02095EAC here as an
+ * allocation tie / back-end constant fold that no spelling could reach, after
+ * ~40 hand spellings and ~6000 permuter compiles.  All three, and every other
+ * open row of the cluster (func_02095B3C, func_02096004, func_02096990), went
+ * EXACT under the default 1.1p1 at the first or second compile once written as
+ * the METROWERKS SOURCE ITSELF (MSL strtoul.c / ansi_fp.c):
+ *
+ *   3. WRITE THE MSL SOURCE, NOT A REDERIVATION.  The tells that no amount of
+ *      permuting reaches are statement shapes the original authors used:
+ *        - func_02095EAC (strtoul):  `if (overflow) { value = ULONG_MAX;
+ *          errno = ERANGE; } else if (negative) value = -value; return value;`
+ *          -- the -1 is a DEFINITION of the result, so 1.1p1 rematerialises it
+ *          (`mvnne r0,#0`) instead of folding it from the 0x22 in r1.
+ *        - func_020966B0 (__ull2dec): `text[length++] = val % 10;` -- the
+ *          post-increment of the length FIELD in the subscript is the
+ *          "declined live-range split" (`mov r4, r1`); the reversal is
+ *          `end = start + length - 1` and a four-statement swap with the
+ *          pointer steps last.
+ *        - func_02096774 (__timesdec): the (i, j, k, l, t) column window with
+ *          `ep = ip` as its own local, verbatim.
+ *        - func_02095B3C / func_02096004 (__strtoul / __strtoull): power-of-two
+ *          scan states, `fetch()` as `(count++, ReadProc(arg, 0, 0))`, the
+ *          ctype macros as `(c < 0 || c >= 0x80) ? 0 : __ctype_map[c] & bit`.
+ *      If a function in this range is size-exact and differs only in which
+ *      register holds which value, the first thing to try is the MSL text.
  * ============================================================================
  */
 
@@ -149,11 +172,13 @@ extern u32 g_02153FAC;                  /* 0x02153FAC -- errno              */
    Its own address is outside this cluster.                                 */
 extern u32 func_020946D8(u32 a, u32 b, u32 c);
 
-/* The three scanning cores.  All three are ~900-byte dense-switch state
-   machines and all three are OUT OF SCOPE for a normal packet slot (the
-   worklist's byte counts for 0x02095B3C and 0x02096004 -- 600 and 732 -- are
-   both short of the real listing extents, 880 and 1012).  Declared here only
-   so a wrapper can name them.
+/* The three scanning cores.  0x02095B3C (__strtoul, 880 bytes) and 0x02096004
+   (__strtoull, 1012 bytes) are EXACT since wave 9 (src/matched/); their own
+   files declare them with the MSL signature
+     (int base, int max_width, int (*ReadProc)(void *, int, int),
+      void *ReadProcArg, int *chars_scanned, int *negative, int *overflow)
+   returning u32 / u64.  The wrapper-side declarations below are kept as the
+   wrappers spell them.
    func_02094B8C is layout/runtime_arm9.txt's _msl_scanf_strtod_core, so a
    call to it attests by the `runtime` class and needs no other witness.     */
 extern u64 func_02094B8C(u32 a0, u32 cb, u32 *buf, u32 *end, u32 *flag);
@@ -242,11 +267,11 @@ extern void func_02096774(struct Bcd *r, struct Bcd *x, struct Bcd *y);
    `c = s[1]; s++;` and not `s++; c = *s;`).                                  */
 extern void func_020968F4(struct Bcd *p, const u8 *s, u16 v);
 
-/* Bcd -> text.  OVERSIZED and confirmed out of scope: 812 bytes of body, a
-   41-entry dense dispatch, seventeen near-identical arms each needing its own
-   ABS32 into the packed string area, several of which have no witness at all,
-   so even a byte-perfect body caps at MATCH.  See docs/notes/pkt_02096990.c.txt. */
-extern void func_02096990(struct Bcd *p, int n /* , ... */);
+/* 2^n as a record (MSL __two_exp), EXACT since wave 9: switch over
+   -64/-53/-32/-16/-8..8 into __str2dec with strings declared by address,
+   default recursing on n/2 and squaring with func_02096774.  (WAS: "formats
+   one, oversized, capped at MATCH" -- every string site resolves.)          */
+extern void func_02096990(struct Bcd *p, long n);
 
 /* ================================================================== *
  * 2.  Section A -- <string.h>, all pure leaves
@@ -278,7 +303,7 @@ extern int  func_02096578(const u16 *s);                       /* u16 strlen */
  * ================================================================== */
 
 extern u64 func_02095AA4(u32 a0, u32 *a1);              /* strtod           */
-extern int func_02095EAC(u32 a0, u32 *a1, u32 mode);    /* strtol -> int    */
+extern u32 func_02095EAC(u32 a0, u32 *a1, u32 mode);    /* strtoul, EXACT (WAS: int) */
 extern s32 func_02095F40(u32 a0, u32 *a1, u32 a2);      /* strtol -> s32    */
 extern s64 func_020963F8(u32 a0, u32 *a1, u32 a2);      /* strtoll -> s64   */
 
