@@ -384,3 +384,50 @@ void func_020433E0(volatile struct Cfg *c)
     }
 }
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED 2026-09-22, second pass on the bg_sys.c family.
+
+The 6-byte r3/ip residue above REPRODUCES exactly (188/188, 6 out) with
+the source recorded in this note, so the note is accurate and current.
+One correction to it: the source as transcribed above is missing its
+final closing brace, which must be added before it will compile.
+
+NEW GROUND THIS PASS: tools/permuter.py, the AST engine, which did not
+exist when the note was written.
+
+  --explain            baseline DIFF asm=30 bytes-out=6 size=188/188
+                       register substitutions (image -> compiled):
+                         r3 -> ip  x2
+                         ip -> r3  x2
+                       i.e. ONE swapped pair, nothing else.
+  --mode hill --budget 800 --jobs 8 --types
+                       no single mutation improves (240 tried)
+  --mode anneal --budget 2000 --jobs 8 --types
+                       2000 compiles in 136s, plateau and drift, best
+                       still DIFF asm=30 bytes-out=6 size=188/188
+
+HAND LEVERS TRIED THIS PASS, ALL 6 OR WORSE
+  the DISPCNT base as a `volatile u32 *r` local, engine B as r[0x400]  (6)
+  two separate pointer locals r and r2, declared before the two words    (6)
+  two pointer locals declared AFTER the two words                       (11)
+  no block at all, c->f28 / c->f2c written inline into the RMWs         (13)
+  the struct parameter non-volatile                                     (6)
+  the mask 0xffcfffef lifted into a `u32 m` local, declared after       (7)
+  the same, declared first                                              (7)
+  a and b declared u16, int, unsigned char  (196/188 SIZE, 6, 17, 17)
+
+The u16 attempt is worth a line because a narrowing type is exactly what
+closed the sibling func_02042D2C on this same pass: here it does not,
+it costs 8 bytes of size instead.  The two functions are not the same
+shape -- 02042D2C's residue was a stack-argument home, this one is a
+scratch-register pair with no memory involved.
+
+VERDICT UNCHANGED, now with the AST permuter behind it: the image puts
+the DISPCNT base in ip and the second config word in r3, the compiler
+does the opposite, and this is an allocation tie no source spelling and
+no mutation in the tool's set reaches.  20 of 20 relocations resolve and
+the size is exact, so this is a pure codegen cap, not an evidence or a
+structure problem.  Treat 0x020433E0 as allocation-capped at 6 bytes.
+
+re-verified 2026-09-22 by tools/permuter.py: DIFF, 188 bytes against 188, 6 concrete bytes out, 1.1p1

@@ -145,3 +145,71 @@ the body is right.
 Consequence for src/pending/func_02041300.c is unchanged: it still needs
 this address as a 'matched' witness, so it stays at MATCH.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED 2026-09-22: CLOSED.  THE VERDICT ABOVE IS WRONG.
+
+NOTE ON PROVENANCE: func_02042D2C was already closed and committed as
+src/matched/func_02042D2C.c in df76914 (wave 7, pseudo-families, final
+set).  The analysis below was re-derived independently on 2026-09-22
+without knowledge of that commit, and arrived at a file byte-identical to
+the committed one.  It is kept because the note above -- which is still
+what a reader of this file sees first -- states the wrong verdict and the
+wrong premise, and neither was corrected here when the function was
+filed.  Treat the section below as the explanation of the committed
+result, not as a separate closure.
+
+func_02042D2C is EXACT as src/matched/func_02042D2C.c.
+Everything this note says about the BODY was right; the conclusion that
+the last 11 bytes were the instruction scheduler was not, and neither was
+the premise it rested on.
+
+THE FIX IS ONE TOKEN:
+
+    void func_02042D2C(struct Screen *s, u16 value, u8 x0, u8 y0, u8 w,
+                       u8 h, u8 mode)      /* was u32 mode */
+
+and it closes all 11 bytes at once.  Nothing else in the body changed.
+
+WHY THE NOTE ARGUED FOR u32, AND WHY THAT WAS WRONG.  The note says the
+seventh parameter must be u32 because "the seventh arrives as a full word,
+`ldr`, not `ldrb`".  That inference does not hold: a u8 stack argument also
+occupies a full word of the argument area and is also loaded with `ldr`.
+The load width of a STACK argument says nothing about its declared type --
+only a load from a struct or an array carries that information.  (A
+register argument is different again.)  The sibling func_020428E8 makes
+the contrast concrete: there the same last parameter IS read with `ldrb`,
+and there the load does settle it.
+
+WHY IT MOVES THE INSTRUCTIONS.  The residue was the ORDER of three
+independent prologue instructions -- the home move of `value`, the spill of
+`x0`, and the load of the `mode` stack argument.  Narrowing `mode` changes
+that value's spill cost (mwccarm scores a value at flow_weight * (2 * uses
++ definitions), and the narrower type changes both the copy the front end
+inserts and where the value wants to live), which is enough to reorder the
+three.  It is an allocation effect, not a scheduling one, which is exactly
+why a source-level change reaches it.
+
+HOW IT WAS FOUND.  tools/permuter.py, the AST engine, with --types:
+
+    python3 tools/permuter.py --src F --func func_02042D2C --addr 0x02042D2C \
+        --arm --mode anneal --budget 2000 --jobs 8 --types --out best.c
+    best      EXACT  asm=0     bytes-out=0    size=264/264
+    mutations type:p(mode:u32->u8)
+
+The earlier permute.py pass recorded above had NO type mutation in its
+rewrite set, which is precisely why it could not reach this and why its
+flat result across 44 compiles read as confirmation of the wrong verdict.
+
+THE LESSON WORTH CARRYING.  "Same instructions, same registers, different
+slot" was read here as the scheduler, and the scheduler is not reachable
+from C.  But an allocation change can reorder independent instructions too,
+and a parameter's declared width is one of the few levers that reaches the
+allocator without changing the value.  Before concluding scheduler on a
+small residue of independent instructions, run the permuter WITH --types.
+
+CONSEQUENCE.  src/pending/func_02041300.c (fan-in 224) needed all three
+blitters as `matched` witnesses; func_02042E34 and func_02042ED8 were
+already EXACT and this was the last one, so that blocker is now cleared.
+
+re-verified 2026-09-22 by tools/match.py: EXACT, 264 bytes against 264, 0 concrete bytes out, 1.1p1

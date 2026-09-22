@@ -165,3 +165,57 @@ u8 func_020416D4(u32 layer)
     return 0;
 }
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED 2026-09-22: CLOSED.  Filed as src/matched/func_020416D4.c.
+
+The note above identified the blocker exactly right:
+
+  "the residue is ONE codegen question: what source shape emits an
+   unfused three-way cmp/beq chain that still falls through to a fourth
+   copy of the arm body.  Everything else about the function is solved."
+
+The answer is an explicit GOTO CHAIN.  Per affine arm:
+
+    {
+        u8 m = g_02146A44[layer].mode;
+        if (m == 0) goto L_0;
+        if (m == 1) goto L_1;
+        if (m == 2) goto L_2;
+    L_0:
+        cN = R(<reg>);  return cN.prio;
+    L_1:
+        cM = R(<reg>);  return cM.prio;
+    L_2:
+        cK = R(<reg>);  return cK.prio;
+    }
+
+Two things make it work, and both are necessary:
+
+  1. THE LABELS FOLLOW IN SOURCE ORDER, so L_0 is both the target of its
+     own `beq` and the fall-through of the chain.  That is the shape the
+     image has -- `beq #0x2041770` where 0x2041770 is also where the chain
+     falls through to -- and it is why the mode==0 body is not duplicated.
+  2. THE MODE IS CACHED IN `u8 m` FIRST.  Reading
+     `g_02146A44[layer].mode` in each test re-emits the `mla` address
+     computation before every `cmp`.
+
+This is docs/idioms/guards-separated-by-statements-share-an-exit-only-through-goto.md
+applied to a dispatch rather than to a guard chain: the compiler will fuse
+the first test of any if/else-if chain into `cmp r0,#0 / bne`, and only an
+explicit goto keeps the three comparisons separate.
+
+For the record, the two shapes the note listed as failures were re-tried
+and both reproduce their recorded numbers: the if/else-if chain gives
+784 bytes with 303 out, and an inner `switch` with cases 1 and 2 plus a
+fall-through body gives 768 bytes (a jump table, 16 bytes short) with 168
+out.
+
+The permuter was NOT what closed this one -- `--mode hill --budget 800
+--types` found no improving single mutation, because the change is a
+control-flow rewrite and the tool's mutation set is value-preserving
+expression and statement shape, not goto insertion.  It was closed by
+reading the branch targets in the image and noticing that the mode==0
+target and the fall-through address are the same word.
+
+re-verified 2026-09-22 by tools/match.py: EXACT, 784 bytes against 784, 0 concrete bytes out, 1.1p1

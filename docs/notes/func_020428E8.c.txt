@@ -1,0 +1,158 @@
+func_020428E8 @ 0x020428E8, 572 bytes, arm9, ARM, packet pkt_020428E8.
+FIRST DERIVATION, 2026-09-22 (the function was untouched before this pass).
+Best: DIFF, 584 bytes against 572, 106 instructions out.
+
+WHAT IT IS
+----------
+The third of the blit family reached from the +0x1c kind byte, and the odd
+one out: its two neighbours func_020426A0 and func_02042B24 are FILLS, which
+write a constant into a rectangle of the destination tilemap.  This one is a
+COPIER -- it reads from a second surface and writes what it reads.  That is
+what the eleven parameters and the `mla` at +0x30 are for.
+
+The structure, all of it established this pass and all of it settled:
+
+  * ELEVEN PARAMETERS: four in registers (r0 the destination Screen, r1, r2,
+    r3) and seven on the stack, read at [sp,#0x50], #0x54, #0x58, #0x5c,
+    #0x60, #0x64 and #0x68.  The three re-stored immediately
+    (`ldr r0,[sp,#0x50]; str r0,[sp,#0x50]`) are the ones whose home slot
+    the compiler reuses; that is a homing artefact, not eleven distinct
+    values being rewritten.
+
+  * THE SECOND PARAMETER STAYS IN A REGISTER, THE THIRD IS SPILLED.  The
+    prologue is `mov sb, r1` then `str r2, [sp]`, so whichever of the
+    destination coordinates is passed second is the one in sb.  Writing them
+    in the other order swaps two instructions at +0x10 and costs nothing in
+    size, so this is the one parameter fact the diff names directly rather
+    than by consequence.
+
+  * THE LAST PARAMETER IS u8: `ldrb r0, [sp, #0x68]`, not `ldr`.  (Contrast
+    with func_02042D2C, where the same load is `ldr` and the parameter is
+    STILL u8 -- there the width came out of the spill cost, not the load.
+    Here the `ldrb` settles it outright.)
+
+  * TWO WHOLE LOOP NESTS, selected by that byte, sharing nothing.  The
+    nests are the same shape and differ only in how the SOURCE index is
+    computed: the first nest multiplies out by hand
+    (`mla r6, r7, r2, r1`, i.e. src + sw * row), the second calls
+    func_02040F84 per cell.  Both nests index the DESTINATION through
+    func_02040EE0, the same helper func_02042D2C and func_02042ED8 use.
+
+  * THE GUARDS ARE CONJUNCTIONS, NOT SEPARATE `if`s.  The image computes
+    both bounds tests and then predicates -- `cmp r0, r2 ; ldrlt r2, [sp,#0x10]
+    ; ... ; cmplt r2, r1 ; bge <exit>` -- with ONE exit for the pair.  Two
+    separate `if`s emit two exits and cost 4 bytes plus a reshuffle; this is
+    docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
+    Writing the conjunction rather than two ifs took the best from 588/127
+    to 584/106, which is the single largest step this pass.
+
+WHAT IS LEFT
+------------
+12 bytes of size and a register residue through both nests.  The permuter
+reaches the right SIZE but not the right registers:
+
+  anneal, budget 2000, --jobs 8, --types, from the 584/106 source
+    113 compiles  DIFF 572/572, 303 out
+                  <- temp(tmp=dx + y) ; type:p(sx:u8->u32) ; temp(tmp1=s->size_code)
+    229 compiles  DIFF 572/572, 303 out
+                  <- decl-order(y<->x) ; split-assign ; compare(flip) ; split-assign
+    289 compiles  DIFF 572/572, 285 out
+                  <- split-assign ; compare(flip) ; split-assign ; temp(tmp2=dx + y)
+
+So the size closes on `type:p(sx:u8->u32)` plus a lifted `dx + y` temporary.
+Applying just the sx widening to the readable source gives 576 bytes / 124
+out, i.e. it is necessary but not sufficient: the lifted temporaries matter
+too, and the permuter's own best at 285 out is still far from the image.
+
+WHAT THE NEXT PASS SHOULD DO
+----------------------------
+Start from the source below with `sx` widened to u32, and work the SOURCE
+INDEX arithmetic rather than the guards.  The first nest's `mla r6, r7, r2, r1`
+is computed ONCE per row, before the inner loop, off values that are already
+in registers; the source below recomputes `sw * (sx + y)` inside the inner
+loop and leans on the compiler to hoist it, which is what the 285-byte
+residue is mostly made of.  Binding the row base to a named local in the
+outer loop is the obvious next lever and was not tried.
+
+The two sibling fills (func_020426A0, func_02042B24) are still open and
+share this function's parameter shape; whatever settles the index arithmetic
+here should carry to both.
+
+/* best source, 584 bytes against 572, 106 instructions out, dsi/1.1p1 */
+/*
+ * function: func_020428E8
+ * address:  0x020428E8
+ * packet:   pkt_020428E8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020422D4  0x020422D4  arm
+ *   func_02040EE0  0x02040EE0  arm
+ *   func_02040F84  0x02040F84  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Screen {
+    u8 *entries;
+    u8  pad_04[0x11];
+    u8  size_code;
+};
+
+extern void func_020422D4(u8 size_code, u8 *width, u8 *height);
+extern u32  func_02040EE0(u8 x, u8 y, u8 size_code);
+extern u32  func_02040F84(u8 x, u8 y, u32 w, u32 h);
+
+void func_020428E8(struct Screen *s, u8 dy, u8 dx, u8 cw,
+                   u32 ch, const u8 *src, u8 sx, u8 sy, u32 sw, u32 sh,
+                   u8 mode)
+{
+    u8  width;
+    u8  height;
+    u8 *dst;
+    u8  x;
+    u8  y;
+
+    dst = s->entries;
+    if (dst == 0) {
+        return;
+    }
+
+    func_020422D4(s->size_code, &width, &height);
+
+    if (mode == 0) {
+        for (y = 0; y < ch; y++) {
+            if (dx + y >= width || sx + y >= sh) {
+                return;
+            }
+            for (x = 0; x < cw; x++) {
+                if (dy + x >= height || sy + x >= sw) {
+                    break;
+                }
+                dst[func_02040EE0(dy + x, dx + y, s->size_code)] =
+                    src[sw * (sx + y) + (sy + x)];
+            }
+        }
+    } else {
+        for (y = 0; y < ch; y++) {
+            if (dx + y >= width || sx + y >= sh) {
+                return;
+            }
+            for (x = 0; x < cw; x++) {
+                if (dy + x >= height || sy + x >= sw) {
+                    break;
+                }
+                dst[func_02040EE0(dy + x, dx + y, s->size_code)] =
+                    src[func_02040F84(sy + x, sx + y, sw, sh)];
+            }
+        }
+    }
+}
+re-verified 2026-09-22 by tools/match.py: DIFF, 584 bytes against 572, 106 instructions out, 1.1p1
