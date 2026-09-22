@@ -7,6 +7,30 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "func_02070360",
+   "address": "0x02070360",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02070360.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02070434",
+   "address": "0x02070434",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02070434.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02070524",
    "address": "0x02070524",
    "kind": "game",
@@ -28,6 +52,42 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm946e -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02070830",
+   "address": "0x02070830",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02070830.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02070948",
+   "address": "0x02070948",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02070948.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02070AFC",
+   "address": "0x02070AFC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02070AFC.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT"
   }
  ]

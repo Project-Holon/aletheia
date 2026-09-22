@@ -238,3 +238,5 @@ read in the opposite direction.
 
 Status DIFF at 10 instructions, so this stays a note and not a file; but the
 row is now SIZE-EXACT with a byte-identical loop, which it has never been.
+
+filed 2026-09-22 (wave 10): EXACT, see the src/matched file of this address for the source and the levers that closed it.

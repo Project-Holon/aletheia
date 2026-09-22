@@ -116,6 +116,52 @@
  * ============================================================================
  */
 
+/*
+ * ============================================================================
+ * WAVE 10 (2026-09-22): THE WALL IS NOT ONE WALL.  Two rows filed.
+ * ============================================================================
+ *
+ *   func_02063294  EXACT (src/matched/).  The "mla destination" residue MOVED
+ *     under the permuter's split-assign: `ptr = g_02146BC8; ptr = ptr +
+ *     win->bank * 0x540;` (g_02146BC8 declared u8[]) gives the image's
+ *     `mla ip, r4, r3, ip`.  The remaining RMW swap was the SDK GXOamAttr
+ *     bitfield union: `if (dst->rsMode & 1) dst->rsParam = mode;` -- the
+ *     (<<22, >>30) shift pair is the 2-bit rsMode field, the 0x3E000000 mask
+ *     the 5-bit rsParam.  So "NOT SOURCE-ADDRESSABLE" above is refuted for
+ *     this row; it was a declarations question.
+ *   func_02063138  EXACT (src/matched/).  Two inline helpers used twice,
+ *     IsFree(tbl, first, last) and Fill(tbl, first, last, id), each check
+ *     written `if (IsFree(..)) {..} else return 0;`; Fill's destination
+ *     spelled `(u8 *)tbl + first * 2` (a different expression from IsFree's
+ *     &tbl[first], so the address is recomputed, not CSE-copied across the
+ *     loop); the coarse table bound to a local (`coarse = bank->slotsB`).
+ *
+ *   func_02063378  DIFF 4.  READING ERROR FIXED: the failure return is the
+ *     constant 0xFFFE (pool word 0x02063434), not the table base; the
+ *     function is 196 bytes with a two-word pool and returns u16.  With that
+ *     it is size-exact and the triple is the ONLY residue.  Here the image
+ *     does NOT coalesce base and destination (`mla ip, lr, r2, r3`); the
+ *     split-assign lever does not apply, and every 2.0 build gives the same
+ *     bytes.  Measured: the image colours base (r3), dest (ip), index (lr);
+ *     the one spelling that uncoalesces dest (`aff = (T *)(g + i*0x540 +
+ *     0x100); aff = aff + idx;`) colours them in exactly the reverse order.
+ *   func_02063640  DIFF 19 (was 24).  The split-assign lever fixes most of
+ *     the flag-clear arm's copy; the first copy is the same colouring-order
+ *     residue as 0x02063378.
+ *   func_0206343C  DIFF 99, size-exact at 516, written this wave (notes).
+ *     `switch (which)` for the main/sub OAM load, a u16 offset local taken
+ *     before the flush call, a volatile read of the affine window's +0x0c in
+ *     the guard.  Residue is callee-saved allocation only.
+ *
+ * NEW CALLEES/DATA proved by 0x0206343C (all resolve):
+ *   func_020862F0(const void *p, u32 size)                  -- the DC flush
+ *   func_0207E684 / func_0207E708(const void *src, u32 off, u32 size)
+ *                                           -- main / sub OAM load, by which
+ *   g_020A81E4[] = { sub_02063068, sub_02063054, 0 }        -- per-engine
+ *     loader table, type void (*)(const void *src, u32 off, u32 size)
+ * ============================================================================
+ */
+
 #ifndef CLUSTER_02063000_H
 #define CLUSTER_02063000_H
 

@@ -519,3 +519,79 @@ stands and is now machine-confirmed: THE DESTINATION REGISTER OF AN `mla` IS
 NOT SOURCE-ADDRESSABLE.  Not filed: DIFF, by rule 6.  src/pending/func_0204BF40.c
 stays blocked, and 0x02063294 was not re-attempted this pass.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02063078.c:73: declaration syntax error
+
+==============================================================================
+2026-09-22, wave 10 (pkt_02063000 lane): 0x02063294 FILED EXACT;
+0x02063378's failure return was misread, still DIFF at the mla triple
+==============================================================================
+
+0x02063294 -> src/matched/func_02063294.c, EXACT under ../2.0/sp2.  Two
+levers on top of the "THE ACTUAL C" source above: the permuter's
+split-assign(ptr) (`ptr = g_02146BC8; ptr = ptr + win->bank * 0x540;`,
+13 -> 7 bytes: the mla wall moved for this row), and the attribute RMW as the
+SDK GXOamAttr bitfield union (`if (dst->rsMode & 1) dst->rsParam = mode;`,
+7 -> 0).  See the file header.  src/pending/func_0204BF40.c's blocker (the
+PC24 to 0x02063294) now has a `matched` witness.
+
+0x02063378: THE FAILURE RETURN IS 0xFFFE, NOT THE TABLE BASE.  The
+`ldreq r0, [pc, #0x60]` at 0x020633CC reads the pool word at 0x02063434,
+which holds 0x0000FFFE; the table base is the SECOND pool word at
+0x02063438 (read by `ldr r3, [pc, #0x58]` at 0x020633D8).  The "192 vs 196
+over-read" explanation above was wrong: the function is 196 bytes with a
+two-word pool, and the return type is u16 (0xFFFE is the "no slot" id).
+With `return 0xFFFE;` the compile is size-exact at 196 and the ONLY residue
+is the original triple (4 concrete bytes):
+
+  * +005C    ldr lr, [r0]            | ldr r3, [r0]
+  * +0060    ldr r3, [pc, #0x58]     | ldr ip, [pc, #0x58]
+  * +0068    mla ip, lr, r2, r3      | mla ip, r3, r2, ip
+
+Measured this pass, all 196 bytes, none moves the triple: every compiler in
+the 2.0 line (base, sp1, sp1p7, sp2, sp2p2, sp2p4 -- identical output);
+1.1p1/1.2p2/1.3p1/1.6sp2 188 bytes (predicated count block); 1.2/sp2+sp4
+208-216.  Spellings: split-assign ptr (the 294 lever), index coalesced into
+the max local (moves the whole guard, worse), inline IsValid/Remaining/
+HasRoom helpers, struct Bank[3] array indexing, GetBank() inline,
+GXOamAffine-typed destination (a1..a5; a3 `aff = (T *)(g + i*0x540 +
+0x100); aff = aff + idx;` is the only one that UNCOALESCES dest from base,
+but it then colours index r3 / base ip / dest lr -- the exact reverse of the
+image's base r3 / dest ip / index lr), `x * 0x540 + g`, u32-cast
+arithmetic, `&g[x * 0x540]`, the index and the base read at the top.
+Permuter: hill 800 (248 singles, flat), anneal 1000 + 2000 from two
+different basins (flat at asm=20, 4 bytes).
+
+/* best source, 196 bytes against 196, 4 concrete bytes out, ../2.0/sp2 */
+/* permuter best: DIFF asm=20 bytes-out=4 size=196/196 (anneal 2000, flat) */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int s32;
+struct ColorData { s32 c0, c1, c2, c3; };
+struct Obj02063378 { u32 index; u8 pad[6]; u16 min_idx; u16 max_idx; u16 cur_idx; };
+extern u8 g_02146BC8[];
+
+u16 func_02063378(struct Obj02063378 *obj, struct ColorData *colors) {
+    u16 max_idx = obj->max_idx;
+    u16 cur_idx = *(volatile u16 *)&obj->cur_idx;
+    u32 valid = 0;
+    u32 count;
+    u32 ge;
+    u8 *ptr;
+    u32 idx;
+    if (!((s32)cur_idx > (s32)max_idx + 1)) {
+        if (obj->min_idx <= max_idx) valid = 1;
+    }
+    if (valid == 0) count = 0;
+    else count = (u16)(max_idx - cur_idx + 1);
+    if (count >= 1) ge = 1; else ge = 0;
+    if (ge == 0) return 0xFFFE;
+    ptr = g_02146BC8 + obj->index * 0x540;
+    idx = obj->cur_idx;
+    ptr = ptr + 0x100 + idx * 0x20;
+    *(u16 *)(ptr + 0x6)  = (u16)(colors->c0 >> 4);
+    *(u16 *)(ptr + 0xe)  = (u16)(colors->c1 >> 4);
+    *(u16 *)(ptr + 0x16) = (u16)(colors->c2 >> 4);
+    *(u16 *)(ptr + 0x1e) = (u16)(colors->c3 >> 4);
+    obj->cur_idx = obj->cur_idx + 1;
+    return idx;
+}

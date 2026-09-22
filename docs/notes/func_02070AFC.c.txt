@@ -171,3 +171,5 @@ Status DIFF at 4 instructions under `--cc ../2.0/sp2 --arm`, 104 bytes, one
 PC24 site (func_0206E62C, resolved `label`). Still a note and not a file, but
 the compiler question is now settled and the residue is a quarter of what the
 section above recorded.
+
+filed 2026-09-22 (wave 10): EXACT, see the src/matched file of this address for the source and the levers that closed it.

@@ -59,7 +59,14 @@
  * The cluster is SPLIT per function, as cluster_02070B64 is.  Measured so far:
  *
  *   `../2.0/sp2`:  func_02070524  func_02070624  func_02070730  func_02070AFC
- *   dsi/1.1p1:     func_02070904  func_02070360
+ *                  func_02070360  func_02070830  func_02070948   (wave 10)
+ *   dsi/1.1p1:     func_02070904
+ *   either:        func_02070434  (byte-identical under both; filed 1.1p1)
+ *
+ * WAVE 10 CORRECTION: func_02070360 was listed as 1.1p1 on the strength of
+ * its flat-body compile.  Written with the L3 inline helpers below it is
+ * EXACT under ../2.0/sp2 and 204 bytes under 1.1p1: the pin question was
+ * downstream of the source's inline structure.
  *
  * So: TRY ../2.0/sp2 FIRST in this range, but never assume it, and settle it
  * by SIZE before spending any spelling effort -- in this cluster the wrong
@@ -281,23 +288,46 @@ struct Channel {
 /* ================================================================== *
  * 4.  Status of the cluster's ten functions (2026-09-22, wave 7)
  *
- *   0x02070360  212  OPEN   size-exact, 10 instructions out, 1.1p1.
- *                          One prologue scheduling window; the shared zero
- *                          between MIi_CpuClear16's fill argument and the
- *                          loop counter is the cause.  docs/notes/.
- *   0x02070434  240  OPEN   not attempted this lane.
+ *   0x02070360  212  EXACT  ../2.0/sp2 (wave 10).  GetName/Lookup inline
+ *                          helpers; see below.
+ *   0x02070434  240  EXACT  1.1p1 == ../2.0/sp2 (wave 10).  GetRec inline
+ *                          helper called with (u16)idx; u32 frame local.
  *   0x02070524  256  EXACT  the scalar sampler.  ../2.0/sp2.
  *   0x02070624  268  EXACT  the s16-pair sampler.  ../2.0/sp2.
  *   0x02070730  256  EXACT  the per-node driver (packet pkt_0207010C).
- *   0x02070830  212  OPEN   same prologue shape as 0x02070360 (identical
- *                          10-register push, `mov sl, r0`); expect the same
- *                          binder skeleton and the same volatile rule.
+ *   0x02070830  212  EXACT  ../2.0/sp2 (wave 10), 0x02070360's twin.
  *   0x02070904  216  EXACT  forwards to 0x02070730 (packet pkt_0207010C).
- *   0x02070948  220  OPEN   same prologue shape again.
- *   0x02070A24  216  OPEN   sibling of 0x02070AFC, same caller, same
- *                          `push {r3,r4,r5,lr}` / `movs r5, r0` opening.
- *   0x02070AFC  104  OPEN   4 instructions out under ../2.0/sp2, one r0/r1
- *                          exchange in the truncation block.  docs/notes/.
+ *   0x02070948  220  EXACT  ../2.0/sp2 (wave 10), dictionary at src+0xc,
+ *                          also stores src into ctx->f08.
+ *   0x02070A24  216  MATCH  src/pending/ (not this lane).
+ *   0x02070AFC  104  EXACT  ../2.0/sp2 (wave 10).  u16 locals, `>>= 1`.
+ *
+ * WAVE 10 LEVERS (2026-09-22), which closed all five open rows:
+ *
+ *   L3.  THE BINDERS ARE TWO INLINE HELPERS.  GetName(src, i) -- the +8 (or
+ *        +0xc) dictionary idiom returning `q + *(u16 *)(q + 2) + i * 0x10`
+ *        or 0 -- and Lookup(names, ent) returning func_0206E7EC(names + 4,
+ *        ent) or -1.  Written as helpers, ../2.0/sp2 produces the image's
+ *        prologue window (separate `mov r0,#0` fill and `mov r6,#0` counter:
+ *        the pin's kept-constants tell) where the flat body at 1.1p1 was
+ *        stuck at 10 instructions.  The loop is a plain `for (i = 0; i <
+ *        src->b09; i++)`; `u32 i;` is declared BEFORE `u8 *names;`.  The
+ *        volatile count byte is still required.
+ *   L4.  A SHIFT PAIR (<<15, >>16) ON A u16 IS `v >>= 1` ON A u16 LOCAL.
+ *        0x02070AFC's two "15-bit truncations" are `ofs >>= 1; base >>= 1;`
+ *        on u16 locals (the NitroSystem 4-colour palette-offset rule); the
+ *        explicit shift spelling leaves an r0/r1 exchange.
+ *   L5.  AN UNSIGNED INDEX COMPARE ON A NARROWED VALUE IS A u32 HELPER
+ *        PARAMETER.  0x02070434's `cmp b09, idx, lsr #16` / `bls` comes from
+ *        GetRec(node, u32 idx) called as GetRec(node, (u16)idx); a u16
+ *        parameter compares signed.
+ *
+ * THE HANDLER TABLE.  data_020A8230/8228/822C are not scalars: 0x020A8220..
+ * holds driver pointers (0x020A8228 = &func_02070904, 0x020A822C =
+ * &func_02070B64, 0x020A8230 = &func_02070434) and, from 0x020A8240, pairs of
+ * a 4-character kind tag and a binder (0x020A8244 = func_02070360,
+ * 0x020A824C = func_02070948, 0x020A8254 = func_02070830).  Each binder
+ * installs its driver into ctx->f0c.
  *
  * THE SHAPE, ONCE, for the three unattempted 212/220-byte binders
  * (0x02070830, 0x02070948, and 0x02070360 which is measured): all three open

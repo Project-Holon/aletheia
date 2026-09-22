@@ -35,3 +35,172 @@ own, independent of this blocker, since func_02063138 uses the same
 0x540-byte-record table structure and may share callers worth resolving
 together.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, wave 10 (pkt_02063000 lane): 0x0206343C WRITTEN, size-exact at
+516, DIFF 99 concrete bytes (register allocation only), ../2.0/sp2
+==============================================================================
+
+The function is the OAM flush for a span.  If s->live: DC-flush the span's
+OAM shadow (func_020862F0(&oam[first], size)), then a `switch (which)` on
+case 0 / case 1 to func_0207E684 / func_0207E708 (main / sub OAM load:
+src, u16 byte offset, u16 size).  Else: for each entry of the span, call
+the per-engine loader out of the function-pointer table g_020A81E4
+(= {sub_02063068, sub_02063054, 0}, the matched DMA thunks) with 6 bytes
+(attr0..attr2), then, if the affine window (+0x0a/+0x0c/+0x0e) is valid,
+four 2-byte loads per affine group (the PA..PD halfwords at +6/+0xe/+0x16/
++0x1e of each 0x20-byte group).
+
+Structure levers that got it to the right size (508 -> 512 -> 516):
+  - the which-dispatch is a `switch`, not if/else-if (two branched-to
+    tails, `pop` in the fall-through);
+  - the u16 byte offset for the load is a local computed BEFORE the flush
+    call (`u16 ofs = off;`), the u32 `off` is kept for the pointer;
+  - the affine guard reads alast through `*(volatile u16 *)&s->alast`
+    (the image re-reads +0x0c for the count after the guard -- same lever
+    as 0x02063378's cursor).
+The image's `mov r5,#2; mov r4,r5; mov fp,r5` / `mov r2,#2` pattern in the
+affine loop comes out of ../2.0/sp2 on its own from four `fn(.., 2)` calls.
+
+What is left is allocation of the seven callee-saved values in the else
+branch: image off r4, n r5, p r6, s r7, 6 r8, fn sb, i sl; compile keeps s
+in r5 and shuffles the rest.  Permuter: hill 800 (124 -> 107 via
+expand(which), two decl-order swaps), anneal 1500 (-> 99: decl-order,
+pad, use(s), temp, hoist-up(fn)).  Writing the two loops as LoadOam()/
+LoadAffine() inline helpers is worse (512 bytes, the 0x540 is CSE'd across
+the branches).
+
+/* best source, 516 bytes against 516, 99 concrete bytes out, ../2.0/sp2 */
+/* permuter best: DIFF asm=965 bytes-out=99 size=516/516 (anneal 1500) */
+/*
+ * function: func_0206343C
+ * address:  0x0206343C
+ * packet:   pkt_02063000
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146BC8     0x02146BC8  data
+ *   g_020A81E4     0x020A81E4  data
+ *   func_020862F0  0x020862F0  arm
+ *   func_0207E684  0x0207E684  arm
+ *   func_0207E708  0x0207E708  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct OamEntry
+{
+  u16 attr0;
+  u16 attr1;
+  u16 attr2;
+  u16 affine;
+};
+struct Bank
+{
+  u16 slotsA[0x80];
+  struct OamEntry oam[0x80];
+  u16 slotsB[0x20];
+};
+struct Span
+{
+  u32 which;
+  u16 first;
+  u16 last;
+  u16 cur;
+  u16 afirst;
+  u16 alast;
+  u16 acur;
+  u16 id;
+  u16 pad_12;
+  u32 live;
+};
+typedef void (*LoadFn)(const void *src, u32 offset, u32 size);
+extern struct Bank g_02146BC8[3];
+extern LoadFn g_020A81E4[];
+extern void func_020862F0(const void *p, u32 size);
+extern void func_0207E684(const void *src, u32 offset, u32 size);
+extern void func_0207E708(const void *src, u32 offset, u32 size);
+inline static u32 IsValidA(struct Span *s)
+{
+  u16 max = *((volatile u16 *) (&s->alast));
+  u32 ok = 0;
+  if (!(((int) s->acur) > (((int) max) + 1)))
+  {
+    if (s->afirst <= max)
+      ok = 1;
+  }
+  return ok;
+}
+
+void func_0206343C(struct Span *s)
+{
+  u16 pad;
+  u8 *tmp;
+  if (s->live != 0)
+  {
+    u32 off = s->first * 8;
+    struct OamEntry *oam = g_02146BC8[s->which].oam;
+    u32 which = s->which;
+    u16 size = (u16) (((s->last - s->first) + 1) * 8);
+    u16 ofs = off;
+    func_020862F0(&oam[s->first], size);
+    switch (which)
+    {
+      case 0:
+        func_0207E684(((u8 *) oam) + off, ofs, size);
+        break;
+
+      case 1:
+        func_0207E708(((u8 *) oam) + off, ofs, size);
+        break;
+
+    }
+
+  }
+  else
+  {
+    struct OamEntry *oam = g_02146BC8[s->which].oam;
+    u16 first = s->first;
+    u16 n = (s->last - first) + 1;
+    u16 i;
+    struct OamEntry *p = &oam[first];
+    LoadFn fn = g_020A81E4[s->which];
+    u16 off = first * 8;
+    for (i = 0; i < n; i++)
+    {
+      fn(p, off, 6);
+      off += 8;
+      if (s)
+      {
+      }
+      p++;
+    }
+
+    if (IsValidA(s))
+    {
+      u16 afirst = s->afirst;
+      u16 an = (s->alast - afirst) + 1;
+      u8 *q;
+      u16 aoff = afirst * 0x20;
+      oam = g_02146BC8[s->which].oam;
+      tmp = (u8 *) (&oam[afirst * 4]);
+      fn = g_020A81E4[s->which];
+      q = tmp;
+      for (i = 0; i < an; i++)
+      {
+        fn(q + 6, aoff + 6, 2);
+        fn(q + 0xe, aoff + 0xe, 2);
+        fn(q + 0x16, aoff + 0x16, 2);
+        fn(q + 0x1e, aoff + 0x1e, 2);
+        aoff += 0x20;
+        q += 0x20;
+      }
+
+    }
+  }
+}
+
+

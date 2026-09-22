@@ -363,3 +363,105 @@ void func_02063640(struct Span *x)
 }
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 324 bytes against 324, 24 concrete bytes out, ../2.0/sp2
+
+==============================================================================
+2026-09-22, wave 10 (pkt_02063000 lane): 24 -> 19 bytes, block 1 unmoved
+==============================================================================
+
+The 294 lever (split-assign of the bank pointer, `b = g_02146BC8; b = b +
+x->which * 0x540;`, with g_02146BC8 declared `u8[]`) fixes most of the
+SECOND copy (the flag-clear arm): 24 -> 19 concrete bytes.  What is left:
+
+  * +005C    ldr r2, [r5]            | ldr r1, [r5]
+  * +0060    ldr r1, [pc, #0xd4]     | ldr r2, [pc, #0xd4]
+  * +0068    mla r1, r2, r0, r1      | mla r2, r1, r0, r2
+  * +006C    add r2, r1, #0x100      | ldrh r0, [r5, #4]
+  * +0070    ldrh r0, [r5, #4]       | add r2, r2, #0x100
+  * +00D0    ldr r2, [r5]            | ldr r1, [r5]
+  * +00D4    ldr r1, [pc, #0x60]     | ldr r2, [pc, #0x60]
+  * +00DC    mla r1, r2, r0, r1      | mla r3, r1, r0, r2
+  * +00E8    add r1, r1, #0x100      | add r1, r3, #0x100
+
+Measured, none better than 9 differing instructions: an 8x8 grid of
+bank-address spellings for the two blocks independently (struct index,
+one expression, split-assign with and without the +0x100 folded into the
+same variable, block-local pointer, compound `+=`, GetEnt()/GetBank()
+inline helpers); `x->which * 0x540 + b`, `0x540 * x->which`, a `u32 w`
+local, `sizeof(struct Bank)`; the guard in 294's shape (locals last/sent)
+and as IsValid()/GetCount() inline helpers (the helper form loses the
+`lsr #0xd` fold and is 328 bytes).  Permuter from the 19-byte source: hill
+800 (268 singles, no improvement), anneal 1800 (flat at asm=255 / 19).
+Block 1 is the same colouring-order question as 0x02063378: the image
+colours the pool base before the loaded index, every compile the reverse.
+
+/* best source, 324 bytes against 324, 19 concrete bytes out, ../2.0/sp2 */
+/* permuter best: DIFF asm=255 bytes-out=19 size=324/324 (anneal 1800, flat) */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Ent { u16 a0, a1, a2, a3; };                    /* 8 bytes */
+struct Bank { u8 pad_000[0x100]; struct Ent ent[136]; };  /* 0x540 */
+
+struct Span {
+    u32 which;   /* 0x00 */
+    u16 first;   /* 0x04 */
+    u16 last;    /* 0x06 */
+    u16 sent;    /* 0x08 */
+    u16 unk_0a;  /* 0x0a */
+    u16 pad_0c;
+    u16 unk_0e;  /* 0x0e */
+    u8  pad_10[4];
+    u32 unk_14;  /* 0x14 */
+};
+
+extern u8 g_02146BC8[];
+extern u32 g_020A84C0;
+extern void func_020862B8(struct Ent *p, u32 len);
+extern void func_020821C0(u32 ch, struct Ent *p, u32 data, u32 len, u32 f);
+extern void func_02082A7C(u32 data, struct Ent *p, u32 len);
+
+void func_02063640(struct Span *x)
+{
+    struct Ent *p;
+    u8 *b;
+    u32 len, ok, ch;
+    u16 cnt, i;
+
+    if (x->unk_14 != 0) {
+        ok = 0;
+        if (x->sent <= x->last + 1) {
+            if (x->first <= x->last) ok = 1;
+        }
+        if (ok != 0) len = (u16)(x->last - x->first + 1) * 8;
+        else         len = 0;
+
+        b = g_02146BC8;
+        b = b + x->which * 0x540;
+        b = b + 0x100;
+        p = (struct Ent *)(b + x->first * 8);
+        func_020862B8(p, len);
+
+        ch = g_020A84C0;
+        if (ch > 3) ch = (u32)-1;
+        if (ch != (u32)-1) func_020821C0(ch, p, 0xc0, len, 1);
+        else               func_02082A7C(0xc0, p, len);
+    } else {
+        b = g_02146BC8;
+        b = b + x->which * 0x540;
+        b = b + 0x100;
+        p = (struct Ent *)(b + x->first * 8);
+        cnt = (u16)(x->last - x->first + 1);
+        i = 0;
+        if (cnt != 0) {
+            do {
+                p->a0 = 0xc0;
+                p++;
+                i++;
+            } while (cnt > i);
+        }
+    }
+    x->sent = x->first;
+    x->unk_0e = x->unk_0a;
+}
+

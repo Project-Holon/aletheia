@@ -340,3 +340,5 @@ failb:
 }
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 348 bytes against 348, 165 concrete bytes out, ../2.0/sp2
+
+filed 2026-09-22 (wave 10): EXACT, see the src/matched file of this address for the source and the levers that closed it.
