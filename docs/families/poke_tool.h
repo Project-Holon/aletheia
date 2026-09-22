@@ -127,6 +127,18 @@ struct Mon {
                              *        through sub_02008F3C */
 };
 
+/* THE CLONE EXTENT, proved 2026-09-22 by src/matched/func_0201747C.c.
+ * func_0201747C copies a record with a whole-struct assignment whose compiled
+ * form is `movs r2,#0x11` + an eight-byte ldm/stm loop
+ * (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md), i.e. 0x11 * 8 =
+ * 0x88 bytes -- the header (+0x00..+0x07) plus the masked block area
+ * (+0x08..+0x87) and NOT the party area.  The trip count is the evidence: a
+ * copy of the full 0xDC would be 0x1B iterations plus a word, which is exactly
+ * what unit_02019C7C.c's func_02019CE0 does instead.  So the two whole-record
+ * copies in this family copy DIFFERENT extents on purpose, and the party area
+ * that func_0201747C leaves behind is rebuilt by the three explicit zeroes
+ * (ids 0x9D, 0xA0, 0xA1), a fresh mail block and func_020185C4. */
+
 /* The mail block at +0x9C.  0x38 bytes, only ever copied whole.
  * sub_02018DB4.c (read, id 0xA7) and sub_02019308.c (write, id 0xA7). */
 struct Mail {
@@ -401,6 +413,22 @@ extern void func_020185C4(void *p);      /* refresh level then stats.  The
                                           * family ends with it */
 extern u32  func_02017F50(u32 species, u16 form, u32 seed);  /* gender/form */
 extern u32  func_02017FB0(void *p);
+
+/* --- allocation and cloning, proved 2026-09-22 by src/matched/func_0201747C.c
+ * (EXACT), which is the only matched caller of func_020173F0 and therefore
+ * the only thing that constrains its parameter list. --- */
+extern void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3,
+                           u32 heap);   /* allocate a record (tag 0xA0) and
+                                         * initialise it through
+                                         * func_0201756C; OPEN, see below */
+extern void *func_0201747C(void *p, u32 heap);  /* clone a record onto `heap`:
+                                                 * func_020173F0 from its
+                                                 * species/level/otId, then the
+                                                 * whole-struct copy, then zero
+                                                 * ids 0x9D/0xA0/0xA1 and
+                                                 * re-attach mail */
+extern void *func_02008F08(u16 tag);            /* fresh 0x38-byte mail block */
+extern void  func_020307B0(void *m);            /* free it */
 extern u32  func_02019BBC(u32 item);     /* plate item -> type, unit_02019B58 */
 extern u32  func_0201C158(u16 move, u8 ppUp);  /* move + ppUp -> max PP */
 extern u32  func_0201BD28(u32 move, u32 n);    /* func_020180FC */
@@ -408,9 +436,22 @@ extern u32  func_0201BD28(u32 move, u32 n);    /* func_020180FC */
 /* move-slot writers, unit_020181A0.c */
 extern void func_020181A0(void *p);                          /* refill all PP */
 extern void func_020181FC(void *p, u16 move, u32 slot);      /* write one slot */
-extern void func_020182A8(void *p, u16 move, u32 slot);      /* the twin
+extern void func_020182A8(void *p, u16 move, u8 slot);       /* the twin
                                                               * func_02018240
-                                                              * calls; OPEN */
+                                                              * calls.  EXACT
+                                                              * 2026-09-22,
+                                                              * src/matched/
+                                                              * func_020182A8.c.
+                                                              * NOTE THE u8:
+                                                              * the caller emits
+                                                              * lsls/lsrs #0x18
+                                                              * at 0x02018268,
+                                                              * and that width
+                                                              * is the ONLY
+                                                              * lever that
+                                                              * reaches the
+                                                              * original's
+                                                              * prologue */
 
 /* ===================================================================== *
  * 8.  EXTERNALS OUTSIDE THE FAMILY
@@ -472,6 +513,50 @@ extern const u8 func_02018790_Table[];     /* 0x0209E288  CAPPED */
  *              and func_02019D30
  * gMsgBank, gNameBuf and gWordBuf are globals, so their ADDRESSES are build
  * properties and must be re-derived, never copied.
+ */
+
+/* ===================================================================== *
+ * 11.  THE FAMILY'S ONE REMAINING CODEGEN WALL (2026-09-22)
+ * ===================================================================== *
+ * Five of the family's open functions are byte-correct except for a single
+ * shared register-allocation tie-break, and they should be treated as ONE
+ * problem rather than five:
+ *
+ *   0x020173F0   60 bytes against 64, 30 concrete out
+ *   0x02017430   76 against 76,       25 concrete out (size-exact since
+ *                                      2026-09-22)
+ *   0x02017588  106 concrete out
+ *   0x0201756C   28 against 28,       18 concrete out
+ *   0x02017600   28 against 28,       18 concrete out
+ *
+ * All five are forwarders that rebuild their own argument list into an
+ * outgoing stack block.  In every one, the ORIGINAL gives the last register
+ * argument a memory home in the prologue and reloads it at the call
+ * (`str r3,[sp,#K]` ... `ldr r1,[sp,#K]`), and dsi/1.1p1 keeps it in one more
+ * callee-saved register instead (`adds r4,r3,#0`, `push` one register wider,
+ * `sub sp` four smaller).  The instruction multiset is otherwise right and
+ * every relocation resolves; this is not an evidence problem.
+ *
+ * Ruled out for the whole group, each compiled rather than reasoned about:
+ * every statement shape and declaration order; `volatile` on the parameter;
+ * reading the parameter through its own address; binding it to a local; an
+ * extra parameter; passing the pair as a struct by value; narrowing the
+ * parameter (which buys size but spends it on a truncation instruction the
+ * original does not have); and the front-end sweep -- ../1.2/sp2, ../2.0/sp2,
+ * 1.2, 1.2p2, 1.3 are all no better than the pin, and the `push`-wider tell of
+ * docs/FRONTEND-PINS.md points the OTHER way here (the image pushes a real
+ * register where 1.1p1 pads with a dead `push {r3}`).
+ *
+ * The write-ups are in docs/notes/pkt_020173F0.c.txt and
+ * docs/notes/pkt_0201756C.c.txt, both under a 2026-09-22 heading.
+ *
+ * CONTRAST, and the lesson: 0x020182A8 looked like a sixth member of this
+ * group -- same shape, same ten wrong prologue bytes, same immunity to every
+ * statement-level lever and to 197 permuter mutations -- and it was NOT.  Its
+ * fix was the parameter width (`u8 slot`), read off the truncation its caller
+ * actually emits.  So the width lever is right exactly when the caller emits
+ * the truncation, and wrong when it does not; check the call site before
+ * reaching for it.
  */
 
 #endif /* POKE_TOOL_H */

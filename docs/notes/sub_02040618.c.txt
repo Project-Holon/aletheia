@@ -468,3 +468,162 @@ void sub_02040618(u32 layer, u32 a, u32 b, u32 c)
     }
 }
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED 2026-09-22, second pass on the bg_sys.c family.
+
+THE "19 BYTES / 464 AGAINST 520" FRAMING ABOVE IS AN ARTEFACT, NOT A
+RESIDUE.  The listing extent match.py infers for 0x02040618 runs to
+0x02040820, because the next two functions -- sub_020407E8 and
+sub_02040804 -- are leaf accessors that save nothing and so carry no
+`func_` label (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
+They are ALREADY MATCHED, as src/matched/unit_020407E8.c.  The real
+extent of sub_02040618 is 464 bytes, ending at 0x020407E8, and the
+56-byte "shortfall" is exactly those two accessors plus their pools.
+
+Confirmed with a tu over the whole 520-byte range:
+
+  python3 tools/match.py tu --src <unit> --addr 0x02040618 --arm --cc 1.1p1
+    3 code section(s), 520 bytes laid out, 9 relocation site(s)
+    02040618   464    0     $a, sub_02040618, $d
+    020407E8    28    0     $a, sub_020407E8, $d
+    02040804    28    0     $a, sub_02040804, $d
+    relocations: 9 of 9 resolved
+
+So the size is right and the file needs no more bytes.  What is actually
+left is EIGHT INSTRUCTIONS in two clusters, 464/464 with the source below:
+
+  * +0030    add r1, r2, r5          | add r0, r2, r5
+  * +0034    ldr r0, [r1, #0x14]     | ldr r1, [r0, #0x18]
+  * +0038    ldr r1, [r1, #0x18]     | ldr r0, [r0, #0x14]
+
+  * +0084    and r3, r2, r1, lsl #16 | and r3, r0, r4
+  * +0088    and r4, r0, r4          | and r1, r2, r1, lsl #16
+  * +008C    ldr r2, [pc, #0x120]    | ldr r0, [pc, #0x120]
+  * +0090    orr r3, r4, r3          | orr r1, r3, r1
+  * +0094    str r3, [r2]            | str r1, [r0]
+
+The first cluster is the scroll pair: same two values in the same two
+registers, the two `ldr`s issued in the other order and the base in a
+different register.  The second is the case-1 arm ONLY -- the one arm
+followed by a call to func_0203D814 -- where the two `and`s and the pool
+load are issued in the other order.  Every other case arm (0, 2..7) is
+byte-identical, with exactly this source text, which is the reason to
+believe the body rather than the residue.
+
+LEVERS TRIED THIS PASS, ALL STILL 8 INSTRUCTIONS
+  x read before y in the source (22 out, worse)
+  y read before x, both via a cached `struct BgLayer *p` (22, worse)
+  x read before y via a cached pointer (8, same)
+  declaring `u32 y, x;` instead of `u32 x, y;` (8, same)
+  `u32 x;` and `u32 y;` on separate lines (8, same)
+  hmask spelled as the literal 0x1ff0000 instead of `mask << 16` (8)
+  case 1's operands commuted, (hmask & ...) | (x & mask) (23, worse --
+    it moves the pool word and reshuffles every later arm)
+
+PERMUTER, this pass
+  hill, budget 800, --types                  no single mutation improves
+  hill, budget 800, --focus x,y,mask,hmask   no improvement
+  anneal, budget 2000, --jobs 8, --types     DRIFTED TO 426 BYTES OUT
+
+The anneal result is worth recording as a caution: with the size gap
+included in the score (asm=6615 from the 56 phantom bytes), the annealer
+optimises against the wrong target and walks away from a good point.
+Any further permuter work on this function must be done against the
+464-byte extent, not the listing's 520.
+
+VERDICT: allocation-tie residue in two clusters, 8 instructions of 464,
+with the extent question now settled and no longer confusing the score.
+The body is right.  Not filable as EXACT.
+
+/* best source, 464 bytes against 464 (the true extent), 8 instructions out, dsi/1.1p1 */
+/*
+ * function: sub_02040618
+ * address:  0x02040618
+ * packet:   pkt_02040618
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146A44     0x02146A44  data
+ *   func_02042360  0x02042360  arm
+ *   func_020423D4  0x020423D4  arm
+ *   func_0203D814  0x0203D814  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct BgLayer {
+    u32 unk00; u32 unk04; u32 unk08; u32 unk0C; u32 unk10;
+    u32 scrollX; u32 scrollY; u32 unk1C; u32 unk20; u32 unk24; u32 unk28;
+};
+
+extern struct BgLayer *g_02146A44;
+
+extern void func_02042360(void *p, u32 a, u32 b, u32 c);
+extern void func_020423D4(u32 layer);
+extern void func_0203D814(void);
+
+#define W(a) (*(volatile u32 *)(a))
+
+void sub_02040618(u32 layer, u32 a, u32 b, u32 c)
+{
+    u32 mask = 0x1ff;
+    u32 hmask = mask << 16;
+    u32 x, y;
+
+    func_02042360((u8 *)g_02146A44 + 8 + layer * sizeof(struct BgLayer), a, b, c);
+
+    y = g_02146A44[layer].scrollY;
+    x = g_02146A44[layer].scrollX;
+
+    switch (layer) {
+    case 0:
+        W(0x04000010) = (x & mask) | (hmask & (y << 16));
+        break;
+    case 1:
+        W(0x04000014) = (x & mask) | (hmask & (y << 16));
+        func_0203D814();
+        break;
+    case 2:
+        if (((u8 *)g_02146A44)[0x74] == 0) {
+            W(0x04000018) = (x & mask) | (hmask & (y << 16));
+        } else {
+            func_020423D4(2);
+        }
+        break;
+    case 3:
+        if (((u8 *)g_02146A44)[0xa0] == 0) {
+            W(0x0400001c) = (x & mask) | (hmask & (y << 16));
+        } else {
+            func_020423D4(3);
+        }
+        break;
+    case 4:
+        W(0x04001010) = (x & mask) | (hmask & (y << 16));
+        break;
+    case 5:
+        W(0x04001014) = (x & mask) | (hmask & (y << 16));
+        break;
+    case 6:
+        if (((u8 *)g_02146A44)[0x124] == 0) {
+            W(0x04001018) = (x & mask) | (hmask & (y << 16));
+        } else {
+            func_020423D4(6);
+        }
+        break;
+    case 7:
+        if (((u8 *)g_02146A44)[0x150] == 0) {
+            W(0x0400101c) = (x & mask) | (hmask & (y << 16));
+        } else {
+            func_020423D4(7);
+        }
+        break;
+    }
+}
+re-verified 2026-09-22 by tools/match.py: DIFF, 464 bytes against 520 (listing extent; true extent 464), 19 concrete bytes out, 1.1p1
