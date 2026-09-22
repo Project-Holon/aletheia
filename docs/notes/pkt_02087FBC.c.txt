@@ -46,3 +46,110 @@ needs a `literal` witness and 0x02151390 has none.
 No source file retained (src/matched/ is EXACT-only).  The packet id is
 pkt_02087FBC; this address stays `new`.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family pkt_02087AE4
+================================================================================
+
+CORRECTION TO THIS NOTE'S MAIN FINDING.  The paragraph above concludes that
+"mwcc 1.1p1 will not emit a two-register ldm/stm pair at this size" and that
+"the threshold for the ldm/stm form is between 8 and 12 bytes".  That is not
+right, and it sent the earlier pass down a dead end.  mwcc 1.1p1 -O4,p
+-proc arm946e DOES emit the pair for an 8-byte copy -- but only for a BARE
+`unsigned long long`, not for a struct that wraps one.  Measured directly,
+each of these compiled on its own at this address:
+
+    void c_u64 (u64 *d,  u64 *s)  { *d = *s; }
+        -> ldm r1, {r2, r3} / stm r0, {r2, r3} / bx lr      <-- THE IMAGE'S FORM
+    void c_pair(Pair *d, Pair *s) { *d = *s; }   /* struct {u32 a,b;} */
+        -> ldr r2,[r1] / ldr r1,[r1,#4] / str r2,[r0] / str r1,[r0,#4]
+    void c_tri (Tri *d,  Tri *s)  { *d = *s; }   /* struct {u32 a,b,c;} */
+        -> mov r3,r0 / ldm r1,{r0,r1,r2} / stm r3,{r0,r1,r2}
+    void c_arr (u32 *d,  u32 *s)  { d[0]=s[0]; d[1]=s[1]; }
+        -> ldr/str/ldr/str
+
+So the rule is not a size threshold at all: it is that the ldm/stm pair comes
+from the 64-bit SCALAR type's natural register pair, and separately from any
+aggregate of 12 bytes or more.  An 8-byte aggregate falls between the two and
+gets neither.  The note's own list of tried spellings confirms this in
+hindsight -- every one of them was an aggregate (`struct {u32 a; u32 b;}`,
+`struct {u32 v[2];}`, `P8` i.e. a struct wrapping a u64, or two scalar
+assignments); the bare `u64` was the one shape never tried.
+
+With `*(u64 *)base[2] = *(u64 *)(g_02FFE010 + 0x220);` both copies reproduce
+exactly:
+
+    +0034    ldm r1, {r2, r3}    |  ldm r1, {r2, r3}
+    +0038    stm r5, {r2, r3}    |  stm r0, {r2, r3}      (register tie only)
+
+WHAT IS ACTUALLY LEFT.  With the ldm/stm fixed the function is still SIZE, not
+DIFF: 188 bytes compiled against 176 in the image, a 12-byte / 3-instruction
+excess.  The residue is that the image keeps the buffer pointer `base[2]` in a
+register across the whole body (r2, then r5, then r1) and reloads it only where
+a call has clobbered it, four times in total, while mwcc reloads `[r4, #8]`
+before every single use, seven times.  Binding it to a local
+(`u32 *buf = (u32 *)base[2];`) does not help: the pointer then stays live across
+the three calls, takes a callee-saved register, widens the push list and comes
+out worse.  The 12 bytes are three surplus `ldr r_, [r4, #8]`.
+
+Every spelling tried in this pass, all ARM, all --cc 1.1p1 -O4,p, all against
+the 176-byte extent:
+
+    bare u64 copies + base[] reloaded at each use           188 B, 119 out
+    bare u64 copies + `u32 *buf` local hoisted to the top   188 B, 123 out
+    bare u64 copies + struct SysWork with the pair at +0x220
+        (so the `add r1,r0,#0x220` comes from &g.f220)      188 B, 119 out
+    the same with `*(u64 *)&g_02FFE010.f220`                188 B, 119 out
+    g_02FFE010 as a flat `u8 []` with + 0x220               188 B, 119 out
+
+The head is byte-exact in all of them (`push {r4,r5,r6,lr}` / `ldr r4,[pc]` /
+`ldr r0,[r4,#4]` / `tst r0,#1` / `mvneq r0,#0` / `popeq`), so the early-return
+guard and the 0x02151384 base are settled and are not where the bytes are.
+
+Second residue, unchanged from the original note and now understood: the
+compiler emits TWO pool words for g_02FFE010 (one for +0x000, one for +0x220)
+where the image emits one and reaches the pair with `add r1, r0, #0x220`.  This
+is NOT the masked-reach idiom (that one is Thumb-specific; ARM's ldr immediate
+reach is +-4095 and 0x220 is well inside it).  It is mwcc materialising the
+address of the far field directly instead of adding to the near one, and it
+accounts for 4 of the 12 surplus bytes.
+
+/* best source, 188 bytes against 176, 119 concrete bytes out, dsi/1.1p1 */
+
+    typedef unsigned int u32; typedef unsigned short u16;
+    typedef unsigned char u8; typedef unsigned long long u64;
+    extern u32  func_02004632(u32 a, u32 p, u32 n);   /* 0x02004632 thumb */
+    extern void func_02082D44(u32 bus, u32 p, u32 n);
+    extern void func_02082BCC(u32 p, u32 c, u32 n);
+    extern u8   g_02FFE010[];
+    extern u64  g_02151390;
+
+    int func_02087FBC(void)
+    {
+        u32 *base = (u32 *)0x02151384;
+        if ((base[1] & 1) == 0) return -1;
+        *(u16 *)(base[2] + 0xa) = *(u16 *)g_02FFE010;
+        *(u64 *)base[2] = *(u64 *)(g_02FFE010 + 0x220);
+        *(u8 *)(base[2] + 9) = 3;
+        g_02151390 = *(u64 *)base[2];
+        *(u16 *)(base[2] + 0x10) = 0;
+        *(u16 *)(base[2] + 0x10) = func_02004632(0xffff, base[2], 0x300);
+        func_02082D44(0x02000000, base[2], 0x300);
+        func_02082BCC(base[2], 0, 0x300);
+        base[1] = 0;
+        return 0;
+    }
+
+permuter.py was NOT run on this one: the residue is a size gap, not an
+allocation tie, and the engine's mutations are value-preserving reshapes that
+cannot remove three reloads the front end inserts for aliasing reasons.  The
+lever, if there is one, is an aliasing declaration (a `const` or `restrict`
+qualified buffer pointer that lets the loads survive the stores) rather than a
+statement permutation -- see
+docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md, which is the
+same mechanism one level up.
+
+Two relocation sites (g_02FFE010, g_02151390) also have no witness of any
+class, so even a byte-correct body would cap at MATCH here.  Still `new`; the
+packet id for this wave's attempt was pkt_02087AE4.
+re-verified 2026-09-22 by tools/match.py: SIZE 188/176, 119 concrete bytes out, dsi/1.1p1 --arm

@@ -122,3 +122,96 @@ void *func_0206E62C(const Container *c, const u32 *key) {
     }
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0206E62C.c:21: declaration syntax error
+
+==============================================================================
+2026-09-22 - wave 7 pseudo-family lane.  Both functions re-measured.
+==============================================================================
+
+FIRST, A CORRECTION TO THE NOTE ABOVE.  The source recorded above does not
+compile: `tools/match.py` re-verified it on 2026-09-21 as
+"CCERR ... pkt_0206E62C.c:21: declaration syntax error", so the numbers it
+quotes were never reproducible from what is written down.  The cause is that
+the note was filed as a `.c.txt` whose HEADER COMMENT is followed by C that
+uses `static inline`, which this front end rejects in c99 mode at -O4,p, and
+the `const Container *` parameters shadow the typedef.  This pass rewrote the
+body from the image rather than repairing that text.  What follows supersedes
+it; the DECODE above is right and is kept.
+
+WHAT THEY ARE, confirmed.  A 16-BYTE-KEY LOOKUP over a container whose record
+count sits at +0x01.  Two strategies, chosen on that count:
+
+  count < 0x10   LINEAR SCAN.  The four key words are loaded ONCE with
+                 `ldm r1, {r2, r3, ip, lr}` and compared against each record
+                 with the `cmp`/`ldreq`/`cmpeq` chain at 0x0206E690.
+  count >= 0x10  PATRICIA TRIE DESCENT from `(u8 *)t + 8`, four bytes per
+                 node: +0 the node's own bit index, +1/+2 the two children,
+                 +3 the record index.  The loop runs while the PARENT's bit
+                 index is greater than the CHILD's (`cmp r2, r7` / `bhi`),
+                 the standard "descend while the bit index increases" test,
+                 and the key bit is picked out with
+                 `asr / ldr [r1, r2, lsl #2] / and #0x1f / lsr / and #1`.
+                 The descent lands on one candidate, which is then compared
+                 in full -- a Patricia trie only narrows, it never proves.
+
+  0x0206E62C (448 B) returns the VALUE POINTER
+             (`mla r0, r2, r1, r0` -- sub + 4 + elem_size * index)
+  0x0206E7EC (360 B) returns the INDEX itself (`moveq r0, r1`, and `mvn r0, #0`
+             i.e. -1 on every failure path, where 62C returns 0)
+
+They are otherwise the SAME FUNCTION, which is why they sit adjacent and why
+either one's C is the other's with the two return expressions swapped.
+
+BOTH ACCESSORS ARE INLINED AND EACH KEEPS ITS OWN BOUNDS GUARD.  The image
+tests `t != 0` and `i < t->count` TWICE per iteration -- once before forming
+the key pointer (0x0206E660..0x0206E670) and again before forming the value
+pointer (0x0206E6B4..0x0206E6C0) -- and the second test RE-READS count from
+memory rather than reusing r5.  Written as two `static` helpers they are NOT
+inlined: the compile comes out 336 bytes with four PC24 relocations to the
+helpers (measured this pass).  They must be written out at each call site.
+
+/* best source, 448 bytes against 448, 289 concrete bytes out, 1.1p1 */
+
+Ladder, all under the project default 1.1p1 --arm:
+
+  - two `static` helpers, guards inside them:      336 / 282, NOT inlined
+  - helpers written out at all four call sites:    464 / 395  (16 bytes over)
+  - permuter hill 800 --jobs 8 --types:            448 / 314  <- SIZE-EXACT
+    (the closing mutation is `expand(node x2)`: the node cursor must be
+     SUBSTITUTED INTO ITS USES, not kept as a named local -- keeping it costs
+     a callee-saved register, cf.
+     docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md)
+  - + anneal 300:  `decl-order(ni<->i) ; compare(flip)`:  448 / 304
+  - + anneal 2000 --jobs 8 --types:                448 / 289  (best)
+
+    permuter best result line:
+      best  DIFF  asm=3730  bytes-out=289  size=448/448
+      mutations temp(tmp=(const u16 *) (sub + 2)) ; temp(tmp1=b & 0x1f) ;
+        temp(tmp2=trie + (ni * 4)) ; temp(tmp3=(const u8 *) t) ;
+        expand(sub x2) ; block(if1,1) ; copy(key->key_@21) ;
+        split-assign(sub) ; temp(tmp4=i << 4) ; split-assign(node) ;
+        reorder(+3)
+
+THE RESIDUE IS THE FOUR-WORD `ldm`, AND IT IS A DECLARATION PROBLEM.
+The image loads the whole key in one instruction:
+
+    0206E648  0c 50 91 e8  ldm r1, {r2, r3, ip, lr}
+
+Every spelling tried splits it into a three-register `ldm` plus a separate
+`ldr` of the fourth word, exactly as the 2026-09-21 note observed:
+
+    ldm r1, {r3, ip, lr} / ldr r1, [r1, #0xc]
+
+because one of r2/r3/ip/lr is claimed early for a hoisted return constant.
+The obvious fix -- declare the key a four-word struct and copy it by value --
+DOES produce the four-word `ldm`, but then spills it: measured this pass at
+524 bytes with `sub sp, sp, #0x10` and an `ldm`/`stm` pair into the frame
+(`aggregate-assignment-is-ldm-stm.md`).  The image has NO stack frame at all.
+So the four key words are four separate `u32` LOCALS whose live ranges the
+allocator happens to coalesce into consecutive registers, and what is needed
+is the declaration order and use pattern that makes r2, r3, ip and lr the
+four lowest-cost colours at that program point.  That is the residue class
+the permuter's `decl-order` mutation targets and it did not find it in 2300
+compiles; the note above reached the same conclusion from the other side.
+
+Not filed: DIFF, by rule 6.  No source in src/matched/ or src/pending/.
+Addresses are Black-image addresses.

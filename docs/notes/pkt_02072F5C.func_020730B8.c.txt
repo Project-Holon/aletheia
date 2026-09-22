@@ -116,3 +116,112 @@ arm that compiles to nothing (the arm then exceeds whatever size the
 if-conversion pass accepts); if that is a dead end too, this row is
 compiler-blocked for 1.1p1 and belongs in the same class as 0x02060CD0.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22 (wave 7, pseudo-family lane pkt_02073098)
+================================================================================
+
+STATUS UNCHANGED: still DIFF, still compiler-blocked on if-conversion.  But the
+residue is now 10 concrete bytes out instead of 23, and the note's own "NEXT
+ATTEMPT, CONCRETELY" line is answered: a third statement in the arm DOES defeat
+the if-converter, and the remaining four bytes are a different problem.
+
+THE THIRD COMPILER.  This note recorded dsi/1.1p1 and ../1.2/sp2 as emitting
+the same predicated 32 bytes and concluded no pin was warranted.  ../2.0/sp2 --
+the pin that closed this cluster's neighbours func_0207292C and func_020729C0
+this pass, and the pin docs/families/cluster_020737C0.h documents for the range
+above -- was NOT tried here.  It has now been: ../2.0/sp2 emits the SAME
+predicated 32 bytes for the plain spelling.  Three front ends, one answer, so
+the note's "not a front-end difference" conclusion stands and is now tested
+against the compiler that most plausibly could have broken it.
+
+WHAT DOES DEFEAT THE IF-CONVERTER: a bare volatile read as a third statement.
+
+    if (o->p == 0) return;
+    o->p->h34 = 1;
+    o->p->h38 = v;
+    o->p;                 /* <- third statement, a bare volatile read */
+
+The read cannot fold (the field is volatile), so the arm is three statements
+and the pass declines it.  This restores the branch and gives the original's
+FIRST SIX INSTRUCTIONS BYTE FOR BYTE, including the `bxeq lr` at +0008 that
+every spelling in the list above failed to produce:
+
+  +0000  ldr r2, [r0]              == ORIGINAL
+  +0004  cmp r2, #0                == ORIGINAL
+  +0008  bxeq lr                   == ORIGINAL   <- the wall, cleared
+  +000C  ldr r2, [r0]              == ORIGINAL
+  +0010  mov r3, #1                == ORIGINAL
+  +0014  strh r3, [r2, #0x34]      == ORIGINAL
+  * +0018  ORIG ldr r0,[r0]        | OURS ldr r2,[r0]
+  * +001C  ORIG strh r1,[r0,#0x38] | OURS strh r1,[r2,#0x38]
+  * +0020  ORIG bx lr              | OURS ldr r0,[r0]
+  * +0024  ORIG (pad)              | OURS bx lr
+
+40 bytes against 36, 10 concrete out.  This is the SAME residue shape the
+short-circuit spelling produced (recorded above at 40 bytes) but reached by a
+different route, and it is now the closest known source.
+
+THE REMAINING FOUR BYTES, DIAGNOSED.  The dead read is a real load that must be
+emitted, so the function is one instruction too long by construction, and
+because `o` stays live to that final load the h38 store's own pointer read is
+allocated r2 where the original uses r0.  The original's `ldr r0,[r0]` is the
+tell that `o` is DEAD after it -- it reuses the argument register because
+nothing needs it again.  So the third statement must be one the if-converter
+counts but the code generator deletes, and with a volatile field there is no
+such statement: volatile is exactly what makes a read undeletable, and
+non-volatile is exactly what folds the three reads into one (28 bytes, recorded
+above).  The two requirements are in direct contradiction under this front end.
+
+SPELLINGS RULED OUT THIS PASS (all under 1.1p1 unless noted; none beats 10)
+
+  the bare read moved BEFORE the h38 store           40 bytes, 12 out
+  the bare read moved FIRST, before the h34 store    40 bytes, 23 out
+  a bare read of the FIELD (`o->p->h38;`) last       40 bytes, 10 out (ties)
+  `(void)o;` / `return;` / `o = o;` as the third     32 bytes, 23 out (fold away)
+  a duplicated third store `o->p->h38 = v;`          44 bytes, 14 out
+  a `struct Sub *q = o->p; q->h38 = v;` local        32 bytes, 23 out
+  a `volatile struct Sub *q` local                   68 bytes, 62 out
+  `if (1)` wrapped around the h34 store              32 bytes, 23 out
+  a second `if (o->p)` guard on the h38 store        40 bytes, 30 out
+  `volatile struct Sub **ptr` (volatile POINTEE)     28 bytes, 22 out
+  `struct Sub *volatile *ptr` (as a parameter)       32 bytes, 23 out -- this is
+      the same shape as the filed `struct Obj { struct Sub * volatile p; }` and
+      confirms the volatile placement is settled, not a remaining lever
+
+PERMUTER, RUN AS THE BRIEF REQUIRES.  tools/permuter.py was run on both the
+32-byte baseline and the 40-byte best:
+  --mode hill --budget 800 --jobs 8 --types   on the 32-byte form: 37 mutations
+      available, all tried, NO single mutation improves.  Flat.
+  --mode hill --budget 800 --jobs 8 --types   on the 40-byte form: 52 mutations
+      available, all tried, NO single mutation improves.  Flat.
+  --mode anneal --budget 600 --jobs 8 --types on the 40-byte form: 600 distinct
+      compiles in 75s, 14 consecutive dry batches, best never moved off
+      asm=110 bytes-out=10 size=40/36.
+A residue the permuter cannot move AT ALL is, per the wave lesson, in the
+declarations or in the reading of the image.  The declarations are pinned by the
+matched sibling func_020730DC (identical struct, identical volatile placement,
+EXACT at 44 bytes with THREE stores); the reading of the image is confirmed by
+six byte-identical leading instructions.  Neither is the problem.  What remains
+is the if-conversion pass itself, and this row stays in the same class as
+0x02060CD0 and its own family member 0x02072EA8.
+
+/* best source, 40 bytes against 36, 10 concrete bytes out, 1.1p1 */
+typedef unsigned char u8; typedef unsigned short u16;
+struct Sub { u8 pad00[0x34]; u16 h34; u8 pad36[2]; u16 h38; };
+struct Obj { struct Sub * volatile p; };
+
+void func_020730B8(struct Obj *o, u16 v)
+{
+    if (o->p == 0) return;
+    o->p->h34 = 1;
+    o->p->h38 = v;
+    o->p;
+}
+
+permuter best result line:
+  best      DIFF   asm=110   bytes-out=10   size=40/36  listing says the original is 36 bytes, compiled 40
+
+Verified with:
+    python3 tools/match.py one --src <file> --func func_020730B8 \
+        --addr 0x020730B8 --cc 1.1p1 --arm --diff

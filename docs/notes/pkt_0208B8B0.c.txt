@@ -63,3 +63,107 @@ Verdict: DIFF, codegen (address register of the leading guard), 9 of 160
 concrete bytes, plus the 0x0208B950 pool word which will hold it at MATCH
 even after the head is fixed.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family pkt_02087AE4
+================================================================================
+
+Two updates: one correction to this note's blocker claim, and the permuter
+result, which is negative and worth recording so the next pass does not spend
+another ten minutes on it.
+
+1. THE MATCH CAP IS GONE.  This note ends "plus the 0x0208B950 pool word which
+will hold it at MATCH even after the head is fixed".  That is no longer true.
+sole-ref/code widened on 2026-09-21 (docs/AGENT-BRIEF.md S5) and 0x0208B950 is
+exactly a traced function start (PMi_CommonCallback in layout/symbols_sdk.txt),
+so the site now resolves:
+
+    +0098 ABS32 func_0208B950  -> 0208B950  [sole-ref x1, e.g. 0208B950]
+
+Re-measured 2026-09-22, eight of the nine relocation sites resolve.  The ONLY
+unresolved site left is +0x0094, the data word g_02FFF684, which has no witness
+of any class.  So the function is now one allocation tie away from EXACT, not
+one tie plus an unfixable cap -- it is worth more of a future pass than this
+note originally implied, and if g_02FFF684 ever gains a witness it caps at
+MATCH rather than being unfileable.
+
+2. THE PERMUTER DOES NOT MOVE THIS RESIDUE AT ALL.  tools/permuter.py was run
+on the settled body from this note.  --explain confirms the residue is exactly
+one swapped pair and nothing else, which is the engine's designed target class:
+
+    baseline  DIFF   asm=45    bytes-out=9    size=160/160  unresolved=1
+    register substitutions (image -> compiled), by count:
+      r1   -> r0    x3
+      r0   -> r1    x1
+
+    --mode hill   --budget 800  --jobs 8 --types
+        no single mutation improves the baseline (74 sites tried).  The one
+        mutation it accepts, temp(tmp=func_020885EC(8, 1)), is much WORSE:
+        144 bytes against 160, 79 out -- lifting the loop condition into a
+        named local unrolls the while into a do/while and loses the whole
+        loop head.
+    --mode anneal --budget 2000 --jobs 8 --types
+        2000 compiles in 509s, 1932 distinct candidates, best never improves
+        on the baseline; it drifts to the same temp() point at compile 54 and
+        plateaus there for the remaining 1946, reporting "plateau, drifting"
+        twice.  Final: best = DIFF asm=540 bytes-out=79 size=144/160.
+
+That is a completely flat search: not one of ~2000 value-preserving reshapes,
+including the --types integer-width mutations, changes which of r0/r1 holds the
+base address.  Per the brief's own lesson -- "a residue the permuter cannot
+move at all is usually in the declarations or in the reading of the image" --
+the remaining lever is NOT a statement permutation.  Candidates for a future
+pass, in order of plausibility:
+
+  a. The declaration of g_02153000.  Every spelling tried (here and in the
+     original note) declares it as a struct at a known address.  If the image's
+     unit actually reaches it through a POINTER held in a different object, or
+     if f00 is not the first member of the object the pool word names (i.e. the
+     pool word is the object base and f00 sits at a non-zero offset that
+     happens to be 0), the address/value register assignment would follow.
+  b. The order of the four opening stores relative to the guard.  Tried: f00
+     first (image order), g_02FFF684 first, `if (x)` vs `if (x != 0)`, and a
+     u16 local for the guard value -- all 160 bytes, all 9 out, all identical.
+  c. The compiler.  This cluster has NO ../2.0/sp2 pin (all 19 matched sources
+     in 0x02087AE4..0x02091284 are dsi/1.1p1, and this range IS the TwlSDK
+     static libraries, which dsi/1.1p1 built).  A pin is therefore the least
+     likely explanation here, unlike in cluster_020737C0.  Not tried, and
+     per docs/AGENT-BRIEF.md S3 it should not be swept speculatively.
+
+/* best source, 160 bytes against 160, 9 concrete bytes out, dsi/1.1p1 */
+
+    typedef unsigned char u8; typedef unsigned short u16;
+    typedef unsigned int  u32;
+    struct S { u16 f00; u8 pad_02[0x0a]; u32 f0c; u32 f10;
+               u8 pad_14[0x1c]; u32 f30; u32 f34; };
+    extern struct S g_02153000;         /* 0x02153000 */
+    extern u32 g_02FFF684;              /* 0x02FFF684 -- the one unresolved */
+    extern u32 g_02FFFC3C;              /* 0x02FFFC3C */
+    extern void func_02088498(void);    /* the veneer at 0x02088498 */
+    extern int  func_020885EC(int a, int b);
+    extern void func_020885A0(int a, void *h);
+    extern void func_02004490(int n);   /* 0x02004490 thumb, via blx */
+    extern void func_0208B950(void);    /* 0x0208B950 PMi_CommonCallback */
+
+    void func_0208B8B0(void)
+    {
+        if (g_02153000.f00 != 0) return;
+        g_02153000.f00 = 1;
+        g_02153000.f30 = 0;
+        g_02153000.f34 = 0;
+        g_02FFF684 = 0;
+        func_02088498();
+        while (func_020885EC(8, 1) == 0) {
+            func_02004490(0x64);
+        }
+        func_020885A0(8, func_0208B950);
+        g_02153000.f10 = g_02FFFC3C;
+        g_02153000.f0c = g_02FFFC3C;
+    }
+
+permuter best result line, for the record:
+    best      DIFF   asm=540   bytes-out=79   size=144/160
+    mutations temp(tmp=func_020885EC(8, 1))
+(i.e. the baseline, asm=45 / bytes-out=9 / size=160/160, was never beaten.)
+
+re-verified 2026-09-22 by tools/match.py: DIFF 160/160, 9 concrete bytes out, dsi/1.1p1 --arm; 8 of 9 relocation sites resolve (g_02FFF684 alone unresolved)
