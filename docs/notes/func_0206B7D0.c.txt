@@ -60,3 +60,364 @@ moving the three `st = ...` reads; making `b` a `u32` local declared after
 which the ternary's operands (`p->f14` and `p->f8e`) are already live as
 locals, or accept the residue.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22, wave 7 (pseudo-families), cluster pkt_0206AF08
+================================================================================
+
+func_0206BA18 @ 0x0206BA18 -- near miss, DIFF, 1164 bytes against 1160,
+127 concrete bytes out, --cc ../2.0/sp2.  Whole-function structure recovered.
+
+/* best source, 1164 bytes against 1160, 127 concrete bytes out, ../2.0/sp2 */
+
+WHAT IT IS.  The three-argument opcode of the script-object family whose
+two- and three-byte forms are now EXACT (src/matched/func_0206B94C.c and
+src/matched/func_0206B7D0.c).  Same skeleton: the state byte at +0x90, read
+through the +0x1c hook and zero when the hook is null, picks three stops at
+st == 1, 2 and 3, each of which clears bit 6 of the flag word at +0x08,
+re-enters the hook and re-reads the state.  Between stops 1 and 2 it
+RESOLVES A RECORD: a 0x38-byte Rec is picked out of the sub-object's +0x38
+table (or out of the module table g_02148DB4 when there is none, or out of
+the object's own inline +0xf4 record), the per-id bit in the +0xbc bitmap
+decides whether the record is fresh or cached, and a fresh record is filled
+by merging the caller's Src through the three mask words of g_02148B4C
+(+0x94/+0x98/+0x9c) under the per-channel masks of g_020A1954, indexed by
+three-bit fields of src->f1e at shifts 6 and 9.  Optional trailer blocks
+follow bits 1/2/4/8 of src->f1e, each either setting a bit in the record's
++0x00 word or copying its payload from a cursor walking src+0x2c.  Between
+stops 2 and 3 the record is published through func_0206DDA4 (key 0x2b2a, six
+words from a stack packet whose head word is g_020A1954 and whose +0x10 word
+is the constant 0x293130) unless bit 8 of the flag word is up, and the +0xf0
+callback runs when bits 3/4 of the record are set.
+
+CAPPED AT MATCH REGARDLESS OF THE C.  Two of the four relocation sites have
+no witness anywhere outside 0x0206BA18..0x0206BEA4:
+
+    g_02148DB4   the module record table (pool word at 0x0206BE8C)
+    g_020A1954   the channel mask table  (pool word at 0x0206BE94)
+
+layout/data_objects.txt lists both as `pool` rows whose ONLY referrers are
+this function's own two pool words (repeated across the four unit listings
+that contain the range, which is one site, not four).  `label`, `literal`
+and `matched` all refuse them, and `sole-ref/data` refuses a candidate start
+whose every referrer is inside the range under test.  So even a byte-perfect
+compile of this function is `MATCH`, not `EXACT`, until some other function
+that touches either table is filed.  Anyone picking this up should file a
+0x02148DB4 or 0x020A1954 user first.
+
+THE RESIDUE, 4 bytes and one instruction of shift.  From +0x19C on, the
+compiled output is the original shifted by exactly one instruction; every
+instruction and every branch target before +0x19C is identical.  The gap is
+the shared `e = 0` arm of the blob lookup:
+
+    original                        compiled
+    mla  r1, r0, r5, r1             mla  r1, r5, r0, r1
+    b    #0x206bbbc        <--      cmp  r1, #0
+    mov  r1, #0            <--      ldrne r0, [r1]
+    cmp  r1, #0                     ...
+
+The original's three guards (`beq` on the null blob, `beq` on the +4 test,
+`bhs` on the id bound) all fall to ONE `mov r1, #0` which the success path
+jumps over with a `b`; every spelling tried here either predicates the
+whole chain or emits a second block.
+
+Spellings measured, all at --cc ../2.0/sp2 (sizes in bytes / concrete out):
+  1164 / 127   the source below (`e = 0` as an initialiser before the chain,
+               `m` through a ternary)                      <- best
+  1164 / 137   an `Ent0206BA18 *ent` local carrying the resolved pointer
+               instead of the ternary
+  1172 / 187   `goto have;` out of the success arm with `e = 0;` as the
+               fall-through
+  1172 / 194   explicit `else { e = 0; }` on both guards
+  1192 / -     the `m` read split into if/else arms as well
+  1164 / 128   `*(u16 *)(t + off) * id` written as `id * *(u16 *)(t + off)`
+               (the image's `mla r1, r0, r5, r1` puts the stride first, so
+               the source order below is the right one)
+
+Two levers that DID close their part and are already in the source:
+  - the `st == 1` arm's `base != 0` case must be an `if` with a `goto done`
+    over the module-table case, not a ternary: the ternary predicates
+    `ldreq/moveq/mlaeq` where the original branches (`bne #0x206bd74`).
+    This took the residue from 205 lines to 128.
+  - the blob's `+4` test is on the DERIVED pointer (`u8 *t = (u8 *)b + 4;`
+    then `t != 0`), which is the image's `adds r2, r3, #4 / beq`; testing
+    `(u32)b != 0xfffffffc` instead costs the `adds`.
+
+tools/permuter.py, --mode hill --budget 800 --jobs 8 --types, reached
+size 1160 but at asm=3070 against this point's asm=2575 (its scoring
+prefers the size tuple), naming `temp(tmp=(Rec0206BA18 *) g_02148D)` and
+`hoist-down(st,+1)`; neither improves the real residue and both were
+rejected by hand.  A future pass should attack the shared-`e = 0` arm and
+nothing else -- everything around it is settled.
+
+Source (as compiled for the 1164 / 127 row above):
+
+    /*
+     * function: func_0206BA18
+     * address:  0x0206BA18
+     * packet:   pkt_0206B7A8
+     * region:   arm9
+     * compiler: ../2.0/sp2
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   DIFF
+     *
+     * symbols:
+     *   func_0206DDA4  0x0206DDA4  arm
+     *   g_02148DB4     0x02148DB4  data
+     *   g_02148B4C     0x02148B4C  data
+     *   g_020A1954     0x020A1954  data
+     */
+    
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef signed   short s16;
+    typedef unsigned int   u32;
+    
+    typedef struct Rec0206BA18 Rec0206BA18;
+    typedef struct Sub0206BA18 Sub0206BA18;
+    typedef struct Src0206BA18 Src0206BA18;
+    typedef struct Obj0206BA18 Obj0206BA18;
+    typedef struct Blob0206BA18 Blob0206BA18;
+    
+    struct Rec0206BA18 {
+        u32 f00;
+        u32 f04;
+        u32 f08;
+        u32 f0c;
+        u32 f10;
+        u32 f14;
+        u32 f18;
+        u32 f1c;
+        s16 f20;
+        s16 f22;
+        u32 f24;
+        u32 f28;
+        u16 f2c;
+        u16 f2e;
+        u32 f30;
+        u32 f34;
+    };
+    
+    struct Sub0206BA18 {
+        u32 f00;
+        u32 f04;
+        void *f08;
+        void (*f0c)(Rec0206BA18 *, void *, u32);
+        u8  pad10[0x38 - 0x10];
+        Rec0206BA18 *f38;
+        u32 f3c[1];
+    };
+    
+    struct Src0206BA18 {
+        u32 f00;
+        u32 f04;
+        u32 f08;
+        u32 f0c;
+        u32 f10;
+        u32 f14;
+        u32 f18;
+        u16 f1c;
+        u16 f1e;
+        u16 f20;
+        u16 f22;
+        u32 f24;
+        u32 f28;
+        u32 f2c;
+    };
+    
+    typedef struct Ent0206BA18 {
+        u8  pad00[0x1e];
+        u16 f1e;
+    } Ent0206BA18;
+    
+    struct Blob0206BA18 {
+        u32 f00;
+        u8  f04;
+        u8  f05;
+        u16 f06;
+        u16 f08;
+        u16 f0a;
+    };
+    
+    struct Obj0206BA18 {
+        u32   f00;
+        Sub0206BA18 *f04;
+        u32   f08;
+        u8    pad0c[0x1c - 0x0c];
+        void (*f1c)(Obj0206BA18 *);
+        u8    pad20[0x90 - 0x20];
+        u8    f90;
+        u8    pad91[0xad - 0x91];
+        u8    fad;
+        u8    padae[0xb0 - 0xae];
+        Rec0206BA18 *fb0;
+        u8    padb4[0xbc - 0xb4];
+        u32   fbc[(0xd8 - 0xbc) / 4];
+        Blob0206BA18 *fd8;
+        u8    paddc[0xf0 - 0xdc];
+        void (*ff0)(Rec0206BA18 *);
+        Rec0206BA18 ff4;
+    };
+    
+    extern void func_0206DDA4(u32 a, void *b, u32 c);
+    extern u32  g_02148DB4[];
+    extern u32  g_02148B4C[];
+    extern u32  g_020A1954[];
+    
+    void func_0206BA18(Obj0206BA18 *p, u32 kind, Src0206BA18 *src, u32 id)
+    {
+        u32 st;
+        u32 flag;
+        Rec0206BA18 *r;
+        u32 pkt[7];
+    
+        p->fad = id;
+        p->f08 |= 8;
+        p->fb0 = &p->ff4;
+        st = p->f1c ? p->f90 : 0;
+    
+        if (st == 1) {
+            p->f08 &= ~0x40;
+            p->f1c(p);
+            st = p->f1c ? p->f90 : 0;
+            flag = p->f08 & 0x40;
+        } else {
+            flag = 0;
+        }
+    
+        if (flag == 0) {
+            Rec0206BA18 *base = p->f04->f38;
+    
+            if (base != 0 && !(p->f08 & 0x80)) {
+                r = base + id;
+            } else if ((kind == 0x20 || kind == 0x40)
+                       && (p->fbc[id >> 5] & (1u << (id & 0x1f))) != 0) {
+                if (base != 0) {
+                    r = base + id;
+                    goto done;
+                }
+                r = (Rec0206BA18 *)g_02148DB4 + id;
+            } else {
+                u16 m;
+                Blob0206BA18 *b;
+                u32 *e;
+    
+                if (base != 0) {
+                    p->fbc[id >> 5] |= 1u << (id & 0x1f);
+                    r = p->f04->f38 + id;
+                } else if (kind == 0x40) {
+                    p->fbc[id >> 5] |= 1u << (id & 0x1f);
+                    r = (Rec0206BA18 *)g_02148DB4 + id;
+                } else {
+                    r = &p->ff4;
+                }
+    
+                r->f00 = 0;
+    
+                b = p->fd8;
+                e = 0;
+                if (b != 0) {
+                    u8 *t = (u8 *)b + 4;
+    
+                    if (t != 0 && id < b->f05) {
+                        u16 *h = (u16 *)(t + b->f0a);
+    
+                        e = (u32 *)((char *)h + 4 + *h * id);
+                    }
+                }
+                m = (e != 0 ? (Ent0206BA18 *)((char *)b + *(u32 *)e)
+                            : (Ent0206BA18 *)0)->f1e;
+                if (m & 0x20) {
+                    r->f00 |= 0x20;
+                }
+    
+                r->f04 = (g_02148B4C[0x25] & ~g_020A1954[(src->f1e >> 6) & 7])
+                       | (src->f04 & g_020A1954[(src->f1e >> 6) & 7]);
+                r->f08 = (g_02148B4C[0x26] & ~g_020A1954[(src->f1e >> 9) & 7])
+                       | (src->f08 & g_020A1954[(src->f1e >> 9) & 7]);
+                r->f0c = (g_02148B4C[0x27] & ~src->f10) | (src->f0c & src->f10);
+                r->f10 = src->f14;
+                r->f14 = src->f1c;
+    
+                if (src->f1e & 1) {
+                    u32 *q = (u32 *)&src->f2c;
+    
+                    if (src->f1e & 2) {
+                        r->f00 |= 1;
+                    } else {
+                        r->f18 = q[0];
+                        r->f1c = q[1];
+                        q += 2;
+                    }
+                    if (src->f1e & 4) {
+                        r->f00 |= 2;
+                    } else {
+                        r->f20 = ((s16 *)q)[0];
+                        r->f22 = ((s16 *)q)[1];
+                        q = (u32 *)((char *)q + 4);
+                    }
+                    if (src->f1e & 8) {
+                        r->f00 |= 4;
+                    } else {
+                        r->f24 = q[0];
+                        r->f28 = q[1];
+                    }
+                    r->f00 |= 8;
+                }
+    
+                if (p->f04->f08 != 0
+                    && (p->f04->f3c[id >> 5] & (1u << (id & 0x1f))) != 0) {
+                    p->f04->f0c(r, p->f04->f08, id);
+                }
+                if (r->f00 & 0x18) {
+                    r->f2c = src->f20;
+                    r->f2e = src->f22;
+                    r->f30 = src->f24;
+                    r->f34 = src->f28;
+                }
+            }
+        done:
+            p->fb0 = r;
+        }
+    
+        if (st == 2) {
+            p->f08 &= ~0x40;
+            p->f1c(p);
+            st = p->f1c ? p->f90 : 0;
+            flag = p->f08 & 0x40;
+        } else {
+            flag = 0;
+        }
+    
+        if (flag == 0) {
+            r = p->fb0;
+            if (r->f0c & 0x1f0000) {
+                if (r->f00 & 0x20) {
+                    r->f0c &= ~0x1f0000u;
+                }
+                p->f08 &= ~2u;
+                if (!(p->f08 & 0x100)) {
+                    pkt[0] = (u32)g_020A1954;
+                    pkt[1] = r->f04;
+                    pkt[2] = r->f08;
+                    pkt[3] = r->f0c;
+                    pkt[4] = 0x293130;
+                    pkt[5] = r->f10;
+                    pkt[6] = r->f14;
+                    func_0206DDA4(0x2b2a, &pkt[1], 6);
+                    if (r->f00 & 0x18) {
+                        p->ff0(r);
+                    }
+                }
+            } else {
+                p->f08 |= 2;
+            }
+        }
+    
+        if (st == 3) {
+            p->f08 &= ~0x40;
+            p->f1c(p);
+        }
+    }

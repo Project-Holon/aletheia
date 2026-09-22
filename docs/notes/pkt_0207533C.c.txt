@@ -66,3 +66,257 @@ than by a wrong shape:
         func_020733E8 and three setters), and matching it is the next thing to
         do here because five other members of the packet call it.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+addendum, wave 7 pseudo-families (pkt_02074A34 / pkt_02075404): the pin, and
+what is left after it
+==============================================================================
+
+This note's packet is the neighbour cluster pkt_02075404 of
+docs/families/cluster_02074A34.h, and the cluster is MIXED: its members split
+between dsi/1.1p1 and ../2.0/sp2 with no address pattern.  This note measured
+its near misses under 1.1p1 only.  Re-measured under ../2.0/sp2:
+
+  0x0207533C  EXACT, 200/200, filed as src/matched/func_0207533C.c
+              (this note listed it only as a packet member, never attempted).
+  0x02075404  EXACT, 192/192, filed as src/matched/func_02075404.c.
+  0x02075794  EXACT, 196/196, filed as src/matched/func_02075794.c, from
+              docs/notes/func_02075794.c.txt's body UNCHANGED -- see that note.
+  0x020754C4  DIFF, 156/156, 14 concrete bytes out (this note: 152 compiled,
+              79 bytes differ).
+  0x02075698  DIFF, 252/252, 5 concrete bytes out (this note: "reconstructed
+              but not reduced").
+
+WHAT THIS NOTE HAD RIGHT ABOUT 0x020754C4, and it is all of the shape: the
+signedness conclusions are required and unchanged.  `p[0] <= 0` and the inner
+`for` must promote the byte to `int` (the image has `ble` at 0x020754DC and
+`blt` at 0x02075548), and the inner counter must be declared `int`, or both
+compares come out `bls`/`blo`.  What the note diagnosed as "this front end
+pushes two more registers" was the front end: under the pin the frame is the
+image's `push {r4, r5, r6, r7, r8, lr}` exactly, the size is exactly 156, and
+every branch target, every load offset and every instruction reproduces.
+
+0x020754C4: WHAT IS LEFT IS A FOUR-REGISTER PERMUTATION, 14 bytes.
+
+Two levers took it from 21 bytes out to 14 and both are worth keeping:
+
+  1. DECLARATION ORDER (docs/idioms/declaration-order-decides-which-register-a-local-gets.md).
+     `Slot *s; int i; int j;` beats `int i; int j; Slot *s;` by 7 bytes.  Three
+     of the four orders measured give 14, the fourth gives 21.
+  2. THE INNER COUNTER IS INITIALISED FROM A SEPARATE ZERO VARIABLE, not from
+     a literal.  The image materialises TWO zeros at 0x020754D0/0x020754D4 --
+     `mov r6, #0` then `mov r5, r6` -- and r5 is used for nothing but
+     `mov r8, r5` at 0x02075514, the inner counter's reload each outer
+     iteration.  Spelling it `z = i; ... for (j = z; ...)` reproduces that pair
+     and fixes r7 and r8; a literal `for (j = 0; ...)` does not.
+
+The residue after both is a 3-cycle over the remaining callee-saved registers:
+
+    slot        original   compiled
+    parameter   r4         r5
+    outer i     r6         r4
+    zero z      r5         r6
+
+Tried and rejected, all landing at 14:
+  - tools/permuter.py `--mode hill --budget 40 --jobs 8 --types` on the 14-byte
+    baseline: 39 single mutations, "no single mutation improves".
+  - tools/permuter.py `--mode anneal --budget 60 --jobs 8 --types`: 60 compiles,
+    unchanged.  (On the 21-byte baseline, `--mode hill --budget 24`: 23 tried,
+    also unmoved -- the declaration lever is outside the mutation table.)
+  - all four declaration orders of the three locals, and all four of the four
+    once `z` is added.
+  - the parameter copied to its own named local at the top of the body.
+  - `z = 0; i = z;` instead of `i = 0; z = i;`.
+  - the two guards rewritten as `continue`s instead of nesting.
+
+Per docs/notes/permuter.md's own guidance ("a residue the permuter cannot move
+at all is usually in the declarations or in the reading of the image"), the
+declarations have now been swept exhaustively and the reading is confirmed by
+the size and by every instruction matching, so this is a genuine allocation
+tie.  Note also that this function is MATCH-capped regardless even if closed:
+func_02072DD0 and func_02072DE8 have no caller outside it, as the note already
+records.
+
+/* best source, 156 bytes against 156, 14 concrete bytes out, ../2.0/sp2 */
+
+    /*
+     * function: func_020754C4
+     * address:  0x020754C4
+     * packet:   pkt_02075404
+     * region:   arm9
+     * compiler: ../2.0/sp2
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   DIFF
+     * symbols:
+     *   func_020742FC  0x020742FC  arm
+     *   func_020744B4  0x020744B4  arm
+     *   func_02072DB0  0x02072DB0  arm
+     *   func_02072DD0  0x02072DD0  arm
+     *   func_02072DE8  0x02072DE8  arm
+     */
+    
+    typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+    
+    typedef struct { u8 n; u8 p1; u16 h2; u32 f4; } Slot;
+    
+    extern u32   func_020742FC(void);
+    extern Slot *func_020744B4(u32 i);
+    extern void  func_02072DB0(u32 i, u32 v);
+    extern void  func_02072DD0(u32 i, u32 v);
+    extern u32   func_02072DE8(u32 i, u32 a, u32 b);
+    
+    u32 func_020754C4(u32 a)
+    {
+        Slot *s;
+        int i;
+        int j;
+        int z;
+    
+        func_020742FC();
+        i = 0;
+        z = i;
+        for (; i < 0x20; i++) {
+            s = func_020744B4(i);
+            if (s != 0) {
+                func_02072DB0(i, s->n);
+                func_02072DD0(i, s->h2);
+                if (s->f4 != 0 && a != 0) {
+                    for (j = z; j < (int)s->n; j++) {
+                        if (func_02072DE8(i, a, s->f4) == 0) return 0;
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+
+permuter best result line:
+    baseline  DIFF   asm=70    bytes-out=14   size=156/156
+    best      DIFF   asm=70    bytes-out=14   size=156/156   (99 compiles, hill + anneal)
+
+==============================================================================
+0x02075698 -- func_02075794's twin, 5 bytes out
+==============================================================================
+
+0x02075698 (252 bytes, ARM) is the same four-step open/bind path as
+func_02075794 with one extra load: it takes SIX arguments rather than eight,
+and it runs func_02074CD0 (kind 6, the bank) AND func_02074BEC (kind 1, the
+wave) rather than only the first, each into its own stack cell, releasing the
+voice handle on either failure.
+
+    h = func_02073344(a0, a1, a3);         if (h == 0) return 0;
+    v = func_020734AC(a1, h);
+    if (func_02074CD0(a2, 6, v, 0, &bank) != 0) { func_020733DC(h); return 0; }
+    if (func_02074BEC(s1, 1, v, 0, &wave) != 0) { func_020733DC(h); return 0; }
+    func_020733E8(h, (u32 *)((u8 *)wave + *(u32 *)(wave + 0x18)), bank, 0);
+    func_02072F48(a0, s0[6]);
+    func_02072F88(a0, s0[7]);
+    func_020730B8(a0, s1);
+    return 1;
+
+Under the cluster pin this is 252 bytes against the original's 252 with 5
+concrete bytes out.  The one lever that mattered was declaration order:
+`u32 wave; u32 bank;` puts bank at sp+4 and wave at sp+8 the way the image has
+them (`add ip, sp, #4` at 0x020756D8 for the first call, `add ip, sp, #8` at
+0x02075714 for the second), and the reverse order costs 9 bytes rather than 5
+(docs/idioms/local-declaration-order-is-stack-order.md, the later declaration
+at the lower address).
+
+The residue is the two temporaries of the func_020733E8 call, and it is one
+swapped pair:
+
+    02075748 (+00B0)  ldr r2, [sp, #8]     | ldr r3, [sp, #8]
+    0207574C (+00B4)  ldr r3, [sp, #4]     | ldr r2, [sp, #4]
+    02075750 (+00B8)  ldr r1, [r2, #0x18]  | ldr r1, [r3, #0x18]
+    02075758 (+00C0)  add r1, r2, r1       | add r1, r3, r1
+    0207575C (+00C4)  mov r2, #0           | mov r3, #0
+
+i.e. the image numbers the wave cell before the bank cell inside that one
+statement, and this C numbers them the other way.  Every other byte of the
+function -- the seven-register push, the `sub sp, #0xc` frame, all seven calls,
+both `func_020733DC` release paths, the `lsl`/`lsr` pair that is NOT present
+here (this callee takes the raw word) -- reproduces.
+
+Tried and rejected, all landing at 5:
+  - tools/permuter.py `--mode hill --budget 60 --jobs 8 --types`: 59 single
+    mutations, "no single mutation improves".
+  - tools/permuter.py `--mode anneal --budget 200 --jobs 8 --types`: 200
+    compiles, unchanged at asm=25 / bytes-out=5 / size=252.
+  - the wave cell lifted into a `u8 *w` local before the call, so the two reads
+    of it share one name: 5.
+  - `wave` declared `u8 *` outright (with the out-parameter cast at the
+    func_02074BEC call): 5.
+
+/* best source, 252 bytes against 252, 5 concrete bytes out, ../2.0/sp2 */
+
+    /*
+     * function: func_02075698
+     * address:  0x02075698
+     * packet:   pkt_02075404
+     * region:   arm9
+     * compiler: ../2.0/sp2
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   DIFF
+     * symbols:
+     *   func_02073344  0x02073344  arm
+     *   func_020734AC  0x020734AC  arm
+     *   func_02074CD0  0x02074CD0  arm
+     *   func_02074BEC  0x02074BEC  arm
+     *   func_020733DC  0x020733DC  arm
+     *   func_020733E8  0x020733E8  arm
+     *   func_02072F48  0x02072F48  arm
+     *   func_02072F88  0x02072F88  arm
+     *   func_020730B8  0x020730B8  arm
+     */
+    
+    typedef unsigned char u8;
+    typedef unsigned int  u32;
+    
+    extern void *func_02073344(u32 a0, u32 a1, u32 a2);
+    extern u32   func_020734AC(u32 a, void *h);
+    extern u32   func_02074CD0(u32 a, u32 b, u32 c, u32 d, u32 *out);
+    extern u32   func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
+    extern void  func_020733DC(void *h);
+    extern void  func_020733E8(void *h, u32 *a, u32 b, u32 c);
+    extern void  func_02072F48(u32 a, u32 b);
+    extern void  func_02072F88(u32 a, u32 b);
+    extern void  func_020730B8(u32 a, u32 b);
+    
+    u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
+    {
+        void *h;
+        u32 v;
+        u32 wave;
+        u32 bank;
+    
+        h = func_02073344(a0, a1, a3);
+        if (h == 0) {
+            return 0;
+        }
+    
+        v = func_020734AC(a1, h);
+    
+        if (func_02074CD0(a2, 6, v, 0, &bank) != 0) {
+            func_020733DC(h);
+            return 0;
+        }
+    
+        if (func_02074BEC(s1, 1, v, 0, &wave) != 0) {
+            func_020733DC(h);
+            return 0;
+        }
+    
+        func_020733E8(h, (u32 *)((u8 *)wave + *(u32 *)(wave + 0x18)), bank, 0);
+        func_02072F48(a0, s0[6]);
+        func_02072F88(a0, s0[7]);
+        func_020730B8(a0, s1);
+        return 1;
+    }
+
+permuter best result line:
+    baseline  DIFF   asm=25    bytes-out=5    size=252/252
+    best      DIFF   asm=25    bytes-out=5    size=252/252   (259 compiles, hill + anneal)

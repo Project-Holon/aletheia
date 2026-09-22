@@ -57,3 +57,16 @@ void func_0206B458(Ctx *ctx)
 }
 ```
 re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header
+
+--------------------------------------------------------------------------------
+CLOSED 2026-09-22, wave 7 (pseudo-families), cluster pkt_0206AF08.
+--------------------------------------------------------------------------------
+
+The 9-byte residue above was never a source problem: the C in this note is
+byte-exact under `--cc ../2.0/sp2`, which is the front end the rest of this
+cluster is pinned to (docs/families/cluster_0206AF08.h).  Filed as
+src/matched/func_0206B458.c, EXACT, 72 bytes, its one relocation
+(g_020A83B8, the handler table) resolving as data_table x14.
+
+    python3 tools/match.py one --src src/matched/func_0206B458.c \
+        --func func_0206B458 --addr 0x0206B458 --arm --cc ../2.0/sp2

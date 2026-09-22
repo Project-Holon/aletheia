@@ -49,3 +49,35 @@ After the first of these is cracked the other two are worth re-deriving: the
 target C is the one in this note, minus the local `p`.  No source was left in
 src/matched/ or src/pending/ -- a DIFF has no home in either.
 re-verified 2026-09-21: no recoverable source in this note
+
+--------------------------------------------------------------------------------
+CLOSED 2026-09-22, wave 7 (pseudo-families), cluster pkt_0206AF08.
+--------------------------------------------------------------------------------
+
+func_0206B4A0 (400 B) is EXACT, src/matched/func_0206B4A0.c, --cc ../2.0/sp2.
+All three residues this note recorded are closed, and the first two turned
+out to be one lever each:
+
+1. "The two word stores fuse" -- the `stm r5, {r0, r4}` wall.  `volatile` on
+   the +0x04 config pointer of the object struct stops the fusion and changes
+   nothing else; the note's own C plus that one qualifier is byte-exact.  The
+   store order must also be f04 BEFORE f00 in the source, which is the
+   opposite of the image's store order -- the scheduler sinks it.
+2. "fD8/fDC conditional store" -- not a predication problem.  Binding the
+   blob pointer to a local (`q = cfg->f04;`) in front of each of the two
+   `&&` chains gives the original's `cmp / ldrne / cmpne / addne / moveq`
+   exactly; spelled through `cfg->f04` the front end materialises a boolean
+   and reloads, 28 bytes of excess.  tools/permuter.py named this lever
+   (`temp(tmp=(u32 *)(cfg->f04 + 0xc))`, hill 800/8 --types, 440 -> 424 B).
+3. "cfg->f04 is re-read after every store" -- falls out of 2 for free.
+
+The +0x30 field is an OVERRIDE pointer, not a flag: the image's
+`ldr r0,[r4,#0x30] / cmp r0,#0 / ldreq... / str r0,[r5]` stores f30 itself
+when it is non-null, i.e. `o->f00 = cfg->f30 ? cfg->f30 : blob + blob[1]`.
+Reading it as `cfg->f30 == 0 ? ... : 0` is what left the earlier pass with
+the head of the function wrong.
+
+Also filed this pass from this packet: func_0206B63C (104 B, --cc ../2.0/sp2,
+the 2.0/sp2 pin this note already predicted) and func_0206AFE4 (1004 B,
+--cc ../2.0/sp2), and func_0206B6A4 is now EXACT with all nine relocation
+sites witnessed rather than capped.

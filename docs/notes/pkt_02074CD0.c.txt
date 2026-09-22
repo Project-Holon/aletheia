@@ -40,3 +40,168 @@ image-wide branch scan, so even a byte-perfect body caps at MATCH on that site
 (func_02075080 resolves as `matched`).  This is the same one-caller SDK shape
 as docs/notes/pkt_02074A6C.c.txt.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+addendum, wave 7 pseudo-families (pkt_02074A34): the pin closes func_02074E10,
+and takes func_02074CD0 from 67 bytes out to 2
+==============================================================================
+
+This note's two conclusions about the 24-bit header field were BOTH right, and
+both were measured against the wrong front end.  Under `--cc ../2.0/sp2` (the
+cluster pin, docs/families/cluster_02074A34.h):
+
+  0x02074E10  now EXACT, 140/140, filed as src/matched/func_02074E10.c.
+  0x02074CD0  now DIFF at 320/320 with 2 concrete bytes out (was 316 vs an
+              oversized-and-skipped judgment; this note never reduced it).
+
+WHAT THE NOTE HAD RIGHT.  The body it recovered reproduces exactly, and the
+bitfield reading of the value is required: `(w << 8) >> 8` folds to
+`bic r0, r0, #0xff000000` under both front ends and loses the image's
+`lsl r0,r0,#8` / `lsr r0,r0,#8` pair.
+
+WHAT IT MISSED, and why the pass stalled.  The note reports that moving the
+flag test to a plain `(o->w >> 24) & 1` while keeping the bitfield view for the
+value "costs the whole function: 132 bytes compiled, 67 concrete bytes differ,
+because the two views stop sharing the header load".  The two views stop
+sharing the load because they were written as two POINTERS.  Written as ONE
+UNION they share it:
+
+    union Hdr {
+        unsigned w;
+        struct { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; } b;
+    };
+    ...
+    if ((o->w >> 24) & 1) r = func_020750EC(o->b.v, c, d);
+    else                  r = func_02075080(o->b.v, c, d);
+
+That is the whole fix for the two bytes at 0x02074E3C the note could not move.
+The remaining 8 of the 140-vs-132 gap is the front end: 1.1p1 -O4,p hoists the
+second and third call arguments above the branch and cross-jumps the two arms
+onto one call sequence, where the image computes `mov r2, r4` / `lsr r0,r0,#8`
+separately INSIDE each arm (0x02074E50/0x02074E54 and 0x02074E60/0x02074E64).
+No source spelling of the arms moves that; the compiler does.  Under the pin
+the same C is 140 bytes, 0 mismatches.
+
+0x02074CD0: THREE LEVERS BEYOND THE UNION, then a two-byte register wall.
+
+  1. func_02074450 TAKES ONE ARGUMENT, not four.  The image's `bl 0x2074450`
+     at 0x02074D48 has NO argument setup before it at all -- r0 still holds the
+     halfword the `cmp` just tested.  Declaring it `(u32,u32,u32,u32)` makes the
+     compiler emit `mov r1,sl` / `mov r2,sb` / `mov r3,fp` and costs 16 bytes.
+     Attested outside this cluster by src/matched/func_02028C50.c,
+     src/matched/unit_020064B8.c and src/matched/unit_020067E0.c, all EXACT.
+  2. THE func_02074E10 GUARD RETURNS THAT CALL'S OWN RESULT, not 0.  The image
+     pops straight out at 0x02074D84 with no `mov r0` before it, so it is
+     `r = func_02074E10(...); if (r != 0) return r;`.  Writing `return 0` costs
+     a `movne r0, #0`.
+  3. THE LOOP COUNTER IS `int`.  `blt` at 0x02074DF0 is signed; `u32` gives
+     `blo`.
+
+With all three the compile is 320 bytes against the original's 320 and exactly
+TWO bytes differ, both the destination register of one conditional load:
+
+    02074DFC (+0100)  ldrne r2, [sp, #4]     original
+                      ldrne r0, [sp, #4]     compiled
+    02074E00 (+0104)  cmpne r2, #0           original
+                      cmpne r0, #0           compiled
+
+Everything else -- the ten-register `push {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr}`, the
+pooled 0x0000ffff sentinel at 0x02074E0C, all six call sequences, all seven
+early exits, the `tst`/`cmpne` guard pairs -- reproduces byte for byte.
+
+Tried and rejected on those two bytes, all landing at the same 2:
+  - tools/permuter.py `--mode hill --budget 120 --jobs 8 --types`: 119 single
+    mutations tried, "no single mutation improves".
+  - tools/permuter.py `--mode anneal --budget 400 --jobs 8 --types`: 400
+    compiles, best unchanged at asm=10 / bytes-out=2 / size=320.
+  - `bank != 0 && 0 != sub` (reversed compare, per
+    docs/idioms/cmp-operand-order-names-the-temporary.md): 2.
+  - `if (bank && sub)`: 2.
+  - the out cell lifted into its own named local before the guard: 8 (worse).
+
+This is the allocation-tie residue class the permuter is for and it does not
+move: the image's `ldrne` writes a register the next instruction immediately
+discards, the same shape docs/notes/pkt_02075794.c.txt records for the `bic`
+pair at 0x02075984.  Recorded, not ground further.
+
+/* best source, 320 bytes against 320, 2 concrete bytes out, ../2.0/sp2 */
+
+    /*
+     * function: func_02074CD0
+     * address:  0x02074CD0
+     * packet:   pkt_02074A34
+     * region:   arm9
+     * compiler: ../2.0/sp2
+     * flags:    -O4,p
+     * lang:     c99
+     * isa:      arm
+     * status:   DIFF
+     * symbols:
+     *   func_020743EC  0x020743EC  arm
+     *   func_0207466C  0x0207466C  arm
+     *   func_02075014  0x02075014  arm
+     *   func_02074450  0x02074450  arm
+     *   func_02074E10  0x02074E10  arm
+     *   func_02075404  0x02075404  arm
+     *   func_0208A2BC  0x0208A2BC  arm
+     */
+    
+    typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+    
+    typedef struct { u32 f0; u16 slot[4]; } Grp;
+    
+    union Hdr {
+        unsigned w;
+        struct { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; } b;
+    };
+    
+    extern Grp  *func_020743EC(u32 a);
+    extern u32   func_0207466C(u32 a);
+    extern u32   func_02075014(u32 a, u32 b, u32 c);
+    extern union Hdr *func_02074450(u32 a);
+    extern u32   func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out);
+    extern u32   func_02075404(u32 a, u32 b, u32 c, u32 d, u32 *heap);
+    extern void  func_0208A2BC(u32 a, u32 b);
+    
+    u32 func_02074CD0(u32 a, u32 flags, u32 c, u32 d, u32 *out)
+    {
+        Grp *g;
+        union Hdr *o;
+        u32 bank;
+        int i;
+        u32 want;
+        u32 sub;
+        u32 r;
+    
+        g = func_020743EC(a);
+        if (g == 0) return 4;
+    
+        if (flags & 2) {
+            bank = func_02075014(g->f0, c, d);
+            if (bank == 0) return 8;
+        } else {
+            bank = func_0207466C(g->f0);
+        }
+    
+        want = flags & 4;
+        for (i = 0; i < 4; i++) {
+            if (g->slot[i] != 0xffff) {
+                o = func_02074450(g->slot[i]);
+                if (o == 0) return 5;
+                r = func_02074E10(g->slot[i], flags, c, d, &sub);
+                if (r != 0) return r;
+                if ((o->w >> 24) & 1 && want != 0) {
+                    if (func_02075404(sub, bank, (u32)i, o->b.v, (u32 *)c) == 0) return 9;
+                }
+                if (bank != 0 && sub != 0) {
+                    func_0208A2BC(bank, (u32)i);
+                }
+            }
+        }
+        if (out != 0) *out = bank;
+        return 0;
+    }
+
+permuter best result line:
+    baseline  DIFF   asm=10    bytes-out=2    size=320/320
+    best      DIFF   asm=10    bytes-out=2    size=320/320   (519 compiles, hill + anneal)

@@ -18,14 +18,16 @@
  * (the record itself, the looked-up object, and the caller's second and third
  * arguments).
  *
- * Blocked at MATCH on the `matched` class: func_02075794 (the PC24 at +0x0074)
- * has no branch outside 02075618..02075698, so the site stays wildcarded.  The
- * callee is pkt_02075794's 196-byte lead function, which this lane attempted and
- * left DIFF (200 vs 196 bytes, register allocation at the prologue - see
- * docs/notes/func_02075794.c.txt), so it cannot be filed and cannot attest this
- * call.  The other three sites resolve (func_02074388, func_0207466C and
- * func_02075B54) and every concrete byte here reproduces: compiled 128 bytes,
- * original 128 bytes.
+ * UNBLOCKED 2026-09-22 (wave 7, pkt_02075404).  This file was previously capped
+ * at MATCH on the `matched` class: func_02075794 (the PC24 at +0x0074) has no
+ * branch outside 02075618..02075698, and the callee was left DIFF at 200 vs 196
+ * bytes by an earlier lane (docs/notes/func_02075794.c.txt), so it could not be
+ * filed and could not attest this call.  That DIFF was a compiler question, not
+ * a source one: the same body is byte-exact under `--cc ../2.0/sp2` and is now
+ * src/matched/func_02075794.c, so this site resolves as `matched` and all four
+ * of this file's relocations resolve.  Compiled 128 bytes, original 128 bytes.
+ * This file itself stays on the project default 1.1p1; the cluster is mixed,
+ * see docs/families/cluster_02074A34.h.
  *
  * symbols:
  *   func_02074388  0x02074388  arm
