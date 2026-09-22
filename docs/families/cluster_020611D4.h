@@ -49,11 +49,15 @@
  * nineteen matched sources carry `compiler: 1.1p1` and nothing else was
  * needed for them.  Unlike cluster_020737C0, this is NOT a cluster-wide pin.
  *
- * TWO functions, and only two, are byte-exact only under `--cc ../2.0/sp2`:
+ * THREE functions are byte-exact only under `--cc ../2.0/sp2`:
  *
- *   func_020613D8   func_020616CC
+ *   func_020613D8   func_020616CC   func_020614D4 (wave 10)
  *
- * and they are exactly the two that subsystem B's mode selector owns.  Their
+ * and they are subsystem B's mode selector and its two allocators.
+ * func_020614D4's tells: the push list {r3-r9, lr} and a switch default
+ * whose null is derived from the loop counter's zero (`mov r7, r4`) both
+ * come out under 2.0 only; 1.1p1 is 12 bytes short.  (func_02061460, the
+ * table walker, is NOT pinned: EXACT under both, wave 10.)  Their
  * evidence rows are in docs/FRONTEND-PINS.md.  The tells:
  *
  *   func_020616CC -- the "kept constants" tell applied to a POOL ADDRESS
@@ -156,7 +160,15 @@ extern struct Rec020A816C g_020A816C[]; /* 0x020A816C, stride 0x18, five recs */
 /* The pointer tables func_020614D4 walks.  func_02061390 fills g_020A8150's
    five slots at +0x08..+0x18 with &g_020A816C[k] for five caller-chosen k,
    which is what makes the five-record bank addressable in a chosen ORDER --
-   the mode switch is a permutation of the bank, not a rewrite of it.         */
+   the mode switch is a permutation of the bank, not a rewrite of it.
+
+   PROVEN by src/matched/func_020614D4.c (EXACT*, wave 10): 0x020A8150 is
+   walked as a TWO-entry pointer table (the `which != 0`, paired-allocation
+   path) and 0x020A8158 as the FIVE-entry one (the downward path);
+   docs/notes/pkt_020611D4.c.txt had the two swapped.  The paired path's
+   companion records are the ADDRESSES 0x020A8184 / 0x020A819C, i.e.
+   &g_020A816C[1] (kind 0) and &g_020A816C[2] (kind 3), not pointer
+   variables -- they resolve through g_020A816C's own witnesses.           */
 struct Ptrs020A8150 {
     u32 unk0;                           /* 0x00                               */
     u32 unk4;                           /* 0x04                               */
@@ -164,8 +176,8 @@ struct Ptrs020A8150 {
 };
 extern struct Ptrs020A8150  g_020A8150; /* 0x020A8150 -- func_02061390's dest */
 extern struct Rec020A816C  *g_020A8158[2];  /* 0x020A8158                     */
-extern struct Rec020A816C  *g_020A8184;     /* 0x020A8184 -- kind16 == 3      */
-extern struct Rec020A816C  *g_020A819C;     /* 0x020A819C -- kind16 == 0      */
+/* 0x020A8184 == &g_020A816C[1] (companion for kind16 == 0)
+   0x020A819C == &g_020A816C[2] (companion for kind16 == 3)                   */
 
 /* The dispatch table unit_02061358's func_02061358 installs at an object's
    word 0.  Forty witnesses image-wide, which is what makes that unit EXACT.  */
@@ -252,8 +264,17 @@ extern int   func_02061380(void);      /*  0 */
 extern int   func_02061388(void);      /* -1 */
 extern void  func_02061390(u32 a, u32 b, u32 c, u32 d, u32 e);  /* permute    */
 extern void  func_020613D8(u32 mode, u32 flag);        /* PIN ../2.0/sp2      */
-extern void  func_02061460(void);                      /* 116 B, DIFF 6 bytes */
-extern u32   func_020614D4(u32 size, u32 which);       /* 348 B, open         */
+extern void  func_02061460(void);                      /* 116 B, EXACT wave 10 */
+extern u32   func_020614D4(u32 size, u32 which);       /* 348 B, EXACT* 2.0   */
+
+/* func_02061460's 6-byte wall (two lanes, permuter flat) closed on ONE named
+   zero: `u32 lo = 0; for (i = lo; ...)` with lo stored as each record's
+   three zeros.  The counter must be derived from the zero, not the zero from
+   the counter.
+   func_020614D4's room checks read the {cur, end} pair through a signed word
+   view, `(u32)((int *)s)[1] - (u32)((int *)s)[0]`: the image does NOT reuse
+   the check's `ldm` in the body, and only a differently-typed read keeps the
+   front end from CSE-ing it (a `u32 *` view is still CSE'd for `end`).     */
 extern u32   func_02061644(void);                      /* the `return 0` stub */
 extern void  func_0206164C(u32 *dst);                  /* save the bank       */
 extern void  func_0206168C(u32 *src);                  /* restore the bank    */

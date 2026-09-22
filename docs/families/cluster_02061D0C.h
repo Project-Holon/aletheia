@@ -93,6 +93,8 @@
  *       func_0206267C
  *   ../2.0/sp2  (`-O4,p -proc arm946e`):
  *       func_0206216C  func_020621FC  func_020624C8
+ *       func_02062270  (wave 10: the layer-2 initialiser; 1.1p1 pushes
+ *                       {r3-r7, lr} against the image's {r4, lr})
  *
  * Every 2.0/sp2 member is an ALLOCATOR-OR-VALIDATOR ENTRY POINT of layer 2 or
  * layer 3 -- the four functions that unpack or pack a handle and dispatch on a
@@ -301,8 +303,9 @@ extern u32  func_020621FC(u32 handle);
    0x020A17A8 to the stack, apportion the configured extents across the four
    records in two counted passes of stride 0x0c, then build the two lists with
    func_02061DF0 / func_02061DFC / six conditional func_02061E48 calls and
-   sweep both with func_02061FF8.  OPEN, 488 bytes.  It carries the duplicate
-   live pool word described below.                                            */
+   sweep both with func_02061FF8.  EXACT wave 10 under ../2.0/sp2 (508 B with
+   pool) -- the duplicate pool word below is two symbols; see
+   src/matched/func_02062270.c.                                              */
 extern void func_02062270(u32 a, u32 b, u32 c, u32 d);
 
 /* The four-record apportionment table at 0x020A17A8: stride 0x0c, read with
@@ -394,12 +397,26 @@ extern void func_02062688(u32 a);            /* outside the cluster           */
  * against it (struct member, local pointer, casts, volatile, the pool-relative
  * forms, and one-struct-for-both-words).  None move it.
  *
- * DO NOT RE-RUN THAT SWEEP.  The conclusion recorded there is that the
- * original came from a front end outside the tree, or the same front end with
- * a pool rule that emits a word per MATERIALISATION-SITE GROUP rather than per
- * constant.  Recognising this pattern is cheap: count the `.word`s in the
- * function's own pool and look for a repeat.  If there is one, the function is
- * not closable with what this tree has, whatever the C says.
+ * DO NOT RE-RUN THAT SWEEP.
+ *
+ * *** RESOLVED, wave 10: THE TWO COPIES ARE TWO SYMBOLS AT ONE ADDRESS. ***
+ * In func_02062270 the copy at 0x0206245C is the base of every FIELD access
+ * (+0x0c/+0x10/+0x14/+0x18 reads, the +0x08 store of the pool head) and the
+ * copy at 0x02062460 is only ever passed as the LIST-HEAD argument.  Declare
+ * them as two externs pinned to the same address in `symbols:` --
+ *     g_02146B94_blk  0x02146B94  data     (struct Cfg02146B94, fields)
+ *     g_02146B94      0x02146B94  data     (u32 list head, &-taken)
+ * -- and the front end emits one pool word per symbol, which is the image.
+ * Every single-symbol spelling (`&blk.head_a`, `(u32 *)&blk`) still dedups.
+ * Both sites resolve as `literal`.  func_02062270 closed on this plus two
+ * allocation levers (EXACT, ../2.0/sp2).  func_020625D8 (layer 3, 92 B,
+ * another packet) has the same shape -- `g_02146BB0` twice, once as the
+ *  struct base for +0x0c/+0x10/+0x04/+0x08 (checked: 0x02062628 feeds every field access, 0x0206262C every list-head argument) -- and should
+ * yield to the same two-symbol declaration; not attempted here.
+ *
+ * Recognising this pattern is still cheap: count the `.word`s in the
+ * function's own pool and look for a repeat.  If there is one, look at what
+ * each copy is USED for before concluding anything.
  */
 
 #endif /* CLUSTER_02061D0C_H */
