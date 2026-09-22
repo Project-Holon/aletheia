@@ -76,3 +76,343 @@ predicated on not-found, one back edge".  The lever that is missing is the
 source construct mwccarm if-converts for this loop; nothing in the idiom
 index covers loop if-conversion yet.
 re-verified 2026-09-21: no recoverable source in this note
+
+===============================================================================
+APPENDED by the wave 7 pseudo-family lane (cluster_020611D4), 2026-09-22
+===============================================================================
+
+CLUSTER RESULT.  Four of this cluster's seven open functions closed in this
+lane and are filed in src/matched: func_020613D8, func_0206164C, func_0206168C
+and func_020616CC.  Two of the four (func_020613D8 and func_020616CC) needed a
+per-file compiler pin to `../2.0/sp2`, whose evidence rows are now in
+docs/FRONTEND-PINS.md; the other two were closed under the project default and
+their lever is written up below because it recurs.
+
+The shared declarations for the whole range are now in
+docs/families/cluster_020611D4.h.
+
+-------------------------------------------------------------------------------
+THE LEVER THAT CLOSED func_0206164C, and the one it does NOT close
+-------------------------------------------------------------------------------
+
+docs/notes/pkt_0206164C.c.txt recorded a 10-byte residue on the two 60-byte
+mirrors and swept NINE declaration orders against it, correctly concluding
+that "declaration order moves the residue but never removes it".  That is
+true and the conclusion drawn from it -- "the pointer-to-lr preference is an
+allocator decision" -- is what made the row look closed.  It is not an
+allocator decision.  The lever is WHERE THE FIRST ZERO IS MATERIALISED:
+
+    image:      mov r3, #0          <- i owns the literal
+                ...
+                mov lr, r3          <- j is a COPY of it
+
+`int i; int j = 0; for (i = 0; ...)` gives the two `mov`s the other way round
+in every declaration order, because both zeros are independent literals and
+the allocator is free to pick which one is materialised first.  Writing
+
+    int i = 0;
+    ... ;
+    int j = i;          /* not `= 0` */
+    for (; i < 5; i++)  /* empty init clause */
+
+makes `j` textually depend on `i`, so `i` necessarily owns the literal, and the
+file is EXACT.  Both mirrors closed this way.
+
+THE SECOND HALF OF THE LEVER is declaration order, and the two mirrors disagree
+about it even though they are written from one template:
+
+    func_0206164C (save):     i, t, j     -> t in ip, j in lr     EXACT
+    func_0206168C (restore):  i, j, t     -> j in ip, t in lr     EXACT
+
+Using either order in the other function is 10 or 15 bytes out.  So the earlier
+note's declaration-order sweep WAS finding a real signal; it was just swept
+against the wrong baseline, since with `j = 0` no order can be right.
+
+WHERE IT DOES NOT REACH: func_02061460 (0x02061460, 116 bytes) has the visually
+identical residue -- `mov r5, #0` / `mov lr, r5` in the image against
+`mov lr, #0` / `mov r5, #0` compiled, 6 concrete bytes, three instructions --
+and the lever does NOT close it.  Measured in this lane, all under 1.1p1 and
+all size-exact at 116:
+
+  [6]  the note's own body, verbatim
+  [6]  a `u32 z = (u32)i;` / `int z = i;` local derived from the counter and
+       used as the value of the `strge`, of the two `str`s at +0x00, or of all
+       three
+  [6]  the same with the `do {} while` rewritten as `for (; i < 5; i++)`, the
+       exact shape that closed func_0206164C
+  [6]  `n` declared before `i`
+  [20] `t` declared first; [20] `i` declared last
+  [21] all five loop-invariant stored values (1, 0, 0x20000, 0, 0x10000) bound
+       to named locals in the image's materialisation order -- this reproduces
+       the five hoisted `mov`s but swaps r6/r7 (t and n) instead
+
+and the permuter is flat on it from both directions: `--mode hill` exhausts 174
+single mutations without an improvement, and `--mode anneal --budget 2000
+--types` never beats the baseline (it drifts to 72-byte, size-short candidates).
+Also measured DIFF at 6 bytes under `../2.0/sp2`, so unlike its two neighbours
+this one is NOT a front-end question.
+
+The difference from func_0206164C is that func_02061460's zero is consumed by
+FOUR predicated stores in two different if/else pairs rather than by a loop
+index, so there is no single textual dependency that pins which use defines the
+value.  Left open at 6 bytes.
+
+  /* best source, 116 bytes against 116, 6 concrete bytes out, dsi/1.1p1 */
+
+typedef unsigned short u16;
+typedef signed int     s32;
+typedef unsigned int   u32;
+
+struct Rec020A816C {
+    u32 unk_00; u32 unk_04; u32 unk_08; u32 unk_0c; u32 pad_10[2];
+};
+
+extern u16 g_02146B70;
+extern struct Rec020A816C g_020A816C[];
+
+void func_02061460(void)
+{
+    int i = 0;
+    int n = g_02146B70;
+    struct Rec020A816C *t = g_020A816C;
+
+    if (n > 1u) {
+        n++;
+    }
+
+    do {
+        if ((s32)i < (s32)n) {
+            t->unk_08 = 1;
+        } else {
+            t->unk_08 = 0;
+        }
+        if (t->unk_0c != 0) {
+            t->unk_00 = 0;
+            t->unk_04 = 0x10000;
+        } else {
+            t->unk_00 = 0;
+            t->unk_04 = 0x20000;
+        }
+        i++;
+        t++;
+    } while (i < 5);
+}
+
+  permuter best result line:
+    best      DIFF   asm=25    bytes-out=6    size=116/116  unresolved=2
+    (no single mutation improves, 174 tried)
+
+-------------------------------------------------------------------------------
+func_020611D4 (0x020611D4, 80 bytes) -- STILL THE LOOP IF-CONVERSION WALL
+-------------------------------------------------------------------------------
+
+Re-measured in this lane and UNCHANGED at 22 concrete bytes, size-exact at 80.
+The note above this section, and docs/notes/func_020611D4.c.txt, between them
+record some eighteen spellings of the search loop; nothing here adds to that
+list, and the two new things this lane can say are both negative:
+
+  * IT IS NOT A FRONT-END QUESTION.  The same source measured across all three
+    available front ends: 1.1p1 is 80 bytes / 22 out (size-exact), ../2.0/sp2
+    is 76 bytes / 56 out, ../1.2/sp2 is 84 bytes / 63 out.  1.1p1 is right and
+    the other two are worse, so the pin that closed this cluster's two
+    neighbours does not apply here.
+  * THE PERMUTER CANNOT MOVE IT AT ALL.  `--explain` reports asm=415,
+    bytes-out=22; `--mode hill --budget 800 --types` exhausts 125 single
+    mutations with no improvement, and `--mode anneal --budget 2000 --jobs 8
+    --types` runs the full budget without ever beating the baseline.  A residue
+    that is flat to the whole mutation set is not an allocation tie, which is
+    what the permuter reaches; it is a control-flow shape the front end chooses
+    and no value-preserving rewrite of this function reaches.
+
+So the earlier reading stands and is now bounded: the missing lever is the
+source construct mwccarm if-converts a search loop's update into, the idiom
+index still has no entry for loop if-conversion, and this function has now
+absorbed three lanes' worth of spellings.  Recommend leaving it until an
+if-converted loop turns up somewhere a smaller function makes the construct
+legible.
+
+  /* best source, 80 bytes against 80, 22 concrete bytes out, dsi/1.1p1 */
+  (unchanged from docs/notes/func_020611D4.c.txt -- see that file)
+
+  permuter best result line:
+    best      DIFF   asm=415   bytes-out=22   size=80/80
+    (no single mutation improves, 125 tried; anneal 2000 flat)
+
+-------------------------------------------------------------------------------
+func_020614D4 (0x020614D4, 348 bytes + 28 bytes of pool = 376 extent) -- OPEN
+-------------------------------------------------------------------------------
+
+Newly attempted in this lane; no previous note exists for it.  Reached
+size-exact at 348 on the first compile and 258 concrete bytes out after the
+structural corrections below, which is real progress on a function nothing had
+touched, but it did not close and is left here rather than parked.
+
+WHAT IT IS.  The multi-cell renderer's OTHER allocator, over the descriptor
+bank rather than over the flat arena: `size` is rounded up to 16 bytes (zero
+meaning 16) and refused at or above 0x7FFF0, then
+
+  * `which != 0` walks the TWO-entry table at 0x020A8158.  For each live
+    descriptor with room, it dispatches on that descriptor's halfword kind at
+    +0x10 (`ldrh r5, [lr, #0x10]`, cases 0 and 3 against a null default) to
+    pick a SECOND descriptor -- g_020A819C for kind 0, g_020A8184 for kind 3 --
+    and requires the second to have room for HALF the request (`cmp r5, r3,
+    lsr #1`).  On success it bumps the first descriptor's +0x00 by the full
+    size and the second's by half, and returns the first's base plus the old
+    cursor.  This is a PAIRED ALLOCATION: a main block and a half-size
+    companion, which is what a 4bpp/8bpp character-plus-attribute pair looks
+    like.
+  * `which == 0` walks the FIVE-entry table at 0x020A8150 and allocates
+    downward from +0x04, one descriptor, no companion.
+  * the result is packed exactly like func_020616CC's, plus the `which` bit:
+    `orr r0, r0, r1, lsl #31` puts the table selector in bit 31.
+
+STRUCTURAL FACTS ALREADY PINNED by the byte comparison (these are worth keeping
+even though the function is open, because they took the pass):
+
+  1. +0x10 is a HALFWORD (`ldrh`), not a word.  Declared `u32` the dispatch
+     compiles as `lsl #0x10 / lsrs #0x10`, four extra instructions.
+  2. The two second-stage descriptors are hoisted OUT of the loop: the image
+     loads g_020A8184 into r8 and g_020A819C into sb BEFORE the loop head at
+     0x02061514, alongside the table pointer in r0.  Reading them inside the
+     arms costs two pool loads per iteration.
+  3. The null default arm's pointer is the LOOP COUNTER'S ZERO (`mov ip, r7`
+     where r7 was set by `mov r7, r4` from the counter's `mov r4, #0`), the
+     same derive-the-second-zero-from-the-first shape as func_0206164C above.
+  4. Both success paths assign the ok flag BEFORE the stores (`mov r0, #1` at
+     0x02061580 precedes the two `str`s), not after.
+
+THE RESIDUE, 258 bytes, is the kind dispatch.  The image is a chain of real
+branches to three separate one-instruction blocks:
+
+    ldrh  r5, [lr, #0x10]
+    cmp   r5, #0
+    beq   0206154C          -> mov ip, sb ; b 02061560
+    cmp   r5, #3
+    beq   02061554          -> mov ip, r8 ; b 02061560
+    b     0206155C          -> mov ip, r7 ; (fall through)
+
+Every spelling compiled here instead predicates the select (`moveq lr, r6 /
+beq / mov lr, r5 / cmp / movne lr, r2`), which is shorter and reshuffles every
+register after it: if/else-if/else on a `u16` local, the same on a `u32` local,
+`switch` with `case 0 / case 3 / default` on both types (both 360 bytes, 248
+out -- closest by bytes but 16 bytes long).  The permuter's hill mode from the
+344-byte baseline reaches 376/376 at 274 bytes out via volatile-add(ok),
+decl-order(ok<->i) and hoist-down(ok,+3), i.e. it fixes the extent by spending
+bytes elsewhere and does not touch the dispatch.
+
+This is the same class of wall as func_020611D4 in this packet -- a branch
+chain the compiler wants to if-convert -- and is probably the same missing
+idiom.  A three-way select whose arms are all register moves is the legible
+case of it, so this function may be the better place to crack it.
+
+  /* best source, 344 bytes against 376 (348 code + 28 pool), 258 concrete
+     bytes out, dsi/1.1p1 */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Slot {
+    u32 cur;      /* 0x00 */
+    u32 end;      /* 0x04 */
+    u32 enable;   /* 0x08 */
+    u32 unk_0c;
+    u16 kind;     /* 0x10 */
+    u16 pad_12;
+    u32 base;     /* 0x14 */
+};
+
+extern struct Slot *g_020A8150[5];
+extern struct Slot *g_020A8158[2];
+extern struct Slot *g_020A8184;
+extern struct Slot *g_020A819C;
+
+u32 func_020614D4(u32 size, u32 which)
+{
+    u32 n;
+    int i;
+    struct Slot *a;
+    struct Slot *b;
+    struct Slot *nil;
+    u32 addr;
+    u32 ok;
+
+    if (size == 0)
+        n = 0x10;
+    else
+        n = (size + 0xf) & ~0xfu;
+    if (n >= 0x7fff0u)
+        return 0;
+
+    if (which != 0) {
+        struct Slot *p84 = g_020A8184;
+        struct Slot *p9c = g_020A819C;
+        i = 0;
+        nil = (struct Slot *)i;
+        for (; i < 2; i++) {
+            a = g_020A8158[i];
+            if (a->enable == 0)
+                continue;
+            if (a->end - a->cur < n)
+                continue;
+            if (a->kind == 0)
+                b = p9c;
+            else if (a->kind == 3)
+                b = p84;
+            else
+                b = nil;
+            if (b->enable == 0)
+                continue;
+            if (b->end - b->cur < (n >> 1))
+                continue;
+            {
+                u32 base = a->cur;
+                ok = 1;
+                a->cur = base + n;
+                b->cur = b->cur + (n >> 1);
+                addr = base + a->base;
+                goto done;
+            }
+        }
+        ok = 0;
+    } else {
+        i = 0;
+        for (; i < 5; i++) {
+            struct Slot *c = g_020A8150[i];
+            if (c->enable == 0)
+                continue;
+            if (c->end - c->cur < n)
+                continue;
+            {
+                u32 e = c->end - n;
+                ok = 1;
+                c->end = e;
+                addr = e + c->base;
+                goto done;
+            }
+        }
+        ok = 0;
+    }
+done:
+    if (ok == 0)
+        return 0;
+    return ((addr << 13) >> 16) | ((n >> 4) << 16) | (which << 31);
+}
+
+  permuter best result line:
+    best      DIFF   asm=3025  bytes-out=274  size=376/376  unresolved=4
+    mutations volatile-add(ok) ; decl-order(ok<->i) ; hoist-down(ok,+3)
+
+NOTE ON THE EXTENT.  match.py reports the listing extent as 376 bytes, not 348:
+the 28 bytes after 0x02061630 are this function's literal pool (five words) AND
+the eight-byte func_02061644 stub, which is already its own EXACT entry.  A
+future attempt should expect 348 code bytes and read the 376 as code + pool.
+
+-------------------------------------------------------------------------------
+CONSEQUENCE FOR OTHER PACKETS
+-------------------------------------------------------------------------------
+
+src/pending/func_02051AA0.c in pkt_02051A54 was parked at MATCH because its
+`bl` at +0x08 needed a manifest entry for 0x020616CC.  That entry now exists
+(src/matched/func_020616CC.c, EXACT), so that file should re-verify to EXACT
+without any change to its own C.  This lane did not touch it, since it is
+another packet's address.

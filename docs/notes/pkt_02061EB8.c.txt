@@ -134,3 +134,185 @@ fail:
     return 0;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 308 bytes against 320, 221 concrete bytes out, 1.1p1
+
+
+================================================================================
+APPENDED 2026-09-22 -- wave 7, pseudo-family pkt_02061D0C
+================================================================================
+
+The 12-byte SIZE gap recorded above is closed.  Two changes did it, and both
+are independent of the compiler:
+
+  1. ../2.0/sp2, not dsi/1.1p1.  This cluster is split between the two front
+     ends (see docs/families/cluster_02061D0C.h): 1.1p1 compiles this body to
+     296 bytes, 2.0/sp2 to 332 with the ORIGINAL unlink block and to exactly
+     320 with change 2.  The permuter's --explain scores the two baselines
+     asm=2975 (1.1p1) against asm=1295 (2.0/sp2), i.e. 2.0/sp2 is not a
+     marginal preference here, it is the right front end by a factor of two.
+
+  2. The target-unlink block reads target->prev and target->next into two
+     named locals BEFORE testing either.  Written as the original note had it
+     (`if (target->prev != 0) target->prev->next = target->next;` etc.) the
+     compiler reloads the fields between the tests and spends 12 bytes.  The
+     image loads both once:  `ldr r4,[r6,#8]; ldr r3,[r6,#0xc]; cmp r4,#0;
+     strne r3,[r4,#0xc]; streq r3,[r0]; cmp r3,#0; strne r4,[r3,#8]`.
+     This is docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md
+     seen from the other side.
+
+With both, the function is SIZE-EXACT at 320/320 and every instruction is the
+right instruction in the right place.  What is left is a pure
+register-allocation residue, the permuter's own target class, and the permuter
+does not close it:
+
+  --explain on the size-exact source (--cc ../2.0/sp2 --arm):
+      baseline  DIFF   asm=580   bytes-out=137  size=320/320
+      register substitutions (image -> compiled), by count:
+        r6 -> r4 x6   r7 -> lr x5   r4 -> r6 x4   r3 -> r6 x4
+        sb -> sl x3   ip -> r7 x3   r5 -> r6 x3   lr -> r5 x3
+        r5 -> sb x3   r4 -> r3 x3   sl -> fp x2   r5 -> r7 x2
+        fp -> ip x1   r4 -> r5 x1   r8 -> r5 x1   r4 -> r8 x1
+
+  --mode hill  --budget 800  --jobs 8 --types:
+      best DIFF asm=760 bytes-out=97 size=320/320
+      mutations expand(tp x2) ; expand(align_minus_1 x2) ;
+                copy(align_mask->align_mask_@12)
+      -- but that point PUSHES ONLY EIGHT REGISTERS where the image pushes
+         ten, so it is off the path however good its byte count looks.
+
+  --mode anneal --budget 2000 --jobs 8 --types (2000 compiles, 99s):
+      best DIFF asm=2315 bytes-out=77 size=320/320
+      26 stacked mutations, stalled for the last 500 compiles, and the point
+      is not back-portable to readable C.
+
+A general reshuffle of sixteen distinct register pairs is not one swapped pair
+and the brief's own reading applies: a residue the permuter cannot move is
+usually in the declarations or in the reading of the image.  The one concrete
+lead left, and the thing the next agent should look at FIRST, is at +0x0018:
+
+      image      sub ip, sb, #1 ; mvn r8, ip ; mov fp, r6 ; cmp sb, #1
+                 ldrls lr,[r7] ; movls r5, fp ; movls r4, r3 ; bls
+      compiled   sub r7, sl, #1 ; mvn r8, r7 ; mov ip, r4  ; cmp sl, #1
+                 bhi ... ; mov sb, ip ; mov r6, r3 ; ldr r5,[lr] ; b
+
+The image PREDICATES the `alignment <= 1` arm and my compile BRANCHES around
+it -- same instruction count, but the branch form is what forces the different
+colouring.  `mov fp, r6` in the image is the repeated-zero idiom
+(docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md) and
+the compile does it too, into ip rather than fp.  Whatever makes 2.0/sp2
+predicate that arm rather than branch it is very likely the whole fix.
+
+/* best source, 320 bytes against 320, 137 concrete bytes out, ../2.0/sp2 */
+
+typedef unsigned int u32;
+
+struct Block {
+    u32 addr;
+    u32 size;
+    struct Block *prev;
+    struct Block *next;
+};
+
+int func_02061EB8(struct Block **pBlocks, struct Block **pPool, u32 *pOut, u32 size, u32 alignment)
+{
+    struct Block *curr;
+    struct Block *target;
+    u32 aligned_addr;
+    u32 padding;
+    u32 needed;
+    u32 align_minus_1;
+    u32 align_mask;
+
+    curr = *pBlocks;
+    target = 0;
+    if (curr == 0) {
+        goto fail;
+    }
+
+    align_minus_1 = alignment - 1;
+    align_mask = ~align_minus_1;
+
+    while (1) {
+        if (alignment <= 1) {
+            aligned_addr = curr->addr;
+            padding = 0;
+            needed = size;
+        } else {
+            padding = curr->addr;
+            needed = padding + align_minus_1;
+            aligned_addr = needed & align_mask;
+            padding = aligned_addr - padding;
+            needed = size + padding;
+        }
+
+        if (curr->size >= needed) {
+            target = curr;
+            break;
+        }
+
+        curr = curr->next;
+        if (curr == 0) {
+            break;
+        }
+    }
+
+    if (target == 0) {
+        goto fail;
+    }
+
+    if (padding != 0) {
+        struct Block *node = *pPool;
+        if (node != 0) {
+            *pPool = node->next;
+        }
+        if (node == 0) {
+            goto fail;
+        }
+
+        node->addr = target->addr;
+        node->size = padding;
+        node->prev = 0;
+        node->next = 0;
+
+        if (*pBlocks != 0) {
+            (*pBlocks)->prev = node;
+        }
+        node->next = *pBlocks;
+        node->prev = 0;
+        *pBlocks = node;
+    }
+
+    target->size -= needed;
+    target->addr += needed;
+
+    if (target->size == 0) {
+        {
+            struct Block *tp = target->prev;
+            struct Block *tn = target->next;
+            if (tp != 0) {
+                tp->next = tn;
+            } else {
+                *pBlocks = tn;
+            }
+            if (tn != 0) {
+                tn->prev = tp;
+            }
+        }
+
+        if (*pPool != 0) {
+            (*pPool)->prev = target;
+        }
+        target->next = *pPool;
+        target->prev = 0;
+        *pPool = target;
+    }
+
+    *pOut = aligned_addr;
+    return 1;
+
+fail:
+    *pOut = 0;
+    return 0;
+}
+
+permuter best result line:
+  best      DIFF   asm=2315  bytes-out=77   size=320/320   (anneal, 2000 compiles)

@@ -346,3 +346,296 @@ Per the lesson that an immovable residue is in the declarations or in the
 reading of the image, the likely remaining lever is the DECLARED TYPE or the
 field offsets of SRC (f2c/f2e as a pair versus a single u32, or f1c reached
 through a different base), not any further statement shuffling.
+
+================================================================================
+func_02071C14 @ 0x02071C14 (128 B, ARM) -- wave 7, pseudo-family pkt_02071360
+================================================================================
+
+The 0x02071C94 sibling that keeps the f24/f28 vectors: writes the source's
+f18/f1c into the destination's f00/f14, zeroes f04 and f10, and builds the
+f30/f34 pair from the two `smull` chains, each biased by its f2c / f2e
+halfword shifted left 15.
+
+SIZE-EXACT AND TEN BYTES OUT, under BOTH compilers, immovably.
+
+EVERY INSTRUCTION ALIGNS.  The residue is a single callee-saved register pair:
+the image keeps f2c in r5 and f28 in r6, every compile keeps them the other way
+round and then spills the second block's negation into ip.
+
+  * +001C    ldrh r5, [r1, #0x2c]   | ldrh r6, [r1, #0x2c]
+  * +0028    mul lr, ip, r5         | mul lr, ip, r6
+  * +002C    rsb ip, r5, #0         | rsb ip, r6, #0
+  * +003C    ldr r6, [r1, #0x28]    | ldr r5, [r1, #0x28]
+  * +0048    add r4, r4, r5, lsl #15| add r4, r4, r6, lsl #15
+  * +0050    mul r4, r6, r2         | mul r4, r5, r2
+  * +0054    rsb r5, r2, #0         | rsb ip, r2, #0
+  * +005C    add r4, r4, r5, lsl #11| add ip, r4, ip, lsl #11
+  * +0060    smull lr, ip, r2, r4   | smull lr, ip, r2, ip
+
+permuter --explain: r5 -> r6 x4, r6 -> r5 x2, r5 -> ip x2, r4 -> ip x2.
+
+The road in, worth keeping.  The naive spelling (the two chains written as
+straight-line blocks, one after the other) compiles to 124 bytes with a
+`push {r4, lr}` -- FOUR BYTES SHORT and one callee-saved register too narrow,
+80 bytes out.  The image's `push {r4, r5, r6, lr}` says three values stay live
+across both chains, and what produces it is INTERLEAVING the f2e read into the
+first chain: `e = f2c; t = f24 * e; f = f2e; ...` reaches 128/128 immediately
+(50 bytes out).  This is the push-list-width tell read the other way round
+from the usual one: one register too NARROW means values that should be
+long-lived were written as short-lived, not that the compiler is wrong.
+
+permuter.py, AST engine:
+  --cc ../2.0/sp2 --mode hill --budget 800 --jobs 8 --types
+      50 -> 32 -> 19 -> 18 -> 10 over 800 compiles, four `temp` mutations:
+        temp(tmp=(s32) s->f2e) ; temp(tmp1=s->f28 * f) ;
+        temp(tmp2=((0 - e) << 11) - t) ; temp(tmp3=s->f24 * e)
+      a second hill pass from there: no single mutation improves (273 tried)
+  --cc ../2.0/sp2 --mode anneal --budget 2000 --jobs 8 --types
+      2000 compiles in 25s, best unchanged at asm=50 bytes-out=10
+  --cc 1.1p1 --mode hill --budget 800 --jobs 8 --types
+      16 -> 10 via volatile-add(d), then exhausted (275 tried).  BOTH front
+      ends land on the SAME ten bytes, so this is not the cluster's pin.
+
+Hand spellings measured against the 10-byte floor, all inert:
+  - four declaration orders for the eight locals (the stack-order idiom)
+  - f28 hoisted into its own local assigned before the first chain
+  - f28 read late, immediately before its multiply (12 out -- worse)
+  - f28's multiply folded back into the second chain (42 out -- much worse)
+  - f34's `<< 15` term written first, the tell that closed the neighbouring
+    func_02071B2C (18 out on a readable rewrite -- worse than the permuter's)
+
+/* best source, 128 bytes against 128, 10 concrete bytes out, ../2.0/sp2 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+typedef long long      s64;
+
+struct SRC {
+    u8  pad_00[0x18];
+    s32 f18;
+    s32 f1c;
+    u8  pad_20[4];
+    s32 f24;
+    s32 f28;
+    u16 f2c;
+    u16 f2e;
+};
+
+struct DST {
+    s32 f00;
+    s32 f04;
+    u8  pad_08[8];
+    s32 f10;
+    s32 f14;
+    u8  pad_18[0x18];
+    s32 f30;
+    s32 f34;
+};
+
+void func_02071C14(struct DST *d, struct SRC *s)
+{
+  s32 e, f, t;
+  s64 m;
+  s32 tmp, tmp1;
+  int tmp2;
+  s32 tmp3;
+
+  d->f00 = s->f18;
+  d->f14 = s->f1c;
+  d->f04 = 0;
+  e = (s32) s->f2c;
+  tmp3 = s->f24 * e;
+  tmp = (s32) s->f2e;
+  t = tmp3;
+  tmp2 = ((0 - e) << 11) - t;
+  f = tmp;
+  t = tmp2;
+  m = ((s64) s->f18) * t;
+  tmp1 = s->f28 * f;
+  d->f30 = ((s32) (m >> 8)) + (e << 15);
+  t = tmp1;
+  t = t + ((0 - f) << 11);
+  m = ((s64) s->f1c) * t;
+  d->f34 = ((s32) (m >> 8)) + (((s32) s->f2e) << 15);
+  d->f10 = 0;
+}
+
+Remaining lever, per the rule that an immovable residue lives in the
+declarations or in the reading of the image: the SRC layout itself.  f24/f28
+may not be a plain (s32, s32) pair -- f2c/f2e read as a u32 at +0x2c, or f24
+reached through a second base pointer, would change which value the allocator
+sees as long-lived, which is what the r5/r6 tie is about.
+
+================================================================================
+func_02071A24 @ 0x02071A24 (264 B, ARM) -- wave 7, pseudo-family pkt_02071360
+================================================================================
+
+The largest constructor of the family: func_02071CDC's `smull` quartet AND
+func_02071B2C's f30/f34 rotation chain in one body, which is why it needs the
+widest prologue in the cluster, `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}`.
+
+SIZE-EXACT AND THIRTY BYTES OUT, one contiguous window.
+
+The first 0x88 bytes -- the whole prologue, both func_0207C930 calls, the four
+`smull` of the quartet, the f00/f14/f04 stores and the func_0207C86C call --
+are BYTE-EXACT on the first spelling, taken straight from src/matched/
+func_02071CDC.c.  Every remaining difference lies in +0x90..+0xC8, the fifteen
+instructions that build the f30/f34 pair, and the tail after it is exact again.
+
+What the window says: the image computes the f2c / f24 chain FIRST
+(`ldr fp, [sb, #0x24]` / `mul ip, fp, r1` at +0xB0/+0xB4) and interleaves the
+two `smull` of the f34 term between the two halves of the f30 term.  Every
+compile computes the f2e / f28 chain first and keeps the two terms separate.
+
+Spellings measured (bytes out on the whole function):
+   70  the direct transcription from func_02071CDC + func_02071B2C
+   71  the two chains' roles swapped (f30 <- p*u - q*v, f34 <- r*v + bd*u)
+   69  the f34 term's operands reversed (`bd*u + p*v`)
+   42  permuter hill, two `expand` mutations
+   30  permuter anneal, fifteen mutations (below)
+   69  a readable rewrite of the 30-byte form -- the shape does NOT survive
+       being tidied, which is the finding: the working form needs the f2c
+       cast repeated inline at three separate sites rather than bound once.
+
+permuter.py, AST engine, --cc 1.1p1:
+  --mode hill --budget 800 --jobs 8 --types
+      70 -> 43 -> 42 via expand(v x1) ; expand(e x3), then exhausted (104 tried)
+  --mode anneal --budget 2000 --jobs 8 --types   (from the 42-byte point)
+      42 -> 30 over 1612 compiles, fifteen mutations:
+        temp(tmp=((s32) s->f2e) << 15) ; commute(*) ; temp(tmp1=s->f2c) ;
+        commute(*) ; decl-order(e12<->v) ; use(u) ; temp(tmp2=(s64) s->f18) ;
+        temp(tmp3=((s64) q) * u) ; commute(*) ; reorder(-1) ; use(tmp) ;
+        selfassign(e) ; expand(tmp1 x1) ; temp(tmp4=(s32)(((u32) s->f2c) <<)) ;
+        expand(tmp2 x1)
+  --mode anneal --budget 2000 (again, from the 30-byte point)   no improvement
+  --mode hill   --budget 800  (from the 30-byte point)   no single mutation
+                                                         improves (436 tried)
+About 5,000 compiles in total, plateaued.
+
+/* best source, 264 bytes against 264, 30 concrete bytes out, dsi/1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef short          s16;
+typedef unsigned int   u32;
+typedef int            s32;
+typedef long long      s64;
+
+struct SRC {
+    u8  pad_00[0x18];
+    s32 f18;
+    s32 f1c;
+    s16 f20;
+    s16 f22;
+    s32 f24;
+    s32 f28;
+    u16 f2c;
+    u16 f2e;
+};
+
+struct DST {
+    s32 f00;
+    s32 f04;
+    u8  pad_08[8];
+    s32 f10;
+    s32 f14;
+    u8  pad_18[0x18];
+    s32 f30;
+    s32 f34;
+};
+
+extern void func_0207C930(s32 a, s32 b);
+extern s32  func_0207C86C(void);
+
+void func_02071A24(struct DST *d, struct SRC *s)
+{
+  s32 v, f12, t, p, q, r, bd, e, f, u, e12;
+  s64 m;
+  s32 tmp;
+  u32 tmp1 = s->f2c;
+  s64 tmp2, tmp3;
+  s32 tmp4;
+
+  if (tmp) { }
+  tmp4 = (s32) (((u32) s->f2c) << 12);
+  if (u) { }
+  e12 = tmp4;
+  f12 = (s32) (((u32) s->f2e) << 12);
+  func_0207C930(f12, e12);
+  p = (s32) ((((s64) s->f18) * s->f22) >> 12);
+  tmp2 = (s64) s->f18;
+  q = (s32) ((((s64) s->f18) * s->f20) >> 12);
+  r = (s32) ((((s64) s->f1c) * s->f22) >> 12);
+  bd = (s32) ((((s64) s->f1c) * s->f20) >> 12);
+  d->f00 = p;
+  d->f14 = r;
+  t = func_0207C86C();
+  d->f04 = (bd * t) >> 12;
+  func_0207C930(e12, f12);
+  e = (s32) s->f2c;
+  f = (s32) s->f2e;
+  v = s->f28 * f;
+  v = (f * s->f28) + ((0 - f) << 11);
+  u = s->f24 * ((s32) s->f2c);
+  e = e;
+  tmp3 = ((s64) q) * u;
+  u = ((0 - ((s32) s->f2c)) << 11) - u;
+  m = (((s64) r) * v) - tmp3;
+  d->f30 = ((s32) (m >> 8)) + (((s32) s->f2c) << 15);
+  tmp = ((s32) s->f2e) << 15;
+  m = (((s64) p) * v) + (((s64) bd) * u);
+  d->f34 = tmp + ((s32) (m >> 8));
+  t = func_0207C86C();
+  d->f10 = ((0 - q) * t) >> 12;
+}
+
+(The two dead `if (x) { }` and the `e = e` are permuter scaffolding -- they
+raise a value's use and definition counts, which is the only lever that moved
+this residue at all.  They are kept verbatim because removing any one of them
+costs bytes; a reader should treat them as "these three values must look more
+expensive to the allocator than they are", not as code.)
+
+Remaining lever, per the rule that an immovable residue is in the declarations
+or in the reading of the image: the SRC declaration.  Every other constructor
+in the family reads f24/f28 as a plain (s32, s32) pair, but this is the only
+one that uses BOTH the quartet and the rotation, so it is also the only one
+where f24/f28 are live across the second func_0207C930 call.  A different
+declared width or a second base pointer for the +0x24 pair is the shape that
+has not been tried.
+
+================================================================================
+func_0207163C @ 0x0207163C (512 B, ARM) -- wave 7, NOT ATTEMPTED
+================================================================================
+
+Judged oversized after one `show`, per the brief's rule, and left for a lane
+that can give it a whole slot.  Recording the reconnaissance so the next agent
+does not repeat it.
+
+It is not a constructor: it is the SLOT ALLOCATOR that owns the six matrix
+tables the constructors write into.  Shape, from the listing:
+
+  - Two slot indices arrive as bytes, `ldrb r4, [r2, #1]` and
+    `ldrb r0, [r2, #2]` at 0x02071648/0x0207164C, i.e. the second argument is
+    a small byte record, not a word.
+  - The allocator state is one POINTER at 0x02148DB0 whose target carries a
+    bitmask array at +0xC4, indexed `slot >> 5` with bit `1u << (slot & 0x1f)`.
+    All three of `tst`, `orr` (claim) and `mvn`+`and` (release) appear.
+  - Six 0x18-byte-stride tables at 0x02149BB4..0x02149BC8, read at one slot's
+    index and written at the other's, six unrolled `smull ... >> 12` blocks
+    at 0x02071784..0x02071830.  The `mul ip, r0, #0x18` / `mul r3, r4, #0x18`
+    pair is what fixes the stride.
+  - Four calls to func_02082A90 (0x18-byte block copy, the count is always a
+    literal `mov r2, #0x18`).
+  - Flag word bit 2 selects the whole upper path; the exits all `orr #0x18`
+    into the object's flags at +0x00 before returning.
+
+Four exits, three of them `pop {r4, r5, r6, r7, r8, pc}`, so the body is a
+four-way dispatch and not a loop.  The seven trailing pool words at
+0x0207183C..0x02071854 are the eight data addresses above.
+
+The cheap part first, for whoever takes it: the bitmask claim/release helper
+is a two-instruction idiom repeated four times and is almost certainly a
+static inline in the original; getting that shape right is likely to settle
+most of the register allocation in one go.
