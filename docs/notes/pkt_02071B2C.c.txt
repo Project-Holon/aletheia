@@ -248,3 +248,101 @@ breaks one probably breaks both, and they should be taken together.
 
 The other entry point of this packet, 0x02071B2C (232 bytes), was not reached.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02071B2C.c:12: undefined identifier 'pkt_02071B2C'
+
+================================================================================
+func_02071360 @ 0x02071360 (68 B, ARM) -- wave 7, pseudo-family pkt_02071360
+================================================================================
+
+The smallest constructor of the 0x02071C94 / 0x02071CDC family: copies the
+source's f18/f1c pair into the destination's f00/f14 scale slots, zeroes
+f04/f30/f10, and derives f34 from f1c and the f2e halfword.
+
+SIZE-EXACT AND FOUR BYTES OUT, under BOTH compilers, immovably.
+
+The body is settled.  The only residue is a single swapped register pair in the
+f34 term: the image loads f1c into r2 and f2e into r3, then shifts r2 and uses
+r3 as the multiplier; every spelling measured compiles the same seven
+instructions with r2 and r3 exchanged.
+
+  * +001C    ldr r2, [r1, #0x1c]   | ldr r3, [r1, #0x1c]
+  * +0020    ldrh r3, [r1, #0x2e]  | ldrh r2, [r1, #0x2e]
+  * +0024    lsl r1, r2, #1        | lsl r1, r3, #1
+    +0028    rsb r1, r1, #0        | rsb r1, r1, #0      (identical)
+    +002C    add r1, r1, #0x2000   | add r1, r1, #0x2000 (identical)
+  * +0030    mul r1, r3, r1        | mul r1, r2, r1
+
+One real finding on the way in, worth keeping: the `rsb #0` / `add #0x2000`
+PAIR only survives when the negation and the bias are written as two separate
+statements over a named local.  `n = 0x2000 - (s->f1c << 1)` and
+`n = 0 - (s->f1c << 1); n = n + 0x2000;` BOTH constant-fold to a single
+`rsb r1, r1, #0x2000`, giving 64 bytes against the original's 68 (a SIZE
+verdict, 20 bytes out).  Only the three-statement form
+`n = (s->f1c << 1); n = -n; n += 0x2000;` keeps both instructions and reaches
+68/68.
+
+Spellings measured against the 4-byte residue, all identical in score:
+  - the three-statement form above (the baseline below)
+  - `d->f34 = n * s->f2e * 8` instead of `s->f2e * n * 8`  -- WORSE, 11 out
+    (the commutative-operand-order idiom points the wrong way here)
+  - a named `s32 h = s->f2e` hoisted between the shift and the negation
+  - the same local declared BEFORE `n` rather than after (stack-order tell)
+  - a named `s32 m = s->f1c` feeding the shift (splitting the re-read)
+  - both compilers: dsi/1.1p1 and ../2.0/sp2 give the SAME four bytes out,
+    so this is not the cluster's compiler pin.
+
+permuter.py, AST engine, over the baseline:
+  --explain    DIFF  asm=20  bytes-out=4  size=68/68
+               register substitutions (image -> compiled): r2 -> r3 x2,
+               r3 -> r2 x2   (one swapped pair, nothing else)
+  --mode hill --budget 800 --jobs 8 --types
+               no single mutation improves (120 tried)
+  --mode anneal --budget 2000 --jobs 8 --types
+               2000 compiles in 77s, best unchanged at asm=20 bytes-out=4
+
+/* best source, 68 bytes against 68, 4 concrete bytes out, ../2.0/sp2 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef int            s32;
+
+struct SRC {
+    u8  pad_00[0x18];
+    s32 f18;
+    s32 f1c;
+    u8  pad_20[0x0c];
+    u16 f2c;
+    u16 f2e;
+};
+
+struct DST {
+    s32 f00;
+    s32 f04;
+    u8  pad_08[8];
+    s32 f10;
+    s32 f14;
+    u8  pad_18[0x18];
+    s32 f30;
+    s32 f34;
+};
+
+void func_02071360(struct DST *d, struct SRC *s)
+{
+    s32 n;
+
+    d->f00 = s->f18;
+    d->f14 = s->f1c;
+    d->f04 = 0;
+    d->f30 = 0;
+
+    n = (s->f1c << 1);
+    n = -n;
+    n += 0x2000;
+    d->f34 = s->f2e * n * 8;
+
+    d->f10 = 0;
+}
+
+Per the lesson that an immovable residue is in the declarations or in the
+reading of the image, the likely remaining lever is the DECLARED TYPE or the
+field offsets of SRC (f2c/f2e as a pair versus a single u32, or f1c reached
+through a different base), not any further statement shuffling.

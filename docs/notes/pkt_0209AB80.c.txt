@@ -13,3 +13,36 @@ the 80 bytes the listing marks, which means the compared range does not cover it
 library-shaped helper and left open rather than parked, so a lane that wants it starts from the
 shape above.
 re-verified 2026-09-21: no recoverable source in this note
+
+==========================================================================
+APPENDED, wave 7 (pseudo-families), cluster pkt_02098B44 lane: re-confirmed
+==========================================================================
+
+Both adjudications above stand, re-read from the image this wave.
+
+0x0209AB80 disassembles as
+    0209AB80  ldr ip, [pc]
+    0209AB84  bx ip
+    0209AB88  .word 0x020979BC
+which is the linker long-branch veneer encoding `match.py` itself recognises as
+evidence class `veneer` (docs/AGENT-BRIEF.md section 5).  A file that needs to
+CALL through it declares an ordinary extern at 0x0209AB80 marked `arm`, per
+docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md; no
+source is ever filed FOR it.  The 8-byte worklist row should be retired, not
+worked.
+
+0x0209C2B8 likewise: see docs/notes/pkt_0209C2B8.c.txt, which reads the whole
+476-byte routine, and docs/notes/unsigned-divide-entry-is-0209c2b0.c.txt, which
+establishes that the entry is 0x0209C2B0 (`_u32_div_f`, misnamed
+`_div_by_zero_check` in layout/runtime_arm9.txt) and that the row the worklist
+calls a function is only the first 80 bytes of that routine, cut at the
+alignment word of its `add pc, pc, r2, lsl #2` jump table.  The right home for
+it is layout/runtime_arm9.txt, which is outside a lane's write set, so it is
+recorded here instead.
+
+Net for the cluster: of pkt_02098B44's six open rows, FOUR are not compiled C
+at all (0x02098B44 and 0x02099224 are home-area pushes belonging to the
+functions labelled 4 bytes later; 0x0209AB80 is a veneer; 0x0209C2B8 is the
+middle of the unsigned divide), and the two that are C are filed EXACT this
+wave.  docs/families/cluster_02098B44.h carries the full adjudication.
+re-verified 2026-09-22 by tools/match.py: no recoverable source in this note

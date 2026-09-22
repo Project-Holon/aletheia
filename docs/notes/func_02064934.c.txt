@@ -67,3 +67,123 @@ Classification: scheduler, same instructions in a rotated order, not
 reachable from the C shape.  Left as a note; not filed, since a 9-byte
 concrete difference is not a MATCH and cannot be parked.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, wave 7 (pseudo-family cluster_020640DC): 9 bytes -> 4, and the
+residue is now TWO SWAPPED LOADS.  Still DIFF, still not filable.
+==============================================================================
+
+The note above is right that this is a scheduler rotation and right that the
+three findings it lists are real.  What it missed is that ONE MORE LOCAL closes
+more than half of it, and that the front end does not matter here at all.
+
+NOT A PIN.  Measured both ways with the note's own body: dsi/1.1p1 gives
+160 bytes / 9 concrete out and ../2.0/sp2 gives 160 bytes / 9 concrete out --
+byte-for-byte the same compile.  The cluster's other five closed rows are all
+pinned to ../2.0/sp2 (see docs/families/cluster_020640DC.h), so this row was
+worth a probe; there is no byte in it that either front end cannot emit, and
+under the project rule no pin may be taken.  The measurements below are under
+the pin only because the rest of the cluster is; 1.1p1 reproduces them.
+
+THE LEVER: `u16 *cnt = p->f00;` DECLARED FIRST, AND `u16 i = 0;` INITIALISED
+AT ITS DECLARATION.
+
+    void func_02064934(S02064934 *p, int arg)
+    {
+        u16 *cnt = p->f00;      /* declared first, never used again */
+        u16 i = 0;              /* initialised HERE, not in the for */
+        char *base = p->f0c;
+
+        if (p->f08 == 1) {
+            for (; i < p->f00[1]; i++) func_02064364(base + i * 0x5c, arg);
+        } else {
+            for (; i < p->f00[0]; i++) func_02064364(*(void **)(base + i * 0x28), arg);
+        }
+        (void)cnt;
+    }
+
+160 bytes, 4 concrete out, both front ends.  The whole residue is now:
+
+    offset     ORIGINAL @ 02064934                | COMPILED
+    * +0014    ldr r0, [r7]                       | ldr r5, [r7, #0xc]
+    * +001C    ldr r5, [r7, #0xc]                 | ldr r0, [r7]
+
+i.e. the two head loads are ISSUED IN THE OTHER ORDER.  Every other byte of
+the function, both loops, both strides, the `popls`, the `mla`/`mul` pair and
+the u16 increment quintet, is identical.
+
+WHY THE DEAD LOCAL WORKS, and why it must stay dead.  The image loads
+`p->f00` at 0x02064948 and `p->f0c` at 0x02064950, but it RE-READS `p->f00`
+inside both loops (0x02064974 and the arm-2 equivalent) while `p->f0c` is
+never re-read.  So `f0c` is a source-level local and `f00` is not -- the note
+above already establishes that.  What `cnt` adds is a DEFINITION POINT for
+the f00 value ahead of base's, without a use that would let the optimiser
+keep it live: the allocator numbers values in creation order, so the extra
+definition pulls f00's load up.  Binding it and USING it in the guards
+instead is what the note could not have known to avoid: it removes the
+per-iteration re-read and the function collapses --
+
+    cnt used in the arm-1 guard only     156 bytes,  99 out
+    cnt used in both guards              148 bytes, 129 out
+
+-- because the count then lives in a register across the call.  Three more
+spellings measured at 160 bytes:
+
+    (void)cnt; at the tail                       4 out   (BEST, above)
+    `if (cnt) {}` after the declarations         4 out   (identical compile)
+    base assigned as a statement, not an init    4 out   (identical compile)
+    `char *base;` declared BEFORE cnt           13 out
+    `u16 *cnt = *(u16 *volatile *)&p->f00;`    164 bytes, 128 out
+    `if (cnt == 0) return;`                    168 bytes, 138 out
+
+PERMUTER: EXHAUSTED, TWICE.  From the 9-out baseline, hill mode tried 118
+single mutations and anneal 2000 candidates over 153s; neither moved it by a
+single byte (`--explain` reports the residue as the one swapped pair
+r0<->r5, which is exactly what the two loads above are).  From the 4-out
+baseline, hill tried 129 singles and anneal 1903 candidates over 132s, and
+neither found anything either.  Per the band
+brief's own lesson -- "a residue the permuter cannot move at all is usually
+in the declarations or in the reading of the image" -- the declarations is
+where the 5 bytes came from, and the last 4 are a genuine scheduler tie
+between two independent loads off the same base with no data dependence
+either way for the C to express.
+
+What would close it: a construct that forces `p->f00` to be READ before
+`p->f0c` without keeping either live.  Everything that creates a dependence
+(volatile, a guard, a use in the loop bound) either reorders more than the
+two loads or kills the re-read the loops need.
+
+/* best source, 160 bytes against 160, 4 concrete bytes out, ../2.0/sp2 */
+permuter best: DIFF   asm=30    bytes-out=4    size=160/160  (hill, 129 singles tried, no single mutation improves; anneal 2000 budget, 1903 candidates in 132s, best stayed 4)
+
+/*
+ * function: func_02064934
+ * address:  0x02064934
+ * packet:   pkt_020640DC
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02064364  0x02064364  arm
+ */
+typedef unsigned short u16;
+extern void func_02064364(void *anim, int arg);
+
+typedef struct { u16 *f00; char pad04[4]; int f08; char *f0c; } S02064934;
+
+void func_02064934(S02064934 *p, int arg)
+{
+    u16 *cnt = p->f00;
+    u16 i = 0;
+    char *base = p->f0c;
+
+    if (p->f08 == 1) {
+        for (; i < p->f00[1]; i++) func_02064364(base + i * 0x5c, arg);
+    } else {
+        for (; i < p->f00[0]; i++) func_02064364(*(void **)(base + i * 0x28), arg);
+    }
+}

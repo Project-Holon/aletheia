@@ -52,3 +52,68 @@ first (it uncaps 0x02098B48 at the same time, if it lands), then 0x0209A524.
 All three bodies are MSL soft-double library C of 181-528 instructions; the
 transcription cost is the real blocker, the evidence is not.
 re-verified 2026-09-21: no recoverable source in this note
+
+==========================================================================
+APPENDED, wave 7 (pseudo-families), cluster pkt_02098B44 lane
+==========================================================================
+
+The two 4-byte rows are CONFIRMED as this note already said, and the
+confirmation is now constructive rather than negative: three functions in this
+same window (unit_0209A0EC.c, unit_0209A390.c, unit_0209AA08.c) are byte-exact
+ONLY when the source file is anchored at the bare `push {r0, r1, r2, r3}` and
+the disasm body label is recorded as the unit's function.  That push is
+mwccarm's home area for a register-passed `double` whose address the body
+takes, which every fdlibm routine does.  So 0x02098B44 and 0x02099224 are not
+"mis-seeded labels" and not stubs either: they are the REAL entry points of
+0x02098B48 (__ieee754_rem_pio2, 1684 B) and 0x02099228 (__kernel_cos, 724 B),
+and the right filing for each is a `unit:` file anchored at the push once the
+body is transcribed.  Both are candidates for layout/function_starts.txt.
+
+Nothing changes about the two giants' gating; this lane did not attempt them.
+
+The cluster as a whole is now written up in docs/families/cluster_02098B44.h:
+it is MSL's double-precision math layer (fdlibm trig kernels plus the IEEE-754
+bit-twiddling primitives) sitting directly on the soft-float runtime.  Two of
+this packet's six open rows were ordinary compiled C and are filed EXACT this
+wave, both under the project default dsi/1.1p1 with no pin:
+
+  0x0209A524  452 B  fdlibm floor()            EXACT   src/matched/func_0209A524.c
+  0x0209A7A8  608 B  MSL ldexp() + scalbn()    EXACT*  src/matched/func_0209A7A8.c
+
+func_0209A524 was EXACT on the first compile once `_dgr` (the name mwccarm
+emits for a soft-double `>` test) was pinned to 0x0209B864 (__dcmp_2) in the
+symbols: block; the body is upstream fdlibm floor() transcribed unchanged,
+identified from the pool by huge = 1.0e300 (0x7E37E43C_8800759C) and the
+0xBFF00000 that the |x|<1, x<0 arm returns.
+
+func_0209A7A8 needed two changes from the upstream transcription, both of them
+general lessons for this library region and both recorded in the family header:
+
+  1.  `if (ok) { ...body... } return x;` compiles 4 bytes SHORT, because the
+      compiler shares the one epilogue; the image duplicates the `return x`
+      epilogue, which is what `if (!ok) return x;` at the top of the function
+      produces.  Size went 608-against-612 correct at that point.
+  2.  With the size right, exactly TWO concrete bytes differed, at +0x006C:
+      image `orrs r0, r1, r0`, compiled `orrs r0, r0, r1`.  That is the
+      commutative-operand-order idiom: the accumulator is the second operand,
+      so the subnormal test is spelled `(lx | (hx & 0x7fffffff)) == 0` and NOT
+      the `((hx & 0x7fffffff) | lx) == 0` upstream fdlibm writes.  Swapping the
+      two operands took it straight to all-bytes-correct.  Anyone transcribing
+      another fdlibm routine into this window from the public source will hit
+      this same byte pair.
+
+EXACT* on 0x0209A7A8 is an extent artefact only: the printed extent 612 runs
+4 bytes past the compiled 608 because the NEXT function's home-area push at
+0x0209AA08 (sin's, already covered by src/matched/unit_0209AA08.c) has no label
+of its own.  All 608 compared bytes match and all 12 relocations resolve.
+
+The soft-float helper names mwccarm emits, for the next lane's symbols: block
+(all ARM, all resolving as class `label` from the rest of the image):
+  _dadd 0x0209AC04   _dsub 0x0209AF34   _dmul 0x0209B2E8
+  _dgr  0x0209B864 (__dcmp_2, the `>` test)
+  _deq  0x0209BA3C (__dcmp_5, the `==` test)
+  _d2s  0x0209C508   _d2u  0x0209C554
+Plus func_020921F4, an __fpclassify(double) that ldexp() calls first: it
+returns a small class code and `> 2` is its finite test.
+re-verified 2026-09-22 by tools/match.py: func_0209A524 EXACT, func_0209A7A8
+EXACT*, both --arm --cc 1.1p1.

@@ -1,24 +1,19 @@
 /*
  * function: func_02062114
  * address:  0x02062114
- * packet:   pkt_02062114
+ * packet:   pkt_02061D0C
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  *
- * Blocked at MATCH on the `label`/`matched` classes: the body is byte-correct
- * and four of the six relocation sites resolve, but func_02062270 (the PC24 at
- * +0x0018) and func_0206216C (the ABS32 at +0x0048) each have exactly one
- * reference image-wide and it is inside this function, so neither has an
- * outside witness.  0x0206216C is itself a target of this lane's packet
- * pkt_02062114, so filing it EXACT resolves that one site; 0x02062270 is
- * outside the lane's slice and must be filed by whoever owns it before this
- * file can move to src/matched.  There is no cut that frees 0x02062270: the
- * call is inside this single function section.
+ * Closed 2026-09-22 (wave 7, pseudo-family pkt_02061D0C).  The two sites that
+ * blocked it are both resolved now: func_0206216C was filed EXACT this lane
+ * (../2.0/sp2) and the PC24 to func_02062270 carries on sole-ref/code, the
+ * class widened 2026-09-21.  The two callback globals 0x020A8140 / 0x020A8144
+ * were simply missing from the symbols: block and resolve as literal x20 each.
  *
  * Register-argument save hook: park r0-r3 in the 0x02146B94 block, run the
  * real body func_02062270 (which is handed the same four values), and when
@@ -32,6 +27,8 @@
  *
  * symbols:
  *   g_02146B94   0x02146B94  data
+ *   g_020A8140   0x020A8140  data
+ *   g_020A8144   0x020A8144  data
  *   func_02062270   0x02062270  arm
  *   func_0206216C   0x0206216C  arm
  *   func_020621FC   0x020621FC  arm

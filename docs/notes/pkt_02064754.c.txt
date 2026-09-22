@@ -84,3 +84,189 @@ the `bne`.  Everything tried below CSEs them:
   - `for (i = 0; ...)` in place of the do/while preamble in each arm
 
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, wave 7 (pseudo-family cluster_020640DC): 55 -> 70 out but the
+STRUCTURE is now right, and the note's one-instruction CSE diagnosis was
+only half the story.  The other half was a DUPLICATED TAIL WRITTEN AS A
+RETURN.  Still DIFF, still not filable.
+==============================================================================
+
+The note above is correct that the a4 respill needs `void *volatile a4` plus an
+explicit self-assignment, correct that both arms' index zeros are CSE'd, and
+correct that a probe of ../2.0/sp2 does not close the row.  Two corrections and
+one new finding.
+
+CORRECTION 1: THE PIN IS STILL RIGHT FOR THIS ROW, it just does not close it.
+The note declined the pin on the ground that "there is no byte in this function
+that 1.1p1 cannot emit".  That reasoning stands for the CSE, but the two front
+ends are NOT equivalent here: with the body below, 1.1p1 gives 360 bytes / 262
+concrete out and ../2.0/sp2 gives 360 / 204, and at the size-exact point the
+gap is wider still.  The cluster pins ../2.0/sp2 on every non-leaf row
+(docs/families/cluster_020640DC.h), so the measurements below are under the pin
+and a future attempt should start there.  The note's "356 bytes, 42 concrete
+out" probe was measured against the note's own body, which -- see correction 2
+-- was four bytes long for an unrelated reason.
+
+CORRECTION 2 (THE NEW FINDING): THE SECOND ARM MUST FALL THROUGH INTO THE
+FIRST COPY OF THE DUPLICATED TAIL, NOT RETURN.
+
+The note records that the image WRITES THE FOUR-CALL TAIL OUT TWICE, at
+0x02064868..0x02064888 and again at 0x0206488C..0x020648AC, and that both
+copies reproduce.  What it does not record is HOW the two copies are reached,
+and that is where four of its bytes went:
+
+    arm 1 (kind == 1)   `beq #0x206488c`  -- jumps to the SECOND copy
+    arm 2 (otherwise)   falls off its loop into the FIRST copy at 0x02064868,
+                        which then FALLS THROUGH into the second copy
+
+There is exactly ONE `pop` in the function, at 0x020648B0.  Writing arm 2's
+tail as a block that ends in `return` -- which is the natural C and what the
+note's body does -- gives arm 2 its own `pop` and costs 8 bytes (360 against
+352).  Deleting that `return` so the second arm's tail falls through into the
+shared one takes the row straight from 360/204 to 356/201.  The remaining 4
+are the a4 respill store landing above the `cmp` instead of below it.
+
+PERMUTER: SIZE-EXACT, AND IT FOUND THE DECLARATION ORDER.  This is the first
+row in this packet where the permuter earned its keep.  From the 356/201
+baseline, hill mode (800 budget, --types) reached 352 bytes / 98 concrete out
+with three mutations:
+
+    decl-order(n <-> j) ; volatile-add(kind) ; decl-order(n <-> cells)
+
+i.e. the four locals want the order `n, j, i, cells`, not source order, and
+`kind` wants a memory home.  Anneal from there (2000 candidates, 115s) reached
+352 / 70 with `temp(tmp = (u16)(i + 1))` -- the arm-1 increment lifted into its
+own named local -- plus `volatile-drop(kind)`.  A second anneal from the 70-out
+point (2000 candidates, 157s) did not improve it.  That body is appended below
+as the best source.
+
+WHAT IS LEFT, 70 bytes, in two pieces:
+
+  a. THE HEAD, 5 instructions.  The image reads the SIXTH stack argument
+     (`kind`, [sp,#0x2c]) FIRST and the fifth (`a4`, [sp,#0x28]) second, and
+     posts the a4 respill store BELOW the `cmp r4, #1`:
+
+         ldr r4, [sp, #0x2c]   |  ldr r5, [sp, #0x28]
+         mov sl, r0            |  ldr r4, [sp, #0x2c]
+         ldr r0, [sp, #0x28]   |  mov sl, r0
+         ...                   |  ...
+         cmp r4, #1            |  str r5, [sp, #0x28]
+         str r0, [sp, #0x28]   |  cmp r4, #1
+
+     Four spellings measured against this, all worse or neutral: `volatile int
+     kind` (352/71), reading `kind` into a local before the self-assign and
+     branching on the local with a goto (356/201, back to the long shape), the
+     self-assign moved inside each arm (364/206), and the self-assign moved
+     into arm 1 only (356/210).
+  b. THE REGISTER CYCLE it causes, r4->r5->r6->r4 with sb->sl, which is the
+     note's own class 3 and follows from (a): one instruction of offset at the
+     head rotates the whole callee-saved allocation through both arms.
+
+So the row has moved from "one CSE, unreachable from C" to "one LOAD ORDER at
+the head, unreachable from C" -- a smaller and much better-localised target,
+at the original's exact size, with all eleven relocation sites resolving.
+
+WHAT WOULD CLOSE IT: a spelling that makes the sixth stack argument's load
+precede the fifth's while the fifth still gets its respill store after the
+compare.  Note this is the SAME SHAPE as the residue now blocking
+func_02064934 in this cluster (two independent loads issued in the other
+order, docs/notes/func_02064934.c.txt), and a construct that closes one is
+likely to close both.
+
+/* best source, 352 bytes against 352, 70 concrete bytes out, ../2.0/sp2 */
+permuter best: DIFF   asm=1150  bytes-out=70   size=352/352  (hill 800 -> 352/98 via decl-order(n<->j);volatile-add(kind);decl-order(n<->cells), then anneal 2000 -> 352/70 via temp(tmp=(u16)(i+1));volatile-drop(kind); second anneal 2000 did not improve)
+
+/*
+ * function: func_02064754
+ * address:  0x02064754
+ * packet:   pkt_020640DC
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02064648  0x02064648  arm
+ *   func_020648E0  0x020648E0  arm
+ *   func_020627D8  0x020627D8  arm
+ *   func_0206428C  0x0206428C  arm
+ *   func_02064178  0x02064178  arm
+ *   func_02062F38  0x02062F38  arm
+ *   func_02064140  0x02064140  arm
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u16 func_02064648(void *bank);
+extern u16 func_020648E0(void *bank);
+extern void *func_020627D8(void *set, u32 idx);
+extern void func_0206428C(char *cell, void *row, int a2);
+extern void func_02064178(char *hdr, int v);
+extern void func_02062F38(char *self);
+extern void func_02064140(char *p, int v);
+void func_02064754(char *o, void *bank, void *set, int a3, void * volatile a4, int kind)
+{
+  u16 n;
+  u16 j;
+  u16 i;
+  char *cells;
+  u16 tmp;
+  a4 = (void *) a4;
+  if (kind == 1)
+  {
+    *((int *) (o + 0x3c)) = 1;
+    *((void **) (o + 0x38)) = set;
+    *((void **) (o + 0x40)) = bank;
+    n = func_02064648(a4);
+    cells = *((char **) (o + 0x40));
+    i = 0;
+    tmp = (u16) (i + 1);
+    if (n != 0)
+    {
+      do
+      {
+        char *cell = cells + (i * 0x5c);
+        func_0206428C(cell, func_020627D8(set, 0), a3);
+        *((int *) (cell + 0x58)) = 1;
+        i = tmp;
+      }
+      while (n > i);
+    }
+  }
+  else
+  {
+    char *base;
+    n = func_020648E0(bank);
+    base = ((char *) bank) + (n * 0x28);
+    *((int *) (o + 0x3c)) = 0;
+    *((int *) (o + 0x34)) = 0;
+    *((void **) (o + 0x38)) = set;
+    *((void **) (o + 0x40)) = bank;
+    j = 0;
+    if (n != 0)
+    {
+      do
+      {
+        char *hdr = ((char *) bank) + (j * 0x28);
+        char *cell = base + (j * 0x58);
+        func_02064178(hdr, 1);
+        *((char **) hdr) = cell;
+        func_0206428C(cell, func_020627D8(set, 0), a3);
+        j = (u16) (j + 1);
+      }
+      while (n > j);
+    }
+    func_02062F38(o);
+    *((void **) (o + 0x44)) = a4;
+    func_02064140(o + 0x48, 1);
+    *((u16 *) (o + 0x30)) = 0;
+  }
+  func_02062F38(o);
+  *((void **) (o + 0x44)) = a4;
+  func_02064140(o + 0x48, 1);
+  *((u16 *) (o + 0x30)) = 0;
+}
+
+

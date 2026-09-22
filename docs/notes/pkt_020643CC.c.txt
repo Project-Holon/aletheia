@@ -281,3 +281,256 @@ void func_020643CC(struct Root *root, struct MultiCellData *d, u32 total)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 620 bytes against 636, 537 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, wave 7 (pseudo-family cluster_020640DC): THE PROC HYPOTHESIS WAS
+WRONG.  It is the COMPILER.  636 bytes exactly, 39 -> 31 concrete out, and
+the whole residue is now a THREE-CYCLE OF CALLEE-SAVED REGISTERS.
+==============================================================================
+
+READ THIS BEFORE THE NOTE ABOVE.  The note's closing advice -- "pick the proc
+by the epilogue and the layout together, try -proc arm9tdmi with the epilogue
+spelled as an early return" -- is a dead end, and the reason it looked
+promising is worth recording so nobody spends another pass on it.
+
+WHAT ACTUALLY HAPPENED.  The note's OWN BODY, unchanged, character for
+character, compiled under `--cc ../2.0/sp2` with the PINNED `-proc arm946e`:
+
+    dsi/1.1p1,   -proc arm946e   620 bytes, 537 concrete out, 11 reloc sites
+    ../2.0/sp2,  -proc arm946e   636 bytes,  39 concrete out, 13 reloc sites
+                                 ^^^^^^^^^   ^^                ^^
+
+636 is the original's exact size, 13 is the original's exact relocation-site
+count, and the epilogue is the image's single `popls {...pc}`.  No proc
+change, no source change.  The note measured 636 bytes under arm9tdmi and
+read that as "the frame size and branch displacements name arm9tdmi" -- but
+arm9tdmi reached the right SIZE by a different route (it splits the
+conditional return into `popls {...lr}; bxls lr`, which the note itself flags
+as the tell that kept arm9tdmi from being the answer) and still had 270 bytes
+wrong.  Two wrongs adding to the right length is what made the proc sweep
+look like a lead.  The front end was the variable all along.
+
+THIS IS THE CLUSTER PIN, and it was already documented one address away.
+`cluster_020640DC` pins ../2.0/sp2 on every non-leaf function it contains
+(docs/families/cluster_020640DC.h; rows in docs/FRONTEND-PINS.md for
+func_02064AB4, func_0206419C, func_0206469C, func_020649D4, func_0206428C and
+func_02064178).  Two of the five residue classes the note names are that pin's
+two standard tells, exactly:
+
+  * CLASS 2, "THE CROSS-JUMP", is the pin's `kept branches` tell.  Under 2.0
+    both arms emit their own `bl func_02064364` and the site count goes 11 ->
+    13, which is precisely the 16 bytes and the 2 relocations the note was
+    missing.  The note's four ruled-out spellings (named local for the then
+    arm's value, ternary for the min, an extra cast, `u32 rem = total % sum;`)
+    were all correct C being measured against the wrong front end.
+  * CLASS 4, "ZERO CONSTANT HOIST", is the pin's `kept constants` tell.  Under
+    2.0 each arm materialises its own loop counter's zero and the hoisted
+    `mov r3, #0` / `mov r4, r3` pair disappears.  Also correct C, also the
+    wrong front end.
+  * CLASS 1 (prologue order) and CLASS 5 (the `ldr r0, [sp]` reload) go away
+    with them: the prologue under the pin is the image's, `mov sl, r1` /
+    `str r0, [sp]` / `str sl, [r0]` / `ldr r0, [r0, #8]`, store before load,
+    kind into r0.  The note's three ruled-out prologue spellings were not
+    needed.
+
+WHAT IS LEFT: CLASS 3, AND ONLY CLASS 3.  Every one of the 39 differing bytes
+is a register rename -- there is not one structural difference, not one
+instruction inserted or deleted, not one wrong operand that is not a register
+name.  `--explain` reads it as a clean three-cycle of the callee-saved set:
+
+    r7 -> r8  x12      r6 -> r7  x9      r8 -> r7  x8      r8 -> r6  x4
+
+ONE MORE C LEVER, worth 8 bytes: DECLARE THE CELL-ANIM POINTER BEFORE THE
+NODE POINTER in the kind==1 arm.  The note's body initialises them in use
+order (`node`, then `idx`, then `ca = &cells[idx]`); splitting `ca` out to a
+bare declaration above `node` and assigning it after `idx` takes the row from
+39 concrete out to 31, at the same 636 bytes:
+
+        struct CellAnim *ca;
+        struct Node *node = (struct Node *)((u8 *)d->nodes + n * 8);
+        u16 idx = (node->unk06 & 0xFF00) >> 8;
+        ca = &cells[idx];
+
+This is docs/idioms/declaration-order-decides-which-register-a-local-gets.md
+on two locals live across a call.  THREE further orderings measured, all at
+636 bytes: the same split applied to arm 2 as well is WORSE (41 out), hoisting
+`sum`/`k` to the arm scope is worse (46 out), splitting `e` out of its
+declaration in arm 1 is neutral (31 out, identical compile), and swapping
+`u16 i;` with `u16 n;` is neutral (39 out from the unsplit base).
+
+PERMUTER: EXHAUSTED FROM BOTH BASELINES.  Hill mode from 39: 364 single
+mutations, none improved it.  Anneal from 39: 1809 candidates over 233s, best
+stayed 39.  Hill mode from the 31-out body: 600-budget, best stayed 31.  The
+cycle is a colouring tie the mutation set cannot reach, which is consistent
+with its being driven by first-definition order across a loop nest four levels
+deep rather than by any one statement.
+
+WHAT WOULD CLOSE IT: something that changes the order in which the two arms'
+four long-lived values (cells/base, the node index, the node pointer, the cell
+anim) are first defined, WITHOUT changing the statement order the rest of the
+function already reproduces byte-for-byte.  The 8 bytes the `ca` split bought
+show the mechanism is live and reachable from the C; the remaining 31 are the
+same mechanism applied to the other three values, in an arm whose loop
+structure makes their definition points harder to move independently.
+
+/* best source, 636 bytes against 636, 31 concrete bytes out, ../2.0/sp2 */
+permuter best: DIFF   asm=155   bytes-out=31   size=636/636  (hill from this body, 600 budget, no single mutation improves; anneal from the 39-out body, 1809 candidates, best stayed 39)
+
+/*
+ * function: func_020643CC
+ * address:  0x020643CC
+ * packet:   pkt_020640DC
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   _u32_div_f          0x0209C2B0  arm
+ *   func_020627D8       0x020627D8  arm
+ *   func_0206434C       0x0206434C  arm
+ *   func_02064364       0x02064364  arm
+ *   func_02063030       0x02063030  arm
+ *   func_020640DC       0x020640DC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+
+struct CellAnim {              /* 0x5C bytes */
+    u8  pad00[0xC];
+    u32 active;                /* +0x0C */
+    u8  pad10[0x48];
+    u32 unk58;                 /* +0x58 */
+};
+
+struct Node {                  /* 8 bytes, d->nodes[n] */
+    u16 unk00;
+    s16 unk02;
+    s16 unk04;
+    u16 unk06;
+};
+
+struct Frame {                 /* 8 bytes, e->frames[k] */
+    u32 unk0;
+    u16 dur;                   /* +0x04 */
+    u16 unk6;
+};
+
+struct Entry {                 /* 0x10 bytes */
+    u16 count;                 /* +0x00 */
+    u16 unk02;
+    u32 unk04;
+    u32 unk08;
+    struct Frame *frames;      /* +0x0C */
+};
+
+struct Rec28 {                 /* 0x28 bytes, root->cells[n] when kind != 1 */
+    struct CellAnim *anim;     /* +0x00 */
+    u32 unk04;
+    u32 unk08;                 /* +0x08 */
+    s16 unk0C;                 /* +0x0C */
+    s16 unk0E;                 /* +0x0E */
+    u8  pad10[0x18];
+};
+
+struct MultiCellData {
+    u16 numNodes;              /* +0x00 */
+    u16 numCellAnims;          /* +0x02 */
+    struct Node *nodes;        /* +0x04 */
+};
+
+struct Root {
+    u32   unk00;               /* +0x00 */
+    u32   unk04;               /* +0x04 */
+    u32   kind;                /* +0x08 */
+    void *cells;               /* +0x0C */
+};
+
+extern void *func_020627D8(u32 set, u32 idx);
+extern void func_0206434C(struct CellAnim *anim, void *data);
+extern void func_02064364(struct CellAnim *anim, u32 value);
+extern u32  func_02063030(struct CellAnim *anim);
+extern void func_020640DC(s16 *dst, s16 x, s16 y);
+extern u32  _u32_div_f(u32 a, u32 b);
+
+void func_020643CC(struct Root *root, struct MultiCellData *d, u32 total)
+{
+    root->unk00 = (u32)d;
+
+    if (root->kind == 1) {
+        struct CellAnim *cells = (struct CellAnim *)root->cells;
+        u16 i;
+        u16 n;
+
+        for (i = 0; i < d->numCellAnims; i++) {
+            cells[i].unk58 = 0;
+        }
+
+        for (n = 0; n < d->numNodes; n++) {
+            struct CellAnim *ca;
+            struct Node *node = (struct Node *)((u8 *)d->nodes + n * 8);
+            u16 idx = (node->unk06 & 0xFF00) >> 8;
+            ca = &cells[idx];
+
+            if (ca->unk58 == 0) {
+                struct Entry *e = (struct Entry *)func_020627D8(root->unk04, node->unk00);
+
+                func_0206434C(ca, e);
+                ca->active = 1;
+                if ((node->unk06 & 0xF) == 1) {
+                    u32 sum = 0;
+                    u32 k;
+
+                    for (k = 0; k < e->count; k++) {
+                        sum += e->frames[k].dur;
+                    }
+                    if (func_02063030(ca) != 0) {
+                        func_02064364(ca, (total % sum) << 12);
+                    } else {
+                        if (total < sum) {
+                            sum = total;
+                        }
+                        func_02064364(ca, sum << 12);
+                    }
+                }
+                ca->unk58 = 1;
+            }
+        }
+    } else {
+        u8 *base = (u8 *)root->cells;
+        u16 m;
+
+        for (m = 0; m < d->numNodes; m++) {
+            struct Node *node = (struct Node *)((u8 *)d->nodes + m * 8);
+            struct CellAnim *ca = (struct CellAnim *)(*(u32 *)(base + m * 0x28));
+            struct Entry *e = (struct Entry *)func_020627D8(root->unk04, node->unk00);
+
+            func_0206434C(ca, e);
+            ca->active = 1;
+            if ((node->unk06 & 0xF) == 1) {
+                u32 sum = 0;
+                u32 k;
+
+                for (k = 0; k < e->count; k++) {
+                    sum += e->frames[k].dur;
+                }
+                if (func_02063030(ca) != 0) {
+                    func_02064364(ca, (total % sum) << 12);
+                } else {
+                    if (total < sum) {
+                        sum = total;
+                    }
+                    func_02064364(ca, sum << 12);
+                }
+            }
+            ((struct Rec28 *)(base + m * 0x28))->unk08 = 1;
+            func_020640DC(&((struct Rec28 *)(base + m * 0x28))->unk0C,
+                          node->unk02, node->unk04);
+        }
+    }
+}
