@@ -178,3 +178,12 @@ permuter best result line (this wave, SDK-inline body):
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 236 bytes against 236, 41
 concrete bytes out, ../1.2/sp2 -proc arm946e (note body, unchanged).
+
+==========================================================================
+WAVE 9 (third lane on pkt_02052F58): CLOSED, EXACT, see src/matched/.
+==========================================================================
+The cluster is the NitroSystem particle library (SPL).  The public
+pret/pokeplatinum decompilation of that library (lib/spl/) compiles byte-exact
+for this row at ../1.2/sp2 -proc arm946e; the matched source's header says
+which upstream function it is and what, if anything, was load-bearing.
+Everything above this line is superseded.

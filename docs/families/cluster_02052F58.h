@@ -347,4 +347,58 @@ extern void func_02053A60(volatile void *inst, void *cfg, const struct VecFx32 *
  *     (docs/notes/pkt_02057C9C.c.txt).
  * ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ *
+ * WAVE 9 (third lane): THIS CLUSTER IS THE NITROSYSTEM PARTICLE LIBRARY
+ * (SPL), AND THE PUBLIC pret/pokeplatinum DECOMPILATION OF IT (lib/spl/src,
+ * lib/spl/include) COMPILES BYTE-EXACT HERE UNCHANGED at ../1.2/sp2
+ * -proc arm946e.  Measured on six rows, five on the first compile:
+ *
+ *   0x02053218  SPLEmitter_Update                   spl_emitter.c  2120 B
+ *   0x02053D30  SPLUtil_SetTexture                  spl_emitter.c   236 B
+ *   0x02054DB8  SPLDraw_Child_DirectionalBillboard  spl_draw.c     1760 B
+ *   0x02055498  SPLDraw_DirectionalBillboard        spl_draw.c     1768 B
+ *   0x020569A4  SPLEmitter_EmitParticles            spl_emit.c     3372 B
+ *   0x02057C9C  SPLAnim_Color                       spl_anim.c      460 B
+ *     (C9C was closed by a hand search before the upstream was found; its
+ *      two "ColLerp" helpers are the upstream's inlined colour lerp.)
+ *
+ * So the upstream struct layouts hold for Black as they are, and they
+ * replace the anonymous names above:
+ *   Obj  = SPLManager   (+0x2c textures, +0x3c miscPolygonAttr,
+ *                         +0x40 renderState.emitter, +0x44 viewMatrix)
+ *   SubB = SPLEmitter   (+0x20 resource, +0x28 position, +0x4c age,
+ *                         +0x72 color, +0x78/7a textureS/T,
+ *                         +0x7c/7e childTextureS/T, +0x84/8a crossAxis1/2)
+ *   SubX = SPLResource  (+0x00 header, +0x14 childResource)
+ *   SubC = SPLResourceHeader (+0x00 SPLResourceFlags, +0x48 misc word 2:
+ *                         loopFrames:8 dbbScale:16 tileS:2 tileT:2
+ *                         scaleAnimDir:3, +0x50/52 polygonX/Y)
+ *   RigS / Ptcl = SPLParticle, RigBf16 = SPLParticle.visibility
+ *   Rig_Hooks  (0x020A7FE4) = sRotationFunctions { RotateY, RotateXYZ }
+ *   Rig_Hooks2 (0x020A7FDC) = sPlaneDrawingFunctions { DrawXYPlane, DrawXZPlane }
+ *   Rig_Verts  (0x020A1B38) = FX_SinCosTable_
+ *   g_02146A8C = gSPLRandomState
+ * Callee addresses used: SPLList_Erase 0x02058300, SPLList_PopFront
+ * 0x02058380, SPLList_PushFront 0x020583CC, SPLRandom_VecFx32 0x02058478,
+ * SPLRandom_VecFx32_XY 0x0205841C, SPLUtil_TiltCoordinates 0x020576D0,
+ * SPLEmitter_ComputeOrthogonalAxes 0x02057830, SPLEmitter_EmitChildren
+ * 0x02056684, SPLAnim_Scale/Color/Alpha/Texture/ChildScale/ChildAlpha
+ * 0x02057E68/0x02057C9C/0x02057BC0/0x02057B5C/0x02057B10/0x02057AB8,
+ * MTX_MultVec33 0x0207B51C, MTX_MultVec43 0x0207BC08, VEC_CrossProduct
+ * 0x0207CAE8, VEC_Normalize 0x0207CCA4, VEC_DotProduct 0x0207CA68,
+ * G3_MultMtx43 0x0207D918, MI_Copy36B 0x02082B60.
+ *
+ * WRITE THE SDK INLINES WITH THEIR REAL PARAMETER LISTS (from
+ * sdk/TwlSDK/include/nitro/gx/g3imm.h and g3.h); the match.py include path
+ * cannot open those headers directly, so the matched files carry them
+ * written out.  On SPLUtil_SetTexture both the enum-typed G3_TexImageParam
+ * and the fx32-typed G3_Scale inline were load-bearing (50 / 57 out without).
+ * Build `one` with --lang c99: the upstream mixes declarations and code.
+ *
+ * The rest of lib/spl (spl_manager.c, spl_behavior.c, spl_list.c,
+ * spl_random.c, the polygon draw rows) lies just past this cluster
+ * (0x02058300.. and the manager above 0x02052F58) and is the obvious next
+ * target for the same method.
+ * ------------------------------------------------------------------ */
+
 #endif /* CLUSTER_02052F58_H */
