@@ -145,11 +145,12 @@ extern u8 *func_02066878(u32 i);
 
 /* Initialise cell `idx`: clear it, then set each of the three channels whose
  * value is not the -1 sentinel, then store the four stacked words at
- * +0x0c..+0x18.  STILL DIFF; see docs/notes/pkt_02066890.c.txt.  The residue
- * is the sentinel: the image materialises `mvn r0, #0` fresh at each of the
- * three guards and compares register-to-register, while 1.1p1 folds
- * `v != 0xffffffff` into `cmn v, #1` (and CSEs the constant off the 0x30 it
- * already holds, `sub r0, r4, #0x31`). */
+ * +0x0c..+0x18.  EXACT, but only under the `../2.0/sp2` PIN: the image
+ * materialises `mvn r0, #0` fresh at each of the three guards and compares
+ * register-to-register, while dsi/1.1p1 folds `v != 0xffffffff` into
+ * `cmn v, #1` (and CSEs the first constant off the 0x30 stride it already
+ * holds, `sub r0, r4, #0x31`), 156 bytes against 164.  See
+ * src/matched/func_02066890.c. */
 extern void func_02066890(u32 idx, u32 a, u32 b, u32 c,
                           u32 d, u32 e, u32 f, u32 g);
 
@@ -166,25 +167,39 @@ extern void func_02066934(struct Cell *cells, u32 n, void *cb);
  * offset are BOTH stack-spilled (sp+4 and sp+0) across the whole body, which
  * a pair of `volatile u32` locals reproduces. */
 extern void func_02066998(void);
+/* NOTE on func_02066998's evidence, corrected 2026-09-22: the `sole-ref/code`
+ * widening of 2026-09-21 resolves its lone call to func_020640D4 even though
+ * the only branch image-wide is inside func_02066998 itself, so the row is no
+ * longer capped at MATCH.  What is left is a dead entry compare both front
+ * ends fold; docs/notes/pkt_02066998.c.txt has the measurements. */
 
 /* The three-entry s32 table func_02066998 indexes with the channel number,
  * `ldr sb, [r5, r7, lsl #2]`. */
 extern const s32 tbl_020A1808[3];       /* 0x020A1808, func_02066998 */
 
 /* Claim the first cell whose `used` is not 1, return its index, or -1.
- * STILL DIFF (docs/notes/pkt_02066AE0.c.txt): byte-for-byte right except
- * that 1.1p1 IF-CONVERTS the five-instruction claim block into
- * `movne`/`mlane`/`movne`/`strne`/`bxne` where the image branches over it
- * with `beq`.  The entry test must be `count > i` on the ZERO counter, not
- * `count != 0`: the image's `bls` is the loop's own unsigned pre-test
- * hoisted (the same lever func_02067998 needed). */
+ * EXACT, but only under the `../2.0/sp2` PIN: dsi/1.1p1 IF-CONVERTS the
+ * five-instruction claim block into `movne`/`mlane`/`movne`/`strne`/`bxne`
+ * where the image branches over it with `beq`, 84 bytes against 88.  Two
+ * source levers are still needed before the pin bites: the entry test is
+ * `count > i` on the ZERO counter, not `count != 0` (the image's `bls` is
+ * the loop's own unsigned pre-test hoisted, the same lever func_02067998
+ * and func_02066998 need), and the claim stores through the INDEX while the
+ * scan walks a cursor, which is what spends the `mla`.  See
+ * src/matched/func_02066AE0.c. */
 extern int func_02066AE0(void);
 
 /* Build a cell: take the accessor's pointer, store the -1 sentinel at +0x24
  * and the two arguments at +0x28 and +0x2c, and RETURN the pointer.  Note
  * this is the only function in the cluster that writes +0x24 with the
  * sentinel rather than a bit mask.  src/matched/func_02066ABC.c declares
- * four parameters and uses only a1 and a2. */
+ * four parameters and uses only a1 and a2.
+ *
+ * It is ALSO the one function that CALLS func_02066878 out of line (`bl
+ * 0x2066878` at 0x02066AC8) rather than inlining the `base + i * 0x30`
+ * shape.  The index argument arrives in r0 and is forwarded untouched, so
+ * the call takes no argument move at all -- which is why the matched source
+ * spells it `func_02066878()` with no arguments and still reproduces. */
 extern int func_02066ABC(int a0, int a1, int a2, int a3);
 
 /* Release cell `idx`: hand it to func_020640B0, then clear the same nine

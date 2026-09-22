@@ -226,3 +226,38 @@ What the pair paid: this function is the single unresolved site of
 src/pending/func_0204C660.c (PC24 at +0x0054), promoted in the same wave to
 src/matched/func_0204C660.c (EXACT, packet pkt_0204C060), C untouched.
 re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header
+
+==============================================================================
+2026-09-22 - pseudo-family wave 7 (cluster_02066740).  func_02066890 CLOSED.
+==============================================================================
+
+FILED as src/matched/func_02066890.c, status EXACT, 164 bytes, five
+relocation sites all resolving (func_020640B0 by `label`, func_020640CC x3 by
+`sole-ref`, g_02148B20 by `literal`), under
+`--cc ../2.0/sp2 -O4,p --arm`.  The DIFF body in the first section above is
+superseded; its residue diagnosis was exactly right and its C is unchanged --
+only the front end was wrong.
+
+THE TELL: the image materialises the -1 sentinel FRESH before each of the
+three guards, `mvn r0, #0` at 0x020668B8, 0x020668D4 and 0x020668F0, and
+compares register-to-register.  dsi/1.1p1 -O4,p folds all three: guards 2 and
+3 become `cmn rN, #1` and guard 1 becomes `sub r0, r4, #0x31`, CSE'd off the
+0x30 stride the function already holds in r4.  156 bytes against 164.
+`../2.0/sp2` keeps all three rematerialisations and is byte-exact.  This is
+the "kept constants" tell, the same pin docs/notes/pkt_02066E30.c.txt takes
+for 0x0206775C and src/matched/func_02066AE0.c takes (in its "kept branches"
+form) the same day.
+
+TEN SENTINEL SPELLINGS measured under dsi/1.1p1, every one folding, so that
+the list in the DIFF header above ("see docs/notes/pkt_020637BC.c.txt for the
+ten spellings already tried") is now closed here too:
+  `v != 0xffffffffu`, `v != ~0u`, `v != (u32)(0 - 1)`, `(s32)v != -1` on
+  signed parameters, `(s32)v != (s32)0xffffffff`, `~v != 0`, a fresh
+  `u32 s = ~0u;` per guard, one shared `u32 s` before all three -- all 156
+  bytes / 80 concrete out, identical output.  A `volatile u32 s` assigned
+  `~0u` before each guard DOES defeat the fold but spills: 196 bytes / 170
+  out, far worse.
+PERMUTER, `--mode hill --budget 800 --jobs 8 --types`: 142 singles tried; the
+best it finds is 164 bytes / 87 out via `type:ret-var(idx)` +
+`type:p(d:u32->u8)`, i.e. it buys the size back with junk type changes and is
+a WORSE point than the 156/80 baseline.  No spelling reaches the tell.

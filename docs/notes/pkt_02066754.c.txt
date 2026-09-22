@@ -56,3 +56,151 @@ void func_02066754(const MtxFx23 *a, const MtxFx23 *b, MtxFx23 *dst)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 260 bytes against 292, 212 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22 - pseudo-family wave 7 (cluster_02066740).  292 bytes, 107 out.
+==============================================================================
+
+From 260 bytes / 212 concrete out (the body above) to SIZE-EXACT 292 bytes /
+107 concrete out.  Three independent levers, all of them measured, none of
+them in the section above.
+
+LEVER 1, THE FRONT END, worth the frame shape.  This is a `../2.0/sp2` row,
+the same pin that CLOSED src/matched/func_02066AE0.c and
+src/matched/func_02066890.c in this cluster on the same day.  The residue the
+section above names -- "mwcc allocates an additional callee-saved register r8
+and pushes six" -- survives the pin, but everything else about the frame
+moves the right way and the size goes exact.  Measured on the best source:
+`--cc ../2.0/sp2` 292 / 107, `--cc 1.1p1` 288 / worse, `--cc ../1.2/sp2`
+288 / 132.
+
+LEVER 2, `const volatile` ON BOTH INPUT MATRICES, worth 24 bytes and the
+whole load schedule.  The image RELOADS `a->m[i][j]` and `b->m[i][j]` at
+every use -- each row is `ldr` / `ldr` / `smull` / `ldr` / `ldr` / `smlal`,
+strictly source order, nothing hoisted.  Without volatile both front ends CSE
+`a->m[0][0]` and `a->m[0][1]` into callee-saved registers across all six
+rows, which is also what creates the register pressure that spends r8.
+Measured: both volatile 284 / 189 (1.1p1), `a` alone 284 / 225, `b` alone
+260 / 223, neither 260 / 212.  BOTH is the one that helps.
+
+LEVER 3, THE ROW SUM IN A NAMED fx64 LOCAL, worth 25 more bytes.  Writing
+
+    s = (fx64)a->m[0][1] * b->m[1][0] + (fx64)a->m[0][0] * b->m[0][0];
+    dst->m[0][0] = (fx32)(s >> FX32_SHIFT);
+
+instead of the one-expression form takes it from 132 to 107 concrete out at
+the same 292 bytes.  ONE shared `s` reused by all six rows and six distinct
+`s0..s5` are byte-identical, so the local is a scheduling barrier, not a
+storage decision.  A separate `fx64 t0` holding the FIRST row's first product
+above the alias guard is worth a further 32 bytes (164 -> 132) and is what
+makes the image's opening `ldr r4,[r0,#4]` / `ldr r3,[r1,#8]` / `mov ip,r2` /
+`smull` / `ldr` / `ldr` / `cmp` / `smlal` sequence come out byte-exact -- the
+first product is computed BEFORE the guard.  Hoisting a second, or all six,
+products the same way is much worse (170 and 361 out).
+
+STATE REACHED: DIFF, 292 bytes against 292, 107 of 292 concrete out, no
+relocation sites, under `--cc ../2.0/sp2 -O4,p --arm`.  Offsets +0x0004 to
++0x0037 -- the frame, the first row's two products, the alias compare, its
+predicated select and the first store -- are BYTE-IDENTICAL.  So is the whole
+copy-back tail from +0x010C (`ldm lr!` / `stm ip!` / `ldm lr` / `stm ip` /
+`add sp`).
+
+WHAT IS LEFT, and it is one thing.  The image's frame is
+`push {r3, r4, r5, r6, r7, lr}` -- four callee-saved registers plus an r3
+alignment pad -- and it keeps each row's 64-bit high half in the callee-saved
+r6, reading it back as `orr r3, r3, r6, lsl #20`.  Every spelling here takes
+FIVE callee-saved (`push {r4, r5, r6, r7, r8, lr}`) and puts the high half in
+the scratch r3, so rows two through six are the same instructions with every
+register renamed and the two `ldr`s of each row swapped.  The only remaining
+concrete difference outside that renaming is `cmp ip, r1` versus `cmp r2, r1`
+at +0x0020: the image compares the SAVED copy of dst (the idiom
+docs/idioms/cmp-operand-order-names-the-temporary.md), and `orig_dst == b`,
+`(MtxFx23 *)(void *)orig_dst == b` and `(const volatile MtxFx23 *)orig_dst
+== b` all fold back to `dst` and leave it at 1 byte.
+
+PERMUTER, under the pin, both modes, converging on the same plateau:
+  `--mode hill --budget 800 --jobs 8 --types` from the 132-byte source:
+     best DIFF asm=1455 bytes-out=126 size=292/292
+       via temp(tmp1=((fx64) a->m[0][1]) * b-) ; commute(*) ; commute(*)
+  `--mode hill --budget 800 --jobs 8 --types` from the 107-byte source:
+     best DIFF asm=1295 bytes-out=101 size=292/292
+       via commute(+) ; temp(tmp1=(fx64) a->m[0][1]) ; split-assign(s)
+  `--mode anneal --budget 2000 --jobs 8 --types` from the 132-byte source
+     (2000 compiles, 253s):
+     best DIFF asm=1025 bytes-out=103 size=292/292 via an 18-mutation chain
+  `--mode anneal --budget 2000 --jobs 8 --types` from the 101-byte source
+     (2000 compiles, 149s):
+     best DIFF asm=1260 bytes-out=92 size=292/292
+     -- the lowest count reached anywhere on this row, 15 better than the
+     clean 107, and still through an unrecoverable mutation chain that never
+     touches the extra callee-saved register.
+The 101 point is six bytes better than the clean source but reaches it by
+lifting `(fx64)a->m[0][1]` into a bare temporary mid-block; it is not a
+recoverable source shape and it does not touch the extra callee-saved
+register, which is the actual residue.
+
+Also measured and rejected: swapping the two products in every row (the
+accumulator idiom) 176 out, worse; `commute` on the `b` operand only, 140;
+per-row distinct sum locals, identical to the shared one.
+
+/* best source, 292 bytes against 292, 107 concrete bytes out, ../2.0/sp2 */
+/*
+ * unit:     no
+ * function: func_02066754
+ * address:  0x02066754
+ * packet:   pkt_02066754
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ */
+
+typedef int fx32;
+typedef long long fx64;
+
+typedef struct MtxFx23 {
+    fx32 m[3][2];
+} MtxFx23;
+
+#define FX32_SHIFT 12
+
+void func_02066754(const volatile MtxFx23 *a, const volatile MtxFx23 *b, MtxFx23 *dst)
+{
+    MtxFx23 tmp;
+    MtxFx23 *orig_dst = dst;
+    fx64 t0;
+    fx64 s;
+
+    t0 = (fx64)a->m[0][1] * b->m[1][0];
+
+    if (dst == b) {
+        dst = &tmp;
+    }
+
+    s = (t0 + (fx64)a->m[0][0] * b->m[0][0]);
+    dst->m[0][0] = (fx32)(s >> FX32_SHIFT);
+    s = ((fx64)a->m[0][1] * b->m[1][1] + (fx64)a->m[0][0] * b->m[0][1]);
+    dst->m[0][1] = (fx32)(s >> FX32_SHIFT);
+    s = ((fx64)a->m[1][1] * b->m[1][0] + (fx64)a->m[1][0] * b->m[0][0]);
+    dst->m[1][0] = (fx32)(s >> FX32_SHIFT);
+    s = ((fx64)a->m[1][1] * b->m[1][1] + (fx64)a->m[1][0] * b->m[0][1]);
+    dst->m[1][1] = (fx32)(s >> FX32_SHIFT);
+    s = ((fx64)a->m[2][1] * b->m[1][0] + (fx64)a->m[2][0] * b->m[0][0]);
+    dst->m[2][0] = (fx32)(s >> FX32_SHIFT) + b->m[2][0];
+    s = ((fx64)a->m[2][1] * b->m[1][1] + (fx64)a->m[2][0] * b->m[0][1]);
+    dst->m[2][1] = (fx32)(s >> FX32_SHIFT) + b->m[2][1];
+
+    if (dst == &tmp) {
+        *orig_dst = tmp;
+    }
+}
+
+permuter best result line (from this source):
+  best      DIFF   asm=1295  bytes-out=101  size=292/292
+  mutations commute(+) ; temp(tmp1=(fx64) a->m[0][1]) ; split-assign(s)
+and, annealed a further 2000 compiles from that point:
+  best      DIFF   asm=1260  bytes-out=92   size=292/292
+
+Not filed anywhere: DIFF, by rule 6.  Addresses are Black-image addresses.

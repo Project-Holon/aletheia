@@ -272,3 +272,71 @@ void func_02073DFC(void)
  * src/pending/func_02072758.c behind it.
  * ================================================================ */
 re-verified 2026-09-21 by tools/match.py: DIFF, 228 bytes against 232, 86 concrete bytes out, 1.1p1
+
+/* ================================================================
+ * 2026-09-22, FOURTH pass (wave 7, pseudo-family pkt_020737C0).
+ * The first pass with tools/permuter.py available.  Still 12 concrete
+ * bytes under the pin, and the search is now EXHAUSTIVE enough to be
+ * worth recording as a negative result rather than another spelling
+ * list.
+ *
+ * The third pass's C reproduces verbatim: `--cc ../2.0/sp2 --arm`,
+ * 232 bytes, 11 relocation sites, 12 concrete bytes out.
+ *
+ * permuter --explain confirms the third pass's hand analysis EXACTLY,
+ * as a register-substitution map rather than as prose:
+ *
+ *     baseline  DIFF   asm=60   bytes-out=12   size=232/232
+ *     register substitutions (image -> compiled), by count:
+ *       r7 -> r5   x5
+ *       r5 -> r6   x5
+ *       r6 -> r7   x2
+ *
+ * That is the three-way rotation, measured.  `on` (image r7) lands in
+ * r5, the h/z pair (image r5) lands in r6, the pool pointer (image r6)
+ * lands in r7 -- precisely the "longest live range to the LOWEST
+ * register" inversion the third pass described.
+ *
+ * THE SEARCH, and it is the point of this pass:
+ *
+ *   --mode hill   --budget 800  --jobs 8 --types
+ *       215 single mutations tried, NO single mutation improves.
+ *   --mode anneal --budget 2000 --jobs 8 --types
+ *       2000 compiles in 38s, 2000 distinct candidates, entirely flat:
+ *       best never moved off asm=60 / bytes-out=12 / 232 bytes.
+ *
+ * 2215 distinct source shapes, spanning the permuter's whole mutation
+ * table (temp, expand, reorder, hoist, copy, use, selfassign,
+ * decl-order, pad, split-assign, compound, commute, compare, addsub,
+ * cast, block, loop, struct-ref, goto-ret, volatile, addr, and with
+ * --types the integer type of every local and parameter), on top of
+ * the roughly twenty hand spellings of passes two and three.  Not one
+ * of them moved a single byte.
+ *
+ * CONCLUSION.  The lever is NOT in this function's body, and it is not
+ * in the types of its locals.  Everything the permuter can reach has
+ * been reached.  What remains, in the brief's terms, is the reading of
+ * the DECLARATIONS the body depends on but does not itself contain:
+ * the parameter list or return type of one of the nine externs
+ * (func_020894DC, func_02089D40, func_02089B38, func_02089CD4,
+ * func_02085E50, func_020729A4, func_02072974, func_02072A08,
+ * func_0208972C), or the layout of struct St, either of which changes
+ * how many values are live across a call and therefore the ranking
+ * itself.  The third pass tried type changes on func_02089D40 /
+ * func_02089CD4 only; the other seven externs' signatures are
+ * untouched and are the cheapest remaining ground.
+ *
+ * Anyone picking this up should NOT spend another pass on spellings of
+ * the body.  That ground is now measured and closed.
+ *
+ * NOTE FOR THE CHAIN, unchanged: src/matched/func_02073D7C.c's own
+ * PC24 to this address is still unattested, so it stays capped, and
+ * src/pending/func_02072758.c behind it.
+ *
+ * best source, 232 bytes against 232, 12 concrete bytes out, ../2.0/sp2:
+ * The best source is the third pass's C above, VERBATIM -- no mutation
+ * improved on it.
+ *
+ * permuter best result line:
+ *   best      DIFF   asm=60    bytes-out=12   size=232/232
+ * ================================================================ */

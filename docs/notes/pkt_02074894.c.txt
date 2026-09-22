@@ -98,3 +98,141 @@ Recorded, not ground further: the next lever is a source shape that leaves
 the tail's -1 unshared without sharing the fail block; nothing in the idiom
 index names it yet.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22, wave 7 (pseudo-family pkt_020737C0)
+================================================================================
+
+func_02074894 is CLOSED and filed EXACT at src/matched/func_02074894.c.
+
+Spelling (A) above was already correct C.  Neither of the two spellings this
+note straddles was the answer: the residue was the COMPILER.  The whole
+"allocator kept the literal 0 in a callee-saved register" analysis is a
+property of dsi/1.1p1, and under the ../2.0/sp2 front end -- the pin seven
+functions of this cluster now carry (func_020737C0, func_02073AD0,
+func_02073B3C, func_02073CA0, func_02073F3C, func_020746E8, func_02074220,
+func_02074770) -- spelling (A) is 76 bytes with 0 concrete mismatches.  The
+long "spellings tried" list above was all measuring the same wrong front end.
+
+--------------------------------------------------------------------------------
+
+func_020748E0 -- near miss, DIFF, 19 concrete bytes out of 212, SIZE-EXACT.
+
+0x020748E0 (212 bytes) is the bounded sibling of func_02074770: the same
+outer-list / inner-node drain, but it runs only while the caller's key k is
+below the live count at +0x0C, and k == 0 forwards the whole job to
+func_02074770 and returns.  The tail unlinks the key with func_020611D4(f00,
+k), calls func_02074A34 once if any node callback ran, then func_02061184(f00,
+f0c) and func_020749F8(o).
+
+The body was size-exact at 212 bytes on the FIRST compile, which is the useful
+result here: the control flow, the nested walk, the do/while with the test at
+the bottom, the 16-bit `ldrh` reads of +0x0C, the `blx` argument list
+(node + 0x20, +0x08, +0x10, +0x14) and all nine relocations are right.
+
+THE RESIDUE IS ONE CALLEE-SAVED REGISTER TOO MANY.  The image saves seven
+(`push {r4,r5,r6,r7,r8,sb,sl,lr}`) and materialises exactly ONE zero, in r8,
+which it then spends on three separate roles: the `any` flag (`mov r7, r8`),
+the null cursor handed to the first func_0206062C of each outer iteration
+(`mov r5, r8`), and the null cursor of the second (`mov r1, r8`).  We save
+eight (`push {r3,r4,...,fp,lr}`) because the zero does not coalesce across all
+three roles, and the extra `fp` shifts several moves.
+
+tools/permuter.py took it from 49 concrete bytes to 19 and then stopped, by
+two different routes to the same floor:
+
+    --mode hill --budget 800 --jobs 8 --types (from the hand source):
+        257  DIFF asm=240 bytes-out=28  <- temp(tmp = ((u8 *)n) + 0x20)
+        500  DIFF asm=205 bytes-out=20  <- decl-order(tmp<->n)
+        no single mutation improves (243 tried)
+    --mode anneal --budget 2000 --jobs 8 --types (from that point):
+        2000 compiles in 65s, best DIFF asm=195 bytes-out=19
+        mutations decl-order(tmp<->any) ; copy(k->k_@8)
+    --mode hill --budget 800 (from the `zero` local variant, below):
+        same 19-byte floor via temp(...) ; decl-order(any<->tmp) ;
+        decl-order(n<->any)
+
+Note that the permuter's winning `temp(tmp = ((u8 *)n) + 0x20)` is NOT a real
+improvement: it hoists the `add r0, r8, #0x20` out of the inner loop, which the
+image does not do (`add r0, r8, #0x20` sits at +0x6C, inside the loop).  It
+scores better only because it happens to free a register.  A byte-correct
+source will not contain it.
+
+Tried and rejected by hand: binding the zero to a named `void *zero` local used
+for both null cursors (unchanged, 49), reusing `n` itself as the null cursor
+argument (208 bytes, 154 out -- `n` is not null after the first iteration), and
+dropping the `one = 1` local in favour of a literal 1 (unchanged, 49).
+
+The remaining lever is whatever makes the three zero uses one value without
+spending a register on the `any` flag; per the brief that is a declaration
+question, and the permuter's decl-order mutations reach only the locals it can
+see, not the parameter list.  All nine sites resolve, so a byte-correct body is
+EXACT with no further evidence needed.
+
+/* best source, 212 bytes against 212, 19 concrete bytes out, ../2.0/sp2 */
+(the hand source below is the readable one at 49 bytes out; the permuter's
+19-byte point is the same source plus the two mutations named above, which are
+recorded rather than adopted because the hoist is known to be wrong)
+
+```c
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed   int   s32;
+
+struct Node { u8 pad00[8]; u32 f08; u32 f0c; u32 f10; u32 f14; };
+struct Obj  { u32 f00; u8 list[8]; u16 f0c; };
+
+extern void  func_02074770(struct Obj *o);
+extern void *func_0206062C(void *list, void *cur);
+extern void  func_020605B4(void *list, void *node);
+extern void  func_020611D4(u32 owner, s32 key);
+extern void  func_02074A34(void);
+extern void  func_02061184(u32 owner, u16 n);
+extern void  func_020749F8(struct Obj *o);
+
+void func_020748E0(struct Obj *o, s32 k)
+{
+    u32 any;
+    void *a;
+    struct Node *n;
+
+    any = 0;
+    n   = 0;
+    if (k == 0) { func_02074770(o); return; }
+
+    if (k < o->f0c) {
+        do {
+            a = func_0206062C(o->list, 0);
+            n = (struct Node *)func_0206062C(a, 0);
+            while (n != 0) {
+                if (n->f0c != 0) {
+                    ((void (*)(void *, u32, u32, u32))n->f0c)
+                        ((u8 *)n + 0x20, n->f08, n->f10, n->f14);
+                    any = 1;
+                }
+                n = (struct Node *)func_0206062C(a, n);
+            }
+            func_020605B4(o->list, a);
+        } while (k < o->f0c);
+    }
+
+    func_020611D4(o->f00, k);
+    if (any != 0) func_02074A34();
+    func_02061184(o->f00, o->f0c);
+    func_020749F8(o);
+}
+```
+
+permuter best result line:
+  best      DIFF   asm=195   bytes-out=19   size=212/212
+  mutations temp(tmp=((u8 *) n) + 0x20) ; decl-order(tmp<->any) ; copy(k->k_@8)
+
+symbols:
+  func_02074770  0x02074770  arm
+  func_0206062C  0x0206062C  arm
+  func_020605B4  0x020605B4  arm
+  func_020611D4  0x020611D4  arm
+  func_02074A34  0x02074A34  arm
+  func_02061184  0x02061184  arm
+  func_020749F8  0x020749F8  arm
