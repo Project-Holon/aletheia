@@ -211,3 +211,171 @@ docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags
 Treat 0x0204D224 as CLOSED at 2 bytes unless a new register-allocation lever
 appears; it is not worth further budget.
 re-verified 2026-09-21 by tools/match.py: DIFF, 164 bytes against 184, 2 concrete bytes out, 1.1p1
+
+==============================================================================
+SECOND PASS (clact.c), 2026-09-22: func_0204D18C driven 129 -> 10 bytes;
+func_0204D224 re-attacked with tools/permuter.py, unmoved at 2.
+==============================================================================
+
+func_0204D224 -- PERMUTER RESULT, CLOSED AT 2 (confirming this note)
+--------------------------------------------------------------------
+The 2-byte source above was fed to the AST permuter, which did not exist when
+the sixteen-lever sweep above was written.  It is the right tool for this
+residue class (same instructions, same order, two registers swapped) and it
+does not move it either:
+
+    --explain              image -> compiled: ip -> r0 x1, r0 -> ip x1
+                           (a clean single pair; nothing else differs)
+    --mode hill  --budget 800 --jobs 8 --types
+                           152 single mutations tried, NONE improves; best
+                           stays DIFF asm=510 bytes-out=2 size=164/184
+    --mode anneal --budget 2000 --jobs 8 --types
+                           2000 compiles; every path that leaves the 2-byte
+                           point lands in the 143-151 band.  The 2-byte point
+                           is a hard local optimum.
+
+Three further hand levers this pass, all worse, recorded so they are not
+retried: storing +0x70 from a re-read of p->f04 (26), feeding func_020648B4
+from p->f04 instead of the temporary (136), moving the volatile from +0x04 to
++0x70 (110), adding volatile to +0x08 as well (15).
+
+CONFIRMED CLOSED at 2 bytes.  The permuter's mutation table covers exactly the
+allocator levers (first-definition order, use and definition counts, copy
+insertion, live-range splitting, stack slot order) and none of them reaches it.
+
+func_0204D18C -- CAP LIFTED, and 129 -> 10 BYTES
+-------------------------------------------------
+The CAP section near the top of this note is now OBSOLETE.  It says two of the
+five sites "have no witness outside 0204D18C..0204D22C" and concludes the row
+caps at MATCH.  Both callees have since been filed:
+
+    src/matched/func_02066AE0.c   -> +0024 resolves `matched`
+    src/matched/func_020642C8.c   -> +0094 resolves `matched`
+
+All five sites resolve today.  A byte-exact result on this row is EXACT.
+
+THE LEVER: the `stmib` needs TWO NAMED TEMPORARIES IN A NESTED BLOCK, not two
+plain field assignments.  This note's own earlier reading -- "the near miss
+stores f04 and f08 with two separate `str` where the original has one `stmib`"
+-- is right about the symptom and wrong about the cure.  The aggregate-
+assignment idiom (docs/idioms/aggregate-assignment-is-ldm-stm.md) does NOT fire
+on `p->f04 = a->f0c; p->f08 = a->f10;`, nor on a two-word sub-struct assignment
+`p->w = a->w;`, nor through a raw `*(u32 *)((u8 *)p + 4)` pointer, nor with the
+two statements in either order.  All four of those give 156 bytes against 152,
+i.e. two separate `str`, and 126-129 bytes out.  What fires it is
+
+    {
+        u32 t1 = a->f10;
+        u32 t0 = a->f0c;
+        p->f04 = t0;
+        p->f08 = t1;
+    }
+
+-- the two loads bound to temporaries in a block of their own, loads written in
+DESCENDING field order, stores in ascending.  That compiles 152 bytes (the
+image's own size) with `stmib sb, {r1, r2}` present, and the residue drops from
+129 to 10.
+
+THE REMAINING TEN BYTES are the prologue's register choice only:
+
+    +000C  mov sb, r0              |  ldr r2, [r8, #0x10]
+    +0010  ldr r1, [r8, #0x10]     |  ldr r1, [r8, #0xc]
+    +0014  ldr r0, [r8, #0xc]      |  mov sb, r0
+    +0018  stmib sb, {r0, r1}      |  stmib sb, {r1, r2}
+
+The image sinks `mov sb, r0` ABOVE the two loads, which frees r0 for the first
+of them and makes the pair {r0, r1}; every spelling keeps the parameter copy
+below the loads and pays a third register.  Every instruction from +0x1C to the
+end is byte-identical.
+
+Tried against the 10-byte point, none of which moves it:
+    tools/permuter.py --mode hill --budget 500 --jobs 8 --types
+        172 single mutations, no improvement (size already 152)
+    `if (p) {}` dead read of p before the block          -> 10
+    `struct P *q = p;` copy before the block             -> 10
+    temporary declaration order t0-before-t1             -> 10
+    hoisting the a->f1c load above the block             -> 34 (worse)
+    store order f08-before-f04                           -> 156 bytes, 126 out
+
+Same class as func_0204D224's own residue and as func_0204A6C8's: the
+allocator's tie-break on which parameter copy is scheduled first, downstream of
+every source-level distinction.  Ten bytes, correct size, all sites resolved.
+
+/* best source, 152 bytes against 152, 10 concrete bytes out, dsi/1.1p1 -O4,p */
+/*
+ * function: func_0204D18C
+ * address:  0x0204D18C
+ * packet:   pkt_0204D18C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02066AE0  0x02066AE0  arm
+ *   func_020627D8  0x020627D8  arm
+ *   func_020637B4  0x020637B4  arm
+ *   func_020642C8  0x020642C8  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct P {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    u8  pad_0c[0x64 - 0x0c];
+    u32 f64;
+};
+
+struct A {
+    u32 f00;
+    u32 f04;
+    u8  pad_08[4];
+    u32 f0c;
+    u32 f10;
+    u8  pad_14[8];
+    u32 f1c;
+};
+
+struct R {
+    u8  pad_00[0x10];
+    u32 f10;
+    u32 f14;
+};
+
+extern u32  func_02066AE0(void);
+extern u32  func_020627D8(u32 a, u32 b);
+extern u32  func_020637B4(u32 a, u32 b);
+extern void func_020642C8(void *p, u32 a, u32 b, u32 c,
+                          u32 d, u32 e, u32 f, u32 g, u32 h, u32 i);
+
+void func_0204D18C(struct P *p, struct A *a)
+{
+    u32 zero = 0;
+    u32 two;
+    u32 h0, h1, h2;
+    struct R *r;
+
+    {
+        u32 t1 = a->f10;
+        u32 t0 = a->f0c;
+        p->f04 = t0;
+        p->f08 = t1;
+    }
+    p->f64 = func_02066AE0();
+    r = (struct R *)a->f1c;
+    h0 = func_020627D8(p->f08, zero);
+    h1 = func_020637B4(a->f04, 1);
+    two = 2;
+    h2 = func_020637B4(a->f04, two);
+    func_020642C8((u8 *)p + 0xc, h0, p->f04, p->f64,
+                  two - 3, h1, h2, r->f14, zero, r->f10);
+}
+
+Note the `two - 3` spelling of the -1 sixth argument, which this note's first
+section established and which still holds: written as a literal -1 the compiler
+emits `mvn r1, #0` and the whole frame shifts.

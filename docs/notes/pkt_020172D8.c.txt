@@ -49,3 +49,167 @@ attempts it.
 
 Nothing filed under src/.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+2026-09-22 (second pass, mcss.c family).  TRANSCRIBED.  Size-exact, 183 out.
+================================================================================
+
+The note above judged this row and wrote no C.  A full transcription now
+exists and compiles to 220 bytes against the listing's 220, with 183
+concrete bytes wrong.  The shape the note sketched is confirmed in every
+particular; the wall it predicted (which two locals reach lr and ip) is
+exactly what is left, and nothing in the body reaches it.
+
+THE ALGORITHM, read off the image and now spelled in C.
+
+  func_020172D8(u8 *a0, u32 a1)   -- a0 arrives in r0 and is copied to r2
+                                     for the whole body, a1 is spilled to
+                                     sp+0 and SHIFTED RIGHT BY 8 once per
+                                     outer pass (0x0201739C), so the four
+                                     passes eat one byte of a1 each.
+
+  for (i = 0; i < 4; i++) {            /* i in lr */
+      cur = sMcssTable[i];             /* cur in ip; the pool word at
+                                          0x020173B0 is 0x020A72D4, the
+                                          4-entry pointer table
+                                          docs/families/mcss.h declares  */
+      n = 0;                           /* sp+0xc, truncated to u8 each
+                                          increment (lsls/lsrs #0x18)    */
+      while (cur[0] != 0xff) {         /* 0xFF in byte 0 ends a list     */
+          lo = a1 & 0xf;   lo = lo - 8;        /* sp+8, TWO stores       */
+          hi = (a1 & 0xf0) >> 4;  hi = hi - 8; /* sp+4, TWO stores       */
+          do {
+              b0 = (u8)(lo + cur[n * 2]);
+              b1 = (u8)(hi + cur[n * 2 + 1]);
+              idx[1] = (b0 >> 1) + ((b1 + 0x28) << 7);   /* sp+0x14 */
+              idx[0] = (b0 >> 1) + (b1 << 7);            /* sp+0x10 */
+              for (k = 0; k < 2; k++) {
+                  if ((b0 & 1) != 0) {         /* bit 0 of the FIRST
+                                                  index picks the arm    */
+                      v = a0[idx[k]] & 0xf0;
+                      if (v >= 0x10 && v <= 0x30) a0[idx[k]] += 0x50;
+                  } else {
+                      v = 0xf & a0[idx[k]];
+                      if (v >= 1 && v <= 3)       a0[idx[k]] += 5;
+                  }
+              }
+              n = (u8)(n + 1);
+          } while (cur[n * 2] != 0xff);
+      }
+      a1 = a1 >> 8;
+  }
+
+Three details the bytes fix and a reader would otherwise get wrong:
+
+  * `b0 >> 1` is a plain LOGICAL shift (`lsrs r4, r3, #1` at 0x02017330),
+    not the signed `/2` of func_02016C60, because b0 is already truncated
+    to u8.  `u8 b0;` as the declared type is what produces it; `u32 b0`
+    with a cast at each use gives 236 bytes (16 over).  tools/permuter.py
+    named this one as `type:l(b0:u32->u8)` and it is the single change
+    that makes the function size-exact.
+  * the `<< 7` pair is TWO separate shifts of the same b1 (`lsls r1,r0,#7`
+    at 0x02017338 and `adds r0,#0x28 / lsls r0,r0,#7` at 0x0201733A), and
+    idx[1] is written BEFORE idx[0] (`str r0,[sp,#0x14]` at 0x02017342
+    then `str r1,[sp,#0x10]`).
+  * the bit-0 test of b0 is hoisted OUT of the k loop in the image
+    (`movs r0,#1 / adds r5,r3,#0 / ands r5,r0` at 0x02017346, with the
+    `cmp r5,#0` inside), but writing `(b0 & 1) != 0` at each use produces
+    exactly that; binding it to a local does not change the bytes.
+  * the two masks are separate constants: `0xf0` is kept live in r7 for
+    the whole body (`adds r7,r1,#0` at 0x0201733E) and `0xf` is
+    rematerialised (`movs r3,#0xf` at 0x0201736E).  Hoisting 0xf0 into a
+    named local changes nothing (183 either way).
+
+THE RESIDUE, 183 of 220, IS THE lr/ip PROMOTION AND NOTHING ELSE.
+The image spends lr on `i` and ip on `cur`, and homes `lo`, `hi`, `n` and
+`a1` in the frame (`sub sp, #0x18`, six slots plus the two-word `idx`).
+This build spends lr on `lo` and ip on `hi`, keeps `cur` in r7, and needs
+only `sub sp, #0x14` -- one slot fewer and one register narrower in the
+prologue push (`push {r4,r5,r6,r7,lr}` against the image's
+`push {r3,r4,r5,r6,r7,lr}`).  Every instruction after the promotion is
+the same instruction with different registers.
+
+Measured against the 183-byte baseline, each a full recompile:
+  - `0xf0` hoisted into a named local so r7 is committed the way the image
+    commits it (183);
+  - both `u8 b0; u32 b1;` and `u8 b0, b1;` (183 each);
+  - tools/permuter.py --mode hill --budget 800 --jobs 8 --types: 220-byte
+    size reached at compile 247 via `type:l(b0:u32->u8)`, then 183 -> 163
+    over 800 compiles via expand/temp/decl-order, and flat after;
+  - tools/permuter.py --mode anneal --budget 2000 --jobs 8 --types: 162,
+    one byte better than hill over 2000 compiles.  Neither search ever
+    changes which locals reach lr/ip, which is the whole residue.
+
+NEXT LEVER, unchanged from the note above and now measured rather than
+predicted: find what makes mwcc promote the OUTER induction variable and
+the table cursor rather than the two nibble offsets.  The spill-cost model
+is flow_weight * (2 * uses + definitions) (docs/notes/permuter.md), so the
+shape to look for is one that raises `i` and `cur`'s use counts inside the
+inner loops, or lowers `lo`/`hi`'s -- e.g. `lo` and `hi` folded into the
+`cur[n*2]` reads at their single use each rather than named at all.  That
+was not tried and is the cheapest untried thing.
+
+---- best source, 220 bytes against 220, 183 concrete bytes out, dsi/1.1p1 ----
+/*
+ * function: func_020172D8
+ * address:  0x020172D8
+ * packet:   pkt_020172D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   sMcssTable  0x020A72D4  data
+ */
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern const u8 *sMcssTable[4];
+
+void func_020172D8(u8 *a0, u32 a1)
+{
+    s32 i;
+    const u8 *cur;
+    s32 n;
+    s32 lo, hi;
+    u32 idx[2];
+    s32 k;
+    u8 b0;
+    u32 b1;
+    u32 v;
+
+    for (i = 0; i < 4; i++) {
+        cur = sMcssTable[i];
+        n = 0;
+        while (cur[0] != 0xff) {
+            lo = a1 & 0xf;
+            lo = lo - 8;
+            hi = (a1 & 0xf0) >> 4;
+            hi = hi - 8;
+            do {
+                b0 = (u8)(lo + cur[n * 2]);
+                b1 = (u8)(hi + cur[n * 2 + 1]);
+                idx[1] = (b0 >> 1) + ((b1 + 0x28) << 7);
+                idx[0] = (b0 >> 1) + (b1 << 7);
+                for (k = 0; k < 2; k++) {
+                    if ((b0 & 1) != 0) {
+                        v = a0[idx[k]] & 0xf0;
+                        if (v >= 0x10 && v <= 0x30) {
+                            a0[idx[k]] = (u8)(a0[idx[k]] + 0x50);
+                        }
+                    } else {
+                        v = 0xf & a0[idx[k]];
+                        if (v >= 1 && v <= 3) {
+                            a0[idx[k]] = (u8)(a0[idx[k]] + 5);
+                        }
+                    }
+                }
+                n = (u8)(n + 1);
+            } while (cur[n * 2] != 0xff);
+        }
+        a1 = a1 >> 8;
+    }
+}

@@ -160,3 +160,137 @@ for. Closing this row means finding what makes 1.1p1 keep a second live copy
 of a0 across the four stores; it is not reachable through volatile, through
 the store spelling, or through the pointer types.
 re-verified 2026-09-21 by tools/match.py: DIFF, 160 bytes against 164, 110 concrete bytes out, 1.1p1
+
+==============================================================================
+SECOND PASS (clact.c), 2026-09-22: 0x0204BE84 driven 110 -> 104, the missing
+`mov r0, r5` FOUND and reproduced.  Still DIFF.
+==============================================================================
+
+The previous section ends: "The image carries `mov r0, r5` at +0x3c ... and no
+spelling tried emits it.  Closing this row means finding what makes 1.1p1 keep
+a second live copy of a0 across the four stores; it is not reachable through
+volatile, through the store spelling, or through the pointer types."
+
+IT IS REACHABLE, and the answer is that a0 must be a TYPED STRUCT POINTER whose
++0x04 member is `volatile`, with the four stores written through it as field
+assignments.  The two ingredients together:
+
+  * a0 declared `D *` (a real struct) instead of `int`, so both callees take
+    `D *` and the stores are `a0->f00 = ...` rather than `*(int *)(a0 + 0)`;
+  * `volatile int f04;` on that struct, which is the func_0204D224 lever this
+    note explicitly predicted would be a no-op here.  It is NOT a no-op once
+    a0 is a struct pointer: with the raw `*(int *)(a0 + n)` spelling there is
+    indeed no merge to break, but with field assignments mwcc DOES merge
+    f00/f04 into an `stm r5, {r0, r3}`, and the volatile breaks that merge.
+
+Measured, from this note's own baseline:
+
+    this note's C (a0 as int, raw pointer stores)        160 bytes, 110 out
+    + four loads hoisted into named temporaries          156 bytes,  95 out
+        (the stm merge appears -- EIGHT short)
+    + a0 as `D *` with volatile +0x04, loads hoisted     160 bytes, 104 out
+        *** `mov r0, r5` PRESENT at +0x38, for the first time ***
+
+At that point the function is four bytes short of 164 and the residue is the
+ORDER of the four `ldrsh` loads.  The image is f0, f2, f6, f4 with the `lsl`s
+interleaved and `ldr r1, [r4, #8]` (the f8 word) landing INSIDE the block:
+
+    ldrsh f0 ; ldrsh f2 ; ldrsh f6 ; lsl ; lsl ; lsl ; ldrsh f4 ; ldr f8 ;
+    str ; lsl ; mov r0,r5 ; str ; str ; str
+
+ALL 24 ASSIGNMENT ORDERS of the four shifted temporaries were swept against the
+struct+volatile source.  The spread is 102-105 bytes out and it is FLAT: mwcc
+re-sorts the loads itself, exactly as docs/notes/pkt_0204D18C.func_0204D224.c.txt
+records for its own four temporaries ("the declaration ORDER of the four
+temporaries does not matter -- mwcc re-sorts the loads itself").  Binding the
+f8 index to a local above the stores -- the "next lever to try, untested" this
+note ends its FAMILY WAVE section on -- WAS tried this pass and costs a whole
+register (r6 pushed, 103 out): that lever is now spent, and negative.
+
+tools/permuter.py on the original 110-byte source reaches 84 out at the correct
+164 bytes via `type:ret-var(a0)` -- it makes the function `int` and appends
+`return a0;`, which forces the second live copy of a0 and therefore emits
+`mov r0, r5`.  That is a VALUABLE DIAGNOSTIC and a WRONG SOURCE: the image is
+void (it leaves r0 holding the last loaded word and never sets it at the
+epilogue), so the return must not be kept.  It is what pointed at "a0 needs a
+second live copy" as the real defect, which the struct+volatile spelling then
+delivers honestly.
+
+STATE: 160 bytes against 164, 104 out, all four sites resolved (func_02065B74
+and func_0204BF28 by sole-ref/code, g_020A1418 by data_table, g_020A13F4 by
+literal).  One instruction short.  The remaining question is narrow and well
+posed: what makes 1.1p1 emit the f4 load AFTER the first three shifts rather
+than with its siblings.  It is not the assignment order (24/24 swept, flat).
+
+/* best source, 160 bytes against 164, 104 concrete bytes out, dsi/1.1p1 -O4,p */
+/*
+ * function: func_0204BE84
+ * address:  0x0204BE84
+ * packet:   pkt_0204BE84
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02065B74  0x02065B74  arm
+ *   func_0204BF28  0x0204BF28  arm
+ *   g_020A1418     0x020A1418  data
+ *   g_020A13F4     0x020A13F4  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed short s16;
+
+typedef struct { u32 w0, w1, w2; } S12;
+
+typedef struct {
+    s16 f0;
+    s16 f2;
+    s16 f4;
+    s16 f6;
+    u32 f8;
+    u32 fC;
+} T;
+
+typedef struct {
+    int f00;
+    volatile int f04;
+    int f08;
+    int f0c;
+    u8  pad_10[0x28 - 0x10];
+    int f28;
+    int f2c;
+    int f30;
+    int f34;
+} D;
+
+extern void func_02065B74(D *a0, T *a1);
+extern void func_0204BF28(D *a0);
+extern S12  g_020A1418[];
+extern u32  g_020A13F4[];
+
+void func_0204BE84(D *a0, T *a1)
+{
+    S12 t;
+    int v0, v2, v4, v6;
+
+    func_02065B74(a0, a1);
+    v0 = (int)a1->f0 << 12;
+    v2 = (int)a1->f2 << 12;
+    v6 = (int)a1->f6 << 12;
+    v4 = (int)a1->f4 << 12;
+    a0->f00 = v0;
+    a0->f04 = v2;
+    a0->f08 = v4;
+    a0->f0c = v6;
+    func_0204BF28(a0);
+    t = g_020A1418[a1->f8];
+    t.w2 = g_020A13F4[a1->fC];
+    a0->f28 = (int)t.w0;
+    a0->f2c = (int)t.w1;
+    a0->f34 = (int)t.w2;
+}

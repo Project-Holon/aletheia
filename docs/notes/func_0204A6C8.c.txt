@@ -193,3 +193,54 @@ session and calls this function; it resolves func_0204A6C8 by `label`
 (x2 witnesses), so nothing downstream is blocked on this address reaching
 EXACT, and this remains a coverage-only near miss.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+2026-09-22 second pass: permuter run, and the front-end question settled
+------------------------------------------------------------------------
+
+The note's own next step -- "look for the same post-`bl` `mov rD, #0` /
+`mov rD, r0` pair in an already-EXACT ARM file; if a sweep finds no instance of
+the original's order at all, that is itself the finding" -- was not run this
+pass either.  Two other things were, and both are negative results worth having.
+
+tools/permuter.py, which did not exist when the levers above were measured, was
+run on the note's C rebuilt verbatim (DIFF, 216/216, 4 of 4 sites resolved --
+func_0204D9D4 and func_0204E0D0 now by sole-ref/code, sub_020307B0 by label,
+g_02146A74 by literal, 4 concrete bytes out):
+
+    --explain              image -> compiled: r8 -> r7 x1, r7 -> r8 x1
+                           A clean single swapped pair and nothing else -- the
+                           textbook allocation-tie signature the permuter exists
+                           for.
+    --mode hill  --budget 800 --jobs 8 --types
+                           176 single mutations tried, NONE improves.
+    --mode anneal --budget 2000 --jobs 8 --types
+                           2000 compiles, best still 4.  Nothing in the
+                           mutation table (first-definition order, use and
+                           definition counts, copy insertion, live-range
+                           splitting, stack slot order, integer types) reaches
+                           this tie-break.
+
+FRONT END: NOT the answer here, measured, so 1.1p1 stays pinned on this row.
+docs/FRONTEND-PINS.md's "kept constants" tell (the image keeps a constant live
+in a callee-saved register where the build rematerialises it) is a plausible
+read of `mov r7, #0` surviving across the call into `str r7, [r4, #0x24]`, and
+that tell points at 2.0.  Probed on the identical source:
+
+    ../2.0/sp2   185 concrete bytes out
+    ../1.2/sp2   158 concrete bytes out
+    dsi/1.1p1      4 concrete bytes out
+
+Both alternatives are catastrophically worse, i.e. the "kept constants" reading
+is wrong for this function -- the compiled output already keeps the zero in a
+callee-saved register and already shares it with the later store, exactly as
+this note's third lever recorded.  Only the two instructions' ORDER differs, and
+that is not a front-end difference.
+
+So the cross-product is now: every C-level lever (statement order, declaration
+order, the constant's type, literal vs named local, sharing with its consumer,
+callee parameter widths, volatile on either slot field), every allocator lever
+the permuter models, and both alternative front ends.  All of them leave it at
+exactly 4.  Treat 0x0204A6C8 as CLOSED at 4 bytes unless the EXACT-corpus sweep
+for the original's instruction order turns something up; it is not worth further
+budget before that sweep is run.

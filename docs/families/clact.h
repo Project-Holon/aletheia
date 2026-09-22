@@ -100,6 +100,25 @@ struct ClSys {
  *        at +0x10 and a volatile count at +0x18.  Same words, same
  *        widths; only the names differ.
  */
+/*
+ * READING ClRes THROUGH THE SINGLETON: the +0x104 base must be a LIVE LOCAL.
+ * PROVED 2026-09-22 by src/matched/func_0204ACEC.c.  A function that reads
+ * both ClRes.cell (+0x10c absolute) and one of the count halfwords
+ * (+0x118..+0x123 absolute) wants the image's shared base:
+ *     add rB, rG, #0x104 ; ldrh rN, [rB, #0x16] ; ldr rA, [rB, #0xc]
+ * mwcc 1.1p1 does NOT produce that from a nested sub-struct, from a cast, or
+ * from `&g->res`: all three fold to base 0x100 for the ldrh (offset 0x1a is
+ * inside its 8-bit immediate) and reach the array straight off the global at
+ * +0x110 (inside the ldr 12-bit immediate).  Only a named local
+ * `struct ClRes *r = &g->res;` emits the 0x104 add.
+ *
+ * AND IT MUST BE PAIRED WITH `volatile` ON THE COUNT.  The local pointer also
+ * hoists a loop bound out of the loop, dropping the image's back-edge count
+ * re-read; `volatile u16` on the count halfword restores it.  Each lever
+ * alone is a regression (109 bytes out, or four bytes long); the pair is
+ * byte-exact.  The volatile is a codegen device, NOT a claim about the type,
+ * exactly as sub_0204AC18's own note says of its count fields.
+ */
 struct ClRes {
     void *tiles;            /* +0x00  func_0204D7E0, func_0204D8AC      */
     void *palettes;         /* +0x04  func_0204D7E0, func_0204D8AC      */
@@ -330,6 +349,41 @@ extern char s_clact_c[];                /* 0x020A7F74  data */
  * the only reader. */
 extern u16 tbl_020A17D8[4][4];          /* 0x020A17D8  data */
 extern u16 tbl_020A17F0[4][4];          /* 0x020A17F0  data */
+
+/*
+ * THE SPRITE EXTENT WORD, ClActor+0x02 (`struct A.f02` in the culling pair).
+ * PROVED 2026-09-22 by src/matched/func_0204C214.c reaching EXACT, and
+ * already carried by src/matched/func_0204C060.c.  Both culling helpers read
+ * the SAME halfword and partition it the same way:
+ *
+ *   bits  0..5   a 6-bit half-extent, scaled by 4 and then truncated to 8
+ *                bits, giving the synthetic square used when bit 11 is clear
+ *   bit  11      selects which shape the extents come from: SET means read the
+ *                four explicit s16 half-extents at +0x08/+0x0a/+0x0c/+0x0e,
+ *                CLEAR means synthesise the square from bits 0..5
+ *
+ * The test is a COMPARISON WITH 1, `((f02 >> 11) & 1) == 1`, not a truth
+ * test: written as `if ((f02 >> 11) & 1)` the compiler emits `tst` and
+ * inverts the arms.  The field arm is the FALL-THROUGH and the synthetic arm
+ * is the predicated one, which only happens when the 6-bit extraction is
+ * hoisted above the `if`.
+ *
+ * THE EXTRACTION IS NOT FREELY SPELLABLE.  It must narrow the MASK and then
+ * shift, in two statements:
+ *
+ *     s32 m6 = (s32)(u8)(f02 & 0x3f);
+ *     s32 e  = (m6 << 2) & 0xff;
+ *
+ * giving the image's `and #0x3f` / `lsl #2` / `and #0xff`.  Every spelling
+ * that narrows the SHIFTED value instead -- `(u8)((f02 & 0x3f) << 2)`,
+ * `((f02 & 0x3f) << 2) & 0xff`, the u32 forms, the `* 4` forms, and the
+ * two-named-variable form -- lets 1.1p1 prove the field contiguous and fuse
+ * it to `lsl #26` + `lsr #24`.  Measured on both functions, six bytes each.
+ * This costs a whole slot to rediscover; it is written here so it is not.
+ *
+ * The camera delta pair is likewise ordered: `dy = b->f10 - c->f00` is
+ * declared BEFORE `dx = b->f14 - c->f04` in both files.
+ */
 
 /* EVIDENCE-STARVED DATA.  These two have no witness of any class outside
  * the single function that names them, so any function reading them caps

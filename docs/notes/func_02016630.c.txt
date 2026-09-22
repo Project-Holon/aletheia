@@ -245,3 +245,103 @@ Closing one closes the other.  Nothing in the argument list, the parameter
 types, the struct field types, the declaration order or the statement order
 reaches it.
 re-verified 2026-09-21 by tools/match.py: DIFF, 592 bytes against 592, 36 concrete bytes out, 1.1p1
+
+================================================================================
+2026-09-22 (second pass, mcss.c family).  RE-MEASURED WITH THE AST PERMUTER.
+Residue unchanged at 36 of 592.  The wall is now characterised precisely.
+================================================================================
+
+Baseline re-verified today from this note's own closest C: DIFF, 592 bytes
+against 592, 36 concrete bytes out, dsi/1.1p1.  Nothing below changes it.
+
+WHAT THE RESIDUE ACTUALLY IS.  tools/permuter.py --explain prints it as a
+single register-substitution pair, which is the strongest possible signal
+that this is one scheduling decision and not a family of them:
+
+    func_02016630: r1 -> r0 x1, r2 -> r0 x1
+
+Every one of the 36 bytes is the SAME swap at the four constructor call
+sites: the image emits the a2 reload before the a1 copy,
+
+    ldr r1, [sp, #0x10]        <- the descriptor pointer, 2nd argument's base
+    ...
+    adds r3, r4, #0            <- the work pointer, 4th argument's base
+
+and every spelling tried emits those two instructions the other way round.
+The instruction multiset, the frame, the register assignment and all
+592 bytes of size are right; only the order of that one independent pair
+is wrong, four times over (plus, in func_02016630, the same swap on the
+0x10-narrowing of the heap word at +0x0050..+0x0062 and +0x0150).
+
+MEASURED TODAY, AND ALL FLAT AT 36:
+
+  tools/permuter.py --mode hill   --budget 800 --jobs 8 --types
+      func_020163C4: 385 single mutations tried, NOT ONE moves a byte.
+      func_02016630: 366 single mutations tried, same.
+  tools/permuter.py --mode anneal --budget 2000 --jobs 8 --types
+      func_020163C4: 2000 compiles, best = baseline, two plateau drifts.
+
+  Source-level spellings, each a full recompile:
+      (void *)(a1 + off) cast at the 4th argument           (36)
+      &a1[off] subscript form at the 4th argument           (36)
+      (&a2->f00)[0] at the 1st argument                     (36)
+      the (flag = 1) side effect lifted out of the 2nd call (36)
+      a1's declaration moved to last among the locals       (36)
+      the four 4th arguments bound to void * temporaries    (worse: 644/601
+          on func_020163C4)
+      the 5th argument bound to one u16 local per call      (worse: 564/530
+          on func_02016630)
+      h re-read as a0->f00 at each call instead of a local  (worse: 592/44
+          on func_02016630)
+
+  Callee prototypes, swept on func_02016630 (the shorter residue):
+      (u32,u32,u32,u32,u16)        -- docs/families/mcss.h's, and the one
+                                      the ARM callee's 
+                                      at 0x02049FC4 proves               (36)
+      (void*,void*,u32,void*,u32)  -- this note's                        (36)
+      every mixed form tried is a CCERR from the implicit conversion, not
+      a shape result.
+      The prototype is therefore confirmed correct a third time and is
+      still not the lever.  This matters because the callee's parameter
+      WIDTH is exactly the class of lever that closed func_02014C08 in
+      this same pass (see below) -- here it is measured and excluded.
+
+  Front ends, one compile each (docs/FRONTEND-PINS.md's rule):
+      ../2.0/sp2  func_020163C4: 592 bytes, 364 out
+      ../1.2/sp2  func_020163C4: 632 bytes, 532 out
+  dsi/1.1p1 is right by a wide margin; no pin is warranted.
+
+THE THIRD MEMBER OF THIS TIE IS GONE.  Both this note and
+docs/notes/pkt_02014C08.c.txt ended on "three functions in this family are
+now stuck on one compiler behaviour".  func_02014C08 was closed to EXACT in
+this pass and its lever was NOT a scheduling spelling: it was
+func_02016374's ARITY.  The image leaves the slot pointer live in r0 across
+the third bit test because it is about to be that call's first argument;
+declared `void func_02016374(void)` the compiler has no reason to keep it
+there and six instructions come out with r0 and r1 swapped -- the same
+SHAPE of residue as this one, from a declaration rather than from the body.
+
+That is the direction to look here too: some declaration this file carries
+is one argument, one width or one qualifier away from the truth, and the
+allocator is reading the difference.
+
+The obvious candidates were checked against the image in the same pass and
+ARE EXCLUDED, so nobody re-derives them:
+  * func_02063790 @ 0x02063790, 28 bytes ARM: `mov r2,#0 / mvn r1,#0 /
+    str r1,[r0,r2,lsl #2] / add r2,r2,#1 / cmp r2,#3 / blt`.  It touches
+    r0 only.  Genuinely `void f(void *)`.
+  * func_020637D4 @ 0x020637D4, 32 bytes ARM: the same loop writing
+    [r1,#8].  Also r0 only.  Genuinely `void f(void *)`.
+  * the four constructors: five parameters, fifth 16-bit, proved by
+    `ldrh r3, [sp, #0x10]` in their own prologues and re-swept above.
+  * sub_02016028 and func_02048F60 / func_02049250 are called AFTER the
+    four sites, so their declarations cannot move a schedule before them.
+
+What is left unexcluded is the one thing neither note can test from
+inside: whether a1 is a local at all.  Both files derive it as
+`u8 *a1 = (u8 *)a0->f14[idx];` and the image keeps it in r4 for the whole
+body, which is consistent with a local -- but it is equally consistent
+with mcss.c having had a small static helper that took the work pointer
+and that the compiler inlined, in which case the four calls sit inside a
+different basic-block structure than any straight-line spelling can
+produce.  That is the next thing to try and it was not tried here.

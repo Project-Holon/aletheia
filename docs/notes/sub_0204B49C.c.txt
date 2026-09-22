@@ -75,3 +75,44 @@ through nothing in the matrix").  This is the copy-elision variant of the same
 residue.  Do not re-run the flag matrix on it; -O4,p / dsi/1.1p1 is pinned and
 the whole matrix is already documented as byte-identical for this class.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+2026-09-22 second pass: permuter run on the copy-elision residue
+-----------------------------------------------------------------
+
+The note's verdict ("allocator class ... the copy-elision variant of the same
+residue") is confirmed by the tool built for exactly this class, which did not
+exist when the seven spellings above were measured.
+
+Baseline rebuilt from this note's spelling 1 (the sub_0204B4EC shape):
+DIFF, 76 bytes compiled against the original's 80, 2 of 2 sites resolved,
+20 concrete bytes out.  The residue is as recorded -- the final `asr` writes r1
+directly and the `mov r1, r6` copy at +0x40 is elided, so the compile is one
+instruction short and r5/r6 are also swapped at the two parameter saves.
+
+    tools/permuter.py --mode hill --budget 800 --jobs 8 --types
+        116 single mutations.  One improves: `type:ret-var(actor)`, which turns
+        the function into `struct Actor *` and appends `return actor;`.  That
+        reaches the correct 80 bytes at 15 out, because the extra live copy of
+        `actor` forces the tail copy the image has.  It is a WRONG SOURCE --
+        the image is void, `pop {r3, r4, r5, r6, pc}` with r0 never set at the
+        epilogue -- but it confirms the diagnosis precisely: the missing
+        instruction is a forced copy, and the only thing that produces one is a
+        second live use of a value the compiler would otherwise coalesce away.
+        No further single mutation improves on that point either.
+
+Three more hand spellings this pass, all 76 bytes and all 20 out (i.e. all
+no-ops), added to the seven in the list above: assigning the sum back into the
+`value` parameter; binding it to a fresh named `s16 r`; and the same with a dead
+read `if (r) {}` between the assignment and the call.
+
+The same `type:ret-var` diagnostic fired on func_0204BE84 in this family the
+same pass (see docs/notes/pkt_0204BE84.c.txt), and there it DID lead to an
+honest fix, because that function has a real second consumer of the pointer to
+hang the copy on.  Here there is none: the sum is defined once and used once,
+and nothing in the C can give that use a second reaching definition without
+breaking the if-conversion of the two `ldrsh`es, which spellings 4 and 5 above
+already tested.
+
+CONFIRMED CLOSED at 4 bytes / one elided copy.  Do not re-run the permuter on
+this row; both modes are spent.

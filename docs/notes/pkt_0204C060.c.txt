@@ -437,3 +437,121 @@ sole-ref/code widening carries func_0204C3CC).  The row is NOT evidence
 blocked; it is whole-body register allocation.  The next attempt should NOT
 re-run the fold levers or the signedness levers above.
 re-verified 2026-09-21 by tools/match.py: DIFF, 260 bytes against 260, 183 concrete bytes out, 1.1p1
+
+==============================================================================
+SECOND PASS (clact.c), 2026-09-22: func_0204C214 CLOSED -- src/matched/func_0204C214.c
+==============================================================================
+
+This note's func_0204C214 row is EXACT and filed.  The "wall is whole-body, not
+one variable ... do not re-derive without a way to change the front end's
+if-conversion choice" verdict in the wave-r4-6 section above is WRONG, and the
+reason it looked like a whole-body wall is worth recording.
+
+The note's own C was never four independent problems; it was four independent
+levers, each of which is individually invisible because fixing one alone leaves
+the other three dominating the diff.  Measured this pass, in order, starting
+from this note's closest C (148 bytes out, 184 compiled against 180):
+
+  1. COMPUTE THE FOUR SUMS AS NAMED LOCALS BEFORE THE `&&` CHAIN.
+     The image computes all four `add`s at +0x70..+0x80 with only ONE `cmp`
+     between them, i.e. eagerly, before any branch.  Written inline in the
+     conjunction the compiler interleaves each add with its own branch.
+     This alone: 184 -> 180 bytes (correct size) and 148 -> 81 out.  It is
+     also what fixes the size; nothing else does.
+  2. THE ELSE ARM IS THE SYNTHETIC ONE AND THE FIELD ARM FALLS THROUGH, with
+     the 6-bit extraction hoisted ABOVE the `if` -- the same lever
+     src/matched/func_0204C060.c documents.  81 -> 20 out.
+  3. `dy` IS DECLARED BEFORE `dx`.  The image's first `sub` is
+     `b->f10 - c->f00` (+0x40), the second is `b->f14 - c->f04` (+0x34); the
+     note's C has them the other way round.  20 -> 12 out.
+  4. THE ELSE ARM'S FOUR ASSIGNMENTS ARE x0, y0, x1, y1 with the NEGATED value
+     first in each pair (`x0 = -v << 12; y0 = v << 12; x1 = -v << 12;
+     y1 = v << 12;`).  12 -> 6 out.  All 4 orderings were swept; the other
+     three give 10, 10 and 12.
+
+That left exactly the six bytes this note's FIRST section already named as
+"one concrete tell that is not yet reproduced": the three-instruction
+extraction `and #0x3f` / `lsl #2` / `and #0xff` against mwcc's fused
+`lsl #26` + `lsr #24`.  The note's proposed cure -- "two named variables, keep
+the masked value live as an u32 across the u8 truncation" -- is the one that
+does NOT work, and the wave-r4-6 section measured that correctly.
+
+THE ACTUAL CURE was already written down, in a sibling: src/matched/func_0204C060.c
+carries it as its third lever.  The u8 narrowing must be applied to the MASK,
+not to the shifted value:
+
+    s32 m6 = (s32)(u8)(w & 0x3f);
+    s32 v  = (m6 << 2) & 0xff;
+
+Every spelling that narrows the SHIFTED value lets 1.1p1 prove the field
+contiguous and fuse it.  Measured this pass, all exactly 6 out:
+`(u8)((w & 0x3f) << 2)`; `u32 m = w & 0x3f; (u8)(m << 2)`;
+`(u8)((u32)(w & 0x3f) << 2)`; `u32 m = (w & 0x3f) << 2; m & 0xff`;
+`u8 v = (w & 0x3f) << 2`; `(u8)(lo * 4)` with `lo` a separate u32 local.
+`w` declared u32 gives 7 (the `asr #11` becomes `lsr`), `w` declared s32 gives
+6, `((w & 0x3f) << 2) & 0xff` in one expression gives 132.
+
+METHOD NOTE, for the next agent.  tools/permuter.py took this row from 148 to
+115 on its own (`--mode hill --budget 800 --types`: decl-order, commute,
+hoist-up, reorder, down to 116; then `--mode anneal --budget 2000`, 115) and
+then could not move it, and at the final 6-byte point it exhausted 261 single
+mutations with no improvement.  Both of those "cannot move it at all" results
+were correct readings: the first residue was a statement-shape problem the
+mutation table does not cover (lifting four `&&` operands into named locals),
+and the second was in the reading of the extraction.  The permuter is worth
+running first -- it found the size fix's neighbourhood cheaply -- but a flat
+hill on a family row should send you to the already-EXACT siblings' headers
+before it sends you to more mutations.
+
+==============================================================================
+SECOND PASS (clact.c), 2026-09-22: 0x0204C2C8 and 0x0204C3CC, triage only
+==============================================================================
+
+Both were listed as "untouched" for this pass.  Neither was transcribed; the
+budget went to the four rows that closed or moved.  What a `show` establishes,
+so the next attempt does not re-derive it:
+
+0x0204C2C8 (248 code + 12 pool = 260 bytes, ARM)
+------------------------------------------------
+The MAP in the wave-r11 section above is accurate and still holds.  Two things
+to add that make the ORDER of work clear:
+
+  * It calls 0x0204C3CC at +0xDC (`bl #0x204c3cc`), i.e. its immediate
+    successor in the same packet, and the call's argument build is a seven-slot
+    outgoing area (`str r0,[sp]`, `stmib sp,{r0,r7}`, `str r1,[sp,#0xc]`,
+    plus r0-r3).  It also reads `ldr r7, [sp, #0x28]` -- ITS OWN caller's
+    outgoing argument area, so 0x0204C2C8 itself takes a stacked argument
+    beyond the fourth.  Both of those mean its prototype is not settled until
+    0x0204C3CC's is.  0x0204C3CC IS THE PREREQUISITE, not the other way round.
+  * The two pooled tables at +0x104/+0x108 are `tbl_020A17F0` and
+    `tbl_020A17D8`, both already declared in docs/families/clact.h as
+    `u16 [4][4]` with stride 8, both `literal`-attested x20.  They cost
+    nothing to cite and their indexing (`ldrh r3, [r8, r3]` with
+    `r3 = base + (idx << 3)` and `r8 = idx2 << 1`) matches that declaration.
+
+The wave-r11 note's reading of `orrgt r2, r6, r0, asr #22` is worth restating
+because the brief for this pass described it as "1.1p1 folds (s32)mask >> 22 to
+a literal": the pool word 0x00C000C0 shifted right 22 is 3, so the image is
+using the SAME pool word it already has live as a source of the constant 3
+rather than materialising 3.  That is the "kept constants" shape of
+docs/FRONTEND-PINS.md, and it is the first thing to probe (`../2.0/sp2`) if a
+transcription comes out a few bytes short with everything else right.
+
+0x0204C3CC (660 bytes, ARM) -- OVERSIZED, deliberately skipped
+---------------------------------------------------------------
+Judged in one `show` per the brief's "skip oversized functions after a quick
+look" rule and left.  It is `push {r4-r8, sb, sl, lr}` + `sub sp, sp, #0x38`,
+reads FIVE stacked arguments (sp+0x58, +0x5c, +0x60, +0x64 and more after the
+frame adjust), and the body is a long run of `smull`/`umull`/`mla` pairs each
+followed by `adds #0x800` / `adc` / `lsr #0xc` / `orr ..., lsl #20` -- the
+64-bit form of CL_FXMUL from docs/families/clact.h, but spelled out at 20.12
+across a full 3x3 or 4x4 transform rather than through the 2x2 helper
+func_0204C060 uses.  There are at least a dozen of those quartets plus a
+min/max reduction (`cmp`/`movlt`/`movgt` pairs at +0x68..+0x80 and later).
+
+This is the largest open function in the family by a factor of two and it is
+not a mechanical accessor.  It is worth a packet slot of its own, not a share
+of one, and it should be taken AFTER 0x0204C2C8's caller-side argument shape is
+known -- 0x0204C2C8 is its only caller in the image, so the two must be settled
+together and the seven-slot outgoing area at 0x0204C2C8 is the best available
+evidence for its parameter list.

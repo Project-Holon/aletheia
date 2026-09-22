@@ -74,6 +74,15 @@ extern const char sMcssFile[];              /* 0x020A72CC -- "mcss.c"   */
 /* func_020172D8 walks (docs/notes/pkt_020172D8.c.txt).  Four pointers   */
 /* to lists of 2-byte records terminated by 0xFF in byte 0.              */
 extern const u8 *sMcssTable[4];             /* 0x020A72D4               */
+/* CONFIRMED 2026-09-22 by the func_020172D8 transcription
+ * (docs/notes/pkt_020172D8.c.txt): four lists of 2-byte records
+ * terminated by 0xFF in byte 0, and func_020172D8 consumes ONE BYTE of
+ * its u32 second argument per list (`a1 >>= 8` once per outer pass), so
+ * the four lists are indexed by the four bytes of one packed word.
+ * Per record: byte 0 + ((a1 & 0xF) - 8) and byte 1 + (((a1 & 0xF0) >> 4)
+ * - 8), both truncated to u8; the first's bit 0 selects which of two
+ * nibble ranges is bumped, and its value >> 1 plus (second << 7) and
+ * plus ((second + 0x28) << 7) are the two byte offsets written.        */
 
 /* ================================================================== *
  * 1.  struct McssSys -- the module object (0x48+ bytes)
@@ -479,6 +488,16 @@ extern void  sub_02016028(struct McssWork *w, u32 flag);
 extern void  sub_02016078(struct McssSys *sys, struct McssWork *w, int mode);
 extern void  func_0201624C(struct McssSys *sys, struct McssWork *w);
 extern void  func_02016374(struct McssWork *w);
+/* PROVED 2026-09-22 (src/matched/func_02014C08.c, EXACT).  The single
+ * argument is not a guess any more: declared `void func_02016374(void)`,
+ * func_02014C08 is 7 concrete bytes out and NOTHING reaches it -- 171
+ * single permuter mutations and 2000 anneal compiles move it by zero.
+ * Declared with the slot pointer and CALLED with it, every byte closes,
+ * because the image deliberately leaves the slot live in r0 across the
+ * bit test that precedes the call (0x02014C80).  Caller-side evidence
+ * for a callee's arity, of the shape
+ * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-
+ * leftovers.md describes from the other direction.                     */
 extern void  sub_02016380(struct McssWork *w);
 extern void  func_020163C4(struct McssSys *sys, u32 idx,
                            struct McssSrc *src);
@@ -488,11 +507,42 @@ extern void  func_02016880(void *task, struct McssTask *ctx);
 extern void  func_0201691C(void *task, struct McssTask *ctx);
 extern void  func_02016984(struct McssWork *w, int a1);
 extern void  sub_020169D4(void);
+/* PROVED 2026-09-22 (src/matched/func_020160D4.c, EXACT).  The THIRD
+ * parameter is 16-bit AT THE PARAMETER, not merely truncated at the
+ * call.  `int a2` leaves 12 concrete bytes wrong in the prologue spill
+ * order and no body spelling reaches them; `u16 a2` closes the function
+ * in one change (found by tools/permuter.py --types as
+ * `type:p(a2:int->u16)`).  A 16-bit parameter arrives already narrowed,
+ * so mwcc spills it BEFORE it touches the literal pool.  Note the
+ * asymmetry: the FOURTH parameter must stay `int` -- declaring it u16
+ * frees its frame slot entirely and costs 168 bytes.                   */
+extern void  func_020160D4(struct McssWork *w, struct McssWork *w2,
+                           u16 a2, int a3);
 extern void  func_020169E8(struct McssSys *sys, struct McssWork *w);
 extern void  sub_02016BA0(struct McssWork *w);
 extern void  sub_02016C0C(void *id);
 extern void  func_02016C38(void *id);
 extern void  func_02016C60(struct McssWork *w, struct McssTask *task);
+/* TRANSCRIBED 2026-09-22, docs/notes/pkt_02016C60.c.txt (size-exact at
+ * 870, 109 out).  A 4-bit-per-pixel block stamper over the cell bitmap.
+ * Three NEW McssWork fields it is the sole evidence for:
+ *   +0xa8  s32  the log2 of the row stride minus 2; the function
+ *              computes `scale = (s32)pow(2.0, (double)(fa8 + 2))` with
+ *              the soft-float triple _s32_to_double / the 0x0209AB80
+ *              veneer / _d2s, and uses `scale` as the bytes-per-row of
+ *              a 2-pixels-per-byte bitmap.
+ *   +0xb0  s32  a mode word; the whole function is guarded on == 3.
+ * Both lie inside the pad9c[0x9c..0xc0] hole this header declares, which
+ * is therefore NOT opaque: 0xa8 and 0xb0 are real members.
+ *
+ * The McssWork.f2c table is walked here as records of STRIDE 0x30 with
+ * live fields at +0x14 (w), +0x18 (h), +0x1c (sx), +0x20 (sy) and, for
+ * the second pass, +0x2c (w2), +0x30 (h2, doubled), +0x34 (sx2),
+ * +0x38 (sy2) -- all 12-bit fixed point, all >>12 on use.  The count at
+ * f2c[0] is read UNSIGNED (`bhi` / `bhs`).
+ *
+ * McssTask.f00 is dereferenced and indexed: `base = ((u8 **)t->f00)[5]`.
+ * So f00 points at a structure whose +0x14 is the pixel buffer.        */
 
 /* ================================================================== *
  * 6.  Inline helpers -- the two recurring idioms, spelled once.

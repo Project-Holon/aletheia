@@ -107,3 +107,52 @@ itself costs four bytes: 188 compiled against 184.
 The blocking class is unchanged and is codegen, not evidence: address-base
 selection for the ldrh.  All four relocations resolve.
 re-verified 2026-09-21 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1
+
+==============================================================================
+SECOND PASS (clact.c), 2026-09-22: func_0204ACEC CLOSED -- src/matched/func_0204ACEC.c
+==============================================================================
+
+EXACT, 184 bytes against 184, all four sites resolved.  The lever is the
+COMBINATION of two things this note had already measured SEPARATELY and
+recorded as losses.
+
+This note says, correctly, that the 17-byte residue is the address-base split:
+the image materialises `g + 0x104` once and reads both the count (+0x16) and
+the array (+0xc) through it, while mwcc picks base 0x100 for the ldrh (offset
+0x1a, inside the 8-bit immediate) and reaches the array straight off the global
+at +0x110 (inside the ldr 12-bit immediate).  It then records:
+
+  * "A live local Inner* pointer does emit `add r4, r2, #0x104`, but it also
+    hoists the loop bound out of the loop ... and lands at 138 bytes of diff,
+    which is worse."
+  * (FAMILY WAVE section) "named `ClRes *r` local plus `volatile u16 count` ...
+    It does stop the hoist, but the volatile itself costs four bytes: 188
+    compiled against 184."
+
+Both observations are right.  What neither attempt did was pair the local
+pointer with the volatile in the shape below.  Re-measured this pass:
+
+    named `Inner0204ACEC *in` local, non-volatile count   -> 184 bytes, 109 out
+        (the base is now 0x104 with offsets 0x16 and 0xc, exactly as the image,
+        and the ONLY missing instruction is the back-edge count re-read
+        `ldrh r3, [r7, #0x16]` at +0x40 -- the compile is four bytes short and
+        every later row shifts, which is why it reads as 109)
+    the same source with `volatile u16 count`             -> EXACT
+
+So the two levers are complementary, not competing: the local pointer removes
+the base split, and the volatile puts back the one load the local pointer's
+hoist removed.  Each alone is a regression (109 out, or 188 bytes); the pair is
+byte-exact.  The FAMILY WAVE section's "volatile itself costs four bytes"
+measurement was made with the 0x100 base still in place, where the extra load
+is not paid for by anything.
+
+The filed source keeps the loop as the note's `for (i = 0; i < in->count; i++)`
+with the `goto found` exit and the unconditional `i = -1`, and reads the array
+inside the loop body (`arr = (Elem *)in->arr;` per iteration) -- mwcc hoists
+that load itself, giving the image's single `ldr ip, [r7, #0xc]` before the
+loop.
+
+tools/permuter.py was run on the 17-byte no-local baseline first: 169 single
+mutations, no improvement at all.  That flatness is the documented
+"declarations, not allocation" signature, and it is what sent this attempt back
+to the struct/pointer spelling rather than to more mutations.
