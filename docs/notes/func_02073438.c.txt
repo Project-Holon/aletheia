@@ -1,0 +1,144 @@
+/* func_02073438.c.txt -- DIFF residue, pseudo-family cluster pkt_02073098
+   (wave 7, 2026-09-22).  New ground: this function had no note before. */
+
+func_02073438, 76 bytes of ARM, three PC24 relocations, no data.  Verdict:
+DIFF, 72 bytes compiled against 76 under the ../2.0/sp2 pin, 57 concrete bytes
+out.  THE RESIDUE IS ONE INSTRUCTION -- an argument spill the compiler will not
+emit -- and everything else, including the push list, is byte-identical in
+sequence.
+
+WHAT THE FUNCTION DOES
+
+A three-way dispatcher on the object's state byte at +0x2c.  Null pointer or a
+zero state byte returns; a zero second argument tears the object down through
+func_020735EC; otherwise it resets the embedded env sub-object at +0x1c, calls
+func_02073760 and parks the object in state 2.
+
+THE ORIGINAL (0x02073438..0x02073484, 19 instructions)
+
+  02073438  push {r4, lr}
+  0207343C  movs r4, r0              ; p, and the null test in one
+  02073440  mov  r2, r1              ; <-- THE RESIDUE.  n copied out of r1
+  02073444  ldrbne r1, [r4, #0x2c]   ;     so r1 can be the guard's scratch
+  02073448  cmpne  r1, #0
+  0207344C  popeq  {r4, pc}
+  02073450  cmp  r2, #0              ;     ...and the test reads the COPY
+  02073454  bne  #0x2073460
+  02073458  bl   #0x20735ec          ; func_020735EC(p)
+  0207345C  pop  {r4, pc}
+  02073460  add  r0, r4, #0x1c
+  02073464  mov  r1, #0
+  02073468  bl   #0x2075bac          ; func_02075BAC(&p->env, 0)
+  0207346C  mov  r0, r4
+  02073470  mov  r1, #0
+  02073474  bl   #0x2073760          ; func_02073760(p, 0)
+  02073478  mov  r0, #2
+  0207347C  strb r0, [r4, #0x2c]
+  02073480  pop  {r4, pc}
+
+THE PIN IS REAL AND IT IS NOT THE PROBLEM.  Under dsi/1.1p1 the two literal
+zero arguments CSE into a hoisted `mov r4, #0` reused as `mov r1, r4` at both
+call sites, which widens the frame to `push {r3, r4, r5, lr}` and shifts p from
+r4 to r5: 43 concrete bytes out.  Under ../2.0/sp2 the literals are
+rematerialised, the frame is the image's bare `push {r4, lr}`, p lands in r4 and
+EVERY INSTRUCTION THE COMPILE EMITS IS THE IMAGE'S, IN THE IMAGE'S ORDER.  The
+compile is simply one instruction (four bytes) SHORT.  So this is the same
+kept-constants pin the rest of the cluster takes (docs/FRONTEND-PINS.md,
+docs/families/cluster_020726D0.h), correctly applied, with a second and
+independent residue underneath it.
+
+THE RESIDUE, DIAGNOSED.  The permuter's --explain names it exactly:
+
+    register substitutions (image -> compiled), by count:
+      r1   -> r2    x2
+      r2   -> r1    x1
+
+i.e. ONE SWAPPED PAIR, not a reshuffle.  The image spills the second argument
+out of r1 into r2 before the guard and then tests the copy (`cmp r2, #0`); the
+compiler leaves n in r1, uses r1 itself as the guard's `ldrb` scratch, and
+tests r1 afterwards -- which is legal only because it reloads nothing, and
+which is exactly four bytes cheaper.  Per
+docs/idioms/cmp-operand-order-names-the-temporary.md and the "guard scratch
+register is the arity" finding in docs/notes/pkt_02072EA8.c.txt, a copy like
+this normally means the value is live across something that clobbers r1 -- a
+FORWARDED ARGUMENT.  That reading was tested and does not hold here (below).
+
+SPELLINGS MEASURED (all ../2.0/sp2 unless noted; the 72-byte ones are all the
+same missing instruction, the byte counts differ only in how the tail shifts)
+
+  the filed form, `if (p == 0 || p->b2c == 0) return;`   72 B, 57 out  <- BEST
+  inverted arms (the n != 0 arm first)                   72 B, 51 out
+  `if (n)` with a full if/else                           72 B, 51 out
+  positive guard nest `if (p != 0 && p->b2c != 0) {...}` 72 B, 57 out
+  a local `u32 m = n;` before the guard                  72 B, 57 out
+  the second parameter declared u8                       72 B, 57 out
+  the two guards split into two `if`s                    72 B, 57 out
+  func_020735EC declared to take n as well               72 B, 57 out
+  n forwarded to func_02075BAC in place of the 0         72 B, 47 out
+  A THIRD PARAMETER forwarded to both calls              76 B, 23 out  <- the
+      only spelling that reaches the right SIZE: the extra argument forces a
+      callee-saved save and the instruction count matches.  But it saves r2
+      (`mov r4, r2`), not r1, so the copy is of the wrong value, the frame is a
+      wide `push {r3, r4, r5, lr}` again, and p moves to r5.  A third argument
+      is therefore NOT what the image has: it buys the instruction at the cost
+      of the frame, and the image pays for neither.
+  the same third-parameter form under 1.1p1              76 B, 59 out
+  1.1p1 on the filed form                                76 B, 43 out (wide push)
+
+PERMUTER, RUN AS THE BRIEF REQUIRES, on the 72-byte best under --cc ../2.0/sp2:
+  --explain                                    the substitution map above
+  --mode hill --budget 800 --jobs 8 --types    79 mutations available, ALL
+      tried, NO single mutation improves.  Flat.
+  --mode anneal --budget 900 --jobs 8 --types  900 distinct compiles in 96s,
+      19 consecutive dry batches, best never moved off
+      asm=120 bytes-out=57 size=72/76.
+A residue the permuter cannot move at all is, per the wave lesson, in the
+declarations or in the reading of the image.  The reading of the image is not
+in doubt -- nineteen instructions, all reproduced, in order.  That points at the
+declarations, and specifically at the ARITY of one of the three callees or of
+this function itself, which is the one thing the permuter cannot mutate.  None
+of func_020735EC, func_02075BAC or func_02073760 is byte-matched in a way that
+fixes its arity: func_020735EC is EXACT in src/matched but its own file only
+constrains its FIRST parameter, and the other two are open.
+
+NEXT ATTEMPT, CONCRETELY: find a SECOND CALLER of func_02073438 elsewhere in the
+image and read how many argument registers it sets up before the `bl`.  That is
+the measurement that settled all nine members of the 0x02072F88 series (see
+docs/notes/pkt_02072EA8.c.txt section 1) and it is the only evidence that can
+distinguish "n is a forwarded argument the image keeps live" from "the compiler
+declined a spill this front end happens to make".  If the call sites show
+exactly two argument registers, this row is a pure allocation residue and
+belongs with the if-conversion class.
+
+/* best source, 72 bytes against 76, 57 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef struct Obj_02073438 {
+    u8 pad00[0x1c];
+    u8 env[0x2c - 0x1c];
+    u8 b2c;
+} Obj_02073438;
+
+extern void func_020735EC(Obj_02073438 *p);
+extern void func_02075BAC(void *env, u32 z);
+extern void func_02073760(Obj_02073438 *p, u32 z);
+
+void func_02073438(Obj_02073438 *p, u32 n)
+{
+    if (p == 0 || p->b2c == 0) return;
+    if (n == 0) {
+        func_020735EC(p);
+        return;
+    }
+    func_02075BAC(&p->env, 0);
+    func_02073760(p, 0);
+    p->b2c = 2;
+}
+
+permuter best result line:
+  best      DIFF   asm=120   bytes-out=57   size=72/76  listing says the original is 76 bytes, compiled 72
+
+Verified with:
+    python3 tools/match.py one --src <file> --func func_02073438 \
+        --addr 0x02073438 --cc ../2.0/sp2 --arm --diff

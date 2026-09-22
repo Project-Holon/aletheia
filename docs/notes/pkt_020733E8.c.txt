@@ -59,3 +59,156 @@ on the three wrappers; it is what stops all three of these too.
    0x0208A0A4 (see docs/notes/pkt_02072894.c.txt), so no promotion is possible
    from here.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22 (wave 7, pseudo-family lane pkt_02073098)
+================================================================================
+
+THE NOTE'S DIAGNOSIS WAS RIGHT AND ITS CONCLUSION WAS WRONG.  Everything above
+correctly identifies the wall as "a small constant used more than once takes the
+lowest callee-saved register", i.e.
+docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md.  What it
+did not do is CHANGE THE COMPILER.  That idiom is precisely the tell
+docs/FRONTEND-PINS.md calls "kept constants" and it is a ../2.0/sp2 pin, not a
+source problem.  Every measurement above was taken under dsi/1.1p1.
+
+RESULT OF RE-MEASURING THIS PACKET UNDER --cc ../2.0/sp2:
+
+  func_020734AC   CLOSED.  EXACT, 84 bytes, 0 mismatches, 4 of 4 relocations
+                  resolved.  FILED as src/matched/func_020734AC.c.
+                  The body is the one section 1 above already prints, with the
+                  0x24-stride subscript and the embedded +0x0c list; NOT ONE
+                  CHARACTER of C had to change from the shape that note
+                  recorded as "tried and rejected, all still 88 bytes".  Under
+                  1.1p1 it is `push {r3,r4,r5,r6,r7,lr}` against the image's
+                  `push {r4,r5,r6,lr}`, exactly as section 1 describes; under
+                  the pin the push list is the image's and every byte lands.
+                  Section 1's list of seven rejected null spellings was a list
+                  of seven ways of writing a zero that was never the problem.
+
+  func_02073438   IMPROVED but still DIFF.  Under the pin the push list, the
+                  register assignment and all nineteen instructions are the
+                  image's, and the compile is four bytes SHORT of one argument
+                  spill.  Written up in full in its own new note,
+                  docs/notes/func_02073438.c.txt.
+
+  func_020733E8   IMPROVED to 2 concrete bytes out, from the 11 recorded above.
+                  Detailed below; still DIFF.
+
+  func_02073484   unchanged, still MATCH-capped, not re-measured (the cap is
+                  evidential, not codegen).
+
+func_020733E8 -- 2 BYTES OUT, AND WHAT MOVED
+
+Section 2 above lists two residues, (a) the guard load landing in r0 instead of
+r2 and (b) the `1` of the two strb's being materialised at the wrong point.
+RESIDUE (b) IS GONE and it was never about the constant: it was a MISSING LOCAL.
+
+The image loads `o->f4` into callee-saved r4 BEFORE the first call:
+
+  020733E8  push {r3, r4, r5, lr}
+  020733EC  mov  r5, r0
+  020733F0  ldrb r0, [r5, #0x3c]
+  020733F4  ldr  r4, [r5, #4]        ; <-- o->f4 read BEFORE the call, kept
+  020733F8  bl   #0x2089350
+  020733FC  ldr  r2, [r4, #0x1c]     ; <-- and used through r4 afterwards
+
+The version measured in section 2 spelled the guard as `*(u32 *)(o->f4 + 0x1c)`,
+one expression evaluated after the call, so the compiler re-read o->f4 from o
+and the whole tail shifted.  Binding it to a local ASSIGNED BEFORE THE CALL --
+`struct Sub *s = o->f4;` as the function's first statement -- is what makes the
+value live across the call and pins it in r4.  That single change took the file
+from 20 concrete bytes out (under the pin) to 2.  This is
+docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md
+read in the opposite direction: here the image PAYS for the callee-saved
+register, so the local is required, not avoided.
+
+RESIDUE (a) SURVIVES, ALONE, AND IS A TRUE ALLOCATION TIE.  The permuter's
+--explain names the whole of it:
+
+    register substitutions (image -> compiled), by count:
+      r2   -> r0    x2
+
+The guard's load is into a scratch register with nothing to constrain it: r0 is
+dead (the call's arguments are consumed, the function returns void) and the
+compiler takes the lowest free colour, r0; the image takes r2.  Both are legal
+and the choice is below the source text.
+
+SPELLINGS MEASURED THIS PASS (all --cc ../2.0/sp2; every one is exactly 2 out
+unless noted -- the residue does not move)
+
+  `struct Sub *s = o->f4;` then `if (s->f1c != 0)`      2 out   <- BEST, filed
+      nowhere (DIFF), printed below
+  the same with the load bound to a further `u32 v`      2 out
+  the same with `v` declared before `s`                  2 out
+  f1c declared `void *` instead of u32                   2 out
+  the sub-object as `u32 *` with an `s[7]` subscript     2 out
+  func_02089350 declared to RETURN u32                   2 out
+  func_02089350 declared with a second (leftover) arg    CCERR
+  the section-2 spelling (no local, expression inline)   20 out
+  1.1p1 on the best spelling                             (wide push, worse)
+
+PERMUTER, RUN AS THE BRIEF REQUIRES, on the 2-byte best under --cc ../2.0/sp2:
+  --explain                                    the substitution map above
+  --mode hill --budget 800 --jobs 8 --types    74 mutations available, ALL
+      tried, NO single mutation improves.  Flat.
+  --mode anneal --budget 900 --jobs 8 --types  900 distinct compiles in 56s,
+      19 consecutive dry batches, best never moved off asm=10 bytes-out=2
+      size=80/80.
+This is the allocation-tie residue class permuter.py exists for, and it is flat
+against it, which puts the remaining constraint in the declarations.  The one
+declaration the permuter cannot reach is an ARITY, and the only arity still open
+is func_02089350's: if that SDK routine actually takes a second argument, or
+returns a value this function discards into a temporary, r0 would be live across
+the load and r2 would be forced.  Declaring a return value does not do it (r0 is
+still dead immediately); declaring a second parameter is a CCERR at the call.
+
+NEXT ATTEMPT, CONCRETELY: 0x02089350 and 0x0208948C have exactly one caller in
+the image and it is this function, so there is no second call site to read the
+arity off -- which is also why this row caps at MATCH at best even if the two
+bytes close.  The arity must come from the SDK side (asm/arm9/src/028_02087E60.s
+around 0x02089350) rather than from a caller.  That is the measurement to make
+before spending another pass on the C.
+
+/* best source, 80 bytes against 80, 2 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Sub { u8 pad00[0x1c]; u32 f1c; };
+
+struct Obj {
+    u8  pad00[4];
+    struct Sub *f4;
+    u8  pad08[0x2c - 8];
+    u8  b2c;
+    u8  pad2d[2];
+    u8  b2f;
+    u32 f30;
+    u8  pad34[0x3c - 0x34];
+    u8  b3c;
+};
+
+extern void func_02089350(u32 player);
+extern void func_0208948C(u32 player, u32 v);
+extern void func_02073500(struct Obj *o);
+extern u32  func_02089D40(void);
+
+void func_020733E8(struct Obj *o)
+{
+    struct Sub *s = o->f4;
+    func_02089350(o->b3c);
+    if (s->f1c != 0) {
+        func_0208948C(o->b3c, 0xFFFF);
+    }
+    func_02073500(o);
+    o->f30 = func_02089D40();
+    o->b2f = 1;
+    o->b2c = 1;
+}
+
+permuter best result line:
+  best      DIFF   asm=10    bytes-out=2    size=80/80
+
+Verified with:
+    python3 tools/match.py one --src <file> --func func_020733E8 \
+        --addr 0x020733E8 --cc ../2.0/sp2 --arm --diff

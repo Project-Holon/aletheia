@@ -108,3 +108,155 @@ void func_020605B4(struct DList *list, void *elem)
     list->count--;
 }
 re-verified 2026-09-21 by tools/match.py: EXACT, 96 bytes against 96, 0 concrete bytes out, 1.1p1
+
+/* ==================================================================== *
+ * APPENDED 2026-09-22, wave 7 (pseudo-families), pkt_0205D1BC.
+ *
+ * THREE OF THE FIVE FUNCTIONS THIS NOTE COVERS ARE NOW EXACT and are filed
+ * in src/matched/.  The note's own bodies were correct C throughout; what
+ * they were missing is one declaration, described below.  The two that
+ * remain are recorded at the bottom with their best sources.
+ *
+ *   func_02060480  EXACT  src/matched/func_02060480.c
+ *   func_02060550  EXACT  src/matched/func_02060550.c
+ *   func_020605B4  EXACT  src/matched/func_020605B4.c
+ *   func_020604AC  DIFF   84 bytes against 84, 4 concrete out
+ *   func_02060500  DIFF   80 bytes against 80, 4 concrete out
+ *
+ * THE LEVER THIS NOTE WAS MISSING: `volatile struct DList *list`.
+ *
+ * The note's diagnosis ("minor register scheduling around count increments
+ * and loads across stores") named the symptom exactly.  The cause is that
+ * without `volatile`, mwcc proves the count halfword at +0x08 cannot alias
+ * the ELEMENT's own link words, hoists the `ldrh r1, [r0, #8]` above the
+ * head/tail stores, and thereby frees r1 -- the element pointer, dead after
+ * those stores -- to hold the counter.  Every later register shifts by one.
+ * The image reads the count LAST, in source order, and reuses r1.
+ *
+ * On func_02060480 that is the whole residue: 44 bytes against 44, 9
+ * concrete out, and `tools/permuter.py --explain` prints it as the single
+ * substitution `r1 -> r2 x1`.  The permuter closed it at compile 62 of an
+ * 800-budget hill run and named the mutation itself, `volatile-add(list)`.
+ * Qualifying the COUNT FIELD alone instead of the pointer does NOT work
+ * (still 9 out); it has to be the pointer.
+ *
+ * THE SECOND LEVER, on func_02060550: statement order decides the register.
+ * With the node pointer computed AFTER the `prev` read -- the natural order,
+ * since `prev` is used first -- mwcc numbers `prev` first and colours it ip
+ * where the image has r3, inverting the `ldr r3, [r1, lr]` / `add ip, r2,
+ * lr` pair: 100 bytes against 100, 5 concrete out, and NO single mutation of
+ * 124 tried moves it.  Computing the node pointer FIRST closes it.  The
+ * permuter found the same lever independently as
+ * `temp(tmp=(struct DListNode *)((char *)elem + off))` lifted above the
+ * `prev` read, at compile 187.
+ *
+ * func_020605B4 needed neither: with the `volatile` in place it was EXACT on
+ * the first compile.  Its conditional execution (`ldreq`/`streq` paired with
+ * `ldrne`/`strne`) is mwcc if-converting both arms of a plain if/else; no
+ * goto or ternary is needed to get it.
+ *
+ * ==================================================================== *
+ * THE TWO THAT REMAIN.  Both stand at FOUR concrete bytes, size-exact, with
+ * their one relocation resolved, and both have the IDENTICAL residue.
+ *
+ * permuter on func_020604AC: hill --budget 800 --jobs 8 --types  ->  173
+ * singles tried, none improves; anneal --budget 2000 --jobs 8 --types  ->
+ * 2000 compiles in 177s, best unchanged at asm=20 bytes-out=4 size=84/84.
+ * ==================================================================== */
+
+/* best source, 84 bytes against 84, 4 concrete bytes out, dsi/1.1p1 */
+
+void func_020604AC(volatile struct DList *list, void *elem)
+{
+    struct DListNode *node;
+    u16               off;
+    void             *tail;
+
+    if (list->head == 0) {
+        func_02060480(list, elem);
+        return;
+    }
+    node = (struct DListNode *)((char *)elem + list->node_offset);
+    node->prev = list->tail;
+    node->next = 0;
+    off  = list->node_offset;
+    tail = list->tail;
+    ((struct DListNode *)((char *)tail + off))->next = elem;
+    list->tail = elem;
+    list->count = list->count + 1;
+}
+
+/* best source, 80 bytes against 80, 4 concrete bytes out, dsi/1.1p1 */
+/* permuter: hill --budget 800 --jobs 8 --types -> 124 singles, none improves;
+   anneal --budget 2000 --jobs 8 --types -> 2000 compiles in 153s,
+   best DIFF asm=20 bytes-out=4 size=80/80, mutations
+   `temp(tmp=list->node_offset)` -- which is the same hoist already written
+   out by hand below, so the anneal reproduced the hand result and no more. */
+
+void func_02060500(volatile struct DList *list, void *elem)
+{
+    struct DListNode *node;
+
+    if (list->head == 0) {
+        func_02060480(list, elem);
+        return;
+    }
+    node = (struct DListNode *)((char *)elem + list->node_offset);
+    node->prev = 0;
+    node->next = list->head;
+    ((struct DListNode *)((char *)list->head + list->node_offset))->prev = elem;
+    list->head = elem;
+    list->count = list->count + 1;
+}
+
+/* ==================================================================== *
+ * THE RESIDUE, stated once for both.
+ *
+ * Both are the third statement's address computation and nothing else.  On
+ * func_020604AC:
+ *
+ *     +0030    ldrh r2, [r0, #0xa]   |  ldrh r3, [r0, #0xa]
+ *     +0034    ldr  r3, [r0, #4]     |  ldr  r2, [r0, #4]
+ *     +0038    add  r2, r3, r2       |  add  r2, r2, r3
+ *
+ * -- a clean two-way swap, `r2 -> r3 x2` and `r3 -> r2 x2` under --explain.
+ * The image ACCUMULATES INTO the offset register; the compile accumulates
+ * into the pointer register.  Per
+ * docs/idioms/commutative-operand-order-names-the-temporary.md the
+ * accumulator is the second operand, so the image's `off` is the temporary
+ * and the pointer is the folded-in value.  Every spelling that follows from
+ * that reading was measured and NONE of them moves it:
+ *
+ *   1.  `off + (char *)tail`  (the commuted add)                    4 out
+ *   2.  `tail` bound to a local, `off` read inline                  4 out
+ *   3.  `off` bound to a local, `tail` read inline                  4 out
+ *   4.  both bound, tail assigned first                             4 out
+ *   5.  both bound, declared in the other order                     4 out
+ *   6.  neither bound, one expression                               8 out
+ *   7.  the sum lifted into a `struct DListNode *tnode` local       8 out
+ *   8.  `tnode` computed from `list->tail` directly, `off` local    8 out
+ *   9.  `tnode` computed with `off` read inline                     4 out
+ *  10.  `(struct DListNode *)(off + (char *)list->tail)`            8 out
+ *  11.  the whole function NON-volatile (variants of 1-10)          8 out
+ *
+ * So the four-byte floor is reached by five different spellings and beaten
+ * by none.  This is an allocation tie in the sense of docs/notes/permuter.md:
+ * an exhausted hill run (173 singles on func_020604AC, 124 on func_02060500)
+ * and a 2000-compile anneal on each both leave it exactly where it is.
+ *
+ * `--cc ../2.0/sp2` was measured on both and is WORSE, not better: the push
+ * width is already right at 1.1p1 (`push {r3, lr}`, matching the image), so
+ * this is NOT the repeated-small-constant tell that
+ * docs/families/cluster_02060764.h pins func_02060814 on.  Recorded
+ * explicitly so the next lane does not spend the pin on it.
+ *
+ * WHAT WOULD MOVE IT, for whoever takes this next: the residue is upstream of
+ * every expression-level lever, which per the brief's own lesson points at
+ * the DECLARATIONS or at the reading of the image.  The unexplored direction
+ * is the type of `node_offset` itself -- every spelling above reads it as the
+ * u16 the `ldrh` proves, but the value is used only as a byte offset, and a
+ * different declared type for the FIELD (rather than for the local holding
+ * it) changes which value the IR creates first.  That is one `--types` axis
+ * the permuter cannot reach, since it mutates locals and parameters and not
+ * struct members.
+ * ==================================================================== */

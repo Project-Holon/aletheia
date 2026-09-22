@@ -1,38 +1,157 @@
-pkt_02060B6C - DIFF residue (lane 5, 0-64 byte band)
-====================================================
+/*
+ * func_02060B6C -- the expanded heap's free-list re-insert with coalescing.
+ * Near miss recorded 2026-09-22, wave 7 (pseudo-families), pkt_02060764.
+ *
+ * Range:     0x02060B6C..0x02060C5C (240 bytes, arm9, ARM)
+ * Compiler:  dsi/1.1p1, -O4,p  (../2.0/sp2 measured and WORSE -- see below)
+ * Callees:   func_02060790 (x2), func_020607E8, func_020607B8
+ * Cluster:   docs/families/cluster_02060764.h
+ *
+ * WHAT IT DOES.  func_02060E30 (the heap's free primitive, EXACT) reads a
+ * freed block's two-word extent and hands it here.  This function walks the
+ * free list from the head looking for the insertion point, coalesces with the
+ * block that STARTS at the region's end and with the block that ENDS at the
+ * region's start, drops the result if it is under 0x10 bytes, and otherwise
+ * writes a free-block header over it (func_020607E8, signature 0x4652, the
+ * pool word at 0x02060C58) and links it after the predecessor.  It returns 1
+ * when a block was made and 0 when the region was too small.
+ *
+ * STATUS: SIZE-EXACT at 240 bytes with all four PC24 relocations resolved
+ * (`label`), 52 concrete bytes out.  Not filed: DIFF is not a filing verdict.
+ *
+ * THE ONE LEVER THAT MOVED IT, and it is worth carrying: the region parameter
+ * must be `volatile struct MemRegion *`.  The image re-reads `in->start` and
+ * `in->end` from memory on EVERY loop iteration (`ldr r0, [r5]` at +0x30 and
+ * `ldr r0, [r5, #4]` at +0x40, inside the walk) and again in the coalesce
+ * test at +0x84.  Without `volatile`, mwcc proves the callee func_02060790
+ * cannot write the caller's own region and keeps both values in registers
+ * across the whole function: 236 bytes against 240, 181 concrete out.  With
+ * it: 240 bytes, 74 out.  This is the same shape as
+ * docs/idioms/a-global-reread-across-a-call-to-a-visible-static-needs-volatile.md
+ * applied to a by-pointer parameter rather than a global, and it is the same
+ * `volatile` lever the sibling list library needed for a different reason
+ * (docs/notes/dlist_ops.c.txt).
+ *
+ * THE PERMUTER then took it from 74 to 52 in one hill run
+ * (`--mode hill --budget 800 --jobs 8 --types`, 108 singles tried), naming
+ * three mutations in sequence:
+ *
+ *     232  DIFF  asm=925  bytes-out=57   <- temp(tmp=in->end)
+ *     461  DIFF  asm=920  bytes-out=56   <- commute(+)
+ *     692  DIFF  asm=890  bytes-out=52   <- temp(tmp1=in->start)
+ *
+ * and then exhausted its singles.  A 2000-compile anneal from that point
+ * (`--mode anneal --budget 2000 --jobs 8 --types`, 93s) reported a further
+ * improvement to 49 with six composed mutations, BUT ITS `--out` FILE DOES
+ * NOT COMPILE -- `expression syntax error` at the regenerated `tmp2`
+ * declaration, `undefined identifier 'tmp2'` on the next line.  The 49 is
+ * therefore not reproducible and is NOT claimed here; 52 is the measured
+ * floor.  (Worth reporting against tools/permuter.py: the anneal's
+ * multi-`temp` regeneration can emit a declaration it then fails to bind.
+ * The hill run's single-mutation output round-trips fine.)
+ *
+ * WHAT THE REMAINING 52 BYTES ARE.  Two things, both structural:
+ *
+ *  1. THE WALK'S SHAPE.  The image PREDICATES the "not there yet" arm --
+ *     `movlo r4, r1` / `blo 0x2060bd4` at +0x38/+0x3c -- so the `prev = b`
+ *     assignment is a single predicated instruction that then branches to an
+ *     advance block sitting at the BOTTOM of the loop (+0x68, `ldr r1,
+ *     [r1, #0xc]` / `cmp` / `bne` back to +0x30).  Three loop spellings were
+ *     measured and none reproduces it: a `for (b = head; b; b = b->next)`
+ *     with `continue` (189 out), an `if (b) { again: ... goto again; }`
+ *     explicit-goto form matching the image's block order (76 out), and the
+ *     `for (;;)` with the advance written inside the arm (74 out, the
+ *     baseline above).  The explicit-goto form is the interesting failure:
+ *     it gets the BLOCK ORDER right and still loses the predication, which
+ *     says the `movlo` comes from mwcc if-converting a one-statement arm and
+ *     not from the source's control flow.
+ *
+ *  2. THE PROLOGUE'S ORDER.  The image loads BOTH region words before the
+ *     `mov r6, r0` that parks the list pointer (`ldr r2, [r5]` / `ldr r1,
+ *     [r5, #4]` / `mov r6, r0` / two `str`), where every spelling tried
+ *     interleaves the second load after the `mov`.  Four bytes.
+ *
+ * ../2.0/sp2 WAS MEASURED AND IS NOT THE ANSWER.  The push list is already
+ * right at 1.1p1 -- `push {r4, r5, r6, lr}`, matching the image exactly --
+ * so this is NOT the repeated-small-constant tell that
+ * docs/families/cluster_02060764.h pins func_02060814 on.  Recorded
+ * explicitly so the next lane does not spend the pin on it.
+ */
 
-func_02060C5C @ 0x02060C5C (56 bytes, arm9, ARM) - DIFF, 2 concrete bytes
-------------------------------------------------------------------------
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
 
-The twin of func_020610E0 one packet over, with a 0x4c threshold and
-func_02060814 as the callee:
+struct MBlock {
+    u16            signature;
+    u16            attr;
+    u32            size;
+    struct MBlock *prev;
+    struct MBlock *next;
+};
 
-  end   = (b + a) & ~3
-  start = (a + 3) & ~3
-  if (start > end || end - start < 0x4c) return 0;
-  return func_02060814(start, end);
+struct MBlockList {
+    struct MBlock *head;
+    struct MBlock *tail;
+};
 
-Everything reproduces except the register the duration lands in:
+struct MemRegion {
+    int start;
+    int end;
+};
 
-  02060C78  sub r3, r1, r0 / cmp r3, #0x4c    <- image
-  compiled  sub r2, r1, r0 / cmp r2, #0x4c
+extern struct MBlock *func_02060790(struct MBlockList *list, struct MBlock *node);
+extern struct MBlock *func_020607B8(struct MBlockList *list, struct MBlock *node,
+                                    struct MBlock *after);
+extern struct MBlock *func_020607E8(struct MemRegion *rgn, u16 sig);
 
-Both are byte-identical everywhere else, including the pair of `bic`s, the
-`bhi`/`bhs` polarity and the two returns.  Spellings tried this wave on top of
-the ones docs/notes/pkt_020610E0.c.txt records: the two bounds as `u8 *`
-pointers with the subtraction a pointer difference, the Yoda form
-`0x4c > end - start`, the negated `!(start <= end && end - start >= 0x4c)`,
-and the duration assigned to a `u32 len` after the first test -- 2, 16, 2 and
-16 concrete bytes respectively.  The choice of scratch register for a
-subtraction feeding a comparison is below the source text, which is the same
-conclusion the twin's note reaches; the packet is otherwise clean
-(src/matched/func_02060C94.c reproduces the range that follows).
+/* best source, 240 bytes against 240, 52 concrete bytes out, dsi/1.1p1 */
+/* permuter best result line:
+   best DIFF asm=890 bytes-out=52 size=240/240
+   mutations temp(tmp=in->end) ; commute(+) ; temp(tmp1=in->start)          */
 
-The PC24 to func_02060814 at +0x30 is wildcarded as well: that call is the only
-branch to 0x02060814 image wide, so the site needs a `matched` entry at
-0x02060814 (108 bytes, packet pkt_02060814) before this file can close.
+int func_02060B6C(struct MBlockList *list, volatile struct MemRegion *in)
+{
+    struct MemRegion rgn;
+    struct MBlock   *prev;
+    struct MBlock   *b;
+    int              tmp;
+    int              tmp1;
 
-Not filed anywhere: DIFF.  No source in src/matched/ or src/pending/.
+    rgn.start = in->start;
+    rgn.end   = in->end;
 
-Addresses are Black-image addresses.
-re-verified 2026-09-21: no recoverable source in this note
+    prev = 0;
+    b = list->head;
+    if (b != 0) {
+        for (;;) {
+            if ((u32)b < (u32)in->start) {
+                prev = b;
+                b = b->next;
+                if (b == 0) {
+                    break;
+                }
+                continue;
+            }
+            tmp = in->end;
+            if ((u32)b == (u32)tmp) {
+                rgn.end = (int)((u32)((u8 *)b + 0x10) + b->size);
+                func_02060790(list, b);
+            }
+            break;
+        }
+    }
+
+    tmp1 = in->start;
+    if (prev != 0 &&
+        (int)(prev->size + (u32)((u8 *)prev + 0x10)) == tmp1) {
+        rgn.start = (int)prev;
+        prev = func_02060790(list, prev);
+    }
+
+    if ((u32)(rgn.end - rgn.start) < 0x10) {
+        return 0;
+    }
+    func_020607B8(list, func_020607E8(&rgn, 0x4652), prev);
+    return 1;
+}

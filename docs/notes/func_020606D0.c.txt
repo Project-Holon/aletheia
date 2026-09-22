@@ -1,0 +1,146 @@
+/*
+ * func_020606D0 -- the arena registry's constructor.
+ * Near miss recorded 2026-09-22, wave 7 (pseudo-families), pkt_02060550.
+ *
+ * Range:     0x020606D0..0x0206074C (124 bytes, arm9, ARM)
+ * Compiler:  dsi/1.1p1, -O4,p  (../2.0/sp2 measured and WORSE -- see below)
+ * Callees:   func_02060468 (x2), func_020606A8, func_020604AC
+ * Pool:      0x02060744 -> 0x02146B60 (init latch)
+ *            0x02060748 -> 0x02146B64 (root arena list)
+ * Cluster:   docs/families/cluster_02060550.h
+ *
+ * WHAT IT DOES.  Fill the arena header (lo at +0x00 from argument 4, parent
+ * at +0x18, hi at +0x1c, and a byte-masked attribute at +0x20), initialise
+ * the arena's own child list at +0x0c with a node offset of 4, create the
+ * module-global root list once behind the latch at 0x02146B60, and finally
+ * register this arena by appending it to whichever list func_020606A8 picks
+ * for its own address -- which is the enclosing arena's child list, or the
+ * root list when nothing contains it.  That last call is what nests the
+ * registry.
+ *
+ * ARGUMENT ORDER AND TYPES ARE EVIDENCED, not guessed, and the evidence comes
+ * from the CALLER rather than from this function.  src/matched/func_02060814.c
+ * (EXACT) sets this call up as `mov r3, r1` / `ldr r1, [pc, #0x50]` /
+ * `add r2, r4, #0x38`, which puts a pooled signature word in the SECOND slot,
+ * the caller's own `self + 0x38` in the THIRD and the caller's second
+ * parameter in the FOURTH.  So the signature is
+ *
+ *     void func_020606D0(struct Arena *a, void *sig, void *self, void *lo,
+ *                        u16 attr);
+ *
+ * and the fifth argument is a HALFWORD: this function loads it `ldrh r0,
+ * [sp, #8]` at +0x08, not `ldr`.  (Only the fourth and fifth arguments are
+ * actually used by the body below; the second and third are consumed by the
+ * header stores at +0x18 and +0x1c, which is why they read as `parent` and
+ * `hi` from this side and as `signature` and `self` from the caller's.)
+ *
+ * STATUS: 116 bytes against the original's 124, 90 concrete bytes out, all
+ * six relocations resolved (four PC24 by `label`, two ABS32 by `literal`).
+ * Not filed: DIFF is not a filing verdict, and it is eight bytes SHORT.
+ *
+ * WHAT THE EIGHT MISSING BYTES ARE, and they are one thing twice over: the
+ * image REMATERIALISES what this compile keeps in registers.
+ *
+ *  1. The constant 4, the node offset passed to both func_02060468 calls.
+ *     The image emits `mov r1, #4` twice, at +0x2c and at +0x4c.  1.1p1
+ *     hoists it into the callee-saved r6 and spends `mov r1, r6` at each
+ *     site, which is the same length but costs the register.
+ *  2. The latch's ADDRESS.  The image loads the pool word at 0x02060744
+ *     TWICE -- `ldr r0, [pc, #0x34]` at +0x38 for the test and `ldr r0,
+ *     [pc, #0x18]` at +0x54 for the store -- so the address has no live
+ *     range at all.  1.1p1 treats the two reads as one common subexpression,
+ *     parks the address in r5 across the `bl`, and thereby needs a third
+ *     callee-saved register.
+ *
+ * Together these widen the prologue from the image's `push {r4, lr}`
+ * (`10 40 2d e9`) to `push {r4, r5, r6, lr}` and let the compile drop two
+ * instructions, which is the eight bytes.
+ *
+ * THAT IS THE "kept constants" TELL, AND THE PIN WAS TRIED AND DOES NOT WORK.
+ * This is the one case worth recording carefully, because it looks exactly
+ * like the docs/FRONTEND-PINS.md signature -- push list two registers wider,
+ * compile short, everything structurally right -- and its SIBLING one cluster
+ * over (func_02060814, pkt_02060764) IS pinned on precisely that tell and
+ * closes under `../2.0/sp2`.  Here sp2 is WORSE, not better: the same body is
+ * 116 bytes with 94 concrete out under sp2 against 1.1p1's 90, and adding the
+ * `volatile` on the latch (below) gives 93 against 90.  So the front end is
+ * not what is holding this one, and a later lane should not spend the pin on
+ * it a second time.
+ *
+ * SPELLINGS MEASURED, all under 1.1p1 unless noted:
+ *
+ *   1.  `a->attr = (attr & 0xff) | (0 & ~0xff);`                   112 B, 88 out
+ *   2.  clear-then-set through a `u32 v` local, the
+ *       src/matched/func_02060888.c shape                          116 B, 90 out
+ *   3.  (2) + `volatile u32 g_02146B60`                            116 B, 90 out
+ *   4.  (2) + the fifth parameter declared `u16` rather than `u32` 116 B, 90 out
+ *   5.  (2) under `--cc ../2.0/sp2`                                116 B, 94 out
+ *   6.  (4) under `--cc ../2.0/sp2`                                116 B, 93 out
+ *
+ * Spelling 2 is the one below and is the best of them.  Note that `volatile`
+ * on the latch (3) does NOT split the address load the way it splits the
+ * COUNT load in the sibling list library (docs/notes/dlist_ops.c.txt): the
+ * qualifier orders the two ACCESSES to the object but leaves mwcc free to
+ * keep the object's ADDRESS in a register between them, which is exactly the
+ * thing that needs to not happen here.
+ *
+ * WHAT WOULD MOVE IT, for whoever takes this next: the lever has to make the
+ * two `bl func_02060468` call sites stop sharing anything -- neither the
+ * constant 4 nor the latch address.  The untried direction is to give the two
+ * calls different-typed arguments so no CSE is possible at all (the first
+ * takes `&a->children`, the second `&g_02146B64`, and they need not agree on
+ * the node-offset parameter's type), which is a change to the DECLARATION
+ * rather than to the body and therefore outside what tools/permuter.py
+ * mutates.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct DList {
+    void *head;
+    void *tail;
+    u16   count;
+    u16   node_offset;
+};
+
+struct Arena {
+    void        *lo;
+    u8           pad04[8];
+    struct DList children;
+    void        *parent;
+    void        *hi;
+    u32          attr;
+};
+
+extern void  func_02060468(struct DList *list, u16 node_offset);
+extern void  func_020604AC(volatile struct DList *list, void *elem);
+extern void *func_020606A8(u32 addr);
+
+extern u32          g_02146B60;
+extern struct DList g_02146B64;
+
+/* best source, 116 bytes against 124, 90 concrete bytes out, dsi/1.1p1 */
+/* permuter: not run -- the residue is a SIZE gap of two whole instructions,
+   which is outside the allocation-tie class tools/permuter.py scores for
+   (docs/notes/permuter.md: "every instruction and relocation right, a
+   register or a spill slot wrong").  The gap has to close by hand first.   */
+
+void func_020606D0(struct Arena *a, void *sig, void *self, void *lo, u16 attr)
+{
+    u32 v = 0;
+
+    a->lo = lo;
+    a->parent = sig;
+    v = v & ~0xff;
+    v = v | (attr & 0xff);
+    a->hi = self;
+    a->attr = v;
+    func_02060468(&a->children, 4);
+    if (g_02146B60 == 0) {
+        func_02060468(&g_02146B64, 4);
+        g_02146B60 = 1;
+    }
+    func_020604AC((volatile struct DList *)func_020606A8((u32)a), a);
+}
