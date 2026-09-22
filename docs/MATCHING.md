@@ -158,7 +158,7 @@ from a claim about the source into a tautology. So `match.py` records, for
 every address it knows, *where in the image it learned it*, and discards any
 witness that falls inside the range being compared.
 
-Seven classes of evidence are accepted, and every resolved site prints its
+Nine classes of evidence are accepted, and every resolved site prints its
 class, the number of witnesses and one witness address:
 
 | class | what it means |
@@ -169,6 +169,8 @@ class, the number of witnesses and one witness address:
 | `veneer` | the address holds an ARM linker veneer: a fixed twelve-byte (or eight-byte) encoding that loads a constant into `ip` or `pc` and branches to it, with the constant naming a known function. For a call the linker redirected through a stub, which nothing else can attest. |
 | `literal` | the exact word appears in at least one literal pool at a different address. The weaker class, and the only one available for data. |
 | `string` | the address is the start of a NUL-terminated ASCII string whose position is fixed by the terminator of the string before it. For `__FILE__` arguments, which nothing else can attest. |
+| `runtime` | the address is listed in `layout/runtime_arm9.txt`, the curated identification of the mwccarm/MSL `runtime.a` routines (64-bit shift/multiply/divide, soft-float) linked in as hand-written ARM assembly that `disasm.py` never labels. The table entry, read from a file that is never part of any compared range, is the witness. ARM only. |
+| `sdk` | the address is listed in `layout/symbols_sdk.json`, libmatch.py's signature-matcher recovery of the TwlSDK library symbol table — the same table `symbol_address()` already uses to resolve an SDK *name* to an address, now also trusted as a witness that a call or ABS32 *target* at that address is legitimate, the same evidentiary standing `runtime` has for `layout/runtime_arm9.txt`. Closes the case of a single-call leaf SDK wrapper (`DWC_GetCheckNintendoZoneWorkSize`, `PXI_InitFifo`) with no other caller or literal-pool reference anywhere in the image, where `label`/`literal`/`sole-ref` all have nothing to offer. Both ISAs are valid; the declared kind is checked against that symbol's own per-entry `thumb` flag. |
 | `sole-ref` | the layout itself recognises what the address lands on, without a second referrer. Tried last of all. Four sub-kinds: `sole-ref/data` (an object *start* in a data section that the listings, the SDK symbol table, the file-anchor table or the `layout/data_objects.txt` map already carry, with the declared type's alignment satisfied); `sole-ref/code` (exactly a traced function start, respecting `.thumb_func`, or a recognised veneer); `sole-ref/string` (the start of a NUL-terminated printable run, even when the preceding object is a table rather than a string); `sole-ref/self` (the target is in a data section and the ROM word at the site already names it — relocation agreement is the proof). See "The sole-ref class" below. |
 
 The `label` class reads branches from the whole image, not just from the region

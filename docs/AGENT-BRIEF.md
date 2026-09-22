@@ -242,7 +242,7 @@ per-finding, but only if you respect this list.
 A relocation may only be resolved when its target address is attested by
 evidence *outside* the byte range under comparison. Reading the answer out
 of the bytes you are checking and then confirming the bytes contain the
-answer is not a test. Eight evidence classes, each printed per site by
+answer is not a test. Nine evidence classes, each printed per site by
 `match.py`:
 
 - **local**: the symbol is defined in the same object you compiled; its
@@ -276,6 +276,19 @@ answer is not a test. Eight evidence classes, each printed per site by
   carries for an SDK symbol, given a class of its own because a runtime
   routine is never also `label`-attestable the way an SDK symbol usually
   is. ARM only; declare it `arm` in your `symbols:` block.
+- **sdk**: the address is listed in `layout/symbols_sdk.json`, libmatch.py's
+  signature-matcher recovery of the TwlSDK/runtime library symbol table
+  (`symbol_address()` already uses this table to resolve a *name* to an
+  address; this class is what lets that same table also stand as a
+  *witness* that the call site is legitimate, the way `runtime` already does
+  for `layout/runtime_arm9.txt`). Closes the same gap `runtime` closes: a
+  single-call leaf SDK wrapper (`DWC_GetCheckNintendoZoneWorkSize`,
+  `PXI_InitFifo`) can have no other direct caller or literal-pool reference
+  anywhere in the image, so `label`/`literal`/`sole-ref` never fire either,
+  and without this class the packet caps at `MATCH` permanently even though
+  the target is a known, catalogued SDK address. Unlike `runtime`, both ISAs
+  are valid — the declared kind is checked against that symbol's own
+  per-entry `thumb` flag rather than being fixed to ARM.
 
 - **sole-ref**: the layout itself recognises what the address lands on,
   without a second referrer. Widened 2026-09-21 to the standard other

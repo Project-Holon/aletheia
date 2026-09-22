@@ -15,6 +15,8 @@
  * blocked:  +005C ABS32 g_021461E0 : unresolved: no address for 'g_021461E0':
  *           not in the symbols: block, not an address-bearing name, not in
  *           layout/symbols_sdk.json
+ * symbols:
+ *   g_021461E0     0x021461E0  data
  */
 
 typedef unsigned char  u8;

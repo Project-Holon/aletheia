@@ -1053,6 +1053,53 @@ def sdk_symbols():
     return out
 
 
+_SDK_ADDRS = {}
+
+
+def sdk_addresses():
+    """{address: (name, thumb)} from layout/symbols_sdk.json, the inverse of
+    sdk_symbols().  Kept separately because attest_sdk() looks a call or
+    ABS32 *target* up by address, the same direction runtime_addresses()
+    already looks runtime_arm9.txt up in.
+    """
+    if "a" in _SDK_ADDRS:
+        return _SDK_ADDRS["a"]
+    out = {}
+    for name, (addr, thumb) in sdk_symbols().items():
+        out.setdefault(addr, (name, thumb))
+    _SDK_ADDRS["a"] = out
+    return out
+
+
+def attest_sdk(addr, kind):
+    """The `sdk` class.  Returns (class, witnesses, site) or None.
+
+    layout/symbols_sdk.json is libmatch.py's signature-matcher recovery of
+    the TwlSDK/runtime library symbol table: an address it names is, like a
+    layout/runtime_arm9.txt entry, established independently of any single
+    call site in this image, by comparing against the vendor library object
+    files rather than by tracing branches here at all.  A call or ABS32
+    target at a catalogued SDK address is therefore its own witness the same
+    way a runtime routine is -- see "the `runtime` class" above, whose
+    argument this class makes for the same reason and needs for the same
+    reason (single-call leaf SDK wrappers can otherwise have no witness in
+    the image outside the very range under test: DWC_GetCheckNintendoZone-
+    WorkSize and PXI_InitFifo are both examples).  Unlike `runtime`, the SDK
+    table carries a per-symbol ISA rather than being ARM-only, so the
+    declared kind is checked against that symbol's own `thumb` flag instead
+    of being fixed to one instruction set.
+    """
+    if kind not in ("thumb", "arm"):
+        return None
+    found = sdk_addresses().get(addr)
+    if found is None:
+        return None
+    _name, thumb = found
+    if bool(thumb) != (kind == "thumb"):
+        return None
+    return "sdk", 1, addr
+
+
 _MATCHED_SYMS = {}
 
 
@@ -2299,6 +2346,15 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
         proof = attest_runtime(addr, kind)
         if proof is not None:
             return proof
+        # A recovered TwlSDK/runtime library entry, the same evidentiary
+        # standing as the `runtime` class above but sourced from
+        # layout/symbols_sdk.json instead of layout/runtime_arm9.txt, and not
+        # restricted to ARM.  Tried after `runtime` because the two tables
+        # are curated independently and neither takes precedence; in
+        # practice they do not overlap.
+        proof = attest_sdk(addr, kind)
+        if proof is not None:
+            return proof
     want = addr | 1 if kind == "thumb" else addr
     sites = [s for s in ev.pool_words.get(want, ()) if not lo <= s < hi]
     if sites:
@@ -3485,6 +3541,26 @@ def sole_ref_sites(result):
     return ["%s:0x%08X" % (k, a) for k, a in sorted(out)]
 
 
+def sdk_sites(result):
+    """Sorted, de-duplicated `sdk` sites of one verification.
+
+    Same shape as sole_ref_sites(), for the `sdk` class (attest_sdk(),
+    layout/symbols_sdk.json): an entry that rests on it says so, per site,
+    so `grep '"sdk"' layout/matched` lists every entry that depends on a
+    recovered SDK address as its only witness.  Returns [] when the entry
+    used none.
+    """
+    fb = getattr(result, "func", None)
+    sites = getattr(fb, "sites", None) if fb is not None else None
+    if not sites:
+        return []
+    out = set()
+    for st in sites:
+        if st.resolved and st.cls == "sdk" and st.value is not None:
+            out.add(st.value & ~1)
+    return ["0x%08X" % a for a in sorted(out)]
+
+
 def entry_from_source(path, header, kind, rel, verify=False):
     """One manifest entry, optionally recompiled to record a live status."""
     h = header
@@ -3516,6 +3592,7 @@ def entry_from_source(path, header, kind, rel, verify=False):
         # on the class.  An entry that uses no such site records nothing, so
         # every shard that predates the class stays byte for byte identical.
         sole = sole_ref_sites(r)
+        sdk_ev = sdk_sites(r)
     entry = {
         "name": os.path.splitext(fn)[0] if is_unit else names[0],
         "address": "0x%08X" % addr,
@@ -3531,8 +3608,12 @@ def entry_from_source(path, header, kind, rel, verify=False):
     }
     if is_unit:
         entry["functions"] = names
-    if verify and sole:
-        entry["evidence"] = {"sole-ref": sole}
+    if verify and (sole or sdk_ev):
+        entry["evidence"] = {}
+        if sole:
+            entry["evidence"]["sole-ref"] = sole
+        if sdk_ev:
+            entry["evidence"]["sdk"] = sdk_ev
     return entry
 
 
@@ -3828,6 +3909,17 @@ OVERLAY_XCALL_CANDIDATES = ("ov016", "ov021", "ov093")
 RUNTIME_LL_SHL = 0x0209C074
 RUNTIME_NOT_AN_ENTRY = 0x0209C078
 
+# The `sdk` class.  Both are single-call leaf SDK wrappers with no other
+# direct caller or literal-pool reference anywhere in the image (see
+# docs/notes/pkt_sdk_witness -- the two src/pending sites this class was
+# added to close), so `label`/`literal`/`sole-ref` all refuse them and only
+# layout/symbols_sdk.json's own catalogued address carries the proof.  Both
+# are ARM per their symbols_sdk.json `thumb` flag.
+SDK_DWC_WORKSIZE = 0x0205CF24    # DWC_GetCheckNintendoZoneWorkSize
+SDK_PXI_INITFIFO = 0x020884A4    # PXI_InitFifo
+# FUNC_LABELLED (above) is a real game function, absent from
+# layout/symbols_sdk.json entirely, for the negative case.
+
 # A Thumb entry point nothing labels: its only witness anywhere is the pool
 # word at 0x020049F8, so the `literal` class attests the ADDRESS while the
 # image says nothing at all about the instruction set at it.  This is the case
@@ -3843,7 +3935,11 @@ STR_EMPTY_IN_PADDING = 0x020A7068
 STR_FAR_NEIGHBOUR = 0x021A4618
 
 # The pair at 0x02008B08 / 0x02008B4C: OS_GetOwnerRtcOffset is reached from
-# 0x02008B26 and 0x02008B7C and from nowhere else in the ROM.
+# 0x02008B26 and 0x02008B7C and from nowhere else in the ROM.  It is also a
+# catalogued layout/symbols_sdk.json entry, so since the `sdk` class was
+# added it now attests via `sdk` rather than falling through to
+# `sole-ref/code` once both call sites share one compared range; see the
+# pairwise cases below.
 OS_GETOWNERRTCOFFSET = 0x02087D08
 
 # The `matched` class.  func_02018DB4 is the party-area dispatcher: the `bl` at
@@ -4096,6 +4192,24 @@ def cmd_selftest(args):
     _check(res, "runtime: an address inside the runtime range that is not "
                 "itself a listed entry does not attest",
            cls(attest(RUNTIME_NOT_AN_ENTRY, "arm", 0, 0)), None)
+
+    # --- the sdk class -----------------------------------------------------
+    _check(res, "sdk: a catalogued layout/symbols_sdk.json address attests "
+                "itself, no label or outside call needed "
+                "(DWC_GetCheckNintendoZoneWorkSize)",
+           cls(attest(SDK_DWC_WORKSIZE, "arm", 0, 0)), "sdk")
+    _check(res, "sdk: a second catalogued address, same class (PXI_InitFifo)",
+           cls(attest(SDK_PXI_INITFIFO, "arm", 0, 0)), "sdk")
+    _check(res, "sdk: every witness inside the compared range is still "
+                "irrelevant -- the table is never in any compared range",
+           cls(attest(SDK_DWC_WORKSIZE, "arm", 0x0205CF00, 0x0205CF40)),
+           "sdk")
+    _check(res, "sdk: a Thumb declaration against an ARM-flagged sdk entry "
+                "is refused",
+           cls(attest(SDK_DWC_WORKSIZE, "thumb", 0, 0)), None)
+    _check(res, "sdk: an ordinary game address not in symbols_sdk.json does "
+                "not attest via this class",
+           cls(attest_sdk(FUNC_LABELLED, "thumb")), None)
 
     # --- the veneer class --------------------------------------------------
     # VENEER's address is now also named by two real literal pool words
@@ -4379,10 +4493,11 @@ def cmd_selftest(args):
            cls(attest(OS_GETOWNERRTCOFFSET, "arm", 0x02008B4C, 0x02008C20)),
            "label")
     _check(res, "pairwise: one range holding both call sites leaves the "
-                "label class no outside caller, but the target is still a "
-                "traced func_ label start, so sole-ref/code carries it",
+                "label class no outside caller, but OS_GetOwnerRtcOffset is "
+                "also a catalogued symbols_sdk.json entry, so the `sdk` "
+                "class carries it before sole-ref/code is ever tried",
            cls(attest(OS_GETOWNERRTCOFFSET, "arm", 0x02008AEC, 0x02008C20)),
-           "sole-ref")
+           "sdk")
 
     # --- the matched class -------------------------------------------------
     # The one class whose witness is not a reading of the image: an EXACT
