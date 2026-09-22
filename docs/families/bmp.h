@@ -328,6 +328,85 @@ extern void  OS_Terminate(void);                          /* 0x02088234 */
  * 0x0209C0A4 resolves on the `runtime` class via
  * layout/runtime_arm9.txt, while u32 dimensions would emit
  * `_u32_div_f`, which has no address and leaves four sites unresolved.
- * `/` and `%` on the same pair are two separate calls. */
+ * `/` and `%` on the same pair are two separate calls.
+ *
+ * NOTE (2026-09-22): the `runtime` class only fires on a name the file's
+ * own `symbols:` block declares.  A source that calls `/` on s32 without
+ * the line
+ *     _s32_div_f      0x0209C0A4  arm
+ * in its header gets four "unresolved: no address for '_s32_div_f'" sites,
+ * which reads like an evidence wall and is only a missing declaration.  All
+ * seven of func_02044F64's relocation sites resolve once it is present. */
+
+/* ------------------------------------------------------------------ *
+ * THE FOUR-BYTE PIXEL EXTENT, and the one local whose SIGNEDNESS is
+ * load-bearing (2026-09-22, docs/notes/pkt_020445F4.c.txt).
+ *
+ * func_02044F64 recovers both extents with the same expression, but the
+ * two recovered values do NOT have the same type.  The tile-grid WIDTH is
+ * consumed as a signed int; the tile-grid HEIGHT is consumed UNSIGNED:
+ *
+ *     s32 i, d, dep, w, n;
+ *     u32 h;                            <- this, and only this
+ *     w = (u32)(src->f04 * 8192) >> 16;
+ *     h = (u32)(src->f06 * 8192) >> 16;
+ *
+ * Declaring h as s32 costs 8 concrete bytes (14 out instead of 6) and is
+ * what makes the compiler colour `dep` and the `w * d` product into each
+ * other's registers.  The other three signedness combinations of w and h
+ * measure 14, 40 and 40.  Declaration order, which an earlier pass called
+ * "the whole register allocation here" after a 720-permutation sweep, is
+ * INERT once h is unsigned.
+ *
+ * The cast through u32 in BOTH expressions is still required for the
+ * `lsr` (see the func_02044F64 entry above); the u32 declaration of h is a
+ * separate and additional fact about the local, not about the expression.
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * THE SIX BLIT/FILL WORKERS ARE dsi/1.1p1, NOT A PINNED FRONT END
+ * (2026-09-22).  The workers push ten registers where a 1.1p1 build of
+ * the best known source pushes eight, and "push list one register wider
+ * than the image" is a recognised compiler-pin tell elsewhere in the
+ * tree.  It is NOT one here; the hypothesis was measured and refused on
+ * every worker with a usable source:
+ *
+ *   function      1.1p1        ../2.0/sp2    ../1.2/sp2
+ *   0x02044CE0    168 / 85     188 / 135     204 / 185
+ *   0x02044F64    292 /  6     292 /  14     292 / 131
+ *   0x02044BF0    208 / 188    260 / 217     --
+ *   0x02044D88    312 / 272    356 / 313     384 / 342
+ *
+ * (compiled size / concrete bytes out; the originals are 168, 292, 240
+ * and 308.)  1.1p1 is the only front end that reproduces any of the
+ * sizes.  The `mov fp, #0xf0` held across both arms at 0x02044E00 in
+ * func_02044D88 looks like the documented "kept constants" 2.0 tell and
+ * is not: under ../2.0/sp2 that function is 44 bytes longer and 41 bytes
+ * worse.  No pin is taken for this family and none should be sought.
+ *
+ * The push width is nonetheless REACHABLE from C: 1.1p1 emits the
+ * image's ten-register push as soon as the function carries one more live
+ * value.  The open problem is getting the tenth register while keeping
+ * the other nine coloured correctly, not getting it at all.
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * THE CLIPPING GUARD IS SIGNED IN ALL FOUR FILL WORKERS, which rules out
+ * an unsigned inner loop counter however much shorter it compiles
+ * (2026-09-22).  Each worker clips right and bottom before the loops but
+ * tests left and top PER PIXEL, as the triple
+ *
+ *     cmp  rX, #0
+ *     cmpge rY, #0
+ *     blt  <skip>
+ *
+ * (0x02044D40, 0x02044C70, 0x02044E04 and the 0x02044EBC twin).  A `u32`
+ * or otherwise unsigned loop counter folds `x >= 0` away and collapses the
+ * triple to a single unsigned `cmp`/`bhs`, which is a different function.
+ * On func_02044D88 that change happens to hit the original's size exactly
+ * (308 bytes, and 204 out against the signed source's 272), so it is a
+ * trap rather than a lever: check for the `cmpge` triple before accepting
+ * any signedness change to a loop counter in this family.
+ * ------------------------------------------------------------------ */
 
 #endif /* BMP_H */

@@ -220,3 +220,150 @@ C as left (35 bytes, best known for this address):
 
 No file was filed for this address: DIFF is note-only.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020173F0.c:39: declaration syntax error
+
+
+================================================================================
+2026-09-22 -- poke_tool.c SECOND PASS, appended.  Nothing above edited.
+================================================================================
+
+0x0201747C IS NOW EXACT.  It is filed as src/matched/func_0201747C.c and is
+in layout/matched/arm9/pkt_020173F0.json.  The lever was
+docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: the record copy is a
+whole-struct assignment of an 0x22-word struct, not a hand-written word loop.
+See that file's header for the full derivation.  Filing it also PROVES
+func_020173F0's signature from a caller, which the rest of this section uses:
+
+    void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3, u32 heap)
+
+(species and level truncated at the assignment in func_0201747C, so they are
+the local's width there; the call site passes them in r0/r1 unnarrowed.)
+
+--------------------------------------------------------------------------------
+0x020173F0 -- the 4-byte structural gap, measured again and narrowed
+--------------------------------------------------------------------------------
+
+/* best source, 60 bytes against 64, 30 concrete bytes out, dsi/1.1p1 */
+
+    extern u32   func_020173EC(void);
+    extern void *func_02030734(u32 heap, u32 size, u32 flags,
+                               const char *file, u32 line);
+    extern void  func_0201756C(void *v, u32 s, u32 l, u32 o, u32 a3);
+    extern u8    sPokeToolFile;                 /* 0x020A72E4  data */
+
+    void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3, u16 heap)
+    {
+        void *v = func_02030734(heap, func_020173EC(), 1,
+                                (const char *)&sPokeToolFile, 0xa0);
+        if (v != 0) { func_0201756C(v, species, level, otId, a3); }
+        return v;
+    }
+
+permuter best result line: baseline and best both
+  DIFF  asm=455  bytes-out=30  size=60/64   (mode hill, --types, no single
+  mutation of 60 improves it)
+
+THE GAP, stated exactly.  The original gives BOTH r2 and r3 (otId and a3) a
+memory home in the prologue and reloads them at the call:
+
+    020173F8  str r2, [sp, #4]         <- otId spilled at entry
+    020173FA  str r3, [sp, #8]         <- a3 spilled at entry
+    ...
+    02017416  ldr r1, [sp, #8]         <- a3 reloaded
+    02017418  ldr r3, [sp, #4]         <- otId reloaded
+
+Every spelling under 1.1p1 keeps them in callee-saved registers instead
+(`adds r5, r2, #0` / `adds r4, r3, #0`), which costs one extra push register,
+shrinks `sub sp` from #0xc to #8, and loses the two `ldr`s -- exactly four
+bytes, which is the whole size gap.  The residue is that spill decision and
+nothing else; the argument VALUES, their slots and every branch target agree.
+
+NEW THIS PASS.  The lever that fixes the structurally identical function
+0x020182A8 -- narrowing a PARAMETER so the front end gives it a memory home,
+the family's own "truncation at the CALL constrains the callee's width" rule
+-- was swept here over both this function's own parameters and the callee's,
+and it does NOT work:
+
+  caller's species/level u16, heap u16                  60 bytes, 30 out
+  caller's species/level u32, heap u16                  60 bytes, 30 out
+  caller's heap u32 (so no ldrh at all)                 60 bytes, 41 out
+  callee func_0201756C's 2nd/3rd parameter u16          60 bytes, 30 out
+  callee's 4th parameter (otId) u8                      64 bytes, 22 out
+  callee's 5th parameter (a3) u8 or u16                 64 bytes, 26 out
+
+The last two rows are the interesting negative result and the reason to write
+this down: narrowing a CALLEE parameter does buy the missing four bytes and
+make the function size-exact at 64, but it buys them in the WRONG PLACE.  The
+four bytes come back as a `lsls r3,r5,#0x18 / lsrs r3,r3,#0x18` truncation
+pair at the call site, and the original has no truncation there at all -- it
+has two `ldr`s.  Size-exactness reached that way is a coincidence of
+instruction count, not evidence, and the concrete residue only drops from 30
+to 22 because the tail realigns.  A future lane should not read "64 bytes" off
+that spelling and think it is close.
+
+SO: the spill must be forced without adding an instruction.  Ruled out this
+pass, each compiled rather than reasoned about: volatile on the parameter
+(125 bytes out on the twin), reading the parameter through its own address
+(`*(u32 *)&a3`, 46-75 out), binding it to a local before the call, a ninth
+parameter, passing otId+a3 as a two-word struct by value (80 bytes), and the
+struct-by-value form generally.  Front-end pins were also swept, because
+`push` one register wider than the image is the documented "frame padding"
+tell of docs/FRONTEND-PINS.md -- but that tell points the other way here (the
+image pushes a REAL register where 1.1p1 pads with `push {r3}`, not the
+reverse), and ../1.2/sp2 (25 out), ../2.0/sp2, 1.2, 1.2p2 and 1.3 (all 18 out
+on the twin) are no better than the pin.  This is not a front-end question.
+
+--------------------------------------------------------------------------------
+0x02017430 -- improved from 35 to 25 concrete bytes, and now size-exact
+--------------------------------------------------------------------------------
+
+The earlier section left this at 35 concrete bytes and 72 compiled against 76.
+tools/permuter.py (mode hill, --types, budget 600, 108 single mutations from a
+33-byte start) found a two-mutation improvement:
+
+    mutations  type:p(b1:u32->u16) ; type:p(a2:u8->int)
+
+/* best source, 76 bytes against 76, 25 concrete bytes out, dsi/1.1p1 */
+
+    void *func_02017430(u32 a0, u32 a1, int a2, u32 a3,
+                        u32 b0, u16 b1, u32 b2, u16 b3)
+    {
+        void *v = func_02030734(b3, func_020173EC(), 1,
+                                (const char *)&sPokeToolFile, 0xba);
+        if (v != 0) { func_02017588(v, a0, a1, a2, a3, b0, b1, b2); }
+        return v;
+    }
+
+permuter best result line:
+  DIFF  asm=740  bytes-out=25  size=76/76  (mode hill, --types; no single
+  mutation of 108 improves it)
+
+What this buys, concretely: the function is now the right SIZE, the pool-word
+displacement at +0x1A is right, and the `beq` at +0x24 has the right target,
+none of which was true at 35 bytes.  Two separate findings underneath that:
+
+  1. `u16 b3` as a plain eighth parameter is enough for the
+     `add r0, sp, #0x28 / ldrh r0, [r0, #0xc]` address form.  The earlier
+     section's elaborate `*(unsigned short *)((char *)&b3)` spelling is NOT
+     needed -- it was fixing the symptom of a different problem.
+  2. `a2` as int/u8 rather than u32 is what makes `str r2, [sp, #0x10]` (a2's
+     spill) come out right.  Only a3's spill is left.
+
+WHAT IS LEFT is the SAME ONE THING as 0x020173F0 above and as 0x02017588 and
+0x0201756C/0x02017600 in pkt_0201756C: a3 wants a memory home and 1.1p1 gives
+it a register.  `u16 b1` in the row above is a scoring artefact of the
+permuter (it pays for the missing spill with an unrelated `ldrh`) and should
+be dropped by whoever next works this: with `u32 b1` the source is the honest
+one and the residue is 33 bytes at 72.
+
+THIS IS ONE WALL, NOT FOUR.  Five functions in this family
+(0x020173F0, 0x02017430, 0x02017588, 0x0201756C, 0x02017600) are all
+byte-correct except for exactly this spill-versus-register tie-break on the
+last register argument, all with the same shape (a forwarder whose own
+arguments are rebuilt into an outgoing stack block).  Whichever lever forces
+1.1p1 to spill a register parameter it can otherwise keep will close all five
+at once, and that -- not any one of them individually -- is what the next
+attempt should be aimed at.  Levers NOT yet tried anywhere: a parameter whose
+address is taken in a branch the optimiser cannot prove dead; setjmp-like
+opacity; and a `#pragma` the front end honours.
+
+Nothing was filed under src/ for 0x020173F0 or 0x02017430: both are DIFF.

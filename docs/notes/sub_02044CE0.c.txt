@@ -184,3 +184,114 @@ wave: 168 bytes each, instruction for instruction the same, same pool
 constant 0x00007FC0, only branch displacements relocated.  Whatever closes
 one closes the other, and the source above is the one to start from.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================
+SECOND PASS, appended 2026-09-22 (bmp.c family, permuter-led)
+
+THE PUSH-WIDTH TELL IS NOT A COMPILER PIN HERE.  The 2026-09-21 section
+above ends on "the original pushes TEN registers ... while mwcc pushes
+EIGHT", and that shape has since been found to be a front-end tell in other
+families.  It is not one here.  The 81-out source was compiled under all
+three available front ends:
+
+    dsi/1.1p1     168 bytes,  85 concrete out   <- best, and correct size
+    dsi/../2.0/sp2 188 bytes, 135 concrete out
+    dsi/../1.2/sp2 204 bytes, 185 concrete out
+
+1.1p1 is the only front end that even reproduces the size.  No pin.
+
+THE PUSH WIDTH IS A SOURCE-LEVEL CONSEQUENCE, NOT A COMPILER ONE.  This is
+the one genuinely new fact of this pass: mwcc DOES emit the image's
+ten-register `push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}` (and matching
+`pop`/`popge`) under 1.1p1 as soon as the function carries one more live
+value than the plateau source does.  So the previous pass's closing
+diagnosis -- "a register-pressure decision ... no longer an address-shape
+question" -- is right about the mechanism but wrong to treat it as
+unreachable from C.  Getting the tenth register is easy; getting it while
+keeping the other nine correctly coloured is the open problem.
+
+The residue under `--explain` on the 81-out source is a GENERAL reshuffle,
+not a swapped pair (16 distinct image->compiled register substitutions, the
+largest only x5), which is the signature the permuter docs give for a
+residue no single mutation reaches.
+
+MEASURED AND INERT this pass, all 168 bytes / 81 concrete out, on top of the
+2026-09-21 source:
+  - tileRow first in the address sum
+  - `(s->pixels + (j & 7)) + (((j * 8) & 0x7fc0) + tileRow)`
+  - `s->pixels + (j & 7) + (((j * 8) & 0x7fc0) + tileRow)`
+  - `u8 *p = s->pixels;` read into a guard-local, then `rowInTile[p + ...]`
+  - `u8 *p = s->pixels + (j & 7);`
+  - `s32 col = j & 7; s32 tileX = (j * 8) & 0x7fc0;` as guard-locals
+The address-sum shape is therefore fully exhausted, confirming and extending
+the previous pass's "operand order is INERT at this point".
+
+MEASURED AND WORSE:
+  - the two invariants moved INSIDE the inner loop body:   176 bytes / 103
+  - declaration order `tilesWide,i,j,right,bottom`:        168 / 89
+  - declaration order `i,j,tilesWide,right,bottom`:        168 / 86
+  - declaration order `right,bottom,tilesWide,i,j`:        168 / 108
+so the 2026-09-21 declaration order (`tilesWide; i; right; bottom; j`) is
+re-confirmed as the sweep's minimum at 81.
+
+WARNING -- A PERMUTER DEFECT PRODUCED FALSE BESTS ON THIS FUNCTION.  A
+budget-800 `--mode hill --types` run reported 85 -> 62 and an anneal
+reported 81 -> 58, both headlined by `temp(tmp=i * 8)`.  Reading the `--out`
+source shows the mutation inserted
+
+    s32 tmp;  ...  tmp = i;  tmp = tmp * 8;
+
+BEFORE the `for (i = y; ...)` that first assigns i, and then replaced
+`rowInTile` at the store with `(tmp & 0x38)`.  That reads an uninitialised
+local and is a different function; the 62 and 58 are not real. Both runs did
+also produce the TEN-register push, which is the observation above and the
+only thing worth keeping from them.  Verify any `temp(...)`/`copy(...)`
+mutation's `--out` source by hand on this family.
+
+STANDING AT THE END OF THIS PASS: 168/168 bytes, 81 concrete out, dsi/1.1p1,
+unchanged from 2026-09-21.  0x02044EBC remains byte-identical to this
+function and inherits every line above.
+
+/* best source, 168 bytes against 168, 81 concrete bytes out, dsi/1.1p1 */
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef signed int     s32;
+    struct Surf { u8 *pixels; u16 width; u16 height; };
+    void func_02044CE0(struct Surf *s, s32 x, s32 y, s32 w, u16 h, u8 value)
+    {
+        s32 tilesWide;
+        s32 i;
+        s32 right = x + w;
+        s32 bottom = y + h;
+        s32 j;
+        if (right > s->width) right = s->width;
+        if (bottom > s->height) bottom = s->height;
+        tilesWide = (s->width + (s->width & 7)) >> 3;
+        for (i = y; i < bottom; i++) {
+            s32 tileRow = ((i * 8) & 0x7fc0) * tilesWide;
+            s32 rowInTile = (i * 8) & 0x38;
+            for (j = x; j < right; j++)
+                if (j >= 0 && i >= 0)
+                    rowInTile[s->pixels + (j & 7) + ((j * 8) & 0x7fc0) + tileRow] = value;
+        }
+    }
+permuter best result line (after discarding the defective mutations above):
+    no single mutation improves DIFF   asm=1300  bytes-out=81   size=168/168
+
+re-verified 2026-09-22 by tools/match.py: 168/168 bytes, 81 concrete out,
+0 relocation sites, dsi/1.1p1 -O4,p -proc arm946e, ARM.
+
+CORRECTION to the 2026-09-21 section's recorded declaration order.  That
+section names the 81-byte source as
+
+    s32 tilesWide; s32 i; s32 right = x + w; s32 j; s32 bottom = y + h;
+
+Re-measured 2026-09-22, that exact order gives 85, not 81.  The order that
+actually gives 81 (and is the one quoted in the "best source" block above) is
+
+    s32 tilesWide; s32 i; s32 right = x + w; s32 bottom = y + h; s32 j;
+
+i.e. `bottom` and `j` the other way round.  The permuter reaches the same
+conclusion independently: on the 85-out source its first improving mutation
+is `decl-order(bottom<->j)` at 81.  The 81 figure itself is correct; only the
+ordering written beside it was transposed.

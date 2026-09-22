@@ -256,3 +256,58 @@ cannot request.
 
 Verdict for this wave: 0x020186C8 stays DIFF, no source filed, no shard entry.
 re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header
+
+
+================================================================================
+2026-09-22 -- poke_tool.c SECOND PASS, 0x0201862C only.  Appended, nothing edited.
+================================================================================
+
+0x0201862C improved from 10 concrete bytes to 9, and is now known to be at the
+floor of everything tools/permuter.py can reach.  Still DIFF, no file filed.
+
+/* best source, 156 bytes against 156, 9 concrete bytes out, dsi/1.1p1 */
+
+The source is the "closest spelling" recorded above with ONE change, which the
+permuter found and named: `commute(^)`, i.e. the two operands of the outer xor
+in the a5 != 0 arm are written the other way round.
+
+    u32 func_0201862C(u32 a0, int a1, int a2, int a3, u8 a4, int a5)
+    {
+        if (a5 != 0) {
+            u32 v = func_020185F8(a1, a2, a3);
+
+            a0 = v | ((((a0 & 0xFFFF0000u) >> 16) ^ ((u16)v ^ (u16)a0)) << 16);
+            if ((a0 & 0x10000u) != ((u32)a4 << 16)) { a0 ^= 0x10000u; }
+        } else {
+            /* ... unchanged from the section above ... */
+        }
+    done:
+        return a0;
+    }
+
+permuter best result lines, in order:
+  baseline                  DIFF  asm=225  bytes-out=10  size=156/156
+  hill, --types, budget 800 DIFF  asm=215  bytes-out=9   size=156/156
+                            mutations commute(^)   (255 single mutations tried,
+                            nothing further improves)
+  anneal, --types, budget 2000, 8 jobs, from the hill best:
+                            DIFF  asm=215  bytes-out=9   size=156/156
+                            (2000 compiles in 124s, 34 stalled batches, plateau
+                            and drift; never improved on the hill result)
+
+--explain reports the residue as four substitutions, r2 -> r3 x2, r5 -> r0 x1,
+r1 -> r2 x1, r0 -> r5 x1 -- a general reshuffle of the half-extraction block,
+not one swapped pair, which is consistent with the section above's reading
+that the original keeps the whole chain in r1/r2 and this front end needs a
+third register.
+
+The size, the frame, the push set, every branch target and the entire second
+arm remain byte-identical, as the section above found.  Nothing new was ruled
+out by hand this pass; the value of this section is the permuter measurement,
+which says the remaining nine bytes are NOT an allocation tie the mutation set
+can reach.  Per docs/notes/permuter.md that points at the declarations or at
+the reading of the image, and the declarations here are already minimal
+(six parameters, one local, no structs), so the next attempt should re-read
+the half-extraction block against the image rather than re-spell it.
+
+0x020186C8 was NOT re-attempted this pass and its sections above stand.

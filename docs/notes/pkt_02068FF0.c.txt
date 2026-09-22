@@ -412,3 +412,137 @@ NOT carry over); the index bound to a named `int ix` local (27).
 Floor under the pin is 27, against 41 unpinned.  A later lane should write the
 C against ../2.0/sp2 from the start.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02068FF0.c:30: declaration syntax error
+
+==============================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family lane (cluster pkt_02068E78).
+func_02068FF0 re-read from scratch.  THREE of this note's earlier claims about
+it are WRONG and are corrected here; the function is still DIFF, but the wall
+is now named exactly and is one thing, not three.
+==============================================================================
+
+CORRECTION 1 -- THE EVIDENCE CAP IS GONE.  This note says twice that the entry
+"is evidence-capped regardless: ABS32 g_020A18E8 at +0x74 appears in exactly
+one literal pool in the whole image, its own, so no C can ever take it past
+MATCH".  That is no longer true and has not been since the sole-ref widening
+and `tools/datamap.py`.  Measured this pass, all three front ends:
+
+    +00A8 ABS32 g_020A18E8  -> 020A18E8  [data_table x3, e.g. 020A18E8]
+
+Both data relocations resolve (g_020A18F4 as `literal x10`, g_020A18E8 as
+`data_table x3`), and so does the one PC24 to func_02068E78 (`label x5`).
+There is no evidence blocker on this function at all any more.  Anyone reading
+the old paragraphs above should ignore them.
+
+CORRECTION 2 -- `__cntlz` IS NOT AN INTRINSIC, AND THE CLZ IS THE WHOLE WALL.
+This note states that "the `clz` + `rsb #0x1f` sequence is the front end's
+`__cntlz` intrinsic, and it does compile here, so that part of the spelling is
+real".  It compiles, but not as an intrinsic: `__cntlz` is simply an undeclared
+identifier that C99 accepts as an implicit function, and what comes out is a
+`bl` to an unresolvable symbol --
+
+    +0028 PC24 __cntlz -> unresolved: no address for '__cntlz': not in the
+          symbols: block, not an address-bearing name, not in symbols_sdk.json
+
+so the two "intrinsic" sites were wildcarded relocations, not the image's three
+predicated instructions.  There is no clz intrinsic in this compiler.  Checked
+directly: `strings mwccarm.exe | grep -i clz` finds exactly two hits,
+`clz%s` and `clz`, both of them the ASSEMBLER's mnemonic, and no
+`__cntlz`/`__clz`/`__CLZ32`/`__builtin_clz` name anywhere in the binary (the
+`__builtin_*` list the binary does carry is align/type/constant_p/expect and
+the C++ trait queries -- no bit intrinsics at all).
+
+Nor is it reachable as an idiom.  Ten highest-set-bit spellings were compiled
+at -O4,p under ../2.0/sp2 and NONE produced a `clz`:
+
+    31 - __builtin_clz(v) / __clz(v) / __CLZ32(v) / __cntlz(v)  -- all `bl`
+    int n=0; while(v>1){v>>=1;n++;}                  -- shift loop
+    int n=31; while((v&0x80000000u)==0){v<<=1;n--;}  -- shift loop
+    int n=0; while((v>>n)>1)n++;                     -- shift loop
+    unsigned n=0; while(v){v>>=1;n++;} return n-1;   -- shift loop
+    for(n=31;n>=0;n--) if(x&(1u<<n)) return n;       -- shift loop
+    the five-step binary search (>=0x10000, >=0x100, >=0x10, >=4, >=2)
+                                                     -- five cmp/lsrhs/addhs
+
+The last is the interesting one: it is the canonical shape a clz peephole
+recognises, and this front end emits the five predicated steps literally
+instead.  CONCLUSION: `clz` is NOT REACHABLE FROM THIS PROJECT'S C.  That is
+the same conclusion docs/notes/pkt_0209AF34_soft_float_library.c.txt reaches
+for the two int-to-double conversions, and the same wall
+docs/notes/pkt_02067FE4.c.txt hits in func_02068204's tail, which recomputes
+the SAME two shift amounts with the SAME `clz` / `rsb #0x1f` / `cmp #8` guard
+against the SAME table g_020A18F4.  Three functions, one wall.  Anyone who
+closes it closes all three; nobody should spend another pass looking for a
+spelling.
+
+CORRECTION 3 -- THE FRAME DOES CLOSE, AND func_02068E78 TAKES EIGHT ARGUMENTS.
+This note's remaining blocker is "the original reads its outgoing argument slot
+[sp, #0xc] before the compiler makes its first store there, i.e. the source
+keeps a fifth value in the frame that this C does not have".  The reading is
+right and the conclusion is wrong.  [sp, #0xc] is not a fifth local: IT IS THE
+EIGHTH ARGUMENT SLOT.  The image stores the packed word into BOTH [sp, #8] and
+[sp, #0xc] at 0x02069060/0x0206905C before the `bl`, i.e. it passes the same
+value as arguments seven and eight.  func_02068E78 (filed EXACT this pass as
+src/matched/func_02068E78.c) only reads [sp+0], [sp+4] and [sp+8] in its body,
+so the eighth argument is dead in the callee -- which is exactly why it was
+invisible from that side and had to be read from this one.
+
+Declaring the callee with eight parameters and calling it `..., v, v)` closes
+the frame outright: `sub sp, sp, #0x10` matches, `str r4, [sp, #8]` and
+`str r4, [sp, #0xc]` both appear in the image's order, and the push narrows
+from five registers to four.  Before: `sub sp, sp, #0xc`, one store, five
+pushed.  This is the single largest correction available on this function and
+it was worth the pass on its own.
+
+THE BEST BODY NOW REACHABLE.  With the eight-argument call and the clz sites
+stubbed, every instruction from 0x02069034 to the `bl` reproduces in the
+image's order:
+
+/* best source, 172 bytes against 136, 154 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+extern void func_02068E78(void *p, int a1, int a2, int a3, int a5,
+                          const void *a6, u32 a7, u32 a8);
+extern const u8 g_020A18F4[];
+extern const u8 g_020A18E8[];
+
+void func_02068FF0(void *p, int a1, int w, int h, int a5)
+{
+    volatile u32 v;              /* read before written; see below */
+    u32 i;
+    u32 j;
+
+    i = (w < 8) ? (u32)(31 - CLZ(w)) : 3;   /* CLZ is the unspellable part */
+    j = (h < 8) ? (u32)(31 - CLZ(h)) : 3;
+    v = (v & ~0xFFu) | g_020A18F4[j * 8 + i * 2];
+    v = (v & ~0xFF00u)
+        | ((u32)(g_020A18F4[j * 8 + i * 2 + 1] << 24) >> 16);
+    func_02068E78(p, a1, w, h, a5, g_020A18E8, v, v);
+}
+
+permuter best result line: not run.  The residue is two three-instruction
+sequences the front end cannot emit at all, which is outside the permuter's
+value-preserving mutation set by construction -- there is no allocation or
+schedule for it to find.  `--explain` on a stub-free variant is meaningless
+for the same reason.
+
+WHAT THE BODY MEANS, now that it is readable.  `v` is a four-byte packed
+configuration word that the original reads BEFORE writing (the image's
+`ldr lr, [sp, #0xc]` at 0x02069024 precedes every store to that slot), sets
+byte 0 and byte 1 of, and passes on with its upper two bytes still holding
+whatever was in the frame.  That is an uninitialised local in the original
+source, not a misreading: `bic #0xff` / `orr` sets byte 0 from
+g_020A18F4[j*8 + i*2], and `bic #0xff00` / `lsl #0x18` / `orr ..., lsr #16`
+sets byte 1 from the next byte of the same pair.  g_020A18F4 is therefore an
+8-byte-row table of BYTE PAIRS indexed [j][i], which is the same shape and the
+same table docs/notes/pkt_02067FE4.c.txt independently derived for
+func_02068204 ("an 8 x N table of PAIRS", row stride 8).  Two independent
+readings agreeing on the table's shape is worth more than either alone.
+
+`i` and `j` are log2(w) and log2(h) saturated at 3, i.e. the tile size code for
+a dimension of 1, 2, 4 or 8+; the `cmp #8` / `movge 3` guard is the saturation
+and the `clz`/`rsb #0x1f` pair is the log2.
+
+STATUS: DIFF, and the reason is now exactly one thing.  Not evidence, not the
+frame, not the table: the compiler cannot emit `clz`.  Filed as this note
+rather than as a src/pending file, because the C above does not reach MATCH.

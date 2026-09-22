@@ -95,3 +95,60 @@ now attests), which is the part a future lane would otherwise not know.
 Verdict for this wave: DIFF at 1 byte, no source filed, no shard entry.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 16 bytes against 16, 1 concrete bytes out, dsi/1.1p1
+
+
+========================================================================
+2026-09-22 -- poke_tool.c SECOND PASS, appended.  Nothing above edited.
+========================================================================
+
+Still DIFF at ONE byte.  Both of the section above's "what to try next"
+levers were tried this pass and both FAIL, so they can be struck off.
+
+/* best source, 16 bytes against 16, 1 concrete byte out, dsi/1.1p1 */
+(unchanged from the section above -- no spelling found this pass beats it)
+
+    extern const s8 func_020189F0_Table[][5];   /* 0x0209E2A4  data */
+
+    s8 func_020189F0(u32 a, const s8 *b)
+    {
+        u32 o = a + a * 4;
+        return b[o + (u32)func_020189F0_Table];
+    }
+
+permuter best result line: baseline and best both
+  DIFF  asm=10  bytes-out=1  size=16/16
+  (mode hill, --types, budget 800: "no single mutation improves" out of 51)
+
+--explain reports the residue as the two-register swap r0 <-> r2 x1, which
+confirms in one line what the section above established by hand: the whole
+difference is which operand of the final `adds` is the destination.
+
+NEW NEGATIVE RESULTS.  Every spelling that puts the table address anywhere
+but in the `o + (u32)tbl` position goes from 1 wrong byte to 5, because it
+reassociates the `a + a*4` scaling instead of the final add.  Four more
+spellings measured this pass, all 16 bytes, all 5 wrong (i.e. all WORSE):
+
+  const s8 *t = func_020189F0_Table[a];  return b[(u32)t];        5 out
+  u32 t = (u32)tbl;  u32 o = a + a*4;    return b[t + o];         5 out
+  u32 t = (u32)tbl;  t += a + a*4;       return b[t];             5 out
+  u32 o = a*5;       return b[(u32)&tbl[0][0] + o];               5 out
+
+The third of those is lever 2 of the section above ("give the function a
+second statement that uses the table address first, so it is already live in
+a register when the add happens") in its cleanest form, and lever 1 (the
+table declared as a pointer OBJECT) is the first: a pointer load makes the
+symbol a value in a register and the compiler STILL makes the index the
+accumulator.  So neither lever names the accumulator.
+
+WHAT THIS MEANS.  The accumulator choice here is not reachable by any
+rearrangement of the source expression, by the declaration of the table, or
+by any of the permuter's 33 mutation kinds.  That puts it in the same class as
+docs/idioms/commutative-operand-order-names-the-temporary.md's residual case:
+the tell identifies WHICH operand the compiler treats as running, but when
+both operands are already values (one relocated symbol, one computed index)
+there is no source-level distinction left to make between them.  16 bytes, one
+byte wrong, evidence unblocked (the table attests as sole-ref/data since
+2026-09-21) -- it is finished work that the language cannot express, and it
+should not absorb more budget unless a new mutation class appears.
+
+Verdict for this pass: DIFF at 1 byte, no source filed, no shard entry.

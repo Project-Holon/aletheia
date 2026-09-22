@@ -277,3 +277,64 @@ Next attempt on this row should swap the declaration order of the two
 +0x34, then re-read the loop's two `ldrh`/`strh` pairs; do not touch the
 prologue or the alloc call, both of which already match.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+================================================================================
+2026-09-22 -- 0x020182A8 IS CLOSED.  Appended; nothing above edited.
+================================================================================
+
+BOTH rows of this packet are now EXACT and both are in
+layout/matched/arm9/pkt_02018240.json:
+
+    0x02018240  func_02018240   EXACT*   src/matched/func_02018240.c
+    0x020182A8  func_020182A8   EXACT    src/matched/func_020182A8.c
+
+The whole sections above -- the ten prologue bytes, every statement shape,
+every declaration order, the `d = slot; d = slot + 0x36;` dead-store spelling,
+the `slot = slot;` statement, the local-initialised-from-the-parameter form --
+were all chasing the wrong kind of lever.  tools/permuter.py agrees with them:
+197 single mutations with --types, none improves the 10-byte residue at all.
+
+THE LEVER WAS THE PARAMETER'S WIDTH:
+
+    void func_020182A8(void *p, u16 move, u8 slot)      <- u8, not u32
+
+That is the family's own first-pass rule (a truncation emitted at the CALL
+constrains the CALLEE's parameter width), and the evidence was sitting in this
+packet's other function the whole time.  func_02018240 at 0x02018268 does
+
+    02018268  lsls r2, r4, #0x18
+    0201826E  lsrs r2, r2, #0x18        <- (u8)i at the call site
+
+before `bl 0x20182a8`, and src/pending/func_02018240.c already spelled that
+call `func_020182A8(p, move, (u8)i)`.  The truncation is at the call, so it is
+the callee's parameter that is u8.
+
+WHY IT MOVES THE PROLOGUE.  With `u8 slot` the front end gives the parameter a
+memory home and reloads it -- `str r2, [sp]` as the first body instruction,
+then `ldr r1, [sp]` at the first use -- which is exactly what the original
+does.  With `u32 slot` it keeps the incoming r2 in a register (`adds r1, r2,
+#0`) and the five entry halfwords permute.  Nothing else in the body changes:
+the same declaration order (`b, d, c`, then `v` before `pp`) that the section
+above established is still load bearing and is kept verbatim.
+
+Filing 0x020182A8 also converted src/pending/func_02018240.c with no edit to
+its C: its only blocker was the missing witness for the call at +0x30 (the
+sole branch to 0x020182A8 in the image is that call, so `label` had nothing
+outside the range), and the site now resolves through `matched`.  The file has
+been moved to src/matched/ and its header's `blocker:` paragraph rewritten as
+a resolved-history note.  It verifies EXACT*, the star being the unlabelled
+8-byte thunk at 0x020182A0 that follows it -- never a byte difference, and a
+candidate for layout/function_starts.txt (the integrator's file, not edited
+here).
+
+GENERAL LESSON, worth carrying to the rest of the family.  A residue that the
+permuter cannot move AT ALL, in a function whose instruction multiset is
+already right, is a DECLARATION problem, and in this family the first
+declaration to suspect is a parameter's width -- read off the truncation the
+CALLER emits, not guessed.  Two other functions in the family were re-swept
+with the same lever this pass and it does NOT generalise blindly: see the
+2026-09-22 sections of docs/notes/pkt_020173F0.c.txt and
+docs/notes/pkt_0201756C.c.txt, where narrowing a parameter buys size but in
+the wrong place.  The lever is only right when the caller actually emits the
+truncation.

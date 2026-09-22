@@ -600,3 +600,183 @@ that decision.  Three independent permuter runs this wave (0x02044CE0,
 here is evidence-blocked: 0x02044CE0, 0x02044EBC, 0x02044D88, 0x02044BF0 and
 0x02044954 have ZERO relocations, and 0x02044F64's seven all resolve.
 re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header
+
+================================================================
+SECOND PASS, appended 2026-09-22 (bmp.c family, permuter-led)
+
+THE COMPILER-PIN HYPOTHESIS IS REFUTED FOR THIS WHOLE PACKET, and it is now
+MEASURED rather than assumed.  The standing suggestion was that "the image
+pushes ten registers where 1.1p1 pushes eight" is the front-end tell that
+pinned other families to `../2.0/sp2`.  Every function in this packet with a
+usable source was compiled under all three front ends this pass, and 1.1p1
+wins every time, usually by a wide margin:
+
+  function      1.1p1            ../2.0/sp2        ../1.2/sp2
+  0x02044CE0    168 / 85         188 / 135         204 / 185
+  0x02044F64    292 / 6          292 / 14          292 / 131
+  0x02044BF0    208 / 188        260 / 217         (not run)
+  0x02044D88    312 / 272        356 / 313         384 / 342
+
+This CLOSES the "NOT probed under --cc ../2.0/sp2" gap the func_02044D88 row
+left open: it is now probed and the pin is wrong there too, despite the
+`mov fp, #0xf0` at 0x02044E00 looking like the documented "kept constants"
+tell.  Do not spend another pass on the pin for this packet.
+
+
+func_02044F64: 14 -> 6, AND THE NEW LEVER IS A PARAMETER TYPE
+-------------------------------------------------------------
+The previous pass called 14 "the confirmed exhausted floor on the source
+axis" after an exhaustive 720-permutation declaration sweep and a budget-40
+permuter run whose whole top ten tied.  Both conclusions were premature: a
+budget-800 `--mode hill --types` run found a single mutation, `type:l(h:
+s32->u32)`, that takes the residue from 14 to 6 in one step.
+
+    s32 i, d, dep, w, n;
+    u32 h;                    /* <- THIS, and only this */
+
+That alone fixes the `dep -> sb` / `w*d -> r7` swap the old row named as the
+whole residue: after it, ALL of the `mul`/`mov` rows and the +0x0010 `ldrh`
+of f08 are byte-identical.  Verified by isolation (the other three
+signedness combinations of w and h give 14, 40 and 40) and by a confirming
+2000-compile `--mode anneal --types` pass that never beat 6.
+
+Declaration order is INERT once `h` is u32: a 4-order x 21-type-subset sweep
+(84 compiles) puts every `h`-is-u32 case at 6 and every other case at 14 or
+worse.  So the old row's "declaration order is the whole register allocation
+here" is superseded; it was the *type* of one local all along.
+
+WHAT IS LEFT, and it is exactly six bytes -- the f04/f06 load-register pair:
+
+  * +0008  ldrh r3, [r0, #4]      | ldrh r4, [r0, #4]
+  * +000C  ldrh r4, [r0, #6]      | ldrh r3, [r0, #6]
+  * +0018  lsl  r0, r4, #0xd      | lsl  r0, r3, #0xd
+  * +001C  lsl  r3, r3, #0xd      | lsl  r4, r4, #0xd
+  * +0020  lsr  r8, r3, #0x10     | lsr  r8, r4, #0x10
+
+The image puts f04 in r3 and f06 in r4 although f06's shift issues FIRST;
+the compiler colours them the other way.  Measured and inert against this
+(all still 6): dep read last, d read from src->f08 directly, both reads
+lifted into named temporaries in either order, `8192 * f` operand order,
+d computed immediately after dep.  Measured and WORSE: reading h before w
+as a statement (20), `(u16)` cast in place of the u32 shift (300 bytes/220).
+
+ALSO FIXED THIS PASS: `_s32_div_f` must be declared in the `symbols:` block
+as `_s32_div_f  0x0209C0A4  arm`.  Without it all four division sites report
+"unresolved: no address" -- the `runtime` class does NOT fire on a name the
+header never declares.  With it, all seven relocation sites resolve.
+
+/* best source, 292 bytes against 292, 6 concrete bytes out, dsi/1.1p1 */
+    typedef unsigned char  u8;
+    typedef unsigned short u16;
+    typedef unsigned int   u32;
+    typedef signed int     s32;
+    struct Surf { u8 *pixels; u16 f04; u16 f06; u16 f08; };
+    extern struct Surf *func_02043678(u32 w, u32 h, u32 d, u32 heap);
+    extern void func_02043814(struct Surf *dst, struct Surf *src);
+    extern void func_020437AC(struct Surf *s);
+    struct Surf *func_02044F64(struct Surf *src, u32 keep, u32 a3)
+    {
+        struct Surf *dst;
+        s32 i, d, dep, w, n;
+        u32 h;
+        dep = src->f08;
+        w = (u32)(src->f04 * 8192) >> 16;
+        h = (u32)(src->f06 * 8192) >> 16;
+        d = (u32)(dep * 8192) >> 16;
+        dst = func_02043678(w, h, dep, a3);
+        n = w * h * dep;
+        for (i = 0; i < n; i++) {
+            s32 q, r, x, y;
+            q = i / (w * d);
+            r = i % (w * d);
+            y = r % d;
+            x = r / d;
+            dst->pixels[i] = src->pixels[(q % 8) * d + y + (q / 8 * w + x) * dep];
+        }
+        if (keep == 0) {
+            func_02043814(dst, src);
+            func_020437AC(dst);
+            dst = 0;
+        }
+        return dst;
+    }
+permuter best result line:
+    best      DIFF   asm=30    bytes-out=6    size=292/292
+    mutations type:l(h:s32->u32)
+
+
+func_02044BF0: SIZE REACHED FOR THE FIRST TIME, but on a refuted spelling
+-------------------------------------------------------------------------
+Rebuilt with the 0x02044CE0 tiled-address lever the baseline is 208/188
+(the previous pass measured 200-208 and called it "further from the size").
+A budget-700 hill run found `volatile-add(j)` -- i.e. `volatile s32 j` for
+the inner loop counter -- which takes the compile to the CORRECT 240 bytes,
+the first spelling in three passes to reach the original's size.
+
+IT IS NOT THE ANSWER AND SHOULD NOT BE ADOPTED.  240/216 is worse on
+mismatches than 208/188, and the reason is plain: `volatile` forces j into a
+memory home, whereas the image plainly keeps j in r6 (`mov r6, r1` at
+0x02044C44, `add r6, r6, #1` at 0x02044CBC).  The extra 32 bytes are
+volatile's reload traffic and happen to equal the gap.  Recorded so the next
+agent does not rediscover it and mistake a size coincidence for a match.
+
+Isolated volatile probes on the same source, for completeness:
+  volatile s32 j          240 / 216   (correct size, wrong mechanism)
+  volatile s32 i          252 / 178
+  volatile s32 tilesWide  228 / 162   (best mismatch count on this function
+                                       to date, but 12 bytes short)
+
+The 228/162 `volatile tilesWide` row is the genuinely interesting one: it is
+the closest this function has come on the mismatch axis, and it confirms the
+previous pass's prediction that rowbytes/tilesWide is one of the two values
+the image spills.  It is still not adopted (12 bytes short).
+
+
+func_02044D88: `u32 x` IS A SIZE COINCIDENCE AND IS REFUTED ON SEMANTICS
+------------------------------------------------------------------------
+A budget-600 hill run on a fresh rebuild (312/272 baseline, matching the
+previous pass's 312/260 band) reported `type:l(x:s32->u32)` at the CORRECT
+308 bytes and 204 mismatches, then `compare(const)` at 308/192.
+
+REFUTED.  Making the inner loop counter unsigned deletes the clipping guard
+the image demonstrably has.  Under `u32 x` the compiled code emits
+
+    cmp r1, r6 / bhs #0x2044ea0       (one unsigned compare)
+
+where the image has
+
+    cmp lr, #0 / cmpge r2, #0 / blt #0x2044e94     (0x02044E04..0x02044E0C)
+
+i.e. the image tests BOTH counters against zero with a signed `blt`, which is
+only reachable from signed counters.  `u32 x` also makes `x >= 0` a tautology
+the front end folds away.  The 4-byte size agreement is the deleted guard,
+not a match.  The same objection applies to any `u32`/unsigned spelling of
+the inner counter in the three sibling workers, which all carry the identical
+`cmp/cmpge/blt` triple.
+
+This is the general shape of this packet's permuter results: `--types` will
+happily propose an unsigned counter because it shrinks the code, and on a
+clipped blitter that is always a semantic change.  Check the `cmpge` triple
+before accepting any `type:` mutation on a loop counter here.
+
+
+A PERMUTER DEFECT THAT COST REAL TIME THIS PASS
+------------------------------------------------
+`tools/permuter.py`'s `temp` and `copy` mutations can hoist an expression or
+a copy of a local to a point where the value it reads is NOT YET LIVE, which
+is not value-preserving and silently produces a different function that
+scores better.  Three separate runs this pass produced sources containing
+
+    s32 tmp;  ...  tmp = i;  tmp = tmp * 8;     /* before `for (i = y; ...)` */
+    s32 tilesWide_;  ...  tilesWide_ = tilesWide;  /* before tilesWide is set */
+
+and the subsequent uses were rewritten to read the stale/uninitialised copy
+(`(tmp & 0x38)[...]` in place of `rowInTile[...]`).  These scored 85 -> 62
+on 0x02044CE0 and 81 -> 58 on a 0x02044CE0 variant, i.e. they look like the
+best results of the pass, and they are worthless.  ALWAYS read the `--out`
+source before believing a `temp(...)` or `copy(...)` mutation on a function
+whose locals are assigned after the declaration block.  The `type:` and
+`decl-order` mutations did not show this defect.
+
+re-verified 2026-09-22 by tools/match.py: func_02044F64 292/292 bytes, 6
+concrete out, 7/7 relocations resolved, dsi/1.1p1 -O4,p -proc arm946e, ARM.

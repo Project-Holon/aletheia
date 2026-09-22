@@ -1,6 +1,4 @@
 /*
- * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
- *
  * function: func_02018240
  * address:  0x02018240
  * packet:   pkt_02018240
@@ -9,22 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
- * blocker:  020182A8 (thumb, label) -- the only branch to it in the image is
- *           this function's own call at +0x30, so the `label` class has no
- *           outside witness.  func_020182A8 is one of this packet's own
- *           `state=new` rows and it is a codegen near miss, not an evidence
- *           wall: its best source is 128 bytes, the right size, with ten bytes
- *           of prologue wrong (the parameter's `str r2, [sp]` / `ldr r1, [sp]`
- *           pair, which this front end emits as `adds r1, r2, #0`).  See
- *           docs/notes/pkt_02018240.c.txt and
- *           docs/idioms/a-dead-store-to-a-spilled-local-survives-when-the-second-assignment-recomputes.md.
- *           The 8-byte Thumb thunk at 0x020182A0 names the same address from
- *           its pool word, but a pool word is not a branch and the harness's
- *           pool index does not carry it (probed: `pool_words[0x020182A9]` is
- *           empty), so `literal` cannot carry the site either.  This file
- *           turns EXACT with no edit the moment 0x020182A8 is reproduced.
+ * status note: EXACT* -- the extent runs long because the unlabelled 8-byte
+ *           thunk at 0x020182A0 follows without a label; never a byte
+ *           difference.  Report it as an unlabelled follower for
+ *           layout/function_starts.txt.
+ *
+ * WAS BLOCKED, now resolved (2026-09-22): the only branch to 0x020182A8 in the
+ *           image is this function's own call at +0x30, so the `label` class
+ *           had no outside witness and this file was capped at MATCH.
+ *           src/matched/func_020182A8.c now reproduces that address, so the
+ *           site resolves through `matched` and this file is EXACT* with no
+ *           edit to its C.
  *
  * symbols:
  *   func_02017DBC  0x02017DBC  thumb
@@ -38,7 +33,7 @@
  * the otherwise identical loop in func_020181A0, which is `blo`.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02018240.c \
+ *   python tools/match.py one --src src/matched/func_02018240.c \
  *       --func func_02018240 --addr 0x02018240 --cc 1.1p1 --thumb
  */
 

@@ -531,3 +531,81 @@ void func_0201761C(void *obj, void *a1, u32 a2, u32 lo, u32 hi,
     func_02017DE4(obj, hdr);
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 612 bytes against 700, 574 concrete bytes out, 1.1p1
+
+
+================================================================================
+2026-09-22 -- poke_tool.c SECOND PASS, appended.  Nothing above edited.
+================================================================================
+
+0x0201756C and 0x02017600 are the SAME WALL as 0x020173F0 and 0x02017430 in
+pkt_020173F0, and that packet's 2026-09-22 section is now the single place the
+wall is written up in full.  Read it before spending budget here.  This section
+records only what was measured on THIS packet's two functions.
+
+--------------------------------------------------------------------------------
+0x02017600 (and 0x0201756C, which is identical in every respect)
+--------------------------------------------------------------------------------
+
+/* best source, 28 bytes against 28, 18 concrete bytes out, dsi/1.1p1 */
+
+    extern void func_0201761C(void *a0, u32 a1, u32 a2, u32 a3, u32 a4,
+                              u32 a5, u32 a6, u32 a7);
+
+    void func_02017600(void *a0, u32 a1, u32 a2, u32 a3, u32 a4)
+    {
+        func_0201761C(a0, a1, a2, a3, a4, -1, 0, -1);
+    }
+
+permuter best result line: baseline and best both
+  DIFF  asm=455  bytes-out=18  size=28/28
+  (mode hill, --types, budget 800: "no single mutation improves" out of 60)
+
+--explain reports the residue as exactly two register substitutions,
+r5 -> r4 x3 and r6 -> r5 x3, which is the whole story: the original holds
+THREE callee-saved values (`push {r4, r5, r6, lr}`) and this front end holds
+two plus mwcc's dead alignment register (`push {r3, r4, r5, lr}`).  The
+instruction MULTISET is identical; only the order and the naming differ:
+
+    ORIGINAL                       COMPILED
+    movs r5, #0                    ldr  r4, [sp, #0x20]   <- a4 hoisted to the top
+    mvns r5, r5                    movs r5, #0
+    str  r5, [sp, #4]              str  r4, [sp]
+    movs r4, #0                    mvns r5, r5
+    str  r4, [sp, #8]              str  r5, [sp, #4]
+    ldr  r6, [sp, #0x20]   <- a4   movs r4, #0
+    str  r5, [sp, #0xc]            str  r4, [sp, #8]
+    str  r6, [sp]                  str  r5, [sp, #0xc]
+
+The original issues the fifth argument's load BETWEEN the two constant
+stores; 1.1p1 hoists it above both and therefore never needs a third
+callee-saved register.
+
+RULED OUT THIS PASS, each compiled.  The hint this pass was given -- pass the
+fifth argument through a struct or a wider parameter list -- was followed and
+does not work, and neither does the parameter-width lever that DOES close the
+structurally similar 0x020182A8 (see docs/notes/pkt_02018240.c.txt).  All of
+these are 28 bytes and 18 concrete bytes out, i.e. no change at all:
+
+  the constants bound to named locals (`u32 m=-1, z=0, n=-1;`)     18 out
+  the last two constants merged into one u64 argument              18 out
+  a4 declared `void *` instead of u32                              18 out
+  a4 read through its own address (`*(volatile u32 *)&a4`)         18 out
+  a4 copied to a local first                                       18 out
+  a sixth (unused) parameter on func_02017600 itself               18 out
+
+and narrowing a parameter of the CALLEE makes it strictly worse, because the
+truncation is a real instruction and the function grows:
+
+  func_0201761C's a2 or a3 declared u8                   32 bytes, 29 out
+  func_0201761C's a4 declared u8 or u16                  32 bytes, 26 out
+  func_0201761C's a5 declared u8                         28 bytes, 18 out
+
+Front ends were swept too, because `push` one register wider than the image is
+the "frame padding" tell of docs/FRONTEND-PINS.md.  The tell points the WRONG
+WAY here -- the image pushes a real register where 1.1p1 pads with a dead
+`push {r3}`, which is the reverse of the documented 1.2 signature -- and the
+measurement agrees: ../1.2/sp2 is 25 concrete bytes out (worse), and
+../2.0/sp2, 1.2, 1.2p2 and 1.3 are all 18, the same as the pin.  There is no
+per-file pin to take here.
+
+Both stay DIFF.  Nothing filed under src/ for either address.
