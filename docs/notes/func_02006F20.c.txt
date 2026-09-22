@@ -235,3 +235,261 @@ struct SaveCtrl *func_02006F20(int heap)
     return c;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 352 bytes against 356, 171 concrete bytes out, 1.1p1
+
+
+================================================================
+APPENDED 2026-09-22, family wave 6 (save_control.c).
+================================================================
+
+THE FOUR-BYTE SIZE GAP IS CLOSED.  The 2026-09-21 re-verification read
+DIFF, 352 bytes against 356, 171 concrete bytes out; the source below is
+356 against 356, 118 concrete bytes out.  The note's own diagnosis was
+right -- the defect was the folded zero-trip guard -- and the lever is a
+DECLARATION, which is why none of the seven body shapes the note lists
+reached it:
+
+    the loop index is u8, not int.
+
+`u8 i` (in place of `int ... i ...` in the local declaration list) makes
+mwccarm emit the `cmp r4, #9 / bge` pair the original keeps, and the whole
+prologue through +0x56 -- both dispatch tables, the pool word order, all
+23 relocation sites -- now reproduces byte for byte.  tools/permuter.py
+found this one: `--mode hill --budget 800 --jobs 8 --types` ranked
+`type:l(i:int->u8)` first at 232 mutations tried.  It is exactly the
+`param-signedness`/`type` mutation class the 2026-09-21 permute.py field
+report predicted would be high-yield, and it is outside every shape a hand
+sweep of the body can reach.
+
+WHAT REMAINS is 118 concrete bytes, and it is ONE two-byte scheduling
+difference plus its knock-on shift.  The original orders the preheader
+
+    02006FD6  movs r4, #0          <- i = 0
+    02006FD8  cmp  r4, #9          <- the guard, now emitted
+    02006FDA  bge  #0x200706c
+    02006FDC  adds r7, r5, #0      <- flags = &c->unk0C, AFTER the guard
+    02006FDE  adds r7, #0xc
+
+and the compile still puts `adds r7, r5, #0` BEFORE `movs r4, #0`, so
+everything from +0x00B6 on is the original shifted by two.  Measured and
+flat at 356/118, none of them the answer: `flags` assigned in the
+preheader after `i = 0`; `flags` as the loop body's first statement (the
+note's original shape); `flags` spelled `(u32 *)((char *)c + 0xC)`;
+`flags` declared before `i` and after `i` in the declaration list (the
+declaration-order idiom does not bite here); and an explicit
+`i = 0; if (i >= 9) goto loopdone;` guard with `flags` in the preheader.
+The guard and the preheader order still cannot be had at the same time,
+which is the same wall the note recorded -- it has simply moved four bytes
+later and is now a pure ordering question rather than a missing-code one.
+
+UNCHANGED: the MATCH cap.  This function calls 0x021DFC20, 0x021DFE90,
+0x021DFE98 and 0x021DFDB8 in overlay space; --explain confirms all four
+are still unresolved, with seven overlays (ov093, ov119, ov137, ov170,
+ov175, ov183, ov228) overlapping the address and none carrying a func_
+label, plus g_0209D938 unattested outside the range.  So even a byte-exact
+result files to src/pending, not src/matched.  Four unresolved sites, not
+three: the permuter's baseline line counts only the ones inside the
+compared extent.
+
+/* best source, 356 bytes against 356, 118 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_02006F20
+ * address:  0x02006F20
+ * packet:   pkt_02006F20
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02034AC4   0x02034AC4  arm
+ *   func_02034A5C   0x02034A5C  arm
+ *   func_02030734   0x02030734  arm
+ *   func_0203192C   0x0203192C  arm
+ *   func_02031AE0   0x02031AE0  arm
+ *   func_020319C0   0x020319C0  arm
+ *   func_02034714   0x02034714  arm
+ *   func_021DFC20   0x021DFC20  thumb
+ *   func_021DFE90   0x021DFE90  thumb
+ *   func_021DFE98   0x021DFE98  thumb
+ *   func_021DFDB8   0x021DFDB8  thumb
+ *   sub_02008754    0x02008754  thumb
+ *   sub_02008784    0x02008784  thumb
+ *   sub_0200725C    0x0200725C  thumb
+ *   sub_020072A4    0x020072A4  thumb
+ *   sub_0200A5F8    0x0200A5F8  thumb
+ *   sub_0200A7EC    0x0200A7EC  thumb
+ *   ov228_id        0x000000E4  data
+ *   sub_02006F20_File  0x020A7054  data
+ *   sub_02006F20_Ptr   0x02146168  data
+ *   g_0209D938      0x0209D938  data
+ *   sub_02006F20_Msg   0x020A7064  data
+ *
+ * The constructor of "save_control.c" (the file name string at 0x020A7054 is
+ * the one this passes to the debug allocator at 0x02030734, line 0x58).  It
+ * loads the overlay that owns the save code, reads three mode bytes out of
+ * it, allocates the 0x38 byte control block into the global at 0x02146168,
+ * and then walks the nine save streams at +0x14 deciding which to open.
+ *
+ * 0x000000E4 is the overlay id, an absolute linker symbol and not the plain
+ * integer 228: written as a literal it compiles `movs r0, #0xe4` with no
+ * pool word, where the original has `ldr r0, [pc, #0x148]` over a pool word
+ * 0x000000E4.  See
+ * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
+ *
+ * Both dispatches are dense PC-relative halfword tables over five cases, so
+ * every low case label exists in the source even where the arm is empty;
+ * see docs/idioms/empty-switch-arms-are-what-make-the-table.md.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02006F20.c \
+ *       --func func_02006F20 --addr 0x02006F20 --cc 1.1p1 --thumb
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct SaveCtrl
+{
+  u8 unk00;
+  u8 unk01;
+  u8 unk02;
+  u8 unk03;
+  u8 unk04;
+  u8 unk05;
+  u8 pad06[6];
+  u32 unk0C;
+  void *unk10;
+  void *unk14[9];
+};
+extern void func_02034AC4(void *id);
+extern void func_02034A5C(void *id);
+extern void *func_02030734(int heap, int size, int flag, const char *file, int line);
+extern void *func_0203192C(void *p, int heap);
+extern int func_02031AE0(int a);
+extern void func_020319C0(void *p);
+extern void func_02034714(const char *file, int line, const char *msg);
+extern void *func_021DFC20(int heap);
+extern int func_021DFE90(void);
+extern int func_021DFE98(void *p);
+extern void func_021DFDB8(void *p);
+extern int sub_02008754(struct SaveCtrl *c);
+extern int sub_02008784(struct SaveCtrl *c, int i);
+extern int sub_0200725C(struct SaveCtrl *c, int i, int flag);
+extern void sub_020072A4(struct SaveCtrl *c, int i);
+extern int sub_0200A5F8(struct SaveCtrl *c);
+extern void sub_0200A7EC(int a, int b);
+extern u8 ov228_id[];
+extern const char sub_02006F20_File[];
+extern const char sub_02006F20_Msg[];
+extern struct SaveCtrl *sub_02006F20_Ptr;
+extern u8 g_0209D938[];
+struct SaveCtrl *func_02006F20(int heap)
+{
+  struct SaveCtrl *c;
+  void *ov;
+  int mode;
+  int sub;
+  int state;
+  u8 i;
+  int r;
+  u32 *flags;
+  func_02034AC4(ov228_id);
+  ov = func_021DFC20(heap);
+  mode = func_021DFE90();
+  sub = func_021DFE98(ov);
+  func_021DFDB8(ov);
+  func_02034A5C(ov228_id);
+  c = (struct SaveCtrl *) func_02030734(heap, 0x38, 1, sub_02006F20_File, 0x58);
+  sub_02006F20_Ptr = c;
+  c->unk00 = 1;
+  c->unk02 = 1;
+  c->unk01 = 0;
+  c->unk04 = mode;
+  c->unk05 = sub;
+  c->unk10 = func_0203192C(g_0209D938, heap);
+  state = func_02031AE0(1);
+  if (((u32) (state - 1)) <= 1)
+  {
+    if (sub_02008754(c) == 1)
+      state = 0;
+  }
+  c->unk0C = 0;
+  if (sub == 1)
+    c->unk0C = 0x800 | c->unk0C;
+  switch (state)
+  {
+    case 1:
+      c->unk02 = 0;
+
+    case 2:
+      c->unk00 = 0;
+      c->unk01 = 1;
+      if (state == 2)
+      c->unk0C = c->unk0C | 1;
+      i = 0;
+      while (i < 9)
+    {
+      flags = &c->unk0C;
+      if (sub_02008784(c, i) == 1)
+      {
+        r = sub_0200725C(c, i, 1);
+        sub_020072A4(c, i);
+        switch (r)
+        {
+          case 1:
+
+          case 2:
+            if (i == 6)
+            sub_0200A7EC(sub_0200A5F8(c), 1);
+            break;
+
+          case 0:
+
+          case 3:
+
+          case 4:
+            *flags = (*flags) | (1 << (i + 2));
+            if (i == 6)
+            sub_0200A7EC(sub_0200A5F8(c), 0);
+            break;
+
+          default:
+            break;
+
+        }
+
+      }
+      else
+        if (i == 6)
+      {
+        sub_0200A7EC(sub_0200A5F8(c), 0);
+      }
+      i = i + 1;
+    }
+
+      break;
+
+    case 3:
+      c->unk0C = 2 | c->unk0C;
+
+    case 0:
+
+    case 4:
+      func_020319C0(c->unk10);
+      break;
+
+    default:
+      func_02034714(sub_02006F20_Msg, 0, sub_02006F20_Msg);
+      break;
+
+  }
+
+  return c;
+}
+
+
+
+permuter best result line:
+  best      DIFF   asm=850   bytes-out=118  size=356/356  unresolved=3
+  mutations type:l(i:int->u8)          (hill, 232 mutations tried, budget 800)

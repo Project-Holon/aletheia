@@ -113,3 +113,63 @@ void func_0202EA40(struct Row *p)
     func_02061CA4(p->unk14, p->unk0c * 2, p->out, p->count * 2);
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 188 bytes against 204, 120 concrete bytes out, 1.1p1
+
+================================================================
+APPENDED 2026-09-22, family wave 6 (blink_palanm.c): permuter pass
+================================================================
+
+/* best source, 188 bytes against 204, 120 concrete bytes out, 1.1p1 */
+
+The source above was re-verified unchanged (DIFF, 188/204, 120 bytes out)
+and then put through the AST permuter.  It does not close, and the residue
+is NOT the single-register tie the note's prose suggests.
+
+    python3 tools/permuter.py --src <src> --func func_0202EA40 \
+        --addr 0x0202EA40 --thumb --explain
+    baseline  DIFF   asm=3530  bytes-out=120  size=188/204
+    register substitutions (image -> compiled), by count:
+      r0   -> r1    x15
+      r0   -> r5    x10
+      r1   -> r3    x5
+      r1   -> r0    x4
+      r5   -> r6    x3
+      r6   -> r0    x3
+      r1   -> r5    x1
+      r3   -> r1    x1
+
+Eight distinct substitutions with r0 splitting two ways is a GENERAL
+reshuffle of the loop body, not a swapped pair.  The note's account ("the
+counter lands in r6 instead of r5 and everything downstream shifts by one")
+understates it: the sixteen-byte shortfall is a differently shaped loop
+body, not a displaced pool word alone.  --explain is the cheap way to tell
+these apart and is worth running before any further hand sweep here.
+
+    --mode hill --budget 800 --jobs 8 --types
+      best DIFF asm=6300 bytes-out=169 size=204/204
+      mutations: temp(tmp=((b & 0x1f) - (a & 0x1f)) ; type:ret-var(p) ;
+                 temp(tmp1=b >> 10) ; temp(tmp2=p->phase - 0xFC00)
+    --mode anneal --budget 3000 --jobs 8 --types
+      best DIFF asm=6610  bytes-out=167 size=204/204
+      mutations: decl-order(g<->bl) ; addr(bl) ; temp(tmp=(b >> 5) & 0x1f) ;
+                 temp(tmp1=(b & 0x1f) - (a & 0x1f)) ; expand(tmp x1) ;
+                 temp(tmp2=a & 0x1f) ; commute(&) ; temp(tmp3=(b >> 5) & 0x1f) ;
+                 temp(tmp4=(tmp1 * scale) >> 12) ; ... ; type:l(a:s32->u16)
+      3000 compiles in 168s
+
+Every candidate that closed the sixteen-byte size gap did so by inflating
+the body and came out with MORE concrete bytes wrong (167-176 against the
+baseline's 120).  Nothing in the mutation table reaches the loop's shape.
+
+Reading for the next lane: the levers left are the ones outside the
+permuter's table, in the same class as the two that closed functions in the
+earlier permute.py field report -- a statement fusion in the channel
+expressions, or a different decomposition of the three channels (for
+instance computing the three deltas together before any of the additions, or
+hoisting the shared `(x >> k) & 0x1f` into a small inlined helper, which
+docs/idioms/four-shift-pairs-for-one-offset-are-an-inlined-u16-helper.md
+describes).  The head through +0x20 is byte-identical and should be left
+alone; all of the work is in the loop body.
+
+permuter best result line:
+  best      DIFF   asm=6610  bytes-out=167  size=204/204
+  (baseline, which remains the best real source: DIFF asm=3530 bytes-out=120 size=188/204)

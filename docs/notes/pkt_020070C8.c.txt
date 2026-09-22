@@ -72,3 +72,132 @@ int func_020070C8(char *self)
     return t;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 126 bytes against 136, 104 concrete bytes out, 1.1p1
+
+
+================================================================
+APPENDED 2026-09-22, family wave 6 (save_control.c).
+================================================================
+
+Verdict improved from the 2026-09-21 re-verification (126 bytes against
+136, 104 concrete bytes out) to 130 against 136, 35 concrete bytes out.
+Everything through +0x5A -- the whole prologue, both func_0200A7EC calls,
+the func_02008784 guard, the func_0200725C/func_020072A4 pair and both
+`t`/`r` tests -- now reproduces exactly.  The entire residue is the loop's
+out-of-line zero-trip guard, the same four-byte defect documented for
+func_02006F20 in docs/notes/func_02006F20.c.txt:
+
+    02007126  movs r4, #0          <- i = 0
+    02007128  cmp  r4, #9          <- MISSING
+    0200712A  bge  #0x200714a      <- MISSING
+    0200712C  movs r6, #1          <- the hoisted `1`, AFTER the guard
+
+Three levers found this pass, two of which are new and generalise:
+
+1. THE DISJUNCTIONS MUST BE INVERTED, not written as `||`.  Both
+   `t == 1 || t == 2` and `r == 1 || r == 2` compile to a RANGE test
+   (`subs r0, t, #1 / cmp r0, #1 / bhi`) that is 5 bytes shorter than the
+   original's two `cmp`/branch pairs.  Writing the outer one as an early
+   `if (t != 1 && t != 2) return t;` and the inner one as
+   `if (r != 1 && r != 2) goto bits;` restores both pairs.  This is the
+   opposite of docs/idioms/disjunction-must-be-one-expression-to-share-
+   its-exit.md: there a chain of `if`s had to become one `||`; here one
+   `||` has to become a negated chain, because the two constants are
+   ADJACENT and so the `||` folds to a range check.  Worth its own idiom
+   file if a third instance turns up.
+
+2. func_0200725C's third parameter is u8 (see src/matched/func_0200725C.c,
+   filed EXACT this wave).  Declaring it u8 here is what lets the `1` be
+   shared from r4 with the `strb` (`adds r2, r4, #0` at +0x38) instead of
+   rematerialised as `movs r2, #1`.
+
+3. `u8 i` for the loop index DOES emit the guard (134 bytes against 136,
+   32 out) but costs a `lsls/lsrs` truncation pair at the increment and
+   turns `blt` into `blo`.  `signed char` and `short` behave the same way
+   (134, 31 out); `unsigned short` is 134, 32 out.  So the index is not
+   simply narrow: the original increments and compares a full word yet
+   still keeps the guard.
+
+Not the answer, all measured: `while` versus `for` versus an explicit
+`i = 0; if (i >= 9) goto done; do {...} while (i < 9);`, a named bound
+local (`int n = 9`), and `i = i + 1` versus `i++` -- every one of them is
+flat at 130 bytes, 35 out.  tools/permuter.py cannot move it either:
+--explain reports NO register substitutions (the residue is pure size),
+--mode hill --budget 800 --types spent 219 mutations and --mode anneal
+--budget 3000 --types spent 3000 compiles in 131s; both reach 136/136 only
+by trading bytes away (84 and 66 concrete out respectively, versus 35), so
+neither is an improvement.  Per the brief's lesson, a residue the permuter
+cannot move lives in the declarations, and the three type changes above are
+the declarations this loop has -- none of them buys the guard without
+paying for it elsewhere.  The next thing to try is the shape of `self`
+itself (it is `char *` here and the field accesses are casts; a real struct
+pointer may schedule the preheader differently).
+
+/* best source, 130 bytes against 136, 35 concrete bytes out, 1.1p1 */
+
+/*
+ * function: func_020070C8
+ * address:  0x020070C8
+ * packet:   pkt_020070C8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02031AE0  0x02031AE0  arm
+ *   func_0200A5F8  0x0200A5F8  thumb
+ *   func_0200A7EC  0x0200A7EC  thumb
+ *   func_02008784  0x02008784  thumb
+ *   func_0200725C  0x0200725C  thumb
+ *   func_020072A4  0x020072A4  thumb
+ *   func_020087C0  0x020087C0  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern int  func_02031AE0(int v, int mode);
+extern int  func_0200A5F8(char *self);
+extern void func_0200A7EC(int h, int v);
+extern int  func_02008784(char *self, u32 a);
+extern u32  func_0200725C(char *self, u32 a, u8 heap);
+extern void func_020072A4(char *self, u32 a);
+extern void func_020087C0(char *self, int i);
+
+int func_020070C8(char *self)
+{
+    int t = func_02031AE0(*(int *)(self + 0x10), 1);
+    int h;
+    int i;
+
+    if (t != 1 && t != 2) {
+        return t;
+    }
+    {
+        *(u8 *)(self + 1) = 1;
+        h = func_0200A5F8(self);
+        func_0200A7EC(h, 0);
+        if (func_02008784(self, 6) == 1) {
+            int r = func_0200725C(self, 6, 1);
+
+            func_020072A4(self, 6);
+            if (r != 1 && r != 2)
+                goto bits;
+            func_0200A7EC(h, 1);
+        }
+bits:
+        if (*(int *)(self + 0xc) != 0) {
+            for (i = 0; i < 9; i++) {
+                if (*(int *)(self + 0xc) & (1 << (i + 2)))
+                    func_020087C0(self, i);
+            }
+        }
+    }
+    return t;
+}
+
+
+permuter best result line:
+  best      DIFF   asm=320   bytes-out=35   size=130/136   (hill: 219 mutations tried, no single mutation improves; anneal 3000 compiles reaches 136/136 at 66 bytes out, worse)

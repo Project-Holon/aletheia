@@ -108,3 +108,96 @@ there, and that are worth trying on 0x0203A958's residue:
    all three; on func_0203ABC0 four orders were measured and three of them
    are EXACT while one is 7 bytes out on an r2/r3 swap.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0203A958.c:12: undefined identifier 'pkt_0203A958'
+
+
+---- append, 2026-09-22 (wave 6 bundle, net_command.c lane) ----
+
+45 -> 39 concrete bytes out, still size-exact at 316.  The lever is one named
+local, found by tools/permuter.py hill mode as temp(tmp=*((u16 *)(a2 + 6))):
+binding the +6 halfword that both func_0203A81C calls pass, and using it at the
+SECOND call only, retires six bytes of the residue.  Leaving the first call
+reading the memory directly is what keeps the +0x24 `ldrh r0,[r6,#6]` in place.
+
+/* best source, 316 bytes against 316, 39 concrete bytes out, 1.1p1 */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u8 *g_021469D8;
+extern int func_020399A8(void);
+extern int func_0203A81C(int a0, int a1, int a2);
+extern void func_02034714(char *a, u32 b, char *c);
+extern char sNet3730[];
+extern char sNet3733[];
+extern char sNet3734[];
+void func_0203A958(int a0, int a1, u8 *a2, int a3, int a4)
+{
+  int i;
+  u16 tmp;
+  u16 v0, v2, v8, v6;
+  i = a0;
+  if (a0 == 0xff)
+    i = 8;
+  if (a4 != func_020399A8())
+    return;
+  if (func_0203A81C(*((u16 *) (a2 + 6)), a0, *((u32 *) a2)) == 0)
+    return;
+  if ((*((u8 *) ((g_021469D8 + (i * 0x14)) + 0xca))) != 0)
+    func_02034714(sNet3730, 0x1ff, sNet3733);
+  *((u8 *) ((g_021469D8 + (i * 0x14)) + 0xca)) = 1;
+  tmp = *((u16 *) (a2 + 6));
+  {
+    u32 w = *((u32 *) a2);
+    *((u32 *) ((g_021469D8 + (i * 0x14)) + 0xb8)) = w;
+    *((u32 *) ((g_021469D8 + (i * 0x14)) + 0xbc)) = func_0203A81C(tmp, a0, w);
+  }
+  if ((*((u32 *) ((g_021469D8 + (i * 0x14)) + 0xbc))) == 0)
+    func_02034714(sNet3730, 0x203, sNet3734);
+  v0 = *((u16 *) (a2 + 6));
+  v2 = *((u16 *) (a2 + 8));
+  v8 = *((u16 *) (a2 + 0xa));
+  v6 = *((u16 *) (a2 + 4));
+  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc0)) = v0;
+  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc2)) = v2;
+  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc8)) = v8;
+  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc6)) = v6;
+  *((u16 *) ((g_021469D8 + (i * 0x14)) + 0xc4)) = 0;
+}
+
+
+The permuter's best result line, from hill then anneal:
+
+    baseline  DIFF   asm=1140  bytes-out=45   size=316/316
+    315       DIFF   asm=1120  bytes-out=39   size=316/316  <- temp(tmp=*((u16 *) (a2 + 6)))
+    best      DIFF   asm=1120  bytes-out=39   size=316/316
+    (anneal, 2000 candidates, --types: no further improvement, three plateaus)
+
+The whole remaining 39 bytes are the five halfword stores at +0x00D4..+0x010C,
+the region the note above already isolates, and the shape is now exactly legible:
+the image loads each store's VALUE two instructions before the store, so the
+value for +0xc2 is loaded before the +0xc0 store retires, alternating r2/r3:
+
+    +00D4  ldrh r2,[r6,#6]    <- value for the 0xc0 store at +00E4
+    +00D8  ldr  r1,[r0]
+    +00DC  ldrh r3,[r6,#8]    <- value for the 0xc2 store at +00F4
+    +00E0  add  r1,r1,r5
+    +00E4  strh r2,[r1,#0xc0]
+
+1.1p1 instead emits ldr-base / ldrh-value / add / strh per store with r3 as the
+only value register, and sinks `mov r1,#0` to +00DC where the image materialises
+it late at +010C.
+
+Measured and REFUTED as levers for that run (all size-exact at 316):
+ - four store orderings: c0,c2,c8,c4,c6 gives 40; c0,c2,c4,c8,c6 gives 52;
+   c0,c4,c2,c8,c6 gives 66; c4,c0,c2,c8,c6 gives 79.  The recorded
+   c0,c2,c8,c6,c4 at 39 is the best of the five.
+ - five named locals loaded up front (v0,v2,v8,v6): 63 out.
+ - reusing the bound `tmp` as the 0xc0 store's value: 115 out -- the +0xc0
+   store must re-read memory, it is not the same value the call consumed.
+ - binding the stored 1 to a named local and writing the second assert line as
+   0x204 - one, to reproduce the image's `rsb r1,r4,#0x204`: no change (1.1p1
+   already derives it), and a struct-typed a2 with named u16 members: 45, worse.
+ - declaring the zero as a named local written just before the last store
+   (`z = 0`): 39, equal to the best, not better.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 316 bytes against 316, 39 concrete bytes out, 1.1p1

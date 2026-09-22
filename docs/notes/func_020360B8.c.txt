@@ -35,3 +35,51 @@ two compound assignments on the field (o->F &= mask; o->F |= v;) and check
 whether mwcc re-reads the field for the second, or take the field's address
 (u32 *pf = &o->F) so the load cannot be reused.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+---- append, 2026-09-22 (wave 6 bundle, key.c lane) ----
+
+The note's own "next attempt" line is RIGHT and it closes the size gap.  Writing
+the case-2 merge as two compound assignments on the field
+
+    o->f1c &= (p->f00 | p->f04) ^ 0xffff;
+    o->f1c |= v;
+
+instead of the single `o->f1c = (o->f1c & mask) | v;` makes mwcc re-read the
+field for the second statement, which is exactly the missing
+`ldr r5,[r0,#0x1c]` at 0x02036178 (and its twins at 0x020361B4 / 0x020361F0).
+The file is now SIZE-EXACT at 412 bytes and 127 concrete bytes out, against
+400 bytes / 178 out for the source recorded above.
+
+/* best source, 412 bytes against 412, 127 concrete bytes out, 1.1p1 */
+
+What remains is a PURE REGISTER ROTATION and nothing else: every instruction,
+every addressing mode and every condition code lines up one for one across the
+whole 412 bytes.  The substitution is a 4-cycle
+
+    r4 -> r5   x73
+    r5 -> r6   x24
+    r6 -> lr   x15
+    lr -> r4   x7
+
+i.e. the image keeps the loop-invariant 0xFFFF in lr and spends r4/r5/r6 on the
+arm temporaries, while 1.1p1 puts 0xFFFF in r4 and pushes the temporaries up
+into r5/r6/lr.
+
+Measured and REFUTED as levers (all still 127 out, all still 412 bytes):
+ - hoisting 0xFFFF into a named local, declared first or declared last;
+ - all 24 declaration orders of the five locals (p, a, b, c, v) -- every one
+   of them gives 127, so this is not the decl-order tie that closed
+   func_0203ABC0 and func_0203A67C;
+ - a dead use `if (v) { }` after `v = a;` to raise v's spill cost;
+ - binding the mask to a named local `t` per arm.
+
+tools/permuter.py, hill then anneal (900 candidates, --types), moves it only
+from 127 to 125 via commute(&) ; commute(&) and then plateaus, which is the
+signature of a colouring tie the AST cannot reach.  The next thing to try is
+NOT another spelling of this body: it is the declared width or signedness of
+the three accumulators and of struct Ent's f00/f04 (a u16 pair would change the
+value numbering at the top of each arm), or splitting the three arms so the
+0xFFFF constant is created after the first arm's temporaries rather than before.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 412 bytes against 412, 127 concrete bytes out, 1.1p1

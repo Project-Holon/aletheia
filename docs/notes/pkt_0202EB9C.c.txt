@@ -1,0 +1,202 @@
+DIFF residue: func_0202EB9C @ 0x0202EB9C (arm9, Thumb, 136 bytes)
+packet: pkt_0202EB7C
+filed 2026-09-22, family wave 6 (blink_palanm.c).  Previously UNTOUCHED.
+
+/* best source, 132 bytes against 136, 44 concrete bytes out, 1.1p1 */
+
+Verdict: DIFF, compiled 132 against 136, 44 concrete bytes out.  Nothing
+attests badly: all ten relocation sites resolve (six by `sole-ref/code` on
+the family's own siblings, three by `label`, one by `label` x23), so this is
+a pure codegen wall and not an evidence wall.
+
+WHAT IT IS
+----------
+The dispatcher of the twenty-entry slot table at 0x0202EB0C..0x0202ED60 (see
+docs/families/blink_palanm.h, PART 2).  It resolves the caller's handle `a`
+to the table, looks `b` up by its two keys, and then either removes the
+entry it found or inserts one by the count-capped policy:
+
+    u32 func_0202EB9C(u32 a, void *b)
+    {
+        struct Slot *t = func_0200974C(a);
+        u32 n = func_0202ECB0(t, b);
+
+        if (n != 0x14) {            /* found: remove and re-notify */
+            u32 v = t[n].mark ? 1 : 0;
+            func_0202ED00(t, n);
+            func_0202ED60(a, b, v);
+            return 1;
+        }
+
+        v = func_0200856C(b);       /* not found: insert */
+        if (func_0202EC44(t, v) < 5) {
+            if (func_0202EC24(t) >= 0x14)
+                func_0202ED00(t, 0);
+        } else {
+            func_0202ED00(t, func_0202EC7C(t, v));
+        }
+        func_0202ED60(a, b, 0);
+        return 2;
+    }
+
+TWO FINDINGS, BOTH WORTH KEEPING
+--------------------------------
+1.  The bit read at +0x22 is `mark` (bit 3), NOT `flag` (bit 4).  The tell is
+    the shift amount of the extract pair:
+
+        0202EBBE  lsls r0, r0, #0x1c   -> bit 3   (mark)
+                  lsls r0, r0, #0x1b   -> bit 4   (flag)
+
+    Every OTHER function in the family scans on `flag` and so uses #0x1b,
+    which is what makes the wrong choice easy and silent here: with the
+    sibling struct copied verbatim from src/matched/func_0202EC44.c this file
+    came out at 47 bytes instead of 44, the extra three being this one
+    instruction and its knock-on.  src/matched/func_0202ED90.c is the one
+    matched function that writes both bits and therefore fixes their relative
+    positions; the family header now records the tell.
+
+2.  func_0202EC44's result is compared UNSIGNED here (`cmp r0,#5 / bhs`).
+    The definition in src/matched/func_0202EC44.c returns `s32`; declaring it
+    that way in this file gives `bge` and a wrong byte.  Declared `u32` the
+    branch is right.  The definition's own spelling is not constrained (its
+    value never exceeds 5), so this call site is the stronger evidence.
+
+Both were applied; they take the file from 47 to 44 concrete bytes out.
+
+THE RESIDUE
+-----------
+A three-way register rotation across the whole body, plus a four-byte layout
+gap that follows from it:
+
+    python3 tools/permuter.py --src <src> --func func_0202EB9C \
+        --addr 0x0202EB9C --thumb --explain
+    baseline  DIFF   asm=185   bytes-out=44   size=132/136
+    register substitutions (image -> compiled), by count:
+      r7   -> r5    x6
+      r6   -> r7    x5
+      r5   -> r6    x3
+
+The original holds `a` in r5, `b` in r6 and the key/flag temporary in r7;
+this front end rotates all three (a->r6, b->r7, temp->r5).  Every
+instruction is otherwise in place through +0x52, and the four-byte gap is
+entirely downstream of the rotation, in the branch displacements and the
+tail layout of the insert arm.
+
+The permuter cannot move it:
+
+    --mode hill --budget 800 --jobs 8 --types
+      best DIFF asm=1865 bytes-out=97 size=136/136  <- temp(tmp=t[n].flag)
+      "no single mutation improves" (161 tried)
+    --mode anneal --budget 3000 --jobs 8 --types
+      best DIFF asm=635 bytes-out=48 size=136/136
+      mutations: copy(b->b_@5) ; temp(tmp=func_0202EC24(t)) ;
+                 volatile-add(tmp)
+      3000 compiles in 110s, plateaued from compile ~1500 onward
+
+Both results are scoring artefacts of the size term: each closes the
+four-byte gap and comes out with MORE concrete bytes wrong (97 and 48
+against the baseline's 44).
+
+TRIED AND REJECTED (all by hand, all measured)
+----------------------------------------------
+  goto-join for the shared tail instead of fall-through         44 (no change)
+  the >= 5 arm written first, as `if (...>= 5) ... else if ...`  55 (worse:
+      this compiler never reorders if/else, so the source order in the
+      listing above is the constrained one)
+  a named local for func_0202EC7C's result in the else arm      44 (no change)
+  `u32 v` declared before `u32 n`                               44 (no change)
+  a separate local `w` for the first arm's flag temporary       44 (no change)
+  the two arms swapped so `n == 0x14` is the early return      107 (much worse)
+
+The declaration-order levers are the ones the brief points at for an
+immovable residue, and all three were tried; none of them shifts the
+rotation.  What the original's allocation needs is for `a` to be numbered
+before `b`, and both before the temporary, which is already the source
+order.  This reads as the same allocator-preference class as
+docs/notes/pkt_0202ED00.c.txt in the same packet.
+
+THE SOURCE AS IT STANDS (132 of 136, 44 bytes out)
+
+/*
+ * function: func_0202EB9C
+ * address:  0x0202EB9C
+ * packet:   pkt_0202EB7C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DRAFT
+ *
+ * symbols:
+ *   func_0200974C  0x0200974C  thumb
+ *   func_0200856C  0x0200856C  thumb
+ *   func_0202ECB0  0x0202ECB0  thumb
+ *   func_0202ED00  0x0202ED00  thumb
+ *   func_0202ED60  0x0202ED60  thumb
+ *   func_0202EC44  0x0202EC44  thumb
+ *   func_0202EC24  0x0202EC24  thumb
+ *   func_0202EC7C  0x0202EC7C  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+typedef int           s32;
+
+struct Slot {
+    u8  pad[0x26];
+    u8      : 3;
+    u8 flag : 1;
+    u8      : 4;
+    u8  pad2;
+};
+
+extern struct Slot *func_0200974C(u32 a);
+extern u32  func_0200856C(void *p);
+extern s32  func_0202ECB0(struct Slot *t, void *b);
+extern void func_0202ED00(struct Slot *t, u32 n);
+extern void func_0202ED60(u32 a, void *b, u32 c);
+extern u32  func_0202EC44(struct Slot *t, u32 a);
+extern u32  func_0202EC24(struct Slot *t);
+extern u32  func_0202EC7C(struct Slot *t, u32 a);
+
+u32 func_0202EB9C(u32 a, void *b)
+{
+    struct Slot *t;
+    u32 n;
+    u32 v;
+
+    t = func_0200974C(a);
+    n = func_0202ECB0(t, b);
+
+    if (n != 0x14) {
+        if (t[n].flag)
+            v = 1;
+        else
+            v = 0;
+        func_0202ED00(t, n);
+        func_0202ED60(a, b, v);
+        return 1;
+    }
+
+    v = func_0200856C(b);
+    if (func_0202EC44(t, v) < 5) {
+        if (func_0202EC24(t) >= 0x14)
+            func_0202ED00(t, 0);
+    } else {
+        func_0202ED00(t, func_0202EC7C(t, v));
+    }
+    func_0202ED60(a, b, 0);
+    return 2;
+}
+
+(The `flag` member above is the bit-3 field the family header calls `mark`;
+the local struct names it `flag` only because this file reads no other bit.)
+
+permuter best result line:
+  best      DIFF   asm=635   bytes-out=48   size=136/136
+  (baseline, which remains the best real source: DIFF asm=185 bytes-out=44 size=132/136)
+
+Verified with:
+  python3 tools/match.py one --src <src> --func func_0202EB9C \
+      --addr 0x0202EB9C --cc 1.1p1 --thumb   -> DIFF, 132 vs 136, 44 bytes

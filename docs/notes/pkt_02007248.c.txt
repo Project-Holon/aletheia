@@ -210,3 +210,70 @@ void sub_0200725C(void *a0, int a1, void *a2)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 68 bytes against 72, 38 concrete bytes out, 1.1p1
+
+
+================================================================
+APPENDED 2026-09-22, family wave 6 (save_control.c).  CORRECTION + CLOSED.
+================================================================
+
+CORRECTION FIRST.  The block at line 164ff of this file ("packet
+pkt_02007248  function sub_0200725C") carries `status:   EXACT` in its
+header at line 180 for a source that compiles to DIFF -- the corpus check
+that flagged this note was right, and the 2026-09-21 re-verification line
+at the end of that block (DIFF, 68 bytes against 72, 38 concrete bytes
+out) is the trustworthy verdict.  That header's EXACT is FALSE and must
+not be read as a filing.  It is left in place as the historical record;
+this section supersedes it.
+
+BOTH FUNCTIONS ARE NOW EXACT and are filed:
+
+    src/matched/func_0200725C.c   EXACT   72 bytes
+    src/matched/func_020072CC.c   EXACT   88 bytes
+
+Two findings closed them.  This note, the block above and the header of
+src/matched/unit_020072A4.c all diagnosed the residue as a spill-order
+codegen defect that "all nine front ends agree on"; that diagnosis was
+wrong on both counts, and the whole residue was in the DECLARATIONS.
+
+1. func_02031DC0's arguments are (stream, HEAP, BUF), not (stream, buf,
+   heap).  The image names the order outright: heap is loaded into r1 from
+   its stack home (`ldr r1, [sp]` / `ldr r1, [sp, #4]`) while the
+   func_020087D4 result is dereferenced into r2.  With the order backwards
+   the compile is flat at 5 concrete bytes out across EVERY body shape --
+   statement reordering, a named pointer temporary, a named value
+   temporary, hoisting the stream load, void* vs u32* return types,
+   void vs int return on func_02031DC0 -- and tools/permuter.py could not
+   move it at all (74 mutations tried on func_0200725C, 90 on
+   func_020072CC, "no single mutation improves").  That flatness IS the
+   tell the brief names: a residue the permuter cannot move at all is in
+   the declarations, and `cmp`/operand order names which operand.
+   src/matched/func_02031DC0.c spells its own parameters (Obj *, u32 a1,
+   u32 a2) and passes a1 straight through to func_02031FE0/func_02032688;
+   this fixes which of the two is the heap id.  Swapping them alone takes
+   func_0200725C to EXACT.
+
+2. The heap parameter is u8, not u32.  This is what closes the OTHER
+   residue, the one unit_020072A4.c's header describes at length as
+   unexplained: with a u32 heap the constant set-up sinks past the
+   incoming spill, so `str r2, [sp, #4]` lands four halfwords later than
+   the original (7 bytes out on func_020072CC).  A u32 parameter with a u8
+   local copy does NOT work, and u8 in the func_02031948 prototype alone
+   does NOT work -- it has to be the PARAMETER of the function itself.
+   tools/permuter.py found this one directly: `--mode hill --budget 800
+   --jobs 8 --types` ranked `type:p(heap:u32->u8)` first, taking
+   func_020072CC from 12 concrete bytes out to 5 in 91 mutations.  The
+   matched callers (src/matched/unit_0200B4E0.c, unit_0200B5CC.c) declare
+   the argument u32; that is a caller-side widening of a small byte id and
+   does not contradict this, but the conflict is recorded in both filed
+   sources and in docs/families/save_control.h rather than resolved
+   silently.
+
+Both functions needed BOTH findings together: func_0200725C is EXACT with
+(1) alone only because its heap never reaches a second spill, while
+func_020072CC needs (1) for its tail and (2) for its prologue.  The
+"thirty source shapes were tried against each" sweep recorded in
+unit_020072A4.c's header never varied the callee's argument ORDER or the
+parameter's WIDTH, which is why it read as a compiler defect.
+
+No new evidence was invented: all five relocation sites in each function
+resolve as `label` or `literal`, unchanged from the earlier attempts.

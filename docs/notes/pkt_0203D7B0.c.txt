@@ -38,3 +38,38 @@ size for each row is the stub alone; the pool word is what the next row's
 `address:` does not cover, and the pair's real extent is the 12 bytes
 0x0203D7B0..0x0203D7BC and 0x0203D7BC..0x0203D7C8 that `match.py show` prints.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+================================================================================
+APPENDED 2026-09-22 (family wave 6, net.c) -- the 12-byte veneer twins split.
+================================================================================
+
+src/pending/unit_0203D7B0.c held func_0203D7B0 and func_0203D7BC as one file.
+They are byte-identical in shape (`ldr ip,[pc]; bx ip; .word target`) but they
+do NOT have the same verdict, so the unit has been split into two files:
+
+  src/matched/func_0203D7BC.c   EXACT   target 0x0203C900
+  src/pending/func_0203D7B0.c   MATCH   target 0x0203C8E8
+
+The difference is whether disasm.py labelled the target, which is the
+`unlabelled-leaf-functions-hide-in-word-runs` idiom deciding an evidence class:
+
+  0x0203C900  push {r4, lr}       -> saves lr -> labelled -> sole-ref/code OK
+  0x0203C8E8  ldr r1, [pc, #0xc]  -> saves nothing -> NO label -> refused
+
+sole-ref/code requires the address to be exactly a traced label start (or a
+recognised veneer); it is checked against evidence().labels, and 0x0203C8E8
+simply is not in that map.  So func_0203D7B0 is byte-correct and permanently
+capped at MATCH until either 0x0203C8E8 is seeded into
+layout/function_starts.txt (the integrator's file, not ours) or a second
+referrer of it is decompiled.
+
+Same situation, same cause, for the other two 12-byte veneers in this family:
+  src/pending/func_0203CF04.c  -> 0x0203BFF0  (`ldr r0,[pc,#0x10]`, no lr)
+  src/pending/func_0203D56C.c  -> 0x020394C0  (`ldr r0,[pc,#0xc]`,  no lr)
+Both re-verified MATCH this pass with an explicit symbols: block; neither can
+be lifted without a new witness.  func_0203D56C.c had no symbols: block at all
+and was resolving its target "from name" -- that is now explicit, though it
+does not change the verdict.
+
+re-verified 2026-09-22 by tools/match.py: func_0203D7BC EXACT, func_0203D7B0 MATCH

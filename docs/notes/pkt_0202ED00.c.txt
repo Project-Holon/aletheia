@@ -73,3 +73,98 @@ docs/notes/pkt_02036568.c.txt.
 Everything else about the file reproduces, and the tail loop and the shared
 exit are exact under each of the 6-byte spellings.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================
+APPENDED 2026-09-22, family wave 6 (blink_palanm.c): permuter pass
+================================================================
+
+/* best source, 94 bytes against 96, 6 concrete bytes out, 1.1p1 */
+
+The note's diagnosis is confirmed and the six-byte residue is now measured
+against the AST permuter as well as by hand.  It does not move.
+
+Baseline (the source below, verbatim from this note's own listing, with the
+table parameter spelled as a plain `struct Rec *` rather than a wrapper
+struct -- the wrapper makes no byte difference):
+
+    python3 tools/permuter.py --src <src> --func func_0202ED00 \
+        --addr 0x0202ED00 --thumb --explain
+    baseline  DIFF   asm=135   bytes-out=6    size=94/96
+    register substitutions (image -> compiled), by count:
+      r5   -> r6    x1
+
+One swapped register and a two-byte size gap, which is the shape the
+permuter is built for -- and it still cannot reach it:
+
+    --mode hill --budget 800 --jobs 8 --types
+      best DIFF asm=240 bytes-out=13 size=96/96  <- type:ret-var(t)
+      "no single mutation improves" (165 tried)
+    --mode anneal --budget 3000 --jobs 8 --types
+      best DIFF asm=205 bytes-out=7 size=96/96
+      mutations: use(p) ; type:ret-var(t) ; volatile-add(p) ;
+                 expand(p x2) ; temp(tmp=p[1].fl.f4)
+      3000 compiles in 181s, plateaued from compile 386 onward
+
+Both "improvements" are scoring artefacts: they close the two-byte size gap
+by inflating the body and come out with MORE concrete bytes wrong (13 and 7
+against the baseline's 6).  Six bytes at 94 remains the best result.
+
+Three further pointer spellings tried by hand this pass, none of them in the
+note's original list, all landing on the same six bytes:
+
+  d = &t[n]; s = d + 1; *d = *s;                        6 bytes
+  d = &t[n]; *d = d[1];                                 6 bytes
+  d = &t[n]; s = &t[n + 1]; *d = *s;                   86 bytes (the second
+      index recomputes the multiply, which loses the whole copy block)
+
+The wall is exactly as the note states: the original computes the
+DESTINATION pointer first (`adds r6, r3, r7`), copies it, and derives the
+SOURCE from the copy (`adds r5, r6, #0 / adds r5, #0x28`); every source
+spelling makes this front end compute the source into the first register and
+recompute the destination from the base.  That is an allocator preference
+with no source-level lever, the same shape as docs/notes/pkt_02036568.c.txt.
+
+THE SOURCE AS IT STANDS (94 of 96, 6 bytes out)
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+struct Flags { u8 f0:1, f1:1, f2:1, f3:1, f4:1, f5:1, f6:1, f7:1; };
+
+struct Rec {
+    u32 f0;
+    u8  pad04[0x22];
+    struct Flags fl;
+    u8  pad27;
+};
+
+void func_0202ED00(struct Rec *t, u32 n)
+{
+    struct Rec *p;
+
+    if (n >= 0x14)
+        return;
+
+    if (n < 0x13) {
+        while (1) {
+            p = &t[n];
+            p[0] = p[1];
+            if (!p[1].fl.f4) {
+                n++;
+                break;
+            }
+            n++;
+            if (n >= 0x13)
+                break;
+        }
+    }
+
+    while (n < 0x14) {
+        t[n].fl.f4 = 0;
+        n++;
+    }
+}
+
+permuter best result line:
+  best      DIFF   asm=205   bytes-out=7    size=96/96
+  (baseline, which remains the best real source: DIFF asm=135 bytes-out=6 size=94/96)

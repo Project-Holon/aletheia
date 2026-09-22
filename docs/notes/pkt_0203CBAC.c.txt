@@ -267,3 +267,106 @@ void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 488 bytes against 492, 202 concrete bytes out, 1.1p1
+
+
+================================================================================
+APPENDED 2026-09-22 (family wave 6, net.c) -- 199 -> 80 concrete bytes out,
+and the SIZE is now correct at 492.  Three separate findings.
+================================================================================
+
+/* best source, 492 bytes against 492, 80 concrete bytes out, 1.1p1 */
+
+FINDING 1 -- THE SWITCH TABLE BASE WAS MISREAD, AND THE NOTE ABOVE IS WRONG
+---------------------------------------------------------------------------
+The mapping in the original note ("case 0 -> 0x0203CD04, case 1 -> 0x0203CD18,
+case 2 -> 0x0203CC90 ...") is off by one, because the word at 0x0203CC70 was
+counted as table[0].  It is not.  The dispatch is
+
+  0203CC68  cmp   r0, #6
+  0203CC6C  addls pc, pc, r0, lsl #2
+  0203CC70  b     #0x203cd04        <- NOT table[0]
+  0203CC74  b     #0x203cd18        <- table[0]
+
+`addls pc, pc, ...` reads pc as the instruction address PLUS 8, so the base is
+0x0203CC6C + 8 = 0x0203CC74 and entry k lives at 0x0203CC74 + 4k.  The word at
+0x0203CC70 is the out-of-range fallthrough to the default arm.  The true
+mapping is therefore
+
+  case 0 -> 0x203cd18  common tail (break)
+  case 1 -> 0x203cc90  vtable arm      case 2 -> 0x203cc90  vtable arm
+  case 3 -> 0x203ccc0  beacon arm      case 4 -> 0x203ccc0  beacon arm
+  case 5 -> 0x203cd18  common tail (break)
+  case 6 -> 0x203cc90  vtable arm
+  default -> 0x203cd04  the line-0x8e error arm
+
+and the error arm MUST be spelled `default:`, not `case 0:`.  The same
+off-by-one was present in docs/notes/pkt_0203CDD4.c.txt for func_0203CDD4 at
+0x0203CDD4; correcting it there took that function from DIFF straight to EXACT
+(now src/matched/func_0203CDD4.c), which is the independent confirmation that
+this reading of the base is the right one.
+
+FINDING 2 -- `u8 m` FOR THE MODE BYTE FIXES THE 4-BYTE SIZE GAP
+---------------------------------------------------------------
+The note's source declares the tail's mode local `u32 m = req->f65`.  Declared
+`u8 m` instead -- which is what the field actually is -- the function compiles
+to 492 bytes, not 488, and drops 198 -> 159 concrete out.  The image's
+`cmp r0,#3 / cmpne r0,#4 / popeq` keeps the byte in one register; the u32
+version spends a `sub r0, r1, #3` first.  This is a plain type correction, not
+a shape trick, and it should have been in the original derivation.
+
+  NOTE, because it is a trap: tools/permuter.py --mode hill also reaches 492
+  bytes from the note's baseline via `type:l(v:u32->u8)`, narrowing the BEACON
+  arm's temporary instead.  That one is a false lead -- it buys the size by
+  emitting `ands r0, r0, #0xff`, a mask the image does not contain, and it is
+  not value-preserving on a u16 source.  Finding 2 is the correct spelling;
+  prefer it.
+
+FINDING 3 -- TWO NAMED TEMPORARIES, 159 -> 80 (permuter, anneal)
+-----------------------------------------------------------------
+  python3 tools/permuter.py --src src/pending/func_0203CBAC.c \
+      --func func_0203CBAC --addr 0x0203CBAC --arm \
+      --mode anneal --budget 900 --jobs 8 --types
+  best  DIFF  asm=940  bytes-out=80  size=492/492
+  mutations  temp(tmp=(m == 3) || (m == 4)) ; temp(tmp1=req->f54)
+
+Both are the `cmp-operand-order-names-the-temporary` idiom: binding the
+disjunction and the f54 re-read to named locals pins the operand order the
+image has.  Applied to readable source as `int done = (m == 3) || (m == 4);`
+and `u32 alt = req->f54;`.
+
+Permuter effort spent, for the next agent's budgeting:
+  --explain at the 488 baseline: r0->r1 x3, r1->r0 x1 (an allocation tie).
+  hill, budget 800, --types, at 488: found type:l -> 492/85 (see the trap).
+  hill, budget 800, --types, at the 492/159 point: 296 singles, NONE improved.
+  anneal, budget 900, --types: found the two temps above, 159 -> 80, then flat.
+
+WHAT IS LEFT, 80 bytes in exactly two places
+---------------------------------------------
+(a) THE KEPT BRANCH PAIR, +0x20, 12 bytes.  Unchanged from residue (1) of the
+    original note and still the thing to crack:
+
+      image     beq #0x203cbd4 / b #0x203cbd8 / ldrh r0, [sb, #0x54]
+      compiled  bne #0x203cbd8 / ldrh r0, [sb, #0x54] / b #0x203cbd8
+
+    Four further spellings were measured this pass, ON TOP of the note's
+    original list, and all four are far WORSE (480 bytes, 404 concrete out):
+    an explicit goto pair to a shared label; the ternary
+    `func_0203064C(g == 0 ? req->f54 : g, ...)`; a `volatile` read of the
+    flag; and `if (v != 0) ; else v = req->f54;`.  The call-written-out-in-
+    each-arm form the note settled on remains the floor.
+
+(b) THE CASE-3/4 CROSS-JUMP, the rest.  The image's vtable arm ends at
+    0x0203CCBC with `b #0x203ccf4`, jumping INTO the beacon arm to share its
+    `bl func_0203064C` and its epilogue; the compiled form calls and returns
+    on its own.  A hand-written goto that threads three argument temporaries
+    into a shared call site was tried this pass and is worse still (488
+    bytes, and it drops a relocation site to 18).  This is the
+    `switch-arms-tail-merge` shape and it is not reachable by any spelling
+    the permuter generates -- it needs the two arms to be one expression.
+
+Relocation status is unchanged: 17 of 19 resolve; func_0203D8F0 and
+func_0203AFCC have no witness outside this function's own `bl`, so even a
+byte-perfect version caps at MATCH until one of those two is filed.  That is
+why this stays a note and not a src/pending file.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 492 bytes against 492, 80 concrete bytes out, 1.1p1

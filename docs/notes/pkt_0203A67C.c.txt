@@ -59,3 +59,48 @@ u32 func_0203A70C(u32 idx)
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 32 bytes against 36, 14 concrete bytes out, 1.1p1
+
+
+---- append, 2026-09-22 (wave 6 bundle, net_command.c lane) ----
+
+CLOSED.  func_0203A70C is now src/matched/func_0203A70C.c, EXACT at 36 bytes
+with its one relocation resolved by label.
+
+The blocker line above ("the original loads *q into r1 and uses a scaled index
+as the load offset") names the residue correctly but reads it as a scheduling
+problem.  It is not: it is the DECLARED SHAPE of the object.  The recorded
+source indexes a `struct Pair **`, which makes the compiler materialise a
+record address and then load from it; the image has no record address at all,
+it folds the whole thing into one scaled-register load
+
+    ldrne r0, [r1, r0, lsr #21]
+
+src/matched/func_0203A748.c, the +4 twin, was already EXACT in the tree and
+spells it as a byte cursor plus a manual shift.  The +0 case is the same source
+with the `+ 4` dropped, and the scaled-register addressing mode appears by
+itself because the offset is then zero:
+
+    int *p = func_0203A67C();
+    if (p != 0) {
+        char *base = (char *)*p;
+        u32 off = ((idx << 24) >> 21);
+        return *(int *)(base + off);
+    }
+    return 0;
+
+Lesson for the family: the three accessors at 0x0203A70C / 0x0203A730 /
+0x0203A748 must all be written as a cursor plus an explicit shift, never as an
+array subscript on a record type.  0x0203A730 (the +8 word) is the one case
+where the subscript form works, because its index is a constant.
+
+func_0203A67C itself, the accessor these three call, is also EXACT now --
+src/matched/func_0203A67C.c, 144 bytes.  Two things it needed that are worth
+carrying to the rest of net_command.c: the group/index masks must be declared
+AFTER the loop counter (the permuter found decl-order(lo<->i) ; decl-order(hi<->i),
+without which a 3-register rotation r2 -> ip -> r3 -> r2 appears and nothing
+moves it), and the base table at 0x020A7AE8 costs TWO pool words because the
+`.listNum` guard and the returned pointer are two different declarations of the
+one object -- collapsing them to a single `&g_020A7AE8` makes the file 140
+bytes, four short.
+
+re-verified 2026-09-22 by tools/match.py: EXACT (func_0203A70C, 36 bytes), EXACT (func_0203A67C, 144 bytes), 1.1p1
