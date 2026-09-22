@@ -272,3 +272,11 @@ dedicated slot with a fresh derivation than as the tail of a wave that had
 four smaller residues to move first.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 792 bytes against 848, 631 concrete bytes out, 1.1p1
+
+WAVE 10, 2026-09-22: CLOSED -- src/matched/func_0201183C.c is EXACT.
+Key facts the sections above missed: 0x0209C95C is _fadd and 0x0209CB8C is
+_fsub (runtime_arm9.txt has them swapped), so the conversion is the plain
+SDK FX_F32_TO_FX32 macro; it is a MACRO over a `volatile float *` buffer
+(load for the compare, reload in the arm, per-site offset slot);
+func_0209C2B0 is _u32_div_f and n = (q >> 12) % s->f0c; func_0204944C and
+func_02030734 take five arguments; `q >> 12` is never named.

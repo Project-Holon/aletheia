@@ -555,3 +555,137 @@ of one, and it should be taken AFTER 0x0204C2C8's caller-side argument shape is
 known -- 0x0204C2C8 is its only caller in the image, so the two must be settled
 together and the seven-slot outgoing area at 0x0204C2C8 is the best available
 evidence for its parameter list.
+
+==============================================================================
+WAVE 10 (clact.c family), 2026-09-22: 0x0204C2C8 REREAD -- 183 -> 58 bytes out
+==============================================================================
+
+func_0204C3CC, this row's callee, is now EXACT (src/matched/func_0204C3CC.c),
+so its eight-argument prototype is settled from the definition side:
+(dx, dy, x0, x1, y0, y1, struct M *m, struct C *c).  The call here therefore
+passes EIGHT arguments, the eighth being this function's second parameter
+(the viewport, `str r1, [sp, #0xc]`); that is the fourth stack word the
+earlier sections could not account for.
+
+THE POOL WORD IS 0xC000C000, NOT 0x00C000C0.  Every earlier section misread
+the little-endian bytes `00 c0 00 c0`.  0xC000C000 is
+GX_OAM_ATTR01_SHAPE_MASK | GX_OAM_ATTR01_SIZE_MASK, and 0xC000C000 asr #22 is
+0xFFFFFF00 == ~0xff: the `orrgt r2, r6, r0, asr #22` is 1.1p1 deriving ~0xff
+from the mask it already holds, not a "kept 3".  All the fold-defeating
+levers measured above were chasing a misread constant.
+
+WHAT THE BODY IS: an OAM bounding rectangle.  +0x38 is the GXOamAttr attr01
+word (a union of the u32 with the SDK bitfields y:8 .. shape:2 | x:9 ..
+size:2); x0 = RepeatX(x), x1 = RepeatX(x) + width[shape][size],
+y0 = RepeatY(y), y1 = RepeatY(y) + height[shape][size], each << 12, where
+RepeatX/RepeatY are STATIC INLINE helpers taking s16 (`if (v > 0xff)` /
+`if (v > 0x7f)` then `v |= ~0xff`).  Measured levers, each from the reread:
+  * the inline helper applied twice explains the two different clamps: the
+    first inlined copy drops the s16 conversion (1.1p1 sees the 9-bit field
+    already fits) and the second keeps `lsl #16 / asr #16`.  148 -> 94.
+  * `shape = attr01 & 0xC000C000` computed FIRST puts the mask in r0 before
+    the x clamp (and in the image's pool order).  135 -> 92 with the helper.
+  * the << 12 inside each of the four statements, not at the call:  92 -> 58.
+  * x read with a plain shift of attr01, y read through the bitfield (the
+    second `ldr [r4, #0x38]`); every other combination is worse.
+  * statement order shape, x0, x1, y0, y1 (all 40 legal orders swept).
+Flat under: helper vs macro (worse), ternary helpers (worse), size lookup as
+helper / macro / row pointer / *(row + i) / i[row] (all 58), every local and
+helper return/parameter type (s32/s16/u16/u32, 48 combinations, all 58),
+`* 0x1000` for `<< 12`, dx/dy as named locals, if/else for the flag store,
+and ../2.0/sp2, ../1.2/sp2, ../2.0/base (235-248).
+
+THE 58 BYTES: register choice only, from +0x50 on.  The image loads the
+first table base into ip and the i2*2 temporary into r8 (and the reverse
+for the second table), keeps y1 in lr and Y0 = y0 << 12 in r0; the compile
+gives the first base r8, y1 r0 and Y0 r8.  Same instructions, same
+schedule up to those names.
+
+permuter: --mode hill --budget 800 --types: no single mutation improves
+(141 tried); --mode anneal --budget 2000 --types:
+best      DIFF   asm=655   bytes-out=58   size=260/260
+Flat under both, i.e. the residue is in a declaration or reading not yet
+found, not in statement shape.
+
+/* best source, 260 bytes against 260, 58 concrete bytes out, 1.1p1 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+typedef signed int s32;
+
+typedef union {
+    u32 attr01;
+    struct {
+        u32 y : 8;
+        u32 rsMode : 2;
+        u32 objMode : 2;
+        u32 mosaic : 1;
+        u32 colorMode : 1;
+        u32 shape : 2;
+        u32 x : 9;
+        u32 rsParam : 5;
+        u32 size : 2;
+    };
+} OamAttr;
+
+struct Elem {
+    u8 pad_00[0x30];
+    u32 visible;
+    u8 pad_34[4];
+    OamAttr oam;
+};
+
+struct Pair {
+    s32 x;
+    s32 y;
+};
+
+struct Box {
+    u8 pad[0x10];
+    s32 f10;
+    s32 f14;
+};
+
+extern u16 tbl_020A17D8[4][4];
+extern u16 tbl_020A17F0[4][4];
+
+extern int func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
+                         struct Box *box, struct Pair *p);
+
+static inline s32 RepeatX(s16 x)
+{
+    if (x > 0xff)
+        x |= ~0xff;
+    return x;
+}
+
+static inline s32 RepeatY(s16 y)
+{
+    if (y > 0x7f)
+        y |= ~0xff;
+    return y;
+}
+static inline u16 SizeX(s32 shape)
+{
+    return tbl_020A17F0[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
+}
+
+static inline u16 SizeY(s32 shape)
+{
+    return tbl_020A17D8[(shape & 0xc000) >> 14][(shape & 0xc0000000) >> 30];
+}
+
+void func_0204C2C8(struct Elem *e, struct Pair *p, s32 u2, s32 u3, struct Box *box)
+{
+    s32 shape = e->oam.attr01 & 0xC000C000;
+    s32 x0 = RepeatX(e->oam.x) << 12;
+    s32 x1 = (RepeatX(e->oam.x) + SizeX(shape)) << 12;
+    s32 y0 = RepeatY(e->oam.y) << 12;
+    s32 y1 = (RepeatY(e->oam.y) + SizeY(shape)) << 12;
+
+    e->visible = func_0204C3CC(box->f10 - p->x, box->f14 - p->y,
+                               x0, x1, y0, y1, box, p) != 0;
+}
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 260 bytes against 260, 58 concrete bytes out, 1.1p1

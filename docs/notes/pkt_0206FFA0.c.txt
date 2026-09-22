@@ -240,3 +240,18 @@ int func_0206FFA0(int *out, s16 *a, s16 *b, u32 id)
     return 1;
   }
 }
+
+==============================================================================
+2026-09-23, wave 10 (third lane, pkt_0206EB00): 0x0206FFA0 EXACT under ../2.0/sp2p2
+==============================================================================
+Filed as src/matched/func_0206FFA0.c.  75 -> 0 by two levers:
+  * the packed-row arm written row by row (load, store >> 3, fold into p)
+    rather than the five loads then the packing chain: 75 -> 53, and the
+    whole arm exact (all 17 bytes there were this);
+  * the four Perm columns declared `extern const Perm g_020A199x[];` with
+    the permutation arm in the natural shape (`out[k] = (h0 & 0x10) ?
+    -0x1000 : 0x1000; out[T1[k].c] = h1; out[T2[k].c] = h2; out[T3[k].c] =
+    (row[0] & 0x20) ? -h2 : h2; ...`).  Non-const that shape is 32 out: the
+    image loads column 1998 before the store to out[k] and 1999 before
+    the store to out[s1], which mwcc only does when the column provably
+    cannot alias `out`.  The same lever is worth 37 bytes in 0x0206ECE0 (51 -> 14).

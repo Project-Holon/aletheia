@@ -288,4 +288,33 @@ extern void func_02086078(void *blk);
 #define ERR_VALUE           0x28    /* g_02153FAC on every failure path       */
 #define CASEFOLD_LIMIT      0x80    /* g_020A60DC maps only below this        */
 
+
+/* ================================================================== *
+ * WAVE 10 ADDENDUM (2026-09-22) -- func_020917D4 EXACT (1.1p1)
+ * ================================================================== *
+ * func_020917D4 is MSL C's `__fread` and is EXACT under dsi/1.1p1 as
+ * src/matched/func_020917D4.c.  Transcribed straight from the Metrowerks
+ * MSL shape it compiled byte-exact once the FILE layout was right, which
+ * retires the "456-byte colouring residue the permuter cannot reach" in
+ * docs/notes/pkt_020916D4.c.txt: that residue was a wrong body, not a tie.
+ * The struct is MSL's FILE, and the section 1 field list above maps onto it:
+ *   f04 = __file_modes bitfield (open_mode:2, io_mode:3, buffer_mode:2,
+ *         file_kind:3, file_orientation:2, binary_io:1)
+ *   f08 = __file_state bitfield (io_state:3, free_buffer:1)
+ *   f0c = eof (u8), f0d = error (u8)    <-- PLAIN FILE MEMBERS.  Putting them
+ *         inside an 8-byte state struct shifts everything after +0x0c by 4
+ *         and is 26 bytes out.
+ *   f0e = char_buffer, f0f = char_buffer_overflow, +0x12 = ungetc_buffer[2],
+ *   +0x14 = ungetwc_buffer[2] (u16), f18 = position, f1c = buffer,
+ *   f20 = buffer_size, f24 = buffer_ptr, f28 = buffer_len,
+ *   f2c = buffer_alignment, f30 = saved_buffer_len, f34 = buffer_pos,
+ *   f38/f3c/f40 = position/read/write procs, f48 = ref_con.
+ * Callees: func_02096508 = fwide, func_0209149C =
+ * __flush_line_buffered_output_files, func_020915C4 = __load_buffer
+ * (file, &count, align), func_0209159C = __prep_buffer, func_02092344 =
+ * memcpy.  io_state values: 0 neutral, 1 writing, 2 reading, 3+ rereading.
+ * LESSON: in this cluster, recognise the MSL routine and transcribe it; the
+ * `zero` in r4 is 1.1p1's kept-constant habit and matches the image.
+ */
+
 #endif /* CLUSTER_02091588_H */

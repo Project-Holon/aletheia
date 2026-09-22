@@ -65,3 +65,8 @@ Decoded structure (the C is believed complete; only the allocation is wrong)
 no witness outside ...". Probed today: 02063F4C -> [label x8, e.g. 0204DF90].
 The site resolves; re-attack this row on codegen alone.
 re-verified 2026-09-21: no recoverable source in this note
+
+WAVE 10, 2026-09-22: CLOSED -- src/matched/func_0204DEE8.c is EXACT.
+It returns void (the note's `return v` was a misread), and the "shuffle" was
+two levers: the out-locals declared `b` then `a`, and the 0x200 test written
+small-arm-first (`if (size < 0x200) flag = 0; else {...}`).

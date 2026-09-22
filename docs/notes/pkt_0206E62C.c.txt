@@ -215,3 +215,5 @@ compiles; the note above reached the same conclusion from the other side.
 
 Not filed: DIFF, by rule 6.  No source in src/matched/ or src/pending/.
 Addresses are Black-image addresses.
+
+2026-09-22 wave 10: CLOSED.  func_0206E62C and func_0206E7EC are EXACT under ../2.0/sp2 (src/matched/func_0206E62C.c, src/matched/func_0206E7EC.c).  NNS g3d ResDict lookup; the residue above was the compiler (1.1p1 never strength-reduces the key pointer) plus declaring u32 i before the key words.  See docs/families/cluster_0206E62C.h, wave 10 addendum.

@@ -33,10 +33,10 @@
  *     below and are listed here because they sit in this packet.
  *
  * Derived from src/matched/func_0206EB00.c, func_0206EBB8.c,
- * func_0206EC50.c, func_0206F214.c, func_0206F36C.c, func_0206F6B0.c,
- * func_0207010C.c, func_02070274.c, and the DIFF sources in
- * docs/notes/pkt_0206EB00.c.txt (0x0206ECE0, 0x0206EE60, 0x0206F4C8,
- * 0x0206FC5C, 0x0206FFA0).
+ * func_0206EC50.c, func_0206EE60.c, func_0206F214.c, func_0206F36C.c,
+ * func_0206F6B0.c, func_0206F844.c, func_0206FFA0.c, func_0207010C.c,
+ * func_02070274.c, and the DIFF sources in docs/notes/pkt_0206EB00.c.txt
+ * (0x0206ECE0) and docs/notes/pkt_0206F4C8.c.txt (0x0206F4C8, 0x0206FC5C).
  *
  * ============================================================================
  * THE COMPILER PIN.  READ THIS BEFORE WRITING ANY C FOR THIS FAMILY.
@@ -189,12 +189,17 @@ extern Stash *g_02148DB0;               /* 0x02148DB0                         */
  * stride struct; one array indexed [k*4+n] loses three pool words.  The
  * pool order in both users is 1998, 1999, 199A, 199B, and 1998 is the
  * FIRST lookup (ECE0's older note had 1999 first; the pool proves it).
+ *
+ * THE COLUMNS ARE `const` (proved wave 10, func_0206FFA0 EXACT): both users
+ * load column 1998 before the store to m[k] and 1999 before the store to
+ * m[s1]; mwcc hoists a load above a store through `out` only when the
+ * object is const.  Non-const costs 32 bytes in FFA0 and 37 in ECE0.
  * ================================================================== */
 typedef struct { u8 c; u8 pad[3]; } Perm;
-extern Perm g_020A1998[];               /* 0x020A1998  row slot for u         */
-extern Perm g_020A1999[];               /* 0x020A1999  row slot for v         */
-extern Perm g_020A199A[];               /* 0x020A199A  slot for +-v           */
-extern Perm g_020A199B[];               /* 0x020A199B  slot for +-u           */
+extern const Perm g_020A1998[];         /* 0x020A1998  row slot for u         */
+extern const Perm g_020A1999[];         /* 0x020A1999  row slot for v         */
+extern const Perm g_020A199A[];         /* 0x020A199A  slot for +-v           */
+extern const Perm g_020A199B[];         /* 0x020A199B  slot for +-u           */
 
 /* ================================================================== *
  * 6.  Prototypes, each with the function that evidences it
@@ -208,9 +213,10 @@ void func_0206EB00(char *dst, char *src, char *tbl);
 void func_0206EBB8(u32 *out);
 /* src/matched/func_0206EC50.c */
 void func_0206EC50(void *out);
-/* DIFF, docs/notes/pkt_0206EB00.c.txt: fills out->m or sets out[0] |= 2 */
-void func_0206ECE0(u32 *out);
-/* DIFF, the driver */
+/* DIFF (384/14, sp2p2, wave 10), docs/notes/pkt_0206EB00.c.txt: fills
+   out->m or sets out->f00 |= 2.  Takes an Out * (m[9] stores as out->m[..]) */
+void func_0206ECE0(Out *out);
+/* src/matched/func_0206EE60.c (../2.0/sp2p2, wave 10): the driver */
 void func_0206EE60(AnmRoot *root, u32 node, u32 t, Out *out);
 /* src/matched/func_0206F214.c (../2.0/sp2p2): scalar, plain */
 void func_0206F214(int *out, int t, Rec *r, u8 *base);
@@ -220,15 +226,16 @@ void func_0206F36C(int *out, int t, Rec *r, AnmRoot *h);
 void func_0206F4C8(int *out, int t, Rec *r, u8 *base);
 /* src/matched/func_0206F6B0.c: vector-2, lerp */
 void func_0206F6B0(int *out, int t, Rec *r, AnmRoot *h);
-/* DIFF (1048/10, ../2.0/sp2, wave 9): rotation, plain (func_0206FFA0,
-   VEC_Normalize); docs/notes/pkt_0206F4C8.c.txt */
+/* src/matched/func_0206F844.c (../2.0/sp2p2, wave 10): rotation, plain
+   (func_0206FFA0, VEC_Normalize) */
 void func_0206F844(int *out, int t, Rec *r, AnmRoot *h);
 /* DIFF (836/8, ../2.0/sp2, wave 9): rotation, lerp; decodes keys k and k2 into two stack matrices,
    lerps rows 0 and 1, normalises them, and rebuilds row 2 by the cross
    product when either decode returned 1, else lerps and normalises it. */
 void func_0206FC5C(int *out, int t, Rec *r, AnmRoot *h);
-/* DIFF: returns 0 for an axis-permutation key (id bit 15), 1 for a
-   quantised-row key (whose row 2 the caller must rebuild) */
+/* src/matched/func_0206FFA0.c (../2.0/sp2p2, wave 10): returns 0 for an
+   axis-permutation key (id bit 15), 1 for a quantised-row key (whose row 2
+   the caller must rebuild) */
 int  func_0206FFA0(int *out, s16 *axis, s16 *rows, u32 id);
 /* src/matched/func_0207010C.c: RGB555 key sampler */
 u16  func_0207010C(u8 *base, u32 flags, u32 idx);
@@ -263,8 +270,8 @@ extern void VEC_Normalize(const void *src, void *dst);     /* 0x0207CCA4    */
  *        b = (m[2]*m[3] - m[0]*m[5]) >> 12;
  *        c = (m[0]*m[4] - m[1]*m[3]) >> 12;   m[6] = a; m[7] = b; m[8] = c;
  *    Six bound locals merge five loads into `ldmib` (32 bytes short in FC5C).
- *    (func_0206EE60's cofactor block is the opposite: there the six locals
- *    ARE right; it reads out->f28.. of a struct, not an int array.)
+ *    (func_0206EE60 takes the same form; wave 10 withdrew the "six
+ *    locals" reading, which was only right while lerp was spelled wrong.)
  *  - The decode-or accumulator: `ok = 0; ok |= dec(..); ok |= dec(..);`
  *    directly gives the folded `orr rX, r0, #0`; F844's 3:1 arm writes
  *    `ok = 0` before its index split and gets the image's `mov sl, #0`.
@@ -273,6 +280,23 @@ extern void VEC_Normalize(const void *src, void *dst);     /* 0x0207CCA4    */
  * ECE0 (384/40): the flag word is re-read INTO THE SAME variable after the
  * func_020834A8 call, or k is sunk past the call (105).  The wave-8 41-byte
  * source read an uninitialised pointer and is retracted.
+ * ================================================================== */
+
+/* ================================================================== *
+ * 9.  Wave 10 levers (FFA0, EE60, F844 EXACT; ECE0 40 -> 14)
+ *
+ *  - A 0/1 flag chosen by a two-test guard is ONE conditional expression:
+ *        lerp = ((t & 0xfff) != 0 && (root->f08 & 1) != 0) ? 1 : 0;
+ *    (EE60).  The goto and if/else forms give the image's instructions
+ *    but swap the flag and the cursor (63 bytes); a bare `&&` is 944.
+ *  - EE60's cofactor block is the FC5C form too (three direct-read
+ *    temporaries); the "six locals" rule of section 8 is withdrawn.
+ *  - A decode accumulator private to one arm is a block-scoped variable
+ *    with its initialiser (`u32 ok2 = 0;` at the top of F844's 3:1 arm).
+ *  - FFA0's packed arm goes row by row: load, store >> 3, fold into p.
+ *  - ECE0: an Out * parameter with out->m[..] stores, the flag groups as a
+ *    wrapping if (flag-2 block last), and the perm tail in FFA0's shape.
+ *    Left: node r4 / k r5 against the image's r5 / r4.
  * ================================================================== */
 
 #endif /* CLUSTER_0206EB00_H */

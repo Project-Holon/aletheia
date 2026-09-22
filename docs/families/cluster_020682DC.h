@@ -36,6 +36,12 @@
  *   now byte-identical (but 416/227, bpp/tile-size spill swapped); 0x430 and
  *   0x670 unchanged (0x670 is one spill choice: the image spills the glyph
  *   pair argument to its own incoming slot, every compile spills base).
+ * WAVE 10 (2026-09-23): func_02068C84 and func_02068AE8 EXACT under
+ *   ../2.0/sp2 (src/matched, packet pkt_02068AE8) -- section 5 below.
+ *   func_02068430 576/159 (was 195), func_02068808 first transcription
+ *   528/313 under ../2.0/sp2 (1.1p1 520), func_02068670 unchanged 408/254.
+ *   Notes: docs/notes/pkt_02068808.c.txt (C84, AE8, 808),
+ *   docs/notes/pkt_020682F8.c.txt (430, 670).
  *
  * FRONT END.  Mixed, decided per function by the tells in
  * docs/FRONTEND-PINS.md, never by family.  0x020682F8 is "kept branches" (a
@@ -151,7 +157,8 @@ extern u32 func_020682DC(u8 *p);
 extern void func_02068A18(struct Surface *s, u32 arg);
 extern void func_02068A68(struct Surface *s, u32 arg);
 
-/* Rectangle fills (DIFF).  (s, pixel, x, y, w, h): the rectangle is rounded
+/* Rectangle fills, EXACT since wave 10 (../2.0/sp2; section 5 has the last
+ * levers), src/matched/func_02068AE8.c and func_02068C84.c.  (s, pixel, x, y, w, h): the rectangle is rounded
  * out to whole tiles and each covered tile gets func_020682F8 with its own
  * sub-rectangle.  The linear one walks `row += stride * tilesz`; the swizzled
  * one asks func_020681E4(tx, ty, s->w, s->h, swz.x, swz.y) for each tile's
@@ -175,5 +182,46 @@ extern void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h
  * and the loop registers are colored in DECLARATION ORDER at function
  * scope: C84 `int cx, th, tx, xe, ty;` gives r4..r8 exactly (the only one
  * of all 120 orders that does); AE8's `cx, th, xe, p, yo` does the same. */
+
+/* ================================================================== *
+ * 5. The tile size re-reads the field (wave 10, closes C84 and AE8)
+ * ================================================================== */
+
+/* Both rectangle fills compute the tile size from a FRESH read of the
+ * field, not from the bpp local:
+ *
+ *     bpp = s->bpp;               -- expansion test, and the call argument
+ *     ...
+ *     tilesz = (s->bpp << 6) / 8; -- NOT (bpp << 6) / 8
+ *
+ * The two loads CSE into the image's single `ldrb`, but the tile size is
+ * then its own IR value.  In func_02068AE8 that decides the spill (image:
+ * bpp in fp, tile size at [sp,#0x14]; from the local the two swap); in
+ * func_02068C84 it decides the `stm sp, {r5, fp}` / `sub r3, r2, r1` order
+ * at the func_020682F8 call.  func_020682F8's bpp parameter stays `int`
+ * (the callee is EXACT only so); a `u8` prototype in the caller also
+ * closes C84 alone and is NOT the reading filed.
+ *
+ * func_02068AE8 additionally wants the two rounded bounds before the row
+ * pointer: `xe = ...; ye = ...; row = base + tilesz * (...); rowadv = ...;`
+ * (only the xe-ye-first orders of those four statements are exact).
+ *
+ * func_02068670 already spells `(s->bpp << 6) / 8`; its residue is the
+ * base/ye versus g/skip spill pair (docs/notes/pkt_020682F8.c.txt). */
+
+/* ================================================================== *
+ * 6. func_02068808, the swizzled glyph draw (wave 10, DIFF, NOT
+ *    BYTE-ATTESTED)
+ * ================================================================== */
+
+/* Same clip and Blit block as func_02068670, walk as func_02068C84.  The
+ * surface's w and h are read twice: inline for the tx1/ty1 clamp and again,
+ * after the Blit stores, into locals handed to func_020681E4 each tile
+ * (hoisted and spilled, not re-read in the loop).  The +0x10 word is copied
+ * whole and its two low bytes are the swizzle arguments, as in C84.
+ * Size-exact only under ../2.0/sp2. */
+extern int  func_020681E4(int tx, int ty, int w, int h, int sx, int sy);
+extern void func_02068808(struct Surface *s, void **font, int x, int y,
+                          int color, u8 **g);
 
 #endif /* CLUSTER_020682DC_H */

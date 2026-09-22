@@ -255,3 +255,11 @@ residue: the function is two decisions away from EXACT, not one.
 
 See docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md.
 re-verified 2026-09-21: no recoverable source in this note
+
+WAVE 10, 2026-09-22: CLOSED -- src/matched/func_0204DD08.c is EXACT.
+The "unreachable" materialised `lsl r0, r3, #5` is reachable: the head block's
+offset is a named 64-bit local, `unsigned long long ofs = head * 32;`, used by
+the add and the sub, with the compare kept on plain `head * 32`.  Any 32-bit
+local is copy-propagated and folded (476 bytes); u16/s16 materialise but
+narrow (5 out).  The tail residue closes with the bit-31 half in its own
+local before the OR.  See the file header.

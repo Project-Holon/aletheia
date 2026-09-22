@@ -205,8 +205,11 @@ extern void func_020116E0(struct IcaAnime *p, u32 a1, u32 a2, u32 heap);
 extern u32  func_02011770(struct IcaAnime *p, u32 n);
 extern int  func_020117D8(u8 *p, int rows, u8 *buf, int budget);
 
-/* Shared teardown initialiser, called with v=0 by every constructor. */
-extern void func_0201183C(struct IcaAnime *p, s32 v);
+/* Frame loader (src/matched/func_0201183C.c, wave 10): reads frame
+ * (q >> 12) % f0c of the three channels from the archive into a scratch
+ * buffer and converts it into f24/f20/f1c; stores q >> 12 to f14.
+ *   WAS: "shared teardown initialiser, called with v=0" -- a guess. */
+extern void func_0201183C(struct IcaAnime *p, s32 q);
 
 /* Destructor: releases the f04 handle, the three f1c/f20/f24 buffers when
  * f34 says they were allocated, then the object itself. */
@@ -335,5 +338,48 @@ extern struct G02146248 g_02146248;
                                      * func_020114D0/func_02011510        */
 #define ICA_ANIME_CTX_SIZE  0x34     /* func_02011F24 sizeof() view       */
 #define ICA_ANIME_CLOCK_SHIFT 12     /* f10 >> 12 == current frame        */
+
+
+/* ------------------------------------------------------------------ */
+/* WAVE 10 (2026-09-22) additions, each proved by an EXACT file.       */
+/* ------------------------------------------------------------------ */
+
+/*
+ * SOFT-FLOAT NAMES.  layout/runtime_arm9.txt calls 0x0209C95C "__fsub" and
+ * 0x0209CB8C "__fadd"; the calls mwcc 1.1p1 emits say the reverse.  Declared
+ * `_fadd 0x0209C95C` / `_fsub 0x0209CB8C`, the TwlSDK FX_F32_TO_FX32 macro
+ *   ((x) > 0 ? (x) * 4096.0f + .5f : (x) * 4096.0f - .5f)
+ * reproduces func_0201183C's nine conversion sites exactly.  Consequence for
+ * a reader: src/matched/func_02011B8C.c spells its wrap loops `h - 360.0f`
+ * against `_fsub 0x0209C95C`; the bytes are an ADD, `h += 360.0f`, which is
+ * also the only reading under which `while (h < 0.0f)` terminates.  The
+ * compare helper is `_fgr` (0x0209BBB0, x > y), the conversion `_ffix`
+ * (0x0209C494), the modulo `_u32_div_f` (0x0209C2B0, remainder in r1).
+ */
+
+/* The archive read used by func_0201183C: five arguments, the fifth (on the
+ * stack) is the destination buffer.  func_02030734 likewise takes five:
+ * (heap, size, 0, __FILE__ at 0x020A7270, __LINE__). */
+extern void func_0204944C(u32 arc, u32 file, u32 ofs, u32 size, void *dst);
+
+/* The record initialiser func_02011F28 (src/matched/func_02011F28.c, EXACT*):
+ * f00 = id, f04 = a2, f08 = func_02031324(id), f0c..f18 = 0,
+ * f1c = func_020124F4(id), f20 = 0, f24 = func_020261E4(id, f1c),
+ * f28 = 0, f2c = func_0202B4BC(f1c, id), f32 = 0, f33_0 = 0, then
+ * func_02012248(p), func_020122A4(p), func_020139B0(id).
+ * func_020261E4 takes TWO arguments; reading it as one costs a phantom
+ * r0/r1 swap. */
+extern void func_02011F28(struct IcaAnime *p, u16 id, u32 a2);
+extern void *func_020261E4(u32 heap, void *tbl);
+
+/* func_02012AC8 is `ldrh r0, [r0]; bx lr`: a u16 getter on the pointer
+ * func_020120F8 returns; func_02012164 feeds its result to func_02013D34.
+ * func_02012164 is byte-correct (src/pending, MATCH*) and capped only by
+ * func_02158318 (ov010, no caller outside it). */
+extern u16  func_02012AC8(const u8 *h);
+
+/* func_02011688: the remainder is assigned back into the index PARAMETER
+ * (`idx %= n;`) -- measured, it is what homes it in r2.  Still DIFF,
+ * docs/notes/pkt_02011688.c.txt. */
 
 #endif /* ICA_ANIME_H */

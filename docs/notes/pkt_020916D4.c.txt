@@ -169,3 +169,5 @@ concrete out, against 1.1p1's 788/456 -- it loses size-exactness as well
 as 230 bytes.  Do not spend a second probe.  Nothing is left that the
 current tooling reaches; this row wants a mutation that recolours an
 incoming parameter, which tools/permuter.py does not offer.
+
+2026-09-22 wave 10: 0x020917D4 CLOSED, EXACT under dsi/1.1p1 (src/matched/func_020917D4.c).  It is MSL __fread transcribed as MSL writes it; the 456-byte 'colouring' residue above was a wrong body and a wrong FILE layout (eof/error are plain u8 members at +0x0c/+0x0d).  See docs/families/cluster_02091588.h, wave 10 addendum.

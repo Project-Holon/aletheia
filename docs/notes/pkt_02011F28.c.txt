@@ -202,3 +202,7 @@ The r0/r1 tie has no source lever in this front end.
 
 /* best source, 102 bytes against 104, 8 concrete bytes out, 1.1p1 */
 re-verified 2026-09-21 by tools/match.py: DIFF, 102 bytes against 104, 8 concrete bytes out, 1.1p1
+
+WAVE 10, 2026-09-22: CLOSED -- src/matched/func_02011F28.c is EXACT*.
+The r0/r1 "tie" was arity: func_020261E4 takes two arguments (its matched
+definition reads r1); the second is p->f1c, forwarded from the register.

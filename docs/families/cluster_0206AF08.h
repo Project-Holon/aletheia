@@ -337,4 +337,30 @@ extern void func_0206B7D0(void *p);   /* three-byte opcode                 */
 extern void func_0206B94C(void *p);   /* two-byte opcode                   */
 extern void func_0206BA18(void *p, u32 kind, void *src, u32 id);
 
+
+/* ================================================================== *
+ * WAVE 10 ADDENDUM (2026-09-22) -- func_0206BA18 EXACT (../2.0/sp2)
+ * ================================================================== *
+ * func_0206BA18 is EXACT as src/matched/func_0206BA18.c.  The two pool
+ * words the note above called witness-less (0x02148DB4, 0x020A1954) now
+ * resolve as sole-ref/self once the compile is byte-correct, so it is NOT
+ * capped at MATCH.  This cluster is NitroSystem g3d's SBC interpreter:
+ * func_0206B458 is the SBC loop, 0x020A83B8 the 32-entry opcode table,
+ * func_0206BA18 = MAT's internal default body (rs, opFlag, matData,
+ * idxMat), the Rec is NNSG3dMatAnmResult, the object's +0xd8 is the
+ * NNSG3dResMat whose dictionary sits at +4.  Three levers closed it:
+ *   - the material lookup is the NNS inline pair GetResDataByIdx
+ *     (`dict && idx < numEntry` ? &hdr->data[0] + sizeUnit*idx : 0) and
+ *     GetMatDataByIdx with the null test of the material block INSIDE the
+ *     inline and ONE shared `return 0` (that is the image's lone
+ *     `mov r1,#0` the old note could not reproduce);
+ *   - the texture-matrix trailer tests are NEGATED, NNS style,
+ *     `if (!(flag & SCALEONE)) copy; else res->flag |= 1;` -- the positive
+ *     form does not if-convert the flag arm;
+ *   - func_0206DDA4 is a packed geometry-command send, (op, data, n):
+ *     cmd[0] = 0x00293130 (DIF_AMB, SPE_EMI, POLYGON_ATTR) is passed as op,
+ *     cmd[4] = 0x2b2a (TEXIMAGE_PARAM, TEXPLTT_BASE).
+ * The same GetResDataByIdx inline is what closed cluster_0206E62C.h.
+ */
+
 #endif /* CLUSTER_0206AF08_H */

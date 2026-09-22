@@ -812,3 +812,42 @@ plain:
         VEC_Normalize(out + 6, out + 6);
     }
 }
+
+==============================================================================
+2026-09-23, wave 10 (third lane, pkt_0206EB00): 0x0206F844 EXACT; 0x0206F4C8, 0x0206FC5C unchanged
+==============================================================================
+
+--- 0x0206F844 (1048 B): EXACT under ../2.0/sp2p2 (and ../2.0/sp2), filed as src/matched/func_0206F844.c
+The wave-9 k2/ok (sb/sl) swap closes when the 3:1 arm's decode
+accumulator is its OWN variable declared WITH its initialiser at the top
+of the `if (k & 1)` block: `u32 ok2 = 0;`.  A fresh index `j` for the 3:1
+arm instead is 34 (decl at function scope) or 10 (declared last / block).
+
+--- 0x0206F4C8 (488 B): DIFF, 2, unchanged, ../2.0/sp2p2
+permuter from the wave-8 source: --explain r5 <-> r6 x1 (the `adds`
+operands); hill 800: no single mutation improves DIFF asm=10 bytes-out=2
+(356 tried); anneal 2000: best DIFF asm=10 bytes-out=2 size=488/488.
+Measured this pass (all 488 bytes):
+  * the x blend through a named 64-bit product (w3 as the y blend has it,
+    a separate wx at four declaration positions, `w3 += b`, a reused `a`
+    for the second key, a block-scoped `long long w`): the adds operand
+    order comes right but the product lands in r5:r6 / a in r4 (25-29);
+    the permuter from the w3-plus form reaches 13 only through a `type:`
+    mutation (unsigned, adc #0), not valid;
+  * `long long la` for the first key only: 5 (a in lr, not r6);
+  * `a * 3LL + b`, `(long long)b + ...`, `b + (long long)a * 3`: 2;
+  * const-qualified key pointers (`const V2s *`, `const V2i *`, const
+    base): 2 with the volatile, 7 without -- const does NOT replace the
+    volatile read of the s16 y key;
+  * ten spellings of the s16 quad arm without the volatile (pointer pair,
+    c/d locals, `a *= 3; a += b`, reversed key order, s16 locals): 7-25.
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above, unchanged */
+
+--- 0x0206FC5C (836 B): DIFF, 8, unchanged, ../2.0/sp2p2 (same as ../2.0/sp2)
+permuter (../2.0/sp2p2): hill 800 no single mutation improves DIFF asm=40
+bytes-out=8 size=836/836 (442 tried); anneal 2000 best DIFF asm=40
+bytes-out=8 size=836/836.  Measured flat or worse: the lerp accumulator as
+a block-scoped `u32 ok2 = 0;` (the F844 lever, 8), p as u16 * / const u16 *
+(8), the key offset kept as a local and re-added at each use (840/508),
+all 120 orders of p, k, oa, ob, f as INITIALISED declarations (43 best).
+/* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2p2 -- the wave-9 source above, unchanged */

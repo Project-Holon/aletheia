@@ -307,9 +307,9 @@ struct ScratchMtx {                   /* overlays g_020A81F8 */
 
 extern void func_02064EDC(void);                    /* open, 292 bytes    */
 extern void func_02065020(void *host, void *a1);    /* DIFF, 35 out       */
-extern void func_02065134(void *a0, void *a1);      /* DIFF, 2 out        */
+extern void func_02065134(void *a0, void *a1);      /* EXACT (wave 10)    */
 extern void func_020651B8(void *a0, void *a1, void *a2); /* open, 468 b   */
-extern void func_020653A4(void *a0, void *a1, void *a2); /* DIFF, 31 out  */
+extern void func_020653A4(void *a0, void *a1, void *a2); /* EXACT (w10) */
 
 /* ================================================================== *
  * PART 3: the draw and reset path, 0x02065438..0x02066620
@@ -374,7 +374,7 @@ extern void  func_020664CC(fx32 sx, fx32 sy, fx32 sz);/* scale           */
 extern void  func_02066620(fx32 sn, fx32 cs);         /* rotate          */
 extern void  func_02066380(void);             /* pop a matrix slot       */
 
-extern void  func_02065438(void *actor);      /* the plain draw          */
+extern void  func_02065438(void *actor);      /* the plain draw, EXACT   */
 extern void  func_02065878(void *actor);      /* the other plain draw    */
 
 extern void  func_020659D4(struct DrawCmd *c);            /* EXACT       */
@@ -443,6 +443,59 @@ extern void  func_02065D4C(void *actor);                  /* EXACT, 2.0  */
  *    1.1p1.  The PART 2 dispatchers that PREDICATE the selection (ldreq /
  *    mlaeq) are 1.1p1 (func_02065020, and the near misses func_02065134,
  *    func_020653A4); func_020651B8's selection is the same C under 2.0.
+ */
+
+/* ================================================================== *
+ * WAVE 10 THIRD LANE (2026-09-23): what was proved
+ * ================================================================== *
+ *
+ * Three more EXACT: func_02065134, func_020653A4 (1.1p1) and func_02065438
+ * (../2.0/sp2, 1088 bytes).  Near misses re-run and re-recorded in
+ * docs/notes/pkt_02064B68.c.txt (func_02065DB4 now 23 out, artefact-free).
+ *
+ * 9. THE PART 2 SELECTION HELPER HAS TWO SPELLINGS AND THEY ARE NOT
+ *    INTERCHANGEABLE.  func_02065020 matches with the eq-first form of
+ *    item 2; func_02065134 / func_020653A4 / func_02065438 need it ELSE-FIRST
+ *    with early returns:
+ *        static inline Mtx *GetMtx(void) {
+ *            if (g_02147B88.unk_04 != 0) {
+ *                scr.mtx.tx = g_02147D18[slot].tx; scr.mtx.ty = ...ty;
+ *                return &scr.mtx;
+ *            }
+ *            return &g_02147D18[slot];
+ *        }
+ *    The byte difference is only register choice, but it decides whether
+ *    the two arms' slot reads land in one register and are merged above
+ *    the test (func_02065134: one ldr before the cmp) or stay apart
+ *    (func_020653A4: ldreq in one arm, ldr in the other).  The permuter
+ *    cannot reach it (no single mutation moves either function).  When a
+ *    PART 2 dispatcher is a lr/r4-class swap away, flip the helper.
+ *
+ * 10. INLINE HELPER BOUNDARIES ARE VISIBLE IN THE IMAGE.  An inline
+ *    function's body is not tail-merged with its sibling's and its common
+ *    head is not hoisted.  So a tail duplicated across two arms (func_02065438:
+ *    "obj->f74 = 0; func_02067CB0();" in both loop arms, 20 bytes) or two
+ *    `i = 0`s kept in different registers (func_02065DB4's cell brackets)
+ *    mean each arm is a helper call.  Written as plain arms, even with the
+ *    tail duplicated by hand, the compiler merges and the function comes out
+ *    short.
+ *
+ * 11. func_02065438's callees and objects, all constrained by that EXACT:
+ *        func_02067B28(Mtx *m, Aff *aff)   stores m / aff to the cur obj
+ *        func_02067AC0(Mtx *m)
+ *        func_02067DC8(void *a, int n)     n = g_020A81F8.f04, when != -1
+ *        func_02067D14(void *a)            otherwise
+ *        func_02067B40(Obj *o, fx32 v)     v = g_02147B98[slot]
+ *        func_02067B48(Obj *o, Node *p)    *o = p
+ *        func_02067AAC(Obj *o, int x, int y)  o->f1c / o->f20
+ *        func_02067BA4(Obj *o)
+ *    g_020A81F8 is { u16 h00 (the 0xFFFE sentinel); pad; int f04 (-1 =
+ *    none); Mtx mtx; } -- one object, finally, for PART 2 and PART 3.
+ *    g_02148718 is { u16 h00; pad; Aff *arr04[0x100]; int f404; }, the
+ *    per-index affine cache (0x0214871C in pools is &arr04[0]).  The live
+ *    object: +0x70 first Node, +0x74 current Node, +0x7c flags (bit 1 =
+ *    draw the object itself); a Node has +0x10 visible, +0x14 affine,
+ *    +0x28 / +0x2c position, +0x30 next.
  */
 
 #endif /* CLUSTER_02064B68_H */

@@ -1300,3 +1300,44 @@ void func_0206775C(GXOamAttr *oam)
         func_02066E30(OamX(oam), OamY(oam), -1, oam, g_02148B48->f08 + 0xc, g_02148B48->f14, g_02148B48->f18);
     }
 }
+
+==============================================================================
+2026-09-22 - wave 10 singles lane: 0x02067080 and 0x0206775C re-measured.
+==============================================================================
+Both rebuilt from the wave-9 sources above under ../2.0/sp2 and put through
+the permuter again (hill 800 + anneal 2000, --types, --jobs 6).
+
+func_02067080: 704/37 reproduces.  hill: "no single mutation improves (352
+tried)".  anneal: 704/29 via temps on the two DOUBLE-branch table indices
+(`sz = (shape & 0xc0000000) >> 30; sh = ((shape & 0xc000) >> 14) * 8;`
+typed GXOamShape, i.e. SIGNED) plus a hoisted `m->_10 * hh`.  The first of
+those is a real lever by itself: with the two indices as GXOamShape temps
+the whole first half (+0x98..+0xB4, the shape*8 register) comes right, 32
+out; the u32 spelling stays at 37.  What is left is the 64-bit MulVec22
+accumulator low word (image r8, compile ip) and, knock-on, the 17D8 base in
+the second half.  The image never touches ip before +0x258 in a leaf with
+no calls, so ip was not free to the original's allocator there: look for a
+value the original keeps live across the MulVec22 block that this source
+does not (a second pointer to pos, or the effect/shape word read once
+before it).  hill from the 32 point: flat (372 tried).
+/* best source, 704 bytes against 704, 29 concrete bytes out, ../2.0/sp2 */
+permuter best result line: best DIFF asm=145 bytes-out=29 size=704/704
+  mutations temp(tmp=ofs->y) ; temp(tmp1=(shape & 0xc0000000) >> ) ;
+  temp(tmp2=((shape & 0x0000c000) >>) ; temp(tmp3=m->_10 * hh) ;
+  split-assign(tmp3) ; hoist-up(tmp3,-2) ; decl-order(hh<->dx)
+  (the anneal output declares `s32 tmp` mid-block; ../2.0/sp2 compiles as
+   C89 here, move it to the top of the function to compile it.)
+
+func_0206775C: 572/95 reproduces.  hill: flat (234 tried).  anneal 2000:
+572/81 via temps (`oam->attr01 | (vf << 29)` and `g_02148B48->f08` bound
+early, the 17D8 base bound, decl-order).  Hand respellings of the x
+truncation (u16 temp, two statements, s16 local) are 95 or break size.
+permuter best result line: best DIFF asm=1185 bytes-out=81 size=572/572
+  mutations temp(tmp=oam->a.attr01 | (vf << 2) ; temp(tmp1=g_02148B48->f08)
+  ; decl-order(tmp1<->tmp) ; temp(tmp2=((u8 *) tbl_020A17D8) + ) ;
+  hoist-up(tmp1,-3)
+Lever from the sibling func_02067340 (docs/notes/func_02067340.c.txt) worth
+trying here: read each flip bit into its own temp BEFORE the B50/B64 call
+(`fh = oam->flipH; hf = B50(g) ^ fh;`), which is what 0x02067340's image
+does, and route the instance reads through a small inline taking the
+instance pointer.

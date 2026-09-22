@@ -405,3 +405,179 @@ not a readable source.
 
 /* best source, 576 bytes against 576, 195 concrete bytes out, ../2.0/sp2 -- the wave-8 source above, unchanged */
 /* best source, 408 bytes against 408, 254 concrete bytes out, 1.1p1 -- the wave-8 source above, unchanged */
+
+==============================================================================
+2026-09-23, wave 10 (cluster_020682DC).  0x02068430 195 -> 159; 0x02068670
+unchanged.
+==============================================================================
+
+func_02068430 -- still DIFF, 576 against 576, 159 concrete bytes out under
+../2.0/sp2 (1.1p1 is 564 bytes).  Levers found this wave, each measured:
+  * the 8bpp arm does NOT reassign v: the image computes `add r1, r5, r0`
+    (base + v into a fresh register, v still in r0) and then `mov r0, #0xff`;
+    `v = base + v;` gives `add r0, r0, sb`.  Writing `(base + v)` inline in
+    both branches reproduces the arm's instruction shapes (178 -> 163);
+  * the clip bounds in the order `c0, cend, r0, r1` (x-side pair first) and
+    `bit = -y * stride + sbpp * -x` (the image's `mul sb, r8, r4` has sbpp as
+    Rm): 195 -> 178;
+  * sbpp read (as u32) and dst read BEFORE the clamps, -y through a named
+    temporary, and the loop tests written `row < dst + r1` /
+    `row < dst + r1 * 2` without an end local (hints from a 16-mutation
+    anneal chain at 123 that is not a readable source): 163 -> 159.
+Still wrong: the image loads bpp early (+0x58, before the -y `rsb`) and
+multiplies `cend * bpp` BEFORE the sbpp * -x chain; every compile schedules
+the bit chain first and the bpp load late.  bpp read before the clamps (170),
+`y = -y` / `x = -x` in place (162), the product split into two statements
+(572 bytes) and `stride * -y` (163) do not move it.  From there the image
+keeps x r5 / y r4 / bpp r7 and loads dst into r1 right before the `bne`,
+the compile keeps dst in r7.
+permuter (../2.0/sp2):
+  hill 800 from the w_10 variant (163): best DIFF asm=2400 bytes-out=144
+    via expand(cend x1) ; temp(tmp=p->sbpp)
+  anneal 2000 from the same:  best DIFF asm=1375 bytes-out=123 size=576/576
+    via hoist-up(sbpp,-5) ; expand(cend x1) ; temp(tmp=x + p->w) ; commute(+) ;
+    temp(tmp1=p->sbpp) ; hoist-up(dst,-11) ; reorder(-2) ; hoist-down(src,+2) ;
+    expand(end x1) ; decl-order(c<->wd) ; temp(tmp2=-y) ; expand(end x1) ;
+    type:l(sbpp:int->u32) ; temp(tmp3=bit % 8) ; decl-order(hi<->c) ;
+    decl-order(lo<->c)   -- C99 mixed declarations, not a recoverable source
+  hill 800 from the source below: best DIFF asm=1415 bytes-out=128 size=576/576
+    via expand(cend x1) ; decl-order(wd<->c)
+
+/* best source, 576 bytes against 576, 159 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02068430
+ * address:  0x02068430
+ * packet:   pkt_02068430
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02069BA0    0x02069BA0  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef struct Bits {
+    u8 *cur;
+    signed char have;
+    unsigned char acc;
+} Bits;
+
+struct Blit {
+    u32 *dst;     /* +0x00 */
+    u8  *src;     /* +0x04 */
+    int  x;       /* +0x08 */
+    int  y;       /* +0x0C */
+    int  w;       /* +0x10 */
+    int  h;       /* +0x14 */
+    int  stride;  /* +0x18  source row, in bits */
+    int  sbpp;    /* +0x1C  source bits per pixel */
+    int  bpp;     /* +0x20  destination bpp, 4 or 8 */
+    int  base;    /* +0x24  palette base added to a non-zero pixel */
+};
+
+extern u32 func_02069BA0(Bits *b, int n);
+
+void func_02068430(struct Blit *p)
+{
+    int x = p->x;
+    int y = p->y;
+    u32 c0 = (x >= 0) ? x : 0;
+    u32 cend = x + p->w;
+    int r0 = (y >= 0) ? y : 0;
+    int r1 = y + p->h;
+    int bpp;
+    u32 sbpp;
+    u8 *src;
+    int stride;
+    u32 *dst;
+    int bit;
+    int ny;
+
+    sbpp = p->sbpp;
+    dst = p->dst;
+    if ((int)cend >= 8) cend = 8;
+    if (r1 >= 8) r1 = 8;
+    if (y > 0) y = 0;
+    if (x > 0) x = 0;
+    bpp = p->bpp;
+    cend = cend * bpp;
+    stride = p->stride;
+    ny = -y;
+    c0 = c0 * bpp;
+    bit = ny * stride + sbpp * -x;
+    src = p->src;
+
+    if (bpp == 4) {
+        int base = p->base;
+        u32 *row = dst + r0;
+        Bits b;
+        while (row < dst + r1) {
+            u32 wd = *row;
+            u32 c;
+            b.cur = src + ((u32)bit >> 3);
+            b.have = 0;
+            b.acc = 0;
+            func_02069BA0(&b, bit % 8);
+            for (c = c0; c < cend; c += 4) {
+                u32 v = func_02069BA0(&b, sbpp);
+                if (v != 0)
+                    wd = (wd & ~(0xf << c)) | ((base + v) << c);
+            }
+            *row++ = wd;
+            bit += stride;
+        }
+    } else {
+        int base = p->base;
+        u32 *row = dst + r0 * 2;
+        Bits b;
+        while (row < dst + r1 * 2) {
+            u32 lo = row[0];
+            u32 hi = row[1];
+            u32 c;
+            b.cur = src + ((u32)bit >> 3);
+            b.have = 0;
+            b.acc = 0;
+            func_02069BA0(&b, bit % 8);
+            for (c = c0; c < cend; c += 8) {
+                u32 v = func_02069BA0(&b, sbpp);
+                if (v != 0) {
+                    if (c < 0x20)
+                        lo = (lo & ~(0xff << c)) | ((base + v) << c);
+                    else
+                        hi = (hi & ~(0xff << (c - 0x20))) | ((base + v) << (c - 0x20));
+                }
+            }
+            row[0] = lo;
+            row[1] = hi;
+            row += 2;
+            bit += stride;
+        }
+    }
+}
+
+func_02068670 -- still DIFF, 408 against 408, 254 concrete bytes out under
+1.1p1 (263 under ../2.0/sp2), the wave-8 source above unchanged.  The
+residue is two linked spill choices, measured this wave against the image:
+the image needs ONE new spill slot (skip at [sp]; frame 0x2c, nine pushed
+registers) plus g in its own incoming slot; every compile spills base (at
+[sp,#4]) and ye (at [sp]) instead, which is what widens the frame to 0x30
+and adds the dead r3 to the push.  In the loop the image keeps ye in fp and
+spills skip; the compile does the reverse.  Refused this wave (all 408): gw
+as u8 / u32 (254 / 267), sw/sh as int, the gw read before tilesz, b.src =
+g[1] after the loops' setup (412), dst after the Blit stores, the image's
+store order src/w/base/h, the w/h/base/gh loads above the gw == 0 return
+(261).  The sibling func_02068808 (above, in docs/notes/pkt_02068808.c.txt)
+keeps g in a register and spills x/y instead, so the choice is not a family
+constant.
+permuter (1.1p1, --types): hill 800 best DIFF asm=4820 bytes-out=241
+size=408/408 via hoist-down(ty0,+5) ; copy(xe->xe_@50) (same as wave 9);
+anneal 2000 best DIFF asm=5640 bytes-out=230 size=408/408 via a 10-mutation
+chain of temporaries and copies (not recoverable).
+
+/* best source, 408 bytes against 408, 254 concrete bytes out, 1.1p1 -- the wave-8 source above, unchanged */

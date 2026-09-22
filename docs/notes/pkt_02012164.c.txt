@@ -120,3 +120,8 @@ traces a function start at 0x02158318 in one of the two overlays closes it.
 
 /* best source, 102 bytes against 104, 4 concrete bytes out, 1.1p1 */
 re-verified 2026-09-21 by tools/match.py: DIFF, 102 bytes against 104, 4 concrete bytes out, 1.1p1
+
+WAVE 10, 2026-09-22: byte-correct -- src/pending/func_02012164.c is MATCH*.
+The r0/r1 "tie" was arity: func_02012AC8 (`ldrh r0,[r0]`) takes the pointer
+func_020120F8 returns and func_02013D34 takes that u16.  Still capped by
+func_02158318 (ov010 labels it, but its only caller is inside this range).

@@ -190,3 +190,58 @@ are allocator output with no source lever, so the honest verdict is DIFF at
 
 /* best source, 52 bytes against 56, 32 concrete bytes out, 1.1p1 */
 re-verified 2026-09-21 by tools/match.py: DIFF, 52 bytes against 56, 32 concrete bytes out, 1.1p1
+
+==============================================================================
+WAVE 10 (ica_anime.c family), 2026-09-22: one of the two copies recovered
+==============================================================================
+
+Rewritten on the family struct (Rec12 table at +0x1c, count at +0x0c,
+table length at +0x18).  The FIRST of the two register copies the note
+above calls "allocator output with no source lever" does have one: the
+remainder is assigned back into the PARAMETER (`idx %= n;`), which homes
+it in r2 and gives the image's `adds r2, r1, #0` before the compare.  A
+named local for the remainder never does.  With `t = &p->f1c[idx]` the
+compile is 52 bytes (54 of code in the image + 2 pad), 26 out; the one
+missing instruction is the second copy, `adds r3, r2, #0`, ahead of
+`muls r3, r0, r3` (the image multiplies into a copy of idx, the compile
+into the register holding 12).
+
+Flat: t as a row pointer / `p->f1c + idx` / byte offset / `12 * idx` /
+`t += idx` / a copy local inside the if / an inline copy helper (all
+three signatures) / if-else and early-return shapes; `*dst = *t` is 48.
+permuter: hill 800 --types (124 tried, only a u8 count, rejected) and
+anneal 2000 --types:
+best      DIFF   asm=1205  bytes-out=45   size=56/56  (volatile-add on n and dst; rejected)
+
+/* best source, 52 bytes against 56, 26 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+typedef int            s32;
+
+struct Rec12 { s32 a; s32 b; s32 c; };
+
+struct IcaAnime {
+    u8  pad00[0x0c];
+    u32 f0c;
+    s32 f10;
+    s32 f14;
+    u32 f18;
+    struct Rec12 *f1c;
+};
+
+u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
+{
+    u32 n = p->f0c;
+
+    idx %= n;
+    if (p->f18 == n) {
+        struct Rec12 *t = &p->f1c[idx];
+        dst->a = t->a;
+        dst->b = t->b;
+        dst->c = t->c;
+        return 1;
+    }
+    return 0;
+}
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 52 bytes against 56, 26 concrete bytes out, 1.1p1

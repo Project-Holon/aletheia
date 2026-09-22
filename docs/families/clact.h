@@ -516,4 +516,58 @@ extern void func_0204CF74(struct ClActor *a, u32 space, struct ClPt *origin);
  */
 #define CL_FXMUL(a, b)  ((s32)((((s64)(a) * (s64)(b)) + 0x800) >> 12))
 
+
+/* ------------------------------------------------------------------ */
+/* WAVE 10 (2026-09-22) additions, each proved by an EXACT file.       */
+/* ------------------------------------------------------------------ */
+
+/*
+ * THE CULL PAIR func_0204C2C8 -> func_0204C3CC.
+ * func_0204C3CC (src/matched/func_0204C3CC.c) takes EIGHT arguments:
+ *   (s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
+ *    const struct M *m, const struct C *c)
+ * with struct M { s32 f00, f04, f08, f0c, f10, f14; } (2x2 matrix + the
+ * translation f10/f14) and struct C the viewport {f00, f04, f08, f0c}.  It
+ * transforms the four corners, takes min/max per axis and culls exactly as
+ * func_0204C060 does.  Levers: min/max seeded `min = p; max = p;` with the
+ * locals declared max-first, and the four `+= d` translations as statements
+ * before the && chain.
+ *
+ * The pool word in func_0204C2C8 is 0xC000C000 (GX_OAM_ATTR01_SHAPE_MASK |
+ * GX_OAM_ATTR01_SIZE_MASK), NOT 0x00C000C0 as every older note says; its
+ * `asr #22` is ~0xff.  The 0x48-stride element's +0x38 word is a GXOamAttr
+ * attr01 union and tbl_020A17F0 / tbl_020A17D8 are the OBJ width / height
+ * tables indexed [shape][size].  Still DIFF at 58 (register names only), see
+ * docs/notes/pkt_0204C060.c.txt.
+ */
+extern int  func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
+                          const void *m, const void *c);     /* 0x0204C3CC arm */
+
+/*
+ * THE 0x48-STRIDE ELEMENT ARRAY (f98 pointer / f9c count, allocated by
+ * func_0204BD94).  Element +0x40 is a cull callback: func_0204BE38(obj, on)
+ * installs func_0204C2C8 in every element when on != 0, and clears them and
+ * sets obj->f30 = 1 when on == 0 (src/matched/func_0204BE38.c).
+ */
+extern void func_0204BE38(void *obj, int on);               /* 0x0204BE38 arm */
+
+/*
+ * THE ENTRY RECONFIGURE PAIR func_0204DD08 / func_0204DEE8 (both EXACT).
+ * Same 0x18-byte entry table at holder+0x0c, same 0x200 large-layer split
+ * (size -= 0x200, (u16); flag 1), same double upload bracketed by
+ * func_02080C34/func_020801F8 (engine 0) and func_02080C74/func_0208083C
+ * (engine 1).  Pins shared by both: `off = idx * sizeof(struct Ent)` as a
+ * byte-offset local, the entry re-derived from h->ents at the end.
+ *   func_0204DEE8 returns void; its out-locals are declared b-then-a and its
+ *   0x200 test is written small-arm-first.
+ *   func_0204DD08's materialised `lsl r0, r3, #5` is a 64-bit local
+ *   (`unsigned long long ofs = head * 32;`): the one C spelling that keeps a
+ *   plain shift as a register temporary without folding it into both
+ *   consumers or narrowing it.
+ */
+extern void func_0204DD08(void *h, int idx, void *src, void *sel, u32 size,
+                          u16 head, u16 tail);               /* 0x0204DD08 arm */
+extern void func_0204DEE8(void *h, int idx, void *src, void *sel, u32 size);
+                                                             /* 0x0204DEE8 arm */
+
 #endif /* CLACT_H */

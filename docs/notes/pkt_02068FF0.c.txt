@@ -546,3 +546,145 @@ and the `clz`/`rsb #0x1f` pair is the log2.
 STATUS: DIFF, and the reason is now exactly one thing.  Not evidence, not the
 frame, not the table: the compiler cannot emit `clz`.  Filed as this note
 rather than as a src/pending file, because the C above does not reach MATCH.
+
+==============================================================================
+APPENDED 2026-09-23, wave 10 lane (pseudo-family pkt_02069078).
+0x02069078, 0x02069128, 0x02069184 are EXACT (src/matched).  0x020691E0 is
+DIFF 5, below.  The family is NitroSystem g2d_CharCanvas.c:
+NNS_G2dMapScrToCharText (0x02069078) with its linear helper (0x02069128), the
+OBJ-count function (0x02069184) and NNS_G2dArrangeOBJ1D (0x020691E0).
+==============================================================================
+
+CORRECTIONS TO THE ABOVE.
+  * 0x02069128's 15-byte wall was the reading of the palette field, not the
+    schedule: `const u16 cpltMask = (u16)(cplt << 12)` and
+    `*pScr++ = (u16)(charNo++ | cpltMask)` is EXACT under BOTH front ends.
+  * 0x02069078 is EXACT under ../2.0/sp2 once the linear path is written
+    `(u16 *)scnBase + (scnWidth * areaTop + areaLeft)` (one mla) and the 2-D
+    path uses the same cpltMask/post-increment store.
+  * 0x02069184 is EXACT under ../2.0/sp2 (the zero-seeded mla is that front
+    end's), with the permuter's levers: bit 1 before bit 0 in each pair,
+    declaration order X8, Y8, X2, num, X4, Y4, Y2, corner product in a local.
+  * `clz` IS reachable: see docs/notes/pkt_02067FE4.c.txt, 2026-09-23 --
+    the SDK's MATH_CountLeadingZerosInline is an inline asm block that both
+    front ends inline and predicate.  That reopens func_02068FF0 as well.
+
+0x020691E0 func_020691E0  DIFF, 760 against 760, 5 concrete bytes out
+------------------------------------------------------------------------------
+NNS_G2dArrangeOBJ1D(oam, areaWidth, areaHeight, x, y, color, charName,
+vramShift): pick the OBJ shape for the area from g_020A18F4[log2 h][log2 w]
+(func_020682DC turns the pair into the attr01 shape/size bits), lay out the
+aligned block with the SDK OAM inlines (G2_SetOBJPosition / Shape /
+CharName / ColorMode, written locally), then recurse on the right strip,
+the bottom strip and the corner, returning the OBJ count.  Size-exact only
+under ../2.0/sp2 (1.1p1 is 768 with a wider push); with the `>= 8 ? 3`
+ternary polarity every instruction is in place.  Residue: numX and
+charPerOBJ swap sb/r8 (+0xBC, +0xD8, +0x15C, +0x16C, +0x194).  Not moved by
+any declaration order of the six post-lookup locals (360 orders), inlining
+either invariant, loop-variable scope, or 2000 anneal steps.
+permuter best result line: best DIFF asm=25 bytes-out=5 size=760/760
+  mutations temp(tmp=x + (alignedW << 3))
+
+/* best source, 760 bytes against 760, 5 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+static inline u32 MATH_CountLeadingZeros(u32 x)
+{
+    asm { clz x, x }
+    return x;
+}
+typedef struct GXOamAttr
+{
+  u32 attr01;
+  u16 attr2;
+  u16 attr3;
+} GXOamAttr;
+extern const u8 g_020A18F4[4][4][2];
+extern u32 func_020682DC(const u8 *pair);
+inline static int MATH_ILog2(u32 x)
+{
+  return (int) (31 - MATH_CountLeadingZeros(x));
+}
+
+inline static void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
+{
+  oam->attr01 = ((oam->attr01 & (~(0x000000FFu | 0x01FF0000u))) | (y & 0x000000FFu)) | ((x & (0x01FF0000u >> 16)) << 16);
+}
+
+inline static void G2_SetOBJShape(GXOamAttr *oam, u32 shape)
+{
+  oam->attr01 = (oam->attr01 & (~(0x0000C000u | 0xC0000000u))) | shape;
+}
+
+inline static void G2_SetOBJCharName(GXOamAttr *oam, int name)
+{
+  oam->attr2 = (u16) ((oam->attr2 & (~0x03FF)) | name);
+}
+
+inline static void G2_SetOBJColorMode(GXOamAttr *oam, int color)
+{
+  oam->attr01 = (oam->attr01 & (~0x2000u)) | (color << 13);
+}
+
+int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName, int vramShift)
+{
+  const int shiftI = (areaWidth >= 8) ? (3) : (MATH_ILog2((u32) areaWidth));
+  const int shiftJ = (areaHeight >= 8) ? (3) : (MATH_ILog2((u32) areaHeight));
+  const u8 *pair = g_020A18F4[shiftJ][shiftI];
+  const int objShiftW = pair[0];
+  const int objShiftH = pair[1];
+  const u32 alignedW = ((u32) areaWidth) & (0xFFFFFFFFu << objShiftW);
+  const u32 alignedH = ((u32) areaHeight) & (0xFFFFFFFFu << objShiftH);
+  const int charUnit = (color == 0) ? (1) : (2);
+  int numOBJ = 0;
+  const u32 shape = func_020682DC(pair);
+  const int numX = areaWidth >> objShiftW;
+  const int numY = areaHeight >> objShiftH;
+  const int charPerOBJ = (charUnit << objShiftW) << objShiftH;
+  int ix;
+  int iy;
+  int tmp;
+  for (iy = 0; iy < numY; iy++)
+  {
+    const int py = y + ((iy << objShiftH) << 3);
+    for (ix = 0; ix < numX; ix++)
+    {
+      const int px = x + ((ix << objShiftW) << 3);
+      G2_SetOBJPosition(oam, px, py);
+      G2_SetOBJShape(oam, shape);
+      G2_SetOBJCharName(oam, charName);
+      G2_SetOBJColorMode(oam, color);
+      charName += charPerOBJ >> vramShift;
+      oam++;
+    }
+
+  }
+
+  numOBJ += numX * numY;
+  if (alignedW < ((u32) areaWidth))
+  {
+    const int restW = areaWidth - alignedW;
+    tmp = x + (alignedW << 3);
+    const int n = func_020691E0(oam, restW, alignedH, tmp, y, color, charName, vramShift);
+    oam += n;
+    charName += ((u32) (alignedH * (charUnit * restW))) >> vramShift;
+    numOBJ += n;
+  }
+  if (alignedH < ((u32) areaHeight))
+  {
+    const int restH = areaHeight - alignedH;
+    const int n = func_020691E0(oam, alignedW, restH, x, y + (alignedH << 3), color, charName, vramShift);
+    oam += n;
+    charName += ((u32) (restH * (charUnit * alignedW))) >> vramShift;
+    numOBJ += n;
+  }
+  if ((alignedW < ((u32) areaWidth)) && (alignedH < ((u32) areaHeight)))
+  {
+    numOBJ += func_020691E0(oam, areaWidth - alignedW, areaHeight - alignedH, x + (alignedW << 3), y + (alignedH << 3), color, charName, vramShift);
+  }
+  return numOBJ;
+}
+
+

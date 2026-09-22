@@ -1414,3 +1414,153 @@ permuter (../2.0/sp2), anneal 900 --focus p,lerp: best DIFF asm=315
 bytes-out=63 size=948/948 (nothing moved).  The source in the 2026-09-21
 section above stays the best.
 /* best source, 948 bytes against 948, 63 concrete bytes out, ../2.0/sp2 -- the 2026-09-21 source above, unchanged */
+
+==============================================================================
+2026-09-23, wave 10 (third lane, pkt_0206EB00): 0x0206EE60 EXACT, 0x0206ECE0 40 -> 14
+==============================================================================
+
+--- 0x0206EE60 (948 B): EXACT under ../2.0/sp2p2, filed as src/matched/func_0206EE60.c
+Two levers took the 63-byte p/lerp swap to 0:
+  * lerp as ONE conditional expression,
+        lerp = ((t & 0xfff) != 0 && (root->f08 & 1) != 0) ? 1 : 0;
+    keeps the image's movne/bne/mov shape and hands the cursor r5.  The
+    goto form and the if/else form both give the swap (63); the bare `&&`
+    value is 944 bytes.  With it the residue drops to 23, all in the
+    cofactor block;
+  * the cofactor block is func_0206FC5C's: three temporaries from DIRECT
+    field reads, stored after all three are computed.  The six bound locals
+    of the 2026-09-21 source are 23 bytes out once lerp is right (all 720
+    declaration orders sampled every 24th: flat at 23).
+The goto ladder rewrites as plain nested if/else (call arm first in every
+group, the f & 1 dead node as a wrapping if) and stays EXACT.
+
+--- 0x0206ECE0 (384 B): DIFF, 40 -> 14, ../2.0/sp2p2 (same 14 under ../2.0/sp2)
+The wave-9 flat-goto body re-spelled naturally closes 26 bytes:
+  * an Out struct parameter (m[9] at +0x28) and every store as out->m[..]:
+    a local `int *m` is 147+ out;
+  * the flag groups as a WRAPPING if: `if ((f & 2) == 0) { if (f & 8)
+    {perm} else {copy} } else out->f00 |= 2;` -- the image keeps the
+    flag-2 block last;
+  * the perm tail in func_0206FFA0's shape: `out->m[k] = (flag & 0x100) ?
+    -0x1000 : 0x1000; out->m[T1[k].c] = u; out->m[T2[k].c] = v;
+    out->m[T3[k].c] = (flag & 0x200) ? -v : v; ...` with the four Perm
+    columns declared `const` (the image hoists both column loads above the
+    first store, which only happens when the columns cannot alias out).
+What is left: node and k swapped (image node r5, k r4; compile node r4,
+k r5), 14 bytes at every use of either.  Flat at 14: the EC50 nested
+helpers and the flat-goto resolve, node as a Node struct, a cur_node()
+inline, node initialised in its declaration, f as u16/int, k/u/v as
+block-scoped initialised locals (all 6 orders), the call argument as
+&out->m / (u8 *)out + 0x28, g_02148DB0 read twice, four spellings of the
+p += 0xc step, three resolve/entry_of return spellings (50+ or 14).
+k/u/v statement orders: kuv, ukv, uvk 14; the others 18.
+permuter (../2.0/sp2p2) from the source below:
+  hill 800:    no single mutation improves DIFF asm=70 bytes-out=14 size=384/384 (228 tried)
+  anneal 2000: best DIFF asm=70 bytes-out=14 size=384/384
+
+/* best source, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2 */
+/*
+ * function: func_0206ECE0
+ * address:  0x0206ECE0
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2p2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02148DB0      0x02148DB0  data  a4
+ *   g_020A1998      0x020A1998  data  a1
+ *   g_020A1999      0x020A1999  data  a1
+ *   g_020A199A      0x020A199A  data  a1
+ *   g_020A199B      0x020A199B  data  a1
+ *   func_020834A8   0x020834A8  thumb
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef signed short s16;
+
+typedef struct { u8 unk00; u8 idx01; } Hdr;
+typedef struct { u8 unk00; u8 cnt01; u8 unk02[4]; u16 off06; } Bank;
+typedef struct { Hdr *h; u8 pad[0xD0]; Bank *bank; } Root;
+typedef struct { u32 rel00; } Ent;
+
+typedef struct { u8 c; u8 pad[3]; } Perm;
+
+typedef struct { u32 f00; u8 pad04[0x24]; int m[9]; } Out;
+
+extern Root *g_02148DB0;
+extern const Perm g_020A1998[];
+extern const Perm g_020A1999[];
+extern const Perm g_020A199A[];
+extern const Perm g_020A199B[];
+
+extern void func_020834A8(void *p);
+
+
+static inline u8 *entry_of(Bank *b, u32 idx)
+{
+    u8 *t;
+    if (b != 0 && idx < b->cnt01) {
+        t = (u8 *)b + b->off06;
+        return t + 4 + (*(u16 *)t) * idx;
+    }
+    return 0;
+}
+
+static inline u8 *resolve(Bank *b, u32 idx)
+{
+    u8 *e;
+    if (b != 0) {
+        e = entry_of(b, idx);
+        if (e != 0)
+            return (u8 *)b + ((Ent *)e)->rel00;
+    }
+    return 0;
+}
+
+void func_0206ECE0(Out *out)
+{
+    Root *r = g_02148DB0;
+    u8 *node;
+    u32 f;
+    s16 *p;
+    int k;
+    int u;
+    int v;
+
+    node = resolve(r->bank, r->h->idx01);
+    f = ((u16 *)node)[0];
+    p = (s16 *)(node + 4);
+    if ((f & 1) == 0) p = (s16 *)((u8 *)p + 0xc);
+    if ((f & 2) == 0) {
+        if ((f & 8) != 0) {
+            k = (int)(f & 0xf0) >> 4;
+            u = p[0];
+            v = p[1];
+            func_020834A8(out->m);
+            out->m[k] = (*(u16 *)node & 0x100) ? -0x1000 : 0x1000;
+            out->m[g_020A1998[k].c] = u;
+            out->m[g_020A1999[k].c] = v;
+            out->m[g_020A199A[k].c] = (*(u16 *)node & 0x200) ? -v : v;
+            out->m[g_020A199B[k].c] = (*(u16 *)node & 0x400) ? -u : u;
+        } else {
+            out->m[0] = ((s16 *)node)[1];
+            out->m[1] = p[0];
+            out->m[2] = p[1];
+            out->m[3] = p[2];
+            out->m[4] = p[3];
+            out->m[5] = p[4];
+            out->m[6] = p[5];
+            out->m[7] = p[6];
+            out->m[8] = p[7];
+        }
+    } else {
+        out->f00 |= 2;
+    }
+}
+re-verified 2026-09-23 by tools/match.py: DIFF, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2

@@ -257,7 +257,12 @@ extern void func_020972F0(void *a0, int a1, int a2, DB *p); /* EXACT          */
    refinement loop's preheader.  About twelve loop/scope/goto structures and
    the inline-helper form all leave the pool point unchanged.  0x02096ED0 is
    no longer a cap (it resolves by sole-ref/code and is EXACT); the one open
-   witness is the pow_10 table at 0x020A8A7C.  Signature: (const DB *d). */
+   witness is the pow_10 table at 0x020A8A7C.  Signature: (const DB *d).
+   Wave 10 (unchanged, 1520/721): the image materialises &feval/&dec at the
+   block after the chunk loop for the NON-loop uses and, separately, &dec
+   again, &x64 and the zero of the 64-bit `& 1` test at the refinement
+   loop's own preheader; 1.1p1 merges all of them at the earlier block.  2.0
+   and 1.2 are wrong from +0x1C (`ldreq/ldrne` sign select), so no pin. */
 extern double func_0209739C(const DB *d);                    /* 1492 B, open  */
 
 /* frexp/ldexp composition: `t = 0; v = frexp(a0, &t); t += a2;

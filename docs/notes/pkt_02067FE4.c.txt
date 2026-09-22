@@ -183,3 +183,144 @@ same 148 bytes with 46 mismatches rather than 52.  Again an improvement and
 again NOT pin evidence -- no kept constant, no kept branch, no re-read tell,
 and 46 is not 0.  NO PIN TAKEN.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+APPENDED 2026-09-23, wave 10 lane (pseudo-family pkt_02067FE4).
+0x02067FE4, 0x02068030, 0x020680DC, 0x02068150 are now EXACT (src/matched,
+all four ../2.0/sp2 pins, rows in docs/FRONTEND-PINS.md).  The whole packet is
+NitroSystem g2d_Font.c: NNS_G2dFontGetCharWidthsFromIndex,
+NNS_G2dFontGetStringWidth, NNS_G2dFontGetTextHeight, NNS_G2dFontGetTextRect.
+The DIFF rows above are superseded; the 1.1p1 "walls" they measured are the
+kept-branches / kept-constants tells.  0x020681E4 is still DIFF, below.
+==============================================================================
+
+THE CLZ WALL IS GONE.  docs/notes/pkt_02068FF0.c.txt (2026-09-22 appendix)
+concludes `clz` is unreachable from C.  It is reachable: the TwlSDK's own
+MATH_CountLeadingZerosInline (sdk/TwlSDK/include/nitro/math/math.h) is an
+inline function with an asm block,
+
+    static inline u32 MATH_CountLeadingZeros(u32 x) { asm { clz x, x } return x; }
+
+and both front ends inline it AND predicate it: `(w >= 8) ? 3 :
+(int)(31 - MATH_CountLeadingZeros(w))` compiles to exactly the image's
+`cmp #8 / movge #3 / movlt x, w / clzlt / rsblt #0x1f`.  Write the ternary
+with the `>= 8 ? 3` arm FIRST; `< 8 ? ilog : 3` orders the predicated pair
+the other way.  This also unblocks func_02068FF0 (not this lane's).
+
+PERMUTER NOTE.  tools/permuter.py cannot parse an asm block, but it keeps any
+`#` line verbatim, so put the helper in a header and include it with a
+Windows path the wine-hosted compiler resolves:
+    #include "Z:\\private\\tmp\\...\\clzinc.h"
+Calls to the undeclared helper parse fine.  (A scratch trick only; the
+filed/recorded sources define the helper inline.)
+
+0x020681E4 func_020681E4  DIFF, 248 against 248, 18 concrete bytes out
+------------------------------------------------------------------------------
+Reading: the OBJ-1D character index of tile (x, y) inside an areaWidth x
+areaHeight area tiled with OBJs of 2^sw x 2^sh characters (NNS g2d
+CharCanvas): peel the bottom strip / right strip / corner, re-deriving the OBJ
+shift pair from g_020A18F4[log2 h][log2 w] after each peel, until (x, y) falls
+in the aligned block.  The two stores at 0x020682C8/0x020682CC write the new
+shift pair back into the INCOMING STACK SLOTS of the 5th/6th arguments, and
+the branch returns to 0x02068204 with the values still in r6/r7.  Only one
+reading reproduced both the stores and the branch target: the shift pair is a
+two-int STRUCT passed by value, copied to locals at entry, and assigned as
+`sw = (s.w = p[0]);`.  Plain int parameters lose the stores (240 bytes); a
+by-value struct used directly reloads it at the loop head; a recursive
+`return base + f(...)` is not tail-call eliminated (a real `bl`).  Also
+load-bearing: the inverse height mask bound to a local at the top of the
+`hh > y` arm (the image's early `mvn r3, r4, lsl r6` at 0x0206824C, 52 -> 27),
+and the pair address as `tbl + (log2w << 1) + (log2h << 3)`.
+
+Residue: the entry loads of the pair are swapped (image loads +0x20 first),
+the return arm's r2/r4/r8 naming, and the table-address pair at +0xD4..+0xDC
+(image adds the row first).  Loading sw first costs 10 elsewhere; `[j][i]`
+subscripting with i evaluated first costs the clz coalescing (28).
+permuter best result line: best DIFF asm=95 bytes-out=18 size=248/248
+  (hill 600 from this source: no single mutation improves; earlier anneals
+  1200+1300 plateaued at 27 before the pair-pointer respelling)
+
+/* best source, 248 bytes against 248, 18 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+static inline u32 MATH_CountLeadingZeros(u32 x)
+{
+    asm { clz x, x }
+    return x;
+}
+inline static int MATH_ILog2(u32 x)
+{
+  return (int) (31 - MATH_CountLeadingZeros(x));
+}
+
+inline static int SizeToShift(int size)
+{
+  return (size >= 8) ? (3) : (MATH_ILog2((u32) size));
+}
+
+struct Shift
+{
+  int w;
+  int h;
+};
+extern const u8 g_020A18F4[4][4][2];
+int func_020681E4(int x, int y, int w, int h, struct Shift s)
+{
+  int base = 0;
+  int sh = s.h;
+  int sw = s.w;
+  int tmp;
+  int tmp1;
+  for (;;)
+  {
+    tmp = 0xFFFFFFFFu << sw;
+    const u32 ww = ((u32) w) & tmp;
+    const u32 hh = ((u32) h) & (0xFFFFFFFFu << sh);
+    if (hh <= ((u32) y))
+    {
+      base += w * hh;
+      if (ww <= ((u32) x))
+      {
+        h -= hh;
+        base += ww * h;
+        x -= ww;
+        y -= hh;
+        w -= ww;
+      }
+      else
+      {
+        w = ww;
+        y -= hh;
+        h -= hh;
+      }
+    }
+    else
+    {
+      const u32 hinv = ~(0xFFFFFFFFu << sh);
+      if (ww <= ((u32) x))
+      {
+        base += ww * hh;
+        h = hh;
+        x -= ww;
+        w -= ww;
+      }
+      else
+      {
+        tmp1 = x & (0xFFFFFFFFu << sw);
+        base += ww * (y & (0xFFFFFFFFu << sh));
+        base += tmp1 << sh;
+        base += (y & hinv) << sw;
+        return base + (x & (~(0xFFFFFFFFu << sw)));
+      }
+    }
+    {
+      const u8 *p = (const u8 *)g_020A18F4 + (SizeToShift(w) << 1) + (SizeToShift(h) << 3);
+      sw = (s.w = p[0]);
+      sh = (s.h = p[1]);
+    }
+  }
+
+}
+
+

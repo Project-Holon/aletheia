@@ -421,3 +421,5 @@ Source (as compiled for the 1164 / 127 row above):
             p->f1c(p);
         }
     }
+
+2026-09-22 wave 10: func_0206BA18 CLOSED, EXACT under ../2.0/sp2 (src/matched/func_0206BA18.c), not capped at MATCH (both tables resolve sole-ref/self).  Fixes over the source above: NNS GetResDataByIdx/GetMatDataByIdx inlines with one shared return 0, negated texture-matrix tests, and cmd[0]=0x293130 passed as op with cmd[4]=0x2b2a.  See docs/families/cluster_0206AF08.h, wave 10 addendum.

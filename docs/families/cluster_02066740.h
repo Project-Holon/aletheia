@@ -373,4 +373,25 @@ extern void func_02067998(struct Hooks *h, struct List *lst);
  * cleared: `a = ((a & ~HF) | hf << 28) & ~VF; a = a | vf << 29;`.  572/95.
  */
 
+
+/* ================================================================== *
+ * WAVE 10 ADDENDUM (2026-09-22) -- func_02067340 transcribed, still DIFF
+ * ================================================================== *
+ * func_02067340 is the NNS g2d renderer-core 2D (OAM) cell draw loop, the
+ * sibling of func_02067998: (const Surface *surf, const Cell *cell).  The
+ * rig g_02148B48 is pCurrentInstance_: +0x10 base2DCharName, +0x1c
+ * pFuncOamRegister(oam, affineIdx, 0), +0x20 pFuncOamAffineRegister(mtx22),
+ * +0x24 flipFlag, +0x28 MtxCache {MtxFx22 m; u16 affineIndex[4][2]},
+ * +0x2c current MtxFx32 (NULL -> identity at 0x020A18AC), +0x30
+ * bDrawEnable, +0x38 currentOam (a GXOamAttr with the SDK bitfields),
+ * +0x40 mtxFor3DGE.  func_02067B50 / func_02067B64 are IsFlipH/IsFlipV.
+ * First transcription is size-exact under ../2.0/sp2 at 1052/46, residue a
+ * four-register rotation; levers and source in
+ * docs/notes/func_02067340.c.txt.  One lever there generalises to
+ * func_0206775C: each flip bit is read into its own temp BEFORE the
+ * IsFlip call, `fh = oam->flipH; hf = IsFlipH(g) ^ fh;`.
+ * func_02067080: the DOUBLE-branch extent indices as SIGNED (GXOamShape)
+ * temps close its first half (704/32); see docs/notes/pkt_02066E30.c.txt.
+ */
+
 #endif /* CLUSTER_02066740_H */

@@ -294,3 +294,33 @@ double func_0209739C(const decimal *d)
         return first_guess;
     }
 }
+
+==============================================================================
+2026-09-23, wave 10 (pkt_02096D10, the cluster's last open row).  Unchanged.
+==============================================================================
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 1520 bytes against 1524, 721
+concrete bytes out, 1.1p1 (the source above, extracted verbatim).  Under
+../2.0/sp2 and ../2.0/base it is 1576 bytes and wrong from +0x1C on (the
+copysign sign select becomes `ldreq/ldrne`, where the image has the 1.1p1
+`ldr` + `ldrne` pair), ../1.2/sp4 1636: the front end is 1.1p1, no pin.
+
+What this wave adds to the hoisting reading.  The image's three
+materialisation points are: &feval (r7) and &dec (r4) at +0x2A0, i.e. at the
+first block after the chunk loop, for the non-loop uses (num2dec / equals /
+less); then at the refinement loop's preheader (+0x3A4..+0x3AC) &dec AGAIN
+(sb), &x64 (r4, the same register reused) and the zero (r8).  The zero's only
+uses are the found block's 64-bit `& 1` test (`and r1, r1, r8 / cmp r1, r8 /
+cmpeq r0, r8`); the final negation and pow's 5.0 low words use fresh
+`mov r0, #0`.  So the image hoisted the loop's invariants into the loop's
+own preheader and did not merge them with the earlier block's constants;
+1.1p1 on this source merges all of them at +0x2A0 (and the zero with pow's).
+A source-side difference that would make the compiler see the found block
+and the num2dec(&x64) call as loop-resident only in the image has not been
+found (the twelve loop shapes of wave 9 all give 1520/721).
+permuter (1.1p1, --types): --explain baseline DIFF asm=1100 bytes-out=721
+size=1520/1524 unresolved=1; hill 600: best DIFF asm=875 bytes-out=373
+size=1524/1524 via type:l(nd:int->u8) ; reorder(-2) -- the same size
+compensation as wave 9 (an `and #0xff` pays for the lost `mov`), rejected.
+
+/* best source, 1520 bytes against 1524, 721 concrete bytes out, 1.1p1 -- the wave-9 source above, unchanged */

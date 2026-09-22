@@ -139,3 +139,111 @@ pending MATCH file even on total success, which ranks below the four
 addresses this wave did move.
 
 re-verified 2026-09-21: no recoverable source in this note (unchanged)
+
+==============================================================================
+WAVE 10 (ica_anime.c family), 2026-09-22: first real transcription
+==============================================================================
+
+The pool words above were misread by 0x10000: they are 0x02011D29,
+0x02011D41, 0x02011D61, 0x02011D7D -- Thumb function pointers (+1) to
+func_02011D28, func_02011D40, func_02011D60, func_02011D7C in THIS family,
+not 0x02021Dxx.  The three 0x0218xxxx calls are checksum probes over those
+code ranges (result compared against ~end).  0x00C35FFB is NOT unused: it is
+the base the `+ flag * 0x47` accumulates onto, loaded into r4 before the
+first call, so it is assigned before func_02034AC4.  The 0xE6 argument comes
+from a pool word, so it is a linker symbol (overlay id 230,
+docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md), and
+0x021882A0/0x02188354/0x02188390 sit in ov230's window.
+
+Best: 268 bytes against 272, 157 concrete bytes out; the only structural
+miss is the second func_0203064C call, where 1.1p1 CSEs the argument 4 into
+the 4 << 14 (`movs r1,#4; lsls r2,r1,#14`) while the image materialises it
+twice (`movs r2,#4 ... movs r1,#4; lsls r2,r2,#14`), which shifts the pool by
+four and every PC-relative load after it.  Flat under the 4<<14 spellings
+(0x10000, 1<<16, 4u, (u32)4, 4*0x4000, a local) and 60 prototype type
+combinations for func_0203064C.
+
+EVIDENCE CAP, unchanged in kind: the three 0x0218xxxx sites (4 overlays,
+none labels them), func_0215FA00 (ov010 labels it, but its only caller is
+inside this range) and the ov230 id word (no other pool names 0xE6) all
+stay unresolved, so even a byte-exact source parks at MATCH.
+
+permuter: --mode hill --budget 800 --types reached 38 out at 272 only through
+a `copy` mutation that reads `p` before it is assigned (not value
+preserving) and a call reorder; rejected.
+best      DIFF   asm=995   bytes-out=38   size=272/272  unresolved=5  (rejected, invalid)
+
+/* best source, 268 bytes against 272, 157 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+typedef signed char s8;
+typedef signed short s16;
+
+extern u32   func_02011F24(void);
+extern u8 ov230_id[];
+extern void  func_02034AC4(u8 *id);
+extern u32   func_021882A0(void (*a)(void), void (*b)(void), u32 c);
+extern u32   func_02188354(void (*a)(void), void (*b)(void), u32 c);
+extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
+extern void  func_0203064C(u32 a, u32 b, u32 c);
+extern void  func_02034A5C(u8 *id);
+extern void *func_0203159C(void *a, u32 size, u32 c);
+extern void  func_02082BCC(void *p, u32 v, u32 size);
+extern void *g_02146248;
+extern void  func_02011FB8(void *p, u32 a, u32 b);
+extern u32   func_0215FA00(void *p, u32 a);
+extern void  func_02012108(void *p, u32 v);
+extern void  func_020120F4(void *p);
+extern void  func_02012F08(void);
+extern s32   func_0200C258(void);
+extern void  func_02011D40(void);
+extern void  func_02011D28(void);
+extern void  func_02011D60(void);
+extern void  func_02011D7C(void);
+
+u32 func_02011D9C(void *a0, u32 a1, u32 a2)
+{
+    u32 size;
+    u32 base;
+    u32 flag;
+    u32 off;
+    void *p;
+    s32 n;
+    s32 i;
+
+    size = func_02011F24();
+    base = 0xc35ffb;
+    func_02034AC4(ov230_id);
+    flag = 0;
+    if (func_021882A0(func_02011D28, func_02011D40, 0) == ~(u32)func_02011D40)
+        flag = 1;
+    base += flag * 0x47;
+    func_0203064C(1, 3, 0xa << 12);
+    flag = 1;
+    if (func_02188354(func_02011D28, func_02011D60, 0) != ~(u32)func_02011D60)
+        flag = 0;
+    off = 0;
+    if (flag == 0)
+        off = 0x191;
+    func_0203064C(1, 4, 4 << 14);
+    func_02188390(func_02011D28, func_02011D7C, 0);
+    func_0203064C(9, 5, 5 << 10);
+    func_02034A5C(ov230_id);
+    p = func_0203159C(a0, size, 3);
+    func_02082BCC(p, 0, size);
+    g_02146248 = p;
+    func_02011FB8(p, 3, a2);
+    func_02012108(p, func_0215FA00(p, a2));
+    if ((base + off) % 0x12af != 0) {
+        func_020120F4(p);
+        func_02012F08();
+        n = func_0200C258();
+        for (i = 0; i < n; i++)
+            func_02011D40();
+    }
+    return 1;
+}
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 268 bytes against 272, 157 concrete bytes out, 1.1p1

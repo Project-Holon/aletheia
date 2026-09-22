@@ -1010,3 +1010,180 @@ The size-exact best is still the wave-8 412/245 source above.
 permuter from the 416/227 source: hill 800 best DIFF asm=4050 bytes-out=137
 size=412/412 via hoist-down(row,+4) ; type:l(x0:int->u8) -- REJECTED, the
 u8 x0 truncates a coordinate (data-flow change).
+
+==============================================================================
+2026-09-23, wave 10 (cluster_020682DC).  0x02068C84 and 0x02068AE8 CLOSED;
+0x02068808 first transcription.
+==============================================================================
+
+func_02068C84 -- EXACT under ../2.0/sp2, filed src/matched/func_02068C84.c
+(packet pkt_02068AE8).  The last 8 bytes (the `stm sp, {r5, fp}` /
+`sub r3, r2, r1` scheduling pair) close with ONE change to the wave-9 source
+above: the tile size reads the field again, `tilesz = (s->bpp << 6) / 8;`
+instead of `(bpp << 6) / 8`.  The two loads CSE into the one `ldrb`, but the
+tile size becomes a separate value in the IR and the scheduler then puts the
+stack-argument `stm` before the `sub`.  The permuter (hill 800, anneal 2000,
+--types) never moved the residue from the wave-9 source: it does not mutate a
+load into a re-read of a field.  Also measured: declaring func_020682F8's bpp
+parameter `u8` in this caller (with the old tile size) is EXACT too, but the
+callee's own definition is EXACT only with `int bpp`, so the re-read is the
+reading filed.  Refused: K&R declarations of either callee (8 out), `tw - xo`
+inline or as a ternary (8), a nested call for the tile index (552 / 504),
+every other dsi / 1.2 / 2.0 build (492, 536..544, or the same 8).
+
+func_02068AE8 -- EXACT under ../2.0/sp2, filed src/matched/func_02068AE8.c
+(packet pkt_02068AE8).  From the wave-9 416/227 loop shape (yo ternary, p =
+row after it, th through a temporary, `cx, th, xe, p, yo` declared at
+function scope), two changes:
+  * `tilesz = (s->bpp << 6) / 8;` -- the same lever as C84.  From the bpp
+    local, bpp is the spilled value and the tile size takes fp; reading the
+    field again gives the image's choice (bpp in fp, the tile size spilled to
+    [sp,#0x14]).  416 -> 408, the register map then right everywhere.
+  * the two rounded bounds before the row pointer: `xe, ye, row, rowadv`.
+    tools/permuter.py hill from the 408 source found reorder(+2) (412/72);
+    compiling all 24 orders of the four statements, only the two with
+    `xe, ye` first are exact (`xe, ye, row, rowadv` and `xe, ye, rowadv, row`).
+Both are 1.1p1-DIFF (408 bytes).  The int prototype of func_020682F8 is kept.
+
+func_02068808 @ 0x02068808 (528 bytes) - DIFF, first transcription.  The
+SWIZZLED sibling of func_02068670: the same glyph clip (gw = g[0][1], gh =
+hdr->ch, the two `x + gw < 0` / `y + gh < 0` returns, tx0/ty0 ternaries, the
+unsigned clamp of tx1/ty1 against the surface w/h, nx/ny with the `subs` /
+`cmp` pair of returns), the same Blit block on the stack at sp+0x24, and a
+walk that asks func_020681E4(tx, ty, w, h, swz.x, swz.y) for each tile's
+index and hands `base + off * tilesz` to func_02068430.  Size-exact only under
+../2.0/sp2 (528; 1.1p1 520), with the frame (0x4c) and push list right.
+What the image fixes about the source:
+  * the surface's w and h are read TWICE: once for the clamp (the early
+    `ldmib r0, {r3, r5}`, scheduled above the gw == 0 `popeq`) and again
+    after the Blit stores for the call arguments (spilled to [sp,#0x14] /
+    [sp,#0x18]).  Clamping with `s->w`/`s->h` inline and assigning
+    `sw = s->w; sh = s->h;` after the Blit stores keeps both loads (the
+    inline call-argument form keeps s live in sl and loads inside the loop,
+    508/516 bytes; clamping through early sw/sh locals CSEs the second read
+    away, 524);
+  * the +0x10 word is copied whole (the dead `str r3, [sp, #0x20]`) and the
+    swizzle bytes are its two low bytes, exactly as in func_02068C84;
+  * tx restarts from tx0 per row and increments while cx steps down by 8.
+Residue: allocation and the placement of the g[1] load (the image loads it
+late, at +0xF0, from g in r6; the compile early), x/y stored to their spill
+slots before the gw test in the image.
+permuter (../2.0/sp2, from the source below):
+  hill 800:  best DIFF asm=3630 bytes-out=283 size=528/528
+             via reorder(-2) ; temp(tmp=(u32) tx1)
+
+/* best source, 528 bytes against 528, 313 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02068808
+ * address:  0x02068808
+ * packet:   pkt_02068430
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020681E4    0x020681E4  arm
+ *   func_02068430    0x02068430  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Swz { u32 x : 8; u32 y : 8; u32 rest : 16; };
+
+struct Surface {
+    char *base;     /* +0x00 */
+    u32   w;        /* +0x04  in tiles */
+    u32   h;        /* +0x08  in tiles */
+    u8    bpp;      /* +0x0C */
+    struct Swz f10; /* +0x10 */
+};
+
+struct Hdr { u8 cw; u8 ch; u8 pad[4]; u8 bpp; };
+struct Fnt { u8 pad[8]; struct Hdr *hdr; };
+
+struct Blit {
+    char *dst;    /* +0x00 */
+    u8   *src;    /* +0x04 */
+    int   x;      /* +0x08 */
+    int   y;      /* +0x0C */
+    int   w;      /* +0x10 */
+    int   h;      /* +0x14 */
+    int   stride; /* +0x18 */
+    int   sbpp;   /* +0x1C */
+    int   bpp;    /* +0x20 */
+    int   base;   /* +0x24 */
+};
+
+extern int func_020681E4(int tx, int ty, int w, int h, int sx, int sy);
+extern void func_02068430(struct Blit *p);
+
+void func_02068808(struct Surface *s, struct Fnt **font, int x, int y, int color, u8 **g)
+{
+    struct Blit b;
+    int tilesz = (s->bpp << 6) / 8;
+    int gw = g[0][1];
+    struct Hdr *hdr = (*font)->hdr;
+    char *base;
+    int gh;
+    int tx0, ty0, tx1, ty1, nx, ny, xe, ye, cx, tx;
+    u32 sw, sh;
+    struct Swz f10;
+    int sx, sy;
+
+    if (gw == 0)
+        return;
+    gh = hdr->ch;
+    if (x + gw < 0)
+        return;
+    if (y + gh < 0)
+        return;
+    tx0 = (x > 0) ? (u32)x >> 3 : 0;
+    ty0 = (y > 0) ? (u32)y >> 3 : 0;
+    tx1 = (u32)(x + gw + 7) >> 3;
+    if (s->w <= (u32)tx1)
+        tx1 = s->w;
+    ty1 = (u32)(y + gh + 7) >> 3;
+    if (s->h <= (u32)ty1)
+        ty1 = s->h;
+    nx = tx1 - tx0;
+    ny = ty1 - ty0;
+    if (nx < 0)
+        return;
+    if (ny < 0)
+        return;
+    base = s->base;
+    if (x >= 0)
+        x &= 7;
+    if (y >= 0)
+        y &= 7;
+    b.src = g[1];
+    b.base = color - 1;
+    xe = x - (nx << 3);
+    ye = y - (ny << 3);
+    b.h = gh;
+    b.w = gw;
+    b.sbpp = (*font)->hdr->bpp;
+    b.bpp = s->bpp;
+    b.stride = (*font)->hdr->bpp * (*font)->hdr->cw;
+    f10 = s->f10;
+    sw = s->w;
+    sh = s->h;
+    sx = f10.x;
+    sy = f10.y;
+    for (; y > ye; y -= 8) {
+        b.y = y;
+        tx = tx0;
+        for (cx = x; cx > xe; cx -= 8) {
+            int off = func_020681E4(tx, ty0, sw, sh, sx, sy);
+            b.dst = base + off * tilesz;
+            b.x = cx;
+            func_02068430(&b);
+            tx++;
+        }
+        ty0++;
+    }
+}
