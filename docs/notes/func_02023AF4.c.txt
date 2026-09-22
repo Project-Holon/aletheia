@@ -141,3 +141,69 @@ Compile line:
 symbols:
   _s32_div_f  0x0209C0A4  arm
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+APPENDED 2026-09-22, second pass (pkt_02023AF4)
+================================================================================
+
+Baseline re-verified from this note's own source: DIFF, 82 bytes against the
+original's 82 bytes of code (the 84-byte listing extent includes the
+`movs r0,r0` pad at 0x02023B46), 13 concrete bytes out.  Unchanged.
+
+THE RESIDUE IS A FOUR-REGISTER ROTATION, not a swapped pair.
+`tools/permuter.py --explain` prints it as
+
+    r7 -> r2  x7    r2 -> r3  x4    r3 -> r6  x2    r6 -> r7  x2
+
+i.e. the cycle r7 -> r2 -> r3 -> r6 -> r7.  Every instruction is identical in
+shape, operand role and order; only the four registers rotate.  The image
+holds `near` in r7, `one` in r6, `zero` in r3 and leaves r2 as the loop's
+address scratch.  The compile holds `near` in r2, `one` in r7, `zero` in r6
+and leaves r3 as the scratch.
+
+WHY IT IS A ROTATION AND NOT A SPELLING.  `near` is first defined in the
+if/else BEFORE the loop, so mwcc numbers it before the loop's address
+temporary and gives it the lower colour -- which is exactly what the compile
+does.  The image did the opposite, which means in the original `near` was
+numbered AFTER that temporary.  No arrangement of this source achieves that,
+because every arrangement still defines `near` in the arms.
+
+PERMUTER RESULT, both modes, and the scoring caveat that matters
+
+  --mode hill   --budget 800  --jobs 8 --types : 193 singles tried, none
+                improves on bytes-out; "best" reported as
+                DIFF asm=280 bytes-out=17 size=84/84 <- type:ret-var(out)
+  --mode anneal --budget 2000 --jobs 8 --types : 2000 compiles in 93 s,
+                "best" DIFF asm=490 bytes-out=43 size=84/84
+                <- volatile-add(zero)
+
+READ THOSE TWO ROWS CAREFULLY: both "improve" only because the scorer ranks
+the size gap, and it believes the target size is the 84-byte LISTING EXTENT
+when the real code is 82 bytes and the last two are padding.  Both "best"
+results are worse than the baseline on bytes-out (17 and 43 against 13).  On
+any function whose listing extent includes a pad, the permuter's size term
+points the search away from the answer, and the baseline row is the one to
+trust.  That is a tool caveat worth carrying to other targets, not a result
+about this function.
+
+ALSO TRIED THIS PASS, all measured:
+
+  - `one`/`zero` declared at function scope instead of the inner block, and
+    assigned rather than initialised (13, unchanged).
+  - `near` declared first of all the locals (15, worse); declared last (13).
+  - the two arms assigning a separate `v` that `near` is initialised from
+    just before the loop, to give `near` a later definition point (13).
+  - `u8 *p = out + i; p[0xc0] = ...` in place of `out[0xc0 + i]`, to create
+    the address temporary as a named value (13).
+  - ../2.0/sp2 in place of dsi/1.1p1, the one per-residue compiler check the
+    brief allows: 13 bytes out, and the SAME thirteen bytes in the same
+    direction.  So this is not a front-end version artefact either.
+
+CONCLUSION UNCHANGED, now better bounded.  Thirteen is a hard floor across
+eleven distinct spellings and two compiler builds, and the residue is a
+whole-function colour rotation rather than anything the source names.  This
+remains the closest of the packet's four (exact size, thirteen bytes) and so
+still the best candidate if an idiom for the family turns up, but no further
+permutation of this source is worth budget.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 82 bytes against 82, 13 concrete bytes out, 1.1p1

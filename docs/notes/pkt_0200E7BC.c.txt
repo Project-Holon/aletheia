@@ -303,3 +303,21 @@ between two pointers live across nine calls, it is below the source, and
 neither the seven hand spellings nor the mutation set reaches it.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 180 bytes against 180, 135 concrete bytes out, 1.1p1
+
+Second pass 2026-09-22: ALTERNATE-COMPILER LEVER, NEGATIVE
+===========================================================
+
+Section 3 above exhausts the source-shape mutation set on this residue and
+diagnoses it as a register-number tie between two pointers live across nine
+calls.  The brief's remaining lever for a permutation residue --
+`--cc ../2.0/sp2`, "try it once on each residue" -- was tried on the
+size-exact single-function source of section 2:
+
+    dsi/1.1p1    DIFF   180 bytes against 180,  135 concrete bytes out
+    2.0/sp2      DIFF   172 bytes against 180,  162 concrete bytes out
+
+Worse on both axes at once: it loses the size match (172 against 180) and
+the byte residue grows from 135 to 162.  1.1p1 stays pinned, and the note's
+conclusion is unchanged.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 180 bytes against 180, 135 concrete bytes out, 1.1p1

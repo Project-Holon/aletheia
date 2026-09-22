@@ -79,9 +79,19 @@ struct PrintCtx {
                      *        unit_0201CA2C.c adds a signed bias to it. */
     s16   unk02;    /* +0x02  the pen y, signed for the same reason; read
                      *        by unit_0201CA2C.c's blitter as `ldrsh r2`. */
-    u32   unk04;    /* +0x04  the flag word func_0201C8BC tests as a 4-bit
-                     *        field at bit 20 and then rewrites, masking
-                     *        with 0xFFFF0FFF and or-ing 0x200000. */
+    s32   unk04 : 10;   /* +0x04  A SIGNED 10-BIT BITFIELD, not the u32 flag
+                     *        word this header claimed before 2026-09-22.
+                     *        src/matched/func_0201C974.c reads it with
+                     *        `lsls #0x16 / asrs #0x16` in the 0xFFFE arm and
+                     *        src/matched/func_0201CAC8.c does the same in
+                     *        both measuring arms; only `s32 :10` produces an
+                     *        equal-width 22-bit pair with a signed right half
+                     *        (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
+                     *        The rest of the word is still the flag field
+                     *        func_0201C8BC tests at bit 20 and rewrites,
+                     *        masking with 0xFFFF0FFF and or-ing 0x200000, so
+                     *        unk04b below is not "unused", only unnamed. */
+    u32   unk04b : 22;  /* +0x04 bits 10..31 */
     u16   unk08;    /* +0x08  unit_0201C6B4.c */
     u16   unk0A;    /* +0x0A */
     u16   unk0C;    /* +0x0C */
@@ -91,7 +101,15 @@ struct PrintCtx {
     void *unk10;    /* +0x10 */
     void *unk14;    /* +0x14  sub_0201C6C4 compares it against the caller's
                      *        `void *v`, which is what types it a pointer. */
-    void *unk18;    /* +0x18 */
+    void *unk18;    /* +0x18  the RENDERER HOOK, called through by
+                     *        src/matched/func_0201C974.c as
+                     *        `c->unk18(c->unk14, c->unk00, c->unk02,
+                     *        c->unk10, glyph, pen)` -- six arguments, the
+                     *        last two on the stack, `pen` a 4-byte scratch
+                     *        whose byte at +2 is the advance added back to
+                     *        unk00.  Do NOT confuse it with unk14: the
+                     *        measuring arms of func_0201CAC8 hand
+                     *        func_020437DC the handle at +0x14, not +0x18. */
 };
 
 /* ------------------------------------------------------------------ *
@@ -259,15 +277,30 @@ void  sub_0201C808(struct PrintCtx *c, u32 a, u32 b, u32 d, u32 e);
 void  sub_0201C8A4(struct PrintCtx *c, u16 v);
 void  func_0201C8BC(struct PrintCtx *c, void *s);   /* DIFF, see
                                                      * docs/notes/pkt_0201C8BC.c.txt */
-void *func_0201C974(void *a0, void *a1, int a2);    /* the glyph-run
-                                                     * interpreter; open   */
-void  func_0201CAC8(void *a0, void *a1);            /* open; its ONLY
-                                                     * branch image-wide is
-                                                     * at 0x0201C9D0 inside
-                                                     * func_0201C974, which
-                                                     * is why func_0201C974
-                                                     * is MATCH-capped until
-                                                     * this one is EXACT   */
+u16  *func_0201C974(struct PrintCtx *c, u16 *p, u32 f);
+                    /* src/matched/func_0201C974.c, EXACT 2026-09-22.  The
+                     * glyph-run interpreter.  Three facts it pins: unk04 is
+                     * the signed 10-bit bitfield above; the control-code
+                     * dispatch inside the 0xF000 arm is a SWITCH on the code
+                     * byte (three forward `beq`s, not an if/else chain); and
+                     * the 0xBE arm's guard is `if (f != 0) { ...; break; }
+                     * return p;`, never `if (f == 0) return p;`.  Its glyph
+                     * body is reached by an explicit `goto` to a label after
+                     * the `while (1)`, which is what places it last.       */
+u16  *func_0201CAC8(struct PrintCtx *c, u16 *p);
+                    /* src/matched/func_0201CAC8.c, EXACT 2026-09-22.
+                     * Applies one 0xF000 control block whose code byte is
+                     * 0xBD.  Its only branch image-wide is at 0x0201C9D0
+                     * inside func_0201C974, so before this file existed that
+                     * call resolved `sole-ref/code`; it is `matched` now.
+                     * A DENSE 7-entry halfword switch: `case 6:` is EMPTY
+                     * and must still be written, or the bound check is
+                     * `cmp #5` and the table loses an entry.  Its selector
+                     * is `((u32)(u8)p[1] << 16) >> 16` -- TWO stacked
+                     * narrowings, u8 then u16; one alone is four bytes
+                     * short.  Its case-0 pack is
+                     * `(b & 0x1F) | (((r << 27) >> 17) | ((g << 27) >> 22))`,
+                     * red to bit 10 and green to bit 5.                    */
 void *func_0201CC34(void *a0, void *a1);            /* src/matched/func_0201CC34.c */
 
 /* ------------------------------------------------------------------ *

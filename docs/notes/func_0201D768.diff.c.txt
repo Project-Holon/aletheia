@@ -120,3 +120,61 @@ only branch to it anywhere in the image, so only the `matched` class can carry
 it.  This is the one lever in the printsys family that promotes another file.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 92 bytes against 92, 72 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, second pass (printsys family): 72 bytes -> 61, size still exact
+==============================================================================
+
+/* best source, 92 bytes against 92, 61 concrete bytes out, 1.1p1 */
+
+tools/permuter.py --mode hill --budget 800 --jobs 8 --types from
+src/pending/func_0201D768.c as it stands (125 mutations tried, four accepted):
+
+    baseline  DIFF  asm=1050  bytes-out=72  size=92/92
+        167   DIFF  asm=865   bytes-out=69  size=92/92  <- volatile-add(p)
+        337   DIFF  asm=1055  bytes-out=64  size=92/92  <- reorder(-3)
+        513   DIFF  asm=1360  bytes-out=61  size=92/92  <- temp(tmp=base+start)
+        675   DIFF  asm=1355  bytes-out=61  size=92/92  <- commute(+)
+    best      DIFF  asm=1355  bytes-out=61  size=92/92
+    mutations volatile-add(p) ; reorder(-3) ; temp(tmp=base+start) ; commute(+)
+
+The four levers, spelled out:
+
+    -    u8 *func_0201D768(u16 *p, ...)
+    +    u8 *func_0201D768(volatile u16 *p, ...)      /* volatile-add(p)     */
+    +    u8 *tmp;  tmp = base + start;  ...  return tmp;   /* temp(...)      */
+         dst += n;   moved ABOVE the head update            /* reorder(-3)   */
+         head = (u16)(n + head);  instead of (head + n)     /* commute(+)    */
+
+`volatile u16 *p` is the one worth keeping as a finding rather than a tuning
+knob: the ring header really is re-read from memory at every step, and the
+head store at p[0] must not be forwarded to the next iteration's load.
+
+WHAT IS LEFT: 61 BYTES, AND IT IS THE FRAME AGAIN
+
+The slot assignment is still mirrored, exactly as this file's header records,
+and the second fact behind it is now visible:
+
+  ORIGINAL   +0006  str r2, [sp]            len spilled AT ENTRY
+             +001C  ldr r0, [sp]            and RE-READ for the guard
+             +001E  cmp r0, #0 / bls        an unsigned test on the reload
+  COMPILED   +001C  adds r0, r2, #0 / beq   the guard reads the register
+
+So `len` is not an ordinary parameter here: the original gives it a memory
+home before the loop and reads it back, the same shape `total` already needed.
+That is what puts it at [sp] and pushes `total` to [sp,#4].
+
+Tried this pass and NOT the answer (all measured against 92):
+  - `volatile u32 len = <param>;` declared last, `total` before it:
+    94 bytes, 64 out -- the volatile costs one extra spill of its own
+  - `volatile u32` on the parameter directly: 100 bytes
+  - a plain (non-volatile) copy of len declared first: 98 bytes
+  - declaration order `base, start, total` instead of `total, base, start`:
+    92 bytes, 72 out (unchanged -- decl order does NOT reach these slots)
+  - `volatile u16 start`: 96 bytes
+
+The open question is unchanged in kind and sharper in statement: what spells a
+PARAMETER that gets a stack home and is reloaded, without the two extra bytes
+`volatile` costs.  Still DIFF, still parked in src/pending.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 92 bytes against 92, 61 concrete bytes out, 1.1p1

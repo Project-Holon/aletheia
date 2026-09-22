@@ -1,6 +1,6 @@
 func_020428E8 @ 0x020428E8, 572 bytes, arm9, ARM, packet pkt_020428E8.
 FIRST DERIVATION, 2026-09-22 (the function was untouched before this pass).
-Best: DIFF, 584 bytes against 572, 106 instructions out.
+Best: DIFF, 572 bytes against 572 (SIZE EXACT), 104 instructions out.
 
 WHAT IT IS
 ----------
@@ -48,37 +48,65 @@ The structure, all of it established this pass and all of it settled:
 
 WHAT IS LEFT
 ------------
-12 bytes of size and a register residue through both nests.  The permuter
-reaches the right SIZE but not the right registers:
+THE SIZE IS NOW EXACT.  A full anneal (2000 compiles, 742s, --jobs 8
+--types) from the 584/106 hand source reaches 572/572 with 104
+instructions out, which beats the hand source on BOTH axes.  Its
+mutation list:
 
-  anneal, budget 2000, --jobs 8, --types, from the 584/106 source
-    113 compiles  DIFF 572/572, 303 out
-                  <- temp(tmp=dx + y) ; type:p(sx:u8->u32) ; temp(tmp1=s->size_code)
-    229 compiles  DIFF 572/572, 303 out
-                  <- decl-order(y<->x) ; split-assign ; compare(flip) ; split-assign
-    289 compiles  DIFF 572/572, 285 out
-                  <- split-assign ; compare(flip) ; split-assign ; temp(tmp2=dx + y)
+  temp(tmp=dx + y) ; type:p(sx:u8->u32) ; temp(tmp1=s->size_code) ;
+  decl-order(y<->x) ; split-assign(tmp) ; compare(flip) ;
+  split-assign(tmp) ; temp(tmp2=dx + y) ; split-assign(tmp) ;
+  type:p(ch:u32->u8) ; temp(tmp3=dx + y) ; commute(+) ; pad(pad)
 
-So the size closes on `type:p(sx:u8->u32)` plus a lifted `dx + y` temporary.
-Applying just the sx widening to the readable source gives 576 bytes / 124
-out, i.e. it is necessary but not sufficient: the lifted temporaries matter
-too, and the permuter's own best at 285 out is still far from the image.
+TWO TYPE FACTS FALL OUT OF THAT LIST AND ARE WORTH TAKING AS SETTLED:
+  `sx` is u32, not u8      (type:p(sx:u8->u32))
+  `ch` is u8, not u32      (type:p(ch:u32->u8))
+Both were guesses in the hand source and both were wrong.
+
+WHAT THE TYPES ALONE BUY, MEASURED SEPARATELY.  Applying just those two
+widenings/narrowings to the readable hand source gives 576 bytes / 121
+out.  So they are necessary but NOT sufficient: the remaining 4 bytes
+come from the lifted `dx + y` temporaries, of which the anneal used three.
+
+TWO HAND ATTEMPTS AT THAT LIFT, BOTH RECORDED BECAUSE BOTH MISS:
+  `u32 row = dx + y;` at the top of the outer body, guard rewritten to
+    test `row`                                   560 bytes / 135 out
+    (overshoots the size -- testing the temp instead of the expression
+     changes the guard's shape as well as hoisting it)
+  the same temp introduced AFTER the guard, guard left on the raw
+    expression                                   576 bytes / 121 out
+    (identical to types-only: the compiler was already hoisting it)
+
+So the lift that matters is not a plain CSE of `dx + y` -- the compiler
+does that unaided.  The anneal's three temporaries plus `split-assign`
+and `compare(flip)` are reshaping WHERE the value is defined relative to
+the guard, which is what moves the allocator.  Reproducing that by hand
+is the open question.
 
 WHAT THE NEXT PASS SHOULD DO
 ----------------------------
-Start from the source below with `sx` widened to u32, and work the SOURCE
-INDEX arithmetic rather than the guards.  The first nest's `mla r6, r7, r2, r1`
-is computed ONCE per row, before the inner loop, off values that are already
-in registers; the source below recomputes `sw * (sx + y)` inside the inner
-loop and leans on the compiler to hoist it, which is what the 285-byte
-residue is mostly made of.  Binding the row base to a named local in the
-outer loop is the obvious next lever and was not tried.
+START FROM THE PERMUTER'S OUTPUT, NOT FROM THE HAND SOURCE.  It is
+size-exact and 104 out; it is preserved verbatim at the end of this note
+under "PERMUTER BEST".  It is machine-generated and ugly (flattened
+braces, `tmp`/`tmp1`/`tmp2`/`tmp3` names), so the first job is to read it
+back into readable C WITHOUT losing the verdict -- change one thing at a
+time and re-verify, the way func_02042D2C's u8 was carried back by hand.
+
+Then work the SOURCE INDEX arithmetic, which is where the bulk of the 104
+lives.  The first nest's `mla r6, r7, r2, r1` is computed once per ROW,
+before the inner loop, off values already in registers; both sources still
+recompute `sw * (sx + y)` inside the inner loop.
+
+The two sibling fills (func_020426A0, func_02042B24) are still open and
+share this function's parameter shape; the two type facts above should be
+tried on both before anything else.
 
 The two sibling fills (func_020426A0, func_02042B24) are still open and
 share this function's parameter shape; whatever settles the index arithmetic
 here should carry to both.
 
-/* best source, 584 bytes against 572, 106 instructions out, dsi/1.1p1 */
+/* best HAND source, 584 bytes against 572, 106 instructions out, dsi/1.1p1
+ * (readable; the permuter's better result is appended after it) */
 /*
  * function: func_020428E8
  * address:  0x020428E8
@@ -155,4 +183,109 @@ void func_020428E8(struct Screen *s, u8 dy, u8 dx, u8 cw,
         }
     }
 }
-re-verified 2026-09-22 by tools/match.py: DIFF, 584 bytes against 572, 106 instructions out, 1.1p1
+(hand source ends here; verified DIFF, 584 bytes against 572, 106 instructions out, 1.1p1)
+
+
+========================================================================
+PERMUTER BEST, 2026-09-22.  572 bytes against 572 (SIZE EXACT), 104
+instructions out.  Machine-generated by tools/permuter.py; kept verbatim
+because it is the best point reached and the starting point the next
+pass should read back into readable C.
+
+/* best source, 572 bytes against 572, 104 instructions out, dsi/1.1p1 */
+/*
+ * function: func_020428E8
+ * address:  0x020428E8
+ * packet:   pkt_020428E8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020422D4  0x020422D4  arm
+ *   func_02040EE0  0x02040EE0  arm
+ *   func_02040F84  0x02040F84  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Screen
+{
+  u8 *entries;
+  u8 pad_04[0x11];
+  u8 size_code;
+};
+extern void func_020422D4(u8 size_code, u8 *width, u8 *height);
+extern u32 func_02040EE0(u8 x, u8 y, u8 size_code);
+extern u32 func_02040F84(u8 x, u8 y, u32 w, u32 h);
+void func_020428E8(struct Screen *s, u8 dy, u8 dx, u8 cw, u8 ch, const u8 *src, u32 sx, u8 sy, u32 sw, u32 sh, u8 mode)
+{
+  u8 width;
+  u8 height;
+  u8 *dst;
+  u8 y;
+  u8 x;
+  u8 tmp;
+  int tmp1;
+  u8 tmp2;
+  u8 tmp3;
+  u16 pad;
+  dst = s->entries;
+  if (dst == 0)
+  {
+    return;
+  }
+  func_020422D4(s->size_code, &width, &height);
+  if (mode == 0)
+  {
+    for (y = 0; y < ch; y++)
+    {
+      tmp2 = y + dx;
+      if ((width <= tmp2) || ((sx + y) >= sh))
+      {
+        return;
+      }
+      for (x = 0; x < cw; x++)
+      {
+        if (((dy + x) >= height) || ((sy + x) >= sw))
+        {
+          break;
+        }
+        tmp3 = dx + y;
+        dst[func_02040EE0(dy + x, tmp3, s->size_code)] = src[(sw * (sx + y)) + (sy + x)];
+      }
+
+    }
+
+  }
+  else
+  {
+    for (y = 0; y < ch; y++)
+    {
+      tmp = dx;
+      tmp = tmp;
+      tmp = tmp;
+      tmp = tmp + y;
+      if ((tmp >= width) || ((sx + y) >= sh))
+      {
+        return;
+      }
+      for (x = 0; x < cw; x++)
+      {
+        if (((dy + x) >= height) || ((sy + x) >= sw))
+        {
+          break;
+        }
+        tmp1 = s->size_code;
+        dst[func_02040EE0(dy + x, dx + y, tmp1)] = src[func_02040F84(sy + x, sx + y, sw, sh)];
+      }
+
+    }
+
+  }
+}
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 572 bytes against 572, 104 instructions out, 1.1p1

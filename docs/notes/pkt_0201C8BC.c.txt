@@ -206,3 +206,60 @@ image-wide is at 0x0201C9D0 inside 0x0201C974 itself.  pkt_0201CA78 still owns
 0x0201CAC8 and no entry covers it.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, second pass (printsys family): 17 holds; func_0201C974 CLOSED
+==============================================================================
+
+/* best source, 184 bytes against 184, 17 concrete bytes out, 1.1p1 */
+
+FIRST, THE PART OF THIS NOTE THAT IS NOW OBSOLETE.  This note's second half
+parks 0x0201C974 as MATCH-capped on 0x0201CAC8.  Both are filed EXACT as of
+2026-09-22:
+
+    src/matched/func_0201CAC8.c   EXACT, 364 bytes, all six sites `label`
+    src/matched/func_0201C974.c   EXACT, 184 bytes
+
+0x0201CAC8's call site inside func_0201C974 resolved `sole-ref/code` (the
+2026-09-21 widening the brief describes), which is why it no longer needed an
+outside branch at all; with func_0201CAC8 filed it reports `matched`.  The
+call to func_0201C974 from THIS function at +0x88 was already `label x4` and
+is unaffected -- closing the pair does not move this row.
+
+SECOND, THE RESIDUE.  Reproduced verbatim at 17 with the `int hi; int mid;`
+fix in place, and a fresh permuter hill run (800 budget, 8 jobs, --types, 179
+mutations tried) finds no single mutation that improves it, on top of the
+previous pass's 3000-compile anneal.  `--explain` is down to one swapped pair:
+
+    r0 -> r1  x6        r1 -> r0  x1
+
+WHAT THE SWAPPED PAIR ACTUALLY SAYS.  It is first-definition order, not a
+base-register preference:
+
+    ORIGINAL   movs r0,#0; str r0,[sp,#4]      done = 0        (r0 <- done)
+               ldr  r0,[sp,#4]; add r1,sp,#8   buf's address second (r1)
+    COMPILED   add  r0,sp,#4                   done's address FIRST (r0)
+               ldr  r1,[sp,#4]                 the value second (r1)
+
+The compiled form never forms buf's address at all: it addresses the three
+byte stores off done's slot at offsets 4/5/6.  So the original creates the
+VALUE `done` before any address, and the compile creates an ADDRESS first.
+The stack layout is already right in both (done at sp+4, buf at sp+8).
+
+Six further spellings measured this pass, all landing on exactly 17:
+  - `volatile u8 buf[3]`
+  - `u8 buf[4]` (its own word)
+  - a `u8 pad[1]` declared between buf and done
+  - buf wrapped in a one-member struct, stores through the member
+  - the three stores written as `*q`, `*(q+1)`, `*(q+2)` in an inner block
+  - `q[0..2]` through a `u8 *q = buf;` alias
+Strictly worse:
+  - `u8 *q` declared as a function-scope local and assigned before the stores
+    (188 bytes -- gives q a value of its own)
+  - `buf[0] = 0;` before `buf[0] = done;` (188 bytes)
+  - `volatile int done` declared BEFORE `u8 buf[3]` (20 out, as before)
+
+So the wall is unchanged: the base register for a small byte array adjacent to
+a volatile scalar, and nothing reachable from the C moves it.  Not filed.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1

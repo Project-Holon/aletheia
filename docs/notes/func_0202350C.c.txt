@@ -255,3 +255,61 @@ void func_0202350C(struct Obj *obj, u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 90 bytes against 92, 23 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-22, second pass (pkt_02022F60)
+================================================================================
+
+Baseline re-verified from this note's own source: DIFF, 90 bytes against 92,
+23 concrete bytes out.  Unchanged, and 23 is a floor under statement order.
+
+THE RESIDUE IS EXACTLY ONE WINDOW, +0x20..+0x3C.  Everything before it (the
+whole func_02022940 call setup, sixteen bytes of it) and everything after it
+(the eight stack-argument stores and the func_02022E20 call) is byte for byte
+correct.  Inside the window the instruction multiset is right and the order
+is not.  The original interleaves the two `ldrb`s of cfg[8] and cfg[0x0b],
+the `movs r0,#0`, and the two `ldr`s of the incoming stack arguments with the
+seven field stores like this:
+
+    ldrb r3,[r4,#8]      <- k8 FIRST, before anything else
+    movs r0,#0
+    ldrb r2,[r4,#0xb]
+    ldr  r1,[sp,#0x30]
+    str  r0,[r5,#0x40]
+    ldr  r0,[sp,#0x34]
+    str  r2,[r5,#0x44]
+    str  r1,[r5,#0x30]
+    ... the remaining four stores ...
+    str  r1,[sp]
+    ldrb r1,[r4]
+    ldrb r2,[r4,#0xa]    <- ka LAST, immediately before its use
+
+and the compile emits `movs r0,#0` first and pulls `ldrb r2,[r4,#0xa]` up
+next to the other two `ldrb`s.
+
+SIX ORDERINGS MEASURED, none better than the 23 this note already records:
+
+    k8 first, ka kept where it was                        31
+    k8 first, ka immediately after it                     28
+    f40 store first, then k8, then f44, then ka           26
+    k8, f44, f40, ka                                      33
+    k8 first with ka INLINED at the call site             39
+    k8 first with ka bound immediately before the call    39
+
+The last two are the important pair and they confirm what
+docs/families/wipe_sub.h already states about this field: `ka` must be bound
+to a NAMED LOCAL EARLY.  Moving its binding late, or removing it, costs
+sixteen bytes on top of the residue, exactly the eleven-plus the family
+header warns about (docs/idioms/an-inline-call-argument-is-scheduled-per-
+site-a-local-is-not.md).  The header's rule is now measured twice.
+
+CONCLUSION.  Source statement order does not reach this window: every
+permutation that moves a statement towards the image's order moves some
+other statement away from it by more, because mwcc is scheduling the whole
+block itself.  This is a scheduling residue of the same kind as the two
+gf_font fetchers in docs/notes/sub_0201DBBC.c.txt, not the register-shift
+family of the other wipe_sub notes, and it should be attacked (if at all) by
+finding an already-EXACT function whose field-store block interleaves loads
+the same way, not by further permutation of this one.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 90 bytes against 92, 23 concrete bytes out, 1.1p1

@@ -277,3 +277,103 @@ void func_0202384C(struct Wipe *w)
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 98 bytes against 104, 55 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-22, second pass (pkt_0202384C)
+================================================================================
+
+Baseline re-verified from this note's own source: DIFF, 98 bytes against 104,
+55 concrete bytes out, dsi/1.1p1.  Nothing below moved it; 55 is a floor.
+
+THE SIZE GAP IS THE CAUSE, AND IT IS ONE BRANCH.  The original spends four
+bytes at +0x16 where the compile spends two:
+
+    original                  compiled
+    cmp r4, r2                cmp r4, r0
+    bgt #0x2023866            ble #0x2023880
+    b   #0x2023884
+
+The image's `y > f14` test is a conditional branch over an UNCONDITIONAL
+branch, which is the long-branch form mwcc emits only when the else target is
+out of a `ble`'s reach.  The compile's else target is in reach, so it uses the
+short form and loses four bytes there and two more downstream.  Every shape
+tried below leaves the compile in the short form, so none of them lengthens
+the block between the test and its else target, which is what the original's
+layout requires.
+
+SECOND STRUCTURAL FACT, unchanged by everything tried: the image hoists
+`add r7, sp, #0xc` (the address of `l`) out of the loop at +0x10 and
+re-materialises the 0x480 offset (`movs r1,#0x12 / lsls r1,r1,#6`) INSIDE
+each use.  The compile does exactly the opposite -- it hoists 0x480 into r7
+and re-materialises `add r0, sp, #0xc` per iteration.  Binding `&l`/`&r` to
+pointer locals outside the loop does not reverse it (variant q1 below).
+
+PERMUTER RESULT (tools/permuter.py, the AST engine)
+
+  --explain   baseline DIFF asm=1420 bytes-out=55 size=98/104
+              register substitutions (image -> compiled), by count:
+                r2 -> r0  x3    r1 -> r0  x3    r2 -> r1  x2
+                r0 -> r1  x1    r7 -> r0  x1
+              A SMALL map, unlike the general reshuffles elsewhere in this
+              packet: the allocation is nearly right and the fault is the
+              size gap above.
+
+  --mode hill --budget 800 --jobs 8 --types
+              160  DIFF asm=1640 bytes-out=89 size=104/104 <- volatile-add(h)
+              315  DIFF asm=1635 bytes-out=89 size=104/104 <- decl-order(r<->y)
+              no single mutation improves after that (160 sites tried)
+
+The `volatile-add(h)` row is the one informative result and is recorded here
+because it is easy to misread as a lever.  Qualifying the `w->f14` read
+volatile DOES close the size gap exactly (104/104), which confirms the
+diagnosis: the original re-loads f14 rather than keeping it in a register,
+and the extra loads are what push the else target out of branch reach.  But
+it costs 34 further bytes elsewhere (55 -> 89), and `volatile` on that field
+is a claim the image does not support, so it is NOT the answer -- it is
+evidence about the shape of the answer.  What is wanted is a source in which
+f14 is naturally re-read without the field being volatile.
+
+TRIED IN THIS PASS, all measured, none better than 55:
+
+  - `s32 h = w->f14;` read once at the top of the loop body (55, the
+    baseline shape), read fresh at BOTH sites with no local at all (55),
+    and with `m` hoisted above the outer test (56).  mwcc CSEs the two
+    reads back together in every form, which is why source order cannot
+    reach the re-load the volatile row proves the original has.
+  - `m = h + h` instead of `h * 2` (55, identical bytes).
+  - `&l`/`&r` bound to `s32 *pl`/`s32 *pr` before the loop (55).
+  - the guard rewritten as a single `y > h && y <= m` conjunction (56) and
+    as a nested if with the call duplicated into both else arms (73, much
+    worse -- the call really is written once with a `goto` joining the two
+    paths, as this note's source already has it).
+  - `l`/`r` declaration order swapped (56), which also confirms the stack
+    order this note records: `l` at sp+0xc and `r` at sp+8, i.e. `r`
+    declared after `l` (docs/idioms/local-declaration-order-is-stack-order.md).
+
+CONCLUSION.  This is not the one-register-offset family the other notes in
+this packet describe; the substitution map is too small for that.  It is a
+CSE decision: the original's f14 re-load is what sets the code layout, and
+no honest spelling of this function defeats mwcc's CSE on a plain field.
+The obvious lead -- that f14 is written somewhere the compiler cannot see
+between the two reads, forcing the re-load legitimately -- WAS CHECKED IN
+THIS PASS AND IS NEGATIVE.  func_020237B8's own bytes (0x020237B8, 148
+bytes) show it reading its two out-pointers from the incoming stack at
+sp+0x20 and sp+0x24 and storing through them, and taking its other four
+arguments in r0-r3 as plain scalars.  It never receives `w` and nothing it
+is handed can alias `w->f14`, so mwcc is RIGHT to CSE the two reads and the
+original's re-load cannot be explained by aliasing.
+
+That leaves the re-load itself as the open question: the original reloads a
+field the compiler can prove unchanged, which this front end does not do for
+a plain `s32` member.  The remaining candidates are a different declared
+type for f14 (something whose load mwcc does not treat as a candidate for
+CSE) or a struct shape in which the two reads are not the same member
+expression at all.  Neither is guessable from this function alone; the
+0x334-byte WipeScan layout in docs/families/wipe_sub.h is the place to look,
+since f14 here is that struct's `step_bound`/`step` neighbourhood seen
+through a smaller window.
+
+/* best source, 98 bytes against 104, 55 concrete bytes out, dsi/1.1p1 */
+/* (the source recorded earlier in this note, unchanged) */
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 98 bytes against 104, 55 concrete bytes out, 1.1p1

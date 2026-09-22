@@ -320,3 +320,48 @@ not an evaluation-order one, which is what the wave-19 pass already concluded
 for this half.  Not filed; still DIFF.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 464 bytes against 464, 12 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, second pass (printsys family): 12 holds, focused permuter dry
+==============================================================================
+
+/* best source, 464 bytes against 464, 12 concrete bytes out, 1.1p1 */
+
+Reproduced verbatim from the source above with `u16 saved;`: DIFF, 464 against
+464, 12 concrete bytes out, the +0x150 wrap block and nothing else.  The ten
+relocation sites all resolve, and the `func_0201C974` site at +0x11C now
+reports `matched` rather than `label`, since src/matched/func_0201C974.c was
+filed EXACT this pass -- it does not change the byte count.
+
+A FOCUSED permuter run, which the previous pass did not do (the anneal was
+unfocused over the whole 464-byte function, where the wrap block is a small
+fraction of the mutation sites):
+
+    python3 tools/permuter.py --src <above> --func func_0201C4E4
+        --addr 0x0201C4E4 --thumb --mode hill --budget 800 --jobs 8 --types
+        --focus o,off,cap
+
+    baseline  DIFF  asm=270  bytes-out=12  size=464/464
+    no single mutation improves (139 tried)
+
+Three further spellings of the wrap block measured by hand, all 464 bytes and
+all exactly 12 out:
+  - the ring size hoisted into a `u16 cap;` declared INSIDE the `if
+    (ps->unk10 != 0)` block and read once, both tests against `cap`
+  - `off = o + 4; o = (u16)off;` routing the second candidate back through
+    `off` so the two truncations share one variable
+  - `o += 4; o = (u16)o;` as a compound-then-self-recompute pair
+
+The finding from the +0x42 half generalises but does not transfer: there the
+free variable was a DECLARED WIDTH that the diff could not show (`saved`, s32
+vs u16).  Here both candidates are already `u16` and the widths are pinned by
+the `lsls #0x10 / lsrs #0x10` pairs that ARE in the image, so there is no
+hidden width left to search.  What differs is only which of r0/r1/r2 holds the
+candidate across the two tests -- the original keeps it in r1 throughout and
+loads the size into r0 once; the compile moves it r0 -> r2 between the tests
+and reloads the size.  That is a colouring outcome downstream of an ABI-fixed
+assignment, and the focused search confirms nothing in the C reaches it.
+
+Not filed; still DIFF.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 464 bytes against 464, 12 concrete bytes out, 1.1p1

@@ -344,9 +344,57 @@ void func_02023EF4(struct Interp *p, u16 steps, s16 from, s16 to,
                    u32 mask);                         /* 0x02023EF4 EXACT */
 void func_02023F98(u32 mask);                         /* 0x02023F98 EXACT */
 
+/* ------------------------------------------------------------------ *
+ * THE BRIGHTNESS/BLEND INTERPOLATION STEP (func_02023E0C), added
+ * 2026-09-22 when it closed to EXACT.  It is the per-frame partner of
+ * func_02023E9C above and drives the same struct Interp record.
+ *
+ * FOUR SHAPE RULES, each measured against the bytes in
+ * src/matched/func_02023E0C.c.  They are recorded here because three of
+ * the four are the family's own recurring levers and the fourth is new:
+ *
+ *   1. The two pointer locals for the record's f1a and f18 are HOISTED to
+ *      the top of the advance arm, before the accumulate and its test,
+ *      not created inside the inner `if`.  This alone is a four-byte size
+ *      gap (140 bytes against 144).
+ *   2. The delta is `step * p->f14`, step in the accumulator
+ *      (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-
+ *      operand.md).
+ *   3. BOTH `if`s are written with the negated condition so that the arm
+ *      the image falls through into is the source's first
+ *      (docs/idioms/the-fall-through-arm-is-the-source-order.md).  This is
+ *      the same rule func_020229A4's direction test already records above,
+ *      and it is worth two separate large steps here (76 -> 24 -> 8 bytes).
+ *   4. NEW: the f1a read is bound to its own named local AHEAD of the f0a
+ *      read.  The image loads offset 0x1a before offset 0xa; left inline
+ *      in the condition, mwcc evaluates the f0a assignment first and the
+ *      two `movs #imm`/`ldrsh` pairs come out transposed.  Eight bytes.
+ *
+ * Statement position of the `flag = 0` initialisation is NOT a lever here:
+ * all four positions compile identically, because mwcc sinks the zero to
+ * where the image has it.  That was measured, and it is the counterexample
+ * to the family's usual "initialise the result first" rule
+ * (docs/idioms/initialise-the-result-before-the-input-or-every-arm-
+ * duplicates-the-return.md), which governs where a RETURN VALUE is set,
+ * not where a plain flag is.
+ * ------------------------------------------------------------------ */
+void func_02023E0C(struct Interp *p);                 /* 0x02023E0C EXACT */
+
+/* The engine register words func_02023E0C writes through func_0207D658 are
+ * the plain constants 0x04000050 and 0x04001050.  The second is NOT
+ * 0x04001000 + 0x50 computed at run time; src/pending/func_02023EF4.c's
+ * header records the same fact for the sibling, and the two now agree. */
+
 /* Externs the family calls that are defined outside it. */
 extern void *func_02030734(u32 heap, u32 size, u32 flag, u32 file,
-                           u32 line);                 /* allocator */
+                           u32 line);                 /* allocator; it is
+                                                       * ARM, not Thumb --
+                                                       * a `thumb` symbols:
+                                                       * line makes match.py
+                                                       * refuse the call
+                                                       * outright rather than
+                                                       * report a byte
+                                                       * difference. */
 extern void  func_02082BCC(void *p, u32 v, u32 n);    /* memset */
 extern void  func_020307B0(void *p);                  /* free */
 extern void *sub_020056A0(void *fn, void *arg, u32 prio); /* task register */

@@ -252,3 +252,126 @@ Declaration order remains inert, confirming the note's own 120-permutation
 sweep: n/key/id/i reorderings all give 115 or 116, never less.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 168 bytes against 168, 115 concrete bytes out, 1.1p1
+
+Second pass 2026-09-22 (family symbol_save.c): THE WAVE-4 HOIST DIAGNOSIS IS
+WRONG, AND THE PERMUTER'S 96-BYTE RESULT IS SEMANTICALLY INVALID
+=============================================================================
+
+Two corrections to the Wave 4 addendum above, both established from the
+image rather than from a score.
+
+1. THE SECOND DWC_GetGsProfileId CALL IS PER-ITERATION, NOT HOISTED
+--------------------------------------------------------------------
+The Wave 4 addendum asserts, under "THE 2 BYTES ARE THE LOOP-INVARIANT CALL,
+HOISTED", that the original's second `blx #0x20598ec` "is the hoisted one,
+not a per-iteration one, and the loop body has only the array-record call."
+The bytes say otherwise.  `match.py show --addr 0x0200F43C`:
+
+    0200F49C  0c 20        movs r0, #0xc          <- loop body top
+    0200F4A2  03 98        ldr  r0, [sp, #0xc]
+    0200F4A4  05 a9        add  r1, sp, #0x14     <- &tok, recomputed
+    0200F4A6  4a f0 22 ea  blx  #0x20598ec        <- the second call
+    ...
+    0200F4D8  85 42        cmp  r5, r0
+    0200F4DA  df db        blt  #0x200f49c        <- back edge, ABOVE +0x4A6
+
+The back edge at 0x0200F4DA targets 0x0200F49C, which precedes the call at
+0x0200F4A6, so that call is inside the loop and executes every iteration.
+The `add r1, sp, #0x14` immediately before it is the `tok` address being
+recomputed per iteration, which is the same tell.  The addendum's claim that
+hoisting "takes the function from 170 bytes to 168 without losing either
+call" describes a source that no longer has the original's control flow: it
+has two pre-loop calls and one in-loop call, where the image has one
+pre-loop call (the guard at +0x48) and two in-loop calls.
+
+2. WHERE THE 115 ACTUALLY COMES FROM, AND WHY 96 IS NOT PROGRESS
+------------------------------------------------------------------
+Re-running the permuter on the addendum's own 115-byte source reproduces its
+residue exactly (asm=1190, bytes-out=115, size=168/168, the same 4-cycle
+r4->r7->r6->r5->r4), and then improves it:
+
+    hill --budget 800 --jobs 8 --types:  DIFF asm=1175 bytes-out=96 size=168/168
+    hill --budget 800 --jobs 8 (value-preserving): same 96, one mutation
+    mutations: temp(tmp=DWC_GetGsProfileId(p, tok)) (x2 in the --types run)
+
+96 out at the right size looks like a 19-byte gain on the recorded plateau.
+It is not usable.  The emitted C is
+
+    tmp1 = DWC_GetGsProfileId(p, tok);
+    tmp  = DWC_GetGsProfileId(p, tok);      <- unconditional
+    if (tmp1 <= 0)
+        return 3;
+    key = tmp;
+
+i.e. the second query is issued BEFORE the guard that decides whether the
+function returns 3 without doing any work.  DWC_GetGsProfileId is a DWC
+profile lookup, not a pure function, so issuing it on the reject path is an
+observable behaviour change; and the image plainly does not do it, since the
+only call before the `bgt` at +0x4E is the guard's own at +0x48.  This is the
+SAME failure mode the "A CAUTION ON THE --types ANNEAL RESULT" section above
+records for the earlier anneal run -- moving a call across a control edge to
+free the allocator -- reached this time by a single value-preserving `temp`
+mutation rather than by a block/copy mutation or a type change.  Restating
+the caution in its general form: the permuter's `temp` lift is only
+value-preserving when the lifted expression is pure; for a call it silently
+changes both the call count and the path on which the call happens, and the
+scorer cannot see either.
+
+The semantically faithful spelling of the same idea -- lift the guard's call
+into a named local, leaving the second call after the guard --
+
+    tmp1 = DWC_GetGsProfileId(p, tok);
+    if (tmp1 <= 0) return 3;
+    key = DWC_GetGsProfileId(p, tok);
+
+compiles to 168 bytes, 115 concrete bytes out: identical to the baseline.
+The whole 19-byte "gain" is the illegal call motion and nothing else.
+
+3. THE PER-ITERATION SPELLING IS SIZE-WRONG BY 2, AS THE ORIGINAL NOTE SAID
+-----------------------------------------------------------------------------
+Writing the loop the way section 1 shows the image runs it --
+`id = DWC_GetGsProfileId(p, tok);` inside the body, no `key` local -- gives
+170 bytes against 168, 109 concrete bytes out.  A hill pass over that shape
+(--budget 800 --jobs 8 --types) plateaus at 108/170 after one
+`temp(tmp=func_02009860(obj))`, i.e. it never recovers the 2 bytes.
+Declaration order of `tok` (first vs last) and the `arr` index spelling
+(`i` vs literal `0`) are both inert at 170/109.
+
+So the function is caught between two shapes: the semantically correct one
+is 2 bytes too long (109 out), and the size-exact one (115 out) is only
+size-exact because the note's hoist changed the control flow.  The residue
+in the size-exact shape is a pure 4-cycle of the callee-saved bank plus the
+resulting stack displacement; the 2-byte deficit in the correct shape is the
+real open question, and it is NOT a register-allocation tie.
+
+The most specific unexplained tell, from the 170-byte diff, is the prologue:
+
+    ORIGINAL   push {r3, r4, r5, r6, r7, lr} / sub sp, #0x20
+    COMPILED   push {r4, r5, r6, r7, lr}     / sub sp, #0x24
+
+The original saves one register more (r3, which it never reads) and reserves
+one word less of frame, and keeps `obj` in r4 across all three bring-up calls
+while spilling `p` to [sp,#0xc]; every compiled shape tried does the reverse,
+keeping `p` in a register and spilling `obj`.  The pushed r3 is not the
+home-area idiom (the epilogue is a plain `pop {r3,...,pc}`, not the
+`pop {r3}` / `add sp, #0x10` / `bx r3` shape that idiom requires); it reads
+as the allocator taking a free push slot in place of a frame word.  Whatever
+makes this front end prefer that trade is the lever, and no spelling tried
+here reaches it.
+
+4. NEGATIVE: THE ALTERNATE COMPILER IS NOT THE ANSWER
+--------------------------------------------------------
+The brief's "push/pop one register wider than the image ... means the wrong
+compiler (try ../2.0/sp2)" applies to this residue by its shape, so it was
+tried.  `--cc ../2.0/sp2` on the 115-byte source: DIFF, 164 bytes against
+168, 89 concrete bytes out.  Fewer bytes out than 1.1p1's 115, but at the
+WRONG SIZE, which is not progress toward EXACT; and -O4,p / dsi/1.1p1 is
+pinned project-wide regardless.  Recorded so the next lane does not read the
+89 as an improvement.
+
+/* best source, 168 bytes against 168, 115 concrete bytes out, 1.1p1 */
+/* (unchanged from the Wave 4 addendum; see section 1 for the caveat that
+   this shape's control flow does not match the image's, and section 3 for
+   the 170-byte shape that does) */
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 168 bytes against 168, 115 concrete bytes out, 1.1p1

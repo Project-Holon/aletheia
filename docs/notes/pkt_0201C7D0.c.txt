@@ -161,3 +161,62 @@ scratch instead of three the compiler caches the address in r4 and spends two
 `adds r0, r4, #0` plus alignment padding.  See that note.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 56 bytes against 56, 4 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-22, second pass (printsys family): confirmed at 4, five new spellings
+==============================================================================
+
+/* best source, 56 bytes against 56, 4 concrete bytes out, 1.1p1 */
+
+The 2026-09-21 finding reproduces exactly from the struct-spelled scratch:
+DIFF, 56 against 56, 37 out as written, 4 out with `return a2`.  A fresh
+permuter hill run (800 budget, 8 jobs, --types, 115 mutations) rediscovers the
+same single lever and nothing else:
+
+    baseline  DIFF  asm=285  bytes-out=37  size=56/56
+        111   DIFF  asm=200  bytes-out=4   size=56/56  <- type:ret-var(a2)
+    no single mutation improves (115 tried)
+
+and --mode anneal --budget 2000 --jobs 8 --types FROM the 4-byte point runs
+2000 compiles in 76s with no improvement at all.  Combined with the previous
+pass's 3000-compile anneal, the AST search space is exhausted here.
+
+THE RESIDUE RESTATED, because the previous note's framing was slightly off.
+
+It is not that "something holds `c` live past the last call".  `c`'s last use
+in the image is the `str r4, [sp]` at +0x18, and r4 is dead from there on.
+What differs is WHICH VALUE GETS r4:
+
+  ORIGINAL   r4 = a2 (the outgoing stack word), and &g_0214655C is
+             rematerialised from the pool at all three call sites
+  COMPILED   r4 = &g_0214655C, cached once, and a2 lives in a scratch register
+
+`return a2` fixes this by raising a2's use count above the scratch address's,
+which flips the colouring -- and then costs the one `adds r0, r4, #0` the
+original does not have.  So the question is not "what keeps a2 live" but
+"what makes the pool address cheaper to rematerialise than to cache", with
+three uses and a void return.  Lever 1 (the struct spelling) is the only thing
+found so far that pushes in that direction, and on this function it is not
+enough on its own.
+
+Five spellings measured this pass, none of them the answer:
+  - `if (a2) { }` after the last call (37 out -- folded away entirely)
+  - `if (a2 != 0) { return; }` after the last call (4 out, and the extra
+    instruction is `cmp r4, #0` instead of `adds r0, r4, #0`: the same
+    one-instruction shape, so it is NOT the return value that is wrong, it is
+    that ANY post-call use of a2 costs an instruction the original lacks)
+  - a2 passed as a third argument to sub_0201C8BC (8 out -- `adds r2, r4, #0`
+    before the call, same shape one slot earlier)
+  - a seventh parameter added to widen the stacked-argument block (37 out)
+  - `(void)&a2;` (37 out -- folded)
+  - `volatile u32 c = a2;` (64 bytes, strictly worse)
+
+The `if (a2 != 0) return;` result is the useful one: it separates the two
+hypotheses.  A post-call USE of a2 always costs exactly one instruction, in
+whatever form; so the real source has NO post-call use of a2 and the register
+choice comes from somewhere else entirely -- the cost model for the pool
+address, not a2's liveness.
+
+Not filed; still DIFF.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 56 bytes against 56, 4 concrete bytes out, 1.1p1

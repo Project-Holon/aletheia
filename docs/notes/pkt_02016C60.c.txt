@@ -1,0 +1,358 @@
+========================================================================
+pkt_02016C60 -- func_02016C60 @ 0x02016C60, 870 bytes (872 with pad)
+========================================================================
+2026-09-22, second pass on the mcss.c family.  This packet had NO note and
+NO source; the first pass marked it untouched.  A full transcription now
+exists and is size-exact at 870 bytes with 109 of them concrete-wrong.
+Everything that is left is spill-slot and ip-copy scheduling.
+
+WHAT THE FUNCTION IS.  `func_02016C60(struct McssWork *w, struct McssTask *t)`
+(the prototype docs/families/mcss.h already carried, confirmed by the two
+call sites in func_020163C4 / func_02016630).  It is a 4-bit-per-pixel
+BLOCK STAMPER over the cell bitmap:
+
+  * guard: `w->fb0` (+0xb0, inside the 0x9c..0xc0 nested object) must be 3.
+  * `scale = _d2s(pow(2.0, _s32_to_double(w->fa8 + 2)))` -- the row stride
+    in bytes.  The three calls are the runtime soft-float triple that
+    src/matched/func_0202B154.c spells the same way:
+        _s32_to_double   0x0209B750  arm   (runtime_arm9.txt)
+        func_0209AB80    0x0209AB80  arm   (the LINKER VENEER to
+                                            0x020979BC, the MSL double
+                                            kernel; declare the extern AT
+                                            the veneer per
+                                            docs/idioms/a-veneer-call-is-an-
+                                            ordinary-extern-at-the-veneer-
+                                            address.md)
+        _d2s             0x0209C508  arm
+    The constant handed to the kernel is `2.0` (r0=0, r1 = 1<<0x1e), so the
+    C is `func_0209AB80(2.0, _s32_to_double(w->fa8 + 2))`: a power of two,
+    4/8/16/32/... -- a bytes-per-row for a 2-pixels-per-byte bitmap.
+  * `base = ((u8 **)t->f00)[5]` -- the byte array everything indexes.
+  * outer loop `k` over `w->f2c[0]` records of stride 0x30, UNSIGNED
+    (`cmp r1,#0 / bhi`, and `cmp r1,r3 / bhs` at the back edge), which is
+    what makes the `while ((u32)k < (u32)w->f2c[0])` form necessary -- see
+    the first finding below.
+  * PER RECORD, TWICE OVER.  The same 8-loop block-stamp runs once on
+    (w=f14>>12, h=f18>>12, sx=f1c>>12, sy=f20>>12) and, if f2c != 0, again
+    on (w2=f2c>>12, h2=(f30>>12)<<1, sx2=f34>>12, sy2=f38>>12).  The >>12
+    everywhere says these are the family's 12-bit fixed-point values
+    (MCSS_FX_ONE).  `h2`'s extra <<1 is in the image at 0x02016E48.
+  * `step = ((w->f140 << 4) >> 0x1c) + 1` -- the block size, from the
+    4-bit field at bits 28..31 of the flag word docs/families/mcss.h
+    adjudicates.  Same extraction func_02016880 and func_020163C4 use.
+  * inside: tile the (w x h) area in step x step blocks, clipped at the
+    right and bottom edge; for each block, SCAN for the first non-zero
+    nibble, then WRITE that nibble into every cell of the block.  Two
+    nested loop pairs per block, one scanning, one writing.
+
+FOUR THINGS THE BYTES SETTLE, worth keeping whatever happens next:
+
+ 1. THE OUTER LOOP MUST BE A TOP-TESTED `while`, NOT A GUARD + do-while.
+    Written `if (count == 0) return; do { ... } while (...);` the compiler
+    TAIL-MERGES the first guard (`w->fb0 != 3`) into the second one's
+    `b` to the epilogue and emits a 2-byte `bne` where the original has the
+    4-byte `beq +2 / b far` pair at 0x02016C6E.  The whole function then
+    sits 2 bytes out of phase and 568 concrete bytes differ.  With the
+    `while` form the top is byte-identical.  This is the third entry of
+    docs/idioms/guards-separated-by-statements-share-an-exit-only-through-
+    goto.md's decision procedure seen from the other side: `goto done;`
+    does NOT prevent the merge here, only the loop's own shape does.
+
+ 2. THE ADDRESS ARITHMETIC IS SIGNED `t / 2`, NOT A SHIFT PAIR.
+    The image's `lsrs r0,r5,#0x1f / adds r0,r5,r0 / asrs r5,r0,#1` is the
+    signed-divide-by-two idiom.  Written literally as
+    `(t + ((u32)t >> 31)) >> 1` the `(u32)` makes the whole sum unsigned
+    and the last shift comes out `lsrs`, not `asrs`.  `t / 2` on a signed
+    `t` reproduces all three instructions.
+
+ 3. THE BYTE LOAD MUST NOT BE BOUND TO A LOCAL.  `b = base[addr];` then
+    two uses of `b` schedules the `ldrb` before the `tst`; writing
+    `base[addr]` at each use puts it where the image has it.  This is the
+    mutation tools/permuter.py named as `expand(b x2)` on its first hill
+    run (622 bytes-out for its own version of it; applied by hand to the
+    readable source it took 662 -> 573).
+
+ 4. THE TWO NIBBLE TESTS ARE SPELLED ON DIFFERENT VALUES.  The SCAN loop
+    tests the inner LOOP COUNTER (`tst r5, r3`, r3 = c) and the WRITE loop
+    tests the SUMMED INDEX (`tst r1, r5`, r1 = sx + x + c).  They are
+    numerically equal only when `sx + x` is even; the image spells them
+    differently and so must the C.
+
+RESIDUE: 109 of 870 bytes, all of it allocation.  88 diff lines, of which
+80 are a stack-slot number and 8 are the `mov rN, ip` copy landing one
+instruction late:
+
+    +00FA    mov r5, ip                | adds r5, r1, r0
+    +00FC    adds r0, r1, r0           | mov r0, ip
+    +0160    mov r1, ip                | adds r1, r6, r0
+    +0162    adds r0, r0, r6           | mov r0, ip
+    (and the same two pairs again in the second half, +0278 and +02DE)
+
+`scale` lives in ip for the whole function in both; the image reads it out
+BEFORE computing the row sum, this build reads it after.  Both operand
+orders of the multiply (`scale * (sy+y+r)` and `(sy+y+r) * scale`), both
+orders of the outer sum, and every commutation compile to the identical
+bytes, so the expression's spelling cannot reach it.
+
+The slot residue is what remains of a much larger one.  The declaration
+order that got it from 573 to 109 is, in full:
+
+    s32 scale; u8 *base; s32 k; s32 sx, sy, w, h; s32 step;
+    s32 found; s32 hi; s32 x, y, i, j; s32 bw, bh; s32 r, c;
+    s32 addr, t; s32 v; s32 off;
+
+i.e. descending stack address = declaration order, exactly
+docs/idioms/local-declaration-order-is-stack-order.md.  The image's own
+order, read off its slots, is
+    k 0x8c, sx 0x88, sy 0x84, w 0x80, h 0x7c, step 0x78, found 0x74,
+    x 0x70, y 0x6c, i 0x68, j 0x64, sx2 0x60, sy2 0x5c, w2 0x58,
+    h2 0x54, i2 0x50, j2 0x4c, hi 0x48, hi2 0x44, [temps 0x14..0x40],
+    off 0x10, y2 0x0c, x2 0x08, found2 0x04
+and the remaining 109 bytes are the low half of that list: the image gives
+the SECOND half of the function its own i2/j2 (high, 0x50/0x4c) while
+found2/x2/y2 go to the very bottom (0x04/0x08/0x0c).  Declaring a full
+second set of locals to get them there was tried and is WORSE (136 and 214
+bytes out in two arrangements), because the compiler then stops sharing
+bw/bh/r/c/addr/t/v between the halves and the compiler-temp block
+renumbers.  The two cannot be had at once by any declaration order tried.
+
+WHY THE PERMUTER CANNOT HELP HERE, which is itself the finding.
+tools/permuter.py scores (verdict, asm, bytes-out, size-gap) and this
+function's true code length is 870 while the listing extent is 872 (a
+2-byte alignment pad).  Every candidate that grows to 872 therefore beats
+the 870-byte baseline on the LAST tuple element even when it is far worse
+on bytes-out, so the search walks away from the good point immediately:
+
+    --mode hill   --budget 400 --types : best 262 bytes-out at 872/872
+                                         (baseline was 126 at 870/872)
+    --mode anneal --budget 600 --focus scale,t,addr : best 303 at 872/872
+    --mode anneal --budget 900 : best 361 at 872/872
+
+All three "improve" the tuple and worsen the function.  A permuter run on
+any function whose compiled size is under the listing extent by exactly
+the alignment pad should be read the same way.
+
+---- best source, 870 bytes against 872, 109 concrete bytes out, dsi/1.1p1 ----
+/*
+ * function: func_02016C60
+ * address:  0x02016C60
+ * packet:   pkt_02016C60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   _s32_to_double  0x0209B750  arm
+ *   func_0209AB80   0x0209AB80  arm
+ *   _d2s            0x0209C508  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern double _s32_to_double(s32 v);
+extern double func_0209AB80(double a, double b);
+extern s32    _d2s(double d);
+
+struct Rec {
+    s32 f00;
+    s32 f04;
+    s32 f08;
+    s32 f0c;
+    s32 f10;
+    s32 f14;
+    s32 f18;
+    s32 f1c;
+    s32 f20;
+    s32 f24;
+    s32 f28;
+    s32 f2c;
+    s32 f30;
+    s32 f34;
+    s32 f38;
+};
+
+struct Work {
+    u8   pad00[0x2c];
+    s32 *f2c;
+    u8   pada8[0xa8 - 0x30];
+    s32  fa8;
+    u8   padac[4];
+    s32  fb0;
+    u8   padb4[0x140 - 0xb4];
+    u32  f140;
+};
+
+struct Task {
+    u8 **f00;
+};
+
+void func_02016C60(struct Work *a0, struct Task *a1)
+{
+    s32 scale;
+    u8 *base;
+    s32 k;
+    s32 sx, sy, w, h;
+    s32 step;
+    s32 found;
+    s32 hi;
+    s32 x, y, i, j;
+    s32 bw, bh;
+    s32 r, c;
+    s32 addr, t;
+    s32 v;
+    s32 off;
+
+    if (a0->fb0 != 3) {
+        return;
+    }
+    scale = _d2s(func_0209AB80(2.0, _s32_to_double(a0->fa8 + 2)));
+    base = a1->f00[5];
+    k = 0;
+    while ((u32)k < (u32)a0->f2c[0]) {
+        off = k * 0x30;
+        sx = ((struct Rec *)((u8 *)a0->f2c + off))->f1c >> 12;
+        sy = ((struct Rec *)((u8 *)a0->f2c + off))->f20 >> 12;
+        w  = ((struct Rec *)((u8 *)a0->f2c + off))->f14 >> 12;
+        h  = ((struct Rec *)((u8 *)a0->f2c + off))->f18 >> 12;
+        step = (s32)((a0->f140 << 4) >> 0x1c) + 1;
+        i = 0;
+        y = 0;
+        if (h > 0) {
+            do {
+                j = 0;
+                x = 0;
+                if (w > 0) {
+                    do {
+                        if (x + step > w) {
+                            bw = w - j * step;
+                        } else {
+                            bw = step;
+                        }
+                        if (y + step > h) {
+                            bh = h - i * step;
+                        } else {
+                            bh = step;
+                        }
+                        found = 0;
+                        for (r = 0; r < bh; r++) {
+                            for (c = 0; c < bw; c++) {
+                                t = sx + x + c;
+                                addr = (t / 2)
+                                     + (sy + y + r) * scale;
+                                if (c & 1) {
+                                    v = (base[addr] & 0xf0) >> 4;
+                                } else {
+                                    v = base[addr] & 0x0f;
+                                }
+                                if (v != 0) {
+                                    found = v;
+                                    break;
+                                }
+                            }
+                            if (found != 0) {
+                                break;
+                            }
+                        }
+                        found = (u8)found;
+                        hi = found << 4;
+                        for (r = 0; r < bh; r++) {
+                            for (c = 0; c < bw; c++) {
+                                t = sx + x + c;
+                                addr = (t / 2)
+                                     + (sy + y + r) * scale;
+                                if (addr < (1 << 14)) {
+                                    if (t & 1) {
+                                        base[addr] = (base[addr] & 0x0f)
+                                                   | hi;
+                                    } else {
+                                        base[addr] = (base[addr] & 0xf0) | found;
+                                    }
+                                }
+                            }
+                        }
+                        j++;
+                        x += step;
+                    } while (x < w);
+                }
+                i++;
+                y += step;
+            } while (y < h);
+        }
+        if (((struct Rec *)((u8 *)a0->f2c + off))->f2c != 0) {
+            s32 sx2, sy2, w2, h2;
+            w2 = ((struct Rec *)((u8 *)a0->f2c + off))->f2c >> 12;
+            h2 = (((struct Rec *)((u8 *)a0->f2c + off))->f30 >> 12) << 1;
+            sx2 = ((struct Rec *)((u8 *)a0->f2c + off))->f34 >> 12;
+            i = 0;
+            y = 0;
+            sy2 = ((struct Rec *)((u8 *)a0->f2c + off))->f38 >> 12;
+            if (h2 > 0) {
+                do {
+                    j = 0;
+                    x = 0;
+                    if (w2 > 0) {
+                        do {
+                            if (x + step > w2) {
+                                bw = w2 - j * step;
+                            } else {
+                                bw = step;
+                            }
+                            if (y + step > h2) {
+                                bh = h2 - i * step;
+                            } else {
+                                bh = step;
+                            }
+                            found = 0;
+                            for (r = 0; r < bh; r++) {
+                                for (c = 0; c < bw; c++) {
+                                    t = sx2 + x + c;
+                                    addr = (t / 2)
+                                         + (sy2 + y + r) * scale;
+                                    if (c & 1) {
+                                        v = (base[addr] & 0xf0) >> 4;
+                                    } else {
+                                        v = base[addr] & 0x0f;
+                                    }
+                                    if (v != 0) {
+                                        found = v;
+                                        break;
+                                    }
+                                }
+                                if (found != 0) {
+                                    break;
+                                }
+                            }
+                            found = (u8)found;
+                            hi = found << 4;
+                            for (r = 0; r < bh; r++) {
+                                for (c = 0; c < bw; c++) {
+                                    t = sx2 + x + c;
+                                    addr = (t / 2)
+                                         + (sy2 + y + r) * scale;
+                                    if (addr < (1 << 14)) {
+                                        if (t & 1) {
+                                            base[addr] = (base[addr] & 0x0f)
+                                                       | hi;
+                                        } else {
+                                            base[addr] = (base[addr] & 0xf0)
+                                                       | found;
+                                        }
+                                    }
+                                }
+                            }
+                            j++;
+                            x += step;
+                        } while (x < w2);
+                    }
+                    i++;
+                    y += step;
+                } while (y < h2);
+            }
+        }
+        k++;
+    }
+}

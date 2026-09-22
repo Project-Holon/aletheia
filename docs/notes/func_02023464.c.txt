@@ -215,3 +215,43 @@ the permuter's table.
 /* best source, 92 bytes against 92, 11 concrete bytes out, 1.1p1 */
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 92 bytes against 92, 11 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-22, second pass (pkt_02023464)
+================================================================================
+
+Baseline re-verified: DIFF, 92 bytes against 92, 11 concrete bytes out, all
+four relocation sites resolved.  Unchanged.
+
+ONE CORRECTION TO THIS NOTE'S SYMBOLS BLOCK, worth having: func_02030734 is
+ARM, not Thumb.  Declaring it `thumb` makes match.py refuse the call at
++0x18 outright ("ISA conflict ... the image says arm") rather than reporting
+a byte difference, so a reader who rebuilds this note's source verbatim gets
+no verdict at all until it is fixed.  docs/families/wipe_sub.h's prototype
+list gives the allocator without an ISA; it is `arm`.
+
+THE TWO LEVERS THIS NOTE LEFT UNTRIED ARE NOW TRIED, AND BOTH ARE NEGATIVE.
+The note closed with: "giving `o` a use before the func_0202350C call (which
+would move its first definition point ahead of cfg's), or a spelling in which
+cfg is re-derived from a parameter rather than used directly".  Three forms,
+all 11 concrete bytes out with the identical r4/r6 substitution map:
+
+  - `o->f30 = o->f30;` inserted between the allocation and the call, to give
+    `o` a use (and a definition) ahead of cfg's first use.  No effect: mwcc
+    deletes the self-assignment before numbering, so it never reaches the
+    allocator at all.
+  - `t->obj = func_02030734(...); o = t->obj;` so that `o`'s live range
+    starts at a load from the task rather than at the call's return value.
+    No effect; the load is forwarded from the store and the value numbering
+    is identical.
+  - `cfg + 0` at the call site in place of `cfg`, to re-derive the pointer.
+    No effect; folded before numbering.
+
+So the swap survives the note's own two candidate levers as well as the four
+hand variants and the 3800 permuter compiles it already records.  Every
+source-level handle on first-definition order has now been tried.  The r4/r6
+tie is set by something the C does not express, and this function should be
+left alone until a second function in the family shows the same tie broken
+one way or the other by a difference that IS expressible.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 92 bytes against 92, 11 concrete bytes out, 1.1p1

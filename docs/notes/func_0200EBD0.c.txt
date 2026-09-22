@@ -172,3 +172,33 @@ survive the call, and neither the C shape, the mutation set, nor the storage
 class reaches that choice on this front end.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 68 bytes against 68, 6 concrete bytes out, 1.1p1
+
+Second pass 2026-09-22: THE ALTERNATE COMPILER LEVER IS ALSO A NO-OP
+=====================================================================
+
+The addendum above closes the `register` lever.  The one remaining lever the
+brief names for this residue's shape -- "push/pop one register wider than the
+image, or a register-held sentinel, means the wrong compiler (try ../2.0/sp2
+once on each residue)" -- fits this function by description exactly: the
+image pushes {r4, r5, r6, lr} and every 1.1p1 compile pushes {r4, lr}, one
+register narrower, which is the whole 6-byte residue.
+
+Tried, on the note's own best source (`--cc ../2.0/sp2`, same flags):
+
+    dsi/1.1p1    DIFF   68 bytes against 68,   6 concrete bytes out
+    2.0/sp2      DIFF   68 bytes against 68,  47 concrete bytes out
+
+2.0/sp2 does widen the push, but it reshapes everything else at the same
+time: it keeps the object in r4 rather than r5, schedules the two pool loads
+before the object copy, and drops the `subs r0, r4, #4` offset
+rematerialisation in favour of a third pool word.  47 of 68 bytes differ
+against 1.1p1's 6.  The push-width tell is real but it is not evidence of a
+different front end here; 1.1p1 remains overwhelmingly the closer compiler
+and stays pinned.
+
+That exhausts the lever list for this function: source shape (the full
+mutation set, plateau), storage class (`register`, discarded by the front
+end) and compiler version (2.0/sp2, far worse).  Still DIFF at 6 bytes out
+for the reason the addendum states.
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 68 bytes against 68, 6 concrete bytes out, 1.1p1

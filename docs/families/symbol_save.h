@@ -831,4 +831,72 @@ extern struct Sub0200F6B8Obj sub_0200F6B8_Obj;   /* 0x0214617C, data */
  * 0, 0x64). */
 void sub_0200F6B8(void);
 
+/* ------------------------------------------------------------------ *
+ * THE TEN OPEN FUNCTIONS OF THIS FAMILY (second pass, 2026-09-22).
+ *
+ * None of the ten is EXACT.  They fall into two groups with two quite
+ * different reasons, and the distinction matters for whether a future
+ * lane should spend budget on them at all.
+ *
+ * GROUP A -- byte-correct, capped at MATCH by overlay ambiguity.  Six
+ * files in src/pending are byte-for-byte right; every one is blocked at
+ * the same wall, and it is not a C problem.  Each calls an address that
+ * lives in an overlay, and for every such address TWO overlays' load
+ * windows hold it while NEITHER listing carries a func_ label there (the
+ * bytes decode as plain .word runs, and the two candidates disagree with
+ * each other about what is at the address).  attest_overlay_label()
+ * needs exactly one labelled candidate, so the `label` class has nothing
+ * to point at.  The fourth `symbols:`-line region token (`ov009` etc.)
+ * does NOT unblock these: it narrows the candidate set, but a narrowed
+ * set still has to contain a LABELLED address, and none of them does.
+ * Verified this pass by passing the hint and getting the identical
+ * refusal.  These are permanent until a labelled witness appears:
+ *
+ *   sub_0200E3A4   MATCH*  66 B   func_02167380, func_02167358 (ov009/ov010)
+ *   sub_0200E3E8   MATCH*  86 B   same two callees
+ *   func_0200E488  MATCH*  18 B   func_0216736C (ov009/ov010)
+ *   func_0200F17C  MATCH  184 B   func_0215536C x3, func_02177020,
+ *                                 func_021798D4, plus ov_id_72/ov_id_0E
+ *   func_0200F234  MATCH  160 B   ov_id_72, ov_id_0E
+ *   sub_0200F698   MATCH   32 B   func_02156B70 (ov009/ov010)
+ *
+ * One sub-finding worth keeping, because it rules out the obvious fix:
+ * sub_0200E3A4 and sub_0200E3E8 call the SAME two overlay addresses, and
+ * each function's call site lies outside the other's compared range, so
+ * the outside-witness condition (condition 3 of attest_overlay_label) is
+ * already satisfied for both.  Likewise 0x02156B70 has a witness at
+ * 0x021BF572, well outside sub_0200F698's range.  Splitting, re-cutting
+ * or cross-attesting therefore buys nothing: condition 3 was never what
+ * was failing.  The missing thing is the overlay label itself.
+ *
+ * GROUP B -- DIFF residues, documented in docs/notes/.  Three are
+ * register-allocation residues that the permuter's whole mutation set,
+ * the `register` storage class and the alternate compiler 2.0/sp2 all
+ * fail to move (2.0/sp2 was tried once on each this pass and is worse on
+ * every one: 47 vs 6 out on 0x0200EBD0, 162 vs 135 on 0x0200E7BC, and on
+ * 0x0200F43C it is fewer bytes out but at the wrong size).  The fourth
+ * has no source at all and is deliberately deferred.
+ *
+ *   func_0200EBD0   DIFF    68/68,   6 out   pure r6-vs-r1 bank choice
+ *   func_0200E7BC   DIFF   180/180, 135 out  9-call pointer permutation
+ *   func_0200F43C   DIFF   168/168, 115 out  see the correction below
+ *   func_0200EA3C   no source; 404 bytes, 0x28 frame, oversized by the
+ *                   brief's section-7 test.  Wants a wave of its own.
+ *
+ * A CORRECTION TO THE 0x0200F43C NOTE, established from the image.  That
+ * note's Wave 4 addendum claims the original hoists its second
+ * DWC_GetGsProfileId(p, tok) call out of the loop.  It does not: the
+ * loop back edge at 0x0200F4DA targets 0x0200F49C, which is ABOVE that
+ * call at 0x0200F4A6, so the call runs every iteration (and the
+ * `add r1, sp, #0x14` recomputing &tok in front of it is the same tell).
+ * The note's 168-byte "size-exact" source only reaches 168 because the
+ * hoist changed the control flow; the shape that actually matches the
+ * image is 170 bytes, 109 out.  Relatedly, a permuter run on that source
+ * reports a better 96-out result which is NOT usable: it issues the
+ * second profile lookup before the guard that returns 3, i.e. on a path
+ * the original never queries at all.  `temp` is only value-preserving
+ * for a PURE expression; lifting a call changes both how many times it
+ * runs and on which path, and the scorer sees neither.
+ * ------------------------------------------------------------------ */
+
 #endif /* SYMBOL_SAVE_H */
