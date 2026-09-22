@@ -188,3 +188,178 @@ register-to-register the sentinel has to be a value mwccarm cannot prove is
 count of failed spellings is now ten; the next attempt should not be another
 spelling of the constant.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, wave 7 pseudo-family lane (cluster_02063000): the four-byte gap
+was the FRONT END, not the eleventh spelling of the constant
+==============================================================================
+
+The note above is right that "the next attempt should not be another spelling
+of the constant", and right about why: -1 is a compile-time constant however
+it is written, so constant propagation reaches the compare through any node
+put in between.  What it does not consider is that the FOLD ITSELF is a front
+end property.  It is.
+
+  dsi/1.1p1     320 bytes against 324, 160 concrete out   (the note's result)
+  ../1.2/sp2    328 bytes against 324,  60 concrete out
+  ../2.0/sp2    324 bytes against 324,  31 concrete out   <- size-exact
+
+The C is the note's own "The C that is 320 bytes", character for character,
+with no change at all: under `--cc ../2.0/sp2 --arm` it is size-exact and the
+`mvn r1, #0` / `cmp r0, r1` pair is emitted exactly as the image has it.  All
+five relocation sites resolve as before.  Eleven spellings of a constant were
+spent on a compiler choice; the tell is now in the table in
+docs/FRONTEND-PINS.md as "register-held sentinel" so the next lane pays once.
+
+ONE STATEMENT REORDER, found by the AST permuter, takes it from 31 to 24:
+
+  python3 tools/permuter.py --src e.c --func func_02063640 --addr 0x02063640 \
+      --arm --cc ../2.0/sp2 --mode hill --budget 800 --jobs 8 --types
+
+  261 compiles, `reorder(+2)`: asm 475 -> 280, bytes-out 31 -> 24.
+
+It moves `i++` from the TOP of the flag-clear arm's loop body to the BOTTOM,
+after the store and the pointer increment:
+
+      do {                              do {
+          i++;                              p->a0 = 0xc0;
+          p->a0 = 0xc0;         ->          p++;
+          p++;                              i++;
+      } while (cnt > i);                } while (cnt > i);
+
+which is what puts the image's `strh r1, [r3], #8` at +0x0118 before the
+`lsl`/`lsr` pair that re-narrows the counter, instead of after it.  Both
+spellings are the same loop; only this one schedules the post-indexed store
+ahead of the narrowing.
+
+WHAT IS LEFT: 24 BYTES, AND IT IS THE CLUSTER'S STANDING WALL, NOT THIS
+FUNCTION.  Every remaining mismatch is in the two copies of the bank-address
+computation, and both are the same `mla` operand/destination swap that
+docs/notes/pkt_02063078.c.txt records for 0x02063294 and 0x02063378 and
+docs/notes/pkt_02072374.c.txt records for an `smull`:
+
+  * +005C    ldr r2, [r5]               | ldr r1, [r5]
+  * +0060    ldr r1, [pc, #0xd4]        | ldr r2, [pc, #0xd4]
+  * +0068    mla r1, r2, r0, r1         | mla r2, r1, r0, r2
+  * +006C    add r2, r1, #0x100         | ldrh r0, [r5, #4]
+  * +0070    ldrh r0, [r5, #4]          | add r2, r2, #0x100
+  * +00D0    ldr r2, [r5]               | ldr r1, [r5]
+  * +00D4    ldr r1, [pc, #0x60]        | ldr r2, [pc, #0x60]
+  * +00DC    mla r1, r2, r0, r1         | mla r2, r1, r0, r2
+  * +00E0    ldrh r2, [r5, #4]          | ldrh r3, [r5, #4]
+  * +00E8    add r1, r1, #0x100         | add r1, r2, #0x100
+  * +00EC    add r3, r1, r2, lsl #3     | add r4, r1, r3, lsl #3
+  * +00F0    sub r0, r0, r2             | sub r0, r0, r3
+  * +0118    strh r1, [r3], #8          | strh r1, [r4], #8
+
+The image gives the loaded bank index and the pool base their own registers
+(r2 and r1) and writes the product back into the BASE's register r1; the
+compile loads them the other way round and writes the product into r2.  The
+`ldrh r0,[r5,#4]` at +0x006C/+0x0070 is the same decision one instruction
+later: the image sinks it below the `add ... #0x100` because r0 is still
+holding the stride.  Everything downstream of the two swaps is register
+naming carried along.
+
+PERMUTER, EXHAUSTED ON THIS ROW:
+  `--mode hill --budget 800 --jobs 8 --types`    261 compiles to the reorder,
+      then "no single mutation improves" with 255 singles tried.
+  `--mode anneal --budget 2000 --jobs 8 --types` 2000 compiles in 124s, flat
+      at asm=280 / 24 for the last 1700, two plateau drifts, never moved.
+
+2800 compiles across the tool's whole vocabulary -- temp, expand, reorder,
+hoist, copy, use, selfassign, decl-order, pad, split-assign, compound,
+commute, compare, addsub, cast, block, loop, struct-ref, goto-ret, volatile,
+addr and type -- plus the three hand spellings of the address the note above
+already records.  This is the mechanical confirmation of the rule the earlier
+notes state: THE DESTINATION REGISTER OF AN `mla` IS NOT SOURCE-ADDRESSABLE.
+It is chosen after linearisation, on a value the source has already spelled
+as dead, and no expression, declaration, block or qualifier reaches it.
+
+Not filed: DIFF, by rule 6.  src/pending/func_0204BD7C.c stays blocked, and
+so does src/pending/func_0204BD18.c behind it.  THE MOMENT THE `mla` CLASS
+FALLS, THIS ROW FILES WITH `compiler: ../2.0/sp2` AND NO OTHER CHANGE -- the
+pin row is already written into docs/FRONTEND-PINS.md against that event.
+
+/* best source, 324 bytes against 324, 24 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02063640
+ * address:  0x02063640
+ * packet:   pkt_02063000
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020862B8  0x020862B8  arm
+ *   func_020821C0  0x020821C0  arm
+ *   func_02082A7C  0x02082A7C  arm
+ *   g_02146BC8     0x02146BC8  data
+ *   g_020A84C0     0x020A84C0  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Ent { u16 a0, a1, a2, a3; };                    /* 8 bytes */
+struct Bank { u8 pad_000[0x100]; struct Ent ent[136]; };  /* 0x540 */
+
+struct Span {
+    u32 which;   /* 0x00 */
+    u16 first;   /* 0x04 */
+    u16 last;    /* 0x06 */
+    u16 sent;    /* 0x08 */
+    u16 unk_0a;  /* 0x0a */
+    u16 pad_0c;
+    u16 unk_0e;  /* 0x0e */
+    u8  pad_10[4];
+    u32 unk_14;  /* 0x14 */
+};
+
+extern struct Bank g_02146BC8[];
+extern u32 g_020A84C0;
+extern void func_020862B8(struct Ent *p, u32 len);
+extern void func_020821C0(u32 ch, struct Ent *p, u32 data, u32 len, u32 f);
+extern void func_02082A7C(u32 data, struct Ent *p, u32 len);
+
+void func_02063640(struct Span *x)
+{
+    struct Ent *p;
+    u32 len, ok, ch;
+    u16 cnt, i;
+
+    if (x->unk_14 != 0) {
+        ok = 0;
+        if (x->sent <= x->last + 1) {
+            if (x->first <= x->last) ok = 1;
+        }
+        if (ok != 0) len = (u16)(x->last - x->first + 1) * 8;
+        else         len = 0;
+
+        p = &g_02146BC8[x->which].ent[x->first];
+        func_020862B8(p, len);
+
+        ch = g_020A84C0;
+        if (ch > 3) ch = (u32)-1;
+        if (ch != (u32)-1) func_020821C0(ch, p, 0xc0, len, 1);
+        else               func_02082A7C(0xc0, p, len);
+    } else {
+        p = &g_02146BC8[x->which].ent[x->first];
+        cnt = (u16)(x->last - x->first + 1);
+        i = 0;
+        if (cnt != 0) {
+            do {
+                p->a0 = 0xc0;
+                p++;
+                i++;
+            } while (cnt > i);
+        }
+    }
+    x->sent = x->first;
+    x->unk_0e = x->unk_0a;
+}
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 324 bytes against 324, 24 concrete bytes out, ../2.0/sp2

@@ -231,3 +231,271 @@ u32 func_02092C3C(u32 lo, u32 hi, u8 *buf, struct Spec8 spec, u32 w6, u32 w7)
     return (u32)p;
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02092C3C.c:32: declaration syntax error
+
+================================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family lane pkt_020929E8.
+Re-attempt on row 0x02092C3C with the switch respelling and the explicit
+divmod calls.  Supersedes the measurement above.
+================================================================================
+
+VERDICT: DIFF, SIZE-EXACT (720 against 720), 311 concrete bytes out under
+dsi/1.1p1, BOTH relocation sites resolved.  The earlier state of this note was
+672 bytes (a 44-byte size gap) with 0 of 2 relocations resolved.  Two changes
+account for the whole improvement, and both are template properties that also
+apply to the 32-bit twin func_020929E8:
+
+1. THE DISPATCH IS A `switch`, NOT AN if/else CHAIN.  Worth exactly the
+   missing 44 bytes (672 -> 720).  The image builds a signed comparison tree
+   (`cmp fp,#0x69 / bgt / bge`, `cmp fp,#0x58 / bgt / beq`, ...); an if/else
+   chain in source order gives a flat run of `cmp`/`beq` instead.  Spell it
+
+       switch (conv) {
+       case 'i': case 'd': ... break;
+       case 'o':           ... break;
+       case 'u':           ... break;
+       case 'x': case 'X': ... break;
+       }
+
+   The cases are not dense from zero, so this is a comparison tree, not the
+   dense-switch-table idiom.
+
+2. THE DIGIT LOOP MUST CALL THE DIVMOD ENTRY POINTS DIRECTLY.  Writing
+   `value % base` and `value / base` on a u64 emits `_ull_mod` and `_ll_udiv`,
+   which are DIFFERENT SYMBOLS from the ones the image calls and which
+   match.py cannot resolve ("no address for '_ull_mod'").  The image calls
+   0x0209C018 and 0x0209C00C, which layout/runtime_arm9.txt names
+   _ll_divmod_entry_flag1 (remainder) and _ll_divmod_entry_flag0 (quotient).
+   Declare and call them:
+
+       extern u32 _ll_divmod_entry_flag1(u64 value, u64 base);
+       extern u64 _ll_divmod_entry_flag0(u64 value, u64 base);
+       ...
+       d     = _ll_divmod_entry_flag1(value, base);
+       value = _ll_divmod_entry_flag0(value, base);
+
+   Both then resolve through the `runtime` evidence class.  This is the
+   correction the previous note's "SPELLINGS RULED OUT" paragraph was
+   reaching for: it is not that the divisor is a u64 in r2:r3 (it is), it is
+   that the two calls are explicit in the source.
+
+THE HOME AREA AND WHY --addr 0x02092C38 DOES NOT HELP
+-----------------------------------------------------
+The previous note's "LEVER FOR THE NEXT ATTEMPT" was to compile against
+--addr 0x02092C38, the argument home area.  Measured 2026-09-22: it does NOT
+work, and the reason is mechanical rather than about the C.  0x02092C38 is
+its own worklist row of size FOUR, so match.py resolves the listing extent
+there as 4 bytes and reports "listing says the original is 4 bytes, compiled
+720"; the comparison is then against the wrong window and the residue rises
+(534 out, against 311 at 0x02092C3C).  Compile at 0x02092C3C and accept that
+the compile's own `push {r0,r1,r2,r3}` at +0000 shifts the body by one
+instruction against the image.  The real fix is a seed at 0x02092C38 in
+layout/function_starts.txt and the removal of the label at 0x02092C3C, which
+is the integrator's file, not this lane's.
+
+The same applies to 0x02092F0C/0x02092F10 and 0x02093BDC/0x02093BE0: all
+three 4-byte rows in this cluster are `push {r0, r1, r2, r3}` home areas
+mis-seeded four bytes early, and every function they belong to unwinds twice
+(`add sp,#<scalars>; pop {...}; add sp, sp, #0x10; bx lr`), which is the
+independent confirmation.  See docs/families/cluster_020929E8.h, section
+"THE HOME AREA".
+
+PERMUTER RUN
+------------
+  --explain : a general register reshuffle (fp->sb x11, sb->sl x10, r6->r5 x9,
+      r8->r7 x8, sl->r4 x7, plus a cyclic r4->r5->r6->r7->r8->sb tail),
+      i.e. an allocation tie, not a shape error.
+  --mode hill   --budget 800  --types :  369 -> 322 bytes out
+      mutations hoist-down(count,+3) ; decl-order(d<->start)
+  --mode anneal --budget 3000 --types :  322 -> 311 bytes out
+      mutations temp(tmp=base==8) ; decl-order(neg<->conv) ; addr(neg) ;
+                type:p(lo:u32->u8) ; decl-order(w6v<->neg) ;
+                split-assign(value) ; type:l(d:u32->int)
+  Same --out trap as the twin: the permuter emits `int tmp = base == 8;` as a
+  mid-block declaration, which mwcc 1.1p1 rejects with "expression syntax
+  error" even though the permuter's own scorer accepted it.  Hoist the
+  declaration; the byte result is unchanged.
+
+REMAINING RESIDUE: the one-instruction home-area shift described above, plus
+the frame-size gap the previous note measured (ours 0x48 against the
+original's 0x50 -- the SAME missing scalar slot the 32-bit twin has, see
+docs/notes/pkt_020929E8.c.txt residue (a)).  The two twins fail in exactly the
+same way, which is further evidence they are one template; fixing the slot in
+either should fix it in both.
+
+/* best source, 720 bytes against 720, 311 concrete bytes out, 1.1p1 */
+/*
+ * function: func_02092C3C
+ * address:  0x02092C3C
+ * packet:   pkt_020924DC
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   _ll_divmod_entry_flag1  0x0209C018  arm
+ *   _ll_divmod_entry_flag0  0x0209C00C  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef unsigned long long u64;
+typedef signed long long s64;
+struct Spec8
+{
+  u8 b0;
+  u8 b1;
+  u8 b2;
+  u8 b3;
+  u8 b4;
+  u8 b5;
+  u8 b6;
+  u8 b7;
+};
+extern u32 _ll_divmod_entry_flag1(u64 value, u64 base);
+extern u64 _ll_divmod_entry_flag0(u64 value, u64 base);
+u32 func_02092C3C(u8 lo, u32 hi, u8 *buf, struct Spec8 spec, u32 w6, u32 w7)
+{
+  u8 conv;
+  u32 width;
+  u32 signstyle;
+  u32 neg;
+  u32 prefix;
+  int d;
+  u64 value;
+  u64 base;
+  u8 *p;
+  int tmp;
+  u32 w6v;
+  u32 count;
+  u8 *start;
+  (void) (&neg);
+  p = buf;
+  *(--p) = 0;
+  neg = 0;
+  width = w7;
+  prefix = spec.b3;
+  w6v = w6;
+  signstyle = spec.b1;
+  conv = spec.b5;
+  start = buf;
+  value = ((u64) hi) << 32;
+  value = value | ((u64) lo);
+  if ((value == 0) && (width == 0))
+  {
+    if ((prefix == 0) || (conv != 'o'))
+    {
+      return (u32) p;
+    }
+  }
+  switch (conv)
+  {
+    case 'i':
+
+    case 'd':
+      base = 10;
+      if (((s64) value) < 0)
+    {
+      neg = 1;
+      if (!((hi == 0x80000000) && (lo == 0)))
+      {
+        value = -value;
+      }
+    }
+      break;
+
+    case 'o':
+      base = 8;
+      signstyle = 0;
+      break;
+
+    case 'u':
+      base = 10;
+      signstyle = 0;
+      break;
+
+    case 'x':
+
+    case 'X':
+      base = 16;
+      signstyle = 0;
+      break;
+
+  }
+
+  count = 0;
+  do
+  {
+    d = _ll_divmod_entry_flag1(value, base);
+    value = _ll_divmod_entry_flag0(value, base);
+    if (d < 10)
+    {
+      d += 0x30;
+    }
+    else
+    {
+      d += (conv == 'x') ? (0x57) : (0x37);
+    }
+    *(--p) = (u8) d;
+    count++;
+  }
+  while (value != 0);
+  tmp = base == 8;
+  if (tmp && (prefix != 0))
+  {
+    if ((*p) != '0')
+    {
+      *(--p) = '0';
+      count++;
+    }
+  }
+  if (spec.b0 == 2)
+  {
+    width = w6v;
+    if ((neg != 0) || (signstyle != 0))
+    {
+      width--;
+    }
+  }
+  if ((base == 16) && (prefix != 0))
+  {
+    width -= 2;
+  }
+  if ((width + ((u32) (start - p))) > 0x1FD)
+  {
+    return 0;
+  }
+  while (count < width)
+  {
+    *(--p) = '0';
+    count++;
+  }
+
+  if ((base == 16) && (prefix != 0))
+  {
+    *p = conv;
+    *(--p) = '0';
+  }
+  if (neg != 0)
+  {
+    *(--p) = '-';
+  }
+  else
+    if (signstyle == 1)
+  {
+    *(--p) = '+';
+  }
+  else
+    if (signstyle == 2)
+  {
+    *(--p) = ' ';
+  }
+  return (u32) p;
+}
+
+
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 720 bytes against 720, 311 concrete bytes out, 1.1p1

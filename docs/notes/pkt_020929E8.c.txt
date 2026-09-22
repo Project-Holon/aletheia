@@ -1,0 +1,337 @@
+================================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family lane pkt_020929E8.
+Row 0x020929E8 (ARM, 588-byte body, 592-byte listing extent including the
+0x000001FD pool word at 0x02092C34).
+================================================================================
+
+VERDICT: DIFF, SIZE-EXACT (592 against 592), 112 concrete bytes out under the
+project default dsi/1.1p1.  Both relocation sites resolve.  This is a large
+improvement on the previous state of this address (nothing was filed for it;
+the only prior mention is the triage in docs/notes/pkt_020924DC.c.txt) and it
+is now two identified, named residues away from EXACT rather than an open
+question.
+
+WHAT IT IS
+----------
+MSL's 32-bit integer-to-text conversion, i.e. __utoa/__ltoa: the printf back
+end that turns one integer into its digit string.  It is the 32-bit TWIN of
+func_02092C3C, which does the same job over a 64-bit value; the two are
+field-for-field identical in their descriptor reads, their switch, their digit
+loop, their prefix handling, their width handling, their 0x1FD cap and their
+sign emission.  Treat them as one source template compiled twice -- that
+reading is not an aesthetic judgement, it is forced by residue (b) below.
+
+The row is NOT mid-prologue: unlike its neighbours 0x02092C3C, 0x02092F10 and
+0x02093BE0, this function's own `push {r0, r1, r2, r3}` home area IS at
+0x020929E8, so --addr 0x020929E8 is the right address to compile at.
+
+SIGNATURE (unchanged from the twin's, measured in docs/notes/pkt_02092C3C.c.txt)
+   u32 func_020929E8(u32 value, u8 *buf, struct Spec8 spec, u32 w6, u32 w7)
+with Spec8 the 8-byte by-value descriptor (bytes 0..3 in r3, 4..7 in the first
+caller stack word), read as ldrb [sp,#0x41] (b1, sign style), [sp,#0x43] (b3,
+prefix), [sp,#0x45] (b5, conversion character), and the two trailing width
+words at [sp,#0x48] and [sp,#0x4c].  buf is filled BACKWARDS, NUL first.
+
+THE ONE SPELLING THAT MOVED THE NEEDLE (worth 44 bytes, carry it to the twin)
+----------------------------------------------------------------------------
+The conversion-character dispatch is a real `switch`, not an if/else chain.
+The image's tree is a SIGNED binary search:
+
+    cmp r8, #0x69   bgt ...   bge ...      ('i')
+    cmp r8, #0x58   bgt ...   beq ...      ('X')
+    cmp r8, #0x64             beq ...      ('d')
+    cmp r8, #0x6f   bgt ...   moveq ...    ('o')
+    cmp r8, #0x78   bgt ...                ('x')
+    cmp r8, #0x75   blt ...   beq ...      ('u')
+
+An if/else chain in source order gives a flat run of `cmp`/`beq` and comes out
+44 bytes SHORT (532 against 588).  Written as
+
+    switch (conv) {
+    case 'i': case 'd': ... break;
+    case 'o':           ... break;
+    case 'u':           ... break;
+    case 'x': case 'X': ... break;
+    }
+
+the tree is reproduced instruction for instruction, shape and branch order
+included.  Note the cases are NOT dense from zero, so this is not the
+dense-switch-table idiom; mwcc builds a comparison tree instead, and the tree
+it builds is what the image has.  The same change takes func_02092C3C from
+672 bytes to 720 bytes, i.e. size-exact, so it is a property of the template,
+not of one function.
+
+THE TWO REMAINING RESIDUES, BOTH NAMED
+--------------------------------------
+(a) ONE STACK SLOT SHORT.  The image is
+
+        push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+        sub  sp, sp, #0x10
+
+    -- four scalar slots, [sp]=start, [sp+4]=prefix, [sp+8]=w6, [sp+0xc]=neg,
+    and the `push {r3}` is the alignment pad the fourth slot pulls in.  Every
+    compile of this body is
+
+        push {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+        sub  sp, sp, #0xc
+
+    -- three slots, with w6 kept in a register.  This is ONE defect, not two:
+    recovering the slot recovers the push list with it.  Everything tried to
+    force w6 into memory was coalesced away by mwcc:
+      * `w6v = w6;` with `width = w6v;` at the use               (no change)
+      * the same plus a second read of w6v in the b0==2 arm      (no change)
+      * a dead self-guard `if (w6v != w6) w6v = 0;`              (no change)
+      * homing w6v in the prologue, before the early-return guard (no change)
+      * declaration-order permutations over all six scalars      (no change)
+      * `conv` widened from u8 to u32 to buy a fourth live value (no change)
+    The permuter's `type` mutation set was run over every local as well.
+    LEVER FOR THE NEXT LANE: the slot is probably not w6 at all.  Look for a
+    value the ORIGINAL keeps in memory that this C never creates -- the
+    likeliest candidate is a second copy of the buffer pointer, since the
+    image writes `str r1, [sp]` (start) AND keeps r5 as the moving cursor,
+    while the C has `start = buf; p = buf;` which mwcc coalesces to one value.
+
+(b) THE INT_MIN GUARD IS SPELLED 64-BIT, AND IT IS DEAD CODE.  At +0x00DC the
+    image has
+
+        asr    r0, sl, #0x1f       ; r0 = (s32)value >> 31, so 0 or -1
+        cmp    r0, #0x80000000
+        mov    r0, #1
+        cmpeq  sl, #0
+        rsbne  sl, sl, #0
+        str    r0, [sp, #0xc]      ; neg = 1
+
+    This is EXACTLY the 64-bit twin's `hi == 0x80000000 && lo == 0` guard,
+    with `hi` supplied by sign-extending the 32-bit value.  It can never be
+    true: `value >> 31` is 0 or -1 and never 0x80000000.  So the 32-bit
+    function carries a dead 64-bit test, which is the fingerprint of ONE
+    source template compiled twice, once with a 32-bit value type and once
+    with a 64-bit one.  The 32-bit spelling `if (value != 0x80000000u)` gives
+    a two-instruction `cmp sl, #0x80000000 / rsbne` and is three instructions
+    short.  Spellings tried for the 64-bit form, all WORSE:
+        (s64)(s32)value != INT64_MIN                   600 bytes, 319 out
+        -(s64)(s32)value != (s64)(s32)value            608 bytes, 335 out
+        a local s64 v64 = (s32)value, then the compare 600 bytes, 319 out
+        ((s32)value >> 31) == (s32)0x80000000 && !value 608 bytes, 326 out
+        the same with neg = 1 moved after the guard    600 bytes, 312 out
+    (against 592 bytes, 112 out for the 32-bit spelling).  The 64-bit form is
+    NOT reachable by writing 64 bits in this one file: every 64-bit spelling
+    drags a full 64-bit compare sequence in.  The likely original shape is a
+    shared macro or an inline helper whose argument is widened at the call
+    site, which this project's single-function compilation model cannot
+    express.  Recording it here rather than burning another lane on it.
+
+PERMUTER RUN, IN FULL (so it is not repeated)
+---------------------------------------------
+  --explain on the if/else baseline: a clean cyclic register rotation
+      r4 -> r5 -> r6 -> r7 -> r4  (x12, x12, x10, x7)
+  i.e. a pure allocation tie, the permuter's own class.
+  --mode hill   --budget 800  --types :  402 -> 237 bytes out, size 576 -> 592
+      mutations temp(tmp=(value==0)&&(width==0)) ; type:l(width:u32->int) ;
+                temp(tmp1=width+((u32)(start-p)))
+      The first of these is what made the size exact, and the reading is that
+      the early-return guard needs its own temporary.
+  --mode anneal --budget 2000 --types :  237 -> 130 bytes out
+      mutations split-assign(d) ; hoist-up(tmp,-5) ; commute(!=) ;
+                temp(tmp2=(u32)p) ; expand(w6v x1) ; type:l(d:u32->int) ;
+                temp(tmp3=prefix==0) ; expand(conv x3) ; hoist-down(d,+1) ;
+                reorder(+2)
+  --mode anneal --budget 3000 --types :  130 -> 112 bytes out
+      mutations temp(tmp4=spec.b5) ; cast(s32) ;
+                temp(tmp5=(neg!=0)||(0!=signstyle))
+  --mode anneal --budget 4000 --types :  112, NO improvement, 64 dry batches.
+  Total 9800 candidates.  The residue is hard-plateaued and is (a) plus (b).
+
+  NOTE, a real trap: the permuter's --out file can place a declaration after
+  a statement (`int tmp1 = ...;` mid-block).  The permuter's own scorer
+  accepts it, mwcc 1.1p1 does not, and match.py then reports CCERR
+  "expression syntax error" on a file that scored well.  Hoist the
+  declaration to the top of the function before re-verifying; that is not a
+  regression, the byte result is identical.
+
+COMPILER: the default dsi/1.1p1 is correct here and the siblings are worse.
+Measured on the neighbour func_020933B8 (same cluster, same day, same source):
+  dsi/1.1p1   264 bytes,  65 concrete out
+  ../2.0/sp2  272 bytes, 162 concrete out
+  ../1.2/sp2  292 bytes, 253 concrete out
+No pin is taken for this cluster and none should be.
+
+/* best source, 592 bytes against 592, 112 concrete bytes out, 1.1p1 */
+/*
+ * function: func_020929E8
+ * address:  0x020929E8
+ * packet:   pkt_020929E8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   _u32_div_f  0x0209C2B0  arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed int s32;
+struct Spec8
+{
+  u8 b0;
+  u8 b1;
+  u8 b2;
+  u8 b3;
+  u8 b4;
+  u8 b5;
+  u8 b6;
+  u8 b7;
+};
+extern u32 _u32_div_f(u32 value, u32 base);
+u32 func_020929E8(u32 value, u8 *buf, struct Spec8 spec, u32 w6, u32 w7)
+{
+  u32 neg;
+  int width;
+  u32 signstyle;
+  u32 w6v;
+  u32 prefix;
+  u8 *start;
+  u32 base;
+  u8 *p;
+  u8 conv;
+  u32 count;
+  int d;
+  int tmp;
+  u32 tmp2;
+  int tmp3;
+  s32 tmp4;
+  int tmp5;
+  int tmp1;
+  p = buf;
+  *(--p) = 0;
+  neg = 0;
+  width = w7;
+  tmp = (value == 0) && (width == 0);
+  prefix = spec.b3;
+  w6v = w6;
+  signstyle = spec.b1;
+  conv = spec.b5;
+  start = buf;
+  if (tmp)
+  {
+    tmp3 = prefix == 0;
+    tmp4 = spec.b5;
+    if (tmp3 || (tmp4 != 'o'))
+    {
+      tmp2 = (u32) p;
+      return tmp2;
+    }
+  }
+  switch (spec.b5)
+  {
+    case 'i':
+
+    case 'd':
+      base = 10;
+      if (((s32) value) < 0)
+    {
+      neg = 1;
+      if (value != 0x80000000u)
+      {
+        value = -value;
+      }
+    }
+      break;
+
+    case 'o':
+      base = 8;
+      signstyle = 0;
+      break;
+
+    case 'u':
+      base = 10;
+      signstyle = 0;
+      break;
+
+    case 'x':
+
+    case 'X':
+      base = 16;
+      signstyle = 0;
+      break;
+
+  }
+
+  count = 0;
+  do
+  {
+    d = value;
+    value = ((s32) value) / base;
+    d = d % base;
+    if (d < 10)
+    {
+      d += 0x30;
+    }
+    else
+    {
+      d += (spec.b5 == 'x') ? (0x57) : (0x37);
+    }
+    *(--p) = (u8) d;
+    count++;
+  }
+  while (value != 0);
+  if ((base == 8) && (prefix != 0))
+  {
+    if ((*p) != '0')
+    {
+      *(--p) = '0';
+      count++;
+    }
+  }
+  if (spec.b0 == 2)
+  {
+    width = w6;
+    tmp5 = (neg != 0) || (0 != signstyle);
+    if (tmp5)
+    {
+      width--;
+    }
+  }
+  if ((base == 16) && (prefix != 0))
+  {
+    width -= 2;
+  }
+  tmp1 = width + ((u32) (start - p));
+  if (tmp1 > 0x1FD)
+  {
+    return 0;
+  }
+  while (count < width)
+  {
+    *(--p) = '0';
+    count++;
+  }
+
+  if ((base == 16) && (prefix != 0))
+  {
+    *p = conv;
+    *(--p) = '0';
+  }
+  if (neg != 0)
+  {
+    *(--p) = '-';
+  }
+  else
+    if (signstyle == 1)
+  {
+    *(--p) = '+';
+  }
+  else
+    if (signstyle == 2)
+  {
+    *(--p) = ' ';
+  }
+  return (u32) p;
+}
+
+
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 592 bytes against 592, 112 concrete bytes out, 1.1p1

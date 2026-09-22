@@ -135,3 +135,208 @@ arithmetic on the already-scaled index) instead of a second array
 subscript, since that changes which register the bound lives in before
 the compare.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+2026-09-22, wave 7 pseudo-family lane (cluster_02063000): SIZE-EXACT at last.
+Two levers close the 8-byte gap the note above could not; 165 concrete out
+==============================================================================
+
+The note above ends at "compiled 336-340 bytes against a 348-byte original"
+and hands the next agent two guesses (a shared `static` helper for the two
+span checks, and `first + count` instead of a second subscript).  Neither is
+the lever.  Two other things are, and together they take the function from
+340/226 to the original's exact 348 with 165 concrete bytes out -- every
+instruction present, every branch target right, all four relocation sites
+resolving, and the residue reduced to register naming.
+
+LEVER 1: THE TWO FAILURE RETURNS NEED TWO DISTINCT LABELS AT THE END.
+
+The note diagnoses this correctly -- "the original branches away to a small
+dedicated `mov r0,#0; pop` block (two near-identical copies, one per span)"
+where mwccarm predicates the return inline as `moveq r0,#0; popeq` -- but the
+shapes it tried (a plain `return 0;` inside each guard, and a braced one)
+both predicate.  What does not predicate is sending each span's failure to
+its OWN label at the very end of the function:
+
+    donea:
+        if (ok == 0) goto faila;
+        ...
+    doneb:
+        if (ok == 0) goto failb;
+        ...
+        return 1;
+    faila:
+        return 0;
+    failb:
+        return 0;
+    }
+
+That is 348 bytes on the nose.  ONE shared `fail:` label is NOT it -- with
+one label the compiler has one copy to reach and cross-jumps the pair, which
+is the four-byte loss all over again; the point is that the image really does
+carry TWO copies of `mov r0,#0` / `pop {r4,r5,r6,r7,r8,pc}` (at 0x020631E0
+and 0x02063270), so the source has to name two exits.  This is the exact
+inverse of docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md: the
+idiom says write the statements out per arm and let the compiler merge them,
+and here writing ONE copy behind ONE label is what makes it merge too far.
+Compare, all under `../2.0/sp2`:
+
+    one `fail:` label, both gotos          344 bytes, 254 out
+    plain `return 0;` in each guard        344 bytes, 254 out
+    braced `{ return 0; }` in each guard   344 bytes, 254 out
+    TWO labels, `faila:` and `failb:`      348 bytes, 201 out   <-
+
+LEVER 2: THE FIRST SPAN'S CURSOR IS `volatile`, AND `ok` IS DECLARED FIRST.
+
+Found by the AST permuter, not by hand:
+
+  python3 tools/permuter.py --src d4.c --func func_02063138 --addr 0x02063138 \
+      --arm --cc ../2.0/sp2 --mode hill --budget 500 --jobs 8 --types
+
+  285 compiles, `volatile-add(p)`:      asm 9560 -> 1865, 201 -> 165
+  498 compiles, `decl-order(p<->ok)`:   asm 1840, 160
+
+`volatile u16 *p` on the FIRST span's walking pointer (not the second -- the
+second's `volatile` costs four bytes and goes back to 352) stops the front end
+from rotating the loop, which is what the asm score falling by a factor of
+five measures: 9560 to 1840 is the whole first loop coming back into
+alignment.  Declaring `int ok;` ahead of `p` is worth five more bytes.
+
+MEASURED PROGRESSION, each row the previous one plus the change named:
+
+    the note's own C                      340 bytes / 226 out
+    two distinct fail labels              348 bytes / 201 out
+    + volatile on the first span's p      348 bytes / 165 out
+    + `ok` declared before `p`            348 bytes / 160 out
+    + permuter anneal, 2000 compiles      348 bytes / 151 out
+
+THINGS MEASURED AND REJECTED THIS PASS, so they are not tried again:
+  * `while (p <= last)` in place of `if (...) do { } while (...)` -- identical,
+    348/201.  The guard-then-do-while and the while are the same code here.
+  * the allocation id bound to a local (`id = g_02146BC4; g_02146BC4 = id+1;
+    s->id = id;`) -- 344 bytes, 4 SHORT.  The note above is right that the id
+    must be re-read from `s->id` for both calls, and it is also true that the
+    two reads of `g_02146BC4` itself must stay two reads; binding either one
+    loses the four bytes back.
+  * the increment written first (`g_02146BC4 = g_02146BC4 + 1; s->id =
+    g_02146BC4 - 1;`) -- 352 bytes, 4 LONG.
+  * `volatile` on the second span's pointer as well -- 352 bytes, 4 long.
+  * `../1.2/sp2` -- 356 bytes.  `1.1p1` -- 344 bytes.  `../2.0/sp2` is the
+    only front end that reaches 348 on this shape, which is consistent with
+    the cluster pin recorded in docs/families/cluster_02063000.h, though this
+    row is not itself a clean pin tell (all three front ends predicate the
+    return before lever 1, and all three keep the branch after it).
+
+WHAT IS LEFT: 160 BYTES, AND IT IS ALLOCATION.  `--explain` reports a pure
+substitution map with no instruction insertions or deletions:
+
+    r3 -> r6 x3   ip -> r4 x3   r2 -> r3 x2   ip -> r1 x2   r4 -> r0 x2
+    r1 -> r2 x2   r8 -> r4 x1   r0 -> r1 x1   r3 -> r7 x1   r1 -> r3 x1
+
+The first divergence is at +0x0038, where the compile inserts `mov ip, r1` --
+a copy the image does not make, because the image keeps the walking pointer
+in `ip` from the moment it is computed.  The second is the same `mla`
+operand/destination swap this cluster is blocked on everywhere else
+(+0x0014 is right here, but the values feeding it are named the other way
+round two instructions later).
+
+PERMUTER: `--mode hill --budget 800` plateaus at 160 with singles exhausted;
+`--mode anneal --budget 2000 --jobs 8 --types` grinds 160 -> 151 over 2000
+compiles by accumulating thirteen unrelated mutations, which is drift rather
+than a lever and is not carried into the source below.  A 348-byte body with
+eight live values across two loops is a bigger allocation problem than the
+tool's elite-of-twelve search resolves; the honest reading is that this row
+needs the same thing 0x02063294 and 0x02063378 need.
+
+Not filed: DIFF, by rule 6.  It remains the blocker of func_0204BD3C
+(pkt_0204B954) named in docs/notes/clact_c_fan_in_1_blockers.c.txt.
+
+/* best source, 348 bytes against 348, 165 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02063138
+ * address:  0x02063138
+ * packet:   pkt_02063000
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   MIi_CpuClear16  0x02082A48  arm
+ *   g_02146BC8      0x02146BC8  data
+ *   g_02146BC4      0x02146BC4  data
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Rec { u16 slotsA[0x500 / 2]; u16 slotsB[0x40 / 2]; };
+
+struct Sub {
+    u32 which; u16 startA; u16 endA; u16 startA2;
+    u16 startB; u16 endB; u16 startB2; u16 id; u16 pad_12; u32 bound;
+};
+
+extern struct Rec g_02146BC8[];
+extern u16        g_02146BC4;
+extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
+
+int func_02063138(struct Sub *s, u32 base, u32 count, u32 which)
+{
+    struct Rec *rec = &g_02146BC8[which];
+    u16 end = (u16)(base + (count - 1));
+    int ok;
+    volatile u16 *p = &rec->slotsA[base];
+    u16 *last = &rec->slotsA[end];
+    u16 base2, end2;
+    u16 *p2, *last2;
+
+    if (p <= last) {
+        do {
+            if (*p != 0xFFFF) { ok = 0; goto donea; }
+            p += 1;
+        } while (p <= last);
+    }
+    ok = 1;
+donea:
+    if (ok == 0) goto faila;
+
+    s->id = g_02146BC4;
+    g_02146BC4 = (u16)(g_02146BC4 + 1);
+    s->startA = (u16)base;
+    s->endA = end;
+    s->startA2 = (u16)base;
+    MIi_CpuClear16(s->id, &rec->slotsA[base], (u32)(end - base + 1) * 2);
+
+    base2 = (u16)(base >> 2);
+    end2 = (u16)((u16)(count >> 2) - 1 + base2);
+    p2 = &rec->slotsB[base2];
+    last2 = &rec->slotsB[end2];
+
+    if (p2 <= last2) {
+        do {
+            if (*p2 != 0xFFFF) { ok = 0; goto doneb; }
+            p2 += 1;
+        } while (p2 <= last2);
+    }
+    ok = 1;
+doneb:
+    if (ok == 0) goto failb;
+
+    s->startB = base2;
+    s->endB = end2;
+    s->startB2 = base2;
+    MIi_CpuClear16(s->id, &rec->slotsB[base2], (u32)(end2 - base2 + 1) * 2);
+
+    s->bound = 1;
+    s->which = which;
+    return 1;
+faila:
+    return 0;
+failb:
+    return 0;
+}
+
+re-verified 2026-09-22 by tools/match.py: DIFF, 348 bytes against 348, 165 concrete bytes out, ../2.0/sp2

@@ -129,3 +129,56 @@ void func_020933B8(Ctr *b, s32 idx)
     b->len = (u8)idx;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 264 bytes against 280, 65 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-22, wave 7 pseudo-family lane pkt_020929E8.  CLOSED.
+================================================================================
+
+The 12-byte residue this note describes is closed.  The function is now EXACT*
+as src/matched/func_020933B8.c under the project default dsi/1.1p1, 276 bytes,
+no relocation sites.  Everything above about the reset block order and the
+`goto reset` cross-jump was correct and is kept in the filed source.
+
+THE ONE THING THAT WAS WRONG: the loop.  This note's seven spellings all keep
+the decrement on the LOOP's back edge (a `for (; idx != 0; idx--)`, a `while`
+with `idx--` as the last statement, a `do/while`), which leaves the digit-write
+arm on the fall-through path; mwcc 1.1p1 then if-converts it to
+`addne ip, r4, #0x30` / `strbne ip, [r3]` and fuses the decrement into
+`subs r1, r1, #1`, which is the 12 bytes.
+
+Put the decrement on the CONTINUE path instead, so the write arm is the
+fall-through and cannot be predicated:
+
+    while (idx != 0) {
+        v = (u8)((*--q - '0') + carry);
+        carry = v > 9;
+        if (carry != 0 || v == 0) {
+            idx--;
+            continue;
+        }
+        *q = (u8)(v + '0');
+        break;
+    }
+
+That reproduces 0x0209347C..0x02093494 instruction for instruction: the
+separate `sub r1, r1, #1` / `b TEST`, the unpredicated `add ip, r4, #0x30` /
+`strb ip, [r3]` / `b END`, and the loop's own `cmp r1, #0` / `bne`.
+
+Note that spelling 3 of this note ("if (carry != 0) continue; if (v != 0)
+{...}") is close but not the same thing: it has TWO continues and no
+decrement inside either, so the decrement stays on the back edge and the
+residue is unchanged.  The load-bearing detail is the decrement's position,
+not the continue.
+
+Measured on the way: the sibling compilers are worse here, not better, so no
+pin is warranted for this cluster.
+    dsi/1.1p1   264 bytes,  65 concrete out   (this note's source)
+    ../2.0/sp2  272 bytes, 162 concrete out
+    ../1.2/sp2  292 bytes, 253 concrete out
+
+The trailing star on EXACT* is the unlabelled follower at 0x020934CC, a
+`push {r0, r1, r2, r3}` argument home area and the real start of the function
+disasm.py labels at 0x020934D0.  Wants a seed at 0x020934CC in
+layout/function_starts.txt.
+
+re-verified 2026-09-22 by tools/match.py: EXACT*, 276 bytes against 280 (extent), 0 concrete bytes out, 1.1p1
