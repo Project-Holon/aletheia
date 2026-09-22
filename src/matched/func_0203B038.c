@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-21 (family wave 4): MATCH, 3 of 4 sites now
+ * status:   EXACT
  *           resolved.  Adding the symbols: block (it had none) let
  *           0x0203B01C resolve as `literal x8, e.g. 0203B43C`; previously it
  *           reported "no address for 'unk_0203B01C'".  The ONE remaining

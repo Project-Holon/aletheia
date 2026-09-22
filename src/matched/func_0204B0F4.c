@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  * blocker:  ABS32 func_0204BE38 at +0x08: no branch anywhere outside this range reaches 0x0204BE38
  */
 

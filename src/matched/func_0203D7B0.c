@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  * blocker:  none available -- the ABS32 at +0008 names 0x0203C8E8, whose
  *           prologue is `ldr r1, [pc, #0xc]` and saves no lr, so disasm.py
  *           emitted no func_ label there (the unlabelled-leaf idiom) and

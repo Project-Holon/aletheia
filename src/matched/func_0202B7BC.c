@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  *
  * Parked: the only site, the ABS32 at +0008, names 0x0202AB5C, which is a
  * four-byte Thumb linker veneer (`ldr r3, [pc, #0]; bx r3` followed by the word

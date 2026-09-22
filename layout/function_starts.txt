@@ -369,3 +369,22 @@ arm9_main  0x02091E44  arm     # real entry of the function labelled 0x02091E48 
 arm9_main  0x0200ECB4  thumb   # unlabelled follower (ldr r1,[pc,#8] leaf, no lr-saving prologue)
 arm9_main  0x02021F08  thumb   # unlabelled follower (push {r3,r4} leaf, no lr-saving prologue)
 arm9_main  0x0203A27C  arm     # unlabelled follower after func_0203A28C's predecessor block (ldrb r0,[r2] leaf)
+
+# sdk_audit.md Part B class (c): bl/ABS32 targets with no prologue label,
+# confirmed unlabelled and re-verified byte-plausible before seeding.
+arm9_main  0x02012BC8  thumb   # ABS32 site in func_02012158.c; word 0xD0012900 decodes as thumb cmp/beq, C call not a raw pointer store
+arm9_main  0x02027460  thumb   # ABS32 site in func_020274B4.c; isa corrected to thumb (caller/file both thumb; audit table said arm)
+arm9_main  0x02029FD0  thumb   # ldr r0,[pc]; ldr r3,[pc]; bx r3 pool-thunk, sibling of 0x0202A084
+arm9_main  0x02029FE4  thumb   # same pool-thunk shape as 0x02029FD0, second copy a few bytes later
+arm9_main  0x0202AB5C  thumb   # ldr r3,[pc]; bx r3 thunk between pool_0202AB58 and func_0202AB64
+arm9_main  0x0202B90C  thumb   # ldr r3,[pc]; bx r3 thunk, same family as 0x0202B8F4's thunks
+arm9_main  0x0203B018  arm     # documented 4-byte bx-lr no-op stub (func_0203B038.c header names it explicitly)
+arm9_main  0x0203BFF0  arm     # ldr r0,[pc,#16] ARM leaf prologue before func_0203C010
+arm9_main  0x020394C0  arm     # ldr r0,[pc,#12] ARM leaf prologue; target of veneer already seeded at 0x0203D56C
+arm9_main  0x0203C8E8  arm     # ldr r1,[pc,#12] ARM leaf prologue before func_0203C900
+arm9_main  0x0204BE38  arm     # cmp r1,#0 ARM leaf prologue; target of veneer already seeded at 0x0204B0F4
+arm9_main  0x020979BC  arm     # lone .word 0xE92D000F = stmfd (push) ARM prologue instruction before func_020979C0
+arm9_main  0x020202CC  thumb   # tail-call thunk target of sub_02022AC4.c (pool word + bx idiom per pending header)
+
+# Earlier lane finding: ABS32 thunk hidden in a previous function's word run.
+arm9_main  0x0200AD6C  thumb   # ldr r3,[pc,#4]; movs r1,#0x2E; ...; bx r3 thunk before func_020071CC's pool entry

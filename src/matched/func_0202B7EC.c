@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  *
  * Parked: the only site, the ABS32 at +0008, names 0x0202B90C - the fourth
  * four-byte Thumb linker veneer of the run at 0x0202B8F4/8FC/904/90C
