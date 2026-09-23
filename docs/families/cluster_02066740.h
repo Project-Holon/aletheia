@@ -436,4 +436,55 @@ extern void func_02067998(struct Hooks *h, struct List *lst);
  * four-register rotation).  Measurements in the notes.
  */
 
+
+/* ================================================================== *
+ * WAVE 12 ADDENDUM, fourth lane (2026-09-23) -- two rows CLOSED
+ * ================================================================== *
+ * THE SOURCE EXISTS.  A decompiled NitroSystem is public:
+ * github.com/ntrtwl/NitroSystem (rev 21c8fd0, "NitroSystem-071126", the one
+ * pret/pokeplatinum builds against).  PART 2 of this cluster is
+ * libraries/g2d/src/g2d_RendererCore.c and g2d_OamSoftwareSpriteDraw.c,
+ * with inlines from libraries/g2d/include/g2di_OamUtil.h, g2di_Mtx32.h and
+ * include/nnsys/g2d/fmt/*.h.  Transcribing the library VERBATIM (every
+ * helper as its NNS inline, locals in the library's scopes, the NitroSDK
+ * GXOamAttr union with anonymous bitfield structs, the SDK inlines from
+ * sdk/TwlSDK/include/nitro/gx/g2_oam.h) closed two rows on the FIRST
+ * compile after both had sat for three waves at a pure register rotation.
+ * RULE FOR THIS CLUSTER: before any respelling, find the function in the
+ * NitroSystem decomp and copy its shape; the residues the permuter could
+ * not move were inline boundaries, which it never mutates.
+ *
+ * Identifications (Black addresses):
+ *   func_02066B84  CalcSpriteParams_(pOam, pTexImageAttr, texBaseAddr,
+ *                  pltBaseAddr, SpriteParams *) -- EXACT, src/matched.
+ *   func_02066E30  NNS_G2dDrawOneOam3DDirectWithPosFast shape.
+ *   func_02067080  DoAffineTransforme_(pMtxSR, pOam, pBaseTrans) -- DIFF 12.
+ *   func_02067340  DrawCellToSurface2D_(pSurface, pCell) -- EXACT.
+ *   func_02067B50 / func_02067B64  NNS_G2dIsRndCoreFlipH / FlipV.
+ *   g_02148B48     pTheInstance_ (NNSG2dRndCoreInstance: +0x04
+ *                  affineOverwriteMode, +0x10 base2DCharOffset, +0x1c
+ *                  pFuncOamRegister, +0x20 pFuncOamAffineRegister, +0x24
+ *                  flipFlag, +0x28 pCurrentMtxCacheFor2D, +0x2c pCurrentMxt,
+ *                  +0x30 bDrawEnable, +0x34 zFor3DSoftwareSprite, +0x38
+ *                  currentOam, +0x40 mtxFor3DGE).
+ *   g_02148B2C     s_pUVFlipCorrectFunc (the "UV hook", a lone pointer).
+ *   g_020A18AC     mtxIdentity_.
+ *   tbl_020A17F0 / tbl_020A17D8  NNSi_objSizeWTbl / NNSi_objSizeHTbl.
+ *   tbl_020A1824   GetNumTexChar_'s static texSize_ (u32[8]).
+ *   tbl_020A1844 / tbl_020A1874  gxTexSizeSTbl / gxTexSizeTTbl (u32 enums).
+ *   tbl_020A181C   SetPaletteParamsFor3DDirect_'s pltFmtTbl.
+ *
+ * BUILD DIFFERENCE FROM 071126.  This image is built with
+ * NNS_G2D_ASSUME_DOUBLEAFFINE_OBJPOS_ADJUSTED (the double-affine position
+ * removal is present in DoAffineTransforme_), and its
+ * NNSi_G2dAdjustDifferenceOfRotateOrientation is NOT 071126's one-expression
+ * `pV->x += -(halfW << 12) + _00*halfW + _10*halfH` (that canonicalises to
+ * mul/sub, 696 bytes): the image negates first (`rsb; mla; mla`), which a
+ * separate `dx = -(halfW << 12); dx += ...; pV->x += dx;` reproduces to
+ * 704/12.  Everything else in the three functions is 071126 verbatim.
+ *
+ * NNSG2dNode is 0x28 bytes in this build (071126's header gives 0x20; see
+ * cluster_020640DC.h).
+ */
+
 #endif /* CLUSTER_02066740_H */
