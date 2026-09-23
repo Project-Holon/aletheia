@@ -84,7 +84,9 @@ def commit(label, pex, prp):
     open(p, "w", encoding="utf-8").write(s2)
     sh = sharded_sources(); inc = [u for u in untracked_matched() if u in sh]
     dex = ex - pex; drp = (rp - prp) - dex
-    subprocess.run(["git", "add", "-u"], check=True)
+    subprocess.run(["git", "add", "-u", "README.md", "layout/matched", "layout/worklist.json", "docs/families", "docs/notes",
+                    "docs/idioms", "docs/sessions", "src/pending", "src/matched",
+                    "docs/coverage_map.svg", "docs/coverage_map_files.svg"], check=False)
     subprocess.run(["git", "add", "README.md", "layout/matched", "docs/families", "docs/notes", "docs/idioms",
                     "docs/sessions", "src/pending", "docs/coverage_map.svg", "docs/coverage_map_files.svg"], check=False)
     if inc:
