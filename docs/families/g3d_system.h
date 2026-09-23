@@ -203,8 +203,38 @@ extern void  func_020307B0(void *p);            /* free; func_02047504 */
 
 extern void  func_0207BCA0(void *a0, void *a1, void *a2, void *a3);
                                                 /* func_02046B40 */
+/* func_02046858 (EXACT, wave 11) pins the three projection setters.  Mode 0
+ * passes SEVEN arguments (no +0x2C), modes 1 and 2 EIGHT; the last is always
+ * &g_02148B54, and the one before it is +0x38, or 0x1000 when +0x38 is zero
+ * (two calls per mode, not an OR).  Declaring `u32 *hw = g_02148B4C;` before
+ * the dispatch is what puts the register block in r4 across each call and
+ * makes the prologue push {r4, lr}; every arm clears hw[0x3F] bits 0x50 and
+ * returns on its own. */
+extern u8    g_02148B54[];
 extern void  func_0207C408(u32 a0, u32 a1, u32 a2, u32 a3,
-                           u32 s0, u32 s1, u32 s2);  /* func_02046858 */
+                           u32 s0, u32 s1, void *s2);
+extern void  func_0207C1D0(u32 a0, u32 a1, u32 a2, u32 a3,
+                           u32 s0, u32 s1, u32 s2, void *s3);
+extern void  func_0207C554(u32 a0, u32 a1, u32 a2, u32 a3,
+                           u32 s0, u32 s1, u32 s2, void *s3);
+
+/* func_02046440 (EXACT, wave 11), the constructor.  Seven parameters:
+ *   (u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
+ *    u16 fifoSize, s16 heap, void (*setup)(void))
+ * The HEAP PARAMETER IS s16: as u16 the compiler re-reads it from its stack
+ * home after the first allocation instead of holding it in r8, and every
+ * later instruction shifts by one.  The context fields it fixes: +0x10 and
+ * +0x14 are the palette and texture VRAM-manager buffers (+0x14 is also
+ * the field cleared by the palette arm's else-branch -- an original bug,
+ * reproduced), +0x8C/+0x90 the two mode arguments, +0x98/+0x9C zeroed at
+ * the end.  Its three stack buffers are declared in the order s32 (0x20
+ * bytes), s36 (0x24), r (4 x u16), later declaration lower.  SDK calls it
+ * makes, by address: G3X_InitMtxStack 0x0207DB1C, G3X_SetFog 0x0207DC44,
+ * G3X_SetClearColor 0x0207DD24; the default path also writes the SDK
+ * inline defaults to DISP3DCNT (0x04000060), SWAP_BUFFERS (0x04000540 = 2)
+ * and VIEWPORT (0x04000580 = 0xBFFF0000).  Data it copies from:
+ * 0x020A1308 (32 bytes), 0x020A1E38 (+0x8C/+0x8E s16), 0x020A1300
+ * (4 x u16), 0x020A1328 (36 bytes), all `sole-ref` attested. */
 
 extern void  func_0206DDA4(u32 cmd, void *buf, u32 count);  /* func_02047C04 */
 extern void  func_0206DB80(void);                           /* func_02047970 */

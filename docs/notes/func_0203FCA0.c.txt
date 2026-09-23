@@ -414,3 +414,29 @@ void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type)
     func_02042FF8(bgId, 0, tmpl->bufSize);
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_0203FCA0.c:12: undefined identifier 'func_0203FCA0'
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 (bg_sys.c family lane).  Still DIFF, 1860/1876.
+==============================================================================
+
+The source above (rebuilt with a full header) still compiles to 1860 bytes,
+1171 concrete out, under dsi/1.1p1; ../2.0/sp2 gives 1988 bytes.  Two new
+shapes, neither prevents the type-0 cross-jump:
+
+  * each inner switch as an explicit goto chain (`if (type == 0) goto T0;
+    if (type == 1) goto T1; if (type == 2) goto T2; T0: ... goto TE; T1: ...
+    goto TE; T2: ... TE:`), the shape that closed func_020416D4's unfused
+    compare chain: 1860 bytes, byte-identical to the switch;
+  * the whole register block rewritten as the SDK's own inline setters
+    (G2_SetBGxControl / G2_SetBGxControlText / ...Affine / ...256x16Pltt,
+    G2_SetBGxPriority, G2_BGxMosaic) as static inline functions taking
+    int parameters, called with the template fields: 1860, byte-identical.
+
+Neither inlining nor the dispatch spelling reaches the allocator's choice
+of address r3 / read r2 / last byte r1 in the affine arms, which is what
+makes the type-0 store identical to the shared tail and lets the
+cross-jumper merge it.  A --types anneal (1500) reaches 1876/1876 with 407
+bytes out, but only through dead statements placed between case labels
+(unreachable `tmpN = ...` lines and an `&tmp` escape); rejected as not a
+model of the source.
+re-verified 2026-09-23 by tools/match.py: DIFF, 1860 bytes against 1876, 1171 concrete bytes out, 1.1p1

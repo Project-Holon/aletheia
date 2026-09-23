@@ -75,3 +75,163 @@ which must be the `tst`-and-return form rather than the rotated do/while.
 
 Best C: scratch/probe1/w2_02041FF4.c.
 re-verified 2026-09-21: no recoverable source in this note
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 (bg_sys.c family lane).  DIFF, 548/548, 42 out.
+==============================================================================
+
+Written from scratch this wave (the older note had no recoverable source).
+The body is settled; what remains is a register rotation of the callee-saved
+set.  Size is exact.
+
+STRUCTURE FACTS THAT CLOSED THE SIZE (each one a real first difference):
+  * the two failure exits share ONE `mov r0,#0; pop` block at the end: the
+    4bpp path is `if ((*flags & (1 << v)) == 0) goto fail; return 1;` and
+    the 8bpp path's scan loop is `for (;;) { if (*flags == 0xffff) goto
+    fail; if (v == (*flags & 0xff)) return 1; }` with `fail: return 0;`
+    after it (the image's loop never advances `flags`; the compiler hoists
+    the one ldrh);
+  * the 8bpp arm is written `if (mode != 1) { copy path } else { direct
+    pixel }` -- with the test the other way round the direct-pixel arm is
+    branched over instead of if-converted, and the function is 4 bytes long;
+  * func_02043130's first parameter is u16 (75 -> 63 bytes on its own);
+  * the sub-tile coordinates as NEW locals `u8 px = x & 7; u16 py = y & 7;`
+    rather than `x &= 7; y &= 7;` (63 -> 42 together with the u16 above).
+
+RESIDUE.  The image holds x/y (and later x&7/y&7) in r5/r6, the layer in
+r7, the tile table in r8 and the 4bpp buffer in sb; the best compile holds
+x/y in r6/r5, px/py in r7/r8, the table in r6 and the buffer in r5 -- one
+rotation, every instruction otherwise identical.  In-place `x &= 7` keeps
+x in one register as the image does but costs 63 bytes elsewhere.
+
+LEVERS TRIED THIS PASS, ALL 42 OR WORSE: layer as u8 / u32; x, y as int /
+s16; px/py as u8/u8, u32/u32, and swapped declaration order; v as u32;
+func_02040EE0's size_code as u32; func_020415B4 taking u8; func_02043130's
+first parameter u8 / s16 / u16 and its third u32; a `struct BgSlot *` local
+for the first two field reads; inline helpers Pix4()/Pix8() for the two
+decode paths (no change); ../2.0/sp2 (576 bytes, 519 out).
+PERMUTER: hill 800 --types (75 -> 69), anneal 2000 --types from each
+successive best (69 -> 63 -> 42), a final anneal 2000 from the 42-byte
+source: plateau.
+
+permuter best result line:
+  best      DIFF   asm=210   bytes-out=42   size=548/548
+
+/* best source, 548 bytes against 548, 42 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_02041FF4
+ * address:  0x02041FF4
+ * packet:   pkt_02041FF4
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146A44     0x02146A44  data
+ *   g_020A7E5C     0x020A7E5C  data
+ *   func_02040EE0  0x02040EE0  arm
+ *   func_020415B4  0x020415B4  arm
+ *   func_02030734  0x02030734  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_02043130  0x02043130  arm
+ *   func_02082D44  0x02082D44  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+struct BgSlot
+{
+  u16 heapId;
+  u8 pad_02[6];
+  void *tiles;
+  u32 unk_0c;
+  u32 size;
+  u32 scroll_x;
+  u32 scroll_y;
+  u8 mode;
+  u8 unk_1d;
+  u8 flag_1e;
+  u8 depth;
+  u32 unk_20;
+  u32 unk_24;
+  u32 unk_28;
+};
+struct BgSys
+{
+  struct BgSlot slots[8];
+};
+extern struct BgSys *g_02146A44;
+extern char g_020A7E5C[];
+extern u16 func_02040EE0(u8 x, u8 y, u8 size_code);
+extern u8 *func_020415B4(u32 layer);
+extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void func_020307B0(void *p);
+extern void func_02043130(u16 pal, void *buf, u16 heap);
+extern void func_02082D44(void *dst, const void *src, u32 size);
+u32 func_02041FF4(u32 layer, s32 x, s32 y, u16 *flags)
+{
+  u16 key;
+  u8 *chr;
+  u8 *buf;
+  u16 *tbl;
+  u8 v;
+  if (g_02146A44->slots[layer].tiles == 0)
+    return 0;
+  key = func_02040EE0((u8) (x >> 3), (u8) (y >> 3), g_02146A44->slots[layer].unk_1d);
+  chr = func_020415B4(layer);
+  {
+    u8 px = x & 7;
+    u16 py = y & 7;
+    if (g_02146A44->slots[layer].flag_1e == 0)
+    {
+      u8 i;
+      u8 *src;
+      tbl = g_02146A44->slots[layer].tiles;
+      buf = func_02030734((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000, 0x40, 0, g_020A7E5C, 0xa77);
+      src = chr + (((u32) (tbl[key] << 22)) >> 17);
+      for (i = 0; i < 0x20; i++)
+      {
+        buf[i * 2] = src[i] & 0xf;
+        buf[(i * 2) + 1] = src[i] >> 4;
+      }
+
+      func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->slots[0].heapId);
+      v = buf[px + (py << 3)];
+      func_020307B0(buf);
+      if (((*flags) & (1 << v)) == 0)
+        goto fail;
+      return 1;
+    }
+    if (g_02146A44->slots[layer].mode != 1)
+    {
+      tbl = g_02146A44->slots[layer].tiles;
+      buf = func_02030734((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000, 0x40, 0, g_020A7E5C, 0xa8f);
+      func_02082D44(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
+      func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->slots[0].heapId);
+      v = buf[px + (py << 3)];
+      func_020307B0(buf);
+    }
+    else
+    {
+      v = chr[((((u8 *) g_02146A44->slots[layer].tiles)[key] << 6) + px) + (py << 3)];
+    }
+    for (;;)
+    {
+      if ((*flags) == 0xffff)
+        goto fail;
+      if (v == ((*flags) & 0xff))
+        return 1;
+    }
+
+  }
+  fail:
+  return 0;
+
+}
+
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 548 bytes against 548, 42 concrete bytes out, 1.1p1

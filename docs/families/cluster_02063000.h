@@ -162,6 +162,39 @@
  * ============================================================================
  */
 
+/*
+ * ============================================================================
+ * WAVE 11 (2026-09-23): THE RANGE IS NITROSYSTEM g2d_OamManager.c.
+ * ============================================================================
+ *
+ * struct Span / WinOam / WinAffine below are ONE NNSG2dOamManagerInstance:
+ *   +0x00 u32 type (the bank index); +0x04 ManagedOamRegion attr
+ *   {fromIdx +4, toIdx +6, currentIdx +8}; +0x0a ManagedOamRegion affine
+ *   {fromIdx +0xa, toIdx +0xc, currentIdx +0xe}; +0x14 BOOL
+ *   bFastTransferEnable.  The "two views with different cursor offsets" are
+ *   the two regions.  Rows:
+ *     func_02063294  NNS_G2dEntryOamManagerOamWithAffineIdx   EXACT
+ *     func_02063378  NNS_G2dEntryOamManagerAffine -> u16, 0xFFFE = none
+ *     func_0206343C  NNS_G2dApplyOamManagerToHW
+ *     func_02063640  the buffer reset (0xC0 fill, currentIdx = fromIdx)
+ *
+ * func_02063378 in NitroSystem form reaches the same DIFF 4 WITHOUT the
+ * volatile hack: IsAreaValid_ as `return (cur <= to + 1) && (from <= to);`,
+ * GetCapacity_ as if/else returning `(u16)(to - cur + 1)` or 0, and
+ * HasCapacity_ as `return (BOOL)(GetCapacity_(a) >= num);` -- the explicit
+ * (BOOL) cast is what keeps the image's materialised movhs/movlo (without
+ * it the guard folds to a branch, 184 bytes).  Source in
+ * docs/notes/pkt_02063078.c.txt (2026-09-23 appendix).
+ *
+ * The mla triples of 378 and 640 did NOT move this wave: declaration order
+ * (54 orders on 378, 14 on 640), an 8x8 per-block spelling grid on 640
+ * (block 1's residue is independent of block 1's spelling), every 2.0
+ * build and the 1.2 line (1.2/sp3 keeps the same two triples).  Unlike
+ * 0x020691E0 (closed this wave by declaration order), no declaration moves
+ * them.
+ * ============================================================================
+ */
+
 #ifndef CLUSTER_02063000_H
 #define CLUSTER_02063000_H
 

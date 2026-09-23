@@ -465,3 +465,105 @@ void func_02063640(struct Span *x)
     x->unk_0e = x->unk_0a;
 }
 
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 lane: 0x02063640 still DIFF 19
+==============================================================================
+re-verified 2026-09-23 by tools/match.py: DIFF, 324 bytes against 324, 19 concrete bytes out, ../2.0/sp2
+
+READING.  NitroSystem g2d_OamManager.c's buffer reset (NNS_G2dResetOamManagerBuffer
+shape): with bFastTransferEnable (+0x14) DC-flush the managed OAM range and
+DMA-fill (func_020821C0, channel g_020A84C0 clamped to -1 above 3) or
+CPU-fill (func_02082A7C) it with 0xC0; otherwise a CPU loop storing 0xC0 into
+each entry's attr0; then both regions' currentIdx = fromIdx.  The struct is
+the NNSG2dOamManagerInstance described in docs/notes/pkt_02063078.c.txt
+(2026-09-23 appendix).
+
+Measured this pass, none moves either mla triple:
+  * an 8x8 grid of bank-address spellings, each block independently
+    (current split-assign; +0x100 into a second pointer; the index read
+    between the two assignments as in func_02063294; one-expression base;
+    the which read into a u32 local first; compound `+=`; `(Ent *)(b+0x100)`
+    then `p = p + first`; `(Ent *)(b + 0x100) + first`): 19 everywhere except
+    two block-2 spellings at 24.  Block 1's residue does not depend on block
+    1's spelling at all;
+  * 14 declaration orders of p, b, len, ok, ch, cnt, i: 19 every time;
+  * front ends: every 2.0 build 19; 1.2 base/sp2/sp2p3 328 bytes, 1.2 sp3/sp4
+    324 bytes with 40 out (the SAME two triples plus a 5th stack word);
+    dsi 1.2/1.3/1.6sp1 320.  2.0 stands;
+  * the NitroSystem inline-helper form (IsAreaValid_ `&&`, GetAreaSize_,
+    GetOamBuffer_, GetDmaCh_) is 328 bytes: the `* sizeof(GXOamAttr)` is no
+    longer pushed into the two arms of the size select (image `moveq r4, #0`
+    / `lsr r4, r0, #0xd`), so the explicit if/else assignment of `len` stays.
+permuter best result line (wave 10, from this source): best DIFF asm=255 bytes-out=19 size=324/324
+
+/* best source, 324 bytes against 324, 19 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Ent { u16 a0, a1, a2, a3; };                    /* 8 bytes */
+struct Bank { u8 pad_000[0x100]; struct Ent ent[136]; };  /* 0x540 */
+
+struct Span {
+    u32 which;   /* 0x00 */
+    u16 first;   /* 0x04 */
+    u16 last;    /* 0x06 */
+    u16 sent;    /* 0x08 */
+    u16 unk_0a;  /* 0x0a */
+    u16 pad_0c;
+    u16 unk_0e;  /* 0x0e */
+    u8  pad_10[4];
+    u32 unk_14;  /* 0x14 */
+};
+
+extern u8 g_02146BC8[];
+extern u32 g_020A84C0;
+extern void func_020862B8(struct Ent *p, u32 len);
+extern void func_020821C0(u32 ch, struct Ent *p, u32 data, u32 len, u32 f);
+extern void func_02082A7C(u32 data, struct Ent *p, u32 len);
+
+void func_02063640(struct Span *x)
+{
+    struct Ent *p;
+    u8 *b;
+    u32 len, ok, ch;
+    u16 cnt, i;
+
+    if (x->unk_14 != 0) {
+        ok = 0;
+        if (x->sent <= x->last + 1) {
+            if (x->first <= x->last) ok = 1;
+        }
+        if (ok != 0) len = (u16)(x->last - x->first + 1) * 8;
+        else         len = 0;
+
+        b = g_02146BC8;
+        b = b + x->which * 0x540;
+        b = b + 0x100;
+        p = (struct Ent *)(b + x->first * 8);
+        func_020862B8(p, len);
+
+        ch = g_020A84C0;
+        if (ch > 3) ch = (u32)-1;
+        if (ch != (u32)-1) func_020821C0(ch, p, 0xc0, len, 1);
+        else               func_02082A7C(0xc0, p, len);
+    } else {
+        b = g_02146BC8;
+        b = b + x->which * 0x540;
+        b = b + 0x100;
+        p = (struct Ent *)(b + x->first * 8);
+        cnt = (u16)(x->last - x->first + 1);
+        i = 0;
+        if (cnt != 0) {
+            do {
+                p->a0 = 0xc0;
+                p++;
+                i++;
+            } while (cnt > i);
+        }
+    }
+    x->sent = x->first;
+    x->unk_0e = x->unk_0a;
+}
+

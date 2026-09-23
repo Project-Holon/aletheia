@@ -202,3 +202,395 @@ a named local before the call and never touching the parameter again -- is the
 first thing to try.  A body that is 57.1 percent byte-identical with an
 identical prologue and tail is a cheap start, not a wall.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02031FE0.c:12: undefined identifier 'pkt_02031FE0'
+
+
+================================================================================
+2026-09-23 -- wave 11 (backup_system.c family lane).  Appended, nothing above
+edited.  BOTH rows transcribed; both DIFF, both size-exact.
+================================================================================
+
+0x02031FE0 -- first whole-body transcription (was "not attempted").
+
+/* best source, 1704 bytes against 1704, 42 concrete bytes out, dsi/1.1p1 */
+
+permuter best result lines (from the source below):
+  hill,   --types, budget 800   DIFF  asm=725  bytes-out=42  size=1704/1704
+  anneal, --types, budget 2000  DIFF  asm=725  bytes-out=42  size=1704/1704
+  (an earlier hill from a less-sorted draft found `expand(cur x3)`, which is
+  folded in below: `cur` is assigned and spilled to sp+4 but the loop reads
+  go through `bufs[k]`)
+Front-end sweep of the same file: every dsi build (1.1 .. 1.6sp2) 42 out;
+../1.2/sp2 and ../2.0/* are 400+ lines out.  The pin is right.
+
+What the function is: read BOTH copies of the save area (func_020335E8 with
+func_02031EAC(self, 1) into the staging buffer self->f34, and (self, 2) into a
+fresh heap block, poke_tool-style alloc with backup_system.c line 0x429),
+repair one from the other when only one read failed, verify each copy's footer
+(func_02031F9C x2, the mode==1 generation check on both), cross-copy the
+footer block when exactly one footer is bad, pick the newer good copy (the
+`(genA == 0 && genB == ~0) || genA >= genB || B bad` test), then walk every
+record checking the per-record CRC table against both copies, marking each
+record 0/1/2 through func_0203331C, retrying with the other copy if the walk
+fails, and finally copying marked records back and committing the generation
+(func_02031F94).
+
+Load-bearing spellings found this wave (each measured):
+  * The footer-state chain is NESTED with a redundant re-test:
+        if (A0 == 0) { if (B0 != 0) {..} }
+        else if (B0 == 0) { if (A0 != 0) {..} }
+        else { ..return 3 or 0.. }
+    The flat `if (A0==0 && B0!=0) .. else if (..) .. else if (..)` form costs
+    the jump threading at 0x02032184 / 0x020321F0.
+  * The CRC table is a `u16 *` indexed `tbl[i]`; the byte form
+    `*(u16 *)(tbl + i * 2)` makes the compiler keep i*2 alive across calls in
+    an extra stack word (frame 0x40 instead of 0x3c, 16 bytes long).
+  * Declaration order of the arrays sets the frame exactly: pairB, pairA,
+    bufs, gens, ids, h, tbl, cur, k (later declaration, lower address).
+  * Loop locals declared in the order B, pa, pb, AB, A, then i: that puts A,
+    pa, pb and i in the image's registers.  Found by compiling all 120
+    orders of those five.
+
+RESIDUE (42 bytes, two independent places):
+  1. +0x20..+0x40, the argument setup of the func_02030734 alloc: same nine
+     instructions, different order.  The image truncates the heap id through
+     r1 (`lsl r1,r4,#16` early, `lsr r0,r1,#16` late) and loads the line word
+     first; 1.1p1 truncates r4 in place and loads it later.  Not moved by:
+     heap declared u32 or int, an explicit (u16) cast with a u32 callee
+     parameter, an inline alloc wrapper taking u16, or reading self->f34 after
+     the alloc (worse, 27 lines).
+  2. B and AB swap registers (image B in r8 and A+B in r4; here the reverse)
+     -- the only pair no declaration order reaches.  Not moved by dropping the
+     AB local (pure CSE), `B + A`, re-ordering pa/pb, or changing the repair
+     loop's use of A/B.
+
+---- best source ----
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+typedef struct Save Save;
+struct Save {
+    u8   pad00[0x2c];
+    u8  *f2c;
+    u32  f30;
+    u8  *f34;
+    u8   pad38[0x108];
+    u32  f140;
+};
+struct SaveMain { u8 pad000[0x204]; u32 unk204; };
+
+extern struct SaveMain *g_02146994;
+extern const char str_020A7848[];
+
+extern void  func_020333F8(Save *self, u32 a, u32 b, u32 c);
+extern void *func_02030734(u16 heap, u32 size, u32 flags, const char *file, u32 line);
+extern u32   func_02031EAC(Save *self, u32 sel);
+extern int   func_020335E8(u32 src, void *dst, u32 size, u32 handle);
+extern void  func_02033410(Save *self, u32 a);
+extern void  func_02082A7C(u32 v, void *dst, u32 size);
+extern void  func_020307B0(void *p);
+extern void  func_02082A60(const void *src, void *dst, u32 size);
+extern void  func_02031F9C(u32 *out, Save *self, void *buf, u32 sel);
+extern u32   func_02033BF0(u8 *tbl);
+extern void  func_0203331C(Save *self, u32 idx, u32 v);
+extern u32   func_02033B68(u8 *tbl, u32 idx);
+extern u32   func_02033BAC(u8 *tbl, u32 idx);
+extern u16   func_02081B8C(const void *table, const void *p, u32 size);
+extern u32   func_020332FC(Save *self, u32 idx);
+extern void  func_02031F94(Save *self, u32 gen);
+
+int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
+{
+    u32 pairB[2];
+    u32 pairA[2];
+    u8 *bufs[2];
+    u32 gens[2];
+    u32 ids[2];
+    u8 *h;
+    u16 *tbl;
+    u8 *cur;
+    u32 k;
+    u8 *buf;
+    int okA;
+    int okB;
+    u32 B;
+    u8 *pa;
+    u8 *pb;
+    u32 AB;
+    u32 A;
+    u32 i;
+    u32 off;
+
+    func_020333F8(self, heap, mode, gen);
+    h = self->f34;
+    buf = func_02030734(heap, self->f30, 0, str_020A7848, 0x429);
+    okA = func_020335E8(func_02031EAC(self, 1), h, self->f30, g_02146994->unk204);
+    okB = func_020335E8(func_02031EAC(self, 2), buf, self->f30, g_02146994->unk204);
+    if (okA == 0 && okB == 0) {
+        func_02033410(self, 1);
+        func_02082A7C(0, h, self->f30);
+        func_020307B0(buf);
+        return 0;
+    }
+    if (okA == 1 && okB == 0) {
+        func_02033410(self, 2);
+        func_02082A60(h, buf, self->f30);
+    } else if (okA == 0 && okB == 1) {
+        func_02033410(self, 1);
+        func_02082A60(buf, h, self->f30);
+    }
+
+    func_02031F9C(pairA, self, h, 0);
+    func_02031F9C(pairB, self, buf, 1);
+    if (mode == 1) {
+        if (pairA[1] != gen)
+            pairA[0] = 2;
+        if (pairB[1] != gen)
+            pairB[0] = 2;
+    }
+
+    if (pairA[0] == 0) {
+        if (pairB[0] != 0) {
+        func_0203331C(self, func_02033BF0(self->f2c), 2);
+        func_0203331C(self, func_02033BF0(self->f2c) + 1, 2);
+        off = self->f30 - 0x10 - self->f140;
+        func_02082A60(h + off, buf + off, self->f140 + 0x10);
+        }
+    } else if (pairB[0] == 0) {
+        if (pairA[0] != 0) {
+        func_0203331C(self, func_02033BF0(self->f2c), 1);
+        func_0203331C(self, func_02033BF0(self->f2c) + 1, 1);
+        off = self->f30 - 0x10 - self->f140;
+        func_02082A60(buf + off, h + off, self->f140 + 0x10);
+        }
+    } else {
+        if (pairA[0] == 1 || pairB[0] == 1) {
+            func_02033410(self, 1);
+            func_020307B0(buf);
+            return 3;
+        }
+        func_02033410(self, 1);
+        func_020307B0(buf);
+        return 0;
+    }
+
+    if (pairA[0] == 0
+        && ((pairA[1] == 0 && pairB[1] == 0xFFFFFFFF) || pairA[1] >= pairB[1]
+            || pairB[0] != 0)) {
+        bufs[0] = h;
+        bufs[1] = buf;
+        ids[0] = 1;
+        ids[1] = 2;
+        gens[0] = pairA[1];
+        gens[1] = pairB[1];
+    } else {
+        ids[0] = 2;
+        bufs[0] = buf;
+        bufs[1] = h;
+        ids[1] = 1;
+        gens[0] = pairB[1];
+        gens[1] = pairA[1];
+    }
+
+    for (k = 0; k < 2; k++) {
+        off = self->f30 - 0x10 - self->f140;
+        cur = bufs[k];
+        tbl = (u16 *)(bufs[k] + off);
+        for (i = 0; i < func_02033BF0(self->f2c); i++) {
+            A = func_02033B68(self->f2c, i);
+            B = func_02033BAC(self->f2c, i);
+            AB = A + B;
+            pa = h + AB;
+            pb = buf + AB;
+            func_0203331C(self, i, 0);
+            if (*(u16 *)(pa + 2) != tbl[i]
+                && *(u16 *)(pb + 2) != tbl[i])
+                break;
+            if (*(u16 *)(pa + 2) == tbl[i]) {
+                if (*(u16 *)(pa + 2) != func_02081B8C((u8 *)g_02146994 + 4, h + A, B))
+                    func_0203331C(self, i, 1);
+            } else {
+                func_0203331C(self, i, 1);
+            }
+            if (*(u16 *)(pb + 2) == tbl[i]) {
+                if (*(u16 *)(pb + 2) != func_02081B8C((u8 *)g_02146994 + 4, buf + A, B)) {
+                    if (func_020332FC(self, i) == 1)
+                        break;
+                    func_0203331C(self, i, 2);
+                }
+            } else {
+                if (func_020332FC(self, i) == 1)
+                    break;
+                func_0203331C(self, i, 2);
+            }
+            if (func_020332FC(self, i) == 0) {
+                if (*(u16 *)pa != *(u16 *)(bufs[k] + AB))
+                    func_0203331C(self, i, 1);
+                if (*(u16 *)pb != *(u16 *)(bufs[k] + AB)) {
+                    if (func_020332FC(self, i) == 1)
+                        break;
+                    func_0203331C(self, i, 2);
+                }
+            }
+        }
+        if (i >= func_02033BF0(self->f2c)) {
+            u32 id = ids[k ^ 1];
+
+            func_0203331C(self, func_02033BF0(self->f2c) + 1, id);
+            func_0203331C(self, func_02033BF0(self->f2c), id);
+            break;
+        }
+    }
+    if (k >= 2) {
+        func_02033410(self, 1);
+        func_020307B0(buf);
+        return 3;
+    }
+
+    off = self->f30 - 0x10 - self->f140;
+    func_02082A60(bufs[k] + off, h + off, self->f140 + 0x10);
+    for (i = 0; i < func_02033BF0(self->f2c); i++) {
+        if (func_020332FC(self, i) == 1) {
+            A = func_02033B68(self->f2c, i);
+            B = func_02033BAC(self->f2c, i);
+            func_02082A60(buf + A, h + A, B + 4);
+        }
+    }
+    func_02031F94(self, gens[k]);
+    func_020307B0(buf);
+    for (i = 0; i < func_02033BF0(self->f2c); i++)
+        func_020332FC(self, i);
+    return 1;
+}
+---- end ----
+
+0x02032688 -- the 57.1 percent body above, taken to size-exact.
+
+/* best source, 600 bytes against 600, 10 concrete bytes out, dsi/1.1p1 */
+
+permuter best result lines:
+  hill,   --types, budget 800 (on the pre-fix body)   asm=315 bytes-out=26
+  anneal, --types, budget 2000                        asm=235 bytes-out=10
+      (mutations included decl-order(h<->pair), decl-order(i<->..); the
+       decl-order part is all that mattered, see below)
+  hill and anneal from the cleaned source below       asm=235 bytes-out=10
+Front ends: every dsi build 4 lines out; ../1.2/* and ../2.0/* 89..133.
+
+Fixed this wave (each measured):
+  * the dead second `bne` at 0x020327E4 is a redundant re-test in the source:
+        if (gp->crc != base[i]) goto done;
+        if (gp->crc == base[i]) { if (gp->crc != func_02081B8C(..)) {..} }
+    (+4 bytes: 592 -> 596 code bytes)
+  * the post-loop test is `if (i >= count) { mark; mark; } else { ..return 3; }`
+    (fall-through arm first)
+  * h is `u8 *` (self->f34 is the staging pointer), gp = h + (A + B)
+  * declaration order `u8 *h;` FIRST and `u32 i;` LAST fixes the loop's
+    register numbering (the note above said order had no effect: it had none
+    among `i, j, A, B, h` on one line, it does once h and i move apart).
+
+RESIDUE (10 bytes, four instructions, +0x28..+0x34): the func_020335E8 call's
+argument schedule -- the image loads &g_02146994 into r3 and self->f30 into
+r2 BEFORE `mov r1, r6` (h); 1.1p1 uses r2 for the pool address and loads f30
+after.  Not moved by: naming the first argument, naming the size, naming the
+global's target, an inline accessor for the handle, a volatile global, an
+inline Backup_Read wrapper (either split), `!` instead of `== 0`, a named
+result local, void * / u32 first parameter, s32 field, hoisting h above
+func_020333F8 (worse), a 4-argument func_020333F8 (worse).  Note that the
+very same call in 0x02031FE0 comes out right, where h lives in a stack slot.
+
+---- best source ----
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+
+typedef struct Save Save;
+struct Save {
+    u8   pad00[0x2c];
+    u8  *f2c;
+    u32  f30;
+    u8  *f34;
+    u8   pad38[0x108];
+    u32  f140;
+};
+
+struct SaveMain { u8 pad000[0x204]; u32 unk204; };
+extern struct SaveMain *g_02146994;
+
+extern void func_020333F8(Save *self, int a, int b);
+extern u32  func_02031EAC(Save *self, int a);
+extern int  func_020335E8(u32 a, void *b, u32 c, u32 d);
+extern void func_02033410(Save *self, int a);
+extern void func_02082A7C(int a, void *b, u32 c);
+extern void func_02031F9C(u32 *out, Save *self, void *c, int d);
+extern void func_0203331C(Save *self, u32 idx, int flag);
+extern int  func_02081B8C(u8 *p, u8 *a, u32 b);
+extern u32  func_02033BF0(u8 *p);
+extern u32  func_02033B68(u8 *p, u32 idx);
+extern u32  func_02033BAC(u8 *p, u32 idx);
+extern void func_02031F94(Save *self, int a);
+extern void func_020332FC(Save *self, u32 idx);
+
+int func_02032688(Save *self, int mode, int arg3)
+{
+    u32 pair[2];
+    u8 *h;
+    u32 j, A, B;
+    int saved;
+    u8 *base;
+    u8 *gp;
+    u32 i;
+
+    func_020333F8(self, mode, arg3);
+    h = self->f34;
+    if (func_020335E8(func_02031EAC(self, 1), h, self->f30,
+                      g_02146994->unk204) == 0) {
+        func_02033410(self, 1);
+        func_02082A7C(0, h, self->f30);
+        return 0;
+    }
+    func_02031F9C(pair, self, h, 0);
+    if (mode == 1) {
+        if ((s32)pair[1] != arg3)
+            pair[0] = 2;
+    }
+    if (pair[0] != 0) {
+        if (pair[0] == 1) {
+            func_02033410(self, 1);
+            return 3;
+        }
+        func_02033410(self, 1);
+        return 0;
+    }
+
+    base = h + (self->f30 - 0x10 - self->f140);
+    saved = (s32)pair[1];
+    for (i = 0; i < func_02033BF0(self->f2c); i++) {
+        A = func_02033B68(self->f2c, i);
+        B = func_02033BAC(self->f2c, i);
+        gp = h + (A + B);
+        func_0203331C(self, i, 0);
+        if (*(u16 *)(gp + 2) != *(u16 *)(base + i * 2))
+            goto done;
+        if (*(u16 *)(gp + 2) == *(u16 *)(base + i * 2)) {
+            if (*(u16 *)(gp + 2) != func_02081B8C((u8 *)g_02146994 + 4, h + A, B)) {
+                func_0203331C(self, i, 1);
+                goto done;
+            }
+        }
+    }
+done:
+    if (i >= func_02033BF0(self->f2c)) {
+        func_0203331C(self, func_02033BF0(self->f2c) + 1, 1);
+        func_0203331C(self, func_02033BF0(self->f2c), 1);
+    } else {
+        func_02033410(self, 1);
+        return 3;
+    }
+    func_02031F94(self, saved);
+    for (j = 0; j < func_02033BF0(self->f2c); j++)
+        func_020332FC(self, j);
+    return 1;
+}
+---- end ----

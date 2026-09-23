@@ -15,7 +15,7 @@
  *   func_02068030  NNS_G2dFontGetStringWidth           EXACT (2.0 pin)
  *   func_020680DC  NNS_G2dFontGetTextHeight            EXACT (2.0 pin)
  *   func_02068150  NNS_G2dFontGetTextRect              EXACT (2.0 pin)
- *   func_020681E4  OBJ-1D character index of a tile   DIFF 18 (2.0), note
+ *   func_020681E4  OBJ-1D character index of a tile   DIFF 10 (2.0), note
  *                  (CharCanvas; belongs with cluster_02069078.h in spirit)
  *
  * STATUS (wave 10, 2026-09-23): 4 of 5 EXACT.  Notes:
@@ -88,7 +88,11 @@ extern NNSG2dTextRect func_02068150(const NNSG2dFont *pFont, int hSpace, int vSp
  *  - Inline helpers as NitroSystem writes them (GetCharWidth = glyph index,
  *    alternate on 0xFFFF, widths->charWidth). */
 
-/* func_020681E4 (NOT BYTE-ATTESTED, DIFF 18): (x, y, w, h, struct {int w;
+/* func_020681E4 (NOT BYTE-ATTESTED, DIFF 10 after wave 11: `int sh; int sw;`
+ * declared, then `sw = s.w; sh = s.h;` -- declaration order, the 020691E0
+ * lever; the pair as `g_020A18F4[SizeToShift(h)][SizeToShift(w)]`; residue is
+ * the image evaluating the w shift first yet adding the h row first).
+ * (x, y, w, h, struct {int w;
  * int h;} shift) by value -- the shift pair is written back to the incoming
  * stack slots each round -- and the log2 via the SDK's inline-asm
  * MATH_CountLeadingZeros, which IS reachable (docs/notes/pkt_02067FE4.c.txt,

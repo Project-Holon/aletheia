@@ -12,9 +12,9 @@
  *   func_02069078  NNS_G2dMapScrToCharText             EXACT (2.0 pin)
  *   func_02069128  its linear (<= 32-wide) helper      EXACT (1.1p1 = 2.0)
  *   func_02069184  OBJ count for an area (exported)    EXACT (2.0 pin)
- *   func_020691E0  NNS_G2dArrangeOBJ1D, recursive      DIFF 5 (2.0), note
+ *   func_020691E0  NNS_G2dArrangeOBJ1D, recursive      EXACT (2.0 pin)
  *
- * STATUS (wave 10, 2026-09-23): 3 of 4 EXACT.  Notes:
+ * STATUS (wave 11, 2026-09-23): 4 of 4 EXACT (wave 10 closed three).  Notes:
  * docs/notes/pkt_02068FF0.c.txt (2026-09-23 appendix; it corrects the
  * "triangular fill", "accumulator seed unreachable" and "clz unreachable"
  * readings above it).
@@ -46,11 +46,17 @@ extern void func_02069078(void *scnBase, int areaWidth, int areaHeight,
 /* Pure arithmetic, u32 (lsr).  Levers in its header. */
 extern u32 func_02069184(u32 areaWidth, u32 areaHeight);           /* EXACT */
 
-/* NNS_G2dArrangeOBJ1D.  NOT BYTE-ATTESTED (DIFF 5, allocation only).
+/* NNS_G2dArrangeOBJ1D.  EXACT (src/matched/func_020691E0.c, 2.0 pin).
  * GXOamAttr is { u32 attr01; u16 attr2; u16 attr3; } and the body uses the
  * SDK G2_SetOBJPosition / Shape / CharName / ColorMode inlines verbatim.
  * The log2 is `(v >= 8) ? 3 : MATH_ILog2((u32)v)` with the SDK's
- * inline-asm MATH_CountLeadingZeros -- the `>= 8 ? 3` arm first. */
+ * inline-asm MATH_CountLeadingZeros -- the `>= 8 ? 3` arm first.
+ * THE LAST 5 BYTES were DECLARATION ORDER (wave 11): declare
+ * `int charPerOBJ; int numX; int numY;` uninitialised, THEN assign numX,
+ * numY, charPerOBJ.  Const-initialised in assignment order the pair
+ * numX/charPerOBJ swaps sb/r8; assigning charPerOBJ first fixes the
+ * registers but moves the schedule.  The permuter (hill 800 + anneal 2000)
+ * never tries an uninitialised declaration ahead of its assignment. */
 typedef struct GXOamAttr { u32 attr01; u16 attr2; u16 attr3; } GXOamAttr;
 extern int func_020691E0(GXOamAttr *oam, int areaWidth, int areaHeight,
                          int x, int y, int color, int charName, int vramShift);

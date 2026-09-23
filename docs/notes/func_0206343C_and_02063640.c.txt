@@ -204,3 +204,146 @@ void func_0206343C(struct Span *s)
 }
 
 
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 lane: 0x0206343C still DIFF 99
+==============================================================================
+re-verified 2026-09-23 by tools/match.py: DIFF, 516 bytes against 516, 99 concrete bytes out, ../2.0/sp2
+
+READING.  NitroSystem g2d_OamManager.c's NNS_G2dApplyOamManagerToHW shape:
+bFastTransferEnable -> DC_FlushRange + switch (type) GX_LoadOAM / GXS_LoadOAM;
+else per-entry copy through the per-engine function table, then the affine
+region (PA..PD halfwords) if IsAreaValid_(&affine).
+
+This pass:
+  * the source above cleaned of the permuter's dead additions (`if (s) {}`,
+    `u16 pad`, the `tmp` pointer): still 99, same bytes -- the cleaned
+    source is below;
+  * load-bearing, measured by ablation: the volatile read of alast in the
+    guard (without it 512 bytes, 200 out); reassigning the SAME `oam`
+    variable in the affine block (a fresh local: 500 bytes, 184 out);
+  * a clean NitroSystem rewrite (IsAreaValid_ as `&&`, block-scoped
+    pBuf/from/num/fn per loop) is 512 bytes: the `mov rN, #0x540` is hoisted
+    above the bFast branch and shared by all three mla's, where the image
+    rematerialises it per block; ordering the fast arm's locals so it no
+    longer starts with the bank address does not stop the hoist;
+  * the function pointer loaded inside the loop (`g_020A81E4[s->which](...)`
+    or `fn = ...; fn(...)` per iteration): 177; `sizeof(u16) * 3` for the 6: 99;
+  * permuter from the cleaned source: hill 800 (285 singles, no improvement),
+    anneal 1000 flat.
+The residue is still the callee-saved assignment in the else arm (image: off
+r4, n r5, p r6, s r7, 6 r8, fn sb, i sl; compiled s r5 and the loop values
+shuffled up).
+permuter best result line: best DIFF asm=965 bytes-out=99 size=516/516
+
+/* best source, 516 bytes against 516, 99 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct OamEntry
+{
+  u16 attr0;
+  u16 attr1;
+  u16 attr2;
+  u16 affine;
+};
+struct Bank
+{
+  u16 slotsA[0x80];
+  struct OamEntry oam[0x80];
+  u16 slotsB[0x20];
+};
+struct Span
+{
+  u32 which;
+  u16 first;
+  u16 last;
+  u16 cur;
+  u16 afirst;
+  u16 alast;
+  u16 acur;
+  u16 id;
+  u16 pad_12;
+  u32 live;
+};
+typedef void (*LoadFn)(const void *src, u32 offset, u32 size);
+extern struct Bank g_02146BC8[3];
+extern LoadFn g_020A81E4[];
+extern void func_020862F0(const void *p, u32 size);
+extern void func_0207E684(const void *src, u32 offset, u32 size);
+extern void func_0207E708(const void *src, u32 offset, u32 size);
+inline static u32 IsValidA(struct Span *s)
+{
+  u16 max = *((volatile u16 *) (&s->alast));
+  u32 ok = 0;
+  if (!(((int) s->acur) > (((int) max) + 1)))
+  {
+    if (s->afirst <= max)
+      ok = 1;
+  }
+  return ok;
+}
+
+void func_0206343C(struct Span *s)
+{
+  if (s->live != 0)
+  {
+    u32 off = s->first * 8;
+    struct OamEntry *oam = g_02146BC8[s->which].oam;
+    u32 which = s->which;
+    u16 size = (u16) (((s->last - s->first) + 1) * 8);
+    u16 ofs = off;
+    func_020862F0(&oam[s->first], size);
+    switch (which)
+    {
+      case 0:
+        func_0207E684(((u8 *) oam) + off, ofs, size);
+        break;
+
+      case 1:
+        func_0207E708(((u8 *) oam) + off, ofs, size);
+        break;
+
+    }
+
+  }
+  else
+  {
+    struct OamEntry *oam = g_02146BC8[s->which].oam;
+    u16 first = s->first;
+    u16 n = (s->last - first) + 1;
+    u16 i;
+    struct OamEntry *p = &oam[first];
+    LoadFn fn = g_020A81E4[s->which];
+    u16 off = first * 8;
+    for (i = 0; i < n; i++)
+    {
+      fn(p, off, 6);
+      off += 8;
+      p++;
+    }
+
+    if (IsValidA(s))
+    {
+      u16 afirst = s->afirst;
+      u16 an = (s->alast - afirst) + 1;
+      u8 *q;
+      u16 aoff = afirst * 0x20;
+      oam = g_02146BC8[s->which].oam;
+      fn = g_020A81E4[s->which];
+      q = (u8 *) (&oam[afirst * 4]);
+      for (i = 0; i < an; i++)
+      {
+        fn(q + 6, aoff + 6, 2);
+        fn(q + 0xe, aoff + 0xe, 2);
+        fn(q + 0x16, aoff + 0x16, 2);
+        fn(q + 0x1e, aoff + 0x1e, 2);
+        aoff += 0x20;
+        q += 0x20;
+      }
+
+    }
+  }
+}
+
+

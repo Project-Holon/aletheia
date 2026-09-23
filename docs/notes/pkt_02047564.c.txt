@@ -204,3 +204,113 @@ int func_02047564(int a0, int a1, int a2)
 
 permuter best result line:
   best      DIFF   asm=230   bytes-out=11   size=200/200
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 (g3d_system.c lane).  DIFF, 200/200, 11 out --
+same count as the previous best, now in readable C with real struct types.
+==============================================================================
+
+The residue is the four instructions after the allocation: the image loads
+the 0x59D1 tag into r1 BEFORE loading a1->f04, stores the tag, and only then
+moves a2 into r1; every compile keeps the tag in r2 and issues the a1->f04
+load first.  Everything else (the shared zero in r4 for the clear argument
+and `z`, the r3 pad in the push, the 4-byte stack frame) is exact.
+
+TRIED THIS PASS, all 200 bytes: tag stored before/after the owner (13);
+the tag as a named u16 / int local at function top or in the block (11);
+a1->f04 bound to a local before the stores (11) or not (24); an inline
+RecInit(r, tag, owner) (24) and an inline RecNew(tag, owner) that also
+allocates (30); `*(u32 *)&r->tag = 0x59D1` (23); `volatile` tag field (24);
+func_0206E9A4's second parameter and a2 as u16 / s16 / u8 (11); a2 as u32
+(11); func_02030734's heap parameter as s16 (12) and u32 (11).
+PERMUTER: hill 800 --types (132 sites, no improvement), anneal 1500
+--types: plateau.
+
+permuter best result line:
+  best      DIFF   asm=230   bytes-out=11   size=200/200
+
+/* best source, 200 bytes against 200, 11 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_02047564
+ * address:  0x02047564
+ * packet:   pkt_02047564
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146A5C     0x02146A5C  data
+ *   g_020A7EA8     0x020A7EA8  data
+ *   func_02030734  0x02030734  arm
+ *   func_0206E9A4  0x0206E9A4  arm
+ *   func_02047554  0x02047554  arm
+ *   func_0206E964  0x0206E964  arm
+ *   func_0206E364  0x0206E364  arm
+ *   func_02069C74  0x02069C74  arm
+ */
+
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+
+struct G3dCtx {
+    u8  pad_00[0x18];
+    u16 heap_id;
+};
+
+struct G3dSub {
+    u32 pad_00;
+    u32 handle;
+};
+
+struct G3dOwner {
+    u32            pad_00;
+    struct G3dSub *f04;
+    u32            pad_08;
+    struct G3dSub *f0c;
+};
+
+struct G3dRec {
+    u16 tag;
+    u16 unk_02;
+    u32 unk_04;
+    struct G3dOwner *unk_08;
+};
+
+extern struct G3dCtx *g_02146A5C;
+extern char g_020A7EA8[];
+
+extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern int  func_0206E9A4(struct G3dSub *a0, int a1);
+extern int  func_02047554(struct G3dOwner *a0);
+extern int  func_0206E964(u32 a0);
+extern u32  func_0206E364(struct G3dCtx *a0, int a1, u32 a2);
+extern void func_02069C74(u32 a0, int a1, u32 a2, int a3);
+
+struct G3dRec *func_02047564(struct G3dOwner *a0, struct G3dOwner *a1, int a2)
+{
+    struct G3dRec *r;
+    int x;
+    u32 y;
+    int z = 0;
+
+    r = func_02030734(g_02146A5C->heap_id, 0xC, 0, g_020A7EA8, 0x6D2);
+    {
+        struct G3dSub *h = a1->f04;
+        r->tag = 0x59D1;
+        r->unk_08 = a1;
+        x = func_0206E9A4(h, a2);
+    }
+    y = a0->f04->handle;
+    if (func_02047554(a0) != 0)
+        z = func_0206E964(a0->f0c->handle);
+    r->unk_04 = func_0206E364(g_02146A5C, x, y);
+    func_02069C74(r->unk_04, x, y, z);
+    return r;
+}
+re-verified 2026-09-23 by tools/match.py: DIFF, 200 bytes against 200, 11 concrete bytes out, 1.1p1

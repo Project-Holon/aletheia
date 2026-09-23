@@ -337,21 +337,67 @@ extern void func_02040968(const void *src, void *dst, u32 mode);
 /* The three blit variants selected by the slot's +0x1c kind byte.  All
  * three share one argument shape; sub_02042360's caller (func_020422xx)
  * dispatches on `g_02146A44[i].unk_1c`. */
-extern void func_020426A0(void *surf, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
-                          u32 a6);
-/* func_020428E8 is a TILE-TO-TILE COPIER, not a fill like its neighbours:
- * it reads from a second surface and writes into the destination's tilemap.
- * It takes eleven parameters (four in registers, seven on the stack at
- * +0x50..+0x68) and holds two whole loop nests selected by the last one,
- * which is a u8 (`ldrb [sp, #0x68]`).  The second and third parameters are
- * the destination y and x IN THAT ORDER: the image homes r1 into sb and
- * spills r2 to [sp], so it is the SECOND parameter that stays in a
- * register.  Still DIFF, see docs/notes/func_020428E8.c.txt. */
-extern void func_020428E8(void *surf, u8 dy, u8 dx, u8 cw, u32 ch,
-                          const u8 *src, u8 sx, u8 sy, u32 sw, u32 sh,
-                          u8 mode);
-extern void func_02042B24(void *surf, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
-                          u32 a6);
+/* THE THREE TILE-RECT COPIERS, all EXACT since wave 11
+ * (src/matched/func_020426A0.c, func_020428E8.c, func_02042B24.c).  One
+ * prototype for all three, differing only in the cell type:
+ *
+ *   void f(struct Screen *s, u8 dx, u8 dy, u8 cw, u8 ch, const T *src,
+ *          u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+ *
+ *   func_020426A0  T = u16, destination through func_02040EE0's index
+ *   func_020428E8  T = u8,  destination through func_02040EE0's index
+ *   func_02042B24  T = u16, destination linear: dst[dx + x + w * (dy + y)]
+ *
+ * dx is compared against the FIRST out-byte of func_020422D4 (w) and is
+ * func_02040EE0's first argument; dy against the second (h).  mode 0 reads
+ * src[sx + x + sw * (sy + y)]; any other mode reads src[func_02040F84(sx +
+ * x, sy + y, sw, sh)].  In the u8-wrap arms (mode 0 of 020426A0 and
+ * 02042B24) the clip tests are on `(u8)(d + i)` and a miss SKIPS the cell or
+ * row; everywhere else the tests are on plain int sums and a miss breaks /
+ * returns.  The source row index in 02042B24's mode 0 is the UNWRAPPED
+ * sy + y even though the clip test wraps it.
+ *
+ * WHAT CLOSED THEM, and it generalises: ch, sw and sh are u8 STACK
+ * parameters although the image loads each with a full `ldr` and re-stores
+ * it to its own home (`ldr r0,[sp,#0x50]; str r0,[sp,#0x50]`).  Declared
+ * u32 or int they compile to the same size with the prologue's parameter
+ * homes scheduled in a different order.  A u8 stack argument occupies a
+ * word and is read as one; do not infer u32 from the `ldr`.  (Same fact as
+ * func_02042D2C's seventh parameter below.)  The out-bytes are declared
+ * `u8 w, h;` so w takes the higher address; the loop counters `u8 y, x;`.
+ * The callers func_020410D0 / func_020411E8 already declare the fifth
+ * parameter (ch) as u8. */
+extern void func_020426A0(void *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src,
+                          u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+extern void func_020428E8(void *s, u8 dx, u8 dy, u8 cw, u8 ch, const u8 *src,
+                          u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+extern void func_02042B24(void *s, u8 dx, u8 dy, u8 cw, u8 ch, const u16 *src,
+                          u8 sx, u8 sy, u8 sw, u8 sh, u8 mode);
+
+/* The source-index router the copiers call in mode != 0.  Its own EXACT
+ * definition spells four u32 parameters, but all three copiers compile
+ * byte-exact only against `u8 w, u8 h` for the last two (u8 values passed
+ * straight through; declaring them int moves the callers' allocation). */
+extern u16 func_02040F84(u8 x, u8 y, u8 w, u8 h);
+
+/* func_0203FA08 (EXACT, wave 11): the tile-run allocator paired with
+ * func_0203FAF0.  The tile stride func_020416B8 returns is held in an INT
+ * local (u32 gives the right code in the wrong registers); the round-up
+ * flag is `f = (size % t != 0)` taken before `n = size / t` (remainder
+ * first), and the arena base is selected into a local before the
+ * direction test.  Returns the run's tile index relative to tile_base[] or
+ * 0xFFFFFFFF. */
+extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
+
+/* sub_02040618 (EXACT*, wave 11): the per-layer scroll flush.  Confirms
+ * func_0203D814(scroll_x, scroll_y) from a second caller: the layer-1 arm
+ * keeps x/y live in r0/r1 across the BG1HOFS write for the call.  scrollX
+ * is read before scrollY. */
+
+/* func_02041FF4 (DIFF, 42 bytes, docs/notes/pkt_02041FF4.c.txt): best
+ * evidence, not yet EXACT-proved, that func_02043130's first parameter is
+ * u16 -- `extern void func_02043130(u16 pal, void *buf, u16 heap);` moves
+ * that function from 75 to 63 bytes out on its own. */
 
 /* The fill/copy trio reached from func_02041300, which reads the layer's
  * +0x1c mode byte to choose between them.  The trailing u8 parameters are

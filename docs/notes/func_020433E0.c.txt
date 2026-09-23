@@ -431,3 +431,15 @@ the size is exact, so this is a pure codegen cap, not an evidence or a
 structure problem.  Treat 0x020433E0 as allocation-capped at 6 bytes.
 
 re-verified 2026-09-22 by tools/permuter.py: DIFF, 188 bytes against 188, 6 concrete bytes out, 1.1p1
+
+APPENDED 2026-09-23, wave 11 (bg_sys.c family lane).  Unchanged at 6 bytes.
+  The last two RMWs as the SDK's inline OBJ-VRAM-mode setters
+  (`static inline void SetA(int mode) { REG_A = (REG_A & ~(0x300000|0x10))
+  | mode; }` and the engine-B twin), called with c->f28 / c->f2c directly:
+  29 bytes out (int and u32 parameter, volatile and non-volatile struct:
+  29-33).  With the a/b locals kept and only the writes moved into the
+  inlines: 6.  One inline taking both words: 9.  The DISPCNT base as a
+  pointer with engine B at r[0x400]: 17.  `u32 b, a;` declared in reverse:
+  6.  ../2.0/sp2 on the best source: 6, same pair swapped.  Treat as the
+  allocation cap the note above records.
+re-verified 2026-09-23 by tools/match.py: DIFF, 188 bytes against 188, 6 concrete bytes out, 1.1p1
