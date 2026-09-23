@@ -15,6 +15,8 @@
  *           two in sub_02014488.c: ov009 and ov010 both cover it and
  *           neither labels a function there, so no region hint helps.
  * blocker:  +0024 THM_CALL func_0215FA34       : 0215FA34 (arm, from name) has no witness outside 020145CC..020145FC; 2 overlays overlap this address (ov009, ov010), none resolvable without a region hint on the symbols: line
+ * symbols:
+ *   func_0215FA34  0x0215FA34  thumb  ov010
  * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.

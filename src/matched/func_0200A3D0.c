@@ -7,16 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
- * blocker:  +0010 THM_CALL func_021DFDB8 - a Thumb tail-call/veneer shape in an
- *           overlay window (seven overlays hold 0x021DFDB8: ov093, ov119,
- *           ov137, ov170, ov175, ov183, ov228) and NO overlay listing carries a
- *           func_ label there, so `label` cannot carry it; the `veneer` class
- *           admits ARM shapes only.  Permanent until such a label appears.
+ * status:   EXACT
+ * note:     wave 16: promoted.  0x021DFDB8 is an unlabelled ov228 leaf, a
+ *           one-argument tail call to the ARM heap free func_020307B0, now
+ *           matched in src/matched/func_021DFDB8.c (shard ov228/pkt_021DFC20);
+ *           the ov228 hint below makes the site `matched, overlay`.
  * symbols:
  *   ov_abs_e4      0x000000E4  data
- *   func_021DFDB8  0x021DFDB8  thumb
+ *   func_021DFDB8  0x021DFDB8  thumb  ov228
  *   func_02034A5C  0x02034A5C  arm
  *   func_02082BCC  0x02082BCC  arm
  *

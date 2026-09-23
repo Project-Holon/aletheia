@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
@@ -18,22 +18,12 @@
  *   func_0202C934  0x0202C934  thumb
  *   func_0202C970  0x0202C970  thumb
  *   func_0202C824  0x0202C824  thumb
- *   func_021647E8  0x021647E8  thumb
+ *   func_021647E8  0x021647E8  thumb  ov010
  *   func_02013C10  0x02013C10  thumb
  *
- * blocker: MATCH, two relocation sites without a witness. Every concrete
- * byte matches.
- *   +002E func_0202C8B8: this function's `bl` at 0x0202C7C2 is the ONLY
- *     branch to 0x0202C8B8 anywhere in the image (grep over asm/ finds the
- *     one site plus main.s's duplicate of the same address), so the `label`
- *     class has no witness outside the compared range. func_0202C8B8 is
- *     itself parked at MATCH in src/pending/, so `matched` cannot help
- *     either; both unstick together only if a second caller appears.
- *   +0074 func_021647E8: outside the ARM9 region and labelled in neither
- *     candidate overlay. Two overlay windows cover the address (ov009,
- *     ov010) and neither carries a func_021647E8 label -- ov009 has code
- *     bytes there, ov010 plain data -- so no region hint on the symbols:
- *     line can resolve it.
+ * note:     wave 16: promoted.  0x021647E8 is the unlabelled ov010 tail-call
+ *           thunk matched in src/matched/func_021647E8.c (`matched, overlay`
+ *           under the ov010 hint); 0x0202C8B8 now resolves as `matched`.
  *
  * A chain of four probes, each returning a u8 reason code unless it comes
  * back 0xffff ("nothing to say"); the sentinel is kept in a callee-saved

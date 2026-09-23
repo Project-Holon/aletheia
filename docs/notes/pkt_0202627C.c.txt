@@ -196,3 +196,156 @@ void func_020263D8(struct T *p, u32 a1, u32 a2)
  * means reproducing every arm's instruction sequence exactly.  Left open.
  */
 re-verified 2026-09-21 by tools/match.py: DIFF, 40 bytes against 52, 11 concrete bytes out, 1.1p1
+
+======================================================================
+// wave 16 (tail lane): 0x0202627C written in full, DIFF 10 bytes, 268/268
+// best-source marker: the C below is the best source for 0x0202627C.
+//
+// Every instruction and all seven relocations are right; the residue is one
+// swapped pair in case 5 (the finish arm): the image keeps the flag byte in r3
+// and the callback in r5, the compile gives the flag byte r5 and the callback
+// r3.  Tried: function-scope versus block-scope locals (no change), read
+// order b/a/cb (23 out), case 5 as a static helper (17 out), 1.1p1 permuter
+// hill 400 (13 -> 10, hoist-down(cb)) and anneal 2000 with --types (flat at
+// 10), ../2.0/sp2 and sp2p2 (247 out).  A flat permuter says declarations:
+// next lever to try is the +4 flags as bitfields of a u32 container that also
+// holds kind (+5), or the callback and its argument (+0x20, +0x1C) as a
+// two-word struct.  Findings that carry: the dense switch on sub.state with
+// case 4 falling through into case 5, case 3 with the call written in both
+// arms, and the bitfield flags at +4 (bics/orrs) are all byte-right.
+/*
+ * function: func_0202627C
+ * address:  0x0202627C
+ * packet:   pkt_0202627C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   g_0209FB5C     0x0209FB5C  data
+ *   func_02026490  0x02026490  thumb
+ *
+ * game_comm.c: the per-frame request state machine.  The request kind
+ * (+5) selects a 0x1C-byte record of callbacks in the table at 0x0209FB5C
+ * (func_02026388 and func_020263B0 read its words at +0x14 and +0x18); the
+ * state byte of the 8-byte sub-object at +0xC is the dense switch.
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct Sub
+{
+  u32 f00;
+  u8 state;
+  u8 changed;
+  u8 f06;
+  u8 f07;
+};
+struct Comm
+{
+  u32 f00;
+  u8 b0 : 1;
+  u8 b1 : 1;
+  u8 b2 : 1;
+  u8 b3 : 5;
+  u8 kind;
+  u8 f06;
+  u8 f07;
+  u32 f08;
+  struct Sub sub;
+  u32 f14;
+  u32 f18;
+  u32 f1c;
+  void (*f20)(u32, u32);
+};
+struct Rec
+{
+  u32 (*start)(struct Sub *, u32);
+  u32 (*wait)(struct Sub *, u32, u32);
+  void (*run)(struct Sub *, u32, u32);
+  u32 (*stop)(struct Sub *, u32, u32);
+  u32 (*end)(struct Sub *, u32, u32);
+  u32 f14;
+  u32 f18;
+};
+extern struct Rec g_0209FB5C[];
+extern void func_02026490(struct Sub *s, u32 state);
+void func_0202627C(struct Comm *p)
+{
+  struct Sub *sub;
+  struct Rec *rec;
+  if ((p == 0) || (p->kind == 0))
+    return;
+  sub = &p->sub;
+  rec = &g_0209FB5C[p->kind];
+  if (sub->changed == 1)
+  {
+    sub->f00 = 0;
+    sub->changed = 0;
+  }
+  switch (sub->state)
+  {
+    case 0:
+      if (rec->start != 0)
+      p->f18 = rec->start(sub, p->f14);
+      p->f06 = p->kind;
+      p->f08 = 0;
+      func_02026490(sub, 1);
+      break;
+
+    case 1:
+      if ((rec->wait == 0) || (rec->wait(sub, p->f14, p->f18) == 1))
+      func_02026490(sub, 2);
+      break;
+
+    case 2:
+      if (p->b0 == 1)
+    {
+      p->b0 = 0;
+      func_02026490(&p->sub, 3);
+      break;
+    }
+      rec->run(sub, p->f14, p->f18);
+      break;
+
+    case 3:
+      if (rec->stop != 0)
+    {
+      if (rec->stop(sub, p->f14, p->f18) == 1)
+        func_02026490(sub, 4);
+    }
+    else
+    {
+      func_02026490(sub, 4);
+    }
+      break;
+
+    case 4:
+      if ((rec->end != 0) && (rec->end(sub, p->f14, p->f18) != 1))
+      break;
+      func_02026490(sub, 5);
+
+    case 5:
+    {
+      void (*cb)(u32, u32);
+      u32 a;
+      u32 b;
+      a = p->f1c;
+      b = p->b1;
+      cb = p->f20;
+      p->f18 = 0;
+      p->kind = 0;
+      p->f20 = 0;
+      p->f1c = 0;
+      p->b1 = 0;
+      if (cb != 0)
+        cb(a, b);
+      break;
+    }
+
+  }
+
+}
+
+

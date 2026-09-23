@@ -20,6 +20,10 @@
  *           overlap 0x02188BD8 (ov009, ov021, ov096, ov230) and 2 overlap
  *           0x0215FA44 (ov009, ov010), so `label` refuses to guess.
  *
+ * symbols:
+ *   func_02188BD8  0x02188BD8  thumb  ov021
+ *   func_0215FA44  0x0215FA44  thumb  ov010
+ *
  * Byte-correct at all 70 bytes; 2 of 4 relocation sites stay wildcarded.
  * Seeded from an arm9 dispatcher (arm9_main calls the same pair at 0x020144A8
  * and 0x020144CE, which is inside the same source unit but outside this

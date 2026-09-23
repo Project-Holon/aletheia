@@ -7,19 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
- * note:     re-verified 2026-09-21 by tools/match.py: MATCH*, unchanged.
- *           10 of 15 relocations resolved, all 148 compiled bytes correct.
- *           The five unresolved sites are the family's overlay wall, now
- *           written up once in docs/families/game_data.h: ov009 and ov010
- *           both hold each address and the only branch image-wide is the
- *           `bl` in this function, so `label` has no outside witness and
- *           `sole-ref/code` cannot see an overlay label at all (it reads
- *           evidence().labels, the ARM9 listings only).  The `ov010` hints
- *           on the symbols: lines narrow the candidates but do not supply
- *           the missing branch.  The constructor this destroys,
- *           src/pending/func_020124F4.c, is capped by the same four-of-a-kind
- *           wall (0x0216237C, 0x0216CC58, 0x0215E31C, 0x021647A0).
+ * status:   EXACT*
+ * note:     wave 16: promoted.  0x0215E334 and 0x02159BBC are unlabelled ov010
+ *           ENV_SetResourceSet thunks matched in src/matched/func_0215E334.c and
+ *           func_02159BBC.c (`matched, overlay`); 0x021647D8, 0x0216CCB0 and
+ *           0x021623BC resolve as sole-ref/code (overlay).
  * symbols:
  *   func_020307B0   0x020307B0  arm
  *   func_021647D8   0x021647D8  thumb  ov010
@@ -44,11 +36,6 @@
  * scaled by four, and the field reads are `p[0x1AB]`, `p[0x1A4]`, ... in a
  * `u32 *`.  Writing the fields as byte offsets through a `u8 *` reproduces
  * the same derived-constant chain.
- *
- * blocker:  label - 0x021647D8, 0x0215E334, 0x0216CCB0, 0x02159BBC, 0x021623BC
- *           each has exactly one branch in the image and it is the `bl` inside
- *           this function, so the `label` class has no outside witness and no
- *           manifest entry covers them yet.  Everything else resolves.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02012704.c \

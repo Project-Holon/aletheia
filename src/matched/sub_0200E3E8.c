@@ -7,15 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
- *
- * blocked on: no evidence class. Both calls target 0x02167380 and
- * 0x02167358, which lie in the ov009/ov010 overlap and are unlabelled
- * leaves in BOTH candidate listings (no lr-saving prologue, the
- * unlabelled-leaf-functions-hide-in-word-runs idiom), so `label` has no
- * label to read and a region hint cannot help: neither candidate has one.
- * sole-ref/code reads the ARM9 label map only, so it does not reach an
- * overlay address either. Every concrete byte matches at 86 bytes.
+ * status:   EXACT*
+ * note:     wave 16: promoted.  0x02167380 and 0x02167358 are unlabelled ov010
+ *           leaves matched in src/matched/func_02167380.c and func_02167358.c
+ *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  *
  * near miss resolved (wave 4, permuter): the note's 88-byte version was a
  * six-register permutation away. Two spellings closed it, neither of which
@@ -28,8 +23,8 @@
  *     order emits `movs #0` before the `adds` and shifts the allocation.
  *
  * symbols:
- *   func_02167380  0x02167380  thumb
- *   func_02167358  0x02167358  thumb
+ *   func_02167380  0x02167380  thumb  ov010
+ *   func_02167358  0x02167358  thumb  ov010
  */
 
 typedef unsigned char u8;

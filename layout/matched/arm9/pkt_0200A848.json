@@ -20,6 +20,23 @@
    "functions": [
     "func_0200A840"
    ]
+  },
+  {
+   "name": "func_0200A848",
+   "address": "0x0200A848",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0200A848.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02161F00"
+    ]
+   }
   }
  ]
 }

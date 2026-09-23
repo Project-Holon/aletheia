@@ -7,14 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
- * note:     re-verified 2026-09-20: MATCH*; see verify output
- *
- * blocking: unresolved: 02167380 (thumb, from header) has no witness outside 0200E3A4..0200E; unresolved: 02167358 (thumb, from header) has no witness outside 0200E3A4..0200E
+ * status:   EXACT*
+ * note:     wave 16: promoted.  0x02167380 and 0x02167358 are unlabelled ov010
+ *           leaves matched in src/matched/func_02167380.c and func_02167358.c
+ *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  *
  * symbols:
- *   func_02167380  0x02167380  thumb
- *   func_02167358  0x02167358  thumb
+ *   func_02167380  0x02167380  thumb  ov010
+ *   func_02167358  0x02167358  thumb  ov010
  */
 
 typedef unsigned char u8;
