@@ -394,10 +394,20 @@ extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
  * keeps x/y live in r0/r1 across the BG1HOFS write for the call.  scrollX
  * is read before scrollY. */
 
-/* func_02041FF4 (DIFF, 42 bytes, docs/notes/pkt_02041FF4.c.txt): best
- * evidence, not yet EXACT-proved, that func_02043130's first parameter is
- * u16 -- `extern void func_02043130(u16 pal, void *buf, u16 heap);` moves
- * that function from 75 to 63 bytes out on its own. */
+/* func_02041FF4 is EXACT since wave 12 (src/matched/func_02041FF4.c), the
+ * pixel-under-(x, y) colour test.  It proves, against its own bytes:
+ *   extern void func_02043130(u16 pal, void *buf, u16 heap);  (u16 first
+ *     parameter; 75 -> 63 on its own in wave 11)
+ *   extern u16  func_02040EE0(u8 x, u8 y, u8 size_code);      (the caller
+ *     masks both coordinates and passes slot->unk_1d)
+ *   extern u8  *func_020415B4(u32 layer);                     (char base)
+ * and one allocation rule worth reusing: the sub-tile coordinates are
+ * FUNCTION-SCOPE `u8 px, py;` declared first and assigned `px = x & 7`
+ * after the two calls -- they then coalesce with x/y (the image's in-place
+ * `and r5, r5, #7`).  Block-scoped `u8 px = x & 7` keeps both alive (42
+ * out), and in-place `x &= 7` reorders the prologue (63).  The nibble loop
+ * counter `u8 i` is also function-scope and must be declared before the
+ * tile table pointer, which is declared before the scratch buffer. */
 
 /* The fill/copy trio reached from func_02041300, which reads the layer's
  * +0x1c mode byte to choose between them.  The trailing u8 parameters are

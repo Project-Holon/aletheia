@@ -331,4 +331,23 @@ void  func_020130C4(u8 *p);               /* clear 0xF0, then +8            */
  * compile is 148: the trailing 12 bytes are its literal pool.
  */
 
+/* ===================================================================== *
+ * Wave 12 (2026-09-23)
+ * ===================================================================== */
+/*
+ * func_02012BC8 is EXACT: func_02008450(*(u32 *)(p + 0x198), on ? 1 : 0),
+ * a tail call through a pool word.  0x02008450 is an unlabelled Thumb leaf
+ * (the bit-10 setter beside the getter func_02008448; it saves no lr) whose
+ * only reference is that pool word, so it was filed as its own compiled
+ * witness, src/matched/func_02008450.c (EXACT, `void f(struct *, int on)`
+ * with `p->flag = (u16)on` on a 10/1/5 u16 bitfield), and the call resolves
+ * through the `matched` class.  0x02008450 wants seeding into
+ * layout/function_starts.txt.
+ *
+ *   void func_02012BC8(u8 *p, int on);
+ *
+ * func_020124F4 and func_02012704 remain at the overlay wall above
+ * (re-verified this wave, unchanged).
+ */
+
 #endif /* GAME_DATA_H */

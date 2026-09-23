@@ -480,14 +480,19 @@ int func_02032CD0(struct SaveBackup *p, u32 *out);
  * byte and +0x20 a pointer that receives p's +0x28 generation. */
 int func_02031C30(struct SaveBackup *q, struct SaveBackup *p);
 
-/* 0x02031F54  DIFF (16 bytes, scheduling).  Writes the footer
+/* 0x02031F54  EXACT 2026-09-23 wave 12 (src/matched/func_02031F54.c).
+ * Writes the footer
  *   struct Footer { u32 gen; u32 size; u32 id; u16 pad; u16 crc; };
  * at func_02031EE8(p, buf): gen = +0x28, size = +0x30, id = +0x0C,
- * crc = func_02031E7C(p, buf).  The struct-typed footer gets the registers
- * right (the byte-offset spelling does not). */
+ * crc = func_02031E7C(p, buf).  PROVEN: the record pointer is
+ * `const struct SaveBackup *` (and so are both callees' first parameters).
+ * With a non-const p the field loads cannot float above the footer stores
+ * and six instructions come out in the wrong order under every front end. */
+void func_02031F54(const struct SaveBackup *p, u8 *buf);
 
-/* 0x02031FE0 / 0x02032688  DIFF, both size-exact (42 and 10 bytes), best
- * sources in docs/notes/pkt_02031FE0.c.txt.  0x02031FE0 is the full load:
+/* 0x02031FE0 / 0x02032688  0x02032688 EXACT wave 12 (src/matched/
+ * func_02032688.c); 0x02031FE0 size-exact, see docs/notes/pkt_02031FE0.c.txt
+ * (was 42 bytes out, 14 after the one-argument func_020333F8).  0x02031FE0 is the full load:
  * read BOTH copies (func_020335E8 with func_02031EAC(self, 1) into +0x34 and
  * (self, 2) into a heap block), repair a failed read from the other copy,
  * check both footers (func_02031F9C x2), pick the newer good copy, walk every
@@ -536,8 +541,14 @@ u32 sub_020332FC(struct { char pad[0x138]; u32 *slots; } *p, u32 idx);
  * +0x208) to func_020335AC. */
 void func_02033478(int a0, int a1, int a2, int a3);
 
-/* 0x020333F8  forward (0, *(a0+312), *(a0+316), a3) to func_02082A7C. */
-void func_020333F8(int a0, int a1, int a2, int a3);
+/* 0x020333F8  forward (0, *(a0+312), *(a0+316), a3) to func_02082A7C, i.e.
+ * clear the mark bitmap (+0x138, byte size +0x13C).  PROVEN wave 12: callers
+ * pass ONE argument, the record.  func_02032688 is EXACT only with
+ * `func_020333F8(self)`; the old three/four-argument call (self, mode, gen)
+ * leaves the first read's argument setup scheduled wrong (10 bytes there, the
+ * same 28 bytes of residue #1 in func_02031FE0).  The matched source keeps a
+ * four-int signature for its own compile only; a3 is a leftover. */
+void func_020333F8(struct SaveBackup *p);
 
 /* 0x020334E8  compose a Flash read: n = func_02031EAC(p, c+1), m =
  * func_02033B68(p->unk2C-analogue, b), then func_020335E8(n+m, d, e,

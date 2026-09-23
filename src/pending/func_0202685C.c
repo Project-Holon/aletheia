@@ -1,0 +1,145 @@
+/*
+ * function: func_0202685C
+ * address:  0x0202685C
+ * packet:   pkt_0202685C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * The ring insert: advance hi with a wrap at 30 (pushing lo along when the
+ * ring is full), grant the record's items through the bag (0x0200E394
+ * family), mark matching entries in the 0x0200C0F0 table, then clear the
+ * slot, struct-copy the 92-byte payload in, zero +0x5c, set the live bit
+ * and bump the +0xBAE fill count.
+ *
+ * BLOCKER: label.  Every concrete byte reproduces (516/516).  The four
+ * `bl 0x02167394` sites are the only references to that address in the
+ * whole image, all inside this range, and no overlay listing labels a
+ * function there (ov009 and ov010 both cover the address, interior to
+ * code), so no class attests it and no cut helps (--suggest-split).
+ *
+ * Two spellings the bytes need: the item-amount helper takes an INT id
+ * (the `cmp r,#0x1d` is on the untruncated value; the callees' u8
+ * parameters produce the lsls/lsrs at each call), and the slot is one
+ * pointer `&slots[hi]` which the compiler keeps as base+0x64 and
+ * hi*0x60 in two stack slots.
+ *
+ * symbols:
+ *   func_02012EBC  0x02012EBC  thumb
+ *   func_0200E394  0x0200E394  thumb
+ *   func_0200E44C  0x0200E44C  thumb
+ *   _u32_div_f     0x0209C2B0  arm
+ *   func_02167394  0x02167394  thumb
+ *   func_0200E3A4  0x0200E3A4  thumb
+ *   func_0200E49C  0x0200E49C  thumb
+ *   func_0200E460  0x0200E460  thumb
+ *   func_0200E4CC  0x0200E4CC  thumb
+ *   func_0200C0F0  0x0200C0F0  thumb
+ *   func_0200C33C  0x0200C33C  thumb
+ *   func_0200C364  0x0200C364  thumb
+ *   MI_CpuFill8    0x02082BCC  arm
+ */
+typedef signed char    s8;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Payload { u32 w[23]; };
+struct Rec { struct Payload p; u16 f5c; u8 pad5e[2]; };
+
+struct Req {
+    u8   pad00[0x0C];
+    u32  f0clo : 16;
+    u32  trainer : 10;
+    u32  f0chi : 6;
+    u8   pad10[0x50 - 0x10];
+    u8   f50[0x10];
+};
+
+extern void *func_02012EBC(void *p);
+extern void *func_0200E394(void *p);
+extern int   func_0200E44C(void *p, int i);
+extern u32   func_02167394(u8 id);
+extern u32   func_0200E3A4(void *p, u8 id);
+extern int   func_0200E49C(void *p, int id, u32 v);
+extern void  func_0200E460(void *p, int id, int v);
+extern void  func_0200E4CC(void *p, int id, u32 v, int w);
+extern void *func_0200C0F0(void *p);
+extern int   func_0200C33C(void *p, u8 i);
+extern void  func_0200C364(void *p, u8 i, int v);
+extern void  MI_CpuFill8(void *d, int v, u32 n);
+
+static inline u32 calc(struct Req *r, int id)
+{
+    u32 v;
+    if (id == 0x1d) {
+        v = r->trainer / 10 + 1;
+        if (v > func_02167394(id))
+            v = func_02167394(id);
+    } else {
+        v = func_0200E3A4(r->f50, id);
+    }
+    return v;
+}
+
+void func_0202685C(u8 *base, struct Req *r)
+{
+    void *bag;
+    void *sys;
+    void *bag2;
+    void *tbl;
+    int i;
+    int j;
+    int id;
+    u32 v;
+    struct Rec *rec;
+
+    (*(s8 *)(base + 0xBAD))++;
+    if (*(s8 *)(base + 0xBAD) >= 30)
+        *(s8 *)(base + 0xBAD) = 0;
+
+    rec = (struct Rec *)(base + 0x64) + *(s8 *)(base + 0xBAD);
+    if (*(s8 *)(base + 0xBAE) > 0 && *(s8 *)(base + 0xBAD) == *(s8 *)(base + 0xBAC)) {
+        (*(s8 *)(base + 0xBAC))++;
+        if (*(s8 *)(base + 0xBAC) >= 30)
+            *(s8 *)(base + 0xBAC) = 0;
+    }
+
+    bag = func_0200E394(func_02012EBC(*(void **)base));
+    for (i = 0; i < 3; i++) {
+        id = func_0200E44C(bag, i);
+        if (id != 0xff) {
+            v = calc(r, id);
+            if (v != 0 && func_0200E49C(bag, id, v) == 0) {
+                func_0200E460(bag, id, 1);
+                func_0200E4CC(bag, id, v, 1);
+                *(u8 *)(base + 0xBAF) = 1;
+            }
+        }
+    }
+
+    sys = func_02012EBC(*(void **)base);
+    bag2 = func_0200E394(sys);
+    tbl = func_0200C0F0(sys);
+    for (i = 0; i < 3; i++) {
+        id = func_0200C33C(tbl, i);
+        if (id != 0xff) {
+            for (j = 0; j < 3; j++) {
+                if (id == func_0200E44C(bag2, j)) {
+                    if (calc(r, id) != 0)
+                        func_0200C364(tbl, i, 1);
+                }
+            }
+        }
+    }
+
+    MI_CpuFill8(rec, 0, 0x60);
+    rec->p = *(struct Payload *)r;
+    rec->f5c = 0;
+    *(u32 *)(base + 0xBA4) |= 1 << *(s8 *)(base + 0xBAD);
+    if (*(s8 *)(base + 0xBAE) < 30)
+        (*(s8 *)(base + 0xBAE))++;
+}

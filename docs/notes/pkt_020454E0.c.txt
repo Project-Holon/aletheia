@@ -198,3 +198,76 @@ any, is evidence about how 1.1p1 ranks the two low callee-saved registers
 when a parameter copy competes with a loop-invariant constant defined after
 a call -- a compiler-behaviour question, not a spelling question.
 re-verified 2026-09-21: no recoverable source in this note
+
+APPENDED 2026-09-23, wave 12 (bg_sys/bmp/bmp_win lane).  Still 2 bytes.
+  The bmp_win.c family header now exists (docs/families/bmp_win.h); the
+  config block is struct BmpWin there (+3/+4 are the tilemap x/y, +7/+8
+  the on-screen extent).
+  NEW MEASUREMENTS, all 536 bytes and the same 2 bytes unless noted:
+    * tools/permuter.py (the AST engine, not run on this function before):
+      --explain  r6 -> r4 x2, one register;  hill 800 --types: 278 single
+      mutations, none improves.
+    * ../2.0/sp2 on the best source: 600 bytes, 486 out (push list five
+      registers, constants rematerialised) -- refused.
+    * pal parameter u8/u16/u32/int x pn local u32/int: 2 (every u16 pn is
+      544 bytes).
+    * the selection as a static inline helper returning the palette bits:
+      if/else or else-first `!= 1` form 2; early `return 0` on `== 1`: 17;
+      u16 helper: 540/416.
+    * func_02041680 declared returning u8/u16/u32/int and taking u8/u32/int
+      (12 combinations): 2.  func_02041300 with a u8 layer: 2.
+    * pal reassigned in place as a ternary (2), `* 0x1000` (2),
+      `(pal << 12) & 0xf000` (7), the mask and shift as two statements (55).
+  Verdict unchanged: a 2-byte parameter-copy allocation tie.
+
+/* best source, 536 bytes against 536, 2 concrete bytes out, dsi/1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Cfg {
+    u8  pad_00[2];
+    u8  unk_02;
+    u8  unk_03;
+    u8  unk_04;
+    u8  unk_05;
+    u8  unk_06;
+    u8  unk_07;
+    u8  unk_08;
+    u8  unk_09;
+    u16 unk_0a;
+};
+extern u8 func_02041680(u32 layer);
+extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
+void func_020454E0(struct Cfg *cfg, u32 base, u32 pal)
+{
+    u32 pn;
+
+    if (func_02041680(cfg->unk_02) != 1)
+        pn = (pal & 0xf) << 12;
+    else
+        pn = 0;
+
+    func_02041300(cfg->unk_02, (u16)(pn | base), (u8)(cfg->unk_03 - 1),
+                  (u8)(cfg->unk_04 - 1), 1, 1, 0x11);
+    func_02041300(cfg->unk_02, (u16)(pn | (base + 1)), cfg->unk_03,
+                  (u8)(cfg->unk_04 - 1), cfg->unk_07, 1, 0x11);
+    func_02041300(cfg->unk_02, (u16)(pn | (base + 2)),
+                  (u8)(cfg->unk_03 + cfg->unk_07), (u8)(cfg->unk_04 - 1),
+                  1, 1, 0x11);
+    func_02041300(cfg->unk_02, (u16)(pn | (base + 3)),
+                  (u8)(cfg->unk_03 - 1), cfg->unk_04, 1, cfg->unk_08, 0x11);
+    func_02041300(cfg->unk_02, (u16)(pn | (base + 4)),
+                  (u8)(cfg->unk_03 + cfg->unk_07), cfg->unk_04,
+                  1, cfg->unk_08, 0x11);
+    func_02041300(cfg->unk_02, (u16)(pn | (base + 5)),
+                  (u8)(cfg->unk_03 - 1), (u8)(cfg->unk_04 + cfg->unk_08),
+                  1, 1, 0x11);
+    func_02041300(cfg->unk_02, (u16)(pn | (base + 6)), cfg->unk_03,
+                  (u8)(cfg->unk_04 + cfg->unk_08), cfg->unk_07, 1, 0x11);
+    func_02041300(cfg->unk_02, (u16)(pn | (base + 7)),
+                  (u8)(cfg->unk_03 + cfg->unk_07),
+                  (u8)(cfg->unk_04 + cfg->unk_08), 1, 1, 0x11);
+}
+
+permuter best result line:
+    best      DIFF   asm=10    bytes-out=2    size=536/536

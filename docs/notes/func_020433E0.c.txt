@@ -443,3 +443,91 @@ APPENDED 2026-09-23, wave 11 (bg_sys.c family lane).  Unchanged at 6 bytes.
   6.  ../2.0/sp2 on the best source: 6, same pair swapped.  Treat as the
   allocation cap the note above records.
 re-verified 2026-09-23 by tools/match.py: DIFF, 188 bytes against 188, 6 concrete bytes out, 1.1p1
+
+APPENDED 2026-09-23, wave 12 (bg_sys/bmp/bmp_win lane).  Unchanged at 6 bytes.
+  Re-verified the source below: 188/188, 6 out, 20/20 relocations, same
+  r3 <-> ip pair.  permuter.py hill 800 --types from it: no single mutation
+  of the set improves.  ../2.0/sp2: 188 / 6, the same pair.
+  New hand spellings, all 188 bytes:
+    the pair as `u32 v[2]` (6); the register read into a temporary, one
+    shared or two separate (6, 6); the `and` as its own statement then the
+    `orr` (6); pointer locals declared AFTER the two words (6); `u32 b, a`
+    (6); `+` in place of `|` with ~0x300010 (8); config word first in the
+    `|` (9); each of those with a non-volatile struct parameter (9-11).
+  Every one of them lands on the same pair or worse, so this is still the
+  allocation cap the sections above describe.  Not retried: anything
+  already listed above.
+
+/* best source, 188 bytes against 188, 6 concrete bytes out, dsi/1.1p1 */
+typedef unsigned int u32;
+
+struct Cfg {
+    u32 f00;
+    u32 f04;
+    u32 f08;
+    u32 f0c;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+    u32 f20;
+    u32 f24;
+    u32 f28;
+    u32 f2c;
+};
+
+extern void func_020808F4(void);
+extern void func_0208091C(void);
+extern void func_020809A0(void);
+extern void func_020809C8(void);
+extern void func_02080908(void);
+extern void func_02080940(void);
+extern void func_020809B4(void);
+extern void func_020809F0(void);
+extern void func_02080964(void);
+extern void func_02080978(void);
+extern void func_0207FDCC(u32 v);
+extern void func_02080100(u32 v);
+extern void func_020806B0(u32 v);
+extern void func_020807BC(u32 v);
+extern void func_0207FFD0(u32 v);
+extern void func_020801F8(u32 v);
+extern void func_0208074C(u32 v);
+extern void func_0208083C(u32 v);
+extern void func_02080294(u32 v);
+extern void func_0208040C(u32 v);
+
+#define REG_A (*(volatile u32 *)0x04000000)
+#define REG_B (*(volatile u32 *)0x04001000)
+
+void func_020433E0(volatile struct Cfg *c)
+{
+    func_020808F4();
+    func_0208091C();
+    func_020809A0();
+    func_020809C8();
+    func_02080908();
+    func_02080940();
+    func_020809B4();
+    func_020809F0();
+    func_02080964();
+    func_02080978();
+    func_0207FDCC(c->f00);
+    func_02080100(c->f04);
+    func_020806B0(c->f08);
+    func_020807BC(c->f0c);
+    func_0207FFD0(c->f10);
+    func_020801F8(c->f14);
+    func_0208074C(c->f18);
+    func_0208083C(c->f1c);
+    func_02080294(c->f20);
+    func_0208040C(c->f24);
+    {
+        u32 a = c->f28;
+        u32 b = c->f2c;
+        REG_A = (REG_A & 0xffcfffef) | a;
+        REG_B = (REG_B & 0xffcfffef) | b;
+    }
+}
+permuter best result line:
+    best      DIFF   asm=30    bytes-out=6    size=188/188

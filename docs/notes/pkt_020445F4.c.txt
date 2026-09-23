@@ -871,3 +871,26 @@ permuter best result line:
 
 re-verified 2026-09-23 by tools/match.py: func_02044F64 292/292 bytes, 6
 concrete out, 7/7 relocations resolved, dsi/1.1p1 -O4,p -proc arm946e, ARM.
+
+================================================================
+WAVE 12, appended 2026-09-23 (bg_sys/bmp/bmp_win lane): func_02044F64 CLOSED
+
+EXACT, filed as src/matched/func_02044F64.c (shard pkt_02044F64).  The
+6-byte f04/f06 register pair above was never an allocation tie: the
+`lsl #13 / lsr #16` pair is the u16 truncation of an unsigned divide by 8,
+so all four extents are u16 LOCALS, not `(u32)(f * 8192) >> 16` into
+s32/u32 locals.  Sweep (81 type combinations of w, h, d, dep with the
+`/ 8` spelling): all-u16 is the only point below 18 (13 out).  Then a
+declaration x assignment order sweep (24 x 4): every declaration order is
+EXACT once the assignments run h, w, dep, d (height first); w, h, dep, d
+stays at 13.  The winning body:
+
+    u16 w; u16 h; u16 d; u16 dep;
+    h = src->height / 8;
+    w = src->width / 8;
+    dep = src->depth;
+    d = dep / 8;
+
+The loop, the keep == 0 tail and the prototype are unchanged from the
+2026-09-22 source.  `_s32_div_f 0x0209C0A4 arm` in the symbols block, 7/7
+relocations resolve.

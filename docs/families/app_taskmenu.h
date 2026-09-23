@@ -535,4 +535,30 @@ extern char  sFile_020A74E0[]; /* func_02027778 (pending): __FILE__ anchor,
                                    string; not independently confirmed
                                    EXACT since the constructor is DIFF */
 
+/* ------------------------------------------------------------------ *
+ * WAVE 12 (2026-09-23): the family's four open functions are closed.
+ * func_02027778 (the constructor) is now EXACT in src/matched, so the
+ * "pending/DIFF, shape hint only" caveats above on struct TaskMenuTmpl and
+ * struct TaskMenu's construction-time fields are now byte-proven.  Facts
+ * proven, each by an EXACT file:
+ *
+ *   func_02027778  the template parameter is NOT const (a const pointer
+ *                  lets mwcc hoist the +0x12 default's load above the
+ *                  three zero stores); the template's count is read as
+ *                  m->tmpl.count.
+ *   func_02027F60  func_020275E4()'s result is the FIRST argument of both
+ *                  0x02049xxx loaders:
+ *                    func_02049DB4(h, 0x20, 0, &r->f04, heap)
+ *                    func_02049B40(h, 0x1f, sel, a1 << 5, 0x40, heap)
+ *                  and the heap id is a plain fifth (stack) u16 parameter.
+ *   func_02027BF4  third parameter is u16:
+ *                    void func_02027BF4(u16 *phase, u16 *out, u16 mode,
+ *                                       u32 slot, u16 c0, u16 c1);
+ *                  (the extern above, inferred from func_02028178's call
+ *                  site, is superseded by this).
+ *   func_02027D44  the per-frame input step: up/down play sound 0x548,
+ *                  confirm plays 0x551/0x54C, cancel 0x551; in the cancel
+ *                  arm the cursor store precedes m->f0C = 1 in the source.
+ * ------------------------------------------------------------------ */
+
 #endif /* APP_TASKMENU_H */

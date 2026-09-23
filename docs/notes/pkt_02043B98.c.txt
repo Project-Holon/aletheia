@@ -469,3 +469,120 @@ permuter best result line:
 
 re-verified 2026-09-23 by tools/match.py: func_0204427C 888/888 bytes, 277
 concrete out, 0 relocation sites, dsi/1.1p1 -O4,p -proc arm946e, ARM.
+
+================================================================
+WAVE 12, appended 2026-09-23 (bg_sys/bmp/bmp_win lane): func_0204427C
+still DIFF, 888/888, 276 out.
+
+WHAT THE RESIDUE IS, read off the image this pass: the image's keyed loop
+runs with FIVE scratch registers live at once (r4, r5, sl, ip, lr) and
+only nine long-lived ones, where every compile keeps ten long-lived and
+four scratch.  The image interleaves the two addresses in the inner body:
+dst partial (pixels + (dxx & 7) + ((dxx*8) & 0x7fc0)), then src partial,
+then + kTileY*srow into the src, then + lTileY*drow into the dst; every
+compile finishes p before starting q.  The extra live temporary is what
+pushes the image to spill the source in-tile row and both tile products
+(frame 0x28, ten-register push with r3 as filler), keeping only the dst
+in-tile row in fp.  So the lever, if one exists, is an expression shape
+that keeps a partial address live across the other address -- not a
+statement order (all 40 were measured in wave 10).
+
+MEASURED THIS PASS (keyed loop only; plain loop unchanged):
+  q as one sum incl. the in-tile row / `q += row` / `q[row]`  x
+  p as one sum incl. the in-tile row / `p += row` / `p[row]`  x
+  p-then-q / q-then-p  x  kTileY/lTileY assignment order:
+  every p-then-q point is 888 bytes and 276-284 out (best: q one sum,
+  `p += row`, 276); every q-then-p point is 880 (SIZE, 267).
+  ../2.0/sp2: 1000 bytes, 881 out -- refused.
+  permuter anneal 1400 --types from the 276 point: 197 out, but only by
+  `addr(v)` (taking the address of v forces a memory home) plus a dozen
+  temporaries; the push is still nine registers and the frame 0x24, so it
+  is noise, not a model of the source.  Its --out file also emits an
+  `int tmp2 = ...` declaration after a statement, which 1.1p1 rejects
+  (CCERR) until the declaration is hoisted by hand.
+
+/* best source, 888 bytes against 888, 276 concrete bytes out, dsi/1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Surf { u8 *pixels; u16 width; u16 height; };
+
+static inline s32 ClipRect(struct Surf *src, const struct Surf *dst, s32 *x, s32 *y,
+                           s32 *dx, s32 *dy, u32 *w, u32 *h)
+{
+    u32 ch = *h;
+    u32 cw = *w;
+    if (cw > src->width)
+        cw = src->width;
+    if (*dx >= dst->width || *dx <= -(s32)cw)
+        return 0;
+    if (ch > src->height)
+        ch = src->height;
+    if (*dy >= dst->height || *dy <= -(s32)ch)
+        return 0;
+    if (*dx < 0) {
+        cw += *dx;
+        *x -= *dx;
+        *dx = 0;
+    } else if (*dx + cw > dst->width) {
+        cw -= *dx + cw - dst->width;
+    }
+    if (*dy < 0) {
+        ch += *dy;
+        *y -= *dy;
+        *dy = 0;
+    } else if (*dy + ch > dst->height) {
+        ch -= *dy + ch - dst->height;
+    }
+    *w = cw;
+    *h = ch;
+    return 1;
+}
+
+void func_0204427C(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32 dy,
+                   u32 w, u32 h, u16 key, u8 pal)
+{
+    s32 srow, drow;
+    u32 i, j;
+    s32 dxx, xx;
+    s32 sTileY, dTileY, kTileY, lTileY;
+    u32 v;
+    u8 *p;
+    u8 *q;
+
+    if (!ClipRect(src, dst, &x, &y, &dx, &dy, &w, &h))
+        return;
+    srow = (src->width + (src->width & 7)) >> 3;
+    drow = (dst->width + (dst->width & 7)) >> 3;
+    if (key == 0xffff) {
+        for (i = 0; i < h; i++, y++, dy++)
+            for (j = 0, dxx = dx, xx = x; j < w; j++, dxx++, xx++) {
+                sTileY = (y * 4) & 0x3fe0;
+                q = (u8 *)((u32)src->pixels + ((xx >> 1) & 3) + ((xx * 4) & 0x3fe0) + sTileY * srow + ((y * 4) & 0x1c));
+                dTileY = (dy * 8) & 0x7fc0;
+                p = (u8 *)((u32)dst->pixels + (dxx & 7) + ((dxx * 8) & 0x7fc0) + dTileY * drow);
+                p += (dy * 8) & 0x38;
+                v = (*q >> ((u32)(xx << 31) >> 29)) & 0xf;
+                if (v != 0)
+                    v += pal;
+                *p = v;
+            }
+    } else {
+        for (i = 0; i < h; i++, y++, dy++)
+            for (j = 0, dxx = dx, xx = x; j < w; j++, xx++, dxx++) {
+                kTileY = (y * 4) & 0x3fe0;
+                lTileY = (dy * 8) & 0x7fc0;
+                p = (u8 *)((u32)dst->pixels + (dxx & 7) + ((dxx * 8) & 0x7fc0) + lTileY * drow);
+                p += (dy * 8) & 0x38;
+                q = (u8 *)((u32)src->pixels + ((xx >> 1) & 3) + ((xx * 4) & 0x3fe0) + kTileY * srow + ((y * 4) & 0x1c));
+                v = (*q >> ((u32)(xx << 31) >> 29)) & 0xf;
+                if (v != 0)
+                    *p = v + pal;
+            }
+    }
+}
+permuter best result line:
+    best      DIFF   asm=2660  bytes-out=197  size=888/888
+    mutations temp(tmp=xx * 4) ; addr(v) ; temp(tmp1=(y * 4) & 0x3fe0) ; ... (rejected, see above)

@@ -725,3 +725,22 @@ void func_020643CC(struct Root *root, struct MultiCellData *d, u32 total)
         }
     }
 }
+
+
+==============================================================================
+2026-09-23, wave 12 (fourth lane, cluster_02066740): CLOSED.
+src/matched/func_020643CC.c, EXACT under ../2.0/sp2 and sp2p2.
+==============================================================================
+The function is NitroSystem g2d_MultiCellAnimation.c
+SetMCDataToMCInstanceImpl_ (decompiled NitroSystem: github.com/ntrtwl/
+NitroSystem, rev 21c8fd0).  Transcribing the library's shape closed it on
+the second compile (the first had the NNSG2dNode stride at 0x20; it is
+0x28 in this build): ONE `u16 i` at function scope shared by all three
+loops (the clearing loop and both node walks), the per-node work as the
+SetNodeDataToCellAnim_ inline taking (pCellAnim, pNodeData, pAnimBank, u16
+mcTotalFrame), the frame sum as NNS_G2dCalcAnimSequenceTotalVideoFrames,
+the node's cell-anim index as NNSi_G2dGetMC2NodeCellAinmIdx returning u16,
+and bInited tested and set through `pCellAnimArray[cellAnimIdx]` (the
+pointer is taken only inside the if).  The 7-out residue above (cells /
+counter swap) was the shared counter plus the inline boundary, neither of
+which hand scoping could reach.

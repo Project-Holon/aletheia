@@ -132,3 +132,6 @@ six extractions reproduces.
 
 /* best source, 228 bytes against 228, 59 concrete bytes out, 1.1p1 */
 (unchanged; see the "best C so far" block above)
+
+CLOSED 2026-09-23 (wave 12): EXACT, src/matched/func_02027BF4.c.  The third parameter `mode`
+is a u16; the note's body is otherwise unchanged.  Found by permuter anneal (type:p(mode)).

@@ -869,19 +869,33 @@ void sub_0200F6B8(void);
  * or cross-attesting therefore buys nothing: condition 3 was never what
  * was failing.  The missing thing is the overlay label itself.
  *
- * GROUP B -- DIFF residues, documented in docs/notes/.  Three are
- * register-allocation residues that the permuter's whole mutation set,
- * the `register` storage class and the alternate compiler 2.0/sp2 all
- * fail to move (2.0/sp2 was tried once on each this pass and is worse on
- * every one: 47 vs 6 out on 0x0200EBD0, 162 vs 135 on 0x0200E7BC, and on
- * 0x0200F43C it is fewer bytes out but at the wrong size).  The fourth
- * has no source at all and is deliberately deferred.
+ * GROUP B -- CLOSED in wave 12 (2026-09-23).  All four are now in
+ * src/matched, and none of them was a register-allocation tie: each was a
+ * declaration fact the earlier passes had wrong.
  *
- *   func_0200EBD0   DIFF    68/68,   6 out   pure r6-vs-r1 bank choice
- *   func_0200E7BC   DIFF   180/180, 135 out  9-call pointer permutation
- *   func_0200F43C   DIFF   168/168, 115 out  see the correction below
- *   func_0200EA3C   no source; 404 bytes, 0x28 frame, oversized by the
- *                   brief's section-7 test.  Wants a wave of its own.
+ *   func_0200EBD0   EXACT*  forwards its r1..r3 to func_0200EA3C, which takes
+ *                           FOUR arguments (rec, a1, date, heap); the r6 the
+ *                           notes chased is the index kept off r1..r3.
+ *   func_0200EA3C   EXACT*  written from scratch: party snapshot into six
+ *                           0x3c-byte entries (struct SymSubSrc0200EC2C's
+ *                           layout: u16 names at +0xc[11] / +0x22[8]) plus
+ *                           the RTC date at +0x168.  i = 0 goes after the
+ *                           memset and before n = 0.
+ *   func_0200F43C   EXACT*  the friend key is ONE u64 (DWC_CheckFriendKey /
+ *                           DWC_CreateFriendKeyToken take a u64), and the
+ *                           friend array is a 12-byte DWCFriendData type
+ *                           indexed arr[i].  Both profile lookups stay in
+ *                           the loop (the correction below stands).
+ *   func_0200E7BC   EXACT*  the note's struct had a stray pad byte before
+ *                           +0x1a; with the SymRec0200E730 layout (+4
+ *                           u16 name[11], +0x1a flag:1/level:7, +0x1b, +0x1c)
+ *                           and every field written o[idx].field it is exact.
+ *
+ * Prototypes proven this wave:
+ *   void func_0200EBD0(struct Obj *o, void *a1, void *date, u32 heap);
+ *   void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap);
+ *   int  func_0200F43C(void *obj, u64 key, int *out);
+ *   void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon);
  *
  * A CORRECTION TO THE 0x0200F43C NOTE, established from the image.  That
  * note's Wave 4 addendum claims the original hoists its second

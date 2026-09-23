@@ -468,3 +468,19 @@ void func_02066B84(const GXOamAttr *oam, const ImageAttr *img, u32 texAddr, u32 
 }
 
 
+
+
+==============================================================================
+2026-09-23 - wave 12 fourth lane (cluster_02066740): CLOSED.
+src/matched/func_02066B84.c, EXACT under ../2.0/sp2 and sp2p2.
+==============================================================================
+NitroSystem g2d_OamSoftwareSpriteDraw.c CalcSpriteParams_ (decompiled
+NitroSystem: github.com/ntrtwl/NitroSystem rev 21c8fd0).  EXACT on the
+first compile of the library's shape: result as a SpriteParams struct
+{u0, v0, u1, v1, sx, sy} (not an fx32 array), CalcUVFor3DDirect2DMap_ with
+charName a u16 PARAMETER shifted in place (`charName >>= 1` for PLTT256 --
+that is the mappingType/name register pair the residue above was about),
+SetTextureParamsFor3DDirect1DMap_ with u16 shapeBit/sizeBit locals,
+GX_PACK_TEXIMAGE_PARAM, DoFlip_ through four pointers with the
+s_pUVFlipCorrectFunc hook (word 0x02148B2C), GetOffsetByteSizeOfPlt_,
+G3_TexPlttBase.  0x020A1824 is GetNumTexChar_'s static texSize_ table.

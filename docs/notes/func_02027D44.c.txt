@@ -235,3 +235,7 @@ void func_02027D44(struct Menu *m)
     func_02027B30(m->f18[prev], m->f34, 0);
     func_02027B30(m->f18[m->cursor], m->f34, 1);
 }
+
+CLOSED 2026-09-23 (wave 12): EXACT, src/matched/func_02027D44.c.  Up/down play 0x548, not
+0x54C (pool order 0x548, 0x551, 0x54C); and in the B arm the cursor store precedes m->f0C = 1 in
+the source.  No `one` local.

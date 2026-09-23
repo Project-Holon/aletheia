@@ -235,3 +235,26 @@ u32 func_02041FF4(u32 layer, s32 x, s32 y, u16 *flags)
 
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 548 bytes against 548, 42 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 12 (bg_sys/bmp/bmp_win lane).  CLOSED, EXACT.
+==============================================================================
+
+Filed as src/matched/func_02041FF4.c (shard pkt_02041FF4).  Three
+declaration changes to the wave-11 source above, nothing else:
+
+  * px and py become FUNCTION-SCOPE `u8 px; u8 py;` declared first and
+    assigned (`px = x & 7; py = y & 7;`) right after the func_020415B4
+    call.  They then coalesce with x and y, which is the image's in-place
+    `and r5, r5, #7` / `and r6, r6, #7`: 42 -> 15.  (Declared at function
+    scope but AFTER the other locals: still 42.  u8/u16 for py: same.)
+  * the nibble loop counter `u8 i` moves out of the 4bpp block to function
+    scope: 15 -> 9 (placed after `u8 *chr` or before `u8 *buf`).
+  * `u8 i` declared before `u16 *tbl` and `u16 *tbl` before `u8 *buf`
+    (the tile table then takes r8 and the buffer sb): 9 -> 0.  Every order
+    with i < tbl < buf is EXACT; the other orders measure 9-18.
+
+The redundant inner `{ }` block the wave-11 source wrapped around the body
+can be dropped without changing a byte.  The permuter (hill 800 --types
+from the 9-byte point) found no single mutation; the declaration-order
+sweep did it by hand.

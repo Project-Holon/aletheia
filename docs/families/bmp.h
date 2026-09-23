@@ -305,6 +305,16 @@ void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y,
  * NOT `(u16)(f * 8)` -- the `lsr` rather than `asr` is what forces the
  * cast through u32. */
 struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u32 heap);
+/* EXACT since wave 12 (src/matched/func_02044F64.c).  SUPERSEDES the
+ * `(u32)(f * 8192) >> 16` reading above and the "u32 h" block below: the
+ * lsl #13 / lsr #16 pair is just the u16 truncation of an unsigned
+ * `/ 8`.  The four extents are u16 LOCALS,
+ *     u16 w, h, d, dep;
+ *     h = src->height / 8;  w = src->width / 8;
+ *     dep = src->depth;     d = dep / 8;
+ * assigned in exactly that order (h before w is what colours f04 into r3
+ * and f06 into r4; declaration order is inert).  All-u16 with w first
+ * leaves 13 bytes; the old s32/u32 mix was capped at 6. */
 
 /* ------------------------------------------------------------------ *
  * The clear helper, src/matched/sub_02043B5C.c (EXACT).  Fills a whole

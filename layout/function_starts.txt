@@ -400,3 +400,7 @@ arm9_main  0x02061644  arm     # 8-byte switch default of func_020614D4's 0x020A
 arm9_main  0x02094694  arm     # MSL rand, after qsort; src/matched/func_02094694.c (was loc_ only, so qsort's extent ran to 500 bytes)
 arm9_main  0x020946C8  arm     # MSL srand; src/matched/func_020946C8.c
 arm9_main  0x020946D8  arm     # MSL __StringRead; src/matched/func_020946D8.c
+
+# Wave 11 (2026-09-23): unlabelled leaves witnessed by matched callers.
+arm9_main  0x020407E8  arm     # leaf sub_020407E8 in unit_020407E8.c; follower of sub_02040618 (bx lr at 0x020407FC, pool word 0x02040800 end the previous leaf)
+arm9_main  0x02040804  arm     # sibling leaf in unit_020407E8.c

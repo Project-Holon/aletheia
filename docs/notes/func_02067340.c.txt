@@ -311,3 +311,20 @@ permuter best result line (wave 10, not re-run): best DIFF asm=365
   bytes-out=46 size=1052/1052 mutations decl-order(flip<->pCache)
 /* best source, 1052 bytes against 1052, 48 concrete bytes out, ../2.0/sp2 */
 (unchanged: the source above in this note.)
+
+
+==============================================================================
+2026-09-23 - wave 12 fourth lane (cluster_02066740): CLOSED.
+src/matched/func_02067340.c, EXACT under ../2.0/sp2 and sp2p2.
+==============================================================================
+NitroSystem g2d_RendererCore.c DrawCellToSurface2D_ (decompiled NitroSystem:
+github.com/ntrtwl/NitroSystem rev 21c8fd0).  EXACT on the first compile of
+the library's own shape: every helper as the NNS inline it is
+(RndCoreGetCurrentMtx_, IsRndCore2DAffineTransformed_,
+NNS_G2dCopyCellAsOamAttr, HandleCellOamBackFunc_,
+LoadMtxCacheAsAffineParams_ + MakeFlipMtx_ + Get/SetMtxCacheAffineIndex_,
+DoFlipTransforme_ + OverwriteOamFlipFlag_, NNSi_G2dGetMtxTrans/RS), the
+NitroSDK GXOamAttr union with anonymous bitfield structs, and
+baseCharOffset / bAffined / i / pTempOam / oamAffinIdx in the inner block
+where the library declares them.  The four-register rotation above was the
+inline structure: no respelling of a flat body reaches it.

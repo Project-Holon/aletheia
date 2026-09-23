@@ -375,3 +375,8 @@ pinned project-wide regardless.  Recorded so the next lane does not read the
    the 170-byte shape that does) */
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 168 bytes against 168, 115 concrete bytes out, 1.1p1
+
+CLOSED 2026-09-23 (wave 12): EXACT*, src/matched/func_0200F43C.c, in the per-iteration shape
+(both profile lookups inside the loop).  Two declaration facts: the friend key is one u64
+(DWC_CheckFriendKey / DWC_CreateFriendKeyToken), and the array is a 12-byte record type indexed
+arr[i], so i*12 is computed once per iteration into r4.  The p-vs-obj spill question dissolves.
