@@ -863,3 +863,13 @@ void func_02068670(struct Surface *s, struct Fnt **font, int x, int y, int color
     }
 }
 re-verified 2026-09-23 by tools/match.py: DIFF, 408 bytes against 408, 238 concrete bytes out, ../2.0/sp2
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 (NitroSystem residues lane): CLOSED
+==============================================================================
+func_02068430 (LetterChar) and func_02068670 (DrawGlyphLine) are EXACT
+(../2.0/sp2), filed in src/matched.  The whole cluster is NitroSystem
+g2d_CharCanvas.c (see docs/families/cluster_020682DC.h, wave-13 section);
+both closed on the first compile of the library body with the TwlSDK
+MATH_IMax / MATH_IMin inlines, NNSi_G2dBitReaderInit and the font
+accessors.

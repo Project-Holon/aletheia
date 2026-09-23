@@ -372,4 +372,26 @@ extern u32 g_020A84C0;
  * generic and carry no cluster evidence.
  * ================================================================== */
 
+/*
+ * ============================================================================
+ * WAVE 13 (2026-09-23): THREE ROWS CLOSED FROM g2d_OAM.c ITSELF
+ * ============================================================================
+ *   func_02063378  NNS_G2dEntryOamManagerAffine    EXACT (../2.0/sp2)
+ *   func_02063640  NNS_G2dResetOamManagerBuffer    EXACT (../2.0/sp2)
+ *   func_0206343C  NNS_G2dApplyOamManagerToHW      EXACT (../2.0/sp2)
+ * struct Bank is OamCache { OamAttributeCache { u16 reservationTable[128];
+ * GXOamAttr oamBuffer[128]; }; OamAffineCache { u16 reservationTable[32]; } }
+ * and g_02146BC8 is oamCache_[3]; g_02146BC4 is numRegisterdInstance_
+ * (GetNewGUID_).  g_020A84C0 is GXi_DmaId (GX_GetDefaultDMA clamps >3 to
+ * GX_DMA_NOT_USE -- the register-held -1), g_020A81E4 GetOBJLoadFunction_'s
+ * funcTbl, func_020862F0 DC_FlushRange, func_020862B8 DC_InvalidateRange,
+ * func_020821C0 MIi_DmaFill32, func_02082A7C MIi_CpuClear32, func_0207E684
+ * GX_LoadOAM, func_0207E708 GXS_LoadOAM.  THE "mla DESTINATION WALL" ABOVE
+ * WAS THE INLINE BOUNDARY: every buffer address in g2d_OAM.c is computed by
+ * GetOamBufferPtr_ / GetAffineBufferPtr_ (base + type * 0x540 + 0x100, then
+ * + index), and written through those inlines all three rows compiled
+ * byte-exact the first time.  Write the library's inlines, not the address.
+ * ============================================================================
+ */
+
 #endif /* CLUSTER_02063000_H */

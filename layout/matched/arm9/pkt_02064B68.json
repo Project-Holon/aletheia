@@ -43,6 +43,18 @@
    "status": "EXACT"
   },
   {
+   "name": "func_02064EDC",
+   "address": "0x02064EDC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02064EDC.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02065020",
    "address": "0x02065020",
    "kind": "game",
@@ -103,7 +115,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02064EDC",
      "code:0x02067B48"
     ]
    }
@@ -157,6 +168,18 @@
    "status": "EXACT"
   },
   {
+   "name": "func_02065DB4",
+   "address": "0x02065DB4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02065DB4.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02066080",
    "address": "0x02066080",
    "kind": "game",
@@ -166,12 +189,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02065DB4"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_0206615C",
@@ -203,6 +221,30 @@
    "kind": "game",
    "region": "arm9",
    "source": "src/matched/func_020663D0.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_020664CC",
+   "address": "0x020664CC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_020664CC.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02066620",
+   "address": "0x02066620",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02066620.c",
    "compiler": "dsi/../2.0/sp2",
    "lang": "c99",
    "isa": "arm",

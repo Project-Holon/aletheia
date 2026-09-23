@@ -1363,3 +1363,11 @@ void func_02068808(struct Surface *s, struct Fnt **font, int x, int y, int color
 
 }
 re-verified 2026-09-23 by tools/match.py: DIFF, 528 bytes against 528, 168 concrete bytes out, ../2.0/sp2
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 (NitroSystem residues lane): CLOSED
+==============================================================================
+func_02068808 (DrawGlyph1D) is EXACT (../2.0/sp2), filed in src/matched:
+NitroSystem g2d_CharCanvas.c, first compile of the library body.  Its
+callee func_020681E4 is GetCharIndex1D (still DIFF, see
+docs/notes/pkt_02067FE4.c.txt).

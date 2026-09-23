@@ -537,4 +537,43 @@ extern void  func_02065D4C(void *actor);                  /* EXACT, 2.0  */
  *    docs/notes/pkt_02064B68.c.txt, wave 12 section.
  */
 
+/* ================================================================== *
+ * WAVE 13 (2026-09-23): THE RANGE IS NITROSYSTEM g2d_Renderer.c
+ * ================================================================== *
+ *
+ * 16. Four rows CLOSED from the library's own shape (../2.0/sp2):
+ *      func_02066620  NNS_G2dRotZ(sin, cos)                       EXACT
+ *      func_020664CC  NNS_G2dScale(x, y, z)                       EXACT
+ *      func_02064EDC  NNSi_G2dMCMStoreCurrentMtxToMtxCache(void)   EXACT
+ *      func_02065DB4  NNS_G2dDrawMultiCell(pMC)                   EXACT
+ *    Other identifications: func_02066754 NNSi_G2dMtxConcat32,
+ *    func_0206615C NNS_G2dPushMtx, func_02066380 NNS_G2dPopMtx (declared
+ *    `()`, called with 1), func_020663D0 NNS_G2dTranslate, func_02065878
+ *    DrawCellAnimationImpl_, func_020659D4 DrawNode_, func_0207C778 FX_Inv,
+ *    func_02066E20 / 02066DEC / 02066E10 / 02066DFC the OamSoftEmu auto-Z
+ *    get-step / set-flag / set-step / reset, func_02067B50 / 02067B64
+ *    NNS_G2dIsRndCoreFlipH / FlipV.
+ *
+ * 17. THE MANAGER BLOCK IS THE RENDERER'S POOLED FILE STATICS.  struct
+ *    Manager above is g_02147B88 = { u16 currentMtxCachePos_; u16
+ *    groupID_; BOOL bDonotUseSRTransform; NNSG2dRendererInstance
+ *    *pCurrentInstance_; s32 stackPos_; fx32 fxZStack_[32] (+0x10 =
+ *    g_02147B98); MCMMtxState mtxStateStack_[32] (+0x90 = g_02147C18,
+ *    {mtxCacheIdx, groupID, stateType, pad}); MtxFx32 mtxStack_[32] (+0x190
+ *    = g_02147D18); MtxFx32 mtxStackFor2DHW_[32] (+0x490 = g_02148018);
+ *    NNSG2dRndCore2DMtxCache mtxCacheBuffer_[32] (+0x790 = g_02148318) }.
+ *    "slotCount/slotLimit/unk_04/obj/slot" = currentMtxCachePos_ /
+ *    groupID_ / bDonotUseSRTransform / pCurrentInstance_ / stackPos_.
+ *    g_020A81F8 (.data) = { u16 firstSRTransformedMtxIdx_ (0xFFFE =
+ *    NNS_G2D_OAM_AFFINE_IDX_NONE); u32 currenVramTransferHandle_ (-1);
+ *    MtxFx32 mtxI_ (+8) }.  g_02148718 = mcRenderState_ { u16
+ *    currentCellAnimIdx; cellAnimMtxCacheTbl[256]; BOOL bDrawMC +0x404 }.
+ *    LEVER: whether a member is declared inside the g_02147B88 object or as
+ *    its own extern changes what the compiler may schedule across it.
+ *    RotZ / Scale need mtxStateStack_ inside the block (groupID_++ store
+ *    stays above the state store); StoreCurrentMtxToMtxCache needs
+ *    mtxStateStack_ and mtxCacheBuffer_ as their own objects.  Probe both
+ *    on any remaining renderer row.
+ */
+
 #endif /* CLUSTER_02064B68_H */

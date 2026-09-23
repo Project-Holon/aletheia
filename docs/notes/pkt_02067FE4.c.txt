@@ -443,3 +443,147 @@ int func_020681E4(int x, int y, int w, int h, struct Shift s)
 }
 
 
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 (NitroSystem residues lane).  0x020681E4 still
+DIFF 10 (best source unchanged, re-verified below).
+==============================================================================
+IDENTIFIED: 0x020681E4 is NitroSystem g2d_CharCanvas.c GetCharIndex1D(cx,
+cy, areaWidth, areaHeight, objWidth, objHeight), all six u32, the last two
+the stacked OBJ size shifts it rewrites each round (the parameter write-back
+the earlier notes saw).  g_020A18F4 is GetMaxObjectSize's `const static
+ObjectSize objs[4][4]` ({u8 widthShift; u8 heightShift}), indexed
+[log_h][log_w] with log_w computed FIRST -- which is exactly the "w shift
+evaluated first, h row added first" residue recorded above: it is the
+library's own order, not a spelling accident.  Callers: DrawGlyph1D
+(0x02068808, EXACT this wave) and ClearArea1D (0x02068C84).  The rest of
+cluster_020682DC is the same file: ClearChar 0x020682F8, LetterChar
+0x02068430, DrawGlyphLine 0x02068670, DrawGlyph1D 0x02068808,
+ClearContinuous 0x02068A18, ClearLine 0x02068A68, ClearAreaLine 0x02068AE8,
+ClearArea1D 0x02068C84.
+
+Measured this wave: the library body verbatim (u32 parameters, the
+GetMaxObjectSize inline with MATH_ILog2 over the SDK `asm { clz x, x }`
+MATH_CountLeadingZeros) is 248/248, 18 out -- the same 18 the wave-11 note
+measured for every w-first spelling: log_w lands in r7 and log_h in r6
+where the image has them the other way round (then everything after the
+lookup follows).  Also 18: const / u32 / split-declared log locals, an
+if/else instead of the ternary, a ShiftOf inline per axis, `objs[h] + w`,
+a pointer local for the element, int shift parameters, reading the table
+fields in either order (34 for heightShift first), a struct copy (268).
+`u32 y; asm { clz y, x }` in MATH_CountLeadingZeros is 240 bytes (53); a
+`__clz` call is not an intrinsic here.
+permuter (scratch copy that round-trips the clz asm through a placeholder,
+tools/ untouched): hill 800 + anneal 900 --types on the verbatim body, hill
+on GetMaxObjectSize and MATH_ILog2: flat at 18.  The wave-11 source below
+(h evaluated first) stays the best.
+permuter best result line: best DIFF asm=50 bytes-out=10 size=248/248
+
+/* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_020681E4
+ * address:  0x020681E4
+ * packet:   pkt_02067FE4
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_020A18F4      0x020A18F4  data
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+static inline u32 MATH_CountLeadingZeros(u32 x)
+{
+    asm { clz x, x }
+    return x;
+}
+inline static int MATH_ILog2(u32 x)
+{
+  return (int) (31 - MATH_CountLeadingZeros(x));
+}
+
+inline static int SizeToShift(int size)
+{
+  return (size >= 8) ? (3) : (MATH_ILog2((u32) size));
+}
+
+struct Shift
+{
+  int w;
+  int h;
+};
+extern const u8 g_020A18F4[4][4][2];
+inline static const u8 *GetPair(int j, int i)
+{
+  return g_020A18F4[j][i];
+}
+
+int func_020681E4(int x, int y, int w, int h, struct Shift s)
+{
+  int base = 0;
+  int sh;
+  int sw;
+  int tmp;
+  int tmp1;
+  sw = s.w;
+  sh = s.h;
+  for (;;)
+  {
+    u32 ww;
+    u32 hh;
+    tmp = 0xFFFFFFFFu << sw;
+    ww = ((u32) w) & tmp;
+    hh = ((u32) h) & (0xFFFFFFFFu << sh);
+    if (hh <= ((u32) y))
+    {
+      base += w * hh;
+      if (ww <= ((u32) x))
+      {
+        h -= hh;
+        base += ww * h;
+        x -= ww;
+        y -= hh;
+        w -= ww;
+      }
+      else
+      {
+        w = ww;
+        y -= hh;
+        h -= hh;
+      }
+    }
+    else
+    {
+      const u32 hinv = ~(0xFFFFFFFFu << sh);
+      if (ww <= ((u32) x))
+      {
+        base += ww * hh;
+        h = hh;
+        x -= ww;
+        w -= ww;
+      }
+      else
+      {
+        const u32 winv = ~(0xFFFFFFFFu << sw);
+        base += ww * (y & (0xFFFFFFFFu << sh));
+        tmp1 = x & (0xFFFFFFFFu << sw);
+        base += tmp1 << sh;
+        base += (y & hinv) << sw;
+        return base + (x & winv);
+      }
+    }
+    {
+      const u8 *p = g_020A18F4[SizeToShift(h)][SizeToShift(w)];
+      sw = (s.w = p[0]);
+      sh = (s.h = p[1]);
+    }
+  }
+
+}
+
+

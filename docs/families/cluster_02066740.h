@@ -487,4 +487,14 @@ extern void func_02067998(struct Hooks *h, struct List *lst);
  * cluster_020640DC.h).
  */
 
+/* ================================================================== *
+ * WAVE 13 (2026-09-23) -- func_02067080 12 -> 2
+ * ================================================================== *
+ * DoAffineTransforme_: inside NNSi_G2dAdjustDifferenceOfRotateOrientation
+ * the negated accumulator takes one product and the second is added in the
+ * store expression, `dx = -(halfW << 12); dx += _00 * halfW; pV->x += dx +
+ * _10 * halfH;` (y alike).  x is byte-exact; the last 2 bytes are the y
+ * read's register (image _11 -> r0, y -> r6).  docs/notes/pkt_02066E30.c.txt.
+ */
+
 #endif /* CLUSTER_02066740_H */

@@ -101,4 +101,12 @@ struct ObjShift { int w; int h; };
 extern int func_020681E4(int x, int y, int w, int h, struct ObjShift s);
 extern const u8 g_020A18F4[4][4][2];    /* [log2 h][log2 w] = {shiftW, shiftH} */
 
+/* WAVE 13 (2026-09-23): func_020681E4 is NitroSystem g2d_CharCanvas.c
+ * GetCharIndex1D(u32 cx, u32 cy, u32 areaWidth, u32 areaHeight, u32
+ * objWidth, u32 objHeight), not g2d_Font.c; g_020A18F4 is
+ * GetMaxObjectSize's static `ObjectSize objs[4][4]` ({widthShift,
+ * heightShift}), indexed [log_h][log_w] with log_w evaluated first -- the
+ * residue's evaluation order is the library's own.  Verbatim body 18 out,
+ * best (wave 11) 10; docs/notes/pkt_02067FE4.c.txt. */
+
 #endif /* CLUSTER_02067FE4_H */

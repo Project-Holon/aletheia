@@ -1152,3 +1152,26 @@ permuter best: DIFF   asm=865   bytes-out=28   size=324/324 (hill 800 + anneal 1
 Tried: DrawEnt with e = ents + i (23), with no e local (740 bytes), and with
 s16 x/y (748 bytes). 1.1p1 269, sp2p2 23.
 permuter best: DIFF   asm=115   bytes-out=23   size=716/716 (hill 800 + anneal 1000 --types)
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 (NitroSystem residues lane): CLOSED
+==============================================================================
+func_02066620, func_020664CC, func_02064EDC and func_02065DB4 are EXACT
+(../2.0/sp2), filed in src/matched.  They are NitroSystem g2d_Renderer.c:
+0x02066620 NNS_G2dRotZ, 0x020664CC NNS_G2dScale, 0x02064EDC
+NNSi_G2dMCMStoreCurrentMtxToMtxCache, 0x02065DB4 NNS_G2dDrawMultiCell.
+Written as the library writes them (g2di_RendererMtxStack.hpp,
+g2di_RendererMtxState.h, g2di_RendererMtxCache.h, g2di_Mtx32.h inlines).
+The residues above (17 / 46 / 28 / 23) were never spelling: they were
+(a) inline boundaries and (b) OBJECT IDENTITY.  g_02147B88 is the
+renderer's pooled .bss statics (currentMtxCachePos_ +0, groupID_ +2,
+bDonotUseSRTransform +4, pCurrentInstance_ +8, stackPos_ +0xc, fxZStack_
++0x10, mtxStateStack_ +0x90, mtxStack_ +0x190, mtxStackFor2DHW_ +0x490,
+mtxCacheBuffer_ +0x790); whether a member is declared inside that object
+or as its own extern decides what the compiler may reorder around it.
+RotZ / Scale need mtxStateStack_ INSIDE the block (else the state store is
+scheduled above the groupID_++ store); StoreCurrentMtxToMtxCache needs
+mtxStateStack_ and mtxCacheBuffer_ as their OWN objects (else 320 bytes).
+Each file records its own declaration.  g_020A81F8 is the .data statics
+{ u16 firstSRTransformedMtxIdx_ (0xFFFE); u32 currenVramTransferHandle_;
+MtxFx32 mtxI_ }.  g_02148718 is mcRenderState_.

@@ -251,4 +251,30 @@ extern void func_02068808(struct Surface *s, void **font, int x, int y,
  * FIRST declaration of each row body (before wd / lo, hi).  Size-exact only
  * under ../2.0/sp2 (and sp2p2, same bytes). */
 
+/* ================================================================== *
+ * 8. Wave 13 (2026-09-23): THE CLUSTER IS NITROSYSTEM g2d_CharCanvas.c
+ * ================================================================== */
+
+/*   func_020682DC  OBJSizeToShape(pSize) (g_020A1914 = shape[4][4])  EXACT
+ *   func_020682F8  ClearChar                                  EXACT
+ *   func_02068430  LetterChar(LC_INFO *)                      EXACT (w13)
+ *   func_02068670  DrawGlyphLine(pCC, pFont, x, y, cl, pGlyph) EXACT (w13)
+ *   func_02068808  DrawGlyph1D(pCC, pFont, x, y, cl, pGlyph)   EXACT (w13)
+ *   func_02068A18  ClearContinuous(pCC, cl)                   EXACT
+ *   func_02068A68  ClearLine(pCC, cl)                         EXACT
+ *   func_02068AE8  ClearAreaLine(pCC, cl, x, y, w, h)         EXACT
+ *   func_02068C84  ClearArea1D(pCC, cl, x, y, w, h)           EXACT
+ *   func_020681E4  GetCharIndex1D                             DIFF 10
+ *   func_02069BA0  NNSi_G2dBitReaderRead
+ * struct Surface is NNSG2dCharCanvas { u8 *charBase; int areaWidth; int
+ * areaHeight; u8 dstBpp; u8 reserved[3]; u32 param; vtable }; `param` is
+ * characters per row (BG / 2D-rect) or the OBJ1DParam union { packed;
+ * baseWidthShift:8; baseHeightShift:8 } (1D).  struct Blit is LC_INFO {
+ * dst, src, ofs_x, ofs_y, width, height, dsrc, srcBpp, dstBpp, cl }.  The
+ * pixel expansion of section 2 is SpreadColor32.  The three glyph rows
+ * closed on the first compile of the library body; the spill / rotation
+ * residues of sections 6 and 7 were the library's scopes and inlines
+ * (GetCharacterSize, NNS_G2dFontGetCellHeight / CellWidth / Bpp through
+ * pFont->pRes->pGlyph, MATH_IMax / MATH_IMin). */
+
 #endif /* CLUSTER_020682DC_H */

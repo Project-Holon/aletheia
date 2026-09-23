@@ -681,3 +681,20 @@ u16 func_02063378(OamMan *pMan, const MtxFx22 *mtx)
     }
     return 0xFFFE;
 }
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 (NitroSystem residues lane): CLOSED
+==============================================================================
+func_02063378, func_02063640 and func_0206343C are EXACT (../2.0/sp2),
+filed in src/matched: NitroSystem g2d_OAM.c NNS_G2dEntryOamManagerAffine,
+NNS_G2dResetOamManagerBuffer and NNS_G2dApplyOamManagerToHW, each on the
+first compile of the library body with its inlines (GetOamCachePtr_,
+GetOamBufferPtr_, GetAffineBufferPtr_, GetCapacity_, HasEnoughCapacity_,
+GetSizeOfManageArea_, ResetOam_, LoadOam_, LoadAffine_, LoadOneAffine_,
+LoadOamAndAffineFast_, NNSi_G2dDmaFill32, G2_SetOBJAffine).  The "mla
+destination wall" was the inline boundary: the buffer address is
+GetAffineBufferPtr_(type, 0) + index / GetOamBufferPtr_(type, from).
+g_02146BC8 is oamCache_[3] (OamCache = 0x100 reservation table + 0x400 OAM
+buffer + 0x40 affine reservation), g_020A84C0 GXi_DmaId (this build's
+GX_GetDefaultDMA clamps >3 to GX_DMA_NOT_USE), g_020A81E4
+GetOBJLoadFunction_'s funcTbl.
