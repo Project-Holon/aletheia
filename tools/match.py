@@ -1150,19 +1150,15 @@ def declared_symbols(fields):
     out = {}
     for line in fields.get("symbols_lines", []):
         parts = line.split()
-        if len(parts) not in (3, 4):
+        if len(parts) not in (3, 4, 5):
             raise SystemExit(
-                "bad symbols: line %r (want 'name 0xADDR kind [overlay]')"
-                % line)
-        if len(parts) == 3:
-            name, addr, kind = parts
-            extra = None
-        else:
-            name, addr, kind, extra = parts
+                "bad symbols: line %r (want 'name 0xADDR kind [overlay] "
+                "[aN]')" % line)
+        name, addr, kind = parts[:3]
         if kind not in ("thumb", "arm", "data"):
             raise SystemExit("bad symbol kind %r for %s" % (kind, name))
         region = align = None
-        if extra is not None:
+        for extra in parts[3:]:
             if re.match(r"^a[0-9]+$", extra):
                 # the declared type's alignment, which the `sole-ref` class
                 # checks the address against
@@ -2127,8 +2123,329 @@ def attest_sole_ref_self(addr, kind, site=None, expect=None):
     return "sole-ref", 1, addr, "self"
 
 
+# ---------------------------------------------------------------------------
+# sole-ref and matched for overlay-resident targets (2026-09-23)
+# ---------------------------------------------------------------------------
+#
+# Every sole-ref sub-kind above reads the ARM9 listings only: evidence(),
+# _scan_data_structure() and layout/data_objects.txt describe arm9_main and
+# its autoloads.  An overlay address therefore reached none of them, and a
+# call or pool word into an overlay whose only referrer is the range under
+# test capped its file at MATCH however the overlay's own listing described
+# the target.  The functions below give the overlay listings
+# (asm/overlays/ovNNN.s) the same standing, with the one extra question the
+# ARM9 image never raises: overlays share RAM windows, so an address is
+# inside several of them, and the rule has to know which one is meant.
+#
+# WHICH OVERLAY
+#
+# _overlay_pool() answers it the way attest_overlay_label() does, with one
+# narrowing that rule does not need:
+#
+#   1. a region hint on the `symbols:` line (a fourth or fifth token
+#      `ovNNN`) names the overlay; a hint naming an overlay whose window does
+#      not hold the address is refused outright;
+#   2. without one, when the function under test itself lives in an overlay
+#      whose window holds the address, that overlay is meant: two overlays
+#      that share a window are never resident together, so code in ov010
+#      that names an address in ov010's window names ov010's byte there;
+#   3. otherwise every overlay whose window holds the address is a
+#      candidate, and the rule must find EXACTLY ONE candidate that
+#      qualifies.  Two qualifying candidates are ambiguity, never evidence.
+#
+# Every rule here is reached only from attest_sole_ref() (after the ARM9
+# sub-kinds have refused) or from attest_matched(), and attest_sole_ref() is
+# itself tried after every stronger class, so no address an existing rule
+# resolves changes class.
+
+_OV_DATA = {}
+_ORG_RE = re.compile(r"^\s*\.org\s+(0x[0-9A-Fa-f]+|\d+)")
+_BYTE_RE = re.compile(r"^\s*\.byte\s+([^/]*)")
+
+
+def _overlay_region(name):
+    for r in load_all_regions():
+        if r.name == name:
+            return r
+    return None
+
+
+def _overlay_bss_table():
+    """{overlay name: (bss lo, bss hi)} from layout/layout.json."""
+    if "bss" not in _OV_DATA:
+        out = {}
+        try:
+            with open(os.path.join(ROOT, "layout", "layout.json")) as fh:
+                lay = json.load(fh)
+        except (OSError, ValueError):
+            lay = {}
+        for ov in lay.get("overlays") or []:
+            lo, hi = ov.get("bss_start"), ov.get("bss_end")
+            if lo and hi and hi > lo:
+                out["ov%03d" % ov["id"]] = (lo, hi)
+        _OV_DATA["bss"] = out
+    return _OV_DATA["bss"]
+
+
+def overlay_data_structure(name):
+    """The per-overlay data map of one overlay listing.
+
+    The overlay counterpart of _scan_data_structure(), read from
+    asm/overlays/<name>.s alone.  Returns
+
+        (code_addrs, data_addrs, object_starts, func_extents, pool_refs)
+
+    `object_starts` holds every address the listing itself says an object
+    begins at: a `pool_`/`veneer_`/`d_`/`g_`/`tbl_` label, and the first
+    datum of every `.word`/`.byte` run that follows code (disasm.py emitted
+    a new block there).  `pool_refs` is {value: [pool site]} for every word
+    under a `pool_` label, i.e. a word some instruction of this overlay
+    actually loads.  `.byte` lines carry no address comment; their address
+    follows from the `.org` directive before them.
+    """
+    key = ("s", name)
+    if key in _OV_DATA:
+        return _OV_DATA[key]
+    code, data, starts = set(), set(), set()
+    pool_refs = defaultdict(list)
+    reg = _overlay_region(name)
+    base = reg.base if reg is not None else 0
+    for path in listing_files(name):
+        prev_data = False
+        in_pool = False
+        cur = None                  # the offset .org last pinned, for .byte
+        try:
+            fh = open(path, "r", errors="replace")
+        except OSError:
+            continue
+        with fh:
+            for line in fh:
+                s_ = line.strip()
+                m = _DATA_LABEL_RE.match(s_)
+                if m:
+                    starts.add(int(m.group(2), 16))
+                    in_pool = m.group(1) == "pool"
+                    continue
+                mo = _ORG_RE.match(line)
+                if mo:
+                    cur = int(mo.group(1), 0)
+                    continue
+                ma = _LINE_ADDR_RE.search(line)
+                if ma is None:
+                    mb = _BYTE_RE.match(line)
+                    if mb and cur is not None:
+                        n = len([t for t in mb.group(1).split(",")
+                                 if t.strip()])
+                        addr = base + cur
+                        for k in range(n):
+                            data.add(addr + k)
+                        if not prev_data:
+                            starts.add(addr)
+                        prev_data = True
+                        cur += n
+                    continue
+                addr = int(ma.group(1), 16)
+                cur = None
+                if _DATA_DIRECTIVE_RE.match(line):
+                    data.add(addr)
+                    if not prev_data:
+                        starts.add(addr)
+                    prev_data = True
+                    if in_pool:
+                        mw = _WORD_RE.match(line)
+                        if mw:
+                            pool_refs[int(mw.group(1), 16)].append(addr)
+                else:
+                    code.add(addr)
+                    prev_data = False
+                in_pool = False
+    import bisect
+    all_code = sorted(code)
+    extents = []
+    for a in sorted(scan_listing(name)):
+        i = bisect.bisect_right(all_code, a)
+        end = a
+        while i < len(all_code) and all_code[i] - end <= 4:
+            end = all_code[i]
+            i += 1
+        extents.append((a, end + 4))
+    out = (code, data, starts, extents, pool_refs)
+    _OV_DATA[key] = out
+    return out
+
+
+def in_overlay_data(name, addr):
+    """True when `addr` is data, not code, in overlay `name`.
+
+    The overlay counterpart of in_data_section(): a datum of that overlay's
+    listing (or a halfword/byte inside one), or that overlay's own bss; never
+    an instruction and never inside a traced function's extent.
+    """
+    reg = _overlay_region(name)
+    bss = _overlay_bss_table().get(name)
+    in_img = reg is not None and reg.base <= addr < reg.base + len(reg.data)
+    in_bss = bss is not None and bss[0] <= addr < bss[1]
+    if in_bss and not in_img:
+        return True
+    if not in_img:
+        return False
+    code, data, _starts, extents, _refs = overlay_data_structure(name)
+    if addr in code:
+        return False
+    import bisect
+    lows = [lo_ for lo_, _hi in extents]
+    i = bisect.bisect_right(lows, addr) - 1
+    if i >= 0 and extents[i][0] <= addr < extents[i][1]:
+        return False
+    return addr in data or (addr & ~1) in data or (addr & ~3) in data
+
+
+def overlay_windows(addr):
+    """Sorted names of every overlay whose image or bss holds `addr`."""
+    out = set(overlay_candidates(addr))
+    for name, (lo, hi) in _overlay_bss_table().items():
+        if lo <= addr < hi:
+            out.add(name)
+    return sorted(out)
+
+
+def _is_arm9_address(addr):
+    r = _region_at(addr)
+    return r is not None and not r.name.startswith("ov")
+
+
+def _overlay_pool(addr, region_hint, site_region, windows=None):
+    """(overlays to consider, fixed) per the WHICH OVERLAY rule above.
+
+    `fixed` is True when a hint or the site's own overlay fixed the choice,
+    which is what lets an ARM9 pool word stand as a referrer (below).
+    Returns ([], False) for a hint whose window does not hold the address.
+    """
+    wins = overlay_windows(addr) if windows is None else windows
+    if region_hint is not None:
+        if region_hint not in wins:
+            return [], False
+        return [region_hint], True
+    if site_region is not None and site_region in wins:
+        return [site_region], True
+    return wins, len(wins) == 1
+
+
+def _overlay_start_attested(name, addr, lo, hi, fixed):
+    """True when overlay `name` says an object starts at `addr`.
+
+    Either the listing's own block structure / labels carry the start, or a
+    pool word names it from OUTSIDE the compared range: a pool word of the
+    same overlay, or, when the overlay is fixed, an ARM9 pool word.  A lone
+    reference inside lo..hi never attests its own start, exactly as for
+    layout/data_objects.txt's `pool` rows.
+    """
+    _code, _data, starts, _ext, refs = overlay_data_structure(name)
+    if addr in starts:
+        return True
+    if any(not lo <= s < hi for s in refs.get(addr, ())):
+        return True
+    if fixed and any(not lo <= s < hi
+                     for s in evidence().pool_words.get(addr, ())):
+        return True
+    return False
+
+
+def attest_sole_ref_overlay_data(addr, align=None, lo=0, hi=0,
+                                 region_hint=None, site_region=None):
+    """`sole-ref/data` for an overlay address.  (class, n, site, "data")/None.
+
+    The same three conditions as attest_sole_ref_data(), each read from the
+    selected overlay's own listing (overlay_data_structure()):
+
+      (a) the address is data in that overlay (in_overlay_data());
+      (b) it is an object START there (_overlay_start_attested());
+      (c) the declared alignment holds.
+
+    Exactly one overlay of the pool may qualify.  When neither a hint nor
+    the site's own overlay fixed the choice, exactly one candidate may even
+    hold DATA at the address: a start in one overlay is no evidence while
+    another overlapping overlay also has data there, because nothing says
+    which of the two the pool word was written for.
+    """
+    if _is_arm9_address(addr):
+        return None                     # ARM9: attest_sole_ref_data()'s job
+    pool, fixed = _overlay_pool(addr, region_hint, site_region)
+    if not pool:
+        return None
+    a = SOLE_REF_DEFAULT_ALIGN if align is None else align
+    if a > 1 and (addr % a):
+        return None
+    data_in = [n for n in pool if in_overlay_data(n, addr)]
+    if not fixed and len(data_in) != 1:
+        return None
+    ok = [n for n in data_in
+          if _overlay_start_attested(n, addr, lo, hi, fixed)]
+    if len(ok) != 1:
+        return None
+    return "sole-ref", 1, addr, "data"
+
+
+def rom_word_in(region_name, addr):
+    """The original word at `addr` in the named region, or None."""
+    reg = _overlay_region(region_name) if region_name else None
+    if reg is None:
+        return None
+    off = addr - reg.base
+    if off < 0 or off + 4 > len(reg.data):
+        return None
+    return struct.unpack_from("<I", reg.data, off)[0]
+
+
+def attest_sole_ref_overlay_self(addr, kind, site=None, expect=None,
+                                 region_hint=None, site_region=None):
+    """`sole-ref/self` for an overlay address.  (class, n, site, "self")/None.
+
+    attest_sole_ref_self()'s two guards, overlay-aware: (a) the target is
+    data, not code, in exactly one overlay of the pool (in_overlay_data());
+    (b) the original word at the relocation site, read from the region the
+    function under test lives in, equals the word about to be written.
+    """
+    if kind != "data" or site is None or expect is None:
+        return None
+    if _is_arm9_address(addr):
+        return None
+    pool, _fixed = _overlay_pool(addr, region_hint, site_region)
+    if len([n for n in pool if in_overlay_data(n, addr)]) != 1:
+        return None
+    if site_region is not None and site_region.startswith("ov"):
+        word = rom_word_in(site_region, site)
+    else:
+        word = rom_word_at(site)
+    if word is None or word != (expect & 0xFFFFFFFF):
+        return None
+    return "sole-ref", 1, addr, "self"
+
+
+def attest_sole_ref_overlay_code(addr, kind, region_hint=None,
+                                 site_region=None):
+    """`sole-ref/code` for an overlay label.  (class, n, site, "code")/None.
+
+    The ARM9 rule (attest_sole_ref_code()) with the overlay listings as the
+    label index: the address is exactly a `func_` label, with the declared
+    ISA, in exactly one overlay of the pool.  No outside branch is required,
+    which is what separates it from the overlay branch of `label`: it is for
+    the callee whose only caller image-wide is the range under test.
+    """
+    if kind not in ("thumb", "arm"):
+        return None
+    pool, _fixed = _overlay_pool(addr, region_hint, site_region,
+                                 overlay_candidates(addr))
+    labeled = [n for n in pool
+               if scan_listing(n).get(addr) == (kind == "thumb")]
+    if len(labeled) != 1:
+        return None
+    return "sole-ref", 1, addr, "code"
+
+
 def attest_sole_ref(addr, kind, align=None, lo=0, hi=0,
-                    site=None, expect=None):
+                    site=None, expect=None, region_hint=None,
+                    site_region=None):
     """The `sole-ref` class.  Returns (class, witnesses, site, subkind) or None.
 
     Tried only after every other class has failed, for every `kind`.  Three
@@ -2140,6 +2457,11 @@ def attest_sole_ref(addr, kind, align=None, lo=0, hi=0,
     the word about to be written there, which only `sole-ref/self` reads.
     and attest() propagates it onto the resolved Site so the shard record
     can name which one carried a given address.
+
+    `region_hint` (the `symbols:` line's overlay token) and `site_region`
+    (the region the function under test lives in) are read only by the
+    overlay rules, which run after the ARM9 sub-kinds have refused: see
+    "sole-ref and matched for overlay-resident targets" above.
     """
     if kind == "data":
         proof = attest_sole_ref_data(addr, align, lo, hi)
@@ -2148,9 +2470,21 @@ def attest_sole_ref(addr, kind, align=None, lo=0, hi=0,
         proof = attest_sole_ref_string(addr, lo, hi)
         if proof is not None:
             return proof
-        return attest_sole_ref_self(addr, kind, site, expect)
+        proof = attest_sole_ref_self(addr, kind, site, expect)
+        if proof is not None:
+            return proof
+        proof = attest_sole_ref_overlay_data(addr, align, lo, hi,
+                                             region_hint, site_region)
+        if proof is not None:
+            return proof
+        return attest_sole_ref_overlay_self(addr, kind, site, expect,
+                                            region_hint, site_region)
     if kind in ("thumb", "arm"):
-        return attest_sole_ref_code(addr, kind)
+        proof = attest_sole_ref_code(addr, kind)
+        if proof is not None:
+            return proof
+        return attest_sole_ref_overlay_code(addr, kind, region_hint,
+                                            site_region)
     return None
 
 
@@ -2225,7 +2559,11 @@ MATCHED_STATUS = ("EXACT", "EXACT*")
 
 
 def matched_index(entries):
-    """{address: (entry name, source, isa)} for the EXACT entries given.
+    """{address: [(entry name, source, isa, region)]} for the EXACT entries.
+
+    A list per address, because overlays share RAM windows: two overlay
+    shards can each hold an EXACT entry at the same address, and
+    attest_matched() has to know which overlay each one proves.
 
     Written against a list rather than reading the manifest itself so that
     the selftest can hand it entries the manifest does not contain, which is
@@ -2239,7 +2577,7 @@ def matched_index(entries):
         if e.get("status") not in MATCHED_STATUS:
             continue
         isa = "thumb" if e.get("isa") == "thumb" else "arm"
-        who = (e["name"], e.get("source", ""), isa)
+        who = (e["name"], e.get("source", ""), isa, e.get("region") or "arm9")
         addrs = [int(e["address"], 16)]
         # A unit entry records the functions its compared range covered; each
         # of those addresses is pinned by the same byte comparison.
@@ -2248,7 +2586,9 @@ def matched_index(entries):
             if m:
                 addrs.append(int(m.group(1), 16))
         for a in addrs:
-            out.setdefault(a, who)
+            lst = out.setdefault(a, [])
+            if who not in lst:
+                lst.append(who)
     return out
 
 
@@ -2274,30 +2614,75 @@ def source_key(path):
     return None if rel.startswith("../") else rel
 
 
-def attest_matched(addr, kind, src=None):
+def _matched_overlay_ok(addr, kind, region, region_hint, site_region):
+    """Whether an EXACT entry of overlay `region` proves the call meant.
+
+    The matched-overlay rule (2026-09-23).  An entry under
+    layout/matched/ovNNN/ proves what that overlay holds at the address;
+    overlays share RAM windows, so it attests the site only when that
+    overlay is the one meant, decided by the WHICH OVERLAY rule of
+    _overlay_pool(): the `symbols:` hint names it, or the function under
+    test lives in it, or, with neither, no other overlay whose window holds
+    the address carries a `func_` label of the declared ISA there or an
+    EXACT entry of its own (the entry's overlay is then the only candidate
+    anything says is code of that ISA at that address).
+    """
+    wins = overlay_candidates(addr)
+    if region_hint is not None:
+        return region_hint == region
+    if site_region is not None and site_region in wins:
+        return site_region == region
+    thumb = kind == "thumb"
+    others = [n for n in wins if n != region]
+    entries = matched_addresses().get(addr, [])
+    for n in others:
+        if scan_listing(n).get(addr) == thumb:
+            return False
+        if any(w[3] == n for w in entries):
+            return False
+    return True
+
+
+def attest_matched(addr, kind, src=None, region_hint=None, site_region=None):
     """The `matched` class.  Returns (class, witnesses, site) or None.
 
     `src` is the source file under test, in manifest spelling.  Without it
     self-reference cannot be checked, so the class refuses outright rather
-    than risk an entry witnessing itself.
+    than risk an entry witnessing itself.  An entry from an overlay shard
+    (region `ovNNN`) attests only when _matched_overlay_ok() says that
+    overlay is the one meant; `region_hint` and `site_region` feed it.
     """
     if kind not in ("thumb", "arm"):
         return None
     if src is None:
         return None
     found = matched_addresses().get(addr)
-    if found is None:
+    if not found:
         return None
-    _name, source, isa = found
-    if source == src:
-        return None             # an entry may not witness its own file
-    if isa != kind:
-        return None
-    return "matched", 1, addr
+    if not found[0][3].startswith("ov"):
+        # ARM9 and autoload entries: the rule as it always was, on the
+        # first entry recorded at the address.
+        _name, source, isa, _region = found[0]
+        if source == src:
+            return None         # an entry may not witness its own file
+        if isa != kind:
+            return None
+        return "matched", 1, addr
+    for _name, source, isa, region in found:
+        if source == src:
+            return None         # an entry may not witness its own file
+    for _name, source, isa, region in found:
+        if isa != kind:
+            continue
+        if not _matched_overlay_ok(addr, kind, region, region_hint,
+                                   site_region):
+            continue
+        return "matched", 1, addr
+    return None
 
 
 def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
-           site=None, expect=None):
+           site=None, expect=None, site_region=None):
     """Independent evidence for `addr`, or None.
 
     `lo`..`hi` is the byte range under comparison; a witness inside it does
@@ -2313,7 +2698,10 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
     "string"/"self"); callers that only need the class name still read
     element 0.  `site` is the relocation site's link-time address and
     `expect` the word about to be written there; only `sole-ref/self`
-    consults them, and without them that sub-kind refuses.
+    consults them, and without them that sub-kind refuses.  `site_region`
+    is the region the function under test lives in; only the overlay rules
+    of `matched` and `sole-ref` read it (see "sole-ref and matched for
+    overlay-resident targets").
     """
     ev = evidence()
     if kind in ("thumb", "arm"):
@@ -2374,7 +2762,7 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
     # Last, because it is the one class that is not a reading of the original
     # image: our own compiled proof that the target address holds a function
     # we already reproduced byte for byte.
-    proof = attest_matched(addr, kind, src)
+    proof = attest_matched(addr, kind, src, region_hint, site_region)
     if proof is not None:
         return proof
     # Last of all, after every other class has failed: the layout's own
@@ -2382,7 +2770,8 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
     # begins at this address.  See "the `sole-ref` class" above.  Every kind
     # is tried here, code included: sole-ref/code exists for exactly the
     # function pointers and single-caller callees that never reach `label`.
-    proof = attest_sole_ref(addr, kind, align, lo, hi, site, expect)
+    proof = attest_sole_ref(addr, kind, align, lo, hi, site, expect,
+                            region_hint, site_region)
     if proof is not None:
         return proof
     return None
@@ -2506,7 +2895,7 @@ def _encode_arm_branch(data, off, place, target, addend, thumb_target=False):
     return True
 
 
-def resolve_relocations(fb, place, decls, size=None, src=None):
+def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
     """Fill in every relocation of `fb` whose target we can attest.
 
     `place` is the address the code is being compared at, so a site at
@@ -2514,7 +2903,9 @@ def resolve_relocations(fb, place, decls, size=None, src=None):
     mask bytes turned back on, so the byte comparison covers them; sites
     that do not keep their wildcards and record why.  `src` is the source
     file under test, in manifest spelling: the `matched` class needs it to
-    refuse an entry that would witness its own file.
+    refuse an entry that would witness its own file.  `region` is the region
+    the code is compared in, which the overlay rules of `matched` and
+    `sole-ref` read; None keeps every rule to its pre-overlay behaviour.
     """
     data = bytearray(fb.data)
     mask = bytearray(fb.mask)
@@ -2562,7 +2953,7 @@ def resolve_relocations(fb, place, decls, size=None, src=None):
                 self_site = place_at
                 self_expect = (target + addend) & 0xFFFFFFFF
             proof = attest(target, kind, lo, hi, src, region_hint, align,
-                           self_site, self_expect)
+                           self_site, self_expect, site_region=region)
             if proof is None:
                 st.reason = ("%08X (%s, from %s) has no witness outside "
                              "%08X..%08X" % (target, kind, origin, lo, hi))
@@ -2758,7 +3149,7 @@ def run_one(src, func, addr, version, flags, thumb, lang, region=None,
         tsize, tthumb = target_extent(addr, reg.name)
         n = len(fb.data)
         resolve_relocations(fb, addr, declared_symbols(read_header(src)),
-                            src=source_key(src))
+                            src=source_key(src), region=reg.name)
         rname, tgt = target_bytes(addr, n, region=reg.name)
         status, diffs = compare(fb, tgt)
         r = Result(status, log=log)
@@ -3018,7 +3409,7 @@ def run_tu(src, addr, version, flags, thumb, lang, region=None, keep=False,
         fake = FuncBytes("<tu>", tl.data, tl.mask, bool(thumb), ".text",
                          tl.relocs, tl.locals)
         resolve_relocations(fake, addr, declared_symbols(read_header(src)),
-                            src=source_key(src))
+                            src=source_key(src), region=reg.name)
         status, diffs = compare(fake, tgt)
         r = Result(status, log=log)
         r.func = fake
@@ -4039,6 +4430,42 @@ SOLE_REF_MAP_BETWEEN = 0x020050B0
 MATCHED_MEMBER = 0x0200B6E0
 MATCHED_MEMBER_SRC = "src/matched/unit_0200B67C.c"
 
+# --- the overlay rules of sole-ref and matched (2026-09-23) ----------------
+# 0x02156460: a Thumb func_ label in ov009 (ov010 overlaps the address and
+# does not label it); its only caller image-wide is the bl at 0x0200F7A8
+# inside src/pending/sub_0200F734.c (0x0200F734..0x0200F7B8), so `label`
+# has no outside branch and only the overlay sole-ref/code rule carries it.
+OV_CODE_SOLE = 0x02156460
+OV_CODE_SOLE_REGION = "ov009"
+OV_CODE_SOLE_LO, OV_CODE_SOLE_HI = 0x0200F734, 0x0200F7B8
+# 0x0215E334: a callee of src/pending/func_02012704.c that neither ov009 nor
+# ov010 labels.
+OV_CODE_UNLABELLED = 0x0215E334
+# 0x02155244: labelled Thumb in BOTH ov009 and ov010, the ambiguity case.
+OV_CODE_TWICE = 0x02155244
+# 0x0216FEDC: ov010 data (ov009 has code there) that the listing's block
+# structure does not start; the one pool word naming it anywhere is
+# pool_02155470 in ov010.  Outside that site's range it is an ov010 object
+# start; with the site inside the range it has no witness left.
+OV_DATA_POOLED = 0x0216FEDC
+OV_DATA_POOLED_SITE = 0x02155470
+# 0x021D6338 (src/pending/func_02010AC4.c): ov021's listing starts a block
+# there, but ov016 and ov115 overlap the address and hold data too.
+OV_DATA_SHARED = 0x021D6338
+# 0x02171F3C: the ov010 byte table of the 0x02167394 callee (wave 14,
+# game_beacon.c).  Its only reference is the word at 0x021673A4 inside that
+# function (0x02167394..0x021673A8), so no start rule can carry it; the
+# overlay self rule does, with the site read from ov010.
+OV_DATA_SELF = 0x02171F3C
+OV_DATA_SELF_SITE = 0x021673A4
+OV_DATA_SELF_LO, OV_DATA_SELF_HI = 0x02167394, 0x021673A8
+# 0x02168800: src/matched/func_02168800.c, an EXACT entry of the ov010
+# shard; ov009 overlaps the address and labels nothing there.
+OV_MATCHED = 0x02168800
+OV_MATCHED_REGION = "ov010"
+OV_MATCHED_SRC = "src/matched/func_02168800.c"
+OV_MATCHED_CALLER_SRC = "src/pending/overlay_selftest.c"
+
 
 def _matched_fixture(status="EXACT", kind="game_unit"):
     """A manifest entry the manifest does not contain.
@@ -4144,8 +4571,10 @@ def cmd_selftest(args):
     _check(res, "label: the overlay label's ISA has to be the declared ISA",
            cls(attest(OVERLAY_FUNC, "arm", 0, 0)), None)
     _check(res, "label: an image-wide compared range refuses an overlay "
-                "callee too",
-           cls(attest(OVERLAY_FUNC, "thumb", 0x02000000, 0x03000000)), None)
+                "callee too (the label rule itself; attest() now falls "
+                "through to the overlay sole-ref/code rule, see below)",
+           cls(attest_overlay_label(OVERLAY_FUNC, "thumb", 0x02000000,
+                                    0x03000000)), None)
     _check(res, "label: an overlay address no overlay labels is refused",
            cls(attest(OVERLAY_THUMB_THUNK, "thumb", 0, 0)), None)
     _check(res, "label: a region_hint naming the labelled overlay succeeds "
@@ -4485,6 +4914,128 @@ def cmd_selftest(args):
                 "sub-kind (the dispatcher may still fall through to "
                 "sole-ref/string for the same address; see below)",
            cls(attest_sole_ref_data(SOLE_REF_MAP_OVERLAY, align=16)), None)
+
+    # --- sole-ref/code for overlay labels (2026-09-23) ---------------------
+    _check(res, "ov sole-ref/code: an overlay label whose only caller is "
+                "inside the range is carried by attest()",
+           (attest(OV_CODE_SOLE, "thumb", OV_CODE_SOLE_LO, OV_CODE_SOLE_HI)
+            or (None,))[::3], ("sole-ref", "code"))
+    _check(res, "ov sole-ref/code: the label rule itself still refuses it",
+           cls(attest_overlay_label(OV_CODE_SOLE, "thumb", OV_CODE_SOLE_LO,
+                                    OV_CODE_SOLE_HI)), None)
+    _check(res, "ov sole-ref/code: a hint naming the labelling overlay "
+                "attests",
+           cls(attest_sole_ref_overlay_code(OV_CODE_SOLE, "thumb",
+                                            OV_CODE_SOLE_REGION)),
+           "sole-ref")
+    _check(res, "ov sole-ref/code: a hint naming an overlapping overlay "
+                "that does not label it is refused",
+           cls(attest_sole_ref_overlay_code(OV_CODE_SOLE, "thumb", "ov010")),
+           None)
+    _check(res, "ov sole-ref/code: code under test in the other overlay "
+                "names that overlay's byte, and is refused",
+           cls(attest_sole_ref_overlay_code(OV_CODE_SOLE, "thumb",
+                                            site_region="ov010")), None)
+    _check(res, "ov sole-ref/code: the label's ISA has to be the declared "
+                "one",
+           cls(attest_sole_ref_overlay_code(OV_CODE_SOLE, "arm")), None)
+    _check(res, "ov sole-ref/code: an offset into the function is refused",
+           cls(attest_sole_ref_overlay_code(OV_CODE_SOLE + 2, "thumb")),
+           None)
+    _check(res, "ov sole-ref/code: an address no overlay labels is refused",
+           cls(attest(OV_CODE_UNLABELLED, "thumb", 0x02012704, 0x02012798)),
+           None)
+    _check(res, "ov sole-ref/code: two overlapping overlays labelling it is "
+                "ambiguity without a hint",
+           cls(attest_sole_ref_overlay_code(OV_CODE_TWICE, "thumb")), None)
+    _check(res, "ov sole-ref/code: the hint resolves that ambiguity",
+           cls(attest_sole_ref_overlay_code(OV_CODE_TWICE, "thumb",
+                                            "ov010")), "sole-ref")
+
+    # --- sole-ref/data and /self for overlay data (2026-09-23) --------------
+    _check(res, "ov sole-ref/data: an overlay pool word outside the range "
+                "attests an ov010 object start",
+           (attest(OV_DATA_POOLED, "data", 0, 0) or (None,))[::3],
+           ("sole-ref", "data"))
+    _check(res, "ov sole-ref/data: that start is not in the listing's own "
+                "block structure",
+           OV_DATA_POOLED in overlay_data_structure("ov010")[2], False)
+    _check(res, "ov sole-ref/data: its lone referrer inside the range "
+                "leaves no witness",
+           cls(attest_sole_ref_overlay_data(OV_DATA_POOLED, 4,
+                                            OV_DATA_POOLED_SITE - 0x40,
+                                            OV_DATA_POOLED_SITE + 0x40)),
+           None)
+    _check(res, "ov sole-ref/data: an address between starts is refused",
+           cls(attest_sole_ref_overlay_data(OV_DATA_POOLED + 4)), None)
+    _check(res, "ov sole-ref/data: the alignment refusal holds",
+           cls(attest_sole_ref_overlay_data(OV_DATA_POOLED, 8)), None)
+    _check(res, "ov sole-ref/data: a hint whose window does not hold the "
+                "address is refused",
+           cls(attest_sole_ref_overlay_data(OV_DATA_POOLED,
+                                            region_hint="ov001")), None)
+    _check(res, "ov sole-ref/data: un-hinted, a start in one overlay is "
+                "refused while an overlapping overlay also holds data there",
+           cls(attest_sole_ref_overlay_data(OV_DATA_SHARED)), None)
+    _check(res, "ov sole-ref/data: the hint naming the starting overlay "
+                "attests it",
+           cls(attest_sole_ref_overlay_data(OV_DATA_SHARED,
+                                            region_hint="ov021")), "sole-ref")
+    _check(res, "ov sole-ref/data: an overlay code address is refused",
+           cls(attest_sole_ref_overlay_data(OV_CODE_SOLE,
+                                            region_hint="ov009")), None)
+    _check(res, "ov sole-ref/data: an ARM9 address is left to the ARM9 "
+                "rules",
+           cls(attest_sole_ref_overlay_data(SOLE_REF_ANCHOR)), None)
+    _check(res, "ov sole-ref/self: the single-pool ov010 table is carried "
+                "by ROM-word agreement read from ov010",
+           (attest(OV_DATA_SELF, "data", OV_DATA_SELF_LO, OV_DATA_SELF_HI,
+                   site=OV_DATA_SELF_SITE, expect=OV_DATA_SELF,
+                   site_region="ov010") or (None,))[::3],
+           ("sole-ref", "self"))
+    _check(res, "ov sole-ref/self: no start rule carries that table",
+           cls(attest_sole_ref_overlay_data(OV_DATA_SELF, 4, OV_DATA_SELF_LO,
+                                            OV_DATA_SELF_HI,
+                                            site_region="ov010")), None)
+    _check(res, "ov sole-ref/self: a disagreeing word is refused",
+           cls(attest_sole_ref_overlay_self(OV_DATA_SELF, "data",
+                                            OV_DATA_SELF_SITE,
+                                            OV_DATA_SELF + 4,
+                                            site_region="ov010")), None)
+    _check(res, "ov sole-ref/self: a code target is refused",
+           cls(attest_sole_ref_overlay_self(OV_CODE_SOLE, "data",
+                                            OV_CODE_SOLE_LO + 0x74,
+                                            OV_CODE_SOLE,
+                                            region_hint="ov009")), None)
+
+    # --- matched-overlay (2026-09-23) ---------------------------------------
+    _check(res, "matched-overlay: an EXACT ov010 entry attests a call with "
+                "the ov010 hint",
+           cls(attest_matched(OV_MATCHED, "thumb", OV_MATCHED_CALLER_SRC,
+                              OV_MATCHED_REGION)), "matched")
+    _check(res, "matched-overlay: and from code under test in ov010",
+           cls(attest_matched(OV_MATCHED, "thumb", OV_MATCHED_CALLER_SRC,
+                              site_region=OV_MATCHED_REGION)), "matched")
+    _check(res, "matched-overlay: and un-hinted, the one overlapping "
+                "overlay (ov009) saying nothing is code there",
+           cls(attest_matched(OV_MATCHED, "thumb", OV_MATCHED_CALLER_SRC)),
+           "matched")
+    _check(res, "matched-overlay: a hint naming the other overlay is refused",
+           cls(attest_matched(OV_MATCHED, "thumb", OV_MATCHED_CALLER_SRC,
+                              "ov009")), None)
+    _check(res, "matched-overlay: code under test in the other overlay is "
+                "refused",
+           cls(attest_matched(OV_MATCHED, "thumb", OV_MATCHED_CALLER_SRC,
+                              site_region="ov009")), None)
+    _check(res, "matched-overlay: the entry may not witness its own file",
+           cls(attest_matched(OV_MATCHED, "thumb", OV_MATCHED_SRC,
+                              OV_MATCHED_REGION)), None)
+    _check(res, "matched-overlay: the ISA has to be the entry's",
+           cls(attest_matched(OV_MATCHED, "arm", OV_MATCHED_CALLER_SRC,
+                              OV_MATCHED_REGION)), None)
+    _check(res, "matched-overlay: the index records the entry's overlay",
+           [w[3] for w in matched_addresses().get(OV_MATCHED, [])],
+           [OV_MATCHED_REGION])
 
     # --- two files attesting each other ------------------------------------
     # The pairwise case needs no machinery of its own: a compared range is one

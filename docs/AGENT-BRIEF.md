@@ -392,6 +392,39 @@ than guessed at, and `match.py one`'s per-site report lists the candidate
 overlays so you can tell a genuine ambiguity from an address nothing labels
 at all. `attest_overlay_label()` in `tools/match.py` is the implementation.
 
+Overlay-resident targets get the same `sole-ref` and `matched` treatment as
+ARM9 ones (2026-09-23). All three rules pick the overlay the same way: the
+`symbols:` line's overlay token (`ovNNN`, which may now sit beside an
+alignment token: `d_021BD574  0x021BD574  data  ov088  a4`); else the
+overlay the function under test itself lives in, when its window holds the
+address (overlapping overlays are never resident together); else every
+overlay whose window holds it, of which exactly one must qualify.
+
+- **sole-ref/data, overlay**: a `data` site whose address is a datum (not
+  code, not inside a traced extent) of the chosen overlay's listing
+  `asm/overlays/ovNNN.s`, or in its bss, and the START of an object there:
+  a `pool_`/`veneer_`/`d_`/`g_`/`tbl_` label, the first datum of a
+  `.word`/`.byte` run after code, or a `pool_` word of that same overlay (or,
+  with the overlay fixed by hint or site, an ARM9 pool word) naming it from
+  outside your range. Alignment as for ARM9. Un-hinted, exactly one
+  candidate may hold data at the address at all. `sole-ref/self` extends the
+  same way: the target is data in exactly one chosen overlay and the ROM word
+  at the site, read from the region you are compared in, already names it
+  (this is what carries a single-pool overlay table such as `0x02171F3C`).
+  Recorded as `data:`/`self:` like the ARM9 sub-kinds.
+- **sole-ref/code, overlay**: a `thumb`/`arm` site whose address is exactly
+  a `func_` label with the declared ISA in the chosen overlay's listing
+  (exactly one candidate labelling it, un-hinted). No outside branch is
+  needed: it is for the callee whose only caller image-wide is inside your
+  range, which `label` refuses. Recorded as `code:`.
+- **matched, overlay**: an EXACT entry of a `layout/matched/ovNNN/` shard
+  covering the target attests as `matched` only when that overlay is the one
+  meant: the hint names it, or your function lives in it, or, un-hinted, no
+  other overlapping overlay has a `func_` label of that ISA or an EXACT entry
+  there. `attest_sole_ref_overlay_data()`, `attest_sole_ref_overlay_self()`,
+  `attest_sole_ref_overlay_code()` and `_matched_overlay_ok()` are the
+  implementation.
+
 No back-filling: you may not declare an address correct because the bytes
 you are trying to match happen to contain it, and you may not reuse the
 range under test as its own witness. **Self-reference is refused**: a

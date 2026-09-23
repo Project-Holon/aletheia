@@ -420,6 +420,32 @@ carries a `func_` label there at all; `manifest --verify`'s per-site report
 now names the candidate overlays so this reads as a labelling gap rather
 than a silent `MATCH`.
 
+Overlay data map for `sole-ref/data` (2026-09-23): `overlay_data_structure()`
+reads each overlay's own listing once, lazily, into code addresses, data
+addresses, object starts (data labels and the first datum of every
+`.word`/`.byte` run after code, `.byte` addresses taken from the preceding
+`.org`), traced extents and the values of its `pool_` words. A `data` site
+into an overlay attests when the chosen overlay (symbols-line hint, else the
+overlay the function under test lives in, else the unique candidate) holds
+data at an object start there, with a pool referrer outside the compared
+range counting as a start; the overlay `sole-ref/self` rule carries a
+single-pool table the way the ARM9 one does, reading the site's ROM word from
+the region under comparison.
+
+`sole-ref/code` for overlay labels (2026-09-23): a call into an overlay
+address that exactly one chosen overlay's listing labels `func_` with the
+declared ISA attests as `sole-ref/code` without an outside branch, which is
+the shape of every ARM9 wrapper whose overlay callee has no other caller
+(`sub_0200F734` into ov009 `0x02156460`). `attest_overlay_label()` still
+refuses it as `label`; the new rule runs only after every stronger class.
+
+matched-overlay (2026-09-23): the `matched` class already read every shard,
+overlay directories included, but ignored the region. An entry in
+`layout/matched/ovNNN/` now attests only when that overlay is the one meant
+(hint, the caller's own overlay, or no other overlapping overlay labelling or
+matching the address); ARM9 entries keep the old rule unchanged. The selftest
+covers each rule with positive and negative cases (157 cases).
+
 ## Pokemon White is planned
 
 A second build target (Pokemon White, IRAO) is planned for this tree; see
