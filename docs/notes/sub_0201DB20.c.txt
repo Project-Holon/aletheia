@@ -342,3 +342,13 @@ each other; the image colours m first (r4) and gives pNext the same r4, the
 compile colours hi first (r4), shares r4 with pNext, and m gets r6.  So the
 residue is colouring order, and none of declaration order, register,
 const or block scope moves it.
+
+==============================================================================
+APPENDED 2026-09-24, wave 18 (ties_b lane): 15 holds
+==============================================================================
+The wave 15 source, measured once each: reproduced 154/15; `hi = ...` before
+`lo = 0` (160 bytes); a function-scope `next` for the loaded pNext, declared
+before hi or after m (15 each). Permuter anneal 800, seed 2102, no --types:
+it again chases the 156-byte extent (156/40). No parameter is dead, no
+callee, so the u16-prototype and dead-parameter levers do not apply.
+/* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */

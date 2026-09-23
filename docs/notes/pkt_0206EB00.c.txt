@@ -1665,3 +1665,14 @@ void func_0206ECE0(Out *out)
         out->f00 |= 2;
     }
 }
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x0206ECE0 CLOSED, EXACT (long k)
+==============================================================================
+Measured before the lever (../2.0/sp2p2, all 14 unless noted): the dead
+flag word reused as the pivot index (u32 f and int f); inner flag-8 arms
+swapped, copy first (181); `*(&out->m[k])` first store; u16 k and u8 k
+(388 bytes); dsi/1.2; resolve returning through its dead e; entry_of
+returning through its t.  Then `long k;` in place of `int k;`: EXACT.
+Filed as src/matched/func_0206ECE0.c (the wave-10 source with `long k;`), EXACT under ../2.0/sp2p2 and ../2.0/sp2; manifest --verify --shard pkt_0206EB00 twice, second pass 0 rewritten. Lever: docs/idioms/a-long-index-colours-apart-from-an-int.md.

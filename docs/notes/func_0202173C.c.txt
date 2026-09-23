@@ -438,3 +438,16 @@ image's first-slot `str r3, [sp, #8]` is not an aliasing order either; it
 sits before `adds r5, r0` in the pre-schedule order, which none of these
 spellings changes.
 /* best source: unchanged, the first section's source (232/232 and 268/268, 33 out each) */
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x0202173C / 0x02021848 unchanged, DIFF 33 each
+==============================================================================
+0x0202173C 0x02021848 (33 each, 1.1p1): re-measured against the corrected
+listing extents (show now prints 268 and 232 bytes): the first section's
+source is 268/268 and 232/232, 33 out each, so the earlier measurements
+stand. dsi/1.2, 1.3, 1.1: 33. Twin: unsigned long i 228 bytes; b, c, d
+unsigned long 44 (the stack parameters are then copied to fresh frame slots;
+the image copies each onto its own slot); the same with func_020219C4's b,
+c, d unsigned long 33; long a with a long callee parameter 33. Unchanged 33.
+/* best source, 268 / 232 bytes against 268 / 232, 33 concrete bytes out each, 1.1p1 -- the first section's source -- unchanged */

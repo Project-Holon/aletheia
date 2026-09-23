@@ -627,3 +627,14 @@ under 1.1p1 (184 out) and 244 under ../2.0/sp2.  The wave-11 source under
 1.1p1 is 240 bytes (162 out).  So 1.1p1 is 8 to 20 bytes short in either
 shape and the ../2.0/sp2 pin stands.
 /* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 -- the wave-11 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x020681E4 unchanged, DIFF 10
+==============================================================================
+0x020681E4 (10, ../2.0/sp2): logs w-first into sw/sh, then the element
+pointer from them 18; logs into the dead stack parameters s.w/s.h 256 bytes;
+w-first into tmp/tmp1 18; w-log into sh and h-log into sw (swapped names)
+32; row pointer then += 2 * log_w 20; SizeToShift returning long 10; named
+lw/lh as int/long in all four combinations 18. Unchanged 10.
+/* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 -- the wave-11 source above -- unchanged */

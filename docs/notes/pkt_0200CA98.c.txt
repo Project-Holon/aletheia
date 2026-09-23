@@ -379,3 +379,14 @@ compare operands swapped, `form + acc`.  The tail as ClrBit/SetBit
 inlines over y (off/bit recomputed per call, no CSE): 468 bytes.
 --explain: image r0 holds off in the tail and j in the form loop, the
 compile gives both r3; r1 (image) -> r0 x31, r2 -> r1 x49.
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): func_0200CA98 unchanged, DIFF 147
+==============================================================================
+0x0200CA98 (147, 1.1p1): form-loop mask by compound statements before the
+offset, u32 m (341) / u8 m (396); SetBit arms swapped (alt != 1 first) 148;
+table element pointer for the key compare only 147, for all three reads 388;
+dsi/1.2 147. Unchanged 147.
+Also 147 (j 152): unsigned long acc / i / j / cnt singly and together, unsigned long id / sel / all four u32 parameters, long y, off.
+/* best source, 392 bytes against 392, 147 concrete bytes out, 1.1p1 -- the wave-13 source above -- unchanged */

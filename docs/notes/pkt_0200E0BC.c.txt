@@ -359,3 +359,16 @@ Rec table (const, .b) and u32 i plus the redundant `if (i >= 4) break;` it is
 value, u32 r, while form, do-while under explicit if (all 40 bytes, 35-37
 out, entry test deleted); r declared first (15); element pointer local and
 a const table pointer local (9); early return (36 bytes).
+
+================================================================
+APPENDED 2026-09-24, wave 18 lane ties_b: FUNC_0200E0BC CLOSED, EXACT
+================================================================
+The enum-counter lever of func_02010DCC (docs/idioms/an-enum-type-keeps-
+values-out-of-constant-folding.md) breaks the preheader wall: an enum `i`
+with no redundant break keeps the entry guard and loads the table after it.
+Measured: enum i, u32 r declared first (10: regs swapped, bge/blt); r
+declared after i (2: only bge/blt); an extra 0xFFFFFFFF enumerator (2);
+`(u32)i < IDX_MAX` (8); `i < 4u` (8, r3/r4 swapped, bhs/blo right); the
+same with r first (8) or assigned after the declarations (8); u16 value (8);
+`Idx r = 3` with `i < 4u` EXACT, and with `i < (u32)IDX_MAX` EXACT. Filed as
+src/matched/func_0200E0BC.c.

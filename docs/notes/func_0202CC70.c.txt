@@ -169,3 +169,13 @@ spelling with sx/sy/ow/oh assigned in the clip blocks 240/173; plus
 `sy = win->y; y1 = sy + win->h;` above the y1 guard 236/176; permuter
 anneal 1500 --types from the 240 source: 244/244 at 130 out through a
 28-mutation non-value-preserving chain, discarded.
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x0202CC70 unchanged, 236 against 244, 176 out
+==============================================================================
+0x0202CC70 (176, 1.1p1): dsi/1.2 236/176; the sub_0202CB4C body with s32 x =
+win->x / y = win->y locals and s8 sx/ow/sy/oh 236/192, with s32 sx/sy
+232/197; the clip as a static inline over (win, x, y) called with win->x /
+win->y 232/204. Unchanged 176.
+/* best source: unchanged, the first section's source */

@@ -683,3 +683,14 @@ with `g3d_util_file 0x020A7EB8 data` in a symbols: block):
   getRes taking int resIdx, useRes taking int idx                     14
 Allocation tie stands (resIdx r7 / i sb in the image, swapped here).
 /* best source: unchanged, the wave-16 long source above (468/468, 14 out, dsi/1.1p1) */
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x02048744 unchanged, DIFF 14
+==============================================================================
+0x02048744 (14, 1.1p1): unitIdx reused for resIdx (dead-parameter lever)
+472/388; heapID reused for the masked heap id before the loop 472/393; anm
+arms swapped (!= 0xff first) 35; texResIdx arms swapped (== first) 95;
+AnmSetup element pointer `as = &os->anmTbl[j]` 35; the three unit reads
+through (&util->unit[unitIdx])-> 14; dsi/1.2 14 (same pair). Unchanged 14.
+/* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */

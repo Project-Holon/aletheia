@@ -508,3 +508,12 @@ declaration and assignment: 18; the shifted term first in the sum: 18; the
 `-(scaleT << 1) + 0x2000` term through a named local: 18; `(u32)0x2000 -
 (u32)(scaleT << 1)`: 120 bytes (one rsb).
 /* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 18 (ties_b lane): 0x02071104 unchanged, DIFF 6
+==============================================================================
+The wave-13 source, measured once each: ../2.0/sp2 6 (reproduced); dsi/1.2
+116 bytes, 101 out; `(s64)scaleT * transT` with `scaleT * 2` 18; a `zero`
+local for _01/_10 6; origHeight cast to fx32 at both uses 6. No callees, so
+the u16/prototype levers do not apply.
+/* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

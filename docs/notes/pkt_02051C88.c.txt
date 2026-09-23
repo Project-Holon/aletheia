@@ -292,3 +292,12 @@ line, ret = 0, i): 19 (the ip/lr exchange of the first loop's index and
 slots base).  Every slot store already goes through c->slots[i], which
 is what makes the image reload n and slots after the stores.
 /* best source, 352 bytes against 352, 19 concrete bytes out, 1.1p1 -- the wave-12 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x02051C88 CLOSED, EXACT (unsigned long i)
+==============================================================================
+0x02051C88 (19 -> EXACT): loop index `unsigned long i`. Before it: slot
+element pointer (332), (&c->slots[i])->state stores (19), state arms swapped
+(61), dsi/1.2 (19), h arms swapped (180), long a, b (19).
+Filed as src/matched/func_02051C88.c (the wave-12 source with `unsigned long i;` and the symbols block), EXACT under dsi/1.1p1; manifest --verify --shard pkt_02051C88 twice, second pass 0 rewritten. Lever: docs/idioms/a-long-index-colours-apart-from-an-int.md.

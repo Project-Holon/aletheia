@@ -192,3 +192,15 @@ void sub_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis)
 
     sub_0204B550(actor, o, axis);
 }
+
+==============================================================================
+2026-09-24, wave 18 (ties_b lane): CLOSED, EXACT (80/80)
+==============================================================================
+Measured: the 13-out source with the arms swapped (`axis != 0` first, 76);
+`if (axis != 0) value += origin.y; else value += origin.x;` (80, 4 out:
+only the ldrsheq/ldrshne pair in the wrong order); `if (!axis) value +=
+origin.x; else value += origin.y;` EXACT; the same with `axis == 0` EXACT;
+the same with `value = value + origin.x` in the arms 76 (spelling 5 above).
+The lever is the compound assignment on the s16 parameter. Filed as
+src/matched/sub_0204B49C.c; idiom
+docs/idioms/a-compound-add-to-a-narrow-parameter-keeps-the-sum-in-its-home-register.md.

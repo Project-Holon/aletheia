@@ -331,3 +331,11 @@ APPENDED 2026-09-23, wave 17 (text_font_anime lane): func_02013528: 6 holds
 Same residue class as func_0201FDA0 (pkt_0201FC5C note): the r3 parameter's
 spill store is emitted before the register moves in the image and after
 them in every compile.
+
+==============================================================================
+APPENDED 2026-09-24, wave 18 lane ties_b: func_02013528 CLOSED, EXACT
+==============================================================================
+The eighth (stack) parameter a7 is a heap id: declared u16, with u16 on the
+matching parameter of func_0201333C, func_0200846C and func_0201A920, the r3
+home store comes first. EXACT in one measurement (u32 control: 6 out).
+Filed as src/matched/func_02013528.c, shard pkt_02013528 verified twice.

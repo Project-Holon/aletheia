@@ -223,3 +223,13 @@ u32 func_02069BA0(Bits *b, s32 n)
     }
     return acc & (u32)(mask >> (8 - n));
 }
+
+==============================================================================
+2026-09-24, wave 18 (ties_b lane): 6 holds (no volatile)
+==============================================================================
+From the wave 17 source, measured once each, all 96/96 and 6 out (the
+`mov r2, #8` still ahead of `mov r1, r6`): `have` reused as the shortfall;
+the shortfall computed after the refill store; the recursion as
+`acc = f(b, s); acc |= held << s;`; the refill as a static inline helper;
+`const u8 *cur`; `volatile` on the have field alone; dsi/1.2.
+/* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */

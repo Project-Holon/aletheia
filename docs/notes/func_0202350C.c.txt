@@ -487,3 +487,15 @@ void func_0202350C(struct Obj *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a
     func_02022E20(a5, cfg[9], cfg[0x0a], cfg[8], a4, cfg[0], cfg[1],
                   cfg[2], cfg[3], obj->f44);
 }
+
+================================================================================
+APPENDED 2026-09-24, wave 18 ties_b lane: 12 holds
+================================================================================
+From the wave 17 source (12), measured once each, all 12 at the same window:
+a4 and a5 copied to locals assigned after k8/kb; the same copies taken at
+the top of the function; k8 passed to func_02022E20 instead of re-reading
+cfg[8] (the image passes the r3 it loaded for f34); a zero local assigned
+between k8 and kb (the image's `movs r0, #0` sits there); dsi/1.2. The
+image loads k8, zero, kb and a4 before the f40 store; the compile loads kb,
+k8, zero and stores f40/f44 before loading a4.
+best-source marker: 12 out, 1.1p1 (wave 17 source, unchanged)

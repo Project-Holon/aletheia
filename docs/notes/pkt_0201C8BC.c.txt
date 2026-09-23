@@ -348,3 +348,12 @@ none of them keeps the zero out of the stores:
 So mwccarm -O4,p forwards the stored zero through an addressable local and
 through a same-object member; only volatile (or something not yet found)
 produces the image's per-store reload.
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x0201C8BC unchanged, DIFF 17
+==============================================================================
+0x0201C8BC (17, 1.1p1): the dead parameter a1 as a volatile parameter
+holding done 192/179; dsi/1.2 17; stores through an element pointer e =
+&buf[0] 17; stores in reverse order 17; volatile long done 17. Unchanged 17.
+/* best source, 184 bytes against 184, 17 concrete bytes out, 1.1p1 -- the note's source with int hi, mid, unchanged */

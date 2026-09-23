@@ -144,3 +144,13 @@ int func_02025360(struct ActorTool *p, int len, u32 bank)
     }
     return 0;
 }
+
+======================================================================
+2026-09-24 wave 18 ties_b lane: CLOSED, EXACT (116/116)
+======================================================================
+Hand measurements on the wave 17 source (21): `u8 *cnt = &p->count[sel]`
+for both count reads (114 bytes); `u8 *slot = p->slot[sel]` for the scan
+(80); both (114); end at block scope (21); j and end at block scope (21).
+tools/permuter.py anneal 800, seed 2101, no --types: EXACT with
+`expand(end)`: the scan loop's condition is `j < i + len` and `end = i + len`
+is assigned only after the scan. Filed as src/matched/func_02025360.c.

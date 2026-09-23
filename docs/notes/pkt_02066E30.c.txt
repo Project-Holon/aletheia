@@ -2038,3 +2038,13 @@ each: 696 bytes (the whole-sum form the wave-13 note already records as
 696..708).  The residue is a dead-register tie: at +0x21C the y read can
 take ip (halfW, dead) or r6 (_01, dead); nothing after uses either.
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x02067080 unchanged, DIFF 2
+==============================================================================
+0x02067080 (2, ../2.0/sp2): affineOverwriteMode if/else arms swapped (!= 2
+first) 6; dsi/1.2 676 bytes/560; dy declared at a block after the x store
+(C99 initialiser) 2; bShouldAdjust inlined into the call 684 bytes; const
+BOOL adjust parameter 684 bytes. Unchanged 2.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above -- unchanged */

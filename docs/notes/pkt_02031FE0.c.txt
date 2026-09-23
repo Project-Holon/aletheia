@@ -820,3 +820,39 @@ A r7) are exactly heap's, mode's and gen's entry registers, which reads as
 colouring order following the parameter webs; no spelling of the loop has
 reached that order.  Allocation tie.
 /* best source: unchanged, the wave-12 source (1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1) */
+
+================================================================================
+2026-09-24 (wave 18, backup_reuse lane).  9 -> 9; no move.  Allocation tie.
+================================================================================
+Hypothesis tested: the image's loop registers (AB r4, B r8, A r7) are the
+prologue homes of heap (r1 -> r4), mode (r2 -> r8) and gen (r3 -> r7), so
+the original may have reused those parameters (dead after the alloc and the
+footer compare) as the loop variables.  Wave-12 source (l18c b0.c) re-verified
+1704/1704, 9 out, 63 of 63 relocations.  All --arm, 1.1p1, one compile each
+unless marked sweep:
+  - all three reused, both loops (declarations dropped):
+      AB=heap B=mode A=gen 48 | AB=heap B=gen A=mode 44 | AB=mode B=heap
+      A=gen 58 | AB=mode B=gen A=heap 54 | AB=gen B=heap A=mode 56 |
+      AB=gen B=mode A=heap 52.
+  - partial, implied mapping: AB=heap only 9 (object identical to the
+    baseline: heap's web is split, reuse is a no-op); B=mode 45; A=gen 39;
+    AB=heap+B=mode 45; AB=heap+A=gen 39; B=mode+A=gen 48.
+  - implied mapping in the record walk only, copy-back loop with its own
+    A/B: 48.
+  - A=gen+B=mode (48 source), sweep of the 120 orders of pa, pb, AB, i,
+    off: best 44.
+  - A=gen (39 source), sweep of the 720 orders of B, pa, pb, AB, i, off:
+    best 39 (120 at 39, 120 at 43, 120 at 44, 360 at 48).
+  - reuse in the copy-back loop only: A=gen, B=mode 9; A=gen 9 (split webs).
+  - the loop index as a parameter (the rotating-index idiom): i=mode 14,
+    i=gen 17.
+What the diffs show: mode and gen webs DO merge with a reusing local (heap's
+does not), and a merged web is coloured differently from the image: with
+A=gen, B=mode the merged mode/B web lands in sb and gen/A in r8, i drops to
+r7 (image: mode/B r8, gen/A r7, i sb); with i=mode, mode moves to sb and the
+B/AB swap is untouched.  So the image's register coincidence is not produced
+by parameter reuse under 1.1p1; the B/AB pair is independent of the
+parameter webs.
+permuter: anneal, --types, budget 1500, seed 1851, from the AB=heap B=mode
+A=gen source (48): DIFF asm=80 bytes-out=14 size=1704/1704.
+/* best source: unchanged, the wave-12 source (1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1) */

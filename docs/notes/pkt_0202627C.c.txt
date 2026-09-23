@@ -358,3 +358,12 @@ void func_0202627C(struct Comm *p)
 // b,cb,a / b,a,cb 10; the +0x1C/+0x20 pair as a two-word struct {arg, fn}
 // 10; b as u8 10; cb read first 13; read order b, cb, a 23.  Best source
 // unchanged.
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x0202627C unchanged, DIFF 10
+==============================================================================
+0x0202627C (10, 1.1p1): const table and const rec 10; unsigned long a, b 10;
+dsi/1.2 10; `p->b1 &= 0` 10; cb read as (&p->f20)[0] 10; cb/a/b at function
+scope before sub/rec 10, between sub and rec 10. Unchanged 10 (image: flag
+byte in rec's dying r3, cb in sub's dying r5).

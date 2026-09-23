@@ -285,3 +285,13 @@ through a static inline returning its result, the publish pair
 (func_0204E0D0 + func_020307B0) through a static inline, `register u32
 handle`, the u16 cast on the flags argument dropped.
 /* best source, 216 bytes against 216, 4 concrete bytes out, dsi/1.1p1 -- the WHAT THE C IS source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x0204A6C8 unchanged, DIFF 4
+==============================================================================
+0x0204A6C8 (4, 1.1p1): dsi/1.2 4; unsigned long i 4; unsigned long handle 4;
+the handle held in the dead parameter a (4) or c (4); u32 flags parameter
+26; the tail stores through a block-local slot copy 4; flags (the image's r7
+before the call) reused as the zero passed and stored 4. Unchanged 4.
+/* best source, 216 bytes against 216, 4 concrete bytes out, dsi/1.1p1 -- the WHAT THE C IS source above -- unchanged */

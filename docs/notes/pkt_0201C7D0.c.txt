@@ -353,3 +353,14 @@ No front end we have gives both traits, so no pin is possible.
   - the three sites spelled `&g`, `g.unk_00`, `&g.unk_00[0]` (37: the
     address is value-numbered, not expression-numbered);
   - z copied to a local before the first call (37).
+
+==============================================================================
+APPENDED 2026-09-24, wave 18 (ties_b lane): 2 holds (sp2), 37 (1.1p1)
+==============================================================================
+The wave 11 source, measured once each: sp2 2 (reproduced); 1.1p1 with the
+function returning func_0201C8BC's result (no extra move needed) 37; 1.1p1
+with the two later sites spelled `(struct Scratch *)(u32)&g_0214655C` 37 (the
+cast is folded before value numbering). The two-extern lever that closed
+0x0202271C does not apply: this image reloads ONE pool word three times,
+so one name is right; the question stays which value 1.1p1 gives r4.
+/* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */

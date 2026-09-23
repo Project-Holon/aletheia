@@ -383,3 +383,53 @@ register field.  Measured on the wave-17 best source (dsi/1.2 unless noted):
   21-22. -O4,s: 3460; -O3,p: 25
 No lever moves the rotation; the declaration order and scope levers are
 exhausted.  Best source unchanged (the wave-17 source above).
+
+==========================================================================
+APPENDED 2026-09-24, wave 18 (lane 18D, mcss_pow): 25 -> 0, EXACT, filed
+==========================================================================
+Filed as src/matched/unit_020979BC.c (dsi/1.2, -O4,p, 4488/4488 bytes,
+136 of 136 relocations resolved), shard pkt_020979BC verified twice (second
+pass rewrote nothing).  The C is the wave-17 source above plus ONE line:
+
+	p_h = y1*t1;
+	s = s;		/* no code; pins the t2/s/n register coloring */
+	z = p_l+p_h;
+
+The self-assignment emits nothing and settles the r6/r7/r8 rotation
+(t2 hi = r6, s = r8:r7, final n = r6).  Found by the permuter and reduced by
+hand; docs/idioms/a-no-code-self-assignment-reorders-the-register-colouring.md.
+
+Measurements (dsi/1.2 unless noted; bytes = concrete bytes out):
+   1. wave-17 source re-verified: 25
+   2. all doubles on one line in first-use order (ax,t,w,u,v,t1,t2,r,p_h,
+      p_l,z_h,z_l,s,y1,z): 146
+   3. n on its own line after `u32 lx,ly;`: 77
+   4. n on its own line after the int line: 77
+   5. second double line in first-use order (t,w,u,v,t1,t2,r,s,y1): 65
+      (t and y1 swap frame slots; the rotation is unchanged)
+   6. scalbn guard reversed (`if((j>>20)>0) HI(z) += ...; else scalbn`): 25
+   7. ../1.2/base: SIZE, 4652 bytes
+   8. ../1.2/sp4: SIZE, 4652 bytes
+   9. dsi/1.3 with the tail order of 5: 65
+  10. `s = -s` for the sign: SIZE, 4516 bytes (a negate helper call)
+  11-13. a separate tail exponent `nn` (tail uses only), declared after n0,
+      on its own line after lx,ly, first in the int line: 25 each
+  14. a dead `s = one;` after n0: 812 (not dead: it changes the whole
+      allocation and adds an instruction before the first pool)
+  15. `s = one;` before the |y| huge test: 773
+  permuter, anneal --types, budget 1500, seed 1902: EXACT at compile 1002
+  with three mutations: `s = s;` after p_h, `do { } while (0)` around the
+  SET_HIGH_WORD line and the next statement, and a copy `n_ = n` used by the
+  scalbn tail.
+  16. do-while(0) around the HI(t) line alone: 25
+  17. do-while(0) around both lines: 25
+  18. n_ copy alone: 25
+  19. permuter output re-verified: EXACT
+  20. permuter output without `s = s;`: 25
+  21. permuter output without the do-while(0): EXACT
+  22. permuter output without the n_ copy: EXACT
+  23. wave-17 source + `s = s;` alone: EXACT (the filed source)
+  24. the sign computation moved to after p_h instead: 190
+  25. filed file re-verified: EXACT
+Whether s is an int: no.  The image keeps s in the pair r8:r7 and passes it
+as a double to _dmul, so s is a double.

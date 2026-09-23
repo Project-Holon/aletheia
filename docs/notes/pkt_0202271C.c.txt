@@ -306,3 +306,13 @@ the pool entry under 1.1p1 or sp2.  Not pinned.  The duplicate pool word
 says the two references are distinct relocations in the original (two
 symbols, or two addends that fold to the same address); that is the next
 lever, not the front end.
+
+================================================================
+APPENDED 2026-09-24, wave 18 lane ties_b: 0x0202271C CLOSED, EXACT
+================================================================
+The duplicate pool word is two source names. The func_02022758 template
+with f00 / d_0209F570 / `p->f28 = 1` is 9 out under 1.1p1; `&g.f10 - 4`,
+`(u8 *)&g + 0x10 - 0x10` and `*(u32 *)&g` for the store all stay at 9 (the
+front end folds them to one relocation). A second extern `g_wipe_slot0` at
+0x020A73D0 for the argument is EXACT under 1.1p1 (and ../2.0/sp2), the same
+reading as src/matched/func_02023F98.c. Filed as src/matched/func_0202271C.c.

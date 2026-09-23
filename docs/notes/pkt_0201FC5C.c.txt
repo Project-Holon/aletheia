@@ -330,3 +330,12 @@ The swap is the `str r3, [sp, #0x14]` pos home store: the image emits all
 three parameter spill stores before `ldr r4, [sp, #0x50]` / `adds r5, r0`,
 the compile emits pos's store last.  func_02013528 shows the same thing
 (the r3 spill store first in the image, last in the compile).
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): func_0201FDA0 CLOSED, EXACT (u16 heap)
+==============================================================================
+0x0201FDA0 (2 -> EXACT): u16 heap parameter with u16 heap on every callee
+(and with func_0201F9D0 left u32: also EXACT); filed with F9D0 u16 (its real
+width).
+Filed as src/matched/func_0201FDA0.c; manifest --verify --shard pkt_0201FC5C twice, second pass 0 rewritten. The lever is docs/idioms/a-u16-stack-parameter-passed-to-a-u16-callee-stays-behind-a-spill-store.md; earlier lanes tried u16 heap only with the u32 prototypes (the whole-function DIFF recorded above).

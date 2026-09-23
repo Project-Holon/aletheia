@@ -104,3 +104,12 @@ reuse: 5 out (the pointer local p or direct field compares: 18 out). Block-
 scoped lo, a block-scoped hi = lo + 0x4000, a named r = 0 return: all 5
 out. Casting the literal inline instead of a lo local: 14 out. Permuter
 800 compiles with --types from the 5-out form: flat at 5.
+
+================================================================
+APPENDED 2026-09-24, wave 18 lane ties_b: still DIFF 5 out
+================================================================
+From the best source above (5), measured once each: the second window as
+nested ifs (upper test outside, lower inside, like the first block): 5;
+`const u32 *lo` with `lo + 0x1000` (same add #0x4000): 5; the second window
+inverted to `if (p > hi || p < lo) return 0; return 2;` (104 bytes);
+dsi/1.2: 5. Only one parameter (id), already reused; no callee arity to fix.

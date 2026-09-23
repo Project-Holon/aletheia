@@ -321,3 +321,14 @@ after the `p[0] = head` store (the image's schedule order), 92/69;
 -O4,p.  The image spills len [sp], total [sp+4], base [sp+8], start
 [sp+0xc] and keeps head/n/p/src in r4/r5/r6/r7; every compile keeps total in
 a register and spills head and start/base in the other order.
+
+==============================================================================
+APPENDED 2026-09-24, wave 18 (ties_b lane): 66 holds
+==============================================================================
+From the u16-len source, measured once each: the wrap as a ternary store
+`p[0] = (head >= p[2]) ? 0 : head;` (66); `*p` for both p[0] reads and the
+store (66); `len > total` as the loop test (67). No dead parameter: len, n,
+src and p are all live to the loop end. The image's slots are len [sp],
+total [sp+4], base [sp+8] (stored twice, once per def), start [sp+0xc];
+the compile keeps total in r7 and spills head.
+/* best source, 92 bytes against 92, 66 concrete bytes out, 1.1p1 -- the wave 13 source above, unchanged */

@@ -288,3 +288,13 @@ Reading: the image multiplies into a copy of the remainder (`adds r3, r2`
 then `muls r3, r0, r3`), which the compiler does only when the remainder's
 own register must survive the multiply; nothing in the C found keeps it
 live.
+
+==============================================================================
+APPENDED 2026-09-24, wave 18 (ties_b lane): 26 holds
+==============================================================================
+From the wave 10 source (52/26), measured once each: the parameter p reused
+as the element cursor (`p = (void *)&p->f1c[idx]`, fields read through it,
+52/26); the first field read on the indexed base and the element pointer
+formed after it (50/25). The copy of the remainder ahead of the multiply is
+still not produced.
+/* best source, 52 bytes against 56, 26 concrete bytes out, 1.1p1 -- the wave 10 source above, unchanged */

@@ -945,3 +945,17 @@ r1 where the image has r3 / r2); both keys inline in the expression, or
 only b named (14: the shared `a` stops being shared).  permuter anneal
 800 --types (seed 1702) from the `a` named form: 7.
 /* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above, unchanged (7 without its volatile) */
+
+
+==============================================================================
+2026-09-24, wave 18 (lane ties_a): 0x0206F4C8 unchanged at 7 (volatile-free)
+==============================================================================
+0x0206F4C8 (7 volatile-free, ../2.0/sp2p2): residue read: image forms the j
+element address in p's dying r1 (add r1, r1, r3, lsl #2) and loads a into
+r3; compile uses r3 for the address. y pair as &elem->y (7); all four keys
+through e0/e1 element pointers (20); only b through ((V2s *)p + j)->y (7); p
+advanced to the j element (492); base parameter reused as p (118); k&2 arms
+swapped (17); i0/j declaration order swapped (58); t reused as j (109) / as
+i0 (97). Unchanged 7.
+Also 7 with the long lever that closed 0x0206ECE0 and 0x02051C88 this wave: unsigned long n, i0, j, m; long a, b; unsigned long f, k, off.
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above (7 without its volatile) -- unchanged */
