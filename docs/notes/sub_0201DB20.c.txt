@@ -332,3 +332,13 @@ block scope in case 2 (15; lo-before-hi 18).  Permuter hill 600 --types:
 it chases the 156-byte listing extent (pad included) and picks a 156/40
 point; no single mutation lowers 15 at 154.  The compile holds the loaded
 pNext in r4 and the rebased m in r6; the image holds both in r4.
+
+==============================================================================
+APPENDED 2026-09-23, wave 17 (text_font_anime lane): 15 holds
+==============================================================================
+`register` on m and on hi: 15 each (ignored).  Reading, for the next lane:
+the loaded pNext and the rebased m are two webs that do not interfere with
+each other; the image colours m first (r4) and gives pNext the same r4, the
+compile colours hi first (r4), shares r4 with pNext, and m gets r6.  So the
+residue is colouring order, and none of declaration order, register,
+const or block scope moves it.

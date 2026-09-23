@@ -337,3 +337,19 @@ at the calls) and a const g_0214655C: sp2 2, 1.1p1 37 in every cell.
 ARMv4T return), so 1.2 is out.  FRONTEND-PINS: the per-site pool reload is
 the "kept constants" tell (2.0), but the stacked-u16 base is the 1.1p1 form,
 so no tell fixes a single front end among the three allowed; no pin taken.
+
+==============================================================================
+APPENDED 2026-09-23, wave 17 (text_font_anime lane): 2 holds (sp2), 37 (1.1p1); every front end measured
+==============================================================================
+The single-front-end question answered by compile, one source (the wave 11
+best source above), all 18 front ends in the collection:
+  dsi 1.1, 1.1p1, 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2: 56/37 each
+      (the scratch address cached in r4, stacked u16 read right);
+  2.0 base, sp1, sp1p2, sp1p5, sp1p6, sp1p7, sp2, sp2p3, sp2p4: 56/2 each
+      (pool reloaded per site, stacked u16 read off `add r1, sp, #8`).
+No front end we have gives both traits, so no pin is possible.
+1.1p1 spellings for the per-site pool reload, none below 37:
+  - g_0214655C declared block-scope `extern` inside the function (37);
+  - the three sites spelled `&g`, `g.unk_00`, `&g.unk_00[0]` (37: the
+    address is value-numbered, not expression-numbered);
+  - z copied to a local before the first call (37).

@@ -271,3 +271,20 @@ casts in the three index forms (flat); byte offsets `idx * 12` / `12 * idx`
 image's branch inverted.  Reading: the image keeps idx live past the
 multiply (the copy into r3) and schedules the first load before t is
 formed; no spelling found gives both.
+
+==============================================================================
+APPENDED 2026-09-23, wave 17 (text_font_anime lane): 26 holds; the early-return form measured
+==============================================================================
+  - early return `if (p->f18 != n) return 0;` then `t = p->f1c;
+    t[idx].a/b/c` (50/14, the wave 16 form): the diff shows the remainder
+    stays in r1 (no `adds r2, r1`), muls lands in idx's own register and
+    the base goes to r3; the branch polarity is inverted as recorded.
+  - same body in the `if (==) { ... return 1; } return 0;` shape: 50/25.
+  - `u32 i = idx;` block copy with `t = &p->f1c[i]`: 52/26.
+  - `u32 off = idx * sizeof(struct Rec12)` byte offset: 52/26.
+  - `u32 off = idx; off *= 12;` (compound multiply on a copy): 52/26, the
+    copy is propagated away and 12's register is the multiply destination.
+Reading: the image multiplies into a copy of the remainder (`adds r3, r2`
+then `muls r3, r0, r3`), which the compiler does only when the remainder's
+own register must survive the multiply; nothing in the C found keeps it
+live.

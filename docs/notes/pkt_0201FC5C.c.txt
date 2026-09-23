@@ -316,3 +316,17 @@ own bodies (func_0201F73C as (void *, int, int, int) and as
 func_0201F9D0 with its real u16 heap costs a narrowing, 288 bytes);
 func_020450F0 with u8/u16 parameters (2); MI_CpuFill8 through an
 MI_CpuClear8 inline (2).  permuter anneal 1500 --types seed 33: flat.
+
+==============================================================================
+APPENDED 2026-09-23, wave 17 (text_font_anime lane): func_0201FDA0: 2 holds
+==============================================================================
+  - winDat through a `const void *` parameter and a `const WinDat *` local,
+    bound at entry (2) and bound just before MI_CpuFill8 (2);
+  - `(void)&pos;` and `(void)&heap;` at entry (2, folded);
+  - front ends: dsi 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2 all 284/2
+    with the same swap; dsi 1.1 131 out; ../1.2/sp4 276 bytes; ../2.0/base
+    280 bytes.
+The swap is the `str r3, [sp, #0x14]` pos home store: the image emits all
+three parameter spill stores before `ldr r4, [sp, #0x50]` / `adds r5, r0`,
+the compile emits pos's store last.  func_02013528 shows the same thing
+(the r3 spill store first in the image, last in the compile).

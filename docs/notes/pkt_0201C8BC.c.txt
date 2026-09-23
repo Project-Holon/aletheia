@@ -330,3 +330,21 @@ which would make [sp,#4] a SPILL slot of a plain int done (spill code
 reloads before every use), not a volatile local; but a plain int is
 constant-propagated into the three stores (180), so something must hide
 the zero from propagation.  Not found.
+
+==============================================================================
+APPENDED 2026-09-23, wave 17 (text_font_anime lane): 17 holds; the address-taken reading measured and refuted
+==============================================================================
+Wave 16's hypothesis (a plain int done kept in memory by an address escape,
+reloaded because the byte stores to buf may alias it) measured three ways,
+none of them keeps the zero out of the stores:
+  - plain `int done = 0;` plus `(void)&done;` (180/156, folded);
+  - plain done plus an unused `int *pd = &done;` (180/156);
+  - the stores through `static inline Fill3(u8 *q, int *v)` called as
+    `Fill3(buf, &done)` with plain done (180/156: after inlining the pointer
+    is &done and the zero is still forwarded);
+  - done and buf as one local `struct { int done; u8 buf[3]; }` (the layout
+    fits: done at sp+4, buf at sp+8): 184/149, the zero is forwarded and
+    the stores go off `add r0, sp, #4` plus 4/5/6.
+So mwccarm -O4,p forwards the stored zero through an addressable local and
+through a same-object member; only volatile (or something not yet found)
+produces the image's per-store reload.

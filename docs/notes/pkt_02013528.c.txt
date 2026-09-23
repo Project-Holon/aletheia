@@ -319,3 +319,15 @@ residue.  The source above rebuilt with externs func_020130C4(void *),
 func_0201320C(u32 *), func_02013360(void *, const void *, u32 *),
 func_0201333C(void *, const void *, u32), func_0200846C(u32),
 func_0201A920(u32) reproduces the 6-out point directly.
+
+==============================================================================
+APPENDED 2026-09-23, wave 17 (text_font_anime lane): func_02013528: 6 holds
+==============================================================================
+  - an old-style (K&R) definition with the same parameter types: 152/92,
+    the store stays last and the default promotions spoil the byte loads.
+  - callee arity checked from the bodies: func_020130C4 takes one argument
+    (it moves r0 only, then r1/r2 are set for MI_CpuFill8), so the call
+    cannot be what keeps r3 live at entry.
+Same residue class as func_0201FDA0 (pkt_0201FC5C note): the r3 parameter's
+spill store is emitted before the register moves in the image and after
+them in every compile.

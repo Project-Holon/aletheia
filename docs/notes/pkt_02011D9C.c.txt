@@ -376,3 +376,114 @@ spilled (extra register pressure at that point), so it is a pressure-
 dependent rematerialisation, not a spelling: 0x10000 / 1<<16 / 64*1024 /
 a u32 local / a `h = 4` local / u8 or u16 casts / u8, u16, int prototypes
 for func_0203064C are all 268.  Evidence cap unchanged (ov230 sites).
+
+==============================================================================
+APPENDED 2026-09-23, wave 17 (text_font_anime lane): 14 -> 8, size exact
+==============================================================================
+Lever: the call written in both arms (wave 14) AND `off = 0;` hoisted above
+the test, with only the 0x191 arm assigning it.  That reproduces the image's
+`movs r7, #0` before `cmp r5, #0` and leaves 8 bytes: the compile
+cross-jumps the two call sequences and keeps a `b` where the image has a
+single fall-through call (`bne` skips only the `ldr r7, =0x191`), plus the
+CSE of the argument 4 (`lsls r2, r1, #14` against the image's fresh
+`movs r2, #4` / `lsls r2, r2, #14`).
+Measured from here: `if (flag != 0) { call } else { off = 0x191; call }`
+(10), 0x10000 in place of 4 << 14 in both arms (8).  Permuter hill 800
+--types from this source: no single mutation improves (202 tried).
+Evidence: the three ov230 call sites still resolve `unresolved` (no witness
+outside the function), so a byte-exact source would still file MATCH in
+src/pending.
+
+/* best source, 272 bytes against 272, 8 concrete bytes out, 1.1p1 */
+/*
+ * function: func_02011D9C
+ * address:  0x02011D9C
+ * packet:   pkt_02011D9C
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * isa:      thumb
+ * symbols:
+ *   ov230_id       0x000000E6  data
+ *   g_02146248     0x02146248  data
+ *   func_021882A0  0x021882A0  arm  ov230
+ *   func_02188354  0x02188354  arm  ov230
+ *   func_02188390  0x02188390  arm  ov230
+ *   func_0215FA00  0x0215FA00  thumb  ov010
+ *   _u32_div_f     0x0209C2B0  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+typedef signed char s8;
+typedef signed short s16;
+
+extern u32   func_02011F24(void);
+extern u8 ov230_id[];
+extern void  func_02034AC4(u8 *id);
+extern u32   func_021882A0(void (*a)(void), void (*b)(void), u32 c);
+extern u32   func_02188354(void (*a)(void), void (*b)(void), u32 c);
+extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
+extern void  func_0203064C(u32 a, u32 b, u32 c);
+extern void  func_02034A5C(u8 *id);
+extern void *func_0203159C(void *a, u32 size, u32 c);
+extern void  func_02082BCC(void *p, u32 v, u32 size);
+extern void *g_02146248;
+extern void  func_02011FB8(void *p, u32 a, u32 b);
+extern u32   func_0215FA00(void *p, u32 a);
+extern void  func_02012108(void *p, u32 v);
+extern void  func_020120F4(void *p);
+extern void  func_02012F08(void);
+extern s32   func_0200C258(void);
+extern void  func_02011D40(void);
+extern void  func_02011D28(void);
+extern void  func_02011D60(void);
+extern void  func_02011D7C(void);
+
+u32 func_02011D9C(void *a0, u32 a1, u32 a2)
+{
+    u32 size;
+    u32 base;
+    u32 flag;
+    u32 off;
+    void *p;
+    s32 n;
+    s32 i;
+
+    size = func_02011F24();
+    base = 0xc35ffb;
+    func_02034AC4(ov230_id);
+    flag = 0;
+    if (func_021882A0(func_02011D28, func_02011D40, 0) == ~(u32)func_02011D40)
+        flag = 1;
+    base += flag * 0x47;
+    func_0203064C(1, 3, 0xa << 12);
+    flag = 1;
+    if (func_02188354(func_02011D28, func_02011D60, 0) != ~(u32)func_02011D60)
+        flag = 0;
+    off = 0;
+    if (flag == 0) {
+        off = 0x191;
+        func_0203064C(1, 4, 4 << 14);
+    } else {
+        func_0203064C(1, 4, 4 << 14);
+    }
+    func_02188390(func_02011D28, func_02011D7C, 0);
+    func_0203064C(9, 5, 5 << 10);
+    func_02034A5C(ov230_id);
+    p = func_0203159C(a0, size, 3);
+    func_02082BCC(p, 0, size);
+    g_02146248 = p;
+    func_02011FB8(p, 3, a2);
+    func_02012108(p, func_0215FA00(p, a2));
+    if ((base + off) % 0x12af != 0) {
+        func_020120F4(p);
+        func_02012F08();
+        n = func_0200C258();
+        for (i = 0; i < n; i++)
+            func_02011D40();
+    }
+    return 1;
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 272 bytes against 272, 8 concrete bytes out, 1.1p1

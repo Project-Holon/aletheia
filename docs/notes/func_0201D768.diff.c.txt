@@ -311,3 +311,13 @@ residue: the compile splits the loaded head from the incremented head (two
 webs, the first spilled to [sp,#4]); the image keeps one web in r4 and
 spills total.  The two spill costs tie (one def, two uses each in the loop),
 so this is a tie-break, not a spelling.
+
+==============================================================================
+APPENDED 2026-09-23, wave 17 (text_font_anime lane): 66 holds
+==============================================================================
+From the u16-len source: `head + n` operand order with `src += n` moved
+after the `p[0] = head` store (the image's schedule order), 92/69;
+`register` on head (66) and on total (66): mwccarm ignores the keyword at
+-O4,p.  The image spills len [sp], total [sp+4], base [sp+8], start
+[sp+0xc] and keeps head/n/p/src in r4/r5/r6/r7; every compile keeps total in
+a register and spills head and start/base in the other order.
