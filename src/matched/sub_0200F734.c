@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  * blocker:  wave 14 (2026-09-23): ONE site, the THM_CALL at +0x74 to
  *           func_02156460.  It is now a traced Thumb label in ov009 (ov010
  *           overlaps with non-code there, hence the ov009 hint below), but

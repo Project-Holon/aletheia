@@ -450,3 +450,8 @@ arm9_main  0x02010884  thumb # same unit
 overlay_014  0x0217963C  thumb # wih_dwc callee, bl at 0x020103B6 and 0x020103FE
 overlay_014  0x02177B80  thumb # wih_dwc callee, bl at 0x0201081A
 overlay_014  0x02178098  thumb # wih_dwc callee, bl at 0x020105E8
+arm9_main  0x02040EBC  arm   # real entry of the bg_sys row labelled 0x02040EC0 (home-area push), src/matched/func_02040EBC.c
+arm9_main  0x0202BB40  thumb # iss_3ds_sys thunk, src/matched/func_0202BB40.c
+arm9_main  0x02061B5C  arm   # follower of func_02061B2C, src/matched/func_02061B5C.c
+arm9_main  0x0204D2C8  arm   # 20-byte tail-call leaf after func_0204D224, src/matched/func_0204D2C8.c
+overlay_010  0x02167394  thumb # game_beacon callee (id > 0x1d ? 0 : table), bl from 0x0202685C x4

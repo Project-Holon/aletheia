@@ -1,5 +1,7 @@
 # A narrow parameter pins its home store to the front of the prologue
 
+summary: narrowing a parameter to u16 or s16 moves its home store to the front of the prologue, ahead of the other parameter copies.
+
 **Summary:** when a spilled parameter's home store sits *before* the
 callee-saved register copies instead of after them, the parameter is a narrow
 type (`u8`/`u16`), not `u32`.

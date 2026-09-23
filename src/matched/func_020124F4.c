@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  * blocker:  label - 0x0216237C, 0x0216CC58, 0x0215E31C and 0x021647A0 each
  *           have exactly ONE branch anywhere in the image and it is the `bl`
  *           inside this function (0x020125AA, 0x020125E0, 0x02012698,

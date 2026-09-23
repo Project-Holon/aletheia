@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * The ring insert: advance hi with a wrap at 30 (pushing lo along when the
  * ring is full), grant the record's items through the bag (0x0200E394

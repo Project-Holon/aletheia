@@ -4448,6 +4448,7 @@ OV_CODE_TWICE = 0x02155244
 # pool_02155470 in ov010.  Outside that site's range it is an ov010 object
 # start; with the site inside the range it has no witness left.
 OV_DATA_POOLED = 0x0216FEDC
+OV_DATA_INTERIOR = 0x216fee8   # ov010 data, not a start, no pool referrer
 OV_DATA_POOLED_SITE = 0x02155470
 # 0x021D6338 (src/pending/func_02010AC4.c): ov021's listing starts a block
 # there, but ov016 and ov115 overlap the address and hold data too.
@@ -4966,8 +4967,11 @@ def cmd_selftest(args):
                                             OV_DATA_POOLED_SITE - 0x40,
                                             OV_DATA_POOLED_SITE + 0x40)),
            None)
+    # OV_DATA_POOLED + 4 stopped being usable here once ov010's regenerated
+    # listing gained a pool word naming it (a pooled address IS an object
+    # start); OV_DATA_INTERIOR is a data word with no start and no referrer.
     _check(res, "ov sole-ref/data: an address between starts is refused",
-           cls(attest_sole_ref_overlay_data(OV_DATA_POOLED + 4)), None)
+           cls(attest_sole_ref_overlay_data(OV_DATA_INTERIOR)), None)
     _check(res, "ov sole-ref/data: the alignment refusal holds",
            cls(attest_sole_ref_overlay_data(OV_DATA_POOLED, 8)), None)
     _check(res, "ov sole-ref/data: a hint whose window does not hold the "

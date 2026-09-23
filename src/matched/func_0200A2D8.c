@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  * blocker:  021DFE00 - same shape as func_0200A2B8's blocker: ov228 labels it, no branch outside this range reaches it.  All 40 bytes right.
  * symbols:
  *   func_021DFE00    0x021DFE00  thumb
