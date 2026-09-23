@@ -117,3 +117,60 @@ func_020713A4 and func_02071EFC.  It is NOT a pin: ../2.0/sp2 gives 100 bytes
 probe the compiler on this function again.
 Floor stays 14.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, func_02069BA0.c:12: undefined identifier 'docs'
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x02069BA0 14 -> 8 (device), 0x02069C00 EXACT
+==============================================================================
+0x02069C00 (the unlabelled follower, now seeded) is filed EXACT:
+src/matched/func_02069C00.c, `u16 *p = (u16 *)b->cur; u16 v = *p++;
+b->cur = (u8 *)p; return v;`, shard pkt_02069BA0.
+
+0x02069BA0: the listing extent is now 96 (the follower is its own row).
+Callers (0x02068534, 0x02068550 ...) pass a stack Bits {cur, have = 0, acc
+= 0} and an int count; the prototype is right.  const u8 *cur (the input
+is only read), s32 return, Bits *const b / const s32 n: all 14.
+permuter anneal 2000 --types (seed 1609) found `volatile Bits *b`: the
++0x38/+0x3C pair (mov r1, r6 before mov r2, #8) comes out in the image's
+order, 8 left, only the then-arm pair (lsrge before strbge) still swapped.
+volatile on any single field is 14; four then-arm orders under the
+volatile parameter all 8; a second anneal from it (seed 1611) flat at 8.
+A volatile parameter is a device, not a reading, so this is not filed.
+/* best source, 96 bytes against 96, 8 concrete bytes out, dsi/1.1p1 (volatile device) */
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct Bits {
+    u8 *cur;
+    signed char have;
+    unsigned char acc;
+} Bits;
+
+u32 func_02069BA0(volatile Bits *b, s32 n)
+{
+    s32 have;
+    u32 held;
+    s32 mask;
+    s32 shortfall;
+    u8 *p;
+    u32 acc;
+
+    have = b->have;
+    held = b->acc;
+    mask = 0xff;
+    if (have >= n) {
+        acc = held >> (have - n);
+        have = have - n;
+        b->have = have;
+    } else {
+        shortfall = n - have;
+        p = b->cur;
+        b->cur = p + 1;
+        b->acc = *p;
+        acc = held << shortfall;
+        b->have = 8;
+        acc = func_02069BA0(b, shortfall) | acc;
+    }
+    return acc & (u32)(mask >> (8 - n));
+}

@@ -290,3 +290,19 @@ image has two (1 byte out, the second ldr's offset).  Passing
 `&g_020A73D0` instead of `&g_020A73D0.f00` changes nothing.
 Best source: the sibling template (src/matched/func_02022758.c) with f00,
 d_0209F570 and `p->f28 = 1`.
+
+================================================================
+APPENDED 2026-09-23, wave 16 tail lane (wipe.c)
+================================================================
+FRONTEND-PINS check for 0x0202271C.  The image has the "kept constants"
+tell (the address g_020A73D0 is re-materialised from the pool for the
+second use where 1.1p1 keeps it in r5 and pushes one register wider), so a
+2.0 pin is justified by the table, but no 2.0 build reaches EXACT: every
+one tried (base, sp1p7, sp2, sp2p2, sp2p3, sp2p4) is 1 byte out, the second
+`ldr r1, [pc, #..]` offset, because each dedups the two references into ONE
+pool word where the image carries 0x020A73D0 twice (pool 0x02022750 and
+0x02022754).  Passing `&g_020A73D0` against a `.f00` store does not split
+the pool entry under 1.1p1 or sp2.  Not pinned.  The duplicate pool word
+says the two references are distinct relocations in the original (two
+symbols, or two addends that fold to the same address); that is the next
+lever, not the front end.

@@ -295,3 +295,20 @@ found:
 
     return i;
 }
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x0204A7A0 unchanged at 37
+==============================================================================
+Callee facts checked against the bodies: sub_0204DACC is the EXACT
+src/matched/func_0204DACC.c, five arguments (res, u32 idx, desc, ovr
+pointer, u32 mode); prototype corrected here (idx u32, fourth a pointer)
+and the call is unchanged at 37.  The template at 0x020A1430 reads
+{-1, 3, 0, 0, 0, 0}: an NNSG2dCharacterData (u16 H, W = 0xffff; pixelFmt
+GX_TEXFMT_PLTT16; mapingType from GX_GetOBJVRamModeChar(), the DISPCNT &
+0x00300010 read; characterFmt; szByte = size; pRawData = the allocation).
+Typed that way with the GX inline: 37.  Return type (u32 / s32) 37;
+const on the template parameter of sub_0204DACC 37; the scan as an inline
+helper returning i 47; count without volatile 304 bytes.
+permuter anneal 2000 --types (seed 1602) from the typed source: best 37.
+/* best source, 308 bytes against 308, 37 concrete bytes out, dsi/1.1p1 -- the wave-15 source above, unchanged */

@@ -908,3 +908,18 @@ Flat at 8: const Rec *r, const Hdr *h, both; const u8 *p; func_0206FFA0's
 id parameter as u16; enum k; the entry test against k instead of t >> 12.
 permuter anneal 2000 --types (seed 1508): best 8.
 /* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2 -- the wave-9 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x0206F4C8 and 0x0206FC5C unchanged
+==============================================================================
+--- 0x0206F4C8: no callees; parameters (out, t, r, base) match the caller
+at 0x0206F0CC (r0 = stack out, r1..r3 live values).  permuter anneal 2000
+--types (seed 1604, ../2.0/sp2p2) from the volatile-free source: best 7.
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above, unchanged (7 without its volatile) */
+
+--- 0x0206FC5C: func_0206FFA0 (EXACT definition) only reads its a/b key
+tables: declared (int *out, const s16 *a, const s16 *b, u32 id), with and
+without const Rec / const Hdr parameters: 8.  VEC_Normalize already const.
+permuter anneal 2000 --types (seed 1606) from that source: best 8.
+/* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2 -- the wave-9 source above, unchanged */

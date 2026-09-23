@@ -707,3 +707,15 @@ named index forms (58 or worse); RepeatX/RepeatY narrowing written
 permuter anneal 2000 --types (seed 1504): best 57 via temp(attr01),
 temp(p->y), a copy: noise, not a lever.
 /* best source, 260 bytes against 260, 58 concrete bytes out, 1.1p1 -- the wave-10 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x0204C2C8 CLOSED EXACT, 58 -> 0
+==============================================================================
+The lever is a declaration of the DATA, not of a parameter: the two OBJ
+size tables are read-only and are declared `extern const u16
+tbl_020A17D8[4][4]` / `tbl_020A17F0`.  With const every register of the
+second half (the table bases in ip/r8, y in lr, y0 in r0, the late
+`lsl r2, r2, #0xc`) lands where the image has it; nothing else changed
+in the wave-10 source.  Filed src/matched/func_0204C2C8.c, shard
+pkt_0204C2C8 (verified twice, 0 rewritten on the second pass).

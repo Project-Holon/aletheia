@@ -138,3 +138,16 @@ source pointer, real callee arity) has nothing to act on here: the only
 pointer is the actor, passed through to two callees, and both callee
 arities are already right (r0-r2 at both calls).
 /* best source, 76 bytes against 80, 20 concrete bytes out, dsi/1.1p1 -- spelling 1 above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): unchanged, 76 against 80, 20 out
+==============================================================================
+Callee bodies re-read: func_0204CF74 is three arguments (forwards
+actor->f8->f8, space, out to func_0204B0C8), sub_0204B550 is three
+(strh to +0xc / +0xe by axis, returns nothing).  Caller func_0204CED8
+passes ldrsh values, so s16 value is right.  const on the actor in the
+callee prototypes: 76 / 20.  ../2.0/sp2 and sp2p2 76 / 20; ../1.2/sp2 80
+bytes but a different frame (26).  permuter anneal 2000 --types (seed
+1603): best again the invalid ret-var point (80, 15).
+/* best source, 76 bytes against 80, 20 concrete bytes out, dsi/1.1p1 -- spelling 1 above, unchanged */

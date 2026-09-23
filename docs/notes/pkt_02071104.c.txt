@@ -484,3 +484,14 @@ void func_02071104(MtxFx44 *m, const MatAnmResult *anm)
 
 permuter best result line:
   best      DIFF   asm=30    bytes-out=6    size=124/124  (hill 129 tried flat; anneal 1500 flat)
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x02071104 unchanged, DIFF 6
+==============================================================================
+No callees; anm is already const.  Measured under ../2.0/sp2: a named
+scaleT local used by both terms (6; with the product written scaleT
+first, 18), const on the anm pointer itself (6), scaleT * 2 (6).  1.1p1
+101 out, ../1.2/sp2 128 bytes.  permuter anneal 2000 --types (seed 1610):
+best 6.
+/* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

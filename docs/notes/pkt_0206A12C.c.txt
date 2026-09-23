@@ -360,3 +360,15 @@ the "func_0206A2CC ... not closed, 196 compiled" paragraph above:
   this note described around the sum truncation is gone; the four corrections
   that did it are written out in the new note.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0206A12C.c:40: declaration syntax error
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x0206A12C CLOSED EXACT, 9 -> 0
+==============================================================================
+The three callees are TwlSDK gx_load3d.o: GX_BeginLoadTexPltt (0x0207FA0C)
+and GX_EndLoadTexPltt (0x0207FADC) take NO argument (neither body reads
+r0/r1), GX_LoadTexPltt (0x0207FA40) is (const void *src, u32 dest, u32
+size).  Passing (p, flag) and v kept both parameters live in the swapped
+registers; with the real prototypes and the NNSG3dResPlttInfo layout at
++0x2c (vramKey, sizePltt, flag, ofsDict, dummy, ofsPlttData) the function
+is EXACT under 1.1p1 (the NNS_G3dPlttLoad shape).  src/matched/func_0206A12C.c.

@@ -15,13 +15,15 @@
  *           docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md)
  *           and the three overlay-resident proc descriptors 0x021BD8E8,
  *           0x021B68D8, 0x021BD574, whose only pool words image-wide are
- *           this function's.
+ *           this function's.  Wave 16: d_021B68D8 now resolves as
+ *           sole-ref/data with the ov179 region token; 0x021BD8E8 and
+ *           0x021BD574 already resolve; the two overlay ids are the wall.
  *
  * symbols:
  *   ov088_id       0x00000058  data  a1
  *   ov179_id       0x000000B3  data  a1
  *   d_021BD8E8     0x021BD8E8  data
- *   d_021B68D8     0x021B68D8  data
+ *   d_021B68D8     0x021B68D8  data  ov179
  *   d_021BD574     0x021BD574  data
  *   g_02146948     0x02146948  data
  *   g_02146948_arg 0x02146948  data

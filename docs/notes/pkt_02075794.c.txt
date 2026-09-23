@@ -113,3 +113,16 @@ ABS32 g_02150178 (named by exactly one pool word image-wide, this one).
 Signed 1-bit bitfields at +0x118 are required at both ends of this packet: an
 unsigned field emits `lsrs r0, r0, #0x1f` where the image has `asrs`.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02075794.c:12: undefined identifier 'pkt_02075794'
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x02075968 CLOSED EXACT, 2 -> 0
+==============================================================================
+Not a declaration fact after all: a front-end pin.  Under ../2.0/sp2 (and
+sp2p2) both the three-statement mask spelling above and the signed
+one-bit bitfield spelling (b0/b1/b2 at +0x118, the fields its callers
+test) give the image's fresh register on the first clear, 44 bytes, 0
+out.  1.1p1 stays at 2 under a 2000-compile anneal (seed 1613).  Filed
+with the bitfield spelling as src/matched/func_02075968.c (compiler
+../2.0/sp2), shard pkt_02075968.  This is the call src/pending/func_02075A2C.c
+was waiting on (its PC24 0x02075968 can now resolve as matched).

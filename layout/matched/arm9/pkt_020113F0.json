@@ -31,6 +31,28 @@
    "status": "EXACT"
   },
   {
+   "name": "unit_020113F0",
+   "address": "0x020113F0",
+   "kind": "game_unit",
+   "region": "arm9",
+   "source": "src/matched/unit_020113F0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_020113F0",
+    "func_02011400"
+   ],
+   "evidence": {
+    "sole-ref": [
+     "self:0x0209DF10",
+     "self:0x0209DF24"
+    ]
+   }
+  },
+  {
    "name": "unit_02011410",
    "address": "0x02011410",
    "kind": "game_unit",

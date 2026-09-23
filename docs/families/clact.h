@@ -347,8 +347,10 @@ extern char s_clact_c[];                /* 0x020A7F74  data */
  * selected by the low bit of a second value.  Both are `literal`-attested
  * (x20 witnesses each), so they cost nothing to cite.  func_0204C2C8 is
  * the only reader. */
-extern u16 tbl_020A17D8[4][4];          /* 0x020A17D8  data */
-extern u16 tbl_020A17F0[4][4];          /* 0x020A17F0  data */
+extern const u16 tbl_020A17D8[4][4];    /* 0x020A17D8  data */
+extern const u16 tbl_020A17F0[4][4];    /* 0x020A17F0  data */
+/* const is load-bearing (wave 16): without it func_0204C2C8 is 58 bytes
+ * of register names out; with it, EXACT. */
 
 /*
  * THE SPRITE EXTENT WORD, ClActor+0x02 (`struct A.f02` in the culling pair).
@@ -537,8 +539,8 @@ extern void func_0204CF74(struct ClActor *a, u32 space, struct ClPt *origin);
  * GX_OAM_ATTR01_SIZE_MASK), NOT 0x00C000C0 as every older note says; its
  * `asr #22` is ~0xff.  The 0x48-stride element's +0x38 word is a GXOamAttr
  * attr01 union and tbl_020A17F0 / tbl_020A17D8 are the OBJ width / height
- * tables indexed [shape][size].  Still DIFF at 58 (register names only), see
- * docs/notes/pkt_0204C060.c.txt.
+ * tables indexed [shape][size].  EXACT since wave 16 once the two tables
+ * are declared const (src/matched/func_0204C2C8.c).
  */
 extern int  func_0204C3CC(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
                           const void *m, const void *c);     /* 0x0204C3CC arm */
@@ -583,5 +585,18 @@ extern void func_0204DEE8(void *h, int idx, void *src, void *sel, u32 size);
  *    (src/matched/func_0204D2C8.c).
  */
 extern void func_0204BF28(void *obj, u32 idx);              /* 0x0204BF28 arm */
+
+/*
+ * WAVE 16 (2026-09-23), declaration facts:
+ *  - const on the READ-ONLY EXTERN DATA closes a register tie the way const
+ *    on a read-only source parameter does: func_0204C2C8 58 -> EXACT with
+ *    tbl_020A17D8 / tbl_020A17F0 declared const, nothing else changed.
+ *  - sub_0204DACC is (res, u32 idx, desc, ovr pointer, u32 mode); func_0204E0D0
+ *    is (owner, s32 idx, void *handle, u32 mode, ovr pointer).  Neither
+ *    moved func_0204A7A0 (37) or sub_0204A6C8 (4).
+ *  - The template at 0x020A1430 that func_0204A7A0 copies is an
+ *    NNSG2dCharacterData {0xffff, 0xffff, GX_TEXFMT_PLTT16, mapping from
+ *    DISPCNT & 0x00300010, 0, size, pRawData}.
+ */
 
 #endif /* CLACT_H */

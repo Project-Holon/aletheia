@@ -2016,3 +2016,14 @@ or worse: dy declared before dx (2), the _11 product through a block temp
 a `const MtxFx22 *m = pM` alias (2), dy completed before the store (4),
 halfH declared before halfW (22).  0x02067A60 of this note's first section
 is closed this wave (src/matched/func_02067A60.c, ../2.0/sp2).
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x02067080 unchanged, DIFF 2
+==============================================================================
+The OBJ size tables are already const here (the lever that closed
+0x0204C2C8, which reads the same two tables).  Measured, all 2: const
+NNSG2dFVec2 *pBaseTrans (it is only read), const RndCore through
+g_02148B48, non-const tables, [4][4] table shape.  permuter anneal 2000
+--types (seed 1607, ../2.0/sp2) from the const-pBaseTrans source: best 2.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

@@ -1598,3 +1598,16 @@ index at the first store and at the first table read; k as enum; k as u32
 `Out *const out`; u16 f; k declared before node with u16 f.
 permuter anneal 2000 --types (seed 1506): best 14.
 /* best source, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2 -- the wave-10 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 16 (declaration-facts lane): 0x0206ECE0 unchanged at 14
+==============================================================================
+func_020834A8 is TwlSDK MI_Zero36B(void *pDest): one argument, right.
+The caller at 0x0206F094 sets r0 only, so ECE0 takes the one Out pointer.
+const on the Root's h/bank pointers and on the entry_of/resolve Bank
+parameters, const Root through the global and the local, Root *const
+g_02148DB0: all 14 (node r4 / k r5 against the image's r5 / r4).
+permuter anneal 2000 --types (seed 1605, ../2.0/sp2p2) from the const
+source: best 14.
+/* best source, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2 -- the wave-10 source above, unchanged */
