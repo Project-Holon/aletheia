@@ -751,3 +751,19 @@ void func_020163C4(struct Ctx *a0, u32 idx, struct Src *a2)
         *(void **)a1 = func_020056A0(func_02016880, p, 0);
     }
 }
+
+================================================================================
+2026-09-23 (wave 12, fourth lane on mcss.c).  Re-verified 16 / 620; no move.
+================================================================================
+
+Re-verified the source above: DIFF, 620 against 620, 16 out, dsi/1.1p1.
+The twin's two new hypotheses (docs/notes/func_02016630.c.txt, same date)
+failed there; the residue is the identical swap at three call sites.  One
+lesson from the same lane was measured here: in 0x02014D2C an inline
+FUNCTION (FX_Mul) instead of a macro changed argument evaluation order at
+every call site.  Tried as (a) a static inline `Arc(src)` returning
+src->f00 for the first argument and (b) four static inline constructor
+wrappers taking the Src pointer and reading both src fields INSIDE: both
+16, unchanged.
+/* best source, 620 bytes against 620, 16 concrete bytes out, dsi/1.1p1 */
+/* permuter best: DIFF   asm=80    bytes-out=16   size=620/620 (unchanged; source is the one above) */

@@ -670,4 +670,64 @@ extern void  func_020155A0(struct McssSys *sys, struct McssWork *w,
  *     recompute from a1 on their second assignment (183 -> 82).
  */
 
+/* ================================================================== *
+ * 9.  Wave 12 (2026-09-23), fourth lane: the frame walker 0x02014D2C
+ *     transcribed (docs/notes/pkt_02014D2C_boundary.c.txt, 2164/2164,
+ *     43 out, every relocation resolved) plus two moved rows.
+ * ================================================================== */
+
+/* ONE FUNCTION, ONE PARAMETER.  0x02014D2C..0x020155A0 is
+ *   void func_02014D2C(struct McssSys *sys);
+ * push {r4-r7,lr}, sub sp #0x1b4.  The labels 0x02014D90 and 0x02015590
+ * are false starts (bl used as a long branch); verify it with
+ * `match.py tu --addr 0x02014D2C --thumb`.                              */
+extern void  func_02014D2C(struct McssSys *sys);
+
+/*
+ * New McssSys facts:
+ *   +0x2c bit 0   billboard mode enable (then the slot's flag bit 29 is
+ *                 the per-slot billboard switch)
+ *   +0x18         a 3-word texture record {s32 fmt; u32; u32 plttBase}
+ *                 passed to func_020155A0 as `tex` (&sys->f18)
+ *   +0x44  fx32   screen-space scale for the pose offsets (FX_Mul'd with
+ *                 `ox << 8`, `-oy << 8`)
+ * New McssWork facts (all read by 0x02014D2C):
+ *   +0x2c         the u32 table: records start at f2c + 0xc, stride 0x30,
+ *                 two quads of six s32 {x, y, w, h, s, t} each (the same
+ *                 table func_02016C60 walks from +0x14 = quad0.w).
+ *   +0x34         an NNS-style animation controller: +0x34 current frame
+ *                 (->content), +0x50 sequence (->+4 u32, low 16 bits the
+ *                 element type 0/1/2 = index / index+SRT / index+T)
+ *   +0x74         array of 0x5c-byte node controllers of the same shape
+ *   +0x78         the multi-cell animation (+4 frames: u16 count, cells;
+ *                 cell +6 u16, high byte = node index)
+ *   +0x9c         texture image info read by G3_TexImageParam:
+ *                 +0x00 addr, +0x0c s, +0x10 t, +0x14 fmt, +0x1c pltt0
+ *   +0xe0..0xe8   position; +0xec/0xf0 scale; +0x100 rotation (>> 12)
+ *   +0x104,+0x108 pose-offset scale; +0x110,+0x114 extra scale
+ *   +0x11c..0x124 position offset; +0x128,+0x12c second scale
+ *   +0x178 u16    X rotation; +0x17a u16 Z rotation (>> 4 into the
+ *                 FX_SinCosTable_ index); +0x17c..0x184 translate
+ *   +0x140 bits 8, 11, 13, 29 are 1-bit flags (8: t += h on the second
+ *                 quad; 11: skip; 13 must be set to draw; 29 billboard)
+ *
+ * Byte-visible spellings (measured, details in the note):
+ *   - FX_Mul must be an INLINE FUNCTION, not the FX_MUL macro, for chained
+ *     products (docs/idioms/a-nested-fx-mul-keeps-the-inner-product-in-r0-
+ *     only-as-an-inline-function.md).
+ *   - Block-local initialisers from rodata (0x0209E090 {0,0x1000,0},
+ *     0x0209E09C {0,0,-0x1000}) are hoisted by mwcc into preheader slots.
+ *   - The billboard projection is func_02016FC8 followed by
+ *     FX_Mul(FX_Div(x, w), 128 << 12) / FX_Mul(FX_Div(y, w), 96 << 12),
+ *     sub_0207C768 being FX_Div.  The float block is FX_F32_TO_FX32 on an
+ *     s16 (int compare, `(x) * (1 << 12)` as an integer shift).
+ *
+ * Two rows moved the same day:
+ *   func_020172D8: idx[0] is assigned FIRST (the image computes b1 << 7
+ *     before b1 + 0x28); 82 -> 47, a pure r1/r2/r3 rotation left.
+ *   func_02016C60: the "pad trap" is the permuter scoring against the
+ *     872-byte listing extent; scored against 870 it walks to 61
+ *     (compiler-temporary slot order, as predicted).
+ */
+
 #endif /* MCSS_H */

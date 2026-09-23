@@ -513,3 +513,19 @@ void func_02016630(struct Ctx *a0, u32 idx, struct Src *a2)
         *(void **)a1 = func_020056A0(func_02016880, p, 0);
     }
 }
+
+================================================================================
+2026-09-23 (wave 12, fourth lane on mcss.c).  Re-verified 21 / 592; no move.
+================================================================================
+
+Re-verified the source above: DIFF, 592 against 592, 21 out, dsi/1.1p1.
+Two new hypotheses for the a2-reload / a1-copy swap, both measured:
+  - the heap argument through a `static inline u16 HeapId(u8 *)` helper
+    (narrowing inside or at the call): 21, unchanged;
+  - a2 made a memory variable (address taken) to test whether the image's
+    reload is a pre-RA load the scheduler can hoist over the stack-argument
+    store: no -- it opens with push {r0-r3} and the reload still lands after
+    the store (600 bytes, 572 out).  So the image's order is not an
+    aliasing artefact of a memory-resident a2.
+/* best source, 592 bytes against 592, 21 concrete bytes out, dsi/1.1p1 */
+/* permuter best: DIFF   asm=280   bytes-out=21   size=592/592 (unchanged; source is the one above) */
