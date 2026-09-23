@@ -398,3 +398,9 @@ extern void veneer_02091284(void);      /* -> 0x02731920 arm   (overlay)      */
 #define SYSWORK_PAIR_OFF    0x220   /* g_02FFE010.f220                        */
 
 #endif /* CLUSTER_02087AE4_H */
+
+/* ADDENDUM 2026-09-23 (wave 13).  func_02087FBC (os_argument encode) and
+ * func_0208B8B0 (pm.o init) are EXACT under 1.1p1.  Lesson for this TwlSDK
+ * range: fixed shared/HW addresses (0x02FFE010, 0x02FFE230, 0x02FFF684,
+ * 0x02FFFC3C, 0x02000000) are CAST CONSTANTS, not relocated objects -- the
+ * "no witness" sites the older notes reported were not relocations at all. */

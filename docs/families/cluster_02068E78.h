@@ -190,3 +190,11 @@ extern s8  *func_02067FE4(void *font, u32 idx);    /* 0x02067FE4  glyph      */
 #define TILECFG_MAX_CODE     3      /* the `cmp #8` / `movge #3` saturation  */
 
 #endif /* CLUSTER_02068E78_H */
+
+/* CORRECTION 2026-09-23 (wave 13).  The clz wall is gone (the SDK's inline
+ * asm MATH_CountLeadingZeros; see docs/notes/pkt_02067FE4.c.txt) and
+ * func_02068FF0 is EXACT under ../2.0/sp2.  func_02068E78 takes SEVEN
+ * arguments, not eight: the seventh is a 4-byte bitfield struct passed BY
+ * VALUE whose own home is [sp, #0xc], which is why the caller stores the same
+ * register to [sp, #8] and [sp, #0xc].  The cluster is NitroSystem
+ * g2d_CharCanvas.c.  See src/matched/func_02068FF0.c. */

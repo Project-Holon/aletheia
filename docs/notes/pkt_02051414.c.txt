@@ -213,3 +213,9 @@ What would unblock it, in order of cost: an EXACT entry anywhere in the image
 that declares 0x020A159C in its `symbols:` block as kind `data` (that makes it
 a `data-decl` start in the datamap, which is an out-of-range witness), or a
 second pool word naming it from an overlay.  Neither exists today.
+
+
+==============================================================================
+WAVE 13, 2026-09-23: CLOSED.  func_02051414 is EXACT in src/matched/func_02051414.c.
+==============================================================================
+The lever: the setup-only locals in a nested block with initialisers, `VecFx32 z = {0, 0, 0};` keeping &z in r6; g_020A159C resolves by sole-ref/self once the body is byte-exact.  The file's header carries the full account.

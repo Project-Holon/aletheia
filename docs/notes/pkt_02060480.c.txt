@@ -98,3 +98,5 @@ l->count load from being hoisted while keeping ofs in r3. Everything else in
 the five functions is already byte-exact, and the whole family is worth
 about 450 bytes.
 re-verified 2026-09-21: no recoverable source in this note
+
+2026-09-23, wave 13: func_020604AC and func_02060500 CLOSED EXACT (src/matched), NitroSystem NNS_FndAppendListObject / NNS_FndPrependListObject with the u32 GetLink add, no volatile, else-arm shape, ../2.0/sp2.

@@ -362,3 +362,9 @@ struct DST {
    rsb (180 bytes); the three-statement form is still required.              */
 
 #endif /* CLUSTER_02070B64_H */
+
+/* ADDENDUM 2026-09-23 (wave 13).  The texture-matrix members read a
+ * NitroSystem NNSG3dMatAnmResult into an MtxFx44; with those real types and
+ * ../2.0/sp2, func_020712A8 is EXACT (the _30 factor negated in u32).
+ * func_02071104 stays DIFF 6.  func_02070A24 (pkt_0207010C) is the g3d
+ * texture-parameter setter, EXACT under sp2. */

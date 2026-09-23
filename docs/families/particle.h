@@ -283,4 +283,27 @@ extern void  func_02030EAC(void *p);                     /* 0x02030EAC       */
 extern void *func_02048A24(/* twelve arguments; see func_02051648 */);
 extern void  MI_CpuFill8(void *dst, u8 v, u32 n);        /* SDK              */
 
+/* ------------------------------------------------------------------ *
+ * WAVE 13 (2026-09-23): the family is CLOSED -- all three open residues
+ * are EXACT, and each fell to a declaration, not a permutation.
+ *
+ *   func_02050C30  `extern const u32 g_020A15A8[];` -- the per-slot table
+ *                  is CONST.  Without const its element load cannot move
+ *                  above the outgoing-argument stores; that was the whole
+ *                  37-byte "scheduler tie".
+ *   func_02051838  `const VecFx32 *q` and one statement per component,
+ *                  no locals: the three q loads hoist above the stores
+ *                  (descending registers, so no ldm merge).  The old
+ *                  `volatile` parameter was only an imitation.  The block
+ *                  at +0x20's first word points at a struct whose VECTOR
+ *                  IS AT +4 (f00, then x/y/z).
+ *   func_02051414  the setup-only locals live in a NESTED BLOCK with
+ *                  initialisers: `VecFx32 v = g_020A159C; MtxFx33 m;
+ *                  VecFx32 z = {0, 0, 0};`.  g_020A159C now resolves by
+ *                  sole-ref/self, so the "permanent MATCH blocker" above
+ *                  is gone.
+ * General lesson: in this compiler a const-qualified pointer or array is
+ * what lets a load be scheduled across stores; try it on any residue where
+ * one load sits on the wrong side of a store.
+ * ------------------------------------------------------------------ */
 #endif /* PARTICLE_H */

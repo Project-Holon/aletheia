@@ -260,3 +260,5 @@ void func_02060500(volatile struct DList *list, void *elem)
  * the permuter cannot reach, since it mutates locals and parameters and not
  * struct members.
  * ==================================================================== */
+
+2026-09-23, wave 13: func_020604AC and func_02060500 CLOSED EXACT (src/matched), NitroSystem NNS_FndAppendListObject / NNS_FndPrependListObject with the u32 GetLink add, no volatile, else-arm shape, ../2.0/sp2.

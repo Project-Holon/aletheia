@@ -22,6 +22,18 @@
     "func_02049990",
     "func_020499D4"
    ]
+  },
+  {
+   "name": "func_02049A18",
+   "address": "0x02049A18",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02049A18.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
   }
  ]
 }

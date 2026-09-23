@@ -59,3 +59,9 @@ the emitted bodies at 0x02049CF8, 0x02049D1C, 0x02049D40, 0x02049D64 say, and
 the table runs from 0 because cases 0, 1, 4 and 5 are real labels sharing the
 default arm.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+==============================================================================
+WAVE 13, 2026-09-23: CLOSED.  func_02049C28 is EXACT in src/matched/func_02049C28.c.
+==============================================================================
+The lever: the size PARAMETER is the defaulted value (no separate v), an early `if (file == 0) return;`, and the PLTT out-local declared before the PMCP one.  The file's header carries the full account.

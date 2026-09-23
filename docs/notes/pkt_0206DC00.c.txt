@@ -17,3 +17,16 @@ re-verified 2026-09-21: no recoverable source in this note
 APPENDED 2026-09-22 (wave 8, second lane on pkt_0206BEA0): CLOSED
 ==============================================================================
 func_0206DC00 (NNS_G3dGeSendDL) is byte-correct and parked MATCH in src/pending/func_0206DC00.c. It is blocked on two TWL-only bl targets (0x027300F0, 0x0272FEF4), which no listing labels, and on the unlabelled DMA-callback leaf at 0x0206DBF4. func_0206DDA4 in this range is EXACT.
+
+==============================================================================
+2026-09-23, wave 13 leftovers lane: re-verified, still MATCH
+==============================================================================
+src/pending/func_0206DC00.c re-verified under ../2.0/sp2: MATCH, 420 bytes,
+every concrete byte right, 11 of 14 relocations resolved.  Still blocked on
+three sites, unchanged: PC24 0x027300F0 and 0x0272FEF4 (TWL-ltd code outside
+every delinked region, no label) and ABS32 0x0206DBF4 (an unlabelled 12-byte
+leaf inside func_0206DBDC's listing extent).  layout/symbols_sdk.txt names
+0x0206DBF4 (NHTTPi_InitRequestInfo) but layout/symbols_sdk.json does not,
+so the `sdk` class does not fire; the .txt row looks like a stale false
+signature hit.  Seeding 0x0206DBF4 in layout/function_starts.txt remains the
+integrator action that clears one of the three.

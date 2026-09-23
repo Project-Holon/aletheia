@@ -585,4 +585,22 @@ extern u16  func_0201808C(void *p, u16 move);   /* teach: 0xFFFF no free
                                                  * slot, 0xFFFE known */
 extern u16  func_02018094(void *p, u16 move);   /* the same, reset variant */
 
+/* ===================================================================== *
+ * 12.  WAVE 13 (2026-09-23): the tail of the family closed
+ * ===================================================================== *
+ *   0x0201A3F4  the twin of func_0201A374 with an if-chain over the format
+ *               byte at a0+5 (0,4,1,2,3,5 -> 6,0xb,0xd,0xc,0xe,0xf, else 6);
+ *               the record parameter is `const u8 *`, which lets the a0+4
+ *               byte load move above the two outgoing stack stores (the
+ *               note's 8-byte residue).  EXACT* (unlabelled follower
+ *               0x0201A468).
+ *   0x0201A090  party legality check.  Arrays are indexed plainly
+ *               (species[i]); the compiler CSEs i*2 into sp+8 itself.  In
+ *               the duplicate-ITEM test the mask update precedes the error
+ *               code (`*mask |= 0x10; err = 3;`), unlike the species test;
+ *               that order keeps err in r7.  EXACT* (alignment pad only).
+ *   extern u32 func_0201A090(void *rules, void *party, u32 *mask);
+ *   extern void *func_0201A3F4(const u8 *rec, u32 ws, u32 *bank, u32 dst,
+ *                              u16 heap);
+ */
 #endif /* POKE_TOOL_H */

@@ -156,4 +156,17 @@ extern const u8 sub_0202D5D8_Table[];  /* the selector table func_0202D5D8
                                         * as data, never as code          */
 extern const char str_020A77AC[];      /* the "pokegra.c" __FILE__ anchor  */
 
+/* ------------------------------------------------------------------ *
+ * WAVE 13 (2026-09-23).
+ * func_0202D3D0 is EXACT (pkt_0202D2EC).  The lever was the nibble arms:
+ * no hoisted byte local; each arm reads `blob[idx]` itself and updates it
+ * with a compound `+=` (`n = blob[idx] & 0xf0; if (n >= 0x10 && n <= 0x30)
+ * blob[idx] += 0x50;`).  The compiler merges the two identical loads after
+ * the `x & 1` test, which is the image's allocation.
+ *   extern const u8 *const tile_tables[4];   0x020A779C
+ *   extern void func_0202D3D0(struct { u8 pad[0x14]; u8 *blob; } *obj,
+ *                             u32 packed_offsets);
+ * func_0202D4A8 stays open: a 4-byte frame-slot tie with every lever
+ * tried (docs/notes/func_0202D4A8.c.txt), skipped this wave by rule.
+ * ------------------------------------------------------------------ */
 #endif /* POKEGRA_H */

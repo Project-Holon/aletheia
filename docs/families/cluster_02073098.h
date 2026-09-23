@@ -281,3 +281,13 @@ extern void  func_02074758(u32 a);
 extern void  func_02074770(void *owner);
 
 #endif /* CLUSTER_02073098_H */
+
+/* CORRECTION 2026-09-23 (wave 13).  The IF-CONVERSION wall above is not a
+ * wall: func_020730B8 is EXACT under ../2.0/sp2 with the guard written as a
+ * WRAPPING `if (o->p != 0) { two stores }` instead of an early return.  And
+ * two arities: func_020733E8 takes (voice, seqBase, seqOffset, bankData) and
+ * forwards r1..r3 to SND_PrepareSeq (0x02089350, four arguments);
+ * func_0208948C is SND_SetTrackAllocatableChannel(player, trackMask, chMask);
+ * func_02075BAC is a three-argument fader set (fader, target, frames).  All
+ * three of 0x020730B8 / 0x020733E8 / 0x02073438 are now EXACT (sp2).  The
+ * cluster is NitroSystem snd (sound player over the TwlSDK SND driver). */

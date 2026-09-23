@@ -31,6 +31,18 @@
    "status": "EXACT"
   },
   {
+   "name": "func_02070A24",
+   "address": "0x02070A24",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02070A24.c",
+   "compiler": "dsi/../2.0/sp2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02070B64",
    "address": "0x02070B64",
    "kind": "game",
@@ -44,9 +56,7 @@
    "evidence": {
     "sole-ref": [
      "code:0x0206EA00",
-     "code:0x0206EA2C",
-     "code:0x02070A24",
-     "code:0x02070AFC"
+     "code:0x0206EA2C"
     ]
    }
   },

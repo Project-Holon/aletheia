@@ -183,3 +183,9 @@ swap'+'@L36, init-split@L28.  Nothing improved.
 Still DIFF, still evidence only.  src/pending/func_0202D760.c remains
 blocked on this one site.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+==============================================================================
+WAVE 13, 2026-09-23: CLOSED.  func_0202D3D0 is EXACT in src/matched/func_0202D3D0.c.
+==============================================================================
+The lever: no hoisted byte local: each nibble arm reads blob[idx] and updates it with a compound `+=`; the compiler merges the loads after the x&1 test.  The file's header carries the full account.

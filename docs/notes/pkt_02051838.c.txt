@@ -195,3 +195,9 @@ void func_02051838(char *p, volatile u32 *q)
     *(u32 *)(p + 0x2c) = b + *(u32 *)((u32)**(u32 ***)(p + 0x20) + 8);
     *(u32 *)(p + 0x30) = c + *(u32 *)((u32)**(u32 ***)(p + 0x20) + 12);
 }
+
+
+==============================================================================
+WAVE 13, 2026-09-23: CLOSED.  func_02051838 is EXACT in src/matched/func_02051838.c.
+==============================================================================
+The lever: `const VecFx32 *q`, one statement per component, no locals (the volatile parameter was an imitation of the const hoist).  The file's header carries the full account.

@@ -19,6 +19,40 @@
    "status": "EXACT"
   },
   {
+   "name": "func_02087FBC",
+   "address": "0x02087FBC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02087FBC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02151390"
+    ]
+   }
+  },
+  {
+   "name": "func_0208B8B0",
+   "address": "0x0208B8B0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0208B8B0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0208B950"
+    ]
+   }
+  },
+  {
    "name": "OS_SPrintf",
    "address": "0x0208CF34",
    "kind": "game",
@@ -30,8 +64,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
-    "sole-ref": [
-     "code:0x0208CFD8"
+    "sdk": [
+     "0x0208CFD8"
     ]
    }
   },

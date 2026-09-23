@@ -155,3 +155,5 @@ int func_02060B6C(struct MBlockList *list, volatile struct MemRegion *in)
     func_020607B8(list, func_020607E8(&rgn, 0x4652), prev);
     return 1;
 }
+
+2026-09-23, wave 13: CLOSED EXACT (src/matched), 1.1p1: NitroSystem expheap RecycleRegion; region copied by value, for/continue walk, no volatile, inline end-address helper with `val + (u32)ptr`.

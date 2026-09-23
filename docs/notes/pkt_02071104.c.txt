@@ -432,3 +432,55 @@ permuter best result line:
   -- unchanged, the 0x02071104 source printed in the section above.
 permuter best result line:
   best      DIFF   asm=30    bytes-out=6    size=124/124  (previous lane; re-measured 6)
+
+==============================================================================
+2026-09-23, wave 13 leftovers lane: 0x020712A8 CLOSED EXACT, 0x02071104 DIFF 6
+==============================================================================
+
+IDENTIFICATION.  Both are NitroSystem g3d texture-SRT matrix builders: the
+source object is NNSG3dMatAnmResult (scaleS/scaleT fx32 at +0x18/+0x1c,
+sinR/cosR fx16 at +0x20/+0x22, transS/transT at +0x24/+0x28, origWidth/
+origHeight u16 at +0x2c/+0x2e) and the destination is an MtxFx44 (_00 +0x00,
+_01 +0x04, _10 +0x10, _11 +0x14, _30 +0x30, _31 +0x34).
+
+0x020712A8 is filed EXACT as src/matched/func_020712A8.c under ../2.0/sp2.
+The lever was a u32 NEGATION: `(fx32)-(u32)(sinR + cosR) + 0x1000`.  A
+signed negation folds with the + 0x1000 into one rsb; the unsigned one keeps
+add / rsb #0 / add #0x1000 as three instructions without the three-statement
+spelling that swapped r1/r2.  Found by the permuter anneal
+(`temp(tmp=-t) ; cast(u32)`) from the real-type source; also needed: the
+real MtxFx44 / MatAnmResult types and sp2 (1.1p1 is 172 bytes on it).
+
+0x02071104: the same readings give a readable single-expression source at
+124/124, 6 out under ../2.0/sp2 -- the same five instructions the previous
+section lists (scaleT / transT in r4/ip vs ip/r3 around the smull).  hill
+800 --types: 129 singles, flat; anneal 1500 --types: flat at 6.  Hand orders
+of the _31 product and sum: `(s64)scaleT * transT` 18, sum terms swapped 6
+or 18, factored origHeight 120 bytes, `scaleT * 2` for `<< 1` 6.
+
+/* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int s32;
+typedef short fx16;
+typedef s32 fx32;
+typedef long long s64;
+typedef struct {
+    u32  flag; u32 prmMatColor0; u32 prmMatColor1; u32 prmPolygonAttr; u32 prmTexImage; u32 prmTexPltt;
+    fx32 scaleS, scaleT; fx16 sinR, cosR; fx32 transS, transT; u16 origWidth, origHeight; fx32 magW, magH;
+} MatAnmResult;
+typedef struct { fx32 _00,_01,_02,_03,_10,_11,_12,_13,_20,_21,_22,_23,_30,_31,_32,_33; } MtxFx44;
+
+void func_02071104(MtxFx44 *m, const MatAnmResult *anm)
+{
+    m->_00 = anm->scaleS;
+    m->_11 = anm->scaleT;
+    m->_01 = 0;
+    m->_30 = anm->origWidth * -(fx32)(((s64)anm->scaleS * anm->transS) >> 8);
+    m->_31 = anm->origHeight * (fx32)(((s64)anm->transT * anm->scaleT) >> 8)
+           + ((anm->origHeight * ((fx32)-(u32)(anm->scaleT << 1) + 0x2000)) << 3);
+    m->_10 = 0;
+}
+
+permuter best result line:
+  best      DIFF   asm=30    bytes-out=6    size=124/124  (hill 129 tried flat; anneal 1500 flat)

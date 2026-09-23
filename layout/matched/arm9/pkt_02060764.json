@@ -91,6 +91,18 @@
    "status": "EXACT"
   },
   {
+   "name": "func_02060B6C",
+   "address": "0x02060B6C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02060B6C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02060CA0",
    "address": "0x02060CA0",
    "kind": "game",

@@ -95,3 +95,9 @@ What is left.  ONE decision, and it is the whole residue:
 
 Not a candidate for src/pending/: DIFF, not a wildcarded relocation.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+==============================================================================
+WAVE 13, 2026-09-23: CLOSED.  func_0201A090 is EXACT in src/matched/func_0201A090.c.
+==============================================================================
+The lever: plain `species[i]` indexing (the j*2>>1 was invented) plus, found by permuter.py hill, `*mask |= 0x10; err = 3;` in that order in the duplicate-item test (EXACT*, pad only).  The file's header carries the full account.

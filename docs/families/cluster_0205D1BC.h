@@ -146,3 +146,12 @@ extern void func_02060550(volatile struct DList *list, void *before, void *elem)
 extern int func_0205D1BC(void);
 
 #endif /* CLUSTER_0205D1BC_H */
+
+/* CORRECTION 2026-09-23 (wave 13).  func_020604AC and func_02060500 are
+ * EXACT under ../2.0/sp2, NOT 1.1p1, and WITHOUT the volatile: they are
+ * NitroSystem fnd/list.c NNS_FndAppendListObject / NNS_FndPrependListObject,
+ * written with the library's GetLink macro ((NNSFndLink *)((u32)(obj) +
+ * (list)->offset)) and the non-empty case as an else arm.  The pointer-typed
+ * add was the 4-byte register swap; the volatile was compensating for a
+ * different compiler.  The pin paragraph above measured sp2 on the old,
+ * pointer-typed source only.  See src/matched/func_020604AC.c. */

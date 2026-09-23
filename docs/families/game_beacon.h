@@ -340,4 +340,17 @@ void sub_02027324(u16 value);
  *   void  func_0202685C(u8 *blk, BeaconRec *r); (MATCH, see above)
  * ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ *
+ * WAVE 13 (2026-09-23): both MATCH parks re-verified unchanged.
+ *   func_0202685C  the four `bl 0x02167394` targets are an UNLABELLED
+ *                  Thumb leaf in ov010 (0x02167394: cmp r0,#0x1d; bls;
+ *                  movs r0,#0; bx lr; ldr r1,=0x02171F3C; ldrb r0,[r1,r0];
+ *                  bx lr -- a bounded byte-table lookup over the 30 ring
+ *                  ids).  In ov009 the same address is mid-function ARM
+ *                  code.  A `symbols:` hint `ov010` alone does not resolve
+ *                  it: the address needs a function_starts seed in ov010
+ *                  (integrator), then the region-hinted site can attest.
+ *   func_020274C8  0xE7 is an absolute overlay-id symbol with one pool
+ *                  word image-wide; still permanent.
+ * ------------------------------------------------------------------ */
 #endif /* GAME_BEACON_H */

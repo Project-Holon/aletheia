@@ -265,3 +265,8 @@ extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 #endif /* CLUSTER_02060764_H */
+
+/* ADDENDUM 2026-09-23 (wave 13).  func_02060B6C is NitroSystem expheap
+ * RecycleRegion, EXACT under 1.1p1 in the library's own shape (region copied
+ * by value, no volatile, inline GetMBlockEndAddr with the add written
+ * `val + (u32)ptr`).  See src/matched/func_02060B6C.c. */
