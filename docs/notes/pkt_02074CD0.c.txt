@@ -205,3 +205,13 @@ pair at 0x02075984.  Recorded, not ground further.
 permuter best result line:
     baseline  DIFF   asm=10    bytes-out=2    size=320/320
     best      DIFF   asm=10    bytes-out=2    size=320/320   (519 compiles, hill + anneal)
+
+==============================================================================
+APPENDED wave 12 (lane wave12_02064B68), 2026-09-23: CLOSED
+==============================================================================
+func_02074CD0 is EXACT, filed as src/matched/func_02074CD0.c. The two bytes
+above were never an allocation tie. func_0208A2BC takes THREE arguments: its
+prologue saves r2 (`mov r4, r2` at 0x0208A2C8), which is the
+SND_AssignWaveArc(bank, index, waveArc) shape. So `ldrne r2, [sp, #4]` loads
+`sub` into the third argument register. With `func_0208A2BC(bank, i, sub)`
+the body is EXACT under 1.1p1, ../2.0/sp2 and sp2p2.

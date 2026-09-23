@@ -518,4 +518,23 @@ extern void  func_02065D4C(void *actor);                  /* EXACT, 2.0  */
  *    a load-delay-slot fill, not a source-order tell.
  */
 
+/* ================================================================== *
+ * WAVE 12 (2026-09-23): what was learned (no new EXACT in this range)
+ * ================================================================== *
+ *
+ * 14. MATRIX BUILDER STORE ORDER.  In func_02066620 the image stores -sn and
+ *    the two zeros AFTER the destination adds.  Only an inline helper that
+ *    takes the destination as an argument and does the whole build plus the
+ *    concat, Apply(&m, &T[slot], sn, cs), reproduces that order: the
+ *    argument is evaluated before the body.  It is 18 out, registers only,
+ *    and the zero's lr colour is still unreached.  In func_020664CC the
+ *    tail's SlotRec pointer is ip in the image and r4 in ours, with identical
+ *    tail code, so the residue there is global allocation, not the tail's
+ *    spelling.
+ * 15. All four residues (func_02066620 17, func_020664CC 46, func_02064EDC 28,
+ *    func_02065DB4 23) were re-run under 1.1p1 / sp2 / sp2p2 with the
+ *    permuter's hill 800 and anneal 1000..2000 --types.  None moved.  See
+ *    docs/notes/pkt_02064B68.c.txt, wave 12 section.
+ */
+
 #endif /* CLUSTER_02064B68_H */

@@ -1102,3 +1102,53 @@ Also tried: the mode == 1 entry counter declared per f80 arm (`u16 i` inside
 each loop's block, 23), with `saved` in the bracketed arm too (23); i in the
 mode block with `i = 0` in each for (724 bytes).  1.1p1: 269 out.
 permuter best: DIFF   asm=115   bytes-out=23   size=716/716 (hill 800 --types, none improves)
+
+==============================================================================
+APPENDED wave 12 (lane wave12_02064B68), 2026-09-23
+==============================================================================
+
+All four rows were re-run on 1.1p1, ../2.0/sp2 and ../2.0/sp2p2. They were
+also run through the permuter (explain, hill 800 --types, anneal 1000..2000
+--types). None of them closed. The best sources above stay unchanged.
+
+0x02066620  func_02066620  DIFF   (re-run, unchanged)
+/* best source, 288 bytes against 288, 17 concrete bytes out, ../2.0/sp2 */
+NEW (not a closure): putting the whole build in an inline helper that takes
+the destination, `Apply(&m, &g_02147D18[slot], sn, cs)` (it does the m00..ty
+stores and then the call), is the only spelling that puts the image's STORE
+ORDER back: -sn at +8 after the adds, then the two zeros. That is 18 out, and
+the rest is registers only (image zero=lr, off=ip, base=r2). It follows that
+the argument is evaluated before the body in the image. Also tried, all
+17..18: u8* base+off in both operand orders, a Mtx as fx32[6], stores in
+image order, a zero local, a 64-bit zero store for tx/ty, d = T; d = d + slot,
+an `e = d` copy, s16 params, and helper variants (arg order, zeros first,
+zero as a parameter, a named -sn). Also tried: an identity init before the
+rotate stores (51..255). 1.1p1 199, sp2p2 17. The zero goes to lr only when
+its live range spans the whole head. No spelling tried makes it do that.
+permuter best: DIFF   asm=85    bytes-out=17   size=288/288 (hill 800 + anneal 2000 --types; helper form: hill 800 + anneal 2000, asm=90 / 18)
+
+0x020664CC  func_020664CC  DIFF   (re-run, unchanged)
+/* best source, 340 bytes against 340, 46 concrete bytes out, ../2.0/sp2 */
+Tried: the Apply(&m, &D18[slot], sx, sy) helper for part 1, a Concat helper
+doing tx/ty + the call for part 2, both together, and the tail as an inline
+Commit(): all 46. The tail's SlotRec pointer goes to ip in the image but r4
+in ours, even though the tail code is identical. So in the image r4 (sy)
+interferes with the tail, or the allocator orders its colours differently
+there. That is a global allocation tell, not a local spelling. The callee
+prototypes were checked against their prologues: func_0207C778 takes one
+argument and func_02066754 three. 1.1p1 237, sp2p2 46.
+permuter best: DIFF   asm=955   bytes-out=46   size=340/340 (hill 800 + anneal 1500 --types)
+
+0x02064EDC  func_02064EDC  DIFF   (re-run, unchanged)
+/* best source, 324 bytes against 324, 28 concrete bytes out, ../2.0/sp2 */
+Tried: j as int / u32, a local base pointer, d = T; d = d + j,
+(j<<5)+(u8*)T, j + T, j[T], two index-form stores before d, and k assigned
+outside the for: all 28 (or 107 for the second index store).
+1.1p1 30, sp2p2 28.
+permuter best: DIFF   asm=865   bytes-out=28   size=324/324 (hill 800 + anneal 1500 --types)
+
+0x02065DB4  func_02065DB4  DIFF   (re-run, unchanged)
+/* best source, 716 bytes against 716, 23 concrete bytes out, ../2.0/sp2 */
+Tried: DrawEnt with e = ents + i (23), with no e local (740 bytes), and with
+s16 x/y (748 bytes). 1.1p1 269, sp2p2 23.
+permuter best: DIFF   asm=115   bytes-out=23   size=716/716 (hill 800 + anneal 1000 --types)

@@ -116,3 +116,17 @@ u32 func_020750EC(u32 idx, u32 *a1, int a2)
 }
 */
 re-verified 2026-09-21 by tools/match.py: DIFF, 268 bytes against 264, 200 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED wave 12 (lane wave12_02064B68), 2026-09-23: CLOSED
+==============================================================================
+func_020750EC is EXACT under ../2.0/sp2 (and sp2p2), filed as
+src/matched/func_020750EC.c in pkt_02074A34. The old park is gone:
+0x0214EA54 now resolves by sole-ref/data. Four levers:
+  - the pin ../2.0/sp2;
+  - two extern names at 0x0214EA54 (one for the read destination, one for
+    the count load), which reproduces the image's duplicated pool word.
+    mwcc merges pool entries per symbol, so a single extern gives 260 bytes;
+  - one variable for the error code and the block, returned at one exit;
+  - the second read's result in a named local `n`, with `sz` declared LAST
+    (the permuter's anneal found the declaration swap; 18 -> 9 -> 0).

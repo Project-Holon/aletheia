@@ -124,11 +124,11 @@ typedef signed   int       s32;
 
 /* The loader's one scratch header, 0x3c bytes read straight off the stream.
    func_020750EC reads 0x3c bytes into it and takes the entry count from +0x38.
-   PARK CLASS, do not spend a pass on it: 0x0214EA54 is named by exactly TWO
-   pool words image-wide, 0x020751E8 and 0x020751EC, and BOTH are inside
-   func_020750EC's own compared range, so the `literal` class has no outside
-   witness and the symbol spelling can never resolve.  See
-   docs/notes/pkt_020750EC.c.txt. */
+   WAVE 12: func_020750EC is EXACT (../2.0/sp2).  0x0214EA54 resolves by
+   sole-ref/data.  The image pools the word TWICE, and mwcc merges pool
+   entries per symbol, so the source declares two extern names at this one
+   address (d_0214EA54 for the read, d_0214EA54_hdr for the count load).  The
+   old "own-pool-only literal" park no longer applies. */
 struct ArcHdr { u32 pad00[0xe]; u32 count; };  /* count at +0x38 */
 extern struct ArcHdr d_0214EA54;               /* 0x0214EA54 */
 
@@ -281,7 +281,7 @@ extern u32   func_02074F3C(u32 a, u32 b, u32 c);
 extern u32   func_02074FA8(u32 a, u32 b, u32 c);
 extern u32   func_02075014(u32 a, u32 b, u32 c);
 extern u32   func_02075080(u32 a, u32 b, u32 c);
-extern u32   func_020750EC(u32 id, u32 *heap, int flag);  /* PARKED, see above */
+extern u32   func_020750EC(u32 id, u32 *heap, int flag);  /* EXACT w12, 2.0 */
 
 /* -- the teardown callbacks -- */
 extern void func_020751F4(u32 p, u32 b, u32 c);   /* the shared body */
@@ -303,7 +303,9 @@ extern u32  func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1,
                           u32 s2, u32 s3);
 
 /* -- the SDK sound driver, ARM, all label-attested outside this cluster -- */
-extern void func_0208A2BC(u32 bank, u32 slot);
+extern void func_0208A2BC(u32 bank, u32 slot, u32 waveArc);  /* THREE args:
+   prologue saves r2 (SND_AssignWaveArc shape); proved by func_02074CD0
+   EXACT, wave 12 */
 extern void func_0208A38C(u8 *p);
 extern void func_0208A424(int a);
 extern void func_0208A46C(struct SeqIter *it, u32 seq, u32 group, u32 h);
@@ -315,5 +317,9 @@ extern void func_020896AC(u8 *p, u8 *end);
 extern void func_020896CC(u8 *p, u8 *end);
 extern void func_020896EC(int p, int end);
 extern void DC_StoreRange(void *addr, u32 size);   /* 0x020862D4 */
+
+/* WAVE 12: func_02074CD0 is EXACT and needs no pin (1.1p1, sp2 and sp2p2 all
+   reproduce it) once func_0208A2BC has its three-argument prototype.  The
+   old 2-byte `ldrne r2` residue was the third argument being loaded. */
 
 #endif /* CLUSTER_02074A34_H */
