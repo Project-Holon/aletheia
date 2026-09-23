@@ -252,3 +252,13 @@ Measured once each on the best source (116/116 unless noted):
   range test through a static inline `return v >= 1 && v < 11;`  1
   the sub_02024520 call and test inside a static inline    128 bytes
 No lever moves the threaded `blt`.  Best source unchanged.
+
+================================================================
+APPENDED 2026-09-24, wave 18 lane ties_b: CLOSED, EXACT
+================================================================
+Measured: u16 callee prototypes (1, same byte); the dead `mode` parameter
+reused as v (1); v at function scope (1); `v > 0 && v <= 10` (5); flag == 0
+arm made empty (43). EXACT: the flag arm writes the fail tail out after the
+range test, `ok = 0; *p = 0x6A1; goto done;`, like the flag == 0 arm.
+Filed as src/matched/func_020246C8.c; idiom
+docs/idioms/a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.md.

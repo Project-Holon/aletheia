@@ -721,3 +721,37 @@ wave-15 best source is 1520/1524, 718 out under dsi/1.1, 1.1p1, 1.2, 1.2p2,
 function; the residue remains the hoist point of the three loop invariants
 (+0x2A0 against the preheader +0x3A4).  No new source lever measured.
 /* best source: unchanged (the wave-15 source above) */
+
+==========================================================================
+2026-09-24, wave 18 fresh rewrite (lane dec2num_fresh).  EXACT, 718 -> 0.
+==========================================================================
+Written from the start in the MSL ansi_fp.c layout (C89 block locals, the
+ansi_fp.h decimal record, `unsigned long long *ll` over the doubles), from
+the image's control flow, not from the earlier source.  Measurements, all
+1.1p1 -O4,p unless noted (bytes out / size):
+  1  first draft, `char sign`, is_low = less() != 0, is_high = !is_low,
+     `if (is_high) --; else {++; isinf exit}`, swap temp read before the
+     struct swap: 272 / 1524.  The loop invariants already sit in the
+     preheader (+0x3A4): the hoist wall is absent in this shape.
+  2  + unsigned char sign: 260 / 1524
+  3  + is_low = 0 / if (less) is_low = 1, `if (!is_high) {inc} else dec`,
+     double swap after the struct swap: 689 / 1520 (wall back)
+  4  draft 2 + `if (!is_high)` + swap order, `!= 0` kept: 683 / 1520
+  5  draft 2 + swap order only: 98 / 1524
+  6  + is_low initialised at its declaration, set by if(less): 96 / 1524
+  7  + ll = (u64 *)&guess at its declaration: 29 / 1524 (only the loop-head
+     polarity left: moveq vs movne, decrement laid out first)
+  8  + `if (!is_high) {inc} else dec`: 721 / 1520 (wall)
+  9  `if (is_high == 0)`: 721 / 1520;  goto-spelled arms: 721 / 1520
+ 10  draft 7 under dsi/1.2: identical 29;  draft 8 under 1.2: 721
+ 11  draft 7 with `if (is_low) {inc} else dec` and NO is_high variable:
+     EXACT.  The image's r7 = !is_low before the loop is the compiler's
+     negated if-condition hoisted as an invariant, not a variable.
+ 12  the same under dsi/1.2: EXACT
+ 13  filed form (redundant brace block around the found code removed): EXACT
+No permuter run.  Filed src/matched/func_0209739C.c, packet pkt_0209739C,
+manifest --verify --shard pkt_0209739C twice (1 rewritten, then 0).  Idiom:
+docs/idioms/negated-if-condition-is-hoisted-as-a-loop-invariant.md.
+The earlier "three extra live values" reading was wrong: the split follows
+from the is_high variable, not from pressure.
+/* best source: src/matched/func_0209739C.c (EXACT) */
