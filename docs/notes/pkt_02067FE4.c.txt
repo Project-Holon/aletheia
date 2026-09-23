@@ -594,3 +594,23 @@ int func_020681E4(int x, int y, int w, int h, struct Shift s)
 re-verified: the wave-11 source is 248/248, 10 out under ../2.0/sp2.  The
 image's row log (h) sits in r7 and coalesces through the row pointer into the
 new objWidth (r7); every compile puts the row log in r6.  Not re-attacked.
+
+==============================================================================
+2026-09-23, wave 16 (dec2num + NNS lane).  0x020681E4 unchanged, DIFF 10.
+==============================================================================
+The NitroSystem g2d_CharCanvas.c GetCharIndex1D body verbatim (rev 21c8fd0:
+fullbits, the four const masks, GetMaxObjectSize inline with the ternary
+logs, MATH_ILog2 over `asm { clz x, x }`) is 248/248, 18 out under
+../2.0/sp2, and identically 18 under sp2p2, sp2p3, sp2p4, sp1, sp1p7 and
+2.0 base; ../1.2/sp4 256 B, ../1.2/sp2 264 B, 1.1p1 232 B.  The 18 is only
+the two log registers: the image runs log_w's ternary in place (movge r6,sl
+/ movlt r6,r2 / clzlt r6,r6 / rsblt r6,r6,#31, log_w in r6, log_h in r7),
+every compile computes log_w's clz in r6 and the result in r7.  Also 18:
+if/else logs, split declarations in either order, const logs, u32 MATH_ILog2,
+`inline` without static on GetMaxObjectSize, the function static under its
+library name, pobj declared then assigned.  `register u32 y; asm {clz y,x}`
+and `u32 y` are 240 bytes (clz from the argument register, no copy): the
+image's `movlt r6,r2; clzlt r6,r6` confirms the in-place clz x,x form.
+The wave-11 source (h first, 10 out) stays the best.
+
+/* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 -- the wave-11 source above, unchanged */

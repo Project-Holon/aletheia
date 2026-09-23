@@ -661,3 +661,53 @@ double func_0209739C(const decimal *d)
     }
 }
 
+
+==============================================================================
+2026-09-23, wave 16 (dec2num + NNS lane).  Unchanged, DIFF 718.
+==============================================================================
+
+re-verified: the wave-15 source above is DIFF, 1520 bytes against 1524, 718
+concrete bytes out, 1.1p1 (permuter --explain asm=1070 bytes-out=718).
+
+Brief's candidate MSL locals, each measured alone on the wave-15 base
+(permuter --explain line, asm / bytes-out / size):
+  chunk-loop locals (ival, nd, temp1/temp2, ndig) declared at the outer
+      block, C89 style: 1070/718/1520, identical output (and temp1/temp2
+      alone: identical).  Declaration scope does not feed the hoist.
+  `int sign = dec.sign;` read after `decimal dec = *d` and used for the
+      final negation: 2190/1059/1528 (held across the chunk loop).
+  the same int sign read after the DBL_MAX clamp, just before the feval
+      block: 1300/355/1520.  Bytes-out drops only because the extra live
+      value shifts registers onto the image's (&x64 lands in r4); the
+      constants are still materialised at +0x2A0 and the end tests a
+      register instead of `ldrb [sp,#0xd6]`, so not the image.
+  a separate digit pointer `p` for the chunk loop (i kept for the ASCII
+      pass): 1165/737/1520.
+  a chunk count `int n = (int)(e - i); ndig = n % 8;`: identical 1070/718.
+  is_low/is_high moved to the outer block: 2735/1078/1532.
+  `is_low = __less_dec(...) != 0; is_high = !is_low;`: 1305/713/1520
+      (the wave-11 713, not closer in shape).
+  the refinement loop as for(;;){... if (...) break; ... swap; break;}
+      with the found block after the loop: identical 1070/718, alone and
+      with the is_low spelling above (1305/713).
+  x64/diff1/diff2 declared in the feval block or at the outer block, in
+      either order: 718 (asm 1070..1145), frame unchanged.
+  DBL_MAX as the double constant 1.7976931348623157e+308 instead of the
+      u64 store: identical (first_guess stays address-taken through the
+      `& 1` test).
+  first_guess fully register-resident (the `& 1` test through a copy):
+      1504 bytes, 1000 out; it is spilled across the chunk loop at
+      sp+0xc/sp+4, so first_guess IS address-taken in the original.
+  diagnostic only: volatile stores of exponent, e, i after
+      `guess = first_guess` on this base: 1544 bytes, the zero still hoists.
+A temporary-struct swap cannot be the MSL shape here: the frame (0xfc) is
+exactly six decimals (dec 0xd6, max 0xb0, feval 0x8a, x64 0x64, diff1 0x3e,
+diff2 0x18) plus guess (sp+0), first_guess (sp+8) and the 'N' result
+(sp+0x10); a seventh decimal grows the frame (0x124, wave 15).
+
+permuter anneal 1500 (--jobs 4 --seed 16, --focus feval,guess,ll,is_low,
+is_high,exponent,first_guess,px): best DIFF asm=4175 bytes-out=850
+size=1524/1524 via temp/split-assign/decl-order chains, the known size
+compensation, rejected.
+
+/* best source, 1520 bytes against 1524, 718 concrete bytes out, 1.1p1 -- the wave-15 source above, unchanged */

@@ -30,3 +30,12 @@ leaf inside func_0206DBDC's listing extent).  layout/symbols_sdk.txt names
 so the `sdk` class does not fire; the .txt row looks like a stale false
 signature hit.  Seeding 0x0206DBF4 in layout/function_starts.txt remains the
 integrator action that clears one of the three.
+
+==============================================================================
+2026-09-23, wave 16 (dec2num + NNS lane)
+==============================================================================
+The DMA-completion leaf 0x0206DBF4 (mov r1,#0; str r1,[r0]; bx lr) is filed
+EXACT as src/matched/func_0206DBF4.c (1.1p1, shard pkt_0206DC00).  With it
+func_0206DC00's ABS32 site resolves as `matched`: the pending file is MATCH
+with 12 of 14 relocations resolved, capped only by the two TWL-ltd PC24
+targets 0x027300F0 / 0x0272FEF4.  Integrator: seed 0x0206DBF4 (ARM).

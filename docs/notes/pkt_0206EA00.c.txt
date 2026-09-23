@@ -46,3 +46,19 @@ three-instruction success arm instead of branching to the tail.
 The four DIFF sources a previous pass kept in src/pending for these functions
 are folded into this note; src/pending/ holds MATCH entries only.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0206EA00.c:12: declaration syntax error
+
+==============================================================================
+2026-09-23, wave 16 (dec2num + NNS lane): CLOSED, EXACT under ../2.0/sp2.
+==============================================================================
+The "if-conversion wall" above is the kept-branches compiler tell.  Both rows
+are NitroSystem g3d binres/res_struct_accessor_anm.c:
+NNSi_G3dGetTexPatAnmTexNameByIdx (0x0206EA00) and
+NNSi_G3dGetTexPatAnmPlttNameByIdx (0x0206EA2C) over NNSG3dResTexPatAnm
+{anmHeader, u16 numFrame, u8 numTex (+6), u8 numPltt (+7), u16 ofsTexName
+(+8), u16 ofsPlttName (+0xA)} and 16-byte NNSG3dResName records.  The library
+body (`if (p && idx < p->numTex) return &names[idx]; return NULL;`, u8 index
+parameter) is 40 bytes under 1.1p1 and EXACT 44/44 under ../2.0/sp2 and
+sp2p2 (the plain two-if spelling is EXACT under the pin too).  Filed as
+src/matched/unit_0206EA00.c (tu-verified 88 bytes, both members EXACT on
+`one`), shard pkt_0206EA00, pin row in docs/FRONTEND-PINS.md.  The old
+src/pending/unit_0206EA00.c (DIFF, -O4,s header) is removed.

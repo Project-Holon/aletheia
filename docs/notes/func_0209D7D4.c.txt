@@ -90,3 +90,42 @@ u32 func_0209D7D4(u32 a, char *s, u32 *count)
     return 0;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 76, 43 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-23, wave 16 (dec2num + NNS lane).  DIFF, unchanged in kind.
+==============================================================================
+The target is 68 bytes: the listing's 76 includes an unlabelled 8-byte
+follower at 0x0209D818 (`mov r0,#0; bx lr`), so an exact body reads EXACT*.
+The image's branch shape is TWO calls to func_0209D774 (&c in the then-arm,
+buffer in the else-arm) tail-merged by the compiler: `add r0,sp,#0; b join`
+/ `mov r0,r1` / join `bl`.  The source below reproduces that shape exactly
+(the single-call `p = cond ? &c : buffer` source is 68 bytes but shares a
+`mov r0,r1` through r1, a different shape).  The one residue is the zero:
+the image materialises it straight into r1 AFTER `mov r0,r1` and stores it
+from r1; every compile builds it in r2 first and copies (`mov r1,r2`), one
+instruction, 72 bytes, 43 out under 1.1p1; the same under ../2.0/sp2 (which
+also un-merges the tail, 76 B, 42 out) and worse under ../1.2/sp2 (80 B).
+Also 72/43: the store expression as the argument `func(buffer, end[-1] = 0)`,
+a u8 second parameter, `end = buffer + *count - 1`, `c = *--end`, a copied
+buffer pointer; `buffer[n - 1]` with n local is 72/49.  permuter anneal 400
+--types: nothing below the 76-byte compensation.
+
+/* best source, 72 bytes against 68 (+8 follower), 43 concrete bytes out, 1.1p1 */
+typedef unsigned int u32;
+typedef unsigned char u8;
+extern int func_0209D778(u8 *str, int n);
+extern int func_0209D774(u8 *p);
+
+int func_0209D7D4(int handle, u8 *buffer, u32 *count)
+{
+    if (*count > 1) {
+        u8 *end = buffer + *count;
+        u8 c = end[-1];
+        end[-1] = 0;
+        func_0209D778(buffer, 0);
+        func_0209D774(&c);
+    } else {
+        func_0209D774(buffer);
+    }
+    return 0;
+}
