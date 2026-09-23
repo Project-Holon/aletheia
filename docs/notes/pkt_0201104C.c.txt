@@ -172,3 +172,11 @@ u32 func_0201104C(void *a0)
   }
   return 0xff;
 }
+
+
+===== wave 14 (2026-09-23): CLOSED, EXACT =====
+src/matched/func_0201104C.c.  The shared entry-order residue was arity:
+func_0201BA34(box), func_0201AB08(box) (a forwarder: ldr r1,=k; ldr r3,=f;
+bx r3) and func_02017D30(rec) all take a pointer, so r0 stays live across the
+guards and the pool load goes to r1.  The record func_0201AB28(box, idx)
+returns must be its own local; reassigning the parameter swaps r4/r5.

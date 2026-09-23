@@ -693,3 +693,39 @@ Measured this wave on the 9-byte source, none moves the swap:
     break (1720-1732 bytes).
   * the caller-side parameter shapes: u16 heap (1700 bytes), s32 gen (9).
 Still DIFF; nothing filed.
+
+
+================================================================================
+2026-09-23 -- wave 14 (backup_system/bmp lane).  Appended, nothing above edited.
+================================================================================
+
+0x02031FE0 -- still DIFF, 9 bytes, the same B / A+B swap (image B r8, AB r4).
+
+/* best source, 1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1 */
+  (unchanged: the wave-12 source, re-verified with a full symbols: block,
+   63 of 63 relocations resolved)
+
+permuter best result lines (this wave):
+  --explain: r8 -> r4 x4, r4 -> r8 x3 (one swapped pair, nothing else)
+  hill, --types, budget 800 (396 tried)                 DIFF asm=45 bytes-out=9
+  anneal, --types, budget 2000, seed 21,
+    --focus B,AB,pa,pb,A,cur,tbl                        DIFF asm=45 bytes-out=9
+Front ends: ../2.0/sp2, sp2p2, sp1p7: 1748 bytes; ../1.2/sp4 1832; dsi/1.2 9.
+
+Measured this wave, none moves the pair (all 1704 bytes):
+  * (int) casts, the lever that closed sibling 0x0203335C, on every use of A,
+    B and AB (128 combinations: the AB sum's operands, pa, pb, both CRC
+    sizes, both trailing counter compares): best 9.
+  * A, B, AB stored in the dead parameter variables heap / mode / gen / off
+    (the image's AB r4, B r8, A r7 are exactly heap's, mode's and gen's entry
+    registers): 47 combinations, best 9 (B in a parameter is 36+).
+  * `register` on A, B, AB, pa, pb: 9.
+  * dead early assignments to AB / A / B / pa / pb at function top, loop top
+    and inner-loop top, and `= 0` declaration initialisers (32): 9.
+  * pa / pb as `h + AB`, `(u8 *)((u32)h + AB)`, `&h[AB]`, `AB + h`, crossed
+    with AB and B as u32 / int (64): 9.
+  * pa / pb removed in favour of the `(h + AB)` expression: 1704/70 (pa) or
+    1708 bytes (pb).
+So the pair is not in casts, variable identity, numbering by first mention
+or pointer spelling.  Every instruction is right; the swap is the colour
+order of two interfering callee-saved values.

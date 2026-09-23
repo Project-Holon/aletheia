@@ -115,18 +115,16 @@ void func_0203AD80(u32 context, void *tag, u32 value, u32 line);  /* 0x0203AD80 
  * 0x0203----  code range, declare it `arm` and cast at the call.  Only then
  * ask whether it has a witness.
  *
- * THE TWO GENUINE EXCEPTIONS, both interior addresses rather than function
- * starts, and neither fixable:
- *   0x0203B018  used by func_0203B038.  A bare 4-byte `bx lr` no-op.  Its
- *               ONLY referrer image-wide is the pool word at 0x0203B080,
- *               inside func_0203B038's own range.  Not a label (a prologue
- *               saving no lr is never auto-labelled), not a function start,
- *               no outside literal.  func_0203B038 stays MATCH.
- *   0x0203B40C  used by func_0203B52C.  INTERIOR to func_0203B390 (it is
- *               that function's alternate arm, at +0x7C of its extent), so
- *               sole-ref/code refuses it by rule and filing func_0203B390
- *               EXACT does NOT help -- verified by re-running match.py after
- *               doing exactly that.  func_0203B52C stays MATCH.
+ * THE TWO "GENUINE EXCEPTIONS" THIS HEADER USED TO LIST ARE BOTH CLOSED
+ * (wave 14, 2026-09-23):
+ *   0x0203B018  the 4-byte `bx lr` no-op func_0203B038 passes.  Now filed
+ *               with the unlabelled leaf after it as
+ *               src/matched/unit_0203B018.c (func_0203B018 + func_0203B01C),
+ *               so `matched` attests it.
+ *   0x0203B40C  was a MISREAD.  func_0203B52C's second tag word (pool
+ *               0x0203B5CC) is 0x0203C00C, not 0x0203B40C; it resolves
+ *               `literal` and func_0203B52C is EXACT.  Read pool words from
+ *               the bytes (`match.py show`), never from an old header.
  * ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------ *
@@ -297,8 +295,10 @@ u32  func_0203B344(char *p);                                   /* 0x0203B344 */
 void func_0203C934(void);                                      /* 0x0203C934 */
 
 /* ------------------------------------------------------------------ *
- * THE RNG SEEDER at 0x0203AE20 (not yet EXACT; see
- * docs/notes/pkt_0203AE20.c.txt, DIFF at 8 bytes).
+ * THE RNG SEEDER at 0x0203AE20 (EXACT, src/matched/func_0203AE20.c).
+ * The record it fills is the NitroSDK MATHRandContext64 {u64 x, mul, add}
+ * and the tail is the SDK's MATH_InitRand64 inline; four u32 stores left
+ * the 8-byte tie docs/notes/pkt_0203AE20.c.txt describes.
  *
  * Included here because its constants identify the generator and are worth
  * having in one place.  It mixes the console MAC with the RTC date/time,
@@ -306,9 +306,8 @@ void func_0203C934(void);                                      /* 0x0203C934 */
  * into ONE u64 (the image's `adds`/`adc`/`stm` pair is the tell), and then
  * stores the Gen-V multiplier and increment after it.
  * ------------------------------------------------------------------ */
-#define NET_RNG_MULT    0x6C078965u  /* stored to +0x08 */
-#define NET_RNG_INCR    0x5D588B65u  /* stored to +0x0C */
-#define NET_RNG_K2      0x00269EC3u  /* stored to +0x10; +0x14 is zeroed */
+#define NET_RNG_MUL     0x5D588B656C078965ull  /* u64 at +0x08 */
+#define NET_RNG_ADD     0x0000000000269EC3ull  /* u64 at +0x10 */
 
 void OS_GetMacAddress(u8 *mac);       /* 0x02087C6C, six bytes */
 void func_020889C0(void *date, void *time);  /* 0x020889C0, RTC read.  The

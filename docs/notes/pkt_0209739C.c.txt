@@ -376,3 +376,44 @@ difference either.  No source-level construct yet found separates the loop's
 invariants from the earlier dominating copies.
 
 /* best source, 1520 bytes against 1524, 721 concrete bytes out, 1.1p1 -- the wave-9 source above, unchanged; permuter best DIFF asm=1310 bytes-out=390 size=1524/1524 (size compensation, rejected) */
+
+==============================================================================
+2026-09-23, wave 14 (net_irc_wireless + __dec2num lane).  Unchanged, DIFF.
+==============================================================================
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 1520 bytes against 1524, 721
+concrete bytes out, 1.1p1, the wave-9 source (extracted verbatim, lines
+104..296 of this note).  The shape is MSL ansi_fp.c __dec2num with MSL's own
+helper split kept as calls: __str2dec (0x020968F4), __less_dec (0x02096DF0),
+__equals_dec (0x02096D10), __minus_dec (0x02096ED0), __num2dec_internal
+(0x02097170), copysign, pow, ldexp, __fpclassifyd for isinf.  Every one of
+them is a separate EXACT function in the image, so no inline split exists
+to change.
+
+Permuter, 1.1p1 --arm --types --jobs 4:
+  --explain  map r5->r6 x10, r7->r8 x6, r6->r7 x5, r4->r5 x3, r8->sb x3
+  --mode hill --budget 800: DIFF asm=875 bytes-out=373 size=1524/1524 via
+             type:l(nd:int->u8) ; reorder(-2), the known size compensation
+  anneal --budget 2000 --seed 11: DIFF asm=1300 bytes-out=380, the same
+             u8-counter compensation plus temps; rejected
+
+What this wave adds: the placement rule, measured by bisection.  The three
+loop invariants (&dec, &x64, the zero high word of the `& 1` mask) are not
+placed by the loop shape at all.  1.1p1 hoists them to the top of the
+region that has registers to spare: to +0x2A0 on this source, and to the
+function entry when the chunk loop (the high-pressure region that stops
+them) is deleted.  Deleting the struct swap (diff1 = feval; feval = x64;
+x64 = diff1) or the latch copy (feval = x64) removes &x64 from the hoist
+and leaves it rematerialised per use; deleting the in-loop isinf exit, the
+pow if/else, the equals early exit or the `& 1` test does not move the hoist
+point.  A toy with the same skeleton (scratch, not filed) shows 1.1p1 CAN
+place such an invariant exactly in the loop preheader, as the image does,
+when the loop body is small (one struct copy, no swap); the switch between
+"preheader" and "region top" follows the use count and register pressure,
+not the statement structure.  So the lever, if one exists, is a source
+difference that raises pressure across +0x2A0..+0x3A4 in the image (a value
+live there that 1.1p1 on this source does not keep), not a loop spelling.
+Four more -opt/-O diagnostics were compiled (-O4,s, -O3 1336 bytes; -O3,p and
+-O4,p with -opt nocse/nocodemotion identical 1520/721): no flag change.
+
+/* best source, 1520 bytes against 1524, 721 concrete bytes out, 1.1p1 -- the wave-9 source above, unchanged */

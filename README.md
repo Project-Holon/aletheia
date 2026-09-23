@@ -34,7 +34,7 @@ byte-matching ROM.
   - [x] Pokémon data field map and the message text cipher (`src/matched/`)
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
   - [x] About 1000 original source filenames recovered from `__FILE__` anchors (`layout/file_anchors.txt`)
-  - [~] 88.85% of ARM9 game code ships as verified C (4170 functions, updated at every wave integration)
+  - [~] 89.39% of ARM9 game code ships as verified C (4176 functions, updated at every wave integration)
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
   - [ ] Field and battle loop call trees
@@ -78,10 +78,33 @@ python tools/build.py --arm9-image          # all 242 regions
 python tools/build.py --split --only arm9   # ARM9 from its translation units
 ```
 
-`tools/build.py` needs GNU binutils for `arm-none-eabi`. Unpack the xPack
-`arm-none-eabi-gcc` zip into `tools/gcc-arm/` (or install `arm-none-eabi-binutils` via Homebrew on macOS)
-or point `--toolchain` / `BW_ARM_TOOLCHAIN` at any `bin/` directory that has
-`arm-none-eabi-as`. On macOS and Linux, Windows host binaries (`mwccarm.exe`) run via `wine` / `wine64`. See [docs/NOTES.md](docs/NOTES.md) for details.
+### Setup per platform
+
+Every tool is plain Python 3 (stdlib, plus `capstone` for the disassembler) and
+finds what it needs through `tools/env.py`; `python tools/env.py` prints what
+it resolved and `python tools/selfcheck.py` compiles one matched function and
+runs one split build.
+
+- **Windows**: unpack the xPack `arm-none-eabi-gcc` win32-x64 zip into
+  `tools/gcc-arm/`. The CodeWarrior compilers in `tools/mwccarm/` run
+  directly. For the eidos port, unpack the xPack `mingw-w64-gcc`, CMake and
+  Ninja Windows zips into `tools/gcc-host/`, `tools/cmake/` and `tools/ninja/`.
+- **macOS**: unpack the xPack `arm-none-eabi-gcc` darwin zip (x64 or arm64)
+  into `tools/gcc-arm/`, and install wine (`brew install --cask wine-stable`)
+  so `mwccarm.exe` can run. For eidos, unpack the CMake and Ninja macOS
+  archives into `tools/cmake/` and `tools/ninja/`, or rely on Xcode's clang
+  and any CMake/Ninja on `PATH`.
+- **Linux**: unpack the xPack `arm-none-eabi-gcc` linux-x64 (or arm64) archive
+  into `tools/gcc-arm/`, and install wine from the distribution
+  (`apt install wine` or equivalent). For eidos, unpack the CMake and Ninja
+  Linux archives into `tools/cmake/` and `tools/ninja/`, or use the system
+  gcc, cmake and ninja on `PATH`.
+
+Nothing else is platform-specific. `--toolchain` or `BW_ARM_TOOLCHAIN` can
+point at any other `bin/` directory holding `arm-none-eabi-as`, a binutils on
+`PATH` is used as a last resort, and `ALETHEIA_SCRATCH` moves the scratch
+directory (default: the system temp directory plus `aletheia`). See
+[docs/NOTES.md](docs/NOTES.md) for details.
 
 ## Acknowledgments
 

@@ -304,11 +304,35 @@ for overlays).
 ## Toolchain
 
 GNU binutils 2.43.1 for `arm-none-eabi`, taken from the xPack
-`arm-none-eabi-gcc` 14.2.1-1.1 Windows x64 zip and unpacked, not installed,
-`arm-none-eabi-as`, `-ld` and `-objcopy` are used. `build.py` finds a
-toolchain via `--toolchain`, then `BW_ARM_TOOLCHAIN`, then any `bin/`
-directory under `tools/gcc-arm/`, then `PATH`, so a distro binutils works
-just as well. No compiler is involved yet.
+`arm-none-eabi-gcc` 14.2.1-1.1 zip and unpacked, not installed;
+`arm-none-eabi-as`, `-ld` and `-objcopy` are used. All discovery lives in
+`tools/env.py`: the ARM `bin/` directory is `--toolchain`, then
+`BW_ARM_TOOLCHAIN`, then `tools/gcc-arm/bin` or `tools/gcc-arm/*/bin`, then
+`PATH` (a candidate counts only if it holds `arm-none-eabi-as`), so a distro
+binutils works just as well. The CodeWarrior compilers live under
+`tools/mwccarm/mwccarm/dsi/<version>/`; `python tools/env.py` prints what was
+resolved and `python tools/selfcheck.py` exercises one compile and one split
+build.
+
+Per platform, only the downloads differ:
+
+* Windows: the xPack `arm-none-eabi-gcc` win32-x64 zip into `tools/gcc-arm/`;
+  `mwccarm.exe` runs directly. The eidos host toolchain is the xPack
+  `mingw-w64-gcc` zip in `tools/gcc-host/`, CMake in `tools/cmake/` and Ninja
+  in `tools/ninja/`.
+* macOS: the xPack `arm-none-eabi-gcc` darwin zip into `tools/gcc-arm/`, and
+  wine (`brew install --cask wine-stable`); the tools prefix every `.exe`
+  with `wine64`, else `wine`, found on `PATH`, and stop with a clear error if
+  neither exists. For eidos, CMake and Ninja in `tools/cmake/` and
+  `tools/ninja/` or on `PATH`, with the system clang.
+* Linux: the xPack `arm-none-eabi-gcc` linux zip into `tools/gcc-arm/` and
+  the distribution's wine package, used the same way as on macOS. For eidos,
+  CMake and Ninja in `tools/cmake/` and `tools/ninja/` or on `PATH`, with the
+  system gcc.
+
+Nothing else is platform-specific: the tools locate the repo from their own
+path, start child tools with the running interpreter, and put scratch files
+in `ALETHEIA_SCRATCH` (default: the system temp directory plus `aletheia`).
 
 Flags that matter:
 
@@ -446,7 +470,7 @@ the original.
 
 ```
 pip install capstone
-# unpack the xpack arm-none-eabi-gcc win32-x64 zip into tools/gcc-arm/
+# unpack the xpack arm-none-eabi-gcc zip for this host into tools/gcc-arm/
 python tools/ndsrom.py extract "Pokemon - Black Version (USA, Europe) (NDSi Enhanced).nds"
 python tools/delink.py
 python tools/disasm.py arm9 --split

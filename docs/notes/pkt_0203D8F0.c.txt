@@ -116,3 +116,4 @@ Verified with:
 The early return returns the caller's own first argument (`mov r5, r0` then
 `popeq` with r0 untouched), which is why the C says `return src;`.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0203D8F0.c:12: undefined identifier 'pkt_0203D8F0'
+closed 2026-09-23 wave 14: EXACT in src/matched/func_0203D8F0.c (shard pkt_0203D8F0). The lever is a const header parameter (const Base *src).

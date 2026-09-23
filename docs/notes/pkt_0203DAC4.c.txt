@@ -29,3 +29,4 @@ The six stores must be six separate byte assignments and `buf` must be eight
 bytes: a `memset` or a zero initialiser collapses them into a word plus a
 halfword, and a six-byte frame loses the `add sp, sp, #8` pairing.
 re-verified 2026-09-21: no recoverable source in this note
+closed 2026-09-23 wave 14: EXACT in src/matched/func_0203DAC4.c (shard pkt_0203DAC4). The lever is a six-byte block-scope array with an initialiser (docs/idioms/an-initialised-local-array-takes-its-address-before-the-stores.md).

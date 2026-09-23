@@ -621,3 +621,21 @@ size.  Not closed; the open problem is still the tenth register.
 permuter best result line:
     best      DIFF   asm=2650  bytes-out=197  size=888/888
     mutations commute(+) ; temp(tmp=(y * 4) & 0x3fe0) ; reorder(+2) ; commute(+)  (rejected, noise)
+
+================================================================
+WAVE 14, appended 2026-09-23 (backup_system/bmp lane): func_0204427C
+CLOSED, EXACT: src/matched/func_0204427C.c (pkt_0204427C).
+
+Path, each step measured with match.py:
+  * q-then-p in the keyed loop (as func_02043B98 does) PLUS the keyed store
+    braced as `v += pal; *p = v;`: 888/888 and 114 out, with the frame, push
+    list and every stack slot already right.  (q-then-p with the old
+    `*p = v + pal` is the 880-byte SIZE point the earlier waves recorded;
+    the store spelling is what restores the eight bytes.)
+  * permuter anneal 2000 --types from there: 4 out; ablating its nine
+    mutations left one lever, `xx * 4` bound to a named temporary in the
+    keyed loop (all 32 other combinations measured, none needed).
+  * the last 4 bytes were `add ip, ip, sl` / `ldrb [ip, sl]` operand order in
+    the keyed source pointer: a 48-point sweep of term orders and forms found
+    plain pointer arithmetic `q = src->pixels + A + B + C + D` (no `(u32)`
+    sum) EXACT, the only one of 48.

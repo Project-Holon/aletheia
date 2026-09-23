@@ -240,3 +240,25 @@ New measurements (none moves the four-way rotation):
     `0xFFFFFFFF ^ (3 << sh)` (40), `~(3 << sh)` and `(u32)~(3ULL << sh)`
     (152 bytes), `*(p->slots + w)` (21).
 Still DIFF; nothing filed.  The residue lives in value numbering only.
+
+
+================================================================================
+2026-09-23 -- wave 14, backup_system/bmp lane.  Appended, nothing above edited.
+================================================================================
+
+CLOSED, EXACT: src/matched/sub_0203335C.c (pkt_0203335C).
+
+The rotation was two levers that are each invisible alone:
+  1. The mask written on a widened value, `(long long)(3 << sh) ^ -1`.
+     On the 21-byte source above this is WORSE (40), but the diff changes
+     shape: the hoisted 3 / -1 / mask land in the image's sb / r7 / r8 and
+     the residue becomes the word index, slots pointer and slot value.
+  2. With that mask, a 2640-point sweep (declaration orders x for / guarded
+     do-while with and without the n_ copy x three positions of i++) reached
+     28 (w/slots/v rotation, r2/r6/r5 -> r6/r5/r2).  A permuter anneal from
+     there proposed `p->slots[(int) w]`; a 4320-point sweep of the cast on
+     each of the three slot accesses plus dead reads isolated it: the cast
+     on the FIRST read only closes the function (9 of 4320 points EXACT,
+     the cleanest being the natural declaration order n, w, sh, n_, i, v).
+The n_ copy stays required (21 without it); w as int instead of the cast is 40.
+Front ends: not needed (1.1p1).

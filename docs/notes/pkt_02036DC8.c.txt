@@ -121,3 +121,9 @@ u32 sub_02036DC8(u32 engine, u32 b)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 160 bytes against 172, 100 concrete bytes out, 1.1p1
+
+
+===== wave 14 (2026-09-23): CLOSED, EXACT =====
+src/matched/func_02036DC8.c.  The switch needs the fourth GXOBJVRamModeChar
+label, case 0x00300010 (1D_256K), sharing the default's fatal arm.  With four
+labels mwcc builds the image's binary search pivoted on 0x00100010.

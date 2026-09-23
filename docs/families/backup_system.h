@@ -436,6 +436,13 @@ void func_02031F9C(u32 *out, void *p, void *buf, u32 sel);
 
 /* 0x02031FE0 / 0x02032688  see the DIFF entry further down (2026-09-23). */
 
+/* 0x0203335C  EXACT wave 14 (src/matched/sub_0203335C.c).  Swap marks 1 and 2
+ * across the whole 2-bit slot bitmap at +0x138 (sub_02033BF0(p->unk2c) + 2
+ * slots).  The mask is `(long long)(3 << sh) ^ -1` and the first read
+ * indexes `slots[(int)w]`; see the file header. */
+void sub_0203335C(struct SaveBackup *p);
+
+
 /* 0x02032930  the one-byte twin of sub_020328E0: writes the SINGLE trailing
  * byte of a record's footer without refreshing the CRC first. */
 void sub_02032930(struct SaveBackup *p);

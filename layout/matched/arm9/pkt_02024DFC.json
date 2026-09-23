@@ -1,0 +1,46 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02024DFC",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_02024DFC",
+   "address": "0x02024DFC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02024DFC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0209F830",
+     "self:0x0209F834",
+     "self:0x0209F838",
+     "self:0x0209F840",
+     "self:0x0209F848",
+     "self:0x0209F852",
+     "self:0x0209F868",
+     "self:0x0209F870"
+    ]
+   }
+  },
+  {
+   "name": "func_02025154",
+   "address": "0x02025154",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02025154.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}

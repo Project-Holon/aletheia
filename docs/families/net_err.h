@@ -93,7 +93,9 @@ extern u8 g_021461BC[];   /* 0x021461BC  == g_0214617C + 0x40, the folded pool w
  * ------------------------------------------------------------------ */
 void  sub_0200F6B8(void);                 /* reset, MI_CpuFill8 0x64 */
 void  sub_0200F6D8(u32 heap);             /* allocate the three backups */
-void  sub_0200F734(void);                 /* PENDING MATCH: overlay callee 0x02156460 (ov009) has no outside branch */
+void  sub_0200F734(void);                 /* PENDING MATCH: overlay callee 0x02156460 is a Thumb label
+                                           * in ov009 (declare `thumb ov009`) but its only caller is
+                                           * this function; needs an overlay sole-ref rule */
 void  func_0200F7B8(u32 a);               /* tail call to func_0200FC0C */
 void  sub_0200F7C0(u32 err);              /* unit_0200F7C0: set +0x60 and show */
 void  sub_0200F7E8(u32 v);                /* +0x44 setter */
@@ -110,7 +112,9 @@ void  sub_0200FBA0(void);                 /* clear +0x2C and +0x5C */
 u32   sub_0200FBB0(void);                 /* link poll loop */
 u32   func_0200FC0C(u32 a0);              /* blocking error screen, returns 1 if shown */
 void  sub_0200FD38(u32 a0, u32 a1);       /* save 2D state and draw */
-void  sub_0200FEBC(BOOL keepDark);        /* restore 2D state (DIFF, see note) */
+void  sub_0200FEBC(BOOL keepDark);        /* restore 2D state; EXACT once G2_SetBG1Control
+                                           * takes the SDK ENUM parameter types (see
+                                           * docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md) */
 u32   func_02010054(void);                /* "module live"; NOT CTRDGi_IsTaskAvailable
                                            * (symbols_sdk.json's name is a false
                                            * signature hit, dupes 11) */

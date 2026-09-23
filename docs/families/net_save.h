@@ -205,6 +205,8 @@ void sub_02010FAC(void);                                  /* 0x02010FAC */
 void func_02010DB4(void);          /* 0x02010DB4  zero the array, then reset  */
 void func_02010DCC(void);          /* 0x02010DCC  decrement every counter > 1 */
 void func_02010DF4(void);          /* 0x02010DF4  clear every slot, deselect  */
+/* Both loops use an ENUM counter (Slot, SLOT_MAX = 13): that is what keeps
+ * the image's unfolded `cmp; bge` entry guard with a plain increment. */
 void sub_02010E14(int slot, u8 *rec, int select);         /* 0x02010E14 */
 u8   sub_02010EA0(int slot, u8 *rec);                     /* 0x02010EA0  the
                                                            * state byte of the
@@ -234,15 +236,12 @@ void func_02010F50(int idx);       /* 0x02010F50  clear slot idx              */
  *   014   0x02011014  +0x17            +8               ADDS the factor, no
  *                                                       multiply or divide
  *   02C   0x0201102C  +0x18            +0xa
- *   04C   0x0201104C  +0x19            +0xc             OPEN; NOT a scaling
- *                                                       function - 128 bytes,
- *                                                       six external calls and
- *                                                       a 999 clamp; the mode
- *                                                       byte and the +0xc u16
- *                                                       are all it shares
- *   0CC   0x020110CC  +0x1a            +0xe             OPEN; likewise, 156
- *                                                       bytes with its own
- *                                                       stack frame
+ *   04C   0x0201104C  +0x19            +0xc             EXACT; not a scaling
+ *                                                       function: adds +0xc to
+ *                                                       a record field, 999 =
+ *                                                       special
+ *   0CC   0x020110CC  +0x1a            +0xe             EXACT; four-slot
+ *                                                       variant of 04C
  *   168   0x02011168  +0x1b and +0x1c  +0x10 and +0x12  first arm returns early
  *   19C   0x0201119C  +0x1d            +0x14
  *   1BC   0x020111BC  +0x1e            +0x16            64-bit signed; OPEN,
@@ -257,6 +256,20 @@ int func_02011014(int v);       /* 0x02011014 */
 u32 func_0201102C(u32 v);       /* 0x0201102C */
 u32 func_02011168(u32 v);       /* 0x02011168 */
 u32 func_0201119C(u32 v);       /* 0x0201119C */
+
+/* 04C / 0CC: the callees take the pointer (func_0201BA34(box),
+ * func_0201AB08(box) is a forwarder that passes r0 through,
+ * func_02017D30(rec) opens the access bracket that func_02017D70(rec, h)
+ * closes), and the record func_0201AB28(box, idx) returns is its own local.
+ * With `void` prototypes the pool load lands after the parameter copy (the
+ * "entry-order" residue of the old notes). */
+u32   func_0201AB08(void *box);                 /* 0x0201AB08 */
+void *func_0201AB28(void *box, u32 idx);        /* 0x0201AB28 box+8+idx*0xdc */
+u32   func_02017D30(void *rec);                 /* 0x02017D30 */
+void  func_02017D70(void *rec, u32 h);          /* 0x02017D70 */
+void  func_0201BA34(void *box);                 /* 0x0201BA34 */
+u32   func_0201104C(void *box);                 /* 0x0201104C */
+u32   func_020110CC(void *box);                 /* 0x020110CC */
 
 /* The constant getter that closes the family; src/matched/sub_020111E8.c. */
 u32 func_020111E8(void);        /* 0x020111E8  returns 0x15 */

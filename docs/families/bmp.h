@@ -291,8 +291,10 @@ void func_02044EBC(struct Bmp *b, s32 x, s32 y, s32 w, u16 h, u8 value);
 /* 0x0204427C  4bpp -> 8bpp expanding blit, reached only through
  * func_02043AAC, whose narrowing loads fix the last two types.  The key is
  * only a mode switch (0xFFFF = store every pixel, else skip nibble 0), and
- * pal is added to every non-zero nibble.  Still DIFF (keyed-loop spill
- * choice, docs/notes/pkt_02043B98.c.txt). */
+ * pal is added to every non-zero nibble.  EXACT wave 14
+ * (src/matched/func_0204427C.c): source pointer before destination in the
+ * keyed loop, `v += pal; *p = v;` braced, `xx * 4` in a named temporary,
+ * and the keyed source pointer as plain `src->pixels + ...` arithmetic. */
 void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y,
                    s32 dx, s32 dy, u32 w, u32 h, u16 key, u8 pal);
 

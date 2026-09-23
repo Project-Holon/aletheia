@@ -33,3 +33,4 @@ declared both with an explicit 0x78 pad and with named leading members), and
 as a local function pointer.  All of them produce the same register choice.
 55 bytes and the whole guard, the copy and the return are already right.
 re-verified 2026-09-21: no recoverable source in this note
+closed 2026-09-23 wave 14: EXACT in src/matched/func_0203E420.c (shard pkt_0203DC70). The function takes an argument: r0 is forwarded to the +0x78 method untouched, which is why the global's address goes to r1.

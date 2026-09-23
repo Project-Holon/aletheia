@@ -256,3 +256,15 @@ s64 func_020111BC(s32 v)
         return (s64)*(u16 *)(g_02146228 + 0x16) * v / 100;
     }
 }
+
+
+===== wave 14 (2026-09-23): still DIFF =====
+The 104C/0CC fix (callee arity) does not apply: there are no callees but
+the runtime helpers.  The diff shows why the s32 forms are 48 bytes: mwcc
+coalesces the join value with the _ll_mul operand copy (r2), so the 0x30 path
+returns r2 and the quotient is copied r0->r2->r0.  The image keeps v in r0
+(returned untouched on the 0x30 path) and a separate copy in r2.  Tried, all
+48 bytes / 20 out: ternary (s32 and s64 arms), a separate s32 r local, an
+s64 t = v local, u32 parameter with (s64)(s32)v, (u32) and (s32) casts on the
+assignment, static inline s32 and s64 helpers; anneal 2000 from the
+assignment form, flat.  The 44-byte s64-return form (3 out) stays the best.
