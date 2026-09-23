@@ -1948,6 +1948,11 @@ def data_object_map():
                 continue
             ev = parts[3].rstrip("\n") if len(parts) > 3 else ""
             sites = [int(m, 16) for m in _MAP_SITE_RE.findall(ev)]
+            if (addr in out and out[addr][0] in SOLE_REF_MAP_KINDS
+                    and parts[2] not in SOLE_REF_MAP_KINDS):
+                # a hand `range` (or `table-guess`) row sharing its start
+                # with an accepted row never displaces that row
+                continue
             out[addr] = (parts[2], sites, ev)
     _DATA_MAP["m"] = out
     return out
@@ -2420,8 +2425,8 @@ def _hint_contested(addr, region_hint):
     overlay mapped over the same window also has an object start at the
     address: the hint alone cannot say which of the two the word was
     written for (audit 2026-09-23, finding 6). Applied to the overlay
-    sole-ref/data sub-kind (see attest_sole_ref_overlay_self for why not
-    /self).
+    sole-ref/data sub-kind outright, and to sole-ref/self through
+    self_hint_accepted() (seed round 10b).
     """
     if region_hint is None:
         return False
@@ -2429,6 +2434,25 @@ def _hint_contested(addr, region_hint):
         if other != region_hint and addr in overlay_data_structure(other)[2]:
             return True
     return False
+
+
+def self_hint_accepted(addr, region_hint, loaded_ids):
+    """May a `symbols:` overlay hint choose the overlay for sole-ref/self?
+
+    Yes when the hint is uncontested at `addr` (_hint_contested(): no other
+    overlay mapped over the window has an object start there).  When it IS
+    contested, yes only when the function under test itself attests the
+    hinted overlay's id through the `overlay_id` class: `loaded_ids` is the
+    set of overlay indices its `overlay_id` sites resolved to, i.e. the
+    overlays it loads.  A function that loads ovNNN and names an address in
+    ovNNN's window names ovNNN's byte there: the two are resident together,
+    which is exactly what the hint claims.  Anything else is the source's
+    unchecked claim and is refused (seed round 10b).
+    """
+    if region_hint is None or not _hint_contested(addr, region_hint):
+        return True
+    m = re.match(r"ov(\d+)$", region_hint)
+    return bool(m) and int(m.group(1)) in loaded_ids
 
 
 def attest_sole_ref_overlay_data(addr, align=None, lo=0, hi=0,
@@ -2492,11 +2516,11 @@ def attest_sole_ref_overlay_self(addr, kind, site=None, expect=None,
         return None
     if _is_arm9_address(addr):
         return None
-    # Not guarded by _hint_contested(): this sub-kind is how the committed
-    # func_0202F9F8 (ov179 hint, ov070/ov098 starts) and func_02010AC4 /
-    # func_02010C34 (ov115 hint, ov021 start) resolve, each corroborated by an
-    # overlay_id site of the hinted overlay in the same function. Guarding it
-    # is an open decision (seed round 10 report).
+    # The hint check for this sub-kind needs the function's other sites (a
+    # contested hint stands only when the function loads the hinted overlay,
+    # self_hint_accepted()), so resolve_relocations() applies it after the
+    # `overlay_id` pass.  Callers without sites (attest() alone) see the
+    # unguarded answer.
     pool, _fixed = _overlay_pool(addr, region_hint, site_region)
     if len([n for n in pool if in_overlay_data(n, addr)]) != 1:
         return None
@@ -3325,6 +3349,7 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
     lo, hi = place, place + (size if size is not None else len(fb.data))
     sites = []
     ovid_later = []
+    self_later = []
     for off, rtype, name, addend in fb.relocs:
         st = Site(off, rtype, name, addend)
         sites.append(st)
@@ -3385,6 +3410,19 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                         st.reason += ("; %s overlaps this address but has "
                                       "no func_ label there" % cands[0])
                 continue
+            if (proof[0] == "sole-ref" and len(proof) > 3
+                    and proof[3] == "self" and region_hint is not None
+                    and not _is_arm9_address(target)
+                    and _hint_contested(target, region_hint)):
+                # Decided after the `overlay_id` pass: self_hint_accepted().
+                self_later.append((st, proof, region_hint,
+                                   (target + addend) & 0xFFFFFFFF))
+                st.reason = ("%08X: the %s hint is contested (another overlay "
+                             "in the window starts an object there) and this "
+                             "function loads no overlay %s through an "
+                             "overlay_id site" % (target, region_hint,
+                                                  region_hint))
+                continue
             st.cls, st.witnesses, st.witness = proof[:3]
             if st.cls == "sole-ref" and len(proof) > 3:
                 st.subkind = proof[3]
@@ -3426,6 +3464,24 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
             continue
         st.cls, st.witnesses, st.witness = proof
         st.reason = ""
+        struct.pack_into("<I", data, st.off, val)
+        st.value = val
+        st.resolved = True
+        width = RELOC_MASK.get(R_ARM_ABS32, RELOC_DEFAULT)[1]
+        for k in range(st.off, min(st.off + width, len(mask))):
+            mask[k] = 1
+
+    # A contested overlay hint on a sole-ref/self site stands only when this
+    # function loads the hinted overlay (self_hint_accepted()).
+    loaded = set(s.value for s in sites
+                 if s.resolved and s.cls == "overlay_id")
+    for st, proof, hint, val in self_later:
+        if not self_hint_accepted(proof[2], hint, loaded):
+            continue
+        st.cls, st.witnesses, st.witness = proof[:3]
+        st.subkind = proof[3]
+        st.reason = ""
+        st.note = "%s hint: this function loads %s (overlay_id)" % (hint, hint)
         struct.pack_into("<I", data, st.off, val)
         st.value = val
         st.resolved = True
@@ -5032,6 +5088,31 @@ def _selftest_overlay_id():
                     True, "c99", region="ov010")
         _check(out, "overlay_id: func_0215FA34 (ov010, id 0x14 into "
                     "sub_02034AC4) is EXACT end to end", r.status, "EXACT")
+        # sole-ref/self on a contested ov115 hint, end to end: accepted in
+        # func_02010AC4, which loads ov115; refused in the same function
+        # once its ov115 id is declared as ov123's (no ov115 load left).
+        text = open(os.path.join(ROOT, "src", "matched",
+                                 "func_02010AC4.c")).read()
+        acc = os.path.join(work, "selfhint_acc.c")
+        with open(acc, "w", newline="\n") as fh:
+            fh.write(text)
+        r = run_one(acc, "func_02010AC4", 0x02010AC4, "1.1p1", ["-O4,p"],
+                    True, "c99")
+        _check(out, "sole-ref/self hint: func_02010AC4 (ov115 hint, "
+                    "contested by ov021, loads ov115) is EXACT end to end",
+               r.status, "EXACT")
+        ref = os.path.join(work, "selfhint_ref.c")
+        bad = re.sub(r"(ov115_id\s+)0x00000073", r"\g<1>0x0000007B", text)
+        with open(ref, "w", newline="\n") as fh:
+            fh.write(bad)
+        r = run_one(ref, "func_02010AC4", 0x02010AC4, "1.1p1", ["-O4,p"],
+                    True, "c99")
+        _check(out, "sole-ref/self hint: with no ov115 load the contested "
+                    "0x021D6338 site is refused",
+               any(st.name == "d_021D6338" and not st.resolved
+                   and "hint is contested" in st.reason
+                   for st in getattr(r.func, "sites", None) or ()),
+               True)
     finally:
         shutil.rmtree(work, ignore_errors=True)
     return out
@@ -5547,6 +5628,24 @@ def cmd_selftest(args):
                                             OV_DATA_SELF_SITE,
                                             OV_DATA_SELF + 4,
                                             site_region="ov010")), None)
+    # --- sole-ref/self overlay hint (seed round 10b) ------------------------
+    _check(res, "ov sole-ref/self hint: contested ov115 at 0x021D6338 is "
+                "accepted when the function loads ov115 (overlay_id 0x73)",
+           self_hint_accepted(0x021D6338, "ov115", {115, 123}), True)
+    _check(res, "ov sole-ref/self hint: the same hint is refused when the "
+                "function loads no ov115",
+           self_hint_accepted(0x021D6338, "ov115", {123}), False)
+    _check(res, "ov sole-ref/self hint: the rival ov021 hint is refused "
+                "without an ov021 load",
+           self_hint_accepted(0x021D6338, "ov021", {115}), False)
+    _check(res, "ov sole-ref/self hint: contested ov179 at 0x021B68D8 "
+                "(func_0202F9F8) stands on its ov179 load",
+           self_hint_accepted(0x021B68D8, "ov179", {88, 179}), True)
+    _check(res, "ov sole-ref/self hint: and falls without it",
+           self_hint_accepted(0x021B68D8, "ov179", {88}), False)
+    _check(res, "ov sole-ref/self hint: an uncontested hint needs no load "
+                "(0x021D654C, only ov115 starts an object there)",
+           self_hint_accepted(0x021D654C, "ov115", set()), True)
     _check(res, "ov sole-ref/self: a code target is refused",
            cls(attest_sole_ref_overlay_self(OV_CODE_SOLE, "data",
                                             OV_CODE_SOLE_LO + 0x74,

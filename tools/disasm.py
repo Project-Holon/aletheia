@@ -15,8 +15,9 @@ Usage
     python tools/disasm.py arm9 --split
     python tools/disasm.py overlay 12
     python tools/disasm.py overlay --all
+    python tools/disasm.py twl
 
-Output goes to asm/arm9/*.s and asm/overlays/ov###.s. With ``--split`` the
+Output goes to asm/arm9/*.s, asm/overlays/ov###.s and asm/twl/twl.s. With ``--split`` the
 ARM9 static module and the ITCM autoload are additionally written as ordered
 translation units under asm/arm9/src/ and asm/arm9/src_itcm/, described by the
 committed manifests layout/units_arm9.json and layout/units_itcm.json.
@@ -67,6 +68,13 @@ rather than wrong, which is the useful failure mode for a decompilation.
    call site elsewhere in the image that attests it. Entries are added as
    seeds before the trace, so they are traced and validated like any other
    seed rather than trusted blindly.
+
+   ``layout/data_objects.txt`` works the other way round: its ``range`` rows
+   declare a data object with both ends attested (see that file's header).
+   Before any seed is traced, every byte of a declared range is classified
+   data, so no sweep, pool word or trace can put a function inside it, and a
+   seed that lands inside one is refused and recorded as a conflict. The
+   range start gets a ``d_02xxxxxx`` label in the listing.
 
 5. Emission. Call targets become ``func_02xxxxxx``, other branch targets
    become ``loc_02xxxxxx``, pool words become ``pool_02xxxxxx``. Branch
@@ -179,6 +187,7 @@ class Region:
         self.mode_at = {}                           # offset -> thumb bool
         self.veneers = {}                           # address -> (size, target)
         self.conflicts = []
+        self.declared = {}                          # start -> end, data
 
     def contains(self, addr):
         return self.base <= addr < self.end
@@ -241,9 +250,22 @@ class Analyser:
     def _mark(self, off, size, value):
         self.r.kind[off:off + size] = bytes([value]) * size
 
+    def _in_declared(self, addr):
+        for lo, hi in self.r.declared.items():
+            if lo <= addr < hi:
+                return lo
+        return None
+
     def add_seed(self, addr, thumb, is_func=True):
         r = self.r
         if not r.contains(addr):
+            return
+        lo = self._in_declared(addr)
+        if lo is not None:
+            # A declared data object (layout/data_objects.txt `range` row)
+            # is never code; a seed into one is a contradiction to report,
+            # not a function to trace.
+            r.conflicts.append((addr, lo))
             return
         if thumb:
             if addr & 1:
@@ -590,6 +612,8 @@ class Analyser:
 
     def run(self):
         r = self.r
+        for lo, hi in r.declared.items():
+            self._mark(r.off(lo), hi - lo, DATA)
         for addr, thumb in r.seeds:
             self.add_seed(addr, thumb, is_func=True)
         self.trace()
@@ -727,6 +751,8 @@ def _label_for(region, addr):
     # that already carries a name the rest of the listing refers to keeps it.
     if addr in region.veneers:
         return "veneer_%08X" % addr
+    if addr in region.declared:
+        return "d_%08X" % addr
     return None
 
 
@@ -1197,6 +1223,10 @@ def _region_listing_paths(region_name, out_dir="asm"):
         ov_dir = os.path.join(out_dir, "overlays")
         s_path = os.path.join(ov_dir, "ov%s.s" % region_name.split("_")[1])
         return [s_path], os.path.join(ov_dir, "inst_index.txt")
+    if region_name == "twl":
+        twl_dir = os.path.join(out_dir, "twl")
+        return ([os.path.join(twl_dir, "twl.s")],
+                os.path.join(twl_dir, "inst_index.txt"))
 
     arm9_dir = os.path.join(out_dir, "arm9")
     split_sub = {"arm9_main": "src", "arm9_itcm": "src_itcm"}.get(region_name)
@@ -1303,6 +1333,44 @@ def _init_array_from_pointer(data, base, ptr, limit=4096):
 
 
 FUNCTION_STARTS = "function_starts.txt"
+DATA_OBJECTS = "data_objects.txt"
+
+
+def load_declared_data(layout_dir, region):
+    """Declared data ranges inside `region`, from layout/data_objects.txt.
+
+    Only `range` rows are read (`region start range end evidence...`): a
+    data object whose start AND end are attested, which is what lets the
+    whole extent be classified data rather than just its first byte.  The
+    region column is `arm9` (matched against every ARM9 region by address)
+    or `ovNNN` (overlay_NNN).  Returns {start: end}, end exclusive.
+    """
+    path = os.path.join(layout_dir, DATA_OBJECTS)
+    if not os.path.isfile(path):
+        return {}
+    if region.name.startswith("overlay_"):
+        want = "ov" + region.name.split("_")[1]
+    else:
+        want = "arm9"
+    out = {}
+    with open(path, "r", encoding="utf-8", errors="replace") as fh:
+        for lineno, line in enumerate(fh, 1):
+            if line.startswith("#") or not line.strip():
+                continue
+            parts = line.split(None, 4)
+            if len(parts) < 4 or parts[2] != "range" or parts[0] != want:
+                continue
+            try:
+                lo, hi = int(parts[1], 16), int(parts[3], 16)
+            except ValueError:
+                raise DisasmError("%s:%d: a range row wants 'region start "
+                                  "range end evidence'" % (path, lineno))
+            if hi <= lo:
+                raise DisasmError("%s:%d: empty range" % (path, lineno))
+            if not (region.contains(lo) and region.base < hi <= region.end):
+                continue
+            out[lo] = hi
+    return out
 
 
 def load_function_starts(layout_dir, region_name):
@@ -1360,6 +1428,7 @@ def build_arm9_regions(layout, extract_dir, layout_dir="layout"):
         note="bss 0x%08X..0x%08X is not part of this image"
              % (st["bss_start"], st["bss_end"]))
     regions.append(main)
+    main.declared = load_declared_data(layout_dir, main)
 
     for al in a9["autoloads"]:
         data = image[al["src_offset"]:al["src_offset"] + al["code_size"]]
@@ -1382,6 +1451,7 @@ def build_arm9_regions(layout, extract_dir, layout_dir="layout"):
         regions.append(Region(name, al["ram_start"], data,
                               "extract/arm9_dec.bin + 0x%X" % al["src_offset"],
                               seeds=seeds, note=note))
+        regions[-1].declared = load_declared_data(layout_dir, regions[-1])
     return regions
 
 
@@ -1413,8 +1483,51 @@ def build_overlay_region(layout, extract_dir, ov_id, layout_dir="layout"):
             % (lo, hi, o["static_init_count"], o["bss_start"], o["bss_end"]))
     if o["compressed"]:
         note += "; BLZ compressed on ROM (0x%X bytes)" % o["compressed_size"]
-    return Region("overlay_%03d" % ov_id, base, data,
-                  "extract/" + o["decompressed_file"], seeds=seeds, note=note)
+    reg = Region("overlay_%03d" % ov_id, base, data,
+                 "extract/" + o["decompressed_file"], seeds=seeds, note=note)
+    reg.declared = load_declared_data(layout_dir, reg)
+    return reg
+
+
+def build_twl_region(layout, extract_dir, layout_dir="layout"):
+    """Region `twl`: the DSi-mode autoload block of arm9i.bin, or None.
+
+    Its bytes exist only after delink.py decrypted and decompressed arm9i
+    with a user-supplied key (extract/arm9i_dec.bin); without them the
+    region is skipped, never guessed.  Seeds are the static initialiser
+    array the autoload entry points at plus layout/function_starts.txt rows
+    for `twl`; the trace, pool reservation and prologue sweep then run as
+    for any region.  Branches from the ARM9 image into the window are
+    deliberately not seeds: a label they created would rest on the very
+    call site a matched function might be tested on."""
+    tw = layout.get("twl")
+    if not tw:
+        return None
+    path = os.path.join(extract_dir, tw["decompressed_file"])
+    if not os.path.isfile(path):
+        return None
+    image = read_file(path)
+    if len(image) != tw["decompressed_size"]:
+        raise DisasmError(
+            "extract/%s is 0x%X bytes but layout.json says 0x%X; rerun "
+            "tools/delink.py with the DSi key"
+            % (tw["decompressed_file"], len(image), tw["decompressed_size"]))
+    data = image[tw["src_offset"]:tw["src_offset"] + tw["code_size"]]
+    seeds = []
+    ptrs = _init_array_from_pointer(data, tw["ram_start"],
+                                    tw["static_init_start"])
+    for val, _poff in ptrs:
+        seeds.append((val & ~1, bool(val & 1)))
+    seeds += load_function_starts(layout_dir, "twl")
+    note = ("DSi-mode autoload block, arm9i + 0x%X (decrypted, "
+            "decompressed); %d static initialiser(s) at 0x%08X; bss "
+            "0x%08X..0x%08X is not part of this image"
+            % (tw["src_offset"], len(ptrs), tw["static_init_start"],
+               tw["bss_start"], tw["bss_end"]))
+    return Region("twl", tw["ram_start"], data,
+                  "extract/%s + 0x%X" % (tw["decompressed_file"],
+                                         tw["src_offset"]),
+                  seeds=seeds, note=note)
 
 
 # ---------------------------------------------------------------------------
@@ -1704,6 +1817,27 @@ def cmd_overlay(args):
     return 0
 
 
+def cmd_twl(args):
+    layout = load_layout(args.layout)
+    r = build_twl_region(layout, args.extract, args.layout)
+    if r is None:
+        print("[*] twl: skipped (no decrypted arm9i; run tools/delink.py "
+              "with --dsi-key, see tools/modcrypt.py)")
+        return 0
+    out_dir = os.path.join(args.out, "twl")
+    inst_index = []
+    Analyser(r).run()
+    index_hidden_pool_words(r, [r])
+    stats = [emit(r, os.path.join(out_dir, "twl.s"), [r],
+                  quirks=load_quirks(args.layout, r.name),
+                  inst_index=inst_index)]
+    write_inst_index(inst_index, os.path.join(out_dir, "inst_index.txt"))
+    print("[*] twl: 1 region")
+    print_stats(stats)
+    print("[*] wrote %s" % stats[0]["path"])
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(
         prog="disasm.py",
@@ -1725,6 +1859,10 @@ def main(argv=None):
     p.add_argument("--all", "--all-overlays", dest="all", action="store_true",
                    help="disassemble every overlay in the table")
     p.set_defaults(func=cmd_overlay)
+
+    p = sub.add_parser("twl", help="disassemble the DSi-mode autoload block "
+                                   "(needs the decrypted arm9i)")
+    p.set_defaults(func=cmd_twl)
 
     args = ap.parse_args(argv)
     try:

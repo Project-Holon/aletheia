@@ -259,8 +259,8 @@
    "file": "asm/arm9/src/031_0209C114.s",
    "base": 34193684,
    "size": 56684,
-   "functions": 22,
-   "code_bytes": 4596
+   "functions": 21,
+   "code_bytes": 4552
   }
  ]
 }
