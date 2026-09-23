@@ -221,7 +221,8 @@ Those addresses are inside `arm9i.bin`, which loads at 0x02400000 and is
 0x12F24 bytes long (0x02400000 + 0x12F24 = 0x02412F24, matching the field).
 The startup code only walks this table when the DSi header copy in shared
 WRAM at 0x02FFE1CC says the cart was booted in TWL mode, so it is recorded in
-`layout.json` for documentation and otherwise ignored by the tooling.
+`layout.json` for documentation. The block it describes is region `twl`
+(see "The TWL region" at the end of this file).
 
 ## Overlay compression flag
 
@@ -1060,3 +1061,48 @@ have caught any of the five fields above being left stale.
 ## Library C in the denominator (2026-09-23)
 
 MSL library C counts as game code in the exact and reproduced coverage figures, because no MSL archives exist on disk to give a pattern basis for excluding them. The runtime table (`layout/runtime_arm9.txt`) excludes only hand-written assembly, never MSL C.
+
+## The TWL region (2026-09-24)
+
+`arm9i.bin` (ROM 0x0C403000, 0x12F24 bytes, BLZ, 0x32DB4 decompressed at
+0x02400000) ends in one autoload entry: image + 4, 0x32DA0 bytes, copied to
+0x02700000 on TWL boot, 0x2DA0 of bss after it, static initialisers at
+0x0272E9D4. `tools/delink.py` declares it in `layout.json` as region `twl`
+(0x02700000..0x02732DA0; the bss is not part of the region). The declaration
+is key-free: BLZ decodes from the end, so the table never depends on the
+encrypted front.
+
+The bytes are not. Header 0x1C bit 1 enables modcrypt, and area 1 (header
+0x220/0x224) is ROM 0x0C403000 + 0x4000, the first 0x4000 bytes of arm9i;
+undecrypted, they corrupt the payload up to about 0x02707090.
+`tools/modcrypt.py` implements the decryption (AES-128-CTR, KeyX from
+"Nintendo" and the game code, KeyY from the ARM9i HMAC at header 0x350,
+counter from header 0x300, the key-scrambler step of the DSi AES engine). The
+scrambler constant is read at run time from a file the user supplies
+(`--dsi-key` / `ALETHEIA_DSI_KEY`: 16 bytes, little endian; `--dsi-bios` /
+`ALETHEIA_DSI_BIOS`: a dump scanned for those 16 bytes) and checked against
+its SHA-1; no file in the repo holds it, and `.gitignore` excludes `*.key`
+and BIOS-like names. A 64 KB DSi ARM9 BIOS dump does not contain the
+constant (it lives in the AES hardware; the dump was scanned in both byte
+orders and all rotations), so only a key file works.
+
+With a key, delink.py writes `extract/arm9i_dec.bin` only if the decrypted
+BLZ stream is consumed to its last byte (all 229 compressed overlays are;
+the undecrypted arm9i leaves 8172 bytes unread) and the clear tail is
+unchanged. `disasm.py twl` then writes `asm/twl/twl.s` (seeds: the static
+initialiser array and `function_starts.txt` rows for `twl`; then trace, pools
+and prologue sweep; branches from the ARM9 image are not seeds), `build.py`
+adds region `twl` (243 regions; `--only twl` alone; never in `--only arm9`,
+`--arm9-image` or `--pack`) and needs its own `--write-quirks` rounds, and
+`match.py` accepts a `twl` fourth token on `symbols:` lines (the overlay
+`label` rule with one candidate). Without a key everything skips the region
+and the build stays at 242 regions. The region is outside the ARM9
+denominator. The plumbing was exercised end to end on the undecrypted
+payload (reassembly PASS after quirk rounds, which proves nothing about the
+bytes) and has not yet run on plaintext.
+
+The only branches in the image to 0x027300F0 and 0x0272FEF4 are the two
+`bl` in func_0206DC00 itself (0x0206DCA4, 0x0206DD40). The `label` rule
+refuses a witness inside the compared range, so func_0206DC00 reaches EXACT
+through the `twl` token only if the decrypted TWL code itself branches to
+one of them.

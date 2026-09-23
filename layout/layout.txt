@@ -28,6 +28,12 @@ ARM9
     autoload blocks 0x02400004
     compressed end  0x02412F24
 
+TWL (arm9i.bin, DSi mode only; not in the ARM9 denominator)
+  ROM image          0x012F24 bytes at ROM 0x0C403000 (BLZ; modcrypt 0x0C403000+0x4000)
+  decompressed       0x032DB4 bytes, loaded at 0x02400000
+  twl          0x02700000  0x02732DA0  0x032DA0  0x000004  0x02732DA0..0x02735B40
+  static_init        0x0272E9D4
+
 Overlays (237 total, 229 compressed, 8 stored)
   id   ram start   ram end     code    bss     file  fl  cmp  static_init
   0    0x021542C0  0x021546E0  0x000420  0x000000  0     0x03 yes  0x021546C4..0x021546C8 (1)

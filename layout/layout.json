@@ -5071,6 +5071,29 @@
    "decompressed_size": 32
   }
  ],
+ "twl": {
+  "name": "twl",
+  "rom_offset": 205533184,
+  "rom_size": 77604,
+  "load_address": 37748736,
+  "decompressed_size": 208308,
+  "src_offset": 4,
+  "ram_start": 40894464,
+  "ram_end": 41102752,
+  "code_size": 208288,
+  "bss_start": 41102752,
+  "bss_end": 41114432,
+  "bss_size": 11680,
+  "static_init_start": 41085396,
+  "modcrypt_areas": [
+   {
+    "rom_offset": 205533184,
+    "size": 16384
+   }
+  ],
+  "decompressed_file": "arm9i_dec.bin",
+  "note": "DSi-mode autoload block of arm9i.bin; its bytes exist only after a keyed modcrypt decrypt; never in the ARM9 denominator"
+ },
  "counts": {
   "autoloads": 4,
   "overlays": 237,

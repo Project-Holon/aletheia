@@ -4,7 +4,8 @@ build.py -- reassemble the asm/ listings, splice in the matched C, and prove
 the result is byte-identical.
 
 For every region described by layout/layout.json (the ARM9 static module, the
-ITCM autoload, the three data autoloads and every overlay) this driver:
+ITCM autoload, the three data autoloads, every overlay and, when its bytes
+exist, the DSi-mode block `twl`) this driver:
 
   1. assembles the listing(s) under asm/ with arm-none-eabi-as
      (-mcpu=arm946e-s, ARM/Thumb selected by the directives in the listing),
@@ -39,6 +40,14 @@ Usage
     python tools/build.py --only arm9_main --write-quirks
     python tools/build.py --arm9-image          # rebuild whole arm9_dec.bin
     python tools/build.py --no-c                # pure assembly, for debugging
+    python tools/build.py --only twl            # the DSi-mode block alone
+
+Region `twl` (0x02700000, the autoload block of arm9i.bin) joins the run only
+when extract/arm9i_dec.bin and asm/twl/twl.s exist, i.e. after delink.py and
+disasm.py twl ran with a DSi key (tools/modcrypt.py).  It is compared with
+its slice of the decrypted, decompressed arm9i; it is never part of
+--arm9-image, --pack or the ARM9 denominator, and `--only arm9` leaves it
+out.  Without a key the run is exactly the 242 regions it always was.
 """
 
 import argparse
@@ -210,6 +219,17 @@ def region_specs(layout, extract_dir, asm_dir, layout_dir, split=False):
         specs.append(RegionSpec("ov%03d" % o["id"], "overlay_%03d" % o["id"],
                                 o["ram_start"], orig,
                                 [os.path.join(asm_dir, listing)]))
+
+    tw = layout.get("twl")
+    if tw:
+        listing = os.path.join(asm_dir, "twl", "twl.s")
+        dec = os.path.join(extract_dir, tw["decompressed_file"])
+        if os.path.isfile(listing) and os.path.isfile(dec):
+            img = _read(dec)
+            specs.append(RegionSpec(
+                "twl", "twl", tw["ram_start"],
+                img[tw["src_offset"]:tw["src_offset"] + tw["code_size"]],
+                [listing]))
     return specs
 
 
@@ -652,7 +672,8 @@ def main(argv=None):
     ap.add_argument("--toolchain", help="directory holding arm-none-eabi-as")
     ap.add_argument("--only", nargs="+", metavar="KEY",
                     help="build only these regions (arm9_main, itcm, "
-                         "ov012, ...); 'overlays' means every overlay")
+                         "ov012, twl, ...); 'overlays' means every overlay, "
+                         "'arm9' the ARM9 image's regions")
     ap.add_argument("--split", action="store_true",
                     help="build ARM9 regions from their translation units "
                          "(layout/units_*.json) instead of the monolithic "
@@ -707,7 +728,8 @@ def main(argv=None):
                 chosen.append(s)
             elif "overlays" in want and s.key.startswith("ov"):
                 chosen.append(s)
-            elif "arm9" in want and not s.key.startswith("ov"):
+            elif ("arm9" in want and not s.key.startswith("ov")
+                  and s.key != "twl"):
                 chosen.append(s)
         specs = chosen
     if not specs:

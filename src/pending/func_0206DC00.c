@@ -20,9 +20,13 @@
  *
  * BLOCKED (MATCH, every concrete byte right under ../2.0/sp2; dsi/1.1p1
  * pushes {r3-r8,lr} and is 12 bytes short):
- *   - PC24 0x027300F0 and 0x0272FEF4: ARM9i / TWL-ltd code, outside every
- *     delinked region, so no listing labels them (ten bl sites image-wide
- *     reach them, none traced). Class needed: label.
+ *   - PC24 0x027300F0 and 0x0272FEF4: TWL code, region `twl` (the DSi-mode
+ *     autoload block of arm9i.bin, 2026-09-24), named with the `twl` token.
+ *     asm/twl/twl.s exists only with a user-supplied DSi key (arm9i is
+ *     modcrypted; see tools/modcrypt.py), and the only branches in the
+ *     image to either address are this function's own two bl, which the
+ *     label rule refuses. Class needed: label, via a branch from the
+ *     decrypted TWL code.
  *   - ABS32 0x0206DBF4: CLEARED 2026-09-23 (wave 16). The 12-byte leaf is
  *     filed EXACT as src/matched/func_0206DBF4.c (shard pkt_0206DC00) and
  *     the site now resolves as `matched`: 12 of 14 relocations resolve,
@@ -35,8 +39,8 @@
  *   func_0206DDA4  0x0206DDA4  arm
  *   func_0206DB80  0x0206DB80  arm
  *   func_02085D3C  0x02085D3C  arm
- *   func_027300F0  0x027300F0  arm
- *   func_0272FEF4  0x0272FEF4  arm
+ *   func_027300F0  0x027300F0  arm  twl
+ *   func_0272FEF4  0x0272FEF4  arm  twl
  *   func_02082960  0x02082960  arm
  *   func_02082760  0x02082760  arm
  */

@@ -14,7 +14,10 @@ What it does
 3. Parses extract/y9.bin into one record per overlay, and BLZ-decompresses
    every overlay whose table entry is flagged compressed into
    extract/overlays_dec/ (originals are never touched).
-4. Writes layout/layout.json and layout/layout.txt.
+4. Declares the DSi-mode autoload block of arm9i.bin as region `twl` and,
+   given a DSi key source (see "TWL region" below), decrypts and
+   decompresses it into extract/arm9i_dec.bin.
+5. Writes layout/layout.json and layout/layout.txt.
 
 Neither output file contains any game bytes: they hold addresses, sizes,
 counts and names only, which is why layout/ is committed while extract/ is
@@ -41,6 +44,27 @@ its autoload table lives inside arm9i.bin, not inside arm9.bin. The startup
 code only walks it when the DSi header copy in shared WRAM says the cart was
 booted in TWL mode, so it is recorded for documentation and then ignored.
 
+TWL region (arm9i.bin)
+----------------------
+arm9i.bin is the DSi-mode ARM9 extension: a BLZ container (0x12F24 bytes on
+ROM, 0x32DB4 decompressed, loaded at 0x02400000) whose decompressed tail is
+one 16-byte autoload entry.  That entry copies image + 4 .. + 0x32DA4 to
+0x02700000 (code 0x32DA0, then 0x2DA0 of bss).  The block is region `twl`.
+
+Its declaration (addresses and sizes) is written to layout.json on every
+run: the table sits at the end of the image, which BLZ decodes first, so it
+never depends on encrypted input.  The region's bytes are another matter.
+arm9i is modcrypted (header 0x1C bit 1; area 1 covers its first 0x4000 ROM
+bytes), so extract/arm9i_dec.bin, the decompressed plaintext, is written
+only after tools/modcrypt.py has decrypted area 1 with a user-supplied key
+constant (--dsi-key / --dsi-bios, or ALETHEIA_DSI_KEY / ALETHEIA_DSI_BIOS)
+and two checks pass: the constant's digest, and a strict BLZ decode that
+consumes the compressed stream to its last byte (every compressed overlay
+on this cart does; the undecrypted arm9i leaves 8172 bytes unread).
+Without a key the region is declared but has no bytes, any stale
+arm9i_dec.bin is left alone only if a keyed run wrote it, and every tool
+skips the region.
+
 Autoload info entry (16 bytes, SDK5)
 ------------------------------------
   +0x00  u32  ram_address        where the block is copied to
@@ -64,6 +88,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import blz  # noqa: E402
+import modcrypt  # noqa: E402
 
 OVERLAY_ENTRY_SIZE = 32
 AUTOLOAD_ENTRY_SIZE = 16
@@ -277,6 +302,107 @@ def analyse_arm9(arm9_raw, load_addr, entry, build_info_hint):
 
 
 # ---------------------------------------------------------------------------
+# TWL (arm9i.bin)
+# ---------------------------------------------------------------------------
+
+TWL_DEC_FILE = "arm9i_dec.bin"
+
+
+def blz_consumed(container):
+    """(stream bytes consumed, stream length) of a strict BLZ decode.
+
+    blz.decompress() stops as soon as the image is full, so trailing bytes of
+    a corrupt stream go unnoticed there.  A stream the SDK encoder wrote is
+    consumed to its last byte (all 229 compressed overlays of this cart),
+    which makes this a cheap integrity check on a decryption."""
+    dec_len, pak_len, raw_len = blz.parse_footer(container)[:3]
+    stream = bytes(container[dec_len:dec_len + pak_len])[::-1]
+    want = raw_len - dec_len
+    n = sp = mask = flags = 0
+    while n < want:
+        if mask == 0:
+            if sp >= len(stream):
+                return sp, pak_len
+            flags = stream[sp]
+            sp += 1
+            mask = 0x80
+        if flags & mask:
+            if sp + 1 >= len(stream):
+                return sp, pak_len
+            tok = (stream[sp] << 8) | stream[sp + 1]
+            sp += 2
+            n += min((tok >> 12) + 3, want - n)
+        else:
+            sp += 1
+            n += 1
+        mask >>= 1
+    return sp, pak_len
+
+
+def analyse_twl(extract_dir, header, dsi_key=None, dsi_bios=None):
+    """Declare region `twl` and, with a verified key, write its bytes.
+
+    Returns (layout dict or None, status line)."""
+    raw_path = os.path.join(extract_dir, "arm9i.bin")
+    if not os.path.isfile(raw_path):
+        return None, "no arm9i.bin"
+    with open(raw_path, "rb") as fh:
+        raw = fh.read()
+    base = u32(header, 0x1C8)
+    # The table at the tail decodes first and never depends on modcrypt
+    # area 1, so the declaration is the same with or without a key.
+    shape = blz.decompress(raw, 0)
+    ai_start = len(shape) - AUTOLOAD_ENTRY_SIZE
+    ram, size, init, bss = struct.unpack_from("<4I", shape, ai_start)
+    src = ai_start - size
+    if (src < 0 or size > MAX_SANE_SIZE or bss > MAX_SANE_SIZE
+            or classify_address(ram) == "OTHER"):
+        raise LayoutError("arm9i: no single autoload entry at the tail "
+                          "(ram 0x%08X, code 0x%X, bss 0x%X)"
+                          % (ram, size, bss))
+    info = {
+        "name": "twl",
+        "rom_offset": u32(header, 0x1C0),
+        "rom_size": len(raw),
+        "load_address": base,
+        "decompressed_size": len(shape),
+        "src_offset": src,
+        "ram_start": ram,
+        "ram_end": ram + size,
+        "code_size": size,
+        "bss_start": ram + size,
+        "bss_end": ram + size + bss,
+        "bss_size": bss,
+        "static_init_start": init,
+        "modcrypt_areas": [{"rom_offset": o, "size": n}
+                           for o, n, _ in modcrypt.areas(header)],
+        "decompressed_file": TWL_DEC_FILE,
+        "note": "DSi-mode autoload block of arm9i.bin; its bytes exist only "
+                "after a keyed modcrypt decrypt; never in the ARM9 "
+                "denominator",
+    }
+    try:
+        plain, src_note = modcrypt.arm9i_plain(extract_dir, dsi_key, dsi_bios)
+    except modcrypt.KeyMissing as exc:
+        return info, "region declared, bytes skipped: %s" % exc
+    used, total = blz_consumed(plain)
+    if used != total:
+        raise LayoutError(
+            "arm9i after modcrypt: the BLZ stream decodes with %d of %d "
+            "byte(s) unread; the key or the decryption is wrong, nothing "
+            "written" % (total - used, total))
+    image = blz.decompress(plain, 0)
+    tail = 0x100
+    if image[-tail:] != shape[-tail:]:
+        raise LayoutError("arm9i after modcrypt: the clear tail changed")
+    with open(os.path.join(extract_dir, TWL_DEC_FILE), "wb") as fh:
+        fh.write(image)
+    return info, ("decrypted (key constant from %s), stream consumed "
+                  "exactly, 0x%X bytes -> extract/%s"
+                  % (src_note, len(image), TWL_DEC_FILE))
+
+
+# ---------------------------------------------------------------------------
 # overlays
 # ---------------------------------------------------------------------------
 
@@ -442,6 +568,21 @@ def write_text_report(path, layout):
         add("    autoload blocks 0x%08X" % t["autoload_blocks"])
         add("    compressed end  0x%08X" % t["compressed_code_end"])
 
+    tw = layout.get("twl")
+    if tw:
+        add("")
+        add("TWL (arm9i.bin, DSi mode only; not in the ARM9 denominator)")
+        add("  ROM image          0x%06X bytes at ROM 0x%08X (BLZ; modcrypt "
+            "%s)" % (tw["rom_size"], tw["rom_offset"], ", ".join(
+                "0x%08X+0x%X" % (m["rom_offset"], m["size"])
+                for m in tw["modcrypt_areas"]) or "none"))
+        add("  decompressed       0x%06X bytes, loaded at 0x%08X"
+            % (tw["decompressed_size"], tw["load_address"]))
+        add("  %-12s 0x%08X  0x%08X  0x%06X  0x%06X  0x%08X..0x%08X"
+            % ("twl", tw["ram_start"], tw["ram_end"], tw["code_size"],
+               tw["src_offset"], tw["bss_start"], tw["bss_end"]))
+        add("  static_init        0x%08X" % tw["static_init_start"])
+
     ovs = layout["overlays"]
     comp = sum(1 for o in ovs if o["compressed"])
     add("")
@@ -504,6 +645,13 @@ def cmd_run(args):
 
     overlays = analyse_overlays(extract_dir, extract_dir, quiet=False)
 
+    twl, twl_status = analyse_twl(extract_dir, header, args.dsi_key,
+                                  args.dsi_bios)
+    if twl is not None:
+        print("[*] twl 0x%08X..0x%08X (code 0x%X, bss 0x%X excluded): %s"
+              % (twl["ram_start"], twl["ram_end"], twl["code_size"],
+                 twl["bss_size"], twl_status))
+
     layout = {
         "tool": "delink.py",
         "version": 1,
@@ -512,6 +660,7 @@ def cmd_run(args):
         .replace(os.sep, "/"),
         "arm9": a9,
         "overlays": overlays,
+        "twl": twl,
         "counts": {
             "autoloads": len(a9["autoloads"]),
             "overlays": len(overlays),
@@ -540,6 +689,7 @@ def main(argv=None):
                     help="directory produced by ndsrom.py extract")
     ap.add_argument("-l", "--layout", default="layout",
                     help="directory to write layout.json and layout.txt into")
+    modcrypt.add_key_args(ap)
     ap.set_defaults(func=cmd_run)
     args = ap.parse_args(argv)
     try:

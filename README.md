@@ -57,6 +57,11 @@ See [docs/ROADMAP.md](docs/ROADMAP.md) for the planned approach, and
   - Size: 268435456 bytes
   - Place it in the repo root (any `*.nds` filename works; commands below
     take the path as an argument)
+- Optional, only for the DSi-mode region `twl`: the 16-byte DSi AES
+  key-scrambler constant in a file you keep outside the repo, passed as
+  `--dsi-key` or `ALETHEIA_DSI_KEY` (a DSi ARM9 BIOS dump does not contain
+  it); it is never committed, and without it the build is the usual 242
+  regions.
 
 ## Usage
 

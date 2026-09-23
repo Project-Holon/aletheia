@@ -44,3 +44,12 @@ prints the resolved path.
 On a fresh checkout the listings under asm/ do not exist (gitignored): run
 `python tools/disasm.py arm9 --split` and `python tools/disasm.py overlay --all` once from the
 repo root before any helper here works.
+
+Optional DSi step (region `twl`, the DSi-mode block of arm9i.bin): arm9i is
+modcrypted, so its listing needs the DSi AES key-scrambler constant as a
+16-byte file the user supplies and keeps outside the repo (a DSi ARM9 BIOS
+dump does not contain it). Set `ALETHEIA_DSI_KEY` to its path (or pass
+`--dsi-key`) and run `python tools/delink.py`, then
+`python tools/disasm.py twl`. The file is never committed (`*.key` and
+BIOS-like names are gitignored). Without it the region is skipped and
+everything else is unchanged.

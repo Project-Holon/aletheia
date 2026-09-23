@@ -405,6 +405,8 @@ def listing_files(region):
     elif region.startswith("ov"):
         p = os.path.join(ROOT, "asm", "overlays", "ov%s.s" % region[2:])
         return [p] if os.path.exists(p) else []
+    elif region == TWL_REGION:
+        return twl_listing_files()
     else:
         return []
     if not os.path.isdir(d):
@@ -847,6 +849,80 @@ def attest_overlay_label(addr, kind, lo, hi, region_hint=None):
 
 
 # ---------------------------------------------------------------------------
+# TWL-resident callees (region `twl`, 2026-09-24)
+# ---------------------------------------------------------------------------
+#
+# The DSi-mode autoload block of arm9i.bin (0x02700000..0x02732DA0, region
+# `twl` of layout/layout.json) is code the ARM9 image calls on TWL hardware.
+# Its listing, asm/twl/twl.s, exists only after delink.py decrypted arm9i
+# with a user-supplied DSi key (tools/modcrypt.py) and disasm.py twl ran;
+# without it nothing here attests anything.
+#
+# A `symbols:` line names such a callee with a fourth token `twl`
+# (`func_027300F0  0x027300F0  arm  twl`), mirroring the ovNNN hint.  The
+# token is required: an address in the TWL window is never looked up on the
+# strength of the address alone, so a source that means an ARM9 or overlay
+# address cannot be resolved against the TWL listing by accident.  The rule
+# is the overlay `label` rule with a single candidate:
+#
+#   1. the token is `twl` and the address lies inside the declared window;
+#   2. asm/twl/twl.s carries a `func_` label there with the declared ISA
+#      (disasm.py traced real code of that instruction set there);
+#   3. at least one branch in the image targets the address from outside the
+#      compared range (the cross-region index, or the twl listing's own
+#      branches).
+#
+# The region is never part of the ARM9 denominator: tools/worklist.py and
+# the coverage figures do not read it.
+
+TWL_REGION = "twl"
+_TWL = {}
+
+
+def twl_window():
+    """(lo, hi) of region `twl` from layout/layout.json, or None."""
+    if "w" not in _TWL:
+        w = None
+        try:
+            with open(os.path.join(ROOT, "layout", "layout.json")) as fh:
+                tw = json.load(fh).get("twl")
+            if tw:
+                w = (tw["ram_start"], tw["ram_end"])
+        except (OSError, ValueError, KeyError):
+            w = None
+        _TWL["w"] = w
+    return _TWL["w"]
+
+
+def twl_listing_files():
+    p = os.path.join(ROOT, "asm", "twl", "twl.s")
+    return [p] if os.path.exists(p) else []
+
+
+def twl_label(addr):
+    """True/False (thumb) if the twl listing labels `addr`, else None."""
+    w = twl_window()
+    if w is None or not w[0] <= addr < w[1]:
+        return None
+    return scan_listing(TWL_REGION).get(addr)
+
+
+def attest_twl_label(addr, kind, lo, hi, region_hint=None):
+    """The `label` class for a TWL-resident callee; see the rule above."""
+    if region_hint != TWL_REGION or kind not in ("thumb", "arm"):
+        return None
+    th = twl_label(addr)
+    if th is None or th != (kind == "thumb"):
+        return None
+    sites = set(xregion_calls().get(addr, ()))
+    sites |= set(region_calls(TWL_REGION).get(addr, ()))
+    sites = sorted(s for s in sites if not lo <= s < hi)
+    if not sites:
+        return None
+    return "label", len(sites), sites[0]
+
+
+# ---------------------------------------------------------------------------
 # the `veneer` class
 # ---------------------------------------------------------------------------
 #
@@ -1172,7 +1248,9 @@ def declared_symbols(fields):
     callee that only exists in an overlay: overlays overlap in address
     space, so without this the `label` class has no way to know which of
     several overlapping candidates the author means, and refuses rather than
-    guess.  See attest_overlay_label().
+    guess.  See attest_overlay_label().  The token `twl` names region
+    `twl` (the DSi-mode block of arm9i.bin) the same way; see
+    attest_twl_label().
     """
     out = {}
     for line in fields.get("symbols_lines", []):
@@ -1267,6 +1345,10 @@ def isa_evidence(addr):
         region, th = found
         return ("thumb" if th else "arm"), \
             "the func_%08X label in %s" % (addr, region)
+    th = twl_label(addr)
+    if th is not None:
+        return ("thumb" if th else "arm"), \
+            "the func_%08X label in asm/twl" % addr
     if veneer_at(addr) is not None:
         return "arm", "the ARM linker veneer at %08X" % addr
     th = sdk_addresses().get(addr)
@@ -2836,7 +2918,10 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
             # No label in the ARM9 listings.  The address may still be an
             # overlay-resident function; the index is wider but the standard
             # is the same, a traced entry point plus an outside branch to it.
-            proof = attest_overlay_label(addr, kind, lo, hi, region_hint)
+            if region_hint == TWL_REGION:
+                proof = attest_twl_label(addr, kind, lo, hi, region_hint)
+            else:
+                proof = attest_overlay_label(addr, kind, lo, hi, region_hint)
             if proof is not None:
                 return proof
         # A curated vendor-library entry (MSL/runtime.a) needs neither a
@@ -4175,7 +4260,8 @@ CONT_RE = re.compile(r"^\s*\*\s*([A-Za-z_][A-Za-z0-9_]*\s*,\s*)*"
 # same sort.
 SYMBOL_RE = re.compile(
     r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*)\s+(0[xX][0-9A-Fa-f]+)\s+"
-    r"(thumb|arm|data)(?:\s+(ov\d{3}|a\d{1,2}))?(?:\s+(ov\d{3}|a\d{1,2}))?"
+    r"(thumb|arm|data)(?:\s+(ov\d{3}|twl|a\d{1,2}))?"
+    r"(?:\s+(ov\d{3}|twl|a\d{1,2}))?"
     r"\s*$")
 SYMBOLS_OPEN_RE = re.compile(r"^\s*\*?\s*symbols\s*:\s*$", re.IGNORECASE)
 
@@ -4768,6 +4854,13 @@ OVERLAY_THUMB_THUNK = 0x021DFDB8
 # address; only ov093 labels it, which is what makes the un-hinted case
 # unambiguous.
 OVERLAY_FUNC = 0x021D5440
+# region `twl`: 0x027300F0 is called only by `bl` at 0x0206DCA4, inside
+# func_0206DC00 (0x0206DC00..0x0206DDA4 covers both TWL call sites);
+# 0x0206DBF4 is an ARM9 function (func_0206DBF4, matched).
+TWL_FUNC = 0x027300F0
+TWL_CALLER_LO = 0x0206DC00
+TWL_CALLER_HI = 0x0206DDA4
+TWL_ARM9_ADDR = 0x0206DBF4
 OVERLAY_FUNC_REGION = "ov093"
 # A candidate overlay of OVERLAY_FUNC's address window that does NOT label
 # it, for exercising a region_hint that resolves to nothing.
@@ -5199,6 +5292,48 @@ def cmd_selftest(args):
            cls(attest(OVERLAY_XCALL_UNLABELLED, "thumb", 0, 0,
                       region_hint="ov016")), None)
 
+    # --- the label class, TWL-resident callees (region `twl`) -------------
+    # With a DSi key the real asm/twl/twl.s answers; without one (the
+    # listing cannot exist) the rule is exercised on an injected label table
+    # holding just the traced start, and the result says which it was.
+    real_twl = bool(twl_listing_files()) and twl_window() is not None
+    saved = (_TWL.get("w"), _FUNC_STARTS.get(TWL_REGION),
+             _REGION_CALLS.get(TWL_REGION))
+    if not real_twl:
+        _TWL["w"] = (0x02700000, 0x02732DA0)
+        _FUNC_STARTS[TWL_REGION] = {TWL_FUNC: False}
+        _REGION_CALLS[TWL_REGION] = defaultdict(list)
+    how = "asm/twl/twl.s" if real_twl else "injected label table, no key"
+    try:
+        _check(res, "twl: a traced ARM start named with the twl token and "
+                    "called from the ARM9 image is attested (%s)" % how,
+               cls(attest(TWL_FUNC, "arm", 0, 0, region_hint="twl")),
+               "label")
+        _check(res, "twl: an interior address (start + 4) is refused (%s)"
+                    % how,
+               cls(attest_twl_label(TWL_FUNC + 4, "arm", 0, 0, "twl")), None)
+        _check(res, "twl: the label's ISA has to be the declared ISA (%s)"
+                    % how,
+               cls(attest_twl_label(TWL_FUNC, "thumb", 0, 0, "twl")), None)
+        _check(res, "twl: with the only call sites inside the compared range "
+                    "the rule refuses (%s)" % how,
+               cls(attest_twl_label(TWL_FUNC, "arm", TWL_CALLER_LO,
+                                    TWL_CALLER_HI, "twl")), None)
+        _check(res, "twl: without the twl token the TWL address is not "
+                    "looked up (%s)" % how,
+               cls(attest_twl_label(TWL_FUNC, "arm", 0, 0, None)), None)
+        _check(res, "twl: an ARM9 address is not attested via the twl token",
+               cls(attest_twl_label(TWL_ARM9_ADDR, "arm", 0, 0, "twl")),
+               None)
+    finally:
+        for key, val, cache in (("w", saved[0], _TWL),
+                                (TWL_REGION, saved[1], _FUNC_STARTS),
+                                (TWL_REGION, saved[2], _REGION_CALLS)):
+            if val is None:
+                cache.pop(key, None)
+            else:
+                cache[key] = val
+
     # --- the runtime class ---------------------------------------------
     _check(res, "runtime: a curated MSL/runtime.a entry attests itself, no "
                 "label or outside call needed",
@@ -5287,6 +5422,11 @@ def cmd_selftest(args):
                            "f_C  0x021DFDB8  thumb  ov228"]),
            [("f_C", "ov228", None), ("g_A", "ov228", 4),
             ("g_B", "ov228", 2)])
+    _check(res, "symbols: the twl token parses as the region hint and does "
+                "not end the block",
+           _parse_symbols(["f_D  0x027300F0  arm  twl",
+                           "f_E  0x0206DBF4  arm"]),
+           [("f_D", "twl", None), ("f_E", None, None)])
 
     # --- the literal class -----------------------------------------------
     _check(res, "literal: eighteen pool words attest a data address",

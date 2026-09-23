@@ -4,6 +4,16 @@
 *.bin
 baserom*
 
+# DSi key material and BIOS dumps: tools/modcrypt.py reads them at run time
+# from a path the user gives; they are never committed (the key constant must
+# not appear anywhere in the repo)
+*.key
+*[Bb][Ii][Oo][Ss]*.bin
+*[Bb][Ii][Oo][Ss]*.rom
+*[Bb][Ii][Oo][Ss]7*
+*[Bb][Ii][Oo][Ss]9*
+/NDS_Bios*
+
 # Extracted ROM contents (copyrighted game code/assets)
 /extract/
 
