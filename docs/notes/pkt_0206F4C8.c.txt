@@ -889,3 +889,22 @@ orders each of the ten scalars, best 19 / 12; the split assignments
 `p = (u8 *)h; p = p + r->off04;` and `p += r->off04` (840 bytes),
 `p = (u8 *)r->off04; p = (u8 *)h + (u32)p;` (8), `p += (u32)h` (10).
 /* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2p2 -- the wave-9 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 15 (register-tie lane): 0x0206F4C8 and 0x0206FC5C unchanged
+==============================================================================
+
+--- 0x0206F4C8: 2 with the volatile y-key read (not a valid source), 7 without.
+From the volatile-free source: (int)/(u32) casts on each of the eight quad-
+arm index reads (16 variants), (int) value casts on the four s16 key reads,
+3LL, j as int, i0 as int (58), const Rec *r, const base/p/keys all flat at
+7; const Rec *r with the volatile still 2.
+permuter anneal 2000 --types (seed 1507) from the volatile-free source: best 7.
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above, unchanged (7 without its volatile) */
+
+--- 0x0206FC5C: 8, p r4 / oa r8 against the image's r8 / r4.
+Flat at 8: const Rec *r, const Hdr *h, both; const u8 *p; func_0206FFA0's
+id parameter as u16; enum k; the entry test against k instead of t >> 12.
+permuter anneal 2000 --types (seed 1508): best 8.
+/* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2 -- the wave-9 source above, unchanged */

@@ -116,3 +116,25 @@ already tested.
 
 CONFIRMED CLOSED at 4 bytes / one elided copy.  Do not re-run the permuter on
 this row; both modes are spent.
+
+
+==============================================================================
+2026-09-23, wave 15 (register-tie lane): 0x0204B49C unchanged, 76 against 80, 20 out
+==============================================================================
+
+Wave 14 levers, one at a time, from spelling 1 above (76 bytes, 20 out):
+  cast read `(s16)(value + o)` at the call; value as u16 / int parameter;
+  `value = (s16)(value + o)` and `(s16)((int)value + o)`; o declared before
+  origin; `enum Axis` for axis (callee and parameter); an inline set_()
+  wrapper around sub_0204B550; const on value/space/axis with an s16 r
+  local; const Actor * throughout; `const s16 *o` into origin (72, worse);
+  `struct PtS origin = {0, 0}` (92, worse); callee second parameter int /
+  s32 with and without the narrowing assign.  All 76 / 20 except where
+  noted; int value with the (s16) assign reaches 84 (double narrowing).
+permuter anneal 2000 --types (seed 1501): best is again the invalid
+`type:ret-var(actor)` point, 80 bytes, 15 out.  Flat.
+The class lever that closed three siblings this wave (const on a read-only
+source pointer, real callee arity) has nothing to act on here: the only
+pointer is the actor, passed through to two callees, and both callee
+arities are already right (r0-r2 at both calls).
+/* best source, 76 bytes against 80, 20 concrete bytes out, dsi/1.1p1 -- spelling 1 above, unchanged */

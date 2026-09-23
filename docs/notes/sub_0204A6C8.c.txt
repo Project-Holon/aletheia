@@ -244,3 +244,19 @@ argument other than a bare literal zero -- is still untried, and is NOT
 reachable from this function's own C. It needs a caller of 0x0204A6C8 to be
 decompiled first.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+==============================================================================
+2026-09-23, wave 15 (register-tie lane): 0x0204A6C8 unchanged at 4
+==============================================================================
+
+Rebuilt the WHAT THE C IS source (216/216, 4 out, r7/r8 swap).  Measured,
+one at a time: `flags = (u16)((flags & 0x7fff) | 0x8000)` reuse (10);
+implicit u16 conversion through the callee prototype (4); u32 callee
+parameter (4); the real prototypes (void *handle, s32 idx,
+func_020307B0(void *)) (4); `const struct Owner *owner` (4); s32 i (6);
+all 120 declaration orders of sys/owner/slot/i/handle (64 at 4, 60 at 33).
+permuter anneal 2000 --types (seed 1503): best 4.  Flat.  The const and
+arity levers have no purchase: there are no pointer parameters, and both
+callee arities are settled by EXACT definitions.
+/* best source, 216 bytes against 216, 4 concrete bytes out, dsi/1.1p1 -- the WHAT THE C IS source above, unchanged */

@@ -570,4 +570,18 @@ extern void func_0204DD08(void *h, int idx, void *src, void *sel, u32 size,
 extern void func_0204DEE8(void *h, int idx, void *src, void *sel, u32 size);
                                                              /* 0x0204DEE8 arm */
 
+/*
+ * WAVE 15 (2026-09-23) additions, each proved by an EXACT file.
+ *  - func_0204BF28 takes TWO arguments: (obj, idx), body
+ *    `obj->f14 = tbl_020A1388[idx]` (u16 table).  func_0204BE84 passes
+ *    a1->f8.  src/matched/func_0204BE84.c.
+ *  - const on the read-only source parameter of a field-copy builder
+ *    settles the register tie that three notes recorded as allocator
+ *    residue: func_0204D18C, func_0204D224, func_0204BE84.  See
+ *    docs/idioms/const-on-a-read-only-source-parameter-settles-a-register-tie.md.
+ *  - 0x0204D2C8 is an unlabelled leaf: fill(anim, 0, 0x7c) as a tail call
+ *    (src/matched/func_0204D2C8.c).
+ */
+extern void func_0204BF28(void *obj, u32 idx);              /* 0x0204BF28 arm */
+
 #endif /* CLACT_H */

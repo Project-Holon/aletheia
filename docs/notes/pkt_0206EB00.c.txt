@@ -1586,3 +1586,15 @@ of four entry_of x four resolve spellings (else-first with early returns,
 if/else returns, a result local): only the filed nested-helper pair is 14
 (the others 41-67, the result-local forms 376-380 bytes).
 /* best source, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2 -- the wave-10 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 15 (register-tie lane): 0x0206ECE0 unchanged at 14
+==============================================================================
+
+From the wave-10 source (../2.0/sp2p2).  Flat at 14: (int) cast on the k
+index at the first store and at the first table read; k as enum; k as u32
+(15); const u8 *node with const reads throughout; const s16 *p;
+`Out *const out`; u16 f; k declared before node with u16 f.
+permuter anneal 2000 --types (seed 1506): best 14.
+/* best source, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2 -- the wave-10 source above, unchanged */

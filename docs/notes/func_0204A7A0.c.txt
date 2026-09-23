@@ -188,3 +188,110 @@ plain `literal` class; sole-ref is not even needed. A byte-exact func_0204A7A0
 is EXACT today. The 103-byte scheduling residue is now the ONLY thing between
 this row and a filing.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+==============================================================================
+2026-09-23, wave 15 (register-tie lane): 0x0204A7A0 103 -> 37
+==============================================================================
+
+Two readings fix most of the 103 bytes:
+  * the [sp,#0x18] "spill" of sub_02030734's result is not a spill: it is
+    the sixth word of the 0x18-byte template on the stack (sp+4..sp+0x1b).
+    The allocation result is stored into t.w5 before sub_0204DACC(&t) and
+    read back from t.w5 for sub_020307B0.  103 -> 47.
+  * the scan written exactly as sub_0204A6C8's (for loop, goto found, u32 i)
+    and the loop counter i declared BEFORE slot (the wave-14 declaration
+    order lever): 47 -> 37.
+All six sites resolve (g_020A1430 by sole-ref).  What is left is a
+general reshuffle of the parameter homes and the -1 (image size r8, a2 r7,
+heap lr, -1 sb, slot r5, &t r4; compile sb, r4, r8, lr, r7, r5) plus one
+schedule difference at +0xD8 (the image moves &t into r2 before the zero
+and the a2 stack store).  Flat at 37: u32 heap, heap reuse and implicit u16
+conversion, const Owner, const template parameter, s32 i (49).
+permuter anneal 2000 --types (seed 1505): best 37.
+/* best source, 308 bytes against 308, 37 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_0204A7A0
+ * address:  0x0204A7A0
+ * packet:   pkt_0204A6C8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146A74     0x02146A74  data
+ *   g_020A1430     0x020A1430  data
+ *   s_clact_c      0x020A7F74  data
+ *   sub_02030734   0x02030734  arm
+ *   sub_0204DACC   0x0204DACC  arm
+ *   sub_020307B0   0x020307B0  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Slot  { u8 pad_00[0x24]; u32 unk_24; u8 pad_28[0x14]; u32 unk_3c; };
+
+struct Owner {
+    u8            pad_00[8];
+    struct Slot  *slots;
+    void         *slots2;
+    u8            pad_10[4];
+    volatile u16  count;
+    volatile u16  count2;
+};
+
+struct Sys { u8 pad_00[0x104]; struct Owner owner; };
+
+struct Templ { u32 w0, w1, w2, w3, w4; void *w5; };
+
+extern struct Sys *g_02146A74;
+extern const struct Templ g_020A1430;
+extern char s_clact_c[];
+
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u32 line);
+extern void  sub_0204DACC(struct Owner *owner, s32 idx, struct Templ *t, u32 a3, u32 a4);
+extern void  sub_020307B0(void *p);
+
+s32 func_0204A7A0(u32 size, u32 a2, u16 heapId)
+{
+    struct Sys   *sys;
+    struct Owner *owner;
+    u32 i;
+    struct Slot  *slot;
+    struct Templ t;
+
+    sys   = g_02146A74;
+    owner = &sys->owner;
+
+    for (i = 0; i < owner->count; i++) {
+        if ((owner->slots[i].unk_3c >> 31) != 0) {
+            goto found;
+        }
+    }
+    i = (u32)-1;
+
+found:
+    if (i == (u32)-1) {
+        return -1;
+    }
+
+    slot = &sys->owner.slots[i];
+    t = g_020A1430;
+    t.w2 = *(volatile u32 *)0x04000000 & 0x00300010;
+    t.w4 = size;
+    t.w5 = sub_02030734((u16)((heapId & 0x7fff) | 0x8000), size, 1, s_clact_c, 0x3c8);
+
+    sub_0204DACC(&g_02146A74->owner, i, &t, 0, a2);
+
+    slot->unk_3c &= ~0x80000000;
+    slot->unk_24 = 0;
+    slot->unk_3c &= ~1;
+    sub_020307B0(t.w5);
+
+    return i;
+}

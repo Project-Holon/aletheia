@@ -379,3 +379,21 @@ void func_0204D18C(struct P *p, struct A *a)
 Note the `two - 3` spelling of the -1 sixth argument, which this note's first
 section established and which still holds: written as a literal -1 the compiler
 emits `mvn r1, #0` and the whole frame shifts.
+
+
+==============================================================================
+2026-09-23, wave 15 (register-tie lane): BOTH ROWS CLOSED
+==============================================================================
+
+func_0204D18C: EXACT, src/matched/func_0204D18C.c.  The 10-byte prologue
+tie (`mov sb, r0` sunk above the two loads) closes with `const struct A *a`
+on the 2026-09-22 source above; nothing else changed.
+func_0204D224: EXACT* (follower 0x0204D2C8 unlabelled, filed as
+src/matched/func_0204D2C8.c), src/matched/func_0204D224.c.
+CORRECTION: the 2-byte "best source" above is semantically wrong.  It stores
+a1->f14 into +0x04 and a1->f0c into +0x70; the image stores f0c into +0x04
+(`ldr ip, [r1, #0xc]` ... `str ip, [r5, #4]`) and f14 into +0x70.  The
+honest residue of that source with the image's pairing was 9 bytes.  The
+closing form: `const struct A *a1`, the four stores written straight from
+a1 in field order, func_020648B4 fed a fresh a1->f14, and NO volatile on
++0x04.  Without the const it is 168 bytes, 138 out.
