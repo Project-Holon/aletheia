@@ -60,7 +60,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x0206AB18",
      "self:0x02148D0C"
     ]
    }

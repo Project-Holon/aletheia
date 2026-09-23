@@ -19,9 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02039D94",
-     "code:0x0203DC70",
-     "code:0x0203EA9C"
+     "code:0x0203DC70"
     ]
    }
   },
@@ -35,7 +33,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   },
   {
    "name": "func_0203D01C",

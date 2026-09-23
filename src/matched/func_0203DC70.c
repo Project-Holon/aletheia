@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * net_irc_wireless.c.  The wireless link state machine: a 19-state switch on
  * +0x109 of the context at 0x021469F0 (func_0203DC68 is the setter), run
@@ -37,8 +37,8 @@
  *   func_0203CEAC  0x0203CEAC  arm
  *   func_0203CF10  0x0203CF10  arm
  *   func_0203CF3C  0x0203CF3C  arm
- *   func_0203CFF0  0x0203CFF0  thumb
- *   func_0203D000  0x0203D000  thumb
+ *   func_0203CFF0  0x0203CFF0  arm
+ *   func_0203D000  0x0203D000  arm
  *   func_0203D010  0x0203D010  arm
  *   func_0203D01C  0x0203D01C  arm
  *   func_0203D0DC  0x0203D0DC  arm

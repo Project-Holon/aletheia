@@ -9,7 +9,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * blocker:  label/overlay 0x02177B80.  The `bl` at +0x1E targets an
  *           unlabelled Thumb function in ov014 (wih.c); asm/overlays/ov014.s

@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
-    "sole-ref": [
-     "code:0x020896AC"
+    "sdk": [
+     "0x020896AC"
     ]
    }
   },
@@ -35,9 +35,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
-    "sole-ref": [
-     "code:0x020896CC",
-     "code:0x0208A38C"
+    "sdk": [
+     "0x020896CC",
+     "0x0208A38C"
     ]
    }
   }

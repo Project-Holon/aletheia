@@ -9,7 +9,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  * note:     rewritten 2026-09-23 (wave 14): every concrete byte right, 11 of
  *           12 relocation sites resolved.
  *

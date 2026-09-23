@@ -16,7 +16,12 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x020808BC"
+    ]
+   }
   },
   {
    "name": "func_02080908",
@@ -28,7 +33,12 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x020808BC"
+    ]
+   }
   }
  ]
 }

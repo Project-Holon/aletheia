@@ -430,3 +430,23 @@ arm9_main  0x02020344  thumb   # unit_02020268.c
 arm9_main  0x02020350  thumb   # unit_02020268.c
 arm9_main  0x0200D288  thumb   # 12-byte leaf after func_0200D144; src/matched/func_0200D288.c
 arm9_main  0x0202EB04  thumb   # 6-byte leaf after func_0202EA40's pool word; src/matched/func_0202EB04.c
+arm9_main  0x0203DC4C  arm   # net_irc_wireless leaf, src/matched/func_0203DC4C.c
+arm9_main  0x0203DC68  arm   # net_irc_wireless state setter, src/matched/func_0203DC68.c
+arm9_main  0x0203CFF0  arm   # ARM tail-call wrapper (was a false SDK signature), src/matched/func_0203CFF0.c
+arm9_main  0x0203D000  arm   # same, src/matched/func_0203D000.c
+arm9_main  0x0203D010  arm   # src/matched/func_0203D010.c
+arm9_main  0x0203B1B0  arm   # src/matched/func_0203B1B0.c
+arm9_main  0x0203B01C  arm   # net_state leaf, src/matched/unit_0203B018.c
+arm9_main  0x020489F4  arm   # g3d_util accessor run, src/matched/unit_020489F4.c
+arm9_main  0x0202DE5C  thumb # pms_draw setters, src/matched/unit_0202DE5C.c
+arm9_main  0x0202DE64  thumb # same unit
+arm9_main  0x0202DE68  thumb # same unit
+arm9_main  0x0202FAB0  thumb # time_icon leaf, src/matched/func_0202FAB0.c
+arm9_main  0x0202F768  thumb # time_icon callback leaf, src/matched/func_0202F768.c
+arm9_main  0x0202F774  thumb # same, src/matched/func_0202F774.c
+arm9_main  0x02010848  thumb # wih_dwc followers, src/matched/unit_02010848.c
+arm9_main  0x02010864  thumb # same unit
+arm9_main  0x02010884  thumb # same unit
+overlay_014  0x0217963C  thumb # wih_dwc callee, bl at 0x020103B6 and 0x020103FE
+overlay_014  0x02177B80  thumb # wih_dwc callee, bl at 0x0201081A
+overlay_014  0x02178098  thumb # wih_dwc callee, bl at 0x020105E8

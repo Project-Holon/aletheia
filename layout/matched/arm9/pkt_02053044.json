@@ -16,14 +16,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02053E1C",
-     "code:0x02054DB8",
-     "code:0x02055B80"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_0205312C",
@@ -35,13 +28,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02055498",
-     "code:0x02055FD4"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

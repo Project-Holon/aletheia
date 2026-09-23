@@ -43,8 +43,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x0200F734",
-     "code:0x02010DCC"
+     "code:0x0200F734"
     ]
    }
   }

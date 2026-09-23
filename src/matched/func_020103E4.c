@@ -9,8 +9,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
  *
  * blocker:  overlay label class.  The `bl` at +0x1A targets 0x0217963C, an
  *           address in overlay space: two overlays overlap it (ov009, ov014)
