@@ -404,3 +404,16 @@ arm9_main  0x020946D8  arm     # MSL __StringRead; src/matched/func_020946D8.c
 # Wave 11 (2026-09-23): unlabelled leaves witnessed by matched callers.
 arm9_main  0x020407E8  arm     # leaf sub_020407E8 in unit_020407E8.c; follower of sub_02040618 (bx lr at 0x020407FC, pool word 0x02040800 end the previous leaf)
 arm9_main  0x02040804  arm     # sibling leaf in unit_020407E8.c
+
+# Wave 12 (2026-09-23): unlabelled leaves and followers, each covered by a matched source.
+arm9_main  0x02008450  thumb   # covered by func_02008450.c
+arm9_main  0x0200EC14  thumb   # covered by func_0200EBD0.c
+arm9_main  0x0200E874  thumb   # covered by unit_0200E874.c
+arm9_main  0x0200E878  thumb   # covered by unit_0200E874.c
+arm9_main  0x02026D04  thumb   # covered by sub_02026D04.c
+arm9_main  0x02026D48  thumb   # covered by sub_02026D48.c
+arm9_main  0x02026BFC  thumb   # covered by unit_02026BFC.c
+arm9_main  0x02026C1C  thumb   # covered by unit_02026BFC.c
+arm9_main  0x02026C30  thumb   # covered by unit_02026BFC.c
+arm9_main  0x02026C78  thumb   # covered by unit_02026BFC.c
+arm9_main  0x02026C8C  thumb   # covered by unit_02026BFC.c
