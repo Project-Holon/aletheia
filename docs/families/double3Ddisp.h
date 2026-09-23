@@ -7,7 +7,9 @@
  * tail lane) from docs/notes/func_0204E914.c.txt and
  * src/pending/func_0204E8C0.c.  No member is EXACT yet: func_0204E8C0 is
  * byte-correct MATCH, blocked only on 0x0204E914 (one branch reference
- * image-wide), and 0x0204E914 is a 35-byte allocator residue.
+ * image-wide), and 0x0204E914 is a 35-byte allocator residue (15 bytes
+ * since wave 16: locals declared i, x, y, k, oam; the inner-loop oam
+ * base is the rest, docs/notes/func_0204E914.c.txt).
  */
 
 #ifndef DOUBLE3DDISP_H

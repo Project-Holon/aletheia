@@ -154,3 +154,18 @@ overwritten with ymin in the clip), sp+0x18 a second y used for
 (u8 sx/ow/ox/sy/oh/oy, s32 x/y) 236/207 out; the note source under
 1.1p1/sp2/sp2p2 236/176; x, sy loaded before their guards with y = sy and
 s8 ow/oh 232/187; enum sx/sy or x1/y1 236/176.
+
+================================================================
+wave 16 (2026-09-23, areaman/pms lane): no change
+================================================================
+Image reading, for the next lane: every guard loads the bound first
+(xmax r1, then x r0; ymax r3, then y into sp+0x14), so the guards are
+field expressions, not x/y locals (s32 x/y locals ahead of the guards
+invert the load order: 232/203).  w and h come from ONE ldrh (w kept in
+ip, h in sp+0x1c).  x stays in r0 throughout and sx gets its own slot
+(sp+0x20); y is asymmetric: sp+0x14 becomes sy, a copy at sp+0x18
+feeds `ymin - y`, a third copy r5 feeds y1.  Measured: all-field
+spelling with sx/sy/ow/oh assigned in the clip blocks 240/173; plus
+`sy = win->y; y1 = sy + win->h;` above the y1 guard 236/176; permuter
+anneal 1500 --types from the 240 source: 244/244 at 130 out through a
+28-mutation non-value-preserving chain, discarded.

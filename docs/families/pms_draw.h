@@ -195,6 +195,12 @@ struct PmsRes {
  * both to s16 with `lsls #0x10` / `asrs #0x10`.  That refutes the
  * by-value reading recorded in the older docs/notes/pkt_0202E1F0.c.txt
  * prose.
+ *
+ * The stack parameter `w` is REUSED as the word-set pointer (wave 16):
+ * `func_02024570(ws, w); w = ws;` and every later call passes w.  That is
+ * what keeps &ws in r7 for the rest of the function and spills n; a fresh
+ * pointer local is copy-propagated away.  412/412, 21 bytes out (an o/w
+ * r6/r7 swap), docs/notes/pkt_0202E1F0.c.txt.
  * ------------------------------------------------------------------ */
 struct PmsCs {
     u32 x;           /* +0x00  narrowed to s16 for func_0201C724 */

@@ -303,3 +303,16 @@ func_0201FDA0 still 2 out (the str r3 / adds r5 swap).  Measured: non-const
 winDat (14); locals declared m, list, msg, hdr (2); `const u8 pos` (2); all
 parameters top-level const (4); pos as an enum (8); heap as an enum (4);
 base and pal as enums (9).
+
+================================================================
+wave 16 (2026-09-23, areaman/pms lane): func_0201FDA0 still 2 out
+================================================================
+The str r3 / adds r5 swap does not move.  Measured on the best source
+above: the full grid base x pal x pos over u8/u16/u32/s8/s16/int with
+heap u32 or int (432 compiles, floor 2, every pos type leaves the r3
+home store behind the r0 copy); callee prototypes from the callees'
+own bodies (func_0201F73C as (void *, int, int, int) and as
+(void *, u32, u16, u8); func_0201F9D0 with u8 px/py/pos, 2 each;
+func_0201F9D0 with its real u16 heap costs a narrowing, 288 bytes);
+func_020450F0 with u8/u16 parameters (2); MI_CpuFill8 through an
+MI_CpuClear8 inline (2).  permuter anneal 1500 --types seed 33: flat.

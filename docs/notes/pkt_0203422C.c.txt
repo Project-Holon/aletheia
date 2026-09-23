@@ -242,3 +242,13 @@ start (212/187), idx before bit (200/168), for-loop fill (196), post-increment
 on the first clear (23), tail before nfull (48).  Stopped as instructed.
 sub_020343C0 (same file): the polarity flip `if (avail < len) {big} else
 {small}` is 73 (base 44), `len <= avail` 49; unchanged at 44.
+
+========================================================================
+wave 16 (2026-09-23, areaman/pms lane): declaration facts only, DIFF 17
+========================================================================
+Declaration facts, once each, on the 17-out source: non-const
+RunMask/TailMask (17), `u8 bits[]` flexible member (17), `int start`
+with u32 casts (17), func_02034394 len s32 (17), func_020344C8 taking
+a const pointer (17), both callees unprototyped `()` (17).  Loop
+counter forms (not declaration facts, one try each): `for (i = 0; i <
+nfull; i++)` 73, s32 i 208/131, `for (i = nfull; i; i--)` 196/122.

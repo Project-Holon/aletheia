@@ -129,3 +129,97 @@ initialised at their declarations with the y loop's init dropped (252,
 clearing loop stores r3, the register y later lives in, zero at that point
 (the value is 0, not a separate constant), and its counter r2 is x's
 register; the coalescing is the allocator reusing both.
+
+================================================================
+wave 16 (2026-09-23, areaman/pms lane): 35 -> 15, still DIFF
+================================================================
+
+All 120 declaration orders of i/k/y/x/oam compiled (not seven): the
+floor is 15 bytes, reached by six orders, first `s32 i; s32 x; s32 y;
+s32 k; union OamEntry *oam;`.  That order fixes the counter coalescing
+the note above describes: k in ip, the clearing counter and the inner x
+both r2, y in r3 fed by the stored zero, exactly as the image.  With oam
+at block scope (24 orders) the floor is also 15.
+
+RESIDUE (15 bytes): the inner loop body only.  The image computes
+oam in place (`ldr r8,[r6]; add r8, r8, #0xc`), attr01 into r7 (the
+lsl temp's register) and attr2 into r4 (the x/8 register); the compile
+takes sb for oam, r8 for attr01 and r7 for attr2, so it pushes r3 and
+sb as well.  Measured, all 15: `&g->oam[0]`, oam at block scope, a
+`struct Double3Ddisp *d` local, oam built from a char * with `+ 0xc`
+in two statements, attr01/attr2 through named u32 locals with compound
+`|=`/`+=` (v1/v3; the attr2-first order is 35), reordered `|` operands
+(one order 51), `(y/8)*32 + x/8`, `0xf000 | ...`, k as u32, k as an
+enum.  Worse: i as u32 (16), i as enum (260 bytes), the clearing
+counter written as x (46), k (81) or y (33).  permuter hill 600
+--types and anneal 2000 from the 15-byte source: flat.  ../2.0/sp2 and
+sp2p2: 240 bytes, 156 out.
+
+/* best source, 248 bytes against 248, 15 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_0204E914
+ * address:  0x0204E914
+ * packet:   pkt_0204E6F4
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * isa:      arm
+ * status:   DIFF (248/248, 15 out)
+ * symbols:
+ *   g_02146A80     0x02146A80  data
+ *   func_020862F0  0x020862F0  arm
+ *   func_0207E708  0x0207E708  arm
+ */
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+union OamEntry {
+    u32 w[2];
+    struct { u32 attr01; u16 attr2; u16 attr3; } f;
+};
+
+struct Double3Ddisp {
+    u16 heap;
+    u16 pad02;
+    s32 unk04;
+    s32 unk08;
+    union OamEntry oam[12];
+};
+
+extern struct Double3Ddisp *g_02146A80;
+extern void func_020862F0(void *p, u32 n);
+extern void func_0207E708(void *p, u32 off, u32 n);
+
+#define REG32(a) (*(volatile u32 *)(a))
+
+void func_0204E914(void)
+{
+    s32 i;
+    s32 x;
+    s32 y;
+    s32 k;
+    union OamEntry *oam;
+
+    REG32(0x04001000) = (REG32(0x04001000) & ~0x60) | 0x20;
+
+    k = 0;
+
+    for (i = 0; i < 12; i++) {
+        g_02146A80->oam[i].w[0] = 0;
+        g_02146A80->oam[i].w[1] = 0;
+    }
+
+    for (y = 0; y < 0xc0; y += 0x40) {
+        for (x = 0; x < 0x100; x += 0x40) {
+            oam = g_02146A80->oam;
+            oam[k].f.attr01 =
+                0xc0000c00 | (y & 0xff) | ((x & 0x1ff) << 16);
+            oam[k].f.attr2 = (x / 8 + (y / 8) * 32) | 0xf000;
+            k++;
+        }
+    }
+
+    func_020862F0(g_02146A80->oam, 0x60);
+    func_0207E708(g_02146A80->oam, 0x3a0, 0x60);
+}
+
