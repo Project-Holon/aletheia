@@ -319,3 +319,14 @@ APPENDED 2026-09-23, wave 15 (anime/shinka/print lane): 17 holds
 `u8 buf[3] = { done, ... }` is rejected by mwcc ("illegal constant
 expression"); `volatile enum` done (17), plain enum done (146), chained
 `buf[0] = buf[1] = buf[2] = done` (148), buf as a struct member (188).
+
+==============================================================================
+APPENDED 2026-09-23, wave 16 (print/font/anime lane): 17 holds
+==============================================================================
+hi/mid/lo in the inner block (17), `u8 *q = buf` stores (17), plain done
+read through `*(volatile int *)&done` (188/161).  Hypothesis for the
+next lane: `add r1, sp, #8` is where the addressable-local area starts,
+which would make [sp,#4] a SPILL slot of a plain int done (spill code
+reloads before every use), not a volatile local; but a plain int is
+constant-propagated into the three stores (180), so something must hide
+the zero from propagation.  Not found.

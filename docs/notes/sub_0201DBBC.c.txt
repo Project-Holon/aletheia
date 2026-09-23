@@ -231,3 +231,12 @@ Worse: out as a 4-byte struct by value (60 to 88 bytes).  An EXACT function
 with the image's order (0x0202DA48, func_0204A6C8(a, func_0202D5D8(b,0), 1,
 c, d)) has a nested call as the second argument; that is the only shape in
 the matched corpus found so far that stores the stack word last.
+
+==============================================================================
+APPENDED 2026-09-23, wave 16 (print/font/anime lane): BOTH CLOSED, EXACT
+==============================================================================
+The lever is `const struct Font *f` on the caller (f is only read).  It
+moves the outgoing stack store of `out` from third to last in the call to
+func_0201DC44 in both functions; the callee's prototype may be const or not
+(a cast works too).  Filed as src/matched/sub_0201DBBC.c (EXACT) and
+src/matched/sub_0201DBF4.c (EXACT*, the 2-byte pad at 0x0201DC42).

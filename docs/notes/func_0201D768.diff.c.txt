@@ -300,3 +300,14 @@ From the u16-len source: enum-typed total (67), const params (66), u32 total
 or head (66), start/base/total declaration reversal (66), the ring step as an
 inline put(p, base, src, n) in both statement orders (69), head at function
 scope (69); compound `total += n` / `head += n` cost size (100 to 102).
+
+==============================================================================
+APPENDED 2026-09-23, wave 16 (print/font/anime lane): 66 holds
+==============================================================================
+From the u16-len source: `if (len > 0) do {} while` with base +=
+(69), a for loop with function-scope head (70), a Ring struct with head/
+size members (69), compound `total += n` (100 bytes).  Reading of the
+residue: the compile splits the loaded head from the incremented head (two
+webs, the first spilled to [sp,#4]); the image keeps one web in r4 and
+spills total.  The two spill costs tie (one def, two uses each in the loop),
+so this is a tie-break, not a spelling.

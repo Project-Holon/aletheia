@@ -246,7 +246,9 @@ extern int   func_0206E348(u32 ctx);              /* func_02047400 */
 extern int   func_0206E364(u32 ctx, int a, int b);/* func_02047564 */
 extern int   func_0206E954(u32 h);                /* func_02047400 */
 extern int   func_0206E964(u32 h);                /* func_02047400, func_02047564 */
-extern int   func_0206E9A4(int a, int b);         /* func_02047564 */
+extern int   func_0206E9A4(int a, int b);         /* func_02047564 (EXACT in wave 16:
+                                                   the owner parameter a1 is
+                                                   const; src/matched/func_02047564.c) */
 
 extern void  func_0206A2CC(void *a, void *b);     /* func_02047400 */
 extern void  func_0206A4AC(void *a, void *b);     /* func_02047400 */

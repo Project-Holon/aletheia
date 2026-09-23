@@ -285,10 +285,15 @@ void  func_0201DAA4(char *f, int a, int b);
                         /* 0x0201DAA4  src/matched/func_0201DAA4.c */
 
 /* Glyph fetch and hand-off. */
-void  func_0201DBBC(struct Font *f, u32 i, void *d, u8 *out);
-                        /* 0x0201DBBC  DIFF, docs/notes/sub_0201DBBC.c.txt */
-void  func_0201DBF4(struct Font *f, u32 i, void *d, u8 *out);
-                        /* 0x0201DBF4  DIFF, same note */
+void  func_0201DBBC(const struct Font *f, u32 i, void *d, u8 *out);
+                        /* 0x0201DBBC  src/matched/sub_0201DBBC.c.  `const`
+                         * on f is the lever (wave 16): it moves the
+                         * outgoing stack store of `out` to last in the
+                         * call to func_0201DC44, the 12-byte residue every
+                         * earlier spelling left. */
+void  func_0201DBF4(const struct Font *f, u32 i, void *d, u8 *out);
+                        /* 0x0201DBF4  src/matched/sub_0201DBF4.c, same
+                         * lever. */
 void  func_0201DC44(struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
                         /* 0x0201DC44  src/matched/sub_0201DC44.c.  `w` is
                          * `u32` here and `u16` in the hook it calls: the

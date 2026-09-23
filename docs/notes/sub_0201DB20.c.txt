@@ -322,3 +322,13 @@ u32 func_0201DB20(struct Font *f, u16 c)
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 154 bytes against 156, 15 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 16 (print/font/anime lane): 15 holds
+==============================================================================
+Chain step spellings: `if (m == 0) return 0; m = rebase` (158/40), a
+block-local next pointer (15), rebase from m->pNext directly (15), lo/hi at
+block scope in case 2 (15; lo-before-hi 18).  Permuter hill 600 --types:
+it chases the 156-byte listing extent (pad included) and picks a 156/40
+point; no single mutation lowers 15 at 154.  The compile holds the loaded
+pNext in r4 and the rebased m in r6; the image holds both in r4.

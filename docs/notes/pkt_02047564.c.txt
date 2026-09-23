@@ -325,3 +325,13 @@ tag and owner (16), h re-read through r->unk_08 (24).  The callees look like
 NitroSystem g3d (func_0206E9A4 an anim-by-index getter, func_0206E364 an
 anim-object allocator, func_02069C74 NNS_G3dAnmObjInit's shape with four
 arguments); not yet confirmed against the library.
+
+==============================================================================
+APPENDED 2026-09-23, wave 16 (print/font/anime lane): CLOSED, EXACT
+==============================================================================
+The lever is `const` on the read-only owner parameter a1 (and on the
+record field unk_08 that stores it).  With a const a1 the a1->f04 load may
+move above the tag store, and the scheduler then issues the tag's pool load
+first, as the image does.  Filed as src/matched/func_02047564.c (EXACT,
+1.1p1, all 8 sites resolved); a const a1 with a cast at the store, and
+const on both a0 and a1, are EXACT too.

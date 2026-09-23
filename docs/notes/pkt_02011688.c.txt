@@ -258,3 +258,16 @@ table base before the multiply (52/31); `idx %= n` plus `t[idx]` field copies
 gives the other half (50 bytes, 25 out).  No spelling gets both copies.
 Permuter anneal 1500 --types from the named-i form: best 56/56 but 53 out
 (volatile idx, u16 copy), rejected.
+
+==============================================================================
+APPENDED 2026-09-23, wave 16 (print/font/anime lane): 26 holds
+==============================================================================
+const p and const t (26); t[idx] field copies (50/25), with a block-local
+`i = idx` (50/25); `p->f1c[idx].x` three times (58/27); a named
+`i = idx % n` (56/36); `(s32)idx`, `(int)idx`, `(u32)(s32)idx`
+casts in the three index forms (flat); byte offsets `idx * 12` / `12 * idx`
+/ sizeof both orders (26 or 32).  The early-return polarity
+`if (p->f18 != n) return 0;` with t[idx] copies is 50/14 but has the
+image's branch inverted.  Reading: the image keeps idx live past the
+multiply (the copy into r3) and schedules the first load before t is
+formed; no spelling found gives both.
