@@ -376,11 +376,32 @@ def target_bytes(addr, size, region=None):
 _FUNC_STARTS = {}
 
 
+def unit_files(sub, manifest, root=None):
+    """The split listings named by a layout/units_*.json manifest.
+
+    disasm.py --split never deletes the files of an earlier run, so the
+    directory can hold stale units whose labels no longer exist; only the
+    files the current manifest lists are read.  Without a manifest, fall
+    back to every .s file in the directory."""
+    root = root or ROOT
+    d = os.path.join(root, "asm", "arm9", sub)
+    if not os.path.isdir(d):
+        return []
+    try:
+        with open(os.path.join(root, "layout", manifest)) as fh:
+            units = json.load(fh)["units"]
+        return [os.path.join(root, u["file"]) for u in units
+                if os.path.exists(os.path.join(root, u["file"]))]
+    except (OSError, ValueError, KeyError):
+        return [os.path.join(d, f) for f in sorted(os.listdir(d))
+                if f.endswith(".s")]
+
+
 def listing_files(region):
     if region == "arm9":
-        d = os.path.join(ROOT, "asm", "arm9", "src")
+        return unit_files("src", "units_arm9.json")
     elif region.startswith("arm9_autoload0"):
-        d = os.path.join(ROOT, "asm", "arm9", "src_itcm")
+        return unit_files("src_itcm", "units_itcm.json")
     elif region.startswith("ov"):
         p = os.path.join(ROOT, "asm", "overlays", "ov%s.s" % region[2:])
         return [p] if os.path.exists(p) else []
@@ -565,13 +586,8 @@ _EVIDENCE = {}
 
 def evidence_files():
     """Listings scanned for symbol evidence: the whole ARM9 image."""
-    out = []
-    for sub in ("src", "src_itcm"):
-        d = os.path.join(ROOT, "asm", "arm9", sub)
-        if os.path.isdir(d):
-            out += [os.path.join(d, f) for f in sorted(os.listdir(d))
-                    if f.endswith(".s")]
-    return out
+    return (unit_files("src", "units_arm9.json") +
+            unit_files("src_itcm", "units_itcm.json"))
 
 
 def evidence():
@@ -5642,6 +5658,21 @@ def cmd_selftest(args):
                 "refused",
            _resolve_ovid(0x14, code=bytes.fromhex("0148 024B 0020 1847")),
            (False, ""))
+
+    # --- stale split listings ---------------------------------------------
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, "asm", "arm9", "src"))
+        os.makedirs(os.path.join(tmp, "layout"))
+        for name in ("000_02000000.s", "000_02000004.s"):
+            with open(os.path.join(tmp, "asm", "arm9", "src", name), "w") as fh:
+                fh.write("func_%s:" % name[4:12] + chr(10))
+        with open(os.path.join(tmp, "layout", "units_arm9.json"), "w") as fh:
+            json.dump({"units": [{"file": "asm/arm9/src/000_02000000.s"}]}, fh)
+        _check(res, "listings: a stale split file absent from units_arm9.json "
+                    "is not read, so its bogus label cannot cut an extent",
+               [os.path.basename(f) for f in unit_files("src",
+                                                         "units_arm9.json", tmp)],
+               ["000_02000000.s"])
 
     # --- the three documented end-to-end behaviours -----------------------
     if not args.quick:

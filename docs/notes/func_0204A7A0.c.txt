@@ -312,3 +312,14 @@ const on the template parameter of sub_0204DACC 37; the scan as an inline
 helper returning i 47; count without volatile 304 bytes.
 permuter anneal 2000 --types (seed 1602) from the typed source: best 37.
 /* best source, 308 bytes against 308, 37 concrete bytes out, dsi/1.1p1 -- the wave-15 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 17 (clact_ties lane): 0x0204A7A0 unchanged at 37
+==============================================================================
+All 120 orders of the five declarations (sys, owner, i, slot, t): 37.
+The template copy before the slot address: 110; the template copy and
+the t.w4 store before the DISPCNT read: 79.  The residue reads as a
+colouring tie: the image puts the -1 in sb and heapId in lr, this compile
+heapId in r8 and the -1 in lr, and everything else follows.
+/* best source, 308 bytes against 308, 37 concrete bytes out, dsi/1.1p1 -- the wave-15 source above, unchanged */

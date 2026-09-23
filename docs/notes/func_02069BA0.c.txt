@@ -174,3 +174,52 @@ u32 func_02069BA0(volatile Bits *b, s32 n)
     }
     return acc & (u32)(mask >> (8 - n));
 }
+
+
+==============================================================================
+2026-09-23, wave 17 (clact_ties lane): 0x02069BA0 14 -> 6 without volatile
+==============================================================================
+Lever: the two arms swapped, `if (have < n) { refill; recurse } else
+{ shift; store }`.  That alone puts the then-arm pair in the image's order
+(`lsrge` before `strbge`), 14 -> 6 with a plain `Bits *b`; with the
+wave-16 `volatile Bits *b` device it is EXACT (not filed, the volatile is
+still a device).  Left: `mov r2, #8` before `mov r1, r6` ahead of the
+recursive call.  Measured flat at 6: `*b->cur++` for the refill, the
+recursive call first in the OR, the shortfall as `n - have` at both uses,
+the stores after the shortfall; `b->have = 8` before the refill store is
+25.  All 720 declaration orders of the six locals: 6.  permuter anneal 800
+--types (seed 1701) from the source below: 6.
+/* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 (no volatile; EXACT with `volatile Bits *b`) */
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+typedef struct Bits {
+    u8 *cur;
+    signed char have;
+    unsigned char acc;
+} Bits;
+
+u32 func_02069BA0(Bits *b, s32 n)
+{
+    s32 have;
+    u32 held;
+    s32 mask;
+    s32 shortfall;
+    u32 acc;
+
+    have = b->have;
+    held = b->acc;
+    mask = 0xff;
+    if (have < n) {
+        shortfall = n - have;
+        b->acc = *b->cur++;
+        b->have = 8;
+        acc = (held << shortfall) | func_02069BA0(b, shortfall);
+    } else {
+        have -= n;
+        acc = held >> have;
+        b->have = have;
+    }
+    return acc & (u32)(mask >> (8 - n));
+}

@@ -923,3 +923,25 @@ tables: declared (int *out, const s16 *a, const s16 *b, u32 id), with and
 without const Rec / const Hdr parameters: 8.  VEC_Normalize already const.
 permuter anneal 2000 --types (seed 1606) from that source: best 8.
 /* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2 -- the wave-9 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 17 (clact_ties lane): 0x0206FC5C CLOSED EXACT, 0x0206F4C8 at 7
+==============================================================================
+--- 0x0206FC5C: 8 -> 0 EXACT, src/matched/func_0206FC5C.c (../2.0/sp2;
+sp2p2 the same, 1.1p1 824 bytes).  The two key arrays as POINTER locals
+computed once, `oa = (s16 *)((u8 *)h + h->f0c); ob = ...` (NitroSystem's
+pArrayRot3 / pArrayRot9), passed as oa / ob: the compiler still re-forms
+`add r1, sb, r4` at each call site, so the stream is unchanged, but the
+assignment moves (39 with the old order).  A 200-order sample of the ten
+scalar declarations then finds several EXACT orders; the filed one is
+`k, ok, oa, k2, frac, mul, n, f, p, ob`.  New idiom:
+docs/idioms/array-bases-as-pointer-locals-reopen-a-flat-declaration-order.md.
+
+--- 0x0206F4C8: 7, volatile-free (../2.0/sp2p2).  s16 y pair re-spelled:
+b read before a (7, same residue); `a` named and the j key inline (7:
+the j address now reuses p's r1 as in the image, but a / b land in r2 /
+r1 where the image has r3 / r2); both keys inline in the expression, or
+only b named (14: the shared `a` stops being shared).  permuter anneal
+800 --types (seed 1702) from the `a` named form: 7.
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above, unchanged (7 without its volatile) */

@@ -2027,3 +2027,14 @@ NNSG2dFVec2 *pBaseTrans (it is only read), const RndCore through
 g_02148B48, non-const tables, [4][4] table shape.  permuter anneal 2000
 --types (seed 1607, ../2.0/sp2) from the const-pBaseTrans source: best 2.
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 17 (clact_ties lane): 0x02067080 unchanged, DIFF 2
+==============================================================================
+The adjust inline as `fxHalfW = halfW << 12` / `fxHalfH` named locals with
+`pV->x += -fxHalfW + _00 * halfW + _10 * halfH` (and y) in one expression
+each: 696 bytes (the whole-sum form the wave-13 note already records as
+696..708).  The residue is a dead-register tie: at +0x21C the y read can
+take ip (halfW, dead) or r6 (_01, dead); nothing after uses either.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

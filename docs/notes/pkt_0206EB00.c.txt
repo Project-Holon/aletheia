@@ -1611,3 +1611,57 @@ g_02148DB0: all 14 (node r4 / k r5 against the image's r5 / r4).
 permuter anneal 2000 --types (seed 1605, ../2.0/sp2p2) from the const
 source: best 14.
 /* best source, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2 -- the wave-10 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 17 (clact_ties lane): 0x0206ECE0 unchanged at 14
+==============================================================================
+Identified as the NitroSystem joint-rotation fetch from NNSG3dResNodeData
+(srt flag: 1 trans zero, 2 rot zero, 8 pivot, 0xf0 pivot index, 0x100 /
+0x200 / 0x400 the pivot sign and the C / D sign reversals; the four
+g_020A1998.. tables are ONE `const u8 pivotUtil_[][4]`).  Both readings
+give the same 384 bytes and the same 14: the 2D table (the four literal
+words are still emitted separately), and the NNS spelling below (typed
+node, A / B read before a u32 idxPivot, flag re-read through the node
+pointer at every test).  400 random declaration orders of the wave-10
+source's seven locals: 14.  The NNS-shaped source is recorded as the more
+readable equivalent.
+/* best source, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2 -- equivalent to the wave-10 source */
+/* (types, externs and the entry_of / resolve inlines as in the wave-10 source, with extern const u8 g_020A1998[][4]) */
+typedef struct { u16 flag; s16 _00; } NodeData;
+
+void func_0206ECE0(Out *out)
+{
+    Root *r = g_02148DB0;
+    const NodeData *nd;
+    const s16 *p;
+
+    nd = (const NodeData *)resolve(r->bank, r->h->idx01);
+    p = (const s16 *)(nd + 1);
+    if ((nd->flag & 1) == 0) p += 6;
+    if ((nd->flag & 2) == 0) {
+        if ((nd->flag & 8) != 0) {
+            int A = p[0];
+            int B = p[1];
+            u32 idx = (u32)((nd->flag & 0xf0) >> 4);
+            func_020834A8(out->m);
+            out->m[idx] = (nd->flag & 0x100) ? -0x1000 : 0x1000;
+            out->m[g_020A1998[idx][0]] = A;
+            out->m[g_020A1998[idx][1]] = B;
+            out->m[g_020A1998[idx][2]] = (nd->flag & 0x200) ? -B : B;
+            out->m[g_020A1998[idx][3]] = (nd->flag & 0x400) ? -A : A;
+        } else {
+            out->m[0] = nd->_00;
+            out->m[1] = p[0];
+            out->m[2] = p[1];
+            out->m[3] = p[2];
+            out->m[4] = p[3];
+            out->m[5] = p[4];
+            out->m[6] = p[5];
+            out->m[7] = p[6];
+            out->m[8] = p[7];
+        }
+    } else {
+        out->f00 |= 2;
+    }
+}

@@ -310,7 +310,11 @@ arm9_main  0x02017D30  thumb # unlabelled leaf
 arm9_main  0x0202F9F4  thumb # 4-byte Thumb leaf
 arm9_main  0x02031E68  arm   # 8-byte getter
 arm9_main  0x020336A4  arm   # 16-byte leaf plus pool
-arm9_main  0x020929E8  arm   # 4-byte veneer
+arm9_main  0x020929E8  arm   # MSL printf long2str: home-area push {r0,r1,r2,r3} of a by-value-aggregate function, not a veneer; bl from 0x0209323C and 0x02093F94
+arm9_main  0x02092C38  arm   # MSL printf longlong2str: home-area push {r0,r1,r2,r3} (by-value aggregate); bl from __pformatter at 0x02093F68
+arm9_main  0x02092F0C  arm   # MSL printf double2hex: home-area push {r0,r1,r2,r3} (by-value aggregate); bl from __pformatter at 0x02094044
+arm9_main  0x020934CC  arm   # MSL printf float2str: home-area push {r0,r1,r2,r3} (by-value aggregate); bl (.word 0xEBFFFD36) from __pformatter at 0x02093FEC
+arm9_main  0x02093BDC  arm   # MSL printf __pformatter: home-area push {r0,r1,r2,r3} (address of a stack argument taken); bl from 0x020944F8
 
 
 # 2026-09-21 wave integration: unlabelled leaf followers and corrected entry points

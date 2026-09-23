@@ -151,3 +151,44 @@ callee prototypes: 76 / 20.  ../2.0/sp2 and sp2p2 76 / 20; ../1.2/sp2 80
 bytes but a different frame (26).  permuter anneal 2000 --types (seed
 1603): best again the invalid ret-var point (80, 15).
 /* best source, 76 bytes against 80, 20 concrete bytes out, dsi/1.1p1 -- spelling 1 above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 17 (clact_ties lane): 76 against 80, 20 -> 13
+==============================================================================
+Diagnosis: the image's value sits in ONE web from the parameter to the
+call (value in r6, actor in r5); every earlier spelling splits the sum
+into its own web, which coalesces with r1 and also swaps r5/r6.  Proof:
+`if (axis == 0) value += origin.x; else if (axis != 0) value += origin.y;`
+(a path where the parameter reaches the call) gives `asr r6` + `mov r1,
+r6` exactly, but 96 bytes (the arms are not if-converted).
+Measured: the call in both arms (112), an unprototyped callee (20),
+`o = value; if (axis == 0) o += origin.x; else o += origin.y;` passing o
+or `value = o` (13: parameter homes right, only the final asr still
+into r1, the copy elided).  permuter anneal 800 --types (seed 1705) from
+it: best is again an invalid ret-var point (return axis, 80 bytes, 8).
+/* best source, 76 bytes against 80, 13 concrete bytes out, dsi/1.1p1 */
+typedef unsigned char u8;
+typedef signed short  s16;
+typedef unsigned int  u32;
+struct PtS { s16 x; s16 y; };
+struct Actor { u8 pad_00[0x10]; };
+extern void func_0204CF74(struct Actor *actor, u32 space, struct PtS *out);
+extern void sub_0204B550(struct Actor *actor, s16 value, u32 axis);
+
+void sub_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis)
+{
+    struct PtS origin;
+    s16        o;
+
+    func_0204CF74(actor, space, &origin);
+
+    o = value;
+    if (axis == 0) {
+        o += origin.x;
+    } else {
+        o += origin.y;
+    }
+
+    sub_0204B550(actor, o, axis);
+}

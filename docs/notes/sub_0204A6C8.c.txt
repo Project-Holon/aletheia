@@ -273,3 +273,15 @@ shared scan as an inline helper: 4.  count as a u16 bitfield (no volatile)
 216 bytes but hoisted and masked (38); plain u16 212 bytes.
 permuter anneal 2000 --types (seed 1601): best 4.
 /* best source, 216 bytes against 216, 4 concrete bytes out, dsi/1.1p1 -- the WHAT THE C IS source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 17 (clact_ties lane): 0x0204A6C8 unchanged at 4
+==============================================================================
+Measured, all 4 (same `mov r7, #0` / `mov r8, r0` swap): the
+func_0204D9D4 call nested as the third argument of func_0204E0D0
+(`handle = func_0204D9D4(...)` in the argument list), the load call
+through a static inline returning its result, the publish pair
+(func_0204E0D0 + func_020307B0) through a static inline, `register u32
+handle`, the u16 cast on the flags argument dropped.
+/* best source, 216 bytes against 216, 4 concrete bytes out, dsi/1.1p1 -- the WHAT THE C IS source above, unchanged */

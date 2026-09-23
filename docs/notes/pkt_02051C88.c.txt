@@ -282,3 +282,13 @@ context fetch): the prototypes are right.  const struct Ctx *c is WRONG
 which const would license the compiler to skip); struct Ctx *const c 19.
 permuter anneal 2000 --types (seed 1608): best 19.
 /* best source, 352 bytes against 352, 19 concrete bytes out, 1.1p1 -- the wave-12 source above, unchanged */
+
+
+==============================================================================
+2026-09-23, wave 17 (clact_ties lane): unchanged, DIFF 19
+==============================================================================
+All 720 orders of the six declarations (a, b, h, sel split onto its own
+line, ret = 0, i): 19 (the ip/lr exchange of the first loop's index and
+slots base).  Every slot store already goes through c->slots[i], which
+is what makes the image reload n and slots after the stores.
+/* best source, 352 bytes against 352, 19 concrete bytes out, 1.1p1 -- the wave-12 source above, unchanged */
