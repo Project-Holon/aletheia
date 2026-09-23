@@ -15,6 +15,7 @@
 0209C074  _ll_shl                                        MSL/runtime.a  arm9_main
 0209C0A4  _s32_div_f                                     MSL/runtime.a  arm9_main
 0209C2B0  _div_by_zero_check                             MSL/runtime.a  arm9_main
+0209C2B8  _u32_div_not_0_f                               MSL/runtime.a  arm9_main
 0209C494  _f2s                                           MSL/runtime.a  arm9_main
 0209C4C8  _f2u                                           MSL/runtime.a  arm9_main
 0209C508  _d2s                                           MSL/runtime.a  arm9_main

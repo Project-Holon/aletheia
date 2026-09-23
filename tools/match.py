@@ -1162,12 +1162,18 @@ def declared_symbols(fields):
             if re.match(r"^a[0-9]+$", extra):
                 # the declared type's alignment, which the `sole-ref` class
                 # checks the address against
+                if align is not None:
+                    raise SystemExit("bad symbols: line %r (two alignment "
+                                     "tokens)" % line)
                 align = int(extra[1:])
                 if align not in (1, 2, 4, 8, 16):
                     raise SystemExit(
                         "bad alignment %r for %s: want a1/a2/a4/a8/a16"
                         % (extra, name))
             else:
+                if region is not None:
+                    raise SystemExit("bad symbols: line %r (two overlay "
+                                     "tokens)" % line)
                 region = extra
         out[name] = Decl(name, int(addr, 0), kind, "header", region, align)
     return out
@@ -3682,9 +3688,13 @@ CONT_RE = re.compile(r"^\s*\*\s*([A-Za-z_][A-Za-z0-9_]*\s*,\s*)*"
                      r"[A-Za-z_][A-Za-z0-9_]*\s*,?\s*$")
 
 
+# Up to two trailing tokens after the kind, an overlay name (`ovNNN`) and an
+# alignment (`aN`), in either order; declared_symbols() refuses two of the
+# same sort.
 SYMBOL_RE = re.compile(
     r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*)\s+(0[xX][0-9A-Fa-f]+)\s+"
-    r"(thumb|arm|data)(?:\s+(ov\d{3}|a\d{1,2}))?\s*$")
+    r"(thumb|arm|data)(?:\s+(ov\d{3}|a\d{1,2}))?(?:\s+(ov\d{3}|a\d{1,2}))?"
+    r"\s*$")
 SYMBOLS_OPEN_RE = re.compile(r"^\s*\*?\s*symbols\s*:\s*$", re.IGNORECASE)
 
 
@@ -4673,6 +4683,30 @@ def cmd_selftest(args):
            veneer_at(THUMB_THUNK), None)
     _check(res, "veneer: nor is the linker's own Thumb form",
            veneer_at(OVERLAY_THUMB_THUNK), None)
+
+    # --- the symbols: header line --------------------------------------------
+    # An overlay token and an alignment token may both follow the kind, in
+    # either order; before this the header regex took only one and a line
+    # with both silently ended the block.
+    def _parse_symbols(lines):
+        fd, tmp = tempfile.mkstemp(suffix=".c", prefix="bwsyms_")
+        with os.fdopen(fd, "w") as fh:
+            fh.write("/*\n * symbols:\n")
+            for ln in lines:
+                fh.write(" *   %s\n" % ln)
+            fh.write(" */\n")
+        try:
+            decls = declared_symbols(read_header(tmp))
+        finally:
+            os.remove(tmp)
+        return sorted((d.name, d.region, d.align) for d in decls.values())
+    _check(res, "symbols: an overlay token and an alignment token coexist, "
+                "in either order",
+           _parse_symbols(["g_A  0x021DFC00  data  ov228  a4",
+                           "g_B  0x021DFC10  data  a2  ov228",
+                           "f_C  0x021DFDB8  thumb  ov228"]),
+           [("f_C", "ov228", None), ("g_A", "ov228", 4),
+            ("g_B", "ov228", 2)])
 
     # --- the literal class -----------------------------------------------
     _check(res, "literal: eighteen pool words attest a data address",

@@ -455,3 +455,34 @@ arm9_main  0x0202BB40  thumb # iss_3ds_sys thunk, src/matched/func_0202BB40.c
 arm9_main  0x02061B5C  arm   # follower of func_02061B2C, src/matched/func_02061B5C.c
 arm9_main  0x0204D2C8  arm   # 20-byte tail-call leaf after func_0204D224, src/matched/func_0204D2C8.c
 overlay_010  0x02167394  thumb # game_beacon callee (id > 0x1d ? 0 : table), bl from 0x0202685C x4
+# seed round 9
+arm9_main  0x0202F47C  thumb # 12-byte tail-call leaf after func_0202F464, bl from func_0202F1B4 at 0x0202F20C, src/matched/func_0202F47C.c
+arm9_main  0x0206DBF4  arm   # G3D GX DMA completion callback inside func_0206DBDC's extent, pool word at 0x0206DDA0 (func_0206DC00), src/matched/func_0206DBF4.c
+arm9_main  0x02026400  thumb # unit_020263D8 member, bl from ov010 at 0x0215F26A, ov011 at 0x02172DD4, ov021 at 0x02187FBE and 30 more
+arm9_main  0x0200C054  thumb # unit_0200BFA4 follower, pointer word 0x0200C055 at 0x0209DC9C
+arm9_main  0x02005204  thumb # unit_020051D8 thunk, pool word 0x02005205 at 0x020051C4
+arm9_main  0x02027694  thumb # beacon_status id getter (unit_02027634), bl from ov021 at 0x021CCC60, ov091 at 0x021B7554
+arm9_main  0x02027698  thumb # beacon_status id getter (unit_02027634), bl from ov021 at 0x021CCCA2, ov136 at 0x021C6772
+arm9_main  0x0202769C  thumb # beacon_status id getter (unit_02027634), bl from ov021 at 0x021CCC84, ov091 at 0x021B7592
+arm9_main  0x020276A0  thumb # beacon_status id getter (unit_02027634), bl from ov021 at 0x021CCC8C, ov119 at 0x021E5EAA
+arm9_main  0x020276A4  thumb # beacon_status id getter (unit_02027634), bl from ov194 at 0x021F4006
+arm9_main  0x020276A8  thumb # beacon_status id getter (unit_02027634), bl from ov194 at 0x021F400C
+arm9_main  0x020276AC  thumb # beacon_status id getter (unit_02027634), bl from ov194 at 0x021F4014
+arm9_main  0x020276B0  thumb # beacon_status id getter (unit_02027634), bl from ov194 at 0x021F401C
+arm9_main  0x020276B4  thumb # beacon_status id getter (unit_02027634), bl from ov091 at 0x021B75B0, ov094 at 0x02206C9A
+arm9_main  0x020276B8  thumb # beacon_status id getter (unit_02027634), bl from ov091 at 0x021B75D0, ov094 at 0x02206C62
+arm9_main  0x020276BC  thumb # beacon_status id getter (unit_02027634), bl from ov091 at 0x021B75EE, ov094 at 0x02206C7E
+arm9_main  0x020276C0  thumb # beacon_status id getter (unit_02027634), bl from ov091 at 0x021B75F6, ov094 at 0x02206C86
+arm9_main  0x0200AD78  thumb # "movs r0, #0xf8; bx lr" leaf after the 0x0200AD6C thunk's pool word, pointer word 0x0200AD79 at 0x0209DC54
+arm9_main  0x020141DC  thumb # "ldr r0, [r0, #0xc]; bx lr" getter after func_020141A8's pop, bl from ov020 at 0x02185824
+overlay_010  0x02161EEC  thumb # bl from arm9 at 0x0200A856 and ov020 at 0x02186378, src/matched/func_02161EEC.c
+overlay_010  0x0215FA34  thumb # bl from arm9 at 0x020145F0 (func_020145CC), src/pending/func_0215FA34.c
+overlay_010  0x0215FA44  thumb # bl from arm9 at 0x020144CE and 0x02014546, src/pending/func_0215FA44.c
+overlay_228  0x021DFDB8  thumb # bl from arm9 at 0x02006F42 and 0x0200A3E0, ov088 at 0x021BC378, src/matched (pkt_021DFC20)
+overlay_228  0x021DFE90  thumb # bl from arm9 at 0x02006F32 and 0x0200A3AE, ov088 at 0x021BC366, src/matched (pkt_021DFC20)
+overlay_228  0x021DFE98  thumb # bl from arm9 at 0x02006F3A, src/matched (pkt_021DFC20)
+overlay_228  0x021DFEAC  thumb # bl from arm9 at 0x0200A3A2, ov137 at 0x021E1396, src/matched (pkt_021DFC20)
+overlay_009  0x0215536C  thumb # func_0200F17C callee, bl at 0x0200F1BA, 0x0200F1D8 and 0x0200F1F6
+overlay_014  0x02177020  thumb # func_0200F17C callee, bl at 0x0200F202
+overlay_015  0x021798D4  thumb # func_0200F17C callee, bl at 0x0200F20E
+arm9_main  0x020507A0  arm   # real entry of the row labelled 0x020507A4 (home-area push), blx from ov021 at 0x021A0066 and 0x021BC180, src/matched/func_020507A0.c

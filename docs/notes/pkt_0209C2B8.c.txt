@@ -24,3 +24,4 @@ re-verified 2026-09-21: no recoverable source in this note
 re-checked 2026-09-23 (wave 16): still the hand-written restoring-division
 body (add pc,pc,r2,lsl #2 into a 29-step adcs/sublo unroll); no C shape.
 Integrator: this row belongs with 0x0209C2B0 in layout/runtime_arm9.txt.
+Integrated seed round 9: row added to layout/runtime_arm9.txt as _u32_div_not_0_f (MSL/runtime.a), the non-zero-divisor body after _div_by_zero_check at 0x0209C2B0.

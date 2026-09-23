@@ -46,6 +46,12 @@
  *           the `label` class has no site to point at and no cut helps.
  *           Blocking class: label (overlay), permanent.
  *
+ * seed round 9: the five overlay call sites now resolve (0x0215536C,
+ *           0x02177020 and 0x021798D4 seeded in layout/function_starts.txt);
+ *           25 of 27 sites resolved.  The two left are the pooled overlay-id
+ *           constants ov_id_72 and ov_id_0E, which have no witness outside
+ *           this range, so the file stays MATCH.
+ *
  * Verified with:
  *   python tools/match.py one --src src/pending/func_0200F17C.c \
  *       --func func_0200F17C --addr 0x0200F17C --cc 1.1p1 --thumb

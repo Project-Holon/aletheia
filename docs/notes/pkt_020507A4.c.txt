@@ -33,3 +33,4 @@ of this row either.
 
 Addresses are Black-image addresses.
 re-verified 2026-09-21: no recoverable source in this note
+seed round 9 (integrator): 0x020507A0 arm seeded in layout/function_starts.txt (blx from ov021 at 0x021A0066 and 0x021BC180); the regenerated listing labels func_020507A0 and the phantom row 0x020507A4 is gone.

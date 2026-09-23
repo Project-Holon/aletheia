@@ -229,3 +229,17 @@ tried materialises it.  Identification worth checking: the context layout
 (ctx, src, len, dst) look like the TwlSDK/NitroSDK CRYPTO_RC4Encrypt
 (CRYPTORC4Context); if libmatch can confirm it, this is SDK library code for
 the denominator rather than a decompilation target.
+
+seed round 9 (integrator), libmatch check against TwlSDK CRYPTO_RC4Encrypt:
+python tools/libmatch.py scan --only libcrypto reports no hit at 0x0202FB34
+(its only rc4 hit is CRYPTO_RC4Init at 0x0202FAB4, already in
+layout/symbols_sdk.txt).  The reason is the member, not the bytes:
+CRYPTO_RC4Encrypt lives in rc4s-arm4cw.o of libcrypto.TWL.HYB.a, an assembled
+object whose global is STT_NOTYPE (size 120, .text, $a mapping), and
+build_patterns() only indexes STT_FUNC symbols, so no pattern exists for it.
+Compared by hand, the member's 120-byte .text (no relocations) is identical
+to 0x0202FB34..0x0202FBAC, which also explains why no C spelling reaches it
+(hand-written ARM, pre-shifted byte indices).  No row was added to
+layout/symbols_sdk.txt because libmatch itself did not confirm the hit;
+the row becomes automatic once libmatch.py admits sized NOTYPE globals in
+code sections (an integrator change to tools/libmatch.py).

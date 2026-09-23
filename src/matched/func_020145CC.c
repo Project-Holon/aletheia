@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
+ * promoted: seed round 9, EXACT (fresh match.py one) once the ov010 callees
+ *           0x0215FA34 and 0x0215FA44 were seeded in layout/function_starts.txt
  * note:     re-verified 2026-09-20: MATCH; see verify output
  * note:     re-verified 2026-09-22 (family wave 6, field_status.c): still
  *           MATCH, 3 of 4 sites resolved, no change to the C.  The single
