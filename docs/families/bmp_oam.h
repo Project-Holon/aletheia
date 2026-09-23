@@ -232,8 +232,9 @@ extern const u8  g_0209FA3D[];   /* 0x0209FA3D data, the second u8    */
  * 7.  Lifetime: the constructor/destructor pair.
  * ------------------------------------------------------------------ */
 
-/* 0x020255A0  docs/notes/pkt_020255A0.c.txt -- size-exact 364/364, 16
- * concrete bytes out, all 12 relocations RESOLVED.  Allocates the
+/* 0x020255A0  docs/notes/pkt_020255A0.c.txt -- size-exact 364/364, 8
+ * concrete bytes out since wave 13 (the width call reads g->bmp, the
+ * field just stored), all 12 relocations RESOLVED.  Allocates the
  * 0xCC-byte grid, derives cols and rows from the bitmap's pixel extents
  * (rounding each up), then for every cell creates a resource through
  * func_0204A7A0 and an actor through func_0204B294, sets the actor's
@@ -310,7 +311,10 @@ void func_02025588(void *p);
  * unrelated fields. */
 void func_02025B18(void *p);
 
-/* 0x02025A9C  docs/notes/pkt_02025A9C.c.txt -- size-exact 124/124, 2
+/* 0x02025A9C  EXACT since wave 13, src/matched/func_02025A9C.c: the
+ * 0x00200010 arm sets mode = 0 itself and is written FIRST (supersedes
+ * the "empty arm" reading below).  Was: docs/notes/pkt_02025A9C.c.txt --
+ * size-exact 124/124, 2
  * concrete bytes out, all 3 relocations RESOLVED once gModeTable is
  * declared at 0x0209F87C (section 5).  Reads the requested engine's
  * DISPCNT (0x04000000 or 0x04001000), masks it with 0x00300010 and maps

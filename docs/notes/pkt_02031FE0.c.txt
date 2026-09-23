@@ -659,3 +659,37 @@ top of the 9-byte source):
  -                if (*(u16 *)pb != *(u16 *)(bufs[k] + AB)) {
  +                if (cnt16(pb) != *(u16 *)(bufs[k] + AB)) {
 ---- end ----
+
+
+================================================================================
+2026-09-23 -- wave 13 (backup_system.c lane).  Appended, nothing above edited.
+================================================================================
+
+0x02031FE0 -- still DIFF, 9 bytes, the same B / A+B swap.
+
+/* best source, 1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1 */
+  (the wave-12 source, re-verified; also 9 with the allocator's REAL
+   prototype from src/matched/sub_02030734.c,
+   `void *func_02030734(u32 heap, u32 size, int clear, const char *site,
+   u16 tag)` plus an explicit `(u16)heap` at the call -- adopt that spelling
+   when this closes.  Without the cast the real prototype is 1700 bytes.)
+
+permuter best result lines (this wave):
+  anneal, --types, budget 500, --focus B,AB,pa,pb,A  DIFF asm=45 bytes-out=9
+  anneal, --types, budget 3500, seed 13              DIFF asm=45 bytes-out=9
+  size=1704/1704 unresolved=2 on both (the unresolved pair is the missing
+  symbols: block for str_020A7848 / g_02146994 in the note's source, not a
+  byte question).
+
+Measured this wave on the 9-byte source, none moves the swap:
+  * web/variable sharing: separate A2/B2 (or only A2, only B2) for the
+    copy-back loop, the copy loop assigning into AB, `off` reused as A+B
+    with no AB local (all 9) -- the allocator colours webs, not names.
+  * pointer spellings: `&h[A + B]` (9); `h + A + B` forms, mixed
+    `bufs[k] + A + B`, a third pointer `pc = bufs[k] + AB` (1664-1716 bytes).
+  * inline helpers: CRC call through `crc(base, A, B)` or `crc(base + A, B)`
+    (9); a record helper `rec(base, A, B)` (40); the CRC field through an
+    inline (1720 bytes); the whole loop body as an inline returning 0 on
+    break (1720-1732 bytes).
+  * the caller-side parameter shapes: u16 heap (1700 bytes), s32 gen (9).
+Still DIFF; nothing filed.

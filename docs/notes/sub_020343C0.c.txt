@@ -136,3 +136,107 @@ s32 sub_020343C0(struct AreaMan *p, s32 start, u32 len)
     return 1;
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, sub_020343C0.c:12: undefined identifier 'NEAR'
+
+
+================================================================================
+2026-09-23 -- wave 13 (areaman.c lane).  Appended, nothing above edited.
+================================================================================
+
+(The CCERR line above is the old note header being compiled as C; the source
+in this note re-verifies at DIFF, 256 against 260, 150 out.)
+
+Now SIZE-EXACT and the prologue is right (push {r4, lr}): 260 against 260,
+44 bytes out.  What moved it:
+  * the byte pointer spelled from the PARAMETER, `q = &p->bits[start / 8];`,
+    with idx computed before the if (not after it), and `v = p->bits[idx]`
+    read through idx.  That is what keeps the pointer as a real
+    `add r4, r4, r1` (idx dead across the two hook calls).  Every form that
+    names q from idx (`&p->bits[idx]`, `p->bits + idx`, u32/char casts,
+    `(u8 *)p + 0xc + idx`) folds back to base+index and costs a register
+    (256 bytes or push {r3,r4,r5}).
+  * in the then-arm, `tail = 0;` before `nfull = 0;` (71 -> 44, permuter
+    hill reorder, confirmed by hand: ntm / `tail = nfull = 0` are 66).
+  * the second hook argument read as `p->bits[idx]` (the compiler reuses q).
+
+/* best source, 260 bytes against 260, 44 concrete bytes out, dsi/1.1p1 */
+permuter best result lines:
+  hill,   --types, budget 800   DIFF  asm=525  bytes-out=44  size=260/260
+  anneal, --types, budget 1400  DIFF  asm=525  bytes-out=44  size=260/260
+../2.0/sp2 on this shape family: 100 out; 1.1p1 stays.
+
+RESIDUE (44 bytes): the else-arm schedule at +0x34..+0x48 (image: nfull's
+lsrlo before idx's asr, then tail's andlo) and a rotation idx/nfull/tail =
+image r1/r3/r2, here r3/r2/r1.  Not moved by: 5 declaration orders x idx
+before/after the if x both then-orders x three else-orders x idx++ before or
+after the store (120 compiles, floor 44); then-arm zeros hoisted before the
+if or initialised at declaration (191-222, 256 bytes); an inline
+`setb(p, q, mask)` returning 0/1 (276 bytes); an inline dump helper (256).
+
+---- best source ----
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct AreaMan {
+    u16 unk00;
+    u16 unk02;
+    u32 *guard;
+    u32 unk08;
+    u8 bits[1];
+};
+
+extern const u8 Areaman_RunMask[];
+extern const u8 Areaman_TailMask[];
+
+extern void func_020344C4(u8 x);
+
+s32 sub_020343C0(struct AreaMan *p, s32 start, u32 len)
+{
+    u32 bit;
+    u32 idx;
+    u32 avail;
+    u32 nfull;
+    u32 tail;
+    u32 mask;
+    u8 *q;
+    u8 v;
+
+    if (start + len > p->unk00) {
+        return 0;
+    }
+
+    bit = start % 8;
+    avail = 8 - bit;
+    idx = start / 8;
+    if (avail >= len) {
+        mask = Areaman_RunMask[len] >> bit;
+        tail = 0;
+        nfull = 0;
+    } else {
+        len = len - avail;
+        mask = Areaman_TailMask[avail];
+        nfull = len >> 3;
+        tail = len & 7;
+    }
+    q = &p->bits[start / 8];
+    v = p->bits[idx];
+    if ((mask & v) != 0) {
+        if (p->unk08 != 0) {
+            func_020344C4((u8)mask);
+            func_020344C4(p->bits[idx]);
+        }
+        return 0;
+    }
+    idx++;
+    *q = v | (u8)mask;
+    while (nfull-- != 0) {
+        p->bits[idx] = 0xFF;
+        idx++;
+    }
+    if (tail != 0) {
+        p->bits[idx] |= Areaman_RunMask[tail];
+    }
+    return 1;
+}
+---- end ----

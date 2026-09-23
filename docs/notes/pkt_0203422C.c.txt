@@ -134,3 +134,93 @@ s32 func_0203422C(struct AreaMan *p, u32 start, s32 len)
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 196 bytes against 204, 122 concrete bytes out, 1.1p1
+
+
+================================================================================
+2026-09-23 -- wave 13 (areaman.c lane).  Appended, nothing above edited.
+================================================================================
+
+func_0203422C is now SIZE-EXACT (204 against 204).  Two declaration fixes,
+both read off the matched siblings (docs/families/areaman.h, new this wave):
+  * func_02034394 takes THREE arguments (u8 *q, u32 start, u32 len) --
+    src/matched/sub_02034394.c.  The len still sitting in r2 at the call is a
+    real argument.  The note above declared it (q, bit).
+  * the function and func_020344C8 are VOID (src/matched/func_020344C8.c).
+With those and `(u8)~mask` on both byte clears the body is 204 bytes with
+every instruction right: 31 bytes out, and the permuter hill took it to 17
+with `temp(tmp=p->bits[idx]) ; temp(tmp1=p->bits[idx])` (the byte read into
+a named u32/int before each clear).
+
+/* best source, 204 bytes against 204, 17 concrete bytes out, dsi/1.1p1 */
+permuter best result lines:
+  hill,   --types, budget 800   DIFF  asm=85  bytes-out=17  size=204/204
+  anneal, --types, budget 2500  DIFF  asm=70  bytes-out=17  size=204/204
+  (anneal: temp(tmp2=p->bits[idx]) ; cast(s32), no byte gain)
+../2.0/sp2: 17 as well, the same lines.
+
+RESIDUE (17 bytes): the fill loop and the closing clear only.  Image
+idx+1 = r1, counter = r3, zero = r2, closing base = r3; here r3 / r2 / r1 /
+r2.  Not moved by (each measured on the source below): all 32 u32/s32
+combinations of len/avail/nfull/tail with mask u32 or u8 (all 17);
+`p->bits[idx++] = 0`, a named zero local, a second index j for the loop,
+s32 idx (all 17); idx++ inside the loop before the store, `p->bits[++idx]`,
+`p->bits[idx + 1]` (44-51); a u8 *q cursor (65); `for (; nfull; nfull--)`
+(196 bytes); inline clear helpers `clr(u8 *q, u8 or u32 m)` for either or
+both clears (17), plus an inline fill returning idx (59).
+
+---- best source ----
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+struct AreaMan
+{
+  u16 unk00;
+  u16 unk02;
+  u32 *guard;
+  u32 unk08;
+  u8 bits[1];
+};
+extern const u8 Areaman_RunMask[];
+extern const u8 Areaman_TailMask[];
+extern void func_02034394(u8 *q, u32 bit, u32 len);
+extern void func_020344C8(struct AreaMan *p);
+void func_0203422C(struct AreaMan *p, u32 start, s32 len)
+{
+  u32 bit = start % 8;
+  u32 idx = start / 8;
+  s32 avail;
+  s32 rest;
+  u32 nfull;
+  u32 tail;
+  u32 mask;
+  u32 tmp;
+  int tmp1;
+  if ((bit + len) <= 8)
+  {
+    func_02034394(&p->bits[idx], bit, len);
+  }
+  else
+  {
+    avail = 8 - bit;
+    mask = Areaman_TailMask[avail];
+    rest = len - avail;
+    nfull = rest / 8;
+    tail = rest % 8;
+    tmp = p->bits[idx];
+    p->bits[idx] = tmp & ((u8) (~mask));
+    idx++;
+    while ((nfull--) != 0)
+    {
+      p->bits[idx] = 0;
+      idx++;
+    }
+
+    tmp1 = p->bits[idx];
+    p->bits[idx] = tmp1 & ((u8) (~Areaman_RunMask[tail]));
+  }
+  func_020344C8(p);
+}
+
+
+---- end ----

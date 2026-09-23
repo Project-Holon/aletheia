@@ -586,3 +586,38 @@ void func_0204427C(struct Surf *src, struct Surf *dst, s32 x, s32 y, s32 dx, s32
 permuter best result line:
     best      DIFF   asm=2660  bytes-out=197  size=888/888
     mutations temp(tmp=xx * 4) ; addr(v) ; temp(tmp1=(y * 4) & 0x3fe0) ; ... (rejected, see above)
+
+================================================================
+WAVE 13, appended 2026-09-23 (bitmap families lane): func_0204427C
+still DIFF, best unchanged at 888/888, 276 out (the wave-12 source
+above re-verified).
+
+NEW READING OF THE IMAGE.  The two loops own DISJOINT stack slots: the
+plain loop keeps its row counter at [sp,#0x1c], its pal copy at [sp,#8]
+and its source tile product at [sp,#4]; the keyed loop its counter at
+[sp], pal at [sp,#0x18], source row at [sp,#0x10], source product at
+[sp,#0x14], destination product at [sp,#0xc].  Only srow/drow
+([sp,#0x24]/[sp,#0x20]) are shared.  The pal copy is an `ldrb` from the
+home slot [sp,#0x64] stored once before each outer loop.  In the keyed
+loop the destination in-tile row stays in fp and the SOURCE in-tile row
+is the one spilled, which is the inverse of the spill-cost order the
+conditional `strbne` use would suggest; every compile spills the
+destination row (used only under `ne`) instead.
+
+MEASURED THIS PASS:
+  block-scoped locals per arm (own i, j, xx, dxx, tile locals, p, q, v)
+    with a u8 pal copy assigned inside the outer loop:  912 / 539
+  the same with the copy assigned once before the outer loop:  896 / 507
+  the same without a pal copy (block scoping alone):  896 / 507
+  permuter hill 800 --types --focus kTileY,lTileY,p,q,v from 276:
+    197 out, again only by temporaries plus commute(+); push list still
+    nine registers, frame 0x24 -- noise, as wave 12 found for addr(v).
+So function-scope locals shared by both loops (the wave-12 source) stay
+the best model; the scoping that the slot map suggests costs 8 bytes of
+size.  Not closed; the open problem is still the tenth register.
+
+/* best source, 888 bytes against 888, 276 concrete bytes out, dsi/1.1p1 */
+(unchanged: the wave-12 source immediately above)
+permuter best result line:
+    best      DIFF   asm=2650  bytes-out=197  size=888/888
+    mutations commute(+) ; temp(tmp=(y * 4) & 0x3fe0) ; reorder(+2) ; commute(+)  (rejected, noise)

@@ -216,3 +216,27 @@ prototype), so the same class was measured here.  None moves the rotation:
     one of the 48 compiles to the SAME 32 lines out, so the front end
     normalises all of that away; the residue lives only in value numbering.
 Still DIFF; nothing filed.
+
+
+================================================================================
+2026-09-23 -- wave 13, backup_system.c lane.  Appended, nothing above edited.
+================================================================================
+
+/* best source, 156 bytes against 156, 21 concrete bytes out, dsi/1.1p1 */
+  (unchanged: the do/while source in the first section is still the best;
+   re-verified this wave at 21, and at 21 under ../2.0/sp2)
+
+permuter best result line (this wave, ../2.0/sp2, hill, --types, budget 800):
+  DIFF  asm=105  bytes-out=21  size=156/156  -- no single mutation improves
+  (178 tried).  --explain: r2->r7 x10, r8->sb x5, sb->r2 x2, r7->r8 x2.
+
+New measurements (none moves the four-way rotation):
+  * all 16 u32/int combinations of n, n_, i, v x three positions of `i++`
+    (loop top, between `sh += 2` and the wrap test, loop bottom): floor 21;
+    n_ as int is 22.
+  * the 1<->2 swap through a second variable nv (else-assigned or
+    pre-initialised), braced if/else, a ternary chain (37).
+  * the clear written `p->slots[w] = p->slots[w] & ...` (21),
+    `0xFFFFFFFF ^ (3 << sh)` (40), `~(3 << sh)` and `(u32)~(3ULL << sh)`
+    (152 bytes), `*(p->slots + w)` (21).
+Still DIFF; nothing filed.  The residue lives in value numbering only.

@@ -83,3 +83,15 @@ value numbering at the top of each arm), or splitting the three arms so the
 0xFFFF constant is created after the first arm's temporaries rather than before.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 412 bytes against 412, 127 concrete bytes out, 1.1p1
+
+
+---- append, 2026-09-23 (wave 13, key.c lane) ----
+
+CLOSED, EXACT: src/matched/func_020360B8.c (412 bytes, 1.1p1, no
+relocations).  The lever the note above asked for ("split the arms so the
+0xFFFF constant is created after the first arm's temporaries") was the right
+direction: the case-2 accumulator must be a FRESH zero per state word
+(`u32 v = 0;` inside a per-word inline helper, or a block-scoped local).
+Three function-scope zeros a/b/c copied into one v produce the same
+instructions with 0xFFFF and the arm temporaries rotated (127 bytes).
+func_02035F38 (its only caller) closed EXACT in the same wave.

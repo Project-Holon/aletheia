@@ -308,3 +308,6 @@ u32 func_02025A9C(struct Obj *obj, u32 engine, u32 arg)
 
 permuter best result line:
   best      DIFF   asm=10    bytes-out=2    size=124/124   (hill 159 tried, anneal 3000 compiles, both flat)
+
+CLOSED 2026-09-23 (wave 13): EXACT or EXACT*, see src/matched/func_02025A9C.c, whose header
+names the levers.  Everything above is superseded.
