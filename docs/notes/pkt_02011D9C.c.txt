@@ -362,3 +362,17 @@ u32 func_02011D9C(void *a0, u32 a1, u32 a2)
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 272 bytes against 272, 14 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 15 (anime/shinka/print lane): residue isolated
+==============================================================================
+Single call after `off = 0; if (flag == 0) off = 0x191;` reproduces the
+image's `movs r7,#0 / cmp r5,#0 / bne / ldr r7,=0x191` exactly; the ONLY
+residue left in that shape is the 4<<14 constant (compile CSEs the second
+argument's 4: `movs r1,#4; ... lsls r2,r1,#14`, image `movs r2,#4 ... lsls
+r2,r2,#14`), which costs 2 bytes plus pool alignment: 268 against 272, all
+later bytes shifted.  The permuter showed the CSE disappears whenever a0 is
+spilled (extra register pressure at that point), so it is a pressure-
+dependent rematerialisation, not a spelling: 0x10000 / 1<<16 / 64*1024 /
+a u32 local / a `h = 4` local / u8 or u16 casts / u8, u16, int prototypes
+for func_0203064C are all 268.  Evidence cap unchanged (ov230 sites).

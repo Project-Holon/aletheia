@@ -230,3 +230,95 @@ source-level expressions, e.g. the block pointer being passed into a small
 static worker that this function calls, so that the rebase happens in a
 different function entirely.  (b) is the shape to try next and needs a `tu`
 range, not a single-function `one`.
+
+================================================================================
+APPENDED 2026-09-23, wave 15 (anime/shinka/print lane): 139 -> 15, SIZE EXACT
+================================================================================
+This is NitroSystem's character-map search (NNSG2dFontCodeMap: ccodeBegin,
+ccodeEnd, mappingMethod, reserved, pNext, mapInfo[]) walked Game Freak style,
+with the chain pointer rebased from the resource's load address (+0x68) to
+its copy (+0x88) and the font's default glyph (+0x70) as not-found.  Three
+fixes, each measured:
+  * mapInfo is a MEMBER ARRAY at +0xC: `m->mapInfo[(u16)(c - begin)]` gives
+    the image's `lsls #16; lsrs #15; adds r0, r4, r0; ldrh [r0, #0xc]`
+    (the `((u16 *)b)[6 + i]` spelling folds the 6 into the index);
+  * the end of the chain is `if (m != 0) m = <rebase>; else return 0;`
+    (fall-through into the rebase, `beq` to the zero epilogue);
+  * the image RE-READS +0x88 at the rebase; spelling that read
+    `*(u8 **)((u8 *)f + 0x88)` (or declaring the field volatile) keeps it
+    from being CSE'd with the first read.  That closes the size (154/154
+    of code + 2 pad).
+Residue, 15 bytes: a pure rotation, image m=r4 lo=r5 hi=r6, compile m=r6
+lo=r5 hi=r4 (hi-before-lo declaration; lo-before-hi gives 18).  All 120
+function-scope declaration orders of m/lo/hi/mid/j: 15 or 18.  Flat: const m,
+const f, u32 c, s32/u32 mid and j.  Worse: u16 return (158), u16 lo/hi, an
+entry pointer `e = &mapInfo[2*mid+1]` (150), the switch as an inline
+GetIndex(f, m, c) helper (133, it reloads ccodeBegin per case), loop shapes
+with the switch after the loop (127 to 140).  ../2.0/sp2 and sp2p2 were
+identical to 1.1p1 on the 142-out intermediate.
+
+/* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct CMap {
+    u16 ccodeBegin;
+    u16 ccodeEnd;
+    u16 mappingMethod;
+    u16 reserved;
+    struct CMap *pNext;
+    u16 mapInfo[1];
+};
+
+struct Font {
+    u8  pad00[0x68];
+    u8 *unk68;
+    u32 pad6C;
+    u16 unk70;
+    u8  pad72[0x16];
+    u8 *unk88;
+};
+
+u32 func_0201DB20(struct Font *f, u16 c)
+{
+    s32 hi;
+    s32 lo;
+    struct CMap *m;
+
+    m = (struct CMap *)f->unk88;
+    for (;;) {
+        if (m->ccodeBegin <= c && m->ccodeEnd >= c) {
+            switch (m->mappingMethod) {
+            case 0:
+                return m->mapInfo[0] + (c - m->ccodeBegin);
+            case 1:
+                return m->mapInfo[(u16)(c - m->ccodeBegin)];
+            case 2: {
+                lo = 0;
+                hi = m->mapInfo[0] - 1;
+                while (lo <= hi) {
+                    s32 mid = lo + (hi - lo) / 2;
+                    s32 j = 2 * mid + 1;
+                    if (m->mapInfo[j] < c)
+                        lo = mid + 1;
+                    else if (c < m->mapInfo[j])
+                        hi = mid - 1;
+                    else
+                        return m->mapInfo[j + 1];
+                }
+                break;
+            }
+            }
+            return f->unk70;
+        }
+        m = m->pNext;
+        if (m != 0)
+            m = (struct CMap *)(*(u8 **)((u8 *)f + 0x88) + ((u8 *)m - f->unk68));
+        else
+            return 0;
+    }
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 154 bytes against 156, 15 concrete bytes out, 1.1p1

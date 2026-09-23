@@ -341,4 +341,12 @@ void  func_0201E928(const u8 *src, u32 n, u16 *dst);
                          * halfwords across four tiles, three at a time,
                          * widths 8/8/n. */
 
+/* WAVE 15 (2026-09-23): the object at font+0x88 is a NitroSystem
+ * NNSG2dFontCodeMap chain: { u16 ccodeBegin; u16 ccodeEnd; u16 mappingMethod;
+ * u16 reserved; struct CMap *pNext; u16 mapInfo[]; } with mapInfo a member
+ * array at +0xC (0 direct, 1 table, 2 binary scan over {code, index} pairs
+ * after the count).  pNext is rebased as font->unk88 + (pNext - font->unk68).
+ * func_0201DB20 is size-exact at 15 out on that shape
+ * (docs/notes/sub_0201DB20.c.txt). */
+
 #endif /* GF_FONT_H */

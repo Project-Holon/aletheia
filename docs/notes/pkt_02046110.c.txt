@@ -59,3 +59,8 @@ void func_02046110(struct Obj *obj)
     func_020495F4(obj->unk_14, len, (const void *)obj->unk_04);
 }
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_02046110.c:12: undefined identifier 'near'
+
+========================================================================
+APPENDED 2026-09-23, wave 15 (palanm/areaman bundle lane)
+========================================================================
+CLOSED: func_02046110 EXACT in src/matched/func_02046110.c. The ldreq reload of the archive pointer is kept only by declaring the +0 member volatile; every plain spelling CSEs it.

@@ -373,3 +373,14 @@ original passes six and the callee reads whatever is in the slot.
 ../2.0/sp2: 236 / 264 bytes.
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 232 bytes against 232, 33 concrete bytes out, 1.1p1 (0x02021848)
+
+========================================================================
+APPENDED 2026-09-23, wave 15 (palanm/areaman bundle lane): still DIFF 33
+========================================================================
+Measured on the twin 0x02021848 (232/232, 33 out): const p, u32 a, void *a
+all 33; u32 mask 236/119; u16 b/c/d 236/223.  docs/idioms/a-narrow-
+parameter-pins-its-home-store-to-the-front-of-the-prologue.md (another lane,
+this wave) is the right family of fix: `a` as u16, s16, u8 or s8 moves
+`str r3, [sp, #8]` two slots earlier (still behind `adds r5, r0`) and moves
+the reload ahead of `ldr r3, [sp, #0x38]`: 34 out.  Narrowing b/c/d as well
+(u8/u16/s16 in 48 combinations) costs 4 bytes (236).  Not closed.

@@ -115,3 +115,8 @@ void func_0202A9F4(u32 a0, void *rec, u32 a2, u32 a3)
     func_020185B0(rec, (u8)(((s32)func_02017E1C(rec, 0, 0) >> 8) / 0x19));
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 248 bytes against 256, 210 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED 2026-09-23, wave 15 (palanm/areaman bundle lane)
+========================================================================
+CLOSED: func_0202A9F4 EXACT in src/matched/func_0202A9F4.c. r6 before the move loop is the constant 0 (NULL third argument, found = 0), not a counter copy; the tail is % 25 (remainder in r1).

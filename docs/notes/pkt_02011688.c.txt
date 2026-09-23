@@ -245,3 +245,16 @@ u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
 }
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 52 bytes against 56, 26 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 15 (anime/shinka/print lane): unchanged, 52/56, 26 out
+==============================================================================
+Measured (1.1p1; sp2 and sp2p2 identical at 52/26 on the best source): byte-
+cursor `s32 *t`, s32 idx param, const p, inline &t[i] / copy / modulo helpers,
+an explicit u64 _u32_div_f high word (52/31).  A named `u32 i = idx % n` with
+`t = p->f1c; t[i].a/b/c` (no `idx %=`) reproduces the image's multiply-into-a-
+copy (`adds r2,r1,#0; muls r2,r0,r2`) but loses the first copy and loads the
+table base before the multiply (52/31); `idx %= n` plus `t[idx]` field copies
+gives the other half (50 bytes, 25 out).  No spelling gets both copies.
+Permuter anneal 1500 --types from the named-i form: best 56/56 but 53 out
+(volatile idx, u16 copy), rejected.

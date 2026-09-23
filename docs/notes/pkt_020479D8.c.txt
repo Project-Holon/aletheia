@@ -293,3 +293,13 @@ bytes / 73 out; ../1.2/base 152, ../1.2/sp3, sp4 148.  So it is not the
 compiler.  anneal 2000 --types from the inline form: 25 (temp/expand/copy
 on the pointers), no better than the 22 recorded above.
 re-verified 2026-09-23 by tools/match.py: DIFF, 136 bytes against 136, 22 concrete bytes out, 1.1p1
+
+==============================================================================
+CLOSED 2026-09-23, wave 15 (anime/shinka/print lane): EXACT, library shape
+==============================================================================
+The five globals are one object, NitroSystem's NNS_G3dGlb at 0x02148B4C
+(cameraMtx +0x4C, flag +0xFC, camPos/camUp/camTarget +0x240/+0x24C/+0x258),
+and the copies + MTX_LookAt + `flag &= ~0xE8` are the NitroSystem inline
+NNS_G3dGlbLookAt(const VecFx32 *, const VecFx32 *, const VecFx32 *) called
+with &ctx->view0/1/2.  Exact on the first compile under 1.1p1 (sp2/sp2p2:
+140 bytes).  Filed src/matched/func_020479D8.c, shard pkt_020479D8.

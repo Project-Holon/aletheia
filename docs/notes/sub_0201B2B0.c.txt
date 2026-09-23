@@ -506,3 +506,14 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 1116 bytes against 1128 (1116 + 12-byte follower), 12 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED 2026-09-23, wave 15 (anime/shinka/print lane): 12 holds
+========================================================================
+Flat at 1116/12: `(u16)((pid & 0xFFFF0000) >> 16)`, unsigned mask
+literals, a local copy of heap (in the block, and at function scope with a
+renamed parameter), `(u16)held` at the call, a label before the gate call.
+Worse: `u32 pid[1]` (CCERR), dummy initialised (1120), const heap (162),
+u32 held / pidHigh / holdEffect (1112), the gate call before or beauty after
+the pidHigh line (1118, 1114).  Permuter anneal 1200: no gain (it also
+chases the 1128 listing extent, which includes the unit_0201B70C follower).

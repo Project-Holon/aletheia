@@ -360,4 +360,10 @@ extern u16   sub_0201C1D8(void *p);
  * See docs/notes/sub_0201B2B0.c.txt for the structural map.
  */
 
+/* WAVE 15 (2026-09-23): sub_0201B970 (src/matched/sub_0201B970.c, EXACT*)
+ * closed on a compound assignment: `pp += (u8)amount;` keeps the new PP in
+ * the old PP's callee-saved register (the image's `adds r2, r4, #0` at the
+ * call); the spelled-out `pp = (u8)(pp + (u8)amount)` coalesces into r2.
+ * sub_0201C158 returns u8, so the maximum is a u8 local. */
+
 #endif /* DOCS_FAMILIES_SHINKA_CHECK_H */

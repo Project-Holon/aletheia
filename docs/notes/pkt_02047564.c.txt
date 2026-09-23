@@ -314,3 +314,14 @@ struct G3dRec *func_02047564(struct G3dOwner *a0, struct G3dOwner *a1, int a2)
     return r;
 }
 re-verified 2026-09-23 by tools/match.py: DIFF, 200 bytes against 200, 11 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 15 (anime/shinka/print lane): 11 holds
+==============================================================================
+Same 11 bytes under ../2.0/sp2 and sp2p2.  Statement grids around the tag
+store, without the bound `h`: tag/owner/call (24), owner/tag/call (13), tag
+as a u16 local with h assigned between the stores (16), h assigned between
+tag and owner (16), h re-read through r->unk_08 (24).  The callees look like
+NitroSystem g3d (func_0206E9A4 an anim-by-index getter, func_0206E364 an
+anim-object allocator, func_02069C74 NNS_G3dAnmObjInit's shape with four
+arguments); not yet confirmed against the library.

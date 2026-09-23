@@ -259,4 +259,14 @@ extern void  func_02069D14(int a, void *b);               /* func_02047400 */
 
 extern void  MI_CpuFill8(void *dst, u8 v, u32 n); /* 0x02082BCC; func_02047A60 */
 
+/* WAVE 15 (2026-09-23): 0x02148B4C IS NitroSystem's NNS_G3dGlb (NNSG3dGlb,
+ * NitroSystem-071126 glbstate.h): cameraMtx at +0x4C (== g_02148B98), flag
+ * at +0xFC (the `&= ~mask` word), camPos/camUp/camTarget at +0x240/+0x24C/
+ * +0x258 (== g_02148D8C/D98/DA4).  The copies + MTX_LookAt (0x0207BCA0) +
+ * `flag &= ~0xE8` are the inline NNS_G3dGlbLookAt(const VecFx32 *camPos,
+ * const VecFx32 *camUp, const VecFx32 *target); written as that inline over
+ * the one struct, func_020479D8 is EXACT (src/matched/func_020479D8.c holds
+ * the full struct layout).  func_02046B40 is the same inline preceded by the
+ * three stores into the context. */
+
 #endif /* G3D_SYSTEM_H */
