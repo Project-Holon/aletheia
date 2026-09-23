@@ -1,0 +1,107 @@
+# layout/datascan_report.txt -- tools/datascan.py output
+# addresses and sizes only, no game bytes; regenerate with:
+#   python tools/datascan.py
+
+region arm9_main  base 0x02004000  size 0xA5E80 (679552) bytes
+data bytes (kind != CODE): 141408
+  excluded as pool-owned:      15788 bytes over 1971 run(s)
+  excluded as pointer table:       0 bytes over 0 run(s)
+  excluded as string:             20 bytes over 4 run(s)
+  scanned for a function shape: 125600 bytes
+
+candidates found: 81  (strong 78, weak 3, contradicted 0)
+candidate bytes:  strong 1370, weak 192, contradicted 0
+
+comparison to the game-code denominator (tools/worklist.py --summary, code_bytes_game = 393066):
+  strong-evidence candidate bytes are 1370 (0.3485% of the denominator);
+  weak-evidence candidate bytes (decode-only, no outside witness) are 192 (0.0488%).
+
+ranked candidate list (strong first, then weak, then contradicted; longest decode first within each class)
+address      isa    bytes  leaf  evidence     called_from pointed_from_pool is_pool_site
+0x020A7A78  thumb     64  yes   strong       no          yes              no    
+0x0203DC4C  thumb     60  yes   strong       no          yes              no    
+0x020A7A7C  thumb     60  yes   strong       no          yes              no    
+0x020A6310  thumb     58  yes   strong       no          yes              no    
+0x020A7BC8  thumb     58  yes   strong       no          yes              no    
+0x02050A58  thumb     52  yes   strong       no          yes              no    
+0x020A7CA0  thumb     50  yes   strong       no          yes              no    
+0x020A7A88  thumb     48  yes   strong       no          yes              no    
+0x020A6320  thumb     42  yes   strong       no          yes              no    
+0x020A7CA8  thumb     42  yes   strong       no          yes              no    
+0x02004FB0  thumb     40  yes   strong       no          yes              no    
+0x020A5CD4  thumb     40  yes   strong       no          yes              no    
+0x0207AB00  thumb     38  yes   strong       no          yes              no    
+0x020A7A94  thumb     36  yes   strong       no          yes              no    
+0x0205DCC8  thumb     34  yes   strong       no          yes              no    
+0x0202BA7C  thumb     32  yes   strong       no          yes              no    
+0x0202BA9C  thumb     30  yes   strong       no          yes              no    
+0x02004F7C  thumb     28  yes   strong       no          yes              no    
+0x020A7B78  thumb     28  yes   strong       no          yes              no    
+0x020274F8  thumb     26  yes   strong       no          yes              no    
+0x02080CA8  thumb     26  yes   strong       no          yes              no    
+0x020A7CB8  thumb     26  yes   strong       no          yes              no    
+0x020A7BEC  thumb     22  yes   strong       no          yes              no    
+0x02019BBC  thumb     20  yes   strong       no          yes              no    
+0x020A5CE8  thumb     20  yes   strong       no          yes              no    
+0x02006C00  thumb     16  yes   strong       no          yes              no    
+0x020127D0  thumb     16  yes   strong       no          yes              no    
+0x02059858  thumb     14  yes   strong       no          yes              no    
+0x0205DCDC  thumb     14  yes   strong       no          yes              no    
+0x0205DD18  thumb     14  yes   strong       no          yes              no    
+0x02085B20  thumb     14  yes   strong       no          yes              no    
+0x020062D8  thumb     12  yes   strong       no          yes              no    
+0x020062EC  thumb     12  yes   strong       no          yes              no    
+0x020127AC  thumb     12  yes   strong       no          yes              no    
+0x0202B224  thumb     12  yes   strong       no          yes              no    
+0x0202B490  thumb     12  yes   strong       no          yes              no    
+0x0202BAE8  thumb     12  yes   strong       no          yes              no    
+0x0202BF84  thumb     12  yes   strong       no          yes              no    
+0x0202F774  thumb     12  yes   strong       no          yes              no    
+0x02005610  thumb     10  yes   strong       no          yes              no    
+0x0201DD68  thumb     10  yes   strong       no          yes              no    
+0x0201298C  thumb      8  yes   strong       no          yes              no    
+0x020A1300  thumb      8  yes   strong       no          yes              no    
+0x020A7AB0  thumb      8  yes   strong       no          yes              no    
+0x02005794  thumb      6  yes   strong       no          yes              no    
+0x020057A0  thumb      6  yes   strong       no          yes              no    
+0x020089C0  thumb      6  yes   strong       no          yes              no    
+0x0200E6F0  thumb      6  yes   strong       no          yes              no    
+0x0200F7E8  thumb      6  yes   strong       no          yes              no    
+0x02012E40  thumb      6  yes   strong       no          yes              no    
+0x02014CF0  thumb      6  yes   strong       no          yes              no    
+0x0201DD58  thumb      6  yes   strong       no          yes              no    
+0x0202C5C4  thumb      6  yes   strong       no          yes              no    
+0x0202C6A0  thumb      6  yes   strong       no          yes              no    
+0x0202C6AC  thumb      6  yes   strong       no          yes              no    
+0x0202F098  thumb      6  yes   strong       no          yes              no    
+0x0202F0A4  thumb      6  yes   strong       no          yes              no    
+0x0202F768  thumb      6  yes   strong       no          yes              no    
+0x02004F94  thumb      4  yes   strong       no          yes              no    
+0x02004FD4  thumb      4  yes   strong       no          yes              no    
+0x02004FFC  thumb      4  yes   strong       no          yes              no    
+0x020173C8  thumb      4  yes   strong       no          yes              no    
+0x0202AB4C  thumb      4  yes   strong       no          yes              no    
+0x0202AB54  thumb      4  yes   strong       no          yes              no    
+0x0202B1FC  thumb      4  yes   strong       no          yes              no    
+0x0202B204  thumb      4  yes   strong       no          yes              no    
+0x0202B420  thumb      4  yes   strong       no          yes              no    
+0x0202B424  thumb      4  yes   strong       no          yes              no    
+0x0202B8FC  thumb      4  yes   strong       no          yes              no    
+0x0202B904  thumb      4  yes   strong       no          yes              no    
+0x0202BB40  thumb      4  yes   strong       no          yes              no    
+0x0202BEE4  thumb      4  yes   strong       no          yes              no    
+0x0202C0B8  thumb      4  yes   strong       no          yes              no    
+0x0202C0C0  thumb      4  yes   strong       no          yes              no    
+0x0202C0C8  thumb      4  yes   strong       no          yes              no    
+0x0202C5AC  thumb      4  yes   strong       no          yes              no    
+0x020911D4  thumb      4  yes   strong       no          yes              no    
+0x02010FAC  thumb      2  yes   strong       no          yes              no    
+0x0209CF2C  thumb    176  no    weak         no          no               no    
+0x02005DA4  thumb      8  no    weak         no          no               no    
+0x0202B920  thumb      8  no    weak         no          no               no    
+
+known-bug cross-check
+  0x02010B84..0x02010B98: kind bytes = UNK; pool-reserved words at none
+  0x02010D84..0x02010D98: kind bytes = UNK; pool-reserved words at none
+  0x02014D2C..0x020155A0: 3 func_ label(s) inside the range that should be one entry: 0x02014D2C, 0x02014D90, 0x02015590
+

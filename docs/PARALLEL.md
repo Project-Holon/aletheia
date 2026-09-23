@@ -278,6 +278,39 @@ into bit 24): verified against the real site, which reproduces the image's
 0xFAFDCCC2 exactly. Three new selftest cases cover it (`python tools/match.py
 selftest`, 59 cases at the time this landed).
 
+`tools/datascan.py` audits the other direction: not whether a matched range
+is really game code, but whether disasm.py's data runs in arm9_main are
+really data. It rebuilds the region exactly as a real run would (same
+`Analyser`, same `index_hidden_pool_words`), then re-tests every byte disasm.py
+did not classify CODE against the same prologue-plus-return shape the
+prologue sweep uses, ignoring why the byte is not CODE: a run a PC-relative
+load claimed for an unrelated pool word can hide a real prologue the sweep
+never got a chance to test, because the sweep skips anything already not
+`UNK`. Pure pointer tables (every aligned word an address inside NDS main
+RAM) and pure strings are excluded first; everything else is tested for an
+ARM `stmfd sp!, {..., lr}`/`str lr, [sp, #-4]!`, a Thumb `push {..., lr}`, or
+(only when something outside already points at the address, a bl/blx target
+or a pool word's value) a no-push Thumb leaf ending in `bx lr` within 64
+bytes. A hit is STRONG evidence only when a call site or a pool word points
+at it and it is not itself a pool-reserved address elsewhere (which would
+make it data wearing a prologue's clothes); everything else is WEAK. A full
+scan of arm9_main found 81 candidates, 78 of them strong (1370 bytes, all
+no-push leaves already witnessed by a call or a pool word, none yet in
+`layout/function_starts.txt`) and 3 weak (192 bytes, decodable but
+unwitnessed); no ARM- or Thumb-pushed candidate turned up at all. Output goes
+to `layout/datascan_report.txt` (addresses and sizes only). Cross-checked
+against the two known bugs in `docs/HANDOFF.md` section 6: the
+`0x02010B84`/`0x02010D84` pool sites are `UNK`, never claimed by
+`region.pools`, which is why they print as anonymous `.word`s (the
+pool-word index misses them because nothing ever calls `_reserve_pool` on
+them, not because they decode as Thumb); the mcss.c range
+`0x02014D2C..0x020155A0` carries exactly the three `func_` labels
+(`0x02014D2C`, `0x02014D90`, `0x02015590`) HANDOFF's tail-call-label bug
+predicts. Against the 393066-byte game-code denominator
+(`tools/worklist.py --summary`), the strong candidates are 0.35% and the
+weak ones another 0.05%: not nothing, but nowhere near enough hidden code to
+call the denominator materially wrong.
+
 `attest_string()`'s `_printable_run_backward()` stopped a preceding run at
 any byte below 0x20, so a format string ending in `\n` immediately before
 the candidate (`"!![%x][%x]\n"` at 0x020A7E40, right before `"gf_standard.c"`
