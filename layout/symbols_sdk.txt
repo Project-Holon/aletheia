@@ -37,6 +37,14 @@
 020271DC  OS_SetPrintBlockingMode                       TwlSDK/libos.TWL.HYB.thumb.a(os_printf.o)  arm9
 0202A170  gsXmlFreeReader                               TwlDWC/libdwcgscommon.TWL.HYB.thumb.a(gsxml.o)  arm9
 0202FAB4  CRYPTO_RC4Init                                TwlSDK/libcrypto.TWL.HYB.a(rc4.o)  arm9
+
+# Owner decision 2026-09-23: identified by hand, not by libmatch.py.
+# libmatch.py cannot see this hit because the member is STT_NOTYPE (an
+# assembled object, size 120, .text, $a mapping) and build_patterns() only
+# indexes STT_FUNC symbols. Compared by hand, the member's 120-byte .text
+# (no relocations) is identical to 0x0202FB34..0x0202FBAC. See
+# docs/notes/sub_0202FB34.c.txt lines 225-250.
+0202FB34  CRYPTO_RC4Encrypt                             TwlSDK/libcrypto.TWL.HYB.a(rc4s-arm4cw.o)  arm9
 02030524  GX_GetBankForBGExtPltt                        TwlSDK/libgx.TWL.HYB.a(gx_vramcnt.o)  arm9
 020307B0  ENV_SetResourceSet                            TwlSDK/libenv.TWL.HYB.a(env_system.o)  arm9
 020307C8  CARD_CheckEnabled                             TwlSDK/libcard.TWL.HYB.a(card_api.o)  arm9

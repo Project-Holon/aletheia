@@ -243,3 +243,11 @@ to 0x0202FB34..0x0202FBAC, which also explains why no C spelling reaches it
 layout/symbols_sdk.txt because libmatch itself did not confirm the hit;
 the row becomes automatic once libmatch.py admits sized NOTYPE globals in
 code sections (an integrator change to tools/libmatch.py).
+
+================================================================
+OWNER RULING 2026-09-23
+================================================================
+The row was added to layout/symbols_sdk.txt by owner ruling: 0x0202FB34 is
+TwlSDK CRYPTO_RC4Encrypt (libcrypto.TWL.HYB.a, rc4s-arm4cw.o), on the hand
+comparison above, ahead of the libmatch.py NOTYPE-globals fix. It moves
+into the SDK denominator and is no longer a decompilation target.
