@@ -270,3 +270,11 @@ void func_02064754(char *o, void *bank, void *set, int a3, void * volatile a4, i
 }
 
 
+
+CLOSED 2026-09-23 (wave 11): EXACT under ../2.0/sp2 as src/matched/func_02064754.c.
+The wave 7 body above has a DATA-FLOW error: both sizing calls take the FIFTH
+argument (the NMCR bank, [sp,#0x28]); the second argument is the cell buffer
+stored at +0x40 and used as the group-header base.  With the flow corrected
+and no volatile it is 18 out; declaring `u16 n, i` INSIDE EACH ARM closes it.
+(The permuter's `tmp = (u16)(i + 1)` hoisted out of the loop in the wave 7
+best source is not value-preserving; do not reuse that body.)

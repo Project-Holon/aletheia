@@ -1062,3 +1062,43 @@ The func_02064CBC shape (store first, base local per arm, no volatile) is
 store 164/89; kind/base locals without the volatile hdr 164/75.  The
 volatile union hdr of the wave 8 source stays necessary.
 permuter: best      DIFF   asm=200   bytes-out=11   size=168/168 (hill 800 this lane; none improves)
+
+==============================================================================
+APPENDED wave 11 (lane wave11_02064B68), 2026-09-23
+==============================================================================
+
+sub_02064B68 is CLOSED (src/matched/sub_02064B68.c, ../2.0/sp2): per-arm
+index/base locals plus the +0x14 store written in each arm.  The rows below
+were re-run with the permuter (hill 800 --types) and both compilers; none
+moved, and the best sources above stand unchanged.
+
+0x02064EDC  func_02064EDC  DIFF   (re-run, unchanged)
+/* best source, 324 bytes against 324, 28 concrete bytes out, ../2.0/sp2 */
+Also tried: u16 j at function scope in three positions, the Aff pointer by
+split assignment (d = g_02148318; d = d + j) before and after the first store:
+all 28.  1.1p1: 30.
+permuter best: DIFF   asm=865   bytes-out=28   size=324/324 (hill 800 --types, none improves)
+
+0x020664CC  func_020664CC  DIFF   (re-run, unchanged)
+/* best source, 340 bytes against 340, 46 concrete bytes out, ../2.0/sp2 */
+1.1p1: 320 bytes, 237 out.
+permuter best: DIFF   asm=955   bytes-out=46   size=340/340 (hill 800 --types, none improves)
+
+0x02066620  func_02066620  DIFF   (re-run, unchanged)
+/* best source, 288 bytes against 288, 17 concrete bytes out, ../2.0/sp2 */
+Also tried: both concat calls with the destination spelled twice inline, in
+three store orders (51..52); the tx/ty zeros before d (48); `m.ty = m.tx` and
+`m.tx = m.ty = 0` after d (17); a zero local defined first (17).  An
+aggregate initialiser `Mtx m = { cs, sn, -sn, cs, 0, 0 }` is a CCERR (illegal
+constant expression) under 2.0.  1.1p1: 276 bytes, 199 out.  Note the image's
+`mov lr, #0` sits in the pool load's delay slot in BOTH builders
+(func_020664CC and this one): it is scheduling, the residue is which of
+zero/offset/base gets lr/ip/r2.
+permuter best: DIFF   asm=85    bytes-out=17   size=288/288 (hill 800 --types, none improves)
+
+0x02065DB4  func_02065DB4  DIFF   (re-run, unchanged)
+/* best source, 716 bytes against 716, 23 concrete bytes out, ../2.0/sp2 */
+Also tried: the mode == 1 entry counter declared per f80 arm (`u16 i` inside
+each loop's block, 23), with `saved` in the bracketed arm too (23); i in the
+mode block with `i = 0` in each for (724 bytes).  1.1p1: 269 out.
+permuter best: DIFF   asm=115   bytes-out=23   size=716/716 (hill 800 --types, none improves)

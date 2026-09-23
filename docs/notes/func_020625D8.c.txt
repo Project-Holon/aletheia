@@ -53,3 +53,10 @@ Meanwhile the byte-correct C for 0x0206B6A4 (the other half of the same
 packet's blocker set) is parked in src/pending/func_0206B6A4.c, and
 src/pending/func_02062474.c stays MATCH.
 re-verified 2026-09-21: no recoverable source in this note
+
+CLOSED 2026-09-23 (wave 11): EXACT under ../2.0/sp2 on the first compile, as
+src/matched/func_020625D8.c.  The duplicate pool word is two symbols at one
+address (config block g_02146BB0_blk for the field accesses at 0x02062628,
+u32 list head g_02146BB0 for every list-head argument at 0x0206262C), exactly
+as in func_02062270.  dsi/1.1p1 on the same C is 92 bytes but pushes
+{r4, r5, r6, lr} against {r3, lr}.

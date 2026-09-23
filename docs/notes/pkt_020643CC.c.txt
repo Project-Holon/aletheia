@@ -534,3 +534,194 @@ void func_020643CC(struct Root *root, struct MultiCellData *d, u32 total)
         }
     }
 }
+
+==============================================================================
+2026-09-23, wave 11 (lane pkt_02064B68 / pkt_020640DC): 31 -> 7 out.  THREE
+DECLARATION-SCOPE LEVERS; the residue is now one swapped pair in arm 1.
+==============================================================================
+
+Same 636 bytes, same 13 relocation sites, ../2.0/sp2.  The permuter (hill 800
+and anneal 2000, --types) did not move the 31-out body: every lever below is a
+change of WHERE a variable is declared, which is outside its mutation set.
+
+  1. ONE node index for both arms.  The arm-2 counter `m` is the same u16 as
+     arm 1's node counter `n`, declared at FUNCTION scope (the clearing loop
+     keeps its own arm-local `i`; sharing that too is 19).  Alone: 34.
+  2. `sum` at function scope, `k` in its block.  With (1): 15.  Arm 2 is then
+     byte-exact.  (sum and k both at function scope: 25; sum per block: 31.)
+  3. The cell-anim pointer `ca` at FUNCTION scope, declared after n and sum
+     (before them: 27), used by arm 1 only -- arm 2 keeps its own block-local
+     `ca` (sharing it is 20).  7 out.
+
+Residue, 7 bytes: arm 1's `cells` and node counter `n` swap r5 <-> r8 (image
+cells r5, n r8).  Not moved by: cells at function scope in four positions
+(7..24), one shared `u8 *base` for both arms (7..24), `idx` as u32 or inlined
+(7 / 632 bytes), `&d->nodes[n]`, i at function scope in four positions (7),
+node + idx at function scope (36), `e` at function scope (15), inline helpers
+for the frame sum, the whole seek block, or the whole per-node init (31 each
+from the old base).  Hill 800 and anneal 1500 from the 7-out body: none
+improves.
+
+/* best source, 636 bytes against 636, 7 concrete bytes out, ../2.0/sp2 */
+permuter best: DIFF   asm=35    bytes-out=7    size=636/636  (hill 800 --types + anneal 1500 --types from this body, none improves; the 31 -> 7 was hand scoping)
+
+
+/*
+ * function: func_020643CC
+ * address:  0x020643CC
+ * packet:   pkt_020640DC
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   _u32_div_f          0x0209C2B0  arm
+ *   func_020627D8       0x020627D8  arm
+ *   func_0206434C       0x0206434C  arm
+ *   func_02064364       0x02064364  arm
+ *   func_02063030       0x02063030  arm
+ *   func_020640DC       0x020640DC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+
+struct CellAnim {              /* 0x5C bytes */
+    u8  pad00[0xC];
+    u32 active;                /* +0x0C */
+    u8  pad10[0x48];
+    u32 unk58;                 /* +0x58 */
+};
+
+struct Node {                  /* 8 bytes, d->nodes[n] */
+    u16 unk00;
+    s16 unk02;
+    s16 unk04;
+    u16 unk06;
+};
+
+struct Frame {                 /* 8 bytes, e->frames[k] */
+    u32 unk0;
+    u16 dur;                   /* +0x04 */
+    u16 unk6;
+};
+
+struct Entry {                 /* 0x10 bytes */
+    u16 count;                 /* +0x00 */
+    u16 unk02;
+    u32 unk04;
+    u32 unk08;
+    struct Frame *frames;      /* +0x0C */
+};
+
+struct Rec28 {                 /* 0x28 bytes, root->cells[n] when kind != 1 */
+    struct CellAnim *anim;     /* +0x00 */
+    u32 unk04;
+    u32 unk08;                 /* +0x08 */
+    s16 unk0C;                 /* +0x0C */
+    s16 unk0E;                 /* +0x0E */
+    u8  pad10[0x18];
+};
+
+struct MultiCellData {
+    u16 numNodes;              /* +0x00 */
+    u16 numCellAnims;          /* +0x02 */
+    struct Node *nodes;        /* +0x04 */
+};
+
+struct Root {
+    u32   unk00;               /* +0x00 */
+    u32   unk04;               /* +0x04 */
+    u32   kind;                /* +0x08 */
+    void *cells;               /* +0x0C */
+};
+
+extern void *func_020627D8(u32 set, u32 idx);
+extern void func_0206434C(struct CellAnim *anim, void *data);
+extern void func_02064364(struct CellAnim *anim, u32 value);
+extern u32  func_02063030(struct CellAnim *anim);
+extern void func_020640DC(s16 *dst, s16 x, s16 y);
+extern u32  _u32_div_f(u32 a, u32 b);
+
+void func_020643CC(struct Root *root, struct MultiCellData *d, u32 total)
+{
+    u16 n;
+    u32 sum;
+    struct CellAnim *ca;
+
+    root->unk00 = (u32)d;
+
+    if (root->kind == 1) {
+        struct CellAnim *cells = (struct CellAnim *)root->cells;
+        u16 i;
+
+        for (i = 0; i < d->numCellAnims; i++) {
+            cells[i].unk58 = 0;
+        }
+
+        for (n = 0; n < d->numNodes; n++) {
+            struct Node *node = (struct Node *)((u8 *)d->nodes + n * 8);
+            u16 idx = (node->unk06 & 0xFF00) >> 8;
+            ca = &cells[idx];
+
+            if (ca->unk58 == 0) {
+                struct Entry *e = (struct Entry *)func_020627D8(root->unk04, node->unk00);
+
+                func_0206434C(ca, e);
+                ca->active = 1;
+                if ((node->unk06 & 0xF) == 1) {
+                    u32 k;
+                    sum = 0;
+
+                    for (k = 0; k < e->count; k++) {
+                        sum += e->frames[k].dur;
+                    }
+                    if (func_02063030(ca) != 0) {
+                        func_02064364(ca, (total % sum) << 12);
+                    } else {
+                        if (total < sum) {
+                            sum = total;
+                        }
+                        func_02064364(ca, sum << 12);
+                    }
+                }
+                ca->unk58 = 1;
+            }
+        }
+    } else {
+        u8 *base = (u8 *)root->cells;
+
+        for (n = 0; n < d->numNodes; n++) {
+            struct Node *node = (struct Node *)((u8 *)d->nodes + n * 8);
+            struct CellAnim *ca = (struct CellAnim *)(*(u32 *)(base + n * 0x28));
+            struct Entry *e = (struct Entry *)func_020627D8(root->unk04, node->unk00);
+
+            func_0206434C(ca, e);
+            ca->active = 1;
+            if ((node->unk06 & 0xF) == 1) {
+                u32 k;
+                sum = 0;
+
+                for (k = 0; k < e->count; k++) {
+                    sum += e->frames[k].dur;
+                }
+                if (func_02063030(ca) != 0) {
+                    func_02064364(ca, (total % sum) << 12);
+                } else {
+                    if (total < sum) {
+                        sum = total;
+                    }
+                    func_02064364(ca, sum << 12);
+                }
+            }
+            ((struct Rec28 *)(base + n * 0x28))->unk08 = 1;
+            func_020640DC(&((struct Rec28 *)(base + n * 0x28))->unk0C,
+                          node->unk02, node->unk04);
+        }
+    }
+}

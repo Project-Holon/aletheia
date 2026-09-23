@@ -238,7 +238,7 @@ extern void func_02064384(void *rec, u32 idx);    /* func_02064C10 */
 extern void func_020643A4(void *rec);             /* func_02064CBC */
 extern void func_0206469C(void *o, u32 a);        /* func_02064CBC */
 
-extern void sub_02064B68 (struct Walked *r, void *arg);   /* DIFF, 15 out */
+extern void sub_02064B68 (struct Walked *r, void *arg);   /* EXACT, 2.0 (w11) */
 extern void func_02064C10(struct Bank *x);                /* EXACT        */
 extern void func_02064CBC(struct Walked *x);              /* EXACT, 2.0   */
 extern void func_02064D70(void *p, int (*fn)(void *, void *, void *, int),
@@ -496,6 +496,26 @@ extern void  func_02065D4C(void *actor);                  /* EXACT, 2.0  */
  *    object: +0x70 first Node, +0x74 current Node, +0x7c flags (bit 1 =
  *    draw the object itself); a Node has +0x10 visible, +0x14 affine,
  *    +0x28 / +0x2c position, +0x30 next.
+ */
+
+/* ================================================================== *
+ * WAVE 11 (2026-09-23): what was proved
+ * ================================================================== *
+ *
+ * 12. sub_02064B68 EXACT (../2.0/sp2).  Its +0x34..+0x40 block IS the
+ *    struct Root of docs/families/cluster_020640DC.h (data, set, kind,
+ *    cells) and the function is func_02064934 plus a store of `arg` at
+ *    +0x14.  Two levers, no volatile: the index and base declared INSIDE
+ *    EACH kind arm, and the +0x14 store written IN EACH ARM -- the front
+ *    end hoists the common store above the branch but schedules it after
+ *    the cmp and the index zero, which is the image; one store before the
+ *    `if` lands above the cmp (11 out).  The "MUST be read volatile" note on
+ *    Walked.hdr above is superseded.
+ *
+ * 13. func_02064EDC (28), func_020664CC (46), func_02066620 (17) and
+ *    func_02065DB4 (23) re-run with hill 800 --types and both compilers;
+ *    unchanged.  In both matrix builders the image's early `mov lr, #0` is
+ *    a load-delay-slot fill, not a source-order tell.
  */
 
 #endif /* CLUSTER_02064B68_H */

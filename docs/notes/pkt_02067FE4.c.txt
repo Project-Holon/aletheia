@@ -324,3 +324,122 @@ int func_020681E4(int x, int y, int w, int h, struct Shift s)
 }
 
 
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 lane.  0x020681E4 DIFF 18 -> 10.
+==============================================================================
+re-verified 2026-09-23: the "best source" above is CCERR as printed (the
+permuter's `tmp = ...;` statement sits before a declaration, which this front
+end rejects); with the declarations split out it is DIFF 18 as recorded.
+
+Three levers moved it, all declarations/statement order, none found by the
+permuter (hill 800 + anneal 2000 flat on each base):
+  * the shift locals DECLARED `int sh; int sw;` and assigned `sw = s.w;
+    sh = s.h;` afterwards -- fixes the entry load order (sw first) without
+    the 10-byte cost the note above measured for `int sw = s.w;` first
+    (the 0x020691E0 lever: declaration order, not assignment order);
+  * in the final return arm, `tmp1 = x & mask(sw)` placed AFTER
+    `base += ww * (y & mask(sh))` (permuter reorder) -- fixes the r2/r4 arm;
+  * the pair lookup as the natural `g_020A18F4[SizeToShift(h)][SizeToShift(w)]`.
+Residue (10): the image evaluates the w shift FIRST (cmp r2,#8 into r6) and
+then the h shift (r7), yet adds the h row first (`add r7, r8, r7, lsl #3`).
+Every spelling that evaluates w first (locals i/j at block or function scope
+in all orders, an inline GetPair with either argument order, reusing sw/sh
+for the logs, the sum spelling) swaps the two logs' registers (18); every
+spelling that evaluates h first leaves just this evaluation-order residue.
+permuter best result line: best DIFF asm=50 bytes-out=10 size=248/248
+
+/* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+static inline u32 MATH_CountLeadingZeros(u32 x)
+{
+    asm { clz x, x }
+    return x;
+}
+inline static int MATH_ILog2(u32 x)
+{
+  return (int) (31 - MATH_CountLeadingZeros(x));
+}
+
+inline static int SizeToShift(int size)
+{
+  return (size >= 8) ? (3) : (MATH_ILog2((u32) size));
+}
+
+struct Shift
+{
+  int w;
+  int h;
+};
+extern const u8 g_020A18F4[4][4][2];
+inline static const u8 *GetPair(int j, int i)
+{
+  return g_020A18F4[j][i];
+}
+
+int func_020681E4(int x, int y, int w, int h, struct Shift s)
+{
+  int base = 0;
+  int sh;
+  int sw;
+  int tmp;
+  int tmp1;
+  sw = s.w;
+  sh = s.h;
+  for (;;)
+  {
+    u32 ww;
+    u32 hh;
+    tmp = 0xFFFFFFFFu << sw;
+    ww = ((u32) w) & tmp;
+    hh = ((u32) h) & (0xFFFFFFFFu << sh);
+    if (hh <= ((u32) y))
+    {
+      base += w * hh;
+      if (ww <= ((u32) x))
+      {
+        h -= hh;
+        base += ww * h;
+        x -= ww;
+        y -= hh;
+        w -= ww;
+      }
+      else
+      {
+        w = ww;
+        y -= hh;
+        h -= hh;
+      }
+    }
+    else
+    {
+      const u32 hinv = ~(0xFFFFFFFFu << sh);
+      if (ww <= ((u32) x))
+      {
+        base += ww * hh;
+        h = hh;
+        x -= ww;
+        w -= ww;
+      }
+      else
+      {
+        const u32 winv = ~(0xFFFFFFFFu << sw);
+        base += ww * (y & (0xFFFFFFFFu << sh));
+        tmp1 = x & (0xFFFFFFFFu << sw);
+        base += tmp1 << sh;
+        base += (y & hinv) << sw;
+        return base + (x & winv);
+      }
+    }
+    {
+      const u8 *p = g_020A18F4[SizeToShift(h)][SizeToShift(w)];
+      sw = (s.w = p[0]);
+      sh = (s.h = p[1]);
+    }
+  }
+
+}
+
+

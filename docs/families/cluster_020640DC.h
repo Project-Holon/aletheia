@@ -382,4 +382,35 @@ extern void  func_02066ABC(int a, int b, int c);    /* ARITY 3, not 4         */
 extern void  func_02066890(int a0, int a1, int a2, int a3,
                            int s0, int s1, int s2, int s3);
 
+/* ================================================================== *
+ * WAVE 11 (2026-09-23): what was proved
+ * ================================================================== *
+ *
+ * Two more EXACT: func_02064754 (../2.0/sp2) and func_02064934 (identical
+ * bytes under both front ends).  func_020643CC 31 -> 7 out.
+ *
+ * 1. DECLARATION SCOPE IS THE CLUSTER'S ALLOCATION LEVER, and the permuter
+ *    cannot reach it (it reorders declarations, never moves them between
+ *    scopes).  Both closes and the 020643CC gain were scope moves only:
+ *      func_02064934  `u16 i; char *cells` declared INSIDE EACH kind arm
+ *                     (function scope swaps the two head loads, 4 out);
+ *      func_02064754  `u16 n, i` INSIDE EACH arm (function scope 18 out);
+ *      func_020643CC  the opposite direction: the node counter shared by
+ *                     both arms, `sum` and the arm-1 cell-anim pointer at
+ *                     FUNCTION scope, `k` in its block (31 -> 7).
+ *    When a residue here is a clean register swap, try moving each local
+ *    between block and function scope before anything else.
+ *
+ * 2. func_02064754's real signature: (char *self, char *buf, void *set,
+ *    int a3, void *bank, int kind).  The NMCR bank handed to both sizing
+ *    calls is the FIFTH argument (stack, respilled to its own slot); the
+ *    second argument is the cell buffer stored at +0x40 and used as the
+ *    group-header base.  The prototype in section 6 above names them in the
+ *    wrong slots (`bank` second, `a4` fifth).  Arm 2 runs the four-call tail
+ *    twice (falls into the shared copy).
+ *
+ * 3. func_02064934 is NOT pinned; the pin claim in the header stays true for
+ *    every non-leaf function whose bytes differ between the front ends.
+ */
+
 #endif /* CLUSTER_020640DC_H */

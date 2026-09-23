@@ -95,6 +95,8 @@
  *       func_0206216C  func_020621FC  func_020624C8
  *       func_02062270  (wave 10: the layer-2 initialiser; 1.1p1 pushes
  *                       {r3-r7, lr} against the image's {r4, lr})
+ *       func_020625D8  (wave 11: the layer-3 initialiser; 1.1p1 pushes
+ *                       {r4, r5, r6, lr} against the image's {r3, lr})
  *
  * Every 2.0/sp2 member is an ALLOCATOR-OR-VALIDATOR ENTRY POINT of layer 2 or
  * layer 3 -- the four functions that unpack or pack a handle and dispatch on a
@@ -358,9 +360,8 @@ extern u32  func_020624C8(u32 size, u32 flag);
 extern int  func_02062594(u32 id);
 
 /* The layer-3 INITIALISER, the analogue of func_02062270 and the smaller of
-   the two.  Its five steps are fully recovered (see the note), but it does not
-   compile byte-exact under ANY front end in the tree because of the duplicate
-   pool word described below.  OPEN, 92 bytes.                                */
+   the two.  EXACT wave 11 under ../2.0/sp2 (92 B) on the two-symbol
+   declaration of section 4 -- see src/matched/func_020625D8.c.              */
 extern void func_020625D8(void);
 
 /* The 'KNBA'-tagged lookup: ask func_02062B64 for the object tagged
@@ -412,7 +413,9 @@ extern void func_02062688(u32 a);            /* outside the cluster           */
  * allocation levers (EXACT, ../2.0/sp2).  func_020625D8 (layer 3, 92 B,
  * another packet) has the same shape -- `g_02146BB0` twice, once as the
  *  struct base for +0x0c/+0x10/+0x04/+0x08 (checked: 0x02062628 feeds every field access, 0x0206262C every list-head argument) -- and should
- * yield to the same two-symbol declaration; not attempted here.
+ * yield to the same two-symbol declaration.  CONFIRMED wave 11: EXACT on the
+ * first compile under ../2.0/sp2 (src/matched/func_020625D8.c).  Every
+ * layer-2/layer-3 member of this cluster is now EXACT.
  *
  * Recognising this pattern is still cheap: count the `.word`s in the
  * function's own pool and look for a repeat.  If there is one, look at what

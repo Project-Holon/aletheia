@@ -187,3 +187,8 @@ void func_02064934(S02064934 *p, int arg)
         for (; i < p->f00[0]; i++) func_02064364(*(void **)(base + i * 0x28), arg);
     }
 }
+
+CLOSED 2026-09-23 (wave 11): EXACT (identical bytes under dsi/1.1p1 and
+../2.0/sp2) as src/matched/func_02064934.c.  The two swapped head loads were
+declaration scope: `u16 i; char *cells = p->cells;` declared INSIDE EACH ARM,
+no dead local.
