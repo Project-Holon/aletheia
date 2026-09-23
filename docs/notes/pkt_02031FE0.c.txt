@@ -783,3 +783,40 @@ plus the recorded diff, symbols str_020A7848 / g_02146994 declared:
   - `u16 want = tbl[i]` named across the calls: 1716 bytes;
   - `AB = A + (B = func_02033BAC(..))`: 22.
 /* best source: unchanged, the wave-12 source (1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1) */
+
+================================================================================
+2026-09-24 (wave 18, backup_shinka lane).  9 -> 9; no move.
+================================================================================
+Wave-12 source rebuilt (wave-11 body plus the recorded diff, symbols block
+with str_020A7848 / g_02146994): 1704/1704, 9 out, 63 of 63 relocations.
+Measured once each (all --arm, 1.1p1 unless named):
+  - dsi/1.2: 9 (1704 bytes).
+  - the CRC table walked by pointer (`u16 *cp = tbl`, `cp++` with i++,
+    `*cp` for tbl[i]): 1712 bytes, 968 out (the image indexes, lsl #1).
+  - CRC call hoisted into an `int crc` local before each compare: 9.
+  - the two accessor results as one `struct Rec { u32 off, size; }` local,
+    copied into A/B: 22 (order becomes pa r4, pb r5, A r6, B r7, AB r8);
+    the struct fields used directly everywhere: 22.
+  - the inner record walk split into a `static inline u32 walk(self, h,
+    buf, cur, tbl)` returning i (the "second half as a helper" shape; no
+    neighbouring function in the packet has a helper body to copy): 34
+    (k and cur swap stack slots, AB still r8).
+  - `cur + AB` instead of `bufs[k] + AB` in both cnt16 compares: 21.
+  - `cur = bufs[k];` re-assigned before the cnt16 compares: 9.
+  - `AB = B68(); A = AB; B = BAC(); AB += B;` 9; `A = B68(); AB = A;
+    B = BAC(); AB += B;` 9.
+  - AB reused for the post-walk `ids[k ^ 1]` value (the image's r4 there):
+    9; AB as the last loop's counter: 9 (webs are split per live range).
+  - the pa and pb CRC tests each as one `!= || !=` disjunction: 1700 / 1680
+    bytes (the redundant re-test is load-bearing, as recorded above).
+  - u16 heap with the u16 allocator prototype (the lever that closed
+    0x0201B2B0 this wave): 1700 bytes, 1431 out (the image truncates heap
+    at the call, so the parameter is wide).
+permuter: anneal, --types, budget 1500, seed 1801: DIFF asm=45 bytes-out=9
+size=1704/1704.
+Observation: in every variant AB takes the last register of the group
+(r8); only its partner changes.  The image's loop registers (AB r4, B r8,
+A r7) are exactly heap's, mode's and gen's entry registers, which reads as
+colouring order following the parameter webs; no spelling of the loop has
+reached that order.  Allocation tie.
+/* best source: unchanged, the wave-12 source (1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1) */

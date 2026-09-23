@@ -537,3 +537,21 @@ Reading: the image's `ldr r2, [sp, #0x68]` (heap) is not hoisted over the
 `str r0, [sp, #0x1c]` (pidHigh), and the same pattern shows in
 func_0201FDA0 and func_02013528 (a parameter stack store or load that the
 image keeps behind a stack store the compile moves it across).
+
+==============================================================================
+APPENDED 2026-09-24, wave 18 (backup_shinka lane): CLOSED, EXACT*
+==============================================================================
+src/matched/sub_0201B2B0.c, shard pkt_0201B038 verified twice (second pass
+0 rewritten).  The wave-14 best source with ONE change: the seventh
+parameter is `u16 heap` and func_02020FE4 is declared
+`u32 func_02020FE4(u32 id, u32 sel, u16 heap)`.  The gate's heap load then
+stays behind the pidHigh store as in the image.  Measured this wave:
+  - wave-14 source re-verified: 1116, 12 out;
+  - dsi/1.2: 12;
+  - u8 heap parameter: 1120 bytes, 1036 out;
+  - local copy `heap = heapId;` as the first statement: 12;
+  - u16 heap parameter, u32 prototype: 1120 bytes, 1036 out;
+  - u32 heap parameter, u16 prototype: 1128 bytes, 979 out;
+  - u16 heap parameter AND u16 prototype: EXACT* (1116; the star is the
+    12-byte follower unit_0201B70C in the listing extent).
+Idiom: docs/idioms/a-u16-stack-parameter-passed-to-a-u16-callee-stays-behind-a-spill-store.md

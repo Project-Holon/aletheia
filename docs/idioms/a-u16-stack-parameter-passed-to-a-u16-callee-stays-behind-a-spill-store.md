@@ -22,6 +22,7 @@ With `u32 heap` and `u32 func_02020FE4(u32, u32, u32)` 1.1p1 schedules the
 ands/lsrs/lsls/lsrs/str chain (12 bytes out).  None of const, a local copy,
 volatile, casts at the call, declaration order, an enum type or the permuter
 moved it.  `u16 heap` with the u32 prototype is 4 bytes long and 1036 out;
+the u16 prototype with `u32 heap` is 12 bytes long (a truncation at the call);
 `u16 heap` with the callee's third parameter also u16 is byte-exact.
 
 The callee confirms the width: func_02020FE4 masks that argument to fifteen
