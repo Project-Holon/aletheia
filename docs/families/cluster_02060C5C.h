@@ -149,4 +149,10 @@ extern void          *func_02060ABC(struct ExpHeap *heap, u32 size, s32 align);
 extern int            func_02060B6C(struct MBlockList *freeList,
                                     struct MemRegion *rgn);
 
+/* WAVE 12 (2026-09-23): func_02060CD0 CLOSED, EXACT, ../2.0/sp2 -- the
+   cluster's first 2.0 pin.  The plain NitroSystem free-list search
+       for (p = head; p; p = p->next) { if (p == end) break; }
+   is the image's cmp / ldrne / cmpne / bne loop under 2.0 (356 bytes under
+   1.1p1), and the shrink arm's volatile re-read is unnecessary there.       */
+
 #endif /* CLUSTER_02060C5C_H */

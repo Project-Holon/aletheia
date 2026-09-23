@@ -339,3 +339,5 @@ permuter best result line (from a9, anneal 2000, --types):
             decl-order(frames<->seq) ; hoist-up(tmp,-1) ; temp(tmp2=sub + 8) ;
             type:ret-var(tmp2) ; decl-order(k<->mc) ; commute(+)
 re-verified 2026-09-22 by tools/match.py: DIFF, 332 bytes against 336, 237 concrete bytes out, 1.1p1
+
+CLOSED 2026-09-23 (wave 12): 0x02062688 EXACT at src/matched/func_02062688.c under ../2.0/sp2 -- the a9 spelling emits the ldmib under 2.0; plus a void * frame-data field and a natural nodes[k] outer / guarded do-while inner walk.  See the file header.

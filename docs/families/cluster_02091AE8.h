@@ -251,4 +251,19 @@ extern void func_02086078(void *blk);
 #define ERR_VALUE           0x28    /* g_02153FAC on every failure path       */
 #define HOME_AREA_ENTRY     0x02091E44  /* the REAL entry; 0x02091E48 is body */
 
+/* ================================================================== *
+ * 5.  WAVE 12 (2026-09-23): func_02091E44 CLOSED, EXACT*, dsi/1.1p1.
+ *     src/matched/func_02091E44.c.  Section 2's settled body was wrong in
+ *     two declarations, and they were the whole 28-byte residue:
+ *       (a) f08 is a BITFIELD MEMBER of the struct and is ASSIGNED:
+ *           `p->f08.mode = 2;` / `p->f08.mode = 0;`.  That is the
+ *           `bic ip, #7 / orr #2` off the word the state test loaded, and the
+ *           plain re-read after the store -- no volatile, no `v`/`goto stored`.
+ *       (b) the window test is `if (pos >= f18 || pos < f34) mode = 0; else
+ *           {...}`: the disjunction's THEN arm is the kept `b`.
+ *     Section 2's SEVEN LEVERS 3, 5 and 6 are superseded by (a).  The
+ *     permuter warning (the 4-byte listing extent) still stands until the
+ *     seed lands; `match.py one` reports EXACT* against it.
+ * ================================================================== */
+
 #endif /* CLUSTER_02091AE8_H */

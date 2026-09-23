@@ -356,4 +356,9 @@ struct DST {
  *     this class; the permuter is the tool, not another hand spelling.
  */
 
+/* WAVE 12 (2026-09-23): 0x02071104 (6 out, sp2) and 0x020712A8 (4 out, any
+   front end) re-verified and still DIFF; see docs/notes/pkt_02071104.c.txt.
+   Every single-expression spelling of 0x020712A8's f30 factor folds to one
+   rsb (180 bytes); the three-statement form is still required.              */
+
 #endif /* CLUSTER_02070B64_H */

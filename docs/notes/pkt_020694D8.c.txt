@@ -363,3 +363,5 @@ whoever takes this next is 184 bytes from EXACT on a 460-byte function, not
 the 233-of-388 the earlier note left.
 
 Not filed: DIFF, by rule 6.  Addresses are Black-image addresses.
+
+CLOSED 2026-09-23 (wave 12): 0x020698F8 EXACT at src/matched/func_020698F8.c, ../2.0/sp2.  Three static inline levels; the leaves are `if (r && cond) return 1; return 0;`, the validator `r != 0 ? (IsNftr(r) && VerAtLeast(r, v)) : 0`.

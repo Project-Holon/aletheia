@@ -316,3 +316,5 @@ fail:
 
 permuter best result line:
   best      DIFF   asm=2315  bytes-out=77   size=320/320   (anneal, 2000 compiles)
+
+CLOSED 2026-09-23 (wave 12): 0x02061EB8 EXACT at src/matched/func_02061EB8.c under ../2.0/sp2: `if (alignment > 1)` first (2.0 predicates the else arm), no initialisers on pad/aligned/need, one fail label, NitroSystem inline helpers, mask spelled in place, decl order aligned/need/pad/found.

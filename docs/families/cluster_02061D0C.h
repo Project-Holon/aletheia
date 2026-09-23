@@ -422,4 +422,12 @@ extern void func_02062688(u32 a);            /* outside the cluster           */
  * each copy is USED for before concluding anything.
  */
 
+/* WAVE 12 (2026-09-23): func_02061EB8 CLOSED, EXACT, ../2.0/sp2, so layer 1
+   is not purely 1.1p1 after all.  Levers: `if (alignment > 1) {align} else
+   {plain}` (2.0 predicates the ELSE arm ahead of the THEN), no initialisers
+   on aligned/need/pad, one shared `fail:`, the NitroSystem static inline
+   helpers GetNewBlock_/InitBlock_/InsertBlock_/RemoveBlock_, the mask
+   spelled `alignment - 1` in place, declaration order aligned, need, pad,
+   found (the only EXACT one of 24).                                         */
+
 #endif /* CLUSTER_02061D0C_H */

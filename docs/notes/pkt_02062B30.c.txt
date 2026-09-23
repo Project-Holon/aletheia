@@ -98,3 +98,5 @@ permuter best result line:
   mutations block(do0,1) ; use(r1) ; temp(tmp=res + 8) ; split-assign(tmp) ;
             expand(tmp x1)
 re-verified 2026-09-22 by tools/match.py: DIFF, 48 bytes against 52, 19 concrete bytes out, 1.1p1
+
+CLOSED 2026-09-23 (wave 12): 0x02062B30 EXACT at src/matched/func_02062B30.c.  The POSITIVE spelling under ../2.0/sp2 (also 2.0 base/sp1) predicates only the zero arm; the sp2 probe above was run on the negative spelling only.  src/pending/func_02062B30.c removed.

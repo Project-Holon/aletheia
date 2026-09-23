@@ -350,3 +350,85 @@ treat a member in this class as OPEN, run the permuter (hill first, it is
 deterministic and exhausts the singles; anneal after), and only THEN record a
 floor.  0x02071104 at 6 and 0x020712A8 at 4 have both had that treatment and
 are recorded as floors on that basis, not on a hand sweep's.
+
+==============================================================================
+2026-09-23, wave 12 singles lane: 0x02071104 and 0x020712A8 re-verified, DIFF
+==============================================================================
+
+0x02071104: the section-above source rebuilt verbatim is 124/124, 6 out under
+../2.0/sp2 and sp2p2 (33 under 1.1p1).  Six further spellings of the f34
+block (f1c / f28 bound to locals in image order, the product hoisted into a
+local before the shift, the product written (s64)f1c * f28, the two terms of
+the f34 sum swapped): 18-23, all worse.
+
+0x020712A8: rebuilt from the family header with L4 in place, 184/184, 4 out
+under 1.1p1, sp2 and sp2p2 alike (the r1/r2 swap on ldrsh f20 / ldrh f2c).
+--explain: r1 -> r2 x2, r2 -> r1 x2.  hill 800 --types: 265 singles, flat.
+Measured and not levers: compound `n += ...; n = -n;` (4); `-(a + b)` then
+`+ 0x1000` (180 bytes, folds); every single-expression form of the f30 factor
+(`-a - b + 0x1000`, `0x1000 - a - b`, ...: 180, fold to one rsb); an inline
+helper H(a, b) holding the three statements (4); the whole f30 product in an
+inline helper (4); the product bound to n before the shift (11); s16 locals
+for sin/cos (4).
+
+/* best source, 184 bytes against 184, 4 concrete bytes out, 1.1p1 */
+typedef unsigned char      u8;
+typedef unsigned short     u16;
+typedef signed   short     s16;
+typedef signed   int       s32;
+typedef signed   long long s64;
+
+struct SRC {
+    u8  pad_00[0x18];
+    s32 f18;
+    s32 f1c;
+    s16 f20;
+    s16 f22;
+    s32 f24;
+    s32 f28;
+    u16 f2c;
+    u16 f2e;
+};
+
+struct DST {
+    s32 f00;
+    s32 f04;
+    u8  pad_08[8];
+    s32 f10;
+    s32 f14;
+    u8  pad_18[0x18];
+    s32 f30;
+    s32 f34;
+};
+
+extern void FX_DivAsync(s32 num, s32 den);
+extern s32  FX_GetDivResult(void);
+
+void func_020712A8(struct DST *d, struct SRC *s)
+{
+    s32 w12;
+    s32 h12;
+    s32 n;
+
+    w12 = (s32)s->f2c << 12;
+    h12 = (s32)s->f2e << 12;
+    FX_DivAsync(h12, w12);
+    d->f00 = s->f22;
+    d->f14 = s->f22;
+    d->f04 = (-s->f20 * FX_GetDivResult()) >> 12;
+    FX_DivAsync(w12, h12);
+    n = s->f20 + s->f22;
+    n = 0 - n;
+    n = n + 0x1000;
+    d->f30 = ((s32)s->f2c * n) << 3;
+    d->f34 = ((s32)s->f2e * (s->f20 - s->f22 + 0x1000)) << 3;
+    d->f10 = (s->f20 * FX_GetDivResult()) >> 12;
+}
+
+permuter best result line:
+  best      DIFF   asm=20    bytes-out=4    size=184/184  (hill 265 tried, no improvement)
+
+/* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 */
+  -- unchanged, the 0x02071104 source printed in the section above.
+permuter best result line:
+  best      DIFF   asm=30    bytes-out=6    size=124/124  (previous lane; re-measured 6)

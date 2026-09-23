@@ -254,4 +254,14 @@ extern void func_0206958C(Ctx *ctx, s32 x, s32 y, s32 w,
 extern void func_020694D8(Ctx *ctx, s32 x, s32 y, s32 w2,
                           const void *s, const void **last, Step st);
 
+/* WAVE 12 (2026-09-23): func_020698F8 CLOSED, EXACT, ../2.0/sp2 (sp2p2 too).
+   The six doubly-normalised guards are three static INLINE levels:
+       IsNftr(r)        { if (r != 0 && r->sig == SIG_NFTR) return 1; return 0; }
+       VerAtLeast(r, v) { if (r != 0 && r->ver >= v) return 1; return 0; }
+       IsValid(r, v)    { return r != 0 ? (IsNftr(r) && VerAtLeast(r, v)) : 0; }
+   and the caller is `if (!IsValid(0x102) && !IsValid(0x101)) { if
+   (!IsValid(0x100)) func_02088234(); legacy = 1; }`.  The if-return leaf is
+   the only spelling that materialises the && value; `return r && c;` merges
+   it into control flow.  The whole cluster is now EXACT.                     */
+
 #endif /* CLUSTER_020694D8_H */

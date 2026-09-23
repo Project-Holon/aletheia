@@ -164,3 +164,86 @@ bytes.
 
 The pin is still not available: ../2.0/sp2 remains 360 bytes and 290 out.
 re-verified 2026-09-21 by tools/match.py: DIFF, 348 bytes against 352, 306 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-23, wave 12 singles lane: still DIFF, 352/352, 19 out, dsi/1.1p1
+==============================================================================
+
+NEW SIZE LEVER: drop the (s32) casts on the two slot compares.  `a == i`
+with s32 a and u32 i is an UNSIGNED compare, and that alone makes 1.1p1
+keep the fourth copy of 1 in fp (`mov fp, r3`, `movne r6, fp`): 348 -> 352,
+306 -> 19 out.  With int i, or with the casts, the constant merges again.
+What is left is one exchange: the image holds the slot index in ip and the
+slots base in lr, this compile the reverse (13 instructions, register
+fields only).  permuter hill 800 --types (188 singles) and anneal 1200 are
+flat at 19.  Measured and not levers: bare compare without the ternary
+(19), operand swap i == a (21), if/else store (340), separate loop var,
+decl orders, `ret = 0` after `a = 0`, per-iteration slots local (all 19).
+../2.0/sp2 and sp2p2 on every type variant: 360-364, 240+ out.
+
+/* best source, 352 bytes against 352, 19 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+typedef signed int     s32;
+typedef unsigned short u16;
+typedef signed short   s16;
+
+struct Slot { u8 kind; u8 state; u8 pad[2]; };
+
+struct Ctx {
+    s32   f00;            /* 0x00 */
+    u32   n;              /* 0x04 */
+    void (*cb)(s32, s32, s32);  /* 0x08 */
+    s32   arg;            /* 0x0c */
+    struct Slot *slots;   /* 0x10 */
+};
+
+extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
+
+extern s32 func_02035C38(void);
+extern s32 func_02035BA4(s32);
+extern s32 func_02035C08(s32);
+extern s32 func_02035C60(void);
+
+s32 func_02051C88(struct Ctx *c)
+{
+    s32 a;
+    s32 b;
+    s32 h, sel;
+    s32 ret = 0;
+    u32 i;
+
+    a = 0;
+    h = func_02035C38();
+    if (h != 0) {
+        a = func_02035BA4(c->f00);
+        b = func_02035C08(c->f00);
+        sel = func_02035C60();
+
+        for (i = 0; i < c->n; i++) {
+            if (c->slots[i].state != 0) {
+                c->slots[i].state = (u8)((a == i) ? 1 : 0);
+            } else {
+                c->slots[i].state = (u8)((b == i) ? 1 : 0);
+                if (c->slots[i].state != 0)
+                    ret = 1;
+            }
+        }
+    } else {
+        sel = 0;
+        for (i = 0; i < c->n; i++)
+            c->slots[i].state = (u8)a;
+    }
+
+    for (i = 0; i < c->n; i++) {
+        s32 v = g_020A15E8[c->slots[i].kind](&c->slots[i], h, sel);
+        if (v != -1)
+            c->cb((s32)i, v, c->arg);
+    }
+
+    return ret;
+}
+
+
+permuter best result line:
+  best      DIFF   asm=95    bytes-out=19   size=352/352  (hill 188 tried, anneal 1200 plateau)
