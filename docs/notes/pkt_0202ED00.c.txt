@@ -200,3 +200,14 @@ the source written as `*p = *(struct Rec *)((u8 *)p + sizeof(struct Rec))`;
 a const source pointer (`*p = *(const struct Rec *)(p + 1)` and a
 `const struct Rec *q = p + 1` local).  The copy still derives the
 destination from the base and the source from the shared product.
+
+================================================================
+APPENDED 2026-09-23, wave 16 (symbol/field/net lane): CLOSED, EXACT*
+================================================================
+src/matched/func_0202ED00.c.  The copy is written through a named destination
+and a source derived from it (dst = &t[n]; src = dst + 1; *dst = *src;), and
+the flag test must not share the t + n subexpression with them: (t + 1)[n]
+shares only the n*0x28 product the image keeps in r7.  Every test spelling
+that names t + n or dst (dst[1], (t + n + 1), (&t[n])[1]) rematerialises the
+base and flips the copy back to 6 out; t[n + 1] lets the front end hoist the
+n++ of both arms above the test (30 out).

@@ -239,3 +239,12 @@ APPENDED 2026-09-23, wave 15 tail lane (blink_palanm.c): no change
 Still 15 out under ../2.0/sp2 (and sp2p2), 44 under 1.1p1.  Measured:
 const parameters (`const u32 a, void * const b`); const-pointee b through
 every callee; v, n, and both as enums; locals declared v, n, t.  All 15/44.
+
+================================================================
+APPENDED 2026-09-23, wave 16 (symbol/field/net lane): CLOSED, EXACT under 1.1p1 (no pin)
+================================================================
+src/matched/func_0202EB9C.c.  func_0202ED60(a, b, 0) written in BOTH arms
+of the count test instead of once after the if/else.  1.1p1 then cross-jumps
+the two notify tails rather than the two func_0202ED00 calls, which is the
+image's kept `b` at 0x0202EC04 (the inner blo lands on it), and the a/b/v
+register rotation goes away with the same change.

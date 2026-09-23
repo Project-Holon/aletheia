@@ -134,3 +134,15 @@ re-verified 2026-09-21: no recoverable source in this note
 APPENDED 2026-09-23, wave 14 (small bundle lane): unchanged, DIFF 129
 ========================================================================
 Measured: register e, sel copy, ee copy before/after the call, an inline helper for the 30C/41C pair, func_02017DBC with 2/3/4 arguments: all 176 bytes / 129 out.  Every dsi front end 1.1..1.6sp2 gives 176; 1.2 base 200 bytes / 171 out, 1.2 sp3/sp4 192, 2.0 base..sp2p2 188.  Permuter hill 800 --types: no single mutation improves (119 tried).
+
+================================================================
+APPENDED 2026-09-23, wave 16 (symbol/field/net lane): CLOSED, EXACT (with func_0202F47C)
+================================================================
+src/matched/func_0202F1B4.c.  NOT an allocator tie.  Remove every goto:
+write each case's call run out in full, and write case 2's guard as
+  if (func_02018488(a, c) == 1) { 30C; 41C; } else { 3AC; 30C; 41C; }
+1.1p1's own cross-jumping then rebuilds the image's b-into-case-0 tails and
+the kept bne/b pair, and the head spills the selector and keeps e in r7 by
+itself.  The +0x58 site is attested by src/matched/func_0202F47C.c, the
+unlabelled 12-byte leaf at 0x0202F47C (tail call to func_02017E64 with 0x77,
+0x15), filed in the same shard; it wants a seed.

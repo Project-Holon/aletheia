@@ -381,3 +381,16 @@ local `g = gdata; if (g == 0) g = req->f54;` with one call (484, the load
 predicated as ldrheq); const req with const-pointee CpuCopy8/func_0203D8F0
 (492/80).  The image's head is `beq L; b M; L: ldrh r0, f54; M:`, the
 empty-then/else-load shape, which none of these give.
+
+================================================================
+APPENDED 2026-09-23, wave 16 (symbol/field/net lane): CLOSED, EXACT
+================================================================
+src/matched/func_0203CBAC.c.  The kept `beq; b` pair is a call written in
+both arms with the NON-ZERO arm first:
+  if (g != 0) func_0203064C(g, f56, 0x7800); else func_0203064C(f54, f56, 0x7800);
+(1.1p1 cross-jumps the two calls and leaves the then-arm as the `b`).  The
+same spelling in the beacon arm reproduces its out-of-line f54 load.  Case
+map per finding 1, with `break` in the vtable and beacon arms (they fall to
+the common tail).  The tail boolean is `f = 0; if ((u8)(m + 0xff) <= 1)
+f = 1;` and the 3-or-4 exit stays bound to `int done`.  func_0203D8F0 and
+func_0203AFCC now resolve as sole-ref/code.

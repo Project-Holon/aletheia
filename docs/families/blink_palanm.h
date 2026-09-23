@@ -151,15 +151,16 @@ extern u32 func_0202EC7C(struct Slot *a0, u32 a1);
 extern s32 func_0202ECB0(struct Slot *a0, void *b);
 
 /* Remove entry `n`: shift the tail down by one 0x28-byte record until a
- * cleared `mark` is met, then clear `mark` on every remaining entry.  STILL
- * DIFF at six bytes; see docs/notes/pkt_0202ED00.c.txt. */
+ * cleared `mark` is met, then clear `mark` on every remaining entry.  EXACT*
+ * since wave 16 (src/matched/func_0202ED00.c): copy through `dst`/`src =
+ * dst + 1`, test the flag as `(t + 1)[n]`. */
 extern void func_0202ED00(struct Slot *t, u32 n);
 
 /* The table dispatcher: look `b` up, and either remove and re-notify, or
- * insert by key with the count-capped policy.  STILL DIFF; see
- * docs/notes/pkt_0202EB9C.c.txt.  Size-exact only under ../2.0/sp2 (1.1p1
- * cross-jumps the insert arm's two func_0202ED00 calls, the image keeps
- * them apart); 15 out there, a register rotation plus one unthreaded jump. */
+ * insert by key with the count-capped policy.  EXACT under 1.1p1 since
+ * wave 16 (src/matched/func_0202EB9C.c): the notify call is written in both
+ * arms of the count test, so 1.1p1 cross-jumps those instead of the two
+ * func_0202ED00 calls. */
 extern u32 func_0202EB9C(u32 a, void *b);
 
 /* The guarded entry point: nothing happens for a `b` whose key is zero.

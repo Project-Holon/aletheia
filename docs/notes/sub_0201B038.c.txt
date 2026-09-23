@@ -148,3 +148,10 @@ witness.  Since src/matched/unit_0201B220.c is an EXACT entry the `matched`
 class carries the site, and the diff above was taken before that entry was
 written, which is why the harness printed it unresolved.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================
+APPENDED 2026-09-23, wave 16 (symbol/field/net lane): CLOSED, EXACT*
+================================================================
+src/matched/sub_0201B038.c.  `w = v; w |= (u8)(v << 4);` (the copy is the
+missing `adds r3, r0, #0`), then the last two truncations inside the call:
+func_02017E40(mon, 0x97, (u8)((u8)(w & 0xF3) + 1)).

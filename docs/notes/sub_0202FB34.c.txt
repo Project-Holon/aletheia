@@ -215,3 +215,17 @@ void sub_0202FB34(struct Rc4 *ctx, const u8 *src, s32 len, u8 *dst)
 
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 120 bytes against 120, 74 concrete bytes out, 1.1p1
+
+================================================================
+APPENDED 2026-09-23, wave 16 (symbol/field/net lane): no change, DIFF 74
+================================================================
+Measured: the note's source under 1.1p1 (74), ../2.0/base, sp2 and sp2p2
+(128 bytes, 96 out); a plain u8-index RC4 (108 bytes, 88 out: the <<24 index
+form is in the source, not a compiler strength reduction); `register` and
+`volatile` step (74 / 133); `while (len-- > 0)` (128, 105).  The image keeps
+the 0x1000000 step in lr and uses six callee-saved registers; no spelling
+tried materialises it.  Identification worth checking: the context layout
+{u8 i; u8 j; u8 pad[2]; u8 s[256];} and the argument order
+(ctx, src, len, dst) look like the TwlSDK/NitroSDK CRYPTO_RC4Encrypt
+(CRYPTORC4Context); if libmatch can confirm it, this is SDK library code for
+the denominator rather than a decompilation target.
