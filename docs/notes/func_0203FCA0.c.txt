@@ -753,3 +753,16 @@ void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 permuter best result line:
     best      DIFF   asm=5735  bytes-out=1325 size=1876/1876
     mutations type:ret-var(ss)   (refused: the image returns void)
+
+==============================================================================
+APPENDED 2026-09-23, wave 15 (bg_sys/backup lane).  Still DIFF, 1860/1876.
+==============================================================================
+One fresh reading with the wave 14 levers, on the wave 12 best source (its
+trailing permuter lines stripped; it reproduces 1860 / 1171 out):
+  * every BGxCNT store wrapped in the SDK's `(u16)(...)` cast, the single-cast
+    lever (24 stores): 1860 / 1171, byte-identical.
+  * u16 `type`; u8 `bgId`; u8 `bgId` and u8 `type`: 1860 / 1171 each.
+  * ../2.0/sp2p2: 1988 / 1633 (same as sp2).
+Nothing moved; the residue is the affine-arm colouring the wave 12 section
+describes, 16 bytes of cross-jump plus the rotation, not a single-site lever.
+re-verified 2026-09-23 by tools/match.py: DIFF, 1860 bytes against 1876, 1171 concrete bytes out, 1.1p1

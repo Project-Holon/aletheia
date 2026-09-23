@@ -729,3 +729,20 @@ Measured this wave, none moves the pair (all 1704 bytes):
 So the pair is not in casts, variable identity, numbering by first mention
 or pointer spelling.  Every instruction is right; the swap is the colour
 order of two interfering callee-saved values.
+
+================================================================================
+2026-09-23 -- wave 15 (bg_sys/backup lane).  Appended, nothing above edited.
+================================================================================
+0x02031FE0 -- still DIFF, 9 bytes, the same B / A+B swap (image B r8, AB r4).
+Wave 14 levers only, once each, on the wave 12 source (re-verified 1704 / 9,
+63 of 63 relocations):
+  * out-pointer inline helpers for the record lookup: recInfo(self, i, &A,
+    &B) then AB = A + B; recInfo3 also writing &AB; AB = recEnd(self, i, &A,
+    &B); only B through an out pointer: all 9.
+  * u16 lever: B u16 (1712 bytes), B and AB u16 (1720), func_02033BAC
+    declared returning u16 (9).
+  * widened mask: no mask in the residue, not applicable.  Single cast read
+    and declaration order: already exhausted in wave 14 (128 cast combos,
+    720 orders).
+Stopped as instructed.  Treat as an allocation tie until a new lever exists.
+re-verified 2026-09-23 by tools/match.py: DIFF, 1704 bytes against 1704, 9 concrete bytes out, 1.1p1

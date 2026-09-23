@@ -449,3 +449,91 @@ void func_020172D8(u8 *a0, u32 a1)
 }
 
 
+
+================================================================================
+2026-09-23 (wave 15, mcss.c lane).  47 bytes out, 220/220; no move.
+================================================================================
+
+Baseline re-verified: DIFF, 220 against 220, 47 out, dsi/1.1p1 (../2.0/sp2
+and sp2p2: 224 bytes, 171 out).  The residue is the same three-register
+rotation (a0 r3 for r2, k r2 for r1, b0 r1 for r3).  Measured flat at 47:
+block-scoped b0/b1/idx/k/p/val/v declarations; an initialised
+`u32 idx[2] = {...}` (rejected by the front end: "illegal constant
+expression", non-constant aggregate initialisers are not accepted here);
+a local copy of a0, a void * a0 with a u8 * local, `u8 a0[]`, `u8 * const
+a0`; a record pointer `e = &cur[n * 2]`; u32 b0, u8 b1; a pointer form of
+the inner read-modify-write; `const u8 *const sMcssTable[4]`; a
+`struct { u8 x, y; }` record type; lo/hi as an `s32 d[2]` array assigned
+once each (47: the array reproduces the image's paired stores to sp+8 and
+sp+4 without the recompute trick, so it is recorded below as the tidier
+spelling).  Worse: enum-typed i (224 bytes, 200 out) or k (224, 141): the
+image has no entry guard on either loop.  Permuter on the block-scoped
+source: hill --types 235 singles flat, anneal 2000 --types flat; on the
+array source: anneal 2000 --types flat.
+
+/* best source, 220 bytes against 220, 47 concrete bytes out, dsi/1.1p1 */
+/* permuter best: DIFF   asm=630   bytes-out=47   size=220/220  (anneal 2000 --types from this source: flat) */
+/*
+ * function: func_020172D8
+ * address:  0x020172D8
+ * packet:   pkt_020172D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   sMcssTable  0x020A72D4  data
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed int s32;
+extern const u8 *sMcssTable[4];
+void func_020172D8(u8 *a0, u32 a1)
+{
+  const u8 *cur;
+  s32 i;
+  s32 n;
+  s32 d[2];
+  for (i = 0; i < 4; i++)
+  {
+    cur = sMcssTable[i];
+    n = 0;
+    if (cur[0] != 0xff)
+    {
+      d[1] = (a1 & 0xf) - 8;
+      d[0] = ((a1 & 0xf0) >> 4) - 8;
+      do
+      {
+        u8 b0 = (u8) (d[1] + cur[n * 2]);
+        u32 b1 = (u8) (d[0] + cur[(n * 2) + 1]);
+        u32 idx[2];
+        s32 k;
+        idx[0] = (((u32) b0) >> 1) + (b1 << 7); idx[1] = (((u32) b0) >> 1) + ((b1 + 0x28) << 7);
+        for (k = 0; k < 2; k++)
+        {
+          if ((b0 & 1) != 0)
+          {
+            u32 p = idx[k];
+            u8 val = a0[p];
+            s32 v = val & 0xf0;
+            if ((v >= 0x10) && (v <= 0x30))
+              a0[p] = (u8) (val + 0x50);
+          }
+          else
+          {
+            u32 p = idx[k];
+            u8 val = a0[p];
+            s32 v = 0xf & val;
+            if ((v >= 1) && (v <= 3))
+              a0[p] = (u8) (val + 5);
+          }
+        }
+        n = (u8) (n + 1);
+      }
+      while (cur[n * 2] != 0xff);
+    }
+    a1 = a1 >> 8;
+  }
+}

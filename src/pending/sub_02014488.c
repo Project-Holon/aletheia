@@ -31,6 +31,9 @@
  *   sub_020289B8   0x020289B8  thumb
  *   func_0215FA44  0x0215FA44  thumb
  *   func_02188BD8  0x02188BD8  thumb
+ * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
+ *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
+ *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
 
 typedef unsigned char u8;

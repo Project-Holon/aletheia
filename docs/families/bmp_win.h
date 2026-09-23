@@ -14,8 +14,8 @@
  *   sub_020452E8  sub_02045334  sub_02045374  sub_020456F8
  *   unit_02045730 (fourteen 8-byte accessors 0x02045730..0x020457A0)
  *
- * Open in the range: func_020454E0 (the frame drawer, 536 bytes, DIFF at
- * 2 bytes, docs/notes/pkt_020454E0.c.txt).
+ * func_020454E0 (the frame drawer, 536 bytes) closed EXACT in wave 15
+ * (src/matched/func_020454E0.c); nothing in the range is open.
  *
  * ADJUDICATION RULE, as in bg_sys.h and bmp.h: a load or store instruction
  * constrains a field and a name does not.  Where two matched files name a
@@ -148,8 +148,9 @@ void sub_02045374(struct BmpWin *w);                    /* EXACT */
 
 /* The eight-piece frame around the window, base tile + 0..7 skipping the
  * centre, each one func_02041300 fill with mode 0x11.  func_02041680 == 1
- * (8bpp) means no palette bits.  DIFF at 2 bytes: see the note. */
-void func_020454E0(struct BmpWin *w, u32 base, u32 pal);
+ * (8bpp) means no palette bits.  base is a u16 tile number and the palette
+ * bits are built in place in pal (`pal &= 0xf; pal <<= 12;`). */
+void func_020454E0(struct BmpWin *w, u16 base, u32 pal);  /* EXACT */
 
 /* Clear the window's tilemap rectangle: func_02041300(layer, 0, x, y,
  * width, height, 0). */

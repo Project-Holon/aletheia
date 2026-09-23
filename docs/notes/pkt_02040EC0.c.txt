@@ -41,3 +41,11 @@ re-verified 2026-09-23 (wave 11): the bytes 0x02040EBC..0x02040EE0 are already
 covered by src/matched/unit_02040E78.c (EXACT, pkt_02040DA8, sub_02040EBC).
 The row at 0x02040EC0 is a mid-function artifact of that unit; nothing to file.
 src/pending/func_02040EC0.c is a stale DIFF park of the same bytes.
+
+2026-09-23, wave 15 (bg_sys/backup lane).  Still not C.  The worklist keeps
+0x02040EC0 OPEN (32 bytes) because disasm.py labels the `push {r3, lr}` and
+the shard entry sits at 0x02040EBC (pkt_02040DA8: func_02040EBC EXACT and
+unit_02040E78 EXACT with member sub_02040EBC).  Integrator item: the row
+needs the listing to start the function at 0x02040EBC (a seed at 0x02040EBC
+arm, witness src/matched/func_02040EBC.c) and the late label at 0x02040EC0
+dropped; no source change can close it.

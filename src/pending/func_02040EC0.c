@@ -38,6 +38,12 @@
  * a hand-rolled va_list (char * into &a0 + 4) goes the wrong way, 52 bytes
  * with the home-area push back.  Blocker: no way found to spell "frame comes
  * from the caller" without also taking an address that triggers the push.
+ *
+ * 2026-09-23 wave 15: these bytes are already EXACT from the real entry
+ * 0x02040EBC (src/matched/unit_02040E78.c member sub_02040EBC, and
+ * src/matched/func_02040EBC.c, shard pkt_02040DA8).  0x02040EC0 is four
+ * bytes into that function; no C can start there.  The open worklist row is
+ * a listing-label artefact for the integrator, not decompilation work.
  */
 
 typedef unsigned int u32;

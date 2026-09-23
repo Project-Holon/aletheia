@@ -32,6 +32,9 @@
  * Verified with:
  *   python tools/match.py one --src src/pending/func_0201450C.c \
  *       --func func_0201450C --addr 0x0201450C --cc 1.1p1 --thumb
+ * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
+ *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
+ *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
 
 extern void func_02012A30(int v);

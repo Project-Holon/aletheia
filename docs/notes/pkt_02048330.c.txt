@@ -528,3 +528,20 @@ void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
 func_02047400 func_02047564 func_0204767C func_02030734 func_020307B0, all arm
 at their own addresses, and g3d_util_file 0x020A7EB8 data; --cc 1.1p1 --arm)
 re-verified 2026-09-23 by tools/match.py: DIFF, 468 bytes against 468, 18 concrete bytes out, 1.1p1
+
+2026-09-23 (wave 15, bg_sys/backup lane) - 0x02048744, still DIFF 18 bytes.
+Re-verified the best source above (468/468, 18 out, same i/objTbl+j pair).
+Levers from the brief, each measured once:
+  `int j, i;` / `int j; int i;` (counter after j)                      18
+  a named `const ObjSetup *objTbl = setup->objTbl` per iteration, with
+    os = &objTbl[i] / objTbl + i, declared before i, between j and i,
+    after both                                                          18
+  u16 i (with or without objTbl, either order)                  476 bytes
+  u16 j; u16 i and j                                            476 / 484
+  u32 i                                                          21
+  single cast reads: objTbl[(u32)i] for os or for the model index   18;
+    obj[objIdx + (u32)i]                                         25
+  model index read as os->mdlResIdx instead of objTbl[i]           18
+Allocation tie stands; the sibling 0x02048330 colours the same loop right,
+so the difference is still a fact of this body not reached by declarations.
+re-verified 2026-09-23 by tools/match.py: DIFF, 468 bytes against 468, 18 concrete bytes out, 1.1p1

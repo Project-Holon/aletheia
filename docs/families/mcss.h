@@ -730,4 +730,24 @@ extern void  func_02014D2C(struct McssSys *sys);
  *     (compiler-temporary slot order, as predicted).
  */
 
+/* ================================================================== *
+ * 10. Wave 15 (2026-09-23), mcss.c lane: three rows closed.
+ * ================================================================== */
+
+/* func_02014D2C (the three-row frame walker, 0x02014D2C..0x020155A0) is
+ * EXACT as one unit (src/matched/func_02014D2C.c).  The last 43 bytes were
+ * the texture parameter write: it is the SDK inline G3_TexImageParam with
+ * ENUM parameter types (GXTexFmt ... GXTexPlttColor0); int parameters give
+ * 2168 bytes.  match.py tu compares the range across the two false labels
+ * and the manifest lists all three names on one entry.
+ *
+ * func_020163C4 and func_02016630 are EXACT: the descriptor parameter is
+ *     const struct McssSrc *src
+ * (docs/idioms/const-on-a-descriptor-parameter-orders-the-argument-loads.md).
+ * The prototypes in section 5 above omit the const; the callers
+ * (func_02016078, sub_02014CF8) are already matched and unaffected.
+ *
+ * Still open: func_020172D8 (47 out, a register rotation) and
+ * func_02016C60 (61 out, frame-slot order); see their notes.            */
+
 #endif /* MCSS_H */

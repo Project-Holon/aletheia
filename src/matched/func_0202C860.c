@@ -7,8 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     2026-09-23 (wave 15): EXACT with no C change; the ov010 call
+ *           at +0x34 now resolves sole-ref/code.  The MATCH text below is history.
  *
  * Blocked at MATCH on the `label`/`matched` classes: all 82 concrete bytes
  * are correct (88-byte extent, the last 6 bytes being the pool word 0xffff),

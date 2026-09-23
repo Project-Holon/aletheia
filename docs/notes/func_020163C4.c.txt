@@ -767,3 +767,19 @@ wrappers taking the Src pointer and reading both src fields INSIDE: both
 16, unchanged.
 /* best source, 620 bytes against 620, 16 concrete bytes out, dsi/1.1p1 */
 /* permuter best: DIFF   asm=80    bytes-out=16   size=620/620 (unchanged; source is the one above) */
+
+================================================================================
+2026-09-23 (wave 15, mcss.c lane).  CLOSED: EXACT, filed as
+src/matched/func_020163C4.c (shard pkt_020163C4).
+================================================================================
+
+The 16-byte swap at the four constructor call sites (image loads a2 for
+the SECOND argument first, then a2 for the first, then copies a1 for the
+out pointer) closes with one declaration: the descriptor parameter is
+`const struct Src *a2`.  Nothing else changed from the source above (the
+hook call casts it back to void *).  Measured before it, all flat at 16 or
+worse: callee prototypes as u32 x4 + u16 heap (the arc_util truth), void *
+forms, h as u16 or an enum (28, slot swap), flag as an enum, the ctor
+third argument as an enum, a volatile a2 (636 bytes).  The twin
+func_02016630 closes with the same edit.
+See docs/idioms/const-on-a-descriptor-parameter-orders-the-argument-loads.md.

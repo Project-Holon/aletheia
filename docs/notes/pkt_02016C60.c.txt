@@ -967,3 +967,24 @@ void func_02016C60(struct Work *a0, struct Task *a1)
 }
 
 
+
+================================================================================
+2026-09-23 (wave 15, mcss.c lane).  Re-verified 61 / 870 (listing 872); no move.
+================================================================================
+
+Baseline re-verified from the source above: DIFF, 870 compiled against the
+872-byte listing extent (2 bytes of pad), 61 out, dsi/1.1p1.  Still pure
+frame-slot numbering (52 lines, all str/ldr sp offsets plus the second
+pass's record-field block).  Measured, through an 870-extent wrapper
+(scratch-only, tools/ untouched): permuter --explain (r0 -> r1 x10, the
+second-pass record pointer); hill 800 --types flat at 61.  By hand:
+  - the wave-14 const lever that closed func_020163C4 / func_02016630:
+    `const struct Work *a0` gives 876 bytes (770 out; the image keeps
+    a0->f2c live in r0 across the count test, const makes mwcc re-read it),
+    `const struct Task *a1` 61 unchanged;
+  - separate block-scoped locals for the second pass (i2, j2, x2, y2, bw2,
+    bh2, found2, hi2, r2, c2, t2, v2, addr2) in declaration order: 90;
+    reversed: 101.
+No new lever; the residue stays a compiler-temporary slot order.
+/* best source, 870 bytes against 872, 61 concrete bytes out, dsi/1.1p1 */
+/* permuter best: DIFF   asm=895   bytes-out=61   size=870/870 (unchanged; source is the wave 12 one above) */

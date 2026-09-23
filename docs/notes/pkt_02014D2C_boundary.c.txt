@@ -654,3 +654,29 @@ void func_02014D2C(struct McssSys *sys)
     }
     REG_MTX_POP = 1;
 }
+
+================================================================================
+2026-09-23 (wave 15, mcss.c lane).  CLOSED: EXACT, filed as
+src/matched/func_02014D2C.c (shard pkt_02014D2C).
+================================================================================
+
+The 43-byte residue (0x1e CSE'd between G3_StoreMtx(30) and the texture
+parameter's 0x1e << 15) closes with ONE change: the texture parameter write
+is the SDK inline G3_TexImageParam with the SDK's ENUM parameter types
+(GXTexFmt, GXTexGen, GXTexSizeS, GXTexSizeT, GXTexRepeat, GXTexFlip,
+GXTexPlttColor0), called as
+  G3_TexImageParam(tex->fmt, GX_TEXGEN_TEXCOORD, tex->s, tex->t,
+                   GX_TEXREPEAT_ST, GX_TEXFLIP_ST, tex->pltt0, tex->addr);
+The same inline with int parameters (the TwlSDK g3b.h spelling this tree
+carries) is 2168 bytes, 540 out; with enum parameters it is 2164, EXACT.
+This is docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md's
+inline half.  G3_StoreMtx as an SDK inline or the plain register store:
+both EXACT; the filed file uses the inline.
+
+The harness question the brief asked: `match.py tu --addr 0x02014D2C
+--thumb` compares the whole 2164-byte range across the false labels
+without complaint, and `manifest --verify --shard pkt_02014D2C` records it
+as one game_unit entry whose `functions` list names func_02014D2C,
+func_02014D90 and func_02015590, so all three worklist rows read `matched`.
+Nothing was refused.  The two labels remain false starts (bl used as a
+long branch); dropping them is the integrator's call.

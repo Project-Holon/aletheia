@@ -531,3 +531,17 @@ void func_020433E0(volatile struct Cfg *c)
 }
 permuter best result line:
     best      DIFF   asm=30    bytes-out=6    size=188/188
+
+APPENDED 2026-09-23, wave 15 (bg_sys/backup lane).  Unchanged at 6 bytes.
+  Re-verified the best source above: 188/188, 6 out, the same r3 <-> ip pair
+  (image: DISPCNT base ip, second config word r3).  Wave 14 levers, once each,
+  all 188 bytes and 6 out:
+    widened mask `(u32)((long long)0x300010 ^ -1)`; `~(0x300000 | 0x10)`;
+    `~0x300010u`; single cast read `(u32)REG_A` on the first RMW only;
+    `int a = (int)c->f28` and `int b = (int)c->f2c`; the two words through an
+    out-pointer inline `getpair(c, &a, &b)`; the RMW as an inline
+    `setmode(volatile u32 *r, u32 m)` with a/b locals kept (6) or with the
+    fields passed directly (29); int-parameter SDK-style setters with locals
+    kept (6).  ../2.0/sp2 and ../2.0/sp2p2 on the best source and the
+    getpair/mask variants: 6, same pair.  Allocation cap stands.
+re-verified 2026-09-23 by tools/match.py: DIFF, 188 bytes against 188, 6 concrete bytes out, 1.1p1
