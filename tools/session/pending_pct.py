@@ -3,7 +3,7 @@
 functions that have a byte-correct file in src/pending (status MATCH or MATCH*). Unit files in
 pending count only functions they name in `symbols:`/`function:` that are open; approximate."""
 import json, re, glob, os
-os.chdir("<home>/Documents/aletheia")
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 wl = json.load(open("layout/worklist.json"))
 s = wl["summary"]
 open_funcs = {}

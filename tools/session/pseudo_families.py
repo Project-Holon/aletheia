@@ -22,7 +22,7 @@ is merged into whichever neighbour (prev preferred) it shares more evidence
 with, or the previous cluster if no signal.
 """
 import sys, os, json, bisect, collections
-os.chdir("<home>/Documents/aletheia")
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.insert(0, "tools")
 import worklist as w
 

@@ -4,7 +4,7 @@ The image was linked file after file, so every function from one file's anchored
 file's anchored function is attributed to the first file (edges are fuzzy by a few functions).
 Consecutive anchors naming the same file merge. Prints families ranked by matched-function count desc."""
 import sys, os, json, bisect, collections
-os.chdir("<home>/Documents/aletheia"); sys.path.insert(0, "tools"); import worklist as w
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))); sys.path.insert(0, "tools"); import worklist as w
 inv = w.build_inventory(); funcs = sorted(inv["funcs"], key=lambda f: f["addr"])
 anch = []
 for ln in open("layout/file_anchors.txt"):

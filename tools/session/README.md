@@ -14,3 +14,8 @@ working directory; edit the absolute scratchpad path at the top of foldin.sh and
 - pseudo_families.py: regenerates pseudo_families.json from adjacency and shared callees/data.
 - promote_fast.py / pending_pct.py: fresh 6-way verdicts of src/pending and the reproduced figure.
 - pseudo_remaining.txt: the upper-half list at the end of wave 13.
+
+On a fresh machine the listings under asm/ do not exist (gitignored): run
+`python tools/disasm.py arm9 --split` and `python tools/disasm.py overlay --all`
+from the repo root before any helper here works. The helpers locate the repo
+from their own path; no hardcoded checkout path.
