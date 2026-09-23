@@ -53,3 +53,9 @@ exactly the same six halfwords of residue, so this is a scheduling-free-list
 choice, not a source shape: the instruction multiset, the frame and the whole
 body from +0x14 to the epilogue are already identical.
 re-verified 2026-09-21: no recoverable source in this note
+
+APPENDED 2026-09-23, wave 17 lane untried_small: EXACT, src/matched/func_0201A4D4.c
+The homing residue was the heap id width: a2 declared u16 (callees left u32)
+is homed and reloaded exactly as the image does. First measurement. With the
+callees also narrowed (allocator u16 first arg, 0x457B0 u16 b, 0x45B38 u16 d)
+it is still EXACT; narrowing only the callees is 168 bytes.
