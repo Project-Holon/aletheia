@@ -3,7 +3,7 @@
  "version": 2,
  "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
  "region": "arm9",
- "shard": "pkt_020202CC",
+ "shard": "pkt_02020268",
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
@@ -18,7 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02020268"
+    "func_02020268",
+    "func_02020298",
+    "func_020202EC",
+    "func_020202FC",
+    "func_02020314",
+    "func_02020324",
+    "func_02020344",
+    "func_02020350"
    ]
   }
  ]

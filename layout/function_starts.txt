@@ -384,7 +384,6 @@ arm9_main  0x020394C0  arm     # ldr r0,[pc,#12] ARM leaf prologue; target of ve
 arm9_main  0x0203C8E8  arm     # ldr r1,[pc,#12] ARM leaf prologue before func_0203C900
 arm9_main  0x0204BE38  arm     # cmp r1,#0 ARM leaf prologue; target of veneer already seeded at 0x0204B0F4
 arm9_main  0x020979BC  arm     # lone .word 0xE92D000F = stmfd (push) ARM prologue instruction before func_020979C0
-arm9_main  0x020202CC  thumb   # tail-call thunk target of sub_02022AC4.c (pool word + bx idiom per pending header)
 
 # Earlier lane finding: ABS32 thunk hidden in a previous function's word run.
 arm9_main  0x0200AD6C  thumb   # ldr r3,[pc,#4]; movs r1,#0x2E; ...; bx r3 thunk before func_020071CC's pool entry
@@ -417,3 +416,17 @@ arm9_main  0x02026C1C  thumb   # covered by unit_02026BFC.c
 arm9_main  0x02026C30  thumb   # covered by unit_02026BFC.c
 arm9_main  0x02026C78  thumb   # covered by unit_02026BFC.c
 arm9_main  0x02026C8C  thumb   # covered by unit_02026BFC.c
+
+# Wave 13 (2026-09-23): leaves and followers covered by matched sources. 0x020202CC was removed:
+# it was the middle of func_02020298 (a pending header had misnamed sub_02022AC4's tail-call target).
+arm9_main  0x02076050  arm     # leaf follower of func_02075FCC; src/matched/func_02076050.c
+arm9_main  0x02020268  thumb   # bmp_menulist attribute setters, unit_02020268.c covers 0x02020268..0x02020408
+arm9_main  0x02020298  thumb   # unit_02020268.c
+arm9_main  0x020202EC  thumb   # unit_02020268.c
+arm9_main  0x020202FC  thumb   # unit_02020268.c
+arm9_main  0x02020314  thumb   # unit_02020268.c
+arm9_main  0x02020324  thumb   # unit_02020268.c
+arm9_main  0x02020344  thumb   # unit_02020268.c
+arm9_main  0x02020350  thumb   # unit_02020268.c
+arm9_main  0x0200D288  thumb   # 12-byte leaf after func_0200D144; src/matched/func_0200D288.c
+arm9_main  0x0202EB04  thumb   # 6-byte leaf after func_0202EA40's pool word; src/matched/func_0202EB04.c

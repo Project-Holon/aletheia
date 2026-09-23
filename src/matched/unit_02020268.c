@@ -1,8 +1,8 @@
 /*
  * unit:     yes
- * function: func_02020268
+ * function: func_02020268, func_02020298, func_020202EC, func_020202FC, func_02020314, func_02020324, func_02020344, func_02020350
  * address:  0x02020268
- * packet:   pkt_020202CC
+ * packet:   pkt_02020268
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
