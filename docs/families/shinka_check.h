@@ -205,7 +205,7 @@ extern struct Waza      g_02146534;  /* 0x02146534  data */
  *
  *   g_0209E45C   func_0201B7A0  indexed, stride 3      (EXACT)
  *   g_0209E462   func_0201B818  fixed row, party sweep (MATCH-capped, below)
- *   g_0209E465   func_0201B7EC  fixed row, coin flip   (DIFF, 4 bytes)
+ *   g_0209E465   func_0201B7EC  fixed row, coin flip   (EXACT, wave 14: u64 rand * 2 >> 32)
  *
  * All three resolve as of 2026-09-22.  0x0209E462 is 2-ALIGNED (the 3-byte
  * stride puts that row at +6 into a word) and for a long time every sole-ref

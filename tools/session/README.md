@@ -1,25 +1,46 @@
-# Session helpers (2026-09-22 to 2026-09-23)
+# Session helpers
 
-Copied from the orchestrator's scratchpad at the end of the run so the wave loop in
-docs/HANDOFF.md section 2 can be repeated on another machine. They assume the repo root as the
-working directory; edit the absolute scratchpad path at the top of foldin.sh and commitset.sh.
+The wave loop of docs/HANDOFF.md section 2, as plain Python (stdlib only). Every helper locates
+the repo from its own path, so it runs from any working directory, and each one can also be
+imported (`main()` is only called under `__main__`). Toolchains, the interpreter and the scratch
+directory come from `tools/env.py`; nothing here is specific to Windows, macOS or Linux.
 
-- foldin.sh: worklist refresh, pending re-verify (promote_fast.py --dry), reproduced figure
-  (pending_pct.py), split build, ROM build with sha1, treemaps, and the sharded/unsharded split of
-  untracked src/matched files.
-- commitset.sh "<label>" <prev exact> <prev repro>: README figure, stage sharded sources and shards,
-  docs and pending, commit with both figures and deltas, push. Refuses to run with empty figures.
-- remaining.py: open functions per upper-half pseudo-family (pseudo_families.json), sizes, ISA, state.
+## Usage (Windows, macOS, Linux)
+
+```
+python tools/session/wave.py foldin
+python tools/session/wave.py commit "<label>" <prev_exact> <prev_repro>
+python tools/session/promote_fast.py [--dry]
+python tools/session/pending_pct.py
+python tools/session/remaining.py
+python tools/session/families.py [out.txt]
+python tools/session/pseudo_families.py
+```
+
+Use whatever name starts Python 3 on the machine (`python`, `python3` or `py -3`); the helpers
+start their child tools with the same interpreter.
+
+- wave.py foldin: worklist refresh, pending re-verify (promote_fast.py --dry), exact and
+  reproduced figures (pending_pct.py), split build and pack, ROM build with its sha1 line,
+  coverage maps, then the INCLUDE (sharded) and HOLD (unsharded) lists of untracked
+  src/matched files and any untracked layout files.
+- wave.py commit: README figure, stages README, shards, docs, pending and the sharded untracked
+  sources, commits with both figures and their deltas, pushes. Refuses to run when the figures
+  cannot be read. Note that it stages with `git add -u`, so any tracked file modified in the
+  working tree at that moment goes into the commit.
+- promote_fast.py: fresh 6-way verdicts of src/pending; without --dry, moves EXACT files to
+  src/matched and re-verifies the touched shards.
+- pending_pct.py: exact and reproduced coverage, counting only pending files with a fresh verdict.
+- remaining.py: open functions per upper-half pseudo-family (pseudo_families.json).
 - families.py: the same for anchored families (layout/file_anchors.txt).
-- pseudo_families.py: regenerates pseudo_families.json from adjacency and shared callees/data.
-- promote_fast.py / pending_pct.py: fresh 6-way verdicts of src/pending and the reproduced figure.
+- pseudo_families.py: regenerates pseudo_families.json here (the text table goes to the scratch
+  directory; OUT_JSON / OUT_TXT override both).
 - pseudo_remaining.txt: the upper-half list at the end of wave 13.
 
-On a fresh machine the listings under asm/ do not exist (gitignored): run
-`python tools/disasm.py arm9 --split` and `python tools/disasm.py overlay --all`
-from the repo root before any helper here works. The helpers locate the repo
-from their own path; no hardcoded checkout path.
+promote_fast.py writes `pending_verdicts.json` to the scratch directory and pending_pct.py reads
+it from there: `ALETHEIA_SCRATCH` if set, else `<system temp>/aletheia`. `python tools/env.py`
+prints the resolved path.
 
-Portable fold-in and commit (Windows, macOS, Linux): `python tools/session/wave.py foldin`
-then `python tools/session/wave.py commit "<label>" <prev_exact> <prev_repro>`; same steps as
-foldin.sh and commitset.sh, repo-relative, no scratchpad.
+On a fresh checkout the listings under asm/ do not exist (gitignored): run
+`python tools/disasm.py arm9 --split` and `python tools/disasm.py overlay --all` once from the
+repo root before any helper here works.

@@ -329,3 +329,5 @@ void func_02024DFC(void)
         func_020409B4(g_0214693C->f06);
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 852 bytes against 856, 306 concrete bytes out, 1.1p1
+
+closed 2026-09-23 (wave 14): EXACT, see src/matched/func_02024DFC.c and docs/families/infowin.h.
