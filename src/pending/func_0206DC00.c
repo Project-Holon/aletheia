@@ -23,10 +23,13 @@
  *   - PC24 0x027300F0 and 0x0272FEF4: TWL code, region `twl` (the DSi-mode
  *     autoload block of arm9i.bin, 2026-09-24), named with the `twl` token.
  *     asm/twl/twl.s exists only with a user-supplied DSi key (arm9i is
- *     modcrypted; see tools/modcrypt.py), and the only branches in the
- *     image to either address are this function's own two bl, which the
- *     label rule refuses. Class needed: label, via a branch from the
- *     decrypted TWL code.
+ *     modcrypted; see tools/modcrypt.py). Verified with a key 2026-09-24:
+ *     both addresses are traced ARM function starts in asm/twl (push
+ *     prologues), but no bl, b, blx or pool word in the decrypted twl
+ *     image, the ARM9 image or any of the 237 overlays targets either
+ *     one; the only branches are this function's own two bl, which the
+ *     label rule refuses. Class needed: label, via an outside branch;
+ *     none exists in this ROM.
  *   - ABS32 0x0206DBF4: CLEARED 2026-09-23 (wave 16). The 12-byte leaf is
  *     filed EXACT as src/matched/func_0206DBF4.c (shard pkt_0206DC00) and
  *     the site now resolves as `matched`: 12 of 14 relocations resolve,

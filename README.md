@@ -27,7 +27,7 @@ byte-matching ROM.
 - [x] **Milestone 2**: Delink, disassemble, and prove reassembly
   - [x] BLZ-decompress and delink ARM9 binary + all 237 overlays
   - [x] Disassemble with `tools/disasm.py` (ARM/Thumb, code/data split)
-  - [x] Reassemble byte-identically (`tools/build.py`: 242 of 242 regions PASS)
+  - [x] Reassemble byte-identically (`tools/build.py`: 242 of 242 regions PASS; 243 of 243 with the DSi-mode region `twl`, decrypted with a user-supplied key)
   - [x] Split ARM9 into ordered translation units
 - [~] **Milestone 3**: Incremental decompilation to matching C
   - [x] Build system compiles C and links against remaining assembly

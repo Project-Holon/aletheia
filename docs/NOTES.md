@@ -1098,11 +1098,22 @@ adds region `twl` (243 regions; `--only twl` alone; never in `--only arm9`,
 `label` rule with one candidate). Without a key everything skips the region
 and the build stays at 242 regions. The region is outside the ARM9
 denominator. The plumbing was exercised end to end on the undecrypted
-payload (reassembly PASS after quirk rounds, which proves nothing about the
-bytes) and has not yet run on plaintext.
+payload before a key was available.
 
-The only branches in the image to 0x027300F0 and 0x0272FEF4 are the two
-`bl` in func_0206DC00 itself (0x0206DCA4, 0x0206DD40). The `label` rule
-refuses a witness inside the compared range, so func_0206DC00 reaches EXACT
-through the `twl` token only if the decrypted TWL code itself branches to
-one of them.
+Verified on plaintext with a user-supplied key file (the 16 bytes in the
+order stored, little endian, i.e. reversed from the printed big-number
+form, pass the SHA-1 check as they are). The decrypted BLZ stream is
+consumed to its last byte (0x32DB4 bytes out), and the formerly corrupt
+front now reads as ordinary ARM code: 168 of the listing's 305 functions
+start below 0x02707090. `build.py --only twl` passes byte for byte on the
+first round with no new quirks, and the full build is 243 of 243 PASS. The
+ARM9 denominator is unchanged (400306 bytes).
+
+func_0206DC00 stays MATCH. 0x027300F0 and 0x0272FEF4 are traced ARM
+function starts in asm/twl/twl.s (push prologues, found by the prologue
+sweep), so rules 1 and 2 of the `twl` label rule hold, but a raw scan of
+the decrypted twl image, the ARM9 image and all 237 overlays finds no bl,
+b, blx or pool word (ARM or Thumb) that targets either address other than
+the two `bl` in func_0206DC00 itself (0x0206DCA4, 0x0206DD40), which lie
+inside the compared range. Rule 3 has no witness in this ROM; the two
+relocations stay wildcarded.
