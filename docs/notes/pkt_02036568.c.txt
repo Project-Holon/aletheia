@@ -45,3 +45,65 @@ This one matters beyond itself: 0x02036568 is the blocker of the parked
 func_020364D4 (src/pending/func_020364D4.c), which promotes to EXACT the day
 this entry exists.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+===== wave 13 (2026-09-23): func_02036568 =====
+/* best source, 128 bytes against 128, 25 concrete bytes out, dsi/1.1p1 -O4,p */
+permuter: hill 500 -> "no single mutation improves DIFF asm=440 bytes-out=25 size=128/128 (123 tried)";
+anneal 1500 -> "best DIFF asm=440 bytes-out=25 size=128/128".
+
+Same residue as above (the loop-bottom `ldrsh r1,[sb,#0xc]` must be issued
+before the byte load and store).  New this wave: the family's write cursor
++0x0E declared `volatile short` (the lever that closed func_02036428) keeps
+the tail test right; making the READ cursor +0x0C volatile as well is much
+worse (132 bytes, 105 out), a volatile cast on the loop-bound read only is
+worse (101 out), and value/index locals with the increment before the store
+are worse (46 out).  ../2.0/sp2 gives the same 25.  The image needs the
+bound load hoisted above a u8 store through dst, i.e. the compiler must
+believe dst cannot alias the ring header -- a declaration-level lever
+(dst's type, or the ring passed differently) is the untried direction.
+
+/*
+ * function: func_02036568
+ * address:  0x02036568
+ * packet:   pkt_02036568
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02036624  0x02036624  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u8   *buf;
+    int   size;
+    u32   pad8;
+    short head;
+    volatile short tail;
+} NetRingBuff;
+
+extern int func_02036624(NetRingBuff *r, int idx);
+
+int func_02036568(NetRingBuff *r, u8 *dst, int len, int max)
+{
+    int i;
+    int n;
+
+    n = 0;
+    for (i = r->head; i < r->head + len; i++) {
+        if (r->tail == func_02036624(r, i) || n == max) {
+            return n;
+        }
+        dst[n] = r->buf[func_02036624(r, i)];
+        n++;
+    }
+    return n;
+}

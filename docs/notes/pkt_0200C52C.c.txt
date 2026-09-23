@@ -205,3 +205,118 @@ struct MusicalDist *func_0200C52C(void *sys, u32 heap)
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 120 bytes against 120, 36 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 (musical_dist_save lane): callee prototypes
+==============================================================================
+
+/* best source, 120 bytes against 120, 56 concrete bytes out, 1.1p1 */
+
+No closure; two declaration facts proven against the image, which change
+what the "best source" above really is:
+
+  1. func_020073D8 TAKES THREE ARGUMENTS.  Its own body (0x020073D8:
+     `adds r6, r2, #0` ... `adds r1, r6, #0 / blx func_020319A4`) reads r2
+     and forwards it, and src/matched/unit_0200B4E0.c already declares it
+     `(void *save, u32 id, u32 c)`.  In this function the third argument is
+     the `movs r2, #0` at +0x46: that one zero is stored to +0x08, stored to
+     +0x04 on the else path, and is still in r2 at the second call -- it is
+     not a leftover, it is the literal 0 of `func_020073D8(sv, 6, 0)`.  The
+     36-out source above is only that close because its two-argument
+     prototype lets the compiler drop the third argument.
+  2. func_020072CC's matched body (src/matched/func_020072CC.c) declares its
+     heap parameter u8, but this caller passes heap in r2 with no
+     `lsls/lsrs #0x18` pair, so the prototype visible here was u32 (or the
+     caller's own heap was already u8-typed, which the absence of any
+     narrowing in the prologue argues against).  A u8 prototype costs the
+     pair: 120 bytes, 39 out, image-order stores.
+
+With both facts, the image-order shape (`r = ...; stores; if (r == 1)
+p->unk04 = 1; else p->unk04 = 0;`) is 116/59 and the stores-in-both-arms
+shape below is 120/56.  The wall is unchanged and now clearer: the image
+spills `sys` to [sp, #4] and keeps `sv` in r6 AND the id 6 in r7 across
+the first call (`movs r7, #6` ahead of the bl, `adds r1, r7, #0` at the
+second), and consequently the shared zero lands in r2 where the third
+argument needs it.  Every shape here keeps `sys` in r6, spills `sv`, and
+rematerialises both the 6 and the 0.  Tried without effect (116/59 unless
+noted): heap as u16/u8 parameter (same), a named `id = 6` local (and
+`id = 6` inside the call), `p->unk04 = (r == 1) ? 1 : 0` (116/66), the
++0x28/+0x00/+0x08 stores before the call (120/58), `p->unk1C` re-read for
++0x20/+0x24 (116/59), the third argument written as `p->unk08` (116/59),
+a zero-argument func_02012EBC (identical output: the spill choice does not
+follow sys's use count).  2.0/sp2: 116-120, 94-104 out.
+Permuter from the 116/59 image-order shape: hill 800 and anneal 2000
+(--types) both end at `120/120, 33 out` only via `type:l(r:u32->u16|u8)`,
+a truncated result the image does not have (r is compared straight out of
+r0) -- rejected, the same as wave 11's finding.
+
+/*
+ * function: func_0200C52C
+ * address:  0x0200C52C
+ * packet:   pkt_0200C52C
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02012EBC  0x02012EBC  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_020072CC  0x020072CC  thumb
+ *   func_020073D8  0x020073D8  thumb
+ *   g_020A71D4     0x020A71D4  data  a1
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct DistHdr {
+    u32 unk00;
+    u32 unk04;
+    u32 unk08;
+    u32 unk0C;
+};
+
+struct MusicalDist {
+    u16 unk00;
+    u32 unk04;
+    u32 unk08;
+    struct DistHdr unk0C;
+    void *unk1C;
+    void *unk20;
+    u8   *unk24;
+    void *unk28;
+};
+
+extern const char g_020A71D4[];
+extern void *func_02012EBC(void *sys);
+extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file, u32 line);
+extern u32   func_020072CC(void *sv, u32 id, u32 heap, void *buf, u32 size);
+extern u8   *func_020073D8(void *sv, u32 id, u32 c);
+
+struct MusicalDist *func_0200C52C(void *sys, u32 heap)
+{
+    void *sv;
+    struct MusicalDist *p;
+    u8 *z;
+
+    sv = func_02012EBC(sys);
+    p = func_02030734(heap, 0x2C, 1, g_020A71D4, 0x4A);
+    p->unk1C = func_02030734(heap, 0x20000, 1, g_020A71D4, 0x4C);
+    if (func_020072CC(sv, 6, heap, p->unk1C, 0x20000) == 1) {
+        p->unk00 = heap;
+        p->unk28 = sys;
+        p->unk08 = 0;
+        p->unk04 = 1;
+    } else {
+        p->unk00 = heap;
+        p->unk28 = sys;
+        p->unk08 = 0;
+        p->unk04 = 0;
+    }
+    z = func_020073D8(sv, 6, 0);
+    p->unk1C = z;
+    p->unk20 = z;
+    p->unk24 = z + 0x10;
+    return p;
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 120 bytes against 120, 56 concrete bytes out, 1.1p1

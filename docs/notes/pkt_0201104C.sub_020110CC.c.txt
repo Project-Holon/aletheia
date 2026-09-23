@@ -44,3 +44,10 @@ the literal-address form `*(u8 *)0x0214621A` (which also loses the ABS32
 relocation, so it is not an option even if it had worked).  This is the same
 one-register/isomorphism family as pkt_02012C18's note.
 re-verified 2026-09-21: no recoverable source in this note
+
+
+===== wave 13 (2026-09-23): func_020110CC, no new source =====
+Not re-attempted beyond reading: its 7-byte residue is the entry-order miss
+now also seen in func_0201104C (10 bytes, same four instructions) and
+func_020111BC (3 bytes).  See the wave 13 section of pkt_0201104C.c.txt;
+whatever closes one closes all three.

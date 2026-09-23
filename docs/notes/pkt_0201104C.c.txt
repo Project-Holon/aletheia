@@ -75,3 +75,100 @@ int sub_0201104C(void *a0)
     return (int)v5;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 128 bytes against 128, 108 concrete bytes out, 1.1p1
+
+
+===== wave 13 (2026-09-23): func_0201104C =====
+/* best source, 128 bytes against 128, 10 concrete bytes out, dsi/1.1p1 -O4,p */
+permuter: hill 600 from the wrapping-if source -> "best DIFF asm=300 bytes-out=20 size=128/128";
+anneal 2000 -> "best DIFF asm=245 bytes-out=10 size=128/128  mutations temp(tmp1=func_0201AB28(a0, v)) ; commute(==) ; decl-order(tmp<->h) ; temp(tmp2=...) ; decl-order(v<->tmp2) ; use(max) ; decl-order(tmp<->tmp2)".
+
+Two real levers found (108 -> 20 out): the 0x30 test is a WRAPPING if
+whose fall-through is the trailing `return 0xff`, and the parameter is
+REASSIGNED with func_0201AB28's result (a0 = func_0201AB28(a0, v)), which
+puts it in r4 the way the image does.  The anneal's extra 10 bytes are an
+unreadable register shuffle and are not kept.  What remains (10 bytes) is
+the entry: the image loads the mode-byte pool word into r1 BEFORE copying
+a0 to r4; every spelling copies first and loads into r0.  This is the same
+residue as func_020110CC (note pkt_0201104C.sub_020110CC.c.txt) and
+func_020111BC (note func_020111BC.c.txt) -- three neighbours of net_save.c
+with an identical first-four-instruction miss, so it is one source-level
+property of the file (K&R definitions, an inline mode predicate, a u8
+local for the mode byte and ../2.0/sp2 all tried here, no change).
+
+/*
+ * function: func_0201104C
+ * address:  0x0201104C
+ * packet:   pkt_0201104C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146208     0x02146208  data
+ *   g_02146228     0x02146228  data
+ *   func_0201BA34  0x0201BA34  thumb
+ *   func_0201AB08  0x0201AB08  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_02017D30  0x02017D30  thumb
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02017E40  0x02017E40  thumb
+ *   func_02017D70  0x02017D70  thumb
+ *   func_02010F50  0x02010F50  thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u8 g_02146208[];
+extern u8 g_02146228[];
+extern void func_0201BA34(void);
+extern void *func_0201AB08(void);
+extern void *func_0201AB28(void *a, void *b);
+extern void *func_02017D30(void);
+extern int func_02017E1C(void *a, int b, int c);
+extern void func_02017E40(void *a, int b, int c);
+extern void func_02017D70(void *a, void *b);
+extern void func_02010F50(int idx);
+u32 func_0201104C(void *a0)
+{
+  int tmp;
+  void *tmp2;
+  int max;
+  int n;
+  void *h;
+  void *tmp1;
+  void *v;
+  if (g_02146208[0x19] != 0x30)
+  {
+    if (999 == (*((u16 *) (g_02146228 + 0xc))))
+    {
+      func_0201BA34();
+      v = 0;
+    }
+    else
+    {
+      v = func_0201AB08();
+      if (max)
+      {
+      }
+      tmp2 = func_0201AB28(a0, v);
+      tmp1 = tmp2;
+      a0 = tmp1;
+      h = func_02017D30();
+      max = func_02017E1C(a0, 0xa1, 0);
+      tmp = func_02017E1C(a0, 0xa0, 0);
+      n = tmp + (*((u16 *) (g_02146228 + 0xc)));
+      if (n > max)
+      {
+        n = max;
+      }
+      func_02017E40(a0, 0xa0, n);
+      func_02017D70(a0, h);
+    }
+    func_02010F50(5);
+    return (u32) v;
+  }
+  return 0xff;
+}

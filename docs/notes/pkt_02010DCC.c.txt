@@ -161,3 +161,12 @@ of body, both fully understood, and the gap is two instructions.
 
 re-verified 2026-09-22 by tools/match.py: func_02010DF4 DIFF, 32 bytes against 32, 13 concrete bytes out, 1.1p1
 re-verified 2026-09-22 by tools/match.py: func_02010DCC DIFF, 40 bytes against 40, 23 concrete bytes out, 1.1p1
+
+
+===== wave 13 (2026-09-23): func_02010DF4 / func_02010DCC =====
+/* best source, 32 bytes against 32, 13 concrete bytes out, dsi/1.1p1 -O4,p */
+(the s8-counter source of src/pending/func_02010DF4.c, unchanged)
+Reading 1 above tried, int counter: the bound 13 returned by a static
+inline, the loop in a static inline taking the bound as a parameter, the
+bound in a local, and a while loop -- all fold the guard (28 bytes, 23 out)
+under both dsi/1.1p1 and ../2.0/sp2.

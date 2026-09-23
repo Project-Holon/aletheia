@@ -264,3 +264,99 @@ struct row expression, `(p->unk05C[(u16)i] + off)[0]`, and `*((u8 *)p +
 (u16)i * 0x54 + off + 0x5C)`.  2.0/sp2: 76, 53.
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 72 bytes against 72, 42 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 (musical_dist_save lane): 42 -> 10 out
+==============================================================================
+
+/* best source, 72 bytes against 72, 10 concrete bytes out, 1.1p1 */
+
+Two source facts moved this from 42 to 10; everything from the call to the
+end of the loop now has the image's instruction sequence, and the residue is
+three registers:
+
+  1. THE HIT PATH IS A PRESET RESULT PLUS `goto`, not `return 1` in the loop
+     and not `r = 1; ... return r;`: `i = 0; r = 1; for (; i < 4; i++) { if
+     (bit) goto out; } r = 0; out: return r;`.  That is what gives the
+     image's `movs r0, #1` in the preheader AFTER `movs r3, #0` and the bare
+     `bne` to the shared pop.  (`r = 1; for (i = 0; ...)` puts the 1 before
+     the 0 and costs 3 more bytes.)
+  2. THE BYTE ADDRESS IS BUILT ROW FIRST, OFFSET SECOND, AND THE OFFSET IS A
+     FRESH COPY EACH ITERATION: `q = (u8 *)p + (u16)i * 0x54; t = id; t = t
+     >> 3; q += t; q[0x5C]`.  Without the in-loop copy `t = id` mwcc hoists
+     `p + (id >> 3)` into the preheader (the reassociation every earlier
+     note hit); with it, the shift is still hoisted but the add stays in the
+     loop in the image's order `(p + row) + off + 0x5C`.  The mask is
+     written inline `(1 << (id & 7))` and LICM hoists it to the image's
+     place (a named `m` local before the loop costs 9-13 bytes).
+
+  Residue (image | compiled):
+    +0014  subs r0, r4, #1   | subs r1, r4, #1      (id - 1 temporary)
+    +001E  movs r2, #1       | movs r3, #1          (mask <-> counter
+    +0022  movs r3, #0       | movs r2, #0           swapped: r2/r3)
+    and the r2/r3 swap at the four loop uses.
+
+Permuter from the 12-out point (offset copy but `p->unk05C[(u16)i][t]`): hill 172 singles, none
+improve; anneal 2000: asm=70, 12.  From the 10-out source: anneal 2000,
+asm=60, bytes-out=10, no mutation kept.  CAUTION: from the earlier 30-out
+point the permuter reported 19 and 15 out, but both of those candidates
+use `y` before it is assigned (a `reorder` moved `1 << (y & 7)` above
+`y = ...`); they are not valid C readings and were discarded.
+2.0/sp2 on this source: 72 bytes, 20 out.  Shapes that did not help from
+here: while/do forms, `i`/`r` declaration orders, `m` local, `t` as the
+only copy (`t = id; q += t >> 3`: 74), `p->unk05C[(u16)i]` as the row
+(70, 38), inline helpers over a row pointer or (p, row, x) (72, 30-38),
+`break` + `i < 4` test (76), `r = 0; ... r = 1; break;` (76).
+
+/*
+ * function: func_0200D064
+ * address:  0x0200D064
+ * packet:   pkt_0200D064
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200C720  0x0200C720  thumb
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+extern u32 func_0200C720(u16 id);
+struct Blk37 { u32 unk00; u32 unk04; u8 unk008[0x54]; u8 unk05C[4][0x54]; u8 unk1AC[4][0x54]; u8 unk2FC[4][9]; u8 unk320[0x1B0]; u32 unk4D0; };
+u32 func_0200D064(struct Blk37 *p, u16 id)
+{
+    u32 r;
+    u32 i;
+    s32 t;
+    u8 *q;
+
+    if (func_0200C720(id) != 0)
+        return 0;
+    id--;
+    i = 0;
+    r = 1;
+    for (; i < 4; i++) {
+        q = (u8 *)p + (u16)i * 0x54;
+        t = id;
+        t = t >> 3;
+        q += t;
+        if ((q[0x5C] & (1 << (id & 7))) != 0)
+            goto out;
+    }
+    r = 0;
+out:
+    return r;
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 72 bytes against 72, 10 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 13: CLOSED
+==============================================================================
+CLOSED later in the same wave: src/matched/func_0200D064.c is EXACT.  The 
+open-coded spellings above were the wrong reading; the image is two inline 
+helpers, a u16-row accessor `DistRow(p, i)` (the per-use lsls/lsrs of the 
+counter) and `TestSpecies(row, id)`, which forms `u16 x = id - 1` inside 
+(the helper that closed func_0200CC40), with a plain `return 1;` in the 
+loop.

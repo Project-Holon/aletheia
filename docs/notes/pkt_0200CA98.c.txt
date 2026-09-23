@@ -191,3 +191,142 @@ write every bit access through one inline `TestBit`/`SetBit` helper over a
 row pointer (`p + K`), rather than open-coded `(p + (x >> 3))[K]`.
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 380 bytes against 392, 358 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 (musical_dist_save lane): SIZE-EXACT, 147 out
+==============================================================================
+
+/* best source, 392 bytes against 392, 147 concrete bytes out, 1.1p1 */
+
+Rewritten from the listing (the decoded algorithm in docs/notes/
+func_0200CA98.c.txt is right; the C spelling was not).  Size now matches
+(392 including the 12-byte pool; was 380/358), the frame reproduces
+(`push {r4-r7,lr} / sub sp,#0xc / str r0,[sp] / ... / mov lr, r3` -- the
+`mov lr, r3` for `alt` falls out of plain u32 parameters), and every
+block is in the image's order and instruction count.  What is left is
+register colouring across the whole function (--explain: r1->r0 x30 and
+a dozen smaller pairs), plus the order of the two parameter home stores
+(image `str r1,[sp,#4]` before `str r2,[sp,#8]`; compiled the reverse).
+
+Three spelling facts made the shape:
+  1. THE FORM LOOP IS ROW-POINTER FIRST.  The image forms `p + 0x30E` and
+     `p + 0x317` (pool 0x30E, then `adds #9`) in the loop preheader, AFTER
+     the `cnt != 0` guard, and indexes them by the offset
+     (`ldrb r2, [r3, r4]`).  Written `q = p + 0x30E; q += o; *q &= ...` per
+     row inside the body (o = x >> 3 a local), LICM hoists exactly those
+     two row pointers.  `(p + K)[x >> 3]`, an inline `ClrBit(p + K, x)`, or
+     named row pointers before the loop all reassociate to `p + off` and
+     cost 4-12 bytes.
+  2. THE TAIL IS OPEN-CODED WITH NAMED off/bit/nm, computed once before the
+     four-row clear, and the arms test nothing but sel/alt:
+     `(p + K)[off] |= (u8)bit` (the image keeps bit in r6 and off in r0
+     across all six arms).  The clear loop is `q = p + 0x1AC + i * 0x54; q
+     += off; *q &= nm;`.
+  3. The in-table SET is an inline `SetBit(row, (u16)(acc + form))` in both
+     arms; the two arms' identical tails cross-jump into the shared
+     `adds r3, r0, r1 / ...` block the image has at 0x0200CB14.
+  The mask in the form loop is written inline `(1 << (x & 7)) ^ 0xFF` at
+  both uses (a named u8 m, the permuter's `expand(m)`).
+
+Permuter from the size-exact point (hill 800, anneal 2000 twice, --types):
+177 -> 149 (hill: expand(row), expand(m)) -> 147 (anneal: a `(u32)` cast
+on one arm's index); a second anneal from 147 found nothing.  Parameter
+types swept (id u16/u32, sel u8/u16/u32, alt u8/u32, form u8/u16/u32):
+all 392, 177-182 from the pre-permuter point, none better.  2.0/sp2: 408,
+393 out.  The compiler is 1.1p1 by size alone.
+
+/*
+ * function: func_0200CA98
+ * address:  0x0200CA98
+ * packet:   pkt_0200CA98
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200CA98_Table  0x0209DE4C  data
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct FormCount { u16 unk00; u16 unk02; };
+extern const struct FormCount func_0200CA98_Table[];
+
+static inline void SetBit(u8 *row, u16 x)
+{
+    row[x >> 3] |= (u8)(1 << (x & 7));
+}
+
+void func_0200CA98(u8 *p, u32 id, u32 sel, u32 alt, u32 form)
+{
+    u32 acc;
+    u32 i;
+    u32 j;
+    u32 cnt;
+    s32 y;
+    s32 off;
+    u32 bit;
+    u8 nm;
+
+    acc = 0;
+    i = 0;
+    do {
+        if (id == func_0200CA98_Table[i].unk00) {
+            cnt = func_0200CA98_Table[i].unk02;
+            for (j = 0; j < cnt; j++) {
+                s32 x = (u16)(acc + j);
+                s32 o = x >> 3;
+                u8 *q;
+                q = p + 0x30E;
+                q += o;
+                *q &= (1 << (x & 7)) ^ 0xFF;
+                q = p + 0x317;
+                q += o;
+                *q &= (1 << (x & 7)) ^ 0xFF;
+            }
+            if (form >= cnt) {
+                form = 0;
+            }
+            if (alt == 1) {
+                SetBit(p + 0x317, acc + form);
+            } else {
+                SetBit(p + 0x30E, acc + form);
+            }
+            break;
+        }
+        acc += func_0200CA98_Table[i].unk02;
+        i++;
+    } while (func_0200CA98_Table[i].unk00 != 0);
+
+    y = (u16)(id - 1);
+    off = y >> 3;
+    bit = 1 << (y & 7);
+    nm = bit ^ 0xFF;
+    for (i = 0; i < 4; i++) {
+        u8 *q = p + 0x1AC + i * 0x54;
+        q += off;
+        *q &= nm;
+    }
+    if (sel == 0) {
+        if (alt == 1) {
+            (p + 0x254)[off] |= (u8)bit;
+        } else {
+            (p + 0x1AC)[off] |= (u8)bit;
+        }
+    } else if (sel == 1) {
+        if (alt == 1) {
+            (p + 0x2A8)[off] |= (u8)bit;
+        } else {
+            (p + 0x200)[off] |= (u8)bit;
+        }
+    } else {
+        if (alt == 1) {
+            (p + 0x254)[off] |= (u8)bit;
+        } else {
+            (p + 0x1AC)[(u32)off] |= (u8)bit;
+        }
+    }
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 392 bytes against 392, 147 concrete bytes out, 1.1p1

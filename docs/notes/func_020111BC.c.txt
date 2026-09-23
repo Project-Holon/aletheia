@@ -212,3 +212,47 @@ that was split, or the argument reaches it through a different signature
 than the four-byte scalar assumed here.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 44 bytes against 44, 3 concrete bytes out, 1.1p1
+
+
+===== wave 13 (2026-09-23): func_020111BC =====
+/* best source, 44 bytes against 44, 3 concrete bytes out, dsi/1.1p1 -O4,p */
+permuter: not re-run (660 compiles recorded above, flat).
+New: ../2.0/sp2 gives the same 3 bytes, and so does a K&R definition.  The
+s32-returning spellings are 48 bytes (a no-op `adds r2,r0 / adds r0,r2`
+after _ll_sdiv); only an s64 return with no value on the 0x30 path is 44.
+The runtime symbol at 0x0209BE5C is `_ll_sdiv` (the header block's
+`_ll_div` name does not resolve).  Same entry-order family as
+func_0201104C / func_020110CC.
+
+/*
+ * function: func_020111BC
+ * address:  0x020111BC
+ * packet:   pkt_0201104C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_02146208  0x02146208  data
+ *   g_02146228  0x02146228  data
+ *   _ll_mul     0x0209C054  arm
+ *   _ll_sdiv    0x0209BE5C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed int     s32;
+typedef signed long long s64;
+
+extern u8 g_02146208[];
+extern u8 g_02146228[];
+
+s64 func_020111BC(s32 v)
+{
+    if (g_02146208[0x1e] != 0x30) {
+        return (s64)*(u16 *)(g_02146228 + 0x16) * v / 100;
+    }
+}

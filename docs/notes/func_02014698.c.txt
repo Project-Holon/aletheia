@@ -187,3 +187,14 @@ is EXACT today (its +002C ABS32 func_02014698 site now carries, per its
 own header, a filed blocker), so this row no longer blocks anything
 downstream.  Its only remaining value is its own 96 bytes of coverage.
 re-verified 2026-09-22 by tools/match.py: DIFF, 96 bytes against 96, 1 concrete bytes out, dsi/1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 13: CLOSED
+==============================================================================
+CLOSED: src/matched/func_02014698.c is EXACT (worklist packet 
+pkt_02014698).  No goto/label at all: every arm written plainly with its 
+own `(*mode)++; break;`, case 2 as `if (func_020120F0() == 0) (*mode)++; 
+break;`, and `return 0;` after the switch.  The compiler's cross-jumping of 
+the repeated increments leaves case 2's tail jump on case 1's `b inc` 
+block, which the block builder could not be made to do from the goto 
+spelling.

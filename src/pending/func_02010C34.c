@@ -1,0 +1,141 @@
+/*
+ * function: func_02010C34
+ * address:  0x02010C34
+ * packet:   pkt_02010BB8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ * blocking: evidence, not codegen.  Every concrete byte matches.  Five ABS32
+ *           pool sites lack an outside witness: overlay-id symbols 0x73 and
+ *           0xBB and the overlay-resident procs 0x021D6338, 0x0220B294,
+ *           0x021D654C.  0x73, 0x021D6338 and 0x021D654C ALSO sit in
+ *           func_02010AC4's pool (0x02010B84..0x02010B94), which would
+ *           attest them as `literal`, but disasm.py prints both functions'
+ *           pools as Thumb instructions, so the pool-word index never sees
+ *           them.  Integrator: seed these pools as .word and three of the
+ *           five sites here (and three of four in func_02010AC4) resolve.
+ *
+ * symbols:
+ *   ov115_id       0x00000073  data  a1
+ *   ov187_id       0x000000BB  data  a1
+ *   d_021D6338     0x021D6338  data
+ *   d_0220B294     0x0220B294  data
+ *   d_021D654C     0x021D654C  data
+ *   func_02031330  0x02031330  arm
+ *   func_02031348  0x02031348  arm
+ *   func_0200F7B8  0x0200F7B8  thumb
+ *   MI_CpuFill8    0x02082BCC  arm
+ *   func_0205D074  0x0205D074  arm
+ *
+ * net_save.c's save-SCREEN task step (record of func_02010BB8; *seq is the
+ * step, ctx the record): polls the save proc's status (func_02031330),
+ * drops to func_0200F7B8(0) on states 0/2, then walks eight steps that start
+ * overlay 0x73's save procs and overlay 0xBB's proc on the +0x180 request
+ * block via func_02031348, returning 1 at step 7.  The only non-obvious
+ * spelling: the +0x194 flag is an if/else of two constant stores, which
+ * lets the 1 already in r0 from the +0x188 store be reused.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8 ov115_id[];
+extern u8 ov187_id[];
+extern u8 d_021D6338[];
+extern u8 d_0220B294[];
+extern u8 d_021D654C[];
+
+extern int  func_02031330(u32 h);
+extern void func_02031348(u32 h, void *ovl, void *proc, void *arg);
+extern void func_0200F7B8(u32 a);
+extern void MI_CpuFill8(void *dst, u8 v, u32 size);
+extern void func_0205D074(void);
+
+int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
+{
+    int st;
+    int flag;
+
+    st = func_02031330(*(u32 *)(ctx + 8));
+    if (st == 2 || st == 0) {
+        func_0200F7B8(0);
+    }
+    switch (*seq) {
+    case 0:
+        (*seq)++;
+        break;
+    case 1:
+        flag = 1;
+        if (*(u32 *)(ctx + 0x18c) != 2) {
+            flag = 0;
+        }
+        MI_CpuFill8(ctx + 0x180, 0, 0x28);
+        *(u32 *)(ctx + 0x180) = **(u32 **)ctx;
+        *(u32 *)(ctx + 0x184) = 0;
+        *(u32 *)(ctx + 0x188) = 1;
+        *(u8 **)(ctx + 0x190) = ctx + 0xc;
+        *(u32 *)(ctx + 0x18c) = 0x21;
+        if (flag) {
+            *(u32 *)(ctx + 0x194) = 1;
+        } else {
+            *(u32 *)(ctx + 0x194) = 0;
+        }
+        func_02031348(*(u32 *)(ctx + 8), ov115_id, d_021D6338, ctx + 0x180);
+        (*seq)++;
+        break;
+    case 2:
+        if (st != 0) {
+            break;
+        }
+        if (*(u32 *)(ctx + 0x19c) == 0) {
+            *(u32 *)(ctx + 4) = 1;
+            (*seq)++;
+            break;
+        }
+        *seq = 7;
+        break;
+    case 3:
+        MI_CpuFill8(ctx + 0x180, 0, 0x10);
+        *(u32 *)(ctx + 0x180) = (*(u32 **)ctx)[1];
+        *(u32 *)(ctx + 0x184) = (*(u32 **)ctx)[0];
+        *(u8 **)(ctx + 0x188) = ctx + 0xc;
+        func_02031348(*(u32 *)(ctx + 8), ov187_id, d_0220B294, ctx + 0x180);
+        (*seq)++;
+        break;
+    case 4:
+        if (st != 0) {
+            break;
+        }
+        if (*(u32 *)(ctx + 0x18c) == 2) {
+            *seq = 1;
+            break;
+        }
+        (*seq)++;
+        break;
+    case 5:
+        MI_CpuFill8(ctx + 0x180, 0, 0x1c);
+        *(u32 *)(ctx + 0x180) = **(u32 **)ctx;
+        *(u32 *)(ctx + 0x184) = 0;
+        *(u32 *)(ctx + 0x188) = 1;
+        func_02031348(*(u32 *)(ctx + 8), ov115_id, d_021D654C, ctx + 0x180);
+        *(u32 *)(ctx + 4) = 0;
+        (*seq)++;
+        break;
+    case 6:
+        if (st != 0) {
+            break;
+        }
+        (*seq)++;
+        break;
+    case 7:
+        return 1;
+    }
+    if (*(u32 *)(ctx + 4) == 1) {
+        func_0205D074();
+    }
+    return 0;
+}
