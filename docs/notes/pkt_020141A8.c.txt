@@ -277,3 +277,18 @@ function ends at 0x02014262 with an unlabelled follower at 0x02014264 --
 a four-instruction `ldr r1,[pc,#4]; ldr r3,[pc,#8]; bx r3` tail-call
 thunk, not compiled C.  Worth seeding into layout/function_starts.txt.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_020141A8.c:56: declaration syntax error
+
+================================================================
+APPENDED 2026-09-23, wave 16 tail lane: func_020141A8 still DIFF
+================================================================
+The image keeps the constant 1 live in callee-saved r5 (three stores) and
+derives the +6 halfword's -1 from it (`subs r0, r5, #2`), which is why it
+pushes {r3, r4, r5, lr}.  With the +6 field s16 and -1 (struct or cast
+spelling), 1.1p1 materialises -1 with `movs #0; mvns` and never keeps 1 in a
+register: 47 out, push {r4, lr}.  A named `u32 on = 1` local for the three
+stores: 47.  ../2.0/sp2, sp2p2: 49; ../1.2/sp2: 55.  permuter anneal 1000
+--types: nothing (its score is polluted by the 92-byte listing extent, which
+runs over the unlabelled leaves 0x020141DC.. after the 52 bytes of code; the
+integrator should seed 0x020141DC so the extent is right).  The earlier u16
+spelling (0xFFFF) is the one that keeps 1 in r5 but costs the pool word;
+the combination the image has, a live 1 AND a derived -1, has not been found.

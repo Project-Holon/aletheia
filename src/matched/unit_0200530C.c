@@ -10,8 +10,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   CCERR
- * note:     re-verified 2026-09-20: CCERR; see verify output
+ * status:   EXACT
  * function: sub_0200530C
  *
  * symbols:

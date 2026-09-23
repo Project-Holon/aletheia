@@ -128,3 +128,15 @@ remains the gate on `func_0202C070` -> `func_0202B64C` -> `func_0202B59C` ->
 `func_0202B4BC`, all four of which stay `MATCH`/`MATCH*` in `src/pending/`
 for this reason and were left untouched this pass.
 re-verified 2026-09-21: no recoverable source in this note
+
+## 2026-09-23 (wave 16 tail lane): func_0202C148 still DIFF at 17
+
+Same 17-byte window (+0006..+001E: the heapId home store and the count
+store scheduled against the two argument loads).  Tried, all 17: a struct
+parameter {u32; u8 count; void **units} with the loop as its own guard plus
+do/while (the lever that closed func_02006F20 and func_0202B374 this wave:
+it moves nothing here, the loop was already byte-right); the allocator call
+through a static inline wrapper carrying the file and line; heapId typed as
+an enum in the parameter and both callee prototypes.  The residue shares
+its shape with func_02013528 (btl_setup): a parameter's stack home written
+later than the image writes it.
