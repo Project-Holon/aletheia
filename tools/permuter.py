@@ -37,6 +37,7 @@ from concurrent.futures import ThreadPoolExecutor
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import match  # noqa: E402
+import env as toolenv  # noqa: E402  (wine runner, scratch directory)
 
 try:
     from pycparser import c_ast, c_generator, c_parser
@@ -1241,14 +1242,10 @@ class Scorer:
         if c["sdk_include"] and os.path.isdir(match.SDK_INCLUDE):
             cmd += ["-I+" + match.SDK_INCLUDE]
         cmd += ["-c"]
-        env = dict(os.environ)
+        env = toolenv.wine_env(dict(os.environ))
         env.setdefault("MWLibraries", d)
         env.setdefault("MWLibraryFiles", " ")
-        env.setdefault("WINEDEBUG", "-all")
-        env.setdefault("WINEDLLOVERRIDES", "mscoree,mshtml=")
-        if sys.platform != "win32" and exe.endswith(".exe"):
-            import shutil
-            cmd = [shutil.which("wine64") or shutil.which("wine") or "wine64"] + cmd
+        cmd = toolenv.windows_cmd(cmd)
         out = {}
         pending = list(zip(items, paths))
         t0 = time.time()
@@ -1526,8 +1523,7 @@ def main(argv=None):
         return 0
 
     match.evidence()
-    tmp = os.path.join("/tmp", "permuter-%d" % os.getpid())
-    os.makedirs(tmp, exist_ok=True)
+    tmp = toolenv.scratch_dir("permuter-%d" % os.getpid())
     cfg = dict(src=args.src, func=args.func, addr=int(args.addr, 0), cc=cc, flags=flags.split(), thumb=args.thumb, lang=lang,
                region=region, sdk_include=not args.no_sdk_include, tmp=tmp, jobs=args.jobs)
     scorer = Scorer(cfg)

@@ -9,14 +9,18 @@ figure, split build and pack, ROM build with the sha1 line, coverage maps,
 then INCLUDE / HOLD lists of untracked src/matched files (sharded or not).
 commit: README figure, stage README, shards, docs, pending and the sharded
 untracked sources only, commit with both figures and deltas, push.
-Replaces foldin.sh / commitset.sh (zsh, Mac paths).  Stdlib only.
+Runs from any cwd on Windows, macOS and Linux (it changes to the repo root
+itself); importable without side effects.  Stdlib only.
 """
 import glob, json, os, re, subprocess, sys
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-os.chdir(ROOT)
-PY = sys.executable
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "tools"))
+import env  # noqa: E402
+
+ROOT = env.ROOT
+PY = env.PYTHON
 SES = os.path.join("tools", "session")
+TOOL = lambda name: os.path.join("tools", name)
 
 
 def run(cmd, tail=1, check=True):
@@ -31,7 +35,7 @@ def run(cmd, tail=1, check=True):
 
 def sharded_sources():
     s = {}
-    for f in glob.glob("layout/matched/*/pkt_*.json"):
+    for f in glob.glob(os.path.join("layout", "matched", "*", "pkt_*.json")):
         for e in json.load(open(f, encoding="utf-8"))["functions"]:
             s[e["source"].replace("\\", "/")] = f
     return s
@@ -52,13 +56,15 @@ def figures():
 
 
 def foldin():
-    print("[refresh]"); run([PY, "tools/worklist.py", "--refresh"])
+    os.chdir(ROOT)
+    print("[refresh]"); run([PY, TOOL("worklist.py"), "--refresh"])
     print("[pending re-verify]"); run([PY, os.path.join(SES, "promote_fast.py"), "--dry"], tail=1, check=False)
     print("[figures]"); ex, rp, nf, out = figures(); print("   ", out.strip().replace("\n", "\n    "))
-    print("[split build]"); run([PY, "tools/build.py", "--split", "--pack"])
-    print("[rom]"); o = run([PY, "tools/ndsrom.py", "build", "extract", "-o", "build/pokeblack.nds", "--override", "build/pack"], tail=0)
+    print("[split build]"); run([PY, TOOL("build.py"), "--split", "--pack"])
+    print("[rom]"); o = run([PY, TOOL("ndsrom.py"), "build", "extract", "-o", os.path.join("build", "pokeblack.nds"),
+                             "--override", os.path.join("build", "pack")], tail=0)
     print("   ", [l for l in o.splitlines() if "sha1" in l][-1:])
-    print("[maps]"); run([PY, "tools/coveragemap.py"])
+    print("[maps]"); run([PY, TOOL("coveragemap.py")])
     sh = sharded_sources(); unt = untracked_matched()
     print("INCLUDE", " ".join(u for u in unt if u in sh))
     print("HOLD   ", " ".join(u for u in unt if u not in sh))
@@ -68,6 +74,7 @@ def foldin():
 
 
 def commit(label, pex, prp):
+    os.chdir(ROOT)
     ex, rp, nf, _ = figures()
     p = "README.md"; s = open(p, encoding="utf-8").read()
     s2 = re.sub(r"\d*\.?\d*% of ARM9 game code ships as verified C \(\d* functions",

@@ -76,6 +76,10 @@ from array import array
 from collections import defaultdict, Counter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if os.path.join(ROOT, "tools") not in sys.path:
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+
+import env as toolenv  # noqa: E402  (compiler location and wine runner)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 # One ar reader, one ELF32 reader, one region loader in this repository.
@@ -925,11 +929,8 @@ def probe_compile(version, rtti):
     """Compile the probe with one front end.  ``version`` is a directory under
     tools/mwccarm/mwccarm/, either ``1.1p1`` (the dsi line, the default) or a
     two-part name such as ``2.0/sp2`` to reach an older tree."""
-    base = os.path.join(ROOT, "tools", "mwccarm", "mwccarm")
-    cand = [os.path.join(base, "dsi", version, "mwccarm.exe"),
-            os.path.join(base, *(version.split("/") + ["mwccarm.exe"]))]
-    exe = next((c for c in cand if os.path.exists(c)), None)
-    if exe is None:
+    exe = toolenv.mwcc_exe(version)
+    if not os.path.exists(exe):
         raise SystemExit("no such compiler: %s" % version)
     work = tempfile.mkdtemp(prefix="cppscan_")
     try:
@@ -939,11 +940,11 @@ def probe_compile(version, rtti):
         obj = os.path.join(work, "probe.o")
         cmd = [exe] + PROBE_FLAGS + ["-RTTI", "on" if rtti else "off",
                                      "-c", "-o", obj, src]
-        env = dict(os.environ)
+        env = toolenv.wine_env(dict(os.environ))
         env.setdefault("MWLibraries", work)
         env.setdefault("MWLibraryFiles", " ")
-        p = subprocess.run(cmd, cwd=work, capture_output=True, timeout=180,
-                           env=env)
+        p = subprocess.run(toolenv.windows_cmd(cmd), cwd=work, capture_output=True,
+                           timeout=180, env=env)
         if not os.path.exists(obj):
             return None, (p.stdout + p.stderr).decode("latin1", "replace")
         with open(obj, "rb") as fh:

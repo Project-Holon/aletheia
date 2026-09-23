@@ -385,3 +385,146 @@ Not filed anywhere: DIFF. The source as it stood follows.
         } while (i < n);
     }
 re-verified 2026-09-21 by tools/match.py: DIFF, 480 bytes against 468, 358 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-23 (wave 14) - 0x02048744, library shape: DIFF 18 bytes, correct size
+==============================================================================
+
+Written in the g3d_util.c library shape (docs/families/g3d_util.h): Util /
+Setup / ObjSetup / AnmSetup structs, u16 unitIdx and heapID parameters,
+func_0204767C takes THREE arguments (rnd, anm, anmCount: r2 is the reloaded
+anmCount at the call, not a leftover), two inline helpers (useRes marks the
+status byte and returns the handle from one index read; getRes returns the
+handle), `os` assigned at the top of the loop while the model index is read as
+setup->objTbl[i].mdlResIdx (that is where the indexed `ldrh [r8, r5]` comes
+from), and the animation loop written `== 0xff` first into a local stored once.
+That takes the previous 480/468, 358 out to 468/468, 18 bytes out, every
+relocation resolved (label x8, literal for the __FILE__ word).
+
+The residue is ONE swapped register pair, everything else identical:
+  i (object loop counter)  image sb, compiled r8
+  setup->objTbl and j      image r8, compiled sb
+  e.g. +0x0028  mov sb, #0   | mov r8, #0
+       +0x0050  ldr r8, [r0, #8] | ldr sb, [r0, #8]
+
+Flat under: permuter hill 800, anneal 2000 --types (twice, second focused on
+i/j/os/setup), all 720 function-top orders of {os, mdl, tex, rnd, anm, a},
+~270 more orders including i and j, i/j as one or two declarations, j and a
+in the inner block, while loops, the helper as an out-pointer (the lever that
+closed 0x02048330), `os` assigned after the model read.  ../2.0/sp2 and sp2p2:
+500 bytes, worse.  Sibling 0x02048330 (same object loop, loading variant) is
+EXACT with this same shape, so the remaining difference is a declaration or
+reading fact particular to this function, not the loop body.
+
+--- best source (18 bytes) ---
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u16 resIdx;
+    u16 resCount;
+    u16 objIdx;
+    u16 objCount;
+} Unit;
+
+typedef struct {
+    void **res;
+    u8    *resStat;
+    u16    resCount;
+    void **obj;
+    u8    *objStat;
+    u16    objCount;
+    Unit   unit[0x40];
+    u16    heapID;
+} Util;
+
+typedef struct {
+    u16 anmResIdx;
+    u16 anmDatIdx;
+} AnmSetup;
+
+typedef struct {
+    u16       mdlResIdx;
+    u16       mdlDatIdx;
+    u16       texResIdx;
+    u16       pad_06;
+    AnmSetup *anmTbl;
+    u16       anmCount;
+} ObjSetup;
+
+typedef struct {
+    void     *resTbl;
+    u16       resCount;
+    ObjSetup *objTbl;
+    u16       objCount;
+} Setup;
+
+extern const char g3d_util_file[];
+extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void  func_020307B0(void *p);
+extern int   func_02046F50(void *res, int type);
+extern void  func_02046FF8(void *res);
+extern int   func_02047348(void *res);
+extern void *func_02047400(void *mdl, u16 mdlIdx, void *tex);
+extern void *func_02047564(void *rnd, void *res, u16 datIdx);
+extern void *func_0204767C(void *rnd, void **anm, u16 anmCount);
+
+static inline void *getRes(Util *util, u16 resIdx, u16 idx)
+{
+    return util->res[resIdx + idx];
+}
+
+static inline void *useRes(Util *util, u16 resIdx, u16 idx)
+{
+    util->resStat[resIdx + idx] = 1;
+    return util->res[resIdx + idx];
+}
+
+void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+{
+    u16 resIdx = util->unit[unitIdx].resIdx;
+    u16 objIdx = util->unit[unitIdx].objIdx;
+    u16 objCount = util->unit[unitIdx].objCount;
+    void *mdl;
+    void *tex;
+    void *rnd;
+    void **anm;
+    const ObjSetup *os;
+    void *a;
+    int i, j;
+
+    for (i = 0; i < objCount; i++) {
+        os = &setup->objTbl[i];
+        mdl = useRes(util, resIdx, setup->objTbl[i].mdlResIdx);
+        if (os->texResIdx != setup->objTbl[i].mdlResIdx) {
+            if (func_02046F50(getRes(util, resIdx, os->texResIdx), 1) == 1) {
+                tex = useRes(util, resIdx, os->texResIdx);
+            } else {
+                tex = getRes(util, resIdx, os->texResIdx);
+                func_02046FF8(tex);
+            }
+        } else {
+            tex = mdl;
+            if (func_02047348(mdl) == 0)
+                func_02046FF8(mdl);
+        }
+        rnd = func_02047400(mdl, os->mdlDatIdx, tex);
+        anm = func_02030734((heapID & 0x7fff) | 0x8000, os->anmCount * 4, 1,
+                            g3d_util_file, 609);
+        for (j = 0; j < os->anmCount; j++) {
+            if (os->anmTbl[j].anmResIdx == 0xff)
+                a = 0;
+            else
+                a = func_02047564(rnd, getRes(util, resIdx, os->anmTbl[j].anmResIdx),
+                                  os->anmTbl[j].anmDatIdx);
+            anm[j] = a;
+        }
+        util->obj[objIdx + i] = func_0204767C(rnd, anm, os->anmCount);
+        func_020307B0(anm);
+    }
+}
+(header symbols for the source above: func_02046F50 func_02046FF8 func_02047348
+func_02047400 func_02047564 func_0204767C func_02030734 func_020307B0, all arm
+at their own addresses, and g3d_util_file 0x020A7EB8 data; --cc 1.1p1 --arm)
+re-verified 2026-09-23 by tools/match.py: DIFF, 468 bytes against 468, 18 concrete bytes out, 1.1p1

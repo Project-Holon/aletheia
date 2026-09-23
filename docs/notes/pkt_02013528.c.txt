@@ -278,3 +278,33 @@ func_02013360 0x02013360 thumb.)
 permuter best result line:
   best      DIFF   asm=200   bytes-out=6    size=152/152      (anneal, 3000 compiles)
 re-verified 2026-09-21 by tools/match.py: DIFF, 148 bytes against 152, 6 concrete bytes out, 1.1p1
+
+==============================================================================
+wave 14 (2026-09-23, gamedata/beacon lane): func_02013528 still DIFF, 6 out
+==============================================================================
+
+Best source unchanged (the 148/152, 6-out source above).  The single
+diverging instruction is the a3 home store: the image emits `str r3, [sp]`
+at +0x04 ahead of the three parameter copies, the compile emits it at +0x0A
+after them.  Everything from +0x0C on is identical.
+
+Tried this wave, all DIFF with the identical residue unless noted:
+ - compilers: dsi 1.1, 1.1p1, 1.2, 1.2p1, 1.2p2, 1.3 (6 out, same store);
+   2.0 base/sp1/sp1p5/sp2/sp2p2/sp2p4 (156 bytes, 104 out); 1.2/sp2 (114).
+ - a3 as signed char, short, float; a2 as u16/u8; a5/a6 as u32 (92-93 out).
+ - a3 kept in memory: a struct { u32 a3; u32 sub[4]; } local or a u32[5]
+   (16 out, the store moves after the stack-argument load); &a3 through a
+   pointer local (6 out).
+ - an early reference to a3 as the first statement ((void)a3, a3 = a3,
+   if (a3) {}, a dead u8 copy): 6 out.  So the entry order does not follow
+   first reference.
+ - loop counter initialised at declaration (the lever that closed
+   func_02013360): 148 out, a3 and a2 both spill.  Local declaration order
+   swapped: 6 out.
+ - removing statements to find what pins the store (no loop, no a4, no
+   a5/a6, a7 dropped from func_0201333C): the store stays after the copies
+   in every reduced form.
+ - reference point: func_02017B24 (EXACT) has the image's store-first order
+   with a plain u32 fourth parameter and no stack arguments; adding a stack
+   argument or a local array there keeps store-first.  The difference here
+   is not the parameter type.

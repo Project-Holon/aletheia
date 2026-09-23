@@ -22,10 +22,14 @@ import re
 import shutil
 import subprocess
 import sys
-import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CW_DIR = os.path.join(ROOT, "tools", "mwccarm", "mwccarm")
+if os.path.join(ROOT, "tools") not in sys.path:
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+
+import env as toolenv  # noqa: E402  (compiler location and wine runner)
+
+CW_DIR = toolenv.mwcc_dir()
 
 # Flag set that all nine TWL-line front ends accept, in the style of the
 # SDK's own commondefs: ARMv5TE core, size/speed optimisation, ints for
@@ -128,10 +132,11 @@ def verkey(name):
 
 
 def run(cmd, cwd=None):
-    if sys.platform != "win32" and cmd and isinstance(cmd[0], str) and cmd[0].endswith(".exe"):
-        wine_bin = shutil.which("wine64") or shutil.which("wine") or "wine64"
-        cmd = [wine_bin] + list(cmd)
-    env = dict(os.environ)
+    try:
+        cmd = toolenv.windows_cmd(cmd)
+    except toolenv.EnvError as exc:
+        return 127, "", str(exc)
+    env = toolenv.wine_env(dict(os.environ))
 
     # Silence the two "Environment variable not found" usage warnings; the
     # smoke test deliberately links nothing from the SDK.
@@ -267,8 +272,7 @@ def main(argv=None):
                 print("%-8s %-10s %-46s %s" % (name, tool, prod, ver))
         return 0
 
-    workroot = os.path.join(tempfile.gettempdir(), "bw_cw_smoke")
-    os.makedirs(workroot, exist_ok=True)
+    workroot = toolenv.scratch_dir("cw_smoke")
     results = [smoke_one(n, p, workroot, keep=args.keep) for n, p in vers]
 
     if args.markdown:

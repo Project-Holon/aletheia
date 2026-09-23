@@ -277,4 +277,15 @@ extern void  sub_02012EBC(void);                          /* sub_020138C4 */
  * See docs/idioms/a-string-after-a-data-table-has-no-witness.md.
  * ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ *
+ * WAVE 14 (2026-09-23): func_02013360 EXACT (src/matched/func_02013360.c).
+ *   void func_02013360(u8 *o, void *a1, const void *a2);
+ * a2 is the 0x10-byte sub-block copied to +8 with MI_CpuCopy8 (0x02082D44),
+ * whose order is (src, dst, size).  The head closes only with the first
+ * loop counter initialised at its declaration (`u32 i = 0;`, `for (; i <
+ * 4; i++)`): the zero shared by the store run is then created first and
+ * takes r0.  func_02013528 remains DIFF, 6 bytes: only the position of the
+ * a3 home store in the prologue (docs/notes/pkt_02013528.c.txt).
+ * ------------------------------------------------------------------ */
+
 #endif /* BTL_SETUP_H */

@@ -69,6 +69,7 @@ from libmatch import (  # noqa: E402
     SHT_PROGBITS, SHT_RELA, SHT_REL, STT_FUNC,
 )
 from cw import versions_dir, verkey  # noqa: E402
+import env as toolenv  # noqa: E402  (compiler location and wine runner)
 
 SDK_INCLUDE = os.path.join(ROOT, "sdk", "TwlSDK", "include")
 
@@ -111,7 +112,7 @@ SWEEP_EXTRA = [
 
 
 def compiler_path(version):
-    p = os.path.join(ROOT, "tools", "mwccarm", "mwccarm", "dsi", version, "mwccarm.exe")
+    p = toolenv.mwcc_exe(version)
     if not os.path.exists(p):
         raise SystemExit("no such compiler: dsi/%s (%s)" % (version, p))
     return p
@@ -145,11 +146,11 @@ def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
     env = dict(os.environ)
     env.setdefault("MWLibraries", workdir)
     env.setdefault("MWLibraryFiles", " ")
-    env.setdefault("WINEDEBUG", "-all")
-    env.setdefault("WINEDLLOVERRIDES", "mscoree,mshtml=")
-    if sys.platform != "win32" and cmd and isinstance(cmd[0], str) and cmd[0].endswith(".exe"):
-        wine_bin = shutil.which("wine64") or shutil.which("wine") or "wine64"
-        cmd = [wine_bin] + list(cmd)
+    toolenv.wine_env(env)
+    try:
+        cmd = toolenv.windows_cmd(cmd)
+    except toolenv.EnvError as exc:
+        return None, cmd, str(exc), 127
     try:
         p = subprocess.run(cmd, cwd=workdir, capture_output=True, timeout=900, env=env)
 

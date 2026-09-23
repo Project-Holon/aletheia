@@ -27,8 +27,9 @@ generated (see ``--write-quirks``).
 
 Toolchain discovery order:
   1. --toolchain / BW_ARM_TOOLCHAIN (a directory containing arm-none-eabi-as)
-  2. tools/gcc-arm/**/bin
+  2. tools/gcc-arm/bin, tools/gcc-arm/*/bin
   3. PATH
+(implemented once in tools/env.py)
 
 Usage
 -----
@@ -55,6 +56,7 @@ from concurrent.futures import ThreadPoolExecutor
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "tools"))
 
+import env as toolenv  # noqa: E402  (toolchain discovery, one place)
 import csrc    # noqa: E402  (bridge to the matched C sources)
 import ndsrom  # noqa: E402  (slot_limits: one implementation of the layout)
 
@@ -100,19 +102,7 @@ class Toolchain:
 
 
 def find_toolchain(explicit=None):
-    cands = []
-    if explicit:
-        cands.append((explicit, "--toolchain"))
-    env = os.environ.get("BW_ARM_TOOLCHAIN")
-    if env:
-        cands.append((env, "BW_ARM_TOOLCHAIN"))
-    local = os.path.join(REPO, "tools", "gcc-arm")
-    if os.path.isdir(local):
-        for root, dirs, files in os.walk(local):
-            if os.path.basename(root) == "bin":
-                cands.append((root, "tools/gcc-arm"))
-                dirs[:] = []
-    cands.append((None, "PATH"))
+    cands = toolenv.arm_toolchain_candidates(explicit)
     problems = []
     for bindir, src in cands:
         try:

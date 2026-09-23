@@ -330,3 +330,19 @@ void func_0200CA98(u8 *p, u32 id, u32 sel, u32 alt, u32 form)
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 392 bytes against 392, 147 concrete bytes out, 1.1p1
+
+==============================================================================
+wave 14 (2026-09-23, gamedata/beacon lane): func_0200CA98 still DIFF, 147 out
+==============================================================================
+
+Best source unchanged.  First divergence at +0x0A: the image stores id
+(`str r1, [sp, #4]`) before sel (`str r2, [sp, #8]`) and keeps acc in r1;
+the compile stores sel first and keeps acc in r2.  In the form loop the
+image computes the mask before the byte offset (`ands r4, r2` ... `asrs r4,
+r2, #3` after the eors); in the tail it builds p + 0x1AC (r1) before off
+(r0).  Tried on the tail only: every clear/set written with inline `y >> 3`
+/ `1 << (y & 7)` (408 bytes, 253 out), off/bit/nm computed inside the loop
+(396, 266), a named row pointer p + 0x1AC ahead of off (408, 240), the
+pointer built as `q = p + 0x1AC; q += i * 0x54; q[off] &= nm` (392, 176),
+the clear-loop counter initialised ahead of off/bit/nm (392, 147, no
+change).  Not closed; the residue is allocation order in both halves.
