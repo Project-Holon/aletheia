@@ -87,7 +87,7 @@ def commit(label, pex, prp):
     subprocess.run(["git", "add", "-u", "README.md", "layout/matched", "layout/worklist.json", "docs/families", "docs/notes",
                     "docs/idioms", "docs/sessions", "src/pending", "src/matched",
                     "docs/coverage_map.svg", "docs/coverage_map_files.svg"], check=False)
-    subprocess.run(["git", "add", "README.md", "layout/matched", "docs/families", "docs/notes", "docs/idioms",
+    subprocess.run(["git", "add", "README.md", "docs/MATCHING.md", "layout/matched", "docs/families", "docs/notes", "docs/idioms",
                     "docs/sessions", "src/pending", "docs/coverage_map.svg", "docs/coverage_map_files.svg"], check=False)
     if inc:
         subprocess.run(["git", "add"] + inc, check=True)
