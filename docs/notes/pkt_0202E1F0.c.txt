@@ -719,3 +719,165 @@ void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 400 bytes against 412, 369 concrete bytes out, 1.1p1
+
+================================================================
+APPENDED 2026-09-23, wave 14 (pms_draw/bmp_win/bmp_oam lane): 369 -> 371
+bytes out, still 400/412, two shape facts found, allocation unchanged.
+================================================================
+
+NEW SHAPE FACTS (both reproduce the image's instruction form):
+  - marks is a BRACE INITIALISER, `u32 marks[2] = {0, 0};`: the image's
+    `add r0, sp, #0x40; str r4, [r0]; str r4, [r0, #4]` base form.  Two
+    element assignments give sp-relative `str r4, [sp, #k]` instead.
+  - c3 (the heap id at sp+0x70) is READ TWICE in the image, once for
+    func_0202465C and again, after the stores to o, into the cnt spill;
+    `volatile u16 c3` reproduces both reads through the `add rB, sp, #0x60`
+    base.  Without volatile the compile CSEs one read above the call.
+    Probably not the original spelling, but the image's c3 is not promoted.
+
+THE RESIDUE, read off the diff: every instruction and call is in place;
+what is missing is ONE callee-saved value.  The image keeps &ws in r7
+from just after the first call to the end of loop 2 (a real value, not
+rematerialised), hoists the constant 1 of `o->f20[i] = 1` into r5 for
+loop 1, and therefore spills n (sp+0x20), which pushes every slot above
+it up by four (0x48 frame, push r3).  The compile rematerialises
+`add r0, sp, #ws` at every call, gives n r7, and never hoists the 1.
+Also: the image loads w into r7 in the prologue (`ldr r7, [sp, #0x60]`)
+with cs and c2, i.e. w is a promoted parameter there; the compile loads
+it at the call.
+
+MEASURED, all 400 bytes, 371 or 372 out:
+  n as u8, cnt as u16, both, n without the (u8) cast; w as `const struct *`,
+  `u32`, `void *const`; `(void)w;` and a block-scoped copy of w; ws as an
+  8-byte struct passed as &ws; a pointer `wp = ws` taken after the first
+  call and used for every later call (374); a separate loop-2 counter;
+  a `u32 one = 1` stored into f20.  `volatile n`: 412/412 but 165 out, with
+  a reload before the first `cmp` the image does not have.
+  Compilers: ../2.0/sp2 and sp2p2 428 bytes, 390 out; 1.2p2 and 1.3p1
+  identical to 1.1p1.
+  permuter --explain: general reshuffle.  anneal 2000: 412/412 at 186 out,
+  emitted file does not re-parse (reads cnt before assigning it).  hill 800
+  --types from the brace-init source: volatile-add(n), type:ret-var(a3),
+  temp(...): 121 out at 412/412, not value-preserving.
+
+/* best source, 400 bytes against 412, 371 concrete bytes out, dsi/1.1p1 -O4,p */
+/*
+ * unit:     no
+ * function: func_0202E1F0
+ * address:  0x0202E1F0
+ * packet:   pkt_0202E1F0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ *
+ * symbols:
+ *   func_02024570  0x02024570  thumb
+ *   func_0202465C  0x0202465C  thumb
+ *   func_0202441C  0x0202441C  thumb
+ *   func_0201D478  0x0201D478  thumb
+ *   func_020244F8  0x020244F8  thumb
+ *   func_020244D4  0x020244D4  thumb
+ *   func_02024368  0x02024368  thumb
+ *   func_0201D528  0x0201D528  thumb
+ *   func_0201D4BC  0x0201D4BC  thumb
+ *   func_0202E040  0x0202E040  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02043AF4  0x02043AF4  arm
+ *   func_02045808  0x02045808  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Cs { u32 f00; u32 f04; };
+
+struct Flags { u32 b0 : 1; u32 b1 : 1; u32 rest : 30; };
+
+struct Obj { u32 f00; u8 f04; u8 pad05[3]; void *actor[2]; u8 pad10[8]; struct Flags f18; u32 f1c; u32 f20[2]; };
+
+extern void  func_02024570(void *ws, void *w);
+extern void  func_0202465C(void *ws, u32 a, u32 b);
+extern void *func_0202441C(void *ws, u32 n);
+extern s32   func_0201D478(void);
+extern u32   func_020244F8(void *ws, u32 i);
+extern u32   func_020244D4(void *ws, u32 i);
+extern void *func_02024368(void *ws, u32 n, u32 c);
+extern void *func_0201D528(void *g, u8 i, u32 a, u32 b);
+extern void *func_0201D4BC(void *g, u8 i);
+extern void  func_0202E040(void *h, u32 a, void *p0, void *p1,
+                           u32 v, struct Cs *cs);
+extern u32   func_02045770(u32 a);
+extern void  func_02043B5C(u32 a, u32 b);
+extern void  func_0201C724(u32 a, u32 h, s16 x, s16 y,
+                           void *g, u32 f, u32 k);
+extern void  func_02043AF4(u32 a, void *b, s16 c, u32 d, u32 e, u32 f);
+extern void  func_02045808(void *p);
+extern void  func_02045374(u32 a);
+extern u32   func_02045730(u32 a);
+extern void  func_02041B6C(void);
+
+void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
+                   void *w, struct Cs *cs, u16 c1, u32 c2, volatile u16 c3)
+{
+    u32 marks[2] = {0, 0};
+    u8 ws[8];
+    void *h;
+    void *g;
+    s32 i;
+    u32 cnt;
+    s32 n;
+
+    func_02024570(ws, w);
+    func_0202465C(ws, 1, c3);
+    o->f04 = 0;
+    o->f00 = a3;
+    cnt = c3;
+    h = func_0202441C(ws, cnt);
+    n = (u8)func_0201D478();
+    for (i = 0; i < n; i++) {
+        if (func_020244F8(ws, i) != 0) {
+            o->f20[i] = 1;
+        } else if (func_020244D4(ws, i) == 0xffff) {
+            marks[i] = 1;
+        }
+    }
+    g = func_02024368(ws, cnt, n);
+    func_02043B5C(func_02045770(o->f00), c2);
+    func_0201C724(a1, func_02045770(o->f00), (s16)cs->f00, (s16)cs->f04, g, a2, c1);
+    o->f04 = 1;
+    for (i = 0; i < n; i++) {
+        if (o->f20[i] == 1) {
+            void *p0;
+            void *p1;
+            p0 = func_0201D528(g, i, a2, 0);
+            p1 = func_0201D4BC(g, i);
+            func_0202E040(o->actor[i], a3, p0, p1, func_020244D4(ws, i), cs);
+        } else if (marks[i] == 1) {
+            void *q0;
+            void *q1;
+            q0 = func_0201D528(g, i, a2, 0);
+            q1 = func_0201D4BC(g, i);
+            func_02043AF4(func_02045770(a3), q0, (s16)((u32)q1 << 4), 0x54, 0x10, c2);
+        }
+    }
+    func_02045808(g);
+    func_02045808(h);
+    func_02045374(o->f00);
+    func_02045730(o->f00);
+    func_02041B6C();
+    o->f18.b0 = 1;
+    o->f18.b1 = 1;
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 400 bytes against 412, 371 concrete bytes out, 1.1p1

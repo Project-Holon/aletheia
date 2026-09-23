@@ -9,6 +9,15 @@
  * isa:      thumb
  * status:   MATCH
  * note:     re-verified 2026-09-20: MATCH; see verify output
+ * blocker:  wave 14 (2026-09-23): ONE site, the THM_CALL at +0x74 to
+ *           func_02156460.  It is now a traced Thumb label in ov009 (ov010
+ *           overlaps with non-code there, hence the ov009 hint below), but
+ *           the call at 0x0200F7A8 is the only branch image-wide that
+ *           reaches it, so the overlay `label` class refuses (no outside
+ *           branch) and sole-ref/code does not cover overlay addresses.
+ *           Needs a tool-side sole-ref/code rule for overlay labels, or a
+ *           matched ov009 entry covering 0x02156460.  func_0203D864 now
+ *           resolves.
  *
  * symbols:
  *   func_0203CD98  0x0203CD98  arm
@@ -19,7 +28,7 @@
  *   func_0200FAAC  0x0200FAAC  thumb
  *   func_0203D798  0x0203D798  arm
  *   func_0203CA98  0x0203CA98  arm
- *   func_02156460  0x02156460  thumb
+ *   func_02156460  0x02156460  thumb  ov009
  *
  * A gated status update: bails out early if the module-wide object at
  * 0x0214617C already has its +0x2c flag set, or if func_0203CD98 does not

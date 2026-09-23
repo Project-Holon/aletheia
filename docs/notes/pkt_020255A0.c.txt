@@ -493,3 +493,18 @@ struct Grid *func_020255A0(struct Sys *sys, struct Param *param)
 
 permuter best result line:
   best      DIFF   asm=220   bytes-out=8    size=364/364   (hill 309 tried, anneal 2000, both flat)
+
+======================================================================
+APPENDED 2026-09-23, wave 14 (pms_draw/bmp_win/bmp_oam lane).  Still DIFF,
+364/364, 8 concrete bytes out; best source unchanged (wave 13 above).
+======================================================================
+
+  - Compilers on the best source: ../2.0/sp2, ../2.0/sp2p2 and dsi/1.2 all
+    give the same 364 bytes and the same 8 bytes; no pin tell.
+  - `u32 sl = sys->slot[mode];` as a named local placed before pt.x (62),
+    before pt.y (55), before f8 / pt.f6 / pt.f7 (110 each) and before the
+    cell computation (360 bytes, 165): all worse.  The +010A/+010C swap
+    (`adds r3, r5, r3` before `ldr r2, [r4, #8]`) needs the slot address
+    in the call's own argument list, as the best source has it.
+  - No permuter run this pass: wave 13's hill 800 and anneal 2000 --types
+    from this exact source were flat at 8.

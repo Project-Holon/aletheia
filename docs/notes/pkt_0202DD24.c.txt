@@ -475,3 +475,23 @@ address temp) while the image keeps it a named local created second.
 Nothing tried makes the front end keep `dst` as a variable.
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 310 bytes against 328, 8 concrete bytes out, 1.1p1
+
+================================================================
+APPENDED 2026-09-23, wave 14 (pms_draw/bmp_win/bmp_oam lane): CLOSED.
+================================================================
+
+EXACT* in src/matched/func_0202DD24.c (310 bytes; the * is the listing
+extent running over the three setters of src/matched/unit_0202DE5C.c).
+From the wave-12 source (8 bytes, dst/dy slots swapped), three changes:
+  - handles read as src->handle / dst->handle instead of e[i]/e[j]: the
+    compiler still folds them to `ldr r0,[r6,r7]` / `ldr r0,[r6,dj]`, but
+    dst now stays a named value and takes the image's sp+8 (25 out, the
+    rest an r4/r5 swap and the dx/dy pair);
+  - no `e` local, src = &p->elems[i]; dst = &p->elems[j]; (same 25);
+  - dx declared before dy (21 out: only r4/r5 left, src vs the call temps);
+  - the loop counter `int k` declared FIRST, ahead of src: EXACT.  Also
+    EXACT with k declared after h (last), or k and h both first; with src
+    declared ahead of k, src takes r4 and the temps/k r5.
+The permuter (hill 800 from the 21-byte point) walked to 328-byte volatile
+candidates (the long listing extent rewards the size gap) and missed it;
+the lever was the declaration position of the loop counter.

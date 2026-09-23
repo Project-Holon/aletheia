@@ -245,11 +245,11 @@ void func_0202DCD4(struct PmsDraw *p, u32 i, u32 val);
 void func_0202DCFC(struct PmsDraw *p, u32 i, u32 val);
 
 /* Copies element[i] onto element[j], sprite state included.
- * DIFF, 8 bytes (two spill slots); see docs/notes/pkt_0202DD24.c.txt.
- * Shape proved size-exact in wave 12: e = p->elems read once, handles as
- * e[j].handle / e[i].handle, src = &e[i] before dst = &e[j], and the
- * offset applied in the loop as `pt.x += dx * 8` (no ox/oy locals). */
-void func_0202DD24(u8 *p, u32 i, u32 j);
+ * EXACT* since wave 14 (src/matched/func_0202DD24.c): src = &p->elems[i]
+ * before dst = &p->elems[j], handles read as src->handle / dst->handle,
+ * dx declared before dy, the loop counter declared FIRST, and the offset
+ * applied in the loop as `pt.x += dx * 8` (no ox/oy locals). */
+void func_0202DD24(struct PmsDraw *p, u32 i, u32 j);
 
 /* Grid coordinates to pixel coordinates, written through the fifth
  * argument, which arrives on the stack.  src/matched/unit_0202DE6C.c */

@@ -22,13 +22,18 @@
  *           branch to 0x0217963C in the image is the pair at 0x020103B6 and
  *           0x020103FE, and both are inside this packet.  `matched` cannot
  *           reach it either (0x0217963C is not matched).
+ *           2026-09-23 (wave 14): 0x0217963C is an unlabelled ov014 Thumb
+ *           setter (`ldr r1,[pc,#8]; ldr r2,[r1]; ldr r1,[pc,#8]; str r0,
+ *           [r2,r1]; bx lr`), printed as .word data.  SEED REQUEST: `ov014
+ *           0x0217963C thumb`; the two bl sites then witness each other and
+ *           this file and sub_02010360 go EXACT unchanged.
  *
  * symbols:
  *   g_021461E0        0x021461E0  data
  *   sWihDwc           0x020A7240  data
  *   ov015_id          0x0000000F  data
  *   func_02034714     0x02034714  arm
- *   func_0217963C     0x0217963C  thumb
+ *   func_0217963C     0x0217963C  thumb  ov014
  *   func_0203D7FC     0x0203D7FC  arm
  *   func_02034A5C     0x02034A5C  arm
  *

@@ -271,3 +271,13 @@ void func_020454E0(struct Cfg *cfg, u32 base, u32 pal)
 
 permuter best result line:
     best      DIFF   asm=10    bytes-out=2    size=536/536
+
+APPENDED 2026-09-23, wave 14 (pms_draw/bmp_win/bmp_oam lane).  Still 2 bytes.
+  permuter.py --mode anneal --budget 2000 --types --jobs 4 on the best
+  source above (the first anneal run on this function): flat,
+  best DIFF asm=10 bytes-out=2 size=536/536.  Reading for the next lane:
+  the image gives pal and pn the SAME register (r6: `lslne r0, r6, #0x1c;
+  lsrne r6, r0, #0x10`), the compile keeps pal in r4 and reuses r4 for the
+  0x11 constant.  The closing lever of 0x0202DD24 in the same wave was the
+  declaration position of a local relative to the others; this function has
+  only one local (pn), so there is no equivalent ordering left to try.

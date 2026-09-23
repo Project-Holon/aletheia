@@ -109,3 +109,189 @@ byte comparison is informative.  The productive order is to decompile the
 callees first (several are in other packets) and come back to this one once
 their arities are attested, rather than guessing eleven signatures at once.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0201FC5C.c:34: declaration syntax error
+
+
+========================================================================
+pkt_0201FC5C - func_0201FDA0 @ 0x0201FDA0 (276 bytes) - DIFF, 2 bytes
+[appended 2026-09-23, wave 14]
+========================================================================
+
+func_0201FC5C, func_0201FD18 and func_0201FD54 above are now EXACT as
+src/matched/unit_0201FC5C.c (see its header for the three declaration facts).
+
+func_0201FDA0 is the yes/no menu builder: open message archive 2 entry 0xE9,
+build a two-item BmpMenuWork list (func_0201F81C, func_0201F878 x2 with
+params 0 and -2), fill a 0x24-byte BmpMenuHeader on the stack (MI_CpuFill8,
+window from func_020450F0 at the caller's frame/x/y/pal with 7x4 tiles,
+1 column x 2 rows, bitfields 1/0/0, print util allocated at line 0x263,
+font 0x17 and its height, x spacing 10, print queue), then
+func_0201F9D0(&hdr, 0xE, 0, pos, heap, 2) and window upload/frame calls.
+Callers (ov088 0x021BC048, ov115 0x021D602E, ...) pass r1 = ldrh of the
+window record's +4 (u16), r2 a small constant, r3 = (u8)pos, [sp] = heap.
+
+Every instruction, register and relocation matches except one pair in the
+prologue:
+
+    ORIGINAL                         BEST
+    str r1, [sp, #0xc]               str r1, [sp, #0xc]
+    str r2, [sp, #0x10]              str r2, [sp, #0x10]
+    str r3, [sp, #0x14]    <-        adds r5, r0, #0
+    ldr r4, [sp, #0x50]              ldr r4, [sp, #0x50]
+    adds r5, r0, #0        <-        str r3, [sp, #0x14]
+
+Levers measured:
+  - base/pal/pos all u32: 9 bytes (all three spill stores after the r4/r5
+    moves).  Narrow base and pal (u8/u16/s8) move their two stores first;
+    pos stays late for EVERY pos type tried (u8, s8, u16, s16, int, u32)
+    crossed with F9D0 pos parameter types u32, u8, u16, s8 (2 bytes at best).
+  - heap as int: 4 bytes; heap u16/u8: whole-function DIFF (ldrh).
+  - an extra unused stack parameter, a WinDat struct instead of u8[],
+    PrintUtil_Init as an inline (needed: it fixes the util/win load order).
+  - permuter: hill 800 flat, anneal 2000 --types flat (both at 9 and at 2).
+  - compilers: 1.2 same 2 bytes; ../2.0/sp2, sp2p2, sp1p5 217 bytes.
+Classification: prologue scheduling tie, a declaration not yet found.
+
+/* best source, 284 bytes against 284, 2 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_0201FDA0
+ * address:  0x0201FDA0
+ * packet:   pkt_0201FC5C
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * isa:      thumb
+ * symbols:
+ *   func_02045B38   0x02045B38  arm
+ *   func_0201F81C   0x0201F81C  thumb
+ *   func_0201F878   0x0201F878  thumb
+ *   func_02045C04   0x02045C04  arm
+ *   MI_CpuFill8     0x02082BCC  arm
+ *   func_020450F0   0x020450F0  arm
+ *   func_02030734   0x02030734  arm
+ *   sBmpMenuFile    0x020A7384  data
+ *   func_0201D7EC   0x0201D7EC  thumb
+ *   func_0201DC80   0x0201DC80  thumb
+ *   func_0201C440   0x0201C440  thumb
+ *   func_0201F9D0   0x0201F9D0  thumb
+ *   func_02045374   0x02045374  arm
+ *   func_0201F73C   0x0201F73C  thumb
+ *   func_02045730   0x02045730  arm
+ *   func_020409B4   0x020409B4  arm
+ *   func_02045334   0x02045334  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+typedef struct {
+    const void *str;    /* +0x00 */
+    u32         param;  /* +0x04 */
+} BmpMenuWork;
+
+typedef struct {
+    void *cell;         /* +0x00 */
+    u8    drawn;        /* +0x04 */
+} PrintUtil;
+
+typedef struct {
+    BmpMenuWork *items; /* +0x00 */
+    void *win;          /* +0x04 */
+    u8   font;          /* +0x08 */
+    u8   xmax;          /* +0x09  columns */
+    u8   ymax;          /* +0x0A  rows    */
+    u8   lineSpc : 4;   /* +0x0B */
+    u8   cDisp   : 2;
+    u8   bf0b6   : 2;
+    u16  unk0c;         /* +0x0C */
+    u16  unk0e;         /* +0x0E */
+    u32  unk10;         /* +0x10 */
+    PrintUtil *util;    /* +0x14 */
+    void *que;          /* +0x18 */
+    void *fontH;        /* +0x1C */
+    u32  unk20;         /* +0x20 */
+} BmpMenuHeader;
+
+typedef struct {
+    BmpMenuHeader hdr;  /* +0x00 */
+    void *cursor;       /* +0x24 */
+    u32 cancel;         /* +0x28 */
+    u8  pad2c;
+    u8  pos;            /* +0x2D */
+    u8  width;          /* +0x2E */
+    u8  px;             /* +0x2F */
+    u8  py;             /* +0x30 */
+    u8  xspc;           /* +0x31 */
+    u8  yspc;           /* +0x32 */
+    u8  lastDir;        /* +0x33 */
+    u16 heap;           /* +0x34 */
+    u16 pad36;
+} BmpMenu;
+
+extern char  sBmpMenuFile[];
+extern void *func_02045B38(u32 a, u32 b, u32 c, u32 heap);
+extern BmpMenuWork *func_0201F81C(u32 n, u32 heap);
+extern void  func_0201F878(BmpMenuWork *list, void *msg, u32 strId, u32 param, u32 heap);
+extern void  func_02045C04(void *msg);
+extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
+extern void *func_020450F0(u32 frame, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 chr);
+extern void *func_02030734(int heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 heap);
+extern u16   func_0201DC80(void *font);
+extern void *func_0201C440(u32 heap);
+extern BmpMenu *func_0201F9D0(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u32 heap, u32 cancel);
+extern void  func_02045374(void *win);
+extern void  func_0201F73C(void *win, u32 kind, u32 base, u32 pal);
+extern u32   func_02045730(void *win);
+extern void  func_020409B4(u32 layer);
+extern void  func_02045334(void *win);
+
+static inline void PrintUtil_Init(PrintUtil *util, void *cell)
+{
+    util->cell = cell;
+    util->drawn = 0;
+}
+
+typedef struct {
+    u8  frame;   /* +0 */
+    u8  x;       /* +1 */
+    u8  y;       /* +2 */
+    u8  pal;     /* +3 */
+    u16 chr;     /* +4  callers pass it as base */
+} WinDat;
+
+BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u32 heap)
+{
+    BmpMenuHeader hdr;
+    void *msg;
+    BmpMenuWork *list;
+    BmpMenu *m;
+
+    msg = func_02045B38(0, 2, 0xE9, heap);
+    list = func_0201F81C(2, heap);
+    func_0201F878(list, msg, 0, 0, heap);
+    func_0201F878(list, msg, 1, -2, heap);
+    func_02045C04(msg);
+
+    MI_CpuFill8(&hdr, 0, sizeof(hdr));
+    hdr.items = list;
+    hdr.win = func_020450F0(winDat->frame, winDat->x, winDat->y, 7, 4, winDat->pal, 1);
+    hdr.xmax = 1;
+    hdr.ymax = 2;
+    hdr.lineSpc = 1;
+    hdr.cDisp = 0;
+    hdr.bf0b6 = 0;
+    hdr.util = func_02030734(heap, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
+    hdr.fontH = func_0201D7EC(0x17, 0, 0, 0, heap);
+    hdr.unk0e = func_0201DC80(hdr.fontH);
+    hdr.unk0c = 10;
+    PrintUtil_Init(hdr.util, hdr.win);
+    hdr.que = func_0201C440(heap);
+    hdr.unk20 = 0;
+
+    m = func_0201F9D0(&hdr, 0xE, 0, pos, heap, 2);
+    func_02045374(hdr.win);
+    func_0201F73C(hdr.win, 0, base, pal);
+    func_020409B4(func_02045730(hdr.win));
+    func_02045334(hdr.win);
+    return m;
+}
