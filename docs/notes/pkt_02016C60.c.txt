@@ -988,3 +988,26 @@ second-pass record pointer); hill 800 --types flat at 61.  By hand:
 No new lever; the residue stays a compiler-temporary slot order.
 /* best source, 870 bytes against 872, 61 concrete bytes out, dsi/1.1p1 */
 /* permuter best: DIFF   asm=895   bytes-out=61   size=870/870 (unchanged; source is the wave 12 one above) */
+
+================================================================================
+2026-09-23 (wave 16, mcss/backup lane).  61 -> 61; no move.
+================================================================================
+
+From the wave-12 source above (re-verified 870 against the 872 listing, 61
+out, dsi/1.1p1).  Measured once each:
+  - enum type on every local, one at a time (37 function-scope names plus
+    the four second-pass block locals): best 61 (addr, bh, found, h, hi, i,
+    j, off, sy, sy2, sx2, t, v, w, w2, x, y, tmp*...), the rest worse
+    (bw 93, h2 84, sx 135, step 120, scale 177, k/c/r size breaks);
+  - the second pass's sx2/sy2/w2/h2 at function scope: at the end of the
+    declarations 61, reversed 72, beside sx/sy/w/h 109, first 195; the first
+    pass's sx/sy/w/h block-scoped in the k loop 112;
+  - compound assignment: `sx >>= 12`, `h2 <<= 1`, `t += c` 61; the nibble
+    stores as `&=` then `|=` 878 bytes;
+  - const: record pointers and casts `const struct Rec *` 61, a0->f2c as
+    `const s32 *` 61, a1->f00 as `u8 *const *` 61;
+  - permuter through the 870-extent wrapper: hill 800 --types (559 singles)
+    flat, anneal 1000 --types seed 41 flat, anneal 2000 --types seed 77 flat;
+  - ../2.0/sp2 and sp2p2: 878 bytes, 753 out.
+Still the frame-slot numbering of the compiler temporaries.
+/* best source: unchanged, the wave-12 source above (870 bytes against 872, 61 concrete bytes out, dsi/1.1p1) */

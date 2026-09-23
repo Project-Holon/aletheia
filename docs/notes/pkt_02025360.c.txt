@@ -68,3 +68,19 @@ folds the unsigned load to `cmp #0 / beq`.  The `end = i + len` recompute
 after the scan loop is also load-bearing (two `adds r4, r0, r5` in the
 original, +0028 and +0042).
 re-verified 2026-09-21: no recoverable source in this note
+
+======================================================================
+2026-09-23 wave 16 tail lane: 0x02025360 still DIFF (57 bytes, 116/116).
+
+The note's best source is unchanged at 57.  permuter.py hill 800 on it: flat
+(152 single mutations, none improves), so per the brief the residue is in the
+declarations, not the body.  A struct spelling
+`struct { u32 f00; u8 count[2]; u8 slot[2][16]; }` reproduces the image's
+`adds r3, p, sel; ldrb [r3, #4]` count access (the pointer p + sel kept for
+the reload at +0x66) but still parks sel << 4 in ip instead of p: 103 out.
+Two facts for the next attempt: the image keeps i in r0 for the whole body
+(the fill loop returns it with no move), and the fill loop RECOMPUTES
+`lsls r3, r7, #4` rather than reusing the scan's hoisted base, so the two
+loops must not share one CSE-able `sel << 4` expression; try a separate base
+pointer local assigned only in the fill arm, with the scan written on the
+struct.

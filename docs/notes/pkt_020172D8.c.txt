@@ -537,3 +537,18 @@ void func_020172D8(u8 *a0, u32 a1)
     a1 = a1 >> 8;
   }
 }
+
+================================================================================
+2026-09-23 (wave 16, mcss/backup lane).  47 -> 0: CLOSED, EXACT.
+================================================================================
+
+src/matched/func_020172D8.c, shard pkt_020172D8 (verified twice).  The one
+change from the wave-15 best source above: the read-modify-write is a
+compound assignment, `a0[p] += 0x50;` and `a0[p] += 5;` in place of
+`a0[p] = (u8)(val + 0x50);` / `(u8)(val + 5)`.  The instruction stream is
+the same (the add still runs on val's register); the a0/k/b0 rotation goes.
+Measured flat before it (once each): an unused third parameter (47),
+`a1 >>= 8` (47), `b0 >> 1` as its own local (46), an explicit odd local
+(50), all block locals at function scope (47), `{ val += 0x50; a0[p] = val; }`
+(47), enum n or v (47), enum d[] (168), lo/hi with `-= 8` (224 bytes).
+New idiom: docs/idioms/compound-assignment-on-a-loaded-byte-settles-a-register-rotation.md.

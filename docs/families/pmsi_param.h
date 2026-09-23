@@ -188,8 +188,9 @@ u32  func_0202419C(void *p, u16 *q, u32 a);
 void func_020241E0(void *p, u16 *a1, u16 *a2);
 
 /* Waveform sampler, NOT part of the parameter object: fills out[0..count)
- * with a scaled sample of the shared s16 table at 0x02021B38.  DIFF, one
- * byte, and evidence-capped besides; see docs/notes/func_02024230.c.txt. */
+ * with amp * sin(phase), FX_SinCosTable_ at 0x020A1B38 (the older notes
+ * misread the pool word as 0x02021B38).  EXACT, src/matched/func_02024230.c:
+ * the phase is a plain u16 (wrap `lsrs`, index `asrs` after promotion). */
 void func_02024230(s16 *out, u32 count, u16 step, s32 amp);
 
 /* THE SHARED SLOT INITIALISER.  Store the id, zero the flag, then a
@@ -332,12 +333,9 @@ extern u32 func_020248D8(u32 v, u32 *a1, u32 *a2);
  *   `blt` straight at the final target.  Both `b` instructions are emitted
  *   correctly -- it is the conditional branch's TARGET that differs, not the
  *   code.  See the appended section of docs/notes/func_020246C8.diff.c.txt.
- * func_02024230 (0x02024230): DIFF at exactly ONE byte after the permuter's
- *   `temp` mutation closed 7 of the 8 (see the appended section of
- *   docs/notes/func_02024230.c.txt).  It is ALSO evidence-capped: the ABS32
- *   pool word naming the s16 table at 0x02021B38 has no witness outside the
- *   function's own 92-byte range, so even a byte-exact version caps at MATCH
- *   until something else in the image loads that address.
+ * func_02024230 (0x02024230): CLOSED wave 16 (EXACT).  The last byte was
+ *   the phase type, a plain u16; the table is 0x020A1B38 (FX_SinCosTable_),
+ *   `literal` x191, so the evidence cap was a misreading of the pool word.
  * func_02024768 is EXACT in src/matched, which unstuck func_020246C8's own
  *   call site: that relocation now resolves `sole-ref`.  The older prose in
  *   docs/notes/func_020246C8.diff.c.txt describing it as a MATCH-capped

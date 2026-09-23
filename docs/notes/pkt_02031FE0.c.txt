@@ -746,3 +746,24 @@ Wave 14 levers only, once each, on the wave 12 source (re-verified 1704 / 9,
     720 orders).
 Stopped as instructed.  Treat as an allocation tie until a new lever exists.
 re-verified 2026-09-23 by tools/match.py: DIFF, 1704 bytes against 1704, 9 concrete bytes out, 1.1p1
+
+================================================================================
+2026-09-23 (wave 16, mcss/backup lane).  9 -> 9; no move.  Stopped.
+================================================================================
+Wave 12 source (with cnt16 and the one-argument func_020333F8) plus the
+wave-14 symbols: block, re-verified 1704 / 9, 63 of 63 relocations.  Levers
+not tried before, once each:
+  * const: func_02033BF0/B68/BAC taking `const u8 *` 9; `const u8 *cur` and
+    `const u16 *tbl` 9; `const u8 *pa, *pb` (and cnt16) 9.
+  * SDK shapes: MI_CpuCopy16 inline over MIi_CpuCopy16 9; MI_CpuClear32 inline
+    over MIi_CpuClear32 9; MATH_CalcCRC16CCITT with a `const MATHCRC16Table *`
+    table 9.
+  * callee arity against the callees' own bodies: every call already matches
+    (func_020333F8 1, func_02031EAC 2, func_020335E8 4, func_0203331C 3,
+    func_020332FC 2, func_02031F94 2, func_02033410 2); nothing to change.
+  * else-first: the image keeps the `==` arm first on both CRC tests; n/a.
+  * enum locals: A 9, AB 9, i 9, B 40, k 1712 bytes.
+  * compound: `AB = A; AB += B;` 9, `AB = B; AB += A;` 10, `pa = h; pa += AB`
+    9.
+Treat as an allocation tie.
+/* best source: unchanged, the wave-12 source (1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1) */
