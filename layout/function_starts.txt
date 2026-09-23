@@ -388,3 +388,15 @@ arm9_main  0x020202CC  thumb   # tail-call thunk target of sub_02022AC4.c (pool 
 
 # Earlier lane finding: ABS32 thunk hidden in a previous function's word run.
 arm9_main  0x0200AD6C  thumb   # ldr r3,[pc,#4]; movs r1,#0x2E; ...; bx r3 thunk before func_020071CC's pool entry
+
+# Wave 10 (2026-09-23): unlabelled leaves and followers filed EXACT by lanes,
+# each witnessed by a matched caller (pool word or bl) and byte-exact alone.
+arm9_main  0x0209455C  arm     # MSL qsort (heapsort) after sprintf's tail; src/matched/func_0209455C.c
+arm9_main  0x02073BE0  arm     # 16-byte tail-call leaf, timer callback registered by func_020738C0
+arm9_main  0x020746C4  arm     # 12-byte release callback (clears c->f90), registered by func_02074048
+arm9_main  0x020746D0  arm     # 12-byte release callback (clears c->f88), registered by func_02074048
+arm9_main  0x020746DC  arm     # 12-byte release callback (clears c->f8c), registered by func_02074048
+arm9_main  0x02061644  arm     # 8-byte switch default of func_020614D4's 0x020A8144 table; src/matched/func_02061644.c
+arm9_main  0x02094694  arm     # MSL rand, after qsort; src/matched/func_02094694.c (was loc_ only, so qsort's extent ran to 500 bytes)
+arm9_main  0x020946C8  arm     # MSL srand; src/matched/func_020946C8.c
+arm9_main  0x020946D8  arm     # MSL __StringRead; src/matched/func_020946D8.c

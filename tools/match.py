@@ -151,7 +151,7 @@ def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
         wine_bin = shutil.which("wine64") or shutil.which("wine") or "wine64"
         cmd = [wine_bin] + list(cmd)
     try:
-        p = subprocess.run(cmd, cwd=workdir, capture_output=True, timeout=180, env=env)
+        p = subprocess.run(cmd, cwd=workdir, capture_output=True, timeout=900, env=env)
 
     except Exception as exc:
         return None, cmd, str(exc), 127
