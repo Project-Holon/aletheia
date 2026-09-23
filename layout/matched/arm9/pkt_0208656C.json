@@ -9,9 +9,9 @@
   {
    "name": "func_0208656C",
    "address": "0x0208656C",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_0208656C.c",
+   "source": "src/calib/func_0208656C.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
@@ -21,9 +21,9 @@
   {
    "name": "func_02086580",
    "address": "0x02086580",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_02086580.c",
+   "source": "src/calib/func_02086580.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

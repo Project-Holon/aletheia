@@ -4503,3 +4503,8 @@
 #      1 /     16    6.2%  sdk/TwlDWC/lib/ARM9-TS/Rom/libdwcranking.TWL.HYB.a
 #      1 /      9   11.1%  sdk/TwlSDK/lib/ARM9-TS/Rom/libna.TWL.HYB.a
 #      1 /     17    5.9%  sdk/TwlSDK/lib/ARM9-TS/Rom/librtcex.TWL.HYB.a
+
+# Owner decision 2026-09-23: identified by hand (wave 11 lane E), not by libmatch.py.
+# SHA-1 compression function of libmath's dgt_sha1 family (callers MATHi_SHA1ProcessBlockForOverlay,
+# MATHi_SetOverlayTableMode). 796 bytes, hand-written asm in the SDK; excluded from the game denominator.
+02081E7C  MATHi_SHA1Transform                           TwlSDK/libdgt.TWL.HYB.a(dgt_sha1.o)  arm9

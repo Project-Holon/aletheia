@@ -40,6 +40,15 @@ both figures with the delta of each against the previous commit.
 
 ### 2. Owner decisions, in order
 
+0. **SDK denominator, 2026-09-23 (three rulings).** (a) 0x02081E7C is TwlSDK libmath's SHA-1 block
+   function, not the game's MD5 transform: listed in `layout/symbols_sdk.txt` and excluded; the lane's
+   byte-exact asm body is kept out of the tree (scratchpad/heldout). (b) A disassembler label strictly
+   inside a sized SDK symbol (`layout/symbols_sdk.json`) is an interior kernel, not a function:
+   `tools/worklist.py` now classifies it sdk (`sdk_interior`); 12 labels left the open pool (MI_CpuCopy,
+   MI_CpuMove, and four `push {r0-r3}` vararg entries of OS_SPrintf/OS_SNPrintf/STD_TSPrintf). (c) The
+   13 genuine-SDK functions the audit found (OS arena/heap, DL list, two SND wrappers) moved from
+   src/matched to src/calib, so they count as sdk_calibration, not game coverage. Denominator 395520 ->
+   392516 bytes.
 1. **Demotion, 2026-09-20.** Five commits had promoted ~320 functions on hand-written verdicts. All were
    re-verified; 310 false EXACTs demoted, 109 stale shards removed, fixed-point re-verify. Rule: a shard is
    the only evidence; a header status is a claim.

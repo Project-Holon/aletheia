@@ -9,9 +9,9 @@
   {
    "name": "func_0208A054",
    "address": "0x0208A054",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_0208A054.c",
+   "source": "src/calib/func_0208A054.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

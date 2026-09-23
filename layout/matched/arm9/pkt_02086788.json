@@ -9,9 +9,9 @@
   {
    "name": "func_02086788",
    "address": "0x02086788",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_02086788.c",
+   "source": "src/calib/func_02086788.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
@@ -21,9 +21,9 @@
   {
    "name": "func_020867F4",
    "address": "0x020867F4",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_020867F4.c",
+   "source": "src/calib/func_020867F4.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
@@ -33,9 +33,9 @@
   {
    "name": "func_02086810",
    "address": "0x02086810",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_02086810.c",
+   "source": "src/calib/func_02086810.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
@@ -45,9 +45,9 @@
   {
    "name": "func_02086838",
    "address": "0x02086838",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_02086838.c",
+   "source": "src/calib/func_02086838.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
@@ -57,26 +57,36 @@
   {
    "name": "func_020868E0",
    "address": "0x020868E0",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_020868E0.c",
+   "source": "src/calib/func_020868E0.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x020867F4"
+    ]
+   }
   },
   {
    "name": "func_020869E8",
    "address": "0x020869E8",
-   "kind": "game",
+   "kind": "sdk_calibration",
    "region": "arm9",
-   "source": "src/matched/func_020869E8.c",
+   "source": "src/calib/func_020869E8.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02086838"
+    ]
+   }
   }
  ]
 }

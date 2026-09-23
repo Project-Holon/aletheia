@@ -37,7 +37,10 @@ Precedence is sdk > runtime > matched > open, with one documented exception:
             for region arm9.  These come from hybrid library linking and are
             NOT decompilation targets.  A handful of them are also listed in
             the manifest as sdk_calibration entries; those stay classified
-            sdk and are counted separately as sdk_matched.
+            sdk and are counted separately as sdk_matched.  A label that
+            falls strictly inside a sized SDK symbol (layout/symbols_sdk.json)
+            is an interior kernel of that symbol and is classified sdk too
+            (owner decision 2026-09-23; sdk_interior flag).
   runtime   the function's address is listed in layout/runtime_arm9.txt: the
             mwccarm/MSL runtime helper library, linked in as hand-written
             assembly.  Also NOT decompilation targets, excluded from the
@@ -118,6 +121,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 UNITS_JSON = os.path.join(ROOT, "layout", "units_arm9.json")
 SYMBOLS_SDK = os.path.join(ROOT, "layout", "symbols_sdk.txt")
+SYMBOLS_SDK_JSON = os.path.join(ROOT, "layout", "symbols_sdk.json")
 RUNTIME_ARM9 = os.path.join(ROOT, "layout", "runtime_arm9.txt")
 MATCHED_DIR = os.path.join(ROOT, "layout", "matched")
 FILE_ANCHORS = os.path.join(ROOT, "layout", "file_anchors.txt")
@@ -183,6 +187,43 @@ def load_sdk_symbols():
             # keep the first, which is the order libmatch.py emitted.
             syms.setdefault(addr, name)
     return syms
+
+
+def load_sdk_extents():
+    """[(start, end, name)] for every SDK symbol with a known size in the arm9
+    static region, from libmatch.py's JSON.  A disassembler label that falls
+    strictly inside one of these ranges is not a function: it is an interior
+    kernel of a hand-written SDK routine (MI_CpuCopy, MI_CpuMove) that pops
+    without pc and falls into a shared tail.  Owner decision 2026-09-23: the
+    sdk class covers a symbol's full size, so such labels leave the open pool
+    and the coverage denominator like the symbol itself.
+    """
+    if not os.path.exists(SYMBOLS_SDK_JSON):
+        return []
+    with open(SYMBOLS_SDK_JSON, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    out = []
+    for s in doc.get("symbols", []):
+        if s.get("region") != REGION:
+            continue
+        size = int(s.get("size") or 0)
+        if size <= 0:
+            continue
+        out.append((int(s["address"]), int(s["address"]) + size, s["name"]))
+    out.sort()
+    return out
+
+
+def sdk_interior(extents, addr):
+    """name+offset when addr lies strictly inside an SDK symbol's extent."""
+    import bisect
+    pos = bisect.bisect_right(extents, (addr, 1 << 40, "")) - 1
+    if pos < 0:
+        return None
+    start, end, name = extents[pos]
+    if start < addr < end:
+        return "%s+0x%X" % (name, addr - start)
+    return None
 
 
 def load_runtime_symbols():
@@ -621,6 +662,7 @@ def parse_all(units):
 def build_inventory():
     units = load_units()
     sdk = load_sdk_symbols()
+    sdk_ext = load_sdk_extents()
     runtime = load_runtime_symbols()
     matched = load_matched()
     thunks = find_tail_call_thunks()
@@ -674,6 +716,14 @@ def build_inventory():
         if addr in sdk and not proven_game:
             fn["cls"] = "sdk"
             fn["sdk_name"] = sdk[addr]
+            if ment is not None:
+                fn["matched_name"] = ment["name"]
+        elif not proven_game and sdk_interior(sdk_ext, addr) is not None:
+            # a label inside a sized SDK symbol: an interior kernel, not a
+            # function (owner decision 2026-09-23, see load_sdk_extents)
+            fn["cls"] = "sdk"
+            fn["sdk_name"] = sdk_interior(sdk_ext, addr)
+            fn["sdk_interior"] = True
             if ment is not None:
                 fn["matched_name"] = ment["name"]
         elif addr in runtime and not proven_game:

@@ -332,3 +332,120 @@ void func_020172D8(u8 *a0, u32 a1)
   }
 
 }
+
+================================================================================
+2026-09-23 (wave 12, fourth lane on mcss.c).  82 -> 47 bytes out, 220/220.
+================================================================================
+
+Baseline re-verified: DIFF, 220 against 220, 82 out, dsi/1.1p1 (../2.0/sp2:
+179, ../1.2/sp4: 240 bytes).  Permuter hill 800 --types on it: 81, flat.
+
+WHAT MOVED IT: THE idx[] STATEMENT ORDER IS idx[0] FIRST.  The image
+computes `b1 << 7` before `b1 + 0x28` and stores sp+0x14 then sp+0x10; that
+is `idx[0] = (b0 >> 1) + (b1 << 7); idx[1] = (b0 >> 1) + ((b1 + 0x28) << 7);`
+with the scheduler reordering the two stores.  On the previous source that
+order came out 216 bytes (which is why the last note fixed the opposite
+order), but the 216 is only hi losing its first (dead) store because it was
+in a register: the idx block itself is instruction-for-instruction the
+image's.  From that base, permuter hill (expand hi, decl-order) + anneal
+2000 --types (decl-order n<->i, hi<->cur) gave 47 at 220/220, frame and all
+four spill slots exactly the image's (lo sp+8, hi sp+4, n sp+0xc, a1 sp+0).
+The readable spelling below (b0 = lo + cur[..], no expanded lo/hi) is also
+47.
+
+WHAT IS LEFT, 47 bytes: one register rotation.  a0 is in r3 (image r2), k
+in r2 (image r1), b0 in r1 (image r3), so the inner loop's val/v/p
+temporaries shift by one register.  Measured flat at 47: permuter anneal
+2500 --types from the readable source; a 300-compile random declaration
+order search (47 floor); every combination of an explicit `odd` local,
+`if (b0 & 1)`, pointer form of cur[..+1], while-form k loop, u8 n with n++
+(64 compiles); `b0 / 2`, `b1 * 128`, `(b0 % 2)`; the list table as
+`const u8 (*)[2]`; a0 as u32 with casts; s32 p; the inner body as a static
+inline helper (3 parameter shapes: 118); b0 reused as v (136).  The residue
+is below every spelling tried; per the wave-10 lesson it is most likely a
+declaration this file does not see (the caller func_020172BC passes exactly
+two arguments, so not the parameter count).
+
+/* best source, 220 bytes against 220, 47 concrete bytes out, dsi/1.1p1 */
+/* permuter best: DIFF   asm=630   bytes-out=47   size=220/220  (anneal 2500 --types from this source: flat) */
+/*
+ * function: func_020172D8
+ * address:  0x020172D8
+ * packet:   pkt_020172D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   sMcssTable  0x020A72D4  data
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed int s32;
+extern const u8 *sMcssTable[4];
+void func_020172D8(u8 *a0, u32 a1)
+{
+  const u8 *cur;
+  u32 p;
+  u32 idx[2];
+  s32 i;
+  s32 n;
+  u8 b0;
+  s32 lo;
+  u32 b1;
+  s32 v;
+  s32 k;
+  s32 hi;
+  u8 val;
+  for (i = 0; i < 4; i++)
+  {
+    cur = sMcssTable[i];
+    n = 0;
+    if (cur[0] != 0xff)
+    {
+      lo = a1 & 0xf;
+      lo = (a1 & 0xf) - 8;
+      hi = (a1 & 0xf0) >> 4;
+      hi = ((a1 & 0xf0) >> 4) - 8;
+      do
+      {
+        b0 = (u8) (lo + cur[n * 2]);
+        b1 = (u8) (hi + cur[(n * 2) + 1]);
+        idx[0] = (((u32) b0) >> 1) + (b1 << 7);
+        idx[1] = (((u32) b0) >> 1) + ((b1 + 0x28) << 7);
+        for (k = 0; k < 2; k++)
+        {
+          if ((b0 & 1) != 0)
+          {
+            p = idx[k];
+            val = a0[p];
+            v = val & 0xf0;
+            if ((v >= 0x10) && (v <= 0x30))
+            {
+              a0[p] = (u8) (val + 0x50);
+            }
+          }
+          else
+          {
+            p = idx[k];
+            val = a0[p];
+            v = 0xf & val;
+            if ((v >= 1) && (v <= 3))
+            {
+              a0[p] = (u8) (val + 5);
+            }
+          }
+        }
+
+        n = (u8) (n + 1);
+      }
+      while (cur[n * 2] != 0xff);
+    }
+    a1 = a1 >> 8;
+  }
+
+}
+
+
