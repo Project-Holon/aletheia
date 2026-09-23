@@ -7,12 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  +0008 ABS32 abs_id_14 (0x00000014): the pooled id has no witness;
- *           `literal` indexes only ARM9 pool_ words and none holds 0x14, and the
- *           twin thunk's pool word is an unlabelled ov010 .word.  Every other
- *           byte is right; the sub_0203xxxx pool word resolves on `label`.
- *           Its arm9 callers need an overlay_010 seed at this address instead.
+ * status:   EXACT
+ * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id site
+ *           abs_id_14 (20) resolves as `overlay_id` (a layout overlay index,
+ *           loaded by a pc-relative load of this function, reaching the id
+ *           register of a known overlay loader), which was the last blocker.
  *
  * symbols:
  *   abs_id_14      0x00000014  data

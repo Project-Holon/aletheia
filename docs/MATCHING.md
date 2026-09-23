@@ -158,7 +158,7 @@ from a claim about the source into a tautology. So `match.py` records, for
 every address it knows, *where in the image it learned it*, and discards any
 witness that falls inside the range being compared.
 
-Nine classes of evidence are accepted, and every resolved site prints its
+Ten classes of evidence are accepted, and every resolved site prints its
 class, the number of witnesses and one witness address:
 
 | class | what it means |
@@ -172,6 +172,7 @@ class, the number of witnesses and one witness address:
 | `runtime` | the address is listed in `layout/runtime_arm9.txt`, the curated identification of the mwccarm/MSL `runtime.a` routines (64-bit shift/multiply/divide, soft-float) linked in as hand-written ARM assembly that `disasm.py` never labels. The table entry, read from a file that is never part of any compared range, is the witness. ARM only. |
 | `sdk` | the address is listed in `layout/symbols_sdk.json`, libmatch.py's signature-matcher recovery of the TwlSDK library symbol table — the same table `symbol_address()` already uses to resolve an SDK *name* to an address, now also trusted as a witness that a call or ABS32 *target* at that address is legitimate, the same evidentiary standing `runtime` has for `layout/runtime_arm9.txt`. Closes the case of a single-call leaf SDK wrapper (`DWC_GetCheckNintendoZoneWorkSize`, `PXI_InitFifo`) with no other caller or literal-pool reference anywhere in the image, where `label`/`literal`/`sole-ref` all have nothing to offer. Both ISAs are valid; the declared kind is checked against that symbol's own per-entry `thumb` flag. |
 | `sole-ref` | the layout itself recognises what the address lands on, without a second referrer. Tried last of all. Four sub-kinds: `sole-ref/data` (an object *start* in a data section that the listings, the SDK symbol table, the file-anchor table or the `layout/data_objects.txt` map already carry, with the declared type's alignment satisfied); `sole-ref/code` (exactly a traced function start, respecting `.thumb_func`, or a recognised veneer); `sole-ref/string` (the start of a NUL-terminated printable run, even when the preceding object is a table rather than a string); `sole-ref/self` (the target is in a data section and the ROM word at the site already names it — relocation agreement is the proof). See "The sole-ref class" below. |
+| `overlay_id` | an ABS32 data site whose declared value is an overlay index (`FS_OVERLAY_ID`), a small absolute no address-based class can reach. Three conditions, all required: the value is an overlay id listed in `layout/layout.json`; a pc-relative load in the function under test addresses exactly that site, decoded from the code so an unlabelled continuation word of a pool run counts; and the loaded value reaches the id register of a call to a known overlay loader (`OVERLAY_ID_CONSUMERS` in `match.py`), a call site that resolved on its own evidence. Tried after `sole-ref`. See "The overlay_id class" below. |
 
 The `label` class reads branches from the whole image, not just from the region
 being matched, and it reads labels from the whole image too. `func_02014468`
@@ -633,6 +634,67 @@ declared address unknown -> unresolved, MATCH     (with the reason printed)
 The middle line is the point. Resolution does not make the comparison easier
 to pass; it makes it cover four more bytes, and a wrong claim now fails
 loudly where it used to be hidden under a wildcard.
+
+### The overlay_id class
+
+`FS_OVERLAY_ID(name)` is an absolute linker symbol whose value is the
+overlay's index in the y9 table, so a call that loads an overlay by name
+carries an `R_ARM_ABS32` pool word holding a small integer (see
+`docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md`). No
+address-based class can attest it: 0x72 is not a location, nothing is traced
+there, and the only pool word holding it is usually the one under comparison,
+so `literal` discards its only witness and `sole-ref` finds nothing that
+starts at 0x00000072.
+
+What makes such a word an overlay id is what the code does with it, so the
+class is a statement about the function under test. All three conditions
+must hold, and each is a separate refusal in `attest_overlay_id()`:
+
+1. **The value is a valid overlay index**: an `id` in the `overlays` array of
+   `layout/layout.json` (237 entries, 0 to 236). The layout is the
+   authority, never the ROM.
+2. **The site is a real pool word of the function**: some pc-relative load in
+   the function's own code (Thumb `ldr Rd, [pc, #imm]`, ARM
+   `ldr Rd, [pc, #+-imm]`) addresses exactly that site. The load is decoded
+   from the instruction bytes rather than read off a listing label, because
+   the listings miss these words: a pool run gets a `pool_` label on its first
+   word only (0x0200F228 and 0x0200F22C are unlabelled continuation words of
+   `func_0200F17C`'s run), and some pools are printed as Thumb code or as
+   unlabelled `.word` runs. The load instruction is a concrete byte of the
+   comparison, so it is checked against the original like any other.
+3. **The loaded value reaches a known overlay-loading call as the id
+   argument**: walking forward from the load, the first call is to an entry
+   of `OVERLAY_ID_CONSUMERS`, and the register that entry reads the id from
+   still holds the loaded value. The walk follows register copies
+   (`adds r0, r7, #0`, `mov`) and unconditional `b`, and refuses on a
+   conditional branch, an instruction it does not model, a call to anything
+   else, or more than eight steps. The call itself (a `bl`/`blx`, or a pool
+   word that a `bx Rm` jumps through) must have resolved on its own evidence,
+   so the loader's identity is independently attested.
+
+The loader table, with how each entry was verified:
+
+| address | name | id register | verified by |
+| --- | --- | --- | --- |
+| 0x02079264 | `FS_LoadOverlay` | r1 | `layout/symbols_sdk.txt`; `FS_LoadOverlay(target, id)` |
+| 0x020792B8 | `FS_UnloadOverlay` | r1 | `layout/symbols_sdk.txt`; `FS_UnloadOverlay(target, id)` |
+| 0x02034AC4 | `sub_02034AC4` | r0 | `src/matched/sub_02034AC4.c`, passes it to `FS_LoadOverlay` |
+| 0x02034A5C | `sub_02034A5C` | r0 | `src/matched/sub_02034A5C.c` and `sub_02034A3C.c`, reach `FS_UnloadOverlay(0, id)` |
+| 0x02031538 | `func_02031538` | r0 | `src/matched/func_02031538.c` stores it at Proc+4; `src/matched/func_020315F0.c` loads and unloads that overlay |
+| 0x020314F4 | `func_020314F4` | r1 | `src/matched/func_020314F4.c`, forwards r1 to `func_02031538` |
+| 0x02031348 | `func_02031348` | r1 | `src/matched/func_02031348.c`, `ldr ip; bx ip` thunk to `func_020314F4` |
+| 0x020312CC | `func_020312CC` | r0 | listing 0x020312CC..0x020312F0 (not matched): `mov r4, r0` ... `mov r1, r4; bl func_020314F4` |
+| 0x020120B4 | `func_020120B4` | r1 | `src/matched/func_020120B4.c`, forwards r1 to `func_02031348` |
+
+The witness lies inside the compared range by construction, which the
+honesty rule normally forbids. It is admissible for the reason `local` is:
+the value is never read out of the word being checked. It comes from the
+declaration, and the three conditions restrict what a declaration may say to
+237 values fed to a loader's id parameter. A declaration with the wrong id
+is still a valid index and still resolves, then comes out `DIFF` against the
+original, exactly as a wrong `literal` does. A pooled small constant that
+does not reach a loader (a size, a heap id, 0xED which is attested elsewhere
+as a plain `literal`) is refused by condition 3 or never gets here.
 
 ### Where to cut a file: `--suggest-split`
 

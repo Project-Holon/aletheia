@@ -614,3 +614,16 @@ image's `movlt r6,r2; clzlt r6,r6` confirms the in-place clz x,x form.
 The wave-11 source (h first, 10 out) stays the best.
 
 /* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 -- the wave-11 source above, unchanged */
+
+==============================================================================
+2026-09-23, wave 17 (gfx_palette lane).  0x020681E4 unchanged, DIFF 10.
+==============================================================================
+The untried pin: the library shape under dsi/1.1p1 with the SDK types (u32
+x, y, areaWidth, areaHeight, objWidth, objHeight; `const u32 fullbits`;
+const masks and main-area locals; a `typedef struct ObjectSize { u8
+widthShift; u8 heightShift; }` table; GetMaxObjectSize with const int logs;
+MATH_ILog2 returning u32 over `asm { clz x, x }`) is 228 bytes against 248
+under 1.1p1 (184 out) and 244 under ../2.0/sp2.  The wave-11 source under
+1.1p1 is 240 bytes (162 out).  So 1.1p1 is 8 to 20 bytes short in either
+shape and the ../2.0/sp2 pin stands.
+/* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 -- the wave-11 source above, unchanged */

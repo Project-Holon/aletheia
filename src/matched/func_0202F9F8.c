@@ -7,17 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocking: evidence, not codegen.  Every concrete byte matches (MATCH*: the
- *           listing extent runs over the unlabelled 4-byte follower at
- *           0x0202FAB0).  Five ABS32 sites have no witness outside the range:
- *           the two pooled overlay ids 0x58 / 0xB3 (linker symbols, see
- *           docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md)
- *           and the three overlay-resident proc descriptors 0x021BD8E8,
- *           0x021B68D8, 0x021BD574, whose only pool words image-wide are
- *           this function's.  Wave 16: d_021B68D8 now resolves as
- *           sole-ref/data with the ov179 region token; 0x021BD8E8 and
- *           0x021BD574 already resolve; the two overlay ids are the wall.
+ * status:   EXACT
+ * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id sites
+ *           ov088_id (88) and ov179_id (179) resolve as `overlay_id` (a
+ *           layout overlay index, loaded by a pc-relative load of this
+ *           function, reaching the id register of a known overlay loader),
+ *           which was the last blocker.
  *
  * symbols:
  *   ov088_id       0x00000058  data  a1
@@ -45,7 +40,7 @@
  * `*state = 4` block is the one state 3 branches back into.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202F9F8.c
+ *   python tools/match.py one --src src/matched/func_0202F9F8.c
  *       --func func_0202F9F8 --addr 0x0202F9F8 --cc 1.1p1 --thumb
  */
 

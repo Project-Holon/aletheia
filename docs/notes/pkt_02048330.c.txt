@@ -669,3 +669,17 @@ void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
     }
 }
 re-verified 2026-09-23 by tools/match.py: DIFF, 468 bytes against 468, 14 concrete bytes out, 1.1p1
+
+2026-09-23 (wave 17, gfx_palette lane) - 0x02048744, still DIFF 14.
+From the wave-16 long source (re-verified 468/468, 14 out, 9 of 9 relocations
+with `g3d_util_file 0x020A7EB8 data` in a symbols: block):
+  resIdx declared after `long i, j;` and assigned as a statement     472 / 388
+  all three unit locals declared after i, j (initialisers kept)      14
+  resIdx declared last of the three (objIdx, objCount, resIdx)       472 / 388
+  `long i;` then the three unit locals then `long j;`                 14
+  `const u16 resIdx`                                                  14
+  a `Unit *u = &util->unit[unitIdx]` local for the three reads       476
+  helpers indexing `[idx + resIdx]`                                   14
+  getRes taking int resIdx, useRes taking int idx                     14
+Allocation tie stands (resIdx r7 / i sb in the image, swapped here).
+/* best source: unchanged, the wave-16 long source above (468/468, 14 out, dsi/1.1p1) */

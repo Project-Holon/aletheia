@@ -410,3 +410,31 @@ image treats [sp,#8] as a memory object ordered with the other stack
 stores, not as a register spill.  No C spelling found that makes a
 non-volatile local behave that way.
 /* best source: unchanged, the first section's source (232/232, 33 out) */
+
+========================================================================
+APPENDED 2026-09-23, wave 17 (gfx_palette lane): still DIFF 33 (twin).
+========================================================================
+`match.py show --addr 0x02021848` still prints a 2-byte extent (the push
+only); 0x0202184A shows the 230-byte body, so the listings were not
+regenerated after all.  `one` compares the full 232 regardless.  Measured on
+0x02021848 from the first section's source (baseline 232/232, 33 out):
+  `a` as a small struct parameter (typedef struct { s32 x; } by value,
+    callee prototype matching): frame 0x0c, `a` read from its home slot,
+    74 out (it does give the image's movs r6 / movs r4 filler order)
+  the same struct parameter copied into a local struct first           74
+  local `struct { s32 x; } la; la.x = a;` (after or before done = 0)   33
+  local array `s32 la[1]` and `s32 la[2]`                              33
+  `struct { s32 a; u16 keep; }` local holding both frame spills         33
+  float `a` (with a float callee parameter)                             33
+  address-taken local `s32 la; s32 *pla = &la;` read as *pla            41
+  the same written through *pla, read as la                             33
+  `register s32 a`                                                      33
+  `p` and `a` both rebound to locals first (p0/a0 parameters)           33
+  named slot pointer `slot = (u8 *)p + i * 0x14` (the wave-17
+    element-pointer idiom from double3Ddisp)                            33
+Reading: even a genuinely address-taken local's store (the *pla row) is
+scheduled as a load-delay filler after `ldr r0, [sp, #0x3c]`, so the
+image's first-slot `str r3, [sp, #8]` is not an aliasing order either; it
+sits before `adds r5, r0` in the pre-schedule order, which none of these
+spellings changes.
+/* best source: unchanged, the first section's source (232/232 and 268/268, 33 out each) */

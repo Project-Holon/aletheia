@@ -7,8 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id sites
+ *           ov_id_72 (114) and ov_id_0E (14) resolve as `overlay_id` (a
+ *           layout overlay index, loaded by a pc-relative load of this
+ *           function, reaching the id register of a known overlay loader),
+ *           which was the last blocker.
  *
  * symbols:
  *   func_02034A5C  0x02034A5C  arm
@@ -39,21 +43,15 @@
  * seven words of the pool are, in order, 0x0A, 0x0B, 9, 0x0D, 0x72, 0x0E,
  * 0x0F -- all seven are loaded.
  *
- * blocker:  five sites stay wildcarded, all of them calls into overlays whose
- *           only branch anywhere in the image is the one inside this range:
- *           0x0215536C (x3), 0x02177020 and 0x021798D4.  Two overlays hold
- *           each address (ov009, ov010) and neither carries a func_ label, so
- *           the `label` class has no site to point at and no cut helps.
- *           Blocking class: label (overlay), permanent.
- *
  * seed round 9: the five overlay call sites now resolve (0x0215536C,
  *           0x02177020 and 0x021798D4 seeded in layout/function_starts.txt);
  *           25 of 27 sites resolved.  The two left are the pooled overlay-id
  *           constants ov_id_72 and ov_id_0E, which have no witness outside
- *           this range, so the file stays MATCH.
+ *           this range, so the file stayed MATCH until the wave 17
+ *           `overlay_id` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0200F17C.c \
+ *   python tools/match.py one --src src/matched/func_0200F17C.c \
  *       --func func_0200F17C --addr 0x0200F17C --cc 1.1p1 --thumb
  */
 

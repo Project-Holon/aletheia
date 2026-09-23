@@ -767,3 +767,19 @@ not tried before, once each:
     9.
 Treat as an allocation tie.
 /* best source: unchanged, the wave-12 source (1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1) */
+
+================================================================================
+2026-09-23 (wave 17, gfx_palette lane).  9 -> 9; no move.
+================================================================================
+NOTE: the function is ARM (pass --arm; a --thumb compile of the source is
+1064 bytes and meaningless).  Wave-12 source rebuilt from the wave-11 body
+plus the recorded diff, symbols str_020A7848 / g_02146994 declared:
+1704/1704, 9 out, 63 of 63 relocations.  Measured once each:
+  - CRC through a u16 accumulator `crc = func_02081B8C(..); if (*(u16 *)(pa
+    + 2) != crc)`, crc at function scope: 9; crc declared before B: 9;
+  - one more live value: `u16 *ca = (u16 *)(pa + 2), *cb = ...` used for
+    every CRC-field read: 9 (CSE'd to the same code);
+  - func_02081B8C size parameter u16: 1712 bytes;
+  - `u16 want = tbl[i]` named across the calls: 1716 bytes;
+  - `AB = A + (B = func_02033BAC(..))`: 22.
+/* best source: unchanged, the wave-12 source (1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1) */

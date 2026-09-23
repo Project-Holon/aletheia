@@ -7,8 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id site
+ *           ov021_id (21) resolves as `overlay_id` (a layout overlay index,
+ *           loaded by a pc-relative load of this function, reaching the id
+ *           register of a known overlay loader), which was the last blocker.
  *
  * symbols:
  *   func_020120B4     0x020120B4  thumb
@@ -22,14 +25,8 @@
  * itself only reads r0, which is why its ten-byte body says nothing about
  * this call's arity.
  *
- * blocker:  literal, two sites.  Both pool words are single-witness data
- *           addresses: 0x00000015 appears in one literal pool in the whole
- *           image (this one) and 0x021D359C in one, and neither is attested
- *           by a string or a label.  0x021D359C is overlay-space, so a
- *           later wave that labels it in its overlay would close the second
- *           site; the first needs a second pool word somewhere.
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020120C0.c \
+ *   python tools/match.py one --src src/matched/func_020120C0.c \
  *       --func func_020120C0 --addr 0x020120C0 --cc 1.1p1 --thumb
  */
 

@@ -223,3 +223,13 @@ void func_0204E914(void)
     func_0207E708(g_02146A80->oam, 0x3a0, 0x60);
 }
 
+
+================================================================
+wave 17 (2026-09-23, gfx_palette lane): 15 -> 0, EXACT
+================================================================
+Filed as src/matched/func_0204E914.c (packet pkt_0204E914, shard verified
+twice).  The lever: take the ENTRY's address in the inner loop,
+`oam = &g_02146A80->oam[k]; oam->f.attr01 = ...; oam->f.attr2 = ...;`.
+`g_02146A80->oam + k`, and `*(u32 *)&oam[k]` / `((u16 *)&oam[k])[2]` over
+the indexed base, are EXACT too; `oam[k].w[0]` stays 15.  Idiom:
+docs/idioms/an-element-pointer-reuses-the-dying-base-register-an-indexed-base-does-not.md

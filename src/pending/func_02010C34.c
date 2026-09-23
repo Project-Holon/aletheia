@@ -8,15 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocking: evidence, not codegen.  Every concrete byte matches.  Five ABS32
- *           pool sites lack an outside witness: overlay-id symbols 0x73 and
- *           0xBB and the overlay-resident procs 0x021D6338, 0x0220B294,
- *           0x021D654C.  0x73, 0x021D6338 and 0x021D654C ALSO sit in
- *           func_02010AC4's pool (0x02010B84..0x02010B94), which would
- *           attest them as `literal`, but disasm.py prints both functions'
- *           pools as Thumb instructions, so the pool-word index never sees
- *           them.  Integrator: seed these pools as .word and three of the
- *           five sites here (and three of four in func_02010AC4) resolve.
+ * blocking: evidence, not codegen.  Every concrete byte matches.  Wave 17:
+ *           the overlay ids 0x73 / 0xBB (ov115_id, ov187_id) now resolve as
+ *           `overlay_id` (id argument of func_02031348), and 0x0220B294
+ *           resolves.  Two ABS32 sites are left, the overlay-resident procs
+ *           0x021D6338 / 0x021D654C.  Both ALSO sit in func_02010AC4's pool
+ *           (0x02010B84..0x02010B94), which would attest them as `literal`,
+ *           but disasm.py prints both functions' pools as Thumb
+ *           instructions, so the pool-word index never sees them.
+ *           Integrator: seed these pools as .word and both sites here (and
+ *           both in func_02010AC4) resolve.
  *
  * symbols:
  *   ov115_id       0x00000073  data  a1

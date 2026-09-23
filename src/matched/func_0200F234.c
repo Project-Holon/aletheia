@@ -7,8 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * note:     re-verified 2026-09-20: MATCH; see verify output
+ * status:   EXACT
+ * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id sites
+ *           ov_id_72 (114) and ov_id_0E (14) resolve as `overlay_id` (a
+ *           layout overlay index, loaded by a pc-relative load of this
+ *           function, reaching the id register of a known overlay loader),
+ *           which was the last blocker.
  *
  * symbols:
  *   func_02034A5C  0x02034A5C  arm
@@ -26,11 +30,6 @@
  * (`ldr r0, [pc]`), and mwccarm materialises any literal in 0..255 with
  * `movs`.  See docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  * The cases are written in the memory order of the arms (6, 1, 2, 0/5, 3/4).
- *
- * blocker:  literal, two sites.  0x00000072 and 0x0000000E each occur in
- *           exactly one literal pool image-wide -- this function's own -- so
- *           the `literal` class discards its only witness and no cut frees
- *           them.  Every other site resolves (the two callees as `label`).
  */
 
 typedef unsigned char u8;

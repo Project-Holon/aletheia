@@ -8,18 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocking: evidence, not codegen.  Every concrete byte matches.  Four
- *           ABS32 sites have no witness outside the range: the two pooled
- *           small arguments 0x73 / 0x7B (overlay-id linker symbols, see
- *           docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md;
- *           0x73 is shared by cases 0 and 3, so it is ONE symbol) and the
- *           overlay-resident pointers 0x021D6338 / 0x021D654C, whose only pool
- *           words image-wide are this function's.  0x021DA9A8 resolves.
- *           Closes when those overlays' tables get a matched referrer.
- *           0x73, 0x021D6338 and 0x021D654C also sit in func_02010C34's
- *           pool (0x02010D84..), but disasm.py prints both pools as Thumb
- *           code, so the literal index misses them; seeding those pools as
- *           .word would resolve three of the four sites.
+ * blocking: evidence, not codegen.  Every concrete byte matches.  Wave 17:
+ *           the pooled overlay ids 0x73 / 0x7B (ov115_id, ov123_id) now
+ *           resolve as `overlay_id` (id argument of func_020312CC).  Two
+ *           ABS32 sites are left, the overlay-resident proc pointers
+ *           0x021D6338 / 0x021D654C, whose only other pool words sit in
+ *           func_02010C34's pool (0x02010D84..), which disasm.py prints as
+ *           Thumb code, so the literal index misses them.  Seeding those
+ *           pools as .word, or a matched referrer, would close both.
  *
  * symbols:
  *   ov115_id       0x00000073  data  a1

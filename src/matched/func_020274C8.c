@@ -7,14 +7,18 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   EXACT*
+ * note:     wave 17 (overlay_id class): EXACT*. The pooled overlay-id site
+ *           ov231_id (231) resolves as `overlay_id` (a layout overlay index,
+ *           loaded by a pc-relative load of this function, reaching the id
+ *           register of a known overlay loader), which was the last blocker.
  *
- * Blocked on: literal.  Every concrete byte reproduces; the only unresolved
- * relocation is the ABS32 pool word 0x000000E7, an absolute overlay-id symbol
- * (ov231, matching the bl into func_021809D8 in asm/overlays/ov231.s), per
- * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.  The
- * value appears in no other literal pool, so its only witness is this
- * function's own pool word and no cut helps.
+ * The ABS32 pool word 0x000000E7 is an absolute overlay-id symbol (ov231,
+ * matching the bl into func_021809D8 in asm/overlays/ov231.s), per
+ * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
+ * EXACT* because the listing extent (84 bytes) runs over the follower
+ * sub_020274F8.
+ *
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
  *   func_021809D8  0x021809D8  thumb ov231

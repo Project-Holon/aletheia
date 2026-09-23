@@ -458,7 +458,7 @@ def target_extent(addr, region):
 # address of the instruction or pool word it came from, and why
 # ``attest()`` rejects a witness that falls inside the compared range.
 #
-# Six classes of evidence are accepted, and the class is reported per site so
+# These classes of evidence are accepted, and the class is reported per site so
 # a reader can weigh them separately:
 #
 #   label    disasm.py put a func_XXXXXXXX label at that address, i.e. it
@@ -512,6 +512,17 @@ def target_extent(addr, region):
 #            target is in a data section and the ROM word at the site already
 #            names it -- relocation agreement is the proof).  See
 #            attest_sole_ref().
+#
+#   overlay_id  an ABS32 data site whose declared value is an overlay index
+#            (FS_OVERLAY_ID), which no address-based class can reach.  All
+#            three must hold: the value is an overlay id listed in
+#            layout/layout.json; a pc-relative load in the function under
+#            test addresses exactly that site (decoded from the code, so
+#            unlabelled continuation words of a pool run count); and the
+#            loaded value reaches the id register of a call to an
+#            OVERLAY_ID_CONSUMERS entry, a call site that resolved on its
+#            own evidence.  Tried after everything else, once the
+#            function's other sites are known.  See attest_overlay_id().
 #
 # A site with no accepted witness stays wildcarded and the entry stays MATCH,
 # with the reason printed.  Nothing is ever back-filled from the original.
@@ -2784,6 +2795,332 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
 
 
 # ---------------------------------------------------------------------------
+# the `overlay_id` class
+# ---------------------------------------------------------------------------
+#
+# FS_OVERLAY_ID(name) is an absolute linker symbol whose value is the
+# overlay's index in the y9 table, so a function that loads an overlay by
+# name carries an ABS32 pool word holding a small integer (see
+# docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).  No
+# address-based class can reach it: 0x72 is not a location, nothing is
+# traced there, and the one pool word that holds it is usually the one under
+# comparison, so `literal` discards its only witness.  `sole-ref` fails for
+# the same reason, because nothing in the layout starts at 0x00000072.
+#
+# What makes such a word an overlay id is not its value alone (any small
+# integer is a small integer) but what the code does with it.  The class is
+# therefore a statement about the function under test, and all three of
+# these must hold, each a separate refusal in attest_overlay_id():
+#
+#   1. the declared value is a valid overlay index: an `id` listed in the
+#      `overlays` array of layout/layout.json (237 entries, 0..236).  The
+#      layout, never the ROM, is the authority;
+#   2. the site is a real pool word of the function: some pc-relative load
+#      in the function's own code (Thumb `ldr Rd, [pc, #imm]`, ARM
+#      `ldr Rd, [pc, #+-imm]`) addresses exactly the site.  The load is
+#      decoded from the instruction bytes, not read off a listing label,
+#      because the listings miss these words: a pool run gets a pool_ label
+#      only on its first word (0x0200F228 and 0x0200F22C are unlabelled
+#      continuation words of func_0200F17C's run), and some pools are
+#      printed as Thumb code or as unlabelled .word runs (func_02010AC4,
+#      func_0200F234).  The load instruction is a concrete byte of the
+#      comparison, so it is checked against the original like any other;
+#   3. the loaded value reaches a known overlay-loading call as the id
+#      argument: walking forward in straight-line code from that load, the
+#      first call is to an entry of OVERLAY_ID_CONSUMERS, and the register
+#      that entry reads the id from still holds the loaded value (loaded
+#      there, or copied there, and not overwritten since).  The call has to be a
+#      relocation site that has itself resolved under some other class (a
+#      `bl`/`blx`, or a pool word a `bx`/`blx Rm` jumps through), so the
+#      consumer's identity rests on independent evidence.  The value may be
+#      copied between registers on the way (`adds r0, r7, #0`, `mov`), and
+#      an unconditional `b` is followed, since the path stays single; an
+#      instruction the walker does not model, a conditional branch, a data
+#      word, a call to anything else, or more than OVERLAY_ID_WALK steps
+#      ends the walk and refuses.
+#
+# The witness is inside the compared range by construction, which the
+# honesty rule normally forbids.  It is admissible here for the reason
+# `local` is: the value is never read from the word being checked.  It comes
+# from the declaration, and the three conditions restrict what a declaration
+# may say to 237 values fed to a loader's id parameter.  A declaration with
+# the wrong id is still a valid index and still resolves, then comes out
+# DIFF against the original, exactly as a wrong `literal` does.  Tried after
+# every other class, and only for ABS32 data sites, because it needs the
+# function's call sites to be resolved first.
+
+OVERLAY_ID_WALK = 8
+
+# Callee address -> (name, register the overlay id arrives in, how verified).
+# Every entry was verified by reading the code; the register column is the
+# one the id travels in, which is not always the first argument.
+OVERLAY_ID_CONSUMERS = {
+    # TwlSDK fs_overlay.o, layout/symbols_sdk.txt: FS_LoadOverlay(target, id)
+    # and FS_UnloadOverlay(target, id) take the FSOverlayID second.
+    0x02079264: ("FS_LoadOverlay", 1, "layout/symbols_sdk.txt"),
+    0x020792B8: ("FS_UnloadOverlay", 1, "layout/symbols_sdk.txt"),
+    # src/matched/sub_02034AC4.c (EXACT): passes its argument to
+    # FS_LoadOverlay's id parameter.
+    0x02034AC4: ("sub_02034AC4", 0, "src/matched/sub_02034AC4.c"),
+    # src/matched/sub_02034A5C.c (EXACT): finds the registration holding its
+    # argument and hands it to sub_02034A3C, which calls
+    # FS_UnloadOverlay(0, entry->handle) (src/matched/sub_02034A3C.c).
+    0x02034A5C: ("sub_02034A5C", 0, "src/matched/sub_02034A5C.c"),
+    # The proc system.  src/matched/func_02031538.c (EXACT) stores its r0 at
+    # Proc+4, which src/matched/func_020315F0.c (EXACT) passes to
+    # func_02034AC4 on the first step and to func_02034A5C on the last.
+    0x02031538: ("func_02031538", 0, "src/matched/func_02031538.c"),
+    # src/matched/func_020314F4.c (EXACT): forwards its r1 to
+    # func_02031538's r0.
+    0x020314F4: ("func_020314F4", 1, "src/matched/func_020314F4.c"),
+    # src/matched/func_02031348.c (EXACT): an `ldr ip; bx ip` tail thunk to
+    # func_020314F4, so r1 passes through untouched.
+    0x02031348: ("func_02031348", 1, "src/matched/func_02031348.c"),
+    # Not matched; read from the listing (asm/arm9/src/013_0202EC44.s,
+    # 0x020312CC..0x020312F0): mov r4, r0 ... mov r1, r4; bl func_020314F4.
+    0x020312CC: ("func_020312CC", 0, "listing 0x020312CC..0x020312F0"),
+    # src/matched/func_020120B4.c (EXACT): func_02031348(p->f8, id, a, b)
+    # with the caller's r1 passed through.
+    0x020120B4: ("func_020120B4", 1, "src/matched/func_020120B4.c"),
+}
+
+_OVERLAY_IDS = {}
+
+
+def overlay_ids():
+    """The set of overlay indices layout/layout.json lists."""
+    if "ids" not in _OVERLAY_IDS:
+        out = set()
+        try:
+            with open(os.path.join(ROOT, "layout", "layout.json")) as fh:
+                lay = json.load(fh)
+        except (OSError, ValueError):
+            lay = {}
+        for ov in lay.get("overlays") or []:
+            if isinstance(ov.get("id"), int):
+                out.add(ov["id"])
+        _OVERLAY_IDS["ids"] = out
+    return _OVERLAY_IDS["ids"]
+
+
+_NO_DEST = -1       # an instruction that writes no general register
+
+
+def _thumb_dest(hw):
+    """The register a 16-bit Thumb instruction writes, _NO_DEST, or None.
+
+    None means the walker does not model the instruction and must stop.
+    """
+    top = hw >> 11
+    if top <= 0x03:                          # lsl/lsr/asr/add/sub reg, imm3
+        return hw & 7
+    if top in (0x04, 0x06, 0x07):            # movs / adds / subs imm8
+        return (hw >> 8) & 7
+    if top == 0x05:                          # cmp imm8
+        return _NO_DEST
+    if (hw & 0xFC00) == 0x4000:              # ALU register ops
+        op = (hw >> 6) & 0xF
+        return _NO_DEST if op in (8, 10, 11) else hw & 7
+    if (hw & 0xFC00) == 0x4400:              # hi-register add / cmp / mov
+        op = (hw >> 8) & 3
+        if op == 1:
+            return _NO_DEST
+        if op == 3:
+            return None                      # bx / blx, seen by the caller
+        rd = ((hw >> 4) & 8) | (hw & 7)
+        return None if rd == 15 else rd
+    if top == 0x09:                          # ldr Rd, [pc, #imm]
+        return (hw >> 8) & 7
+    if top in (0x0A, 0x0B):                  # load/store, register offset
+        return _NO_DEST if ((hw >> 9) & 7) < 3 else hw & 7
+    if 0x0C <= top <= 0x11:                  # load/store, immediate offset
+        return hw & 7 if hw & 0x0800 else _NO_DEST
+    if top in (0x12, 0x13):                  # sp-relative load/store
+        return (hw >> 8) & 7 if hw & 0x0800 else _NO_DEST
+    if top in (0x14, 0x15):                  # add Rd, pc / sp
+        return (hw >> 8) & 7
+    if (hw & 0xFF00) == 0xB000:              # add / sub sp, #imm
+        return _NO_DEST
+    return None
+
+
+def _arm_dest(w):
+    """The register an ARM instruction writes, _NO_DEST, or None."""
+    if (w >> 28) == 0xF:
+        return None
+    kind = (w >> 25) & 7
+    rd = (w >> 12) & 0xF
+    if kind in (0, 1):
+        if kind == 0 and (w & 0x90) == 0x90:
+            # multiplies, swaps and halfword transfers: only the plain
+            # pre-indexed halfword forms are modelled
+            if (w & 0x60) == 0 or (w & 0x01200000) != 0x01000000:
+                return None
+            if w & 0x00100000:
+                return None if rd == 15 else rd
+            return _NO_DEST
+        op = (w >> 21) & 0xF
+        if 8 <= op <= 11:
+            return _NO_DEST if w & 0x00100000 else None   # tst..cmn / msr
+        return None if rd == 15 else rd
+    if kind in (2, 3):
+        if kind == 3 and w & 0x10:
+            return None
+        if (w & 0x01200000) != 0x01000000:         # post-index or writeback
+            return None
+        if not w & 0x00100000:
+            return _NO_DEST
+        return None if rd == 15 else rd
+    return None
+
+
+def _pc_load(fb, j):
+    """(Rd, literal offset, size) if the instruction at j is a pc load."""
+    if fb.thumb:
+        if j + 2 > len(fb.data):
+            return None
+        hw = struct.unpack_from("<H", fb.data, j)[0]
+        if (hw & 0xF800) == 0x4800:
+            return (hw >> 8) & 7, ((j + 4) & ~3) + (hw & 0xFF) * 4, 2
+        return None
+    if j + 4 > len(fb.data) or j & 3:
+        return None
+    w = struct.unpack_from("<I", fb.data, j)[0]
+    if (w & 0x0F7F0000) == 0x051F0000 and (w >> 28) != 0xF:
+        imm = w & 0xFFF
+        lit = j + 8 + (imm if w & 0x00800000 else -imm)
+        return (w >> 12) & 0xF, lit, 4
+    return None
+
+
+def _consumer_of(site):
+    """The OVERLAY_ID_CONSUMERS entry a resolved site names, or None."""
+    if site is None or not site.resolved or site.value is None:
+        return None
+    return OVERLAY_ID_CONSUMERS.get(site.value & ~1)
+
+
+def _copy_source(fb, j):
+    """Rm when the instruction at j is a plain register copy Rd <- Rm."""
+    if fb.thumb:
+        hw = struct.unpack_from("<H", fb.data, j)[0]
+        if (hw & 0xFFC0) == 0x1C00:          # adds Rd, Rn, #0
+            return (hw >> 3) & 7
+        if (hw & 0xFFC0) == 0x0000:          # movs Rd, Rm (lsls #0)
+            return (hw >> 3) & 7
+        if (hw & 0xFF00) == 0x4600:          # mov Rd, Rm (hi registers)
+            return (hw >> 3) & 0xF
+        return None
+    w = struct.unpack_from("<I", fb.data, j)[0]
+    if (w & 0xFFEF0FF0) == 0xE1A00000:       # mov{s} Rd, Rm, unconditional
+        return w & 0xF
+    return None
+
+
+def _walk_to_consumer(fb, start, reg, by_off):
+    """Follow the value loaded into `reg` from offset `start` to a call.
+
+    The value may be copied to other registers on the way (mwccarm parks an
+    id in a callee-saved register and copies it into r0 for each call), so
+    the walk tracks the set of registers that hold it.  Returns (consumer
+    entry, call offset) when the first call is an overlay-id consumer whose
+    id register holds the value, else None.
+    """
+    holds = set([reg])          # registers that still hold the loaded value
+    pooled = {}                 # register -> literal offset it was loaded from
+    j = start
+    step = 2 if fb.thumb else 4
+    for _ in range(OVERLAY_ID_WALK):
+        if j + step > len(fb.data):
+            return None
+        st = by_off.get(j)
+        if st is not None:
+            if st.rtype in _THUMB_BRANCH or st.rtype in _ARM_BRANCH:
+                ent = _consumer_of(st)
+                if ent is not None and ent[1] in holds:
+                    return ent, j
+            return None         # a call to something else, or a data word
+        if fb.thumb:
+            hw = struct.unpack_from("<H", fb.data, j)[0]
+            if (hw & 0xFF07) in (0x4700, 0x4780):      # bx / blx Rm
+                rm = (hw >> 3) & 0xF
+                ent = _consumer_of(by_off.get(pooled.get(rm)))
+                if ent is not None and ent[1] in holds:
+                    return ent, j
+                return None
+            if (hw & 0xF800) == 0xE000:                 # b, unconditional
+                disp = hw & 0x7FF
+                j = j + 4 + ((disp - 0x800 if disp & 0x400 else disp) << 1)
+                if not 0 <= j < len(fb.data):
+                    return None
+                continue
+            dest = _thumb_dest(hw)
+        else:
+            w = struct.unpack_from("<I", fb.data, j)[0]
+            if (w & 0x0FFFFFD0) == 0x012FFF10:         # bx / blx Rm
+                rm = w & 0xF
+                ent = _consumer_of(by_off.get(pooled.get(rm)))
+                if ent is not None and ent[1] in holds:
+                    return ent, j
+                return None
+            if (w & 0xFF000000) == 0xEA000000:         # b, unconditional
+                disp = w & 0xFFFFFF
+                if disp & 0x800000:
+                    disp -= 0x1000000
+                j = j + 8 + (disp << 2)
+                if not 0 <= j < len(fb.data):
+                    return None
+                continue
+            dest = _arm_dest(w)
+        if dest is None:
+            return None
+        if dest != _NO_DEST:
+            if _copy_source(fb, j) in holds:
+                holds.add(dest)
+            else:
+                holds.discard(dest)
+                if not holds:
+                    return None
+            load = _pc_load(fb, j)
+            if load is not None:
+                pooled[dest] = load[1]
+            else:
+                pooled.pop(dest, None)
+        j += step
+    return None
+
+
+def attest_overlay_id(fb, st, value, sites, place):
+    """The `overlay_id` class for ABS32 data site `st`.
+
+    `value` is the word the declaration says goes there, `sites` every
+    relocation site of `fb` after the other classes have run, and `place`
+    the address `fb` is compared at.  Returns (class, 1, load address).
+    """
+    # (1) a valid overlay index in the layout
+    if value not in overlay_ids():
+        return None
+    by_off = dict((s.off, s) for s in sites)
+    step = 2 if fb.thumb else 4
+    for j in range(0, len(fb.data) - step + 1, step):
+        if j in by_off:
+            continue
+        load = _pc_load(fb, j)
+        # (2) a pc-relative load in the function addresses exactly the site
+        if load is None or load[1] != st.off:
+            continue
+        # (3) the loaded register reaches a consumer's id parameter
+        found = _walk_to_consumer(fb, j + load[2], load[0], by_off)
+        if found is not None:
+            ent, call = found
+            st.note = ("overlay %d, loaded into r%d at %08X, id argument of "
+                       "%s at %08X" % (value, load[0], place + j, ent[0],
+                                       place + call))
+            return "overlay_id", 1, place + j
+    return None
+
+
+# ---------------------------------------------------------------------------
 # relocation resolution
 # ---------------------------------------------------------------------------
 
@@ -2917,6 +3254,7 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
     mask = bytearray(fb.mask)
     lo, hi = place, place + (size if size is not None else len(fb.data))
     sites = []
+    ovid_later = []
     for off, rtype, name, addend in fb.relocs:
         st = Site(off, rtype, name, addend)
         sites.append(st)
@@ -2960,6 +3298,9 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                 self_expect = (target + addend) & 0xFFFFFFFF
             proof = attest(target, kind, lo, hi, src, region_hint, align,
                            self_site, self_expect, site_region=region)
+            if proof is None and rtype == R_ARM_ABS32 and kind == "data":
+                # Retried as `overlay_id` once every other site is known.
+                ovid_later.append((st, (target + addend) & 0xFFFFFFFF))
             if proof is None:
                 st.reason = ("%08X (%s, from %s) has no witness outside "
                              "%08X..%08X" % (target, kind, origin, lo, hi))
@@ -3005,6 +3346,21 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
         st.resolved = True
         width = RELOC_MASK.get(rtype, RELOC_DEFAULT)[1]
         for k in range(off, min(off + width, len(mask))):
+            mask[k] = 1
+
+    # The `overlay_id` class reads the function's other sites (the loader
+    # call has to have resolved on its own), so it runs after all of them.
+    for st, val in ovid_later:
+        proof = attest_overlay_id(fb, st, val, sites, place)
+        if proof is None:
+            continue
+        st.cls, st.witnesses, st.witness = proof
+        st.reason = ""
+        struct.pack_into("<I", data, st.off, val)
+        st.value = val
+        st.resolved = True
+        width = RELOC_MASK.get(R_ARM_ABS32, RELOC_DEFAULT)[1]
+        for k in range(st.off, min(st.off + width, len(mask))):
             mask[k] = 1
 
     fb.data = bytes(data)
@@ -4540,6 +4896,73 @@ def _call_refused(addr, kind):
     return False
 
 
+# The `overlay_id` class, exercised on the byte shape of func_0215FA34
+# (ov010): `ldr r0, [pc, #4]; ldr r3, [pc, #8]; bx r3; mov r8, r8`, then the
+# id word and the callee word.  Built by hand like _resolve_one_call, so each
+# refusal changes exactly one thing.
+OVID_THUNK = bytes.fromhex("0148 024B 1847 C046")
+OVID_LOADER = 0x02034AC4        # sub_02034AC4, an OVERLAY_ID_CONSUMERS entry
+OVID_PLACE = 0x0215FA34
+# One past the 237 overlays (0..236) would be 0xED, but 0xED is a real pooled
+# constant elsewhere and `literal` attests it; 0xEE has no witness in any
+# other class, so it isolates the overlay-index check.
+OVID_PAST_LAST = 0xEE
+
+
+def _resolve_ovid(value, callee=OVID_LOADER, code=OVID_THUNK, id_off=8,
+                  callee_off=12, callee_kind="arm"):
+    """(resolved, class) of the id site of a hand-built overlay-id thunk."""
+    size = max(len(code), id_off + 4, callee_off + 4)
+    data = bytearray(size)
+    data[:len(code)] = code
+    mask = bytearray(b"\x01" * size)
+    for o in (id_off, callee_off):
+        mask[o:o + 4] = b"\x00\x00\x00\x00"
+    fb = FuncBytes("ovid_selftest", bytes(data), mask, True, ".text",
+                   [(id_off, R_ARM_ABS32, "ovid_selftest_id", 0),
+                    (callee_off, R_ARM_ABS32, "ovid_selftest_callee", 0)])
+    decls = {"ovid_selftest_id": Decl("ovid_selftest_id", value, "data",
+                                      "header"),
+             "ovid_selftest_callee": Decl("ovid_selftest_callee", callee,
+                                          callee_kind, "header")}
+    sites = resolve_relocations(fb, OVID_PLACE, decls)
+    st = [x for x in sites if x.name == "ovid_selftest_id"][0]
+    return st.resolved, st.cls
+
+
+_OVID_SRC = """\
+/*
+ * selftest fixture, compiled from a string; not part of the tree.
+ * symbols:
+ *   abs_id_14      0x00000014  data
+ *   sub_02034AC4   0x02034AC4  arm
+ */
+extern unsigned char abs_id_14[];
+extern void sub_02034AC4(const void *id);
+void func_0215FA34(void)
+{
+    sub_02034AC4(abs_id_14);
+}
+"""
+
+
+def _selftest_overlay_id():
+    """End to end: the ov010 thunk func_0215FA34 is EXACT on `overlay_id`."""
+    out = []
+    work = tempfile.mkdtemp(prefix="bwself_")
+    try:
+        src = os.path.join(work, "ovid_selftest.c")
+        with open(src, "w", newline="\n") as fh:
+            fh.write(_OVID_SRC)
+        r = run_one(src, "func_0215FA34", 0x0215FA34, "1.1p1", ["-O4,p"],
+                    True, "c99", region="ov010")
+        _check(out, "overlay_id: func_0215FA34 (ov010, id 0x14 into "
+                    "sub_02034AC4) is EXACT end to end", r.status, "EXACT")
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+    return out
+
+
 def _check(results, name, got, want):
     ok = got == want
     results.append((ok, name, got, want))
@@ -4586,8 +5009,10 @@ def cmd_selftest(args):
                 "through to the overlay sole-ref/code rule, see below)",
            cls(attest_overlay_label(OVERLAY_FUNC, "thumb", 0x02000000,
                                     0x03000000)), None)
+    # (0x021DFDB8, the earlier fixture, is labelled in ov228 since seed
+    # round 9; 0x0215E334 is still labelled by neither candidate overlay.)
     _check(res, "label: an overlay address no overlay labels is refused",
-           cls(attest(OVERLAY_THUMB_THUNK, "thumb", 0, 0)), None)
+           cls(attest(OV_CODE_UNLABELLED, "thumb", 0, 0)), None)
     _check(res, "label: a region_hint naming the labelled overlay succeeds "
                 "the same way",
            cls(attest(OVERLAY_FUNC, "thumb", 0, 0,
@@ -5193,9 +5618,35 @@ def cmd_selftest(args):
            (lambda fb: fb.sites[0].resolved)(
                _resolve_one_arm_call(VENEER, "arm")), True)
 
+    # --- the overlay_id class -------------------------------------------
+    _check(res, "overlay_id: a valid overlay index loaded into the id "
+                "register of a loader resolves",
+           _resolve_ovid(0x14), (True, "overlay_id"))
+    _check(res, "overlay_id: a valid overlay index is refused when the "
+                "function calls no loader",
+           _resolve_ovid(0x14, callee=FUNC_LABELLED, callee_kind="thumb"),
+           (False, ""))
+    _check(res, "overlay_id: a word no pc-relative load addresses is not a "
+                "pool word and is refused",
+           _resolve_ovid(0x14, id_off=16), (False, ""))
+    _check(res, "overlay_id: a value past the last overlay in the layout "
+                "is refused",
+           _resolve_ovid(OVID_PAST_LAST), (False, ""))
+    _check(res, "overlay_id: the value past the last overlay is really past "
+                "it", OVID_PAST_LAST > max(overlay_ids()), True)
+    _check(res, "overlay_id: an id loaded into the wrong register for the "
+                "loader is refused",
+           _resolve_ovid(0x14, code=bytes.fromhex("0149 024B 1847 C046")),
+           (False, ""))
+    _check(res, "overlay_id: an id register overwritten before the call is "
+                "refused",
+           _resolve_ovid(0x14, code=bytes.fromhex("0148 024B 0020 1847")),
+           (False, ""))
+
     # --- the three documented end-to-end behaviours -----------------------
     if not args.quick:
         res += _selftest_resolution()
+        res += _selftest_overlay_id()
 
     bad = [r for r in res if not r[0]]
     for ok, name, got, want in res:

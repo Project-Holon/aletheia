@@ -316,3 +316,18 @@ int func_02098B48(double x, double *y)
     }
     return n;
 }
+
+==========================================================================
+APPENDED 2026-09-23, wave 17 (gfx_palette lane): 0x02098B44 still DIFF
+==========================================================================
+From the wave-16 source (re-verified by `tu --arm`, 1756 laid out, 328 out),
+the loop store `tx[i] = (double)((int)(z));` respelled:
+  double temp, then LO(tx[i]) = LO(t); HI(tx[i]) = HI(t);     1764, 379
+  the same through a union { double d; i32 w[2]; } temp         1764, 379
+  the same through an `i32 *q = (i32 *)&tx[i]`                  1764, 379
+  HI stored before LO                                           1768, 407
+  `double *p = tx + i; *p = ...; z = (z - *p) * two24;`         1756, 341
+The two word stores through a temp still merge to `stm` under 1.1p1 (the
+temp is spilled to the frame as well, hence +8 bytes).  The 2.0 sp2 pin is
+1736 bytes (wave 16), with none of the documented tells.  Not filed.
+/* best source: unchanged (the wave-16 source above) */

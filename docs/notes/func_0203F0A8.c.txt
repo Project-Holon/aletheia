@@ -262,3 +262,14 @@ enum kk: 348.  Diff detail worth keeping: loop 2 differs in ONE instruction
 has the issue-order swap.  The store to mt[kk] is scaled in both compile and
 image, so the image's load and store share one address form.
 /* best source: unchanged (WHAT THE C IS, 340/340, 16 out) */
+
+================================================================================
+APPENDED 2026-09-23 (wave 17, gfx_palette lane): still DIFF 16
+================================================================================
+The mag01-as-local-static lever does not apply: the image reads mag01 at
++0x9c4 of the heap object (`add r2, r0, r2, lsr #29; ldr r2, [r2, #0x9c4]`),
+so the table is part of the state block.  Measured from WHAT THE C IS
+(re-verified 340 / 16):
+  every g_021469F8-> through `static inline struct MtState *St(void)`  336 / 67
+  loop 2 as `while (kk < 623) { ...; kk++; }`                        340 / 106
+/* best source: unchanged (WHAT THE C IS, 340/340, 16 out) */
