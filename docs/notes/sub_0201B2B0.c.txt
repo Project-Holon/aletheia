@@ -175,3 +175,334 @@ WHAT A RECONSTRUCTION WILL NEED
 * the entry will still be MATCH until 0x020A7330 acquires a witness, so it
   belongs in src/pending/ when it is byte correct, not in the manifest.
 re-verified 2026-09-21: no recoverable source in this note
+
+========================================================================
+APPENDED 2026-09-23, wave 14 (small bundle lane): FIRST TRANSCRIPTION.
+DIFF, 1116 bytes against 1116 of code, 12 concrete bytes out, 1.1p1.
+========================================================================
+
+The listing extent (1128) includes the unlabelled 12-byte tail-call leaf at
+0x0201B70C (already matched in src/matched/unit_0201B70C.c), so the
+function is 1116 bytes and the compile is size-exact.  ALL 39 relocation
+sites resolve, including the "shinka_check.c" string at 0x020A7330 (now
+sole-ref/string) and the four u16 location tables 0x020A7320 / 22 / 24 /
+2A (sole-ref/self), so this is no longer evidence-capped: a byte-exact
+source files EXACT.
+
+Levers found (each measured):
+  * `pidHigh % 10` written at its two uses (cases 12 and 13), not bound to
+    a local: the compiler hoists it out of the row loop (LICM) and that is
+    what puts the u8 timezone copy (`add r0, sp, #0x60; ldrb; str [sp,
+    #0x18]`) BEFORE the _s32_div_f call as in the image.  A pidMod local
+    computes it after the copy (28 -> 12 bytes).  The timezone copy is the
+    compiler's own; the source uses the parameter directly.
+  * trade method 7 is ONE disjunction
+    `(mon==588 && other==616) || (other==588 && mon==616)`; the if/else-if
+    shape is 2 bytes long and flips which constant the compiler parks in
+    the [sp,#0x40]/[sp,#0x44] loop-invariant temps (the 588-then-+0x1c
+    double store is those temps, not source locals).
+  * methodOut is a u32 * (both stores are `str`); the Shedinja arm (15)
+    writes 15 through it and does not set result.
+
+RESIDUE (12 bytes, +0x6A..+0x77): the gate's `ldr r2, [sp, #0x68]` (heap,
+third argument of func_02020FE4) is hoisted above the pidHigh
+`ands/lsrs/lsls/lsrs/str` in every compile; the image loads it after the
+held-item load.  Flat under: pidHigh u16/u32 with cast, pid s32, holdEffect
+inlined into the test (20) or through an inline helper, heap = heap, four
+declaration orders, focused permuter hill (153 tried).  Worse: volatile
+heap (dead-store homing disappears), int heap (162), u16 heap (size),
+volatile pidHigh, ../2.0/sp2 and sp2p2 (1146 bytes).  1.2p2 identical.
+
+/* best source, 1116 bytes against 1116, 12 concrete bytes out, 1.1p1 */
+/*
+ * function: sub_0201B2B0
+ * address:  0x0201B2B0
+ * packet:   pkt_0201B038
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   WIP
+ *
+ * symbols:
+ *   func_02017E1C   0x02017E1C  thumb
+ *   func_02020FE4   0x02020FE4  thumb
+ *   func_02030734   0x02030734  arm
+ *   func_020307B0   0x020307B0  arm
+ *   sub_0201B764    0x0201B764  thumb
+ *   sub_0201B774    0x0201B774  thumb
+ *   sub_0201AC44    0x0201AC44  thumb
+ *   func_02011410   0x02011410  thumb
+ *   _s32_div_f      0x0209C0A4  arm
+ *   s_shinka_check_c 0x020A7330 data  a1
+ *   g_020A7320      0x020A7320  data  a2
+ *   g_020A7322      0x020A7322  data  a2
+ *   g_020A7324      0x020A7324  data  a2
+ *   g_020A732A      0x020A732A  data  a2
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct EvoRow {
+    u16 method;
+    u16 param;
+    u16 target;
+};
+
+extern u32   func_02017E1C(void *mon, u32 id, u32 v);
+extern u32   func_02020FE4(u32 id, u32 sel, u32 heap);
+extern void *func_02030734(u32 heap, u32 size, u32 c, void *file, u32 line);
+extern void  func_020307B0(void *p);
+extern void  sub_0201B764(u32 species, struct EvoRow *table);
+extern u32   sub_0201B774(void *mon, u32 move);
+extern u32   sub_0201AC44(void *party, u32 species);
+extern u32   func_02011410(u32 tz);
+
+extern u8 s_shinka_check_c[];
+extern const u16 g_020A7320[1];
+extern const u16 g_020A7322[1];
+extern const u16 g_020A7324[3];
+extern const u16 g_020A732A[3];
+
+u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
+                 u8 timezone, u32 *methodOut, u32 heap)
+{
+    u32 dummy;
+    u32 a3c;
+    u32 a38;
+    u32 a34;
+    u32 pid;
+    struct EvoRow *table;
+    u16 species;
+    u16 held;
+    u16 friendship;
+    u16 pidHigh;
+    u8  level;
+    u8  beauty;
+    int i;
+    u16 result;
+    u8  holdEffect;
+    struct EvoRow *row;
+    u32 j;
+
+    result = 0;
+    if (func_02017E1C(mon, 0x4C, 0) != 0) {
+        return result;
+    }
+    species = func_02017E1C(mon, 5, 0);
+    held = func_02017E1C(mon, 6, 0);
+    pid = func_02017E1C(mon, 0, 0);
+    beauty = func_02017E1C(mon, 0x14, 0);
+    pidHigh = (pid & 0xFFFF0000) >> 16;
+    holdEffect = func_02020FE4(held, 1, heap);
+    if (species != 0x40 && holdEffect == 0x40 && context != 3) {
+        return result;
+    }
+    if (methodOut == 0) {
+        methodOut = &dummy;
+    }
+    i = 0;
+    table = func_02030734(heap, 0x2A, 0, s_shinka_check_c, 0x6A);
+    sub_0201B764(species, table);
+
+    switch (context) {
+    case 0:
+        level = func_02017E1C(mon, 0x9E, i);
+        friendship = func_02017E1C(mon, 9, i);
+        for (i = 0; i < 7; i++) {
+            row = &table[i];
+            switch (row->method) {
+            case 1:
+                if (friendship >= 220) {
+                    result = row->target;
+                }
+                break;
+            case 2:
+                if (func_02011410(timezone) == 0 && friendship >= 220) {
+                    result = row->target;
+                }
+                break;
+            case 3:
+                if (func_02011410(timezone) == 1 && friendship >= 220) {
+                    result = row->target;
+                }
+                break;
+            case 4:
+                if (row->param <= level) {
+                    result = row->target;
+                }
+                break;
+            case 9:
+                if (row->param <= level) {
+                    a34 = func_02017E1C(mon, 0xA2, 0);
+                    if (a34 > func_02017E1C(mon, 0xA3, 0)) {
+                        result = row->target;
+                    }
+                }
+                break;
+            case 10:
+                if (row->param <= level) {
+                    a38 = func_02017E1C(mon, 0xA2, 0);
+                    if (a38 == func_02017E1C(mon, 0xA3, 0)) {
+                        result = row->target;
+                    }
+                }
+                break;
+            case 11:
+                if (row->param <= level) {
+                    a3c = func_02017E1C(mon, 0xA2, 0);
+                    if (a3c < func_02017E1C(mon, 0xA3, 0)) {
+                        result = row->target;
+                    }
+                }
+                break;
+            case 12:
+                if (row->param <= level && pidHigh % 10 < 5) {
+                    result = row->target;
+                }
+                break;
+            case 13:
+                if (row->param <= level && pidHigh % 10 >= 5) {
+                    result = row->target;
+                }
+                break;
+            case 14:
+                if (row->param <= level) {
+                    result = row->target;
+                }
+                break;
+            case 15:
+                *methodOut = 15;
+                break;
+            case 16:
+                if (row->param <= beauty) {
+                    result = row->target;
+                }
+                break;
+            case 19:
+                if (func_02011410(timezone) == 0 && held == row->param) {
+                    result = row->target;
+                }
+                break;
+            case 20:
+                if (func_02011410(timezone) == 1 && held == row->param) {
+                    result = row->target;
+                }
+                break;
+            case 21:
+                if (sub_0201B774(mon, row->param) == 1) {
+                    result = row->target;
+                }
+                break;
+            case 22:
+                if (party != 0 && sub_0201AC44(party, row->param) == 1) {
+                    result = row->target;
+                }
+                break;
+            case 23:
+                if (func_02017E1C(mon, 0x6E, 0) == 0 && row->param <= level) {
+                    result = row->target;
+                }
+                break;
+            case 24:
+                if (func_02017E1C(mon, 0x6E, 0) == 1 && row->param <= level) {
+                    result = row->target;
+                }
+                break;
+            case 25:
+                for (j = 0; j < 3; j++) {
+                    if (param == g_020A7324[j]) {
+                        result = row->target;
+                        break;
+                    }
+                }
+                break;
+            case 26:
+                for (j = 0; j < 1; j++) {
+                    if (param == g_020A7322[j]) {
+                        result = row->target;
+                        break;
+                    }
+                }
+                break;
+            case 27:
+                for (j = 0; j < 1; j++) {
+                    if (param == g_020A7320[j]) {
+                        result = row->target;
+                        break;
+                    }
+                }
+                break;
+            case 28:
+                for (j = 0; j < 3; j++) {
+                    if (param == g_020A732A[j]) {
+                        result = row->target;
+                        break;
+                    }
+                }
+                break;
+            }
+            if (result != 0) {
+                *methodOut = row->method;
+                break;
+            }
+        }
+        break;
+    case 1:
+        for (i = 0; i < 7; i++) {
+            row = &table[i];
+            switch (row->method) {
+            case 5:
+                result = row->target;
+                break;
+            case 6:
+                if (held == row->param) {
+                    result = row->target;
+                }
+                break;
+            case 7:
+                if (func_02020FE4((u16)func_02017E1C((void *)param, 6, 0), 1, heap) != 0x40) {
+                    if ((func_02017E1C(mon, 0xAB, 0) == 588
+                         && func_02017E1C((void *)param, 0xAB, 0) == 616)
+                     || (func_02017E1C((void *)param, 0xAB, 0) == 588
+                         && func_02017E1C(mon, 0xAB, 0) == 616)) {
+                        result = row->target;
+                    }
+                }
+                break;
+            }
+            if (result != 0) {
+                *methodOut = row->method;
+                break;
+            }
+        }
+        break;
+    case 2:
+    case 3:
+        for (i = 0; i < 7; i++) {
+            row = &table[i];
+            if (row->method == 8 && param == row->param) {
+                result = row->target;
+            }
+            if (row->method == 0x11 && func_02017E1C(mon, 0x6E, 0) == 0 && param == row->param) {
+                result = row->target;
+            }
+            if (row->method == 0x12 && func_02017E1C(mon, 0x6E, 0) == 1 && param == row->param) {
+                result = row->target;
+            }
+            if (result != 0) {
+                *methodOut = row->method;
+                break;
+            }
+        }
+        break;
+    }
+    func_020307B0(table);
+    return result;
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 1116 bytes against 1128 (1116 + 12-byte follower), 12 concrete bytes out, 1.1p1

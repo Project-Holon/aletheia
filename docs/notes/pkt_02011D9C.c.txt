@@ -247,3 +247,118 @@ u32 func_02011D9C(void *a0, u32 a1, u32 a2)
 }
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 268 bytes against 272, 157 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 14 (small bundle lane): SIZE-EXACT, 14 out.
+==============================================================================
+
+Writing the second func_0203064C call in BOTH arms of the `flag == 0` test
+(the call-in-both-arms lever) brings the compile to 272 against 272 with
+14 concrete bytes out; everything after it realigns.  The two residues:
+  * the image initialises `off = 0` (movs r7, #0) BEFORE `cmp r5, #0`; the
+    both-arms shape puts it in the else arm (`ldr r7, =0x191; b; movs r7, #0`);
+  * the image materialises the argument 4 twice
+    (`movs r2,#4; movs r0,#1; movs r1,#4; lsls r2,r2,#14`), the compile once
+    (`movs r1,#4; movs r0,#1; lsls r2,r1,#14`).  Standalone 0x10000 is
+    `movs #1; lsls #16`, so the image's 4<<14 is also derived from a known 4:
+    a rematerialisation the allocator chose, not a source shift.
+Flat or worse: 0x4000*4, `sz = 4; sz << 14` in a block, an inline
+H(a,b,c) with the shift inside (both forms), a ternary off, if/else off,
+`off = off`.  Permuter hill 800 --types on the 14-out source: no single
+mutation improves (202 tried).  ../2.0/sp2 and sp2p2: 264 bytes.
+Evidence cap unchanged: the three ov230 sites, func_0215FA00 and the ov230
+id word stay unresolved, so a byte-exact source is MATCH.
+
+/* best source, 272 bytes against 272, 14 concrete bytes out, 1.1p1 */
+/*
+ * function: func_02011D9C
+ * address:  0x02011D9C
+ * packet:   pkt_02011D9C
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * isa:      thumb
+ * symbols:
+ *   ov230_id       0x000000E6  data
+ *   g_02146248     0x02146248  data
+ *   func_021882A0  0x021882A0  arm  ov230
+ *   func_02188354  0x02188354  arm  ov230
+ *   func_02188390  0x02188390  arm  ov230
+ *   func_0215FA00  0x0215FA00  thumb  ov010
+ *   _u32_div_f     0x0209C2B0  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+typedef signed char s8;
+typedef signed short s16;
+
+extern u32   func_02011F24(void);
+extern u8 ov230_id[];
+extern void  func_02034AC4(u8 *id);
+extern u32   func_021882A0(void (*a)(void), void (*b)(void), u32 c);
+extern u32   func_02188354(void (*a)(void), void (*b)(void), u32 c);
+extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
+extern void  func_0203064C(u32 a, u32 b, u32 c);
+extern void  func_02034A5C(u8 *id);
+extern void *func_0203159C(void *a, u32 size, u32 c);
+extern void  func_02082BCC(void *p, u32 v, u32 size);
+extern void *g_02146248;
+extern void  func_02011FB8(void *p, u32 a, u32 b);
+extern u32   func_0215FA00(void *p, u32 a);
+extern void  func_02012108(void *p, u32 v);
+extern void  func_020120F4(void *p);
+extern void  func_02012F08(void);
+extern s32   func_0200C258(void);
+extern void  func_02011D40(void);
+extern void  func_02011D28(void);
+extern void  func_02011D60(void);
+extern void  func_02011D7C(void);
+
+u32 func_02011D9C(void *a0, u32 a1, u32 a2)
+{
+    u32 size;
+    u32 base;
+    u32 flag;
+    u32 off;
+    void *p;
+    s32 n;
+    s32 i;
+
+    size = func_02011F24();
+    base = 0xc35ffb;
+    func_02034AC4(ov230_id);
+    flag = 0;
+    if (func_021882A0(func_02011D28, func_02011D40, 0) == ~(u32)func_02011D40)
+        flag = 1;
+    base += flag * 0x47;
+    func_0203064C(1, 3, 0xa << 12);
+    flag = 1;
+    if (func_02188354(func_02011D28, func_02011D60, 0) != ~(u32)func_02011D60)
+        flag = 0;
+    if (flag == 0) {
+        off = 0x191;
+        func_0203064C(1, 4, 4 << 14);
+    } else {
+        off = 0;
+        func_0203064C(1, 4, 4 << 14);
+    }
+    func_02188390(func_02011D28, func_02011D7C, 0);
+    func_0203064C(9, 5, 5 << 10);
+    func_02034A5C(ov230_id);
+    p = func_0203159C(a0, size, 3);
+    func_02082BCC(p, 0, size);
+    g_02146248 = p;
+    func_02011FB8(p, 3, a2);
+    func_02012108(p, func_0215FA00(p, a2));
+    if ((base + off) % 0x12af != 0) {
+        func_020120F4(p);
+        func_02012F08();
+        n = func_0200C258();
+        for (i = 0; i < n; i++)
+            func_02011D40();
+    }
+    return 1;
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 272 bytes against 272, 14 concrete bytes out, 1.1p1

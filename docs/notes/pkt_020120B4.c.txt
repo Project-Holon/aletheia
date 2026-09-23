@@ -224,3 +224,8 @@ assembly rather than compiler output -- remains the only untested
 hypothesis, and this pass adds nothing against it.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 12 bytes against 12, 12 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED 2026-09-23, wave 14 (small bundle lane): func_020120B4 CLOSED, EXACT*
+========================================================================
+The frame is the tail-call-cannot-pass-a-fourth-argument idiom: the function forwards all four of its caller's arguments, func_02031348(p->f8, id, a, b); r1-r3 pass through untouched (no instruction) and live r3 blocks the sibling call.  Filed src/matched/func_020120B4.c.  func_020120C0 stays MATCH (ov021_id).

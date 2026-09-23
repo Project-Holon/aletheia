@@ -271,3 +271,17 @@ that load r0 with 1 and 0 argue against it, but it has not been measured.
 permuter best result line:
     best      DIFF   asm=345   bytes-out=10   size=126/128   (baseline; neither
     hill (800 budget, 187 mutations) nor anneal (1500 compiles) improved on it)
+
+========================================================================
+APPENDED 2026-09-23, wave 14 (small bundle lane)
+========================================================================
+sub_0201C158 returns a u8 (it ends in lsls/lsrs #24), so `max` declared u8
+removes the compile's `lsls r0,r0,#24 / lsrs r2,r0,#24` truncation of the
+clamp and the `pp = max` arm becomes the image's plain `adds r?, r0, #0`.
+With `u8 max` the compile is 124 against 126 of code: every instruction
+but ONE is the image's, the new pp lives in r2 (the call's third argument
+register) where the image keeps it in r4 and copies (`adds r2, r4, #0`)
+before func_02017E40.  Flat: pp as u32/u16/int, the disjunction and goto
+clamp shapes (122), ../2.0/sp2 and sp2p2 (126 bytes but the 0x7F arm is no
+longer shared, 24 out).  Permuter hill 800 --types: no gain.
+re-verified 2026-09-23 by tools/match.py: DIFF, 124 bytes against 128, 1.1p1 (u8 max form)

@@ -174,3 +174,8 @@ alternative front end makes the allocation choice the image shows, and for
 sub_02030D28 no such probe has been measured.
 ====================================================================
 re-verified 2026-09-21 by tools/match.py: DIFF, 124 bytes against 124, 13 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED 2026-09-23, wave 14 (small bundle lane): CLOSED, EXACT
+========================================================================
+The 13-byte residue was a misread callback arity: the image puts the node in r0 and node->arg in r1 before blx r2, so fn is void (*)(struct Node *, u32).  Filed src/matched/func_02030D28.c.

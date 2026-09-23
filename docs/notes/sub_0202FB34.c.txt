@@ -151,3 +151,67 @@ void sub_0202FB34(struct Rc4 *ctx, const u8 *src, s32 len, u8 *dst)
  * seven-register push, which has not been measured.
  * ------------------------------------------------------------------------ */
 re-verified 2026-09-21 by tools/match.py: DIFF, 116 bytes against 120, 101 concrete bytes out, 1.1p1
+
+/* ------------------------------------------------------------------------
+ * 2026-09-23, wave 14 (small bundle lane).  SIZE-EXACT, 74 out (was 116
+ * bytes / 101 out).  The u8-index form never produces the image's
+ * left-justified `lsr #24` addressing under any front end (1.1p1, 1.6sp2,
+ * 2.0 base/sp2/sp2p2/sp2p4 all give `and #0xff` indexing), so the source
+ * holds i and j as u32 << 24 itself.  Two further facts: the image's
+ * `[r0, #-4]` / `[r0, #-3]` final stores mean ctx is dead once s is taken
+ * (written here as s[-4] / s[-3]; a ctx->i store keeps ctx live in its own
+ * register), and the permuter (hill 800 --types) found temp(step + (i <<
+ * 24)) + decl-order(j<->s) for 74.
+ * RESIDUE: the step 0x1000000 is folded into three `add #imm` where the
+ * image keeps it in lr (`mov lr, #0x1000000`, `add r7, lr, r7, lsl #24`,
+ * `add r7, r7, lr`, `sub r7, r7, lr`), which also costs the image two more
+ * callee-saved registers (push r4-r9, lr); and the loop test is `bpl`
+ * where the image has `bge`.  A named `step` local folds too.
+ * ------------------------------------------------------------------------ */
+/* best source, 120 bytes against 120, 74 concrete bytes out, 1.1p1 */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed int s32;
+struct Rc4
+{
+  u8 i;
+  u8 j;
+  u8 pad[2];
+  u8 s[256];
+};
+void sub_0202FB34(struct Rc4 *ctx, const u8 *src, s32 len, u8 *dst)
+{
+  u32 i;
+  u8 *s;
+  u32 x;
+  u32 y;
+  u32 k;
+  u32 step = 0x1000000;
+  u32 j;
+  u32 tmp;
+  i = ctx->i;
+  j = ctx->j;
+  tmp = step + (i << 24);
+  s = ctx->s;
+  i = tmp;
+  j = j << 24;
+  x = s[i >> 24];
+  while ((--len) >= 0)
+  {
+    j += x << 24;
+    y = s[j >> 24];
+    s[i >> 24] = y;
+    s[j >> 24] = x;
+    k = s[(x + y) & 0xff];
+    i += step;
+    x = s[i >> 24];
+    *(dst++) = (*(src++)) ^ k;
+  }
+
+  i -= step;
+  s[-4] = i >> 24;
+  s[-3] = j >> 24;
+}
+
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 120 bytes against 120, 74 concrete bytes out, 1.1p1
