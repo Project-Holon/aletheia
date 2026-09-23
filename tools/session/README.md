@@ -19,3 +19,7 @@ On a fresh machine the listings under asm/ do not exist (gitignored): run
 `python tools/disasm.py arm9 --split` and `python tools/disasm.py overlay --all`
 from the repo root before any helper here works. The helpers locate the repo
 from their own path; no hardcoded checkout path.
+
+Portable fold-in and commit (Windows, macOS, Linux): `python tools/session/wave.py foldin`
+then `python tools/session/wave.py commit "<label>" <prev_exact> <prev_repro>`; same steps as
+foldin.sh and commitset.sh, repo-relative, no scratchpad.
