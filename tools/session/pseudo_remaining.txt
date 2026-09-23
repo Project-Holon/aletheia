@@ -1,0 +1,31 @@
+clusters with open functions: 30, open functions 39, bytes 6438
+pkt_0206EB00   matched  12 openB  1672  0x0206ECE0/364a/U 0x0206F4C8/484a/N 0x0206FC5C/824a/N
+pkt_02096D10   matched   6 openB  1492  0x0209739C/1492a/N
+pkt_02066740   matched  16 openB   676  0x02067080/676a/N
+pkt_0206BEA0   matched  24 openB   404  0x0206DC00/404a/P
+pkt_02051B84   matched   5 openB   348  0x02051C88/348a/N
+pkt_02067FE4   matched   4 openB   240  0x020681E4/240a/U
+pkt_02094750   matched   5 openB   192  0x02094798/192a/N
+pkt_02070B64   matched  11 openB   124  0x02071104/124a/N
+pkt_02069BA0   matched   1 openB   116  0x02069BA0/96a/N 0x02069C00/20a/N
+pkt_02060550   matched   6 openB   116  0x020606D0/116a/N
+pkt_0209D728   matched   7 openB   112  0x0209D7D4/68a/N 0x020A8FE6/44t/N
+pkt_02062F00   matched   5 openB    92  0x02062F90/92a/N
+pkt_02098B44   matched  11 openB    88  0x02098B44/4a/N 0x02099224/4a/N 0x0209C2B8/80a/N
+pkt_0206A110   matched   2 openB    80  0x0206A12C/80a/U
+pkt_020611D4   matched  14 openB    80  0x020611D4/80a/N
+pkt_02060E6C   matched   6 openB    68  0x02060FA4/68a/N
+pkt_02067A60   matched   5 openB    64  0x02067A60/64a/N
+pkt_02061B74   matched   6 openB    60  0x02061BD0/60a/P
+pkt_020610A0   matched   2 openB    56  0x020610E0/56a/N
+pkt_02075858   matched   6 openB    44  0x02075968/44a/N
+pkt_02072F5C   matched   2 openB    44  0x02072F5C/44a/N
+pkt_0206EA2C   matched   2 openB    44  0x0206EA2C/44a/N
+pkt_0206E964   matched   2 openB    44  0x0206EA00/44a/P
+pkt_0206188C   matched   8 openB    44  0x02061B2C/44a/N
+pkt_02075B54   matched   2 openB    40  0x02075BAC/40a/P
+pkt_02072E9C   matched   2 openB    32  0x02072EA8/32a/P
+pkt_0209128C   matched   9 openB    24  0x0209128C/24a/P
+pkt_020637B4   matched   2 openB    24  0x020637BC/24a/P
+pkt_02087AE4   matched  21 openB    10  0x020911F0/2t/N 0x02091220/2t/N 0x0209124C/2t/N 0x02091284/4a/N
+pkt_02084D98   matched   1 openB     8  0x02084D98/8a/P

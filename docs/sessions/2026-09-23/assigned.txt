@@ -1,0 +1,134 @@
+wave1 A pkt_0204A6C8
+wave1 B pkt_0201C7A4 pkt_0201C7D0 pkt_0201C4E4
+wave1 C pkt_0201F73C pkt_020419E4 pkt_02040618 pkt_020433E0
+
+
+
+wave2 A pkt_0202363C
+wave2 B pkt_02021B6C
+wave2 C pkt_0202D7D8
+wave2 P promotions tier3
+wave3 A pkt_02020408
+wave3 B pkt_0206E394 pkt_02069D68
+wave3 C pkt_0207010C
+wave3 P near-misses-that-block-pending (opus)
+wave3 Q compiler-pin follow-up 0x02069E20 + pkt_0207010C DIFFs (opus)
+wave4 A pkt_02071DD4
+wave4 B pkt_020694D8
+wave4 C pkt_0206EB00
+wave4 P pkt_0207010C remainder + 0x02070524 unblock chain
+wave5 A pkt_02071104
+wave5 B pkt_0206A12C
+wave5 C pkt_02068808
+wave6 A pkt_020520A4 pkt_02050340
+wave6 B pkt_0202D2EC pkt_02027D44
+wave6 C pkt_02065D4C pkt_02065020
+wave6 P unblock queue
+wave7 A pkt_0207312C pkt_02067FE4
+wave7 B pkt_0203A958 pkt_02052274
+wave7 C pkt_02025D2C pkt_0201FA04
+wave8 A pkt_0202CDD4 pkt_020245D4 pkt_02028618
+wave8 B pkt_020479D8 pkt_02068FF0
+wave8 C pkt_0206EC50
+wave9 A pkt_02020A58 pkt_02022F60 pkt_0202AF74
+wave9 B pkt_0206380C
+wave9 C pkt_0206A19C
+wave9 P unblock queue
+wave10 A pkt_02021984 pkt_0202173E pkt_02021D50
+wave10 B pkt_02023A50 pkt_02023AF4 pkt_02023E0C pkt_02024230 pkt_02024A20
+wave10 C pkt_020682F8 pkt_02071F20
+wave11 A pkt_020251FC pkt_02025360 pkt_020255A0 pkt_0202590C pkt_02025A9C pkt_02026010
+wave11 B pkt_02027B60 pkt_0202A298 pkt_0202A440 pkt_02028C50
+wave11 C pkt_0202D6F4 pkt_0202DAA4 pkt_0202DF68 pkt_0202DFEC pkt_0202EE0C pkt_0202BB68
+wave12 A pkt_02005328 pkt_02006F20 pkt_0200E1A8 pkt_0200EA3C pkt_0200F43C pkt_0201045C
+wave12 B pkt_02011D9C pkt_020141A8 pkt_0201493C pkt_020163C4 pkt_020172D8 pkt_020173F0 pkt_0201756C
+wave12 C pkt_02017FB0 pkt_020182A8 pkt_0201862C pkt_02019ED4 pkt_0201B850 pkt_0201CAC8
+wave12 P unblock queue
+wave13 A pkt_0201CD10 pkt_0201F35C pkt_0201FC5C pkt_02021464 pkt_02022490 pkt_02022940 pkt_02024DFC
+wave13 B pkt_020266E0 pkt_0202685C pkt_020274C8 pkt_02027974 pkt_02028900 pkt_02029EB4 pkt_0202A128
+wave13 C pkt_02035544 pkt_02039764 pkt_02039B5C pkt_0203EC7C pkt_02048120 pkt_0204B764 pkt_0204BF40
+wave14 A pkt_02028178 pkt_0202C794 pkt_0202C8B8 pkt_0202CA3C pkt_0202CC70 pkt_0202A9F4
+wave14 B pkt_0204F7DC pkt_02051838 pkt_02053044 pkt_0204E4C0 pkt_0204C060 pkt_020528D0
+wave14 C pkt_02073624 pkt_02072EE0 pkt_02074AC4 pkt_02072548 pkt_0206D3C4 pkt_02071B2C pkt_02072DE8
+wave15 A pkt_02028084 pkt_020257D0 pkt_02026504 pkt_02027A24 pkt_0202BCA0
+wave15 B pkt_02063078 pkt_02064178 pkt_02064934 pkt_02065AA8 pkt_0206CB8C
+wave15 C pkt_02070C5C pkt_02070DDC pkt_02072374 pkt_020727B4 pkt_02095B3C pkt_02096990
+wave15 P unblock queue
+wave16 A pkt_020319F0 pkt_02038C18 pkt_0203CBAC pkt_020445F4 pkt_02047E88
+wave16 B pkt_02066998 pkt_0206A700 pkt_0206B7D0 pkt_0206BEA0 pkt_02075698
+wave16 C pkt_0202DD24 pkt_0202E1F0 pkt_0200FEBC pkt_0200FC0C pkt_02010068
+wave17 A pkt_02020D5C pkt_02024838 pkt_0202824C pkt_0202D064 pkt_0202DAA4 pkt_0201183C pkt_020160D4
+wave17 B pkt_02067BA4 pkt_02047CFC pkt_02051C88 pkt_0204F428 pkt_02070DDC
+wave17 C pkt_02048330 pkt_02057C9C pkt_02068808 pkt_0204C060 pkt_02042B24
+wave18 A pkt_02010068 pkt_0202D3D0 pkt_02022AD0 pkt_0201756C
+wave18 B pkt_02091D38 pkt_020454E0 pkt_02066E30 pkt_02068808
+wave18 C pkt_02081E7C pkt_02053218
+wave18 P near-miss closers
+wave19 P closer: 0x020454E0 0x02020B5C 0x02022AD0 0x02073DFC 0x0202D4A8
+wave19 A pkt_02091D38 (0x02091E44 real entry) + pkt_02066E30 remainder
+wave20 P1 closer: 0x0206775C(pin, frees 0x02067998) 0x0202D4A8(4B) 0x02091E44(12B, frees 0x02092004) 0x02063378(5B) 0x02072374(7B)
+wave20 P2 closer: 0x0206A3CC(2B) 0x0206A2CC(9B) 0x0206A4AC(9B) 0x02069128(15B) 0x02069078(41B) 0x0206419C-family
+wave21 A thumb leaves 0x0200EC98 0x0201049C 0x02014264 0x0201DC88 0x02020780 0x020213C0 0x020213F8 0x0202142C 0x02021B18 0x02021EE4 0x02022AC4
+wave21 B thumb leaves 0x020235F0 0x02025772 0x0202597A 0x020260E0 0x020260E4 0x020260F0 0x02026CE0 0x02028218 0x0202822E 0x020282A4 0x02028748 0x02028754 0x0202CD64 0x0202CE40 0x0202CF84 0x0202CF8C 0x0202CF98 0x0202CFC0 0x0202CFEC 0x0202D018
+wave21 C arm leaves 0x020336A4 0x02039C2C 0x02051880 0x0205189C 0x020518A4 0x02053D2C 0x0206A67C 0x02071360 0x02071C94
+wave21 P corrected entries 0x02091E44 0x0202173C 0x02021848 + 0x0201183C 0x02016C60
+wave22 A closer+permuter ARM: 0x0204FFFC 0x02047AC8 0x02071360 0x0206A3CC 0x02063378 0x02072374 0x02095EAC
+wave22 B closer+permuter Thumb: 0x02021F64 0x020234C0 0x0201DC88 0x02023768 0x02020780 0x0202D3D0 0x02022490
+wave23 B callees gating 0x02065438 (0x02064EDC 0x02067B48 0x02067D14 0x02067DC8) + 0x02067080
+wave23 C closer: 0x0201183C 0x02022490 0x020454E0 0x0202D4A8
+wave24 A thumb accessors 0x0202D064 0x0202D09C 0x0202D110 0x0202D144 0x0202D178 0x0202D1AC 0x0202D1E0 + 0x02028484 0x0202E560 0x0202368C
+wave24 B thumb 0x0202055C 0x020200CC 0x0201FF30 0x0200FD38 0x0200FEBC
+wave24 C arm 0x02036CA8 0x02065D4C 0x02048010 0x0203A150 0x02038AE0 0x02044D88
+wave25 A thumb 0x02027D44 0x02027E3C 0x0200545C 0x0201A090 0x02026A60
+wave25 B arm 0x020696F4 0x0206958C 0x02064754 0x02050C30 0x0204DACC
+wave25 C arm 0x02038380 0x020385C4 0x0203174C 0x02037288 0x02037478
+wave26 A thumb 0x0200F83C 0x020163C4 0x02016630
+wave26 B arm 0x020698F8 0x02066E30 0x02044954
+wave26 C arm 0x02065DB4 0x020691E0 0x0206ECE0
+wave27 A thumb near-miss pair 0x020163C4 0x02016630 (helpers in src/matched/func_0204A03C.c unit_0204A07C.c unit_0204A0FC.c) + 0x0202368C
+wave27 B thumb big 0x02024DFC 0x02016C60 0x02022F60
+wave27 C arm big 0x0206EE60 (frees 0x0206EB7C) 0x020445F4
+wave28 A thumb 0x0200FD38 0x0200FEBC 0x0200545C
+wave28 B thumb 0x0201FF30 0x0202055C 0x02026A60
+wave28 C arm 0x02068AE8 0x02068C84 0x020713C8
+family-wave1 A clact.c 0x0204A48C..0x0204E0D0
+family-wave1 B field_sound_system.c 0x02028844..0x02029EB4
+family-wave1 C time_icon.c 0x0202EE30..0x02030FC8
+family-wave2 A mcss.c DECLINED twice -> poke_tool.c 0x020173F0..0x0201A3F4
+family-wave2 B bmp.c 0x02043678..0x02044F64
+family-wave2 C bg_sys.c 0x0203F8F4..0x02043668
+family-wave2 D clact.c continuation
+family-wave3 A wipe_sub.c | B printsys.c | C gf_font.c  (armed with permuter.py)
+family-wave3 D net_handle.c | E ica_anime.c
+family-wave4 A game_beacon.c | B billboard_act.c | C backup_system.c | D net_system.c (permuter-armed)
+family-wave4 E musical_dist_save.c | F app_taskmenu.c | G symbol_save.c
+family-wave4 H g3d_system.c | I particle.c | J btl_setup.c | K net_state.c
+family-wave5 A pms_draw.c | B mystery_data.c
+family-wave5 C billboard.c | D gf_standard.c | E game_data.c | F bmp_oam.c
+family-wave5 G net_save.c | H palanm.c
+family-wave5 I shinka_check.c | J touchpanel.c | K pmsi_param.c | L wordset.c
+family-wave6 A field_status.c | B net.c | C save_control.c | D blink_palanm.c
+family-wave6 E bundle thumb (iss_3ds_sys, bgwinfrm, pokegra, battle_rec + pending of iss_switch, wifilist) | F bundle arm (net_command, key, wm_icon, areaman, arc_tool)
+wave7 (pseudo-families, upper half) A pkt_02052F58 | B pkt_0206BEA0 | C pkt_02066740 | D pkt_020737C0
+wave7 E pkt_02051E64 | F pkt_0206A17C
+wave7 G pkt_020949F4 | H pkt_02064B68
+wave7 I pkt_02096D10 | J pkt_020929E8
+wave7 K pkt_02063000
+wave7 L pkt_02071360 | M pkt_020640DC
+wave7 N pkt_02061D0C | O pkt_020611D4 | P pkt_02098B44
+wave7 Q pkt_0206AF08 (+pkt_0206B7A8)
+wave7 R pkt_02074A34 (+pkt_02075404)
+wave7 S pkt_02070B64+pkt_02071EAC | T pkt_02062688+pkt_02094750 | U pkt_02091588+pkt_02091AE8+pkt_02092120
+wave7 V pkt_020694D8+pkt_02083298+pkt_0206E62C | W pkt_02070360
+wave7 X pkt_02087AE4 | Y pkt_02073098+pkt_020726D0
+wave7 Z pkt_0205D1BC+pkt_02060550+pkt_02060764+pkt_02060C5C | AA pkt_02072A44+pkt_020637F4+pkt_02062B64+pkt_02069FF8+pkt_02068E78
+pass2 (permuter-armed second pass on blocked anchored families): poke_tool.c | bg_sys.c | bmp.c
+pass2: clact.c | mcss.c
+pass2: symbol_save.c | printsys.c | wipe_sub.c+gf_font.c
+wave8 (owner go 2026-09-22 ~10:xx after reset): A pkt_02052F58 | B pkt_0206BEA0 | C pkt_02064B68 | D pkt_0206EB00 | E pkt_020682DC+pkt_02066740
+wave9 (owner go; second/third lanes on large functions): A pkt_02052F58 | B pkt_020929E8 | C pkt_02066740 | D pkt_02051E64 | E pkt_020682DC+pkt_0206EB00 | F pkt_020949F4+pkt_02096D10
+wave10 (owner: ~10 agents): A pkt_020929E8 | B pkt_02064B68 | C pkt_020737C0 | D pkt_0206A17C | E pkt_02063000+pkt_02070360 | F pkt_02071360+pkt_020611D4+pkt_02061D0C | G bmp.c | H clact.c+ica_anime.c | I pkt_02069078+pkt_02067FE4 (no siblings) | J big singles
+wave10 top-up: K pkt_0206EB00 | L pkt_020682DC+pkt_02096D10
+wave11: A pkt_02066740 | B pkt_02064B68+pkt_020640DC+func_020625D8 split | C pkt_0206EB00+pkt_020682DC | D 0x0209739C+0x020924DC | E pkt_02081E7C+pkt_02083028+pkt_02083298 (no siblings) | F pkt_02063000+0x020691E0+0x020681E4 | G mcss.c | H bg_sys.c+g3d_system.c | I poke_tool.c+backup_system.c | J printsys.c+wipe_sub.c+musical_dist_save.c
+wave12 (launched 07:3x): A pkt_02066740+0x020643CC | B pkt_02064B68+pkt_02074A34 | C mcss.c | D backup_system.c | E billboard.c+billboard_act.c | F game_beacon.c+pms_draw.c | G net_system.c+net_handle.c+gf_standard.c | H bg_sys.c+bmp.c+bmp_win 0x020454E0 | I symbol_save.c+app_taskmenu.c+game_data.c | J upper-half singles (0x02091E44 0x020698F8 0x02062D4C pkt_02075404 0x02062688 0x02060CD0 0x02051C88 0x02061EB8 pkt_02070B64)
+wave13 (launched 10:3x, 8 lanes): A net_err+net_ring_buff+net_save+net_lower_data | B bmp_menulist+bmp_oam+bmp_win+bmp | C musical_dist_save+game_data+field_status | D backup_system+areaman+key | E printsys+pms_draw+palanm+blink_palanm | F particle+poke_tool+pokegra+arc_tool+game_beacon | G NNS residues (0x02067080 0x020681E4 pkt_02064B68 pkt_02063000 pkt_020682DC) | H upper-half leftovers
