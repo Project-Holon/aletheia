@@ -219,9 +219,9 @@ extern int   sub_02014488(void *a0, u32 *mode, u8 *args);   /* MATCH  */
 extern int   func_0201450C(int a0, int *mode, int *args);   /* MATCH  */
 extern void *func_020145CC(void *a0);                       /* MATCH  */
 extern u32   func_02014878(u32 a0, u32 *mode, u32 *args);   /* MATCH  */
-extern u32   func_02014698(void *obj, u32 *mode, u32 *args);/* DIFF 1 */
+extern u32   func_02014698(void *obj, u32 *mode, u32 *args);/* EXACT  */
 extern void  func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
-                           u32 b0, u16 *b1, u32 b2);        /* DIFF 16*/
+                           u32 b0, u16 *b1, u16 heap);      /* EXACT  */
 
 /* ------------------------------------------------------------------ *
  * Constants attested by the family.
@@ -244,5 +244,24 @@ extern void  func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
 #define TOD_NO_MAPPING    0x0fffffff
 #define TOD_HEAP_MASK     0x7fff
 #define TOD_HEAP_TAG      0x8000
+
+/* ------------------------------------------------------------------ *
+ * ADDED 2026-09-23 (wave 13).  Both DIFF members closed:
+ *
+ *  - func_0201493C's seventh parameter is `u16 heap` (the ov094 caller at
+ *    0x021F7702 loads it with ldrh), used as `(heap & 0x7fff) | 0x8000` --
+ *    TOD_HEAP_MASK / TOD_HEAP_TAG above -- at every one of its four uses.
+ *    The earlier reading through `*(u16 *)((char *)&b0 + 8)` produced both
+ *    of that note's "back-end tie-breaks"; neither exists with the real
+ *    parameter, so the 0x10000000 tag remark above is obsolete.
+ *  - func_02014698 (the step function of func_02014728) needs no labels:
+ *    each arm carries its own `(*mode)++; break;`, case 2 is
+ *    `if (func_020120F0() == 0) (*mode)++;`, and cross-jumping produces
+ *    the image's shared tail jumps.  The goto/label shape that makes the
+ *    sibling func_02014628 exact is the wrong reading here.
+ *  The remaining open members (func_02014488, func_0201450C,
+ *  func_020145CC, func_02014878) are unchanged: overlay-callee or
+ *  own-pool evidence walls, re-verified MATCH/MATCH*.
+ * ------------------------------------------------------------------ */
 
 #endif /* FIELD_STATUS_H */

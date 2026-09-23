@@ -427,7 +427,7 @@ void func_0200CFA0(struct Blk37 *p, void *m);
  * four unk05C rows (NOT matched here, but its shape is read off its
  * callers' near-miss comments in unit_0200D0AC.c: it walks p + i*0x54 +
  * (id>>3) for i in 0..3 plus the unk008 row). */
-extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern u32 func_0200D064(struct Blk37 *p, u16 id);   /* EXACT, wave 13 */
 
 /* 0x0200CED4  the SINGLE-bitmap ("seen") test: reads only unk008's bit for
  * id, after the func_0200C720 range guard. */
@@ -635,6 +635,46 @@ u32 func_0200D58C(struct Blk38 *p);
  *  - func_0200D144's arms 1-5 are 1.1p1-exact; under 2.0/sp2 the size is
  *    right (322) but the constant 1 is shared between the mask and the
  *    result, so the compiler is 1.1p1 and the last-arm residue stands.
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * ADDED 2026-09-23 (wave 13).  Four closed: func_0200D064 (EXACT),
+ * func_0200D144 (EXACT*), its follower func_0200D288 (EXACT, new witness),
+ * func_0200CC40 (EXACT).  Facts proven against the bytes:
+ *
+ *  - THE SPECIES-BIT HELPER.  Three functions close only through
+ *        static inline u32 TestSpecies(const u8 *row, u32 id)
+ *        { u16 x = id - 1; return row[x >> 3] & (1 << (x & 7)); }
+ *    called with a row base (`p + K`, or a row accessor) and the 1-BASED
+ *    species id.  Each inlined copy owns its `x`: the `id - 1` is shared
+ *    but `x & 7`, `x >> 3` and `row + (x >> 3)` are rebuilt per call,
+ *    except between the two operands of one `||`, which share the mask.
+ *    That per-copy rebuild is the "recomputed at every join" the wave-11
+ *    notes could not reproduce with one shared index.  The form-bit rows
+ *    (+0x30E/+0x317) take an already 0-based index: `TestBit(row, u16 x)`.
+ *  - func_0200D064 reads its row through a u16-indexed accessor
+ *        static inline u8 *DistRow(struct Blk37 *p, u16 row)
+ *        { return p->unk05C[row]; }
+ *    (the per-use `lsls/lsrs #16` of the u32 loop counter), and returns 1
+ *    straight from the loop.
+ *  - func_0200CC40 takes `u16 id` (the narrow-parameter tell: its home slot
+ *    is stored and then RELOADED for the first call); its prototype is
+ *        void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2,
+ *                           u32 *outForm, u16 a5);
+ *  - 0x0200D288, the unlabelled leaf after func_0200D144:
+ *        u32 func_0200D288(struct Blk37 *p, u32 which)
+ *        { if (which == 0) return p->unk4D0; return 0; }
+ *    the reader of the unk4D0 species-0x147 cache.
+ *  - func_020073D8 takes THREE arguments (save, id, c): its body forwards
+ *    r2 to func_020319A4.  In func_0200C52C the third is the literal 0 that
+ *    also feeds the +0x08/+0x04 stores.  func_0200C52C remains DIFF (120/56
+ *    with the real prototypes); see docs/notes/pkt_0200C52C.c.txt.
+ *  - func_0200CA98 is size-exact (392/392, 147 out, allocation only) when
+ *    the form-row clears are `q = p + 0x30E; q += o; *q &= ...` (row
+ *    pointers hoisted after the cnt guard) and the tail is open-coded with
+ *    named off/bit/nm; docs/notes/pkt_0200CA98.c.txt.  The TestSpecies
+ *    helper does NOT fit its tail: there the image shares bit and off
+ *    across the four-row clear and all six set arms.
  * ------------------------------------------------------------------ */
 
 #endif /* MUSICAL_DIST_SAVE_H */
