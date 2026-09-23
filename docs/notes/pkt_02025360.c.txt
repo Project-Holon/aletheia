@@ -84,3 +84,63 @@ Two facts for the next attempt: the image keeps i in r0 for the whole body
 loops must not share one CSE-able `sel << 4` expression; try a separate base
 pointer local assigned only in the fill arm, with the scan written on the
 struct.
+
+======================================================================
+2026-09-23 wave 17 tail lane: 57 -> 21 out (116/116).
+
+The wave 16 suggestion works: the scan on the struct (count[2], slot[2][16],
+as func_020253D4), and the fill arm's base recomputed INSIDE its loop body
+(`dst = (u8 *)p + (sel << 4); dst[j + 6] = (u8)i;`), gives the image's
+`mov ip, r0` (p parked in ip) and the fresh `lsls r3, r7, #4` in the fill
+arm: 54 out at 118 bytes, i still in r2 with a move before the return.
+Declaring `int i, j, end;` (i first) puts i in r0 for the whole body: 116
+bytes, 21 out.  Residue: a three-way rotation of end / scan base / count
+pointer (image r4 / r2 / r3, compile r2 / r3 / r4).  Other measurements:
+the same body without dst (103), dst hoisted before the fill loop (61),
+a do/while fill guarded by `if (j < end)` (54), decl orders `i, end, j` (26)
+and `j, end, i` (56).  permuter anneal 500 --types seed 5 on the 21 source:
+4 out, but only with j typed u32, which turns the signed bge/blt into
+bhs/blo (not value-preserving, rejected); with j int in the permuter's
+declaration order it is 26.
+
+best-source marker: 21 out, 1.1p1 (wave 17)
+typedef unsigned char u8;
+typedef unsigned int  u32;
+struct ActorTool {
+    u32 f00;
+    u8  count[2];
+    u8  slot[2][16];
+};
+int func_02025360(struct ActorTool *p, int len, u32 bank)
+{
+    int i, j, end;
+    u32 sel = 1;
+    u8 *dst;
+
+    if (bank == 0)
+        sel = 0;
+    i = 0;
+    if (i < p->count[sel]) {
+        do {
+            if (p->slot[sel][i] == 0xff) {
+                end = i + len;
+                for (j = i; j < end; j++) {
+                    if (p->slot[sel][j] != 0xff) {
+                        i = j;
+                        break;
+                    }
+                }
+                end = i + len;
+                if (j == end) {
+                    for (j = i; j < end; j++) {
+                        dst = (u8 *)p + (sel << 4);
+                        dst[j + 6] = (u8)i;
+                    }
+                    return i;
+                }
+            }
+            i++;
+        } while (i < p->count[sel]);
+    }
+    return 0;
+}

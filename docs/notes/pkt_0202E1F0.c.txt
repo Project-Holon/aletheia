@@ -1051,3 +1051,16 @@ void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
 }
 
 
+
+================================================================
+wave 17 (2026-09-23, tail lane): still 412/412 at 21 (o/w r6/r7 swap)
+================================================================
+Measured once each on the 21-out source: `register` on o (21), `register`
+on w (21), `w = (void *)&ws[0]` (21), ws declared before marks (26, the
+stack slots swap), g declared before h (21), an `o = (struct Obj *)o;`
+self-assignment at the reuse point (21).  Read of the first callee:
+func_02024570 copies four halfwords from w to ws (an 8-byte struct copy),
+so ws and *w share one 4 x u16 type; its arity (2) is right.  Best source
+unchanged.  The register-parameter reuse that closed areaman this wave
+(docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md)
+has no candidate here: every register parameter is live to the end.

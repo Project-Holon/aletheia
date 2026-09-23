@@ -252,3 +252,17 @@ with u32 casts (17), func_02034394 len s32 (17), func_020344C8 taking
 a const pointer (17), both callees unprototyped `()` (17).  Loop
 counter forms (not declaration facts, one try each): `for (i = 0; i <
 nfull; i++)` 73, s32 i 208/131, `for (i = nfull; i; i--)` 196/122.
+
+========================================================================
+wave 17 (2026-09-23, tail lane): EXACT, filed src/matched/func_0203422C.c
+========================================================================
+Measured (ARM; note that `match.py one` must be given --arm here): local
+copies of the mask-table pointers at function scope (134, 133: the loads
+hoist), a block-scope RunMask copy in the closing clear (17), `idx += 1`
+(17), `for (idx++; nfull-- != 0; idx++)` (17), a `u8 *q` per store (17), a
+separate u32 counter k (59), `p->bits[idx++] = (u8)0` with the closing
+clear through `*(p->bits + idx)` (17).  THE LEVER: the fill cursor is the
+parameter reused, `start = idx + 1;`, which lands it in start's r1 and
+rotates the zero and the count to r2 / r3.  With it the plain compound
+clears `p->bits[idx] &= (u8)~mask;` are exact and the permuter's tmp
+temporaries are not needed.  Same lever closed sub_020343C0.

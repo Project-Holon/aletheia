@@ -248,3 +248,12 @@ On the 44-out source: non-const mask tables (44), func_020344C4(u32)
 (44), func_020344C4 unprototyped (44), `u8 bits[]` (44).  All flat;
 the rotation is shared with func_0203422C and survives every
 declaration fact tried in waves 13 to 16.
+
+========================================================================
+wave 17 (2026-09-23, tail lane): EXACT, filed src/matched/sub_020343C0.c
+========================================================================
+The byte index is the parameter reused, `start = start / 8;` (the image's
+`asr r1, r1, #3` writes start's own register).  With the permuter's
+`tail = 0; nfull = 0;` order that is 36 out; with the natural
+`nfull = 0; tail = 0;` it is EXACT (MATCH until the Areaman_TailMask
+0x020A0495 symbols line was added).

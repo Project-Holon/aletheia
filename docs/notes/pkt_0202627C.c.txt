@@ -349,3 +349,12 @@ void func_0202627C(struct Comm *p)
 }
 
 
+
+// ================================================================
+// 2026-09-23, wave 17 tail lane: still DIFF at 10 (flag byte / cb swap
+// between r3 and r5 in case 5).  Measured once each on the best source:
+// `if (cb == 0) break; cb(a, b);` 10; cb(a, b) in braces with its own break
+// 10; `return` in place of the final break 10; declaration orders a,b,cb /
+// b,cb,a / b,a,cb 10; the +0x1C/+0x20 pair as a two-word struct {arg, fn}
+// 10; b as u8 10; cb read first 13; read order b, cb, a 23.  Best source
+// unchanged.

@@ -236,3 +236,19 @@ an explicit `goto bad` in both flag arms plus `goto done` (43 out, loses the
 second `b`), ../2.0/sp2 and sp2p2 (57 out), 1.2p2 (1, same byte).  The
 image's two adjacent `b 0x02024728` are one jump-threading step the 1.1p1
 optimiser takes that the original build did not; no source-level lever found.
+
+================================================================
+APPENDED 2026-09-23, wave 17 tail lane: still DIFF, 1 byte (+0x3E)
+================================================================
+Measured once each on the best source (116/116 unless noted):
+  flag == 0 arm written first (else arm first)            17 out
+  the range test as a switch on v, cases 1..10 goto done   144 bytes
+  `while (v >= 1) { if (v < 11) goto done; break; }`       120 bytes
+  every `goto done` as `return ok`                         132 bytes
+  a dead `ok = 0;` / `v = 0;` after the range test          1 (same byte)
+  `if (v < 1 || v >= 11) ok = 0; else goto done;`           1
+  `if (v >= 1) { if (v < 11) goto done; ok = 0; }`          1
+  range test through a static inline, two early returns    128 bytes
+  range test through a static inline `return v >= 1 && v < 11;`  1
+  the sub_02024520 call and test inside a static inline    128 bytes
+No lever moves the threaded `blt`.  Best source unchanged.

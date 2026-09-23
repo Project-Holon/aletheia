@@ -416,3 +416,74 @@ void func_0202350C(struct Obj *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a
     func_02022E20(a5, cfg[9], cfg[0x0a], cfg[8], a4, cfg[0], cfg[1],
                   cfg[2], cfg[3], obj->f44);
 }
+
+================================================================================
+APPENDED 2026-09-23, wave 17 tail lane: 13 -> 12 out
+================================================================================
+cfg[8] and cfg[0x0b] BOTH bound to function-scope locals, assigned after the
+first call and before the f40 store: 12 (the two loads now precede the
+stores, as in the image).  Also 12: kb assigned first; u8 locals; a4 through
+a local; `struct Obj *const obj, const u8 *const cfg`; func_02022940's two
+struct pointers as `const void *`.  permuter anneal 400 --types seed 17 from
+this source: best 15, no gain.  Residue +0x20..+0x2C: the image loads a4
+(`ldr r1, [sp, #0x30]`) before the f40 store and holds kb in r2; the compile
+stores f40 and f44 first and holds kb in r1.
+
+best-source marker: 12 out, 1.1p1 (wave 17)
+/*
+ * function: func_0202350C
+ * address:  0x0202350C
+ * packet:   pkt_0202350C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_02022940  0x02022940  thumb
+ *   func_02022E20  0x02022E20  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Obj {
+    u32 f00;
+    u8  pad04[0x0c];
+    u32 f10;       /* 0x10 */
+    u8  pad14[0x0c];
+    u32 f20;       /* 0x20 */
+    u8  pad24[0x0c];
+    u32 f30;       /* 0x30 */
+    u32 f34;
+    u32 f38;
+    u32 f3c;
+    u32 f40;
+    u32 f44;
+    u32 f48;
+};
+
+extern void func_02022940(struct Obj *o, void *a, void *b, const u8 *cfg,
+                          const u8 *cfg4, u32 a2);
+extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
+                          u32 a6, u32 a7, u32 a8, u32 a9);
+
+void func_0202350C(struct Obj *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5)
+{
+    u32 k8 ;
+    u32 kb ;
+    func_02022940(obj, &obj->f20, &obj->f10, cfg, cfg + 4, a2);
+
+    k8 = cfg[8];
+    kb = cfg[0x0b];
+    obj->f40 = 0;
+    obj->f44 = kb;
+    obj->f30 = a4;
+    obj->f34 = k8;
+    obj->f38 = a2;
+    obj->f3c = a3;
+    obj->f48 = a5;
+    func_02022E20(a5, cfg[9], cfg[0x0a], cfg[8], a4, cfg[0], cfg[1],
+                  cfg[2], cfg[3], obj->f44);
+}

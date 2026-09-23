@@ -292,3 +292,13 @@ runs over the unlabelled leaves 0x020141DC.. after the 52 bytes of code; the
 integrator should seed 0x020141DC so the extent is right).  The earlier u16
 spelling (0xFFFF) is the one that keeps 1 in r5 but costs the pool word;
 the combination the image has, a live 1 AND a derived -1, has not been found.
+
+================================================================
+APPENDED 2026-09-23, wave 17 tail lane: EXACT, src/matched/func_020141A8.c
+================================================================
+Re-measured on the real 52-byte extent (0x020141DC seeded in round 9): the
+original first draft (u16 field written -1, a pool word) is SIZE 56/52,
+10 out; the same body with the +6 field written through an s16 is EXACT
+(the -1 comes out as `subs r0, r5, #2` off the 1 kept in r5).  The wave 16
+"47 out" was the 92-byte extent.  Filed as a struct spelling that matches
+func_02014204's record.

@@ -140,3 +140,12 @@ through a static inline wrapper carrying the file and line; heapId typed as
 an enum in the parameter and both callee prototypes.  The residue shares
 its shape with func_02013528 (btl_setup): a parameter's stack home written
 later than the image writes it.
+
+## 2026-09-23 (wave 17 tail lane): func_0202C148 EXACT, src/matched/func_0202C148.c
+
+heapId is a u16 parameter (and the three callee prototypes take a u16 heap
+id).  Narrowed, its home store sits at the front of the prologue and the
+count store and line spill are no longer overtaken by the heapId reload and
+the file pool word.  A u32 heapId with u16 callee prototypes is also exact;
+the house u16 spelling is filed.  The same lever is untried on the sibling
+func_0202BEEC (register numbering heapId/p), worth one measurement.
