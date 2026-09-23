@@ -37,3 +37,5 @@ access is a plain `ldr`, and `ldmib` loads three words), and getting that wrong
 turns four loads into four `ldrh` plus truncations.  With `u32` fields the
 residue is the one instruction-selection difference above, 16 bytes.
 re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header
+
+CLOSED 2026-09-23, wave 15: EXACT, see src/matched/func_02061B2C.c (header names the lever).

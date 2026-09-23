@@ -276,3 +276,17 @@ void func_0202271C(char *p)
 ~ +0030 sbcs r2, r0, #0x890000 | movs r0, r0 <- ABS32 sub_0209F570_Obj [wildcard]
 ~ +0032 09 02 | movs r0, r0
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0202271C.c:38: declaration syntax error
+
+================================================================
+APPENDED 2026-09-23, wave 15 tail lane (wipe.c)
+================================================================
+0x02022758, 0x02022790, 0x020227CC are EXACT (src/matched): 0x0209F568..74
+are rodata words, declared `data` they resolve sole-ref/self.  The table
+pointer is stored into and passed as `&g_020A73D0.fNN`.
+0x0202271C (slot f00) stays DIFF: the store address and the passed
+address are both g_020A73D0+0, 1.1p1 CSEs them into r5 (push {r3,r4,r5,lr},
+9 bytes out); ../2.0/sp2 and sp2p2 reload but share ONE pool word where the
+image has two (1 byte out, the second ldr's offset).  Passing
+`&g_020A73D0` instead of `&g_020A73D0.f00` changes nothing.
+Best source: the sibling template (src/matched/func_02022758.c) with f00,
+d_0209F570 and `p->f28 = 1`.

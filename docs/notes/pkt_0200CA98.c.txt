@@ -346,3 +346,24 @@ r2, #3` after the eors); in the tail it builds p + 0x1AC (r1) before off
 pointer built as `q = p + 0x1AC; q += i * 0x54; q[off] &= nm` (392, 176),
 the clear-loop counter initialised ahead of off/bit/nm (392, 147, no
 change).  Not closed; the residue is allocation order in both halves.
+
+==============================================================================
+wave 15 (2026-09-23, gamedata/pms lane): func_0200CA98 still DIFF, 147 out
+==============================================================================
+
+Best source unchanged (the wave-13 source above, 392/392, 147 out).  The
+first divergence is still the home-store order at +0x0A (image id then
+sel) and acc in r1 (compile r2); the whole-function colouring follows.
+Measured this wave, none below 147:
+ - declaration position of acc (8 positions) and of i (8): 147-152.
+ - parameter grid id u16/int/s32 x sel u32/u8/u16/int: 147-151 (u16 id
+   with u8/u16 sel flips the home-store order but moves `mov lr, r3`).
+ - local types acc/i/j/cnt as s32/u16/u8/enum: 147 at best.
+ - const on p/id/sel/alt, all 15 combinations: 147 flat.
+ - tail order bit/off/nm (147, 149), a separate clear-loop counter (147),
+   a named u8 mask ahead of o in the form loop (150), `break` written in
+   both SetBit arms (147).
+ - permuter.py anneal 1500 --types seed 15: flat at 147.
+The levers that closed 0x0200C52C (call in both arms), 0x020255A0 (const
+parameter) and 0x020454E0 (in-place compound update plus u16 parameter)
+have no purchase here.

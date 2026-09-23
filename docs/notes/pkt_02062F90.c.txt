@@ -69,3 +69,5 @@ void func_02062F90(struct Struct02062F90 *obj) {
     func_02062D4C(obj);
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 84 bytes against 96, 54 concrete bytes out, 1.1p1
+
+CLOSED 2026-09-23, wave 15: EXACT, see src/matched/func_02062F90.c (header names the lever).

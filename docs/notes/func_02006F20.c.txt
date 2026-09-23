@@ -493,3 +493,13 @@ struct SaveCtrl *func_02006F20(int heap)
 permuter best result line:
   best      DIFF   asm=850   bytes-out=118  size=356/356  unresolved=3
   mutations type:l(i:int->u8)          (hill, 232 mutations tried, budget 800)
+
+================================================================
+APPENDED 2026-09-23, wave 15 tail lane (save_control.c)
+================================================================
+Sibling func_020070C8 closed with an enum counter plus `goto end`.  Here the
+enum counter (`typedef enum {...} Slot; Slot i;` in place of u8 i) DOES
+put `flags = &c->unk0C` after the guard as the image has it, but the
+while loop then keeps a second top test inside the body (360 bytes, 171
+out); written as a for loop, the same 360.  u8 i stays the best (356/118).
+Still MATCH-capped on the ov228-range callees whatever the C.

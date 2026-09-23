@@ -281,3 +281,11 @@ APPENDED 2026-09-23, wave 14 (pms_draw/bmp_win/bmp_oam lane).  Still 2 bytes.
   0x11 constant.  The closing lever of 0x0202DD24 in the same wave was the
   declaration position of a local relative to the others; this function has
   only one local (pn), so there is no equivalent ordering left to try.
+
+APPENDED 2026-09-23, wave 15 (gamedata/pms lane).  CLOSED, EXACT.
+  src/matched/func_020454E0.c.  Two levers together: the palette bits are
+  built in place in the pal parameter as two compound statements
+  (`pal &= 0xf; pal <<= 12;` / `pal = 0;`), which coalesces pal with the
+  result (r6), and base is a u16 parameter.  In-place alone is 536/55 (the
+  sixth and seventh calls reschedule); u16 base alone is 536/2.  Found by
+  permuter.py hill --types (type:p base u32->u16) from the in-place source.

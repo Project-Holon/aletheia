@@ -881,3 +881,22 @@ void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 400 bytes against 412, 371 concrete bytes out, 1.1p1
+
+================================================================
+wave 15 (2026-09-23, gamedata/pms lane): still 400/412, 371 out
+================================================================
+
+Best source unchanged (wave 14 above).  One new fact: `const u32 c2`
+alone reproduces the image frame (push {r3-r7,lr}, sub sp,#0x48, ws at
+sp+0x38, marks at sp+0x40, h at sp+0x24) but for the wrong reason: c2 is
+no longer promoted at entry and takes the extra spill slot at sp+0x1c,
+where the image spills n at sp+0x20; 400 bytes, 378 out.  The image
+still promotes w into r7 at entry and keeps &ws in r7 after the first
+call, the compile loads w at the call.
+Measured, none better: the declaration position of i and n over the
+whole block (42 orders, all 371); const on cs, w, c1, c2, c3 (36
+combinations of the stack parameters, 371 or 378); `const struct Cs *`;
+`const volatile u16 c3`; a u8 *wp = ws pointer before, after or around
+the first call (374).  permuter.py hill 600 --types seed 21: best is the
+same non-value-preserving volatile-add(n) result wave 14 found (121 out
+at 412/412), rejected.

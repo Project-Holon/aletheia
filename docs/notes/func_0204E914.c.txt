@@ -118,3 +118,14 @@ only on this function: 0x0204E914 has exactly one branch reference image-wide,
 the call at the end of func_0204E8C0, so its only possible witness is a
 `matched` entry here.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================
+APPENDED 2026-09-23, wave 15 tail lane (double3Ddisp.c): no change
+================================================================
+The source above reproduces 248/35.  Levers measured: the clearing counter
+as an enum (260, 213 out); k and i both enums (260, 211); k and y
+initialised at their declarations with the y loop's init dropped (252,
+217); ../2.0/sp2 and sp2p2 (240, 167).  Observation for the next lane: the
+clearing loop stores r3, the register y later lives in, zero at that point
+(the value is 0, not a separate constant), and its counter r2 is x's
+register; the coalescing is the allocator reusing both.

@@ -508,3 +508,10 @@ APPENDED 2026-09-23, wave 14 (pms_draw/bmp_win/bmp_oam lane).  Still DIFF,
     in the call's own argument list, as the best source has it.
   - No permuter run this pass: wave 13's hill 800 and anneal 2000 --types
     from this exact source were flat at 8.
+
+======================================================================
+wave 15 (2026-09-23, gamedata/pms lane): CLOSED, EXACT
+======================================================================
+
+src/matched/func_020255A0.c.  The wave-13 best source with one change:
+`const struct Param *param`.  Both scheduling swaps close at once.

@@ -144,3 +144,5 @@ void func_020606D0(struct Arena *a, void *sig, void *self, void *lo, u16 attr)
     }
     func_020604AC((volatile struct DList *)func_020606A8((u32)a), a);
 }
+
+CLOSED 2026-09-23, wave 15: EXACT, see src/matched/func_020606D0.c (header names the lever).

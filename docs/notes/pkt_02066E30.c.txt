@@ -2005,3 +2005,14 @@ void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, NNSG2dFVec2 *pBaseTra
     objTrans.y += pBaseTrans->y;
     G2_SetOBJPosition(pOam, objTrans.x >> 12, objTrans.y >> 12);
 }
+
+==============================================================================
+2026-09-23, wave 15 (button_man residues lane).  0x02067080 unchanged, DIFF 2.
+==============================================================================
+re-verified: the wave-13 source above is 704/704, 2 out under ../2.0/sp2 (the
+y read lands in ip where the image uses r6, +0x21C/+0x224).  Measured, all 2
+or worse: dy declared before dx (2), the _11 product through a block temp
+(2), `pV->y = y + (...)` through a local y (2), a (fx32) cast on the sum (2),
+a `const MtxFx22 *m = pM` alias (2), dy completed before the store (4),
+halfH declared before halfW (22).  0x02067A60 of this note's first section
+is closed this wave (src/matched/func_02067A60.c, ../2.0/sp2).

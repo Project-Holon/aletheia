@@ -417,3 +417,247 @@ Four more -opt/-O diagnostics were compiled (-O4,s, -O3 1336 bytes; -O3,p and
 -O4,p with -opt nocse/nocodemotion identical 1520/721): no flag change.
 
 /* best source, 1520 bytes against 1524, 721 concrete bytes out, 1.1p1 -- the wave-9 source above, unchanged */
+
+==============================================================================
+2026-09-23, wave 15 (dec2num + button_man lane).  DIFF, 721 -> 718 out.
+==============================================================================
+
+re-verified: the wave-9 source is DIFF 1520/1524, 721 out (1.1p1; 1.6sp2
+identical; ../2.0/sp2 and sp2p2 1580 bytes, 1219 out).
+
+LEVER THAT MOVED IT (718, the source below): `decimal *px = &x64;` declared
+at the top of the refinement loop body and used for the num2dec call and the
+is_low less() call.  The pre-loop registers now match the image exactly
+(&feval r7, &dec r4, &guess r5, is_low r6, is_high r7); the residue is only
+the three loop invariants (&x64, the found-block &dec, the `& 1` zero) still
+materialised at +0x2A0 instead of the preheader +0x3A4.
+
+THE PLACEMENT RULE, measured this wave (toys and the full function):
+  * It is not a loop barrier: a simple loop, a loop with a call, a nested
+    loop and a loop with break, inserted between +0x2A0 and the preheader or
+    at the start of +0x2A0, are all crossed; the constants still land right
+    after the chunk loop.  The chunk loop blocks because it is at full
+    register pressure (all eight callee-saved registers).
+  * It is not branch frequency: wrapping the is_low test in a diamond, an
+    extra early exit before the loop, or a direct return instead of goto
+    done do not move it.
+  * It IS register pressure over +0x2A0..+0x3A4, resolved by the allocator
+    splitting the rematerialisable values: keeping three extra values live
+    to the end of that region (volatile stores of exponent, e, i after
+    `guess = first_guess;`, diagnostic only) splits &dec exactly as the
+    image does, a second `add r8, sp, #0xd6` at the preheader separate from
+    the one used by equals/less; one or two extra values do not.  So the
+    image had about three more live values over that region than this
+    source, and none of them is visible as a register in the image (r8, sb,
+    sl are idle there).  Not found: what those values are.
+Levers measured and rejected, each alone on the L2a base unless noted:
+  a pointer local for both &x64 and &dec in the loop (719); px reused for
+  the found &dec (718, copy-propagated); a `u8 sign` local held across the
+  chunk loop for the final negation (1528 B, 1058 out); first_guess not
+  address-taken (DBL_MAX as a double constant, the `& 1` through *ll:
+  1484 B, 987); `u64 *fl = (u64 *)&first_guess` for the DBL_MAX store and
+  the `& 1` test (1528 B); guess/ll declared at function scope (1532 B);
+  `first_guess = first_guess / pow(...)` (1512 B); the chunk loop as a
+  static inline helper (740; with the u8 counter 1524 B/398, the known size
+  compensation); the u8 counter on L2a (1524 B/383, same compensation); the
+  chunk loop as do-while (718) and as a goto loop (1528 B, 1247); guess
+  assigned before num2dec (1512 B) or before equals (716 at 1520, no split);
+  the swap through a block-scoped temp with diff1/diff2 scoped to the found
+  block (1524 B, frame 0x124, no slot sharing).
+permuter hill 500 on L2a: size compensation (volatile-add(temp2)), rejected.
+
+/* best source, 1520 bytes against 1524, 718 concrete bytes out, 1.1p1 */
+/*
+ * function: func_0209739C
+ * address:  0x0209739C
+ * packet:   pkt_02096D10
+ * isa:      arm
+ * symbols:
+ *   func_0209A368  0x0209A368  arm
+ *   func_020968F4  0x020968F4  arm
+ *   func_02096DF0  0x02096DF0  arm
+ *   func_02096D10  0x02096D10  arm
+ *   func_02096ED0  0x02096ED0  arm
+ *   func_02097170  0x02097170  arm
+ *   func_0209AB80  0x0209AB80  arm
+ *   func_0209A7A8  0x0209A7A8  arm
+ *   func_020921F4  0x020921F4  arm
+ *   __float_huge   0x020A8814  data
+ *   _f2d           0x0209BD38  arm
+ *   _dfltu         0x0209B790  arm
+ *   _dmul          0x0209B2E8  arm
+ *   _dadd          0x0209AC04  arm
+ *   _deq           0x0209BA3C  arm
+ *   _dflt          0x0209B750  arm
+ *   _ddiv          0x0209D1E0  arm
+ *   _dsub          0x0209AF34  arm
+ *   pow_10         0x020A8A7C  data
+ *   s_020A8B90     0x020A8B90  data  a1
+ */
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned long long u64;
+
+typedef struct decimal {
+    u8 sign;
+    u8 unused;
+    s16 exp;
+    struct {
+        u8 length;
+        u8 text[32];
+        u8 unused;
+    } sig;
+} decimal;
+
+extern float __float_huge;
+extern const double pow_10[8];
+extern const char s_020A8B90[];
+
+extern double func_0209A368(double x, double y);          /* copysign */
+extern void func_020968F4(decimal *d, const char *s, s16 exp);
+extern int func_02096DF0(const decimal *a, const decimal *b); /* __less_dec */
+extern int func_02096D10(const decimal *a, const decimal *b); /* __equals_dec */
+extern void func_02096ED0(decimal *z, const decimal *x, const decimal *y);
+extern void func_02097170(decimal *d, double x);
+extern double func_0209AB80(double x, double y);          /* pow */
+extern double func_0209A7A8(double x, int n);             /* ldexp */
+extern int func_020921F4(double x);                       /* fpclassify */
+
+double func_0209739C(const decimal *d)
+{
+    if (d->sig.length <= 0)
+        return func_0209A368(0.0, d->sign == 0 ? 1.0 : -1.0);
+
+    switch (d->sig.text[0]) {
+    case '0':
+        return func_0209A368(0.0, d->sign == 0 ? 1.0 : -1.0);
+    case 'I':
+        return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
+    case 'N': {
+        double result;
+        u64 *ll = (u64 *)&result;
+        *ll = 0x7FF0000000000000ULL;
+        if (d->sign)
+            *ll |= 0x8000000000000000ULL;
+        *ll |= 0x0008000000000000ULL;
+        return result;
+    }
+    }
+
+    {
+        decimal dec = *d;
+        u8 *i = dec.sig.text;
+        u8 *e = i + dec.sig.length;
+        double first_guess;
+        int exponent;
+
+        for (; i < e; ++i)
+            *i -= '0';
+        dec.exp += (s16)(dec.sig.length - 1);
+        exponent = dec.exp;
+
+        {
+            decimal max;
+            func_020968F4(&max, s_020A8B90, 308);
+            if (func_02096DF0(&max, &dec))
+                return func_0209A368((double)__float_huge, d->sign == 0 ? 1.0 : -1.0);
+        }
+
+        i = dec.sig.text;
+        first_guess = *i++;
+
+        while (i < e) {
+            unsigned long ival = 0;
+            int nd;
+            double temp1, temp2;
+            int ndig = (int)(e - i) % 8;
+
+            if (ndig == 0)
+                ndig = 8;
+            for (nd = 0; nd < ndig; ++nd, ++i)
+                ival = ival * 10 + *i;
+            temp1 = first_guess * pow_10[ndig - 1];
+            temp2 = temp1 + ival;
+            if (ival != 0 && temp1 == temp2)
+                break;
+            first_guess = temp2;
+            exponent -= ndig;
+        }
+
+        if (exponent < 0)
+            first_guess /= func_0209AB80(5.0, -exponent);
+        else
+            first_guess *= func_0209AB80(5.0, exponent);
+
+        first_guess = func_0209A7A8(first_guess, exponent);
+
+        if (func_020921F4(first_guess) == 2)
+            *(u64 *)&first_guess = 0x7FEFFFFFFFFFFFFFULL;
+
+        {
+            decimal feval;
+            double guess;
+            u64 *ll = (u64 *)&guess;
+            int is_low = 0;
+            int is_high;
+
+            func_02097170(&feval, first_guess);
+            if (func_02096D10(&feval, &dec))
+                goto done;
+            if (func_02096DF0(&feval, &dec))
+                is_low = 1;
+            is_high = 1;
+            if (is_low)
+                is_high = 0;
+            guess = first_guess;
+
+            {
+                decimal x64;
+                decimal diff1;
+                decimal diff2;
+
+                for (;;) {
+                    decimal *px = &x64;
+                    if (!is_high) {
+                        ++*ll;
+                        if (func_020921F4(guess) == 2)
+                            goto done;
+                    } else {
+                        --*ll;
+                    }
+                    func_02097170(px, guess);
+                    if (is_low && !func_02096DF0(px, &dec))
+                        goto found;
+                    if (!is_low && !func_02096DF0(&dec, &x64)) {
+                        double t;
+                        diff1 = feval;
+                        feval = x64;
+                        x64 = diff1;
+                        t = first_guess;
+                        first_guess = guess;
+                        guess = t;
+                        goto found;
+                    }
+                    feval = x64;
+                    first_guess = guess;
+                    continue;
+                found:
+                    func_02096ED0(&diff1, &dec, &feval);
+                    func_02096ED0(&diff2, &x64, &dec);
+                    if (func_02096D10(&diff1, &diff2)) {
+                        if (*(u64 *)&first_guess & 1)
+                            first_guess = guess;
+                    } else if (!func_02096DF0(&diff1, &diff2)) {
+                        first_guess = guess;
+                    }
+                    break;
+                }
+            }
+        }
+    done:
+        if (dec.sign)
+            first_guess = -first_guess;
+        return first_guess;
+    }
+}
+

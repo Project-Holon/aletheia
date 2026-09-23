@@ -3,12 +3,17 @@
  * address:  0x02061BD0
  * packet:   pkt_02061BD0
  * region:   arm9
- * compiler: 1.1p1
- * flags:    -O4,p
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * note:     status corrected 2026-09-21 from EXACT to DIFF by re-verification (6 concrete bytes out)
+ * status:   EXACT
+ *
+ * The load/store interleave tell of the 2.0 front end (docs/FRONTEND-PINS.md):
+ * the image stores the call result (`strh r0, [r4, #8]` at 0x02061BF4) before
+ * loading the counter (`ldrh r1, [r4, #0xc]` at 0x02061BF8); 1.1p1 hoists the
+ * load above the store (6 bytes out).  Under ../2.0/sp2 the same C is 60
+ * bytes, 0 mismatches.
  *
  * symbols:
  *   func_02061878  0x02061878  arm

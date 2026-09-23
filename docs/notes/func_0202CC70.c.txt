@@ -144,3 +144,13 @@ void func_0202CC70(struct WinMgr *mgr, u32 idx)
     g_020A0058[mgr->mode](win->bg);
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 236 bytes against 244, 172 concrete bytes out, 1.1p1
+
+================================================================
+APPENDED 2026-09-23, wave 15 tail lane (bgwinfrm.c): no change
+================================================================
+Image reading: slot sp+0x14 is sy (loaded as win->y for the second guard,
+overwritten with ymin in the clip), sp+0x18 a second y used for
+`ymin - y`, r0 x and sp+0x20 sx.  Measured: the sub_0202CB4C twin shape
+(u8 sx/ow/ox/sy/oh/oy, s32 x/y) 236/207 out; the note source under
+1.1p1/sp2/sp2p2 236/176; x, sy loaded before their guards with y = sy and
+s8 ow/oh 232/187; enum sx/sy or x1/y1 236/176.

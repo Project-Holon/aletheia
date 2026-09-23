@@ -118,9 +118,10 @@ struct MusicalDist {
                                  *    bytes) */
 
 extern struct MusicalDist *func_0200C52C(void *sys, u32 heap);
-                                /* 0x0200C52C  the constructor.  Reached as
-                                 * a `label` witness only (near miss inside
-                                 * unit_0200C5A4.c); not itself matched. */
+                                /* 0x0200C52C  the constructor.  EXACT
+                                 * (wave 15, src/matched/func_0200C52C.c):
+                                 * the func_020073D8 call is written in both
+                                 * arms of the `== 1` test. */
 
 /* 0x0200C5A4  destructor: releases the heap-id-6 registration, frees the
  * working buffer if present (fall-through arm, source order `if (unk1C
@@ -667,8 +668,8 @@ u32 func_0200D58C(struct Blk38 *p);
  *    the reader of the unk4D0 species-0x147 cache.
  *  - func_020073D8 takes THREE arguments (save, id, c): its body forwards
  *    r2 to func_020319A4.  In func_0200C52C the third is the literal 0 that
- *    also feeds the +0x08/+0x04 stores.  func_0200C52C remains DIFF (120/56
- *    with the real prototypes); see docs/notes/pkt_0200C52C.c.txt.
+ *    also feeds the +0x08/+0x04 stores.  func_0200C52C closed EXACT in
+ *    wave 15 with that call written in both arms of the `== 1` test.
  *  - func_0200CA98 is size-exact (392/392, 147 out, allocation only) when
  *    the form-row clears are `q = p + 0x30E; q += o; *q &= ...` (row
  *    pointers hoisted after the cnt guard) and the tail is open-coded with
