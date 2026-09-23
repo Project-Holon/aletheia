@@ -265,3 +265,206 @@ void func_02066B84(const GXOamAttr *oam, const ImageAttr *img, u32 texAddr, u32 
 }
 
 
+
+==============================================================================
+2026-09-23 - wave 11 third lane (cluster_02066740).  Still DIFF, ../2.0/sp2:
+616/616, 144 out readable (130 with permuter temps).
+==============================================================================
+re-verified 2026-09-23 by tools/match.py: the wave-9 source above is DIFF,
+616 bytes against 616, 151 concrete bytes out under ../2.0/sp2 and
+../2.0/sp2p2 (1.1p1: 600 bytes, 441 out).  Stays a 2.0 row.
+
+New lever (151 -> 144): the 1D-mapping arm's texture sizes read through two
+inlines TAKING u16 PARAMETERS, `TexS_(u16 shape, u16 size)` /
+`TexT_(...)` returning tbl_020A1844[shape][size] / tbl_020A1874[...]; the
+parameter binding is the image's lsl/lsr #16 pair on each index.  A
+single-argument form that narrows inside the inline measures the same.
+
+THE RESIDUE, read precisely: push {r3..sb} against the image's {r4..r8}.
+The image holds img->mappingType in r8 (callee-saved) and the u16 char name
+in r1, where it is later coalesced with the uv[1] value (`asr r1, r1, r2`
+then the shared `str r1, [r0, #4]` both arms cross-jump to); the compile
+swaps them (mappingType r1, name r8) and every register after that shifts,
+spending sb on the size*2 index.  Measured and flat or worse:
+  - name read after uv[4]/uv[5], or a `mapping` local read before it: the
+    `ldm r6, {r4, r5}` splits into two loads (620 bytes, ~490 out) -- the
+    two OAM words must be read together at the top;
+  - the else-arm address computed before / after the u16 indices (151);
+  - the shape/size indices as named GXOamShape temps for uv[4]/uv[5]
+    (171-173).
+permuter: hill 800 --types from the wave-9 source: 137 (temp of
+img->mappingType typed int); anneal 900 from there: 130; anneal 2000 from
+the 144 source below: 137.
+permuter best result line: best DIFF asm=2405 bytes-out=130 size=616/616
+  mutations temp(tmp2=uv[0]) ; commute(+) ; struct-ref(->to.) ; cast(s32)
+Also measured: uv[1] through a named local `v0` assigned in both arms and
+stored after the if (143, same residue); `name = name >> sizeS; v0 = name
+<< 15;` (620, worse).  Not yet measured: the uv buffer as a real struct
+(u0, v0, u1, v1, w, h) and the texture-param write through the real
+GX_PACK_TEXIMAGE_PARAM / G3_TexImageParam SDK inline from sdk/TwlSDK.
+
+/* best source, 616 bytes against 616, 144 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02066B84
+ * address:  0x02066B84
+ * packet:   pkt_02066740
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF (616/616, 144 out)
+ *
+ * symbols:
+ *   tbl_020A17F0    0x020A17F0  data
+ *   tbl_020A17D8    0x020A17D8  data
+ *   tbl_020A1824    0x020A1824  data
+ *   tbl_020A1844    0x020A1844  data
+ *   tbl_020A1874    0x020A1874  data
+ *   tbl_020A181C    0x020A181C  data
+ *   g_02148B2C      0x02148B2C  data
+ */
+#define reg_G3_TEXIMAGE_PARAM (*(volatile u32 *)0x040004A8)
+#define reg_G3_TEXPLTT_BASE   (*(volatile u32 *)0x040004AC)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+typedef int s32;
+typedef int BOOL;
+typedef s32 fx32;
+typedef enum 
+{
+  GX_OAM_SHAPE_8x8 = 0
+} GXOamShape;
+typedef enum 
+{
+  GX_TEXFMT_NONE = 0,
+  GX_TEXFMT_PLTT4 = 2,
+  GX_TEXFMT_PLTT256 = 4
+} GXTexFmt;
+typedef union 
+{
+  struct 
+  {
+    u32 attr01;
+    u32 attr23;
+  } w;
+  struct 
+  {
+    u32 y : 8;
+    u32 rsMode : 2;
+    u32 objMode : 2;
+    u32 mosaic : 1;
+    u32 colorMode : 1;
+    u32 shape : 2;
+    u32 x : 9;
+    u32 rsParam : 3;
+    u32 flipH : 1;
+    u32 flipV : 1;
+    u32 size : 2;
+    u32 charNo : 10;
+    u32 priority : 2;
+    u32 cParam : 4;
+    u32 _3 : 16;
+  } b;
+} GXOamAttr;
+typedef struct 
+{
+  int sizeS;
+  int sizeT;
+  GXTexFmt fmt;
+  BOOL bExtendedPlt;
+  int plttUse;
+  int mappingType;
+} ImageAttr;
+typedef void (*UVHook)(fx32 *s0, fx32 *t0, fx32 *s1, fx32 *t1, BOOL fh, BOOL fv);
+struct Ctx
+{
+  UVHook cb;
+  fx32 f04;
+  u32 f08;
+};
+extern struct Ctx g_02148B2C;
+extern const u16 tbl_020A17F0[3][4];
+extern const u16 tbl_020A17D8[3][4];
+extern const u32 tbl_020A1824[];
+extern const u32 tbl_020A1844[3][4];
+extern const u32 tbl_020A1874[3][4];
+extern const GXTexFmt tbl_020A181C[2];
+inline static GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
+{
+  return (GXOamShape) (oam->w.attr01 & (0x0000c000 | 0xc0000000));
+}
+
+inline static void G3_TexImageParam(GXTexFmt fmt, int gen, int s, int t, int repeat, int flip, int pltt0, u32 addr)
+{
+  reg_G3_TEXIMAGE_PARAM = (((((((addr >> 3) | (fmt << 26)) | (gen << 30)) | (s << 20)) | (t << 23)) | (repeat << 16)) | (flip << 18)) | (pltt0 << 29);
+}
+
+inline static void G3_TexPlttBase(u32 addr, GXTexFmt fmt)
+{
+  reg_G3_TEXPLTT_BASE = addr >> (4 - (fmt == GX_TEXFMT_PLTT4));
+}
+
+inline static int TexS_(u16 shape, u16 size) { return tbl_020A1844[shape][size]; }
+inline static int TexT_(u16 shape, u16 size) { return tbl_020A1874[shape][size]; }
+
+void func_02066B84(const GXOamAttr *oam, const ImageAttr *img, u32 texAddr, u32 plttAddr, fx32 *uv)
+{
+  GXOamShape shape = G2_GetOBJShape(oam);
+  u16 name = oam->b.charNo;
+  GXOamShape tmp = (shape & 0xc0000000) >> 30;
+  uv[4] = *((u16 *) ((((u8 *) tbl_020A17F0) + (((shape & 0x0000c000) >> 14) * 8)) + (tmp * 2)));
+  uv[5] = *((u16 *) ((((u8 *) tbl_020A17D8) + (((shape & 0x0000c000) >> 14) * 8)) + (((shape & 0xc0000000) >> 30) * 2)));
+  if (img->mappingType == 0)
+  {
+    G3_TexImageParam(img->fmt, 1, img->sizeS, img->sizeT, 0, 0, img->plttUse, texAddr);
+    if (img->fmt == GX_TEXFMT_PLTT256)
+      name >>= 1;
+    uv[0] = (name & (tbl_020A1824[img->sizeS] - 1)) << 15;
+    uv[1] = (name >> img->sizeS) << 15;
+  }
+  else
+  {
+    u32 addr = texAddr + (name << (((img->mappingType & 0x700000) >> 20) + 5));
+    G3_TexImageParam(img->fmt, 1, TexS_((shape & 0x0000c000) >> 14, (shape & 0xc0000000) >> 30), TexT_((shape & 0x0000c000) >> 14, (shape & 0xc0000000) >> 30), 0, 0, img->plttUse, addr);
+    uv[0] = 0;
+    uv[1] = 0;
+  }
+  uv[2] = uv[0] + (uv[4] << 12);
+  uv[3] = uv[1] + (uv[5] << 12);
+  {
+    BOOL fv = oam->b.flipV;
+    BOOL fh = oam->b.flipH;
+    if (fh)
+    {
+      fx32 t = uv[0];
+      uv[0] = uv[2];
+      uv[2] = t;
+    }
+    if (fv)
+    {
+      fx32 t = uv[1];
+      uv[1] = uv[3];
+      uv[3] = t;
+    }
+    if (g_02148B2C.cb)
+      g_02148B2C.cb(&uv[0], &uv[1], &uv[2], &uv[3], fh, fv);
+  }
+  {
+    GXTexFmt fmt = tbl_020A181C[oam->b.colorMode];
+    u16 pltt = oam->b.cParam;
+    u32 offs;
+    if (img->bExtendedPlt)
+      offs = pltt << 9;
+    else
+      if (fmt == GX_TEXFMT_PLTT256)
+      offs = 0;
+    else
+      offs = pltt << 5;
+    G3_TexPlttBase(plttAddr + offs, fmt);
+  }
+}
+
+

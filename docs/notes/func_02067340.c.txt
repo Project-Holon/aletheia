@@ -288,3 +288,26 @@ void func_02067340(const Surface *pSurface, const Cell *pCell)
 }
 
 
+
+==============================================================================
+2026-09-23 - wave 11 third lane (cluster_02066740).  Still DIFF, 1052/48.
+==============================================================================
+re-verified 2026-09-23 by tools/match.py: the source above is DIFF, 1052
+bytes against 1052, 48 concrete bytes out under ../2.0/sp2.  The residue is
+still exactly the four-register rotation (image r4 inst/currentOam base, r5
+pMtx, r6 surf, r7 &g_02148B48; compile r6, r7, r4, r5) and nothing else.
+Measured flat (48) this pass: pMtx declared before pOam; both declared and
+assigned in separate statements; the instance through a `pInst` local;
+the surface parameter copied into a local declared before or after the two
+pointers (the copy coalesces away).  In the image the two locals take the
+low colours and the parameter and the hoisted pool address the high ones,
+the opposite of what declaration order gives here, so the lever is likely
+in which of pOam / pMtx is a real variable in the original (e.g. pOam
+re-derived from pCurrentInstance_ inside the loop) rather than in order.
+Lever from the sibling that closed this pass (func_0206775C, EXACT): the
+flip write-back as four compound statements; this row's image writes it
+once, so it does not apply here.
+permuter best result line (wave 10, not re-run): best DIFF asm=365
+  bytes-out=46 size=1052/1052 mutations decl-order(flip<->pCache)
+/* best source, 1052 bytes against 1052, 48 concrete bytes out, ../2.0/sp2 */
+(unchanged: the source above in this note.)

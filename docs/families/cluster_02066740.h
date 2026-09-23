@@ -394,4 +394,46 @@ extern void func_02067998(struct Hooks *h, struct List *lst);
  * temps close its first half (704/32); see docs/notes/pkt_02066E30.c.txt.
  */
 
+/* ================================================================== *
+ * WAVE 11 ADDENDUM, third lane (2026-09-23) -- two rows CLOSED
+ * ================================================================== *
+ * func_02066998 EXACT (../2.0/sp2, sp2p2), src/matched/func_02066998.c.
+ * PART 1 IS NITROSYSTEM'S CELL-TRANSFER MANAGER, not a generic cell bank:
+ * g_02148B20 = { pFuncTransfer, numState, pStateArray }, each 0x30-byte
+ * cell is NNSG2dCellTransferState = { NNSG2dVRamLocation (3 u32),
+ * szDst +0x0c, pSrcNCGR +0x10, pSrcNCBR +0x14, szSrcData +0x18, bActive
+ * +0x1c, bDrawn +0x20, bTransferRequested +0x24, srcOffset +0x28, szByte
+ * +0x2c }.  So func_020640B0 / 020640CC / 020640D4 are the VRAM-location
+ * init / set / get (NNSi_G2dGetVramLocation), the -1 sentinel is
+ * NNS_G2D_VRAM_ADDR_NONE, and tbl_020A1808 is the VRAM-type -> GFD
+ * transfer-type table.  func_02066998 is the per-frame update: for every
+ * active state and every VRAM type whose request AND drawn bits are set,
+ * call pFuncTransfer(gfdType, vramAddr, src + srcOffset, szByte) (3D uses
+ * the NCBR, 2D the NCGR) and clear the request bit on success; clear bDrawn.
+ * Levers: the type loop variable is an ENUM bounded by its _MAX (that alone
+ * keeps the dead `cmp r7,#3 / bge` entry test every int counter folds);
+ * tbl_020A1808 declared NON-const (a const load sinks past the call and
+ * frees the register whose absence spills i/off -- the "volatile counters"
+ * earlier notes used are not needed); ShouldTransfer as one `a && b` inline;
+ * the type variable declared at function scope beside i.
+ *
+ * func_0206775C EXACT (../2.0/sp2, sp2p2), src/matched/func_0206775C.c.
+ * Levers: the mirrored x/y are two inlines RETURNING u16, bound to s16
+ * locals (the (s16)(u16) pair at each join); the coordinate is read into a
+ * local before the extent is added; and the flip write-back is FOUR compound
+ * statements, `&= ~HF; |= hf << 28; &= ~VF; |= vf << 29;` -- the front end
+ * keeps two of the four stores, the first already carrying the cleared V
+ * bit, which is the "first store already has flipV cleared" shape the
+ * wave-9 addendum read off the image.  GENERAL: when an image stores the
+ * same word twice with the second store's bits already cleared in the
+ * first, write the SDK-style clear/or pairs as separate compound
+ * statements, not one or two expressions.
+ *
+ * Still DIFF: func_02066B84 616/144 (u16-parameter texture-size inlines are
+ * the one new lever; residue is mappingType vs char name in r8/r1),
+ * func_02067080 704/37 (29 permuter; the extra callee-saved register is in
+ * the recentring half, not MulVec22), func_02067340 1052/48 (pure
+ * four-register rotation).  Measurements in the notes.
+ */
+
 #endif /* CLUSTER_02066740_H */

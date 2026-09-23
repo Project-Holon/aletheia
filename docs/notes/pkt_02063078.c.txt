@@ -595,3 +595,89 @@ u16 func_02063378(struct Obj02063378 *obj, struct ColorData *colors) {
     obj->cur_idx = obj->cur_idx + 1;
     return idx;
 }
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 lane: 0x02063378 as NitroSystem source, DIFF 4
+==============================================================================
+re-verified 2026-09-23: the best source above is DIFF 4 (196/196) as recorded.
+
+READING.  This range is NitroSystem g2d_OamManager.c.  struct Span/WinOam/
+WinAffine of cluster_02063000.h are one NNSG2dOamManagerInstance:
+{ u32 type; ManagedOamRegion attr (from +4, to +6, current +8);
+ManagedOamRegion affine (from +0xa, to +0xc, current +0xe); ...;
+BOOL bFastTransferEnable +0x14 }.  0x02063378 is
+NNS_G2dEntryOamManagerAffine(pMan, const MtxFx22 *mtx) -> u16 affine index,
+0xFFFE = NNS_G2D_OAM_AFFINE_IDX_NONE, with the SDK G2_SetOBJAffine inline
+(PA..PD = matrix >> 4 into the 4th halfword of four OAM entries).
+
+The source below reproduces everything but the mla triple WITHOUT the
+`*(volatile u16 *)` guard hack: three inline helpers, IsAreaValid_ as
+`return (cur <= to + 1) && (from <= to);`, GetCapacity_ as an if/else
+returning `(u16)(to - cur + 1)` or 0, and HasCapacity_ as
+`return (BOOL)(GetCapacity_(a) >= num);` -- the explicit (BOOL) cast is what
+keeps the image's materialised movhs/movlo pair (without it the guard folds
+to a bare branch, 184 bytes; `? 1 : 0`, if/return, a local all fold too).
+Still the same 4 bytes: type lr / base r3 / dest ip in the image, type r3 /
+base ip / dest ip compiled.  Measured this pass, all 4 or worse: bank as a
+struct array (.oam, &.oam[0], (g + type)->oam), split-assign base in the
+helper (both halves), a GetAffinePtr_(type, idx) helper, pointer then `+=`
+idx, 54 declaration orders of pAff/idx/type/base across three body shapes
+(declaration order does not move this triple, unlike 0x020691E0), base or
+type hoisted to the top of the function (worse: the base is then held
+across the guard).  Permuter: hill 800 (59 singles, flat), anneal 2000
+(flat).
+permuter best result line: best DIFF asm=20 bytes-out=4 size=196/196
+
+/* best source, 196 bytes against 196, 4 concrete bytes out, ../2.0/sp2 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef int s32;
+typedef int BOOL;
+typedef struct { u16 fromIdx; u16 toIdx; u16 currentIdx; } OamArea;
+typedef struct { u32 type; OamArea oam; OamArea affine; } OamMan;
+typedef struct { s32 _00, _01, _10, _11; } MtxFx22;
+typedef struct {
+    u16 _0, _1, _2; s16 PA;
+    u16 _4, _5, _6; s16 PB;
+    u16 _8, _9, _10; s16 PC;
+    u16 _12, _13, _14; s16 PD;
+} GXOamAffine;
+extern u8 g_02146BC8[];
+
+static inline BOOL IsAreaValid_(const OamArea *a)
+{
+    return (a->currentIdx <= a->toIdx + 1) && (a->fromIdx <= a->toIdx);
+}
+static inline u16 GetCapacity_(const OamArea *a)
+{
+    if (IsAreaValid_(a)) return (u16)(a->toIdx - a->currentIdx + 1);
+    else return 0;
+}
+static inline BOOL HasCapacity_(const OamArea *a, u16 num)
+{
+    return (BOOL)(GetCapacity_(a) >= num);
+}
+static inline GXOamAffine *GetAffineBuffer_(u32 type)
+{
+    return (GXOamAffine *)(g_02146BC8 + type * 0x540 + 0x100);
+}
+static inline void G2_SetOBJAffine(GXOamAffine *oam, const MtxFx22 *mtx)
+{
+    oam->PA = (s16)(mtx->_00 >> 4);
+    oam->PB = (s16)(mtx->_01 >> 4);
+    oam->PC = (s16)(mtx->_10 >> 4);
+    oam->PD = (s16)(mtx->_11 >> 4);
+}
+
+u16 func_02063378(OamMan *pMan, const MtxFx22 *mtx)
+{
+    if (HasCapacity_(&pMan->affine, 1)) {
+        const u16 idx = pMan->affine.currentIdx;
+        G2_SetOBJAffine(GetAffineBuffer_(pMan->type) + idx, mtx);
+        pMan->affine.currentIdx++;
+        return idx;
+    }
+    return 0xFFFE;
+}

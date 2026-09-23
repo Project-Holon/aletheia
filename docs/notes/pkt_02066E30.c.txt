@@ -1341,3 +1341,184 @@ trying here: read each flip bit into its own temp BEFORE the B50/B64 call
 (`fh = oam->flipH; hf = B50(g) ^ fh;`), which is what 0x02067340's image
 does, and route the instance reads through a small inline taking the
 instance pointer.
+
+==============================================================================
+2026-09-23 - wave 11 third lane (cluster_02066740).  0x0206775C CLOSED
+(src/matched/func_0206775C.c, EXACT under ../2.0/sp2 and sp2p2).
+0x02067080 still DIFF, 704/704, 37 out readable / 29 permuter.
+==============================================================================
+func_0206775C: three levers on top of the 572/95 source above: the
+mirrored x/y come from two inlines RETURNING u16 bound to s16 locals (95 ->
+65); inside each, the coordinate is read into its own local before the
+extent is added (65 -> 61); and the flip write-back is FOUR compound
+statements `&= ~HF; |= hf << 28; &= ~VF; |= vf << 29;` (61 -> EXACT).  The
+two-, three-statement and single-local spellings all leave the second
+stored value in r1 and push the y argument's `lsl` past the stores.  The
+file header records the measurements.
+
+func_02067080: re-verified 2026-09-23 by tools/match.py: DIFF, 704 bytes
+against 704, 37 concrete bytes out under ../2.0/sp2 (1.1p1: 680 bytes, 559
+out).  Measured this pass, all 37 or worse:
+  - MulVec22 accumulation orders: `_00*x + _10*y + 0x1000` (98),
+    `_10*y + _00*x + 0x1000` (103), `0x1000 + _10*y + _00*x` (37),
+    `_00*x + (_10*y + 0x1000)` (77); an explicit fx64 accumulator, block
+    or function scope (37);
+  - hw computed before the height lookup (37); dropping the tblH local
+    (78);
+  - the note's GXOamShape index temps (sz, sh*8) on the DOUBLE branch (37,
+    not the 32 recorded above on its own).
+READING OF THE RESIDUE this pass: the image needs FIVE callee-saved
+registers (push r4-r8) and the compile four plus pad (r3-r7).  The extra one
+is in the SECOND half: the image never gives the 17D8 base ip even though
+ip is free over its visible live range, so pre-scheduling some value that
+the image colours to ip (hw, `asr ip, r5, #1`) overlaps the base.  The first
+half's r8 (accumulator low word) is only the knock-on: once r8 is pushed the
+allocator prefers it over ip.  The lever is therefore in the recentring
+block's statement order or in how w/h are produced (NNS spells them
+through `NNS_G2dGetOamSizeX(&shape)`-style helpers taking the shape by
+pointer), not in MulVec22.
+permuter: anneal 2000 --types from the 37 source: plateau at 29 again.
+permuter best result line: best DIFF asm=145 bytes-out=29 size=704/704
+
+/* best source, 704 bytes against 704, 37 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02067080
+ * address:  0x02067080
+ * packet:   pkt_02066740
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF (704/704, 37 out)
+ *
+ * symbols:
+ *   g_02148B48      0x02148B48  data
+ *   tbl_020A17F0    0x020A17F0  data
+ *   tbl_020A17D8    0x020A17D8  data
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef int            s32;
+typedef long long      s64; typedef int BOOL;
+#define TRUE 1
+#define FALSE 0
+typedef s32            fx32;
+typedef s64            fx64;
+
+typedef enum {
+    GX_OAM_EFFECT_NONE = 0x0000,
+    GX_OAM_EFFECT_AFFINE = 0x0100,
+    GX_OAM_EFFECT_NODISPLAY = 0x0200,
+    GX_OAM_EFFECT_AFFINE_DOUBLE = 0x0300
+} GXOamEffect;
+
+typedef enum {
+    GX_OAM_SHAPE_8x8 = 0
+} GXOamShape;
+
+typedef struct { u32 attr01; u16 attr2; u16 _3; } GXOamAttr;
+typedef struct { fx32 x; fx32 y; } FVec2;
+typedef struct { fx32 _00; fx32 _01; fx32 _10; fx32 _11; } MtxFx22;
+
+struct Rig { u32 f00; u32 f04; };
+extern struct Rig *g_02148B48;
+extern const u16 tbl_020A17F0[3][4];
+extern const u16 tbl_020A17D8[3][4];
+
+static inline GXOamEffect G2_GetOBJEffect(const GXOamAttr *oam)
+{
+    GXOamEffect effect;
+    effect = (GXOamEffect)(oam->attr01 & 0x0300);
+    if (effect == GX_OAM_EFFECT_AFFINE || effect == GX_OAM_EFFECT_AFFINE_DOUBLE)
+        return effect;
+    return (GXOamEffect)(effect | (oam->attr01 & 0x30000000));
+}
+static inline GXOamShape G2_GetOBJShape(const GXOamAttr *oam)
+{
+    return (GXOamShape)(oam->attr01 & (0x0000c000 | 0xc0000000));
+}
+static inline void G2_SetOBJEffect(GXOamAttr *oam, GXOamEffect eff, int rsParam)
+{
+    if (eff != GX_OAM_EFFECT_AFFINE)
+        oam->attr01 = (oam->attr01 & ~(0x0300 | 0x3e000000)) | eff;
+    else
+        *(u32 *)oam = (*(u32 *)oam & ~(0x0300 | 0x3e000000)) | eff;
+}
+static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
+{
+    oam->attr01 = (oam->attr01 & ~(0x01ff0000 | 0x000000ff)) | ((u32)y & 0xff) | (((u32)x << 23) >> 7);
+}
+static inline s16 RepeatX(s16 x)
+{
+    if (x > 0xff)
+        x |= 0xff00;
+    return x;
+}
+static inline s16 RepeatY(s16 y)
+{
+    if (y > 0x7f)
+        y |= 0xff00;
+    return y;
+}
+static inline void MulVec22(const MtxFx22 *m, const FVec2 *src, FVec2 *dst)
+{
+    FVec2 tmp;
+    FVec2 *p;
+    if (src == dst)
+        p = &tmp;
+    else
+        p = dst;
+    p->x = (fx32)(((fx64)m->_10 * src->y + 0x1000 + (fx64)m->_00 * src->x) >> 12);
+    p->y = (fx32)(((fx64)m->_11 * src->y + 0x1000 + (fx64)m->_01 * src->x) >> 12);
+    if (p == &tmp)
+        *dst = tmp;
+}
+
+void func_02067080(const MtxFx22 *m, GXOamAttr *oam, const FVec2 *ofs)
+{
+    FVec2 pos;
+
+    pos.x = RepeatX((s16)((oam->attr01 & 0x01ff0000) >> 16)) << 12;
+    pos.y = RepeatY((s16)(oam->attr01 & 0xff)) << 12;
+    if (G2_GetOBJEffect(oam) == GX_OAM_EFFECT_AFFINE_DOUBLE) {
+        GXOamShape shape = G2_GetOBJShape(oam);
+        pos.x += *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2) << 11;
+        pos.y += *(u16 *)((u8 *)tbl_020A17D8 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2) << 11;
+    }
+    MulVec22(m, &pos, &pos);
+    if (g_02148B48->f04 != 0)
+        G2_SetOBJEffect(oam, g_02148B48->f04 == 2 ? GX_OAM_EFFECT_AFFINE_DOUBLE : GX_OAM_EFFECT_AFFINE, 0);
+    {
+        const u8 *tblH = (const u8 *)tbl_020A17D8;
+        GXOamEffect effect = G2_GetOBJEffect(oam);
+        GXOamShape shape = G2_GetOBJShape(oam);
+        int w = *(u16 *)((u8 *)tbl_020A17F0 + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
+        int h = *(u16 *)(tblH + ((shape & 0x0000c000) >> 14) * 8 + ((shape & 0xc0000000) >> 30) * 2);
+        int hw = w >> 1;
+        fx32 ox = hw << 12;
+        int hh;
+        fx32 dx = -ox;
+        fx32 dy;
+        u32 dbl;
+        dx += m->_00 * hw;
+        hh = h >> 1;
+        dx += m->_10 * hh;
+        pos.x += dx;
+        dy = -(hh << 12);
+        dy += m->_01 * hw;
+        dy += m->_11 * hh;
+        pos.y += dy;
+        dbl = (effect == GX_OAM_EFFECT_AFFINE_DOUBLE);
+        if (dbl & 1) {
+            pos.x -= ox;
+            pos.y -= hh << 12;
+        }
+    }
+    pos.x += ofs->x;
+    pos.y += ofs->y;
+    G2_SetOBJPosition(oam, pos.x >> 12, pos.y >> 12);
+}
