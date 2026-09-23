@@ -545,3 +545,127 @@ Levers from the brief, each measured once:
 Allocation tie stands; the sibling 0x02048330 colours the same loop right,
 so the difference is still a fact of this body not reached by declarations.
 re-verified 2026-09-23 by tools/match.py: DIFF, 468 bytes against 468, 18 concrete bytes out, 1.1p1
+
+2026-09-23 (wave 16, bg_sys/palanm lane) - 0x02048744, DIFF 18 -> 14 bytes.
+Lever: the loop counters as `long i, j;` (the TwlSDK s32 is `signed long`,
+and mwcc treats long and int as different types for colouring).  That puts
+setup->objTbl and j in r8 as the image has them; the residue is now ONE
+different pair: resIdx (image r7) and i (image sb) come out swapped
+(`ldrh sb, [r1, #0x16]` / `mov r7, #0` against `ldrh r7` / `mov sb, #0`).
+Measured from the long source, all 468 bytes unless noted:
+  long i; int j (either order) 25;  int i; long j 18;  unsigned long i, j 19
+  long j, i (declaration order swapped) 25;  i and j as separate lines 14
+  long objCount 20;  long objIdx 14;  u32/unsigned long/long resIdx 476
+  helper parameters u32, int or long 14 (long helpers plus long resIdx 58)
+  unsigned long u32 typedef; long clear/line; long returns on the callees 14
+  enum i 18, enum j 18, enum type on func_02046F50 18 (from the int source)
+  permuter hill 600 and anneal 1500 --types from the long source: flat at 14.
+/* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u16 resIdx;
+    u16 resCount;
+    u16 objIdx;
+    u16 objCount;
+} Unit;
+
+typedef struct {
+    void **res;
+    u8    *resStat;
+    u16    resCount;
+    void **obj;
+    u8    *objStat;
+    u16    objCount;
+    Unit   unit[0x40];
+    u16    heapID;
+} Util;
+
+typedef struct {
+    u16 anmResIdx;
+    u16 anmDatIdx;
+} AnmSetup;
+
+typedef struct {
+    u16       mdlResIdx;
+    u16       mdlDatIdx;
+    u16       texResIdx;
+    u16       pad_06;
+    AnmSetup *anmTbl;
+    u16       anmCount;
+} ObjSetup;
+
+typedef struct {
+    void     *resTbl;
+    u16       resCount;
+    ObjSetup *objTbl;
+    u16       objCount;
+} Setup;
+
+extern const char g3d_util_file[];
+extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void  func_020307B0(void *p);
+extern int   func_02046F50(void *res, int type);
+extern void  func_02046FF8(void *res);
+extern int   func_02047348(void *res);
+extern void *func_02047400(void *mdl, u16 mdlIdx, void *tex);
+extern void *func_02047564(void *rnd, void *res, u16 datIdx);
+extern void *func_0204767C(void *rnd, void **anm, u16 anmCount);
+
+static inline void *getRes(Util *util, u16 resIdx, u16 idx)
+{
+    return util->res[resIdx + idx];
+}
+
+static inline void *useRes(Util *util, u16 resIdx, u16 idx)
+{
+    util->resStat[resIdx + idx] = 1;
+    return util->res[resIdx + idx];
+}
+
+void func_02048744(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+{
+    u16 resIdx = util->unit[unitIdx].resIdx;
+    u16 objIdx = util->unit[unitIdx].objIdx;
+    u16 objCount = util->unit[unitIdx].objCount;
+    void *mdl;
+    void *tex;
+    void *rnd;
+    void **anm;
+    const ObjSetup *os;
+    void *a;
+    long i, j;
+
+    for (i = 0; i < objCount; i++) {
+        os = &setup->objTbl[i];
+        mdl = useRes(util, resIdx, setup->objTbl[i].mdlResIdx);
+        if (os->texResIdx != setup->objTbl[i].mdlResIdx) {
+            if (func_02046F50(getRes(util, resIdx, os->texResIdx), 1) == 1) {
+                tex = useRes(util, resIdx, os->texResIdx);
+            } else {
+                tex = getRes(util, resIdx, os->texResIdx);
+                func_02046FF8(tex);
+            }
+        } else {
+            tex = mdl;
+            if (func_02047348(mdl) == 0)
+                func_02046FF8(mdl);
+        }
+        rnd = func_02047400(mdl, os->mdlDatIdx, tex);
+        anm = func_02030734((heapID & 0x7fff) | 0x8000, os->anmCount * 4, 1,
+                            g3d_util_file, 609);
+        for (j = 0; j < os->anmCount; j++) {
+            if (os->anmTbl[j].anmResIdx == 0xff)
+                a = 0;
+            else
+                a = func_02047564(rnd, getRes(util, resIdx, os->anmTbl[j].anmResIdx),
+                                  os->anmTbl[j].anmDatIdx);
+            anm[j] = a;
+        }
+        util->obj[objIdx + i] = func_0204767C(rnd, anm, os->anmCount);
+        func_020307B0(anm);
+    }
+}
+re-verified 2026-09-23 by tools/match.py: DIFF, 468 bytes against 468, 14 concrete bytes out, 1.1p1

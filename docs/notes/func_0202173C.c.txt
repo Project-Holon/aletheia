@@ -384,3 +384,29 @@ this wave) is the right family of fix: `a` as u16, s16, u8 or s8 moves
 `str r3, [sp, #8]` two slots earlier (still behind `adds r5, r0`) and moves
 the reload ahead of `ldr r3, [sp, #0x38]`: 34 out.  Narrowing b/c/d as well
 (u8/u16/s16 in 48 combinations) costs 4 bytes (236).  Not closed.
+
+========================================================================
+APPENDED 2026-09-23, wave 16 (bg_sys/palanm lane): still DIFF 33 (twin).
+========================================================================
+The listing still gives both entries a 2-byte extent (0x0202173C, 0x02021848
+are seeded but the listings were not regenerated); match.py one compares the
+full 232 regardless.  Measured on 0x02021848, all 232 bytes:
+  u8 return on func_02021930 (its matched body)                        33
+  func_020219C4 prototype u8/u8/u16 b,c,d, own b,c,d u8/u8/u16          33
+  same prototype with own b,c,d u32 (narrowing at the call)     244 / 229
+  func_020219C4 unprototyped `extern void func_020219C4();`             33
+  `a` u16/u8/s16/s8 (with or without the unprototyped callee)           34
+  `a` enum, b/c/d enum, done enum, `a` long, done long, s32/u32 as long 33
+  p as void * with a typed local; enum `done`                           33
+  volatile local copy of a, any declaration position                    35
+  volatile parameter a                                          232 / 207
+  ../2.0/sp2, sp2p2 (s32 and u16 a)                             236 / 165+
+Reading worth keeping: the image's prologue order is the one a compile
+gives when the store of `a` does NOT compete for a load-delay filler slot
+(the volatile-parameter compile puts `movs r6,#0` and `movs r4,#0` exactly
+where the image has them), and the in-loop reload `ldr r2,[sp,#8]` is not
+hoisted above the outgoing-argument stores to [sp]/[sp,#4].  Both say the
+image treats [sp,#8] as a memory object ordered with the other stack
+stores, not as a register spill.  No C spelling found that makes a
+non-volatile local behave that way.
+/* best source: unchanged, the first section's source (232/232, 33 out) */

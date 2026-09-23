@@ -248,3 +248,17 @@ the first one).  In the image loop 2 names mt[kk] first in the issue order yet
 keeps the scaled form, so the image's source still names another mt access
 before mt[kk]; no spelling that does so keeps the orr operand order.
 re-verified 2026-09-23 by tools/match.py: DIFF, 340 bytes against 340, 16 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-23 (wave 16, bg_sys/palanm lane): still DIFF 16
+================================================================================
+New readings, all 340 bytes and 16 out: UL-suffixed masks; mt/mag01/y as
+unsigned long (the reference implementation's types); kk as long; kk at
+function scope; y at block scope; reassociated subscripts `(mt + 1)[kk]`,
+`(mt + 397)[kk]`, `(mt - 227)[kk]`, `mt[1 + kk]`, `(&mt[1])[kk]`; a volatile
+cast read of mt[kk] only; const mag01.  Whole-struct volatile mt: 352.
+enum kk: 348.  Diff detail worth keeping: loop 2 differs in ONE instruction
+(the [ip] versus [r0, r1, lsl #2] base of the mt[kk] load); only loop 1 also
+has the issue-order swap.  The store to mt[kk] is scaled in both compile and
+image, so the image's load and store share one address form.
+/* best source: unchanged (WHAT THE C IS, 340/340, 16 out) */

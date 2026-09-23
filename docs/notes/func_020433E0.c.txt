@@ -545,3 +545,12 @@ APPENDED 2026-09-23, wave 15 (bg_sys/backup lane).  Unchanged at 6 bytes.
     kept (6).  ../2.0/sp2 and ../2.0/sp2p2 on the best source and the
     getpair/mask variants: 6, same pair.  Allocation cap stands.
 re-verified 2026-09-23 by tools/match.py: DIFF, 188 bytes against 188, 6 concrete bytes out, 1.1p1
+
+APPENDED 2026-09-23, wave 16 (bg_sys/palanm lane).  CLOSED: EXACT, 188/188.
+  Filed as src/matched/func_020433E0.c (shard pkt_020433E0).  The lever is
+  docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md: the two
+  mapping words are GXOBJVRamModeChar enum fields passed straight into the
+  SDK inlines GX_SetOBJVRamModeChar / GXS_SetOBJVRamModeChar (enum parameter),
+  and the descriptor is `const struct *` (non-volatile).  Measured: same body
+  with u32 fields and u32 parameters 33 out; enum but non-const or volatile
+  descriptor 29; enum with a/b locals kept 6 (the old cap).

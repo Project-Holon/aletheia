@@ -23,10 +23,10 @@
  *   - PC24 0x027300F0 and 0x0272FEF4: ARM9i / TWL-ltd code, outside every
  *     delinked region, so no listing labels them (ten bl sites image-wide
  *     reach them, none traced). Class needed: label.
- *   - ABS32 0x0206DBF4: an unlabelled 12-byte leaf (mov r1,#0; str r1,[r0];
- *     bx lr) sitting inside func_0206DBDC's listing extent, so sole-ref/code
- *     refuses it. Seeding 0x0206DBF4 in layout/function_starts.txt (and
- *     matching it in pkt_0206DB40) would clear this site.
+ *   - ABS32 0x0206DBF4: CLEARED 2026-09-23 (wave 16). The 12-byte leaf is
+ *     filed EXACT as src/matched/func_0206DBF4.c (shard pkt_0206DC00) and
+ *     the site now resolves as `matched`: 12 of 14 relocations resolve,
+ *     the two TWL-ltd PC24 sites above are the whole remaining cap.
  *
  * symbols:
  *   g_020A84C0     0x020A84C0  data

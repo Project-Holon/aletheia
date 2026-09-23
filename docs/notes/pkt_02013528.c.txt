@@ -308,3 +308,14 @@ Tried this wave, all DIFF with the identical residue unless noted:
    with a plain u32 fourth parameter and no stack arguments; adding a stack
    argument or a local array there keeps store-first.  The difference here
    is not the parameter type.
+
+==============================================================================
+wave 16 (2026-09-23, tail lane): func_02013528 still DIFF, 6 out
+==============================================================================
+
+`const void *a1` on the read-only pointer parameter (with const on the two
+callee prototypes that receive it): 6 out, the identical `str r3, [sp]`
+residue.  The source above rebuilt with externs func_020130C4(void *),
+func_0201320C(u32 *), func_02013360(void *, const void *, u32 *),
+func_0201333C(void *, const void *, u32), func_0200846C(u32),
+func_0201A920(u32) reproduces the 6-out point directly.

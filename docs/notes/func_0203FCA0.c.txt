@@ -766,3 +766,16 @@ trailing permuter lines stripped; it reproduces 1860 / 1171 out):
 Nothing moved; the residue is the affine-arm colouring the wave 12 section
 describes, 16 bytes of cross-jump plus the rotation, not a single-site lever.
 re-verified 2026-09-23 by tools/match.py: DIFF, 1860 bytes against 1876, 1171 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 16 (bg_sys/palanm lane).  CLOSED: EXACT, 1876/1876.
+==============================================================================
+Filed as src/matched/func_0203FCA0.c (shard pkt_0203FCA0).  The wave 11/12
+SDK inline setters were right in shape; what they lacked was the SDK's ENUM
+parameter types (GXBGScrSizeText/Affine, GXBGColorMode, GXBGScrBase,
+GXBGCharBase, GXBGExtPltt, GXBGAreaOver).  With enum parameters the type-0
+store no longer cross-jumps into the shared tail and the affine arms colour
+as the image does.  The identical source with int parameters: 1860 / 1171.
+Same lever as docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md.
+The type-2 arm is not the SDK's 256x16 setter (no 0x80 ext-mode bit in the
+image); it is written as a game-side inline with charBase before screenBase.
