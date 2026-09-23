@@ -28,8 +28,8 @@ percent is. The older sections below are kept for the record.
   recompiles every file claiming packet X and writes `layout/matched/arm9/pkt_X.json`. Only those shards
   count. A `status:` line in a file header is a claim, never evidence.
 - **Two figures.** Exact coverage = shard bytes over the denominator; reproduced coverage adds the
-  src/pending files whose FRESH verdict is MATCH (scratchpad `promote_fast.py --dry` then
-  `pending_pct.py`). The denominator is all ARM9 static code minus SDK symbols (`layout/symbols_sdk.txt`,
+  src/pending files whose FRESH verdict is MATCH (`tools/session/promote_fast.py --dry` then
+  `tools/session/pending_pct.py`). The denominator is all ARM9 static code minus SDK symbols (`layout/symbols_sdk.txt`,
   from `tools/libmatch.py`, plus interior labels inside sized symbols) and the MSL runtime
   (`layout/runtime_arm9.txt`). `python3 tools/worklist.py --summary` prints it.
 - **Every source-changing commit** rebuilds the ROM from the split units (`build.py --split --pack`,
@@ -58,13 +58,13 @@ percent is. The older sections below are kept for the record.
 | seed round 5, wave 13: 8 lanes, 60 exact; seed round 6 | 87.65 | 88.49 | `7c2177b` |
 
 234 functions closed in 14 hours of wall clock across 40 lanes; 31 commits, ROM byte-identical at every
-one. Lane reports: scratchpad `reports/wave1{0,1,2,3}_*.md`; the running log: scratchpad `waves.md`.
+one. Lane reports: `docs/sessions/2026-09-23/reports/wave1{0,1,2,3}_*.md`; the running log: `docs/sessions/2026-09-23/waves.md`.
 
 ### 2. The workflow that produced it (the wave loop)
 
-1. **Pick targets.** `python3 scratchpad/remaining.py` lists the upper-half pseudo-family clusters
+1. **Pick targets.** `python3 tools/session/remaining.py` lists the upper-half pseudo-family clusters
    (`pseudo_families.json`, adjacency plus shared callees) with their open functions, sizes, ISA and
-   state (N = a note with a best source exists, U = untouched, P = pending). `python3 scratchpad/families.py`
+   state (N = a note with a best source exists, U = untouched, P = pending). `python3 tools/session/families.py`
    does the same for the anchored families (original source files from `__FILE__` strings,
    `layout/file_anchors.txt`). Rank by open bytes; take clusters and families whose header
    `docs/families/<name>.h` or `cluster_<start>.h` exists (a lane writes it first when missing).
@@ -78,9 +78,9 @@ one. Lane reports: scratchpad `reports/wave1{0,1,2,3}_*.md`; the running log: sc
    EXACT in src/matched, MATCH in src/pending, DIFF as an appended note section with a best-source
    marker; never edit layout/, tools/, asm/; never spawn subagents; end with the shard verify; write the
    report to scratchpad `reports/` and hand back one line.
-3. **Fold in each lane as it reports.** `scratchpad/foldin.sh` (worklist refresh, pending re-verify,
+3. **Fold in each lane as it reports.** `tools/session/foldin.sh` (worklist refresh, pending re-verify,
    pending figure, split build, ROM build and sha1, treemaps, and a list of untracked src/matched files
-   split into sharded and unsharded), then `scratchpad/commitset.sh "<label>" <prev exact> <prev repro>`
+   split into sharded and unsharded), then `tools/session/commitset.sh "<label>" <prev exact> <prev repro>`
    (README figure, stage only sharded sources plus shards, docs and pending, commit with both figures
    and deltas, push). Files another lane has filed but not yet sharded are held out of the commit; they
    go in when their shard exists. Header-only reports get a "no coverage change" commit.
@@ -173,17 +173,17 @@ Does not work, or is exhausted:
 - Seed rounds 3 to 6: 33 starts added (MSL qsort/rand/srand/__StringRead, callbacks, switch defaults,
   leaves and followers), one bogus start removed (0x020202CC was the middle of func_02020298; a pending
   header had misnamed a tail-call target). Denominator 394940 -> 393066 net of the SDK rulings.
-- Scratchpad helpers (session-specific, in
-  `/private/tmp/claude-501/-Users-ilias-Documents-aletheia/0da4c159-a458-434b-9491-68afdc3fd61a/scratchpad`):
-  `foldin.sh`, `commitset.sh`, `remaining.py`, `families.py`, `promote_fast.py`, `pending_pct.py`,
-  `waves.md` (the log with every owner decision), `assigned.txt`, `reports/`. Copy them into the repo's
-  tools/ if a new machine continues the work; nothing in the repo depends on them.
+- Session helpers are preserved in the repo: `tools/session/` (`foldin.sh`, `commitset.sh`,
+  `remaining.py`, `families.py`, `pseudo_families.py`, `promote_fast.py`, `pending_pct.py`,
+  `pseudo_families.json`, README with usage) and `docs/sessions/2026-09-23/` (`waves.md`, the log with
+  every owner decision; `assigned.txt`; `reports/`, one file per lane plus the overnight summary). The
+  two shell scripts take the scratchpad path from `$ALETHEIA_SCRATCH`.
 
 ### 6. Where the remaining 12.35 percent is (48524 open bytes, 240 functions)
 
 - **Pending, byte-correct, blocked on evidence: 33 files, 3310 bytes** (src/pending; the blocking class is
   in each header). Overlay callees dominate; a few wait on a seed or a unit member line.
-- **Upper-half clusters: 39 functions, 6438 bytes** (scratchpad `pseudo_remaining.txt`). Of substance:
+- **Upper-half clusters: 39 functions, 6438 bytes** (`tools/session/pseudo_remaining.txt`). Of substance:
   pkt_0206EB00 three ties (1672 B), MSL `__dec2num` 0x0209739C (1492 B, 721 out, never had a library-shape
   attempt: write it from the MSL source shape), 0x02067080 DoAffineTransforme_ (2 out after wave 13),
   0x020681E4 g2d_Font (10 out), 0x02051C88, the pending 0x0206DC00.
