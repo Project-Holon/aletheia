@@ -83,3 +83,20 @@ cluster and indexes them as a jump table.
 
 No C was written and none should be.  No source filed in src/matched or
 src/pending.  Addresses are Black-image addresses.
+
+== wave 11 appendix, 2026-09-23: NOT FUNCTIONS -- interior of TwlSDK libmi ==
+These addresses are interior kernels of two SDK `asm` functions that
+layout/symbols_sdk.json already matched over their whole extent:
+MI_CpuCopy 0x02082EA4 (752 bytes, 752/752 concrete, to 0x02083194) and
+MI_CpuMove 0x02083194 (788 bytes, 785/788 concrete, to 0x020834A8).
+0x02082F48 is entered by `beq` at 0x02082F30 inside MI_CpuCopy; the kernels
+pop {r4-r10, lr} without pc and fall into the shared tail.  They are open
+only because the worklist excludes an SDK symbol's start and not its body.
+No best source exists and none is filed on purpose (a fragment file would
+invent a function boundary); no permuter run is possible without a source.
+Integrator: drop the interior starts 0x02082F48 0x02082F90 0x02083028
+0x020830C0 0x02083250 0x02083298 0x02083334 0x020833D0, or let the sdk class
+cover a libmatch symbol's full size.  The wave-7 "MSL memmove" reading of
+0x02083298.. is corrected: the library is libmi (MI_CpuMove).
+docs/families/cluster_02083028.h, cluster_02083298.h.
+re-verified 2026-09-23: SDK interior (libmatch full-extent), no source

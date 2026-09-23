@@ -76,3 +76,16 @@ Wave note, 2026-09-21.  DIFF / not-C.  No source filed.
 
 No file written to src/matched/ or src/pending/.  Verdict recorded: DIFF.
 re-verified 2026-09-21: no recoverable source in this note
+
+== wave 11 appendix, 2026-09-23: FILED EXACT as an asm function ==
+Supersedes sections 2-3's "not reachable" conclusion (right about C, wrong
+about the file): src/matched/func_02081E7C.c is a CodeWarrior `asm` body,
+EXACT under dsi/1.1p1 and under ../2.0/sp2, 796 bytes, 0 relocation sites,
+shard layout/matched/arm9/pkt_02081E7C.json.  Same class as func_020834B8
+and func_02087EA0.  The negative pc-relative K loads assemble verbatim from
+their literal offsets.  Identification sharpened: it is the SHA-1 block
+function of TwlSDK libmath (callers MATHi_SHA1ProcessBlockForOverlay, bl at
+0x020812FC, and MATHi_SetOverlayTableMode, pool word 0x020813D4), not game
+code and not MD5.  docs/families/cluster_02081E7C.h.  Permuter not run: the
+C best (988 bytes against 796) is a SIZE result and the asm body is EXACT.
+re-verified 2026-09-23: EXACT (asm), 1.1p1 and ../2.0/sp2
