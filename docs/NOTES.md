@@ -1056,3 +1056,7 @@ offset against the thing it describes:
 
 It passes on the baseline and on the size-changed ROM, and it is what would
 have caught any of the five fields above being left stale.
+
+## Library C in the denominator (2026-09-23)
+
+MSL library C counts as game code in the exact and reproduced coverage figures, because no MSL archives exist on disk to give a pattern basis for excluding them. The runtime table (`layout/runtime_arm9.txt`) excludes only hand-written assembly, never MSL C.
