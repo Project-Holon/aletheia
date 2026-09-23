@@ -354,3 +354,32 @@ double func_020979C0(double x, double y)
 	else HI(z) += (n<<20);
 	return s*z;
 }
+
+==========================================================================
+APPENDED 2026-09-23, wave 17 (lane 17I, library_code): still 25 out
+==========================================================================
+Identity re-checked: fdlibm e_pow.c with the MSL edits listed above; the
+residue is a pure 3-cycle of r6/r7/r8 over 0x0BC8..0x1170 (image r6 = our
+r8, image r7 = our r6, image r8 = our r7): 23 differing words, every one a
+register field.  Measured on the wave-17 best source (dsi/1.2 unless noted):
+   1. baseline re-verified: 25
+   2. final `else HI(z) = j;` (5.3 SET_HIGH_WORD spelling): 4484 B, 78
+   3. ss,s2,s_h,s_l,t_h,t_l at function scope: 25
+   4. n0 removed, the sign test through n (5.3: n reused for sign and
+      exponent): 1635
+   5. `z = s*z; return z;`: 45
+   6. `j = HI(z)+(n<<20);` one statement: 30 (adds a j/r2/r3 swap)
+   7. `double y1,t2,t1,...`: 25
+   8. `s = (...)? -one: one;`: 2324
+   9. n first in the int list: 61
+  10. ints declared before doubles: 25
+  11. `double y1,...` line before `double z,...`: 146
+  12. s last in its line: 25
+  13. block-scoped `i32 n` in the log2 branch: 77
+  14. tail `n = 0` before `k = ...`: 25
+  15. z_h,z_l block-scoped in the log2 branch: 25
+  16. s block-scoped over the tail: 25
+  17-20. front ends 1.2p1, 1.3, 1.3p1: 25; 1.6sp1: 69
+  21-22. -O4,s: 3460; -O3,p: 25
+No lever moves the rotation; the declaration order and scope levers are
+exhausted.  Best source unchanged (the wave-17 source above).

@@ -8,3 +8,13 @@ function.  Nothing to decompile.
 re-verified 2026-09-21: no recoverable source in this note
 re-checked 2026-09-23 (wave 16): still not code (the listing decodes Thumb-2
 cbz/cbnz and cpsid, which the ARM946E-S does not execute); nothing to write.
+wave 17 (lane 17I): identified.  0x020A8FE6 is inside a table of 237
+20-byte records, 0x020A8BE0..0x020A9E64 (0x1284 bytes), loaded as a
+begin/end pair by the pool words at 0x0207915C / 0x02079158 (code at
+0x02079098: count = (end - begin) / 20, `mla r0, idx, #0x14, base`).
+Twenty-byte high-entropy records read as SHA-1 digests.  0x020A8FE6 is
+record 51 + 10 bytes; the halfword 0xB50E decodes as Thumb push {r1-r3,lr},
+which is what the prologue sweep seeded.  The layout fix: declare
+0x020A8BE0..0x020A9E64 as one data object (both ends are pool-attested in
+data_objects.txt) so the Thumb prologue sweep does not seed inside it,
+which removes func_020A8FE6 and packet pkt_020A8FE6's code row.

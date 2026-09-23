@@ -57,8 +57,11 @@
 # 2026-09-23: the 0x020979BC/0x020979C0 _msl_double_kernel row was removed. It is MSL
 # __ieee754_pow, C code 25 bytes from matching under dsi/1.2 (docs/notes/pkt_020979C0.c.txt),
 # so it does not belong in this table of hand-written assembly.
+#
+# 2026-09-23: the 0x02098B48 _msl_double_fn_1 row was removed for the same reason. Its body
+# is MSL __ieee754_rem_pio2, now matched as C under dsi/1.2 (docs/notes/pkt_02098B44.c.txt,
+# src/matched/unit_02098B44.c).
 0209AC04  _double_arith_prelude                            MSL/runtime.a  arm9_main
 02094B8C  _msl_scanf_strtod_core                           MSL/runtime.a  arm9_main
-02098B48  _msl_double_fn_1                                MSL/runtime.a  arm9_main
 02099228  _msl_double_minimax_poly                        MSL/runtime.a  arm9_main
 0209953C  _msl_double_fn_2                                MSL/runtime.a  arm9_main

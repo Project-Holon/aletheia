@@ -268,3 +268,11 @@ returns r2 and the quotient is copied r0->r2->r0.  The image keeps v in r0
 s64 t = v local, u32 parameter with (s64)(s32)v, (u32) and (s32) casts on the
 assignment, static inline s32 and s64 helpers; anneal 2000 from the
 assignment form, flat.  The 44-byte s64-return form (3 out) stays the best.
+
+===== wave 17 lane untried_small (2026-09-23): still DIFF 3 out =====
+Residue is one register: the image loads the mode byte through r1, the
+compiler through r3. Measured, all 3 out at 44 bytes: const extern tables;
+struct-typed globals (A.mode at +0x1e, B.rate at +0x16); a dead second
+parameter reused for the mode; a u8 local for the mode; an s64 local for
+the product. s32 early-return and assign forms with the structs: 48 bytes,
+20 out. v * rate operand order: 40 bytes, 34 out.

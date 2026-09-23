@@ -198,3 +198,12 @@ permuter best result line:
   best      DIFF   asm=10    bytes-out=2    size=200/200   (hill: 280 sites, no
             single mutation improves; anneal: 2000 candidates, no improvement)
 re-verified 2026-09-22 by tools/match.py: DIFF, 200 bytes against 200, 2 concrete bytes out, 1.1p1
+
+==========================================================================
+2026-09-23, wave 17 (lane 17I, library_code).  EXACT, filed.
+==========================================================================
+MSL string.c strcpy spelling: the mask as `t = w + K1; t &= ~w; t &= K2;`
+on one local in both tests, the loop as `do { ... if (t) goto adjust; }
+while (1)`, `adjust: destb += 4;`.  EXACT under dsi/1.1p1 and dsi/1.2 on
+the first compile.  Filed as src/matched/func_02094798.c (1.1p1); idiom
+docs/idioms/mask-built-by-compound-statements-picks-the-accumulator.md.

@@ -331,3 +331,13 @@ The two word stores through a temp still merge to `stm` under 1.1p1 (the
 temp is spilled to the frame as well, hence +8 bytes).  The 2.0 sp2 pin is
 1736 bytes (wave 16), with none of the documented tells.  Not filed.
 /* best source: unchanged (the wave-16 source above) */
+
+==========================================================================
+2026-09-23, wave 17 (lane 17I, library_code).  EXACT under dsi/1.2, filed.
+==========================================================================
+`match.py tu --arm --cc 1.2` on the wave-16 source: EXACT, 1760 bytes laid
+out, 55 of 55 relocations resolved (npio2_hw and two_over_pi now resolve
+through sole-ref/data, so the MATCH cap recorded above no longer applies;
+the 18-byte prologue residue recorded in wave 16 is gone at the current
+listing extent).  Filed as src/matched/unit_02098B44.c, compiler 1.2, the
+same pin as __ieee754_pow.

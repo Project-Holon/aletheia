@@ -144,3 +144,17 @@ Verified with:
         --addr 0x02073438 --cc ../2.0/sp2 --arm --diff
 
 2026-09-23, wave 13: CLOSED EXACT (src/matched), ../2.0/sp2: func_02075BAC takes three arguments (fader, target, frames); fadeFrame is its third.
+
+================================================================
+APPENDED 2026-09-23, wave 17 lane untried_small
+================================================================
+0x02072F5C EXACT (1.1p1): three parameters, the third forwarded untouched to
+func_02075BAC (arity from its body: r2 stored to +0x0C); r0..r2 live puts the
+null-test load in r3. One measurement off: the || guard (48 bytes).
+0x02072EA8 EXACT under ../2.0/sp2 (kept bxeq branch is the tell; every dsi
+front end predicates to 28 bytes, 15 out; volatile slot, pointer local,
+struct field, inline helper all 15 out under 1.1p1).
+0x02075BAC EXACT under ../2.0/sp2 (1.1p1 9 out, ../1.2/sp2 22 out);
+func_02075BD4 declared with one parameter, read from its body.
+The eleven wrappers 0x02072F88..0x020730B8 are not retried here; a dead
+second parameter on 0x02072F88 stays 2 out under 1.1p1, ../2.0/sp2 untried.

@@ -343,3 +343,19 @@ FUNC_0200E0BC -> still DIFF, and the residue is a named family wall
     byte for byte - same cause, same size.  The wall is now three functions
     (0x0200E0BC, 0x02010DCC, 0x02010DF4), not one.
 re-verified 2026-09-21 by tools/match.py: CCERR, n/a bytes against n/a, n/a concrete bytes out, pkt_0200E0BC.c:35: declaration syntax error
+
+================================================================
+APPENDED 2026-09-23, wave 17 lane untried_small
+================================================================
+FUNC_0200E0E8 -> EXACT, src/matched/func_0200E0E8.c. Before: 60 bytes, 37 out
+with the Rec table; the `& 0x7ff` is a u32:11 bitfield (lsls/lsrs pair) read
+through an element pointer walked in a while loop beside the index (25 out as
+a for loop, 33 out indexed, 31 with u16 counters).
+
+FUNC_0200E0BC -> still DIFF 9 out. Correction: the best source above sets
+r = i on the wrong arm; the image stores i when value < tbl[i].b. With the
+Rec table (const, .b) and u32 i plus the redundant `if (i >= 4) break;` it is
+44 bytes, 9 out, the same pool-load-in-preheader wall. Measured: int i, u16
+value, u32 r, while form, do-while under explicit if (all 40 bytes, 35-37
+out, entry test deleted); r declared first (15); element pointer local and
+a const table pointer local (9); early return (36 bytes).
