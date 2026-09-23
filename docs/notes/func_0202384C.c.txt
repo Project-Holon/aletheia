@@ -377,3 +377,5 @@ through a smaller window.
 /* (the source recorded earlier in this note, unchanged) */
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 98 bytes against 104, 55 concrete bytes out, 1.1p1
+
+closed 2026-09-23 (wave 11): EXACT* as src/matched/func_0202384C.c.  func_020237B8's third argument is w->f14 (not 0), and the call is written in both outer arms of `if (y <= f14) ... else if (y <= 2*f14) ... else ...` and cross-jumped.

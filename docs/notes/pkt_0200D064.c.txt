@@ -242,3 +242,25 @@ u32 func_0200D064(u8 *p, u16 id)
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 72 bytes against 72, 42 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 (musical_dist_save lane): 72/42 holds
+==============================================================================
+
+/* best source, 72 bytes against 72, 42 concrete bytes out, 1.1p1 */
+
+(the source above, unchanged; standing permuter result from it:
+      best DIFF asm=180 bytes-out=47 size=74/72 -- walks off the size,
+      so 72/42 remains the recorded point)
+
+The image does NOT hoist `p + (x >> 3)` out of the four-row loop: it forms
+`p + (u16)i * 0x54`, then `+ off`, then `+ 0x5c`, every iteration, which is
+why it needs 0x54 in r6 and four callee-saved registers.  Shapes measured
+this pass, all 74 bytes and 44-48 out: an inline `CheckRow(struct Blk37 *p,
+u16 row, u16 x)` over `p->unk05C[row][x >> 3]` (the `(u16)i` in the image
+is what a u16 row parameter gives), the same over a raw `u8 *` and over a
+`CheckBit(p->unk05C[(u16)i], x)` row pointer, the `r = 1` preset with the
+struct row expression, `(p->unk05C[(u16)i] + off)[0]`, and `*((u8 *)p +
+(u16)i * 0x54 + off + 0x5C)`.  2.0/sp2: 76, 53.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 72 bytes against 72, 42 concrete bytes out, 1.1p1

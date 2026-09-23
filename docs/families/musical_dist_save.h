@@ -618,4 +618,23 @@ u32 func_0200D564(struct Blk38 *p);
 /* 0x0200D58C  return 1 if unk31 is already zero, 0 otherwise. */
 u32 func_0200D58C(struct Blk38 *p);
 
+/* ------------------------------------------------------------------ *
+ * ADDED 2026-09-23 (wave 11).  Nothing in this family closed this pass;
+ * three facts proven against the bytes, for the next attempt:
+ *
+ *  - func_0200CC40 takes SIX parameters: (u8 *p, u32 id, u32 *out1, u32
+ *    *out2, u32 *outForm, u16 a5).  Its closing call is
+ *    func_0201ADE4(id, (u16)*outForm, a5).  With the bit tests as an inline
+ *    `TestBit(const u8 *row, u16 x)` over `p + K`, its form loop is
+ *    byte-exact (docs/notes/pkt_0200CC40.c.txt).
+ *  - func_0200C52C calls func_02012EBC(sys): the first parameter is passed
+ *    through in r0, so the zero-argument prototype the notes used cost the
+ *    size.  Written with the stores and the `== 1` flag test duplicated
+ *    into both arms it is 120/120 bytes, 36 out
+ *    (docs/notes/pkt_0200C52C.c.txt).
+ *  - func_0200D144's arms 1-5 are 1.1p1-exact; under 2.0/sp2 the size is
+ *    right (322) but the constant 1 is shared between the mask and the
+ *    result, so the compiler is 1.1p1 and the last-arm residue stands.
+ * ------------------------------------------------------------------ */
+
 #endif /* MUSICAL_DIST_SAVE_H */

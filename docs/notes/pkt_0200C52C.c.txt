@@ -105,3 +105,103 @@ Verdict unchanged: codegen, a register the original spends and no source
 spelling buys.  Same class as 0x0200B2A4 and 0x0200B37C.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 116 bytes against 120, 58 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 (musical_dist_save lane): size-exact, 36 out
+==============================================================================
+
+/* best source, 120 bytes against 120, 36 concrete bytes out, 1.1p1 */
+
+func_02012EBC TAKES AN ARGUMENT: the image calls it with the first
+parameter still in r0 (`str r0, [sp, #4]` only saves a copy), so the
+prototype is `void *func_02012EBC(void *sys)` as every other caller in the
+tree already declares it.  The zero-argument spelling in the sources above
+is what held every earlier shape at 116 bytes.
+
+With the real call, two shapes:
+  - stores then `if (r == 1) p->unk04 = 1; else p->unk04 = 0;` (the image's
+    own order): 116 bytes, 58 out -- the id 6 is re-materialised instead of
+    parked in r7 and `sv` is homed to the stack instead of `sys`;
+  - the four field stores written into BOTH arms of the `== 1` test (below):
+    120 bytes, 36 out, every instruction up to +0x36 exact; `sys` then has
+    two uses and keeps r6, which mirrors the image's homing.
+2.0/sp2: 116/87 and 112/98.  Permuter from the 116-byte image-order shape:
+  --mode hill   --budget 400  --jobs 6 --types:
+      best      DIFF   asm=570   bytes-out=31   size=120/120   <- volatile-add(r)
+  --mode anneal --budget 1200 --jobs 6 --types:
+      best      DIFF   asm=680   bytes-out=27   size=120/120
+      mutations copy(r->r_@11) ; hoist-up(r_,-2) ; type:l(r_:u32->u8)
+Both REJECTED: a volatile result local and a u8-truncated result are not
+what the image does (r is compared straight out of r0, no stack slot and no
+narrowing); they reach 120 only by adding the four bytes somewhere else.
+
+/*
+ * function: func_0200C52C
+ * address:  0x0200C52C
+ * packet:   pkt_0200C52C
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02012EBC  0x02012EBC  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_020072CC  0x020072CC  thumb
+ *   func_020073D8  0x020073D8  thumb
+ *   g_020A71D4     0x020A71D4  data  a1
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct DistHdr {
+    u32 unk00;
+    u32 unk04;
+    u32 unk08;
+    u32 unk0C;
+};
+
+struct MusicalDist {
+    u16 unk00;
+    u32 unk04;
+    u32 unk08;
+    struct DistHdr unk0C;
+    void *unk1C;
+    void *unk20;
+    u8   *unk24;
+    void *unk28;
+};
+
+extern const char g_020A71D4[];
+extern void *func_02012EBC(void *sys);
+extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file, u32 line);
+extern u32   func_020072CC(void *sv, u32 id, u32 heap, void *buf, u32 size);
+extern u8   *func_020073D8(void *sv, u32 id);
+
+struct MusicalDist *func_0200C52C(void *sys, u32 heap)
+{
+    void *sv;
+    struct MusicalDist *p;
+    u8 *z;
+
+    sv = func_02012EBC(sys);
+    p = func_02030734(heap, 0x2C, 1, g_020A71D4, 0x4A);
+    p->unk1C = func_02030734(heap, 0x20000, 1, g_020A71D4, 0x4C);
+    if (func_020072CC(sv, 6, heap, p->unk1C, 0x20000) == 1) {
+        p->unk00 = heap;
+        p->unk28 = sys;
+        p->unk08 = 0;
+        p->unk04 = 1;
+    } else {
+        p->unk00 = heap;
+        p->unk28 = sys;
+        p->unk08 = 0;
+        p->unk04 = 0;
+    }
+    z = func_020073D8(sv, 6);
+    p->unk1C = z;
+    p->unk20 = z;
+    p->unk24 = z + 0x10;
+    return p;
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 120 bytes against 120, 36 concrete bytes out, 1.1p1

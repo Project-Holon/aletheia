@@ -410,4 +410,57 @@ void  func_0201D6D8(struct PrintSys *p, void *a, void *b);
 u8   *func_0201D768(u16 *p, u8 *dst, u32 len, u32 n);
 struct PrintCtx *func_0201D7C4(struct PrintSys *p, struct PrintCtx *q);
 
+/* ------------------------------------------------------------------ *
+ * ADDED 2026-09-23 (wave 11).  THE TEXT RECORD, the 0x50-byte work area
+ * func_0201CD10 allocates for the task func_0201CEE0.  struct Rec above
+ * only named the offsets the flag helpers touch; the full layout, as
+ * src/matched/func_0201CEE0.c, func_0201CD10.c and sub_0201D110.c (all
+ * EXACT) declare it:
+ *
+ *   +0x00 u32 state      0 print, 1 wait for key, 2 finished
+ *   +0x04 u32 mode       key-wait flavour (0 scroll, 1 clear)
+ *   +0x08 u32 f08        func_02045334's argument (the window to flush)
+ *   +0x0C u32 win        the bitmap window handle
+ *   +0x10 void *task     func_020311B8's return
+ *   +0x14 u16 *cur       the glyph cursor
+ *   +0x18..+0x1D u8      speed pairs (18/19 backup, 1a/1b, 1c/1d)
+ *   +0x1E u8 wait        per-glyph countdown
+ *   +0x1F u8 scroll      lines scrolled so far (0..0x10)
+ *   +0x20 u8 color       fill colour
+ *   +0x21 u8 cbres       last callback result
+ *   +0x22 flags          a struct of 1-bit fields b0..b4: READ them through
+ *                        the bitfield (lsls/lsrs pairs off one cached ldrb),
+ *                        WRITE them through the bitfield in func_0201CEE0
+ *                        and func_0201CD10 (each write reloads the byte);
+ *                        sub_0201D110 writes bit 2 through
+ *                        `((u8 *)p)[0x22]` -- both spellings give the
+ *                        two-address-computation store
+ *   +0x24 u8 (*cb)(u32)  the per-glyph callback
+ *   +0x28 u32, +0x2C u32, +0x30 u32 cbarg
+ *   +0x34 struct PrintCtx ctx   (0x1C bytes, to +0x50)
+ *
+ * func_0201C808 is (struct PrintCtx *, void *w, void *x, s16 y, s16 z)
+ * (src/matched/sub_0201C808.c): its callers' y/z are s16 PARAMETERS, and
+ * that is what closed func_0201CD10's two-load swap together with its
+ * tenth argument being `u16 a9` (the `add r1, sp, #N / ldrh [r1, #k]` form
+ * is a stacked u16 parameter, not an address taken of a4).
+ *
+ * COMPILER PIN.  func_0201C7A4 is EXACT only under ../2.0/sp2: dsi/1.1p1
+ * caches the scratch address g_0214655C in a callee-saved register across
+ * its two uses, 2.0/sp2 reloads it from the pool at each site as the image
+ * does.  func_0201C7D0 (the same body plus sub_0201C8A4) is two bytes out
+ * under 2.0/sp2 -- only the base of its stacked u16 read (`add r1, sp,
+ * #0x18 / ldrh [r1, #4]`, which 1.1p1 forms right and sp2 forms as sp+8 /
+ * #0x14).  func_0201CEE0, func_0201CD10 and sub_0201D110 are 1.1p1.
+ *
+ * INLINE HELPERS this file uses (all proven by EXACT bytes):
+ *  - the control-code kind as a u16 of `(u8)p[1]` computed in a helper
+ *    returning u32 (sub_0201D110: the (u8) then (u16) pair in the header
+ *    arm only), and the code byte `(u8)(p[1] >> 8)` taking the ALREADY
+ *    LOADED halfword (func_0201CEE0: the dead `bne` reuses the switch's
+ *    compare);
+ *  - the ring wrap `if (o >= ps->unk04) return 0; return o;` twice in
+ *    func_0201C4E4 (12 -> 5 bytes; see docs/notes/sub_0201C4E4.c.txt).
+ * ------------------------------------------------------------------ */
+
 #endif /* PRINTSYS_H */

@@ -365,3 +365,189 @@ assignment, and the focused search confirms nothing in the C reaches it.
 Not filed; still DIFF.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 464 bytes against 464, 12 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 printsys lane: 12 bytes -> 5
+==============================================================================
+
+/* best source, 464 bytes against 464, 5 concrete bytes out, 1.1p1 */
+
+The +0x150 wrap block is an INLINED HELPER, not two open-coded tests.  With
+`static inline u16 Wrap(struct PrintSys *ps, u16 o) { if (o >= ps->unk04)
+return 0; return o; }` called as `o = Wrap(ps, off + 0x1C); o = Wrap(ps,
+o + 4);` the candidate stays in r1 and the ring size is loaded once into r0,
+exactly as the image does; the twelve-byte register rotation the last two
+passes called "a colouring outcome nothing in the C reaches" is gone.  The
+else-first spelling (`if (o < size) return o; return 0;`) and passing the size
+as a second u16 parameter compile identically (5); folding the truncation into
+a u32 helper parameter or truncating before the call goes back to 12.
+
+What is left is ONE scheduling pair at +0x14E: the image truncates `off +
+0x1C` through r0 into r1 (`lsls r0, r7, #0x10 / lsrs r1, r0, #0x10`) and then
+loads the size into r0; the compile truncates in place in r1 and hoists the
+`ldrh r0, [r5, #4]` between the two shifts.  Tried on top of the helper, all 5:
+`off` as s32/u16/u32, `o` as u32/s32, `off & 0xFFFF` (468 bytes), `(off <<
+16) >> 16` (468), the helpers nested `Wrap(ps, Wrap(ps, off) + 4)`, and the
+whole advance as an inline returning the new cursor (12 and 9).  2.0/sp2: 29.
+
+Permuter from the 5-byte point:
+  --mode hill --budget 500 --jobs 6 --types: no single mutation improves (364 tried)
+  --mode anneal --budget 1500 --jobs 6 --types:
+      best      DIFF   asm=205   bytes-out=5    size=464/464
+
+/*
+ * function: func_0201C4E4
+ * address:  0x0201C4E4
+ * packet:   pkt_0201C4E4
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0201DE00  0x0201DE00  thumb
+ *   func_0201DE18  0x0201DE18  thumb
+ *   func_0201DD78  0x0201DD78  thumb
+ *   func_020870D0  0x020870D0  arm
+ *   func_0201C974  0x0201C974  thumb
+ *   func_0201D7C4  0x0201D7C4  thumb
+ */
+typedef unsigned char       u8;
+typedef unsigned short      u16;
+typedef unsigned int        u32;
+typedef unsigned long long  u64;
+typedef signed int          s32;
+
+struct Rec {
+    u32 unk00;
+    u32 pad04a : 20;
+    s32 kind   : 4;
+    u32 pad04b : 8;
+    u32 pad08;
+    u16 pad0C;
+    u16 unk0E;
+};
+
+struct PrintSys {
+    u16 unk00;
+    u16 unk02;
+    u16 unk04;
+    u8  unk06;
+    u8  unk07lo : 4;
+    u8  unk07hi : 4;
+    u64 unk08;
+    struct Rec *unk10;
+    u16 *unk14;
+    u8  buf[4];
+};
+
+extern void  func_0201DE00(u8 *r, u8 *g, u8 *b);
+extern u32   func_0201DE18(u32 r, u32 g, u32 b);
+extern void  func_0201DD78(u32 r, u32 g, u32 b);
+extern u64   func_020870D0(void);
+extern u16  *func_0201C974(struct Rec *rec, u16 *p, u32 f);
+extern struct Rec *func_0201D7C4(struct PrintSys *ps, struct Rec *rec);
+
+static inline u16 Wrap(struct PrintSys *ps, u16 o)
+{
+    if (o >= ps->unk04)
+        return 0;
+    return o;
+}
+
+static inline u16 Wrap2(struct PrintSys *ps, u16 o)
+{
+    if (o < ps->unk04)
+        return o;
+    return 0;
+}
+
+static inline u16 Wrap3(struct PrintSys *ps, u32 o)
+{
+    u16 v = o;
+    if (v >= ps->unk04)
+        return 0;
+    return v;
+}
+
+u32 func_0201C4E4(struct PrintSys *ps)
+{
+    u16 cap;
+    u8  col[3];
+    u32 stop;
+    u16 saved;
+    u32 rr;
+    u32 bb;
+    u8 *base;
+    u32 r;
+    u32 g;
+    u32 b;
+    u32 go;
+    u32 gg;
+    u32 off;
+    u16 o;
+    u64 t0;
+
+    stop = 0;
+    ps->unk06 = (u8)(ps->unk06 + 1);
+    if (ps->unk10 == 0) {
+        return 1;
+    }
+    func_0201DE00(&col[2], &col[1], &col[0]);
+    saved = (u16)(((col[2] & 0x1F) << 10) | ((col[1] & 0x1F) << 5) |
+                  (col[0] & 0x1F));
+    go = 0;
+    if (ps->unk10->kind == 0 || ps->unk10->kind == 2) {
+        r = (u8)((ps->unk10->unk0E >> 10) & 0x1F);
+        g = (u8)((ps->unk10->unk0E >> 5) & 0x1F);
+        b = (u8)(ps->unk10->unk0E & 0x1F);
+        go = 1;
+    }
+    if (go != 0) {
+        if (func_0201DE18(r, g, b) != 0) {
+            func_0201DD78(r, g, b);
+        }
+    }
+    t0 = func_020870D0();
+    if (ps->unk10 != 0) {
+        base = (u8 *)ps;
+        base = (u8 *)ps + 0x18;
+        do {
+            if (ps->unk10->kind == 1) {
+                rr = (u8)((ps->unk10->unk0E >> 10) & 0x1F);
+                gg = (u8)((ps->unk10->unk0E >> 5) & 0x1F);
+                bb = (u8)(ps->unk10->unk0E & 0x1F);
+                if (func_0201DE18(rr, gg, bb) != 0) {
+                    func_0201DD78(rr, gg, bb);
+                }
+                ps->unk10->kind = 2;
+            }
+            while (ps->unk14[0] != 0xFFFF) {
+                ps->unk14 = func_0201C974(ps->unk10, ps->unk14, 1);
+                if (func_020870D0() - t0 > ps->unk08) {
+                    stop = 1;
+                    break;
+                }
+            }
+            if (ps->unk14[0] == 0xFFFF) {
+                off = (u16)((u8 *)ps->unk10 - base);
+                ps->unk10 = func_0201D7C4(ps, ps->unk10);
+                if (ps->unk10 != 0) {
+                    o = Wrap(ps, off + 0x1C);
+                    o = Wrap(ps, o + 4);
+                    ps->unk14 = (u16 *)((u8 *)ps + 0x18 + o);
+                }
+            }
+        } while (stop == 0 && ps->unk10 != 0);
+    }
+    func_0201DD78((u8)((saved >> 10) & 0x1F), (u8)((saved >> 5) & 0x1F),
+                  (u8)(saved & 0x1F));
+    if (ps->unk10 != 0) {
+        ps->unk02 = (u16)((u8 *)ps->unk14 - ((u8 *)ps + 0x18));
+        return 0;
+    }
+    ps->unk00 = 0;
+    ps->unk02 = ps->unk04;
+    ps->unk07lo = 0;
+    return 1;
+}
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 464 bytes against 464, 5 concrete bytes out, 1.1p1

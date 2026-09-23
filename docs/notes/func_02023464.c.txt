@@ -255,3 +255,5 @@ left alone until a second function in the family shows the same tie broken
 one way or the other by a difference that IS expressible.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 92 bytes against 92, 11 concrete bytes out, 1.1p1
+
+closed 2026-09-23 (wave 11): EXACT as src/matched/func_02023464.c.  Not an allocation tie: the func_02022E88 call is written in both arms of the cfg[8] test with literal modes 1 and 2.

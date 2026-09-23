@@ -350,3 +350,5 @@ void func_02022F60(struct S *p)
     }
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 1144 bytes against 1284, 1047 concrete bytes out, 1.1p1
+
+closed 2026-09-23 (wave 11): EXACT as src/matched/func_02022F60.c.  The two arms of every +0x309 test were never identical: 0 writes the MAIN engine window registers (0x04000048/0x0400004A, as 0x04000004 + 0x44/0x46), non-zero the SUB engine ones.

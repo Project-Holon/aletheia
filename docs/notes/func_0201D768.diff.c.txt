@@ -178,3 +178,41 @@ PARAMETER that gets a stack home and is reloaded, without the two extra bytes
 `volatile` costs.  Still DIFF, still parked in src/pending.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 92 bytes against 92, 61 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 printsys lane: 72 holds
+==============================================================================
+
+/* best source, 92 bytes against 92, 72 concrete bytes out, 1.1p1 */
+
+(src/pending/func_0201D768.c, unchanged)
+
+One correction to the reading of this function: MI_CpuCopy8 is (src, dst,
+size), so the second parameter is the SOURCE and the ring at +0x18 is the
+destination; the function copies INTO the ring.
+
+The frame the image uses is fully determined and different from every
+compile: callee-saved r4 = head, r5 = n, r6 = p, r7 = src; spilled len [sp],
+the u16 byte counter [sp+4], base [sp+8], start [sp+0xc].  With a PLAIN `u16
+total` (the lsls/lsrs pair on the counter says it is a u16, and a plain
+spilled local does reload per iteration) mwccarm instead keeps the counter in
+r7 and spills `head` (90 bytes, 72-73 out); the volatile spelling in the
+pending file keeps the size but mirrors the two spill slots.
+
+Measured this pass, none below 72:
+  - `u16 total` in all six declaration orders with base/start: 90, 73 each;
+  - `volatile u32 total` and `volatile u16 total`, all six orders: 92/72 and
+    94/64 -- declaration order does not move a spill slot at all;
+  - `head` at function scope as u16/u32/int with three spellings of the
+    wrap (`head = (u16)(head + n)`, `head += n`, `if ((u16)(head + n) >=
+    size) head = 0; else head += n;`): 86-98 bytes, 72-86 out;
+  - a for loop over the counter, a while loop, and an inline
+    `Advance(p, n)` for the head update: 94-100 bytes;
+  - 2.0/sp2 on the pending source: 92, 72.
+One `int total; int head;` variant hung the compiler past 60 s; not pursued.
+
+Permuter: not re-run this pass beyond the grid above (the pending file's own
+header records the hill run from this point; nothing in the grid moved the
+spill choice, which is the whole residue).
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 92 bytes against 92, 72 concrete bytes out, 1.1p1

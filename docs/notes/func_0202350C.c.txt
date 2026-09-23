@@ -313,3 +313,37 @@ finding an already-EXACT function whose field-store block interleaves loads
 the same way, not by further permutation of this one.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 90 bytes against 92, 23 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 (wipe_sub lane): 23 holds
+==============================================================================
+
+/* best source, 90 bytes against 92, 23 concrete bytes out, 1.1p1 */
+
+(the source recorded above, unchanged; the 92-byte extent includes a two-byte
+pad, so the size is right)
+
+Permuter from that source:
+  --mode hill --budget 250 --jobs 6 --types:
+      best      DIFF   asm=890   bytes-out=26   size=92/92   (worse on bytes)
+  --mode anneal --budget 400 --jobs 6 --types:
+      best      DIFF   asm=890   bytes-out=24   size=92/92
+  --mode anneal --budget 2000 --jobs 6 --types (from the load-first shape below):
+      best      DIFF   asm=1085  bytes-out=34   size=92/92
+
+Read of the image this pass: the stores through `obj` may alias the byte
+loads from `cfg`, so the image's order pins the SOURCE order of the memory
+operations: cfg[8] and cfg[0xb] are read BEFORE any obj store, the seven
+stores run f40, f44, f30, f34, f38, f3c, f48, and cfg[0xa] is read only
+after cfg[0] at the call.  Writing exactly that order (k8 and kb bound to
+locals first, cfg[0xa] inline at the call) is 39-41 out, worse than the
+note's 23, because mwccarm then issues the two early loads back to back and
+the stores together instead of interleaving the stack-argument loads the
+way the image does.  Twelve orders of {f40, f44, f30} x {ka local or inline}
+measured: 39-41.  `cfg` as a struct of u8 fields (to change type-based
+aliasing): identical numbers.  An inline setter taking the seven values as
+arguments: 52-62.  2.0/sp2: 23 on the note's source, 40-48 on the others.
+
+The function stays a scheduling residue in one window (+0x20..+0x3C).
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 90 bytes against 92, 23 concrete bytes out, 1.1p1

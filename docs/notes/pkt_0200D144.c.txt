@@ -225,3 +225,25 @@ zero:
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 320 bytes against 322 (listing extent 340, 12 of which are the unlabelled follower at 0x0200D288), 22 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 (musical_dist_save lane): 22 holds
+==============================================================================
+
+/* best source, 320 bytes against 322, 22 concrete bytes out, 1.1p1 */
+
+(the source above, unchanged; the permuter's standing result for it is
+      best      DIFF   asm=1065  bytes-out=22  size=320/340 )
+
+Measured this pass:
+  - the last two arms as `||` conditions with `return 1; return 0;` in any
+    of four address spellings: 328 bytes, 55 out (each arm grows its own
+    `movs r0, #0`);
+  - the rows as the family struct's `unk05C[k][x >> 3]` / `unk2FC[alt][x >>
+    3]` throughout, or only in the last arm: 324, 42-51;
+  - 2.0/sp2 on the note's source: 322 bytes (size right) but 123 out: sp2
+    shares the constant 1 between the mask shift and the `r = 1` result
+    (`movs r0, #1 / adds r1, r0, #0`), which the image never does, while
+    arms 1-5 are instruction-exact under 1.1p1.  So the compiler is 1.1p1.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 320 bytes against 322, 22 concrete bytes out, 1.1p1

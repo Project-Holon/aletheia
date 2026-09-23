@@ -263,3 +263,31 @@ So the wall is unchanged: the base register for a small byte array adjacent to
 a volatile scalar, and nothing reachable from the C moves it.  Not filed.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 11 printsys lane: 17 holds
+==============================================================================
+
+/* best source, 184 bytes against 184, 17 concrete bytes out, 1.1p1 */
+
+(the source recorded above with `int hi; int mid;`, unchanged)
+
+Permuter, this pass, from that source:
+  --mode hill --budget 300 --jobs 6 --types: no single mutation improves (179 tried)
+      best      DIFF   asm=110   bytes-out=17   size=184/184
+
+New spellings measured, none below 17:
+  - the three clears through an inline `Fill3(u8 *q, int v)` taking `buf`
+    and `done` (17; the pointer parameter does not make the base `add r1,
+    sp, #8` either) and through `Fill3v(u8 *q, volatile int *v)` (17);
+  - three separate `u8` locals for the colour instead of `u8 buf[3]`, both
+    declaration orders (20 and 26);
+  - `done` NOT volatile: 180 bytes, 156 out.  mwccarm forwards the stored
+    zero, so the per-store reload the image shows needs the qualifier (or
+    something else that gives `done` a memory home), it is not the plain
+    spilled-local idiom;
+  - 2.0/sp2: 188 bytes, 65 out (volatile) / 180, 155 (plain).
+The base-register choice for the byte array next to the volatile scalar is
+still the whole residue.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1

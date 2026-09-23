@@ -399,4 +399,59 @@ extern void  func_02082BCC(void *p, u32 v, u32 n);    /* memset */
 extern void  func_020307B0(void *p);                  /* free */
 extern void *sub_020056A0(void *fn, void *arg, u32 prio); /* task register */
 
+/* ------------------------------------------------------------------ *
+ * ADDED 2026-09-23 (wave 11).  Five more EXACT and one pending park
+ * promoted:
+ *
+ *   func_02022F60  src/matched/func_02022F60.c   EXACT  (1284 bytes)
+ *   func_02023964  src/matched/func_02023964.c   EXACT
+ *   func_0202384C  src/matched/func_0202384C.c   EXACT*
+ *   func_02023464  src/matched/func_02023464.c   EXACT
+ *   func_02023AF4  src/matched/func_02023AF4.c   EXACT*
+ *   sub_02022AC4   src/matched/sub_02022AC4.c    EXACT  (was MATCH)
+ *
+ * THE SCANLINE OBJECT'S FRONT HALF, read off func_02022F60 (which
+ * func_02022F0C installs as the per-scanline callback with the object as
+ * its argument) and func_02023964 (which fills it):
+ *
+ *   +0x000  pad[0xC0]      \  half 0: func_02023964 fills +0x000 and
+ *   +0x0C0  rows[0xC0] u8  |          +0x0C0 with MI_CpuFill8(.., 1|0,
+ *   +0x180  wnd  u32       /          0xC0); rows[n] picks the WINOUT mask
+ *   +0x184  second half, same 0x184-byte shape (rows at +0x244, wnd at +0x304)
+ *   +0x308  mode   u8   1 = program half 0 only, else both halves
+ *   +0x309  engine u8   0 = MAIN engine, else SUB engine
+ *   +0x30C .. +0x330    the ten words func_02023964 stamps (the
+ *                       step_bound/step/frame_limit/frame/f324.. block
+ *                       described under struct WipeScan above)
+ *
+ * CORRECTION to struct WipeScan above: its `left`/`right` s16 arrays at
+ * +0x300/+0x480 cannot live in a 0x334-byte object (they end at +0x600 and
+ * collide with +0x304..+0x309).  func_0202384C addresses them off the
+ * pointer sub_02022D88(w, 0) RETURNS, so they belong to that buffer, not
+ * to the object; only the +0x314..+0x330 block is the object's own.
+ *
+ * Facts that closed them, each measured against the bytes:
+ *  - func_02022F60: the engine byte selects MAIN (0x04000048/0x0400004A,
+ *    reached as 0x04000004 + 0x44/0x46) versus SUB (0x04001048/0x0400104A)
+ *    window registers; spelled as two identical arms mwcc cross-jumps them
+ *    (the whole 140-byte deficit of the old note).  The second half's base
+ *    is a named local; the window-1 mask is `~0x3F00`.
+ *  - func_02023964: func_02022F0C is called (a6, obj, a7), not (obj, desc,
+ *    a3).
+ *  - func_0202384C: func_020237B8's third argument is f14; and the call
+ *    is written in both outer arms of an if / else-if / else and
+ *    cross-jumped.
+ *  - func_02023464: the func_02022E88 call is written in both arms of the
+ *    cfg[8] test with literal 1 and 2 (a `mode` local swaps r4/r6).
+ *  - func_02023AF4: the flip is `near = near == 0` in a plain for loop;
+ *    hand-hoisted `one`/`zero` constant locals were the 13-byte rotation.
+ *  - sub_02022AC4: its callee is 0x020222CC (pool word 0x020222CD), not
+ *    0x020202CC.
+ *
+ * Still open: func_0202350C (23 bytes, a scheduling window, see its note).
+ * ------------------------------------------------------------------ */
+void func_02022F60(void *obj);                        /* 0x02022F60 EXACT */
+void func_02023964(u8 *obj, void *desc, u32 a2, u32 a3, u32 a4, u32 a5,
+                   u32 a6, u32 a7);                   /* 0x02023964 EXACT */
+
 #endif /* WIPE_SUB_H */

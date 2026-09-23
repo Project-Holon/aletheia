@@ -207,3 +207,5 @@ still the best candidate if an idiom for the family turns up, but no further
 permutation of this source is worth budget.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 82 bytes against 82, 13 concrete bytes out, 1.1p1
+
+closed 2026-09-23 (wave 11): EXACT* as src/matched/func_02023AF4.c.  Drop the hand-hoisted one/zero locals; `near = near == 0` in a plain for loop, and `flag == 0` in the else arm.
