@@ -9,6 +9,211 @@
 > rebuilt from the split units is byte-identical (sha1 `26ad0b9967aa279c4a266ee69f52b9b2332399a5`) at every
 > source-changing commit. Older snapshots below are kept for the record, not as live claims.
 
+## Session of 2026-09-22 to 2026-09-23: waves 10 to 13, and the project explained
+
+Read this first. It is written for someone who has never seen the repo: what the project is, how it
+measures itself, how the work is organised, what worked, what did not, and where the remaining 12
+percent is. The older sections below are kept for the record.
+
+### 0. What this project is, in one page
+
+- **Goal.** Reproduce the ARM9 static binary of Pokémon Black byte for byte from C, compiled with the
+  same Metrowerks compiler Game Freak used (mwccarm, `tools/mwccarm/`, dsi/1.1p1 at `-O4,p` for almost
+  everything, a few files pinned to `../2.0/sp2` or `sp2p2` with evidence rows in `docs/FRONTEND-PINS.md`).
+  The repo holds only C, layout tables and tools; never game bytes. The owner's own ROM dump stays outside.
+- **The unit of truth is a shard.** `tools/match.py one --src F --func NAME --addr A --arm|--thumb`
+  compiles one function and compares it with the image: EXACT (identical), EXACT* (identical, the listing
+  extent ends in an unlabelled follower or alignment pad), MATCH (every concrete byte right but one
+  relocation site has no witness), DIFF, SIZE, CCERR. `match.py manifest --verify --shard pkt_X`
+  recompiles every file claiming packet X and writes `layout/matched/arm9/pkt_X.json`. Only those shards
+  count. A `status:` line in a file header is a claim, never evidence.
+- **Two figures.** Exact coverage = shard bytes over the denominator; reproduced coverage adds the
+  src/pending files whose FRESH verdict is MATCH (scratchpad `promote_fast.py --dry` then
+  `pending_pct.py`). The denominator is all ARM9 static code minus SDK symbols (`layout/symbols_sdk.txt`,
+  from `tools/libmatch.py`, plus interior labels inside sized symbols) and the MSL runtime
+  (`layout/runtime_arm9.txt`). `python3 tools/worklist.py --summary` prints it.
+- **Every source-changing commit** rebuilds the ROM from the split units (`build.py --split --pack`,
+  `ndsrom.py build`) and checks sha1 `26ad0b9967aa279c4a266ee69f52b9b2332399a5`, regenerates the two
+  treemaps (`tools/coveragemap.py`), updates the README figure, and carries both coverage figures with
+  deltas in its message. No attribution trailers, ever.
+- **Evidence classes for relocation sites** (docs/MATCHING.md, AGENT-BRIEF section 5): local, matched
+  (an EXACT entry covers the target), label, literal, string, veneer, runtime, data_table, sdk (a call at
+  an SDK symbol), sole-ref (data, code, string, self). A MATCH file is parked in src/pending with its
+  blocking class named; it turns EXACT without any C change when the witness appears (a sibling
+  matched, a start seeded, a unit member listed).
+- **Layout.** `layout/function_starts.txt` seeds function starts the disassembler cannot reach (leaves
+  and followers with no `bl`), `tools/disasm.py arm9 --split` regenerates listings and units, and
+  `worklist.py --refresh` re-cuts packets. Adding a start grows the denominator; that is bookkeeping,
+  not matching, and the commit message says so.
+
+### 1. The numbers
+
+| point | exact | reproduced | commit |
+|---|---|---|---|
+| wave 9 end, 2026-09-22 23:30 | 71.16 | 71.86 | `d7cd2db` |
+| wave 10: 12 lanes, 79 exact (NitroSystem g2d/g3d and MSL identified; qsort, __pformatter) | 76.56 | 77.28 | `d5d9e09` |
+| seed round 3, wave 11: 10 lanes, 41 exact | 79.75 | 80.47 | `92daa84` |
+| seed round 4, wave 12: 10 lanes, 54 exact; 80 percent crossed | 83.66 | 84.50 | `006aa60` |
+| owner rulings on the SDK denominator (395520 -> 392516 bytes) | 84.08 | 84.93 | `d51f3f6` |
+| seed round 5, wave 13: 8 lanes, 60 exact; seed round 6 | 87.65 | 88.49 | `7c2177b` |
+
+234 functions closed in 14 hours of wall clock across 40 lanes; 31 commits, ROM byte-identical at every
+one. Lane reports: scratchpad `reports/wave1{0,1,2,3}_*.md`; the running log: scratchpad `waves.md`.
+
+### 2. The workflow that produced it (the wave loop)
+
+1. **Pick targets.** `python3 scratchpad/remaining.py` lists the upper-half pseudo-family clusters
+   (`pseudo_families.json`, adjacency plus shared callees) with their open functions, sizes, ISA and
+   state (N = a note with a best source exists, U = untouched, P = pending). `python3 scratchpad/families.py`
+   does the same for the anchored families (original source files from `__FILE__` strings,
+   `layout/file_anchors.txt`). Rank by open bytes; take clusters and families whose header
+   `docs/families/<name>.h` or `cluster_<start>.h` exists (a lane writes it first when missing).
+2. **Launch one wave of at most 8 Opus lanes, in the background, all at once** (owner rules: max 8 per
+   wave; never add lanes while a wave runs; the next wave starts only when every lane has reported).
+   Each lane gets 2 to 5 families or clusters, smallest residue first, and the standard brief: read
+   AGENT-BRIEF, the permuter section of docs/notes/permuter.md, the headers; check
+   `grep -l "address:  0x<ADDR>" src/matched/*.c` before writing anything; take the freshest note; run
+   the permuter (`--explain`, then `hill 800`, then `anneal 2000`, `--types`, `--jobs 6`) before any
+   hand spelling sweep; try both compilers; check data flow and callers before accepting a result; file
+   EXACT in src/matched, MATCH in src/pending, DIFF as an appended note section with a best-source
+   marker; never edit layout/, tools/, asm/; never spawn subagents; end with the shard verify; write the
+   report to scratchpad `reports/` and hand back one line.
+3. **Fold in each lane as it reports.** `scratchpad/foldin.sh` (worklist refresh, pending re-verify,
+   pending figure, split build, ROM build and sha1, treemaps, and a list of untracked src/matched files
+   split into sharded and unsharded), then `scratchpad/commitset.sh "<label>" <prev exact> <prev repro>`
+   (README figure, stage only sharded sources plus shards, docs and pending, commit with both figures
+   and deltas, push). Files another lane has filed but not yet sharded are held out of the commit; they
+   go in when their shard exists. Header-only reports get a "no coverage change" commit.
+4. **Between waves: a seed round.** Every report ends with an "Integrator: seed" heading naming
+   unlabelled leaves and followers it filed as witnesses. Seed only addresses that have a matched source
+   (the row's comment names it), append to `layout/function_starts.txt`, run `disasm.py arm9 --split`,
+   `build.py --split --only arm9`, re-verify the shards of the affected packets, fold in, commit. When a
+   unit file covers several starts, list them all on its `function:` header line. Never run this while
+   lanes are running: it rewrites the listings they read.
+5. **Whole-image check** `python3 tools/build.py --arm9-image -j 1` in the background (25 minutes). With
+   `-j 4` or more the first translation unit "times out" even at 900 s while compiling alone in under a
+   second: a parallel wine start-up artefact, not a source problem. The split build plus the byte-identical
+   ROM is the stronger check anyway.
+6. **Interruptions.** Usage limits and stream stalls kill lanes; resume each with a message ("continue
+   where you stopped, check src/matched first, foreground only, no subagents"). They pick up from the
+   tree. Load average above 30 on the M4 Pro (10 lanes plus a build) causes watchdog stalls; 8 lanes is
+   the practical ceiling.
+
+### 3. What works, ranked by yield, and what does not
+
+Works:
+- **Identify the library, then write its shape.** Most of the unanchored upper half is NitroSystem
+  (g2d fonts, char canvas, cell/multicell animation, OAM manager, renderer, software sprites; g3d
+  resource dictionaries and texture/palette binding) and MSL (printf's `parse_format` and `__pformatter`,
+  qsort, rand, `__dec2num`). Written in the library's shape (helpers as the inlines they are, the library's
+  scopes and unions, the real TwlSDK inlines) these close in a few compiles where three waves of register
+  permutation had failed. The owner allows cross-referencing the public NitroSystem decompilation
+  (github.com/ntrtwl/NitroSystem, rev 21c8fd0, NitroSystem-071126) for SDK library shapes; Black's build
+  differs in places (NNSG2dNode is 0x28 bytes, a negate-first rotate adjust), so verify every struct
+  size against the image. Never copy from other Pokémon decompilation projects.
+- **Declaration facts.** A callee's real argument list (registers that look like leftovers are loaded
+  values or struct fields), real prototype widths (s16, u16, a u8 stack parameter read with ldrb), a
+  three-argument callee whose prologue saves r2, struct by value versus scalars, bitfields for shift pairs,
+  a u64 id. A residue the permuter cannot move at all is in the declarations or in the reading of the
+  image, never in the body.
+- **Reading fixes.** A constant pool word mistaken for a global, a callee address off by one pool word,
+  main versus sub engine register base, a home-push entry four bytes before the label, the dense-switch
+  table base, a listing extent that swallows an unlabelled follower (the permuter then chases the wrong
+  size).
+- **Shape levers,** each of which closed several functions: inline helpers written else-first with early
+  returns; a wrapping `if` instead of an early return; a named local for a call result (`cmp` operand order
+  names the temporary); loop-role ints declared without initialisers and assigned in image order;
+  split-assign `p = base; p = p + i*stride;`; a call written in both arms of a test instead of hoisted;
+  plain `x = x == 0` instead of hand-hoisted constants; reusing a loop variable across phases
+  (docs/idioms); a `u16` local shared by three loops; `(unsigned)c < 0x80` for isdigit.
+- **Second and third lanes on the large functions** of a cluster whose header exists (the wave-8
+  strategy) and **whole-family lanes** of 2 to 5 small families per lane once the big clusters are done.
+- **Compiler pins** by tell: kept branches, rematerialised `add rN, sp, #0`, zero-seeded `mla`, a
+  register-held sentinel, push/pop one register wider than the image. Try 1.1p1, ../2.0/sp2 and sp2p2
+  on every residue; several "impossible" 1.1p1 residues were correct C under 2.0.
+- **Unit files** for runs of unlabelled accessors (unit_02020268: eight setters in one compared range),
+  and the `function:` member line so the `matched` class attests each member.
+
+Does not work, or is exhausted:
+- **Random pre-screened waves** (waves 1 to 27 of the previous run) and **autonomous permuter closure**
+  (benchmark 0 of 17): the permuter's value is `--explain` plus the type, return-value and declaration
+  levers, and a flat result as a diagnosis.
+- **Allocator ties of 2 to 14 bytes** where every instruction is right and the image keeps a value alive
+  past its last use, or rotates r0/r1/r2, or picks the other `mla`/`smull` destination: pkt_0206EB00's three
+  (14, 2, 8 bytes, unchanged under every compiler and 5000 permuter compiles), the clact.c set, strcpy
+  keep-alive 0x02094798. Documented in their headers; skip them.
+- **Evidence walls no C can cross:** an unlabelled overlay callee (symbol_save GROUP A, sub_0200F734
+  blocked on ov009 0x02156460), literal pools that disasm.py prints as Thumb instructions so the pool-word
+  index misses them (0x02010B84..97, 0x02010D84..97), and the three-row function 0x02014D2C..0x020155A0 in
+  mcss.c that needs a prologue rule in `tools/disasm.py` before it can be one entry.
+- **Hand spelling sweeps before the permuter and before the declarations are checked.** Every lane that
+  did this burned its budget; every lane that identified the library or the callee first closed things.
+
+### 4. Owner decisions this session, in order
+
+1. No top-ups: a wave runs to completion, then the fold-in, then the next wave. Two top-up lanes on
+   2026-09-22 were a one-time exception. From wave 13, at most 8 lanes per wave.
+2. Long wine builds run in the background; do not kill wine daemons to fix timeouts (the timeout was
+   raised 180 -> 900 s in `tools/match.py`, and `-j 1` is the real fix).
+3. SDK denominator (2026-09-23): (a) 0x02081E7C is TwlSDK libmath's SHA-1 block function, listed in
+   `layout/symbols_sdk.txt` and excluded; the byte-exact asm body a lane wrote stays out of the tree
+   (scratchpad/heldout). (b) A disassembler label strictly inside a sized SDK symbol is an interior
+   kernel: `worklist.py` classifies it sdk (`sdk_interior`); 12 labels left the open pool. (c) The 13
+   genuine-SDK functions from the audit moved to src/calib (kind sdk_calibration, counted as SDK).
+4. Cross-referencing the public NitroSystem/NitroSDK decompilation for SDK library shapes is allowed;
+   the independence rule covers other Pokémon decompilation projects.
+5. Wave 13 is the last wave of this run; the HANDOFF must explain the project and the workflow (this
+   section).
+
+### 5. Tool and process changes
+
+- `tools/worklist.py`: `load_sdk_extents` / `sdk_interior` (section 4.3b); docstring updated.
+- `tools/match.py`: per-compile timeout 900 s.
+- `layout/symbols_sdk.txt`: hand-identified SHA-1 row. `src/calib/`: 13 more files.
+- Seed rounds 3 to 6: 33 starts added (MSL qsort/rand/srand/__StringRead, callbacks, switch defaults,
+  leaves and followers), one bogus start removed (0x020202CC was the middle of func_02020298; a pending
+  header had misnamed a tail-call target). Denominator 394940 -> 393066 net of the SDK rulings.
+- Scratchpad helpers (session-specific, in
+  `/private/tmp/claude-501/-Users-ilias-Documents-aletheia/0da4c159-a458-434b-9491-68afdc3fd61a/scratchpad`):
+  `foldin.sh`, `commitset.sh`, `remaining.py`, `families.py`, `promote_fast.py`, `pending_pct.py`,
+  `waves.md` (the log with every owner decision), `assigned.txt`, `reports/`. Copy them into the repo's
+  tools/ if a new machine continues the work; nothing in the repo depends on them.
+
+### 6. Where the remaining 12.35 percent is (48524 open bytes, 240 functions)
+
+- **Pending, byte-correct, blocked on evidence: 33 files, 3310 bytes** (src/pending; the blocking class is
+  in each header). Overlay callees dominate; a few wait on a seed or a unit member line.
+- **Upper-half clusters: 39 functions, 6438 bytes** (scratchpad `pseudo_remaining.txt`). Of substance:
+  pkt_0206EB00 three ties (1672 B), MSL `__dec2num` 0x0209739C (1492 B, 721 out, never had a library-shape
+  attempt: write it from the MSL source shape), 0x02067080 DoAffineTransforme_ (2 out after wave 13),
+  0x020681E4 g2d_Font (10 out), 0x02051C88, the pending 0x0206DC00.
+- **Anchored families: about 41 KB.** Largest: mcss.c 4344 B (four residues moved but open, plus the
+  three-row function), g3d_util.c 2252 B (7 open, 5 matched, never had a lane), infowin.c 1848 B (4 open,
+  4 matched, never had a lane), backup_system 0x02031FE0 (1692 B, three lanes, size-exact), clact.c ties
+  (1296 B, documented walls), bmp.c 0x0204427C (880 B), wih_dwc.c 764 B (never had a lane), bmp_menu.c
+  738 B (never had a lane), pms_draw 716 B, bg_sys 704 B, game_data 656 B, net_irc_wireless.c 576 B
+  (never had a lane), then a long tail of families with one or two residues each. `families.py` lists all
+  of them with sizes.
+- **Open items for the owner or a tool session.** (a) `tools/disasm.py` label rule needs a prologue
+  check so the mcss.c three-row function becomes one entry. (b) The pool-as-Thumb printing bug above
+  (blocks two net_save MATCH parks). (c) Seed the unlabelled leaves that have no file yet only after a
+  lane files them: 0x0201A468, 0x0201A48C, 0x0201A4A0, 0x0201A4B4 (thumb tail-call leaves after
+  func_0201A3F4), 0x0206DBF4 (12-byte ARM leaf, unblocks one site of pending func_0206DC00), 0x02050080
+  (an 8-byte getter whose `bx lr` is the current seed 0x02050084). (d) pkt_020360B8 is cut as 68 code
+  bytes but is one 412-byte function; check the label. (e) Stale "blocker" lines in
+  src/matched/func_0200F7B8.c and func_02014728.c (their sites now resolve). (f) 0x0202173C and
+  0x02021848 read as 2-byte extents (push {r0-r3} entries).
+
+### 7. How to continue
+
+Run the loop in section 2 exactly as written. Best first targets, in order: the three families that
+never had a lane (g3d_util.c, infowin.c, wih_dwc.c, bmp_menu.c, net_irc_wireless.c: write the header,
+identify any SDK library shape, smallest first), `__dec2num` from the MSL shape, the two NitroSystem
+residues at 2 and 10 bytes, backup_system 0x02031FE0, then the long tail of one-residue families
+bundled 4 or 5 per lane. Leave the documented ties alone until a new lever exists. Every 8-lane wave
+this session returned 40 to 60 exact; the tail will return less per wave, and the honest end state is
+the documented ties plus the evidence walls, not 100 percent.
+
 ## Session of 2026-09-20 to 2026-09-22: what changed, and why
 
 Read this section first. It covers three days that took the project from 41.91 percent (after a demotion
