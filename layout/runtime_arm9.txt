@@ -1,9 +1,28 @@
-# mwccarm/MSL ARM runtime library functions identified by wave 18B
-# (docs/notes/pkt_0209BDBC_runtime_library.c.txt)
+# mwccarm/MSL ARM runtime.a entry points that are HAND-WRITTEN ASSEMBLY
 # addresses and names only; contains no game data
-# this is the runtime.a soft-float and 64-bit integer support library,
-# linked in as hand-written assembly; it is not decompilable C and is
-# excluded from the open pool the same way SDK library ranges are
+#
+# RULE (owner decision, 2026-09-23, option 1): MSL library C counts as game code and stays in the
+# denominator. This table excludes only bodies that no C compiler produces. Each row needs a
+# structural tell recorded in a note:
+#   0x0209BDBC..0x0209CE10 (18 rows): docs/notes/pkt_0209BDBC_runtime_library.c.txt. Tells: entries
+#     that fall or branch into the interior of another entry (0x0209C00C/0x0209C018 share 0x0209C020,
+#     0x0209BE4C branches to 0x0209BE6C, 0x0209CB8C `bmi` into 0x0209C95C), which mwccarm's
+#     one-section-per-function output cannot produce.
+#   0x0209AF34..0x0209BD38 and 0x0209CE10, 0x0209D1E0, 0x0209D724 (19 rows):
+#     docs/notes/pkt_0209AF34_soft_float_library.c.txt. Tells: displacement branch into another
+#     routine's interior (0x0209AF40 `bmi 0x0209AC14`), results returned in APSR via mrs/msr (the ten
+#     compare entries), pc-minus-immediate data addressing into a neighbour (0x0209CE50), `clz`
+#     normalisation (0x0209B750, 0x0209B790), a 4-byte `bx lr` finaliser (0x0209D724).
+#   0x0209AC04 _double_arith_prelude (_dadd): its interior 0x0209AC14 is the target of the
+#     cross-routine branch at 0x0209AF40 (same note); the body is shared with __dsub, so it is not a
+#     separately compiled function. No note of its own; recorded as weaker than the per-row proofs.
+#
+# Removed 2026-09-23 because the bodies are compiled MSL C: 0x020979BC __ieee754_pow
+# (docs/notes/pkt_020979C0.c.txt), 0x02098B48 __ieee754_rem_pio2 (docs/notes/pkt_02098B44.c.txt),
+# and in seed round 10: 0x02094B8C _msl_scanf_strtod_core (docs/notes/pkt_02094B8C.c.txt, "ceiling
+# today is MATCH"), 0x0209953C _msl_double_fn_2 (docs/notes/pkt_02098B44.c.txt, 60 soft-float `bl`),
+# and the stale 0x02099228 row (__kernel_cos, EXACT in src/matched/unit_02099224.c).
+#
 # columns: address  symbol  library(member)  region
 0209BDBC  _s32_to_float                                  MSL/runtime.a  arm9_main
 0209BE04  _u32_to_float                                  MSL/runtime.a  arm9_main
@@ -43,25 +62,4 @@
 0209D1E0  __ddiv               MSL/runtime.a  arm9_main
 0209D724  _runtime_null_stub   MSL/runtime.a  arm9_main
 #
-# Added after the 2026-09-19 frontier probe (deleg_5c54c4ee), which identified these six bodies by
-# disassembly and by their callers. The first five are MSL library members with no game-side caller;
-# the sixth is the soft-double arithmetic body that sits immediately before __dadd_dsub and is called
-# from eleven game functions. The names below are DESCRIPTIVE, not recovered runtime.a symbol names,
-# and follow the table's existing convention for unidentified members (_double_arith_body, __dcmp_1).
-# Per-function evidence: docs/notes/pkt_0209AC04.c.txt, pkt_020979C0.c.txt, pkt_02094B8C.c.txt,
-# pkt_02098B44.c.txt, and the probe reports under the same names.
-#
-# owner's decision, 2026-09-19: reclassify the pure library bodies as library code; keep the MD5
-# transform (0x02081E7C) as open game work because the game calls it deliberately.
-#
-# 2026-09-23: the 0x020979BC/0x020979C0 _msl_double_kernel row was removed. It is MSL
-# __ieee754_pow, C code 25 bytes from matching under dsi/1.2 (docs/notes/pkt_020979C0.c.txt),
-# so it does not belong in this table of hand-written assembly.
-#
-# 2026-09-23: the 0x02098B48 _msl_double_fn_1 row was removed for the same reason. Its body
-# is MSL __ieee754_rem_pio2, now matched as C under dsi/1.2 (docs/notes/pkt_02098B44.c.txt,
-# src/matched/unit_02098B44.c).
 0209AC04  _double_arith_prelude                            MSL/runtime.a  arm9_main
-02094B8C  _msl_scanf_strtod_core                           MSL/runtime.a  arm9_main
-02099228  _msl_double_minimax_poly                        MSL/runtime.a  arm9_main
-0209953C  _msl_double_fn_2                                MSL/runtime.a  arm9_main

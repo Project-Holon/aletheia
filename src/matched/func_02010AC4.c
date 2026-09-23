@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocking: evidence, not codegen.  Every concrete byte matches.  Wave 17:
+ * status:   EXACT
+ * history:  was MATCH on evidence only (every concrete byte matched).  Wave 17:
  *           the pooled overlay ids 0x73 / 0x7B (ov115_id, ov123_id) now
  *           resolve as `overlay_id` (id argument of func_020312CC).  Two
  *           ABS32 sites are left, the overlay-resident proc pointers
@@ -16,13 +16,25 @@
  *           func_02010C34's pool (0x02010D84..), which disasm.py prints as
  *           Thumb code, so the literal index misses them.  Seeding those
  *           pools as .word, or a matched referrer, would close both.
+ *           Seed round 10: both words are ov115 proc tables (three Thumb
+ *           function pointers each, 0x021D6338 -> func_021D4BFC/4CE4/4D10,
+ *           0x021D654C -> func_021D603C/6104/60D4), loaded with overlay id
+ *           0x73 = ov115, not ov021 (docs/sessions/2026-09-23/reports/
+ *           wave17_evidence.md).  ov115 declares both starts in
+ *           layout/data_objects.txt and the symbols lines carry the ov115
+ *           token.  0x021D654C resolves as sole-ref/data (ov115 is the only
+ *           overlay with a start there).  0x021D6338 resolves as
+ *           sole-ref/self on the ov115 hint; ov021's listing also starts a
+ *           block there, so sole-ref/data refuses the contested hint, and the
+ *           choice rests on the hint plus the overlay_id 0x73 site in this
+ *           same function.  EXACT, seed round 10.
  *
  * symbols:
  *   ov115_id       0x00000073  data  a1
  *   ov123_id       0x0000007B  data  a1
- *   d_021D6338     0x021D6338  data
+ *   d_021D6338     0x021D6338  data  ov115
  *   d_021DA9A8     0x021DA9A8  data
- *   d_021D654C     0x021D654C  data
+ *   d_021D654C     0x021D654C  data  ov115
  *   func_020312CC  0x020312CC  arm
  *   func_0200F7B8  0x0200F7B8  thumb
  *   func_0203CD98  0x0203CD98  arm

@@ -1940,6 +1940,8 @@ def data_object_map():
             parts = line.split(None, 3)
             if len(parts) < 3 or not parts[1].startswith("0x"):
                 continue
+            if parts[0] != "arm9":
+                continue        # overlay rows: overlay_declared_starts()
             try:
                 addr = int(parts[1], 16)
             except ValueError:
@@ -2220,6 +2222,32 @@ def _overlay_bss_table():
     return _OV_DATA["bss"]
 
 
+def overlay_declared_starts(name):
+    """Object starts layout/data_objects.txt declares for overlay `name`.
+
+    Rows whose region column is an overlay name (`ov115  0x021D6338 ...`).
+    The listing cannot carry these: disasm.py has no data-start input, so a
+    table it prints inside a pool block gets no start of its own. Each row's
+    evidence column must say what fixes the start.
+    """
+    out = set()
+    path = os.path.join(ROOT, "layout", "data_objects.txt")
+    try:
+        fh = open(path, "r", errors="replace")
+    except OSError:
+        return out
+    with fh:
+        for line in fh:
+            parts = line.split(None, 3)
+            if len(parts) < 3 or parts[0] != name:
+                continue
+            try:
+                out.add(int(parts[1], 16))
+            except ValueError:
+                continue
+    return out
+
+
 def overlay_data_structure(name):
     """The per-overlay data map of one overlay listing.
 
@@ -2292,6 +2320,7 @@ def overlay_data_structure(name):
                     code.add(addr)
                     prev_data = False
                 in_pool = False
+    starts |= overlay_declared_starts(name) & data
     import bisect
     all_code = sorted(code)
     extents = []
@@ -2384,6 +2413,24 @@ def _overlay_start_attested(name, addr, lo, hi, fixed):
     return False
 
 
+def _hint_contested(addr, region_hint):
+    """True when a `symbols:` overlay hint cannot choose at `addr`.
+
+    A hint is the source's own unchecked claim. It is refused when another
+    overlay mapped over the same window also has an object start at the
+    address: the hint alone cannot say which of the two the word was
+    written for (audit 2026-09-23, finding 6). Applied to the overlay
+    sole-ref/data sub-kind (see attest_sole_ref_overlay_self for why not
+    /self).
+    """
+    if region_hint is None:
+        return False
+    for other in overlay_windows(addr):
+        if other != region_hint and addr in overlay_data_structure(other)[2]:
+            return True
+    return False
+
+
 def attest_sole_ref_overlay_data(addr, align=None, lo=0, hi=0,
                                  region_hint=None, site_region=None):
     """`sole-ref/data` for an overlay address.  (class, n, site, "data")/None.
@@ -2405,6 +2452,8 @@ def attest_sole_ref_overlay_data(addr, align=None, lo=0, hi=0,
         return None                     # ARM9: attest_sole_ref_data()'s job
     pool, fixed = _overlay_pool(addr, region_hint, site_region)
     if not pool:
+        return None
+    if _hint_contested(addr, region_hint):
         return None
     a = SOLE_REF_DEFAULT_ALIGN if align is None else align
     if a > 1 and (addr % a):
@@ -2443,6 +2492,11 @@ def attest_sole_ref_overlay_self(addr, kind, site=None, expect=None,
         return None
     if _is_arm9_address(addr):
         return None
+    # Not guarded by _hint_contested(): this sub-kind is how the committed
+    # func_0202F9F8 (ov179 hint, ov070/ov098 starts) and func_02010AC4 /
+    # func_02010C34 (ov115 hint, ov021 start) resolve, each corroborated by an
+    # overlay_id site of the hinted overlay in the same function. Guarding it
+    # is an open decision (seed round 10 report).
     pool, _fixed = _overlay_pool(addr, region_hint, site_region)
     if len([n for n in pool if in_overlay_data(n, addr)]) != 1:
         return None
@@ -4351,7 +4405,10 @@ def entry_from_source(path, header, kind, rel, verify=False):
         thumb = resolve_isa(addr, region,
                             argparse.Namespace(thumb=False, arm=False))
     is_unit = h.get("unit", "").strip().lower() in ("yes", "true", "1")
-    status = h.get("status", "")
+    # The header's `status:` is never trusted (audit 2026-09-23, finding 4):
+    # without --verify the entry records "unverified", which no coverage
+    # reader counts (worklist.load_matched filters on MATCHED_STATUS).
+    status = "unverified"
     if verify:
         if is_unit:
             r, _tl = run_tu(path, addr, h.get("compiler", "1.1p1"),
@@ -4833,7 +4890,8 @@ OV_DATA_POOLED = 0x0216FEDC
 OV_DATA_INTERIOR = 0x216fee8   # ov010 data, not a start, no pool referrer
 OV_DATA_POOLED_SITE = 0x02155470
 # 0x021D6338 (src/pending/func_02010AC4.c): ov021's listing starts a block
-# there, but ov016 and ov115 overlap the address and hold data too.
+# there, ov016 and ov115 overlap the address and hold data too, and ov115
+# declares an object start there in layout/data_objects.txt (its proc table).
 OV_DATA_SHARED = 0x021D6338
 # 0x02171F3C: the ov010 byte table of the 0x02167394 callee (wave 14,
 # game_beacon.c).  Its only reference is the word at 0x021673A4 inside that
@@ -5456,10 +5514,18 @@ def cmd_selftest(args):
     _check(res, "ov sole-ref/data: un-hinted, a start in one overlay is "
                 "refused while an overlapping overlay also holds data there",
            cls(attest_sole_ref_overlay_data(OV_DATA_SHARED)), None)
-    _check(res, "ov sole-ref/data: the hint naming the starting overlay "
-                "attests it",
+    # Until seed round 10 this case expected the ov021 hint to attest. ov115
+    # now declares its proc table there (layout/data_objects.txt), so two
+    # overlays start an object at the address and no hint may choose.
+    _check(res, "ov sole-ref/data: an ov115 hint at 0x021D6338 is refused "
+                "too, because ov021's listing also starts a block there",
            cls(attest_sole_ref_overlay_data(OV_DATA_SHARED,
-                                            region_hint="ov021")), "sole-ref")
+                                            region_hint="ov115")), None)
+    _check(res, "ov sole-ref/data: an ov021 hint at 0x021D6338 is refused "
+                "(ov115's proc table; another overlay in the window also "
+                "has an object start there)",
+           cls(attest_sole_ref_overlay_data(0x021D6338,
+                                            region_hint="ov021")), None)
     _check(res, "ov sole-ref/data: an overlay code address is refused",
            cls(attest_sole_ref_overlay_data(OV_CODE_SOLE,
                                             region_hint="ov009")), None)

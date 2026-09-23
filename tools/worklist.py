@@ -53,8 +53,10 @@ Precedence is sdk > runtime > matched > open, with one documented exception:
             only functions that end up inside packets.
 
 The exception: when an address carries both an SDK symbol and a matched
-entry of kind game or game_unit, the matched entry wins and the function is
-classified matched, with the losing SDK name recorded as sdk_conflict.
+entry of kind game or game_unit, the matched entry wins only when the SDK row
+is weak (flagged '?' or its name is duplicated in the region); the function is
+then classified matched, with the losing SDK name recorded as sdk_conflict.
+A strong SDK row always wins.
 libmatch.py flags short library functions with no sibling evidence as weak
 (the trailing '?' column in symbols_sdk.txt), and a byte-exact game match at
 the same address is stronger evidence than a weak library pattern.  The
@@ -187,6 +189,35 @@ def load_sdk_symbols():
             # keep the first, which is the order libmatch.py emitted.
             syms.setdefault(addr, name)
     return syms
+
+
+def load_sdk_overrulable():
+    """Addresses whose SDK row a matched game entry may overrule.
+
+    Only weak rows qualify: rows flagged `?` by libmatch.py, or rows whose
+    symbol name appears more than once in the file (any region) (a pattern that fired
+    at several places cannot name all of them). A strong row wins over a
+    matched file (audit 2026-09-23, finding 3): the function leaves both the
+    numerator and the denominator as SDK.
+    """
+    rows = []
+    with open(SYMBOLS_SDK, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.split("#", 1)[0].strip()
+            parts = line.split()
+            if len(parts) < 4:
+                continue
+            try:
+                addr = int(parts[0], 16)
+            except ValueError:
+                continue
+            rows.append((addr, parts[1], parts[3], "?" in parts[4:]))
+    # duplicates are counted over every region in the file
+    counts = {}
+    for _a, name, _r, _w in rows:
+        counts[name] = counts.get(name, 0) + 1
+    return set(a for a, name, region, weak in rows
+               if region == REGION and (weak or counts[name] > 1))
 
 
 def load_sdk_extents():
@@ -334,6 +365,10 @@ def load_matched():
     cover = {}
     for ent in match.load_manifest_entries():
         if ent.get("region") != REGION:
+            continue
+        # status gate (audit 2026-09-23, finding 4): only a verified shard
+        # entry counts; plain `manifest` writes "unverified".
+        if ent.get("status") not in match.MATCHED_STATUS:
             continue
         name = ent.get("name", "")
         kind = ent.get("kind", "")
@@ -662,6 +697,7 @@ def parse_all(units):
 def build_inventory():
     units = load_units()
     sdk = load_sdk_symbols()
+    sdk_weak = load_sdk_overrulable()
     sdk_ext = load_sdk_extents()
     runtime = load_runtime_symbols()
     matched = load_matched()
@@ -712,7 +748,8 @@ def build_inventory():
     for fn in funcs:
         addr = fn["addr"]
         ment = matched.get(addr)
-        proven_game = ment is not None and ment["kind"] in ("game", "game_unit")
+        proven_game = (ment is not None and ment["kind"] in ("game", "game_unit")
+                       and (addr not in sdk or addr in sdk_weak))
         if addr in sdk and not proven_game:
             fn["cls"] = "sdk"
             fn["sdk_name"] = sdk[addr]

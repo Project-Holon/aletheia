@@ -5,9 +5,10 @@
     python tools/session/wave.py commit "<label>" <prev_exact> <prev_repro>
 
 foldin: worklist refresh, pending re-verify (promote_fast --dry), pending
-figure, split build and pack, ROM build with the sha1 line, coverage maps,
+figure, split build and pack, ROM build (exits non-zero unless the sha1 is
+the original's), coverage maps,
 then INCLUDE / HOLD lists of untracked src/matched files (sharded or not).
-commit: README figure, stage README, shards, docs, pending and the sharded
+commit: runs foldin first and refuses unless it passes, then README figure, stage README, shards, docs, pending and the sharded
 untracked sources only, commit with both figures and deltas, push.
 Runs from any cwd on Windows, macOS and Linux (it changes to the repo root
 itself); importable without side effects.  Stdlib only.
@@ -21,6 +22,7 @@ ROOT = env.ROOT
 PY = env.PYTHON
 SES = os.path.join("tools", "session")
 TOOL = lambda name: os.path.join("tools", name)
+ROM_SHA1 = "26ad0b9967aa279c4a266ee69f52b9b2332399a5"
 
 
 def run(cmd, tail=1, check=True):
@@ -63,7 +65,11 @@ def foldin():
     print("[split build]"); run([PY, TOOL("build.py"), "--split", "--pack"])
     print("[rom]"); o = run([PY, TOOL("ndsrom.py"), "build", "extract", "-o", os.path.join("build", "pokeblack.nds"),
                              "--override", os.path.join("build", "pack")], tail=0)
-    print("   ", [l for l in o.splitlines() if "sha1" in l][-1:])
+    shl = [l for l in o.splitlines() if "sha1" in l][-1:]
+    print("   ", shl)
+    if not shl or ROM_SHA1 not in shl[0].lower():
+        sys.exit("foldin FAILED: rebuilt ROM sha1 is not %s (got %s)"
+                 % (ROM_SHA1, shl[0] if shl else "no sha1 line"))
     print("[maps]"); run([PY, TOOL("coveragemap.py")])
     sh = sharded_sources(); unt = untracked_matched()
     print("INCLUDE", " ".join(u for u in unt if u in sh))
@@ -71,11 +77,22 @@ def foldin():
     st = subprocess.run(["git", "status", "--short"], capture_output=True, text=True).stdout
     print("\n".join(l for l in st.splitlines() if l.startswith("?? layout")))
     print("FIGURES %.2f %.2f %d" % (ex, rp, nf))
+    return ex, rp, nf
 
 
 def commit(label, pex, prp):
+    """Runs foldin() first, in this same invocation: a commit never rests on
+    a fold-in from an earlier run or a tree whose ROM no longer rebuilds.
+    foldin() exits non-zero on a sha1 mismatch, so reaching the next line
+    means it passed."""
     os.chdir(ROOT)
+    print("[commit: foldin first]")
+    fres = foldin()
+    if not fres:
+        sys.exit("commit refused: foldin did not pass in this invocation")
     ex, rp, nf, _ = figures()
+    if not (ex and nf):
+        sys.exit("commit refused: coverage figures missing")
     p = "README.md"; s = open(p, encoding="utf-8").read()
     s2 = re.sub(r"\d*\.?\d*% of ARM9 game code ships as verified C \(\d* functions",
                 "%.2f%% of ARM9 game code ships as verified C (%d functions" % (ex, nf), s)

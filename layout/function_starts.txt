@@ -434,30 +434,30 @@ arm9_main  0x02020344  thumb   # unit_02020268.c
 arm9_main  0x02020350  thumb   # unit_02020268.c
 arm9_main  0x0200D288  thumb   # 12-byte leaf after func_0200D144; src/matched/func_0200D288.c
 arm9_main  0x0202EB04  thumb   # 6-byte leaf after func_0202EA40's pool word; src/matched/func_0202EB04.c
-arm9_main  0x0203DC4C  arm   # net_irc_wireless leaf, src/matched/func_0203DC4C.c
-arm9_main  0x0203DC68  arm   # net_irc_wireless state setter, src/matched/func_0203DC68.c
-arm9_main  0x0203CFF0  arm   # ARM tail-call wrapper (was a false SDK signature), src/matched/func_0203CFF0.c
-arm9_main  0x0203D000  arm   # same, src/matched/func_0203D000.c
-arm9_main  0x0203D010  arm   # src/matched/func_0203D010.c
-arm9_main  0x0203B1B0  arm   # src/matched/func_0203B1B0.c
-arm9_main  0x0203B01C  arm   # net_state leaf, src/matched/unit_0203B018.c
-arm9_main  0x020489F4  arm   # g3d_util accessor run, src/matched/unit_020489F4.c
-arm9_main  0x0202DE5C  thumb # pms_draw setters, src/matched/unit_0202DE5C.c
-arm9_main  0x0202DE64  thumb # same unit
-arm9_main  0x0202DE68  thumb # same unit
-arm9_main  0x0202FAB0  thumb # time_icon leaf, src/matched/func_0202FAB0.c
-arm9_main  0x0202F768  thumb # time_icon callback leaf, src/matched/func_0202F768.c
-arm9_main  0x0202F774  thumb # same, src/matched/func_0202F774.c
-arm9_main  0x02010848  thumb # wih_dwc followers, src/matched/unit_02010848.c
-arm9_main  0x02010864  thumb # same unit
-arm9_main  0x02010884  thumb # same unit
+arm9_main  0x0203DC4C  arm   # net_irc_wireless leaf, src/matched/func_0203DC4C.c; witness: pool word 0x0203D9E0, pool word 0x0203E418
+arm9_main  0x0203DC68  arm   # net_irc_wireless state setter, src/matched/func_0203DC68.c; witness: bl at 0x0203DD20, bl at 0x0203DD50
+arm9_main  0x0203CFF0  arm   # ARM tail-call wrapper (was a false SDK signature), src/matched/func_0203CFF0.c; witness: bl at 0x0203E0F4, blx from ov011 at 0x02172D48
+arm9_main  0x0203D000  arm   # same, src/matched/func_0203D000.c; witness: bl at 0x0203E160, blx from ov021 at 0x021CEDE0
+arm9_main  0x0203D010  arm   # src/matched/func_0203D010.c; witness: bl at 0x0203E0D8, blx from ov010 at 0x02157874
+arm9_main  0x0203B1B0  arm   # src/matched/func_0203B1B0.c; witness: pool word 0x0203D018
+arm9_main  0x0203B01C  arm   # net_state leaf, src/matched/unit_0203B018.c; witness: pool word 0x0203B078, pool word 0x0203B43C
+arm9_main  0x020489F4  arm   # g3d_util accessor run, src/matched/unit_020489F4.c; witness: blx from ov021 at 0x021BE4E4, blx from ov088 at 0x021B9C4C
+arm9_main  0x0202DE5C  thumb # pms_draw setters, src/matched/unit_0202DE5C.c; witness: bl from ov031 at 0x021EFF38, bl from ov110 at 0x021C12C6
+arm9_main  0x0202DE64  thumb # same unit; witness: bl from ov110 at 0x021C1290, bl from ov120 at 0x021D84EE
+arm9_main  0x0202DE68  thumb # same unit; witness: bl from ov177 at 0x021E7574, bl from ov216 at 0x021BC760
+arm9_main  0x0202FAB0  thumb # time_icon leaf, src/matched/func_0202FAB0.c; witness: pool word 0x020A0488
+arm9_main  0x0202F768  thumb # time_icon callback leaf, src/matched/func_0202F768.c; witness: pool word 0x020055F0
+arm9_main  0x0202F774  thumb # same, src/matched/func_0202F774.c; witness: pool word 0x020055F4
+arm9_main  0x02010848  thumb # wih_dwc followers, src/matched/unit_02010848.c; witness: bl from ov014 at 0x02177226
+arm9_main  0x02010864  thumb # same unit; witness: bl from ov014 at 0x0217884C
+arm9_main  0x02010884  thumb # same unit; witness: bl from ov014 at 0x021787F0
 overlay_014  0x0217963C  thumb # wih_dwc callee, bl at 0x020103B6 and 0x020103FE
 overlay_014  0x02177B80  thumb # wih_dwc callee, bl at 0x0201081A
 overlay_014  0x02178098  thumb # wih_dwc callee, bl at 0x020105E8
-arm9_main  0x02040EBC  arm   # real entry of the bg_sys row labelled 0x02040EC0 (home-area push), src/matched/func_02040EBC.c
-arm9_main  0x0202BB40  thumb # iss_3ds_sys thunk, src/matched/func_0202BB40.c
-arm9_main  0x02061B5C  arm   # follower of func_02061B2C, src/matched/func_02061B5C.c
-arm9_main  0x0204D2C8  arm   # 20-byte tail-call leaf after func_0204D224, src/matched/func_0204D2C8.c
+arm9_main  0x02040EBC  arm   # real entry of the bg_sys row labelled 0x02040EC0 (home-area push), src/matched/func_02040EBC.c; witness: blx from ov034 at 0x021F024E, blx from ov088 at 0x021BCFB8
+arm9_main  0x0202BB40  thumb # iss_3ds_sys thunk, src/matched/func_0202BB40.c; witness: pool word 0x0202B910
+arm9_main  0x02061B5C  arm   # follower of func_02061B2C, src/matched/func_02061B5C.c; witness: pool word 0x02061C28, pool word 0x02061C3C
+arm9_main  0x0204D2C8  arm   # 20-byte tail-call leaf after func_0204D224, src/matched/func_0204D2C8.c; witness: pool word 0x020A13D0
 overlay_010  0x02167394  thumb # game_beacon callee (id > 0x1d ? 0 : table), bl from 0x0202685C x4
 # seed round 9
 arm9_main  0x0202F47C  thumb # 12-byte tail-call leaf after func_0202F464, bl from func_0202F1B4 at 0x0202F20C, src/matched/func_0202F47C.c
@@ -490,3 +490,11 @@ overlay_009  0x0215536C  thumb # func_0200F17C callee, bl at 0x0200F1BA, 0x0200F
 overlay_014  0x02177020  thumb # func_0200F17C callee, bl at 0x0200F202
 overlay_015  0x021798D4  thumb # func_0200F17C callee, bl at 0x0200F20E
 arm9_main  0x020507A0  arm   # real entry of the row labelled 0x020507A4 (home-area push), blx from ov021 at 0x021A0066 and 0x021BC180, src/matched/func_020507A0.c
+
+# seed round 10
+arm9_main  0x02094530  arm     # true entry of src/matched/func_02094530.c (label at 0x02094534 was four bytes late); bl from ov009 at 0x02182D14 and 0x02182E2C, blx from ov009 at 0x021556F2
+arm9_main  0x0200AD7C  thumb   # lane 17H follower: tail call to MIi_CpuClearFast; pointer word 0x0200AD7D at 0x0209DC58
+arm9_main  0x0200AD8C  thumb   # lane 17H follower: ldrh at +0xEC getter; bl from ov135 at 0x02202534
+arm9_main  0x0200AD94  thumb   # lane 17H follower: strh at +0xEC setter; bl from ov135 at 0x02201CF8, 0x022022B0, 0x02202398
+arm9_main  0x020141E0  thumb   # lane 17H follower: 3-word getter; bl from ov021 at 0x02189348, 0x02189384, 0x021893F8
+arm9_main  0x020141F0  thumb   # lane 17H follower: 3-word setter; bl from ov021 at 0x02189360

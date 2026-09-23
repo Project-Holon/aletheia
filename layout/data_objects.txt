@@ -10,7 +10,9 @@
 # addresses, kinds and referrer sites only; contains no game data
 #
 # columns, whitespace-separated:
-#   region      the region the object lives in (arm9 today)
+#   region      the region the object lives in: arm9, or an overlay name (ovNNN)
+#               for a hand-declared overlay object start (read by match.py
+#               overlay_declared_starts(); datamap.py does not write them)
 #   start       the address the object begins at, 0x-prefixed, 8 hex digits
 #   kind        pool | string | data-decl | table-guess
 #   evidence    where the boundary comes from.  For `pool` it is
@@ -1540,3 +1542,5 @@ arm9  0x02153FB4  pool         pool word at 0x0209D76C in arm9:030_020921F4, poo
 arm9  0x02153FB8  pool         pool word at 0x0209D770 in arm9:030_020921F4, pool word at 0x0209D770 in arm9:030_02096620, pool word at 0x0209D770 in arm9:030_0209666C, pool word at 0x0209D770 in arm9:030_02096774
 arm9  0x021542B8  pool         pool word at 0x02079250 in arm9:025_02076B8C, pool word at 0x02079250 in arm9:025_02078540, pool word at 0x02079250 in arm9:025_02078588, pool word at 0x02079250 in arm9:025_020786D8, pool word at 0x0209D86C in arm9:030_020921F4, pool word at 0x0209D86C in arm9:030_02096620 (+2 more)
 arm9  0x02FE00A0  pool         pool word at 0x0208460C in arm9:027_02082960, pool word at 0x02084770 in arm9:027_02082960, pool word at 0x0208460C in arm9:027_02084260, pool word at 0x02084770 in arm9:027_02084260, pool word at 0x0208460C in arm9:027_02084288, pool word at 0x02084770 in arm9:027_02084288 (+2 more)
+ov115  0x021D6338  data-decl    proc table of three Thumb function pointers into ov115 (0x021D4BFD func_021D4BFC, then func_021D4CE4, func_021D4D10), read from asm/overlays/ov115.s; loaded by pool words 0x02010B84 (func_02010AC4) and 0x02010D88 (func_02010C34), both passed with overlay id 0x73 (ov115) to func_020312CC / func_02031348. Evidence: docs/sessions/2026-09-23/reports/wave17_evidence.md. Seed round 10.
+ov115  0x021D654C  data-decl    proc table of three Thumb function pointers into ov115 (0x021D603D func_021D603C, then func_021D6104, func_021D60D4), read from asm/overlays/ov115.s; loaded by pool words 0x02010B94 (func_02010AC4) and 0x02010D94 (func_02010C34), both passed with overlay id 0x73 (ov115). Evidence: wave17_evidence.md. Seed round 10.
