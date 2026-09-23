@@ -5,3 +5,13 @@ Not code (not filable): func_02084D98 is an 8-byte linker veneer,
 call spends r3, not r1 (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so
 this is the linker's own branch island, not a function.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================
+APPENDED 2026-09-23, wave 17 lane untried_small: EXACT, src/matched/func_02084D98.c
+================================================================
+Not a linker veneer: the pool word 0x02084D78 is even (an ARM target 0x20
+bytes back, in range of a plain b), so no linker would emit an island. A
+compiled tail call spends ip (measured: DIFF 2 out, ldr ip/bx ip). Written as
+an SDK `asm void` body `ldr r1, =func_02084D78; bx r1` it is EXACT, the pool
+word resolved against symbols_sdk (func_02084D78 is ARM, the old header said
+thumb).
