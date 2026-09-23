@@ -234,3 +234,45 @@ The best source, verbatim (136 bytes against 136, 69 concrete out, 1.1p1):
 ----------------------------------------------------------------------
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 136 bytes against 136, 69 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED 2026-09-23, wave 13 (palanm.c): 69 holds
+========================================================================
+
+/* best source, 136 bytes against 136, 69 concrete bytes out, 1.1p1 */
+(the source above, verbatim)
+
+WHAT THE IMAGE COMPUTES IN WHICH ORDER, which is the new reading: the
+three blends are evaluated red (the unshifted channel) first, then blue
+(<<10), then green (<<5); red is narrowed into r7 and held, blue is
+narrowed then shifted (`lsls #0x18 / lsrs #0x18 / lsls #0xa`), green's
+narrowing is folded with its shift (`lsls #0x18 / lsrs #0x13`), and the
+final OR is `rr | ((rb << 10) | (rg << 5))`.  Every compile forwards the
+three u8 locals into the final expression and evaluates blue first.  The
+sibling func_0202EA40 (blink_palanm.c) has the same body shape with the
+same "first computed, ORed last" order, so the two will probably fall to
+the same spelling.
+
+Measured, none below 69 at 136:
+  - seven final-expression shapes (left/right nested, GX_RGB-style `<< 0`)
+    x u8/int/u16/u32 locals: 69 best, 73 to 106 otherwise;
+  - all 36 combinations of statement order of the three blends x the six
+    right-nested OR orders `A | (B | C)`: 69 best (statement order is
+    invisible: the locals are forwarded);
+  - inline `Blend(s, d, w)` returning u8/int and an inline `Rgb(r, g, b)`
+    (9 cells): 69;
+  - ../2.0/sp2: 140 bytes.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 136 bytes against 136, 69 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED 2026-09-23, wave 13 (palanm.c), later the same pass: CLOSED, EXACT,
+src/matched/func_02021C20.c
+========================================================================
+
+The section just above is superseded.  Once func_0202EA40 closed (see
+docs/notes/pkt_0202EA40.c.txt), its shape carried over whole: `u16 a; u16 t;`
+LOCALS for the pixel and the target (int is 20 out), every channel
+extraction written inline inside its blend (no sb/sg/sr locals), the three
+blends into s32 (or u8) locals in r, b, g order, and the pack
+`r | ((b << 10) | (g << 5))`.  EXACT at 136 under 1.1p1, no relocations.

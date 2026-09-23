@@ -459,8 +459,24 @@ struct PrintCtx *func_0201D7C4(struct PrintSys *p, struct PrintCtx *q);
  *    arm only), and the code byte `(u8)(p[1] >> 8)` taking the ALREADY
  *    LOADED halfword (func_0201CEE0: the dead `bne` reuses the switch's
  *    compare);
- *  - the ring wrap `if (o >= ps->unk04) return 0; return o;` twice in
- *    func_0201C4E4 (12 -> 5 bytes; see docs/notes/sub_0201C4E4.c.txt).
+ *  - the ring wrap, twice in func_0201C4E4, which is EXACT since wave 13
+ *    (src/matched/func_0201C4E4.c) ONLY in the named-local form
+ *        static inline u16 Wrap(struct PrintSys *ps, u16 o)
+ *        { u16 r = o; if (r >= ps->unk04) r = 0; return r; }
+ *    The early-return form (`if (o >= ps->unk04) return 0; return o;`)
+ *    truncates in place and lets the size load float: 5 bytes out.
+ *
+ * ADDED 2026-09-23 (wave 13).
+ *  - func_0201D768's third parameter is `u16 len`: its only caller,
+ *    func_0201D6D8, narrows the value it passes (lsls/lsrs #0x10), and
+ *    with u16 the plain source is size-exact (92) with no volatile and the
+ *    image's `ldr [sp] / cmp #0 / bls` guard.  Still DIFF (66): the
+ *    head/counter spill choice.  docs/notes/func_0201D768.diff.c.txt.
+ *  - func_0201C7D0 (2 out under sp2) mixes a 1.1p1 trait (the stacked u16
+ *    read based at the incoming-argument block, `add r1, sp, #0x18`; sp2
+ *    ALWAYS bases such reads at sp+8) with an sp2 trait (the outgoing
+ *    `str` scheduled last, the scratch address reloaded per call).  Neither
+ *    pinned compiler can produce both; see docs/notes/pkt_0201C7D0.c.txt.
  * ------------------------------------------------------------------ */
 
 #endif /* PRINTSYS_H */

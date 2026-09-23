@@ -303,6 +303,10 @@ int  func_0202E0E0(struct PmsElem *e, void *cursor, int domove);
  *   func_02043AF4(func_02045770(a3), p0, (s16)(p1 << 4), 0x54, 0x10, c2); */
 void func_0202E1F0(struct PmsElem *e, u32 a1, u32 a2, u32 a3,
                    void *w, struct PmsCs *cs, u16 c1, u32 c2, u16 c3);
+/* ADDED 2026-09-23 (wave 13): the image's 0x48-byte frame gives the two
+ * arms of the second loop SEPARATE p0/p1 slots (0x28/0x2c and 0x30/0x34),
+ * so each arm declares its own pair; &ws lives in r7 from the second call
+ * on and the loop count n is spilled (0x20).  Still DIFF. */
 
 /* Tears the drawing down and clears both flag bits.
  * src/matched/func_0202E38C.c */

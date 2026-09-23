@@ -291,3 +291,24 @@ The base-register choice for the byte array next to the volatile scalar is
 still the whole residue.
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 printsys lane: 17 holds
+==============================================================================
+
+/* best source, 184 bytes against 184, 17 concrete bytes out, 1.1p1 */
+(the note's source with `int hi; int mid;`, unchanged)
+
+New spellings, none below 17:
+  - `done` as volatile int / u8 / u16 / u32 / uninitialised-then-assigned,
+    crossed with `(u8)done` stores and a `u8 *q = &buf[0]` block (24 cells):
+    17 for every int/u32 cell, worse for the narrow ones;
+  - the colour as `struct { u8 a, b, c; }` with named fields at all three
+    use sites (17), and the same with a plain `int done` (180/156);
+  - the three clears as a `for (k = 0; k < 3; k++)` loop over buf, with k
+    int/u32/u8 and through a post-incremented pointer (25 to 167);
+  - ../2.0/sp2: 188 bytes.
+The base register for the three byte stores (image `add r1, sp, #8`,
+compile `add r0, sp, #4` + offset 4) is still the whole residue.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 184 bytes against 184, 17 concrete bytes out, 1.1p1

@@ -335,3 +335,41 @@ local binding, volatility, declaration order, the two-function `tu`, or
 Not filed: DIFF, by rule 6.
 
 re-verified 2026-09-22 by tools/match.py: DIFF, 268 bytes against 268, 33 concrete bytes out, 1.1p1
+
+========================================================================
+APPENDED 2026-09-23, wave 13 (palanm.c): THE PERMUTER GOT ITS FAIR RUN.
+Both twins still DIFF at 33.
+========================================================================
+
+/* best source, 268 bytes against 268, 33 concrete bytes out, 1.1p1 */
+(the first section's source; its twin at 0x02021848 is that source with the
+second func_02021930 test dropped and `p->a_big = mask;`, 232/232, 33 out)
+
+The extent poisoning recorded above was worked around WITHOUT touching
+tools/ or layout/: a scratch wrapper imports tools/permuter.py, replaces
+match.target_extent() with one that answers 268 for 0x0202173C and 232 for
+0x02021848, and calls permuter.main().  --explain then reads
+`size=232/232` and `r4 -> r6 x1`.
+
+  func_02021848  --mode hill --budget 800 --jobs 6 --types:
+      reorder(+2) only (asm 415 -> 410), bytes-out 33, "no single mutation
+      improves (220 tried)"
+  func_02021848  --mode anneal --budget 2000 --jobs 6 --types:
+      2000 compiles in 66 s, plateau at 33
+  func_0202173C  --mode hill --budget 600: reorder(+2), 33, 222 tried
+  func_0202173C  --mode anneal --budget 1500: 31 via hoist-down(done) ;
+      decl-order ; pad ; volatile-add(d) ; type:l(keep:u16->s32) -- a
+      volatile parameter and a pad slot, not a source.
+So the permuter verdict is now a real negative: the home-store placement of
+`a` (`str r3, [sp, #8]` first in the image, sixth in every compile) is not
+reachable from the AST mutation set either.
+
+One more declaration lever tried and refuted: func_020219C4 is a SEVEN-
+argument function (src/matched/func_020219C4.c) and the image's [sp,#8] is
+exactly its seventh outgoing slot, so the entry store of `a` looked like it
+might be the seventh argument hoisted.  Passing a seventh argument (a, 0,
+d, keep, done or i) costs 12 to 16 bytes (244/248 against 232): the
+original passes six and the callee reads whatever is in the slot.
+../2.0/sp2: 236 / 264 bytes.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 232 bytes against 232, 33 concrete bytes out, 1.1p1 (0x02021848)

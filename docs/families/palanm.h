@@ -231,6 +231,15 @@ struct PalAnmObj {
                      *         sets it when b_lo has drained */
 };
 
+/* ADDED 2026-09-23 (wave 13).  func_0202173C and func_02021848 (both DIFF,
+ * 33 out) are mis-cut in the listing (extent 2 bytes each), which poisons
+ * the permuter's size term.  A scratch wrapper that imports tools/permuter.py
+ * and overrides match.target_extent() (268 / 232) gives it a fair run
+ * without editing tools/: hill and anneal both plateau at 33, so the
+ * home-store placement of `a` is now a real permuter negative.  Their
+ * func_020219C4 call passes SIX arguments; the callee's seventh slot is
+ * whatever sits at [sp,#8] (passing a seventh costs 12-16 bytes). */
+
 /* Bit test: returns 1 when bit `bit` of `val` is set, else 0.  A leaf that
  * saves no lr, so disasm.py prints it inside a `.word` run
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  The whole
@@ -281,10 +290,12 @@ extern void func_02021B6C(struct PalAnmObj *p, u32 idx, u32 arg);
 extern void func_02021BC8(struct PalAnmObj *p, u32 idx, u32 arg);
 
 /* The per-pixel RGB555 blend loop, `weight`/16 of the way from src to the
- * anim sub-object's own target colour.  STILL A DIFF: see
- * docs/notes/func_02021C20.c.txt.  The signature below is byte-confirmed
- * (size-exact, every operator and shift amount right); only the register
- * allocation is unreached. */
+ * anim sub-object's own target colour.  EXACT since wave 13
+ * (src/matched/func_02021C20.c): `u16 a = src[i]; u16 t = c->target;` as
+ * LOCALS, every channel extraction inline in its blend, blends in r, b, g
+ * order, and the pack `r | ((b << 10) | (g << 5))` -- the operand ORed last
+ * is the one the compiler evaluates first.  Same shape as func_0202EA40 in
+ * blink_palanm.c. */
 extern void func_02021C20(u16 *src, u16 *dst, struct PalAnmAnim *c,
                           u32 count);
 

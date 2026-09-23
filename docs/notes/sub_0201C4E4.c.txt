@@ -551,3 +551,28 @@ u32 func_0201C4E4(struct PrintSys *ps)
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 464 bytes against 464, 5 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 printsys lane: CLOSED, EXACT, src/matched/func_0201C4E4.c
+==============================================================================
+
+The last five bytes were the SHAPE OF THE INLINE WRAP HELPER.  The early-
+return form `if (o >= ps->unk04) return 0; return o;` truncates `off + 0x1C`
+in place (`lsls r1, r7 / lsrs r1, r1`) and lets the scheduler hoist the
+ring-size `ldrh` between the two shifts.  A helper that copies its parameter
+into a named local and conditionally zeroes it,
+
+    static inline u16 Wrap(struct PrintSys *ps, u16 o)
+    {
+        u16 r = o;
+
+        if (r >= ps->unk04)
+            r = 0;
+        return r;
+    }
+
+truncates through r0 into r1 and loads the size after, exactly as the
+image.  Found by a five-helper by five-call-site grid; every call spelling
+(`Wrap(ps, off + 0x1C)`, nested, pre-truncated, `off += 0x1C` first) is
+EXACT with this helper and 5 out with every other helper body.  Filed
+EXACT under 1.1p1, packet pkt_0201C4E4, all ten sites `label`.

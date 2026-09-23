@@ -282,3 +282,41 @@ void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v)
 }
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 printsys lane: 2 holds; the residue straddles the two compilers
+==============================================================================
+
+/* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 */
+(the wave 11 source above, unchanged)
+
+Permuter under ../2.0/sp2 from that source:
+  --mode anneal --budget 800 --jobs 6 --types   and
+  --mode anneal --budget 2000 --jobs 6 --types --seed 7 (2000 compiles, 119 s):
+      best      DIFF   asm=10    bytes-out=2    size=56/56
+  no mutation moves the stacked-u16 base.
+
+Measured by hand this pass (none below 2):
+  - the y/z width grid, param type x sub_0201C808 prototype type, each of
+    s16/u32/u16/int (32 combinations, both compilers): 1.1p1 is 37 or 47
+    in every cell, sp2 is 2 or 47;
+  - `v` as u16 / const u16 / int / u32, a `u16 vv = v;` copy at entry, and
+    `*&v` / `(u16)v` at the call (24 cells, both compilers): sp2 2, 1.1p1 37;
+  - w and v as one by-value struct (sp2 AND 1.1p1: the struct form moves the
+    outgoing `str` early under both).
+
+WHY IT IS A COMPILER QUESTION, NOT A SOURCE ONE.  ../2.0/sp2 forms EVERY
+stacked-halfword read off `add rN, sp, #8`: compiling the EXACT 1.1p1 file
+src/matched/sub_0201C724.c under sp2 turns its `add r1, sp, #0x18 / ldrh
+r1, [r1, #8]` into `add r1, sp, #8 / ldrh r1, [r1, #0x18]`.  The image here
+has the 1.1p1 base (the incoming-argument block).  Under 1.1p1 the same
+body schedules the outgoing `str z, [sp]` right after the first call and
+caches &g_0214655C in r4; the image schedules it last, as sp2 does.  So the
+image shows a 1.1p1 trait and an sp2 trait in one 56-byte function.  Three
+functions of this wave show the same split (func_0202EB9C: sp2 is
+size-exact at 15 out where 1.1p1 is 4 bytes short; func_0202E1F0: the
+param-homing pairs are sp2-like per the wave 12 note, the c1 read is the
+1.1p1 base).  An intermediate front end (the 2.0 builds before sp2) is the
+obvious test; per the owner's rule it was NOT run in this wave.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2

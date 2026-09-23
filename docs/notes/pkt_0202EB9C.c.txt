@@ -200,3 +200,35 @@ permuter best result line:
 Verified with:
   python3 tools/match.py one --src <src> --func func_0202EB9C \
       --addr 0x0202EB9C --cc 1.1p1 --thumb   -> DIFF, 132 vs 136, 44 bytes
+
+================================================================
+APPENDED 2026-09-23, wave 13 (blink_palanm.c): SIZE-EXACT UNDER ../2.0/sp2, 15 out
+================================================================
+
+/* best source, 136 bytes against 136, 15 concrete bytes out, ../2.0/sp2 */
+(the source above, unchanged, compiled with --cc ../2.0/sp2)
+
+The four-byte gap under 1.1p1 is the COMPILER, not the C: 1.1p1 cross-jumps
+the two `func_0202ED00(t, ...)` calls of the insert arm into one (`b` into
+the shared `adds r0, r4 / bl`), the image keeps two separate calls.  sp2
+keeps them separate and is 136/136.  What is left under sp2:
+  - the a/b/v rotation (image a=r5, b=r6, v=r7; sp2 a=r6, b=r7, v=r5);
+  - one branch target: the image's `blo` at +0x5E lands on the `b` at
+    +0x68 (a jump to a jump), sp2 threads it straight to the tail.
+The unthreaded jump is a 1.1p1 trait and the uncombined calls an sp2 trait
+(see the cross-family remark in docs/notes/pkt_0201C7D0.c.txt).
+
+Measured, none below 15 under sp2 or 44 under 1.1p1:
+  - six shapes of the insert tail (goto join, early `return 2` per arm, an
+    empty else, a named count local, `>= 5` first) and two inline `Evict(t)`
+    helpers: 15 (sp2), 44/148 (1.1p1);
+  - the flag spelled `if/else`, `?:`, `!= 0` and bare, and the key as a
+    separate local `k` in both declaration orders, `u8 v` (24 cells): 15
+    best;
+  - func_0200974C given b as a second argument (its r1 is live): no change.
+Permuter under sp2 from the source above:
+  --mode hill --budget 600 --jobs 6 --types: no single mutation improves (155 tried)
+  --mode anneal --budget 2000 --jobs 6 --types: plateau at 15
+  best      DIFF   asm=75    bytes-out=15   size=136/136
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 136 bytes against 136, 15 concrete bytes out, ../2.0/sp2

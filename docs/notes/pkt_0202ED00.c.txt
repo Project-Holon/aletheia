@@ -168,3 +168,26 @@ void func_0202ED00(struct Rec *t, u32 n)
 permuter best result line:
   best      DIFF   asm=205   bytes-out=7    size=96/96
   (baseline, which remains the best real source: DIFF asm=135 bytes-out=6 size=94/96)
+
+================================================================
+APPENDED 2026-09-23, wave 13 (blink_palanm.c): 6 holds
+================================================================
+
+/* best source, 94 bytes against 96, 6 concrete bytes out, 1.1p1 */
+(the source above, unchanged; the 96-byte extent includes two bytes of
+alignment padding at 0x0202ED5E, so 94 IS the full size)
+
+New spellings, none below 6 with the right copy direction:
+  - `*(t + n) = *(t + n + 1)`, `t[n] = t[n + 1]`, `p = t + n; p[0] = p[1]`,
+    `p = &t[n + 1]; p[-1] = p[0]`, a cast to a ten-word struct, and
+    `{ struct Rec *q = p; *p = *++q; }`: 6, 30 or 86;
+  - an inline `Copy(d, s) { *d = *s; }` in both parameter orders, called
+    with `(p, p + 1)` / `(&t[n], &t[n + 1])` etc.: 6 or 29.  The one 2-byte
+    result, `Copy2(const s, d)` called as `Copy2(p, p + 1)`, copies the
+    WRONG WAY (t[n] into t[n + 1]); its diff is exactly the ldm/stm base
+    swap, which confirms the residue is only which pointer the aggregate
+    lowering evaluates first: the image computes the destination first and
+    derives the source from it, every correct spelling does the reverse;
+  - ../2.0/sp2: 98 bytes.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 94 bytes against 96, 6 concrete bytes out, 1.1p1

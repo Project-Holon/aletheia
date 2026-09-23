@@ -82,9 +82,16 @@ extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
  * pre-scaled by 2 (halfword offsets, like the rest of the family). */
 extern void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 
-/* The per-frame BGR555 cross-fade.  STILL DIFF; see
- * docs/notes/pkt_0202EA40.c.txt for the source and the residue. */
+/* The per-frame BGR555 cross-fade.  EXACT* since wave 13
+ * (src/matched/func_0202EA40.c): the pixels are `u16` locals and the pack
+ * is `(r << 10) | (bl | (g << 5))`, the operand ORed last being the one
+ * evaluated first.  EXACT* only because the leaf below follows it unlabelled. */
 extern void func_0202EA40(void *p);
+
+/* Reset the fade phase: `p->h10 = 0;`.  An unlabelled six-byte leaf after
+ * func_0202EA40's pool word (src/matched/func_0202EB04.c, EXACT, wave 13);
+ * the listing folds it into func_0202EA40's extent (204 against 196). */
+extern void func_0202EB04(struct CodeIn *p);
 
 /* Free the context: three buffers then the context itself, in the order
  * +0x04, +0x00, +0x08, which is what pins the free order as written. */
@@ -150,7 +157,9 @@ extern void func_0202ED00(struct Slot *t, u32 n);
 
 /* The table dispatcher: look `b` up, and either remove and re-notify, or
  * insert by key with the count-capped policy.  STILL DIFF; see
- * docs/notes/pkt_0202EB9C.c.txt. */
+ * docs/notes/pkt_0202EB9C.c.txt.  Size-exact only under ../2.0/sp2 (1.1p1
+ * cross-jumps the insert arm's two func_0202ED00 calls, the image keeps
+ * them apart); 15 out there, a register rotation plus one unthreaded jump. */
 extern u32 func_0202EB9C(u32 a, void *b);
 
 /* The guarded entry point: nothing happens for a `b` whose key is zero.

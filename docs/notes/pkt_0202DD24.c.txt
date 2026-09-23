@@ -451,3 +451,27 @@ void func_0202DD24(struct PmsDraw *p, u32 i, u32 j)
         dst->enabled[k] = src->enabled[k];
     }
 }
+
+================================================================
+APPENDED 2026-09-23, wave 13 (family pms_draw.c): 8 holds
+================================================================
+
+/* best source, 310 bytes against 310 (listing extent 328), 8 concrete bytes out, dsi/1.1p1 -O4,p */
+(the wave 12 source above, unchanged)
+
+New measurements, none below 8:
+  - i/j parameter widths, u32/int/u16/u8/s16 each (25 cells): all 8;
+  - dst defined as `&e[j]`, `e + j`, `dst = e; dst += j;`, `dst = e; dst =
+    dst + j;`, and a byte-offset cast, crossed with three declaration orders
+    of src/dst/dx/dy (15 cells): 8 or 10;
+  - src and dst both dropped for e[i]/e[j] (340/332), only dst dropped
+    (326/304), only src dropped (330/295);
+  - ../2.0/sp2: 304 bytes.
+Reading of the residue, for the next lane: in the image the four spilled
+values dj, dst, dx, dy take slots 0xC, 8, 4, 0 in exactly the order they are
+first stored; the compile gives dst slot 0 and dx/dy 4/8, i.e. the compile
+treats dst as a value created after dy (a copy-propagated / rematerialised
+address temp) while the image keeps it a named local created second.
+Nothing tried makes the front end keep `dst` as a variable.
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 310 bytes against 328, 8 concrete bytes out, 1.1p1

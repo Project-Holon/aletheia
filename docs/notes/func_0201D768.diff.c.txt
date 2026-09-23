@@ -216,3 +216,79 @@ header records the hill run from this point; nothing in the grid moved the
 spill choice, which is the whole residue).
 
 re-verified 2026-09-23 by tools/match.py: DIFF, 92 bytes against 92, 72 concrete bytes out, 1.1p1
+
+==============================================================================
+APPENDED 2026-09-23, wave 13 printsys lane: `u16 len` closes the size without volatile
+==============================================================================
+
+/* best source, 92 bytes against 92, 66 concrete bytes out, 1.1p1 */
+
+NEW FACT, from the only caller.  func_0201D6D8 narrows the length it passes
+(`adds r2, r0 / lsls r2, #0x10 / lsrs r2, #0x10` on func_0201D69C's result
+before the first `bl 0x0201D768`), so the third parameter is `u16 len`.
+With it the plain source (no volatile anywhere, u16 counter, `head`
+block-local, the two-statement `base`) is SIZE-EXACT at 92, and the loop
+guard becomes the image's `ldr r0, [sp] / cmp r0, #0 / bls` (the u16 len
+is reloaded from its spill; a u32 len gives `adds r0, r2, #0 / beq`).
+That retires the `volatile u32 total` scaffolding the pending file uses.
+
+Permuter from the plain u16-len source:
+  --mode hill --budget 800 --jobs 6 --types: 73 (90 bytes) -> 66 (92) via
+      type:p(len:u32->u16) ; hoist-up(total) ; reorder(src += n up) ;
+      hoist-down(total) ; commute(+)
+  --mode anneal --budget 2000 --jobs 6 --types from there: 62, through
+      temp()/split-assign() chains on `base` that are not a readable source.
+
+Measured by hand, none below 66 at size 92:
+  - a type grid over len{u16,u32} x n{u32,u16,int} x total{u16,u32,int} x
+    head{u16,u32,int} (54 cells): every u16-len cell is 92/69, every
+    u32-len cell 90/73 -- the widths other than len are invisible;
+  - the ring wrap as an inline helper, early-return and named-local forms
+    (`u16 r = o; if (r >= p[2]) r = 0; return r;`, the shape that closed
+    func_0201C4E4 this wave), assigned to head or stored straight to p[0]:
+    92/69;
+  - all 24 declaration orders of total/base/start/head (function-scope
+    head) with u16/u32 total and head, while and for loops: 92/69;
+  - ../2.0/sp2: 92/69 (u16 len), 90/73 (u32 len).
+
+The residue is unchanged in kind: the loaded head and the byte counter are a
+spill-cost tie (each live across MI_CpuCopy8 with one def and two uses in
+the loop), the image keeps head in r4 and spills the counter to [sp,#4],
+every compile does the opposite.
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+u8 *func_0201D768(u16 *p, const u8 *src, u16 len, u32 n)
+{
+  u16 total;
+  u8 *base;
+  u16 start;
+  total = 0;
+  base = (u8 *) p;
+  base = base + 0x18;
+  start = p[0];
+  while (total < len)
+  {
+    u16 head = p[0];
+    MI_CpuCopy8(src, base + head, n);
+    src += n;
+    head = (u16) (n + head);
+    if (head >= p[2])
+    {
+      head = 0;
+    }
+    p[0] = head;
+    total = (u16) (total + n);
+  }
+
+  return base + start;
+}
+
+
+
+permuter best result line:
+  best      DIFF   asm=2160  bytes-out=66   size=92/92
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 92 bytes against 92, 66 concrete bytes out, 1.1p1
