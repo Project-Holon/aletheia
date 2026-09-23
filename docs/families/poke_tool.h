@@ -417,10 +417,41 @@ extern u32  func_02017FB0(void *p);
 /* --- allocation and cloning, proved 2026-09-22 by src/matched/func_0201747C.c
  * (EXACT), which is the only matched caller of func_020173F0 and therefore
  * the only thing that constrains its parameter list. --- */
-extern void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3,
-                           u32 heap);   /* allocate a record (tag 0xA0) and
+extern void *func_020173F0(u16 species, u16 level, u64 id, u16 heap);
+                                        /* allocate a record (tag 0xA0) and
                                          * initialise it through
-                                         * func_0201756C; OPEN, see below */
+                                         * func_0201756C.  EXACT 2026-09-23;
+                                         * the id is ONE u64 (see section 11) */
+extern void *func_02017430(u16 species, u16 level, u64 id, u32 pow, u64 rnd,
+                           u16 heap);   /* the same through func_02017588;
+                                         * NOTE heap is LAST.  EXACT */
+extern void  func_0201756C(struct Mon *p, u16 species, u16 level, u64 id);
+                                        /* = func_02017588(.., 0xFFFFFFFF,
+                                         *   0xFFFFFFFF00000000) */
+extern void  func_02017588(struct Mon *p, u16 species, u16 level, u64 id,
+                           u32 pow, u64 rnd);   /* clear, init block area,
+                                                 * mask party area, level,
+                                                 * fresh mail, refresh.  EXACT* */
+extern void  func_02017600(struct Mon *p, u16 species, u16 level, u64 id);
+                                        /* = func_0201761C(.., 0xFFFFFFFF,
+                                         *   0xFFFFFFFF00000000) */
+extern void  func_0201761C(struct Mon *p, u16 species, u16 level, u64 id,
+                           u32 pow, u64 rnd);
+        /* initialise the block area.  EXACT 2026-09-23.  Sentinels:
+         *   id  == 0xFFFFFFFFFFFFFFFF  draw a fresh id (func_020056EC(0))
+         *   id  == 0xFFFFFFFF00000000  search a NON-shiny id: id = (u32)(rnd+1),
+         *                              then id = (id + 1) & 0xFFFFFFFF while
+         *                              func_02017ED8(id, rnd) (the shiny test)
+         *   rnd == 0xFFFFFFFF00000000  draw a fresh personality
+         *   rnd == 0xFFFFFFFF00000001  personality := id
+         *   pow == 0xFFFFFFFF          six IV draws (u64)rand * 32 >> 32,
+         *                              else six 5-bit fields of pow, in id
+         *                              order 0x46,0x47,0x48,0x4A,0x4B,0x49 */
+extern void  func_02017550(struct Mon *p);   /* area clear (unit_02017528.c);
+                                              * it TAKES the record -- missing
+                                              * this argument cost the last ten
+                                              * prologue bytes of 0x0201761C */
+extern u32   func_02017ED8(u32 id, u32 pid); /* 1 when shiny */
 extern void *func_0201747C(void *p, u32 heap);  /* clone a record onto `heap`:
                                                  * func_020173F0 from its
                                                  * species/level/otId, then the
@@ -493,7 +524,7 @@ extern const s8 func_02019B04_Table[][5];  /* 0x0209E324  the nature table.
                                             * pool word and unit_02019B04.c's
                                             * witness each other */
 extern const u8 func_02018790_Table[];     /* 0x0209E288  CAPPED */
-/* 0x0209E2A4  s8[][5], read by func_020189F0            CAPPED */
+/* 0x0209E2A4  s8[25][5], func_020189F0 -- sole-ref since 2026-09-23 */
 /* 0x0209E280, 0x0209E42C  halfword tables, func_02019D58/func_02019D84 CAPPED */
 /* 0x0209E3A4  read by func_02019C38                     CAPPED */
 
@@ -516,47 +547,42 @@ extern const u8 func_02018790_Table[];     /* 0x0209E288  CAPPED */
  */
 
 /* ===================================================================== *
- * 11.  THE FAMILY'S ONE REMAINING CODEGEN WALL (2026-09-22)
+ * 11.  THE "CODEGEN WALL" OF 2026-09-22 WAS A u64 PARAMETER (2026-09-23)
  * ===================================================================== *
- * Five of the family's open functions are byte-correct except for a single
- * shared register-allocation tie-break, and they should be treated as ONE
- * problem rather than five:
+ * The five forwarders 0x020173F0, 0x02017430, 0x0201756C, 0x02017588 and
+ * 0x02017600 -- "the original gives the last register argument a memory home
+ * and reloads it at the call", ruled out for every statement shape, every
+ * front end and the permuter -- are all EXACT once the trainer id is declared
+ * as ONE `u64 id` occupying r2:r3 (or r3 plus the first stack word), and the
+ * personality as a `u64 rnd`.  A u64 parameter is homed in memory at entry
+ * and reloaded at the call; that is exactly the str/ldr pair.  So: when a
+ * forwarder's "extra spill" defies every lever, look for two adjacent 32-bit
+ * parameters that are really one 64-bit value (here the callee's 64-bit
+ * compares -- `mvn`/`eors`/`orrs` sextets -- gave it away).
  *
- *   0x020173F0   60 bytes against 64, 30 concrete out
- *   0x02017430   76 against 76,       25 concrete out (size-exact since
- *                                      2026-09-22)
- *   0x02017588  106 concrete out
- *   0x0201756C   28 against 28,       18 concrete out
- *   0x02017600   28 against 28,       18 concrete out
- *
- * All five are forwarders that rebuild their own argument list into an
- * outgoing stack block.  In every one, the ORIGINAL gives the last register
- * argument a memory home in the prologue and reloads it at the call
- * (`str r3,[sp,#K]` ... `ldr r1,[sp,#K]`), and dsi/1.1p1 keeps it in one more
- * callee-saved register instead (`adds r4,r3,#0`, `push` one register wider,
- * `sub sp` four smaller).  The instruction multiset is otherwise right and
- * every relocation resolves; this is not an evidence problem.
- *
- * Ruled out for the whole group, each compiled rather than reasoned about:
- * every statement shape and declaration order; `volatile` on the parameter;
- * reading the parameter through its own address; binding it to a local; an
- * extra parameter; passing the pair as a struct by value; narrowing the
- * parameter (which buys size but spends it on a truncation instruction the
- * original does not have); and the front-end sweep -- ../1.2/sp2, ../2.0/sp2,
- * 1.2, 1.2p2, 1.3 are all no better than the pin, and the `push`-wider tell of
- * docs/FRONTEND-PINS.md points the OTHER way here (the image pushes a real
- * register where 1.1p1 pads with a dead `push {r3}`).
- *
- * The write-ups are in docs/notes/pkt_020173F0.c.txt and
- * docs/notes/pkt_0201756C.c.txt, both under a 2026-09-22 heading.
- *
- * CONTRAST, and the lesson: 0x020182A8 looked like a sixth member of this
- * group -- same shape, same ten wrong prologue bytes, same immunity to every
- * statement-level lever and to 197 permuter mutations -- and it was NOT.  Its
- * fix was the parameter width (`u8 slot`), read off the truncation its caller
- * actually emits.  So the width lever is right exactly when the caller emits
- * the truncation, and wrong when it does not; check the call site before
- * reaching for it.
+ * Also closed 2026-09-23 (headers carry the levers):
+ *   0x0201761C  the u64s, the shiny-retry loop, func_02017550(obj)
+ *   0x02017A20  a 12-byte table copied by value after the guard
+ *   0x02017FB0, 0x02018328  the level-up learnset walks: 4-byte entries
+ *               {u16 move; u16 level;} copied by value into several frame
+ *               slots, explicit struct locals in the frame's declaration
+ *               order, a pointer-taking terminator inline in the `while`
+ *               condition; 0x02017FB0 reuses ONE loop variable for its two
+ *               phases
+ *   0x0201862C  the id key named as a block-scoped local
+ *   0x020186C8  case 0 FALLS THROUGH into case 2, each of cases 1 and 2
+ *               carrying its own bit-16 fix (the "cross-jump no source can
+ *               request" was a fall-through)
+ *   0x020189F0  tbl[nature][stat] -- the second argument is an index, not a
+ *               base pointer; the table at 0x0209E2A4 is NOT capped any more
+ *               (sole-ref), strike it from section 9's CAPPED list
  */
+
+/* the learnset entry, 0x02017FB0.c / 0x02018328.c */
+struct Learn { u16 move; u16 level; };             /* {0xFFFF, 0xFFFF} ends */
+extern void func_0201ADD0(u16 species, u16 form, void *dest); /* load learnset */
+extern u16  func_0201808C(void *p, u16 move);   /* teach: 0xFFFF no free
+                                                 * slot, 0xFFFE known */
+extern u16  func_02018094(void *p, u16 move);   /* the same, reset variant */
 
 #endif /* POKE_TOOL_H */

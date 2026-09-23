@@ -126,3 +126,51 @@ both off limits to a packet agent under the write-set contract, and
 guessing at a `tu` split here without being able to adjust those would
 just recreate the same three-way fragmentation in the C sources.
 re-verified 2026-09-21: no recoverable source in this note
+
+================================================================================
+2026-09-23 (wave 11, third lane on mcss.c).  SURVEYED, NOT TRANSCRIBED.
+================================================================================
+The last row of the lane, taken after the other five.  One full read of
+0x02014D2C..0x020155A0 (2164 bytes with pools, about 1000 Thumb
+instructions); judged too large to finish inside this lane once the quad
+drawer it calls (0x020155A0) was closed.  What the read settles, so the next
+attempt starts from a map:
+
+SIGNATURE AND FRAME.  `void f(struct McssSys *sys)`: r0 spilled to sp+0x2c,
+push {r4-r7,lr}, sub sp #0x1b4.  Epilogue at 0x02015590 writes 1 to
+0x04000448 (MTX_POP... the G3 POP register) before `add sp / pop`.
+
+CALLS, all named (SDK from layout/symbols_sdk.txt, runtime from
+layout/runtime_arm9.txt, the rest already EXACT in src/matched):
+  func_0206DB80 x1 (matched)        MTX_Inverse43 x1   MI_Copy36B x1
+  MTX_Copy33To44_ x1                MTX_Copy43To44_ x1 MTX_Concat44 x1
+  G3i_LookAt_ x2  G3_RotX x1  G3_RotZ x3  G3_MultMtx44 x1
+  sub_0207C768 x2 (matched, FX_Div shape)   func_02016FC8 x1 (matched)
+  func_020169D4 x1 (matched)        func_020155A0 x4 (matched today)
+  _ll_mul x21 (every FX_Mul: the `adds #0x800 / adcs / lsrs #12 / lsls #20`
+  rounding tail is FX_Mul's inline), __fadd x2, __fsub x2, _f2s x2 and
+  0x0209BDBC x4 (int->float, see docs/notes/pkt_0209BDBC_runtime_library)
+  -- the soft-float block at 0x02014FC4..0x0201501A is a signed
+  `(float)(v << 12) -/+ 0x3F000000 (0.5f)` rounding pair, twice.
+
+SHAPE.  Header (projection/lookat setup, 0x02014D2C..0x02014D8E), then an
+OUTER loop over slots i = sp+0x44, 0..sys->count (+0x10):
+  skip unless slots[i] != 0, flag bit 11 clear and flag bit 13 set;
+  sp+0x30 = sys->f2c bit 0 ? flag bit 29 : 0  (the "billboard" mode);
+  a three-way switch on the anim type (u16 at +0x1c->+4 of w+0x34's
+  record) building a 0x10-byte pose at sp+0x1a4 (the same record
+  func_020155A0 receives as its frame/pose argument: u16 frame, u16 rot,
+  fx32 sx, fx32 sy, s16 ox, s16 oy -- func_020155A0's `frame` and `pose`
+  parameters are two instances of ONE struct type);
+  translate / rotate / scale with FX_Mul throughout; then an INNER loop
+  over cells k (r7) of the current frame, drawing back to front when
+  `(b0 != 0x1f) | bit30` (index = count - 1 - k), with up to three
+  func_020155A0 calls per cell (two gated on the cell record's +0x20 and
+  flag bits 30 / 8).
+
+THE SPLIT, CONFIRMED.  The two `bl` at 0x02014D74 and 0x0201558C are
+long branches inside this one function (to the epilogue and back to the
+loop head, both beyond Thumb `b` reach).  An attempt must be verified with
+`match.py tu --addr 0x02014D2C --thumb` over the whole 2164 bytes; `one`
+stops at the false label 0x02014D90.  Seeds to remove are 0x02014D90 and
+0x02015590 (integrator's file, layout/function_starts.txt).

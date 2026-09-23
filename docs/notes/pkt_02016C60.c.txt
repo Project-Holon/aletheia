@@ -356,3 +356,258 @@ void func_02016C60(struct Work *a0, struct Task *a1)
         k++;
     }
 }
+
+================================================================================
+2026-09-23 (wave 11, third lane on mcss.c).  109 -> 103 bytes out, 870/872.
+================================================================================
+
+Baseline re-verified from the source above: DIFF, 870 against 872 (the last
+two are the `00 00` alignment pad after `pop`, confirmed with `show`), 109
+concrete bytes out, dsi/1.1p1.
+
+ONE MEASURED STEP: the two clip multiplies are `step * i` / `step * j`, not
+`i * step`.  The image loads step first (`ldr r1, [sp, #0x78] / adds r3,
+r1, #0`) and the counter second; commuting all four (bw, bh in both halves)
+gives 103, commuting only one pair 106.
+
+Permuter on the 103 source: --explain `r0 -> r1 x16, r3 -> r0 x5, ...`;
+--mode hill --budget 800 --types walks straight to 872-byte candidates
+(`type:ret-var(a0)` then `hoist-down(sx2,+3)`, 122 bytes out at 872/872),
+exactly the pad trap this note already documents; nothing at 870 improves.
+
+Also measured and worse: a full second set of locals for the second half
+declared in the image's own slot order (k sx sy w h step found x y i j sx2
+sy2 w2 h2 i2 j2 hi hi2, then y2 x2 found2 at the bottom, either at function
+scope or as block locals of the `if (f2c)` arm): 132 in all three
+arrangements -- mwcc then homes the FIRST half's `found` at sp+8, not 0x74.
+A 300-compile random search over declaration order of that split source
+reached 126 at best.  Slot order in this compiler follows creation order
+more than declaration order (see src/matched/func_020155A0.c's header,
+same family, same date, where routing a value through a block-local
+temporary is what moved its slot); that is the next thing to try here.
+
+/* best source, 870 bytes against 872, 103 concrete bytes out, dsi/1.1p1 */
+/* permuter best: DIFF   asm=2150  bytes-out=103  size=870/872 (hill: every improving step leaves 870 for 872, rejected) */
+/*
+ * function: func_02016C60
+ * address:  0x02016C60
+ * packet:   pkt_02016C60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   _s32_to_double  0x0209B750  arm
+ *   func_0209AB80   0x0209AB80  arm
+ *   _d2s            0x0209C508  arm
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern double _s32_to_double(s32 v);
+extern double func_0209AB80(double a, double b);
+extern s32    _d2s(double d);
+
+struct Rec {
+    s32 f00;
+    s32 f04;
+    s32 f08;
+    s32 f0c;
+    s32 f10;
+    s32 f14;
+    s32 f18;
+    s32 f1c;
+    s32 f20;
+    s32 f24;
+    s32 f28;
+    s32 f2c;
+    s32 f30;
+    s32 f34;
+    s32 f38;
+};
+
+struct Work {
+    u8   pad00[0x2c];
+    s32 *f2c;
+    u8   pada8[0xa8 - 0x30];
+    s32  fa8;
+    u8   padac[4];
+    s32  fb0;
+    u8   padb4[0x140 - 0xb4];
+    u32  f140;
+};
+
+struct Task {
+    u8 **f00;
+};
+
+void func_02016C60(struct Work *a0, struct Task *a1)
+{
+    s32 scale;
+    u8 *base;
+    s32 k;
+    s32 sx, sy, w, h;
+    s32 step;
+    s32 found;
+    s32 hi;
+    s32 x, y, i, j;
+    s32 bw, bh;
+    s32 r, c;
+    s32 addr, t;
+    s32 v;
+    s32 off;
+
+    if (a0->fb0 != 3) {
+        return;
+    }
+    scale = _d2s(func_0209AB80(2.0, _s32_to_double(a0->fa8 + 2)));
+    base = a1->f00[5];
+    k = 0;
+    while ((u32)k < (u32)a0->f2c[0]) {
+        off = k * 0x30;
+        sx = ((struct Rec *)((u8 *)a0->f2c + off))->f1c >> 12;
+        sy = ((struct Rec *)((u8 *)a0->f2c + off))->f20 >> 12;
+        w  = ((struct Rec *)((u8 *)a0->f2c + off))->f14 >> 12;
+        h  = ((struct Rec *)((u8 *)a0->f2c + off))->f18 >> 12;
+        step = (s32)((a0->f140 << 4) >> 0x1c) + 1;
+        i = 0;
+        y = 0;
+        if (h > 0) {
+            do {
+                j = 0;
+                x = 0;
+                if (w > 0) {
+                    do {
+                        if (x + step > w) {
+                            bw = w - step * j;
+                        } else {
+                            bw = step;
+                        }
+                        if (y + step > h) {
+                            bh = h - step * i;
+                        } else {
+                            bh = step;
+                        }
+                        found = 0;
+                        for (r = 0; r < bh; r++) {
+                            for (c = 0; c < bw; c++) {
+                                t = sx + x + c;
+                                addr = (t / 2)
+                                     + (sy + y + r) * scale;
+                                if (c & 1) {
+                                    v = (base[addr] & 0xf0) >> 4;
+                                } else {
+                                    v = base[addr] & 0x0f;
+                                }
+                                if (v != 0) {
+                                    found = v;
+                                    break;
+                                }
+                            }
+                            if (found != 0) {
+                                break;
+                            }
+                        }
+                        found = (u8)found;
+                        hi = found << 4;
+                        for (r = 0; r < bh; r++) {
+                            for (c = 0; c < bw; c++) {
+                                t = sx + x + c;
+                                addr = (t / 2)
+                                     + (sy + y + r) * scale;
+                                if (addr < (1 << 14)) {
+                                    if (t & 1) {
+                                        base[addr] = (base[addr] & 0x0f)
+                                                   | hi;
+                                    } else {
+                                        base[addr] = (base[addr] & 0xf0) | found;
+                                    }
+                                }
+                            }
+                        }
+                        j++;
+                        x += step;
+                    } while (x < w);
+                }
+                i++;
+                y += step;
+            } while (y < h);
+        }
+        if (((struct Rec *)((u8 *)a0->f2c + off))->f2c != 0) {
+            s32 sx2, sy2, w2, h2;
+            w2 = ((struct Rec *)((u8 *)a0->f2c + off))->f2c >> 12;
+            h2 = (((struct Rec *)((u8 *)a0->f2c + off))->f30 >> 12) << 1;
+            sx2 = ((struct Rec *)((u8 *)a0->f2c + off))->f34 >> 12;
+            i = 0;
+            y = 0;
+            sy2 = ((struct Rec *)((u8 *)a0->f2c + off))->f38 >> 12;
+            if (h2 > 0) {
+                do {
+                    j = 0;
+                    x = 0;
+                    if (w2 > 0) {
+                        do {
+                            if (x + step > w2) {
+                                bw = w2 - step * j;
+                            } else {
+                                bw = step;
+                            }
+                            if (y + step > h2) {
+                                bh = h2 - step * i;
+                            } else {
+                                bh = step;
+                            }
+                            found = 0;
+                            for (r = 0; r < bh; r++) {
+                                for (c = 0; c < bw; c++) {
+                                    t = sx2 + x + c;
+                                    addr = (t / 2)
+                                         + (sy2 + y + r) * scale;
+                                    if (c & 1) {
+                                        v = (base[addr] & 0xf0) >> 4;
+                                    } else {
+                                        v = base[addr] & 0x0f;
+                                    }
+                                    if (v != 0) {
+                                        found = v;
+                                        break;
+                                    }
+                                }
+                                if (found != 0) {
+                                    break;
+                                }
+                            }
+                            found = (u8)found;
+                            hi = found << 4;
+                            for (r = 0; r < bh; r++) {
+                                for (c = 0; c < bw; c++) {
+                                    t = sx2 + x + c;
+                                    addr = (t / 2)
+                                         + (sy2 + y + r) * scale;
+                                    if (addr < (1 << 14)) {
+                                        if (t & 1) {
+                                            base[addr] = (base[addr] & 0x0f)
+                                                       | hi;
+                                        } else {
+                                            base[addr] = (base[addr] & 0xf0)
+                                                       | found;
+                                        }
+                                    }
+                                }
+                            }
+                            j++;
+                            x += step;
+                        } while (x < w2);
+                    }
+                    i++;
+                    y += step;
+                } while (y < h2);
+            }
+        }
+        k++;
+    }
+}

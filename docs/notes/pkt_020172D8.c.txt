@@ -213,3 +213,122 @@ void func_020172D8(u8 *a0, u32 a1)
         a1 = a1 >> 8;
     }
 }
+
+================================================================================
+2026-09-23 (wave 11, third lane on mcss.c).  183 -> 82 bytes out, 220/220.
+================================================================================
+
+Baseline re-verified from the source above: DIFF, 220 against 220, 183 out,
+dsi/1.1p1.  The earlier transcription had three STRUCTURAL errors that no
+allocator search could see, all read off the image:
+
+ 1. The list guard is an `if`, not a `while`: the image tests cur[0] once
+    (+0x1A..+0x20) and the do-while's back edge (+0xC0) goes to the body,
+    never back to a top test.  The `while` form emits a second guard.
+ 2. The nibble tests are SIGNED (`blt` / `bgt` at +0x86, +0x8A, +0x9E,
+    +0xA2), so `v` is `s32`, not `u32` (`blo` / `bhi`).
+ 3. The byte is read ONCE per k into a local and written back from it:
+    `ldr r4, [r6, r0] / ldrb r0, [r2, r4] / ... / adds r0, #0x50 / strb r0,
+    [r2, r4]` -- `p = idx[k]; val = a0[p]; ... a0[p] = val + 0x50;`.
+Plus `b0 >> 1` is a LOGICAL shift (`lsrs r4, r3, #1`): `(u32)b0 >> 1`.
+And both nibble offsets follow the dead-store idiom the first note
+predicted, but each must RECOMPUTE from a1 on its second assignment
+(`lo = a1 & 0xf; lo = (a1 & 0xf) - 8;`), or the first store is dropped and
+the value goes to a high register instead of sp+8 / sp+4.
+
+With those: permuter hill (split-assign lo, expand hi, a temp for the table
+load) took 190 -> 95; the recompute spelling of lo and dropping the temp
+gave the image's own frame (push {r3-r7,lr}, sub sp #0x18, i in lr, lo and
+hi homed at sp+8/sp+4 with both stores each) at 142; a 250-compile random
+search over declaration order then gave 82 (hi declared first, cur last).
+
+WHAT IS LEFT, 82 bytes: `cur` should live in ip and is homed at sp+4
+instead, with hi in ip; and a0 lands in r3 not r2, which renames the inner
+loop.  Measured flat against 82: permuter --mode anneal --budget 2000
+--types (81 at best, `cast(s32) ; expand(hi x1) ; expand(b0 x1)`); u8 n;
+u32 or u8 lo/hi; u32 i / k; s32 a1; s32 idx/p/b1; a non-const table; a
+`struct { u8 x, y; }` record type for the lists; `sMcssTable[i]` never
+bound to cur (224 bytes, worse).  The idx[] statement order is fixed:
+swapping the two stores gives 216 bytes.
+
+/* best source, 220 bytes against 220, 82 concrete bytes out, dsi/1.1p1 */
+/* permuter best: DIFF   asm=2025  bytes-out=81   size=220/220  (anneal 2000: cast(s32) ; expand(hi x1) ; expand(b0 x1)) */
+/*
+ * function: func_020172D8
+ * address:  0x020172D8
+ * packet:   pkt_020172D8
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   sMcssTable  0x020A72D4  data
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed int s32;
+extern const u8 *sMcssTable[4];
+void func_020172D8(u8 *a0, u32 a1)
+{
+  s32 hi;
+  u32 p;
+  u32 idx[2];
+  u8 b0;
+  s32 i;
+  s32 n;
+  s32 lo;
+  u32 b1;
+  s32 v;
+  s32 k;
+  const u8 *cur;
+  u8 val;
+  for (i = 0; i < 4; i++)
+  {
+    cur = sMcssTable[i];
+    n = 0;
+    if (cur[0] != 0xff)
+    {
+      lo = a1 & 0xf;
+      lo = (a1 & 0xf) - 8;
+      hi = (a1 & 0xf0) >> 4;
+      hi = ((a1 & 0xf0) >> 4) - 8;
+      do
+      {
+        b0 = (u8) (lo + cur[n * 2]);
+        b1 = (u8) (hi + cur[(n * 2) + 1]);
+        idx[1] = (((u32) b0) >> 1) + ((b1 + 0x28) << 7);
+        idx[0] = (((u32) b0) >> 1) + (b1 << 7);
+        for (k = 0; k < 2; k++)
+        {
+          if ((b0 & 1) != 0)
+          {
+            p = idx[k];
+            val = a0[p];
+            v = val & 0xf0;
+            if ((v >= 0x10) && (v <= 0x30))
+            {
+              a0[p] = (u8) (val + 0x50);
+            }
+          }
+          else
+          {
+            p = idx[k];
+            val = a0[p];
+            v = 0xf & val;
+            if ((v >= 1) && (v <= 3))
+            {
+              a0[p] = (u8) (val + 5);
+            }
+          }
+        }
+
+        n = (u8) (n + 1);
+      }
+      while (cur[n * 2] != 0xff);
+    }
+    a1 = a1 >> 8;
+  }
+
+}

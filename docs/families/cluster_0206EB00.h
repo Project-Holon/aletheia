@@ -299,4 +299,19 @@ extern void VEC_Normalize(const void *src, void *dst);     /* 0x0207CCA4    */
  *    Left: node r4 / k r5 against the image's r5 / r4.
  * ================================================================== */
 
+/* ================================================================== *
+ * 10. Wave 11 (ECE0 14, F4C8 2, FC5C 8, all unchanged)
+ *
+ *  - F4C8's last 2 bytes are the operand order of an UNNAMED 64-bit sum,
+ *    which mwcc canonicalises: no commuted spelling of the x blend moves
+ *    it.  Naming the product (as the y blend does) gives the right order
+ *    but re-colours the blend (27).  The vector-2 plain sampler keeps its
+ *    separate m / j indices; the F214 form with k reused is 484 bytes.
+ *  - ECE0: only the nested-helper resolve of section 4 reaches 14; the
+ *    else-first / early-return / result-local helper spellings are 41-67
+ *    or change the size.  A perm helper taking k/u/v stays at 14.
+ *  - FC5C: no declaration order of all twelve locals, and no split
+ *    assignment of p, moves the p/oa pair.
+ * ================================================================== */
+
 #endif /* CLUSTER_0206EB00_H */

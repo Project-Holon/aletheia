@@ -615,4 +615,59 @@ extern void  func_02016C60(struct McssWork *w, struct McssTask *task);
 #define MCSS_SUBHEAP(h)    ((u16)(((u16)(h) & 0x7FFF) | 0x8000))
 #define MCSS_VCOUNT        (*(volatile u16 *)0x04000006)
 
+
+/* ================================================================== *
+ * 8.  Wave 11 (2026-09-23), third lane: what func_020155A0 PROVED.
+ *     src/matched/func_020155A0.c is EXACT (1064/1064 with pools).
+ * ================================================================== */
+
+/* THE QUAD DRAWER.  Called three times by the 0x02014D2C frame walker
+ * (0x020154D0, 0x02015506, 0x02015562) with a cell record's six words as
+ * x, y, width, height, s, t.  Four register and eleven stack parameters;
+ * the last is a u8 read with `ldrb` from sp+0x90.                      */
+extern void  func_020155A0(struct McssSys *sys, struct McssWork *w,
+                           s32 x, s32 y, s32 width, s32 height,
+                           s32 s, s32 t, void *pose, u16 *frame,
+                           void *tex, int polyId, int proj, u32 *z,
+                           u8 flip);
+/*
+ * New field facts (each from a load in func_020155A0):
+ *   McssSys +0x2c bit 1   far plane (512 vs 1024 << 12) and depth step
+ *                         (0x100 vs 0x400); tested as `(w << 30) >> 31`,
+ *                         so a 1-bit bitfield at bit 1 of the +0x2c word
+ *                         (the pad18 block above is NOT all opaque).
+ *   McssSys +0x48  s32    depth step override when non-zero.  The struct
+ *                         is allocated 0x4c bytes, so this is its last word.
+ *   McssWork +0x78        pointer to an animation record whose +0x04 is an
+ *                         array of 8-byte frames; a frame's +0x04 is an
+ *                         array of 8-byte cells; a cell's +0x02/+0x04 are
+ *                         s16 pixel offsets (`ldrsh`), << 8 into fx32.
+ *   McssWork +0xc0  s32   texture format; compared with 2 (PLTT4) for
+ *                         G3_TexPlttBase.  +0xc8 is the palette base.
+ *   McssWork +0x140       bits 14..22 (b4, 9 bits) are the ALPHA with 0x20
+ *                         as a sentinel meaning `b0 >> 1`; bit 23 hides the
+ *                         second (polygon id 1) quad; bits 30 and 31 are
+ *                         two separate 1-bit flags (b7 above is two
+ *                         fields): bit 31 forces polygon id 0, bit 30
+ *                         flips the depth step's sign.
+ *
+ * Declarations that turned out to be byte-visible (all measured):
+ *   - FX_SinCosTable_ (0x020A1B38) declared WITHOUT const.  With const, mwcc
+ *     keeps sin/cos across the G3_RotZ call in two extra frame slots.
+ *   - G3_Translate / G3_Scale as the SDK inline functions: the original
+ *     evaluates all three arguments before the first register store.
+ *   - `u32 *z`: a signed pointee flips the register choice in the two
+ *     +-0x100 tails (22 bytes; nothing in the body reaches it).
+ *   - Frame slot order follows value CREATION order more than declaration
+ *     order: the G3_TexPlttBase 0/1 is a compiler temporary homed at the
+ *     lowest slot, and routing alpha through a block-local moved its slot.
+ *
+ * Two open rows' measured facts, same date (details in their notes):
+ *   func_020163C4 / func_02016630: `flag = 1` belongs AFTER the second
+ *     constructor call (26 -> 16 and 36 -> 21).
+ *   func_020172D8: the list guard is an `if`, the nibble tests are signed,
+ *     the target byte is read once into a local, and both nibble offsets
+ *     recompute from a1 on their second assignment (183 -> 82).
+ */
+
 #endif /* MCSS_H */

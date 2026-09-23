@@ -42,6 +42,8 @@
  *   528/313 under ../2.0/sp2 (1.1p1 520), func_02068670 unchanged 408/254.
  *   Notes: docs/notes/pkt_02068808.c.txt (C84, AE8, 808),
  *   docs/notes/pkt_020682F8.c.txt (430, 670).
+ * WAVE 11 (2026-09-23): func_02068430 576/119, func_02068670 408/238,
+ *   func_02068808 528/168, all ../2.0/sp2 (section 7 below).
  *
  * FRONT END.  Mixed, decided per function by the tells in
  * docs/FRONTEND-PINS.md, never by family.  0x020682F8 is "kept branches" (a
@@ -223,5 +225,30 @@ extern void func_02068C84(struct Surface *s, u32 arg, int x, int y, int w, int h
 extern int  func_020681E4(int tx, int ty, int w, int h, int sx, int sy);
 extern void func_02068808(struct Surface *s, void **font, int x, int y,
                           int color, u8 **g);
+
+/* ================================================================== *
+ * 7. Wave 11 (2026-09-23): 0x430 159 -> 119, 0x670 254 -> 238,
+ *    0x808 313 -> 168 (all DIFF, NOT BYTE-ATTESTED; sources in
+ *    docs/notes/pkt_020682F8.c.txt and docs/notes/pkt_02068808.c.txt)
+ * ================================================================== */
+
+/* Surface reads, glyph draws.  The image reads the clamp bounds EARLY
+ * (0x808: `ldmib r0, {w, h}` above the gw == 0 `popeq`) and the call
+ * arguments AGAIN after the Blit stores:
+ *     u32 w = s->w;  u32 h = s->h;          -- in the declarations (0x808)
+ *     ...  sw = s->w;  sh = s->h;           -- after the stores, not CSE'd
+ * 0x670 instead reads w, h and base INLINE (`if (s->w <= (u32)tx1)
+ * tx1 = s->w;`, `dst = s->base + ...`): only with all three inline is its
+ * frame the image's (0x2c, no dead r3); either alone breaks the size.
+ * The tile ternaries are else-first, `(x <= 0) ? 0 : (u32)x >> 3` (image
+ * `movle` before `lsrgt`).  The Blit block is stored in source order:
+ * 0x808 writes base, h, src, w, then sbpp, bpp, stride.  The swizzle
+ * bytes are declared `int sy, sx;` (sy first). */
+
+/* func_02068430.  `dst = p->dst;` is read first; the cend clamp tests the
+ * re-read sum, `if ((int)(x + p->w) >= 8) cend = 8;`; the x clamp precedes
+ * the bpp read and the y clamp follows it; the pixel counter `c` is the
+ * FIRST declaration of each row body (before wd / lo, hi).  Size-exact only
+ * under ../2.0/sp2 (and sp2p2, same bytes). */
 
 #endif /* CLUSTER_020682DC_H */

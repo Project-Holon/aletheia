@@ -581,3 +581,285 @@ anneal 2000 best DIFF asm=5640 bytes-out=230 size=408/408 via a 10-mutation
 chain of temporaries and copies (not recoverable).
 
 /* best source, 408 bytes against 408, 254 concrete bytes out, 1.1p1 -- the wave-8 source above, unchanged */
+
+
+2026-09-23, wave 11 (cluster_020682DC remainder).  0x02068430 159 -> 119;
+0x02068670 254 -> 238.
+==============================================================================
+
+func_02068430 -- still DIFF, 576 against 576, 119 concrete bytes out under
+../2.0/sp2 (same under ../2.0/sp2p2; 1.1p1 is 564 bytes, 340).  From the
+wave-10 source, each step measured:
+  * the natural preamble order bpp, cend * bpp, sbpp, stride, bit (with
+    `-y` inline, no ny local), c0 * bpp, src, dst: 159 -> 151;
+  * dst read FIRST (`dst = p->dst;` before x/y) and the cend clamp tested on
+    the re-read sum, `if ((int)(x + p->w) >= 8) cend = 8;`
+    (permuter hill: hoist-up(dst) ; expand(cend)): 151 -> 134;
+  * declarations x/r0 swapped (r0 first, x next to y), the x clamp BEFORE
+    the bpp read and the y clamp after it, and the pixel-loop counter `c`
+    declared FIRST in both row bodies (before wd / lo, hi) (anneal chain,
+    applied by hand minus an `(void)&sbpp` it carried, which is not needed):
+    134 -> 119.
+Refused (all 576 unless noted): dst read last (572, 437 out), per-arm
+`end` locals (154; declared before row 572), `base` read after the Bits
+declaration (154), MIN-style ternary clamps (149-167), full declaration
+hill over the 13 function-scope locals from 134 (no improvement, 156
+candidates).  The 8bpp row pair is already the image's ldm/stm.
+permuter (../2.0/sp2):
+  hill 800 from the wave-10 source + natural preamble (151): best DIFF asm=1450 bytes-out=134
+    via hoist-up(dst,-17) ; expand(cend x1)
+  anneal 1500 from 134: best DIFF asm=1970 bytes-out=119 size=576/576
+    via decl-order(hi<->c) ; decl-order(c<->lo) ; decl-order(wd<->c) ; addr(sbpp) ; decl-order(r0<->x) ; reorder(+2)
+  anneal 3000 from the source below: only C99 mixed-declaration chains
+    (temp(bpp == 4), a copy of dst read late), not recoverable.
+Still wrong: x/y land in r2/r5 where the image has r5/r4, and the row
+bounds r0/r1 in callee-saved registers where the image uses r2/r3.
+
+/* best source, 576 bytes against 576, 119 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02068430
+ * address:  0x02068430
+ * packet:   pkt_020682DC
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02069BA0    0x02069BA0  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+typedef struct Bits {
+    u8 *cur;
+    signed char have;
+    unsigned char acc;
+} Bits;
+
+struct Blit {
+    u32 *dst;     /* +0x00 */
+    u8  *src;     /* +0x04 */
+    int  x;       /* +0x08 */
+    int  y;       /* +0x0C */
+    int  w;       /* +0x10 */
+    int  h;       /* +0x14 */
+    int  stride;  /* +0x18  source row, in bits */
+    int  sbpp;    /* +0x1C  source bits per pixel */
+    int  bpp;     /* +0x20  destination bpp, 4 or 8 */
+    int  base;    /* +0x24  palette base added to a non-zero pixel */
+};
+
+extern u32 func_02069BA0(Bits *b, int n);
+
+void func_02068430(struct Blit *p)
+{
+    int r0;
+    u32 c0;
+    u32 *dst;
+    int r1;
+    u8 *src;
+    int bpp;
+    int bit;
+    u32 cend;
+    u32 sbpp;
+    int stride;
+    int x;
+    int y;
+
+    dst = p->dst;
+    x = p->x;
+    y = p->y;
+    c0 = (x >= 0) ? x : 0;
+    cend = x + p->w;
+    r0 = (y >= 0) ? y : 0;
+    r1 = y + p->h;
+    if ((int)(x + p->w) >= 8) cend = 8;
+    if (r1 >= 8) r1 = 8;
+    if (x > 0) x = 0;
+    bpp = p->bpp;
+    if (y > 0) y = 0;
+    cend = cend * bpp;
+    sbpp = p->sbpp;
+    stride = p->stride;
+    bit = -y * stride + sbpp * -x;
+    c0 = c0 * bpp;
+    src = p->src;
+
+    if (bpp == 4) {
+        int base = p->base;
+        u32 *row = dst + r0;
+        Bits b;
+        while (row < dst + r1) {
+            u32 c;
+            u32 wd = *row;
+            b.cur = src + ((u32)bit >> 3);
+            b.have = 0;
+            b.acc = 0;
+            func_02069BA0(&b, bit % 8);
+            for (c = c0; c < cend; c += 4) {
+                u32 v = func_02069BA0(&b, sbpp);
+                if (v != 0)
+                    wd = (wd & ~(0xf << c)) | ((base + v) << c);
+            }
+            *row++ = wd;
+            bit += stride;
+        }
+    } else {
+        int base = p->base;
+        u32 *row = dst + r0 * 2;
+        Bits b;
+        while (row < dst + r1 * 2) {
+            u32 c;
+            u32 lo = row[0];
+            u32 hi = row[1];
+            b.cur = src + ((u32)bit >> 3);
+            b.have = 0;
+            b.acc = 0;
+            func_02069BA0(&b, bit % 8);
+            for (c = c0; c < cend; c += 8) {
+                u32 v = func_02069BA0(&b, sbpp);
+                if (v != 0) {
+                    if (c < 0x20)
+                        lo = (lo & ~(0xff << c)) | ((base + v) << c);
+                    else
+                        hi = (hi & ~(0xff << (c - 0x20))) | ((base + v) << (c - 0x20));
+                }
+            }
+            row[0] = lo;
+            row[1] = hi;
+            row += 2;
+            bit += stride;
+        }
+    }
+}
+re-verified 2026-09-23 by tools/match.py: DIFF, 576 bytes against 576, 119 concrete bytes out, ../2.0/sp2
+
+func_02068670 -- still DIFF, 408 against 408, 238 concrete bytes out under
+../2.0/sp2 and ../2.0/sp2p2 (239 under 1.1p1; was 254).  ONE lever: the
+surface fields are read inline, not through the `sw`, `sh`, `base` locals:
+    if (s->w <= (u32)tx1) tx1 = s->w;   ...   dst = s->base + tilesz * ty0;
+With only one of the two changes the size breaks (sw/sh inline 416, base
+inline 404); with both the frame is the image's (0x2c, nine registers, no
+dead r3) and the residue is allocation only.  What is left: the image
+loads w, h (ldmib) and base at the top, above the gw == 0 `popeq`, and
+spills g to its incoming slot; the compile loads them at the clamp.
+Refused (all 408): early locals w/h/base in the declarations (265/274),
+gh in its declaration or read before the gw test (243/244), a named index
+`idx = s->stride * ty0 + tx0` (either declaration order) or the index
+inline (238, flat), gw through a named g[0] (254/263).
+permuter (../2.0/sp2):
+  hill 500 from the source below: best DIFF asm=3555 bytes-out=231 size=408/408 via reorder(+3)
+  anneal 2500: best DIFF asm=3940 bytes-out=169 size=408/408 via a 23-mutation chain of temporaries,
+    reorders and a type change (not recoverable).
+
+/* best source, 408 bytes against 408, 238 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02068670
+ * address:  0x02068670
+ * packet:   pkt_020682DC
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02068430    0x02068430  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+struct Surface {
+    char *base;   /* +0x00 */
+    u32   w;      /* +0x04  in tiles */
+    u32   h;      /* +0x08  in tiles */
+    u8    bpp;    /* +0x0C */
+    int   stride; /* +0x10  tiles per row */
+};
+
+struct Hdr { u8 cw; u8 ch; u8 pad[4]; u8 bpp; };
+struct Fnt { u8 pad[8]; struct Hdr *hdr; };
+
+struct Blit {
+    char *dst;    /* +0x00 */
+    u8   *src;    /* +0x04 */
+    int   x;      /* +0x08 */
+    int   y;      /* +0x0C */
+    int   w;      /* +0x10 */
+    int   h;      /* +0x14 */
+    int   stride; /* +0x18 */
+    int   sbpp;   /* +0x1C */
+    int   bpp;    /* +0x20 */
+    int   base;   /* +0x24 */
+};
+
+extern void func_02068430(struct Blit *p);
+
+void func_02068670(struct Surface *s, struct Fnt **font, int x, int y, int color, u8 **g)
+{
+    struct Blit b;
+    int tilesz = (s->bpp << 6) / 8;
+    int gw = g[0][1];
+    struct Hdr *hdr = (*font)->hdr;
+    u32 sw, sh;
+    char *base;
+    int gh;
+    int tx0, ty0, tx1, ty1, nx, ny, xe, ye, cx;
+    char *dst;
+    int skip;
+
+    if (gw == 0)
+        return;
+    gh = hdr->ch;
+    if (x + gw < 0)
+        return;
+    if (y + gh < 0)
+        return;
+    tx0 = (x > 0) ? (u32)x >> 3 : 0;
+    ty0 = (y > 0) ? (u32)y >> 3 : 0;
+    tx1 = (u32)(x + gw + 7) >> 3;
+    if (s->w <= (u32)tx1)
+        tx1 = s->w;
+    ty1 = (u32)(y + gh + 7) >> 3;
+    if (s->h <= (u32)ty1)
+        ty1 = s->h;
+    nx = tx1 - tx0;
+    ny = ty1 - ty0;
+    if (nx < 0)
+        return;
+    if (ny < 0)
+        return;
+    ty0 = s->stride * ty0 + tx0;
+    skip = (s->stride - nx) * tilesz;
+    dst = s->base + tilesz * ty0;
+    b.src = g[1];
+    b.base = color - 1;
+    b.w = gw;
+    b.h = gh;
+    if (x >= 0)
+        x &= 7;
+    b.sbpp = (*font)->hdr->bpp;
+    if (y >= 0)
+        y &= 7;
+    ye = y - (ny << 3);
+    b.bpp = s->bpp;
+    xe = x - (nx << 3);
+    b.stride = (*font)->hdr->bpp * (*font)->hdr->cw;
+    for (; y > ye; y -= 8) {
+        b.y = y;
+        for (cx = x; cx > xe; cx -= 8) {
+            b.dst = dst;
+            b.x = cx;
+            func_02068430(&b);
+            dst += tilesz;
+        }
+        dst += skip;
+    }
+}
+re-verified 2026-09-23 by tools/match.py: DIFF, 408 bytes against 408, 238 concrete bytes out, ../2.0/sp2

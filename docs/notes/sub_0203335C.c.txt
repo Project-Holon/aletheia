@@ -147,3 +147,39 @@ void sub_0203335C(struct Obj0203335C *p)
 }
 
 
+
+================================================================================
+2026-09-23 -- wave 11, backup_system.c lane.  Appended, nothing above edited.
+================================================================================
+
+Re-verified the source above: DIFF, 156 bytes against 156, 21 concrete bytes
+out, dsi/1.1p1 -- and the SAME 14 lines under ../2.0/sp2, 1.2, 1.3 and
+1.6sp2 (../1.2/sp2 is 168 bytes).  No front end moves the rotation.
+
+New this wave: the natural spelling is ALSO size-exact, so the do/while, the
+`n_` copy and the hoisted `tmp` are not structural -- they only buy register
+numbering:
+
+/* best source, 156 bytes against 156, 21 concrete bytes out, dsi/1.1p1 */
+  (the source above stays the best; the natural form below is 156 against
+   156 with 20 lines out)
+
+    u32 i, w, sh, v;
+    u32 n = sub_02033BF0(p->unk2c) + 2;
+    w = 0; sh = 0;
+    for (i = 0; i < n; i++) {
+        v = (p->slots[w] >> sh) & 3;
+        if (v != 0) {
+            if (v == 1) v = 2; else if (v == 2) v = 1;
+            p->slots[w] &= (3 << sh) ^ -1;
+            p->slots[w] |= v << sh;
+        }
+        sh += 2;
+        if (sh >= 32) { sh -= 32; w++; }
+    }
+
+permuter best result line (anneal, --types, budget 2000, from the natural
+form): DIFF  asm=140  bytes-out=28  size=156/156 -- worse than the source
+above.  All 120 declaration orders of (i, w, sh, v, n) in the natural form
+were compiled: best 17 lines, none reaches the image's w=r2 / i=lr / n=ip.
+A `switch` for the 1<->2 swap is 160 bytes.  Still DIFF; nothing filed.

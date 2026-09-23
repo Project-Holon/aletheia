@@ -1187,3 +1187,179 @@ void func_02068808(struct Surface *s, struct Fnt **font, int x, int y, int color
         ty0++;
     }
 }
+
+
+2026-09-23, wave 11 (cluster_020682DC remainder).  func_02068808 313 -> 168.
+==============================================================================
+
+func_02068808 -- still DIFF, 528 against 528, 168 concrete bytes out under
+../2.0/sp2 and ../2.0/sp2p2 (1.1p1 is now size-exact too, 528/196).  From
+the wave-10 transcription, each step measured:
+  * the clamp bounds are EARLY LOCALS in the declarations, `u32 w = s->w;
+    u32 h = s->h;` after hdr: this is the image's `ldmib r0, {r3, r5}` above
+    the gw == 0 `popeq`, and the late `sw = s->w; sh = s->h;` after the
+    Blit stores still loads again (+0x164/+0x168 byte-identical): 313 -> 256
+    (524 bytes until the next step);
+  * the tile ternaries else-first: `tx0 = (x <= 0) ? 0 : (u32)x >> 3;`
+    (image movle before lsrgt), same for ty0: 256 -> 246 (still 524);
+  * `int sy, sx;` declared in that order (sy lower): back to 528, 173;
+  * permuter hill reorders (base read before the x/y masks, g[1] after):
+    158; then the Blit stores in the image's order (the stores are never
+    reordered): `b.base, b.h, b.src, b.w` with `base = s->base;` first and
+    both masks before them: 168 as a readable source (the 158 order puts
+    the masks between the stores; 179 with the masks split around base).
+Refused: the late sw/sh read from the early locals (CSE, 524), swizzle
+args passed as `f10.x, f10.y` (199), sx/sy as u32 (173) or u8 (536),
+`sx, sy` assigned in the other order (524), all 24 orders of the four
+initialised declarations tilesz/gw/hdr/w-h (168 floor).
+What is left: tilesz in r5/sb against the compile's r4/fp, gw r4 against
+r6, and the image's split `str r8, [sp]` / `str r7, [sp, #4]` for the two
+stack arguments where the compile merges them into `stm sp, {r8, sb}`.
+permuter (../2.0/sp2):
+  hill 500 from the early-locals source: best DIFF asm=2140 bytes-out=173 via copy(sx->sx_@54)
+  hill 700 from the sy/sx order: best DIFF asm=1535 bytes-out=158 size=528/528 via reorder(-1) ; reorder(+1)
+  anneal 3000 from the source below: best DIFF asm=2585 bytes-out=120 size=528/528
+    via a 22-mutation chain (temporaries for *font, g[1], g[0][1], ty1, pads, a copy of g) -- not recoverable.
+
+/* best source, 528 bytes against 528, 168 concrete bytes out, ../2.0/sp2 */
+/*
+ * function: func_02068808
+ * address:  0x02068808
+ * packet:   pkt_020682DC
+ * region:   arm9
+ * compiler: ../2.0/sp2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020681E4    0x020681E4  arm
+ *   func_02068430    0x02068430  arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct Swz
+{
+  u32 x : 8;
+  u32 y : 8;
+  u32 rest : 16;
+};
+struct Surface
+{
+  char *base;
+  u32 w;
+  u32 h;
+  u8 bpp;
+  struct Swz f10;
+};
+struct Hdr
+{
+  u8 cw;
+  u8 ch;
+  u8 pad[4];
+  u8 bpp;
+};
+struct Fnt
+{
+  u8 pad[8];
+  struct Hdr *hdr;
+};
+struct Blit
+{
+  char *dst;
+  u8 *src;
+  int x;
+  int y;
+  int w;
+  int h;
+  int stride;
+  int sbpp;
+  int bpp;
+  int base;
+};
+extern int func_020681E4(int tx, int ty, int w, int h, int sx, int sy);
+extern void func_02068430(struct Blit *p);
+void func_02068808(struct Surface *s, struct Fnt **font, int x, int y, int color, u8 **g)
+{
+  struct Blit b;
+  int tilesz = (s->bpp << 6) / 8;
+  int gw = g[0][1];
+  struct Hdr *hdr = (*font)->hdr;
+  u32 w = s->w;
+  u32 h = s->h;
+  char *base;
+  int gh;
+  int tx0;
+  int ty0;
+  int tx1;
+  int ty1;
+  int nx;
+  int ny;
+  int xe;
+  int ye;
+  int cx;
+  int tx;
+  u32 sw;
+  u32 sh;
+  struct Swz f10;
+  int sy;
+  int sx;
+  if (gw == 0)
+    return;
+  gh = hdr->ch;
+  if ((x + gw) < 0)
+    return;
+  if ((y + gh) < 0)
+    return;
+  tx0 = (x <= 0) ? (0) : (((u32) x) >> 3);
+  ty0 = (y <= 0) ? (0) : (((u32) y) >> 3);
+  tx1 = ((u32) ((x + gw) + 7)) >> 3;
+  if (w <= ((u32) tx1))
+    tx1 = w;
+  ty1 = ((u32) ((y + gh) + 7)) >> 3;
+  if (h <= ((u32) ty1))
+    ty1 = h;
+  nx = tx1 - tx0;
+  ny = ty1 - ty0;
+  if (nx < 0)
+    return;
+  if (ny < 0)
+    return;
+  base = s->base;
+  if (x >= 0)
+    x &= 7;
+  if (y >= 0)
+    y &= 7;
+  b.base = color - 1;
+  xe = x - (nx << 3);
+  ye = y - (ny << 3);
+  b.h = gh;
+  b.src = g[1];
+  b.w = gw;
+  b.sbpp = (*font)->hdr->bpp;
+  b.bpp = s->bpp;
+  b.stride = (*font)->hdr->bpp * (*font)->hdr->cw;
+  f10 = s->f10;
+  sw = s->w;
+  sh = s->h;
+  sx = f10.x;
+  sy = f10.y;
+  for (; y > ye; y -= 8)
+  {
+    b.y = y;
+    tx = tx0;
+    for (cx = x; cx > xe; cx -= 8)
+    {
+      int off = func_020681E4(tx, ty0, sw, sh, sx, sy);
+      b.dst = base + (off * tilesz);
+      b.x = cx;
+      func_02068430(&b);
+      tx++;
+    }
+
+    ty0++;
+  }
+
+}
+re-verified 2026-09-23 by tools/match.py: DIFF, 528 bytes against 528, 168 concrete bytes out, ../2.0/sp2

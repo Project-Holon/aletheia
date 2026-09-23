@@ -851,3 +851,41 @@ a block-scoped `u32 ok2 = 0;` (the F844 lever, 8), p as u16 * / const u16 *
 (8), the key offset kept as a local and re-added at each use (840/508),
 all 120 orders of p, k, oa, ob, f as INITIALISED declarations (43 best).
 /* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2p2 -- the wave-9 source above, unchanged */
+
+
+2026-09-23, wave 11 (pkt_0206EB00 remainder).  0x0206F4C8 and 0x0206FC5C unchanged.
+==============================================================================
+
+--- 0x0206F4C8 (488 B): DIFF, 2, unchanged, ../2.0/sp2p2 (sp2p3 / sp2p4 the same 2; sp2 and older 2.0 500 bytes; 1.1p1 480; 1.2 524-548)
+The residue is `adds r5, r5, r6` (product low word first) against the
+compile's `adds r5, r6, r5`.  mwcc canonicalises the operand order of an
+unnamed 64-bit sum: every commuted spelling gives the same 2 --
+`3 * (long long)a + b`, `(long long)3 * a + b`, `b + 3 * (long long)a`,
+`(long long)b + (long long)3 * a`, an unsigned shift of the sum,
+`(long long)a * 3 + (long long)b`, a named sum `w3 = a*3LL + b`, a long long
+b local.  Naming the PRODUCT gives the image's order but moves the product
+to r6:r5 and a to r4 (27: `w3 = (long long)a * 3; out[0] = (w3 + b) >> 2`
+in three statement orders, the product from the key directly, a+a+a);
+`w3 = key; w3 = w3 * 3 + b` 19; `la` / `lb` long long locals 5; an inline
+`bl3(a, b)` helper for the x blend with the y blend as filed 5 (27 / 54 for
+the product-naming and long long parameter helpers).  Struct-by-value key
+pairs (V2i ka = p[i0], kb = p[j]; V2s the same) 528-560 bytes.  A full
+F214-twin transcription (k reused as the second index, `a *= 3; a += b`,
+one shared `goto plain`) is 484 bytes: the vector-2 unit really keeps the
+separate m/j indices.
+permuter (../2.0/sp2p2, --types):
+  hill 800 from the named-product source (27): no single mutation improves DIFF asm=280 bytes-out=27 (352 tried)
+  anneal 850 / 5000 from it: best DIFF asm=10 bytes-out=2 size=488/488
+    via temp(tmp=(V2i *) p) ; commute(+) ; temp(tmp1=((V2i *) p)[j].x) -- back to the filed residue
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above, unchanged */
+
+--- 0x0206FC5C (836 B): DIFF, 8, unchanged, ../2.0/sp2p2 (same as ../2.0/sp2)
+p r4 / oa r8 against the image's p r8 / oa r4 (the offset temporary's r4
+reused for oa).  permuter (../2.0/sp2p2, --types): hill 800 no single
+mutation improves DIFF asm=40 bytes-out=8 size=836/836 (442 tried).
+Measured this pass: 500 random orders of all twelve declarations (arrays
+included) best 8; with p assigned after oa/ob (or between them), 300
+orders each of the ten scalars, best 19 / 12; the split assignments
+`p = (u8 *)h; p = p + r->off04;` and `p += r->off04` (840 bytes),
+`p = (u8 *)r->off04; p = (u8 *)h + (u32)p;` (8), `p += (u32)h` (10).
+/* best source, 836 bytes against 836, 8 concrete bytes out, ../2.0/sp2p2 -- the wave-9 source above, unchanged */

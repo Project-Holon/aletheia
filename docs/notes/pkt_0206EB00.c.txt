@@ -1564,3 +1564,25 @@ void func_0206ECE0(Out *out)
     }
 }
 re-verified 2026-09-23 by tools/match.py: DIFF, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2
+
+
+2026-09-23, wave 11 (pkt_0206EB00 remainder).  0x0206ECE0 unchanged at 14.
+==============================================================================
+
+--- 0x0206ECE0 (384 B): DIFF, 14, unchanged, ../2.0/sp2p2 (same 14 under ../2.0/sp2 and 1.1p1)
+Re-verified from the wave-10 source; the residue is still node r4 / k r5
+against the image's r5 / r4.  permuter (../2.0/sp2p2, --types):
+  hill 800:    no single mutation improves DIFF asm=70 bytes-out=14 size=384/384 (228 tried)
+  anneal 1600: best DIFF asm=70 bytes-out=14 size=384/384
+  --explain:   r4 -> r5 x6, r5 -> r4 x3
+Measured flat at 14 this pass: the perm arm as an inline helper (node or
+f passed, k computed inside; k/u/v passed as arguments from named locals,
+with the func_020834A8 call inside or outside), k declared before node,
+k from a fresh `*(u16 *)node` read, the flag word re-read into f after the
+call, g_02148DB0 read twice without a local.  Worse: p through a ternary
+offset (388), the flag-2 group as an early return (182), k/u/v passed as
+direct expressions to the helper (110-120), and all sixteen combinations
+of four entry_of x four resolve spellings (else-first with early returns,
+if/else returns, a result local): only the filed nested-helper pair is 14
+(the others 41-67, the result-local forms 376-380 bytes).
+/* best source, 384 bytes against 384, 14 concrete bytes out, ../2.0/sp2p2 -- the wave-10 source above, unchanged */

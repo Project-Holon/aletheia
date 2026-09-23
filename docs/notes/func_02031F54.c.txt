@@ -143,3 +143,35 @@ source.
 
 Still worth 596 bytes downstream: this function is the single branch witness
 for sub_020328E0 (now src/matched/sub_020328E0.c, which found another witness).
+
+================================================================================
+2026-09-23 -- wave 11, backup_system.c lane.  Appended, nothing above edited.
+================================================================================
+
+/* best source, 64 bytes against 64, 16 concrete bytes out, dsi/1.1p1 */
+
+    struct Footer { u32 gen; u32 size; u32 id; u16 pad; u16 crc; };
+    extern struct Footer *func_02031EE8(struct SaveBackup *p, u8 *buf);
+    extern u16 func_02031E7C(struct SaveBackup *p, u8 *buf);
+
+    void func_02031F54(struct SaveBackup *p, u8 *buf)
+    {
+        struct Footer *q = func_02031EE8(p, buf);
+        q->gen = p->unk28;
+        q->size = p->unk30;
+        q->id = p->unk0C;
+        q->crc = func_02031E7C(p, buf);
+    }
+
+permuter best result lines: hill --types 800  DIFF asm=245 bytes-out=16;
+anneal --types 2000  DIFF asm=50 bytes-out=14 via `volatile-add(q) ;
+temp(tmp=p->unk0C)` (a volatile hack, not taken).
+
+Same byte count as the byte-offset source above but a DIFFERENT residue, and
+a better one: with the footer typed as a struct the register choice is the
+image's (p in r6, buf in r5, the three field values in r1/r0/r2), and what is
+left is purely the schedule -- the image loads all three fields before the
+`mov r0, r6 / mov r1, r5` argument setup, 1.1p1 interleaves them.  Not moved
+by: named locals for the three values (60 bytes), a named crc local, a const
+alias of p, a third parameter, casts on the call arguments; ../2.0/sp2 gives
+the identical 5 lines.  Still DIFF; nothing filed.

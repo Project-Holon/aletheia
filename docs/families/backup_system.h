@@ -10,8 +10,8 @@
  * same struct and the same global at 0x02146994/g_02146994, so this file
  * treats backup_system.c and savedata.c as one family rather than splitting
  * the header.  Edges are fuzzy: 0x02031FE0/0x02032688 (the verifier) and
- * 0x02032CD0 (the 1220-byte state-machine dispatcher) are read but not
- * matched -- see docs/notes/pkt_02031FE0.c.txt, pkt_02032CD0.c.txt and
+ * 0x02032CD0 (the 1220-byte state-machine dispatcher, EXACT since
+ * 2026-09-23) are read but not all matched -- see docs/notes/pkt_02031FE0.c.txt, pkt_02032CD0.c.txt and
  * pkt_02031C30.c.txt -- and are recorded here only where a matched caller's
  * evidence reaches into them (return values, field offsets).
  *
@@ -434,12 +434,7 @@ void func_02031F94(int *p, int v);
  * descriptor's first word (via func_02031EE8). */
 void func_02031F9C(u32 *out, void *p, void *buf, u32 sel);
 
-/* 0x02031FE0 / 0x02032688  NOT matched (budget class / DIFF 57.1%); the
- * save-block verifier's two halves.  Read only, per
- * docs/notes/pkt_02031FE0.c.txt: func_02032688(self, mode, arg3) calls
- * func_020333F8, func_020335E8, func_02031F9C, walks the record table via
- * func_02033B68/func_02033BAC/func_02081B8C/func_0203331C, and returns 0/1/
- * 3 per the SAVE_BACKUP_RESULT_* / SAVE_WRITE_OK convention above. */
+/* 0x02031FE0 / 0x02032688  see the DIFF entry further down (2026-09-23). */
 
 /* 0x02032930  the one-byte twin of sub_020328E0: writes the SINGLE trailing
  * byte of a record's footer without refreshing the CRC first. */
@@ -466,10 +461,39 @@ void sub_02032BF8(struct SaveBackup *p, u32 id, u32 x);
  * func_02031ECC. */
 void sub_02032C84(struct SaveBackup *p);
 
-/* 0x02032CD0  NOT matched (1220-byte, 12-case state-machine dispatcher on
- * the byte at +0x18, i.e. SaveBackup::unk18); read only, per
- * docs/notes/pkt_02032CD0.c.txt.  Two parameters: the state object and an
- * out pointer. */
+/* 0x02032CD0  EXACT 2026-09-23 (src/matched/func_02032CD0.c).  The save
+ * WRITE state machine, one step per call, switching on the byte at +0x18:
+ *   0-1 pump non-resident records through sub_02032A9C (its 7th argument is
+ *       a yield flag; the resumable-copy progress lives at +0x148/+0x14C/
+ *       +0x150 and the record cursor at +0x14), 2-4 start each marked
+ *       record's write (sub_02032BF8(p, id, mark, p->f19)) and poll it,
+ *       summing sizes into +0x144, 5-6 trailing block, 7-8 footer (answers 1),
+ *       9-10 footer byte, then either swap marks (sub_0203335C) and restart at
+ *       2 with *out = 1, or finish (func_020333F8) and answer 2.
+ * The write handle is a u16 at g_02146994+0x20C (SaveMain::unk20C) and every
+ * poll is func_020337B8(unk20C, &status, unk208).  A failed poll answers 3
+ * (2 once +0x19, the copy counter, is non-zero). */
+int func_02032CD0(struct SaveBackup *p, u32 *out);
+
+/* 0x02031C30  EXACT 2026-09-23.  Drives TWO save records (q, p -- the same
+ * type) through func_02032CD0 on q's byte +0x1E, with +0x1F as p's result
+ * byte and +0x20 a pointer that receives p's +0x28 generation. */
+int func_02031C30(struct SaveBackup *q, struct SaveBackup *p);
+
+/* 0x02031F54  DIFF (16 bytes, scheduling).  Writes the footer
+ *   struct Footer { u32 gen; u32 size; u32 id; u16 pad; u16 crc; };
+ * at func_02031EE8(p, buf): gen = +0x28, size = +0x30, id = +0x0C,
+ * crc = func_02031E7C(p, buf).  The struct-typed footer gets the registers
+ * right (the byte-offset spelling does not). */
+
+/* 0x02031FE0 / 0x02032688  DIFF, both size-exact (42 and 10 bytes), best
+ * sources in docs/notes/pkt_02031FE0.c.txt.  0x02031FE0 is the full load:
+ * read BOTH copies (func_020335E8 with func_02031EAC(self, 1) into +0x34 and
+ * (self, 2) into a heap block), repair a failed read from the other copy,
+ * check both footers (func_02031F9C x2), pick the newer good copy, walk every
+ * record against both, mark 0/1/2 via func_0203331C, copy good records back
+ * and commit the generation (func_02031F94).  0x02032688 is the one-copy
+ * variant.  +0x34 is a u8 * (the staging buffer). */
 
 /* 0x020329AC  walk every record of the save table, reporting nominal size
  * and size-actually-accounted-for through two out-parameters; records not
