@@ -1,0 +1,83 @@
+/*
+ * function: func_020186C8
+ * address:  0x020186C8
+ * packet:   pkt_0201862C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020056EC  0x020056EC  thumb
+ *   func_02017ED8  0x02017ED8  thumb
+ *   func_020185F8  0x020185F8  thumb
+ *   func_0201AF6C  0x0201AF6C  thumb
+ *
+ * Build a personality value for trainer id a0: a3 selects the gender
+ * handling (2 = fully random), a5 the shininess (1 = force shiny through
+ * the id key, 0 = force NOT shiny by flipping bit 28 when func_02017ED8
+ * says shiny, 2 = leave), and bit 16 is forced to a4 (read as a word, so
+ * a4 is int-sized).  Wave 11, 2026-09-23.
+ *
+ * The 8-byte shortfall of the r4-3/r4-6 lanes ("duplicated compare, shared
+ * eors", judged a cross-jump no source can request) is the SOURCE shape:
+ * case 1 carries its own bit-16 fix and `break`s, case 0 FALLS THROUGH into
+ * case 2, which carries the other copy; the compiler tail-merges the two
+ * `v ^= 0x10000` statements and nothing else.  Case bodies in the order
+ * 1, 0, 2; the case-1 key written `hi(a0) ^ (u16)a0` first.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_020056EC(int a0);
+extern u32 func_02017ED8(u32 a0, u32 a1);
+extern u32 func_020185F8(int a0, int a1, int a2);
+extern int func_0201AF6C(int a0);
+
+u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5)
+{
+    u32 v;
+
+    if (a3 == 2) {
+        v = func_020056EC(0);
+    } else {
+        u32 t = func_020056EC(0) & ~0xFFu;
+
+        v = func_020185F8(a1, a2, (u8)a3);
+        if (a3 == 0) {
+            if (func_0201AF6C(v) == 0) {
+                v = v + func_020056EC(0xFE - v);
+                goto L;
+            }
+        }
+        if (a3 == 1) {
+            if (func_0201AF6C(v) == 0) {
+                v = func_020056EC(v) + 1;
+            }
+        }
+    L:
+        v |= t;
+    }
+    switch (a5) {
+    case 1:
+        v = (u8)v | (((((a0 & 0xFFFF0000u) >> 16) ^ (u16)a0) ^ (u8)v) << 16);
+        if ((v & 0x10000u) != ((u32)a4 << 16)) {
+            v ^= 0x10000u;
+        }
+        break;
+    case 0:
+        if (func_02017ED8(a0, v) == 1) {
+            v ^= 0x10000000u;
+        }
+    case 2:
+        if ((v & 0x10000u) != ((u32)a4 << 16)) {
+            v ^= 0x10000u;
+        }
+        break;
+    }
+    return v;
+}

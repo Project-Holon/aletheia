@@ -575,3 +575,12 @@ it should start from the anneal output rather than from this note's source,
 and should expect the pin NOT to help (docs/families/cluster_020929E8.h
 records that ../2.0/sp2 and ../1.2/sp2 are both measurably worse than
 1.1p1 throughout this cluster, measured on func_020933B8).
+
+========================================================================
+2026-09-23, wave 11: CLOSED.  EXACT in src/matched/func_020924DC.c
+(packet pkt_02092120, 1.1p1).  The row is MSL printf.c `parse_format`
+written in the Metrowerks shape (int c, int flag_found, the two switches);
+the two load-bearing details were an unsigned isdigit range test and the
+length cases ordered j, t, z.  No permuter run was needed.  The sources
+above in this note are superseded.
+========================================================================

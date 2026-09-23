@@ -47,8 +47,8 @@
  *   0x020923C4  func_020923C4   MEMCHR.
  *   0x020923F0  func_020923F0   MEMCMP.
  *   0x02092430  func_02092430   the word-unrolled MEMSET core.
- *   0x020924DC  func_020924DC   the printf/scanf SPEC SCANNER.  STILL OPEN;
- *                               see section 3.
+ *   0x020924DC  func_020924DC   MSL printf.c `parse_format`, the spec
+ *                               scanner.  EXACT (wave 11); see section 3.
  *
  * Derived from the ten matched sources found with
  *   grep -l "address:  0x020921\|address:  0x020922\|address:  0x020923" \
@@ -155,53 +155,39 @@ struct Spec {
 };
 
 /* ================================================================== *
- * 3.  func_020924DC -- the one open row, and where it actually stands
+ * 3.  func_020924DC -- MSL printf.c `parse_format`.  EXACT (wave 11).
  *
- * 1292 bytes, ARM.  STILL DIFF.  It is `u32 f(u8 *fmt, u32 **argp,
- * struct Spec *out)`: it starts at fmt[1] (so the caller points it at the
- * '%'), walks %[flags][width][.prec][length]<conv>, fills the spec, and
- * returns the pointer one past the conversion character.  `%%` is handled
- * before the flag loop and returns immediately.
+ * src/matched/func_020924DC.c, 1292 bytes, 1.1p1, ARM.  Closed by writing
+ * the Metrowerks source shape instead of transcribing the bytes, the lesson
+ * of the whole wave: the earlier transcription (docs/notes/pkt_020924DC.c.txt,
+ * 1288 B / 941 out, permuter floor 1292 / 763) was a "whole-function
+ * colouring class away" only because its SHAPE was wrong.  What the image
+ * actually is:
  *
- * THE CONVERSION DISPATCH IS TWO IN-FUNCTION JUMP TABLES of `b` instructions,
- * reached by `addpl pc, pc, r0, lsl #2` (one for 'A'..'G', one for 'd'..'x',
- * 21 entries between them).  No pool word is spent on a table.  THIS IS WHY
- * THE ROW IS NOT "STRAIGHT-LINE" and why a wave that scopes it that way
- * should skip it.
+ *   const uchar *parse_format(const uchar *s, va_list *arg, print_format *f)
+ *   with `print_format f; int c; int flag_found;` (the image's lr is `c`,
+ *   ip is `s`, r7 is flag_found),
+ *   - the flag loop as `for (;;) { flag_found = 1; switch (c) {...
+ *     default: flag_found = 0; } if (flag_found) c = *++s; else break; }`,
+ *   - `*` width / precision through va_arg(*arg, int) (MSL's
+ *     `(*(int *)((ap += 4) - 4))`), assigned inside the `< 0` test,
+ *   - isdigit as `((unsigned int)(c) < 0x80 ? (__ctype_map[c] & 8) : 0)` --
+ *     the UNSIGNED range test is load-bearing (a signed `c < 0x80` gives
+ *     movge/lsllt, the image has movhs/lsllo),
+ *   - the length modifiers as a second switch with flag_found, cases in
+ *     the order h, l, L, j, t, z (the arm bodies store 6, 8, 7 in that
+ *     order; j, z, t swaps two branch targets),
+ *   - the conversion switch in MSL's own order with `g`/`G` FALLING THROUGH
+ *     into `e`/`E` and `a`/`A`'s six-way bad-length test as one `||` chain.
+ * Measured: the plain MSL shape with signed isdigit and j,z,t order was
+ * 12 bytes out; the two fixes closed it.  ../2.0/sp2 on the exact source is
+ * 1392 bytes, so the no-pin statement above stands.
  *
- * A COMPILABLE SOURCE EXISTS and is intact: it is lines 253..508 of
- * docs/notes/pkt_020924DC.c.txt.  (That file's own trailing "re-verified ...
- * CCERR ... declaration syntax error" line is an artefact of feeding the
- * whole file to mwcc -- the 177 lines above the source are the first probe
- * lane's plain-text map, and the re-verify line itself sits after the closing
- * brace.  `sed -n '253,508p'` extracts a clean translation unit.)
- *
- * STATE OF THE ART, measured 2026-09-22 with tools/permuter.py at --arm
- * --cc 1.1p1, which no earlier lane had run on this row:
- *
- *     the note's own source                     1288 bytes / 941 concrete out
- *     --mode hill --budget 800 --jobs 8 --types 1292 bytes / 775  (SIZE-EXACT)
- *     --mode anneal --budget 2000 --jobs 8 --types  1292 / 763, then plateau
- *
- * The four missing bytes are bought by ONE mutation worth writing in by hand:
- * lift the class test into a named temporary, `u32 d = g_020A61DC[c] & 8;`.
- * The other two the hill run found are `temp(tmp = *((*argp)++))` and
- * `decl-order(cont <-> c)` -- the second being an independent confirmation of
- * the earlier lane's "declare the current-character local first" lever.
- *
- * WHERE IT STOPS, AND WHY.  `--explain` reports
- *     lr -> r3  x29    r0 -> r1  x12    r2 -> r5  x11    r3 -> r2  x7
- * i.e. a whole-function reshuffle, not a swapped pair.  The image holds its
- * four scratch values in lr, ip, r5 (the constant 0) and r6 (the constant 1)
- * and needs only `push {r3, r4, r5, r6, r7, lr}`; 1.1p1 spills two of them
- * into r8/sb, which costs 4 bytes of prologue and moves the displacement of
- * every branch after it.  Nothing in the permuter's mutation table (statement
- * order, live-range splitting, temporaries, block shape, integer types)
- * recolours a value into lr, so the 763 is a floor for the current tooling,
- * not for the C.
- *
- * FOR THE NEXT LANE: start from the anneal output, not from the note's
- * source, and do not probe the front end (section "THE COMPILER PIN" above).
+ * print_format is the caller's struct (src/matched/func_02093BDC.c, the
+ * __pformatter core): six unsigned char fields then `int field_width`,
+ * `int precision`.  struct Spec in section 2 is the same 16 bytes; the
+ * width compare is SIGNED (`ble` against 0x1FD), so field_width is int, not
+ * u32.
  * ================================================================== */
 
 /* ================================================================== *
@@ -221,7 +207,7 @@ extern void *func_020923B0(void *dst, s32 c, size_t n);            /* memset  */
 extern void *func_020923C4(const void *s, s32 c, size_t n);        /* memchr  */
 extern s32   func_020923F0(const void *a, const void *b, size_t n);/* memcmp  */
 extern void  func_02092430(u8 *dst, u32 val, u32 count);  /* memset core      */
-extern u32   func_020924DC(u8 *fmt, u32 **argp, struct Spec *out); /* OPEN    */
+extern const u8 *func_020924DC(const u8 *s, u8 **arg, struct Spec *out); /* parse_format, EXACT */
 
 /* --- reached from inside the cluster -------------------------------------- */
 extern s32   func_02092004(u32 id, u32 a1, u32 a2);

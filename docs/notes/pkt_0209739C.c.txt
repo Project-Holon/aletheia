@@ -324,3 +324,55 @@ size=1524/1524 via type:l(nd:int->u8) ; reorder(-2) -- the same size
 compensation as wave 9 (an `and #0xff` pays for the lost `mov`), rejected.
 
 /* best source, 1520 bytes against 1524, 721 concrete bytes out, 1.1p1 -- the wave-9 source above, unchanged */
+
+==============================================================================
+2026-09-23, wave 11 (singles lane, pkt_02096D10).  Unchanged, DIFF.
+==============================================================================
+
+re-verified 2026-09-23 by tools/match.py: DIFF, 1520 bytes against 1524, 721
+concrete bytes out, 1.1p1 (the wave-9 source above, extracted verbatim).
+Other front ends re-measured on the same source: ../2.0/sp2, ../2.0/sp1 and
+../2.0/base 1576 bytes (1211/1211/1208 out, wrong from +0x1C: ldreq/ldrne
+sign select), ../1.2/sp4 1636, ../1.2/base 1660 (frame 0x104).  No pin; the
+whole library around it (parse_format 0x020924DC this wave, __pformatter
+0x02093BDC) is 1.1p1.
+
+Permuter, 1.1p1 --arm:
+  --explain  baseline DIFF asm=1100 bytes-out=721 size=1520/1524 unresolved=1
+             map r5->r6 x10, r7->r8 x6, r6->r7 x5, r4->r5 x3, r8->sb x3
+  --mode hill --budget 400 (no --types): best DIFF asm=3735 bytes-out=788
+             size=1524/1524 via volatile-add(temp2), "no single mutation
+             improves (57 tried)" -- a size compensation, rejected
+  --mode anneal --budget 1000 --types: best DIFF asm=1310 bytes-out=390
+             size=1524/1524 via type:l(ndig:int->u8) ; commute(&) ;
+             expand(ival x1) ; temp(fpclassify) ; block(do0) -- the same
+             u8-counter size compensation as waves 9/10, rejected
+  --mode anneal --budget 1000 --focus is_low,is_high,x64,guess,feval,ll:
+             best DIFF asm=3725 bytes-out=547 via volatile/hoist-down chains,
+             rejected (volatile is not the image)
+
+Hand probes this wave, all against the 1520/721 baseline:
+  do{...}while(0) or for(;;){...break;} around the pow/ldexp/fpclassify
+      section, or around the num2dec/equals/less/is_high section: 721, the
+      wrapper is folded before the hoist decision
+  `goto top; top:` label immediately before the refinement loop: 721
+  `is_high = !is_low;`: 721;  `is_low = less(...) != 0;`: 713 (not closer
+      in shape);  guess stored before the is_high computation: 724
+  the loop + found block as a static inline helper taking (dec, &feval,
+      &first_guess, &guess, is_low, is_high): 709, and the diff shows the
+      helper's constants (&diff2, &dec, 0) STILL materialised at +0x2A0, so
+      1.1p1 inlines before it places constants: a separate inline function
+      is not what separated the image's second constant group.
+
+Reading of the residue, sharpened.  The image has two groups of pointer/zero
+materialisations: {&feval r7, &dec r4} at +0x2A0 (the join block after the
+chunk loop, which has three predecessors: the guard, the break and the
+fall-through), and {&dec sb, &x64 r4, 0 r8} at +0x3A4, the refinement
+loop's preheader.  1.1p1 on every source tried places all five at +0x2A0 and
+CSEs the second &dec with the first and the zero with pow's 5.0 low word.
+The found block's &x64 and the loop's &dec are rematerialised with fresh
+`add rX, sp, #imm` in BOTH image and compile, so the split is not a use-site
+difference either.  No source-level construct yet found separates the loop's
+invariants from the earlier dominating copies.
+
+/* best source, 1520 bytes against 1524, 721 concrete bytes out, 1.1p1 -- the wave-9 source above, unchanged; permuter best DIFF asm=1310 bytes-out=390 size=1524/1524 (size compensation, rejected) */

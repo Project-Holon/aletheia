@@ -262,7 +262,13 @@ extern void func_020972F0(void *a0, int a1, int a2, DB *p); /* EXACT          */
    block after the chunk loop for the NON-loop uses and, separately, &dec
    again, &x64 and the zero of the 64-bit `& 1` test at the refinement
    loop's own preheader; 1.1p1 merges all of them at the earlier block.  2.0
-   and 1.2 are wrong from +0x1C (`ldreq/ldrne` sign select), so no pin. */
+   and 1.2 are wrong from +0x1C (`ldreq/ldrne` sign select), so no pin.
+   Wave 11 (unchanged, 1520/721): wrappers (do/while(0), for/break) around
+   the pre-loop sections, a label before the loop and the loop + found block
+   as a static inline helper all leave the constants at +0x2A0 -- 1.1p1
+   inlines before it places constants, so a helper function does not
+   reproduce the image's second (preheader) group.  Permuter hill/anneal
+   bests are u8-counter or volatile size compensations only. */
 extern double func_0209739C(const DB *d);                    /* 1492 B, open  */
 
 /* frexp/ldexp composition: `t = 0; v = frexp(a0, &t); t += a2;

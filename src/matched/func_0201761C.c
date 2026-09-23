@@ -1,0 +1,139 @@
+/*
+ * function: func_0201761C
+ * address:  0x0201761C
+ * packet:   pkt_0201756C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02017550  0x02017550  thumb
+ *   func_02017DBC  0x02017DBC  thumb
+ *   func_02019C54  0x02019C54  thumb
+ *   func_020056EC  0x020056EC  thumb
+ *   func_0203F0A8  0x0203F0A8  arm
+ *   func_02017E64  0x02017E64  thumb
+ *   func_02017ED8  0x02017ED8  thumb
+ *   func_02045F5C  0x02045F5C  arm
+ *   func_02018584  0x02018584  thumb
+ *   func_0201AE1C  0x0201AE1C  thumb
+ *   func_02019C7C  0x02019C7C  thumb
+ *   func_02017F08  0x02017F08  thumb
+ *   func_02017FB0  0x02017FB0  thumb
+ *   func_02017DE4  0x02017DE4  thumb
+ *   g0209DF0C      0x0209DF0C  data  a1
+ *   gMsgBank       0x020A7370  data
+ *   gNameBuf       0x021462F0  data
+ *   g0209DF08      0x0209DF08  data  a1
+ *
+ * Initialise a record's block area: species, level, a 64-bit trainer id and
+ * a 64-bit personality with two sentinel values each, and packed IVs (or
+ * 0xFFFFFFFF for six fresh draws).  Wave 11, 2026-09-23.  The levers
+ * that closed it after 2026-09-21's 612-against-700 DIFF:
+ *   - the 4th parameter is a u64 `id` straddling r3 and the first stack
+ *     word; the 7th is a u64 `rnd`.  Sentinels: id == ~0 (draw a fresh one),
+ *     id == 0xFFFFFFFF00000000 (search for a non-shiny id: the
+ *     func_02017ED8 retry loop, `id = (u32)(rnd + 1)` then
+ *     `id = (id + 1) & 0xFFFFFFFF`); rnd == 0xFFFFFFFF00000000 (draw),
+ *     rnd == 0xFFFFFFFF00000001 (take id).  Callers 0x0201756C/0x02017600
+ *     pass pow = -1, rnd = 0xFFFFFFFF00000000.
+ *   - the IV draws are `(u64)func_0203F0A8() * 32 >> 32`
+ *     (docs/idioms/random-below-n-is-a-64-bit-multiply-high.md).
+ *   - func_02017550 takes `obj` (it is unit_02017528.c's area clear).  The
+ *     last ten prologue bytes (r1 vs r0 as the scratch for the stack-param
+ *     home rewrite) came from that alone: r0 must survive to the call.
+ *     The permuter (hill 800 + anneal 1000, --types) could not move them.
+ *   - 0x020A7370 is gMsgBank (a pointer, dereferenced), 0x021462F0 is
+ *     gNameBuf (passed by address), as docs/families/poke_tool.h says.
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned long long u64;
+
+extern void  func_02017550(void *obj);
+extern u32   func_02017DBC(void *obj);
+extern void *func_02019C54(u16 a, u16 b);
+extern u32   func_020056EC(u32 a);
+extern u32   func_0203F0A8(void);
+extern void  func_02017E64(void *obj, u32 id, u32 val);
+extern u32   func_02017ED8(u32 a, u32 b);
+extern void  func_02045F5C(void *a, u32 b, void *c, u32 n);
+extern u32   func_02018584(u16 a, u16 b, u16 c);
+extern u32   func_0201AE1C(void *a, u32 b);
+extern u32   func_02019C7C(void *a);
+extern u32   func_02017F08(void *obj);
+extern void  func_02017FB0(void *obj);
+extern u32   func_02017DE4(void *obj, u32 a);
+
+extern u8   g0209DF0C;
+extern void *gMsgBank;
+extern u16  gNameBuf[];
+extern u8   g0209DF08;
+
+void func_0201761C(void *obj, u16 species, u16 level, u64 id, u32 pow, u64 rnd)
+{
+    void *rec;
+    u32 flag;
+    u32 v;
+
+    func_02017550(obj);
+    flag = func_02017DBC(obj);
+    rec = func_02019C54(species, 0);
+
+    if (rnd == 0xFFFFFFFF00000000ULL) {
+        rnd = func_020056EC(0);
+        func_0203F0A8();
+    } else if (rnd == 0xFFFFFFFF00000001ULL) {
+        rnd = id;
+    }
+    func_02017E64(obj, 0, (u32)rnd);
+
+    if (id == 0xFFFFFFFFFFFFFFFFULL) {
+        id = func_020056EC(0);
+    } else if (id == 0xFFFFFFFF00000000ULL) {
+        id = (u32)(rnd + 1);
+        while (func_02017ED8((u32)id, (u32)rnd)) {
+            id = (id + 1) & 0xFFFFFFFF;
+        }
+    }
+    func_02017E64(obj, 7, (u32)id);
+    func_02017E64(obj, 0xc, g0209DF0C);
+    func_02017E64(obj, 5, species);
+    func_02045F5C(gMsgBank, species, gNameBuf, 0x20);
+    func_02017E64(obj, 0x74, (u32)gNameBuf);
+    func_02017E64(obj, 8, func_02018584(species, 0, level));
+    func_02017E64(obj, 9, func_0201AE1C(rec, 0x16));
+    func_02017E64(obj, 0x99, level);
+    func_02017E64(obj, 0x77, g0209DF08);
+    func_02017E64(obj, 0x98, 4);
+
+    if (pow == 0xFFFFFFFF) {
+        func_02017E64(obj, 0x46, (u32)(((u64)func_0203F0A8() * 32) >> 32));
+        func_02017E64(obj, 0x47, (u32)(((u64)func_0203F0A8() * 32) >> 32));
+        func_02017E64(obj, 0x48, (u32)(((u64)func_0203F0A8() * 32) >> 32));
+        func_02017E64(obj, 0x4a, (u32)(((u64)func_0203F0A8() * 32) >> 32));
+        func_02017E64(obj, 0x4b, (u32)(((u64)func_0203F0A8() * 32) >> 32));
+        func_02017E64(obj, 0x49, (u32)(((u64)func_0203F0A8() * 32) >> 32));
+    } else {
+        func_02017E64(obj, 0x46, (u8)(pow & 0x1f));
+        func_02017E64(obj, 0x47, (u8)((pow >> 5) & 0x1f));
+        func_02017E64(obj, 0x48, (u8)((pow >> 10) & 0x1f));
+        func_02017E64(obj, 0x4a, (u8)((pow >> 15) & 0x1f));
+        func_02017E64(obj, 0x4b, (u8)((pow >> 20) & 0x1f));
+        func_02017E64(obj, 0x49, (u8)((pow >> 25) & 0x1f));
+    }
+
+    v = 0x1a;
+    if (func_02019C7C(rec) == 2 && (rnd & 0x10000) != 0) {
+        v = 0x1b;
+    }
+    func_02017E64(obj, 0xa, func_0201AE1C(rec, v));
+    func_02017E64(obj, 0x6e, func_02017F08(obj));
+    func_02017E64(obj, 0x70, func_020056EC(0x19));
+    func_02017FB0(obj);
+    func_02017DE4(obj, flag);
+}
