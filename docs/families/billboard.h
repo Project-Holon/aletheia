@@ -92,14 +92,21 @@ struct Board {
     u16 count0;             /* 0x0c  slot count                 func_0204EBD4, func_0204F27C */
     u16 count1;             /* 0x0e  elem count                 func_0204F428 */
     u8  blob[0x18];         /* 0x10  the 28-byte blob lands at +0x0c..+0x27   */
-    u32 a28;                /* 0x28                             func_0204EBD4 */
-    u32 a2c;                /* 0x2c  flag word, set to 1        func_0204ED4C */
-    s16 b30;                /* 0x30  three signed halfwords     func_0204ED4C */
+    u32 a28;                /* 0x28  look-at mode, 0 = G3_LookAt   func_0204EBD4, func_0204F7DC */
+    u32 a2c;                /* 0x2c  1 = use b30..b34 as the normal  func_0204ED4C, func_0204F7DC */
+    s16 b30;                /* 0x30  fixed normal x (fx16)      func_0204ED4C */
     s16 b32;                /* 0x32                             func_0204ED4C */
     s16 b34;                /* 0x34                             func_0204ED4C */
-    u16 b36;                /* 0x36                             func_0204EDC4 */
-    u16 b38;                /* 0x38                             func_0204EDC4 */
+    s16 b36;                /* 0x36  S offset, ldrsh            func_0204F7DC  WAS: u16 (func_0204EDC4 only stores it) */
+    s16 b38;                /* 0x38  T offset, ldrsh            func_0204F7DC  WAS: u16 */
 };
+
+/* func_0204F7DC's reading of the blob area (+0x10..+0x27), all EXACT-proved:
+ *   +0x10 fx32 scale (G3_Scale x3, FX_Div denominator), +0x1c/+0x1e u16
+ *   diffuse/ambient, +0x20/+0x22 u16 specular/emission, +0x24 u8 polygon-id
+ *   base, +0x25 u8 quad-shape index into the {y0,y1,x0,x1} fx16 table at
+ *   0x020A1514.  Evidenced by src/matched/func_0204F7DC.c.
+ */
 
 /* NOTE on count0.  It is a u16 but func_0204F27C's loop compares SIGNED
  * (`blt` on the back edge), so the loop counter is a plain `s32` and count0 is
@@ -115,6 +122,14 @@ struct Board {
  * Evidenced by src/matched/func_0204F150.c and func_0204F1A0.c.
  */
 
+/* NOTE on the Elem +0x18 bitfield NAMES (func_0204F7DC reads all six):
+ * alpha:5 (POLYGON_ATTR alpha), polyId:4 (added to Board +0x24 for the
+ * polygon id), visible:1 (bit 9; func_0204F720 flips it), flipS:1, flipT:1,
+ * light:4 (light mask; nonzero sends the normal, zero sends G3_Color(0x7FFF)).
+ * func_0204F428 writes them as plain bitfield assignments, in the order
+ * alpha, polyId, visible, light, flipS, flipT.
+ */
+
 /* The 0x28-byte SLOT record, the element of Board.ptr0. */
 struct Slot {
     u32 f00;                /* payload handle; 0 = empty     func_0204EE0C, func_0204F150 */
@@ -124,11 +139,11 @@ struct Slot {
     u8  f09;                /* second divisor byte           func_0204EEC8, func_0204F344 */
     u8  f0a;                /* f04 / f08                     func_0204EEC8 */
     u8  f0b;                /* f06 / f09                     func_0204EEC8 */
-    u32 f0c;                /* (u16)f20 << 3                 func_0204F044, func_0204F2B4 */
-    u32 f10;                /* (u16)f24 << 3                 func_0204F044 */
-    u32 f14;                /* state word; 5 = free          func_0204EE0C, func_0204F150 */
-    u32 f18;                /*                               func_0204EEC8 */
-    u32 f1c;                /*                               func_0204EEC8 */
+    u32 f0c;                /* (u16)f20 << 3; texture VRAM address   func_0204F044, func_0204F7DC */
+    u32 f10;                /* (u16)f24 << 3; palette address        func_0204F044, func_0204F7DC */
+    u32 f14;                /* state word; 5 = free; GXTexFmt when live  func_0204EE0C, func_0204F7DC */
+    u32 f18;                /* GXTexSizeS                    func_0204EEC8, func_0204F7DC */
+    u32 f1c;                /* GXTexSizeT                    func_0204EEC8, func_0204F7DC */
     u32 f20;                /*                               func_0204F044, func_0204F2E4 */
     u32 f24;                /*                               func_0204F044 */
 };
@@ -164,10 +179,10 @@ struct Elem {               /* 0x1c bytes */
     u16 mode : 2;           /* 0x00  bits 14-15              func_0204F428 */
     u16 f02;
     struct Vec3 f04;        /* 0x04  copied whole from the caller  func_0204F428 */
-    u16 f10;                /* 0x10                          func_0204F428 */
-    u16 f12;                /* 0x12                          func_0204F428, func_0204F684 */
-    u16 f14;                /* 0x14                          func_0204F428, func_0204F684 */
-    u16 f16;                /* 0x16                          func_0204F428 */
+    u16 f10;                /* 0x10  texture cell index      func_0204F428, func_0204F7DC */
+    u16 f12;                /* 0x12  scale x, READ ldrsh     func_0204F428, func_0204F684, func_0204F7DC */
+    u16 f14;                /* 0x14  scale y, READ ldrsh     func_0204F428, func_0204F684, func_0204F7DC */
+    u16 f16;                /* 0x16  Z rotation index        func_0204F428, func_0204F7DC */
     u16 f18;                /* 0x18  packed flags, see below func_0204F428, func_0204F720 */
     u16 f1a;
 };
@@ -244,15 +259,18 @@ void  func_0204EDD0(s32 flags, u16 *outBank, u16 *outSub);        /* EXACT  */
 int   func_0204EE0C(struct Board *b, u32 *outIdx);                /* EXACT  */
 void  func_0204EE64(struct Slot *s, u32 heapId);                  /* EXACT  */
 void  func_0204EEC8(struct Slot *s, u32 idx, s32 fmt,
-                    s32 divisor, u8 c);                           /* DIFF, 58 bytes;
-                                                                   * caps at MATCH, see
-                                                                   * THE TEXTURE TABLES */
+                    u32 divisor, u8 c);                           /* DIFF, 58 bytes, all 5
+                                                                   * relocations resolve
+                                                                   * (sole-ref); see
+                                                                   * docs/notes/pkt_0204EEC8.c.txt */
 u32   func_0204EF58(struct Board *b, u32 a1, u32 a2, u32 a3,
                     u8 a4, u8 a5);                                /* EXACT  */
 u32   func_0204EFC8(struct Board *b, u32 a1, u32 a2, u32 a3,
                     u32 a4, u8 a5, u8 a6);                        /* EXACT  */
-u32   func_0204F044(struct Board *b, u32 a1, u32 a2, u32 a3,
-                    u32 a4, u8 a5, u8 a6);                        /* DIFF, 52 bytes */
+int   func_0204F044(struct Board *b, int w, int h, int a3,
+                    u32 a4, u8 a5, u8 a6);                        /* EXACT; the size fields
+                                                                   * are `(u32)(f20 << 16) >> 13`,
+                                                                   * NOT `(u32)(u16)f20 << 3` */
 
 /* slot teardown */
 void  func_0204F10C(void *board, u32 idx);                        /* EXACT  */
@@ -274,7 +292,8 @@ void  func_0204F344(void *board, int idx, int a2, int *out,
 
 /* elem allocation, flags and getters */
 s32   func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14,
-                    struct Vec3 *src, u8 k, u32 w, u32 mode);     /* DIFF, 52 bytes */
+                    struct Vec3 *src, u8 k, u32 w, u32 mode);     /* EXACT, plain BITFIELD
+                                                                   * assignments on Elem */
 void  func_0204F5A8(void *board, u32 idx);                        /* EXACT* */
 void  func_0204F5E4(u8 *board, int idx, u16 *out);                /* EXACT  */
 void  func_0204F604(void *board, u32 idx, u16 *src);              /* EXACT* */
@@ -297,11 +316,11 @@ void  func_0204F764(void *board, u32 idx, u32 *val);              /* EXACT  */
 void  func_0204F794(void *board, u32 idx, u32 *val);              /* EXACT* */
 void  func_0204F7C4(u8 *board, int idx, u16 *src);                /* EXACT  */
 
-/* the family's tail; 1720 bytes, the one large function, still open.  Its
- * prologue is `push {r3-r8,sb,sl,fp,lr}` + `sub sp, sp, #0x168`, so it has a
- * 360-byte frame and at least three parameters (r0 -> sl, r1 -> r4, r2 -> sb);
- * the arity beyond that is not established here. */
-void  func_0204F7DC(void *a0, u32 a1, u32 a2);                    /* open   */
+/* the family's tail and draw pass; 1720 bytes.  Written against the NitroSDK
+ * G3 immediate inlines (sdk/TwlSDK/include/nitro/gx/g3imm.h), transcribed as
+ * static inlines over the 0x04000440.. registers; 0x0207C768 is FX_Div. */
+void  func_0204F7DC(struct Board *b, struct Camera *cam,
+                    struct Lights *lights);                       /* EXACT  */
 
 /* unit_0204F6B4 folds func_0204F6B4, func_0204F6DC and func_0204F704 into one
  * tu-verified file; those three are EXACT as a unit, not individually filed. */

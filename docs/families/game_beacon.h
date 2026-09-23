@@ -267,27 +267,77 @@ void sub_020272EC(u16 value);
 void sub_02027324(u16 value);
 
 /* ------------------------------------------------------------------ *
- * STILL OPEN IN THIS FAMILY, as of 2026-09-21.
+ * STILL OPEN IN THIS FAMILY, as of 2026-09-23 (wave 12).
  *
- *   0x0202685C  504 bytes  the ring-insert path: advances the hi cursor
- *                          with a wrap at 30, then fills a slot
- *   0x02026A60  378 bytes  the duplicate/accept scan: three loops over the
- *                          ring between the lo and hi cursors, then a
- *                          kind-constant check and either an insert or a
- *                          forward to func_0202685C.  Best source is
- *                          docs/notes/func_02026A60.c.txt.
- *   0x02026D88  530 bytes  the own-beacon builder: the bitfield packing
- *                          func_02026FB8 does a fragment of, over a dozen
- *                          calls into the player/trainer modules.
- *
- * MATCH-capped, in src/pending, for lack of an outside witness:
- *   func_02026CE0  the ABS32 to the data pointer 0x02021440 -- no other
- *                  literal pool in the image names that address.
- *   func_020274B4  the call target 0x02027460 is an unlabelled leaf
- *                  (disasm.py prints it as .word data inside
- *                  func_0202744C's extent), so no class reaches it.
+ * Nothing is DIFF any more.  Two functions are byte-exact but MATCH-capped
+ * in src/pending for lack of an outside witness:
+ *   func_0202685C  the ring insert (516/516 bytes).  Its four
+ *                  `bl 0x02167394` sites are the only references to that
+ *                  overlay address anywhere; ov009 and ov010 both cover it
+ *                  and neither labels a function there.
  *   func_020274C8  the pool word 0x000000E7 is an absolute overlay-id
- *                  symbol (ov231) that appears in no other pool.
+ *                  symbol (ov231) that appears in no other pool.  A
+ *                  constant 0xE7 would be `movs`, so it cannot be spelled
+ *                  away.
+ *
+ * Closed in wave 12: func_02026CE0 (its "no witness" park had misread the
+ * pool word: it is g_GameBeacon, 0x02146940, not 0x02021440),
+ * func_02026A60, func_02026D88, func_02027060, func_02027460, and the
+ * unlabelled leaves sub_02026D04, sub_02026D48 and unit_02026BFC
+ * (sub_02026BFC/C1C/C30/C78/C8C).
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * WAVE 12 FINDINGS (2026-09-23), each from an EXACT file.
+ *
+ * BeaconRec, beyond the struct above (src/matched/func_02026D88.c, the
+ * own-beacon builder):
+ *   +0x00  NOT a u32: four bytes.  +0 = 0xff, +1 / +2 from 0x0200856C /
+ *          0x02008570, +3 split as u8 bitfields { lo : 7 (= 0x30);
+ *          hi : 1 (from 0x02008550) } -- strb/ldrb, never a word RMW.
+ *   +0x04  bits 27..31 (f04hi) are written 2.
+ *   +0x0C  is 6:3:3:4:10:6: bits 0..5 = 0x15, 6..8 from 0x02008554 (minus
+ *          8 when +3.hi is set), 9..11 from 0x0200C224, 12..15 the DS
+ *          owner's favoriteColor (OS_GetOwnerInfo), then trainer, f0chi.
+ *   +0x12  u16[7], filled from 0x020084F4 like +0x20 is from 0x0200C1F4,
+ *          both stopping early on func_02045A98's answer.
+ *   +0x30  u16, cleared last.
+ *   +0x48  u16 bitfields { lo : 8; a : 3; b : 5; } then u16 +0x4A, +0x4C:
+ *          func_02027460 copies four halfwords of a {u16 a,b,c,d} there
+ *          (func_020274B4's argument is that 8-byte struct's address).
+ *   +0x50  ten bytes, MI_CpuCopy8 from the 0x0200E394/0x0200E3A0 chain.
+ *   +0x5C  u16, zeroed on insert (func_0202685C, func_02026A60).
+ *
+ * Block tail: +0xBAE is an s8 FILL COUNT (func_0202685C bumps it below 30;
+ * sub_02026BFC bounds an index by it); +0xBAF is the flag func_0202685C
+ * sets when an item grant lands.
+ *
+ * The priority table 0x0209FC20 is a word of BITFIELDS:
+ *     struct { u32 prio : 8; u32 frames : 24; }
+ * `(u8)tbl[i]` on a u32 array ties the lsrs order to the cmp order and is
+ * 4 bytes out forever; the bitfield read closes func_02027060.
+ *
+ * func_02026A60's ring walk is plain C: `if (lo <= hi)` one loop, `else`
+ * lo..29 then 0..hi, each hit `hit = 1; break;` -- the compiler does the
+ * selective cross-jump the older goto spelling imitated.
+ *
+ * A pointer local to the own record (`struct BeaconRec *o = &g->own;`) is
+ * what produces the two-step `adds r,r0,#4; adds r,#0x48` at every access
+ * (func_02027460, func_0202715C); a held `g` folds it to one `adds`.
+ *
+ * Prototypes proved in wave 12:
+ *   void  func_02026CE0(u32 n);                 clear live bit n
+ *   int   sub_02026D04(const BeaconRec *r);     set live bit of r's id slot
+ *   u16   sub_02026D48(u16 id);                 +0x5C of the live slot with id
+ *   void *sub_02026BFC(u8 *blk, int n);         slot n if n < fill count
+ *   void *sub_02026C1C(int n);                  sub_02026BFC(g_GameBeacon, n)
+ *   void *sub_02026C30(u8 *blk, int n);         n records back from hi
+ *   void *sub_02026C78(int n);                  sub_02026C30(g_GameBeacon, n)
+ *   u32   sub_02026C8C(void);                   +0xBA8 insert count
+ *   void  func_02026D88(BeaconRec *o, void *sys);
+ *   u32   func_02027060(u32 id);                prio(id) >= prio(cur)
+ *   void  func_02027460(void *own, const u16 src[4]);
+ *   void  func_0202685C(u8 *blk, BeaconRec *r); (MATCH, see above)
  * ------------------------------------------------------------------ */
 
 #endif /* GAME_BEACON_H */

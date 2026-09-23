@@ -413,4 +413,36 @@ extern void  func_02066890(int a0, int a1, int a2, int a3,
  *    every non-leaf function whose bytes differ between the front ends.
  */
 
+
+/* ================================================================== *
+ * WAVE 12 (2026-09-23): func_020643CC CLOSED -- the NitroSystem source
+ * ================================================================== *
+ *
+ * func_020643CC EXACT under ../2.0/sp2 (and sp2p2), src/matched.  This
+ * cluster is NitroSystem g2d_MultiCellAnimation.c, and a decompiled
+ * NitroSystem is public (github.com/ntrtwl/NitroSystem rev 21c8fd0).
+ * func_020643CC is SetMCDataToMCInstanceImpl_(NNSG2dMultiCellInstance *,
+ * const NNSG2dMultiCellData *, u16 mcTotalFrame); written in the library's
+ * shape (one u16 `i` for all three loops, SetNodeDataToCellAnim_ as an
+ * inline, NNS_G2dCalcAnimSequenceTotalVideoFrames, the u16 cell-anim-index
+ * getter) it closed on the second compile after wave 11's hand scoping had
+ * stalled at 7.  Check the decomp for every open function in this range
+ * before writing a body.
+ *
+ * Names this proves (struct Root in section 5 is NNSG2dMultiCellInstance):
+ *   +0x00 pCurrentMultiCell, +0x04 pAnimDataBank, +0x08 mcType (1 =
+ *   NNS_G2D_MCTYPE_SHARE_CELLANIM), +0x0c pCellAnimInstasnces.
+ *   struct CellAnim + latch = NNSG2dMCCellAnimation { NNSG2dCellAnimation
+ *   cellAnim (0x58); BOOL bInited; } (0x5c); +0x0c is the anim controller's
+ *   bActive (NNS_G2dStartAnimCtrl).
+ *   struct Group = NNSG2dNode { pContent, type, bVisible, NNSG2dSRTControl
+ *   srtCtrl, ... } and is 0x28 bytes in this build (071126's header: 0x20).
+ *   struct Node = NNSG2dMultiCellHierarchyData { animSequenceIdx, posX,
+ *   posY, nodeAttr }.
+ *   func_020627D8 NNS_G2dGetAnimSequenceByIdx, func_0206434C
+ *   NNS_G2dSetCellAnimationSequence, func_02063030 NNSi_G2dIsAnimCtrlLoopAnim,
+ *   func_02064364 NNS_G2dTickCellAnimation, func_020640DC
+ *   NNSi_G2dSrtcSetTrans.
+ */
+
 #endif /* CLUSTER_020640DC_H */

@@ -332,3 +332,11 @@ Verified with:
 
 permuter best result line (from the 520-byte baseline above):
   best      DIFF   asm=225   bytes-out=397  size=516/520
+
+================================================================
+CLOSED 2026-09-23 (wave 12): func_02037680 and func_02037478 are both EXACT
+(src/matched/).  The "two-argument" func_0203640C sites were misreadings:
+every call passes THREE arguments, and the first-loop/func_02037680 third
+argument is the slot stride f1E0 itself (the header is {buffer, length}).
+func_02037478 additionally needs the loop index declared before n1/n2/n3.
+================================================================

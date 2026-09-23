@@ -185,3 +185,9 @@ PERMUTER RESULT (tools/permuter.py, the AST engine).
     rearrangement of this C moves them.
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 328 bytes against 328, 28 concrete bytes out, 1.1p1
+
+
+==============================================================================
+2026-09-23, wave 12
+==============================================================================
+func_020500F0 CLOSED: EXACT, src/matched/func_020500F0.c. The 'schedule the permuter cannot reach' was a declaration: the request array is `const struct BbActRec *`. With const, the byte loads batch ahead of the outgoing-argument stores and case 2's payload load hoists above the sentinel store; plain o->f0C[base + i] subscripts and literal zeros then match.

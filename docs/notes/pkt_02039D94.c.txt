@@ -403,3 +403,94 @@ void func_02039D94(void)
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 652 bytes against 652, 14 concrete bytes out, 1.1p1
+
+=====================================================================
+APPENDED 2026-09-23 (wave 12, net_handle.c family)
+=====================================================================
+
+func_02039D94 is now EXACT (src/matched/func_02039D94.c).  Its two
+residues were declaration readings, not colouring: the owner callbacks at
+g+0x14/g+0x10 take func_0203D650()'s result as their argument (hence
+`blx r1`), and phases 2 and 4 reuse the entry pointer `e` for the own entry
+instead of a separate `own` local.
+
+func_0203A020 (248 bytes) is still DIFF at 11 concrete bytes, the same
+`mov r3, #1 ... strb r3, [r5, #0xd]` residue recorded above.  New this wave:
+
+  * THE GOTOS ARE NOT NEEDED.  The fully structured form below (wrapping
+    `if (own == base) { ... } else base->dirty = 1;`, a wrapping
+    `if (p[0xd] == 0)`, an `if (a2[8] != 0) ... else` for the zero arm)
+    compiles to exactly the same 248 bytes / 11 out as the goto version.
+  * `volatile` on the owner record IS load-bearing, and the reason is now
+    clear: a non-volatile struct NetOwner * (struct-typed rewrite with
+    NetResource/NetEntry/NetMsg) is 17 out, the extra 6 bytes being the
+    zero arm, whose two loads (+0x67 of the owner, then msg[7]) the original
+    issues in source order before both stores.  Only the volatile byte read
+    keeps them ordered.  Every order/type of the hi/lo locals, an inline
+    setid() helper in either parameter order, and plain stores, measured
+    15-20 out non-volatile.
+  * The in-use store residue is INVARIANT under everything tried this wave,
+    all exactly 11 out: the store written inside every argument position of
+    the MI_CpuCopy8 call (comma forms), as a 4th argument, through a
+    `u8 *k = p + 6; k[7] = 1;` key pointer, as a volatile store, wrapped in
+    an inline setkey()/claim() helper, via a reused parameter (a1/a3/idx =
+    1), and under every other compiler build (dsi 1.1..1.6sp2 give the same
+    11/17; 2.0 and 1.2/* are 260-316 bytes).  Declaring MI_CpuCopy8 with a
+    fourth argument of 1 moves the constant into r3 but the store still
+    issues right after `mov r0, r6` -- so the difference is the prepass
+    SCHEDULE of the store, not its register.  Callees identified from
+    layout/symbols_sdk.json: 0x02082D44 is MI_CpuCopy8, 0x02087C6C is
+    OS_GetMacAddress (it writes the own MAC into the record's first 6 bytes).
+  * tools/permuter.py --mode anneal --budget 2000 --jobs 6 --types from the
+    structured source: 2000 compiles in 210 s, never below 11.
+
+/* best source, 248 bytes against 248, 11 concrete bytes out, 1.1p1 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u8 *func_0203D798(u32 a, u32 b, u8 *c, u32 d);
+extern u32 func_0203996C(u32 a);
+extern void func_02087C6C(u8 *p);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
+void func_0203A020(u32 idx, u32 a1, u8 *a2, u32 a3, u8 *base)
+{
+  volatile u8 *r4 = func_0203D798(idx, a1, a2, a3);
+  u8 *p;
+  if ((u8 *)func_0203996C(0xff) == base) {
+    p = *((u8 **) ((base + (idx * 4)) + 8));
+    if (p[0xd] == 0) {
+      p[0xd] = 1;
+      MI_CpuCopy8(a2, p + 6, 6);
+      p[0xc] = a2[6];
+      func_02087C6C(p);
+      if (a2[8] != 0) {
+        if ((a2[6] != 0) && (a2[7] != r4[0x67]) && (*((u16 *) (r4 + 0x6e))) == a2[8]) {
+          p[0xf] = *((u16 *) (r4 + 0x6e));
+          p[0xe] = *((u16 *) (r4 + 0x6e));
+          return;
+        }
+        if (((a2[6] == 0) && (a2[7] == r4[0x67])) && ((*((u16 *) (r4 + 0x6e))) == a2[8])) {
+          p[0xf] = *((u16 *) (r4 + 0x6e));
+          p[0xe] = *((u16 *) (r4 + 0x6e));
+        } else {
+          p[0xf] = 0xff;
+          p[0xe] = 0;
+        }
+      } else {
+        u8 hi = r4[0x67];
+        u8 lo = a2[7];
+        p[0xf] = hi;
+        p[0xe] = lo;
+      }
+    }
+  } else {
+    base[0x4e] = 1;
+  }
+}
+
+symbols: func_0203D798 0x0203D798 arm, func_0203996C 0x0203996C arm,
+         func_02087C6C 0x02087C6C arm (OS_GetMacAddress),
+         MI_CpuCopy8 0x02082D44 arm.
+
+permuter best result line:
+  best      DIFF   asm=205   bytes-out=11   size=248/248

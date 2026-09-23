@@ -197,3 +197,27 @@ the permuter on this function -- the search space is exhausted at singles
 and flat at 3000 under annealing.
 
 re-verified 2026-09-21 by tools/permuter.py: DIFF, 340 bytes against 340, 16 concrete bytes out, 1.1p1
+
+================================================================================
+APPENDED 2026-09-23 (wave 12, gf_standard.c family)
+================================================================================
+
+Not re-run through the permuter (3314 compiles above, exhausted).  Three
+readings of the y expression that are NOT in the list above, all measured
+from the note's source:
+
+    y = mt[kk] & U;  y |= mt[kk+1] & L;                    16, identical
+    u32 a0 = mt[kk+1], a1 = mt[kk]; y = (a1&U)|(a0&L);     16, identical
+    y = mt[kk+1] ^ ((mt[kk] ^ mt[kk+1]) & U)               57
+
+Still the one addressing-mode residue ([r3] vs [r0, r1, lsl #2] for mt[kk],
+in both loops).  Sibling closures this wave in the same family came from
+the TYPE of the object (func_0203F258: the output record is three u64s),
+so the next genuinely new reading should be a different declared type for
+the state block, not another spelling of the loop.
+
+/* best source, 340 bytes against 340, 16 concrete bytes out, 1.1p1 */
+  (unchanged: WHAT THE C IS, above)
+
+permuter best result line (--explain on that source, 2026-09-23):
+  baseline  DIFF   asm=250   bytes-out=16   size=340/340

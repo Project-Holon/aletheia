@@ -183,3 +183,36 @@ form): DIFF  asm=140  bytes-out=28  size=156/156 -- worse than the source
 above.  All 120 declaration orders of (i, w, sh, v, n) in the natural form
 were compiled: best 17 lines, none reaches the image's w=r2 / i=lr / n=ip.
 A `switch` for the 1<->2 swap is 160 bytes.  Still DIFF; nothing filed.
+
+================================================================================
+2026-09-23 -- wave 12, backup_system.c second lane.  Appended, nothing above
+edited.
+================================================================================
+
+/* best source, 156 bytes against 156, 21 concrete bytes out, dsi/1.1p1 */
+  (unchanged: the do/while source in the first section above is still the
+   best; re-verified this wave at 21 lines out)
+
+permuter best result line: not re-run from this source (two 3000-compile
+anneals and a hill are recorded above; the wave-12 levers below were tried by
+hand instead, because each is a declaration change the permuter cannot make).
+
+Wave 12 closed two neighbours by DECLARATION changes (func_02031F54 by a
+`const` record pointer, func_02032688 by func_020333F8's one-argument
+prototype), so the same class was measured here.  None moves the rotation:
+  * const struct pointer on the natural form: 50 out (worse); the slot word
+    must be re-read after the clear, which const forbids.
+  * v as int (21), v as u8 (160 bytes), tmp as u32 (21), slots as int * (22),
+    w as int (21), sh as int (23), a second unused parameter (21),
+    sub_02033BF0 typed on a struct pointer (21).
+  * 3 and 0xFFFFFFFF as named locals, initialised before or after the
+    guard: 21 / 31 (constant propagation erases them).
+  * inline getter/setter helpers on the best source: getter (21), getter on
+    the slots pointer (21), clear+set setter taking (w, sh, v) (40), setter
+    taking a precomputed mask and value (21).
+  * a 48-way structural grid on the natural form (count via an inline
+    helper or not, getter inline or not, setter inline or not, if/else,
+    ternary or braced if for the 1<->2 swap, for or guarded do/while): every
+    one of the 48 compiles to the SAME 32 lines out, so the front end
+    normalises all of that away; the residue lives only in value numbering.
+Still DIFF; nothing filed.

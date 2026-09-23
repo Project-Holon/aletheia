@@ -144,3 +144,14 @@ struct Obj *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, int e0, u8 e1, u16 e2)
 
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 184 bytes against 184, 68 concrete bytes out, 1.1p1
+
+======================================================================
+2026-09-23 wave 12 -- CLOSED, EXACT: src/matched/func_0202DB0C.c
+======================================================================
+The "one more live value" was the heap: the image keeps the strh operand
+in r0 across the three field stores and passes it to the second
+allocator.  `h = p->heap;` IMMEDIATELY after `p->heap = heap;` (a named
+u16 local read back from the field) reproduces it; `p->heap` at the call
+reloads, the parameter makes a callee-saved copy.  With that fixed, the
+fifth parameter is plain u8 (the `ldrb` at the func_0202DF68 site), which
+the section above had rejected only because the heap was still wrong.

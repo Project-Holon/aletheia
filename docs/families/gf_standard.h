@@ -221,11 +221,17 @@ int  func_0203F028(const char *s1, const char *s2);
                          * long-branch veneer at 0x0203F028 itself). */
 
 /* --- hashing, checksum and the LCG --- */
-void func_0203F258(u32 *out);
-                        /* 0x0203F258  DIFF, docs/notes/pkt_0203F258.c.txt:
-                         * builds a 0x60-byte hash state in a stack buffer and
-                         * publishes an 8-byte digest plus three constants and
-                         * a zero into a 6-word output record. */
+struct Lcg64 {
+    u64 x;            /* +0x00  the state, seeded from an 8-byte digest */
+    u64 mul;          /* +0x08  0x5D588B656C078965 */
+    u64 add;          /* +0x10  0x269EC3 */
+};
+void func_0203F258(struct Lcg64 *out);
+                        /* 0x0203F258  src/matched/func_0203F258.c (EXACT,
+                         * wave 12): hashes fresh entropy into an 8-byte
+                         * digest and seeds a 64-bit LCG with it.  The record
+                         * is THREE u64s: written as six u32 stores the two
+                         * constant pairs colour r1/r0 the wrong way round. */
 u32  func_0203F2FC(const u8 *p, u32 len);
                         /* 0x0203F2FC  src/matched/func_0203F2FC.c: additive
                          * byte checksum.  The accumulator is declared BEFORE
@@ -308,7 +314,8 @@ int  func_0203F768(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
                          * six-argument forwarder to func_0203F7C4, dividing
                          * the result by a 20.12 product of a6 with 0x323d. */
 s32  func_0203F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy);
-                        /* 0x0203F7C4  DIFF, docs/notes/func_0203F7C4.c.txt:
+                        /* 0x0203F7C4  src/matched/func_0203F7C4.c (EXACT,
+                         * wave 12; the sign test is f.x + f.y + f.z):
                          * the SIGNED distance from point C to the line
                          * through A and B, all six coordinates arriving as
                          * plain integers and shifted into 20.12 on entry.

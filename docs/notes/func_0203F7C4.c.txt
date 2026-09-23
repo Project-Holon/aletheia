@@ -341,3 +341,8 @@ Still untried, and now the only avenues left:
     the `>> 12` are what the normalisation sequence is made of
 
 re-verified 2026-09-22 by tools/permuter.py: DIFF, 304 bytes against 304, 55 concrete bytes out, 1.1p1
+
+CLOSED 2026-09-23 (wave 12): EXACT, src/matched/func_0203F7C4.c.  The sign
+value is `cross = f.x + f.y + f.z;` (all three components of f), not
+`f.z + a.z`; the note's two static inline helpers stay.  Measured beside it:
+f.x + f.z and f.y + f.z are 300 bytes / 115 out, f.z + f.x + f.y is 54 out.

@@ -55,3 +55,9 @@ Spellings that ARE required (do not regress these)
 
 Closest source: scratch/r3b2_wip/func_020500F0.c (= var_v0.c)
 re-verified 2026-09-21: no recoverable source in this note
+
+
+==============================================================================
+2026-09-23, wave 12
+==============================================================================
+func_020500F0 CLOSED: EXACT, src/matched/func_020500F0.c (const request array; see docs/notes/pkt_020500F0.c.txt).

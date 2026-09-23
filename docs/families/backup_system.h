@@ -492,7 +492,9 @@ void func_02031F54(const struct SaveBackup *p, u8 *buf);
 
 /* 0x02031FE0 / 0x02032688  0x02032688 EXACT wave 12 (src/matched/
  * func_02032688.c); 0x02031FE0 size-exact, see docs/notes/pkt_02031FE0.c.txt
- * (was 42 bytes out, 14 after the one-argument func_020333F8).  0x02031FE0 is the full load:
+ * (was 42 bytes out; 14 after the one-argument func_020333F8, 9 once the
+ * record's leading u16 counter is read through an inline accessor; the
+ * rest is a B / A+B register swap).  0x02031FE0 is the full load:
  * read BOTH copies (func_020335E8 with func_02031EAC(self, 1) into +0x34 and
  * (self, 2) into a heap block), repair a failed read from the other copy,
  * check both footers (func_02031F9C x2), pick the newer good copy, walk every

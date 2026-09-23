@@ -395,3 +395,168 @@ void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
 }
 
 re-verified 2026-09-21 by tools/match.py: DIFF, 424 bytes against 412, 330 concrete bytes out, 1.1p1
+
+================================================================
+APPENDED 2026-09-23, wave 12 (family pms_draw.c): two argument lists
+corrected, no close.
+================================================================
+
+TWO CALLEE ARGUMENT ORDERS IN THE SECTION ABOVE ARE WRONG, read straight
+off the image's call setup:
+
+  - func_0202E040 at +0x118: r0 = o->actor[i] (the `ldr r0,[ent,#8]`),
+    r1 = a3 (`ldr r1,[sp,#0x14]`), r2 = p0 (sp+0x28), r3 = p1 (sp+0x2c),
+    [sp] = func_020244D4(ws, i), [sp+4] = cs.  So the call is
+        func_0202E040(o->actor[i], a3, p0, p1, func_020244D4(ws, i), cs);
+    matching the family header's (h, cell, b, c, n, base) prototype, not
+    (h, v, cs, a3, p0, p1).
+  - func_02043AF4 at +0x15A: [sp] = 0x10 and [sp+4] = c2, i.e.
+        func_02043AF4(func_02045770(a3), p0, (s16)(p1 << 4), 0x54, 0x10, c2);
+    the section above had the two stack arguments swapped.
+  - `ent` is not a variable: `o + i*4` is the CSE of o->enabled[i] (+0x20)
+    and o->actor[i] (+0x08); spell both as fields.
+
+With the corrections the section-above source goes 424/330 -> 420/333
+(its volatile scaffolding now fights the rest).  A clean rewrite with no
+volatile (below) is 400/412, 369 out: every call, argument and branch is
+in the image's order, and what differs is allocation:
+
+  - the image keeps &ws in r7 after the first call (`add r7, sp, #0x38`)
+    and spills n to sp+0x20; the compile rematerialises `add r0,sp,#ws`
+    at every call and keeps n in r7.  A pointer local `ws = wsbuf` is
+    copy-propagated away (396/370);
+  - the image reads c3 twice through a callee-saved base `add r5, sp,
+    #0x60` and loads w into r7 at entry; the compile reads c3 once.
+    Reading c3 through `u16 *q = &c3` reproduces the r5 base and both
+    reads (396/361, best bytes-out of this pass) but then CSEs the third
+    use the image takes from the sp+0x1c spill;
+  - ../2.0/sp2 reproduces the prologue's param-homing pairs and the 0x48
+    frame but strength-reduces both loops (adds r7,#4) where the image
+    recomputes i*4; 428/390.  1.1p1 stays the compiler.
+
+  permuter.py --explain (clean source): general reshuffle, r0->r7 x5,
+      r4->r5, r5->r6, r6->r7.
+  permuter.py --mode hill --budget 800 --types: 404/412 asm=685 at
+      volatile-add(c3) + copy(ws), then walks to size-exact garbage
+      (its emitted file reads cnt before assigning it).
+  best      DIFF   asm=2160  bytes-out=378  size=412/412   (not value-preserving; discarded)
+
+/* best source, 400 bytes against 412, 369 concrete bytes out, dsi/1.1p1 -O4,p */
+/*
+ * unit:     no
+ * function: func_0202E1F0
+ * address:  0x0202E1F0
+ * packet:   pkt_0202E1F0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss)
+ *
+ * symbols:
+ *   func_02024570  0x02024570  thumb
+ *   func_0202465C  0x0202465C  thumb
+ *   func_0202441C  0x0202441C  thumb
+ *   func_0201D478  0x0201D478  thumb
+ *   func_020244F8  0x020244F8  thumb
+ *   func_020244D4  0x020244D4  thumb
+ *   func_02024368  0x02024368  thumb
+ *   func_0201D528  0x0201D528  thumb
+ *   func_0201D4BC  0x0201D4BC  thumb
+ *   func_0202E040  0x0202E040  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02043AF4  0x02043AF4  arm
+ *   func_02045808  0x02045808  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Cs { u32 f00; u32 f04; };
+
+struct Flags { u32 b0 : 1; u32 b1 : 1; u32 rest : 30; };
+
+struct Obj { u32 f00; u8 f04; u8 pad05[3]; void *actor[2]; u8 pad10[8]; struct Flags f18; u32 f1c; u32 f20[2]; };
+
+extern void  func_02024570(void *ws, void *w);
+extern void  func_0202465C(void *ws, u32 a, u32 b);
+extern void *func_0202441C(void *ws, u32 n);
+extern s32   func_0201D478(void);
+extern u32   func_020244F8(void *ws, u32 i);
+extern u32   func_020244D4(void *ws, u32 i);
+extern void *func_02024368(void *ws, u32 n, u32 c);
+extern void *func_0201D528(void *g, u8 i, u32 a, u32 b);
+extern void *func_0201D4BC(void *g, u8 i);
+extern void  func_0202E040(void *h, u32 a, void *p0, void *p1,
+                           u32 v, struct Cs *cs);
+extern u32   func_02045770(u32 a);
+extern void  func_02043B5C(u32 a, u32 b);
+extern void  func_0201C724(u32 a, u32 h, s16 x, s16 y,
+                           void *g, u32 f, u32 k);
+extern void  func_02043AF4(u32 a, void *b, s16 c, u32 d, u32 e, u32 f);
+extern void  func_02045808(void *p);
+extern void  func_02045374(u32 a);
+extern u32   func_02045730(u32 a);
+extern void  func_02041B6C(void);
+
+void func_0202E1F0(struct Obj *o, u32 a1, u32 a2, u32 a3,
+                   void *w, struct Cs *cs, u16 c1, u32 c2, u16 c3)
+{
+    u32 marks[2];
+    u8 ws[8];
+    void *h;
+    void *g;
+    s32 i;
+    u32 cnt;
+    s32 n;
+    void *p0;
+    void *p1;
+
+    marks[0] = 0;
+    marks[1] = 0;
+    func_02024570(ws, w);
+    func_0202465C(ws, 1, c3);
+    o->f04 = 0;
+    o->f00 = a3;
+    cnt = c3;
+    h = func_0202441C(ws, cnt);
+    n = (u8)func_0201D478();
+    for (i = 0; i < n; i++) {
+        if (func_020244F8(ws, i) != 0) {
+            o->f20[i] = 1;
+        } else if (func_020244D4(ws, i) == 0xffff) {
+            marks[i] = 1;
+        }
+    }
+    g = func_02024368(ws, cnt, n);
+    func_02043B5C(func_02045770(o->f00), c2);
+    func_0201C724(a1, func_02045770(o->f00), (s16)cs->f00, (s16)cs->f04, g, a2, c1);
+    o->f04 = 1;
+    for (i = 0; i < n; i++) {
+        if (o->f20[i] == 1) {
+            p0 = func_0201D528(g, i, a2, 0);
+            p1 = func_0201D4BC(g, i);
+            func_0202E040(o->actor[i], a3, p0, p1, func_020244D4(ws, i), cs);
+        } else if (marks[i] == 1) {
+            p0 = func_0201D528(g, i, a2, 0);
+            p1 = func_0201D4BC(g, i);
+            func_02043AF4(func_02045770(a3), p0, (s16)((u32)p1 << 4), 0x54, 0x10, c2);
+        }
+    }
+    func_02045808(g);
+    func_02045808(h);
+    func_02045374(o->f00);
+    func_02045730(o->f00);
+    func_02041B6C();
+    o->f18.b0 = 1;
+    o->f18.b1 = 1;
+}

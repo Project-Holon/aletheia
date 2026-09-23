@@ -192,10 +192,14 @@ struct NetEntry {
  * ------------------------------------------------------------------ */
 struct NetOwner {
     u8   pad_00[0x10];
-    u32 (*get_b)(void);     /* +0x10  second callback; func_02039D94's tail
+    u32 (*get_b)(u32);      /* +0x10  second callback; func_02039D94's tail
                              *        requires BOTH to be non-null and
-                             *        calls get_a first, get_b second. */
-    u32 (*get_a)(void);     /* +0x14  first callback.  Its result is
+                             *        calls get_a first, get_b second.
+                             *        Each TAKES func_0203D650()'s result
+                             *        as its one argument, which is why
+                             *        the image calls through r1
+                             *        (`ldr r1, [r4, #0x14]; blx r1`). */
+    u32 (*get_a)(u32);      /* +0x14  first callback.  Its result is
                              *        narrowed to u16 AT THE CALL SITE of
                              *        func_0203D3A8, not at the
                              *        assignment. */
@@ -416,13 +420,19 @@ u32   sub_02039CB4(struct NetEntry *e, u32 lo, u32 hi);
  * aborts the sweep with 0. */
 int   func_02039CD8(struct NetEntry *e);
 
-/* 0x02039D94  the family's tick, five phases plus a callback tail.  NOT
- * matched: 652/652 bytes, 14 concrete out; see
- * docs/notes/pkt_02039D94.c.txt. */
+/* 0x02039D94  the family's tick, five phases plus a callback tail.
+ * src/matched/func_02039D94.c (EXACT, wave 12).  One entry pointer local
+ * `e` serves phase 1, the own entry in phases 2 and 4, and the tail; a
+ * separate `own` local swaps the own pointer and the loop index. */
 void  func_02039D94(void);
 
 /* 0x0203A020  stage-two record installer.  NOT matched: 248/248 bytes, 11
- * concrete out; see docs/notes/pkt_02039D94.c.txt.  Five parameters. */
+ * concrete out; see docs/notes/pkt_02039D94.c.txt.  Five parameters.
+ * Its callees are MI_CpuCopy8 (0x02082D44) and OS_GetMacAddress
+ * (0x02087C6C, which fills the record's first six bytes).  The owner
+ * record must stay `volatile` there (non-volatile is 17 out: the zero arm's
+ * two loads reorder); the residue is the prepass schedule of the in-use
+ * store, invariant under every spelling measured in wave 12. */
 void  func_0203A020(u32 idx, u32 a1, struct NetMsg *msg, u32 a3,
                     struct NetEntry *base);
 

@@ -222,3 +222,96 @@ Not filed: DIFF, by rule 6.  Note that unlike the original verdict this one is
 a plain codegen residue, NOT an evidence ceiling: the moment the 64 bytes
 close this is EXACT in src/matched, not MATCH in src/pending.
 re-verified 2026-09-21 by tools/match.py: DIFF, 144 bytes against 144, 64 concrete bytes out, 5 of 5 relocations resolved, 1.1p1
+
+
+==============================================================================
+2026-09-23, wave 12 (billboard.c): 64 -> 58, and the f09 reload explained
+==============================================================================
+
+NEW FACT 1 -- the second divisor is RELOADED in the image (`ldrb r1, [r4, #9]`
+after the first `bl`), while every operator-`/` spelling forwards `c` from a
+callee-saved register (`mov r1, r5`) and pays for it in the prologue.  Writing
+the two divisions as EXPLICIT calls, `_s32_div_f(dst->f04, dst->f08)` and
+`_s32_div_f(dst->f06, dst->f09)`, makes the call clobber memory, so f06 and
+f09 are re-read after the first call exactly as in the image, and the whole
+post-call tail (+0x64..+0x80) becomes byte-identical.  With the operator the
+front end treats the division as pure and forwards the stored u8.  Whether
+the original really called the helper by name or went through some other
+memory-clobbering path (an out-of-line wrapper that got inlined, a macro) is
+open; the explicit call is the only spelling found that reloads f09.
+
+NEW FACT 2 -- store order.  With the explicit calls, all 240 orders of the
+seven field stores that keep f04 first were compiled (f06 second, or f06
+third); among those that keep all five relocations resolved (pool order
+C0, D4, D8) the floor is 58, at `f04 f06 f09 f14 f18 f1c f08` (and
+`f04 f09 f06 ...`).  Orders that reach 38 all put f18 before f06 and flip the
+pool order (2 of 5 resolved), so they are the wrong branch.
+
+NEW FACT 3 -- the two parameter tables can be ONE table of 8-byte {S, T}
+records: `gTexParamS[sb].w` / `gTexParamS[st].pad` compiles to the same
+bytes and the second pool word comes out as symbol+4 = 0x020A14D8, resolved
+sole-ref.  Given func_0204F7DC now proves Slot +0x14/+0x18/+0x1c are the
+texture format / S size / T size, the tables are gTexFmtTbl[idx] and a
+GXTexSizeS/GXTexSizeT pair table indexed by log2(size) - 3.
+
+MEASURED, no gain (all 144/144): fmt as u16 / u8 / int (58), u32 (59);
+bank local s16/s8/u8 (148, 2 of 5); st as int or s8 (148/152); tables
+non-const (81-83); the size helper func_0204EDD0 inlined as a static with its
+null checks (172).  Both compilers on every residue: ../2.0/sp2 is 85-89.
+
+PERMUTER on the source below: `--explain` a general reshuffle (ip->r4, lr->r6,
+r5->ip, r7->lr leading); `--mode hill --budget 800 --jobs 6 --types`: 199
+tried, no single mutation improves; `--mode anneal --budget 2000 --jobs 6
+--types`: flat.
+best      DIFF   asm=1015  bytes-out=58   size=144/144
+
+THE RESIDUE is now the prologue schedule only (+0x08..+0x60): the image
+computes `and r7, r2, #7` before the `strh` of f04, keeps the constant 1 in
+r5 for both shifts, and issues the three pool loads back to back.
+
+/* best source, 144 bytes against 144, 58 concrete bytes out, 1.1p1 */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Cell {
+    u8  pad_00[4];
+    u16 f04;
+    u16 f06;
+    u8  f08;
+    u8  f09;
+    u8  f0a;
+    u8  f0b;
+    u8  pad_0c[8];
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+};
+
+struct Pair8 { u32 w; u32 pad; };
+
+extern s32 _s32_div_f(s32 a, s32 b);
+extern const u32 gTexSizeTbl[];
+extern const struct Pair8 gTexParamS[];
+extern const struct Pair8 gTexParamT[];
+
+void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
+{
+    s32 sb = (fmt & 0x70) >> 4;
+    u16 st = fmt & 7;
+
+    dst->f04 = 1 << (sb + 3);
+    dst->f06 = 1 << (st + 3);
+    dst->f09 = c;
+    dst->f14 = gTexSizeTbl[idx];
+    dst->f18 = gTexParamS[sb].w;
+    dst->f1c = gTexParamT[st].w;
+    dst->f08 = b;
+    dst->f0a = _s32_div_f(dst->f04, dst->f08);
+    dst->f0b = _s32_div_f(dst->f06, dst->f09);
+}
+
+Not filed: DIFF, by rule 6.
+re-verified 2026-09-23 by tools/match.py: DIFF, 144 bytes against 144, 58 concrete bytes out, 5 of 5 relocations resolved, 1.1p1

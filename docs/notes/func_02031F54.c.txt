@@ -175,3 +175,17 @@ left is purely the schedule -- the image loads all three fields before the
 by: named locals for the three values (60 bytes), a named crc local, a const
 alias of p, a third parameter, casts on the call arguments; ../2.0/sp2 gives
 the identical 5 lines.  Still DIFF; nothing filed.
+
+================================================================================
+2026-09-23 -- wave 12, backup_system.c second lane.  Appended, nothing above
+edited.
+================================================================================
+
+CLOSED, EXACT: src/matched/func_02031F54.c (dsi/1.1p1).  The wave-11 struct
+Footer source with the record pointer declared `const struct SaveBackup *`
+(the parameter and both callees' first parameters).  The residue was never
+allocation: with a non-const p the compiler must assume each footer store may
+alias the next field load, so every load stays below the previous store; the
+image loads +0x30 above the +0x00 store and +0x0C above the +0x04 store,
+which only a const p allows.  ../2.0/sp2 still gives the 16-byte residue on
+the const source, so this is also the pin check.

@@ -142,6 +142,23 @@ struct BbActEntry {
     u32   f24;                              /* hook's third argument     func_020504D8 */
 };
 
+/* The 0x24-byte build descriptor func_02050340 consumes, one per entry. */
+struct BbActDesc {
+    u16 slot;               /* 0x00  added to the caller's base -> entry f04 */
+    s16 v12;                /* 0x02  -> func_0204F428 v12 (ldrsh) */
+    s16 v14;                /* 0x04  -> func_0204F428 v14 (ldrsh) */
+    u8  k;                  /* 0x06  -> func_0204F428 k */
+    u8  pad07;
+    u32 flag;               /* 0x08  address passed to func_0204F720 */
+    u32 w;                  /* 0x0c  -> func_0204F428 w */
+    s32 pos[3];             /* 0x10  -> func_0204F428 src (Vec3) */
+    u32 f1c;                /* 0x1c  -> entry f20 */
+    u32 f20;                /* 0x20  -> entry f24 */
+};
+
+/* The 12-byte request func_020500F0 consumes. */
+struct BbActRec { u32 f00; u8 b4, b5, b6, b7; u32 type; };
+
 /* The 4-byte script command.  The 14/1/1 bit split is proved by the lsl/lsr
  * pairs, which no mask spelling reproduces
  * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).  Evidenced
@@ -185,7 +202,8 @@ extern struct BbActBankSlot *g_02146A84;    /* the bank pointer, a VARIABLE:
 
 /* construction / destruction */
 void *func_0204FE94(u16 slots, u16 entries, u32 mode, int heap);  /* EXACT */
-void  func_0204FFFC(struct BbActSys *o);                          /* DIFF, 2 bytes */
+void  func_0204FFFC(struct BbActSys *o);                          /* EXACT*, F5A8 gets
+                                                                   * (o->f04, entry word) */
 
 /* slot-record initialisers */
 void  func_02050084(void);                                        /* EXACT, the no-op hook */
@@ -194,11 +212,14 @@ void  func_020500A0(int p0, int p1, int p2, int p3);              /* EXACT */
 void  func_020500B8(u32 *p);                                      /* EXACT */
 
 /* slot allocation / release */
-u16   func_020500F0(struct BbActSys *p, void *recs, u32 n);       /* DIFF, 28 bytes */
+u16   func_020500F0(struct BbActSys *p, const struct BbActRec *recs,
+                    u32 n);                                       /* EXACT, recs is CONST */
 int   func_02050238(void *p, u16 b, int c);                       /* EXACT */
-void  func_02050278(void *p, u32 idx, u32 count);                 /* DIFF, 26 bytes */
+void  func_02050278(struct BbActSys *o, u32 first, u32 count);    /* EXACT */
 int   func_02050304(int a0, int a1, int a2, int a3);              /* EXACT */
-void  func_02050468(void *o, u32 first, u32 count);               /* DIFF, 2 bytes */
+u16   func_02050340(struct BbActSys *o, u16 base,
+                    const struct BbActDesc *d, u32 count, u32 mode); /* EXACT, d is CONST */
+void  func_02050468(struct BbActSys *o, u32 first, u32 count);    /* EXACT, o->f18[first + i] */
 
 /* the per-frame tick */
 void  func_020504D8(struct BbActSys *o);                          /* EXACT */
@@ -270,7 +291,7 @@ void *func_0204EBD4(void *src28, int heap);            /* board constructor */
 void  func_0204ED24(void *board);                      /* board destructor  */
 u16   func_0204EF58(void *board, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 void  func_0204F10C(void *board, u32 id);
-void  func_0204F150(void *board);
+void  func_0204F150(void *board, u32 id);                /* TWO args: func_02050278 */
 void  func_0204F2B4(u32 res, u32 id, u32 *out);
 void  func_0204F2CC(u32 a, u16 b, u32 *out);
 void  func_0204F344(u32 res, u32 id, u32 a2, u32 *o0, u32 *o1, u32 zero);
@@ -279,6 +300,24 @@ void  func_0204F66C(u32 res, u32 id, u16 *v);
 int   func_0204F720(u32 a, u32 b, void *buf);
 void  func_0204F764(u32 res, u32 id, u32 *v);
 void  func_0204F794(u32 res, u32 id, u32 *v);
+
+/* NOTE on const.  TWO of this family's "scheduling walls" were a missing
+ * `const` on a read-only input array (func_020500F0's request records,
+ * func_02050340's 0x24-byte descriptors): with const, mwcc lets the field loads
+ * move above the stores into the entry / slot arrays and the outgoing-argument
+ * stores, which is the batched-load schedule the image has.  If a residue
+ * here is "the image loads early, we load late", try const before anything
+ * else.  Evidenced by src/matched/func_020500F0.c and func_02050340.c.
+ *
+ * NOTE on subscripts.  `o->f18[first + i]` / `o->f0C[first + i]` written
+ * plainly is what emits the image's hoisted `first * stride` and the mixed
+ * `base + (first<<3) + (i<<3)` addressing; every hand-built byte-offset or
+ * stride-local spelling in the old notes was a regression.  Evidenced by
+ * src/matched/func_02050468.c and func_02050278.c.
+ *
+ * NOTE on func_02050340's view of func_0204F428: the caller passes v12/v14 as
+ * s16 (ldrsh, no narrowing) and the Vec3 source as const.
+ */
 
 /* NOTE on func_0204F5A8's arity.  It takes TWO arguments, and both call sites
  * in this family pass both (`ldr r0,[r5,#4]; ldr r1,<record word>`).  Declaring
@@ -307,6 +346,16 @@ void  OS_RestoreInterrupts(u32 s);          /* 0x0208799C */
 /* ------------------------------------------------------------------ */
 /* ONE ARTIFACT ROW, resolved                                           */
 /* ------------------------------------------------------------------ */
+
+/* 0x02050080 IS a function, and 0x02050084 is not: the 8 bytes after
+ * func_0204FFFC's pool are `ldr r0, [r0, #4]; bx lr`, the board getter
+ * `void *f(struct BbActSys *o) { return o->f04; }`, blx'd from ov021
+ * (0x02188EFE and four more).  layout/function_starts.txt seeds 0x02050084,
+ * the getter's `bx lr`, and src/matched/func_02050084.c matches that lone
+ * instruction as an "empty leaf".  Integrator item: seed 0x02050080; the
+ * 0x02050084 entry is the tail of the getter.  func_0204FFFC is EXACT* until
+ * then.
+ */
 
 /* The worklist row "0x020507A4 / 44 bytes" is NOT a function.  The real entry
  * is 0x020507A0, four bytes earlier: the function's first instruction is a bare

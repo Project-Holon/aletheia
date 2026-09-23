@@ -211,15 +211,20 @@ int  func_02037288(u32 a0, u32 heap, u32 c);
          * sites.  Those callers are EXACT anyway because the declaration
          * only affects their own argument setup, which happens to agree. */
 void func_02037478(void);
-        /* the second half of init: wipes and re-seeds every buffer
-         * func_02037288 allocated.  Not yet EXACT -- see the appended
-         * section of docs/notes/pkt_02037288_wave25.c.txt (size-exact at
-         * 520 bytes, 135 bytes of colouring residue). */
+        /* src/matched/func_02037478.c (EXACT, wave 12).  The second half of
+         * init: wipes and re-seeds every buffer func_02037288 allocated.
+         * The loop index is declared BEFORE the three counts, and the three
+         * product pairs are spelled differently at their two sites (n2 + n2
+         * vs n2 << 1, etc.) so they are rematerialised, not CSE'd. */
 void func_02037680(int i);
-        /* resets ONE slot.  The parameter is signed: the entry guard is
-         * `cmp r5, #8; blt`, a signed compare, and the assert at line 0x155
-         * fires for i >= 8 only.  Not yet EXACT -- 8 bytes of colouring
-         * residue, same note. */
+        /* src/matched/func_02037680.c (EXACT, wave 12).  Resets ONE slot.
+         * The parameter is signed: the entry guard is `cmp r5, #8; blt`,
+         * and the assert at line 0x155 fires for i >= 8 only. */
+int  func_020394C0(void);
+        /* src/matched/func_020394C0.c (EXACT, wave 12).  An unlabelled
+         * leaf (saves no lr): tail-calls func_020366A8(g + 0xCC), the
+         * 0x64-entry queue.  Reached only through the long-branch veneer
+         * at 0x0203D56C. */
 
 /* The tick. */
 int  func_02037C10(void);
@@ -236,6 +241,36 @@ int  func_02038924(u32 a0, u8 *p, s32 n);
          * shape without the i-scaling and without the 0x1D7 sequence
          * check.  Read the two side by side. */
 
+/* Packet reassembly. */
+struct NetRing {                /* the 0x10-byte header func_0203640C builds */
+    u8  *buf;                   /* +0x00 */
+    s32  len;                   /* +0x04  stored as (s16) by the builder */
+    u8   pad08[4];
+    s16  rd;                    /* +0x0C  read cursor; func_02038DF0 saves
+                                 *        and restores it around a peek */
+    s16  wr;                    /* +0x0E  write cursor (func_020365E8) */
+};
+struct NetReasm {               /* func_02038DF0's st, all fields evidenced */
+    s32  done;                  /* +0x00  bytes delivered; signed compare */
+    u8  *dst;                   /* +0x04 */
+    u16  left;                  /* +0x08 */
+    u16  total;                 /* +0x0A  0xFFFF = header not yet read */
+    u16  h;                     /* +0x0C  the handle */
+    u8   tag;                   /* +0x0E */
+    u8   f0F;                   /* +0x0F  func_0203A634's argument */
+};
+void func_02038DF0(struct NetRing *src, u32 tag, u8 *buf,
+                   struct NetReasm *st, u32 n);
+        /* src/matched/func_02038DF0.c (EXACT, wave 12).  Drains a slot's
+         * receive ring (a func_0203640C header, +0x0C = s16 read cursor)
+         * into a reassembly record st { s32 done; u8 *dst; u16 left;
+         * u16 total (0xFFFF = no header yet); u16 h; u8 tag; u8 f0F; }.
+         * Callers: func_02039050 (tag 0xFF, own slot) and func_020390BC
+         * (tag = slot i, src = g + 0x4C + i * 16).  n is u32; the chunk
+         * call is written in BOTH arms of the func_0203A804(h) test.
+         * func_0203A804 and func_0203A7EC (24-byte bool wrappers of
+         * func_0203A748 / func_0203A70C) resolve as sole-ref / sdk. */
+
 /* Packet send. */
 int  func_02037D98(int a);
         /* src/matched/func_02037D98.c.  Refuses while f1B0 > 0. */
@@ -247,19 +282,19 @@ int  func_02037D98(int a);
  * ------------------------------------------------------------------ */
 
 void func_0203640C(u8 *dst, u8 *src, u32 n);
-        /* PER-SITE ARITY.  The callee is
+        /* ALWAYS THREE ARGUMENTS (wave 12; this CORRECTS the earlier
+         * "per-site arity" entry).  The callee is
          *   lsl r2, r2, #0x10 ; asr r2, r2, #0x10 ; stm r0, {r1, r2}
          *   mov r3, #0 ; strh r3, [r0, #0xc] ; strh r3, [r0, #0xe]
-         * so it always READS r2, but the ORIGINAL C calls it with only two
-         * arguments at some sites and lets r2 fall through as whatever the
-         * preceding `mla` left there.  func_02037680's single call and
-         * func_02037478's first-loop call are two-argument; the other four
-         * calls in func_02037478 are three-argument.  One translation unit
-         * cannot declare both, so the two-argument form is written through
-         * a cast:
-         *   ((void (*)(u8 *, u8 *))func_0203640C)(dst, src)
-         * Passing an explicit third argument at a two-argument site costs a
-         * `mov r2, ...` and makes the file four bytes long. */
+         * i.e. it builds a 0x10-byte ring header { buffer, (s16)length,
+         * ..., rd = 0, wr = 0 }.  The sites that looked two-argument
+         * (func_02037680's single call, func_02037478's first loop) pass
+         * the slot stride f1E0 as the length: r2 is loaded on purpose, it
+         * is not a leftover of the mla.  With the cast-to-two-argument
+         * spelling both files were colouring-stuck; with three arguments
+         * both are EXACT (src/matched/func_02037680.c, func_02037478.c).
+         * func_02038DF0 reads the same header back: +0x0C is the read
+         * cursor it saves and restores. */
 void func_02034714(const u8 *file, int line, const u8 *msg);
         /* the assert.  file is str_020A7A24 throughout this family; msg is
          * str_020A7A34 (func_02037680, line 0x155), str_020A7A50

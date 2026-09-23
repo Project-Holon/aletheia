@@ -209,7 +209,8 @@ struct PmsCs {
 /* Constructor.  The trailing arguments arrive as three separate word
  * slots read as u8 / u8 / u16 (`add rN, sp, #0x20` then `ldrb [.]`,
  * `ldrb [.,#4]`, `ldrh [.,#8]`), not as one by-value struct.
- * See docs/notes/pkt_0202DB0C.c.txt. */
+ * EXACT since wave 12 (src/matched/func_0202DB0C.c): the second
+ * allocator's heap is `h = p->heap;` read back right after the store. */
 struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d,
                               u8 e0, u8 e1, u16 heap);
 
@@ -244,7 +245,10 @@ void func_0202DCD4(struct PmsDraw *p, u32 i, u32 val);
 void func_0202DCFC(struct PmsDraw *p, u32 i, u32 val);
 
 /* Copies element[i] onto element[j], sprite state included.
- * DIFF; see docs/notes/pkt_0202DD24.c.txt. */
+ * DIFF, 8 bytes (two spill slots); see docs/notes/pkt_0202DD24.c.txt.
+ * Shape proved size-exact in wave 12: e = p->elems read once, handles as
+ * e[j].handle / e[i].handle, src = &e[i] before dst = &e[j], and the
+ * offset applied in the loop as `pt.x += dx * 8` (no ox/oy locals). */
 void func_0202DD24(u8 *p, u32 i, u32 j);
 
 /* Grid coordinates to pixel coordinates, written through the fifth
@@ -293,7 +297,10 @@ int  func_0202E0E0(struct PmsElem *e, void *cursor, int domove);
 
 /* The full redraw.  Nine parameters: four in registers and five on the
  * stack (`w`, then `cs` and three words).  DIFF; see
- * docs/notes/pkt_0202E1F0.c.txt. */
+ * docs/notes/pkt_0202E1F0.c.txt.  Its two callees' argument orders, read
+ * off the image in wave 12:
+ *   func_0202E040(e->actor[i], a3, p0, p1, func_020244D4(ws, i), cs);
+ *   func_02043AF4(func_02045770(a3), p0, (s16)(p1 << 4), 0x54, 0x10, c2); */
 void func_0202E1F0(struct PmsElem *e, u32 a1, u32 a2, u32 a3,
                    void *w, struct PmsCs *cs, u16 c1, u32 c2, u16 c3);
 
@@ -304,6 +311,13 @@ void func_0202E38C(struct PmsElem *e, u32 a1);
 /* Shows or hides: assigns `(a1 & 1) << 1` into flags.b1 and forwards to
  * both enabled actors.  src/matched/func_0202E3E4.c */
 void func_0202E3E4(struct PmsElem *e, u32 a1);
+
+/* Three unlabelled setters between func_0202DD24 and sub_0202DE6C
+ * (src/matched/unit_0202DE5C.c, wave 12): +0x31 u8, +0x24 u16, +0x2c u32.
+ * They are why func_0202DD24's listing extent reads 328 against 312. */
+void sub_0202DE5C(struct PmsDraw *p, u8 v);
+void sub_0202DE64(struct PmsDraw *p, u16 v);
+void sub_0202DE68(struct PmsDraw *p, u32 v);
 
 /* Is this cell id at or above 4.  Twelve bytes, no prologue; the arm
  * that falls through the `blo` is the one the source wrote first.

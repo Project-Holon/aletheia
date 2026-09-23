@@ -367,3 +367,9 @@ a dedicated run, not a slot in a family sweep.
 
 The declarations it will need are in docs/families/billboard.h (written this
 wave from the 38 matched sources of the family).
+
+
+==============================================================================
+2026-09-23, wave 12
+==============================================================================
+CLOSED, both subjects of this file. func_0204F7DC: EXACT, src/matched/func_0204F7DC.c (1720 bytes; NitroSDK G3 immediate inlines, see its header for the levers). func_0204FFFC: EXACT*, src/matched/func_0204FFFC.c -- the 2-byte 'destination register' residue was the callee's arity: func_0204F5A8 takes (board, id) and the loaded entry word in r1 IS the second argument. The EXACT* follower is the unlabelled getter at 0x02050080.

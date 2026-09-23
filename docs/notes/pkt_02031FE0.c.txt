@@ -594,3 +594,68 @@ done:
     return 1;
 }
 ---- end ----
+
+================================================================================
+2026-09-23 -- wave 12 (backup_system.c second lane).  Appended, nothing above
+edited.
+================================================================================
+
+0x02032688 -- CLOSED, EXACT: src/matched/func_02032688.c.  The wave-11 best
+source above with ONE change: func_020333F8 is declared and called with the
+record only, `func_020333F8(self)`.  src/matched/func_020333F8.c forwards
++0x138/+0x13C to a clear and never reads a1..a3, so the (self, mode, arg3)
+call was a wrong argument list; it was what scheduled the first
+func_020335E8 call's argument setup wrong (the whole 10-byte residue).  None
+of the call-site spellings listed above was ever the problem.
+
+0x02031FE0 -- still DIFF, 42 -> 9 bytes.
+
+/* best source, 1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1 */
+
+permuter best result lines (from the source below):
+  hill,   --types, budget 800   DIFF  asm=45  bytes-out=9  size=1704/1704
+  anneal, --types, budget 1500  DIFF  asm=45  bytes-out=9  size=1704/1704
+  (from the pre-cnt16 source at 14: hill and anneal both flat at asm=70)
+../2.0/sp2 on the same file: 1748 bytes.  1.1p1 stays the pin.
+
+Two changes to the wave-11 source, each measured:
+  * RESIDUE 1 CLOSED (42 -> 14): `func_020333F8(self)`, one argument, same
+    as 0x02032688.  The heap-id truncation (`lsl r1,r4,#16` early) and the
+    line-word load order in the func_02030734 setup come out right.
+  * The two "record counter" compares read the record's leading halfword
+    through an inline accessor (14 -> 9):
+        static inline u16 cnt16(u8 *p) { return *(u16 *)p; }
+        if (cnt16(pa) != *(u16 *)(bufs[k] + AB)) ...
+        if (cnt16(pb) != *(u16 *)(bufs[k] + AB)) { ...
+    This puts cur[AB] on the left of both `cmp`s and fixes the load order at
+    +0x4C0 (the inline's result is a named temporary).  Every plain spelling,
+    both operand orders, with `cur` or `bufs[k]`, is 14 or 26.  An accessor
+    on the `+2` CRC field as well breaks the size (1720/1724).
+
+RESIDUE (9 bytes, all one swap): B (func_02033BAC's result) and AB = A + B
+exchange r8 and r4 -- image B r8 / AB r4, here B r4 / AB r8 -- in the six
+instructions that name them (+0x380..+0x39C, the two `mov r2, B` for the CRC
+calls, the two `ldrh [cur, AB]`).  Not moved by (all measured this wave, on
+top of the 9-byte source):
+  * all 720 declaration orders of B, pa, pb, AB, A, i (best 9, 30 of them);
+    the same 720 on the pre-cnt16 source (best 14);
+  * the five loop locals declared in the loop block, all 120 orders, and
+    with initialisers (best 9 / 22);
+  * separate A2/B2 for the copy-back loop, B inlined into the copy call,
+    block locals in the copy loop (all 14 before cnt16);
+  * no AB local, `B + A`, pa/pb as u16 * or as a `struct { u16 cnt, crc; }`
+    pointer, `pa = h + (AB = A + B)`, an inline `base + (a + b)` footer
+    helper (26), no pa/pb at all (size breaks);
+  * `cur` in the compares with all 24 orders of h/tbl/cur/k (21).
+
+---- best source (the wave-11 source with the diff below applied) ----
+ -extern void  func_020333F8(Save *self, u32 a, u32 b, u32 c);
+ +extern void  func_020333F8(Save *self);
+ +static inline u16 cnt16(u8 *p){ return *(u16 *)p; }      (before the function)
+ -    func_020333F8(self, heap, mode, gen);
+ +    func_020333F8(self);
+ -                if (*(u16 *)pa != *(u16 *)(bufs[k] + AB))
+ +                if (cnt16(pa) != *(u16 *)(bufs[k] + AB))
+ -                if (*(u16 *)pb != *(u16 *)(bufs[k] + AB)) {
+ +                if (cnt16(pb) != *(u16 *)(bufs[k] + AB)) {
+---- end ----

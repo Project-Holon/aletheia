@@ -183,3 +183,7 @@ would have to change what happens BEFORE the ldm/stm (the five calls and the
 four stack buffers), and that part is already byte-exact.
 
 re-verified 2026-09-21 by tools/permuter.py: DIFF, 164 bytes against 164, 8 concrete bytes out, 1.1p1
+
+CLOSED 2026-09-23 (wave 12): EXACT, src/matched/func_0203F258.c.  The output
+record is three u64s { x, mul, add } of a 64-bit LCG (mul 0x5D588B656C078965,
+add 0x269EC3); the two constant stores are u64 stores, not four u32 stores.
