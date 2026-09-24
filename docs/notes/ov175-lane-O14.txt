@@ -1,0 +1,125 @@
+Packet ov175 (lane O14) -- matching notes
+=========================================
+
+Prior state: 39 EXACT (35 sharded) from lane O4.  This lane sharded the four
+that had been refused, found no entry for either blocked callee, and filed 30
+more EXACT functions (30 of 30 attempts closed, 100%).
+
+1. The four EXACT whose shard write had been refused
+----------------------------------------------------
+All four re-verified EXACT with `match.py one` and sharded cleanly once the
+duplicate manifest entry in the other region was gone:
+
+    func_021D6954  0x021D6954  16 bytes  EXACT   pkt_021D6954
+    func_021D97B8  0x021D97B8  24 bytes  EXACT*  pkt_021D97B8
+    func_021D97D0  0x021D97D0  20 bytes  EXACT   pkt_021D97D0
+    func_021D9D40  0x021D9D40  16 bytes  EXACT   pkt_021D9D40
+
+2. The two callees with no traced entry -- STILL NO ENTRY, leave parked
+----------------------------------------------------------------------
+0x021E8A90 (called by func_021D679C and func_021D9A30) has no func_/sub_
+label in ANY listing, and there is positive evidence it is not an entry
+point at all:
+
+  * ov093.s encodes it as the trailing `bx lr` of the function that starts
+    at func_021E8A78 (0x021E8A78..0x021E8A90), the last instruction of that
+    function -- so `bl 0x021E8A90` from ov175/ov176 cannot be a call to a
+    function that starts there.
+  * ov177.s holds plain .word data at that address, right after the real
+    func_021E8A80 (which is the sibling call site, bl 0x021E8A80, and is a
+    proper label in ov177 only).
+
+  Verified with `grep -rnE "(func|sub)_021E8A90" asm/` -> no hits.
+
+0x0201A918 (called by func_021DC240 and 22 other sites image-wide) also has
+no func_/sub_ label anywhere; in asm/arm9/main.s it is inside a data run:
+
+    .org 0x16918
+    .word 0x47704800     /* 0201A918 */
+    .word 0x00000534     /* 0201A91C */
+
+which decodes as `ldr r0, [pc, #0]; bx lr; .word 0x534` -- a return-constant
+stub embedded in a .word pool, never labelled as a function by disasm.py.
+
+  Verified with `grep -rnE "(func|sub)_0201A918" asm/` -> no hits.
+
+Neither can be attested (no `label` witness, not a `sole-ref/code` traced
+start), so func_021D679C, func_021D9A30 and func_021DC240 stay MATCH/pending.
+
+3. New EXACT filed this lane (30 functions, 732 bytes of listing extent)
+------------------------------------------------------------------------
+Byte column is match.py's "listing extent for the original".  All 30 were
+re-run as a final batch after the shard writes: 30 EXACT, 0 DIFF, 0 SIZE.
+
+    func_021D98B8  0x021D98B8  44  thumb  EXACT*
+    func_021DCFFC  0x021DCFFC  12  thumb  EXACT
+    func_021DD020  0x021DD020  36  thumb  EXACT*
+    func_021DD250  0x021DD250  12  arm    EXACT
+    func_021DD328  0x021DD328  48  arm    EXACT
+    func_021DD604  0x021DD604  12  arm    EXACT
+    func_021DEAD4  0x021DEAD4  36  arm    EXACT
+    func_021DEAF8  0x021DEAF8  36  arm    EXACT
+    func_021DEB98  0x021DEB98  36  arm    EXACT
+    func_021DEFC4  0x021DEFC4  24  arm    EXACT
+    func_021DF07C  0x021DF07C  32  arm    EXACT
+    func_021DF644  0x021DF644  24  arm    EXACT
+    func_021DF928  0x021DF928  32  arm    EXACT
+    func_021DF948  0x021DF948  32  arm    EXACT
+    func_021DFCE8  0x021DFCE8  12  arm    EXACT
+    func_021DFCF4  0x021DFCF4  12  arm    EXACT
+    func_021DFD00  0x021DFD00  12  arm    EXACT
+    func_021DFD0C  0x021DFD0C  12  arm    EXACT
+    func_021DFD18  0x021DFD18  12  arm    EXACT
+    func_021DFDFC  0x021DFDFC  12  arm    EXACT
+    func_021DFE08  0x021DFE08  12  arm    EXACT
+    func_021DFE14  0x021DFE14  12  arm    EXACT
+    func_021DFE20  0x021DFE20  12  arm    EXACT
+    func_021E0764  0x021E0764  16  arm    EXACT
+    func_021E1414  0x021E1414  32  arm    EXACT
+    func_021E191C  0x021E191C  44  arm    EXACT
+    func_021E1EAC  0x021E1EAC  24  arm    EXACT
+    func_021E20B8  0x021E20B8  28  arm    EXACT
+    func_021E212C  0x021E212C  32  arm    EXACT
+    func_021E214C  0x021E214C  32  arm    EXACT
+
+(shard count for ov175 is now 69: 35 from lane O4 + 34 here, the four
+re-runs included.)
+
+4. New idioms (the two that took more than one compile)
+-------------------------------------------------------
+* A pool-word address that is a bare integer constant gets FOLDED into the
+  pool and re-allocated: `u32 *p = (u32 *)0x021E5334; p[5] = ...` compiles to
+  `ldr r0, =0x021E5348; ldr r0, [r0]` with the base and value registers
+  swapped.  Declaring the address as a DATA SYMBOL fixes both at once:
+
+      extern u32 g_021E5334[];      /* symbols: g_021E5334 0x021E5334 data */
+      if (g_021E5334[5] == 0) g_021E5334[5] = 1; else g_021E5334[5] = 0;
+
+  gives exactly `ldr r0, =base; ldr r1, [r0, #0x14]; cmp r1, #0;
+  moveq r1, #1; movne r1, #0; str r1, [r0, #0x14]`, and match.py attests the
+  pool word with the `sole-ref` class (EXACT).  No spelling of the constant
+  reaches the encoding; the struct/array/register/if-else variants all fail.
+  The predicate pair moveq r1,#1 / movne r1,#0 comes from an `if/else` that
+  assigns both arms, not from `p[5] = (p[5] == 0)` (that hoists the 1).
+
+* ARM `push {r3, lr}` + last-statement call is not always `bl`: with
+  -interworking, a tail call to an extern whose ISA the compiler does not
+  know becomes the pooled `ldr ip, =fn; bx ip`.  `void f(void) { g(); }` is
+  enough -- the argument registers are simply forwarded, so the exact
+  signature of the callee never has to be known.  15 of the 30 new functions
+  are that shape, and every one closed on the first compile.
+
+* Predicated null chains: one single `if (a && b && p && (v = p->f24))`
+  expression yields the whole `cmp/cmpne/ldrne/cmpne/ldrne/cmpne/moveq/
+  popeq` run; splitting it into separate `if`s doubles the length (60 vs 48
+  bytes on func_021DD328).
+
+5. Still open in ov175
+----------------------
+282 traced functions minus the 34 filed here are untouched, smallest first
+next time: the func_021DFCE8..group thunks and the func_021DE2E0 forwarders
+are done, so the next cheapest families are the func_021DD358/380/3A8/3D0
+quartet (38 bytes each), func_021DEB1C/func_021DECA0/func_021DEE18 (34), and
+the func_021DF298/2C8/2F8/328 set (46).  func_021D9EA0 and func_021D61CC are
+blocked on 0x02156DE0/0x02156DC4 and 0x021E8AA8, none of which have labels in
+any listing -- same class as the section 2 blockers.

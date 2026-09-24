@@ -1,0 +1,18 @@
+func_021BD43C 0x021BD43C ov208 DIFF (1 byte, harness gap)
+
+residue
+-------
+  offset     ORIGINAL @ 021BD43C      | COMPILED
+  +0000    ldr r3, [pc, #0]         | ldr r3, [pc, #0]
+  +0002    bx r3                    | bx r3
+  * +0004  pool word 0x021BD405      | pool word 0x021BD404   <- ABS32 func_021BD404 [resolved: label]
+  +0006    (padding)
+
+The source is right: `void func_021BD43C(void) { func_021BD404(); }` tail-calls the
+thumb function through the pool word, and the compiler emits the thumb-bit-set
+address 0x021BD405.  match.py's ABS32 label class writes the bare label address
+0x021BD404 instead, so one byte of the pool word differs.  The identical shape
+pointing at a thumb target with an independent witness (func_021BD7FC ->
+0x0204B3DC, func_021BD808 -> 0x0204B3F4) closes EXACT with the same source
+pattern, so this is the harness losing the thumb bit for an ov208-internal
+label, not a source error.
