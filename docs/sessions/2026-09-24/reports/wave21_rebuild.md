@@ -26,3 +26,17 @@ Notes from the run:
   reproduced the same SHA-1 and figures. The check therefore covers the
   DSi region too.
 - The single pending MATCH is src/pending/func_020863E0.c, as expected.
+
+## g2d DoAffineTransforme_ (dd57986)
+
+Commit dd57986 added 0x02067080 (closed by the online research lane) labelled
+UNVERIFIED. The owner then ran `wave.py foldin` natively with the DSi key at
+dd57986:
+
+    [figures]  exact coverage 99.8986% (399900 / 400306 bytes, 4421 functions)
+    [rom]      sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5
+    FIGURES 99.90 99.90 4421
+
+The ROM still matches the cartridge, so dd57986 is verified. The fold-in outputs
+(coverage maps, worklist) were committed as 0acd895. One function is left
+open: blink_palanm 0x0202E1F0, 2 bytes out.
