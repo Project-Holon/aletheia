@@ -17,6 +17,7 @@
 02004800  _start                                        TwlSDK/crt0.HYB.TWL.o(crt0.HYB.TWL.o)  arm9
 02004A00  INITi_CpuClear32                              TwlSDK/crt0.HYB.TWL.o(crt0.HYB.TWL.o)  arm9
 02004A14  INITi_InitCoprocessor                         TwlSDK/crt0.HYB.TWL.o(crt0.HYB.TWL.o)  arm9
+0204047C  func_0204047C                                 game  arm9
 02004A98  INITi_InitRegion                              TwlSDK/crt0.HYB.TWL.o(crt0.HYB.TWL.o)  arm9
 02004BB4  INITi_DoAutoload                              TwlSDK/crt0.HYB.TWL.o(crt0.HYB.TWL.o)  arm9
 02004D50  INITi_ShelterStaticInitializer                TwlSDK/crt0.HYB.TWL.o(crt0.HYB.TWL.o)  arm9

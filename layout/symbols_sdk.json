@@ -67090,5 +67090,11 @@
    "dupes": 2,
    "siblings": 1
   }
- ]
+ ],
+ "func_0204047C": {
+  "address": "0x0204047C",
+  "name": "func_0204047C",
+  "isa": "arm",
+  "region": "arm9"
+ }
 }
