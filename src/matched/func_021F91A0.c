@@ -1,0 +1,30 @@
+/*
+ * function: func_021F91A0
+ * address:  0x021F91A0
+ * packet:   pkt_021F91A0
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021F914C  0x021F914C  thumb  ov135
+ *   func_022028C8  0x022028C8  thumb  ov135
+
+ * Seven-argument wrapper: forwards the object, three words, the 0 and the u16/g pair to the two helpers.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u32 func_021F914C(u8 *p, u32 b, u32 c, u32 e, u16 f, u32 z, u32 g);
+extern u32 func_022028C8(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
+
+int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g)
+{
+    u32 r = func_021F914C(p, b, c, e, f, 0, g);
+
+    return func_022028C8(p, 0, b, r, d, 0, f, g);
+}

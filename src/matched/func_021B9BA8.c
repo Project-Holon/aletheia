@@ -1,0 +1,35 @@
+/*
+ * function: func_021B9BA8
+ * address:  0x021B9BA8
+ * packet:   pkt_021B95A0
+ * region:   ov099
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021C49A4  0x021C49A4  thumb  ov127
+ *
+ * True when the object 0x570 bytes in is not of class 5.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned long  u32;
+typedef signed char    s8;
+typedef signed short   s16;
+typedef signed long    s32;
+typedef int BOOL;
+
+extern int func_021C49A4(void *p, int b);
+
+BOOL func_021B9BA8(char *p)
+{
+    if (func_021C49A4(*(void **)*(void **)(p + 0x570), 5) == 0) {
+        return 1;
+    }
+
+    return 0;
+}

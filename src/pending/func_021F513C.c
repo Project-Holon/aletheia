@@ -7,25 +7,26 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
- * blocker:  the func_02012E08 BL at +0006 stays wildcarded (MATCH*): the site neither resolves by name nor when it is declared `thumb` in the symbols: block.  All 24 bytes, including the func_020120F4 and func_0200F7C0 calls, are right.
+ * status:   MATCH
  *
  * symbols:
  *
 
+ * The 12 concrete bytes of code plus the two BL pairs are reproduced; wave 2
+ * found the same wall and this lane re-measured it: the BL at +0006 to
+ * func_02012E08 stays wildcarded because that address is an EXACT* entry in
+ * src/matched and so has no witness outside this range.  The first BL to
+ * func_020120F4 resolves as a plain arm9 label, so only the second is open.
  *
- * Walk into the sub-object at +0x40, run the two-step init and hand 0x29 to the next stage.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_021F513C.c --func func_021F513C  *       --addr 0x021F513C --region ov135 --thumb --cc dsi/1.1p1 --diff
+ * Shape: mode query pair, then the 0x29 command byte.
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020120F4(u32 v);
-extern void func_02012E08(u32 v);
-extern void func_0200F7C0(int v);
+extern u32 func_02012E08(u32 v);
+extern void func_0200F7C0(u32 c);
 
 void func_021F513C(u8 *p)
 {

@@ -1,0 +1,28 @@
+/*
+ * function: func_022026C4
+ * address:  0x022026C4
+ * packet:   pkt_022026C4
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *
+
+ * Tail call: the third argument goes first, the dereferenced pointer second, the u16 last.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef signed short s16;
+extern void func_0201D304(u32 a, u32 b, u32 c);
+
+void func_022026C4(u32 *p, u32 b, u32 a, u32 c)
+{
+    func_0201D304(a, *p, (u16)c);
+}

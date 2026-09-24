@@ -305,3 +305,110 @@ C. Class blockers
    `g_ADDR  0xADDR  data  ov135` (the five dispatch tables all took it) and the
    contested-window caution from wave 2 still applies to anything the other
    overlays also claim.
+
+
+ov135 lane O32, wave 3 continued (same session, second half)
+===========================================================
+
+The lane kept going after the first residue note and closed 42 more
+functions.  Final total for the lane: 95 functions filed, 3952 code bytes,
+shards for ov135 75 -> 170 (all EXACT or EXACT*).  Plus five parked in
+src/pending/ and one site blocked by a tooling defect (see the end).
+The extra classes, in the order they paid:
+
+8. READ THE SECOND REGISTER, NOT JUST THE FIRST.  func_021FF318 /
+   func_021FD6F4 / func_02200A10 are one 108-byte skeleton three times.  They
+   take a second parameter that is never touched before the first call:
+
+       void func_021FF318(u8 *p, u32 k, u32 b, u32 c, u32 d)
+       {
+           func_02045CAC(*(u32 *)(p + 0xb6c), k, *(u32 *)(p + 0xb6c + 0x1c));
+           ...
+       }
+
+   The image passes the incoming r1 straight through as the middle argument
+   and uses r2 as the address scratch.  Writing the call with two arguments
+   makes MWCC use r1 as the scratch and costs one byte per site; writing it
+   as `func_02045CAC(*(u32 *)(p + 0xb6c), k, ...)` fixes all three at once.
+   Rule: when an image leaves r1 holding its incoming value across the first
+   call, the wrapper has a parameter that is being forwarded.
+
+9. THE THIRD ARGUMENT IS WHY `subs` PRECEDES `adds`.  func_021F9EEC was a
+   wave-2 residue ("image computes n-1 into r2 while keeping r1 live").  The
+   call is three-argument -
+   `func_0209C0A4(p + m, n, m)` with `m = n - 1` hoisted into a local, so m
+   lands in r2 and the address is `p + m`.  Nothing about the shape needed a
+   new idiom; it needed the argument the earlier attempt had dropped.
+
+10. TAIL-CALL ARGUMENT SHUFFLES: func_022026C4 and func_02201C08 both closed
+    once the register the image leaves in r0 was read as data rather than as
+    another argument (see A.4 above).  For func_022026C4 the fix was to
+    declare the fourth parameter as a full word and truncate at the call
+    `func_0201D304(a, *p, (u16)c)`, which is what makes MWCC emit
+    `lsls r2, r3, #0x10 / lsrs r2, r2, #0x10`.
+
+11. A WHOLE SECOND FAMILY: SEVEN-ARGUMENT WRAPPERS.  func_021F91A0 and
+    func_021F91DC are the same 60 bytes: read the caller's own stack arguments
+    back out (`sp+0x28`, `sp+0x2c`, `sp+0x30` once the prologue is accounted
+    for), re-emit them as a different argument list, and forward.  Declaring
+    all seven parameters and writing the two calls with explicit argument
+    lists reproduced it on the first compile.  Any wrapper whose body is
+    nothing but ldr-from-sp / str-to-sp is this class; do not model the
+    stack traffic by hand.
+
+12. A POSITIVE GUARD COMPILES WHERE A NEGATIVE ONE DOES NOT.  func_0220252C
+    was a wave-2 DIFF ("the && rewrite does not fold").  It closes as
+
+        if (query() == 0) {
+            if (*(u16 *)(p + 0x32) != 0) {
+                return 1;
+            }
+        }
+        return 0;
+
+    Writing the two guards as `!= 0 { return 0; }` makes MWCC put the shared
+    zero block first and diverge; the positive nesting puts it last and
+    matches.  Same for func_022007A0, which closes as an if/else with the
+    whole call duplicated in both arms (zero and three) - MWCC then merges
+    only the tail and leaves the stack stores inside each arm, which is
+    exactly what the image shows.
+
+13. FIVE MORE FROM THE SMALL-LEAF LIST: func_02202840 (the build query itself,
+    now a filed function), func_02200434, func_021FD2FC, func_02200EB0,
+    func_02200E94, func_021FF570, func_021F4BCC - all one compile each once
+    the callee list was read off the listing.  func_021FF570 is the hardware
+    register shape again: `if (v != 0) func_0207D658(0x04000050, 0xa, v); else
+    *(u16 *)0x04000050 = 0;` - note that MWCC sets the flags with
+    `adds r2, r0, #0` rather than `cmp r0, #0`, so the branch is on the move.
+
+Residue after this half
+-----------------------
+
+Parked in src/pending/ (MATCH/MATCH*, all blocked on the same missing region
+hint, never on shape):
+
+  func_02201FDC  0x02201FDC  36B  blx 0x021C866C unresolved
+  func_021F8F5C  0x021F8F5C  12B  blx 0x021C8658 unresolved
+  func_021FEB84  0x021FEB84  52B  blx 0x021C8658 unresolved
+  func_02201C88  0x02201C88  52B  blx 0x021C8658 unresolved
+  func_021F513C  0x021F513C  24B  bl 0x02012E08 unresolved (EXACT* entry)
+
+Still DIFF, all measured this session:
+
+  func_021FC668  0x021FC668  the zero is materialised through r1 in the image
+                             and r0 in the source; pool sits two words later
+  func_021F89B4  0x021F89B4  switch chain right, block order one step out
+  func_022007A0  CLOSED
+  func_021FB220  0x021FB220  the (f()==1)?0:1 flag arm order, still inverted
+  func_021FBA5C  0x021FBA5C  same residue as func_021FB220
+  func_021FFB00  0x021FFB00  prologue is {r4,lr} in the image, {r3,lr} in mine
+  func_021F8078  0x021F8078  3 bytes: the image routes the result through r1
+  func_021F6BA4  0x021F6BA4  20 bytes: guard chain layout
+  func_021F8154  0x021F8154  the u16 stack parameter is read with ldrh in the
+                             image and truncated from a register in mine
+  func_021F89F0  0x021F89F0  the state-table dispatch (0x02203C1C) with the
+                             two-store tail; MWCC reorders the index setup
+  func_021FBFB0 / func_021FC014  88B each: the image re-tests `n > 0` in the
+                             loop pre-header after `k = 0` and before the limit
+                             load; every C form tried so far drops that second
+                             test or moves the limit load in front of it.
