@@ -643,3 +643,32 @@ web: every spelling of it is constant-propagated before codegen.
 permuter anneal 800 (seed 4201) from the zero-first source: no gain (its
 best mutations add a volatile; 46 by its count).
 best-source marker: 4 out, 1.1p1 (wave 19 mechanisms source, unchanged)
+
+==============================================================================
+2026-09-24, wave 20 (lane zero_web): 4 holds
+==============================================================================
+From the wave 19 mechanisms source (1.1p1). Correction to the residue as
+stated in the 20D report: the ORIGINAL column shows `ldrb r3, [r4, #8]; movs
+r0, #0; ldrb r2, [r4, #0xb]`, so the image materialises the zero BEFORE the
+kb load; the compile loads kb first and then the zero.
+Non-constant zero spellings for the f40 store, one measurement each:
+  - `a2 - a2`, `kb & 0`, `kb ^ kb`, `(u32)(obj != obj)`, `obj->f40 &= 0`,
+    `static const u32 k0 = 0`: 4 each, output byte-identical to the base (all
+    folded before codegen);
+  - `extern const u32 k0` (a real pool load): 96 bytes, rejected (image has
+    movs #0);
+  - comparison `(kb > 255)`: 100 bytes (a real compare);
+  - zero derived from a byte that mwcc does not range-fold: `(u8)(kb >> 8)`
+    7, `z = k8 >> 8` or `k8 >> 31` between the k8 and kb reads: 6 each (a
+    real lsrs, not a movs); `k8 > 0xff`: 100 bytes; `k8 & 0x100`: 94 bytes;
+  - store forwarding: f44 = kb then `f40 = obj->f44 - kb` or `^ kb`: 90
+    bytes, 7 lines out (forwarded, but emitted as `subs r0, r0, r0`);
+  - `const u8 *__restrict cfg` with f40 = 0 ahead of the kb read: 92
+    bytes, 55 (plain `restrict` does not parse under this front end);
+  - candidates (4) and (5) do not apply: no field is cleared earlier in the
+    function and no parameter carries a zero (a4/a5 come from the stack).
+permuter anneal 800 --types (seed 4601): best 8 by its count, no gain.
+Finding: every zero that emits `movs #0` is folded before the IR position
+is fixed, and every spelling that survives folding emits a different
+instruction. The tie cannot be reached through the zero's spelling.
+best-source marker: 4 out, 1.1p1 (wave 19 mechanisms source, unchanged)

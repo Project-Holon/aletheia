@@ -468,3 +468,24 @@ From the wave 19 mechanisms alternative source (w first; 1.1p1, 268/268,
     12 to 28.
 permuter hill 800 (seed 4202) from the alternative source: flat at 10.
 /* best-source marker: the wave 16 source, 268/268, 10 out, unchanged (the w-first alternative above stays the better base) */
+
+==============================================================================
+2026-09-24, wave 20 (lane zero_web): 10 holds
+==============================================================================
+From the w-first alternative source (1.1p1, 268/268, 10 out). The zero
+stores f18/kind/f20/f1c spelled as a non-constant zero, one measurement each:
+  - `a - a` (f18), `a & 0` (f18, kind), `(u32)(p != p)` (f18, kind, f1c),
+    `&= 0` on f18/kind/f1c: 10 each, byte-identical to the base (folded);
+  - forwarding from the cleared field (`p->f18 = 0; p->kind = p->f18;
+    p->f20 = (fnptr)p->f18; p->f1c = p->f18;`): 10, byte-identical (the
+    forwarded value is still the constant and propagates);
+  - `extern const u32 g_zero` for three stores: 280 bytes, 254 (real load,
+    rejected: image has movs #0);
+  - `(p == 0)` (p known non-null from the guard, not folded): 280, 251;
+    `(w > 0xff)`: 280, 251; `w >> 8` into f18 and forwarded: 272, 253;
+  - candidate (5) does not apply (the only parameter is p).
+permuter anneal 800 --types (seed 4602): flat at 10.
+Finding: as in 0x0202350C, mwcc folds every spelling that yields `movs #0`
+before allocation; anything that survives folding is a different
+instruction. The zero web cannot be separated from the constant by spelling.
+/* best-source marker: the wave 16 source, 268/268, 10 out, unchanged (the w-first alternative stays the better base) */
