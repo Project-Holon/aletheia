@@ -67096,5 +67096,11 @@
   "name": "func_0204047C",
   "isa": "arm",
   "region": "arm9"
+ },
+ "func_0204B5AC": {
+  "address": "0x0204B5AC",
+  "name": "func_0204B5AC",
+  "isa": "arm",
+  "region": "arm9"
  }
 }
