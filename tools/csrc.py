@@ -241,20 +241,29 @@ def select(entries, keep=None):
 
 def resolve_overlaps(splices):
     """Greedily keep the widest non-overlapping set.  Returns (kept, dropped)."""
-    order = sorted(splices, key=lambda s: (s.address, -s.size))
-    kept, dropped = [], []
-    for sp in order:
-        if kept and sp.address < kept[-1].end:
-            if sp.end <= kept[-1].end:
-                dropped.append((sp, kept[-1]))
-                continue
-            raise CSourceError(
-                "%s (0x%08X..0x%08X) partially overlaps %s "
-                "(0x%08X..0x%08X); the manifest is inconsistent"
-                % (sp.name, sp.address, sp.end, kept[-1].name,
-                   kept[-1].address, kept[-1].end))
-        kept.append(sp)
-    return kept, dropped
+    by_region = {}
+    for sp in splices:
+        reg = getattr(sp, "region", "unknown")
+        by_region.setdefault(reg, []).append(sp)
+
+    all_kept, all_dropped = [], []
+    for reg, reg_splices in by_region.items():
+        order = sorted(reg_splices, key=lambda s: (s.address, -s.size))
+        kept, dropped = [], []
+        for sp in order:
+            if kept and sp.address < kept[-1].end:
+                if sp.end <= kept[-1].end:
+                    dropped.append((sp, kept[-1]))
+                    continue
+                raise CSourceError(
+                    "%s (0x%08X..0x%08X) in region %s partially overlaps %s "
+                    "(0x%08X..0x%08X); the manifest is inconsistent"
+                    % (sp.name, sp.address, sp.end, reg, kept[-1].name,
+                       kept[-1].address, kept[-1].end))
+            kept.append(sp)
+        all_kept.extend(kept)
+        all_dropped.extend(dropped)
+    return all_kept, all_dropped
 
 
 def build_splices(manifest=None, keep=None, jobs=1, kinds=None,

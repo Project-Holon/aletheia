@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * True when the top nibble is the ARM co-processor space 0xE.
+ * symbols:
+ *   func_02157928  0x02157928  arm
  */
 
 int func_02157928(unsigned v)

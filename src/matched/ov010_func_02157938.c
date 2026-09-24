@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   func_02157938  0x02157938  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_0203CEAC  0x0203CEAC  arm
  */
