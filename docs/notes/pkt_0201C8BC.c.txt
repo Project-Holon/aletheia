@@ -357,3 +357,20 @@ produces the image's per-store reload.
 holding done 192/179; dsi/1.2 17; stores through an element pointer e =
 &buf[0] 17; stores in reverse order 17; volatile long done 17. Unchanged 17.
 /* best source, 184 bytes against 184, 17 concrete bytes out, 1.1p1 -- the note's source with int hi, mid, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 17 holds; the base-register rule measured
+==============================================================================
+From the note's source (1.1p1): dsi/1.1, 1.3, 1.6sp2 17 each; `int done[1]`
+plain 180/156 (forwarded); buf declared before p 17. Block scope shows the
+rule that picks the byte-store base: with buf in an inner block and done
+outside, or with both in one inner block declared done first, buf lands at
+sp+4 and done at sp+8, and the stores go off buf's OWN address (`add r0, sp,
+#4; strb [r0], [r0, #1], [r0, #2]`, the image's form, 20 out for the swapped
+slots and an r0/r1 swap); both in a block declared buf first is 17 again. So
+the combined `sp+4 + 4` base appears exactly when the addressable done slot
+sits below buf. That supports the wave 16 reading: in the image [sp,#4] is a
+spill slot (lo's spill is at [sp]), done is a register candidate spilled
+there, and buf is the first addressable local. What hides the zero from
+propagation is still not found.
+/* best source, 184 bytes against 184, 17 concrete bytes out, 1.1p1 -- the note's source with int hi, mid, unchanged */

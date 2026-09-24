@@ -367,3 +367,12 @@ void func_0202627C(struct Comm *p)
 dsi/1.2 10; `p->b1 &= 0` 10; cb read as (&p->f20)[0] 10; cb/a/b at function
 scope before sub/rec 10, between sub and rec 10. Unchanged 10 (image: flag
 byte in rec's dying r3, cb in sub's dying r5).
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 10 holds
+==============================================================================
+From the wave 16 source (1.1p1): case 5's body written out in case 4 (304
+bytes, not cross-jumped); the +4 flags and kind/f06/f07 as u32 bitfields of
+one container (296 bytes); `cb = cb;` and `b = b;` after their reads (10
+each); case 5 as a `static inline` Finish(p) helper (10); cb held as u32 or
+void * with a cast at the call (10 each).

@@ -332,3 +332,13 @@ src and p are all live to the loop end. The image's slots are len [sp],
 total [sp+4], base [sp+8] (stored twice, once per def), start [sp+0xc];
 the compile keeps total in r7 and spills head.
 /* best source, 92 bytes against 92, 66 concrete bytes out, 1.1p1 -- the wave 13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 66 holds
+==============================================================================
+From the wave 13 u16-len source, measured once each, all 92 bytes: `head =
+head;` after the add, `total = total;` after the add, `head = head;` after
+the load, `total = total;` before the loop (66 each); dsi/1.2 66 and 66 with
+the total self-assignment; `unsigned long n` 66; `unsigned long start` 66;
+`unsigned long total` without the u16 casts 88 bytes (74).
+/* best source, 92 bytes against 92, 66 concrete bytes out, 1.1p1 -- the wave 13 source above, unchanged */

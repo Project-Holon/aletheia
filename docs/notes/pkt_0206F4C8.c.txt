@@ -959,3 +959,13 @@ swapped (17); i0/j declaration order swapped (58); t reused as j (109) / as
 i0 (97). Unchanged 7.
 Also 7 with the long lever that closed 0x0206ECE0 and 0x02051C88 this wave: unsigned long n, i0, j, m; long a, b; unsigned long f, k, off.
 /* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above (7 without its volatile) -- unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 0x0206F4C8 unchanged at 7 (volatile-free)
+==============================================================================
+Under ../2.0/sp2p2 from the volatile-free wave-8 source (488/7): `a = a;`
+after or before the s16 y key read, `b = b;` and `a = a;` after the j read,
+`p = p;` before and after the i0 read (7 each); the j key as `j[(V2s *)p].y`
+and `(j + (V2s *)p)->y` (7 each). The j element address still coalesces with
+j's r3 instead of p's r1.
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above (7 without its volatile) -- unchanged */

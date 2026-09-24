@@ -352,3 +352,13 @@ before hi or after m (15 each). Permuter anneal 800, seed 2102, no --types:
 it again chases the 156-byte extent (156/40). No parameter is dead, no
 callee, so the u16-prototype and dead-parameter levers do not apply.
 /* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 15 holds
+==============================================================================
+From the wave 15 source (1.1p1), measured once each, all 154/15: `m = m;`
+before the loop, at the loop top, before `return f->unk70`, before `lo = 0`,
+after `m = m->pNext`, after the rebase; `hi = hi;` before the case-2 break;
+`long hi, lo`; dsi/1.2 (154/15). The self-assignment lever does not move the
+m/hi colouring here.
+/* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */

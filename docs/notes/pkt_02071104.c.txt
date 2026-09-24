@@ -517,3 +517,12 @@ The wave-13 source, measured once each: ../2.0/sp2 6 (reproduced); dsi/1.2
 local for _01/_10 6; origHeight cast to fx32 at both uses 6. No callees, so
 the u16/prototype levers do not apply.
 /* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 0x02071104 unchanged, DIFF 6
+==============================================================================
+Under ../2.0/sp2: NitroSDK-style `unsigned long u32` / `signed long s32`
+typedefs 6 (18 with the scaleT-first product); scaleT/transT as initialised
+block locals with the product `(s64)tt * ss` 6, plus `ss = ss;` 6, plus `tt
+= tt;` 6.
+/* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

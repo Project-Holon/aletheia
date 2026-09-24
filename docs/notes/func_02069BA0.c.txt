@@ -233,3 +233,11 @@ the shortfall computed after the refill store; the recursion as
 `acc = f(b, s); acc |= held << s;`; the refill as a static inline helper;
 `const u8 *cur`; `volatile` on the have field alone; dsi/1.2.
 /* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 6 holds
+==============================================================================
+From the wave 17 source (1.1p1), all 96/96 and 6 out: `signed long s32` /
+`unsigned long u32` typedefs; `long shortfall`; `long n`; `shortfall =
+shortfall;` after the have store and after its definition.
+/* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */

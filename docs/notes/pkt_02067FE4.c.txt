@@ -638,3 +638,16 @@ w-first into tmp/tmp1 18; w-log into sh and h-log into sw (swapped names)
 32; row pointer then += 2 * log_w 20; SizeToShift returning long 10; named
 lw/lh as int/long in all four combinations 18. Unchanged 10.
 /* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 -- the wave-11 source above -- unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 0x020681E4 unchanged, DIFF 10
+==============================================================================
+Under ../2.0/sp2. Logs w-first through named lw/lh (18), with `lw = lw;` or
+`lh = lh;` at three positions (18 each). Writing both logs in place, `if (w
+>= 8) lw = 3; else { lw = w; asm { clz lw, lw } lw = 31 - lw; }` and the same
+for h, gives exactly the image's instruction shape (movge/movlt/clzlt/rsblt
+in one register) with ONLY the two log registers exchanged (18: lw r7 / lh r6
+against the image's r6 / r7, then the row pointer and the new objWidth
+follow lh). `long lh` and self-assignments on that form: 18. The permuter
+cannot parse the asm block, so no run.
+/* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 -- the wave-11 source above -- unchanged */

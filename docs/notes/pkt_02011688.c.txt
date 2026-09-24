@@ -298,3 +298,14 @@ as the element cursor (`p = (void *)&p->f1c[idx]`, fields read through it,
 formed after it (50/25). The copy of the remainder ahead of the multiply is
 still not produced.
 /* best source, 52 bytes against 56, 26 concrete bytes out, 1.1p1 -- the wave 10 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 26 holds
+==============================================================================
+From the wave 10 source (1.1p1): `unsigned long idx` 52/26, `long idx`
+52/26, the early-return t[idx] form with u32 or unsigned long idx 50/14,
+dsi/1.2 52/26 and 50/14 on the two forms, the else arm written out
+(`} else { return 0; }`) 52/26, `&p->f1c[(long)idx]` 52/26, a `long i = idx
+% n` local 50/25. permuter anneal 800 --types seed 2301 from the 14-out form:
+best 44/56 via a u8 idx, rejected.
+/* best source, 52 bytes against 56, 26 concrete bytes out, 1.1p1 -- the wave 10 source above, unchanged */

@@ -499,3 +499,12 @@ between k8 and kb (the image's `movs r0, #0` sits there); dsi/1.2. The
 image loads k8, zero, kb and a4 before the f40 store; the compile loads kb,
 k8, zero and stores f40/f44 before loading a4.
 best-source marker: 12 out, 1.1p1 (wave 17 source, unchanged)
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 12 holds
+==============================================================================
+From the wave 17 source (1.1p1), measured once each, all 90 bytes and 12
+out: kb declared before k8; `unsigned long kb`; `unsigned long k8`; `kb =
+kb;` after its load; `k8 = k8;` after kb's load plus `kb = kb;` before the
+f40 store; k8/kb as initialised block-scope locals in both orders.
+best-source marker: 12 out, 1.1p1 (wave 17 source, unchanged)

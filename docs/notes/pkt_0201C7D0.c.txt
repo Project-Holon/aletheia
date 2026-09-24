@@ -364,3 +364,21 @@ cast is folded before value numbering). The two-extern lever that closed
 0x0202271C does not apply: this image reloads ONE pool word three times,
 so one name is right; the question stays which value 1.1p1 gives r4.
 /* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_c): 2 (sp2) / 37 (1.1p1) hold; the three-name probe measured
+==============================================================================
+The untried lever (a second extern name per duplicated pool word) measured
+under 1.1p1 from the wave 11 source: three externs g_0214655C, _b, _c, all at
+0x0214655C, one per call site. EVERY INSTRUCTION of the 48 code bytes is then
+byte-identical to the image (r4 = the stacked z, the address reloaded at each
+site, the 1.1p1 stacked-u16 base), but the pool holds three words: 64 bytes
+against 56, 10 out, all pool offsets and pool words. So under 1.1p1 the whole
+residue is the value numbering of one address across three sites; the image's
+single pool word says one name. Also measured: `((struct Scratch
+*)0x0214655C)` at each site 37 (the constant is cached the same way); a
+`static struct Scratch *const` alias 64 bytes (a real load); the object
+defined `static` in the TU 37; -lang c++ the same shape (25 only because the
+mangled callees are wildcarded). Still no single front end or spelling with
+one pool word and no caching.
+/* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */
