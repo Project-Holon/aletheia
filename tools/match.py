@@ -71,7 +71,7 @@ from libmatch import (  # noqa: E402
 from cw import versions_dir, verkey  # noqa: E402
 import env as toolenv  # noqa: E402  (compiler location and wine runner)
 
-SDK_INCLUDE = os.path.join(ROOT, "sdk", "TwlSDK", "include")
+SDK_INCLUDE = "sdk/TwlSDK/include"
 
 # ---------------------------------------------------------------------------
 # compiler configuration
@@ -1326,7 +1326,7 @@ def sdk_symbols():
 _SDK_ADDRS = {}
 
 
-def sdk_addresses():
+def sdk_addr_index():
     """{address: (name, thumb)} from layout/symbols_sdk.json, the inverse of
     sdk_symbols().  Kept separately because attest_sdk() looks a call or
     ABS32 *target* up by address, the same direction runtime_addresses()
@@ -1361,7 +1361,7 @@ def attest_sdk(addr, kind):
     """
     if kind not in ("thumb", "arm"):
         return None
-    found = sdk_addresses().get(addr)
+    found = sdk_addr_index().get(addr)
     if found is None:
         return None
     _name, thumb = found
