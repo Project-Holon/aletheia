@@ -383,3 +383,28 @@ multiplies into a copy of the remainder. No spelling gives both. permuter
 anneal 1500 --types (seed 2955) from the 14-out form with unsigned long idx:
 best 56/56 at 50 out (temporaries plus a u8 type), rejected.
 /* best source, 52 bytes against 56, 26 concrete bytes out, 1.1p1 -- the wave 10 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane bgwinfrm_anime): 14 holds
+==============================================================================
+Measured from the 50/14 source (1.1p1): u8 ret 50/14; long i 50/14; idx %= n
+then function-scope i = idx 50/23; a block copy j = i used for the three reads
+50/14; if (==) {...} else { return 0; } return 1; 54/27 (two epilogues, but
+the return-1 arm is out of line behind a `b`); if (!=) return 0; else {...
+return 1;} 52/34; ret = 1 / else ret = 0 52/31; idx %= n with a block
+`u32 i = idx` 50/23; `if (==) {...; return 1;} return 0;` with the named i
+52/31 (image layout exactly: fall-through body, `movs r0, #1; pop`, then the
+`movs r0, #0; pop` epilogue; missing only the pre-compare copy r1 -> r2, so
+the multiply copy lands in r2 and the table base is loaded before the 12);
+the same two-return form with idx %= n and a block i, t[idx], a byte offset,
+long i, or idx %= n plus a function-scope i: 50/25, 50/25, 52/26, 52/31,
+50/25 (the idx %= n forms merge the epilogues); declaration-order sweep of
+n, i, t, ret in both the ret form and the two-return form (48 compiles): 50/14
+and 52/31, order inert.
+permuter.py anneal 1500 --types seed 3306 from the 14 source: nothing at 56
+bytes below 45 out; it then drifted into truncated compiles (4 to 28 bytes)
+that the score ranked above the baseline, so no result.
+Where to start next: the 52/31 two-return form has the image's block layout
+and epilogues; what is missing is only the remainder landing in r2 before the
+compare (the `idx %= n` homing) while the multiply still works on a copy.
+No spelling so far gives both.

@@ -428,3 +428,31 @@ void func_0202CC70(struct WinMgr *mgr, u32 idx)
     g_020A0058[mgr->mode](win->bg);
 }
 re-verified 2026-09-24 by tools/match.py: DIFF, 244 bytes against 244, 47 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-24, wave 19 (lane bgwinfrm_anime): 0x0202CC70 244/47 -> EXACT
+==============================================================================
+Filed as src/matched/func_0202CC70.c (EXACT, 1.1p1), shard pkt_0202CC70
+verified twice. Measured from the 244/47 source (1.1p1):
+  long y, unsigned long y, long sy, long y1, long y and sy: 47 each;
+  a named local `xmax = win->xmax` read by the guard and the right clip, as
+  long or s32: 47; as unsigned long 49 (unsigned compare, rejected);
+  declaration-order sweep with the long xmax in place (800 random orders
+  keeping sx, h, y, sy in their relative order, seeds 3301/3302): classes
+  47, 49, 36 and 12; the 12 class closes the r1/r2 swap (e.g. oh, sx, w, ow,
+  x1, xmax, h, y, y1, sy); s32 xmax in the same order is also 12, so the long
+  is not what moved it; the named xmax plus the order is;
+  on the 12 source: sx = win->x written before ow = w 8 (sx store in place);
+  the callee's own prototype (u32, int, int, int, u8, u8, u8) 12 / 8, all-u8
+  prototype and no casts 12; clip `oh -= (s8)(sy - y)` 12;
+  on the 8 source: oh update before sy = ymin 240/193; a named ymin local
+  declared last 8, declared first 21; compound -= on ow/oh 8; bg read into a
+  block local ahead of the call 8; a second order sweep (400, seed 3303) 8 at
+  best.
+  permuter.py anneal 1500 --types seed 3304 from the 8 source: EXACT at 350
+  compiles (self-assign, s8 sy, two temps, a u32->s32 temp). Minimised by
+  hand: `s8 sy` alone closes it (value-preserving: sy only holds win->y or
+  win->ymin, both s8). Without the named xmax 35, with the original
+  declaration order 39/35. Tidy orders `s8 oh, ow; s32 sx; s32 w, h; s32 x1,
+  xmax; s32 y, y1; s8 sy;` and three others all EXACT.
+Idiom: docs/idioms/an-s8-local-holding-only-s8-fields-reloads-a-spilled-value-instead-of-copying.md
