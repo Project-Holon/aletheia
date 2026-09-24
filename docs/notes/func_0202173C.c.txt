@@ -505,3 +505,28 @@ the free `str r3, [sp, #8]` is a filler; in the image the store leads,
 which needs the store ordered before the [sp,#0x38] loads (a memory
 dependence), not a register one. No spelling in this lane creates it.
 /* best source, 268 / 232 bytes against 268 / 232, 33 concrete bytes out each, 1.1p1 -- the first section's source -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 20 (lane palanm_fresh): 0x0202173C / 0x02021848 EXACT, filed
+==============================================================================
+Rewritten from the image, not from the sources above. Both EXACT under
+1.1p1 -O4,p (with and without the SDK include path), filed as
+src/matched/func_0202173C.c and src/matched/func_02021848.c, shard
+pkt_0202173C verified twice (1 rewritten, then 0). No permuter.
+
+What closed it: the parameter widths, all read from func_020219C4's own
+matched body. Signature
+  int f(PalAnmObj *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx)
+with the callee prototype
+  void func_020219C4(void *s, u16 f0, s32 a, u8 b, u8 c, u16 d);
+Measurements (twin unless noted):
+  fresh draft, s32 step, u8/u8/u16 b/c/d, narrow prototype           33
+  s16 step (same draft)                                          EXACT
+  u16 step / s8 step                                              EXACT
+  s16 step with u32 b/c/d (narrowing at the call)                  244
+  s16 step, u8/u8/u16 b/c/d, prototype u32 b/c/d                   236
+  main function, same spelling (with the a_big test and |=)     EXACT
+The wave-15 row "a u16/s16/u8/s8: 34" and "narrowing b/c/d as well costs
+4 bytes (236)" were each one half of the fix: the prototype stayed u32.
+Idiom: docs/idioms/narrow-stack-parameters-and-callee-prototype-free-the-narrow-home-store.md

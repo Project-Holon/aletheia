@@ -893,3 +893,29 @@ Untried: which node of the r0 family (chain temps, row, sel reload, arm p
 reloads, alt copies) sets its priority; a source that changes the tail's
 peak pressure below 8 before scheduling (then the order would be forced
 rather than heuristic); the tail loop's alt/sel arms inverted per arm.
+
+==============================================================================
+2026-09-24, wave 20 (lane musical_fresh, 20Q): func_0200CA98 DIFF 89 -> EXACT
+==============================================================================
+Fresh rewrite, not derived from the source above. Filed as
+src/matched/func_0200CA98.c (EXACT, 392 bytes, both table literals resolved).
+Shape: struct Blk37 pointer, u16 id, four inline helpers (FormSetBit /
+FormResetBit on a flat u16 index; SetBit / ResetBit that do `no--` first, the
+HGSS zukan-style 1-based species bit), the walk as the sibling
+func_0200C7C0's do/while, the form path inside the match arm ending in
+`break`, the tail as a four-row ResetBit loop and the sel/alt six-arm SetBit
+chain (same shape as sub_0200C818). The two facts that closed it:
+  1. Inline helpers, not hand-written expressions: they give the shared
+     off/bit/mask values the image reuses across the clear loop and the arms.
+  2. `(u8 *)` casts on every row argument. Without them 1.1p1 reassociates
+     each address as (p + off) + K, keeps the constants in registers, keeps p
+     in r7 and spills alt instead: that was the whole "rotation" of waves 19
+     and 20. With them p + K is the hoisted invariant and p goes to [sp].
+Measurements (14): plain expressions 452; inline helpers 468; u8 *p with
+index arithmetic 408; decrementing tail helpers 404 (arms right, loop still
+reassociated); tail loop `(u8 *)p->unk1AC + i * 0x54` 366 out (tail
+exact); `&p->unk1AC[0][0] + i * 0x54`, `&p->unk1AC[i][0]` and
+`(u8 *)p + 0x1AC + i * 0x54` all 389 (no change); form rows
+`(u8 *)p->unk2FC + 2 * 9` 356, `(u8 *)p + 0x30E` 366; casts on the form rows too: EXACT; casts on every call: EXACT
+(kept, uniform); plain helpers called with `id - 1` instead of decrementing
+helpers: DIFF (kept the decrementing pair). No permuter run.

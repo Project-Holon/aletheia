@@ -16,12 +16,19 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0201D768"
-    ]
-   }
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0201D768",
+   "address": "0x0201D768",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0201D768.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
   },
   {
    "name": "unit_0201D7C4",
