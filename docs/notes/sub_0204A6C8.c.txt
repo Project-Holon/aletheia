@@ -307,3 +307,16 @@ address, or initialised at its declaration, passed and stored: 4 each; slot
 address after the load call 188; flags masked by two compound statements
 on the u16 parameter 99; `unk_3c = unk_3c & ~1` 4.  Unchanged.
 /* best source, 216 bytes against 216, 4 concrete bytes out, dsi/1.1p1 -- the WHAT THE C IS source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane 19K mcss_small_3): 0x0204A6C8 4 -> 0, EXACT, filed
+==============================================================================
+Filed as src/matched/sub_0204A6C8.c (dsi/1.1p1, 216/216, all sites
+resolved), packet pkt_0204A6C8 (the worklist packet holding 0x0204A6C8 and
+0x0204A7A0).  Measured:
+  1. the WHAT THE C IS source rebuilt: 4.
+  2. the guard inverted, `if (i != (u32)-1) { slot ...; return i; }
+     return -1;`: EXACT.  The same lever closed the sibling 0x0204A7A0 in
+     this lane.  The long recipe was not needed.
+Idiom: docs/idioms/an-inverted-guard-returns-the-compare-constant-register.md.

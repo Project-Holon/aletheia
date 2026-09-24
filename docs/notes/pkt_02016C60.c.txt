@@ -1438,3 +1438,29 @@ serialises the pass-2 loads through one register, so the post-pass
 scheduler cannot hoist.  The colour choice is upstream of every spelling
 tried.
 /* best source, 870 bytes against 872, 29 concrete bytes out, dsi/1.1p1 -- the 2026-09-24 wave-18 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane 19K mcss_small_3): 0x02016C60 unchanged, DIFF 29
+==============================================================================
+The long-plus-order recipe, from the wave-18 best source (re-verified 29):
+  1-4. `long i2`, `long j2`, `unsigned long i2`, `unsigned long j2`: 104 each.
+       A long pass-2 index moves the frame (step's slot drops from 0x78 to
+       0x30 and every named slot above it shifts one word); the pass-2
+       header keeps the pointer in r0.
+  5. sweep of the six pass-2 declarations (sx2 sy2 w2 h2 i2 j2, 720 orders)
+     with long i2: best 94, header still r0.
+  6. the same sweep with long j2: best 96.
+  7. permuter, 870-extent wrapper, anneal --types, 1500 compiles (two 750
+     chunks, seeds 3001 and 3002) from the 94 long-i2 source: best 79.
+  8-11. `long` on w2, h2, sx2, sy2 one at a time: 29 each (no frame move,
+     no register move).
+  12. sweep of the six pass-2 declarations with long sx2: only the original
+     order is 29, every other order 33 or worse (the frame follows the
+     order, as wave 18 found).
+  13-14. the record pointer as a block-scoped `unsigned long p` built as
+     `(unsigned long)a0->f2c + k * 0x30` or from the u8 pointer sum, fields
+     through `((struct Rec *)p)->`: 29 each.
+Reading: long moves the frame here, not the header colouring; the pointer
+register is unaffected by integer width, by any pass-2 declaration order
+that keeps the frame, and by the pointer's own type.
+/* best source, 870 bytes against 872, 29 concrete bytes out, dsi/1.1p1 -- the 2026-09-24 wave-18 source above, unchanged */

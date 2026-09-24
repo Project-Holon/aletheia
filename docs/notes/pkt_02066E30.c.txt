@@ -2059,3 +2059,21 @@ compiles) all 2; halfW/halfH made non-const with `halfW = halfW;` /
 `halfH = halfH;` at four points all 2; halfW/halfH as long 2; dx/dy as long
 2; `pV->y = dy + pM->_11 * halfH + pV->y;` 2.  Unchanged.
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane 19K mcss_small_3): 0x02067080 unchanged, DIFF 2
+==============================================================================
+../2.0/sp2, from the wave-13 source (re-verified 2).  The adjust inline's
+declarations rewritten as halfW, halfH, `dx; dy;` with `dx = -(halfW << 12);`
+as a statement (same 2), then every order of the four swept (24 each):
+  1. long dy: 2 (12 orders) / 22 (halfH before halfW).
+  2. long dx: 2 / 22.
+  3. long dx and dy: 2 / 22.
+  4. const long halfH: 2 / 22.
+  5. NNSG2dFVec2 with `long y`: 2.
+  6. NNSG2dFVec2 with long x and y: 2.
+The function has no index variable; the y web is the only candidate and no
+width or order of it moves the +0x21C tie (y read into ip against the
+image's r6).  Unchanged.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

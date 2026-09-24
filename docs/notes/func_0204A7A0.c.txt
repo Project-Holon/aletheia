@@ -448,3 +448,25 @@ Every spelling that makes the returned value the constant recolours the
 whole function (-1 in lr, heapId in r8); every spelling that returns i keeps
 the colouring and returns r6.  Unchanged.
 /* best source, 308 bytes against 308, 1 concrete byte out, dsi/1.1p1 -- the wave-18 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane 19K mcss_small_3): 0x0204A7A0 1 -> 0, EXACT, filed
+==============================================================================
+Filed as src/matched/func_0204A7A0.c (dsi/1.1p1, 308/308, all six sites
+resolved).  Measured:
+  1. sweep of the five declarations (120 orders) with `unsigned long i`,
+     `return i`: 1 (60 orders) or 19; only slot-before-i matters.
+  2. the same with `return -1`: 37 or 47.
+  3. slot as `unsigned long` (cast at each use), 120 orders, `return i`: 1/19.
+  4. the same with `return -1`: 37/47.
+  5. the scan as a static inline helper returning i or (u32)-1, then
+     `if (i == (u32)-1) return i;`: 1.
+  6. the same with `return -1;`: 47.
+  7. `if (i == 0xFFFFFFFF) return -1;`: 47.
+  8. the missing-return idea does not apply: at the early exit r0 holds the
+     g_02146A74 pointer, and the image sets r0 explicitly on both paths.
+  9. the guard inverted, `if (i != (u32)-1) { body; return i; } return -1;`:
+     EXACT (also with unsigned long i).
+ 10. 9 with i declared before slot: 18.
+Idiom: docs/idioms/an-inverted-guard-returns-the-compare-constant-register.md.
