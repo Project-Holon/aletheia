@@ -29,17 +29,19 @@ byte-matching ROM.
   - [x] Disassemble with `tools/disasm.py` (ARM/Thumb, code/data split)
   - [x] Reassemble byte-identically (`tools/build.py`: 242 of 242 regions PASS; 243 of 243 with the DSi-mode region `twl`, decrypted with a user-supplied key)
   - [x] Split ARM9 into ordered translation units
+  - [x] Decrypt overlay 230's self-encrypting code for disassembly (`tools/ovcrypt.py` replays the game's own decryptor; no key needed)
 - [~] **Milestone 3**: Incremental decompilation to matching C
   - [x] Build system compiles C and links against remaining assembly
   - [x] Pokémon data field map and the message text cipher (`src/matched/`)
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
   - [x] About 1000 original source filenames recovered from `__FILE__` anchors (`layout/file_anchors.txt`)
-  - [x] 100% of ARM9 game code ships as verified C (4422 functions, updated at every wave integration)
+  - [x] 100% of ARM9 game code ships as verified C (4422 functions, 400306 of 400306 bytes; reached in wave 21, 2026-09-24, and confirmed by a full ROM rebuild against the cartridge SHA-1)
   - Verified means recompiled and byte-identical to the original at every integration; unmatched functions are carried as reassembled listings so the ROM always rebuilds byte for byte.
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
   - [ ] Field and battle loop call trees
-  - [ ] 100% matching
+  - [ ] Overlays: the 237 overlay regions are still carried almost entirely as reassembled listings (a handful of functions in ov009, ov010, ov021 and ov228 are matched)
+  - [ ] 100% matching across the whole ROM
 
 - [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
 - [ ] **Milestone 5**: Pokémon White support
