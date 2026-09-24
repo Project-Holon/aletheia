@@ -8,7 +8,7 @@ for this repository.
 
 ## Overlays
 
-237 overlays, 2,375,996 code bytes, 26,527 functions, 68,476 matched (2.8820%).
+237 overlays, 2,375,996 code bytes, 26,527 functions, 74,600 matched (3.1397%).
 
 ![Overlay coverage map](docs/coverage_overlays.svg)
 

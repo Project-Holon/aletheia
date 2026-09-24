@@ -143,3 +143,157 @@ path, so one lane's stale shard blocks the whole repository, not one packet.
 The ov010 lane was still normalising its packet ids at the time and the
 condition cleared by itself.  Anyone who sees it should wait rather than
 edit another packet's shard.
+
+================================================================================
+Lane O46 (ov170, packet pkt_021DC9A0) - residues closed, residues open.
+================================================================================
+
+The two residues lane O33 left open are both SETTLED, and both were the same
+kind of question again: a register-order byte is a claim about the SHAPE of
+the source expression, not about its spelling.
+
+--------------------------------------------------------------------------------
+func_021E2154 @ 0x021E2154 - SETTLED, EXACT, 24 bytes.
+--------------------------------------------------------------------------------
+O33's seven spellings all compiled the last load as `ldr r1,[r3,r1]`; the
+image has `ldr r1,[r1,r3]` (Rn = the pool-loaded table base, Rm = i*12).
+Every earlier instruction already matched, so only the Rn/Rm roles differed.
+
+The spelling that flips them is a POINTER VARIABLE holding the element's
+address -- take the address of the subscript, then dereference the member:
+
+    extern struct Ent { void (*fn)(void *); int a; int b; } g_021EFA28[];
+    int func_021E2154(unsigned char *p)
+    {
+        struct Ent *e = &g_021EFA28[p[0x12]];
+        e->fn(p);
+        return 10;
+    }
+
+with `g_021EFA28  0x021EFA28  data  ov170` on the symbols: line.  A direct
+member access `g_021EFA28[i].fn(p)` (and six other spellings) encode the same
+load with Rn = the index.  So: when only the two register FIELDS of one load
+differ and both operands are already right, hoist the element address into a
+pointer variable -- mwccarm then treats it as the base.
+
+--------------------------------------------------------------------------------
+func_021EBF34 @ 0x021EBF34 - SETTLED, EXACT, 28 bytes (new this lane).
+--------------------------------------------------------------------------------
+Same family.  `int *q = (int *)(p + 0x9E74); q[i]` and five other spellings
+gave the index in r1/r4 and the pool constant in r5/r2; the image has r4 =
+p+0x9E74 and r5 = i*4.  It comes out of a struct with a flexible tail array:
+
+    struct S { char pad[0x9E74]; int arr[1]; };
+    if (p->arr[i] != 0) { func_0204B3B4(p->arr[i]); p->arr[i] = 0; }
+
+Sibling func_021EBFA8 also needs the constant FIRST in a plain expression:
+`*(int *)(p + 0x9E74 + i * 4)` is EXACT, `*(int *)(p + i * 4 + 0x9E74)` puts
+the index in the base register and is 2 instructions out.  Same effect, two
+different spellings depending on whether the source has a struct or not.
+
+--------------------------------------------------------------------------------
+Parked MATCH (src/pending/), one class, now five instances.
+--------------------------------------------------------------------------------
+func_021DE898 (O33), func_021DCDF0, func_021EE520, func_021EEF74, func_021ECA38.
+Every concrete byte matches in all five; each caps at MATCH on a single
+THM_CALL to an ARM9 address that the branch index has no independent witness
+for: 0x02012F98, 0x0207D63C, 0x0202616C (twice), 0x0204B5AC.  Declaring the
+target thumb/arm/nothing changes nothing.  Note the contrast: sibling calls
+to func_0204B3DC / func_0204B588 / func_0204B570 at the same page DO resolve,
+because another region calls them too.  It is a per-address property of the
+witness index, not a property of the overlay.
+
+--------------------------------------------------------------------------------
+Residues still open (DIFF, byte counts of the whole function):
+--------------------------------------------------------------------------------
+func_021EC08C  36 bytes, scheduling only: the image stores the second
+    parameter-short (strh r3,[r4,#2]) BEFORE the pool load, mwcc stores it
+    after.  Two spellings compiled (array assignment and a 5-argument call).
+func_021EDBE8  36 bytes, the loop-invariant table byte lands in r2/reloads
+    inside the loop instead of once in r0 before it (3 spellings).
+func_021EECB0  48 bytes, the self-store shape `*(int *)(x+0xA168) =
+    *(int *)(x+0xA168)` after the 0x70 call is what the image shows; the
+    compiler hoists and merges differently (2 spellings).
+func_021EBF74  48 bytes, the element value is reloaded for the second call in
+    the image (r0) and kept in a callee-saved register by mwcc (r5); the
+    range-check form `(unsigned)(a-5) <= 1` of func_021EECB0 also came out
+    with the arms swapped.
+func_021EC428  48 bytes, same constant-vs-index base question as func_021EBF34
+    but written with three calls; constant-first did not fix it here.
+func_021DF254  52 bytes, the wrap-around tail (w - 0x24 + p[0x19], one
+    conditional subtract, compare with p[0x14]).
+
+--------------------------------------------------------------------------------
+Free lessons measured this lane (each cost at least one DIFF first).
+--------------------------------------------------------------------------------
+1. A callee INSIDE the region that the image calls with `bl` needs BOTH a
+   symbols: entry AND the region token, or match.py refuses with "the source
+   declares arm, the image says thumb".  That includes callees that are
+   already MATCHED (func_021EF660, func_021E8FC0) -- and SDK functions the
+   sdk index knows are thumb (`func_0207D63C  0x0207D63C  thumb`).  Nine
+   functions this lane first compiled as a bare usage error or ISA conflict
+   for exactly this reason.  ARM9 callees the index does NOT know still need
+   no entry, and that is the signal that they will cap at MATCH (see above).
+2. An unsigned loop counter is not optional when the image has `blo`:
+   func_021EF4C0, func_021EF4E4, func_021EF5C4, func_021EAAC4 all compiled
+   `blt` from an `int i` and `blo` from `unsigned i`.  Four for four.
+3. A pool word that holds a Thumb CODE pointer is passed as a plain integer
+   literal of the odd address (0x021E01C5, 0x021E070D, 0x021E0E51) and
+   resolves EXACT without any symbols: entry.  Declaring the target also
+   works (func_021EA83C compiled EXACT both ways); the literal needs no
+   header at all and never risks rule 1's even-address trap.
+4. `cmp r0,#1` + `bne` on a callee's result: write the arm the image branches
+   TO last, i.e. `if (v == -1) return 0xff; return v + 0x24;` (func_021EF224,
+   0xff arm at the branch target) is EXACT, the `if (v != -1)` spelling moves
+   the blocks and is out.  Same as rule 2 of the previous lane, confirmed on
+   a second shape.
+5. A run of same-shape wrappers is worth pattern-generating: six functions
+   (func_021E2B48, func_021E3BF8, func_021E498C, func_021E4E6C, func_021E62BC,
+   func_021E7258) share one 64-byte body that differs only in the mid call
+   (func_021EF670 / func_021EF68C), the state byte and the selector pointer.
+   One draft and five copies cost six compiles for 384 bytes.
+
+--------------------------------------------------------------------------------
+Lane O46, second half: lessons 6-8 (same packet, same session).
+--------------------------------------------------------------------------------
+6. When the image compares a CALL RESULT and the operand order is the only
+   difference (`cmp r0,r5` in the image, `cmp r5,r0` compiled), give the
+   result a LOCAL variable and test it: `unsigned char c = f(...); if (c != a)
+   continue;` -- func_021EDB34, 48 bytes, 1 byte out for three spellings until
+   then.  A cast in the call expression (`(unsigned char)f(...)`) does not do
+   it, and neither does writing the comparison the other way round: mwccarm
+   puts the non-lvalue operand first when the result is used directly.
+7. When the image re-evaluates its bound at the bottom of the loop, write a
+   `while`, not a `for`: func_021DD42C re-calls the length helper in both the
+   entry test and the back edge, which a `for (; i < len(); i++)` also gives,
+   but the entry test then has to be the SAME test the image has -- with
+   `for` mwcc rotated the loop differently in two other functions.
+8. Two more same-body sibling pairs landed the same way as the six-member
+   wrapper family: func_021EE9C4 == func_021EE7C4 (48 bytes, selector
+   0x021E066D, word 0xA168) and func_021EE520/func_021EEF74 share the SDK
+   lookup.  Before writing a body, diff its neighbours' listings: a run of
+   identical opcode shapes is one source with different constants.
+
+--------------------------------------------------------------------------------
+Lane O46 final tally (ov170 / pkt_021DC9A0) and what is left.
+--------------------------------------------------------------------------------
+Filed: 77 functions, 3060 bytes, 57 EXACT + 20 EXACT* (match.py exits 1 on a
+shard that holds EXACT* entries -- that is the summary wart, not a failure).
+The shard went from 105 to 182 entries, all EXACT or EXACT*.
+
+Parked in src/pending/ (5 entries, one class, every concrete byte right):
+func_021DCDF0, func_021EE520, func_021EEF74, func_021ECA38 (this lane) and
+func_021DE898 (lane O33).  Each caps at MATCH on one THM_CALL to an ARM9
+address the branch index cannot witness: 0x0207D63C, 0x0202616C (twice),
+0x0204B5AC, 0x02012F98.  No caller-side source change can move these.
+
+Still DIFF, closest first: func_021EC08C (36, store scheduling), func_021EDBE8
+(36), func_021EBF74 (48), func_021EECB0 (48), func_021EC428 (48),
+func_021DF254 (52), func_021EE544 (56), func_021EA8CC (60), func_021EDA70 (64).
+None was blocked by a missing callee or by tooling; all nine are register
+allocation or scheduling, so the next lane should treat them as "try the
+sibling shape" work, not as walls.
+
+Everything the two residues of lane O33 were about is settled: func_021E2154
+(operand order, pointer variable) and a second instance of the same question,
+func_021EBF34 (base/index, struct tail array), both EXACT.

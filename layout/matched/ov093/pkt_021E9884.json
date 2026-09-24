@@ -1,0 +1,78 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov093",
+ "shard": "pkt_021E9884",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_021E9884",
+   "address": "0x021E9884",
+   "kind": "game",
+   "region": "ov093",
+   "source": "src/matched/func_021E9884.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021E989C"
+    ]
+   }
+  },
+  {
+   "name": "func_021EA3A0",
+   "address": "0x021EA3A0",
+   "kind": "game",
+   "region": "ov093",
+   "source": "src/matched/func_021EA3A0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021ED4D0"
+    ]
+   }
+  },
+  {
+   "name": "func_021EA838",
+   "address": "0x021EA838",
+   "kind": "game",
+   "region": "ov093",
+   "source": "src/matched/func_021EA838.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021ED56C"
+    ]
+   }
+  },
+  {
+   "name": "func_021EA850",
+   "address": "0x021EA850",
+   "kind": "game",
+   "region": "ov093",
+   "source": "src/matched/func_021EA850.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021ED57C"
+    ]
+   }
+  }
+ ]
+}
