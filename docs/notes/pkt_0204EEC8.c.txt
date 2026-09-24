@@ -432,3 +432,88 @@ void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
     dst->f0a = _s32_div_f(dst->f04, dst->f08);
     dst->f0b = _s32_div_f(dst->f06, dst->f09);
 }
+
+==============================================================================
+2026-09-24, wave 20 (lane pms_billboard): 0x0204EEC8 DIFF 20 -> 14
+==============================================================================
+From the wave-19 source (20), every row 144/144 and 5 of 5 relocations unless
+noted.
+Small parameters: u16 idx 20; u16 b 20; u16 fmt 20; u16 c 22; u8 b 20.
+Table loads into locals sz, ps, pt (declared in the image's first-write
+  order, or assigned after f04): 20. Declaration-order sweep of {sb, st, sz,
+  ps, pt} (60 dependency-respecting orders) with u32 idx and with unsigned
+  long idx: all 120 at 20.
+Other spellings: a `one` local for both shifts 20; sb + 3 / st + 3 as
+  locals (each, both) 20; `struct Cell *const dst` 20; 1U shifts 20;
+  `(u8)c` 20; u32 table indexed [sb * 2] / [sb << 1] 93 (152 bytes, 2 of 5);
+  one [][2] table 20; gTexParamS[st].pad 20.
+permuter anneal --types, budget 800, seed 4302, from the 20 source: 14 via
+  decl-order(sb<->st) plus expand(st x2), i.e. st removed and `fmt & 7`
+  written at both uses. Minimised by hand (the permuter output file has no .c
+  extension and match.py scores it 3 of 5; copied to .c it is 5 of 5): st deleted outright 14; sb also inlined
+  (no locals) 14; u32 / unsigned long sb 14.
+Store-order sweep of all 720 orders of {f06, f09, f14, f18, f1c, f08} after
+  f04 on the 14 source, unresolved relocations penalised: floor 14 at the
+  current order (and f08 f09 swapped, and f08 before f06), next 19.
+From the 14 source: (u16) casts on both shifts 14; u32 fmt 15; u16 / u8 sb
+  107 / 104 (148 bytes, 2 of 5); unsigned long idx 14; u8 b 14; u16 idx 14.
+THE LEVER: no named st. As a local (any width) st got its own web; written
+  as `fmt & 7` twice it is a CSE temporary, and the st half of the rotation
+  closes (st r7, st + 3 r0, gTexParamT base r6 as in the image).
+RESIDUE (14 bytes, 5 of 5): a three-register rotation on the sb side only.
+  Image sb ip, sb + 3 lr, the constant 1 r5, c lr, the S value ip, the T
+  value r5; compile sb lr, sb + 3 r5, 1 ip, c r5, S lr, T ip. Removing sb as
+  a name does not move it.
+/* best source, 144 bytes against 144, 14 concrete bytes out, 5 of 5 relocations resolved, 1.1p1 */
+/*
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ *
+ * symbols:
+ *   _s32_div_f   0x0209C0A4  arm
+ *   gTexSizeTbl  0x020A14C0  data
+ *   gTexParamS   0x020A14D4  data
+ *   gTexParamT   0x020A14D8  data
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Cell {
+    u8  pad_00[4];
+    u16 f04;
+    u16 f06;
+    u8  f08;
+    u8  f09;
+    u8  f0a;
+    u8  f0b;
+    u8  pad_0c[8];
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+};
+
+struct Pair8 { u32 w; u32 pad; };
+
+extern s32 _s32_div_f(s32 a, s32 b);
+extern const u32 gTexSizeTbl[];
+extern const struct Pair8 gTexParamS[];
+extern const struct Pair8 gTexParamT[];
+
+void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
+{
+    s32 sb = (fmt & 0x70) >> 4;
+
+    dst->f04 = 1 << (sb + 3);
+    dst->f14 = gTexSizeTbl[idx];
+    dst->f18 = gTexParamS[sb].w;
+    dst->f1c = gTexParamT[fmt & 7].w;
+    dst->f06 = 1 << ((fmt & 7) + 3);
+    dst->f09 = c;
+    dst->f08 = b;
+    dst->f0a = _s32_div_f(dst->f04, dst->f08);
+    dst->f0b = _s32_div_f(dst->f06, dst->f09);
+}
