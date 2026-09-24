@@ -1913,3 +1913,89 @@ void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
     wk->drawn = 1;
     wk->ready = 1;
 }
+
+==============================================================================
+2026-09-24, wave 21 (lane E8): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+The five untried spellings from the wave 21 research report, in the report's
+order. All 1.1p1 -O4,p Thumb, one `match.py one --diff` each, 73 compiles, no
+permuter. Scratch: /tmp/aletheia_laneE8. Four sources were used:
+  "base" = the wave-19 source (2 out);
+  "s21"  = base with the wp copy removed and the g call passed (void *)w
+           (21 out, o=r7, w=r6);
+  "e7"   = lane E7's fresh draft (2 out);
+  "e7s"  = e7 with the g call passed `param` (21 out).
+o is read off +0004. Every line is 412/412 unless a size is given. A 2 always
+means the +008E residue, and a 21 always means the plain o/w swap.
+
+(1) w's def inside the first call's argument list:
+  `func_0202465C((void *)(w = (unsigned long)ws), 1, c3);`
+      base 2, s21 21. The e7 form `func_0202465C((MSGPARAM *)(param = &mp), 1, heap)`:
+      e7 2, e7s 21.
+  `h = func_0202441C((void *)w, cnt = c3);`
+      base 12 (o=r6; only the cnt/n/h spill slots are reordered, and the +008E
+      residue remains), s21 31. The e7 form `str = func_0202441C(param, heapID = *(u16 *)&heap)`:
+      e7 9 (slots), e7s 28.
+  both together: base 12, s21 31, e7 9, e7s 28.
+  Extra spellings in the same class:
+    `w = (func_02024570(ws, (void *)w), (unsigned long)ws);`
+        400/374 on base and on s21 (the whole of w folds, like a second def);
+    the same comma inside the 465C argument: 400/374;
+    `func_02024570(ws, (void *)w), w = (unsigned long)ws;` base 2, s21 21;
+    the wp copy's def inside the 465C argument (`func_0202465C(wp = (void *)w, 1, c3)`): 2;
+    the same inside the 441C argument: 12 (slots).
+  An assignment inside an argument is created where it is evaluated, but the w
+  web and its constant fold are the same as when it is written as a statement.
+
+(2) Arity:
+  `n = (u8)func_0201D478(h)` (with a `void *` prototype):         base 2, s21 21;
+  `func_02041B6C(func_02045730(o->f00))` (u32 bit):               base 2, s21 21;
+  the same with a u8 func_02045730:                               base 2, s21 21;
+  all three:                                                      base 2, s21 21;
+  e7 with func_0201D478 back to (void):                           2.
+  No other call in the listing has a leftover argument register. At +008A,
+  r1 and r2 are cnt and n, which the g call already takes.
+
+(3) const:
+  `const struct Cs *cs` (the parameter and func_0202E040's prototype):   base 2, s21 21;
+  const on only the parameter:                     CCERR (the prototype passes it on);
+  `const void *` first parameter, one at a time, on
+  func_0202441C / func_020244F8 / func_020244D4 / func_02024368:  base 2 each, s21 21 each;
+  the four prototypes together:                                   base 2, s21 21;
+  all five together:                                              base 2, s21 21;
+  e7/e7s with every const removed (prototypes and param):         2 / 21;
+  e7/e7s with pos not const:                                      2 / 21.
+  const changes nothing here.
+
+(4) The stack parameters as one by-value struct, w as its first member:
+  `struct Args { unsigned long w; struct Cs *cs; u16 c1; u32 c2; volatile u16 c3; }`
+      base 408/272, s21 408/272. The frame becomes sub sp, #0x50, the
+      renormalising ldr/str pairs are gone, and args.w stays in memory.
+  the same with a plain u16 c3:                                   408/272;
+  `struct { unsigned long w; }` only (the others stay parameters):
+      400/374 on base and on s21. args.w folds entirely to &ws, like a second def;
+  `struct { unsigned long w; struct Cs *cs; }`:                   408/264.
+  A member does not escape the fold. It is folded the same way a copy is.
+
+(5) Variable identity:
+  loop 1 run on g as `void *` with the null-based step
+  (`for (g = 0; (s32)g < n; g = (void *)((char *)g + 1))`):
+      base 21. The guard is no longer folded: `cmp r4, r0; bge` replaces
+      `cmp r0, #0; ble`, and g moves to r5. s21 40, e7 (buf) 21, e7s 40.
+      With (u32)g: base 408/319, s21 408/327.
+  g as s32 (casts at every pointer use), loop 1 counting on g:
+      base 18 (+008E, and g/loop-2 i swap r4/r5), s21 37;
+  loop-2 counter k that also holds the loop-1 constant
+  (`k = 1; ... o->f20[i] = k; ... for (k = 0; ...)`, and the same with `i = 0, k = 1`
+  in the for-init): base 2, s21 21. k's constant is propagated.
+
+Combined (every inert lever from 1-3 at once: 465C-argument def, three arity
+fixes, all const): base 2, s21 21. Nothing moved, so there was nothing else to combine.
+
+Conclusion: none of the five research spellings reaches the o/w cost balance.
+Items 1-3 add no reference that survives to costing. Items 4 and 5 are
+structural: they fold w entirely (a struct member), un-fold the loop guard, or
+swap the r4/r5 counter webs. The residue is unchanged. The two best sources
+are still the wave-19 source and lane E7's fresh draft, both 2 out.
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
+   the wave-19 source above (or lane E7's fresh draft), unchanged */
