@@ -446,3 +446,25 @@ because the flag byte's register is now right.
       break;
     }
 /* best-source marker: the wave 16 source above, 268/268, 10 out, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane wipe_oam): 10 holds
+==============================================================================
+From the wave 19 mechanisms alternative source (w first; 1.1p1, 268/268,
+10 out: the zero/`movs #2` web in r5 and cb in r2, image the other way).
+  - named zero `u32 zero = 0;` for f18/kind/f1c: 10; zero assigned right
+    after w and used for all four stores (f20 through a cast): 10. The
+    constant is propagated, so the zero web is unchanged;
+  - cb as unsigned long (cast at the call): 10; cb block-scoped with the
+    reads and stores in an inner block, cb and the call outside: 10;
+  - inverted guard `if (cb == 0) break; cb(a, b);`: 10;
+  - cb read late (after f18/kind stores): 14; cb read last, just before
+    `p->f20 = 0` placed last: 24; f20 stored first: 13;
+  - sweeps of the four reads (w, cb, a, b; 24 orders each) with cb as
+    unsigned long, as u32, as the function pointer with w as unsigned long,
+    and cb/w both unsigned long: best 10 in each (wCab, abCw, abwC), others
+    13 to 24;
+  - sweep of the five stores (120 orders): best 10 (two orders), others
+    12 to 28.
+permuter hill 800 (seed 4202) from the alternative source: flat at 10.
+/* best-source marker: the wave 16 source, 268/268, 10 out, unchanged (the w-first alternative above stays the better base) */

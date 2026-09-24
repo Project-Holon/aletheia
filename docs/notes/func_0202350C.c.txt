@@ -620,3 +620,26 @@ void func_0202350C(struct Obj *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a
     func_02022E20(a5, cfg[9], cfg[0x0a], cfg[8], a4, cfg[0], cfg[1],
                   cfg[2], cfg[3], obj->f44);
 }
+
+==============================================================================
+2026-09-24, wave 20 (lane wipe_oam): 4 holds
+==============================================================================
+From the wave 19 mechanisms source (1.1p1), all 90 bytes. The residue is
+a pure order tie: registers are identical in both streams (zero in r0, kb
+in r2), only `movs r0, #0` and `ldrb r2, [r4, #0xb]` swap at +0x22/+0x24.
+Allocation levers do not reach it, because the zero never exists as its own
+web: every spelling of it is constant-propagated before codegen.
+  - named zero: `u32 zero;` assigned first, before k8 (4); `u8 zero` between
+    k8 and kb (4); `u32 zero = 0;` at declaration (4); `unsigned long zero`
+    between k8 and kb (4); zero assigned after kb, just before f30 (4); zero
+    used twice (f40 = zero, f44 = kb + zero) (4);
+  - kb read before k8 with f30 first: 5 (repeat of 19Q);
+  - u8 k8, u8 kb, both u8: 4 each;
+  - the f40, f44 or f30 store written as `((u32 *)obj)[i]`, and f40 through
+    a `u32 *p = &obj->f40`: 4 each (no memory dependence introduced);
+  - kb passed as the last call argument instead of obj->f44: 88 bytes, 36;
+  - sweep: f40 and f44 stores at every position pair among the seven stores
+    (42 compiles): best 4 (13 of them), others 8 to 14.
+permuter anneal 800 (seed 4201) from the zero-first source: no gain (its
+best mutations add a volatile; 46 by its count).
+best-source marker: 4 out, 1.1p1 (wave 19 mechanisms source, unchanged)
