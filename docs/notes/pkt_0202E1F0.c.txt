@@ -2186,3 +2186,49 @@ access is merged before costing. The missing unit cannot be put on an
 existing instruction. The residue stays at 2.
 /* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
    the wave-19 source above (or lane E7's fresh draft), unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane E12): 0x0202E1F0 DIFF 2 -> EXACT
+==============================================================================
+Angle: statement structure. All 1.1p1 -O4,p Thumb, one `match.py one --diff`
+each, about 40 compiles, no permuter. Scratch: /tmp/aletheia_laneE12 (run.py,
+t1-t4.py, v_*.c/.out). Following the coordinator's steer, every shape was
+measured on s21 (the g call passed w: +008E already `adds r0, r7, #0`, 21 out,
+o=r7) as well as on base (the wave-19 source, 2 out). o is read off +0004.
+
+THE CLOSE: s21 with the two stores after func_0202465C written in the other
+order,
+    o->f00 = a3;
+    o->f04 = 0;
+is EXACT (412/412, 24/24 relocations). The scheduler emits `strb r4, [r6, #4]`
+before `str r0, [r6]` in both orders, so the listing never showed the
+statement order; only the allocation did. The same swap on base stays 2 (the
++008E constant is still rematerialised), and s21 alone stays 21. The fix is
+the pair, as with g2d 0x02067080. It also closes lane E7's fresh draft (e7s +
+`wk->msg = a3; wk->active = 0;`), with void *w in place of unsigned long w,
+with `u16 c3` plus `cnt = *(u16 *)&c3`, and with func_0201D478 as (void).
+The filed source (src/matched/func_0202E1F0.c) is lane E7's draft with those
+two lines changed.
+
+Position of `o->f04 = 0` (and f00), from s21 / from base:
+  f04 = 0 before func_02024570 (first statement)       30 o=r6 / 32
+  f04 = 0 between func_02024570 and `w = ws`           18 o=r6 / 20
+  f04 = 0 after f00 = a3 (THE CLOSE)                    0 o=r6 / 2
+  f04 = 0 after the func_0202441C call                 17 o=r6 / 19
+  f04 = 0 after func_0201D478                          26 o=r6 / 28
+  f00 = a3 moved before func_02024570                   38 o=r6 / 40
+  both stores before func_02024570                      55 o=r7 / 42
+  both stores between the first call and the w def      47 o=r7 / 33
+  f04 = 0 written twice (before the first call too)    412/371 each
+  So o wins r6 whenever `f04 = 0` is not immediately followed by `f00 = a3`.
+  Placements other than right after f00 move the strb (code differs).
+Position of the single def `w = ws` (earlier calls given ws), s21 / base:
+  after 465C 37 / 22; after the o stores 37 / 22; after cnt 37 / 22; after
+  the 441C call 47 / 33; after n = 56 / 364. o=r7 on s21 in every case.
+Zero sharing (r4 = marks init, f04 store, i): `o->f04 = i = 0` with the loop-1
+  for-init dropped 21 / 2; `i = 0; o->f04 = i;` 21 / 2; `o->f04 = marks[0]`
+  412/344; marks initialised by statements (before the first call, after it,
+  chained `marks[0] = marks[1] = 0`) 408 bytes, 364-386 out.
+Not run: the loop, inline-helper and early-return shapes of the lane brief.
+The store order was found first.
+/* best source: src/matched/func_0202E1F0.c, EXACT, 412 bytes, dsi/1.1p1 -O4,p */
