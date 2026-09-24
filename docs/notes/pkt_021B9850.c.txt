@@ -406,3 +406,98 @@ into src/matched/ with the region collision check.
 6. Not reached: the four switch-shaped leaves (021B970C, 021B9774,
    021C1720, 021C17C4).  The budget went to the veneer family, which paid
    66 of 66 filed functions at roughly 0.7 functions per compile.
+
+Lane O29 (ov217 auto-synthesis sweep) 2026-09-24
+------------------------------------------------
+
+RESULT: 34 functions filed, all EXACT/EXACT*.  The shard
+layout/matched/ov217/pkt_021B9850.json went 268 -> 302 entries
+(205 EXACT + 97 EXACT*), each verified by
+
+    python tools/match.py manifest --verify --shard pkt_021B9850
+
+Tooling: scratch/ov_ov217/o29/{inv29,gen29,drv}.py.  inv29.py decodes every
+unfiled label into a uniform instruction stream (the listing emits raw
+`.inst.n`/`.inst.w` lines whose mnemonic only exists in the comment - 308 of
+the 455 unfiled functions contain at least one, so any parser that skips them
+sees a truncated body and a phantom class of "constant-only" leaves).
+gen29.py replays that stream through a small register/expression engine and
+emits C; drv.py compiles 8-wide, files the EXACT ones and parks MATCH.
+
+1. Measured shape census of the 455 unfiled labels
+
+   Instruction count after joining `.org`/`loc_` splits and decoding `.inst`:
+   105 have no `bl`/`blx`/`.inst`, but that number is a lie the raw text
+   tells - a body like `push {r3,lr}; movs r0,#3; movs r1,#0x10; movs r2,#0;
+   movs r3,#0; .inst.w ... ; pop {r3,pc}` is an ordinary four-argument call
+   to an ARM9 function.  With `.inst` decoded the true leaf count is 15.
+
+   Tail-call veneers of the O19 shape are exhausted: only 4 remained at lane
+   start (021BA31C, 021BBAD0, 021BEC00, 021C0C50) plus two long ones
+   (021BC580, 021BF594) and all six are blocked on unwitnessed targets.
+
+2. What closed (33 of 145 generated candidates per compile round)
+
+   * ARM9 calls written as plain C: `extern void func_0204E720();` plus a
+     call emits `blx` and the relocation resolves from the ARM9 label index.
+     A four-constant-argument wrapper (021BA354) was EXACT on the first
+     compile.  This is the largest coherent family left in the overlay.
+   * Two-call wrappers `void f(T *p){ A(); B(p); }` (021B9AF8 shape).
+   * `void f(T *p){ A(p); B(p); }` and `A(); B();` orderings.
+   * `p->wK = F(0xa, p->hJ);` field stores.
+   * `return F() + K;`, `return ((u8*)F())[K];` call-result forms.
+
+3. The one rule that flipped 37 ISA verdicts to EXACT
+
+   A `bl func_XXXXXXXX` whose target is a labelled Thumb entry of THIS
+   overlay still needs its own `symbols:` line with the region token:
+
+       symbols:
+         func_021BC740  0x021BC740  thumb  ov217
+
+   Without it match.py resolves the bare name against the ARM9 label index,
+   finds an ARM function at that address and aborts with
+   "ISA conflict: the source declares arm, the image says thumb".  O19 found
+   this for pool words; it is equally true for direct `bl` targets, and the
+   first generated batch lost 37 candidates to it.
+
+4. Parked in src/pending/ (MATCH, blocker named in the header)
+
+   func_021BBAD0  target 0x021BC574 (unlabelled, unmatched)
+   func_021BA31C  target 0x021C09D8 (unlabelled veneer)
+   func_021BEC00  target 0x021C09D8
+   func_021C0C50  target func_02021540 (thumb, ARM9 - out of range)
+   func_021BAB58  2 sites: 0x021BAB50 (ov217, unlabelled), 02005654
+   func_021C0AD8  2 sites: 0x021C3F64, 0x021C3F9C (ov217 data-region tables)
+   func_021BB978  0x021BB998 (ov217, unlabelled)
+   func_021C0D14  0x021C3F50 (ov217 data-region table)
+   func_021BF9CC  0x0200E458 (ARM9, unpinned)
+
+   The 0x021C3F5x/0x021C3F6x/0x021C3F9x family is the overlay's static data,
+   emitted as `.word` runs; the CALLER is byte-correct and only the pool word
+   is wildcarded, so these graduate the moment the data block is declared.
+
+5. Not reached
+
+   * the four switch leaves (021B970C, 021B9774, 021C1720, 021C17C4).
+     021B970C and 021B9774 are now fully decoded in
+     scratch/ov_ov217/o29/streams.txt: both are two/four stacked
+     pc-relative halfword-offset dispatchers, so they need the O11
+     jump-table recipe (case list and block order, duplicate bodies spelled
+     as separate cases) applied once per stacked switch.
+   * the remaining ~420 labels: gen29.py's templates cover one call per
+     statement and no control flow at all, so the 99 DIFF residue is
+     dominated by branches (cmp/blt loops, `if (x) return 0;` guards) and by
+     the two-register tie class already described for 021C18C4.
+   * 3 CCERR (021C2894, 021C28A4, 021C28BC): the engine emitted
+     `return <u32>;` for a body whose `lsls r0,r1,#0x18` result it did not
+     type; a one-line fix in the generator, not a wall.
+
+6. Rate, measured
+
+   145 candidates generated for 455 unfiled labels (the engine refuses 311
+   because they contain control flow), one compile each, 33 closed
+   EXACT/EXACT* - and the 4 hand-written ones from the first probe.
+   That is 37 of 149 compiles, 0.25 functions per compile; the loss is
+   entirely in the 99 DIFF, which are the templates reaching past what they
+   can express rather than the symbols layer.

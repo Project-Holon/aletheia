@@ -1,0 +1,32 @@
+/*
+ * function: func_0216A128
+ * address:  0x0216A128
+ * packet:   pkt_0216A128
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Three teardown calls on the three arm9 handles the object carries.
+ *
+ * symbols:
+ *   func_02027FD8   0x02027FD8  thumb
+ *   func_02045808   0x02045808  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_02027FD8(void *);
+extern void func_02045808(void *);
+
+void func_0216A128(void *p)
+{
+    func_02027FD8(*(void **)(*(char **)((char *)p + 0x18) + 0x3C));
+    func_02045808(*(void **)(*(char **)((char *)p + 0x18) + 0x30));
+    func_02045808(*(void **)(*(char **)((char *)p + 0x18) + 0x24));
+}
+

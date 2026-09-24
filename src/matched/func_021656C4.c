@@ -1,41 +1,30 @@
 /*
  * function: func_021656C4
  * address:  0x021656C4
- * packet:   pkt_0216555C
+ * packet:   pkt_021656C4
  * region:   ov010
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
  *
+ * Short thunk: stamp the id halfword on the record and hand it
+ * straight to the shared submitter.
  *
  * symbols:
- *   func_0202744C  0x0202744C  thumb
-
- *
- * generated: lane O24 (ov010 leaf/wrapper sweep)
- *
- * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0202744C, the shape of the arm9 copy.
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
- *
- * Addresses are Black-image addresses.  --region ov010 is required: this
- * address is only ov010 in the overlay that defines it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_021656C4.c \
- *       --func func_021656C4 --addr 0x021656C4 --region ov010 --cc dsi/1.1p1 --thumb
+ *   func_0202744C   0x0202744C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0202744C(void *);
+extern void func_0202744C(void *, int);
 
-void func_021656C4(void *a0, unsigned a1, unsigned a2, unsigned a3)
+void func_021656C4(void *a0)
 {
-    *(u16 *)((char *)a0 + 48) = 43;
-    func_0202744C(a0);
+    *(u16 *)((char *)a0 + 0x30) = 0x2B;
+    func_0202744C(a0, 0x2B);
 }
+

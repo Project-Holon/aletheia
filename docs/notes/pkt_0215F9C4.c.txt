@@ -1,0 +1,21 @@
+# pkt_0215F9C4 (lane O30, ov010) -- DIFF, not committed
+
+func_0215F9C4 0x0215F9C4 (listing extent 40, code 22 bytes + pad + 4 words)
+  arm9 call, then two id comparisons.  The image lays the two result blocks
+  out AFTER both comparisons (cmp #0x14 / beq / cmp #0x15 / beq / block8 /
+  block7) with no trailing branch, so the fallthrough of the last comparison
+  reaches block8.  `if (v == 0x14) return 8; if (v == 0x15) return 7;`
+  compiles to two inline blocks with a branch around each (22 bytes, 9 diffs);
+  a `switch` with two cases compiles to 30 bytes because the default needs a
+  jump over both bodies.  Reproduces only if the default really merges with
+  case 0x14 -- i.e. the source returns 8 on both paths.  Residue: 1 try left.
+
+# pkt_0215EB4C (lane O30, ov010) -- DIFF family, 8 functions, not committed
+
+func_0215EB4C/0215EBBC/0215EC6C/0215EC80/0215ED8C/0215EE24/0215EEBC/0215EF2C
+  Each: movs r1,#K ; bl func_0215F104 ; cmp r0,#0 ; beq block1 ; movs r0,#0 ;
+  pop ; block1: movs r0,#1 ; pop.  The branch is BEQ onto the return-1 block,
+  which sits LAST, so the fallthrough returns 0.  Writing it as
+  `if (T(a0,K) == 0) return 1; return 0;` makes mwcc emit BNE onto the
+  return-0 block instead (3 byte diff: cond byte 0xD1 vs 0xD0, and the two
+  block bodies swap).  Wants the form whose default returns 0 first.

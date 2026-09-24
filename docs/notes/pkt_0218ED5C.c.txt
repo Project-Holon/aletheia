@@ -1,0 +1,23 @@
+Lane O37 — DIFF residues, all one family: a real `bl` inside a `push {r3,lr}` frame.
+
+  Residue in every case: the original keeps the frame and does a real call,
+      push {r3, lr} ; bl T ; pop {r3, pc}                  (8 bytes)
+      push {r3, lr} ; ldr rN, [r0, #k] ; bl T ; pop {r3, pc}
+  while mwcc -O4,p tail-call-optimises the tail-position call:
+      ldr r3, [pc, #0] ; bx r3   (or the terse 2..8 byte form)
+
+  Tried, all still a tail call:
+    extern void T();          void f(void){ T(); }
+    extern void T(int);       void f(int a){ T(a); }
+    extern void T(int, ...);  void f(int a){ T(a); }
+    void f(int a, ...){ T(a); }
+
+  so the frame in the original cannot come from a plain call in tail position: the source
+  that produced it has something else in the frame (an aligned/varargs frame, or a call
+  mwcc declines to tail-call).  Not a spelling problem — needs the source shape.
+
+Functions (sources kept in scratch/ov021/O37/gen2/, not committed to src/matched/):
+  0218ED5C  02190758  0219C624  0219DB04  0219DC08  021A2DE4  021A35F0  021A6F18
+  021A7410  021D1F50  021D1F64
+one more, a generator shape-table bug rather than a wall:
+  02193C00  original 8 bytes starting `adds r0, r0, #4`; generated source gave 2 bytes.

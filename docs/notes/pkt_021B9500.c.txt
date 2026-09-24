@@ -150,3 +150,67 @@ before this lane; nothing here was matched elsewhere.
       thumb census).
     func_021B9A1C, func_021B95D4 — not attempted (72 and 372 bytes).
 
+
+====================================================================
+Lane O34 (retry after the ISA-resolution fix) — 125 filed, 5009 bytes
+
+The isa_evidence() fix landed: a call target's ISA is now resolved from
+the region token on the site's own `symbols:` line, so the nine functions
+section 4 listed as "blocked outright" all compiled.
+
+RECOVERED by the fix (all filed EXACT, ARM):
+  func_021B9BD4  0x021B9BD4  32 B    func_021BE648  0x021BE648  56 B
+  func_021BA820  0x021BA820  48 B    func_021BE6BC  0x021BE6BC  48 B
+  func_021BA850  0x021BA850  36 B    func_021BE7FC  0x021BE7FC  60 B
+  func_021BE880  0x021BE880  56 B    func_021BE8B8  0x021BE8B8  48 B
+  func_021BE9C8  0x021BE9C8  48 B                     (filed as
+  src/matched/ov114_func_021BE9C8.c — the plain name holds an ov208 source)
+  func_021BE880 needed one correction beyond the ISA fix: the +0x14
+  guard returns **-1**, not 0 (`mvneq r0, #0`), and the test must be
+  written inverted (`if (*(u32*)(p+0x14) != 0) return ...; return -1;`)
+  to get `ldrne` before `mvneq`.  Same inversion fixes func_021C22D4.
+
+NEW residues (lane O34)
+
+1. DIFF — func_021C00FC @ 0x021C00FC (32 B, 6 bytes)
+   Pure register naming: image keeps the loaded +0x20 word in r1 and the
+   constant 0 in r2; every spelling tried (literal 0, named zero
+   variable, either declaration order, byte-store form) produced the
+   mirror image (value r2, zero r1).  No instruction differs.
+
+2. DIFF — func_021CDAC0 @ 0x021CDAC0 (40 B, 8 bytes)
+   `for (i = n - 1; i >= 0; i--)` reproduces the loop shape but the
+   compiler counts in lr rather than r2, picks popmi/bpl for poplt/bge
+   and emits the 64-bit store high-word-first (`str r2,[r0,#4]` then
+   `str r3,[r0],#8`) where the image stores low first.
+
+3. DIFF — func_021BAA1C @ 0x021BAA1C (264 B, 106 bytes)
+   The full ring-insert body matches instruction for instruction with
+   `Node {prev@0, next@4, key@8, val@0xc}` and a separate cursor
+   (`q = n; ...`) — the prologue, both match probes, the ring link-up
+   and the alloc path all agree.  The residue is block placement: the
+   image sinks the first `found = 1` to a shared epilogue at
+   0x021BAA94 and branches to it, while the compiler inlines it at the
+   `beq`.  Register allocation must be forced with `int found` declared
+   before the cursor.  Source is complete in scratch/ov_ov114/cand11/.
+
+4. MATCH, parked in src/pending/ — two thunks whose only relocation has
+   no witness:
+     func_021BEFCC (12 B) -> 0x021B9B58, an unnamed `ldr ip,pool; bx ip`
+       stub living inside a data blob (it forwards to 0x02086028).
+     func_021BF5B8 (32 B) -> 0x02059F38, an unlabelled `.inst` bl in
+       asm/arm9/main.s.
+   Both are byte-identical; a `symbols:` witness for either address
+   promotes them.
+
+5. DISMISSED, not a wall — func_021BA88C / func_021BA988 (the 252/140 B
+   list primitives): their reported DIFF is two instruction-free
+   differences that are also block placement plus one register swap, not
+   missing callees.  func_021BAA1C, the third primitive named in section
+   6, is written and sits 106 bytes out for the reason above.
+
+6. Repo-level, not ov114: `manifest --shard pkt_021B9500` was refused for
+   several minutes with "func_021653E8 is in both
+   layout/matched/ov010/pkt_021650F4.json and
+   layout/matched/ov010/pkt_021653E8.json" — a concurrent ov010 lane
+   mid-write, not an ov114 problem.  It cleared on retry.

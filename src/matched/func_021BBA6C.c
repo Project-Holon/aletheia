@@ -1,23 +1,32 @@
 /*
  * function: func_021BBA6C
  * address:  0x021BBA6C
- * packet:   pkt_021BBA6C
- * region:   ov021
- * compiler: 1.1p1
+ * packet:   pkt_021B6100
+ * region:   ov172
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
  *
- * Loads the 32-bit word at byte +0x10 of the object.
+ * Five argument call with the last word on the stack.
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   g_021C7234    0x021C7234  data  ov172
+ *
+ * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
+typedef signed int     s32;
 
-u32 func_021BBA6C(u8 *p)
+extern void func_02030734(void *p, u32 a, u32 b, u32 *c, u32 d);
+extern u32 g_021C7234[];
+
+void func_021BBA6C(int unused, void *p)
 {
-    return *(u32 *)(p + 0x10);
+    func_02030734(p, 0x408, 1, g_021C7234, 0xd8);
 }
-

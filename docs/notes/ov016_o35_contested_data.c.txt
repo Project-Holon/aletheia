@@ -1,0 +1,83 @@
+Lane O35: ov016 contested data addresses, rule 8 sweep
+======================================================
+
+Rule 8 (a DATA target on the `symbols:` line WITHOUT the region token) is
+confirmed on a further 21 ov016 functions this lane, all ARM, all filed EXACT
+with the data address either as a bare literal or, where the compiler insists
+on folding a large constant (func_021BD3CC), as an extern array with a
+token-less `data` symbols line.  Nothing here needed the `sole-ref/self`
+relocation to resolve for the literal spelling: a literal address is not a
+relocation site, `match.py one` reports "0 relocation site(s)" and compares
+the pool word byte for byte.
+
+Filed EXACT (21 functions, 684 bytes): see the lane report.  Distinct
+contested addresses those 21 cleared as blockers: 15 --
+021DA04C 021DE508 021DE50C 021DE554 021DE560 021DE594 021DE5BC 021DE5C8
+021DE5CC 021DE65C 021DE660 021DE668 021DE67C 021DE680 021DE68C.
+
+Residues: every site below resolves every relocation it declares (the
+contested-data cap is gone from all of them); the residue is register
+allocation or constant materialisation only.
+
+func_021D5FC4  0x021D5FC4  32B  arm
+  Residue: 40 vs 36 bytes.  The image hoists `mov r0,#1` once and predicates
+  both stores (strbeq [r2,#0x67c] / strbne [r2,#0x67d]) with `bx lr` as the
+  single exit.  Both the `if/else` spelling and the conditional-address
+  spelling produce a branch to a second exit instead.  Lever: force the
+  single `v = 1` local to be the stored value AND the return value from one
+  arm (`*(unsigned char *)(p + (a == (int)(p + 0x610) ? 0x67c : 0x67d)) = v;
+  return v;` was tried and still branched).
+
+func_021BCAE4  0x021BCAE4  36B  arm
+  Residue: 5 bytes, register naming only.  Image: r0 = the global pointer
+  (0x021DE508), r2 = its loaded object, r3 = 1, and the global is *reloaded*
+  (`ldr r0,[r0]`) for the tail call's argument.  Source reloads through a
+  named pointer and gets r2 = pointer, r0 = object.  Lever: make the reload
+  the compiler's own CSE target by writing the global twice as a literal cast
+  (`*(char **)0x021DE508` twice) rather than a named local.
+
+func_021C6508  0x021C6508  40B  arm
+  Residue: argument order.  Image builds r1 = byte at 0x021DA518, r0 = word
+  at *(*(0x021DE5D8+4)+8), r2 = r1, then calls func_021CE7B0(r0, r1) with r2
+  carrying r1 -- i.e. a three-argument call whose second and third arguments
+  are the same value.  `func_021CE7B0(a, a)` written out was tried; the
+  compiler keeps two distinct loads instead of one CSE'd value in r1 copied
+  to r2.
+
+func_021CA0D4  0x021CA0D4  40B  arm
+  Residue: 4 bytes, the `ldrb r0,[r1,r0]` index and the `strb r0,[r4,#2]`
+  ordering around the shared 0x021DE5EC base held in r4.
+
+func_021CA390  0x021CA390  44B  arm
+  Residue: 2 bytes, the duplication tell above (`mov r2,r1` after the byte
+  load).  Same class as func_021C6508.
+
+func_021D6EEC  0x021D6EEC  40B  arm
+  Residue: 7 bytes.  The image keeps the two uses of 0x021DE6A8 in two
+  separate pool words (0x021D6F10 and 0x021D6F14, both holding 0x021DE6A8)
+  and reloads it for the second call; a single literal in the source is CSE'd
+  into r4.  Lever: two syntactically distinct spellings of the same address.
+
+func_021D28B4  0x021D28B4  44B  arm
+  Residue: the predicate block (`tst r1,r2,lsl r0` with the three
+  `...ne` predicated instructions).  The bit-test spelling compiles, the
+  predicated mla does not.
+
+func_021D2F8C  0x021D2F8C  44B  arm
+  Residue: the argument to func_02090BB8 must be materialised as
+  `*(int*)(0x021DE660+4) + 0x1e00` in r0 before the call; the literal-cast
+  spelling folds the base and the offset into one pool word (brief rule 4).
+
+func_021C3D58  0x021C3D58  44B  arm
+  Residue: the `and r2,r0,#0xff` before `cmp r2,#0x78` -- the compare must be
+  on the narrowed byte while the store keeps the full word.
+
+func_021C9D54  0x021C9D54  32B  arm
+  Residue: ISA/symbol.  func_0207C958 is Thumb in layout/symbols_sdk.json, so
+  the symbols line reads `func_0207C958 0x0207C958 thumb` (rule 9's ARM9 rule
+  does NOT apply when the image says Thumb).  With that line the ISA conflict
+  is gone and the residue is the `mov r1,#0x1d` scheduling around the call.
+
+Not attempted / no result claimed: func_021CA418 (placeholder source, no
+reading taken), func_021D2420's callee 0x021F5F74 (outside ov016, resolved
+via the disassembler's own label).

@@ -1,0 +1,66 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov016",
+ "shard": "pkt_021CB1C4",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_021CB1C4",
+   "address": "0x021CB1C4",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/func_021CB1C4.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021CB294"
+    ]
+   }
+  },
+  {
+   "name": "func_021CB960",
+   "address": "0x021CB960",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/func_021CB960.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021CBAA0",
+     "code:0x021CBAC8"
+    ],
+    "sdk": [
+     "0x021CB978"
+    ]
+   }
+  },
+  {
+   "name": "func_021CBFD8",
+   "address": "0x021CBFD8",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/func_021CBFD8.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021CBFEC",
+     "code:0x021CC0E8"
+    ]
+   }
+  }
+ ]
+}

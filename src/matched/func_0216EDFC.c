@@ -1,0 +1,42 @@
+/*
+ * function: func_0216EDFC
+ * address:  0x0216EDFC
+ * packet:   pkt_0216EDFC
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Mode word out of the overlay call decides between zero, one and two;
+ * two of the modes are refused outright.
+ *
+ * symbols:
+ *   func_0202A230   0x0202A230  thumb
+ *   func_0202A3FC   0x0202A3FC  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_0202A230(void *, int);
+extern int func_0202A3FC(void);
+
+int func_0216EDFC(void *a0)
+{
+    int r = 1;
+    int v;
+
+    func_0202A230(a0, 1);
+    v = func_0202A3FC();
+
+    if (v == 0xC || v == 9)
+        return 0;
+    if (v != 2)
+        r = 2;
+
+    return r;
+}
+

@@ -1,172 +1,54 @@
-# pkt_021B6100 residue (lane O23, ov172)
+# pkt_021B6100 residue (lane O23 filed the DIFFs; lane O31 closed them)
 
-Each block is a source that did not reach EXACT; the source itself is parked under
-scratch/ov_172/diff/ (DIFF) or src/pending/ (MATCH), never in src/matched/.
+Lane O23 parked ten DIFFs and one MATCH here.  Lane O31 resolved every one of them;
+the stale sources are left under scratch/ov_172/diff/ only as history.  Nothing in
+this packet is un-EXACT now.  What follows is the class record, not a residue.
 
-## func_021B65C4
+## The callee-saved-pointer DIFF class (10 functions, all now EXACT)
 
-DIFF       func_021B65C4 @ 021B65C4 (ov172, Thumb)
-  compiled 16 bytes, 0 relocation site(s)
-  listing extent for the original: 20 bytes
-  note: listing says the original is 20 bytes, compiled 16
-  13 concrete byte(s) differ
-  offset     ORIGINAL @ 021B65C4                    | COMPILED                              
-  * +0000    10 b5                                  | 01 1c                                  
-  * +0002    04 1c                                  | 80 6c                                  
-  * +0004    a0 6c                                  | 48 31                                  
-  * +0008    03 d0                                  | 01 d0                                  
-  * +000A    87 f6                                  | 00 20                                  
-  * +000C    16 e9                                  | 08 60                                  
-  * +000E    00 20                                  | 70 47                                  
+Every one of the ten was the same mistake: the parked source omitted the call the
+image actually makes, or spelled the store order the way the fields are laid out
+in memory instead of the way the original source ordered them.
 
-## func_021B688C
+| function | what the parked source was missing | the source that closes it |
+|---|---|---|
+| func_021B65C4 | the call to func_0203D7FC; a bare `*q = 0` cannot colour r4 | load the word into a local, pass *the local* to the callee, then clear the field |
+| func_021BE34C | the call to func_0202F038 | same shape as func_021B65C4, offset 0x1dc |
+| func_021BE100 | both calls (0x0202EB0C, 0x0202EB14) | `if (sub_0202EB0C(x) == 1 && unit_0202EB14() == 0) return 1; return 0;` |
+| func_021B7590 | nothing; the guard had to be written `== 1` with the call arm in the fall-through | `if (f(x) == 1) return g(...); return 1;` |
+| func_021B7B3C | the second guard is a call to func_02085D3C *with the first call's result* as its argument, which is exactly why no register is set for it | `r = f(x); if (r != 1) return; r = g(r); if (r != 1) return; veneer(3, 3, z);` |
+| func_021B688C | nothing; the `!= 6 / != 0` nesting never merges the two `return 1` arms | `return v == 6 \|\| v == 0;` (one compare pair, one shared return-1 block) |
+| func_021B8BFC | the increment was written read-store-read | `p[0x1ac] += 1; if (p[0x1ac] >= 0x40) p[0x1ac] -= 0x40;` |
+| func_021B7888, func_021B78A0 | the word store written *last*; CW only runs `strh` past it (and so hoists `movs r4, #1` to the top, which is what forces `push {r3,r4}`) when the word store is the *first* statement | `*(u32 *)p = 1;` first, then the four `u16` fields |
+| func_021B7B20 | the record base held in a local; the sum then lands in the base's register, not in the mul's | fold the offset into both store expressions: `*(u32 *)(base + i * 0x1c + 0x38) = 1;` twice |
 
-DIFF       func_021B688C @ 021B688C (ov172, Thumb)
-  compiled 24 bytes, 0 relocation site(s)
-  listing extent for the original: 20 bytes
-  note: listing says the original is 20 bytes, compiled 24
-  14 concrete byte(s) differ
-  offset     ORIGINAL @ 021B688C                    | COMPILED                              
-  * +0006    01 d0                                  | 01 d1                                  
-  * +0008    00 28                                  | 01 20                                  
-  * +000A    01 d1                                  | 70 47                                  
-  * +000C    01 20                                  | 00 28                                  
-  * +000E    70 47                                  | 01 d1                                  
-  * +0010    00 20                                  | 01 20                                  
-  * +0014    f8 b5                                  | 00 20                                  
-  * +0016    05 1c                                  | 70 47                                  
+Two rules fall out of this and are worth keeping, both measured here:
 
-## func_021B7590
+1. **A missing call is the whole class.**  In six of the ten the parked source had
+   simply dropped a `bl`/`blx` the image contains (the target is outside the region
+   and the lane had not named it).  With no call in the body there is no second live
+   range, so the CSE'd field load keeps r0 and no `push {r4, ...}` appears.  Before
+   blaming register colouring, diff the *instruction count*: a DIFF whose compiled
+   body is 4 to 12 bytes shorter than the listing extent is a dropped call, not a
+   colouring problem.
+2. **Store order is source order.**  CW does not reorder provably independent
+   stores to different offsets, so the byte order of the stores in the image *is*
+   the statement order of the original, and getting it wrong is what costs the
+   callee-saved constant register.
 
-DIFF       func_021B7590 @ 021B7590 (ov172, Thumb)
-  compiled 26 bytes, 2 relocation site(s)
-  listing extent for the original: 28 bytes
-  note: listing says the original is 28 bytes, compiled 26
-  14 concrete byte(s) differ
-  offset     ORIGINAL @ 021B7590                    | COMPILED                              
-  * +000A    04 d1                                  | 01 d0                                  
-  * +000C    a4 34                                  | 01 20                                  
-  * +000E    20 68                                  | 10 bd                                  
-  * +0010    ff f7                                  | a4 34                                  
-  * +0012    74 f9                                  | 20 68                                  
-  * +0014    10 bd                                  | ff f7                                  <- THM_CALL func_021B688C [resolved: label]
-  * +0016    01 20                                  | 72 f9                                  
+## Parked, with the blocker named
 
-## func_021B7888
+* func_021B6A18, func_021B6A00, func_021B699C -- not compiled at all: their only
+  relocation site targets an ov172 function that is not itself filed and has no
+  caller outside the compared range (`func_021B6A88`, `func_021B6A30`,
+  `func_021B69B4`), so the site needs match.py's `matched` witness class, and
+  loading that class **aborts the whole run** with
 
-DIFF       func_021B7888 @ 021B7888 (ov172, Thumb)
-  compiled 18 bytes, 0 relocation site(s)
-  listing extent for the original: 24 bytes
-  note: listing says the original is 24 bytes, compiled 18
-  17 concrete byte(s) differ
-  offset     ORIGINAL @ 021B7888                    | COMPILED                              
-  * +0000    18 b4                                  | 81 81                                  
-  * +0002    01 24                                  | 01 21                                  
-  * +0004    81 81                                  | 01 60                                  
-  * +0006    04 60                                  | c2 81                                  
-  * +0008    c2 81                                  | 03 82                                  
-  * +000A    03 82                                  | 00 a9                                  
-  * +000C    02 a9                                  | 09 88                                  
-  * +000E    09 88                                  | 41 82                                  
-  * +0010    41 82                                  | 70 47                                  
+      manifest shards disagree: func_02165590 is in both
+      layout/matched/ov010/pkt_0216555C.json and layout/matched/ov010/pkt_02165590.json
 
-## func_021B78A0
-
-DIFF       func_021B78A0 @ 021B78A0 (ov172, Thumb)
-  compiled 18 bytes, 0 relocation site(s)
-  listing extent for the original: 24 bytes
-  note: listing says the original is 24 bytes, compiled 18
-  17 concrete byte(s) differ
-  offset     ORIGINAL @ 021B78A0                    | COMPILED                              
-  * +0000    18 b4                                  | 81 82                                  
-  * +0002    01 24                                  | 01 21                                  
-  * +0004    81 82                                  | 01 60                                  
-  * +0006    04 60                                  | c2 82                                  
-  * +0008    c2 82                                  | 03 83                                  
-  * +000A    03 83                                  | 00 a9                                  
-  * +000C    02 a9                                  | 09 88                                  
-  * +000E    09 88                                  | 41 83                                  
-  * +0010    41 83                                  | 70 47                                  
-
-## func_021B7B20
-
-DIFF       func_021B7B20 @ 021B7B20 (ov172, Thumb)
-  compiled 14 bytes, 0 relocation site(s)
-  listing extent for the original: 16 bytes
-  note: listing says the original is 16 bytes, compiled 14
-  6 concrete byte(s) differ
-  offset     ORIGINAL @ 021B7B20                    | COMPILED                              
-  * +0004    01 22                                  | 09 18                                  
-  * +0006    08 18                                  | 01 20                                  
-  * +0008    82 63                                  | 88 63                                  
-  * +000A    c2 63                                  | c8 63                                  
-
-## func_021B7B3C
-
-DIFF       func_021B7B3C @ 021B7B3C (ov172, Thumb)
-  compiled 36 bytes, 3 relocation site(s)
-  listing extent for the original: 32 bytes
-  note: listing says the original is 32 bytes, compiled 36
-  34 concrete byte(s) differ
-  offset     ORIGINAL @ 021B7B3C                    | COMPILED                              
-  * +0000    10 b5                                  | 38 b5                                  
-  * +0002    14 1c                                  | 05 1c                                  
-  * +0004    06 f0                                  | 14 1c                                  
-  * +0006    de fa                                  | 06 f0                                  <- THM_CALL func_021BE100 [resolved: label]
-  * +0008    01 28                                  | dd fa                                  
-  * +000A    08 d1                                  | 01 28                                  
-  * +000C    ce f6                                  | 09 d1                                  
-  * +000E    f8 e8                                  | 28 1c                                  
-  * +0010    01 28                                  | 06 f0                                  <- THM_CALL func_021BE100 [resolved: label]
-  * +0012    04 d1                                  | d8 fa                                  
-
-## func_021B8BFC
-
-DIFF       func_021B8BFC @ 021B8BFC (ov172, Thumb)
-  compiled 20 bytes, 0 relocation site(s)
-  listing extent for the original: 64 bytes
-  note: listing says the original is 64 bytes, compiled 20
-  14 concrete byte(s) differ
-  offset     ORIGINAL @ 021B8BFC                    | COMPILED                              
-  * +0006    52 1c                                  | 0a 54                                  
-  * +0008    0a 54                                  | 12 1c                                  
-  * +000A    0a 5c                                  | 40 2a                                  
-  * +000C    40 2a                                  | 01 d3                                  
-  * +000E    01 d3                                  | 40 3a                                  
-  * +0010    40 3a                                  | 0a 54                                  
-  * +0012    0a 54                                  | 70 47                                  
-
-## func_021BE100
-
-DIFF       func_021BE100 @ 021BE100 (ov172, Thumb)
-  compiled 16 bytes, 0 relocation site(s)
-  listing extent for the original: 28 bytes
-  note: listing says the original is 28 bytes, compiled 16
-  14 concrete byte(s) differ
-  offset     ORIGINAL @ 021BE100                    | COMPILED                              
-  * +0000    08 b5                                  | 01 28                                  
-  * +0002    70 f6                                  | 03 d1                                  
-  * +0004    03 fd                                  | 00 28                                  
-  * +0006    01 28                                  | 01 d1                                  
-  * +0008    05 d1                                  | 01 20                                  
-  * +000A    70 f6                                  | 70 47                                  
-  * +000C    03 fd                                  | 00 20                                  
-  * +000E    00 28                                  | 70 47                                  
-
-## func_021BE34C
-
-DIFF       func_021BE34C @ 021BE34C (ov172, Thumb)
-  compiled 16 bytes, 0 relocation site(s)
-  listing extent for the original: 24 bytes
-  note: listing says the original is 24 bytes, compiled 16
-  14 concrete byte(s) differ
-  offset     ORIGINAL @ 021BE34C                    | COMPILED                              
-  * +0000    38 b5                                  | 77 21                                  
-  * +0002    77 25                                  | 89 00                                  
-  * +0004    04 1c                                  | 42 58                                  
-  * +0006    ad 00                                  | 00 2a                                  
-  * +0008    60 59                                  | 01 d0                                  
-  * +000A    00 28                                  | 00 22                                  
-  * +000C    03 d0                                  | 42 50                                  
-  * +000E    70 f6                                  | 70 47                                  
-
+  (SystemExit, match.py:4605).  The duplicate is pre-existing in ov010 and is in
+  `layout/`, which a lane may not touch.  Until it is cleaned, *every* ov172
+  function that calls a sibling with no outside caller is unreachable, and the
+  same is true image-wide.  This is the single highest-yield unblock for the
+  remaining ~185 functions here.

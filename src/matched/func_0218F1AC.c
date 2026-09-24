@@ -1,0 +1,27 @@
+/*
+ * function: func_0218F1AC
+ * address:  0x0218F1AC
+ * packet:   pkt_0218F1AC
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Field setter at +0xe9 through a displaced pointer.
+ *
+ * symbols:
+
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+void func_0218F1AC(u8 *p, u8 v)
+{
+    *(u8*)(p + 233) = v;
+}

@@ -1,0 +1,145 @@
+Lane O33 (ov170, packet pkt_021DC9A0) - residues.
+
+Two of the three residues this lane inherited are SETTLED, both filed EXACT.
+Both were the same kind of question: the byte difference was a claim about
+the source's TYPES, not about its control flow or its spelling.
+
+--------------------------------------------------------------------------------
+func_021DD314 @ 0x021DD314 (ov170, Thumb) - SETTLED, EXACT, 28 bytes.
+--------------------------------------------------------------------------------
+The previous lane had 1 byte of 28 out: the image branches `bhs`, the
+compile branched `blo` from `if (b < 0x1e) {...} else {...}`.
+
+It is a signedness question, and the answer is that the tested parameter is
+UNSIGNED.  With `int b` the same if/else compiles the inverted branch as
+`blo`; with `unsigned b` mwccarm emits `bhs`, which is the image.  Nothing
+about the block order or the spelling changes the opcode:
+
+    void func_021DD314(char **p, int a, unsigned b)
+    {
+        if (b < 0x1eU)
+            func_02007664(*(int *)(*p + 4), a, b);
+        else
+            func_0201A9C8(*(int *)(*p + 8), b - 0x1eU);
+    }
+
+Measured on the same body: signed -> 03 da (blo), unsigned -> 03 d2 (bhs).
+Nine spellings were compiled; only the unsigned one reaches EXACT, and the
+`if (b >= 0x1e) {second} else {first}` rewrites change the block layout and
+lose more bytes than the one they fix.
+
+--------------------------------------------------------------------------------
+func_021ECB60 @ 0x021ECB60 (ov170, Thumb) - SETTLED, EXACT, 20 bytes.
+--------------------------------------------------------------------------------
+The previous lane had 6 bytes of 20 out and called it "pure register naming":
+the image forms `p + i` in r3 and the pooled constant in r1, the compiler
+did the reverse.
+
+It was not the naming.  The callee func_021EC060 takes THREE arguments, and
+the forwarded byte is argument 1, not argument 0, so the value must land in
+r1 and the incoming r2 must be left alone -- which forces the sum into r3:
+
+    void func_021ECB60(char *p, int i, int f)
+    {
+        func_021EC060(p, *(unsigned char *)(p + i + 0x3DD2), f);
+    }
+
+The arity is readable straight off the image, in the sibling caller at
+loc_021ECABE (0x021ECABE):
+
+    ldr  r0, [r5, #0x2c]      ; argument 0
+    movs r2, #1               ; argument 2 = 1
+    adds r1, r0, r4           \
+    ldrb r1, [r1, r7]          > argument 1 = the table byte
+    bl   func_021EC060
+
+and inside func_021EC060 the first thing it does is `cmp r2, #1`, so r2 is
+a real third argument, not a scratch value.  In func_021ECB60 itself r2 is
+never written: it arrives from the caller and is passed straight through.
+
+RULE, for the next tail call that comes out "one register name wrong":
+count the LIVE argument registers at the `bx`/`bl`, not the ones you think
+the call needs.  If r0, r1 and r2 are all set at the call and one of them
+was never written in the function, the callee has an argument you have not
+declared, and the register difference is arity, not allocation.  A one-,
+two- and three-argument spelling were all compiled here; only the three
+argument one reproduces r3 (43 18 / 02 49 / 59 5c / 02 4b / 18 47).
+
+--------------------------------------------------------------------------------
+func_021E2154 @ 0x021E2154 (ov170, Thumb) - OPEN, DIFF, 1 instruction of 24.
+--------------------------------------------------------------------------------
+    original                    compiled
+    +000C   c9 58  ldr r1,[r1,r3]   |  59 58  ldr r1,[r3,r1]
+
+Everything else matches, including the pool word, the 0xc stride, the
+`muls r3, r1, r3` and the `blx r1`.  The dispatch table base lives at
+0x021EFA28 (entries 12 bytes apart, first word of each entry is the target).
+
+What is settled about it: the dispatched call passes p.  At the `blx` the
+image still has r0 = p, which is only true if the call is `f(p)`, and
+declaring the target as `void (*)(void *)` is what reproduces
+`ldrb r2,[r0,#0x12] / movs r1,#0xc / adds r3,r2,#0 / muls r3,r1,r3 /
+ldr r1,[pc,#8]` -- the `void (*)(void)` spelling clobbers r0 with the
+constant and loses five instructions instead of one.
+
+Not settled: the operand ORDER inside the final load.  Seven spellings of
+the address expression (`base + idx*12`, `base + idx*0xc`, `idx * 3 * 4`,
+an unsigned local for the index, a `struct { void (*fn)(void *); int; int; }`
+array, an explicit `Fn f = ...; f(p);`) all produce `[r3, r1]`.  The image
+has the base register first.  If a later lane finds the spelling, the file
+is `scratch/ov_170/tmp/func_021E2154_*.c` and the table base symbol is
+`g_021EFA28  0x021EFA28  data  ov170`.
+
+--------------------------------------------------------------------------------
+func_021DE898 @ 0x021DE898 (ov170, Thumb) - MATCH, parked in src/pending/.
+--------------------------------------------------------------------------------
+Body byte-for-byte identical; the single unresolved field is the THM_CALL at
++0x0E to 0x02012F98 ("no witness outside 021DE898..021DE8B2").  This is the
+fourth instance of the class the previous lane named (0x02021540, 0x020257C4,
+0x02025D14): an ARM9 address that overlay Thumb code calls directly, which
+match.py will not witness, so the entry caps at MATCH no matter how right the
+source is.  Declaring it `thumb` or `arm` on the symbols: line, or not
+declaring it at all, changes nothing.
+
+--------------------------------------------------------------------------------
+Free lessons measured this lane (all of them cost a DIFF first).
+--------------------------------------------------------------------------------
+1. `blo`/`bhs` where you wrote a signed test, but the arms are in the right
+   order: make the compared value `unsigned`.  Three independent instances
+   this lane (021DD314, 021EDB1C, 021DF128); the signed spelling always
+   produces `blt`/`bge` or the opposite-arm opcode and never matches.
+2. `if (f(x)) return B; return A;` gives the arms in the ORDER the image
+   shows only when the `then` block is the fall-through the image has.
+   func_021E2140 wanted `if (f(p) == 0) return field; return 8;` -- the
+   `if (f(p)) ...` spelling compiled the same 20 bytes with `beq` where the
+   image has `bne` and moved the arms.
+3. A 4-bit field is a bitfield, not a mask.  `p[0x1c] & 0xf` compiles to
+   `movs r1,#0x1c; ldrsb ...; ands`, i.e. eight bytes of noise; a
+   `struct { unsigned char a[0x1c]; unsigned char f : 4; }` gives the
+   image's `ldrb r1,[r0,#0x1c] / lsls r1,#0x1c / lsrs r1,#0x1c`.
+4. A `char` field the image reads with `ldrb` must be `unsigned char` in
+   the source, or mwccarm emits `ldrsb` (func_021E78F4, func_021ED904).
+5. Callees INSIDE the region need a `symbols:` entry with the region token
+   or match.py refuses the call outright with "ISA conflict ... the source
+   declares arm, the image says thumb".  Four functions failed on this and
+   nothing else.  Callees outside the region (ARM9, other overlays) are
+   witnessed by the cross-region branch index and need no entry -- but a
+   pool word to an in-region Thumb function does.
+6. Pool words that point at DATA are declared with a `data` token, not
+   `thumb` (`g_021EFA28  0x021EFA28  data  ov170`), and resolve cleanly.
+
+--------------------------------------------------------------------------------
+Infrastructure note (not mine to fix).
+--------------------------------------------------------------------------------
+For about ten minutes every `match.py one` and every `match.py manifest
+--verify` failed with
+
+    manifest shards disagree: func_02165590 is in both
+    layout/matched/ov010/pkt_0216555C.json and layout/matched/ov010/pkt_02165590.json
+
+(func_021653E8 earlier).  load_manifest_entries() raises on a duplicate
+(region, address, kind, name) across shards, and it is called on the compile
+path, so one lane's stale shard blocks the whole repository, not one packet.
+The ov010 lane was still normalising its packet ids at the time and the
+condition cleared by itself.  Anyone who sees it should wait rather than
+edit another packet's shard.

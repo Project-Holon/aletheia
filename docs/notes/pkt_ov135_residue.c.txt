@@ -145,3 +145,163 @@ C. Class blockers found (worth a rule in the next brief)
    "manifest shards disagree: func_02156BCC is in both ..." and an empty
    verdict for func_021F8F5C, whose 12 bytes are otherwise reproduced).
    Whoever owns ov010 needs to drop one of the two shards.
+
+
+ov135 lane O32 residue, wave 3 (2026-09-24)
+==========================================
+
+Filed: 53 more functions, 1960 code bytes, all EXACT or EXACT* (2 EXACT*), one
+shard each (layout/matched/ov135/pkt_<addr>.json).  Shards for ov135 went 75 ->
+128.  Rate over the lane: 53 functions / 47 min = 1.13 per minute, the same
+rate the wave-2 lane filed at, but the class mix is now completely different:
+wave 2 spent its budget on pool-free leaves, this wave on parameterised
+families.
+
+Every entry below is measured, not guessed.
+
+A. What paid, in order of yield
+-------------------------------
+
+1. NAME-RESOLVED ov135 CALLEES MUST CARRY THE REGION AND ISA TOKEN.  Wave 2
+   found this (its note C.1) but did not generalise it far enough: it is not a
+   special case for one or two sites, it is the default.  EVERY `bl` from an
+   ov135 source to an ov135 address fails with
+   "ISA conflict for func_X at Y: the source declares arm, the image says
+   thumb" until the callee is declared.  Adding
+   `func_021F4EC0  0x021F4EC0  thumb  ov135` to the caller's symbols: block
+   flipped 13 sites in this lane in one pass.  The cheap-class table in the
+   brief should read: a `bl` to a same-region function is only cheap if you
+   declare the callee first.
+
+2. ONE SOURCE SHAPE CLOSES A WHOLE DISPATCH CLASS.  The five state-table
+   dispatchers are byte-identical apart from their table word:
+
+       extern void *g_TABLE[];
+       void func_X(u8 *p)
+       {
+           ((void (*)(u8 *))g_TABLE[*(u32 *)(p + 0x28)])(p);
+       }
+
+   This closed func_021F51F0, func_021F74E4, func_021FC174, func_021FFEB4 and
+   func_02200C80 (20 bytes each, tables 0x02203B0C, 0x02203BBC, 0x02203CF0,
+   0x02203E58, 0x02203E94) - all five were open in wave 2's DIFF list as "one
+   unsolved shape".  The declared `data ov135` symbol on the table is what
+   witnesses the pool word; without it each site caps at MATCH.
+
+3. THE 0x28 STATE-SETTER FAMILY IS A GENERATOR, NOT A LIST.  ov135 holds 79
+   functions that write the state word at +0x28; 24 of them are one of three
+   skeletons, parameterised only by constants:
+
+     A. callee(p [+ off]); *(u32*)(p+0x28) = S; *(u32*)(p+0xf8c) = 0; return 2;
+        8 sites (func_0220163C .. func_02201E1C)
+     B. func_021F4BE0(p, a, b, c, d);  *(u32*)(p+0x28) = S; return 2;
+        6 sites (func_021F6384 .. func_022007E0); arg3 is a literal-pool word
+        (0x1ad, 0x126, 0x16a, 0x12e are all data pointers)
+     C. build(p, ...); func_021F4E98(p, X, Y); return 2;
+        X = 0x10 for the func_021F7538 group, X = 0x17 for the func_021FF318
+        group - the single byte the first attempt got wrong (10 21 against
+        17 21), so read that immediate off the listing, do not carry it over.
+
+4. A CALLEE CALLED WITH NO ARGUMENT LEAVES r0 ALIVE.  func_02201C08 is
+   `ldr r0, pool(0xf8c); movs r1, #0; str r1, [r4, r0]; blx 0x021C89F0` - the
+   BLX carries 0xf8c in r0, not p.  That is not an argument: the callee takes
+   none, and MWCC does not reload r0 for a no-argument call.  Declaring
+   `extern void func_021C89F0(void)` and calling it bare reproduces the bytes;
+   declaring it `(u8 *p)` and passing p costs 5 divergent bytes.  Same reading
+   for any blx whose r0 is a pool constant rather than the object pointer.
+
+5. A PRE-INCREMENT, NOT A RELOAD.  func_021FC7E0 / func_021FF0E8 / func_0220090C
+   are one source shape three times.  The image is
+   `ldr r1,[r4,r0]; adds r1,r1,#1; str r1,[r4,r0]; cmp r1,#0x2d; ble`, i.e.
+
+       if (++*(s32 *)(p + 0xdfc) > 0x2d) { *(s32 *)(p + 0xdfc) = 0; ... }
+
+   Wave 2 read the middle pair as a redundant reload/store and parked it; it is
+   a pre-increment, and all three close in one compile.
+
+6. SWITCH, NOT IF/ELSE, WHEN BOTH ARMS BRANCH FORWARD.  Where the image is
+   `cmp r1,#1; beq CASE1; cmp r1,#2; beq CASE2; <exit>; CASE1: ...; CASE2: ...`
+   the source is a plain `switch` with the exit left as the fall-through
+   default (func_02201B18).  Where the image is `cmp r1,#1; bne ATTEMPT2` the
+   source is really `if`/`else if` (func_021F5CD4).  Where the image is a
+   compare chain in ascending case order with two arms sharing one body, the
+   cases were written in that same order (func_021F89B4).
+
+7. A SHARED TAIL IS A SHARED TAIL.  func_021FC668 reproduces as
+   `if (k == 1) {...} else if (k == 2) {...}` followed by one
+   `func_021FCBF0(p); return 2;` - not as a `switch` and not with the tail
+   call inlined into the first arm.  MWCC lays the tail after the second arm
+   and has the first arm jump to it.
+
+
+B. Residue still open, with the differing bytes
+-----------------------------------------------
+
+  func_02201C08  0x02201C08  28B  BLOCKED (tooling, not shape)
+      Source is settled (see A.4).  It can no longer be measured at all: every
+      run whose resolution path loads a manifest now dies with
+      "manifest shards disagree: func_02165590 is in both
+      layout\matched\ov010\pkt_0216555C.json and
+      layout\matched\ov010\pkt_02165590.json" - and the pair named changes
+      run to run (021653E8/021650F4 earlier, 02165590/0216555C, 02165590/
+      0216555C now).  Wave 2 reported the same class of defect for
+      pkt_02156BCC.  Whoever owns ov010 is writing one shard per function into
+      that region and the region keeps colliding with itself.  Nothing in
+      ov135 can be measured through the manifest path until that stops.
+
+  func_02201FDC  0x02201FDC  36B  MATCH -> src/pending/func_02201FDC.c
+      Every concrete byte right; the BLX at +0004 to func_021C866C is the one
+      wildcard, and it is the same class as wave 2's func_021F4EB4: 0x021C866C
+      is inside eight overlays' spans (ov016, ov021, ov093, ov111, ov114,
+      ov128, ov172, ov208) and a region hint would be a guess.  Parked.
+
+  func_021FC668  0x021FC668  80B  DIFF, 4 bytes
+      +0016 image `0d 48` (ldr r0,[pc,#52]) vs mine `0b 48` (ldr r0,[pc,#44])
+      +002A image `0c d1` (bne) vs mine `09 d1`
+      +0032 image `00 21` (movs r1,#0) vs mine `00 20` (movs r0,#0)
+      The control flow and every call now agree; what is left is the register
+      the zero is materialised into.  The image keeps r0 free for the 0x35<<6
+      index and zeroes the state word through r1
+      (`movs r1,#0; movs r0,#0x35; str r1,[r4,#0x28]; lsls r0,r0,#6`);
+      writing `*(u32 *)(p + 0x28) = 0;` in front of the load gives r0.  Needs
+      the source shape that makes the zero live in a second register - the
+      pool then sits two words earlier and the branch offset fixes itself.
+
+  func_022007A0  0x022007A0  64B  DIFF
+      The image duplicates the three stack-argument stores inside BOTH arms of
+      the 0-vs-3 test, using r0 as the scratch, and only then zeroes r1/r2/r3:
+
+          cmp r0,#0 / bne ELSE
+          movs r0,#6 / str r0,[sp] / movs r0,#1 / str r0,[sp,#4]
+          movs r0,#0x48 / str r0,[sp,#8] / movs r0,#0 / b JOIN
+        ELSE: same four stores / movs r0,#3
+        JOIN: movs r1,#0 / movs r2,#0 / movs r3,#0 / bl 0x0202208C
+
+      Both `func_0202208C(x == 0 ? 0 : 3, 0, 0, 0, 6, 1, 0x48);` and
+      `if/else` assigning x first compile the argument setup the other way
+      round (constants materialised through r1/r2/r3 after the merge, and the
+      prologue becomes `push {r4, r5, lr}` instead of `push {r3, r4, lr}`).
+      func_021FEB50 is the same open sequence without the conditional and
+      CLOSES in the plain form, so the difference is exactly the conditional
+      first argument.
+
+  func_02202094 / func_022020B8 CLOSED, but note for the next wave: the mode
+      query `func_02012DD0(func_020120F4(*(u32 *)(*(u32 *)p + 0x40)))` needs
+      no symbols at all - both arms of the pair resolve as plain arm9 labels,
+      which is why they went EXACT in one compile each while the sibling
+      func_02202054 (same query shape, func_02012DAC) needed nothing either.
+
+
+C. Class blockers
+------------------
+
+1. The ov010 shard collision (B.1) is now the top blocker for this overlay:
+   it does not just fail one function, it fails every run whose name
+   resolution touches the manifest.  It cost func_02201C08 its verification.
+
+2. `veneer` still cannot attest 0x0205CCD8 (wave 2's func_021F4EB4): unchanged.
+
+3. Data symbols in ov135's own data area work when declared
+   `g_ADDR  0xADDR  data  ov135` (the five dispatch tables all took it) and the
+   contested-window caution from wave 2 still applies to anything the other
+   overlays also claim.

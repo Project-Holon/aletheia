@@ -1,0 +1,73 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov016",
+ "shard": "pkt_021CD3EC",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_021CD3EC",
+   "address": "0x021CD3EC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/func_021CD3EC.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021CD67C",
+   "address": "0x021CD67C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/func_021CD67C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021CD79C"
+    ]
+   }
+  },
+  {
+   "name": "func_021CDBA8",
+   "address": "0x021CDBA8",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/func_021CDBA8.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021CDC78"
+    ]
+   }
+  },
+  {
+   "name": "func_021CDE6C",
+   "address": "0x021CDE6C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/func_021CDE6C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021CDEC0"
+    ]
+   }
+  }
+ ]
+}

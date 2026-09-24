@@ -1,0 +1,30 @@
+/*
+ * function: func_021D2420
+ * address:  0x021D2420
+ * packet:   pkt_021D2420
+ * region:   ov016
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021D2420 0x021D2420 arm
+ *
+ * Guard on the kind and the paired words of the object at 0x021DE65C.
+ * Addresses are Black-image addresses.
+ */
+
+extern void func_021F5F74(void);
+
+void func_021D2420(void)
+{
+    unsigned short *p = *(unsigned short **)0x021DE65C;
+
+    if (p[0] != 4)
+        return;
+    if (p[1] != p[6])
+        return;
+    func_021F5F74();
+}
