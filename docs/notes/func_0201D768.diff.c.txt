@@ -364,3 +364,73 @@ Reading: the image also keeps the return's `base` as the spilled variable
 and sinks base's definition below the entry guard; that difference comes
 with the head/total tie and may be the better handle for the next lane.
 /* best source, 92 bytes against 92, 66 concrete bytes out, 1.1p1 -- the wave 13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_3): 66 -> 63, base returned from its slot
+==============================================================================
+The base half of the residue is closed.  Permuter anneal, budget 800, seed
+3201, --types, from the wave 13 source: 63 via hoist-down(base) ;
+expand(base) ; decl-order(start<->base).  Spelled out: the second def of
+base is written from p again (`base = (u8 *)p + 0x18`, not `base + 0x18`)
+and the start read sits between the two defs.  The compile then keeps the
+first def's store (`adds r0, r5, #0; str r0, [sp, #8]`), puts base at
+[sp,#8] and start at [sp,#0xc] as the image does, defines both before the
+entry guard, and the return reads `ldr r1, [sp, #8]; ldr r0, [sp, #0xc]`
+exactly.  Controls: the same order with `base = base + 0x18` (66); both
+defs before the start read (90 bytes, the first def is then dropped).
+What is left (63) is the head/total tie alone: the image keeps head in r4
+as one web and spills total ([sp,#4], zero stored at entry); the compile
+keeps total in r7 and splits head (loaded value spilled to [sp,#4]).
+Also measured this pass, from the wave 13 source unless stated (all 92/66
+unless stated):
+  - p taken as `void *ring` with base and p locals, base declared before p;
+    base through a `u8 off = 0x18` narrow offset; base as the first
+    parameter (`u8 *base`, p derived from it); `base += 0x18`; base as a
+    u32 integer; `p = (u16 *)base` between the defs; `u16 *const p`;
+    base declared first; `base = base;` at the loop top: 66 each;
+  - `base += start; return base;`, `base = (u8 *)&p[0xc]`: 90/75;
+  - `u8 *volatile base`: 92/70 (return from the slot, defs before the
+    guard, but a volatile reload after the first store);
+  - a return temporary r (`r = base; return r + start`, r set before the
+    loop): 66; r replacing base in the loop or as the second def: 90;
+  - from the 63 source: sweep (one measurement, 600 compiles) of total in
+    {u16, u32, unsigned long, long, int} x head in {u16, u32, unsigned
+    long, int} x head block/function scope x every declaration order:
+    63 (84 cells, u16/u32/ulong total, any head), 64, 65, 66; head's type
+    is invisible, long/int total never reaches 63;
+  - from the 63 source: sweep (one measurement, 44 compiles) of the
+    positions of `src += n` and of the total step in the body, for while,
+    for and guarded do-while: 63 at best;
+  - `volatile u16 total` 100/91, `volatile u32 total` 96/82, `u32 start`
+    63, total's zero through a u8 local 63.
+/* best source, 92 bytes against 92, 63 concrete bytes out, 1.1p1 */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+u8 *func_0201D768(u16 *p, const u8 *src, u16 len, u32 n)
+{
+  u16 total;
+  u16 start;
+  u8 *base;
+  total = 0;
+  base = (u8 *) p;
+  start = p[0];
+  base = ((u8 *) p) + 0x18;
+  while (total < len)
+  {
+    u16 head = p[0];
+    MI_CpuCopy8(src, base + head, n);
+    src += n;
+    head = (u16) (n + head);
+    if (head >= p[2])
+    {
+      head = 0;
+    }
+    p[0] = head;
+    total = (u16) (total + n);
+  }
+
+  return base + start;
+}
+

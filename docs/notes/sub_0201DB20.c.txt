@@ -380,3 +380,25 @@ From the wave 15 source (1.1p1), all 154 bytes:
   - permuter anneal, budget 800, seed 2901, --types: it chases the 156-byte
     extent again (156/40, expand(m x2); commute(!=)), nothing at 154.
 /* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_3): 15 holds
+==============================================================================
+From the wave 15 source (1.1p1), measured once each, 154 bytes throughout
+(scored against 154, the pad excluded):
+  - hi/lo as a two-element array `s32 r[2]` (18), as a two-member struct
+    (18);
+  - m declared in an inner block around the loop with hi/lo at function
+    scope (15); `for (m = f->unk88;;)` (15); m from an inline GetMap(f)
+    (15); the whole body as an inline Search(f, m, c) with m a parameter
+    (18);
+  - the chain step's offset through a function-scope `u32 off` declared
+    first (15); the rebase as an inline Rebase(f, m) (15);
+  - narrow-flag lever: a u16 flag local cleared at the chain step (15);
+    `u16 cnt = m->mapInfo[0]; hi = cnt - 1;` (15);
+    `hi = m->mapInfo[0]; hi--;` (15);
+  - the range test inverted with the chain step first and `continue`
+    (154/127, the blocks are laid out in source order).
+No permuter this pass (both earlier runs chase the 156-byte extent). The m
+and hi webs still colour in the compile's order under every spelling.
+/* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */

@@ -409,3 +409,35 @@ stated:
   - a `struct Scratch *volatile c` reassigned before each call (68/52);
   - an unreferenced label before each call, and `goto L; L:` pairs (37, 37).
 /* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_3): 2 (sp2) / 37 (1.1p1) hold; no pin
+==============================================================================
+Sharper mechanism: in the 1.1p1 compile the outgoing stack argument
+(`str r4, [sp]`, z) is scheduled straight after the first call, ahead of
+the register arguments; z dies there and the cached address takes r4.  In
+the image the store comes last (after r0..r3 are set), so z is live when
+the address is formed, no callee-saved register is free, and the address
+is reloaded from the pool per site.  sp2 makes the same early-store choice
+on some spellings (the by-value {w, v} struct: str first, 14 out), so the
+residue under both compilers is the position of the stack-argument store.
+Measured under 1.1p1 from the wave 11 source, 56/37 unless stated:
+  - sweep (one measurement, 25 compiles): z parameter in {s16, u16, int,
+    u32, u8, signed char, long} x sub_0201C808's fifth parameter in {s16,
+    u16, int}, plus z copied to a u16/s16/u8/int local before the first
+    call: 37 at best;
+  - x, y, z, s as one by-value struct (68/58); y and z through a local
+    `s16 a[2]` (37); the first call's result kept in a local and
+    self-assigned after the last call (37); z passed as `z + f` with a u8
+    zero flag (60/43);
+  - `void *volatile w` (37, the store is still first), `volatile u16 v`
+    (37), `volatile s16 z` (68/50);
+  - `#pragma schedule off`, `#pragma scheduling off`, `#pragma peephole
+    off` before the function (37 each).
+Under ../2.0/sp2, sweep (one measurement, 60 compiles): v in {u16, s16, u8,
+int, u32} x sub_0201C8A4's second parameter in {u16, s16, u32, int} x w as
+{void *, u32, u16 *}: 2 (12 cells), 3, 22, 52/19.  No narrow width moves
+sp2's `add r1, sp, #8 / ldrh [r1, #0x14]` to the image's `add r1, sp,
+#0x18 / ldrh [r1, #4]`, and sp2 shows no documented tell (no kept branch or
+kept constant) here, so no pin is filed.
+/* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */
