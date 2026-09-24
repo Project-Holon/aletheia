@@ -40,3 +40,15 @@ dd57986:
 The ROM still matches the cartridge, so dd57986 is verified. The fold-in outputs
 (coverage maps, worklist) were committed as 0acd895. One function is left
 open: blink_palanm 0x0202E1F0, 2 bytes out.
+
+## blink_palanm (c73cf47): 100 percent
+
+Commit c73cf47 added 0x0202E1F0 (closed by lane E12) labelled UNVERIFIED.
+The owner ran `wave.py foldin` natively with the DSi key at c73cf47:
+
+    [figures]  exact coverage 100.0000% (400306 / 400306 bytes, 4422 functions)
+    [rom]      sha1 26ad0b9967aa279c4a266ee69f52b9b2332399a5
+    FIGURES 100.00 100.00 4422
+
+The ROM still matches the cartridge, so c73cf47 is verified. Every byte of
+ARM9 game code is now built from verified C.
