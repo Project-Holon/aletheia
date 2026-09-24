@@ -1155,3 +1155,24 @@ product, and the named product is a separate 64-bit web whose sum is not
 formed in place, so a and b stop sharing r6.  The two traits come from two
 different IR shapes; no spelling here gives both.  Cap reached, no permuter.
 /* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2, no volatile -- the wave-19 nns_small_2 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane nns_fresh): 0x0206F4C8 CLOSED EXACT (../2.0/sp2p2)
+==============================================================================
+Rewritten from the start in the NitroSystem G3D shape (the joint-animation
+scale fetch: NNS_G3D_JNTANM_SINFO_* flags, FX_Whole frame, one pArray base,
+goto SCALE_NONINTERP / SCALE_INTERP_2 tails, (s, invs) pair structs), not
+from the accumulated source.  Filed as src/matched/func_0206F4C8.c; manifest
+--verify --shard pkt_0206EB00 twice, second pass 0 rewritten.  EXACT under
+../2.0/sp2p2 only (../2.0/sp2 and dsi/1.1p1 DIFF).
+Measurements (10): flat fx16/fx32 arrays with `2 * idx` 556 bytes (extra lsl
+per key; `idx << 1` the same); pair structs 508; frame before pArray/info
+504; SCALE_INTERP_2 through one element pointer `base + idx` at [0]/[1]
+488/59 (INTERP_2 exact); both 1:3 arms through element pointers 67; plus the
+named product `w = (fx64)v * 3` in the fx32 arm 18 (fx32 arm exact, the old
+adds residue gone); fx16 arm back to subscripts 5; fx16 invs read order
+swapped 5; fx16 base advanced to the idx_sub element for the second invs
+read (`p_fx16 += idx_sub; v_sub = p_fx16->invs;`) EXACT.
+The wave-19 reading was right that the named product alone breaks a/b
+sharing r6; element pointers in that arm restore it.  Idiom:
+docs/idioms/a-named-64-bit-product-over-element-pointers-keeps-the-sum-in-place.md

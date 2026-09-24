@@ -2154,3 +2154,232 @@ ip must be unavailable to both the dy mla and the y read, that is halfW
 (or another value in ip) live past +0x21C at allocation time with no
 emitted use.  Item 1's source (y read hoisted) is an equal alternative.
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged (item 1 is an equal-score alternative) */
+
+==============================================================================
+2026-09-24, wave 20 (lane nns_fresh): 0x02067080 unchanged, DIFF 2
+==============================================================================
+Rewritten from the start in the NNS G2D shape (DoAffineTransforme_ with the
+SDK G2_* OAM inlines, NNS_G2dGetOamTransFx32, the remove-double-affine and
+adjust-rotate-orientation inlines, MulMtx22 with its src==dst temp, GX_OAM_*
+masks as named constants).  The first draft (ternary effect select, MulMtx22
+as one un-parenthesised rounded sum, `pSrc == pDst ? &tmp : pDst`) is 684
+bytes; with the image-read corrections (effect select as if/else, each
+product rounded in its own parentheses, the temp chosen by `if`) it lands on
+704/704, 2 out, the SAME residue: y read at +0x21C in ip, image r6.  The
+library shape converges on the wave-13 source; nothing about the rewrite
+moves the tie.
+Measured on the rewrite (../2.0/sp2), bytes out: effect passed into the
+adjust inline instead of a BOOL 684 bytes; sizes named before halving 2; a
+`(void)halfW;` after the double block 2; `(fx32)halfW` casts 2; matrix read
+into four const locals 688 bytes; dx/dy init as `-halfW * 4096` 133, as
+`halfW * -4096` 74, as `(-halfW) << 12` 133 (these stop the CSE of
+halfW << 12 with the double block, so halfW DOES stay live past +0x21C, but
+through an emitted `sub r4, r5, r4, lsl #12`, and the 64-bit accumulator
+moves from r8 to ip); the overwrite as its own inline helper 2; the body as a
+static inline DoAffineTransforme_ under a wrapper 200 bytes (mwcc stops
+inlining at that depth: DoAffineTransforme_ is its own function in the
+image, as filed); x/y through `fx32 *const px/py` 712 bytes.
+permuter: scratch copy with the mutation target read from MUTFUNC
+(tools/ untouched), adjust inline, anneal --types 1000 each, seeds 5201 and
+5202: best 2 both.
+Diagnosis unchanged from 20C: in the image ip is excluded from the y read's
+colour choice although nothing emitted after +0x214 reads ip.  Every source
+that keeps halfW live past +0x21C does so through an emitted use.  Not a
+source-order tie that any inline-internal spelling reaches.
+/* equal-score library-shape source (704/704, 2 out, ../2.0/sp2), not a new best */
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef int            s32;
+typedef long long      s64;
+typedef int            BOOL;
+typedef s32            fx32;
+typedef s64            fx64;
+
+#define FX32_SHIFT 12
+#define FX64_ROUND (1LL << (FX32_SHIFT - 1))
+
+typedef enum {
+    GX_OAM_EFFECT_NONE          = 0x0000,
+    GX_OAM_EFFECT_AFFINE        = 0x0100,
+    GX_OAM_EFFECT_NODISPLAY     = 0x0200,
+    GX_OAM_EFFECT_AFFINE_DOUBLE = 0x0300
+} GXOamEffect;
+
+typedef enum { GX_OAM_SHAPE_8x8 = 0 } GXOamShape;
+
+#define GX_OAM_ATTR01_Y_MASK        0x000000ff
+#define GX_OAM_ATTR01_RS_MASK       0x00000300
+#define GX_OAM_ATTR01_SHAPE_MASK    0x0000c000
+#define GX_OAM_ATTR01_X_MASK        0x01ff0000
+#define GX_OAM_ATTR01_X_SHIFT       16
+#define GX_OAM_ATTR01_RSPARAM_MASK  0x3e000000
+#define GX_OAM_ATTR01_RSPARAM_SHIFT 25
+#define GX_OAM_ATTR01_FLIP_MASK     0x30000000
+#define GX_OAM_ATTR01_SIZE_MASK     0xc0000000
+
+typedef struct { u32 attr01; u16 attr2; u16 _3; } GXOamAttr;
+typedef struct { fx32 x; fx32 y; } NNSG2dFVec2;
+typedef struct { fx32 _00, _01, _10, _11; } MtxFx22;
+
+typedef struct { u32 flags; u32 affineOverwriteMode; } NNSG2dRndCore;
+extern NNSG2dRndCore *g_02148B48;
+extern const u16 tbl_020A17F0[3][4];
+extern const u16 tbl_020A17D8[3][4];
+
+static inline GXOamEffect G2_GetOBJEffect(const GXOamAttr *oam)
+{
+    GXOamEffect effect = (GXOamEffect)(oam->attr01 & GX_OAM_ATTR01_RS_MASK);
+    if (effect == GX_OAM_EFFECT_AFFINE || effect == GX_OAM_EFFECT_AFFINE_DOUBLE)
+        return effect;
+    return (GXOamEffect)(effect | (oam->attr01 & GX_OAM_ATTR01_FLIP_MASK));
+}
+
+static inline void G2_SetOBJEffect(GXOamAttr *oam, GXOamEffect effect, int rsParam)
+{
+    if (GX_OAM_EFFECT_AFFINE != effect && GX_OAM_EFFECT_AFFINE_DOUBLE != effect)
+    {
+        oam->attr01 = (oam->attr01 & ~(GX_OAM_ATTR01_RS_MASK | GX_OAM_ATTR01_RSPARAM_MASK)) | effect;
+    }
+    else
+    {
+        oam->attr01 = (oam->attr01 & ~(GX_OAM_ATTR01_RS_MASK | GX_OAM_ATTR01_RSPARAM_MASK)) | effect
+                    | (rsParam << GX_OAM_ATTR01_RSPARAM_SHIFT);
+    }
+}
+
+static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
+{
+    oam->attr01 = (oam->attr01 & ~(GX_OAM_ATTR01_Y_MASK | GX_OAM_ATTR01_X_MASK))
+                | (y & GX_OAM_ATTR01_Y_MASK)
+                | ((x & (GX_OAM_ATTR01_X_MASK >> GX_OAM_ATTR01_X_SHIFT)) << GX_OAM_ATTR01_X_SHIFT);
+}
+
+static inline GXOamShape NNS_G2dGetOAMSize(const GXOamAttr *pOam)
+{
+    return (GXOamShape)(pOam->attr01 & (GX_OAM_ATTR01_SHAPE_MASK | GX_OAM_ATTR01_SIZE_MASK));
+}
+
+static inline int NNS_G2dGetOamSizeX(const GXOamShape *pShape)
+{
+    return tbl_020A17F0[(*pShape & GX_OAM_ATTR01_SHAPE_MASK) >> 14][(*pShape & GX_OAM_ATTR01_SIZE_MASK) >> 30];
+}
+
+static inline int NNS_G2dGetOamSizeY(const GXOamShape *pShape)
+{
+    return tbl_020A17D8[(*pShape & GX_OAM_ATTR01_SHAPE_MASK) >> 14][(*pShape & GX_OAM_ATTR01_SIZE_MASK) >> 30];
+}
+
+static inline s16 NNS_G2dRepeatXinCellSpace(s16 srcX)
+{
+    if (srcX > 255) srcX |= 0xFF00;
+    return srcX;
+}
+
+static inline s16 NNS_G2dRepeatYinCellSpace(s16 srcY)
+{
+    if (srcY > 127) srcY |= 0xFF00;
+    return srcY;
+}
+
+static inline s16 NNSi_G2dGetOamX(const GXOamAttr *pOam)
+{
+    return (s16)((pOam->attr01 & GX_OAM_ATTR01_X_MASK) >> GX_OAM_ATTR01_X_SHIFT);
+}
+
+static inline s16 NNSi_G2dGetOamY(const GXOamAttr *pOam)
+{
+    return (s16)(pOam->attr01 & GX_OAM_ATTR01_Y_MASK);
+}
+
+static inline void NNS_G2dGetOamTransFx32(const GXOamAttr *pOam, NNSG2dFVec2 *pRet)
+{
+    pRet->x = NNS_G2dRepeatXinCellSpace(NNSi_G2dGetOamX(pOam)) << FX32_SHIFT;
+    pRet->y = NNS_G2dRepeatYinCellSpace(NNSi_G2dGetOamY(pOam)) << FX32_SHIFT;
+}
+
+static inline void NNSi_G2dRemovePositionAdjustmentFromDoubleAffineOBJ(const GXOamAttr *pOam, NNSG2dFVec2 *pPos)
+{
+    if (G2_GetOBJEffect(pOam) == GX_OAM_EFFECT_AFFINE_DOUBLE)
+    {
+        const GXOamShape shape = NNS_G2dGetOAMSize(pOam);
+        pPos->x += NNS_G2dGetOamSizeX(&shape) << (FX32_SHIFT - 1);
+        pPos->y += NNS_G2dGetOamSizeY(&shape) << (FX32_SHIFT - 1);
+    }
+}
+
+static inline void NNSi_G2dAdjustDifferenceOfRotateOrientation(const GXOamAttr *pOam, const MtxFx22 *pMtx, NNSG2dFVec2 *pPos, BOOL bDoubleAffine)
+{
+    const GXOamShape shape = NNS_G2dGetOAMSize(pOam);
+    const int halfW = NNS_G2dGetOamSizeX(&shape) >> 1;
+    const int halfH = NNS_G2dGetOamSizeY(&shape) >> 1;
+    fx32 dx, dy;
+
+    dx = -(halfW << FX32_SHIFT);
+    dx += pMtx->_00 * halfW;
+    pPos->x += dx + pMtx->_10 * halfH;
+
+    dy = -(halfH << FX32_SHIFT);
+    dy += pMtx->_01 * halfW;
+    pPos->y += dy + pMtx->_11 * halfH;
+
+    if (bDoubleAffine)
+    {
+        pPos->x -= halfW << FX32_SHIFT;
+        pPos->y -= halfH << FX32_SHIFT;
+    }
+}
+
+static inline void MulMtx22(const MtxFx22 *pM, const NNSG2dFVec2 *pSrc, NNSG2dFVec2 *pDst)
+{
+    NNSG2dFVec2 tmp;
+    NNSG2dFVec2 *pV = pDst;
+
+    if (pDst == pSrc)
+    {
+        pV = &tmp;
+    }
+
+    pV->x = (fx32)((((fx64)pM->_00 * pSrc->x + FX64_ROUND) + ((fx64)pM->_10 * pSrc->y + FX64_ROUND)) >> FX32_SHIFT);
+    pV->y = (fx32)((((fx64)pM->_01 * pSrc->x + FX64_ROUND) + ((fx64)pM->_11 * pSrc->y + FX64_ROUND)) >> FX32_SHIFT);
+
+    if (pV == &tmp)
+    {
+        *pDst = tmp;
+    }
+}
+
+void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, const NNSG2dFVec2 *pBaseTrans)
+{
+    NNSG2dFVec2 objTrans;
+
+    NNS_G2dGetOamTransFx32(pOam, &objTrans);
+    NNSi_G2dRemovePositionAdjustmentFromDoubleAffineOBJ(pOam, &objTrans);
+    MulMtx22(pMtxSR, &objTrans, &objTrans);
+
+    if (g_02148B48->affineOverwriteMode != 0)
+    {
+        GXOamEffect effect;
+
+        if (g_02148B48->affineOverwriteMode == 2)
+        {
+            effect = GX_OAM_EFFECT_AFFINE_DOUBLE;
+        }
+        else
+        {
+            effect = GX_OAM_EFFECT_AFFINE;
+        }
+        G2_SetOBJEffect(pOam, effect, 0);
+    }
+
+    {
+        const BOOL bDoubleAffine = G2_GetOBJEffect(pOam) == GX_OAM_EFFECT_AFFINE_DOUBLE;
+
+        NNSi_G2dAdjustDifferenceOfRotateOrientation(pOam, pMtxSR, &objTrans, bDoubleAffine);
+    }
+
+    objTrans.x += pBaseTrans->x;
+    objTrans.y += pBaseTrans->y;
+
+    G2_SetOBJPosition(pOam, objTrans.x >> FX32_SHIFT, objTrans.y >> FX32_SHIFT);
+}
