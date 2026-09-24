@@ -7,16 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   MATCH*
  *
  * symbols:
- *   (none)
-
+ *   func_0204047C 0x0204047C arm arm9
+ *
  * Runs the +0x3C object to completion and clears it.
  */
 
-
+#pragma thumb off
 extern void func_0204047C(int, int);
+#pragma thumb on
 
 void func_021BDCDC(int unused, char *p)
 {
