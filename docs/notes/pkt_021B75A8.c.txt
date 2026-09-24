@@ -1,0 +1,50 @@
+### lane O61 residue -- func_021E6DAC (140 B extent, 126 B code), func_021D4558 (164 B extent, 146 B code)
+
+Both are *characterised*, not guessed: the control flow and the field writes are
+settled and reproduce; what does not reproduce is one register-allocation
+decision that shifts everything after it by 2 bytes.  Neither is filed.
+
+func_021E6DAC  `(void *a, int b, int c, void *d)`, 140-byte extent.  Semantics
+as written up in `scratch/ov_093/o61/func_021E6DAC_diff.c`: gate on
+`c == func_021D775C(2)`; `k = (u8)func_021D775C(0xe)`, and when `k == 6` the key
+is rebuilt by `func_021C7D00(b,c)`, `func_021C815C(b)`, `func_021B8C20(...,0)`;
+then `func_021C7F68(b,k,d)`, the record `func_021D67A8(func_021C7CF4(b,*(u8*)d))`,
+and an `if` between the `func_021D76BC(0x12,r)/(0xd,k)` pair and
+`func_021D76BC(0x41,1)`.
+
+The one thing the image does that no spelling reached: it saves the third
+argument (c, r2) into **r4** and puts the (u8) key **k** in **r6**; mwcc here
+puts c in r6 and k in r4, i.e. it allocates k's register before c's.  Measured
+attempts, all giving k->r4/c->r6 at offset +0x06 and a 2-byte-longer body:
+  `u8 k;` declared at the top of the function          -> 128 B, 70 bytes differ
+  `int k;` declared at the top                         -> 128 B, same
+  `u8 k` declared inside a block opened after the gate -> 128 B, same
+  arms swapped (`if (p == 0 || test == 0) {0x41} else {0x12/0xd}`) -> 128 B, same
+That last one *is* needed on its own account: with the predicate written
+`p != 0 && test != 0` mwcc emits an extra branch over the else arm, whereas the
+image lays the `0x41,1` block inline and jumps to the `0x12`/`0xd` block with
+`bne` -- the `||`-of-failures form.  So one arm-order byte is right and only the
+k/c register swap is open.  Next probe: a shape that makes c's live range end
+before k is born (e.g. `k` as the *fourth* declared local, or c re-read from a
+spilled copy).
+
+func_021D4558  `(int a, int b, int c)`, 164-byte extent.  Semantics settled and
+filed-adjacent: `c == 4` returns the a'th 0xBBC element of the table at
+`*0x021F3B88 + 0xBF4`; otherwise the masked 16-bit field at +4 of that
+structure goes to the ARM helper `func_02030734(v, c, 1, 0x021F3A98, 0x021F)`
+and the result is stored and re-read at `+0x3B14 + a*4`.  Its twin
+**func_021D4954 closed EXACT\* on the first compile** with the identical tail
+and no `a`-index; the difference is entirely the early-out.
+
+Residue: the image keeps `a` in **r0** and multiplies `muls r1, r0, r1`
+(`a * 0xBBC`, destination = the constant's register), and computes `a*4` with
+`lsls r5, r0, #2` as the first instruction of the out-of-line block.  mwcc
+instead saves `a` into **r5** at +0x02 -- *before* the `c == 4` test -- so every
+subsequent pool load takes the register r0 would have had, the multiply becomes
+`muls r0, r5, r0` and the body is 16 bytes short at 100 B.  Measured attempts:
+  `off = a * 4;` hoisted above the field computation    -> still saves a, 100 B
+  `a * 4` inlined at both use sites (CSE bait)          -> still saves a, 100 B
+  `u8 *p = ...; return (u32)p;` in the early-out        -> still saves a, 100 B
+Both files are parked in `scratch/ov_093/o61/` as `*_diff.c`; the C7CF4/C88A4
+family next door (15 members filed) shows the same shape closing on the first
+compile, so the missing thing is one allocator hint, not a wrong model.

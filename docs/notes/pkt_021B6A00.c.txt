@@ -1,0 +1,76 @@
+# pkt_021B6A00 residue and class record (lane O65)
+
+Lane O65 filed 8 ov172 functions under the new packet `pkt_021B6A00`; every one is
+recorded by `tools/match.py manifest --verify --shard pkt_021B6A00` as EXACT or
+EXACT\* (7 EXACT, 1 EXACT\* -- the entry the summary counts as "not EXACT" is the
+EXACT\* one, the known match.py summary wart).  8 functions, 412 bytes of listing
+extent (code + literal pool), 14 compiles, ~78 min wall clock.
+
+Work order was `scratch/ov_172/deps2.py`, deepest callee first.  Every row taken
+was height 0, so no shard interleave was needed inside the lane: their callees were
+already filed *and* shard-recorded by the O23/O31/O44/O55 packets.
+
+| function | address | bytes | verdict |
+|---|---|---|---|
+| func_021B65D8 | 0x021B65D8 | 48 | EXACT |
+| func_021B6814 | 0x021B6814 | 60 | EXACT |
+| func_021B6A00 | 0x021B6A00 | 24 | EXACT |
+| func_021B77B8 | 0x021B77B8 | 48 | EXACT |
+| func_021B77E8 | 0x021B77E8 | 48 | EXACT |
+| func_021B7830 | 0x021B7830 | 44 | EXACT |
+| func_021BB8F4 | 0x021BB8F4 | 68 | EXACT\* |
+| func_021BDC70 | 0x021BDC70 | 72 | EXACT |
+
+## The two rules that closed this batch
+
+1. **A DATA target that is contested wants the ABSENCE of the region token, not the
+   token.**  `func_021B6A00` and `func_021B65D8` each failed first compile with
+   `021C88E8: the ov172 hint is contested (another overlay in the window starts an
+   object there)`.  Deleting `ov172` from the `symbols:` line and re-compiling with
+   no other change flipped both to EXACT.  This is brief rule 8 restated for the
+   ov172 data page: `g_021C88E8  0x021C88E8  data` compiles, `...  data  ov172`
+   does not.  The converse also held here: `g_021C6E9C`/`g_021C6EA8`/`g_021C4D20`
+   resolve `sole-ref` *with* the token, so try the token first and drop it on the
+   contested message rather than guessing.
+2. **An index kept in a variable is what produces `ldr r0,[r5,r4]`.**  `func_021BDC70`
+   releases five handles at +0x1dc..+0x1c8.  Written as literal offsets
+   (`*(u32*)(p + 0x1d0)`) CW folds base and offset into an immediate and the function
+   compiles frameless (`push {r4,lr}`) where the image has `push {r3,r4,r5,lr}` and
+   register-indexed loads.  Written as `u32 *a0` indexed by a *variable* slot
+   (`i = 0x77; v = a0[i]; ... i = 0x76; f(a0[i]); f(a0[i-2]); ...`) it reproduces the
+   image byte for byte in one compile, including the `movs r4,#0x77 / lsls r4,r4,#2`
+   scale and the `adds r0,r4,#0 / subs r0,#8` offset arithmetic.
+
+## ISA conflicts are a one-line fix, and the message names the answer
+
+`func_021BDC70` stopped at `ISA conflict for func_0202F038 at 0202F038: the source
+declares arm, the image says thumb (the func_0202F038 label in asm/arm9)`.  The
+image distinguishes `bl` (thumb) from `blx` (arm) per call site; reading that column
+and fixing the four `arm` tokens to `thumb` on the `symbols:` block was the whole
+fix.  Do not "resolve" the conflict any other way.
+
+## DIFFs parked (sources in `scratch/ov_172/parked/`, not committed)
+
+| function | address | residue |
+|---|---|---|
+| func_021B6B68 | 0x021B6B68 | 40 bytes: image keeps the table base in **r2**, the accumulator in **r5** and the record pointer in **r1**; CW picks r3/r4/r2 for the same expression.  Body, order and both clamps match; pure register colouring on a leaf. |
+| func_021B6ADC | 0x021B6ADC | 76 bytes, same class as func_021B6B68 and its twin: the magnitude nibble lands in r2 instead of r3, so every later `orrs`/`ands` reads the wrong register and the whole tail shifts.  Closing one should close the other. |
+| func_021B6BE0 | 0x021B6BE0 | 66 bytes: the alloc/copy shape is right (both `blx` sites resolve), but CW reorders the two `func_02030734` argument setups and then emits the copy from +0x2a on as a different sequence -- the `ldrb r0,[r5,#2]` is being taken signed.  Needs the record type, not more spelling. |
+| func_021B8740 | 0x021B8740 | 39 bytes: the struct-by-value-as-fifth-argument class O44 documented for func_021B891C/func_021B8AD4.  Image frames `sub sp,#0x18` and writes the record at `[sp]..[sp,#0xc]`; CW frames the same but passes `&rec` and shifts everything.  Not a body problem, a prototype problem. |
+
+## Unwitnessed-address class, unchanged
+
+The three functions O44 parked on `has no witness outside <lo>..<hi>`
+(`func_021BE2F0`, `func_021BA120`, `func_021BA050`) are still READY and still
+unmovable by re-spelling.  Not touched this lane.
+
+## Five rows deps2 calls READY that will still cap at MATCH
+
+`func_021B7740 -> func_021B796C`, `func_021B8978 -> func_021BA194`,
+`func_021BCB88 -> func_021BCC40`, `func_021BD038 -> func_021BD134`,
+`func_021BE43C -> func_021BD43C`: each names an ov172 sibling whose only source
+carries a *different* region's shard entry (for example `func_021B796C` lives in
+`layout/matched/ov016/pkt_021B796C.json`, and `func_021BD43C` is parked in
+`src/pending/`, recorded nowhere).  A checker that reads `src/matched` + `src/pending`
+plus the ov172 shards calls these READY; the `matched` class will cap them.  File the
+target into ov172's own shard first, or expect MATCH.

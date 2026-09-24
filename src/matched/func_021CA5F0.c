@@ -1,0 +1,51 @@
+/*
+ * function: func_021CA5F0
+ * address:  0x021CA5F0
+ * packet:   pkt_021CA5F0
+ * region:   ov016
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021CA5F0   0x021CA5F0  arm
+ *   func_021BD1D4   0x021BD1D4  arm  ov016
+ *   dat_021DB600    0x021DB600  data
+ *   dat_0207F0B8    0x0207F0B8  data
+ *   dat_021DB618    0x021DB618  data
+ *   dat_0207E3D0    0x0207E3D0  data
+ *   dat_021DB630    0x021DB630  data
+ *   dat_0207EB78    0x0207EB78  data
+ *
+ * Load three tilemaps through func_021BD1D4, then set the low two bits of
+ * 0x04001008, 0x0400100A, 0x0400000A and 0x0400000C.
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned short u16;
+
+extern void func_021BD1D4(int, int);
+extern unsigned short dat_021DB600[];
+extern unsigned short dat_0207F0B8[];
+extern unsigned short dat_021DB618[];
+extern unsigned short dat_0207E3D0[];
+extern unsigned short dat_021DB630[];
+extern unsigned short dat_0207EB78[];
+
+void func_021CA5F0(void)
+{
+    u16 *p;
+
+    func_021BD1D4((int)dat_021DB600, (int)dat_0207F0B8);
+    func_021BD1D4((int)dat_021DB618, (int)dat_0207E3D0);
+    func_021BD1D4((int)dat_021DB630, (int)dat_0207EB78);
+
+    p = (u16 *)0x04001008;
+    p[0] = (p[0] & ~3) | 3;
+    p[1] = (p[1] & ~3) | 3;
+    p = (u16 *)0x0400000A;
+    p[0] = (p[0] & ~3) | 3;
+    p[1] = (p[1] & ~3) | 3;
+}

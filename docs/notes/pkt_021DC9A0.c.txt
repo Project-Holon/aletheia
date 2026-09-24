@@ -297,3 +297,360 @@ sibling shape" work, not as walls.
 Everything the two residues of lane O33 were about is settled: func_021E2154
 (operand order, pointer variable) and a second instance of the same question,
 func_021EBF34 (base/index, struct tail array), both EXACT.
+
+================================================================================
+Lane O56 (ov170, packet pkt_021DC9A0) - three of the nine DIFFs closed.
+================================================================================
+
+All nine inherited residues were register-allocation or scheduling, as O46 said.
+Three are now EXACT and filed.  The other six are characterised below down to
+the single instruction that is wrong, with every spelling tried, so the next
+lane does not pay for them again.
+
+--------------------------------------------------------------------------------
+func_021EC08C @ 0x021EC08C - SETTLED, EXACT, 36 bytes.
+--------------------------------------------------------------------------------
+O46's residue was "the image stores strh r3,[r4,#2] BEFORE the pool load, mwcc
+stores it after".  It was not the scheduling and not the block order: the FIFTH
+FORMAL IS A HALFWORD VALUE, and it was declared `int`.  With `unsigned short c`
+mwccarm emits
+
+    add r2, sp, #0x10        <- not `ldr r2,[sp,#0x10]` (word load of an int
+    ldrh r2, [r2]               formal; the image has the halfword form)
+
+and, as a side effect, the pool load for the 0x9E74 constant sinks past the
+second `strh` -- which is the order the image has at +000C/+000E.  Both bytes
+of the residue fall to one type declaration.
+
+    void func_021EC08C(char *p, int i, unsigned short a, unsigned short b,
+                       unsigned short c)
+    {
+        unsigned short t[2];
+        t[0] = a;
+        t[1] = b;
+        func_0204B404(*(int *)(p + i * 4 + 0x9E74), t, c);
+    }
+
+The struct form (`struct S { unsigned short a, b; }; ... &t`) and a
+`(unsigned int)c` cast are also EXACT; the pointer form (`unsigned short *c`,
+`*c`) loses 5 instructions and is what a "it is obviously a pointer" reading
+gives you.
+
+--------------------------------------------------------------------------------
+func_021DF254 @ 0x021DF254 - SETTLED, EXACT, 52 bytes.
+--------------------------------------------------------------------------------
+One byte of 52 out: the image folds the wrap with `blo`, the compile emitted
+`blt`.  As with every other `blo` sighting on this overlay, the tested value
+must be UNSIGNED -- `unsigned w` (or an unsigned cast on the bound) gives the
+`blo`; the arithmetic, the block order and the pool word are untouched.
+`extern unsigned` on the callee's return type is NOT needed; only `w`.
+
+--------------------------------------------------------------------------------
+func_021EC428 @ 0x021EC428 - SETTLED, EXACT, 48 bytes.
+--------------------------------------------------------------------------------
+O46 tried constant-first "and it did not fix it".  The constant-vs-index
+grouping WAS the answer; what was missing alongside it is that the second
+call's FIRST ARGUMENT IS THE FIRST CALL'S RETURN VALUE -- r0 is never re-set
+between the two `blx`, so the source is `f2(f1(e), a, 0x200, 0, 0)`, not
+`f2(a, ...)`.  Two independent faults, so neither spelling alone could match.
+
+    func_0204AA94(func_0204B7F0(*(int *)(p + 0x9E74 + i * 4)), a, 0x200, 0, 0);
+    func_0204B6F4(*(int *)(p + 0x9E74 + i * 4), (unsigned char)b, 1);
+
+Note the grouping runs OPPOSITE to the sibling func_021EBF74 in the same
+overlay: here the CONSTANT first (`p + 0x9E74 + i * 4`) is what makes mwccarm
+form base = p+0x9E74 in one register and the scaled index in another, which is
+what this image has; the index-first spelling folds the pool word into the
+offset register instead.
+
+--------------------------------------------------------------------------------
+OPEN, six.  Every one of these is one register field or one scheduling tie.
+--------------------------------------------------------------------------------
+
+func_021EECB0  48 bytes, 2 instructions out.
+    +0008  6a 1f  subs r2, r5, #5     |  69 1f  subs r1, r5, #5
+    +000A  01 2a  cmp  r2, #1         |  01 29  cmp  r1, #1
+    The guard shape is settled and is NOT `a >= 5 && a <= 6` (that emits two
+    `cmp` and two arms): it is the RANGE CHECK, and it must be `<= 1`, not
+    `< 2` (`< 2` gives `cmp r1,#2 / bhs`).
+        if (a == 0 || (unsigned)(a - 5) <= 1)
+    Everything else in the 48 bytes matches.  What is left is which dead
+    incoming parameter register mwcc recycles for the `a - 5` scratch: it
+    takes r1 (the `a` parameter, dead after the `adds r5,r1,#0` copy), the
+    image took r2.  Tried and all still 2 out: `1u`, a named `unsigned n = a-5`
+    (27 out -- mwcc hoists the subtraction to the top), a named copy
+    `unsigned b = a;` (2 out), reordering the `||`.
+
+func_021EBF74  48 bytes, 7 instructions out, ALL from one register pair.
+    +0006  00 24  movs r4,#0              |  00 25  movs r5,#0
+    +0008  a0 00  lsls r0,r4,#2           |  a8 00  lsls r0,r5,#2
+    +000A  35 18  adds r5,r6,r0           |  34 18  adds r4,r6,r0
+    +000C  e8 59  ldr r0,[r5,r7]          |  e0 59  ldr r0,[r4,r7]
+    +001C  e8 59  (reload before call 2)  |  e0 59
+    +0024  64 1c  adds r4,r4,#1           |  6d 1c  adds r5,r5,#1
+    +0026  2d 2c  cmp  r4,#0x2d           |  2d 2d  cmp  r5,#0x2d
+    The image has the loop counter in r4 and the `p + i*4` base in r5; mwcc
+    puts the counter in r5 and the base in r4, and does so in every spelling
+    tried: `unsigned i` and `int i` with an unsigned cast, a named `int *e`
+    declared before the loop, declared after the loop, assigned inside,
+    `while` instead of `for`, `(i << 2)` for `i * 4`, the struct-with-tail-array
+    form that fixed the sibling func_021EBF34, and the constant-first grouping
+    (which is worse here -- it puts the pool word in r1 and loses 18 bytes).
+    The index-first grouping `*(int *)(p + i * 4 + 0x9E74)` is right (it is
+    what keeps 0x9E74 in the pool register r7 as the image has it); only the
+    colouring of the two live-across-the-call values is inverted.  This is the
+    one to hand to whoever finds the general "loop counter vs derived base"
+    lever -- see the free lesson below.
+
+func_021EE544  56 bytes, 23 to 26 instructions out.
+    The image computes the element address ONCE after the branch join:
+        movs r2,#0xc / muls r2,r1,r2 / adds r2,r4,r2
+    with the base in r4 and the index left undisturbed in r1.
+    * writing `e = base + a * 0xc` in both arms (if/else or ternary) makes
+      mwcc duplicate the `movs #0xc / muls` INTO each arm;
+    * splitting into `base` and `i` variables and writing `e = base + i*0xc`
+      merges the multiply correctly but then mwcc emits an extra
+      `adds r4,r1,#0` copy of the index and colours the base r2 instead of r4;
+    * both arms in the `a >= 0x1e`-first order also flips the arms' layout:
+      the image's `bhs` targets the 0x021F0370 arm, so the source order is
+      `if (a < 0x1e) {0x021F0DCC + a*0xc} else {0x021F0370 + (a-0x1e)*0xc}`.
+    Also settled: the 4th/5th arguments are the two BYTES at 0x021F0188, with
+    T1[1] (0x021F0189) on the stack and T1[0] in r3 -- the pool word holds
+    0x021F0188, and the callee's args 0-2 are `*(int*)(p+0x2c)`, e[0], e[1].
+
+func_021EA8CC  60 bytes, 12 instructions out, one register decision.
+    The image uses r4 for BOTH the frame byte `a` and the result: `a`'s last
+    use is the func_0201AB28 call, the result's first def is the `movs r4,#0`
+    placed with func_02017E1C's argument setup, so the two live ranges do not
+    overlap and mwccarm coalesced them.  Every spelling tried keeps them apart
+    (`a` -> r6, result -> r4, which costs the extra `push {r4,r5,r6,lr}`):
+    result declared early with `= 0`, declared early uninitialised and
+    assigned late, declared late in a nested block, and reusing the same
+    variable for both (which is also semantically wrong here -- the image
+    passes the ORIGINAL `a` to the second call, so `a = 0` before it is out).
+    Note mwcc's front end rejects a declaration after a statement even though
+    the header says `lang: c99`: `int r = 0;` following an `if` is
+    "expression syntax error", so use a nested block if you need it late.
+
+func_021EDBE8  36 bytes, 11 instructions out.
+    The image loads the loop-invariant byte ONCE, in r0, AFTER the entry
+    guard and before the body (`ldr r0,[pc,#..] / ldrb r0,[r0,r2]`), with the
+    counter in r4, `n` in r5 and the const base not live at all.
+    * the load inline in the loop (`a[i] = *(unsigned char*)(0x021EFCEC + c)`,
+      with or without a named `t` base pointer): mwcc keeps the base in a
+      register and RELOADS the byte every iteration;
+    * an explicit `unsigned char v = ...;` before the loop: the value IS
+      hoisted into a register exactly once -- but placed BEFORE the entry
+      guard, and mwcc then also needs r6, so the push is 4 registers instead
+      of 2;
+    * `if (i < n) v = ...;` before the loop: moves the hoist but not the push.
+    The image's placement (guard, then hoist) is what an LICM pass emits into a
+    rotated preheader, but this mwcc does not perform that hoist for the
+    inline load.  `n` is the 5th formal, read from [sp,#8] with `push {r4,r5}`
+    -- so the two early arguments are unused.
+
+func_021EDA70  64 bytes, 29 instructions out, one colouring decision.
+    +002C  86 42  cmp r6, r0   |  87 42  cmp r7, r0      (k)
+    The whole function is one register: the image holds `k = 0x22 * (b + 1)` in
+    r6 and `c` in r7; mwcc holds k in r7 and c in r6.  The image's prologue
+    carries three extra DEAD copies that mwcc always folds away:
+        r6 = b; r1 = b + 1; ...; r6 = r1; r6 = 0x22 * r6
+    (the `muls r6,r0,r6` needs the multiplicand in the destination register,
+    but the choice of r6 over r1 is what is missing).  Tried and folded away:
+    `0x22*(b+1)`, `int t = b; t+1`, `int t = b; int u = t+1;`, `++b`,
+    `0x22*b + 0x22`.  The loop body and epilogue otherwise match exactly.
+
+--------------------------------------------------------------------------------
+Free lessons measured this lane (each one cost at least three DIFFs first).
+--------------------------------------------------------------------------------
+1. A HALFWORD stack argument is declared `unsigned short`, and that alone can
+   fix an instruction-ORDER residue.  `add r2,sp,#0x10 / ldrh r2,[r2]` is what
+   mwccarm emits for a by-value `unsigned short` fifth formal; an `int` formal
+   gives `ldr r2,[sp,#0x10]` (word) and, because the tree is different, also
+   hoists the pool load one slot earlier.  Look for a residue that is "one
+   load wrong AND one store scheduled wrong" -- it is usually one type.
+2. `unsigned` on the value being range-folded, not on the callee's return
+   type, is what turns `blt` into `blo`: func_021DF254 needed only
+   `unsigned w`.  Fourth independent instance on this overlay.
+3. Check whether a call's r0 is set at all before reading the source's
+   argument order.  In func_021EC428 r0 arrives from the previous `blx`
+   untouched, which makes the second call's first argument the first call's
+   RETURN -- no amount of re-grouping the address fixes that, and it silently
+   co-exists with the grouping fault, so a lane that finds one and not the
+   other sees "constant-first did not help".
+4. Register-colouring residues on this overlay are not moved by declaration
+   order, by block nesting, or by naming a temporary: func_021EBF74 and
+   func_021EA8CC both ignore all of them.  The two levers that DO move the
+   colouring are (a) making a value a POINTER VARIABLE holding an address
+   (lane O46, func_021E2154) and (b) the struct-with-tail-array form (lane O46,
+   func_021EBF34) -- and both of those change the register ROLES, not merely
+   the colouring.  When only the colouring of two equally-live values is
+   inverted, a lane has to find a spelling that changes one value's live
+   RANGE; nothing cheaper moved it here.
+5. `muls` in Thumb needs the multiplicand in the destination register, so any
+   spelling that moves the multiply off an unnamed temporary and onto a named
+   variable pays an extra `adds Rd, Rs, #0` copy.  If the image's `muls` has
+   no such copy, the source multiplied an unnamed temporary, which also
+   constrains which grouping of the surrounding add is possible.
+
+================================================================================
+Lane O66 (ov170, packet pkt_021DC9A0) - seven of the nine open DIFFs closed.
+================================================================================
+
+All seven are filed EXACT in src/matched/ (52+36+48+48+48+60+64 = 356 bytes):
+
+    func_021DF254  52  EXACT    func_021EECB0  48  EXACT
+    func_021EC08C  36  EXACT    func_021EA8CC  60  EXACT
+    func_021EC428  48  EXACT    func_021EDA70  64  EXACT
+    func_021EBF74  48  EXACT
+
+Two remain open, both with a named residue (below).  Nothing this lane was
+blocked by a missing callee: every one of the nine was register allocation,
+scheduling or the SHAPE of one expression, exactly as O46 predicted.
+
+--------------------------------------------------------------------------------
+func_021EC428 @ 0x021EC428 - SETTLED, EXACT, 48 bytes.
+--------------------------------------------------------------------------------
+O46's own attempt (scratch/ov_170/tmp46/func_021EC428_b.c) was ONE byte out at
++0x18: it passed `a` as the second call's first argument, so mwcc emitted
+`adds r0, r7, #0` where the image has `adds r1, r7, #0`.  The first call's
+RESULT is the second call's first argument (r0 is never rewritten between the
+two `blx`), which is only reachable from a nested or local-result spelling.
+
+The trap: the NESTED spelling
+    func_0204AA94(func_0204B7F0(x), a, 0x200, 0, 0);
+puts a/b in r6/r7 (r6 = a) -- the image has r7 = a and r6 = b -- and the same
+one-byte miss moves to +0x18.  Hoisting the result into a LOCAL
+    int v = func_0204B7F0(x); func_0204AA94(v, a, 0x200, 0, 0);
+is EXACT (also with `int *q = (int *)(p + 0x9E74 + i * 4)` and `*q`).
+
+RULE: when a call result feeds another call's first register argument, name the
+result.  The nested form is not "the same thing" to mwccarm's callee-saved
+allocator: it moves the surrounding parameters one register slot.
+
+--------------------------------------------------------------------------------
+func_021EECB0 @ 0x021EECB0 - SETTLED, EXACT, 48 bytes.
+--------------------------------------------------------------------------------
+Two bytes out (`subs r2, r5, #5` / `cmp r2, #1` came out as r1) for three
+spellings that differed only in how the else-branch call was written.  The fix
+is that the else-branch call is TWO-argument:
+
+    func_021EE408(p);     -> the range temp lands in r1, 2 bytes out
+    func_021EE408(p, a);  -> EXACT
+
+func_021EE408 is `void func_021EE408(int p)` in src/matched/ and ignores the
+second argument, but the image still has r1 = a live at that `bl`, so a source
+that names only r0 leaves r1 free for the compiler to steal.  This is O33's
+arity rule again (count the LIVE argument registers at the call, not the ones
+the callee is known to use) and it is the same class as the tail-call residue
+O33 settled in func_021ECB60.
+
+--------------------------------------------------------------------------------
+func_021EA8CC @ 0x021EA8CC - SETTLED, EXACT, 60 bytes.
+--------------------------------------------------------------------------------
+`char *p` gives ldrsb for the 0x16 field; the image has ldrb, so p must be
+`unsigned char *` (O33 lesson 4, third instance in this packet).
+
+The register part: `int r = 0; ...; r = 2; return r;` keeps r live from the
+first byte, which pushes i from r4 to r6 and grows the push set from
+{r3,r4,r5,lr} to {r4,r5,r6,lr}.  Returning the CONSTANTS (return 1 / return 2 /
+return 0) lets mwcc reuse r4 for i and then for the result, which is the image.
+
+--------------------------------------------------------------------------------
+func_021EDA70 @ 0x021EDA70 - SETTLED, EXACT, 64 bytes.
+--------------------------------------------------------------------------------
+Four spellings (`int k = (a1 + 1) * 0x22`, `int n = a1 + 1; k = n * 0x22`,
+`n = n + 1`, `0x22 * n`) all compile 2 bytes SHORT: the image has
+    adds r6, r1, #0      ; r6 = a1   (parameter home)
+    adds r1, r6, #1
+    adds r6, r1, #0      ; write-back
+    muls r6, r0, r6
+and the local-variable spellings drop the first and third of those.
+
+The source that reproduces it ASSIGNS TO THE PARAMETER:
+
+    a1 = (a1 + 1) * 0x22;
+    ...
+    if (a1 == a3[0]) return;
+
+Writing the key back into a1 forces mwcc to home the parameter in r6 (a
+callee-saved register) and to emit the write-back, and it also fixes which of
+a2/a3 lands in r7 vs r6 (`int k` gives r7 = k / r6 = a2; the image has r6 = k
+/ r7 = a2).  `if (a3[0] == a1)` is 1 byte worse (the compare operand order).
+
+RULE: when the image homes a parameter in a callee-saved register and writes it
+back after computing with it, the source is an assignment to that parameter,
+not a new local.  A local misses the home and shifts every later register.
+
+--------------------------------------------------------------------------------
+func_021EBF74 @ 0x021EBF74 - SETTLED, EXACT, 48 bytes.
+--------------------------------------------------------------------------------
+O46's two spellings were 4 bytes out at +0x06: i in r5 and the row in r4, the
+image's exact opposite (i = r4, row = r5, offset constant 0x9E74 = r7).
+O46 had already measured the same family in func_021EBF34/func_021EBFA8 ("the
+constant before the index term"), but the flip here is the opposite direction
+and needs a NAMED ROW POINTER plus the offset as a WORD INDEX:
+
+    int *row = (int *)(p + i * 4);
+    if (row[0x279d] != 0 && func_0204B944(row[0x279d]) != 1)
+        func_0204B8D4(row[0x279d], 0x1000);
+
+`row[0x279d]` (= 0x9E74/4) makes mwcc keep 0x9E74 in r7 and address through
+[r5, r7]; the flat `*(int *)(p + i * 4 + 0x9E74)` gives r4 = row, r5 = i, and
+so does a `while` loop.  The element is re-read for the second call (3 loads in
+the image) because the callee may write it -- do not cache it in a local.
+
+--------------------------------------------------------------------------------
+func_021EC08C @ 0x021EC08C - SETTLED, EXACT, 36 bytes.
+--------------------------------------------------------------------------------
+The store-scheduling residue O46 parked.  The image interleaves
+    strh r2,[r4] / lsls r1,r1,#2 / adds r1,r0,r1 / strh r3,[r4,#2]
+i.e. the index term is computed BETWEEN the two stack stores.  Both an explicit
+`unsigned short t[2]` and a `struct { unsigned short a, b; }` reproduce it as
+long as the call is FIVE-argument (r2 = a stack halfword, read by the callee
+from [sp,#0x10]).  The four-argument spelling O46 tried (func_0204B404 taking
+(int, void *, int)) has no stack argument at all and can never reach the image.
+
+--------------------------------------------------------------------------------
+func_021DF254 @ 0x021DF254 - SETTLED, EXACT, 52 bytes.
+--------------------------------------------------------------------------------
+`char *p` gives ldrsb on the three fields (the image has ldrb) and an `int w`
+gives `blt` where the image has `blo`.  `unsigned char *p` plus `unsigned w` is
+EXACT in one compile; the compare operand order and the wrap-around tail do not
+need any special spelling.  (O33 lesson 1 and 4 again, both in one function.)
+
+--------------------------------------------------------------------------------
+Still OPEN, with the residue named.
+--------------------------------------------------------------------------------
+func_021EE544  56 bytes.  Structure and call are understood; the failure is the
+    POOL WORD ORDER and the position of the first pool load.  The image's pool
+    is .word 021F0188, .word 021F0DCC, .word 021F0370 -- the 021F0188 load is
+    emitted BEFORE the `cmp r1,#0x1e` (`ldr r3,pool` at +0x04) and r3 is kept
+    across the branch, so the source must reference 0x021F0188 before the if.
+    Four spellings (a pointer local declared before and after the branch, a
+    struct-pointer member read, two byte locals, plain literals in the call)
+    all sink the 0x021F0188 load to the join and emit the pool words in the
+    order 0DCC, 0370, 0188.  The byte locals are worse (4 pushes).  Everything
+    from the `muls` on is already right.  MEASURED: mwccarm emits pool words in
+    source-first-reference order, so the pool order is a free oracle for where
+    in the source a constant is first touched.
+
+func_021EDBE8  36 bytes.  The residue is exactly two things:
+    (a) the table byte load: image `ldrb r0,[r0,r2]` (base = the pooled
+        constant in r0, index = c in r2, destination r0); every spelling
+        compiles `ldrb r2,[r2,r0]` -- c as the base, the constant as the index
+        -- including `c + 0x021EFCEC`, a `unsigned char *t` local and the
+        literal form;
+    (b) its position: the image has n loaded first, i = 0, the `bls` entry test,
+        THEN the load in the preheader, then the loop with the back edge at the
+        bottom (`blo`).  That is a rotated `for`/do-while with the invariant
+        hoisted.  A source-level hoist (load before the loop) emits the load in
+        the entry block, BEFORE the entry test; a load inside the loop is never
+        hoisted by mwcc here (it reloads per iteration and needs r6, growing the
+        push set).  The closest spelling (edbe8_r, `if (i < n) v = t[c];` +
+        `do {...} while (i < n)`) is byte-identical from +0x16 on and differs
+        only in the load's two registers and the entry branch opcode (`beq` from
+        `if (n == 0)` where the image's rotated loop gives `bls`).
+    Free detail: `if (n == 0) return;` + do-while gives `beq`; letting the loop
+    condition generate the entry test gives `bls` -- the opcode distinguishes
+    a source-level guard from a rotated loop.

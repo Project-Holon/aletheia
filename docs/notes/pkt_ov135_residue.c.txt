@@ -660,3 +660,89 @@ add 0x021C866C and 0x021C86A8, and the ten parked handlers will promote.
   Note for the next lane: a `bl`/`blx` whose target has no label is NOT a
   shape problem and NOT fixable from the source. Test it FIRST with a
   one-line stub before decoding a 400-byte switch.
+
+ov135 lane O59 residue, wave 6 (2026-09-24)
+===========================================
+
+The five hand-decoded jump-table handlers wave 5 left behind are finished.
+Three are byte-exact (src/pending/, MATCH: every concrete byte reproduced,
+the only wildcards are the two unlabelled BLX targets), two are pure
+register/schedule residues with the shape settled and 12 bytes measured.
+
+Filed byte-exact to src/pending/ (one shard's worth of code each):
+
+  func_0220157C  0x0220157C  192B  MATCH   1 compile
+  func_02201A64  0x02201A64  180B  MATCH   3 compiles
+  func_02201C24  0x02201C24  100B  MATCH   2 compiles
+  (472 code bytes; they promote automatically once 0x021C866C / 0x021C86A8
+  are traced in layout/function_starts.txt, same blocker as wave 5)
+
+Rules this wave added, all measured:
+
+ 1. A SPARSE CASE SET COMPILES TO A COMPARE CHAIN, NOT A TABLE.  The listing
+    is a 16-slot table; reading the slots of 0x02201A8E gives the source's
+    case values exactly (15, 12, 0+1+3+13, 2, everything else empty).
+    Written with only those labels MWCC emits cmp/cmp/cmp and no table; the
+    table appears only when the EMPTY indices are listed as cases too
+    (`case 4: ... case 11: case 14: break;`, at the end of the case list).
+    An explicit `default:` does NOT switch it on (measured: still a chain).
+    The empty group emits no block, so its slots point straight at the code
+    after the switch, which is what the listing shows.
+ 2. THE COMPARE'S REGISTER TELLS YOU THE SWITCH EXPRESSION'S BIAS.  Four
+    handlers are `switch (n + 15)`: the test is on the biased index
+    (`adds r1,r0,#0xf; cmp r1,#0xf; bhi`).  func_02201C24 is `switch (n)`
+    with case values -15, -14, -13, -12, -2: its listing tests the RAW
+    index (`cmp r0,#-12; bgt`) and only then builds the table index
+    (`adds r1,r0,#0; adds r1,#0xf`).  A `switch (n + 15)` source reproduces
+    the case bodies but never that dispatch (measured, 73 bytes).
+ 3. STATE-TABLE GROUP ORDER IS SOURCE ORDER, including duplicates.  Read the
+    block addresses off the table and write the case groups in that order;
+    MWCC emits bodies in source order and folds a repeated body into a bare
+    `b` to the first copy (func_0220157C's cases 11 and 0/1/13 both land on
+    case 12's body; func_02201C24's -12 and -15/-14/-2 groups both land on
+    the counter's state-0x30 block).
+
+Still open, with the bytes measured:
+
+  func_0220171C  0x0220171C  208B  DIFF 12 bytes - PURE REGISTER MIRROR
+      Only the dispatch prologue differs; every case body, every call and
+      the whole table follow byte for byte.  Image:
+        ldr r2,=0xf8c / movs r1,#0 / str r1,[r4,r2] / adds r2,r0,#0 /
+        adds r2,#0xf / cmp r2,#0xf / bhi
+      mine: the same six with r1 and r2 exchanged (pool constant and index
+      in r1, the zero in r2).  Four source shapes measured (s32 n, u32 n,
+      a u16 local for the (u16)*(p+0xc4) argument, the zero routed through a
+      local z) - all give the mirrored pair, i.e. the allocator's first-free
+      choice for two dead-at-that-point registers.  func_0220157C, whose
+      prologue is textually identical, takes the other assignment, so the
+      choice is global to the function and no expression-level lever was
+      found in this lane.
+
+  func_0220189C  0x0220189C  404B  DIFF - ONE REGISTER CHOICE CASCADES
+      The 17-entry dispatch, the nested func_022024DC switch (whose case
+      order is CONFIRMED: tests ascending 0,1,2 with the source's bodies in
+      the order 1,2,0) and every call reproduce.  What differs is which
+      register holds the constant 1 across the switch: the image
+      materialises it once (`movs r6,#1` at the top of the index-16 body)
+      and reuses r6 in the index-12 and index-11 bodies (`strh r6,[r4,#0x32]`
+      and r3/r1 arguments), while mine re-materialises `movs r6,#1` at the
+      start of each of those bodies, which shifts the rest of the function
+      by 2 bytes and the literal pool by 4.  The same choice puts the
+      prologue's zero in r6 in the image and in a scratch register here.
+      i.e. the image's source has something that makes 0 and 1 a *variable*
+      live across the switch; the literal-constant spelling does not.
+
+  Both are 2-4 instruction residues with a named blocker, and both promote
+  through the same one-line fix as the four parked wave-5 handlers.
+
+Big band (>=129B): first target measured this wave
+
+  func_02201D30  0x02201D30  144B  DIFF 53 bytes
+      Same jump-table skeleton family (state 0x25 / the +0x38+0x2b four-call
+      group / a 3+11 pair archiving +0x38 before the redraw / the 0+1+13 and
+      2 redraw groups).  Dispatch, table and every case body's content are
+      right; the residue is one 2-byte instruction too many in the case-block
+      area, which shifts the else arm, the branch offsets and the pool by 2/4
+      bytes.  Source is in scratch/laneO59/a1d30.c - the three redraw groups
+      are one block too many for MWCC to merge, so the shared-count is the
+      thing to read off the listing next.

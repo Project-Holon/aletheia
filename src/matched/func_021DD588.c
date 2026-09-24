@@ -1,0 +1,66 @@
+/*
+ * function: func_021DD588
+ * address:  0x021DD588
+ * packet:   pkt_021B75A8
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021DD588   0x021DD588  thumb ov093
+ *   func_021D775C   0x021D775C  thumb ov093
+ *   func_021C7CF4   0x021C7CF4  thumb ov093
+ *   func_021D59B4   0x021D59B4  thumb ov093
+ *   func_021DCFF8   0x021DCFF8  thumb ov093
+ *   func_021C88A4   0x021C88A4  thumb ov093
+ *   func_021C8838   0x021C8838  thumb ov093
+ *   func_021C8860   0x021C8860  thumb ov093
+ *   func_021C88C8   0x021C88C8  thumb ov093
+ *   func_021D70A8   0x021D70A8  thumb ov093
+ *   func_0209C2B0   0x0209C2B0  arm
+ *
+ * Gate on func_021D775C(2); the 0xe count of func_021D59B4(func_021C7CF4(b,c))
+ * times the (u8) of func_021DCFF8(a, 2) goes to the ARM helper at 0x0209C2B0,
+ * whose result is the record's +4 halfword.  a and m go on the stack because
+ * all four saved registers are live.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
+
+int func_021D775C(int a);
+void *func_021C7CF4(int a, int b);
+int func_021D59B4(void *p, int k);
+int func_021DCFF8(void *a, int k);
+void *func_021C88A4(int a, int k, int b);
+void func_021C8838(void *p, int a, int b);
+void func_021C8860(void *p, int a);
+void func_021C88C8(int a, void *p);
+int func_021D70A8(void *a);
+int func_0209C2B0(int a, int b);
+
+void func_021DD588(void *a, int b, int c)
+{
+    void *p;
+    int m;
+    u8 v;
+
+    if (c != func_021D775C(2))
+        return;
+    m = func_021D59B4(func_021C7CF4(b, c), 0xe);
+    v = (u8)func_021DCFF8(a, 2);
+    p = func_021C88A4(b, 5, c);
+    *(u8 *)((u8 *)p + 6) = c;
+    *(u16 *)((u8 *)p + 4) = func_0209C2B0(m * v, 0x64);
+    func_021C8838((u8 *)p + 8, 2, 0xe3 << 2);
+    func_021C8860((u8 *)p + 8, c);
+    func_021C8860((u8 *)p + 8, func_021D70A8(a));
+    func_021C88C8(b, p);
+}

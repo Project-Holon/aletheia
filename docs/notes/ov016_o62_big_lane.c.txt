@@ -1,0 +1,108 @@
+Lane O62: ov016 ARM functions of 129 bytes and up
+==================================================
+
+Band rebuilt with `scratch/ov_ov016/o39/census.py`: 263 functions still
+reference a contested address (213 ARM, 50 thumb); 127 of the ARM ones are in
+this lane's band (129 bytes and up, 40,056 bytes of extent).  Fourteen filed
+EXACT, 1,996 bytes of listing extent, 29 compiles, about 80 minutes.
+
+Two shapes carried the lane.  Both are *families*, so the marginal cost after
+the first member is one `sed` and one compile.
+
+1. THE 0x021BD1D4 / DISPLAY-BIT FAMILY (6 members, all EXACT).
+   func_021C4964 0x021C4964 168B, func_021CB344 0x021CB344 168B,
+   func_021CB7EC 0x021CB7EC 168B, func_021CD1F8 0x021CD1F8 168B,
+   func_021CDCFC 0x021CDCFC 168B, func_021CE108 0x021CE108 168B, and the
+   4-argument variant func_021C66A8 0x021C66A8 188B / func_021C71F0
+   0x021C71F0 188B, plus func_021CA5F0 0x021CA5F0 148B.  Body: N calls to
+   func_021BD1D4(dst, src), then read-modify-writes of 0x04001008 /
+   0x04001008+2 / 0x04000008 / 0x0400000A / 0x0400000A+2 with
+   `p[0] = (p[0] & ~3) | k`.
+   Two levers, both measured, both needed:
+   a. THE PLAIN-LITERAL ARGUMENTS DO NOT WORK.  With
+      `func_021BD1D4(0x021DB3E0, 0x0207F0B8)` the compiler CSEs the six
+      addresses into two callee-saved registers and rebuilds the rest with
+      `add r0, r5, #0x18` / `sub r1, r4, #0x540`; the image reloads all eight
+      pool words, one per call argument.  Declaring one `data` symbol per
+      address (`dat_021DB3E0  0x021DB3E0  data`, token-less, brief rule 8) and
+      passing the symbol makes each a relocation, which the optimiser cannot
+      CSE against a literal, and the eight pool loads come back.  This is the
+      same lever O50 found for indexed bases, reached from the other side: it
+      applies to a literal passed as a *value* as soon as two of those values
+      sit at a constant offset from one another.
+   b. THE LAST TWO REGISTER WRITES NEED THEIR OWN BASE LITERAL.  Writing
+      `p = (u16 *)0x04000008; p[0..2]` emits only seven pool words (the
+      compiler folds +2/+4 into the offsets) and everything downstream lands
+      4 bytes early.  The image has its own pool word for 0x0400000A and
+      addresses [r1] / [r1,#2] off it, while 0x04000008 is derived as
+      base-0x1000.  Spelling the last two accesses off a 0x0400000A base
+      reproduces the pool exactly; the `sub r2, r3, #0x1000` then appears by
+      itself.
+   The 4-argument variant differs only in that the 0x04000008 write uses
+   `| 2` instead of `| 3`.
+
+2. THE 0x021DE688 RECORD-WINDOW FAMILY (4 members, all EXACT).
+   func_021D68E4 0x021D68E4 136B, func_021D696C 0x021D696C 136B,
+   func_021D69F4 0x021D69F4 136B, func_021D6A7C 0x021D6A7C 136B -- identical
+   but for one bit number, and funct_021D696C is 128 bytes so it sits just
+   under this lane's band; it was filed because it is the same seed.
+   The residue that blocked the first compile was a BITFIELD READ, and that is
+   the reusable finding: `lsl rN, rN, #(31-k)` followed by `lsrs rN, rN, #31`
+   is MWCC's lowering of a 1-bit `unsigned char` bitfield access, NOT of any
+   source-level mask/shift.  `(p[0x38] & 1)`, `(p[0x38] >> 0) & 1` and
+   `((unsigned)p[0x38] << 31) >> 31` all give the wrong bytes: the first two
+   fold to `and`/`tst`, and the unsigned cast folds to `tst r1, #1` and costs
+   four bytes.  Declaring a `struct { unsigned char f0:1, f1:1, ... f7:1; }`
+   and reading `((Bits *)(p + 0x38))->f0` reproduces `lsl #0x1f` / `lsrs #0x1f`
+   exactly, and f1/f2/f3 give the `lsl #0x1e`/`#0x1d`/`#0x1c` variants.  A
+   signed 1-bit field is the same shape with `asr` instead of `lsr`.
+
+3. RE-READING THE GLOBAL ACROSS A STORE IS A REAL DISTINCTION (func_021C5FA8
+   0x021C5FA8 140B, EXACT).  A leaf that splices two palette fields into
+   sprite entries off a record published through `*(u32 *)(0x021DE5D8 + 4)`.
+   Compiled with the pointer in a local it was 8 bytes short: the image
+   reloads the pointer from the global before its second statement
+   (`ldr lr, [r3, #4]`), because the first statement's store can alias the
+   global.  An explicit `p = *(u8 **)(g + 4);` before the second statement
+   reproduces it byte for byte.  Whenever a big leaf is exactly one `ldr`
+   short, look for a store between two uses of a global-held pointer.
+
+Parked, not ground
+------------------
+Both are the O39 note 2 register-naming class: every instruction and every
+relocation is right and the only difference is which callee-saved register
+holds which live value.  The sources are in `src/pending/` with the residue
+named in the header.
+
+  pkt_021D1F6C  func_021D1F6C 0x021D1F6C 160B  DIFF 49B, image r1=address of
+    the 0x021DE65C global / r3=pointee, compiler r0/r2.  Six halfword
+    read-modify-writes of the pointee at +2..+0xc, each reloading the pointee,
+    reproduce.  Spelling the base as `#define G (*(unsigned int *)0x021DE65C)`
+    or as a local `unsigned int *g` gives identical output.
+  pkt_021D5BC0  func_021D5BC0 0x021D5BC0 136B  DIFF, image r5=address of the
+    0x021DE680 global / r6=the 0x6000 constant, compiler r5/r6 swapped.
+    Dropping the `v` local and inlining both constants does not move it.
+
+The rest of the band
+--------------------
+The other big rows fall into shapes this lane did not have budget to finish,
+recorded here so the next lane starts from the measurement:
+
+- THE STACK-BUFFER PROLOGUE.  func_021C1A04, func_021CCAC0, func_021CBCF0,
+  func_021C519C, func_021C84BC and others open by copying 0x15-0x18 bytes from
+  a table address to `sp+0` with a byte-pair loop
+  (`ldrb r0,[ip,#1] / ldrb r1,[ip],#2 / subs r2,r2,#1 / strb r0,[r3,#1] /
+  strb r1,[r3],#2 / bne`, count 0xa..0xc in the register), sometimes plus one
+  trailing byte.  No spelling was tried; with the prologue solved these rows
+  collapse to the shape of note 1 above (three or four func_021BD1D4 calls,
+  func_021BD170 on the buffer, func_021D4B68, then the display-bit writes).
+- THE 0x021DE65C CLUSTER (func_021D1E9C, func_021D1F6C, func_021D200C,
+  func_021D20E8, func_021D27EC, func_021D28E4) is one shape: a guard call,
+  `m = (u16)~(1 << a)`, lock, six `((u16 *)G)[1..6] &= m` writes that reload
+  the pointee, unlock, tail call.  Only the register naming blocks it (above).
+- ROWS WITH `.inst` CALL TARGETS resolve fine once declared `arm` with no
+  region token (brief rule 9): func_021D5BC0's four ARM9 callees all resolved
+  (0x020862F0, 0x0207EE68, 0x0207EEFC) and so did func_021D1F6C's
+  (0x02087988, 0x0208799C).  The two overlay-side targets in func_021D1F6C
+  (0x021F1C30, 0x021F5FB0, above 0x02100000 and shared with ov029/ov032/ov093/
+  ov107) also resolved with a plain `arm` line and no token.

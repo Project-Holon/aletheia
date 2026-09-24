@@ -1,0 +1,122 @@
+Packet ov175 (lane O67) -- matching notes
+=========================================
+
+Prior state: 94 manifest entries in layout/matched/ov175 (69 at the brief's
+count, plus what lanes O14/O58 filed since).  This lane closed 14 of 16
+attempts (87.5%) and left one MATCH/pending.
+
+0. The two named families were already done
+-------------------------------------------
+The brief's "func_021DD358/380/3A8/3D0 quartet" and "func_021DEB1C/
+021DECA0/021DEE18" families were already EXACT and sharded before this lane
+started, all of them via both idioms in the brief (data-symbol pool base and
+the -interworking pooled tail call).  Re-verified, not re-filed:
+
+    func_021DD358 40   func_021DD380 40   func_021DD3A8 40   func_021DD3D0 40
+    func_021DEB1C 60   func_021DECA0     func_021DEE18     (design in
+    src/matched/func_021DEB1C.c, sibling shape)
+
+So the two named families carried no work; everything below is new territory.
+The remainder of ov175 is NOT family-uniform: grouping 230 open functions by
+normalised instruction shape gives only 18 groups of two or more, and the
+largest group is 4 (jump-table dispatchers, each unique in its table).  Family
+generation is spent here; the cheap shapes below are all singletons or pairs.
+
+1. New EXACT filed this lane (14 functions, 1006 instruction bytes)
+------------------------------------------------------------------
+    func_021DF3B0  0x021DF3B0   56  arm  EXACT    pkt_021DF3B0
+    func_021DF3E8  0x021DF3E8   56  arm  EXACT    pkt_021DF3E8
+    func_021DF420  0x021DF420   56  arm  EXACT    pkt_021DF420
+    func_021DFA3C  0x021DFA3C   48  arm  EXACT    ov175/pkt_021DFA3C
+    func_021DEFDC  0x021DEFDC   60  arm  EXACT    pkt_021DEFDC
+    func_021DF884  0x021DF884   80  arm  EXACT    pkt_021DF884
+    func_021DF8D4  0x021DF8D4   84  arm  EXACT    pkt_021DF8D4
+    func_021DDF74  0x021DDF74   72  arm  EXACT    pkt_021DDF74
+    func_021DF358  0x021DF358   88  arm  EXACT    pkt_021DF358
+    func_021DF458  0x021DF458   56  arm  EXACT*   pkt_021DF458
+    func_021E06DC  0x021E06DC   84  arm  EXACT    pkt_021E06DC
+    func_021E1D70  0x021E1D70   96  arm  EXACT    pkt_021E1D70
+    func_021DF5E4  0x021DF5E4   96  arm  EXACT    pkt_021DF5E4
+    func_021E054C  0x021E054C   96  arm  EXACT    pkt_021E054C
+
+Two name collisions with ov093, filed under the region-qualified filename:
+src/matched/ov175_func_021DFA3C.c and (parked) ov175_func_021DFF78.c.  The
+shard id pkt_021DFA3C is ambiguous across regions and the tool refuses it;
+write it as `--shard ov175/pkt_021DFA3C`.
+
+2. The wrapper family (func_021DF3B0/3E8/420/458)
+-------------------------------------------------
+One shape, four members, differing only in the probe callee and the warning
+code:
+
+    s32 f(s32 a)
+    {
+        s32 v = probe(a);
+
+        if (v != 0)
+            post(pick(v), warn(code, v));
+        return v;
+    }
+
+The trap that cost the first compile on all four: an early `return v;` inside
+the `if` compiles to `popeq`, while the image branches to the shared epilogue
+(`beq #epilogue`, then `mov r0, r5`).  The image's form is the guarded body
+plus a single trailing `return v;`.  Same residue on all four, so it is the
+shape to reach for first on any "call, test, post, return handle" wrapper here.
+func_021DF358 is the eight-argument member of the same family: the four
+register arguments are forwarded untouched and the outgoing stack frame is
+(a4, a5->f18, a5, a6), with the same guarded post.
+
+3. Other cheap classes that closed first compile
+------------------------------------------------
+* `if (p == 0) return 2; if (*(u32 *)(p + 0x50) != 0) { reset(p); dtor(p); }
+  return 0;` - the shared `mov r0, #0` tail is what the `beq` targets, so write
+  the positive test and let the return fall through (func_021DFA3C).
+* Two-arm state reset with a memset pair: the 0x28-byte blocks at +0x5c and
+  +0x84, then two byte constants 0xde/0xad on each block's front and a live
+  flag (func_021DF884/DF8D4).  gcc keeps `0` and `0x28` in two callee-saved
+  registers and reuses the 0 for the final store, so declaring `u32 z = 0;`
+  rather than writing literal zeros is the spelling that reproduces it.
+* ARM jump tables DO reproduce from a plain `switch` here, and the table index
+  is the case VALUE, not the position in the source.  func_021DF5E4 was 4
+  bytes wrong because I read the table entry at byte offset +0x20 as case 6;
+  the table starts at +0x0c (the first entry is the out-of-range branch), so
+  +0x20 is value 5.  Count the table base before assigning a case value.
+* A bswap32 written as an expression whose result is stored in a local whose
+  address is taken gives the whole stack round-trip: `u32 w = ((v >> 24) &
+  0xff) | ((v >> 8) & 0xff00) | ((v << 8) & 0xff0000) | ((v << 24) &
+  0xff000000); u8 *q = (u8 *)&w; dst[0] = q[0]; ...`, and the ADVANCE must be
+  the return value (`return dst + 4;`) or gcc drops the `add r0, r0, #4`
+  (func_021E054C, 4 bytes short on the first compile).
+* A struct init that clears non-adjacent words reproduces by writing the
+  stores in the image's order, not the struct's order: func_021E06DC emits
+  +0, +4, +8, +0xc, +0x2c, +0x28, +0x30, +0x14, +0x10, +0x18, +0x48 and that
+  order in the C source is what the compiler kept.
+
+4. Parked
+---------
+func_021D6524  0x021D6524  44 bytes  MATCH  src/pending/func_021D6524.c
+  Both THM_CALL sites target 0x0200E008, which has no func_/sub_ label in
+  asm/arm9/main.s and no other reference in any listing, so the site reports
+  no witness outside the compared range.  Bytes and size are already correct.
+
+ov175_func_021DFF78 @ 0x021DFF78 (scratch/ov_ov175/parked/) - DIFF, 3 of 40
+bytes, all register naming, plus a name collision with ov093 at the same
+address.  Image: `mul r3, r1, r3; ldr r0, [r0, #0x124]; add r3, r3, #0x44;
+add r0, r0, r3`.  Best spelling (`t += i * 0x14 + 0x44;` on a
+`char *t = *(char **)(p + 0x124)`) reaches the same size and the same
+instruction selection with the base in ip instead of r0 and the offset sum in
+r0 instead of r3 - the same residue docs/notes/pkt_021DFFA0.c.txt records for
+its sibling func_021DFFA0, mirrored.  Two siblings showing the same
+swap in opposite directions suggests the allocation follows the destination
+offset literal (0x44 vs 0x54), which is worth one structured lane, not a
+spelling sweep.
+
+5. Still open, with the blockers named
+--------------------------------------
+0x021E8AA8 (bl from func_021D61A4, func_021D61E8 and func_021D9064) has no
+label in any listing; tools/match.py refuses even to disassemble it
+(`0x021e8aa8+64 runs past region ov175`), so it lives in a later region's
+address space.  Same class as the func_021D9EA0/func_021D61CC blockers O14
+recorded on 0x02156DE0/0x02156DC4/0x021E8AA8: leave parked.  func_021DA434
+and func_021D6524 are blocked the same way on 0x0200E008 (arm9, unlabelled).

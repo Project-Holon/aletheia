@@ -1,0 +1,94 @@
+O60 lane notes -- ov009, ARM functions >= 129 bytes.
+
+Filed EXACT in this packet: func_0215E23C, func_02162DD8, func_0217D448,
+func_0217F824, func_021A0440 (684 bytes).
+
+
+-------------------------------------------------------------------------------
+1. TOOLING GAP (blocks a whole class, 41 call sites in this band)
+-------------------------------------------------------------------------------
+
+A ARM `bl` whose target is a `layout/symbols_sdk.json` address cannot be
+resolved.  match.py refuses with:
+
+    ISA conflict for func_02082EA4 at 02082EA4: the source declares arm, the
+    image says thumb (layout/symbols_sdk.json).  Fix the symbols: block
+    (address from name); refusing to resolve the call at +0044.
+
+The image is right and the tool is wrong: 0x02082EA4 sits inside MI_CpuCopy
+(0x02082E24, size 752, `thumb: false`) and the site's own word is
+`0xEBFC920E`, an ARM BL (cond 1110, 1011), not a BLX.
+
+Cause: `sdk_addresses()` is defined twice in tools/match.py (line 1161 and
+line 1329).  The second definition wins and returns `{addr: (name, thumb)}`,
+a tuple, while its only caller `isa_evidence()` (line 1524) does
+
+    th = sdk_addresses().get(addr)
+    if th is not None:
+        return ("thumb" if th else "arm"), "layout/symbols_sdk.json"
+
+A non-empty tuple is always truthy, so **every** address in
+symbols_sdk.json is reported as thumb.  The first definition
+(`out.setdefault(e["address"], bool(e["thumb"]))`) is the shape the caller
+expects.
+
+Consequence: any source that declares an SDK-catalogued ARM9 target as
+`arm` is refused before it compiles, and declaring it `thumb` would make the
+harness write BLX where the image holds BL, i.e. a guaranteed DIFF.  A
+workaround exists only for tail calls, which go through an ABS32 pool word
+and so never reach the branch check -- that is why src/matched/func_021665E4.c
+(`func_02082EA4(g_021AA80C, a, 6);`) compiles EXACT while a normal
+`func_02082EA4(dst, src, n);` call cannot.
+
+Census over the 626 not-yet-matched ARM functions of 129 bytes and up:
+  - 103 of them (16.5%) contain a direct `bl` to an ARM9 address that
+    isa_evidence() mis-reads as thumb because sdk_addresses() catalogues it
+    (41 sites; MI_CpuCopy at 0x02082EA4 is 30 of them);
+  - a further 77 sites point at ARM9 `loc_` labels with no func_ label and
+    no SDK entry: those resolve (no conflict, note "no image evidence for the
+    ISA") but then have no independent witness, so they cap at MATCH.
+
+Parked source: scratch/ov009/o60/func_0215E620.blocked.c -- a clean 152-byte
+ring-buffer consumer, EXACT except for two `func_02082EA4` calls.  Move it
+into src/matched/ once the isa_evidence()/sdk_addresses() mismatch is fixed.
+
+
+-------------------------------------------------------------------------------
+2. func_0215F5B4 @ 0x0215F5B4 -- DIFF, instruction multiset identical
+-------------------------------------------------------------------------------
+
+132 bytes.  Byte-swaps the u16 at +2 and the u32 at +4 of a packet header
+and forwards them (plus three untouched arguments and the fourth) to
+func_0215E024.  Every instruction is reproduced; 23 bytes differ because
+MWCC scheduled `lsl ip, r7, #0x10` (the (u16) conversion of the swapped
+halfword) four slots earlier than the image, rotating the rest of the
+block.  Same registers, same opcodes, one instruction transposed.
+
+The image places the conversion at +0058, immediately before
+`orr r4, r5, r4` (which frees r5); the build places it at +0048, right after
+`orr r7, r7, ip` frees ip.  Declaring v16 `u16` and converting at the
+assignment gives the build's order; declaring it `unsigned int` and writing
+`(u16)v16` at the call site makes the compiler drop the conversion entirely
+(128 bytes).  Next spelling to try: read the two words through a
+`struct { u16 pad; u16 h; u32 w; } *` so the loads are typed member accesses.
+Source kept at scratch/ov009/o60/func_0215F5B4.diff.c.
+
+
+-------------------------------------------------------------------------------
+3. Idioms that paid, measured on this band
+-------------------------------------------------------------------------------
+
+- `unsigned char` (not `char`) for a local byte buffer: the image loads
+  `ldrb` and then shifts with `asr`.  With `char` the build emits `ldrsb` and
+  the six bytes of the three loads differ (func_0217F824).
+- A "skip trailing zeros" loop reproduces only with the two tests in the
+  image's order, `while (a[n-1] == 0 && n != 0)`, even though `n != 0` is
+  the safe order; the entry `b`-to-test plus body-before-test rotation
+  follows from it (func_0217D448).
+- Unsigned comparison: `lo`/`hi` in the image means the *parameter* is
+  unsigned.  Two `int` lengths gave `lt`/`gt` on the length compare and cost
+  four bytes (func_0217D448).
+- When an `if`/`else` pair comes out with its blocks inverted (`bge` where
+  the image has `blt` and the two bodies swapped), rewriting it as
+  `if (success) {...} else/fallthrough-not-found` -- success first in source
+  order -- is what fixes it (func_0215E23C).

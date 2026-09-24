@@ -667,3 +667,93 @@ frame model finished; drv53.py compiles 10-wide, files EXACT ones, parks MATCH.
      there, and declaring them `arm` is an ISA abort in 7 bodies.  The
      override is in gen53.name_of(); those 7 bodies are still DIFF, so the
      flag is proved by the abort, not by a match yet.
+
+
+Lane O63 (ov217 structured control flow in the generator) 2026-09-24
+--------------------------------------------------------------------
+
+RESULT: 5 functions filed, all EXACT/EXACT*.  The shard
+layout/matched/ov217/pkt_021B9850.json went 390 -> 395 entries
+(269 EXACT + 126 EXACT*), verified by
+
+    python tools/match.py manifest --verify --shard pkt_021B9850
+
+Tooling: scratch/ov_ov217/o63/{inv63,gen63,drv63}.py.  gen63.py is gen53.py
+with the control-flow layer the 84-body frame class and the ~50 loose
+branch bodies both needed; drv63.py compiles 12-wide, shows the residue and
+files.
+
+1. What the 212 branch refusals actually were (measured)
+
+   gen53 refuses 245 of the 332 unfiled bodies and 212 of the refusals are a
+   single branch instruction (blt 63, beq 59, bne 32, ble 17, bhi 14, bge 7,
+   bhs 6, blo 4, bls 4, bgt 3, bpl 2, bmi 1).  So the walk could not stay
+   linear: gen63 annotates branch targets in a pre-pass and opens/closes C
+   blocks as the replay passes them.  Three templates, each read off the
+   image's own block layout:
+
+   * switch - `cmp/b<cond> L1, cmp/b<cond> L2, ..., b END` with the case
+     bodies laid out inline in chain order right after the `b END`.  mwcc's
+     sparse-switch layout, and the source is a plain `switch`.  Bodies are
+     emitted as `case k:` at their label and `break;` where the body ends
+     with `b END`; the last case falls through.  THIS CLOSED func_021B95A0
+     (96 B, the two-case state machine on `*a1`).
+   * if - a `cmp` + forward conditional branch that is NOT a chain and whose
+     target is a join: the skipped range is the body, so the condition is
+     INVERTED (`bhi L` -> `if (x <= k) { ... }`).
+   * for - a backward conditional branch: the instruction before the loop
+     label is the init and the one before the `cmp` is the step, so it is a
+     rotated counted `for`.  func_021BA41C came out as
+     `for (i1 = 0; i1 < 5; i1++) func_021C29F0(*(u32*)((u8*)a0 + i1*4 + 0x38));`
+     and is byte-correct except for the tie below.
+
+   Three engine details the switch bodies proved necessary: (a) every case
+   body starts from the register state at the dispatch - the walk's state
+   after the previous body belongs to that path only - so the switch saves
+   `self.v` and restores it at each `case`; (b) a pending call whose value is
+   never consumed must be flushed BEFORE the block's `}`, or it lands outside
+   the braces; (c) every `pop {...pc}` is a `return <r0>;`, not just the last
+   one, and emitting one promotes the function to `u32` (a bare `void f(..)
+   { ... return 32; }` was 157 CCERR in the first batch).
+
+2. Rate, measured
+
+   208 unfiled candidates generated (gen53 generated 87 of the same 332),
+   one compile each: 5 EXACT, 7 MATCH, 1 MATCH*, 3 CCERR, 192 DIFF.  That is
+   0.024 functions per compile - the control-flow layer bought generation,
+   not closure.  Functions filed:
+
+     func_021B95A0  96 B  EXACT    two-case switch on *a1, 9 calls
+     func_021C1628  20 B  EXACT
+     func_021C1638  20 B  EXACT
+     func_021C1648  20 B  EXACT
+     func_021C1670  20 B  EXACT    the 021C16xx `blo` guard quads
+
+3. The residue, and what it is not
+
+   Of the 84-body frame class (`sub sp,#N` + `[sp,#k]`), gen63 now generates
+   34 unique bodies (63 candidate rows with the stack-argument variants)
+   where gen53 generated 24 - and 0 of the 84 closed.  The frame
+   arithmetic, the offsets, the call order and every relocation match; the
+   residue is the two-colour saved-register tie O1/O43/O53 describe and
+   mwcc re-scheduling an argument computation across the stack-argument
+   stores.  A control-flow body that closes nowhere is worth less than the
+   same body refused, so the templates should be judged on the 192 DIFF, not
+   on the generation count.  (242 of the unfiled bodies carry a conditional
+   branch; 100 of them now generate.)
+
+   The 3 CCERR and the 192 DIFF are the next lever, not the symbols layer:
+   `rors`, `mov lr/ip`, `add rX, pc` + `ldrh` + `add pc, rX` (the O11
+   jump-table dispatchers, func_021BE934 and the 021B9774 family) and the
+   `ldm rX!, {r0, r1}` runs are the instruction holes left in the walk.
+
+4. ISA finding worth keeping
+
+   layout/symbols_sdk.json records `thumb: False` for 0207D63C
+   (G2x_SetBlendAlpha_) and 0207DCF8 (G3X_SetEdgeColorTable) while match.py's
+   own ISA check calls both thumb and aborts on the extern we emit.  Forcing
+   those two keys true in the generator removed all 7 ISA aborts at once (they
+   became DIFF, so the abort had been masking a real residue - not a free
+   EXACT).  gen63 also emits a `symbols:` line with kind `thumb` and NO region
+   token for an ARM9 target that is reached by `blx` with the odd bit set,
+   which is the ISA-bearing case; the even-address ARM9 calls stay `arm`.

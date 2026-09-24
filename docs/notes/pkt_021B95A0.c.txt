@@ -365,3 +365,144 @@ token (func_020399A8, func_0203A574) and neither cost a byte.  The three
 unlabelled addresses this lane met -- 0x02156860, 0x02156BC4, 0x021C584C --
 are all reached by an unconditional tail call and are still unreachable as
 labels, so their callers stay unparked rather than filed.
+
+
+==============================================================================
+lane O68 (continuation): the five residues, closed
+==============================================================================
+
+All five of the residues lane O42 left are EXACT, and so is func_021C1A30
+from lane O13.  Every one of them was a source-shape fact that the ORIGINAL /
+COMPILED pairs had hidden, not an allocator tiebreak:
+
+func_021C24D4  0x021C24D4  22 bytes  EXACT
+    O42 wrote it as a ternary and as a two-store if/else and read the
+    inverted block both times.  The form the image has is the if/else that
+    stores to `p[0x1342]` inside each arm and copies afterwards:
+
+        if (v == 4) { p[0x1342] = 0x2A; } else { p[0x1342] = 0x7F; }
+        p[0x1341] = p[0x1342];
+
+    With `u8 *p` (the copy is an `ldrb`, not an `ldrsb`) this is EXACT.  The
+    only other change from O42's spelling is `char *` -> `u8 *`.
+
+func_021C205C  0x021C205C  20 bytes  EXACT
+    The residue looked like "the image wants a fresh r1".  It is not: the
+    original takes the selector and passes it to func_021BB2F0 - it stays
+    live into that branch, so the compiler has to materialise the 0x8EF
+    pool word in r2 and cannot reuse it for the +5.  Write the early return:
+
+        if (p[0x8EF] != 0) { func_021BB2F0(p, v); return; }
+        *(u32 *)(p + 0x8F4) = 1;
+        func_021C2090(p);
+
+    func_021C2090 takes ONE argument at every one of its five call sites in
+    the overlay, and func_021BB2F0 takes two.
+
+func_021C1BEC  0x021C1BEC  30 bytes  EXACT
+    The mirror image of the above.  Here the image uses r1 for both the
+    loaded flag byte and the 0x8F1 index, which only happens if r1 is free,
+    i.e. if the function has NO trailing parameter.  O42's source declared
+    `(char *p, int v)` and called `func_021C2090(p, v)`, which parks r1 and
+    forces r2.  Drop the parameter and the one-argument call and it closes.
+
+func_021BF29C  0x021BF29C  32 bytes  EXACT
+    The lane before read the r1-vs-r0 on the load as allocator taste.  It is
+    the argument list: func_021B98E4 takes TWO arguments and the slot value
+    loaded from the table is the second one, so it is live across the call:
+
+        void *v = *(void **)(p + i * 4 + 0x814);
+        if (v != 0) { func_021B98E4(p + 0x274, v); }
+
+    Nothing else about the loop changes.  Lesson worth keeping: before
+    calling a register a codegen residue, check which registers are live at
+    the `bl` - an "unexplained" live register is usually an argument the
+    source had and the write-up did not.
+
+func_021BA794  0x021BA794  36 bytes  EXACT
+    Both tells were the width of the pointee.  `u8 *p` gives the
+    `ldrb r1, [r5, #0xd]` immediate-offset load and the zero-extended
+    `lsls/lsrs #0x18` pair around `1 << b`; with `char *p` the byte load is
+    signed and the shift is widened with `asrs`.  `u8 b` was already right.
+
+func_021C1A30  0x021C1A30  20 bytes  EXACT
+    Same mechanism as func_021C1BEC, in the other direction.  O13 called the
+    r2-vs-r1 on the 0x8EF pool word a residue; the function actually has a
+    second parameter and hands it to func_021C19DC, so r1 is live at the
+    pool load and the constant must go to r2:
+
+        void func_021C1A30(u8 *p, int v)
+        { if (p[0x8EF] != 0) { func_021C19DC(p, v); } }
+
+------------------------------------------------------------------------------
+15 further functions of the small strata, all newly filed by this lane
+------------------------------------------------------------------------------
+
+  0x021B9CD0  38  EXACT   the 0x30-record walk at +0x30 with the handler at
+                          +0x48 of each record called as f(p, record)
+  0x021BA5F0  24  EXACT   dispatch on the class byte; see the switch note below
+  0x021BD41C  36  EXACT*  guard, then age +0x1E0 and stamp 0x6A on underflow
+  0x021BD838  42  EXACT   class byte at +0x45 picks 0x49/0x48, stamps 0x7E
+  0x021BC73C  38  EXACT*  age +0x1E0 into the guard call itself, stamp 0x79 in
+                          the byte at +0x1353 and selector 0x8A
+  0x021BCE80  38  EXACT*  re-arm, hand the owner class byte to func_021BBEB4,
+                          stamp 0x5D
+  0x021BEE64  38  EXACT   two objects agree under func_021C27D8
+  0x021BF24C  38  EXACT   the +0x8EF flag route again, under a positive
+                          func_021BE7EC
+  0x021C01A0  36  EXACT*  re-arm + guard + stamp 0x21
+  0x021C04A4  36  EXACT*  the same with 0xA1
+  0x021C0528  36  EXACT*  the same with 0xA3
+  0x021C047C  36  EXACT   age +0x1E0, stamp 0x9E on underflow
+  0x021C19DC  40  EXACT*  the ordered teardown call list (its sixth callee is
+                          func_021BF29C, filed above)
+  0x021C23D8  40  EXACT   raise +0x9B4 once, re-arm, six/zero when the
+                          selector is 1
+  0x021BD838  see above
+
+------------------------------------------------------------------------------
+three codegen facts this lane measured on fresh shapes
+------------------------------------------------------------------------------
+
+1. A dispatch with two contiguous cases is a `switch`, not an if/else-if.
+   func_021BA5F0 is the proof: as `if (c==0) f1; else if (c==1) f2;` 1.1p1
+   inlines the c==0 body and inverts the test (`bne`); as a `switch (c)` with
+   `case 0:` / `case 1:` it lays both case bodies out of line behind
+   `beq`/`beq`, which is the image.  Same 24 bytes, 18 of them different.
+
+2. The image reuses the `subs` flags of a decrement, so write the decrement
+   as the condition.  func_021C047C and func_021BC73C both show
+   `ldr r1,[r5,r4]; subs r1,r1,#1; str r1,[r5,r4]; bpl` with no `cmp`:
+   `if (--*(s32 *)(p + 0x1E0) < 0)` reproduces it, while
+   `x = *(s32*)...; x - 1; if (x < 0)` adds the compare and the register.
+
+3. `if/else` on a named local beats the ternary when the image's first
+   `movs` is the DEFAULT value, not the equal value.  func_021BD838 wants
+   `movs r1,#0x48; cmp r0,#0; bne ahead` and only the if/else form gives it;
+   the ternary emits `movs r1,#0x49; ...; beq`.
+
+------------------------------------------------------------------------------
+one residue this lane did not close
+------------------------------------------------------------------------------
+
+func_021BD744  0x021BD744  42 bytes target  DIFF (31 bytes, 1 relocation)
+func_021BD7A0  0x021BD7A0  42 bytes target  DIFF (31 bytes, 1 relocation)
+
+    The complementary pair on the state word at +0x135C: each reads it, runs
+    func_021BAAB8 with one of 0x7D/0x7C (the two swap which side of the range
+    test they sit on), clears +0x135C and stamps selector 0x8E.
+
+        ORIGINAL   ldr r1,[pc] =0x135C ; ldr r1,[r5,r1] ; subs r1,r1,#2
+                   cmp r1,#1 ; bhi ahead ; movs r1,#0x7D ; b ahead2
+                   ahead: movs r1,#0x7C ; ahead2: movs r2,#0 ; bl
+        COMPILED   loads into r0 and keeps the constant in r1, adds an extra
+                   `adds r0,r5,#0` round trip for the first argument, and
+                   hoists the `movs r2,#0` third argument into r6, which
+                   pushes the frame from `push {r3,r4,r5,lr}` to
+                   `push {r4,r5,r6,lr}`
+
+    Both spellings measured - `u32 x = *(u32 *)(p + 0x135C);` as a local and
+    the whole expression inlined into the call - give the r6 frame.  The
+    source the image came from keeps everything in r1/r2 and leaves r0 as
+    the first argument untouched, so it is a shape this lane did not find;
+    it is parked here rather than spent on.

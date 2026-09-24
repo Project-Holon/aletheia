@@ -1,0 +1,115 @@
+Packet ov175 (lane O58) -- matching notes
+=========================================
+
+Prior state: 69 EXACT shards (35 from lane O4, 34 from lane O14).  This lane
+filed 25 more EXACT (all 25 verified again as a final batch and sharded):
+ov175 is now 94 shards.
+
+Attempted 29 distinct functions: 25 EXACT, 2 parked at MATCH on a callee with
+no witness (same class as the O14 parks), 2 left as DIFF residue notes.  That
+is 25 of 29 attempts, 86% -- and 16 of the 24 attempted in the first two
+batches closed on the first compile.
+
+1. The named cheap families -- both taken
+-----------------------------------------
+The 38-byte quartet func_021DD358/380/3A8/3D0 is one shape with two changing
+constants, and it is a 6-argument forward whose last two arguments are the
+stack pair:
+
+    void func_021DD358(int a, int b, int c, int d)
+    {
+        func_021DD2D4(a, b, c, d, 0, 0x021DE024);
+    }
+
+r0..r3 are forwarded untouched and the pool word holds 0x021DE024 (the
+callback func_021DD2D4 blx'es).  All four closed on the first compile; the
+byte extent is 40 each.  Note the callback addresses (0x021DE024, 0x021DE0D4,
+0x021DEBE0, 0x021DECE8) are unlabelled three-instruction ARM thunks sitting in
+`.word` blobs, and the pool word still attests: no symbol line is needed.
+
+The 34-byte trio func_021DEB1C/021DECA0/021DEE18 -- all three closed, but two
+needed the shape read off the image first:
+
+  * func_021DEB1C is a guard chain returning 4/6/5 before handing the table to
+    func_021DE14C.  The third test re-uses the +0x08 word loaded for the second
+    test (`ldr r1,[r2,#8]` then `cmp`), so the source must load it once and
+    test it twice -- `q[2] <= 0` (movle, signed) and then `(char **)q[1], q[2]`.
+  * func_021DECA0 is the func_021DEB98 five-argument forward with the indices
+    shifted by two: `func_021DE2E0((u32)obj, v + 4, v, ip[4], ip[3])`.  Note
+    the argument order: the *fifth* argument is the lower word (+0xc) and the
+    fourth is the higher (+0x10), because the compiler builds the stack slot
+    first.  Writing ip[3], ip[4] gives a clean two-byte DIFF and no other tell.
+  * func_021DEE18 must be `void` with a bare `return;` on the null cursor: as
+    `int` returning 0 the compiler has to zero r0 before the `popeq`, and the
+    image has no such move (it returns whatever the +0x08 load left in r0).
+
+2. Method notes -- what the last lane taught, confirmed
+-------------------------------------------------------
+* Data symbols, one more time.  Every one of the four pools that points into
+  the ov175 data area (0x021E4B88, 0x021E4C08, 0x021E4D08, 0x021E5334,
+  0x021E2C8C, 0x021E2EF8, 0x021E4370, 0x021E4378) had to be declared as an
+  array (`extern u32 g_ADDR[];`) with a `data` line on `symbols:`.  With the
+  symbol the harness attests the pool word as `sole-ref x1` and the entry is
+  EXACT; the same address written as a cast or as an integer reaches MATCH or
+  folds the offset into the pool word.  This was the single highest-yield rule
+  of the lane.
+
+* `void f(void) { g(); }` is still the cheapest shape in the file: the
+  func_021DF298/2C8/2F8/328 quartet (48 bytes each) and func_021DEBBC/
+  func_021DECC4 are that with an if around it, and all six closed first try.
+
+* A helper's *declared return type is a codegen pivot*, not documentation.
+  func_021DEE18 (0, above) and func_021DC6A4 both needed `void`/no-extraneous
+  zeroing: for func_021DC6A4 (`int` returning the callee's result) the value
+  must be carried in a local and returned, or the compiler adds a `movs r0,#0`
+  the image does not have.
+
+* Predicated early-out blocks want the *inverted* spelling.  func_021DB2D4:
+
+      if (func_0203D1A4(func_020399A8()) == a) { func_02034714(g, 0, g); return 0; }
+      return (int)(b + 0x218);
+
+  compiles to `cmp/bne` with the +0x218 arm out of line, matching the image.
+  The `!= a` form of the same test puts the rare arm inline (`beq` over a
+  movs/pop) and stays wrong for the whole function.  Same story on
+  func_021DA434: `if (call() != 0) { ... } return 1;` reproduces the image's
+  out-of-line `movs r0,#1; pop`.
+
+* Two more callees with no witness anywhere, both left parked in src/pending:
+  * 0x02156CD0 (`bl` from func_021DA434).  No func_/sub_ label in any listing,
+    not in layout/symbols_sdk, and the two overlays whose range covers it
+    (ov009, ov010) do not label it either -- a region hint on the symbols line
+    does not help.  Identical class to the O14 parks on 0x02156DE0/0x02156DC4.
+  * 0x02059F38 (`bl` from func_021E1434) is a `.word 0xE59F0010` pool word in
+    asm/arm9/main.s belonging to func_02059F54, which starts 28 bytes later.
+    Not a traced start, so MATCH* -- every other byte, the sole-ref 0x021E5334
+    pool word included, is identical.
+
+3. Left as DIFF residue (notes in docs/notes/, no committed source)
+-------------------------------------------------------------------
+* func_021DFFA0 (0x021DFFA0, 40 bytes, 4 bytes out): `i * 0x14 + 0x54 + base`.
+  Same tree, same size, mirrored register roles -- the image keeps the product
+  in ip and the base in r3, this compiler the other way.  Five spellings all
+  compile to the identical mirrored sequence; see docs/notes/pkt_021DFFA0.c.txt
+  for the list and the struct-array idea that is left to try.
+* func_021DC6A4 (0x021DC6A4, 44 bytes, compiled 48): the offset 0x12c is
+  materialised differently (`movs r0,#0xc8; adds r0,#0x64; str r1,[r5,r0]` in
+  the image vs a literal 0x12c on this compiler); the settled part of the body
+  is recorded in docs/notes/pkt_021DC6A4.c.txt.
+
+4. What is cheapest for the next lane
+-------------------------------------
+238 traced functions were still untouched when this lane started; the live
+count now reads 218 (the plan script counts a slightly different universe, so
+read it as a measurement, not as 238 minus 25).  The func_021DF298-family shape
+("open a slot, if it is non-zero queue it and post a message, return the
+handle") covers func_021DF3B0/3E8/420 (54 bytes each, `push {r3,r4,r5,lr}`) and
+is the nearest run of unclaimed near-clones.  func_021DF1A8's dispatch shape
+(`g_021E4D08[n]` called with forwarded registers) recurs inside func_021DF130
+(118 bytes, still unclaimed) which hands the func_021DF1A8 address itself and
+the 0x021E4F34 table to func_021DFBB8.  func_021E0730 (an eleven-store leaf
+reset) proved that straight-line stores come back in source order, so the other
+`mov r1,#0 / str r1,[r0,#off]` runs in the 0x021E0xxx block are one compile
+each.  Still blocked on unwitnessed callees, for the record:
+0x02156DE0, 0x02156DC4, 0x02156CD0, 0x021E8AA8, 0x021E8A90, 0x0201A918,
+0x02059F38.
