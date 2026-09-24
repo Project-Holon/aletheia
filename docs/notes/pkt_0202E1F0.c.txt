@@ -1714,3 +1714,202 @@ Copies of o and w, with any number of defs, are propagated or folded before
 costing. The residue stays at 2.
 /* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
    the wave-19 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane E7): 0x0202E1F0 unchanged, DIFF 2 (fresh draft)
+==============================================================================
+Written again from the image and the callees' matched bodies, not from any
+earlier source. All 1.1p1 -O4,p Thumb, `match.py one --diff`, about 90
+compiles, no permuter. Scratch: /tmp/aletheia_laneE7. o is read off +0004.
+"s" below = the fresh draft with the g call passed `param` (the 21 state).
+
+Callee reads that shaped the fresh signature (new relative to earlier drafts):
+  - func_0201D478 takes an argument (src/matched/unit_0201D478.c: `u32
+    f(void *s)`); r0 at +0048 is the func_0202441C result, so the source is
+    `n = (u8)func_0201D478(str)`. Earlier drafts declared it (void) and got
+    the same bytes by accident.
+  - func_02045730 is a u8 getter (unit_02045730.c) and func_02041B6C takes
+    `u32 bit` (sub_02041B6C.c): the tail is `func_02041B6C(func_02045730(
+    wk->msg))`, one statement (same bytes as the two-statement form).
+  - func_02043B5C's fill value is u8 (sub_02043B5C.c). `u8 pal` with a u8
+    parameter in the 02043B5C and 02043AF4 prototypes gives the image's
+    `ldr/str [sp, #0x6c]` self-copy; `u8 pal` with u32 prototypes loses it
+    and the frame (sub sp, #0x4c).
+  - The caller (func_0202DC60.c) passes p->f24, p->f31, p->f00 as the last
+    three words: pri u16, pal u8, heap u16.
+  Structs: MSGPARAM {u16 arc, str, code[2]} (8 bytes, what 02024570 copies
+  and 0202441C/020244F8/020244D4/02024368 read); BLINKPOS {s32 x, y};
+  BLINKWORK {u32 msg; u8 active; void *act[2]; u32 unk10[2]; bitfields
+  drawn:1, ready:1 at 0x18; u32 unk1c; u32 blink[2] at 0x20} (0x28 bytes,
+  the caller's element stride).
+
+Drafts (412 bytes unless noted):
+  d1 first draft (mp declared before mark, u32 pal prototypes, plain u16
+     heap)                                              385 (sub sp, #0x4c)
+  d2 mark declared before mp                            385 (same frame)
+  d3 + u8 in the 02043B5C/02043AF4 prototypes           371 (frame right; heap
+     loaded once and spilled to a fresh slot, no re-read)
+  d4 + `heapID = *(u16 *)&heap;` before 0202441C         31 (o/w swapped, and
+     n/slot/cnt spill slots in a different order with `u8 n`)
+  d5 + one-statement tail (02041B6C(02045730(..)))       31 (same bytes)
+  39 permutations of the str/buf/i/heapID/n declarations: 31 each (slot
+     order does not follow declaration order here)
+  v7 d5 with the g call passed `&mp`                     12 (+008E residue + slots)
+  v9 v7 with u32 heapID                                   12
+  v8 v7 with `int n = (u8)func_0201D478(str)`              2  <- fresh best
+  s  v8 with the g call passed `param`                    21 (o=r7, w=r6)
+So the fresh draft lands on exactly the wave-19 residue, with a simpler
+spelling: `const MSGPARAM *param` reused as `param = &mp` (no unsigned long,
+no wp copy), and the g call given `&mp` directly.
+
+Heap re-read (the image reads sp+0x70 twice, before 0202465C and after the
+o stores), no address-of: u32 heap + u16 prototypes + `heapID = heap` 420/389;
+the same with heap passed directly 420/397; u16 heap + u16 prototypes +
+`heapID = heap` 408/349; u16 heap passed directly 408/349. Only an
+address-taken (or volatile) heap re-reads it.
+
+W's variable, other shapes: a local `m = param; 02024570(&mp, m); m = &mp`
+400/374 (o=r6, m folds to the constant); a u32 source parameter with
+`m = (const MSGPARAM *)src` 400/374; W typed `const u16 *` throughout (from s)
+21; the def written inside the 0202465C argument `(param = &mp)` (from s) 21.
+
+Diagnostics from s (w wins by one unit), extending lane E5 which measured
+from base only:
+  a call-crossing tail temporary (interferes with o, not w)   416/56, o=r7
+  two such temporaries                                          428/73, o=r7
+  the bitfield stores moved before the tail calls (o's range
+    now ends before buf's and str's)                            412/60, o=r7
+  So neither o's degree nor its range length moves the pair from the 21
+  side either: the order is the use cost alone.
+  ready stored twice (`drawn=1; ready=1; ready=1;`)   412/29, o=r7 (one extra
+    orrs: the second RMW is merged before costing and adds no o unit);
+  `ready=1; drawn=1; ready=1;` 416/48; `drawn=1; ready=0; ready=1;` 416/38.
+
+Conclusion: a draft written independently, with every callee width read
+from the callees' matched bodies, reaches the same 2-byte residue and the same
+one-unit o/w balance. The parameter widths and the extra func_0201D478
+argument that closed the palanm pair change nothing here. The residue is
+not specific to how the earlier draft was shaped.
+/* fresh-draft source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1
+   -O4,p (the same +008E residue as the wave-19 source; either can stand as
+   the best source) */
+/*
+ * function: func_0202E1F0
+ * address:  0x0202E1F0
+ * packet:   pkt_0202E1F0
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (documented near miss, 412/412, 2 out)
+ *
+ * symbols:
+ *   func_02024570  0x02024570  thumb
+ *   func_0202465C  0x0202465C  thumb
+ *   func_0202441C  0x0202441C  thumb
+ *   func_0201D478  0x0201D478  thumb
+ *   func_020244F8  0x020244F8  thumb
+ *   func_020244D4  0x020244D4  thumb
+ *   func_02024368  0x02024368  thumb
+ *   func_0201D528  0x0201D528  thumb
+ *   func_0201D4BC  0x0201D4BC  thumb
+ *   func_0202E040  0x0202E040  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02043AF4  0x02043AF4  arm
+ *   func_02045808  0x02045808  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+typedef struct { u16 arc; u16 str; u16 code[2]; } MSGPARAM;
+typedef struct { s32 x; s32 y; } BLINKPOS;
+
+typedef struct {
+    u32   msg;          /* 0x00 */
+    u8    active;       /* 0x04 */
+    void *act[2];       /* 0x08 */
+    u32   unk10[2];     /* 0x10 */
+    u32   drawn : 1;    /* 0x18 */
+    u32   ready : 1;
+    u32   unk1c;        /* 0x1c */
+    u32   blink[2];     /* 0x20 */
+} BLINKWORK;
+
+extern void  func_02024570(MSGPARAM *dst, const MSGPARAM *src);
+extern u32   func_0202465C(MSGPARAM *p, u32 a1, u32 a2);
+extern void *func_0202441C(const MSGPARAM *p, u32 heap);
+extern u32   func_0201D478(void *str);
+extern u32   func_020244F8(const MSGPARAM *p, u32 idx);
+extern u16   func_020244D4(const MSGPARAM *p, u32 idx);
+extern void *func_02024368(const MSGPARAM *p, u32 heap, int count);
+extern u32   func_0201D528(void *s, u8 idx, u32 a, u32 b);
+extern u32   func_0201D4BC(void *s, u8 idx);
+extern void  func_0202E040(void *h, u32 cell, u32 b, u32 c, u32 n, const BLINKPOS *pos);
+extern u32   func_02045770(u32 msg);
+extern void  func_02043B5C(u32 a, u8 b);
+extern void  func_0201C724(void *owner, u32 a, s16 x, s16 y, void *buf, u32 e, u16 f);
+extern void  func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
+extern void  func_02045808(void *p);
+extern void  func_02045374(u32 msg);
+extern u8    func_02045730(u32 msg);
+extern void  func_02041B6C(u32 bg);
+
+void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
+                   const MSGPARAM *param, const BLINKPOS *pos,
+                   u16 pri, u8 pal, u16 heap)
+{
+    u32 mark[2] = {0, 0};
+    MSGPARAM mp;
+    void *str;
+    void *buf;
+    int i;
+    u16 heapID;
+    int n;
+
+    func_02024570(&mp, param);
+    param = &mp;
+    func_0202465C(&mp, 1, heap);
+    wk->active = 0;
+    wk->msg = a3;
+    heapID = *(u16 *)&heap;
+    str = func_0202441C(param, heapID);
+    n = (u8)func_0201D478(str);
+    for (i = 0; i < n; i++) {
+        if (func_020244F8(param, i)) {
+            wk->blink[i] = 1;
+        } else if (func_020244D4(param, i) == 0xffff) {
+            mark[i] = 1;
+        }
+    }
+    buf = func_02024368(&mp, heapID, n);
+    func_02043B5C(func_02045770(wk->msg), pal);
+    func_0201C724(owner, func_02045770(wk->msg), pos->x, pos->y, buf, a2, pri);
+    wk->active = 1;
+    for (i = 0; i < n; i++) {
+        if (wk->blink[i] == 1) {
+            u32 x = func_0201D528(buf, i, a2, 0);
+            u32 y = func_0201D4BC(buf, i);
+            func_0202E040(wk->act[i], a3, x, y, func_020244D4(param, i), pos);
+        } else if (mark[i] == 1) {
+            u32 x = func_0201D528(buf, i, a2, 0);
+            u32 y = func_0201D4BC(buf, i);
+            func_02043AF4(func_02045770(a3), x, y << 4, 0x54, 0x10, pal);
+        }
+    }
+    func_02045808(buf);
+    func_02045808(str);
+    func_02045374(wk->msg);
+    func_02041B6C(func_02045730(wk->msg));
+    wk->drawn = 1;
+    wk->ready = 1;
+}
