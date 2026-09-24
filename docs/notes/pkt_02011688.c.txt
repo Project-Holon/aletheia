@@ -408,3 +408,32 @@ Where to start next: the 52/31 two-return form has the image's block layout
 and epilogues; what is missing is only the remainder landing in r2 before the
 compare (the `idx %= n` homing) while the multiply still works on a copy.
 No spelling so far gives both.
+
+==============================================================================
+2026-09-24, wave 19 (lane anime_3): 14 holds, 15 measurements from the 52/31 form
+==============================================================================
+Start: the two-return form with a named `u32 i = idx % n` and t[i] field
+copies (52/31, image block layout and both epilogues, missing only the
+r1 -> r2 copy before the compare). Measured once each (1.1p1):
+  (1) `u32 m = p->f18; if (m == n)` with m used after the compare
+      (`return m - n + 1`): 52/32.
+  (2) `u16 m = p->f18` narrowed compare: 56/37 (the field is a 32-bit ldr
+      in the image, so this adds a narrowing; rejected on width too).
+  (3) modulus before the compare in source order is already the 52/31 form;
+      variants: `i` declared then assigned before the if 52/31, a comma
+      expression `if ((i = idx % n, p->f18 == n))` 52/31, commuted
+      `n == p->f18` 52/31, `const u32 i` 52/31, `s32 i` 52/31, a function-
+      scope copy `j = i` used for the reads 52/31, a block-scope copy 52/31.
+  (4) inverted guard `if (p->f18 != n) return 0;` then the body: 52/34.
+  (5) n is a local, not a parameter; the narrow-parameter lever applied to
+      idx (`u16 idx`, not value-preserving anyway): 52/31 in the two-return
+      form, 52/34 with the inverted guard.
+  Extra: `idx %= n` with t[idx] in the two-return form 50/25 (the remainder
+  stays in r1 and the multiply goes in place into it); `u32 i = idx; i %= n;`
+  with t[i] 50/25; the same with `t = &p->f1c[i]` 52/26.
+Nothing moved; no combination to make. Reading: the compiled i coalesces
+with the call's r1 return in every spelling where the multiply still works
+on a copy, and the spellings that home the remainder in r2 (a write back
+into the parameter, wave 10) lose the multiply copy. The five listed levers
+are exhausted on this function.
+/* best source, 50 bytes against 56, 14 concrete bytes out, 1.1p1 -- the big_three source above, unchanged */
