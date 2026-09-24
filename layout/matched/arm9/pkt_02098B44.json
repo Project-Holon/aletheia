@@ -28,6 +28,24 @@
    }
   },
   {
+   "name": "func_0209953C",
+   "address": "0x0209953C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_0209953C.c",
+   "compiler": "dsi/1.2",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x020A64A8",
+     "self:0x020A64B8"
+    ]
+   }
+  },
+  {
    "name": "func_0209A524",
    "address": "0x0209A524",
    "kind": "game",

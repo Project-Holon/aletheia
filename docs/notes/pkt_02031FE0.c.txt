@@ -856,3 +856,35 @@ parameter webs.
 permuter: anneal, --types, budget 1500, seed 1851, from the AB=heap B=mode
 A=gen source (48): DIFF asm=80 bytes-out=14 size=1704/1704.
 /* best source: unchanged, the wave-12 source (1704 bytes against 1704, 9 concrete bytes out, dsi/1.1p1) */
+
+================================================================================
+2026-09-24 (wave 19, backup_fresh lane).  9 -> 0; CLOSED, EXACT.
+================================================================================
+0x02031FE0 -- EXACT: src/matched/func_02031FE0.c.  The wave-12 source with
+two changes, both required:
+  * `unsigned long AB;` in place of `u32 AB;`
+  * loop-local declaration order AB, pa, pb, i, A, B (was B, pa, pb, AB, A, i)
+Plus the allocator's real prototype `void *func_02030734(u32 heap, u32 size,
+int clear, const char *site, u16 tag)` with `(u16)heap` at the call (EXACT
+with the old u16-heap prototype too; the real one is filed, as wave 13 asked).
+Checks: the order alone with u32 AB is 22; ulong AB with the old order is 13;
+pb assigned before pa is neutral on top of the fix, 13 without the order.
+manifest --verify --shard pkt_02031FE0 twice: 1 rewritten, then 0.
+
+Measured once each on the wave-12 source (1704 bytes every time, --arm, 1.1p1):
+  - self-assignment lever (docs/idioms/a-no-code-self-assignment-...):
+    `B = B;` / `AB = AB;` after AB's definition, at the inner loop head,
+    after B's definition, after the func_0203331C(self, i, 0) call, and both
+    orders of the pair after AB's definition: all 9 (10 measurements).
+  - long: unsigned long B 31, long B 31, unsigned long AB 13 (3-cycle: A r8,
+    B r4, AB r7), unsigned long A 9, A+B 9, A+AB 13, B+AB 31, A+B+AB 13.
+  - B as a one-element array 22; B and AB as a two-field local struct 22.
+  - block scope: B alone in the loop blocks 22; AB alone in the walk block 9.
+  - compare operand order: the break test with tbl[i] on the left 9; both
+    `==` tests with tbl[i] on the left 9.
+permuter: anneal, --types, budget 2000, seed 2501, from the ulong-AB source
+(13): EXACT; mutations decl-order(i<->AB), decl-order(B<->AB), hoist-up(pb),
+and some temp/expand noise; minimised by hand to the two changes above.
+Why earlier sweeps missed it: the 720-order sweeps were all with u32 AB; the
+long type changes which colouring group AB joins, and only then does the
+declaration order reach the image's assignment.

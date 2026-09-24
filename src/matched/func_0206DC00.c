@@ -1,13 +1,13 @@
 /*
  * function: func_0206DC00
  * address:  0x0206DC00
- * packet:   pkt_0206BEA0
+ * packet:   pkt_0206DC00
  * region:   arm9
  * compiler: ../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * NitroSystem G3D NNS_G3dGeSendDL (gecom.c): send a display list. Under 256
  * bytes, or with no GX DMA channel (GXi_DmaId at 0x020A84C0 == -1), it goes
@@ -18,22 +18,16 @@
  * variant; on TWL hardware (func_02085D3C) an id above 3 is an NDMA channel
  * id - 4 handled by the TWL-only routines at 0x027300F0 / 0x0272FEF4.
  *
- * BLOCKED (MATCH, every concrete byte right under ../2.0/sp2; dsi/1.1p1
- * pushes {r3-r8,lr} and is 12 bytes short):
+ * EXACT under ../2.0/sp2 (dsi/1.1p1 pushes {r3-r8,lr} and is 12 bytes
+ * short), 14 of 14 relocations resolved (wave 19, 2026-09-24):
  *   - PC24 0x027300F0 and 0x0272FEF4: TWL code, region `twl` (the DSi-mode
- *     autoload block of arm9i.bin, 2026-09-24), named with the `twl` token.
- *     asm/twl/twl.s exists only with a user-supplied DSi key (arm9i is
- *     modcrypted; see tools/modcrypt.py). Verified with a key 2026-09-24:
- *     both addresses are traced ARM function starts in asm/twl (push
- *     prologues), but no bl, b, blx or pool word in the decrypted twl
- *     image, the ARM9 image or any of the 237 overlays targets either
- *     one; the only branches are this function's own two bl, which the
- *     label rule refuses. Class needed: label, via an outside branch;
- *     none exists in this ROM.
- *   - ABS32 0x0206DBF4: CLEARED 2026-09-23 (wave 16). The 12-byte leaf is
- *     filed EXACT as src/matched/func_0206DBF4.c (shard pkt_0206DC00) and
- *     the site now resolves as `matched`: 12 of 14 relocations resolve,
- *     the two TWL-ltd PC24 sites above are the whole remaining cap.
+ *     autoload block of arm9i.bin), named with the `twl` token. Both are
+ *     traced ARM function starts in asm/twl/twl.s, which exists only with a
+ *     user-supplied DSi key (see tools/modcrypt.py). No branch outside this
+ *     function targets either one, so `label` refuses them; they resolve as
+ *     `sole-ref/code` over the twl listing (attest_sole_ref_twl_code()).
+ *   - ABS32 0x0206DBF4: resolves as `matched` (src/matched/func_0206DBF4.c,
+ *     shard pkt_0206DC00).
  *
  * symbols:
  *   g_020A84C0     0x020A84C0  data

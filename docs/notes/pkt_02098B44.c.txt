@@ -573,3 +573,28 @@ recompute:
 	}
 	return n&7;
 }
+
+==========================================================================
+2026-09-24, wave 19 (lane 19A, msl_bodies_2): 0x0209953C EXACT, filed
+==========================================================================
+The two missing guards were explicit `if` statements in front of two
+for loops. mwcc keeps an explicit `if` with the loop condition as a
+second guard beside its own rotation guard:
+  f[] setup loop:   `j = jv-jx; m = jx+jk; i = 0;
+                     if(m>=0) for(;i<=m;i++,j++) ...`
+      gives +0x7C adds/bmi (rotation guard) and +0x84 cmp r8,#0 / blt
+      (the if).
+  recompute loop:   `i=0; j=jz; z=q[jz]; if(j>0) for(;j>0;i++,j--) {`
+      gives +0x188 cmp / +0x194 cmpgt.
+Measurements (match.py one, dsi/1.2, on the wave-18 best source):
+   1  both ifs, `if(m>=0) for(i=0;...)`       2992 / 21 out (only the
+      mov r6,#0 of i=0 is scheduled after j and m)
+   2  `i = 0;` before `j = ...; m = ...;`      2992 / 10 out (i and j swap
+      registers in the recompute loop)
+   3  recompute as `if(jz>0) for(i=0,j=jz,...)`  3008 (frame grows)
+   4  recompute as `j=jz; z=q[jz]; if(j>0) for(i=0;...)`  2996
+   5  `i = 0;` after `j = ...; m = ...;`       EXACT, 2992, 62/62 relocs
+Filed as src/matched/func_0209953C.c (dsi/1.2, -O4,p, c99). Shard
+pkt_02098B44 verified twice: the second pass reports "1 rewritten" but the
+file is byte-identical to the first pass's output. The permuter was not
+needed.

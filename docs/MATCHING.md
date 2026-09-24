@@ -364,6 +364,24 @@ its own:
   whenever it is a label start or veneer with the declared ISA; it
   **refuses** an address that is merely interior to a traced function (an
   offset that is not itself a label) and any kind but `thumb`/`arm`.
+- **`sole-ref/code` for TWL labels** (`attest_sole_ref_twl_code()`, added
+  2026-09-24) is the overlay form of `sole-ref/code` with the TWL listing as
+  its only candidate, tried as the last fallback in `attest_sole_ref()`. It
+  covers a call whose `symbols:` line carries the fourth token `twl`
+  (`func_027300F0  0x027300F0  arm  twl`). It **accepts** the address when it
+  lies inside the `twl` window of `layout/layout.json` and is exactly a
+  `func_` label in `asm/twl/twl.s` with the declared ISA. That listing is
+  disassembled from the decrypted TWL region, which `delink.py` writes only
+  after verifying it byte for byte: the key matches its recorded SHA-1, the
+  decrypted BLZ stream decodes with every byte consumed, and the clear tail
+  agrees with the undecrypted file. No branch from outside the range is
+  required, which is what separates it from the `twl` branch of `label`: it
+  carries the DSi-only callees of `func_0206DC00` (0x027300F0 and
+  0x0272FEF4), whose only call sites lie inside that function. It
+  **refuses** an interior address or a pool word (neither is a label), the
+  wrong ISA, a site with no hint or an `ovNNN` hint, an address outside the
+  window (an ARM9 address named with `twl`), and everything when
+  `asm/twl/twl.s` does not exist (no key).
 - **`sole-ref/string`** (`attest_sole_ref_string()`) covers a `__FILE__`-style
   site whose address begins a NUL-terminated printable run in the listings,
   even when the preceding object is a table rather than a string, the case
@@ -1562,7 +1580,7 @@ python tools/match.py idioms --check  # is it stale?
 
 <!-- idioms:begin -->
 
-197 idioms, one file each under `docs/idioms/`.
+198 idioms, one file each under `docs/idioms/`.
 
 - [A bitmask complement built from `eors` against -1 instead of `mvns` says the mask is 64 bit](idioms/a-64-bit-complement-is-eors-with-minus-one-not-mvns.md): mwccarm compiles `~x` on a 32 bit value to `mvns`, so a live `movs rN, #3` / `subs rN, rN, #4` / `eors` triple is the low half of a **64 bit** NOT whose high half was dead-code eliminated; the mask is a `long long` even where the field it is applied to is a `u32`, and spelling it `~mask` instead of `mask ^ -1` costs the whole function.
 - [A 64-bit multiply-plus-add accumulates into the loaded addend's register only when the addend stays inline in the multiply's statement](idioms/a-64-bit-multiply-add-accumulates-into-the-addends-register.md): for `r = a * b + c` on 64-bit values, mwcc accumulates the low word into the register the addend came from when the addend is a dereference written inside the multiply's own statement and the result is stored back as one 64-bit store; with the addend in a named local, or with the two halves stored separately, the same expression accumulates into `ip` and the high half moves to a second scratch register, a five-instruction difference in register choice with identical lengths.
@@ -1584,6 +1602,7 @@ python tools/match.py idioms --check  # is it stale?
 - [A declared struct local folds to sp-relative, a cast byte buffer keeps the pointer](idioms/a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md): when a stack scratch object's address is passed to a call and then read back, declaring it as the struct folds the read to `[sp, #off]` while declaring it as a byte array and casting keeps the read on the register that already holds the address; binding `&obj` to a pointer local does not change it, only the storage declaration does.
 - [A defaulting wrapper spends one zero on both r3 and the stack word](idioms/a-defaulting-wrapper-spends-one-zero-on-r3-and-the-stack-word.md): a five-argument callee reached through a shorter entry point compiles to `push {r3, lr}` plus a single `mov r3, #0` that serves as both the fourth argument and the one outgoing stack word, so the push is the stack argument's home slot rather than a saved register; the same push followed by `ldr ip, [sp, #8]` is always a plain five-argument forwarder.
 - [A small switch on dense case values dispatches first and lays the arms out after it; the equivalent if/else chain interleaves tests and bodies](idioms/a-dense-switch-dispatches-first-and-lays-the-arms-out-after.md): `switch (w) { case 3: ... case 4: ... case 5: ... }` with each arm an `if` that returns emits the whole compare chain first (`cmp #3 / beq`, `cmp #4 / beq`, `cmp #5 / beq`, `b default`) and then the three arm bodies in source order below it, while the same arms written as an `if`/`else if` chain emit each test immediately in front of its own body.
+- [A doubled loop entry guard is an explicit if in front of the for](idioms/a-doubled-loop-entry-guard-is-an-explicit-if-around-the-for.md): when the image tests a loop's entry condition twice in a row (`adds/bmi` then `cmp #0/blt`, or `cmp` then `cmpgt` on the same register), the source has an `if` with the loop condition in front of the loop. mwcc keeps both the `if` and its own rotation guard, and it does not merge them.
 - [A duplicated pool word is a second extern name for the same address](idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md): mwccarm emits one literal-pool word per (symbol, addend), so a pool that carries the same address twice in one function means the source named it through two different externs; one name makes 1.1p1 CSE both uses into a callee-saved register (and every 2.0 build share one word), two names give two independent pool loads.
 - [A tail factored out after an if/else lets the compiler predicate the arms, writing it into both arms forbids it](idioms/a-factored-tail-lets-the-compiler-predicate-the-arms.md): the same statement after an if/else versus repeated inside both arms is not only a cross-jumping question, it decides whether mwccarm if-converts the arms at all; factored out, one-instruction arms become `addge`/`mlalt` and the function loses four bytes per branch pair, so a real `cmp`/`b<cond>` in the original means the arms were bigger than one statement in the source.
 - [A field read from a table folds the field offset into the pool word, not into the load](idioms/a-field-read-from-a-table-folds-the-field-offset-into-the-pool-word.md): `&tbl[i].b` where `b` sits at +2 of a four-byte record is not `ldrh rD, [base + i*4 + 2]`; mwccarm puts the *base plus two* in the pool word and keeps `[rB, rI]`, so the pool word holds `tbl + 2` and not `tbl`. Reading the same bytes through a `u16[]` indexing trick gives the same instruction and the wrong pool word, which caps the function at MATCH forever.

@@ -28,3 +28,11 @@ s32 as `signed long`; the SDK headers are not in this tree to confirm it).
 Try it on the index of a swapped pair before declaration sweeps; it is one
 measurement.  It did not move 0x0206F4C8, 0x0202E1F0, 0x0200CA98,
 0x0204A7A0 or 0x0202627C (wave 18), so it is a lever, not a rule.
+
+Wave 19: it also closed 0x02031FE0 (src/matched/func_02031FE0.c, 1.1p1,
+ARM), where the long value is not an index but a sum (`AB = A + B`, a record
+end offset) and the swap partner was B.  There `unsigned long AB` alone moved
+9 to 13 bytes (a three-register rotation), and only a declaration sweep ON
+TOP of the long type (AB, pa, pb, i, A, B) reached EXACT; every earlier
+720-order sweep had been with u32.  So when long moves a swap without closing
+it, sweep declaration order again with the long in place.

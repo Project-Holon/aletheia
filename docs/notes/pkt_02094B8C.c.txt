@@ -921,3 +921,686 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
         return *(double *)p;
     }
 }
+
+==========================================================================
+2026-09-24, wave 19 (lane 19A, msl_bodies_2): 3860 of 3864, DIFF
+==========================================================================
+Two of the four residue items from wave 18 are closed. The source below is
+3860 bytes against 3864 under 1.1p1. The hex-start clear, the cross-jump and
+the frac arm are now instruction-identical.
+  - Mantissa clear through the chptr register: the assignment is
+    `chptr = (unsigned char *)&mantissa;`. The cast on the array's address
+    stops mwcc folding chptr into sp-relative stores. mantissa stays
+    `unsigned char[8]` at sp+0x45 (it is odd-aligned, so a u64 or two u32
+    is impossible). The tail's `mantissa + 7` stays uncast; a cast there
+    un-folds the image's `add r0, sp, #0x4c`.
+  - Frac-to-int cross-jump (14 words): each digit body ends with its own
+    `c = fetch(); break;` inside the `if (intdigits < 14)` block, ahead of
+    the shared `c = fetch(); break;` after the if. The two join blocks then
+    have the same successor (the shared fetch) and mwcc merges them. The
+    extra `b` blocks at +0x930 and +0x98C match.
+Still open (1.1p1, v13 below):
+  - `ldr r2,[sp,#8]; mov r0,#0xe; cmp r2,r0` (and `mov r0,r2` before the
+    increment) in both digit arms. The C gives `cmp r0,#0xe`.
+  - The entry zero chain: one extra copy.
+  - Hex tail: p / mantissa[0] / ui come out r2/r4/r3 against the image's
+    r4/r3/r2. The 11-bit mask is CSE'd with the ~0x7FF test mask
+    (`and r0,r4,r1,lsr #21`) where the image does `lsl #21` then `lsr #25`
+    / `lsr #17`.
+Measurements (compiled bytes / concrete out, as match.py prints them; v =
+scratch variant, each on the previous best unless stated):
+   1  v1  digit value computed into c (if/else), uch1 = c    3916 / 3108 (= base)
+   2  v2  clear as `for (NibbleIndex=0;<8;++) chptr[..]=0`   3868 / 2929
+          (not unrolled, chptr eliminated)
+   3  v3  same with unsigned ui                              3868 / 2911
+   4  v4  `char mantissa[8]` plus casts everywhere           3912 / 3167: clear
+          right, tail `mantissa+7` un-folded
+   5  v5  only `chptr = (unsigned char *)&mantissa`          3912 / 3170: clear
+          right, tail unchanged
+   6  v6  `14 > intdigits`                                   = v5
+   7  v7  `static const unsigned max_hex_digits = 14`        = v5
+   8  v8  toupper as `if (c>=0 && c<0x80) c = __upper_map[c]` = v5
+   9  v5 under dsi/1.3                                       3912 / 3170
+  10  v5 under dsi/1.6sp2                                    3912 / 3173
+  11  v9  local `unsigned max_digits = 14`                   = v5
+  12  v10 anonymous enum constant for 14                     = v5
+  13  v11 exponent through `ui = expsign & 0x7FF`            = v5
+  14  v12 frac arm `goto` into the int arm after toupper     3836 / 3052
+          (chptr moves to sl, both toupper copies merged)
+  15  v5 at -O3,p                                            3904 / 2521
+          (clear loops change, hex arms unchanged)
+  16  v13 `c = fetch(); break;` inside both digit bodies     3860 / 3086:
+          cross-jump reproduced
+  17  v14 bound `2 * sizeof(mantissa) - 2`                   = v13
+  18  v15 intdigits as an enum-typed counter                 3860, bge
+          instead of bhs
+  19  v16 int intdigits, `(unsigned)intdigits < 14`          = v13
+  20  permuter output re-measured                            3864 / 2741
+  permuter (tools/permute.py hill, 987 compiles, seed 1924, on v13;
+  tools/permuter.py still cannot parse the ctype macros): best is 3864 /
+  2741, but it gets there through nine case swaps and decl swaps. That
+  gives 238 differing aligned instructions against v13's 164, and the
+  right size is an accident of the case layout. Discarded.
+Still capped at MATCH even with exact bytes: __double_huge has no
+outside witness, and there are two anonymous string pool words.
+
+/* best source (2026-09-24, wave 19): 1.1p1, 3860 bytes against 3864 */
+/*
+ * function: func_02094B8C
+ * address:  0x02094B8C
+ * packet:   pkt_02094B8C
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   UNMATCHED
+ * symbols:
+ *   __ctype_map    0x020A61DC  data  a2
+ *   __upper_map    0x020A615C  data  a1
+ *   __float_huge   0x020A8814  data
+ *   __double_huge  0x020A881C  data  a4
+ *   func_0209739C  0x0209739C  arm
+ *   func_02091374  0x02091374  arm
+ *   _fsub          0x0209CB8C  arm
+ *   _f2d           0x0209BD38  arm
+ *   _dsub          0x0209AF34  arm
+ *   _dneq          0x0209BAC8  arm
+ *   _dls           0x0209B9A0  arm
+ *   _dgr           0x0209B864  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct decimal {
+    unsigned char sign;
+    char unused;
+    short exp;
+    struct {
+        unsigned char length;
+        unsigned char text[32];
+        unsigned char unused;
+    } sig;
+} decimal;
+
+extern const u16 __ctype_map[];
+extern const u8 __upper_map[];
+extern float __float_huge;
+extern double __double_huge;
+extern double func_0209739C(const decimal *d);      /* __dec2num */
+extern double func_02091374(const char *tagp);      /* nan */
+
+#define isdigit(c)  (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x8))
+#define isalpha(c)  (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x1))
+#define isspace(c)  (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x100))
+#define isxdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (__ctype_map[c] & 0x400))
+#define toupper(c)  (((c) < 0 || (c) >= 0x80) ? (c) : __upper_map[c])
+
+#define INFINITY __float_huge
+#define HUGE_VAL __double_huge
+
+enum scan_states {
+    start              = 0x0001,
+    sig_start          = 0x0002,
+    leading_sig_zeroes = 0x0004,
+    int_digit_loop     = 0x0008,
+    frac_start         = 0x0010,
+    frac_digit_loop    = 0x0020,
+    sig_end            = 0x0040,
+    exp_start          = 0x0080,
+    leading_exp_digit  = 0x0100,
+    leading_exp_zeroes = 0x0200,
+    exp_digit_loop     = 0x0400,
+    finished           = 0x0800,
+    failure            = 0x1000,
+    nan_state          = 0x2000,
+    infin_state        = 0x4000,
+    hex_state          = 0x8000
+};
+
+enum hex_scan_states {
+    not_hex                = 0x0000,
+    hex_start              = 0x0001,
+    hex_leading_sig_zeroes = 0x0002,
+    hex_int_digit_loop     = 0x0004,
+    hex_frac_digit_loop    = 0x0008,
+    hex_sig_end            = 0x0010,
+    hex_exp_start          = 0x0020,
+    hex_leading_exp_digit  = 0x0040,
+    hex_leading_exp_zeroes = 0x0080,
+    hex_exp_digit_loop     = 0x0100
+};
+
+#define final_state(s) ((s) & (finished | failure))
+#define success(s) ((s) & (leading_sig_zeroes | int_digit_loop | frac_digit_loop | \
+                           leading_exp_zeroes | exp_digit_loop | finished))
+#define hex_success(count, s) ((count) - 1 > 2 && ((s) & (hex_leading_sig_zeroes | \
+                           hex_int_digit_loop | hex_frac_digit_loop | \
+                           hex_leading_exp_zeroes | hex_exp_digit_loop)))
+
+#define fetch()    (count++, (*ReadProc)(ReadProcArg, 0, 0))
+#define unfetch(c) (*ReadProc)(ReadProcArg, c, 1)
+
+double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg,
+                     int *chars_scanned, int *overflow)
+{
+    int scan_state = start;
+    int hex_scan_state = not_hex;
+    int count = 0;
+    int spaces = 0;
+    int c;
+    decimal d = {0, 0, 0, {0, ""}};
+    int sig_negative = 0;
+    int exp_negative = 0;
+    long exp_value = 0;
+    int exp_adjust = 0;
+    double result;
+    int sign_detected = 0;
+    unsigned char *chptr;
+    unsigned char *p;
+    unsigned char mantissa[8];
+    unsigned char uch, uch1;
+    unsigned ui;
+    unsigned chindex;
+    int NibbleIndex;
+    int expsign = 0;
+    int exp_negsign = 0;
+    unsigned intdigits = 0;
+
+    *overflow = 0;
+    c = fetch();
+
+    while (count <= max_width && c != -1 && !final_state(scan_state))
+    {
+        switch (scan_state)
+        {
+        case start:
+            if (isspace(c))
+            {
+                c = fetch();
+                count--;
+                spaces++;
+                break;
+            }
+            switch (toupper(c))
+            {
+            case '-':
+                sig_negative = 1;
+            case '+':
+                c = fetch();
+                sign_detected = 1;
+                break;
+            case 'I':
+                c = fetch();
+                scan_state = infin_state;
+                break;
+            case 'N':
+                c = fetch();
+                scan_state = nan_state;
+                break;
+            default:
+                scan_state = sig_start;
+                break;
+            }
+            break;
+
+        case infin_state:
+        {
+            int i = 1;
+            unsigned char model[] = "INFINITY";
+
+            while ((i < 8) && (toupper(c) == model[i]))
+            {
+                i++;
+                c = fetch();
+            }
+            if ((i == 3) || (i == 8))
+            {
+                if (sig_negative)
+                    result = -INFINITY;
+                else
+                    result = INFINITY;
+                *chars_scanned = spaces + i + sign_detected;
+                return result;
+            }
+            else
+                scan_state = failure;
+            break;
+        }
+
+        case nan_state:
+        {
+            int i = 1, j = 0;
+            unsigned char model[] = "NAN(";
+            char nan_arg[32] = "";
+
+            while ((i < 4) && (toupper(c) == model[i]))
+            {
+                i++;
+                c = fetch();
+            }
+            if ((i == 3) || (i == 4))
+            {
+                if (i == 4)
+                {
+                    while ((j < 32) && (isdigit(c) || isalpha(c) || c == '.'))
+                    {
+                        nan_arg[j++] = c;
+                        c = fetch();
+                    }
+                    if (c != ')')
+                    {
+                        scan_state = failure;
+                        break;
+                    }
+                    else
+                        j++;
+                }
+                nan_arg[j] = '\0';
+                if (sig_negative)
+                    result = -func_02091374(nan_arg);
+                else
+                    result = func_02091374(nan_arg);
+                *chars_scanned = spaces + i + j + sign_detected;
+                return result;
+            }
+            else
+                scan_state = failure;
+            break;
+        }
+
+        case sig_start:
+            if (c == '.')
+            {
+                scan_state = frac_start;
+                c = fetch();
+                break;
+            }
+            if (!isdigit(c))
+            {
+                scan_state = failure;
+                break;
+            }
+            if (c == '0')
+            {
+                c = fetch();
+                if (toupper(c) == 'X')
+                {
+                    scan_state = hex_state;
+                    hex_scan_state = hex_start;
+                }
+                else
+                    scan_state = leading_sig_zeroes;
+                break;
+            }
+            scan_state = int_digit_loop;
+            break;
+
+        case leading_sig_zeroes:
+            if (c == '0')
+            {
+                c = fetch();
+                break;
+            }
+            scan_state = int_digit_loop;
+            break;
+
+        case int_digit_loop:
+            if (!isdigit(c))
+            {
+                if (c == '.')
+                {
+                    scan_state = frac_digit_loop;
+                    c = fetch();
+                }
+                else
+                    scan_state = sig_end;
+                break;
+            }
+            if (d.sig.length < 20)
+                d.sig.text[d.sig.length++] = c;
+            else
+                exp_adjust++;
+            c = fetch();
+            break;
+
+        case frac_start:
+            if (!isdigit(c))
+            {
+                scan_state = failure;
+                break;
+            }
+            scan_state = frac_digit_loop;
+            break;
+
+        case frac_digit_loop:
+            if (!isdigit(c))
+            {
+                scan_state = sig_end;
+                break;
+            }
+            if (d.sig.length < 20)
+            {
+                if (c != '0' || d.sig.length)
+                    d.sig.text[d.sig.length++] = c;
+                exp_adjust--;
+            }
+            c = fetch();
+            break;
+
+        case sig_end:
+            if (toupper(c) == 'E')
+            {
+                scan_state = exp_start;
+                c = fetch();
+                break;
+            }
+            scan_state = finished;
+            break;
+
+        case exp_start:
+            if (c == '+')
+            {
+                c = fetch();
+            }
+            else if (c == '-')
+            {
+                c = fetch();
+                exp_negative = 1;
+            }
+            scan_state = leading_exp_digit;
+            break;
+
+        case leading_exp_digit:
+            if (!isdigit(c))
+            {
+                scan_state = failure;
+                break;
+            }
+            if (c == '0')
+            {
+                scan_state = leading_exp_zeroes;
+                c = fetch();
+                break;
+            }
+            scan_state = exp_digit_loop;
+            break;
+
+        case leading_exp_zeroes:
+            if (c == '0')
+            {
+                c = fetch();
+                break;
+            }
+            scan_state = exp_digit_loop;
+            break;
+
+        case exp_digit_loop:
+            if (!isdigit(c))
+            {
+                scan_state = finished;
+                break;
+            }
+            exp_value = exp_value * 10 + (c - '0');
+            if (exp_value > 308)
+                *overflow = 1;
+            c = fetch();
+            break;
+
+        case hex_state:
+            switch (hex_scan_state)
+            {
+            case hex_start:
+                chptr = (unsigned char *)&mantissa;
+                intdigits = 0;
+                chptr[0] = 0;
+                chptr[1] = 0;
+                chptr[2] = 0;
+                chptr[3] = 0;
+                chptr[4] = 0;
+                chptr[5] = 0;
+                chptr[6] = 0;
+                chptr[7] = 0;
+                NibbleIndex = 0;
+                hex_scan_state = hex_leading_sig_zeroes;
+                c = fetch();
+                break;
+
+            case hex_leading_sig_zeroes:
+                if (c == '0')
+                {
+                    c = fetch();
+                    break;
+                }
+                hex_scan_state = hex_int_digit_loop;
+                break;
+
+            case hex_int_digit_loop:
+                if (!isxdigit(c))
+                {
+                    if (c == '.')
+                    {
+                        hex_scan_state = hex_frac_digit_loop;
+                        c = fetch();
+                    }
+                    else
+                        hex_scan_state = hex_sig_end;
+                    break;
+                }
+                if (intdigits < 14)
+                {
+                    intdigits++;
+                    uch = chptr[NibbleIndex / 2];
+                    c = toupper(c);
+                    uch1 = (c >= 'A') ? c - 'A' + 10 : c - '0';
+                    if (NibbleIndex % 2)
+                        uch |= uch1;
+                    else
+                        uch |= (unsigned char)(uch1 << 4);
+                    chptr[NibbleIndex++ / 2] = uch;
+                    c = fetch();
+                    break;
+                }
+                c = fetch();
+                break;
+
+            case hex_frac_digit_loop:
+                if (!isxdigit(c))
+                {
+                    hex_scan_state = hex_sig_end;
+                    break;
+                }
+                if (intdigits < 14)
+                {
+                    uch = chptr[NibbleIndex / 2];
+                    c = toupper(c);
+                    uch1 = (c >= 'A') ? c - 'A' + 10 : c - '0';
+                    if (NibbleIndex % 2)
+                        uch |= uch1;
+                    else
+                        uch |= (unsigned char)(uch1 << 4);
+                    chptr[NibbleIndex++ / 2] = uch;
+                    c = fetch();
+                    break;
+                }
+                c = fetch();
+                break;
+
+            case hex_sig_end:
+                if (toupper(c) == 'P')
+                {
+                    hex_scan_state = hex_exp_start;
+                    c = fetch();
+                    break;
+                }
+                scan_state = finished;
+                break;
+
+            case hex_exp_start:
+                if (c == '-')
+                    exp_negsign = 1;
+                else if (c != '+')
+                {
+                    unfetch(c);
+                    count--;
+                }
+                hex_scan_state = hex_leading_exp_digit;
+                c = fetch();
+                break;
+
+            case hex_leading_exp_digit:
+                if (!isdigit(c))
+                {
+                    scan_state = failure;
+                    break;
+                }
+                if (c == '0')
+                {
+                    hex_scan_state = hex_leading_exp_zeroes;
+                    c = fetch();
+                    break;
+                }
+                hex_scan_state = hex_exp_digit_loop;
+                break;
+
+            case hex_leading_exp_zeroes:
+                if (c == '0')
+                {
+                    c = fetch();
+                    break;
+                }
+                hex_scan_state = hex_exp_digit_loop;
+                break;
+
+            case hex_exp_digit_loop:
+                if (!isdigit(c))
+                {
+                    scan_state = finished;
+                    break;
+                }
+                expsign = expsign * 10 + (c - '0');
+                if (exp_value > 0x7FFF)
+                    *overflow = 1;
+                c = fetch();
+                break;
+            }
+            break;
+        }
+    }
+
+    if (scan_state != hex_state ? !success(scan_state) : !hex_success(count, hex_scan_state))
+    {
+        count = 0;
+        *chars_scanned = 0;
+    }
+    else
+    {
+        count--;
+        *chars_scanned = count + spaces;
+    }
+
+    unfetch(c);
+
+    if (hex_scan_state == not_hex)
+    {
+        if (exp_negative)
+            exp_value = -exp_value;
+        {
+            int n = d.sig.length;
+            unsigned char *p = &d.sig.text[n];
+
+            while (n-- && *--p == '0')
+                exp_adjust++;
+            d.sig.length = n + 1;
+            if (d.sig.length == 0)
+                d.sig.text[d.sig.length++] = '0';
+        }
+        if (exp_value < -308 || exp_value > 308)
+        {
+            if (*overflow == 0 && d.sig.text[0] == '0' && d.sig.text[1] == 0)
+                return 0.0;
+            *overflow = 1;
+        }
+        exp_value += exp_adjust;
+        if (*overflow)
+        {
+            if (exp_negative)
+                return 0.0;
+            else
+                return sig_negative ? -HUGE_VAL : HUGE_VAL;
+        }
+        d.exp = (short)exp_value;
+        result = func_0209739C(&d);
+        if (result != 0.0 && result < 2.2250738585072014e-308)
+        {
+            *overflow = 1;
+        }
+        else if (result > 1.7976931348623157e+308)
+        {
+            *overflow = 1;
+            result = HUGE_VAL;
+        }
+        if (sig_negative && success(scan_state))
+            result = -result;
+        return result;
+    }
+    else
+    {
+        double hexresult;
+
+        p = (unsigned char *)&hexresult;
+        if (exp_negsign)
+            expsign = -expsign;
+        expsign += intdigits * 4;
+        uch = mantissa[0];
+        for (ui = 0; ui < 4 && !(uch & (0x80 >> ui)); ui++)
+            expsign--;
+        expsign--;
+        if ((chindex = ui + 1) != 0)
+        {
+            uch1 = 0;
+            for (chptr = mantissa + 7; chptr >= mantissa; chptr--)
+            {
+                uch = *chptr;
+                *chptr = (uch << chindex) | uch1;
+                uch1 = uch >> (8 - chindex);
+            }
+        }
+        p[0] = 0;
+        p[1] = 0;
+        p[2] = 0;
+        p[3] = 0;
+        p[4] = 0;
+        p[5] = 0;
+        p[6] = 0;
+        p[7] = 0;
+        for (ui = 0, chindex = 12; ui < 52; ui += 8)
+        {
+            uch = mantissa[ui / 8];
+            if (ui + 8 > 52)
+                uch &= 0xff << (52 - ui);
+            NibbleIndex = chindex % 8;
+            p[chindex / 8] |= (unsigned char)(uch >> NibbleIndex);
+            chindex += 8;
+            p[chindex / 8] |= (unsigned char)(uch << (8 - NibbleIndex));
+        }
+        expsign += exp_value + 0x3FF;
+        if (expsign & ~0x7FF)
+        {
+            *overflow = 1;
+            return 0.0;
+        }
+        p[0] |= (unsigned)(expsign & 0x7FF) >> 4;
+        p[1] |= (unsigned)(expsign & 0x7FF) << 4;
+        if (sig_negative)
+            p[0] |= 0x80;
+        for (NibbleIndex = 0; NibbleIndex < 4; NibbleIndex++)
+        {
+            uch = p[NibbleIndex];
+            p[NibbleIndex] = p[7 - NibbleIndex];
+            p[7 - NibbleIndex] = uch;
+        }
+        return *(double *)p;
+    }
+}
