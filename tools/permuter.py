@@ -1160,17 +1160,44 @@ def asm_score(comp_bytes, mask, tgt_bytes, thumb):
 
 
 class Score:
-    __slots__ = ("status", "miss", "asm", "size", "tsize", "wild", "note", "regdiff")
+    __slots__ = ("status", "miss", "asm", "size", "tsize", "wild", "note", "regdiff", "nsites")
 
-    def __init__(self, status, miss, asm, size, tsize, wild=(), note="", regdiff=None):
+    # relocation/size guard baseline, set once per run by search()/search_hill() from the
+    # regenerated baseline's own Score; GUARD=False (via --no-reloc-guard) restores the old
+    # behaviour where a candidate's key() ignores these entirely.
+    GUARD = True
+    BASE_RESOLVED = None
+    BASE_NSITES = None
+    BASE_SIZEDIFF = None
+
+    def __init__(self, status, miss, asm, size, tsize, wild=(), note="", regdiff=None, nsites=None):
         self.status, self.miss, self.asm, self.size, self.tsize = status, miss, asm, size, tsize
         self.wild, self.note, self.regdiff = list(wild), note, regdiff or {}
+        self.nsites = nsites if nsites is not None else len(self.wild)
 
     def key(self):
+        # guard: a candidate may never rank ahead of the baseline by (a) resolving fewer
+        # relocation sites than the baseline did, (b) having a different total relocation
+        # site count than the baseline (the merge-two-pool-literals-into-one case), or
+        # (c) landing further from the target size than the baseline does (a truncated
+        # compile).  These are checked against the baseline itself, not zero, because the
+        # baseline can legitimately have unresolved sites or a size mismatch of its own.
+        reloc_pen = 0
+        size_pen = 0
+        if Score.GUARD and Score.BASE_RESOLVED is not None:
+            resolved = self.nsites - len(self.wild)
+            deficit = max(0, Score.BASE_RESOLVED - resolved)
+            mismatch = abs(self.nsites - Score.BASE_NSITES)
+            reloc_pen = (deficit + mismatch) * 10 ** 6
+        if Score.GUARD and Score.BASE_SIZEDIFF is not None:
+            over = abs(self.size - self.tsize) - Score.BASE_SIZEDIFF
+            if over > 0:
+                size_pen = over * 10 ** 5
         # a variant that resolves fewer relocation sites is worse whatever its bytes say
         if self.size == self.tsize and self.status.startswith("DIFF"):
-            return (RANK.get(self.status, 9), len(self.wild), 0, self.miss, self.asm)
-        return (RANK.get(self.status, 9), len(self.wild), 1, self.asm, self.miss, abs(self.size - self.tsize))
+            return (reloc_pen, size_pen, RANK.get(self.status, 9), len(self.wild), 0, self.miss, self.asm)
+        return (reloc_pen, size_pen, RANK.get(self.status, 9), len(self.wild), 1, self.asm, self.miss,
+                abs(self.size - self.tsize))
 
     def done(self):
         return self.status in ("EXACT", "EXACT*", "MATCH", "MATCH*")
@@ -1307,7 +1334,7 @@ class Scorer:
         asm, regdiff = asm_score(fb.data, fb.mask, tgt_full, fb.thumb)
         wild = [s.describe() for s in fb.sites if not s.resolved]
         miss = len(diffs) if status.startswith("DIFF") else 0
-        return Score(status, miss, asm, n, tsize, wild, note, regdiff)
+        return Score(status, miss, asm, n, tsize, wild, note, regdiff, nsites=len(fb.sites))
 
 
 # ---------------------------------------------------------------------------
@@ -1328,10 +1355,23 @@ def evaluate(prog, scorer, plans, jobs):
     return [Variant(fd, labels, sc, t) for (fd, labels), sc, t in zip(plans, scores, texts)]
 
 
+def set_reloc_guard_baseline(base_score, args):
+    """Anchor Score.key()'s relocation/size guard to this run's own baseline (see the
+    comment on Score.key()).  --no-reloc-guard restores the pre-guard ranking."""
+    Score.GUARD = not getattr(args, "no_reloc_guard", False)
+    if Score.GUARD:
+        Score.BASE_RESOLVED = base_score.nsites - len(base_score.wild)
+        Score.BASE_NSITES = base_score.nsites
+        Score.BASE_SIZEDIFF = abs(base_score.size - base_score.tsize)
+    else:
+        Score.BASE_RESOLVED = Score.BASE_NSITES = Score.BASE_SIZEDIFF = None
+
+
 def search(prog, scorer, args, rng, log):
     base_fd = prog.funcdef()
     base = evaluate(prog, scorer, [(base_fd, [])], 1)[0]
     log("baseline  %s" % base.score)
+    set_reloc_guard_baseline(base.score, args)
     if base.score.status == "CCERR":
         log("the regenerated baseline does not compile; the parser lost something (see --out)")
         return [base]
@@ -1411,6 +1451,7 @@ def search_hill(prog, scorer, args, rng, log):
     best improvement, repeat.  Deterministic and complete for small functions."""
     base = evaluate(prog, scorer, [(prog.funcdef(), [])], 1)[0]
     log("baseline  %s" % base.score)
+    set_reloc_guard_baseline(base.score, args)
     if base.score.status == "CCERR" or base.score.done():
         return [base]
     focus = set(args.focus.split(",")) if args.focus else set()
@@ -1495,6 +1536,10 @@ def main(argv=None):
     ap.add_argument("--types", action="store_true")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--explain", action="store_true")
+    ap.add_argument("--no-reloc-guard", action="store_true",
+                     help="restore the old ranking: no penalty for a candidate that resolves "
+                          "fewer relocation sites, changes the site count, or is more "
+                          "truncated than the baseline")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
     if args.thumb == args.arm:
