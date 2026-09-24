@@ -969,3 +969,125 @@ after or before the s16 y key read, `b = b;` and `a = a;` after the j read,
 and `(j + (V2s *)p)->y` (7 each). The j element address still coalesces with
 j's r3 instead of p's r1.
 /* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2 -- the wave-8 source above (7 without its volatile) -- unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane nns_small_2): 0x0206F4C8 7 -> 2 volatile-free
+==============================================================================
+Under ../2.0/sp2p2, from the volatile-free wave-8 source (488/7):
+  - long one at a time on i0, j, n (unsigned long), a, b (long): 7 each;
+  - the s16 y pair with p ADVANCED to the j element after the i0 read,
+    `a = ((V2s *)p)[i0].y; p = (u8 *)((V2s *)p + j); b = ((V2s *)p)->y;`:
+    2. The j element address now forms in p's dying r1 and a lands in r3,
+    as in the image. This is the same 2 the volatile device gave, with no
+    volatile. (Forming both element pointers first is 15. j reused as the
+    j element pointer is 7.)
+  - on that source: long a, long b, long a and b: 2 each;
+  - sweep of p, i0, j, w3, a, b (720 orders, f/k/off/n/m fixed first): best 2
+    (120 orders, p first; the others 53-119);
+  - permuter anneal 1500 --types (seed 2953) from the long-b form: best 2.
+The residue is the wave-8 one: `adds r5, r5, r6` in the s32 x blend.
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2, no volatile */
+/*
+ * function: func_0206F4C8
+ * address:  0x0206F4C8
+ * packet:   pkt_0206EB00
+ * region:   arm9
+ * compiler: ../2.0/sp2p2
+ * flags:    -O4,p -proc arm946e
+ * lang:     c99
+ * isa:      arm
+ * status:   DRAFT
+ */
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef unsigned char  u8;
+
+typedef struct { u32 flags; u32 off04; } Rec;
+typedef struct { s16 x; s16 y; } V2s;
+typedef struct { int x; int y; } V2i;
+
+void func_0206F4C8(int *out, int t, Rec *r, u8 *base)
+{
+    u8 *p;
+    u32 f;
+    u32 k;
+    u32 off;
+    u32 n, i0, j, m;
+    long long w3;
+    int a, b;
+
+    off = r->off04;
+    k = (u32)(t >> 12);
+    p = base + off;
+    f = r->flags;
+
+    if (f & 0xc0000000) {
+        n = (f & 0x1fff0000) >> 16;
+        if (f & 0x40000000) {
+            if (k & 1) {
+                if (k > n) {
+                    k = (n >> 1) + 1;
+                    goto plain;
+                }
+                m = k >> 1;
+                goto two;
+            }
+            k = k >> 1;
+            goto plain;
+        } else {
+            u32 q = k & 3;
+            if (q != 0) {
+                if (k > n) { k = q + (n >> 2); goto plain; }
+                if (k & 1) {
+                    if (k & 2) { j = k >> 2; i0 = j + 1; }
+                    else { i0 = k >> 2; j = i0 + 1; }
+                    if (f & 0x20000000) {
+                        a = ((V2s *)p)[i0].x;
+                        b = ((V2s *)p)[j].x;
+                        out[0] = (a * 3 + b) >> 2;
+                        a = ((V2s *)p)[i0].y;
+                        p = (u8 *)((V2s *)p + j);
+                        b = ((V2s *)p)->y;
+                        out[1] = (a * 3 + b) >> 2;
+                        return;
+                    }
+                    a = ((V2i *)p)[i0].x;
+                    b = ((V2i *)p)[j].x;
+                    out[0] = (int)(((long long)a * 3 + b) >> 2);
+                    a = ((V2i *)p)[i0].y;
+                    w3 = (long long)a * 3;
+                    out[1] = (int)((w3 + ((V2i *)p)[j].y) >> 2);
+                    return;
+                }
+                m = k >> 2;
+                goto two;
+            }
+            k = k >> 2;
+        }
+    }
+
+plain:
+    if (f & 0x20000000) {
+        out[0] = ((V2s *)p)[k].x;
+        out[1] = ((V2s *)p)[k].y;
+    } else {
+        out[0] = ((V2i *)p)[k].x;
+        out[1] = ((V2i *)p)[k].y;
+    }
+    return;
+
+two:
+    if (f & 0x20000000) {
+        V2s *s = (V2s *)p + m;
+        int a = ((V2s *)p)[m].x;
+        int b = s[1].x;
+        out[0] = (a + b) >> 1;
+        out[1] = (s[0].y + s[1].y) >> 1;
+    } else {
+        V2i *w = (V2i *)p + m;
+        int a = ((V2i *)p)[m].x;
+        int b = w[1].x;
+        out[0] = (a + b) >> 1;
+        out[1] = (w[0].y + w[1].y) >> 1;
+    }
+}

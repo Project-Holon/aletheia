@@ -241,3 +241,15 @@ From the wave 17 source (1.1p1), all 96/96 and 6 out: `signed long s32` /
 `unsigned long u32` typedefs; `long shortfall`; `long n`; `shortfall =
 shortfall;` after the have store and after its definition.
 /* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane nns_small_2): 6 holds
+==============================================================================
+From the wave 17 source (1.1p1), all 96/96 and 6 out: long on have, held,
+mask and acc one at a time (signed long / unsigned long); all 120
+declaration orders with long shortfall; dying-local reuse for the constant
+8 (have = 8 then b->have = have, before and after the refill read; mask = 8
+with the 0xff inline); shortfall block-scoped. mask computed up front as
+0xff >> (8 - n) is 92 bytes. permuter anneal 1500 --types (seed 2952) from
+the long-shortfall source: best 6.
+/* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */

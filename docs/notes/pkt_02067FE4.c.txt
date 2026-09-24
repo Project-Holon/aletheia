@@ -651,3 +651,21 @@ against the image's r6 / r7, then the row pointer and the new objWidth
 follow lh). `long lh` and self-assignments on that form: 18. The permuter
 cannot parse the asm block, so no run.
 /* best source, 248 bytes against 248, 10 concrete bytes out, ../2.0/sp2 -- the wave-11 source above -- unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane nns_small_2): 0x020681E4 CLOSED EXACT (10 -> 0)
+==============================================================================
+Under ../2.0/sp2, from the ties_c in-place clz form (18):
+  - logs lw/lh as int, u32 or long in all nine combinations: 18 each;
+  - sweep, long lw/lh, 1440 orders (5 function-scope x 2 loop x 6 block):
+    best 18 (only the function-scope order matters; 34/35/37/44 otherwise);
+  - sweep, lw/lh moved to function scope, every one of 42 placements x
+    {int, long}: 84 x 18;
+  - logs computed IN dying locals: log_w in sh with log_h in sw, tmp,
+    tmp1 or a fresh lh: EXACT (MATCH before the symbols: block); log_w in sw
+    with log_h in sh 18; log_w in tmp/tmp1 with log_h in sw 15; a fresh lw
+    with log_h in sw 15.
+Filed: src/matched/func_020681E4.c (log_w in sh, a fresh lh), 248/248
+EXACT, g_020A18F4 resolved via the literal witness. 1.1p1 240 bytes on it.
+Idiom: docs/idioms/a-result-computed-in-a-dying-local-takes-that-locals-register.md
+No permuter run (the asm block does not parse).

@@ -376,3 +376,15 @@ bytes, not cross-jumped); the +4 flags and kind/f06/f07 as u32 bitfields of
 one container (296 bytes); `cb = cb;` and `b = b;` after their reads (10
 each); case 5 as a `static inline` Finish(p) helper (10); cb held as u32 or
 void * with a cast at the call (10 each).
+
+==============================================================================
+2026-09-24, wave 19 (lane nns_small_2): 10 holds
+==============================================================================
+From the wave 16 source (1.1p1), all 268 bytes: dying-local reuse in case 5
+(cb read into sub, cb read into rec, the flag bit read into rec, each with a
+cast at the call): 10 each. Sweep: all 6 declaration orders x 6 read orders
+of cb/a/b, once with unsigned long a and once with unsigned long b (72
+compiles): best 10 (12 of them), others 13, 16, 23, 24. permuter anneal
+1500 --types (seed 2956) from the unsigned long a source: best 10. The image
+still loads the flag byte first (r3), then cb (r5), then a. The compile
+loads the flag byte into r5 and reads a before cb.

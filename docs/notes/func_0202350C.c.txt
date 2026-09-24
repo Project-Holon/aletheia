@@ -508,3 +508,15 @@ out: kb declared before k8; `unsigned long kb`; `unsigned long k8`; `kb =
 kb;` after its load; `k8 = k8;` after kb's load plus `kb = kb;` before the
 f40 store; k8/kb as initialised block-scope locals in both orders.
 best-source marker: 12 out, 1.1p1 (wave 17 source, unchanged)
+
+==============================================================================
+2026-09-24, wave 19 (lane nns_small_2): 12 holds
+==============================================================================
+From the wave 17 source (1.1p1), all 90 bytes and 12 out: unsigned long a4,
+a5, a4 and a5; `typedef unsigned long u32`; a long zero local assigned
+between k8 and kb and stored to f40. Sweep: k8, zero, kb and copies x4 = a4,
+x5 = a5 as locals, all 120 orders of the five assignments ahead of the
+stores: 120 x 12. The copies propagate away and the scheduler emits the same
+stream. permuter anneal 1500 --types (seed 2954) from the unsigned long a4
+source: best 15 (a5 as the return type plus a k8 hoist), no gain.
+best-source marker: 12 out, 1.1p1 (wave 17 source, unchanged)
