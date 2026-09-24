@@ -2736,3 +2736,134 @@ allocation (p13a-e: `(unsigned)h << 12` and `h * 4096` both merge with
 sim.py is the next probe: which webs take callee-saved registers ahead of the
 list order.
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane C5): 0x02067080 unchanged, DIFF 2
+==============================================================================
+Base: the wave-13 source above, re-verified with match.py one under ../2.0/sp2
+-O4,p: 704/704, 2 out (y read at +0x21C in ip, image r6).  About 45 compiles:
+20 match.py one, 6 probe TUs, 7 whole-function -proc compiles (diagnostic),
+3 pragma checks, and 10 variant TUs (478 renamed copies of the function, scored
+instruction by instruction against the image).  Scratch and scripts are in
+/tmp/aletheia_laneC5 (sim/ holds the simulator: sim2.py, show4.py, cross.py,
+preorder.py, localenum.py, vh2.py).
+
+SIMULATOR (rewritten from lane C4's sim.py):
+ - Predicated runs are expanded into a cond-true and a cond-false path.  So
+   moveq/movne and addeq each kill on their own path, and a predicated def no
+   longer merges with an older web.  (C4's sim merged `moveq r5` with the
+   MulMtx22 `_01` r5 web through a phantom use.)  Branch targets are made
+   relative; C4's listing had absolute targets, so its CFG had no
+   branch edges.
+ - Simplify is a Chaitin SWEEP.  Each pass walks the webs in creation order
+   and removes every web whose degree is below K.  A web that only drops
+   below K after the sweep has passed it waits for the next pass.  Visit
+   order is the reverse of the push order.  So a long, high-degree web
+   (effect, halfW, halfH, the MulMtx22 pV pointer, hw12, hh12) is pushed in
+   pass 2 and coloured before every short web, whatever its creation index.
+   This is the "long values take callee-saved early" gap.  K anywhere from 9
+   to 15 fits.  Removing the lowest-index web one at a time instead (C4's
+   version) does not fit.
+ - Numbering (creation index), measured on the -proc v4 listing (near
+   source order): first def in source order, except for these.
+   (b) A multiply result (mla/mul/smull/smlal) is numbered just BEFORE an
+       operand loaded fresh inside the same expression: the result is
+       allocated before the operand is evaluated.  This settles the
+       rd != rm pairs, e.g. `ldr r5,[r0]` / `mla r6, r5, ip, r6`.  p32c/d show
+       it does not apply to a named local operand.
+   (c) smull hi is numbered after lo.
+   (d) hw12 and hh12 (the `halfW << 12` / `halfH << 12` shared by the dx/dy
+       init and the double block) have to be numbered below everything,
+       with hh12 below hw12.  This was fitted, not derived.  p32/p33 show a
+       plain CSE'd or named shift keeps its source number (same block or
+       across an if), so the cause is still open.
+ - Colour list as in lane C4: r0-r3, then callee-saved already handed out
+   (ascending), then ip, lr, then fresh callee-saved (ascending).
+   mla/smull rd != rm.  The -proc v4 listing never breaks "r0-r3 first".
+ACCURACY (mismatched webs out of all webs):
+   C4 sim.py on our arm946e listing                       70/119 (C4: 64/116)
+   new sim, -proc v4 listing, reverse creation only       36/122
+     + sweep simplify (K 10-13)                           21/122
+     + (b) and (c)                                        14/122
+     + (d)                                                 0/122  (K 9..15)
+   -proc xscale listing, numbering carried over from v4     0/122
+   -proc arm7tdmi                                          24/122
+   -proc arm946e (the match.py build) and arm9tdmi         35/122
+ The arm946e/arm9tdmi/arm7tdmi misses come from post-allocation scheduling.
+ Example: `cmp r4,#0x300` is hoisted to +0x1FC after allocation, so the final
+ listing understates effect's live range.  Another: +0x1BC `asr lr` takes lr
+ while nothing in the final listing holds ip there, which is impossible under
+ the list rule.  So the final order is not the order the allocator saw.
+ preorder.py searched for a pre-allocation order: dependency-legal adjacent
+ swaps of a virtualised listing, annealed, 4 seeds x 30000 swaps.  Best
+ 24/122.  The arm946e pre-allocation order cannot be recovered from the
+ final listing, so the whole-function arm946e simulation CLEARLY FAILS
+ (24-35 misses).  The model is exact only where the final order is the
+ allocation order (v4, xscale).
+
+WHAT THE MODEL SAYS ABOUT THE RESIDUE (localenum.py):
+ Every web outside +0x20C..+0x228 is fixed to its actual register, and all
+ 5040 visit orders of the seven window webs (_01, dy0, dy1, _11, y, s,
+ y-new) are tried against every set of callee-saved registers already
+ handed out.  The results:
+   base (y ip, dy1 r7), none of r6-r8 handed out:  visit _11 < y < _01 <
+     dy0/dy1.  Reverse creation with rule (b) gives exactly this.
+   image (y r6, dy1 r7):
+     - none handed out: needs _01 < dy0 < dy1 and _01 < y.  So dy0 (the
+       rsb) must be numbered ABOVE dy1 (the mla).
+     - r7 handed out: needs only _01 < y and _11 < y/s.  That is item 1's
+       numbering.
+     - r6 and r7 handed out: needs only _01 < dy0.  That is the base
+       numbering.
+ Getting dy0 above dy1 needs the rsb created inside the mla's own
+ expression, after the result is allocated.  The IR serialises that away
+ (measured below).  A register handed out before the window means an r6 or
+ r7 web coloured earlier.  In the image that would be a later-created web or
+ a pass-2 (high-degree) web.  Every later-created web and every pass-2 web
+ has an image register in r0-r5/ip/lr (tail r0-r4, double block r0/r3,
+ effect r4, hw12 r5, hh12 lr, halfW ip, halfH/pV r3).  So from the image's
+ own instruction stream, the model reaches the image pair only through a web
+ the image never shows.  Lanes C2-C4 reached the same conclusion; it now
+ follows from sweep order + list rule + numbering.
+
+SPELLINGS (match.py one, ../2.0/sp2, bytes out, 704 bytes unless stated;
+"b" = on the base, "i" = on item 1):
+  dy through an inline helper returning the result (aim: result numbered
+  before the accumulator): `return acc + a * b` form M1 (i) 700/181, M2 (b)
+  700/168 (re-associated into mul + sub lsl #12); `r = acc; r += a*b;
+  return r` H1 b 2, i 2 (item-1 residue); H2 (`fx32 r; r = acc; ...`),
+  H3 (`void madd(fx32 *d, ...)`), H4 (acc last parameter), H5 (`acc +=
+  a*b; return acc`): 2 each on i (item-1 residue), 2 on b (base residue).
+  assignment inside the dy expression: E1 `dy = (dy = -(hh)) + _01*hw` i 2
+  (b 2); E2 `(t = -(hh)) + ...` b 700/168, i 700/181; E3 operands swapped,
+  E4 comma `(t = -(hh), t + _01*hw)`, E5 `(dy = -(hh), dy + ...)`: same
+  instructions as E2 (variant TU); E6 `(dy = -(hh), dy += ...)` i 2; E7
+  `dy += (dy = -(hh), _01*hw)` i 2 (b residue for b forms).
+  product split into a local `p = pM->_01 * halfW; ... dy += p;` (still
+  emits the mla), all 448 dependency-legal orders of the eight statements
+  (dx init, dx +=, x store, dy init, p, dy += p, y read into a local, y
+  store), variant TUs: 23 orders give the 2-byte residue (17 base, 6
+  item-1), 12 give 6 instructions out, the rest 23-46.  match.py on
+  representatives: O_ABCDEFGH 2, O_GABCDEFH 2 (item 1), O_ABDGCEFH 8,
+  O_ABDECFGH 76, O_ABECDFGH 82, O_ADEFGHBC 100, O_ABDEFGHC 116.
+Probes and diagnostics:
+  `#pragma scheduling off` and `#pragma peephole off`: output identical to the
+  base.  The strings exist in the binary, but the pragmas do nothing here.
+  The dumpir/dumpphases/dumpir_postiro/debug_listing pragmas write nothing.
+  -proc v5te is byte-identical to arm946e.  arm9tdmi keeps the same order and
+  registers; only the return differs.  v4, arm7tdmi and xscale reorder and
+  recolour.
+  p20 (arm946e against v4): under v4 a long local and short temps follow
+  reverse creation exactly.  Under arm946e the scheduler hoists `L+1` early,
+  and the hoisted web keeps its late number, so it is coloured first.  This
+  is the mechanism behind lane C4's rule 4.
+  p30-p33 (-proc v4): see (b) and (d) above.
+Reading for the next lane: the arm946e allocation order is hidden behind
+post-allocation scheduling.  With the -proc v4/xscale numbering and the
+sweep, the model is exact, and the image pair needs a callee-saved r6/r7 web
+coloured before the dy window, or the rsb numbered after the dy mla.  No
+spelling measured here produces either.  Probing the allocation order
+directly is the likely next step: a -proc arm946e probe whose final order
+provably equals its allocation order (no load-use hazards to fill).  Probing
+the origin of rule (d) is the other.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
