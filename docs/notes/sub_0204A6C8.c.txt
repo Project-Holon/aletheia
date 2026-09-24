@@ -295,3 +295,15 @@ the handle held in the dead parameter a (4) or c (4); u32 flags parameter
 26; the tail stores through a block-local slot copy 4; flags (the image's r7
 before the call) reused as the zero passed and stored 4. Unchanged 4.
 /* best source, 216 bytes against 216, 4 concrete bytes out, dsi/1.1p1 -- the WHAT THE C IS source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane 19B mcss_onebyte): 0x0204A6C8 unchanged, DIFF 4
+==============================================================================
+1.1p1, from the WHAT THE C IS source: self-assignment sweep (handle, i,
+slot, a3, flags at six points around the call pair, 30 compiles) all 4; the
+shared zero as a named `u32 z` assigned before the E0D0 call, after the slot
+address, or initialised at its declaration, passed and stored: 4 each; slot
+address after the load call 188; flags masked by two compound statements
+on the u16 parameter 99; `unk_3c = unk_3c & ~1` 4.  Unchanged.
+/* best source, 216 bytes against 216, 4 concrete bytes out, dsi/1.1p1 -- the WHAT THE C IS source above, unchanged */

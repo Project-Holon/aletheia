@@ -285,3 +285,12 @@ same with the arms swapped, `!= 0x30` computing first (48); s64 with
 untouched in r0 on the 0x30 path and never sets r1, so an s32 return is the
 real shape; the 48-byte join copy is the open question.
 /* best source, 44 bytes against 44, 3 concrete bytes out, dsi/1.1p1 -O4,p -- the wave 13 source above, unchanged */
+
+===== wave 19 lane 19B mcss_onebyte (2026-09-24): CLOSED, EXACT =====
+Filed src/matched/func_020111BC.c (dsi/1.1p1, 44/44, 4/4 relocations).  The
+lever: an s32 return type with NO return statement on the 0x30 path.  The
+original falls off the end and hands back v, still in r0; with the s32
+return r1 is free and takes the mode load.  s32 with an explicit `return v;`
+(assign or ternary forms) 48 bytes / 20 out as recorded; the void form 2 out.
+Self-assignment `v = v;` at five points on the assign form: all 20.
+Idiom: docs/idioms/a-missing-return-hands-back-the-parameter.md.

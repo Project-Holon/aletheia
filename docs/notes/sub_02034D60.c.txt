@@ -113,3 +113,19 @@ nested ifs (upper test outside, lower inside, like the first block): 5;
 `const u32 *lo` with `lo + 0x1000` (same add #0x4000): 5; the second window
 inverted to `if (p > hi || p < lo) return 0; return 2;` (104 bytes);
 dsi/1.2: 5. Only one parameter (id), already reused; no callee arity to fix.
+
+================================================================
+APPENDED 2026-09-24, wave 19 lane 19B mcss_onebyte: still DIFF 5 out
+================================================================
+From the best source (5), once each: self-assignment of id / lo at four
+points (8 compiles) 5; `lo = lo;` 5; const volatile u8 *lo 5; u16 *lo with
++0x2000 5; register lo 5; lo initialised at its declaration 5; the second
+window as a static inline (p, lo) helper returning the && 5, as a helper
+with its own if/return 37.
+One informative result: the base as an extern symbol (`extern const u8
+g_02FE0000[]`, symbols line data) gives the image's registers (base r1,
+bound r0, compares right) but the bound becomes a second pool word
+(g+0x4000) instead of `add r0, r1, #0x4000`: 10 out.  So the colouring
+follows which of the two values is defined first, and in the image the
+bound's def is coloured before the base's; the literal spelling defines the
+base first.

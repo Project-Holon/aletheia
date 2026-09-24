@@ -430,3 +430,21 @@ found:
 
     return i;
 }
+
+
+==============================================================================
+2026-09-24, wave 19 (lane 19B mcss_onebyte): 0x0204A7A0 unchanged, DIFF 1
+==============================================================================
+From the wave-18 best source (1 out, `moveq r0, r6` against `moveq r0, sb`):
+  `u32 none = (u32)-1;` after i, i = none, `return none;` 47; the same with
+  none declared first 47; enum { NONE = -1 } with return NONE 47; a goto to a
+  shared `out: return ret;` with ret = -1 / ret = i 185; none as the scan
+  value but `return i;` kept 1; `if ((u32)-1 == i)` 1; s32 i with (u32)i in
+  the loop test 1; `i = (u32)-1; return i;` inside the guard 47 (folds to
+  the literal); `if (i != -1) goto body; return i; body:` 1.
+Self-assignment sweep on the `return -1` form (47): size, a2, heapId, i, sys,
+owner at eleven points (66 compiles), all 47.
+Every spelling that makes the returned value the constant recolours the
+whole function (-1 in lr, heapId in r8); every spelling that returns i keeps
+the colouring and returns r6.  Unchanged.
+/* best source, 308 bytes against 308, 1 concrete byte out, dsi/1.1p1 -- the wave-18 source above, unchanged */

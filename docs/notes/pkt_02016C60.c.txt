@@ -1403,3 +1403,38 @@ void func_02016C60(struct Work *a0, struct Task *a1)
 }
 
 
+
+
+==============================================================================
+2026-09-24, wave 19 (lane 19B mcss_onebyte): 0x02016C60 unchanged, DIFF 29
+==============================================================================
+From the wave-18 best source (re-verified 870/872, 29 out, dsi/1.1p1), the
+pass-2 header only, measured once each:
+  1. u8 *q block local declared first in the if block, fields as
+     *(s32 *)(q + 0x2c) etc.: 29
+  2. `register struct Rec *q` block local: 29
+  3. the record as an element, ((struct R30 *)a0->f2c)[k].f2c with a
+     0x30-byte struct: 771 (the index multiply is rebuilt, invariant lost)
+  4. i2 = 0; y = 0; then sx2 (f34) before sy2 (f38): 30
+  5. the pointer through `static inline struct Rec *rec_at(a0, k)` at
+     every use: 29
+  6. 5 with a block local q = rec_at(a0, k): 29
+  7. w2, h2, sx2, i2 = 0, y = 0, sy2 (the image's load order): 29 (the
+     f34 load still follows the h2 store; pointer still r0)
+  8. the whole of pass 2 as a static inline void pass2(base, scale, step,
+     struct Rec *rec) with its own x/y: 101 (every pass-2 slot moves; the
+     pointer, now the callee's parameter, is still r0)
+  9. k * 0x30 as a named `off` local, declared last: 29
+ 10. the same, declared first: 29
+Self-assignment sweep (the wave-18 lever): `v = v;` for 25 locals (w2, h2,
+sx2, sy2, i2, y, x, k, scale, step, bw, bh, nib, found, r, c, t, sx, sy, w,
+h, i, j, j2, base) at six points around the pass-2 header (150 compiles):
+all 29.
+permuter (870-extent wrapper, anneal --types, 1500, seed 2201, --focus
+w2,h2,sx2,sy2,i2,y): best 29.
+Reading: in the image the f34 load is scheduled into the f30 load's shadow
+(ldr r0 f30; ldr r3 f34), which needs a third free register; the compile
+serialises the pass-2 loads through one register, so the post-pass
+scheduler cannot hoist.  The colour choice is upstream of every spelling
+tried.
+/* best source, 870 bytes against 872, 29 concrete bytes out, dsi/1.1p1 -- the 2026-09-24 wave-18 source above, unchanged */

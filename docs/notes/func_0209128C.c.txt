@@ -68,3 +68,17 @@ and this is a kept-predicate tell with no other witness. Integrator ruling
 needed on whether "movne kept where every dsi build emits a plain mov" is a
 pin tell; if yes, the C above plus the symbols line files as EXACT under
 ../2.0/sp2.
+
+================================================================
+APPENDED 2026-09-24, wave 19 lane 19B mcss_onebyte: still DIFF 1 under 1.1p1
+================================================================
+Per the integrator's ruling (a kept predicate is not a pin tell by itself),
+1.1p1 spellings, with `g_02153B88 0x02153B88 data a1`, measured once each:
+the ternary (1); if (x) v = 1; else v = 0; (1); `v = (x != 0) ? 1 : x;`
+(22, the x register is returned in the eq arm); int v = x; v = v ? 1 : v;
+(22); switch with case 0 / default (4); a static inline set(u8) called in
+each arm (22); a u8 *p local storing in each arm (5); goto arms joining at
+the store (1); the ternary plus `v = v;` (1); int v with `v = x` in the else
+arm (22); `v = 1; if (x == 0) v = 0;` (1); signed char v (1).
+Every 1.1p1 form drops the predicate on `mov r1, #1`.  Left as is: the
+../2.0/sp2 result stands as the only exact build.
