@@ -21,18 +21,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_02049250(u32 a, u32 b, u16 c, u16 d);
+extern u32 func_02049250(u32 a, u32 b, u16 c, u32 d);
 extern int func_02062A4C(u32 blk, u32 kind);
 extern void func_020307B0(u32 blk);
 
-int func_021F66C8(u32 a, u32 b, u32 c, u16 d)
+u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 blk = func_02049250(a, b, d, d);
+    u32 blk = func_02049250(a, b, (u16)d, d);
 
-    if (blk == 0) {
-        return 0;
-    }
-    if (func_02062A4C(blk, c) == 0) {
+    if (blk != 0 && func_02062A4C(blk, c) == 0) {
         func_020307B0(blk);
         return 0;
     }

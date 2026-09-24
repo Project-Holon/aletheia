@@ -13,7 +13,7 @@
  *
 
  *
- * Push the fixed 6/1/0x48 request with the caller's mode and stamp 3.
+ * Push the fixed 6/1/0x48 request and stamp 3.
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed int s32;
 typedef signed short s16;
 extern void func_0202208C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 
-int func_022004A0(u8 *p, u32 mode)
+int func_022004A0(u8 *p)
 {
-    func_0202208C(3, mode, 1, 0, 6, 1, 0x48);
+    func_0202208C(3, 1, 1, 0, 6, 1, 0x48);
     *(u32 *)(p + 0x28) = 3;
     return 2;
 }

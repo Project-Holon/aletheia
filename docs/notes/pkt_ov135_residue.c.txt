@@ -1,0 +1,147 @@
+ov135 lane O22 residue, wave 2 (2026-09-24)
+==========================================
+
+Filed: 75 functions, 1724 code bytes, all EXACT or EXACT*, one shard per function
+(layout/matched/ov135/pkt_<addr>.json).  Sources in src/matched/func_<addr>.c.
+Overlay size 50,490 code bytes / 526 traced functions, so this is 12.9% of the
+functions and 3.4% of the bytes.
+
+Everything below is measured, not guessed: each entry names the tool verdict and
+the first differing bytes so the next wave can pick it up without recompiling.
+
+
+A. Parked in src/pending/ (MATCH, bytes right, one relocation with no witness)
+----------------------------------------------------------------------------
+
+  func_021F4EB4  0x021F4EB4  12B  MATCH
+      callee 0x0205CCD8 is a 12-byte ARM veneer (ldr ip,[pc]; bx ip;
+      .word 0x021666C8) that asm/arm9/main.s emits as data words, so it carries
+      no func_ label.  The `veneer` class also refuses it: it needs
+      names_known_code(0x021666C8) and that is False (the 0x021666C8 func_
+      label lives in asm/overlays/ov009.s but the address sits inside ov010's
+      declared span, so the label registry does not own it).
+      Reproduced: python -c "import sys;sys.path.insert(0,'tools');import match;
+      print(match.veneer_at(0x0205CCD8), match.names_known_code(0x021666C8))"
+      -> None False.
+
+  func_021F4FA4  0x021F4FA4  32B  MATCH
+      callee 0x020056BC resolves "(arm, from name)" but has no witness outside
+      021F4FA4..021F4FC4; the BLX pair at +0004 stays wildcarded.
+
+  func_021F513C  0x021F513C  24B  MATCH*
+      the func_02012E08 BL at +0006 stays wildcarded both when the name is left
+      to resolve by itself and when it is declared `thumb` in the symbols:
+      block.  func_02012E08 is an EXACT* entry in src/matched, so its address
+      has no witness that reaches outside this range.
+
+
+B. DIFF residues (source written, byte shape close)
+---------------------------------------------------
+
+  func_021F9EEC  0x021F9EEC  20B  DIFF 2 bytes
+      +000A image `4a 1e` (subs r2, r1, #1) vs mine `49 1e` (subs r1, r1, #1)
+      +000C image `80 18` (adds r0, r0, r2)  vs mine `40 18` (adds r0, r0, r1)
+      The image computes n-1 into r2 while keeping r1 live; `p + (n - 1)` and
+      `&p[n - 1]` with the temp in a local both give r1.  Needs the source shape
+      that pins the temp to r2.
+
+  func_021FB220  0x021FB220  32B  DIFF 18 bytes (compiled 30)
+  func_021FBA5C  0x021FBA5C  40B  DIFF 16 bytes (compiled 38)
+      Both: image emits cmp r0,#1 / ldr r0,[r4,#8] / bne L / movs r1,#0 /
+      b E / L: movs r1,#1 / blx.  `n = (f() == 1) ? 0 : 1;`, an if/else pair
+      and `n = f() != 1;` all compile to the inverted arm order
+      (movs r1,#1 first, then cmp/bne/movs r1,#0), one halfword short.
+      Same residue as each other: one source shape, two sites.
+
+  func_02202840  0x02202840  24B  DIFF 19 bytes
+      image pushes {r4,lr} with one exit (`adds r0,r4,#0; pop {r4,pc}`);
+      mine pushes {r3,lr} and duplicates the epilogue.  The guard
+      `if (v != 0 && f(v) != 2) busy = 1;` keeps busy in r0 instead of r4.
+
+  func_021F8498  0x021F8498  36B  DIFF 3 bytes (nearest miss in the lane)
+      +001A image `01 99` (ldr r1,[sp,#4]) vs mine `01 98` (ldr r0,...)
+      +001C image `49 08` (lsrs r1,r1,#1)  vs mine `40 08` (lsrs r0,r0,#1)
+      +001E image `21 60` (str r1,[r4])    vs mine `20 60` (str r0,[r4])
+      One register off; the (u16) truncation and the stack temporary are right.
+
+  func_0220252C  0x0220252C  32B  DIFF (compiled 34)
+      image: bne/beq straight-line guard chain, mine: duplicated tails at
+      +0010/+0014; the && rewrite does not fold.
+
+  func_02202644  0x02202644  44B  DIFF (compiled 42)
+      the kind dispatch: image branches to the two arms and pops from each
+      (offsets +000C `02 d0`, +0010 `06 d0`), mine tests in the other order and
+      merges.  A plain `switch (kind)` reproduces the arithmetic but not the
+      block order.
+
+  func_021FB240  0x021FB240  44B  DIFF (compiled 42)
+      image holds `end` in r4 and `i` in... r5/r4 swapped against mine
+      (+0004 `06 9c` vs `06 9d`, +001E/+0020 `6d 1c`/`64 1c` swapped).  The two
+      stack parameters are also read into the other pair; a plain
+      `for (i = start; i < end; i++)` with the count in a local gives the
+      mirrored allocation.
+
+  func_022026C4  0x022026C4  20B  DIFF (compiled 16)
+      argument shuffle: image `r1 = r0; r0 = r2; r2 = (u16)r3; r1 = [r1];`
+      then bx to 0x0201D304.  Declaring `func_022026C4(u32 *p, u32, u32 a,
+      u16 b)` and calling `func_0201D304(*p, a, b)` drops the truncation.
+
+  func_021F51F0  0x021F51F0  20B  DIFF 5 bytes
+  func_021F74E4  0x021F74E4  20B  DIFF 5 bytes
+      State-table dispatch: image loads the state word into r1
+      (`81 6a ldr r1,[r0,#0x28]`, `8a 00 lsls r2,r1,#2`, `02 49`, `89 58`,
+      `88 47 blx r1`); mine uses r0 throughout.  Identical shape for both
+      tables (0x02203B0C and 0x02203BBC), so one source shape closes both.
+      Table base is a data symbol in this overlay's own data area.
+
+
+D. Two more parked from the last batch
+---------------------------------------
+
+  func_021F88B0  0x021F88B0  40B  MATCH   (src/pending/ has no copy: park as note)
+      the data symbol 0x022030E8 gives
+      "the ov135 hint is contested (another overlay in the window starts an
+      object there) and this function loads no overlay ov135 through an
+      overlay_id site".  Every concrete byte is right; the ABS32 word at
+      +0024 is the one wildcarded site.
+
+  func_021F886C  0x021F886C  68B  DIFF
+      table lookup over two 8-byte-stride tables of s16 key/value pairs
+      (0x0220301C, 0x02202FC4).  Struct-field source gets the s16 loads and
+      the stride right but not the register assignment.
+
+
+C. Class blockers found (worth a rule in the next brief)
+--------------------------------------------------------
+
+1. Only overlay targets whose address has NO independent witness may be
+   declared in the symbols: block.  Declaring `func_021F4EC0 0x021F4EC0
+   thumb ov135` for a *bl* from inside ov135 was accepted, but every
+   name-resolved overlay callee that is not declared defaults to isa=arm
+   and match.py then raises
+   "ISA conflict for func_X at Y: the source declares arm, the image says
+   thumb".  Fix is the region+isa token on the symbols: line - that flipped 5
+   sites (func_021F9088, func_021F90A0, func_02201DC0, func_02201DD8,
+   func_021F99D0) from ISA refusal to EXACT/EXACT*.
+
+2. Exact reproductions recorded this wave, all with a plain
+   `extern void func_XXXXXXXX(void); void f(void){ func_XXXXXXXX(); }`:
+   the compiler emits `ldr r3, =T; bx r3` (the pool word written with the odd
+   address for a Thumb target, the even one for ARM).  9 pure thunks closed
+   this way in one batch (func_021F4894, func_021FC3D0, func_021FD0F4,
+   func_02200290, func_02200EC8, func_0220052C, func_021FE254, func_022026BC)
+   plus func_021F9254 and func_022026C4's siblings with fixed arguments.  This
+   is the cheapest class in the overlay by far and dozens more sites of it are
+   still open in ov135.
+
+3. Hardware-register stores written as `*(u16 *)0x04000050 = 0;` reproduce
+   exactly (one pool word per distinct address); offsets folded into one
+   address (`*(u16 *)(0xADDR + off)`) do not.
+
+4. Tooling gap, not ours: layout/matched/ov010/pkt_02156BCC.json and
+   pkt_02156BCC_b.json both define func_02156BCC@0x02156BCC in region ov010,
+   which makes load_manifest_entries() raise SystemExit for ANY run whose
+   resolution path loads the manifest (seen as
+   "manifest shards disagree: func_02156BCC is in both ..." and an empty
+   verdict for func_021F8F5C, whose 12 bytes are otherwise reproduced).
+   Whoever owns ov010 needs to drop one of the two shards.

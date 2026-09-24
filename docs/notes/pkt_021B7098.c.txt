@@ -1,0 +1,31 @@
+
+
+## Lane O27 -- contested-bss residue (ov016)
+
+### func_021B7098 0x021B7098  DIFF
+All relocations resolve; the contested-bss hint is no longer a blocker (symbols: line carries no region token).  Remaining residue: the original tests `a == -1` with a materialised -1 (movs/mvns) and stores through the same base for both the early and the late path; the compiler restructured the two exits.  The 0x021DAAB4 pool word resolves.
+
+```
+  offset     ORIGINAL @ 021B7098                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r3, lr}                          | push {r3, lr}                          
+    +0002    movs r1, #0                            | movs r1, #0                            
+    +0004    mvns r1, r1                            | mvns r1, r1                            
+    +0006    cmp r0, r1                             | cmp r0, r1                             
+    +0008    bne #0x21b70aa                         | bne #0x21b70aa                         
+  * +000A    ldr r1, [pc, #0x1c]                    | ldr r1, [pc, #0x18]                    
+    +000C    str r0, [r1, #4]                       | str r0, [r1, #4]                       
+    +000E    movs r0, #0                            | movs r0, #0                            
+    +0010    pop {r3, pc}                           | pop {r3, pc}                           
+  * +0012    ldr r1, [pc, #0x14]                    | ldr r1, [pc, #0x10]                    
+    +0014    ldr r2, [r1, #4]                       | ldr r2, [r1, #4]                       
+    +0016    cmp r2, r0                             | cmp r2, r0                             
+  * +0018    beq #0x21b70ba                         | beq #0x21b70b8                         
+    +001A    str r0, [r1, #4]                       | str r0, [r1, #4]                       
+    +001C    bl #0x21b89c8                          | bl #0x21b89c8                          <- THM_CALL func_021B89C8 [resolved: sdk]
+  * +0020    pop {r3, pc}                           | movs r0, #0                            
+  * +0022    movs r0, #0                            | pop {r3, pc}                           
+  * +0024    pop {r3, pc}                           | add r2, sp, #0x2d0                     <- ABS32 func_021DAAB4 [resolved: sole-ref]
+  * +0026    mov r8, r8                             | lsls r5, r3, #8                        
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+```

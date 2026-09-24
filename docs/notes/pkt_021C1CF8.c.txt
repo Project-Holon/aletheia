@@ -1,0 +1,102 @@
+
+
+## Lane O27 -- contested-bss residue (ov016)
+
+### func_021BC804 0x021BC804  DIFF
+All relocations resolve; the contested-bss hint is no longer a blocker (symbols: line carries no region token).  Remaining residue: the buffer address is rematerialised from sp in the original (`add r0, sp, #0` twice, no callee-saved register) where the compiler keeps it in r4 and pushes three registers.  Also `bl func_021BC7B8` resolves as an sdk label, not thumb.
+
+```
+  offset     ORIGINAL @ 021BC804                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+  * +0000    push {lr}                              | push {r3, r4, lr}                      
+    +0002    sub sp, #0xc                           | sub sp, #0xc                           
+  * +0004    add r0, sp, #0                         | add r4, sp, #0                         
+  * +0006    bl #0x21bc7b8                          | adds r0, r4, #0                        
+  * +0008    d5 ff 03 49                            | bl #0x21bc7b8                          <- THM_CALL func_021BC7B8 [resolved: sdk]
+  * +000A    ldr r1, [pc, #0xc]                     | d4 ff                                  
+  * +000C    add r0, sp, #0                         | ldr r1, [pc, #8]                       
+  * +000E    ldr r1, [r1, #0x7c]                    | adds r0, r4, #0                        
+  * +0010    blx r1                                 | ldr r1, [r1, #0x7c]                    
+  * +0012    add sp, #0xc                           | blx r1                                 
+  * +0014    pop {pc}                               | add sp, #0xc                           
+  * +0016    mov r8, r8                             | pop {r3, r4, pc}                       
+    +0018    ldm r7, {r4, r6, r7}                   | ldm r7, {r4, r6, r7}                   <- ABS32 func_021DCFD0 [resolved: sole-ref]
+    +001A    lsls r5, r3, #8                        | lsls r5, r3, #8                        
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+```
+
+### func_021B96B4 0x021B96B4  DIFF
+
+All relocations resolve (4 of 4) when the table is spelled as an `int` array
+cast at the call site.  Two spellings, both filed under this address:
+
+  * `extern void (*func_021DCFD0[])(int); ... func_021DCFD0[1](n);` -- MWCC
+    dsi/1.1p1 rejects this with "illegal use of type `void`" ... (the same
+    spelling is accepted inside ARM9 sources built with a 1.2 compiler, so
+    this is a 1.1p1 front-end wart, worth a note for other lanes).
+  * `extern int func_021DCFD0[]; ... r = ((int (*)(int))func_021DCFD0[1])(n);`
+    -- compiles and diffs only in the constant materialisation: the original
+    puts `0x021DD064` straight into r0 (`ldr r0, [pc]; blx func_02086028`),
+    every form tried routed it through a callee-saved register and pushed an
+    extra register pair.
+
+### func_021B96E4 0x021B96E4  DIFF
+All relocations resolve; the contested-bss hint is no longer a blocker (symbols: line carries no region token).  Remaining residue: the original saves `a` in r4 and pushes {r4, lr}; the compiler used r5 and pushed {r3, r4, r5, lr}.  All 4 relocations resolve.
+
+```
+  offset     ORIGINAL @ 021B96E4                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+  * +0000    push {r4, lr}                          | push {r3, r4, r5, lr}                  
+  * +0002    adds r4, r1, #0                        | adds r5, r1, #0                        
+  * +0004    beq #0x21b9702                         | beq #0x21b9704                         
+    +0006    cmp r2, #0                             | cmp r2, #0                             
+  * +0008    ble #0x21b9702                         | ble #0x21b9704                         
+  * +000A    ldr r0, [pc, #0x14]                    | ldr r4, [pc, #0x18]                    
+  * +000C    blx #0x2086028                         | adds r0, r4, #0                        
+  * +000E    9a ec 04 49                            | blx #0x2086028                         <- THM_CALL func_02086028 [resolved: label]
+  * +0010    ldr r1, [pc, #0x10]                    | 9a ec                                  
+  * +0012    adds r0, r4, #0                        | ldr r1, [pc, #0x14]                    
+  * +0014    ldr r1, [r1, #0xc]                     | adds r0, r5, #0                        
+  * +0016    blx r1                                 | ldr r1, [r1, #0xc]                     
+  * +0018    ldr r0, [pc, #4]                       | blx r1                                 
+  * +001A    blx #0x2086078                         | adds r0, r4, #0                        
+  * +001C    bc ec 10 bd                            | blx #0x2086078                         <- THM_CALL func_02086078 [resolved: label]
+  * +001E    pop {r4, pc}                           | ba ec                                  
+  * +0020    beq #0x21b97d0                         | pop {r3, r4, r5, pc}                   
+  * +0022    lsls r5, r3, #8                        | mov r8, r8                             
+  * +0024    ldm r7, {r4, r6, r7}                   | beq #0x21b97d4                         <- ABS32 func_021DD064 [resolved: sole-ref]
+    +0026    lsls r5, r3, #8                        | lsls r5, r3, #8                        
+  * +0028    push {r3, lr}                          | ldm r7, {r4, r6, r7}                   <- ABS32 func_021DCFD0 [resolved: sole-ref]
+  * +002A    .byte ce f6                            | lsls r5, r3, #8                        
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+```
+
+### func_021B970C 0x021B970C  DIFF
+All relocations resolve; the contested-bss hint is no longer a blocker (symbols: line carries no region token).  Remaining residue: closest of the four: the original clears two 0x021DCFD0 words with a shared zero in r2 and runs `adds r2,r2,#1 / stm r3!,{r1}` with q in r3; the compiler emits the identical loop with everything one register lower (r0/r1/r4) and pushes {r4, lr}.  A register-allocation shift, not a shape error. All 4 relocations resolve.
+
+```
+  offset     ORIGINAL @ 021B970C                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r3, lr}                          | push {r3, lr}                          
+    +0002    blx #0x2087988                         | blx #0x2087988                         <- THM_CALL func_02087988 [resolved: label]
+  * +0006    ldr r1, [pc, #0x18]                    | movs r3, #0                            
+  * +0008    movs r2, #0                            | ldr r0, [pc, #0x18]                    
+  * +000A    str r2, [r1, #0x68]                    | adds r2, r3, #0                        
+  * +000C    str r2, [r1, #0x6c]                    | str r3, [r0, #0x68]                    
+  * +000E    ldr r3, [pc, #0x14]                    | str r3, [r0, #0x6c]                    
+  * +0010    adds r1, r2, #0                        | ldr r0, [pc, #0x14]                    
+  * +0012    adds r2, r2, #1                        | lsls r1, r3, #2                        
+  * +0014    stm r3!, {r1}                          | adds r3, r3, #1                        
+  * +0016    cmp r2, #4                             | str r2, [r0, r1]                       
+  * +0018    blt #0x21b971e                         | cmp r3, #4                             
+  * +001A    blx #0x208799c                         | blt #0x21b971e                         
+  * +001C    3a e9 08 bd                            | blx #0x208799c                         <- THM_CALL func_0208799C [resolved: label]
+  * +001E    pop {r3, pc}                           | 38 e9                                  
+  * +0020    ldm r7, {r4, r6, r7}                   | pop {r3, pc}                           
+  * +0022    lsls r5, r3, #8                        | mov r8, r8                             
+  * +0024    beq #0x21b97dc                         | ldm r7, {r4, r6, r7}                   <- ABS32 func_021DCFD0 [resolved: sole-ref]
+    +0026    lsls r5, r3, #8                        | lsls r5, r3, #8                        
+  * +0028    push {r3, r4, r5, lr}                  | beq #0x21b97e0                         <- ABS32 func_021DD054 [resolved: sole-ref]
+  * +002A    .byte ce f6                            | lsls r5, r3, #8                        
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+```

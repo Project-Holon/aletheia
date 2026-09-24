@@ -1,0 +1,31 @@
+/*
+ * function: func_0216BC84
+ * address:  0x0216BC84
+ * packet:   pkt_02155168
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Copies the +0x24 link of the current object to +0x28 and then sets the
+ * +0x24 link to v.
+ *
+ * symbols:
+ *   g_021AA878  0x021AA878  data
+
+ */
+
+extern char g_021AA878[];
+
+void func_0216BC84(int v)
+{
+    char *p = *(char **)(g_021AA878 + 4);
+
+    *(int *)(p + 0x28) = *(int *)(p + 0x24);
+    p = *(char **)(g_021AA878 + 4);
+    *(int *)(p + 0x24) = v;
+}
+
+

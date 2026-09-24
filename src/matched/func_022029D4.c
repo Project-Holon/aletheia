@@ -33,5 +33,5 @@ void func_022029D4(u8 *p)
     func_02045C04(*(u32 *)(p + 0xc));
     func_0201C4C0(*(u32 *)(p + 4));
     func_0201D83C(*(u32 *)p);
-    func_020307B0(p);
+    func_020307B0((u32)p);
 }
