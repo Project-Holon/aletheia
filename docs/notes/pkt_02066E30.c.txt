@@ -2934,3 +2934,121 @@ two ip ties that wave 20C described.  This agrees with lane C5's model: the
 image pair needs an r6/r7 web coloured before the dy window, and none of
 these spellings creates one.
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane C7): 0x02067080 unchanged, DIFF 2
+==============================================================================
+Base: the wave-13 source above, re-verified with match.py one under ../2.0/sp2
+-O4,p: 704/704, 2 out (y read at +0x21C in ip, image r6).  About 320 compiles,
+all match.py one, all scripted from base.c by text substitution
+(/tmp/aletheia_laneC7: run.py scores a file list, runf.py a flag list,
+gen*.py build the variants).  Each result is classed by a hash of the whole
+compiled column: BASE = byte-identical to the wave-13 output, ITEM1 =
+byte-identical to wave 20C item 1.
+
+1. Optimizer pragmas.  No source in src/matched or src/pending uses any
+   #pragma (the only hit is a comment in func_020613D8.c), so nothing here
+   could be filed even if it matched.  Each pragma was wrapped with
+   `#pragma push` / `#pragma X off|on` before the first inline and
+   `#pragma pop` after the function, one at a time.  Names were taken from
+   the sp2 mwccarm.exe string table.
+   BASE (byte-identical), both off and on: opt_lifetimes, opt_loop_invariants,
+   opt_strength_reduction(_strict), opt_scalarize, opt_scalarizeliveranges,
+   opt_serializeassignments, opt_treetransformation,
+   opt_addtogetherconstantpartsoftreeexpressions,
+   opt_useexpressioncostswhenlinearizingassignments,
+   opt_propagatemultiplydivideassignments, opt_marknonregtemps,
+   opt_defineargorder, opt_decomposeaggregates, opt_recomposeaggregates,
+   opt_optimizenonregaccess, opt_pulloutconstants, opt_rebuildconditionals,
+   opt_rebuildlogicals, opt_movepostops, opt_propagateequivalentscalartypes,
+   opt_dospecialmultiplyunpromotion, opt_moveinvariantsinaddressexpr,
+   opt_econdsfromarithmeticexpressions, opt_obeyfunceffects,
+   opt_collapselogicalselectionintobittest, opt_unpromoteenumtointconversions,
+   opt_unpromotemultipliestochartype, opt_classresults, opt_scalarizebitfields,
+   global_optimizer, register_coloring, auto_inline, inline_bottom_up(_once),
+   scheduling, peephole, opt_vectorize_loops; opt_usedef_mem_limit and
+   opt_defuse_mem_limit at 1..500 (0 is rejected); opt_pointer_analysis_mode
+   addr/fast/smart/off; inline_depth 2..64; optimization_level 2, 3, 4.
+   Changed: opt_common_subs off 712/493; opt_propagation off 696/238;
+   opt_dead_code off 684/301; opt_dead_assignments off 716/494;
+   opt_arithtransformation off 744/467; opt_foldconstants off 740/471;
+   opt_optimizecontrolflow off 712/320; opt_repositioncode on 744/582;
+   opt_unpromotetypes on 668/554; opt_unroll_loops on 684/301;
+   optimization_level 0 1092/962, 1 752/631; optimize_for_size on 592/509;
+   inline_depth(1) 600/518; opt_pointer_analysis on and
+   opt_generateconditionalassignments on are rejected (CCERR).
+   opt_prelinearize off is 704/13: it recolours the first block at
+   +0x098..+0x0B8 and leaves the residue alone.  Adding
+   opt_scalarizeliveranges off to it also gives 13.
+   So no pragma moves the y read.  The ones that act either leave the
+   adjust block alone or change the size.
+2. Command-line flags (--flags, the match.py base flags plus the switch):
+   -O4,p, -O3,p, -O2,p, `-opt level=2|3|4,speed`, `-opt all`: all BASE.
+   -O2,p being byte-identical to -O4,p matters: the level-4 repeated CSE
+   pass does not create the tie.  `-opt no{cse,prop,lifetimes,loop,strength,
+   deadstore,deadcode}`, after -O4,p or inside `-opt level=N,speed,...`,
+   are BASE.  These command-line switches do nothing in this build, while the
+   matching pragmas do act.  -O4, -O4,s, -O3, -O2, `level=4,space` and
+   `-inline off` all stop inlining (200/158).  -O1 216/171.
+   `-inline all|deferred|auto|level=8`, `-ipa function|file`,
+   -nointerworking, -[no]constpool, -g, `-sym on`, `-str reuse`, `-lang
+   c|c99|c++`, `-strict on`, -relax_pointers, `-bool on`, `-gccext on`,
+   `-fp soft`, `-RTTI off`, `-wchar_t off`: BASE.  -pid 704/4 (the residue
+   plus `[r3, sb]`), -pic 720/486, -profile 744/648, `-enum min` 760/598.
+3. Compilers not yet swept: ../1.2/base, sp2, sp2p3 744/612; ../1.2/sp3
+   740/607; dsi/1.1 684/323; dsi/1.1p1 and dsi/1.2 676/560.  With lane C's
+   sweep, every mwccarm build in tools/ has now been measured, and only
+   the 2.0 family reaches 704.
+4. Types (one change each):
+   BASE: fx32 as long or int; s32 as long; NNSG2dFVec2 or MtxFx22 fields as
+   long; halfW/halfH as u32, long, fx32 or s32; dx/dy as u32, long or int, dy
+   alone as u32; the size inlines returning u16; BOOL as u32; effectTypeAfter
+   as u32; a non-const pOam in the adjust inline; matrix members read as
+   `((const fx32 *)pM)[i]`.
+   Same residue plus a sign/shift change: size inlines returning u32 4
+   (lsr for asr); GXOamShape as u32 4; attr01 as s32 3; BOOL as u8 4
+   (`tst r0, #0xff`).
+   Other: BOOL as s16 708/135.  MtxFx22 or NNSG2dFVec2 fields as u32
+   772/531.  `const volatile MtxFx22 *pM` 704/89.  `volatile NNSG2dFVec2
+   *pV` 704/17 (the residue kept, the double block reordered).  `const
+   volatile GXOamAttr *pOam` 712/487.  `const BOOL` flag parameter 684/214.
+   All four parameters `*const` with a const flag 692/232.  By-value matrix:
+   `const MtxFx22 m = *pM` inside the inline 724/646, the matrix passed by
+   value 724/645, a const copy in the caller 728/636.  Each copies the
+   struct to the stack.
+5. Declaration order of the inlines: all 14 inline definitions behind
+   prototypes, in the identity order, reversed, 24 random orders, the adjust
+   inline first, MulMtx22 last, and MulMtx22 then adjust last: all 28 BASE.
+   Definitions placed after func_02067080 are not inlined (200/158).
+   Numbering does not depend on the order of the definitions.  With lane C2's
+   neighbour TUs (0x02066E30/0x02067340, static or not), the translation-unit
+   angle is closed.  Expanding the function into its matched caller
+   func_02067340 would drop the separate function the image has at
+   0x02067080 (lane C and nns_fresh saw mwcc refuse that inlining anyway).
+6. Shift and axis spellings (aimed at lane C5's fitted rule (d), hh12/hw12
+   numbered below everything):
+   BASE: named `hw12`/`hh12` locals in either order, used everywhere or only
+   in the double block, const or not, only hh12, only hw12; dx and dy both
+   initialised at declaration (either order, also with named shifts).  All
+   are CSE'd back to the same web.  halfH computed before halfW 22 (the table
+   loads swap), with named shifts also 22.
+   Single-statement dy: `dy = -(hh<<12) + _01*hw` and `dy = _01*hw +
+   -(hh<<12)` 700/168; `dy = _01*hw; dy -= hh<<12` and `dy += -(..)`
+   700/164; `dy = dy + _01*hw` and `dy = _01*hw + dy` 2 BASE.  The dx
+   one-liner 700/232.
+   ITEM1 residue: item 1 alone, and item 1 with named shifts in either order.
+   Item 1 with dx/dy initialised at declaration: 8.
+7. Layout of the vector: the adjust inline taking `fx32 *pX, fx32 *pY`
+   (called with &objTrans.x, &objTrans.y); one `fx32 *` indexed [0]/[1];
+   objTrans as `NNSG2dFVec2 objTrans[1]`; NNSG2dFVec2 as `{ fx32 p[2]; }`.
+   All BASE.
+Reading: with these angles added, the residue does not move under any
+pragma, command-line switch, compiler build, scalar type, qualifier,
+definition order or vector layout.  Every lever that acts at all either
+changes code elsewhere or reproduces one of the two known ip ties.  This
+agrees with lanes C2-C5: the image's r6 needs a web the image never
+shows.  The one mechanism left untested at source level is lane C5's
+suggestion of a web deleted after allocation, such as a copy coalesced
+away.  opt_propagation off is the only switch that keeps such copies to
+allocation time, and it changes 238 bytes elsewhere.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
