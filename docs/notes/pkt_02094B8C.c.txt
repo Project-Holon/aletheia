@@ -3661,3 +3661,57 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
         return *(double *)p;
     }
 }
+
+2026-09-24, wave 20 (lane 20J, strtold_5): 3864 of 3864, DIFF, 36 bytes out
+==========================================================================
+No gain: 36 -> 36. The best source is still the lane 20A best source
+above (re-extracted, measures 36). One structural finding: the second
+tail loop's register triple can be made exact, but only by moving p.
+Notation: U = block-scope `unsigned long ui2;`, C = block-scope
+`unsigned long ch2;` (both used only in the second loop, whose header
+becomes `for (ui2 = 0, ch2 = 12; ...)`), H = the block `unsigned char hch;`,
+hr = `double hexresult;`, p = `unsigned char *p = (unsigned char *)&hexresult;`.
+Declarations listed in source order inside the hex block.
+Measurements (match.py one, 1.1p1; all 3864 bytes; concrete bytes out):
+   1  U C H hr p                                                  39
+   2  U H C hr p                                                  47
+   3  C U H hr p                                                  62
+   4  C H U hr p                                                  62
+   5  H U C hr p                                                  62
+   6  H C U hr p                                                  54
+   7  H U hr p (ui2 only, chindex function-scope)                 62
+   8  20A best + `chindex = 12;` as a statement before
+      `for (ui = 0; ...)`                                         36 (identical)
+   9  7 + `chindex = 12;` statement form                          62
+  10  1 + `ch2 = 12;` statement form                              39
+  11  H hr p + a nested { U C loop } block around the second loop 75
+  12  11 with C before U in the nested block                      75
+  13  1 with the first part (bit-count loop and shift loop) on
+      ui2/ch2 as well                                             36 (identical to 20A)
+  14  1 with the first part on ui2, chindex function-scope        36 (identical to 20A)
+  15  hr p U C H                                                  77
+  16  H hr p U C                                                  75
+  17  1 + the first part's chindex as a block var ch1 declared
+      after p                                                     39 (identical to 1)
+  18  1 + function-scope `unsigned long chindex;` moved to the
+      top of the function's declarations                          39 (identical to 1)
+  19  U C hr H p                                                  39 (identical to 1)
+  20  hr U C H p                                                  39 (identical to 1)
+  21  permuter: anneal, 1500 compiles, seed 4701, --focus
+      ui,chindex,hch, from the 20A best with the multi-line
+      #defines joined: 36, no gain
+What 1 (39) does: the second loop is exact (ui r2, chindex r3, uch r5,
+zero constant r2), but p and the r4/r5 pair swap: the image has p r4 and
+the first part's chindex (`adds r5, r2, #1`) plus the second loop's uch
+in r5; source 1 gives p r5 and those two r4. So U and C must be fresh
+variables of the second loop only (13 and 14 show that sharing them with
+the first part restores the 20A colouring exactly), and U before C before
+H is the only order that gets the loop right; but any U/C declared ahead
+of H costs p its r4, and every order with H first puts the loop back.
+Neither the position of hexresult (19, 20) nor of the first part's
+chindex (17, 18) moves p in 1. Next: on source 1, levers on p only
+(p's web: a dead def of p spanning the tail, p declared function-scope
+before chindex, or `(unsigned char *)&hexresult` recomputed at the swap
+loop), or on source 1 a permuter run with --focus p,hch.
+Still capped at MATCH at exact bytes (__double_huge, two anonymous pool
+words).
