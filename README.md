@@ -6,9 +6,19 @@ This project shares no code with any existing decompilation effort. All tooling
 (ROM extraction/rebuilding, disassembly, build system) is written independently
 for this repository.
 
-![ARM9 game-code coverage map by translation unit: one tile per function, area is code bytes, green is matched](docs/coverage_map.svg)
+## Overlays
 
-![ARM9 game-code coverage map by original source file](docs/coverage_map_files.svg)
+The game is mostly here. 237 on-demand code chunks, 2,375,996 code bytes over 26,527 traced
+functions, against the 400,306 bytes that are always resident. Each image below is one map with two
+panels: the group view on top, the original-source-file view underneath.
+
+![Overlay coverage map: one tile per function, area is code bytes, green is matched; upper panel one block per overlay, lower panel by original source file](docs/coverage_overlays.svg)
+
+## ARM9 main binary
+
+The always-resident image: 400,306 game bytes over 4,422 functions, byte-matching.
+
+![ARM9 coverage map: one tile per function, area is code bytes, green is matched; upper panel by translation unit, lower panel by original source file](docs/coverage_map.svg)
 
 
 ## Goal
