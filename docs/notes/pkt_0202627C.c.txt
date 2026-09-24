@@ -388,3 +388,17 @@ compiles): best 10 (12 of them), others 13, 16, 23, 24. permuter anneal
 1500 --types (seed 2956) from the unsigned long a source: best 10. The image
 still loads the flag byte first (r3), then cb (r5), then a. The compile
 loads the flag byte into r5 and reads a before cb.
+
+==============================================================================
+2026-09-24, wave 19 (lane dying_local): 10 holds
+==============================================================================
+From the wave 16 source (1.1p1), 5 measurements. The function has no loop,
+so the dying locals at case 5 are sub (image's r5, where cb goes) and rec
+(image's r3, where the flag byte goes). Both at once, the flag bit into rec
+and cb into sub with casts at the call, read order a, flag, cb: 10 (the same
+residue); read order flag, cb, a: 23. The flag byte is not a local but the
+bitfield's read-modify-write temporary. Spelling it as an explicit byte local
+fl (`fl = ((u8 *)p)[4]; ... ((u8 *)p)[4] = fl & ~2; cb(a, (fl << 30) >> 31)`)
+in three read orders gives 272 bytes (244-245 out: an extra copy for the
+bics and the extract moved to the call). Permuter not run (nothing moved).
+/* best-source marker: the wave 16 source above, 268/268, 10 out, unchanged */

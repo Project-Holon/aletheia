@@ -537,3 +537,20 @@ orders: 18 / 6 as before. The long type does not move the pair, so no order
 sweep. permuter anneal 1500 --types (seed 2951) from the long/long tt * ss
 source: best 6.
 /* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above -- unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane dying_local): 0x02071104 unchanged, DIFF 6
+==============================================================================
+Under ../2.0/sp2, a local x re-used for the second half's value (7 measurements).
+Image: scaleT r4 (the register of scaleS and of the first product's >> 8
+value), transT ip, scaleT << 1 r3 (the _30 product's register).
+  - x = the first product's >> 8, then x = scaleT, product (s64)transT * x:
+    16 (x takes ip through both halves, so the first half breaks too);
+    the same with (s64)x * transT: 28;
+  - x = scaleS, x = (s64)x * transS >> 8, x = scaleT: 14 (x takes lr/ip);
+  - x = the _30 product, stored, then x = scaleT << 1 in the 0x2000 term: 6;
+  - y = the _30 product, stored, then y = transT, product (s64)y * scaleT 6,
+    (s64)scaleT * y 18; x and y both as above: 16.
+A local that spans both halves is coloured as one web, so it cannot carry the
+image's register only in the second half. Permuter not run (nothing moved).
+/* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

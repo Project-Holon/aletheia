@@ -1091,3 +1091,23 @@ two:
         out[1] = (w[0].y + w[1].y) >> 1;
     }
 }
+
+==============================================================================
+2026-09-24, wave 19 (lane dying_local): 0x0206F4C8 unchanged at 2
+==============================================================================
+Under ../2.0/sp2p2 from the no-volatile wave-19 source (488/2), dying-local
+reuse on the s32 x blend (10 measurements):
+  - the second key read into a dying local, `X = ((V2i *)p)[j].x;` with X in
+    the sum: t (the dead int parameter) 2, k 2, f 2 (both with an (int) cast),
+    i0 105 (i0 is not dead there: the y blend re-reads it);
+  - the first key into t or k (the image's r6 is k's register): 5 each;
+  - the named product `w3 = (long long)a * 3; X = key; out[0] = (w3 + X) >> 2`
+    with X = t or b: 27; the same with the first key read into k: 27 (b) and
+    29 (b in k too).
+Reading: the unnamed sum is structurally right and only the adds operand order
+is off; that order is fixed by mwcc's canonicalisation of the 64-bit sum, not
+by register choice, so the dying-local lever has nothing to act on. The named
+product gets the operand order right but sign-extends a in place (asr r4, r4)
+instead of into lr, which puts b in lr; no dying local changes that. Permuter
+not run (nothing moved).
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2, no volatile -- the wave-19 nns_small_2 source above, unchanged */

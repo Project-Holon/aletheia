@@ -520,3 +520,17 @@ stores: 120 x 12. The copies propagate away and the scheduler emits the same
 stream. permuter anneal 1500 --types (seed 2954) from the unsigned long a4
 source: best 15 (a5 as the return type plus a k8 hoist), no gain.
 best-source marker: 12 out, 1.1p1 (wave 17 source, unchanged)
+
+==============================================================================
+2026-09-24, wave 19 (lane dying_local): 12 holds
+==============================================================================
+From the wave 17 source (1.1p1), 3 measurements. No source local dies at
++0x20, so first-call argument locals were made to die there: x =
+&obj->f20 and y = &obj->f10 passed to func_02022940, then y = cfg[0x0b] and
+x = a4: 18; only y (kb in y): 18; q = cfg + 4 as the stack argument and y
+as above, then q = a4: 18. In each case the extra 6 are the argument set-up
+at +0x0E..+0x16 (r1/r2 swap), and the +0x20..+0x2C window stays as before:
+kb in r1 and a4 loaded after the f40/f44 stores. The window is load/store
+scheduling (a4's stack load is not hoisted over the stores), not register
+choice. Permuter not run (nothing moved).
+best-source marker: 12 out, 1.1p1 (wave 17 source, unchanged)

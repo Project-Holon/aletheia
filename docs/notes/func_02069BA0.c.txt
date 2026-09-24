@@ -253,3 +253,16 @@ with the 0xff inline); shortfall block-scoped. mask computed up front as
 0xff >> (8 - n) is 92 bytes. permuter anneal 1500 --types (seed 2952) from
 the long-shortfall source: best 6.
 /* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane dying_local): 6 holds
+==============================================================================
+From the wave 17 source (1.1p1), all 96/96 and 6 out (`mov r2, #8` still
+ahead of `mov r1, r6`), 6 measurements: the refill byte read into the dying
+`have` and then stored; the refill byte into `mask` (0xff inline); 8 into
+`acc` (dead before the call) then b->have = acc; the shortfall computed
+into `acc` and passed as the argument; the shortfall into `mask`; the
+shortfall into `have` plus 8 through `acc`. The pair is two argument
+set-up moves ahead of the call, and their order does not depend on which
+local holds either value. Permuter not run (nothing moved).
+/* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */
