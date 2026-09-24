@@ -2094,3 +2094,95 @@ Conclusion: no pragma, flag, ws object, w type, TU context, static or
 language mode moves the one-unit o/w balance. The residue stays at 2.
 /* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
    the wave-19 source above (or lane E7's fresh draft), unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane E10): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+Angle: find an instruction the image already has that could carry the extra
+o reference E9 identified, i.e. an access our source spells through another
+variable or pointer that equals o (or o + k). All 1.1p1 -O4,p Thumb, one
+`match.py one --diff` each, 71 compiles, no permuter. Scratch:
+/tmp/aletheia_laneE10 (run.py, t1-t6.py, v_*.c/.out). "base" = the wave-19
+source (2 out); "s21" = base with the wp copy removed and the g call passed
+(void *)w (21 out, o=r7). o is read off +0004. Every line is 412/412 unless
+a size is given; 21 = the plain o/w swap.
+
+(1) Attribution of every image instruction that touches o's register (r6)
+or an address that could be o + k, with the source expression our source
+gives it:
+  +0004 adds r6, r0, #0          o's entry def (parameter)
+  +0036 strb r4, [r6, #4]        o->f04 = 0 (r4 = the shared zero: marks init, i)
+  +0038 str r0, [r6]             o->f00 = a3 (a3 reloaded from its spill sp+0x14)
+  +0064-68 lsls/adds r0,r6,r0/str r5,[r0,#0x20]
+                                 loop 1 o->f20[i] = 1 (r5 = hoisted 1)
+  +0096 ldr r0, [r6]             g block, 02045770(o->f00) for 02043B5C
+  +00A2 ldr r0, [r6]             g block, 02045770(o->f00) for 0201C724
+  +00CE strb r0, [r6, #4]        o->f04 = 1
+  +00D8-DE lsls/adds r1,r6,r0/str r1,[sp,#0x18]/ldr r1,[r1,#0x20]
+                                 loop 2 o + 4i (CSE'd, spilled) and o->f20[i]
+  +0110-14 ldr r0,[sp,#0x18]/ldr r0,[r0,#8]
+                                 loop 2 o->actor[i] through the spilled slot
+                                 (no o read: the slot web carries it)
+  +0172 ldr r0, [r6]             tail 02045374(o->f00)
+  +0178 ldr r0, [r6]             tail 02045730(o->f00)
+  +0182/+0190 ldr/str [r6,#0x18] tail f18.b0 = 1; f18.b1 = 1 (one merged RMW)
+  Other memory accesses, none of which can be o + k: sp+0x40 marks (+0016,
+  +0018, +0080, +0120); cs->f00/f04 through two separate reloads of the
+  spilled cs (+00B4/+00B6, +00BA/+00BC); c3/c1 through the stack-parameter
+  base r5 / r0 = sp+0x60 (+002A, +003A, +00B2); spill slots only otherwise.
+  Every call argument is set by an explicit instruction or is the previous
+  call's r0 (0201D478 gets h, 02041B6C gets 02045730's result). No call is
+  passed r6 or an r6-derived value, and no callee (sub_0201C724, 02024368,
+  0202E040, 02045xxx, 0201D528/4BC prototypes in src/matched) has a trailing
+  parameter that could take o without a mov. The caller func_0202DC60
+  passes o = p->f0c + i*0x28, unrelated to any other argument.
+  So the image has no instruction whose o reference our source spells
+  another way. Every o-derived value is o itself, o + 4i, or a field.
+(2) Pointers derived from o, used in place of o at existing accesses (s21,
+  each also from base: base stays 2 in every case):
+  `u8 *act = &o->f04` for both f04 stores / only the first / only the second 21/21/21
+  `u32 *msg = &o->f00` for all five f00 accesses / only the tail reads   21/21
+  `u32 *bl = o->f20` in loop 1 / loop 2 / both        424/383, 424/401, 436/414
+  `void **ac = o->actor` in loop 2                     424/401 (o=r6, but a new web)
+  `struct Flags *fl = &o->f18` for the bitfields        424/406
+  Constant-offset field pointers fold back into o before costing (they add
+  no unit); array-base pointers become their own register webs (code).
+(3) The element pointer o + 4i spelled explicitly (s21):
+  `((struct Obj *)((u32 *)o + i))->f20[0]` / `->actor[0]` in loop 2 (both) 21;
+  only one of the two 416/163 (o=r5, the two bases no longer CSE);
+  loop 1 21; loops 1 and 2 21; an explicit `struct Obj *e` for loop 2 21
+  (base 2); `u32 *e = (u32 *)o + i`, `e[8]`, `e[2]` 21. It normalises to the
+  same o + 4i web.
+(4) The bitfield RMW spelled as two RMWs that could merge after costing (s21):
+  `b0 = 1; *(u32 *)&o->f18 |= 2` 21; `((u32 *)o)[6] |= 2` 21; both as masks
+  on the word 21; `|= 1` for b0 408/36 (the bics goes); one RMW with `| 3`
+  408/35; `*((u32 *)&o->f1c - 1) |= 2` 416/21, o=r6 (it adds `adds r6, #0x1c;
+  subs r0, r6, #4` and a split store). The merge of two RMWs happens before
+  costing: it adds no o unit.
+(5) Unfolded addresses (E9's `(u8 *)&o->f04 - 4` class) used as an access
+  base rather than as a def of o, s21: at f04 = 0, f04 = 1, f00 = a3, the g
+  block's first f00 read, each tail f00 read: 21 each (folded when used as a
+  base). As `->f18.b1`: X form 420/45 (o=r7), `(u8 *)o->f20 - 0x20` form
+  416/21, o=r6 (the adds/subs stay).
+  More o self-defs before `o->f04 = 1` (s21): `(u8 *)&o->f00 - 0`, `+ 0`,
+  `&o->f04 + -4`, `&o->f04 - 4` (no cast), `(u8 *)&o->f00`,
+  `&((u8 *)&o->f00)[0]`, `&(&o->f04)[-4]`, `(u32 *)&o->f00 + 0`,
+  `o->f20 - 8`, `&o->f20[-8]`, `o->actor - 2`, `(u8 *)o + (&o->f04 - &o->f04)`:
+  21 each (folded). The (u8 *) cast on an address is what stops E9's form
+  from folding. Without the cast, or with a zero offset, the def is folded.
+  No form leaves exactly one self-copy (`adds r6, r6, #0`) that coalescing
+  could delete. Any form that is not folded emits real arithmetic.
+(6) Return value (s21): `return o;` (struct Obj * return) 412/6: o=r6, w=r7,
+  image-exact from +0000 to +0190. The one added `adds r0, r6, #0` takes
+  the `mov r8, r8` pad, so only the last 6 bytes differ. This is another
+  one-instruction witness for E9's finding, not a lever (the caller ignores
+  the result). `return *(u32 *)&o->f18` (value already in r0 after the
+  merged RMW): 21, since the read is forwarded before costing.
+Conclusion: no image instruction carries an o reference that our source
+spells through another variable. o's references in the image correspond
+one to one to ours (12 instructions that read or write r6, the same in both). A derived pointer
+either folds into o or becomes its own web, and a merged or forwarded
+access is merged before costing. The missing unit cannot be put on an
+existing instruction. The residue stays at 2.
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
+   the wave-19 source above (or lane E7's fresh draft), unchanged */
