@@ -1,7 +1,7 @@
 /*
  * function: func_021D7794
  * address:  0x021D7794
- * packet:   pkt_021D7474
+ * packet:   pkt_021D7794
  * region:   ov016
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D7794   0x021D7794  arm
- *
- * Store a byte at +0x38 of the i-th 0x40-byte record behind the global pointer.
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_021D7794.c \
- *       --func func_021D7794 --addr 0x021D7794 --region ov016 --cc dsi/1.1p1 --arm
+ *   func_021D7794 0x021D7794 arm
+ *   g_021D77A8    0x021D77A8 data
  */
 
-void func_021D7794(unsigned int i, unsigned char v)
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+extern void *g_021D77A8;
+
+void func_021D7794(u32 index, u8 val)
 {
-    char *p = *(char **)0x021DE6E4;
-    *(unsigned char *)(p + (i << 6) + 0x38) = v;
+    u8 *ptr = (u8 *)g_021D77A8;
+    ptr += index << 6;
+    ptr[0x38] = val;
 }
