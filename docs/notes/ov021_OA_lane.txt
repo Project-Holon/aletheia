@@ -1,0 +1,2 @@
+ov021: a call result copied out of r0 (adds rN, r0) and a store deferred past the next call's argument setup usually means the next callee takes that result as an extra argument (func_021D1C8C, func_021881D8).
+ov021: a bl to an address unlabelled in the site's own overlay listing but labelled ARM in another overlay (e.g. 021C6534 vs ov016) is refused as an ISA conflict even with a region hint; see src/pending/func_021881D8.c.
